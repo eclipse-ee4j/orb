@@ -1,0 +1,59 @@
+<!--
+
+    Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.glassfish.corba</groupId>
+        <artifactId>glassfish-corba</artifactId>
+        <version>4.2.0-b005-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>glassfish-corba-csiv2-idl</artifactId>
+    <name>Generated CSIv2 APIs</name>
+    <packaging>bundle</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>idlj-maven-plugin</artifactId>
+                <configuration>
+                    <includeDirs>
+                        <includeDir>../omgapi/src/main/idl</includeDir>
+                        <includeDir>../omgapi/src/main/idl-includes</includeDir>
+                    </includeDirs>
+                    <sources>
+                        <source>
+                            <packagePrefixes>
+                                <packagePrefix><type>CSI</type>    <prefix>com.sun.corba.ee.org.omg</prefix></packagePrefix>
+                                <packagePrefix><type>CSIIOP</type> <prefix>com.sun.corba.ee.org.omg</prefix></packagePrefix>
+                                <packagePrefix><type>GSSUP</type>  <prefix>com.sun.corba.ee.org.omg</prefix></packagePrefix>
+                                <packagePrefix><type>IOP</type>    <prefix>org.omg</prefix></packagePrefix>
+                            </packagePrefixes>
+                        </source>
+                    </sources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <Export-Package>com.sun.corba.ee.org.omg.*</Export-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

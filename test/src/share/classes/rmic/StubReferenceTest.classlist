@@ -1,0 +1,37 @@
+#
+# Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Distribution License v. 1.0, which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+# List of classes for which StubReferenceTest will generate stubs/ties
+# and compare them (ignoring whitespace) to a reference file.
+#
+# Entries are in the following form:
+#
+#    <inputclass> = <outputclass> [,<outputclass>]...[,<outputclass>]
+#
+# For each output class listed, a reference file
+# must exist which ends with the ".javaref" extension.
+#
+# To assert that an inputclass should FAIL to compile, use
+# the following format:
+#
+#    <inputclass> = ERROR [,<errorString>]...[<errorString>]
+#
+# where <errorString> is a string that must be found in the
+# error output.
+
+rmic.NoMethodsImpl = rmic._NoMethods_Stub, rmic._NoMethodsImpl_Tie
+rmic.DerivedImpl = rmic._DerivedImpl_Tie, rmic._BaseImpl_Tie, rmic._Base_Stub
+
+rmic.Diamond = ERROR, interface rmic.Diamond is not a valid remote interface: inherited interfaces rmic.Base and rmic.Right both declare method void method
+rmic.DiamondServer = ERROR, interface rmic.Diamond is not a valid remote interface: inherited interfaces rmic.Base and rmic.Right both declare method void method
+
+rmic.SimpleServant = rmic._SimpleServant_Tie
+
+rmic.ThrowCORBAUserExServant = rmic._ThrowCORBAUserException_Stub, rmic._ThrowCORBAUserExServant_Tie

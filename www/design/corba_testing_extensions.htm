@@ -1,0 +1,101 @@
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<!DOCTYPE HTML PUBLIC "-//SoftQuad Software//DTD HoTMetaL PRO 6.0::19990601::extensions to HTML 4.0//EN" "hmpro6.dtd">
+
+<HTML> 
+  <HEAD> 
+         <TITLE>Extending the CORBA test framework</TITLE> 
+  </HEAD> 
+  <BODY BACKGROUND="images/backgrounds/p12c08.gif">
+         <H2>Introduction</H2>
+         <P>The CORBA project's testing requirements have been met by a custom
+                framework oringinally written by IBM. This was enhanced to include the
+                capability to run tests that require multiple separate processes by the
+                addition of the corba.framework.CORBATest class, originally written by Everett
+                Anderson. I have enhanced the framework in some ways as well, in particular by
+                making it easy to debug tests. In addition a number of more recent tests have
+                been written using JUnit, which provides a very effective unit test
+                framework.</P>
+         <P>While this framework has worked well for some time, recent developments
+                suggest the need for further evolution. In no particular order, here are some
+                recent considerations:</P>
+         <OL>
+                <LI>It would be useful to change the port numbers used in the tests so
+                  that more than one developer can share a single fast server machine.</LI>
+                <LI>We should be able to run tests against both the compiled class files
+                  (for quick turnaround) and against the as-delivered jar files (for final
+                  verification).</LI>
+                <LI>A number of recent features are configurable in ways that have global
+                  effects on all tests. This includes JSG, Dynamic RMI-IIOP, and nio select.</LI>
+         </OL>
+         <P>This suggests that we need to enhance both the description of our tests,
+                and the description of the environment used to run the tests. The standard way
+                to do this nowadays is XML, but I'll probably consider something scheme based
+                instead, or perhaps Harold's lxml syntax.</P>
+         <H2>Test Environment</H2>
+         <P>There are a large number of parameters that are configured for
+                tests:</P>
+         <OL>
+                <LI>Current working directory is assumed to be &lt;ws&gt;/test/make (ws
+                  may be renamed)</LI>
+                <LI>System properties:
+                  <OL>
+                         <LI>javax.rmi.CORBA.UtilClass =
+                                com.sun.corba.ee.impl.javax.rmi.CORBA.Util</LI>
+                         <LI>javax.rmi.CORBA.StubClass =
+                                com.sun.corba.ee.impl.javax.rmi.CORBA.StubDelegateImpl</LI>
+                         <LI>javax.rmi.CORBA.PortableRemoteObjectClass =
+                                com.sun.corba.ee.impl.javax.rmi.PortableRemoteObject</LI>
+                         <LI>http.server.port = 9090</LI>
+                         <LI>java.rmi.server.codebase = http://localhost:9090/</LI>
+                         <LI>http.server.root.directory =
+                                ../../values/build/$(ARCH)/classes</LI>
+                         <LI>java.security.policy = ../src/share/classes/test.policy</LI>
+                         <LI>java.security.debug = debug</LI>
+                         <LI>org.omg.CORBA.ORBClass = com.sun.corba.ee.impl.orb.ORBImpl</LI>
+                         <LI>org.omg.CORBA.ORBSingletonClass =
+                                com.sun.corba.ee.impl.orb.ORBSingleton</LI>
+                         <LI>com.sun.CORBA.POA.ORBServerId = 1</LI>
+                         <LI>com.sun.COBRA.ORBBase = $(BASEDIR)</LI>
+                         <LI>com.sun.CORBA.ORBArch = $(ARCH)</LI>
+                         <LI>com.sun.CORBA.test.sourcepath = $(TESTSOURCEPATH) (this contains
+                                the normal source, the generated source, and the test source, but does not seem
+                                to be used)</LI>
+                         <LI>com.sun.CORBA.ORBUseDynamicStubClass = true or not set</LI>
+                         <LI>com.sun.CORBA.ORBUseBCELReflectiveCopyObject = true or not
+                                set</LI>
+                         <LI>com.sun.CORBA.encoding.ORBEnableJavaSerialization = true or not
+                                set</LI>
+                         <LI>We really should just treat this as any property is allowed, but
+                                we need to have some that are easy to set up, and some that are just
+                                defaults.</LI>
+                  </OL></LI>
+                <LI>JVM version</LI>
+                <LI>JVM type (server or client)</LI>
+         </OL>
+         <P></P>
+         <P></P>
+         <P></P>
+         <H2>Test Description</H2>
+         <P>Tests have a number of different characteristics that we can
+                control:</P>
+         <OL>
+                <LI>Arguments that can be specified in the test command:
+                  <OL>
+                         <LI></LI>
+                  </OL></LI>
+                <LI>The list of valid controllers for the test. Anything started by a
+                  controller can be debugged in several ways.</LI>
+         </OL>
+         <P></P> </BODY>
+</HTML>

@@ -1,0 +1,27 @@
+/*
+ * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0, which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+//
+// Created       : 2002 Oct 16 (Wed) 08:32:47 by Harold Carr.
+// Last Modified : 2002 Oct 17 (Thu) 11:49:59 by Harold Carr.
+//
+
+module mantis
+{
+  module m4764130
+  {
+    interface Hello
+    {
+      string hello(in string x) ;
+    };
+  };
+};
+
+// End of file.

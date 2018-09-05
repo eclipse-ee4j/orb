@@ -1,0 +1,40 @@
+/*
+ * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0, which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+// PIDL for CosTSPortability Module, p 10-74
+// CORBAservices, Transaction Service V1.1
+// NOTE: This should not be sent thru the idltojava compiler since
+// it is a pseudo-object.
+
+#include "CORBA.idl"
+#include "CosTransactions.idl"
+
+#pragma prefix "omg.org"
+#pragma javaPackage "org.omg"
+
+module CosTSPortability { // PIDL
+        typedef long ReqId;
+
+        interface Sender {
+                void sending_request(in ReqId id,
+                        out CosTransactions::PropagationContext ctx);
+                void received_reply(in ReqId id,
+                        in CosTransactions::PropagationContext ctx, 
+                        in CORBA::Environment env) raises (WrongTransaction);
+        };
+
+        interface Receiver {
+                void received_request(in ReqId id,
+                        in CosTransactions::PropagationContext ctx);
+                void sending_reply(in ReqId id,
+                        out CosTransactions::PropagationContext ctx);
+        };
+};
+

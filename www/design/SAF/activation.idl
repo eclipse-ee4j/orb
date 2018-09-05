@@ -1,0 +1,315 @@
+/*
+ * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0, which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+// New activation IDL for revised SAF.
+
+module ActivationIDL {
+    // Possible values for endpointType argument on Server.getEndpoint()
+    // If you change the value of this constant then update
+    // core.EndPoint accordingly.  It has a duplicate definition
+    // to avoid a compilation dependency.
+    const string IIOP_CLEAR_TEXT = "IIOP_CLEAR_TEXT";
+
+    // this is a typedef from CORBA 2.3, since we don't have a corba.idl
+    // it is included here
+
+    typedef string ServerId;
+    typedef string ORBId;
+    typedef sequence<string> POAName;
+
+    /** Raised if getEndpoint is called on a server callback object for
+    * an invalid endpoint type
+    */
+    exception NoSuchEndPoint {} ;
+
+    /**
+    * Raised if an attempt is made to retrieve ports corresponding to
+    * non-registered ORB
+    */
+    exception InvalidORBId {} ;
+
+    /** Raised if an operation is attempted against an invalid server ID.
+    */
+    exception ServerNotRegistered {
+        ServerId serverId ;
+    };
+
+    /** Raised if an operation is attempted for a server that is not running,
+    * and the server is required to be running for the operation.
+    */
+    exception ServerNotActive {
+        ServerId serverId ;
+    };
+
+    /** Raised if an operation is attempted against a server that is in a 
+    * hold down state.  A server becomes held down if it fails to activate
+    * within 10 seconds.
+    */
+    exception ServerHeldDown {
+        ServerId serverId ;
+    };
+
+    /** Raised if an attempt is made to activate a server that is already 
+    * running.
+    */
+    exception ServerAlreadyActive{
+        ServerId serverId ;
+    };
+
+    /** Raised if an attempt is made to register a serverdef with the
+    * same applicationName as an existing serverdef.
+    */
+    exception ServerAlreadyRegistered {
+        ServerId serverId;
+    };
+
+    /** Raised if an attempt is made to install a server that is currently 
+    * installed.  Note that a newly created server starts out in an uninstalled
+    * state.
+    */
+    exception ServerAlreadyInstalled {
+        ServerId serverId;
+    } ;
+
+    /** Raised if an attempt is made to uninstall a server that is currently 
+    * uninstalled.  Note that a newly created server starts out in an 
+    * uninstalled
+    * state.
+    */
+    exception ServerAlreadyUninstalled {
+        ServerId serverId;
+    } ;
+
+    /** Raised if an attempt is made to register an invalid serverdef.
+    */
+    exception BadServerDefinition {
+        string reason;
+    };
+
+    /** Raised if an attempt is made to register endpoints for the
+     * same ORB again
+     */
+    exception ORBAlreadyRegistered {
+        ORBid orbId;
+    };
+
+    typedef long tcpPort ;
+    typedef sequence<long> ServerIds;
+
+    // passing a struct containing endpointType and port-#s
+    struct EndPointInfo {
+        string endpointType;
+        tcpPort port;
+    };
+
+    typedef sequence<EndPointInfo> EndpointInfoList;
+
+
+    struct ORBIds {
+        ORBid orbId;
+        long  mappedORBId;
+    };
+
+    typedef sequence<ORBIds> ORBIdList;
+
+    /** Server callback API, passed to Activator in active method.
+    */
+    interface ServerObject {
+        readonly attribute ServerID server_id ;
+
+        /** Shutdown this server.  Returns after orb.shutdown() completes.
+        */
+        void shutdown();
+
+        /** Install the server.  Returns after the install hook completes
+        * execution in the server.
+        */
+        void install();
+
+        /** Uninstall the server.  Returns after the uninstall hook
+        * completes execution.
+        */
+        void uninstall();
+    };
+
+    interface ORBObject {
+        readonly attribute ServerID server_id ;
+
+        readonly attribute ORBID orb_id ;
+
+        void template_required( in POAName poa_name ) ;
+    };
+
+    interface Activator {
+        // A new ORB started server registers itself with the Activator
+        void register_server(in ServerObject server_obj) 
+            raises (ServerNotRegistered);
+
+        void register_orb( in ServerId serverId, in ORBId orbId, 
+            in EndpointInfoList endPointInfo) 
+            raises ( ServerNotRegistered, NoSuchEndPoint, ORBAlreadyRegistered) ;
+
+        // Register the POA template
+        void register_poa( in ObjectReferenceTemplate template )
+
+        // list active servers
+        ServerIds getActiveServers();
+
+        // If the server is not running, start it up.
+        void activate(in ServerId serverId) 
+            raises (ServerAlreadyActive, ServerNotRegistered, ServerHeldDown);
+
+        // If the server is running, shut it down
+        void shutdown(in ServerId serverId) 
+            raises (ServerNotActive, ServerNotRegistered);
+
+        // Invoke the server install hook.  If the server is not 
+        // currently running, this method will activate it.
+        void install(in ServerId serverId) 
+            raises (ServerNotRegistered, ServerHeldDown, 
+                ServerAlreadyInstalled);
+
+        // list all registered ORBs and their mapping for a server
+        ORBIdList getORBNames(in ServerId serverId)
+            raises (ServerNotRegistered);
+
+        // Invoke the server uninstall hook.  If the server is not
+        // currently running, this method will activate it.
+        // After this hook completes, the server may still be running.
+        void uninstall(in ServerId serverId) 
+            raises (ServerNotRegistered, ServerHeldDown, 
+                ServerAlreadyUninstalled);
+    };
+
+    interface Locator {
+        // This interface is strictly for the use of ServerTool.  The old getEndpoint
+        // method is no longer needed because the port numbers are embedded in the
+        // ORBD template.
+
+
+        // struct contain ORB and port info
+        struct ORBPortInfo {
+            ORBid orbId;
+            tcpPort port;
+        };
+
+        typedef sequence<ORBPortInfo> ORBPortInfoList;
+
+        // struct to return the list of endpoints for a server for a specific
+        // endpoint
+        struct ServerLocation {
+            string hostname;
+            ORBPortInfoList ports;
+        };
+
+        // locate server - returns the port with a specific type for all registered
+        // ORBs of an active server.
+        // Starts the server if it is not already running.
+        ServerLocation locateServer(
+            in ServerId serverId,
+            in string endPoint) 
+            raises(NoSuchEndPoint, ServerNotRegistered, ServerHeldDown);
+
+        // struct to return the list of endpoints for a server for a specific
+        // ORB
+        struct ServerLocationPerORB {
+            string hostname;
+            EndpointInfoList ports;
+        };
+
+        // locate server - returns all ports registered with a specified ORB for
+        // an active server
+        // Starts the server if it is not already running.
+        ServerLocationPerORB locateServerForORB(
+            in ServerId serverId,
+            in ORBid orbId) 
+            raises(InvalidORBId, ServerNotRegistered, ServerHeldDown);
+
+        // Useful from external BadServerIdHandlers which can only
+        // get the orbid as a number from the object key but need
+        // to call locateServerForORB with the ORBid.
+        ORBid ORBNumberToId(
+            in ServerId serverId,
+            in long orbId)
+            raises(InvalidORBId, ServerNotRegistered);
+
+        // Useful from external BadServerIdHandlers which need
+        // to pick a particular port type.
+        long getServerPortForType(
+            in ServerLocationPerORB location,
+            in string endPointType)
+            raises(NoSuchEndPoint);
+    };
+
+    interface ServerManager : Activator, Locator { };
+
+    interface Repository {
+        // server program definition.  
+        struct ServerDef {
+            string  applicationName;    // alias used for servers with identical
+                                        // serverName values.
+            string  serverName;         // Class name of server's main class.
+            string  serverClassPath;    // class path used to run the server.
+            string  serverArgs;         
+            string  serverVmArgs;
+        };
+        
+        // register server definition
+        // This returns the serverId of the server.  A newly created server is
+        // always uninstalled.
+        long registerServer (in ServerDef serverDef) 
+            raises (ServerAlreadyRegistered, BadServerDefinition);
+        
+        // unregister server definition
+        void unregisterServer (in ServerId serverId) 
+            raises (ServerNotRegistered);
+
+        // get server definition
+        ServerDef getServer(in ServerId serverId) 
+            raises (ServerNotRegistered);
+
+        // Return whether the server has been installed
+        boolean isInstalled( in ServerId serverId ) 
+            raises (ServerNotRegistered);
+
+        // Mark the server as being installed.  Raises ServerAlreadyInstalled
+        // if the server is currently marked as installed.
+        void install( in ServerId serverId ) 
+            raises (ServerNotRegistered, ServerAlreadyInstalled) ;
+
+        // Mark the server as being uninstalled.  Raises ServerAlreadyUninstalled
+        // if the server is currently marked as uninstalled.
+        void uninstall( in ServerId serverId ) 
+            raises (ServerNotRegistered, ServerAlreadyUninstalled) ;
+
+        // list registered servers
+        ServerIds listRegisteredServers ();
+
+        typedef sequence<string>    StringSeq ;
+
+        // Returns list of ALL applicationNames defined in ServerDefs of registered 
+        // servers.
+        StringSeq   getApplicationNames();
+
+        // Find the ServerID associated with the given application name.
+        long getServerID( in string applicationName ) raises (ServerNotRegistered) ;
+    };
+
+    interface InitialNameService {
+        exception NameAlreadyBound {};
+
+        // bind initial name
+        void bind (
+            in string name,
+            in Object obj,
+            in boolean isPersistant) raises (NameAlreadyBound);
+    };
+
+};

@@ -1,0 +1,399 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html;charset=ISO-8859-1" http-equiv="Content-Type">
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+  <title>IOR classes</title>
+</head>
+<body>
+<ul>
+  <li>Implementation hierarchies in the IOR code</li>
+  <ul>
+    <li>Utility classes:<br>
+      <table border="1" cellpadding="2" cellspacing="2" width="100%">
+        <tbody>
+          <tr>
+            <td>impl.ior.ByteBuffer</td>
+            <td>class used to speed up computation of the adapter id</td>
+          </tr>
+          <tr>
+            <td>impl.ior.EncapsulationUtility</td>
+            <td>misc. utilities for dealing with CDR encapsulation</td>
+          </tr>
+          <tr>
+            <td>impl.ior.FreezableList</td>
+            <td>special list class that can change from mutable to
+immutable (one way only)</td>
+          </tr>
+          <tr>
+            <td>impl.ior.MinorCodes</td>
+            <td>minor codes for all IOR errors</td>
+          </tr>
+          <tr>
+            <td>impl.ior.ORTImpl</td>
+            <td>wrapper around IORTemplate for ORT</td>
+          </tr>
+          <tr>
+            <td>spi.ior.IORFactories</td>
+            <td>factory for all basic IOR types</td>
+          </tr>
+          <tr>
+            <td>spi.ior.IIOP.IIOPFactories</td>
+            <td> factory for IIOP IOR factory types
+(IIOPProfile, IIOPProfileTemplate and all of the supported IIOP tagged
+component factories). This needs to provide access to all of the
+IdentifiableFactory instances we need for registration. It also needs
+to provide factory methods for creating all of these types.</td>
+          </tr>
+        </tbody>
+      </table>
+    </li>
+    <li>Support for non-registered (unknown) TaggedComponent and
+TaggedProfile instances<br>
+      <ul>
+        <li>impl.ior.GenericIdEncapsulation</li>
+        <li>impl.ior.GenericTaggedComponent</li>
+        <li>impl.ior.GenericTaggedProfile</li>
+      </ul>
+    </li>
+    <li>Basic common representation for writing, getting ids, inherited
+lists:<br>
+      <ul>
+        <li>spi.ior.IdentifiableContainerBase</li>
+        <li>spi.ior.Writeable</li>
+        <li>spi.ior.Identifiable</li>
+        <ul>
+          <li>spi.ior.IdentifiableBase</li>
+        </ul>
+      </ul>
+    </li>
+    <li>Some basic IOR types and their implementation:<br>
+      <ul>
+        <li>spi.ior.IOR (an IOR)<br>
+        </li>
+        <ul>
+          <li>impl.ior.IORImpl</li>
+        </ul>
+        <li>spi.ior.IORTemplate (a template for creating IORs from an
+ObjectId)<br>
+        </li>
+      </ul>
+      <ul>
+        <ul>
+          <li>impl.ior.IORTemplateImpl</li>
+        </ul>
+      </ul>
+    </li>
+    <li>spi.ior.IdentifiableFactory <br>
+    </li>
+  </ul>
+</ul>
+spi.ior.IdentifiableFactoryFinder (class used to find the factory from
+an id)
+<ul>
+  <ul>
+    <ul>
+      <li>impl.ior.IdentifiableFactoryFinderBase</li>
+    </ul>
+    <ul>
+      <ul>
+        <li>impl.ior.TaggedComponentFactoryFinderImpl</li>
+        <li>impl.ior.TaggedProfileFactoryFinderImpl</li>
+      </ul>
+    </ul>
+    <li>spi.ior.ObjectAdapterId (represents the name of an object
+adapter on the wire)</li>
+    <ul>
+      <li>impl.ior.ObjectAdapterIdBase <br>
+      </li>
+      <ul>
+        <li>impl.ior.ObjectAdapterIdArray</li>
+        <li>impl.ior.ObjectAdapterIdNumber<br>
+        </li>
+      </ul>
+    </ul>
+    <li>spi.ior.ObjectId (represents the identity of an object
+reference in its object adapter)</li>
+    <ul>
+      <li>impl.ior.ObjectIdImpl</li>
+    </ul>
+    <li>spi.ior.ObjectKey (ObjectKeyTemplate+ObjectId=ObjectKey)<br>
+    </li>
+    <ul>
+      <li>impl.ior.ObjectKeyImpl</li>
+    </ul>
+    <li>ObjectKeyTemplate classes:</li>
+    <ul>
+      <li>impl.ior.ObjectKeyFactory</li>
+      <li>impl.ior.ObjectKeyTemplateFactory (should be in spi)</li>
+      <li>spi.ior.ObjectKeyTemplate</li>
+      <ul>
+        <li>impl.ior.WireObjectKeyTemplate</li>
+        <li>impl.ior.ObjectKeyTemplateBase</li>
+        <ul>
+          <li>impl.ior.OldObjectKeyTemplateBase</li>
+          <ul>
+            <li>impl.ior.OldJIDLObjectKeyTemplate</li>
+            <li>impl.ior.OldPOAObjectKeyTemplate</li>
+          </ul>
+          <li>impl.ior.NewObjectKeyTemplateBase</li>
+        </ul>
+        <ul>
+          <meta content="text/html;charset=ISO-8859-1"
+ http-equiv="Content-Type">
+          <title>IOR classes</title>
+          <ul>
+            <li>Implementation hierarchies in the IOR code</li>
+            <ul>
+              <li>Utility classes:<br>
+                <table border="1" cellpadding="2" cellspacing="2"
+ width="100%">
+                  <tbody>
+                    <tr>
+                      <td>impl.ior.ByteBuffer</td>
+                      <td>class used to speed up computation of the
+adapter id</td>
+                    </tr>
+                    <tr>
+                      <td>impl.ior.EncapsulationUtility</td>
+                      <td>misc. utilities for dealing with CDR
+encapsulation</td>
+                    </tr>
+                    <tr>
+                      <td>impl.ior.FreezableList</td>
+                      <td>special list class that can change from
+mutable to
+immutable (one way only)</td>
+                    </tr>
+                    <tr>
+                      <td>impl.ior.MinorCodes</td>
+                      <td>minor codes for all IOR errors</td>
+                    </tr>
+                    <tr>
+                      <td>impl.ior.ORTImpl</td>
+                      <td>wrapper around IORTemplate for ORT</td>
+                    </tr>
+                    <tr>
+                      <td>spi.ior.IORFactories</td>
+                      <td>factory for all basic IOR types</td>
+                    </tr>
+                    <tr>
+                      <td>spi.ior.IIOP.IIOPFactories</td>
+                      <td> factory for IIOP IOR factory types
+(IIOPProfile, IIOPProfileTemplate and all of the supported IIOP tagged
+component factories). This needs to provide access to all of the
+IdentifiableFactory instances we need for registration. It also needs
+to provide factory methods for creating all of these types.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </li>
+              <li>Support for non-registered (unknown) TaggedComponent
+and
+TaggedProfile instances<br>
+                <ul>
+                  <li>impl.ior.GenericIdEncapsulation</li>
+                  <li>impl.ior.GenericTaggedComponent</li>
+                  <li>impl.ior.GenericTaggedProfile</li>
+                </ul>
+              </li>
+              <li>Basic common representation for writing, getting ids,
+inherited
+lists:<br>
+                <ul>
+                  <li>spi.ior.IdentifiableContainerBase</li>
+                  <li>spi.ior.Writeable</li>
+                  <li>spi.ior.Identifiable</li>
+                  <ul>
+                    <li>spi.ior.IdentifiableBase</li>
+                  </ul>
+                </ul>
+              </li>
+              <li>Some basic IOR types and their implementation:<br>
+                <ul>
+                  <li>spi.ior.IOR (an IOR)<br>
+                  </li>
+                  <ul>
+                    <li>impl.ior.IORImpl</li>
+                  </ul>
+                  <li>spi.ior.IORTemplate (a template for creating IORs
+from an
+ObjectId)<br>
+                  </li>
+                </ul>
+                <ul>
+                  <ul>
+                    <li>impl.ior.IORTemplateImpl</li>
+                  </ul>
+                </ul>
+              </li>
+              <li>spi.ior.IdentifiableFactory <br>
+              </li>
+            </ul>
+          </ul>
+spi.ior.IdentifiableFactoryFinder (class used to find the factory from
+an id)
+          <ul>
+            <ul>
+              <ul>
+                <li>impl.ior.IdentifiableFactoryFinderBase</li>
+              </ul>
+              <ul>
+                <ul>
+                  <li>impl.ior.TaggedComponentFactoryFinderImpl</li>
+                  <li>impl.ior.TaggedProfileFactoryFinderImpl</li>
+                </ul>
+              </ul>
+              <li>spi.ior.ObjectAdapterId (represents the name of an
+object
+adapter on the wire)</li>
+              <ul>
+                <li>impl.ior.ObjectAdapterIdBase <br>
+                </li>
+                <ul>
+                  <li>impl.ior.ObjectAdapterIdArray</li>
+                  <li>impl.ior.ObjectAdapterIdNumber<br>
+                  </li>
+                </ul>
+              </ul>
+              <li>spi.ior.ObjectId (represents the identity of an
+object
+reference in its object adapter)</li>
+              <ul>
+                <li>impl.ior.ObjectIdImpl</li>
+              </ul>
+              <li>spi.ior.ObjectKey
+(ObjectKeyTemplate+ObjectId=ObjectKey)<br>
+              </li>
+              <ul>
+                <li>impl.ior.ObjectKeyImpl</li>
+              </ul>
+              <li>ObjectKeyTemplate classes:</li>
+              <ul>
+                <li>impl.ior.ObjectKeyFactory</li>
+                <li>impl.ior.ObjectKeyTemplateFactory (should be in spi)</li>
+                <li>spi.ior.ObjectKeyTemplate</li>
+                <ul>
+                  <li>impl.ior.WireObjectKeyTemplate</li>
+                  <li>impl.ior.ObjectKeyTemplateBase</li>
+                  <ul>
+                    <li>impl.ior.OldObjectKeyTemplateBase</li>
+                    <ul>
+                      <li>impl.ior.OldJIDLObjectKeyTemplate</li>
+                      <li>impl.ior.OldPOAObjectKeyTemplate</li>
+                    </ul>
+                    <li>impl.ior.NewObjectKeyTemplateBase</li>
+                  </ul>
+                  <ul>
+                    <li>impl.ior.JIDLObjectKeyTemplate</li>
+                    <li>impl.ior.POAObjectKeyTemplate</li>
+                  </ul>
+                </ul>
+              </ul>
+            </ul>
+            <ul>
+              <li>IIOP types and their implementations:</li>
+              <ul>
+                <li>spi.ior.TaggedComponent</li>
+              </ul>
+              <ul>
+                <ul>
+                  <li>spi.ior.TaggedComponentBase</li>
+                </ul>
+              </ul>
+              <ul>
+                <ul>
+                  <ul>
+                    <li>impl.ior.iiop.AlternateIIOPAddressComponent</li>
+                    <li>impl.ior.iiop.CodeSetsComponent</li>
+                    <li>impl.ior.iiop.JavaCodebaseComponent</li>
+                    <li>impl.ior.iiop.MaxStreamFormatVersionComponent</li>
+                    <li>impl.ior.iiop.ORBTypeComponent</li>
+                    <li>impl.ior.iiop.PoliciesComponent<br>
+                    </li>
+                  </ul>
+                </ul>
+              </ul>
+              <li> spi.ior.TaggedProfile</li>
+              <ul>
+                <li>spi.ior.iiop.IIOPProfile</li>
+              </ul>
+              <ul>
+                <li>impl.ior.iiop.IIOPProfileImpl</li>
+                <li>spi.ior.TaggedProfileTemplate<br>
+spi.ior.iiop.IIOPProfileTemplate<br>
+impl.ior.iiop.IIOPProfileTemplateImpl<br>
+spi.ior.iiop.IIOPAddress<br>
+impl.ior.iiop.IIOPAddressBase<br>
+impl.ior.iiop.IIOPAddressFutureImpl<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; impl.ior.iiop.IIOPAddressImpl<br>
+                  <br>
+                </li>
+              </ul>
+            </ul>
+          </ul>
+        </ul>
+        <li>impl.ior.JIDLObjectKeyTemplate</li>
+        <li>impl.ior.POAObjectKeyTemplate</li>
+      </ul>
+    </ul>
+  </ul>
+</ul>
+<ul>
+  <li>IIOP types and their implementations:</li>
+  <ul>
+    <li>spi.ior.TaggedComponent</li>
+  </ul>
+  <ul>
+    <ul>
+      <li>spi.ior.TaggedComponentBase</li>
+    </ul>
+  </ul>
+  <ul>
+    <ul>
+      <ul>
+        <li>impl.ior.iiop.AlternateIIOPAddressComponent</li>
+        <li>impl.ior.iiop.CodeSetsComponent</li>
+        <li>impl.ior.iiop.JavaCodebaseComponent</li>
+        <li>impl.ior.iiop.MaxStreamFormatVersionComponent</li>
+        <li>impl.ior.iiop.ORBTypeComponent</li>
+        <li>impl.ior.iiop.PoliciesComponent<br>
+        </li>
+      </ul>
+    </ul>
+  </ul>
+  <li> spi.ior.TaggedProfile</li>
+  <ul>
+    <li>spi.ior.iiop.IIOPProfile</li>
+  </ul>
+  <ul>
+    <li>impl.ior.iiop.IIOPProfileImpl</li>
+  </ul>
+  <li>spi.ior.TaggedProfileTemplate</li>
+  <ul>
+    <li>spi.ior.iiop.IIOPProfileTemplate</li>
+    <ul>
+      <li>impl.ior.iiop.IIOPProfileTemplateImpl<br>
+      </li>
+    </ul>
+  </ul>
+  <li>spi.ior.iiop.IIOPAddress<br>
+impl.ior.iiop.IIOPAddressBase<br>
+impl.ior.iiop.IIOPAddressFutureImpl<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; impl.ior.iiop.IIOPAddressImpl<br>
+    <br>
+  </li>
+</ul>
+</body>
+</html>

@@ -1,0 +1,56 @@
+#
+# Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Distribution License v. 1.0, which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+JAVA_HOME=/java/re/j2se/1.4/promoted/beta3/b81/binaries/solsparc
+
+CLASSPATH=.
+
+JAVAC=$(JAVA_HOME)/bin/javac
+JAVA=$(JAVA_HOME)/bin/java
+
+ORB_INITIAL_PORT=1050
+
+IDLJ=$(JAVA_HOME)/bin/idlj
+IDLJ_FLAGS=-fall -td $(CLASSPATH) -verbose
+
+ORBD=${JAVA_HOME}/bin/orbd -ORBInitialPort ${ORB_INITIAL_PORT}
+
+build:
+        $(IDLJ) $(IDLJ_FLAGS) serviceexample.idl
+        $(JAVAC) -d $(CLASSPATH) *.java
+        $(JAVAC) pi/serviceexample/*.java
+
+runorbd:
+        $(ORBD)
+
+runloggingservice:
+        $(JAVA) -classpath $(CLASSPATH) pi.serviceexample.LoggingServiceImpl \
+                -ORBInitialPort ${ORB_INITIAL_PORT}
+
+runarbitraryobject:
+        $(JAVA) -classpath $(CLASSPATH) pi.serviceexample.ArbitraryObjectImpl \
+                -ORBInitialPort ${ORB_INITIAL_PORT}
+
+runcolocatedservers:
+        $(JAVA) -classpath $(CLASSPATH) pi.serviceexample.ColocatedServers \
+                -ORBInitialPort ${ORB_INITIAL_PORT}
+
+runclient:
+        $(JAVA) -classpath $(CLASSPATH) pi.serviceexample.Client \
+                -ORBInitialPort ${ORB_INITIAL_PORT}
+        
+clean: 
+        rm -rf pi
+        rm -rf orb.db
+
+# Order of steps:
+# Build:     clean build
+# Remote:    runorbd runloggingservice runarbitraryobjectimpl runclient
+# Colocated: runorbd runcolocatedservers runclient

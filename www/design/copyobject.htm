@@ -1,0 +1,275 @@
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<!DOCTYPE HTML PUBLIC "-//SoftQuad Software//DTD HoTMetaL PRO 6.0::19990601::extensions to HTML 4.0//EN" "hmpro6.dtd">
+
+<HTML> 
+  <HEAD> 
+         <TITLE>Copyobject Design</TITLE> 
+  </HEAD> 
+  <BODY BACKGROUND="images/backgrounds/p12c08.gif"> 
+         <H2>The Design of the Copyobject Facility</H2> 
+         <P>CORBA supports both remote (across a network) and co-located invocation
+                of object references. Obviously the remote case requires mechanisms such as
+                connections and marshalling in order to communicate remotely. However, we do
+                not want to pay this high overhead for communicating with an object reference
+                when it is co-located with the invoker. For this reason, the RMI-IIOP standard
+                supports a co-located call optimization at the stub level.</P> 
+         <P>An RMI-IIOP stub consists of two parts:</P> 
+         <UL> 
+                <LI>A Java type specific Stub, which has the methods given by the remote
+                  interface.</LI> 
+                <LI>A Java type independent Delegate, which has portable, standard
+                  methods for performing invocations.</LI> 
+         </UL> 
+         <P>This co-located call optimization obtains the servant (i.e. the
+                implementation of the remote interface) from the delegate by the
+                servant_preinvoke method, and then directly invokes the method on the servant,
+                completely bypassing all transport mechanisms in the ORB. However, the CORBA
+                and J2EE specifications require that co-located calls preserve the same
+                semantics as remote ones, in that all objects must be copied when they are
+                passed on a co-located call. The reason for this is to avoid interference
+                between client and server threads in the co-located case that could not occur
+                in the remote case.</P> 
+         <P>This object copying is commonly performed by using a CDR stream to copy
+                the objects. This bypasses the transport overhead associated with TCP/IP
+                connections, but the cost of copying the data is still considerable. Any kind
+                of marshalling stream must do certain operations, such as linearizing the data,
+                that are not necessary when an object is simply copied.</P> 
+         <H3>Some Benchmark Results</H3> 
+         <P>I have a benchmark on object copying that runs as part of the CORBA
+                units tests. The test copies data created by
+                NonFinalComplexClass.makeNonFinalComplexGraph() in a loop 2000 times. Here is
+                the class that is copied:</P> 
+         <PRE>
+private static class NonFinalComplexClass implements java.io.Serializable {
+    public boolean publicBoolean = false ;
+    protected char protectedChar = 'D' ;
+    private byte privateByte = (byte)3 ;
+    short shrt = (short)-2345 ;
+    public int finalPublicInt = 273415 ;
+    protected long finalProtectedLong = 38958284 ;
+    private float finalPrivateFloat = (float)3.1415926535 ;
+    double finalDouble = 2.718281828 ;
+    String str1 ;
+    String str2 ;
+    private Object finalPrivateObject1 = new HashMap() ;
+    private Object finalPrivateObject2 = finalPrivateObject1 ;
+    public Object[] references ;
+
+    public NonFinalComplexClass( String name )
+    {
+        str1 = name ;
+        str2 = str1 ;
+    }
+
+    public static NonFinalComplexClass makeNonFinalComplexClass(String str )
+    {
+        return new NonFinalComplexClass( str ) ;
+    }
+
+    public static NonFinalComplexClass makeNonFinalComplexClassAliasedArray(String str )
+    {
+        int num = 5 ;
+        NonFinalComplexClass[] classes = new NonFinalComplexClass[ num ] ;
+
+        for (int ctr = 0; ctr&lt;num; ctr++ ) {
+            classes[ctr] = makeNonFinalComplexClass( str + ":member " + ctr ) ;
+            if (ctr==0) { // 0th classes references all others
+                classes[ctr].references = new NonFinalComplexClass[num] ;
+            } else { // others reference only 0th, but allocate
+                     // different sizes reference arrays
+                classes[ctr].references = new NonFinalComplexClass[ctr] ;
+                classes[ctr].references[0] = classes[0] ;
+            }
+
+            // Make 0th class reference the others
+            classes[0].references[ctr] = classes[ctr] ;
+        }
+
+        return classes[0] ;
+    }
+
+    public static NonFinalComplexClass makeNonFinalComplexClassGraph()
+    {
+        int num = 5 ;
+        NonFinalComplexClass[] classes = new NonFinalComplexClass[ num ] ;
+
+        for (int ctr = 0; ctr&lt;num; ctr++ ) {
+            classes[ctr] = makeNonFinalComplexClassAliasedArray(
+                "group " + ctr ) ;
+            if (ctr==0) { // 0th classes references all others
+                classes[ctr].references = new NonFinalComplexClass[num] ;
+            } else { // others reference only 0th, but allocate
+                     // different sizes reference arrays
+                classes[ctr].references = new NonFinalComplexClass[ctr] ;
+                classes[ctr].references[0] = classes[0] ;
+            }
+
+            // Make 0th class reference the others
+            classes[0].references[ctr] = classes[ctr] ;
+        }
+
+        return classes[0] ;
+    }
+}
+</PRE> 
+         <P>My testbed is configured as follows:</P> 
+         <UL> 
+                <LI>JDK 1.5.0_02</LI> 
+                <LI>Red Hat Linux 9</LI> 
+                <LI>Athlon XP 2600+ (2 GHz)</LI> 
+                <LI>2 GB PC3200 RAM</LI> 
+         </UL> 
+         <P>This results in the following copy times for the different copiers that
+                we currently support:</P> 
+         <TABLE BORDER="1"> 
+                <TR> 
+                  <TD>Copier Implementation</TD> 
+                  <TD>Object time</TD> 
+                  <TD>Array time</TD> 
+                  <TD>AliasedArray time</TD> 
+                  <TD>Graph time</TD> 
+                </TR> 
+                <TR> 
+                  <TD>newreflect</TD> 
+                  <TD>121</TD> 
+                  <TD>342</TD> 
+                  <TD>950</TD> 
+                  <TD>923</TD> 
+                </TR> 
+                <TR> 
+                  <TD>newreflect fallback</TD> 
+                  <TD>97</TD> 
+                  <TD>363</TD> 
+                  <TD>874</TD> 
+                  <TD>862</TD> 
+                </TR> 
+                <TR> 
+                  <TD>old reflect</TD> 
+                  <TD>92</TD> 
+                  <TD>273</TD> 
+                  <TD>1153</TD> 
+                  <TD>1115</TD> 
+                </TR> 
+                <TR> 
+                  <TD>ORB Stream</TD> 
+                  <TD>72</TD> 
+                  <TD>1568</TD> 
+                  <TD>4267</TD> 
+                  <TD>3671</TD> 
+                </TR> 
+                <TR> 
+                  <TD>Java Stgream</TD> 
+                  <TD>51</TD> 
+                  <TD>660</TD> 
+                  <TD>1156</TD> 
+                  <TD>1189</TD> 
+                </TR> 
+         </TABLE> 
+         <P>All times are given in microseconds needs to copy the object. There are
+                a number of intersting points about the data in this table:</P> 
+         <OL> 
+                <LI>Java serialization is quite fast, and in fact is considerably faster
+                  in J2SE 5 than in previous releases.</LI> 
+                <LI>The old reflect copier is nearly identical to the one that we shipped
+                  in AS 7. We don't actually use this version in AS 8.x, but I keep it around in
+                  the benchmarks for comparison purposes.</LI> 
+                <LI>The new reflect copier is significantly faster than either
+                  stream-based copier for all but the most trivial of operations. The fact that
+                  the fallback version is faster likely just reflects HotSpot optimization
+                  behavior, as this test never triggers the fallback behavior.</LI> 
+                <LI>The Java serialization implementation is now 2-4 times faster than
+                  the ORB serialization (CDR). This means that JSG should be considerably faster
+                  than CDR for marshalling in many cases (and this will be the subject of Ram's
+                  performance work on JSG in the future).</LI> 
+         </OL> 
+         <H3>ORB SPI for Object Copying </H3> 
+         <P>The ORB currently supports both the optimized reflective copier, and an
+                object copier that simply passes all objects through by reference without doing
+                any copies. Either copier can be selected for each EJB deployed in the app
+                server by means of the CopyObjectPolicy (in spi.extension), which can be
+                applied to any POA. Since each EJB has its own POA, we can configurate copying
+                behavior independently for each EJB.</P> 
+         <P>Like most things in the ORB, object copying is configured by registering
+                a factory against the ORB. The default configuration of the ORB contains only
+                the standard stream-based copier, but the AS 8.1 initialization includes two
+                others: the newreflect fallback copier mentioned in the benchmark, and also the
+                pass-by-reference "copier", which actually does no copies at all. The
+                configuration in the app server is handled in appserv-core in the
+                com.sun.enterprise.iiop.PEORBConfigurator.configureCopiers method.</P> 
+         <P>The basic interface for copyObject is simply:</P> 
+         <PRE>package com.sun.corba.ee.spi.copyobject ;
+
+/** Provides an interface for a variety of means to copy an arbitrary object.
+ * Any implementation of this interface must return an exact copy of obj,
+ * preserving all aliasing across all objects reachable from obj.  
+ * ReflectiveCopyException must be thrown if the implementation cannot copy
+ * obj for some reason.  Note thyat a trivial implementation of this 
+ * interface is possible (always return obj), but this is often not the
+ * desired implementation.
+ */
+public interface ObjectCopier {
+    Object copy( Object obj ) throws ReflectiveCopyException ;
+}</PRE> 
+         <P>This method will copy any object presented to it. Multiple calls to copy
+                on the same instance of an ObjectCopier implementation will preserve all
+                aliasing between different objects reachable from objects passed as arguments
+                to copy. </P> 
+         <P>In addition, there is a simple factory interface:</P> 
+         <PRE>package com.sun.corba.ee.spi.copyobject ;
+
+public interface ObjectCopierFactory {
+    ObjectCopier make() ;
+}</PRE> 
+         <P>This trivial API is provided so that different ObjectCopier
+                implementations can be registered with the ORB's CopierManager, which has the
+                following interface:</P> 
+         <PRE>
+package com.sun.corba.ee.spi.copyobject ;
+
+/** Manager of ObjectCopier implementations used to support javax.rmi.CORBA.Util.copyObject(s).
+ * This provides simple methods for registering all supported ObjectCopier factories. 
+ * A default copier is also supported, for use in contexts where no specific copier id
+ * is available.
+ */
+public interface CopierManager
+{
+    /** Set the Id of the copier to use if no other copier has been set.
+     */
+    void setDefaultId( int id ) ;
+
+    /** Return the copier for the default copier id.  Throws a BAD_PARAM exception
+     * if no default copier id has been set.
+     */
+    int getDefaultId() ;
+
+    ObjectCopierFactory getObjectCopierFactory( int id ) ;
+
+    ObjectCopierFactory getDefaultObjectCopierFactory() ;
+
+    /** Register an ObjectCopierFactory under a particular id.  This can be retrieved
+     * later by getObjectCopierFactory.
+     */
+    void registerObjectCopierFactory( ObjectCopierFactory factory, int id ) ;
+}
+</PRE> 
+         <P>(explain this)</P> 
+         <P>For direct use, an application could directly obtain the needed
+                ObjectCopierFactory from one of the copy object defaults classes:</P> 
+         <H4>Packaging Considerations</H4> 
+         <P></P> 
+         <H3>Some Difficulties in copying objects</H3> 
+         <P></P> 
+         <H3>The Design of the Reflective Copier</H3> 
+         <P></P> </BODY>
+</HTML>

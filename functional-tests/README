@@ -1,0 +1,2 @@
+Note: the functional tests are old, and have not been maintained in years. They use a combination of test frameworks, including some home-grown; don't pass reliably, and do not run with Java 9 and later.
+They are retained here to be run as an occasional reality check, and most should pass with Java 8.

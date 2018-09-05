@@ -1,0 +1,68 @@
+/*
+ * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0, which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+module pi
+{
+module serviceexample
+{
+
+    // Create some arbitrary object to call.  Those calls
+    // will be serviced by the service implemented using interceptors.
+
+    exception ArbitraryObjectException { string reason; };
+
+    interface ArbitraryObject
+    {
+              string        arbitraryOperation1 ( in string a1 );
+
+        oneway void         arbitraryOperation2 ( in long a1 );
+
+               void         arbitraryOperation3 ( in string a1 )
+                                raises (ArbitraryObjectException);
+    };
+
+
+    // This would typically be in a file separate from the "ArbitraryObject"
+    // and probably unknown to it.
+
+    interface LoggingService
+    {
+        void log ( in string a1 );
+    };
+
+    // This would also typically be in a file of its own.
+    // IMPORTANT: the interface should be a local object to avoid
+    // unnecessary overhead.
+    
+    // REVISIT: local
+    /*local*/ interface AService
+    {
+        void begin();
+        void end();
+        void verify();
+    };
+
+    // Tagged component for adding to an IOR to indicate that
+    // the AService must be in effect when invocations are made 
+    // on the object containing this tagged component.
+
+    // Note: we explicitly declare the tag type rather than using
+    // the IOP typedef (commented out) to simplify compiling this
+    // example (i.e., to avoid includes and make include path directives).
+    //const IOP::ComponentId TAG_ASERVICE_COMPONENT = 2345;
+    const unsigned long TAG_ASERVICE_COMPONENT = 2345;
+
+    struct ASERVICE_COMPONENT {
+        boolean requiresAService;
+    };
+
+}; // module serviceexample
+
+}; // module pi

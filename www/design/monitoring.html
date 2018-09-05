@@ -1,0 +1,390 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<HTML> 
+  <HEAD>
+         <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=iso-8859-1"> 
+         <TITLE>monitoring</TITLE>
+         <META NAME="GENERATOR" CONTENT="StarOffice 7  (Linux)">
+         <META NAME="CREATED" CONTENT="20041117;16034300">
+         <META NAME="CHANGEDBY" CONTENT="Ken Cavanaugh">
+         <META NAME="CHANGED" CONTENT="20041118;14294200"> 
+  </HEAD> 
+  <BODY LANG="en-US" DIR="LTR" BACKGROUND="images/backgrounds/p12c08.gif"> 
+         <H2>ORB Monitoring Extensions for AS 8.2</H2> 
+         <P>It has become apparent that some changes are needed in the ORB
+                monitoring framework for AS 8.2. The current monitoring code in the ORB is
+                overly long and difficult to construct. We also need to consider upcoming
+                requirements in AS 8.2 in areas such as dynamic configuration changes and
+                self-tuning. I would like to build a dynamic MBean directly in the ORB so that
+                we can more readily experiment with different maangement tools, and also to
+                fully validate the ORB monitoring framework design. </P> 
+         <P>Note: this is basically obsolete, given the new JMX utilities</P>
+         <H3>Simplifying the Usage of ORB Monitoring</H3> 
+         <P>Currently the ORB monitoring code is rather long. For example, here is
+                the code in CorbaInboundConnectionCacheImpl: </P> 
+         <PRE>    protected void registerWithMonitoring()
+    {
+        // ORB
+        MonitoredObject orbMO = 
+            orb.getMonitoringManager().getRootMonitoredObject();
+
+        // REVISIT - add ORBUtil mkdir -p like operation for this.
+
+        // CONNECTION
+        MonitoredObject connectionMO = 
+            orbMO.getChild(MonitoringConstants.CONNECTION_MONITORING_ROOT);
+        if (connectionMO == null) {
+            connectionMO = 
+                MonitoringFactories.getMonitoredObjectFactory()
+                    .createMonitoredObject(
+                        MonitoringConstants.CONNECTION_MONITORING_ROOT,
+                        MonitoringConstants.CONNECTION_MONITORING_ROOT_DESCRIPTION);
+            orbMO.addChild(connectionMO);
+        }
+
+        // INBOUND CONNECTION
+        MonitoredObject inboundConnectionMO = 
+            connectionMO.getChild(
+                MonitoringConstants.INBOUND_CONNECTION_MONITORING_ROOT);
+        if (inboundConnectionMO == null) {
+            inboundConnectionMO =
+                MonitoringFactories.getMonitoredObjectFactory()
+                    .createMonitoredObject(
+                        MonitoringConstants.INBOUND_CONNECTION_MONITORING_ROOT,
+                        MonitoringConstants.INBOUND_CONNECTION_MONITORING_ROOT_DESCRIPTION);
+            connectionMO.addChild(inboundConnectionMO);
+        }
+
+        // NODE FOR THIS CACHE
+        MonitoredObject thisMO = 
+            inboundConnectionMO.getChild(getMonitoringName());
+        if (thisMO == null) {
+            thisMO =
+                MonitoringFactories.getMonitoredObjectFactory()
+                    .createMonitoredObject(
+                        getMonitoringName(),
+                        MonitoringConstants.CONNECTION_MONITORING_DESCRIPTION);
+            inboundConnectionMO.addChild(thisMO);
+        }
+
+        LongMonitoredAttributeBase attribute;
+
+        // ATTRIBUTE
+        attribute = new 
+            LongMonitoredAttributeBase(
+                MonitoringConstants.CONNECTION_TOTAL_NUMBER_OF_CONNECTIONS, 
+                MonitoringConstants.CONNECTION_TOTAL_NUMBER_OF_CONNECTIONS_DESCRIPTION)
+            {
+                public Object getValue() {
+                    return new Long(CorbaInboundConnectionCacheImpl.this.numberOfConnections());
+                }
+            };
+        thisMO.addAttribute(attribute);
+
+        // ATTRIBUTE
+        attribute = new 
+            LongMonitoredAttributeBase(
+                MonitoringConstants.CONNECTION_NUMBER_OF_IDLE_CONNECTIONS, 
+                MonitoringConstants.CONNECTION_NUMBER_OF_IDLE_CONNECTIONS_DESCRIPTION)
+            {
+                public Object getValue() {
+                    return new Long(CorbaInboundConnectionCacheImpl.this.numberOfIdleConnections());
+                }
+            };
+        thisMO.addAttribute(attribute);
+
+        // ATTRIBUTE
+        attribute = new 
+            LongMonitoredAttributeBase(
+                MonitoringConstants.CONNECTION_NUMBER_OF_BUSY_CONNECTIONS, 
+                MonitoringConstants.CONNECTION_NUMBER_OF_BUSY_CONNECTIONS_DESCRIPTION)
+            {
+                public Object getValue() {
+                    return new Long(CorbaInboundConnectionCacheImpl.this.numberOfBusyConnections());
+                }
+            };
+        thisMO.addAttribute(attribute);
+    }</PRE> 
+         <P> Fully formatted, this is 82 lines of source. Here are some thoughts on
+                simplifying assumptions: </P> 
+         <OL> 
+                <LI> 
+                  <P>(BIG assumption): Use a Dynamic MBean constructed by introspection
+                         on the MonitoredXXX objects reachable from the Root MonitoredObject in the ORB.
+                         This eliminates the need for MonitoringConstants, and consequently simplifies
+                         the declarations. </P> 
+                  <P STYLE="margin-bottom: 0in">There is a problem with this: the app
+                         server currently has a surprisingly complicated way of getting from ORB
+                         MonitoredObject (which is dynamic) to a Dynamic MBean by going through a static
+                         Stats layer (ugh). We could simply keep the necessary constants for the AS in
+                         MonitoringConstants, but I would rather get rid of them. </P> </LI> 
+                <LI> 
+                  <P STYLE="margin-bottom: 0in">Any reasonable name (let's say a Java
+                         identifier) is legal for MonitoredObjects. </P> </LI> 
+                <LI> 
+                  <P STYLE="margin-bottom: 0in">MonitoredAttribute names must start with
+                         a capital letter and be Java identifiers (SomethingLikeThis). </P> </LI> 
+                <LI> 
+                  <P STYLE="margin-bottom: 0in">All descriptions for MonitoredObjects and
+                         MonitoredAttributes are stored in a resource file (Can we make this dynamic if
+                         necessary?) </P> </LI> 
+                <LI> 
+                  <P STYLE="margin-bottom: 0in">The key in the resource file for object
+                         or attribute "XXX" is "XXX.description". </P> </LI> 
+                <LI> 
+                  <P STYLE="margin-bottom: 0in">The MonitoredAttribute SomethingLikeThis
+                         is implemented by a method named somethingLikeThis. RO means only a getter
+                         (TYPE somethingLikeThis()) while a RW attribute has a setter as well (void
+                         somethingLikeThis(TYPE)). </P> </LI> 
+                <LI> 
+                  <P STYLE="margin-bottom: 0in">The TYPE of an attribute is determined
+                         from the getter/setter methods. </P> </LI> 
+                <LI> 
+                  <P>We provide a utility class MUtil in spi.monitoring. </P> </LI> 
+         </OL> 
+         <P>With these assumptions, we could get the example above down to: </P> 
+         <PRE>protected void registerWithMonitoring()
+{
+    MonitoredObject thisMO = MUtil.get( orb, "/Connections/Inbound/" + getMonitoringName() ) ;
+    thisMO.addAttribute( "NumberOfConnections", this ) ;
+    thisMO.addAttribute( "NumberOfIdleConnections", this ) ;
+    thisMO.addAttribute( "NumberOfBusyConnections", this ) ;
+}</PRE> 
+         <P> That's it! Just 4 lines of code. </P> 
+         <P>Here the get method get or creates the MonitoredObjects as needed (as
+                Harold noted, a "mkdir -p" like operation). addAttribute uses all of the
+                assumptions mentioned above to derive the appropriate information. </P> 
+         <H4>MonitoredObjects for JavaBeans</H4> 
+         <P>A further extension to this is possible. Consider the case of ORBData.
+                ORBData has a lot of methods that look like: </P> 
+         <PRE STYLE="margin-bottom: 0.2in">     (some data type) getXXXX() ;</PRE> 
+         <P> This is the standard pattern for a JavaBean accessor method for a
+                property named "XXXX". In addition, we have methods like: </P> 
+         <PRE>    boolean isJavaSerializationEnabled() ;
+
+    boolean showInfoMessages() ;</PRE> 
+         <P> A method name that returns a boolean and starts with "is" is a JavaBean
+                accessor method. Unfortunately ORBData has a lot of boolean methods that do not
+                start with "is", so we cannot directly use the JavaBean Introspector. However,
+                the job is simple enough that that is not necessary. Alternatively we could
+                pull all of the information out of the ParserTable class. In any case, the idea
+                is to create a MonitoredObject for ORBData that reflects all of the
+                configuration data for the ORB. We will discuss why this is useful a bit later.
+                </P> 
+         <H3>Some ORB Monitoring Problems</H3> 
+         <P>Currently there are two different ways of getting information the root
+                monitored object: either we call </P> 
+         <PRE>MonitoringFactories.getMonitoringManagerFactory().createMonitoringManager(
+  (root name), description ).getRootMonitoredObject()</PRE> 
+         <P> or we call </P> 
+         <PRE STYLE="margin-bottom: 0.2in">orb.getMonitoringManager().getRootMonitoredObject()</PRE> 
+         <P> Having two different ways of getting information is a frequent source
+                of problems. These two mechanisms agree when the (root name) is the same as the
+                corresponding value in the ORB, but that is currently not the case, due to the
+                change I made to make sure that the monitoring code does not get overwritten by
+                multiple ORBs. Hosever, the createMonitoringManager call will create a new
+                MonitoringManager and root MonitoredObject whenever it is called. Currently I
+                see two difference MonitoringManager objects in the app server: one with root
+                named "orb", and one with root named "orb_S1AS-ORB_1", which comes from the app
+                server's standard ORB id and the change I made in ORB b42 to fix bug 4919770.
+                </P> 
+         <P>Another problem occurs here because the ThreadPool always uses the first
+                form to get to the root MonitoredObject, which is indepedent of the ORB. This
+                means that all ThreadPools, no matter how they are created or where they are
+                used, will be associated with the root MonitoredObject that corresponds to the
+                first ORB created with ORB id "". This means that the threadpool monitoring
+                will work regardless of the ORB id in the current app server. I still cannot
+                reproduce Sheetal's bug, but it seems unlikely to be a significant problem.
+                </P> 
+         <P>On the other hand, the connection monitoring goes straight to the ORB to
+                get the root monitored object. Some suggestions for 8.2: </P> 
+         <OL> 
+                <LI> 
+                  <P STYLE="margin-bottom: 0in">There should be only one possible root
+                         MonitoredObject, and a single MonitoringManager. The ORB should create its
+                         monitoring root under this top-level (probably unnamed) root object, using the
+                         current naming convention. </P> </LI> 
+                <LI> 
+                  <P STYLE="margin-bottom: 0in">The ThreadPool should continue to be ORB
+                         independent, as it can be used anywhere. However, the threadpool really should
+                         not both be independent of the ORB and have its monitoring registered under the
+                         ORB. Instead, we should register the threadpool under its own root, independent
+                         of the ORB. </P> </LI> 
+                <LI> 
+                  <P>We only need one MonitoringManager, which simply provides access to
+                         / in the monitoring hierarchy. </P> </LI> 
+         </OL> 
+         <P>Current hierarchy (multiple named roots): </P> 
+         <PRE>orb
+        threadpool
+        Connections
+                Inbound
+                Outbound
+orb_XXX_1
+orb_XXX_2
+etc</PRE> 
+         <P> New hierarchy (this requires app server changes): </P> 
+         <PRE>(root)
+        threadpoolroot
+                threadpool_1
+                threadpool_2
+                (etc. if we create multiple ThreadPoolManagers)
+        orbroot
+                orb_XXX_1
+                        Connections
+                                Inbound
+                                Outbound
+                        (plus more TBD as we work on 8.2 and 9)
+                orb_XXX_2
+                orb_YYY_1</PRE> 
+         <P> Note that the old hierarchy is confusing when there are multiple ORBs.
+                There is no confusion in the new hierarchy. For example, </P> 
+         <PRE STYLE="margin-bottom: 0.2in">orb.getMonitoringManager().getRootMonitoredObject() </PRE> 
+         <P> should just return the ORB's root, which is: </P> 
+         <PRE STYLE="margin-bottom: 0.2in">/orbroot/orb_XXX_n</PRE> 
+         <P> MonitoringFactories.getRootMonitoredObject should just return / (and
+                this replaces the current MonitoringManagerFactory.createMonitoringManager
+                call). </P> 
+         <H3>Adding Notifications to ORB Monitoring</H3> 
+         <P>Given the possibility of changing MonitoredAttribute values, it becomes
+                necessary to consider how the ORB can find out about changes. For this, we need
+                to extend the ORB monitoring framework with events and event listeners. </P> 
+         <P>Model:</P> 
+         <OL> 
+                <LI> 
+                  <P>An attribute set method is called.</P> </LI> 
+                <LI> 
+                  <P>The attribute examines the registered listeners and invokes the
+                         attributeChanged method on each listener, giving the listener the
+                         MonitoredObject, the MonitoredAttribute, and the old and new values of the
+                         attribute.</P> </LI> 
+                <LI> 
+                  <P>Control returns from the attribute set method.</P> </LI> 
+         </OL> 
+         <P>The other case we need to consider is creating and destroying
+                MonitoredObjects. Here we want to receive either an ObjectCreated or an
+                ObjectDestroyed notification on the parent MonitoredObject of the
+                MonitoredObject that was created or removed. Here the notification just needs
+                the parent and child MonitoredObjects. </P> 
+         <P>A listener needs to implement the following interfaces as needed:</P> 
+         <PRE>interface AttributeListener {
+    void attributeChanged( MonitoredObject object, MonitoredAttribute attribute, Object oldValue,
+        Object newValue ) ;
+}
+
+interface ObjectListener {
+    void objectCreated( MonitoredObject parent, MonitoredObject child ) ;
+    void objectRemoved( MonitoredObject parent, MonitoredObject child ) ;
+} ;
+</PRE> 
+         <P>MonitoredObject needs new methods to handle the registration of
+                listeners. I think it may also be useful to have a scope associated with the
+                registration, so that a listener can be registered either for events from one
+                MonitoredObject, from the immediate descendants of a MonitoredObject, or from
+                all descendants of a MonitoredObject. Since we are still using J2SE 1.4, we
+                will map these scope values to integer constants. Then we need to add the
+                following methods to MonitoredObject:</P> 
+         <PRE>interface MonitoredObject {
+    ...
+    void registerAttributeListener( AttributeListener listener, int scope ) ;
+
+    AttributeListener[]  attributeListeners() ;
+
+    void removeAttributeListener( AttributeListener listener ) ;
+
+    void registerObjectListener( ObjectListener listener, int scope ) ;
+
+    ObjectListener[] objectListeners() ;
+
+    void removeObjectListener( ObjectListener listener ) ;
+}
+
+</PRE> 
+         <H3>An Architecture for Dynamic Configuration</H3> 
+         <P>The basic idea here is simple: provide attribute change notification
+                events and configurations agends that listen for these events. But how exactly
+                does this work?</P> 
+         <P>First, I think we do not need the complex model that JavaBeans use,
+                where some events can be vetoed. We still need to decide what the notification
+                model should be, what events we support, and how those events get translated
+                into Mbean notifications.</P> 
+         <H3>ORB dynamic MBean Support</H3> 
+         <P>The ORB will probably need to be configurable in where it obtains an
+                MBean server. On J2SE, the ORB should use
+                java.lang.management.ManagementFactory.getPlatformMBeanServer. What to do in
+                J2EE is still TBD. </P> 
+         <P>What we need to define here is how to map the ORB
+                MonitoredObject/MonitoredAttribute framework into MBeans using the JMX
+                framework. There are some significant differences in approaches taken in the
+                two framworks. The JMX approach is more complex, with more features including
+                such items as relations. The ORB Monitoring Framework only supports a single
+                hierarchy, which is built in to the definition of the MonitoredObject. The
+                genesis of the ORB framework is for monitoring (mostly) performance-related
+                attributes of the system, while JMX is intended to be a fully general
+                management and monitoring framework.</P> 
+         <P>Part of the intent here is to grow the ORB framework to be more general,
+                so that it can also support ORB management. Primarily this comes about through
+                the addition of notifications. So far I have seen little need to add actions,
+                but that is also easily possible.</P>
+         <P>There are several problems to solve here:</P>
+         <OL>
+                <LI>For each MonitoredObject, there is a dynamic MBean whose attributes
+                  correspond to the MonitoredAttributes of the Monitored Object.</LI>
+                <LI>The name of the MBean is derived from the nesting of the
+                  MonitoredObjects starting at the root.</LI>
+                <LI>There is an object in the MBean pacakge that listens for
+                  MonitoredObject events (registered against the root, scoped for all
+                  descendants). This handles events as follows:
+                  <OL>
+                         <LI>For an attributedChanged event, the attribute on the
+                                corresponding MBean is updated. </LI>
+                         <LI>For an objectCreated event, an MBean corresponding to the
+                                MonitoredObject is created and registered with the MBean server.</LI>
+                         <LI>For an objectDestroyed evend, the MBean corresponding to the
+                                destroyed MonitoredObject is de-registered from the MBean server.</LI>
+                  </OL></LI>
+         </OL> 
+         <H3>Dynamic Tracing in Java Applications</H3> 
+         <P>Solaris 10 has recently introduced the dtrace facility, which provides
+                extremely useful tools for dignosing and tuning the Solaris OS and C/C++
+                applications. What about Java? Here I am not just interested in things like the
+                Java stack. Instead, I want to consider extremely large and complex apps like
+                the app server, which has many interacting modules, each of which has its own
+                unique requirements for monitoring. As monitoring is a big push for AS 8.2 and
+                9, it seems that we should seriously consider what we need to do here. </P> 
+         <P>In fact, there is a project to do exactly this: it's called<A
+                HREF="jtrace_to_svc2.pdf"> jtrace</A>, which is work being done in Janet
+                Koenig's group with Sanjay Radia and A. Sundar. More information is available
+                in <A HREF="http://jplan.sfbay/feature/264">jplan</A>, and it is currently
+                scheduled for Dolphin (J2SE 7). Unfortunately this work is a very long way (3+
+                years for J2SE, probably &gt;4 for J2EE) out.</P>
+         <P>I wonder if we could do something sooner? There are several
+                possibilities:</P>
+         <OL>
+                <LI>Add instrumentation at the ORB SPI level. This is a very specific
+                  case, and somewhat labor-intensive to add. The big question still remains about
+                  what to do for the data collection language: DTrace's D is quite nice and
+                  fairly large.</LI>
+                <LI>Similar to 1, but add the instrumentation at the Container level (in
+                  the component-based development sense; see <A
+                  HREF="component_notes.html">components</A> for a draft of these ideas).</LI>
+                <LI>Combine several ideas: java.lang.Instrument in J2SE 5.0, byte-code
+                  instrumentation using ASM or BCEL, remote communications (perhaps using
+                  CORBA?), and the current Dtrace to create more-or-less what is needed. The key
+                  piece here is implementing a custom provider for DTrace (for which there is no
+                  information at present).</LI>
+                <LI>It might be nice to be able to use MBeans as well with a tracing tool
+                  of some sort.</LI>
+         </OL> </BODY>
+</HTML>

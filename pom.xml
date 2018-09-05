@@ -1,0 +1,374 @@
+<!--
+
+    Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.eclipse.ee4j</groupId>
+        <artifactId>project</artifactId>
+        <version>1.0.1</version>
+    </parent>
+
+    <groupId>org.glassfish.corba</groupId>
+    <artifactId>glassfish-corba</artifactId>
+    <version>4.2.0-b005-SNAPSHOT</version>
+    <name>ORB Implementation</name>
+    <packaging>pom</packaging>
+    <description>A CORBA ORB for Glassfish</description>
+
+    <url>https://projects.eclipse.org/proposals/eclipse-orb</url>
+
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/eclipse-ee4j/orb/issues</url>
+    </issueManagement>
+
+    <licenses>
+        <license>
+            <name>EDL 1.0</name>
+            <url>https://www.eclipse.org/org/documents/edl-v10.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <mailingLists>
+        <mailingList>
+          <name>ORB mailing list</name>
+          <post>orb-dev@eclipse.org</post>
+          <subscribe>https://dev.eclipse.org/mailman/listinfo/orb-dev</subscribe>
+          <unsubscribe>https://dev.eclipse.org/mailman/listinfo/orb-dev</unsubscribe>
+          <archive>https://dev.eclipse.org/mhonarc/lists/orb-dev</archive>
+        </mailingList>
+    </mailingLists>
+
+    <scm>
+        <connection>scm:git:https://github.com/eclipse-ee4j/orb.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/eclipse-ee4j/orb.git</developerConnection>
+        <url>https://github.com/eclipse-ee4j/orb</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <distributionManagement>
+        <site>
+            <id>github</id>
+            <url>scm:git:https://github.com/eclipse-ee4j/orb.git</url>
+        </site>
+    </distributionManagement>
+
+    <developers>
+        <developer>
+            <name>Russell Gold</name>
+            <email>russell.gold@oracle.com</email>
+            <id>russgold</id>
+        </developer>
+        <developer>
+            <name>Harshad Vilekar</name>
+        </developer>
+    </developers>
+
+    <modules>
+        <module>idlj</module>
+        <module>rmic</module>
+        <module>omgapi</module>
+        <module>csiv2-idl</module>
+        <module>exception-annotation-processor</module>
+        <module>orbmain</module>
+        <module>internal-api</module>
+        <module>functional-tests</module>
+    </modules>
+
+    <properties>
+        <jdkVersion>1.8</jdkVersion>
+        <maven.compiler.source>${jdkVersion}</maven.compiler.source>
+        <maven.compiler.target>${jdkVersion}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sonar.dynamicAnalysis>false</sonar.dynamicAnalysis>
+        <pfl-version>4.0.1-b003</pfl-version>
+        <gmbal-version>4.0.0-b002</gmbal-version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.meterware.simplestub</groupId>
+                <artifactId>simplestub</artifactId>
+                <version>1.2.12</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-all</artifactId>
+                <version>1.3</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.20</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Implementation-Vendor>Oracle Corporation</Implementation-Vendor>
+                            <Built-By>Oracle</Built-By>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+
+            <!-- prevent the site plugin from deploying to the scm url -->
+            <plugin>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.3</version>
+                <executions>
+                    <execution>
+                        <id>stage-for-scm-publish</id>
+                        <phase>post-site</phase>
+                        <goals>
+                            <goal>stage</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>default-deploy</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- use the scm publish plugin to deploy to GitHub -->
+            <plugin>
+                <artifactId>maven-scm-publish-plugin</artifactId>
+                <version>1.1</version>
+                <configuration>
+                    <scmBranch>gh-pages</scmBranch>
+                    <pubScmUrl>scm:git:https://github.com/javaee/glassfish-corba.git</pubScmUrl>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>3.3.0</version>
+                    <extensions>true</extensions>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>idlj-maven-plugin</artifactId>
+                    <version>1.2.2</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>generate</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <sources>
+                            <source>
+                                <compatible>false</compatible>
+                                <defines>
+                                    <define>
+                                        <symbol>CORBA3</symbol>
+                                    </define>
+                                </defines>
+                                <additionalArguments>
+                                    <additionalArgument>-corba</additionalArgument>
+                                    <additionalArgument>3.0</additionalArgument>
+                                </additionalArguments>
+                            </source>
+                        </sources>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>rmic-maven-plugin</artifactId>
+                    <version>1.3</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>test-rmic</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.glassfish.corba</groupId>
+                            <artifactId>rmic</artifactId>
+                            <version>4.0.2-b007</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>1.6</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>ant</groupId>
+                            <artifactId>ant-junit</artifactId>
+                            <version>1.6.5</version>
+                        </dependency>
+                        <dependency>
+                            <groupId>junit</groupId>
+                            <artifactId>junit</artifactId>
+                            <version>4.4</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-project-info-reports-plugin</artifactId>
+                    <version>2.9</version>
+                </plugin>
+
+                <!-- compensate for incompatibility in version in parent -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.5.2</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.scm</groupId>
+                            <artifactId>maven-scm-provider-gitexe</artifactId>
+                            <version>1.8.1</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav-jackrabbit</artifactId>
+                <version>2.4</version>
+            </extension>
+        </extensions>
+    </build>
+
+    <reporting>
+      <plugins>
+<!--
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>findbugs-maven-plugin</artifactId>
+          <version>3.0.1</version>
+          <configuration>
+               <findbugsXmlOutput>true</findbugsXmlOutput>
+               <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
+               <xmlOutput>true</xmlOutput>
+          </configuration>
+        </plugin>
+-->
+<!--
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>cobertura-maven-plugin</artifactId>
+            <version>2.5.1</version>
+        </plugin>
+-->
+      </plugins>
+    </reporting>
+
+    <profiles>
+
+        <!-- ignore javadoc lint checks, enabled by default in JDK 1.8 (really want to run based on toolchain selection) -->
+        <profile>
+            <id>disable-java8-doclint</id>
+            <activation>
+                <jdk>[1.8,)</jdk>
+            </activation>
+            <properties>
+                <additionalparam>-Xdoclint:none</additionalparam>
+            </properties>
+        </profile>
+
+        <!-- During release, always build with specified JDK -->
+        <profile>
+            <id>jvnet-release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-toolchains-plugin</artifactId>
+                        <version>1.1</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>toolchain</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <toolchains>
+                                <jdk>
+                                    <version>${jdkVersion}</version>
+                                    <vendor>oracle</vendor>
+                                </jdk>
+                            </toolchains>
+                        </configuration>
+                    </plugin>
+                    
+                    <!-- Must use 1.7 or 1.8 to do the release because of functional test dependencies on tools.jar -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <version>1.4.1</version>
+                        <executions>
+                            <execution>
+                                <id>enforce-jdk-versions</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <requireJavaVersion>
+                                            <version>(,1.9)</version>
+                                            <message>functional-tests will not build with Java 9 or higher</message>
+                                        </requireJavaVersion>
+                                    </rules>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>
+

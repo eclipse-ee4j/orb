@@ -1,0 +1,3 @@
+With the ORB removed from the JDK, the include files orb.idl and ir.idl, which were located at $JAVA_HOME/lib are
+no longer available. They are now being packaged in the idlj.jar file, under the top-level "includes" directory.
+Users will need to extract them to a local directory in order to use them.

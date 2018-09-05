@@ -1,0 +1,29 @@
+/*
+ * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0, which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+#include "CosTSPortability.idl"
+
+// PIDL for TSIdentification interface to be implemented by ORB
+// NOTE: This should not be sent thru the idltojava compiler since
+// it is a pseudo-object.
+
+#pragma prefix "omg.org"
+#pragma javaPackage org.omg
+
+module CORBA { 
+interface TSIdentification { // PIDL
+        exception NotAvailable{};
+        exception AlreadyIdentified{};
+        void identify_sender(in CosTSPortability::Sender sender)
+                raises (NotAvailable, AlreadyIdentified);
+        void identify_receiver(in CosTSPortability::Receiver receiver)
+                raises (NotAvailable, AlreadyIdentified);
+};
+};

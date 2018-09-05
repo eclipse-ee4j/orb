@@ -1,0 +1,69 @@
+<!--
+
+    Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.glassfish.corba</groupId>
+        <artifactId>glassfish-corba</artifactId>
+        <version>4.2.0-b005-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>glassfish-corba-omgapi</artifactId>
+    <packaging>bundle</packaging>
+    <name>Generated OMG APIs</name>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>idlj-maven-plugin</artifactId>
+                <configuration>
+                    <includeDirs>
+                        <includeDir>src/main/idl-includes</includeDir>
+                    </includeDirs>
+                    <sources>
+                        <source>
+                            <packagePrefixes>
+                                <packagePrefix><type>CORBA</type>              <prefix>org.omg</prefix></packagePrefix>
+                                <packagePrefix><type>CosNaming</type>          <prefix>org.omg</prefix></packagePrefix>
+                                <packagePrefix><type>CosTransactions</type>    <prefix>org.omg</prefix></packagePrefix>
+                                <packagePrefix><type>CosTSInteroperation</type><prefix>org.omg</prefix></packagePrefix>
+                                <packagePrefix><type>CosTSPortability</type>   <prefix>org.omg</prefix></packagePrefix>
+                                <packagePrefix><type>Dynamic</type>            <prefix>org.omg</prefix></packagePrefix>
+                                <packagePrefix><type>DynamicAny</type>         <prefix>org.omg</prefix></packagePrefix>
+                                <packagePrefix><type>IOP</type>                <prefix>org.omg</prefix></packagePrefix>
+                                <packagePrefix><type>Messaging</type>          <prefix>org.omg</prefix></packagePrefix>
+                                <packagePrefix><type>PortableInterceptor</type><prefix>org.omg</prefix></packagePrefix>
+                                <packagePrefix><type>PortableServer</type>     <prefix>org.omg</prefix></packagePrefix>
+                                <packagePrefix><type>SendingContext</type>     <prefix>org.omg</prefix></packagePrefix>
+                                <packagePrefix><type>TimeBase</type>           <prefix>org.omg</prefix></packagePrefix>
+                            </packagePrefixes>
+                        </source>
+                    </sources>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <Export-Package>org.omg.*; version=1, com.sun.*;version=1, javax.rmi.CORBA;version=1</Export-Package>
+                        <Import-Package>!org.omg.PortableServer.ServantLocatorPackage</Import-Package>
+                        <Fragment-Host>system.bundle; extension:=framework</Fragment-Host>
+                    </instructions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

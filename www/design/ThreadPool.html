@@ -1,0 +1,340 @@
+<!DOCTYPE HTML PUBLIC "-//w3c//dtd html 4.0 transitional//en" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<HTML> 
+  <HEAD>
+         <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+         <META NAME="Author" CONTENT="Dhiru Pandey">
+         <META NAME="GENERATOR"
+          CONTENT="Mozilla/4.79 [en] (Windows NT 5.0; U) [Netscape]"> 
+         <TITLE>ThreadPool Element in Server.xml</TITLE> 
+  </HEAD> 
+  <BODY BACKGROUND="images/backgrounds/p12c08.gif"> 
+         <H1> ThreadPool Configuration in the Application Server</H1> 
+         <H2> Introduction</H2> Based on discussions and collective agreement, it is
+         felt that the ThreadPool should really be a separate element in the server.xml
+         instead of getting bundled in with the ORB element as it exists today in S1AS
+         7.0. 
+         <P>This document describes why this is useful to do and how this could be
+                achieved. </P>
+         <H2> ThreadPool configuration and DTD</H2> If ThreadPool was made a
+         separate element in the server.xml it would allow the user to configure more
+         than one ThreadPools (if required) and associate these threadpools to other
+         components of the Application Server (ORB, Connectors etc.). This would
+         encourage code re-use as well as give the user controls to tune the Application
+         Server based on the load in the system and in different sub-systems (ORB,
+         Connectors etc.). Inherent advantages offered by this scheme: 
+         <UL> 
+                <LI> One single place for the user to specify different threadpools
+                  configuration params</LI> 
+                <LI> Ability to have multiple threadpools. This will aid in starvation
+                  problems and help improve performace (ECPerf)</LI> 
+                <LI> Ability to dedicate threadpools/work-queues to App. server
+                  components and EJB beans if desired.</LI> 
+                <LI> Allow monitoring and administration on the
+                  threadpool/work-queues</LI> 
+         </UL> The DTD given below describes the ThreadPool configuration element.
+         This element would be at the same level as the other components like
+         http-service, iiop-service, web-container, ejb-container etc. in the S1AS 8.0
+         server.xml DTD (<A
+         HREF="http://iaseng.red.iplanet.com/apollo/config/sun-server_8_0.dtd">http://iaseng.red.iplanet.com/apollo/config/sun-server_8_0.dtd</A>):
+         <BR>&nbsp; 
+         <P><FONT COLOR="#000099">&lt;!ELEMENT thread-pool-config
+                (thread-pool+)&gt;</FONT> </P>
+         <P><FONT COLOR="#000099">&lt;!--</FONT> <BR><FONT
+                COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;
+                thread-pool-id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                This is an id for the work-queue e.g. "thread-pool-1", "thread-pool-2"
+                etc</FONT> <BR><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;
+                min-thread-pool-size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Minimum number of threads in the threadpool servicing requests in this
+                queue.</FONT> <BR><FONT
+                COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                These are created up front when this threadpool is instantiated</FONT>
+                <BR><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;
+                max-thread-pool-size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Maximum number of threads in the threadpool servicing requests in this
+                queue</FONT> <BR><FONT
+                COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                This is the upper bound on the no. of threads that exist in the
+                threadpool.</FONT> <BR><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;
+                idle-thread-timeout-in-seconds&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; idle threads are
+                removed from pool, after this time</FONT> <BR><FONT
+                COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;
+                num-work-queues&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                This denotes the total number of work queues that are serviced by this
+                threadpool.</FONT> <BR><FONT
+                COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Default value would be 1</FONT> <BR><FONT COLOR="#000099">--&gt;</FONT> </P>
+         <P><FONT COLOR="#000099">&lt;!ELEMENT thread-pool(EMPTY)&gt;</FONT>
+                <BR><FONT COLOR="#000099">&lt;!ATTLIST thread-pool&nbsp;
+                thread-pool-id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                CDATA&nbsp;&nbsp;&nbsp;&nbsp; #REQUIRED</FONT> <BR><FONT
+                COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                min-thread-pool-size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                CDATA&nbsp;&nbsp;&nbsp;&nbsp; "0"</FONT> <BR><FONT
+                COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                max-thread-pool-size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                CDATA&nbsp;&nbsp;&nbsp;&nbsp; "200"</FONT> <BR><FONT
+                COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                idle-thread-timeout-in-seconds&nbsp; CDATA&nbsp;&nbsp;&nbsp;&nbsp; "120"</FONT>
+                <BR><FONT
+                COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                num-work-queues&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                CDATA&nbsp;&nbsp;&nbsp;&nbsp; "1"&gt;</FONT> </P>
+         <P><FONT COLOR="#000099">&lt;!--&nbsp; The ORB element would look like
+                ...</FONT> </P>
+         <P><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                use-thread-pool-ids&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                This would refer to the thread-pool-id(s) defined in the thread-pool
+                sub-element of</FONT> <BR><FONT
+                COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                thread-pool-config element in server.xml. These would be the threadpool(s) used
+                by the</FONT> <BR><FONT
+                COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                ORB. More than one thread-pool-id(s) could be specified by using commas to
+                separate</FONT> <BR><FONT
+                COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                the names e.g. "orb-thread-pool-1, orb-thread-pool-2"</FONT> <BR><FONT
+                COLOR="#000099">--&gt;</FONT> </P>
+         <P><FONT COLOR="#000099">&lt;!ELEMENT orb (property*)&gt;</FONT> <BR><FONT
+                COLOR="#000099">&lt;!ATTLIST orb&nbsp;
+                message-fragment-size&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                CDATA&nbsp;&nbsp;&nbsp;&nbsp; "1024"</FONT> <BR><FONT
+                COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                use-thread-pool-ids&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                IDREFS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; #REQUIRED</FONT>
+                <BR><FONT
+                COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                max-connections&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                CDATA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "1024"</FONT> <BR><FONT
+                COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                ....</FONT> <BR><FONT
+                COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                ...&gt;</FONT> </P>
+         <P>Essentially, thread-pool-config is a server wide element, that consists
+                of atleast 1 or more thread-pool elements. </P>
+         <P>A ThreadPoolManagerImpl class could be used as a singleton instance, to
+                create all the ThreadPools at server startup using the configuration parameters
+                defined in the threadpool-config element of the server.xml. Any component can
+                then get the threadpool instance by providing the threadpool-id to this
+                singleton ThreadPoolManager instance. Using this threadpool instance a work
+                queue serviced by this threadpool can be obtained. Work can be added to the
+                queue and it will get processed by the threads of the threadpool. </P>
+         <P>EJB descriptors (or module descriptors - not sure if there is anything
+                like this) could use the threadpool-ids defined in the server.xml to denote if
+                the EJB (module) would want to use a dedicated threadpool. This could be done
+                to avoid starvation. If nothing is specified or incorrect threadpool-id is
+                specified in the bean descriptors, then the threadpool associated with the ORB
+                will be used to service requests from that bean. <BR>&nbsp; <BR>&nbsp; </P>
+         <H2> ThreadPoolManager SPI</H2> This section defines the ThreadPoolManager
+         SPI. This SPI will be defined in com.sun.corba.ee.spi....(the exact package
+         name is TBD) 
+         <P>This interface will be implemented by the ThreadPoolManagerImpl class in
+                App. Server PE 8.0. It will be responsible for returning an instance of the
+                ThreadPool given a thread-pool-id, from any component that wants to use a
+                ThreadPool. In addition, ThreadPoolManagerImpl class will be responsible for
+                creating all the threadpools (and their queues) at server startup time. This is
+                done using the config bean that reads the thread-pool-config element in
+                server.xml. ThreadPoolManager instance would be a singleton instance in the
+                App. Server process. <BR>&nbsp; </P>
+         <P><B><FONT COLOR="#009900">public interface ThreadPoolManager {</FONT></B>
+                </P>
+         <P><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; </FONT><FONT
+                COLOR="#666666">/**</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                * This method will return an instance of the threadpool given a
+                threadpoolId,</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp; * that
+                can be used by any component in the app. server.</FONT></B> <BR><B><FONT
+                COLOR="#666666">&nbsp;&nbsp;&nbsp; */</FONT></B> <BR><B><FONT
+                COLOR="#009900">&nbsp;&nbsp;&nbsp; public ThreadPool getThreadPool(String
+                threadpoolId);</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; </FONT><FONT
+                COLOR="#666666">/**</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                * This method will return an instance of the threadpool given a numeric
+                threadpoolId.</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp; * This
+                method will be used by the ORB to support the functionality of</FONT></B>
+                <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp; * dedicated threadpool for EJB
+                beans</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp; */</FONT></B>
+                <BR><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; public ThreadPool
+                getThreadPool(int numericIdForThreadpool);</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; </FONT><FONT
+                COLOR="#666666">/**</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                * This method is used to return the numeric id of the threadpool, given a
+                String</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp; *
+                threadpoolId. This is used by the POA interceptors to add the numeric
+                threadpool</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp; * Id, as
+                a tagged component in the IOR. This is used to provide the functionality
+                of</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp; * dedicated
+                threadpool for EJB beans</FONT></B> <BR><B><FONT
+                COLOR="#666666">&nbsp;&nbsp;&nbsp; */</FONT></B> <BR><B><FONT
+                COLOR="#009900">&nbsp;&nbsp;&nbsp; public int&nbsp; getNumericId(String
+                threadpoolId);</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; </FONT><FONT
+                COLOR="#666666">/**</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                * Return a String Id for a numericId of a threadpool managed by the
+                threadpool</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp; *
+                manager</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                */</FONT></B> <BR><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; public String
+                getStringId(int numericIdForThreadpool);</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; </FONT><FONT
+                COLOR="#666666">/**</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                * Returns the first instance of ThreadPool in the ThreadPoolManager</FONT></B>
+                <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp; */</FONT></B> <BR><B><FONT
+                COLOR="#009900">&nbsp;&nbsp;&nbsp; public ThreadPool
+                getDefaultThreadPool();</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">}</FONT></B> </P>
+         <P>An implementation of this SPI will also exist in the ORB that ships with
+                J2SE, so that the ORB code that uses these API does not change for J2SE.
+                <BR>&nbsp; </P>
+         <H2> ThreadPool SPI</H2> This section defines the ThreadPool SPI. This SPI
+         will be defined in com.sun.corba.ee.spi....(the exact package name is TBD) 
+         <P>The ORB already has plans for having an interface like that as part of
+                the work being done on the design of the ORB transport. I am adding more APIs
+                to the designed interface for this done by Harold Carr. </P>
+         <P><B><FONT COLOR="#009900">public interface ThreadPool {</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; </FONT><FONT
+                COLOR="#666666">/**</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                * This method will return any instance of the WorkQueue. If the
+                ThreadPool</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp; *
+                instance only services one WorkQueue then that WorkQueue instance
+                will</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp; * be returned.
+                If there are more than one WorkQueues serviced by this</FONT></B> <BR><B><FONT
+                COLOR="#666666">&nbsp;&nbsp;&nbsp; * ThreadPool, then this method would return
+                a WorkQueue based on the</FONT></B> <BR><B><FONT
+                COLOR="#666666">&nbsp;&nbsp;&nbsp; * implementation of the class that
+                implements this interface. For PE 8.0 we</FONT></B> <BR><B><FONT
+                COLOR="#666666">&nbsp;&nbsp;&nbsp; * would return a WorkQueue in a roundrobin
+                fashion everytime this method</FONT></B> <BR><B><FONT
+                COLOR="#666666">&nbsp;&nbsp;&nbsp; * is called. In the future we could allow
+                pluggability of&nbsp; Policy objects for this.</FONT></B> <BR><B><FONT
+                COLOR="#666666">&nbsp;&nbsp;&nbsp; */</FONT></B> <BR><B><FONT
+                COLOR="#009900">&nbsp;&nbsp;&nbsp; public WorkQueue
+                getAnyWorkQueue();</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; </FONT><FONT
+                COLOR="#666666">/**</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                * This method will return an instance of the of the WorkQueue given a
+                queueId.</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp; * This will
+                be useful in situations where there are more than one WorkQueues</FONT></B>
+                <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp; * managed by the ThreadPool and
+                the user of the ThreadPool wants to always use</FONT></B> <BR><B><FONT
+                COLOR="#666666">&nbsp;&nbsp;&nbsp; * the same WorkQueue for doing the
+                Work.</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp; * If the
+                number of WorkQueues in the ThreadPool are 10, then queueIds will go</FONT></B>
+                <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp; * from 0-9</FONT></B>
+                <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp; */</FONT></B> <BR><B><FONT
+                COLOR="#009900">&nbsp;&nbsp;&nbsp; public WorkQueue getWorkQueue(int
+                queueId);</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; </FONT><FONT
+                COLOR="#666666">/**</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                * This method will return the number of WorkQueues serviced by the
+                threadpool.</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                */</FONT></B> <BR><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; public int
+                numberOfWorkQueues();</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; </FONT><FONT
+                COLOR="#666666">/**</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                * This method will return the minimum number of threads maintained by the
+                threadpool.</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                */</FONT></B> <BR><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; public int
+                minimumNumberOfThreads();</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; </FONT><FONT
+                COLOR="#666666">/**</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                * This method will return the maximum number of threads in the threadpool at
+                any</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp; * point in time,
+                for the life of the threadpool</FONT></B> <BR><B><FONT
+                COLOR="#666666">&nbsp;&nbsp;&nbsp; */</FONT></B> <BR><B><FONT
+                COLOR="#009900">&nbsp;&nbsp;&nbsp; public int
+                maximumNumberOfThreads();</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; </FONT><FONT
+                COLOR="#666666">/**</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                * This method will return the time in milliseconds when idle threads in the
+                threadpool are</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp; *
+                removed.</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                */</FONT></B> <BR><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; public long
+                idleTimeoutForThreads();</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; </FONT><FONT
+                COLOR="#666666">/**</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                * This method will return the current number of threads in the threadpool. This
+                method</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp; * returns a
+                value which is not synchronized.</FONT></B> <BR><B><FONT
+                COLOR="#666666">&nbsp;&nbsp;&nbsp; */</FONT></B> <BR><B><FONT
+                COLOR="#009900">&nbsp;&nbsp;&nbsp; public int
+                currentNumberOfThreads();</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; </FONT><FONT
+                COLOR="#666666">/**</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                * This method will return the number of available threads in the threadpool
+                which are</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;&nbsp; *
+                waiting for work. This method returns a value which is not
+                synchronized.</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                */</FONT></B> <BR><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; public int
+                numberOfAvailableThreads();</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; </FONT><FONT
+                COLOR="#666666">/**</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                * This method will return the number of busy threads in the
+                threadpool</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp; * This
+                method returns a value which is not synchronized.</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                */</FONT></B> <BR><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; public int
+                numberOfBusyThreads();</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; </FONT><FONT
+                COLOR="#666666">/**</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                * This method returns the number of Work items processed by the
+                threadpool</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                */</FONT></B> <BR><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; public long
+                currentProcessedCount();</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; </FONT><FONT
+                COLOR="#666666">/**</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                * This method will return the name of the threadpool.</FONT></B> <BR><B><FONT
+                COLOR="#666666">&nbsp;&nbsp;&nbsp; */</FONT></B> <BR><B><FONT
+                COLOR="#009900">&nbsp;&nbsp;&nbsp; public String getName();</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">}</FONT></B> <BR>&nbsp; </P>
+         <H2> WorkQueue SPI</H2> This section defines the WorkQueue SPI. This SPI
+         will be defined in com.sun.corba.ee.spi....(the exact package name is TBD) 
+         <P>The ORB already has plans for having an interface like that as part of
+                the work being done on the design of the ORB transport by Harold Carr. The
+                following has been borrowed from that design </P>
+         <P><B><FONT COLOR="#009900">public interface WorkQueue {</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; </FONT><FONT
+                COLOR="#666666">/**</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                * This method is used to add work to the WorkQueue</FONT></B> <BR><B><FONT
+                COLOR="#666666">&nbsp;&nbsp;&nbsp; */</FONT></B> <BR><B><FONT
+                COLOR="#009900">&nbsp;&nbsp;&nbsp; public void addWork(Work
+                aWorkItem);</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; </FONT><FONT
+                COLOR="#666666">/**</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                * This method will return the name of the WorkQueue.</FONT></B> <BR><B><FONT
+                COLOR="#666666">&nbsp;&nbsp;&nbsp; */</FONT></B> <BR><B><FONT
+                COLOR="#009900">&nbsp;&nbsp;&nbsp; public String getName();</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; </FONT><FONT
+                COLOR="#666666">/**</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                * Returns the total number of Work items added to the Queue.</FONT></B>
+                <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp; */</FONT></B> <BR><B><FONT
+                COLOR="#009900">&nbsp;&nbsp;&nbsp; public long
+                totalWorkItemsAdded();</FONT></B><B><FONT COLOR="#009900"></FONT></B> </P>
+         <P><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; </FONT><FONT
+                COLOR="#666666">/**</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                * Returns the total number of Work items in the Queue to be
+                processed.</FONT></B> <BR><B><FONT COLOR="#666666">&nbsp;&nbsp;&nbsp;
+                */</FONT></B> <BR><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; public int
+                workItemsInQueue();</FONT></B><B><FONT COLOR="#009900"></FONT></B> </P>
+         <P><B><FONT COLOR="#009900">}</FONT></B> <BR>&nbsp; </P>
+         <H2> Work SPI</H2> This section defines the Work SPI. This SPI will be
+         defined in com.sun.corba.ee.spi....(the exact package name is TBD) 
+         <P>The ORB already has plans for having an interface like that as part of
+                the work being done on the design of the ORB transport by Harold Carr. The
+                following has been borrowed from that design </P>
+         <P><B><FONT COLOR="#009900">public interface Work {</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; public void
+                doWork();</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; public String
+                getName();</FONT></B> </P>
+         <P><B><FONT COLOR="#009900">}</FONT></B> </P></BODY>
+</HTML>

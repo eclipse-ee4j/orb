@@ -1,0 +1,2577 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<HTML>
+<HEAD>
+        <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+        <TITLE></TITLE>
+        <META NAME="GENERATOR" CONTENT="OpenOffice.org 2.0  (Linux)">
+        <META NAME="CREATED" CONTENT="20030110;22493000">
+        <META NAME="CHANGED" CONTENT="20030327;12255500">
+        <META NAME="SDENDNOTE" CONTENT="ARABIC">
+        <STYLE TYPE="text/css">
+        <!--
+                @page { size: 8.5in 11in; margin-left: 1.5in; margin-right: 1.5in; margin-top: 0.5in; margin-bottom: 1in }
+                @page:first { margin-left: 1.25in; margin-right: 1.25in; margin-top: 2in; margin-bottom: 1in }
+                P { margin-bottom: 0.08in; background: transparent; line-height: 120%; text-align: justify; widows: 2; orphans: 2; page-break-before: auto }
+                P.western { font-family: "Thorndale", serif; font-size: 11pt; so-language: en-US }
+                P.first-line-indent-western { text-indent: 0.2in; font-family: "Thorndale", serif; font-size: 11pt; so-language: en-US }
+                P.first-line-indent-cjk { text-indent: 0.2in }
+                P.first-line-indent-ctl { text-indent: 0.2in }
+                H1 { margin-top: 0.33in; margin-bottom: 0.25in; background: transparent; line-height: 125%; text-align: justify; page-break-inside: avoid; page-break-before: always; page-break-after: auto }
+                H1.western { font-size: 14pt; so-language: en-US }
+                H1.cjk { font-family: "HG Mincho Light J", "MS Mincho", "HG Mincho J", "HG Mincho L", "HG Mincho", "Mincho", "MS PMincho", "MS Gothic", "HG Gothic J", "HG Gothic B", "HG Gothic", "Gothic", "MS PGothic", "Andale Sans UI", "Arial Unicode MS", "Lucida Sans Unicode", "Tahoma"; font-size: 12pt; font-weight: medium }
+                H1.ctl { font-family: "Arial Unicode MS"; font-size: 12pt; font-weight: medium }
+                H2 { margin-top: 0.22in; margin-bottom: 0.25in; background: transparent; border: none; padding: 0in; line-height: 125%; text-align: left; page-break-inside: avoid; page-break-before: auto; page-break-after: auto }
+                H2.western { font-family: "Thorndale", serif; font-size: 12pt; so-language: en-US; font-style: normal }
+                H2.cjk { font-family: "HG Mincho Light J", "MS Mincho", "HG Mincho J", "HG Mincho L", "HG Mincho", "Mincho", "MS PMincho", "MS Gothic", "HG Gothic J", "HG Gothic B", "HG Gothic", "Gothic", "MS PGothic", "Andale Sans UI", "Arial Unicode MS", "Lucida Sans Unicode", "Tahoma"; font-size: 12pt; font-weight: medium }
+                H2.ctl { font-family: "Arial Unicode MS"; font-size: 12pt; font-weight: medium }
+                P.list-western { font-family: "Thorndale", serif; font-size: 11pt; so-language: en-US }
+                H1.header-western { margin-top: 0in; margin-bottom: 0.04in; border-top: 1px solid #000000; border-bottom: none; border-left: none; border-right: none; padding-top: 0.06in; padding-bottom: 0in; padding-left: 0in; padding-right: 0in; font-size: 14pt; so-language: en-US; text-align: center }
+                H1.header-cjk { margin-top: 0in; margin-bottom: 0.04in; border-top: 1px solid #000000; border-bottom: none; border-left: none; border-right: none; padding-top: 0.06in; padding-bottom: 0in; padding-left: 0in; padding-right: 0in; font-family: "HG Mincho Light J", "MS Mincho", "HG Mincho J", "HG Mincho L", "HG Mincho", "Mincho", "MS PMincho", "MS Gothic", "HG Gothic J", "HG Gothic B", "HG Gothic", "Gothic", "MS PGothic", "Andale Sans UI", "Arial Unicode MS", "Lucida Sans Unicode", "Tahoma"; font-size: 12pt; font-weight: medium; text-align: center }
+                H1.header-ctl { margin-top: 0in; margin-bottom: 0.04in; border-top: 1px solid #000000; border-bottom: none; border-left: none; border-right: none; padding-top: 0.06in; padding-bottom: 0in; padding-left: 0in; padding-right: 0in; font-family: "Arial Unicode MS"; font-size: 12pt; font-weight: medium; text-align: center }
+                ADDRESS { margin-bottom: 0.04in; background: transparent; border: none; padding: 0in; line-height: 125%; text-align: center; page-break-inside: avoid; page-break-before: auto; page-break-after: avoid }
+                ADDRESS.western { font-family: "Thorndale", serif; font-size: 14pt; so-language: en-US; font-style: normal; font-weight: medium }
+        -->
+        </STYLE>
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<P ALIGN=CENTER STYLE="margin-top: 1.25in; background: transparent; border-top: none; border-bottom: 1px solid #000000; border-left: none; border-right: none; padding-top: 0in; padding-bottom: 0.33in; padding-left: 0in; padding-right: 0in; font-weight: medium; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0; page-break-after: avoid">
+ORBD Architecture for S1AS8/EE</P>
+<P ALIGN=CENTER STYLE="margin-left: 0.39in; margin-right: 0.39in; margin-top: 0.33in; background: transparent; font-style: normal; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0; page-break-after: avoid">
+Draft 0.71</P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0.04in; background: transparent; line-height: 125%; widows: 0; orphans: 0; page-break-before: auto">
+<BR><BR>
+</P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0.04in; background: transparent; line-height: 125%; widows: 0; orphans: 0; page-break-before: auto">
+<FONT SIZE=5><B>Ken <SPAN LANG="en-US">Cavanaugh</SPAN></B></FONT></P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0.04in; background: transparent; line-height: 125%; widows: 0; orphans: 0; page-break-before: auto">
+<FONT SIZE=5><B>Harold <SPAN LANG="en-US">Carr</SPAN></B></FONT></P>
+<DIV ID="Table of Contents1" DIR="LTR" STYLE="background: transparent">
+        <DIV ID="Inhaltsverzeichnis1_Head" DIR="LTR">
+                <P ALIGN=LEFT STYLE="margin-top: 0.17in; margin-bottom: 0.08in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0; page-break-before: always; page-break-after: avoid">
+                <FONT SIZE=4>Table of Contents</FONT></P>
+        </DIV>
+        <OL>
+                <LI VALUE=1><P ALIGN=LEFT STYLE="margin-top: 0.33in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+                <B>Introduction 4</B></P>
+                <LI><P ALIGN=LEFT STYLE="margin-top: 0.33in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+                <B>S1AS8/EE ORBD Operation      7</B></P>
+        </OL>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>2.1. Main blocks in ORBD model       7</B></P>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>2.2. Plugin points for main blocks   7</B></P>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>2.3.Use Case: First Invocation, Server Running       7</B></P>
+        <OL START=3>
+                <LI><P ALIGN=LEFT STYLE="margin-top: 0.33in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+                <B>ORBD Data Model      10</B></P>
+        </OL>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>3.1. Getting ORT Information 11</B></P>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>3.2.General ORBD Operation   12</B></P>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>3.3. Constructing the Forwarded IOR  13</B></P>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>3.4. Contents of IORs        14</B></P>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>3.5.Session Beans need Persistent IORs       14</B></P>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>3.6. isLocal and Failover    15</B></P>
+        <OL START=4>
+                <LI><P ALIGN=LEFT STYLE="margin-top: 0.33in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+                <B>State Maintenance    17</B></P>
+        </OL>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>4.1.Starting and Stopping a Node     17</B></P>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>4.2.Starting and Stopping a Server Instance  18</B></P>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>4.3.Starting and Stopping an Application Instance    18</B></P>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>4.4.Starting and Stopping an ORBD    19</B></P>
+        <OL START=5>
+                <LI><P ALIGN=LEFT STYLE="margin-top: 0.33in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+                <B>Fault Tolerance      20</B></P>
+        </OL>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>5.1.Creation of an Object Adapter    21</B></P>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>5.2.Performing an Invocation on x    21</B></P>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>5.3.Impact of Orderly Shutdown       22</B></P>
+        <OL START=6>
+                <LI><P ALIGN=LEFT STYLE="margin-top: 0.33in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+                <B>Load Balancing       23</B></P>
+                <LI><P ALIGN=LEFT STYLE="margin-top: 0.33in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+                <B>Online Upgrades      26</B></P>
+                <LI><P ALIGN=LEFT STYLE="margin-top: 0.33in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+                <B>Redundant ORBD       27</B></P>
+        </OL>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>8.1.The Redundant Model      27</B></P>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>8.2.ORBD startup     28</B></P>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>8.3.Redundant ORBD operation 28</B></P>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>8.4. Location of ORBD        29</B></P>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>8.5. Replication viz-a-viz IOR Size  29</B></P>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>8.6. Interoperability with other app servers and clients     30</B></P>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>8.7.Allow users to not use ORBD      30</B></P>
+        <P ALIGN=LEFT STYLE="margin-top: 0.13in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <B>8.8. Limitation: cannot add more ORBDs after cluster created 31</B></P>
+        <P ALIGN=LEFT STYLE="margin-left: -0.2in; margin-top: 0.28in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <FONT SIZE=3><B>Appendix A. Phased Implementation of S1AS8/EE
+        ORBD    32</B></FONT></P>
+        <P ALIGN=LEFT STYLE="margin-left: -0.2in; margin-top: 0.28in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <FONT SIZE=3><B>Appendix B. Template Creation   37</B></FONT></P>
+        <P ALIGN=LEFT STYLE="margin-left: -0.2in; margin-top: 0.28in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <FONT SIZE=3><B>Appendix C. Future Versions     39</B></FONT></P>
+        <P ALIGN=LEFT STYLE="margin-left: -0.2in; margin-top: 0.28in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <FONT SIZE=3><B>Appendix D. Rejected Alternatives       45</B></FONT></P>
+        <P ALIGN=LEFT STYLE="margin-left: -0.2in; margin-top: 0.28in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <FONT SIZE=3><B>Appendix E. Smart Stubs are a Dumb Idea 46</B></FONT></P>
+        <P ALIGN=LEFT STYLE="margin-left: -0.2in; margin-top: 0.28in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <FONT SIZE=3><B>Appendix F.Constructing IORs from multiple
+        templates       49</B></FONT></P>
+        <P ALIGN=LEFT STYLE="margin-left: -0.2in; margin-top: 0.28in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <FONT SIZE=3><B>Appendix G.Epochs for Online Upgrades   50</B></FONT></P>
+        <P ALIGN=LEFT STYLE="margin-left: -0.2in; margin-top: 0.28in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <FONT SIZE=3><B>Appendix H.Servers Shedding Load and Avoiding Client
+        Starvation      51</B></FONT></P>
+        <P ALIGN=LEFT STYLE="margin-left: -0.2in; margin-top: 0.28in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <FONT SIZE=3><B>Appendix I. Other considerations        52</B></FONT></P>
+        <P ALIGN=LEFT STYLE="margin-left: -0.2in; margin-top: 0.28in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <FONT SIZE=3><B>Appendix J. Data Model Constraints      56</B></FONT></P>
+        <P ALIGN=LEFT STYLE="margin-left: -0.2in; margin-top: 0.28in; margin-bottom: 0in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0">
+        <FONT SIZE=3><B>Appendix K. A Tutorial on J2SE ORBD Operation   57</B></FONT></P>
+</DIV>
+<H1 CLASS="western" STYLE="page-break-before: always">Introduction</H1>
+<P CLASS="western">This document describes infrastructure for
+supporting scalability and availability (i.e., load balancing,  fault
+tolerance and online-upgrades) for IIOP requests in S1AS8/EE. The
+general infrastructure is called ORBD (for historical reasons).
+However, as we describe the architecture it should become clear that
+ORBD is the component in the infrastructure that supports failover
+and other components support load-balancing.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">To understand why an ORBD is useful, suppose an
+application is initially deployed on a single server instance, and
+then later migrated to a different pair of server instances for
+failover.  If the original IOR referred directly to the single server
+instance it is impossible to make the change transparently.  It is
+impossible to find all occurrences of the original IOR for arbitrary
+CORBA clients.  It is also impossible for an application running on
+the app server that uses IOR stringification. 
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Instead, the principal idea is that server IORs
+contain ???persistant??? references to ORBDs which then redirect
+requests to appropriate servers. In other words, we &quot;nail down&quot;
+the address of one part of the system, the ORBD, so that other parts
+may have much more dynamic behavior. We then highly optimize the
+system based on special domain knowledge (namely DAS and other
+information, such as dynamic load information) so that ORBD does not
+become a bottleneck).</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">The other principal idea is that once the ORBD has
+redirected a request, clients will hold IORs that contain addresses
+for replicated servers. The client ORB is then able to choose which
+replica to use based on locality and load information.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>Top-level points:</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<OL>
+        <LI><P CLASS="western">ORBD functionality is lightweight.</P>
+        <LI><P CLASS="western">The use case for ORBD is failover (NOT load
+        balancing, although ORBD bootstraps the load balancing process by
+        providing IORs which contain the locations of replicas).</P>
+        <LI><P CLASS="western">CorbaContactInfoList is the load-balancing
+        point (in the client).</P>
+        <LI><P CLASS="western">An ORBD instance will be colocated with every
+        server instance (i.e., ORBD does NOT need to be a separate process,
+        but may be if so desired).</P>
+        <LI><P CLASS="western">ORBD leverages DAS.  ORBD caches information
+        for efficiency.</P>
+        <LI><P CLASS="western">ORBD is NOT responsible for restarting
+        servers.</P>
+        <LI><P CLASS="western">ORBD maps invocations on location independent
+        IORs to their CURRENT location. The actual location may change at
+        any time in any way. ORBD transparently finds the current location
+        and forwards request appropriately.</P>
+        <LI><P CLASS="western">Load balancing info is piggybacked on server
+        replies (it may be multicast in future versions).</P>
+        <LI><P CLASS="western">ORBD provides transparent IIOP interop
+        requirements.  
+        </P>
+</OL>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>Why is it better?</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">The ORBD-based ORB/EJB failover design supports
+the colocated (web &amp; ejb in the same tier) 90% case while also
+providing infrastructure that will allow us to leap-frog the
+competition in future</P>
+<P CLASS="western"><BR><BR>
+</P>
+<UL>
+        <LI><P CLASS="western">ORBD supports sophisticated call routing /
+        load balancing. 
+        </P>
+        <LI><P CLASS="western">Ease-of-use: The user will not have to
+        generate different &quot;smart&quot; stubs for HA..</P>
+        <LI><P CLASS="western">No bottle necks, scalable &amp; distributed
+        design: colocated ORBDs in each serve process.</P>
+        <LI><P CLASS="western">ACC and web container use of EJBs is the main
+        use case for IIOP. The ACC and web container do not have full access
+        to the DAS information. Use of ORBD provides transparent IIOP
+        failover in the CORBA layer, rather than imposing DAS access/caching
+        requirements on the ACC and web containers. 
+        </P>
+</UL>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>Why this design is better than S1AS7.0?:</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">ORBD takes the 90% case into some areas that the
+non-ORBD approach does not handle (e.g. ACC calling into a replicated
+application that is performing an online upgrade).</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>ORBD integration with S1AS8/EE</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">ORBD is integrated with the overall clustering
+mechanisms in the application server to handle failover and
+load-balancing for IIOP, HTTP, JMS, etc., as a whole.  This leverages
+the S1AS8/EE mechanisms in the areas of health checks, monitoring
+availability of instances and load metrics exchange.</P>
+<P CLASS="western">                             
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>Overview of Document  </B>                    
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">The remainder of the paper presents a detailed
+view of S1AS8/EE ORBD architecture, starting with the data model of
+S1AS8/EE from the <SPAN LANG="en-US">ORB's</SPAN> point of view. We
+then look at how this data model and the ORBD operation presented
+earlier operate with respect to state <SPAN LANG="en-US">maintenance</SPAN>,
+fault tolerance, load balancing, online upgrades and redundant <SPAN LANG="en-US">ORBDs.</SPAN>
+Appendices give fine-grained details necessary to implement ORBD.
+(These appendices are not necessary for a general understanding of
+the ORBD.)</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>Background Assumptions</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">This document assumes a basic familiarity with
+Interoperable Object References (IOR), the Portable Object Adapter
+(POA), Portable<SPAN LANG="en-US"> Interceptors </SPAN>(PI) and the
+Object Reference Template (ORT) as described in the CORBA 3.0
+architecture specification. It also assumes familiarity with the
+CORBA mechanisms used to support load-balancing, fault tolerance and
+online-upgrades: client-side stub operation, addressing and request
+retry mechanisms, ORT exchange and LOCATION_FORWARD . This document
+contains a section ???A Tutorial on J2SE ORBD Operation??? which
+illustrates these mechanisms with several use cases. We emphasis that
+this material is NOT specifying the S1AS8/EE ORBD. It IS a tutorial
+and can be safely skipped if one already understands the basic
+mechanism.</P>
+<H1 CLASS="western" ALIGN=LEFT STYLE="background: transparent; page-break-before: auto; page-break-after: auto">
+S1AS8/EE ORBD Operation</H1>
+<H2 CLASS="western"> Main blocks in ORBD model</H2>
+<UL>
+        <LI><P CLASS="western"><B>Client: </B><SPAN STYLE="font-weight: medium">the
+        client makes invocations on RMI-IIOP references.  Those invocations
+        need to continue to work in the presence of failures and
+        online-upgrades. The invocations should be load-balanced across
+        server instances.</SPAN></P>
+        <LI><P CLASS="western"><B>Server: </B><SPAN STYLE="font-weight: medium">the
+        server is managed by the DAS.</SPAN></P>
+</UL>
+<UL>
+        <LI><P CLASS="western"><B>ORBD: </B>enables an IOR to survive a wide
+        range of faults and administrative changes in application
+        configuration.    
+        </P>
+</UL>
+<H2 CLASS="western"> Plugin points for main blocks</H2>
+<UL>
+        <LI><P CLASS="western"><B>Client: CORBAContactInfoList</B> :
+        client-side dynamic load-balancing plug-in point. Enables
+        flexibility in routing policies and the ability for administrators
+        to use different algorithms or tune parameters for the default ones
+        we provide. CorbaContactInfoList abstracts IORs. It is responsible
+        for updating the effective IOR and for selecting an appropriate
+        address for an invocation.</P>
+</UL>
+<UL>
+        <LI><P CLASS="western"><B>Server: ServerRequestInterceptor </B>and/or
+        <B>ServantManager</B>: these points can do load-shedding, add server
+        load metrics as reply service contexts or multicast load metrics.</P>
+</UL>
+<UL>
+        <LI><P CLASS="western"><B>ORBD: ServerInstanceMetric</B>: this is
+        the main point that the ORBD gets information on the state of the
+        cluster.     
+        </P>
+</UL>
+<H2 CLASS="western">Use Case: First Invocation, Server Running</H2>
+<P CLASS="western">This use case makes the following assumptions:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<OL>
+        <LI><P CLASS="western">N application server replicas have all been
+        activated and completed their registration and ORT exchange with M
+        redundant ORBDs.</P>
+        <LI><P CLASS="western">The N application server replicas each
+        created IOR O1,2,...,M/x and bound that IOR in naming using the same
+        name.</P>
+        <LI><P CLASS="western">The IOR has been resolved from naming
+        resulting in a stub with its target IOR and effective IOR fields
+        both set to O1,2,...,M/x. 
+        </P>
+</OL>
+<P CLASS="western">The following figure shows the basic operation of
+the S1AS8/EE ORBD when a client makes an initial invocation on a
+stub:</P>
+<P CLASS="first-line-indent-western"><BR><BR>
+</P>
+<P CLASS="western"><IMG SRC="orbdArchitecture_html_14a23ee7.gif" NAME="Graphic3" ALIGN=LEFT WIDTH=528 HEIGHT=379 BORDER=0><BR CLEAR=LEFT><BR><BR>
+</P>
+<OL>
+        <LI><P CLASS="first-line-indent-western">The client invokes a method
+        on the stub. The stub uses the effective IOR O1,2,...,M/x to service
+        the invocation. The client ORB selects a profile from the IOR, say
+        O1/x.</P>
+        <LI><P CLASS="first-line-indent-western">ORBD receives the request.</P>
+        <LI><P CLASS="first-line-indent-western">ORBD maps the request to
+        the appropriate ORT.</P>
+        <LI><P CLASS="first-line-indent-western">ORBD creates a new IOR,
+        S1,2,...,N/x using the object ID x from the request.</P>
+        <LI><P CLASS="first-line-indent-western">ORBD returns a
+        LOCATION_FORWARD response with IOR S1,2,...,N/x.</P>
+        <LI><P CLASS="first-line-indent-western">The stub sets its effective
+        IOR field to S1,2,...,N/x. The client ORB transparently retries the
+        request using the new IOR. The client ORB selects a profile from the
+        IOR, say S1/x.</P>
+        <LI><P CLASS="first-line-indent-western">The request is sent to
+        server S1.</P>
+</OL>
+<P CLASS="first-line-indent-western"><BR><BR>
+</P>
+<P CLASS="western">If S1 is not available the a different profile
+would be<SPAN LANG="en-US"> chosen </SPAN>from the effective IOR and
+the request would be transparently retried, in this example to S2 and
+then to S3.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">If all SN are not available the client ORB would
+fall back to the target IOR and select a profile, say O1.  If ORBD O1
+is not available then a different profile from target IOR is
+selected, possible resulting in requests directed to O2, ..., OM.</P>
+<H1 CLASS="western">ORBD Data Model</H1>
+<P CLASS="western">ORBD maintains its own information model for two
+reasons:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">1. To cache information locally for performance</P>
+<P CLASS="western">2. To provide only the information needed for
+ORBD.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">The only state the ORBD maintains is a map of
+server-id/orb-id/poa-id to ORT (there is an ORT for each EJB type).</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">The following diagram gives a sketch of the data
+of interest to ORBD. In part the data represents the natural
+containment<SPAN LANG="en-US"> hierarchy </SPAN>from the Cluster down
+to a particular object adapter instance. Here we are assuming that
+each EJB type has its own object adapter (a POA instance). Also note
+that we have introduced an <SPAN LANG="en-US">ApplicationInstance</SPAN>
+into the model to represent a grouping of related EJB types that form
+some sort of application.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="first-line-indent-western"><IMG SRC="orbdArchitecture_html_20a9079b.gif" NAME="Graphic5" ALIGN=LEFT WIDTH=528 HEIGHT=284 BORDER=0><BR CLEAR=LEFT><BR><BR>
+</P>
+<H2 CLASS="western"> Getting ORT Information</H2>
+<P CLASS="western">For each replica, ORBD only needs it
+ObjectReferenceTemplate (ORT). The DAS has all of the information
+globally available that is used to create (at deployment time) beans
+(i.e., IORs), which results in the creation of the object reference
+template.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">The ORBD in each app server instance computes ORTs
+using the instances DAS cache. Instead of updating multiple ORBD
+instances with ORT information, we update DAS, which makes the
+information available in all server instances.  This does not assume
+that DAS is always running. There must have been sometime when DAS
+was running so that the system could be installed.  DAS will also be
+needed whenever major changes in deployment are needed, such as
+adding or removing nodes or server instances, or redeploying
+applications. 
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Rejected alternatives:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">1. Direct exchange between each server instance
+and the replicated</P>
+<P CLASS="western">    ORBD.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">2. At each bean deployment, register the ORT for
+the deployed bean (or</P>
+<P CLASS="western">   replica) with the DAS.  Each server instance
+then has access to the</P>
+<P CLASS="western">   ORT.  The ORT is also persistent, and the ORT
+for a persistent POA</P>
+<P CLASS="western">   will be valid between restarts of the POA or
+the server instance</P>
+<P CLASS="western">   that contains the POA.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">   What this second possibility is, is simply
+using the DAS to mediate</P>
+<P CLASS="western">   the template exchange between ORBD and the
+server instance.  This</P>
+<P CLASS="western">   avoids direct communication between ORBD and
+the server instances.        
+</P>
+<H2 CLASS="western">General ORBD Operation</H2>
+<P CLASS="western">The primary function of ORBD is to redirect
+incoming requests to an appropriate server instance in a cluster.
+ORBD supports this function by maintaining a snapshot (not
+necessarily perfect) of the state of the nodes and server instances
+in a cluster. State maintenance in a cluster where different
+components are starting and stopping is a significant part of the
+ORBD architecture and will be discussed in detail in later sections.</P>
+<P CLASS="western">In order to understand how ORBD handles an
+incoming request, we first need to look at how IORs are created. All
+IORs are created from a POA instance using the
+create_reference_from_id method, which is supplied type id and object
+id arguments. The object id is a unique identifier for the IOR in the
+context of this particular POA. In the app server, this is typically
+derived from the primary database key for the EJB state.</P>
+<P CLASS="western">create_reference_from_id delegates to the
+make_object method on the ORT instance associated with the POA. 
+</P>
+<P CLASS="western">The POA is created by the container whenever an
+EJB type is deployed in the container. Each POA instance gets part of
+its template created from the ORB that created the POA. An ORBD
+<SPAN LANG="en-US">IORInterceptor</SPAN> is also installed in the
+ORB. All of this operates as follows to create the POA:</P>
+<OL>
+        <LI><P CLASS="western"><SPAN LANG="en-US">parent.create</SPAN>_POA(
+        name, policies) is called on the parent of the POA being created
+        (which may be the ORB's root POA, which is always present).</P>
+        <LI><P CLASS="western">The new POA constructs its <SPAN LANG="en-US">ObjectKeyTemplate</SPAN>
+        <SPAN LANG="en-US">oktemp</SPAN></P>
+        <LI><P CLASS="western">The new POA calls <SPAN LANG="en-US">ORB.createIORTemplate</SPAN>(
+        oktemp ). The ORB then uses the ObjectKeyTemplate oktemp to create
+        an <SPAN LANG="en-US">IORTemplate</SPAN>, and adds profile templates
+        for each protocol registered with the ORB to the IORTemplate. The
+        IORTemplate is returned.</P>
+        <LI><P CLASS="western">The POA creates its <SPAN LANG="en-US">ObjectReferenceTemplate</SPAN>
+        from the IORTemplate returned in step 3.</P>
+        <LI><P CLASS="western">The ORBD IORInterceptor
+        components_established method is called.</P>
+        <LI><P CLASS="western">The interceptor gets the POA instance's
+        current <SPAN LANG="en-US">ObjectReferenceTemplate (which was just
+        created in step 4.)</SPAN> and registers this template with ORBD.</P>
+        <LI><P CLASS="western">ORBD creates/finds its own template that
+        corresponds to the one being registered and returns that template.</P>
+        <LI><P CLASS="western">The interceptor sets the current factory for
+        the POA instance to the one returned from ORBD.</P>
+</OL>
+<P CLASS="western">At this point, any create_reference call to the
+POA results in an IOR that is handled by ORBD.</P>
+<P CLASS="western">Incoming requests for ORBD are directed to a
+particular <SPAN LANG="en-US">ObjectAdapter.</SPAN>  Each
+ObjectReferenceTemplate (the template field in the ObjectAdapter) is
+identified by server ID, orb ID, and object adapter ID.  This triple
+must be unique throughout the cluster. The basic operation of ORBD in
+handling an incoming request can then be summarized as:</P>
+<OL>
+        <LI><P CLASS="first-line-indent-western">Get the (server ID, orb ID,
+        object adapter ID) from the incoming request.</P>
+        <LI><P CLASS="first-line-indent-western">Find the ORBD ObjectAdapter
+        using (server ID, orb ID, object adapter ID).</P>
+        <LI><P CLASS="first-line-indent-western">Get the set of applicable
+        ObjectAdapter instances by applying the <SPAN LANG="en-US">ObjectAdapterReplicas</SPAN>
+        relation to the ORBD ObjectAdapter for this request.</P>
+        <LI><P CLASS="first-line-indent-western">From the templates for this
+        set of ObjectAdapter instances, construct an IOR.</P>
+        <LI><P CLASS="first-line-indent-western">Use the
+        <SPAN LANG="en-US">ServerRequestInterceptor</SPAN> to send the IOR
+        back to the client as a LOCATION_FORWARD reply, causing the client
+        to transparently redirect the invocation to the new IOR. (Note, this
+        redirection only occurs on initial requests or after failures or
+        <SPAN LANG="en-US">redirections</SPAN> from the server.)</P>
+</OL>
+<P CLASS="western">Exactly how the forwarded IOR is constructed is
+the subject of the next section.</P>
+<H2 CLASS="western"> Constructing the Forwarded IOR</H2>
+<P CLASS="western">We have defined a <SPAN LANG="en-US">ServerInstanceMetric</SPAN>
+interface, in the data model, which is intended to represent the
+capability of a server instance to handle additional load. We assume
+that 0 indicates an unloaded server instance and MAX_INT represents a
+server instance that cannot accept additional load (which could be a
+server instance that is not running). How this is computed is outside
+the scope of the ORBD design. The implementation of
+ServerInstanceMetric is pluggable in ORBD.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">In a highly-available system ORBD will contain a
+collection of <SPAN LANG="en-US">ORTs</SPAN> corresponding to the
+server and application replicas under various loads. Given this
+collection, the ORBD makes a choice in constructing the IOR based on
+the ServerInstanceMetric. Two possibilities are:</P>
+<OL>
+        <LI><P CLASS="western">Pick the template whose <SPAN LANG="en-US">ObjectAdapter's</SPAN>
+        <SPAN LANG="en-US">ServerInstance</SPAN> has the lowest metric.
+        Construct the IOR using that template.</P>
+        <LI><P CLASS="western">Sort the list of templates into lowest to
+        highest order based on the ObjectAdapter's ServerInstanceMetric
+        values. Construct an IOR using all of these templates in such a way
+        that a client will try the profiles corresponding to the lower
+        metric values first.</P>
+</OL>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Other variations are possible too, such as only
+using<SPAN LANG="en-US"> those </SPAN>templates that correspond to
+server instances that are actually running at the time the call is
+made. In this paper we use option 2, as this is the best option for
+spreading the load of handling failures to the clients, rather than
+just to the ORBD.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">The ServerInstanceMetric may be implemented in a
+variety of ways. It may cache information inside an object plugged
+into ORBD, or it may simply contact an external agent for load
+information. Design of the ServerInstanceMetric is outside the scope
+of the ORBD architecture. In any case, the ServerInstanceMetric
+implementation is plugged into the initialization of ORBD itself.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<H2 CLASS="western"> Contents of IORs</H2>
+<P CLASS="western">Two profiles. One profile contains
+TAG_ALTERNATE_IIOP_ADDRESS TAGGED_COMPONENTS with server instance
+addresses.  The other profile contains TAG_ALTERNATE_IIOP_ADDRESS
+TAGGED_COMPONENTS with ORBD addresses.  The ORBD profile also
+contains a TAGGED_COMPONENT which indicates it is a profile for an
+ORBD.  That way our CorbaContactInfoList will only use it after
+trying all server instance addresses.  A foreign client would not
+necessarily be smart but it would be operational. 
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<H2 CLASS="western">Session Beans need Persistent IORs</H2>
+<P CLASS="western">The S1AS7 EJB to POA mapping assumes that session
+beans are mapped to transient POAs.  The template for a transient POA
+changes (e.g., time-dependent element) every time the POA is
+instantiated, and so it cannot be stored in DAS.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">To enable fault tolerance, load balancing and
+online upgrades for all IORs, the app server should not use transient
+POAs.  All references should be be created with POAs with a
+PERSISTENT policy.  In this case the app server would manage
+transience itself.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Note: by definition, a transient POA can never be
+re-started and produce the same object references.  It is possible
+that we do not want to use transient POAs for stateless session beans
+in the presence of replicas, because the lifetime of the replica can
+be less than the lifetime of the object reference, and the transient
+POA is tied to the lifetime of the replica.  ORBD allows us to get
+around this problem too, but all ORBD replicas need to be updated
+with newly created transient POA templates, which is potentially
+expensive if there are a lot a replicas.</P>
+<H2 CLASS="western"> isLocal and Failover</H2>
+<P CLASS="western">Util.isLocal determines the locality of an object
+on the host, port, and server ID of the effective target IOR.  For
+failover we use the ORBD addresses in the IOR, but make a local call
+to the local ORBD (when available).</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Scenario: a client holds an IOR to an EJB which is
+colocated in the same JVM. The IOR is saved into some persistent
+state (file/DB).</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Case 1: The target EJB is a Stateless SessionBean
+(transient POA). The server crashes, restarts and reads the saved
+IOR.  The client component invokes the remote IOR (note that it
+contains the transient port of the previous incarnation of the
+server).  A good way to support this is to make all IORs persistent
+and manage transience in the app server itself.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Case 2: The target EJB is an EntityBean
+(persistent POA).  The server crashes, and failsover to another JVM
+with a different persistent port. The 2nd JVM loads the client
+component and EntityBean, The client reads the saved IOR and invokes
+on it.  The client's effective target IOR still points to the downed
+server.  It invokes and fails. So it tries other servers or fails
+back to the ORBD.  If it fails back to the ORBD then the ORBD will
+construct a new effecive target IOR which will contain the failed and
+restarted/moved server's new address.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Note that if isLocal returns true then the
+invocation will work because the EntityBean can be activated in the
+second server.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">This assumes that there is a singleton ORB
+instance in a JVM, and IORs are &quot;connected&quot; after
+deserialization. 
+</P>
+<H1 CLASS="western">State <SPAN LANG="en-US">Maintenance</SPAN></H1>
+<P CLASS="western">ORBD<SPAN LANG="en-US"> needs to </SPAN>be
+informed about state changes in nodes, server instances, application
+instances, and object adapters. Some of these can be handled within
+the ORB framework while others will require access to configuration
+information maintained in the cluster and to state changes in
+entities such as nodes.</P>
+<P CLASS="western">Since JMX is the basic mechanism for management
+and monitoring in S1AS, ORBD uses JMX to obtain information about the
+state of nodes, server instances, and applications. Some events are
+detectable within the ORB framework itself, such as the
+ServerInstance starting and terminating cleanly (via Portable
+Interceptors and other mechanisms). The ORB provides all necessary
+information about the object adapters running inside an ORB instance
+(note, we are assuming a single ORB per server instance). 
+</P>
+<P CLASS="western">Grouping of object adapters into applications is
+not directly determinable from the ORB itself, as the concept of an
+application is at the EJB container level, and at the  administration
+data level. We could decide to<SPAN LANG="en-US"> establish </SPAN>a
+convention for POA usage such that each application instance has a
+separate POA manager. Further details here await the detailed changes
+in the EJB container design.</P>
+<H2 CLASS="western">Starting and Stopping a Node</H2>
+<P CLASS="western">State changes in nodes are tracked by ORBD to
+allow for accurate handling of node<SPAN LANG="en-US"> failure. </SPAN>The
+interesting cases include:</P>
+<OL>
+        <LI><P CLASS="first-line-indent-western">A running node fails. In
+        this case, all server <SPAN LANG="en-US">instances</SPAN>,
+        application instances, and object adapters under the node can be
+        presumed to fail as well. The ServerInstanceMetric must go to
+        MAX_INT for server instances contained in the failing node, so that
+        the failed nodes will not be chosen by a client. ORBD will need to
+        clean up all data configured associated with the failed node. This
+        includes:</P>
+</OL>
+<UL>
+        <LI><P CLASS="first-line-indent-western" STYLE="text-indent: 0in">Changing
+        the state of all server instances and <SPAN LANG="en-US">ORBs</SPAN>
+        to shut down.</P>
+        <LI><P CLASS="first-line-indent-western" STYLE="text-indent: 0in">Destroying
+        all object adapter instances associated with the node.</P>
+</UL>
+<OL START=2>
+        <LI><P CLASS="first-line-indent-western">A running node is shutdown.
+        Here we want a graceful shutdown of all components. ORBD will stop
+        forwarding requests to any object adapter contained in the node.
+        Each server instance will need to shutdown its ORB instance, which
+        will cause any pending requests to be completed, and prevent new
+        pending requests from starting.</P>
+        <LI><P CLASS="first-line-indent-western">A configured node starts.
+        ORBD observes the startup of the node (via the Server watchdog
+        object) so that it is prepared for the startup of contained server
+        instances, application instances, and object adapters. ORBD will not
+        dispatch traffic to any of the contained components until that
+        component is up and running. (Note that this may affect the
+        determination of the server metric, in that a ServerInstance may be
+        up and running with a low metric before an ApplicationInstance is
+        fully initialized. In this case it may be necessary to increase the
+        server metric applied to an object adapter in the
+        ApplicationInstance until the ApplicationInstance is fully
+        initialized.)</P>
+        <LI><P CLASS="first-line-indent-western">A new node is configured.
+        This is similar to the previous case. The only difference is that a
+        new node may be configured while the cluster is fully up and
+        running, but we do not think matters for ORBD operation.</P>
+</OL>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<H2 CLASS="western">Starting and Stopping a Server Instance</H2>
+<P CLASS="western"><BR><BR>
+</P>
+<OL>
+        <LI><P CLASS="first-line-indent-western">A running server instance
+        fails. ORBD finds out about this by monitoring a server watchdog
+        object. ORBD marks all application instances as down and destroys
+        the object adapters. 
+        </P>
+        <LI><P CLASS="first-line-indent-western">A running server instance
+        is shut down. This should basically be the same as case 1.</P>
+        <LI><P CLASS="first-line-indent-western">A configured server starts.
+        ORBD marks the server instance as being up.</P>
+        <LI><P CLASS="first-line-indent-western">A new server instance is
+        configured. Basically the same as 3, except that a new
+        ServerInstance object must be created.</P>
+</OL>
+<P ALIGN=LEFT STYLE="margin-top: 0.17in; margin-bottom: 0.08in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0; page-break-after: avoid">
+<BR><BR>
+</P>
+<H2 CLASS="western">Starting and Stopping an Application Instance</H2>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">In this case we do not have a concept of abnormal
+shutdown as the server instance should handle any errors that occur
+in an application instance.</P>
+<OL>
+        <LI><P CLASS="first-line-indent-western">A running application
+        instance is shut down. ORBD finds out about this at the beginning of
+        the shutdown process and stops directing traffic to the instance.
+        The normal <SPAN LANG="en-US">POAManager</SPAN> shutdown happens
+        afterwards, allowing a clean shutdown.</P>
+        <LI><P CLASS="first-line-indent-western">A configured application
+        instance starts up. The ORB marks the application instance as being
+        up.</P>
+        <LI><P CLASS="first-line-indent-western">A new application instance
+        is configured. Same as 2, except that a new <SPAN LANG="en-US">ApplicationInstance</SPAN>
+        object is created.</P>
+</OL>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<H2 CLASS="western">Starting and Stopping an ORBD</H2>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">tbd...</P>
+<H1 CLASS="western">Fault Tolerance</H1>
+<P CLASS="western">Fault tolerant behavior is implicit in what has
+already been discussed. To see this, we will consider:</P>
+<OL>
+        <LI><P CLASS="first-line-indent-western">A normal request.</P>
+        <LI><P CLASS="first-line-indent-western">A request that fails in
+        different ways.</P>
+</OL>
+<P CLASS="western">Let's assume that we have ServerInstance S1 and
+S2, each containing an ApplicationInstance A, and that each
+ApplicationInstance contains a POA P. Then we have POAs S1/A/P and
+S2/A/P in the cluster, each of which can handle requests for this
+application. Also note that we have <SPAN LANG="en-US">ReplicaGroup</SPAN>
+R which contains S1/A and S2/A, and ObjectAdapter instance O for R.
+The <SPAN LANG="en-US">GroupApplicationInstances</SPAN>,
+<SPAN LANG="en-US">GroupObjectAdapters</SPAN>, ObjectAdapterReplicas,
+and <SPAN LANG="en-US">ApplicationObjectAdapters</SPAN> relations are
+described in the following diagram.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><IMG SRC="orbdArchitecture_html_md67d953.gif" NAME="Graphic4" ALIGN=LEFT WIDTH=528 HEIGHT=354 BORDER=0><BR CLEAR=LEFT><BR><BR>
+</P>
+<P CLASS="western">This diagram includes all elements from the ORBD
+data model shown on page 10 (except for the ServerInstanceMetric).
+The cluster and ORB nodes are also included here for clarity. Note
+that  they are otherwise ignored in this example, as there is only
+one cluster, and each ServerInstance in S1AS 8 contains only one ORB
+instance.</P>
+<H2 CLASS="western">Creation of an Object Adapter</H2>
+<OL>
+        <LI><P CLASS="first-line-indent-western">ServerInstance S1 creates
+        ObjectAdapter S1/A/P</P>
+        <LI><P CLASS="first-line-indent-western">ORBD IORInterceptor runs
+        for S1/A/P</P>
+</OL>
+<OL>
+        <LI><P CLASS="first-line-indent-western" STYLE="text-indent: 0in">IORInterceptor
+        sends ObjectReferenceTemplate for S1/A/P to ORBD.</P>
+        <LI><P CLASS="first-line-indent-western" STYLE="text-indent: 0in">ORBD
+        notes that the received template is for S1/A, uses the
+        <SPAN LANG="en-US">GroupApplicationInstance</SPAN> relation to
+        discover that this is part of <SPAN LANG="en-US">ReplicaGroup</SPAN>
+        R, and that its ObjectAdapter O is used for A/P (if this is the
+        first request, ORBD creates an ObjectAdapter O to use for A/P).</P>
+        <LI><P CLASS="first-line-indent-western" STYLE="text-indent: 0in">ORBD
+        returns ObjectReferenceTemplate for O to S1.</P>
+        <LI><P CLASS="first-line-indent-western" STYLE="text-indent: 0in">S1/A/P
+        installs ObjectReferenceTemplate for O as its current factory</P>
+</OL>
+<P CLASS="western">At this point, the object adapter is ready to
+create IORs. When it creates an IOR with object ID x, call it IOR/x,
+it will use the template for object adapter O in ORBD, causing
+invocations on IOR/x to be handled by ORBD.</P>
+<H2 CLASS="western">Performing an Invocation on x</H2>
+<P CLASS="western">An invocation on x proceeds as follows:</P>
+<OL>
+        <LI><P CLASS="first-line-indent-western">Client invokes an
+        operations on x.</P>
+        <LI><P CLASS="first-line-indent-western">Client ORB sends a request
+        to x (which points to ORBD).</P>
+        <LI><P CLASS="first-line-indent-western">ORBD receives the request
+        on x.</P>
+        <LI><P CLASS="first-line-indent-western">ORBD obtains the object id
+        xid from the request on x.</P>
+        <LI><P CLASS="first-line-indent-western">ORBD obtains the
+        ObjectAdapter O that corresponds to x.</P>
+        <LI><P CLASS="first-line-indent-western">ORBD finds the
+        ObjectAdapter instances S1/A/P and S2/A/P that are related to O by
+        the ObjectAdapterReplicas relation.</P>
+        <LI><P CLASS="first-line-indent-western">ORBD uses the templates
+        from S1/A/P and S2/A/P to construct a new template M.</P>
+        <LI><P CLASS="first-line-indent-western">ORBD constructs another IOR
+        IOR/ y by calling <SPAN LANG="en-US">M.make</SPAN>_object( xid ).</P>
+        <LI><P CLASS="first-line-indent-western">ORBD sends a
+        LOCATION_FORWARD response to the client containing IOR/y.</P>
+        <LI><P CLASS="first-line-indent-western">Client ORB chooses a
+        profile p from y to use for the next request.</P>
+        <LI><P CLASS="first-line-indent-western">Client ORB sends a request
+        using profile p.</P>
+        <LI><P CLASS="first-line-indent-western">The application instance
+        corresponding to profile p handles the request.</P>
+</OL>
+<P CLASS="western">Failures are handled as follows:</P>
+<OL>
+        <LI><P CLASS="first-line-indent-western">Client ORB receives a
+        SystemException for the request.</P>
+        <LI><P CLASS="first-line-indent-western">If the error cannot be
+        retried, the error is returned to the client. This happens, for
+        example, if the completion status is COMPLETED_MAYBE or
+        COMPLETED_YES, in which case the operation cannot be retried.</P>
+        <LI><P CLASS="first-line-indent-western">If the error can be
+        retried, the client ORB looks for another profile in IOR y.</P>
+        <LI><P CLASS="first-line-indent-western">If another profile is
+        found, use it to retry the invocation. Steps 1-4 can be repeated
+        until no more profiles are available.</P>
+        <LI><P CLASS="first-line-indent-western">After the profiles are
+        exhausted, fall back to IOR x, which points to ORBD. 
+        </P>
+</OL>
+<P CLASS="western">A limit may be placed on the total number of
+requests for an invocation to avoid various scenarios that can result
+in never-ending invocations.</P>
+<H2 CLASS="western">Impact of Orderly Shutdown</H2>
+<P CLASS="western">It should be possible to shutdown a server
+instance cleanly, so that no spurious failures are observed in an ORB
+client. This is handled by calling <SPAN LANG="en-US">ORB.shutdown</SPAN>(true),
+which will not return until a clean ORB shutdown has completed.
+Before the shutdown call, the ORB accepts all calls (ignoring
+<SPAN LANG="en-US">POAManagers</SPAN> for now). After shutdown, all
+new calls are rejected with a BAD_INV_ORDER error, with completion
+status COMPLETED_NO. This tells the client that the operation can be
+safely retried. All calls that are currently in process in the ORB
+continue and cause the shutdown operation to block until all pending
+operations in the ORB have completed. After they all complete, the
+ORB will shutdown all object adapters and transports, and finally
+return from the shutdown call.</P>
+<P CLASS="western">ORBD is informed of the state change in the
+ServerInstance as soon as shutdown starts, so that it does not direct
+new traffic to the instance that is being shutdown. 
+</P>
+<H1 CLASS="western">Load Balancing</H1>
+<P CLASS="western"><B>Load Information</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western" STYLE="font-weight: medium">We need to design
+mechanism to compute and propagate load/availability information such
+as:</P>
+<UL>
+        <LI><P CLASS="western">Server instance availability</P>
+        <LI><P CLASS="western">Server instance load</P>
+        <LI><P CLASS="western" STYLE="font-weight: medium">Server instance
+        EJB type load</P>
+</UL>
+<P CLASS="western" STYLE="font-weight: medium"><BR><BR>
+</P>
+<P CLASS="western" STYLE="font-weight: medium">That
+computation/propagation is NOT a function of the ORBD, but must be in
+place.</P>
+<P CLASS="western" STYLE="font-weight: medium"><BR><BR>
+</P>
+<P CLASS="western" STYLE="font-weight: medium">Initially load
+information will be piggybacked onto replies in server load service
+contexts This updates a client cache of server load information. That
+cache is used by CorbaContactInfoList to make subsequent address
+choices for invocations.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>Using Load Information</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">The client-side CorbaContactInfoList is the
+primary consumer of load information. It uses load information
+contain in server reply service contexts.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">For clients that are not running our ORB servers
+can load-shed by doing a LOCATION_FORWARD back to the ORBD (via
+ServerRequestInterceptor or ServantManager).  (Servers can also do a
+LOCATION_FORWARD when new server instances are added.)</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">ORBD ServerInstanceMetric may also be a consumer,
+but that is not required. Again: ORBD does not give the client
+information about load, that is not its function.  ORBD can make some
+use of load information, although this is not necessary.  In fact,
+ORBD need not be aware of load at all: we make load balancing
+decisions in the client.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">ORBD is primarily the bootstrap point for
+load-balancing and the last chance point for failover.  It is not the
+primary point for load-balancing (although it might use
+load-balancing information when constructing a LOCATION_FORWARD IOR).</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>Location of load-balancing decisions</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">* In the client (e.g. CORBAContactInfoList). This
+is the option we are pursuing.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">There is only one limitation with this approach: a
+cluster can evolve (e.g., add/remove server instances, online
+upgrades of instances one-at-a-time) in all ways except that the
+number of ORBD instances cannot change. (That limitation could be
+overcome by using IP multicast.)</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Note: ORBD instances can migrate: ORBD IP
+addresses are mapped to to different via DHCP or DNS.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">It is useful to put some adaptive decisions in the
+client since it does not consult the ORBD on each invocation.  After
+failover, the client's adaptive CorbaContactInfoList decides how to
+choose another address to service an invocation. The adaptive
+mechanism can use load information obtained via server reply load
+service contexts, periodic polling, IP multicast (if enabled), etc.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>ORBD participation in Load-Balancing</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">The main area that needs further discussion is
+dynamic handling of changing load and load shedding.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">This architecture assumes that the
+ServerInstanceMetric reflects the dynamically changing load in the
+system. The design of the ServerInstanceMetric in ORBD must take into
+account considerations of timeliness of information vs. load on the
+system to maintain the information. In any case, we will assume that
+the metric maintains a reasonably close correspondence to the true
+load in the system.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Let us assume that the scenarios are as described
+in the fault tolerance section, and discuss what happens when a
+server instance becomes overloaded:</P>
+<OL>
+        <LI><P CLASS="first-line-indent-western">The server instance detects
+        an overload situation and (indirectly) informs the Server
+        <SPAN LANG="en-US">InstanceMetric</SPAN> in ORBD by updating the
+        metric values.</P>
+        <LI><P CLASS="first-line-indent-western">An incoming request is
+        received by the server.</P>
+        <LI><P CLASS="first-line-indent-western">A load balancing
+        ServerRequestInterceptor looks at the server instance load for each
+        request. When the load is too high, the interceptor starts
+        forwarding incoming requests back to ORBD.</P>
+        <LI><P CLASS="first-line-indent-western">The ORB client that sent
+        the request transparently sends another request to ORBD.</P>
+        <LI><P CLASS="first-line-indent-western">ORBD operates as usual,
+        using the ServerInstanceMetric which now causes ORBD to use a
+        different ordering of profiles according to the Server
+        InstanceMetric.</P>
+        <LI><P CLASS="first-line-indent-western">The client<SPAN LANG="en-US">
+        receives </SPAN>a new IOR from ORBD, picks a profile (which should
+        be for a non-overloaded server instance), and sends the request to
+        the server.</P>
+</OL>
+<P CLASS="western">The main design challenge here will be to make
+sure that load balancing does not exhibit pathological behavior under
+heavy load. We do not want excessive numbers of LOCATION_<SPAN LANG="en-US">FORWARDs</SPAN>
+in an attempt to balance load too dynamically. We also do not want to
+lose invocations in endless sequences of forwarding between different
+server instances and ORBD.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>Client participation in Load-balancing</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Whenever a request is sent, the client ORB can
+choose the best profile to use through the <SPAN LANG="en-US">CORBAContactInfoList</SPAN>
+implementation. This require CorbaContactInfoList to know about the
+state of the cluster via load-info piggybacked on server replies or
+via multicast server load from servers.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<H1 CLASS="western">Online Upgrades</H1>
+<P CLASS="western">Online upgrades is are similar to the previous
+scenarios for fault tolerance and load balancing. Suppose we wish to
+shutdown S1/A and replace it with a new version of the application,
+S1/A2. In order for this to work, implementations A and A2 must have
+the same object adapters, and those object adapters must have
+compatible interfaces (basically this means assignment compatibility
+in Java). The upgrade proceeds as follows:</P>
+<OL>
+        <LI><P CLASS="western">S1/A2 is deployed and made ready to start.</P>
+        <LI><P CLASS="western">An orderly shutdown of S1/A is begun. This is
+        most easily arranged if A has a single POAManager for all its POA
+        instances.</P>
+        <LI><P CLASS="western">After the shutdown of S1/A is completed, S1/A
+        is destroyed.</P>
+        <LI><P CLASS="western">At this point, all new requests are
+        redirected to S2/A, either by ORBD or by ORB client side retries.</P>
+        <LI><P CLASS="western">S1/A2 is started. It registers its components
+        with ORBD.</P>
+        <LI><P CLASS="western">Traffic begins being handled by S1/A2. If all
+        goes well, S2/A can then be upgraded to S2/A2 in a similar fashion.</P>
+</OL>
+<P CLASS="first-line-indent-western">It may happen that the online
+upgrade fails. In that case, S1/A2 must be ???upgraded??? to S1/A,
+which reverts to the original state.</P>
+<H1 CLASS="western">Redundant ORBD</H1>
+<P CLASS="western">ORBD is redundant to avoid becoming a single point
+of failure. Each instance of ORBD runs with each server replica. This
+automatically means ORBDs are monitored and restarted as part of the
+server instance.</P>
+<H2 CLASS="western">The Redundant Model</H2>
+<P CLASS="western">Each cluster has some predetermined number of ORBD
+instances O1 ... On. Each ORBD instance is assigned a unique host
+name, which we will refer to as name1 through <SPAN LANG="en-US">namen.</SPAN>
+Each ORBD instance also has a fixed port.  Call these port1 .. portn.
+We will assume that each ORBD has a unique Object Key, probably
+???ORBD??? or something similar. Then each ORBD instance registers a
+suitable IOR in naming under the name ORBD. A server that needs to
+call a method on an ORBD instance can then use INS as follows to get
+to ORBD:</P>
+<OL>
+        <LI><P CLASS="western">Create a URL of the form
+        ???corbaloc::{host}:{port}/ORBD???</P>
+        <LI><P CLASS="western">Use <SPAN LANG="en-US">ORB.string</SPAN>_to_object
+        to convert the URL into a generic stub containing an IOR for the
+        ORBD.</P>
+        <LI><P CLASS="western">Narrow the stub to the ORBD type.</P>
+</OL>
+<P CLASS="western">This allows a client of ORBD to construct a stub
+for ORBD knowing only the host and port at which ORBD is running.
+(This is the mechanism that is also used in order to bootstrap the
+naming service.) This avoids dependencies on naming for the basic
+ORBD/Server functionality, which avoids any need for a replicated
+naming service in the design of ORBD.</P>
+<P CLASS="western">The server (i.e. The IORInterceptor code) can then
+inform all of the ORBD instances of ORB events of interest to ORBD,
+such as the creation of an object adapter. The easiest way to do this
+is simply to successively invoke the method on each ORBD instance.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">One important consideration is what happens in the
+IORInterceptor with all of the ORBD templates that are received from
+the different ORBD instances. As discussed in Appendix B, all of the
+templates are merged together to construct a single template. There
+is an issue here about how to handle a failed ORBD that causes a
+failure in the template exchange.</P>
+<H2 CLASS="western">ORBD startup</H2>
+<P CLASS="western">When an ORBD instance starts up, it must
+synchronize its internal state with the state of the system. It does
+this by consulting the DAS cache in the server instance in which it
+is running.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Rejected alternative:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">The ORBD instance uses JMX to discover the basic
+configuration of the system. After the ORBD knows the IP address and
+port for every ServerInstance, the ORBD instance uses INS to
+construct an IOR for an object that must be present in every
+ServerInstance. This IOR is then used by ORBD to query each
+ServerInstance for ORB, ApplicationInstance, and ObjectAdapter
+information.</P>
+<H2 CLASS="western">Redundant ORBD operation</H2>
+<P CLASS="western">This is the same as in normal case, described in
+???General ORBD Operation???. IORs contain a host/port for each ORBD
+instance. The client ORB, during method invocation, chooses one
+host/port and invokes the method. Since each ORBD replica has the
+same state, it does not matter which replica is chosen. If a request
+to one replica fails, the client will choose a different request
+until the request is handled.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Rejected update alternative:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">The IORInterceptor must register its ORT with each
+ORBD instance when the components_established method is called. The
+IORInterceptor then gets back several templates, one from each ORBD.
+The interceptor then fuses these templates together, as previously
+described for ORBD. This fused template then becomes the current
+factory for the POA.</P>
+<H2 CLASS="western"> Location of ORBD</H2>
+<P CLASS="western">There is NO separate ORBD process. This eases
+process adminsitration. We need an attribute in server.xml to
+configure an ORBD when it needs to be exposed to remote clients.  
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Note: it is possible to run ORBD functionality as
+a separate process or in appserver instances.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">One consideration is reliability.  If ORBD is run
+in a separate JVM, far fewer classes are loaded, its execution is
+more predictable, and there will likely be fewer scenarios that can
+result in JVM failure.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Another consideration is ease-of-implementation:
+ORBD needs a lot of the infrastructure present in the app server
+process (e.g., DAS cache, server monitoring, startup).  Putting the
+ORBD in an app server instance avoids the need to manage separate
+ORBD processes.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">It is not necessary to run ORBD in every app
+server instance. Any instance may run ORBD if configured to do so.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Another consideration is evolution. How much
+change is allowed after the app server cluster is installed.  ORBD
+allows both the number and location of EJB replicas to change
+dynamically.  The location of ORBD repliaces can change dynamically
+by using DNS names (rather than IP addresses) in ORBD IIOP profiles
+that are resolved via DNS.  The only thing that cannot easily change
+dynamically is the number of ORBD instances which is wired into every
+IOR that an app server creates. That limitation can be removed by
+using IP multicast to broadcast ORBD locations.</P>
+<H2 CLASS="western"> Replication viz-a-viz IOR Size</H2>
+<P CLASS="western">For redundancy, every IOR must refer to at least
+two ORBD instances.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">If every server instance runs an ORBD for a large
+cluster this may lead to large IORs and longer update times for all
+of the ORBD replicas.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">In a homogeneous environment, instead of having a
+separate profile for each app server instance, we can have a single
+profile containing TAG_ALTERNATE_IIOP_ADDRESS TAGGED_COMPONENTs with
+host/port information for each app-server instance.  This reduces the
+size of IORs.  However, their may be issues with online upgrades
+having different information.  In that case a separate profile for
+the upgraded app server.  Once all app servers were upgraded the
+system could revert to a single profile again.  
+</P>
+<H2 CLASS="western"> Interoperability with other app servers and
+clients</H2>
+<P CLASS="western">Interoperability is achieved by adherence to OMG
+standards. If we generate IORs with multiple standard IIOP profiles
+or single IIOP profiles containing TAG_ALTERNATE_IIOP_ADDRESS, we are
+as compliant as we can be.  Exactly how an ORB handles such an IOR is
+not specified by the the core CORBA standard.  (The CORBA
+fault-tolerant specification defines a variant of IOR called an IOGR
+that does specify the correct semantics.  However, we cannot depend
+on that existing in other vendor's products.)</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">ORBD makes the system more interoperable with
+other ORBs.  ORBD is build on the standard location forward mechanism
+that all GIOP implementations must support.  We can do some load
+balancing and failover for clients that are not running on our ORB,
+by having our servers send LOCATION_FORWARDs back to ORBD whenever
+they are overloaded.           
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Note: any client-side LB/FO we do via
+CORBAContactInfoList is not standard.</P>
+<H2 CLASS="western">Allow users to not use ORBD</H2>
+<P CLASS="western">In the case were users are going with a colocated
+deployment model it would be useful to not deploy ORBD.  ORBD only
+needs to be present when for RMI-IIOP ACC clients or when segregated
+web tier applications access EJBs on a separate cluster.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">The colocated only model may benefit from a server
+instance ORB using a &quot;local-only &quot;transport option that
+initializes a local object that can never be marshaled and ensure
+that the colocated request dispatcher optimization is always used.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">In this case customers should be using local EJBs,
+but may not for various reasons (i.e., the ability to change
+configuration without recoding).  
+</P>
+<H2 CLASS="western"> Limitation: cannot add more ORBDs after cluster
+created</H2>
+<P CLASS="western">One significant issue in this design is that more
+ORBD instances cannot easily be added after a cluster is created. The
+existing ORBD instances may be moved to different nodes as desired,
+but the number must stay fixed as otherwise persistent ORBD IORs will
+not be preserved. 
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">We do not know of an easy solution to this
+problem. One solution is to use IP multicast to communicate with ORBD
+instances. All that is needed is an IP multicast call to locate ORBD
+instances, which can then be handled in the normal multiple profile
+IOR manner. It is possible to build such a proprietary IIOP extension
+and incorporate this into the PEORB, although it is not a trivial
+undertaking. Probably the larger issue is simply whether most
+customers would accept the use of IP multicast in an app server, as
+this is still not a commonly deployed protocol.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<OL TYPE=A>
+        <LI><P ALIGN=LEFT STYLE="margin-top: 0.33in; margin-bottom: 0.25in; line-height: 125%; widows: 0; orphans: 0; page-break-before: always; page-break-after: avoid">
+         <FONT SIZE=4><B>Phased Implementation of S1AS8/EE ORBD</B></FONT></P>
+</OL>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>Phase 1 - Simple remote client failover</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">No ORBD.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">At deployment/redeployment add/remove server time,
+DAS pushes config info to all server instances.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">ORB config:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Every server instance has IORInterceptor.  When
+each server instance creates POAs the IORInterceptor reads the
+configuration information and adds a TAG_ALTERNATE_IIOP_ADDRESS
+TAGGED_COMPONENT for each server replica.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Every server instance, ACC and servlet container
+has CorbaContactInfoList.  It always tries to use a colocated
+invocation if possible.  Otherwise it chooses a
+TAG_ALTERNATE_IIOP_ADDRESS in list order.  It could also round robin
+through remote addresses.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Enables:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Simple remote client failover (and load-balancing
+via round-robin).</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Not supported:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Container local failover.  If the server instance
+does down and comes up the old &quot;colocated&quot; IORs will not be
+valid - resulting in remote calls to replicas.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Adding/removing server instances.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>Phase 2 - Ability to add/remove server
+instances</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Assumes phase 1.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">NO ORBD.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">DAS pushes changes out.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Every server instance IORInterceptor adds an EPOCH
+TAGGED_COMPONENT.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">When a server instance is added or removed from
+cluster the all server instances shut down and restart their
+POA/POAManagers.  This results in a new ORT with the current EPOCH
+embedded in references.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Every server instance has
+ServerRequestInterceptor.  During POA shutdown/restart
+ServerRequestInterceptor sends TRANSIENT/UPGRADE exception to client.
+ Client waits and tries again.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">When an invocation arrives the
+ServerRequestInterceptor checks to see if the EPOCH is out-of-date. 
+The ServerRequestInterceptor creates a new IOR using the ORT (with
+current addresses and EPOCH) and does LOCATION_FORWARD. (If the
+current and old EPOCHs are not compatible then the
+ServerRequestInterceptor would reject the request.)</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Enables:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Phase 1 plus adding/removing server instances.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Not supported:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Local container failover.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Limitation:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">At least one server instance must not move to
+ensure that uses of old references can find a server replica that can
+then update to a current reference.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>Phase 3 - local container failover</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Assumes phase 2 in place.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">ServerRequestIntercepor-based ORBD in each server
+replica.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Every server instance IORInterceptor, after adding
+TAG_ALTERNATE_IIOP_ADDRESS for each server replica, exchanges its ORT
+with the local ORBD ORT, which is then set on the POA.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">ORBD IORInterceptor adds ORBD addresses.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Client CorbaContactInfoList tries colocated if
+possible.  Initial request will go to the local ORBD which does a
+LOCATION_FORWARD containing effective IOR with server instance
+addresses.  The initial request and all subsequent requests will go
+to the local server instance. If the local server instance fails
+(e.g., ACC) CorbaContactInfoList chooses another
+TAG_ALTERNATE_IIOP_ADDRESS.  If all alternates fail it falls back on
+target IOR pointing to ORBDs and the process repeats.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Enables:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Phase 2 plus local container failover.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>Phase 4 - Server Load added to replies</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Assume phase 3.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Every server instance ServerRequestInterceptor
+adds a server load service context on replies.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Client has ClientRequestInterceptor which reads
+server load service contexts and gives information to
+CorbaContactInfoList.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">CorbaContactInfoList uses server load to decide
+which server replica to use.  If the local replica is too loaded
+would we do a remote call?</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>Phase 5 - Load Shedding</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Assume phase 4</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Every server instance ServerRequestInterceptor
+sends a TRANSIENT/OVERLOADED (or it could do LOCATION_FORWARD to
+single IOR when server is overloaded).</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Need a MustService Service Context from client to
+avoid starvation.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Enables:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">LOCATION_FORWARD allows foreign ORBS to
+participate in load shedding.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>Other phases</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Ability to add/remove server instances without
+using TRANSIENT/UPGRADE. Either by POAManager/AdapterActivator POA
+destroy/create, or ... (TBD by Ken).</P>
+<P CLASS="western">                                      
+</P>
+<P CLASS="western">                                            
+</P>
+<OL TYPE=A START=2>
+        <LI><P ALIGN=LEFT STYLE="margin-top: 0.33in; margin-bottom: 0.25in; line-height: 125%; widows: 0; orphans: 0; page-break-before: always; page-break-after: avoid">
+         <FONT SIZE=4><B>Template Creation</B></FONT></P>
+</OL>
+<P CLASS="western">The easiest way to explicitly create a template is
+simply to use the exact same code that we would use inside ORB.init()
+as follows:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">For each ServerInstance where you need to create
+templates:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">1. ORB orb = ORB.init() (with probably a few
+special parameters, such</P>
+<P CLASS="western">   as a &quot;never start the transport&quot;
+option).  Also set the server ID</P>
+<P CLASS="western">   at this stage.  No request interceptors should
+be registered, as</P>
+<P CLASS="western">   this ORB will never handle requests.  The IOR
+interceptor should</P>
+<P CLASS="western">   implement the correct establish_components
+method for adding</P>
+<P CLASS="western">   TAG_ALTERNATE_IIOP_ADDRESS TAGGED_COMPONENTS,
+but should do nothing</P>
+<P CLASS="western">   on the components_established method.  In other
+words, just use the</P>
+<P CLASS="western">   same code in two different IORInterceptor
+classes, except that the</P>
+<P CLASS="western">   derived class adds the components_established
+method.  Then a</P>
+<P CLASS="western">   different ORBInitializer class is needed here. 
+Harold knows all of</P>
+<P CLASS="western">   these details extremely well.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">2. Create and register acceptors for transports as
+needed, according</P>
+<P CLASS="western">   to the ServerInstance configuration and the
+node.  Note that this</P>
+<P CLASS="western">   is for the node where the ServerInstance runs,
+which is usually not</P>
+<P CLASS="western">   the node where this code is running.  They are
+registered with</P>
+<P CLASS="western">   ORB.registerAcceptor().  Also note that this is
+being done outside</P>
+<P CLASS="western">   of the ORB.init call, after casting the
+org.omg.CORBA.ORB to</P>
+<P CLASS="western">   com.sun.corba.ee.spi.orb.ORB.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">3. For each deployed EJB:</P>
+<P CLASS="western">        3.1 create the POA with the correct name
+and the correct</P>
+<P CLASS="western">        policies.</P>
+<P CLASS="western">        3.2 extract the iotemplate from the POA as
+follows:</P>
+<P CLASS="western">                IORTemplate iortemp =</P>
+<P CLASS="western">               
+((ObjectAdapterBase)poa).getIORTemplate()</P>
+<P CLASS="western">        3.3 store the template somewhere
+convenient.  Note that we do</P>
+<P CLASS="western">        not need to make this persistent, since we
+can just run</P>
+<P CLASS="western">        through this initialization at
+ServerInstance startup time.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">4. destroy the ORB, since we will never need it
+again</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Most of the above is already implemented in the
+PEORB code base.</P>
+<P CLASS="western">We need to add a flag to avoid starting the
+transports, and</P>
+<P CLASS="western">finish the acceptor implementation.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Bottom line: use the same code to construct the
+template</P>
+<P CLASS="western">and to initialize the POAs at ServerInstance
+startup time, avoiding a lot</P>
+<P CLASS="western">of duplicate code maintenance headaches.</P>
+<OL TYPE=A START=3>
+        <LI><P ALIGN=LEFT STYLE="margin-top: 0.33in; margin-bottom: 0.25in; line-height: 125%; widows: 0; orphans: 0; page-break-before: always; page-break-after: avoid">
+         <FONT SIZE=4><B>Future Versions</B></FONT></P>
+</OL>
+<P CLASS="western">This section collects ideas, features,
+optimizations, etc., for future versions of ORBD.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>IP Multicast for broadcasting load information.</B></P>
+<P CLASS="western">It is possible to use IP multicast to broadcast
+load information within the cluster (it would not reach clients).  A
+multicast aware CorbaContactInfoList would listen to these broadcasts
+and use them to pick addresses for invocations.  If S1AS were ever to
+use such a mechanism, it would be transparent to ORBD: the multicast
+load information would be plugged in using the ServerInstanceMetric
+and CorbaContactInfoList interfaces.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">However, what sort of deployment difficulties
+would this create for our customers?  For example, if a cluster is
+deployed across multiple LANs, the routers must handle IP multicast
+traffic.  Some customers may not be willing to deploy IP multicast. 
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>Reducing Traffic to ORBD</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">There are a number of ways to reduce the traffic
+to ORBD:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<OL>
+        <LI><P CLASS="western">Only talk to ORBD for the first invocation on
+        a particular template.  Then all other instances of the same
+        template can be reconstructed from information already present in
+        the client.  This means in effect that a client would only invoke
+        ORBD once per EJB type.  This just requires keeping track of
+        templates when we unmarshal IORs, and keeping a mapping from ORBD
+        templates to Server templates in the client (the same map that ORBD
+        maintains). In this case the client is simply building ORBD-&gt;Server
+        cache. 
+        </P>
+        <LI><P CLASS="western">Create a local-only profile, which allows for
+        rapid restart w/o talking to ORBD.  Such a profile would never be
+        marshaled, and would be reconstructed whenever an ORB unmarshals one
+        of its own IORs. To implement this we need to distinguish between
+        marshaling to another ORB and marshaling to serialize.   
+        </P>
+</OL>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>SPECIFYING and IMPLEMENTING LOAD-BALANCING
+POLICIES</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">How will client-side routing policy be specified
+for an EJB?</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Would there be an element in the EJB's deployment
+descriptor?</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">We need a design for the routing policy
+information, especially for how much of this is needed in S1AS8/EE
+vs. how much is a good idea for later.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Generally all of these things should work the same
+way: The deployment descriptor drives what policies are passed when
+the POA is created. These policies in turn affect the
+TAG_ALTERNATE_IIOP_ADDRESS TAGGED_COMPONENT instances that are added
+in the IORInterceptor.  The Client side can then look at the
+components and decide what to do via CorbaContactInfoList.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">For S1AS8/EE we are looking at simple
+InitialContext load balancing from client and load balancing home
+lookups plus a framework that allows future extensions (e.g.,
+failover, smarter load balancing, online upgrades).</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">The important thing is to have the mechanisms in
+place to allow pluggable client-side routing policies. One
+possibility: provide the policy class name in the EJB's deployment
+descriptor (with some default if not specified), put the classname
+into the IOR, then the client while invoking on the IOR knows what
+policy to use.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">This should be simple to do in the PEORB as
+follows:     
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">1. Create a CorbaContactInfoListFactory instance
+and register it with</P>
+<P CLASS="western">   the ORB (this is done at ORB.init() time). 
+This factory implements</P>
+<P CLASS="western">   the method</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">   CorbaContactInfoList create( IOR ior )</P>
+<P CLASS="western">   {</P>
+<P CLASS="western">        RoutingPolicyComponent comp = &lt;extract
+this from ior: details</P>
+<P CLASS="western">   TBD&gt;</P>
+<P CLASS="western">        if (comp = null)</P>
+<P CLASS="western">                return the default
+CorbaContactInfoList</P>
+<P CLASS="western">        else</P>
+<P CLASS="western">                get class name from comp</P>
+<P CLASS="western">                instantiate class, which must
+implement</P>
+<P CLASS="western">   CorbaContactInfoList</P>
+<P CLASS="western">                return result</P>
+<P CLASS="western">   }</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">   Of course, we could also simply use a routing
+policy ID instead,</P>
+<P CLASS="western">   which keeps the IOR shorter (by perhaps 3-5%). 
+Which approach we</P>
+<P CLASS="western">   take makes little difference, since all parts
+of the app server</P>
+<P CLASS="western">   will need to know how to interpret the policy
+(assuming that we do</P>
+<P CLASS="western">   not use dynamic code downloading).</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">2. The most important method that the
+CorbaContactInfoList needs to</P>
+<P CLASS="western">   implement is simply</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">   Iterator iterator()</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">   which returns an instance of
+CorbaContactInfoListIterator.  There</P>
+<P CLASS="western">   are a number of other methods, but we will
+probably just create a</P>
+<P CLASS="western">   base class to handle the normal implementation
+of the other</P>
+<P CLASS="western">   methods.</P>
+<P CLASS="western">                                        
+</P>
+<P CLASS="western">3. CorbaContactInfoListIterator.next() must return
+an instance of</P>
+<P CLASS="western">   CorbaContactInfo.  CorbaContactInfo will
+contain all of the IOR</P>
+<P CLASS="western">   addressing information needed for the request. 
+This is basically:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">   - Host</P>
+<P CLASS="western">   - Port</P>
+<P CLASS="western">   - GIOP version (probably always 1.2 for S1AS8)</P>
+<P CLASS="western">   - Object Key</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">   next() returns whatever instance is appropriate
+based on the</P>
+<P CLASS="western">   routing policy.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>Load-balancing based on EJB characteristics</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Use IIOP LOCATION_FORWARD that contain forwarded
+IORs that focus on EJBs characteristics.  For example: routing based
+on primary keys, affinity based routing, routing leveraging the
+transaction commit options. Routing may also be different for EJBHome
+and EJBObject IORs.  
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Possible policies:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">1. Hash primary key to replica:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">        Somewhere you need to specify exactly how
+this mapping takes</P>
+<P CLASS="western">        place.  Perhaps the hash function is
+passed as a value type?</P>
+<P CLASS="western">        The client side just needs to create the
+appropriate</P>
+<P CLASS="western">        CorbaContactInfoList implementation.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">2. Based on load:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">        You could use something like
+ServerInstanceMetric for this.</P>
+<P CLASS="western">        Basically there needs to be some sort of
+load monitor running</P>
+<P CLASS="western">        in the client.  What about ACC/web
+clients?  They will not</P>
+<P CLASS="western">        have access to all of the information.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">3. Affinity:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">        You place the cookie inside the Object ID,
+as that is the only</P>
+<P CLASS="western">        part of the IOR the application can
+modify.  This happens</P>
+<P CLASS="western">        whenever the object reference is created,
+assuming your</P>
+<P CLASS="western">        preference is for requests to be handled
+wherever the target</P>
+<P CLASS="western">        was created.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">4. Based on method name:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">        You have easy access to the method name in
+interceptors or in</P>
+<P CLASS="western">        the contact info, but not to the
+parameters.  This sounds like</P>
+<P CLASS="western">        you want to choose the policy based on the
+method type, in</P>
+<P CLASS="western">        which case the CorbaContactInfoList must
+be prepared to handle</P>
+<P CLASS="western">        any supported policy.  If this is a real
+requirement, we would</P>
+<P CLASS="western">        not bind the routing policy to the IOR at</P>
+<P CLASS="western">        unmarshallinh/creation time: instead, we
+would just have a</P>
+<P CLASS="western">        single CorbaContactInfoListFactory that
+would handle all</P>
+<P CLASS="western">        cases.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">5. Based on other system information (e.g.
+data/time)</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">        Presumably this means use different
+replicas as different</P>
+<P CLASS="western">        times of the day?  Again, a policy,
+perhaps mapping times to</P>
+<P CLASS="western">        replicas.                                
+</P>
+<P CLASS="western">How do clients discover this policy: always from
+the IOR, either from</P>
+<P CLASS="western">a TAGGED_COMPONENT, or from data stuffed into the
+object key.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Questions:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">1. How dynamic is the policy?</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">2. Do we have the same policy for a single IOR, or
+do we change it per</P>
+<P CLASS="western">   request?</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">3. What will we want to do in S1AS8/EE vs. future
+releases?</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">4. How extensible does this need to be?</P>
+<P CLASS="western">                                           
+</P>
+<OL TYPE=A START=4>
+        <LI><P ALIGN=LEFT STYLE="margin-top: 0.33in; margin-bottom: 0.25in; line-height: 125%; widows: 0; orphans: 0; page-break-before: always; page-break-after: avoid">
+         <FONT SIZE=4><B>Rejected Alternatives</B></FONT></P>
+</OL>
+<P CLASS="western"><B>Location of load-balancing decisions </B>
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<OL>
+        <LI><P CLASS="western">In the ORBD only:  not dynamic enough.</P>
+        <LI><P CLASS="western">In the client only. With this approach it is
+        not possible to change the locations or number of replicas of an
+        EJB.  This means that clients would hold onto IORs which would
+        become out-of-date as the system evolves. 
+        </P>
+        <LI><P CLASS="western">In a router that lives between the client and
+        server (e.g. an IP level router like in the HTTP case).  This is not
+        an option for now. Note: A router is a bridge.  Building an
+        efficient IIOP bridge entails transport work to avoid the overhead
+        of remarshaling every request that traverses the bridge.  If there
+        is ever a need for such bridge entity, we should start talking about
+        it now, as the transport work is not entirely simple.</P>
+</OL>
+<P CLASS="western">                          
+</P>
+<OL TYPE=A START=5>
+        <LI><P ALIGN=LEFT STYLE="margin-top: 0.33in; margin-bottom: 0.25in; line-height: 125%; widows: 0; orphans: 0; page-break-before: always; page-break-after: avoid">
+         <FONT SIZE=4><B>Smart Stubs are a Dumb Idea</B></FONT></P>
+</OL>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Smart Stubs are a Dumb Idea</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">1. Smart stubs used for load balancing and fault
+tolerance place</P>
+<P CLASS="western">   type-independent behavior in type-dependent
+code.  This often</P>
+<P CLASS="western">   increases the size of the stub code needlessly.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">2. Smart stubs are hard to manage if a system uses
+multiple</P>
+<P CLASS="western">   implementations of the same type.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">3. Smart stubs are a static solution.  The ORBD
+approach allows the</P>
+<P CLASS="western">   behavior of an invocation to change dynamically
+from one invocation</P>
+<P CLASS="western">   to the next.  For example, we could switch
+protocols dynamically</P>
+<P CLASS="western">   (if we decided to implement non-IIOP protocols
+for some reason).</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">4. Smart stubs are harder to test, due to the
+interaction of code</P>
+<P CLASS="western">   generation rules for RMI-IIOP with the
+requirements of a particular</P>
+<P CLASS="western">   mechanism in the smart stub (i.e. M X N feature
+interaction vs. M +</P>
+<P CLASS="western">   N).  If we decide to do dynamic byte code
+generation someday, it</P>
+<P CLASS="western">   will also be easier to test with standard
+stubs.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">5. Standard stubs are more easily replaced by
+dynamic proxies.  This</P>
+<P CLASS="western">   is an area that a lot of people on the ORB and
+EJB sides would like</P>
+<P CLASS="western">   to investigate further time permitting.  For
+example, this could</P>
+<P CLASS="western">   make deployment much faster, which could also
+be a significant</P>
+<P CLASS="western">   competitive advantage.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">6. Dynamic stub loading works better with standard
+stubs, as the</P>
+<P CLASS="western">   standard stubs are not tightly coupled to their
+environment.</P>
+<P CLASS="western">                                                  
+                  
+</P>
+<P CLASS="western">Possible reasons that smart stubs are used in
+other systems:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">1. They can solve some problems without deep ORB
+knowledge.  Since we</P>
+<P CLASS="western">   have the ORB expertise, we can do better.  We
+also are building the</P>
+<P CLASS="western">   PEORB so it can work very well in a highly
+dynamic environment.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">2. It may be the best you can do in a non-CORBA
+system (meaning non-OO</P>
+<P CLASS="western">   RPC systems).  One of the critical features
+that we use is the</P>
+<P CLASS="western">   representation of an object reference
+(basically the IOR).  This</P>
+<P CLASS="western">   representation directly controls advanced
+features like load</P>
+<P CLASS="western">   balancing and fault tolerance, as well as
+multiple protocol</P>
+<P CLASS="western">   support.  We can also do compression of IORs by
+establishing</P>
+<P CLASS="western">   transport session state, and many other useful
+optimizations.  But</P>
+<P CLASS="western">   without this capability, a smart stub may be
+the only options.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">3. Some type-dependent optimizations may be more
+easily performed in a</P>
+<P CLASS="western">   smart stub. For example, some beans may have
+methods that fetch</P>
+<P CLASS="western">   read-only, or just slowly chaning values.  Such
+data can be cached</P>
+<P CLASS="western">   in the stub, either with no update facility, or
+with a simple cache</P>
+<P CLASS="western">   invalidation protocol.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">   However, even this case can be handled pretty
+well at the ORB</P>
+<P CLASS="western">   level.  Basically this just requires building a
+more advanced</P>
+<P CLASS="western">   ClientSubcontract that can cache appropriately
+based on the</P>
+<P CLASS="western">   operation name.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">   All of these sort of ideas were expressed a
+decade ago in the</P>
+<P CLASS="western">   Spring project at Sun labs.</P>
+<P CLASS="western">                                               
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<OL TYPE=A START=6>
+        <LI><P ALIGN=LEFT STYLE="margin-top: 0.33in; margin-bottom: 0.25in; background: transparent; line-height: 125%; widows: 0; orphans: 0; page-break-before: always; page-break-after: avoid">
+        <FONT SIZE=4><B><SPAN LANG="en-US"><FONT SIZE=4><FONT FACE="Thorndale, serif">Constructing</FONT></FONT></SPAN>
+        <SPAN LANG="en-US">IORs</SPAN> from multiple templates</B></FONT></P>
+</OL>
+<P CLASS="western">How do we construct a forwarded IOR using multiple
+templates. While the current ORT standard does not directly address
+this point, Ken designed the standard to allow extensibility in this
+area. The important point is that the ORT standard defines two types:
+the <SPAN LANG="en-US">ObjectReferenceFactory</SPAN> and the
+ObjectReferenceTemplate, which extends ObjectReferenceFactory. The
+ObjectReferenceFactory defines a make_object method, which creates an
+IOR, and the ObjectReferenceTemplate adds methods to obtain the
+server ID, ORB ID, and ObjectAdapter ID. This information<SPAN LANG="en-US">
+uniquely </SPAN>identifies the template within the domain of a single
+ORBD, and is essential for the matching of templates that ORBD
+performs. This separation allows multiple templates to be merged into
+a single factory, losing their unique identity, but still supporting
+the crucial make_object operation.</P>
+<P CLASS="western">The question still remains: how do we merge the
+templates?  Here we will rely on a proprietary extension to ORT, and
+allow access to the underlying <SPAN LANG="en-US">IORTemplate</SPAN>
+inside the ORT. The IORTemplate explicitly allows access to its
+constituent profile templates, so we can extract the profile
+templates from all of the ORTs, combine them into a single
+IORTemplate, and create a new ObjectReferenceFactory from the
+combined IORTemplate.</P>
+<OL TYPE=A START=7>
+        <LI><P ALIGN=LEFT STYLE="margin-top: 0.33in; margin-bottom: 0.25in; line-height: 125%; widows: 0; orphans: 0; page-break-before: always; page-break-after: avoid">
+        <FONT SIZE=4><B>Epochs for Online Upgrades</B></FONT></P>
+</OL>
+<P CLASS="western">Policies and therefore templates can change as a
+consequence of an upgrade.</P>
+<P CLASS="western">IORs containing epochs ensure no stale IORs.</P>
+<P CLASS="western">Fixed epoch on ORBD IORs (enabled by policy given
+to ORBD).</P>
+<P CLASS="western"><BR><BR>
+</P>
+<OL TYPE=A START=8>
+        <LI><P ALIGN=LEFT STYLE="margin-top: 0.33in; margin-bottom: 0.25in; line-height: 125%; widows: 0; orphans: 0; page-break-before: always; page-break-after: avoid">
+        <FONT SIZE=4><B>Servers Shedding Load and Avoiding Client Starvation</B></FONT></P>
+</OL>
+<P CLASS="western">A server could shed load by responding to a
+request with a TRANSIENT SystemException with a SUNVMCID minor code
+indicating load-shedding.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">If servers are continuously shedding load it is
+possible that a client could continuously cycle through both
+effective IOR and target IOR and never get serviced. To avoid this,
+the client retry mechanism can determine some point at which it can
+refuse to be load-shedded.  In this case the client side ORB (via a
+<SPAN LANG="en-US">ClientRequestInterceptor</SPAN>) would add a
+<SPAN LANG="en-US">ServiceContext</SPAN> to the request that would
+tell the server it <I>cannot</I> load-shed that request.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">An overloaded server could alternatively respond
+with a LOCATION_FORWARD containing an IOR with ORBD addresses back to
+the client.     
+</P>
+<OL TYPE=A START=9>
+        <LI><P ALIGN=LEFT STYLE="margin-top: 0.33in; margin-bottom: 0.25in; line-height: 125%; widows: 0; orphans: 0; page-break-before: always; page-break-after: avoid">
+         <FONT SIZE=4><B>Other considerations</B></FONT></P>
+</OL>
+<P CLASS="western">These notes will be merged into appropriate
+sections above. They are included here now so as to contribute to the
+design process and to keep them from getting lost.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>ORBD INTEGRATION WITH S1AS8/EE</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">ORBD needs to be integrated with the overall
+clustering mechanisms in the <SPAN LANG="en-US">appserver.</SPAN> 
+<SPAN LANG="en-US">Failover</SPAN>, load-balancing and online
+upgrades need to be considered for HTTP, JMS, IIOP, etc., as a whole
+in the areas of health checks, availability monitoring and load
+metrics exchange.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>EJB-AWARE ROUTING POLICIES</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Routing policies should be cluster and EJB-aware
+and pluggable.</P>
+<P CLASS="western">The primary target of IIOP requests are <SPAN LANG="en-US">EJBs</SPAN>,
+the mechanisms should support and leverage EJB-specific features.
+Possibilities include: routing based on primary keys, affinity based
+routing, and routing leveraging the transaction commit options.
+Routing may need to be different for <SPAN LANG="en-US">EJBHome</SPAN>
+and <SPAN LANG="en-US">EJBObject</SPAN> IORs.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>IIOP/ORBD-S1AS8/EE INTEGRATION - PRIMARY IIOP
+PLUGIN POINTS</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<OL>
+        <LI><P CLASS="western">Client: CORBAContactInfoList : this is
+        responsible for updating the effective IOR and for selecting an
+        appropriate profile for an invocation.  The ORBD gives and initial
+        effective IOR but need not be consulted again unless the
+        CORBAContactInfoList runs out of alternatives.</P>
+        <LI><P CLASS="western">Server: ServerRequestInterceptor and/or
+        <SPAN LANG="en-US">ServantManager</SPAN>: these points can add piggy
+        back load metrics (or routing info as you called it) and do
+        load-shedding.</P>
+        <LI><P CLASS="western">ORBD: ServerInstanceMetric: this is the main
+        point the the ORBD integrates with the DAS to get information on the
+        state of the cluster.</P>
+</OL>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Currently, in this ORBD architecture document, the
+only reflection of app server characteristics is the <SPAN LANG="en-US">ORBD's</SPAN>
+ServerInstanceMetric, which we plan to use to get a simple ordering
+of all possible replicas that can be used for a request.  As the load
+changes dynamically in the system, a custom CORBAContactInfoList
+implementation can be used to take that into account, as well as the
+affinities mentioned above.</P>
+<P CLASS="western">The Client's<SPAN LANG="en-US">
+CORBAConstantInfoList </SPAN>is designed to be pluggable to control
+decisions about which available profile to use for a request, and to
+update this choice based on results of previous requests.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>WHICH PROCESS SHOULD ORBD RUN IN?</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">ORBD may be run as its own process, in an
+application server process, or in some other part of the system.  It
+is clear it must be replicated.  If the ORBD were in every
+application server instance it would obviate the need to separately
+monitor and startup ORBD</P>
+<P CLASS="western">instance.  But it would also introduce extra load
+on the application server and possibly let a failing application
+server to interfere with ORBD operation.</P>
+<P CLASS="western">Regarding reliability, if ORBD is run in a
+separate JVM, far fewer classes are loaded, its execution is more
+predictable, and there will likely be fewer scenarios that can result
+in JVM failure.</P>
+<P CLASS="western">Regarding reuse, ORBD needs a lot of the
+infrastructure present in the app server processes.</P>
+<P CLASS="western">The ORBD design does not care where ORBD is run. 
+Running ORBD in the app server process is possible.  We could run in
+every app server instance or only those instances configured to do
+so.</P>
+<P CLASS="western">A consideration: how much change do we allow after
+the app server cluster is installed.  The current ORBD design assumes
+that both the number and location of EJB replicas can change
+dynamically.  The location of ORBD<SPAN LANG="en-US"> replicas </SPAN>can
+be changed dynamically as well, with a little care in how the host
+name in the IIOP profile for an ORBD reference is constructed.  The
+only thing that cannot easily change dynamically is the number of
+ORBD instances, which wired into into every IOR<SPAN LANG="en-US">
+created.  </SPAN>Removing that limitation basically requires some use
+of IP multicast and custom ORB transports.  All of this is</P>
+<P CLASS="western">possible in the PEORB framework, but we will not
+have time for it in S1AS8/EE.</P>
+<P CLASS="western">         
+</P>
+<P CLASS="western"><B>PIGGYBACK INFO IN REPLIES</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><SPAN LANG="en-US">Piggybacking</SPAN> information
+in replies could be used to update a local cache of server load
+information, for example.  This information would be used by
+CORBAContactInfoList to help it select appropriate profiles.</P>
+<P CLASS="western">Note: Updating actual client effective IORs using
+this info is problematic.  The ORB creates IORs from templates, so
+IORs are immutable.  Updating an IOR directly is expensive, since it
+requires copying the entire IOR.</P>
+<P CLASS="western">It is not necessary to update an a client
+effective IOR when a server goes down.  The CORBAContactInfoList
+notes the down server (to avoid trying it again unless no others are
+available) tries a different profile.  If all other profiles fail it
+would try the downed server profile again.  If that also failed it
+would then fail over to the ORBD to get a new effective IOR.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>ORBD'S SEPARATE STATE MODEL</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">ORBD maintains its own information model for two
+reasons:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<OL>
+        <LI><P CLASS="western">To provide only the information needed for
+        ORBD.</P>
+        <LI><P CLASS="western">To cache information locally for performance</P>
+</OL>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Much of the information will be obtained from the
+app server using app server mechanisms.  The most important
+information that ORBD needs is the ORT for all of the object adapters
+(=EJB types now that we will be using the POA-per-EJB-type design). 
+The ORT piece is purely CORBA, but driven by how the EJB container
+code creates POAs. Other information stored by ORBD is cached info
+from DAS (e.g., what parts of the system are up or down). 
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>MULTICAST</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Using IP multicast for load information/node
+health status is a useful idea.  If the app server uses such a
+mechanism, it will be transparent to ORBD.  In this case, load
+information received via multicast would be plugged in using the
+ServerInstanceMetric interface.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">                                                  
+       
+</P>
+<OL TYPE=A START=10>
+        <LI><P ALIGN=LEFT STYLE="margin-top: 0.33in; margin-bottom: 0.25in; line-height: 125%; widows: 0; orphans: 0; page-break-before: always; page-break-after: avoid">
+         <FONT SIZE=4><B>Data Model Constraints</B></FONT></P>
+</OL>
+<P CLASS="western">There are two important constraints in the data
+model:</P>
+<OL>
+        <LI><P CLASS="list-western"><IMG SRC="orbdArchitecture_html_7394932c.gif" NAME="Object1" ALIGN=ABSMIDDLE HSPACE=8 WIDTH=570 HEIGHT=21></P>
+</OL>
+<P CLASS="western">This constraint basically means that the object
+adapters for ORBD and the object adapters in application instances
+are never the same.</P>
+<OL START=2>
+        <LI><P CLASS="list-western"><IMG SRC="orbdArchitecture_html_3472b4d5.gif" NAME="Object2" ALIGN=ABSMIDDLE HSPACE=8 WIDTH=384 HEIGHT=38></P>
+</OL>
+<P CLASS="western">The ObjectAdapterReplicas relation gives the set
+of (application) object adapters that correspond to an (ORBD) object
+adapter. This key relation defines the set of object adapters that
+can be used to handle a request to ORBD.                             
+               
+</P>
+<OL TYPE=A START=11>
+        <LI><P ALIGN=LEFT STYLE="margin-top: 0.33in; margin-bottom: 0.25in; line-height: 125%; widows: 0; orphans: 0; page-break-before: always; page-break-after: avoid">
+         <FONT SIZE=4><B>A Tutorial on J2SE ORBD Operation</B></FONT></P>
+</OL>
+<P ALIGN=LEFT STYLE="margin-top: 0.17in; margin-bottom: 0.08in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0; page-break-after: avoid">
+<FONT SIZE=4>Use Case: Server Registration and Activation</FONT></P>
+<P CLASS="western">In J2SE, ORBD is used to enable persistent <SPAN LANG="en-US">IORs.</SPAN>
+This means that if a client invokes an operation on a persistent IOR
+and the server servicing that IOR is not running, then ORBD will
+activate the server transparently to the client.</P>
+<P CLASS="western">There are two services used to support persistent
+IORs in J2SE: location and activation services. The ORBD serves as a
+location service that is used by clients to find a server instance
+that can satisfy an incoming request. The activation service is used
+by the ORBD (location service) to activate a service instance if one
+is not running.</P>
+<P CLASS="western"> The following figure shows the steps involved in
+this process.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><IMG SRC="orbdArchitecture_html_m6f0b4e4.gif" NAME="Graphic13" ALIGN=LEFT WIDTH=528 HEIGHT=401 BORDER=0><BR CLEAR=LEFT><BR><BR>
+</P>
+<P CLASS="first-line-indent-western"><BR><BR>
+</P>
+<OL>
+        <LI><P CLASS="first-line-indent-western">For any server S that
+        creates <SPAN LANG="en-US">POAs</SPAN> with a PERSISTENT policy, S 
+        must be registered with the Activator.</P>
+        <LI><P CLASS="first-line-indent-western">When a persistent server S
+        registers with the Activator, it activates the server (i.e., starts
+        the server running in a new JVM).</P>
+        <LI><P CLASS="first-line-indent-western">Persistent servers
+        transparently contain a Server object which is used by the ORBD as a
+        watchdog. When S starts, its Server object registers with ORBD.</P>
+        <LI><P CLASS="first-line-indent-western">For each ORB created in S
+        that ORB transparently notifies the ORBD of its existence.</P>
+        <LI><P CLASS="first-line-indent-western">For each POA with a
+        PERSISTENT policy, that POA performs an ORT exchange with the ORBD.
+        Here we see that POA1 now has a copy of the ORB's ORT while the ORBD
+        has a copy of server S's ORT. This means that any IORs created by
+        POA1 will contain contact information for the ORBD and that the ORBD
+        is able to create IORs with contact information for server S. The
+        gray areas in the templates indicate the object ID which must be
+        inserted into a template to create an IOR.</P>
+        <LI><P CLASS="first-line-indent-western">POA1 creates an IOR<SPAN LANG="en-US">
+        </SPAN>with object ID x and binds that IOR in naming.</P>
+        <LI><P CLASS="first-line-indent-western">The Client uses naming to
+        obtain the IOR. When a IOR is <SPAN LANG="en-US">unmarshaled</SPAN>
+        it results in a Stub being created. The stub internally maintains
+        two fields containing the resolved IOR: target IOR and effective
+        IOR. When initially created the stub's two fields point to the same
+        IOR.</P>
+</OL>
+<P CLASS="western">Before showing how a client makes an invocation on
+a stub we need to first show how stubs work.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-top: 0.17in; margin-bottom: 0.08in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0; page-break-after: avoid">
+<FONT SIZE=4>ORB Client Invocation Operation</FONT></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">How an ORB client makes an invocation is a key
+part of the architecture.</P>
+<P CLASS="western">When an IOR is <SPAN LANG="en-US">unmarshaled</SPAN>
+it results in a stub. The stub maintains two fields, the target IOR
+and the effective IOR. The target is the original IOR that was used
+to create the stub. The target IOR is fixed for the lifetime of the
+stub. The effective IOR is the IOR that is currently being used for
+requests on this stub. The effective IOR can change over the lifetime
+of the stub. The following figure shows a stub and its IOR fields:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><IMG SRC="orbdArchitecture_html_m2abb7fe1.gif" NAME="Graphic17" ALIGN=LEFT WIDTH=233 HEIGHT=152 BORDER=0><BR CLEAR=LEFT><BR><BR>
+</P>
+<P CLASS="western">When a method call is invoked on a CORBA stub it
+results in some form of communication with a server implementation of
+the object represented by the stub. We provide the following
+definitions to help clarify this interaction:</P>
+<UL>
+        <LI><P CLASS="western">An <B>invocation</B> is a method call on a
+        CORBA stub (i.e. An RMI-IIOP remote object). An invocation causes
+        one or more requests.</P>
+        <LI><P CLASS="western">A <B>request</B> is a request/response pair
+        of messages between a client and a server. An invocation usually
+        causes a single request, but in some circumstances, an invocation
+        may cause a number of requests.</P>
+</UL>
+<P CLASS="western">When a method on a CORBA stub is invoked there are
+several possible results:</P>
+<OL>
+        <LI><P CLASS="western">A normal result, containing the expected
+        result type.</P>
+        <LI><P CLASS="western">A <SPAN LANG="en-US">SystemException</SPAN>,
+        indicating a major type and minor code for the error, as well as a
+        completion status, which indicates whether the server ORB started
+        dispatching to the object implementation before the error.
+        <SPAN LANG="en-US">SystemExceptions</SPAN> may be retriable in some
+        cases. For example, a COMM_FAILURE with a completion status of
+        COMPLETED_NO can be safely retried.</P>
+        <LI><P CLASS="western">A user exception, indicating some sort of
+        error declared in the interface of the remote type.</P>
+        <LI><P CLASS="western">A LOCATION_FORWARD, which indicates that some
+        other object implementation, typically on a different server, should
+        be consulted for this and subsequent invocations.</P>
+</OL>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">An invocation, in detail, consists of the
+following <SPAN LANG="en-US">steps</SPAN>:</P>
+<OL>
+        <LI><P CLASS="western">Initially the stub's effective IOR is the
+        same as the target IOR:</P>
+</OL>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><IMG SRC="orbdArchitecture_html_m6a2efbbb.gif" NAME="Graphic18" ALIGN=LEFT WIDTH=233 HEIGHT=152 BORDER=0><BR CLEAR=LEFT><BR><BR>
+</P>
+<OL START=2>
+        <LI><P CLASS="western">A CORBA IOR contains one or more profiles,
+        each of which contains all necessary information for making a
+        request to a specific server. A profile is chosen from the effective
+        IOR to use for invocations on this stub.</P>
+</OL>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><IMG SRC="orbdArchitecture_html_3330d434.gif" NAME="Graphic20" ALIGN=LEFT WIDTH=468 HEIGHT=138 BORDER=0><BR CLEAR=LEFT><BR><BR>
+</P>
+<OL START=3>
+        <LI><P CLASS="western">Various updates occur after different
+        replies:</P>
+</OL>
+<OL>
+        <LI><P CLASS="western">A normal result, a user exception, or a
+        non-<SPAN LANG="en-US">retriable</SPAN> SystemException is simply
+        returned to the client.</P>
+        <LI><P CLASS="western">A LOCATION_FORWARD result updates the stub's
+        effective IOR to be the IOR contained in the LOCATION_FORWARD
+        response.</P>
+</OL>
+<P CLASS="western" STYLE="margin-left: 0.2in"><BR><BR>
+</P>
+<IMG SRC="orbdArchitecture_html_1d6149dc.gif" NAME="Graphic19" ALIGN=LEFT WIDTH=233 HEIGHT=152 BORDER=0><BR CLEAR=LEFT>
+<P CLASS="western" STYLE="margin-left: 0.2in"><BR><BR>
+</P>
+<P CLASS="western" STYLE="margin-left: 0.2in"><BR><BR>
+</P>
+<P CLASS="western" STYLE="margin-left: 0.2in">A profile is selected
+from the new effective IOR for subsequent requests (including a
+transparent retry of the current request).</P>
+<P CLASS="western" STYLE="margin-left: 0.2in"><BR><BR>
+</P>
+<OL START=3>
+        <LI><P CLASS="western">A retriable SystemException causes another
+        profile to be selected from the effective IOR. If no profile is
+        available in the effective IOR, the effective IOR reverts back to
+        the target IOR, a profile is chosen, and the request is retried. If
+        the effective IOR is the same as the target IOR, and no profile
+        remains, an error is returned to the client.</P>
+</OL>
+<P CLASS="western">Exactly what constitutes a retriable
+SystemException is system specific. For example, certain
+<SPAN LANG="en-US">SystemExceptions</SPAN> (e.g. TRANSIENT) may be
+retried against the same profile some limited number of times. (The
+retry behavior of an ORB is <SPAN LANG="en-US">pluggable</SPAN>
+through the ORB SPI.)</P>
+<P CLASS="western">Retry behavior is crucial for ORBD in two ways. 
+First, ORBD functions mainly as a redirector using LOCATION_FORWARD.
+Since we do not want to funnel every request in the system through
+ORBD, the client caches the effective IOR in order to improve
+efficiency. Secondly, if part of the cluster fails or becomes
+overloaded, we need a way to tell a client that it should try
+something else to satisfy its invocation. This can be accomplished by
+trying another profile or falling back to the ORBD to try again at
+that level:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><IMG SRC="orbdArchitecture_html_77bcdcbf.gif" NAME="Graphic21" ALIGN=LEFT WIDTH=528 HEIGHT=325 BORDER=0><BR CLEAR=LEFT><BR><BR>
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-top: 0.17in; margin-bottom: 0.08in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0; page-break-after: avoid">
+<FONT SIZE=4>Use Case: First Invocation, Server Running</FONT></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western" STYLE="font-weight: medium">When a client invokes
+a method on a newly created stub, both the target and effective IOR
+fields contain the same IOR. In the scenario we started in Server
+Registration and Activation, the effective IOR contains the object ID
+x but addressing information pointing to the ORBD. How the ORBD
+redirects this invocation to the appropriate server is shown in the
+following figure:</P>
+<P CLASS="western" STYLE="font-weight: medium"><BR><BR>
+</P>
+<P CLASS="western" STYLE="font-weight: medium"><BR><BR>
+</P>
+<P CLASS="western" STYLE="font-weight: medium"><BR><BR>
+</P>
+<P CLASS="western" STYLE="font-weight: medium"><BR><BR>
+</P>
+<P CLASS="western" STYLE="font-weight: medium"><BR><BR>
+</P>
+<P CLASS="western" STYLE="font-weight: medium"><BR><BR>
+</P>
+<P CLASS="western" STYLE="font-weight: medium"><BR><BR>
+</P>
+<P CLASS="western" STYLE="font-weight: medium"><BR><BR>
+</P>
+<P CLASS="western" STYLE="font-weight: medium"><IMG SRC="orbdArchitecture_html_m3f9af29d.gif" NAME="Graphic14" ALIGN=LEFT WIDTH=528 HEIGHT=367 BORDER=0><BR CLEAR=LEFT><BR><BR>
+</P>
+<OL>
+        <LI><P CLASS="first-line-indent-western">The Client invokes on the
+        stub (created as the result of resolving an IOR from naming). The
+        stub uses the effective IOR to service the invocation. Even though
+        the client ???thinks??? it is invoking an IOR for server S it is
+        actually invoking an IOR  pointing to the ORBD (indicated by O/x)
+        since that is what is contained in the effective IOR field.</P>
+        <LI><P CLASS="first-line-indent-western">ORBD receives the request.</P>
+        <LI><P CLASS="first-line-indent-western">ORBD maps the request to
+        the appropriate server ORT. 
+        </P>
+        <LI><P CLASS="first-line-indent-western">ORBD extracts the object ID
+        x from the request and creates an IOR with object ID x containing
+        contact information for server S.</P>
+        <LI><P CLASS="first-line-indent-western">ORBD returns a
+        LOCATION_FORWARD response containing IOR S/x to the Client.</P>
+        <LI><P CLASS="first-line-indent-western">The stub sets its effective
+        IOR field to point to IOR S/x returned in the LOCATION_FORWARD
+        response from the ORBD.</P>
+        <LI><P CLASS="first-line-indent-western">The client stub
+        transparently retries the request with IOR S/x, which is now
+        directed to server S. All subsequent invocations will use the
+        effective IOR S/x. They will therefore go directly to server S with
+        no further ORBD interaction. However, if the server goes down
+        (gracefully or otherwise) the client stub will transparently fall
+        back to the target IOR resulting in a request to ORBD (which will
+        try to activate the server ??? as shown later).</P>
+</OL>
+<P ALIGN=LEFT STYLE="margin-top: 0.17in; margin-bottom: 0.08in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0; page-break-after: avoid">
+<FONT SIZE=4>Use Case: Second Invocation, Server Running</FONT></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">Since the stub caches IOR S/x as the effective IOR
+and the stub uses the effective IOR for initially servicing an
+invocation, subsequent invocations are go directly to the server:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><IMG SRC="orbdArchitecture_html_49d410e2.gif" NAME="Graphic15" ALIGN=LEFT WIDTH=528 HEIGHT=367 BORDER=0><BR CLEAR=LEFT><BR><BR>
+</P>
+<OL>
+        <LI><P CLASS="western">The client invokes on the stub. The stub uses
+        the effective IOR S/x to service the invocation.</P>
+        <LI><P CLASS="western">Server S receives the request which is mapped
+        via object ID x to the appropriate implementation.</P>
+</OL>
+<P ALIGN=LEFT STYLE="margin-top: 0.17in; margin-bottom: 0.08in; background: transparent; line-height: 125%; page-break-inside: avoid; widows: 0; orphans: 0; page-break-after: avoid">
+<FONT SIZE=4>Use Case: Third Invocation, Server Inactive</FONT></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">In this case, the effective IOR still points to
+S/x.  However, server S has gone down. The following figure
+illustrates the steps taken for this case:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><IMG SRC="orbdArchitecture_html_m431c1580.gif" NAME="Graphic16" ALIGN=LEFT WIDTH=528 HEIGHT=422 BORDER=0><BR CLEAR=LEFT><BR><BR>
+</P>
+<OL>
+        <LI><P CLASS="western">The client invokes on the stub.  The stub
+        uses the effective IOR S/x to service the invocation.</P>
+        <LI><P CLASS="western">The ORB attempts to make a connection to
+        server S. When that attempt fails other profiles in the effective
+        IOR would be tried. In this case we are assuming there is only one
+        profile.</P>
+        <LI><P CLASS="western">Since the single profile in effective IOR S/x
+        failed the stub falls back to the original target IOR O/x.</P>
+        <LI><P CLASS="western">ORBD receives the request for server S which
+        is down (how it knows it is down is not discussed here). It asks the
+        activator to activate server S.</P>
+        <LI><P CLASS="western">The activator activates server S.</P>
+        <LI><P CLASS="western">Server S's server object registers with ORBD.</P>
+        <LI><P CLASS="western"><SPAN LANG="en-US">ORBs</SPAN> created in S
+        register with ORBD.</P>
+        <LI><P CLASS="western">POAs with PERSISTENT policies perform an ORT
+        exchange with ORBD.</P>
+        <LI><P CLASS="western">IOR O/x is created inside server S under POA1
+        and bound in naming.</P>
+        <LI><P CLASS="western"> ORBD, which has discarded previous <SPAN LANG="en-US">ORTs</SPAN>
+        associated with S and<SPAN LANG="en-US"> refreshed </SPAN>them
+        during server S's activation, maps the request to the appropriate
+        ORT.</P>
+        <LI><P CLASS="western"> Using object ID x, ORBD creates IOR S/x
+        using the ORT.</P>
+        <LI><P CLASS="western"> ORBD responds to the request with a
+        LOCATION_FORWARD containing IOR S/x.</P>
+        <LI><P CLASS="western"> The stub sets its effective IOR field to
+        S/x.</P>
+        <LI><P CLASS="western"> The client ORB transparently retries the
+        request using a profile from effective IOR S/x which results in the
+        request being directed to server S.</P>
+</OL>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>CorbaContactInfoList</B></P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">The ORB interface responsible for dealing with
+IORs is CorbaContactInfoList. CorbaContactInfoList abstracts IORs. 
+It is responsible for choosing how to contact a server for an
+invocation.  Alternate addresses may be represented as multiple
+profiles and/or TAG_ALTERNATE_IIOP_ADDRESS TAGGED_COMPONENTs in
+profiles (as in CSIv2).  CorbaContactInfoList is responsible for
+choosing the &quot;best&quot; address.  It is also responsible for
+choosing the next &quot;best&quot; address should one fail.  That
+includes failing over to the original address (e.g., the target IOR ???
+which would contain profiles for redundant ORBDs).  The client
+delegate just keeps asking for the next one on failure. 
+CorbaContactInfoList does not necessarily just iterate through a
+list.  It can use routing information to decide what &quot;next&quot;
+is.  It is also notified of previous client side failures to help its
+decision making process.   
+</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western">There are many details left out of these uses
+cases, such as timing issues between the activator and the ORBD, the
+possibility the when server S is restarted it creates POAs with
+different policies, and more detail on multiple profile IORs. We left
+those details out in order to give a broad overview of J2SE ORBD
+operation.</P>
+<P CLASS="western"><BR><BR>
+</P>
+<P CLASS="western"><B>Differences between J2SE and S1AS8/EE ORBD
+operation</B></P>
+<P CLASS="western">The main differences between J2SE ORBD operation
+and S1AS8/EE ORBD operation are:</P>
+<P CLASS="western"><BR><BR>
+</P>
+<OL>
+        <LI><P CLASS="western">J2SE applications may create many ORBs in a
+        server. S1AS8/EE only creates one ORB.</P>
+        <LI><P CLASS="western">In J2SE, server registration, activation and
+        ORBD location are only involved with a server if at least one POA
+        created in the server has a PERSISTENT policy. In S1AS8/EE, all POAs
+        exchange templates with the ORBD since we want to provide <SPAN LANG="en-US">failover</SPAN>
+        for all IORs created in the server.</P>
+        <LI><P CLASS="western">In J2SE, the activator and ORBD (the locator)
+        are <SPAN LANG="en-US">colocated</SPAN> in the same process. In
+        S1AS8/EE, some other part of S1AS 8 EE is responsible for starting
+        and stopping server and application instances (note, the starting
+        and stopping of theses instances are events of interest to the
+        ORBD).</P>
+        <LI><P CLASS="western">In J2SE, IORs generally contain one profile.
+        In S1AS8/EE IORs contain multiple profiles (or additional
+        TAGGED_ALTERNATE_IIOP_ADDRESS components), one for each application
+        replica.</P>
+</OL>
+<P CLASS="western"><BR><BR>
+</P>
+<DIV TYPE=FOOTER>
+        <OL>
+                <ADDRESS CLASS="western"><SDFIELD TYPE=DATETIME SDNUM="1033;1033;MMM D, YYYY">May 15, 2006</SDFIELD></ADDRESS>
+        </OL>
+</DIV>
+</BODY>
+</HTML>

@@ -1,0 +1,503 @@
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<!DOCTYPE HTML PUBLIC "-//SoftQuad Software//DTD HoTMetaL PRO 6.0::19990601::extensions to HTML 4.0//EN" "hmpro6.dtd">
+
+<HTML> 
+  <HEAD> 
+         <TITLE>Dynamic RMI-IIOP</TITLE> 
+  </HEAD> 
+  <BODY BACKGROUND="images/backgrounds/p12c08.gif"> 
+         <H2>Dynamic RMI-IIOP</H2> 
+         <P>One important new feature in the PEORB in app server 8.1 is the ability
+                to use RMI-IIOP without any build-time code generation using a tool such as
+                rmic. The traditional model for remote method invocation is to first compile a
+                remote interface and its implementation, then use rmic to generate stubs and
+                skeletons. This requires that rmic analyze a lot of information, either by
+                using a Java compiler front end, or by using a library that enables the reading
+                of class files. rmic must then write out a number of Java source files for
+                stubs and ties to a file system, and then finally invoke the Java compiler to
+                generate the class files for the stubs and ties, which are then loaded in the
+                usual manner through a ClassLoader.</P> 
+         <P>This adds up to a lot of overhead, since this process effectively
+                requires reading and writing a lot of information through the file system. In
+                fact, we found in the past that rmic was responsible for perhaps 50% of the
+                total time needed to deploy an EJB. The idea behind dynamic RMI-IIOP is to
+                generate code for stubs and ties as needed at runtime, completely avoiding the
+                overhead of file system I/O. The major question is, how expensive is it to use
+                dynamic RMI-IIOP instead of static stubs and ties?</P> 
+         <H3>The PresentationManager</H3> 
+         <P>Because Dynamic RMI-IIOP does not rely on generated code for stubs and
+                ties, much of the class analysis that is done by rmic must instead be done in
+                the ORB implementation. It turned out to be impossible to re-use any of the
+                RMIC implementation for this purpose, so we created a new part of the ORB
+                architecture to handle this. We call this the PresentationManager.</P> 
+         <P>The PresentationManager provides the following interface:</P> 
+         <PRE>
+public interface PresentationManager {
+    ClassData getClassData( Class cls ) ;
+
+    DynamicMethodMarshalled getDynamicMethodMarshalled( Method method ) ;
+
+    StubFactoryFactory getStubFactoryFactory( boolean isDynamic ) ;
+
+    void setStubFactoryFactory( boolean isDynamic, StubFactoryFactory sff ) ;
+
+    Tie getTie() ;
+
+    boolean useDynamicStubs() ;
+} ;</PRE> 
+         <P>Here is a summary of the various methods on this interface:</P> 
+         <UL> 
+                <LI>The ClassData primarily provides access to the IDLNameTranslator,
+                  which translates between the RMI-IIOP method name passed on the GIOP request
+                  and the Java method represented by this name. The ClassData also provides the
+                  repository IDs for the remote interface, and also an InvocationHandlerFactory
+                  that is used in dynamic stubs.</LI> 
+                <LI>The DynamicMethodMarshaller provides a uniform interface for reading
+                  and writing arguments, results, and exceptions for a particular method.</LI> 
+                <LI>The StubFactoryFactory is used whenever the ORB needs to obtain a
+                  StubFactory which can create a Stub. For example, whenever an object reference
+                  is unmarshalled, the ORB will attempt to get a Stub for the object
+                  reference.</LI> 
+                <LI>getTie returns a Dynamic Tie which can be used anywhere an RMI-IIOP
+                  Tie is needed (typically in the POA).</LI> 
+         </UL> 
+         <P>The ClassData and DynamicMethodMarshallers are somewhat expensive to
+                compute, so they are cached in the implementation of the
+                PresentationManager.</P> 
+         <H3>Ties</H3> 
+         <P>First, let's look briefly at the problem of dynamic Ties. A tie class
+                must extend org.omg.PortableServer.Servant (so that the tie can be used in a
+                POA) and implent javax.rmi.CORBA.Tie, as required by the OMG RMI-IIOP
+                specification (Ref XXX). The Tie interface is as follows:</P> 
+         <PRE>
+public interface Tie extends org.omg.CORBA.portable.InvokeHandler {
+    org.omg.CORBA.Object thisObject() ;
+
+    void deactuvate() throws java.rmi.NoSuchObjectException ;
+
+    ORB orb() ;
+
+    void orb( ORB orb ) ;
+
+    void setTarget( java.rmi.Remote target ) ;
+
+    java.rmi.Remote getTarget() ;
+}
+
+public interface InvokeHandler {
+    OutputStream _invoke( String method, InputStream input,
+        ResponseHandler handler ) ;
+}</PRE> 
+         <P>The key methods here are the setTarget and _invoke methods. The
+                setTarget method is used to set the actual implementation of a remote object
+                that is to be used in this Tie. The invoke method is used by the ORB to perform
+                the actual invocation in the server of the remote operation named by the method
+                String. This invocation is implemented as follows:</P> 
+         <OL> 
+                <LI>Obtain the actual Java method to be invoked from the method String
+                  (this is actually rather complicated due to the complex name mangling rules
+                  defined by the RMI-IIOP specification).</LI> 
+                <LI>Unmarshal the arguments for this operation from the InputStream.</LI>
+                
+                <LI>Invoke the actual method on the target with the arguments.</LI> 
+                <LI>Use the ResponseHandler to create an appropriate type of response for
+                  the request as an OutputStream.</LI> 
+                <LI>Write the results of the invocation to the OutputStream, which is the
+                  result of the _invoke call.</LI> 
+         </OL> 
+         <P>In the static case, this is accomplished through generated code. Step 1
+                is done with a case statement that effectively maps from the method name in the
+                _invoke call to the Java method as found in the generated code. Specific
+                arguments are unmarshalled, and then passed in a call to the _invoke method.
+                The result is marshalled to the OutputStream using a method appropriate to the
+                declared type of the result. This means that there is a specific Tie class for
+                each type of remote object.</P> 
+         <P>The dynamic case handles this somewhat differently. First, there is only
+                one type of Tie in Dynamic RMI-IIOP, which is the
+                com.sun.corba.ee.impl.presentation.rmi.ReflectiveTie class. This class can act
+                as a Tie for any valid remote interface. An instance of the Tie class discovers
+                what kind of Tie it is by reflectively analyzing the Class of the target in the
+                setTarget call. The setTarget call uses the PresentationManager to obtain the
+                ClassData. The _invoke method is then implementated as follows, following the
+                steps above:</P> 
+         <OL> 
+                <LI>Use the IDLNameTranslator to get the Java Method from the method
+                  passed into the _invoke() call.</LI> 
+                <LI>Use the PresentationManager to get the DynamicMethodMarshalled from
+                  the java method. Unmarshal the arguments using the
+                  DynamicMethodMarshaller.</LI> 
+                <LI>Invoke the method with the target and the unmarshalled arguments
+                  using Java reflection.</LI> 
+                <LI>Use the ResponseHandler to create the result OutputStream.</LI> 
+                <LI>Use the DynamicMethodMarshaller to write the results to the result
+                  OutputStream.</LI> 
+         </OL> 
+         <P>Obviously there is some concern here in the performance of Dynamic Ties.
+                Every step here is slower than the corresponding step in the static case.
+                However, this does not matter for one simple reason: Ties are only used in the
+                case of a remote invocation. The cost of a remote invocation is dominated by
+                two factors: the cost of the data transfer, and (perhaps primarily) the cost of
+                marshalling the data. Compared to the two factors, the extra overhead of the
+                ReflectiveTie is negligible.</P> 
+         <P>It is worth noting that the relative costs of remote calls are subject
+                to change as technology evolves. The transmission cost may diminish to near
+                zero, as very high speed interfaces (like InfiniBand) with advanced RDMA based
+                transport hardware. This leaves the cost of the marshalling, which is an
+                interesting design and reseach challenge at this time. Certainly it might be
+                necessary to re-visit the cost of the ReflectiveTie implementation if we found
+                a way to substantially speed up the marshalling.</P> 
+         <H3>Stubs</H3> 
+         <P>Stubs present a rather more complex problem than the Ties. The ORB must
+                create a stub in certain cases:</P> 
+         <OL> 
+                <LI>When a remote object is unmarshalled (in CDRInputStream_1_0)</LI>
+                <LI>When a remote object is narrowed</LI>
+                <LI>When PortableRemoteObject.toStub is called</LI> 
+         </OL>
+         <P>The creation of a stub is handled by the Utility.loadStub method. This
+                must be able to handle both RMI-IIOP and IDL stubs. Originally, this was almost
+                the same, as both cases were handled by calling Class.newInstance on the
+                appropriate Stub class. However, only RMI-IIOP can support dynamic stubs: IDL
+                requires compiler generated stubs. This is because the IDL stub requires
+                parsing of the IDL language definition of the interface. This call to
+                Class.newInstance is using the Class object as a factory for the stub.</P>
+         <P>This architecture was workable when all stubs were static, but with
+                dynamic stubs, there may not be a Class available to use as a factory. We also
+                do not want to create a customer ClassLoader to support stubs, as this would
+                make ORB integration with the app server more difficult. Consequently I
+                re-wrote parts of the RMI-IIOP code in terms of a StubFactory. In the static
+                case, the StubFactory simply calls Class.newInstance to create a stub. </P>
+         <P>Stubs also have a greater impact on performance than the ties. The stub
+                is always used on every call for both the remote and co-located cases. The
+                performance of a trivial co-located call is on the order of 1-5 microseconds
+                depending on options with static stubs. We do not want this case to become
+                significantly slower in the dynamic stub case.</P>
+         <P>I have written two different implementations of dynamic stubs: one that
+                uses the standard JDK dynamic proxy mechanism, and another using stubs
+                generated at runtime using the apache BCEL library. These approaches can be
+                compared in a number of ways:</P>
+         <DL>
+                <DT>RMI-IIOP Specification Compliance.</DT>
+                <DD>Unfortunately javax.rmi.CORBA.Stub is a class, not an interface. The
+                  RMI-IIOP specification (ref XXX) also requires that all RMI-IIOP stubs extend
+                  the Stub class. This means that dynamic proxies cannot be used to create a
+                  fully compliant RMI-IIOP stub.</DD>
+                <DT>Java standards compliance</DT>
+                <DD>Dynamic proxies have been part of the JDK since 1.3 and are well
+                  supported. The BCEL library is not a standard API.</DD>
+                <DT>Simplicity</DT>
+                <DD>It is easier in terms of the overall stub architecture to use BCEL
+                  rather than dynamic proxies. This is due to the lack of problems relating to
+                  the javax.rmi.CORBA.Stub base class when the BCEL approach is used.</DD>
+                <DT>Performance</DT>
+                <DD>The BCEL approach is actually faster than the dynamic proxy approach.
+                  This is due to the ability to tune the code generation to the needs of stubs,
+                  rather than requiring that a general framework be used.</DD>
+         </DL>
+         <H4>Stub Architecture</H4>
+         <P>The following diagram illustrates the required stub
+                architecture:</P><IMG BORDER="0" WIDTH="796" HEIGHT="631" SRC="stubs.gif">
+         <P>The blue classes are the classes defined in the OMG standards. They
+                define the methods shared by all remote references. Orange represents those
+                classes defined as part of Java. The yellow interface represents some remote
+                interface for which we are examining the different sorts of stubs.</P>
+         <P>Three sorts of stubs are illustrated here: standard static stubs, as
+                defined in the RMI-IIOP specification (the purple class), stubs and supporting
+                classes for the proxy implementation (in green), and the BCEL-based stubs
+                (shown in red). Each of these cases is described in the following sections.</P>
+         <P>The basic remote method invocation mechanism shares the same basic
+                outline in all three cases:</P>
+         <OL>
+                <LI>Determine the method name for the remote request.</LI>
+                <LI>Obtain the delegate that represents the remote reference.</LI>
+                <LI>Determine whether the request is local. If not local:
+                  <OL>
+                         <LI>Use the delegate to create a request which is represented as an
+                                OutputStream.</LI>
+                         <LI>Marshal the arguments to the OutputStream.</LI>
+                         <LI>Tell the delegate to finish the invocation.</LI>
+                         <LI>Unmarshal the result</LI>
+                         <LI>Inform the delegate that the call has completed
+                                (releaseReply)</LI>
+                         <LI>Return the result</LI>
+                  </OL></LI>
+                <LI>Otherwise, this is a local call:
+                  <OL>
+                         <LI>Use the servant_preinvoke method on the delegate to obtain a
+                                ServantObject.</LI>
+                         <LI>Copy the arguments if necessary to preserve the correct RMI-IIOP
+                                semantics.</LI>
+                         <LI>Invoke the method on the servant obtained from the
+                                ServantObject.</LI>
+                         <LI>Copy the result if necessary.</LI>
+                         <LI>Inform the delegate that the call has completed
+                                (servant_postinvoke)</LI>
+                         <LI>Return the result</LI>
+                  </OL></LI>
+         </OL>
+         <P>This is the basic outline, ignoring various exception cases. Most
+                exceptions are simply returned to the caller after being unmarshalled, much as
+                an ordinary result, but the exceptions are thrown, instead of returned from the
+                method. One particular exception has special meaning: the RemarshalException.
+                If a RemarshalException is thrown, the stub code goes all the way back to the
+                beginning to start the invocation process again. This is necessary in this
+                model to support the LocationForward mechanism defined in the GIOP
+                protocol.</P>
+         <H4>Static Stubs</H4>
+         <P>Classes with names like _XXX_Stub are generated by rmic. They extend the
+                javax.rmi.CORBA.Stub class as required by the RMI-IIOP specification, and
+                implement the remote interfaces. While these stubs could be generated in many
+                ways, the stubs generated by rmic -iiop duplicate the complete method
+                invocation logic in each method. </P>
+         <P>The general invoke logic is all generated in place for each method. This
+                is really the optimal way to generate the stubs, as each method can be
+                customized for the exact types of arguments, result, and exceptions thrown by
+                the method. However, it is not clear that this is really worthwhile, given the
+                optimizing capabilities of modern VMs that can use agressive inlining at
+                runtime.</P>
+         <H4>Dynamic Stubs</H4>
+         <P>The invocation logic for both kinds of dynamic stubs is the same, since
+                both cases actually use the same InvocationHandler to handle the methods on the
+                remote interface. This code (found in StubInvocationHandlerImpl) operates as
+                follows:</P>
+         <UL>
+                <LI>The method name for the remote request is obtained from the
+                  IDLNameTranslator in a reversal of the mechanism used in Ties.</LI>
+                <LI>All marshalling, unmarshalling, and copying of arguments and results
+                  is handled by a DynamicMethodMarshaller</LI>
+                <LI>In the co-located case, the invocation is handled using
+                  reflection.</LI>
+         </UL>
+         <P>The main differences between the two types of stubs are in how they are
+                constructed, and how all of the non-remote interface methods are handled.</P>
+         <P>The performance of the co-located invocation case is crucial for some
+                applications of the app server. Probably the most important aspect of this cost
+                is the overhead of copying arguments and results. This is highly optimized in
+                the app server using a complex reflective copier, but even calling the copier
+                for simple data types is expensive. This is not a problem in the static stub
+                case, since the generated code only calls the copier for non-primitive types,
+                but this is more difficult in the dynamic case. If we look at the arguments in
+                the dynamic case, all arguments are objects of some type. Primitives are
+                wrapper in the java.lang wrappers of the appropriate type. However, there is no
+                way to tell inside the call whether an Integer is really an int (which cannot
+                be aliased, and so need not be copied), or really an Integer (which must be
+                copied in order to preserve aliasing). However, the DynamicMethodMarshaller is
+                constructed with complete type information on the Method, so it can tell
+                whether or not copying is required. Consequently the StubInvocationHandler
+                delegates the decision about whether or not to invoke the current copier to the
+                DynamicMethodMarshaller, which analyzed the Method argument types. If the
+                arguments are all primitives, the DynamicMethodMarshaller copy method does
+                nothing, otherwise it calls the copier.</P>
+         <P>This optimization allows us to measure the actual overhead of the
+                dynamic invocation, and make a fair comparison in the performance test. The
+                restuls are that the dynamic case is only about 50% slower than the static
+                case. This is quite good, as the colocated case is already highly optimized,
+                and the EJB layer adds sufficient overhead so that this 50% slowdown is not
+                noticeable. JDK 5.0 will provide even better performance, firstly because it is
+                already about 3 times faster on the same hardware, and also because the
+                concurrency utilities should be far faster than the old concurrency library
+                currently used by the ORB. This change should be significant because the POA
+                synchonization overhead for enter and exit is quite high.</P>
+         <P>The end result is that dynamic RMI-IIOP has sufficiently good
+                performance that we no longer see a need for any use of rmic in the normal use
+                of the app server. The only remaining case where stubs are needed is when an
+                EJB is deployed which must be accessible to a client written using another ORB
+                that does not support dynamic RMI-IIOP (in other words, any ORB other than the
+                one we ship in the app server).</P>
+         <H5>Dynamic Proxy Stubs</H5>
+         <P>The dynamic proxy case is somewhat more complex due to the need to
+                duplicate some of the methods defined in ObjectImpl and in Stub in an interface
+                called DynamicStub so that these standard methods are still available in the
+                dynamic case. However, this change is visible to client code, since clients may
+                occasionally obtain a stub and directly handle it as a javax.rmi.CORBA.Stub
+                class. This also necessarily occurs in the ORB itself. To allow such code to
+                easily work in the new model, I introduced a new SPI called StubAdapter. This
+                class has the following static methods:</P>
+         <UL>
+                <LI>boolean isStubClass( Class )</LI>
+                <LI>boolean isStub( Object )</LI>
+                <LI>void setDelegate( Object, Delegate )</LI>
+                <LI>Delegate getDelegate( Object )</LI>
+                <LI>org.omg.CORBA.Object activateServant( Servant )</LI>
+                <LI>org.omg.CORBA.Object activateTie( Tie )</LI>
+                <LI>ORB getORB( Object )</LI>
+                <LI>String[] getTypeIds( Object )</LI>
+                <LI>void connect( Object, ORB )</LI>
+                <LI>boolean isLocal( Object )</LI>
+                <LI>OutputStream request( Object, String, boolean )</LI>
+         </UL>
+         <P>These methods are implemented by checking two cases: either the Object
+                is a java.rmi.CORBA.Stub, in which the object is cast to Stub, or else the
+                Object is a DynamicStub, in which case the Object is cast to Stub. This is
+                rather ugly, and completely non-object oriented, but is directly caused by the
+                use of a class (instead of an interface) as the standard interface for all
+                stubs in the RMI-IIOP specification.</P>
+         <P>A dynamic proxy stub consists of two parts: a dynamic proxy which
+                implements the remote interface as well as DynamicStub, and an
+                InvocationHandler. The proxy is created using the standard JDK proxy mechanism.
+                The invocation handler is a composite InvocationHandler that has two parts: one
+                part delegates methods to DynamicStubImpl, and the other handles invocations on
+                the methods of the remote interface as previously described.</P>
+         <H5>BCEL stubs</H5>
+         <P>The BCEL stubs are actually simpler than the Dynamic Proxy version,
+                except for the actual class generation code. I have taken the approach of
+                constructing a very light-weight proxy mechanism that is actually mostly
+                independent of the RMI-IIOP stub requirements. Here the point is that a stub
+                really is nothing more in essence than a proxy, and all of the other machinery
+                that is part of the RMI-IIOP invocation process can be placed in a shared
+                class.</P>
+         <P>The interface to the proxy generator is as follows:</P>
+         <PRE>
+public class ProxyCreator extends CodeGeneratorBase implements Constants {
+    public ProxyCreator( String className, String superClassName, Class[] interfaces,
+        Method[] methods ) ;
+}
+
+public abstract class CodeGeneratorBase  {
+    public Class create( ProtectionDomain pd, ClassLoader loader ) ;
+}</PRE>
+         <P>There are several requirements for using this class:</P>
+         <OL>
+                <LI>superClass must have an accessible no-args constructor</LI>
+                <LI>superclass must have an accessible method with the signature
+                  <PRE>Object invoke( int methodNumber, Object[] args ) ;</PRE></LI>
+                <LI>The methods passed into the ProxyCreator constructor must also be
+                  made available throw some mechanism at runtime so that invoke method in the
+                  superClass sees the same methods as were used to construct the proxy.</LI>
+         </OL>
+         <P>In my BCEL dynamic stub implementation, the superClass is called
+                BCELStubBase. This class has the following interface:</P>
+         <PRE>
+public abstract class BCELStubBase extend javax.rmi.CORBA.Stub {
+    public String[] _ids() ;
+
+    public void initialize( String[] typeIds, InvocationHandler handler, 
+        Methods[] methods ) ;
+
+    protected Object invoke( int methodNumber, Object[] args ) throws Throwable 
+    {
+        Method method = methods[methodNumber] ;
+        return handler.invoke( null, method, args ) ;
+    }
+}</PRE>
+         <P>The _ids() method is required because it is an abstract method in
+                javax.rmi.CORBA.Stub. It is implemented simply by returning the value of the
+                typeIds argument that was passed into the initialize method. The initialize
+                method itself simply stores its arguments in private fields in BCELStubBase.
+                The implementation of the invoke method is quite simple: it simply obtains the
+                appropriate java.lang.reflect.Method from the methods passed into the
+                initialzie method, and then passes this method and the args to the handler that
+                was passed into the initialize method.</P>
+         <P>The generated code is also quite simple: for the method at index n of
+                methods, the generated code simply:</P>
+         <OL>
+                <LI>Creates an Object[] args sized to hold the arguments.</LI>
+                <LI>Wraps args of primitive type in the appropriate wrapper (e.g.,
+                  java.lang.Integer for an int)</LI>
+                <LI>Copies the argument or argument wrapper into the args array.</LI>
+                <LI>Calls invoke( n, args ) in the superClass.</LI>
+                <LI>Unwraps the result if it is a primitive and then return the
+                  result.</LI>
+         </OL>
+         <P>The invocation handler used here is the StubInvocationHandlerImpl
+                previously described. This is why the BCEL case is actually simple: there is no
+                need for a complex (and slower) InvocationHandler. Instead, we let the super
+                classes directly handle all of the non-remote interface methods that are
+                required for a Stub.</P>
+         <H4>Stub Serialization</H4>
+         <P>All RMI-IIOP stubs must be serializable. The serialized form is
+                specified by the RMI-IIOP standard, and is simply the IOR written out to a Java
+                OutputStream in the same way that an IOR is written to a CDR stream. In the
+                static stub case, we simply rely on the javax.rmi.CORBA.Stub class, which
+                implements readObject and writeObject methods that operate by delegating to the
+                StubDelegate. The StubDelegateImpl class then simply reads and writes the IOR
+                representation used for the Stub.</P>
+         <P>The dynamic case is more complex, due to the fact that we cannot rely on
+                the ClassLoader to directly load the correct Stub class. The static case works
+                here by assuming that the ClassLoader can always get the Stub. In fact, this
+                even handles downloadable stubs, since the ORB uses the RMIClassLoader to load
+                stub classes. The two dynamic cases are each somewhat different.</P>
+         <P>In the dynamic proxy case, DynamicStubImpl implements readObject,
+                writeObject, and readResolve. The readObject and writeObject methods are the
+                same as in the StubDelegateImpl code used in the static case. However, dynamic
+                stubs have additional state as compared to static stubs, due to the need for
+                information such as the DynamicMethodMarshalled and IDLNameTranslator.
+                Consequently the DynamicStubImpl code also has a readResolve method. This
+                method operates as follows:</P>
+         <OL>
+                <LI>Get the repository ID from the IOR</LI>
+                <LI>Get the interface class name from the repository ID</LI>
+                <LI>Use the JDKBridge to load the interface class (which must be in the
+                  local VM)</LI>
+                <LI>Use the PresentationManager to get the class data, which contains the
+                  IDLNameTranslator among other things</LI>
+                <LI>Use the class data to create an InvocationHandlerFactoryImpl</LI>
+                <LI>Use the InvocationHandlerFactoryImpl to create the InvocationHandler
+                  that is returned.</LI>
+         </OL>
+         <P>When a dynamic proxy stub is serialized, the dynamic proxy itself is
+                serialized. Dynamic proxies are serialized as a proxy descriptor plus the state
+                of the proxy, which is just the InvocationHandler. Here the InvocationHandler
+                is actually a private class called CustomCompositeInvocationHandlerImpl which
+                is a nested class in the InvocationHandlerFactoryImpl class.
+                CustomCompositeInvocationHandlerImpl defines a writeReplace method that simply
+                returns the DynamicStubImpl, which we have already discussed.</P>
+         <P>Now, when the dynamic proxy stub is deserialized, first a
+                DynamicStubImpl is constructed, then its readObject method is called, which
+                restores the IOR. Next the readResolve method is called, which creates the
+                correct CustomCompositeInvocationHandlerImpl. Finally a proxy class is
+                constructed which has the CustomCompositeInvocationHandlerImpl as its
+                InvocationHandler.</P>
+         <P>The BCEL case is somewhat different, and only partly implemented today
+                (this is related to a bug that needs to be fixed in the app server). All of the
+                state for the stub is contained in the BCELStubBase class. Since this class
+                inherits from javax.rmi.CORBA.Stub, Stub serializes and deserializes the IOR.
+                BCELStubBase has only transient fields, and the generated stub has no data, so
+                the only state actually serialized in this case is the IOR. Hoever, as in the
+                dynamic proxy case, the transient state of BCELStubBase must be restored on
+                deserialization, and so BCELStubBase defines a readObject method for this
+                purpose. This readObject method is actually rather similar to the
+                DynamicStubImpl.readResolve method. However, this readObject just constructs a
+                StubInvocationHandlerImpl instead of using the
+                InvocationHandlerFactoryImpl.</P>
+         <P>The BCEL case also needs to make sure that the BCEL generated class is
+                available. This can be handled by adding a writeReplace method in the generated
+                BCEL stub that calls a superClass method that writes a BCELStubBase instead of
+                the generated BCEL stub class. Correspondingly a readResolve method is needed
+                in the BCELStubBase that will generate the BCEL stub class, create an instance
+                of this class, call the initialize method on the new instance, and return the
+                result.</P> 
+         <H3>Configuring the PresentationManager</H3>
+         <P>Most configuration for the ORB is handled in the ORBImpl class when the
+                ORB is created. However, the PresentationManager cannot be handled this way,
+                because it is needed in the RMI-IIOP implementation. Much of the RMI-IIOP code
+                runs when no ORB is available, and so the basic StubFactory mechanisms must be
+                available even when there is no ORB. Consequently, the PresentationManager is
+                configured statically in the ORB SPI class. That is, the PresentationManager is
+                a singleton, and is shared by all ORBs (at least within the same ClassLoader as
+                usual). </P>
+         <P>There are two system properties that are used to configure the
+                PresentationManager in a static initializer in the ORB SPI class:</P>
+         <UL>
+                <LI>com.sun.CORBA.ORBUseDynamicStub, which is a boolean. This flag
+                  indicates to use dynamic (true) or static (false) stubs for all RMI-IIOP stubs.
+                  IDL stubs are static in either case.</LI>
+                <LI>com.sun.CORBA.ORBDynamicStubFactoryFactoryClass, which is a String
+                  representing a Class name. This value (if set) indicates that a special
+                  StubFactoryFactory is to be used. If this property is not set to a valid
+                  StubFactoryFactory class, the dynamic proxy version is used. This allows us to
+                  place the entire BCEL-based StubFactoryFactory into the optional part of the
+                  ORB.</LI>
+         </UL></BODY>
+</HTML>

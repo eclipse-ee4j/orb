@@ -1,0 +1,51 @@
+/*
+ * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0, which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+/**
+ * @author Harold Carr
+ */
+module corba 
+{
+  module folb_8_1
+  {
+    struct TaggedCustomSocketInfo { 
+      string  type;
+      string  host;
+      long    port;
+    };
+
+    const unsigned long TAG_TAGGED_CUSTOM_SOCKET_INFO = 4444;
+
+    interface I
+    {
+        boolean unregister(in string socketType);
+        boolean register(in string socketType);
+        string m(in string x);
+        long n(in string x);
+
+        // This has NOTHING to do with failover.
+        // Just here to test the server-side stack trace shown on
+        // The client side.
+        long throwRuntimeException(in long x);
+    };
+
+    interface I2
+    {
+        long m(in string x);
+        Object n(in string x);
+        long foo(in long x);
+    };
+
+  };
+};
+
+// End of file.
+
+

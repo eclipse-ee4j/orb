@@ -1,0 +1,91 @@
+#
+# Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Distribution License v. 1.0, which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+IDL Tokens:
+
+Grouping: ( ) [ ] { }
+Separators: : :: ;
+Operators: % & * + , - / < << = > >> ^ | ~
+
+Keywords:
+    CORBA 2.2 or earlier:
+        any
+        attribute
+        boolean
+        case
+        char
+        const
+        context
+        default
+        double
+        enum
+        exception
+        FALSE
+        float
+        in
+        inout
+        interface
+        long
+        module
+        Object
+        octet
+        oneway
+        out
+        raises
+        readonly
+        sequence
+        short
+        string
+        struct
+        switch
+        TRUE
+        typedef
+        unsigned
+        union
+        void
+        wchar
+        wstring
+
+    CORBA 2.3 only:
+        init    (replaced by factory)
+
+    CORBA 2.3 and 2.4rtf:
+        abstract
+        custom
+        private
+        public
+        truncatable
+        ValueBase
+        valuetype
+        factory
+
+    CORBA 2.3, not supported by IBM compiler
+        native
+        fixed
+
+    CORBA 3.0:
+        component
+        consumes
+        emits
+        finder
+        getRaises
+        home
+        import
+        local
+        manages
+        multiple
+        primaryKey
+        provides
+        publishes
+        setRaises
+        supports
+        typeId
+        typePrefix
+        uses

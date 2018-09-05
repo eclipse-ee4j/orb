@@ -1,0 +1,105 @@
+/*
+ * Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0, which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+/*
+ * definitions from ir.idl that have been created manually and must not be generated.
+ */
+
+
+module CORBA {
+
+    typedef string RepositoryId;
+    typedef string Identifier;
+    typedef string VersionSpec;
+
+    // orbos 98-01-18: Objects By Value -- begin
+    typedef short Visibility;
+    const Visibility PRIVATE_MEMBER = 0;
+    const Visibility PUBLIC_MEMBER = 1;
+
+    interface IDLType;
+
+    enum DefinitionKind {
+        dk_none, dk_all,
+        dk_Attribute, dk_Constant, dk_Exception, dk_Interface,
+        dk_Module, dk_Operation, dk_Typedef,
+        dk_Alias, dk_Struct, dk_Union, dk_Enum,
+        dk_Primitive, dk_String, dk_Sequence, dk_Array,
+        dk_Repository,
+        dk_Wstring, dk_Fixed,
+        dk_Value, dk_ValueBox, dk_ValueMember, // orbos 98-01-18: Objects By Value
+        dk_Native
+    };
+
+    interface IRObject
+    /**
+      An IRObject IDL interface represents the most generic interface
+      from which all other Interface Repository interfaces are derived,
+      even the Repository itself.
+     */
+    {
+        // read interface
+        readonly attribute DefinitionKind def_kind;
+
+        // write interface
+        void destroy ();
+    };
+
+
+    struct StructMember {
+        Identifier name;
+        TypeCode type;
+        IDLType type_def;
+    };
+
+    struct UnionMember {
+        Identifier name;
+        any label;
+        TypeCode type;
+        IDLType type_def;
+    };
+
+    struct ValueMember {
+        Identifier name;
+        RepositoryId id;
+        RepositoryId defined_in;
+        VersionSpec version;
+        TypeCode type;
+        IDLType type_def;
+        Visibility access;
+    };
+
+
+    interface IDLType : IRObject
+    /**
+       The IDLType interface is an abstract interface inherited by all
+       IR objects that represent the OMG IDL types. It provides access
+       to the TypeCode describing the type, and is used in defining the
+       other interfaces wherever definitions of IDLType must be referenced.
+    */
+    {
+        readonly attribute TypeCode type;
+    };
+
+
+    enum TCKind {
+        tk_null, tk_void,
+        tk_short, tk_long, tk_ushort, tk_ulong,
+        tk_float, tk_double, tk_boolean, tk_char,
+        tk_octet, tk_any, tk_TypeCode, tk_Principal, tk_objref,
+        tk_struct, tk_union, tk_enum, tk_string,
+        tk_sequence, tk_array, tk_alias, tk_except,
+        tk_longlong, tk_ulonglong, tk_longdouble,
+        tk_wchar, tk_wstring, tk_fixed,
+        tk_value, tk_value_box,
+        tk_native,
+        tk_abstract_interface
+    };
+};

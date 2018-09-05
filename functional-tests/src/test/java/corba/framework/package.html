@@ -1,0 +1,713 @@
+<!DOCTYPE HTML PUBLIC "-//w3c//dtd html 4.0 transitional//en" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<HTML> 
+  <HEAD>
+         <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+         <META NAME="GENERATOR"
+          CONTENT="Mozilla/4.51 [en] (X11; U; SunOS 5.7 sun4u) [Netscape]">
+         <META NAME="Author" CONTENT="Everett Anderson"> 
+         <TITLE>CORBA Technologies Test Framework</TITLE> 
+  </HEAD> 
+  <BODY TEXT="#000000" BGCOLOR="#FFFFFF" LINK="#0000FF" VLINK="#990066"
+        ALINK="#FF0000"> 
+         <H1> CORBA Technologies Test Framework</H1> 
+         <H2> Contents</H2> 
+         <UL> 
+                <LI> <A HREF="#Overview">Overview</A></LI> 
+                <LI> <A HREF="#Good things to know">Good things to know</A></LI> 
+                <LI> <A HREF="#Running the tests">Running the tests</A></LI> 
+                <LI> <A HREF="#Specifying the default ORBClass for all tests">Specifying
+                  the default ORBClass for all tests</A></LI> 
+                <LI> <A HREF="#Examining a test's output">Examining a test's
+                  output</A></LI> 
+                <LI> <A HREF="#How to debug a test">How to debug a test</A></LI> 
+                <LI> <A HREF="#Adding a new test">Adding a new test</A></LI> 
+                <LI> <A HREF="#How to write your test">How to write your test</A></LI> 
+                <LI> <A HREF="#Adding makefiles">Adding and updating makefiles</A></LI> 
+                <LI> <A HREF="#Changing the tests file">Changing the tests file</A></LI> 
+                <LI> <A HREF="#Writing a more sophisticated test">Writing a more
+                  sophisticated test</A></LI> 
+                <LI> <A HREF="#Controllers and execution strategies">Controllers and
+                  execution strategies</A></LI> 
+                <LI> <A HREF="#Using the Options class">Using the Options class</A></LI> 
+                <LI> <A HREF="#Conversion Status">Conversion status</A></LI> 
+                <LI> <A HREF="../../index.html">Test Framework
+                  API</A></LI> 
+                <LI> <A HREF="#Remaining items and bugs">Remaining items and
+                  bugs</A></LI> 
+         </UL> <HR WIDTH="100%"> 
+         <H2> <A NAME="Overview"></A>Overview</H2> 
+         <BLOCKQUOTE>Here are some features of the new system: 
+                <UL> 
+                  <LI> Inherits from the IBM system, bringing ease of use to our test
+                         efforts while not breaking old code</LI> 
+                  <LI> Captures stdout and stderr output of each process (compilers,
+                         ORBD, server(s), client(s), etc)</LI> 
+                  <LI> Allows a high degree of control over the configuration of
+                         subprocesses</LI> 
+                  <LI> Supports a wide variety of test types</LI> 
+                  <LI> Provides a flexible compiler abstraction with implementations for
+                         idlj, rmic, and javac</LI> 
+                  <LI> Allows a user to easily debug an external process with JDB.</LI> 
+                  <LI> Accommodates difficult tests in which coordinating the behavior of
+                         several processes is required</LI> 
+                </UL> </BLOCKQUOTE> 
+         <H2> <A NAME="Good things to know"></A>Good things to know</H2> 
+         <OL> 
+                <LI> When I use the term "process" in this document, it doesn't
+                  necessarily mean java.lang.Process.&nbsp; Most of the time, ORBD, clients,
+                  servers, and compilers are executed in separate java.lang.Process's.&nbsp;
+                  However, if the test author uses a different execution strategy (<I>see
+                  <A HREF="#Writing a more sophisticated test">Writing a more sophisticated
+                  test</A></I>), something may run in the same java.lang.Process as the test
+                  framework.</LI> 
+                <LI> The IBM test framework depends on a command line option -output to
+                  specify the output directory, and the framework depends on it, as well.&nbsp;
+                  This directory must be on the classpath, and our makefiles already work this
+                  way.&nbsp; The output directory is <TT>gen</TT> on Solaris, and since the
+                  framework is always run from <TT>test/build/solaris</TT>, that's where it
+                  is.&nbsp; (On Win32, it's right off of the workspace directory.) &nbsp; Each
+                  test has its own special output directory under this one, and its name is
+                  <TT>&lt;command line output directory&gt;/&lt;test package name&gt;</TT>.</LI> 
+                <LI> The framework and its tests live in subdirectories of
+                  <TT>test/src/share/classes/corba</TT>.&nbsp; The package names are
+                  <TT>corba.*</TT>.</LI> 
+                <LI> Each test has a main Java file that is it's heart, and it extends
+                  <TT><A
+                  HREF="CORBATest.html">CORBATest</A></TT>.&nbsp;
+                  This is where the test author directs the flow of the test through compilation,
+                  creation and execution of processes, and finally, how they are destroyed.</LI> 
+                <LI> The framework makes assumptions about directory paths.&nbsp; It
+                  assumes it starts in the <TT>test/build/$OS</TT> directory and can find things
+                  off of that.&nbsp; However, I think all these assumptions are isolated in the
+                  initialization of the <TT><A
+                  HREF="Options.html">Options</A></TT>
+                  class.</LI> 
+         </OL> 
+         <H2> <A NAME="Running the tests"></A>Running the tests</H2> 
+         <BLOCKQUOTE> You can now execute the IBM tests followed by tests in the new
+                framework by using the <TT>verifyall</TT> target. 
+                <H3> Solaris:</H3> The test framework and tests are compiled as a part of
+                the normal main build (with <TT>GNUmakefile.corba</TT>), or can be compiled
+                more directly by using the makefile under <TT>test/build/solaris/corba</TT>. 
+                <P>To run the tests: <BR><TT>cd ~/ws/rip-int/build/solaris</TT>
+                  <BR><TT>gnumake verifyonly_corba</TT> </P> 
+                <H3> Windows:</H3> The test framework and tests should be compiled as a
+                part of the normal build, or can be compiled more directly by using the
+                makefile under <TT>test/build/win32/corba</TT>. 
+                <P>To run the tests: <BR><TT>cd ws/rip-int/build/win32</TT> <BR><TT>nmake
+                  verifybuild_corba</TT> </P> 
+                <H3> <FONT COLOR="#000000">What you should see:</FONT></H3> 
+                <BLOCKQUOTE><TT><FONT COLOR="#000000">corba.example.Example: Run 1 :
+                  [100484ms] PASSED</FONT></TT> <BR><TT><FONT
+                  COLOR="#000000">corba.oneway.OneWayTest: Run 1 : [46646ms] PASSED</FONT></TT>
+                  <BR><TT><FONT COLOR="#000000">corba.cosnaming.Test: Run 1 : [28803ms]
+                  PASSED</FONT></TT> <BR><TT><FONT
+                  COLOR="#000000">corba.poamanager.POAManagerTest: Run 1 : [44982ms]
+                  PASSED</FONT></TT> <BR><TT><FONT
+                  COLOR="#000000">corba.poapolicies.POAPoliciesTest: Run 1 : [30906ms]
+                  PASSED</FONT></TT> <BR><TT><FONT
+                  COLOR="#000000">corba.rmijtshook.RMIJTSHookTest: Run 1 : [24914ms]
+                  PASSED</FONT></TT> <BR><TT><FONT COLOR="#000000">corba.jtshook.JTSHookTest: Run
+                  1 : [31500ms] PASSED</FONT></TT></BLOCKQUOTE> </BLOCKQUOTE> 
+         <H2> <A NAME="Specifying the default ORBClass for all tests"></A>Specifying
+                the default ORBClass for all tests</H2> 
+         <BLOCKQUOTE>Any test that uses a POA ORB should use the default ORBClass
+                from Options. Then, when running the makefiles, simply provided a
+                <TT>ORBCLASS=&lt;orb class name&gt;</TT> variable. The default, set in
+                <TT>Defs.gmk</TT> and <TT>defs-corba.nmk</TT>, is
+                <TT>com.sun.corba.ee.internal.POA.POAORB</TT>. </BLOCKQUOTE> 
+         <H2> <A NAME="Examining a test's output"></A>Examining a test's output</H2>
+         
+         <BLOCKQUOTE>The framework captures stdout and stderr streams for the
+                compilers, ORBD, servers, and clients.&nbsp; The convention is <TT>&lt;process
+                name&gt;.out.txt</TT> and <TT>&lt;process name&gt;.err.txt</TT>.&nbsp; The test
+                author can decide on process names for server and client, or use the defaults
+                ("server" and "client").&nbsp; The only time it's absolutely necessary to
+                assign new names is when there are multiple servers or clients. 
+                <P>These files are located in the test's output directory.&nbsp; This is
+                  the directory specified on the command line (with the <TT>-output</TT> switch)
+                  plus the test's package name.&nbsp; Our makefiles currently specify
+                  <TT>gen</TT> as the command line option. </P> 
+                <H3> Solaris:</H3> Output directory: <TT>test/make/gen</TT> 
+                <H3> Windows:</H3> Output directory: <TT>gen</TT> 
+                <P>Thus, for <TT>corba.example.Example</TT> on Solaris, look in
+                  <TT>test/build/solaris/gen/corba/example</TT> and you'll find the following:
+                  </P> 
+                <P><TT>HelloApp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  client.out.txt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; javac.out.txt</TT>
+                  <BR><TT>JavaIDLHome&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  corba&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  server.err.txt</TT>
+                  <BR><TT>ORBD.err.txt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  idlcompiler.err.txt&nbsp; server.out.txt</TT>
+                  <BR><TT>ORBD.out.txt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  idlcompiler.out.txt</TT>
+                  <BR><TT>client.err.txt&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; javac.err.txt</TT>
+                  </P> 
+                <P>The further <TT>corba/example</TT> subdirectory was created by the
+                  generation of stubs and skeletons, or any extra Java files the test required.
+                  </P> 
+                <P>On Win32, just look in <TT>gen/corba/example</TT>. </P></BLOCKQUOTE> 
+         <H2> <A NAME="How to debug a test"></A>How to debug a test</H2> 
+         <BLOCKQUOTE>The first thing to do if a test fails is to
+                <A HREF="#Examining a test's output">examine the test's output</A>.&nbsp; If
+                the failure seems unusual, try running the test again.&nbsp; If it looks like a
+                real problem, you can ask the framework to tell you exactly how it's starting
+                each process.&nbsp; You do this by specifying the <TT>-debug</TT> command line
+                parameter on the failing test's line in <TT>CORBATests.txt</TT>.&nbsp; 
+                <P> When you still can't tell what's wrong, or if you want to dive into a
+                  process with JDB, here's how to do it: </P> 
+                <P> <B><U>Case 1: You want to debug something run in a separate
+                  java.lang.Process</U></B> </P> 
+                <P> This is quite easy if you want to use JDB or a similar
+                  debugger.&nbsp; The framework will take care of setting the execution strategy
+                  to <A
+                  HREF="DebugExec.html">DebugExec</A>.&nbsp;
+                  This strategy will provide you with the command to run JDB both on the screen
+                  and in a file in your <TT>test/build/$OS</TT> directory. </P> 
+                <P> Edit the <TT>test/src/share/classes/corba/CORBATests.txt</TT>
+                  file.&nbsp; On the line with the test you want to debug, put the
+                  <TT>-debug</TT> flag followed by a colon separated list of the process names
+                  you want to debug.&nbsp; If the test uses the default names, you can run
+                  <B>ORBD</B>, <B>client</B>, and <B>server</B> processes outside of the
+                  framework in your debugger.&nbsp; (Note: it is case sensitive) </P> 
+                <P> <B>Example:</B> </P> 
+                <P> <TT>-test corba.example.Example -debug client:server</TT> </P> 
+                <P> When it comes time for the server or client process to start, the
+                  framework will prompt you to do so in another window.&nbsp; It will give you an
+                  adapted command which uses JDB as the debugger.&nbsp; In addition, it will
+                  write that command to the <TT>test/build/$OS</TT> directory as a file called
+                  <TT>jdb&lt;process name&gt;.bat</TT>.&nbsp; Unfortunately, on Solaris, you must
+                  still set the execution permission before you can run it.&nbsp; The debug
+                  strategy will also prompt you for other information during the test. </P> 
+                <P> <U>Note: the .bat files are erased after the test finishes</U> </P> 
+                <P>There are two other debug options: -rdebug, which uses JPDA, and
+                  -odebug, which uses Bil Lewis's Omniscient Debugger (odb). A version of odb is
+                  in the workspace under the Lib directory. Both options take the same arguments
+                  as the -debug flag. The difference is in how the controller is attached to a
+                  debugger. -rdebug launches the VM for the controller with the JPDA arguments
+                  necessary for attaching your favorite JPDA-enabled debugger (e.g. NetBeans,
+                  jswat, jdebugtool) to the controller. -odebug launches the main java class in
+                  the controller under odb, which then captures all events during the execution
+                  of the VM, and makes the entire execution history available in a viewer after
+                  the program terminates (or it is told to terminate through a button on a window
+                  that odb launches)</P> 
+                <P> <B><U>Case 2: You want to edit a sophisticated test that uses unusual
+                  execution strategies</U></B> </P> 
+                <P> This is harder, but not impossible.&nbsp; You must run the entire
+                  test framework under your debugger.&nbsp; This can be done quite easily under
+                  Solaris simply by setting the environment variable DEBUGGER to 1 and running a
+                  test suite from the Makefile. This launches the test framework using JPDA, and
+                  any JPDA debugger can connect to the test framework. Since you probably only
+                  want to debug one test at a time, watch how the makefile and framework load
+                  tests from the file.&nbsp; Copy and adapt how the makefile starts the framework
+                  so it works with your debugger.&nbsp; You should be able to give the line out
+                  of CORBATests.txt for your test directly as a parameter to the framework,
+                  rather than letting the makefile give it the <TT>-file</TT> parameter.
+                  </P></BLOCKQUOTE> 
+         <H2> <A NAME="Adding a new test"></A>Adding a new test</H2> 
+         <BLOCKQUOTE>Assuming you follow some guidelines when writing your test, it
+                should be simple to insert it in the framework.&nbsp; It may be easier for you
+                to write it outside of the framework until it's running.&nbsp; The framework
+                does the IDL compilation for you, but that also means that any code that
+                depends on the stubs or skeletons must be compiled as a part of the test
+                (usually your client and server test code).&nbsp; When you run the target, the
+                output directory is wiped, and the framework starts at the beginning --
+                compiling IDL, compiling generated code, etc.&nbsp; That takes time, and may
+                make it frustrating if you still have simple programming errors in your code. 
+                <H3> <A NAME="How to write your test"></A><B><U>How to write your
+                  test</U></B></H3> Here are the basic steps to create a new test: 
+                <OL> 
+                  <LI> Make your test package name <TT>corba.&lt;test name&gt;</TT>, and
+                         be sure all your source files use this.</LI> 
+                  <LI> Create <TT>&lt;test name&gt;</TT> directories under
+                         <TT>test/src/share/classes/corba</TT> and <TT>/test/build/$OS/corba</TT>.</LI> 
+                  <LI> Create a main test file following the model of <TT><A
+                         HREF="../example/Example.html">corba.example.Example.java</A></TT>.&nbsp; This is
+                         the heart of your test.&nbsp; Use the <TT><A
+                         HREF="Options.html">Options</A></TT>
+                         class to set any special variables here (such as the ORB class, options to the
+                         IDL compiler like -poa, etc).&nbsp; Then use the methods such as
+                         <TT>compileIDLFiles, compileJavaFiles, createORBD</TT>, etc, as in the
+                         example.</LI> 
+                  <LI> Make sure that the server emits a handshake before it waits for
+                         connections. The default is "Server is ready."</LI> 
+                  <LI> Look at the javadoc API for <TT><A
+                         HREF="Options.html">Options</A></TT>
+                         and <TT><A
+                         HREF="Controller.html">Controller</A></TT>
+                         for more information.</LI> 
+                  <LI> <A HREF="#Adding makefiles">Create makefiles.</A></LI> 
+                  <LI> <A HREF="#Changing the tests file">Add your test to
+                         CORBATests.txt.</A></LI> 
+                </OL> Here are some guidelines on how to write your test:</BLOCKQUOTE> 
+         <OL> 
+                <LI> Have the client and server read org.omg.ORBClass from
+                  System.getProperty rather than hardcoding them.&nbsp; This will allow you
+                  specify what ORB to use in one place.&nbsp; You could even just give the ORB
+                  System.getProperties() since a considerable amount of information is passed
+                  automatically.&nbsp; See the javadoc API for <TT><A
+                  HREF="Options.html">Options</A></TT>
+                  and <TT><A
+                  HREF="CORBATest.html#createServer(java.lang.String, java.lang.String)">CORBATest#createServer</A></TT>
+                  or <TT><A
+                  HREF="CORBATest.html#createClient(java.lang.String, java.lang.String)">
+                  CORBATest#createClient</A></TT> for what is passed along to them already.</LI> 
+                <LI> <FONT COLOR="#CC0000">Be sure your client and server exit with exit
+                  codes greater than zero when they fail.</FONT><FONT COLOR="#000000">&nbsp; This
+                  is the only way the test framework will know something went wrong.&nbsp; It's
+                  usually easy to do this by catching all exceptions at the end of your program,
+                  printing the stack trace, and calling <TT>System.exit(1);</TT>&nbsp; If your
+                  test has multiple threads, you must still find a way to report the exit code
+                  properly.&nbsp;&nbsp; See <TT>corba.example</TT> for a way to do
+                  this.</FONT></LI> 
+                <LI> <FONT COLOR="#000000">Don't write your test to require human
+                  verification of the output</FONT></LI> 
+                <LI> <FONT COLOR="#000000">Don't write your test to require human input
+                  (though it is possible to have one of the subprocesses control the
+                  others)</FONT></LI> 
+                <LI> <FONT COLOR="#000000">Don't write things to
+                  <TT>user.home</TT>.&nbsp; The framework gives client and server processes a
+                  <TT>output.dir</TT> environment variable to use instead.</FONT></LI> 
+                <LI>Consider writing your clients and servers to implement <TT><A
+                  HREF="InternalProcess.html">InternalProcess</A></TT>,
+                  but still write a main. That way, later, people could swap execution strategies
+                  easily (<I>see <A HREF="#Writing a more sophisticated test">Writing a more
+                  sophisticated test</A></I>). Perhaps something like this: 
+                  <PRE>
+public class MyClient implements InternalProcess
+{
+    public void run(Properties environment,
+                    String args[],
+                    PrintStream out,
+                    PrintStream err,
+                    Hashtable extra) throws Exception
+    { 
+       
+        // Do what you want to here, generating
+        // exceptions for any failure cases.  If it
+        // is loaded internally, the framework will
+        // report the error, yet it still works
+        // perfectly as a default external process.
+    }
+
+    public static void main (String[] args)
+    {
+        try {
+            (new MyClient()).run(System.getProperties(),
+                                 args,
+                                 System.out,
+                                 System.err,
+                                 null);
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            System.exit(1);
+        }
+    }
+}
+</PRE> </LI> 
+         </OL> 
+         <H3> <A NAME="Adding makefiles"></A><U>Adding and updating
+                makefiles</U></H3> It would be good to develop a quick script or application to
+         do all of this. 
+         <P>Create a <TT>test/build/share/corba_&lt;test package&gt;.jmk</TT> file
+                containing ONLY those files that don't rely on stubs and skeletons.&nbsp; In
+                the classic CORBA case, this may only be your main test file.&nbsp; I advise
+                just copying and changing one of the others. </P> 
+         <P><B>Solaris:</B> </P> 
+         <P>Create a <TT>test/build/solaris/corba/&lt;test
+                package&gt;/GNUmakefile</TT> for your test.&nbsp; Again, start with one of the
+                others.&nbsp; You only have to change a line or two to replace the package
+                names.&nbsp; You may want to put TESTCORBA=1 at the top in case one of the
+                classes that isn't compiled within the framework uses org.omg.*. </P> 
+         <P>Augment the <TT>test/build/solaris/corba/GNUmakefile</TT> so that it's
+                <TT>SUBDIRS</TT> variable declaration includes your test's subdirectory. </P> 
+         <P><B>Windows:</B> </P> 
+         <P>Create a <TT>test/build/win32/corba/&lt;test package&gt;/Makefile</TT>
+                for your test.&nbsp; Again, start with one of the others.&nbsp; You only have
+                to change three lines to replace the names. </P> 
+         <P>Augment the <TT>test/build/win32/corba/Makefile</TT> so that it's
+                <TT>SUBDIRS</TT> variable declaration includes your test's subdirectory. </P> 
+         <H3> <A NAME="Changing the tests file"></A><U><FONT
+                COLOR="#000000">Changing the tests file</FONT></U></H3> <FONT
+         COLOR="#000000">Add your test to the
+         <TT>test/src/share/classes/corba/CORBATests.txt</TT> file.</FONT> 
+         <P><FONT COLOR="#000000">Notes:</FONT> </P> 
+         <BLOCKQUOTE> 
+                <UL> 
+                  <LI> <FONT COLOR="#000000">Give your test the <TT>-debug</TT> parameter
+                         to see exactly what the framework is doing.</FONT></LI> 
+                  <LI> <FONT COLOR="#000000">If you write a test using <TT><A
+                         HREF="InternalExec.html">InternalExec</A></TT>
+                         or <TT><A
+                         HREF="ThreadExec.html">ThreadExec</A></TT>,
+                         please use the <TT>-separateprocess</TT> flag to make sure there are no lasting
+                         effects.</FONT></LI> 
+                </UL></BLOCKQUOTE> 
+         <H2> <A NAME="Writing a more sophisticated test"></A>Writing a more
+                sophisticated test</H2> 
+         <BLOCKQUOTE
+         STYLE="border-top: thin black solid; border-right: thin black solid; border-bottom: thin black solid; border-left: thin black solid">Not
+                all tests will fit into a simple model in which the processes are fairly
+                independent and the only things that need to be tested would generate
+                exceptions if they were broken.&nbsp; Maybe your test requires that the ORBD
+                process be restarted in time with actions on the server, and then have clients
+                access the server after that (the PCOSNaming test does this).&nbsp; Maybe you
+                want both client and server to use the same ORB reference, etc.&nbsp; This is
+                possible, but still not as easy as it should be. 
+                <H3> <A NAME="Controllers and execution strategies"></A><U>Controllers
+                  and execution strategies</U></H3> Examine the <TT><A
+                HREF="Controller.html">Controller</A></TT> interface.&nbsp; It's an
+                abstraction that allows you to create/initialize, start, wait for, and stop a
+                process.&nbsp; The ultimate goal is to make these interchangeable whenever
+                possible.&nbsp; All that is absolutely required is a class name to execute and
+                a name to call it by.&nbsp; The test framework has four classes that provide
+                different ways of fulfilling those methods. <BR>&nbsp; 
+                <TABLE FRAME="BORDER" CELLPADDING="4" WIDTH="70%"> 
+                  <TR> 
+                         <TD VALIGN="TOP"><TT><A
+                                HREF="ExternalExec.html">ExternalExec</A></TT></TD> 
+                         <TD>Executes the class in a separate process.&nbsp; The start()
+                                method returns immediately.</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD VALIGN="TOP"><TT><A
+                                HREF="ExternalHandshakeExec.html">ExternalHandshakeExec</A></TT></TD>
+                         
+                         <TD>Executes the class in a separate process.&nbsp; The start()
+                                method returns only after receiving a handshake.&nbsp; It throws an exception
+                                if it isn't received in a certain amount of time.&nbsp; The handshake string is
+                                given as an <TT>extra</TT> value with the key
+                                <TT>ExternalHandshakeExec.HANDSHAKE_KEY</TT>.&nbsp; The timeout is defined by
+                                <TT><A
+                                HREF="Options.html#getMaximumTimeout()">Options.getMaximumTimeout()</A></TT><A
+                                HREF="Options.html#getMaximumTimeout()">.</A></TD>
+                         
+                  </TR> 
+                  <TR> 
+                         <TD VALIGN="TOP"><TT><A
+                                HREF="InternalExec.html">InternalExec</A></TT></TD> 
+                         <TD>Executes the class in the same process and thread as the
+                                test.&nbsp; Requires that the class implement the <TT><A
+                                HREF="InternalProcess.html">InternalProcess</A></TT>
+                                interface.&nbsp; The start() method will not return until the <TT>run</TT>
+                                method has returned.</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD VALIGN="TOP"><TT><A
+                                HREF="ThreadExec.html">ThreadExec</A></TT></TD> 
+                         <TD>Executes the class in the same process, but a different
+                                thread.&nbsp; Currently requires that the class extend <TT><A
+                                HREF="ThreadProcess.html">ThreadProcess</A></TT>
+                                (which implements the internal interface, but provides some other necessary
+                                items).&nbsp; This may change in the future since it should be unified with the
+                                others.&nbsp; The <TT>ThreadProcess</TT> must behave appropriately and exit
+                                when stopped (methods are provided for all of this).</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD VALIGN="TOP"><TT><A
+                                HREF="DebugExec.html">DebugExec</A></TT></TD> 
+                         <TD>Defers all methods of the Controller to the user, allowing him to
+                                run the class with a debugger outside of the framework while still benefiting
+                                from its structure.&nbsp; Read more about this in the
+                                <A HREF="#How to debug a test">How to debug a test</A> section.</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD VALIGN="TOP"><TT><A
+                                HREF="RDebugExec.html">RDebugExec</A></TT></TD> 
+                         <TD>Launches the java class with the VM arguments -Xdebug -Xnoagent
+                                -Xrunjdwp:transport=dt_socket,server=y,suspend=y so that a JPDA debugger can be
+                                attached to the VM. Also overrides controller.stop so that the user must
+                                explicitly indicate when they are ready to terminate the process.</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD VALIGN="TOP"><TT><A
+                                HREF="ODebugExec.html">ODebugExec</A></TT></TD> 
+                         <TD>Launches the java class under com.lambda.Debugger.Debugger which
+                                causes the class to run under Bil Lewis's Omniscient debugger
+                                (experimental).</TD> 
+                  </TR> 
+                </TABLE> 
+                <P>If you want to switch execution strategies (except for debugging),
+                  override one of these methods in your main test class: </P> 
+                <BLOCKQUOTE><TT>protected Controller newClientController()</TT>
+                  <BR><TT>protected Controller newORBDController()</TT> <BR><TT>protected
+                  Controller newServerController()</TT></BLOCKQUOTE> The current implementations
+                return a new <TT><A
+                HREF="ExternalExec.html">ExternalExec</A></TT>
+                for the client, and new <TT><A
+                HREF="ExternalHandshakeExec.html">ExternalHandshakeExec</A></TT>'s
+                for ORBD and the Server.&nbsp; (You can change the handshakes in the <TT><A
+                HREF="Options.html">Options</A></TT>
+                class.)&nbsp; It would be possible to use someone else's ORBD by switching
+                handshakes, or writing a new execution strategy that waits for or detects when
+                it is ready.&nbsp; Similarly, you could create your own special execution
+                strategy for anything unusual, or for something that you couldn't change to
+                implement <TT>InternalProcess</TT>, but still wanted to run in the current
+                process.&nbsp; (The above methods could be replaced by something in <TT><A HREF="Options.html">Options</A></TT>.)
+                
+                <P>The <TT>extra</TT> parameter to <TT>initialize</TT> is a hashtable
+                  which allows you to pass anything special that you need to.&nbsp; For example,
+                  a handshake.&nbsp; This is where the benefits of internal strategies come
+                  in.&nbsp; If your server process needs the ORBD controller for something, you
+                  could make your server an <TT>InternalProcess</TT> or <TT>ThreadProcess</TT>,
+                  change the execution strategy accordingly, and pass the ORBD by means of this
+                  hashtable. </P> 
+                <H3> <A NAME="Using the Options class"></A><U>Using the Options
+                  class</U></H3> <TT><A
+                HREF="Options.html">Options</A></TT>
+                is the place in which your main test can define lots of information.&nbsp;
+                Unfortunately, this isn't available to your external processes, so find some
+                way to pass things you need (maybe through extra properties, also something you
+                can set with this class).&nbsp; See the javadoc API for the most recent things
+                given to
+                <A
+                HREF="CORBATest.html#createClient(java.lang.String, java.lang.String)">
+                client</A>,
+                <A
+                HREF="CORBATest.html#createServer(java.lang.String, java.lang.String)">server</A>,
+                and
+                <A
+                HREF="CORBATest.html#createORBD()">ORBD</A>
+                processes.&nbsp; You may find that what you need is already available. 
+                <P>The test framework reinitializes this class before every test.&nbsp;
+                  You should only have to call its accessors (which are all
+                  static).</P></BLOCKQUOTE> 
+         <H2> <A NAME="Conversion Status"></A>Conversion Status</H2> 
+         <BLOCKQUOTE> 
+                <TABLE FRAME="BORDER"> 
+                  <TR> 
+                         <TD BGCOLOR="#FFCCCC">Test</TD> 
+                         <TD BGCOLOR="#FFCCCC">Conversion Status</TD> 
+                         <TD BGCOLOR="#FFCCCC">Notes</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>PCOSNamingTests</TD> 
+                         <TD>Converted to corba.pcosnaming</TD> 
+                         <TD>&nbsp;</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>cosnaming</TD> 
+                         <TD>Converted to corba.cosnaming</TD> 
+                         <TD>&nbsp;</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>counter</TD> 
+                         <TD>Not yet</TD> 
+                         <TD>Compile fails with usual Servant problem (expects interface)</TD>
+                         
+                  </TR> 
+                  <TR> 
+                         <TD>javaidlhello</TD> 
+                         <TD>Not yet</TD> 
+                         <TD>&nbsp;</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>jtshooktest</TD> 
+                         <TD>*Converted to corba.jtshook</TD> 
+                         <TD>*Compares stdout dumps for differences </TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>local_stub_gen</TD> 
+                         <TD>Not yet</TD> 
+                         <TD>&nbsp;</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>mthello</TD> 
+                         <TD>*Converted to corba.example</TD> 
+                         <TD>*The POA version was converted as the example, not the
+                                orb.connect / ImplBase version</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>onewaytest</TD> 
+                         <TD>Converted to corba.oneway</TD> 
+                         <TD>&nbsp;</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>persistenthello</TD> 
+                         <TD>Not yet</TD> 
+                         <TD>Compile fails with usual Servant problem (expects interface)</TD>
+                         
+                  </TR> 
+                  <TR> 
+                         <TD>poa-and-equals</TD> 
+                         <TD>Converted to corba.poaandequals</TD> 
+                         <TD>&nbsp;</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>poa-and-invalid-policies</TD> 
+                         <TD>Not yet</TD> 
+                         <TD>&nbsp;</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>poa-and-nonexistent</TD> 
+                         <TD></TD> 
+                         <TD>Compile fails with usual Servant problem (expects interface)</TD>
+                         
+                  </TR> 
+                  <TR> 
+                         <TD>poahello</TD> 
+                         <TD>Not yet</TD> 
+                         <TD>&nbsp;</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>poamanager</TD> 
+                         <TD>Converted to corba.poamanager</TD> 
+                         <TD>&nbsp;</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>poapolicices</TD> 
+                         <TD>Converted to corba.poapolicices</TD> 
+                         <TD>Need to update exception catching further</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>rmi-jts-unexport</TD> 
+                         <TD>Not yet</TD> 
+                         <TD>Client exception</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>rmi-jtshooktest</TD> 
+                         <TD>*Converted to corba.rmijtshook</TD> 
+                         <TD>*Compare stdout dumps for differences </TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>rmi-jtshooktest2</TD> 
+                         <TD>Same as rmi-jtshooktest</TD> 
+                         <TD>&nbsp;</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>rmi_poa_counter</TD> 
+                         <TD>Converted to corba.rmipoacounter</TD> 
+                         <TD>&nbsp;</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>rmi_poa_counter2</TD> 
+                         <TD>Not yet</TD> 
+                         <TD>&nbsp;</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>rmi_poa_counter3</TD> 
+                         <TD>Not yet</TD> 
+                         <TD>&nbsp;</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>rmi_poa_double_counter</TD> 
+                         <TD>Not yet</TD> 
+                         <TD>&nbsp;</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>rmi_poa_double_counter2</TD> 
+                         <TD>Not yet</TD> 
+                         <TD>&nbsp;</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>sc-hook-test</TD> 
+                         <TD>Not yet</TD> 
+                         <TD>Compile errors</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>simple-rmi</TD> 
+                         <TD>Not yet</TD> 
+                         <TD>Client side exceptions?</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>stub-test-compiler</TD> 
+                         <TD>Not yet</TD> 
+                         <TD>Client side exceptions?</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>sun_obv_interop</TD> 
+                         <TD>Not yet</TD> 
+                         <TD>&nbsp;</TD> 
+                  </TR> 
+                  <TR> 
+                         <TD>transient_object_manager</TD> 
+                         <TD>Not yet</TD> 
+                         <TD>&nbsp;</TD> 
+                  </TR> 
+                </TABLE> </BLOCKQUOTE> 
+         <H2> <A NAME="Remaining items and bugs"></A>Remaining items and bugs</H2> 
+         <BLOCKQUOTE> 
+                <H3> <B><U>Goals and ideas:</U></B></H3> </BLOCKQUOTE> 
+         <OL> 
+                <LI> All clients and servers should implement <I>something like</I>
+                  <TT>corba.framework.InternalProcess</TT> to make it easier to switch execution
+                  strategies.&nbsp; They could have a static main which passes in system
+                  properties and streams, then catches the exception, prints it, and exits with
+                  an error code if something went wrong.</LI> 
+                <LI> Work on all execution strategies to make them clean.&nbsp; Dealing
+                  with asynchronous processes is hard, but there must be a nice way to clean up
+                  all those cases.</LI> 
+                <LI> Probably, newORBDController and the others should be removed in
+                  favor of setting this in <TT><A
+                  HREF="Options.html">Options</A></TT></LI>
+                
+                <LI> <TT><A
+                  HREF="ThreadExec.html">ThreadExec</A></TT>
+                  and <TT><A
+                  HREF="InternalExec.html">InternalExec</A></TT>
+                  need to be unified such that a client/server can be switched easily, the two
+                  have the same semantics where possible, and there are no further requirements
+                  other than InternalProcess (this means that <TT>ThreadProcess</TT> should go
+                  away or just become an adapter)</LI> 
+                <LI> Simplify makefiles or create a script/small program</LI> 
+                <LI> Fix deprecation warnings (some tests used
+                  DataInputStream/DataOutputStream)</LI> 
+                <LI> Rewrite the <TT><A
+                  HREF="Controller.html">Controller</A></TT>
+                  and everything else to throw specific exceptions -- TimeoutException,
+                  BadExitValueException, InvalidStateException, etc.&nbsp; Much more tedious, but
+                  more descriptive and precise.</LI> 
+                <LI> A next generation project might use CORBA to talk and exchange
+                  special references between processes.&nbsp; Similar to the way the old test
+                  framework used RMI to do this for servants, except much more broad.&nbsp; You
+                  could have the processes running ANYWHERE -- including in the same process as
+                  the test, and not have all the special cases associated with them.&nbsp;
+                  However, that's a bit heavy weight, and it's hard to justify using what we're
+                  testing to build a test framework to test it!</LI> 
+         </OL> 
+         <H3> <U>Bugs</U></H3> 
+         <OL> 
+                <LI> When using internal execution strategies with RMI, the system will
+                  not be able to find the new class files since they will be under
+                  <TT>gen/&lt;package&gt;/&lt;package&gt;</TT> but the runtime only has
+                  <TT>gen</TT> on the classpath.&nbsp; The work around is to set the output
+                  directory in <TT><A
+                  HREF="Options.html">Options</A></TT>
+                  (in that particular test) to just be <TT>gen</TT> and deal with the
+                  ramifications of that.&nbsp; This doesn't seem to happen in the CORBA case --
+                  it seems to use the framework's special class loader appropriately.</LI> 
+                <LI> On Windows, the first time you start an ORBD process, it seems like
+                  ORBD creates a subprocess for a few seconds. This normally isn't a problem, but
+                  will be if you want to shut down ORBD and restart it (as in the PCOSNaming
+                  test). If you don't give ORBD a little more time to start (the first time) with
+                  a Thread.sleep, this mystery process will hang around. When you kill and
+                  restart ORBD, it will prevent the restart, causing the test to time out waiting
+                  for the ORBD handshake.</LI> 
+                <LI> On Windows with Kestrel, the framework may hang at the end of
+                  CORBAUtil.startProcess when it tries to pipe the error stream to a file. This
+                  may be a java.io bug.</LI> 
+                <LI> If your IDL doesn't have a module name, your test will fail. The
+                  generated code will be placed in gen/&lt;test package&gt;, and javac will
+                  complain of a multiple declaration. </LI> 
+                <LI> The IDL compiler doesn't set a non-zero exit value on failure.&nbsp;
+                  Thus, make sure to check <TT>idlcompiler.err.txt</TT> if your test fails with
+                  an unusual javac error.</LI> 
+         </OL> <HR> 
+         <ADDRESS> <A HREF="mailto:Everett.Anderson@sun.com">Everett
+                Anderson</A></ADDRESS> <BR>
+<!-- Created: Wed Feb 16 11:49:37 PST 2000 -->
+  </BODY>
+</HTML>

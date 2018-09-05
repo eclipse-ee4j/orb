@@ -1,0 +1,6 @@
+By default, rmic now uses an ASM-based classfile parser. New Java code versions can be supported simply by changing
+the dependent ASM version. It is also possible to fall back to the legacy binary classfile parser in
+JDK versions 1.8 and 9 by setting the system property org.glassfish.rmic.UseLegacyClassParsing to "true".
+
+Note that if no version of ASM is in the classpath, rmic will attempt to fallback to the legacy parser in the earlier
+JDK versions.

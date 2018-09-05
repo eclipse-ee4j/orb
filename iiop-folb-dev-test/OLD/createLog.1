@@ -1,0 +1,70 @@
++ /volumes/work/GlassFish/v3/glassfish3/glassfish/bin/asadmin start-domain
+Waiting for domain1 to start ...
+Successfully started the domain : domain1
+domain  Location: /space/work/GlassFish/v3/glassfish3/glassfish/domains/domain1
+Log File: /space/work/GlassFish/v3/glassfish3/glassfish/domains/domain1/logs/server.log
+Admin Port: 4848
+Command start-domain executed successfully.
++ /volumes/work/GlassFish/v3/glassfish3/glassfish/bin/asadmin enable-secure-admin
+Command enable-secure-admin executed successfully.
++ /volumes/work/GlassFish/v3/glassfish3/glassfish/bin/asadmin --user admin create-node-ssh --nodehost minas --installdir /volumes/work/GlassFish/v3/glassfish3 agent1
+Command create-node-ssh executed successfully.
++ /volumes/work/GlassFish/v3/glassfish3/glassfish/bin/asadmin create-cluster c1
+Command create-cluster executed successfully.
++ /volumes/work/GlassFish/v3/glassfish3/glassfish/bin/asadmin --host minas --port 4848 create-instance --cluster c1 --systemproperties instance_name=in1 --node agent1 in1
+Command _create-instance-filesystem executed successfully.
+Port Assignments for server instance in1: 
+JMX_SYSTEM_CONNECTOR_PORT=28686
+JMS_PROVIDER_PORT=27676
+HTTP_LISTENER_PORT=28080
+ASADMIN_LISTENER_PORT=24848
+JAVA_DEBUGGER_PORT=29009
+IIOP_SSL_LISTENER_PORT=23820
+IIOP_LISTENER_PORT=23700
+OSGI_SHELL_TELNET_PORT=26666
+HTTP_SSL_LISTENER_PORT=28181
+IIOP_SSL_MUTUALAUTH_PORT=23920
+The instance, in1, was created on host minas
+Command create-instance executed successfully.
++ /volumes/work/GlassFish/v3/glassfish3/glassfish/bin/asadmin --host minas --port 4848 create-instance --cluster c1 --systemproperties instance_name=in2 --node agent1 in2
+Using DAS host localhost and port 4848 from existing das.properties for node
+agent1. To use a different DAS, create a new node using create-node-ssh or
+create-node-config. Create the instance with the new node and correct
+host and port:
+asadmin --host das_host --port das_port create-local-instance --node node_name instance_name.
+Command _create-instance-filesystem executed successfully.
+Port Assignments for server instance in2: 
+JMX_SYSTEM_CONNECTOR_PORT=28687
+JMS_PROVIDER_PORT=27677
+HTTP_LISTENER_PORT=28081
+ASADMIN_LISTENER_PORT=24849
+JAVA_DEBUGGER_PORT=29010
+IIOP_SSL_LISTENER_PORT=23821
+IIOP_LISTENER_PORT=23701
+OSGI_SHELL_TELNET_PORT=26667
+HTTP_SSL_LISTENER_PORT=28182
+IIOP_SSL_MUTUALAUTH_PORT=23921
+The instance, in2, was created on host minas
+Command create-instance executed successfully.
++ /volumes/work/GlassFish/v3/glassfish3/glassfish/bin/asadmin --host minas --port 4848 create-instance --cluster c1 --systemproperties instance_name=in3 --node agent1 in3
+Using DAS host localhost and port 4848 from existing das.properties for node
+agent1. To use a different DAS, create a new node using create-node-ssh or
+create-node-config. Create the instance with the new node and correct
+host and port:
+asadmin --host das_host --port das_port create-local-instance --node node_name instance_name.
+Command _create-instance-filesystem executed successfully.
+Port Assignments for server instance in3: 
+JMX_SYSTEM_CONNECTOR_PORT=28688
+JMS_PROVIDER_PORT=27678
+HTTP_LISTENER_PORT=28082
+ASADMIN_LISTENER_PORT=24850
+JAVA_DEBUGGER_PORT=29011
+IIOP_SSL_LISTENER_PORT=23822
+IIOP_LISTENER_PORT=23702
+OSGI_SHELL_TELNET_PORT=26668
+HTTP_SSL_LISTENER_PORT=28183
+IIOP_SSL_MUTUALAUTH_PORT=23922
+The instance, in3, was created on host minas
+Command create-instance executed successfully.
++ /volumes/work/GlassFish/v3/glassfish3/glassfish/bin/asadmin --host minas --port 4848 start-cluster c1
+Command start-cluster executed successfully.

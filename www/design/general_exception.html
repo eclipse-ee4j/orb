@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/transitional.dtd">
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<HTML>
+ <HEAD>
+
+  <TITLE>General Exception Handling</TITLE>
+
+ </HEAD>
+ <BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000EE" ALINK="#FF0000" VLINK="#990066">
+
+  <H1 ALIGN=CENTER>General Exception Handling</H1>
+  <HR WIDTH="75%">
+
+  <P>
+  Last Modified: <I>May 23, 2004</I>
+  </P>
+  <P>
+  Version: 1.6  </P>
+
+  <ADDRESS>
+   <A HREF="mailto:ken.cavanaugh@sun.com">&lt;Ken Cavanaugh&gt;</A>
+  </ADDRESS>
+
+  <P>
+  The PEORB already has extensive exception handling code for CORBA system exceptions.
+  The mechanism starts with a descriptive .mc file, with data stored in S-expressions.
+  This takes the following form:
+  </P>
+<PRE>
+("packagename" "classname" group
+    (
+        (EXCEPTIONCLASS
+            (EXCEPTION_NAME ID LEVEL "meaning with {n] args")
+            ...
+        )
+        ...
+    )
+)
+</PRE>
+<P>Here the packagename is the Java package in which the classname is generated.
+The group is used to group CORBA system exception into different groups.
+This is followed by a list of exception classes (given by just the major exception
+type in the CORBA system exceptionc case).  Each exception class in turn
+lists the EXCEPTION_NAME which is used as a constant for the minor code, and
+also as exceptionName for the name of the method used to create and log the 
+exception.  The ID is used to create a unique log record ID for this log 
+record.  The meaning string provides a way to parameterize the string that describes
+the log entry in the logger.
+</P>
+<P>
+The basic idea here is to generate a Java class for each such file that contains methods
+for each EXCEPTION_NAME entry called exceptionName.  Each exceptionName method
+does two things: first, it logs all details about the exception, then it creates
+an instance of the exception and returns it.  The caller may then throw the exception,
+store for later use, or ignore it as needed.
+</P>
+<P>We can use almost the same structure to handle arbitrary exceptions.
+Here is a slight variation:
+<PRE>
+("packagename" "classname" group
+    (
+        (ExceptionClass
+            (exceptionName ID LEVEL "meaning with {n] args")
+            ...
+        )
+        ...
+    )
+)
+</PRE>
+<P>
+We should make some simplifying assumptions to handle this case.
+<OL>
+<LI>group is used directly as the beginning of the log record ID string.
+<LI>ExceptionClass is the fully qualified name of an exception.
+<LI>Only one group per file
+<LI>All entries for a single group must appear in the same file.
+</OL>
+What we will do is generate two methods for every public constructor in the 
+ExceptionClass.  One method has all the arguments passed on the
+constructor, the other starts with a chained exception, and then is
+followed by the arguments passed in the constructor.
+</P>
+<P>
+We also need to handle message strings that contain 
+
+
+Cases:
+
+FooException( String reason )
+
+BarException( int data, Object more ) 
+
+BarException( String reason, int data, Object more ) 
+
+- If first param is a string, it is a reason string
+- All additional constructor args are {1}, ... {n}
+- If message string contains {m}, m&gt;n, then additional string args are 
+  supplied in the methods
+- reason string is set to the formatted message
+
+ </BODY>
+</HTML>

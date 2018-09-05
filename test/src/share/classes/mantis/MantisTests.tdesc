@@ -1,0 +1,24 @@
+//  
+//  Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+//  
+//  This program and the accompanying materials are made available under the
+//  terms of the Eclipse Distribution License v. 1.0, which is available at
+//  http://www.eclipse.org/org/documents/edl-v10.php.
+//
+//  SPDX-License-Identifier: BSD-3-Clause
+
+//
+// These are for verifying bugs fixed in Mantis.
+//
+// Format:
+//
+// -test <class name> <options>
+//
+
+// Fixed 4764130: ClientDelegate.addServiceContexts() records connections prematurely
+-test mantis.m4764130.SendingContextTest
+
+// The following tests are not run if JSG is ON. This is done programmatically.
+// mantis.m4764130.SendingContextTest
+
+// End of file.

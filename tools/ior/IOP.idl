@@ -1,0 +1,76 @@
+/*
+ * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0, which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+#ifndef _IOP_IDL_
+#define _IOP_IDL_
+
+#pragma prefix "omg.org"
+
+#ifndef CORBA3
+#define local
+#endif
+
+module IOP { // IDL
+  // Standard Protocol Profile tag values
+  typedef unsigned long ProfileId;
+  struct TaggedProfile {
+    ProfileId tag;
+    sequence <octet> profile_data;
+  };
+  // an Interoperable Object Reference is a sequence of
+  // object-specific protocol profiles, plus a type ID.
+  struct IOR {
+    string type_id;
+    sequence <TaggedProfile> profiles;
+  };
+  // Standard way of representing multicomponent profiles.
+  // This would be encapsulated in a TaggedProfile.
+  typedef unsigned long ComponentId;
+  struct TaggedComponent {
+    ComponentId tag;
+    sequence <octet> component_data;
+  };
+  typedef sequence<TaggedComponent> TaggedComponentSeq;
+
+  const ProfileId TAG_INTERNET_IOP = 0;
+  const ProfileId TAG_MULTIPLE_COMPONENTS = 1;
+  const ProfileId TAG_SCCP_IOP = 2;
+  typedef sequence <TaggedComponent> MultipleComponentProfile;
+
+  const ComponentId TAG_ORB_TYPE = 0;
+  const ComponentId TAG_CODE_SETS = 1;
+  const ComponentId TAG_POLICIES = 2;
+  const ComponentId TAG_ALTERNATE_IIOP_ADDRESS = 3;
+  const ComponentId TAG_ASSOCIATION_OPTIONS = 13;
+  const ComponentId TAG_SEC_NAME = 14;
+  const ComponentId TAG_SPKM_1_SEC_MECH = 15;
+  const ComponentId TAG_SPKM_2_SEC_MECH = 16;
+  const ComponentId TAG_KerberosV5_SEC_MECH = 17;
+  const ComponentId TAG_CSI_ECMA_Secret_SEC_MECH = 18;
+  const ComponentId TAG_CSI_ECMA_Hybrid_SEC_MECH = 19;
+  const ComponentId TAG_SSL_SEC_TRANS = 20;
+  const ComponentId TAG_CSI_ECMA_Public_SEC_MECH = 21;
+  const ComponentId TAG_GENERIC_SEC_MECH = 22;
+  const ComponentId TAG_FIREWALL_TRANS = 23;
+  const ComponentId TAG_SCCP_CONTACT_INFO = 24;
+  const ComponentId TAG_JAVA_CODEBASE = 25;
+  const ComponentId TAG_TRANSACTION_POLICY = 26;
+  const ComponentId TAG_MESSAGE_ROUTERS = 30;
+  const ComponentId TAG_OTS_POLICY = 31;
+  const ComponentId TAG_INV_POLICY = 32;
+  const ComponentId TAG_INET_SEC_TRANS = 123;  
+
+  typedef unsigned long ServiceId;
+  struct ServiceContext {
+    ServiceId context_id;
+    sequence <octet> context_data;
+  };
+  typedef sequence <ServiceContext>ServiceContextList;
+};

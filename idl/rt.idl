@@ -1,0 +1,70 @@
+/*
+ * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0, which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+#include "ir.idl"
+
+#pragma prefix "omg.org"
+module SendingContext {
+        interface RunTime {};
+
+        interface CodeBase: RunTime {
+        typedef string URL;
+        typedef sequence<URL> URLSeq;
+        typedef sequence <CORBA::ValueDef::FullValueDescription> ValueDescSeq;
+
+        // Operation to obtain the IR from the sending context
+        CORBA::Repository get_ir();
+
+        // Operations to obtain a URL to the implementation code
+        URL implementation(in CORBA::RepositoryId x);
+        URLSeq implementations(in CORBA::RepositoryIdSeq x);
+
+        // Operations to obtain complete meta information about a Value
+        // This is just a performance optimization the IR can provide
+        // the same information
+        CORBA::ValueDef::FullValueDescription meta(in CORBA::RepositoryId x);
+        ValueDescSeq metas(in CORBA::RepositoryIdSeq x);
+
+        // To obtain a type graph for a value type
+        // same comment as before the IR can provide similar
+        // information
+        CORBA::RepositoryIdSeq bases(in CORBA::RepositoryId x);
+        };
+};
+#include "ir.idl"
+
+#pragma prefix "omg.org"
+module SendingContext {
+        interface RunTime {};
+
+        interface CodeBase: RunTime {
+        typedef string URL;
+        typedef sequence<URL> URLSeq;
+        typedef sequence <CORBA::ValueDef::FullValueDescription> ValueDescSeq;
+
+        // Operation to obtain the IR from the sending context
+        CORBA::Repository get_ir();
+
+        // Operations to obtain a URL to the implementation code
+        URL implementation(in CORBA::RepositoryId x);
+        URLSeq implementations(in CORBA::RepositoryIdSeq x);
+
+        // Operations to obtain complete meta information about a Value
+        // This is just a performance optimization the IR can provide
+        // the same information
+        CORBA::ValueDef::FullValueDescription meta(in CORBA::RepositoryId x);
+        ValueDescSeq metas(in CORBA::RepositoryIdSeq x);
+
+        // To obtain a type graph for a value type
+        // same comment as before the IR can provide similar
+        // information
+        CORBA::RepositoryIdSeq bases(in CORBA::RepositoryId x);
+        };
+};

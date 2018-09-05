@@ -1,0 +1,46 @@
+<!--
+
+    Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.glassfish.corba</groupId>
+        <artifactId>glassfish-corba</artifactId>
+        <version>4.0.0-b008-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>glassfish-corba-integration-tests</artifactId>
+    <name>Integration Tests</name>
+    <packaging>pom</packaging>
+
+    <build>
+      <plugins>
+	<plugin>
+	  <artifactId>exec-maven-plugin</artifactId>
+	  <groupId>org.codehaus.mojo</groupId>
+          <version>1.2.1</version>
+	  <executions>
+	    <execution>
+              <phase>integration-test</phase>
+	      <goals>
+	        <goal>exec</goal>
+	      </goals>
+	      <configuration>
+	        <executable>samplerun.sh</executable>
+	      </configuration>
+	    </execution>
+	  </executions>
+	</plugin>
+      </plugins>
+    </build>
+</project>
+

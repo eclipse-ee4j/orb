@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<!DOCTYPE timing SYSTEM "./timing.dtd">
+
+<timing name="TimingPoints" package="com.sun.corba.ee.impl.orbutil.newtimer.generated">
+    <timer name="totalInvocation" description="Total time for a single invocation"/>
+    <timer name="totalRequest" description="Total time for a single request in an invocation"/>
+    <timer name="requestAddServiceContexts" description="Adding service contexts to a request"/>
+    <timer name="processResponse" description="Processing a response on the client side"/>
+
+    <timer name="hasNextNext" description="Call to contactInfoListIterator hasNext and next in CorbaClientDelegateImpl"/>
+    <timer name="connectionSetup" description="Setting up connection in CorbaClientRequestDispatcherImpl"/>
+    <timer name="clientEncoding" description="Client side request marshalling in CorbaClientRequestDispatcherImpl"/>
+    <timer name="clientTransportAndWait" description="Client side transport and wait for response in CorbaClientRequestDispatcherImpl"/>
+    <timer name="clientDecoding" description="Client side response unmarshalling in CorbaClientRequestDispatcherImpl"/>
+
+    <timerGroup name="transportClient" description="Major events in client side request cycle">
+        <contains name="hasNextNext"/>
+        <contains name="connectionSetup"/>
+        <contains name="clientEncoding"/>
+        <contains name="clientTransportAndWait"/>
+        <contains name="clientDecoding"/>
+    </timerGroup>
+
+    <timerGroup name="invocation" description="All activity for an invocation">
+        <contains name="totalInvocation"/>
+        <contains name="totalRequest"/>
+        <contains name="requestAddServiceContexts"/>
+        <contains name="processResponse"/>
+    </timerGroup>
+</timing>

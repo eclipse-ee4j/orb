@@ -1,0 +1,515 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<title>CORBA GFv3 Tips</title>
+</head><body bgcolor="#ffffff" text="#000000">
+
+<h1>CORBA GFv3 Tips</h1>
+
+<!-- ================================================== -->
+<h2>Mercurial Tips</h2>
+<ul>
+  <li><code>hg tags</code>
+    <ul>
+      <li>To find all of the versions of the workspace.  Typical output:
+      </li>
+    </ul>
+  </li>
+</ul>
+<pre>   tip                              380:372bc5d51565
+        VERSION-3.0.0-b031               373:f1c1059c8b4a
+        VERSION-3.0.0-b030               362:a10fc0e267fd
+        VERSION-3.0.0-b029               355:df0edb5a3970
+        VERSION-3.0.0-b028               350:26fbe9d004c7
+        VERSION-3.0.0-b027               342:028d4f3a17c9
+        VERSION-3.0.0-b025               333:426100ef9203
+        VERSION-3.0.0-b024               332:308727367961
+        VERSION-3.0.0-b022               328:ff250a049d08
+        VERSION-3.0.0-b021               321:16ddfd3dd5d2
+        FULL_MERGE                       308:f0172d8ae1e7
+        JMXA_PRE_AMX                     289:573ca9377d2c
+        UNMARSHAL_TRACE_SUPPORT          254:5044ac6b313f
+        VERSION-3.0.0-b020               221:3f5a486dc336
+        3.0-Preview                      221:3f5a486dc336
+        VERSION-3.0.0-b019               215:47c4ca6db041
+        VERSION-3.0.0-b018               208:6fec296e9757
+        VERSION-3.0.0-b017               205:0bba456ed22b
+        VERSION-3.0.0-b016               203:97952529a3be
+        VERSION-3.0.0-b015               201:a8d038435d88
+        VERSION-3.0.0-b014               198:d68593365948
+        VERSION-3.0.0-b013               193:0843e9da0dfc
+        VERSION-3.0.0-b012               190:f20d0bca25df
+        VERSION-3.0.0-b011               188:912a8226bc64
+        VERSION-3.0.0-b010               186:25991c263318
+        VERSION-3.0.0-b009               184:9afe139d453d
+        VERSION-3.0.0-b008               176:e699e4cde78d
+        VERSION-3.0.0-b005               174:002fb86d838f
+        SJSAS91_FCS_BRANCH                 0:0fc818f2f9e5
+
+</pre>
+<ul>
+  <li><code>hg tag VERSION-3.0.0-bXXX</code>
+    <ul><li>To add a new tag.</li></ul>
+  </li><li><code>hg tag --remove VERSION-3.0.0-bXXX</code>
+    <ul><li>To remove a tag (if you add it to the wrong changeset; typical this is done if you forget something)</li></ul>
+  </li><li><code>hg log -r 380:VERSION-3.0.0-b021</code> (or <code>380:373</code>)
+     <ul><li>To see (say) all changes since b032 was released.</li></ul>
+  </li><li><code>hg clone -r VERSION-3.0.0-b021</code> (or just <code>373</code>)
+     <ul><li>To get a copy of a particular release.</li></ul>
+  </li><li><code>hg status</code>
+     <ul>
+       <li> will tell you what has changed.&nbsp; It displays
+&lt;mode&gt; &lt;pathname&gt;, where pathname is always relative to the
+start of the workspace. Some typical modes:
+         <ul>
+           <li>M: modified</li>
+           <li>A: added</li>
+           <li>R: removed</li>
+           <li>?: new file not currently part of workspace</li>
+           <li>!: file was removed that is in workspace</li>
+         </ul>
+       </li>
+    </ul></li>
+  <li><code>hg addremove</code>
+    <ul><li>To get rid of ? and ! files</li>
+        <li><b>NOTE: </b>I've seen addremove fail to find files, so keep an eye on it.</li></ul></li>
+  <li><code>.hgignore</code>
+    <ul><li>file at the top of the workspace. This
+gives the many patterns that are ignored (generated files, temp files,
+etc) in the build.</li></ul></li>
+  <li><code>.hg</code>
+    <ul><li> directory at the top of the workspace.&nbsp; Do not
+touch anything in it except the hgrc file, which typically just
+contains the parent (if any) from which the workspace was cloned.</li></ul></li>
+  <li>We do not use branches in the CORBA workspace.&nbsp; If a command says
+something about multiple heads, don't force it with -f.&nbsp; Instead,
+multiple heads is a sign that a merge is needed.</li>
+  <li>You will probably want to have a ~/.hgrc file.&nbsp; Ken's looks like
+this:</li>
+</ul>
+
+<blockquote>[ui]<br>
+merge = jfilemerge<br>
+verbose = true<br>
+username = Ken Cavanaugh <a class="moz-txt-link-rfc2396E" href="mailto:Ken.Cavanaugh@sun.com">&lt;Ken.Cavanaugh@sun.com&gt;</a><br>
+editor = vim<br>
+  <br>
+[merge-tools]<br>
+meld.args = $output $base $other<br>
+jfilemerge.args = -a $base $local $other $output<br>
+  <br>
+[web]<br>
+allow_push = *<br>
+allowpull = true<br>
+push_ssl = false<br>
+  <br>
+[extensions]<br>
+hgk = <br>
+hgext.hgk = <br>
+  <br>
+The username seems to be mostly useless.&nbsp; However, the merge stuff is
+really important.&nbsp; jfilemerge is the same as the old TeamWare merge
+tool, which still works better than most programs that came after it
+(this is a pure java version).&nbsp; It's available somewhere on SWAN, but I
+can't get to that copy at the moment, so I've attached my mercurial
+workspace (which is a NB project) of the jfilemerge tool.
+</blockquote>
+
+<ul>
+  <li><code>hg annotate</code>
+    <ul><li>useful for finding out which version of a file
+first introduced a particular line in a source file (similar to other
+version control systems).</li></ul></li>
+  <li><code>hg cat</code>
+    <ul><li>looks useful for fetching a particular version of a file
+(I haven't used this).</li></ul></li>
+  <li>NOTE: <code>commit</code> (updating your workspace) and <code>push</code>  (publishing your changes) are separate operations.&nbsp; This sometimes confuses people used to svn and the like.</li>
+  <li><code>hg diff</code>
+    <ul><li>for seeing what's changed (you can give
+it 0-2 -r options to select versions).</li></ul></li>
+  <li><code>hg heads</code>
+    <ul><li>shows what's going on if you have multiple heads
+(not really useful otherwise)</li></ul></li>
+  <li><code>hg merge</code>
+    <ul>
+      <li>how you merge changes when needed. Normally you need
+this only when you do an hg pull that results in conflicts.</li>
+      <li>It's probably best to do <code>hg commit</code> before <code>hg pull</code> and then merge afterwards.</li></ul></li>
+  <li><code>hg rename</code>
+    <ul><li>used to move things around (otherwise I think
+hg may not link the revisions for the old and new files)</li></ul></li>
+  <li><code>hg view</code>
+    <ul>
+      <li>shows overall structure of the changesets.&nbsp;
+Jean-Christophe Collet's jHg is probably more useful (attached).</li>
+      <li>Most useful way for me to use jHg: cd &lt;ws&gt; (with
+uncommitted changes), then jHg -w `pwd` to have an easy way to browse
+changes to create the commit comment.</li></ul></li>
+</ul>
+
+
+<!-- ================================================== -->
+<h2>GFv3 workspace and build</h2>
+The GFv3 wiki starts at
+<a class="moz-txt-link-freetext" href="http://wiki.glassfish.java.net/Wiki.jsp?page=PlanForGlassFishV3">
+         http://wiki.glassfish.java.net/Wiki.jsp?page=PlanForGlassFishV3</a>.
+Some of it is actually useful.<br>
+<br>
+The GFv3 workspace is at
+<a class="moz-txt-link-freetext" href="https://svn.dev.java.net/svn/glassfish-svn/trunk/v3">
+         https://svn.dev.java.net/svn/glassfish-svn/trunk/v3</a>.<br>
+
+See the following for build information:
+
+<ul>
+  <li>Full build instructions:
+      <a href="http://wiki.glassfish.java.net/Wiki.jsp?page=V3FullBuildInstructions">
+              http://wiki.glassfish.java.net/Wiki.jsp?page=V3FullBuildInstructions</a></li>
+  <li>Build chapter on wiki:
+      <a href="http://wiki.glassfish.java.net/Wiki.jsp?page=V3EngineersGuide#section-V3EngineersGuide-7.1SourceCodeManagement">
+               http://wiki.glassfish.java.net/Wiki.jsp?page=V3EngineersGuide#section-V3EngineersGuide-7.1SourceCodeManagement</a></li>
+</ul>
+
+The QL tests are in the GFv3 workspace.&nbsp; The appserv tests are in a
+slightly different place:<br>
+<br>
+<a class="moz-txt-link-freetext" href="https://svn.dev.java.net/svn/glassfish-svn/trunk/appserv-tests">https://svn.dev.java.net/svn/glassfish-svn/trunk/appserv-tests</a><br>
+<br>
+We only care about the devtests/ejb directory in appserv-tests.<br>
+<br>
+Quick summary:
+<ul>
+  <li><code>svn checkout <a class="moz-txt-link-freetext" href="https://svn.dev.java.net/svn/glassfish-svn/trunk/v3">https://svn.dev.java.net/svn/glassfish-svn/trunk/v3</a></code>
+    <ul><li>first time</li></ul></li>
+  <li><code>svn update <a class="moz-txt-link-freetext" href="https://svn.dev.java.net/svn/glassfish-svn/trunk/v3">https://svn.dev.java.net/svn/glassfish-svn/trunk/v3</a></code>
+    <ul><li>subsequently</li></ul></li>
+  <li><code>cd v3</code>
+    <ul><li>assuming your local workspace is <code>v3</code></li></ul></li>
+  <li><code>export MAVEN_OPTS=-Xmx512m</code></li>
+  <li>Note: you need <code>JDK 1.6.0_04</code> or greater.</li>
+  <li><code>mvn clean</code>
+    <ul>
+      <li>(if you are paranoid)</li>
+      <li>Note: use Maven 2.0.9 (not a later version)</li></ul></li>
+  <li><code>mvn -U install</code>
+    <ul><li>this takes around 12 minutes on my triple core 2.8 GHz AMD machine with local disks</li></ul></li>
+  
+</ul>
+To see what corba version is in use, look in the top level file:
+<pre>   v3/pom.xml</pre>
+for the element<br>
+<pre>   &lt;glassfish-corba.version&gt;3.0.0-b032&lt;glassfish-corba.version&gt;
+</pre>
+You can edit this if needed to update the ORB release, then rebuild.<br>
+<br>
+
+<b>Question:</b> I know you can incrementally rebuild a module simply
+by running mvn -U install in the module's top<br>
+level directory, but how to you regenerate glassfish.zip and web.zip?<br>
+<br>
+Useful locations (and some key files: note that source is always under
+src/main/java in maven):<br>
+<ul>
+  <li>orb (much of this code is very similar to v2)<br>
+  </li>
+  <ul>
+    <li>orb-connector: the non-corba-bundle dependent code that helps
+with ORB init</li>
+    <ul>
+      <li>org.glassfish.enterprise.iiop.api:</li>
+      <ul>
+        <li>GlassFishORBFactory</li>
+        <li>GlassFishORBHelper<br>
+        </li>
+      </ul>
+    </ul>
+    <li>orb-iiop: the corba-bundle dependent ORB init related code
+(depends on orb-connector)</li>
+    <ul>
+      <li>org.glassfish.enterpeise.iiop.impl:</li>
+      <ul>
+        <li>GlassFishORBFactoryImpl</li>
+        <li>GlassFIshORBManager</li>
+        <li>PEORBConfigurator<br>
+        </li>
+      </ul>
+    </ul>
+    <li>orb-enabler: used to set default ORB-related system properties</li>
+    <li>Note that I currently have enabled the ClientGroupManager to
+enabled the use of CSIv2SSLTaggedComponentHandler (see issue 8861), but
+none of the other enterprise features are enabled yet.<br>
+    </li>
+  </ul>
+  <li>transactions/jts</li>
+  <ul>
+    <li>com.sun.jts.CosTransactions</li>
+    <ul>
+      <li>DefaultTransactionService is where the narrow happens that
+causes all of the initialization problems.<br>
+      </li>
+    </ul>
+  </ul>
+  <li>ejb</li>
+  <ul>
+    <li>I haven't had too much need to crawl around here so far.<br>
+    </li>
+  </ul>
+  <li>common</li>
+  <ul>
+    <li>amx lives under here</li>
+  </ul>
+</ul>
+
+<!-- ================================================== -->
+<h2>Maven repositories</h2>
+
+We deal with two repositories: 
+<ul>
+<li><code>~/.m2</code></li>
+<li><code><a class="moz-txt-link-freetext" href="http://download.java.net/maven/2">
+                   http://download.java.net/maven/2</a></code></li>
+</ul>
+Both have the same structure.&nbsp; Corba modules are
+under com/sun/corba.&nbsp; The following are the CORBA modules we currently
+use:<br>
+<ul>
+  <li>glassfish-corba-asm</li>
+  <li>glassfish-corba-codegen</li>
+  <li>glassfish-corba-csiv2-idl</li>
+  <li>glassfish-corba-newtimer<br>
+  </li>
+  <li>glassfish-corba-omgapi</li>
+  <li>glassfish-corba-orb</li>
+  <li>glassfish-corba-orbgeneric</li>
+</ul>
+We may combine or rename some of these.&nbsp; The structure of all of these
+is the same: the next level of subdirectory gives the version,<br>
+as in for example
+<a class="moz-txt-link-freetext" href="http://download.java.net/maven/2/com/sun/corba/glassfish-corba-orb/3.0.0-b031:">http://download.java.net/maven/2/com/sun/corba/glassfish-corba-orb/3.0.0-b031:</a><br>
+<pre><a href="http://download.java.net/maven/2/com/sun/corba/glassfish-corba-orb/3.0.0-b031/glassfish-corba-orb-3.0.0-b031.jar" name="glassfish-corba-orb-3.0.0-b031.jar"><img src="cid:part1.03070407.07080901@sun.com" alt="[   ]" border="0">  glassfish-corba-orb-3.0.0-b031.jar</a>                               19-Oct-2009 14:49     1M    
+<a href="http://download.java.net/maven/2/com/sun/corba/glassfish-corba-orb/3.0.0-b031/glassfish-corba-orb-3.0.0-b031.jar.md5" name="glassfish-corba-orb-3.0.0-b031.jar.md5"><img src="cid:part1.03070407.07080901@sun.com" alt="[   ]" border="0">  glassfish-corba-orb-3.0.0-b031.jar.md5</a>                           19-Oct-2009 14:49     1K    
+<a href="http://download.java.net/maven/2/com/sun/corba/glassfish-corba-orb/3.0.0-b031/glassfish-corba-orb-3.0.0-b031.jar.sha1" name="glassfish-corba-orb-3.0.0-b031.jar.sha1"><img src="cid:part1.03070407.07080901@sun.com" alt="[   ]" border="0">  glassfish-corba-orb-3.0.0-b031.jar.sha1</a>                          19-Oct-2009 14:49     1K    
+<a href="http://download.java.net/maven/2/com/sun/corba/glassfish-corba-orb/3.0.0-b031/glassfish-corba-orb-3.0.0-b031.pom" name="glassfish-corba-orb-3.0.0-b031.pom"><img src="cid:part1.03070407.07080901@sun.com" alt="[   ]" border="0">  glassfish-corba-orb-3.0.0-b031.pom</a>                               19-Oct-2009 14:49     4K    
+<a href="http://download.java.net/maven/2/com/sun/corba/glassfish-corba-orb/3.0.0-b031/glassfish-corba-orb-3.0.0-b031.pom.md5" name="glassfish-corba-orb-3.0.0-b031.pom.md5"><img src="cid:part1.03070407.07080901@sun.com" alt="[   ]" border="0">  glassfish-corba-orb-3.0.0-b031.pom.md5</a>                           19-Oct-2009 14:49     1K    
+<a href="http://download.java.net/maven/2/com/sun/corba/glassfish-corba-orb/3.0.0-b031/glassfish-corba-orb-3.0.0-b031.pom.sha1" name="glassfish-corba-orb-3.0.0-b031.pom.sha1"><img src="cid:part1.03070407.07080901@sun.com" alt="[   ]" border="0">  glassfish-corba-orb-3.0.0-b031.pom.sha1</a>                          19-Oct-2009 14:49     1K 
+
+</pre>
+Every artifact in maven (like the jar file) comes with a pom file that
+describes it.<br>
+
+<!-- ================================================== -->
+<h2>CORBA workspace and build</h2>
+
+The GFv3 CORBA workspace is at
+<blockquote>
+<a class="moz-txt-link-freetext" href="https://kenai.com/hg/gf-corba-v3-mirror%7Estaging">
+   https://kenai.com/hg/gf-corba-v3-mirror~staging</a>.</blockquote>
+
+Build instructions (assuming <code>WS</code> is where your workspace lives):<br>
+<ul>
+  <li><code>cd WS/make</code></li>
+  <li><code>ant clean orb-library rename</code></li>
+  <li><code>cd WS/build/rename/ee/make</code></li>
+  <li><code>ant clean build</code>
+    <ul><li>builds all of the ORB</li></ul></li>
+  <li><code>ant build-tests</code>
+    <ul><li>builds all of the ORB tests</li></ul></li>
+  <li><code>ant make-bundles</code>
+    <ul><li>generates the bundles that we install in maven (or sometimes
+         directly in the modules directory)</li></ul></li>
+  <li><code>ant release</code>
+    <ul>
+      <li>release to the download.java.net maven repository</li>
+      <li>Note: this is REALLY slow.&nbsp; It upload about 8 MB of artifacts
+to a slow server (takes 4-8 minutes), which then takes at least 30
+minutes to copy files to the real repository.&nbsp; Only do this when
+releasing an ORB.</li>
+    </ul></li>
+  <li><code>ant release-local</code>
+    <ul><li>Related to the <code>~/.m2</code> maven repository.&nbsp; This is really fast, and is fine for developing on your machine</li></ul></li>
+</ul>
+
+<b>Documentation</b>
+<ul>
+<li><code>www/index.html</code></li>
+<li>For more details, see
+  <ul>
+    <li><code>www/design/orb_notes.html</code> (which is mostly up to date for the GFv3 workspace structure and build)</li>
+    <li>Note that PEPt has been removed (to avoid problems with inhertance and generics in the framework).</li></ul></li>
+</ul>
+
+You can browse the b020 version of the ORB at
+<a class="moz-txt-link-freetext" href="http://kencavanaugh.com/CORBA/www/sources/orb-sources.html">http://kencavanaugh.com/CORBA/www/sources/orb-sources.html</a>.<br>
+Unfortunately I have not had time to keep that up to date.<br>
+
+<!-- ================================================== -->
+<h2>Hudson</h2>
+
+I highly recommend setting up your own Hudson server. The
+<code>config.xml</code> that I use for the corba-master job is
+attached (it pulls from a local repository, and that is specific to my
+setup).&nbsp; This allows you to simply <code>commit</code>, and not
+even think about running the tests (Hudson does that for you). I think
+you can use this as follows:
+
+<br>
+<ul>
+  <li>Get the latest hudson, and run it: <code>java -jar hudson.war</code></li>
+  <li>You may want to put this in a startup item to automatically start up.
+something like:
+    <ul><li><code>nohup java -jar ~/hc/java/hudson/hudson-1-330.war --httpPort=9090 --httpsPort=9091 &gt; ~/.hudson/logfile 2&gt;&amp;1 </code></li></ul></li>
+  <li>create a job for the CORBA workspace (call it <code>corba-master</code>
+      for example)</li>
+  <li>In ~/.hudson/jobs/corba-master, there should be a
+      <code>config.xml</code>. Replace it with the attached version.</li>
+</ul>
+This should get you close.<br>
+
+<!-- ================================================== -->
+<h2>Testing</h2>
+The testing and release procedure for the ORB is as follows:<br>
+<ul>
+  <li>First, get all of the ORB unit tests to pass (see the Hudson job,
+or look at the ORB notes document which describes the various ant
+targets and the runtest script)</li>
+  <li>Then we need to get the app server tests to pass:</li>
+  <ul>
+    <li>glassfish distribution QL</li>
+    <li>web distribution QL</li>
+    <li>EJB dev tests</li>
+  </ul>
+  <li>Then update the ORB version by running the update-build target
+against the renamed ORB</li>
+  <li>Then hg tag&nbsp; VERSION-3.0.0-bXXX, and push the resulting changeset
+to the staging repository.</li>
+  <li>Then finally run the release target</li>
+</ul>
+I'd like to have all of this automated for testing.&nbsp; Darani has a lot
+of this automated on the SWAN<br>
+hudson (hudson.sfbay), but I don't have it nicely packaged for off-SWAN
+use.<br>
+<br>
+I have a bunch of scripts for testing. They assume that there is a
+BUILD area for the workspace, and<br>
+a RUN area for the installed GFv3.<br>
+<ul>
+  <li>installgfv3: copy glassfish.zip to RUN (for glassfish QL)</li>
+  <ul>
+    <li>must have done mvn -U install first<br>
+    </li>
+  </ul>
+  <li>installgfv3w: copy web.zip to RUN (for web QL)</li>
+  <ul>
+    <li>must have done mvn -U install first.<br>
+    </li>
+  </ul>
+  <li>installgmbal: copies my current gmbal to whatever is installed at
+RUN</li>
+  <li>installorb: copies my current ORB to RUN</li>
+  <li>startql: start the app server and derby database</li>
+  <li>stopql: stop all server and derby <br>
+  </li>
+  <ul>
+    <li>Check for ASMain with jps after stopql: sometimes it fails to
+stop the app server</li>
+  </ul>
+  <li>qlonly: runs the glassfish QL.&nbsp; This versions starts the app
+server</li>
+  <li>qlonlyw: runs the web QL.&nbsp; Also starts the app server</li>
+  <li>rql: run a single QL directory <br>
+  </li>
+  <li>runejb: run all of the EJB devtests</li>
+  <li>runql: basically installgfv3 and qlonly</li>
+  <li>rerunql: same as qlonly</li>
+</ul>
+These are all in the temp.tgz attachment.<br>
+
+<!-- ================================================== -->
+<h2>The GFv3 installation structure</h2>
+Unzipping glassfish.zip creates the following structure:<br>
+<ul>
+  <li>glassfishv3</li>
+  <ul>
+    <li>bin</li>
+    <li>javadb</li>
+    <li>third-party-license-readme.txt</li>
+    <li>glassfish (the useful part for us)</li>
+    <ul>
+      <li>bin</li>
+      <ul>
+        <li>asadmin lives here</li>
+        <ul>
+          <li>most important for us: asadmin start-domain --debug
+allows the debugger to be attached to port 9009 (as specified in
+domain.xml)<br>
+          </li>
+        </ul>
+      </ul>
+      <li>config</li>
+      <li>databases</li>
+      <li>docs</li>
+      <li>domains</li>
+      <ul>
+        <li>domain1 (only care about logs and config)<br>
+        </li>
+        <ul>
+          <li>logs</li>
+          <ul>
+            <li>server.log for all logger output (including CORBA trace
+info)<br>
+            </li>
+          </ul>
+          <li>config</li>
+          <ul>
+            <li>domain.xml <br>
+            </li>
+            <ul>
+              <li>use -D to set ORB properties under the
+&lt;jvm-options&gt; elements<br>
+              </li>
+            </ul>
+            <li>logging.properties (I think you can turn on loggers
+here)<br>
+            </li>
+          </ul>
+        </ul>
+      </ul>
+      <li>legal</li>
+      <li>lib</li>
+      <li>modules (where we install ORB bundles if necessary)<br>
+      </li>
+      <li>osgi<br>
+      </li>
+    </ul>
+    <li>mq<br>
+    </li>
+  </ul>
+</ul>
+
+<!-- ================================================== -->
+<h2>Bug tracking</h2>
+Here is a <a href="http://tinyurl.com/yzeobjd">query</a> for CORBA in
+IssueTracker. We don't use bugster much (except for CTS issues).<br>
+<br>
+<hr size="2" width="100%"><br>
+This should get you started.&nbsp; We should probably put this up as a web
+page somewhere.<br>
+<br>
+I don't think I've quite covered testing adequately, but we can cover
+more tomorrow.<br>
+<br>
+<br>
+Ken.<br>
+</body></html>

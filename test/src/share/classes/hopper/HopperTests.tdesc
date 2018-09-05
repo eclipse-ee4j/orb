@@ -1,0 +1,47 @@
+//  
+//  Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+//  
+//  This program and the accompanying materials are made available under the
+//  terms of the Eclipse Distribution License v. 1.0, which is available at
+//  http://www.eclipse.org/org/documents/edl-v10.php.
+//
+//  SPDX-License-Identifier: BSD-3-Clause
+//
+// These are for verifying bugs fixed in Hopper.
+//
+// Format:
+//
+// -test <class name> <options>
+//
+
+// Fixed 4670827: INS does not recognize IPV6 URLs
+// Warning: This test can only be run on Jano. The address is hard coded, will
+// be made general test when time permits. This is only for SQE to test.
+// -test hopper.h4670827.INSTest
+
+// Fixed 4486041: ORB.init() could provide better failure diagnostics
+-test hopper.h4486041.ORBInitErrorTest
+
+// Fixed 4549085: ORB locked into Latin-1 char set for request messages
+-test hopper.h4549085.LockedCodeSetTest
+// Fixed 4515953: RMIC doesn't compile Interfaces whose method has IDLEntity as
+// return values or parameters
+// Commented out temporarily. For now, run the stand alone test case attached
+// in the bug traq
+//-test hopper.h4515953.RMICIDLEntityTest
+// Not required to be run as part of Hopper, it is a fix for the package rename.
+//-test hopper.h4645953.ValidateIdlModules
+
+// Fixed 4647746: POA does not work when ORB.init is called for an Applet
+-test hopper.h4647746.POAAppletTest
+
+// Fixed 4655388: POA.the_children() method throws ClassCastException
+-test hopper.h4655388.POAHierarchyTest
+
+// Fixed 4620926: ServantActivator.incarnate() being invoked more than once
+-test hopper.h4620926.ConcurrentServantActivatorTest
+
+// Fixed 4661596: Bad TypeCode from org.omg.CORBA.WStringValueHelper
+-test hopper.h4661596.WStringValueHelperTest
+
+// End of file.

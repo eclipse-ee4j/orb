@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//SoftQuad Software//DTD HoTMetaL PRO 6.0::19990601::extensions to HTML 4.0//EN" "hmpro6.dtd">
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<HTML> 
+  <HEAD> 
+         <TITLE>GIOP Blunders</TITLE>
+  </HEAD> 
+  <BODY> 
+         <H1 ALIGN="CENTER">GIOP Blunders</H1> 
+         <P> </P> <HR WIDTH="75%"> 
+         <P> Last Modified: <I>May 18, 2004</I> </P> 
+         <P> Version: 1.6 </P> 
+         <ADDRESS> <A HREF="mailto:ken.cavanaugh@sun.com">&lt;Ken Cavanaugh&gt;</A>
+                </ADDRESS>
+         <P> It's interesting to take a look at the errors (and outright blunders)
+                that were committed in the design of GIOP. I am just looking at GIOP and some
+                items directly from CORBA, rather than all of CORBA. Here's my list: </P>
+         <OL>
+                <LI><B>Lack of separate session layer.</B> This needs to top the list,
+                  because this is probably the worst of the blunders. Addressing this problem
+                  would allow us to introduce very powerful session-dependent compression, which
+                  would substantially reduce the size of the messages. It would clean up other
+                  problems as well, such as assigning an FVD to a session. </LI>
+                <LI><B>Inadequate versioning support.</B> We need to be able to version
+                  the protocol separately from the encoding. </LI>
+                <LI><B>Use of padding in CDR.</B> The alignment rules force complications
+                  in the code, and don't really buy anything for performance. </LI>
+                <LI><B>Use of indirection instead of labelling for references to shared
+                  data.</B> Correctly computing the indirections affects the code in many places,
+                  due to the presence of fragmentation and encapsulation. It would be simpler to
+                  just reference the position of the item directly, instead of an indirection to
+                  the item. </LI>
+                <LI><B>Inadequate semantics for location forward.</B> We tried to fix this 
+                once with the location forward permanent idea, but that broke down into
+                semantic difficulties.  The whole area of what a client should do when a 
+                request completes other than normally is underspecified.
+                </LI>
+                <LI><B>Overly complex wide character support.</B>
+                </LI>
+                <LI><B>IDL has become too complex yet remains insufficiently
+                  expressive.</B> There are a lot of areas here that can be criticized, because
+                  every mistake in IDL directly translates to a problem in GIOP. Here's my list: 
+                  <OL> 
+                         <LI><B>Strings and characters should all be unicode.</B> </LI>
+                         <LI><B>Unions should not exist.</B> </LI>
+                         <LI><B>Structs, Exceptions, and ValueTypes should be unified.</B>
+                                </LI>
+                         <LI><B>Truncatable valuetypes are a mistake and should not exist.</B>
+                                </LI>
+                         <LI><B>XML should be a first-class citizen in IDL.</B> </LI>
+                         <LI><B>Sequence and Array should not both exist.</B> </LI>
+                  </OL></LI>
+                <LI><B>Too hard to get GIOP through a firewall.</B> Of course, any number
+                of ORBs (including some in the past at Sun) have done things like base64
+                encoding through HTTP.  The problem is that no real standard exists.
+                The OMG firewall spec efforts aimed at changing firewalls to handle IIOP,
+                which was not possible.  Instead, a standardized means (even if slower) to
+                encode IIOP in a firewall friendly manner would make more sense.  
+                </LI>
+                <LI><B>IOR design is more complex than needed.</B> We end up mostly
+                just needing opaque target object information, plus an open ended and
+                extensible list of transport end point addresses. A single level list
+                structure would handle this nicely.
+                </LI>
+                <LI><B>Request ID belongs in the GIOP header.</B>  This simplifies the
+                transport dispatch code, because reading a GIOP message requires first 
+                reading the fixed 12 byte header, which given enough information to
+                read the rest of the message.  Since the request ID is needed very
+                early in the request processing, it would be nicer to simply include
+                it in the GIOP header (even in those cases where it is not needed).
+                </LI>
+                <LI><B>Fix an endianess choice and be done with it.</B> I've actually 
+                changed my mind about this.  Even in Java, it turns out that there are
+                significant marshalling efficiencies that are possible if the byte order
+                matches the native platform byte order.  Receiver makes right is still the
+                correct choice, and I think GIOP is about right here.
+                </LI>
+                <LI><B>Encapsulations require versioning.</B> In fact, multiple parts
+                of the GIOP protocol require versioning, notably encoding and protocol
+                (in PEPt terms), which really should be versioned separately.
+                </LI>
+                <LI><B>Repository IDs should always be meaningful.</B> This should be
+                required in all cases, rather than allowing users to specify arbitrary
+                repository IDs in an IDL definition.
+                </LI>
+                <LI><B>Chunking is a bad idea.</B> Instead, introduce enough meta-data so
+                  that it is always possible to unmarshal the data, even if the type is unknown.
+                  </LI>
+                <LI><B>Encapsulating complex typecodes is not needed.</B>
+                </LI>
+                <LI>It's almost too easy to pick on, but <B>Bidirectional GIOP is a mess,
+                  and is not getting any better.</B>
+                </LI>
+                <LI><B>Clients should be able to determine whether to locate or not.</B>
+                </LI>
+                <LI><B>Clients should be able to determine when to cache a location
+                  forward.</B>
+                </LI>
+                <LI><B>Client behavior for multiple endpoints and location forward is
+                  underspecified.</B>
+                </LI> 
+         </OL> </BODY>
+</HTML>

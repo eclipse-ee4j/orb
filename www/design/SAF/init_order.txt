@@ -1,0 +1,69 @@
+#
+# Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Distribution License v. 1.0, which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+1. Note that only the activator is registered in InitNS.
+
+2. activator and request interceptor need to reference each other.
+
+ORBD init:
+
+ORBDActivator:
+    constructor( )
+
+    setRequestInterceptor( request interceptor )
+    - holds this for init and getting slot id
+    
+    setORB( ORB )
+    - needs to get rootPOA before it starts operations
+    - needs to call setORB on requestInterceptor
+
+ORBDAdapterActivator:
+    constructor( ORB, activator, servant locator )
+    - needs to get POA policies that are shared with the activator
+    - needs to assign the servant locator to the new POA
+
+ORBDRequestInterceptor:
+    constructor( int slot )
+    - needs the slot id
+
+    setORB( ORB )
+    - find activator 
+
+ORBDServantLocator:
+    constructor( ORB, int slot )
+    - needs PICurrent
+    - needs the slot id
+
+As always, it's good to have ORBs everywhere.
+
+Model:
+
+in initializer:
+
+pre_init:
+    - allocate slot id
+    - create activator ( )
+    - create request interceptor( activator, slot id )
+    - activator . setRequestInterceptor( interceptor ) 
+    - add_client_request( request interceptor )
+    - bind activator in initial naming
+
+post_init:
+    - not needed here.
+    
+in ORBD init:
+
+- find activator from init naming
+- get slot id from activator
+- activator init( ORB )
+- create servant locator ( ORB, slot )
+- create adapter activator( ORB, activator, servant locator )
+- register adapter activator with root POA
+- request interceptor init( ORB )

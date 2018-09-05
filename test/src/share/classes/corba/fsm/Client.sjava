@@ -1,0 +1,104 @@
+/*
+ * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0, which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+package corba.fsm ;
+import java.util.Iterator ;
+import java.util.Properties ;
+import java.util.Map ;
+import java.util.List ;
+import java.util.ArrayList ;
+
+import java.io.PrintWriter ;
+
+import org.testng.TestNG ;
+import org.testng.Assert ;
+import org.testng.annotations.Test ;
+import org.testng.annotations.Configuration ;
+import org.testng.annotations.ExpectedExceptions ;
+
+import com.sun.corba.ee.spi.orb.ORB ;
+
+
+import com.sun.corba.ee.impl.orbutil.newtimer.VersionedHashSet ;
+import com.sun.corba.ee.impl.orbutil.newtimer.TimingPoints ;
+
+import com.sun.corba.ee.impl.orbutil.ORBConstants ;
+
+public class Client {
+    private Foo extends NameBase {
+        public Foo( String name ) {
+            super( name ) ;
+        }
+    }
+
+    @Test()
+    public void testNameBase() {
+        String name = "Blue" ;
+        Foo foo = new Foo( name ) ;
+        assertEquals( name, foo.getName() ) ;
+        assertEquals( "Client$Foo[" + name + "]", foo.toString() ) ;
+    }
+
+    private int value ;
+
+    private ArithAction extends Action {
+        private int mult ;
+        private int add ;
+
+        public ArithAction( int mult, int add ) {
+            super( "DiffAction(" + mult + "X + " + add + ")" ) ;
+            this.mult = mult ;
+            this.add = add ;
+        }
+
+        public void doIt( Runner runner, Input in ) {
+            value = mult * value + add ;
+        }
+    }
+
+    @Test() 
+    public void testAction() {
+        Action act1 = new ArithAction( 2, 1 ) ;
+        String act1Str = "Action ArithAction(2X + 1)" ;
+
+        Action act2 = new ArithAction( 4, 2 ) ;
+        String act2Str = "Action ArithAction(4X + 2)" ;
+
+        Action comp = Action.Base.compose( act1, act2 ) ;
+
+        assertEquals( act1.toString(), act1Str ) ;
+        assertEquals( act2.toString(), act2Str ) ;
+        assertEquals( comp.toString(), 
+            "Action compose(" + arg1Str + "," + arg2Str + ")" ) ;
+
+        value = 1 ;
+        act1.doIt( null, null ) ;
+        assertEquals( 3, value ) ;
+        ac2.doIt( null, null ) ;
+        assertEquals( 14, value ) ;
+
+        value = 1 ;
+        comp.doIt( null, null ) ;
+        assertEquals( 14, value ) ;
+    }
+
+    public static void main( String[] args ) {
+        TestNG tng = new TestNG() ;
+        tng.setOutputDirectory( "gen/corba/fsm/test-output" ) ;
+        Class[] tngClasses = new Class[] {
+            Client.class
+        } ;
+
+        tng.setTestClasses( tngClasses ) ;
+        tng.run() ;
+        System.exit( tng.hasFailure() ? 1 : 0 ) ;
+    }
+}
+

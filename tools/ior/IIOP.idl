@@ -1,0 +1,49 @@
+/*
+ * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0, which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+#ifndef _IIOP_IDL_
+#define _IIOP_IDL_
+
+#include "IOP.idl"
+
+#pragma prefix "omg.org"
+
+#ifndef CORBA3
+#define local
+#endif
+
+module IIOP { // IDL extended for version 1.1 and 1.2
+  struct Version {
+    octet major;
+    octet minor;
+  };
+  struct ProfileBody_1_0 {// renamed from ProfileBody
+    Version iiop_version;
+    string host;
+    unsigned short port;
+    sequence <octet> object_key;
+  };
+  struct ProfileBody_1_1 {// also used for 1.2
+    Version iiop_version;
+    string host;
+    unsigned short port;
+    sequence <octet> object_key;
+    // Added in 1.1 unchanged for 1.2
+    sequence <IOP::TaggedComponent> components;
+  };
+  struct ListenPoint {
+    string host;
+    unsigned short port;
+  };
+  typedef sequence<ListenPoint> ListenPointList;
+  struct BiDirIIOPServiceContext {// BI_DIR_IIOP Service Context
+    ListenPointList listen_points;
+  };
+};

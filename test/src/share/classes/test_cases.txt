@@ -1,0 +1,156 @@
+#
+# Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Distribution License v. 1.0, which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+Note: this is very out of date: update after junit conversion!
+
+corba test suite:                           test case structure         total test case         framework notes
+---------------------------------------------------------------------------------------------------------------
+./corba/cdrext                              30 test cases               30
+./corba/cdrstreams                          7 TC                         7   
+./corba/cmvt                                3 TC                         3
+./corba/monitoring                          6 TC                         6
+./corba/codebase                            6 TC                         6
+./corba/codeset                             12 TC, 2 variations         24
+./corba/connectintercept_1_4                3 TC                         3
+./corba/custom                              3 TC 16 variations          48
+./corba/evolve                              2 TC                         2
+./corba/example                             1 TC                         1
+./corba/fragment                            1 TC, 30 variations         30
+./corba/fragment2                           1 TC, 4 variations           4
+./corba/genericRPCMSGFramework              6 TC                         6 
+./corba/hcks                                60 TC, 4 variations        240
+./corba/ior                                 159 TC                     159
+./corba/iorintsockfact                      1 TC                         1
+./corba/msgtypes                            9 TC, 30 variations on 1    38
+./corba/multiorb                            1 TC                         1
+./corba/oneway                              1 TC                         1 
+./corba/poaandequals                        1 TC                         1
+./corba/poamanager                          10 TC                       10
+./corba/poapolicies                         4 TC                         4
+./corba/poatest                             1 TC                         1
+./corba/purgecalls                          1 TC                         1
+./corba/rmipoacounter                       1 TC                         1
+./corba/serialization/bad                   5 TC                         5
+./corba/serialization/good                  5 TC                         5
+./corba/serialization/zerolengthstring      1 TC                         1
+./corba/strm2                               5 TC                         5
+./corba/transportonly                       1 TC                         1
+./corba/pept                                1 TC                         1
+./corba/ortremote                           2 TC                         2
+./corba/islocal                             1 TC, 2 variations           2
+./corba/orbconfig                           31 TC                       31
+./corba/orbconfigappserv                    1 TC                         1
+./corba/poacallback                         1 TC                         1
+./corba/preinvokepostinvoke                 1 TC                         1
+./corba/copyobject                          127 TC, 5 variations       635                      junit
+./corba/copyobjectpolicy                    2 TC                         2
+./corba/exceptiondetailsc                   1 TC                         1 
+./corba/adapteractivator                    1 TC                         1                      statusU
+--------------------------------------------------------------------------------
+                                                                      1323
+--------------------------------------------------------------------------------
+
+IBM test suite:
+--------------------------------------------------------------------------------
+./anytest                                   16 test cases               16
+./create                                    1 TC                         1
+./dictionary                                1 TC                         1
+./ibmspace/spacetest/SpaceTest              1 TC, JRMP and IIOP          2
+./javax/rmi/PROTest                        48 TC, JRMP and IIOP         96
+./javax/rmi/fvd/TheTest                     1 TC                         1
+./javax/rmi/download/TheTest                1 TC                         1
+./javax/rmi/ClassLoadTest                  21 TC                        21
+./javax/rmi/CORBA/serialization/SerializationTest 56 TC                 56
+./javax/rmi/test1/TheTest                   4 TC                         4
+./rmic/HelloTest                           45 TC, localservants +/-     90
+./rmic/InnerTest                           25 TC                        25
+./rmic/StaticStringsHashTest                8 TC                         8
+./rmic/StubReferenceTest                    8 TC                         8
+./rmic/LocalStubTest                       35 TC                        35
+./rmic/ParseTest                           32 TC                        32
+./test12/SerializationTest                  1 TC                         1
+--------------------------------------------------------------------------------
+                                                                       398
+--------------------------------------------------------------------------------
+
+
+Hopper test suite:
+--------------------------------------------------------------------------------
+./hopper/h4486041                           1 TC                         1
+./hopper/h4515953                           1 TC                         1
+./hopper/h4549085                           1 TC                         1
+./hopper/h4620926                           1 TC                         1
+./hopper/h4645953                           1 TC                         1
+./hopper/h4647746                           1 TC                         1
+./hopper/h4655388                           1 TC                         1
+./hopper/h4661596                           1 TC                         1
+./hopper/h4670827                           1 TC                         1
+--------------------------------------------------------------------------------
+                                                                         9
+--------------------------------------------------------------------------------
+
+
+Mantis test suite:
+--------------------------------------------------------------------------------
+./mantis/m4764130                           1 TC                         1
+--------------------------------------------------------------------------------
+                                                                         1
+--------------------------------------------------------------------------------
+
+
+Naming test suite:
+--------------------------------------------------------------------------------
+./naming/instest                            2 TC                         2
+./naming/cosnaming                          5 TC                         5
+./naming/pcosnaming                         3 TC                         3
+./naming/rinameservice                      3 TC                         3
+--------------------------------------------------------------------------------
+                                                                        13
+--------------------------------------------------------------------------------
+
+Performance test suite:
+--------------------------------------------------------------------------------
+./performance/simpleperf                    5 TC                         5
+./performance/simpleperf2                   2 TC                         2
+--------------------------------------------------------------------------------
+                                                                         7
+--------------------------------------------------------------------------------
+
+PI test suite:
+--------------------------------------------------------------------------------
+./pi/codec                                  15 TC                       15
+./pi/orbinit                                1 TC                         1
+./pi/ort                                    4 TC                         4
+./pi/clientinterceptor                      11 TC, 8 variations         88
+./pi/clientrequestinfo                      8 TC, 8 variations          64
+./pi/iorinterceptor                         1 TC (incomplete)            1
+./pi/picurrent                              7 TC                         7
+./pi/policyfactory                          3 TC                         3
+./pi/serverinterceptor                      11 TC, 8 variations         88
+./pi/serverrequestinfo                      7 TC, 8 variations          56
+./pi/serviceexample                         2 TC                         2
+--------------------------------------------------------------------------------
+                                                                       329
+--------------------------------------------------------------------------------
+
+
+
+Totals:             Test Suites         Test Cases
+--------------------------------------------------------------------------------
+CORBA                        41               1323
+IBM                          17                398
+Hopper                        9                  9
+Mantis                        1                  1
+Naming                        4                 13
+Performance                   2                  7
+PI                           11                329
+--------------------------------------------------------------------------------
+                             85               2077
+

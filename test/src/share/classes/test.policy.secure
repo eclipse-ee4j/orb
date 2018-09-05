@@ -1,0 +1,81 @@
+//  
+//  Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+//  
+//  This program and the accompanying materials are made available under the
+//  terms of the Eclipse Distribution License v. 1.0, which is available at
+//  http://www.eclipse.org/org/documents/edl-v10.php.
+//
+//  SPDX-License-Identifier: BSD-3-Clause
+
+grant CodeBase "file:${com.sun.corba.ee.ORBBase}/build/-" {
+    permission java.io.SerializablePermission "enableSubstitution";
+    permission java.io.SerializablePermission "enableSubclassImplementation";
+    permission java.lang.RuntimePermission "accessClassInPackage.sun.corba" ;
+    permission java.lang.RuntimePermission "accessClassInPackage.sun.misc" ;
+    permission java.lang.RuntimePermission "accessClassInPackage.sun.reflect" ;
+    permission java.lang.RuntimePermission "accessClassInPackage.sun.rmi.registry";
+    permission java.lang.RuntimePermission "accessDeclaredMembers";
+    permission java.lang.RuntimePermission "reflectionFactoryAccess";
+    permission java.lang.RuntimePermission "getClassLoader";
+    permission java.lang.RuntimePermission "setContextClassLoader";
+    permission java.lang.RuntimePermission "getProtectionDomain";
+    permission java.lang.RuntimePermission "shutdownHooks" ;
+    permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
+    permission java.net.SocketPermission "*:*", "listen, connect, accept, resolve";
+    permission java.util.logging.LoggingPermission "control";
+    permission java.util.PropertyPermission "*", "read, write" ;
+    permission org.glassfish.pfl.basic.reflection.BridgePermission "getBridge";
+    permission com.sun.corba.ee.spi.orbutil.proxy.DynamicAccessPermission "access";
+    permission java.lang.management.ManagementPermission "monitor";
+    permission javax.management.MBeanServerPermission "createMBeanServer";
+    permission javax.management.MBeanPermission "*", "*" ;
+    permission javax.management.MBeanTrustPermission "*" ;
+};
+
+// The permissions here must be identical to the permissions specified above,
+// as the base ORB and the optional classes will have different CodeSources.
+// The policy file syntax does not permit multiple codeBases on a grant entry.
+
+grant CodeBase "file:${com.sun.corba.ee.ORBBase}/orblib/build/-" {
+    permission java.io.SerializablePermission "enableSubstitution";
+    permission java.io.SerializablePermission "enableSubclassImplementation";
+    permission java.lang.RuntimePermission "accessClassInPackage.sun.corba" ;
+    permission java.lang.RuntimePermission "accessClassInPackage.sun.misc" ;
+    permission java.lang.RuntimePermission "accessClassInPackage.sun.reflect" ;
+    permission java.lang.RuntimePermission "accessDeclaredMembers";
+    permission java.lang.RuntimePermission "reflectionFactoryAccess";
+    permission java.lang.RuntimePermission "getClassLoader";
+    permission java.lang.RuntimePermission "setContextClassLoader";
+    permission java.lang.RuntimePermission "getProtectionDomain";
+    permission java.lang.RuntimePermission "shutdownHooks" ;
+    permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
+    permission java.net.SocketPermission "*:*", "listen, connect, accept, resolve";
+    permission java.util.logging.LoggingPermission "control";
+    permission java.util.PropertyPermission "*", "read, write" ;
+    permission org.glassfish.pfl.basic.reflection.BridgePermission "getBridge";
+    permission com.sun.corba.ee.spi.orbutil.proxy.DynamicAccessPermission "access";
+    permission java.lang.management.ManagementPermission "monitor";
+};
+
+// These permissions are granted to all tests
+grant {
+    // Unfortunately needed because of calls to System.getProperties()
+    permission java.util.PropertyPermission "*", "read, write" ;
+    // Needed to exec the java VM
+    permission java.io.FilePermission "${java.home}/../-", "read,execute" ;
+    // Tests need full access to the build (two up from test/make)
+    permission java.io.FilePermission "../../-", "read,write,execute" ;
+
+    // The following are needed for the corba.security test
+    permission java.security.SecurityPermission "getPolicy" ;
+    permission java.lang.RuntimePermission "getProtectionDomain" ;
+    permission java.lang.RuntimePermission "accessClassInPackage.sun.rmi.rmic";
+    permission java.lang.RuntimePermission "accessClassInPackage.sun.rmi.rmic.iiop";
+    permission java.lang.RuntimePermission "accessClassInPackage.sun.io" ;
+    permission java.lang.RuntimePermission "accessClassInPackage.sun.tools.asm" ;
+    permission java.lang.RuntimePermission "accessClassInPackage.sun.tools.tree" ;
+    permission java.lang.RuntimePermission "accessClassInPackage.sun.tools.util" ;
+    permission java.lang.RuntimePermission "accessClassInPackage.sun.tools.java" ;
+    permission java.lang.RuntimePermission "accessClassInPackage.sun.tools.javac";
+    permission java.lang.RuntimePermission "shutdownHooks" ;
+} ;

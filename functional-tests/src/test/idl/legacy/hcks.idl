@@ -1,0 +1,163 @@
+/*
+ * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0, which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+module corba
+{
+module hcks
+{
+    typedef sequence<octet> idlJString;
+
+    typedef sequence<long, 10000> IntSeq10000;
+    typedef octet idlOctetArray10000[10000];
+
+    valuetype idlIntSeqValueType IntSeq10000;
+    valuetype idlOctetArrayValueType idlOctetArray10000;
+
+    exception idlExampleException { string reason; };
+    /*
+    abstract valuetype idlAbstractValueType
+    {
+        short getShortA();
+        void  setShortA(in short s);
+    };
+    */
+    valuetype idlValueTypeA /*: idlAbstractValueType*/
+    {
+        private short a;
+        factory init (in short a);
+    };
+
+    valuetype idlValueTypeB : truncatable idlValueTypeA
+    {
+        private short b;
+        factory init (in short a, in short b);
+    };
+
+    custom valuetype idlValueTypeC : truncatable idlValueTypeB
+    {
+        private short c;
+        factory init (in short a, in short b, in short c);
+    };
+
+    custom valuetype idlValueTypeD
+    {
+        private short d;
+        factory init (in short d);
+    };
+
+    valuetype idlValueTypeE
+    {
+        public IntSeq10000 intSeq;
+        public idlOctetArray10000 octetArray;
+    };
+
+    struct recursiveType { 
+        string a; 
+        string b; 
+        sequence<recursiveType,1> s; 
+    }; 
+
+    interface idlControllerI
+    {
+              string        action ( in string s );
+    };
+
+    interface idlI
+    {
+              string        syncOK ( in string arg1 );
+
+              idlValueTypeA sendValue (in idlValueTypeA a, 
+                                       in idlValueTypeB b,
+                                       in idlValueTypeC c,
+                                       in idlValueTypeD d,
+                                       in idlValueTypeE e,
+                                       in idlIntSeqValueType f,
+                                       in idlOctetArrayValueType g);
+
+        oneway void         asyncOK (in idlJString data);
+
+               void         throwUserException () 
+                                raises (idlExampleException);
+
+               void         throwSystemException ();
+
+               void         throwUnknownException ();
+
+               void         throwUNKNOWN ();
+
+               void         raiseSystemExceptionInSendReply ();
+
+               void         testEffectiveTarget1 ();
+               void         testEffectiveTarget2 ();
+
+               Object       getAndSaveUnknownORBVersionIOR();
+               boolean      isIdenticalWithSavedIOR(in Object o);
+    };
+
+    interface idlSMI
+    {
+               string       makeColocatedCallFromServant ( );
+               string       colocatedCallFromServant ( in string a );
+    };
+
+    interface idlSAI : idlSMI
+    {
+               string       raiseForwardRequestInIncarnate ( in string a );
+               string       raiseObjectNotExistInIncarnate ( in string a );
+               string       raiseSystemExceptionInIncarnate ( in string a );
+    };
+
+    interface idlSLI : idlSMI
+    {
+               string       raiseForwardRequestInPreinvoke ( in string a );
+               string       raiseObjectNotExistInPreinvoke ( in string a );
+               string       raiseSystemExceptionInPreinvoke ( in string a );
+               string       raiseSystemExceptionInPostinvoke ( in string a );
+               string       raiseSystemInServantThenPOThenSE ( );
+               string       raiseUserInServantThenSystemInPOThenSE ( )
+                                raises (idlExampleException);
+
+               // These test ThreadDeath handling.
+
+               string       throwThreadDeathInReceiveRequestServiceContexts
+                                                          ( in string a );
+               string       throwThreadDeathInPreinvoke ( in string a );
+               string       throwThreadDeathInReceiveRequest (in string a );
+               string       throwThreadDeathInServant ( in string a );
+               string       throwThreadDeathInPostinvoke ( in string a );
+               string       throwThreadDeathInSendReply ( in string a );
+               string       throwThreadDeathInServantThenSysInPostThenSysInSendException ( in string a );
+
+               // These are used to test server-side PICurrent.
+               // The names are shorthand for s(erver)Pic(urrent).
+
+               void         sPic1();
+               void         sPic2();
+    };
+
+    interface idlHEADERI
+    {
+               void         HEADER ( in string message );
+    };
+
+    interface idlAttributes
+    {
+                        attribute long  longAttribute;
+               readonly attribute short readOnlyShortAttribute;
+    };
+
+    interface sendRecursiveType { 
+        any sendAsAny(in any x); 
+        recursiveType sendAsType(in recursiveType x); 
+    }; 
+
+}; // module hcks
+
+}; // module corba

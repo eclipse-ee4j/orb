@@ -1,0 +1,138 @@
+/*
+ * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0, which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+////////////////////////////////
+// IDL file.
+////////////////////////////////
+
+////////////////////////
+// Constant declarations
+////////////////////////
+
+// boolean type
+
+const boolean boolean_value = TRUE;
+
+// octet type
+
+const octet octet_value = 0xFF;
+
+// char types
+
+const char char_value = '\xFF';
+
+const wchar wchar_value = L'\u5ae6';
+
+// string types
+
+const string string_value = "A""B""C";
+
+const wstring wstring_value = L"\u0ae6""H""E""L""L""O";
+
+// integer types
+
+// -(2^15)
+const short short_value = -32768;
+
+// (2^16)-1
+const unsigned short unsigned_short_value = 65535;
+
+// -(2^31)
+const long long_value = -2147483648;
+
+// (2^32)-1
+const unsigned long unsigned_long_value = 4294967295;
+
+// -(2^63)
+const long long long_long_value = -9223372036854775808;
+
+// Java can't handle (2^63)+1. It will be converted to -((2^63)-1)
+const unsigned long long unsigned_long_long_value = 9223372036854775809; 
+
+// enum type
+
+enum Color { red, green, blue };
+union ColorCount switch (Color) {
+    case red :
+        unsigned long x;
+    case green :
+        unsigned long y;
+    case blue :
+        unsigned long z;
+};
+
+
+//////////////////////////////////////////////
+// Constant declarations with type definitions
+//////////////////////////////////////////////
+
+// boolean type
+
+typedef boolean boolean_type;
+const boolean_type boolean_value_t = TRUE;
+
+// octet type
+
+typedef octet octet_type;
+const octet_type octet_value_t = 0xFF;
+
+// char types
+
+typedef char char_type;
+const char_type char_value_t = '\xFF';
+
+typedef wchar wchar_type;
+const wchar_type wchar_value_t = L'\u5ae6';
+
+// string types
+
+typedef string string_type;
+const string_type string_value_t = "A""B""C";
+
+typedef wstring wstring_type;
+const wstring_type wstring_value_t = L"\u0ae6""H""E""L""L""O";
+
+// integer types
+
+// -(2^15)
+typedef short short_type;
+const short_type short_value_t = -32768;
+
+// (2^16)-1
+typedef unsigned short unsigned_short_type;
+const unsigned_short_type unsigned_short_value_t = 65535;
+
+// -(2^31)
+typedef long long_type;
+const long_type long_value_t = -2147483648;
+
+// (2^32)-1
+typedef unsigned long unsigned_long_type;
+const unsigned_long_type unsigned_long_value_t = 4294967295;
+
+// -(2^63)
+typedef long long long_long_type;
+const long_long_type long_long_value_t = -9223372036854775808;
+
+// Java can't handle (2^63)+1. It will be converted to -((2^63)-1)
+typedef unsigned long long unsigned_long_long_type1;
+typedef unsigned_long_long_type1 unsigned_long_long_type2;
+const unsigned_long_long_type2 unsigned_long_long_value_t = 9223372036854775809;
+
+// enum type
+
+enum Height { tall, dwarf };
+typedef Height Height_type;
+union HeightCount switch (Height_type) {
+    case tall :
+        unsigned long a;
+    default :
+        unsigned long b;
+};

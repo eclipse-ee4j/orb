@@ -1,0 +1,840 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.61 [en] (X11; I; SunOS 5.7 sun4u) [Netscape]">
+   <title>Assertions Covered by PI Tests</title>
+</head>
+<body>
+
+<h1>
+Assertions Covered by PI Tests</h1>
+This document enumerates the assertions covered by each PI test. The PI
+tests can be found in the test/src/share/classes/pi/ directory.
+<h2>
+
+<hr WIDTH="100%">Test: pi.codec</h2>
+Tests Codec and CodecFactory as covered in orbos/99-12-02, Chapter 10.
+<h3>
+Assertions covered:</h3>
+<u>CodecFactory:</u>
+<ul>
+<li>
+The CodecFactory is obtained through a call to ORB::resolve_initial_references(
+"CodecFactory" )</li>
+
+<li>
+A Codec is obtained from the Codec Factory</li>
+
+<li>
+Formats ENCODING_CDR_ENCAPS, versions 1.0, 1.1, 1.2 supported.</li>
+
+<li>
+codec_encoding raises UnknownEncoding if this factory cannot create a Codec
+of the given encoding.</li>
+
+<li>
+Method coverage: CodecFactory::create_codec</li>
+</ul>
+<u>Codec:</u>
+<ul>
+<li>
+FormatMismatch raised if decode or decode_value called when data in the
+provided octet sequence cannot be decoded into an any.</li>
+
+<li>
+Method coverage: Codec::encode, decode, encode_value, decode_value for
+all available codecs.</li>
+</ul>
+
+<h3>
+Assertions not covered in this test:</h3>
+<u>Codec:</u>
+<ul>
+<li>
+InvalidTypeForEncoding raised by encode or encode_value when the type is
+invalid for the encoding. Reason: Currently no way to detect this in CDROutputStream.</li>
+
+<li>
+TypeMismatch raised by decode_value when the given TypeCode does not match
+the octet sequence. Reason: Currently no way to detect this in CDRInputStream.
+FormatMismatch raised instead.</li>
+</ul>
+
+<h2>
+
+<hr WIDTH="100%">Test: pi.orbinit</h2>
+Tests Registering Interceptors, as covered in orbos/99-12-02, Chapter 9.
+<h3>
+Assertions covered:</h3>
+<u>ORBInitializer:</u>
+<ul>
+<li>
+Correct ORBInitializers found and instantiated given system properties.</li>
+
+<li>
+When an ORB is initializing, it shall call each registered ORBInitializer,
+passing it an ORBInitInfo object.</li>
+</ul>
+<u>ORBInitInfo:</u>
+<ul>
+<li>
+Interceptors cannot be registered on an ORB after it has been returned
+by a call to ORB_init - This is implicit in the current way interceptors
+are registered in Java.</li>
+
+<li>
+All calls to ORBInitInfo::resolve_initial_references must be made in post_init,
+not pre_init.</li>
+
+<li>
+resolve_initial_references raises InvalidName at appropriate times</li>
+
+<li>
+arguments, orb_id, and codec_factory contain valid values</li>
+
+<li>
+add_*_interceptor raises DuplicateName at appropriate times</li>
+
+<li>
+Function coverage: resolve_initial_references, add_*_interceptor</li>
+
+<li>
+If a service keeps a reference to its ORBInitInfo object and tries to use
+it after ORB_init returns, the object no longer exists and an OBJECT_NOT_EXIST
+exception shall be raised.</li>
+</ul>
+
+<h3>
+Assertions not covered in this test:</h3>
+<u>ORBInitializer:</u>
+<ul>
+<li>
+Request Interceptors are registered on a per-ORB basis. Timestaking to
+test, and it fairly evident from clear-box testing.</li>
+</ul>
+<u>ORBInitInfo:</u>
+<ul>
+<li>
+All calls to ORBInitInfo::register_initial_reference must be made in pre_init,
+not post_init. This is implemented, but will not be uncommented until completion
+of PI implementation.</li>
+
+<li>
+register_initial_reference raises InvalidName at appropriate times - To
+be tested at completion of PI implementation.</li>
+
+<li>
+Any number of anonymous Interceptors may be registered with the ORB.</li>
+
+<li>
+Registration of multiple anonymous interceptors do not raise DuplicateName</li>
+
+<li>
+Function coverage: register_initial_reference - To be tested at completion
+of PI implementation.</li>
+
+<li>
+Function coverage: allocate_slot_id - To be tested in PICurrent test.</li>
+
+<li>
+Function coverage: register_policy_factory - To be tested in PolicyFactory
+test.</li>
+
+<li>
+register_policy_factory raises BAD_INV_ORDER with minor code of TBD_BIO+2
+if PolicyFactory already exists for the given policy type.</li>
+</ul>
+
+<h2>
+
+<hr WIDTH="100%">Test: pi.iorinterceptor</h2>
+Tests IORInterceptor and IORInfo, as covered in orbos/99-12-02, Chapter
+7.
+<h3>
+Assertions covered:</h3>
+<u>IORInterceptor:</u>
+<ul>
+<li>
+A server side ORB calls the establish_components operation on all registered
+IORInterceptor instances when it is assembling the list of components that
+will be included in the profile or profiles of an object reference.</li>
+
+<li>
+The ORB shall ignore any exceptions thrown by an implementation of IORInterceptor.</li>
+
+<li>
+POAManager state changes are notified to a CORBA 3.* compliant IORInterceptor</li>
+
+<li>
+POA Destroyed notifications are sent to CORBA 3.* compliant IORInterceptor</li>
+</ul>
+<u>IORInfo:</u>
+<ul>
+<li>
+add_ior_component and add_ior_component_to_profile adds a tagged component
+to the set which will be included when constructing IORs. add_ior_component
+will cause a tagged component to be added to all profiles. add_ior_component_to_profile
+causes a tagged component to be added to only the profile with the specified
+id. <i>Note that, in our ORB this all reduces to the same thing since we
+only ever have an IIOP profile.</i></li>
+
+<li>
+any number of components may exist with the same component ID.</li>
+
+<li>
+add_ior_component: If the given profile ID does not define a known profile
+or it is impossible to add components to that profile, BAD_PARAM is raised
+with a minor code of TBD_BP + 3.</li>
+</ul>
+
+<h3>
+Assertions not covered in this test:</h3>
+<u>IORInterceptor:</u>
+<ul>
+<li>
+</li>
+</ul>
+<u>IORInfo:</u>
+<ul>
+<li>
+get_effective_policy - To be tested when implemented.</li>
+</ul>
+
+<br>&nbsp;
+<h2>
+
+<hr WIDTH="100%"></h2>
+
+<h2>
+Test: pi.ort</h2>
+Tests ORT state changes.
+<h3>
+Assertions covered:</h3>
+<u>IORInterceptor:</u>
+<ul>
+<li>
+POAManager state changes are notified to a CORBA 3.* compliant IORInterceptor</li>
+
+<li>
+POA Destroyed notifications are sent to CORBA 3.* compliant IORInterceptor</li>
+</ul>
+
+<ul>&nbsp;
+<br>
+<hr WIDTH="100%"></ul>
+
+<h2>
+Test: pi.picurrent</h2>
+Tests Portable Interceptor Current, as covered in orbos/99-12-02, Chapter
+6.
+<h3>
+Assertions covered:</h3>
+<u>current:</u>
+<ul>
+<li>
+Tests resolve_initial_references( "PICurrent" ).</li>
+
+<li>
+Test PIORB.allocateSlotId( ).</li>
+
+<li>
+Tests PICurrent.get_slot() and set_slot().</li>
+
+<li>
+Tests PICurrent by creating another thread.</li>
+
+<li>
+&nbsp;Tests internal working of PIORB.pushPICurrent() and popPICurrent().</li>
+</ul>
+
+<h3>
+Assertions not covered in this test:</h3>
+<u>current:</u>
+<ul>
+<li>
+Testing the PICurrent feature from the Interception points.</li>
+</ul>
+
+<h2>
+
+<hr WIDTH="100%">Test: pi.clientinterceptor</h2>
+Tests ClientRequestInterceptor, as covered in orbos/99-12-02, Chapter 5.2.
+<h3>
+Assertions covered:</h3>
+<u>ClientRequestInterceptor:</u>
+<ul>
+<li>
+send_request (5.2.1.1.)</li>
+
+<ul>
+<li>
+invoked before request is sent to server</li>
+
+<li>
+SYSTEM_EXCEPTION raised implies no other interceptors' send_request operations
+are called.&nbsp; Those Interceptors on the Flow stack are popped and their
+receive_exception interception points are called.</li>
+
+<li>
+ForwardRequest raised implies no other Interceptors' send_request operations
+are called.&nbsp; Those interceptors on the flow stack are popped and their
+receive_other interception points are called.</li>
+</ul>
+
+<li>
+receive_reply (5.2.1.3.)</li>
+
+<ul>
+<li>
+invoked after it is returned from the server and before control is returned
+to the client.</li>
+
+<li>
+SYSTEM_EXCEPTION raised implies no other Interceptors' receive_reply operations
+are called.&nbsp; The remaining interceptors in the flow stack shall have
+their receive_exception interception point called.</li>
+</ul>
+
+<li>
+receive_exception (5.2.1.4.)</li>
+
+<ul>
+<li>
+invoked when an exception occurs.</li>
+
+<li>
+ForwardRequest implies no other interceptors' receive_exception operations
+are called.&nbsp; The remaining Interceptors in the flow stack are popped
+and have their receive_other interception point called.</li>
+</ul>
+
+<li>
+receive_other (5.2.1.5.)</li>
+
+<ul>
+<li>
+invoked when a request results in something other than a normal reply or
+an exception.</li>
+
+<li>
+SYSTEM_EXCEPTION raised implies no other Interceptors' receive_other operations
+are called.&nbsp; The remaining interceptrs in the flow stack are popped
+and have their receive_exception interception point called.</li>
+</ul>
+
+<li>
+The interceptor list is traversed in order on the sending interception
+points and in reverse order on the receiving interception points. (5.2.2.)</li>
+
+<li>
+Client-side Flow Rules:</li>
+
+<ul>
+<li>
+One and only one of send_request or send_poll is called on any given request/reply
+sequence. (5.2.2.1.)</li>
+
+<li>
+One and only one of receive_reply, receive_exception, or receive_other
+is called on any given request/reply sequence (5.2.2.1.)</li>
+
+<li>
+If and only if send_request or send_poll runs to completion is an ending
+interception point called.</li>
+</ul>
+
+<li>
+Interceptors are called on all ORB mediated invocations (5.1.1.) - Will
+be tested once implemented.</li>
+
+<li>
+Works in POA Remote case (client and server in different processes, POA
+is used).</li>
+
+<li>
+Works in POA Local case (client and server in same process, same orb, POA
+is used).</li>
+
+<li>
+Works in RMI/IIOP case (client and server in different processes, RMI/IIOP
+is used).</li>
+</ul>
+
+<h3>
+Assertions not covered in this test:</h3>
+<u>ClientRequestInterceptor:</u>
+<ul>
+<li>
+send_poll (5.2.1.2.) - This feature is not available in our ORB.&nbsp;
+This will be tested once messaging is implemented in our ORB.</li>
+
+<li>
+COMM_FAILURE or similar exception may result in a retry of the request.&nbsp;
+While this retry is a new request with respect to interceptors, there is
+one point of correlation between the original request and the retry:&nbsp;
+because control has not returned to the client, the PortableInterceptor::Current
+for both the original request and the retrying request is the same. (5.2.1.4.)
+- Difficult to simulate these conditions in a test.</li>
+
+<li>
+Same as above for ForwardRequest (5.2.1.5.) - Will be tested once implemented.</li>
+
+<li>
+If, during request processing, a request is canceled because of an ORB
+shutdown, receive_exception is called with the system exception BAD_INV_ORDER
+with a minor code of 4 (ORB has shutdown). - Will be tested once implemented.</li>
+
+<li>
+If a request is canceled for any other reason (e.g., a GIOP cancel message
+is sent by the ORB), receive_exception is called with the system exception
+TRANSIENT with a minor code of TBD_T (5.2.2.2.). - Will be tested once
+implemented.</li>
+
+<li>
+One a oneway call, receive_reply is called before control is returned to
+the client (5.2.2.2.) - Spec requires clarification.</li>
+
+<li>
+Asynchronous requests handling (5.2.2.2.) - Not implemented in our ORB.</li>
+
+<li>
+A request Interceptor may make object invocations itself before allowing
+the current request to execute. (5.1.1.) - Will be tested in PICurrent</li>
+</ul>
+
+<h2>
+
+<hr WIDTH="100%">Test:pi.clientrequestinfo</h2>
+Tests ClientRequestInfo, as covered in orbos/99-12-02, Chapter 5.4.1. and
+5.4.2.&nbsp; Also tests RequestInfo in the context of a client request.
+<h3>
+Assertions covered:</h3>
+<u>RequestInfo:</u>
+<ul>
+<li>
+Each interception point is given an object through which the Interceptor
+can access request information. (5.4.)</li>
+
+<li>
+request_id (5.4.1.1.):</li>
+
+<ul>
+<li>
+same for request as for reply</li>
+
+<li>
+unique for each currently active request/reply sequence.</li>
+</ul>
+
+<li>
+operation (5.4.1.2.) - Name of the operation being invoked.</li>
+
+<li>
+response_expected (5.4.1.8.) - false for oneway, true for all else.</li>
+
+<li>
+sync_scope (5.4.1.9.) - Our ORB always returns Messaging::SYNC_WITH_TRANSPORT</li>
+
+<li>
+reply_status (5.4.1.10.) - For clients:</li>
+
+<ul>
+<li>
+within receive_reply this value is successful</li>
+
+<li>
+within receive_exception this value is SYSTEM_EXCEPTION or USER_EXCEPTION.</li>
+
+<li>
+within receive_other, this value is SUCCESSFUL, LOCATION_FORWARD, LOCATION_FORWARD_PERMANENT,
+or TRANSPORT_RETRY.</li>
+</ul>
+
+<li>
+forward_reference (5.4.1.11)</li>
+
+<ul>
+<li>
+if reply_status is LOCATION_FORWARD or LOCATION_FORWARD_PERMANENT, contains
+object to which the request will be forwarded.</li>
+
+<li>
+if reply_status is anything else, BAD_INV_ORDER is thrown with a minor
+code of TBD_BIO.</li>
+</ul>
+
+<li>
+get_request_service_context (5.4.1.13):</li>
+
+<ul>
+<li>
+returns a <b>*copy*</b> of the service context with the given id.</li>
+
+<li>
+If the request's service context does not contain an entry for that ID,
+BAD_PARAM with a minor code of TBD_BP is raised.</li>
+</ul>
+</ul>
+<u>ClientRequestInfo:</u>
+<ul>
+<li>
+ClientRequestInfo validity table is implemented (5.4.2.), table 5-1.</li>
+
+<li>
+effective_target (5.4.2.2.)</li>
+
+<ul>
+<li>
+The actual object on which the operation will be invoked.</li>
+
+<li>
+LOCATION_FORWARD: Contains forwarded IOR on all subsequent requests.</li>
+
+<li>
+LOCATION_FORWARD_PERMANENT: Contains forwarded IOR on all subsequent requests.</li>
+</ul>
+
+<li>
+effective_profile (5.4.2.3)</li>
+
+<ul>
+<li>
+the profile that will be used to send the request.</li>
+
+<li>
+If a location forward has occurred for this operation's object and that
+object's profile changed accordingly, then this profile will be that located
+profile.</li>
+</ul>
+
+<li>
+received_exception (5.4.2.4)</li>
+
+<ul>
+<li>
+returns an any which contains the exception to be returned to the client.</li>
+
+<li>
+works with SystemException</li>
+
+<li>
+works with UserException</li>
+</ul>
+
+<li>
+received_exception_id (5.2.4.5) - repository ID of the exception to be
+returned to the client.</li>
+
+<li>
+add_request_service_context (5.4.2.9)</li>
+
+<ul>
+<li>
+Allows interceptors to add service contexts to request.</li>
+
+<li>
+If replace is false and service context already exists with the given ID,
+BAD_INV_ORDER( TBD_BIO + 1 ).</li>
+
+<li>
+If replace is true and service context already exists with the given ID,
+it is replaced.</li>
+</ul>
+</ul>
+
+<h3>
+Assertions not covered in this test:</h3>
+<u>RequestInfo:</u>
+<ul>
+<li>
+arguments (5.4.1.3.) - Will be tested once DII is implemented.</li>
+
+<li>
+exceptions (5.4.1.4.) - Will be tested once DII is implemented.</li>
+
+<li>
+contexts (5.4.1.5.) - Will be tested once DII is implemented.</li>
+
+<li>
+operation_context (5.4.1.6.) - Will be tested once DII is implemented.</li>
+
+<li>
+result (5.4.1.7.) - Will be tested once DII is implemented.</li>
+
+<li>
+get_slot (5.4.1.12) - Will be tested once PICurrent is integrated with
+client request interceptors.</li>
+
+<li>
+get_reply_service_context (5.4.1.14) - Will be tested once ServerRequestInfo
+is implemented.</li>
+
+<ul>
+<li>
+returns a <b>*copy</b>* of the service context with the given id that is
+associated with the reply.</li>
+
+<li>
+If the request's service context does not contain an entry for that ID,
+BAD_PARAM with a minor code of TBD_BP is raised.</li>
+</ul>
+
+<li>
+target (5.4.2.1.) - Will be tested once new IOR code is put back.</li>
+
+<ul>
+<li>
+The object which the client called to perform the operation.</li>
+
+<li>
+LOCATION_FORWARD: Contains original IOR on all subsequent requests.</li>
+
+<li>
+LOCATION_FORWARD_PERMANENT: Contains forwarded IOR on all subsequent requests.</li>
+</ul>
+
+<li>
+get_effective_component (5.4.2.6) - Will be tested once IORInterceptor
+and new IOR code is put back.</li>
+
+<ul>
+<li>
+Returns TaggedComponent with the given ID from the profile selected for
+this request.</li>
+
+<li>
+If no component exists for the given component ID, BADPARAM( TBD_BP + 2
+)</li>
+</ul>
+
+<li>
+get_effective_components (5.4.2.7) - Will be tested once IORInterceptor
+and new IOR code is put back.</li>
+
+<ul>
+<li>
+Returns TaggedComponent[] with the given ID from the profile selected for
+this request.</li>
+
+<li>
+If no component exists for the given component ID, BAD_PARAM( TBD_BP +
+2 )</li>
+</ul>
+
+<li>
+get_request_policy (5.4.2.8) - Throws NO_IMPLEMENT in our ORB.</li>
+
+<ul>
+<li>
+Returns the policy in effect for this operation.</li>
+
+<li>
+If policy type is invalid, INV_POLICY( TBD_IP )</li>
+</ul>
+
+<li>
+In recevied_exception(), if user exception cannot be inserted into an any,
+then returns any with UNKNOWN( TBD_U ). - Difficult to test.</li>
+</ul>
+
+<h3>
+
+<hr WIDTH="100%">Test: pi.serverinterceptor</h3>
+Tests ServerRequestInterceptor, as covered in orbos/99-12-02, Chapter 5.3.
+<h3>
+Assertions covered:</h3>
+<u>ServerRequestInterceptor:</u>
+<ul>
+<li>
+receive_request_service_contexts (5.3.1.1)</li>
+
+<ul>
+<li>
+invoked before the servant manager is called.</li>
+
+<li>
+SYSTEM_EXCEPTION raised implies no other Interceptors' receive_request_service_contexts
+operations are called.&nbsp; Those interceptors on the flow stack are popped
+and their send_exception interception points are called.</li>
+
+<li>
+ForwardRequest raised implies no other Interceptors' receive_Request_service_contexts
+operations are called.&nbsp; Those Interceptors on the flow stack are popped
+and their send_other interception points are called.</li>
+</ul>
+
+<li>
+receive_request (5.3.1.2)</li>
+
+<ul>
+<li>
+In the DSI model, the ORB shall guarantee that receive_request is called
+once, either through arguments or through set_exception.</li>
+
+<li>
+In the DSI model, if receive_request is called through set_exception, requesting
+the arguments will result in NO_RESOURCES being raised with a minor code
+of TBD_NR.</li>
+
+<li>
+SYSTEM_EXCEPTION raised implies no other Interceptors' receive_request
+operations are called.&nbsp; Those Interceptors on the FlowStack are popped
+and their send_exception interception points are called.</li>
+
+<li>
+ForwardRequest raised implies no other Interceptors' receive_request operations
+are called.&nbsp; Those Interceptors on the Flow Stack are popped and their
+send_other interception points are called.</li>
+</ul>
+
+<li>
+send_reply (5.3.1.3)</li>
+
+<ul>
+<li>
+Allows the Interceptor to modify the reply service context after the target
+operation has been invoked and before the reply is returned to the client.</li>
+
+<li>
+SYSTEM_EXCEPTION implies no other Interceptors' send_reply operations are
+called.&nbsp; The remaining Interceptors in the Flow Stack shall have their
+send_exception interception point called.</li>
+</ul>
+
+<li>
+send_exception (5.3.1.4)</li>
+
+<ul>
+<li>
+Called when an exception occurs.</li>
+
+<li>
+Allows Interceptor to modify the reply service context before the exception
+is raised to the client.</li>
+
+<li>
+SYSTEM_EXCEPTION changes the exception which successsive Interceptors popped
+from the Flow Stack receive on their calls to send_exception.</li>
+
+<li>
+The exception raised to the client will be the last exception raised by
+an Intercepto, or the original exception of no Interceptor changes the
+exception.</li>
+
+<li>
+ForwardRequest implies no other Interceptors' send_exception operations
+are called.&nbsp; The remaining Interceptors in the Flow Stack shall have
+their send_other interception points called.</li>
+</ul>
+
+<li>
+send_other (5.3.1.5)</li>
+
+<ul>
+<li>
+invoked when a request results in something other than a normal reply or
+an exception.</li>
+
+<li>
+SYSTEM_EXCEPTION implies no other Interceptors' send_other operations are
+called.&nbsp; The remaining Interceptors in the Flow Stack shall have their
+send_exception interception points called.</li>
+
+<li>
+ForwardRequest implies successive Interceptors' send_other operations are
+called with the new information provided by the ForwardRequest exception.</li>
+</ul>
+
+<li>
+The Interceptor list is traversed in order on the receiving interception
+points and in reverse order on the sending interception points (5.3.2)</li>
+
+<li>
+receive_request is called after receive_request_service_contexts and before
+an ending interception point (5.3.2.1)</li>
+
+<li>
+On an exception, receive_request may not be called (5.3.2.1)</li>
+
+<li>
+If and only if receive_request_service_contexts runs to completion is an
+ending interception point called (5.3.2.1)</li>
+
+<li>
+On oneway requests, there is no reply sent to the client, however, the
+target is called and the server can construct an empty reply.&nbsp; This
+reply is tracked and send_reply or send_exception is called (5.3.2.2)</li>
+</ul>
+
+<h3>
+Assertions not covered in this test:</h3>
+<u>ServerRequestInterceptor:</u>
+<ul>
+<li>
+Interceptors are called on all ORB mediated invocations (5.1.1.) - Will
+be tested once implemented.</li>
+
+<li>
+If, during request processing, a request is canceled because of an ORB
+shutdown, receive_exception is called with the system exception BAD_INV_ORDER
+with a minor code of 4 (ORB has shutdown) (5.3.2.2) - Will be tested once
+implemented.</li>
+
+<li>
+If a request is canceled for any other reason (e.g., a GIOP cancel message
+has been received), send_exception is called with the system exception
+TRANSIENT with a minor code of TBD_T (5.3.2.2.). - Will be tested once
+implemented.</li>
+
+<li>
+See 5.3.2.2. regarding GIOP CloseConnection messages - May be difficult
+to test.</li>
+
+<li>
+Asynchronous request, from the server's point of view, are just normal
+synchronous requests.&nbsp; Normal interception point flows are followed.
+(5.3.2.2) - Our ORB does not support asynchronous requests.</li>
+</ul>
+
+<h2>
+
+<hr WIDTH="100%">To Test (_REVISIT_):</h2>
+This section exists to ensure we eventually get to the following tests,
+which were not convenient to implement at discovery time:
+<p><u>ClientRequestInfo</u>
+<ul>
+<li>
+The interceptor cannot modify any "in" arguments (5.1.1.).</li>
+
+<li>
+The interceptor cannot modify "out" arguments or the return value (5.1.1.).</li>
+
+<li>
+If SYSTEM_EXCEPTION is raised in receive_exception, this has the effect
+of changing the exception which successive interceptors popped from the
+flow stack receive on their calls to receive_exception.&nbsp; The exception
+raised to the client will be the last exception raised by an Interceptor,
+or the original exception if no Interceptor changes the exception (5.2.1.4.)</li>
+
+<li>
+If ForwardRequest is raised in receive_other, successive Interceeptors'
+receive_other operations are called with the new information provided by
+the ForwardRequest exception (5.2.1.5.)</li>
+</ul>
+
+<br>&nbsp;
+</body>
+</html>

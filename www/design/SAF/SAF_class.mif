@@ -1,0 +1,890 @@
+<MIFFile 4.00>
+# Creator: Visual Thought-1.5
+# For: ken
+# Title: SAF_class.vthought
+# Creation Date: Fri Sep 15, 2000 5:34:19 PM PDT
+<Units Upt> # All dimensions are in points
+<ColorCatalog
+ <Color
+  <ColorTag `Black'>
+  <ColorCyan 0>
+  <ColorMagenta 0>
+  <ColorYellow 0>
+  <ColorBlack 100>
+  <ColorAttribute ColorIsBlack>
+  <ColorAttribute ColorIsReserved>
+ >
+ <Color
+  <ColorTag `White'>
+  <ColorCyan 0>
+  <ColorMagenta 0>
+  <ColorYellow 0>
+  <ColorBlack 0>
+  <ColorAttribute ColorIsWhite>
+  <ColorAttribute ColorIsReserved>
+ >
+ <Color
+  <ColorTag `Red'>
+  <ColorCyan 0>
+  <ColorMagenta 100>
+  <ColorYellow 100>
+  <ColorBlack 0>
+  <ColorAttribute ColorIsRed>
+  <ColorAttribute ColorIsReserved>
+ >
+ <Color
+  <ColorTag `Green'>
+  <ColorCyan 100>
+  <ColorMagenta 0>
+  <ColorYellow 100>
+  <ColorBlack 0>
+  <ColorAttribute ColorIsGreen>
+  <ColorAttribute ColorIsReserved>
+ >
+ <Color
+  <ColorTag `Blue'>
+  <ColorCyan 100>
+  <ColorMagenta 100>
+  <ColorYellow 0>
+  <ColorBlack 0>
+  <ColorAttribute ColorIsBlue>
+  <ColorAttribute ColorIsReserved>
+ >
+ <Color
+  <ColorTag `Cyan'>
+  <ColorCyan 100>
+  <ColorMagenta 0>
+  <ColorYellow 0>
+  <ColorBlack 0>
+  <ColorAttribute ColorIsCyan>
+  <ColorAttribute ColorIsReserved>
+ >
+ <Color
+  <ColorTag `Magenta'>
+  <ColorCyan 0>
+  <ColorMagenta 100>
+  <ColorYellow 0>
+  <ColorBlack 0>
+  <ColorAttribute ColorIsMagenta>
+  <ColorAttribute ColorIsReserved>
+ >
+ <Color
+  <ColorTag `Yellow'>
+  <ColorCyan 0>
+  <ColorMagenta 0>
+  <ColorYellow 100>
+  <ColorBlack 0>
+  <ColorAttribute ColorIsYellow>
+  <ColorAttribute ColorIsReserved>
+ >
+> # end of ColorCatalog
+#----- Begin mifref header
+<AFrames
+ <Frame
+
+  # This ID must match the AFrame ID in miffoot.txt.
+  <ID 1>
+
+  # ShapeRect L T W H: the position and size of the frame.
+  # [ integer_point_values ]
+  # If you uncomment the ShapeRect line below, the anchored frame
+  # created in the output MIF file will always have the bounds specified.
+  # This feature allows you to create standard-sized anchored frames.
+  # Otherwise, the bounding box of the objects in the input MIF file
+  # will be used as the bounding box of the anchored frame.
+  #<ShapeRect 0 0 441 165>
+
+  # FrameType: whether frame is anchored, and if anchored its position.
+  # [ Below, Top, Bottom, Inline, Left, Right, Inside, Outside,
+  #    Near, Far, RunIntoParagraph, NotAnchored ]
+  <FrameType Below>
+
+  # Float: Whether frame is floating.
+  # [ Yes, No ]
+  # Yes floats graphic frame to avoid large white space that results
+  # when anchored frame and the line containing it are moved to the
+  # next page.
+  #<Float Yes>
+
+  # NSOffset: Near-side offset.
+  # [ integer_point_value ]
+  #<NSOffset 0>
+
+  # BLOffset: Baseline offset.
+  # [ integer_point_value ]
+  #<BLOffset 0>
+
+  # AnchorAlign: Aligment of anchored frame.
+  # [ Left, Center, Right, Inside, Outside ]
+  #<AnchorAlign Left>
+
+  # AnchorBeside: Whether the graphic frame is anchored outside of a text
+  #    frame or a column in a text frame.
+  # [ Column, TextFrame ]
+  #<AnchorBeside Column>
+
+  # Cropped: Yes clips sides of graphic frame to fit column.
+  # [ Yes, No ]
+  #<Cropped No>
+#----- End mifref header
+  # Anchored frame bounding box.
+   <ShapeRect 0 0 418 436>
+  # End of anchored frame bounding box.
+<Rectangle
+ <Fill 0>
+ <Pen 15>
+ <PenWidth 0>
+ <Separation 1>
+ <ObColor `White'>
+ <Angle 0>
+ <BRect 0 0 418 436>
+ <ShapeRect 0 0 418 436>
+ <Smoothed No>
+>
+<Rectangle
+ <Fill 0>
+ <Pen 15>
+ <PenWidth 0>
+ <Separation 1>
+ <ObColor `White'>
+ <Angle 0>
+ <BRect 46 20 126 72>
+ <ShapeRect 46 20 126 72>
+ <Smoothed No>
+>
+<Rectangle
+ <Pen 0>
+ <PenWidth 1>
+ <Fill 15>
+ <Separation 0>
+ <ObColor `Black'>
+ <DashedPattern <DashedStyle Solid>>
+ <Angle 0>
+ <BRect 46 20 126 72>
+ <ShapeRect 46 20 126 72>
+ <Smoothed No>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 88 33>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Bold'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica-Bold'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `Server'>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 129 33>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String ` '>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 74 47>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `__________ '>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 49 61>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `serverObj : Server'>
+>
+<Rectangle
+ <Fill 0>
+ <Pen 15>
+ <PenWidth 0>
+ <Separation 1>
+ <ObColor `White'>
+ <Angle 0>
+ <BRect 271 2 144 108>
+ <ShapeRect 271 2 144 108>
+ <Smoothed No>
+>
+<Rectangle
+ <Pen 0>
+ <PenWidth 1>
+ <Fill 15>
+ <Separation 0>
+ <ObColor `Black'>
+ <DashedPattern <DashedStyle Solid>>
+ <Angle 0>
+ <BRect 271 2 144 108>
+ <ShapeRect 271 2 144 108>
+ <Smoothed No>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 312 15>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Bold'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica-Bold'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `ServerDef'>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 374 15>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String ` '>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 308 29>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `__________ '>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 274 43>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `applicationName : String '>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 274 57>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `serverName : String '>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 274 71>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `serverClassPath : String '>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 274 85>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `serverArgs : String '>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 274 99>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `serverVmArgs : String'>
+>
+<Rectangle
+ <Fill 0>
+ <Pen 15>
+ <PenWidth 0>
+ <Separation 1>
+ <ObColor `White'>
+ <Angle 0>
+ <BRect 37 204.5 144 72>
+ <ShapeRect 37 204.5 144 72>
+ <Smoothed No>
+>
+<Rectangle
+ <Pen 0>
+ <PenWidth 1>
+ <Fill 15>
+ <Separation 0>
+ <ObColor `Black'>
+ <DashedPattern <DashedStyle Solid>>
+ <Angle 0>
+ <BRect 37 204.5 144 72>
+ <ShapeRect 37 204.5 144 72>
+ <Smoothed No>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 95 217>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Bold'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica-Bold'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `ORB'>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 123 217>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String ` '>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 74 231>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `__________ '>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 40 245>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `ID : String '>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 40 259>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `tmgr: TemplateManager'>
+>
+<Rectangle
+ <Fill 0>
+ <Pen 15>
+ <PenWidth 0>
+ <Separation 1>
+ <ObColor `White'>
+ <Angle 0>
+ <BRect 1 362 216 72>
+ <ShapeRect 1 362 216 72>
+ <Smoothed No>
+>
+<Rectangle
+ <Pen 0>
+ <PenWidth 1>
+ <Fill 15>
+ <Separation 0>
+ <ObColor `Black'>
+ <DashedPattern <DashedStyle Solid>>
+ <Angle 0>
+ <BRect 1 362 216 72>
+ <ShapeRect 1 362 216 72>
+ <Smoothed No>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 96 375>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Bold'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica-Bold'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `POA'>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 122 375>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String ` '>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 74 389>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `__________ '>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 4 403>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `name : String  '>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 4 417>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `template : ObjectReferenceTemplate'>
+>
+<PolyLine
+ <Pen 0>
+ <PenWidth 1>
+ <Fill 15>
+ <Separation 0>
+ <ObColor `Black'>
+ <DashedPattern <DashedStyle Solid>>
+ <HeadCap Butt>
+ <TailCap Butt>
+ <Angle 0>
+ <Point 172 56>
+ <Point 271 56>
+ <Smoothed No>
+>
+<PolyLine
+ <Pen 0>
+ <PenWidth 1>
+ <Fill 15>
+ <Separation 0>
+ <ObColor `Black'>
+ <DashedPattern <DashedStyle Solid>>
+ <HeadCap Butt>
+ <TailCap Butt>
+ <Angle 0>
+ <Point 109 92>
+ <Point 109 204.5>
+ <Smoothed No>
+>
+<Rectangle
+ <Fill 0>
+ <Pen 15>
+ <PenWidth 0>
+ <Separation 1>
+ <ObColor `White'>
+ <Angle 0>
+ <BRect 73 141 72 15>
+ <ShapeRect 73 141 72 15>
+ <Smoothed No>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 89 151>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 10>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `contains'>
+>
+<PolyLine
+ <Pen 0>
+ <PenWidth 1>
+ <Fill 15>
+ <Separation 0>
+ <ObColor `Black'>
+ <DashedPattern <DashedStyle Solid>>
+ <HeadCap Butt>
+ <TailCap Butt>
+ <Angle 0>
+ <Point 109 276.5>
+ <Point 109 362>
+ <Smoothed No>
+>
+<Rectangle
+ <Fill 0>
+ <Pen 15>
+ <PenWidth 0>
+ <Separation 1>
+ <ObColor `White'>
+ <Angle 0>
+ <BRect 73 312 72 15>
+ <ShapeRect 73 312 72 15>
+ <Smoothed No>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 89 322>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 10>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `contains'>
+>
+<PolyLine
+ <Pen 0>
+ <PenWidth 1>
+ <Fill 15>
+ <Separation 0>
+ <ObColor `Black'>
+ <DashedPattern <DashedStyle Solid>>
+ <HeadCap Butt>
+ <TailCap Butt>
+ <Angle 0>
+ <Point 145.4865 362>
+ <Point 151.9054 355.6667>
+ <Point 171.0811 332.8333>
+ <Point 184 324>
+ <Point 196.9189 315.1667>
+ <Point 211 309.6667>
+ <Point 223 309>
+ <Point 235 308.3333>
+ <Point 247.8333 314.1667>
+ <Point 256 320>
+ <Point 264.1667 325.8333>
+ <Point 269.3333 335.1667>
+ <Point 272 344>
+ <Point 274.6667 352.8333>
+ <Point 274.6667 365.3333>
+ <Point 272 373>
+ <Point 269.3333 380.6667>
+ <Point 262 385.6667>
+ <Point 256 390>
+ <Point 250 394.3333>
+ <Point 242.5 397.5249>
+ <Point 236 399>
+ <Point 229.5 400.4751>
+ <Point 220.1667 398.8753>
+ <Point 217 398.8504>
+ <Smoothed Yes>
+>
+<Rectangle
+ <Fill 0>
+ <Pen 15>
+ <PenWidth 0>
+ <Separation 1>
+ <ObColor `White'>
+ <Angle 0>
+ <BRect 236 336 72 15>
+ <ShapeRect 236 336 72 15>
+ <Smoothed No>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 252 346>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 10>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `contains'>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 111 288>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `1'>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 113 202>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `n'>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 113 355>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `n'>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 248 409>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `n'>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 138 351>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `1'>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 111 108>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `1'>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 254 75>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `1'>
+>
+<TextLine
+ <Angle 0>
+ <TLOrigin 188 75>
+ <TLAlignment Left>
+ <Font
+  <FFamily `Helvetica'>
+  <FWeight `Regular'>
+  <FAngle `Regular'>
+  <FVar `Regular'>
+  <FPostScriptName `Helvetica'>
+  <FSize 12>
+  <FSeparation 0>
+  <FColor `Black'>
+ >
+ <String `1'>
+>
+# End of MIFFILE
+#----- Begin mifref footer
+# Brackets closing the AFrame statement started in mifhead.txt.
+ >
+>
+# TextFlow definition allow MIF import by reference in FrameMaker 5.
+<TextFlow
+ <Para
+  <ParaLine
+   # This ID must match the ID of the Frame statement in mifhead.txt.
+   <AFrame 1>
+  >
+ > # end of Para
+> # end of TextFlow
+#----- End mifref footer

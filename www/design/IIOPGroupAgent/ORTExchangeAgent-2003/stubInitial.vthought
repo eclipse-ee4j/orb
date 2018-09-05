@@ -1,0 +1,227 @@
+;  
+;  Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+;  
+;  This program and the accompanying materials are made available under the
+;  terms of the Eclipse Distribution License v. 1.0, which is available at
+;  http://www.eclipse.org/org/documents/edl-v10.php.
+;
+;  SPDX-License-Identifier: BSD-3-Clause
+
+; Visual Thought 1.0
+
+(header
+  (program "vthought")
+  (version "1.5")
+  (buildDate "$Date: 2006/05/12 00:20:02 $")
+  (writeDate "Thu Feb 6, 2003 10:40:02 AM PST")
+  (documentPath "/export/home/carr/ws/rip-int-generic/notes/orbd/stubInitial.vthought")
+)
+
+(document
+  (palette F)
+  (layout
+    (page "Custom")
+    (pageDescription
+      (orientation "portrait")
+      (size 648 216)
+      (dscPageSize "Letter")
+      (paperTray "lettertray")
+      (paperSize "letter")
+    )
+    (units "Inches")
+    (orientation "portrait")
+    (numberOfPages 1 1)
+    (scale 100)
+    (margins 18 18 18 18)
+  )
+)
+
+(views
+  (view
+    (location 213 16)
+    (size 806 657)
+    (zoom 1.2451)
+    (documentLocation 0 0)
+    (gridSnap T)
+    (gridVisibility F)
+    (gridSpacing 9)
+    (pageBreaks T)
+    (toolVisibility T)
+    (rulerVisibility T)
+  )
+)
+
+(shapes
+  (shape
+    (id 1)
+    (layer 0)
+    (type "Rectangle")
+    (location 369 81)
+    (size 72 18)
+    (rotation 0)
+    (locked F)
+    (style
+      (filled T)
+      (fillColor 65535 65535 65535)
+      (stroked T)
+      (strokeColor 0 0 0)
+      (lineWidth 1)
+      (shadowed F)
+      (shadowColor 39321 39321 39321)
+    )
+    (flipHorizontal F)
+    (flipVertical F)
+    (showText T)
+    (textVerticalAlignment "center")
+    (rtfText{\rtf1\ansi\deff0
+{\fonttbl{\f0\fnil helvetica medium;}}
+{\colortbl\red0\green0\blue0;}
+\cf0\plain\pard\qc IOR 1})
+  )
+  (shape
+    (id 3)
+    (layer 2)
+    (type "Rectangle")
+    (location 247.5 54)
+    (size 81 18)
+    (rotation 0)
+    (locked F)
+    (style
+      (filled F)
+      (fillColor 65535 65535 65535)
+      (stroked F)
+      (strokeColor 0 0 0)
+      (lineWidth 0)
+      (shadowed F)
+      (shadowColor 39321 39321 39321)
+    )
+    (flipHorizontal F)
+    (flipVertical F)
+    (showText T)
+    (textVerticalAlignment "top")
+    (rtfText{\rtf1\ansi\deff0
+{\fonttbl{\f0\fnil helvetica medium;}}
+{\colortbl\red0\green0\blue0;}
+\cf0\plain\pard effective IOR})
+  )
+  (shape
+    (id 5)
+    (layer 4)
+    (type "Rectangle")
+    (location 243 108)
+    (size 72 18)
+    (rotation 0)
+    (locked F)
+    (style
+      (filled F)
+      (fillColor 65535 65535 65535)
+      (stroked F)
+      (strokeColor 0 0 0)
+      (lineWidth 0)
+      (shadowed F)
+      (shadowColor 39321 39321 39321)
+    )
+    (flipHorizontal F)
+    (flipVertical F)
+    (showText T)
+    (textVerticalAlignment "top")
+    (rtfText{\rtf1\ansi\deff0
+{\fonttbl{\f0\fnil helvetica medium;}}
+{\colortbl\red0\green0\blue0;}
+\cf0\plain\pard target IOR})
+  )
+  (shape
+    (id 6)
+    (layer 5)
+    (type "Rectangle")
+    (location 310.5 90)
+    (size 225 144)
+    (rotation 0)
+    (locked F)
+    (style
+      (filled T)
+      (fillColor 65535 65535 65535)
+      (stroked T)
+      (strokeColor 0 0 0)
+      (lineWidth 1)
+      (shadowed T)
+      (shadowColor 39321 39321 39321)
+    )
+    (flipHorizontal F)
+    (flipVertical F)
+    (showText T)
+    (textVerticalAlignment "top")
+    (rtfText{\rtf1\ansi\deff0
+{\fonttbl{\f0\fnil helvetica medium;}}
+{\colortbl\red0\green0\blue0;}
+\cf0\plain\pard\qc Stub (initial configuration)})
+  )
+)
+
+(connections
+  (connection
+    (id 2)
+    (layer 1)
+    (rotation 0)
+    (textRotation 0)
+    (locked F)
+    (start 3)
+    (end 1)
+    (curved F)
+    (style
+      (filled T)
+      (fillColor 65535 65535 65535)
+      (stroked T)
+      (strokeColor 0 0 0)
+      (lineWidth 1)
+      (shadowed F)
+      (shadowColor 39321 39321 39321)
+    )
+    (showText F)
+    (textDistancePercentage 0.5)
+    (textWidth 72)
+    (textOffset 0)
+    (rtfText{\rtf1\ansi\deff0
+{\fonttbl{\f0\fnil helvetica medium;}}
+{\colortbl\red0\green0\blue0;}
+\cf0\plain\pard\qc Text})
+    (drawStartArrowhead F)
+    (drawEndArrowhead T)
+    (startArrowhead "StandardArrow")
+    (endArrowhead "SmallFlatArrow")
+  )
+  (connection
+    (id 4)
+    (layer 3)
+    (rotation 0)
+    (textRotation 0)
+    (locked F)
+    (start 5)
+    (end 1)
+    (curved F)
+    (style
+      (filled T)
+      (fillColor 65535 65535 65535)
+      (stroked T)
+      (strokeColor 0 0 0)
+      (lineWidth 1)
+      (shadowed F)
+      (shadowColor 39321 39321 39321)
+    )
+    (showText F)
+    (textDistancePercentage 0.5)
+    (textWidth 72)
+    (textOffset 0)
+    (rtfText{\rtf1\ansi\deff0
+{\fonttbl{\f0\fnil helvetica medium;}}
+{\colortbl\red0\green0\blue0;}
+\cf0\plain\pard\qc Text})
+    (drawStartArrowhead F)
+    (drawEndArrowhead T)
+    (startArrowhead "StandardArrow")
+    (endArrowhead "SmallFlatArrow")
+  )
+)
+
+(groups
+)

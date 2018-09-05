@@ -1,0 +1,14 @@
+This directory contains GlassFish IIOP / Fail Over Load Balance Test. 
+
+To Run the Test: mvn integration-test
+
+Test Execution Details:
+
+- Copy the glassfish build to the current directory:  ./glassfish.zip
+- Run the tests: "source setup.sh ; run.sh"
+- samplerun.sh shows how to run a subset of tests of interest.
+
+README.html has more details about the test suite. 
+
+Dependencies: mvn 3+, ant 1.8.2 +, gawk 3.1.8 +
+

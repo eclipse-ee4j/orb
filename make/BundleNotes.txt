@@ -1,0 +1,24 @@
+#
+# Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Distribution License v. 1.0, which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+Some packages are exported in the glassfish-corba-orb bundle because they are
+needed at runtime for various reflective operations.  This includes:
+
+com.sun.corba.ee.impl.orb: so that ORBSingleton is available
+com.sun.corba.ee.impl.presentation.rmi: so that CodegenStubBase is available
+com.sun.corba.ee.spi.trace: while these are internal only, they are
+    needed in order for the trace facility code in glassfish-corba-orbgeneric
+    to be able to load these classes reflectively from 
+    glassfish-corba-orb
+com.sun.corba.ee.impl.javax.*:
+    It seems that we need to make sure that the implementations of the standard
+    RMI-IIOP PortableRemoteObject, Stub, and Util classes need to be visible in users
+    of glassfish-corba-orb, or the standard javax.rmi.* classes won't be able
+    to load the implementations.

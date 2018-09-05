@@ -1,0 +1,269 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><head>
+   <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+         <title></title>
+         <meta name="GENERATOR" content="OpenOffice.org 3.1  (Solaris x86)">
+         <meta name="AUTHOR" content="Ken Cavanaugh">
+         <meta name="CREATED" content="20100503;9375300">
+         <meta name="CHANGEDBY" content="Ken Cavanaugh">
+         <meta name="CHANGED" content="20100503;10240300"> 
+  </head><body dir="LTR" lang="en-US"> 
+         <h1>IIOP Failover and Load Balancing One Pager</h1> 
+         <ol> 
+                <li> 
+                  <p><strong>Introduction</strong></p> 
+                  <ol> 
+                         <li> 
+                                <p><strong>Project/Component Working name: IIOP FOLB</strong></p>
+                                </li> 
+                         <li> 
+                                <p><strong>Author: <a href="mailto:Ken.Cavanaugh@Oracle.Com">Ken.Cavanaugh@Oracle.Com</a></strong></p>
+                                </li> 
+                         <li> 
+                                <p><strong>Date: 5/24/10</strong></p> </li> 
+                         <li> 
+                                <p><strong>Revision: 1.0</strong></p></li> 
+                  </ol> </li> 
+                <li> 
+                  <p><strong>Project Summary:</strong></p> 
+                  <ol> 
+                         <li> 
+                                <p><strong>Project Description</strong></p> 
+                                <p>The purpose of this project is to bring IIOP FOLB features from
+                                  GlassFish v2.1.1 to GlassFish Server Open Source Edition 3.1. In 
+addition,
+                                  there are some bugs that exist in the GF 2.1.1 release in IIOP 
+FOLB that we
+                                  would like to address in GlassFish Server Open Source Edition 3.1.
+ Fixing these
+                                  bugs requires making some architectural changes in the way the 
+handling of the
+                                  CSIv2 (secure IIOP) protocol is divided between the ORB and the
+                                  security/ejb.security module in the app server code.</p> 
+                                <p>Note that most of this work was previously reviewed in WSARC
+                                  case
+                                  <a 
+href="http://sac.sfbay.sun.com/arc/WSARC/2007/141/RMI-IIOP-LoadBalancing.html">2007/141</a>.
+                                  The references in 2007/141 are still relevant to this current 
+work, but
+                                  unfortunately the links are currently broken to 
+www.glassfishwiki.org/gfwiki.
+                                  See the references <a href="#ReferenceDocuments">section</a> for 
+more current
+                                  links. </p> 
+                                <p>There are some secondary goals for IIOP FOLB, which may not be
+                                  addressed in GF 3.1, given the short time schedule.</p> 
+                                <p> It would be nice to think about better integration of the
+                                  per-request load balancing feature (PRLB) which was done in a GF 
+2.1.1 patch
+                                  for Argela. In particular, the normal InitialContext load 
+balancing is not
+                                  compatible with PRLB, so configuring both behaviors should be 
+viewed as an
+                                  error. Currently configurating PRLB requires adding a special 
+configuration
+                                  flag to the EJB descriptor, and there is no admin support for this
+ feature.</p>
+                                
+                                <p>Similarly, better integration and administration of IIOP
+                                  hardware loadbalancer (HWLB) support would be useful. The HWLB 
+support was
+                                  added in GF 2 for NTT West some time ago. Configuring IIOP HWLB 
+currently
+                                  requires setting some obscure ORB flags. HWLB is also incompatible
+ at the ORB
+                                  level with other forms of load balancing.</p> 
+                                <p>Another big development item is getting some system-level
+                                  testing of IIOP FOLB written for small clusters. Currently this 
+happens only in
+                                  SQE tests, which have too long a testing cycle to give sufficient 
+feedback to
+                                  development. This is also dependent on getting a framework put 
+together for
+                                  supporting cluster testing. </p> </li> 
+                         <li> 
+                                <p><strong>Risks and Assumptions</strong></p> 
+                                <p>FOLB system testing is dependent on the availability of a
+                                  suitable testing framework.</p> 
+                                <p>The CSIv2 code is complex and delicate, and the CSIv2 CTS tests
+                                  are difficult to work with.</p> 
+                                <p>CORBA customer escalations may impact the FOLB
+                                  schedule.</p></li> 
+                  </ol> </li> 
+                <li> 
+                  <p><strong>Problem Summary:</strong></p> 
+                  <ol> 
+                         <li> 
+                                <p><strong>Problem Area</strong></p> 
+                                <p>Support of high availability and scalability for large systems.
+                                  This feature covers only the IIOP protocol.</p></li> 
+                         <li> 
+                                <p><strong>Justification</strong></p> 
+                                <p>The primary justification for this work is feature parity with
+                                  GF v2.1.1. We would also like to fix the CSIv2/FOLB bug described 
+in Issue
+                                  2791. However, fixing 2791 is not a release driver.</p></li> 
+                  </ol> </li> 
+                <li> 
+                  <p><strong>Technical Description</strong></p> 
+                  <ol> 
+                         <li> 
+                                <p><strong>Details</strong></p> 
+                                <p>The technical details are described primarily in the functional
+                                  <a href="#FuncSpec">specification</a>. Here I will only describe 
+the changes
+                                  from the original AS 9.0 EE implementation.</p> 
+                                <p>Access to the required GMS interfaces will be done using GF 3.1
+                                  facilities instead of using Class.forName(). </p> 
+                                <p>A number of changes in support of CSIv2 with FOLB may be made.
+                                Ideally, I'd like to at least get the handling of CSIv2 tagged 
+components moved
+                                into the ORB, but this is considered to be P3 or less for V3.1.</p> 
+                                <p>A number of changes will be needed for load balancing in the
+                                  naming code, which has changed substantially in GlassFish version 
+3, and those
+                                  changes will be carried forward into GlassFish Server Open Source 
+Edition
+                                  3.1.</p> </li> 
+                         <li> 
+                                <p><strong>Bug/RFE Numbers</strong></p> 
+                                <p><strong>Issue
+                                  <a href="https://github.com/javaee/glassfish/issues/2791">2791</a></strong></p>
+                                
+                                <p>This is the bug about CSIv2 and FOLB not working together</p> 
+                                <p><strong>Bug 6919275</strong></p> 
+                                <p>This is one of several bugs that were related to the isLocal
+                                  problem when the clear text IIOP port is set to 0, forcing the use
+ of CSIv2. A
+                                  more robust fix is desired for this problem.</p> </li> 
+                         <li> 
+                                <p><strong>In scope</strong></p> 
+                                <p>Feature parity for IIOP FOLB with GlassFish v2.1.1</p> 
+                                <p>Fix issues discussed above</p></li> 
+                         <li> 
+                                <p><strong>Out of scope</strong></p> 
+                                <p>N/A</p> </li> 
+                         <li> 
+                                <p><strong>Interfaces</strong></p> 
+                                <p>Interfaces are described in the functional spec.</p> 
+                                </li> 
+                         <li> 
+                                <p><strong>Doc Impact</strong></p> 
+                                <p>None.</p></li> 
+                         <li> 
+                                <p><strong>Admin/Config Impact</strong></p> 
+                                <p>Probably no impact, unless better support for PRLB and HWLB is
+                                  added</p></li> 
+                         <li> 
+                                <p><strong>HA Impact</strong> </p> 
+                                <p>IIOP FOLB makes use of Shoal/GMS to maintain an up-to-date view
+                                  of the cluster membership.</p> 
+                                <p>The ORB does not maintain any persistent state, so no other HA
+                                  services are required.</p> </li> 
+                         <li> 
+                                <p><strong>I18N/L10N Impact</strong></p> 
+                                <p>None.</p> </li> 
+                         <li> 
+                                <p>Packaging, Delivery, and Upgrade </p> 
+                                <ol> 
+                                  <li> 
+                                         <p><strong>Packaging</strong> </p> 
+                                         <p>The packacing is unchanged from GF 3.0. The same ORB bundles
+                                                will be delivered to the maven repository from the CORBA
+                                                <a 
+href="http://kenai.com/projects/gf-corba-v3-mirror/sources/staging/show">workspace</a>.</p>
+                                         </li> 
+                                  <li> 
+                                         <p><strong>Delivery</strong></p> 
+                                         <p>There is no change in CORBA packaging from the GF v3
+                                                packaging for the GlassFish Server Open Source Edition 3.1 </p> </li>
+ 
+                                  <li> 
+                                         <p><strong>Upgrade and Migration</strong></p> 
+                                         <p>No migration or upgrade is needed for CORBA.</p> </li> 
+                                </ol> </li> 
+                         <li> 
+                                <p><strong>Security Impact</strong></p> 
+                                <p>Part of this feature improves CSIv2 by adding CSIv2 capability
+                                  to IIOP FOLB, which improves security for IIOP communications in a
+ clustered
+                                  environment.</p> </li> 
+                         <li> 
+                                <p><strong>Compatibility Impact</strong> </p> 
+                                <p>No change is planned in any part of the IIOP protocol, either
+                                  standard or as extended for FOLB (meaning new service contexts and
+ tagged
+                                  components) as first introduced in the Sun Java System Application
+ Server 9.1
+                                  EE release. </p> 
+                                <p>No standard CORBA APIs as defined by the OMG will be affected by
+                                  this work.</p> 
+                                <p>There are no others APIs exposed by the ORB to application
+                                  code.</p> </li> 
+                         <li> 
+                                <p><strong>Dependencies</strong> </p> 
+                                <p>No change in ORB dependencies will result from this work. </p> 
+                                <p>The ejb and ejb.security modules depend on the ORB and will be
+                                  affected by changes for FOLB, particularly in relation to CSIv2. </p>
+ 
+                                <p>Some changes will be needed in the orb-iiop and orb-connector
+                                  modules to accommodate the integration of GMS into GlassFish 
+Server Open Source
+                                  Edition 3.1. Note that orb-iiop and/or orb-connector will thus be 
+dependent on
+                                  GMS</p> 
+                                <p>The third-party open source dependencies of the ORB are the same
+                                  as in GlassFish version 3: ASM at runtime; ant, the ant-maven 
+plugin, and
+                                  Jscheme at build time; and emma, findbugs, junit, and testng at 
+test time. All
+                                  of these dependencies have been previously reviewed and approved 
+by Sun legal
+                                  for GF v3.0.</p></li> 
+                         <li> 
+                                <p><strong>Testing Impact</strong></p> 
+                                <p>Some SQE tests exist for IIOP FOLB. One of the PDE tasks for
+                                  this feature is to obtain the SQE tests or construct new tests 
+that can run in
+                                  some kind of cluster testing framework. Given that PDE can do 
+this, there
+                                  should be little impact on SQE, other than the usual execution of 
+existing
+                                  tests across the support configuration matrix.</p> </li> 
+                         <li> 
+                                <p><a name="ReferenceDocuments"></a><strong>Reference
+                                  Documents</strong> </p>
+                                <ol> 
+                                  <li>"<a 
+href="FODynamicCluster.pdf"
+ name="FolbPaper">IIOP Failover in Dynamic Clusters</a>" by Ken 
+Cavanaugh and
+                                         Harold Carr </li> 
+                                  <li>"<a 
+href="AS9.0-RMI-IIOP-FOLB-FS.pdf"
+ name="FuncSpec">Functional Specification RMI-IIOP Load Balancing and 
+Failover
+                                         AS 9.0 EE</a>" by Harold Carr </li> 
+                                </ol> </li> 
+                         <li> 
+                                <p><strong>Schedule</strong> </p> 
+                                <ol> 
+                                  <li> 
+                                         <p><strong>Projected Availability</strong></p> 
+                                         <p>We expect this feature to be available in M3. Detailed
+                                                scheduling will be provided. </p> </li> 
+                                </ol></li> 
+                  </ol> </li> 
+         </ol> </body></html>

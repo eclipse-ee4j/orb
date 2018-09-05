@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<HTML>
+<HEAD>
+        <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=iso-8859-1">
+        <TITLE>CORBA Technologies</TITLE>
+        <META NAME="GENERATOR" CONTENT="StarOffice 7  (Linux)">
+        <META NAME="CREATED" CONTENT="20041124;14062900">
+        <META NAME="CHANGEDBY" CONTENT="Ken Cavanaugh">
+        <META NAME="CHANGED" CONTENT="20041124;14152300">
+</HEAD>
+<BODY LANG="en-US" BACKGROUND="images/backgrounds/p12c08.gif" DIR="LTR">
+<H2>CORBA (RMI-IIOP) Schedule</H2>
+<P>The CORBA schedule is maintained in a pure Java application called
+JxProject. JxProject can produce output in a binary form and also in
+XML. Harold has written an XSLT script that produces an HTML page
+from the JxProject XML file. Ken has written an XQuery program that
+was used to re-organize the future items on the schedule according to
+release, category, and priority.  This version is now the main
+schedule. 
+</P>
+<P>To update the schedule: 
+</P>
+<OL>
+        <LI>Use JxProject to update the
+        schedule in docs/schedule/schedule.jxp in a CORBA workspace</P>
+        <LI>Export the schedule to XML as
+        schedule.xml 
+        <LI>Put schedule.jxp and schedule.xml
+        back to rip-int-generic 
+        <LI>Run &quot;sh tohtml&quot; in the
+        docs/schedule directory in rip-int-generic to generate the HTML
+        version 
+</OL>
+<P>The master copy of the schedule is kept in the rip-int-generic
+workspace, which is located at
+/net/anybodys/export3/ws/rip-int-generic. The schedule is always in
+the docs/schedule directory in a CORBA workspace.  
+</P>
+<P>The html version of the schedule can be viewed <A HREF="http://javaweb.sfbay.sun.com/~kcavan/rip-int-generic/docs/schedule/schedule.html">here</A>
+in HTML form. This includes all schedule items for AS 8.2 and 9, and
+the Mustang release of J2SE, organized by release, category, and
+priority. 
+</P>
+<P>The categories are: 
+</P>
+<UL>
+        <LI>SQ: service quality. This includes
+        new product features that require ORB support. 
+        <LI>Sec: security. 
+        <LI>MM: Management and Monitoring. 
+        <LI>Maint: maintainability. This
+        includes features that improve the quality of the ORB in areas such
+        as test, build, internal code structure, and other non-product
+        visible items. 
+        <LI>Perf: performance. 
+</UL>
+<P STYLE="margin-bottom: 0in">There are 4 priorities with meaning
+roughly as follows: 
+</P>
+<UL>
+        <LI>P1: This is required for the
+        release (release driver in J2SE). 
+        <LI>P2: This is important for the
+        ORB, but may not make the release if insufficient resources are
+        available (group driver in J2SE). 
+        <LI>P3: This is nice to have, but may
+        not make the release (target of opportunity in J2SE). 
+        <LI>P4: An important feature at least for some customers, but we
+        do not believe that sufficient resources will be available. We will
+        not even schedule such items. 
+</UL>
+</BODY>
+</HTML>

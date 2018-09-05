@@ -1,0 +1,151 @@
+#
+# Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Distribution License v. 1.0, which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+Combined FOLB quiesce test with simulated HW loadbalancer
+
+Idea:
+
+Start up the following controllers:
+
+ORBD
+LB
+Server1
+Server2
+Server3
+Client
+Orchestrator
+
+The Client and Server controllers are very simple standard
+dynamic RMI-IIOP programs, using persistent POAs, that
+simply send requests and handle them, except that
+the servers each implement an object that controls whether
+they are rejecting requests or not.  The client implements
+an interface that tells it how many requests to send.
+
+Client has a combined plugin that includes:
+(from LB) NoConnectionCacheImpl
+(from retryplugin) RetryClientRequestInterceptor
+
+Server has a combined plugin that includes:
+(from LN) VirtualAddressAgentImpl
+(from retryplugin) RetryServerRequestInterceptor
+
+LB is basically the lb test LB class, but it also has an
+ORB and implements a control object.
+
+ORBD is only used for naming, as usual.
+
+The Orchestrator controls the test.  It uses naming to
+find everything else, then runs the test.
+
+Interfaces:
+
+// One of these is implemented in LB.  LB is started only with listener:
+// all ports are added.
+interface LBControl extends Remote {
+    // After receiving numConnections, add port to the pool.
+    // Each call to add or remove is added to a queue of commands.
+    void add( int numConnections, int port ) throws RemoteException ;
+
+    // After receiving numConnections, remove port from the pool.
+    // Each call to add or remove is added to a queue of commands.
+    void remove( int numConnections, int port ) throws RemoteException ;
+}
+
+// One of these is implemented by each server.
+interface ServerControl extends Remote {
+    // Query the server to discover its port for use in LB
+    int getPort() throws RemoteException ;
+
+    // Register the reporter with this server.  It is invoked
+    // every time the server handles a request.
+    void registerReportCallback( ServerReporter reporter ) throws RemoteException ;
+
+    // Causes the server to start rejecting requests after numRequests have 
+    // been handled.
+    // setRejecting and clearRejecting can be queued.
+    void setRejecting( int numRequests ) throws RemoteException ;
+
+    // Causes the server to stop rejecting requests after numRequests
+    // have been rejected.
+    // setRejecting and clearRejecting can be queued.
+    void clearRejecting(int numRequests ) throws RemoteException ;
+}
+
+// Implemented in Client
+interface ClientControl extends Remote {
+    void startSendingRequests( int numRequests ) throws RemoteException ;
+}
+
+// One of these is implemented by Orchestrator for each server instance and
+// registered with the server.
+interface ServerReporter extends Remote {
+    void requestReceived( int requestNumber ) throws RemoteException ;
+}
+
+Namespace:
+root
+    control (namespace)
+        LBControl
+        Client
+        servers (namespace)
+            // contains one objref for ServerControl for each server
+
+Note that all of these control objects are implemented with a separate
+ORB that does not use any of the various plugins that are being tested
+here.  I'll probably create a simple utility class for setting this up.
+
+Orchestrator operation:
+
+(Basic LB test)
+1. Orch queries name server to get all ServerControl objects 
+2. Orch creates a ServerReporter for each ServerControl and 
+   registers it
+3. Add each server to LBControl
+4. Tell Client to send 3*N requests
+5. Each server sends a message to orch when it handles a request
+6. Check that N messages were received from each server
+
+(Quiesce test)
+7. Orch tells Server2 to reject requests after handling N requests
+8. Orch tells Server2 to handle requests after rejecting M requests
+9. Orch tells LB to remove Server2 after 3*N+2*M connections
+10. Orch tells LB to add Server2 after 3*N+2*M+2*P connections
+11. Orch tells client to send 3*N+2*M+2*P+3*Q requests
+(Operation should be as follows:
+first 3*N requests: normal LB over 3 servers
+next 2*M requests: only server1 and server3 handle requests; server2
+    continuously rejects requests.  I think this will result in the
+    following behavior:
+        client invokes, LB to S1: handled
+        client invokes, LB to S2: forwarded back to self, so:
+            client invokes, LB to S3: handled
+        client invokes, LB to S1: handled
+    since each forwarded request should result in a new connection
+next 2*P requests: LB only sends requests to server1 and server3
+next 2*Q requests: LB to all servers again
+
+12. Orch should see: 
+    Server1 N+M+P+Q requests
+    Server2 N+Q requests
+    Server3 N+M+P+Q requests
+
+Do we need other tests?
+
+How do we manage control plane objects?
+
+Need a getControlPlaneORB() method that
+    guarantees no interference in creating transient objects.
+    
+Info to create:
+    orb
+    servant
+    remote interface type
+    namespace name

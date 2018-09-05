@@ -1,0 +1,63 @@
+#
+# Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Distribution License v. 1.0, which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+Current path for the build target
+
+rename (mkdir java(WorkspaceRename)
+    init
+
+build
+    init (property, echo, path, pathconvert)
+    prepare-dirs (mkdir)
+        init
+    compile (echo, javac)
+        init
+        prepare-dirs
+        build-jscheme (javac, run-jscheme)
+            init
+            jscheme-not-available
+            MACRO run-jscheme
+                java
+        orb-library
+            init
+            compile-orb-library
+                init
+                prepare-dirs
+        compile-logutils (echo, javac)
+            init
+        compile-idl-compiler (echo, copy, javac)
+            init
+        run-all-idl (ant-call(call-idl)
+            compile-idl-compiler
+        run-all-jscheme (mkdir, property, java(REPL), antcall(call-jscheme), concat)
+            call-jscheme (java(REPL)
+                check-minorcode-file-changed
+                minorcode-file-changed
+        generate-timing-points
+        delete-java-sources (delete)
+            init
+        copy-resources (copy, echo)
+            init
+        make-bundles            (was create-jars)
+            init
+            generate-bnd-properties (propertyfile)
+                init
+            make-src-bundle
+                init
+            MACRO make-bundle
+
+new-source-build.xml
+
+new-build.xml
+    IMPORTs new-source-build.xml
+
+    overrides (and extends) targets:
+        init
+        prepare-dirs

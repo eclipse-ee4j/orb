@@ -1,0 +1,24 @@
+GlassFish-Corba 
+
+  This project contains the source code, documentation, and tests for the CORBA ORB that is used in the GlassFish application server project.  The GlassFish ORB complies with the CORBA 2.3.1 specification, and with the CORBA 3.0 specifications for the Interoperable Name Service and Portable Interceptors. It includes both IDL and RMI-IIOP support. The GlassFish ORB has an open, extensible architecture that supports flexible configuration and extension through an open SPI. This ORB is written completely in Java.
+Special Features of the GlassFish ORB
+
+  This ORB has a number of special features specifically for GlassFish:
+
+    * An optimized, streaming transport for GIOP 1.2 that uses NIO select for scalability.
+
+    * An implementation of RMI-IIOP that uses runtime bytecode generation to avoid the need for the rmic compiler for either stubs or skeletons.
+
+    * An optimized fast object copier to speed up co-located RMI-IIOP calls that require pass-by-value semantics for argument passing.
+
+    * Highly optimized colocated RMI-IIOP calls that short circuit most of the ORB object adapter and transport code for speed.
+
+    * The ORB architecture is based in part on the PEPt work by Harold Carr (a former member of the ORB team), that provides clean separation between protocol, encoding, presentation, and transport without impacting performance.
+
+    * The ORB includes a code generation library (codegen) that supports runtime generation of classes from a high-level java-like API. This is currently used to generate the classes needed to support the remote view for EJB 3.
+
+    * Support is included for dynamic failover and load balancing of IIOP requests.
+
+
+
+=====================

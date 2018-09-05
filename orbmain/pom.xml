@@ -1,0 +1,123 @@
+<!--
+
+    Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.glassfish.corba</groupId>
+        <artifactId>glassfish-corba</artifactId>
+        <version>4.2.0-b005-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>glassfish-corba-orb</artifactId>
+    <name>GlassFish Corba ORB</name>
+    <packaging>bundle</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>glassfish-corba-csiv2-idl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>glassfish-corba-omgapi</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>glassfish-corba-internal-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>exception-annotation-processor</artifactId>
+            <version>${project.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <version>6.0.0</version>
+        </dependency>
+        <dependency>
+          <groupId>org.glassfish.gmbal</groupId>
+          <artifactId>gmbal</artifactId>
+          <version>${gmbal-version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.glassfish.pfl</groupId>
+          <artifactId>pfl-basic</artifactId>
+          <version>${pfl-version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.glassfish.pfl</groupId>
+          <artifactId>pfl-dynamic</artifactId>
+          <version>${pfl-version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.glassfish.pfl</groupId>
+          <artifactId>pfl-tf</artifactId>
+          <version>${pfl-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.pfl</groupId>
+            <artifactId>pfl-test</artifactId>
+            <version>${pfl-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.grizzly</groupId>
+            <artifactId>grizzly-framework</artifactId>
+            <version>2.4.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.meterware.simplestub</groupId>
+            <artifactId>simplestub</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <Export-Package>
+                            !com.sun.corba.ee.spi.threadpool, !com.sun.corba.ee.spi.logex.stdcorba,
+                            com.sun.corba.ee.spi.*; version=1,
+                            com.sun.corba.ee.impl.corba; version=1,
+                            com.sun.corba.ee.impl.encoding.*; version=1,
+                            com.sun.corba.ee.impl.folb; version=1,
+                            com.sun.corba.ee.impl.javax.*; version=1,
+                            com.sun.corba.ee.impl.misc; version=1,
+                            com.sun.corba.ee.impl.naming.*; version=1,
+                            com.sun.corba.ee.impl.oa.*; version=1,
+                            com.sun.corba.ee.impl.orb; version=1,
+                            com.sun.corba.ee.impl.presentation.*; version=1,
+                            com.sun.corba.ee.impl.txpoa; version=1
+                        </Export-Package>
+                    </instructions>
+                </configuration>
+            </plugin>
+         </plugins>
+    </build>
+</project>

@@ -1,0 +1,186 @@
+#
+# Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Distribution License v. 1.0, which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+Test run on host gemini (dual CPU SunBlade 2500, Solaris 10, 2 GB RAM)
+JDK 6 (b87 RC 1) -server
+
+-Dorg.omg.CORBA.ORBClass=com.sun.corba.ee.impl.orb.ORBImpl -Dorg.omg.CORBA.ORBSingletonClass=com.sun.corba.ee.impl.orb.ORBSingleton -Djavax.rmi.CORBA.PortableRemoteObjectClass=com.sun.corba.ee.impl.javax.rmi.PortableRemoteObject -Djavax.rmi.CORBA.StubClass=com.sun.corba.ee.impl.javax.rmi.CORBA.StubDelegateImpl -Djavax.rmi.CORBA.UtilClass=com.sun.corba.ee.impl.javax.rmi.CORBA.Util -Xms400m -Xmx600m -server -ea -verbose:gc -verbose:class -classpath .:/volumes/ws/oss-work/build/classes:/volumes/ws/oss-work/test/build/classes:/volumes/ws/oss-work/optional/build/classes:/volumes/ws/oss-work/optional/test/build/classes:/volumes/ws/oss-work/lib/ejb-2_1-api.jar:/volumes/ws/oss-work/lib/testng.jar:/volumes/ws/oss-work/lib/junit.jar:/volumes/ws/oss-work/lib/antlr.jar:/volumes/ws/oss-work/lib/stringtemplate.jar:/volumes/IDE/optimizeit/OptimizeitSuite/lib/optit.jar -Xbootclasspath/p:/volumes/ws/oss-work/build/classes:/volumes/ws/oss-work/test/build/classes:/volumes/ws/oss-work/optional/build/classes:/volumes/ws/oss-work/optional/test/build/classes performance.eesample.StandardTest
+Int copy elapsed time: 219.39408319999998 microseconds
+[TotalGC 0.225281 secs]
+Data copy elapsed time: 14862.646686 microseconds
+[TotalGC 0.600715 secs]
+[TotalGC 0.0020102 secs]
+[TotalGC 0.068441 secs]
+Echo Test Default Transport on objref testref/cache : 821.4987326 microseconds
+[TotalGC 0.0142518 secs]
+Echo Test Default Transport on objref testref/nocache : 436.91754960000003 microseconds
+[TotalGC 0.0404662 secs]
+[TotalGC 0.0094307 secs]
+GetData Test Default Transport on objref testref/cache : 21021.572296799997 microseconds
+[TotalGC 1.79827 secs]
+GetData Test Default Transport on objref testref/nocache : 20960.8428966 microseconds
+[TotalGC 1.84664 secs]
+[TotalGC 0.0015715 secs]
+GetDataArray Test Default Transport on objref testref/cache : 12989.5854542 microseconds
+[TotalGC 1.20065 secs]
+GetDataArray Test Default Transport on objref testref/nocache : 12997.6811874 microseconds
+[TotalGC 1.22869 secs]
+Shutting down clientORB
+Destroying clientORB
+Shutting down serverORB
+Destroying serverORB
+Test Complete.
+Int copy elapsed time: 101.809833 microseconds
+[TotalGC 0.0065689 secs]
+Data copy elapsed time: 15597.3039518 microseconds
+[TotalGC 1.42784 secs]
+Echo Test Default transport(2048) on objref testref/cache : 531.761283 microseconds
+[TotalGC 0.0451639 secs]
+Echo Test Default transport(2048) on objref testref/nocache : 429.3830662 microseconds
+[TotalGC 0.0306764 secs]
+GetData Test Default transport(2048) on objref testref/cache : 22887.249961399997 microseconds
+[TotalGC 2.04926 secs]
+GetData Test Default transport(2048) on objref testref/nocache : 22977.3592614 microseconds
+[TotalGC 1.88395 secs]
+GetDataArray Test Default transport(2048) on objref testref/cache : 15160.3574856 microseconds
+[TotalGC 1.35414 secs]
+GetDataArray Test Default transport(2048) on objref testref/nocache : 15191.7683688 microseconds
+[TotalGC 1.33456 secs]
+Shutting down clientORB
+Destroying clientORB
+Shutting down serverORB
+Destroying serverORB
+Test Complete.
+Int copy elapsed time: 94.8997168 microseconds
+[TotalGC 0.002221 secs]
+Data copy elapsed time: 15520.910185 microseconds
+[TotalGC 1.15748 secs]
+Echo Test Default transport(3072) on objref testref/cache : 422.466483 microseconds
+[TotalGC 0.0480068 secs]
+Echo Test Default transport(3072) on objref testref/nocache : 429.9586494 microseconds
+[TotalGC 0.0305862 secs]
+GetData Test Default transport(3072) on objref testref/cache : 25999.005475 microseconds
+[TotalGC 2.27856 secs]
+GetData Test Default transport(3072) on objref testref/nocache : 25987.5119084 microseconds
+[TotalGC 2.21255 secs]
+GetDataArray Test Default transport(3072) on objref testref/cache : 18510.2882324 microseconds
+[TotalGC 1.76318 secs]
+GetDataArray Test Default transport(3072) on objref testref/nocache : 18511.1967326 microseconds
+[TotalGC 1.68951 secs]
+Shutting down clientORB
+Destroying clientORB
+Shutting down serverORB
+Destroying serverORB
+Test Complete.
+Int copy elapsed time: 95.47168339999999 microseconds
+[TotalGC 0.0042034 secs]
+Data copy elapsed time: 15510.2841186 microseconds
+[TotalGC 1.01441 secs]
+Echo Test Default transport(4096) on objref testref/cache : 441.2467496 microseconds
+[TotalGC 0.0344736 secs]
+Echo Test Default transport(4096) on objref testref/nocache : 397.9776662 microseconds
+[TotalGC 0.0376028 secs]
+GetData Test Default transport(4096) on objref testref/cache : 29486.7608884 microseconds
+[TotalGC 2.69182 secs]
+GetData Test Default transport(4096) on objref testref/nocache : 29394.479638599998 microseconds
+[TotalGC 2.55701 secs]
+GetDataArray Test Default transport(4096) on objref testref/cache : 21824.5985792 microseconds
+[TotalGC 1.84105 secs]
+GetDataArray Test Default transport(4096) on objref testref/nocache : 21843.740245999998 microseconds
+[TotalGC 1.91242 secs]
+Shutting down clientORB
+Destroying clientORB
+Shutting down serverORB
+Destroying serverORB
+Test Complete.
+Int copy elapsed time: 110.1054666 microseconds
+[TotalGC 0.0024977 secs]
+Data copy elapsed time: 15502.5843518 microseconds
+[TotalGC 0.996387 secs]
+Echo Test Blocking transport on objref testref/cache : 377.7880164 microseconds
+[TotalGC 0.0392961 secs]
+Echo Test Blocking transport on objref testref/nocache : 335.515783 microseconds
+[TotalGC 0.0225093 secs]
+GetData Test Blocking transport on objref testref/cache : 18220.433182599998 microseconds
+[TotalGC 1.36718 secs]
+GetData Test Blocking transport on objref testref/nocache : 18142.737065999998 microseconds
+[TotalGC 1.4887 secs]
+GetDataArray Test Blocking transport on objref testref/cache : 10652.1514066 microseconds
+[TotalGC 0.963383 secs]
+GetDataArray Test Blocking transport on objref testref/nocache : 10680.3795898 microseconds
+[TotalGC 0.924922 secs]
+Shutting down clientORB
+Destroying clientORB
+Shutting down serverORB
+Destroying serverORB
+Test Complete.
+Int copy elapsed time: 95.7356666 microseconds
+[TotalGC 0.0168946 secs]
+Data copy elapsed time: 15550.845852 microseconds
+[TotalGC 1.09894 secs]
+Echo Test Blocking transport(2048) on objref testref/cache : 312.750983 microseconds
+[TotalGC 0.0456871 secs]
+Echo Test Blocking transport(2048) on objref testref/nocache : 324.89993300000003 microseconds
+[TotalGC 0.0167966 secs]
+GetData Test Blocking transport(2048) on objref testref/cache : 21249.264996399997 microseconds
+[TotalGC 1.83731 secs]
+GetData Test Blocking transport(2048) on objref testref/nocache : 21280.7404296 microseconds
+[TotalGC 1.94708 secs]
+GetDataArray Test Blocking transport(2048) on objref testref/cache : 13955.33562 microseconds
+[TotalGC 1.413 secs]
+GetDataArray Test Blocking transport(2048) on objref testref/nocache : 13923.23407 microseconds
+[TotalGC 1.23519 secs]
+Shutting down clientORB
+Destroying clientORB
+Shutting down serverORB
+Destroying serverORB
+Test Complete.
+Int copy elapsed time: 94.2626666 microseconds
+[TotalGC 0.0042321 secs]
+Data copy elapsed time: 15547.7990852 microseconds
+[TotalGC 1.11962 secs]
+Echo Test Blocking transport(3072) on objref testref/cache : 315.58251640000003 microseconds
+[TotalGC 0.0367393 secs]
+Echo Test Blocking transport(3072) on objref testref/nocache : 315.4486662 microseconds
+[TotalGC 0.0256397 secs]
+GetData Test Blocking transport(3072) on objref testref/cache : 24738.4447432 microseconds
+[TotalGC 2.17788 secs]
+GetData Test Blocking transport(3072) on objref testref/nocache : 24834.7994928 microseconds
+[TotalGC 2.19321 secs]
+GetDataArray Test Blocking transport(3072) on objref testref/cache : 17640.2472332 microseconds
+[TotalGC 1.70161 secs]
+GetDataArray Test Blocking transport(3072) on objref testref/nocache : 17584.1825166 microseconds
+[TotalGC 1.60563 secs]
+Shutting down clientORB
+Destroying clientORB
+Shutting down serverORB
+Destroying serverORB
+Test Complete.
+Int copy elapsed time: 104.4890166 microseconds
+[TotalGC 0.0115538 secs]
+Data copy elapsed time: 15524.128068600001 microseconds
+[TotalGC 1.09751 secs]
+Echo Test Blocking transport(4096) on objref testref/cache : 344.0298998 microseconds
+[TotalGC 0.0255125 secs]
+Echo Test Blocking transport(4096) on objref testref/nocache : 339.3911998 microseconds
+[TotalGC 0.029843 secs]
+GetData Test Blocking transport(4096) on objref testref/cache : 28500.3408228 microseconds
+[TotalGC 2.64356 secs]
+GetData Test Blocking transport(4096) on objref testref/nocache : 28525.6265896 microseconds
+[TotalGC 2.66815 secs]
+GetDataArray Test Blocking transport(4096) on objref testref/cache : 21122.5719298 microseconds
+[TotalGC 2.02667 secs]
+GetDataArray Test Blocking transport(4096) on objref testref/nocache : 21141.0109798 microseconds
+[TotalGC 2.03743 secs]
+Shutting down clientORB
+Destroying clientORB
+Shutting down serverORB
+Destroying serverORB
+Test Complete.

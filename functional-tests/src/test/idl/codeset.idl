@@ -1,0 +1,36 @@
+/*
+ * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0, which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+module CodeSetTester
+{
+    custom valuetype CustomMarshaledValue {
+        public char ch;
+        public wchar wch;
+        public string str;
+        public wstring wstr;
+        public sequence<char> chSeq;
+        public sequence<wchar> wchSeq;
+    };
+
+    interface Verifier {
+        char verifyChar(in char ch);
+        wchar verifyWChar(in wchar wch);
+        string verifyString(in string str);
+        wstring verifyWString(in wstring wstr);
+
+        typedef sequence<char> TestCharSeq;
+        typedef sequence<wchar> TestWCharSeq;
+
+        void verifyCharSeq(inout TestCharSeq chSeq);
+        void verifyWCharSeq(inout TestWCharSeq wchSeq);
+
+        CustomMarshaledValue verifyTransmission(in CustomMarshaledValue cv);
+    };
+};

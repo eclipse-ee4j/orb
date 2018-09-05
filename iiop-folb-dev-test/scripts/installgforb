@@ -1,0 +1,33 @@
+#! /bin/csh
+#
+# Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Distribution License v. 1.0, which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+setenv BUILD ${GFV3_WS}
+setenv RUN ${GFV3_WORK}
+setenv MAVEN ~/.m2/repository
+setenv GROUPID org/glassfish/orb
+setenv DEST ${RUN}/glassfish4/glassfish/modules
+setenv VERSION 3.1-SNAPSHOT
+
+cd ${MAVEN}/${GROUPID}
+
+pushd orb-iiop/${VERSION}
+cp orb-iiop-${VERSION}.jar ${DEST}/orb-iiop.jar
+popd
+
+pushd orb-connector/${VERSION}
+cp orb-connector-${VERSION}.jar ${DEST}/orb-connector.jar
+popd
+
+pushd orb-enabler/${VERSION}
+cp orb-enabler-${VERSION}.jar ${DEST}/orb-enabler.jar
+popd
+
+

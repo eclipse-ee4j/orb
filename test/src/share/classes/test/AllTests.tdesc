@@ -1,0 +1,37 @@
+//  
+//  Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+//  
+//  This program and the accompanying materials are made available under the
+//  terms of the Eclipse Distribution License v. 1.0, which is available at
+//  http://www.eclipse.org/org/documents/edl-v10.php.
+//
+//  SPDX-License-Identifier: BSD-3-Clause
+
+// Batch tests
+// Run 'java test.Test' for syntax.
+
+-test javax.rmi.CORBA.serialization.SerializationTest
+-test test12.SerializationTest -vm 1.2
+
+// This has to be run in a separate process because it
+// clobbers environment variables like java.rmi.server.codebase
+-test javax.rmi.ClassLoadTest -separateprocess
+// this no longer tests anything, but manages to fail anyway!! (REG) -test rmic.ParseTest
+
+// Test FullValueDescription 
+// DO NOT MOVE THIS TEST TO RUN AFTER rmic.HelloTest, It hangs at times on
+// Windows.
+-test javax.rmi.fvd.TheTest -separateprocess
+
+-test rmic.HelloTest
+-test rmic.HelloTest -localservants -normic
+-test rmic.InnerTest
+-test rmic.StaticStringsHashTest
+-test rmic.StubReferenceTest
+-test javax.rmi.download.TheTest
+-test javax.rmi.test1.TheTest
+-test rmic.LocalStubTest
+-test javax.rmi.PROTest
+-test javax.rmi.PROTest -jrmp -separateprocess
+-test ibmspace.spacetest.SpaceTest -separateprocess
+-test ibmspace.spacetest.SpaceTest -jrmp -separateprocess

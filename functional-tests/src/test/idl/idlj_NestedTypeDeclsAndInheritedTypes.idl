@@ -1,0 +1,60 @@
+/*
+ * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0, which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+//
+// Tests nested type declarations whose type definitions are in 
+// inherited super interfaces.
+//
+module TestIdlj {
+
+    interface A1 {
+        enum A1_Enum { X1, X2, X3 };
+    };
+
+    interface A2 : A1 {};
+
+    interface A3 : A2 {
+        struct A3_Struct { A1_Enum x; };
+    };
+
+    interface A4: A2 {
+        typedef A1_Enum A4_Enum;
+    };
+
+    interface A5: A4 {
+        typedef A4_Enum A5_Enum;
+        struct A5_Struct {
+            A4_Enum x;
+            A5_Enum y;
+        };
+    };
+
+    interface B1 {
+        typedef long B1_long;
+    };
+
+    interface B2 : B1 {};
+
+    interface B3 : B2 {
+        exception BB_Exception { B1_long x; };
+    };
+
+    interface B4 : B2 {
+        typedef B1_long B4_long;
+    };
+
+    interface B5 : B4 {
+        typedef B4_long B5_long;
+        exception BB_Exception { 
+            B4_long  x;
+            B5_long y;
+        };
+    };
+};

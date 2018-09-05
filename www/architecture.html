@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//w3c//dtd html 4.0 transitional//en" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<HTML> 
+    <HEAD>
+        <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1"> 
+        <TITLE>CORBA Technologies</TITLE> 
+    </HEAD> 
+    <BODY>  
+    <H2>Architecture</H2> 
+    <P>The following documents give a high-level discussion of some aspects of
+    the ORB architecture:</P>
+    <UL> 
+        <LI>
+        <A HREF="http://haroldcarr.net/computerScience/pept/indexPept.html">PEPt architecture</A>.
+        This is the request handling architecture for the ORB.</LI> 
+        <LI><A HREF="design/SAF/introduction.pdf">Server Activation Framework document.</A>This discusses
+        the current ORBD design and some ideas for a portable implementation using the 
+        Object Reference Template that would replace the current ORBD.  This document is
+        only available in PDF, due to HTML conversion problems in FrameMaker 7.</LI>
+        <LI><A HREF="design/orbdArchitecture.html">ORBD Architecture</A>.  This is an early document on some aspects of fault tolerance and load
+        balancing</LI> 
+        <LI>Failover and load balancing (IIOP FOLB) is an important ORB feature that is part of GlassFish.  A number
+        of documents are available describing FOLB:
+            <UL>
+            <LI>A paper <A HREF="design/FOLB/FODynamicCluster.pdf">(pdf)</A> Harold and I wrote describing the design of the IIOP FOLB mechanisms.</LI>
+            <LI>The functional specification <A HREF="design/FOLB/AS9.0-RMI-IIOP-FOLB-FS.pdf">(pdf)</A>  
+            <A HREF="design/FOLB/AS9.0-RMI-IIOP-FOLB-FS.odt">(odt)</A> 
+            Harold wrote for FOLB in SJSAS 9.1 EE.  Most of the
+            material is still relevant to GlassFish Server Open Source Edition 3.1</LI>
+            <LI>The <A HREF="design/FOLB/IIOPFOLBOnePager.html">one pager</A> for IIOP FOLB as it will be delivered in GlassFish Server
+            Open Source Edition 3.1</LI>
+        </LI>
+    </UL> 
+    <P>Here are some more detailed descriptions of parts of the ORB design:
+    </P> 
+    <UL> 
+        <LI>Presentation 
+        <UL> 
+            <LI>Dynamic RMI-IIOP 
+            <UL> 
+                <LI><A
+                HREF="design/dynamic_rmi_iiop_optimization.html">Optimization notes</A>. These
+                changes are now in place.</LI> 
+                <LI><A HREF="design/dynamic_rmi_iiop.htm">Design</A></LI> 
+            </UL></LI> 
+        </UL></LI> 
+        <LI>Encoding. 
+        This area is not well documented at present.  Everett Anderson (no longer involved
+        with this project) wrote some useful documentation back in 2002:
+        <UL>
+            <LI><A HREF="design/everett/serial_pres/pres1/serial1pres.html">Serialization 1:</A> Overview</LI>
+            <LI><A HREF="design/everett/serial_pres/pres2/serial2pres.html">Serialization 2:</A> Valuetype Code</LI>
+            <LI><A HREF="design/everett/serial_pres/pres3/serial3pres.html">Serialization 3:</A> RMI-IIOP Stream Format 2 Overview</LI>
+            <LI><A HREF="design/everett/serial_pres/pres4/serial4pres.html">Serialization 4:</A> Serializable Refresh</LI>
+            <LI><A HREF="design/everett/serial_pres/pres5/serial5pres.html">Serialization 5:</A> Stream Format 2</LI>
+            <LI><A HREF="design/everett/serial_pres/pres6/serial6pres.html">Serialization 6:</A> Remaining Items</LI>
+        </UL>
+        Some parts of these presentations are a bit outdated, but the technical content is still
+        correct and useful.
+        </LI> 
+        <LI>Protocol 
+        <P>There's not a lot written for this layer either.  There is a lot of code in the ORB 
+        that represents the GIOP protocol messages, but that is pretty simple.  The transport-protocol
+        dispatch does need to be documented somewhere.<P>
+        <UL> 
+            <LI><A HREF="design/testing_giop.html">GIOP Testing</A></LI> 
+            <LI><A HREF="design/GIOP_blunders.html">GIOP Blunders</A> (aka things
+            I wish the GIOP specification did differently)</LI> 
+        </UL></LI> 
+        <LI>Transport</LI> 
+        <LI>Utility (or things that do not fit elsewhere) 
+        <UL> 
+            <LI><A HREF="design/ThreadPool.html">Thread Pool</A></LI> 
+            <LI><A HREF="design/monitoring.html">Monitoring Extensions</A></LI> 
+            <LI><A HREF="design/copyobject.htm">Copyobject</A></LI> 
+        </UL></LI> 
+    </UL> 
+    <P>The ORB also has an extensive internal SPI that is used by the GlassFIsh project.
+    Javadocs for the ORB SPI are available 
+    <A HREF="https://glassfish-corba.dev.java.net/javadoc/index.html">here</A>.</BODY>
+</HTML>

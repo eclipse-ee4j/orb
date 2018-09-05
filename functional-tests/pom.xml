@@ -1,0 +1,331 @@
+<!--
+
+    Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.glassfish.corba</groupId>
+        <artifactId>glassfish-corba</artifactId>
+        <version>4.2.0-b005-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>glassfish-corba-tests</artifactId>
+    <name>Functional Tests</name>
+    <packaging>pom</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.glassfish.gmbal</groupId>
+            <artifactId>gmbal</artifactId>
+            <version>${gmbal-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>glassfish-corba-csiv2-idl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>glassfish-corba-omgapi</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>glassfish-corba-orb</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.pfl</groupId>
+            <artifactId>pfl-basic</artifactId>
+            <version>${pfl-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.pfl</groupId>
+            <artifactId>pfl-basic-tools</artifactId>
+            <version>${pfl-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.pfl</groupId>
+            <artifactId>pfl-dynamic</artifactId>
+            <version>${pfl-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.pfl</groupId>
+            <artifactId>pfl-tf</artifactId>
+            <version>${pfl-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.pfl</groupId>
+            <artifactId>pfl-tf-tools</artifactId>
+            <version>${pfl-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.pfl</groupId>
+            <artifactId>pfl-test</artifactId>
+            <version>${pfl-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.external</groupId>
+            <artifactId>management-api</artifactId>
+            <version>3.1.0-b001</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.10</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- generate test idl -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>idlj-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate-test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <includeDirs>
+                        <includeDir>../omgapi/src/main/idl</includeDir>
+                        <includeDir>../omgapi/src/main/idl-includes</includeDir>
+                    </includeDirs>
+                    <sources>
+                        <source>
+                            <compatible>true</compatible>
+                            <includes>
+                                <include>legacy/**/*.idl</include>
+                            </includes>
+                            <packagePrefixes>
+                                <packagePrefix><type>activation</type><prefix>com.sun.corba.ee.spi</prefix></packagePrefix>
+                            </packagePrefixes>
+                        </source>
+                        <source>
+                            <packagePrefixes>
+                                <packagePrefix><type>IOP</type>                <prefix>org.omg</prefix></packagePrefix>
+                                <packagePrefix><type>Messaging</type>          <prefix>org.omg</prefix></packagePrefix>
+                                <packagePrefix><type>PortableServer</type>     <prefix>org.omg</prefix></packagePrefix>
+                                <packagePrefix><type>PortableInterceptor</type><prefix>org.omg</prefix></packagePrefix>
+                            </packagePrefixes>
+                            <compatible>false</compatible>
+                            <defines>
+                                <define>
+                                    <symbol>CORBA3</symbol>
+                                </define>
+                            </defines>
+                            <additionalArguments>
+                                <additionalArgument>-corba</additionalArgument>
+                                <additionalArgument>3.0</additionalArgument>
+                            </additionalArguments>
+                            <excludes>
+                                <exclude>legacy/**</exclude>
+                            </excludes>
+                         </source>
+                    </sources>
+                </configuration>
+            </plugin>
+
+            <!-- generate rmic stubs -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>rmic-maven-plugin</artifactId>
+                <configuration>
+                    <testOutputDirectory>${project.build.testOutputDirectory}</testOutputDirectory>
+                    <sources>
+                        <source>
+                            <iiop>true</iiop>
+                            <poa>true</poa>
+                            <keep>true</keep>
+                            <includes>
+                                <include>**/rmiiIServantPOA.class</include>
+                                <include>**/corba/preinvokepostinvoke/MyServant.class</include>
+                                <include>**/corba/rmipoacounter/counterImpl.class</include>
+                            </includes>
+                        </source>
+                        <source>
+                            <keep>true</keep>
+                            <iiop>true</iiop>
+                            <includes>
+                                <include>**/rmiiIServant.class</include>
+                            </includes>
+                        </source>
+                    </sources>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.glassfish.corba</groupId>
+                        <artifactId>rmic</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <!-- compile tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- build and run ant-based tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>run-tests</id>
+                        <phase>integration-test</phase>
+                        <configuration>
+                            <target>
+                                <ant antfile="../make/build.xml" target="build-tests">
+                                    <property name="test-build.dir" value="${project.build.directory}/test" />
+                                    <property name="root.dir" value=".." />
+                                    <property name="maven.test.classpath" refid="maven.test.classpath" />
+                                </ant>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <profiles>
+        <!-- add tools.jar to path when on Linux or Windows -->
+        <profile>
+            <id>tools.jar</id>
+            <activation>
+                <file>
+                    <exists>${java.home}/../lib/tools.jar</exists>
+                </file>
+            </activation>
+      	    <dependencies>
+                <dependency>
+                <groupId>com.sun</groupId>
+                <artifactId>tools</artifactId>
+                <version>1.6.0</version>
+                <scope>system</scope>
+                <systemPath>${java.home}/../lib/tools.jar</systemPath>
+            </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <dependencies>
+                            <dependency>
+                                <groupId>com.sun</groupId>
+                                <artifactId>tools</artifactId>
+                                <version>1.6.0</version>
+                                <scope>system</scope>
+                                <systemPath>${java.home}/../lib/tools.jar</systemPath>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>all-tests</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>run-tests</id>
+                                <phase>integration-test</phase>
+                                <configuration>
+                                    <target>
+                                        <ant antfile="../make/build.xml" target="build-tests">
+                                            <property name="test-build.dir" value="${project.build.directory}/test" />
+                                            <property name="root.dir" value=".." />
+                                            <property name="maven.test.classpath" refid="maven.test.classpath" />
+                                        </ant>
+                                        <ant antfile="../make/build.xml" target="test-all">
+                                            <property name="test-build.dir" value="${project.build.directory}/test" />
+                                            <property name="root.dir" value=".." />
+                                            <property name="maven.test.classpath" refid="maven.test.classpath" />
+                                        </ant>
+                                    </target>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>test-with-args</id>
+	    <activation>
+      		<property>
+        	   <name>test.args</name>
+      		</property>
+    	    </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>run-tests</id>
+                                <phase>integration-test</phase>
+                                <configuration>
+                                    <target>
+                                        <ant antfile="../make/build.xml" target="run-test-target-with-args">
+                                            <property name="test-build.dir" value="${project.build.directory}/test" />
+                                            <property name="root.dir" value=".." />
+                                            <property name="maven.test.classpath" refid="maven.test.classpath" />
+                                            <property name="test-args" value="${test.args}" />
+                                        </ant>
+                                    </target>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>
+

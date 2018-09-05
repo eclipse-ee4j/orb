@@ -1,0 +1,11 @@
+This is the basic set of commands needed to set up a cluster for testing:
+
+start-domain
+create-cluster c1
+--user admin create-node-ssh --nodehost minas --installdir /volumes/work/GlassFish/v3/glassfish4 minasNA
+--user admin create-node-ssh --nodehost apollo --installdir /volumes/work/GlassFish/v3/glassfish4 apolloNA
+create-instance --node minasNA --cluster c1 --portbase 9000 --checkports=true in0
+create-instance --node apolloNA --cluster c1 --portbase 10000 --checkports=true in1
+create-instance --node minasNA --cluster c1 --portbase 11000 --checkports=true in2
+start-cluster c1
+deploy --target c1 --name TestEJB --force /space/ws/mercurial/CORBA/iiop-folb-test/test/OrbFailOver/OrbFailOver-ejb/dist/OrbFailOver-ejb.jar

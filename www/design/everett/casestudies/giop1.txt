@@ -1,0 +1,231 @@
+#
+# Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Distribution License v. 1.0, which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+Scenario:
+
+Vendor says
+
+"We've apparently caught a marshalling bug in
+the RI ORB. In the following tests the unmarshalling of
+a response message from the RI is performed. This response contains
+a java.util.ArrayList of three object references. The attached GIOP
+dump shows that the third object reference starts in the wrong
+position (4 bytes after the correct position). Due to the enhanced
+strictness of the VisiBroker ORB in the maintenance release, it now
+encounters an error in attempting to unmarshal the body of the
+response message from the RI. We feel that this bug in the RI ORB
+needs to be fixed."
+
+and provides the following annotated 3 fragment GIOP trace:
+
+1st fragment of the response message:
+
+47 49 4f 50 01 02 02 01 00 00 03 f4 00 00 00 14 GIOP............
+00 00 00 00 00 00 00 01 4e 45 4f 00 00 00 00 02 ........NEO.....
+00 0a 00 00 00 00 00 00 7f ff ff 0a 00 00 00 3a ................
+52 4d 49 3a 6a 61 76 61 2e 75 74 69 6c 2e 41 72 RMI.java.util.Ar
+72 61 79 4c 69 73 74 3a 46 36 35 35 31 35 34 46 rayList.F655154F
+33 32 38 31 35 33 38 30 3a 37 38 38 31 44 32 31 32815380.7881D21
+44 39 39 43 37 36 31 39 44 00 00 00 00 00 04 9c D99C7619D......?
+01 01 00 00 00 00 00 03 00 00 00 0a 01 00 00 00 ................
+beginning of 1st obj ref
+00 00 00 56 52 4d 49 3a 63 6f 6d 2e 73 75 6e 2e ...VRMI.com.sun.
+63 74 73 2e 74 65 73 74 73 2e 69 6e 74 65 72 6f cts.tests.intero
+70 2e 65 6a 62 2e 65 6e 74 69 74 79 2e 62 6d 70 p.ejb.entity.bmp
+2e 63 6c 69 65 6e 74 76 69 65 77 74 65 73 74 2e .clientviewtest.
+54 65 73 74 42 65 61 6e 3a 30 30 30 30 30 30 30 TestBean.0000000
+30 30 30 30 30 30 30 30 30 00 00 00 00 00 00 01 000000000.......
+00 00 00 00 00 00 01 dc 00 01 02 00 00 00 00 0e .......?........
+31 37 32 2e 32 30 2e 38 30 2e 31 34 30 00 a4 2a 172.20.80.140.?.
+00 00 00 8e af ab cb 00 00 00 00 22 00 00 00 64 ...????........d
+00 00 00 01 00 00 00 00 00 00 00 01 00 00 00 0e ................
+50 65 72 73 69 73 74 65 6e 74 50 4f 41 00 00 00 PersistentPOA...
+00 00 00 5d 8c 47 3d d9 00 00 00 00 00 00 00 51 ....?G.........Q
+ac ed 00 05 73 72 00 11 6a 61 76 61 2e 6c 61 6e ?...sr..java.lan
+67 2e 49 6e 74 65 67 65 72 12 e2 a0 a4 f7 81 87 g.Integer..??.??
+38 02 00 01 49 00 05 76 61 6c 75 65 78 72 00 10 8...I..valuexr..
+6a 61 76 61 2e 6c 61 6e 67 2e 4e 75 6d 62 65 72 java.lang.Number
+86 ac 95 1d 0b 94 e0 8b 02 00 00 78 70 00 00 00 ???..?.?...xp...
+02 0a 00 00 00 00 00 05 00 00 00 01 00 00 00 20 ................
+00 00 00 00 00 01 00 01 00 00 00 02 05 01 00 01 ................
+00 01 00 20 00 01 01 09 00 00 00 01 00 01 01 00 ................
+00 00 00 21 00 00 00 7c 00 00 00 00 00 00 00 01 ................
+00 00 00 00 00 00 00 24 00 00 00 20 00 00 00 66 ...............f
+00 00 00 00 00 00 00 01 00 00 00 0e 31 37 32 2e ............172.
+32 30 2e 38 30 2e 31 34 30 00 04 24 00 40 00 00 20.80.140.......
+00 00 00 08 06 06 67 81 02 01 01 01 00 00 00 17 ......g?........
+04 01 00 08 06 06 67 81 02 01 01 01 00 00 00 07 ......g?........
+64 65 66 61 75 6c 74 00 04 00 00 00 00 00 00 00 default.........
+00 00 00 01 00 00 00 08 06 06 67 81 02 01 01 01 ..........g?....
+00 00 00 0f 00 00 00 19 00 00 00 5e 00 00 00 00 ................
+00 00 00 56 68 74 74 70 3a 2f 2f 64 61 72 6b 6b ...Vhttp...darkk
+6e 69 67 68 74 2e 73 6d 2e 69 6e 70 72 69 73 65 night.sm.inprise
+2e 63 6f 6d 3a 39 31 39 31 2f 69 6e 74 65 72 6f .com.9191.intero
+70 5f 65 6a 62 5f 45 62 6d 70 5f 63 6c 69 65 6e p.ejb.Ebmp.clien
+74 76 69 65 77 74 65 73 74 5f 6a 32 65 65 33 43 tviewtest.j2ee3C
+6c 69 65 6e 74 2e 6a 61 72 00 00 00 00 00 00 1f lient.jar.......
+00 00 00 04 00 00 00 03 00 00 00 20 00 00 00 04 ................
+00 00 00 01 01 00 00 00 00 00 00 56 52 4d 49 3a ...........VRMI.
+beginning of 2nd obj ref
+63 6f 6d 2e 73 75 6e 2e 63 74 73 2e 74 65 73 74 com.sun.cts.test
+73 2e 69 6e 74 65 72 6f 70 2e 65 6a 62 2e 65 6e s.interop.ejb.en
+74 69 74 79 2e 62 6d 70 2e 63 6c 69 65 6e 74 76 tity.bmp.clientv
+69 65 77 74 65 73 74 2e 54 65 73 74 42 65 61 6e iewtest.TestBean
+3a 30 30 30 30 30 30 30 30 30 30 30 30 30 30 30 .000000000000000
+30 00 00 00 00 00 00 01 00 00 00 00 00 00 01 dc 0..............?
+length of the profile
+00 01 02 00 00 00 00 0e 31 37 32 2e 32 30 2e 38 ........172.20.8
+30 2e 31 34 30 00 a4 2a 00 00 00 8e af ab cb 00 0.140.?....????.
+00 00 00 22 00 00 00 64 00 00 00 01 00 00 00 00 .......d........
+00 00 00 01 00 00 00 0e 50 65 72 73 69 73 74 65 ........Persiste
+6e 74 50 4f 41 00 00 00 00 00 00 5d 8c 47 3d d9 ntPOA.......?G..
+00 00 00 00 00 00 00 51 ac ed 00 05 73 72 00 11 .......Q?...sr..
+6a 61 76 61 2e 6c 61 6e 67 2e 49 6e 74 65 67 65 java.lang.Intege
+72 12 e2 a0 a4 f7 81 87 38 02 00 01 49 00 05 76 r..??.??8...I..v
+61 6c 75 65 78 72 00 10 6a 61 76 61 2e 6c 61 6e aluexr..java.lan
+67 2e 4e 75 6d 62 65 72 86 ac 95 1d 0b 94 e0 8b g.Number???..?.?
+02 00 00 78 70 00 00 00 03 0a 00 00 00 00 00 05 ...xp...........
+00 00 00 01 00 00 00 20 00 00 00 00 00 01 00 01 ................
+00 00 00 02 05 01 00 01 00 01 00 20 00 01 01 09 ................
+
+2nd fragment of response message:
+
+47 49 4f 50 01 02 00 07 00 00 03 60 00 00 00 14 GIOP............
+00 00 00 01 00 01 01 00 00 00 00 21 00 00 00 7c ................
+00 00 00 00 00 00 00 01 00 00 00 00 00 00 00 24 ................
+00 00 00 20 00 00 00 66 00 00 00 00 00 00 00 01 .......f........
+00 00 00 0e 31 37 32 2e 32 30 2e 38 30 2e 31 34 ....172.20.80.14
+30 00 04 24 00 40 00 00 00 00 00 08 06 06 67 81 0.............g?
+02 01 01 01 00 00 00 17 04 01 00 08 06 06 67 81 ..............g?
+02 01 01 01 00 00 00 07 64 65 66 61 75 6c 74 00 ........default.
+04 00 00 00 00 00 00 00 00 00 00 01 00 00 00 08 ................
+06 06 67 81 02 01 01 01 00 00 00 0f 00 00 00 19 ..g?............
+00 00 00 5e 00 00 00 00 00 00 00 56 68 74 74 70 ...........Vhttp
+3a 2f 2f 64 61 72 6b 6b 6e 69 67 68 74 2e 73 6d ...darkknight.sm
+2e 69 6e 70 72 69 73 65 2e 63 6f 6d 3a 39 31 39 .inprise.com.919
+31 2f 69 6e 74 65 72 6f 70 5f 65 6a 62 5f 45 62 1.interop.ejb.Eb
+6d 70 5f 63 6c 69 65 6e 74 76 69 65 77 74 65 73 mp.clientviewtes
+74 5f 6a 32 65 65 33 43 6c 69 65 6e 74 2e 6a 61 t.j2ee3Client.ja
+72 00 00 00 00 00 00 1f 00 00 00 04 00 00 00 03 r...............
+00 00 00 20 00 00 00 04 00 00 00 01 00 00 02 48 ...............H
+end of 2nd obj ref
+01 65 72 73 00 00 00 56 52 4d 49 3a 63 6f 6d 2e .ers...VRMI.com.
+beginning of 3rd obj ref
+73 75 6e 2e 63 74 73 2e 74 65 73 74 73 2e 69 6e sun.cts.tests.in
+74 65 72 6f 70 2e 65 6a 62 2e 65 6e 74 69 74 79 terop.ejb.entity
+2e 62 6d 70 2e 63 6c 69 65 6e 74 76 69 65 77 74 .bmp.clientviewt
+65 73 74 2e 54 65 73 74 42 65 61 6e 3a 30 30 30 est.TestBean.000
+30 30 30 30 30 30 30 30 30 30 30 30 30 00 65 72 0000000000000.er
+00 00 00 01 00 00 00 00 00 00 01 dc 00 01 02 00 ...........?....
+00 00 00 0e 31 37 32 2e 32 30 2e 38 30 2e 31 34 ....172.20.80.14
+30 00 a4 2a 00 00 00 8e af ab cb 00 00 00 00 22 0.?....????.....
+00 00 00 64 00 00 00 01 00 00 00 00 00 00 00 01 ...d............
+00 00 00 0e 50 65 72 73 69 73 74 65 6e 74 50 4f ....PersistentPO
+41 00 00 00 00 00 00 5d 8c 47 3d d9 00 00 00 00 A.......?G......
+00 00 00 51 ac ed 00 05 73 72 00 11 6a 61 76 61 ...Q?...sr..java
+2e 6c 61 6e 67 2e 49 6e 74 65 67 65 72 12 e2 a0 .lang.Integer..?
+a4 f7 81 87 38 02 00 01 49 00 05 76 61 6c 75 65 ?.??8...I..value
+78 72 00 10 6a 61 76 61 2e 6c 61 6e 67 2e 4e 75 xr..java.lang.Nu
+6d 62 65 72 86 ac 95 1d 0b 94 e0 8b 02 00 00 78 mber???..?.?...x
+70 00 00 00 04 0a 00 00 00 00 00 05 00 00 00 01 p...............
+00 00 00 20 00 00 00 00 00 01 00 01 00 00 00 02 ................
+05 01 00 01 00 01 00 20 00 01 01 09 00 00 00 01 ................
+00 01 01 00 00 00 00 21 00 00 00 7c 00 00 00 00 ................
+00 00 00 01 00 00 00 00 00 00 00 24 00 00 00 20 ................
+00 00 00 66 00 00 00 00 00 00 00 01 00 00 00 0e ...f............
+31 37 32 2e 32 30 2e 38 30 2e 31 34 30 00 04 24 172.20.80.140...
+00 40 00 00 00 00 00 08 06 06 67 81 02 01 01 01 ..........g?....
+00 00 00 17 04 01 00 08 06 06 67 81 02 01 01 01 ..........g?....
+00 00 00 07 64 65 66 61 75 6c 74 00 04 00 00 00 ....default.....
+00 00 00 00 00 00 00 01 00 00 00 08 06 06 67 81 ..............g?
+02 01 01 01 00 00 00 0f 00 00 00 19 00 00 00 5e ................
+00 00 00 00 00 00 00 56 68 74 74 70 3a 2f 2f 64 .......Vhttp...d
+61 72 6b 6b 6e 69 67 68 74 2e 73 6d 2e 69 6e 70 arkknight.sm.inp
+72 69 73 65 2e 63 6f 6d 3a 39 31 39 31 2f 69 6e rise.com.9191.in
+74 65 72 6f 70 5f 65 6a 62 5f 45 62 6d 70 5f 63 terop.ejb.Ebmp.c
+6c 69 65 6e 74 76 69 65 77 74 65 73 74 5f 6a 32 lientviewtest.j2
+65 65 33 43 6c 69 65 6e 74 2e 6a 61 72 00 00 00 ee3Client.jar...
+00 00 00 1f 00 00 00 04 00 00 00 03 00 00 00 20 ................
+00 00 00 04 00 00 00 01 ff ff ff ff             ............
+
+Real answer:  Their ORB isn't handling chunking with fragmentation
+properly.  Do you see why?  Of course not.  Start deciphering it
+by hand.
+
+STEP 0:  Probably want to print it out and get a pencil... maybe
+a few different colored pens.
+
+STEP 1:  Seek to the beginning of the ArrayList.  You can see this
+by looking for the repository ID or the 7fffffxx valuetag before it.
+The xx can tell you if it's chunking or not.  We know that
+java.util.ArrayList has a writeObject method, so it should be chunked.
+
+00 0a 00 00 00 00 00 00 7f ff ff 0a 00 00 00 3a ................
+52 4d 49 3a 6a 61 76 61 2e 75 74 69 6c 2e 41 72 RMI.java.util.Ar
+72 61 79 4c 69 73 74 3a 46 36 35 35 31 35 34 46 rayList.F655154F
+33 32 38 31 35 33 38 30 3a 37 38 38 31 44 32 31 32815380.7881D21
+44 39 39 43 37 36 31 39 44 00 00 00 00 00 04 9c D99C7619D......?
+01 01 00 00 00 00 00 03 00 00 00 0a 01 00 00 00 ................
+00 00 00 56 52 4d 49 3a 63 6f 6d 2e 73 75 6e 2e ...VRMI.com.sun.
+63 74 73 2e 74 65 73 74 73 2e 69 6e 74 65 72 6f cts.tests.intero
+70 2e 65 6a 62 2e 65 6e 74 69 74 79 2e 62 6d 70 p.ejb.entity.bmp
+2e 63 6c 69 65 6e 74 76 69 65 77 74 65 73 74 2e .clientviewtest.
+54 65 73 74 42 65 61 6e 3a 30 30 30 30 30 30 30 TestBean.0000000
+
+STEP 2:  Make sure that the repository ID length 0x3a covers
+the whole rep ID, including the terminating null.  Remember that
+repository Ids are written as Latin-1 CORBA strings.  See
+CORBA chapter 15 for encoding of a CORBA string.
+
+STEP 3:  There is no codebase here, so after the rep Id, we
+should have the chunk length.  Here, it is 0x49c.  Go ahead
+and mark where this chunk ends in the stream.  0x49c is
+a whopping 1180 bytes later!  That's 1180/16 = 73.75
+lines of trace later in the 2nd fragment.
+
+74 5f 6a 32 65 65 33 43 6c 69 65 6e 74 2e 6a 61 t.j2ee3Client.ja
+72 00 00 00 00 00 00 1f 00 00 00 04 00 00 00 03 r...............
+00 00 00 20 00 00 00 04 00 00 00 01 00 00 02 48 ...............H
+                                   ^
+                                   |
+               first chunk ends here
+
+
+The next line is where the 3rd object reference begins, as they
+note.
+
+               first chunk ends here
+                                   |
+                                   v
+00 00 00 20 00 00 00 04 00 00 00 01 00 00 02 48 ...............H
+01 65 72 73 00 00 00 56 52 4d 49 3a 63 6f 6d 2e .ers...VRMI.com.
+73 75 6e 2e 63 74 73 2e 74 65 73 74 73 2e 69 6e sun.cts.tests.in
+
+They contend that this middle line is 4 bytes too late, and
+that the 01 should be right after the previous 01.
+
+SOLVED!
+-------
+
+The writer was chunking and fragmenting.  It wrote a chunk length
+that stretched into the second fragment.  It could do that since
+it knew in advance the length of what it was writing and couldn't
+split it across chunks.
+
+When it got to the end of the thing which it couldn't
+split into multiple chunks, it would be in a new fragment so
+could no longer modify fragment 1's chunk length to include
+new data.  Thus, it would have to open a new chunk.
+
+The new chunk had a length of 0x248 bytes and encloses the
+3rd object reference, including the boolean abstract interface
+marker at the beginning of the 3rd line.  The 65 72 73 you
+see after the 01 are just garbage alignment bytes.
+

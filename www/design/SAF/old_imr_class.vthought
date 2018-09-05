@@ -1,0 +1,278 @@
+;  
+;  Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+;  
+;  This program and the accompanying materials are made available under the
+;  terms of the Eclipse Distribution License v. 1.0, which is available at
+;  http://www.eclipse.org/org/documents/edl-v10.php.
+;
+;  SPDX-License-Identifier: BSD-3-Clause
+
+; Visual Thought 1.0
+
+(header
+  (program "vthought")
+  (version "1.4")
+  (buildDate "$Date: 2006/05/12 00:20:15 $")
+  (writeDate "Wed Mar 1, 2000 2:02:39 PM PST")
+  (documentPath "/home/kenc/work/design/SAF/old_imr_class.vthought")
+)
+
+(document
+  (palette F)
+  (layout
+    (page "Letter")
+    (units "Inches")
+    (orientation "portrait")
+    (numberOfPages 1 1)
+    (scale 100)
+    (margins 18 18 18 18)
+  )
+)
+
+(views
+  (view
+    (location 275 167)
+    (size 728 987)
+    (zoom 1.1875)
+    (documentLocation 5 0)
+    (gridSnap T)
+    (gridVisibility F)
+    (gridSpacing 9)
+    (pageBreaks T)
+    (toolVisibility T)
+    (rulerVisibility T)
+  )
+)
+
+(shapes
+  (shape
+    (id 1)
+    (layer 0)
+    (type "Rectangle")
+    (location 148.5 103.5)
+    (size 243 189)
+    (rotation 0)
+    (locked F)
+    (style
+      (filled T)
+      (fillColor 65535 65535 65535)
+      (stroked T)
+      (strokeColor 0 0 0)
+      (lineWidth 1)
+      (shadowed F)
+      (shadowColor 39321 39321 39321)
+    )
+    (flipHorizontal F)
+    (flipVertical F)
+    (showText T)
+    (textVerticalAlignment "top")
+    (rtfText{\rtf1\ansi\deff0
+{\fonttbl{\f0\fnil helvetica medium;}}
+{\colortbl\red0\green0\blue0;}
+\cf0\plain\pard\qc {\b Repository}
+\par __________
+\par __________
+\par 
+\par \pard registerServer( serverDef ) : serverId
+\par unregisterServer( serverId ) 
+\par getServer( serverId ) : ServerDef
+\par isInstalled( serverId ) : boolean
+\par install( serverId ) 
+\par uninstall( serverId ) 
+\par listRegisteredServers : ServerIds
+\par getApplicationNames : StringSeq
+\par getServerID( applicationName ) : serverId})
+  )
+  (shape
+    (id 4)
+    (layer 3)
+    (type "Rectangle")
+    (location 216 252)
+    (size 108 36)
+    (rotation 0)
+    (locked F)
+    (style
+      (filled T)
+      (fillColor 65535 65535 65535)
+      (stroked T)
+      (strokeColor 0 0 0)
+      (lineWidth 1)
+      (shadowed F)
+      (shadowColor 39321 39321 39321)
+    )
+    (flipHorizontal F)
+    (flipVertical F)
+    (showText T)
+    (textVerticalAlignment "center")
+    (rtfText{\rtf1\ansi\deff0
+{\fonttbl{\f0\fnil helvetica medium;}}
+{\colortbl\red0\green0\blue0;}
+\cf0\plain\pard\qc {\b ServerManager}})
+  )
+  (shape
+    (id 5)
+    (layer 4)
+    (type "Rectangle")
+    (location 405 409.5)
+    (size 324 99)
+    (rotation 0)
+    (locked F)
+    (style
+      (filled T)
+      (fillColor 65535 65535 65535)
+      (stroked T)
+      (strokeColor 0 0 0)
+      (lineWidth 1)
+      (shadowed F)
+      (shadowColor 39321 39321 39321)
+    )
+    (flipHorizontal F)
+    (flipVertical F)
+    (showText T)
+    (textVerticalAlignment "top")
+    (rtfText{\rtf1\ansi\deff0
+{\fonttbl{\f0\fnil helvetica medium;}}
+{\colortbl\red0\green0\blue0;}
+\cf0\plain\pard\qc {\b Locator}
+\par __________
+\par __________
+\par 
+\par \pard locateServer( serverId, endpointType ) : ServerLocation
+\par getEndpoint( endpointType ) : tcpPort})
+  )
+  (shape
+    (id 6)
+    (layer 5)
+    (type "Rectangle")
+    (location 121.5 387)
+    (size 189 144)
+    (rotation 0)
+    (locked F)
+    (style
+      (filled T)
+      (fillColor 65535 65535 65535)
+      (stroked T)
+      (strokeColor 0 0 0)
+      (lineWidth 1)
+      (shadowed F)
+      (shadowColor 39321 39321 39321)
+    )
+    (flipHorizontal F)
+    (flipVertical F)
+    (showText T)
+    (textVerticalAlignment "top")
+    (rtfText{\rtf1\ansi\deff0
+{\fonttbl{\f0\fnil helvetica medium;}}
+{\colortbl\red0\green0\blue0;}
+\cf0\plain\pard\qc {\b Activator}
+\par __________
+\par __________
+\par 
+\par \pard active( serverId, serverObj )
+\par getActiveServers() : ServerIds
+\par activate( serverId ) 
+\par shutdown( serverId ) 
+\par install( serverId ) 
+\par uninstall( serverId )})
+  )
+  (shape
+    (id 7)
+    (layer 6)
+    (type "Rectangle")
+    (location 418.5 144)
+    (size 225 108)
+    (rotation 0)
+    (locked F)
+    (style
+      (filled T)
+      (fillColor 65535 65535 65535)
+      (stroked T)
+      (strokeColor 0 0 0)
+      (lineWidth 1)
+      (shadowed F)
+      (shadowColor 39321 39321 39321)
+    )
+    (flipHorizontal F)
+    (flipVertical F)
+    (showText T)
+    (textVerticalAlignment "top")
+    (rtfText{\rtf1\ansi\deff0
+{\fonttbl{\f0\fnil helvetica medium;}}
+{\colortbl\red0\green0\blue0;}
+\cf0\plain\pard\qc {\b Server}
+\par __________
+\par __________
+\par \pard shutdown
+\par install
+\par uninstall
+\par getEndpoint( endpointType ) : tcpPort})
+  )
+)
+
+(connections
+  (connection
+    (id 2)
+    (layer 1)
+    (rotation 0)
+    (textRotation 0)
+    (locked F)
+    (start 4)
+    (end 5)
+    (curved F)
+    (style
+      (filled T)
+      (fillColor 65535 65535 65535)
+      (stroked T)
+      (strokeColor 0 0 0)
+      (lineWidth 1)
+      (shadowed F)
+      (shadowColor 39321 39321 39321)
+    )
+    (showText F)
+    (textDistancePercentage 0.45)
+    (textWidth 72)
+    (textOffset -10)
+    (rtfText{\rtf1\ansi\deff0
+{\fonttbl{\f0\fnil helvetica medium;}}
+{\colortbl\red0\green0\blue0;}
+\cf0\plain\pard\qc name})
+    (drawStartArrowhead F)
+    (drawEndArrowhead T)
+    (startArrowhead "StandardArrow")
+    (endArrowhead "HollowFlatArrow")
+  )
+  (connection
+    (id 3)
+    (layer 2)
+    (rotation 0)
+    (textRotation 0)
+    (locked F)
+    (start 4)
+    (end 6)
+    (curved F)
+    (style
+      (filled T)
+      (fillColor 65535 65535 65535)
+      (stroked T)
+      (strokeColor 0 0 0)
+      (lineWidth 1)
+      (shadowed F)
+      (shadowColor 39321 39321 39321)
+    )
+    (showText F)
+    (textDistancePercentage 0.45)
+    (textWidth 72)
+    (textOffset -10)
+    (rtfText{\rtf1\ansi\deff0
+{\fonttbl{\f0\fnil helvetica medium;}}
+{\colortbl\red0\green0\blue0;}
+\cf0\plain\pard\qc name})
+    (drawStartArrowhead F)
+    (drawEndArrowhead T)
+    (startArrowhead "StandardArrow")
+    (endArrowhead "HollowFlatArrow")
+  )
+)
+
+(groups
+)

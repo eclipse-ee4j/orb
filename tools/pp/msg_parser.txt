@@ -1,0 +1,219 @@
+#
+# Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Distribution License v. 1.0, which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+Types:
+
+( type_seq ) 
+
+Primitives (Java primitives use java type codes)
+
+boolean         Z
+    read_boolean
+
+byte            B
+    read_octet
+
+char            C
+    read_wchar
+
+short           S   
+    read_short  
+
+int             I
+    read_long 
+
+long            J
+    read_longlong
+
+float           F
+    read_float
+
+double          D
+    read_double
+
+String          Q
+    read_Value(String.class)
+
+Objref          R
+    read ior only:
+    IORFactories.makeIOR( InputStream )
+
+Typecode        T
+    read_TypeCode
+
+Any             A   
+    look at Util.readAny
+        just do read_any result is either objref or value
+
+(ignore Principal, fixed, and context)
+Abstract Interface
+    first read boolean, then either objref or value: handle this in the type string
+
+array of type   @type
+    read length
+    read type for length
+
+object          { type* }
+    read header (save info)
+    read chunk header if necessary
+    NOTE: we do not attempt to determine the type in order to
+    read as the ORB must.  Instead we just read according to
+    the description.
+
+Indirection
+    we want to correlate with previously read data
+    Maintain cache as usual
+    Store each possibly referenced item in the cache using get_offset to
+    obtain the correct offset from the stream (see CorbaTransportManager.getMessageData( byte[][] ))
+    do NOT use CDR stream cache, as we do not want to depend on that much of the implementation.
+    Add get_offset to CDRInputStream and make it public (or this won't work)
+
+Is this sufficient to drive a simple CLI message parser?
+
+BCI@Q{BC{QQ}}
+
+and similar strings
+
+Note: display complex types using the ObjectUtility toString methods
+
+Tool design
+
+Input: 
+    - A file containing buffers in ORBUtility.getBuffer format that also
+      meet the requirements of CorbaTransportManager.getMessageData 
+      (that is, request/reply + fragments if more than one packet)
+
+    - a type description
+
+Output:
+    - results of parsing the message(s)
+
+Operation:
+    - need to determine how message demarcation works
+    - extend getBuffer to return byte[][]
+    - get MessageData for byte[][] data
+    - display headers
+    - parse data according to type, displaying results
+
+Value type
+    tag is 0x7FFFFF00
+    bit 0: 1 iff codebase URL is present
+    bits 1 and 2:
+        0: no type info
+        2: single repoid
+        6: list of repoid
+    bit 3: 1 if chunked encoding
+
+value       -> value_tag [ codebase_URL ] [ type_info ] state
+            |  value_ref
+
+value_ref   -> indirection_tag indirection
+            | null_tag
+
+value_tag   -> {long in range 0x7FFFFF00 to 0x7FFFFFFF}
+
+type_info   -> rep_ids
+            | repository_id
+
+state       -> octects
+            | value_data* [ end_tag ]
+
+value_data  -> value_chunk 
+            | value
+
+rep_ids     -> long repository_id+
+            | indirection_tag indirection
+
+repository_id -> string
+            | indirection_tag indirection
+
+value_chunk     -> chunk_size_tag octets
+
+null_tag        -> (long)0
+
+indirection_tag -> (long)0xFFFFFFFF
+
+codebase_URL    -> string
+                | indirection_tag indirection
+
+chunk_size_tag  -> {long in range 1 to 0x7FFFFFEFF}
+
+end_tag         -> {long in range 1-2^31 to -1}
+
+indirection     -> {long in range 1-2^31 to -1}
+
+80000001        first end chunk
+...
+FFFFFFFF        last end chunk/indirection
+00000000        null
+00000001        first chunk length
+...
+7FFFFEFF        last chunk length
+7FFFFF00        first value header
+...
+7FFFFFFF        last value header
+
+Is there an ambiguity here for an end tag of -1?
+This could either be an end tag, or it could be the start
+of an indirection for a value type.  But note that, if
+it is an end tag, it is the end of the outermost value
+type.
+
+Representations
+
+All values are represented by a common interface:
+
+interface Datum {
+    void display( PrintStream ps, int startIndent, int indentIncrement ) ;
+
+    Object value() ;
+
+    // Type of this datum as given in the input description
+    String type() ;
+}
+
+interface ValueDatum extends Datum {
+    String codebaseURL() ;
+
+    String[] repositoryIds() ;
+
+    boolean isChunked() ;
+
+    List<Datum> contents() ;
+}
+
+interface ArrayDatum extends Datum {
+    Datum[] data() ;
+}
+
+Basic implementation is interpreter with stack of type strings.
+Most actions are obvious from the table above, but values are
+complicated:
+
+"{":    start of new value type
+    - handle ind??rection if present in input stream
+    - enter new ValueDatum into table for indirections
+    - read value header, code base URL, and repo IDs
+    - read chunk length if present
+    - push ValueDatum onto interpreter stack
+
+"}":    end of value type
+    - if chunked, skip to end of chunk
+    - if chunked, read end tag
+    - pop value datum from stack and put into container
+
+This points out that we need an outermost container, which is pushed
+onto the interpreter stack first.  When the stack is empty, we
+are/must be done.
+
+Possible extension:
+    - add dictionary to args that maps repo ID to parser types
+    - we could support multiple dictionaries to include JDK built ins and
+      user extensions

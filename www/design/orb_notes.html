@@ -1,0 +1,2080 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<HTML>
+
+<HEAD>
+
+
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<META name="GENERATOR" content="hevea 1.08">
+<STYLE type="text/css">
+.toc{list-style:none;}
+.title{margin:auto;text-align:center}
+.center{text-align:center;margin-left:auto;margin-right:auto;}
+.flushleft{text-align:left;margin-left:0ex;margin-right:auto;}
+.flushright{text-align:right;margin-left:auto;margin-right:0ex;}
+DIV TABLE{margin-left:inherit;margin-right:inherit;}
+PRE{text-align:left;margin-left:0ex;margin-right:auto;}
+BLOCKQUOTE{margin-left:4ex;margin-right:4ex;text-align:left;}
+.part{margin:auto;text-align:center}
+</STYLE>
+</HEAD>
+
+<BODY >
+<!--HEVEA command line is: /usr/bin/hevea -s /tmp/lyx_tmpdir8354fpSyDz/lyx_tmpbuf0/orb_notes.tex -->
+<!--HTMLHEAD-->
+<!--ENDHTML-->
+<!--PREFIX <ARG ></ARG>-->
+<!--CUT DEF chapter 1 -->
+
+<BR>
+<TABLE CLASS="title">
+<TR><TD></TD>
+</TR></TABLE><BLOCKQUOTE CLASS="quote"><B>Abstract: </B>
+Comprehensive documentation on the Sun Java ORB.<!--TOC chapter Contents-->
+
+<H1 CLASS="chapter">Contents</H1><!--SEC END -->
+
+<UL CLASS="toc"><LI CLASS="li-toc">
+<A HREF="#htoc1">Chapter&nbsp;1&nbsp;&nbsp;Starting Points</A>
+<UL CLASS="toc"><LI CLASS="li-toc">
+<A HREF="#htoc2">1.1&nbsp;&nbsp;Changes for the GlassFish-CORBA project</A>
+<LI CLASS="li-toc"><A HREF="#htoc3">1.2&nbsp;&nbsp;ORB Development procedures</A>
+<LI CLASS="li-toc"><A HREF="#htoc4">1.3&nbsp;&nbsp;Workspace Structure and Builds</A>
+<UL CLASS="toc"><LI CLASS="li-toc">
+<A HREF="#htoc5">1.3.1&nbsp;&nbsp;docs</A>
+<LI CLASS="li-toc"><A HREF="#htoc6">1.3.2&nbsp;&nbsp;ORB source</A>
+<LI CLASS="li-toc"><A HREF="#htoc7">1.3.3&nbsp;&nbsp;ORB Renaming</A>
+<LI CLASS="li-toc"><A HREF="#htoc8">1.3.4&nbsp;&nbsp;ORB Build Files</A>
+<UL CLASS="toc"><LI CLASS="li-toc">
+<A HREF="#htoc9">1.3.4.1&nbsp;&nbsp;Building the ORB</A>
+<LI CLASS="li-toc"><A HREF="#htoc10">1.3.4.2&nbsp;&nbsp;Structure of the build files</A>
+</UL>
+<LI CLASS="li-toc"><A HREF="#htoc11">1.3.5&nbsp;&nbsp;tests</A>
+<LI CLASS="li-toc"><A HREF="#htoc12">1.3.6&nbsp;&nbsp;libraries</A>
+</UL>
+<LI CLASS="li-toc"><A HREF="#htoc13">1.4&nbsp;&nbsp;ORB Developer Tests</A>
+<UL CLASS="toc"><LI CLASS="li-toc">
+<A HREF="#htoc14">1.4.1&nbsp;&nbsp;Test Suites</A>
+<LI CLASS="li-toc"><A HREF="#htoc15">1.4.2&nbsp;&nbsp;debugging tests</A>
+<LI CLASS="li-toc"><A HREF="#htoc16">1.4.3&nbsp;&nbsp;Debugging and Running a single test</A>
+</UL>
+<LI CLASS="li-toc"><A HREF="#htoc17">1.5&nbsp;&nbsp;ORB SQE Tests</A>
+<LI CLASS="li-toc"><A HREF="#htoc18">1.6&nbsp;&nbsp;Thoughts on Middleware goals</A>
+<LI CLASS="li-toc"><A HREF="#htoc19">1.7&nbsp;&nbsp;ORB Coding Practices</A>
+<LI CLASS="li-toc"><A HREF="#htoc20">1.8&nbsp;&nbsp;Supporting JDK and App Server</A>
+</UL>
+<LI CLASS="li-toc"><A HREF="#htoc21">Chapter&nbsp;2&nbsp;&nbsp;The ORB Class</A>
+<UL CLASS="toc"><LI CLASS="li-toc">
+<A HREF="#htoc22">2.1&nbsp;&nbsp;Inheritance Structure</A>
+<LI CLASS="li-toc"><A HREF="#htoc23">2.2&nbsp;&nbsp;ORB SPI structure </A>
+<LI CLASS="li-toc"><A HREF="#htoc24">2.3&nbsp;&nbsp;ORB Initialization</A>
+<UL CLASS="toc"><LI CLASS="li-toc">
+<A HREF="#htoc25">2.3.1&nbsp;&nbsp;The Configuration Framework</A>
+<UL CLASS="toc"><LI CLASS="li-toc">
+<A HREF="#htoc26">2.3.1.1&nbsp;&nbsp;DataCollector</A>
+<LI CLASS="li-toc"><A HREF="#htoc27">2.3.1.2&nbsp;&nbsp;Operation</A>
+<LI CLASS="li-toc"><A HREF="#htoc28">2.3.1.3&nbsp;&nbsp;PropertyParser</A>
+<LI CLASS="li-toc"><A HREF="#htoc29">2.3.1.4&nbsp;&nbsp;Base Classes for Parsing Properties</A>
+</UL>
+<LI CLASS="li-toc"><A HREF="#htoc30">2.3.2&nbsp;&nbsp;Details of ORB.init</A>
+<UL CLASS="toc"><LI CLASS="li-toc">
+<A HREF="#htoc31">2.3.2.1&nbsp;&nbsp;The ORB configurator</A>
+</UL>
+<LI CLASS="li-toc"><A HREF="#htoc32">2.3.3&nbsp;&nbsp;Initializing the ORB in the App Server</A>
+</UL>
+<LI CLASS="li-toc"><A HREF="#htoc33">2.4&nbsp;&nbsp;ORB Shutdown</A>
+</UL>
+<LI CLASS="li-toc"><A HREF="#htoc34">Chapter&nbsp;3&nbsp;&nbsp;Dispatch Path Overview</A>
+<LI CLASS="li-toc"><A HREF="#htoc35">Chapter&nbsp;4&nbsp;&nbsp;Presentation</A>
+<UL CLASS="toc"><LI CLASS="li-toc">
+<A HREF="#htoc36">4.1&nbsp;&nbsp;Stubs and Skeletons</A>
+<LI CLASS="li-toc"><A HREF="#htoc37">4.2&nbsp;&nbsp;Data types</A>
+</UL>
+<LI CLASS="li-toc"><A HREF="#htoc38">Chapter&nbsp;5&nbsp;&nbsp;Encoding</A>
+<UL CLASS="toc"><LI CLASS="li-toc">
+<A HREF="#htoc39">5.1&nbsp;&nbsp;Repository IDs</A>
+</UL>
+<LI CLASS="li-toc"><A HREF="#htoc40">Chapter&nbsp;6&nbsp;&nbsp;Protocol</A>
+<UL CLASS="toc"><LI CLASS="li-toc">
+<A HREF="#htoc41">6.1&nbsp;&nbsp;Subcontract IDs</A>
+<LI CLASS="li-toc"><A HREF="#htoc42">6.2&nbsp;&nbsp;IORs</A>
+<LI CLASS="li-toc"><A HREF="#htoc43">6.3&nbsp;&nbsp;Service Contexts</A>
+<LI CLASS="li-toc"><A HREF="#htoc44">6.4&nbsp;&nbsp;GIOP Message Representation</A>
+</UL>
+<LI CLASS="li-toc"><A HREF="#htoc45">Chapter&nbsp;7&nbsp;&nbsp;Transport</A>
+<LI CLASS="li-toc"><A HREF="#htoc46">Chapter&nbsp;8&nbsp;&nbsp;Other Aspects of the ORB</A>
+<UL CLASS="toc"><LI CLASS="li-toc">
+<A HREF="#htoc47">8.1&nbsp;&nbsp;Object Adapters</A>
+<LI CLASS="li-toc"><A HREF="#htoc48">8.2&nbsp;&nbsp;The RequestDispatcherRegistry</A>
+<LI CLASS="li-toc"><A HREF="#htoc49">8.3&nbsp;&nbsp;Encoding Details</A>
+<LI CLASS="li-toc"><A HREF="#htoc50">8.4&nbsp;&nbsp;ORB Logging</A>
+<LI CLASS="li-toc"><A HREF="#htoc51">8.5&nbsp;&nbsp;ORB Monitoring</A>
+<LI CLASS="li-toc"><A HREF="#htoc52">8.6&nbsp;&nbsp;ORB versioning</A>
+<LI CLASS="li-toc"><A HREF="#htoc53">8.7&nbsp;&nbsp;ORBD and Server Activation</A>
+<UL CLASS="toc"><LI CLASS="li-toc">
+<A HREF="#htoc54">8.7.1&nbsp;&nbsp;current model</A>
+<LI CLASS="li-toc"><A HREF="#htoc55">8.7.2&nbsp;&nbsp;ideas for using ORT</A>
+</UL>
+<LI CLASS="li-toc"><A HREF="#htoc56">8.8&nbsp;&nbsp;Portable Interceptors</A>
+<LI CLASS="li-toc"><A HREF="#htoc57">8.9&nbsp;&nbsp;RMI-IIOP Implementation</A>
+<LI CLASS="li-toc"><A HREF="#htoc58">8.10&nbsp;&nbsp;Resolvers</A>
+<LI CLASS="li-toc"><A HREF="#htoc59">8.11&nbsp;&nbsp;Name Services</A>
+<LI CLASS="li-toc"><A HREF="#htoc60">8.12&nbsp;&nbsp;ORB and App Server Integration</A>
+</UL>
+<LI CLASS="li-toc"><A HREF="#htoc61">Chapter&nbsp;9&nbsp;&nbsp;Utilities</A>
+<UL CLASS="toc"><LI CLASS="li-toc">
+<A HREF="#htoc62">9.1&nbsp;&nbsp;Fast Object Copying</A>
+<LI CLASS="li-toc"><A HREF="#htoc63">9.2&nbsp;&nbsp;Dynamic Code Generation</A>
+<LI CLASS="li-toc"><A HREF="#htoc64">9.3&nbsp;&nbsp;Useful utilities</A>
+<LI CLASS="li-toc"><A HREF="#htoc65">9.4&nbsp;&nbsp;FSM Framework</A>
+<LI CLASS="li-toc"><A HREF="#htoc66">9.5&nbsp;&nbsp;Graph Utilities</A>
+<LI CLASS="li-toc"><A HREF="#htoc67">9.6&nbsp;&nbsp;JDK 5 Specific Utilities</A>
+<LI CLASS="li-toc"><A HREF="#htoc68">9.7&nbsp;&nbsp;Timing Framework</A>
+</UL>
+<LI CLASS="li-toc"><A HREF="#htoc69">Chapter&nbsp;10&nbsp;&nbsp;Living with our legacy</A>
+<UL CLASS="toc"><LI CLASS="li-toc">
+<A HREF="#htoc70">10.1&nbsp;&nbsp;Testing Principles</A>
+<LI CLASS="li-toc"><A HREF="#htoc71">10.2&nbsp;&nbsp;Benchmarking</A>
+<LI CLASS="li-toc"><A HREF="#htoc72">10.3&nbsp;&nbsp;FOLB Support</A>
+<LI CLASS="li-toc"><A HREF="#htoc73">10.4&nbsp;&nbsp;HWLB Support</A>
+</UL>
+<LI CLASS="li-toc"><A HREF="#htoc74">Chapter&nbsp;11&nbsp;&nbsp;Compilers</A>
+<UL CLASS="toc"><LI CLASS="li-toc">
+<A HREF="#htoc75">11.1&nbsp;&nbsp;New rmic iiop backend</A>
+<LI CLASS="li-toc"><A HREF="#htoc76">11.2&nbsp;&nbsp;idlj</A>
+</UL>
+<LI CLASS="li-toc"><A HREF="#htoc77">Chapter&nbsp;12&nbsp;&nbsp;Future Directions</A>
+<UL CLASS="toc"><LI CLASS="li-toc">
+<A HREF="#htoc78">12.1&nbsp;&nbsp;Embedded Languages</A>
+<LI CLASS="li-toc"><A HREF="#htoc79">12.2&nbsp;&nbsp;Components</A>
+<LI CLASS="li-toc"><A HREF="#htoc80">12.3&nbsp;&nbsp;Fast Marshalling</A>
+<LI CLASS="li-toc"><A HREF="#htoc81">12.4&nbsp;&nbsp;Security</A>
+<LI CLASS="li-toc"><A HREF="#htoc82">12.5&nbsp;&nbsp;Better handling of Invocation Info</A>
+</UL>
+</UL>
+
+</BLOCKQUOTE>
+<!--TOC chapter Starting Points-->
+
+<H1 CLASS="chapter"><A NAME="htoc1">Chapter&nbsp;1</A>&nbsp;&nbsp;Starting Points</H1><!--SEC END -->
+
+<!--TOC section Changes for the GlassFish-CORBA project-->
+
+<H2 CLASS="section"><A NAME="htoc2">1.1</A>&nbsp;&nbsp;Changes for the GlassFish-CORBA project</H2><!--SEC END -->
+
+This document originally described CORAB development internally in
+Sun's TeamWare environment. We have since switched to using Mercurial,
+both internally and externally. The glassfish-corba project still
+uses CVS, but only to maintain easy access to the documents.<BR>
+<BR>
+Some of the policies and procedures described here will be changed
+as we continue moving all of our work to the open internet glassfish-corba
+project.<BR>
+<BR>
+<!--TOC section ORB Development procedures-->
+
+<H2 CLASS="section"><A NAME="htoc3">1.2</A>&nbsp;&nbsp;ORB Development procedures</H2><!--SEC END -->
+
+Over the years, we have established a fairly successful development
+methodology for working on the ORB. Any piece of work from a minor
+bugfix to a major new subsystem iterates over the same stages one
+or more times. I'll discuss this briefly here, but the details will
+appear below.
+<OL CLASS="enumerate" type=1><LI CLASS="li-enumerate">
+Discuss or document the design. This can take many forms, ranging
+from an informal discussion to a written document. Written documents
+have in the past been done in many different formats, including email,
+text files, FrameMaker documents, StarOffice documents, HTML, XML
+and DocBook, and L<sup>A</sup>T<sub>E</sub>X (about the only thing none of us have used
+seems to be Word!). Going forward, all of these are still viable in
+different ways, but I'd really like to make sure that we capture all
+of the design efforts into our documentation collection. All current
+documentation is found in the CORBA workspace in the www directory,
+and all future documentation should either be there, or in the actual
+source code.
+<LI CLASS="li-enumerate">Develop the code. This include writing both the code to implement
+the change and the code to test it. Bugs need a test that fails before
+the change is made, and that passes after the change. All tests must
+be incorporated somewhere in the CORBA test suites (see sub:Test-Suites)
+so that they can be run automatically. Test execution speed is important,
+so make the test as fast as possible. Please follow the principles
+discussed in sec:Thoughts-on-Middleware and in sec:ORB-Coding-Practices.
+<LI CLASS="li-enumerate">Verify that nothing has been broken by the change. This requires running
+all of the CORBA test suites, and fixing any problems that show up
+(see sub:debugging-tests for help on debugging tests).
+<LI CLASS="li-enumerate">Prepare a webrev for a code review. The webrev tool is available on
+SWAN (Sun's internal network) in /java/devtools/share/bin. Read the
+comments in this kshell script for details. (TBD: where is webrev
+outside of Sun?). Webrevs have the advantage that they can be archived
+standalone, and this is probably a good thing to do. Another viable
+option is to use a tool like meld (see meld <A HREF="http://meld.sourceforge.net/">)</A>
+that can do directory diffs.
+<LI CLASS="li-enumerate">Have at least 1 (and preferably more) developer from the GlassFish-CORBA
+team review the changes. Make any necessary corrections from the review,
+and re-review if necessary.<BR>
+<BR>
+TBD: Currently we conduct all code reviews in real time, usually via
+phone conference (since this has been a distributed team for a long
+time). We need to investigate this in the open source world, and find
+a more scalable method that works asynchronously. Something like Google's
+Mondrian would be a good choice, if it were available.</OL>
+<!--TOC section Workspace Structure and Builds-->
+
+<H2 CLASS="section"><A NAME="htoc4">1.3</A>&nbsp;&nbsp;Workspace Structure and Builds<A NAME="sec:Workspace-Structure-and"></A></H2><!--SEC END -->
+
+The workspace is divided into a number of directories. The current
+structure will change somewhat after I finish work on another putback
+that restructures the workspace to simplify its organization and remove
+obsolete junk.<BR>
+<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=1>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="flushleft">Directory</DIV></TD>
+<TD VALIGN=top ALIGN=left>Purpose</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="flushleft">build</DIV></TD>
+<TD VALIGN=top ALIGN=left>created during build process</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="flushleft">build/classes</DIV></TD>
+<TD VALIGN=top ALIGN=left>compiled classes</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="flushleft">build/gensrc</DIV></TD>
+<TD VALIGN=top ALIGN=left>Java source code generated by build</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="flushleft">build/lib</DIV></TD>
+<TD VALIGN=top ALIGN=left>miscellaneous idl files for the interface repository</TD>
+</TR>
+<TR><TD ALIGN=left NOWRAP>build/release/lib</TD>
+<TD VALIGN=top ALIGN=left>Jar files that are the build results:
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+idlj.jar: the IDL compiler
+<LI CLASS="li-itemize">omgapi.jar: the OMG API classes that are NOT part of JDK 5 or 6
+<LI CLASS="li-itemize">orblib.jar: the ORB library files from the orblib directory
+<LI CLASS="li-itemize">peorb.jar: the main ORB files
+</UL></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="flushleft">build/rename/ee</DIV></TD>
+<TD VALIGN=top ALIGN=left>Where the ant rename target puts a copy of the workspace</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="flushleft">lib</DIV></TD>
+<TD VALIGN=top ALIGN=left>various jar files needed to build and test the ORB: 
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+emma (for code coverage)
+<LI CLASS="li-itemize">ejb 2.1 APIs (for a codegen test)
+<LI CLASS="li-itemize">japex (to compile against for StandardTest)
+<LI CLASS="li-itemize">jscheme (used for generating log wrappers)
+<LI CLASS="li-itemize">junit and testng (for testing)
+</UL></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="flushleft">make</DIV></TD>
+<TD VALIGN=top ALIGN=left>contains ant build files</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="flushleft">nbproject</DIV></TD>
+<TD VALIGN=top ALIGN=left>contains NetBeans support to treat workspace as a NetBeans project</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="flushleft">orblib</DIV></TD>
+<TD VALIGN=top ALIGN=left>Standalone ORB library source files (delivered to orblib.jar)</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="flushleft">src</DIV></TD>
+<TD VALIGN=top ALIGN=left>main ORB source code (delivered to peorb.jar)</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="flushleft">test</DIV></TD>
+<TD VALIGN=top ALIGN=left>ORB test source (and orblibrary as well at present)</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="flushleft">tools</DIV></TD>
+<TD VALIGN=top ALIGN=left>IOR parser</TD>
+</TR></TABLE><BR>
+<!--TOC subsection docs-->
+
+<H3 CLASS="subsection"><A NAME="htoc5">1.3.1</A>&nbsp;&nbsp;docs<A NAME="sub:docs"></A></H3><!--SEC END -->
+
+There are quite a few files here. This will eventually include all
+of the useful files from /java/j2ee/CORBA. Most of the doc files in
+the current workspace are useless, with one important exception: the
+eea1 directory. These are Everett Anderson's notes on the design and
+implementation of the GIOP layer, and are still quite useful. This
+also documents the RMI-IIOP stream format version 2 implementation.<BR>
+<BR>
+<!--TOC subsection ORB source-->
+
+<H3 CLASS="subsection"><A NAME="htoc6">1.3.2</A>&nbsp;&nbsp;ORB source<A NAME="sub:ORB-source"></A></H3><!--SEC END -->
+
+Generally, most ORB implementation source packages have two parts:
+an interface defined in an spi package, and an implementation in an
+impl package. We will generally discuss these together.<BR>
+<BR>
+The ORB source code is divided into several parts:
+<DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">
+<B>src/solaris</B><DD CLASS="dd-description">Useless and should be removed.
+<DT CLASS="dt-description"><B>src/share/classes</B><DD CLASS="dd-description">This contains the main part of the source code.
+It can be further divided into:
+<DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">
+<B>org</B><DD CLASS="dd-description">OMG standard CORBA APIs
+<DT CLASS="dt-description"><B>javax</B><DD CLASS="dd-description">OMG standard RMI-IIOP APIs
+<DT CLASS="dt-description"><B>sun/rmi</B><DD CLASS="dd-description">rmic compiler
+<DT CLASS="dt-description"><B>sun/corba</B><DD CLASS="dd-description">CORBA Bridge class, which isolates ORB dependencies on
+non-public JDK APIs
+<DT CLASS="dt-description"><B>com/sun/corba/ee</B><DD CLASS="dd-description">Main body of ORB source code (automatically renamed
+to ee package for app server build) 
+<DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">
+<B>GiopIDL</B><DD CLASS="dd-description">IDL files for GIOP protocol definitions
+<DT CLASS="dt-description"><B>PortableActivationIDL</B><DD CLASS="dd-description">Old ideas for ORBD rewrite; to be removed
+<DT CLASS="dt-description"><B>experimental/portableactivation</B><DD CLASS="dd-description">Part of ORBD rewrite; to be removed
+<DT CLASS="dt-description"><B>impl/spi</B><DD CLASS="dd-description">The main part of the ORB implementation
+<DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">
+<B>activation</B><DD CLASS="dd-description">ORBD 
+<DT CLASS="dt-description"><B>copyobject</B><DD CLASS="dd-description">Object copier code with special hooks for CORBA
+<DT CLASS="dt-description"><B>corba(impl)</B><DD CLASS="dd-description">Implementation of OMG CORBA APIs (but not org.omg.CORBA.ORB)
+<DT CLASS="dt-description"><B>dynamicany</B><DD CLASS="dd-description">Dynamic Any support
+<DT CLASS="dt-description"><B>encoding</B><DD CLASS="dd-description">Input and output streams for CDR and JSG (Java Serialization
+for GIOP). PEPt encoding level code.
+<DT CLASS="dt-description"><B>extension(spi)</B><DD CLASS="dd-description">Some AS-specific CORBA policies used by EJB for creating
+POAs.
+<DT CLASS="dt-description"><B>folb</B><DD CLASS="dd-description">Code for support IIOP failover and load balancing in GlassFish
+v2
+<DT CLASS="dt-description"><B>interceptors(impl)</B><DD CLASS="dd-description">Portable Interceptor implementation
+<DT CLASS="dt-description"><B>io(impl)</B><DD CLASS="dd-description">Code to analyze classes and implement streams for GIOP.
+This is the valuehandler implementation, which can be used by other
+ORBs.
+<DT CLASS="dt-description"><B>ior</B><DD CLASS="dd-description">How we represent IORs
+<DT CLASS="dt-description"><B>javax(impl)</B><DD CLASS="dd-description">RMI-IIOP implementation
+<DT CLASS="dt-description"><B>legacy</B><DD CLASS="dd-description">Some AS-specific extensions to interceptors and some connection
+management support
+<DT CLASS="dt-description"><B>logging</B><DD CLASS="dd-description">Logging infrastructure used by generated log wrappers
+<DT CLASS="dt-description"><B>monitoring</B><DD CLASS="dd-description">ORB monitoring framework
+<DT CLASS="dt-description"><B>naming</B><DD CLASS="dd-description">CosNaming service implementations
+<DT CLASS="dt-description"><B>oa</B><DD CLASS="dd-description">Object Adapters. This includes:
+<DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">
+<B>poa(impl)</B><DD CLASS="dd-description">The Portable Object Adapter implementation
+<DT CLASS="dt-description"><B>toa(impl)</B><DD CLASS="dd-description">Simple OA used for orb.connect/disconnect (JDK 1.2) and
+old RMI-IIOP support
+<DT CLASS="dt-description"><B>rfm</B><DD CLASS="dd-description">The ReferenceFactoryManager, used to enable suspend/resume of
+ORB processing for dynamic reconfiguration. Used to support dynamic
+FOLB in AS9.
+<DT CLASS="dt-description"><B>*.java</B><DD CLASS="dd-description">The OA SPI.
+</DL>
+<DT CLASS="dt-description"><B>orb</B><DD CLASS="dd-description">The implementation of the ORB class, and associated configuration
+framework. The configuration code should really be moved into a utility
+library.
+<DT CLASS="dt-description"><B>orbutil</B><DD CLASS="dd-description">(impl) Utilities not related to RMI-IIOP. This includes
+JDK 1.3.1 backwards compatibility support, the threadpool, and a few
+other miscellaneous utilities, and ORBConstants. ORBConstants is very
+commonly used in the ORB and App server and should be moved to an
+SPI package. 
+<DT CLASS="dt-description"><B>presentation</B><DD CLASS="dd-description">PEPt presentation level code for dynamic RMI-IIOP
+<DT CLASS="dt-description"><B>plugin(impl&nbsp;only)</B><DD CLASS="dd-description">ORB Hardware loadbalancing support
+<DT CLASS="dt-description"><B>protocol</B><DD CLASS="dd-description">PEPt protocol level code
+<DT CLASS="dt-description"><B>resolver</B><DD CLASS="dd-description">Internal classes used to support string to object reference
+conversion
+<DT CLASS="dt-description"><B>servicecontext</B><DD CLASS="dd-description">Internal representation of GIOP ServiceContexts.
+<DT CLASS="dt-description"><B>transport</B><DD CLASS="dd-description">PEPt transport level code
+<DT CLASS="dt-description"><B>txpoa</B><DD CLASS="dd-description">TSIdentificationImpl, which is used to connect the ORB and
+the transaction service.
+<DT CLASS="dt-description"><B>util</B><DD CLASS="dd-description">low-level code mostly related to RMI-IIOP.
+</DL>
+<DT CLASS="dt-description"><B>internal</B><DD CLASS="dd-description">Old (JDK 1.4 and earlier) ORB and JNI library related classes
+that we maintain for backward compatibility.
+<DT CLASS="dt-description"><B>org/omg</B><DD CLASS="dd-description">Various mostly CSIv2 related protocol definitions (we compile
+the CSIv2 IDL in the ORB so that the app server CSIv2 implementation
+can use it).
+<DT CLASS="dt-description"><B>pept</B><DD CLASS="dd-description">The PEPt 1.0 code used in the ORB.
+</DL>
+<DT CLASS="dt-description"><B>com/sun/org/omg</B><DD CLASS="dd-description">Some not quite standard OMG classes that were still
+in flux in the CORBA 2.4.1 timeframe (these are internal only, so
+this doesn't matter much now)
+<DT CLASS="dt-description"><B>com/sun/tools/corba/se</B><DD CLASS="dd-description">A number of tools:
+<DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">
+<B>idl</B><DD CLASS="dd-description">The idl compiler
+<DT CLASS="dt-description"><B>jmk</B><DD CLASS="dd-description">The tool used to validate .jmk files against the contents of
+the source directories
+<DT CLASS="dt-description"><B>logutil</B><DD CLASS="dd-description">The source code for the jschemeutil.jar library
+<DT CLASS="dt-description"><B>timer</B><DD CLASS="dd-description">XML data for generating timing points 
+</DL>
+</DL>
+<DT CLASS="dt-description"><B>orblib/src/share/classes/com/sun/corba/ee</B><DD CLASS="dd-description">Classes in the ORB library.
+There are no dependencies from any of this code to classes in the
+src hierarchy.
+<DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">
+<B>org</B><DD CLASS="dd-description">Contains the ASM code used in the ORB for dynamic class generation.
+<DT CLASS="dt-description"><B>impl/orbutil&nbsp;and&nbsp;spi/orbutil</B><DD CLASS="dd-description">Contains a number of modules:
+<DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">
+<B>argparser(spi&nbsp;only)</B><DD CLASS="dd-description">A general purpose annotation-driven CLI argument
+parser.
+<DT CLASS="dt-description"><B>closure</B><DD CLASS="dd-description">Simple closure support used in a few placescodegen The runtime
+byte code generator library.
+<DT CLASS="dt-description"><B>codegen</B><DD CLASS="dd-description">A general-purpose runtime code generation library.
+<DT CLASS="dt-description"><B>concurrent</B><DD CLASS="dd-description">Some concurrent queue implementations needed in the new
+connection cache.
+<DT CLASS="dt-description"><B>copyobject</B><DD CLASS="dd-description">A fast general-purpose object copier.
+<DT CLASS="dt-description"><B>file(spi&nbsp;only)</B><DD CLASS="dd-description">A collection of text file utilities used for copyright
+header processing and workspace renaming.
+<DT CLASS="dt-description"><B>fsm(spi&nbsp;only)</B><DD CLASS="dd-description">Finite State Machine library used in the POA to support
+ActiveObjectMap entry semantics. Should be more widely used in ORB
+(e.g. connection management). Supports much of the UML state model
+(but not nested states, and not petri-net style operations)
+<DT CLASS="dt-description"><B>generic(spi_only)</B><DD CLASS="dd-description">Some useful utilities related to Java 5 generic
+(generic Pair, various kinds of generic function classes)
+<DT CLASS="dt-description"><B>graph(impl&nbsp;only)</B><DD CLASS="dd-description">Some simple graph utilities for computing transitive
+closure. Should probably be heavily revised. 
+<DT CLASS="dt-description"><B>jmx</B><DD CLASS="dd-description">A new framework for using annotation to generate open MBeans
+<DT CLASS="dt-description"><B>misc(spi&nbsp;only)</B><DD CLASS="dd-description">odds and ends that don't fit elsewhere
+<DT CLASS="dt-description"><B>newtimer</B><DD CLASS="dd-description">A general-purpose timer framework used to capture BEGIN/END
+pairs of events.
+<DT CLASS="dt-description"><B>proxy(spi&nbsp;only)</B><DD CLASS="dd-description">Utilities related to simplify construction of InvocationHandlers
+for java.lang.reflect.Proxy.
+<DT CLASS="dt-description"><B>timer(impl&nbsp;only)</B><DD CLASS="dd-description">An old, deprecated timer framework.
+<DT CLASS="dt-description"><B>transport</B><DD CLASS="dd-description">The new connection cache implementation (not yet integrated
+in the ORB). A nearly identical version of this code is in Grizzly,
+and the ORB will eventually use the Grizzly copy.
+<DT CLASS="dt-description"><B>threadpool</B><DD CLASS="dd-description">The ORB threadpool implementation that is shared with
+the app server (should revisit this in light of JDK 5 executors).
+</DL>
+</DL>
+</DL>
+<!--TOC subsection ORB Renaming-->
+
+<H3 CLASS="subsection"><A NAME="htoc7">1.3.3</A>&nbsp;&nbsp;ORB Renaming</H3><!--SEC END -->
+
+Most of the ORB is packaged under the com.sun.corba.ee package. A
+version of the ORB code exists in this package (or in a slightly different
+version) in every JDK since 1.2. We also deliver the ORB code to the
+Sun application server (now project GlassFish). To avoid possibly
+collisions between the classes in the JDK and the classes in GlassFish,
+we rename all the files in the ORB to the com.sun.corba.ee package.<BR>
+<BR>
+This rename is done automatically using a Java program (com.sun.corba.ee.spi.orbutil.file.WorkspaceRename)
+that is part of the ORB library. There is an ant target (rename) for
+this as well. All that is needed for the rename is:
+<OL CLASS="enumerate" type=1><LI CLASS="li-enumerate">
+cd &lt;workspace&gt;/make
+<LI CLASS="li-enumerate">ant orb-library (on a new workspace, to build the orblib.jar the first
+time)
+<LI CLASS="li-enumerate">ant rename 
+</OL>
+(TBD: make rename do a fast check for the orblib.jar, and build it
+if it is not present. Right now, calling ant orb-library takes around
+5 seconds, which is too long, since the incremental rename is &lt;1 second).
+The ant rename target on a fast local file system should take around
+30 seconds or so (much faster than the old scripted version).<BR>
+<BR>
+Of course, the rename also interferes with the standard edit-compile-test-debug
+cycle. I have a build environment built around vim that gets around
+this problem, but it is difficult to impossible to deal with renaming
+with any IDE that I know of.<BR>
+<BR>
+The rename is no longer necessary for development in GlassFish-CORBA.
+Here all that is required is an ant build, from NetBeans, standalone,
+or from any other tool a developer might care to use. The only time
+a rename is required is when the jar files are created that are delivered
+to GlassFish for integration in the app server.<BR>
+<BR>
+<!--TOC subsection ORB Build Files-->
+
+<H3 CLASS="subsection"><A NAME="htoc8">1.3.4</A>&nbsp;&nbsp;ORB Build Files<A NAME="sub:ORB-Build-Files"></A></H3><!--SEC END -->
+
+The ORB can only be built with ant. All makefile support has been
+removed.<BR>
+<BR>
+<!--TOC subsubsection Building the ORB-->
+
+<H4 CLASS="subsubsection"><A NAME="htoc9">1.3.4.1</A>&nbsp;&nbsp;Building the ORB<A NAME="sub:Building-the-ORB"></A></H4><!--SEC END -->
+
+The ORB can be build either standalone (the mode used to deliver the
+ORB into GlassFish), or as part of the JDK. Here we just focus on
+the app server specific build. You MUST use JDK 5 or later.<BR>
+<BR>
+Assume &lt;ws&gt; is the ORB workspace. The basic build sequence is:
+<OL CLASS="enumerate" type=1><LI CLASS="li-enumerate">
+cd &lt;ws&gt;/make
+<LI CLASS="li-enumerate">ant rename
+<LI CLASS="li-enumerate">cd &lt;ws&gt;/build/rename/ee/make
+<LI CLASS="li-enumerate">ant build
+<LI CLASS="li-enumerate">ant test (or ant emma to run the tests and generate a coverage report)
+</OL>
+Assuming a local file system is used on a fast machine, the rename
+should take around 30 seconds, and the build 60 seconds or less. The
+test target builds the tests (build-tests) which takes around 60-90
+seconds, and then runs all of the tests, which should take around
+40 minutes.<BR>
+<BR>
+I generally use a script to automate this. It is also possible to
+do a build from NetBeans. It used to be necessary to rename in order
+to build and run the tests, but that has been fixed in the GlassFish-CORBA
+project.<BR>
+<BR>
+Another small note: it is possible to generate JavaDocs for the CORBA
+SPI. To do this, simply go to the make directory in the renamed version
+of the workspace, and run &#8220;ant javadoc&#8221;. The resulting JavaDocs
+may then be accessed from &lt;ws&gt;/build/rename/ee/build/release/docs/index.html
+(exercise for the reader: fix all of the JavaDoc warnings that show
+up). It should also be possible to create the SPI javadocs without
+renaming, and the NetBean project supports this as well.<BR>
+<BR>
+Here is a more detailed description of the ant targets that are useful
+to a developer:<BR>
+<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=1>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="center">Target Name</DIV></TD>
+<TD VALIGN=top ALIGN=left><DIV CLASS="center">Function</DIV></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="center">build</DIV></TD>
+<TD VALIGN=top ALIGN=left><DIV CLASS="center">builds the ORB library and main ORB code (but not the tests)</DIV></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="center">build-tests</DIV></TD>
+<TD VALIGN=top ALIGN=left><DIV CLASS="center">Runs idlj and rmic on test files, and calls compile-tests</DIV></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="center">compile-tests</DIV></TD>
+<TD VALIGN=top ALIGN=left><DIV CLASS="center">Only compiles the tests (useful if you are changing a test, as build-tests
+takes a lot longer to run</DIV></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="center">orb-library</DIV></TD>
+<TD VALIGN=top ALIGN=left><DIV CLASS="center">Just build the ORB library (needed for rename)</DIV></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="center">update-copyright-headers</DIV></TD>
+<TD VALIGN=top ALIGN=left><DIV CLASS="center">Update all copyright headers in the workspace to the contents of make/copyright-information/copyright.txt</DIV></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="center">validate-copyright-headers</DIV></TD>
+<TD VALIGN=top ALIGN=left><DIV CLASS="center">Check that the copyright headers match copyright.txt</DIV></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="center">clean</DIV></TD>
+<TD VALIGN=top ALIGN=left><DIV CLASS="center">Removes all generated files, renamed workspace, and test results</DIV></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="center">clean-emma</DIV></TD>
+<TD VALIGN=top ALIGN=left><DIV CLASS="center">Removes emma results</DIV></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="center">clean-tests</DIV></TD>
+<TD VALIGN=top ALIGN=left><DIV CLASS="center">Removes test results</DIV></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="center">javadoc</DIV></TD>
+<TD VALIGN=top ALIGN=left><DIV CLASS="center">generate javadocs for ORB SPI (TBD: need to handle ORB library as
+well)</DIV></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="center">findbugs</DIV></TD>
+<TD VALIGN=top ALIGN=left><DIV CLASS="center">generate a findbugs report on the ORB</DIV></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="center">emma</DIV></TD>
+<TD VALIGN=top ALIGN=left><DIV CLASS="center">Runs clean-emma, emma-instr, test, emma-report</DIV></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="center">emma-instr</DIV></TD>
+<TD VALIGN=top ALIGN=left><DIV CLASS="center">Instrument all of the class files so that emma can generate a coverage
+report</DIV></TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left><DIV CLASS="center">emma-report</DIV></TD>
+<TD VALIGN=top ALIGN=left><DIV CLASS="center">Generate an emma report (found in &lt;ws&gt;/build/coverage/coverage.html)</DIV></TD>
+</TR></TABLE><BR>
+There are also a number of targets useful for running tests, which
+are discussed in <A HREF="#sec:ORB-Developer-Tests">1.4</A>.<BR>
+<BR>
+<!--TOC subsubsection Structure of the build files-->
+
+<H4 CLASS="subsubsection"><A NAME="htoc10">1.3.4.2</A>&nbsp;&nbsp;Structure of the build files<A NAME="sub:Structure-of-the"></A></H4><!--SEC END -->
+
+Let's look at the ant files first. There are several .xml files, all
+included in build.xml:
+<DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">
+<B>build.xml</B><DD CLASS="dd-description">the main file
+<DT CLASS="dt-description"><B>jscheme.xml</B><DD CLASS="dd-description">Ant targets for running jscheme and generating log wrappers
+<DT CLASS="dt-description"><B>src-idl.xml</B><DD CLASS="dd-description">Ant targets for generating java from idl for the main
+ORB code
+<DT CLASS="dt-description"><B>test-idl.xml</B><DD CLASS="dd-description">Ant targets for generating java from idl for the ORB
+tests
+<DT CLASS="dt-description"><B>test-rmic.sml</B><DD CLASS="dd-description">Ant targets for generating stub and skeletons using
+rmic for the ORB tests
+<DT CLASS="dt-description"><B>test.xml</B><DD CLASS="dd-description">Ant targets for running the ORB tests.
+<DT CLASS="dt-description"><B>emma.xml</B><DD CLASS="dd-description">Ant targets for emma support
+<DT CLASS="dt-description"><B>findbugs-filter.xml</B><DD CLASS="dd-description">Used by findbugs to avoid generating bug reports
+on either the compilers or third-party code.
+</DL>
+There are a number of other files as well:
+<DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">
+<B>build.properties</B><DD CLASS="dd-description">Included in build.xml, and used to define the build
+version and other information for the maven repository importer (TBD:
+this needs testing and integration for GlassFish v3)
+<DT CLASS="dt-description"><B>deleted-files.txt</B><DD CLASS="dd-description">A list of generated files that are deleted in
+the build, as they are not wanted in the delivery.
+<DT CLASS="dt-description"><B>glassfish-corba.pom</B><DD CLASS="dd-description">Part of the maven importer support
+<DT CLASS="dt-description"><B>runtest</B><DD CLASS="dd-description">A useful script for running tests as described in <A HREF="#sec:ORB-Developer-Tests">1.4</A>.
+</DL>
+<!--TOC subsection tests-->
+
+<H3 CLASS="subsection"><A NAME="htoc11">1.3.5</A>&nbsp;&nbsp;tests<A NAME="sub:tests"></A></H3><!--SEC END -->
+
+The ORB has many tests in several different test suites (docs/TestCases.sxc
+gives some details of the contents and the numbers of test cases in
+the test suites, from a rough manual count). The test suites are:
+<DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">
+<B>ibm</B><DD CLASS="dd-description">Old RMI-IIOP tests created by IBM. These are the hardest tests
+to deal with.
+<DT CLASS="dt-description"><B>corba</B><DD CLASS="dd-description">The bulk of our developer tests. Covers all areas of the ORB
+to some degree.
+<DT CLASS="dt-description"><B>pi</B><DD CLASS="dd-description">The Portable Interceptor tests.
+<DT CLASS="dt-description"><B>naming</B><DD CLASS="dd-description">Test for the name services.
+<DT CLASS="dt-description"><B>mantis</B><DD CLASS="dd-description">Tests specifically for bug fixes made to JDK 1.4.1.
+<DT CLASS="dt-description"><B>hopper</B><DD CLASS="dd-description">Tests specifically for bug fixes made to JDK 1.4.2.
+<DT CLASS="dt-description"><B>copyobject</B><DD CLASS="dd-description">Tests for the various object copiers. Can also be used
+as a timing test for streams, which will likely be very important
+to us.
+<DT CLASS="dt-description"><B>simpleperf</B><DD CLASS="dd-description">A simple performance test mainly for colocated calls.
+</DL>
+<!--TOC subsection libraries-->
+
+<H3 CLASS="subsection"><A NAME="htoc12">1.3.6</A>&nbsp;&nbsp;libraries<A NAME="sub:libraries"></A></H3><!--SEC END -->
+
+There are a number of libraries in the lib directory. These are all
+used either for building or testing.
+<DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">
+<B>ejb-2_1-api.jar</B><DD CLASS="dd-description">Needed for codegen test
+<DT CLASS="dt-description"><B>emma.jar</B><DD CLASS="dd-description">Main emma code
+<DT CLASS="dt-description"><B>emma_ant.jar</B><DD CLASS="dd-description">Emma's ant task
+<DT CLASS="dt-description"><B>ir.idl</B><DD CLASS="dd-description">Old and obsolete interface repository file (should be deleted)
+<DT CLASS="dt-description"><B>japex.jar</B><DD CLASS="dd-description">A version of the Japex performance testing framework (used
+for compiling StandardTest)
+<DT CLASS="dt-description"><B>jscheme.jar</B><DD CLASS="dd-description">Scheme interpreter used for generating log wrapper source
+files
+<DT CLASS="dt-description"><B>jschemelogutil.jar</B><DD CLASS="dd-description">Some simple utilities used with JScheme (source
+is in the workspace)
+<DT CLASS="dt-description"><B>junit.jar</B><DD CLASS="dd-description">JUnit, used for some of the ORB tests
+<DT CLASS="dt-description"><B>maven-repository-importer-1.1.jar</B><DD CLASS="dd-description">Part of the maven support for
+GlassFish (which is incomplete)
+<DT CLASS="dt-description"><B>orb.idl</B><DD CLASS="dd-description">A standard IDL file for some standard definitions (not really
+used)
+<DT CLASS="dt-description"><B>rt.idl</B><DD CLASS="dd-description">IDL for the CodeBase interface (part of the SendingContext
+module; used to enable access to another VM's typing information for
+RMI-IIOP)
+<DT CLASS="dt-description"><B>testng.jar</B><DD CLASS="dd-description">TestNG, used in some of the ORB tests
+</DL>
+<!--TOC section ORB Developer Tests-->
+
+<H2 CLASS="section"><A NAME="htoc13">1.4</A>&nbsp;&nbsp;ORB Developer Tests<A NAME="sec:ORB-Developer-Tests"></A></H2><!--SEC END -->
+
+<!--TOC subsection Test Suites-->
+
+<H3 CLASS="subsection"><A NAME="htoc14">1.4.1</A>&nbsp;&nbsp;Test Suites<A NAME="sub:Test-Suites"></A></H3><!--SEC END -->
+
+The ORB developer tests are found in the directories test and optional/test.
+The makefile for running the tests is in test/make/Makefile, but the
+test suites can also be run from make/Makefile.corba. This table gives
+a brief overview of the available test suites:<BR>
+<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=1>
+<TR><TD VALIGN=top ALIGN=left>Suite Name</TD>
+<TD VALIGN=top ALIGN=left>Test File</TD>
+<TD VALIGN=top ALIGN=left>ant target in <BR>
+GlassFish-CORBA</TD>
+<TD VALIGN=top ALIGN=left>Purpose</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left>all</TD>
+<TD VALIGN=top ALIGN=left>-</TD>
+<TD VALIGN=top ALIGN=left>test-all</TD>
+<TD VALIGN=top ALIGN=left>runs all test suites</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left>IBM</TD>
+<TD VALIGN=top ALIGN=left>test/AllTests.desc</TD>
+<TD VALIGN=top ALIGN=left>test-rmi-iiop</TD>
+<TD VALIGN=top ALIGN=left>Old IBM tests</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left>corba</TD>
+<TD VALIGN=top ALIGN=left>corba/CORBATests.tdesc</TD>
+<TD VALIGN=top ALIGN=left>test-corba</TD>
+<TD VALIGN=top ALIGN=left>Most of the newer tests</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left>pi</TD>
+<TD VALIGN=top ALIGN=left>pi/PITests.tdesc</TD>
+<TD VALIGN=top ALIGN=left>test-pi</TD>
+<TD VALIGN=top ALIGN=left>Portable Interceptors tests</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left>copyobject</TD>
+<TD VALIGN=top ALIGN=left>corba/CopyObjectTests.tdesc</TD>
+<TD VALIGN=top ALIGN=left>test-copyobject</TD>
+<TD VALIGN=top ALIGN=left>copyobject test</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left>naming</TD>
+<TD VALIGN=top ALIGN=left>naming/NamingTests.tdesc</TD>
+<TD VALIGN=top ALIGN=left>test-naming</TD>
+<TD VALIGN=top ALIGN=left>naming tests</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left>hopper</TD>
+<TD VALIGN=top ALIGN=left>hopper/HopperTests.tdesc</TD>
+<TD VALIGN=top ALIGN=left>test-hopper</TD>
+<TD VALIGN=top ALIGN=left>Bugfixes for JDK 1.4.1</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left>mantis</TD>
+<TD VALIGN=top ALIGN=left>mantis/MantisTests.tdesc</TD>
+<TD VALIGN=top ALIGN=left>test-mantis</TD>
+<TD VALIGN=top ALIGN=left>Bugfixes for JDK 1.4.2</TD>
+</TR>
+<TR><TD VALIGN=top ALIGN=left>simpleperf</TD>
+<TD VALIGN=top ALIGN=left>performance/Tests.tdesc</TD>
+<TD VALIGN=top ALIGN=left>test-perf</TD>
+<TD VALIGN=top ALIGN=left>co-located call performance test</TD>
+</TR></TABLE><BR>
+All of the tests are run from &lt;ws&gt;/make using the appropriate targets.
+The output of the tests (stdout and stderr) are redirected to log
+files. These log files are located in &lt;ws&gt;/test/make/gen, under the
+package name of the individual tests in the test suite. Most of the
+tests of interest are in the corba test suite, so making those pass
+first is usually all that is needed (the others tend to pass too,
+once the CORBA tests pass). This is not always the case, particularly
+if you are working on the RMI-IIOP code (which is tested in the IBM
+test suite). These tests are also descibed briefly in &lt;ws&gt;/docs/TestCases.sxc,
+which is a spreadsheet that roughly counts the number of test cases
+in each test in each test suite.<BR>
+<BR>
+Each of the tests in the test suite starts one or more Controllers.
+A Controller is simply a class that controls a component of a test.
+For example, many of the tests have 3 controllers: a Client, a Server,
+and ORBD (which is used mainly for name service, as few tests actually
+exercise server activation).<BR>
+<BR>
+Adding a new test is simple: just create a new package for testing,
+write the test, and add it to the appropriate test file. There is
+a document that is somewhat helpful in the workspace at
+<DIV CLASS="flushleft"><DL CLASS="list" COMPACT="compact"><DT CLASS="dt-list"><DD CLASS="dd-list"><TT>
+test/src/share/classes/corba/framework/package.html
+</TT></DL></DIV>
+Especially read the section on the Controller classes, as that is
+really the heart of the test framework. However, the document is old,
+and somewhat out of date. You should consider the following additions
+and changes since the document was written:
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+You can use JUnit for tests. Simple write a JUnit test, and then wrap
+it with a simple test class that extends corba.framework.CORBATest.
+In fact, ANY program can be included in the CORBA test framework this
+way. All that is needed is for the embedded test to indicate success
+by returning 0, and failure by return a positive value in a System.exit()
+call.<BR>
+<BR>
+The following tests currently use JUnit:
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+corba/copyobject (this is the most complex example of what can be
+done with JUnit)
+<LI CLASS="li-itemize">corba/dynamicrmiiiop
+<LI CLASS="li-itemize">corba/stubserialization
+<LI CLASS="li-itemize">corba/misc (this is a good test to use a simple example)
+<LI CLASS="li-itemize">corba/messagetrace
+<LI CLASS="li-itemize">corba/codegen
+</UL>
+<LI CLASS="li-itemize">Similarly, you can also use TestNG for tests. The following tests
+use TestNG:
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+corba/timer
+<LI CLASS="li-itemize">corba/mixedorb
+<LI CLASS="li-itemize">corba/jmx
+<LI CLASS="li-itemize">corba/nortel
+<LI CLASS="li-itemize">corba/simpledynamic
+<LI CLASS="li-itemize">corba/mixedorb
+<LI CLASS="li-itemize">corba/connectioncache
+</UL>
+<LI CLASS="li-itemize">The ant build needs to be updated if new tests that require IDL or
+RMIC are needed. See test-idl.xml and test-rmic.xml to see how this
+is handled.
+<LI CLASS="li-itemize">You can write tests that use RMI-IIOP without needing rmic. To do
+this, just use dynamic RMI-IIOP. For an example of how to do this,
+look at the corba/rfm test. Basically you just need to use the PresentationManager
+API for a couple of things (access to the repository ID and to create
+a Tie), and you also need to make sure that dynamic RMI-IIOP is enabled.
+A renamed test will automatically run under dynamic RMI-IIOP, but
+if the test is NOT renamed (and this will be the case after the migration
+to GlassFish, at least for pure ORB development), you need to add
+the following static initializer to the test code:
+</UL>
+<DIV CLASS="flushleft"><DL CLASS="list" COMPACT="compact"><DT CLASS="dt-list"><DD CLASS="dd-list"><TT>
+static&nbsp;{
+</TT><DIV CLASS="flushleft"><DL CLASS="list" COMPACT="compact"><DT CLASS="dt-list"><DD CLASS="dd-list"><TT>
+System.setProperty(&nbsp;ORBConstants.USE_DYNAMIC_STUB_PROPERTY,&nbsp;&#8220;true&#8221;&nbsp;)&nbsp;;
+</TT></DL></DIV><TT>
+}
+</TT></DL></DIV>
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+Conversion status info is out of date in the corba/framework/package.html
+document: ignore this section.
+<LI CLASS="li-itemize">Debugging is better. The document mentions the RDebugExec controller
+(and also ODebugExec, but the omniscient debugger has not been tested
+or updated in years. See http://www.lambdacs.com/debugger/debugger.html
+for more information).
+<LI CLASS="li-itemize">Default ORB class has changed. We now use com.sun.corba.ee.impl.orb.ORBImpl.
+<LI CLASS="li-itemize">There are two security policy files available for running the tests.
+The default test.policy file simply sets up the needed permissions
+for all of the tests and the ORB. The more fine grained test.policy.secure
+file sets up more restrictive permissions for the tests, while giving
+more powerful permissions to the ORB code in the build and optional/build
+directories. Which policy file is used is set in the test/make/Makefile
+in the DEFINES macro.<BR>
+<BR>
+Setting the more secure policy file is useful to work on ensuring
+that the ORB has doPrivileged blocks around all operations that have
+security implications. It is known that the ORB is at least somewhat
+deficient in this area, but we have not taken the time to thoroughly
+address this issue.<BR>
+<BR>
+<LI CLASS="li-itemize">There are several environment variables that are useful to set while
+running tests (see test/make/Makefile for more details):
+<DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">
+<B>STATIC_STUB</B><DD CLASS="dd-description">when set to 1, forces the use of static RMI-IIOP
+<DT CLASS="dt-description"><B>DYNAMIC_STUB</B><DD CLASS="dd-description">when set to 1, forces the use of dynamic RMI-IIOP
+<DT CLASS="dt-description"><B>BCEL_COPYOBJECT</B><DD CLASS="dd-description">when set to 1, uses the BCEL version of the fast
+object copier (experimental)
+<DT CLASS="dt-description"><B>JAVA_SERIALIZATION</B><DD CLASS="dd-description">when set to 0, use CDR instead of JSG (JSG is
+experimental, but enabled by default in the workspace only)
+<DT CLASS="dt-description"><B>DEBUGGER</B><DD CLASS="dd-description">can be set as follows:
+<DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">
+<B>1</B><DD CLASS="dd-description">Set ORBDebugForkedProcess=true (for IBM tests), and run tests
+so that a JPDA-compliant debugger can be attached
+<DT CLASS="dt-description"><B>2</B><DD CLASS="dd-description">Run tests under OptimizeIt
+<DT CLASS="dt-description"><B>3</B><DD CLASS="dd-description">Run tests withc -Djcov=true for coverage analysis
+</DL>
+</DL>
+</UL>
+<!--TOC subsection debugging tests-->
+
+<H3 CLASS="subsection"><A NAME="htoc15">1.4.2</A>&nbsp;&nbsp;debugging tests<A NAME="sub:debugging-tests"></A></H3><!--SEC END -->
+
+To debug a test, you need to know the name of the controller(s) to
+which you need to attach a debugger. Controllers are normally created
+by the methods createORBD, createClient, and createServer. The default
+names of the controllers are ORBD, Client, and Server, respectively.
+The createClient and createServer methods can also take a second argument
+(the first is the class name of the test program) that gives a specific
+name for the controller.<BR>
+<BR>
+Given the name of the controller(s) to debug, simply add the argument
+<DIV CLASS="flushleft"><DL CLASS="list" COMPACT="compact"><DT CLASS="dt-list"><DD CLASS="dd-list"><TT>
+-rdebug&nbsp;XXX,YYY
+</TT></DL></DIV>
+for controllers XXX and YYY (for example) to the end of the test file
+argument that starts the test.<BR>
+<BR>
+ORB debug flags can also be passed into a test. To do this, add the
+argument
+<DIV CLASS="flushleft"><DL CLASS="list" COMPACT="compact"><DT CLASS="dt-list"><DD CLASS="dd-list"><TT>
+-orbtrace&nbsp;XXX:f1,f2;YYY:f3
+</TT></DL></DIV>
+where the argument is a semi-colon separated. Each element of this
+list starts with a controller name, followed by a comma separated
+list of ORB debug flag names (see com.sun.corba.ee.spi.orb.ORB for
+the current list).<BR>
+<BR>
+It is also possible to change the log levels so that ORB log information
+can be displayed on the console (or anywhere else, depending on the
+log system configuration). This follows the usual log system mechanisms.
+The ORB logger names are discussed in sec:ORB-Logging.<BR>
+<BR>
+<!--TOC subsection Debugging and Running a single test-->
+
+<H3 CLASS="subsection"><A NAME="htoc16">1.4.3</A>&nbsp;&nbsp;Debugging and Running a single test</H3><!--SEC END -->
+
+I recently added the capability to run and debug a single test. This
+requires the runtest script in the make directory. This is a script
+that calls the run-test-target target in the test.xml file. You can
+give runtest any arguments that occur in the .tdesc files. To use
+runtest, cd to &lt;ws&gt;/make and check that runtest is executable. Here
+are a few examples (assuming the current directory is &lt;ws&gt;/make):
+<OL CLASS="enumerate" type=1><LI CLASS="li-enumerate">
+To run the codegen test:<BR>
+./runtest -test corba.codegen.CodegenTest
+<LI CLASS="li-enumerate">To attach a debugger to the client controller in the codegen test:<BR>
+./runtest -test corba.codegen.CodegenTest -rdebug client
+<LI CLASS="li-enumerate">To see the transport debug output on the evol_client controller in
+the corba EvolveTest:<BR>
+./runtest -test corba.evolve.EvolveTest -orbtrace evol_client:transport<BR>
+(the debug output will be in ../test/make/gen/corba/evolve/evol_client.out.txt)
+</OL>
+All tests are run in the environment of the current ORB workspace.
+Either the renamed or the non-renamed version can be used. This is
+important because JDK 5 or later contains many of the same classes
+in the com.sun.corba packages as the workspace. The ant files set
+up the java -Xbootclasspath argument correctly so that the versions
+of the com.sun.corba classes in the workspace are used, instead of
+those in the JDK.<BR>
+<BR>
+<!--TOC section ORB SQE Tests-->
+
+<H2 CLASS="section"><A NAME="htoc17">1.5</A>&nbsp;&nbsp;ORB SQE Tests<A NAME="sec:ORB-SQE-Tests"></A></H2><!--SEC END -->
+
+Sony Manuel maintains a large collection of CORBA SQE tests in /java/idl/ws/rip/RIP_TEST_MASTER.
+Read the file DTF_RTM_README.html in this workspace for details
+(and contact Sony as well). These test are not currently available
+in GlassFish-CORBA.<BR>
+<BR>
+We should look at creating a tighter integration between the CORBA
+dev tests and the SQE tests at some point. In particular, I'd like
+to have the POA and INS tests run automatically as part of the CORBA
+dev test cycle.<BR>
+<BR>
+<!--TOC section Thoughts on Middleware goals-->
+
+<H2 CLASS="section"><A NAME="htoc18">1.6</A>&nbsp;&nbsp;Thoughts on Middleware goals<A NAME="sec:Thoughts-on-Middleware"></A></H2><!--SEC END -->
+
+Middleware is a rather complex kind of software to build well. It
+spans many parts of the computer science discipline, including compilers,
+operating systems, and network communications. Middleware tends to
+be complex, long-lived software, and there are many different ways
+to build it. Our goal in developing the ORB has been to develop very
+flexible and high-performance middleware while maintaining a clear
+(if complex) architecture that can be easily composed, ultimately
+out of re-usable modules. One way to look at an ORB is that ORB.init
+creates a particular middleware implementation that is specialized
+to the needs of an application. For example, the behavior of the default
+ORB in the JDK is rather different from that of the ORB in the app
+server, even though both share &gt;95% of the same code.<BR>
+<BR>
+At least the following dimensions must be considered in order to build
+effective middleware:
+<DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">
+<B>Flexibility.</B><DD CLASS="dd-description">Middleware has been changing constantly since Nelson
+invented RPC around 1980 or so. Much of Harold's work on PEPt has
+been devoted to dealing effectively with this aspect of middleware
+construction. The following elements often vary indendently of each
+other:
+<DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">
+<B>Presentation.</B><DD CLASS="dd-description">By this we mean the kinds of data types that may be
+passed between a client and server (roles here, as any given software
+entity often acts in both roles), and the APIs and other structures
+used to collect these kinds of data together. <BR>
+<BR>
+Examples of data types include the IDL data model from CORBA, the
+Java data model from RMI, XML schema, ASN.1, SUN RPC, MIME types,
+and many others. <BR>
+<BR>
+There are broadly speaking two ways to view the API question: either
+the system uses some sort of Proxy to make a remote call &#8220;look
+like&#8221; a call to an abstraction (method call, procedure call, SmallTalk
+message send, etc) or the API provides an explicit representation
+of a request or message that a program can set up with data and then
+send (CORBA dynamic invocation, Message Oriented Middleware, and others).<BR>
+<BR>
+<DT CLASS="dt-description"><B>Encoding.</B><DD CLASS="dd-description">Given a structure containing the data from the presentation
+layer, it needs to be converted from an in memory representation to
+some representation suitable for transmitting across some serial medium
+like a TCP connection. This is usually referred to as marshalling
+and unmarshalling the data, and is often the most expensive operation
+that middleware performs. In fact, I believe this is the most significant
+challenge for middleware of all types as network hardware increases
+in speed.
+<DT CLASS="dt-description"><B>Protocol.</B><DD CLASS="dd-description">This is related to but distinct from encoding. Here we
+are concerned about the kinds of messages that clients and servers
+exchange. This is mainly about message framing, headers, various kinds
+of meta-data associated with requests, and the distributed state machines
+involved in protocol design.
+<DT CLASS="dt-description"><B>Transport.</B><DD CLASS="dd-description">Ultimately, some mechanism must be used to transmit data
+from the client to the server. This can include network protocols,
+shared memory mechanisms, Solaris doors, and direct calls within the
+same address space that bypass all such mechanisms (in which case
+the protocol and encoding are much simplified as well).
+</DL>
+<DT CLASS="dt-description"><B>Performance.</B><DD CLASS="dd-description">Everyone always wants middleware to perform as quickly
+as possible. This is quite a challenge. First, there are many aspects
+to performance, including:
+<DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">
+<B>Latency.</B><DD CLASS="dd-description">How long does it take to send messages of various types?
+What about short vs. very long messages?
+<DT CLASS="dt-description"><B>Throughput.</B><DD CLASS="dd-description">How many request per second can be sent through the
+system? This often conflicts with latency. For example, a front end
+concentrator can help to pump more data through, at the cost of increased
+latency due to an extra hop.
+<DT CLASS="dt-description"><B>Creating&nbsp;Endpoints.</B><DD CLASS="dd-description">Object-Oriented remoting systems like CORBA
+create, marshal, and unmarshal endpoints (IORs in CORBA) constantly,
+and the performance of such operations is quite significant.
+</DL>
+Today, our latency is poor (except for co-located RMI-IIOP calls,
+which are highly optimized), our throughput is OK (and this is NIO
+select related), and the IOR handling is pretty good, although much
+more is possible.<BR>
+<BR>
+We need to follow a number of strategies for improving performance:</DL>
+
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+Cache when appropriate. The ORB caches lots of information, especially
+related to class-specific information for marshalling and handling
+stubs and skeletons.
+<LI CLASS="li-itemize">Don't do it if you don't need it. For example, interceptors are expensive,
+so don't pay overhead for them if none are installed. A bad example
+is that the encoding currently computes two indices instead of one,
+and checks to see whether to marshal little- or big-endian on every
+primitive marshalling operation. These are areas that we should investigate
+soon. <BR>
+<BR>
+This is particularly important for systems that have extreme flexibility.<BR>
+<BR>
+<LI CLASS="li-itemize">Precompute where possible (really a form of caching). A good example
+of this is the use of IOR templates to make endpoint (IOR) construction
+very fast. Creating a POA creates an IOR template, and creating an
+IOR from an IOR template is almost a trivial construction.
+<LI CLASS="li-itemize">Avoid data copying. This is one of the main areas of important for
+transport optimization. For example, this is where use of direct ByteBuffers
+can help performance (which we do today).
+<LI CLASS="li-itemize">Consider runtime code generation. We have started to do this already
+for dynamic RMI-IIOP. I also have been experimenting with doing this
+for fast object copying, and marshalling is another candidate.
+<LI CLASS="li-itemize">Instrument the code so that performance can be understood. We have
+started to add internal instrumentation for this, and I think we will
+expand on this approach. Sometime the most appropriate tool is an
+external tool like OptimizeIt, but both approaches have their advantages.
+Note that applying OptimizeIt to an ORB test is easy: see sub:Test-Suites.
+</UL>
+<DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">
+<B>Reliability.</B><DD CLASS="dd-description">Middleware is usually used in places that need to run
+continuously (like the app server). This again implies a number of
+considerations:
+<DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">
+<B>Avoid&nbsp;Memory&nbsp;Leaks.</B><DD CLASS="dd-description">This has been an issue for the ORB mainly
+in caching class related data. We have had to make careful use of
+soft and weak references in a number of places to handle this. Extreme
+care is needed to avoid leaking direct ByteBuffers, which generally
+must be pooled to achieve acceptable performance.
+<DT CLASS="dt-description"><B>Build&nbsp;Clean&nbsp;Code.</B><DD CLASS="dd-description">This is why we have a strong emphasis on programming
+to interfaces. Another important aspect of this is only write a piece
+of code once, and then reuse it.
+<DT CLASS="dt-description"><B>Use&nbsp;Test&nbsp;Driven&nbsp;Development.</B><DD CLASS="dd-description">By this I mean that anyone producing
+a module of code must also produce a set of unit tests (and other
+tests as needed) to validate the correctness of the module. This also
+means that as much as possible, bug fixes require a test that fails,
+and a fix that makes the test pass, and the test must be incorported
+into the automated build.
+</DL>
+</DL>
+<!--TOC section ORB Coding Practices-->
+
+<H2 CLASS="section"><A NAME="htoc19">1.7</A>&nbsp;&nbsp;ORB Coding Practices<A NAME="sec:ORB-Coding-Practices"></A></H2><!--SEC END -->
+
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+Use comments wisely. Some guidelines:
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+Don't document the obvious. If the code is clear, it should speak
+for itself. If the code is not clear, try to make it clear. If you
+can't, then comment about its operation.
+<LI CLASS="li-itemize">Try to choose meaningful names to reduce the need for comments.
+<LI CLASS="li-itemize">DO document global issues that span more than one method/class/package.
+These are the most important comments to include.
+<LI CLASS="li-itemize">Always document public methods (there should be NO public data members,
+except possibly for some static constants). Follow the standards for
+using JavaDoc.
+</UL>
+<LI CLASS="li-itemize">Program to interfaces. Most of the ORB is built this way. There are
+a number of characteristics of this design:
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+Use of the factory pattern. Factories in the ORB are generally classes
+in spi packages which contain only static methods for accessing factories,
+or standard instances of particular interfaces. These classes should
+end in the name &#8220;Default(s)&#8221; or &#8220;Factory&#8221;.
+<LI CLASS="li-itemize"><B>new</B> is only used to create instances of interfaces inside
+the factory classes. This makes it much easier to re-use code, and
+to isolate the client from caching vs. creation decisions.
+<LI CLASS="li-itemize">Initialization drives call flow. That is, in order to understand what
+really happens at runtime, you must know how the ORB initialization
+set up the concrete instances behind the interfaces. Similarly, in
+order to understand the dispatch cycle, you must understand how the
+IOR is created and marshalled (especially if we ever do a Solaris
+doors transport again).
+</UL>
+<LI CLASS="li-itemize">Avoid magic strings and numbers. If you need a constant, put it in
+ORBConstants, since it will either need to be configurable or else
+referencable in more than one place in most cases.
+<LI CLASS="li-itemize">Generally use only SPI classes (but note ORBConstants is in impl).
+Generally an ORB implementation class is free to use any required
+spi class, but should avoid using implementation classes outside of
+its own package.
+<LI CLASS="li-itemize">The ORB object instance is central. It is the repository for all runtime
+ORB data. It drives the configuration of the runtime ORB. Everything
+that the ORB provides is accessible from the com.sun.corba.ee.spi.orb.ORB
+class.
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+Access the ORB either as org.omg.CORBA.ORB or as com.sun.corba.ee.spi.ORB.
+There are other ORB classes, but never program to them.
+<LI CLASS="li-itemize">Use the CORBA ORB for code that may be shared with other ORB implementations.
+This is mainly an issue in the RMI-IIOP code and the value handler,
+which are used by some third party ORBs. If you need the ORB SPI,
+provide code that handles the CORBA ORB case as well.
+</UL>
+<LI CLASS="li-itemize">ORB extensions should be created as IDL local interfaces, and made
+accessible through a resolve_initial_references call. We have not
+followed this principal in the past as much as we should have, and
+the result is that there are too many methods in spi.orb.ORB. An alternative
+here is to use dependency injection from a component framework, but
+that's a separate topic (and paper).
+<LI CLASS="li-itemize">Read &#8220;Effective Java&#8221; (if you haven't already). Josh Bloch's
+book is full of some very good advice that should almost always be
+followed.
+<LI CLASS="li-itemize">Try to avoid complex constructors, or classes with many constructors.
+This makes the code confusing and hard to use.
+<LI CLASS="li-itemize">Try to complete instance initialization in the constructor. If this
+is not possible, check whether the instance is in a good state before
+continuing with the body of a method.
+<LI CLASS="li-itemize">Some ideas on error handling:
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+Design code to fail fast. That is, if there is a problem in the code,
+fail sooner, so that the problem is correctly reported, rather than
+letting it propagate through the system until it's hard to determine
+what happened. Examples of this include use of <B>assert</B>, and
+the ORB's use of INTERNAL SystemExceptions to report consistency failures.
+<LI CLASS="li-itemize">Use exception chaining when reporting errors. The log wrappers make
+this easy to do.
+<LI CLASS="li-itemize">Use system exceptions to report errors. We have a pretty good log
+wrapper mechanism that makes this easy to do: always use it. The only
+exception here is in ORB independent libraries (like codegen). Here,
+just use standard Java exceptions.
+<LI CLASS="li-itemize">Prefer unchecked exceptions in most cases. This has been a raging
+debate for a long time in the Java community. I think checked exceptions
+are occasionally useful, but often more trouble than they are worth.
+A good rule of thumb is that if the only thing an application is going
+to do is pass the exception on to another layer, it should be unchecked.
+Writing code that catches a series of checked exceptions and handles
+each through a standard reporting mechanism is wasteful and annoying,
+and does nothing for the readability of the code. 
+</UL>
+<LI CLASS="li-itemize">Avoid import xxx.* Careful organization of import lists is a great
+aid to figuring out how classes are coupled together. The ORB rules
+that should be followed for import lists are:
+<OL CLASS="enumerate" type=1><LI CLASS="li-enumerate">
+Arrange packages from the general to the specific. For example, put
+java.* first, then org.omg.* first, finally internal com.sun.corba.ee.spi.*
+classes.
+<LI CLASS="li-enumerate">Within a package, arrange classes in alphabetical order.
+<LI CLASS="li-enumerate">Separate different package imports with a blank line.
+<LI CLASS="li-enumerate">If you have an IDE that can do this for you, use it.
+</OL>
+<LI CLASS="li-itemize">Be very careful with import static xxx.* It is occasionally very
+useful (for example, for calling all the static methods like _class,
+_method, _if etc. in the codegen library). But using it for all
+statics could lead to much confusion.
+<LI CLASS="li-itemize">Names are very important
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+Interfaces have descriptive noun phrases (e.g. LocalClientRequestDispatcher)
+<LI CLASS="li-itemize">Implementations of interfaces end in &#8220;Impl&#8221; (e.g. JIDLLocalCRDImpl)
+<LI CLASS="li-itemize">Try to avoid abbreviations (but not if the name is too long)
+<LI CLASS="li-itemize">Limit names to 7 nouns (and I think we break this one once or twice)
+<LI CLASS="li-itemize">Multiple implementations should look like &lt;InterfaceName&gt;&lt;Characteristic&gt;Impl
+or &lt;Characteristic&gt;&lt;InterfaceName&gt;Impl
+<LI CLASS="li-itemize">Abtract base classes should look like &lt;InterfaceName&gt;Base
+<LI CLASS="li-itemize">Factory interfaces usually look like &lt;InterfaceName&gt;Factory
+<LI CLASS="li-itemize">Follow the standard Java naming conventions (except for IDL generated
+methods)
+</UL>
+<LI CLASS="li-itemize">Prefer short methods (and let HotSpot do its job). Some of the code
+in the ORB (e.g. CDR streams) has badly violated this rule, resulting
+in many cut-and-paste sections of nearly identical code. This is a
+testing, debugging, and understanding nightmare.
+<LI CLASS="li-itemize">Pay attention to cohesion and coupling. A class should do one thing
+that can be crisply articulated, as should a method. A class should
+use a minimum of other classes to get its job done.
+<LI CLASS="li-itemize">Either prevent inheritance or design for it. Harold and I have often
+been in conflict on this one. There is some code in the ORB in which
+the data members are private instead of protected. This is occasionally
+helpful (for example, in some of the HWLB plugin code), but is an
+open door to maintenance headaches. If a field or method is protected,
+you are really saying that no invoker can call this, but a subclass
+can, and a subclass can override this method. What are the constraints
+on subclasses in this case? Such design decisions should be documented
+in the code.
+<LI CLASS="li-itemize">Use shallow inheritance hierarchies. We commonly use the interface/abstract
+base class/several concrete classes pattern to facilitate code reuse
+across implementation variations. There are a few places (e.g. local
+client request dispatchers, some of the POAPolicyMediator code) that
+do this for two (perhaps more?) layers, but that should be rare.
+<LI CLASS="li-itemize">Don't bother making methods final for optimization, as this is not
+helpful. Final is semantic: it means that no subclass can override
+this method.
+<LI CLASS="li-itemize">Utility classes (those that only contain static methods) must be final
+and have a empty private no-args constructor. This prevents all instantiation
+and subclasses of utility classes.
+<LI CLASS="li-itemize">Consider making most local data final. This is unusual, but actually
+quite useful, since most local data is initialized and then referenced
+in the method. Parameters should always be final, as assigning to
+a parameter is poor style.
+<LI CLASS="li-itemize">Never use public data members in classes (except for static final).
+Be careful with protected and default access for data members.
+<LI CLASS="li-itemize">Avoid non-constant static data members in classes. Sometimes they
+are necessary, in which case concurrency protection is usually required.
+<LI CLASS="li-itemize">Use JDK 5 (and convert old code to use it). The new language extensions
+help to make for more readable code. I have converted some of the
+code, but not all.
+<LI CLASS="li-itemize">Design for testability. Make sure that classes have an interface that
+supports testability: if some internal state is established that needs
+to be verified, then there must be an interface to access the state.
+Leaving code for testing in the product code is acceptable, but make
+sure it does not affect any critical performance issues.
+<LI CLASS="li-itemize">Design for concurrency. 
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+Make sure you know whether instances of a class may be used from more
+than one thread concurrently. If so, use locking. 
+<LI CLASS="li-itemize">NEVER assume that it is safe to access ANY data without either locking
+or declaring it to be volatile. Don't break this rule for stats counters
+under the assumption that it will only be off a little (this isn't
+true in complex SMP servers with large caches).
+<LI CLASS="li-itemize">Make use of the Java 5 concurrency utilities. These are very well
+designed to solve a number of hard problems.
+<LI CLASS="li-itemize">If you need to wait on more than one condition, use the java.concurrent.util.locks
+package, particularly ReentrantLock and Condition.
+<LI CLASS="li-itemize">Use a lock hiearchy to avoid deadlocks if multiple locks are required
+in a thread of control.
+<LI CLASS="li-itemize">Be aware of the potential for locking hot spots on Sun's SMP servers
+(and especially Niagra these days). This frequently is a single lock
+that every request dispatched through the ORB must acquire at some
+point. Again, Java 5 has some very useful utilities to help (such
+as ConcurrentHashMap).
+</UL>
+<LI CLASS="li-itemize">Do NOT put Class instance into Maps as values or keys directly or
+indirectly. Pinning a Class object in a Map will prevent the Class
+from being garbage collected, which will prevent that Class's ClassLoader,
+and all other Classes loaded by the ClassLoader from being garbage
+collected. This has led to massive memory leaks in the App Server
+on several occasions.<BR>
+<BR>
+The solution here is to use WeakHashMap (for Classes in keys) or SoftCache
+(for Classes in values) as need. Grep the source code for examples.</UL>
+<!--TOC section Supporting JDK and App Server-->
+
+<H2 CLASS="section"><A NAME="htoc20">1.8</A>&nbsp;&nbsp;Supporting JDK and App Server<A NAME="sec:Supporting-JDK-and"></A></H2><!--SEC END -->
+
+The main body of the ORB code (that is, most of the contents of the
+src directory) must be delivered into both the JDK and the app server
+without change (other than the automatic rename). This has some interesting
+implications:
+<OL CLASS="enumerate" type=1><LI CLASS="li-enumerate">
+Use extension, not variation. Never create an app server and a JDK
+version of the same class. Instead, refactor the class so that there
+is a common base in the core that can be extended, either through
+inheritance or composition.
+<LI CLASS="li-enumerate">Prefer composition to inheritance. 
+<LI CLASS="li-enumerate">Remember that the io, util, and javax code is shared between our ORB
+and other (non-Sun) ORBs. This means in particular that other ORBs
+may be built using our ValueHandler and RMI-IIOP classes. The main
+issue here is that we cannot assume that the ORB class is always com.sun.corba.ee.spi.orb.ORB.
+It is OK to create a specialized path for our ORB, but this must always
+be done with an <B>instanceof</B> check, and handle the non-Sun
+ORB case correctly.
+<LI CLASS="li-enumerate">All behavior exhibited by the JDK ORB must follow the OMG specifications.
+Mostly this is CORBA 2.3.1, but we follow the semantics of later versions
+when errors have been corrected. For example, the POA should basically
+follow the behavior documented for CORBA 3.0 at this point. Note that
+it is fine to create non-standard extensions to CORBA semantics for
+the app server: this is exactly what we have done for failover and
+load balancing support (among others).
+</OL>
+<!--TOC chapter The ORB Class-->
+
+<H1 CLASS="chapter"><A NAME="htoc21">Chapter&nbsp;2</A>&nbsp;&nbsp;The ORB Class</H1><!--SEC END -->
+
+The ORB class is the central control point in the Sun ORB implementation.
+Here we will examine its structure, the services it provides, and
+how it is initialized and terminated.<BR>
+<BR>
+<!--TOC section Inheritance Structure-->
+
+<H2 CLASS="section"><A NAME="htoc22">2.1</A>&nbsp;&nbsp;Inheritance Structure</H2><!--SEC END -->
+
+The ORB class has the longest inheritance chain in the ORB. Constructing
+a UML diagram for this is difficult (because of the way this works
+in Java Studio Enterprise) and not very illuminating. Instead, I'll
+just list the classes and their main function:
+<DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">
+<B>org.omg.CORBA.ORB:</B><DD CLASS="dd-description">This is the main ORB API defined by the OMG.
+<DT CLASS="dt-description"><B>org.omg.CORBA_2_3.ORB:</B><DD CLASS="dd-description">This adds some methods related to value
+types.
+<DT CLASS="dt-description"><B>com.sun.corba.ee.org.omg.CORBA.ORB:</B><DD CLASS="dd-description">This adds register_initial_reference.
+While the method is an OMG standard, the Java mapping that we used
+for the ORB API did not include this method, so we put it here.
+<DT CLASS="dt-description"><B>com.sun.corba.ee.spi.orb.ORB:</B><DD CLASS="dd-description">This adds all of the internal SPI
+methods to the ORB.
+<DT CLASS="dt-description"><B>com.sun.corba.ee.impl.orb.ORBImpl:</B><DD CLASS="dd-description">This is the ORB implementation.
+<DT CLASS="dt-description"><B>com.sun.corba.ee.internal.iiop.ORB:</B><DD CLASS="dd-description">For backwards compatibility
+with JDK 1.4.
+<DT CLASS="dt-description"><B>com.sun.corba.ee.internal.POAORB:</B><DD CLASS="dd-description">For backwards compatibility with
+JDK 1.4.
+<DT CLASS="dt-description"><B>com.sun.corba.ee.internal.PIORB:</B><DD CLASS="dd-description">For backwards compatibility with
+JDK 1.4.
+</DL>
+The first 3 classes together define the standard OMG ORB API. It is
+split because it evolved in stages, and we cannot add new methods
+to an interface that a third party may implement. Instead, we extend
+the API class, allowing older ORB implementations from third parties
+to continue to work. The classes in the internal package can be ignored.
+They are present so that any old code written with the ORBClass property
+set to the class name will continue to work.<BR>
+<BR>
+<!--TOC section ORB SPI structure -->
+
+<H2 CLASS="section"><A NAME="htoc23">2.2</A>&nbsp;&nbsp;ORB SPI structure<A NAME="sec:ORB-SPI-structure"></A> </H2><!--SEC END -->
+
+The key part of the ORB SPI is in the com.sun.corba.ee.spi.orb.ORB
+abstract class. This is an abstract class because it must extend the
+other ORB abstract API classes defined by the OMG. The ORB class provides
+the following operations:
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+A set of debug flags. ORB defines a number of public boolean data
+members of the form xxxDebugFlag. These can be set to true using the
+ORBConstants.DEBUG_PROPERTY property. Adding new flags is simple:
+just follow the existing pattern. These flags are accessible to any
+part of the ORB that uses an ORB class instance, which is everything
+except RMI-IIOP and some libraries.
+<LI CLASS="li-itemize">Methods for testing for local host and server id, which is important
+for determining when a call is colocated. This mechanism should be
+revisited in order to deal with multi-homed hosts and calls between
+different ORB instances (which currently are not optimized, even if
+the ORB instances are in the same VM).
+<LI CLASS="li-itemize">Methods for manipulating the OAInvocationInfo stack. This stack contains
+information about the current request on the server side. The ORB
+has several stacks that serve similar functions, as does the EJB layer
+in the app server. This suggests an important optimization: unify
+the lifecycle management of the stacks, and use a single unified stack
+on each side (client and server) that supports extensible data elements.
+<LI CLASS="li-itemize">Access to a number of managers, factories, and registries:
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+CorbaTransportManager
+<LI CLASS="li-itemize">LegacyServerSocketManager
+<LI CLASS="li-itemize">PresentationManager (this is a static, as it is shared across RMI-IIOP
+and all ORB instances).
+<LI CLASS="li-itemize">PresentationManager.StubFactoryFactory (also static)
+<LI CLASS="li-itemize">MonitoringManager
+<LI CLASS="li-itemize">PIHandler, which provides all of the methods needed to support Portable
+Interceptors.
+<LI CLASS="li-itemize">ServiceContextFactoryRegistry
+<LI CLASS="li-itemize">RequestDispatcherRegistry, which provides many of the key objects
+needed for the dispatch cycle.
+<LI CLASS="li-itemize">ORBData, which contains all of the ORB configuration data.
+<LI CLASS="li-itemize">ClientDelegateFactory, which converts a CorbaContactInfoList into
+a CorbaClientDelegate.
+<LI CLASS="li-itemize">CorbaContactInfoListFactory, which converts an IOR into a CorbaContactInfoList.
+The ClientDelegateFactory and the CorbaContactInfoListFactory are
+the two essential objects used to prepare an endpoint (represented
+by an object reference, and containing an IOR) into a form suitable
+for use in the dispatch cycle.
+<LI CLASS="li-itemize">Resolvers for resolve_initial_references, list_initial_services,
+and register_initial_reference. These are also used for string_to_object.
+<LI CLASS="li-itemize">Factories and related objects for IOR handling:
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+TaggedComponentFactoryFinder
+<LI CLASS="li-itemize">IdentifiableFactoryFinder for TaggedProfiles
+<LI CLASS="li-itemize">IdentifiableFactoryFinder for TaggedProfileTemplates
+<LI CLASS="li-itemize">ObjectKeyFactory
+<LI CLASS="li-itemize">WireObjectKeyTemplate
+</UL>
+This allows us to extend the basic IOR framework with tagged component
+and profiles as needed, and also allows us to plug in a particular
+object key representation. The object key representation is important
+for the operation of object adapters.<BR>
+<BR>
+<LI CLASS="li-itemize">ThreadPoolManager
+<LI CLASS="li-itemize">CopierManager
+<LI CLASS="li-itemize">ByteBufferPool
+</UL>
+<LI CLASS="li-itemize">Access to the ORB Invocation Interceptor. This is a non-standard interceptor
+that intercepts calls before and after the dispatch through the stub
+(when dynamic RMI-IIOP is used). This is currently used in the app
+server for call flow analysis, and could also be used for ORB timing
+points. We may wish to consider providing a more extensible mechanism
+here: the current implementation supports only one interceptor.
+<LI CLASS="li-itemize">Access to primitive type codes and a mapping between repository IDs
+and type codes.
+<LI CLASS="li-itemize">Access to the current ORB version, and a mechanism to set the ORB
+version for the current request (to handle interoperability between
+different versions of the Sun ORB).
+<LI CLASS="li-itemize">Access to the IOR for the FVD CodeBase object.
+<LI CLASS="li-itemize">Mechanisms for dealing with bad server IDs. This is only needed to
+support the ORBD. The mechanism is now obsolete, as the object reference
+template (ORT) provides a better solution, but our current ORBD has
+not been updated to use ORT.
+<LI CLASS="li-itemize">The notifyORB method, which is used to support the DII get_next_response
+mechanism.
+<LI CLASS="li-itemize">Support for controlling ORB shutdown so that shutdown cannot happen
+until all active requests have completed.
+<LI CLASS="li-itemize">Access to the transient server ID, which is used for IORs for transient
+object references.
+<LI CLASS="li-itemize">Methods used by generated log wrapper classes to create log wrappers,
+which are used for reporting errors and managing CORBA system exceptions.
+</UL>
+Clearly there are a lot of methods in the ORB SPI. A better approach
+would be to push most of this into the initial references mechanism,
+using IDL local objects. This would substantially reduce the size
+of the ORB SPI. But I think we are unlikely to do this, as the impact
+on the existing code is probably too large.<BR>
+<BR>
+<!--TOC section ORB Initialization-->
+
+<H2 CLASS="section"><A NAME="htoc24">2.3</A>&nbsp;&nbsp;ORB Initialization<A NAME="sec:ORB-Initialization"></A></H2><!--SEC END -->
+
+The ORB initialization code is fairly complicated, but reasonably
+well structured at this point. I'll start with a discussion of the
+ORB configuration framework, then describe the ORB initialization
+process in moderate detail. I'll also discuss how this is extended
+in the app server.<BR>
+<BR>
+<!--TOC subsection The Configuration Framework-->
+
+<H3 CLASS="subsection"><A NAME="htoc25">2.3.1</A>&nbsp;&nbsp;The Configuration Framework<A NAME="sub:The-Configuration-Framework"></A></H3><!--SEC END -->
+
+The orb packages contains a mostly general purpose framework for handling
+configuration. This is divided into several parts:
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+The DataCollector, which gathers configuration data from config files,
+system properties and other properties objects, and command line arguments
+together into a uniform Property object.
+<LI CLASS="li-itemize">The Operation interface and factory methods for creating Operation
+instances. Operation is a simple unary function interface that returns
+an object. A wide variety of factory methods are provided in OperationFactory
+and OperationFactoryExt, including one that composes Operations to
+create a new Operation. This allows expression of fairly complex parsing
+methods. Many of the Operation instances just convert a String into
+some other type.
+<LI CLASS="li-itemize">The PropertyParser and related classes that take a number of operations
+and combine them into a single parser that can parse all the elements
+of a Property instance into a Map&lt;String,Object&gt; from field names
+to values.
+<LI CLASS="li-itemize">Base classes that use a PropertyParser to initialize (possibly private)
+fields in a configuration object (typically a JavaBean-like object
+with only read accessors). There is also a base class (ParserImplTableBase)
+for constructing a PropertyParser from a table that includes default
+values and test data. This is used for initializing the ORBData object
+that contains all of the ORB configuration data.
+</UL>
+The following sections will look at these parts in more detail.<BR>
+<BR>
+<!--TOC subsubsection DataCollector-->
+
+<H4 CLASS="subsubsection"><A NAME="htoc26">2.3.1.1</A>&nbsp;&nbsp;DataCollector<A NAME="sub:DataCollector"></A></H4><!--SEC END -->
+
+A DataCollector has a rather simple interface: setParser passes a
+PropertyParser instance to the DataCollector, which causes the DataCollector
+to gather together all configuration data from the available data
+sources into a single instance of Properties. This instance is available
+in the getProperties method.<BR>
+<BR>
+The available data sources are:
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+System Properties
+<LI CLASS="li-itemize">Applet Properties
+<LI CLASS="li-itemize">Contents of configuration files
+<LI CLASS="li-itemize">Command line arguments
+</UL>
+It is perhaps not immediately obvious why a PropertyParser needs to
+be passed to the DataCollector. The reason for this is that it is
+not always possible to simply grab every bit of information from the
+data sources. But it is possible to get all configuration information
+for the known property names. So the DataCollector uses the PropertyParser
+to fetch information for all property names of interest.<BR>
+<BR>
+Here is a class diagram of the DataCollector classes:<BR>
+<BR>
+<IMG SRC="orb_notes001.png"><BR>
+<BR>
+Note that there are 3 different kinds of DataCollector. The Applet
+and Normal DataCollectors are used with the corresponding ORB.init
+methods. The PropertyOnly DataCollector is only used internally, when
+we need to create an internal full ORB instance to support certain
+operations on the ORB singleton. The DataCollectorFactory class provides
+static methods for creating the different kinds of DataCollectors.<BR>
+<BR>
+There are a few issues here that could be revisited:
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+The DataCollector framework has some internal ORB dependencies that
+could be removed:
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+It handles some URL property names (for applets) specially.
+<LI CLASS="li-itemize">There is special handling for -ORBInitRef.
+<LI CLASS="li-itemize">The DataCollector base goes to a lot of trouble to hide some sensitive
+data from arbitrary access by untrusted clients (mainly the local
+host name). It may be better to avoid doing this, and instead check
+all access to sensitive information through the SecurityManager (if
+one is present).
+<LI CLASS="li-itemize">While the DataCollector interface is independent of the ORB, DataCollectorBase
+is not. It would be cleaner to factor the ORB dependencies into another
+base class.
+</UL>
+</UL>
+Fixing these issues would allow reuse of the DataCollector mechanism
+outside of the ORB, and provide a somewhat cleaner implementation.<BR>
+<BR>
+<!--TOC subsubsection Operation-->
+
+<H4 CLASS="subsubsection"><A NAME="htoc27">2.3.1.2</A>&nbsp;&nbsp;Operation<A NAME="sub:Operation"></A></H4><!--SEC END -->
+
+The operation interface is simply:
+<DIV CLASS="flushleft"><DL CLASS="list" COMPACT="compact"><DT CLASS="dt-list"><DD CLASS="dd-list"><TT>
+public&nbsp;interface&nbsp;Operation&nbsp;{
+</TT><DIV CLASS="flushleft"><DL CLASS="list" COMPACT="compact"><DT CLASS="dt-list"><DD CLASS="dd-list"><TT>
+Object&nbsp;operate(&nbsp;Object&nbsp;value&nbsp;)&nbsp;;
+</TT></DL></DIV><TT>
+}
+</TT></DL></DIV>
+The SPI classes OperationFactory and OperationFactoryExt provide a
+large number of factory methods for creating instances of the Operation
+interface:
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+makeErrorAction( Operation op ), where operate calls op and ignores
+any errors it may through
+<LI CLASS="li-itemize">indexAction( int index ), where operate returns the index element
+of its argument, if the argument is an array
+<LI CLASS="li-itemize">suffixAction, where operate returns the first value in a Pair&lt;String,String&gt;
+object
+<LI CLASS="li-itemize">valueAction, where operate returns the second value in a Pair&lt;String,String&gt;
+object
+<LI CLASS="li-itemize">identityAction, where operate returns its argument
+<LI CLASS="li-itemize">booleanAction, where operate converts its argument from a String to
+a Boolean
+<LI CLASS="li-itemize">integerAction, where operate converts its argument from a String to
+an Integer
+<LI CLASS="li-itemize">stringAction, where operate checks that its argument is a String,
+and returns it if it is
+<LI CLASS="li-itemize">classAction, where operate converts its argument from a String into
+a Class using ORBClassLoader.loadClass
+<LI CLASS="li-itemize">setFlagAction, where operate returns Boolean.TRUE
+<LI CLASS="li-itemize">URLAction, where operate converts its argument from a String into
+a URL
+<LI CLASS="li-itemize">integerRangeAction( int min, int max ), where operate converts its
+argument from a String to an integer if its argument represents an
+integer between min and max, otherwise throws an exception
+<LI CLASS="li-itemize">listAction( String sep, Operation act ), where operate expects its
+argument to be a String of data separated by the sep delimiter, and
+uses a StringTokenizer to separate the argument into a sequence of
+Strings. operate then applies act to each String in the sequence,
+and returns the results in an array. This is used for parsing homogeneous
+lists of data.
+<LI CLASS="li-itemize">sequenceAction( String sep, Operation[] act ), where operate behaves
+similarly to listAction, except that successive elements of act are
+applied to the sequence of Strings, instead of always using the same
+Operation. This is used to process heterogeneous lists of data.
+<LI CLASS="li-itemize">composeAction( Operation op1, Operation op2 ), where operate first
+applies op1 to its argument, then applies op2 to the result.
+<LI CLASS="li-itemize">mapAction( Operation op ), where operate applies op to each element
+of its argument, which must be an array, and returns an array of the
+results.
+<LI CLASS="li-itemize">mapSequenceAction( Operation[] op ), where operate behaves similarly
+to mapAction, except that successive elements of op are applied to
+the elements of the argument in sequence.
+<LI CLASS="li-itemize">convertIntegerToShort, where operate converts an Integer to a Short.
+<LI CLASS="li-itemize">convertAction( Class&lt;?&gt; cls ), where operate constructs an instance
+of cls using its argument as an argument to the constructor. Here
+it is assumed that cls contains a constructor that takes a single
+String as an argument.
+</UL>
+Other Operation implementations can be readily created, but this set
+is sufficient to handle all ORB configuration parsing (except for
+URL parsing, which is currently handled by some classes in the resolver
+package). Extending this framework to handle URL parsing is relatively
+straightforward, but requires the ability to handle optional data
+and alternate forms that is not currently present (essentially something
+like ifAction( predicate, opTrue, opFalse ) would probably take us
+in the right direction).<BR>
+<BR>
+The other issue with this is that composing all of the actions in
+Java is somewhat cumbersome (take a look at ParserTable.makeADOperation
+for an example). A customized language (e.g. some Lisp macros) could
+make this much simpler. Combining this with annotation and code generation
+could reduce the ORB configuration implementation to something like:
+<DIV CLASS="flushleft"><DL CLASS="list" COMPACT="compact"><DT CLASS="dt-list"><DD CLASS="dd-list"><TT>
+@Configuration<BR>
+<BR>
+public&nbsp;interface&nbsp;ORBData&nbsp;{
+</TT><DIV CLASS="flushleft"><DL CLASS="list" COMPACT="compact"><DT CLASS="dt-list"><DD CLASS="dd-list"><TT>
+@Parse(&nbsp;&#8220;&lt;some&nbsp;expression&gt;&#8221;&nbsp;)<BR>
+<BR>
+public&nbsp;String&nbsp;getORBInitialHost()&nbsp;;<BR>
+<BR>
+...
+</TT></DL></DIV><TT>
+}
+</TT></DL></DIV>
+Pursuing this degree of automation is probably more than is justified
+by the needs of the ORB.
+<DIV CLASS="flushleft"><DL CLASS="list" COMPACT="compact"><DT CLASS="dt-list"><DD CLASS="dd-list"></DL></DIV>
+<!--TOC subsubsection PropertyParser-->
+
+<H4 CLASS="subsubsection"><A NAME="htoc28">2.3.1.3</A>&nbsp;&nbsp;PropertyParser<A NAME="sub:PropertyParser"></A></H4><!--SEC END -->
+
+The DataCollector gives us a way to gather multiple sources of configuration
+together into a uniform Properties object, and the Operation framework
+gives us a way to parse Strings into data in many different ways.
+The PropertyParser ties these two mechanisms together so that we can
+parse all of the configuration data in a single operation.<BR>
+<BR>
+A PropertyParser is basically a collection of ParserActions. There
+are two kinds of ParserActions:
+<DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">
+<B>Normal:</B><DD CLASS="dd-description">Here the property name is found in the Properties object,
+and the String associated with the name is transformed into a value.
+<DT CLASS="dt-description"><B>Prefix:</B><DD CLASS="dd-description">Here the property name is a prefix, and all property names
+that start with the prefix are transformed into the value.
+</DL>
+There is a factory class (ParserActionFactory) that is used to create
+the two ParserActions.<BR>
+<BR>
+A PropertyParser is initialized by call its add and addPrefix methods
+to add the ParserActions that are needed in the PropertyParser. These
+methods return the PropertyParser so that they can be chained if necessary.
+Each of these methods takes the following arguments:
+<DL CLASS="description" COMPACT=compact><DT CLASS="dt-description">
+<B>propName</B><DD CLASS="dd-description">which is the property name to which this action is applied
+<DT CLASS="dt-description"><B>action</B><DD CLASS="dd-description">which is the Operation performed by this action
+<DT CLASS="dt-description"><B>fieldName</B><DD CLASS="dd-description">which is the name in the resulting Map in which the result
+of the Operation is stored. This is used later (see sub:Base-Classes-for)
+for storing the results in a configuration object like ORBData.
+</DL>
+There are two other important methods in the PropertyParser. The parse
+method takes a Properties instance and returns a Map from fieldNames
+to the parsed values. This is the main parsing method in the framework.
+The iterator method returns an Iterator over the ParserActions, which
+can be used to find all of the property names in the PropertyParser.
+This is used by the DataCollector to determine which properties are
+required.<BR>
+<BR>
+The following diagram shows the different classes used in the PropertyParser
+implementation:<BR>
+<BR>
+<IMG SRC="orb_notes002.png"><BR>
+<BR>
+<!--TOC subsubsection Base Classes for Parsing Properties-->
+
+<H4 CLASS="subsubsection"><A NAME="htoc29">2.3.1.4</A>&nbsp;&nbsp;Base Classes for Parsing Properties<A NAME="sub:Base-Classes-for"></A></H4><!--SEC END -->
+
+The top of the configuration framework includes classes that can take
+the Map returned from a PropertyParser and use it to update the fields
+in a class that is essentially a read-only JavaBean. This is done
+in ParserImplBase. A further extension to this class in ParserImplTableBase
+allows the use of a table of ParserData to initialize the Parser. <BR>
+<BR>
+The ORB configuration data is represented by the ORBData class. It
+is implemented by ORBDataParserImpl, which extends ParserImplTableBase
+and uses ParserTable (essentially a large ParserData[]) to provide
+the initialization data.<IMG SRC="orb_notes003.png"><BR>
+<BR>
+The ParserData contains the following information:
+<UL CLASS="itemize"><LI CLASS="li-itemize">
+The property name.
+<LI CLASS="li-itemize">The Operation used to parse the information.
+<LI CLASS="li-itemize">The field name into which the parsed configuration data is placed.
+<LI CLASS="li-itemize">The default value which is used when the Properties do not contain
+the property name
+<LI CLASS="li-itemize">Test data and test value which are used to test the Operation. This
+is done automatically in the corba.orbconfig test (see testORBData()).
+</UL>
+Instances of ParserData are created by the factory methods in ParserDataFactory.
+ParserData is implemented by the NormalParserData and PrefixParserData
+classes.<BR>
+<BR>
+<!--TOC subsection Details of ORB.init-->
+
+<H3 CLASS="subsection"><A NAME="htoc30">2.3.2</A>&nbsp;&nbsp;Details of ORB.init<A NAME="sub:Details-of-ORB.init"></A></H3><!--SEC END -->
+
+Initializing an ORB from an ORB.init() call (the two versions that
+have arguments) requires several steps:
+<OL CLASS="enumerate" type=1><LI CLASS="li-enumerate">
+Select the ORB class that needs to be instantiated.
+<LI CLASS="li-enumerate">Create an instance of the class.
+<LI CLASS="li-enumerate">Invoke the set_parameters method on the instance.
+</OL>
+These steps are all standard. The more interesting part is what happens
+in set_parameters.<BR>
+<BR>
+set_parameters proceeds as follows:
+<OL CLASS="enumerate" type=1><LI CLASS="li-enumerate">
+Call the preInit method, which sets up most of the configuration independent
+parts of the ORB (which is not very much). This includes:
+<OL CLASS="enumerate" type=a><LI CLASS="li-enumerate">
+Initializing a PIHandler that does nothing, so that the ORB can perform
+requests before PI has been initialized (which happens near the end).
+<LI CLASS="li-enumerate">Create a ThreadGroup for use by the ORB. This is complicated because
+of some Applet considerations: for details, see the code.
+<LI CLASS="li-enumerate">Set up the transient server ID. This is currently just set to System.currentTimeInMillis.
+<LI CLASS="li-enumerate">Set up the ORBVersion ThreadLocal.
+<LI CLASS="li-enumerate">Initialize some locks.
+<LI CLASS="li-enumerate">Initialize the various registries.
+<LI CLASS="li-enumerate">Set up invocation info ThreadLocal stacks.
+</OL>
+<LI CLASS="li-enumerate">Create a DataCollector that represents the available configuration
+data for use in creating this ORB instance. ORB.init( String args,
+Properties props ) uses the NormalDataCollector, while ORB.init( Applet
+app, Properties props ) uses the AppletDataCollector.
+<LI CLASS="li-enumerate">Call the postInit method, which handles all configuration-dependent
+ORB initialization. This includes:
+<OL CLASS="enumerate" type=a><LI CLASS="li-enumerate">
+Setting up the ORBData. This is simple: just construct configData
+using ORBDataParserImpl and the DataCollector.
+<LI CLASS="li-enumerate">Set up the debug flags.
+<LI CLASS="li-enumerate">Initialize the monitoring manager, the transport manager, and the
+legacy server socket manager.
+<LI CLASS="li-enumerate">Set up another parser (using the Parser framework) to obtain the ORBConfigurator.
+Run the ORBConfigurator.
+<LI CLASS="li-enumerate">Set up the real PIHandler, replacing the no-op version from the beginning
+of the initialization sequence.
+<LI CLASS="li-enumerate">Set up the thread pool manager and the byte buffer pool
+</OL>
+</OL>
+Most of the detailed ORB initialization happens in the ORB configurator,
+which we will examine next.<BR>
+<BR>
+<!--TOC subsubsection The ORB configurator-->
+
+<H4 CLASS="subsubsection"><A NAME="htoc31">2.3.2.1</A>&nbsp;&nbsp;The ORB configurator<A NAME="sub:The-ORB-configurator"></A></H4><!--SEC END -->
+
+We have two mechanisms for customizing the ORB initialization: the
+standard (from PI) ORBInitializer, and the ORBConfigurator. Why two?
+There really is only need for one, except for one really irritating
+problem: the ORBInitializer does not provide direct access to the
+ORB or the ORB configuration data (our DataCollector). We also want
+to be able to have ORB extension parse configuration properties that
+are not even known in the base ORB configuration (although we don't
+currently make use of this). So I chose to create the ORBConfigurator
+interface.<BR>
+<BR>
+Looking back on this now, there is an alternative that may have been
+better: simply extend ORBInitInfo with an internal SPI so that we
+could access the ORB directly. The current situation is the result
+of a spec compromise: no one could agree on what operations should
+be allowed on an ORB instance while it's in the process of initialization,
+so a facade object (ORBInitInfo) was specified that sharply restricts
+what can be done with the underlying ORB instance. Of course, this
+makes it hard to access anyone's ORB extensions from inside an ORBInitializer.<BR>
+<BR>
+The current ORBConfigurator we use is replaceable, as is obvious from
+the use of the parser to obtain it. For example, we could replace
+the current Java-code driven approach with an XML-based approach,
+a Lisp-Sexpression approach, something based on the JINI config language
+(which is an interpreted simple subset of Java), or some other mechanism.
+But this does not seem to be needed today.<BR>
+<BR>
+Here is what the ORBConfiguratorImpl configure method does:
+<OL CLASS="enumerate" type=1><LI CLASS="li-enumerate">
+Initialize the default object copiers. This is overridden in the app
+server init. Object copiers are discussed in more detail in sec:Fast-Object-Copying.
+<LI CLASS="li-enumerate">Initialize IOR machinery (see sec:IORs for more details).
+This involves:
+<OL CLASS="enumerate" type=a><LI CLASS="li-enumerate">
+Setting up the tagged profile and tagged profile template factories.
+<LI CLASS="li-enumerate">Registering the tagged component factories. This could be extended
+by the app server init to include CSIv2 related tagged components,
+which would remove the need for using the very slow codec APIs.
+<LI CLASS="li-enumerate">Registering the ValueFactory instances for the ObjectReferenceTemplate
+(this is needed so that the ORB knows how to marshal these classes,
+since their public interface is an abstract value type).
+<LI CLASS="li-enumerate">Register the ObjectKeyFactory.
+</OL>
+<LI CLASS="li-enumerate">Register the ClientDelegateFactory.
+<LI CLASS="li-enumerate">Initialize the transport. As noted in the comments, this is complicated
+because we support several legacy mechanisms for initialization. The
+more preferred mechanism for intializing the transport is simply to
+register all required Acceptor instances (but we need a better framework
+for creating Acceptors easily, I suspect). But we also have the older
+SocketFactory mechanism, as well as a number of even older configuration
+parameters. See sec:Transport-Design for a discussion about
+the transport design.
+<LI CLASS="li-enumerate">Initialize naming. This really means setting up the resolvers for
+resolve_initial_references and related methods. This provides access
+to a name service through either the old bootstrap or the standard
+INS mechanisms. Resolvers are discussed in sec:Resolvers.
+<LI CLASS="li-enumerate">Initializer the service context registry. Just as in the IOR case,
+this could be extended by the app server init to include CSIv2 related
+service contexts, again avoiding the need for using the codec APIs.
+<LI CLASS="li-enumerate">Initialize the request dispatcher registry. This is the central mechanism
+that ties all of the code together that is needed for invoking and
+dispatching in the ORB. This includes:
+<OL CLASS="enumerate" type=a><LI CLASS="li-enumerate">
+Registering ClientRequestDispatchers and ServerRequestDispatchers.
+<LI CLASS="li-enumerate">Registering the special ServerRequestDispatcher used for INS (this
+one has no object adapter).
+<LI CLASS="li-enumerate">Registering the LocalClientRequestDispatchers, which are used for
+co-located requests. This includes all of the servant caching optimizations.
+One small note on this: we could extend the optimizations significantly
+to cache the servant in ALL cases, and then have the POA invalidate
+the cache when necessary. Currently we assume that we are caching
+only in the ServantLocator case, and we assume that the ServantLocator
+always returns the same instance for the same object reference. What
+we have now is fully effective for the App Server, so there has been
+little incentive to re-visit this issue.
+<LI CLASS="li-enumerate">register the ServerRequestDispatcher used to handle the bootstrap
+mechanism.
+<LI CLASS="li-enumerate">Register the ObjectAdapterFactories.
+</OL>
+Much of this registration is driven by subcontract IDs. See sec:Subcontract-IDsfor
+more details.<BR>
+<BR>
+<LI CLASS="li-enumerate">Register the initial reference for dynamic any support.
+<LI CLASS="li-enumerate">Handle the psersistent server initialization.
+</OL>
+<!--TOC subsection Initializing the ORB in the App Server-->
+
+<H3 CLASS="subsection"><A NAME="htoc32">2.3.3</A>&nbsp;&nbsp;Initializing the ORB in the App Server<A NAME="sub:Initializing-the-ORB"></A></H3><!--SEC END -->
+
+TBD<BR>
+<BR>
+portable interceptors<BR>
+<BR>
+PEORBConfigurator<BR>
+<BR>
+The ORBManager<BR>
+<BR>
+<!--TOC section ORB Shutdown-->
+
+<H2 CLASS="section"><A NAME="htoc33">2.4</A>&nbsp;&nbsp;ORB Shutdown</H2><!--SEC END -->
+
+The primary issue in starting up the ORB is simply to configure all
+of the data needed for running the ORB. In contrast, shutdown must
+carefully control access to the ORB so that spurious errors do not
+occur in requests that are in the middle of being processed.<BR>
+<BR>
+Details TBD.<BR>
+<BR>
+<!--TOC chapter Dispatch Path Overview-->
+
+<H1 CLASS="chapter"><A NAME="htoc34">Chapter&nbsp;3</A>&nbsp;&nbsp;Dispatch Path Overview<A NAME="cha:Dispatch-Path"></A></H1><!--SEC END -->
+
+Here is a simplified sequence diagram describing the overall ORB dispatch
+path:<BR>
+<BR>
+<IMG SRC="orb_notes004.png">(discuss this at a high level)<BR>
+<BR>
+The next few chapters look at this in more detail through the PEPt
+model.<BR>
+<BR>
+<!--TOC chapter Presentation-->
+
+<H1 CLASS="chapter"><A NAME="htoc35">Chapter&nbsp;4</A>&nbsp;&nbsp;Presentation<A NAME="cha:Presentation"></A></H1><!--SEC END -->
+
+<!--TOC section Stubs and Skeletons-->
+
+<H2 CLASS="section"><A NAME="htoc36">4.1</A>&nbsp;&nbsp;Stubs and Skeletons<A NAME="sec:Stubs-and-Skeletons"></A></H2><!--SEC END -->
+
+See mapping specs and dynamic RMI-IIOP document<BR>
+<BR>
+<!--TOC section Data types-->
+
+<H2 CLASS="section"><A NAME="htoc37">4.2</A>&nbsp;&nbsp;Data types</H2><!--SEC END -->
+
+IDL: basics<BR>
+<BR>
+IDL: typecode and any<BR>
+<BR>
+Java addtions and value types<BR>
+<BR>
+<!--TOC chapter Encoding-->
+
+<H1 CLASS="chapter"><A NAME="htoc38">Chapter&nbsp;5</A>&nbsp;&nbsp;Encoding<A NAME="cha:Encoding"></A></H1><!--SEC END -->
+
+impl.encoding<BR>
+<BR>
+impl.io<BR>
+<BR>
+impl.util<BR>
+<BR>
+<!--TOC section Repository IDs-->
+
+<H2 CLASS="section"><A NAME="htoc39">5.1</A>&nbsp;&nbsp;Repository IDs<A NAME="sec:Repository-IDs"></A></H2><!--SEC END -->
+
+<!--TOC chapter Protocol-->
+
+<H1 CLASS="chapter"><A NAME="htoc40">Chapter&nbsp;6</A>&nbsp;&nbsp;Protocol<A NAME="cha:Protocol"></A></H1><!--SEC END -->
+
+impl.protocol<BR>
+<BR>
+impl.protocol.giopmsgheaders<BR>
+<BR>
+<!--TOC section Subcontract IDs-->
+
+<H2 CLASS="section"><A NAME="htoc41">6.1</A>&nbsp;&nbsp;Subcontract IDs<A NAME="sec:Subcontract-IDs"></A></H2><!--SEC END -->
+
+<!--TOC section IORs-->
+
+<H2 CLASS="section"><A NAME="htoc42">6.2</A>&nbsp;&nbsp;IORs<A NAME="sec:IORs"></A></H2><!--SEC END -->
+
+<!--TOC section Service Contexts-->
+
+<H2 CLASS="section"><A NAME="htoc43">6.3</A>&nbsp;&nbsp;Service Contexts<A NAME="sec:Service-Contexts"></A></H2><!--SEC END -->
+
+<!--TOC section GIOP Message Representation-->
+
+<H2 CLASS="section"><A NAME="htoc44">6.4</A>&nbsp;&nbsp;GIOP Message Representation</H2><!--SEC END -->
+
+<!--TOC chapter Transport-->
+
+<H1 CLASS="chapter"><A NAME="htoc45">Chapter&nbsp;7</A>&nbsp;&nbsp;Transport<A NAME="cha:Transport"></A></H1><!--SEC END -->
+
+The transport is responsible for handling the transfer of data to
+and from endpoints. Connection management is also an important part
+of the transport, since we most commonly use GIOP as a protocol, and
+GIOP is connection based. We also include here the logic that is used
+to decide which of several possible endpoints should be used for a
+connection. <BR>
+<BR>
+The client and the server roles in a CORBA request are distinct, but
+both are event driven: messages are normally received by a selector
+thread. The client simply needs to get a connection, write the messages
+to the connection, and wait for a response. The server is event driven:
+it responds to messages received. The server also contains acceptors,
+which represent endpoints on which the server listens for new connections, <BR>
+<BR>
+connection management<BR>
+<BR>
+mapping endpoints to sockets<BR>
+<BR>
+message tracing<BR>
+<BR>
+acceptors<BR>
+<BR>
+listener<BR>
+<BR>
+selector<BR>
+<BR>
+<!--TOC chapter Other Aspects of the ORB-->
+
+<H1 CLASS="chapter"><A NAME="htoc46">Chapter&nbsp;8</A>&nbsp;&nbsp;Other Aspects of the ORB<A NAME="cha:Other-Aspects-of"></A></H1><!--SEC END -->
+
+<!--TOC section Object Adapters-->
+
+<H2 CLASS="section"><A NAME="htoc47">8.1</A>&nbsp;&nbsp;Object Adapters<A NAME="sec:Object-Adapters"></A></H2><!--SEC END -->
+
+<!--TOC section The RequestDispatcherRegistry-->
+
+<H2 CLASS="section"><A NAME="htoc48">8.2</A>&nbsp;&nbsp;The RequestDispatcherRegistry<A NAME="sec:The-RequestDispatcherRegistry"></A></H2><!--SEC END -->
+
+<!--TOC section Encoding Details-->
+
+<H2 CLASS="section"><A NAME="htoc49">8.3</A>&nbsp;&nbsp;Encoding Details<A NAME="sec:Encoding-Details"></A></H2><!--SEC END -->
+
+<!--TOC section ORB Logging-->
+
+<H2 CLASS="section"><A NAME="htoc50">8.4</A>&nbsp;&nbsp;ORB Logging<A NAME="sec:ORB-Logging"></A></H2><!--SEC END -->
+
+<!--TOC section ORB Monitoring-->
+
+<H2 CLASS="section"><A NAME="htoc51">8.5</A>&nbsp;&nbsp;ORB Monitoring<A NAME="sec:ORB-Monitoring"></A></H2><!--SEC END -->
+
+<!--TOC section ORB versioning-->
+
+<H2 CLASS="section"><A NAME="htoc52">8.6</A>&nbsp;&nbsp;ORB versioning<A NAME="sec:ORB-versioning"></A></H2><!--SEC END -->
+
+<!--TOC section ORBD and Server Activation-->
+
+<H2 CLASS="section"><A NAME="htoc53">8.7</A>&nbsp;&nbsp;ORBD and Server Activation<A NAME="sec:ORBD-and-Server"></A></H2><!--SEC END -->
+
+<!--TOC subsection current model-->
+
+<H3 CLASS="subsection"><A NAME="htoc54">8.7.1</A>&nbsp;&nbsp;current model<A NAME="sub:current-model"></A></H3><!--SEC END -->
+
+<!--TOC subsection ideas for using ORT-->
+
+<H3 CLASS="subsection"><A NAME="htoc55">8.7.2</A>&nbsp;&nbsp;ideas for using ORT<A NAME="sub:ideas-for-using"></A></H3><!--SEC END -->
+
+<!--TOC section Portable Interceptors-->
+
+<H2 CLASS="section"><A NAME="htoc56">8.8</A>&nbsp;&nbsp;Portable Interceptors<A NAME="sec:Portable-Interceptors"></A></H2><!--SEC END -->
+
+<!--TOC section RMI-IIOP Implementation-->
+
+<H2 CLASS="section"><A NAME="htoc57">8.9</A>&nbsp;&nbsp;RMI-IIOP Implementation<A NAME="sec:RMI-IIOP-Implementation"></A></H2><!--SEC END -->
+
+<!--TOC section Resolvers-->
+
+<H2 CLASS="section"><A NAME="htoc58">8.10</A>&nbsp;&nbsp;Resolvers<A NAME="sec:Resolvers"></A></H2><!--SEC END -->
+
+<!--TOC section Name Services-->
+
+<H2 CLASS="section"><A NAME="htoc59">8.11</A>&nbsp;&nbsp;Name Services<A NAME="sec:Name-Services"></A></H2><!--SEC END -->
+
+<!--TOC section ORB and App Server Integration-->
+
+<H2 CLASS="section"><A NAME="htoc60">8.12</A>&nbsp;&nbsp;ORB and App Server Integration<A NAME="sec:ORB-and-App"></A></H2><!--SEC END -->
+
+<!--TOC chapter Utilities-->
+
+<H1 CLASS="chapter"><A NAME="htoc61">Chapter&nbsp;9</A>&nbsp;&nbsp;Utilities<A NAME="cha:Utilities"></A></H1><!--SEC END -->
+
+<!--TOC section Fast Object Copying-->
+
+<H2 CLASS="section"><A NAME="htoc62">9.1</A>&nbsp;&nbsp;Fast Object Copying<A NAME="sec:Fast-Object-Copying"></A></H2><!--SEC END -->
+
+<!--TOC section Dynamic Code Generation-->
+
+<H2 CLASS="section"><A NAME="htoc63">9.2</A>&nbsp;&nbsp;Dynamic Code Generation<A NAME="sec:Dynamic-Code-Generation"></A></H2><!--SEC END -->
+
+<!--TOC section Useful utilities-->
+
+<H2 CLASS="section"><A NAME="htoc64">9.3</A>&nbsp;&nbsp;Useful utilities<A NAME="sec:Useful-utilities"></A></H2><!--SEC END -->
+
+<!--TOC section FSM Framework-->
+
+<H2 CLASS="section"><A NAME="htoc65">9.4</A>&nbsp;&nbsp;FSM Framework<A NAME="sec:FSM-Framework"></A></H2><!--SEC END -->
+
+<!--TOC section Graph Utilities-->
+
+<H2 CLASS="section"><A NAME="htoc66">9.5</A>&nbsp;&nbsp;Graph Utilities<A NAME="sec:Graph-Utilities"></A></H2><!--SEC END -->
+
+<!--TOC section JDK 5 Specific Utilities-->
+
+<H2 CLASS="section"><A NAME="htoc67">9.6</A>&nbsp;&nbsp;JDK 5 Specific Utilities<A NAME="sec:JDK-5-Specific"></A></H2><!--SEC END -->
+
+<!--TOC section Timing Framework-->
+
+<H2 CLASS="section"><A NAME="htoc68">9.7</A>&nbsp;&nbsp;Timing Framework<A NAME="sec:Timing-Framework"></A></H2><!--SEC END -->
+
+<!--TOC chapter Living with our legacy-->
+
+<H1 CLASS="chapter"><A NAME="htoc69">Chapter&nbsp;10</A>&nbsp;&nbsp;Living with our legacy<A NAME="cha:Living-with-our"></A></H1><!--SEC END -->
+
+<!--TOC section Testing Principles-->
+
+<H2 CLASS="section"><A NAME="htoc70">10.1</A>&nbsp;&nbsp;Testing Principles<A NAME="sec:Testing-Principles"></A></H2><!--SEC END -->
+
+<!--TOC section Benchmarking-->
+
+<H2 CLASS="section"><A NAME="htoc71">10.2</A>&nbsp;&nbsp;Benchmarking<A NAME="sec:Benchmarking"></A></H2><!--SEC END -->
+
+<!--TOC section FOLB Support-->
+
+<H2 CLASS="section"><A NAME="htoc72">10.3</A>&nbsp;&nbsp;FOLB Support<A NAME="sec:FOLB-Support"></A></H2><!--SEC END -->
+
+<!--TOC section HWLB Support-->
+
+<H2 CLASS="section"><A NAME="htoc73">10.4</A>&nbsp;&nbsp;HWLB Support<A NAME="sec:HWLB-Support"></A></H2><!--SEC END -->
+
+<!--TOC chapter Compilers-->
+
+<H1 CLASS="chapter"><A NAME="htoc74">Chapter&nbsp;11</A>&nbsp;&nbsp;Compilers<A NAME="cha:Compilers"></A></H1><!--SEC END -->
+
+<!--TOC section New rmic iiop backend-->
+
+<H2 CLASS="section"><A NAME="htoc75">11.1</A>&nbsp;&nbsp;New rmic iiop backend<A NAME="sec:New-rmic-iiop"></A></H2><!--SEC END -->
+
+<!--TOC section idlj-->
+
+<H2 CLASS="section"><A NAME="htoc76">11.2</A>&nbsp;&nbsp;idlj<A NAME="sec:idlj"></A></H2><!--SEC END -->
+
+<!--TOC chapter Future Directions-->
+
+<H1 CLASS="chapter"><A NAME="htoc77">Chapter&nbsp;12</A>&nbsp;&nbsp;Future Directions<A NAME="cha:Future-Directions"></A></H1><!--SEC END -->
+
+<!--TOC section Embedded Languages-->
+
+<H2 CLASS="section"><A NAME="htoc78">12.1</A>&nbsp;&nbsp;Embedded Languages<A NAME="sec:Embedded-Languages"></A></H2><!--SEC END -->
+
+<!--TOC section Components-->
+
+<H2 CLASS="section"><A NAME="htoc79">12.2</A>&nbsp;&nbsp;Components<A NAME="sec:Components"></A></H2><!--SEC END -->
+
+<!--TOC section Fast Marshalling-->
+
+<H2 CLASS="section"><A NAME="htoc80">12.3</A>&nbsp;&nbsp;Fast Marshalling<A NAME="sec:Fast-Marshalling"></A></H2><!--SEC END -->
+
+<!--TOC section Security-->
+
+<H2 CLASS="section"><A NAME="htoc81">12.4</A>&nbsp;&nbsp;Security<A NAME="sec:Security"></A></H2><!--SEC END -->
+
+include security document here (that I was working on for a while
+last summer)<BR>
+<BR>
+<!--TOC section Better handling of Invocation Info-->
+
+<H2 CLASS="section"><A NAME="htoc82">12.5</A>&nbsp;&nbsp;Better handling of Invocation Info<A NAME="sec:Better-handling-of"></A></H2><!--SEC END -->
+
+<!--HTMLFOOT-->
+<!--ENDHTML-->
+<!--FOOTER-->
+<HR SIZE=2><BLOCKQUOTE CLASS="quote"><EM>This document was translated from L<sup>A</sup>T<sub>E</sub>X by
+</EM><A HREF="http://pauillac.inria.fr/~maranget/hevea/index.html"><EM>H<FONT SIZE=2><sup>E</sup></FONT>V<FONT SIZE=2><sup>E</sup></FONT>A</EM></A><EM>.</EM></BLOCKQUOTE></BODY>
+</HTML>

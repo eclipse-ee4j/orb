@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<project name="corba-main" default="all" basedir="..">
+    <description>
+        This is the Ant file that builds the GlassFish ORB.
+    </description>
+
+    <import file="src-build.xml"/>
+    <property name="build.compiler" value="extJavac"/>
+
+    <target name="init" depends="corba-src.init">
+        <property name="test.src.dir"                   value="${root.dir}/test/src/share/classes"/>
+
+        <!-- ORB Test directories -->
+
+        <property name="test"                           value="*JUnitTest"/>
+        <property name="test.run.base"                  value="${root.dir}/test/run"/>
+        <property name="test.output"                    value="${test.run.base}/gen"/>
+        <property name="junit.reports"                  value="${test.run.base}/junitreports"/>
+        <property name="test-build.dir"                 location="${root.dir}/test/build"/>
+        <property name="test-classes.dir"               location="${test-build.dir}/classes"/>
+        <property name="test-values1.dir"               location="${test-build.dir}/values1/classes"/>
+        <property name="test-values2.dir"               location="${test-build.dir}/values2/classes"/>
+        <property name="test-gensrc.dir"                location="${test-build.dir}/gensrc"/>
+
+        <mkdir dir="${test-classes.dir}"/>
+        <mkdir dir="${test-values1.dir}"/>
+        <mkdir dir="${test-values2.dir}"/>
+        <mkdir dir="${test-gensrc.dir}"/>
+
+        <path id="test-classpath.master">
+            <path refid="classpath.master"/>
+            <pathelement location="${mavenized.test.classes}"/>
+            <pathelement location="${test-classes.dir}"/>
+            <pathelement location="${test-gensrc.dir}"/>
+            <pathelement location="${test.output}"/>
+            <pathelement location="${test-values1.dir}"/>
+            <pathelement location="${test.src.dir}"/>
+        </path>
+
+        <pathconvert property="test.source.path">
+            <path>
+                <pathelement location="${src.dir}"/>
+                <pathelement location="${test.src.dir}"/>
+                <pathelement location="${test.output}"/>
+            </path>
+        </pathconvert>
+    </target>
+
+    <!-- ========================= COMPILE-TESTS ========================= -->
+    <!-- This target compiles all the ORB unit tests -->
+    <target name="build-tests" depends="init, compile-tests"/>
+
+    <target name="compile-tests" depends="init, compile-tests-main, compile-tests-values"/>
+
+    <target name="compile-tests-main" depends="init, compile-tests-main-gen, compile-tests-main-nongen"/>
+
+    <target name="compile-tests-main-gen" depends="init">
+        <echo message="Compiling all tests"/>
+        <mkdir dir="${test-classes.dir}"/>
+        <javac destdir="${test-classes.dir}" 
+                classpathref="test-classpath.master"
+                deprecation="${deprecation}"
+                debug="${javac.debug}" 
+                optimize="${javac.optimize}"
+                fork="true"
+                memoryMaximumSize="512m"> 
+            <src path="${test-gensrc.dir}"/>
+            <include name="**"/>
+
+            <!-- Exclude these files because they are compiled to a different
+                 destdir in the compile-values target -->
+            <exclude name="values1/**"/>
+            <exclude name="values2/**"/>
+
+            <!-- Following files are excluded from compilation
+                because they are either compiled during running of the tests
+                or not compiled at all.  -->
+            <exclude name="corba/strm2/class*/**"/>
+            <exclude name="corba/evolve/original/**"/>
+            <exclude name="corba/evolve/evolved/UserName.java"/>
+            <exclude name="corba/example/Client.java"/>
+            <exclude name="corba/example/Server.java"/>
+            <exclude name="corba/driinvocation/**"/>
+            <exclude name="corba/tcpreadtimeout/**"/>
+
+            <!-- Exclude test where the generated IDL REQUIRES a value impl (ugh! what a bad idea!) -->
+            <exclude name="corba/hcks/**"/>
+            <exclude name="CodeSetTester/**"/>
+
+            <!-- Excluded until we get the test moved to the JDK XML classes -->
+            <exclude name="corba/genericRPCMSGFramework/**"/>
+
+            <exclude name="hopper/h4549085/Server.java"/>
+            <exclude name="hopper/h4549085/Client.java"/>
+            <exclude name="hopper/h4620926/Server.java"/>
+            <exclude name="hopper/h4620926/Client.java"/>
+            <exclude name="hopper/h4670827/HelloImpl.java"/>
+            <exclude name="hopper/h4670827/Client.java"/>
+            <exclude name="hopper/h4670827/INSServer.java"/>
+            <exclude name="hopper/h4670827/TestConstants.java"/>
+
+            <exclude name="naming/pcosnaming/hello*"/>
+            <exclude name="naming/instest/Client.java*"/>
+            <exclude name="naming/instest/INSServer.java"/>
+            <exclude name="naming/instest/HelloImpl.java"/>
+
+            <exclude name="javax/rmi/CORBA/io/**"/>
+            <exclude name="java/**"/>
+
+            <!--exclude name="corba/dynamicrmiiiop/testclasses/**"/-->
+        </javac>
+    </target>
+
+    <target name="compile-tests-main-nongen" depends="init">
+        <echo message="Compiling all tests"/>
+        <javac destdir="${test-classes.dir}" 
+                classpathref="test-classpath.master"
+                deprecation="${deprecation}"
+                debug="${javac.debug}" 
+                optimize="${javac.optimize}"
+                fork="true"
+                memoryMaximumSize="512m"> 
+            <src path="${test-gensrc.dir}"/>
+            <src path="${test.src.dir}"/>
+            <include name="**"/>
+            <!-- Exclude these files because they are compiled to a different
+                 destdir in the compile-values target -->
+            <exclude name="values1/**"/>
+            <exclude name="values2/**"/>
+            <!-- Following files are excluded from compilation
+                because they are either compiled during running of the tests
+                or not compiled at all.  -->
+            <exclude name="corba/strm2/class*/**"/>
+            <exclude name="corba/evolve/original/**"/>
+            <exclude name="corba/evolve/evolved/UserName.java"/>
+            <exclude name="corba/example/Client.java"/>
+            <exclude name="corba/example/Server.java"/>
+            <exclude name="corba/driinvocation/**"/>
+            <exclude name="corba/tcpreadtimeout/**"/>
+
+            <exclude name="hopper/h4549085/Server.java"/>
+            <exclude name="hopper/h4549085/Client.java"/>
+            <exclude name="hopper/h4620926/Server.java"/>
+            <exclude name="hopper/h4620926/Client.java"/>
+            <exclude name="hopper/h4670827/HelloImpl.java"/>
+            <exclude name="hopper/h4670827/Client.java"/>
+            <exclude name="hopper/h4670827/INSServer.java"/>
+            <exclude name="hopper/h4670827/TestConstants.java"/>
+
+            <exclude name="naming/pcosnaming/hello*"/>
+            <exclude name="naming/instest/Client.java*"/>
+            <exclude name="naming/instest/INSServer.java"/>
+            <exclude name="naming/instest/HelloImpl.java"/>
+
+            <exclude name="javax/rmi/CORBA/io/**"/>
+            <exclude name="java/**"/>
+
+            <!--exclude name="corba/dynamicrmiiiop/testclasses/**"/-->
+        </javac>
+    </target>
+
+    <target name="compile-tests-values" depends="init">
+        <!-- Compile the values classes separately so that we can
+             control how and if they are in the classpath.
+             values1 and values2 contain different versions of the
+             same classes for testing class evolution.
+        -->
+        <mkdir dir="${test-values1.dir}"/>
+        <javac destdir="${test-values1.dir}" 
+                classpathref="test-classpath.master"
+                deprecation="${deprecation}"
+                debug="${javac.debug}" 
+                optimize="${javac.optimize}"
+                failonerror="true">
+            <src path="${test.src.dir}/values1"/>
+            <include name="**"/>
+        </javac>
+        <mkdir dir="${test-values2.dir}"/>
+        <javac destdir="${test-values2.dir}" 
+                classpathref="test-classpath.master"
+                deprecation="${deprecation}"
+                debug="${javac.debug}" 
+                optimize="${javac.optimize}"
+                failonerror="true">
+            <src path="${test.src.dir}/values2"/>
+            <include name="**"/>
+        </javac>
+    </target>
+
+
+    <!-- Macro used to run CTF tests.  
+         Some of these are also junit tests, but cannot be run directly under the junit ant task. -->
+    <macrodef name="run-test">
+        <attribute name="args"/>
+        <sequential>
+            <echo message="Called run-test with args=@{args}"/>
+            <java classname="test.Test" classpathref="test-classpath.master" fork="true" dir="${test.run.base}">
+                <jvmarg value="-Djavax.rmi.CORBA.UtilClass=com.sun.corba.ee.impl.javax.rmi.CORBA.Util"/>
+                <jvmarg value="-Djavax.rmi.CORBA.StubClass=com.sun.corba.ee.impl.javax.rmi.CORBA.StubDelegateImpl"/>
+                <jvmarg value="-Djavax.rmi.CORBA.PortableRemoteObjectClass=com.sun.corba.ee.impl.javax.rmi.PortableRemoteObject"/>
+
+                <!--
+                <jvmarg value="-Dcorba.test.orb.classpath=${classes.dir}:${orblib.classes.dir}:${gmbal-jar}:${management-api-jar}"/>
+                -->
+                <jvmarg value="-Dcorba.test.orb.classpath=${toString:test-classpath.master}"/>
+
+                <!-- add this to debug use of JUnitReportHelper:
+                <jvmarg value="-Dcorba.test.junit.helper.debug=true"/>
+                -->
+                <jvmarg value="-Dhttp.server.port=${http.server.port}"/>
+                <jvmarg value="-Djava.rmi.server.codebase=http://localhost:${http.server.port}/"/>
+                <jvmarg value="-Dhttp.server.root.directory=${test-build.dir}/values2/classes"/>
+                <jvmarg value="-Djava.security.policy=../src/share/classes/test.policy"/>
+                <jvmarg value="-Djava.security.debug=debug"/>
+                <jvmarg value="-Dorg.omg.CORBA.ORBClass=com.sun.corba.ee.impl.orb.ORBImpl"/>
+                <jvmarg value="-Dorg.omg.CORBA.ORBSingletonClass=com.sun.corba.ee.impl.orb.ORBSingleton"/>
+                <jvmarg value="-Dcom.sun.corba.ee.POA.ORBServerId=1"/>
+                <jvmarg value="-Dcom.sun.corba.ee.ORBBase=${basedir}"/>
+                <jvmarg value="-Dcom.sun.corba.ee.test.sourcepath=${test.source.path}"/>
+                <jvmarg value="-Dcom.sun.corba.ee.ORBUseDynamicStub=${use.dynamic.stub}"/>
+                <jvmarg value="-Dcom.sun.corba.ee.ORBUseCodegenReflectiveCopyobject=${use.codegen.copyobject}"/>
+                <jvmarg value="-Dcom.sun.corba.ee.encoding.ORBEnableJavaSerialization=${use.java.serialization}"/>
+                <jvmarg value="-Dcom.sun.corba.ee.ORBDebugForkedProcess=${debug.forked.process}"/>
+                <jvmarg value="-Dcom.sun.corba.ee.ORBDebugStubGeneration=false"/>
+                <jvmarg value="-Djunit.report.dir=junitreports"/>
+
+                <jvmarg line="${debug.args}"/>
+                <jvmarg value="-Xmx200m"/>
+                <!-- was:
+                <arg line="-file ../src/share/classes/@{testfile}"/>
+                <arg value="-verbose"/>
+                -->
+
+                <arg line="@{args}"/>
+
+                <!-- Uncomment this to dump information about arguments to forked processes. 
+                <arg line="-forkdebuglevel 1"/>
+                -->
+                <arg line="-output gen"/>
+            </java>
+        </sequential>
+    </macrodef>
+
+
+    <!-- Macro used to run junit tests directly. -->
+    <macrodef name="run-junit-test">
+        <element name="test-cases" optional="no"/>
+        <sequential>
+            <!-- <run-test args="-file ../src/share/classes/corba/CopyObjectTests.tdesc -verbose"/> 
+            <run-test args="-test corba.copyobjectpolicy.CopyObjectPolicyTest -verbose"/> -->
+            <junit printsummary="on" fork="on" forkmode="perTest" newenvironment="true" maxmemory="200M" showoutput="true" dir="${test.run.base}">
+                <sysproperty key="javax.rmi.CORBA.UtilClass" value="com.sun.corba.ee.impl.javax.rmi.CORBA.Util"/>
+                <sysproperty key="javax.rmi.CORBA.StubClass" value="com.sun.corba.ee.impl.javax.rmi.CORBA.StubDelegateImpl"/>
+                <sysproperty key="javax.rmi.CORBA.PortableRemoteObjectClass" value="com.sun.corba.ee.impl.javax.rmi.PortableRemoteObject"/>
+                <!--
+                <sysproperty key="corba.test.orb.classpath" value="${classes.dir}:${orblib.classes.dir}"/>
+                -->
+                <sysproperty key="corba.test.orb.classpath" value="${toString:test-classpath.master}"/>
+                <sysproperty key="http.server.port" value="${http.server.port}"/>
+                <sysproperty key="java.rmi.server.codebase" value="http://localhost:${http.server.port}/"/>
+                <sysproperty key="http.server.root.directory" value="${test-build.dir}/values2/classes"/>
+                <sysproperty key="java.security.policy" value="../src/share/classes/test.policy"/>
+                <sysproperty key="java.security.debug" value="debug"/>
+                <sysproperty key="org.omg.CORBA.ORBClass" value="com.sun.corba.ee.impl.orb.ORBImpl"/>
+                <sysproperty key="org.omg.CORBA.ORBSingletonClass" value="com.sun.corba.ee.impl.orb.ORBSingleton"/>
+                <sysproperty key="com.sun.corba.ee.POA.ORBServerId" value="1"/>
+                <sysproperty key="com.sun.corba.ee.ORBBase" value="${basedir}"/>
+                <sysproperty key="com.sun.corba.ee.test.sourcepath" value="${test.source.path}"/>
+                <sysproperty key="com.sun.corba.ee.ORBUseDynamicStub" value="${use.dynamic.stub}"/>
+                <sysproperty key="com.sun.corba.ee.ORBUseCodegenReflectiveCopyobject" value="${use.codegen.copyobject}"/>
+                <sysproperty key="com.sun.corba.ee.encoding.ORBEnableJavaSerialization" value="${use.java.serialization}"/>
+                <sysproperty key="com.sun.corba.ee.ORBDebugForkedProcess" value="${debug.forked.process}"/>
+                <sysproperty key="com.sun.corba.ee.ORBDebugStubGeneration" value="false"/>
+                <sysproperty key="junit.report.dir" value="junitreports"/>
+                <classpath>
+                    <path refid="test-classpath.master"/>
+                </classpath> 
+                <jvmarg line="${debug.args}"/>
+                <formatter type="xml"/>
+                <test-cases/>
+            </junit>
+        </sequential>
+    </macrodef>
+
+    <target name="test-init" depends="init">
+        <condition property="use.java.serialization" value="true" else="false">
+            <equals arg1="${env.JAVA_SERIALIZATION}" arg2="1"/>
+        </condition>
+
+        <condition property="debug.forked.process" value="true" else="false">
+            <equals arg1="${env.DEBUGGER}" arg2="1"/>
+        </condition>
+
+        <condition property="debug.args" value="-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,server=y,suspend=y" else="">
+            <equals arg1="${env.DEBUGGER}" arg2="1"/>
+        </condition> 
+
+        <condition property="debug.args" value="-Xrunoii intuitive.audit.Audit -port 31900 -pause -noexit -startCPUprofiler:type=instrumentation,precision=micro">
+            <equals arg1="${env.DEBUGGER}" arg2="2"/>
+        </condition> 
+
+        <condition property="use.dynamic.stub" value="false" else="true">
+            <equals arg1="${env.STATIC_STUB}" arg2="1"/>
+        </condition> 
+
+        <condition property="use.codegen.copyobject" value="true" else="false">
+            <equals arg1="${env.CODEGEN_COPYOBJECT}" arg2="1"/>
+        </condition>
+
+        <mkdir dir="${test.output}"/>
+        <mkdir dir="${junit.reports}"/>
+        
+        <!-- RMI_IIOP_WEB_SERVER is set in Hudson job to guarantee a free port. -->
+        <property name="set.http.server.port" value="${env.RMI_IIOP_WEB_SERVER}"/>
+
+        <condition property="http.server.port" value="9090" else="${set.http.server.port}">
+            <matches string="${set.http.server.port}" pattern="env.RMI_IIOP_WEB_SERVER"/>
+        </condition>
+
+        <echo message="debug.args=${debug.args}"/>
+        <echo message="use.dynamic.stub=${use.dynamic.stub}"/>
+        <echo message="use.java.serialization=${use.java.serialization}"/>
+        <echo message="use.codegen.copyobject=${use.codegen.copyobject}"/>
+        <echo message="http.server.port=${http.server.port}"/>
+        <echo message="classpath=${toString:test-classpath.master}"/>
+    </target>
+
+    <target name="run-test-target" depends="test-init">
+        <property environment="env"/>
+        <property name="test-args" value="${env.TEST_ARGS}"/>
+        <run-test args="${test-args}"/>
+    </target>
+
+    <target name="test" depends="test-init, build-tests, test-all"/>
+
+    <target name="test-all" depends="clean-test-output, test-init, test-rmi-iiop, test-corba, test-pi, test-naming, test-hopper, test-mantis, test-perf"/>
+
+    <target name="run-test-target-with-args" depends="test-init, build-tests">
+        <run-test args="${test-args}"/>
+    </target>
+
+    <target name="archive-test-results" depends="test-init">
+        <jar jarfile="${releaselib.dir}/test-results.jar">
+            <fileset dir="${test.output}">
+                <include name="*"/>
+            </fileset>
+        </jar>
+    </target>
+
+    <target name="clean-tests" depends="corba-src.clean-tests, init">
+        <delete dir="${test.run.base}"/>
+        <delete dir="${test-build.dir}"/>
+    </target>
+
+    <target name="clean-test-output" depends="init">
+        <delete dir="${test.run.base}" quiet="false"/>
+    </target>
+
+    <target name="test-rmi-iiop" depends="clean-test-output, test-init">
+        <java classname="com.sun.corba.ee.impl.util.ORBProperties" classpathref="test-classpath.master"/>
+        <run-test args="-file ../src/share/classes/test/AllTests.tdesc -verbose"/>
+    </target>
+
+    <target name="test-corba" depends="test-init,test-corba-junit">
+        <run-test args="-file ../src/share/classes/corba/CORBATests.tdesc -verbose"/>
+    </target>
+
+    <target name="test-corba-junit" depends="test-init">
+        <run-junit-test>
+            <test-cases>
+                <!-- <test name="corba.messagetrace.Client" todir="${junit.reports}"/> -->
+                <test name="corba.misc.Client" todir="${junit.reports}"/>
+                <test name="corba.dynamicrmiiiop.Client" todir="${junit.reports}"/>
+            </test-cases>
+        </run-junit-test>
+    </target>
+
+    <target name="test-junit" depends="test-init">
+        <run-junit-test>
+            <test-cases>
+                <batchtest todir="${junit.reports}">
+                  <fileset dir="${test-classes.dir}" includes="**/${test}.class" />
+                </batchtest>
+            </test-cases>
+        </run-junit-test>
+    </target>
+
+    <target name="test-pi" depends="test-init">
+        <run-test args="-file ../src/share/classes/pi/PITests.tdesc -verbose"/>
+    </target>
+
+    <target name="test-hopper" depends="test-init">
+        <run-test args="-file ../src/share/classes/hopper/HopperTests.tdesc -verbose"/>
+    </target>
+
+    <target name="test-mantis" depends="test-init">
+        <run-test args="-file ../src/share/classes/mantis/MantisTests.tdesc -verbose"/>
+    </target>
+
+    <target name="test-naming" depends="test-init">
+        <run-test args="-file ../src/share/classes/naming/NamingTests.tdesc -verbose"/>
+    </target>
+
+
+    <target name="test-perf" depends="test-init">
+        <run-test args="-file ../src/share/classes/performance/Tests.tdesc -verbose"/>
+    </target>
+
+    <!-- TODO: derive these from the ORB patternsets in src-build.xml.
+         This will require more fun with JavaScript.
+    -->
+
+    <patternset id="gf.orb.classes">
+        <include name="com/sun/corba/ee/spi/**/*.class"/>
+        <include name="com/sun/corba/ee/impl/**/*.class"/>
+        <exclude name="com/sun/corba/ee/spi/activation/**/*.class"/>
+        <exclude name="com/sun/corba/ee/impl/activation/**/*.class"/>
+        <exclude name="com/sun/corba/ee/impl/dynamicany/*.class"/>
+        <exclude name="com/sun/corba/ee/impl/encoding/fast/**/*.class"/>
+        <exclude name="com/sun/corba/ee/impl/naming/pcosnaming/*.class"/>
+        <exclude name="com/sun/corba/ee/impl/orbutil/newtimer/generated/*.class"/>
+        <exclude name="com/sun/corba/ee/internal/**/*.class"/>
+        <exclude name="com/sun/corba/ee/org/omg/**/*.class"/>
+        <exclude name="com/sun/org/omg/**/*.class"/>
+        <exclude name="com/sun/corba/ee/impl/txpoa/*.class"/>
+        <exclude name="com/sun/corba/ee/impl/osgi/main/*.class"/>
+        <exclude name="com/sun/corba/ee/impl/presentation/rmi/proxy/*.class"/>
+    </patternset>
+
+    <patternset id="gf.orblib.classes">
+        <include name="com/sun/corba/ee/spi/orbutil/**/*.class"/>
+        <include name="com/sun/corba/ee/impl/orbutil/**/*.class"/>
+        <exclude name="com/sun/corba/ee/impl/orbutil/copyobject/CodegenCopier*"/>
+        <exclude name="com/sun/corba/ee/impl/orbutil/copyobject/FastCache*"/>
+        <exclude name="com/sun/corba/ee/org/objectweb/*.class"/>
+        <exclude name="com/sun/corba/ee/spi/orbutil/file/*.class"/>
+        <exclude name="com/sun/corba/ee/spi/orbutil/argparser/*.class"/>
+    </patternset>
+
+    <patternset id="gf.orb.sources">
+        <include name="com/sun/corba/ee/spi/**/*.java"/>
+        <include name="com/sun/corba/ee/impl/**/*.java"/>
+        <exclude name="com/sun/corba/ee/spi/activation/**/*.java"/>
+        <exclude name="com/sun/corba/ee/impl/activation/**/*.java"/>
+        <exclude name="com/sun/corba/ee/impl/dynamicany/*.java"/>
+        <exclude name="com/sun/corba/ee/impl/encoding/fast/**/*.java"/>
+        <exclude name="com/sun/corba/ee/impl/naming/pcosnaming/*.java"/>
+        <exclude name="com/sun/corba/ee/impl/orbutil/newtimer/generated/*.java"/>
+        <exclude name="com/sun/corba/ee/internal/**/*.java"/>
+        <exclude name="com/sun/corba/ee/org/omg/**/*.java"/>
+        <exclude name="com/sun/org/omg/**/*.java"/>
+        <exclude name="com/sun/corba/ee/impl/txpoa/*.java"/>
+        <exclude name="com/sun/corba/ee/impl/osgi/main/*.java"/>
+        <exclude name="com/sun/corba/ee/impl/presentation/rmi/proxy/*.java"/>
+    </patternset>
+
+    <patternset id="gf.orblib.sources">
+        <include name="com/sun/corba/ee/spi/orbutil/**/*.java"/>
+        <include name="com/sun/corba/ee/impl/orbutil/**/*.java"/>
+        <exclude name="com/sun/corba/ee/impl/orbutil/copyobject/CodegenCopier*"/>
+        <exclude name="com/sun/corba/ee/impl/orbutil/copyobject/FastCache*"/>
+        <exclude name="com/sun/corba/ee/org/objectweb/*.java"/>
+        <exclude name="com/sun/corba/ee/spi/orbutil/file/*.java"/>
+        <exclude name="com/sun/corba/ee/spi/orbutil/argparser/*.java"/>
+    </patternset>
+
+    
+    <!-- Superset of subset1-patternset .. subset4-patternset for code coverage report
+    -->
+    <patternset id="gf.orb.all.classes">
+        <include name="com/sun/corba/ee/**/*.class"/>
+        <include name="com/sun/org/omg/**/*.class"/>
+        <include name="javax/rmi/CORBA/**/*.class"/>
+        <include name="org/omg/**/*.class"/>
+    </patternset>    
+        
+    <!-- Superset of subset1-patternset .. subset4-patternset for code coverage report
+    -->
+    <patternset id="gf.orb.all.sources">
+        <include name="com/sun/corba/ee/**/*.java"/>
+        <include name="com/sun/org/omg/**/*.java"/>
+        <include name="javax/rmi/CORBA/**/*.java"/>
+        <include name="org/omg/**/*.java"/>
+    </patternset>
+
+</project>
+

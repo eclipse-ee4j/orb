@@ -1,0 +1,32 @@
+/*
+ * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0, which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+module ServerRequestInfo
+{
+    exception ExampleException { string reason; };
+
+    // Constants for sayInvokeAgain:
+    const long INVOKE_SAY_HELLO = 0;
+    const long INVOKE_SAY_SYSTEM_EXCEPTION = 1;
+
+    interface hello
+    {
+        string sayHello();
+        void saySystemException();
+        void sayUserException() raises (ExampleException);
+        oneway void sayOneway();
+        void sayInvokeAgain( in long n );
+
+        // exceptionRaised is true if the last invocation resulted in
+        // an exception.  Returns the name of the method to invoke next.
+        string syncWithServer( in boolean exceptionRaised );
+    };
+};
+

@@ -1,0 +1,29 @@
+#
+# Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Distribution License v. 1.0, which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+# List of classes for which IDLReferenceTest will generate idl and
+# compare it (ignoring whitespace) to a reference file.
+#
+# For each class listed, the reference file must exist and end
+# with the ".idlref" extension.
+
+omega.Bert
+alpha.bravo.DuckBill
+alpha.bravo.Platypus
+alpha.bravo.Wombat
+alpha.bravo.Hedgehog
+alpha.bravo.Kangaroo
+alpha.bravo.Charlie
+# omega.FruitbatException
+# omega.Thrower
+alpha.bravo.Mammal
+alpha.bravo.PolarBear
+# alpha.bravo.AB
+# fred.Test

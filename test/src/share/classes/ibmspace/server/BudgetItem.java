@@ -1,0 +1,73 @@
+/*
+ * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0, which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+package ibmspace.server;
+
+import java.io.Serializable;
+
+
+public class BudgetItem implements Serializable
+{
+    private Investment  fInvestment;
+    private int         fPercentage;
+
+    public BudgetItem (Investment investment, int percentage)
+    {
+        fInvestment = investment;
+        fPercentage = percentage;
+    }
+
+    public BudgetItem (Investment investment)
+    {
+        fInvestment = investment;
+        fPercentage = 0;
+    }
+
+    public Investment getInvestment ()
+    {
+        return fInvestment;
+    }
+
+    public int getPercentage ()
+    {
+        return fPercentage;
+    }
+
+    public void setInvestment (Investment investment)
+    {
+        fInvestment = investment;
+    }
+
+    public void setPercentage (int percentage)
+    {
+        fPercentage = percentage;
+    }
+
+    public String getName ()
+    {
+        return fInvestment.getName ();
+    }
+
+    public String toString ()
+    {
+        String s = getName() + "(";
+        Object o = fInvestment;
+        if ( o.getClass().getName() == "Budget" ) {
+            Budget b = (Budget)fInvestment;
+            s += b.toString ();
+        } else {
+            s += fInvestment.getName ();
+        }
+        s += "," + String.valueOf (fPercentage) + ")";
+        return s;
+    }
+
+}

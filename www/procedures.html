@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//SoftQuad Software//DTD HoTMetaL PRO 6.0::19990601::extensions to HTML 4.0//EN" "hmpro6.dtd">
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<html>
+<head>
+  <title>Procedures</title>
+</head>
+  <body>
+          
+<h2>Procedures</h2>
+<p>There is a set procedure that must always be followed for CORBA development.  This will evolve
+as the GlassFish-CORBA project evolves, so this is simply a first cut at defining the current 
+development model.  Not: this is quite out of date, and needs some updates.
+</p>
+<ol>
+<li>Discuss the idea for a change to the project on the dev@glassfish-corba.dev.java.net alias.
+Make sure to give enough detail that others on the alias can reasonably understand what needs
+to be changed, why the change is needed, and roughly what code will be changed.</li>
+<li>Decide what new tests (if any) need to be written for the change.  In the case of a
+bug, a new test is always required.  For a bug, the test must fail without the fix,
+and pass with the fix. Any new tests must be integrated into the existing CORBA test framework.
+Junit or TestNG can also be used, but they require a simple wrapper to integrate with the
+test framework.</li>
+<li>Make the modifications using whatever tools you like.  Some of us use emacs or vim,
+others use NetBeans, but any choice could be made here.</li>
+<li>Run all of the ORB tests (ant test) and make sure that they all pass.  No modifications
+will be accepted that cause existing tests to fail.</li>
+<li>Prepare a collection of all differences in modified files.  We used to use a Sun 
+internal tool called webrev that did this for a TeamWare workspace.  Now that we are
+using CVS, a different tool will be required.  As of this writing, I don't have any
+specific tool recommendations here, but that will change over time.</li>
+<li>Get the changes reviewed by at least one other team member.  We usually prefer to
+do this using a telephone call and a shared VNC session, but that may not always be 
+possible.  If necessary, a review could be conducted by email.</li>
+<li>Finally, commit the changes to the CVS repository.  This is the usual CVS
+repository on java.net at cvs.dev.java.net.  Everything in this project is in
+the glassfish-corba module.</li>
+
+</ol>
+</body>
+</html>

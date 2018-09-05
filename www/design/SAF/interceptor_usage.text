@@ -1,0 +1,248 @@
+#
+# Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Distribution License v. 1.0, which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+Notation:
+
+Adapter ID: addition to POA, also in ServerRequestInfo in PI.
+meaning is the unique ID of the POA.  For persistent POAs, this must
+be the same value each time the server is restarted OR the POA is activated.
+
+Object ID: the value passed to create_reference_with_id or the equivalent
+assigned in create_reference.
+
+Object Key: the object key in an IIOP message
+
+valuetype ObjectTemplate {
+        typedef sequence<octet> AdapterID ;
+        typedef sequence<octet> ObjectID ;
+
+        AdapterID get_adapter_id() ;
+        CORBA::Object make_object( in ObjectID id ) ;
+
+        factory init( in CORBA::Object ) ;
+}
+
+local interface IORInfoExt : PortableInterceptor::IORInfo {
+        ObjectTemplate get_object_template() ;
+        void set_object_template( in ObjectTemplate otemp ) ;
+}
+
+- ORB must provide an implementation for ObjectTemplateValueFactory and register it.
+  How does a portable application find it?  Perhaps ObjectTemplateDefaultFactory?
+  If so, what is the constructor?
+
+interface Activator {
+    ObjectTemplate register_poa_template( in ObjectTemplate poaTemplate ) ;
+    ObjectTemplate lookup_poa_template( in AdapterID poaAID ) ;
+}
+
+ORBD Activator:
+
+package com.sun.corba.ee.internal.PortableActivation ;
+
+import com.sun.corba.ee.PortableActivation.ObjectTemplate ;
+import com.sun.corba.ee.PortableActivation.ObjectTemplateValueFactory ;
+import com.sun.corba.ee.PortableActivation.Activator ;
+import org.omg.CORBA_2_3.ORB  ;
+import org.omg.PortableServer.POA ;
+import org.omg.CORBA.Policy ;
+
+class ORBDActivator implements Activator {
+    Activator( ORB orb ) {
+        this.orb = orb ;
+        POA rootPOA = (POA)orb.resolve_initial_references( ORBConstants.ROOT_POA_NAME ) ;
+        // This is probably not exactly the correct repository ID
+        otf = (ObjectTemplateFactory)(orb.lookup_value_factory( 
+            "IDL:omg.org/Interceptors/ObjectTemplateFactory:1.0" ) ) ;
+        orbdTemplates = new HashMap() ;
+        poaTemplates = new HashMap() ;
+    }
+
+    private ORB orb ;
+
+    private poa rootPOA ;
+
+    private ObjectTemplateValueFactory otf ; 
+
+    // Maps adapter ID for a Server POA to corresponding ORBD POA ObjectTemplate
+    private HashMap orbdTemplates ;
+
+    // Maps adapter ID for an ORBD POA to corresponding Server POA ObjectTemplate 
+    private HashMap poaTemplates ;
+    
+    private POA createPOA( String id ) throws AdapterAlreadyExists
+    {
+        Policy[] policies = new Policy[ 6 ] ;
+        int index = 0 ;
+
+        policies[ index++ ] = rootPOA.create_lifespan_policy( PERSISTENT ) ;
+        policies[ index++ ] = rootPOA.create_id_uniqueness_policy( UNIQUE_ID ) ;
+        policies[ index++ ] = rootPOA.create_id_assignment_policy( USER_ID ) ;
+        policies[ index++ ] = rootPOA.create_servant_retention_policy( NON_REATIN ) ;
+        policies[ index++ ] = rootPOA.create_request_processing_policy( USE_SERVANT_MANAGER ) ;
+        policies[ index++ ] = rootPOA.create_implicit_activation_policy( NO_IMPLICIT_ACTIVATION ) ;
+
+        try { 
+            return rootPOA.create_POA( id, rootPOA.the_POAManager, policies ) ;
+        } catch (InvalidPolicy ip) {
+            // This should never happen
+            return null ;
+        }
+    }
+
+    public ObjectTemplate register_poa_template( ObjectTemplate poaTemplate ) {
+        AdapterID poaAID = poaTemplate.get_adapter_id() ;
+        ObjectTemplate orbdTemplate = (ObjectTemplate)(orbdTemplates.get( poaAID )) ;
+
+        if (orbdTemplate == null) {
+            POA newPOA = createPOA( poaAID ) ;
+            org.omg.CORBA.Object obj = newPOA.create_reference( "" ) ;
+            orbdTemplate = otf.init( obj ) ;
+            orbdTemplates.put( poaAID, orbdTemplate ) ;
+        }
+
+        // policies may change: reregister every time
+        AdapterID orbdAID = orbdTemplate.get_adapter_id() ;
+        poaTemplates.put( orbdAID, poaTemplate ) ;
+            
+        return orbdTemplate ;
+    }
+
+    public ObjectTemplate lookup_poa_template( AdapterID poaAID ) 
+    {
+        return (ObjectTemplate)(poaTemplates.get( poaAID ) ) ;
+    }
+}
+
+///////////////////////// ORBD Locator:
+
+class ORBDRequestInterceptor implements ServerRequestInterceptor {
+    private Current pic ;
+    private Activator activator ;
+
+    ORBDRequestInterceptor( ORB orb )
+    {
+    }
+
+    void receive_request_service_contexts( ServerRequestInfo ri ) throws ForwardRequest 
+    {
+    }
+
+    void receive_request( ServerRequestInfo sri ) throws ForwardRequest {
+        byte[] adapterID = sri.adapter_id() ;
+        ObjectTemplate iort = activator.lookup_poa_template( adapterID ) ;
+        byte[] objectID = sri.object_id() ;
+        org.omg.CORBA.Object obj = iort.make_object( objectID ) ;
+        PortableInterceptor.Current pic = <resolve from init refs> ;
+        Any any = orb.create_any() ;
+        any.insert_object( obj ) ;
+        pic.set_slot( MY_SLOT_ID, any ) ;
+    }
+
+    void send_reply( ServerRequestInfo ri ) 
+    {
+    }
+
+    void send_exception( ServerRequestInfo ri ) throws ForwardRequset
+    {
+    }
+
+    void send_other( ServerRequestInfo ri ) throws ForwardRequset
+    {
+    }
+}
+
+        Servant locator:
+            preinvoke( )
+            {
+                PortableInterceptor.Current pic = <resolve from init refs> ;
+                Any any = pic.get_slot( MY_SLOT_ID ) ;
+                org.omg.CORBA.Object obj = any.extract_object() ;
+                ForwardReqest fr = new ForwardRequest( obj ) ;
+                throw fr ;
+            }
+
+    AdapterActivator:
+        - this is installed in the ORBD root POA
+
+        unknown_adapter( POA parent, String name ) {
+            POA poa = parent.create_poa( name, parent.the_POAManager, policies ) ;
+            // Policies should be:
+            //  PERSISTENT,
+            //  UNIQUE_ID,
+            //  USER_ID,
+            //  NO_IMPLICIT_ACTIVATION,
+            //  NON_RETAIN, 
+            //  USE_SERVANT_MANAGER, 
+
+            poa.set_servant_manager( orbdServantLocator ) ;
+            return true ;
+        }
+
+Server:
+    // This interceptor must run last OR add another point!
+    IORInterceptor: // Only do this for persistent POAs (How?) !
+        establish_components( IORInfo info ) {
+            IORInfoExt extInfo = IORInfoExtHelper.narrow( info ) ;
+            ObjectTemplate otemp = extInfo.get_object_template() ;
+            Activator act = <locate from NS>
+            // may want sid, orbid too
+            ObjectTemplate daemonTemplate = act.register_poa_template( otemp ) ; 
+            info.set_object_template( daemonTemplate ) ;
+        }
+
+Server startup:
+    Activator passes appropriate org.omg.PortableInterceptor.ORBInitializer.XXX arguments
+    to server instance.  This registers the IORInterceptor that handles the 
+    persistent POA case.
+
+    Note that the server activation model needs to allow addition of properties for registering
+    interceptors! 
+
+
+The full server activation model (SAM).
+
+We have:
+
+- A workgroup consists of one or more hosts (machines)
+- A host with 0 or more registered servers
+- Each server has 0 or more ORBs
+- Each ORB has 0 or more persistent POAs
+
+(first release might assume only one host per workgroup).
+
+Our SAM should track:
+
+- startup and shutdown of servers
+
+// Note that ORB initializer post_init SHOULD be able to use ORB
+- startup and shutdown of ORBs
+- creation and destruction of POAs
+
+Various information may be made available for servers, ORBs, and POAs such as:
+
+- Start time
+- Current state
+- Re-creation count
+- Number of invocations handled
+
+(first release probably would not do much here)
+
+All of this information should be maintained locally with low overhead, rather than
+being maintained in a centralized server.
+
+There must be an Activator server running in a daemon (orbd) on every host that
+is supporting persistent objects.
+
+There must be an Implementation Repository somewhere (may be shared across multiple
+machines).  The IMR defines the scope of a workgroup.
+
+There is a locator server that is responsible for forwarding requests to servers.
+It uses information from the IMR and the Activator to find the servers.

@@ -1,0 +1,291 @@
+<!DOCTYPE HTML PUBLIC "-//SoftQuad Software//DTD HoTMetaL PRO 6.0::19990601::extensions to HTML 4.0//EN" "hmpro6.dtd">
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<html>
+<head>
+  <title>Dynamic RMI-IIOP Optimization</title>
+                
+</head>
+<body bgcolor="#ffffff" text="#000000" link="#0000ee" alink="#ff0000"
+ vlink="#990066" background="images/backgrounds/p12c08.gif">
+        
+<h1 align="center">Dynamic RMI-IIOP Optimization</h1>
+<hr width="75%">        
+<p> Last Modified: <i>May 20, 2004</i> </p>
+        
+<p> Version: 1.1 </p>
+        
+<address> <a href="mailto:ken.cavanaugh@sun.com">&lt;Ken Cavanaugh&gt;</a>
+                </address>
+        
+<p> Now that we have Dynamic RMI-IIOP (DRI) functioning very well, it is
+                time to consider optimizations. I use the simpleperf test to measure
+the cost                of optimized co-located calls, which is the only case where
+the impact of DRI               is significant. We can measure this with static
+stubs, with dynamic stubs and           no optimized copyobject, and dynamic
+stubs and optimized copyobject. The             results are very informative. </p>
+        
+<table border="1">
+                <tbody>
+    <tr>
+                 <td>Test Type </td>
+                 <td>Static Stubs </td>
+                 <td>Dynamic Stubs<br>
+Optimized Copy </td>
+                 <td>Dynamic Stubs<br>
+Stream Copy </td>
+                 <td>BCEL Stubs<br>
+Optimized Copy </td>
+                 <td>BCEL Stubs<br>
+No Copy </td>
+                </tr>
+                <tr>
+                 <td>colocated normal POA </td>
+                 <td>60.3</td>
+                 <td>139.8</td>
+                 <td>865.7</td>
+                 <td>129.1</td>
+                 <td>70.9</td>
+                </tr>
+                <tr>
+                 <td>full caching </td>
+                 <td>28.2/4.4</td>
+                 <td>22.3/21.2</td>
+                 <td>315.2/285.2</td>
+                 <td>61/16.5</td>
+                 <td>61/6.8</td>
+                </tr>
+                <tr>
+                 <td>info only caching </td>
+                 <td>1.9/1.8</td>
+                 <td>20.9/11.6</td>
+                 <td>278/264.8</td>
+                 <td>18.4/11.1</td>
+                 <td>6.6/5.0</td>
+                </tr>
+                <tr>
+                 <td>minimal caching </td>
+                 <td>.9/.9</td>
+                 <td>55.8/34.4?</td>
+                 <td>318.3/374.7?</td>
+                 <td>45.8/33.5?</td>
+                 <td>10.8/3.8</td>
+                </tr>
+                <tr>
+                 <td>same machine<br>
+different ORB </td>
+                 <td>1540.6</td>
+                 <td>1573.8</td>
+                 <td>1527</td>
+                 <td>1559</td>
+                 <td>1440</td>
+                </tr>
+        
+  </tbody>
+</table>
+        
+<p> All times are from my Linux machine libros, which is configured as
+                follows: </p>
+        
+<ul>
+                <li>Athlon XP 2600+ CPU </li>
+                <li>1 GB DDR 400 RAM </li>
+                <li>Red Hat Linux 9 </li>
+                <li>JDK 1.4.2_04 </li>
+        
+</ul>
+        
+<p>I have also run the same test on the same machine with JDK 1.5.0
+beta 2<br>
+</p>
+<table cellpadding="2" cellspacing="2" border="1"
+ style="text-align: left; width: 100%;">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Test Type<br>
+      </td>
+      <td style="vertical-align: top;">Static Stubs<br>
+      </td>
+      <td style="vertical-align: top;">Dynamic Stubs <br>
+Optimized Copy<br>
+      </td>
+      <td style="vertical-align: top;">Dynamic Stubs<br>
+Stream Copy<br>
+      </td>
+      <td style="vertical-align: top;">BCEL Stubs<br>
+Optimized Copy<br>
+      </td>
+      <td style="vertical-align: top;">BCEL Stubs<br>
+No Copy<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">colocated normal POA<br>
+      </td>
+      <td style="vertical-align: top;">16.3<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">34.5<br>
+      </td>
+      <td style="vertical-align: top;">22.8<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">full caching<br>
+      </td>
+      <td style="vertical-align: top;">2.7/1.6<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">12.5/10.5<br>
+      </td>
+      <td style="vertical-align: top;">3.6/2.5<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">info only caching<br>
+      </td>
+      <td style="vertical-align: top;">1.2/.8<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">8.9/8.7<br>
+      </td>
+      <td style="vertical-align: top;">2/1.4<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">minimal caching<br>
+      </td>
+      <td style="vertical-align: top;">.6/.4<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">26.3/26<br>
+      </td>
+      <td style="vertical-align: top;">1.3/1<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">same machine<br>
+different ORB<br>
+      </td>
+      <td style="vertical-align: top;">597<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+      <td style="vertical-align: top;">546<br>
+      </td>
+      <td style="vertical-align: top;">563<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p>Generally 1.5.0 is fully 3 times faster than 1.4.2_04. &nbsp;The
+ratio is usually preserved, but note that the full servant caching BCEL
+number is not improved as much as in the static stub case.<br>
+</p>
+<p>All times are given in microseconds. When two times are given, the
+first           is a straight creation, and the second is a creation followed
+by a            object-&gt;string-&gt;object conversion, which seems to cause
+the test to run                 faster (I have no idea why). In all cases, the
+invocation tests were run 10000                 times, and these numbers reflect the
+average time per invocation. The test           implementation does nothing: it
+just receives a single long argument and                returns what it received. </p>
+        
+<p> A number of things can be learned from these numbers (which have
+been            pretty consistent every time I have run them). First, the
+"resolve" sometimes             makes a large difference, particularly in the
+full caching case. This is a            puzzle. Another surprise is that the
+dynamic stubs/optimized copy/minimal            caching case is so slow. There
+does appear to be much more variability in the          dynamic stub numbers,
+which may indicate more GC activity, but I have not as          yet explored
+this. </p>
+
+<p>The largest component of the time is now obvious from the 1.5 numbers:
+calling copyObjects costs a lot of time, even with the highly optimized
+copyObject implementation.  In fact, without the copyObject overhead, the
+dynamic case takes barely twice as much time as the static.  
+<p>Taking just the full caching and info only caching, we see that the
+                difference between dynamic and static ranges from about 6-19
+microseconds per                call. This is the cost of using reflection and
+packaging all of the arguments          in native wrappers and arrays, and
+also the cost of copyObject(s) calls.           copyObject is particularly
+important, since the overhead of not using the          optimized copyObject
+code is about 250-300 microseconds per call. This seems to              be the
+cost of creating 2 ORB streams (one for argument copying and one for
+                copying the result). The tests in the same machine/different ORB case
+show no                 consistent differences, leading me to believe that the stream
+creation overhead               is similar in both cases, as in both cases we
+create an argument and a result                 stream, and the processing is nearly
+the same. This looks like 20% of the cost               of a remote invocation
+(with a very fast network) is due to stream creation. We                could also
+run the local/different ORB tests with Java serialization and see
+                what the difference is, but I have not done this so far. </p>
+        
+<p> There are significant opportunities for optimization in the current
+                implementation. I will focus on the BCEL proxy implementation, since
+that is                 the one we will ship. It also appears likely that there is
+significantly more              opportunity there for optimization than in the
+proxy-based implementation. We          will still preserve the JDK proxy
+implementation for the present. It is           becoming apparent that my
+original idea of using the same InvocationHandler for           both JDK and
+BCEL proxies may not work, and it definitely not optimal. </p>
+        
+<p> One big optimization is possible in the InvocationHandlerFactory.
+This            currently constructs an InvocationHandler that dispatches
+requests to the                 remote interfaes, as well as DynamicStub,
+org.omg.CORBA.Object, and               java.lang.Object. This is necessary because
+JDK proxies all extend          java.lang.reflect.Proxy, so the base class
+cannot do anything useful for the               application. However, the BCEL
+proxies extend BCELStubBase which extends               javax.rmi.CORBA.Stub, and
+Stub implements everything needed except for the                remote interfaces
+themselves. This means that we never need to do an              InvocationHandler
+lookup in the BCEL proxy case. In fact, the BCEL proxy just             goes
+directly to the StubInvocationHandler, rather than the more complex
+                composite invocation handler returned by the
+InvocationHandlerFactoryImpl            class. </p>
+        
+<p> Another area to look at is the doPrivileged block that calls
+                setAccessible in the StubInvocationHandlerImpl code. This is happening
+on every                call. However, there is a simple solution: just check
+isAccessible() before           doing the setAccessible call. isAccessible
+simply returns a boolean in the JDK,            so its cost is trivial. This
+avoids doing the doPrivilege block on every call.               </p>
+        
+<p> I also need to look at the implementation of copyObject(s).
+Optimizing              this further will be difficult, as the code is already
+fairly close to optimal                 for what it does (without pushing further
+into dynamic code generation for                class copiers). We can determine
+when a copyObjects call is made with nothing            but wrapped primitives
+and avoid the array copy in that case. We cannot skip           copying wrapped
+primitives, but the code handles those as immutables anyway.            </p>
+        
+<p> A more difficult optimization would be to change the BCEL generated
+                proxy code so that a different dispatch path was used for local calls,
+one that                avoided wrapping and allocating an argument array
+completely. I'll probably               explore this again, but this will not be
+possible before the Milestone 4                 deadline. </p>
+</body>
+</html>

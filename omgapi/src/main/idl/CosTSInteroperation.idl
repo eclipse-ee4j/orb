@@ -1,0 +1,31 @@
+/*
+ * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0, which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+// CosTSInteroperation module, as on 11/04/2000
+// CORBAservices, Transaction Service V1.2 (RTF Working Draft)
+// http://www.omg.org/cgi-bin/doc?ptc/00-09-04.pdf
+
+#pragma prefix "omg.org"
+
+#include <corba.idl>
+#include "IOP.idl"
+
+module CosTSInteroperation {
+
+    // Commented out since J2EE does not need them.
+    //const IOP::ComponentId TAG_TRANSACTION_POLICY = 26;
+    //struct TransactionPolicyComponent {
+    //    TransactionPolicyValue value;
+    //};
+
+    const IOP::ComponentId TAG_OTS_POLICY = 31;
+    const IOP::ComponentId TAG_INV_POLICY = 32;
+};
+

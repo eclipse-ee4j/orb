@@ -1,0 +1,65 @@
+Changes in /volumes/ws/headers:
+
+Block comments:
+    Java comment conventions (Use /* ... */ block comments):
+        C source:
+            *.c *.h
+
+        Java source:
+            *.java *.javaref *.sjava
+            (also policy files: *.policy *.secure)
+
+        IDL
+            *.idl *.idlref
+
+    XML/HTML related:
+        (All use <!-- ... --> for block comments)
+        HTML
+            *.htm *.html:
+
+        XML
+            *.xml *.pom 
+
+        XML DTD
+            *.dtd 
+
+Line comments:
+    Scheme comment conventions: (comment lines start with ;)
+        Scheme source:
+            *.mc *.mcd *.scm *.vthought
+
+    Unix shell comment: (Comment lines start with #):
+        *.classlist *.config *.jmk *.ksh *.properties *.prp *.xjmk *.set *.sh *.data
+
+        Makefiles:
+            Makefile.corba *.gmk Makefile.example ExampleMakefile Makefile
+
+        Text files:
+            *.text *.txt
+
+        Also, anything with contents that starts with #! is a shell script
+
+Things that do NOT get comments:
+    Binary files:
+        StarOffice files:
+            *.sxc *.sxi *.sxw *.odp
+
+        Binary files:
+            *.gif *.png *.jar *.zip *.jpg *.pdf
+
+        Framemaker
+            *.doc *.mif *.fm *.book
+
+        UML tools:
+            *.zargo *.zuml
+
+    text files, no comments allowed:
+        .cvsignore .hgignore *.list
+
+    ASM java file:
+        *.old
+
+    BCEL java file:
+        *.orig *.rej
+
+ignore *.swp (from vim)

@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+</head>
+<body bgcolor="white">
+
+Provides a mechanism to register ORB hooks through which ORB services
+can intercept the normal flow of execution of the ORB.
+
+<h2>Interceptor Types</h2>
+There are currently three types of interceptors that can be registered:
+<ul>
+  <li>{@link org.omg.PortableInterceptor.IORInterceptor IORInterceptor} - 
+      Used to establish tagged components in the profiles within an IOR.</li>
+  <li>{@link org.omg.PortableInterceptor.ClientRequestInterceptor 
+ClientRequestInterceptor} - 
+      Intercepts the flow of a request/reply sequence through the ORB on 
+      the <i>client</i> side.</li>
+  <li>{@link org.omg.PortableInterceptor.ServerRequestInterceptor 
+ServerRequestInterceptor} - 
+      Intercepts the flow of a request/reply sequence through the ORB on 
+      the <i>server</i> side.</li>
+</ul>
+See the javadocs for class <code>
+{@link org.omg.PortableInterceptor.ORBInitializer ORBInitializer}</code> 
+for how to go about registering interceptors.
+
+<a name="unimpl"></a>
+<h2>Known limitations / unimplemented methods in package 
+<code>org.omg.PortableInterceptor</code></h2>
+
+<code>
+<ul>
+  <li>
+    <b>RequestInfo</b>
+    <ul>
+      <li><b>sync_scope()</b>: Always returns SYNC_WITH_TRANSPORT</li>
+      <li><b>arguments()</b>: Only supported for DII/DSI calls</li>
+      <li><b>exceptions()</b>: Only supported for DII calls on client side.  
+          Not supported on server-side.</li>
+      <li><b>contexts()</b>: Only supported for DII calls on client side.
+          Not supported on server-side since our ORB does not send contexts.
+          </li>
+      <li><b>operation_context()</b>: Only supported for DII calls 
+          on client side.  Not supported on server-side since ORB 
+          does not send contexts.</li>
+      <li><b>result()</b>: Only supported for DII/DSI calls</li>
+    </ul>
+  </li>
+  <li>
+    <b>ClientRequestInfo</b>
+    <ul>
+      <li><b>received_exception_id()</b>: Always returns null in the 
+          DII case</li>
+      <li><b>get_request_policy(int type)</b>: Not implemented.</li>
+    </ul>
+  </li>
+  <li>
+    <b>ServerRequestInfo</b>
+    <ul>
+      <li><b>sending_exception()</b>: Does not support user exceptions on 
+          the server side in non-DSI case.</li>
+    </ul>
+  </li>
+</ul>
+</code>
+
+<h2>Package Specification</h2>
+<P>For a precise list of supported sections of official OMG specifications with which 
+the Java[tm] Platform, Standard Edition 6, complies, see <A 
+HREF="../CORBA/doc-files/compliance.html">Official Specifications for CORBA 
+support in Java[tm] SE 6</A>. 
+
+@since 1.4
+<br>
+@serial exclude
+</body>
+</html>

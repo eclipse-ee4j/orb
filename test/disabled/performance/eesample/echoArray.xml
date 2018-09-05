@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<testSuite name="WSpex" xmlns="http://www.sun.com/japex/testSuite">
+    <param name="japex.warmupTime" value="15"/>
+    <param name="japex.runTime" value="15"/>
+    <param name="japex.runsPerDriver" value="2"/>
+    <param name="japex.reportsDirectory" value="./reports/non-periodic"/>
+
+    <param name="japex.classPath" value="../../../../../../build/classes"/>
+    <param name="japex.classPath" value="../../../../../../orblib/build/classes"/>
+    <param name="japex.classPath" value="../../../../../../test/build/classes"/>
+    
+    <driver name="StandardTest" xmlns="http://www.sun.com/japex/testSuite">
+        <param name="japex.driverClass" value="performance.eesample.StandardTest"/>
+        <param name="description" value="TestService IIOP Driver"/>
+    </driver>
+    
+    <!--
+    <testCase name="echoArray40">
+        <param name="methodName" value="echoArray"/>
+        <param name="size" value="40"/>
+    </testCase>
+
+    <testCase name="echoArray80">
+        <param name="methodName" value="echoArray"/>
+        <param name="size" value="80"/>
+    </testCase>
+    -->
+
+    <testCase name="echoArray120">
+        <param name="methodName" value="echoArray"/>
+        <param name="size" value="120"/>
+    </testCase>
+</testSuite>

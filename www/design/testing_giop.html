@@ -1,0 +1,216 @@
+<!DOCTYPE HTML PUBLIC "-//SoftQuad Software//DTD HoTMetaL PRO 6.0::19990601::extensions to HTML 4.0//EN" "hmpro6.dtd">
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<HTML> 
+  <HEAD> 
+         <TITLE></TITLE>
+  </HEAD> 
+  <BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000EE" ALINK="#FF0000"
+        VLINK="#990066" BACKGROUND="images/backgrounds/p12c08.gif"> 
+         <H1 ALIGN="CENTER">ORB Support for GIOP Testing</H1> 
+         <P> </P> <HR WIDTH="75%"> 
+         <P> Last Modified: <I>May 17, 2004</I> </P> 
+         <P> Version: 1.6 </P> 
+         <ADDRESS> <A HREF="mailto:ken.cavanaugh@sun.com">&lt;Ken Cavanaugh&gt;</A>
+                </ADDRESS> 
+         <P> We often need to examine problems in CORBA that are related to the
+                details of marshalling messages for CDR encoded GIOP messages. This is
+                currently a difficult and time-consuming problem due to the lack of tools for
+                this task. Harsha Godugu is working on a GIOP analyzer to make this process
+                easier. This note discusses some ORB changes needed to support the GIOP
+                analyzer, and also to make other debugging tasks easier. </P>
+         <P> What we need is the following: </P>
+         <UL>
+                <LI>An API for capturing the messages sent and received by a particular
+                  invocation. This will allow us to gather data for testing the GIOP analyzer .
+                  </LI>
+                <LI>An API for taking a sequence of messages and converting that sequence
+                  into an input stream. Utilities for converting an array of strings or a text
+                  file in the GIOP dump format will also be useful. </LI>
+         </UL>
+         <H2>Getting an Input Stream from Messages</H2>
+         <P>Probably the simplest possible representation for the data contained in
+                a sequence of messages is simply byte[][]. Wherever I use this type to
+                represent a sequence of messages, we will assume that: </P>
+         <OL>
+                <LI>The first message in the sequence is either a (GIOP) request or
+                  reply. </LI>
+                <LI>Subsequent messages are all fragment messages. </LI>
+                <LI>Every message except the last has the more fragment bit set. </LI>
+                <LI>All messages in the sequence share the same request ID. </LI>
+         </OL>
+         <P>If any of these conditions fail, getMessageData should throw an
+                appropriate exception. getMessageData is a new method on the ORB SPI defined as
+                follows: </P>
+         <PRE>
+    /** Messages must be an array of GIOP messages.  The first message must
+     * be a GIOP request or response.  Any subsequent messages must be
+     * fragment messages with the same request ID as the first message.
+     * This returns a MessageData interface, in which all of the Messages
+     * have been unmarshalled, and the result of getStream is a stream
+     * that is prepared to unmarshal the request or reply body.
+     */
+    MessageData getMessageData( byte[][] messages ) ;
+</PRE>
+         <P> MessageData is an interface defined as follows: </P>
+         <PRE>
+public interface MessageData {
+    /** An array GIOP Messages.  The first message is a request or reply,
+     * all subsequent messages are fragments with the same request ID.
+     */
+    Message[] getMessages() ;
+
+    /** A fully initialized input stream for the message data, positioned
+     * at the first element of the body.
+     */
+    CDRInputStream getStream() ;
+}
+</PRE>
+         <P> To support this, we need a Connection that is backed by a byte[][] or
+                equivalent. I am currently testing this, which us called
+                BufferedConnectionImpl. </P>
+         <H2>Capturing Messages from an Invocation</H2>
+         <P>The idea here is to provide an interface that allows the programmer to
+                obtain the sequence of messages in the request and reply from a CORBA method
+                invocation. The model I have designed for this is fairly simple and easy to
+                use. First, we define a new interface called a MessageTraceManager: </P>
+         <PRE>
+public interface MessageTraceManager {
+    /** Returns true if messages are to be captured on this thread, otherwise
+     * false.
+     */
+    boolean isEnabled() ;
+
+    /** Called with flag=true to enable capture of messages
+     */
+    void enable( boolean flag ) ;
+
+    /** Return an array of messages (represented as byte[]) for the 
+     * message(s) sent for the request in the last invocation.  In the
+     * event of a location forward, this is the sequence for the last
+     * invocation.
+     */
+    byte[][] getRequestData() ;
+
+    /** Return an array of messages (represented as byte[]) for the 
+     * message(s) received for the last invocation.  In the event of
+     * a location forward, this is the sequence received from the last
+     * invocation.
+     */
+    byte[][] getResponseData() ;
+}
+</PRE>
+         <P> This interface allows access to the messages sent and received in the
+                last request. To obtain an instance of MessageTraceManager, we add the
+                following API to the ORB SPI: </P>
+         <PRE>
+    /** Return a MessageTraceManager for the current thread.  Each thread that
+     * calls this method gets its own MessageTraceManager.
+     */
+    MessageTraceManager getMessageTraceManager() 
+</PRE>
+         <P> This API allows message data to be collected from any synchronous CORBA
+                invocation. This include RMI-IIOP, IDL, and DII (but not deferred synchronous
+                invocations). A test could also simulate a stub invocation if desired. </P> 
+         <H2>ORB Code Notes</H2>
+         <P> Start with receipt of read event on a connection: </P>
+         <OL>
+                <LI> SocketOrChannelAcceptorImpl.createMessageMediator( Broker,
+                  Connection ) 
+                  <OL>
+                         <LI>CorbaContactInfoBase.createMessageMediator( Broker, Connection )
+                                line 130 </LI>
+                         <LI>MessageBase.readGIOPMessage( orb, connection ) 
+                                <OL>
+                                  <LI>reads 12 byte GIOP header buf = connection.read( 12, 0, 12 )
+                                         ; </LI>
+                                  <LI>constructs appropriate Message type </LI>
+                                  <LI>read size data for message buf = connection.read( buf, 12,
+                                         size-12 ) ; </LI>
+                                  <LI>msg.setByteBuffer( buf ) ; </LI>
+                                </OL></LI>
+                         <LI>byteBuffer = msg.getByteBuffer() ; </LI>
+                         <LI>msg.setByteBuffer( null ) ; </LI>
+                         <LI>messageMediator = new CorbaMessageMediatorImpl( orb, connection,
+                                msg, byteBuffer ) </LI>
+                  </OL></LI>
+                <LI>After creating the message mediator, we end up going through the
+                  double dispatch and end up in CorbaMessageMediatorImpl.handleInput(
+                  RequestMessage_1_2 ). This calls: 
+                  <OL>
+                         <LI>header.unmarshalRequestID </LI>
+                         <LI>setInputObject (line 872), which calls
+                                CorbaContactInfoBase.setInputObject(), which creates the CDRInputObject. </LI>
+                         <LI>handleRequest(RequestMessage_1_2, CorbaMessageMediator </LI>
+                         <LI>beginRequest(messageMediator) </LI>
+                         <LI>handleRequestRequest(messageMediator) 
+                                <OL>
+                                  <LI>This calls unmarshalHeader, then finally does the dispatch.
+                                         </LI>
+                                </OL></LI>
+                  </OL></LI>
+         </OL>
+         <P>Note that we generally always need to call unmarshalRequestID before we
+                can do much else, since the transport does not know where to put anything
+                without knowing the request ID (it's obvious from the code that one of GIOP's
+                minor blunders is not putting the request ID in the GIOP message header, since
+                it is so frequently needed). Here is a sketch of the code for getMessageData(
+                byte[][] data ): </P>
+         <PRE>
+public MessageData getMessageData( byte[][] data )
+{
+    connection = new BufferedConnectionImpl() ;
+    for (int ctr=0; ctr&lt;data.length; ctr++)
+        // write data[ctr] to connection
+
+    final Message[] messages = new Message[data.length] ;
+    int requestID = 0 ;
+    Message firstMessage = null ;
+    Message msg = null ;
+    CDRInputObject inobj = null ;
+    BufferManagerRead buffman = null ;
+
+    for (int ctr=0; ctr&lt;data.length; ctr++) {
+        msg = MessageBase.readGIOPMessage( orb, connectionCopy ) ;
+        messages[ctr] = msg ;
+        msg.unmarshalRequestID() ; // Do we always do this?
+        // Check that moreFragments == (ctr &lt; data.length)
+
+        if (ctr==0) {
+            // Check that we have a request or reply
+            requestID = msg.getRequestID() ;
+            firstMessage = msg ;
+            requestID = msg.getRequestID() ;
+            inobj = new CDRInputObject( orb, connection,
+                msg.getByteBuffer(), msg ) ;
+            buffman = inobj.getBufferManager() ;
+        } else {
+            // Check that the request ID is as expected
+            buffman.processFragment( msg, msg.getByteBuffer() ) ;
+        }
+    }
+
+    // Unmarshal all the data in the first message.  This may 
+    // cause other fragments to be read.
+    firstMessage.unmarshalHeader( stream ) ;
+
+    final CDRInputObject resultObj = inobj ;
+
+    return new MessageData() {
+       Message[] getMessages() { return messages ; }
+       CDRInputStream getInputStream() { return resultObj ; }
+    } ;
+}
+</PRE>
+  </BODY>
+</HTML>

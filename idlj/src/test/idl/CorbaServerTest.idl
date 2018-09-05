@@ -1,0 +1,96 @@
+#
+# Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Distribution License v. 1.0, which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+#include "orb.idl"
+
+module org {
+module glassfish {
+module idlj {
+
+  struct CORBAStruct {
+   	long l;
+    long long lll;		// The name is 3 chars long to avoid a JDK alignment bug.
+    string s;
+    any a;
+  };
+
+  struct AnyStruct {
+    any a;
+    CORBAStruct s;
+  };
+
+  union CORBAUnion switch ( long ) {
+  	case 0: boolean b;
+  	case 1: wstring w;
+  	case 2: string s;
+  	case 3: any a;
+  	case 4: CORBAStruct cs;
+  	default: long long lll;
+  };
+
+  enum CORBAEnum {
+    ONE,
+    TWO,
+    THREE
+  };
+
+  typedef sequence<CORBAStruct> CORBASeq;
+  typedef sequence<long> LongSeq;
+
+  interface CORBAServerTest {
+    exception AnException {};
+    exception MungedException {
+		#pragma ID MungedException "IDL:org/glassfish/idlj/MungedExRepid:1.0"
+    };
+
+    string test_primitive(in string s, in long l);
+
+    oneway void test_oneway(in string s, in long l);
+
+    any test_any(in any a);
+
+    void test_out(out string s);
+
+    void test_inout(inout any a);
+
+    void test_transaction();
+
+    void test_subject();
+
+    void test_exception() raises (AnException);
+
+    void test_exception2() raises (MungedException);
+
+    wstring test_widestring(in wstring w);
+
+    string test_timeout(in long timeout);
+
+    CORBA::WStringValue test_value(in CORBA::WStringValue w);
+
+    org::glassfish::idlj::CORBAUnion test_union(inout org::glassfish::idlj::CORBAUnion u);
+
+    org::glassfish::idlj::CORBAStruct test_struct(in org::glassfish::idlj::CORBAStruct s, out org::glassfish::idlj::CORBAStruct os);
+
+    org::glassfish::idlj::CORBASeq test_seq(inout org::glassfish::idlj::CORBASeq seq);
+
+    org::glassfish::idlj::LongSeq test_long_seq(inout org::glassfish::idlj::LongSeq seq);
+
+    Object test_POA(in string name);
+    void cleanup_POA(in string name);
+  };
+
+  interface DummyCORBAServer {
+	#pragma ID DummyCORBAServer "IDL:org/glassfish/idlj/MungedRepid:1.0"
+  };
+
+
+};
+};
+};

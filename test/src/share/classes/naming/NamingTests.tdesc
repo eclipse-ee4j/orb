@@ -1,0 +1,38 @@
+//  
+//  Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+//  
+//  This program and the accompanying materials are made available under the
+//  terms of the Eclipse Distribution License v. 1.0, which is available at
+//  http://www.eclipse.org/org/documents/edl-v10.php.
+//
+//  SPDX-License-Identifier: BSD-3-Clause
+
+// Batch tests
+// Run 'java test.Test' for syntax
+//
+// These are the CosNaming Technologies tests found under
+// test/src/share/classes/cosnaming
+//
+
+-test naming.instest.INSTest
+-test naming.rinameservice.RINameServiceTest
+-test naming.cosnaming.Test
+
+// PCOSNamingTest is a bit tricky to debug.  It runs as follows:
+// 1. The test driver starts ORBD and the server, and creates the controller
+//    for the client.  The controllers for the client and ORBD are passed to
+//    the server as arguments.
+// 2. The server runs as an InternalProcess, but the -separateprocess flag
+//    causes it to be execed in a different process.  There is currently no
+//    debugging support for -separateprocess.
+// 3. The server starts and stops ORBD 3 times, and then at the end it starts
+//    the client.
+// 
+// To debug this test:
+// 1. Remove the -separateprocess flag.
+// 2. setenv DEBUGGER 1.  This allows attaching a debugger to the test driver,
+//    which also runs the server directly.
+// 3. -rdebug can be used as usual for client and ORBD as needed.  Note that 
+//    the persistent name service is part of ORBD.
+
+-test naming.pcosnaming.PCOSNamingTest -separateprocess

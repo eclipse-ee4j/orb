@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<project name="corba-src" basedir="..">
+    <description>
+        This is the Ant file that builds the GlassFish ORB.
+    </description>
+
+    <property name="root.dir"                   value="${basedir}"/>
+    <property file="make/build.properties"/>
+
+    <target name="init">
+        <property name="repo.url"
+            value="svn:https://svn.java.net/svn/maven2-repository~svn/trunk/repository"/>
+        <property name="file.url"               value="file:/tmp/maven"/>
+
+        <!-- environmental dependencies -->
+        <property environment="env"/>
+        <property name="java.home"              value="${env.JAVA_HOME}"/>
+        <echo message="java.home=${java.home}"/> <!-- Why does this end in jre? -->
+
+        <!-- Required JAR files -->
+        <property name="tools-jar"              value="${java.home}/../lib/tools.jar"/>
+
+        <!-- Places where the build puts things -->
+        <property name="build.dir"              location="${root.dir}/build"/>
+        <property name="lib.dir"                location="${build.dir}/lib"/>
+        <property name="gensrc.dir"             location="${build.dir}/gensrc"/>
+        <property name="classes.dir"            location="${build.dir}/classes"/>
+
+        <!-- Main ORB build directories -->
+        <property name="src.dir"                value="${root.dir}/src/share/classes"/>
+
+        <property name="mavenized.test.classes" value="${root.dir}/functional-tests/target/test-classes"/>
+
+        <!-- javac flags -->
+        <property name="deprecation"            value="off"/>
+        <property name="javac.optimize"         value="true"/>
+        <property name="javac.debug"            value="true"/>
+
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${lib.dir}"/>
+        <mkdir dir="${gensrc.dir}"/>
+        <mkdir dir="${classes.dir}"/>
+        <mkdir dir="${releaselib.dir}"/>
+        <mkdir dir="${releaselib.dir}/bundles"/>
+
+        <!-- properties needed for updating and validating copyright headers -->
+        <property name="copyright.file"
+            value="${root.dir}/make/copyright-information/copyright.txt"/>
+        <property name="copyright.roots"
+            value="lib,make,nbproject,src,test,tools,www"/>
+        <property name="copyright.skip"
+            value=".hg,.DS_Store,copyright-information,apache,objectweb,build,webrev,test-output,gen,lib,pom,felix-cache"/>
+
+
+        <path id="classpath.master">
+            <pathelement location="${classes.dir}"/>
+            <pathelement path="${maven.test.classpath}"/>
+        </path>
+
+    </target>
+
+    <!-- ========================= CLEAN ========================= -->
+
+    <target name="clean"
+        depends="init,clean-tests">
+        <delete dir="${build.dir}"/>
+        <delete dir="${test-build.dir}"/>
+    </target>
+
+    <target name="clean-tests" depends="init">
+        <delete dir="${test.run.base}"/>
+    </target>
+
+</project>

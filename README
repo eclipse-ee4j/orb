@@ -1,0 +1,49 @@
+#
+# Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Distribution License v. 1.0, which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+How to build ORB .jars for delivery to GlassFish:
+
+---------------------------------------
+# to build and run all tests:
+cd <ws>
+mvn -P all-tests clean install
+#
+# (temporarily broken) Run dev tests with code coverage enabled. 
+# Cobertura code coverage report generated at: <ws>/build/cobertura/index.html
+ant do-cobertura-test
+#
+--------------------------------------- 
+# to run a single test with custom arguments:
+cd <ws>
+mvn -Dtest.args="<args supported by test framework>" install
+
+For example: 
+1. To run a specific test: 
+mvn -Dtest.args="-test corba.connectioncache.ConnectionCacheTest" install
+
+2. To debug a test, client process: 
+mvn -Dtest.args="-test corba.connectioncache.ConnectionCacheTest -rdebug client" install
+
+In the debug mode, the test waits for remote debugger to connect on the port, printed on console. The test continues once the remote debugger connects.
+
+3. To debug a test, server process: 
+mvn -Dtest.args="-test corba.cdrext.CDRExtTest -rdebug server" install
+
+4. Multiple remote debuggers may also be attached to client, server, and controller processes (this is not well tested):
+mvn -Dtest.args=""-test corba.sometest -rdebug client:server:controller" install
+--------------------------------------- 
+
+For details, see 
+<ws>/make/build.xml 
+<ws>/make/src-build.xml
+
+Generated Bundles: <ws>/build/rename/ee/build/release/lib/bundles-archive.zip 
+
+

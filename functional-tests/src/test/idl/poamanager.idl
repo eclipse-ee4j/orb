@@ -1,0 +1,44 @@
+/*
+ * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0, which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+// required because the actual poa.idl is now compiled with
+// pkgPrefix, but for it to work in the framework we need to
+// do this change
+
+#include "poa.idl"
+
+module HelloStuff {
+  interface Hello {
+    string hi();
+  };
+}; 
+
+module Util {
+  enum CreationMethods {
+    EXPLICIT_ACTIVATION_WITH_POA_ASSIGNED_OIDS,
+    EXPLICIT_ACTIVATION_WITH_USER_ASSIGNED_OIDS,
+    CREATE_REFERENCE_BEFORE_ACTIVATION_WITH_POA_ASSIGNED_OIDS,
+    CREATE_REFERENCE_BEFORE_ACTIVATION_WITH_USER_ASSIGNED_OIDS
+  };
+
+  // A generic factory that creates servants based on the
+  // interface name. This can be used to test different
+  // interfaces which contain methods that would test the
+  // invocation path more extensively (example, ones that
+  // throw exceptions etc)
+
+  interface GenericFactory {
+    Object create(in string intfName, in string implName, in CreationMethods how);
+    void activate() raises ( PortableServer::POAManager::AdapterInactive );
+    void holdRequests();
+    void discardRequests();
+    void deactivate();
+  };
+};

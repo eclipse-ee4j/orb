@@ -1,0 +1,219 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+  <title>Project Home Page</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+
+<body bgcolor="#ffffff" text="#000000">
+
+
+
+<h1>GlassFish-Corba&nbsp; </h1>
+
+
+
+<p>This project contains the source code, documentation, and tests for
+the CORBA ORB that is used in the GlassFish application server project.
+&nbsp;The GlassFish ORB complies with the CORBA 2.3.1 specification, and
+with the CORBA 3.0 specifications for the Interoperable Name Service and
+Portable Interceptors. It includes both IDL and RMI-IIOP support. The
+GlassFish ORB has an open, extensible architecture that supports
+flexible configuration and extension through an open SPI. This ORB is
+written completely in Java.</p>
+
+
+<h2>Special Features of the GlassFish ORB</h2>
+
+
+<p>This ORB has a number of special features specifically for GlassFish:</p>
+
+
+<ol>
+
+
+  <li>An optimized, streaming transport for GIOP 1.2 that uses NIO select for scalability.</li>
+
+
+  <li>An implementation of RMI-IIOP that uses runtime bytecode generation to avoid the need for the 
+  rmic compiler for either stubs or skeletons.</li>
+
+
+  <li>An optimized fast object copier to speed up co-located RMI-IIOP calls that require pass-by-value semantics for argument passing.</li>
+
+
+  <li>Highly optimized colocated RMI-IIOP calls that short circuit most of the ORB object adapter and transport code for speed.</li>
+
+
+  <li>The ORB architecture is based in part on the <a href="http://haroldcarr.net/computerScience/pept/indexPept.html">PEPt</a>
+work by Harold Carr (a former member of the ORB team), that provides
+clean separation between protocol, encoding, presentation, and
+transport without impacting performance.</li>
+
+
+  <li>The ORB includes a code generation library (codegen) that
+supports runtime generation of classes from a high-level java-like API.
+This is currently used to generate the classes needed to support the
+remote view for EJB 3.</li>
+
+
+  <li>Support is included for dynamic failover and load balancing of IIOP requests. </li>
+
+
+</ol>
+
+
+<h2>Documentation</h2>
+
+
+<p>The ORB documentation is available <a href="contents.html">here</a> (including JavaDocs).</p>
+
+<h2>Getting the source code</h2>
+
+The ORB source code is now managed using <a href="http://www.selenic.com/mercurial">Mercurial</a>. 
+It is hosted at Kenai.com as the <a href="http://kenai.com/projects/gf-corba-v3-mirror">GlassFish Version 3 CORBA ORB</a> project.  
+
+<p>There are several source code repositories available at the GlassFish CORBA site on Kenai:
+See the <a href="http://kenai.com/projects/gf-corba-v3-mirror/sources">sources page</a> for the details.
+The repositories are used as follows:
+<ul>
+<li><b><a href="http://kenai.com/hg/gf-corba-v3-mirror~master">GFv3 CORBA Master</a></b> is the main repository for the GFv3 ORB.</li>
+<li><b><a href="http://kenai.com/hg/gf-corba-v3-mirror~experimental">GFv3 CORBA Experimental</a></b> is the repository for GFv3 ORB work that is not ready for integration into the main repository.</li>
+<li><b><a href="http://kenai.com/hg/gf-corba-v3-mirror~staging">GFv3 CORBA Staging</a></b> is the repository used to stage updates to the GFv3 ORB.  These changes will be pushed to the master repository after testing using Hudson (which is partially in place, but still needs some work). This repository cannot be viewed; it is for mercurial push operations only.</li>
+<li><b><a href="http://kenai.com/hg/gf-corba-v3-mirror~gfv31-master">GlassFish v31 ORB</a></b> contains a copy of the code for the GFv31 ORB (it is not currently the main repository).</li>
+</ul>
+
+<p>The java.net subversion repository contains only the documents in
+the www directory, so that the docs can be displayed automatically from
+the glassfish-corba project. &nbsp;This repository also contains the
+JavaDocs, which are generated in the build process when synchronizing
+the internal and external repositories.</p>
+
+<p>The intended model for developing GFv3 CORBA is that all changes are pushed first to the staging repository, where they
+are tested using Hudson.  After the Hudson tests pass, the changes will then be pushed to the master repository, where
+they may be checked out and viewed by anyone.  However, this is not fully in place yet, and I am still doing direct pushes to
+the master repository.
+</p>
+
+<h2>Building the Project</h2>
+
+
+<p>The simplest thing to do is to use NetBeans:</p>
+
+
+<ol>
+
+
+  <li>Make sure you have NetBeans 6.9.1 or later installed.</li>
+
+  <li>Select versioning-&gt;mercurial-&gt;clone other.</li>
+
+  <li>Type in the URL for the master repository (https://kenai.com/hg/gf-corba-v3-mirror~master).</li>
+
+  <li>Pick a location to create the local clone.</li>
+
+  <li>Create a project from the clone (this is also doing the hg clone, which takes a little while).</li>
+
+  <li>Open the cloned project as the main project.</li>
+
+  <li>Use NetBeans to&nbsp;build and run tests as desired. Use the
+right-click menu on the project to get to the CORBA-specific targets,
+such as all of the different test-related targets.</li>
+
+
+</ol>
+ 
+<p>The typical build time should be 30-60 seconds depending on your hardware.  The test time is variable, but running all of
+the tests should not take more than around 45 minutes.</p>
+
+<p>More details (and other options) are described <a href="design/orb_notes.html">here</a> 
+(<a href="design/orb_notes.pdf">pdf</a>) in the ORB documentation.</p>
+
+
+<h2>Obtaining ORB builds</h2>
+
+<p>For GlassFish v31, all of the ORB files are contained in the GlassFish appserv-rt.jar
+file. You can get this by installing glassfish from the GlassFish <a href="https://glassfish.dev.java.net/public/alldownloads.html">downloads</a>. 
+
+<p>The ORB packaging is completely different for GFv3.  The ORB is now delivered in several OSGi bundles:
+<ul>
+<li><b>glassfish-corba-asm</b> contains the version of ASM that the GFv3 ORB uses.  This will eventually migrate to the version used in GFv3 so it can be shared.</li>
+<li><b>glassfish-corba-codegen</b> contains the codegen and copyobject libraries, which provide a high-level runtime bytecode generation facility and generic 
+object copying library (the two have mutual dependencies).</li>
+<li><b>glassfish-corba-csiv2-idl</b> contains the idlj-generated Java classes for the CSIv2 IDL definitions.</li>
+<li><b>glassfish-corba-dynamicany</b> contains the Dynamic Any code for the ORB (which I'd like to load on demand at some point).</li>
+<li><b>glassfish-corba-internal-api</b> contains the ORB FOLB API code.  
+<li><b>glassfish-corba-newtimer</b> contains the ORB timer library.<li>
+<li><b>glassfish-corba-omgapi</b> contains the GlassFish-specific versions of a few org.omg.* files.</li>
+<li><b>glassfish-corba-orb</b> contains the main part of the ORB code.<li>
+<li><b>glassfish-corba-orbgeneric</b> contains the main part of the ORB library (which is independent of the rest of the ORB).</li>
+</ul>
+
+These bundles are available in the Sun Maven 2 <a href="http://download.java.net/maven/2">repository</a>, with a GroupId of com.sun.corba.  The current version is
+3.1.0.b027.  
+
+<h2>Planned Work</h2>
+
+<p>There are a number of efforts underway right now to improve the ORB following the GF 3.1 release:</p>
+<ol>
+<li>Further extend the ORB monitoring Gmbal implementation.</li>
+
+<li>Replace most of the ORB transport with&nbsp;<a href="http://grizzly.dev.java.net">Grizzly</a>,
+which will include improved CSIv2 (SSL) scalability and improved ORB
+connection caching. Most of the Grizzly performance features are
+already in the current ORB transport, but moving to a single transport
+has many benefits for code quality, integration, and further
+optimizations.</li>
+
+<li>The encoding performance has been improved for the GlassFish v31
+version of the ORB. This is still in progress, and more details will
+appear first in the CORBA <a href="http://blogs.sun.com/ejcorba">blog</a>.</li>
+
+<li>Improve the internal code generation library (codegen).  Codegen provides a java-level API
+for generating classes at runtime.  This is used for things like generating the EJB 3 remote view 
+from a EJB 3 POJO business interface.  Planned improvements include:
+
+    <ul>
+        <li>Extend codegen with more language constructs (e.g. break, continue, switch)</li>
+        <li>Add line number table and local variable table generation for debugging 
+        dynamically generated classes.</li>
+        <li>Complete method overload resolution support.</li>
+        <li>Make the code generator API extensible (e.g. scheme-like macros).</li>
+        <li>Make more extensive use of codegen in the ORB to improve performance.</li>
+        <li>Provide more extensive utilities for generating Proxy-style classes.</li>    
+    </ul>
+</li>
+</ol>
+
+<p>Here are some additional items that we plan to work on (some will only take a few days,
+some may take several months):</p>
+
+
+<ol>
+<li>Use <a href="http://testng.org/doc/">TestNG</a> to drive the CORBA test framework, so that we can use TestNG's
+parameterization and grouping capabilities to improve our test coverage.</li>
+
+<li>Fix redundant IDL and RMIC compilation problems with the tests.</li>
+
+<li>Improve the documentation coverage, particularly in the <a href="nonav/design/orb_notes.html">ORB Notes</a> Document.</li>
+    
+<li>Make more extensive use of the internal ORB timer <a href="https://glassfish-corba.dev.java.net/nonav/javadoc/com/sun/corba/ee/spi/orbutil/newtimer/package-summary.html">library</a> to support ORB microbenchmarks as regression tests.</li>
+    
+    
+<li>As always, fix <a href="http://java.net/jira/secure/IssueNavigator.jspa?mode=hide&requestId=10222">bugs</a>.</li> </ol>
+
+</body>
+</html>

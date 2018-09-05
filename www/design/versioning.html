@@ -1,0 +1,673 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<HTML>
+
+<HEAD>
+        <META HTTP-EQUIV="Content-Type" CONTENT="text/html;CHARSET=iso-8859-1">
+        <META NAME="GENERATOR" Content="Visual Page 2.0 for Windows">
+        <TITLE>ORB Versioning</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFBF0">
+
+<H1>Versioning</H1>
+<P>This note discusses the details of how we can introduce a versioning mechanism into the Java ORB for the purpose
+of fixing our current interoperability problems. The basic concept is that all ORBs that we have not yet shipped
+will include versioning information in every request, response, and IOR. The rest of this note discusses the exact
+format of the versioning information and how it can be interpreted to achieve interoperability.</P>
+<H1>Version Format</H1>
+<P>I have thought of a number of possibilities for the format of version information:</P>
+
+<OL>
+        <LI>single byte (as Ram suggested): I'm not sure we want to make it that limited.
+        <LI>4 bytes: plenty of range, or can do major+minor in the same space. Larger than 1, plus inflexible.
+        <LI>string: very flexible encoding, but somewhat longer: typically would add at least 8 bytes, even if short.
+        <LI>CDR encapsulation: can put any data type in there, but we would need a version encoding ID, making this too
+        bulky (this is as big as a tagged component).
+        <LI>self-describing sequence of octets. What I mean by this is that bit 7 in each octet is set to 1 if more octets
+        follow, or 0 if it is the last octet.This is usually as small as case 1, while being completely open ended if we
+        need to extend it later. Reading this from a CDR stream is simple enough: just keep calling read_byte until a result
+        &gt;0 is returned. Then the encoding is simply:
+        <UL>
+                <LI>Last octet: encoding = value
+                <LI>Not last octet: encoding = value - 128
+        </UL>
+</OL>
+
+
+<BLOCKQUOTE>
+        <P>Note that for a version in the range 0-127, this is exactly the same as option 1.
+</BLOCKQUOTE>
+
+<P>As I stated previously, the reason I am thinking about the format of the version ID is if we need to know something
+like JDK version or OS in the version. Perhaps we should allow for this, but it's hard to decide how far to go.
+For example, we could represent a version by a string (or an equivalent octet sequence in option 5) in the following
+format:</P>
+<PRE>   &lt;major ORB version&gt;:&lt;minor ORB version&gt;:&lt;(java.version)&gt;:&lt;(os.name)&gt;:&lt;(os.arch)&gt;:&lt;(os.version&gt;)</PRE>
+<P>where (name) means the result of System.getProperty(name).</P>
+<P>Given all of these considerations, I think we should use option 5 for the version ID. All of our ORBs will currently
+restrict the version to a single octet in the 0-127 range. The location of this data is discussed in <A HREF="#OKF">&quot;Object
+Key Formats&quot;</A>.</P>
+<P>We will use exactly the same form for the version in both the object key and in a new service context. The new
+service context ID should be allocated in the range 0x4e454f00-0x4e454f0f (see ptc/00-07-06.txt). So, let's just
+define another constant TAG_ORB_VERSION = 0x4e454f00 in ORBConstants for this service context tag. This service
+context should be present in all GIOP request and reply messages sent by NEW and NEWER ORBs. Its data will consist
+solely of a series of octets (no length is needed) encoded as above.</P>
+<P>A service context is then encoded using a CDR encapsulation as follows: 
+<TABLE BORDER="1" WIDTH="20%" BGCOLOR="#FFFFCC">
+        <TR>
+                <TD WIDTH="100%">ID (4 bytes)</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="100%">Length (4 bytes)</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="100%">endianness (1 byte)</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="100%">1xxx</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="100%">1xxx</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="100%">...</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="100%">0xxx</TD>
+        </TR>
+</TABLE>
+</P>
+<P>This is easy to read as follows:</P>
+
+<OL>
+        <LI>read the ID
+        <LI>read the length
+        <LI>read the octet array based on the length
+        <LI>create an input stream from the octet array
+        <LI>consume the endianness from the new input stream
+        <LI>read and accumulate the version until we read a byte &gt; 0
+</OL>
+
+<P>If we attempt to read past the end of the encapsulation, we get a marshaling error.</P>
+
+<P>For the following discussion, we only need to distinguish the following cases based on the object version:</P>
+
+<P>
+<TABLE BORDER="1" WIDTH="64%" BGCOLOR="#CCFFFF">
+        <TR>
+                <TD WIDTH="23%">
+                        <P ALIGN="CENTER">ORB Type
+                </TD>
+                <TD WIDTH="50%">
+                        <P ALIGN="CENTER">Definition
+                </TD>
+                <TD WIDTH="15%">
+                        <P ALIGN="CENTER">Encoding
+                </TD>
+                <TD WIDTH="12%">
+                        <P ALIGN="CENTER">Magic
+                </TD>
+        </TR>
+        <TR>
+                <TD WIDTH="23%" BGCOLOR="#CCFFCC">FOREIGN</TD>
+                <TD WIDTH="50%" BGCOLOR="#CCFFCC">Foreign ORB</TD>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">none
+                </TD>
+                <TD WIDTH="12%">
+                        <P ALIGN="CENTER">N/A
+                </TD>
+        </TR>
+        <TR>
+                <TD WIDTH="23%" BGCOLOR="#CCFFCC">OLD</TD>
+                <TD WIDTH="50%" BGCOLOR="#CCFFCC">Old Sun ORB (JDK 1.2, RMI-IIOP Standard Extension, JDK 1.3, J2EE 1.0, 1.1, 1.2)</TD>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">1
+                </TD>
+                <TD WIDTH="12%">
+                        <P ALIGN="CENTER">0xAFABCAFE
+                </TD>
+        </TR>
+        <TR>
+                <TD WIDTH="23%" BGCOLOR="#CCFFCC">NEW</TD>
+                <TD WIDTH="50%" BGCOLOR="#CCFFCC">JDK 1.3.1 ORB</TD>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">2
+                </TD>
+                <TD WIDTH="12%">
+                        <P ALIGN="CENTER">0xAFABCAFF
+                </TD>
+        </TR>
+        <TR>
+                <TD WIDTH="23%" BGCOLOR="#CCFFCC">NEWER</TD>
+                <TD WIDTH="50%" BGCOLOR="#CCFFCC">JDK 1.4 or later ORB, including J2EE 1.3 or later.</TD>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">3
+                </TD>
+                <TD WIDTH="12%">
+                        <P ALIGN="CENTER">0xAFABCB00
+                </TD>
+        </TR>
+</TABLE>
+</P>
+
+<P>When the version in found in the object key, it defines the version of the ORB that created the IOR. When the
+version is found in a service context, it defines the version of the ORB that sent the GIOP request or reply. Note
+that the NEW and NEWER ORBs need different MAGIC values, since the object key structure is actually different in
+these cases. Also, only NEWER ORBs actually include a version in the object key: the version in the object key
+is implicit in the MAGIC value for OLD and NEW ORBs.</P>
+<H1><A NAME="OKF"></A>Object key formats</H1>
+<P>The current object key formats are as follows:</P>
+
+<P>MAGIC = 0xAFABCAFE</P>
+
+<P>
+<TABLE BORDER="1" WIDTH="60%">
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#CCFFFF">
+                        <P ALIGN="CENTER">Object Key Type
+                </TD>
+                <TD WIDTH="33%" BGCOLOR="#CCFFFF">
+                        <P ALIGN="CENTER">Field Name
+                </TD>
+                <TD WIDTH="34%" BGCOLOR="#CCFFFF">
+                        <P ALIGN="CENTER">Field Type
+                </TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" ROWSPAN="3" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">JIDL
+                </TD>
+                <TD WIDTH="33%" BGCOLOR="#CCFFCC">MAGIC</TD>
+                <TD WIDTH="34%" BGCOLOR="#CCFFCC">long</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#CCFFCC">SCID</TD>
+                <TD WIDTH="34%" BGCOLOR="#CCFFCC">long</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#CCFFCC">ID</TD>
+                <TD WIDTH="34%" BGCOLOR="#CCFFCC">sequence&lt;octet&gt;</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" ROWSPAN="6" BGCOLOR="#FFCCCC">
+                        <P ALIGN="CENTER">POA
+                </TD>
+                <TD WIDTH="33%" BGCOLOR="#FFCCCC">MAGIC</TD>
+                <TD WIDTH="34%" BGCOLOR="#FFCCCC">long</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#FFCCCC">SCID</TD>
+                <TD WIDTH="34%" BGCOLOR="#FFCCCC">long</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#FFCCCC">SERVERID</TD>
+                <TD WIDTH="34%" BGCOLOR="#FFCCCC">long</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#FFCCCC">ORBID</TD>
+                <TD WIDTH="34%" BGCOLOR="#FFCCCC">long</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#FFCCCC">POAID</TD>
+                <TD WIDTH="34%" BGCOLOR="#FFCCCC">long</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#FFCCCC">ID</TD>
+                <TD WIDTH="34%" BGCOLOR="#FFCCCC">sequence&lt;octet&gt;</TD>
+        </TR>
+</TABLE>
+</P>
+
+<P>Proposed new formats for NEW (JDK 1.3.1) ORB. No versions in the object key because this version has a unique
+magic number:</P>
+
+<P>MAGIC = 0xAFABCAFF</P>
+
+<P>
+<TABLE BORDER="1" WIDTH="60%">
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#CCFFFF">
+                        <P ALIGN="CENTER">Object Key Type
+                </TD>
+                <TD WIDTH="33%" BGCOLOR="#CCFFFF">
+                        <P ALIGN="CENTER">Field Name
+                </TD>
+                <TD WIDTH="34%" BGCOLOR="#CCFFFF">
+                        <P ALIGN="CENTER">Field Type
+                </TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" ROWSPAN="3" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">JIDL
+                </TD>
+                <TD WIDTH="33%" BGCOLOR="#CCFFCC">MAGIC</TD>
+                <TD WIDTH="34%" BGCOLOR="#CCFFCC">long</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#CCFFCC">SCID</TD>
+                <TD WIDTH="34%" BGCOLOR="#CCFFCC">long</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#CCFFCC">ID</TD>
+                <TD WIDTH="34%" BGCOLOR="#CCFFCC">sequence&lt;octet&gt;</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" ROWSPAN="6" BGCOLOR="#FFCCCC">
+                        <P ALIGN="CENTER">POA
+                </TD>
+                <TD WIDTH="33%" BGCOLOR="#FFCCCC">MAGIC</TD>
+                <TD WIDTH="34%" BGCOLOR="#FFCCCC">long</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#FFCCCC">SCID</TD>
+                <TD WIDTH="34%" BGCOLOR="#FFCCCC">long</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#FFCCCC">SERVERID</TD>
+                <TD WIDTH="34%" BGCOLOR="#FFCCCC">long</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#FFCCCC">ORBID</TD>
+                <TD WIDTH="34%" BGCOLOR="#FFCCCC">long</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#FFCCCC">POAID</TD>
+                <TD WIDTH="34%" BGCOLOR="#FFCCCC">long</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#FFCCCC">ID</TD>
+                <TD WIDTH="34%" BGCOLOR="#FFCCCC">sequence&lt;octet&gt;</TD>
+        </TR>
+</TABLE>
+</P>
+
+<P>New formats for NEWER (JDK 1.4 and later) ORBs:</P>
+
+<P>MAGIC = 0xAFABCB00</P>
+
+<P>
+<TABLE BORDER="1" WIDTH="60%">
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#CCFFFF">
+                        <P ALIGN="CENTER">Object Key Type
+                </TD>
+                <TD WIDTH="33%" BGCOLOR="#CCFFFF">
+                        <P ALIGN="CENTER">Field Name
+                </TD>
+                <TD WIDTH="34%" BGCOLOR="#CCFFFF">
+                        <P ALIGN="CENTER">Field Type
+                </TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" ROWSPAN="4" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">JIDL
+                </TD>
+                <TD WIDTH="33%" BGCOLOR="#CCFFCC">MAGIC</TD>
+                <TD WIDTH="34%" BGCOLOR="#CCFFCC">long</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#CCFFCC">SCID</TD>
+                <TD WIDTH="34%" BGCOLOR="#CCFFCC">long</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#CCFFCC">ID</TD>
+                <TD WIDTH="34%" BGCOLOR="#CCFFCC">sequence&lt;octet&gt;</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#CCFFCC">VERSION</TD>
+                <TD WIDTH="34%" BGCOLOR="#CCFFCC">n octets</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" ROWSPAN="7" BGCOLOR="#FFCCCC">
+                        <P ALIGN="CENTER">POA
+                </TD>
+                <TD WIDTH="33%" BGCOLOR="#FFCCCC">MAGIC</TD>
+                <TD WIDTH="34%" BGCOLOR="#FFCCCC">long</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#FFCCCC">SCID</TD>
+                <TD WIDTH="34%" BGCOLOR="#FFCCCC">long</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#FFCCCC">SERVERID</TD>
+                <TD WIDTH="34%" BGCOLOR="#FFCCCC">long</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#FFCCCC">ORBID</TD>
+                <TD WIDTH="34%" BGCOLOR="#FFCCCC">string</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#FFCCCC">POANAME</TD>
+                <TD WIDTH="34%" BGCOLOR="#FFCCCC">sequence&lt;string&gt;</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#FFCCCC">ID</TD>
+                <TD WIDTH="34%" BGCOLOR="#FFCCCC">sequence&lt;octet&gt;</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="33%" BGCOLOR="#FFCCCC">VERSION</TD>
+                <TD WIDTH="34%" BGCOLOR="#FFCCCC">n octets</TD>
+        </TR>
+</TABLE>
+</P>
+
+<P>Note that all of these are marshaled according to CDR rules. Also, note that the previous discussion here about
+MAGIC was wrong: we simply MUST change the MAGIC every time any part of the object key structure changes (or else
+we need to introduce a new subcontract, but that is actually a larger change, and I do not want to have multiple
+versions of the same subcontract that differ only in trivial encoding details.)</P>
+<H2>Representing the Version</H2>
+<P>I don't want to expose the exact encoding of versions to all of the code that needs to check the version. Instead,
+I would like to define an ORBVersion interface as follows:</P>
+<PRE>public interface ORBVersion {</PRE>
+<PRE>   int FOREIGN = 0 ;</PRE>
+<PRE>   int OLD = 1 ;</PRE>
+<PRE>   int NEW = 2 ;</PRE>
+<PRE>   int NEWER = 3 ;</PRE>
+<PRE>   /** Return the ORB version type.</PRE>
+<PRE>   * Always returns one of the constants defined in this interface</PRE>
+<PRE>   */</PRE>
+<PRE>   int getORBType() ;</PRE>
+<PRE>   /** Write the version to os as a series of properly encoded octets.</PRE>
+<PRE>   void write( OutputStream os ) ;</PRE>
+<PRE>}</PRE>
+<P>This interface provides all of the version information that we currently need. It can be extended as needed
+in the future.</P>
+<P>We also need a factory class:</P>
+<PRE>public class ORBVersionFactory {</PRE>
+<PRE>   private ORBVersionFactory() {} </PRE>
+<PRE>   /** Return the ORB version that this ORB is using.</PRE>
+<PRE>   */</PRE>
+<PRE>   public static ORBVersion getORBVersion() </PRE>
+<PRE>   { ... }</PRE>
+<PRE>   /** Get the ORB version encoded in the input stream.</PRE>
+<PRE>   */</PRE>
+<PRE>   public static ORBVersion create( InputStream is ) </PRE>
+<PRE>   { ... }</PRE>
+<PRE>}</PRE>
+<P>The factory can be efficiently implemented rather easily by pre-allocating 4 instances of an implementation
+of ORBVersion. Since the ORBVersion does not need to be mutable, we can just share the pre-allocated instances
+as needed. Both of these ORBVersion classes should be identical in Ladybird and Merlin.</P>
+<P>The ORB version service context also needs to be supported. To do this, we simply use the ORBVersionFactory
+to read the data when the service context is constructed. This simply requires adding a new ORBVersionServiceContext
+class to handle the service context.</P>
+<P>Getting the ORB version from a GIOP request proceeds something like the following:</P>
+<PRE>if (version service context is present)</PRE>
+<PRE>   get version from service context</PRE>
+<PRE>else if (request is SUN-1.0 protocol(see interoperability <A HREF="#interop-protocol">discussion</A>))</PRE>
+<PRE>   version is OLD</PRE>
+<PRE>else</PRE>
+<PRE>   version is FOREIGN</PRE>
+<H2>IOR version implementation</H2>
+<P>For getting the version from the IOR, we want something like:</P>
+<P>ior.getProfile().getVersion()</P>
+<P>so that the code using the version is independent of the different representations of IORs in Ladybird and Merlin.
+The details of how this is implemented are substantially different in the two code bases.</P>
+<H3>Implementation in Ladybird</H3>
+<P>In Ladybird, we will probably implement the versioning by going directly to the object key. We can do this as
+follows:</P>
+
+<OL>
+        <LI>Get the object key from the IOR profile.
+        <LI>Convert the object key byte array into an InputStream.
+        <LI>Read off the magic and the scid.
+        <LI>Use the scid to determine whether the key is POA or JIDL.
+        <LI>read off the rest of the data including the user ID.
+        <LI>Hand the object key over to the ORBVersionFactory.
+        <LI>return the ORBVersion.
+</OL>
+
+<P>I think we will just code this directly in core.Profile in Ladybird and not worry about the fact that too much
+of the code knows all about the object key formats. That problem is fixed in Merlin.</P>
+<H3>Implementation in Merlin/J2EE 1.3</H3>
+<P>Implementing IOR versioning in Merlin is pretty simple:</P>
+
+<DL>
+        <DT>ObjectKeyTemplate</DT>
+        <DD>The basic interface for all object key templates. I will add a ORBVersion getVersion() method on this interface.
+        <DT>ObjectKeyTemplateBase</DT>
+        <DD>This abstract class factors out the common parts of the implementation of all object key templates. This is
+        where getVersion will be implemented.
+        <DT>ObjectKeyFactory</DT>
+        <DD>This singleton factory class contains the code that determines what kind of object key template to create based
+        on the magic and subcontract ids. It needs to be modified to handle two different forms of magic, and also to get
+        the ORB version if it is present.
+</DL>
+
+<P>POAObjectKeyTemplate, JIDLObjectKeyTemplate, and WireObjectKeyTemplate are the three concrete classes that represent
+all possible object key templates in our ORB. They should be entirely unaffected by the version related changes.</P>
+<H1>Interoperability</H1>
+<P><A NAME="interop-protocol"></A>We need a way to decide upon receiving a GIOP request what kind of ORB sent it.
+Since both NEW and NEWER ORBs will always send a Sun protocol version message, those cases are easy. Distinguishing
+FOREIGN and OLD is more difficult. The old (and non-standard) GIOP protocol always sent GIOP 1.0 requests with
+CodeSet and CodeBase components. Since these two components are not defined for GIOP 1.0, it is unlikely that a
+FOREIGN ORB would send such a request. Therefore, we will assume that any such message is from an OLD or NEW ORB,
+and NEW can be distinguished based on the version. I will refer to the OLD and NEW ORB protocol as SUN-1.0.</P>
+<P>Then we can make everything interoperate across all versions as follows:</P>
+<P>
+<TABLE BORDER="1" WIDTH="100%">
+        <TR>
+                <TD WIDTH="15%" BGCOLOR="#CCFFFF">
+                        <P ALIGN="CENTER">Invoking ORB
+                </TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFFF">
+                        <P ALIGN="CENTER">ORB of IOR
+                </TD>
+                <TD WIDTH="13%" BGCOLOR="#CCFFFF">Receiving ORB</TD>
+                <TD WIDTH="40%" BGCOLOR="#CCFFFF">
+                        <P ALIGN="CENTER">Detection Mechanisms
+                </TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFFF">
+                        <P ALIGN="CENTER">Protocol
+                </TD>
+                <TD WIDTH="10%" BGCOLOR="#CCFFFF">
+                        <P ALIGN="CENTER">Serialization
+                </TD>
+        </TR>
+        <TR>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">FOREIGN</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">FOREIGN</TD>
+                <TD WIDTH="13%" BGCOLOR="#CCFFCC">FOREIGN</TD>
+                <TD COLSPAN="3" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">DON'T' CARE
+                </TD>
+        </TR>
+        <TR>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">FOREIGN</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">OLD</TD>
+                <TD WIDTH="13%" BGCOLOR="#CCFFCC">OLD</TD>
+                <TD COLSPAN="3" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">DON'T CARE (probably does not interoperate)
+                </TD>
+        </TR>
+        <TR>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">FOREIGN</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">NEW</TD>
+                <TD WIDTH="13%" BGCOLOR="#CCFFCC">NEW</TD>
+                <TD WIDTH="40%" ROWSPAN="3" BGCOLOR="#CCFFCC">Server: GIOP request is not SUN-1.0</TD>
+                <TD WIDTH="11%" ROWSPAN="3" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">compliant
+                </TD>
+                <TD WIDTH="10%" ROWSPAN="3" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">compliant
+                </TD>
+        </TR>
+        <TR>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">FOREIGN</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">NEW</TD>
+                <TD WIDTH="13%" BGCOLOR="#CCFFCC">NEWER</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">FOREIGN</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">NEWER</TD>
+                <TD WIDTH="13%" BGCOLOR="#CCFFCC">NEWER</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">OLD</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">FOREIGN</TD>
+                <TD WIDTH="13%" BGCOLOR="#CCFFCC">FOREIGN</TD>
+                <TD COLSPAN="3" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">DON'T CARE (probably does not interoperate)
+                </TD>
+        </TR>
+        <TR>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">OLD</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">OLD</TD>
+                <TD WIDTH="13%" BGCOLOR="#CCFFCC">OLD</TD>
+                <TD COLSPAN="3" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">currently interoperable
+                </TD>
+        </TR>
+        <TR>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">OLD</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">NEW</TD>
+                <TD WIDTH="13%" BGCOLOR="#CCFFCC">NEW</TD>
+                <TD WIDTH="40%" ROWSPAN="3" BGCOLOR="#CCFFCC">Server: GIOP request is SUN-1.0</TD>
+                <TD WIDTH="11%" ROWSPAN="3" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">SUN-1.0
+                </TD>
+                <TD WIDTH="10%" ROWSPAN="3" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">old
+                </TD>
+        </TR>
+        <TR>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">OLD</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">NEW</TD>
+                <TD WIDTH="13%" BGCOLOR="#CCFFCC">NEWER</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">OLD</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">NEWER</TD>
+                <TD WIDTH="13%" BGCOLOR="#CCFFCC">NEWER</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">NEW</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">FOREIGN</TD>
+                <TD WIDTH="13%" BGCOLOR="#CCFFCC">FOREIGN</TD>
+                <TD WIDTH="40%" BGCOLOR="#CCFFCC">Client: IOR does not contain magic</TD>
+                <TD WIDTH="11%" ROWSPAN="5" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">SUN-1.0
+                </TD>
+                <TD WIDTH="10%" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">compliant
+                </TD>
+        </TR>
+        <TR>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">NEW</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">OLD</TD>
+                <TD WIDTH="13%" BGCOLOR="#CCFFCC">OLD</TD>
+                <TD WIDTH="40%" BGCOLOR="#CCFFCC">Client: IOR contains old magic</TD>
+                <TD WIDTH="10%" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">old
+                </TD>
+        </TR>
+        <TR>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">NEW</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">NEW</TD>
+                <TD WIDTH="13%" BGCOLOR="#CCFFCC">NEW</TD>
+                <TD WIDTH="40%" BGCOLOR="#CCFFCC">Client: IOR contains new magic, NEW version</TD>
+                <TD WIDTH="10%" ROWSPAN="3" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">compliant
+                </TD>
+        </TR>
+        <TR>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">NEW</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">NEW</TD>
+                <TD WIDTH="13%" BGCOLOR="#CCFFCC">NEWER</TD>
+                <TD WIDTH="40%" BGCOLOR="#CCFFCC">Client: IOR contains new magic, NEW version<BR>
+                        <BR>
+                        Server: receives target with NEW version</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="15%" HEIGHT="52" BGCOLOR="#CCFFCC">NEW</TD>
+                <TD WIDTH="11%" HEIGHT="52" BGCOLOR="#CCFFCC">NEWER</TD>
+                <TD WIDTH="13%" HEIGHT="52" BGCOLOR="#CCFFCC">NEWER</TD>
+                <TD WIDTH="40%" HEIGHT="52" BGCOLOR="#CCFFCC">Client: IOR contains new magic<BR>
+                        <BR>
+                        Server: receives target with NEWER version</TD>
+        </TR>
+        <TR>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">NEWER</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">FOREIGN</TD>
+                <TD WIDTH="13%" BGCOLOR="#CCFFCC">FOREIGN</TD>
+                <TD WIDTH="40%" BGCOLOR="#CCFFCC">Client: IOR does not contain magic</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">compliant
+                </TD>
+                <TD WIDTH="10%" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">compliant
+                </TD>
+        </TR>
+        <TR>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">NEWER</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">OLD</TD>
+                <TD WIDTH="13%" BGCOLOR="#CCFFCC">OLD</TD>
+                <TD WIDTH="40%" BGCOLOR="#CCFFCC">Client: IOR contains old magic</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">SUN-1.0
+                </TD>
+                <TD WIDTH="10%" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">old
+                </TD>
+        </TR>
+        <TR>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">NEWER</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">NEW</TD>
+                <TD WIDTH="13%" BGCOLOR="#CCFFCC">NEW</TD>
+                <TD WIDTH="40%" BGCOLOR="#CCFFCC">Client: IOR contains new magic, NEW version</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">SUN-1.0
+                </TD>
+                <TD WIDTH="10%" ROWSPAN="3" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">compliant
+                </TD>
+        </TR>
+        <TR>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">NEWER</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">NEW</TD>
+                <TD WIDTH="13%" BGCOLOR="#CCFFCC">NEWER</TD>
+                <TD WIDTH="40%" BGCOLOR="#CCFFCC">Client: IOR contains new magic, NEW version<BR>
+                        <BR>
+                        Server: receives target with NEW version</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">SUN-1.0
+                </TD>
+        </TR>
+        <TR>
+                <TD WIDTH="15%" BGCOLOR="#CCFFCC">NEWER</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">NEWER</TD>
+                <TD WIDTH="13%" BGCOLOR="#CCFFCC">NEWER</TD>
+                <TD WIDTH="40%" BGCOLOR="#CCFFCC">Client: IOR contains new magic, NEWER version<BR>
+                        <BR>
+                        Server: receives target with NEWER version</TD>
+                <TD WIDTH="11%" BGCOLOR="#CCFFCC">
+                        <P ALIGN="CENTER">compliant
+                </TD>
+        </TR>
+</TABLE>
+</P>
+
+<P>Note that the versioning is complicated by the fact that an ORB supporting a POA may receive requests on persistent
+object references that were created by an ORB of an earlier version that supported the POA. We can detect this
+by checking the version of the target that was received in the GIOP request, which may be different from the version
+of the receiving ORB. We only support backwards compatibility here: it is not always possible to run a persistent
+server for an object reference on an ORB whose version is earlier than the version in the object reference. In
+particular, a persistent IOR created by a NEWER ORB cannot be served by a NEW ORB. The last two rows in the table
+are significant: the protocol accepted by the server is different in these two cases because the client can only
+chose the version based on the IOR, not on the actual version of the server.
+
+</BODY>
+
+</HTML>

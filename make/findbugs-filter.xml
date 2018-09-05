@@ -1,0 +1,123 @@
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<FindBugsFilter>
+    <Match>
+        <!-- The ORB shutdown method is doing what it needs to do,
+             so we can ignore this warning. -->
+        <Class name="com.sun.corba.ee.impl.orb.ORBImpl"/>
+        <Method name="shutdown"/>
+        <Bug code="TLW"/>
+    </Match>
+    <Match>
+        <!-- CachedData by design is supposed to acquire a lock in its
+             get method and release the lock in the release method.
+             Users of this class should call CachedData.release in a 
+             finally block. -->
+        <Class name="com.sun.corba.ee.spi.orbutil.generic.CachedData"/>
+        <Bug code="UL"/>
+    </Match>
+    <Match>
+        <!-- This is needed because the calls to new String("") are ESSENTAL
+             to the correct functioning of IIOP: different instances of a
+             String must unmarshal to different instances! -->
+        <Or>
+            <Class name="com.sun.corba.ee.impl.encoding.CDRInputStream_1_0"/>
+            <Class name="com.sun.corba.ee.impl.encoding.CDRInputStream_1_1"/>
+            <Class name="com.sun.corba.ee.impl.encoding.CDRInputStream_1_2"/>
+        </Or>
+        <Bug code="Dm"/>
+    </Match>
+    <Match>
+        <!-- This one is strange: wrapper IS used, and not set to null.
+             Excluding because the FindBugs results seems to be in error. -->
+        <Class name="com.sun.corba.ee.impl.protocol.giopmsgheaders.ReplyMessage_1_1"/>
+        <Bug code="UwF"/>
+    </Match>
+    <Match>
+        <!-- Excluding this because TransientNameServer is not used in GF,
+             and this error is complaining about catching Exception, which 
+             also catches RuntimeException.  But this is the main method in 
+             the standalone tnameserver class, which should catch Exceptions
+             and report the error, rather than just dumping a stack trace. -->
+        <Class name="com.sun.corba.ee.impl.naming.cosnaming.TransientNameServer"/>
+        <Bug code="REC"/>
+    </Match>
+    <Match>
+        <!-- Excluded because read_value and read_Value MUST both be included,
+             as unfortunately they are defined in CORBA standards. -->
+        <Or>
+            <Class name="com.sun.corba.ee.impl.encoding.CDRInputObject"/>
+            <Class name="com.sun.corba.ee.impl.encoding.CDROutputObject"/>
+            <Class name="com.sun.corba.ee.spi.orb.ORB"/>
+        </Or>
+        <Bug code="Nm"/>
+    </Match>
+    <Match>
+        <!-- This is an error in findbugs: the classCopierFactory field is clearly
+             used. -->
+        <Class name="com.sun.corba.ee.impl.orbutil.copyobject.ClassCopierOrdinaryImpl"/>
+        <Bug code="UrF"/>
+    </Match>
+
+    <!-- Exclude IDLJ generated code, IDLJ, third party code, tool code that is 
+         used only at build time,
+         and code that is not part of the ORB as packaged for GlassFish. -->
+    <Match>
+        <Package name="~org.glassfish.*"/>
+    </Match>
+    <Match>
+        <Package name="~org.osgi.*"/>
+    </Match>
+    <Match>
+        <Package name="~com.sun.corba.ee.impl.activation"/>
+    </Match>
+    <Match>
+        <Package name="~com.sun.corba.ee.impl.naming.pcosnaming"/>
+    </Match>
+    <Match>
+        <Package name="~sun.rmi.*"/>
+    </Match>
+    <Match>
+        <Package name="~com.sun.tools.corba.ee.idl.*"/>
+    </Match>
+    <Match>
+        <Package name="~com.sun.corba.ee.org.omg.*"/>
+    </Match>
+    <Match>
+        <Package name="~com.sun.org.omg.*"/>
+    </Match>
+    <Match>
+        <Package name="~org.omg.*"/>
+    </Match>
+    <Match>
+        <Package name="~com.sun.corba.ee.spi.activation.*"/>
+    </Match>
+    <Match>
+        <Package name="~com.sun.corba.ee.impl.orbutil.newtimer.generated"/>
+    </Match>
+    <Match>
+        <Package name="~com.sun.corba.ee.impl.osgi.main"/>
+    </Match>
+    <Match>
+        <Package name="~com.sun.corba.ee.spi.osgi"/>
+    </Match>
+    <Match>
+        <Package name="~com.sun.corba.ee.impl.presentation.rmi.proxy"/>
+    </Match>
+    <Match>
+        <Package name="~com.sun.corba.ee.impl.txpoa"/>
+    </Match>
+    <Match>
+        <Package name="~javax.rmi.*"/>
+    </Match>
+</FindBugsFilter>
