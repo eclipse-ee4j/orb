@@ -244,7 +244,7 @@ public class ServerGroupManager
                         skippingEndpoint(sinfo);
                     } else {
                         includingEndpoint(sinfo);
-                        // Don't want junk like orb-listener-1 from GlassFish here
+                        // Don't want identifier like orb-listener-1 from GlassFish here
                         final SocketInfo si = new SocketInfo( CLEAR, sinfo.host(), sinfo.port() ) ;
                         listOfSocketInfo.add( si ) ;
                     }
