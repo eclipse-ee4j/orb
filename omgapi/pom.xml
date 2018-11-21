@@ -57,7 +57,7 @@
                 <artifactId>maven-bundle-plugin</artifactId>
                 <configuration>
                     <instructions>
-                        <Export-Package>org.omg.*; version=1, com.sun.*;version=1, javax.rmi;version=1, javax.rmi.CORBA;version=1</Export-Package>
+                        <Export-Package>org.omg.*;version="1", com.sun.*;version="1", javax.rmi;version="1", javax.rmi.CORBA;version="1"</Export-Package>
                         <Import-Package>!org.omg.PortableServer.ServantLocatorPackage</Import-Package>
                         <Fragment-Host>system.bundle; extension:=framework</Fragment-Host>
                     </instructions>
