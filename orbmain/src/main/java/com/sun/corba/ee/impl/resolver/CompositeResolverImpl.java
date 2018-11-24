@@ -8,36 +8,33 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package com.sun.corba.ee.impl.resolver ;
+package com.sun.corba.ee.impl.resolver;
 
-import java.util.Set ;
-import java.util.HashSet ;
+import java.util.Set;
+import java.util.HashSet;
 
-import com.sun.corba.ee.spi.resolver.Resolver ;
+import com.sun.corba.ee.spi.resolver.Resolver;
 
 public class CompositeResolverImpl implements Resolver {
-    private Resolver first ;
-    private Resolver second ;
+    private Resolver first;
+    private Resolver second;
 
-    public CompositeResolverImpl( Resolver first, Resolver second ) 
-    {
-        this.first = first ;
-        this.second = second ;
+    public CompositeResolverImpl(Resolver first, Resolver second) {
+        this.first = first;
+        this.second = second;
     }
 
-    public org.omg.CORBA.Object resolve( String name ) 
-    {
-        org.omg.CORBA.Object result = first.resolve( name ) ;
-        if (result == null) 
-            result = second.resolve( name ) ;
-        return result ;
+    public org.omg.CORBA.Object resolve(String name) {
+        org.omg.CORBA.Object result = first.resolve(name);
+        if (result == null)
+            result = second.resolve(name);
+        return result;
     }
 
-    public Set<String> list()
-    {
-        Set<String> result = new HashSet() ;
-        result.addAll( first.list() ) ;
-        result.addAll( second.list() ) ;
-        return result ;
+    public Set<String> list() {
+        Set<String> result = new HashSet();
+        result.addAll(first.list());
+        result.addAll(second.list());
+        return result;
     }
 }

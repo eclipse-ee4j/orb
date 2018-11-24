@@ -11,7 +11,7 @@
 package com.sun.corba.ee.impl.naming.namingutil;
 
 /**
- *  Constants specific to INS parsing and validation.
+ * Constants specific to INS parsing and validation.
  */
 public class NamingConstants {
 
@@ -21,7 +21,7 @@ public class NamingConstants {
     // rir: length
     public static final int RIRCOLON_LENGTH = 4;
 
-    public static final int MAJORNUMBER_SUPPORTED          = 1;
+    public static final int MAJORNUMBER_SUPPORTED = 1;
 
-    public static final int MINORNUMBERMAX                 = 2;
+    public static final int MINORNUMBERMAX = 2;
 }

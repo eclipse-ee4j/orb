@@ -24,152 +24,139 @@ import com.sun.tools.corba.ee.idl.ForwardValueEntry;
 /**
  *
  **/
-public class ForwardValueGen implements com.sun.tools.corba.ee.idl.ForwardValueGen, JavaGenerator
-{
-  /**
-   * Public zero-argument constructor.
-   **/
-  public ForwardValueGen ()
-  {
-  } // ctor
+public class ForwardValueGen implements com.sun.tools.corba.ee.idl.ForwardValueGen, JavaGenerator {
+    /**
+     * Public zero-argument constructor.
+     **/
+    public ForwardValueGen() {
+    } // ctor
 
-  /**
-   *
-   **/
-  public void generate (Hashtable symbolTable, ForwardValueEntry v, PrintWriter str)
-  {
-    this.symbolTable = symbolTable;
-    this.v = v;
-    
-    openStream ();
-    if (stream == null)
-      return;
-    generateHelper ();
-    generateHolder ();
-    generateStub ();
-    writeHeading ();
-    writeBody ();
-    writeClosing ();
-    closeStream ();
-  } // generate
+    /**
+     *
+     **/
+    public void generate(Hashtable symbolTable, ForwardValueEntry v, PrintWriter str) {
+        this.symbolTable = symbolTable;
+        this.v = v;
 
-  /**
-   *
-   **/
-  protected void openStream ()
-  {
-    stream = com.sun.tools.corba.ee.idl.toJavaPortable.Util.stream(v, ".java");
-  } // openStream
+        openStream();
+        if (stream == null)
+            return;
+        generateHelper();
+        generateHolder();
+        generateStub();
+        writeHeading();
+        writeBody();
+        writeClosing();
+        closeStream();
+    } // generate
 
-  /**
-   *
-   **/
-  protected void generateHelper ()
-  {
-    ((com.sun.tools.corba.ee.idl.toJavaPortable.Factories) com.sun.tools.corba.ee.idl.toJavaPortable.Compile.compiler.factories ()).helper ().generate (symbolTable, v);
-  } // generateHelper
+    /**
+     *
+     **/
+    protected void openStream() {
+        stream = com.sun.tools.corba.ee.idl.toJavaPortable.Util.stream(v, ".java");
+    } // openStream
 
-  /**
-   *
-   **/
-  protected void generateHolder ()
-  {
-    ((com.sun.tools.corba.ee.idl.toJavaPortable.Factories) com.sun.tools.corba.ee.idl.toJavaPortable.Compile.compiler.factories ()).holder ().generate (symbolTable, v);
-  } // generateHolder
+    /**
+     *
+     **/
+    protected void generateHelper() {
+        ((com.sun.tools.corba.ee.idl.toJavaPortable.Factories) com.sun.tools.corba.ee.idl.toJavaPortable.Compile.compiler.factories()).helper()
+                .generate(symbolTable, v);
+    } // generateHelper
 
-  /**
-   *
-   **/
-  protected void generateStub ()
-  {
-  } // generateStub
+    /**
+     *
+     **/
+    protected void generateHolder() {
+        ((com.sun.tools.corba.ee.idl.toJavaPortable.Factories) com.sun.tools.corba.ee.idl.toJavaPortable.Compile.compiler.factories()).holder()
+                .generate(symbolTable, v);
+    } // generateHolder
 
-  /**
-   *
-   **/
-  protected void writeHeading ()
-  {
-    com.sun.tools.corba.ee.idl.toJavaPortable.Util.writePackage(stream, v);
-    com.sun.tools.corba.ee.idl.toJavaPortable.Util.writeProlog(stream, ((GenFileStream) stream).name());
+    /**
+     *
+     **/
+    protected void generateStub() {
+    } // generateStub
 
-    if (v.comment () != null)
-      v.comment ().generate ("", stream);
+    /**
+     *
+     **/
+    protected void writeHeading() {
+        com.sun.tools.corba.ee.idl.toJavaPortable.Util.writePackage(stream, v);
+        com.sun.tools.corba.ee.idl.toJavaPortable.Util.writeProlog(stream, ((GenFileStream) stream).name());
 
-    stream.print ("public class " + v.name () + " implements org.omg.CORBA.portable.IDLEntity");
-      // There should ALWAYS be at least one:  ValueBase
+        if (v.comment() != null)
+            v.comment().generate("", stream);
 
-    stream.println ("{");
-  } // writeHeading
+        stream.print("public class " + v.name() + " implements org.omg.CORBA.portable.IDLEntity");
+        // There should ALWAYS be at least one: ValueBase
 
-  /**
-   *
-   **/
-  protected void writeBody ()
-  {
-  } // writeBody
+        stream.println("{");
+    } // writeHeading
 
-  /**
-   *
-   **/
-  protected void writeClosing ()
-  {
-   stream.println ("} // class " + v.name ());
-  } // writeClosing
+    /**
+     *
+     **/
+    protected void writeBody() {
+    } // writeBody
 
-  /**
-   *
-   **/
-  protected void closeStream ()
-  {
-    stream.close ();
-  } // closeStream
+    /**
+     *
+     **/
+    protected void writeClosing() {
+        stream.println("} // class " + v.name());
+    } // writeClosing
 
-  ///////////////
-  // From JavaGenerator
+    /**
+     *
+     **/
+    protected void closeStream() {
+        stream.close();
+    } // closeStream
 
-  public int helperType (int index, String indent, com.sun.tools.corba.ee.idl.toJavaPortable.TCOffsets tcoffsets, String name, SymtabEntry entry, PrintWriter stream)
-  {
-    return index;
-  } // helperType
+    ///////////////
+    // From JavaGenerator
 
-  public int type (int index, String indent, com.sun.tools.corba.ee.idl.toJavaPortable.TCOffsets tcoffsets, String name, SymtabEntry entry, PrintWriter stream) {
-    stream.println (indent + name + " = " + com.sun.tools.corba.ee.idl.toJavaPortable.Util.helperName(entry, true) + ".type ();"); // <d61056>
-    return index;
-  } // type
+    public int helperType(int index, String indent, com.sun.tools.corba.ee.idl.toJavaPortable.TCOffsets tcoffsets, String name, SymtabEntry entry,
+            PrintWriter stream) {
+        return index;
+    } // helperType
 
-  public void helperRead (String entryName, SymtabEntry entry, PrintWriter stream)
-  {
-    stream.println ("    " + entryName + " value = new " + entryName + " ();");
-    read (0, "    ", "value", entry, stream);
-    stream.println ("    return value;");
-  } // helperRead
+    public int type(int index, String indent, com.sun.tools.corba.ee.idl.toJavaPortable.TCOffsets tcoffsets, String name, SymtabEntry entry,
+            PrintWriter stream) {
+        stream.println(indent + name + " = " + com.sun.tools.corba.ee.idl.toJavaPortable.Util.helperName(entry, true) + ".type ();"); // <d61056>
+        return index;
+    } // type
 
-  public int read (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
-  {
-    return index;
-  } // read
+    public void helperRead(String entryName, SymtabEntry entry, PrintWriter stream) {
+        stream.println("    " + entryName + " value = new " + entryName + " ();");
+        read(0, "    ", "value", entry, stream);
+        stream.println("    return value;");
+    } // helperRead
 
-  public void helperWrite (SymtabEntry entry, PrintWriter stream)
-  {
-    write (0, "    ", "value", entry, stream);
-  } // helperWrite
+    public int read(int index, String indent, String name, SymtabEntry entry, PrintWriter stream) {
+        return index;
+    } // read
 
-  public int write (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
-  {
-    return index;
-  } // write
+    public void helperWrite(SymtabEntry entry, PrintWriter stream) {
+        write(0, "    ", "value", entry, stream);
+    } // helperWrite
 
-  // From JavaGenerator
-  ///////////////
+    public int write(int index, String indent, String name, SymtabEntry entry, PrintWriter stream) {
+        return index;
+    } // write
 
-  /**
-   *
-   **/
-  protected void writeAbstract ()
-  {
-  } // writeAbstract
+    // From JavaGenerator
+    ///////////////
 
-  protected Hashtable  symbolTable = null;
-  protected ForwardValueEntry v = null;
-  protected PrintWriter stream = null;
+    /**
+     *
+     **/
+    protected void writeAbstract() {
+    } // writeAbstract
+
+    protected Hashtable symbolTable = null;
+    protected ForwardValueEntry v = null;
+    protected PrintWriter stream = null;
 } // class ForwardValueGen

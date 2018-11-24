@@ -11,8 +11,7 @@
 package org.omg.CORBA;
 
 /**
- * A <tt>PolicyErrorCode</tt> which would be filled in
- * the <tt>PolicyError</tt> exception.
+ * A <tt>PolicyErrorCode</tt> which would be filled in the <tt>PolicyError</tt> exception.
  *
  * @author rip-dev
  * @version 1.16 07/27/07

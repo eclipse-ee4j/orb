@@ -15,12 +15,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class UnaryExpression extends Expression {
+public class UnaryExpression extends Expression {
     Expression right;
 
     /**
@@ -36,7 +34,7 @@ class UnaryExpression extends Expression {
      */
     public Expression order() {
         if (precedence() > right.precedence()) {
-            UnaryExpression e = (UnaryExpression)right;
+            UnaryExpression e = (UnaryExpression) right;
             right = e.right;
             e.right = order();
             return e;
@@ -87,38 +85,44 @@ class UnaryExpression extends Expression {
     Expression eval(int a) {
         return this;
     }
+
     Expression eval(long a) {
         return this;
     }
+
     Expression eval(float a) {
         return this;
     }
+
     Expression eval(double a) {
         return this;
     }
+
     Expression eval(boolean a) {
         return this;
     }
+
     Expression eval(String a) {
         return this;
     }
+
     Expression eval() {
         switch (right.op) {
-          case BYTEVAL:
-          case CHARVAL:
-          case SHORTVAL:
-          case INTVAL:
-            return eval(((IntegerExpression)right).value);
-          case LONGVAL:
-            return eval(((LongExpression)right).value);
-          case FLOATVAL:
-            return eval(((FloatExpression)right).value);
-          case DOUBLEVAL:
-            return eval(((DoubleExpression)right).value);
-          case BOOLEANVAL:
-            return eval(((BooleanExpression)right).value);
-          case STRINGVAL:
-            return eval(((StringExpression)right).value);
+        case BYTEVAL:
+        case CHARVAL:
+        case SHORTVAL:
+        case INTVAL:
+            return eval(((IntegerExpression) right).value);
+        case LONGVAL:
+            return eval(((LongExpression) right).value);
+        case FLOATVAL:
+            return eval(((FloatExpression) right).value);
+        case DOUBLEVAL:
+            return eval(((DoubleExpression) right).value);
+        case BOOLEANVAL:
+            return eval(((BooleanExpression) right).value);
+        case STRINGVAL:
+            return eval(((StringExpression) right).value);
         }
         return this;
     }
@@ -129,14 +133,15 @@ class UnaryExpression extends Expression {
     public Expression inline(Environment env, Context ctx) {
         return right.inline(env, ctx);
     }
+
     public Expression inlineValue(Environment env, Context ctx) {
         right = right.inlineValue(env, ctx);
         try {
             return eval().simplify();
         } catch (ArithmeticException e) {
-            // Got rid of this error message.  It isn't illegal to
+            // Got rid of this error message. It isn't illegal to
             // have a program which does a constant division by
-            // zero.  We return `this' to make the compiler to
+            // zero. We return `this' to make the compiler to
             // generate code here.
             // (bugs 4019304, 4089107).
             //
@@ -151,7 +156,7 @@ class UnaryExpression extends Expression {
      * Create a copy of the expression for method inlining
      */
     public Expression copyInline(Context ctx) {
-        UnaryExpression e = (UnaryExpression)clone();
+        UnaryExpression e = (UnaryExpression) clone();
         if (right != null) {
             e.right = right.copyInline(ctx);
         }

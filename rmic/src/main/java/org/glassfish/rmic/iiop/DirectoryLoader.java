@@ -16,8 +16,8 @@ import java.io.File;
 import java.io.FileInputStream;
 
 /**
- * DirectoryLoader is a simple ClassLoader which loads from a specified
- * file system directory.
+ * DirectoryLoader is a simple ClassLoader which loads from a specified file system directory.
+ *
  * @author Bryan Atsatt
  */
 
@@ -29,7 +29,7 @@ public class DirectoryLoader extends ClassLoader {
     /**
      * Constructor.
      */
-    public DirectoryLoader (File rootDir) {
+    public DirectoryLoader(File rootDir) {
         cache = new Hashtable();
         if (rootDir == null || !rootDir.isDirectory()) {
             throw new IllegalArgumentException();
@@ -37,7 +37,8 @@ public class DirectoryLoader extends ClassLoader {
         root = rootDir;
     }
 
-    private DirectoryLoader () {}
+    private DirectoryLoader() {
+    }
 
     /**
      * Convenience version of loadClass which sets 'resolve' == true.
@@ -47,14 +48,12 @@ public class DirectoryLoader extends ClassLoader {
     }
 
     /**
-     * This is the required version of loadClass which is called
-     * both from loadClass above and from the internal function
+     * This is the required version of loadClass which is called both from loadClass above and from the internal function
      * FindClassFromClass.
      */
-    public synchronized Class loadClass(String className, boolean resolve)
-        throws ClassNotFoundException {
+    public synchronized Class loadClass(String className, boolean resolve) throws ClassNotFoundException {
         Class result;
-        byte  classData[];
+        byte classData[];
 
         // Do we already have it in the cache?
 
@@ -88,7 +87,8 @@ public class DirectoryLoader extends ClassLoader {
 
                 // Resolve it...
 
-                if (resolve) resolveClass(result);
+                if (resolve)
+                    resolveClass(result);
 
                 // Add to cache...
 
@@ -100,17 +100,16 @@ public class DirectoryLoader extends ClassLoader {
     }
 
     /**
-     * Reurn a byte array containing the contents of the class file.  Returns null
-     * if an exception occurs.
+     * Reurn a byte array containing the contents of the class file. Returns null if an exception occurs.
      */
-    private byte[] getClassFileData (String className) {
+    private byte[] getClassFileData(String className) {
 
         byte result[] = null;
         FileInputStream stream = null;
 
         // Get the file...
 
-        File classFile = new File(root,className.replace('.',File.separatorChar) + ".class");
+        File classFile = new File(root, className.replace('.', File.separatorChar) + ".class");
 
         // Now get the bits...
 
@@ -118,7 +117,7 @@ public class DirectoryLoader extends ClassLoader {
             stream = new FileInputStream(classFile);
             result = new byte[stream.available()];
             stream.read(result);
-        } catch(ThreadDeath death) {
+        } catch (ThreadDeath death) {
             throw death;
         } catch (Throwable e) {
         }
@@ -127,7 +126,7 @@ public class DirectoryLoader extends ClassLoader {
             if (stream != null) {
                 try {
                     stream.close();
-                } catch(ThreadDeath death) {
+                } catch (ThreadDeath death) {
                     throw death;
                 } catch (Throwable e) {
                 }

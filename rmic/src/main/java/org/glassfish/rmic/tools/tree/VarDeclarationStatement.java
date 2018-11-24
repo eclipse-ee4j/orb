@@ -17,12 +17,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class VarDeclarationStatement extends Statement {
+public class VarDeclarationStatement extends Statement {
     LocalMember field;
     Expression expr;
 
@@ -33,6 +31,7 @@ class VarDeclarationStatement extends Statement {
         super(VARDECLARATION, where);
         this.expr = expr;
     }
+
     public VarDeclarationStatement(long where, LocalMember field, Expression expr) {
         super(VARDECLARATION, where);
         this.field = field;
@@ -47,8 +46,7 @@ class VarDeclarationStatement extends Statement {
             env.error(where, "declaration.with.label", labels[0]);
         }
         if (field != null) {
-            if (ctx.getLocalClass(field.getName()) != null
-                && field.isInnerClass()) {
+            if (ctx.getLocalClass(field.getName()) != null && field.isInnerClass()) {
                 env.error(where, "local.class.redefined", field.getName());
             }
 
@@ -56,8 +54,7 @@ class VarDeclarationStatement extends Statement {
             if (field.isInnerClass()) {
                 ClassDefinition body = field.getInnerClass();
                 try {
-                    vset = body.checkLocalClass(env, ctx, vset,
-                                                null, null, null);
+                    vset = body.checkLocalClass(env, ctx, vset, null, null, null);
                 } catch (ClassNotFound ee) {
                     env.error(where, "class.not.found", ee.name, opNames[op]);
                 }
@@ -69,22 +66,22 @@ class VarDeclarationStatement extends Statement {
 
         // Argument 'expr' is either an IdentifierExpression for a declaration of
         // the form 'type x' or an AssignmentExpression for a declaration of the
-        // form 'type x = initvalue'.  Note that these expressions are treated
+        // form 'type x = initvalue'. Note that these expressions are treated
         // specially in this context, and don't have much connection to their ordinary
         // meaning.
 
         Expression e = expr;
 
         if (e.op == ASSIGN) {
-            expr = ((AssignExpression)e).right;
-            e = ((AssignExpression)e).left;
+            expr = ((AssignExpression) e).right;
+            e = ((AssignExpression) e).left;
         } else {
             expr = null;
         }
 
         boolean declError = t.isType(TC_ERROR);
         while (e.op == ARRAYACCESS) {
-            ArrayAccessExpression array = (ArrayAccessExpression)e;
+            ArrayAccessExpression array = (ArrayAccessExpression) e;
             if (array.index != null) {
                 env.error(array.index.where, "array.dim.in.type");
                 declError = true;
@@ -93,7 +90,7 @@ class VarDeclarationStatement extends Statement {
             t = Type.tArray(t);
         }
         if (e.op == IDENT) {
-            Identifier id = ((IdentifierExpression)e).id;
+            Identifier id = ((IdentifierExpression) e).id;
             if (ctx.getLocalField(id) != null) {
                 env.error(where, "local.redefined", id);
             }
@@ -107,7 +104,7 @@ class VarDeclarationStatement extends Statement {
                 field.setValue(expr); // for the sake of non-blank finals
                 if (field.isConstant()) {
                     // Keep in mind that isConstant() only means expressions
-                    // that are constant according to the JLS.  They might
+                    // that are constant according to the JLS. They might
                     // not be either constants or evaluable (eg. 1/0).
                     field.addModifiers(M_INLINEABLE);
                 }
@@ -152,38 +149,37 @@ class VarDeclarationStatement extends Statement {
                     // Then if the identifier is a local of the same method
                     // it makes the final variable eligible to be inlined.
                     // BUT: why isn't the local also checked to make sure
-                    // it is itself final?  Unknown.
+                    // it is itself final? Unknown.
 
-                    IdentifierExpression e = (IdentifierExpression)expr;
-                    if (e.field.isLocal() && ((ctx = ctx.getInlineContext()) != null) &&
-                        (((LocalMember)e.field).number < ctx.varNumber)) {
-                        //System.out.println("FINAL IDENT = " + field + " in " + ctx.field);
+                    IdentifierExpression e = (IdentifierExpression) expr;
+                    if (e.field.isLocal() && ((ctx = ctx.getInlineContext()) != null) && (((LocalMember) e.field).number < ctx.varNumber)) {
+                        // System.out.println("FINAL IDENT = " + field + " in " + ctx.field);
                         field.setValue(expr);
                         field.addModifiers(M_INLINEABLE);
 
                         // The two lines below used to elide the declaration
                         // of inlineable variables, on the theory that there
-                        // wouldn't be any references.  But this breaks the
+                        // wouldn't be any references. But this breaks the
                         // translation of nested classes, which might refer to
                         // the variable.
 
-                        //expr = null;
-                        //return null;
+                        // expr = null;
+                        // return null;
                     }
                 }
                 if (expr.isConstant() || (expr.op == THIS) || (expr.op == SUPER)) {
-                    //System.out.println("FINAL = " + field + " in " + ctx.field);
+                    // System.out.println("FINAL = " + field + " in " + ctx.field);
                     field.setValue(expr);
                     field.addModifiers(M_INLINEABLE);
 
                     // The two lines below used to elide the declaration
                     // of inlineable variables, on the theory that there
-                    // wouldn't be any references.  But this breaks the
+                    // wouldn't be any references. But this breaks the
                     // translation of nested classes, which might refer to
-                    // the variable.  Fix for 4073244.
+                    // the variable. Fix for 4073244.
 
-                    //expr = null;
-                    //return null;
+                    // expr = null;
+                    // return null;
                 }
             }
         }
@@ -194,7 +190,7 @@ class VarDeclarationStatement extends Statement {
      * Create a copy of the statement for method inlining
      */
     public Statement copyInline(Context ctx, boolean valNeeded) {
-        VarDeclarationStatement s = (VarDeclarationStatement)clone();
+        VarDeclarationStatement s = (VarDeclarationStatement) clone();
         if (expr != null) {
             s.expr = expr.copyInline(ctx);
         }
@@ -206,7 +202,7 @@ class VarDeclarationStatement extends Statement {
      */
     public int costInline(int thresh, Environment env, Context ctx) {
         if (field != null && field.isInnerClass()) {
-            return thresh;      // don't copy classes...
+            return thresh; // don't copy classes...
         }
         return (expr != null) ? expr.costInline(thresh, env, ctx) : 0;
     }
@@ -217,23 +213,22 @@ class VarDeclarationStatement extends Statement {
     public void code(Environment env, Context ctx, Assembler asm) {
         if (expr != null && !expr.type.isType(TC_VOID)) {
             // The two lines of code directly following this comment used
-            // to be in the opposite order.  They were switched so that
+            // to be in the opposite order. They were switched so that
             // lines like the following:
             //
-            //     int j = (j = 4);
+            // int j = (j = 4);
             //
-            // will compile correctly.  (Constructions like the above are
-            // legal.  JLS 14.3.2 says that the scope of a local variable
-            // includes its own initializer.)  It is important that we
+            // will compile correctly. (Constructions like the above are
+            // legal. JLS 14.3.2 says that the scope of a local variable
+            // includes its own initializer.) It is important that we
             // declare `field' before we code `expr', because otherwise
             // situations can arise where `field' thinks it is assigned
             // a local variable slot that is, in actuality, assigned to
-            // an entirely different variable.  (Bug id 4076729)
+            // an entirely different variable. (Bug id 4076729)
             ctx.declare(env, field);
             expr.codeValue(env, ctx, asm);
 
-            asm.add(where, opc_istore + field.getType().getTypeCodeOffset(),
-                    new LocalVariable(field, field.number));
+            asm.add(where, opc_istore + field.getType().getTypeCodeOffset(), new LocalVariable(field, field.number));
         } else {
             ctx.declare(env, field);
             if (expr != null) {

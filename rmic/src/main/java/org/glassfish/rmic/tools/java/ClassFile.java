@@ -21,12 +21,10 @@ import java.util.zip.ZipFile;
 /**
  * Abstract class to represent a class file.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-abstract class ClassFile {
+public abstract class ClassFile {
     /**
      * Factory method to create a ClassFile backed by a File.
      *
@@ -55,7 +53,7 @@ abstract class ClassFile {
      * @return a new ClassFile
      */
     public static ClassFile newClassFile(Path path) {
-        return Files.exists(path)? new PathClassFile(path) : null;
+        return Files.exists(path) ? new PathClassFile(path) : null;
     }
 
     /**
@@ -84,8 +82,7 @@ abstract class ClassFile {
     public abstract long lastModified();
 
     /**
-     * Get file path. The path for a zip file entry will also include
-     * the zip file name.
+     * Get file path. The path for a zip file entry will also include the zip file name.
      */
     public abstract String getPath();
 

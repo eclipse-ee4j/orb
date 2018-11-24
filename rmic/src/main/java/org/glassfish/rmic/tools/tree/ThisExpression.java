@@ -16,12 +16,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class ThisExpression extends Expression {
+public class ThisExpression extends Expression {
     LocalMember field;
     Expression implementation;
     Expression outerArg;
@@ -32,14 +30,17 @@ class ThisExpression extends Expression {
     public ThisExpression(long where) {
         super(THIS, where, Type.tObject);
     }
+
     protected ThisExpression(int op, long where) {
         super(op, where, Type.tObject);
     }
+
     public ThisExpression(long where, LocalMember field) {
         super(THIS, where, Type.tObject);
         this.field = field;
         field.readcount++;
     }
+
     public ThisExpression(long where, Context ctx) {
         super(THIS, where, Type.tObject);
         field = ctx.getLocalField(idThis);
@@ -61,9 +62,8 @@ class ThisExpression extends Expression {
     }
 
     /**
-     * From the 'this' in an expression of the form outer.this(...),
-     * or the 'super' in an expression of the form outer.super(...),
-     * return the "outer" expression, or null if there is none.
+     * From the 'this' in an expression of the form outer.this(...), or the 'super' in an expression of the form
+     * outer.super(...), return the "outer" expression, or null if there is none.
      */
     public Expression getOuterArg() {
         return outerArg;
@@ -119,11 +119,11 @@ class ThisExpression extends Expression {
         if (implementation != null)
             return implementation.inlineValue(env, ctx);
         if (field != null && field.isInlineable(env, false)) {
-            Expression e = (Expression)field.getValue(env);
-            //System.out.println("INLINE = "+ e + ", THIS");
+            Expression e = (Expression) field.getValue(env);
+            // System.out.println("INLINE = "+ e + ", THIS");
             if (e != null) {
                 e = e.copyInline(ctx);
-                e.type = type;  // in case op==SUPER
+                e.type = type; // in case op==SUPER
                 return e;
             }
         }
@@ -136,7 +136,7 @@ class ThisExpression extends Expression {
     public Expression copyInline(Context ctx) {
         if (implementation != null)
             return implementation.copyInline(ctx);
-        ThisExpression e = (ThisExpression)clone();
+        ThisExpression e = (ThisExpression) clone();
         if (field == null) {
             // The expression is copied into the context of a method
             e.field = ctx.getLocalField(idThis);
@@ -166,8 +166,7 @@ class ThisExpression extends Expression {
             outerArg.print(out);
             out.print(" ");
         }
-        String pfx = (field == null) ? ""
-            : field.getClassDefinition().getName().getFlatName().getName()+".";
+        String pfx = (field == null) ? "" : field.getClassDefinition().getName().getFlatName().getName() + ".";
         pfx += opNames[op];
         out.print(pfx + "#" + ((field != null) ? field.hashCode() : 0));
         if (outerArg != null)

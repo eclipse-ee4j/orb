@@ -13,25 +13,38 @@ package com.sun.tools.corba.ee.idl.constExpr;
 
 // NOTES:
 
-public abstract class BinaryExpr extends Expression
-{
-  public BinaryExpr (String operation, Expression leftOperand, Expression rightOperand)
-  {
-    _op    = operation;
-    _left  = leftOperand;
-    _right = rightOperand;
-  } // ctor
+public abstract class BinaryExpr extends Expression {
+    public BinaryExpr(String operation, Expression leftOperand, Expression rightOperand) {
+        _op = operation;
+        _left = leftOperand;
+        _right = rightOperand;
+    } // ctor
 
-  public void op (String op) {_op = (op == null)? "": op;}
-  public String op () {return _op;}
+    public void op(String op) {
+        _op = (op == null) ? "" : op;
+    }
 
-  public void       left (Expression left) {_left = left;}
-  public Expression left () {return _left;}
+    public String op() {
+        return _op;
+    }
 
-  public void       right (Expression right) {_right = right;}
-  public Expression right () {return _right;}
+    public void left(Expression left) {
+        _left = left;
+    }
 
-  private String     _op    = "";
-  private Expression _left  = null;
-  private Expression _right = null;
+    public Expression left() {
+        return _left;
+    }
+
+    public void right(Expression right) {
+        _right = right;
+    }
+
+    public Expression right() {
+        return _right;
+    }
+
+    private String _op = "";
+    private Expression _left = null;
+    private Expression _right = null;
 } // class BinaryExpr

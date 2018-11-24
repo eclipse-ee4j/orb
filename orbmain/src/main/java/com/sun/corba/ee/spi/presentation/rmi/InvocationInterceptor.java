@@ -8,22 +8,21 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package com.sun.corba.ee.spi.presentation.rmi ;
+package com.sun.corba.ee.spi.presentation.rmi;
 
-/** Represents an interceptor that is invoked around a 
- * RMI-IIOP method invocation when dynamic RMI-IIOP is used.
- * This facility is not available either in IDL-based 
- * calls, or in static RMI-IIOP.
+/**
+ * Represents an interceptor that is invoked around a RMI-IIOP method invocation when dynamic RMI-IIOP is used. This
+ * facility is not available either in IDL-based calls, or in static RMI-IIOP.
  */
 public interface InvocationInterceptor {
-    /** Called just before a dynamic RMI-IIOP stub is called.
-     * Any exceptions thrown by this method are ignored.
+    /**
+     * Called just before a dynamic RMI-IIOP stub is called. Any exceptions thrown by this method are ignored.
      */
-    void preInvoke() ;
+    void preInvoke();
 
-    /** Called just before a dynamic RMI-IIOP stub returns control
-     * to the caller.  Any exceptions thrown by this method are
+    /**
+     * Called just before a dynamic RMI-IIOP stub returns control to the caller. Any exceptions thrown by this method are
      * ignored.
      */
-    void postInvoke() ;
+    void postInvoke();
 }

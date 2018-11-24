@@ -13,25 +13,21 @@ package org.glassfish.rmic.tools.java;
 import org.glassfish.rmic.TypeCode;
 
 /**
- * This class represents an Java array type.
- * It overrides the relevant methods in class Type.
+ * This class represents an Java array type. It overrides the relevant methods in class Type.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  *
- * @author      Arthur van Hoff
+ * @author Arthur van Hoff
  */
-public final
-class ArrayType extends Type {
+public final class ArrayType extends Type {
     /**
      * The type of the element.
      */
     Type elemType;
 
     /**
-     * Construct an array type. Use Type.tArray to create
-     * a new array type.
+     * Construct an array type. Use Type.tArray to create a new array type.
      */
     ArrayType(String typeSig, Type elemType) {
         super(TypeCode.ARRAY, typeSig);

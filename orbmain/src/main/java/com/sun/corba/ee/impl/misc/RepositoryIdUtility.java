@@ -16,9 +16,9 @@ import com.sun.corba.ee.impl.util.RepositoryId;
 /**
  * Utility methods for working with repository IDs.
  */
-public interface RepositoryIdUtility
-{
+public interface RepositoryIdUtility {
     boolean isChunkedEncoding(int valueTag);
+
     boolean isCodeBasePresent(int valueTag);
 
     // These are currently the same in both RepositoryId and
@@ -34,11 +34,18 @@ public interface RepositoryIdUtility
 
     // Accessors for precomputed value tags
     int getStandardRMIChunkedNoRepStrId();
+
     int getCodeBaseRMIChunkedNoRepStrId();
+
     int getStandardRMIChunkedId();
+
     int getCodeBaseRMIChunkedId();
+
     int getStandardRMIUnchunkedId();
+
     int getCodeBaseRMIUnchunkedId();
+
     int getStandardRMIUnchunkedNoRepStrId();
+
     int getCodeBaseRMIUnchunkedNoRepStrId();
 }

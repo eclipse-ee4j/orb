@@ -16,13 +16,11 @@ import java.util.Hashtable;
 /**
  * Parenthesized expressions.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
 
-public
-class ExprExpression extends UnaryExpression {
+public class ExprExpression extends UnaryExpression {
     /**
      * Constructor
      */
@@ -31,29 +29,25 @@ class ExprExpression extends UnaryExpression {
     }
 
     /**
-     * Check a condition.  We must pass it on to our unparenthesised form.
+     * Check a condition. We must pass it on to our unparenthesised form.
      */
-    public void checkCondition(Environment env, Context ctx, Vset vset,
-                               Hashtable<Object, Object> exp, ConditionVars cvars) {
+    public void checkCondition(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp, ConditionVars cvars) {
         right.checkCondition(env, ctx, vset, exp, cvars);
         type = right.type;
     }
 
     /**
-     * Check the expression if it appears as an lvalue.
-     * We just pass it on to our unparenthesized subexpression.
-     * (Part of fix for 4090372)
+     * Check the expression if it appears as an lvalue. We just pass it on to our unparenthesized subexpression. (Part of
+     * fix for 4090372)
      */
-    public Vset checkAssignOp(Environment env, Context ctx,
-                              Vset vset, Hashtable<Object, Object> exp, Expression outside) {
+    public Vset checkAssignOp(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp, Expression outside) {
         vset = right.checkAssignOp(env, ctx, vset, exp, outside);
         type = right.type;
         return vset;
     }
 
     /**
-     * Delegate to our subexpression.
-     * (Part of fix for 4090372)
+     * Delegate to our subexpression. (Part of fix for 4090372)
      */
     public FieldUpdater getUpdater(Environment env, Context ctx) {
         return right.getUpdater(env, ctx);
@@ -61,14 +55,14 @@ class ExprExpression extends UnaryExpression {
 
     // Allow (x) = 9;
     //
-    // I will hold off on this until I'm sure about it.  Nobody's
+    // I will hold off on this until I'm sure about it. Nobody's
     // going to clammer for this one.
     //
     // public Vset checkLHS(Environment env, Context ctx,
-    //     Vset vset, Hashtable<Object, Object> exp) {
-    //     vset = right.check(env, ctx, vset, exp);
-    //     type = right.type;
-    //     return vset;
+    // Vset vset, Hashtable<Object, Object> exp) {
+    // vset = right.check(env, ctx, vset, exp);
+    // type = right.type;
+    // return vset;
     // }
 
     public boolean isNull() {
@@ -85,13 +79,9 @@ class ExprExpression extends UnaryExpression {
     }
 
     /**
-     * Delegate to our subexpression.
-     * See the comment in AddExpression#inlineValueSB() for
-     * information about this method.
+     * Delegate to our subexpression. See the comment in AddExpression#inlineValueSB() for information about this method.
      */
-    protected StringBuffer inlineValueSB(Environment env,
-                                         Context ctx,
-                                         StringBuffer buffer) {
+    protected StringBuffer inlineValueSB(Environment env, Context ctx, StringBuffer buffer) {
         return right.inlineValueSB(env, ctx, buffer);
     }
 

@@ -23,7 +23,7 @@ import static org.junit.Assert.fail;
 
 public class SocketChannelReaderTest extends TransportTestBase {
 
-    private static final byte[] DATA_TO_BE_READ = new byte[]{0, 1, 2, 3, 4, 5, 6};
+    private static final byte[] DATA_TO_BE_READ = new byte[] { 0, 1, 2, 3, 4, 5, 6 };
     private SocketChannelReader reader;
 
     @Before
@@ -61,7 +61,7 @@ public class SocketChannelReaderTest extends TransportTestBase {
     }
 
     private byte[] getSubarray(byte[] dataToBeRead, int offset, int length) {
-        byte[] data = new byte[Math.min(length, dataToBeRead.length-offset)];
+        byte[] data = new byte[Math.min(length, dataToBeRead.length - offset)];
         System.arraycopy(dataToBeRead, offset, data, 0, data.length);
         return data;
     }
@@ -77,9 +77,9 @@ public class SocketChannelReaderTest extends TransportTestBase {
         assertEqualData(bytes, actual);
     }
 
-    private void assertEqualData( byte[] expected, byte[] actual) {
+    private void assertEqualData(byte[] expected, byte[] actual) {
         if (!Arrays.equals(expected, actual))
-            fail( "expected " + Arrays.toString(expected) + " but was " + Arrays.toString(actual));
+            fail("expected " + Arrays.toString(expected) + " but was " + Arrays.toString(actual));
     }
 
     @Test

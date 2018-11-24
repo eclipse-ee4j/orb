@@ -24,15 +24,10 @@ package org.omg.CORBA;
 */
 
 /**
-  * An abstract interface inherited by all Interface Repository
-  * (IR) objects that represent OMG IDL types. It provides access
-  * to the <code>TypeCode</code> object describing the type and is used in defining the
-  * other interfaces wherever definitions of <code>IDLType</code> must be referenced.
-  */
+ * An abstract interface inherited by all Interface Repository (IR) objects that represent OMG IDL types. It provides
+ * access to the <code>TypeCode</code> object describing the type and is used in defining the other interfaces wherever
+ * definitions of <code>IDLType</code> must be referenced.
+ */
 
-public interface IDLType extends IDLTypeOperations, org.omg.CORBA.IRObject, org.omg.CORBA.portable.IDLEntity 
-{
+public interface IDLType extends IDLTypeOperations, org.omg.CORBA.IRObject, org.omg.CORBA.portable.IDLEntity {
 } // interface IDLType
-
-
-

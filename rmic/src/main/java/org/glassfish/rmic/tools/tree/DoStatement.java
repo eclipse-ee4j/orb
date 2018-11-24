@@ -17,12 +17,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class DoStatement extends Statement {
+public class DoStatement extends Statement {
     Statement body;
     Expression cond;
 
@@ -39,7 +37,7 @@ class DoStatement extends Statement {
      * Check statement
      */
     Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        checkLabel(env,ctx);
+        checkLabel(env, ctx);
         CheckContext newctx = new CheckContext(ctx, this);
         // remember what was unassigned on entry
         Vset vsEntry = vset.copy();
@@ -47,8 +45,7 @@ class DoStatement extends Statement {
         vset = vset.join(newctx.vsContinue);
         // get to the test either by falling through the body, or through
         // a "continue" statement.
-        ConditionVars cvars =
-            cond.checkCondition(env, newctx, vset, exp);
+        ConditionVars cvars = cond.checkCondition(env, newctx, vset, exp);
         cond = convert(env, newctx, Type.tBoolean, cond);
         // make sure the back-branch fits the entry of the loop
         ctx.checkBackBranch(env, this, vsEntry, cvars.vsTrue);
@@ -73,7 +70,7 @@ class DoStatement extends Statement {
      * Create a copy of the statement for method inlining
      */
     public Statement copyInline(Context ctx, boolean valNeeded) {
-        DoStatement s = (DoStatement)clone();
+        DoStatement s = (DoStatement) clone();
         s.cond = cond.copyInline(ctx);
         if (body != null) {
             s.body = body.copyInline(ctx, valNeeded);
@@ -85,8 +82,7 @@ class DoStatement extends Statement {
      * The cost of inlining this statement
      */
     public int costInline(int thresh, Environment env, Context ctx) {
-        return 1 + cond.costInline(thresh, env, ctx)
-                + ((body != null) ? body.costInline(thresh, env, ctx) : 0);
+        return 1 + cond.costInline(thresh, env, ctx) + ((body != null) ? body.costInline(thresh, env, ctx) : 0);
     }
 
     /**

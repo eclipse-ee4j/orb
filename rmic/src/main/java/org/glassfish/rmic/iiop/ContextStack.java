@@ -16,7 +16,7 @@ import org.glassfish.rmic.tools.java.CompilerError;
 /**
  * ContextStack provides a mechanism to record parsing state.
  *
- * @author      Bryan Atsatt
+ * @author Bryan Atsatt
  */
 public class ContextStack {
 
@@ -39,20 +39,8 @@ public class ContextStack {
 
     // String versions of context codes.
 
-    private static final String[] CODE_NAMES = {
-        "UNKNOWN ",
-        "Top level type ",
-        "Method ",
-        "Return parameter ",
-        "Parameter ",
-        "Exception ",
-        "Member ",
-        "Constant member ",
-        "Static member ",
-        "Transient member ",
-        "Implements ",
-        "Extends ",
-    };
+    private static final String[] CODE_NAMES = { "UNKNOWN ", "Top level type ", "Method ", "Return parameter ", "Parameter ", "Exception ", "Member ",
+            "Constant member ", "Static member ", "Transient member ", "Implements ", "Extends ", };
     // Member data.
 
     private int currentIndex = -1;
@@ -68,7 +56,7 @@ public class ContextStack {
     /**
      * Constructor.
      */
-    public ContextStack (BatchEnvironment env) {
+    public ContextStack(BatchEnvironment env) {
         this.env = env;
         env.contextStack = this;
     }
@@ -76,7 +64,7 @@ public class ContextStack {
     /**
      * Return true if {@code env.nerrors > 0}.
      */
-    public boolean anyErrors () {
+    public boolean anyErrors() {
         return env.nerrors > 0;
     }
 
@@ -115,13 +103,12 @@ public class ContextStack {
         return newCode;
     }
 
-
     /**
-     * If tracing on, write the current call stack (not the context stack) to
-     * System.out.
+     * If tracing on, write the current call stack (not the context stack) to System.out.
      */
-    final void traceCallStack () {
-        if (trace) dumpCallStack();
+    final void traceCallStack() {
+        if (trace)
+            dumpCallStack();
     }
 
     public final static void dumpCallStack() {
@@ -131,7 +118,7 @@ public class ContextStack {
     /**
      * Print a line indented by stack depth.
      */
-    final private void tracePrint (String text, boolean line) {
+    final private void tracePrint(String text, boolean line) {
         int length = text.length() + (currentIndex * TRACE_INDENT.length());
         StringBuffer buffer = new StringBuffer(length);
         for (int i = 0; i < currentIndex; i++) {
@@ -147,36 +134,37 @@ public class ContextStack {
     /**
      * If tracing on, print a line.
      */
-    final void trace (String text) {
+    final void trace(String text) {
         if (trace) {
-            tracePrint(text,false);
+            tracePrint(text, false);
         }
     }
 
     /**
      * If tracing on, print a line followed by a '\n'.
      */
-    final void traceln (String text) {
+    final void traceln(String text) {
         if (trace) {
-            tracePrint(text,true);
+            tracePrint(text, true);
         }
     }
 
     /**
      * If tracing on, print a pre-mapped ContextElement.
      */
-    final void traceExistingType (Type type) {
+    final void traceExistingType(Type type) {
         if (trace) {
-            tempContext.set(newCode,type);
-            traceln(toResultString(tempContext,true,true));
+            tempContext.set(newCode, type);
+            traceln(toResultString(tempContext, true, true));
         }
     }
 
     /**
      * Push a new element on the stack.
+     *
      * @return the new element.
      */
-    public TypeContext push (ContextElement element) {
+    public TypeContext push(ContextElement element) {
 
         currentIndex++;
 
@@ -185,7 +173,7 @@ public class ContextStack {
         if (currentIndex == maxIndex) {
             int newMax = maxIndex * 2;
             TypeContext[] newStack = new TypeContext[newMax];
-            System.arraycopy(stack,0,newStack,0,maxIndex);
+            System.arraycopy(stack, 0, newStack, 0, maxIndex);
             maxIndex = newMax;
             stack = newStack;
         }
@@ -201,7 +189,7 @@ public class ContextStack {
 
         // Set the context object...
 
-        it.set(newCode,element);
+        it.set(newCode, element);
 
         // Trace...
 
@@ -214,16 +202,17 @@ public class ContextStack {
 
     /**
      * Pop an element from the stack.
+     *
      * @return the new current element or null if top.
      */
-    public TypeContext pop (boolean wasValid) {
+    public TypeContext pop(boolean wasValid) {
 
         if (currentIndex < 0) {
             throw new CompilerError("Nothing on stack!");
         }
 
         newCode = stack[currentIndex].getCode();
-        traceln(toResultString(stack[currentIndex],wasValid,false));
+        traceln(toResultString(stack[currentIndex], wasValid, false));
 
         Type last = stack[currentIndex].getCandidateType();
         if (last != null) {
@@ -256,14 +245,14 @@ public class ContextStack {
     /**
      * Get the current size.
      */
-    public int size () {
+    public int size() {
         return currentIndex + 1;
     }
 
     /**
      * Get a specific context.
      */
-    public TypeContext getContext (int index) {
+    public TypeContext getContext(int index) {
 
         if (currentIndex < index) {
             throw new Error("Index out of range");
@@ -274,7 +263,7 @@ public class ContextStack {
     /**
      * Get the current top context.
      */
-    public TypeContext getContext () {
+    public TypeContext getContext() {
 
         if (currentIndex < 0) {
             throw new Error("Nothing on stack!");
@@ -285,7 +274,7 @@ public class ContextStack {
     /**
      * Is parent context a value type?
      */
-    public boolean isParentAValue () {
+    public boolean isParentAValue() {
 
         if (currentIndex > 0) {
             return stack[currentIndex - 1].isValue();
@@ -297,7 +286,7 @@ public class ContextStack {
     /**
      * Get parent context. Null if none.
      */
-    public TypeContext getParentContext () {
+    public TypeContext getParentContext() {
 
         if (currentIndex > 0) {
             return stack[currentIndex - 1];
@@ -309,7 +298,7 @@ public class ContextStack {
     /**
      * Get a string for the context name...
      */
-    public String getContextCodeString () {
+    public String getContextCodeString() {
 
         if (currentIndex >= 0) {
             return CODE_NAMES[newCode];
@@ -321,7 +310,7 @@ public class ContextStack {
     /**
      * Get a string for the given context code...
      */
-    public static String getContextCodeString (int contextCode) {
+    public static String getContextCodeString(int contextCode) {
         return CODE_NAMES[contextCode];
     }
 
@@ -334,7 +323,7 @@ public class ContextStack {
         }
     }
 
-    private String toResultString (TypeContext it, boolean result, boolean preExisting) {
+    private String toResultString(TypeContext it, boolean result, boolean preExisting) {
         int code = it.getCode();
         if (code != METHOD && code != MEMBER) {
             if (result) {
@@ -353,13 +342,13 @@ public class ContextStack {
         return it.toString() + " [Did not map]";
     }
 
-    public void clear () {
+    public void clear() {
         for (int i = 0; i < stack.length; i++) {
-            if (stack[i] != null) stack[i].destroy();
+            if (stack[i] != null)
+                stack[i].destroy();
         }
     }
 }
-
 
 class TypeContext {
 
@@ -387,35 +376,35 @@ class TypeContext {
         } else {
             return null;
         }
-}
-
-public String getTypeDescription() {
-    if (element instanceof Type) {
-        return ((Type) element).getTypeDescription();
-    } else {
-        return "[unknown type]";
     }
-}
 
-public String toString () {
-    if (element != null) {
-        return ContextStack.getContextCodeString(code) + element.getElementName();
-    } else {
-        return ContextStack.getContextCodeString(code) + "null";
+    public String getTypeDescription() {
+        if (element instanceof Type) {
+            return ((Type) element).getTypeDescription();
+        } else {
+            return "[unknown type]";
+        }
     }
-}
 
-public boolean isValue () {
-    return isValue;
-}
+    public String toString() {
+        if (element != null) {
+            return ContextStack.getContextCodeString(code) + element.getElementName();
+        } else {
+            return ContextStack.getContextCodeString(code) + "null";
+        }
+    }
 
-    public boolean isConstant () {
+    public boolean isValue() {
+        return isValue;
+    }
+
+    public boolean isConstant() {
         return code == ContextStack.MEMBER_CONSTANT;
     }
 
     public void destroy() {
         if (element instanceof Type) {
-            ((Type)element).destroy();
+            ((Type) element).destroy();
         }
         element = null;
     }

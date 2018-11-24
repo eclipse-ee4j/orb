@@ -23,21 +23,18 @@ import java.util.Hashtable;
 import java.util.Iterator;
 
 /**
- * BatchEnvironment for iiop extends rmic's version to add
- * parse state.
+ * BatchEnvironment for iiop extends rmic's version to add parse state.
  */
 public class BatchEnvironment extends org.glassfish.rmic.BatchEnvironment implements Constants {
 
     /*
-     * If the following flag is true, then the IDL generator can map
-     * the methods and constants of non-conforming types. However,
-     * this is very expensive, so the default should be false.
+     * If the following flag is true, then the IDL generator can map the methods and constants of non-conforming types.
+     * However, this is very expensive, so the default should be false.
      */
     private boolean parseNonConforming = false;
 
     /**
-     * This flag indicates that the stubs and ties need to be generated without
-     * the package prefix (org.omg.stub).
+     * This flag indicates that the stubs and ties need to be generated without the package prefix (org.omg.stub).
      */
     private boolean standardPackage;
 
@@ -72,8 +69,7 @@ public class BatchEnvironment extends org.glassfish.rmic.BatchEnvironment implem
     ContextStack contextStack = null;
 
     /**
-     * Create a BatchEnvironment for rmic with the given class path,
-     * stream for messages and the destination directory.
+     * Create a BatchEnvironment for rmic with the given class path, stream for messages and the destination directory.
      */
     public BatchEnvironment(OutputStream out, ClassPath path, File destinationDir) {
 
@@ -82,28 +78,17 @@ public class BatchEnvironment extends org.glassfish.rmic.BatchEnvironment implem
         // Make sure we have our definitions...
 
         try {
-            defRemote =
-                getClassDeclaration(idRemote).getClassDefinition(this);
-            defError =
-                getClassDeclaration(idJavaLangError).getClassDefinition(this);
-            defException =
-                getClassDeclaration(idJavaLangException).getClassDefinition(this);
-            defRemoteException =
-                getClassDeclaration(idRemoteException).getClassDefinition(this);
-            defCorbaObject =
-                getClassDeclaration(idCorbaObject).getClassDefinition(this);
-            defSerializable =
-                getClassDeclaration(idJavaIoSerializable).getClassDefinition(this);
-            defRuntimeException =
-                getClassDeclaration(idJavaLangRuntimeException).getClassDefinition(this);
-            defExternalizable =
-                getClassDeclaration(idJavaIoExternalizable).getClassDefinition(this);
-            defThrowable=
-                getClassDeclaration(idJavaLangThrowable).getClassDefinition(this);
-            defIDLEntity=
-                getClassDeclaration(idIDLEntity).getClassDefinition(this);
-            defValueBase=
-                getClassDeclaration(idValueBase).getClassDefinition(this);
+            defRemote = getClassDeclaration(idRemote).getClassDefinition(this);
+            defError = getClassDeclaration(idJavaLangError).getClassDefinition(this);
+            defException = getClassDeclaration(idJavaLangException).getClassDefinition(this);
+            defRemoteException = getClassDeclaration(idRemoteException).getClassDefinition(this);
+            defCorbaObject = getClassDeclaration(idCorbaObject).getClassDefinition(this);
+            defSerializable = getClassDeclaration(idJavaIoSerializable).getClassDefinition(this);
+            defRuntimeException = getClassDeclaration(idJavaLangRuntimeException).getClassDefinition(this);
+            defExternalizable = getClassDeclaration(idJavaIoExternalizable).getClassDefinition(this);
+            defThrowable = getClassDeclaration(idJavaLangThrowable).getClassDefinition(this);
+            defIDLEntity = getClassDeclaration(idIDLEntity).getClassDefinition(this);
+            defValueBase = getClassDeclaration(idValueBase).getClassDefinition(this);
             typeRemoteException = defRemoteException.getClassDeclaration().getType();
             typeException = defException.getClassDeclaration().getType();
             typeIOException = getClassDeclaration(idJavaIoIOException).getType();
@@ -120,14 +105,14 @@ public class BatchEnvironment extends org.glassfish.rmic.BatchEnvironment implem
     /**
      * Return whether or not to parse non-conforming types.
      */
-    public boolean getParseNonConforming () {
+    public boolean getParseNonConforming() {
         return parseNonConforming;
     }
 
     /**
      * Set whether or not to parse non-conforming types.
      */
-    public void setParseNonConforming (boolean parseEm) {
+    public void setParseNonConforming(boolean parseEm) {
 
         // If we are transitioning from not parsing to
         // parsing, we need to throw out any previously
@@ -151,33 +136,34 @@ public class BatchEnvironment extends org.glassfish.rmic.BatchEnvironment implem
     /**
      * Clear out any data from previous executions.
      */
-    public void reset () {
+    public void reset() {
 
         // First, find all Type instances and call destroy()
         // on them...
 
-        for (Enumeration e = allTypes.elements() ; e.hasMoreElements() ;) {
+        for (Enumeration e = allTypes.elements(); e.hasMoreElements();) {
             Type type = (Type) e.nextElement();
             type.destroy();
         }
 
-        for (Enumeration e = invalidTypes.keys() ; e.hasMoreElements() ;) {
+        for (Enumeration e = invalidTypes.keys(); e.hasMoreElements();) {
             Type type = (Type) e.nextElement();
             type.destroy();
         }
 
-        for (Iterator e = alreadyChecked.iterator() ; e.hasNext() ;) {
+        for (Iterator e = alreadyChecked.iterator(); e.hasNext();) {
             Type type = (Type) e.next();
             type.destroy();
         }
 
-        if (contextStack != null) contextStack.clear();
+        if (contextStack != null)
+            contextStack.clear();
 
         // Remove and clear all NameContexts in the
         // nameContexts cache...
 
         if (nameContexts != null) {
-            for (Enumeration e = nameContexts.elements() ; e.hasMoreElements() ;) {
+            for (Enumeration e = nameContexts.elements(); e.hasMoreElements();) {
                 NameContext context = (NameContext) e.nextElement();
                 context.clear();
             }
@@ -204,11 +190,11 @@ public class BatchEnvironment extends org.glassfish.rmic.BatchEnvironment implem
      */
     public void shutdown() {
         if (alreadyChecked != null) {
-            //System.out.println();
-            //System.out.println("allTypes.size() = "+ allTypes.size());
-            //System.out.println("    InstanceCount before reset = "+Type.instanceCount);
+            // System.out.println();
+            // System.out.println("allTypes.size() = "+ allTypes.size());
+            // System.out.println(" InstanceCount before reset = "+Type.instanceCount);
             reset();
-            //System.out.println("    InstanceCount AFTER reset = "+Type.instanceCount);
+            // System.out.println(" InstanceCount AFTER reset = "+Type.instanceCount);
 
             alreadyChecked = null;
             allTypes = null;

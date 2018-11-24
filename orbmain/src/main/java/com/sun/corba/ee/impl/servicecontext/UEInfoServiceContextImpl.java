@@ -10,55 +10,47 @@
 
 package com.sun.corba.ee.impl.servicecontext;
 
-import java.io.Serializable ;
+import java.io.Serializable;
 import org.omg.CORBA_2_3.portable.InputStream;
 import org.omg.CORBA_2_3.portable.OutputStream;
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-import com.sun.corba.ee.spi.servicecontext.ServiceContextBase ;
-import com.sun.corba.ee.spi.servicecontext.UEInfoServiceContext ;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.servicecontext.ServiceContextBase;
+import com.sun.corba.ee.spi.servicecontext.UEInfoServiceContext;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 
-public class UEInfoServiceContextImpl extends ServiceContextBase
-    implements UEInfoServiceContext
-{
-    private static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+public class UEInfoServiceContextImpl extends ServiceContextBase implements UEInfoServiceContext {
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
-    private Throwable unknown = null ;
+    private Throwable unknown = null;
 
-    public UEInfoServiceContextImpl( Throwable ex )
-    {
-        unknown = ex ;
+    public UEInfoServiceContextImpl(Throwable ex) {
+        unknown = ex;
     }
 
-    public UEInfoServiceContextImpl(InputStream is, GIOPVersion gv)
-    {
-        super(is) ;
+    public UEInfoServiceContextImpl(InputStream is, GIOPVersion gv) {
+        super(is);
 
-        try { 
-            unknown = (Throwable) in.read_value() ;
+        try {
+            unknown = (Throwable) in.read_value();
         } catch (Exception e) {
-            unknown = wrapper.couldNotReadInfo( e ) ;
+            unknown = wrapper.couldNotReadInfo(e);
         }
     }
 
-    public int getId() 
-    { 
-        return SERVICE_CONTEXT_ID ; 
+    public int getId() {
+        return SERVICE_CONTEXT_ID;
     }
 
-    public void writeData( OutputStream os ) 
-    {
-        os.write_value( (Serializable)unknown ) ;
+    public void writeData(OutputStream os) {
+        os.write_value((Serializable) unknown);
     }
 
-    public Throwable getUE() { return unknown ; } 
+    public Throwable getUE() {
+        return unknown;
+    }
 
     @Override
-    public String toString()
-    {
-        return "UEInfoServiceContextImpl[ unknown=" + unknown.toString() + " ]" ;
+    public String toString() {
+        return "UEInfoServiceContextImpl[ unknown=" + unknown.toString() + " ]";
     }
 }
-
-

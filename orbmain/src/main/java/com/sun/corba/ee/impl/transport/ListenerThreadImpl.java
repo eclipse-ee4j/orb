@@ -10,7 +10,6 @@
 
 package com.sun.corba.ee.impl.transport;
 
-
 import com.sun.corba.ee.spi.transport.Acceptor;
 import com.sun.corba.ee.spi.transport.ListenerThread;
 
@@ -22,45 +21,37 @@ import com.sun.corba.ee.spi.trace.Transport;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 
 @Transport
-public class ListenerThreadImpl
-    implements
-        ListenerThread,
-        Work
-{
-    private static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+public class ListenerThreadImpl implements ListenerThread, Work {
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
     private ORB orb;
     private Acceptor acceptor;
     private boolean keepRunning;
     private long enqueueTime;
 
-    public ListenerThreadImpl(ORB orb, Acceptor acceptor)
-    {
+    public ListenerThreadImpl(ORB orb, Acceptor acceptor) {
         this.orb = orb;
         this.acceptor = acceptor;
         keepRunning = true;
     }
 
     ////////////////////////////////////////////////////
-    // 
+    //
     // ListenerThread methods.
     //
 
-    public Acceptor getAcceptor()
-    {
+    public Acceptor getAcceptor() {
         return acceptor;
     }
 
     @Transport
-    public synchronized void close()
-    {
+    public synchronized void close() {
         keepRunning = false;
-        acceptor.close() ;
+        acceptor.close();
     }
 
     private synchronized boolean isRunning() {
-        return keepRunning ;
+        return keepRunning;
     }
 
     ////////////////////////////////////////////////////
@@ -70,49 +61,49 @@ public class ListenerThreadImpl
 
     // REVISIT - this needs alot more from previous ListenerThread
     @InfoMethod
-    private void display( String msg ) { }
+    private void display(String msg) {
+    }
 
     @InfoMethod
-    private void display( String msg, Object value ) { }
+    private void display(String msg, Object value) {
+    }
 
     @Transport
-    public void doWork()
-    {
+    public void doWork() {
         while (isRunning()) {
-            display( "acceptor", acceptor ) ;
+            display("acceptor", acceptor);
             try {
-                display( "Before Accept cycle" ) ;
-                acceptor.processSocket( acceptor.getAcceptedSocket() ) ;
-                display( "After Accept cycle" ) ;
+                display("Before Accept cycle");
+                acceptor.processSocket(acceptor.getAcceptedSocket());
+                display("After Accept cycle");
             } catch (Throwable t) {
-                wrapper.exceptionInListenerThread( t ) ;
-                display( "Exception in accept", t ) ;
+                wrapper.exceptionInListenerThread(t);
+                display("Exception in accept", t);
 
-                orb.getTransportManager().getSelector(0)
-                    .unregisterForEvent(getAcceptor().getEventHandler());
+                orb.getTransportManager().getSelector(0).unregisterForEvent(getAcceptor().getEventHandler());
 
                 try {
                     if (isRunning()) {
                         getAcceptor().close();
                     }
                 } catch (Exception exc) {
-                    wrapper.ioExceptionOnClose( exc ) ;
+                    wrapper.ioExceptionOnClose(exc);
                 }
             }
         }
     }
 
-    public void setEnqueueTime(long timeInMillis) 
-    {
+    public void setEnqueueTime(long timeInMillis) {
         enqueueTime = timeInMillis;
     }
 
-    public long getEnqueueTime() 
-    {
+    public long getEnqueueTime() {
         return enqueueTime;
     }
 
-    public String getName() { return "ListenerThread"; }
+    public String getName() {
+        return "ListenerThread";
+    }
 
     ////////////////////////////////////////////////////
     //

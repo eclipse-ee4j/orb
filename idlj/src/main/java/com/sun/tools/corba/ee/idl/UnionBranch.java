@@ -16,34 +16,26 @@ package com.sun.tools.corba.ee.idl;
 import java.util.Vector;
 
 /**
- * This class encapsulates one branch of a union.  Here are some examples
- * of what it may contain:
+ * This class encapsulates one branch of a union. Here are some examples of what it may contain:
  * <dl>
- * <dt>
- * case 1: short x;
+ * <dt>case 1: short x;
  * <dd>&lt;short x, &lt;1&gt;, false&gt;
- * <dt>
- * case 0:
- * case 8:
- * case 2: long x;
+ * <dt>case 0: case 8: case 2: long x;
  * <dd>&lt;long x, &lt;0, 8, 2&gt;, false&gt;
- * <dt>
- * default: long x;
+ * <dt>default: long x;
  * <dd>&lt;long x, &lt;&gt;, true&gt;
- * <dt>
- * case 0:
- * case 2:
- * default: char c;
+ * <dt>case 0: case 2: default: char c;
  * <dd>&lt;char c, &lt;0, 2&gt;, true&gt;
  * </dl>
  **/
-public class UnionBranch
-{
-  /** The type definition for the branch. */
-  public TypedefEntry typedef;
-  /** A vector of Expression's, one for each label in the order in which
-      they appear in the IDL file.  The default branch has no label. */
-  public Vector labels = new Vector ();
-  /** true if this is the default branch. */
-  public boolean isDefault = false;
+public class UnionBranch {
+    /** The type definition for the branch. */
+    public TypedefEntry typedef;
+    /**
+     * A vector of Expression's, one for each label in the order in which they appear in the IDL file. The default branch
+     * has no label.
+     */
+    public Vector labels = new Vector();
+    /** true if this is the default branch. */
+    public boolean isDefault = false;
 } // class UnionBranch

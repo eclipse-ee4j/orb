@@ -11,18 +11,17 @@
 package com.sun.corba.ee.impl.corba;
 
 public final class Enum1 implements org.omg.CORBA.portable.IDLEntity {
-    public static final int _zeroth = 0,
-        _first = 1,
-        _second = 2,
-        _third = 3;
+    public static final int _zeroth = 0, _first = 1, _second = 2, _third = 3;
     public static final Enum1 zeroth = new Enum1(_zeroth);
     public static final Enum1 first = new Enum1(_first);
     public static final Enum1 second = new Enum1(_second);
     public static final Enum1 third = new Enum1(_third);
+
     public int value() {
         return _value;
     }
-    public static final Enum1 from_int(int i)  throws  org.omg.CORBA.BAD_PARAM {
+
+    public static final Enum1 from_int(int i) throws org.omg.CORBA.BAD_PARAM {
         switch (i) {
         case _zeroth:
             return zeroth;
@@ -36,8 +35,10 @@ public final class Enum1 implements org.omg.CORBA.portable.IDLEntity {
             throw new org.omg.CORBA.BAD_PARAM();
         }
     }
-    private Enum1(int _value){
+
+    private Enum1(int _value) {
         this._value = _value;
     }
+
     private int _value;
 }

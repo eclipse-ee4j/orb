@@ -40,10 +40,10 @@ import com.sun.corba.ee.spi.folb.GroupInfoService;
 import com.sun.corba.ee.spi.folb.GroupInfoServiceObserver;
 
 import com.sun.corba.ee.spi.ior.IOR;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate ;
-import com.sun.corba.ee.spi.orb.DataCollector ;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
+import com.sun.corba.ee.spi.orb.DataCollector;
 import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.spi.orb.ORBConfigurator ;
+import com.sun.corba.ee.spi.orb.ORBConfigurator;
 import com.sun.corba.ee.spi.transport.IIOPPrimaryToContactInfo;
 import com.sun.corba.ee.spi.transport.IORToSocketInfo;
 import com.sun.corba.ee.spi.transport.SocketInfo;
@@ -67,13 +67,12 @@ import com.sun.corba.ee.spi.ior.iiop.ClusterInstanceInfoComponent;
 import com.sun.corba.ee.spi.ior.iiop.IIOPAddress;
 import com.sun.corba.ee.spi.trace.Folb;
 
-import org.omg.CosNaming.NamingContext ;
-import org.omg.CosNaming.NamingContextHelper ;
-import org.omg.CosNaming.NameComponent ;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
+import org.omg.CosNaming.NameComponent;
 
-import javax.rmi.PortableRemoteObject ;
+import javax.rmi.PortableRemoteObject;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
-
 
 // END import for IORToSocketInfo
 
@@ -83,48 +82,39 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
  * @author Harold Carr
  */
 @Folb
-public class ClientGroupManager
-    extends
-        org.omg.CORBA.LocalObject
-    implements 
-        ClientRequestInterceptor,
-        GroupInfoService,
-        IIOPPrimaryToContactInfo,
-        IORToSocketInfo,
-        ORBConfigurator,
-        ORBInitializer
-{
-    private static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+public class ClientGroupManager extends org.omg.CORBA.LocalObject
+        implements ClientRequestInterceptor, GroupInfoService, IIOPPrimaryToContactInfo, IORToSocketInfo, ORBConfigurator, ORBInitializer {
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
     private static final long serialVersionUID = 7849660203226017842L;
     public final String baseMsg = ClientGroupManager.class.getName();
 
     public static boolean sentMemberShipLabel = false; // For test.
-    public static boolean receivedIORUpdate   = false; // For test.
+    public static boolean receivedIORUpdate = false; // For test.
 
     private ORB orb;
     private Codec codec;
 
     private boolean initialized = false;
 
-    private IOR lastIOR;  // Initially null, thus the separate lock object.
+    private IOR lastIOR; // Initially null, thus the separate lock object.
     private final Object lastIORLock = new Object();
     private CSIv2SSLTaggedComponentHandler csiv2SSLTaggedComponentHandler;
     private transient GIS gis = new GIS();
 
-    public ClientGroupManager() {       
+    public ClientGroupManager() {
     }
 
     @InfoMethod
-    private void reportException( Exception exc ) { }
+    private void reportException(Exception exc) {
+    }
 
     @InfoMethod
-    private void notFound( String name ) { }
+    private void notFound(String name) {
+    }
 
     @Folb
-    private void initialize()
-    {
+    private void initialize() {
         if (initialized) {
             return;
         }
@@ -133,25 +123,19 @@ public class ClientGroupManager
             initialized = true;
 
             try {
-                csiv2SSLTaggedComponentHandler =
-                    (CSIv2SSLTaggedComponentHandler)
-                    orb.resolve_initial_references(
-                        ORBConstants.CSI_V2_SSL_TAGGED_COMPONENT_HANDLER);
+                csiv2SSLTaggedComponentHandler = (CSIv2SSLTaggedComponentHandler) orb
+                        .resolve_initial_references(ORBConstants.CSI_V2_SSL_TAGGED_COMPONENT_HANDLER);
             } catch (InvalidName e) {
                 csiv2SSLTaggedComponentHandler = null;
-                notFound( ORBConstants.CSI_V2_SSL_TAGGED_COMPONENT_HANDLER );
+                notFound(ORBConstants.CSI_V2_SSL_TAGGED_COMPONENT_HANDLER);
             }
-            CodecFactory codecFactory =
-                CodecFactoryHelper.narrow(
-                  orb.resolve_initial_references(
-                      ORBConstants.CODEC_FACTORY_NAME));
+            CodecFactory codecFactory = CodecFactoryHelper.narrow(orb.resolve_initial_references(ORBConstants.CODEC_FACTORY_NAME));
 
-            codec = codecFactory.create_codec(
-                new Encoding((short)0, (byte)1, (byte)2));
+            codec = codecFactory.create_codec(new Encoding((short) 0, (byte) 1, (byte) 2));
         } catch (InvalidName e) {
-            reportException( e ) ;
+            reportException(e);
         } catch (UnknownEncoding e) {
-            reportException( e ) ;
+            reportException(e);
         }
     }
 
@@ -161,30 +145,31 @@ public class ClientGroupManager
     //
 
     @InfoMethod
-    private void nonSSLSocketInfo() { }
+    private void nonSSLSocketInfo() {
+    }
 
     @InfoMethod
-    private void returningPreviousSocketInfo( List lst ) { }
+    private void returningPreviousSocketInfo(List lst) {
+    }
 
     @Folb
-    public List getSocketInfo(IOR ior, List previous) 
-    {
+    public List getSocketInfo(IOR ior, List previous) {
         initialize();
 
         try {
             if (csiv2SSLTaggedComponentHandler != null) {
-                List<SocketInfo> csiv2 =
-                    csiv2SSLTaggedComponentHandler.extract(ior);
+                List<SocketInfo> csiv2 = csiv2SSLTaggedComponentHandler.extract(ior);
                 if (csiv2 != null) {
-                    /* The contract with CSIv2 says if SSL is to be used
-                       then ONLY try SSL addresssses. */
+                    /*
+                     * The contract with CSIv2 says if SSL is to be used then ONLY try SSL addresssses.
+                     */
                     return csiv2;
                 }
             }
 
             nonSSLSocketInfo();
 
-            if (! previous.isEmpty()) {
+            if (!previous.isEmpty()) {
                 returningPreviousSocketInfo(previous);
                 return previous;
             }
@@ -195,36 +180,26 @@ public class ClientGroupManager
             // IIOPProfile Primary address
             //
 
-            IIOPProfileTemplate iiopProfileTemplate = (IIOPProfileTemplate)
-                ior.getProfile().getTaggedProfileTemplate();
-            IIOPAddress primary = iiopProfileTemplate.getPrimaryAddress() ;
+            IIOPProfileTemplate iiopProfileTemplate = (IIOPProfileTemplate) ior.getProfile().getTaggedProfileTemplate();
+            IIOPAddress primary = iiopProfileTemplate.getPrimaryAddress();
             String host = primary.getHost().toLowerCase();
             int port = primary.getPort();
-            
-            SocketInfo primarySocketInfo = 
-                createSocketInfo("primary", 
-                                 SocketInfo.IIOP_CLEAR_TEXT, host, port);
+
+            SocketInfo primarySocketInfo = createSocketInfo("primary", SocketInfo.IIOP_CLEAR_TEXT, host, port);
             result.add(primarySocketInfo);
 
             //
             // List alternate cluster addresses
             //
 
-            final Iterator<ClusterInstanceInfoComponent> iterator =
-                iiopProfileTemplate.iteratorById(
-                    ORBConstants.FOLB_MEMBER_ADDRESSES_TAGGED_COMPONENT_ID,
-                    ClusterInstanceInfoComponent.class );
+            final Iterator<ClusterInstanceInfoComponent> iterator = iiopProfileTemplate.iteratorById(ORBConstants.FOLB_MEMBER_ADDRESSES_TAGGED_COMPONENT_ID,
+                    ClusterInstanceInfoComponent.class);
 
             while (iterator.hasNext()) {
-                ClusterInstanceInfo clusterInstanceInfo = 
-                    iterator.next().getClusterInstanceInfo() ;
-                List<com.sun.corba.ee.spi.folb.SocketInfo> endpoints =
-                  clusterInstanceInfo.endpoints();
+                ClusterInstanceInfo clusterInstanceInfo = iterator.next().getClusterInstanceInfo();
+                List<com.sun.corba.ee.spi.folb.SocketInfo> endpoints = clusterInstanceInfo.endpoints();
                 for (com.sun.corba.ee.spi.folb.SocketInfo socketInfo : endpoints) {
-                    result.add( createSocketInfo(
-                        "ClusterInstanceInfo.endpoint",
-                        socketInfo.type(), socketInfo.host(),
-                        socketInfo.port()));
+                    result.add(createSocketInfo("ClusterInstanceInfo.endpoint", socketInfo.type(), socketInfo.host(), socketInfo.port()));
                 }
             }
 
@@ -232,21 +207,16 @@ public class ClientGroupManager
             // List alternate TAG_ALTERNATE_IIOP_ADDRESS (for corbaloc)
             //
 
-            final Iterator<AlternateIIOPAddressComponent> aiterator = 
-                iiopProfileTemplate.iteratorById(
-                    org.omg.IOP.TAG_ALTERNATE_IIOP_ADDRESS.value,
-                    AlternateIIOPAddressComponent.class );
+            final Iterator<AlternateIIOPAddressComponent> aiterator = iiopProfileTemplate.iteratorById(org.omg.IOP.TAG_ALTERNATE_IIOP_ADDRESS.value,
+                    AlternateIIOPAddressComponent.class);
 
             while (aiterator.hasNext()) {
-                AlternateIIOPAddressComponent alternate = 
-                    aiterator.next();
-                
+                AlternateIIOPAddressComponent alternate = aiterator.next();
+
                 host = alternate.getAddress().getHost().toLowerCase();
                 port = alternate.getAddress().getPort();
-                
-                result.add(createSocketInfo(
-                    "AlternateIIOPAddressComponent",
-                    SocketInfo.IIOP_CLEAR_TEXT, host, port));
+
+                result.add(createSocketInfo("AlternateIIOPAddressComponent", SocketInfo.IIOP_CLEAR_TEXT, host, port));
             }
 
             return result;
@@ -261,55 +231,51 @@ public class ClientGroupManager
     }
 
     @Folb
-    private SocketInfo createSocketInfo(final String msg,
-                                        final String type,
-                                        final String host,
-                                        final int port) 
-    {
+    private SocketInfo createSocketInfo(final String msg, final String type, final String host, final int port) {
         return new SocketInfo() {
-                public String getType() {
-                    return type;
-                }
+            public String getType() {
+                return type;
+            }
 
-                public String getHost() {
-                    return host;
-                }
+            public String getHost() {
+                return host;
+            }
 
-                public int getPort() {
-                    return port;
-                }
+            public int getPort() {
+                return port;
+            }
 
-                @Override
-                public boolean equals(Object o) {
-                    if (o == null) {
-                        return false;
-                    }
-                    if (! (o instanceof SocketInfo)) {
-                        return false;
-                    }
-                    SocketInfo other = (SocketInfo)o;
-                    if (other.getPort() != port) {
-                        return false;
-                    }
-                    if (! other.getHost().equals(host)) {
-                        return false;
-                    }
-                    if (! other.getType().equals(type)) {
-                        return false;
-                    }
-                    return true;
+            @Override
+            public boolean equals(Object o) {
+                if (o == null) {
+                    return false;
                 }
+                if (!(o instanceof SocketInfo)) {
+                    return false;
+                }
+                SocketInfo other = (SocketInfo) o;
+                if (other.getPort() != port) {
+                    return false;
+                }
+                if (!other.getHost().equals(host)) {
+                    return false;
+                }
+                if (!other.getType().equals(type)) {
+                    return false;
+                }
+                return true;
+            }
 
-                @Override
-                public String toString() {
-                    return "SocketInfo[" + type + " " + host + " " + port +"]";
-                }
+            @Override
+            public String toString() {
+                return "SocketInfo[" + type + " " + host + " " + port + "]";
+            }
 
-                @Override
-                public int hashCode() {
-                    return port ^ host.hashCode() ^ type.hashCode() ;
-                }
-            };
+            @Override
+            public int hashCode() {
+                return port ^ host.hashCode() ^ type.hashCode();
+            }
+        };
     }
 
     ////////////////////////////////////////////////////
@@ -320,24 +286,21 @@ public class ClientGroupManager
     private Map map = new HashMap();
 
     @Folb
-    public synchronized void reset(ContactInfo primary)
-    {
+    public synchronized void reset(ContactInfo primary) {
         initialize();
         try {
             map.remove(getKey(primary));
         } catch (Throwable t) {
-            throw wrapper.exceptionInReset( t ) ;
+            throw wrapper.exceptionInReset(t);
         }
     }
 
     @InfoMethod
-    private void hasNextInfo( int previousIndex, int contactInfoSize ) { }
+    private void hasNextInfo(int previousIndex, int contactInfoSize) {
+    }
 
     @Folb
-    public synchronized boolean hasNext(ContactInfo primary,
-                                        ContactInfo previous,
-                                        List contactInfos)
-    {
+    public synchronized boolean hasNext(ContactInfo primary, ContactInfo previous, List contactInfos) {
         initialize();
         try {
             boolean result;
@@ -353,9 +316,7 @@ public class ClientGroupManager
                     // found in the current list of contactInfos.
                     RuntimeException rte = new RuntimeException(
 
-
-                        "Problem in " + baseMsg + ".hasNext: previousIndex: "
-                        + previousIndex);
+                            "Problem in " + baseMsg + ".hasNext: previousIndex: " + previousIndex);
                     // REVISIT - error message
                     throw rte;
                 } else {
@@ -367,36 +328,38 @@ public class ClientGroupManager
             return result;
         } catch (Throwable t) {
             // REVISIT - error msg
-            RuntimeException rte =
-                new RuntimeException(baseMsg + ".hasNext error");
+            RuntimeException rte = new RuntimeException(baseMsg + ".hasNext error");
             rte.initCause(t);
             throw rte;
         }
     }
 
     @InfoMethod
-    private void initializeMap() { }
+    private void initializeMap() {
+    }
 
     @InfoMethod
-    private void primaryMappedTo( Object obj ) { }
+    private void primaryMappedTo(Object obj) {
+    }
 
     @InfoMethod
-    private void cannotFindMappedEntry() { }
+    private void cannotFindMappedEntry() {
+    }
 
     @InfoMethod
-    private void iiopFailoverTo( Object obj )  { }
+    private void iiopFailoverTo(Object obj) {
+    }
 
     @InfoMethod
-    private void mappedResult( Object obj ) { }
+    private void mappedResult(Object obj) {
+    }
 
     @InfoMethod
-    private void mappedResultWithUpdate( Object obj, int prevIndex, int size ) { }
+    private void mappedResultWithUpdate(Object obj, int prevIndex, int size) {
+    }
 
     @Folb
-    public synchronized ContactInfo next(ContactInfo primary,
-                                         ContactInfo previous,
-                                         List contactInfos)
-    {
+    public synchronized ContactInfo next(ContactInfo primary, ContactInfo previous, List contactInfos) {
         initialize();
         try {
             Object result = null;
@@ -415,20 +378,20 @@ public class ClientGroupManager
                     int position = contactInfos.indexOf(result);
                     if (position == -1) {
                         // It is possible that communication to the key
-                        // took place on SharedCDR, then a corbaloc to 
+                        // took place on SharedCDR, then a corbaloc to
                         // same location uses a SocketOrChannelContactInfo
                         // and vice versa.
                         cannotFindMappedEntry();
                         reset(primary);
                         return next(primary, previous, contactInfos);
                     }
-                    // NOTE: This step is critical.  You do NOT want to
-                    // return contact info from the map.  You want to find
+                    // NOTE: This step is critical. You do NOT want to
+                    // return contact info from the map. You want to find
                     // it, as a SocketInfo, in the current list, and then
-                    // return that ContactInfo.  Otherwise you will potentially
+                    // return that ContactInfo. Otherwise you will potentially
                     // return a ContactInfo pointing to an incorrect IOR.
                     result = contactInfos.get(position);
-                    mappedResult( result ) ;
+                    mappedResult(result);
                 }
             } else {
                 // This is a retry.
@@ -441,25 +404,22 @@ public class ClientGroupManager
 
                 if (orb.folbDebugFlag) {
                     // Only compute if debugging here.
-                    mappedResultWithUpdate(result, contactInfos.indexOf(previous),
-                        contactInfos.size() );
+                    mappedResultWithUpdate(result, contactInfos.indexOf(previous), contactInfos.size());
                 }
             }
             return (ContactInfo) result;
         } catch (Throwable t) {
-            throw wrapper.exceptionInNext( t ) ;
+            throw wrapper.exceptionInNext(t);
         }
     }
 
     @Folb
-    private Object getKey(ContactInfo contactInfo)
-    {
-        if (((SocketInfo)contactInfo).getPort() == 0) {
+    private Object getKey(ContactInfo contactInfo) {
+        if (((SocketInfo) contactInfo).getPort() == 0) {
             // When CSIv2 is used the primary will have a zero port.
             // Therefore type/host/port will NOT be unique.
             // So use the entire IOR for the key in that case.
-            return contactInfo.getContactInfoList()
-                .getEffectiveTargetIOR();
+            return contactInfo.getContactInfoList().getEffectiveTargetIOR();
         } else {
             return contactInfo;
         }
@@ -471,67 +431,57 @@ public class ClientGroupManager
     //
 
     @Folb
-    public List<ClusterInstanceInfo> getInitialClusterInstanceInfo(ORB orb,
-        List<String> endpoints ) {
+    public List<ClusterInstanceInfo> getInitialClusterInstanceInfo(ORB orb, List<String> endpoints) {
         try {
-          org.omg.CORBA.Object ref ;
-          if (endpoints.isEmpty()) {
-              ref = orb.resolve_initial_references( "NameService");
-          } else {
-              final StringBuilder sb = new StringBuilder() ;
-              sb.append( "corbaloc:" ) ;
-              boolean first = true ;
-              for (String str : endpoints ) {
-                  if (first) {
-                      first = false ;
-                  } else {
-                      sb.append( ',' ) ;
-                  }
+            org.omg.CORBA.Object ref;
+            if (endpoints.isEmpty()) {
+                ref = orb.resolve_initial_references("NameService");
+            } else {
+                final StringBuilder sb = new StringBuilder();
+                sb.append("corbaloc:");
+                boolean first = true;
+                for (String str : endpoints) {
+                    if (first) {
+                        first = false;
+                    } else {
+                        sb.append(',');
+                    }
 
-                  sb.append( "iiop:1.2@" ).append( str ) ;
-              }
+                    sb.append("iiop:1.2@").append(str);
+                }
 
-              sb.append( "/NameService" ) ;
-              ref = orb.string_to_object( sb.toString() ) ;
-          }
+                sb.append("/NameService");
+                ref = orb.string_to_object(sb.toString());
+            }
 
-          NamingContext nctx = NamingContextHelper.narrow(ref);
-          NameComponent[] path =
-              { new NameComponent(ORBConstants.INITIAL_GROUP_INFO_SERVICE, "") };
-          InitialGroupInfoService.InitialGIS initGIS =
-              (InitialGroupInfoService.InitialGIS)PortableRemoteObject.narrow(
-                  nctx.resolve(path), InitialGroupInfoService.InitialGIS.class);
-          return initGIS.getClusterInstanceInfo();
+            NamingContext nctx = NamingContextHelper.narrow(ref);
+            NameComponent[] path = { new NameComponent(ORBConstants.INITIAL_GROUP_INFO_SERVICE, "") };
+            InitialGroupInfoService.InitialGIS initGIS = (InitialGroupInfoService.InitialGIS) PortableRemoteObject.narrow(nctx.resolve(path),
+                    InitialGroupInfoService.InitialGIS.class);
+            return initGIS.getClusterInstanceInfo();
         } catch (Exception e) {
             reportException(e);
             return null;
         }
     }
 
-    private class GIS extends GroupInfoServiceBase
-    {
-        public List<ClusterInstanceInfo> internalClusterInstanceInfo( List<String> endpoints )
-        {
-            if (lastIOR == null) {           
-                return getInitialClusterInstanceInfo(orb, endpoints );
+    private class GIS extends GroupInfoServiceBase {
+        public List<ClusterInstanceInfo> internalClusterInstanceInfo(List<String> endpoints) {
+            if (lastIOR == null) {
+                return getInitialClusterInstanceInfo(orb, endpoints);
             }
 
             IIOPProfileTemplate iiopProfileTemplate;
             synchronized (lastIORLock) {
-                iiopProfileTemplate = (IIOPProfileTemplate)
-                    lastIOR.getProfile().getTaggedProfileTemplate();
+                iiopProfileTemplate = (IIOPProfileTemplate) lastIOR.getProfile().getTaggedProfileTemplate();
             }
-            Iterator<ClusterInstanceInfoComponent> iterator =
-                iiopProfileTemplate.iteratorById(
-                    ORBConstants.FOLB_MEMBER_ADDRESSES_TAGGED_COMPONENT_ID,
-                    ClusterInstanceInfoComponent.class );
+            Iterator<ClusterInstanceInfoComponent> iterator = iiopProfileTemplate.iteratorById(ORBConstants.FOLB_MEMBER_ADDRESSES_TAGGED_COMPONENT_ID,
+                    ClusterInstanceInfoComponent.class);
 
-            LinkedList<ClusterInstanceInfo> results = 
-                new LinkedList<ClusterInstanceInfo>();
+            LinkedList<ClusterInstanceInfo> results = new LinkedList<ClusterInstanceInfo>();
 
             while (iterator.hasNext()) {
-                ClusterInstanceInfo clusterInstanceInfo = 
-                    iterator.next().getClusterInstanceInfo() ;
+                ClusterInstanceInfo clusterInstanceInfo = iterator.next().getClusterInstanceInfo();
                 results.add(clusterInstanceInfo);
             }
 
@@ -539,42 +489,37 @@ public class ClientGroupManager
         }
 
         @Override
-        public boolean shouldAddAddressesToNonReferenceFactory(String[] x)
-        {
+        public boolean shouldAddAddressesToNonReferenceFactory(String[] x) {
             throw new RuntimeException("Should not be called in this context");
         }
 
         @Override
-        public boolean shouldAddMembershipLabel (String[] adapterName)
-        {
+        public boolean shouldAddMembershipLabel(String[] adapterName) {
             throw new RuntimeException("Should not be called in this context");
         }
     }
 
-    public boolean addObserver(GroupInfoServiceObserver x)
-    {
+    public boolean addObserver(GroupInfoServiceObserver x) {
         return gis.addObserver(x);
     }
-    public void notifyObservers()
-    {
+
+    public void notifyObservers() {
         gis.notifyObservers();
     }
-    public List<ClusterInstanceInfo> getClusterInstanceInfo(
-        String[] adapterName)
-    {
+
+    public List<ClusterInstanceInfo> getClusterInstanceInfo(String[] adapterName) {
         return gis.getClusterInstanceInfo(adapterName);
     }
-    public List<ClusterInstanceInfo> getClusterInstanceInfo(
-        String[] adapterName, List<String> endpoints )
-    {
-        return gis.getClusterInstanceInfo(adapterName,endpoints);
+
+    public List<ClusterInstanceInfo> getClusterInstanceInfo(String[] adapterName, List<String> endpoints) {
+        return gis.getClusterInstanceInfo(adapterName, endpoints);
     }
-    public boolean shouldAddAddressesToNonReferenceFactory(String[] x)
-    {
+
+    public boolean shouldAddAddressesToNonReferenceFactory(String[] x) {
         return gis.shouldAddAddressesToNonReferenceFactory(x);
     }
-    public boolean shouldAddMembershipLabel (String[] adapterName)
-    {
+
+    public boolean shouldAddMembershipLabel(String[] adapterName) {
         return gis.shouldAddMembershipLabel(adapterName);
     }
 
@@ -583,13 +528,11 @@ public class ClientGroupManager
     // Interceptor operations
     //
 
-    public String name() 
-    {
-        return baseMsg; 
+    public String name() {
+        return baseMsg;
     }
 
-    public void destroy() 
-    {
+    public void destroy() {
     }
 
     ////////////////////////////////////////////////////
@@ -598,83 +541,74 @@ public class ClientGroupManager
     //
 
     @InfoMethod
-    private void sendRequestMembershipLabel( String label ) { }
+    private void sendRequestMembershipLabel(String label) {
+    }
 
     @InfoMethod
-    private void sendRequestNoMembershipLabel( ) { }
+    private void sendRequestNoMembershipLabel() {
+    }
 
     @Folb
-    public void send_request(ClientRequestInfo ri)
-    {
+    public void send_request(ClientRequestInfo ri) {
         try {
-            operation( ri.operation() ) ;
+            operation(ri.operation());
             initialize(); // REVISIT - remove this one later?
 
             org.omg.CORBA.Object ref = ri.effective_target();
-            IOR ior = orb.getIOR(ref,false);
-            IIOPProfileTemplate iiopProfileTemplate = (IIOPProfileTemplate)
-                ior.getProfile().getTaggedProfileTemplate();
-            Iterator iterator = iiopProfileTemplate.iteratorById(
-                ORBConstants.FOLB_MEMBERSHIP_LABEL_TAGGED_COMPONENT_ID);
+            IOR ior = orb.getIOR(ref, false);
+            IIOPProfileTemplate iiopProfileTemplate = (IIOPProfileTemplate) ior.getProfile().getTaggedProfileTemplate();
+            Iterator iterator = iiopProfileTemplate.iteratorById(ORBConstants.FOLB_MEMBERSHIP_LABEL_TAGGED_COMPONENT_ID);
             if (iterator.hasNext()) {
-                org.omg.IOP.TaggedComponent membershipLabelTaggedComponent = 
-                    ((com.sun.corba.ee.spi.ior.TaggedComponent)iterator.next())
-                        .getIOPComponent(orb);
+                org.omg.IOP.TaggedComponent membershipLabelTaggedComponent = ((com.sun.corba.ee.spi.ior.TaggedComponent) iterator.next()).getIOPComponent(orb);
                 byte[] data = membershipLabelTaggedComponent.component_data;
                 sentMemberShipLabel = true; // For test
-                sendRequestMembershipLabel( new String(data) );
-                ServiceContext sc = new ServiceContext(
-                    ORBConstants.FOLB_MEMBERSHIP_LABEL_SERVICE_CONTEXT_ID,
-                    data);
+                sendRequestMembershipLabel(new String(data));
+                ServiceContext sc = new ServiceContext(ORBConstants.FOLB_MEMBERSHIP_LABEL_SERVICE_CONTEXT_ID, data);
                 ri.add_request_service_context(sc, false);
             } else {
                 sentMemberShipLabel = false; // For test
-                sendRequestNoMembershipLabel() ;
+                sendRequestNoMembershipLabel();
             }
         } catch (RuntimeException e) {
             throw e;
         }
     }
 
-    public void send_poll(ClientRequestInfo ri)
-    {
+    public void send_poll(ClientRequestInfo ri) {
     }
 
-    public void receive_reply(ClientRequestInfo ri)
-    {
+    public void receive_reply(ClientRequestInfo ri) {
         receive_star(".receive_reply", ri);
     }
 
-    public void receive_exception(ClientRequestInfo ri)
-    {
+    public void receive_exception(ClientRequestInfo ri) {
         receive_star(".receive_exception", ri);
     }
 
-    public void receive_other(ClientRequestInfo ri)
-    {
+    public void receive_other(ClientRequestInfo ri) {
         receive_star(".receive_other", ri);
     }
 
     @InfoMethod
-    private void operation( String op ) { }
+    private void operation(String op) {
+    }
 
     @InfoMethod
-    private void noIORUpdate() { }
+    private void noIORUpdate() {
+    }
 
     @InfoMethod
-    private void receivedIORUpdateInfo() { }
+    private void receivedIORUpdateInfo() {
+    }
 
     @Folb
-    private void receive_star(String point, ClientRequestInfo ri)
-    {
-        operation( ri.operation() ) ;
+    private void receive_star(String point, ClientRequestInfo ri) {
+        operation(ri.operation());
         ServiceContext iorServiceContext = null;
         try {
-            iorServiceContext =
-                ri.get_reply_service_context(
-                    ORBConstants.FOLB_IOR_UPDATE_SERVICE_CONTEXT_ID);
+            iorServiceContext = ri.get_reply_service_context(ORBConstants.FOLB_IOR_UPDATE_SERVICE_CONTEXT_ID);
         } catch (BAD_PARAM e) {
-            wrapper.noIORUpdateServicateContext( e ) ;
+            wrapper.noIORUpdateServicateContext(e);
         }
 
         if (iorServiceContext == null) {
@@ -683,8 +617,8 @@ public class ClientGroupManager
             return;
         }
 
-        receivedIORUpdateInfo() ;
-        receivedIORUpdate = true ;
+        receivedIORUpdateInfo();
+        receivedIORUpdate = true;
 
         IOR ior = extractIOR(iorServiceContext.context_data);
         synchronized (lastIORLock) {
@@ -697,7 +631,7 @@ public class ClientGroupManager
 
     protected void reportLocatedIOR(ClientRequestInfo ri, IOR ior) {
         // REVISIT - interface;
-        ((ClientRequestInfoImpl)ri).setLocatedIOR(ior);
+        ((ClientRequestInfoImpl) ri).setLocatedIOR(ior);
     }
 
     protected IOR extractIOR(byte[] data) {
@@ -705,16 +639,16 @@ public class ClientGroupManager
         try {
             any = codec.decode_value(data, ForwardRequestHelper.type());
         } catch (FormatMismatch e) {
-            reportException( e ) ;
+            reportException(e);
         } catch (TypeMismatch e) {
-            reportException( e ) ;
+            reportException(e);
         }
 
         // ForwardRequest is used for convenience.
-        //  This code has nothing to do with PortableInterceptor.
+        // This code has nothing to do with PortableInterceptor.
         ForwardRequest fr = ForwardRequestHelper.extract(any);
         org.omg.CORBA.Object ref = fr.forward;
-        return orb.getIOR(ref,false);
+        return orb.getIOR(ref, false);
     }
 
     ////////////////////////////////////////////////////
@@ -722,8 +656,7 @@ public class ClientGroupManager
     // ORBInitializer
     //
 
-    public void pre_init(ORBInitInfo info) 
-    {
+    public void pre_init(ORBInitInfo info) {
     }
 
     @Folb
@@ -741,17 +674,14 @@ public class ClientGroupManager
     //
 
     @Folb
-    public void configure(DataCollector collector, ORB orb) 
-    {
+    public void configure(DataCollector collector, ORB orb) {
         this.orb = orb;
         orb.getORBData().addORBInitializer(this);
         orb.getORBData().setIIOPPrimaryToContactInfo(this);
         orb.getORBData().setIORToSocketInfo(this);
         // So the load-balancer register to get get updates.
         try {
-            orb.register_initial_reference(
-                ORBConstants.FOLB_CLIENT_GROUP_INFO_SERVICE,
-                this);
+            orb.register_initial_reference(ORBConstants.FOLB_CLIENT_GROUP_INFO_SERVICE, this);
         } catch (InvalidName e) {
             reportException(e);
         }

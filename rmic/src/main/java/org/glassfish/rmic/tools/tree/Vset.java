@@ -13,35 +13,33 @@ package org.glassfish.rmic.tools.tree;
 import org.glassfish.rmic.tools.java.*;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public final
-class Vset implements Constants {
-    long vset;                  // DA bits for first 64 variables
-    long uset;                  // DU bits for first 64 variables
+public final class Vset implements Constants {
+    long vset; // DA bits for first 64 variables
+    long uset; // DU bits for first 64 variables
 
     // The extension array is interleaved, consisting of alternating
     // blocks of 64 DA bits followed by 64 DU bits followed by 64 DA
     // bits, and so on.
 
-    long x[];                   // extension array for more bits
+    long x[]; // extension array for more bits
 
     // An infinite vector of zeroes or an infinite vector of ones is
     // represented by a special value of the extension array.
     //
     // IMPORTANT: The condition 'this.x == fullX' is used as a marker for
-    // unreachable code, i.e., for a dead-end.  We maintain the invariant
+    // unreachable code, i.e., for a dead-end. We maintain the invariant
     // that (this.x != fullX || (this.vset == -1 && this.uset == -1)).
     // A dead-end has the peculiar property that all variables are both
-    // definitely assigned and definitely unassigned.  We always force this
+    // definitely assigned and definitely unassigned. We always force this
     // condition to hold, even when the normal bitvector operations performed
-    // during DA/DU analysis would produce a different result.  This supresses
+    // during DA/DU analysis would produce a different result. This supresses
     // reporting of DA/DU errors in unreachable code.
 
     static final long emptyX[] = new long[0]; // all zeroes
-    static final long fullX[]  = new long[0]; // all ones
+    static final long fullX[] = new long[0]; // all ones
 
     // For more thorough testing of long vset support, it is helpful to
     // temporarily redefine this value to a smaller number, such as 1 or 2.
@@ -49,8 +47,7 @@ class Vset implements Constants {
     static final int VBITS = 64; // number of bits in vset (uset)
 
     /**
-     * This is the Vset which reports all vars assigned and unassigned.
-     * This impossibility is degenerately true exactly when
+     * This is the Vset which reports all vars assigned and unassigned. This impossibility is degenerately true exactly when
      * control flow cannot reach this point.
      */
 
@@ -76,8 +73,7 @@ class Vset implements Constants {
     }
 
     /**
-     * Create an copy of the given Vset.
-     * (However, DEAD_END simply returns itself.)
+     * Create an copy of the given Vset. (However, DEAD_END simply returns itself.)
      */
     public Vset copy() {
         if (this == DEAD_END) {
@@ -100,13 +96,10 @@ class Vset implements Constants {
     }
 
     /**
-     * Ask if this is a vset for a dead end.
-     * Answer true only for the canonical dead-end, DEAD_END.
-     * A canonical dead-end is produced only as a result of
-     * a statement that cannot complete normally, as specified
-     * by the JLS.  Due to the special-case rules for if-then
-     * and if-then-else, this may fail to detect actual unreachable
-     * code that could easily be identified.
+     * Ask if this is a vset for a dead end. Answer true only for the canonical dead-end, DEAD_END. A canonical dead-end is
+     * produced only as a result of a statement that cannot complete normally, as specified by the JLS. Due to the
+     * special-case rules for if-then and if-then-else, this may fail to detect actual unreachable code that could easily be
+     * identified.
      */
 
     public boolean isDeadEnd() {
@@ -114,27 +107,20 @@ class Vset implements Constants {
     }
 
     /**
-     * Ask if this is a vset for a dead end.
-     * Answer true for any dead-end.
-     * Since 'clearDeadEnd' has no effect on this predicate,
-     * if-then and if-then-else are handled in the more 'obvious'
-     * and precise way.  This predicate is to be preferred for
-     * dead code elimination purposes.
-     * (Presently used in workaround for bug 4173473 in MethodExpression.java)
+     * Ask if this is a vset for a dead end. Answer true for any dead-end. Since 'clearDeadEnd' has no effect on this
+     * predicate, if-then and if-then-else are handled in the more 'obvious' and precise way. This predicate is to be
+     * preferred for dead code elimination purposes. (Presently used in workaround for bug 4173473 in MethodExpression.java)
      */
     public boolean isReallyDeadEnd() {
         return (x == fullX);
     }
 
     /**
-     * Replace canonical DEAD_END with a distinct but
-     * equivalent Vset.  The bits are unaltered, but
-     * the result does not answer true to 'isDeadEnd'.
+     * Replace canonical DEAD_END with a distinct but equivalent Vset. The bits are unaltered, but the result does not
+     * answer true to 'isDeadEnd'.
      * <p>
-     * Used mostly for error recovery, but see
-     * 'IfStatement.check', where it is used to
-     * implement the special-case treatment of
-     * statement reachability for such statements.
+     * Used mostly for error recovery, but see 'IfStatement.check', where it is used to implement the special-case treatment
+     * of statement reachability for such statements.
      */
     public Vset clearDeadEnd() {
         if (this == DEAD_END) {
@@ -160,9 +146,8 @@ class Vset implements Constants {
     }
 
     /**
-     * Ask if a var is definitely un-assigned.
-     * (This is not just the negation of testVar:
-     * It's possible for neither to be true.)
+     * Ask if a var is definitely un-assigned. (This is not just the negation of testVar: It's possible for neither to be
+     * true.)
      */
     public boolean testVarUnassigned(int varNumber) {
         long bit = (1L << varNumber);
@@ -179,8 +164,7 @@ class Vset implements Constants {
     }
 
     /**
-     * Note that a var is definitely assigned.
-     * (Side-effecting.)
+     * Note that a var is definitely assigned. (Side-effecting.)
      */
     public Vset addVar(int varNumber) {
         if (x == fullX) {
@@ -193,22 +177,21 @@ class Vset implements Constants {
         if (varNumber >= VBITS) {
             int i = (varNumber / VBITS - 1) * 2;
             if (i >= x.length) {
-                growX(i+1);
+                growX(i + 1);
             }
             x[i] |= bit;
-            if (i+1 < x.length) {
-                x[i+1] &=~ bit;
+            if (i + 1 < x.length) {
+                x[i + 1] &= ~bit;
             }
         } else {
             vset |= bit;
-            uset &=~ bit;
+            uset &= ~bit;
         }
         return this;
     }
 
     /**
-     * Note that a var is definitely un-assigned.
-     * (Side-effecting.)
+     * Note that a var is definitely un-assigned. (Side-effecting.)
      */
     public Vset addVarUnassigned(int varNumber) {
         if (x == fullX) {
@@ -222,21 +205,19 @@ class Vset implements Constants {
             // index "uset" extension
             int i = ((varNumber / VBITS - 1) * 2) + 1;
             if (i >= x.length) {
-                growX(i+1);
+                growX(i + 1);
             }
             x[i] |= bit;
-            x[i-1] &=~ bit;
+            x[i - 1] &= ~bit;
         } else {
             uset |= bit;
-            vset &=~ bit;
+            vset &= ~bit;
         }
         return this;
     }
 
     /**
-     * Retract any assertion about the var.
-     * This operation is ineffective on a dead-end.
-     * (Side-effecting.)
+     * Retract any assertion about the var. This operation is ineffective on a dead-end. (Side-effecting.)
      */
     public Vset clearVar(int varNumber) {
         if (x == fullX) {
@@ -248,26 +229,25 @@ class Vset implements Constants {
             if (i >= x.length) {
                 return this;
             }
-            x[i] &=~ bit;
-            if (i+1 < x.length) {
-                x[i+1] &=~ bit;
+            x[i] &= ~bit;
+            if (i + 1 < x.length) {
+                x[i + 1] &= ~bit;
             }
         } else {
-            vset &=~ bit;
-            uset &=~ bit;
+            vset &= ~bit;
+            uset &= ~bit;
         }
         return this;
     }
 
     /**
-     * Join with another vset.  This is set intersection.
-     * (Side-effecting.)
+     * Join with another vset. This is set intersection. (Side-effecting.)
      */
     public Vset join(Vset other) {
 
         // Return a dead-end if both vsets are dead-ends.
         // Return the canonical DEAD_END only if both vsets
-        // are the canonical DEAD_END.  Otherwise, an incoming
+        // are the canonical DEAD_END. Otherwise, an incoming
         // dead-end vset has already produced an error message,
         // and is now assumed to be reachable.
         if (this == DEAD_END) {
@@ -300,7 +280,7 @@ class Vset implements Constants {
                 x[i] &= otherX[i];
             }
             // If self is longer than other, all remaining
-            // bits are implicitly 0.  In the result, then,
+            // bits are implicitly 0. In the result, then,
             // the remaining DA and DU bits are cleared.
             for (int i = limit; i < selfLength; i++) {
                 x[i] = 0;
@@ -310,11 +290,9 @@ class Vset implements Constants {
     }
 
     /**
-     * Add in the definite assignment bits of another vset,
-     * but join the definite unassignment bits.  This unusual
-     * operation is used only for 'finally' blocks.  The
-     * original vset 'this' is destroyed by this operation.
-     * (Part of fix for 4068688.)
+     * Add in the definite assignment bits of another vset, but join the definite unassignment bits. This unusual operation
+     * is used only for 'finally' blocks. The original vset 'this' is destroyed by this operation. (Part of fix for
+     * 4068688.)
      */
 
     public Vset addDAandJoinDU(Vset other) {
@@ -354,8 +332,9 @@ class Vset implements Constants {
             while (i < otherLength) {
                 x[i] |= otherX[i];
                 i++;
-                if (i == otherLength) break;
-                x[i] = ((x[i] & otherX[i]) & ~otherX[i-1]);
+                if (i == otherLength)
+                    break;
+                x[i] = ((x[i] & otherX[i]) & ~otherX[i - 1]);
                 i++;
             }
         }
@@ -370,14 +349,11 @@ class Vset implements Constants {
         return this;
     }
 
-
     /**
-     * Construct a vset consisting of the DA bits of the first argument
-     * and the DU bits of the second argument.  This is a higly unusual
-     * operation, as it implies a case where the flowgraph for DA analysis
-     * differs from that for DU analysis.  It is only needed for analysing
-     * 'try' blocks.  The result is a dead-end iff the first argument is
-     * dead-end. (Part of fix for 4068688.)
+     * Construct a vset consisting of the DA bits of the first argument and the DU bits of the second argument. This is a
+     * higly unusual operation, as it implies a case where the flowgraph for DA analysis differs from that for DU analysis.
+     * It is only needed for analysing 'try' blocks. The result is a dead-end iff the first argument is dead-end. (Part of
+     * fix for 4068688.)
      */
 
     public static Vset firstDAandSecondDU(Vset sourceDA, Vset sourceDU) {
@@ -411,11 +387,10 @@ class Vset implements Constants {
     }
 
     /**
-     * Remove variables from the vset that are no longer part of
-     * a context.  Zeroes are stored past varNumber.
-     * (Side-effecting.)<p>
-     * However, if this is a dead end, keep it so.
-     * That is, leave an infinite tail of bits set.
+     * Remove variables from the vset that are no longer part of a context. Zeroes are stored past varNumber.
+     * (Side-effecting.)
+     * <p>
+     * However, if this is a dead end, keep it so. That is, leave an infinite tail of bits set.
      */
     public Vset removeAdditionalVars(int varNumber) {
         if (x == fullX) {
@@ -449,20 +424,21 @@ class Vset implements Constants {
     public int varLimit() {
         long vset;
         int result;
-    scan: {
+        scan: {
             for (int i = (x.length / 2) * 2; i >= 0; i -= 2) {
-                if (i == x.length)  continue; // oops
+                if (i == x.length)
+                    continue; // oops
                 vset = x[i];
-                if (i+1 < x.length) {
-                    vset |= x[i+1]; // check the "uset" also
+                if (i + 1 < x.length) {
+                    vset |= x[i + 1]; // check the "uset" also
                 }
                 if (vset != 0) {
-                    result = (i/2 + 1) * VBITS;
+                    result = (i / 2 + 1) * VBITS;
                     break scan;
                 }
             }
             vset = this.vset;
-            vset |= this.uset;  // check the "uset" also
+            vset |= this.uset; // check the "uset" also
             if (vset != 0) {
                 result = 0;
                 break scan;
@@ -481,7 +457,7 @@ class Vset implements Constants {
         if (this == DEAD_END)
             return "{DEAD_END}";
         StringBuilder sb = new StringBuilder("{");
-        int maxVar = VBITS * (1 + (x.length+1)/2);
+        int maxVar = VBITS * (1 + (x.length + 1) / 2);
         for (int i = 0; i < maxVar; i++) {
             if (!testVarUnassigned(i)) {
                 if (sb.length() > 1) {

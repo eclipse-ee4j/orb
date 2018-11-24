@@ -8,26 +8,27 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package com.sun.corba.ee.spi.oa ;
+package com.sun.corba.ee.spi.oa;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
+import com.sun.corba.ee.spi.ior.ObjectAdapterId;
 
 public interface ObjectAdapterFactory {
-    /** Initialize this object adapter factory instance.
-    */
-    void init( ORB orb ) ;
-
-    /** Shutdown all object adapters and other state associated
-     * with this factory.
+    /**
+     * Initialize this object adapter factory instance.
      */
-    void shutdown( boolean waitForCompletion ) ;
+    void init(ORB orb);
 
-    /** Find the ObjectAdapter instance that corresponds to the
-    * given ObjectAdapterId.
-    */
-    ObjectAdapter find( ObjectAdapterId oaid ) ;
+    /**
+     * Shutdown all object adapters and other state associated with this factory.
+     */
+    void shutdown(boolean waitForCompletion);
 
-    ORB getORB() ;
+    /**
+     * Find the ObjectAdapter instance that corresponds to the given ObjectAdapterId.
+     */
+    ObjectAdapter find(ObjectAdapterId oaid);
+
+    ORB getORB();
 }

@@ -20,70 +20,68 @@ import java.util.Vector;
 /**
  * This is the symbol table entry for modules.
  **/
-public class ModuleEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
-{
-  protected ModuleEntry ()
-  {
-    super ();
-  }  // ctor
+public class ModuleEntry extends com.sun.tools.corba.ee.idl.SymtabEntry {
+    protected ModuleEntry() {
+        super();
+    } // ctor
 
-  protected ModuleEntry (ModuleEntry that)
-  {
-    super (that);
-    _contained = (Vector)that._contained.clone ();
-  } // ctor
+    protected ModuleEntry(ModuleEntry that) {
+        super(that);
+        _contained = (Vector) that._contained.clone();
+    } // ctor
 
-  protected ModuleEntry (com.sun.tools.corba.ee.idl.SymtabEntry that, IDLID clone)
-  {
-    super (that, clone);
+    protected ModuleEntry(com.sun.tools.corba.ee.idl.SymtabEntry that, IDLID clone) {
+        super(that, clone);
 
-    if (module ().equals (""))
-      module (name ());
-    else if (!name ().equals (""))
-      module (module () + "/" + name ());
-  } // ctor
+        if (module().equals(""))
+            module(name());
+        else if (!name().equals(""))
+            module(module() + "/" + name());
+    } // ctor
 
-  public Object clone ()
-  {
-    return new ModuleEntry (this);
-  } // clone
+    public Object clone() {
+        return new ModuleEntry(this);
+    } // clone
 
-  /** Invoke the module generator.
-      @param symbolTable the symbol table is a hash table whose key is
-       a fully qualified type name and whose value is a SymtabEntry or
-       a subclass of SymtabEntry.
-      @param stream the stream to which the generator should sent its output.
-      @see com.sun.tools.corba.ee.idl.SymtabEntry */
-  public void generate (Hashtable symbolTable, PrintWriter stream)
-  {
-    moduleGen.generate (symbolTable, this, stream);
-  } // generate
+    /**
+     * Invoke the module generator.
+     *
+     * @param symbolTable the symbol table is a hash table whose key is a fully qualified type name and whose value is a
+     * SymtabEntry or a subclass of SymtabEntry.
+     * @param stream the stream to which the generator should sent its output.
+     * @see com.sun.tools.corba.ee.idl.SymtabEntry
+     */
+    public void generate(Hashtable symbolTable, PrintWriter stream) {
+        moduleGen.generate(symbolTable, this, stream);
+    } // generate
 
-  /** Access the module generator.
-      @return an object which implements the ModuleGen interface.
-      @see com.sun.tools.corba.ee.idl.ModuleGen */
-  public com.sun.tools.corba.ee.idl.Generator generator ()
-  {
-    return moduleGen;
-  } // generator
+    /**
+     * Access the module generator.
+     *
+     * @return an object which implements the ModuleGen interface.
+     * @see com.sun.tools.corba.ee.idl.ModuleGen
+     */
+    public com.sun.tools.corba.ee.idl.Generator generator() {
+        return moduleGen;
+    } // generator
 
-  /** alid entries in this vector are:  TypedefEntry, ExceptionEntry,
-      StructEntry, UnionEntry, EnumEntry, ConstEntry, InterfaceEntry,
-      ModuleEntry. */
-  public void addContained (com.sun.tools.corba.ee.idl.SymtabEntry entry)
-  {
-    _contained.addElement (entry);
-  } // addContained
+    /**
+     * alid entries in this vector are: TypedefEntry, ExceptionEntry, StructEntry, UnionEntry, EnumEntry, ConstEntry,
+     * InterfaceEntry, ModuleEntry.
+     */
+    public void addContained(com.sun.tools.corba.ee.idl.SymtabEntry entry) {
+        _contained.addElement(entry);
+    } // addContained
 
-  /** This is a vector of SymtabEntry's.  Valid entries in this vector are:
-      TypedefEntry, ExceptionEntry, StructEntry, UnionEntry, EnumEntry,
-      ConstEntry, InterfaceEntry, ModuleEntry. */
-  public Vector contained ()
-  {
-    return _contained;
-  } // contained
+    /**
+     * This is a vector of SymtabEntry's. Valid entries in this vector are: TypedefEntry, ExceptionEntry, StructEntry,
+     * UnionEntry, EnumEntry, ConstEntry, InterfaceEntry, ModuleEntry.
+     */
+    public Vector contained() {
+        return _contained;
+    } // contained
 
-  private Vector _contained = new Vector ();
+    private Vector _contained = new Vector();
 
-  static com.sun.tools.corba.ee.idl.ModuleGen moduleGen;
+    static com.sun.tools.corba.ee.idl.ModuleGen moduleGen;
 } // class ModuleEntry

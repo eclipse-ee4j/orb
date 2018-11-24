@@ -9,22 +9,21 @@
  */
 
 package org.omg.CORBA.TSIdentificationPackage;
+
 /**
- * A user-defined exception thrown if the ORB is unavailable
- * to register the call-back interfaces identified by the
- * OTS during initialization.
+ * A user-defined exception thrown if the ORB is unavailable to register the call-back interfaces identified by the OTS
+ * during initialization.
+ *
  * @see TSIdentification
  * @see AlreadyIdentified
  */
-public final class NotAvailable
-    extends org.omg.CORBA.UserException {
+public final class NotAvailable extends org.omg.CORBA.UserException {
 
-    //  constructor
-/**
- * Constructs a <code>NotAvailable</code> exception.
- */
+    // constructor
+    /**
+     * Constructs a <code>NotAvailable</code> exception.
+     */
     public NotAvailable() {
         super();
     }
 }
-

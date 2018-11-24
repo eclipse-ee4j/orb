@@ -16,12 +16,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class ExpressionStatement extends Statement {
+public class ExpressionStatement extends Statement {
     Expression expr;
 
     /**
@@ -55,7 +53,7 @@ class ExpressionStatement extends Statement {
      * Create a copy of the statement for method inlining
      */
     public Statement copyInline(Context ctx, boolean valNeeded) {
-        ExpressionStatement s = (ExpressionStatement)clone();
+        ExpressionStatement s = (ExpressionStatement) clone();
         s.expr = expr.copyInline(ctx);
         return s;
     }

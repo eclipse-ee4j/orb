@@ -17,6 +17,7 @@ public interface Timeoutable {
 
     /**
      * Checks to see if a timeout has occurred.
+     *
      * @param timeSinceLastActivity the time in msec since the last activity for this action.
      */
     void checkForTimeout(long timeSinceLastActivity);

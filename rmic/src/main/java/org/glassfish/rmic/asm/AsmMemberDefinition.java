@@ -26,6 +26,7 @@ public class AsmMemberDefinition extends MemberDefinition {
 
     /**
      * Constructor for a method definition
+     *
      * @param where the location of the definition relative to the class
      * @param clazz the containing class
      * @param modifiers the access modifiers
@@ -42,6 +43,7 @@ public class AsmMemberDefinition extends MemberDefinition {
 
     /**
      * Constructor for a field definition
+     *
      * @param where the location of the definition relative to the class
      * @param clazz the containing class
      * @param modifiers the access modifiers
@@ -57,11 +59,12 @@ public class AsmMemberDefinition extends MemberDefinition {
     }
 
     private ClassDeclaration[] toClassDeclarations(String[] classNames) {
-        if (classNames == null) return new ClassDeclaration[0];
+        if (classNames == null)
+            return new ClassDeclaration[0];
 
         ClassDeclaration[] result = new ClassDeclaration[classNames.length];
         for (int i = 0; i < classNames.length; i++)
-            result[i] = new ClassDeclaration(Identifier.lookup(classNames[i].replace('/','.')));
+            result[i] = new ClassDeclaration(Identifier.lookup(classNames[i].replace('/', '.')));
         return result;
 
     }

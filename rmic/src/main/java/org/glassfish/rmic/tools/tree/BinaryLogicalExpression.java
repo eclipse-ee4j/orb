@@ -14,12 +14,10 @@ import org.glassfish.rmic.tools.java.*;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-abstract public
-class BinaryLogicalExpression extends BinaryExpression {
+abstract public class BinaryLogicalExpression extends BinaryExpression {
     /**
      * constructor
      */
@@ -30,8 +28,7 @@ class BinaryLogicalExpression extends BinaryExpression {
     /**
      * Check a binary expression
      */
-    public Vset checkValue(Environment env, Context ctx,
-                           Vset vset, Hashtable<Object, Object> exp) {
+    public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         ConditionVars cvars = new ConditionVars();
         // evaluate the logical expression, determining which variables are
         // set if the resulting value is true or false
@@ -41,13 +38,10 @@ class BinaryLogicalExpression extends BinaryExpression {
     }
 
     /*
-     * Every subclass of this class must define a genuine implementation
-     * of this method.  It cannot inherit the method of Expression.
+     * Every subclass of this class must define a genuine implementation of this method. It cannot inherit the method of
+     * Expression.
      */
-    abstract
-    public void checkCondition(Environment env, Context ctx, Vset vset,
-                               Hashtable<Object, Object> exp, ConditionVars cvars);
-
+    abstract public void checkCondition(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp, ConditionVars cvars);
 
     /**
      * Inline

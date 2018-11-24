@@ -14,12 +14,10 @@ import org.glassfish.rmic.tools.java.*;
 import org.glassfish.rmic.tools.asm.Assembler;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class BitNotExpression extends UnaryExpression {
+public class BitNotExpression extends UnaryExpression {
     /**
      * Constructor
      */
@@ -45,6 +43,7 @@ class BitNotExpression extends UnaryExpression {
     Expression eval(int a) {
         return new IntExpression(where, ~a);
     }
+
     Expression eval(long a) {
         return new LongExpression(where, ~a);
     }
@@ -54,7 +53,7 @@ class BitNotExpression extends UnaryExpression {
      */
     Expression simplify() {
         if (right.op == BITNOT) {
-            return ((BitNotExpression)right).right;
+            return ((BitNotExpression) right).right;
         }
         return this;
     }

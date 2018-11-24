@@ -16,15 +16,12 @@ import java.io.IOException;
 import java.io.DataOutputStream;
 
 /**
- * This is a string expression constant. This constant
- * represents an Java string constant.
+ * This is a string expression constant. This constant represents an Java string constant.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-final
-class StringExpressionConstantData extends ConstantPoolData {
+final class StringExpressionConstantData extends ConstantPoolData {
     StringExpression str;
 
     /**

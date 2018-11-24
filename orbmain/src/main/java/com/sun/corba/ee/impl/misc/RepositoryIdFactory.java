@@ -12,42 +12,34 @@ package com.sun.corba.ee.impl.misc;
 
 import com.sun.corba.ee.spi.orb.ORB;
 
-public abstract class RepositoryIdFactory
-{
-    private static final RepIdDelegator currentDelegator
-        = new RepIdDelegator();
+public abstract class RepositoryIdFactory {
+    private static final RepIdDelegator currentDelegator = new RepIdDelegator();
 
     /**
      * Returns the latest version RepositoryIdStrings instance
      */
-    public static RepositoryIdStrings getRepIdStringsFactory()
-    {
+    public static RepositoryIdStrings getRepIdStringsFactory() {
         return currentDelegator;
     }
 
     /**
-     * Checks the version of the ORB and returns the appropriate
-     * RepositoryIdStrings instance.
+     * Checks the version of the ORB and returns the appropriate RepositoryIdStrings instance.
      */
-    public static RepositoryIdStrings getRepIdStringsFactory(ORB orb)
-    {
+    public static RepositoryIdStrings getRepIdStringsFactory(ORB orb) {
         return currentDelegator;
     }
 
     /**
      * Returns the latest version RepositoryIdUtility instance
      */
-    public static RepositoryIdUtility getRepIdUtility()
-    {
+    public static RepositoryIdUtility getRepIdUtility() {
         return currentDelegator;
     }
 
     /**
-     * Checks the version of the ORB and returns the appropriate
-     * RepositoryIdUtility instance.
+     * Checks the version of the ORB and returns the appropriate RepositoryIdUtility instance.
      */
-    public static RepositoryIdUtility getRepIdUtility(ORB orb)
-    {
+    public static RepositoryIdUtility getRepIdUtility(ORB orb) {
         return currentDelegator;
     }
 }

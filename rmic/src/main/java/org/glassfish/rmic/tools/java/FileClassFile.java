@@ -16,15 +16,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
- * This class is used to represent a file loaded from the class path, and
- * is a regular file.
+ * This class is used to represent a file loaded from the class path, and is a regular file.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-final
-class FileClassFile extends ClassFile {
+final class FileClassFile extends ClassFile {
     private final File file;
 
     /**

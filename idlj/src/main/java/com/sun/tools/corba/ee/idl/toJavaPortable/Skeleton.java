@@ -34,509 +34,468 @@ import com.sun.tools.corba.ee.idl.ValueEntry;
 /**
  *
  **/
-public class Skeleton implements AuxGen
-{
-  private com.sun.tools.corba.ee.idl.toJavaPortable.NameModifier skeletonNameModifier ;
-  private com.sun.tools.corba.ee.idl.toJavaPortable.NameModifier tieNameModifier ;
+public class Skeleton implements AuxGen {
+    private com.sun.tools.corba.ee.idl.toJavaPortable.NameModifier skeletonNameModifier;
+    private com.sun.tools.corba.ee.idl.toJavaPortable.NameModifier tieNameModifier;
 
-  public Skeleton ()
-  {
-  } 
+    public Skeleton() {
+    }
 
-  public void generate (Hashtable symbolTable, SymtabEntry entry)
-  {
-    // <d62739-begin> 
-    // Per Simon, 5-12-99, don't generate TIE or Skeleton for 
-    //
-    // 1) valuetypes supporting abstract interfaces 
-    // 2) valuetypes with no supports.
-    // 3) abstract interfaces
-    //
-    if (entry instanceof ValueEntry) 
-    {
-      ValueEntry v = (ValueEntry) entry;
-      if ((v.supports ().size () == 0) ||
-          ((InterfaceEntry) v.supports ().elementAt (0)).isAbstract ()) {
-        return;
+    public void generate(Hashtable symbolTable, SymtabEntry entry) {
+        // <d62739-begin>
+        // Per Simon, 5-12-99, don't generate TIE or Skeleton for
+        //
+        // 1) valuetypes supporting abstract interfaces
+        // 2) valuetypes with no supports.
+        // 3) abstract interfaces
+        //
+        if (entry instanceof ValueEntry) {
+            ValueEntry v = (ValueEntry) entry;
+            if ((v.supports().size() == 0) || ((InterfaceEntry) v.supports().elementAt(0)).isAbstract()) {
+                return;
+            }
         }
-    }
-    if (((InterfaceEntry) entry).isAbstract ()) {
-        return;
-    }
-    // <d62739-end>
-
-    this.symbolTable = symbolTable;
-
-    this.i           = (InterfaceEntry)entry;
-    init ();
-    openStream ();
-    if (stream == null)
-      return;
-    writeHeading ();
-    writeBody ();
-    writeClosing ();
-    closeStream ();
-  } // generate
-
-  /**
-   * Initialize members unique to this generator.
-   **/
-  protected void init ()
-  {
-    tie = ((com.sun.tools.corba.ee.idl.toJavaPortable.Arguments) com.sun.tools.corba.ee.idl.toJavaPortable.Compile.compiler.arguments).TIEServer ;
-    poa = ((com.sun.tools.corba.ee.idl.toJavaPortable.Arguments) com.sun.tools.corba.ee.idl.toJavaPortable.Compile.compiler.arguments).POAServer ;
-
-    skeletonNameModifier = 
-        ((com.sun.tools.corba.ee.idl.toJavaPortable.Arguments) com.sun.tools.corba.ee.idl.toJavaPortable.Compile.compiler.arguments).skeletonNameModifier ;
-    tieNameModifier = 
-        ((com.sun.tools.corba.ee.idl.toJavaPortable.Arguments) com.sun.tools.corba.ee.idl.toJavaPortable.Compile.compiler.arguments).tieNameModifier ;
-    
-    tieClassName = tieNameModifier.makeName( i.name() ) ; 
-    skeletonClassName = skeletonNameModifier.makeName( i.name() ) ;
-
-    intfName = com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaName(i);
-    // for valuetype, get the name of the interface the valuetype supports
-    if (i instanceof ValueEntry)
-    {
-      ValueEntry v = (ValueEntry) i;
-      InterfaceEntry intf = (InterfaceEntry) v.supports ().elementAt (0);
-      intfName = com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaName(intf);
-    }
-  } // init
-
-  protected void openStream ()
-  {
-    if (tie)
-        stream = com.sun.tools.corba.ee.idl.toJavaPortable.Util.stream(i, tieNameModifier, ".java") ;
-    else
-        stream = com.sun.tools.corba.ee.idl.toJavaPortable.Util.stream(i, skeletonNameModifier, ".java") ;
-  } // openStream
-
-  protected void writeHeading ()
-  {
-    com.sun.tools.corba.ee.idl.toJavaPortable.Util.writePackage (stream, i, com.sun.tools.corba.ee.idl.toJavaPortable.Util.StubFile);
-    com.sun.tools.corba.ee.idl.toJavaPortable.Util.writeProlog(stream, ((GenFileStream) stream).name());
-    if (i.comment () != null)
-      i.comment ().generate ("", stream);
-    writeClassDeclaration ();
-    stream.println ('{');
-    stream.println ();
-  } // writeHeading
-
-  protected void writeClassDeclaration ()
-  {
-    if (tie){
-        stream.println ("public class " + tieClassName + 
-            " extends " + skeletonClassName ) ;
-    } else { 
-        if (poa) {
-            stream.println ("public abstract class " + skeletonClassName + 
-                            " extends org.omg.PortableServer.Servant");
-            stream.print   (" implements " + intfName + "Operations, ");
-            stream.println ("org.omg.CORBA.portable.InvokeHandler");
-        } else {
-            stream.println ("public abstract class " + skeletonClassName + 
-                            " extends org.omg.CORBA.portable.ObjectImpl");
-            stream.print   ("                implements " + intfName + ", ");
-            stream.println ("org.omg.CORBA.portable.InvokeHandler");
+        if (((InterfaceEntry) entry).isAbstract()) {
+            return;
         }
-    }
-  } // writeClassDeclaration
+        // <d62739-end>
 
-  /**
-   *
-   **/
-  protected void writeBody ()
-  {
-    // <f46082.51> Remove -stateful feature.  ?????
-    //if (i.state () != null)
-    //  writeState ();
-    writeCtors ();
-    if (i instanceof ValueEntry)
-    {
-      // use the interface the valuetype supports to generate the
-      // tie class instead of using the valuetype itself
-      ValueEntry v = (ValueEntry) i;
-      this.i = (InterfaceEntry) v.supports ().elementAt (0);
-    }
-    buildMethodList ();
-    //DispatchMethod and MethodTable
-    if (tie){ //Concrete class implementing the remote interface
-        //The logic is here for future use
-        if (poa) {
-            writeMethods ();
-            stream.println ("  private " + intfName + "Operations _impl;");
-            stream.println ("  private org.omg.PortableServer.POA _poa;");
-        } else {
-            writeMethods ();
-            stream.println ("  private " + intfName + "Operations _impl;");
-        } 
-    } else { //Both POA and ImplBase are abstract InvokeHandler
-        //The logic is here for future use
-        if (poa) { 
-            writeMethodTable ();
-            writeDispatchMethod ();
-            writeCORBAOperations ();
-        } else {
-            writeMethodTable ();
-            writeDispatchMethod ();
-            writeCORBAOperations ();
+        this.symbolTable = symbolTable;
+
+        this.i = (InterfaceEntry) entry;
+        init();
+        openStream();
+        if (stream == null)
+            return;
+        writeHeading();
+        writeBody();
+        writeClosing();
+        closeStream();
+    } // generate
+
+    /**
+     * Initialize members unique to this generator.
+     **/
+    protected void init() {
+        tie = ((com.sun.tools.corba.ee.idl.toJavaPortable.Arguments) com.sun.tools.corba.ee.idl.toJavaPortable.Compile.compiler.arguments).TIEServer;
+        poa = ((com.sun.tools.corba.ee.idl.toJavaPortable.Arguments) com.sun.tools.corba.ee.idl.toJavaPortable.Compile.compiler.arguments).POAServer;
+
+        skeletonNameModifier = ((com.sun.tools.corba.ee.idl.toJavaPortable.Arguments) com.sun.tools.corba.ee.idl.toJavaPortable.Compile.compiler.arguments).skeletonNameModifier;
+        tieNameModifier = ((com.sun.tools.corba.ee.idl.toJavaPortable.Arguments) com.sun.tools.corba.ee.idl.toJavaPortable.Compile.compiler.arguments).tieNameModifier;
+
+        tieClassName = tieNameModifier.makeName(i.name());
+        skeletonClassName = skeletonNameModifier.makeName(i.name());
+
+        intfName = com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaName(i);
+        // for valuetype, get the name of the interface the valuetype supports
+        if (i instanceof ValueEntry) {
+            ValueEntry v = (ValueEntry) i;
+            InterfaceEntry intf = (InterfaceEntry) v.supports().elementAt(0);
+            intfName = com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaName(intf);
         }
-    }
-    //legacy !!
-    writeOperations ();
-  } // writeBody
+    } // init
 
-  /**
-   * Close the skeleton class. The singleton ORB member is
-   * necessary only for portable skeletons.
-   **/
-  protected void writeClosing ()
-  {
-    stream.println ();
-    if (tie){
-        stream.println ("} // class " + tieClassName);
-    } else { 
-        stream.println ("} // class " + skeletonClassName);
-    }
-  } // writeClosing
+    protected void openStream() {
+        if (tie)
+            stream = com.sun.tools.corba.ee.idl.toJavaPortable.Util.stream(i, tieNameModifier, ".java");
+        else
+            stream = com.sun.tools.corba.ee.idl.toJavaPortable.Util.stream(i, skeletonNameModifier, ".java");
+    } // openStream
 
-  /**
-   * Close the print stream, which flushes the stream to file.
-   **/
-  protected void closeStream ()
-  {
-    stream.close ();
-  } // closeStream
+    protected void writeHeading() {
+        com.sun.tools.corba.ee.idl.toJavaPortable.Util.writePackage(stream, i, com.sun.tools.corba.ee.idl.toJavaPortable.Util.StubFile);
+        com.sun.tools.corba.ee.idl.toJavaPortable.Util.writeProlog(stream, ((GenFileStream) stream).name());
+        if (i.comment() != null)
+            i.comment().generate("", stream);
+        writeClassDeclaration();
+        stream.println('{');
+        stream.println();
+    } // writeHeading
 
-  protected void writeCtors ()
-  {
-    stream.println ("  // Constructors");
-    // Empty argument constructors
-    if (!poa) {
-        if (tie){
-            stream.println ("  public " + tieClassName + " ()");
-            stream.println ("  {");
-            stream.println ("  }");
-        } else { 
-            stream.println ("  public " + skeletonClassName + " ()");
-            stream.println ("  {");
-            stream.println ("  }");
-        }
-    }
-    stream.println ();
-    // Argumented constructors
-    if (tie){
-        if (poa) {
-            //Write constructors
-            writePOATieCtors();
-            //Write state setters and getters
-            writePOATieFieldAccessMethods();
+    protected void writeClassDeclaration() {
+        if (tie) {
+            stream.println("public class " + tieClassName + " extends " + skeletonClassName);
         } else {
-            stream.println ("  public " + tieClassName + 
-                            " (" + intfName + "Operations impl)");
-            stream.println ("  {");
-            // Does it derive from a interface having state, e.g., valuetype?
-            if (((InterfaceEntry)i.derivedFrom ().firstElement ()).state () != null)
-                stream.println ("    super (impl);");
+            if (poa) {
+                stream.println("public abstract class " + skeletonClassName + " extends org.omg.PortableServer.Servant");
+                stream.print(" implements " + intfName + "Operations, ");
+                stream.println("org.omg.CORBA.portable.InvokeHandler");
+            } else {
+                stream.println("public abstract class " + skeletonClassName + " extends org.omg.CORBA.portable.ObjectImpl");
+                stream.print("                implements " + intfName + ", ");
+                stream.println("org.omg.CORBA.portable.InvokeHandler");
+            }
+        }
+    } // writeClassDeclaration
+
+    /**
+     *
+     **/
+    protected void writeBody() {
+        // <f46082.51> Remove -stateful feature. ?????
+        // if (i.state () != null)
+        // writeState ();
+        writeCtors();
+        if (i instanceof ValueEntry) {
+            // use the interface the valuetype supports to generate the
+            // tie class instead of using the valuetype itself
+            ValueEntry v = (ValueEntry) i;
+            this.i = (InterfaceEntry) v.supports().elementAt(0);
+        }
+        buildMethodList();
+        // DispatchMethod and MethodTable
+        if (tie) { // Concrete class implementing the remote interface
+            // The logic is here for future use
+            if (poa) {
+                writeMethods();
+                stream.println("  private " + intfName + "Operations _impl;");
+                stream.println("  private org.omg.PortableServer.POA _poa;");
+            } else {
+                writeMethods();
+                stream.println("  private " + intfName + "Operations _impl;");
+            }
+        } else { // Both POA and ImplBase are abstract InvokeHandler
+            // The logic is here for future use
+            if (poa) {
+                writeMethodTable();
+                writeDispatchMethod();
+                writeCORBAOperations();
+            } else {
+                writeMethodTable();
+                writeDispatchMethod();
+                writeCORBAOperations();
+            }
+        }
+        // legacy !!
+        writeOperations();
+    } // writeBody
+
+    /**
+     * Close the skeleton class. The singleton ORB member is necessary only for portable skeletons.
+     **/
+    protected void writeClosing() {
+        stream.println();
+        if (tie) {
+            stream.println("} // class " + tieClassName);
+        } else {
+            stream.println("} // class " + skeletonClassName);
+        }
+    } // writeClosing
+
+    /**
+     * Close the print stream, which flushes the stream to file.
+     **/
+    protected void closeStream() {
+        stream.close();
+    } // closeStream
+
+    protected void writeCtors() {
+        stream.println("  // Constructors");
+        // Empty argument constructors
+        if (!poa) {
+            if (tie) {
+                stream.println("  public " + tieClassName + " ()");
+                stream.println("  {");
+                stream.println("  }");
+            } else {
+                stream.println("  public " + skeletonClassName + " ()");
+                stream.println("  {");
+                stream.println("  }");
+            }
+        }
+        stream.println();
+        // Argumented constructors
+        if (tie) {
+            if (poa) {
+                // Write constructors
+                writePOATieCtors();
+                // Write state setters and getters
+                writePOATieFieldAccessMethods();
+            } else {
+                stream.println("  public " + tieClassName + " (" + intfName + "Operations impl)");
+                stream.println("  {");
+                // Does it derive from a interface having state, e.g., valuetype?
+                if (((InterfaceEntry) i.derivedFrom().firstElement()).state() != null)
+                    stream.println("    super (impl);");
+                else
+                    stream.println("    super ();");
+                stream.println("    _impl = impl;");
+                stream.println("  }");
+                stream.println();
+            }
+        } else { // Skeleton is not Tie so it has no constructors.
+            if (poa) {
+            } else {
+            }
+        }
+
+    } // writeCtors
+
+    private void writePOATieCtors() {
+        // First constructor
+        stream.println("  public " + tieClassName + " ( " + intfName + "Operations delegate ) {");
+        stream.println("      this._impl = delegate;");
+        stream.println("  }");
+        // Second constructor specifying default poa.
+        stream.println("  public " + tieClassName + " ( " + intfName + "Operations delegate , org.omg.PortableServer.POA poa ) {");
+        stream.println("      this._impl = delegate;");
+        stream.println("      this._poa      = poa;");
+        stream.println("  }");
+    }
+
+    private void writePOATieFieldAccessMethods() {
+        // Getting delegate
+        stream.println("  public " + intfName + "Operations _delegate() {");
+        stream.println("      return this._impl;");
+        stream.println("  }");
+        // Setting delegate
+        stream.println("  public void _delegate (" + intfName + "Operations delegate ) {");
+        stream.println("      this._impl = delegate;");
+        stream.println("  }");
+        // Overriding default poa
+        stream.println("  public org.omg.PortableServer.POA _default_POA() {");
+        stream.println("      if(_poa != null) {");
+        stream.println("          return _poa;");
+        stream.println("      }");
+        stream.println("      else {");
+        stream.println("          return super._default_POA();");
+        stream.println("      }");
+        stream.println("  }");
+    }
+
+    /**
+     * Build a list of all of the methods, keeping out duplicates.
+     **/
+    protected void buildMethodList() {
+        // Start from scratch
+        methodList = new Vector();
+
+        buildMethodList(i);
+    } // buildMethodList
+
+    /**
+     *
+     **/
+    private void buildMethodList(InterfaceEntry entry) {
+        // Add the local methods
+        Enumeration locals = entry.methods().elements();
+        while (locals.hasMoreElements())
+            addMethod((MethodEntry) locals.nextElement());
+
+        // Add the inherited methods
+        Enumeration parents = entry.derivedFrom().elements();
+        while (parents.hasMoreElements()) {
+            InterfaceEntry parent = (InterfaceEntry) parents.nextElement();
+            if (!parent.name().equals("Object"))
+                buildMethodList(parent);
+        }
+    } // buildMethodList
+
+    /**
+     *
+     **/
+    private void addMethod(MethodEntry method) {
+        if (!methodList.contains(method))
+            methodList.addElement(method);
+    } // addMethod
+
+    /**
+     *
+     **/
+    protected void writeDispatchMethod() {
+        String indent = "                                ";
+        stream.println("  public org.omg.CORBA.portable.OutputStream _invoke (String $method,");
+        stream.println(indent + "org.omg.CORBA.portable.InputStream in,");
+        stream.println(indent + "org.omg.CORBA.portable.ResponseHandler $rh)");
+        stream.println("  {");
+
+        // this is a special case code generation for cases servantLocator and
+        // servantActivator, where OMG is taking too long to define them
+        // as local objects
+
+        boolean isLocalInterface = false;
+        if (i instanceof InterfaceEntry) {
+            isLocalInterface = i.isLocalServant();
+        }
+
+        if (!isLocalInterface) {
+            // Per Simon 8/26/98, create and return reply stream for all methods - KLR
+            stream.println("    org.omg.CORBA.portable.OutputStream out = null;");
+            stream.println("    java.lang.Integer __method = _methods.get($method);");
+            stream.println("    if (__method == null)");
+            stream.println("      throw new org.omg.CORBA.BAD_OPERATION (0, org.omg.CORBA.CompletionStatus.COMPLETED_MAYBE);");
+            stream.println();
+            if (methodList.size() > 0) {
+                stream.println("    switch (__method.intValue ())");
+                stream.println("    {");
+
+                // Write the method case statements
+                int realI = 0;
+                for (int i = 0; i < methodList.size(); ++i) {
+                    MethodEntry method = (MethodEntry) methodList.elementAt(i);
+                    ((com.sun.tools.corba.ee.idl.toJavaPortable.MethodGen) method.generator()).dispatchSkeleton(symbolTable, method, stream, realI);
+                    if (method instanceof AttributeEntry && !((AttributeEntry) method).readOnly())
+                        realI += 2;
+                    else
+                        ++realI;
+                }
+
+                indent = "       ";
+                stream.println(indent + "default:");
+                stream.println(indent + "  throw new org.omg.CORBA.BAD_OPERATION (0, org.omg.CORBA.CompletionStatus.COMPLETED_MAYBE);");
+                stream.println("    }");
+                stream.println();
+            }
+            stream.println("    return out;");
+        } else {
+            stream.println("    throw new org.omg.CORBA.BAD_OPERATION();");
+        }
+        stream.println("  } // _invoke");
+        stream.println();
+    } // writeDispatchMethod
+
+    /**
+     *
+     **/
+    protected void writeMethodTable() {
+        // Write the methods hashtable
+        stream.println("  private static java.util.Map<String,Integer> _methods = new java.util.HashMap<String,Integer> ();");
+        stream.println("  static");
+        stream.println("  {");
+
+        int count = -1;
+        Enumeration e = methodList.elements();
+        while (e.hasMoreElements()) {
+            MethodEntry method = (MethodEntry) e.nextElement();
+            if (method instanceof AttributeEntry) {
+                stream.println("    _methods.put (\"_get_" + com.sun.tools.corba.ee.idl.toJavaPortable.Util.stripLeadingUnderscores(method.name()) + "\", "
+                        + (++count) + ");");
+                if (!((AttributeEntry) method).readOnly())
+                    stream.println("    _methods.put (\"_set_" + com.sun.tools.corba.ee.idl.toJavaPortable.Util.stripLeadingUnderscores(method.name()) + "\", "
+                            + (++count) + ");");
+            } else
+                stream.println("    _methods.put (\"" + com.sun.tools.corba.ee.idl.toJavaPortable.Util.stripLeadingUnderscores(method.name()) + "\", "
+                        + (++count) + ");");
+        }
+        stream.println("  }");
+        stream.println();
+    } // writeMethodTable
+
+    /**
+     *
+     **/
+    protected void writeMethods() {
+        int realI = 0;
+        for (int i = 0; i < methodList.size(); ++i) {
+            MethodEntry method = (MethodEntry) methodList.elementAt(i);
+            ((com.sun.tools.corba.ee.idl.toJavaPortable.MethodGen) method.generator()).skeleton(symbolTable, method, stream, realI);
+            if (method instanceof AttributeEntry && !((AttributeEntry) method).readOnly())
+                realI += 2;
             else
-                stream.println ("    super ();");
-            stream.println ("    _impl = impl;");
-            stream.println ("  }");
-            stream.println ();
-        } 
-    } else { //Skeleton is not Tie so it has no constructors.
-        if (poa) {
-        } else {
+                ++realI;
+            stream.println();
         }
-    }
+    } // writeMethods
 
-  } // writeCtors
-
-
-  private void writePOATieCtors(){
-    //First constructor
-    stream.println ("  public " + tieClassName + " ( " + intfName + "Operations delegate ) {");
-    stream.println ("      this._impl = delegate;");
-    stream.println ("  }");
-    //Second constructor specifying default poa.
-    stream.println ("  public " + tieClassName + " ( " + intfName + 
-                    "Operations delegate , org.omg.PortableServer.POA poa ) {");
-    stream.println ("      this._impl = delegate;");
-    stream.println ("      this._poa      = poa;");
-    stream.println ("  }");
-  }
-
-  private void writePOATieFieldAccessMethods(){
-    //Getting delegate
-    stream.println ("  public " + intfName+ "Operations _delegate() {");
-    stream.println ("      return this._impl;");
-    stream.println ("  }");    
-    //Setting delegate
-    stream.println ("  public void _delegate (" + intfName + "Operations delegate ) {");
-    stream.println ("      this._impl = delegate;");
-    stream.println ("  }");            
-    //Overriding default poa
-    stream.println ("  public org.omg.PortableServer.POA _default_POA() {");
-    stream.println ("      if(_poa != null) {");
-    stream.println ("          return _poa;");
-    stream.println ("      }");
-    stream.println ("      else {");
-    stream.println ("          return super._default_POA();");
-    stream.println ("      }");
-    stream.println ("  }");  
-  }
-
-  /**
-   * Build a list of all of the methods, keeping out duplicates.
-   **/
-  protected void buildMethodList ()
-  {
-    // Start from scratch
-    methodList = new Vector ();
-
-    buildMethodList (i);
-  } // buildMethodList
-
-  /**
-   *
-   **/
-  private void buildMethodList (InterfaceEntry entry)
-  {
-    // Add the local methods
-    Enumeration locals = entry.methods ().elements ();
-    while (locals.hasMoreElements ())
-      addMethod ((MethodEntry)locals.nextElement ());
-
-    // Add the inherited methods
-    Enumeration parents = entry.derivedFrom ().elements ();
-    while (parents.hasMoreElements ())
-    {
-      InterfaceEntry parent = (InterfaceEntry)parents.nextElement ();
-      if (!parent.name ().equals ("Object"))
-        buildMethodList (parent);
-    }
-  } // buildMethodList
-
-  /**
-   *
-   **/
-  private void addMethod (MethodEntry method)
-  {
-    if (!methodList.contains (method))
-      methodList.addElement (method);
-  } // addMethod
-
-  /**
-   *
-   **/
-  protected void writeDispatchMethod ()
-  {
-    String indent = "                                ";
-    stream.println ("  public org.omg.CORBA.portable.OutputStream _invoke (String $method,");
-    stream.println (indent + "org.omg.CORBA.portable.InputStream in,");
-    stream.println (indent + "org.omg.CORBA.portable.ResponseHandler $rh)");
-    stream.println ("  {");
-
-    // this is a special case code generation for cases servantLocator and
-    // servantActivator, where OMG is taking too long to define them
-    // as local objects
-
-    boolean isLocalInterface = false;
-    if (i instanceof InterfaceEntry) {
-        isLocalInterface = i.isLocalServant();
-    }
-
-    if (!isLocalInterface) {
-        // Per Simon 8/26/98, create and return reply stream for all methods - KLR
-        stream.println ("    org.omg.CORBA.portable.OutputStream out = null;");
-        stream.println ("    java.lang.Integer __method = _methods.get($method);");
-        stream.println ("    if (__method == null)");
-        stream.println ("      throw new org.omg.CORBA.BAD_OPERATION (0, org.omg.CORBA.CompletionStatus.COMPLETED_MAYBE);");
-        stream.println ();
-        if (methodList.size () > 0)
-        {
-          stream.println ("    switch (__method.intValue ())");
-          stream.println ("    {");
-
-          // Write the method case statements
-          int realI = 0;
-          for (int i = 0; i < methodList.size (); ++i)
-          {
-            MethodEntry method = (MethodEntry)methodList.elementAt (i);
-            ((com.sun.tools.corba.ee.idl.toJavaPortable.MethodGen)method.generator ()).dispatchSkeleton (symbolTable, method, stream, realI);
-            if (method instanceof AttributeEntry && !((AttributeEntry)method).readOnly ())
-              realI += 2;
+    /**
+     *
+     **/
+    private void writeIDs() {
+        Vector list = new Vector();
+        buildIDList(i, list);
+        Enumeration e = list.elements();
+        boolean first = true;
+        while (e.hasMoreElements()) {
+            if (first)
+                first = false;
             else
-              ++realI;
-          }
-
-          indent = "       ";
-          stream.println (indent + "default:");
-          stream.println (indent + "  throw new org.omg.CORBA.BAD_OPERATION (0, org.omg.CORBA.CompletionStatus.COMPLETED_MAYBE);");
-          stream.println ("    }");
-          stream.println ();
+                stream.println(", ");
+            stream.print("    \"" + (String) e.nextElement() + '"');
         }
-        stream.println ("    return out;");
-    } else {
-        stream.println("    throw new org.omg.CORBA.BAD_OPERATION();");
+    } // writeIDs
+
+    /**
+     *
+     **/
+    private void buildIDList(InterfaceEntry entry, Vector list) {
+        if (!entry.fullName().equals("org/omg/CORBA/Object")) {
+            String id = com.sun.tools.corba.ee.idl.toJavaPortable.Util.stripLeadingUnderscoresFromID(entry.repositoryID().ID());
+            if (!list.contains(id))
+                list.addElement(id);
+            Enumeration e = entry.derivedFrom().elements();
+            while (e.hasMoreElements())
+                buildIDList((InterfaceEntry) e.nextElement(), list);
+        }
+    } // buildIDList
+
+    /**
+     *
+     **/
+    protected void writeCORBAOperations() {
+        stream.println("  // Type-specific CORBA::Object operations");
+
+        stream.println("  private static String[] __ids = {");
+        writeIDs();
+        stream.println("};");
+        stream.println();
+        if (poa)
+            writePOACORBAOperations();
+        else
+            writeNonPOACORBAOperations();
+
+    } // writeCORBAOperations
+
+    protected void writePOACORBAOperations() {
+        stream.println("  public String[] _all_interfaces (org.omg.PortableServer.POA poa, byte[] objectId)");
+        // Right now, with our POA implementation, the same
+        // implementation of _ids() type methods seem to work for both non-POA
+        // as well as POA servers. We need to REVISIT since the equivalent
+        // POA interface, i.e. _all_interfaces, has parameters which are not being
+        // used in the _ids() implementation.
+        stream.println("  {");
+        stream.println("    return (String[])__ids.clone ();");
+        stream.println("  }");
+        stream.println();
+        // _this()
+        stream.println("  public " + i.name() + " _this() ");
+        stream.println("  {");
+        stream.println("    return " + i.name() + "Helper.narrow(");
+        stream.println("    super._this_object());");
+        stream.println("  }");
+        stream.println();
+        // _this(org.omg.CORBA.ORB orb)
+        stream.println("  public " + i.name() + " _this(org.omg.CORBA.ORB orb) ");
+        stream.println("  {");
+        stream.println("    return " + i.name() + "Helper.narrow(");
+        stream.println("    super._this_object(orb));");
+        stream.println("  }");
+        stream.println();
     }
-    stream.println ("  } // _invoke");
-    stream.println ();
-  } // writeDispatchMethod
 
-  /**
-   *
-   **/
-  protected void writeMethodTable ()
-  {
-    // Write the methods hashtable
-    stream.println ("  private static java.util.Map<String,Integer> _methods = new java.util.HashMap<String,Integer> ();");
-    stream.println ("  static");
-    stream.println ("  {");
-
-    int count = -1;
-    Enumeration e = methodList.elements ();
-    while (e.hasMoreElements ())
-    {
-      MethodEntry method = (MethodEntry)e.nextElement ();
-      if (method instanceof AttributeEntry)
-      {
-        stream.println ("    _methods.put (\"_get_" + com.sun.tools.corba.ee.idl.toJavaPortable.Util.stripLeadingUnderscores(method.name()) + "\", " + (++count) + ");");
-        if (!((AttributeEntry)method).readOnly ())
-          stream.println ("    _methods.put (\"_set_" + com.sun.tools.corba.ee.idl.toJavaPortable.Util.stripLeadingUnderscores(method.name()) + "\", " + (++count) + ");");
-      }
-      else
-        stream.println ("    _methods.put (\"" + com.sun.tools.corba.ee.idl.toJavaPortable.Util.stripLeadingUnderscores(method.name()) + "\", " + (++count) + ");");
+    protected void writeNonPOACORBAOperations() {
+        stream.println("  public String[] _ids ()");
+        stream.println("  {");
+        stream.println("    return (String[])__ids.clone ();");
+        stream.println("  }");
+        stream.println();
     }
-    stream.println ("  }");
-    stream.println ();
-  } // writeMethodTable
 
-  /**
-   *
-   **/
-  protected void writeMethods ()
-  {
-      int realI = 0;
-      for (int i = 0; i < methodList.size (); ++i)
-          {
-              MethodEntry method = (MethodEntry)methodList.elementAt (i);
-              ((com.sun.tools.corba.ee.idl.toJavaPortable.MethodGen)method.generator ()).skeleton
-                  (symbolTable, method, stream, realI);
-              if (method instanceof AttributeEntry && 
-                  !((AttributeEntry)method).readOnly ())
-                  realI += 2;
-              else
-                  ++realI;
-              stream.println ();
-          }
-  } // writeMethods
+    /**
+     *
+     **/
+    protected void writeOperations() {
+        // _get_ids removed at Simon's request 8/26/98 - KLR
+    } // writeOperations
 
-  /**
-   *
-   **/
-  private void writeIDs ()
-  {
-    Vector list = new Vector ();
-    buildIDList (i, list);
-    Enumeration e = list.elements ();
-    boolean first = true;
-    while (e.hasMoreElements ())
-    {
-      if (first)
-        first = false;
-      else
-        stream.println (", ");
-      stream.print ("    \"" + (String)e.nextElement () + '"');
-    }
-  } // writeIDs
+    protected Hashtable symbolTable = null;
+    protected InterfaceEntry i = null;
+    protected PrintWriter stream = null;
 
-  /**
-   *
-   **/
-  private void buildIDList (InterfaceEntry entry, Vector list)
-  {
-    if (!entry.fullName ().equals ("org/omg/CORBA/Object"))
-    {
-      String id = com.sun.tools.corba.ee.idl.toJavaPortable.Util.stripLeadingUnderscoresFromID(entry.repositoryID().ID());
-      if (!list.contains (id))
-        list.addElement (id);
-      Enumeration e = entry.derivedFrom ().elements ();
-      while (e.hasMoreElements ())
-        buildIDList ((InterfaceEntry)e.nextElement (), list);
-    }
-  } // buildIDList
-
-  /**
-   *
-   **/
-  protected void writeCORBAOperations ()
-  {
-    stream.println ("  // Type-specific CORBA::Object operations");
-
-    stream.println ("  private static String[] __ids = {");
-    writeIDs ();
-    stream.println ("};");
-    stream.println ();
-    if (poa)
-        writePOACORBAOperations();
-    else
-        writeNonPOACORBAOperations();
-
-  } // writeCORBAOperations
-
-  protected void writePOACORBAOperations(){
-      stream.println ("  public String[] _all_interfaces (org.omg.PortableServer.POA poa, byte[] objectId)");
-      //Right now, with our POA implementation, the same 
-      //implementation of _ids() type methods seem to work for both non-POA
-      //as well as POA servers. We need to REVISIT since the equivalent
-      //POA interface, i.e. _all_interfaces, has parameters which are not being
-      //used in the _ids() implementation.
-      stream.println ("  {");
-      stream.println ("    return (String[])__ids.clone ();");
-      stream.println ("  }");
-      stream.println ();
-      //_this()
-      stream.println ("  public "+ i.name() +" _this() ");
-      stream.println ("  {");
-      stream.println ("    return "+ i.name() +"Helper.narrow(" );
-      stream.println ("    super._this_object());");
-      stream.println ("  }");
-      stream.println ();
-      //_this(org.omg.CORBA.ORB orb)
-      stream.println ("  public "+ i.name() +" _this(org.omg.CORBA.ORB orb) ");
-      stream.println ("  {");
-      stream.println ("    return "+ i.name() +"Helper.narrow(" );
-      stream.println ("    super._this_object(orb));");
-      stream.println ("  }");
-      stream.println ();
-  }
-  protected void writeNonPOACORBAOperations(){
-      stream.println ("  public String[] _ids ()");
-      stream.println ("  {");
-      stream.println ("    return (String[])__ids.clone ();");
-      stream.println ("  }");
-      stream.println ();
-  }
-  /**
-   *
-   **/
-  protected void writeOperations ()
-  {
-    // _get_ids removed at Simon's request 8/26/98 - KLR
-  } // writeOperations
-
-  protected Hashtable      symbolTable = null;
-  protected InterfaceEntry i           = null;
-  protected PrintWriter    stream      = null;
-
-  // Unique to this generator
-  protected String         tieClassName   = null;
-  protected String         skeletonClassName   = null;
-  protected boolean        tie         = false;
-  protected boolean        poa         = false;
-  protected Vector         methodList  = null;
-  protected String         intfName    = "";
+    // Unique to this generator
+    protected String tieClassName = null;
+    protected String skeletonClassName = null;
+    protected boolean tie = false;
+    protected boolean poa = false;
+    protected Vector methodList = null;
+    protected String intfName = "";
 } // class Skeleton
-

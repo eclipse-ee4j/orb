@@ -22,60 +22,48 @@ import com.sun.corba.ee.spi.folb.GroupInfoServiceObserver;
 /**
  * @author Harold Carr
  */
-public interface GroupInfoService
-{
+public interface GroupInfoService {
     /**
-     * Adds an observer that will receive a
-     * <code>membershipChange</code>
-     * invocation whenever the cluster membership changes.  
+     * Adds an observer that will receive a <code>membershipChange</code> invocation whenever the cluster membership
+     * changes.
      *
-     * The 
-     * <code>membershipChange</code>
-     * invocation tells the observer to call
-     * <code>getClusterInstanceInfo</code>
-     * to get info.
+     * The <code>membershipChange</code> invocation tells the observer to call <code>getClusterInstanceInfo</code> to get
+     * info.
      *
-     * @return true if the given observer is added.  False otherwise.
+     * @return true if the given observer is added. False otherwise.
      */
     public boolean addObserver(GroupInfoServiceObserver x);
 
     /**
-     * Causes the
-     * <code>membershipChange</code> 
-     * method to be called on each registered observer.
+     * Causes the <code>membershipChange</code> method to be called on each registered observer.
      */
     public void notifyObservers();
 
     /**
-     * This is a separate call
-     * (rather than info being passed in <code>membershipChange</code>)
-     * so we can identifier the adapter.
+     * This is a separate call (rather than info being passed in <code>membershipChange</code>) so we can identifier the
+     * adapter.
      *
      * The adapter identification is used in testing.
      */
-    public List<ClusterInstanceInfo> getClusterInstanceInfo(
-        String[] adapterName);
+    public List<ClusterInstanceInfo> getClusterInstanceInfo(String[] adapterName);
 
     /**
-     * This is a separate call
-     * (rather than info being passed in <code>membershipChange</code>)
-     * so we can identifier the adapter.
+     * This is a separate call (rather than info being passed in <code>membershipChange</code>) so we can identifier the
+     * adapter.
      *
      * The adapter identification is used in testing.
      */
-    public List<ClusterInstanceInfo> getClusterInstanceInfo(
-        String[] adapterName, List<String> endpoints );
+    public List<ClusterInstanceInfo> getClusterInstanceInfo(String[] adapterName, List<String> endpoints);
 
     /**
      * This method only used during testing.
      */
-    public boolean shouldAddAddressesToNonReferenceFactory(
-        String[] adapterName);
+    public boolean shouldAddAddressesToNonReferenceFactory(String[] adapterName);
 
     /**
      * This method only used during testing.
      */
-    public boolean shouldAddMembershipLabel (String[] adapterName);
+    public boolean shouldAddMembershipLabel(String[] adapterName);
 }
 
 // End of file.

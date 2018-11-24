@@ -8,32 +8,33 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package com.sun.corba.ee.spi.logex.corba ;
+package com.sun.corba.ee.spi.logex.corba;
 
 /**
  *
  * @author ken
  */
-import java.lang.annotation.Documented ;
-import java.lang.annotation.Target ;
-import java.lang.annotation.ElementType ;
-import java.lang.annotation.Retention ;
-import java.lang.annotation.RetentionPolicy ;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Target;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-/** This annotation is applied to an interface or abstract class that is used
- * to define logging and/or constructing CORBA exceptions.
+/**
+ * This annotation is applied to an interface or abstract class that is used to define logging and/or constructing CORBA
+ * exceptions.
  */
 @Documented
-@Target({ElementType.TYPE})
+@Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ORBException {
-    /** Return true if this is an OMG exception with the OMG VMCID, 
-     * false if it is using the old SUN VMCID.
+    /**
+     * Return true if this is an OMG exception with the OMG VMCID, false if it is using the old SUN VMCID.
      */
-    boolean omgException() default false ;
+    boolean omgException() default false;
 
-    /** Return the group ID to be used in computing the message ID.
+    /**
+     * Return the group ID to be used in computing the message ID.
      */
-    int group() ;
+    int group();
 }
-

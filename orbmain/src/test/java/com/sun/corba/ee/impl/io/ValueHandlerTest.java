@@ -16,22 +16,22 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class ValueHandlerTest {
-	/**
-	 * Ensures that value handler impl is final
-	 */
-	@Test
-	public void testValueHandlerImplIsFinal() {
-		int mods = ValueHandlerImpl.class.getModifiers();
-		
-		Assert.assertTrue(Modifier.isFinal(mods));
-	}
-	
-	/**
-	 * Ensures the SharedSecrets class works
-	 */
-	@Test
-	public void testSharedSecrets() {
-		Assert.assertNotNull(SharedSecrets.getJavaCorbaAccess());
-	}
+    /**
+     * Ensures that value handler impl is final
+     */
+    @Test
+    public void testValueHandlerImplIsFinal() {
+        int mods = ValueHandlerImpl.class.getModifiers();
+
+        Assert.assertTrue(Modifier.isFinal(mods));
+    }
+
+    /**
+     * Ensures the SharedSecrets class works
+     */
+    @Test
+    public void testSharedSecrets() {
+        Assert.assertNotNull(SharedSecrets.getJavaCorbaAccess());
+    }
 
 }

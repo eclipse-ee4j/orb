@@ -13,28 +13,25 @@ package com.sun.corba.ee.spi.legacy.connection;
 /**
  * LegacyServerSocketEndPointInfo is an abstraction of a port.
  */
-public interface LegacyServerSocketEndPointInfo
-{
+public interface LegacyServerSocketEndPointInfo {
     /**
      * e.g.: "CLEAR_TEXT", "SSL", ...
      */
     public String getType();
 
-
     /**
-     * Get the host name of this end point. Subcontracts must use this
-     * instead of InetAddress.getHostName() because this would take
-     * into account the value of the ORBServerHost property.
+     * Get the host name of this end point. Subcontracts must use this instead of InetAddress.getHostName() because this
+     * would take into account the value of the ORBServerHost property.
      */
     public String getHostName();
 
     public int getPort();
 
     /**
-     * The ORBD's proxy port of this end point.
-     * Note: Pre-ORT "port-exchange" model.
+     * The ORBD's proxy port of this end point. Note: Pre-ORT "port-exchange" model.
      */
     public int getLocatorPort();
+
     public void setLocatorPort(int port);
 
     // NAME is used while we still have a "port-exchange" ORBD

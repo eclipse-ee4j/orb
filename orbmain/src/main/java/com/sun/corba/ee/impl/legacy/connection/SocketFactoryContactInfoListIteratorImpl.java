@@ -25,15 +25,10 @@ import com.sun.corba.ee.impl.transport.SharedCDRContactInfoImpl;
 import com.sun.corba.ee.spi.trace.IsLocal;
 
 @IsLocal
-public class SocketFactoryContactInfoListIteratorImpl
-    extends ContactInfoListIteratorImpl
-{
+public class SocketFactoryContactInfoListIteratorImpl extends ContactInfoListIteratorImpl {
     private SocketInfo socketInfoCookie;
 
-    public SocketFactoryContactInfoListIteratorImpl(
-        ORB orb,
-        ContactInfoList corbaContactInfoList)
-    {
+    public SocketFactoryContactInfoListIteratorImpl(ORB orb, ContactInfoList corbaContactInfoList) {
         super(orb, corbaContactInfoList, null, null, false);
     }
 
@@ -44,58 +39,42 @@ public class SocketFactoryContactInfoListIteratorImpl
 
     @Override
     @IsLocal
-    public boolean hasNext()
-    {
+    public boolean hasNext() {
         return true;
     }
 
     @Override
     @IsLocal
-    public ContactInfo next()
-    {
-        if (contactInfoList.getEffectiveTargetIOR().getProfile().isLocal()){
-            return new SharedCDRContactInfoImpl(
-                orb, contactInfoList,
-                contactInfoList.getEffectiveTargetIOR(),
-                orb.getORBData().getGIOPAddressDisposition());
+    public ContactInfo next() {
+        if (contactInfoList.getEffectiveTargetIOR().getProfile().isLocal()) {
+            return new SharedCDRContactInfoImpl(orb, contactInfoList, contactInfoList.getEffectiveTargetIOR(), orb.getORBData().getGIOPAddressDisposition());
         } else {
             // REVISIT:
             // on comm_failure maybe need to give IOR instead of located.
-            return new SocketFactoryContactInfoImpl(
-                orb, contactInfoList,
-                contactInfoList.getEffectiveTargetIOR(),
-                orb.getORBData().getGIOPAddressDisposition(),
-                socketInfoCookie);
+            return new SocketFactoryContactInfoImpl(orb, contactInfoList, contactInfoList.getEffectiveTargetIOR(), orb.getORBData().getGIOPAddressDisposition(),
+                    socketInfoCookie);
         }
     }
 
     @Override
-    public boolean reportException(ContactInfo contactInfo,
-                                   RuntimeException ex)
-    {
+    public boolean reportException(ContactInfo contactInfo, RuntimeException ex) {
         this.failureException = ex;
         if (ex instanceof org.omg.CORBA.COMM_FAILURE) {
 
             SystemException se = (SystemException) ex;
 
-            if (se.minor == ORBUtilSystemException.CONNECTION_REBIND)
-            {
+            if (se.minor == ORBUtilSystemException.CONNECTION_REBIND) {
                 return true;
             } else {
                 if (ex.getCause() instanceof GetEndPointInfoAgainException) {
-                    socketInfoCookie = 
-                        ((GetEndPointInfoAgainException) ex.getCause())
-                        .getEndPointInfo();
+                    socketInfoCookie = ((GetEndPointInfoAgainException) ex.getCause()).getEndPointInfo();
                     return true;
                 }
 
                 if (se.completed == CompletionStatus.COMPLETED_NO) {
-                    if (contactInfoList.getEffectiveTargetIOR() !=
-                        contactInfoList.getTargetIOR()) 
-                    {
+                    if (contactInfoList.getEffectiveTargetIOR() != contactInfoList.getTargetIOR()) {
                         // retry from root ior
-                        contactInfoList.setEffectiveTargetIOR(
-                            contactInfoList.getTargetIOR());
+                        contactInfoList.setEffectiveTargetIOR(contactInfoList.getTargetIOR());
                         return true;
                     }
                 }

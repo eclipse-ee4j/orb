@@ -17,12 +17,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class BreakStatement extends Statement {
+public class BreakStatement extends Statement {
     Identifier lbl;
 
     /**
@@ -39,7 +37,7 @@ class BreakStatement extends Statement {
     Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         reach(env, vset);
         checkLabel(env, ctx);
-        CheckContext destctx = (CheckContext)new CheckContext(ctx, this).getBreakContext(lbl);
+        CheckContext destctx = (CheckContext) new CheckContext(ctx, this).getBreakContext(lbl);
         if (destctx != null) {
             if (destctx.frameNumber != ctx.frameNumber) {
                 env.error(where, "branch.to.uplevel", lbl);
@@ -71,7 +69,7 @@ class BreakStatement extends Statement {
      */
     public void code(Environment env, Context ctx, Assembler asm) {
         CodeContext newctx = new CodeContext(ctx, this);
-        CodeContext destctx = (CodeContext)newctx.getBreakContext(lbl);
+        CodeContext destctx = (CodeContext) newctx.getBreakContext(lbl);
         codeFinally(env, ctx, asm, destctx, null);
         asm.add(where, opc_goto, destctx.breakLabel);
         asm.add(newctx.breakLabel);

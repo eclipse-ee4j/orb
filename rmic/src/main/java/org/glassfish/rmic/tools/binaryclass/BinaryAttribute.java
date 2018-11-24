@@ -19,15 +19,12 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 
 /**
- * This class is used to represent an attribute from a binary class.
- * This class should go away once arrays are objects.
+ * This class is used to represent an attribute from a binary class. This class should go away once arrays are objects.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public final
-class BinaryAttribute implements Constants {
+public final class BinaryAttribute implements Constants {
     Identifier name;
     byte data[];
     BinaryAttribute next;
@@ -46,9 +43,9 @@ class BinaryAttribute implements Constants {
      */
     public static BinaryAttribute load(DataInputStream in, BinaryConstantPool cpool, int mask) throws IOException {
         BinaryAttribute atts = null;
-        int natt = in.readUnsignedShort();  // JVM 4.6 method_info.attrutes_count
+        int natt = in.readUnsignedShort(); // JVM 4.6 method_info.attrutes_count
 
-        for (int i = 0 ; i < natt ; i++) {
+        for (int i = 0; i < natt; i++) {
             // id from JVM 4.7 attribute_info.attribute_name_index
             Identifier id = cpool.getIdentifier(in.readUnsignedShort());
             // id from JVM 4.7 attribute_info.attribute_length
@@ -67,8 +64,7 @@ class BinaryAttribute implements Constants {
 
     // write out the Binary attributes to the given stream
     // (note that attributes may be null)
-    static void write(BinaryAttribute attributes, DataOutputStream out,
-                      BinaryConstantPool cpool, Environment env) throws IOException {
+    static void write(BinaryAttribute attributes, DataOutputStream out, BinaryConstantPool cpool, Environment env) throws IOException {
         // count the number of attributes
         int attributeCount = 0;
         for (BinaryAttribute att = attributes; att != null; att = att.next)
@@ -92,10 +88,16 @@ class BinaryAttribute implements Constants {
      * Accessors
      */
 
-    public Identifier getName() { return name; }
+    public Identifier getName() {
+        return name;
+    }
 
-    public byte getData()[] { return data; }
+    public byte getData()[] {
+        return data;
+    }
 
-    public BinaryAttribute getNextAttribute() { return next; }
+    public BinaryAttribute getNextAttribute() {
+        return next;
+    }
 
 }

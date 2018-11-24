@@ -8,27 +8,26 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package com.sun.corba.ee.org.omg.CORBA ;
+package com.sun.corba.ee.org.omg.CORBA;
 
 /**
- * A convenience class for retrieving the string value of a system
- * property as a privileged action.  This class is directly copied
- * from sun.security.action.GetPropertyAction in order to avoid
- * depending on the sun.security.action package.
+ * A convenience class for retrieving the string value of a system property as a privileged action. This class is
+ * directly copied from sun.security.action.GetPropertyAction in order to avoid depending on the sun.security.action
+ * package.
  *
- * <p>An instance of this class can be used as the argument of
- * <code>AccessController.doPrivileged</code>.
+ * <p>
+ * An instance of this class can be used as the argument of <code>AccessController.doPrivileged</code>.
  *
- * <p>The following code retrieves the value of the system
- * property named <code>"prop"</code> as a privileged action: <p>
+ * <p>
+ * The following code retrieves the value of the system property named <code>"prop"</code> as a privileged action:
+ * <p>
  *
  * <pre>
- * String s = (String) java.security.AccessController.doPrivileged(
- *                         new GetPropertyAction("prop"));
+ * String s = (String) java.security.AccessController.doPrivileged(new GetPropertyAction("prop"));
  * </pre>
  *
- * DO NOT GENERIFY THIS UNTIL WE HAVE A NEW RMIC -IIOP!!
- * (javax.rmi.CORBA.Stub depends on this, and may be visible to rmic)
+ * DO NOT GENERIFY THIS UNTIL WE HAVE A NEW RMIC -IIOP!! (javax.rmi.CORBA.Stub depends on this, and may be visible to
+ * rmic)
  *
  * @author Roland Schemers
  * @author Ken Cavanaugh
@@ -41,8 +40,7 @@ public class GetPropertyAction implements java.security.PrivilegedAction {
     private String defaultVal;
 
     /**
-     * Constructor that takes the name of the system property whose
-     * string value needs to be determined.
+     * Constructor that takes the name of the system property whose string value needs to be determined.
      *
      * @param theProp the name of the system property.
      */
@@ -51,8 +49,7 @@ public class GetPropertyAction implements java.security.PrivilegedAction {
     }
 
     /**
-     * Constructor that takes the name of the system property and the default
-     * value of that property.
+     * Constructor that takes the name of the system property and the default value of that property.
      *
      * @param theProp the name of the system property.
      * @param defaulVal the default value.
@@ -63,11 +60,9 @@ public class GetPropertyAction implements java.security.PrivilegedAction {
     }
 
     /**
-     * Determines the string value of the system property whose
-     * name was specified in the constructor.
+     * Determines the string value of the system property whose name was specified in the constructor.
      *
-     * @return the string value of the system property,
-     *         or the default value if there is no property with that key.
+     * @return the string value of the system property, or the default value if there is no property with that key.
      */
     public Object run() {
         String value = System.getProperty(theProp);

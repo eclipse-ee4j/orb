@@ -15,12 +15,10 @@ import org.glassfish.rmic.tools.asm.Assembler;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class CommaExpression extends BinaryExpression {
+public class CommaExpression extends BinaryExpression {
     /**
      * constructor
      */
@@ -69,6 +67,7 @@ class CommaExpression extends BinaryExpression {
         }
         return simplify();
     }
+
     public Expression inlineValue(Environment env, Context ctx) {
         if (left != null) {
             left = left.inline(env, ctx);
@@ -87,8 +86,8 @@ class CommaExpression extends BinaryExpression {
             // throw an appropriate error
             return super.codeLValue(env, ctx, asm);
         } else {
-            // Fully code the left-hand side.  Do the LValue part of the
-            // right-hand side now.  The remainder will be done by codeLoad or
+            // Fully code the left-hand side. Do the LValue part of the
+            // right-hand side now. The remainder will be done by codeLoad or
             // codeStore
             if (left != null) {
                 left.code(env, ctx, asm);
@@ -124,6 +123,7 @@ class CommaExpression extends BinaryExpression {
         }
         right.codeValue(env, ctx, asm);
     }
+
     public void code(Environment env, Context ctx, Assembler asm) {
         if (left != null) {
             left.code(env, ctx, asm);

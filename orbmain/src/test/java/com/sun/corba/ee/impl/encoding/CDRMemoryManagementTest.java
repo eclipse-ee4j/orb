@@ -65,7 +65,6 @@ public class CDRMemoryManagementTest extends EncodingTestBase {
         assertEquals(1, getNumBuffersReleased());
     }
 
-
     @Test
     public void whenFragmentAddedAfterMarkActive_releaseSubsequentFragmentOnClose() throws IOException {
         setMessageBody(0, 0, 0, 1);

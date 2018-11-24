@@ -15,12 +15,10 @@ import org.glassfish.rmic.tools.asm.Assembler;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class DivideExpression extends DivRemExpression {
+public class DivideExpression extends DivRemExpression {
     /**
      * constructor
      */
@@ -34,12 +32,15 @@ class DivideExpression extends DivRemExpression {
     Expression eval(int a, int b) {
         return new IntExpression(where, a / b);
     }
+
     Expression eval(long a, long b) {
         return new LongExpression(where, a / b);
     }
+
     Expression eval(float a, float b) {
         return new FloatExpression(where, a / b);
     }
+
     Expression eval(double a, double b) {
         return new DoubleExpression(where, a / b);
     }
@@ -48,14 +49,14 @@ class DivideExpression extends DivRemExpression {
      * Simplify
      */
     Expression simplify() {
-        // This code here was wrong.  What if the expression is a float?
+        // This code here was wrong. What if the expression is a float?
         // In any case, if the expression throws an exception, we
-        // should just throw the exception at run-time.  Throwing
+        // should just throw the exception at run-time. Throwing
         // it at compile-time is not correct.
         // (Fix for 4019300)
         //
         // if (right.equals(0)) {
-        //      throw new ArithmeticException("/ by zero");
+        // throw new ArithmeticException("/ by zero");
         // }
         if (right.equals(1)) {
             return left;

@@ -14,12 +14,10 @@ import org.glassfish.rmic.tools.java.*;
 import org.glassfish.rmic.tools.asm.Assembler;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class IntegerExpression extends ConstantExpression {
+public class IntegerExpression extends ConstantExpression {
     int value;
 
     /**
@@ -37,16 +35,16 @@ class IntegerExpression extends ConstantExpression {
         if (this.type.isType(TC_CHAR)) {
             // A char constant is not really an int constant,
             // so do not report that 'a' fits in a byte or short,
-            // even if its value is in fact 7-bit ascii.  See JLS 5.2.
+            // even if its value is in fact 7-bit ascii. See JLS 5.2.
             return super.fitsType(env, ctx, t);
         }
         switch (t.getTypeCode()) {
-          case TC_BYTE:
-            return value == (byte)value;
-          case TC_SHORT:
-            return value == (short)value;
-          case TC_CHAR:
-            return value == (char)value;
+        case TC_BYTE:
+            return value == (byte) value;
+        case TC_SHORT:
+            return value == (short) value;
+        case TC_CHAR:
+            return value == (char) value;
         }
         return super.fitsType(env, ctx, t);
     }

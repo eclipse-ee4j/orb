@@ -17,12 +17,10 @@ import java.io.DataOutputStream;
 /**
  * This is a name and type constant pool data item
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-final
-class NameAndTypeConstantData extends ConstantPoolData {
+final class NameAndTypeConstantData extends ConstantPoolData {
     String name;
     String type;
 

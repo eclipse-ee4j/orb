@@ -15,12 +15,10 @@ import org.glassfish.rmic.tools.asm.Assembler;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class IncDecExpression extends UnaryExpression {
+public class IncDecExpression extends UnaryExpression {
 
     private FieldUpdater updater = null;
 
@@ -44,7 +42,7 @@ class IncDecExpression extends UnaryExpression {
             }
             type = Type.tError;
         }
-        updater = right.getUpdater(env, ctx);  // Must be called after 'checkAssignOp'.
+        updater = right.getUpdater(env, ctx); // Must be called after 'checkAssignOp'.
         return vset;
     }
 
@@ -61,8 +59,9 @@ class IncDecExpression extends UnaryExpression {
     public Expression inline(Environment env, Context ctx) {
         return inlineValue(env, ctx);
     }
+
     public Expression inlineValue(Environment env, Context ctx) {
-        // Why not inlineLHS?  But that does not work.
+        // Why not inlineLHS? But that does not work.
         right = right.inlineValue(env, ctx);
         if (updater != null) {
             updater = updater.inline(env, ctx);
@@ -72,13 +71,12 @@ class IncDecExpression extends UnaryExpression {
 
     public int costInline(int thresh, Environment env, Context ctx) {
         if (updater == null) {
-            if ((right.op == IDENT) && type.isType(TC_INT) &&
-                (((IdentifierExpression)right).field.isLocal())) {
-                // Increment variable in place.  Count 3 bytes for 'iinc'.
+            if ((right.op == IDENT) && type.isType(TC_INT) && (((IdentifierExpression) right).field.isLocal())) {
+                // Increment variable in place. Count 3 bytes for 'iinc'.
                 return 3;
             }
             // Cost to load lhs reference, fetch local, increment, and store.
-            // Load/store cost will be higher if variable is a field.  Note that
+            // Load/store cost will be higher if variable is a field. Note that
             // costs are highly approximate. See 'AssignOpExpression.costInline'
             // Does not account for cost of conversions,or duplications in
             // value-needed context..
@@ -89,45 +87,44 @@ class IncDecExpression extends UnaryExpression {
         }
     }
 
-
     /**
      * Code
      */
 
     private void codeIncDecOp(Assembler asm, boolean inc) {
         switch (type.getTypeCode()) {
-          case TC_BYTE:
+        case TC_BYTE:
             asm.add(where, opc_ldc, 1);
             asm.add(where, inc ? opc_iadd : opc_isub);
             asm.add(where, opc_i2b);
             break;
-          case TC_SHORT:
+        case TC_SHORT:
             asm.add(where, opc_ldc, 1);
             asm.add(where, inc ? opc_iadd : opc_isub);
             asm.add(where, opc_i2s);
             break;
-          case TC_CHAR:
+        case TC_CHAR:
             asm.add(where, opc_ldc, 1);
             asm.add(where, inc ? opc_iadd : opc_isub);
             asm.add(where, opc_i2c);
             break;
-          case TC_INT:
+        case TC_INT:
             asm.add(where, opc_ldc, 1);
             asm.add(where, inc ? opc_iadd : opc_isub);
             break;
-          case TC_LONG:
+        case TC_LONG:
             asm.add(where, opc_ldc2_w, 1L);
             asm.add(where, inc ? opc_ladd : opc_lsub);
             break;
-          case TC_FLOAT:
+        case TC_FLOAT:
             asm.add(where, opc_ldc, new Float(1));
             asm.add(where, inc ? opc_fadd : opc_fsub);
             break;
-          case TC_DOUBLE:
+        case TC_DOUBLE:
             asm.add(where, opc_ldc2_w, new Double(1));
             asm.add(where, inc ? opc_dadd : opc_dsub);
             break;
-          default:
+        default:
             throw new CompilerError("invalid type");
         }
     }
@@ -135,12 +132,11 @@ class IncDecExpression extends UnaryExpression {
     void codeIncDec(Environment env, Context ctx, Assembler asm, boolean inc, boolean prefix, boolean valNeeded) {
 
         // The 'iinc' instruction cannot be used if an access method call is required.
-        if ((right.op == IDENT) && type.isType(TC_INT) &&
-            (((IdentifierExpression)right).field.isLocal()) && updater == null) {
+        if ((right.op == IDENT) && type.isType(TC_INT) && (((IdentifierExpression) right).field.isLocal()) && updater == null) {
             if (valNeeded && !prefix) {
                 right.codeLoad(env, ctx, asm);
             }
-            int v = ((LocalMember)((IdentifierExpression)right).field).number;
+            int v = ((LocalMember) ((IdentifierExpression) right).field).number;
             int[] operands = { v, inc ? 1 : -1 };
             asm.add(where, opc_iinc, operands);
             if (valNeeded && prefix) {

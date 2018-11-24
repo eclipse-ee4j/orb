@@ -17,12 +17,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class Statement extends Node {
+public class Statement extends Node {
     public static final Vset DEAD_END = Vset.DEAD_END;
     Identifier labels[] = null;
 
@@ -34,27 +32,24 @@ class Statement extends Node {
     }
 
     /**
-     * An empty statement.  Its costInline is infinite.
+     * An empty statement. Its costInline is infinite.
      */
     public static final Statement empty = new Statement(STAT, 0);
 
     /**
      * The largest possible interesting inline cost value.
      */
-    public static final int MAXINLINECOST =
-                      Integer.getInteger("javac.maxinlinecost",
-                                         30).intValue();
+    public static final int MAXINLINECOST = Integer.getInteger("javac.maxinlinecost", 30).intValue();
 
     /**
-     * Insert a bit of code at the front of a statement.
-     * Side-effect s2, if it is a CompoundStatement.
+     * Insert a bit of code at the front of a statement. Side-effect s2, if it is a CompoundStatement.
      */
     public static Statement insertStatement(Statement s1, Statement s2) {
         if (s2 == null) {
             s2 = s1;
         } else if (s2 instanceof CompoundStatement) {
             // Do not add another level of block nesting.
-            ((CompoundStatement)s2).insertStatement(s1);
+            ((CompoundStatement) s2).insertStatement(s1);
         } else {
             Statement body[] = { s1, s2 };
             s2 = new CompoundStatement(s1.getWhere(), body);
@@ -70,13 +65,13 @@ class Statement extends Node {
             if (labels == null) {
                 labels = new Identifier[1];
             } else {
-                // this should almost never happen.  Multiple labels on
-                // the same statement.  But handle it gracefully.
+                // this should almost never happen. Multiple labels on
+                // the same statement. But handle it gracefully.
                 Identifier newLabels[] = new Identifier[labels.length + 1];
                 System.arraycopy(labels, 0, newLabels, 1, labels.length);
                 labels = newLabels;
             }
-            labels[0] = ((IdentifierExpression)e).id;
+            labels[0] = ((IdentifierExpression) e).id;
         } else {
             env.error(e.where, "invalid.label");
         }
@@ -96,9 +91,9 @@ class Statement extends Node {
         if (!ctx.field.getType().getReturnType().isType(TC_VOID)) {
             // In general, we suppress further error messages due to
             // unreachable statements after reporting the first error
-            // along a flow path (using 'clearDeadEnd').   Here, we
+            // along a flow path (using 'clearDeadEnd'). Here, we
             // report an error anyway, because the end of the method
-            // should be unreachable despite the earlier error.  The
+            // should be unreachable despite the earlier error. The
             // difference in treatment is due to the fact that, in this
             // case, the error is reachability, not unreachability.
             // NOTE: In addition to this subtle difference in the quality
@@ -115,20 +110,20 @@ class Statement extends Node {
 
         return vset;
     }
+
     Vset checkDeclaration(Environment env, Context ctx, Vset vset, int mod, Type t, Hashtable<Object, Object> exp) {
         throw new CompilerError("checkDeclaration");
     }
 
     /**
-     * Make sure the labels on this statement do not duplicate the
-     * labels on any enclosing statement.  Provided as a convenience
-     * for subclasses.
+     * Make sure the labels on this statement do not duplicate the labels on any enclosing statement. Provided as a
+     * convenience for subclasses.
      */
     protected void checkLabel(Environment env, Context ctx) {
         if (labels != null) {
             loop: for (int i = 0; i < labels.length; i++) {
                 // Make sure there is not a double label on this statement.
-                for (int j = i+1; j < labels.length; j++) {
+                for (int j = i + 1; j < labels.length; j++) {
                     if (labels[i] == labels[j]) {
                         env.error(where, "nested.duplicate.label", labels[i]);
                         continue loop;
@@ -136,8 +131,7 @@ class Statement extends Node {
                 }
 
                 // Make sure no enclosing statement has the same label.
-                CheckContext destCtx =
-                    (CheckContext) ctx.getLabelContext(labels[i]);
+                CheckContext destCtx = (CheckContext) ctx.getLabelContext(labels[i]);
 
                 if (destCtx != null) {
                     // Check to make sure the label is in not uplevel.
@@ -178,13 +172,12 @@ class Statement extends Node {
      */
     public Statement eliminate(Environment env, Statement s) {
         if ((s != null) && (labels != null)) {
-            Statement args[] = {s};
+            Statement args[] = { s };
             s = new CompoundStatement(where, args);
             s.labels = labels;
         }
         return s;
     }
-
 
     /**
      * Code
@@ -194,13 +187,11 @@ class Statement extends Node {
     }
 
     /**
-     * Generate the code to call all finally's for a break, continue, or
-     * return statement.  We must call "jsr" on all the cleanup code between
-     * the current context "ctx", and the destination context "stopctx".
-     * If 'save' isn't null, there is also a value on the top of the stack
+     * Generate the code to call all finally's for a break, continue, or return statement. We must call "jsr" on all the
+     * cleanup code between the current context "ctx", and the destination context "stopctx". If 'save' isn't null, there is
+     * also a value on the top of the stack
      */
-    void codeFinally(Environment env, Context ctx, Assembler asm,
-                        Context stopctx, Type save) {
+    void codeFinally(Environment env, Context ctx, Assembler asm, Context stopctx, Type save) {
         Integer num = null;
         boolean haveCleanup = false; // there is a finally or synchronize;
         boolean haveNonLocalFinally = false; // some finally doesn't return;
@@ -210,11 +201,10 @@ class Statement extends Node {
                 continue;
             if (c.node.op == SYNCHRONIZED) {
                 haveCleanup = true;
-            } else if (c.node.op == FINALLY
-                          && ((CodeContext)c).contLabel != null) {
+            } else if (c.node.op == FINALLY && ((CodeContext) c).contLabel != null) {
                 // c.contLabel == null indicates we're in the "finally" part
                 haveCleanup = true;
-                FinallyStatement st = ((FinallyStatement)(c.node));
+                FinallyStatement st = ((FinallyStatement) (c.node));
                 if (!st.finallyCanFinish) {
                     haveNonLocalFinally = true;
                     // after hitting a non-local finally, no need generating
@@ -224,7 +214,7 @@ class Statement extends Node {
             }
         }
         if (!haveCleanup) {
-            // there is no cleanup that needs to be done.  Just quit.
+            // there is no cleanup that needs to be done. Just quit.
             return;
         }
         if (save != null) {
@@ -238,26 +228,28 @@ class Statement extends Node {
                 asm.add(where, opc_istore + save.getTypeCodeOffset(), num);
             } else {
                 // Pop the return value.
-                switch(ctx.field.getType().getReturnType().getTypeCode()) {
-                    case TC_VOID:
-                        break;
-                    case TC_DOUBLE: case TC_LONG:
-                        asm.add(where, opc_pop2); break;
-                    default:
-                        asm.add(where, opc_pop); break;
+                switch (ctx.field.getType().getReturnType().getTypeCode()) {
+                case TC_VOID:
+                    break;
+                case TC_DOUBLE:
+                case TC_LONG:
+                    asm.add(where, opc_pop2);
+                    break;
+                default:
+                    asm.add(where, opc_pop);
+                    break;
                 }
             }
         }
         // Call each of the cleanup functions, as necessary.
-        for (Context c = ctx ; (c != null)  && (c != stopctx) ; c = c.prev) {
+        for (Context c = ctx; (c != null) && (c != stopctx); c = c.prev) {
             if (c.node == null)
                 continue;
             if (c.node.op == SYNCHRONIZED) {
-                asm.add(where, opc_jsr, ((CodeContext)c).contLabel);
-            } else if (c.node.op == FINALLY
-                          && ((CodeContext)c).contLabel != null) {
-                FinallyStatement st = ((FinallyStatement)(c.node));
-                Label label = ((CodeContext)c).contLabel;
+                asm.add(where, opc_jsr, ((CodeContext) c).contLabel);
+            } else if (c.node.op == FINALLY && ((CodeContext) c).contLabel != null) {
+                FinallyStatement st = ((FinallyStatement) (c.node));
+                Label label = ((CodeContext) c).contLabel;
                 if (st.finallyCanFinish) {
                     asm.add(where, opc_jsr, label);
                 } else {
@@ -276,10 +268,10 @@ class Statement extends Node {
     /*
      * Return true if the statement has the given label
      */
-    public boolean hasLabel (Identifier lbl) {
+    public boolean hasLabel(Identifier lbl) {
         Identifier labels[] = this.labels;
         if (labels != null) {
-            for (int i = labels.length; --i >= 0; ) {
+            for (int i = labels.length; --i >= 0;) {
                 if (labels[i].equals(lbl)) {
                     return true;
                 }
@@ -299,28 +291,29 @@ class Statement extends Node {
      * Create a copy of the statement for method inlining
      */
     public Statement copyInline(Context ctx, boolean valNeeded) {
-        return (Statement)clone();
+        return (Statement) clone();
     }
 
     public int costInline(int thresh, Environment env, Context ctx) {
         return thresh;
     }
 
-
     /**
      * Print
      */
     void printIndent(PrintStream out, int indent) {
-        for (int i = 0 ; i < indent ; i++) {
+        for (int i = 0; i < indent; i++) {
             out.print("    ");
         }
     }
+
     public void print(PrintStream out, int indent) {
         if (labels != null) {
-            for (int i = labels.length; --i >= 0; )
+            for (int i = labels.length; --i >= 0;)
                 out.print(labels[i] + ": ");
         }
     }
+
     public void print(PrintStream out) {
         print(out, 0);
     }

@@ -8,19 +8,17 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package com.sun.corba.ee.org.omg.CORBA ;
+package com.sun.corba.ee.org.omg.CORBA;
 
 /**
- * The vendor minor code ID reserved for Sun by the OMG.
- * All VMCIDs occupy the high order 20 bits.
+ * The vendor minor code ID reserved for Sun by the OMG. All VMCIDs occupy the high order 20 bits.
  */
 
 public interface SUNVMCID {
 
     /**
-     * The vendor minor code ID reserved for Sun. This value is or'd with
-     * the high order 20 bits of the minor code to produce the minor value
-     * in a system exception.
+     * The vendor minor code ID reserved for Sun. This value is or'd with the high order 20 bits of the minor code to
+     * produce the minor value in a system exception.
      */
     static final int value = 0x53550000;
 }

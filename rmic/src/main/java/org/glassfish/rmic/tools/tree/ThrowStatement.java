@@ -16,12 +16,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class ThrowStatement extends Statement {
+public class ThrowStatement extends Statement {
     Expression expr;
 
     /**
@@ -46,8 +44,7 @@ class ThrowStatement extends Statement {
                     exp.put(c, this);
                 }
                 ClassDefinition def = c.getClassDefinition(env);
-                ClassDeclaration throwable =
-                    env.getClassDeclaration(idJavaLangThrowable);
+                ClassDeclaration throwable = env.getClassDeclaration(idJavaLangThrowable);
                 if (!def.subClassOf(env, throwable)) {
                     env.error(where, "throw.not.throwable", def);
                 }
@@ -77,7 +74,7 @@ class ThrowStatement extends Statement {
      * Create a copy of the statement for method inlining
      */
     public Statement copyInline(Context ctx, boolean valNeeded) {
-        ThrowStatement s = (ThrowStatement)clone();
+        ThrowStatement s = (ThrowStatement) clone();
         s.expr = expr.copyInline(ctx);
         return s;
     }

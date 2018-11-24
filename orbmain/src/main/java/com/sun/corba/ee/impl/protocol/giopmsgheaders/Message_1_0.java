@@ -13,7 +13,7 @@ package com.sun.corba.ee.impl.protocol.giopmsgheaders;
 import java.nio.ByteBuffer;
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 
 /*
  * This implements the GIOP 1.0 Message header.
@@ -22,11 +22,9 @@ import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
  * @version 1.0
  */
 
-public class Message_1_0
-        extends com.sun.corba.ee.impl.protocol.giopmsgheaders.MessageBase {
+public class Message_1_0 extends com.sun.corba.ee.impl.protocol.giopmsgheaders.MessageBase {
 
-    private static ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+    private static ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
     // Instance variables
     int magic = 0;
@@ -39,9 +37,8 @@ public class Message_1_0
 
     Message_1_0() {
     }
-    
-    Message_1_0(int _magic, boolean _byte_order, byte _message_type,
-            int _message_size) {
+
+    Message_1_0(int _magic, boolean _byte_order, byte _message_type, int _message_size) {
         magic = _magic;
         GIOP_version = GIOPVersion.V1_0;
         byte_order = _byte_order;
@@ -60,7 +57,7 @@ public class Message_1_0
     }
 
     public int getSize() {
-            return this.message_size;
+        return this.message_size;
     }
 
     public boolean isLittleEndian() {
@@ -74,29 +71,29 @@ public class Message_1_0
     // Mutator methods
 
     public void setSize(ByteBuffer byteBuffer, int size) {
-            this.message_size = size;
+        this.message_size = size;
 
         //
         // Patch the size field in the header.
         //
-            int patch = size - GIOPMessageHeaderLength;
+        int patch = size - GIOPMessageHeaderLength;
         if (!isLittleEndian()) {
-            byteBuffer.put(8,  (byte)((patch >>> 24) & 0xFF));
-            byteBuffer.put(9,  (byte)((patch >>> 16) & 0xFF));
-            byteBuffer.put(10, (byte)((patch >>> 8)  & 0xFF));
-            byteBuffer.put(11, (byte)((patch)  & 0xFF));
+            byteBuffer.put(8, (byte) ((patch >>> 24) & 0xFF));
+            byteBuffer.put(9, (byte) ((patch >>> 16) & 0xFF));
+            byteBuffer.put(10, (byte) ((patch >>> 8) & 0xFF));
+            byteBuffer.put(11, (byte) ((patch) & 0xFF));
         } else {
-            byteBuffer.put(8,  (byte)((patch)  & 0xFF));
-            byteBuffer.put(9,  (byte)((patch >>> 8)  & 0xFF));
-            byteBuffer.put(10, (byte)((patch >>> 16) & 0xFF));
-            byteBuffer.put(11, (byte)((patch >>> 24) & 0xFF));
+            byteBuffer.put(8, (byte) ((patch) & 0xFF));
+            byteBuffer.put(9, (byte) ((patch >>> 8) & 0xFF));
+            byteBuffer.put(10, (byte) ((patch >>> 16) & 0xFF));
+            byteBuffer.put(11, (byte) ((patch >>> 24) & 0xFF));
         }
     }
 
     public FragmentMessage createFragmentMessage() {
-        throw wrapper.fragmentationDisallowed() ;
+        throw wrapper.fragmentationDisallowed();
     }
-        
+
     // IO methods
 
     // This should do nothing even if it is called. The Message Header already
@@ -105,12 +102,9 @@ public class Message_1_0
     // So, we would never need to read the Message Header off a CDRInputStream.
     public void read(org.omg.CORBA.portable.InputStream istream) {
         /*
-        this.magic = istream.read_long();
-        this.GIOP_version = (new GIOPVersion()).read(istream);
-        this.byte_order = istream.read_boolean();
-        this.message_type = istream.read_octet();
-        this.message_size = istream.read_ulong();
-        */
+         * this.magic = istream.read_long(); this.GIOP_version = (new GIOPVersion()).read(istream); this.byte_order =
+         * istream.read_boolean(); this.message_type = istream.read_octet(); this.message_size = istream.read_ulong();
+         */
     }
 
     public void write(org.omg.CORBA.portable.OutputStream ostream) {

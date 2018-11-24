@@ -17,12 +17,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class InstanceOfExpression extends BinaryExpression {
+public class InstanceOfExpression extends BinaryExpression {
     /**
      * constructor
      */
@@ -42,7 +40,7 @@ class InstanceOfExpression extends BinaryExpression {
             return vset;
         }
 
-        if (!right.type.inMask(TM_CLASS|TM_ARRAY)) {
+        if (!right.type.inMask(TM_CLASS | TM_ARRAY)) {
             env.error(right.where, "invalid.arg.type", right.type, opNames[op]);
             return vset;
         }
@@ -62,6 +60,7 @@ class InstanceOfExpression extends BinaryExpression {
     public Expression inline(Environment env, Context ctx) {
         return left.inline(env, ctx);
     }
+
     public Expression inlineValue(Environment env, Context ctx) {
         left = left.inlineValue(env, ctx);
         return this;
@@ -76,16 +75,12 @@ class InstanceOfExpression extends BinaryExpression {
         try {
             // We only allow the inlining if the current class can access
             // the "instance of" class
-            if (right.type.isType(TC_ARRAY) ||
-                 sourceClass.permitInlinedAccess(env, env.getClassDeclaration(right.type)))
+            if (right.type.isType(TC_ARRAY) || sourceClass.permitInlinedAccess(env, env.getClassDeclaration(right.type)))
                 return 1 + left.costInline(thresh, env, ctx);
         } catch (ClassNotFound e) {
         }
         return thresh;
     }
-
-
-
 
     /**
      * Code
@@ -98,10 +93,12 @@ class InstanceOfExpression extends BinaryExpression {
             asm.add(where, opc_instanceof, right.type);
         }
     }
+
     void codeBranch(Environment env, Context ctx, Assembler asm, Label lbl, boolean whenTrue) {
         codeValue(env, ctx, asm);
         asm.add(where, whenTrue ? opc_ifne : opc_ifeq, lbl, whenTrue);
     }
+
     public void code(Environment env, Context ctx, Assembler asm) {
         left.code(env, ctx, asm);
     }

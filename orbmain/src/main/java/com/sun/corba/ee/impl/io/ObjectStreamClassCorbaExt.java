@@ -21,9 +21,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 
-import com.sun.corba.ee.impl.misc.ClassInfoCache ;
+import com.sun.corba.ee.impl.misc.ClassInfoCache;
 
-import com.sun.corba.ee.impl.misc.ORBUtility ;
+import com.sun.corba.ee.impl.misc.ORBUtility;
 
 // This file contains some utility methods that
 // originally were in the OSC in the RMI-IIOP
@@ -42,15 +42,12 @@ class ObjectStreamClassCorbaExt {
     /**
      * Return true, iff,
      *
-     * 1. 'cl' is an interface, and
-     * 2. 'cl' and all its ancestors do not implement java.rmi.Remote, and
-     * 3. if 'cl' has no methods (including those of its ancestors), or,
-     *    if all the methods (including those of its ancestors) throw an
-     *    exception that is atleast java.rmi.RemoteException or one of
-     *    java.rmi.RemoteException's super classes.
+     * 1. 'cl' is an interface, and 2. 'cl' and all its ancestors do not implement java.rmi.Remote, and 3. if 'cl' has no
+     * methods (including those of its ancestors), or, if all the methods (including those of its ancestors) throw an
+     * exception that is atleast java.rmi.RemoteException or one of java.rmi.RemoteException's super classes.
      */
     static final boolean isAbstractInterface(Class cl) {
-        ClassInfoCache.ClassInfo cinfo = ClassInfoCache.get( cl ) ;
+        ClassInfoCache.ClassInfo cinfo = ClassInfoCache.get(cl);
         if (!cinfo.isInterface() || cinfo.isARemote(cl)) {
             return false;
         }
@@ -60,10 +57,8 @@ class ObjectStreamClassCorbaExt {
             Class exceptions[] = methods[i].getExceptionTypes();
             boolean exceptionMatch = false;
             for (int j = 0; (j < exceptions.length) && !exceptionMatch; j++) {
-                if ((java.rmi.RemoteException.class == exceptions[j]) ||
-                    (java.lang.Throwable.class == exceptions[j]) ||
-                    (java.lang.Exception.class == exceptions[j]) ||
-                    (java.io.IOException.class == exceptions[j])) {
+                if ((java.rmi.RemoteException.class == exceptions[j]) || (java.lang.Throwable.class == exceptions[j])
+                        || (java.lang.Exception.class == exceptions[j]) || (java.io.IOException.class == exceptions[j])) {
                     exceptionMatch = true;
                 }
             }
@@ -79,63 +74,57 @@ class ObjectStreamClassCorbaExt {
     // java.lang.String
     // java.math.BigDecimal
     // java.math.BigInteger
-    private static final String objectString         = "Ljava/lang/Object;" ;
-    private static final String serializableString   = "Ljava/io/Serializable;" ;
-    private static final String externalizableString = "Ljava/io/Externalizable;" ;
+    private static final String objectString = "Ljava/lang/Object;";
+    private static final String serializableString = "Ljava/io/Serializable;";
+    private static final String externalizableString = "Ljava/io/Externalizable;";
 
     // Note that these 3 lengths are different!
-    private static final int objectLength = objectString.length() ;
-    private static final int serializableLength = serializableString.length() ;
-    private static final int externalizableLength = externalizableString.length() ;
+    private static final int objectLength = objectString.length();
+    private static final int serializableLength = serializableString.length();
+    private static final int externalizableLength = externalizableString.length();
 
-    private static final boolean debugIsAny = false ;
+    private static final boolean debugIsAny = false;
 
     /*
-     *  Returns TRUE if type is 'any'.
-     *  This is in the marshaling path, so we want it to run as
-     *  fast as possible.
+     * Returns TRUE if type is 'any'. This is in the marshaling path, so we want it to run as fast as possible.
      */
     static final boolean isAny(String typeString) {
         if (debugIsAny) {
-            ORBUtility.dprint( 
-                ObjectStreamClassCorbaExt.class.getName(), 
-                "IsAny: typeString = " + typeString ) ;
+            ORBUtility.dprint(ObjectStreamClassCorbaExt.class.getName(), "IsAny: typeString = " + typeString);
         }
 
-        int length = typeString.length() ;
+        int length = typeString.length();
 
         if (length == objectLength) {
             // Note that java.lang.String occurs a lot, and has the
             // same length as java.lang.Object!
-            if (typeString.charAt(length-2) == 't')
-                return objectString.equals( typeString ) ;
+            if (typeString.charAt(length - 2) == 't')
+                return objectString.equals(typeString);
             else
-                return false ;
+                return false;
         }
 
         if (length == serializableLength) {
             // java.math.BigInteger and java.math.BigDecimal have the same
             // length as java.io.Serializable
-            if (typeString.charAt(length-2) == 'e')
-                return serializableString.equals( typeString ) ;
-            else 
-                return false ;
+            if (typeString.charAt(length - 2) == 'e')
+                return serializableString.equals(typeString);
+            else
+                return false;
         }
 
         if (length == externalizableLength)
-            return externalizableString.equals( typeString ) ;
+            return externalizableString.equals(typeString);
 
-        return false ;
+        return false;
     }
 
     private static final Method[] getDeclaredMethods(final Class clz) {
-        return AccessController.doPrivileged(
-            new PrivilegedAction<Method[]>() {
-                public Method[] run() {
-                    return clz.getDeclaredMethods();
-                }
+        return AccessController.doPrivileged(new PrivilegedAction<Method[]>() {
+            public Method[] run() {
+                return clz.getDeclaredMethods();
             }
-        );
+        });
     }
 
 }

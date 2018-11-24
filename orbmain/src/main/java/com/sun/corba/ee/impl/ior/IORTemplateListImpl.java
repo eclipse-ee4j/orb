@@ -10,77 +10,69 @@
 
 package com.sun.corba.ee.impl.ior;
 
-import java.util.ArrayList ;
-import java.util.Iterator ;
+import java.util.ArrayList;
+import java.util.Iterator;
 
-import org.omg.CORBA_2_3.portable.InputStream ;
-import org.omg.CORBA_2_3.portable.OutputStream ;
+import org.omg.CORBA_2_3.portable.InputStream;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
-import com.sun.corba.ee.spi.ior.IORTemplateList ;
-import com.sun.corba.ee.spi.ior.ObjectId ;
-import com.sun.corba.ee.spi.ior.IORTemplate ;
-import com.sun.corba.ee.spi.ior.IOR ;
-import com.sun.corba.ee.spi.ior.IORFactory ;
-import com.sun.corba.ee.spi.ior.IORFactories ;
+import com.sun.corba.ee.spi.ior.IORTemplateList;
+import com.sun.corba.ee.spi.ior.ObjectId;
+import com.sun.corba.ee.spi.ior.IORTemplate;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.ior.IORFactory;
+import com.sun.corba.ee.spi.ior.IORFactories;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
-public class IORTemplateListImpl extends FreezableList<IORTemplate> 
-    implements IORTemplateList
-{
-    public IORTemplateListImpl()
-    {
-        super( new ArrayList<IORTemplate>() ) ;
+public class IORTemplateListImpl extends FreezableList<IORTemplate> implements IORTemplateList {
+    public IORTemplateListImpl() {
+        super(new ArrayList<IORTemplate>());
     }
 
-    public IORTemplateListImpl( InputStream is ) 
-    {
-        this() ;
-        int size = is.read_long() ;
-        for (int ctr=0; ctr<size; ctr++) {
-            IORTemplate iortemp = IORFactories.makeIORTemplate( is ) ;
-            add( iortemp ) ;
+    public IORTemplateListImpl(InputStream is) {
+        this();
+        int size = is.read_long();
+        for (int ctr = 0; ctr < size; ctr++) {
+            IORTemplate iortemp = IORFactories.makeIORTemplate(is);
+            add(iortemp);
         }
 
-        makeImmutable() ;
+        makeImmutable();
     }
 
     @Override
-    public void makeImmutable()
-    {
-        makeElementsImmutable() ;
-        super.makeImmutable() ;
+    public void makeImmutable() {
+        makeElementsImmutable();
+        super.makeImmutable();
     }
 
-    public void write( OutputStream os ) 
-    {
-        os.write_long( size() ) ;
+    public void write(OutputStream os) {
+        os.write_long(size());
         for (IORTemplate iortemp : this) {
-            iortemp.write( os ) ;
+            iortemp.write(os);
         }
     }
 
-    public IOR makeIOR( ORB orb, String typeid, ObjectId oid ) 
-    {
-        return new IORImpl( orb, typeid, this, oid ) ;
+    public IOR makeIOR(ORB orb, String typeid, ObjectId oid) {
+        return new IORImpl(orb, typeid, this, oid);
     }
 
-    public boolean isEquivalent( IORFactory other ) 
-    {
+    public boolean isEquivalent(IORFactory other) {
         if (!(other instanceof IORTemplateList))
-            return false ;
+            return false;
 
-        IORTemplateList list = (IORTemplateList)other ;
+        IORTemplateList list = (IORTemplateList) other;
 
-        Iterator<IORTemplate> thisIterator = iterator() ;
-        Iterator<IORTemplate> listIterator = list.iterator() ;
+        Iterator<IORTemplate> thisIterator = iterator();
+        Iterator<IORTemplate> listIterator = list.iterator();
         while (thisIterator.hasNext() && listIterator.hasNext()) {
-            IORTemplate thisTemplate = thisIterator.next() ;
-            IORTemplate listTemplate = listIterator.next() ;
-            if (!thisTemplate.isEquivalent( listTemplate ))
-                return false ;
+            IORTemplate thisTemplate = thisIterator.next();
+            IORTemplate listTemplate = listIterator.next();
+            if (!thisTemplate.isEquivalent(listTemplate))
+                return false;
         }
 
-        return thisIterator.hasNext() == listIterator.hasNext() ;
+        return thisIterator.hasNext() == listIterator.hasNext();
     }
 }

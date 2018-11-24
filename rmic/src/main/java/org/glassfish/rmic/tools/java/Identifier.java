@@ -15,31 +15,29 @@ import java.io.PrintStream;
 import java.util.Enumeration;
 
 /**
- * A class to represent identifiers.<p>
+ * A class to represent identifiers.
+ * <p>
  *
- * An identifier instance is very similar to a String. The difference
- * is that identifier can't be instanciated directly, instead they are
- * looked up in a hash table. This means that identifiers with the same
- * name map to the same identifier object. This makes comparisons of
- * identifiers much faster.<p>
+ * An identifier instance is very similar to a String. The difference is that identifier can't be instanciated directly,
+ * instead they are looked up in a hash table. This means that identifiers with the same name map to the same identifier
+ * object. This makes comparisons of identifiers much faster.
+ * <p>
  *
- * A lot of identifiers are qualified, that is they have '.'s in them.
- * Each qualified identifier is chopped up into the qualifier and the
- * name. The qualifier is cached in the value field.<p>
+ * A lot of identifiers are qualified, that is they have '.'s in them. Each qualified identifier is chopped up into the
+ * qualifier and the name. The qualifier is cached in the value field.
+ * <p>
  *
- * Unqualified identifiers can have a type. This type is an integer that
- * can be used by a scanner as a token value. This value has to be set
- * using the setType method.<p>
+ * Unqualified identifiers can have a type. This type is an integer that can be used by a scanner as a token value. This
+ * value has to be set using the setType method.
+ * <p>
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  *
- * @author      Arthur van Hoff
+ * @author Arthur van Hoff
  */
 
-public final
-class Identifier implements Constants {
+public final class Identifier implements Constants {
     /**
      * The hashtable of identifiers
      */
@@ -51,16 +49,14 @@ class Identifier implements Constants {
     String name;
 
     /**
-     * The value of the identifier, for keywords this is an
-     * instance of class Integer, for qualified names this is
-     * another identifier (the qualifier).
+     * The value of the identifier, for keywords this is an instance of class Integer, for qualified names this is another
+     * identifier (the qualifier).
      */
     Object value;
 
     /**
-     * The Type which corresponds to this Identifier.  This is used as
-     * cache for Type.tClass() and shouldn't be used outside of that
-     * context.
+     * The Type which corresponds to this Identifier. This is used as cache for Type.tClass() and shouldn't be used outside
+     * of that context.
      */
     Type typeObject = null;
 
@@ -70,8 +66,8 @@ class Identifier implements Constants {
     private int ipos;
 
     /**
-     * Construct an identifier. Don't call this directly,
-     * use lookup instead.
+     * Construct an identifier. Don't call this directly, use lookup instead.
+     *
      * @see Identifier.lookup
      */
     private Identifier(String name) {
@@ -83,8 +79,7 @@ class Identifier implements Constants {
      * Get the type of the identifier.
      */
     int getType() {
-        return ((value != null) && (value instanceof Integer)) ?
-                ((Integer)value).intValue() : IDENT;
+        return ((value != null) && (value instanceof Integer)) ? ((Integer) value).intValue() : IDENT;
     }
 
     /**
@@ -92,14 +87,14 @@ class Identifier implements Constants {
      */
     void setType(int t) {
         value = t;
-        //System.out.println("type(" + this + ")=" + t);
+        // System.out.println("type(" + this + ")=" + t);
     }
 
     /**
      * Lookup an identifier.
      */
     public static synchronized Identifier lookup(String s) {
-        //System.out.println("lookup(" + s + ")");
+        // System.out.println("lookup(" + s + ")");
         Identifier id = hash.get(s);
         if (id == null) {
             hash.put(s, id = new Identifier(s));
@@ -112,10 +107,11 @@ class Identifier implements Constants {
      */
     public static Identifier lookup(Identifier q, Identifier n) {
         // lookup("", x) => x
-        if (q == idNull)  return n;
+        if (q == idNull)
+            return n;
         // lookup(lookupInner(c, ""), n) => lookupInner(c, lookup("", n))
-        if (q.name.charAt(q.name.length()-1) == INNERCLASS_PREFIX)
-            return lookup(q.name+n.name);
+        if (q.name.charAt(q.name.length() - 1) == INNERCLASS_PREFIX)
+            return lookup(q.name + n.name);
         Identifier id = lookup(q + "." + n);
         if (!n.isQualified() && !q.isInner())
             id.value = q;
@@ -123,14 +119,13 @@ class Identifier implements Constants {
     }
 
     /**
-     * Lookup an inner identifier.
-     * (Note:  n can be idNull.)
+     * Lookup an inner identifier. (Note: n can be idNull.)
      */
     public static Identifier lookupInner(Identifier c, Identifier n) {
         Identifier id;
         if (c.isInner()) {
-            if (c.name.charAt(c.name.length()-1) == INNERCLASS_PREFIX)
-                id = lookup(c.name+n);
+            if (c.name.charAt(c.name.length() - 1) == INNERCLASS_PREFIX)
+                id = lookup(c.name + n);
             else
                 id = lookup(c, n);
         } else {
@@ -156,50 +151,42 @@ class Identifier implements Constants {
             if (idot <= 0)
                 idot = name.length();
             else
-                idot -= 1;      // back up over previous dot
-            int index = name.lastIndexOf('.', idot-1);
+                idot -= 1; // back up over previous dot
+            int index = name.lastIndexOf('.', idot - 1);
             value = (index < 0) ? idNull : Identifier.lookup(name.substring(0, index));
         }
         return (value instanceof Identifier) && (value != idNull);
     }
 
     /**
-     * Return the qualifier. The null identifier is returned if
-     * the name was not qualified.  The qualifier does not include
+     * Return the qualifier. The null identifier is returned if the name was not qualified. The qualifier does not include
      * any inner part of the name.
      */
     public Identifier getQualifier() {
-        return isQualified() ? (Identifier)value : idNull;
+        return isQualified() ? (Identifier) value : idNull;
     }
 
     /**
-     * Return the unqualified name.
-     * In the case of an inner name, the unqualified name
-     * will itself contain components.
+     * Return the unqualified name. In the case of an inner name, the unqualified name will itself contain components.
      */
     public Identifier getName() {
-        return isQualified() ?
-            Identifier.lookup(name.substring(((Identifier)value).name.length() + 1)) : this;
+        return isQualified() ? Identifier.lookup(name.substring(((Identifier) value).name.length() + 1)) : this;
     }
 
-    /** A space character, which precedes the first inner class
-     *  name in a qualified name, and thus marks the qualification
-     *  as involving inner classes, instead of merely packages.<p>
-     *  Ex:  {@code java.util.Vector. Enumerator}.
+    /**
+     * A space character, which precedes the first inner class name in a qualified name, and thus marks the qualification as
+     * involving inner classes, instead of merely packages.
+     * <p>
+     * Ex: {@code java.util.Vector. Enumerator}.
      */
     public static final char INNERCLASS_PREFIX = ' ';
 
-    /* Explanation:
-     * Since much of the compiler's low-level name resolution code
-     * operates in terms of Identifier objects.  This includes the
-     * code which walks around the file system and reports what
-     * classes are where.  It is important to get nesting information
-     * right as early as possible, since it affects the spelling of
-     * signatures.  Thus, the low-level import and resolve code must
-     * be able Identifier type must be able to report the nesting
-     * of types, which implied that that information must be carried
-     * by Identifiers--or that the low-level interfaces be significantly
-     * changed.
+    /*
+     * Explanation: Since much of the compiler's low-level name resolution code operates in terms of Identifier objects.
+     * This includes the code which walks around the file system and reports what classes are where. It is important to get
+     * nesting information right as early as possible, since it affects the spelling of signatures. Thus, the low-level
+     * import and resolve code must be able Identifier type must be able to report the nesting of types, which implied that
+     * that information must be carried by Identifiers--or that the low-level interfaces be significantly changed.
      */
 
     /**
@@ -210,13 +197,12 @@ class Identifier implements Constants {
     }
 
     /**
-     * Return the class name, without its qualifier,
-     * and with any nesting flattened into a new qualfication structure.
-     * If the original identifier is inner,
-     * the result will be qualified, and can be further
-     * decomposed by means of {@code getQualifier} and {@code getName}.
+     * Return the class name, without its qualifier, and with any nesting flattened into a new qualfication structure. If
+     * the original identifier is inner, the result will be qualified, and can be further decomposed by means of
+     * {@code getQualifier} and {@code getName}.
      * <p>
      * For example:
+     *
      * <pre>
      * Identifier id = Identifier.lookup("pkg.Foo. Bar");
      * id.getName().name      =>  "Foo. Bar"
@@ -227,28 +213,28 @@ class Identifier implements Constants {
         if (isQualified()) {
             return getName().getFlatName();
         }
-        if (ipos > 0 && name.charAt(ipos-1) == '.') {
-            if (ipos+1 == name.length()) {
+        if (ipos > 0 && name.charAt(ipos - 1) == '.') {
+            if (ipos + 1 == name.length()) {
                 // last component is idNull
-                return Identifier.lookup(name.substring(0,ipos-1));
+                return Identifier.lookup(name.substring(0, ipos - 1));
             }
-            String n = name.substring(ipos+1);
-            String t = name.substring(0,ipos);
-            return Identifier.lookup(t+n);
+            String n = name.substring(ipos + 1);
+            String t = name.substring(0, ipos);
+            return Identifier.lookup(t + n);
         }
-        // Not inner.  Just return the same as getName()
+        // Not inner. Just return the same as getName()
         return this;
     }
 
     public Identifier getTopName() {
-        if (!isInner())  return this;
+        if (!isInner())
+            return this;
         return Identifier.lookup(getQualifier(), getFlatName().getHead());
     }
 
     /**
-     * Yet another way to slice qualified identifiers:
-     * The head of an identifier is its first qualifier component,
-     * and the tail is the rest of them.
+     * Yet another way to slice qualified identifiers: The head of an identifier is its first qualifier component, and the
+     * tail is the rest of them.
      */
     public Identifier getHead() {
         Identifier id = this;
@@ -271,12 +257,12 @@ class Identifier implements Constants {
     // Unfortunately, the current structure of the compiler requires
     // that the resolveName() family of methods (which appear in
     // Environment.java, Context.java, and ClassDefinition.java) raise
-    // no exceptions and emit no errors.  When we are in resolveName()
+    // no exceptions and emit no errors. When we are in resolveName()
     // and we find a method that is ambiguous, we need to
     // unambiguously mark it as such, so that later stages of the
     // compiler realize that they should give an ambig.class rather than
-    // a class.not.found error.  To mark it we add a special prefix
-    // which cannot occur in the program source.  The routines below
+    // a class.not.found error. To mark it we add a special prefix
+    // which cannot occur in the program source. The routines below
     // are used to check, add, and remove this prefix.
     // (part of solution for 4059855).
 
@@ -293,9 +279,8 @@ class Identifier implements Constants {
     }
 
     /**
-     * Add ambigPrefix to `this' to make a new Identifier marked as
-     * ambiguous.  It is important that this new Identifier not refer
-     * to an existing class.
+     * Add ambigPrefix to `this' to make a new Identifier marked as ambiguous. It is important that this new Identifier not
+     * refer to an existing class.
      */
     public Identifier addAmbigPrefix() {
         return Identifier.lookup(ambigPrefix + name);

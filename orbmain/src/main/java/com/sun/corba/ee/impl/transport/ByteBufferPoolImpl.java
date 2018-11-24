@@ -20,8 +20,7 @@ import com.sun.corba.ee.spi.misc.ORBConstants;
  * @author Charlie Hunt
  */
 public class ByteBufferPoolImpl implements ByteBufferPool {
-    final private static ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+    final private static ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
     private ByteBuffer byteBufferSlab;
     final private boolean useDirectBuffers;
@@ -53,22 +52,20 @@ public class ByteBufferPoolImpl implements ByteBufferPool {
                 return ByteBuffer.allocate(size);
             }
             synchronized (this) {
-                if (byteBufferSlab == null ||
-                        (byteBufferSlab.capacity() - byteBufferSlab.limit() < size)) {
+                if (byteBufferSlab == null || (byteBufferSlab.capacity() - byteBufferSlab.limit() < size)) {
                     byteBufferSlab = allocateDirectByteBufferSlab();
                 }
-                
+
                 byteBufferSlab.limit(byteBufferSlab.position() + size);
                 ByteBuffer view = byteBufferSlab.slice();
                 byteBufferSlab.position(byteBufferSlab.limit());
-                
+
                 return view;
             }
         } else {
             return ByteBuffer.allocate(size);
         }
     }
-
 
     public void releaseByteBuffer(ByteBuffer buffer) {
         // nothing to do here other than help the garbage collector
@@ -77,20 +74,17 @@ public class ByteBufferPoolImpl implements ByteBufferPool {
         // buffer = null;
     }
 
-
     // REVISIT - Active ByteBuffers are currently not tracked.
     /**
-     * Get a count of the outstanding allocated DirectByteBuffers.
-     * (Those allocated and have not been returned to the pool).
+     * Get a count of the outstanding allocated DirectByteBuffers. (Those allocated and have not been returned to the pool).
      */
     public int activeCount() {
-         return 0;
+        return 0;
     }
 
     /**
-     * Return a new <code>ByteBuffer</code> of at least <code>minimumSize</code>
-     * and copy any bytes in the <code>oldByteBuffer</code> starting at
-     * <code>oldByteBuffer.position()</code> up to <code>oldByteBuffer.limit()</code>
+     * Return a new <code>ByteBuffer</code> of at least <code>minimumSize</code> and copy any bytes in the
+     * <code>oldByteBuffer</code> starting at <code>oldByteBuffer.position()</code> up to <code>oldByteBuffer.limit()</code>
      * into the returned <code>ByteBuffer</code>.
      */
     public ByteBuffer reAllocate(ByteBuffer oldByteBuffer, int minimumSize) {
@@ -101,26 +95,25 @@ public class ByteBufferPoolImpl implements ByteBufferPool {
 
         if (size > orb.getORBData().getMaxReadByteBufferSizeThreshold()) {
             if (minimumSize > orb.getORBData().getMaxReadByteBufferSizeThreshold()) {
-                throw wrapper.maximumReadByteBufferSizeExceeded(
-                      orb.getORBData().getMaxReadByteBufferSizeThreshold(), size, 
-                      ORBConstants.MAX_READ_BYTE_BUFFER_SIZE_THRESHOLD_PROPERTY);
+                throw wrapper.maximumReadByteBufferSizeExceeded(orb.getORBData().getMaxReadByteBufferSizeThreshold(), size,
+                        ORBConstants.MAX_READ_BYTE_BUFFER_SIZE_THRESHOLD_PROPERTY);
             } else {
-                // minimumSize is greater than 1/2 of size, and less than or 
-                // equal to max read byte buffer size threshold. So, just 
+                // minimumSize is greater than 1/2 of size, and less than or
+                // equal to max read byte buffer size threshold. So, just
                 // re-allocate a ByteBuffer of minimumSize.
                 size = minimumSize;
             }
         }
-        
+
         ByteBuffer newByteBuffer = getByteBuffer(size);
-        
+
         // copy oldByteBuffer into newByteBuffer
         newByteBuffer.put(oldByteBuffer);
-        
+
         return newByteBuffer;
     }
 
-    /** 
+    /**
      * Allocate a DirectByteBuffer slab.
      */
     private ByteBuffer allocateDirectByteBufferSlab() {

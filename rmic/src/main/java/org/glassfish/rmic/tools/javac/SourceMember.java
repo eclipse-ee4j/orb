@@ -21,13 +21,11 @@ import java.io.PrintStream;
 /**
  * A Source Member
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
 @Deprecated
-public
-class SourceMember extends MemberDefinition implements Constants {
+public class SourceMember extends MemberDefinition implements Constants {
     /**
      * The argument names (if it is a method)
      */
@@ -42,12 +40,12 @@ class SourceMember extends MemberDefinition implements Constants {
      */
     int status;
 
-    static final int PARSED     = 0;
-    static final int CHECKING   = 1;
-    static final int CHECKED    = 2;
-    static final int INLINING   = 3;
-    static final int INLINED    = 4;
-    static final int ERROR      = 5;
+    static final int PARSED = 0;
+    static final int CHECKING = 1;
+    static final int CHECKED = 2;
+    static final int INLINING = 3;
+    static final int INLINED = 4;
+    static final int ERROR = 5;
 
     public Vector<MemberDefinition> getArguments() {
         return args;
@@ -55,15 +53,14 @@ class SourceMember extends MemberDefinition implements Constants {
 
     /**
      * Constructor
+     *
      * @param argNames a vector of IdentifierToken
      */
-    public SourceMember(long where, ClassDefinition clazz,
-                       String doc, int modifiers, Type type,
-                       Identifier name, Vector<MemberDefinition> argNames,
-                       IdentifierToken exp[], Node value) {
+    public SourceMember(long where, ClassDefinition clazz, String doc, int modifiers, Type type, Identifier name, Vector<MemberDefinition> argNames,
+            IdentifierToken exp[], Node value) {
         super(where, clazz, modifiers, type, name, exp, value);
         this.documentation = doc;
-        this.args = argNames;   // for the moment
+        this.args = argNames; // for the moment
         // not until type names are resolved: createArgumentFields(argNames);
 
         if (ClassDefinition.containsDeprecated(documentation)) {
@@ -77,13 +74,13 @@ class SourceMember extends MemberDefinition implements Constants {
             args = new Vector<>();
 
             if (isConstructor() || !(isStatic() || isInitializer())) {
-                args.addElement(((SourceClass)clazz).getThisArgument());
+                args.addElement(((SourceClass) clazz).getThisArgument());
             }
 
             if (argNames != null) {
                 Enumeration<MemberDefinition> e = argNames.elements();
                 Type argTypes[] = getType().getArgumentTypes();
-                for (int i = 0 ; i < argTypes.length ; i++) {
+                for (int i = 0; i < argTypes.length; i++) {
                     Object x = e.nextElement();
                     if (x instanceof LocalMember) {
                         // This should not happen, but it does
@@ -96,17 +93,16 @@ class SourceMember extends MemberDefinition implements Constants {
                     long where;
                     if (x instanceof Identifier) {
                         // allow argNames to be simple Identifiers (deprecated!)
-                        id = (Identifier)x;
+                        id = (Identifier) x;
                         mod = 0;
                         where = getWhere();
                     } else {
-                        IdentifierToken token = (IdentifierToken)x;
+                        IdentifierToken token = (IdentifierToken) x;
                         id = token.getName();
                         mod = token.getModifiers();
                         where = token.getWhere();
                     }
-                    args.addElement(new LocalMember(where, clazz, mod,
-                                                   argTypes[i], id));
+                    args.addElement(new LocalMember(where, clazz, mod, argTypes[i], id));
                 }
             }
         }
@@ -123,7 +119,7 @@ class SourceMember extends MemberDefinition implements Constants {
     // (1) <this> <early outer this> <uplevel arguments...> <true arguments...>
     //
     // (By <early outer this> I am referring to the clientOuterField added
-    // to some constructors when they are created.  If an outer this is
+    // to some constructors when they are created. If an outer this is
     // added later, on demand, then this is mixed in with the rest of the
     // uplevel arguments and is added by addUplevelArguments.)
     //
@@ -135,9 +131,9 @@ class SourceMember extends MemberDefinition implements Constants {
     // This didn't make a difference in the common case -- that is, when
     // a class had an <outer.this> or <uplevel arguments...> but not both.
     // Both can happen in the case that a member class is declared inside
-    // of a local class.  It seems that the calling sequences, generated
+    // of a local class. It seems that the calling sequences, generated
     // in places like NewInstanceExpression.codeCommon(), use order (2),
-    // so I have changed the code below to stick with that order.  Since
+    // so I have changed the code below to stick with that order. Since
     // the only time this happens is in classes which are insideLocal, no
     // one should be able to tell the difference between these orders.
     // (bug number 4085633)
@@ -153,21 +149,19 @@ class SourceMember extends MemberDefinition implements Constants {
     }
 
     /**
-     * Add the outer.this argument to the list of arguments for this
-     * constructor.  This is called from resolveTypeStructure.  Any
-     * additional uplevel arguments get added later by addUplevelArguments().
+     * Add the outer.this argument to the list of arguments for this constructor. This is called from resolveTypeStructure.
+     * Any additional uplevel arguments get added later by addUplevelArguments().
      */
 
     void addOuterThis() {
         UplevelReference refs = clazz.getReferences();
 
         // See if we have a client outer field.
-        while (refs != null &&
-               !refs.isClientOuterField()) {
+        while (refs != null && !refs.isClientOuterField()) {
             refs = refs.getNext();
         }
 
-        // There is no outer this argument.  Quit.
+        // There is no outer this argument. Quit.
         if (refs == null) {
             return;
         }
@@ -181,8 +175,8 @@ class SourceMember extends MemberDefinition implements Constants {
         LocalMember arg = refs.getLocalArgument();
         outerThisArg = arg;
 
-        // args is our list of arguments.  It contains a `this', so
-        // we insert at position 1.  The list of types does not have a
+        // args is our list of arguments. It contains a `this', so
+        // we insert at position 1. The list of types does not have a
         // this, so we insert at position 0.
         args.insertElementAt(arg, 1);
         argTypes[0] = arg.getType();
@@ -196,12 +190,10 @@ class SourceMember extends MemberDefinition implements Constants {
     }
 
     /**
-     * Prepend argument names and argument types for local variable references.
-     * This information is never seen by the type-check phase,
-     * but it affects code generation, which is the earliest moment
-     * we have comprehensive information on uplevel references.
-     * The code() methods tweaks the constructor calls, prepending
-     * the proper values to the argument list.
+     * Prepend argument names and argument types for local variable references. This information is never seen by the
+     * type-check phase, but it affects code generation, which is the earliest moment we have comprehensive information on
+     * uplevel references. The code() methods tweaks the constructor calls, prepending the proper values to the argument
+     * list.
      */
     void addUplevelArguments() {
         UplevelReference refs = clazz.getReferences();
@@ -256,14 +248,10 @@ class SourceMember extends MemberDefinition implements Constants {
     }
 
     /**
-     * Constructor.
-     * Used only to generate an abstract copy of a method that a class
-     * inherits from an interface
+     * Constructor. Used only to generate an abstract copy of a method that a class inherits from an interface
      */
     public SourceMember(MemberDefinition f, ClassDefinition c, Environment env) {
-        this(f.getWhere(), c, f.getDocumentation(),
-             f.getModifiers() | M_ABSTRACT, f.getType(), f.getName(), null,
-             f.getExceptionIds(), null);
+        this(f.getWhere(), c, f.getDocumentation(), f.getModifiers() | M_ABSTRACT, f.getType(), f.getName(), null, f.getExceptionIds(), null);
         this.args = f.getArguments();
         this.abstractSource = f;
         this.exp = f.getExceptions(env);
@@ -282,7 +270,7 @@ class SourceMember extends MemberDefinition implements Constants {
             return exp;
         }
         // be sure to get the imports right:
-        env = ((SourceClass)getClassDefinition()).setupEnv(env);
+        env = ((SourceClass) getClassDefinition()).setupEnv(env);
         exp = new ClassDeclaration[expIds.length];
         for (int i = 0; i < exp.length; i++) {
             Identifier e = expIds[i].getName();
@@ -301,27 +289,31 @@ class SourceMember extends MemberDefinition implements Constants {
 
     /**
      * Resolve types in a field, after parsing.
+     *
      * @see ClassDefinition.resolveTypeStructure
      */
 
     public boolean resolved = false;
 
     public void resolveTypeStructure(Environment env) {
-        if (tracing) env.dtEnter("SourceMember.resolveTypeStructure: " + this);
+        if (tracing)
+            env.dtEnter("SourceMember.resolveTypeStructure: " + this);
 
-        // A member should only be resolved once.  For a constructor, it is imperative
+        // A member should only be resolved once. For a constructor, it is imperative
         // that 'addOuterThis' be called only once, else the outer instance argument may
         // be inserted into the argument list multiple times.
 
         if (resolved) {
-            if (tracing) env.dtEvent("SourceMember.resolveTypeStructure: OK " + this);
-            // This case shouldn't be happening.  It is the responsibility
+            if (tracing)
+                env.dtEvent("SourceMember.resolveTypeStructure: OK " + this);
+            // This case shouldn't be happening. It is the responsibility
             // of our callers to avoid attempting multiple resolutions of a member.
             // *** REMOVE FOR SHIPMENT? ***
             throw new CompilerError("multiple member type resolution");
-            //return;
+            // return;
         } else {
-            if (tracing) env.dtEvent("SourceMember.resolveTypeStructure: RESOLVING " + this);
+            if (tracing)
+                env.dtEvent("SourceMember.resolveTypeStructure: RESOLVING " + this);
             resolved = true;
         }
 
@@ -329,14 +321,14 @@ class SourceMember extends MemberDefinition implements Constants {
         if (isInnerClass()) {
             ClassDefinition nc = getInnerClass();
             if (nc instanceof SourceClass && !nc.isLocal()) {
-                ((SourceClass)nc).resolveTypeStructure(env);
+                ((SourceClass) nc).resolveTypeStructure(env);
             }
             type = innerClass.getType();
         } else {
             // Expand all class names in 'type', including those that are not
             // fully-qualified or refer to inner classes, into fully-qualified
-            // names.  Local and anonymous classes get synthesized names here,
-            // corresponding to the class files that will be generated.  This is
+            // names. Local and anonymous classes get synthesized names here,
+            // corresponding to the class files that will be generated. This is
             // currently the only place where 'resolveNames' is used.
             type = env.resolveNames(getClassDefinition(), type, isSynthetic());
 
@@ -344,7 +336,8 @@ class SourceMember extends MemberDefinition implements Constants {
             getExceptions(env);
 
             if (isMethod()) {
-                Vector<MemberDefinition> argNames = args; args = null;
+                Vector<MemberDefinition> argNames = args;
+                args = null;
                 createArgumentFields(argNames);
                 // Add outer instance argument for constructors.
                 if (isConstructor()) {
@@ -352,7 +345,8 @@ class SourceMember extends MemberDefinition implements Constants {
                 }
             }
         }
-        if (tracing) env.dtExit("SourceMember.resolveTypeStructure: " + this);
+        if (tracing)
+            env.dtExit("SourceMember.resolveTypeStructure: " + this);
     }
 
     /**
@@ -366,9 +360,8 @@ class SourceMember extends MemberDefinition implements Constants {
     }
 
     /**
-     * A source field never reports deprecation, since the compiler
-     * allows access to deprecated features that are being compiled
-     * in the same job.
+     * A source field never reports deprecation, since the compiler allows access to deprecated features that are being
+     * compiled in the same job.
      */
     public boolean reportDeprecated(Environment env) {
         return false;
@@ -377,13 +370,11 @@ class SourceMember extends MemberDefinition implements Constants {
     /**
      * Check this field.
      * <p>
-     * This is the method which requests checking.
-     * The real work is done by
-     * {@code Vset check(Environment, Context, Vset)}.
+     * This is the method which requests checking. The real work is done by {@code Vset check(Environment, Context, Vset)}.
      */
     public void check(Environment env) throws ClassNotFound {
-        if (tracing) env.dtEnter("SourceMember.check: " +
-                                 getName() + ", status = " + status);
+        if (tracing)
+            env.dtEnter("SourceMember.check: " + getName() + ", status = " + status);
         // rely on the class to check all fields in the proper order
         if (status == PARSED) {
             if (isSynthetic() && getValue() == null) {
@@ -393,7 +384,8 @@ class SourceMember extends MemberDefinition implements Constants {
                     env.dtExit("SourceMember.check: BREAKING CYCLE");
                 return;
             }
-            if (tracing) env.dtEvent("SourceMember.check: CHECKING CLASS");
+            if (tracing)
+                env.dtEvent("SourceMember.check: CHECKING CLASS");
             clazz.check(env);
             if (status == PARSED) {
                 if (getClassDefinition().getError()) {
@@ -405,27 +397,26 @@ class SourceMember extends MemberDefinition implements Constants {
                 }
             }
         }
-        if (tracing) env.dtExit("SourceMember.check: DONE " +
-                                getName() + ", status = " + status);
+        if (tracing)
+            env.dtExit("SourceMember.check: DONE " + getName() + ", status = " + status);
     }
 
     /**
      * Check a field.
-     * @param vset tells which uplevel variables are definitely assigned
-     * The vset is also used to track the initialization of blank finals
-     * by whichever fields which are relevant to them.
+     *
+     * @param vset tells which uplevel variables are definitely assigned The vset is also used to track the initialization
+     * of blank finals by whichever fields which are relevant to them.
      */
     public Vset check(Environment env, Context ctx, Vset vset) throws ClassNotFound {
-        if (tracing) env.dtEvent("SourceMember.check: MEMBER " +
-                                 getName() + ", status = " + status);
+        if (tracing)
+            env.dtEvent("SourceMember.check: MEMBER " + getName() + ", status = " + status);
         if (status == PARSED) {
             if (isInnerClass()) {
                 // some classes are checked separately
                 ClassDefinition nc = getInnerClass();
-                if (nc instanceof SourceClass && !nc.isLocal()
-                    && nc.isInsideLocal()) {
+                if (nc instanceof SourceClass && !nc.isLocal() && nc.isInsideLocal()) {
                     status = CHECKING;
-                    vset = ((SourceClass)nc).checkInsideClass(env, ctx, vset);
+                    vset = ((SourceClass) nc).checkInsideClass(env, ctx, vset);
                 }
                 status = CHECKED;
                 return vset;
@@ -440,18 +431,17 @@ class SourceMember extends MemberDefinition implements Constants {
             env = new Environment(env, this);
 
             // This is where all checking of names appearing within the type
-            // of the member is done.  Includes return type and argument types.
+            // of the member is done. Includes return type and argument types.
             // Since only one location ('where') for error messages is provided,
-            // localization of errors is poor.  Throws clauses are handled below.
+            // localization of errors is poor. Throws clauses are handled below.
             env.resolve(where, getClassDefinition(), getType());
 
             // Make sure that all the classes that we claim to throw really
             // are subclasses of Throwable, and are classes that we can reach
             if (isMethod()) {
-                ClassDeclaration throwable =
-                    env.getClassDeclaration(idJavaLangThrowable);
+                ClassDeclaration throwable = env.getClassDeclaration(idJavaLangThrowable);
                 ClassDeclaration exp[] = getExceptions(env);
-                for (int i = 0 ; i < exp.length ; i++) {
+                for (int i = 0; i < exp.length; i++) {
                     ClassDefinition def;
                     long where = getWhere();
                     if (expIds != null && i < expIds.length) {
@@ -462,7 +452,7 @@ class SourceMember extends MemberDefinition implements Constants {
 
                         // Validate access for all inner-class components
                         // of a qualified name, not just the last one, which
-                        // is checked below.  Yes, this is a dirty hack...
+                        // is checked below. Yes, this is a dirty hack...
                         // Part of fix for 4094658.
                         env.resolveByName(where, getClassDefinition(), def.getName());
 
@@ -471,8 +461,7 @@ class SourceMember extends MemberDefinition implements Constants {
                         break;
                     }
                     def.noteUsedBy(getClassDefinition(), where, env);
-                    if (!getClassDefinition().
-                          canAccess(env, def.getClassDeclaration())) {
+                    if (!getClassDefinition().canAccess(env, def.getClassDeclaration())) {
                         env.error(where, "cant.access.class", def);
                     } else if (!def.subClassOf(env, throwable)) {
                         env.error(where, "throws.not.throwable", def);
@@ -484,16 +473,14 @@ class SourceMember extends MemberDefinition implements Constants {
 
             if (isMethod() && args != null) {
                 int length = args.size();
-            outer_loop:
-                for (int i = 0; i < length; i++) {
-                    LocalMember lf = (LocalMember)(args.elementAt(i));
+                outer_loop: for (int i = 0; i < length; i++) {
+                    LocalMember lf = (LocalMember) (args.elementAt(i));
                     Identifier name_i = lf.getName();
                     for (int j = i + 1; j < length; j++) {
-                        LocalMember lf2 = (LocalMember)(args.elementAt(j));
+                        LocalMember lf2 = (LocalMember) (args.elementAt(j));
                         Identifier name_j = lf2.getName();
                         if (name_i.equals(name_j)) {
-                            env.error(lf2.getWhere(), "duplicate.argument",
-                                      name_i);
+                            env.error(lf2.getWhere(), "duplicate.argument", name_i);
                             break outer_loop;
                         }
                     }
@@ -504,12 +491,12 @@ class SourceMember extends MemberDefinition implements Constants {
                 ctx = new Context(ctx, this);
 
                 if (isMethod()) {
-                    Statement s = (Statement)getValue();
+                    Statement s = (Statement) getValue();
                     // initialize vset, indication that each of the arguments
                     // to the function has a value
 
-                    for (Enumeration<MemberDefinition> e = args.elements(); e.hasMoreElements();){
-                        LocalMember f = (LocalMember)e.nextElement();
+                    for (Enumeration<MemberDefinition> e = args.elements(); e.hasMoreElements();) {
+                        LocalMember f = (LocalMember) e.nextElement();
                         vset.addVar(ctx.declare(env, f));
                     }
 
@@ -521,59 +508,53 @@ class SourceMember extends MemberDefinition implements Constants {
                         // If the first thing in the definition isn't a call
                         // to either super() or this(), then insert one.
                         Expression supCall = s.firstConstructor();
-                        if ((supCall == null)
-                            && (getClassDefinition().getSuperClass() != null)) {
+                        if ((supCall == null) && (getClassDefinition().getSuperClass() != null)) {
                             supCall = getDefaultSuperCall(env);
-                            Statement scs = new ExpressionStatement(where,
-                                                                    supCall);
+                            Statement scs = new ExpressionStatement(where, supCall);
                             s = Statement.insertStatement(scs, s);
                             setValue(s);
                         }
                     }
 
-                    //System.out.println("VSET = " + vset);
+                    // System.out.println("VSET = " + vset);
                     ClassDeclaration exp[] = getExceptions(env);
                     int htsize = (exp.length > 3) ? 17 : 7;
                     Hashtable<Object, Object> thrown = new Hashtable<>(htsize);
 
                     vset = s.checkMethod(env, ctx, vset, thrown);
 
-                    ClassDeclaration ignore1 =
-                        env.getClassDeclaration(idJavaLangError);
-                    ClassDeclaration ignore2 =
-                        env.getClassDeclaration(idJavaLangRuntimeException);
+                    ClassDeclaration ignore1 = env.getClassDeclaration(idJavaLangError);
+                    ClassDeclaration ignore2 = env.getClassDeclaration(idJavaLangRuntimeException);
 
                     for (Enumeration<Object> e = thrown.keys(); e.hasMoreElements();) {
-                        ClassDeclaration c = (ClassDeclaration)e.nextElement();
+                        ClassDeclaration c = (ClassDeclaration) e.nextElement();
                         ClassDefinition def = c.getClassDefinition(env);
-                        if (def.subClassOf(env, ignore1)
-                                 || def.subClassOf(env, ignore2)) {
+                        if (def.subClassOf(env, ignore1) || def.subClassOf(env, ignore2)) {
                             continue;
                         }
 
                         boolean ok = false;
                         if (!isInitializer()) {
-                            for (int i = 0 ; i < exp.length ; i++) {
+                            for (int i = 0; i < exp.length; i++) {
                                 if (def.subClassOf(env, exp[i])) {
                                     ok = true;
                                 }
                             }
                         }
                         if (!ok) {
-                            Node n = (Node)thrown.get(c);
+                            Node n = (Node) thrown.get(c);
                             long where = n.getWhere();
                             String errorMsg;
 
                             if (isConstructor()) {
-                                if (where ==
-                                    getClassDefinition().getWhere()) {
+                                if (where == getClassDefinition().getWhere()) {
 
                                     // If this message is being generated for
                                     // a default constructor, we should give
-                                    // a different error message.  Currently
+                                    // a different error message. Currently
                                     // we check for this by seeing if the
                                     // constructor has the same "where" as
-                                    // its class.  This is a bit kludgy, but
+                                    // its class. This is a bit kludgy, but
                                     // works. (bug id 4034836)
                                     errorMsg = "def.constructor.exception";
                                 } else {
@@ -591,11 +572,10 @@ class SourceMember extends MemberDefinition implements Constants {
                         }
                     }
                 } else {
-                    Hashtable<Object, Object> thrown = new Hashtable<>(3);  // small & throw-away
-                    Expression val = (Expression)getValue();
+                    Hashtable<Object, Object> thrown = new Hashtable<>(3); // small & throw-away
+                    Expression val = (Expression) getValue();
 
-                    vset = val.checkInitializer(env, ctx, vset,
-                                                getType(), thrown);
+                    vset = val.checkInitializer(env, ctx, vset, getType(), thrown);
                     setValue(val.convert(env, ctx, getType(), val));
 
                     // Complain about static final members of inner classes that
@@ -603,34 +583,27 @@ class SourceMember extends MemberDefinition implements Constants {
                     // In general, static members are not permitted for inner
                     // classes, but an exception is made for named constants.
                     // Other cases of static members, including non-final ones,
-                    // are handled in 'SourceClass'.  Part of fix for 4095568.
+                    // are handled in 'SourceClass'. Part of fix for 4095568.
                     if (isStatic() && isFinal() && !clazz.isTopLevel()) {
-                        if (!((Expression)getValue()).isConstant()) {
+                        if (!((Expression) getValue()).isConstant()) {
                             env.error(where, "static.inner.field", getName(), this);
                             setValue(null);
                         }
                     }
 
-
                     // Both RuntimeExceptions and Errors should be
-                    // allowed in initializers.  Fix for bug 4102541.
-                    ClassDeclaration except =
-                         env.getClassDeclaration(idJavaLangThrowable);
-                    ClassDeclaration ignore1 =
-                        env.getClassDeclaration(idJavaLangError);
-                    ClassDeclaration ignore2 =
-                        env.getClassDeclaration(idJavaLangRuntimeException);
+                    // allowed in initializers. Fix for bug 4102541.
+                    ClassDeclaration except = env.getClassDeclaration(idJavaLangThrowable);
+                    ClassDeclaration ignore1 = env.getClassDeclaration(idJavaLangError);
+                    ClassDeclaration ignore2 = env.getClassDeclaration(idJavaLangRuntimeException);
 
-                    for (Enumeration<Object> e = thrown.keys(); e.hasMoreElements(); ) {
-                        ClassDeclaration c = (ClassDeclaration)e.nextElement();
+                    for (Enumeration<Object> e = thrown.keys(); e.hasMoreElements();) {
+                        ClassDeclaration c = (ClassDeclaration) e.nextElement();
                         ClassDefinition def = c.getClassDefinition(env);
 
-                        if (!def.subClassOf(env, ignore1)
-                            && !def.subClassOf(env, ignore2)
-                            && def.subClassOf(env, except)) {
-                            Node n = (Node)thrown.get(c);
-                            env.error(n.getWhere(),
-                                      "initializer.exception", c.getName());
+                        if (!def.subClassOf(env, ignore1) && !def.subClassOf(env, ignore2) && def.subClassOf(env, except)) {
+                            Node n = (Node) thrown.get(c);
+                            env.error(n.getWhere(), "initializer.exception", c.getName());
                         }
                     }
                 }
@@ -641,7 +614,6 @@ class SourceMember extends MemberDefinition implements Constants {
             }
             status = getClassDefinition().getError() ? ERROR : CHECKED;
         }
-
 
         // Initializers (static and instance) must be able to complete normally.
         if (isInitializer() && vset.isDeadEnd()) {
@@ -657,9 +629,7 @@ class SourceMember extends MemberDefinition implements Constants {
         Expression se = null;
         ClassDefinition sclass = getClassDefinition().getSuperClass().getClassDefinition();
         // does the superclass constructor require an enclosing instance?
-        ClassDefinition reqc = (sclass == null) ? null
-                             : sclass.isTopLevel() ? null
-                             : sclass.getOuterClass();
+        ClassDefinition reqc = (sclass == null) ? null : sclass.isTopLevel() ? null : sclass.getOuterClass();
         ClassDefinition thisc = getClassDefinition();
         if (reqc != null && !Context.outerLinkExists(env, reqc, thisc)) {
             se = new SuperExpression(where, new NullExpression(where));
@@ -676,12 +646,12 @@ class SourceMember extends MemberDefinition implements Constants {
      */
     void inline(Environment env) throws ClassNotFound {
         switch (status) {
-          case PARSED:
+        case PARSED:
             check(env);
             inline(env);
             break;
 
-          case CHECKED:
+        case CHECKED:
             if (env.dump()) {
                 System.out.println("[inline field " + getClassDeclaration().getName() + "." + getName() + "]");
             }
@@ -690,10 +660,10 @@ class SourceMember extends MemberDefinition implements Constants {
 
             if (isMethod()) {
                 if ((!isNative()) && (!isAbstract())) {
-                    Statement s = (Statement)getValue();
-                    Context ctx = new Context((Context)null, this);
-                    for (Enumeration<MemberDefinition> e = args.elements() ; e.hasMoreElements() ;) {
-                        LocalMember local = (LocalMember)e.nextElement();
+                    Statement s = (Statement) getValue();
+                    Context ctx = new Context((Context) null, this);
+                    for (Enumeration<MemberDefinition> e = args.elements(); e.hasMoreElements();) {
+                        LocalMember local = (LocalMember) e.nextElement();
                         ctx.declare(env, local);
                     }
                     setValue(s.inline(env, ctx));
@@ -701,27 +671,23 @@ class SourceMember extends MemberDefinition implements Constants {
             } else if (isInnerClass()) {
                 // some classes are checked and inlined separately
                 ClassDefinition nc = getInnerClass();
-                if (nc instanceof SourceClass && !nc.isLocal()
-                    && nc.isInsideLocal()) {
+                if (nc instanceof SourceClass && !nc.isLocal() && nc.isInsideLocal()) {
                     status = INLINING;
-                    ((SourceClass)nc).inlineLocalClass(env);
+                    ((SourceClass) nc).inlineLocalClass(env);
                 }
                 status = INLINED;
                 break;
             } else {
-                if (getValue() != null)  {
-                    Context ctx = new Context((Context)null, this);
+                if (getValue() != null) {
+                    Context ctx = new Context((Context) null, this);
                     if (!isStatic()) {
                         // Cf. "thisArg" in SourceClass.checkMembers().
                         Context ctxInst = new Context(ctx, this);
-                        LocalMember thisArg =
-                                    ((SourceClass)clazz).getThisArgument();
+                        LocalMember thisArg = ((SourceClass) clazz).getThisArgument();
                         ctxInst.declare(env, thisArg);
-                        setValue(((Expression)getValue())
-                                    .inlineValue(env, ctxInst));
+                        setValue(((Expression) getValue()).inlineValue(env, ctxInst));
                     } else {
-                        setValue(((Expression)getValue())
-                                    .inlineValue(env, ctx));
+                        setValue(((Expression) getValue()).inlineValue(env, ctx));
                     }
                 }
             }
@@ -746,7 +712,7 @@ class SourceMember extends MemberDefinition implements Constants {
         Node value = getValue();
         if (value != null && status != INLINED) {
             // be sure to get the imports right:
-            env = ((SourceClass)clazz).setupEnv(env);
+            env = ((SourceClass) clazz).setupEnv(env);
             inline(env);
             value = (status == INLINED) ? getValue() : null;
         }
@@ -761,7 +727,6 @@ class SourceMember extends MemberDefinition implements Constants {
         return false;
     }
 
-
     /**
      * Get the initial value of the field
      */
@@ -769,7 +734,7 @@ class SourceMember extends MemberDefinition implements Constants {
         if (isMethod() || (getValue() == null) || (!isFinal()) || (status != INLINED)) {
             return null;
         }
-        return ((Expression)getValue()).getValue();
+        return ((Expression) getValue()).getValue();
     }
 
     /**
@@ -777,55 +742,46 @@ class SourceMember extends MemberDefinition implements Constants {
      */
     public void code(Environment env, Assembler asm) throws ClassNotFound {
         switch (status) {
-          case PARSED:
+        case PARSED:
             check(env);
             code(env, asm);
             return;
 
-          case CHECKED:
+        case CHECKED:
             inline(env);
             code(env, asm);
             return;
 
-          case INLINED:
+        case INLINED:
             // Actually generate code
             if (env.dump()) {
                 System.out.println("[code field " + getClassDeclaration().getName() + "." + getName() + "]");
             }
             if (isMethod() && (!isNative()) && (!isAbstract())) {
                 env = new Environment(env, this);
-                Context ctx = new Context((Context)null, this);
-                Statement s = (Statement)getValue();
+                Context ctx = new Context((Context) null, this);
+                Statement s = (Statement) getValue();
 
-                for (Enumeration<MemberDefinition> e = args.elements() ; e.hasMoreElements() ; ) {
-                    LocalMember f = (LocalMember)e.nextElement();
+                for (Enumeration<MemberDefinition> e = args.elements(); e.hasMoreElements();) {
+                    LocalMember f = (LocalMember) e.nextElement();
                     ctx.declare(env, f);
-                    //ctx.declare(env, (LocalMember)e.nextElement());
+                    // ctx.declare(env, (LocalMember)e.nextElement());
                 }
 
                 /*
-                if (isConstructor() && ((s == null) || (s.firstConstructor() == null))) {
-                    ClassDeclaration c = getClassDefinition().getSuperClass();
-                    if (c != null) {
-                        MemberDefinition field = c.getClassDefinition(env).matchMethod(env, getClassDefinition(), idInit);
-                        asm.add(getWhere(), opc_aload, new Integer(0));
-                        asm.add(getWhere(), opc_invokespecial, field);
-                        asm.add(getWhere(), opc_pop);
-                    }
-
-                    // Output initialization code
-                    for (MemberDefinition f = getClassDefinition().getFirstMember() ; f != null ; f = f.getNextMember()) {
-                        if (!f.isStatic()) {
-                            f.codeInit(env, ctx, asm);
-                        }
-                    }
-                }
-                */
+                 * if (isConstructor() && ((s == null) || (s.firstConstructor() == null))) { ClassDeclaration c =
+                 * getClassDefinition().getSuperClass(); if (c != null) { MemberDefinition field =
+                 * c.getClassDefinition(env).matchMethod(env, getClassDefinition(), idInit); asm.add(getWhere(), opc_aload, new
+                 * Integer(0)); asm.add(getWhere(), opc_invokespecial, field); asm.add(getWhere(), opc_pop); }
+                 *
+                 * // Output initialization code for (MemberDefinition f = getClassDefinition().getFirstMember() ; f != null ; f =
+                 * f.getNextMember()) { if (!f.isStatic()) { f.codeInit(env, ctx, asm); } } }
+                 */
                 if (s != null) {
                     s.code(env, ctx, asm);
                 }
                 if (getType().getReturnType().isType(TC_VOID) && !isInitializer()) {
-                   asm.add(getWhere(), opc_return, true);
+                    asm.add(getWhere(), opc_return, true);
                 }
             }
             return;
@@ -837,25 +793,25 @@ class SourceMember extends MemberDefinition implements Constants {
             return;
         }
         switch (status) {
-          case PARSED:
+        case PARSED:
             check(env);
             codeInit(env, ctx, asm);
             return;
 
-          case CHECKED:
+        case CHECKED:
             inline(env);
             codeInit(env, ctx, asm);
             return;
 
-          case INLINED:
+        case INLINED:
             // Actually generate code
             if (env.dump()) {
                 System.out.println("[code initializer  " + getClassDeclaration().getName() + "." + getName() + "]");
             }
             if (getValue() != null) {
-                Expression e = (Expression)getValue();
+                Expression e = (Expression) getValue();
                 // The JLS Section 8.5 specifies that static (non-final)
-                // initializers should be executed in textual order.  Eliding
+                // initializers should be executed in textual order. Eliding
                 // initializations to default values can interfere with this,
                 // so the tests for !e.equalsDefault() have been eliminated,
                 // below.
@@ -867,7 +823,7 @@ class SourceMember extends MemberDefinition implements Constants {
                     }
                 } else { // removed: if (!e.equalsDefault()) {
                     // This code doesn't appear to be reached for
-                    // instance initializers.  Code for these is generated
+                    // instance initializers. Code for these is generated
                     // in the makeVarInits() method of the class
                     // MethodExpression.
                     asm.add(getWhere(), opc_aload, 0);

@@ -16,15 +16,13 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 
 /**
- * IndentingWriter is a BufferedWriter subclass that supports automatic
- * indentation of lines of text written to the underlying Writer.
+ * IndentingWriter is a BufferedWriter subclass that supports automatic indentation of lines of text written to the
+ * underlying Writer.
  *
- * Methods are provided for compact, convenient indenting, writing text,
- * and writing lines in various combinations.
+ * Methods are provided for compact, convenient indenting, writing text, and writing lines in various combinations.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
 public class IndentingWriter extends BufferedWriter {
 
@@ -41,16 +39,15 @@ public class IndentingWriter extends BufferedWriter {
     private int tabSize = 8;
 
     /**
-     * Create a new IndentingWriter that writes indented text to the
-     * given Writer.  Use the default indent step of four spaces.
+     * Create a new IndentingWriter that writes indented text to the given Writer. Use the default indent step of four
+     * spaces.
      */
     public IndentingWriter(Writer out) {
         super(out);
     }
 
     /**
-     * Create a new IndentingWriter that writes indented text to the
-     * given Writer and uses the supplied indent step.
+     * Create a new IndentingWriter that writes indented text to the given Writer and uses the supplied indent step.
      */
     public IndentingWriter(Writer out, int step) {
         this(out);
@@ -62,8 +59,8 @@ public class IndentingWriter extends BufferedWriter {
     }
 
     /**
-     * Create a new IndentingWriter that writes indented text to the
-     * given Writer and uses the supplied indent step and tab size.
+     * Create a new IndentingWriter that writes indented text to the given Writer and uses the supplied indent step and tab
+     * size.
      */
     public IndentingWriter(Writer out, int step, int tabSize) {
         this(out);
@@ -104,8 +101,7 @@ public class IndentingWriter extends BufferedWriter {
     }
 
     /**
-     * Write a line separator.  The next character written will be
-     * preceded by an indent.
+     * Write a line separator. The next character written will be preceded by an indent.
      */
     public void newLine() throws IOException {
         super.newLine();
@@ -113,12 +109,10 @@ public class IndentingWriter extends BufferedWriter {
     }
 
     /**
-     * Check if an indent needs to be written before writing the next
-     * character.
+     * Check if an indent needs to be written before writing the next character.
      *
-     * The indent generation is optimized (and made consistent with
-     * certain coding conventions) by condensing groups of eight spaces
-     * into tab characters.
+     * The indent generation is optimized (and made consistent with certain coding conventions) by condensing groups of
+     * eight spaces into tab characters.
      */
     protected void checkWrite() throws IOException {
         if (beginningOfLine) {
@@ -130,7 +124,7 @@ public class IndentingWriter extends BufferedWriter {
             }
             while (i > 0) {
                 super.write(' ');
-                -- i;
+                --i;
             }
         }
     }
@@ -215,8 +209,7 @@ public class IndentingWriter extends BufferedWriter {
     /**
      * Indent out; write string; end current line; indent in.
      *
-     * This method is useful for generating lines of code that both
-     * end and begin nested blocks, like "} else {".
+     * This method is useful for generating lines of code that both end and begin nested blocks, like "} else {".
      */
     public void pOlnI(String s) throws IOException {
         pO(s);
@@ -230,6 +223,7 @@ public class IndentingWriter extends BufferedWriter {
     public void p(Object o) throws IOException {
         write(o.toString());
     }
+
     /**
      * Write Object; end current line.
      */
@@ -266,8 +260,7 @@ public class IndentingWriter extends BufferedWriter {
     /**
      * Indent out; write Object; end current line; indent in.
      *
-     * This method is useful for generating lines of code that both
-     * end and begin nested blocks, like "} else {".
+     * This method is useful for generating lines of code that both end and begin nested blocks, like "} else {".
      */
     public void pOlnI(Object o) throws IOException {
         pO(o.toString());

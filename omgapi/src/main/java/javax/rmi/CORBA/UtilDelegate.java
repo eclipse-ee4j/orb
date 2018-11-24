@@ -22,15 +22,12 @@ import org.omg.CORBA.portable.OutputStream;
 import org.omg.CORBA.SystemException;
 
 /**
- * Supports delegation for method implementations in {@link Util}.  The
- * delegate is a singleton instance of a class that implements this
- * interface and provides a replacement implementation for all the
- * methods of <code>javax.rmi.CORBA.Util</code>.
+ * Supports delegation for method implementations in {@link Util}. The delegate is a singleton instance of a class that
+ * implements this interface and provides a replacement implementation for all the methods of
+ * <code>javax.rmi.CORBA.Util</code>.
  *
- * Delegation is enabled by providing the delegate's class name as the
- * value of the 
- * <code>javax.rmi.CORBA.UtilClass</code>
- * system property.
+ * Delegation is enabled by providing the delegate's class name as the value of the
+ * <code>javax.rmi.CORBA.UtilClass</code> system property.
  *
  * @see Util
  */
@@ -65,12 +62,12 @@ public interface UtilDelegate {
      * Delegation call for {@link Util#registerTarget}.
      */
     void registerTarget(Tie tie, Remote target);
-    
+
     /**
      * Delegation call for {@link Util#unexportObject}.
      */
     void unexportObject(Remote target) throws java.rmi.NoSuchObjectException;
-    
+
     /**
      * Delegation call for {@link Util#getTie}.
      */
@@ -89,8 +86,7 @@ public interface UtilDelegate {
     /**
      * Delegation call for {@link Util#loadClass}.
      */
-    Class loadClass(String className, String remoteCodebase, ClassLoader loader) 
-        throws ClassNotFoundException;
+    Class loadClass(String className, String remoteCodebase, ClassLoader loader) throws ClassNotFoundException;
 
     /**
      * Delegation call for {@link Util#isLocal}.
@@ -106,11 +102,10 @@ public interface UtilDelegate {
      * Delegation call for {@link Util#copyObject}.
      */
     Object copyObject(Object obj, ORB orb) throws RemoteException;
-    
+
     /**
      * Delegation call for {@link Util#copyObjects}.
      */
     Object[] copyObjects(Object[] obj, ORB orb) throws RemoteException;
 
 }
-            

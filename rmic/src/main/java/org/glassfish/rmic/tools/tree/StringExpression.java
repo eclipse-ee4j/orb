@@ -15,12 +15,10 @@ import org.glassfish.rmic.tools.asm.Assembler;
 import java.io.PrintStream;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class StringExpression extends ConstantExpression {
+public class StringExpression extends ConstantExpression {
     String value;
 
     /**
@@ -34,8 +32,9 @@ class StringExpression extends ConstantExpression {
     public boolean equals(String s) {
         return value.equals(s);
     }
+
     public boolean isNonNull() {
-        return true;            // string literal is never null
+        return true; // string literal is never null
     }
 
     /**
@@ -64,7 +63,7 @@ class StringExpression extends ConstantExpression {
      */
     public boolean equals(Object obj) {
         if ((obj != null) && (obj instanceof StringExpression)) {
-            return value.equals(((StringExpression)obj).value);
+            return value.equals(((StringExpression) obj).value);
         }
         return false;
     }

@@ -19,8 +19,7 @@ import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
  * @version 1.0
  */
 
-public final class FragmentMessage_1_2 extends Message_1_2
-        implements FragmentMessage {
+public final class FragmentMessage_1_2 extends Message_1_2 implements FragmentMessage {
 
     // Constructors
 
@@ -29,8 +28,7 @@ public final class FragmentMessage_1_2 extends Message_1_2
 
     // This is currently never called.
     FragmentMessage_1_2(int _request_id) {
-        super(Message.GIOPBigMagic, GIOPVersion.V1_2, FLAG_NO_FRAG_BIG_ENDIAN,
-                Message.GIOPFragment, 0);
+        super(Message.GIOPBigMagic, GIOPVersion.V1_2, FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPFragment, 0);
         this.message_type = GIOPFragment;
         request_id = _request_id;
     }
@@ -43,21 +41,21 @@ public final class FragmentMessage_1_2 extends Message_1_2
         this.message_size = 0;
 
         switch (msg12.message_type) {
-            case GIOPRequest:
-                this.request_id = ((RequestMessage) msg12).getRequestId();
-                break;
-            case GIOPReply:
-                this.request_id = ((ReplyMessage) msg12).getRequestId();
-                break;
-            case GIOPLocateRequest:
-                this.request_id = ((LocateRequestMessage) msg12).getRequestId();
-                break;
-            case GIOPLocateReply:
-                this.request_id = ((LocateReplyMessage) msg12).getRequestId();
-                break;
-            case GIOPFragment:
-                this.request_id = ((FragmentMessage) msg12).getRequestId();
-                break;
+        case GIOPRequest:
+            this.request_id = ((RequestMessage) msg12).getRequestId();
+            break;
+        case GIOPReply:
+            this.request_id = ((ReplyMessage) msg12).getRequestId();
+            break;
+        case GIOPLocateRequest:
+            this.request_id = ((LocateRequestMessage) msg12).getRequestId();
+            break;
+        case GIOPLocateReply:
+            this.request_id = ((LocateReplyMessage) msg12).getRequestId();
+            break;
+        case GIOPFragment:
+            this.request_id = ((FragmentMessage) msg12).getRequestId();
+            break;
         }
     }
 
@@ -73,8 +71,8 @@ public final class FragmentMessage_1_2 extends Message_1_2
 
     // IO methods
 
-    /* This will never be called, since we do not currently read the
-     * request_id from an CDRInputStream. Instead we use the
+    /*
+     * This will never be called, since we do not currently read the request_id from an CDRInputStream. Instead we use the
      * readGIOP_1_2_requestId to read the requestId from a byte buffer.
      */
     public void read(org.omg.CORBA.portable.InputStream istream) {
@@ -87,8 +85,7 @@ public final class FragmentMessage_1_2 extends Message_1_2
         ostream.write_ulong(this.request_id);
     }
 
-    public void callback(MessageHandler handler)
-            throws java.io.IOException {
+    public void callback(MessageHandler handler) throws java.io.IOException {
         handler.handleInput(this);
     }
 

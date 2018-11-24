@@ -13,5 +13,5 @@ package corba.dynamicrmiiiop.testclasses;
 public interface ContainerClash2 extends java.rmi.Remote {
 
     void ContainerCLASH2() throws java.rmi.RemoteException;
-       
+
 }

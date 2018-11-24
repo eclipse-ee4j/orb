@@ -15,8 +15,6 @@ package com.sun.tools.corba.ee.idl;
 import java.io.PrintWriter;
 import java.util.Hashtable;
 
-public interface NativeGen extends Generator
-{
-  void generate (Hashtable symbolTable, com.sun.tools.corba.ee.idl.NativeEntry entry, PrintWriter stream);
+public interface NativeGen extends Generator {
+    void generate(Hashtable symbolTable, com.sun.tools.corba.ee.idl.NativeEntry entry, PrintWriter stream);
 } // interface NativeGen
-

@@ -24,17 +24,19 @@ import java.util.*;
  * This class creates properties files for annotated exception interfaces. Applicable interfaces are annotated with the
  * {@link ExceptionWrapper} annotation. An entry will be made for each method with a {@link Message} annotation.
  */
-@SupportedAnnotationTypes({"org.glassfish.pfl.basic.logex.ExceptionWrapper", "org.glassfish.pfl.basic.logex.Message"})
+@SupportedAnnotationTypes({ "org.glassfish.pfl.basic.logex.ExceptionWrapper", "org.glassfish.pfl.basic.logex.Message" })
 @SupportedSourceVersion(SourceVersion.RELEASE_6)
 public class ExceptionWrapperProcessor extends AbstractProcessor {
 
-    Map<Element,FileGenerator> annotatedClasses = new HashMap<Element, FileGenerator>();
+    Map<Element, FileGenerator> annotatedClasses = new HashMap<Element, FileGenerator>();
     Date creationDate = new Date();
 
     @Override
     public boolean process(Set<? extends TypeElement> typeElements, RoundEnvironment roundEnvironment) {
-        if (roundEnvironment.processingOver()) return false;
-        if (typeElements.isEmpty()) return false;
+        if (roundEnvironment.processingOver())
+            return false;
+        if (typeElements.isEmpty())
+            return false;
 
         processClassElements(roundEnvironment.getElementsAnnotatedWith(ExceptionWrapper.class));
         processMethodElements(roundEnvironment.getElementsAnnotatedWith(Message.class));
@@ -55,7 +57,7 @@ public class ExceptionWrapperProcessor extends AbstractProcessor {
 
     private void processClassElements(Set<? extends Element> classElements) {
         for (Element classElement : classElements)
-            annotatedClasses.put(classElement,new FileGenerator(classElement, creationDate));
+            annotatedClasses.put(classElement, new FileGenerator(classElement, creationDate));
     }
 
     private void processMethodElements(Set<? extends Element> methodElements) {

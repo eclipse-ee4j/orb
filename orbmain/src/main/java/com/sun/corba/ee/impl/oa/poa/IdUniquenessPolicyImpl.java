@@ -13,8 +13,7 @@ package com.sun.corba.ee.impl.oa.poa;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 
-final class IdUniquenessPolicyImpl
-    extends org.omg.CORBA.LocalObject implements IdUniquenessPolicy {
+final class IdUniquenessPolicyImpl extends org.omg.CORBA.LocalObject implements IdUniquenessPolicy {
 
     public IdUniquenessPolicyImpl(IdUniquenessPolicyValue value) {
         this.value = value;
@@ -23,10 +22,9 @@ final class IdUniquenessPolicyImpl
     public IdUniquenessPolicyValue value() {
         return value;
     }
- 
-    public int policy_type()
-    {
-        return ID_UNIQUENESS_POLICY_ID.value ;
+
+    public int policy_type() {
+        return ID_UNIQUENESS_POLICY_ID.value;
     }
 
     public Policy copy() {
@@ -39,10 +37,7 @@ final class IdUniquenessPolicyImpl
 
     private IdUniquenessPolicyValue value;
 
-    public String toString()
-    {
-        return "IdUniquenessPolicy[" +
-            ((value.value() == IdUniquenessPolicyValue._UNIQUE_ID) ?
-                "UNIQUE_ID" : "MULTIPLE_ID" + "]") ;
+    public String toString() {
+        return "IdUniquenessPolicy[" + ((value.value() == IdUniquenessPolicyValue._UNIQUE_ID) ? "UNIQUE_ID" : "MULTIPLE_ID" + "]");
     }
 }

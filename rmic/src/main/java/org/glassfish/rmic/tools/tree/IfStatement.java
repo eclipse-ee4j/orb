@@ -17,12 +17,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class IfStatement extends Statement {
+public class IfStatement extends Statement {
     Expression cond;
     Statement ifTrue;
     Statement ifFalse;
@@ -43,33 +41,32 @@ class IfStatement extends Statement {
     Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         checkLabel(env, ctx);
         CheckContext newctx = new CheckContext(ctx, this);
-        // Vset vsExtra = vset.copy();  // See comment below.
-        ConditionVars cvars =
-              cond.checkCondition(env, newctx, reach(env, vset), exp);
+        // Vset vsExtra = vset.copy(); // See comment below.
+        ConditionVars cvars = cond.checkCondition(env, newctx, reach(env, vset), exp);
         cond = convert(env, newctx, Type.tBoolean, cond);
         // The following code, now deleted, was apparently an erroneous attempt
-        // at providing better error diagnostics.  The comment read: 'If either
+        // at providing better error diagnostics. The comment read: 'If either
         // the true clause or the false clause is unreachable, do a reasonable
         // check on the child anyway.'
-        //    Vset vsTrue  = cvars.vsTrue.isDeadEnd() ? vsExtra : cvars.vsTrue;
-        //    Vset vsFalse = cvars.vsFalse.isDeadEnd() ? vsExtra : cvars.vsFalse;
+        // Vset vsTrue = cvars.vsTrue.isDeadEnd() ? vsExtra : cvars.vsTrue;
+        // Vset vsFalse = cvars.vsFalse.isDeadEnd() ? vsExtra : cvars.vsFalse;
         // Unfortunately, this violates the rules laid out in the JLS, and leads to
-        // blatantly incorrect results.  For example, 'i' will not be recognized
+        // blatantly incorrect results. For example, 'i' will not be recognized
         // as definitely assigned following the statement 'if (true) i = 1;'.
-        // It is best to slavishly follow the JLS here.  A cleverer approach could
+        // It is best to slavishly follow the JLS here. A cleverer approach could
         // only correctly issue warnings, as JLS 16.2.6 is quite explicit, and it
         // is OK for a dead branch of an if-statement to omit an assignment that
-        // would be required in the other branch.  A complication: This code also
+        // would be required in the other branch. A complication: This code also
         // had the effect of implementing the special-case rules for 'if-then' and
-        // 'if-then-else' in JLS 14.19, "Unreachable Statements".  We now use
+        // 'if-then-else' in JLS 14.19, "Unreachable Statements". We now use
         // 'Vset.clearDeadEnd' to remove the dead-end status of unreachable branches
         // without affecting the definite-assignment status of the variables, thus
-        // maintaining a correct implementation of JLS 16.2.6.  Fixes 4094353.
+        // maintaining a correct implementation of JLS 16.2.6. Fixes 4094353.
         // Note that the code below will not consider the branches unreachable if
-        // the entire statement is unreachable.  This is consistent with the error
+        // the entire statement is unreachable. This is consistent with the error
         // recovery policy that reports the only the first unreachable statement
         // along an acyclic execution path.
-        Vset vsTrue  = cvars.vsTrue.clearDeadEnd();
+        Vset vsTrue = cvars.vsTrue.clearDeadEnd();
         Vset vsFalse = cvars.vsFalse.clearDeadEnd();
         vsTrue = ifTrue.check(env, newctx, vsTrue, exp);
         if (ifFalse != null)
@@ -87,16 +84,16 @@ class IfStatement extends Statement {
 
         // The compiler currently needs to perform inlining on both
         // branches of the if statement -- even if `cond' is a constant
-        // true or false.  Why?  The compiler will later try to compile
+        // true or false. Why? The compiler will later try to compile
         // all classes that it has seen; this includes classes that
-        // appear in dead code.  If we don't inline the dead branch here
+        // appear in dead code. If we don't inline the dead branch here
         // then the compiler will never perform inlining on any local
-        // classes appearing on the dead code.  When the compiler tries
+        // classes appearing on the dead code. When the compiler tries
         // to compile an un-inlined local class with uplevel references,
-        // it dies.  (bug 4059492)
+        // it dies. (bug 4059492)
         //
         // A better solution to this would be to walk the dead branch and
-        // mark any local classes appearing therein as unneeded.  Then the
+        // mark any local classes appearing therein as unneeded. Then the
         // compilation phase could skip these classes.
         if (ifTrue != null) {
             ifTrue = ifTrue.inline(env, ctx);
@@ -124,7 +121,7 @@ class IfStatement extends Statement {
      * Create a copy of the statement for method inlining
      */
     public Statement copyInline(Context ctx, boolean valNeeded) {
-        IfStatement s = (IfStatement)clone();
+        IfStatement s = (IfStatement) clone();
         s.cond = cond.copyInline(ctx);
         if (ifTrue != null) {
             s.ifTrue = ifTrue.copyInline(ctx, valNeeded);

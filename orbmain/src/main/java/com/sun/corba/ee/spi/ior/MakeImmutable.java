@@ -8,8 +8,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package com.sun.corba.ee.spi.ior ;
+package com.sun.corba.ee.spi.ior;
 
 public interface MakeImmutable {
-    void makeImmutable() ;
+    void makeImmutable();
 }

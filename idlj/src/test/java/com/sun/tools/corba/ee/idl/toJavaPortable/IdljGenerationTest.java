@@ -30,7 +30,7 @@ public class IdljGenerationTest {
 
     private static int testNum = 0;
     private static File rootDir;
-    private static final boolean COMPILE_GENERATED = true;  // set false to check generated files without compiling
+    private static final boolean COMPILE_GENERATED = true; // set false to check generated files without compiling
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @BeforeClass
@@ -74,7 +74,8 @@ public class IdljGenerationTest {
         return new File(classPathString.substring(0, classPathString.lastIndexOf("/target/")));
     }
 
-    // Returns a sorted array of paths to files with the specified suffix under the specified directory, relative to that directory
+    // Returns a sorted array of paths to files with the specified suffix under the specified directory, relative to that
+    // directory
     private String[] getFilePaths(File rootDir) {
         ArrayList<String> files = new ArrayList<>();
         appendFiles(files, rootDir, rootDir.getAbsolutePath().length() + 1, ".java");
@@ -118,23 +119,22 @@ public class IdljGenerationTest {
             actualLine = actual.readLine();
         }
 
-        if (expectedLine == null && actualLine == null) return;
+        if (expectedLine == null && actualLine == null)
+            return;
 
         if (expectedLine == null)
             fail("Unexpected line in generated file at " + actual.getLineNumber() + ": " + actualLine);
         else if (actualLine == null)
             fail("Actual file ends unexpectedly at line " + expected.getLineNumber());
         else
-            fail("Generated file mismatch in " + actualFile + " at line " + actual.getLineNumber() +
-                    "\nshould be <" + expectedLine + "> " +
-                    "\nbut found <" + actualLine + ">");
+            fail("Generated file mismatch in " + actualFile + " at line " + actual.getLineNumber() + "\nshould be <" + expectedLine + "> " + "\nbut found <"
+                    + actualLine + ">");
 
     }
 
     private boolean linesMatch(String expectedLine, String actualLine) {
         return expectedLine.equals(actualLine) || expectedLine.trim().startsWith("* ");
     }
-
 
     private class GenerationControl {
         private ArrayList<String> argList = new ArrayList<>();
@@ -168,7 +168,8 @@ public class IdljGenerationTest {
         }
 
         private void generate() throws IOException {
-            if (argList.contains("-iiop") && !COMPILE_GENERATED) addArgs("-Xnocompile");
+            if (argList.contains("-iiop") && !COMPILE_GENERATED)
+                addArgs("-Xnocompile");
             for (String name : idlFiles)
                 addArgs(new File(getModuleRoot(), name).getAbsolutePath());
             Compile.compiler = new Compile();

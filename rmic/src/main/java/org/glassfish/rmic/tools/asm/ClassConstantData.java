@@ -17,12 +17,10 @@ import java.io.DataOutputStream;
 /**
  * This is a class constant pool item.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-final
-class ClassConstantData extends ConstantPoolData {
+final class ClassConstantData extends ConstantPoolData {
     String name;
 
     /**
@@ -33,7 +31,7 @@ class ClassConstantData extends ConstantPoolData {
         String sig = clazz.getType().getTypeSignature();
         // sig is like "Lfoo/bar;", name is like "foo/bar".
         // We assume SIG_CLASS and SIG_ENDCLASS are 1 char each.
-        name = sig.substring(1, sig.length()-1);
+        name = sig.substring(1, sig.length() - 1);
         tab.put(name);
     }
 

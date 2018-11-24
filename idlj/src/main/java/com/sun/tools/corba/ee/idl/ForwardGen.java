@@ -12,11 +12,10 @@
 package com.sun.tools.corba.ee.idl;
 
 // NOTES:
- 
+
 import java.io.PrintWriter;
 import java.util.Hashtable;
 
-public interface ForwardGen extends com.sun.tools.corba.ee.idl.Generator
-{
-  void generate (Hashtable symbolTable, com.sun.tools.corba.ee.idl.ForwardEntry entry, PrintWriter stream);
+public interface ForwardGen extends com.sun.tools.corba.ee.idl.Generator {
+    void generate(Hashtable symbolTable, com.sun.tools.corba.ee.idl.ForwardEntry entry, PrintWriter stream);
 } // interface ForwardGen
