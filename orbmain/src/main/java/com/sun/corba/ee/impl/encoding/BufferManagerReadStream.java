@@ -21,6 +21,7 @@ import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
 import com.sun.corba.ee.spi.trace.Transport;
 
 import java.util.LinkedList;
+import java.util.concurrent.TimeUnit;
 
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 
@@ -79,6 +80,7 @@ public class BufferManagerReadStream
     public ByteBuffer underflow(ByteBuffer byteBuffer) {
 
         ByteBuffer result;
+        long startNanos = System.nanoTime();
 
         synchronized (fragmentQueue) {
 
@@ -86,6 +88,10 @@ public class BufferManagerReadStream
                 underflowMessage("underflow() - Cancel request id:", cancelReqId);
                 throw new RequestCanceledException(cancelReqId);
             }
+
+            int timeoutMillis = orb.getORBData().fragmentReadTimeout();
+            long timeoutNanos = TimeUnit.MILLISECONDS.toNanos(timeoutMillis);
+            long waitNanos = timeoutNanos;
 
             while (fragmentQueue.size() == 0) {
 
@@ -95,12 +101,17 @@ public class BufferManagerReadStream
 
                 boolean interrupted = false;
                 try {
-                    fragmentQueue.wait(orb.getORBData().fragmentReadTimeout());
+                    TimeUnit.NANOSECONDS.timedWait(fragmentQueue, waitNanos);
                 } catch (InterruptedException e) {
                     interrupted = true;
                 }
 
-                if (!interrupted && fragmentQueue.size() == 0) {
+                // be robust against spurious wakeups: only throw timeout exception if time has really elapsed
+                // or if unable to measure elapsed time because the clock went backwards
+                long elapsedNanos = System.nanoTime() - startNanos;
+                waitNanos = elapsedNanos < 0 ? 0L : timeoutNanos - elapsedNanos;
+
+                if (!interrupted && waitNanos <= 0 && fragmentQueue.size() == 0) {
                     throw wrapper.bufferReadManagerTimeout();
                 }
 
