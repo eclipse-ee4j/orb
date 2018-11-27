@@ -12,6 +12,7 @@ package com.sun.corba.ee.impl.encoding;
 
 import java.nio.ByteBuffer;
 
+import com.sun.corba.ee.spi.orb.ORBData;
 import com.sun.corba.ee.spi.transport.ByteBufferPool;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
@@ -89,7 +90,8 @@ public class BufferManagerReadStream
                 throw new RequestCanceledException(cancelReqId);
             }
 
-            int timeoutMillis = orb.getORBData().fragmentReadTimeout();
+            ORBData orbData = orb.getORBData();
+            int timeoutMillis = orbData.fragmentReadTimeout();
             long timeoutNanos = TimeUnit.MILLISECONDS.toNanos(timeoutMillis);
             long waitNanos = timeoutNanos;
 
@@ -101,7 +103,7 @@ public class BufferManagerReadStream
 
                 boolean interrupted = false;
                 try {
-                    TimeUnit.NANOSECONDS.timedWait(fragmentQueue, waitNanos);
+                    orbData.waitNanos(fragmentQueue, waitNanos);
                 } catch (InterruptedException e) {
                     interrupted = true;
                 }
