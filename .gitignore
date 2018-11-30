@@ -43,5 +43,3 @@ log
 .vscode
 .DS_Store
 cms-db-schema/liquibase.properties
-**/META-INF
-**/main/java/META-INF
