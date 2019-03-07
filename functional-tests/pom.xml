@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.glassfish.corba</groupId>
         <artifactId>glassfish-corba</artifactId>
-        <version>4.2.0-SNAPSHOT</version>
+        <version>4.2.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>glassfish-corba-tests</artifactId>
@@ -79,7 +79,7 @@
         <dependency>
             <groupId>org.glassfish.external</groupId>
             <artifactId>management-api</artifactId>
-            <version>3.1.0-b001</version>
+            <version>3.2.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
