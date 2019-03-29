@@ -369,6 +369,46 @@
                 </plugins>
             </build>
         </profile>
+
+        <profile>
+            <!-- include required legal artifacts in module jars -->
+            <id>install-legal-files</id>
+            <activation>
+                <file>
+                    <exists>src/main/java</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.coderplus.maven.plugins</groupId>
+                        <artifactId>copy-rename-maven-plugin</artifactId>
+                        <version>1.0.1</version>
+                        <executions>
+                          <execution>
+                            <id>copy-legal-files</id>
+                            <phase>generate-resources</phase>
+                            <goals>
+                              <goal>copy</goal>
+                            </goals>
+                            <configuration>
+                                <fileSets>
+                                    <fileSet>
+                                        <sourceFile>${project.basedir}/../LICENSE.md</sourceFile>
+                                        <destinationFile>${project.build.outputDirectory}/META-INF/LICENSE</destinationFile>
+                                    </fileSet>
+                                    <fileSet>
+                                        <sourceFile>${project.basedir}/../NOTICE.md</sourceFile>
+                                        <destinationFile>${project.build.outputDirectory}/META-INF/NOTICE</destinationFile>
+                                    </fileSet>
+                                </fileSets>
+                            </configuration>
+                          </execution>
+                        </executions>
+                      </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 </project>
 
