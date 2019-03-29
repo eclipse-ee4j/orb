@@ -20,7 +20,6 @@
 
     <artifactId>glassfish-corba-orb</artifactId>
     <name>GlassFish Corba ORB</name>
-    <packaging>bundle</packaging>
 
     <dependencies>
         <dependency>
@@ -87,31 +86,4 @@
             <artifactId>simplestub</artifactId>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <configuration>
-                    <instructions>
-                        <Export-Package>
-                            !com.sun.corba.ee.spi.threadpool, !com.sun.corba.ee.spi.logex.stdcorba,
-                            com.sun.corba.ee.spi.*; version=1,
-                            com.sun.corba.ee.impl.corba; version=1,
-                            com.sun.corba.ee.impl.encoding.*; version=1,
-                            com.sun.corba.ee.impl.folb; version=1,
-                            com.sun.corba.ee.impl.javax.*; version=1,
-                            com.sun.corba.ee.impl.misc; version=1,
-                            com.sun.corba.ee.impl.naming.*; version=1,
-                            com.sun.corba.ee.impl.oa.*; version=1,
-                            com.sun.corba.ee.impl.orb; version=1,
-                            com.sun.corba.ee.impl.presentation.*; version=1,
-                            com.sun.corba.ee.impl.txpoa; version=1
-                        </Export-Package>
-                    </instructions>
-                </configuration>
-            </plugin>
-         </plugins>
-    </build>
 </project>

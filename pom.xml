@@ -179,12 +179,6 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.apache.felix</groupId>
-                    <artifactId>maven-bundle-plugin</artifactId>
-                    <version>3.3.0</version>
-                    <extensions>true</extensions>
-                </plugin>
-                <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>idlj-maven-plugin</artifactId>
                     <version>1.2.2</version>
@@ -228,7 +222,7 @@
                         <dependency>
                             <groupId>org.glassfish.corba</groupId>
                             <artifactId>rmic</artifactId>
-                            <version>4.0.2-b007</version>
+                            <version>4.2.0</version>
                         </dependency>
                     </dependencies>
                 </plugin>

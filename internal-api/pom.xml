@@ -22,7 +22,6 @@
     <artifactId>glassfish-corba-internal-api</artifactId>
     <name>Exposed Internal APIs</name>
     <description>Exposed Internal APIs</description>
-    <packaging>bundle</packaging>
 
     <dependencies>
         <dependency>
@@ -36,19 +35,4 @@
           <version>${pfl-version}</version>
         </dependency>
     </dependencies>
-
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <configuration>
-                    <instructions>
-                        <Export-Package>com.sun.corba.ee.spi.threadpool;version=1, com.sun.corba.ee.impl.threadpool;version=1, com.sun.corba.ee.spi.logex.stdcorba;version=1</Export-Package>
-                    </instructions>
-                </configuration>
-            </plugin>
-         </plugins>
-    </build>
 </project>

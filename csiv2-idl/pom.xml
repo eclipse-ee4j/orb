@@ -21,7 +21,6 @@
 
     <artifactId>glassfish-corba-csiv2-idl</artifactId>
     <name>Generated CSIv2 APIs</name>
-    <packaging>bundle</packaging>
 
     <build>
         <plugins>
@@ -43,15 +42,6 @@
                             </packagePrefixes>
                         </source>
                     </sources>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <configuration>
-                    <instructions>
-                        <Export-Package>com.sun.corba.ee.org.omg.*</Export-Package>
-                    </instructions>
                 </configuration>
             </plugin>
         </plugins>
