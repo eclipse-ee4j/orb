@@ -18,12 +18,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class SwitchStatement extends Statement {
+public class SwitchStatement extends Statement {
     Expression expr;
     Statement args[];
 
@@ -53,18 +51,17 @@ class SwitchStatement extends Statement {
         // If the first substatement is not a case label, it is unreached.
         Vset vs = DEAD_END;
 
-        for (int i = 0 ; i < args.length ; i++) {
+        for (int i = 0; i < args.length; i++) {
             Statement s = args[i];
 
             if (s.op == CASE) {
 
                 vs = s.check(env, newctx, vs.join(vset.copy()), exp);
 
-                Expression lbl = ((CaseStatement)s).expr;
+                Expression lbl = ((CaseStatement) s).expr;
                 if (lbl != null) {
                     if (lbl instanceof IntegerExpression) {
-                        Integer Ivalue =
-                            (Integer)(((IntegerExpression)lbl).getValue());
+                        Integer Ivalue = (Integer) (((IntegerExpression) lbl).getValue());
                         int ivalue = Ivalue.intValue();
                         if (tab.get(lbl) != null) {
                             env.error(s.where, "duplicate.label", Ivalue);
@@ -72,38 +69,39 @@ class SwitchStatement extends Statement {
                             tab.put(lbl, s);
                             boolean overflow;
                             switch (switchType.getTypeCode()) {
-                                case TC_BYTE:
-                                    overflow = (ivalue != (byte)ivalue); break;
-                                case TC_SHORT:
-                                    overflow = (ivalue != (short)ivalue); break;
-                                case TC_CHAR:
-                                    overflow = (ivalue != (char)ivalue); break;
-                                default:
-                                    overflow = false;
+                            case TC_BYTE:
+                                overflow = (ivalue != (byte) ivalue);
+                                break;
+                            case TC_SHORT:
+                                overflow = (ivalue != (short) ivalue);
+                                break;
+                            case TC_CHAR:
+                                overflow = (ivalue != (char) ivalue);
+                                break;
+                            default:
+                                overflow = false;
                             }
                             if (overflow) {
-                                env.error(s.where, "switch.overflow",
-                                          Ivalue, switchType);
+                                env.error(s.where, "switch.overflow", Ivalue, switchType);
                             }
                         }
                     } else {
                         // Suppose a class got an error early on during
-                        // checking.  It will set all of its members to
-                        // have the status "ERROR".  Now suppose that a
+                        // checking. It will set all of its members to
+                        // have the status "ERROR". Now suppose that a
                         // case label refers to one of this class's
-                        // fields.  When we check the case label, the
+                        // fields. When we check the case label, the
                         // compiler will try to inline the FieldExpression.
                         // Since the expression has ERROR status, it doesn't
-                        // inline.  This means that instead of the case
+                        // inline. This means that instead of the case
                         // label being an IntegerExpression, it will still
                         // be a FieldExpression, and we will end up in this
-                        // else block.  So, before we just assume that
+                        // else block. So, before we just assume that
                         // the expression isn't constant, do a check to
                         // see if it was constant but unable to inline.
                         // This eliminates some spurious error messages.
                         // (Bug id 4067498).
-                        if (!lbl.isConstant() ||
-                            lbl.getType() != Type.tInt) {
+                        if (!lbl.isConstant() || lbl.getType() != Type.tInt) {
                             env.error(s.where, "const.expr.required");
                         }
                     }
@@ -131,7 +129,7 @@ class SwitchStatement extends Statement {
     public Statement inline(Environment env, Context ctx) {
         ctx = new Context(ctx, this);
         expr = expr.inlineValue(env, ctx);
-        for (int i = 0 ; i < args.length ; i++) {
+        for (int i = 0; i < args.length; i++) {
             if (args[i] != null) {
                 args[i] = args[i].inline(env, ctx);
             }
@@ -143,10 +141,10 @@ class SwitchStatement extends Statement {
      * Create a copy of the statement for method inlining
      */
     public Statement copyInline(Context ctx, boolean valNeeded) {
-        SwitchStatement s = (SwitchStatement)clone();
+        SwitchStatement s = (SwitchStatement) clone();
         s.expr = expr.copyInline(ctx);
         s.args = new Statement[args.length];
-        for (int i = 0 ; i < args.length ; i++) {
+        for (int i = 0; i < args.length; i++) {
             if (args[i] != null) {
                 s.args[i] = args[i].copyInline(ctx, valNeeded);
             }
@@ -159,7 +157,7 @@ class SwitchStatement extends Statement {
      */
     public int costInline(int thresh, Environment env, Context ctx) {
         int cost = expr.costInline(thresh, env, ctx);
-        for (int i = 0 ; (i < args.length) && (cost < thresh) ; i++) {
+        for (int i = 0; (i < args.length) && (cost < thresh); i++) {
             if (args[i] != null) {
                 cost += args[i].costInline(thresh, env, ctx);
             }
@@ -178,12 +176,12 @@ class SwitchStatement extends Statement {
         SwitchData sw = new SwitchData();
         boolean hasDefault = false;
 
-        for (int i = 0 ; i < args.length ; i++) {
+        for (int i = 0; i < args.length; i++) {
             Statement s = args[i];
             if ((s != null) && (s.op == CASE)) {
-                Expression e = ((CaseStatement)s).expr;
+                Expression e = ((CaseStatement) s).expr;
                 if (e != null) {
-                    sw.add(((IntegerExpression)e).value, new Label());
+                    sw.add(((IntegerExpression) e).value, new Label());
                 }
 // JCOV
                 else {
@@ -199,22 +197,22 @@ class SwitchStatement extends Statement {
 // end JCOV
         asm.add(where, opc_tableswitch, sw);
 
-        for (int i = 0 ; i < args.length ; i++) {
+        for (int i = 0; i < args.length; i++) {
             Statement s = args[i];
             if (s != null) {
                 if (s.op == CASE) {
-                    Expression e = ((CaseStatement)s).expr;
+                    Expression e = ((CaseStatement) s).expr;
                     if (e != null) {
-                        asm.add(sw.get(((IntegerExpression)e).value));
+                        asm.add(sw.get(((IntegerExpression) e).value));
 // JCOV
-                        sw.addTableCase(((IntegerExpression)e).value, s.where);
+                        sw.addTableCase(((IntegerExpression) e).value, s.where);
 // end JCOV
                     } else {
                         asm.add(sw.getDefaultLabel());
 // JCOV
                         sw.addTableDefault(s.where);
 // end JCOV
-/* JCOV                 hasDefault = true;   end JCOV */
+                        /* JCOV hasDefault = true; end JCOV */
                     }
                 } else {
                     s.code(env, newctx, asm);
@@ -236,7 +234,7 @@ class SwitchStatement extends Statement {
         out.print("switch (");
         expr.print(out);
         out.print(") {\n");
-        for (int i = 0 ; i < args.length ; i++) {
+        for (int i = 0; i < args.length; i++) {
             if (args[i] != null) {
                 printIndent(out, indent + 1);
                 args[i].print(out, indent + 1);

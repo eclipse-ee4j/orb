@@ -19,11 +19,11 @@ import java.io.IOException;
 
 /**
  *
- * Thrown when an operation is performed on a TemporarySelector which
- * is not allowed as a result of the curent state of a TemporarySelector.
+ * Thrown when an operation is performed on a TemporarySelector which is not allowed as a result of the curent state of
+ * a TemporarySelector.
  */
 public class TemporarySelectorClosedException extends IOException {
-    
+
     /** Creates a new instance of TemporarySelectorClosedException */
     public TemporarySelectorClosedException(String theMessage) {
         super(theMessage);

@@ -22,7 +22,7 @@ public class Profession implements Externalizable {
     private static final long serialVersionUID = 0x7123456789ABCDEFL;
     public static final String REPID = "RMI:" + Profession.class.getName() + ":0000000000000001:" + Long.toHexString(serialVersionUID).toUpperCase();
 
-    private static final String STRINGS[] = {"Rich Man", "Poor Man", "Beggar Man", "Thief", "Doctor", "Lawyer", "Indian Chief"};
+    private static final String STRINGS[] = { "Rich Man", "Poor Man", "Beggar Man", "Thief", "Doctor", "Lawyer", "Indian Chief" };
 
     static final Profession DOCTOR = new Profession("Doctor");
     private static final int NOT_FOUND = -1;
@@ -44,12 +44,14 @@ public class Profession implements Externalizable {
     public void writeExternal(ObjectOutput out) throws IOException {
         int i = getProfessionIndex();
         out.writeInt(i);
-        if (i == NOT_FOUND) out.writeObject(profession);
+        if (i == NOT_FOUND)
+            out.writeObject(profession);
     }
 
     private int getProfessionIndex() {
         for (int i = 0; i < STRINGS.length; i++)
-            if (STRINGS[i].equalsIgnoreCase(profession)) return i;
+            if (STRINGS[i].equalsIgnoreCase(profession))
+                return i;
 
         return NOT_FOUND;
     }

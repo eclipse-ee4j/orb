@@ -15,12 +15,10 @@ import org.glassfish.rmic.tools.asm.Assembler;
 import java.io.PrintStream;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class FloatExpression extends ConstantExpression {
+public class FloatExpression extends ConstantExpression {
     float value;
 
     /**
@@ -64,6 +62,6 @@ class FloatExpression extends ConstantExpression {
      * Print
      */
     public void print(PrintStream out) {
-        out.print(value +"F");
+        out.print(value + "F");
     }
 }

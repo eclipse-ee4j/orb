@@ -23,8 +23,7 @@ import com.sun.corba.ee.spi.orb.ObjectKeyCacheEntry;
  * @version 1.0
  */
 
-public final class LocateRequestMessage_1_1 extends Message_1_1
-        implements LocateRequestMessage {
+public final class LocateRequestMessage_1_1 extends Message_1_1 implements LocateRequestMessage {
 
     // Instance variables
 
@@ -40,8 +39,7 @@ public final class LocateRequestMessage_1_1 extends Message_1_1
     }
 
     LocateRequestMessage_1_1(ORB orb, int _request_id, byte[] _object_key) {
-        super(Message.GIOPBigMagic, GIOPVersion.V1_1, FLAG_NO_FRAG_BIG_ENDIAN,
-            Message.GIOPLocateRequest, 0);
+        super(Message.GIOPBigMagic, GIOPVersion.V1_1, FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPLocateRequest, 0);
         this.orb = orb;
         request_id = _request_id;
         object_key = _object_key;
@@ -80,9 +78,7 @@ public final class LocateRequestMessage_1_1 extends Message_1_1
         ostream.write_octet_array(this.object_key, 0, this.object_key.length);
     }
 
-    public void callback(MessageHandler handler)
-        throws java.io.IOException
-    {
+    public void callback(MessageHandler handler) throws java.io.IOException {
         handler.handleInput(this);
     }
 } // class LocateRequestMessage_1_1

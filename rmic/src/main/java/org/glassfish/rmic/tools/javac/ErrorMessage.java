@@ -13,13 +13,11 @@ package org.glassfish.rmic.tools.javac;
 /**
  * A sorted list of error messages
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
 @Deprecated
-final
-class ErrorMessage {
+final class ErrorMessage {
     long where;
     String message;
     ErrorMessage next;

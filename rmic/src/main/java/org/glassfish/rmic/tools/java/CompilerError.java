@@ -13,13 +13,11 @@ package org.glassfish.rmic.tools.java;
 /**
  * This exception is thrown when an internal compiler error occurs
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
 @SuppressWarnings("serial") // JDK implementation class
-public
-class CompilerError extends Error {
+public class CompilerError extends Error {
     Throwable e;
 
     /**

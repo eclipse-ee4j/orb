@@ -13,12 +13,10 @@ package org.glassfish.rmic;
 import org.glassfish.rmic.tools.java.Identifier;
 
 /**
- * Names provides static utility methods used by other rmic classes
- * for dealing with identifiers.
+ * Names provides static utility methods used by other rmic classes for dealing with identifiers.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
 public class Names {
 
@@ -37,33 +35,26 @@ public class Names {
     }
 
     /**
-     * If necessary, convert a class name to its mangled form, i.e. the
-     * non-inner class name used in the binary representation of
-     * inner classes.  This is necessary to be able to name inner
-     * classes in the generated source code in places where the language
-     * does not permit it, such as when synthetically defining an inner
-     * class outside of its outer class, and for generating file names
-     * corresponding to inner classes.
+     * If necessary, convert a class name to its mangled form, i.e. the non-inner class name used in the binary
+     * representation of inner classes. This is necessary to be able to name inner classes in the generated source code in
+     * places where the language does not permit it, such as when synthetically defining an inner class outside of its outer
+     * class, and for generating file names corresponding to inner classes.
      *
-     * Currently this mangling involves modifying the internal names of
-     * inner classes by converting occurrences of ". " into "$".
+     * Currently this mangling involves modifying the internal names of inner classes by converting occurrences of ". " into
+     * "$".
      *
-     * This code is taken from the "mangleInnerType" method of
-     * the "org.glassfish.rmic.tools.java.Type" class; this method cannot be accessed
-     * itself because it is package protected.
+     * This code is taken from the "mangleInnerType" method of the "org.glassfish.rmic.tools.java.Type" class; this method
+     * cannot be accessed itself because it is package protected.
      */
     static final public Identifier mangleClass(Identifier className) {
         if (!className.isInner())
             return className;
 
         /*
-         * Get '.' qualified inner class name (with outer class
-         * qualification and no package qualification) and replace
-         * each '.' with '$'.
+         * Get '.' qualified inner class name (with outer class qualification and no package qualification) and replace each '.'
+         * with '$'.
          */
-        Identifier mangled = Identifier.lookup(
-                                               className.getFlatName().toString()
-                                               .replace('.', org.glassfish.rmic.tools.java.Constants.SIGC_INNERCLASS));
+        Identifier mangled = Identifier.lookup(className.getFlatName().toString().replace('.', org.glassfish.rmic.tools.java.Constants.SIGC_INNERCLASS));
         if (mangled.isInner())
             throw new Error("failed to mangle inner class name");
 

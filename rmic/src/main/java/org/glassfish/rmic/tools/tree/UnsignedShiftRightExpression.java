@@ -9,16 +9,15 @@
  */
 
 package org.glassfish.rmic.tools.tree;
+
 import org.glassfish.rmic.tools.java.*;
 import org.glassfish.rmic.tools.asm.Assembler;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class UnsignedShiftRightExpression extends BinaryShiftExpression {
+public class UnsignedShiftRightExpression extends BinaryShiftExpression {
     /**
      * constructor
      */
@@ -32,6 +31,7 @@ class UnsignedShiftRightExpression extends BinaryShiftExpression {
     Expression eval(int a, int b) {
         return new IntExpression(where, a >>> b);
     }
+
     Expression eval(long a, long b) {
         return new LongExpression(where, a >>> b);
     }

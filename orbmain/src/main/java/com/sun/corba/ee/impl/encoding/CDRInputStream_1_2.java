@@ -15,14 +15,13 @@ import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.spi.trace.CdrRead;
 
 @CdrRead
-public class CDRInputStream_1_2 extends CDRInputStream_1_1
-{
+public class CDRInputStream_1_2 extends CDRInputStream_1_1 {
     // Indicates whether the header is padded. In GIOP 1.2 and above,
     // the body must be aligned on an 8-octet boundary, and so the header is
     // padded appropriately. However, if there is no body to a request or reply
     // message, there is no header padding, in the unfragmented case.
     protected boolean headerPadding;
-    
+
     // used to remember headerPadding flag when mark() and restore() are used.
     protected boolean restoreHeaderPadding;
 
@@ -34,7 +33,7 @@ public class CDRInputStream_1_2 extends CDRInputStream_1_1
 
     // the mark and reset methods have been overridden to remember the
     // headerPadding flag.
-    
+
     @Override
     public void mark(int readlimit) {
         super.mark(readlimit);
@@ -54,10 +53,10 @@ public class CDRInputStream_1_2 extends CDRInputStream_1_1
     @Override
     public CDRInputStreamBase dup() {
         CDRInputStreamBase result = super.dup();
-        ((CDRInputStream_1_2)result).headerPadding = this.headerPadding;
+        ((CDRInputStream_1_2) result).headerPadding = this.headerPadding;
         return result;
     }
-    
+
     @CdrRead
     @Override
     protected void alignAndCheck(int align, int n) {
@@ -80,14 +79,14 @@ public class CDRInputStream_1_2 extends CDRInputStream_1_1
 
         // In GIOP 1.2, a fragment may end with some alignment
         // padding (which leads to all fragments ending perfectly
-        // on evenly divisible 8 byte boundaries).  A new fragment
+        // on evenly divisible 8 byte boundaries). A new fragment
         // never requires alignment with the header since it ends
         // on an 8 byte boundary.
         // NOTE: Change underlying ByteBuffer's position only if
-        //       alignIncr is less than or equal to underlying
-        //       ByteBuffer's limit.
+        // alignIncr is less than or equal to underlying
+        // ByteBuffer's limit.
         int savedPosition = byteBuffer.position();
-        int alignIncr = computeAlignment(savedPosition,align);
+        int alignIncr = computeAlignment(savedPosition, align);
         int bytesNeeded = alignIncr + n;
         if (savedPosition + alignIncr <= byteBuffer.limit()) {
             byteBuffer.position(savedPosition + alignIncr);
@@ -102,7 +101,7 @@ public class CDRInputStream_1_2 extends CDRInputStream_1_1
     public GIOPVersion getGIOPVersion() {
         return GIOPVersion.V1_2;
     }
-        
+
     @Override
     public char read_wchar() {
         // In GIOP 1.2, a wchar is encoded as an unsigned octet length
@@ -112,18 +111,18 @@ public class CDRInputStream_1_2 extends CDRInputStream_1_1
         char[] result = getConvertedChars(numBytes, getWCharConverter());
 
         // Did the provided bytes convert to more than one
-        // character?  This may come up as more unicode values are
+        // character? This may come up as more unicode values are
         // assigned, and a single 16 bit Java char isn't enough.
         // Better to use strings for i18n purposes.
         if (getWCharConverter().getNumChars() > 1)
-            throw wrapper.btcResultMoreThanOneChar() ;
+            throw wrapper.btcResultMoreThanOneChar();
 
         return result[0];
     }
 
     @Override
     public String read_wstring() {
-        // In GIOP 1.2, wstrings are not terminated by a null.  The
+        // In GIOP 1.2, wstrings are not terminated by a null. The
         // length is the number of octets in the converted format.
         // A zero length string is represented with the 4 byte length
         // value of 0.
@@ -135,8 +134,6 @@ public class CDRInputStream_1_2 extends CDRInputStream_1_1
 
         checkForNegativeLength(len);
 
-        return new String(getConvertedChars(len, getWCharConverter()),
-                          0,
-                          getWCharConverter().getNumChars());
+        return new String(getConvertedChars(len, getWCharConverter()), 0, getWCharConverter().getNumChars());
     }
 }

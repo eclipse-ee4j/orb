@@ -17,7 +17,7 @@ package com.sun.corba.ee.spi.protocol;
  */
 public interface RequestId {
     /**
-     * return its value 
+     * return its value
      */
     int getValue();
 

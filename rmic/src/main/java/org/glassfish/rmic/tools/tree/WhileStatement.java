@@ -17,12 +17,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class WhileStatement extends Statement {
+public class WhileStatement extends Statement {
     Expression cond;
     Statement body;
 
@@ -43,10 +41,9 @@ class WhileStatement extends Statement {
         CheckContext newctx = new CheckContext(ctx, this);
         // remember what was unassigned on entry
         Vset vsEntry = vset.copy();
-        // check the condition.  Determine which variables have values if
+        // check the condition. Determine which variables have values if
         // it returns true or false.
-        ConditionVars cvars =
-              cond.checkCondition(env, newctx, reach(env, vset), exp);
+        ConditionVars cvars = cond.checkCondition(env, newctx, reach(env, vset), exp);
         cond = convert(env, newctx, Type.tBoolean, cond);
         // check the body, given that the condition returned true.
         vset = body.check(env, newctx, cvars.vsTrue, exp);
@@ -74,15 +71,14 @@ class WhileStatement extends Statement {
      * The cost of inlining this statement
      */
     public int costInline(int thresh, Environment env, Context ctx) {
-        return 1 + cond.costInline(thresh, env, ctx)
-                 + ((body != null) ? body.costInline(thresh, env, ctx) : 0);
+        return 1 + cond.costInline(thresh, env, ctx) + ((body != null) ? body.costInline(thresh, env, ctx) : 0);
     }
 
     /**
      * Create a copy of the statement for method inlining
      */
     public Statement copyInline(Context ctx, boolean valNeeded) {
-        WhileStatement s = (WhileStatement)clone();
+        WhileStatement s = (WhileStatement) clone();
         s.cond = cond.copyInline(ctx);
         if (body != null) {
             s.body = body.copyInline(ctx, valNeeded);

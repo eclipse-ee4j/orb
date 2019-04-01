@@ -125,7 +125,6 @@ public class SelectorImplTest extends TransportTestBase {
         assertFalse(eventHandler.timeout);
     }
 
-
     protected void setPrivateFieldValue(Object obj, String fieldName, Object value) {
         try {
             Class theClass = obj.getClass();
@@ -272,7 +271,6 @@ public class SelectorImplTest extends TransportTestBase {
             keys.add(selectionKey);
             return selectionKey;
         }
-
 
         public void clearReadyOps() {
             for (SelectionKeyFake key : keys)

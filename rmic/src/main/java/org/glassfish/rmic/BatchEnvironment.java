@@ -27,18 +27,13 @@ import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 
 /**
- * BatchEnvironment for rmic extends javac's version in four ways:
- * 1. It overrides errorString() to handle looking for rmic-specific
- * error messages in rmic's resource bundle
- * 2. It provides a mechanism for recording intermediate generated
- * files so that they can be deleted later.
- * 3. It holds a reference to the Main instance so that generators
- * can refer to it.
- * 4. It provides access to the ClassPath passed to the constructor.
+ * BatchEnvironment for rmic extends javac's version in four ways: 1. It overrides errorString() to handle looking for
+ * rmic-specific error messages in rmic's resource bundle 2. It provides a mechanism for recording intermediate
+ * generated files so that they can be deleted later. 3. It holds a reference to the Main instance so that generators
+ * can refer to it. 4. It provides access to the ClassPath passed to the constructor.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
 
 @SuppressWarnings("deprecation")
@@ -48,20 +43,15 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
     private File destinationDir;
 
     /**
-     * Create a ClassPath object for rmic from the relevant command line
-     * options for class path and boot class path.
+     * Create a ClassPath object for rmic from the relevant command line options for class path and boot class path.
      */
     public static ClassPath createClassPath(String classPathString, String sysClassPathString) {
         /*
-         * Previously, this method delegated to the
-         * org.glassfish.rmic.tools.javac.BatchEnvironment.classPaths method in order
-         * to supply default values for paths not specified on the
-         * command line, expand extensions directories into specific
-         * JAR files, and construct the ClassPath object-- but as part
-         * of the fix for 6473331, which adds support for Class-Path
-         * manifest entries in JAR files, those steps are now handled
-         * here directly, with the help of a Path utility class copied
-         * from the new javac implementation (see below).
+         * Previously, this method delegated to the org.glassfish.rmic.tools.javac.BatchEnvironment.classPaths method in order
+         * to supply default values for paths not specified on the command line, expand extensions directories into specific JAR
+         * files, and construct the ClassPath object-- but as part of the fix for 6473331, which adds support for Class-Path
+         * manifest entries in JAR files, those steps are now handled here directly, with the help of a Path utility class
+         * copied from the new javac implementation (see below).
          */
         Path path = new Path();
 
@@ -73,14 +63,12 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
         }
 
         /*
-         * Class-Path manifest entries are supported for JAR files
-         * everywhere except in the boot class path.
+         * Class-Path manifest entries are supported for JAR files everywhere except in the boot class path.
          */
         path.expandJarClassPaths(true);
 
         /*
-         * In the application class path, an empty element means
-         * the current working directory.
+         * In the application class path, an empty element means the current working directory.
          */
         path.emptyPathDefault(".");
 
@@ -99,8 +87,7 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
     }
 
     /**
-     * Create a BatchEnvironment for rmic with the given class path,
-     * stream for messages and destination directory.
+     * Create a BatchEnvironment for rmic with the given class path, stream for messages and destination directory.
      */
     public BatchEnvironment(OutputStream out, ClassPath path, File destinationDir) {
         super(out, path);
@@ -109,6 +96,7 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
 
     /**
      * Returns the directory to which generated classes will be written.
+     *
      * @return the destination directory specified by the "-d" flag
      */
     public File getDestinationDir() {
@@ -126,20 +114,18 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
     private Vector<File> generatedFiles = new Vector<>();
 
     /**
-     * Remember a generated source file generated so that it
-     * can be removed later, if appropriate.
+     * Remember a generated source file generated so that it can be removed later, if appropriate.
      */
     public void addGeneratedFile(File file) {
         generatedFiles.addElement(file);
     }
 
     /**
-     * Delete all the generated source files made during the execution
-     * of this environment (those that have been registered with the
-     * "addGeneratedFile" method).
+     * Delete all the generated source files made during the execution of this environment (those that have been registered
+     * with the "addGeneratedFile" method).
      */
     void deleteGeneratedFiles() {
-        synchronized(generatedFiles) {
+        synchronized (generatedFiles) {
             Enumeration<File> enumeration = generatedFiles.elements();
             while (enumeration.hasMoreElements()) {
                 File file = enumeration.nextElement();
@@ -158,19 +144,14 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
     }
 
     /**
-     * Return the formatted, localized string for a named error message
-     * and supplied arguments.  For rmic error messages, with names that
-     * being with "rmic.", look up the error message in rmic's resource
-     * bundle; otherwise, defer to java's superclass method.
+     * Return the formatted, localized string for a named error message and supplied arguments. For rmic error messages,
+     * with names that being with "rmic.", look up the error message in rmic's resource bundle; otherwise, defer to java's
+     * superclass method.
      */
-    public String errorString(String err,
-                              Object arg0, Object arg1, Object arg2)
-    {
+    public String errorString(String err, Object arg0, Object arg1, Object arg2) {
         if (err.startsWith("rmic.") || err.startsWith("warn.rmic.")) {
-            String result =  Main.getText(err,
-                                          (arg0 != null ? arg0.toString() : null),
-                                          (arg1 != null ? arg1.toString() : null),
-                                          (arg2 != null ? arg2.toString() : null));
+            String result = Main.getText(err, (arg0 != null ? arg0.toString() : null), (arg1 != null ? arg1.toString() : null),
+                    (arg2 != null ? arg2.toString() : null));
 
             if (err.startsWith("warn.")) {
                 result = "warning: " + result;
@@ -180,15 +161,15 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
             return super.errorString(err, arg0, arg1, arg2);
         }
     }
+
     public void reset() {
     }
 
     /**
-     * Utility for building paths of directories and JAR files.  This
-     * class was copied from com.org.glassfish.rmic.tools.javac.util.Paths as part of
-     * the fix for 6473331, which adds support for Class-Path manifest
-     * entries in JAR files.  Diagnostic code is simply commented out
-     * because rmic silently ignored these conditions historically.
+     * Utility for building paths of directories and JAR files. This class was copied from
+     * com.org.glassfish.rmic.tools.javac.util.Paths as part of the fix for 6473331, which adds support for Class-Path
+     * manifest entries in JAR files. Diagnostic code is simply commented out because rmic silently ignored these conditions
+     * historically.
      */
     private static class Path extends LinkedHashSet<String> {
         private static final long serialVersionUID = 0;
@@ -203,12 +184,17 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
                 this.path = path;
                 this.emptyPathDefault = emptyPathDefault;
             }
-            public PathIterator(String path) { this(path, null); }
+
+            public PathIterator(String path) {
+                this(path, null);
+            }
+
             public Iterator<String> iterator() {
                 return new Iterator<String>() {
                     public boolean hasNext() {
                         return pos <= path.length();
                     }
+
                     public String next() {
                         int beg = pos;
                         int end = path.indexOf(File.pathSeparator, beg);
@@ -221,6 +207,7 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
                         else
                             return path.substring(beg, end);
                     }
+
                     public void remove() {
                         throw new UnsupportedOperationException();
                     }
@@ -231,42 +218,55 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
             public int size() {
                 throw new UnsupportedOperationException();
             }
+
             public boolean isEmpty() {
                 throw new UnsupportedOperationException();
             }
+
             public boolean contains(Object o) {
                 throw new UnsupportedOperationException();
             }
+
             public Object[] toArray() {
                 throw new UnsupportedOperationException();
             }
+
             public <T> T[] toArray(T[] a) {
                 throw new UnsupportedOperationException();
             }
+
             public boolean add(String o) {
                 throw new UnsupportedOperationException();
             }
+
             public boolean remove(Object o) {
                 throw new UnsupportedOperationException();
             }
+
             public boolean containsAll(Collection<?> c) {
                 throw new UnsupportedOperationException();
             }
+
             public boolean addAll(Collection<? extends String> c) {
                 throw new UnsupportedOperationException();
             }
+
             public boolean removeAll(Collection<?> c) {
                 throw new UnsupportedOperationException();
             }
+
             public boolean retainAll(Collection<?> c) {
                 throw new UnsupportedOperationException();
             }
+
             public void clear() {
                 throw new UnsupportedOperationException();
             }
+
             public boolean equals(Object o) {
                 throw new UnsupportedOperationException();
             }
+
             public int hashCode() {
                 throw new UnsupportedOperationException();
             }
@@ -292,7 +292,9 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
             return this;
         }
 
-        public Path() { super(); }
+        public Path() {
+            super();
+        }
 
         public Path addDirectories(String dirs, boolean warn) {
             if (dirs != null)
@@ -306,7 +308,7 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
         }
 
         private void addDirectory(String dir, boolean warn) {
-            if (! new File(dir).isDirectory()) {
+            if (!new File(dir).isDirectory()) {
 //              if (warn)
 //                  log.warning(Position.NOPOS,
 //                              "dir.path.element.not.found", dir);
@@ -315,8 +317,7 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
 
             for (String direntry : new File(dir).list()) {
                 String canonicalized = direntry.toLowerCase();
-                if (canonicalized.endsWith(".jar") ||
-                    canonicalized.endsWith(".zip"))
+                if (canonicalized.endsWith(".jar") || canonicalized.endsWith(".zip"))
                     addFile(dir + File.separator + direntry, warn);
             }
         }
@@ -339,7 +340,7 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
             }
 
             File ele = new File(file);
-            if (! ele.exists()) {
+            if (!ele.exists()) {
                 /* No such file or directory exist */
                 if (warn)
 //                      log.warning(Position.NOPOS,
@@ -348,10 +349,9 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
             }
 
             if (ele.isFile()) {
-                /* File is an ordinay file  */
+                /* File is an ordinay file */
                 String arcname = file.toLowerCase();
-                if (! (arcname.endsWith(".zip") ||
-                       arcname.endsWith(".jar"))) {
+                if (!(arcname.endsWith(".zip") || arcname.endsWith(".jar"))) {
                     /* File name don't have right extension */
 //                      if (warn)
 //                          log.warning(Position.NOPOS,
@@ -360,8 +360,9 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
                 }
             }
 
-            /* Now what we have left is either a directory or a file name
-               confirming to archive naming convention */
+            /*
+             * Now what we have left is either a directory or a file name confirming to archive naming convention
+             */
 
             super.add(file);
             if (expandJarClassPaths && isZip(file))
@@ -369,7 +370,7 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
         }
 
         // Adds referenced classpath elements from a jar's Class-Path
-        // Manifest entry.  In some future release, we may want to
+        // Manifest entry. In some future release, we may want to
         // update this code to recognize URLs rather than simple
         // filenames, but if we do, we should redo all path-related code.
         private void addJarClassPath(String jarFileName, boolean warn) {
@@ -379,16 +380,18 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
 
                 try {
                     Manifest man = jar.getManifest();
-                    if (man == null) return;
+                    if (man == null)
+                        return;
 
                     Attributes attr = man.getMainAttributes();
-                    if (attr == null) return;
+                    if (attr == null)
+                        return;
 
                     String path = attr.getValue(Attributes.Name.CLASS_PATH);
-                    if (path == null) return;
+                    if (path == null)
+                        return;
 
-                    for (StringTokenizer st = new StringTokenizer(path);
-                        st.hasMoreTokens();) {
+                    for (StringTokenizer st = new StringTokenizer(path); st.hasMoreTokens();) {
                         String elt = st.nextToken();
                         if (jarParent != null)
                             elt = new File(jarParent, elt).getCanonicalPath();

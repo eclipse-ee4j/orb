@@ -14,12 +14,10 @@ import org.glassfish.rmic.tools.java.*;
 import java.io.PrintStream;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class IntExpression extends IntegerExpression {
+public class IntExpression extends IntegerExpression {
     /**
      * Constructor
      */
@@ -28,19 +26,17 @@ class IntExpression extends IntegerExpression {
     }
 
     /**
-     * Equality, this is needed so that switch statements
-     * can put IntExpressions in a hashtable
+     * Equality, this is needed so that switch statements can put IntExpressions in a hashtable
      */
     public boolean equals(Object obj) {
         if ((obj != null) && (obj instanceof IntExpression)) {
-            return value == ((IntExpression)obj).value;
+            return value == ((IntExpression) obj).value;
         }
         return false;
     }
 
     /**
-     * Hashcode, this is needed so that switch statements
-     * can put IntExpressions in a hashtable
+     * Hashcode, this is needed so that switch statements can put IntExpressions in a hashtable
      */
     public int hashCode() {
         return value;

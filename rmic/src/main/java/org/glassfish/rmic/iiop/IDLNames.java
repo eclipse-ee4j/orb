@@ -15,35 +15,18 @@ import org.glassfish.rmic.tools.java.ClassNotFound;
 import org.glassfish.rmic.tools.java.Identifier;
 
 /**
- * IDLNames provides static utility methods to perform the IDL
- * name mappings specified in Chapter 5 of the Java Language
+ * IDLNames provides static utility methods to perform the IDL name mappings specified in Chapter 5 of the Java Language
  * to IDL specification.
  *
- * @author      Bryan Atsatt
+ * @author Bryan Atsatt
  */
 public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
     /**
      * Used to convert ascii to hex.
      */
-    public static final byte ASCII_HEX[] =      {
-        (byte)'0',
-        (byte)'1',
-        (byte)'2',
-        (byte)'3',
-        (byte)'4',
-        (byte)'5',
-        (byte)'6',
-        (byte)'7',
-        (byte)'8',
-        (byte)'9',
-        (byte)'A',
-        (byte)'B',
-        (byte)'C',
-        (byte)'D',
-        (byte)'E',
-        (byte)'F',
-    };
+    public static final byte ASCII_HEX[] = { (byte) '0', (byte) '1', (byte) '2', (byte) '3', (byte) '4', (byte) '5', (byte) '6', (byte) '7', (byte) '8',
+            (byte) '9', (byte) 'A', (byte) 'B', (byte) 'C', (byte) 'D', (byte) 'E', (byte) 'F', };
 
     // Legal IDL Identifier characters (1 = legal). Note
     // that '.' (2E) is marked as legal even though it is
@@ -54,43 +37,36 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
     private static final byte[] IDL_IDENTIFIER_CHARS = {
 
-        // 0 1 2 3  4 5 6 7  8 9 a b  c d e f
-        0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, // 00-0f
-        0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, // 10-1f
-        0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,1,0, // 20-2f
-        1,1,1,1, 1,1,1,1, 1,1,0,0, 0,0,0,0, // 30-3f
-        0,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, // 40-4f
-        1,1,1,1, 1,1,1,1, 1,1,1,0, 0,0,0,1, // 50-5f
-        0,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, // 60-6f
-        1,1,1,1, 1,1,1,1, 1,1,1,0, 0,0,0,0, // 70-7f
-        0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, // 80-8f
-        0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, // 90-9f
-        0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, // a0-af
-        0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0, // b0-bf
-        1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, // c0-cf
-        0,1,1,1, 1,1,1,0, 1,1,1,1, 1,0,0,1, // d0-df
-        1,1,1,1, 1,1,1,1, 1,1,1,1, 1,1,1,1, // e0-ef
-        0,1,1,1, 1,1,1,0, 1,1,1,1, 1,0,0,1, // f0-ff
+            // 0 1 2 3 4 5 6 7 8 9 a b c d e f
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // 00-0f
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // 10-1f
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, // 20-2f
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, // 30-3f
+            0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, // 40-4f
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, // 50-5f
+            0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, // 60-6f
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, // 70-7f
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // 80-8f
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // 90-9f
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // a0-af
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // b0-bf
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, // c0-cf
+            0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, // d0-df
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, // e0-ef
+            0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, // f0-ff
     };
 
-    //_____________________________________________________________________
+    // _____________________________________________________________________
     // Public Interfaces
-    //_____________________________________________________________________
+    // _____________________________________________________________________
 
     /**
-     * Convert a name. The nameContext argument MUST be pre-filled with
-     * all names from the appropriate context (e.g. all the method names
-     * in a given class). The names must not have had any IDL conversions
-     * applied.
+     * Convert a name. The nameContext argument MUST be pre-filled with all names from the appropriate context (e.g. all the
+     * method names in a given class). The names must not have had any IDL conversions applied.
      * <p>
-     * Section 28.3.2.2
-     * Section 28.3.2.3
-     * Section 28.3.2.4
-     * Section 28.3.2.7 (member and method names only)
+     * Section 28.3.2.2 Section 28.3.2.3 Section 28.3.2.4 Section 28.3.2.7 (member and method names only)
      */
-    public static String getMemberOrMethodName (NameContext nameContext,
-                                                String name,
-                                                BatchEnvironment env) {
+    public static String getMemberOrMethodName(NameContext nameContext, String name, BatchEnvironment env) {
 
         // Check namesCache...
 
@@ -100,8 +76,8 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
             // 28.3.2.7 Case sensitive member names.
 
-            // Note:    This must be done before any of
-            //          the other conversions!
+            // Note: This must be done before any of
+            // the other conversions!
 
             result = nameContext.get(name);
 
@@ -122,7 +98,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
             // Add to namesCache...
 
-            env.namesCache.put(name,result);
+            env.namesCache.put(name, result);
         }
 
         return result;
@@ -133,12 +109,12 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
      * <p>
      * Section 28.3.2.4
      */
-    public static String convertToISOLatin1 (String name) {
+    public static String convertToISOLatin1(String name) {
 
         // First, replace any escape sequences...
 
-        String result = replace(name,"x\\u","U");
-        result = replace(result,"x\\U","U");
+        String result = replace(name, "x\\u", "U");
+        result = replace(result, "x\\U", "U");
 
         // Now see if we have any remaining illegal characters (see
         // IDL_IDENTIFIER_CHARS array)...
@@ -158,16 +134,16 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
                     // No, so get set up...
 
-                    buffer = new StringBuffer(result.substring(0,i));
+                    buffer = new StringBuffer(result.substring(0, i));
                 }
 
                 // Convert the character into the IDL escape syntax...
 
                 buffer.append("U");
-                buffer.append((char)ASCII_HEX[(c & 0xF000) >>> 12]);
-                buffer.append((char)ASCII_HEX[(c & 0x0F00) >>> 8]);
-                buffer.append((char)ASCII_HEX[(c & 0x00F0) >>> 4]);
-                buffer.append((char)ASCII_HEX[(c & 0x000F)]);
+                buffer.append((char) ASCII_HEX[(c & 0xF000) >>> 12]);
+                buffer.append((char) ASCII_HEX[(c & 0x0F00) >>> 8]);
+                buffer.append((char) ASCII_HEX[(c & 0x00F0) >>> 4]);
+                buffer.append((char) ASCII_HEX[(c & 0x000F)]);
 
             } else {
                 if (buffer != null) {
@@ -188,7 +164,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
      * <p>
      * Section 28.3.2.5
      */
-    public static String convertIDLKeywords (String name) {
+    public static String convertIDLKeywords(String name) {
 
         for (int i = 0; i < IDL_KEYWORDS.length; i++) {
             if (name.equalsIgnoreCase(IDL_KEYWORDS[i])) {
@@ -204,7 +180,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
      * <p>
      * Section 28.3.2.3
      */
-    public static String convertLeadingUnderscores (String name) {
+    public static String convertLeadingUnderscores(String name) {
 
         if (name.startsWith("_")) {
             return "J" + name;
@@ -216,12 +192,9 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
     /**
      * Convert a type name.
      * <p>
-     * Section 28.3.2.5
-     * Section 28.3.2.7 (class or interface names only)
-     * Throws exception if fails 28.3.2.7.
+     * Section 28.3.2.5 Section 28.3.2.7 (class or interface names only) Throws exception if fails 28.3.2.7.
      */
-    public static String getClassOrInterfaceName (Identifier id,
-                                                  BatchEnvironment env) throws Exception {
+    public static String getClassOrInterfaceName(Identifier id, BatchEnvironment env) throws Exception {
 
         // Get the type and package name...
 
@@ -248,7 +221,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
             // 28.3.2.7 Case sensitive class or interface names...
 
-            NameContext context = NameContext.forName(packageName,false,env);
+            NameContext context = NameContext.forName(packageName, false, env);
             context.assertPut(result);
 
             // Run it through the name checks...
@@ -257,7 +230,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
             // Add it to the namesCache...
 
-            env.namesCache.put(typeName,result);
+            env.namesCache.put(typeName, result);
         }
 
         return result;
@@ -265,17 +238,17 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
     private static String toInnerClassName(String typeName) {
         if (typeName.contains(". "))
-            return replace(typeName,". ","__");
+            return replace(typeName, ". ", "__");
         else
-            return replace(typeName,"$","__");
+            return replace(typeName, "$", "__");
     }
 
     /**
      * Convert an Exception name.
      * <p>
-     * Section 28.3.7.2    (see ValueType)
+     * Section 28.3.7.2 (see ValueType)
      */
-    public static String getExceptionName (String idlName) {
+    public static String getExceptionName(String idlName) {
 
         String result = idlName;
 // d.11315 Incorrectly mangled exception names
@@ -284,7 +257,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
             // Remove "Exception" and append "Ex". Strip leading underscore
             // in case the idlName is exactly "_Exception"...
 
-            result = stripLeadingUnderscore(idlName.substring(0,idlName.lastIndexOf(EXCEPTION_SUFFIX)) + EX_SUFFIX);
+            result = stripLeadingUnderscore(idlName.substring(0, idlName.lastIndexOf(EXCEPTION_SUFFIX)) + EX_SUFFIX);
         } else {
             result = idlName + EX_SUFFIX;
         }
@@ -295,12 +268,9 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
     /**
      * Convert a qualified Identifier into an array of IDL names.
      * <p>
-     * Section 28.3.2.1    (see CompoundType)
-     * Throws exception if fails 28.3.2.7.
+     * Section 28.3.2.1 (see CompoundType) Throws exception if fails 28.3.2.7.
      */
-    public static String[] getModuleNames (Identifier theID,
-                                           boolean boxIt,
-                                           BatchEnvironment env) throws Exception {
+    public static String[] getModuleNames(Identifier theID, boolean boxIt, BatchEnvironment env) throws Exception {
 
         String[] result = null;
 
@@ -324,7 +294,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
             }
 
             result = new String[count];
-            int index = count-1;
+            int index = count - 1;
             current = id;
 
             // Now walk them and fill our array (backwards)...
@@ -349,14 +319,13 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
                     // Add it to the namesCache...
 
-                    env.namesCache.put(item,cachedItem);
+                    env.namesCache.put(item, cachedItem);
                 }
 
                 result[index--] = cachedItem;
                 current = current.getQualifier();
             }
         }
-
 
         // If it is supposed to be "boxed", prepend
         // IDL_BOXEDIDL_MODULE...
@@ -365,11 +334,11 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
             if (result == null) {
                 result = IDL_BOXEDIDL_MODULE;
             } else {
-            String[] boxed = new String[result.length+IDL_BOXEDIDL_MODULE.length];
-            System.arraycopy(IDL_BOXEDIDL_MODULE,0,boxed,0,IDL_BOXEDIDL_MODULE.length);
-            System.arraycopy(result,0,boxed,IDL_BOXEDIDL_MODULE.length,result.length);
-            result = boxed;
-        }
+                String[] boxed = new String[result.length + IDL_BOXEDIDL_MODULE.length];
+                System.arraycopy(IDL_BOXEDIDL_MODULE, 0, boxed, 0, IDL_BOXEDIDL_MODULE.length);
+                System.arraycopy(result, 0, boxed, IDL_BOXEDIDL_MODULE.length, result.length);
+                result = boxed;
+            }
         }
 
         return result;
@@ -378,9 +347,9 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
     /**
      * Get an array name with the specified dimensions.
      * <p>
-     * Section 28.3.6  (see ArrayType)
+     * Section 28.3.6 (see ArrayType)
      */
-    public static String getArrayName (Type theType, int arrayDimension) {
+    public static String getArrayName(Type theType, int arrayDimension) {
 
         StringBuffer idlName = new StringBuffer(64);
 
@@ -393,7 +362,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
         // Add the type name. We need to map any spaces in the
         // name to "_"...
 
-        idlName.append(replace(stripLeadingUnderscore(theType.getIDLName())," ","_"));
+        idlName.append(replace(stripLeadingUnderscore(theType.getIDLName()), " ", "_"));
 
         // And we're done...
 
@@ -403,7 +372,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
     /**
      * Get an array module names.
      */
-    public static String[] getArrayModuleNames (Type theType) {
+    public static String[] getArrayModuleNames(Type theType) {
 
         String[] moduleName;
         String[] typeModule = theType.getIDLModuleNames();
@@ -421,15 +390,14 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
             // Yes, so gotta concatenate...
 
             moduleName = new String[typeModuleLength + IDL_SEQUENCE_MODULE.length];
-            System.arraycopy(IDL_SEQUENCE_MODULE,0,moduleName,0,IDL_SEQUENCE_MODULE.length);
-            System.arraycopy(typeModule,0,moduleName,IDL_SEQUENCE_MODULE.length,typeModuleLength);
+            System.arraycopy(IDL_SEQUENCE_MODULE, 0, moduleName, 0, IDL_SEQUENCE_MODULE.length);
+            System.arraycopy(typeModule, 0, moduleName, IDL_SEQUENCE_MODULE.length, typeModuleLength);
         }
 
         return moduleName;
     }
 
-    private static int getInitialAttributeKind (CompoundType.Method method,
-                                                BatchEnvironment env) throws ClassNotFound {
+    private static int getInitialAttributeKind(CompoundType.Method method, BatchEnvironment env) throws ClassNotFound {
 
         int result = ATTRIBUTE_NONE;
 
@@ -446,8 +414,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
             if (exceptions.length > 0) {
                 for (int i = 0; i < exceptions.length; i++) {
-                    if (exceptions[i].isCheckedException() &&
-                        !exceptions[i].isRemoteExceptionOrSubclass()) {
+                    if (exceptions[i].isCheckedException() && !exceptions[i].isRemoteExceptionOrSubclass()) {
                         validExceptions = false;
                         break;
                     }
@@ -496,9 +463,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
         return result;
     }
 
-    private static void setAttributeKinds (CompoundType.Method[] methods,
-                                           int[] kinds,
-                                           String[] names) {
+    private static void setAttributeKinds(CompoundType.Method[] methods, int[] kinds, String[] names) {
 
         int count = methods.length;
 
@@ -506,9 +471,15 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
         for (int i = 0; i < count; i++) {
             switch (kinds[i]) {
-                case ATTRIBUTE_GET: names[i] = names[i].substring(3); break;
-                case ATTRIBUTE_IS: names[i] = names[i].substring(2); break;
-                case ATTRIBUTE_SET: names[i] = names[i].substring(3); break;
+            case ATTRIBUTE_GET:
+                names[i] = names[i].substring(3);
+                break;
+            case ATTRIBUTE_IS:
+                names[i] = names[i].substring(2);
+                break;
+            case ATTRIBUTE_SET:
+                names[i] = names[i].substring(3);
+                break;
             }
         }
 
@@ -520,9 +491,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
         for (int i = 0; i < count; i++) {
             if (kinds[i] == ATTRIBUTE_IS) {
                 for (int j = 0; j < count; j++) {
-                    if (j != i &&
-                        (kinds[j] == ATTRIBUTE_GET || kinds[j] == ATTRIBUTE_SET) &&
-                        names[i].equals(names[j])) {
+                    if (j != i && (kinds[j] == ATTRIBUTE_GET || kinds[j] == ATTRIBUTE_SET) && names[i].equals(names[j])) {
 
                         // We have matching getter or setter. Do the types match?
 
@@ -645,7 +614,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
                         // No, so convert the first character to lower case...
 
                         StringBuffer buffer = new StringBuffer(name);
-                        buffer.setCharAt(0,Character.toLowerCase(name.charAt(0)));
+                        buffer.setCharAt(0, Character.toLowerCase(name.charAt(0)));
                         names[i] = buffer.toString();
                     }
                 }
@@ -658,40 +627,36 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
     /**
      * Set all the method names in a given class.
      * <p>
-     * Section 28.3.2.7    (see CompoundType)
-     * Section 28.3.2.7
-     * Section 28.3.4.3 (RemoteType/AbstractType only).
+     * Section 28.3.2.7 (see CompoundType) Section 28.3.2.7 Section 28.3.4.3 (RemoteType/AbstractType only).
      */
-    public static void setMethodNames (CompoundType container,
-                                       CompoundType.Method[] allMethods,
-                                       BatchEnvironment env)
-        throws Exception {
+    public static void setMethodNames(CompoundType container, CompoundType.Method[] allMethods, BatchEnvironment env) throws Exception {
 
         // This method implements the following name mangling sequence:
         //
-        //   1. If methods belong to a Remote interface, identify
-        //      those which qualify as an attribute under 28.3.4.3.
-        //      Those that do are referred to as 'attributes' below;
-        //      those that do not are referred to as 'methods'.
+        // 1. If methods belong to a Remote interface, identify
+        // those which qualify as an attribute under 28.3.4.3.
+        // Those that do are referred to as 'attributes' below;
+        // those that do not are referred to as 'methods'.
         //
-        //   2. Apply the 28.3.4.3 manglings, except "__", to all
-        //      attribute names.
+        // 2. Apply the 28.3.4.3 manglings, except "__", to all
+        // attribute names.
         //
-        //   3. Apply all 28.3 manglings, except 28.3.2.7, to all names.
+        // 3. Apply all 28.3 manglings, except 28.3.2.7, to all names.
         //
-        //   4. Apply 28.3.2.7 manglings to all method names.
+        // 4. Apply 28.3.2.7 manglings to all method names.
         //
-        //   5. Compare each attribute name to each method name. For
-        //      any which compare equal, append "__" to the attribute
-        //      name.
+        // 5. Compare each attribute name to each method name. For
+        // any which compare equal, append "__" to the attribute
+        // name.
         //
-        //   6. Compare each name (attribute and method) to all others.
-        //      If any compare equal, throw an Exception with the
-        //      conflicting name as the message.
+        // 6. Compare each name (attribute and method) to all others.
+        // If any compare equal, throw an Exception with the
+        // conflicting name as the message.
 
         int count = allMethods.length;
 
-        if (count == 0) return;
+        if (count == 0)
+            return;
 
         // Make an array of all the method names...
 
@@ -703,9 +668,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
         // Are we dealing with a RemoteType, AbstractType, or ValueType?
 
         CompoundType enclosing = allMethods[0].getEnclosing();
-        if (enclosing.isType(TYPE_REMOTE) ||
-            enclosing.isType(TYPE_ABSTRACT) ||
-            enclosing.isType(TYPE_VALUE)) {
+        if (enclosing.isType(TYPE_REMOTE) || enclosing.isType(TYPE_ABSTRACT) || enclosing.isType(TYPE_VALUE)) {
 
             // Yes, so we must do the 28.3.4.3 attribute mapping. First, get
             // the initial attribute kind of each method...
@@ -713,13 +676,13 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
             int[] kinds = new int[count];
 
             for (int i = 0; i < count; i++) {
-                kinds[i] = getInitialAttributeKind(allMethods[i],env);
+                kinds[i] = getInitialAttributeKind(allMethods[i], env);
             }
 
             // Now set the attribute kind for each method and do the
             // 28.3.4.3 name mangling...
 
-            setAttributeKinds(allMethods,kinds,names);
+            setAttributeKinds(allMethods, kinds, names);
         }
 
         // Make and populate a new context from our names array...
@@ -735,7 +698,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
         boolean haveConstructor = false;
         for (int i = 0; i < count; i++) {
             if (!allMethods[i].isConstructor()) {
-                names[i] = getMemberOrMethodName(context,names[i],env);
+                names[i] = getMemberOrMethodName(context, names[i], env);
             } else {
                 names[i] = IDL_CONSTRUCTOR;
                 haveConstructor = true;
@@ -748,55 +711,51 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
         boolean overloaded[] = new boolean[count];
         for (int i = 0; i < count; i++) {
-            overloaded[i] = (!allMethods[i].isAttribute() &&
-                             !allMethods[i].isConstructor() &&
-                         doesMethodCollide(names[i],allMethods[i],allMethods,names,true));
+            overloaded[i] = (!allMethods[i].isAttribute() && !allMethods[i].isConstructor()
+                    && doesMethodCollide(names[i], allMethods[i], allMethods, names, true));
         }
-        convertOverloadedMethods(allMethods,names,overloaded);
+        convertOverloadedMethods(allMethods, names, overloaded);
 
         // Now do the same mangling for constructor name collisions...
 
         for (int i = 0; i < count; i++) {
-            overloaded[i] = (!allMethods[i].isAttribute() &&
-                             allMethods[i].isConstructor() &&
-                             doesConstructorCollide(names[i],allMethods[i],allMethods,names,true));
+            overloaded[i] = (!allMethods[i].isAttribute() && allMethods[i].isConstructor()
+                    && doesConstructorCollide(names[i], allMethods[i], allMethods, names, true));
         }
-        convertOverloadedMethods(allMethods,names,overloaded);
+        convertOverloadedMethods(allMethods, names, overloaded);
 
         // Now do the 28.3.4.3 mangling for attribute name collisions...
 
         for (int i = 0; i < count; i++) {
 
-                CompoundType.Method method = allMethods[i];
+            CompoundType.Method method = allMethods[i];
 
             // If this is an attribute name, does it collide with a method?
 
-            if (method.isAttribute() &&
-                doesMethodCollide(names[i],method,allMethods,names,true)) {
-
-                // Yes, so add double underscore...
-
-                    names[i] += "__";
-                }
-            }
-
-        // Do the same mangling for any constructors which collide with
-        // methods...
-
-        if (haveConstructor) {
-        for (int i = 0; i < count; i++) {
-            CompoundType.Method method = allMethods[i];
-
-                // Is this a constructor which collides with a method?
-
-                if (method.isConstructor() &&
-                    doesConstructorCollide(names[i],method,allMethods,names,false)) {
+            if (method.isAttribute() && doesMethodCollide(names[i], method, allMethods, names, true)) {
 
                 // Yes, so add double underscore...
 
                 names[i] += "__";
             }
         }
+
+        // Do the same mangling for any constructors which collide with
+        // methods...
+
+        if (haveConstructor) {
+            for (int i = 0; i < count; i++) {
+                CompoundType.Method method = allMethods[i];
+
+                // Is this a constructor which collides with a method?
+
+                if (method.isConstructor() && doesConstructorCollide(names[i], method, allMethods, names, false)) {
+
+                    // Yes, so add double underscore...
+
+                    names[i] += "__";
+                }
+            }
         }
 
         // Now see if we have a collision with the container name (28.3.2.9).
@@ -806,20 +765,20 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
             if (names[i].equalsIgnoreCase(containerName)) {
                 // Do not add underscore to attributes.
                 // Otherwise getFoo will turn into _get_foo_.
-                if (! allMethods[i].isAttribute()) {
+                if (!allMethods[i].isAttribute()) {
                     names[i] += "_";
                 }
             }
         }
 
         // Now see if we have any collisions (28.3.2.9). If we do,
-        // it's an error.  Note: a get/set pair does not collide.
+        // it's an error. Note: a get/set pair does not collide.
 
         for (int i = 0; i < count; i++) {
 
             // Does it collide with any other name?
 
-            if (doesMethodCollide(names[i],allMethods[i],allMethods,names,false)) {
+            if (doesMethodCollide(names[i], allMethods[i], allMethods, names, false)) {
 
                 // Yes, so bail...
 
@@ -837,8 +796,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
             String wireName = names[i];
 
             if (method.isAttribute()) {
-                wireName = ATTRIBUTE_WIRE_PREFIX[method.getAttributeKind()] +
-                    stripLeadingUnderscore(wireName);
+                wireName = ATTRIBUTE_WIRE_PREFIX[method.getAttributeKind()] + stripLeadingUnderscore(wireName);
                 String attributeName = names[i];
                 method.setAttributeName(attributeName);
             }
@@ -846,29 +804,21 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
         }
     }
 
-    private static String stripLeadingUnderscore (String name) {
-        if (name != null && name.length() > 1
-            && name.charAt(0) == '_')
-        {
+    private static String stripLeadingUnderscore(String name) {
+        if (name != null && name.length() > 1 && name.charAt(0) == '_') {
             return name.substring(1);
         }
         return name;
     }
 
-
-    private static String stripTrailingUnderscore (String name) {
-        if (name != null && name.length() > 1 &&
-            name.charAt(name.length() - 1) == '_')
-        {
+    private static String stripTrailingUnderscore(String name) {
+        if (name != null && name.length() > 1 && name.charAt(name.length() - 1) == '_') {
             return name.substring(0, name.length() - 1);
         }
         return name;
     }
 
-
-    private static void convertOverloadedMethods(CompoundType.Method[] allMethods,
-                                                 String[] names,
-                                                 boolean[] overloaded) {
+    private static void convertOverloadedMethods(CompoundType.Method[] allMethods, String[] names, boolean[] overloaded) {
 
         for (int i = 0; i < names.length; i++) {
 
@@ -883,30 +833,30 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
                 for (int k = 0; k < args.length; k++) {
 
-                                // Add the separator...
+                    // Add the separator...
 
                     names[i] += "__";
 
-                                // Get the fully qualified IDL name, without the "::"
-                                // prefix...
+                    // Get the fully qualified IDL name, without the "::"
+                    // prefix...
 
                     String argIDLName = args[k].getQualifiedIDLName(false);
 
-                                // Replace any occurances of "::_" with "_" to
-                                // undo any IDL keyword mangling and do next step
-                                // at the same time...
+                    // Replace any occurances of "::_" with "_" to
+                    // undo any IDL keyword mangling and do next step
+                    // at the same time...
 
-                    argIDLName = replace(argIDLName,"::_","_");
+                    argIDLName = replace(argIDLName, "::_", "_");
 
-                                // Replace any occurances of "::" with "_"...
+                    // Replace any occurances of "::" with "_"...
 
-                    argIDLName = replace(argIDLName,"::","_");
+                    argIDLName = replace(argIDLName, "::", "_");
 
-                                // Replace any occurances of " " with "_"...
+                    // Replace any occurances of " " with "_"...
 
-                    argIDLName = replace(argIDLName," ","_");
+                    argIDLName = replace(argIDLName, " ", "_");
 
-                                // Add the argument type name...
+                    // Add the argument type name...
 
                     names[i] += argIDLName;
                 }
@@ -922,11 +872,8 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
         }
     }
 
-    private static boolean doesMethodCollide (String name,
-                                              CompoundType.Method method,
-                                              CompoundType.Method[] allMethods,
-                                              String[] allNames,
-                                              boolean ignoreAttributes) {
+    private static boolean doesMethodCollide(String name, CompoundType.Method method, CompoundType.Method[] allMethods, String[] allNames,
+            boolean ignoreAttributes) {
 
         // Scan all methods looking for a match...
 
@@ -934,22 +881,20 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
             CompoundType.Method target = allMethods[i];
 
-            if (method != target &&                                 // Not same instance
-                !target.isConstructor() &&                      // Not a constructor
-                (!ignoreAttributes || !target.isAttribute()) && // Correct kind
-                name.equals(allNames[i])) {                         // Same names
+            if (method != target && // Not same instance
+                    !target.isConstructor() && // Not a constructor
+                    (!ignoreAttributes || !target.isAttribute()) && // Correct kind
+                    name.equals(allNames[i])) { // Same names
 
                 // Are we looking at a get/set pair?
 
                 int kind1 = method.getAttributeKind();
                 int kind2 = target.getAttributeKind();
 
-                if ((kind1 != ATTRIBUTE_NONE && kind2 != ATTRIBUTE_NONE) &&
-                    ((kind1 == ATTRIBUTE_SET && kind2 != ATTRIBUTE_SET) ||
-                     (kind1 != ATTRIBUTE_SET && kind2 == ATTRIBUTE_SET) ||
-                     // one is a is-getter/setter pair and the other is just a getter
-                     (kind1 == ATTRIBUTE_IS_RW && kind2 == ATTRIBUTE_GET) ||
-                     (kind1 == ATTRIBUTE_GET && kind2 == ATTRIBUTE_IS_RW))) {
+                if ((kind1 != ATTRIBUTE_NONE && kind2 != ATTRIBUTE_NONE)
+                        && ((kind1 == ATTRIBUTE_SET && kind2 != ATTRIBUTE_SET) || (kind1 != ATTRIBUTE_SET && kind2 == ATTRIBUTE_SET) ||
+                        // one is a is-getter/setter pair and the other is just a getter
+                                (kind1 == ATTRIBUTE_IS_RW && kind2 == ATTRIBUTE_GET) || (kind1 == ATTRIBUTE_GET && kind2 == ATTRIBUTE_IS_RW))) {
 
                     // Yes, so ignore it...
 
@@ -965,11 +910,8 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
         return false;
     }
 
-    private static boolean doesConstructorCollide (String name,
-                                                   CompoundType.Method method,
-                                                   CompoundType.Method[] allMethods,
-                                                   String[] allNames,
-                                                   boolean compareConstructors) {
+    private static boolean doesConstructorCollide(String name, CompoundType.Method method, CompoundType.Method[] allMethods, String[] allNames,
+            boolean compareConstructors) {
 
         // Scan all methods looking for a match...
 
@@ -977,9 +919,9 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
             CompoundType.Method target = allMethods[i];
 
-            if (method != target &&                                     // Not same instance
-                (target.isConstructor() == compareConstructors) &&  // Correct kind
-                name.equals(allNames[i])) {                             // Same names
+            if (method != target && // Not same instance
+                    (target.isConstructor() == compareConstructors) && // Correct kind
+                    name.equals(allNames[i])) { // Same names
 
                 // We have a collision...
 
@@ -990,18 +932,13 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
         return false;
     }
 
-
     /**
      * Set all the member names in a given class.
      * <p>
-     * Section 28.3.2.7    (see CompoundType)
-     * Section 28.3.2.7
+     * Section 28.3.2.7 (see CompoundType) Section 28.3.2.7
      */
-    public static void setMemberNames (CompoundType container,
-                                       CompoundType.Member[] allMembers,
-                                       CompoundType.Method[] allMethods,
-                                       BatchEnvironment env)
-        throws Exception {
+    public static void setMemberNames(CompoundType container, CompoundType.Member[] allMembers, CompoundType.Method[] allMethods, BatchEnvironment env)
+            throws Exception {
 
         // Make and populate a new context...
 
@@ -1016,7 +953,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
         for (int i = 0; i < allMembers.length; i++) {
 
             CompoundType.Member member = allMembers[i];
-            String idlName = getMemberOrMethodName(context,member.getName(),env);
+            String idlName = getMemberOrMethodName(context, member.getName(), env);
             member.setIDLName(idlName);
         }
 
@@ -1027,7 +964,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
             String name = allMembers[i].getIDLName();
             if (name.equalsIgnoreCase(containerName)) {
                 // REVISIT - How is this different than line 788
-                allMembers[i].setIDLName(name+"_");
+                allMembers[i].setIDLName(name + "_");
             }
         }
 
@@ -1058,7 +995,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
                         // Collision, so append "_" to member name...
 
-                        allMembers[i].setIDLName(name+"_");
+                        allMembers[i].setIDLName(name + "_");
                         changed = true;
                         break;
                     }
@@ -1070,38 +1007,56 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
     /**
      * Get the name for the specified type code.
      * <p>
-     * Section 28.3..3     (see PrimitiveType)
-     * Section 28.3.5.10   (see SpecialClassType)
-     * Section 28.3.4.1    (see SpecialInterfaceType)
-     * Section 28.3.10.1   (see SpecialInterfaceType)
-     * Section 28.3.10.2   (see SpecialClassType)
+     * Section 28.3..3 (see PrimitiveType) Section 28.3.5.10 (see SpecialClassType) Section 28.3.4.1 (see
+     * SpecialInterfaceType) Section 28.3.10.1 (see SpecialInterfaceType) Section 28.3.10.2 (see SpecialClassType)
      */
     public static String getTypeName(int typeCode, boolean isConstant) {
 
         String idlName = null;
 
         switch (typeCode) {
-        case TYPE_VOID:             idlName = IDL_VOID; break;
-        case TYPE_BOOLEAN:          idlName = IDL_BOOLEAN; break;
-        case TYPE_BYTE:             idlName = IDL_BYTE; break;
-        case TYPE_CHAR:             idlName = IDL_CHAR; break;
-        case TYPE_SHORT:            idlName = IDL_SHORT; break;
-        case TYPE_INT:              idlName = IDL_INT; break;
-        case TYPE_LONG:             idlName = IDL_LONG; break;
-        case TYPE_FLOAT:            idlName = IDL_FLOAT; break;
-        case TYPE_DOUBLE:           idlName = IDL_DOUBLE; break;
-        case TYPE_ANY:                  idlName = IDL_ANY; break;
-        case TYPE_CORBA_OBJECT: idlName = IDL_CORBA_OBJECT; break;
-        case TYPE_STRING:
-            {
-                if (isConstant) {
-                    idlName = IDL_CONSTANT_STRING;
-                } else {
-                    idlName = IDL_STRING;
-                }
-
-                break;
+        case TYPE_VOID:
+            idlName = IDL_VOID;
+            break;
+        case TYPE_BOOLEAN:
+            idlName = IDL_BOOLEAN;
+            break;
+        case TYPE_BYTE:
+            idlName = IDL_BYTE;
+            break;
+        case TYPE_CHAR:
+            idlName = IDL_CHAR;
+            break;
+        case TYPE_SHORT:
+            idlName = IDL_SHORT;
+            break;
+        case TYPE_INT:
+            idlName = IDL_INT;
+            break;
+        case TYPE_LONG:
+            idlName = IDL_LONG;
+            break;
+        case TYPE_FLOAT:
+            idlName = IDL_FLOAT;
+            break;
+        case TYPE_DOUBLE:
+            idlName = IDL_DOUBLE;
+            break;
+        case TYPE_ANY:
+            idlName = IDL_ANY;
+            break;
+        case TYPE_CORBA_OBJECT:
+            idlName = IDL_CORBA_OBJECT;
+            break;
+        case TYPE_STRING: {
+            if (isConstant) {
+                idlName = IDL_CONSTANT_STRING;
+            } else {
+                idlName = IDL_STRING;
             }
+
+            break;
+        }
         }
 
         return idlName;
@@ -1110,10 +1065,10 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
     /**
      * Create a qualified name.
      */
-    public static String getQualifiedName (String[] idlModuleNames, String idlName) {
+    public static String getQualifiedName(String[] idlModuleNames, String idlName) {
         String result = null;
         if (idlModuleNames != null && idlModuleNames.length > 0) {
-            for (int i = 0; i < idlModuleNames.length;i++) {
+            for (int i = 0; i < idlModuleNames.length; i++) {
                 if (i == 0) {
                     result = idlModuleNames[0];
                 } else {
@@ -1131,16 +1086,17 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
     /**
      * Replace substrings
+     *
      * @param source The source string.
      * @param match The string to search for within the source string.
      * @param replace The replacement for any matching components.
      * @return
      */
-    public static String replace (String source, String match, String replace) {
+    public static String replace(String source, String match, String replace) {
 
-        int index = source.indexOf(match,0);
+        int index = source.indexOf(match, 0);
 
-        if (index >=0) {
+        if (index >= 0) {
 
             // We have at least one match, so gotta do the
             // work...
@@ -1150,10 +1106,10 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
             int startIndex = 0;
 
             while (index >= 0) {
-                result.append(source.substring(startIndex,index));
+                result.append(source.substring(startIndex, index));
                 result.append(replace);
                 startIndex = index + matchLength;
-                index = source.indexOf(match,startIndex);
+                index = source.indexOf(match, startIndex);
             }
 
             // Grab the last piece, if any...
@@ -1175,24 +1131,20 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
     /**
      * Get an IDL style repository id for
      */
-    public static String getIDLRepositoryID (String idlName) {
-        return  IDL_REPOSITORY_ID_PREFIX +
-            replace(idlName,"::", "/") +
-            IDL_REPOSITORY_ID_VERSION;
+    public static String getIDLRepositoryID(String idlName) {
+        return IDL_REPOSITORY_ID_PREFIX + replace(idlName, "::", "/") + IDL_REPOSITORY_ID_VERSION;
     }
 
-    //_____________________________________________________________________
+    // _____________________________________________________________________
     // Internal Interfaces
-    //_____________________________________________________________________
-
+    // _____________________________________________________________________
 
     /**
      * Convert a type or module name.
      * <p>
-     * Section 28.3.2.2
-     * Section 28.3.2.3
+     * Section 28.3.2.2 Section 28.3.2.3
      */
-    private static String getTypeOrModuleName (String name) {
+    private static String getTypeOrModuleName(String name) {
 
         // 28.3.2.3 Leading underscores...
 

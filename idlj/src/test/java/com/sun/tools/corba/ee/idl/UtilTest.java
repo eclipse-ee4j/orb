@@ -33,7 +33,8 @@ public class UtilTest {
 
     @After
     public void tearDown() throws Exception {
-        for (Memento memento : mementos) memento.revert();
+        for (Memento memento : mementos)
+            memento.revert();
     }
 
     @Test
@@ -58,7 +59,7 @@ public class UtilTest {
 
     @Test
     public void substituteMultiParamMessage() throws Exception {
-        assertThat(Util.getMessage("GenFileStream.1", new String[] {"zork", "foo"}), equalTo("zork could not be generated:  foo"));
+        assertThat(Util.getMessage("GenFileStream.1", new String[] { "zork", "foo" }), equalTo("zork could not be generated:  foo"));
     }
 
     @Test

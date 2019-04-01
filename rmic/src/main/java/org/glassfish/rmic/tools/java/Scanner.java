@@ -14,37 +14,35 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * A Scanner for Java tokens. Errors are reported
- * to the environment object.<p>
+ * A Scanner for Java tokens. Errors are reported to the environment object.
+ * <p>
  *
- * The scanner keeps track of the current token,
- * the value of the current token (if any), and the start
- * position of the current token.<p>
+ * The scanner keeps track of the current token, the value of the current token (if any), and the start position of the
+ * current token.
+ * <p>
  *
- * The scan() method advances the scanner to the next
- * token in the input.<p>
+ * The scan() method advances the scanner to the next token in the input.
+ * <p>
  *
- * The match() method is used to quickly match opening
- * brackets (ie: '(', '{', or '[') with their closing
- * counter part. This is useful during error recovery.<p>
+ * The match() method is used to quickly match opening brackets (ie: '(', '{', or '[') with their closing counter part.
+ * This is useful during error recovery.
+ * <p>
  *
- * An position consists of: ((linenr << WHEREOFFSETBITS) | offset)
- * this means that both the line number and the exact offset into
- * the file are encoded in each position value.<p>
+ * An position consists of: ((linenr << WHEREOFFSETBITS) | offset) this means that both the line number and the exact
+ * offset into the file are encoded in each position value.
+ * <p>
  *
- * The compiler treats either "\n", "\r" or "\r\n" as the
- * end of a line.<p>
+ * The compiler treats either "\n", "\r" or "\r\n" as the end of a line.
+ * <p>
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  *
- * @author      Arthur van Hoff
+ * @author Arthur van Hoff
  */
 
 @SuppressWarnings("deprecation")
-public
-class Scanner implements Constants {
+public class Scanner implements Constants {
     /**
      * The increment for each character.
      */
@@ -71,14 +69,11 @@ class Scanner implements Constants {
     protected ScannerInputReader in;
 
     /**
-     * If true, present all comments as tokens.
-     * Contents are not saved, but positions are recorded accurately,
-     * so the comment can be recovered from the text.
-     * Line terminations are also returned as comment tokens,
-     * and may be distinguished by their start and end positions,
-     * which are equal (meaning, these tokens contain no chars).
+     * If true, present all comments as tokens. Contents are not saved, but positions are recorded accurately, so the
+     * comment can be recovered from the text. Line terminations are also returned as comment tokens, and may be
+     * distinguished by their start and end positions, which are equal (meaning, these tokens contain no chars).
      */
-   public boolean scanComments = false;
+    public boolean scanComments = false;
 
     /**
      * Current token
@@ -110,7 +105,7 @@ class Scanner implements Constants {
     public double doubleValue;
     public String stringValue;
     public Identifier idValue;
-    public int radix;   // Radix, when reading int or long
+    public int radix; // Radix, when reading int or long
 
     /*
      * A doc comment preceding the most recent token
@@ -122,6 +117,7 @@ class Scanner implements Constants {
      */
     private int count;
     private char buffer[] = new char[1024];
+
     private void growBuffer() {
         char newBuffer[] = new char[buffer.length * 2];
         System.arraycopy(buffer, 0, newBuffer, 0, buffer.length);
@@ -129,13 +125,13 @@ class Scanner implements Constants {
     }
 
     // The following two methods have been hand-inlined in
-    // scanDocComment.  If you make changes here, you should
+    // scanDocComment. If you make changes here, you should
     // check to see if scanDocComment also needs modification.
     private void putc(int ch) {
         if (count == buffer.length) {
             growBuffer();
         }
-        buffer[count++] = (char)ch;
+        buffer[count++] = (char) ch;
     }
 
     private String bufferString() {
@@ -151,8 +147,7 @@ class Scanner implements Constants {
     }
 
     /**
-     * Setup input from the given input stream,
-     * and scan the first token from it.
+     * Setup input from the given input stream, and scan the first token from it.
      */
     protected void useInputStream(InputStream in) throws IOException {
         try {
@@ -252,25 +247,23 @@ class Scanner implements Constants {
     }
 
     /**
-     * Scan a comment. This method should be
-     * called once the initial /, * and the next
-     * character have been read.
+     * Scan a comment. This method should be called once the initial /, * and the next character have been read.
      */
     private void skipComment() throws IOException {
         while (true) {
             switch (ch) {
-              case EOF:
+            case EOF:
                 env.error(pos, "eof.in.comment");
                 return;
 
-              case '*':
-                if ((ch = in.read()) == '/')  {
+            case '*':
+                if ((ch = in.read()) == '/') {
                     ch = in.read();
                     return;
                 }
                 break;
 
-              default:
+            default:
                 ch = in.read();
                 break;
             }
@@ -278,14 +271,12 @@ class Scanner implements Constants {
     }
 
     /**
-     * Scan a doc comment. This method should be called
-     * once the initial /, * and * have been read. It gathers
-     * the content of the comment (witout leading spaces and '*'s)
-     * in the string buffer.
+     * Scan a doc comment. This method should be called once the initial /, * and * have been read. It gathers the content
+     * of the comment (witout leading spaces and '*'s) in the string buffer.
      */
     private String scanDocComment() throws IOException {
         // Note: this method has been hand-optimized to yield
-        // better performance.  This was done after it was noted
+        // better performance. This was done after it was noted
         // that javadoc spent a great deal of its time here.
         // This should also help the performance of the compiler
         // as well -- it scans the doc comments to find
@@ -293,10 +284,10 @@ class Scanner implements Constants {
         //
         // The logic of the method has been completely rewritten
         // to avoid the use of flags that need to be looked at
-        // for every character read.  Members that are accessed
+        // for every character read. Members that are accessed
         // more than once have been stored in local variables.
         // The methods putc() and bufferString() have been
-        // inlined by hand.  Extra cases have been added to
+        // inlined by hand. Extra cases have been added to
         // switch statements to trick the compiler into generating
         // a tableswitch instead of a lookupswitch.
         //
@@ -316,7 +307,7 @@ class Scanner implements Constants {
         // comment:
         //
         // Input: /** the rest of the comment ... */
-        //          ^
+        // ^
         //
         // We rely on this in the code below.
 
@@ -336,17 +327,16 @@ class Scanner implements Constants {
             c = in.read();
         }
 
-    outerLoop:
+        outerLoop:
         // The outerLoop processes the doc comment, looping once
-        // for each line.  For each line, it first strips off
+        // for each line. For each line, it first strips off
         // whitespace, then it consumes any stars, then it
         // puts the rest of the line into our buffer.
         while (true) {
 
             // The wsLoop consumes whitespace from the beginning
             // of each line.
-        wsLoop:
-            while (true) {
+            wsLoop: while (true) {
                 switch (c) {
                 case ' ':
                 case '\t':
@@ -360,12 +350,30 @@ class Scanner implements Constants {
 
                 // We have added extra cases here to trick the
                 // compiler into using a tableswitch instead of
-                // a lookupswitch.  They can be removed without
+                // a lookupswitch. They can be removed without
                 // a change in meaning.
-                case 10: case 11: case 12: case 13: case 14: case 15:
-                case 16: case 17: case 18: case 19: case 20: case 21:
-                case 22: case 23: case 24: case 25: case 26: case 27:
-                case 28: case 29: case 30: case 31:
+                case 10:
+                case 11:
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                case 16:
+                case 17:
+                case 18:
+                case 19:
+                case 20:
+                case 21:
+                case 22:
+                case 23:
+                case 24:
+                case 25:
+                case 26:
+                case 27:
+                case 28:
+                case 29:
+                case 30:
+                case 31:
                 default:
                     // We've seen something that isn't whitespace,
                     // jump out.
@@ -373,7 +381,7 @@ class Scanner implements Constants {
                 }
             } // end wsLoop.
 
-            // Are there stars here?  If so, consume them all
+            // Are there stars here? If so, consume them all
             // and check for the end of comment.
             if (c == '*') {
                 // Skip all of the stars...
@@ -392,18 +400,17 @@ class Scanner implements Constants {
 
             // The textLoop processes the rest of the characters
             // on the line, adding them to our buffer.
-        textLoop:
-            while (true) {
+            textLoop: while (true) {
                 switch (c) {
                 case EOF:
-                    // We've seen a premature EOF.  Break out
+                    // We've seen a premature EOF. Break out
                     // of the loop.
                     env.error(pos, "eof.in.comment");
                     ch = EOF;
                     break outerLoop;
 
                 case '*':
-                    // Is this just a star?  Or is this the
+                    // Is this just a star? Or is this the
                     // end of a comment?
                     c = in.read();
                     if (c == '/') {
@@ -412,7 +419,7 @@ class Scanner implements Constants {
                         ch = in.read();
                         break outerLoop;
                     }
-                    // This is just an ordinary star.  Add it to
+                    // This is just an ordinary star. Add it to
                     // the buffer.
                     if (count == buffer.length) {
                         growBuffer();
@@ -422,7 +429,7 @@ class Scanner implements Constants {
                     break;
 
                 case '\n':
-                    // We've seen a newline.  Add it to our
+                    // We've seen a newline. Add it to our
                     // buffer and break out of this loop,
                     // starting fresh on a new line.
                     if (count == buffer.length) {
@@ -435,35 +442,66 @@ class Scanner implements Constants {
 
                 // Again, the extra cases here are a trick
                 // to get the compiler to generate a tableswitch.
-                case 0: case 1: case 2: case 3: case 4: case 5:
-                case 6: case 7: case 8: case 11: case 12: case 13:
-                case 14: case 15: case 16: case 17: case 18: case 19:
-                case 20: case 21: case 22: case 23: case 24: case 25:
-                case 26: case 27: case 28: case 29: case 30: case 31:
-                case 32: case 33: case 34: case 35: case 36: case 37:
-                case 38: case 39: case 40:
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                case 11:
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                case 16:
+                case 17:
+                case 18:
+                case 19:
+                case 20:
+                case 21:
+                case 22:
+                case 23:
+                case 24:
+                case 25:
+                case 26:
+                case 27:
+                case 28:
+                case 29:
+                case 30:
+                case 31:
+                case 32:
+                case 33:
+                case 34:
+                case 35:
+                case 36:
+                case 37:
+                case 38:
+                case 39:
+                case 40:
                 default:
                     // Add the character to our buffer.
                     if (count == buffer.length) {
                         growBuffer();
                         buffer = this.buffer;
                     }
-                    buffer[count++] = (char)c;
+                    buffer[count++] = (char) c;
                     c = in.read();
                     break;
                 }
             } // end textLoop
         } // end outerLoop
 
-        // We have scanned our doc comment.  It is stored in
-        // buffer.  The previous implementation of scanDocComment
+        // We have scanned our doc comment. It is stored in
+        // buffer. The previous implementation of scanDocComment
         // stripped off all trailing spaces and stars from the comment.
         // We will do this as well, so as to cause a minimum of
-        // disturbance.  Is this what we want?
+        // disturbance. Is this what we want?
         if (count > 0) {
             int i = count - 1;
-        trailLoop:
-            while (i > -1) {
+            trailLoop: while (i > -1) {
                 switch (buffer[i]) {
                 case ' ':
                 case '\t':
@@ -472,13 +510,45 @@ class Scanner implements Constants {
                     break;
                 // And again, the extra cases here are a trick
                 // to get the compiler to generate a tableswitch.
-                case 0: case 1: case 2: case 3: case 4: case 5:
-                case 6: case 7: case 8: case 10: case 11: case 12:
-                case 13: case 14: case 15: case 16: case 17: case 18:
-                case 19: case 20: case 21: case 22: case 23: case 24:
-                case 25: case 26: case 27: case 28: case 29: case 30:
-                case 31: case 33: case 34: case 35: case 36: case 37:
-                case 38: case 39: case 40:
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                case 10:
+                case 11:
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                case 16:
+                case 17:
+                case 18:
+                case 19:
+                case 20:
+                case 21:
+                case 22:
+                case 23:
+                case 24:
+                case 25:
+                case 26:
+                case 27:
+                case 28:
+                case 29:
+                case 30:
+                case 31:
+                case 33:
+                case 34:
+                case 35:
+                case 36:
+                case 37:
+                case 38:
+                case 39:
+                case 40:
                 default:
                     break trailLoop;
                 }
@@ -493,8 +563,8 @@ class Scanner implements Constants {
     }
 
     /**
-     * Scan a number. The first digit of the number should be the current
-     * character.  We may be scanning hex, decimal, or octal at this point
+     * Scan a number. The first digit of the number should be the current character. We may be scanning hex, decimal, or
+     * octal at this point
      */
     @SuppressWarnings("fallthrough")
     private void scanNumber() throws IOException {
@@ -504,27 +574,33 @@ class Scanner implements Constants {
         radix = (ch == '0' ? 8 : 10);
         long value = ch - '0';
         count = 0;
-        putc(ch);               // save character in buffer
-    numberLoop:
-        for (;;) {
+        putc(ch); // save character in buffer
+        numberLoop: for (;;) {
             switch (ch = in.read()) {
-              case '.':
+            case '.':
                 if (radix == 16)
                     break numberLoop; // an illegal character
                 scanReal();
                 return;
 
-              case '8': case '9':
-                // We can't yet throw an error if reading an octal.  We might
+            case '8':
+            case '9':
+                // We can't yet throw an error if reading an octal. We might
                 // discover we're really reading a real.
                 seenNonOctal = true;
                 // Fall through
-              case '0': case '1': case '2': case '3':
-              case '4': case '5': case '6': case '7':
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
                 seenDigit = true;
                 putc(ch);
                 if (radix == 10) {
-                    overflow = overflow || (value * 10)/10 != value;
+                    overflow = overflow || (value * 10) / 10 != value;
                     value = (value * 10) + (ch - '0');
                     overflow = overflow || (value - 1 < -1);
                 } else if (radix == 8) {
@@ -536,31 +612,42 @@ class Scanner implements Constants {
                 }
                 break;
 
-              case 'd': case 'D': case 'e': case 'E': case 'f': case 'F':
+            case 'd':
+            case 'D':
+            case 'e':
+            case 'E':
+            case 'f':
+            case 'F':
                 if (radix != 16) {
                     scanReal();
                     return;
                 }
                 // fall through
-              case 'a': case 'A': case 'b': case 'B': case 'c': case 'C':
+            case 'a':
+            case 'A':
+            case 'b':
+            case 'B':
+            case 'c':
+            case 'C':
                 seenDigit = true;
                 putc(ch);
                 if (radix != 16)
                     break numberLoop; // an illegal character
                 overflow = overflow || (value >>> 60) != 0;
-                value = (value << 4) + 10 +
-                         Character.toLowerCase((char)ch) - 'a';
+                value = (value << 4) + 10 + Character.toLowerCase((char) ch) - 'a';
                 break;
 
-              case 'l': case 'L':
+            case 'l':
+            case 'L':
                 ch = in.read(); // skip over 'l'
                 longValue = value;
                 token = LONGVAL;
                 break numberLoop;
 
-              case 'x': case 'X':
+            case 'x':
+            case 'X':
                 // if the first character is a '0' and this is the second
-                // letter, then read in a hexadecimal number.  Otherwise, error.
+                // letter, then read in a hexadecimal number. Otherwise, error.
                 if (count == 1 && radix == 8) {
                     radix = 16;
                     seenDigit = false;
@@ -570,22 +657,23 @@ class Scanner implements Constants {
                     break numberLoop;
                 }
 
-              default:
-                intValue = (int)value;
+            default:
+                intValue = (int) value;
                 token = INTVAL;
                 break numberLoop;
             }
         } // while true
 
-        // We have just finished reading the number.  The next thing better
+        // We have just finished reading the number. The next thing better
         // not be a letter or digit.
-        // Note:  There will be deprecation warnings against these uses
+        // Note: There will be deprecation warnings against these uses
         // of Character.isJavaLetterOrDigit and Character.isJavaLetter.
         // Do not fix them yet; allow the compiler to run on pre-JDK1.1 VMs.
-        if (Character.isJavaLetterOrDigit((char)ch) || ch == '.') {
+        if (Character.isJavaLetterOrDigit((char) ch) || ch == '.') {
             env.error(in.pos, "invalid.number");
-            do { ch = in.read(); }
-            while (Character.isJavaLetterOrDigit((char)ch) || ch == '.');
+            do {
+                ch = in.read();
+            } while (Character.isJavaLetterOrDigit((char) ch) || ch == '.');
             intValue = 0;
             token = INTVAL;
         } else if (radix == 8 && seenNonOctal) {
@@ -600,11 +688,9 @@ class Scanner implements Constants {
             env.error(pos, "invalid.hex.number");
         } else {
             if (token == INTVAL) {
-                // Check for overflow.  Note that base 10 literals
+                // Check for overflow. Note that base 10 literals
                 // have different rules than base 8 and 16.
-                overflow = overflow ||
-                    (value & 0xFFFFFFFF00000000L) != 0 ||
-                    (radix == 10 && value > 2147483648L);
+                overflow = overflow || (value & 0xFFFFFFFF00000000L) != 0 || (radix == 10 && value > 2147483648L);
 
                 if (overflow) {
                     intValue = 0;
@@ -650,10 +736,8 @@ class Scanner implements Constants {
     }
 
     /**
-     * Scan a float.  We are either looking at the decimal, or we have already
-     * seen it and put it into the buffer.  We haven't seen an exponent.
-     * Scan a float.  Should be called with the current character is either
-     * the 'e', 'E' or '.'
+     * Scan a float. We are either looking at the decimal, or we have already seen it and put it into the buffer. We haven't
+     * seen an exponent. Scan a float. Should be called with the current character is either the 'e', 'E' or '.'
      */
     @SuppressWarnings("fallthrough")
     private void scanReal() throws IOException {
@@ -665,56 +749,67 @@ class Scanner implements Constants {
             ch = in.read();
         }
 
-    numberLoop:
-        for ( ; ; ch = in.read()) {
+        numberLoop: for (;; ch = in.read()) {
             switch (ch) {
-                case '0': case '1': case '2': case '3': case '4':
-                case '5': case '6': case '7': case '8': case '9':
-                    putc(ch);
-                    break;
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                putc(ch);
+                break;
 
-                case 'e': case 'E':
-                    if (seenExponent)
-                        break numberLoop; // we'll get a format error
-                    putc(ch);
-                    seenExponent = true;
-                    break;
+            case 'e':
+            case 'E':
+                if (seenExponent)
+                    break numberLoop; // we'll get a format error
+                putc(ch);
+                seenExponent = true;
+                break;
 
-                case '+': case '-':
-                    lastChar = buffer[count - 1];
-                    if (lastChar != 'e' && lastChar != 'E')
-                        break numberLoop; // this isn't an error, though!
-                    putc(ch);
-                    break;
+            case '+':
+            case '-':
+                lastChar = buffer[count - 1];
+                if (lastChar != 'e' && lastChar != 'E')
+                    break numberLoop; // this isn't an error, though!
+                putc(ch);
+                break;
 
-                case 'f': case 'F':
-                    ch = in.read(); // skip over 'f'
-                    isSingleFloat = true;
-                    break numberLoop;
+            case 'f':
+            case 'F':
+                ch = in.read(); // skip over 'f'
+                isSingleFloat = true;
+                break numberLoop;
 
-                case 'd': case 'D':
-                    ch = in.read(); // skip over 'd'
-                    // fall through
-                default:
-                    break numberLoop;
+            case 'd':
+            case 'D':
+                ch = in.read(); // skip over 'd'
+                // fall through
+            default:
+                break numberLoop;
             } // sswitch
         } // loop
 
-        // we have just finished reading the number.  The next thing better
+        // we have just finished reading the number. The next thing better
         // not be a letter or digit.
-        if (Character.isJavaLetterOrDigit((char)ch) || ch == '.') {
+        if (Character.isJavaLetterOrDigit((char) ch) || ch == '.') {
             env.error(in.pos, "invalid.number");
-            do { ch = in.read(); }
-            while (Character.isJavaLetterOrDigit((char)ch) || ch == '.');
+            do {
+                ch = in.read();
+            } while (Character.isJavaLetterOrDigit((char) ch) || ch == '.');
             doubleValue = 0;
             token = DOUBLEVAL;
         } else {
             token = isSingleFloat ? FLOATVAL : DOUBLEVAL;
             try {
                 lastChar = buffer[count - 1];
-                if (lastChar == 'e' || lastChar == 'E'
-                       || lastChar == '+' || lastChar == '-') {
-                    env.error(in.pos -1, "float.format");
+                if (lastChar == 'e' || lastChar == 'E' || lastChar == '+' || lastChar == '-') {
+                    env.error(in.pos - 1, "float.format");
                 } else if (isSingleFloat) {
                     String string = bufferString();
                     floatValue = Float.valueOf(string).floatValue();
@@ -741,19 +836,30 @@ class Scanner implements Constants {
         return;
     }
 
-    // We have a token that parses as a number.  Is this token possibly zero?
+    // We have a token that parses as a number. Is this token possibly zero?
     // i.e. does it have a non-zero value in the mantissa?
     private static boolean looksLikeZero(String token) {
         int length = token.length();
         for (int i = 0; i < length; i++) {
             switch (token.charAt(i)) {
-                case 0: case '.':
-                    continue;
-                case '1': case '2': case '3': case '4': case '5':
-                case '6': case '7': case '8': case '9':
-                    return false;
-                case 'e': case 'E': case 'f': case 'F':
-                    return true;
+            case 0:
+            case '.':
+                continue;
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                return false;
+            case 'e':
+            case 'E':
+            case 'f':
+            case 'F':
+                return true;
             }
         }
         return true;
@@ -761,24 +867,36 @@ class Scanner implements Constants {
 
     /**
      * Scan an escape character.
-     * @return the character or -1 if it escaped an
-     * end-of-line.
+     *
+     * @return the character or -1 if it escaped an end-of-line.
      */
     private int scanEscapeChar() throws IOException {
         long p = in.pos;
 
         switch (ch = in.read()) {
-          case '0': case '1': case '2': case '3':
-          case '4': case '5': case '6': case '7': {
+        case '0':
+        case '1':
+        case '2':
+        case '3':
+        case '4':
+        case '5':
+        case '6':
+        case '7': {
             int n = ch - '0';
-            for (int i = 2 ; i > 0 ; i--) {
+            for (int i = 2; i > 0; i--) {
                 switch (ch = in.read()) {
-                  case '0': case '1': case '2': case '3':
-                  case '4': case '5': case '6': case '7':
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
                     n = (n << 3) + ch - '0';
                     break;
 
-                  default:
+                default:
                     if (n > 0xFF) {
                         env.error(p, "invalid.escape.char");
                     }
@@ -790,16 +908,32 @@ class Scanner implements Constants {
                 env.error(p, "invalid.escape.char");
             }
             return n;
-          }
+        }
 
-          case 'r':  ch = in.read(); return '\r';
-          case 'n':  ch = in.read(); return '\n';
-          case 'f':  ch = in.read(); return '\f';
-          case 'b':  ch = in.read(); return '\b';
-          case 't':  ch = in.read(); return '\t';
-          case '\\': ch = in.read(); return '\\';
-          case '\"': ch = in.read(); return '\"';
-          case '\'': ch = in.read(); return '\'';
+        case 'r':
+            ch = in.read();
+            return '\r';
+        case 'n':
+            ch = in.read();
+            return '\n';
+        case 'f':
+            ch = in.read();
+            return '\f';
+        case 'b':
+            ch = in.read();
+            return '\b';
+        case 't':
+            ch = in.read();
+            return '\t';
+        case '\\':
+            ch = in.read();
+            return '\\';
+        case '\"':
+            ch = in.read();
+            return '\"';
+        case '\'':
+            ch = in.read();
+            return '\'';
         }
 
         env.error(p, "invalid.escape.char");
@@ -808,8 +942,7 @@ class Scanner implements Constants {
     }
 
     /**
-     * Scan a string. The current character
-     * should be the opening " of the string.
+     * Scan a string. The current character should be the opening " of the string.
      */
     private void scanString() throws IOException {
         token = STRINGVAL;
@@ -819,32 +952,32 @@ class Scanner implements Constants {
         // Scan a String
         while (true) {
             switch (ch) {
-              case EOF:
+            case EOF:
                 env.error(pos, "eof.in.string");
                 stringValue = bufferString();
                 return;
 
-              case '\r':
-              case '\n':
+            case '\r':
+            case '\n':
                 ch = in.read();
                 env.error(pos, "newline.in.string");
                 stringValue = bufferString();
                 return;
 
-              case '"':
+            case '"':
                 ch = in.read();
                 stringValue = bufferString();
                 return;
 
-              case '\\': {
+            case '\\': {
                 int c = scanEscapeChar();
                 if (c >= 0) {
-                    putc((char)c);
+                    putc((char) c);
                 }
                 break;
-              }
+            }
 
-              default:
+            default:
                 putc(ch);
                 ch = in.read();
                 break;
@@ -853,23 +986,22 @@ class Scanner implements Constants {
     }
 
     /**
-     * Scan a character. The current character should be
-     * the opening ' of the character constant.
+     * Scan a character. The current character should be the opening ' of the character constant.
      */
     private void scanCharacter() throws IOException {
         token = CHARVAL;
 
         switch (ch = in.read()) {
-          case '\\':
+        case '\\':
             int c = scanEscapeChar();
-            charValue = (char)((c >= 0) ? c : 0);
+            charValue = (char) ((c >= 0) ? c : 0);
             break;
 
         case '\'':
-            // There are two standard problems this case deals with.  One
+            // There are two standard problems this case deals with. One
             // is the malformed single quote constant (i.e. the programmer
             // uses ''' instead of '\'') and the other is the empty
-            // character constant (i.e. '').  Just consume any number of
+            // character constant (i.e. ''). Just consume any number of
             // single quotes and emit an error message.
             charValue = 0;
             env.error(pos, "invalid.char.constant");
@@ -879,14 +1011,14 @@ class Scanner implements Constants {
             }
             return;
 
-          case '\r':
-          case '\n':
+        case '\r':
+        case '\n':
             charValue = 0;
             env.error(pos, "invalid.char.constant");
             return;
 
-          default:
-            charValue = (char)ch;
+        default:
+            charValue = (char) ch;
             ch = in.read();
             break;
         }
@@ -897,14 +1029,14 @@ class Scanner implements Constants {
             env.error(pos, "invalid.char.constant");
             while (true) {
                 switch (ch) {
-                  case '\'':
+                case '\'':
                     ch = in.read();
                     return;
-                  case ';':
-                  case '\n':
-                  case EOF:
+                case ';':
+                case '\n':
+                case EOF:
                     return;
-                  default:
+                default:
                     ch = in.read();
                 }
             }
@@ -912,8 +1044,7 @@ class Scanner implements Constants {
     }
 
     /**
-     * Scan an Identifier. The current character should
-     * be the first character of the identifier.
+     * Scan an Identifier. The current character should be the first character of the identifier.
      */
     private void scanIdentifier() throws IOException {
         count = 0;
@@ -921,25 +1052,74 @@ class Scanner implements Constants {
         while (true) {
             putc(ch);
             switch (ch = in.read()) {
-              case 'a': case 'b': case 'c': case 'd': case 'e':
-              case 'f': case 'g': case 'h': case 'i': case 'j':
-              case 'k': case 'l': case 'm': case 'n': case 'o':
-              case 'p': case 'q': case 'r': case 's': case 't':
-              case 'u': case 'v': case 'w': case 'x': case 'y':
-              case 'z':
-              case 'A': case 'B': case 'C': case 'D': case 'E':
-              case 'F': case 'G': case 'H': case 'I': case 'J':
-              case 'K': case 'L': case 'M': case 'N': case 'O':
-              case 'P': case 'Q': case 'R': case 'S': case 'T':
-              case 'U': case 'V': case 'W': case 'X': case 'Y':
-              case 'Z':
-              case '0': case '1': case '2': case '3': case '4':
-              case '5': case '6': case '7': case '8': case '9':
-              case '$': case '_':
+            case 'a':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f':
+            case 'g':
+            case 'h':
+            case 'i':
+            case 'j':
+            case 'k':
+            case 'l':
+            case 'm':
+            case 'n':
+            case 'o':
+            case 'p':
+            case 'q':
+            case 'r':
+            case 's':
+            case 't':
+            case 'u':
+            case 'v':
+            case 'w':
+            case 'x':
+            case 'y':
+            case 'z':
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
+            case 'E':
+            case 'F':
+            case 'G':
+            case 'H':
+            case 'I':
+            case 'J':
+            case 'K':
+            case 'L':
+            case 'M':
+            case 'N':
+            case 'O':
+            case 'P':
+            case 'Q':
+            case 'R':
+            case 'S':
+            case 'T':
+            case 'U':
+            case 'V':
+            case 'W':
+            case 'X':
+            case 'Y':
+            case 'Z':
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+            case '$':
+            case '_':
                 break;
 
-              default:
-                if (!Character.isJavaLetterOrDigit((char)ch)) {
+            default:
+                if (!Character.isJavaLetterOrDigit((char) ch)) {
                     idValue = Identifier.lookup(bufferString());
                     token = idValue.getType();
                     return;
@@ -957,8 +1137,7 @@ class Scanner implements Constants {
     }
 
     /**
-     * If the current token is IDENT, return the identifier occurrence.
-     * It will be freshly allocated.
+     * If the current token is IDENT, return the identifier occurrence. It will be freshly allocated.
      */
     public IdentifierToken getIdToken() {
         return (token != IDENT) ? null : new IdentifierToken(pos, idValue);
@@ -966,11 +1145,12 @@ class Scanner implements Constants {
 
     /**
      * Scan the next token.
+     *
      * @return the position of the previous token.
      */
-   public long scan() throws IOException {
-       return xscan();
-   }
+    public long scan() throws IOException {
+        return xscan();
+    }
 
     @SuppressWarnings("fallthrough")
     protected long xscan() throws IOException {
@@ -982,11 +1162,11 @@ class Scanner implements Constants {
             pos = in.pos;
 
             switch (ch) {
-              case EOF:
+            case EOF:
                 token = EOF;
                 return retPos;
 
-              case '\n':
+            case '\n':
                 if (scanComments) {
                     ch = ' ';
                     // Avoid this path the next time around.
@@ -996,24 +1176,25 @@ class Scanner implements Constants {
                     return retPos;
                 }
                 // Fall through
-              case ' ':
-              case '\t':
-              case '\f':
+            case ' ':
+            case '\t':
+            case '\f':
                 ch = in.read();
                 break;
 
-              case '/':
+            case '/':
                 switch (ch = in.read()) {
-                  case '/':
+                case '/':
                     // Parse a // comment
-                    while (((ch = in.read()) != EOF) && (ch != '\n'));
+                    while (((ch = in.read()) != EOF) && (ch != '\n'))
+                        ;
                     if (scanComments) {
                         token = COMMENT;
                         return retPos;
                     }
                     break;
 
-                  case '*':
+                case '*':
                     ch = in.read();
                     if (ch == '*') {
                         docComment = scanDocComment();
@@ -1025,106 +1206,122 @@ class Scanner implements Constants {
                     }
                     break;
 
-                  case '=':
+                case '=':
                     ch = in.read();
                     token = ASGDIV;
                     return retPos;
 
-                  default:
+                default:
                     token = DIV;
                     return retPos;
                 }
                 break;
 
-              case '"':
+            case '"':
                 scanString();
                 return retPos;
 
-              case '\'':
+            case '\'':
                 scanCharacter();
                 return retPos;
 
-              case '0': case '1': case '2': case '3': case '4':
-              case '5': case '6': case '7': case '8': case '9':
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
                 scanNumber();
                 return retPos;
 
-              case '.':
+            case '.':
                 switch (ch = in.read()) {
-                  case '0': case '1': case '2': case '3': case '4':
-                  case '5': case '6': case '7': case '8': case '9':
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
                     count = 0;
                     putc('.');
                     scanReal();
                     break;
-                  default:
+                default:
                     token = FIELD;
                 }
                 return retPos;
 
-              case '{':
+            case '{':
                 ch = in.read();
                 token = LBRACE;
                 return retPos;
 
-              case '}':
+            case '}':
                 ch = in.read();
                 token = RBRACE;
                 return retPos;
 
-              case '(':
+            case '(':
                 ch = in.read();
                 token = LPAREN;
                 return retPos;
 
-              case ')':
+            case ')':
                 ch = in.read();
                 token = RPAREN;
                 return retPos;
 
-              case '[':
+            case '[':
                 ch = in.read();
                 token = LSQBRACKET;
                 return retPos;
 
-              case ']':
+            case ']':
                 ch = in.read();
                 token = RSQBRACKET;
                 return retPos;
 
-              case ',':
+            case ',':
                 ch = in.read();
                 token = COMMA;
                 return retPos;
 
-              case ';':
+            case ';':
                 ch = in.read();
                 token = SEMICOLON;
                 return retPos;
 
-              case '?':
+            case '?':
                 ch = in.read();
                 token = QUESTIONMARK;
                 return retPos;
 
-              case '~':
+            case '~':
                 ch = in.read();
                 token = BITNOT;
                 return retPos;
 
-              case ':':
+            case ':':
                 ch = in.read();
                 token = COLON;
                 return retPos;
 
-              case '-':
+            case '-':
                 switch (ch = in.read()) {
-                  case '-':
+                case '-':
                     ch = in.read();
                     token = DEC;
                     return retPos;
 
-                  case '=':
+                case '=':
                     ch = in.read();
                     token = ASGSUB;
                     return retPos;
@@ -1132,14 +1329,14 @@ class Scanner implements Constants {
                 token = SUB;
                 return retPos;
 
-              case '+':
+            case '+':
                 switch (ch = in.read()) {
-                  case '+':
+                case '+':
                     ch = in.read();
                     token = INC;
                     return retPos;
 
-                  case '=':
+                case '=':
                     ch = in.read();
                     token = ASGADD;
                     return retPos;
@@ -1147,9 +1344,9 @@ class Scanner implements Constants {
                 token = ADD;
                 return retPos;
 
-              case '<':
+            case '<':
                 switch (ch = in.read()) {
-                  case '<':
+                case '<':
                     if ((ch = in.read()) == '=') {
                         ch = in.read();
                         token = ASGLSHIFT;
@@ -1158,7 +1355,7 @@ class Scanner implements Constants {
                     token = LSHIFT;
                     return retPos;
 
-                  case '=':
+                case '=':
                     ch = in.read();
                     token = LE;
                     return retPos;
@@ -1166,16 +1363,16 @@ class Scanner implements Constants {
                 token = LT;
                 return retPos;
 
-              case '>':
+            case '>':
                 switch (ch = in.read()) {
-                  case '>':
+                case '>':
                     switch (ch = in.read()) {
-                      case '=':
+                    case '=':
                         ch = in.read();
                         token = ASGRSHIFT;
                         return retPos;
 
-                      case '>':
+                    case '>':
                         if ((ch = in.read()) == '=') {
                             ch = in.read();
                             token = ASGURSHIFT;
@@ -1187,7 +1384,7 @@ class Scanner implements Constants {
                     token = RSHIFT;
                     return retPos;
 
-                  case '=':
+                case '=':
                     ch = in.read();
                     token = GE;
                     return retPos;
@@ -1195,14 +1392,14 @@ class Scanner implements Constants {
                 token = GT;
                 return retPos;
 
-              case '|':
+            case '|':
                 switch (ch = in.read()) {
-                  case '|':
+                case '|':
                     ch = in.read();
                     token = OR;
                     return retPos;
 
-                  case '=':
+                case '=':
                     ch = in.read();
                     token = ASGBITOR;
                     return retPos;
@@ -1210,14 +1407,14 @@ class Scanner implements Constants {
                 token = BITOR;
                 return retPos;
 
-              case '&':
+            case '&':
                 switch (ch = in.read()) {
-                  case '&':
+                case '&':
                     ch = in.read();
                     token = AND;
                     return retPos;
 
-                  case '=':
+                case '=':
                     ch = in.read();
                     token = ASGBITAND;
                     return retPos;
@@ -1225,7 +1422,7 @@ class Scanner implements Constants {
                 token = BITAND;
                 return retPos;
 
-              case '=':
+            case '=':
                 if ((ch = in.read()) == '=') {
                     ch = in.read();
                     token = EQ;
@@ -1234,7 +1431,7 @@ class Scanner implements Constants {
                 token = ASSIGN;
                 return retPos;
 
-              case '%':
+            case '%':
                 if ((ch = in.read()) == '=') {
                     ch = in.read();
                     token = ASGREM;
@@ -1243,7 +1440,7 @@ class Scanner implements Constants {
                 token = REM;
                 return retPos;
 
-              case '^':
+            case '^':
                 if ((ch = in.read()) == '=') {
                     ch = in.read();
                     token = ASGBITXOR;
@@ -1252,7 +1449,7 @@ class Scanner implements Constants {
                 token = BITXOR;
                 return retPos;
 
-              case '!':
+            case '!':
                 if ((ch = in.read()) == '=') {
                     ch = in.read();
                     token = NE;
@@ -1261,7 +1458,7 @@ class Scanner implements Constants {
                 token = NOT;
                 return retPos;
 
-              case '*':
+            case '*':
                 if ((ch = in.read()) == '=') {
                     ch = in.read();
                     token = ASGMUL;
@@ -1270,21 +1467,64 @@ class Scanner implements Constants {
                 token = MUL;
                 return retPos;
 
-              case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
-              case 'g': case 'h': case 'i': case 'j': case 'k': case 'l':
-              case 'm': case 'n': case 'o': case 'p': case 'q': case 'r':
-              case 's': case 't': case 'u': case 'v': case 'w': case 'x':
-              case 'y': case 'z':
-              case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
-              case 'G': case 'H': case 'I': case 'J': case 'K': case 'L':
-              case 'M': case 'N': case 'O': case 'P': case 'Q': case 'R':
-              case 'S': case 'T': case 'U': case 'V': case 'W': case 'X':
-              case 'Y': case 'Z':
-              case '$': case '_':
+            case 'a':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f':
+            case 'g':
+            case 'h':
+            case 'i':
+            case 'j':
+            case 'k':
+            case 'l':
+            case 'm':
+            case 'n':
+            case 'o':
+            case 'p':
+            case 'q':
+            case 'r':
+            case 's':
+            case 't':
+            case 'u':
+            case 'v':
+            case 'w':
+            case 'x':
+            case 'y':
+            case 'z':
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
+            case 'E':
+            case 'F':
+            case 'G':
+            case 'H':
+            case 'I':
+            case 'J':
+            case 'K':
+            case 'L':
+            case 'M':
+            case 'N':
+            case 'O':
+            case 'P':
+            case 'Q':
+            case 'R':
+            case 'S':
+            case 'T':
+            case 'U':
+            case 'V':
+            case 'W':
+            case 'X':
+            case 'Y':
+            case 'Z':
+            case '$':
+            case '_':
                 scanIdentifier();
                 return retPos;
 
-              case '\u001a':
+            case '\u001a':
                 // Our one concession to DOS.
                 if ((ch = in.read()) == EOF) {
                     token = EOF;
@@ -1294,9 +1534,8 @@ class Scanner implements Constants {
                 ch = in.read();
                 break;
 
-
-              default:
-                if (Character.isJavaLetter((char)ch)) {
+            default:
+                if (Character.isJavaLetter((char) ch)) {
                     scanIdentifier();
                     return retPos;
                 }
@@ -1308,8 +1547,7 @@ class Scanner implements Constants {
     }
 
     /**
-     * Scan to a matching '}', ']' or ')'. The current token must be
-     * a '{', '[' or '(';
+     * Scan to a matching '}', ']' or ')'. The current token must be a '{', '[' or '(';
      */
     public void match(int open, int close) throws IOException {
         int depth = 1;

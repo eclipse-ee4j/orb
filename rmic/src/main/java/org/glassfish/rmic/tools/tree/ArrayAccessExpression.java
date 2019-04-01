@@ -16,22 +16,16 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class ArrayAccessExpression extends UnaryExpression {
+public class ArrayAccessExpression extends UnaryExpression {
 
     /**
-     * The index expression for the array access.  Note that
-     * ArrayAccessExpression also `moonlights' as a structure for
-     * storing array types (like Object[]) which are used as part
-     * of cast expressions.  For properly formed array types, the
-     * value of index is null.  We need to be on the lookout for
-     * null indices in true array accesses, and non-null indices
-     * in array types.  We also need to make sure general purpose
-     * methods (like copyInline(), which is called for both) are
+     * The index expression for the array access. Note that ArrayAccessExpression also `moonlights' as a structure for
+     * storing array types (like Object[]) which are used as part of cast expressions. For properly formed array types, the
+     * value of index is null. We need to be on the lookout for null indices in true array accesses, and non-null indices in
+     * array types. We also need to make sure general purpose methods (like copyInline(), which is called for both) are
      * prepared to handle either null or non-null indices.
      */
     Expression index;
@@ -67,9 +61,7 @@ class ArrayAccessExpression extends UnaryExpression {
         return vset;
     }
 
-    public Vset checkAmbigName(Environment env, Context ctx,
-                               Vset vset, Hashtable<Object, Object> exp,
-                               UnaryExpression loc) {
+    public Vset checkAmbigName(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp, UnaryExpression loc) {
         if (index == null) {
             vset = right.checkAmbigName(env, ctx, vset, exp, this);
             if (right.type == Type.tPackage) {
@@ -77,7 +69,7 @@ class ArrayAccessExpression extends UnaryExpression {
                 return vset;
             }
 
-            // Nope.  Is this field expression a type?
+            // Nope. Is this field expression a type?
             if (right instanceof TypeExpression) {
                 Type atype = Type.tArray(right.type);
                 loc.right = new TypeExpression(where, atype);
@@ -93,23 +85,20 @@ class ArrayAccessExpression extends UnaryExpression {
     /*
      * Check the array if it appears on the LHS of an assignment
      */
-    public Vset checkLHS(Environment env, Context ctx,
-                         Vset vset, Hashtable<Object, Object> exp) {
+    public Vset checkLHS(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         return checkValue(env, ctx, vset, exp);
     }
 
     /*
      * Check the array if it appears on the LHS of an op= expression
      */
-    public Vset checkAssignOp(Environment env, Context ctx,
-                              Vset vset, Hashtable<Object, Object> exp, Expression outside) {
+    public Vset checkAssignOp(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp, Expression outside) {
         return checkValue(env, ctx, vset, exp);
     }
 
     /**
-     * An array access expression never requires the use of an access method to perform
-     * an assignment to an array element, though an access method may be required to
-     * fetch the array object itself.
+     * An array access expression never requires the use of an access method to perform an assignment to an array element,
+     * though an access method may be required to fetch the array object itself.
      */
     public FieldUpdater getAssigner(Environment env, Context ctx) {
         return null;
@@ -128,6 +117,7 @@ class ArrayAccessExpression extends UnaryExpression {
     Type toType(Environment env, Context ctx) {
         return toType(env, right.toType(env, ctx));
     }
+
     Type toType(Environment env, Type t) {
         if (index != null) {
             env.error(index.where, "array.dim.in.type");
@@ -147,15 +137,17 @@ class ArrayAccessExpression extends UnaryExpression {
         index = index.inlineValue(env, ctx);
         return this;
     }
+
     public Expression inlineValue(Environment env, Context ctx) {
         // inlineValue() should not end up being called when the index is
-        // null.  If it is null, we let this method fail with a
+        // null. If it is null, we let this method fail with a
         // NullPointerException.
 
         right = right.inlineValue(env, ctx);
         index = index.inlineValue(env, ctx);
         return this;
     }
+
     public Expression inlineLHS(Environment env, Context ctx) {
         return inlineValue(env, ctx);
     }
@@ -164,7 +156,7 @@ class ArrayAccessExpression extends UnaryExpression {
      * Create a copy of the expression for method inlining
      */
     public Expression copyInline(Context ctx) {
-        ArrayAccessExpression e = (ArrayAccessExpression)clone();
+        ArrayAccessExpression e = (ArrayAccessExpression) clone();
         e.right = right.copyInline(ctx);
         if (index == null) {
             // The index can be null when this node is being used to
@@ -182,11 +174,10 @@ class ArrayAccessExpression extends UnaryExpression {
      */
     public int costInline(int thresh, Environment env, Context ctx) {
         // costInline() should not end up being called when the index is
-        // null.  If it is null, we let this method fail with a
+        // null. If it is null, we let this method fail with a
         // NullPointerException.
 
-        return 1 + right.costInline(thresh, env, ctx)
-            + index.costInline(thresh, env, ctx);
+        return 1 + right.costInline(thresh, env, ctx) + index.costInline(thresh, env, ctx);
     }
 
     /**
@@ -194,50 +185,52 @@ class ArrayAccessExpression extends UnaryExpression {
      */
     int codeLValue(Environment env, Context ctx, Assembler asm) {
         // codeLValue() should not end up being called when the index is
-        // null.  If it is null, we let this method fail with a
+        // null. If it is null, we let this method fail with a
         // NullPointerException.
 
         right.codeValue(env, ctx, asm);
         index.codeValue(env, ctx, asm);
         return 2;
     }
+
     void codeLoad(Environment env, Context ctx, Assembler asm) {
         switch (type.getTypeCode()) {
-          case TC_BOOLEAN:
-          case TC_BYTE:
+        case TC_BOOLEAN:
+        case TC_BYTE:
             asm.add(where, opc_baload);
             break;
-          case TC_CHAR:
+        case TC_CHAR:
             asm.add(where, opc_caload);
             break;
-          case TC_SHORT:
+        case TC_SHORT:
             asm.add(where, opc_saload);
             break;
-          default:
+        default:
             asm.add(where, opc_iaload + type.getTypeCodeOffset());
         }
     }
+
     void codeStore(Environment env, Context ctx, Assembler asm) {
         switch (type.getTypeCode()) {
-          case TC_BOOLEAN:
-          case TC_BYTE:
+        case TC_BOOLEAN:
+        case TC_BYTE:
             asm.add(where, opc_bastore);
             break;
-          case TC_CHAR:
+        case TC_CHAR:
             asm.add(where, opc_castore);
             break;
-          case TC_SHORT:
+        case TC_SHORT:
             asm.add(where, opc_sastore);
             break;
-          default:
+        default:
             asm.add(where, opc_iastore + type.getTypeCodeOffset());
         }
     }
+
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         codeLValue(env, ctx, asm);
         codeLoad(env, ctx, asm);
     }
-
 
     /**
      * Print
@@ -249,7 +242,7 @@ class ArrayAccessExpression extends UnaryExpression {
         if (index != null) {
             index.print(out);
         } else {
-        out.print("<empty>");
+            out.print("<empty>");
         }
         out.print(")");
     }

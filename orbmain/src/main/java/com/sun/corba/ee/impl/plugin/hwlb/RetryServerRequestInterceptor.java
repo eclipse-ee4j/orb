@@ -12,7 +12,7 @@
 // Created       : 2005 Jul 01 (Fri) 13:36:46 by Harold Carr.
 //
 
-package com.sun.corba.ee.impl.plugin.hwlb ;
+package com.sun.corba.ee.impl.plugin.hwlb;
 
 import java.util.Properties;
 
@@ -27,12 +27,8 @@ import org.omg.PortableInterceptor.ServerRequestInfo;
 /**
  * @author Harold Carr
  */
-public class RetryServerRequestInterceptor
-    extends  org.omg.CORBA.LocalObject
-    implements ORBInitializer, ServerRequestInterceptor
-{
-    private static final String baseMsg = 
-        RetryServerRequestInterceptor.class.getName();
+public class RetryServerRequestInterceptor extends org.omg.CORBA.LocalObject implements ORBInitializer, ServerRequestInterceptor {
+    private static final String baseMsg = RetryServerRequestInterceptor.class.getName();
 
     private static boolean rejectingRequests = false;
 
@@ -43,13 +39,11 @@ public class RetryServerRequestInterceptor
     // Application specific
     //
 
-    public static boolean getRejectingRequests() 
-    {
+    public static boolean getRejectingRequests() {
         return rejectingRequests;
     }
 
-    public static void setRejectingRequests(boolean x)
-    {
+    public static void setRejectingRequests(boolean x) {
         rejectingRequests = x;
     }
 
@@ -58,13 +52,11 @@ public class RetryServerRequestInterceptor
     // Interceptor operations
     //
 
-    public String name() 
-    {
-        return baseMsg; 
+    public String name() {
+        return baseMsg;
     }
 
-    public void destroy() 
-    {
+    public void destroy() {
     }
 
     ////////////////////////////////////////////////////
@@ -72,39 +64,28 @@ public class RetryServerRequestInterceptor
     // ServerRequestInterceptor
     //
 
-    public void receive_request_service_contexts(ServerRequestInfo ri)
-    {
+    public void receive_request_service_contexts(ServerRequestInfo ri) {
         if (rejectingRequests) {
             if (debug) {
-                System.out.println(baseMsg 
-                                   + ".receive_request_service_contexts:" 
-                                   + " rejecting request: "
-                                   + ri.operation());
+                System.out.println(baseMsg + ".receive_request_service_contexts:" + " rejecting request: " + ri.operation());
             }
             throw new TRANSIENT();
         }
         if (debug) {
-            System.out.println(baseMsg
-                               + ".receive_request_service_contexts:"
-                               + " accepting request: "
-                               + ri.operation());
+            System.out.println(baseMsg + ".receive_request_service_contexts:" + " accepting request: " + ri.operation());
         }
     }
 
-    public void receive_request(ServerRequestInfo ri)
-    {
+    public void receive_request(ServerRequestInfo ri) {
     }
 
-    public void send_reply(ServerRequestInfo ri)
-    {
+    public void send_reply(ServerRequestInfo ri) {
     }
 
-    public void send_exception(ServerRequestInfo ri)
-    {
+    public void send_exception(ServerRequestInfo ri) {
     }
 
-    public void send_other(ServerRequestInfo ri)
-    {
+    public void send_other(ServerRequestInfo ri) {
     }
 
     ////////////////////////////////////////////////////
@@ -112,12 +93,10 @@ public class RetryServerRequestInterceptor
     // ORBInitializer
     //
 
-    public void pre_init(ORBInitInfo info) 
-    {
+    public void pre_init(ORBInitInfo info) {
     }
 
-    public void post_init(ORBInitInfo info) 
-    {
+    public void post_init(ORBInitInfo info) {
         try {
             if (debug) {
                 System.out.println(".post_init: registering: " + this);

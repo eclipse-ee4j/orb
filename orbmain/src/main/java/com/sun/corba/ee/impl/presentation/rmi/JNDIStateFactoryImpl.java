@@ -8,7 +8,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package com.sun.corba.ee.impl.presentation.rmi ;
+package com.sun.corba.ee.impl.presentation.rmi;
 
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
@@ -31,36 +31,31 @@ import java.util.concurrent.ConcurrentMap;
 // of the CosNaming service provider.
 
 /**
-  * StateFactory that turns java.rmi.Remote objects to org.omg.CORBA.Object.
-  * This version works either with standard RMI-IIOP or Dynamic RMI-IIOP.
-  *
-  * @author Ken Cavanaugh 
-  */
+ * StateFactory that turns java.rmi.Remote objects to org.omg.CORBA.Object. This version works either with standard
+ * RMI-IIOP or Dynamic RMI-IIOP.
+ *
+ * @author Ken Cavanaugh
+ */
 
 public class JNDIStateFactoryImpl implements StateFactory {
 
     @SuppressWarnings("WeakerAccess")
-    public JNDIStateFactoryImpl() { }
+    public JNDIStateFactoryImpl() {
+    }
 
     /**
-     * Returns the CORBA object for a Remote object.
-     * If input is not a Remote object, or if Remote object uses JRMP, return null.
-     * If the RMI-IIOP library is not available, throw ConfigurationException.
+     * Returns the CORBA object for a Remote object. If input is not a Remote object, or if Remote object uses JRMP, return
+     * null. If the RMI-IIOP library is not available, throw ConfigurationException.
      *
-     * @param orig The object to turn into a CORBA object. If not Remote, 
-     *             or if is a JRMP stub or impl, return null.
+     * @param orig The object to turn into a CORBA object. If not Remote, or if is a JRMP stub or impl, return null.
      * @param name Ignored
      * @param ctx The non-null CNCtx whose ORB to use.
      * @param env Ignored
      * @return The CORBA object for <tt>orig</tt> or null.
-     * @exception ConfigurationException If the CORBA object cannot be obtained
-     *    due to configuration problems
-     * @exception NamingException If some other problem prevented a CORBA
-     *    object from being obtained from the Remote object.
+     * @exception ConfigurationException If the CORBA object cannot be obtained due to configuration problems
+     * @exception NamingException If some other problem prevented a CORBA object from being obtained from the Remote object.
      */
-    public Object getStateToBind(Object orig, Name name, Context ctx,
-        Hashtable<?,?> env) throws NamingException 
-    {
+    public Object getStateToBind(Object orig, Name name, Context ctx, Hashtable<?, ?> env) throws NamingException {
         if (orig instanceof org.omg.CORBA.Object) {
             return orig;
         }
@@ -69,35 +64,35 @@ public class JNDIStateFactoryImpl implements StateFactory {
             return null;
         }
 
-        ORB orb = getORB( ctx ) ; 
+        ORB orb = getORB(ctx);
         if (orb == null) {
             // Wrong kind of context, so just give up and let another StateFactory
             // try to satisfy getStateToBind.
-            return null ;
+            return null;
         }
 
         Remote stub;
 
         try {
-            stub = PortableRemoteObject.toStub( (Remote)orig ) ;
+            stub = PortableRemoteObject.toStub((Remote) orig);
         } catch (Exception exc) {
-            Exceptions.self.noStub( exc ) ;
+            Exceptions.self.noStub(exc);
             // Wrong sort of object: just return null to allow another StateFactory
-            // to handle this.  This can happen easily because this StateFactory
+            // to handle this. This can happen easily because this StateFactory
             // is specified for the application, not the service context provider.
-            return null ;
+            return null;
         }
 
-        if (StubAdapter.isStub( stub )) {
+        if (StubAdapter.isStub(stub)) {
             try {
-                StubAdapter.connect( stub, orb ) ; 
+                StubAdapter.connect(stub, orb);
             } catch (Exception exc) {
-                Exceptions.self.couldNotConnect( exc ) ;
+                Exceptions.self.couldNotConnect(exc);
 
                 if (!(exc instanceof java.rmi.RemoteException)) {
                     // Wrong sort of object: just return null to allow another StateFactory
                     // to handle this call.
-                    return null ;
+                    return null;
                 }
 
                 // ignore RemoteException because stub might have already
@@ -105,20 +100,20 @@ public class JNDIStateFactoryImpl implements StateFactory {
             }
         }
 
-        return stub ;
+        return stub;
     }
 
-    // This is necessary because the _orb field is package private in 
-    // com.sun.jndi.cosnaming.CNCtx.  This is not an ideal solution.
+    // This is necessary because the _orb field is package private in
+    // com.sun.jndi.cosnaming.CNCtx. This is not an ideal solution.
     // The best solution for our ORB is to change the CosNaming provider
-    // to use the StubAdapter.  But this has problems as well, because
+    // to use the StubAdapter. But this has problems as well, because
     // other vendors may use the CosNaming provider with a different ORB
     // entirely.
-    private ORB getORB( Context ctx ) {
+    private ORB getORB(Context ctx) {
         try {
-            return (ORB) getOrbField(ctx).get( ctx ) ;
+            return (ORB) getOrbField(ctx).get(ctx);
         } catch (Exception exc) {
-            Exceptions.self.couldNotGetORB( exc, ctx );
+            Exceptions.self.couldNotGetORB(exc, ctx);
             return null;
         }
     }
@@ -127,7 +122,8 @@ public class JNDIStateFactoryImpl implements StateFactory {
 
     private Field getOrbField(Context ctx) {
         Field orbField = orbFields.get(ctx.getClass());
-        if (orbField != null) return orbField;
+        if (orbField != null)
+            return orbField;
 
         orbField = AccessController.doPrivileged((PrivilegedAction<Field>) () -> getField(ctx.getClass(), "_orb"));
 

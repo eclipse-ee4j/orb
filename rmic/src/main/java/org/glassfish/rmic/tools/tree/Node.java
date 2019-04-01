@@ -15,12 +15,10 @@ import java.io.PrintStream;
 import java.io.ByteArrayOutputStream;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class Node implements Constants, Cloneable {
+public class Node implements Constants, Cloneable {
     int op;
     long where;
 

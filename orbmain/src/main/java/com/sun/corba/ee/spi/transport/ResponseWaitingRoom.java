@@ -17,7 +17,7 @@ import org.omg.CORBA.SystemException;
 /**
  * @author Harold Carr
  */
-public interface ResponseWaitingRoom{
+public interface ResponseWaitingRoom {
     public void registerWaiter(MessageMediator messageMediator);
 
     // REVISIT: maybe return void (or MessageMediator).

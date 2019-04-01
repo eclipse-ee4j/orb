@@ -14,35 +14,29 @@ import java.nio.ByteBuffer;
 import com.sun.corba.ee.impl.protocol.giopmsgheaders.FragmentMessage;
 import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
 
-public interface BufferManagerRead
-{
+public interface BufferManagerRead {
     /**
-     * Case: Called from ReaderThread on complete message or fragments.
-     *       The given buf may be entire message or a fragment.
+     * Case: Called from ReaderThread on complete message or fragments. The given buf may be entire message or a fragment.
      *
-     *  The ReaderThread finds the ReadBufferManager instance either in
-     *  in a fragment map (when collecting - GIOP 1.2 phase 1) or
-     *  in an active server requests map (when streaming - GIOP 1.2 phase 2).
+     * The ReaderThread finds the ReadBufferManager instance either in in a fragment map (when collecting - GIOP 1.2 phase
+     * 1) or in an active server requests map (when streaming - GIOP 1.2 phase 2).
      *
-     *  As a model for implementation see IIOPInputStream's
-     *  constructor of the same name. There are going to be some variations.
+     * As a model for implementation see IIOPInputStream's constructor of the same name. There are going to be some
+     * variations.
      *
      */
 
-    public void processFragment ( ByteBuffer byteBuffer,
-        FragmentMessage header);
-
+    public void processFragment(ByteBuffer byteBuffer, FragmentMessage header);
 
     /**
      * Case: called from CDRInputStream constructor before unmarshaling.
      *
      * Does:
      *
-     *  this.bufQ.get()
+     * this.bufQ.get()
      *
-     *  If streaming then sync on bufQ and wait if empty.
+     * If streaming then sync on bufQ and wait if empty.
      */
-
 
     /**
      * Invoked when we run out of data to read. Obtains more data from the stream.
@@ -55,8 +49,7 @@ public interface BufferManagerRead
     boolean isFragmentOnUnderflow();
 
     /**
-     * Called once after creating this buffer manager and before
-     * it begins processing.
+     * Called once after creating this buffer manager and before it begins processing.
      */
     public void init(Message header);
 

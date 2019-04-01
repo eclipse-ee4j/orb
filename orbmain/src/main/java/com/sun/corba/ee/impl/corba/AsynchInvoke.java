@@ -11,7 +11,7 @@
 
 package com.sun.corba.ee.impl.corba;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
 ///////////////////////////////////////////////////////////////////////////
 // helper class for deferred invocations
@@ -27,32 +27,27 @@ import com.sun.corba.ee.spi.orb.ORB ;
 public class AsynchInvoke implements Runnable {
 
     private final RequestImpl _req;
-    private final ORB         _orb;
-    private final boolean     _notifyORB;
+    private final ORB _orb;
+    private final boolean _notifyORB;
 
-    public AsynchInvoke (ORB o, RequestImpl reqToInvokeOn, boolean n)
-    {
+    public AsynchInvoke(ORB o, RequestImpl reqToInvokeOn, boolean n) {
         _orb = o;
         _req = reqToInvokeOn;
         _notifyORB = n;
     };
 
-
     /*
-     * The run operation calls the invocation on the request object,
-     * updates the RequestImpl state to indicate that the asynchronous
-     * invocation is complete, and wakes up any client that might be
-     * waiting on a 'get_response' call.
+     * The run operation calls the invocation on the request object, updates the RequestImpl state to indicate that the
+     * asynchronous invocation is complete, and wakes up any client that might be waiting on a 'get_response' call.
      *
      */
 
-    public void run() 
-    {
+    public void run() {
         synchronized (_req) {
             // do the actual invocation
             _req.doInvocation();
         }
-    
+
         // for the asynchronous case, note that the response has been
         // received.
         synchronized (_req) {
@@ -62,9 +57,9 @@ public class AsynchInvoke implements Runnable {
             // notify any client waiting on a 'get_response'
             _req.notify();
         }
-      
+
         if (_notifyORB == true) {
-            _orb.notifyORB() ;
+            _orb.notifyORB();
         }
     }
 

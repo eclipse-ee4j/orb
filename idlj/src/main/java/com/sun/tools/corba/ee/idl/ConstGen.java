@@ -16,8 +16,6 @@ package com.sun.tools.corba.ee.idl;
 import java.io.PrintWriter;
 import java.util.Hashtable;
 
-public interface ConstGen extends Generator
-{
-  void generate (Hashtable symbolTable, com.sun.tools.corba.ee.idl.ConstEntry entry, PrintWriter stream);
+public interface ConstGen extends Generator {
+    void generate(Hashtable symbolTable, com.sun.tools.corba.ee.idl.ConstEntry entry, PrintWriter stream);
 } // interface ConstGen
-

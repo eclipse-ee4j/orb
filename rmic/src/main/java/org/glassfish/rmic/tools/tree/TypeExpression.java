@@ -15,12 +15,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class TypeExpression extends Expression {
+public class TypeExpression extends Expression {
     /**
      * Constructor
      */
@@ -44,8 +42,7 @@ class TypeExpression extends Expression {
         return vset;
     }
 
-    public Vset checkAmbigName(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp,
-                               UnaryExpression loc) {
+    public Vset checkAmbigName(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp, UnaryExpression loc) {
         return vset;
     }
 

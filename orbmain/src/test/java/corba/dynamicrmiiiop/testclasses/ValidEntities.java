@@ -15,12 +15,12 @@ package corba.dynamicrmiiiop.testclasses;
  */
 public class ValidEntities {
 
-    public static final Class[] CLASSES = {
-        ValidEntity1.class, ValidEntity2.class
-    };
+    public static final Class[] CLASSES = { ValidEntity1.class, ValidEntity2.class };
 
-    public class ValidEntity1 implements org.omg.CORBA.portable.IDLEntity {}
+    public class ValidEntity1 implements org.omg.CORBA.portable.IDLEntity {
+    }
 
-    public class ValidEntity2 extends ValidEntity1 {}
+    public class ValidEntity2 extends ValidEntity1 {
+    }
 
 }

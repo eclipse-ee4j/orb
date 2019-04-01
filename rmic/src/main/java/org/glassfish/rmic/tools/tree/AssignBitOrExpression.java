@@ -14,19 +14,16 @@ import org.glassfish.rmic.tools.java.*;
 import org.glassfish.rmic.tools.asm.Assembler;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class AssignBitOrExpression extends AssignOpExpression {
+public class AssignBitOrExpression extends AssignOpExpression {
     /**
      * Constructor
      */
     public AssignBitOrExpression(long where, Expression left, Expression right) {
         super(ASGBITOR, where, left, right);
     }
-
 
     /**
      * Code

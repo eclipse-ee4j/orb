@@ -13,8 +13,7 @@ package com.sun.corba.ee.impl.oa.poa;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 
-final class LifespanPolicyImpl
-    extends org.omg.CORBA.LocalObject implements LifespanPolicy {
+final class LifespanPolicyImpl extends org.omg.CORBA.LocalObject implements LifespanPolicy {
 
     public LifespanPolicyImpl(LifespanPolicyValue value) {
         this.value = value;
@@ -24,9 +23,8 @@ final class LifespanPolicyImpl
         return value;
     }
 
-    public int policy_type()
-    {
-        return LIFESPAN_POLICY_ID.value ;
+    public int policy_type() {
+        return LIFESPAN_POLICY_ID.value;
     }
 
     public Policy copy() {
@@ -39,10 +37,7 @@ final class LifespanPolicyImpl
 
     private LifespanPolicyValue value;
 
-    public String toString()
-    {
-        return "LifespanPolicy[" +
-            ((value.value() == LifespanPolicyValue._TRANSIENT) ?
-                "TRANSIENT" : "PERSISTENT" + "]") ;
+    public String toString() {
+        return "LifespanPolicy[" + ((value.value() == LifespanPolicyValue._TRANSIENT) ? "TRANSIENT" : "PERSISTENT" + "]");
     }
 }

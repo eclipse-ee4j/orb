@@ -13,9 +13,8 @@ package com.sun.corba.ee.impl.oa.poa;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 
-final class ThreadPolicyImpl
-    extends org.omg.CORBA.LocalObject implements ThreadPolicy {
-        
+final class ThreadPolicyImpl extends org.omg.CORBA.LocalObject implements ThreadPolicy {
+
     public ThreadPolicyImpl(ThreadPolicyValue value) {
         this.value = value;
     }
@@ -24,9 +23,8 @@ final class ThreadPolicyImpl
         return value;
     }
 
-    public int policy_type()
-    {
-        return THREAD_POLICY_ID.value ;
+    public int policy_type() {
+        return THREAD_POLICY_ID.value;
     }
 
     public Policy copy() {
@@ -39,10 +37,7 @@ final class ThreadPolicyImpl
 
     private ThreadPolicyValue value;
 
-    public String toString()
-    {
-        return "ThreadPolicy[" +
-            ((value.value() == ThreadPolicyValue._SINGLE_THREAD_MODEL) ?
-                "SINGLE_THREAD_MODEL" : "ORB_CTRL_MODEL" + "]") ;
+    public String toString() {
+        return "ThreadPolicy[" + ((value.value() == ThreadPolicyValue._SINGLE_THREAD_MODEL) ? "SINGLE_THREAD_MODEL" : "ORB_CTRL_MODEL" + "]");
     }
 }

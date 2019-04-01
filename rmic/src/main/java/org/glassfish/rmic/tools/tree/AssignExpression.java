@@ -16,12 +16,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class AssignExpression extends BinaryAssignExpression {
+public class AssignExpression extends BinaryAssignExpression {
 
     private FieldUpdater updater = null;
 
@@ -61,7 +59,7 @@ class AssignExpression extends BinaryAssignExpression {
     public Expression inlineValue(Environment env, Context ctx) {
         if (implementation != null)
             return implementation.inlineValue(env, ctx);
-        // Must be 'inlineLHS' here.  But compare with similar case in
+        // Must be 'inlineLHS' here. But compare with similar case in
         // 'AssignOpExpression' and 'IncDecExpression', which needs 'inlineValue'.
         left = left.inlineLHS(env, ctx);
         right = right.inlineValue(env, ctx);
@@ -77,7 +75,7 @@ class AssignExpression extends BinaryAssignExpression {
     public Expression copyInline(Context ctx) {
         if (implementation != null)
             return implementation.copyInline(ctx);
-        AssignExpression e = (AssignExpression)clone();
+        AssignExpression e = (AssignExpression) clone();
         e.left = left.copyInline(ctx);
         e.right = right.copyInline(ctx);
         if (updater != null) {
@@ -94,14 +92,12 @@ class AssignExpression extends BinaryAssignExpression {
         return 2 + super.costInline(thresh, env, ctx);
         *----------*/
         return (updater != null)
-            // Cost of rhs expression + cost of access method call.
-            // Access method call cost includes lhs cost.
-            ? right.costInline(thresh, env, ctx) +
-                  updater.costInline(thresh, env, ctx, false)
-            // Cost of rhs expression + cost of lhs expression +
-            // cost of store instruction.
-            : right.costInline(thresh, env, ctx) +
-                  left.costInline(thresh, env, ctx) + 2;
+                // Cost of rhs expression + cost of access method call.
+                // Access method call cost includes lhs cost.
+                ? right.costInline(thresh, env, ctx) + updater.costInline(thresh, env, ctx, false)
+                // Cost of rhs expression + cost of lhs expression +
+                // cost of store instruction.
+                : right.costInline(thresh, env, ctx) + left.costInline(thresh, env, ctx) + 2;
     }
 
     /**

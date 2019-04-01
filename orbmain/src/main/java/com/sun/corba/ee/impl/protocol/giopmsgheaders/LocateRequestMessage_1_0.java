@@ -22,8 +22,7 @@ import com.sun.corba.ee.spi.orb.ObjectKeyCacheEntry;
  * @version 1.0
  */
 
-public final class LocateRequestMessage_1_0 extends Message_1_0
-        implements LocateRequestMessage {
+public final class LocateRequestMessage_1_0 extends Message_1_0 implements LocateRequestMessage {
 
     // Instance variables
 
@@ -63,11 +62,12 @@ public final class LocateRequestMessage_1_0 extends Message_1_0
     // IO methods
 
     public void read(org.omg.CORBA.portable.InputStream istream) {
-        super.read(istream);;
+        super.read(istream);
+        ;
         this.request_id = istream.read_ulong();
         int _len0 = istream.read_long();
         this.object_key = new byte[_len0];
-        istream.read_octet_array (this.object_key, 0, _len0);
+        istream.read_octet_array(this.object_key, 0, _len0);
     }
 
     public void write(org.omg.CORBA.portable.OutputStream ostream) {
@@ -78,9 +78,7 @@ public final class LocateRequestMessage_1_0 extends Message_1_0
         ostream.write_octet_array(this.object_key, 0, this.object_key.length);
     }
 
-    public void callback(MessageHandler handler)
-        throws java.io.IOException
-    {
+    public void callback(MessageHandler handler) throws java.io.IOException {
         handler.handleInput(this);
     }
 } // class LocateRequestMessage_1_0

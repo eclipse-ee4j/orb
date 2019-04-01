@@ -25,37 +25,29 @@ import com.sun.corba.ee.spi.ior.iiop.MaxStreamFormatVersionComponent;
 
 // Java to IDL ptc 02-01-12 1.4.11
 // TAG_RMI_CUSTOM_MAX_STREAM_FORMAT
-public class MaxStreamFormatVersionComponentImpl extends TaggedComponentBase 
-    implements MaxStreamFormatVersionComponent
-{
+public class MaxStreamFormatVersionComponentImpl extends TaggedComponentBase implements MaxStreamFormatVersionComponent {
     private byte version;
 
-    public static final MaxStreamFormatVersionComponentImpl singleton
-        = new MaxStreamFormatVersionComponentImpl();
+    public static final MaxStreamFormatVersionComponentImpl singleton = new MaxStreamFormatVersionComponentImpl();
 
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (!(obj instanceof MaxStreamFormatVersionComponentImpl))
-            return false ;
+            return false;
 
-        MaxStreamFormatVersionComponentImpl other = 
-            (MaxStreamFormatVersionComponentImpl)obj ;
+        MaxStreamFormatVersionComponentImpl other = (MaxStreamFormatVersionComponentImpl) obj;
 
-        return version == other.version ;
+        return version == other.version;
     }
 
-    public int hashCode()
-    {
-        return version ;
+    public int hashCode() {
+        return version;
     }
 
-    public String toString()
-    {
-        return "MaxStreamFormatVersionComponentImpl[version=" + version + "]" ;
+    public String toString() {
+        return "MaxStreamFormatVersionComponentImpl[version=" + version + "]";
     }
 
-    public MaxStreamFormatVersionComponentImpl()
-    {
+    public MaxStreamFormatVersionComponentImpl() {
         version = ORBUtility.getMaxStreamFormatVersion();
     }
 
@@ -63,18 +55,15 @@ public class MaxStreamFormatVersionComponentImpl extends TaggedComponentBase
         version = streamFormatVersion;
     }
 
-    public byte getMaxStreamFormatVersion()
-    {
+    public byte getMaxStreamFormatVersion() {
         return version;
     }
 
-    public void writeContents(OutputStream os) 
-    {
+    public void writeContents(OutputStream os) {
         os.write_octet(version);
     }
-    
-    public int getId() 
-    {
+
+    public int getId() {
         return TAG_RMI_CUSTOM_MAX_STREAM_FORMAT.value;
     }
 }

@@ -16,11 +16,9 @@ import com.sun.corba.ee.spi.orb.ORB;
 
 import java.nio.ByteBuffer;
 
-public class BufferManagerWriteGrow extends BufferManagerWrite
-{
-    BufferManagerWriteGrow( ORB orb )
-    {
-        super(orb) ;
+public class BufferManagerWriteGrow extends BufferManagerWrite {
+    BufferManagerWriteGrow(ORB orb) {
+        super(orb);
     }
 
     public boolean sentFragment() {
@@ -28,8 +26,7 @@ public class BufferManagerWriteGrow extends BufferManagerWrite
     }
 
     /**
-     * Returns the correct buffer size for this type of
-     * buffer manager as set in the ORB.
+     * Returns the correct buffer size for this type of buffer manager as set in the ORB.
      */
     public int getBufferSize() {
         return orb.getORBData().getGIOPBufferSize();
@@ -57,15 +54,14 @@ public class BufferManagerWriteGrow extends BufferManagerWrite
         return false;
     }
 
-    public void sendMessage () {
-        Connection conn =
-              ((CDROutputObject)outputObject).getMessageMediator().getConnection();
+    public void sendMessage() {
+        Connection conn = ((CDROutputObject) outputObject).getMessageMediator().getConnection();
 
         conn.writeLock();
 
         try {
 
-            conn.sendWithoutLock((CDROutputObject)outputObject);
+            conn.sendWithoutLock((CDROutputObject) outputObject);
 
             sentFullMessage = true;
 
@@ -80,6 +76,7 @@ public class BufferManagerWriteGrow extends BufferManagerWrite
      *
      * No work to do for a BufferManagerWriteGrow.
      */
-    public void close() {}
+    public void close() {
+    }
 
 }

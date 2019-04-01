@@ -13,17 +13,14 @@ package org.glassfish.rmic.tools.asm;
 import org.glassfish.rmic.tools.java.*;
 
 /**
- * This class is used to assemble the local variables in the local
- * variable table.
+ * This class is used to assemble the local variables in the local variable table.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  *
  * @author Arthur van Hoff
  */
-public final
-class LocalVariable {
+public final class LocalVariable {
     MemberDefinition field;
     int slot;
     int from;

@@ -10,15 +10,12 @@
 
 package com.sun.corba.ee.impl.encoding;
 
-
 import java.nio.ByteBuffer;
 
 /**
- * Defines an abstraction for a RestorableInputStream to 
- * implement mark/reset.
+ * Defines an abstraction for a RestorableInputStream to implement mark/reset.
  */
-interface MarkAndResetHandler
-{
+interface MarkAndResetHandler {
     void mark(RestorableInputStream inputStream);
 
     void fragmentationOccured(ByteBuffer byteBuffer);

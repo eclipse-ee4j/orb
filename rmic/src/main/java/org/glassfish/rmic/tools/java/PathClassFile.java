@@ -17,15 +17,12 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 
 /**
- * This class is used to represent a file loaded from the class path, and
- * is represented by nio Path.
+ * This class is used to represent a file loaded from the class path, and is represented by nio Path.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-final
-class PathClassFile extends ClassFile {
+final class PathClassFile extends ClassFile {
     private final Path path;
     private final BasicFileAttributes attrs;
 

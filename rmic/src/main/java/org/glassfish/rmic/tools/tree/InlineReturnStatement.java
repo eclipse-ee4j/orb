@@ -16,12 +16,10 @@ import org.glassfish.rmic.tools.asm.Label;
 import java.io.PrintStream;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class InlineReturnStatement extends Statement {
+public class InlineReturnStatement extends Statement {
     Expression expr;
 
     /**
@@ -36,7 +34,7 @@ class InlineReturnStatement extends Statement {
      * Get the destination context of a break
      */
     Context getDestination(Context ctx) {
-        for (; ctx != null ; ctx = ctx.prev) {
+        for (; ctx != null; ctx = ctx.prev) {
             if ((ctx.node != null) && ((ctx.node.op == INLINEMETHOD) || (ctx.node.op == INLINENEWINSTANCE))) {
                 return ctx;
             }
@@ -58,7 +56,7 @@ class InlineReturnStatement extends Statement {
      * Create a copy of the statement for method inlining
      */
     public Statement copyInline(Context ctx, boolean valNeeded) {
-        InlineReturnStatement s = (InlineReturnStatement)clone();
+        InlineReturnStatement s = (InlineReturnStatement) clone();
         if (expr != null) {
             s.expr = expr.copyInline(ctx);
         }
@@ -79,7 +77,7 @@ class InlineReturnStatement extends Statement {
         if (expr != null) {
             expr.codeValue(env, ctx, asm);
         }
-        CodeContext destctx = (CodeContext)getDestination(ctx);
+        CodeContext destctx = (CodeContext) getDestination(ctx);
         asm.add(where, opc_goto, destctx.breakLabel);
     }
 

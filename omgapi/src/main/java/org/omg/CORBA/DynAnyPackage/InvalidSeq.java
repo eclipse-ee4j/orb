@@ -11,13 +11,11 @@
 package org.omg.CORBA.DynAnyPackage;
 
 /**
- * The InvalidSeq exception is thrown by all operations on dynamic
- * anys that take a sequence (Java array) as an argument, when that
- * sequence is invalid.
+ * The InvalidSeq exception is thrown by all operations on dynamic anys that take a sequence (Java array) as an
+ * argument, when that sequence is invalid.
  */
 // @SuppressWarnings({"serial"})
-public final class InvalidSeq
-    extends org.omg.CORBA.UserException {
+public final class InvalidSeq extends org.omg.CORBA.UserException {
 
     /**
      * Constructs an <code>InvalidSeq</code> object.
@@ -28,8 +26,8 @@ public final class InvalidSeq
 
     /**
      * Constructs an <code>InvalidSeq</code> object.
-     * @param reason  a <code>String</code> giving more information
-     * regarding the exception.
+     *
+     * @param reason a <code>String</code> giving more information regarding the exception.
      */
     public InvalidSeq(String reason) {
         super(reason);

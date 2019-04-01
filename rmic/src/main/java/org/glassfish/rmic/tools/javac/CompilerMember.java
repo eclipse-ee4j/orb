@@ -14,16 +14,13 @@ import org.glassfish.rmic.tools.java.*;
 import org.glassfish.rmic.tools.asm.Assembler;
 
 /**
- * This class is used to represents fields while they are
- * being compiled
+ * This class is used to represents fields while they are being compiled
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
 @Deprecated
-final
-class CompilerMember implements Comparable<Object> {
+final class CompilerMember implements Comparable<Object> {
     MemberDefinition field;
     Assembler asm;
     Object value;
@@ -44,8 +41,8 @@ class CompilerMember implements Comparable<Object> {
     }
 
     String getKey() {
-        if (key==null)
-            key = name+sig;
+        if (key == null)
+            key = name + sig;
         return key;
     }
 

@@ -13,86 +13,83 @@ package com.sun.corba.ee.impl.protocol;
 import org.omg.CORBA.portable.ServantObject;
 
 import com.sun.corba.ee.spi.oa.ObjectAdapter;
-import com.sun.corba.ee.spi.oa.OAInvocationInfo ;
+import com.sun.corba.ee.spi.oa.OAInvocationInfo;
 import com.sun.corba.ee.spi.oa.OADestroyed;
 
 import com.sun.corba.ee.spi.orb.ORB;
 
-import com.sun.corba.ee.spi.ior.IOR ;
+import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.trace.Subcontract;
 
 @Subcontract
 public class POALocalCRDImpl extends LocalClientRequestDispatcherBase {
 
-    public POALocalCRDImpl( ORB orb, int scid, IOR ior) {
-        super( orb, scid, ior );
+    public POALocalCRDImpl(ORB orb, int scid, IOR ior) {
+        super(orb, scid, ior);
     }
 
     @Subcontract
-    private OAInvocationInfo servantEnter( ObjectAdapter oa ) throws OADestroyed {
-        oa.enter() ;
+    private OAInvocationInfo servantEnter(ObjectAdapter oa) throws OADestroyed {
+        oa.enter();
 
-        OAInvocationInfo info = oa.makeInvocationInfo( objectId ) ;
-        orb.pushInvocationInfo( info ) ;
+        OAInvocationInfo info = oa.makeInvocationInfo(objectId);
+        orb.pushInvocationInfo(info);
 
-        return info ;
+        return info;
     }
 
     @Subcontract
-    private void servantExit( ObjectAdapter oa ) {
+    private void servantExit(ObjectAdapter oa) {
         try {
             oa.returnServant();
         } finally {
-            oa.exit() ;
-            orb.popInvocationInfo() ; 
+            oa.exit();
+            orb.popInvocationInfo();
         }
     }
 
-    // Look up the servant for this request and return it in a 
-    // ServantObject.  Note that servant_postinvoke is always called
-    // by the stub UNLESS this method returns null.  However, in all
+    // Look up the servant for this request and return it in a
+    // ServantObject. Note that servant_postinvoke is always called
+    // by the stub UNLESS this method returns null. However, in all
     // cases we must be sure that ObjectAdapter.getServant and
     // ObjectAdapter.returnServant calls are paired, as required for
     // Portable Interceptors and Servant Locators in the POA.
     // Thus, this method must call returnServant if it returns null.
     @Subcontract
     @Override
-    public ServantObject internalPreinvoke( org.omg.CORBA.Object self,
-        String operation, Class expectedType) throws OADestroyed {
+    public ServantObject internalPreinvoke(org.omg.CORBA.Object self, String operation, Class expectedType) throws OADestroyed {
 
-        ObjectAdapter oa = null ;
+        ObjectAdapter oa = null;
 
-        oa = oaf.find( oaid ) ;
+        oa = oaf.find(oaid);
 
-        OAInvocationInfo info = servantEnter( oa ) ;
-        info.setOperation( operation ) ;
+        OAInvocationInfo info = servantEnter(oa);
+        info.setOperation(operation);
 
         try {
-            oa.getInvocationServant( info );
-            if (!checkForCompatibleServant( info, expectedType )) {
-                servantExit( oa ) ;
-                return null ;
+            oa.getInvocationServant(info);
+            if (!checkForCompatibleServant(info, expectedType)) {
+                servantExit(oa);
+                return null;
             }
 
-            return info ;
+            return info;
         } catch (Error err) {
             // Cleanup after this call, then throw to allow
             // outer try to handle the exception appropriately.
-            servantExit( oa ) ;
-            throw err ;
+            servantExit(oa);
+            throw err;
         } catch (RuntimeException re) {
             // Cleanup after this call, then throw to allow
             // outer try to handle the exception appropriately.
-            servantExit( oa ) ;
-            throw re ;
+            servantExit(oa);
+            throw re;
         }
     }
 
-    public void servant_postinvoke(org.omg.CORBA.Object self,
-                                   ServantObject servantobj) 
-    {
-        ObjectAdapter oa = orb.peekInvocationInfo().oa() ; 
-        servantExit( oa ) ;     
+    public void servant_postinvoke(org.omg.CORBA.Object self, ServantObject servantobj) {
+        ObjectAdapter oa = orb.peekInvocationInfo().oa();
+        servantExit(oa);
     }
 }
 

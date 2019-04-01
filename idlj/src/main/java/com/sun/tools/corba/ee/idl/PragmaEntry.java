@@ -19,61 +19,57 @@ import java.util.Hashtable;
 /**
  * This is the symbol table entry for the #pragma statement.
  **/
-public class PragmaEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
-{
-  protected PragmaEntry ()
-  {
-    super ();
-    repositoryID (Util.emptyID);
-  } // ctor
+public class PragmaEntry extends com.sun.tools.corba.ee.idl.SymtabEntry {
+    protected PragmaEntry() {
+        super();
+        repositoryID(Util.emptyID);
+    } // ctor
 
-  protected PragmaEntry (com.sun.tools.corba.ee.idl.SymtabEntry that)
-  {
-    super (that, new com.sun.tools.corba.ee.idl.IDLID());
-    module (that.name ());
-    name ("");
-  } // ctor
+    protected PragmaEntry(com.sun.tools.corba.ee.idl.SymtabEntry that) {
+        super(that, new com.sun.tools.corba.ee.idl.IDLID());
+        module(that.name());
+        name("");
+    } // ctor
 
-  protected PragmaEntry (PragmaEntry that)
-  {
-    super (that);
-  } // ctor
+    protected PragmaEntry(PragmaEntry that) {
+        super(that);
+    } // ctor
 
-  public Object clone ()
-  {
-    return new PragmaEntry (this);
-  } // clone
+    public Object clone() {
+        return new PragmaEntry(this);
+    } // clone
 
-  /** Invoke the Include type generator.
-      @param symbolTable the symbol table is a hash table whose key is
-       a fully qualified type name and whose value is a SymtabEntry or
-       a subclass of SymtabEntry.
-      @param stream the stream to which the generator should sent its output.
-      @see com.sun.tools.corba.ee.idl.SymtabEntry */
-  public void generate (Hashtable symbolTable, PrintWriter stream)
-  {
-    pragmaGen.generate (symbolTable, this, stream);
-  } // generate
+    /**
+     * Invoke the Include type generator.
+     *
+     * @param symbolTable the symbol table is a hash table whose key is a fully qualified type name and whose value is a
+     * SymtabEntry or a subclass of SymtabEntry.
+     * @param stream the stream to which the generator should sent its output.
+     * @see com.sun.tools.corba.ee.idl.SymtabEntry
+     */
+    public void generate(Hashtable symbolTable, PrintWriter stream) {
+        pragmaGen.generate(symbolTable, this, stream);
+    } // generate
 
-  /** Access the Include type generator.
-      @return an object which implements the IncludeGen interface.
-      @see com.sun.tools.corba.ee.idl.IncludeGen */
-  public com.sun.tools.corba.ee.idl.Generator generator ()
-  {
-    return pragmaGen;
-  } // generator
+    /**
+     * Access the Include type generator.
+     *
+     * @return an object which implements the IncludeGen interface.
+     * @see com.sun.tools.corba.ee.idl.IncludeGen
+     */
+    public com.sun.tools.corba.ee.idl.Generator generator() {
+        return pragmaGen;
+    } // generator
 
-  public String data ()
-  {
-    return _data;
-  } // data
+    public String data() {
+        return _data;
+    } // data
 
-  public void data (String newData)
-  {
-    _data = newData;
-  } // data
+    public void data(String newData) {
+        _data = newData;
+    } // data
 
-  static com.sun.tools.corba.ee.idl.PragmaGen pragmaGen;
+    static com.sun.tools.corba.ee.idl.PragmaGen pragmaGen;
 
-  private String _data = null;
+    private String _data = null;
 } // class PragmaEntry

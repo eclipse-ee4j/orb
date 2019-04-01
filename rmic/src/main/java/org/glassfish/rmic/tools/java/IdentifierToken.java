@@ -11,19 +11,16 @@
 package org.glassfish.rmic.tools.java;
 
 /**
- * Information about the occurrence of an identifier.
- * The parser produces these to represent name which cannot yet be
+ * Information about the occurrence of an identifier. The parser produces these to represent name which cannot yet be
  * bound to field definitions.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  *
  * @see
  */
 
-public
-class IdentifierToken {
+public class IdentifierToken {
     long where;
     int modifiers;
     Identifier id;
@@ -33,8 +30,8 @@ class IdentifierToken {
         this.id = id;
     }
 
-    /** Use this constructor when the identifier is synthesized.
-     * The location will be 0.
+    /**
+     * Use this constructor when the identifier is synthesized. The location will be 0.
      */
     public IdentifierToken(Identifier id) {
         this.where = 0;
@@ -67,8 +64,7 @@ class IdentifierToken {
     }
 
     /**
-     * Return defaultWhere if id is null or id.where is missing (0).
-     * Otherwise, return id.where.
+     * Return defaultWhere if id is null or id.where is missing (0). Otherwise, return id.where.
      */
     public static long getWhere(IdentifierToken id, long defaultWhere) {
         return (id != null && id.where != 0) ? id.where : defaultWhere;

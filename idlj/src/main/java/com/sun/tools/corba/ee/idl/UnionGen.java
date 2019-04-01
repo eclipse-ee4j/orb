@@ -16,7 +16,6 @@ package com.sun.tools.corba.ee.idl;
 import java.io.PrintWriter;
 import java.util.Hashtable;
 
-public interface UnionGen extends com.sun.tools.corba.ee.idl.Generator
-{
-  void generate (Hashtable symtab, com.sun.tools.corba.ee.idl.UnionEntry entry, PrintWriter stream);
+public interface UnionGen extends com.sun.tools.corba.ee.idl.Generator {
+    void generate(Hashtable symtab, com.sun.tools.corba.ee.idl.UnionEntry entry, PrintWriter stream);
 } // interface UnionGen

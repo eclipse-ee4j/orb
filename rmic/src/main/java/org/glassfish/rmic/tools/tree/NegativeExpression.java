@@ -14,12 +14,10 @@ import org.glassfish.rmic.tools.java.*;
 import org.glassfish.rmic.tools.asm.Assembler;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class NegativeExpression extends UnaryExpression {
+public class NegativeExpression extends UnaryExpression {
     /**
      * Constructor
      */
@@ -49,12 +47,15 @@ class NegativeExpression extends UnaryExpression {
     Expression eval(int a) {
         return new IntExpression(where, -a);
     }
+
     Expression eval(long a) {
         return new LongExpression(where, -a);
     }
+
     Expression eval(float a) {
         return new FloatExpression(where, -a);
     }
+
     Expression eval(double a) {
         return new DoubleExpression(where, -a);
     }
@@ -64,7 +65,7 @@ class NegativeExpression extends UnaryExpression {
      */
     Expression simplify() {
         if (right.op == NEG) {
-            return ((NegativeExpression)right).right;
+            return ((NegativeExpression) right).right;
         }
         return this;
     }

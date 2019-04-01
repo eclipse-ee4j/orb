@@ -19,8 +19,7 @@ public enum TypeCode {
             return Boolean.toString(s.equals("1"));
         }
     },
-    BYTE(TC_BYTE),
-    CHAR(TC_CHAR) {
+    BYTE(TC_BYTE), CHAR(TC_CHAR) {
         @Override
         public String toValueString(Object value) {
             return value == null ? null : "L'" + asCharacter(value) + "'";
@@ -30,9 +29,7 @@ public enum TypeCode {
             return String.valueOf((char) ((Number) value).intValue());
         }
     },
-    SHORT(TC_SHORT),
-    INT(TC_INT),
-    LONG(TC_LONG) {
+    SHORT(TC_SHORT), INT(TC_INT), LONG(TC_LONG) {
         @Override
         public String format(String s) {
             return s + "L";
@@ -50,12 +47,7 @@ public enum TypeCode {
             return s + "D";
         }
     },
-    NULL(TC_NULL),
-    ARRAY(TC_ARRAY),
-    CLASS(TC_CLASS),
-    VOID(TC_VOID),
-    METHOD(TC_METHOD),
-    ERROR(TC_ERROR);
+    NULL(TC_NULL), ARRAY(TC_ARRAY), CLASS(TC_CLASS), VOID(TC_VOID), METHOD(TC_METHOD), ERROR(TC_ERROR);
 
     private int tcCode;
 

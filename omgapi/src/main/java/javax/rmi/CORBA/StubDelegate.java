@@ -18,16 +18,12 @@ import java.rmi.RemoteException;
 import org.omg.CORBA.ORB;
 
 /**
- * Supports delegation for method implementations in {@link Stub}.
- * A delegate is an instance of a class that implements this
- * interface and provides a replacement implementation for all the
- * methods of <code>javax.rmi.CORBA.Stub</code>.  If delegation is
- * enabled, each stub has an associated delegate.
+ * Supports delegation for method implementations in {@link Stub}. A delegate is an instance of a class that implements
+ * this interface and provides a replacement implementation for all the methods of <code>javax.rmi.CORBA.Stub</code>. If
+ * delegation is enabled, each stub has an associated delegate.
  *
- * Delegates are enabled by providing the delegate's class name as the
- * value of the 
- * <code>javax.rmi.CORBA.StubClass</code>
- * system property.
+ * Delegates are enabled by providing the delegate's class name as the value of the
+ * <code>javax.rmi.CORBA.StubClass</code> system property.
  *
  * @see Stub
  */
@@ -51,23 +47,20 @@ public interface StubDelegate {
     /**
      * Delegation call for {@link Stub#connect}.
      */
-    void connect(Stub self, ORB orb)
-        throws RemoteException;
- 
+    void connect(Stub self, ORB orb) throws RemoteException;
+
     // _REVISIT_ cannot link to Stub.readObject directly... why not?
     /**
-     * Delegation call for
-     * <a href="{@docRoot}/serialized-form.html#javax.rmi.CORBA.Stub"><code>Stub.readObject(java.io.ObjectInputStream)</code></a>.
+     * Delegation call for <a href="
+     * {@docRoot}/serialized-form.html#javax.rmi.CORBA.Stub"><code>Stub.readObject(java.io.ObjectInputStream)</code></a>.
      */
-    void readObject(Stub self, ObjectInputStream s)
-        throws IOException, ClassNotFoundException;
+    void readObject(Stub self, ObjectInputStream s) throws IOException, ClassNotFoundException;
 
     // _REVISIT_ cannot link to Stub.writeObject directly... why not?
     /**
-     * Delegation call for 
-     * <a href="{@docRoot}/serialized-form.html#javax.rmi.CORBA.Stub"><code>Stub.writeObject(java.io.ObjectOutputStream)</code></a>.
+     * Delegation call for <a href="
+     * {@docRoot}/serialized-form.html#javax.rmi.CORBA.Stub"><code>Stub.writeObject(java.io.ObjectOutputStream)</code></a>.
      */
-    void writeObject(Stub self, ObjectOutputStream s)
-        throws IOException;
+    void writeObject(Stub self, ObjectOutputStream s) throws IOException;
 
 }

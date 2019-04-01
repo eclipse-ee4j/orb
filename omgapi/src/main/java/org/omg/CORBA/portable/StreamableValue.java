@@ -11,12 +11,10 @@
 package org.omg.CORBA.portable;
 
 /**
- * Defines the base type for all non-boxed IDL valuetypes 
- * that are not custom marshaled.
+ * Defines the base type for all non-boxed IDL valuetypes that are not custom marshaled.
  *
- * All value types implement ValueBase either directly or 
- * indirectly by implementing either the
- * StreamableValue or CustomValue interface.
+ * All value types implement ValueBase either directly or indirectly by implementing either the StreamableValue or
+ * CustomValue interface.
  *
  * @author OMG
  * @version 1.15 07/27/07
@@ -24,4 +22,3 @@ package org.omg.CORBA.portable;
 public interface StreamableValue extends Streamable, ValueBase {
 
 }
-

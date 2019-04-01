@@ -14,15 +14,12 @@ import org.glassfish.rmic.tools.java.MemberDefinition;
 import java.io.OutputStream;
 
 /**
- * A label instruction. This is a 0 size instruction.
- * It is the only valid target of a branch instruction.
+ * A label instruction. This is a 0 size instruction. It is the only valid target of a branch instruction.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public final
-class Label extends Instruction {
+public final class Label extends Instruction {
     static int labelCount = 0;
     int ID;
     int depth;
@@ -37,9 +34,8 @@ class Label extends Instruction {
     }
 
     /**
-     * Get the final destination, eliminate jumps gotos, and jumps to
-     * labels that are immediately folowed by another label. The depth
-     * field is used to leave bread crumbs to avoid infinite loops.
+     * Get the final destination, eliminate jumps gotos, and jumps to labels that are immediately folowed by another label.
+     * The depth field is used to leave bread crumbs to avoid infinite loops.
      */
     Label getDestination() {
         Label lbl = this;
@@ -47,25 +43,25 @@ class Label extends Instruction {
             depth = 1;
 
             switch (next.opc) {
-              case opc_label:
-                lbl = ((Label)next).getDestination();
+            case opc_label:
+                lbl = ((Label) next).getDestination();
                 break;
 
-              case opc_goto:
-                lbl = ((Label)next.value).getDestination();
+            case opc_goto:
+                lbl = ((Label) next.value).getDestination();
                 break;
 
-              case opc_ldc:
-              case opc_ldc_w:
+            case opc_ldc:
+            case opc_ldc_w:
                 if (next.value instanceof Integer) {
                     Instruction inst = next.next;
                     if (inst.opc == opc_label) {
-                        inst = ((Label)inst).getDestination().next;
+                        inst = ((Label) inst).getDestination().next;
                     }
 
                     if (inst.opc == opc_ifeq) {
-                        if (((Integer)next.value).intValue() == 0) {
-                            lbl = (Label)inst.value;
+                        if (((Integer) next.value).intValue() == 0) {
+                            lbl = (Label) inst.value;
                         } else {
                             lbl = new Label();
                             lbl.next = inst.next;
@@ -75,12 +71,12 @@ class Label extends Instruction {
                         break;
                     }
                     if (inst.opc == opc_ifne) {
-                        if (((Integer)next.value).intValue() == 0) {
+                        if (((Integer) next.value).intValue() == 0) {
                             lbl = new Label();
                             lbl.next = inst.next;
                             inst.next = lbl;
                         } else {
-                            lbl = (Label)inst.value;
+                            lbl = (Label) inst.value;
                         }
                         lbl = lbl.getDestination();
                         break;

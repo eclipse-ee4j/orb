@@ -53,7 +53,7 @@ public class EncodingTestBase {
     protected static final int UTF_16 = OSFCodeSetRegistry.UTF_16.getNumber();
     protected static final byte FE = -2;
     protected static final byte FF = -1;
-    protected static final int PAD = 0;  // use for output tests only, to make comparison possible
+    protected static final int PAD = 0; // use for output tests only, to make comparison possible
 
     private ORBDataFake orbData = createStrictStub(ORBDataFake.class);
     private ORBFake orb = createStrictStub(ORBFake.class);
@@ -72,8 +72,10 @@ public class EncodingTestBase {
 
     static byte flags(Endian endian, Fragments fragments) {
         byte result = 0;
-        if (endian == little_endian) result |= 0x01;
-        if (fragments == more_fragments) result |= 0x02;
+        if (endian == little_endian)
+            result |= 0x01;
+        if (fragments == more_fragments)
+            result |= 0x02;
         return result;
     }
 
@@ -257,11 +259,10 @@ public class EncodingTestBase {
     }
 
     private byte[] subBuffer(byte[] input, int start) {
-        byte[] result = new byte[input.length-start];
+        byte[] result = new byte[input.length - start];
         System.arraycopy(input, start, result, 0, result.length);
         return result;
     }
-
 
     protected final void expectByteArray(int... expected) {
         byte[] bytes = new byte[expected.length];
@@ -270,16 +271,19 @@ public class EncodingTestBase {
         expectByteArray(bytes);
     }
 
-    enum Endian {big_endian, little_endian}
+    enum Endian {
+        big_endian, little_endian
+    }
 
-    enum Fragments {no_more_fragments, more_fragments}
+    enum Fragments {
+        no_more_fragments, more_fragments
+    }
 
     interface AsynchronousAction {
         void exec();
     }
 
-
-    //--------------------------------- fake implementation of a TransportManager --------------------------------------
+    // --------------------------------- fake implementation of a TransportManager --------------------------------------
 
     static abstract class TransportManagerFake implements TransportManager {
         @Override
@@ -288,7 +292,7 @@ public class EncodingTestBase {
         }
     }
 
-    //-------------------------------------- fake implementation of an ORBData -----------------------------------------
+    // -------------------------------------- fake implementation of an ORBData -----------------------------------------
 
     static abstract class ORBDataFake implements ORBData {
         private AsynchronousAction asynchronousAction;
@@ -341,7 +345,7 @@ public class EncodingTestBase {
         }
     }
 
-    //----------------------------------- fake implementation of a ByteBufferPool --------------------------------------
+    // ----------------------------------- fake implementation of a ByteBufferPool --------------------------------------
 
     static abstract class ByteBufferPoolFake implements ByteBufferPool {
         private List<ByteBuffer> buffers = new ArrayList<ByteBuffer>();
@@ -361,7 +365,7 @@ public class EncodingTestBase {
         }
     }
 
-    //---------------------------------------- fake implementation of the ORB ------------------------------------------
+    // ---------------------------------------- fake implementation of the ORB ------------------------------------------
 
     static abstract class ORBFake extends ORBImpl {
         private ORBDataFake orbData;
@@ -411,7 +415,7 @@ public class EncodingTestBase {
         }
     }
 
-    //-------------------------------------- fake implementation of a Codebase -----------------------------------------
+    // -------------------------------------- fake implementation of a Codebase -----------------------------------------
 
     static abstract class CodeBaseFake implements CodeBase {
         @Override
@@ -420,7 +424,7 @@ public class EncodingTestBase {
         }
     }
 
-    //------------------------------------- fake implementation of a Connection ----------------------------------------
+    // ------------------------------------- fake implementation of a Connection ----------------------------------------
 
     static abstract class ConnectionFake implements Connection {
         int char_encoding = ISO_8859_1;
@@ -470,7 +474,8 @@ public class EncodingTestBase {
         @Override
         public void sendWithoutLock(CDROutputObject outputObject) {
             try {
-                if (!locked) fail("sendWithoutLock called while connection is not locked");
+                if (!locked)
+                    fail("sendWithoutLock called while connection is not locked");
                 outputObject.writeTo(this);
             } catch (IOException e) {
                 fail("Connection reported: " + e);
@@ -485,7 +490,7 @@ public class EncodingTestBase {
         }
     }
 
-    //---------------------------------- fake implementation of a Message Mediator -------------------------------------
+    // ---------------------------------- fake implementation of a Message Mediator -------------------------------------
 
     static abstract class MessageMediatorFake implements MessageMediator {
 
@@ -523,7 +528,7 @@ public class EncodingTestBase {
         }
     }
 
-    //--------------------------------------- fake implementation of a Message -----------------------------------------
+    // --------------------------------------- fake implementation of a Message -----------------------------------------
 
     static abstract class MessageFake implements FragmentMessage {
         Endian endian = big_endian;
@@ -537,9 +542,11 @@ public class EncodingTestBase {
         private boolean startedNewMessage;
 
         byte[] getMessageData() {
-            if (data != null) return data;
+            if (data != null)
+                return data;
 
-            if (body == null) throw new RuntimeException("No message body defined");
+            if (body == null)
+                throw new RuntimeException("No message body defined");
             data = new byte[body.length + getHeaderLength()];
             System.arraycopy(body, 0, data, getHeaderLength(), body.length);
             copyToHeader((byte) 'G', (byte) 'I', (byte) 'O', (byte) 'P');
@@ -568,7 +575,7 @@ public class EncodingTestBase {
 
         @Override
         public int getSize() {
-            return sizeInHeader >=0 ? sizeInHeader : getMessageData().length;
+            return sizeInHeader >= 0 ? sizeInHeader : getMessageData().length;
         }
 
         @Override

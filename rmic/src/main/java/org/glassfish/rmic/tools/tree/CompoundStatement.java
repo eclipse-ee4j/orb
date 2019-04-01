@@ -17,12 +17,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class CompoundStatement extends Statement {
+public class CompoundStatement extends Statement {
     Statement args[];
 
     /**
@@ -32,7 +30,7 @@ class CompoundStatement extends Statement {
         super(STAT, where);
         this.args = args;
         // To avoid the need for subsequent null checks:
-        for (int i = 0 ; i < args.length ; i++) {
+        for (int i = 0; i < args.length; i++) {
             if (args[i] == null) {
                 args[i] = new CompoundStatement(where, new Statement[0]);
             }
@@ -40,14 +38,13 @@ class CompoundStatement extends Statement {
     }
 
     /**
-     * Insert a new statement at the front.
-     * This is used to introduce an implicit super-class constructor call.
+     * Insert a new statement at the front. This is used to introduce an implicit super-class constructor call.
      */
     public void insertStatement(Statement s) {
-        Statement newargs[] = new Statement[1+args.length];
+        Statement newargs[] = new Statement[1 + args.length];
         newargs[0] = s;
-        for (int i = 0 ; i < args.length ; i++) {
-            newargs[i+1] = args[i];
+        for (int i = 0; i < args.length; i++) {
+            newargs[i + 1] = args[i];
         }
         this.args = newargs;
     }
@@ -62,7 +59,7 @@ class CompoundStatement extends Statement {
             CheckContext newctx = new CheckContext(ctx, this);
             // In this environment, 'resolveName' will look for local classes.
             Environment newenv = Context.newEnvironment(env, newctx);
-            for (int i = 0 ; i < args.length ; i++) {
+            for (int i = 0; i < args.length; i++) {
                 vset = args[i].checkBlockStatement(newenv, newctx, vset, exp);
             }
             vset = vset.join(newctx.vsBreak);
@@ -77,12 +74,12 @@ class CompoundStatement extends Statement {
         ctx = new Context(ctx, this);
         boolean expand = false;
         int count = 0;
-        for (int i = 0 ; i < args.length ; i++) {
+        for (int i = 0; i < args.length; i++) {
             Statement s = args[i];
             if (s != null) {
                 if ((s = s.inline(env, ctx)) != null) {
                     if ((s.op == STAT) && (s.labels == null)) {
-                        count += ((CompoundStatement)s).args.length;
+                        count += ((CompoundStatement) s).args.length;
                     } else {
                         count++;
                     }
@@ -92,11 +89,11 @@ class CompoundStatement extends Statement {
             }
         }
         switch (count) {
-          case 0:
+        case 0:
             return null;
 
-          case 1:
-            for (int i = args.length ; i-- > 0 ;) {
+        case 1:
+            for (int i = args.length; i-- > 0;) {
                 if (args[i] != null) {
                     return eliminate(env, args[i]);
                 }
@@ -105,12 +102,12 @@ class CompoundStatement extends Statement {
         }
         if (expand || (count != args.length)) {
             Statement newArgs[] = new Statement[count];
-            for (int i = args.length ; i-- > 0 ;) {
+            for (int i = args.length; i-- > 0;) {
                 Statement s = args[i];
                 if (s != null) {
                     if ((s.op == STAT) && (s.labels == null)) {
-                        Statement a[] = ((CompoundStatement)s).args;
-                        for (int j = a.length ; j-- > 0 ; ) {
+                        Statement a[] = ((CompoundStatement) s).args;
+                        for (int j = a.length; j-- > 0;) {
                             newArgs[--count] = a[j];
                         }
                     } else {
@@ -127,9 +124,9 @@ class CompoundStatement extends Statement {
      * Create a copy of the statement for method inlining
      */
     public Statement copyInline(Context ctx, boolean valNeeded) {
-        CompoundStatement s = (CompoundStatement)clone();
+        CompoundStatement s = (CompoundStatement) clone();
         s.args = new Statement[args.length];
-        for (int i = 0 ; i < args.length ; i++) {
+        for (int i = 0; i < args.length; i++) {
             s.args[i] = args[i].copyInline(ctx, valNeeded);
         }
         return s;
@@ -140,7 +137,7 @@ class CompoundStatement extends Statement {
      */
     public int costInline(int thresh, Environment env, Context ctx) {
         int cost = 0;
-        for (int i = 0 ; (i < args.length) && (cost < thresh) ; i++) {
+        for (int i = 0; (i < args.length) && (cost < thresh); i++) {
             cost += args[i].costInline(thresh, env, ctx);
         }
         return cost;
@@ -151,7 +148,7 @@ class CompoundStatement extends Statement {
      */
     public void code(Environment env, Context ctx, Assembler asm) {
         CodeContext newctx = new CodeContext(ctx, this);
-        for (int i = 0 ; i < args.length ; i++) {
+        for (int i = 0; i < args.length; i++) {
             args[i].code(env, newctx, asm);
         }
         asm.add(newctx.breakLabel);
@@ -170,8 +167,8 @@ class CompoundStatement extends Statement {
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("{\n");
-        for (int i = 0 ; i < args.length ; i++) {
-            printIndent(out, indent+1);
+        for (int i = 0; i < args.length; i++) {
+            printIndent(out, indent + 1);
             if (args[i] != null) {
                 args[i].print(out, indent + 1);
             } else {

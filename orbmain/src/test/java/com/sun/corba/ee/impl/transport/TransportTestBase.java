@@ -153,7 +153,7 @@ public class TransportTestBase {
         connection.dispatcher = new ConnectionImpl.Dispatcher() {
             @Override
             public boolean dispatch(MessageMediator messageMediator) {
-                mediators.add( messageMediator );
+                mediators.add(messageMediator);
                 return false;
             }
         };
@@ -162,7 +162,7 @@ public class TransportTestBase {
     protected void readFromSocketWithoutChannelAndDispatch(byte[] bytes) {
         socketChannel = null;
         orbData.useSelectThread = false;
-        socket.inputStream = new ByteArrayInputStream( bytes );
+        socket.inputStream = new ByteArrayInputStream(bytes);
         connection = new ConnectionImpl(orb, acceptor, socket);
         connection.setConnectionCache(connectionCache);
     }
@@ -415,9 +415,11 @@ public class TransportTestBase {
 
         @Override
         public int read(ByteBuffer dst) throws IOException {
-            if (endOfInput) return -1;
+            if (endOfInput)
+                return -1;
             int numBytesToRead = Math.min(getNumBytesToRead(), Math.min(dataSize(), bufferCapacity(dst)));
-            if (numBytesToRead == 0) return 0;
+            if (numBytesToRead == 0)
+                return 0;
 
             dst.put(readableData, readPos, numBytesToRead);
             readPos += numBytesToRead;
@@ -435,7 +437,6 @@ public class TransportTestBase {
         protected byte[] getDataWritten() {
             return dataWritten;
         }
-
 
         public void setEndOfInput() {
             endOfInput = true;
@@ -565,9 +566,11 @@ public class TransportTestBase {
         public SocketChannel getChannel() {
             return socketChannel;
         }
+
         public InputStream getInputStream() throws IOException {
             return inputStream;
         }
+
         public OutputStream getOutputStream() throws IOException {
             return outputStream;
         }
@@ -585,6 +588,7 @@ public class TransportTestBase {
             readParameters(messageMediator.getInputObject());
         }
 
-        public void readParameters( CDRInputObject input ) {}
+        public void readParameters(CDRInputObject input) {
+        }
     }
 }

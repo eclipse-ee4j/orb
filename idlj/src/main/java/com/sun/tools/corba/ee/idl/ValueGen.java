@@ -17,5 +17,5 @@ import java.io.PrintWriter;
 import java.util.Hashtable;
 
 public interface ValueGen extends com.sun.tools.corba.ee.idl.Generator {
-   void generate ( Hashtable symbolTable, com.sun.tools.corba.ee.idl.ValueEntry entry, PrintWriter stream);
+    void generate(Hashtable symbolTable, com.sun.tools.corba.ee.idl.ValueEntry entry, PrintWriter stream);
 } // interface ValueGen

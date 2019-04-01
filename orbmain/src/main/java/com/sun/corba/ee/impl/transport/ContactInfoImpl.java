@@ -12,7 +12,7 @@ package com.sun.corba.ee.impl.transport;
 
 import com.sun.corba.ee.spi.transport.Connection;
 
-import com.sun.corba.ee.spi.ior.IOR ;
+import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.transport.ContactInfoList;
 import com.sun.corba.ee.spi.transport.TransportManager;
@@ -24,81 +24,55 @@ import com.sun.corba.ee.impl.transport.ContactInfoBase;
 /**
  * @author Harold Carr
  */
-public class ContactInfoImpl
-    extends ContactInfoBase
-    implements SocketInfo
-{
+public class ContactInfoImpl extends ContactInfoBase implements SocketInfo {
     protected boolean isHashCodeCached = false;
     protected int cachedHashCode;
 
     protected String socketType;
     protected String hostname;
-    protected int    port;
+    protected int port;
 
-    // XREVISIT 
+    // XREVISIT
     // See SocketOrChannelAcceptorImpl.createMessageMediator
     // See SocketFactoryContactInfoImpl.constructor()
     // See SocketOrChannelContactInfoImpl.constructor()
-    protected ContactInfoImpl()
-    {
+    protected ContactInfoImpl() {
     }
 
-    protected ContactInfoImpl(
-        ORB orb,
-        ContactInfoList contactInfoList)
-    {
+    protected ContactInfoImpl(ORB orb, ContactInfoList contactInfoList) {
         this.orb = orb;
         this.contactInfoList = contactInfoList;
     }
 
-    public ContactInfoImpl(
-        ORB orb,
-        ContactInfoList contactInfoList,
-        String socketType,
-        String hostname,
-        int port)
-    {
+    public ContactInfoImpl(ORB orb, ContactInfoList contactInfoList, String socketType, String hostname, int port) {
         this(orb, contactInfoList);
         this.socketType = socketType;
         this.hostname = hostname;
-        this.port     = port;
+        this.port = port;
     }
 
     // XREVISIT
-    public ContactInfoImpl(
-        ORB orb,
-        ContactInfoList contactInfoList,
-        IOR effectiveTargetIOR,
-        short addressingDisposition,
-        String socketType,
-        String hostname,
-        int port)
-    {
+    public ContactInfoImpl(ORB orb, ContactInfoList contactInfoList, IOR effectiveTargetIOR, short addressingDisposition, String socketType, String hostname,
+            int port) {
         this(orb, contactInfoList, socketType, hostname, port);
         this.effectiveTargetIOR = effectiveTargetIOR;
         this.addressingDisposition = addressingDisposition;
     }
 
-    public boolean isConnectionBased()
-    {
+    public boolean isConnectionBased() {
         return true;
     }
 
-    public boolean shouldCacheConnection()
-    {
+    public boolean shouldCacheConnection() {
         return true;
     }
 
-    public String getConnectionCacheType()
-    {
+    public String getConnectionCacheType() {
         return TransportManager.SOCKET_OR_CHANNEL_CONNECTION_CACHE;
     }
 
-    public Connection createConnection()
-    {
-        Connection connection =
-            new ConnectionImpl(orb, this,
-                                              socketType, hostname, port);
+    public Connection createConnection() {
+        Connection connection = new ConnectionImpl(orb, this, socketType, hostname, port);
         return connection;
     }
 
@@ -107,23 +81,19 @@ public class ContactInfoImpl
     // spi.transport.CorbaContactInfo
     //
 
-    public String getMonitoringName()
-    {
+    public String getMonitoringName() {
         return "SocketConnections";
     }
 
-    public String getType()
-    {
+    public String getType() {
         return socketType;
     }
 
-    public String getHost()
-    {
+    public String getHost() {
         return hostname;
     }
 
-    public int getPort()
-    {
+    public int getPort() {
         return port;
     }
 
@@ -133,13 +103,12 @@ public class ContactInfoImpl
     //
 
     // NOTE: hashCode should only check type/host/port, otherwise
-    // RMI-IIOP Failover will break.  See IIOPPrimaryToContactInfoImpl.java
+    // RMI-IIOP Failover will break. See IIOPPrimaryToContactInfoImpl.java
     // in the app server or in the Corba unit tests.
-    
+
     @Override
-    public int hashCode() 
-    {
-        if (! isHashCodeCached) {
+    public int hashCode() {
+        if (!isHashCodeCached) {
             cachedHashCode = socketType.hashCode() ^ hostname.hashCode() ^ port;
             isHashCodeCached = true;
         }
@@ -147,20 +116,18 @@ public class ContactInfoImpl
     }
 
     // NOTE: equals should only check type/host/port, otherwise
-    // RMI-IIOP Failover will break.  See IIOPPrimaryToContactInfoImpl.java
+    // RMI-IIOP Failover will break. See IIOPPrimaryToContactInfoImpl.java
     // in the app server or in the Corba unit tests.
-    
+
     @Override
-    public boolean equals(Object obj) 
-    {
+    public boolean equals(Object obj) {
         if (obj == null) {
             return false;
         } else if (!(obj instanceof ContactInfoImpl)) {
             return false;
         }
 
-        ContactInfoImpl other =
-            (ContactInfoImpl) obj;
+        ContactInfoImpl other = (ContactInfoImpl) obj;
 
         if (port != other.port) {
             return false;
@@ -178,14 +145,8 @@ public class ContactInfoImpl
         return true;
     }
 
-    public String toString()
-    {
-        return
-            "SocketOrChannelContactInfoImpl[" 
-            + socketType + " "
-            + hostname + " "
-            + port
-            + "]";
+    public String toString() {
+        return "SocketOrChannelContactInfoImpl[" + socketType + " " + hostname + " " + port + "]";
     }
 
     ////////////////////////////////////////////////////
@@ -193,8 +154,7 @@ public class ContactInfoImpl
     // Implementation
     //
 
-    protected void dprint(String msg) 
-    {
+    protected void dprint(String msg) {
         ORBUtility.dprint("SocketOrChannelContactInfoImpl", msg);
     }
 }

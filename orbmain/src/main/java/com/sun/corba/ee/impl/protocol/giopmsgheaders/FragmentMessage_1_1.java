@@ -17,8 +17,7 @@ package com.sun.corba.ee.impl.protocol.giopmsgheaders;
  * @version 1.0
  */
 
-public final class FragmentMessage_1_1 extends Message_1_1
-        implements FragmentMessage {
+public final class FragmentMessage_1_1 extends Message_1_1 implements FragmentMessage {
 
     // Constructors
 
@@ -45,8 +44,8 @@ public final class FragmentMessage_1_1 extends Message_1_1
 
     // IO methods
 
-    /* This will never be called, since we do not currently read the
-     * request_id from an CDRInputStream. Instead we use the
+    /*
+     * This will never be called, since we do not currently read the request_id from an CDRInputStream. Instead we use the
      * readGIOP_1_1_requestId to read the requestId from a byte buffer.
      */
     public void read(org.omg.CORBA.portable.InputStream istream) {
@@ -58,8 +57,7 @@ public final class FragmentMessage_1_1 extends Message_1_1
         super.write(ostream);
     }
 
-    public void callback(MessageHandler handler)
-            throws java.io.IOException {
+    public void callback(MessageHandler handler) throws java.io.IOException {
         handler.handleInput(this);
     }
 

@@ -15,8 +15,7 @@ package javax.rmi.CORBA;
  */
 public class ProxyDesc implements java.io.Serializable {
     /**
-     * @serial The class names of the interfaces that the Proxy object
-     * implements.
+     * @serial The class names of the interfaces that the Proxy object implements.
      */
     public String[] interfaces;
 

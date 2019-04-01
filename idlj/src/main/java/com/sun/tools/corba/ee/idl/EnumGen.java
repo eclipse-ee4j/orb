@@ -16,7 +16,6 @@ package com.sun.tools.corba.ee.idl;
 import java.io.PrintWriter;
 import java.util.Hashtable;
 
-public interface EnumGen extends com.sun.tools.corba.ee.idl.Generator
-{
-  void generate (Hashtable symbolTable, com.sun.tools.corba.ee.idl.EnumEntry entry, PrintWriter stream);
+public interface EnumGen extends com.sun.tools.corba.ee.idl.Generator {
+    void generate(Hashtable symbolTable, com.sun.tools.corba.ee.idl.EnumEntry entry, PrintWriter stream);
 } // interface EnumGen

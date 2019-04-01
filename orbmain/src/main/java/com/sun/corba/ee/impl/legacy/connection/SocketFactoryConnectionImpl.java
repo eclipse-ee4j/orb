@@ -10,9 +10,6 @@
 
 package com.sun.corba.ee.impl.legacy.connection;
 
-
-
-
 import com.sun.corba.ee.spi.legacy.connection.GetEndPointInfoAgainException;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.transport.ContactInfo;
@@ -26,19 +23,13 @@ import java.net.Socket;
  * @author Harold Carr
  */
 @Transport
-public class SocketFactoryConnectionImpl
-    extends
-        ConnectionImpl
-{
+public class SocketFactoryConnectionImpl extends ConnectionImpl {
     @Transport
-    private void connectionCreated( Socket socket ) { }
+    private void connectionCreated(Socket socket) {
+    }
 
     // Socket-factory client constructor.
-    public SocketFactoryConnectionImpl(ORB orb,
-                                       ContactInfo contactInfo,
-                                       boolean useSelectThreadToWait,
-                                       boolean useWorkerThread)
-    {
+    public SocketFactoryConnectionImpl(ORB orb, ContactInfo contactInfo, boolean useSelectThreadToWait, boolean useWorkerThread) {
         super(orb, useSelectThreadToWait, useWorkerThread);
 
         // REVISIT - probably need a contact info for both
@@ -46,34 +37,23 @@ public class SocketFactoryConnectionImpl
         this.contactInfo = contactInfo;
 
         SocketInfo socketInfo =
-            // REVISIT - case - needs interface method
-            ((SocketFactoryContactInfoImpl)contactInfo).socketInfo;
+                // REVISIT - case - needs interface method
+                ((SocketFactoryContactInfoImpl) contactInfo).socketInfo;
         try {
             defineSocket(useSelectThreadToWait, orb.getORBData().getLegacySocketFactory().createSocket(socketInfo));
-            connectionCreated( socket ) ;
+            connectionCreated(socket);
         } catch (GetEndPointInfoAgainException ex) {
-            throw wrapper.connectFailure(
-                ex, socketInfo.getType(), socketInfo.getHost(),
-                Integer.toString(socketInfo.getPort())) ;
+            throw wrapper.connectFailure(ex, socketInfo.getType(), socketInfo.getHost(), Integer.toString(socketInfo.getPort()));
         } catch (Exception ex) {
-            throw wrapper.connectFailure(
-                ex, socketInfo.getType(), socketInfo.getHost(),
-                Integer.toString(socketInfo.getPort())) ;
+            throw wrapper.connectFailure(ex, socketInfo.getType(), socketInfo.getHost(), Integer.toString(socketInfo.getPort()));
         }
         setState(OPENING);
     }
 
-    public String toString()
-    {
-        synchronized ( stateEvent ){
-            return 
-                "SocketFactoryConnectionImpl[" + " "
-                + (socketChannel == null ?
-                   socket.toString() : socketChannel.toString()) + " "
-                + getStateString(getState()) + " "
-                + shouldUseSelectThreadToWait() + " "
-                + shouldUseWorkerThreadForEvent()
-                + "]" ;
+    public String toString() {
+        synchronized (stateEvent) {
+            return "SocketFactoryConnectionImpl[" + " " + (socketChannel == null ? socket.toString() : socketChannel.toString()) + " "
+                    + getStateString(getState()) + " " + shouldUseSelectThreadToWait() + " " + shouldUseWorkerThreadForEvent() + "]";
         }
     }
 }

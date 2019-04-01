@@ -86,7 +86,7 @@ public class ValueTestBase extends EncodingTestBase {
     }
 
     protected void writeStringValue_1_2(String value) throws IOException {
-        writeInt(2 + 2*value.length());
+        writeInt(2 + 2 * value.length());
         writeBigEndianMarker();
         for (char aChar : value.toCharArray()) {
             out.write(0);

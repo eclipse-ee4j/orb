@@ -35,28 +35,28 @@ class TypeFactory {
 
     private static Type toRmicType(org.objectweb.asm.Type asmType) {
         switch (asmType.getSort()) {
-            case org.objectweb.asm.Type.VOID:
-                return Type.tVoid;
-            case org.objectweb.asm.Type.BOOLEAN:
-                return Type.tBoolean;
-            case org.objectweb.asm.Type.BYTE:
-                return Type.tByte;
-            case org.objectweb.asm.Type.SHORT:
-                return Type.tShort;
-            case org.objectweb.asm.Type.INT:
-                return Type.tInt;
-            case org.objectweb.asm.Type.LONG:
-                return Type.tLong;
-            case org.objectweb.asm.Type.FLOAT:
-                return Type.tFloat;
-            case org.objectweb.asm.Type.DOUBLE:
-                return Type.tDouble;
-            case org.objectweb.asm.Type.CHAR:
-                return Type.tChar;
-            case org.objectweb.asm.Type.ARRAY:
-                return toArrayType(asmType);
-            default:
-                return Type.tClass(Identifier.lookup(asmType.getClassName()));
+        case org.objectweb.asm.Type.VOID:
+            return Type.tVoid;
+        case org.objectweb.asm.Type.BOOLEAN:
+            return Type.tBoolean;
+        case org.objectweb.asm.Type.BYTE:
+            return Type.tByte;
+        case org.objectweb.asm.Type.SHORT:
+            return Type.tShort;
+        case org.objectweb.asm.Type.INT:
+            return Type.tInt;
+        case org.objectweb.asm.Type.LONG:
+            return Type.tLong;
+        case org.objectweb.asm.Type.FLOAT:
+            return Type.tFloat;
+        case org.objectweb.asm.Type.DOUBLE:
+            return Type.tDouble;
+        case org.objectweb.asm.Type.CHAR:
+            return Type.tChar;
+        case org.objectweb.asm.Type.ARRAY:
+            return toArrayType(asmType);
+        default:
+            return Type.tClass(Identifier.lookup(asmType.getClassName()));
         }
     }
 

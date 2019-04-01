@@ -19,46 +19,44 @@ import java.util.Hashtable;
 /**
  * This is the symbol table entry for forward declarations of values.
  **/
-public class ForwardValueEntry extends ForwardEntry
-{
-  protected ForwardValueEntry ()
-  {
-    super ();
-  } // ctor
+public class ForwardValueEntry extends ForwardEntry {
+    protected ForwardValueEntry() {
+        super();
+    } // ctor
 
-  protected ForwardValueEntry (ForwardValueEntry that)
-  {
-    super (that);
-  } // ctor
+    protected ForwardValueEntry(ForwardValueEntry that) {
+        super(that);
+    } // ctor
 
-  protected ForwardValueEntry (com.sun.tools.corba.ee.idl.SymtabEntry that, com.sun.tools.corba.ee.idl.IDLID clone)
-  {
-    super (that, clone);
-  } // ctor
+    protected ForwardValueEntry(com.sun.tools.corba.ee.idl.SymtabEntry that, com.sun.tools.corba.ee.idl.IDLID clone) {
+        super(that, clone);
+    } // ctor
 
-  public Object clone ()
-  {
-    return new ForwardValueEntry (this);
-  } // clone
+    public Object clone() {
+        return new ForwardValueEntry(this);
+    } // clone
 
-  /** Invoke the forward value declaration generator.
-      @param symbolTable the symbol table is a hash table whose key is
-       a fully qualified type name and whose value is a SymtabEntry or
-       a subclass of SymtabEntry.
-      @param stream the stream to which the generator should sent its output.
-      @see com.sun.tools.corba.ee.idl.SymtabEntry */
-  public void generate (Hashtable symbolTable, PrintWriter stream)
-  {
-    forwardValueGen.generate (symbolTable, this, stream);
-  } // generate
+    /**
+     * Invoke the forward value declaration generator.
+     *
+     * @param symbolTable the symbol table is a hash table whose key is a fully qualified type name and whose value is a
+     * SymtabEntry or a subclass of SymtabEntry.
+     * @param stream the stream to which the generator should sent its output.
+     * @see com.sun.tools.corba.ee.idl.SymtabEntry
+     */
+    public void generate(Hashtable symbolTable, PrintWriter stream) {
+        forwardValueGen.generate(symbolTable, this, stream);
+    } // generate
 
-  /** Access the interface generator.
-      @return an object which implements the ForwardValueGen interface.
-      @see com.sun.tools.corba.ee.idl.ValueGen */
-  public com.sun.tools.corba.ee.idl.Generator generator ()
-  {
-     return forwardValueGen;
-  } // generator
+    /**
+     * Access the interface generator.
+     *
+     * @return an object which implements the ForwardValueGen interface.
+     * @see com.sun.tools.corba.ee.idl.ValueGen
+     */
+    public com.sun.tools.corba.ee.idl.Generator generator() {
+        return forwardValueGen;
+    } // generator
 
-  static com.sun.tools.corba.ee.idl.ForwardValueGen forwardValueGen;
+    static com.sun.tools.corba.ee.idl.ForwardValueGen forwardValueGen;
 } // class ForwardValueEntry

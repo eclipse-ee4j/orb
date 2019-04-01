@@ -17,12 +17,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class Expression extends Node {
+public class Expression extends Node {
     Type type;
 
     /**
@@ -34,15 +32,11 @@ class Expression extends Node {
     }
 
     /**
-     * Type checking may assign a more complex implementation
-     * to an innocuous-looking expression (like an identifier).
-     * Return that implementation, or the original expression itself
-     * if there is no special implementation.
+     * Type checking may assign a more complex implementation to an innocuous-looking expression (like an identifier).
+     * Return that implementation, or the original expression itself if there is no special implementation.
      * <p>
-     * This appears at present to be dead code, and is not called
-     * from within javac.  Access to the implementation generally
-     * occurs within the same class, and thus uses the underlying
-     * field directly.
+     * This appears at present to be dead code, and is not called from within javac. Access to the implementation generally
+     * occurs within the same class, and thus uses the underlying field directly.
      */
     public Expression getImplementation() {
         return this;
@@ -67,8 +61,7 @@ class Expression extends Node {
     }
 
     /**
-     * Return true if constant, according to JLS 15.27.
-     * A constant expression must inline away to a literal constant.
+     * Return true if constant, according to JLS 15.27. A constant expression must inline away to a literal constant.
      */
     public boolean isConstant() {
         return false;
@@ -82,20 +75,21 @@ class Expression extends Node {
     }
 
     /**
-     * Check if the expression is known to be equal to a given value.
-     * Returns false for any expression other than a literal constant,
-     * thus should be called only after simplification (inlining) has
-     * been performed.
+     * Check if the expression is known to be equal to a given value. Returns false for any expression other than a literal
+     * constant, thus should be called only after simplification (inlining) has been performed.
      */
     public boolean equals(int i) {
         return false;
     }
+
     public boolean equals(boolean b) {
         return false;
     }
+
     public boolean equals(Identifier id) {
         return false;
     }
+
     public boolean equals(String s) {
         return false;
     }
@@ -121,7 +115,6 @@ class Expression extends Node {
         return false;
     }
 
-
     /**
      * Convert an expresion to a type
      */
@@ -131,9 +124,8 @@ class Expression extends Node {
     }
 
     /**
-     * Convert an expresion to a type in a context where a qualified
-     * type name is expected, e.g., in the prefix of a qualified type
-     * name.
+     * Convert an expresion to a type in a context where a qualified type name is expected, e.g., in the prefix of a
+     * qualified type name.
      */
     /*-----------------------------------------------------*
     Type toQualifiedType(Environment env, Context ctx) {
@@ -143,12 +135,10 @@ class Expression extends Node {
     *-----------------------------------------------------*/
 
     /**
-     * See if this expression fits in the given type.
-     * This is useful because some larger numbers fit into
-     * smaller types.
+     * See if this expression fits in the given type. This is useful because some larger numbers fit into smaller types.
      * <p>
-     * If it is an "int" constant expression, inline it, if necessary,
-     * to examine its numerical value.  See JLS 5.2 and 15.24.
+     * If it is an "int" constant expression, inline it, if necessary, to examine its numerical value. See JLS 5.2 and
+     * 15.24.
      */
     public boolean fitsType(Environment env, Context ctx, Type t) {
         try {
@@ -180,30 +170,27 @@ class Expression extends Node {
     public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         return vset;
     }
+
     public Vset checkInitializer(Environment env, Context ctx, Vset vset, Type t, Hashtable<Object, Object> exp) {
         return checkValue(env, ctx, vset, exp);
     }
+
     public Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         throw new CompilerError("check failed");
     }
 
-    public Vset checkLHS(Environment env, Context ctx,
-                            Vset vset, Hashtable<Object, Object> exp) {
+    public Vset checkLHS(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         env.error(where, "invalid.lhs.assignment");
         type = Type.tError;
         return vset;
     }
 
     /**
-     * Return a {@code FieldUpdater} object to be used in updating the
-     * value of the location denoted by {@code this}, which must be an
-     * expression suitable for the left-hand side of an assignment.
-     * This is used for implementing assignments to private fields for which
-     * an access method is required.  Returns null if no access method is
-     * needed, in which case the assignment is handled in the usual way, by
-     * direct access.  Only simple assignment expressions are handled here
-     * Assignment operators and pre/post increment/decrement operators are
-     * are handled by 'getUpdater' below.
+     * Return a {@code FieldUpdater} object to be used in updating the value of the location denoted by {@code this}, which
+     * must be an expression suitable for the left-hand side of an assignment. This is used for implementing assignments to
+     * private fields for which an access method is required. Returns null if no access method is needed, in which case the
+     * assignment is handled in the usual way, by direct access. Only simple assignment expressions are handled here
+     * Assignment operators and pre/post increment/decrement operators are are handled by 'getUpdater' below.
      * <p>
      * Called during the checking phase.
      */
@@ -213,12 +200,10 @@ class Expression extends Node {
     }
 
     /**
-     * Return a {@code FieldUpdater} object to be used in updating the value of the
-     * location denoted by {@code this}, which must be an expression suitable for the
-     * left-hand side of an assignment.  This is used for implementing the assignment
-     * operators and the increment/decrement operators on private fields that require an
-     * access method, e.g., uplevel from an inner class.  Returns null if no access method
-     * is needed.
+     * Return a {@code FieldUpdater} object to be used in updating the value of the location denoted by {@code this}, which
+     * must be an expression suitable for the left-hand side of an assignment. This is used for implementing the assignment
+     * operators and the increment/decrement operators on private fields that require an access method, e.g., uplevel from
+     * an inner class. Returns null if no access method is needed.
      * <p>
      * Called during the checking phase.
      */
@@ -227,8 +212,7 @@ class Expression extends Node {
         throw new CompilerError("getUpdater lhs");
     }
 
-    public Vset checkAssignOp(Environment env, Context ctx,
-                              Vset vset, Hashtable<Object, Object> exp, Expression outside) {
+    public Vset checkAssignOp(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp, Expression outside) {
         if (outside instanceof IncDecExpression)
             env.error(where, "invalid.arg", opNames[outside.op]);
         else
@@ -238,31 +222,28 @@ class Expression extends Node {
     }
 
     /**
-     * Check something that might be an AmbiguousName (refman 6.5.2).
-     * A string of dot-separated identifiers might be, in order of preference:
+     * Check something that might be an AmbiguousName (refman 6.5.2). A string of dot-separated identifiers might be, in
+     * order of preference:
      * <nl>
-     * <li> a variable name followed by fields or types
-     * <li> a type name followed by fields or types
-     * <li> a package name followed a type and then fields or types
+     * <li>a variable name followed by fields or types
+     * <li>a type name followed by fields or types
+     * <li>a package name followed a type and then fields or types
      * </nl>
-     * If a type name is found, it rewrites itself as a {@code TypeExpression}.
-     * If a node decides it can only be a package prefix, it sets its
-     * type to {@code Type.tPackage}.  The caller must detect this
-     * and act appropriately to verify the full package name.
+     * If a type name is found, it rewrites itself as a {@code TypeExpression}. If a node decides it can only be a package
+     * prefix, it sets its type to {@code Type.tPackage}. The caller must detect this and act appropriately to verify the
+     * full package name.
+     *
      * @arg loc the expression containing the ambiguous expression
      */
-    public Vset checkAmbigName(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp,
-                               UnaryExpression loc) {
+    public Vset checkAmbigName(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp, UnaryExpression loc) {
         return checkValue(env, ctx, vset, exp);
     }
 
     /**
-     * Check a condition.  Return a ConditionVars(), which indicates when
-     * which variables are set if the condition is true, and which are set if
-     * the condition is false.
+     * Check a condition. Return a ConditionVars(), which indicates when which variables are set if the condition is true,
+     * and which are set if the condition is false.
      */
-    public ConditionVars checkCondition(Environment env, Context ctx,
-                                        Vset vset, Hashtable<Object, Object> exp) {
+    public ConditionVars checkCondition(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         ConditionVars cvars = new ConditionVars();
         checkCondition(env, ctx, vset, exp, cvars);
         return cvars;
@@ -271,16 +252,13 @@ class Expression extends Node {
     /*
      * Check a condition.
      *
-     * cvars is modified so that
-     *    cvar.vsTrue indicates variables with a known value if result = true
-     *    cvars.vsFalse indicates variables with a known value if !result
+     * cvars is modified so that cvar.vsTrue indicates variables with a known value if result = true cvars.vsFalse indicates
+     * variables with a known value if !result
      *
-     * The default action is to simply call checkValue on the expression, and
-     * to see both vsTrue and vsFalse to the result.
+     * The default action is to simply call checkValue on the expression, and to see both vsTrue and vsFalse to the result.
      */
 
-    public void checkCondition(Environment env, Context ctx,
-                               Vset vset, Hashtable<Object, Object> exp, ConditionVars cvars) {
+    public void checkCondition(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp, ConditionVars cvars) {
         cvars.vsTrue = cvars.vsFalse = checkValue(env, ctx, vset, exp);
         // unshare side effects:
         cvars.vsFalse = cvars.vsFalse.copy();
@@ -289,11 +267,9 @@ class Expression extends Node {
     /**
      * Evaluate.
      *
-     * Attempt to compute the value of an expression node.  If all operands are
-     * literal constants of the same kind (e.g., IntegerExpression nodes), a
-     * new constant node of the proper type is returned representing the value
-     * as computed at compile-time.  Otherwise, the original node 'this' is
-     * returned.
+     * Attempt to compute the value of an expression node. If all operands are literal constants of the same kind (e.g.,
+     * IntegerExpression nodes), a new constant node of the proper type is returned representing the value as computed at
+     * compile-time. Otherwise, the original node 'this' is returned.
      */
     Expression eval() {
         return this;
@@ -302,16 +278,12 @@ class Expression extends Node {
     /**
      * Simplify.
      *
-     * Attempt to simplify an expression node by returning a semantically-
-     * equivalent expression that is presumably less costly to execute.  There
-     * is some overlap with the intent of 'eval', as compile-time evaluation of
-     * conditional expressions and the short-circuit boolean operators is
-     * performed here.  Other simplifications include logical identities
-     * involving logical negation and comparisons.  If no simplification is
-     * possible, the original node 'this' is returned.  It is assumed that the
-     * children of the node have previously been recursively simplified and
-     * evaluated.  A result of 'null' indicates that the expression may be
-     * elided entirely.
+     * Attempt to simplify an expression node by returning a semantically- equivalent expression that is presumably less
+     * costly to execute. There is some overlap with the intent of 'eval', as compile-time evaluation of conditional
+     * expressions and the short-circuit boolean operators is performed here. Other simplifications include logical
+     * identities involving logical negation and comparisons. If no simplification is possible, the original node 'this' is
+     * returned. It is assumed that the children of the node have previously been recursively simplified and evaluated. A
+     * result of 'null' indicates that the expression may be elided entirely.
      */
     Expression simplify() {
         return this;
@@ -320,47 +292,39 @@ class Expression extends Node {
     /**
      * Inline.
      *
-     * Recursively simplify each child of an expression node, destructively
-     * replacing the child with the simplified result.  Also attempts to
-     * simplify the current node 'this', and returns the simplified result.
+     * Recursively simplify each child of an expression node, destructively replacing the child with the simplified result.
+     * Also attempts to simplify the current node 'this', and returns the simplified result.
      *
-     * The name 'inline' is somthing of a misnomer, as these methods are
-     * responsible for compile-time expression simplification in general.
-     * The 'eval' and 'simplify' methods apply to a single expression node
-     * only -- it is 'inline' and 'inlineValue' that drive the simplification
-     * of entire expressions.
+     * The name 'inline' is somthing of a misnomer, as these methods are responsible for compile-time expression
+     * simplification in general. The 'eval' and 'simplify' methods apply to a single expression node only -- it is 'inline'
+     * and 'inlineValue' that drive the simplification of entire expressions.
      */
     public Expression inline(Environment env, Context ctx) {
         return null;
     }
+
     public Expression inlineValue(Environment env, Context ctx) {
         return this;
     }
 
     /**
-     * Attempt to evaluate this expression.  If this expression
-     * yields a value, append it to the StringBuffer `buffer'.
-     * If this expression cannot be evaluated at this time (for
-     * example if it contains a division by zero, a non-constant
-     * subexpression, or a subexpression which "refuses" to evaluate)
-     * then return `null' to indicate failure.
+     * Attempt to evaluate this expression. If this expression yields a value, append it to the StringBuffer `buffer'. If
+     * this expression cannot be evaluated at this time (for example if it contains a division by zero, a non-constant
+     * subexpression, or a subexpression which "refuses" to evaluate) then return `null' to indicate failure.
      *
-     * It is anticipated that this method will be called to evaluate
-     * concatenations of compile-time constant strings.  The call
-     * originates from AddExpression#inlineValue().
+     * It is anticipated that this method will be called to evaluate concatenations of compile-time constant strings. The
+     * call originates from AddExpression#inlineValue().
      *
      * See AddExpression#inlineValueSB() for detailed comments.
      */
-    protected StringBuffer inlineValueSB(Environment env,
-                                         Context ctx,
-                                         StringBuffer buffer) {
+    protected StringBuffer inlineValueSB(Environment env, Context ctx, StringBuffer buffer) {
         Expression inlined = inlineValue(env, ctx);
         Object val = inlined.getValue();
 
-        if (val == null && !inlined.isNull()){
+        if (val == null && !inlined.isNull()) {
             // This (supposedly constant) expression refuses to yield
-            // a value.  This can happen, in particular, when we are
-            // trying to evaluate a division by zero.  It can also
+            // a value. This can happen, in particular, when we are
+            // trying to evaluate a division by zero. It can also
             // happen in cases where isConstant() is able to classify
             // expressions as constant that the compiler's inlining
             // mechanisms aren't able to evaluate; this is rare,
@@ -373,13 +337,13 @@ class Expression extends Node {
         }
 
         // For boolean and character expressions, getValue() returns
-        // an Integer.  We need to take care, when appending the result
+        // an Integer. We need to take care, when appending the result
         // of getValue(), that we preserve the type.
         // Fix for 4103959, 4102672.
         if (type == Type.tChar) {
-            buffer.append((char)((Integer)val).intValue());
+            buffer.append((char) ((Integer) val).intValue());
         } else if (type == Type.tBoolean) {
-            buffer.append(((Integer)val).intValue() != 0);
+            buffer.append(((Integer) val).intValue() != 0);
         } else {
             buffer.append(val);
         }
@@ -392,9 +356,8 @@ class Expression extends Node {
     }
 
     /**
-     * The cost of inlining this expression.
-     * This cost controls the inlining of methods, and does not determine
-     * the compile-time simplifications performed by 'inline' and friends.
+     * The cost of inlining this expression. This cost controls the inlining of methods, and does not determine the
+     * compile-time simplifications performed by 'inline' and friends.
      */
     public int costInline(int thresh, Environment env, Context ctx) {
         return 1;
@@ -411,6 +374,7 @@ class Expression extends Node {
             throw new CompilerError("codeBranch " + opNames[op]);
         }
     }
+
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         if (type.isType(TC_BOOLEAN)) {
             Label l1 = new Label();
@@ -426,31 +390,35 @@ class Expression extends Node {
             throw new CompilerError("codeValue");
         }
     }
+
     public void code(Environment env, Context ctx, Assembler asm) {
         codeValue(env, ctx, asm);
 
         switch (type.getTypeCode()) {
-          case TC_VOID:
+        case TC_VOID:
             break;
 
-          case TC_DOUBLE:
-          case TC_LONG:
+        case TC_DOUBLE:
+        case TC_LONG:
             asm.add(where, opc_pop2);
             break;
 
-          default:
+        default:
             asm.add(where, opc_pop);
             break;
         }
     }
+
     int codeLValue(Environment env, Context ctx, Assembler asm) {
         print(System.out);
         throw new CompilerError("invalid lhs");
     }
+
     void codeLoad(Environment env, Context ctx, Assembler asm) {
         print(System.out);
         throw new CompilerError("invalid load");
     }
+
     void codeStore(Environment env, Context ctx, Assembler asm) {
         print(System.out);
         throw new CompilerError("invalid store");
@@ -459,9 +427,7 @@ class Expression extends Node {
     /**
      * Convert this expression to a string.
      */
-    void ensureString(Environment env, Context ctx, Assembler asm)
-            throws ClassNotFound, AmbiguousMember
-    {
+    void ensureString(Environment env, Context ctx, Assembler asm) throws ClassNotFound, AmbiguousMember {
         if (type == Type.tString && isNonNull()) {
             return;
         }
@@ -472,54 +438,46 @@ class Expression extends Node {
         // FIX FOR 4071548
         // We use 'String.valueOf' to do the conversion, in order to
         // correctly handle null references and efficiently handle
-        // primitive types.  For reference types, we force the argument
+        // primitive types. For reference types, we force the argument
         // to be interpreted as of 'Object' type, thus avoiding the
         // the special-case overloading of 'valueOf' for character arrays.
         // This special treatment would conflict with JLS 15.17.1.1.
         if (type.inMask(TM_REFERENCE)) {
             // Reference type
             if (type != Type.tString) {
-                // Convert non-string object to string.  If object is
+                // Convert non-string object to string. If object is
                 // a string, we don't need to convert it, except in the
                 // case that it is null, which is handled below.
-                Type argType1[] = {Type.tObject};
-                MemberDefinition f1 =
-                    stClsDef.matchMethod(env, sourceClass, idValueOf, argType1);
+                Type argType1[] = { Type.tObject };
+                MemberDefinition f1 = stClsDef.matchMethod(env, sourceClass, idValueOf, argType1);
                 asm.add(where, opc_invokestatic, f1);
             }
             // FIX FOR 4030173
             // If the argument was null, then value is "null", but if the
             // argument was not null, 'toString' was called and could have
-            // returned null.  We call 'valueOf' again to make sure that
-            // the result is a non-null string.  See JLS 15.17.1.1.  The
+            // returned null. We call 'valueOf' again to make sure that
+            // the result is a non-null string. See JLS 15.17.1.1. The
             // approach taken here minimizes code size -- open code would
-            // be faster.  The 'toString' method for an array class cannot
+            // be faster. The 'toString' method for an array class cannot
             // be overridden, thus we know that it will never return null.
-            if (!type.inMask(TM_ARRAY|TM_NULL)) {
-                Type argType2[] = {Type.tString};
-                MemberDefinition f2 =
-                    stClsDef.matchMethod(env, sourceClass, idValueOf, argType2);
+            if (!type.inMask(TM_ARRAY | TM_NULL)) {
+                Type argType2[] = { Type.tString };
+                MemberDefinition f2 = stClsDef.matchMethod(env, sourceClass, idValueOf, argType2);
                 asm.add(where, opc_invokestatic, f2);
             }
         } else {
             // Primitive type
-            Type argType[] = {type};
-            MemberDefinition f =
-                stClsDef.matchMethod(env, sourceClass, idValueOf, argType);
+            Type argType[] = { type };
+            MemberDefinition f = stClsDef.matchMethod(env, sourceClass, idValueOf, argType);
             asm.add(where, opc_invokestatic, f);
         }
     }
 
     /**
-     * Convert this expression to a string and append it to the string
-     * buffer on the top of the stack.
-     * If the needBuffer argument is true, the string buffer needs to be
-     * created, initialized, and pushed on the stack, first.
+     * Convert this expression to a string and append it to the string buffer on the top of the stack. If the needBuffer
+     * argument is true, the string buffer needs to be created, initialized, and pushed on the stack, first.
      */
-    void codeAppend(Environment env, Context ctx, Assembler asm,
-                    ClassDeclaration sbClass, boolean needBuffer)
-            throws ClassNotFound, AmbiguousMember
-    {
+    void codeAppend(Environment env, Context ctx, Assembler asm, ClassDeclaration sbClass, boolean needBuffer) throws ClassNotFound, AmbiguousMember {
         ClassDefinition sourceClass = ctx.field.getClassDefinition();
         ClassDefinition sbClsDef = sbClass.getClassDefinition(env);
         MemberDefinition f;
@@ -534,7 +492,7 @@ class Expression extends Node {
                 // optimize by initializing the buffer with the string
                 codeValue(env, ctx, asm);
                 ensureString(env, ctx, asm);
-                Type argType[] = {Type.tString};
+                Type argType[] = { Type.tString };
                 f = sbClsDef.matchMethod(env, sourceClass, idInit, argType);
             }
             asm.add(where, opc_invokespecial, f);
@@ -543,16 +501,13 @@ class Expression extends Node {
             codeValue(env, ctx, asm);
             // FIX FOR 4071548
             // 'StringBuffer.append' converts its argument as if by
-            // 'valueOf', treating character arrays specially.  This
+            // 'valueOf', treating character arrays specially. This
             // violates JLS 15.17.1.1, which requires that concatenation
-            // convert non-primitive arguments using 'toString'.  We force
+            // convert non-primitive arguments using 'toString'. We force
             // the treatment of all reference types as type 'Object', thus
             // invoking an overloading of 'append' that has the required
             // semantics.
-            Type argType[] =
-                { (type.inMask(TM_REFERENCE) && type != Type.tString)
-                  ? Type.tObject
-                  : type };
+            Type argType[] = { (type.inMask(TM_REFERENCE) && type != Type.tString) ? Type.tObject : type };
             f = sbClsDef.matchMethod(env, sourceClass, idAppend, argType);
             asm.add(where, opc_invokevirtual, f);
         }
@@ -563,32 +518,32 @@ class Expression extends Node {
      */
     void codeDup(Environment env, Context ctx, Assembler asm, int items, int depth) {
         switch (items) {
-          case 0:
+        case 0:
             return;
 
-          case 1:
+        case 1:
             switch (depth) {
-              case 0:
+            case 0:
                 asm.add(where, opc_dup);
                 return;
-              case 1:
+            case 1:
                 asm.add(where, opc_dup_x1);
                 return;
-              case 2:
+            case 2:
                 asm.add(where, opc_dup_x2);
                 return;
 
             }
             break;
-          case 2:
+        case 2:
             switch (depth) {
-              case 0:
+            case 0:
                 asm.add(where, opc_dup2);
                 return;
-              case 1:
+            case 1:
                 asm.add(where, opc_dup2_x1);
                 return;
-              case 2:
+            case 2:
                 asm.add(where, opc_dup2_x2);
                 return;
 
@@ -603,108 +558,108 @@ class Expression extends Node {
         int to = t.getTypeCode();
 
         switch (to) {
-          case TC_BOOLEAN:
+        case TC_BOOLEAN:
             if (from != TC_BOOLEAN) {
                 break;
             }
             return;
-          case TC_BYTE:
+        case TC_BYTE:
             if (from != TC_BYTE) {
                 codeConversion(env, ctx, asm, f, Type.tInt);
                 asm.add(where, opc_i2b);
             }
             return;
-          case TC_CHAR:
+        case TC_CHAR:
             if (from != TC_CHAR) {
                 codeConversion(env, ctx, asm, f, Type.tInt);
                 asm.add(where, opc_i2c);
             }
             return;
-          case TC_SHORT:
+        case TC_SHORT:
             if (from != TC_SHORT) {
                 codeConversion(env, ctx, asm, f, Type.tInt);
                 asm.add(where, opc_i2s);
             }
             return;
-          case TC_INT:
+        case TC_INT:
             switch (from) {
-              case TC_BYTE:
-              case TC_CHAR:
-              case TC_SHORT:
-              case TC_INT:
+            case TC_BYTE:
+            case TC_CHAR:
+            case TC_SHORT:
+            case TC_INT:
                 return;
-              case TC_LONG:
+            case TC_LONG:
                 asm.add(where, opc_l2i);
                 return;
-              case TC_FLOAT:
+            case TC_FLOAT:
                 asm.add(where, opc_f2i);
                 return;
-              case TC_DOUBLE:
+            case TC_DOUBLE:
                 asm.add(where, opc_d2i);
                 return;
             }
             break;
-          case TC_LONG:
+        case TC_LONG:
             switch (from) {
-              case TC_BYTE:
-              case TC_CHAR:
-              case TC_SHORT:
-              case TC_INT:
+            case TC_BYTE:
+            case TC_CHAR:
+            case TC_SHORT:
+            case TC_INT:
                 asm.add(where, opc_i2l);
                 return;
-              case TC_LONG:
+            case TC_LONG:
                 return;
-              case TC_FLOAT:
+            case TC_FLOAT:
                 asm.add(where, opc_f2l);
                 return;
-              case TC_DOUBLE:
+            case TC_DOUBLE:
                 asm.add(where, opc_d2l);
                 return;
             }
             break;
-          case TC_FLOAT:
+        case TC_FLOAT:
             switch (from) {
-              case TC_BYTE:
-              case TC_CHAR:
-              case TC_SHORT:
-              case TC_INT:
+            case TC_BYTE:
+            case TC_CHAR:
+            case TC_SHORT:
+            case TC_INT:
                 asm.add(where, opc_i2f);
                 return;
-              case TC_LONG:
+            case TC_LONG:
                 asm.add(where, opc_l2f);
                 return;
-              case TC_FLOAT:
+            case TC_FLOAT:
                 return;
-              case TC_DOUBLE:
+            case TC_DOUBLE:
                 asm.add(where, opc_d2f);
                 return;
             }
             break;
-          case TC_DOUBLE:
+        case TC_DOUBLE:
             switch (from) {
-              case TC_BYTE:
-              case TC_CHAR:
-              case TC_SHORT:
-              case TC_INT:
+            case TC_BYTE:
+            case TC_CHAR:
+            case TC_SHORT:
+            case TC_INT:
                 asm.add(where, opc_i2d);
                 return;
-              case TC_LONG:
+            case TC_LONG:
                 asm.add(where, opc_l2d);
                 return;
-              case TC_FLOAT:
+            case TC_FLOAT:
                 asm.add(where, opc_f2d);
                 return;
-              case TC_DOUBLE:
+            case TC_DOUBLE:
                 return;
             }
             break;
 
-          case TC_CLASS:
+        case TC_CLASS:
             switch (from) {
-              case TC_NULL:
+            case TC_NULL:
                 return;
-              case TC_CLASS:
-              case TC_ARRAY:
+            case TC_CLASS:
+            case TC_ARRAY:
                 try {
                     if (!env.implicitCast(f, t)) {
                         asm.add(where, opc_checkcast, env.getClassDeclaration(t));
@@ -717,12 +672,12 @@ class Expression extends Node {
 
             break;
 
-          case TC_ARRAY:
+        case TC_ARRAY:
             switch (from) {
-              case TC_NULL:
+            case TC_NULL:
                 return;
-              case TC_CLASS:
-              case TC_ARRAY:
+            case TC_CLASS:
+            case TC_ARRAY:
                 try {
                     if (!env.implicitCast(f, t)) {
                         asm.add(where, opc_checkcast, t);
@@ -748,7 +703,7 @@ class Expression extends Node {
      * Create a copy of the expression for method inlining
      */
     public Expression copyInline(Context ctx) {
-        return (Expression)clone();
+        return (Expression) clone();
     }
 
     /**

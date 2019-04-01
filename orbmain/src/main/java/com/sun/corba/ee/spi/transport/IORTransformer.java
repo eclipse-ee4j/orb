@@ -8,18 +8,18 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package com.sun.corba.ee.spi.transport ;
+package com.sun.corba.ee.spi.transport;
 
-import com.sun.corba.ee.spi.ior.IOR ;
-import com.sun.corba.ee.impl.encoding.CDRInputObject ;
-import com.sun.corba.ee.impl.encoding.CDROutputObject ;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.impl.encoding.CDRInputObject;
+import com.sun.corba.ee.impl.encoding.CDROutputObject;
 
-/** Interface that provides operations to transorm an IOR
- * between its programmatic representation and a representation
- * in an Input or Output object.
+/**
+ * Interface that provides operations to transorm an IOR between its programmatic representation and a representation in
+ * an Input or Output object.
  */
 public interface IORTransformer {
-    IOR unmarshal( CDRInputObject io ) ;
+    IOR unmarshal(CDRInputObject io);
 
-    void marshal( CDROutputObject oo, IOR ior ) ;
+    void marshal(CDROutputObject oo, IOR ior);
 }

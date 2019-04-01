@@ -17,46 +17,38 @@ import org.glassfish.rmic.tools.asm.Assembler;
 /**
  * A reference from one scope to another.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  *
  */
 
-public
-class UplevelReference implements Constants {
+public class UplevelReference implements Constants {
     /**
      * The class in which the reference occurs.
      */
     ClassDefinition client;
 
     /**
-     * The field being referenced.
-     * It is always a final argument or a final local variable.
-     * (An uplevel reference to a field of a class C is fetched
-     * through an implicit uplevel reference to C.this, which is
-     * an argument.)
+     * The field being referenced. It is always a final argument or a final local variable. (An uplevel reference to a field
+     * of a class C is fetched through an implicit uplevel reference to C.this, which is an argument.)
      */
     LocalMember target;
 
     /**
-     * The local variable which bears a copy of the target's value,
-     * for all methods of the client class.
-     * Its name is "this$C" for <code>this.C</code> or
-     * "val$x" for other target variables <code>x</code>.
+     * The local variable which bears a copy of the target's value, for all methods of the client class. Its name is
+     * "this$C" for <code>this.C</code> or "val$x" for other target variables <code>x</code>.
      * <p>
-     * This local variable is always a constructor argument,
-     * and is therefore usable only in the constructor and in initializers.
-     * All other methods use the local field.
+     * This local variable is always a constructor argument, and is therefore usable only in the constructor and in
+     * initializers. All other methods use the local field.
+     *
      * @see #localField
      */
     LocalMember localArgument;
 
     /**
-     * A private synthetic field of the client class which
-     * bears a copy of the target's value.
-     * The compiler tries to avoid creating it if possible.
-     * The field has the same name and type as the localArgument.
+     * A private synthetic field of the client class which bears a copy of the target's value. The compiler tries to avoid
+     * creating it if possible. The field has the same name and type as the localArgument.
+     *
      * @see #localArgument
      */
     MemberDefinition localField;
@@ -81,39 +73,39 @@ class UplevelReference implements Constants {
             // If it were false, the numbering scheme would fail
             // to produce unique names, since we'd be trying
             // to number classes which were not in the sequence
-            // of enclosing scopes.  The next paragraph of this
+            // of enclosing scopes. The next paragraph of this
             // code robustly deals with that possibility, however,
             // by detecting name collisions and perturbing the names.
             int depth = 0;
             for (ClassDefinition pd = tc; !pd.isTopLevel(); pd = pd.getOuterClass()) {
                 // The inner classes specification states that the name of
                 // a private field containing a reference to the outermost
-                // enclosing instance is named "this$0".  That outermost
+                // enclosing instance is named "this$0". That outermost
                 // enclosing instance is always the innermost toplevel class.
                 depth += 1;
             }
             // In this example, T1,T2,T3 are all top-level (static),
-            // while I4,I5,I6,I7 are all inner.  Each of the inner classes
+            // while I4,I5,I6,I7 are all inner. Each of the inner classes
             // will have a single up-level "this$N" reference to the next
-            // class out.  Only the outermost "this$0" will refer to a
+            // class out. Only the outermost "this$0" will refer to a
             // top-level class, T3.
             //
             // class T1 {
-            //  static class T2 {
-            //   static class T3 {
-            //    class I4 {
-            //     class I5 {
-            //      class I6 {
-            //       // at this point we have these fields in various places:
-            //       // I4 this$0; I5 this$1; I6 this$2;
-            //      }
-            //     }
-            //     class I7 {
-            //       // I4 this$0; I7 this$1;
-            //     }
-            //    }
-            //   }
-            //  }
+            // static class T2 {
+            // static class T3 {
+            // class I4 {
+            // class I5 {
+            // class I6 {
+            // // at this point we have these fields in various places:
+            // // I4 this$0; I5 this$1; I6 this$2;
+            // }
+            // }
+            // class I7 {
+            // // I4 this$0; I7 this$1;
+            // }
+            // }
+            // }
+            // }
             // }
             valName = Identifier.lookup(prefixThis + depth);
         } else {
@@ -127,8 +119,7 @@ class UplevelReference implements Constants {
         int tick = 0;
         while (true) {
             boolean failed = (client.getFirstMatch(valName) != null);
-            for (UplevelReference r = client.getReferences();
-                    r != null; r = r.next) {
+            for (UplevelReference r = client.getReferences(); r != null; r = r.next) {
                 if (r.target.getName().equals(valName)) {
                     failed = true;
                 }
@@ -142,19 +133,13 @@ class UplevelReference implements Constants {
 
         // Build the constructor argument.
         // Like "this", it wil be shared equally by all constructors of client.
-        localArgument = new LocalMember(target.getWhere(),
-                                       client,
-                                       M_FINAL | M_SYNTHETIC,
-                                       target.getType(),
-                                       valName);
+        localArgument = new LocalMember(target.getWhere(), client, M_FINAL | M_SYNTHETIC, target.getType(), valName);
     }
 
     /**
-     * Insert self into a list of references.
-     * Maintain "isEarlierThan" as an invariant of the list.
-     * This is important (a) to maximize stability of signatures,
-     * and (b) to allow uplevel "this" parameters to come at the
-     * front of every argument list they appear in.
+     * Insert self into a list of references. Maintain "isEarlierThan" as an invariant of the list. This is important (a) to
+     * maximize stability of signatures, and (b) to allow uplevel "this" parameters to come at the front of every argument
+     * list they appear in.
      */
     public UplevelReference insertInto(UplevelReference references) {
         if (references == null || isEarlierThan(references)) {
@@ -218,8 +203,7 @@ class UplevelReference implements Constants {
     }
 
     /**
-     * Get the local field, creating one if necessary.
-     * The client class must not be frozen.
+     * Get the local field, creating one if necessary. The client class must not be frozen.
      */
     public final MemberDefinition getLocalField(Environment env) {
         if (localField == null) {
@@ -243,10 +227,8 @@ class UplevelReference implements Constants {
     }
 
     /**
-     * Tell if this uplevel reference is the up-level "this" pointer
-     * of an inner class.  Such references are treated differently
-     * than others, because they affect constructor calls across
-     * compilation units.
+     * Tell if this uplevel reference is the up-level "this" pointer of an inner class. Such references are treated
+     * differently than others, because they affect constructor calls across compilation units.
      */
     public boolean isClientOuterField() {
         MemberDefinition outerf = client.findOuterMember();
@@ -254,27 +236,22 @@ class UplevelReference implements Constants {
     }
 
     /**
-     * Tell if my local argument is directly available in this context.
-     * If not, the uplevel reference will have to be via a class field.
+     * Tell if my local argument is directly available in this context. If not, the uplevel reference will have to be via a
+     * class field.
      * <p>
-     * This must be called in a context which is local
-     * to the client of the uplevel reference.
+     * This must be called in a context which is local to the client of the uplevel reference.
      */
     public boolean localArgumentAvailable(Environment env, Context ctx) {
         MemberDefinition reff = ctx.field;
         if (reff.getClassDefinition() != client) {
             throw new CompilerError("localArgumentAvailable");
         }
-        return (   reff.isConstructor()
-                || reff.isVariable()
-                || reff.isInitializer() );
+        return (reff.isConstructor() || reff.isVariable() || reff.isInitializer());
     }
 
     /**
-     * Process an uplevel reference.
-     * The only decision to make at this point is whether
-     * to build a "localField" instance variable, which
-     * is done (lazily) when localArgumentAvailable() proves false.
+     * Process an uplevel reference. The only decision to make at this point is whether to build a "localField" instance
+     * variable, which is done (lazily) when localArgumentAvailable() proves false.
      */
     public void noteReference(Environment env, Context ctx) {
         if (localField == null && !localArgumentAvailable(env, ctx)) {
@@ -287,21 +264,14 @@ class UplevelReference implements Constants {
         // Cannot alter decisions like this one at a late date.
         client.referencesMustNotBeFrozen();
         int mod = M_PRIVATE | M_FINAL | M_SYNTHETIC;
-        localField = env.makeMemberDefinition(env,
-                                             localArgument.getWhere(),
-                                             client, null,
-                                             mod,
-                                             localArgument.getType(),
-                                             localArgument.getName(),
-                                             null, null, null);
+        localField = env.makeMemberDefinition(env, localArgument.getWhere(), client, null, mod, localArgument.getType(), localArgument.getName(), null, null,
+                null);
     }
 
     /**
-     * Assuming noteReference() is all taken care of,
-     * build an uplevel reference.
+     * Assuming noteReference() is all taken care of, build an uplevel reference.
      * <p>
-     * This must be called in a context which is local
-     * to the client of the uplevel reference.
+     * This must be called in a context which is local to the client of the uplevel reference.
      */
     public Expression makeLocalReference(Environment env, Context ctx) {
         if (ctx.field.getClassDefinition() != client) {
@@ -315,8 +285,8 @@ class UplevelReference implements Constants {
     }
 
     /**
-     * As with makeLocalReference(), build a locally-usable reference.
-     * Ignore the availability of local arguments; always use a class field.
+     * As with makeLocalReference(), build a locally-usable reference. Ignore the availability of local arguments; always
+     * use a class field.
      */
     public Expression makeFieldReference(Environment env, Context ctx) {
         Expression e = ctx.findOuterLink(env, 0, localField);
@@ -324,13 +294,10 @@ class UplevelReference implements Constants {
     }
 
     /**
-     * During the inline phase, call this on a list of references
-     * for which the code phase will later emit arguments.
-     * It will make sure that any "double-uplevel" values
-     * needed by the callee are also present at the call site.
+     * During the inline phase, call this on a list of references for which the code phase will later emit arguments. It
+     * will make sure that any "double-uplevel" values needed by the callee are also present at the call site.
      * <p>
-     * If any reference is a "ClientOuterField", it is skipped
-     * by this method (and by willCodeArguments).  This is because
+     * If any reference is a "ClientOuterField", it is skipped by this method (and by willCodeArguments). This is because
      */
     public void willCodeArguments(Environment env, Context ctx) {
         if (!isClientOuterField()) {
@@ -343,11 +310,9 @@ class UplevelReference implements Constants {
     }
 
     /**
-     * Code is being generated for a call to a constructor of
-     * the client class.  Push an argument for the constructor.
+     * Code is being generated for a call to a constructor of the client class. Push an argument for the constructor.
      */
-    public void codeArguments(Environment env, Context ctx, Assembler asm,
-                              long where, MemberDefinition conField) {
+    public void codeArguments(Environment env, Context ctx, Assembler asm, long where, MemberDefinition conField) {
         if (!isClientOuterField()) {
             Expression e = ctx.makeReference(env, target);
             e.codeValue(env, ctx, asm);
@@ -359,11 +324,9 @@ class UplevelReference implements Constants {
     }
 
     /**
-     * Code is being generated for a constructor of the client class.
-     * Emit code which initializes the instance.
+     * Code is being generated for a constructor of the client class. Emit code which initializes the instance.
      */
-    public void codeInitialization(Environment env, Context ctx, Assembler asm,
-                                   long where, MemberDefinition conField) {
+    public void codeInitialization(Environment env, Context ctx, Assembler asm, long where, MemberDefinition conField) {
         // If the reference is a clientOuterField, then the initialization
         // code is generated in MethodExpression.makeVarInits().
         // (Fix for bug 4075063.)

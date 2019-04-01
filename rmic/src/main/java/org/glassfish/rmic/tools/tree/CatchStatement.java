@@ -18,12 +18,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class CatchStatement extends Statement {
+public class CatchStatement extends Statement {
     int mod;
     Expression texpr;
     Identifier id;
@@ -40,6 +38,7 @@ class CatchStatement extends Statement {
         this.id = id.getName();
         this.body = body;
     }
+
     /** @deprecated */
     @Deprecated
     public CatchStatement(long where, Expression texpr, Identifier id, Statement body) {
@@ -68,8 +67,7 @@ class CatchStatement extends Statement {
                 env.error(where, "catch.not.throwable", type);
             } else {
                 ClassDefinition def = env.getClassDefinition(type);
-                if (!def.subClassOf(env,
-                               env.getClassDeclaration(idJavaLangThrowable))) {
+                if (!def.subClassOf(env, env.getClassDeclaration(idJavaLangThrowable))) {
                     env.error(where, "catch.not.throwable", def);
                 }
             }
@@ -103,7 +101,7 @@ class CatchStatement extends Statement {
      * Create a copy of the statement for method inlining
      */
     public Statement copyInline(Context ctx, boolean valNeeded) {
-        CatchStatement s = (CatchStatement)clone();
+        CatchStatement s = (CatchStatement) clone();
         if (body != null) {
             s.body = body.copyInline(ctx, valNeeded);
         }
@@ -116,10 +114,10 @@ class CatchStatement extends Statement {
     /**
      * Compute cost of inlining this statement
      */
-    public int costInline(int thresh, Environment env, Context ctx){
+    public int costInline(int thresh, Environment env, Context ctx) {
         int cost = 1;
         if (body != null) {
-            cost += body.costInline(thresh, env,ctx);
+            cost += body.costInline(thresh, env, ctx);
         }
         return cost;
     }
@@ -138,7 +136,7 @@ class CatchStatement extends Statement {
         if (body != null) {
             body.code(env, newctx, asm);
         }
-        //asm.add(newctx.breakLabel);
+        // asm.add(newctx.breakLabel);
     }
 
     /**

@@ -18,7 +18,7 @@ import java.util.Enumeration;
 
 public class RepositoryIdCache extends Hashtable {
     public final synchronized RepositoryId getId(String key) {
-        RepositoryId repId = (RepositoryId)super.get(key);
+        RepositoryId repId = (RepositoryId) super.get(key);
 
         if (repId != null) {
             return repId;

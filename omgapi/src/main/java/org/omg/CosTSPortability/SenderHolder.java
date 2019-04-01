@@ -11,14 +11,16 @@
 //      org/omg/CosTSPortability/SenderHolder.java
 
 package org.omg.CosTSPortability;
-public class SenderHolder
-{
-    //  instance variable 
+
+public class SenderHolder {
+    // instance variable
     public org.omg.CosTSPortability.Sender value;
-    //  constructors 
+
+    // constructors
     public SenderHolder() {
         this(null);
     }
+
     public SenderHolder(org.omg.CosTSPortability.Sender __arg) {
         value = __arg;
     }

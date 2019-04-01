@@ -20,40 +20,26 @@ import com.sun.corba.ee.spi.transport.SocketInfo;
 import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.impl.transport.ContactInfoImpl;
 
-
 /**
  * @author Harold Carr
  */
-public class SocketFactoryContactInfoImpl 
-    extends
-        ContactInfoImpl
-{
-    protected static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+public class SocketFactoryContactInfoImpl extends ContactInfoImpl {
+    protected static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
     protected SocketInfo socketInfo;
 
-    // XREVISIT 
+    // XREVISIT
     // See SocketOrChannelAcceptorImpl.createMessageMediator
     // See SocketFactoryContactInfoImpl.constructor()
     // See SocketOrChannelContactInfoImpl.constructor()
-    public SocketFactoryContactInfoImpl()
-    {
+    public SocketFactoryContactInfoImpl() {
     }
 
-    public SocketFactoryContactInfoImpl(
-        ORB orb,
-        ContactInfoList contactInfoList,
-        IOR effectiveTargetIOR,
-        short addressingDisposition,
-        SocketInfo cookie)
-    {
+    public SocketFactoryContactInfoImpl(ORB orb, ContactInfoList contactInfoList, IOR effectiveTargetIOR, short addressingDisposition, SocketInfo cookie) {
         super(orb, contactInfoList);
         this.effectiveTargetIOR = effectiveTargetIOR;
         this.addressingDisposition = addressingDisposition;
 
-        socketInfo = 
-            orb.getORBData().getLegacySocketFactory()
-                .getEndPointInfo(orb, effectiveTargetIOR, cookie);
+        socketInfo = orb.getORBData().getLegacySocketFactory().getEndPointInfo(orb, effectiveTargetIOR, cookie);
 
         socketType = socketInfo.getType();
         hostname = socketInfo.getHost();
@@ -61,12 +47,8 @@ public class SocketFactoryContactInfoImpl
     }
 
     @Override
-    public Connection createConnection()
-    {
-        Connection connection =
-            new SocketFactoryConnectionImpl(
-                orb, this,
-                orb.getORBData().connectionSocketUseSelectThreadToWait(),
+    public Connection createConnection() {
+        Connection connection = new SocketFactoryConnectionImpl(orb, this, orb.getORBData().connectionSocketUseSelectThreadToWait(),
                 orb.getORBData().connectionSocketUseWorkerThreadForEvent());
         return connection;
     }
@@ -77,14 +59,8 @@ public class SocketFactoryContactInfoImpl
     //
 
     @Override
-    public String toString()
-    {
-        return
-            "SocketFactoryContactInfoImpl[" 
-            + socketType + " "
-            + hostname + " "
-            + port
-            + "]";
+    public String toString() {
+        return "SocketFactoryContactInfoImpl[" + socketType + " " + hostname + " " + port + "]";
     }
 }
 

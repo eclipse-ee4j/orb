@@ -13,17 +13,14 @@ package org.glassfish.rmic;
 import org.glassfish.rmic.tools.java.Identifier;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
 public interface Constants extends org.glassfish.rmic.tools.java.Constants {
 
     /*
      * Identifiers potentially useful for all Generators
      */
-    public static final Identifier idRemote =
-        Identifier.lookup("java.rmi.Remote");
-    public static final Identifier idRemoteException =
-        Identifier.lookup("java.rmi.RemoteException");
+    public static final Identifier idRemote = Identifier.lookup("java.rmi.Remote");
+    public static final Identifier idRemoteException = Identifier.lookup("java.rmi.RemoteException");
 }

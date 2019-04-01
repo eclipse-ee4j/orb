@@ -13,10 +13,8 @@ package com.sun.tools.corba.ee.idl.constExpr;
 
 // NOTES:
 
-public class EvaluationException extends Exception
-{
-  public EvaluationException (String message)
-  {
-    super (message);
-  } // ctor
+public class EvaluationException extends Exception {
+    public EvaluationException(String message) {
+        super(message);
+    } // ctor
 } // class EvaluationException

@@ -17,12 +17,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class IdentifierExpression extends Expression {
+public class IdentifierExpression extends Expression {
     Identifier id;
     MemberDefinition field;
     Expression implementation;
@@ -34,9 +32,11 @@ class IdentifierExpression extends Expression {
         super(IDENT, where, Type.tError);
         this.id = id;
     }
+
     public IdentifierExpression(IdentifierToken id) {
         this(id.getWhere(), id.getName());
     }
+
     public IdentifierExpression(long where, MemberDefinition field) {
         super(IDENT, where, field.getType());
         this.id = field.getName();
@@ -56,13 +56,12 @@ class IdentifierExpression extends Expression {
         return this.id.equals(id);
     }
 
-
     /**
-     * Assign a value to this identifier.  [It must already be "bound"]
+     * Assign a value to this identifier. [It must already be "bound"]
      */
     private Vset assign(Environment env, Context ctx, Vset vset) {
         if (field.isLocal()) {
-            LocalMember local = (LocalMember)field;
+            LocalMember local = (LocalMember) field;
             if (local.scopeNumber < ctx.frameNumber) {
                 env.error(where, "assign.to.uplevel", id);
             }
@@ -77,18 +76,17 @@ class IdentifierExpression extends Expression {
             vset.addVar(local.number);
             local.writecount++;
         } else if (field.isFinal()) {
-            vset = FieldExpression.checkFinalAssign(env, ctx, vset,
-                                                    where, field);
+            vset = FieldExpression.checkFinalAssign(env, ctx, vset, where, field);
         }
         return vset;
     }
 
     /**
-     * Get the value of this identifier.  [ It must already be "bound"]
+     * Get the value of this identifier. [ It must already be "bound"]
      */
     private Vset get(Environment env, Context ctx, Vset vset) {
         if (field.isLocal()) {
-            LocalMember local = (LocalMember)field;
+            LocalMember local = (LocalMember) field;
             if (local.scopeNumber < ctx.frameNumber && !local.isFinal()) {
                 env.error(where, "invalid.uplevel", id);
             }
@@ -121,11 +119,9 @@ class IdentifierExpression extends Expression {
         try {
             field = ctx.getField(env, id);
             if (field == null) {
-                for (ClassDefinition cdef = ctx.field.getClassDefinition();
-                     cdef != null; cdef = cdef.getOuterClass()) {
+                for (ClassDefinition cdef = ctx.field.getClassDefinition(); cdef != null; cdef = cdef.getOuterClass()) {
                     if (cdef.findAnyMethod(env, id) != null) {
-                        env.error(where, "invalid.var", id,
-                                  ctx.field.getClassDeclaration());
+                        env.error(where, "invalid.var", id, ctx.field.getClassDeclaration());
                         return false;
                     }
                 }
@@ -137,15 +133,13 @@ class IdentifierExpression extends Expression {
 
             // Check access permission
             if (!ctx.field.getClassDefinition().canAccess(env, field)) {
-                env.error(where, "no.field.access",
-                          id, field.getClassDeclaration(),
-                          ctx.field.getClassDeclaration());
+                env.error(where, "no.field.access", id, field.getClassDeclaration(), ctx.field.getClassDeclaration());
                 return false;
             }
 
             // Find out how to access this variable.
             if (field.isLocal()) {
-                LocalMember local = (LocalMember)field;
+                LocalMember local = (LocalMember) field;
                 if (local.scopeNumber < ctx.frameNumber) {
                     // get a "val$x" copy via the current object
                     implementation = ctx.makeReference(env, local);
@@ -154,8 +148,7 @@ class IdentifierExpression extends Expression {
                 MemberDefinition f = field;
 
                 if (f.reportDeprecated(env)) {
-                    env.error(where, "warn.field.is.deprecated",
-                              id, f.getClassDefinition());
+                    env.error(where, "warn.field.is.deprecated", id, f.getClassDefinition());
                 }
 
                 ClassDefinition fclass = f.getClassDefinition();
@@ -164,29 +157,26 @@ class IdentifierExpression extends Expression {
                     MemberDefinition f2 = ctx.getApparentField(env, id);
                     if (f2 != null && f2 != f) {
                         ClassDefinition c = ctx.findScope(env, fclass);
-                        if (c == null)  c = f.getClassDefinition();
+                        if (c == null)
+                            c = f.getClassDefinition();
                         if (f2.isLocal()) {
-                            env.error(where, "inherited.hides.local",
-                                      id, c.getClassDeclaration());
+                            env.error(where, "inherited.hides.local", id, c.getClassDeclaration());
                         } else {
-                            env.error(where, "inherited.hides.field",
-                                      id, c.getClassDeclaration(),
-                                      f2.getClassDeclaration());
+                            env.error(where, "inherited.hides.field", id, c.getClassDeclaration(), f2.getClassDeclaration());
                         }
                     }
                 }
 
                 // Rewrite as a FieldExpression.
                 // Access methods for private fields, if needed, will be added
-                // during subsequent processing of the FieldExpression.  See
+                // during subsequent processing of the FieldExpression. See
                 // method 'FieldExpression.checkCommon'. This division of labor
                 // is somewhat awkward, as most further processing of a
                 // FieldExpression during the checking phase is suppressed when
                 // the referenced field is pre-set as it is here.
 
                 if (f.isStatic()) {
-                    Expression base = new TypeExpression(where,
-                                        f.getClassDeclaration().getType());
+                    Expression base = new TypeExpression(where, f.getClassDeclaration().getType());
                     implementation = new FieldExpression(where, null, f);
                 } else {
                     Expression base = ctx.findOuterLink(env, where, f);
@@ -198,17 +188,14 @@ class IdentifierExpression extends Expression {
 
             // Check forward reference
             if (!ctx.canReach(env, field)) {
-                env.error(where, "forward.ref",
-                          id, field.getClassDeclaration());
+                env.error(where, "forward.ref", id, field.getClassDeclaration());
                 return false;
             }
             return true;
         } catch (ClassNotFound e) {
             env.error(where, "class.not.found", e.name, ctx.field);
         } catch (AmbiguousMember e) {
-            env.error(where, "ambig.field", id,
-                      e.field1.getClassDeclaration(),
-                      e.field2.getClassDeclaration());
+            env.error(where, "ambig.field", id, e.field1.getClassDeclaration(), e.field2.getClassDeclaration());
         }
         return false;
     }
@@ -219,7 +206,7 @@ class IdentifierExpression extends Expression {
     public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         if (field != null) {
             // An internally pre-set field, such as an argument copying
-            // an uplevel value.  Do not re-check it.
+            // an uplevel value. Do not re-check it.
             return vset;
         }
         if (bind(env, ctx)) {
@@ -234,8 +221,7 @@ class IdentifierExpression extends Expression {
     /**
      * Check the expression if it appears on the LHS of an assignment
      */
-    public Vset checkLHS(Environment env, Context ctx,
-                         Vset vset, Hashtable<Object, Object> exp) {
+    public Vset checkLHS(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         if (!bind(env, ctx))
             return vset;
         vset = assign(env, ctx, vset);
@@ -247,8 +233,7 @@ class IdentifierExpression extends Expression {
     /**
      * Check the expression if it appears on the LHS of an op= expression
      */
-    public Vset checkAssignOp(Environment env, Context ctx,
-                              Vset vset, Hashtable<Object, Object> exp, Expression outside) {
+    public Vset checkAssignOp(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp, Expression outside) {
         if (!bind(env, ctx))
             return vset;
         vset = assign(env, ctx, get(env, ctx, vset));
@@ -278,8 +263,7 @@ class IdentifierExpression extends Expression {
     /**
      * Check if the present name is part of a scoping prefix.
      */
-    public Vset checkAmbigName(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp,
-                               UnaryExpression loc) {
+    public Vset checkAmbigName(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp, UnaryExpression loc) {
         try {
             if (ctx.getField(env, id) != null) {
                 // if this is a local field, there's nothing more to do.
@@ -295,7 +279,7 @@ class IdentifierExpression extends Expression {
             loc.right = new TypeExpression(where, c.getType());
             return vset;
         }
-        // We hope it is a package prefix.  Let the caller decide.
+        // We hope it is a package prefix. Let the caller decide.
         type = Type.tPackage;
         return vset;
     }
@@ -303,8 +287,7 @@ class IdentifierExpression extends Expression {
     /**
      * Convert an identifier to a known type, or null.
      */
-    private ClassDefinition toResolvedType(Environment env, Context ctx,
-                                           boolean pkgOK) {
+    private ClassDefinition toResolvedType(Environment env, Context ctx, boolean pkgOK) {
         Identifier rid = ctx.resolveName(env, id);
         Type t = Type.tClass(rid);
         if (pkgOK && !env.classExists(t)) {
@@ -320,8 +303,7 @@ class IdentifierExpression extends Expression {
                     if (sc != c.getOuterClass()) {
                         Identifier rid2 = ctx.getApparentClassName(env, id);
                         if (!rid2.equals(idNull) && !rid2.equals(rid)) {
-                            env.error(where, "inherited.hides.type",
-                                      id, sc.getClassDeclaration());
+                            env.error(where, "inherited.hides.type", id, sc.getClassDeclaration());
                         }
                     }
                 }
@@ -338,8 +320,7 @@ class IdentifierExpression extends Expression {
     }
 
     /**
-     * Convert an identifier to a type.
-     * If one is not known, use the current package as a qualifier.
+     * Convert an identifier to a type. If one is not known, use the current package as a qualifier.
      */
     Type toType(Environment env, Context ctx) {
         ClassDefinition c = toResolvedType(env, ctx, false);
@@ -350,11 +331,9 @@ class IdentifierExpression extends Expression {
     }
 
     /**
-     * Convert an expresion to a type in a context where a qualified
-     * type name is expected, e.g., in the prefix of a qualified type
-     * name. We do not necessarily know where the package prefix ends,
-     * so we operate similarly to 'checkAmbiguousName'.  This is the
-     * base case -- the first component of the qualified name.
+     * Convert an expresion to a type in a context where a qualified type name is expected, e.g., in the prefix of a
+     * qualified type name. We do not necessarily know where the package prefix ends, so we operate similarly to
+     * 'checkAmbiguousName'. This is the base case -- the first component of the qualified name.
      */
     /*-------------------------------------------------------*
     Type toQualifiedType(Environment env, Context ctx) {
@@ -370,7 +349,7 @@ class IdentifierExpression extends Expression {
     *-------------------------------------------------------*/
 
     /**
-     * Check if constant:  Will it inline away?
+     * Check if constant: Will it inline away?
      */
     public boolean isConstant() {
         if (implementation != null)
@@ -387,6 +366,7 @@ class IdentifierExpression extends Expression {
     public Expression inline(Environment env, Context ctx) {
         return null;
     }
+
     public Expression inlineValue(Environment env, Context ctx) {
         if (implementation != null)
             return implementation.inlineValue(env, ctx);
@@ -396,7 +376,7 @@ class IdentifierExpression extends Expression {
         try {
             if (field.isLocal()) {
                 if (field.isInlineable(env, false)) {
-                    Expression e = (Expression)field.getValue(env);
+                    Expression e = (Expression) field.getValue(env);
                     return (e == null) ? this : e.inlineValue(env, ctx);
                 }
                 return this;
@@ -406,6 +386,7 @@ class IdentifierExpression extends Expression {
             throw new CompilerError(e);
         }
     }
+
     public Expression inlineLHS(Environment env, Context ctx) {
         if (implementation != null)
             return implementation.inlineLHS(env, ctx);
@@ -415,10 +396,9 @@ class IdentifierExpression extends Expression {
     public Expression copyInline(Context ctx) {
         if (implementation != null)
             return implementation.copyInline(ctx);
-        IdentifierExpression e =
-            (IdentifierExpression)super.copyInline(ctx);
+        IdentifierExpression e = (IdentifierExpression) super.copyInline(ctx);
         if (field != null && field.isLocal()) {
-            e.field = ((LocalMember)field).getCurrentInlineCopy(ctx);
+            e.field = ((LocalMember) field).getCurrentInlineCopy(ctx);
         }
         return e;
     }
@@ -435,15 +415,16 @@ class IdentifierExpression extends Expression {
     int codeLValue(Environment env, Context ctx, Assembler asm) {
         return 0;
     }
+
     void codeLoad(Environment env, Context ctx, Assembler asm) {
-        asm.add(where, opc_iload + type.getTypeCodeOffset(),
-                ((LocalMember)field).number);
+        asm.add(where, opc_iload + type.getTypeCodeOffset(), ((LocalMember) field).number);
     }
+
     void codeStore(Environment env, Context ctx, Assembler asm) {
-        LocalMember local = (LocalMember)field;
-        asm.add(where, opc_istore + type.getTypeCodeOffset(),
-                new LocalVariable(local, local.number));
+        LocalMember local = (LocalMember) field;
+        asm.add(where, opc_istore + type.getTypeCodeOffset(), new LocalVariable(local, local.number));
     }
+
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         codeLValue(env, ctx, asm);
         codeLoad(env, ctx, asm);

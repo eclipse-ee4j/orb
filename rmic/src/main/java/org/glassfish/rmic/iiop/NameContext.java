@@ -14,10 +14,9 @@ package org.glassfish.rmic.iiop;
 import java.util.Hashtable;
 
 /**
- * A NameContext enables detection of strings which differ only
- * in case.
+ * A NameContext enables detection of strings which differ only in case.
  *
- * @author      Bryan Atsatt
+ * @author Bryan Atsatt
  */
 class NameContext {
 
@@ -25,12 +24,9 @@ class NameContext {
     private boolean allowCollisions;
 
     /**
-     * Get a context for the given name. Name may be null, in
-     * which case this method will return the default context.
+     * Get a context for the given name. Name may be null, in which case this method will return the default context.
      */
-    public static synchronized NameContext forName (String name,
-                                                    boolean allowCollisions,
-                                                    BatchEnvironment env) {
+    public static synchronized NameContext forName(String name, boolean allowCollisions, BatchEnvironment env) {
 
         NameContext result = null;
 
@@ -67,7 +63,7 @@ class NameContext {
 
             result = new NameContext(allowCollisions);
 
-            env.nameContexts.put(name,result);
+            env.nameContexts.put(name, result);
         }
 
         return result;
@@ -75,20 +71,19 @@ class NameContext {
 
     /**
      * Construct a context.
-     * @param allowCollisions true if case-sensitive name collisions
-     * are allowed, false if not.
+     *
+     * @param allowCollisions true if case-sensitive name collisions are allowed, false if not.
      */
-    public NameContext (boolean allowCollisions) {
+    public NameContext(boolean allowCollisions) {
         this.allowCollisions = allowCollisions;
         table = new Hashtable();
     }
 
     /**
-     * Add a name to this context. If constructed with allowCollisions
-     * false and a collision occurs, this method will throw an exception
-     * in which the message contains the string: "name" and "collision".
+     * Add a name to this context. If constructed with allowCollisions false and a collision occurs, this method will throw
+     * an exception in which the message contains the string: "name" and "collision".
      */
-    public void assertPut (String name) throws Exception {
+    public void assertPut(String name) throws Exception {
 
         String message = add(name);
 
@@ -100,7 +95,7 @@ class NameContext {
     /**
      * Add a name to this context..
      */
-    public void put (String name) {
+    public void put(String name) {
 
         if (allowCollisions == false) {
             throw new Error("Must use assertPut(name)");
@@ -110,11 +105,10 @@ class NameContext {
     }
 
     /**
-     * Add a name to this context. If constructed with allowCollisions
-     * false and a collision occurs, this method will return a message
-     * string, otherwise returns null.
+     * Add a name to this context. If constructed with allowCollisions false and a collision occurs, this method will return
+     * a message string, otherwise returns null.
      */
-    private String add (String name) {
+    private String add(String name) {
 
         // First, create a key by converting name to lowercase...
 
@@ -151,17 +145,16 @@ class NameContext {
 
             // No, so add it...
 
-            table.put(key,new Name(name,false));
+            table.put(key, new Name(name, false));
         }
 
         return null;
     }
 
     /**
-     * Get a name from the context. If it has collisions, the name
-     * will be converted as specified in section 5.2.7.
+     * Get a name from the context. If it has collisions, the name will be converted as specified in section 5.2.7.
      */
-    public String get (String name) {
+    public String get(String name) {
 
         Name it = (Name) table.get(name.toLowerCase());
         String result = name;
@@ -195,7 +188,7 @@ class NameContext {
     /**
      * Remove all entries.
      */
-    public void clear () {
+    public void clear() {
         table.clear();
     }
 
@@ -203,7 +196,7 @@ class NameContext {
         public String name;
         public boolean collisions;
 
-        public Name (String name, boolean collisions) {
+        public Name(String name, boolean collisions) {
             this.name = name;
             this.collisions = collisions;
         }

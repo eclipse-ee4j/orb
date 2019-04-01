@@ -49,12 +49,12 @@ public class ExceptionWrapperProcessorTestCase {
 
     private TestRoundEnvironment roundEnvironment;
     private ExceptionWrapperProcessor processor;
-  private List<FileObject> files = new ArrayList<FileObject>();
+    private List<FileObject> files = new ArrayList<FileObject>();
     private Set<TypeElement> typeElements;
     private FileGenerator fileGenerator;
     private Date creationDate = new Date();
     private TestElement annotatedClassElement;
-    private Map<Class<? extends Annotation>,Set<Element>> annotations = new HashMap<Class<? extends Annotation>, Set<Element>>();
+    private Map<Class<? extends Annotation>, Set<Element>> annotations = new HashMap<Class<? extends Annotation>, Set<Element>>();
 
     @Before
     public void setUp() throws Exception {
@@ -93,7 +93,7 @@ public class ExceptionWrapperProcessorTestCase {
     @Test
     public void processer_isRegistered() throws IOException {
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("META-INF/services/javax.annotation.processing.Processor");
-        assertNotNull("Resource not found in classpath",inputStream);
+        assertNotNull("Resource not found in classpath", inputStream);
         InputStreamReader isr = new InputStreamReader(inputStream);
         BufferedReader reader = new BufferedReader(isr);
         assertEquals(ExceptionWrapperProcessor.class.getName(), reader.readLine());
@@ -129,9 +129,10 @@ public class ExceptionWrapperProcessorTestCase {
                 asUnixPath(fileObject.toUri().toString()));
     }
 
-    private String asUnixPath( String path ) {
+    private String asUnixPath(String path) {
         String result = path.replace('\\', '/');
-        if (result.startsWith("file:/C:")) result = "file:C:" + result.substring(8);
+        if (result.startsWith("file:/C:"))
+            result = "file:C:" + result.substring(8);
         return result;
     }
 
@@ -156,16 +157,15 @@ public class ExceptionWrapperProcessorTestCase {
         return set;
     }
 
-
     @Test
     public void withoutMethods_generatorWillNotRun() {
-        assertFalse( fileGenerator.shouldWriteFile());
+        assertFalse(fileGenerator.shouldWriteFile());
     }
 
     @Test
     public void withMethods_generatorWillRun() {
         fileGenerator.addMethod(createAnnotatedMethod("method1", "log message 1"));
-        assertTrue( fileGenerator.shouldWriteFile());
+        assertTrue(fileGenerator.shouldWriteFile());
     }
 
     @Test
@@ -182,14 +182,11 @@ public class ExceptionWrapperProcessorTestCase {
     @Test
     public void generator_canCreateHeader() throws IOException {
         StringWriter writer = new StringWriter();
-        fileGenerator.writePropertyFileHeader( writer );
+        fileGenerator.writePropertyFileHeader(writer);
         writer.close();
 
-        assertEquals("### Resource file generated on " + creationDate + "\n" +
-                     "#\n" +
-                     "# Resources for class org.glassfish.corba.AnException\n" +
-                     "#\n",
-                     writer.toString() );
+        assertEquals("### Resource file generated on " + creationDate + "\n" + "#\n" + "# Resources for class org.glassfish.corba.AnException\n" + "#\n",
+                writer.toString());
     }
 
     private TestElement createAnnotatedMethod(String methodName, String message) {
@@ -236,8 +233,13 @@ public class ExceptionWrapperProcessorTestCase {
             return processingOver;
         }
 
-        public boolean errorRaised() { return false; }
-        public Set<? extends Element> getRootElements() { return null; }
+        public boolean errorRaised() {
+            return false;
+        }
+
+        public Set<? extends Element> getRootElements() {
+            return null;
+        }
 
         @Override
         public Set<? extends Element> getElementsAnnotatedWith(TypeElement typeElement) {
@@ -307,7 +309,8 @@ public class ExceptionWrapperProcessorTestCase {
 
         @Override
         public Filer getFiler() {
-            if (filer == null) filer = new TestFiler();
+            if (filer == null)
+                filer = new TestFiler();
             return filer;
         }
 
@@ -331,7 +334,6 @@ public class ExceptionWrapperProcessorTestCase {
             return null;
         }
 
-
     }
 
     class TestFiler implements Filer {
@@ -349,7 +351,7 @@ public class ExceptionWrapperProcessorTestCase {
         @Override
         public FileObject createResource(JavaFileManager.Location location, CharSequence pkg, CharSequence trailing, Element... elements) throws IOException {
             File file = new File(location.getName());
-            file = new File(file, pkg.toString().replace('.','/'));
+            file = new File(file, pkg.toString().replace('.', '/'));
             file = new File(file, trailing.toString());
             TestFileObject testFileObject = new TestFileObject(file.toURI());
             files.add(testFileObject);
@@ -361,13 +363,11 @@ public class ExceptionWrapperProcessorTestCase {
             return null;
         }
 
-
     }
 
     class TestFileObject implements FileObject {
 
         private URI uri;
-
 
         TestFileObject(URI uri) {
             this.uri = uri;
@@ -405,7 +405,7 @@ public class ExceptionWrapperProcessorTestCase {
 
         @Override
         public Writer openWriter() throws IOException {
-          return new StringWriter();
+            return new StringWriter();
         }
 
         @Override
@@ -417,7 +417,6 @@ public class ExceptionWrapperProcessorTestCase {
         public boolean delete() {
             return false;
         }
-
 
     }
 
@@ -438,16 +437,17 @@ public class ExceptionWrapperProcessorTestCase {
 
         public <A extends Annotation> A getAnnotation(Class<A> aClass) {
             for (Annotation annotation : annotations)
-                if (aClass.isInstance(annotation)) return castTo(annotation);
+                if (aClass.isInstance(annotation))
+                    return castTo(annotation);
             return null;
         }
 
-      @SuppressWarnings("unchecked")
-      private <A extends Annotation> A castTo(Annotation annotation) {
-        return (A) annotation;
-      }
+        @SuppressWarnings("unchecked")
+        private <A extends Annotation> A castTo(Annotation annotation) {
+            return (A) annotation;
+        }
 
-      public Name getSimpleName() {
+        public Name getSimpleName() {
             return simpleName;
         }
 
@@ -457,10 +457,8 @@ public class ExceptionWrapperProcessorTestCase {
 
         @Override
         public String toString() {
-            return enclosingElement == null ? simpleName.toString()
-                    : enclosingElement + "." + simpleName;
+            return enclosingElement == null ? simpleName.toString() : enclosingElement + "." + simpleName;
         }
-
 
     }
 
