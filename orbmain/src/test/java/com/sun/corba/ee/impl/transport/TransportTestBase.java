@@ -246,6 +246,11 @@ public class TransportTestBase {
         public int getMaxReadByteBufferSizeThreshold() {
             return 500;
         }
+
+        @Override
+        public void waitNanos(Object obj, long waitNanos) throws InterruptedException {
+            ORBData.super.waitNanos(obj, waitNanos);
+        }
     }
 
     static abstract class OrbFake extends ORB {
