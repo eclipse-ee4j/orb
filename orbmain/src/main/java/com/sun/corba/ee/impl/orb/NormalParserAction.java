@@ -8,30 +8,26 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package com.sun.corba.ee.impl.orb ;
+package com.sun.corba.ee.impl.orb;
 
-import java.util.Properties ;
+import java.util.Properties;
 
-import com.sun.corba.ee.spi.orb.Operation ;
+import com.sun.corba.ee.spi.orb.Operation;
 
 public class NormalParserAction extends ParserActionBase {
-    public NormalParserAction( String propertyName, 
-        Operation operation, String fieldName )
-    {
-        super( propertyName, false, operation, fieldName ) ;
+    public NormalParserAction(String propertyName, Operation operation, String fieldName) {
+        super(propertyName, false, operation, fieldName);
     }
 
-    /** Create a String[] of all suffixes of property names that
-     * match the propertyName prefix, pass this to op, and return the
-     * result.
+    /**
+     * Create a String[] of all suffixes of property names that match the propertyName prefix, pass this to op, and return
+     * the result.
      */
-    public Object apply( Properties props ) 
-    {
-        Object value = props.getProperty( getPropertyName() ) ;
+    public Object apply(Properties props) {
+        Object value = props.getProperty(getPropertyName());
         if (value != null)
-            return getOperation().operate( value ) ;
-        else 
-            return null ;
+            return getOperation().operate(value);
+        else
+            return null;
     }
 }
-

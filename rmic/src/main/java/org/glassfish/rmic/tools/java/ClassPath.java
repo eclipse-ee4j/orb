@@ -27,15 +27,12 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 /**
- * This class is used to represent a class path, which can contain both
- * directories and zip files.
+ * This class is used to represent a class path, which can contain both directories and zip files.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class ClassPath {
+public class ClassPath {
     private FileSystem getJrtFileSystem() {
         return FileSystems.getFileSystem(URI.create("jrt:/"));
     }
@@ -60,15 +57,11 @@ class ClassPath {
     }
 
     /**
-     * Build a class path from the specified array of class path
-     * element strings.  This constructor, and the corresponding
-     * "init" method, were added as part of the fix for 6473331, which
-     * adds support for Class-Path manifest entries in JAR files to
-     * rmic.  It is conceivable that the value of a Class-Path
-     * manifest entry will contain a path separator, which would cause
-     * incorrect behavior if the expanded path were passed to the
-     * previous constructor as a single path-separator-delimited
-     * string; use of this constructor avoids that problem.
+     * Build a class path from the specified array of class path element strings. This constructor, and the corresponding
+     * "init" method, were added as part of the fix for 6473331, which adds support for Class-Path manifest entries in JAR
+     * files to rmic. It is conceivable that the value of a Class-Path manifest entry will contain a path separator, which
+     * would cause incorrect behavior if the expanded path were passed to the previous constructor as a single
+     * path-separator-delimited string; use of this constructor avoids that problem.
      */
     public ClassPath(String... patharray) {
         init(patharray);
@@ -86,10 +79,11 @@ class ClassPath {
         // Count the number of path separators
         i = n = 0;
         while ((i = pathstr.indexOf(dirSeparator, i)) != -1) {
-            n++; i++;
+            n++;
+            i++;
         }
         // Build the class path
-        ClassPathEntry[] path = new ClassPathEntry[n+1];
+        ClassPathEntry[] path = new ClassPathEntry[n + 1];
 
         int len = pathstr.length();
         for (i = n = 0; i < len; i = j + 1) {
@@ -192,12 +186,11 @@ class ClassPath {
             int i = name.lastIndexOf(File.separatorChar);
             subdir = name.substring(0, i + 1);
             basename = name.substring(i + 1);
-        } else if (!subdir.equals("")
-                   && !subdir.endsWith(fileSeparatorChar)) {
+        } else if (!subdir.equals("") && !subdir.endsWith(fileSeparatorChar)) {
             // zip files are picky about "foo" vs. "foo/".
             // also, the getFiles caches are keyed with a trailing /
             subdir = subdir + File.separatorChar;
-            name = subdir;      // Note: isDirectory==true & basename==""
+            name = subdir; // Note: isDirectory==true & basename==""
         }
         for (int i = 0; i < path.length; i++) {
             ClassFile cf = path[i].getFile(name, subdir, basename, isDirectory);
@@ -213,7 +206,7 @@ class ClassPath {
      */
     Enumeration<ClassFile> getFiles(String pkg, String ext) {
         Hashtable<String, ClassFile> files = new Hashtable<>();
-        for (int i = path.length; --i >= 0; ) {
+        for (int i = path.length; --i >= 0;) {
             path[i].fillFiles(pkg, ext, files);
         }
         return files.elements();
@@ -223,7 +216,7 @@ class ClassPath {
      * Release resources.
      */
     public void close() throws IOException {
-        for (int i = path.length; --i >= 0; ) {
+        for (int i = path.length; --i >= 0;) {
             path[i].close();
         }
     }
@@ -241,7 +234,9 @@ class ClassPath {
  */
 abstract class ClassPathEntry {
     abstract ClassFile getFile(String name, String subdir, String basename, boolean isDirectory);
+
     abstract void fillFiles(String pkg, String ext, Hashtable<String, ClassFile> files);
+
     abstract void close() throws IOException;
 }
 
@@ -254,6 +249,7 @@ final class DirClassPathEntry extends ClassPathEntry {
     }
 
     private final Hashtable<String, String[]> subdirs = new Hashtable<>(29); // cache of sub-directory listings:
+
     private String[] getFiles(String subdir) {
         String files[] = subdirs.get(subdir);
         if (files == null) {
@@ -282,7 +278,7 @@ final class DirClassPathEntry extends ClassPathEntry {
         return files;
     }
 
-    ClassFile getFile(String name,  String subdir, String basename, boolean isDirectory) {
+    ClassFile getFile(String name, String subdir, String basename, boolean isDirectory) {
         File file = new File(dir.getPath(), name);
         String list[] = getFiles(subdir);
         if (isDirectory) {
@@ -333,13 +329,13 @@ final class ZipClassPathEntry extends ClassPathEntry {
     ClassFile getFile(String name, String subdir, String basename, boolean isDirectory) {
         String newname = name.replace(File.separatorChar, '/');
         ZipEntry entry = zip.getEntry(newname);
-        return entry != null? ClassFile.newClassFile(zip, entry) : null;
+        return entry != null ? ClassFile.newClassFile(zip, entry) : null;
     }
 
     void fillFiles(String pkg, String ext, Hashtable<String, ClassFile> files) {
         Enumeration<? extends ZipEntry> e = zip.entries();
         while (e.hasMoreElements()) {
-            ZipEntry entry = (ZipEntry)e.nextElement();
+            ZipEntry entry = (ZipEntry) e.nextElement();
             String name = entry.getName();
             name = name.replace('/', File.separatorChar);
             if (name.startsWith(pkg) && name.endsWith(ext)) {
@@ -373,7 +369,7 @@ final class JrtClassPathEntry extends ClassPathEntry {
         Path pkgLink = fs.getPath("/packages/" + pkgName.replace('/', '.'));
         // check if /packages/$PACKAGE directory exists
         if (Files.isDirectory(pkgLink)) {
-           try (DirectoryStream<Path> stream = Files.newDirectoryStream(pkgLink)) {
+            try (DirectoryStream<Path> stream = Files.newDirectoryStream(pkgLink)) {
                 for (Path p : stream) {
                     // find first symbolic link to module directory
                     if (Files.isSymbolicLink(p)) {
@@ -384,11 +380,9 @@ final class JrtClassPathEntry extends ClassPathEntry {
                             if (Files.isDirectory(pkgDir)) {
                                 // it is a package directory only if contains
                                 // at least one .class file
-                                try (DirectoryStream<Path> pstream =
-                                        Files.newDirectoryStream(pkgDir)) {
+                                try (DirectoryStream<Path> pstream = Files.newDirectoryStream(pkgDir)) {
                                     for (Path f : pstream) {
-                                        if (Files.isRegularFile(f)
-                                                && f.toString().endsWith(".class")) {
+                                        if (Files.isRegularFile(f) && f.toString().endsWith(".class")) {
                                             pkgDirs.put(pkgName, pkgDir);
                                             return pkgDir;
                                         }
@@ -411,14 +405,14 @@ final class JrtClassPathEntry extends ClassPathEntry {
             return null;
         }
         Path pkgPath = getPackagePath(clsName.substring(0, index));
-        return pkgPath == null? null : fs.getPath(pkgPath + "/" + clsName.substring(index + 1));
+        return pkgPath == null ? null : fs.getPath(pkgPath + "/" + clsName.substring(index + 1));
     }
 
     ClassFile getFile(String name, String subdir, String basename, boolean isDirectory) {
         try {
             name = name.replace(File.separatorChar, '/');
             Path cp = getClassPath(name);
-            return cp == null? null : ClassFile.newClassFile(cp);
+            return cp == null ? null : ClassFile.newClassFile(cp);
         } catch (IOException ioExp) {
             throw new RmicUncheckedIOException(ioExp);
         }

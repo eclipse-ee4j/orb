@@ -14,9 +14,9 @@ import org.omg.CORBA.CompletionStatus;
 import java.util.StringTokenizer;
 
 /**
- *  This class is the entry point to parse different types of INS URL's.
- * 
- *  @Author Hemanth
+ * This class is the entry point to parse different types of INS URL's.
+ *
+ * @Author Hemanth
  */
 
 public class INSURLHandler {
@@ -29,23 +29,23 @@ public class INSURLHandler {
     // Length of corbaname:
     private static final int CORBANAME_PREFIX_LENGTH = 10;
 
-    private INSURLHandler( ) {
+    private INSURLHandler() {
     }
 
-    public synchronized static INSURLHandler getINSURLHandler( ) {
-        if( insURLHandler == null ) {
-            insURLHandler = new INSURLHandler( );
+    public synchronized static INSURLHandler getINSURLHandler() {
+        if (insURLHandler == null) {
+            insURLHandler = new INSURLHandler();
         }
         return insURLHandler;
     }
 
-    public INSURL parseURL( String aUrl ) {
+    public INSURL parseURL(String aUrl) {
         String url = aUrl;
-        if ( url.startsWith( "corbaloc:" ) == true ) {
-            return new CorbalocURL( url.substring( CORBALOC_PREFIX_LENGTH ) ); 
-        } else if ( url.startsWith ( "corbaname:" ) == true ) {
-            return new CorbanameURL( url.substring( CORBANAME_PREFIX_LENGTH ) );
-        } 
+        if (url.startsWith("corbaloc:") == true) {
+            return new CorbalocURL(url.substring(CORBALOC_PREFIX_LENGTH));
+        } else if (url.startsWith("corbaname:") == true) {
+            return new CorbanameURL(url.substring(CORBANAME_PREFIX_LENGTH));
+        }
         return null;
     }
 }

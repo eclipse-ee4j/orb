@@ -17,40 +17,32 @@ import com.sun.tools.corba.ee.idl.Util;
 
 import java.math.BigInteger;
 
-public class BooleanNot extends UnaryExpr
-{
-  protected BooleanNot (com.sun.tools.corba.ee.idl.constExpr.Expression operand)
-  {
-    super ("!", operand);
-  } // ctor
+public class BooleanNot extends UnaryExpr {
+    protected BooleanNot(com.sun.tools.corba.ee.idl.constExpr.Expression operand) {
+        super("!", operand);
+    } // ctor
 
-  public Object evaluate () throws com.sun.tools.corba.ee.idl.constExpr.EvaluationException
-  {
-    try
-    {
-      Object tmp = operand ().evaluate ();
-      Boolean op;
-      //daz      if (tmp instanceof Number)
-      //           op = new Boolean (((Number)tmp).longValue () != 0);
-      //         else
-      //           op = (Boolean)tmp;
-      if (tmp instanceof Number)
-      {
-        if (tmp instanceof BigInteger)
-          op = Boolean.valueOf (((BigInteger)tmp).compareTo (zero) != 0);
-        else
-          op = Boolean.valueOf (((Number)tmp).longValue () != 0);
-      }
-      else
-        op = (Boolean)tmp;
+    public Object evaluate() throws com.sun.tools.corba.ee.idl.constExpr.EvaluationException {
+        try {
+            Object tmp = operand().evaluate();
+            Boolean op;
+            // daz if (tmp instanceof Number)
+            // op = new Boolean (((Number)tmp).longValue () != 0);
+            // else
+            // op = (Boolean)tmp;
+            if (tmp instanceof Number) {
+                if (tmp instanceof BigInteger)
+                    op = Boolean.valueOf(((BigInteger) tmp).compareTo(zero) != 0);
+                else
+                    op = Boolean.valueOf(((Number) tmp).longValue() != 0);
+            } else
+                op = (Boolean) tmp;
 
-      value (Boolean.valueOf (!op.booleanValue ()));
-    }
-    catch (ClassCastException e)
-    {
-      String[] parameters = {Util.getMessage ("EvaluationException.booleanNot"), operand ().value ().getClass ().getName ()};
-      throw new com.sun.tools.corba.ee.idl.constExpr.EvaluationException(Util.getMessage ("EvaluationException.2", parameters));
-    }
-    return value ();
-  } // evaluate
+            value(Boolean.valueOf(!op.booleanValue()));
+        } catch (ClassCastException e) {
+            String[] parameters = { Util.getMessage("EvaluationException.booleanNot"), operand().value().getClass().getName() };
+            throw new com.sun.tools.corba.ee.idl.constExpr.EvaluationException(Util.getMessage("EvaluationException.2", parameters));
+        }
+        return value();
+    } // evaluate
 } // class BooleanNot

@@ -14,43 +14,36 @@ package com.sun.tools.corba.ee.idl;
 // NOTES:
 // -D57110<daz> Add method to verify format (CORBA 2.3).
 
-public class RepositoryID
-{
-  public RepositoryID ()
-  {
-    _id = "";
-  } // ctor
+public class RepositoryID {
+    public RepositoryID() {
+        _id = "";
+    } // ctor
 
-  public RepositoryID (String id)
-  {
-    _id = id;
-  } // ctor
+    public RepositoryID(String id) {
+        _id = id;
+    } // ctor
 
-  public String ID ()
-  {
-    return _id;
-  } // ID
+    public String ID() {
+        return _id;
+    } // ID
 
-  public Object clone ()
-  {
-    return new RepositoryID (_id);
-  } // clone
+    public Object clone() {
+        return new RepositoryID(_id);
+    } // clone
 
-  public String toString ()
-  {
-    return ID ();
-  } // toString
+    public String toString() {
+        return ID();
+    } // toString
 
-  /**
-   * Determine is a supplied string meets the minimal format requirement
-   * for a Repository ID.
-   * @return true iff supplied string has form '&lt;format&gt;:&lt;string&gt;', where
-   * &lt;format&gt; is any non-empty string not containing ':'.
-   **/
-  public static boolean hasValidForm (String string)
-  {
-    return string != null && string.indexOf (':') > 0;
-  } // hasValidForm
+    /**
+     * Determine is a supplied string meets the minimal format requirement for a Repository ID.
+     *
+     * @return true iff supplied string has form '&lt;format&gt;:&lt;string&gt;', where &lt;format&gt; is any non-empty
+     * string not containing ':'.
+     **/
+    public static boolean hasValidForm(String string) {
+        return string != null && string.indexOf(':') > 0;
+    } // hasValidForm
 
-  private String _id;
+    private String _id;
 } // class RepositoryID

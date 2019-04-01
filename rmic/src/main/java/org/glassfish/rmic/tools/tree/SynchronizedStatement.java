@@ -19,15 +19,13 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class SynchronizedStatement extends Statement {
+public class SynchronizedStatement extends Statement {
     Expression expr;
     Statement body;
-    boolean needReturnSlot;   // set by inner return statement
+    boolean needReturnSlot; // set by inner return statement
 
     /**
      * Constructor
@@ -69,7 +67,7 @@ class SynchronizedStatement extends Statement {
      * Create a copy of the statement for method inlining
      */
     public Statement copyInline(Context ctx, boolean valNeeded) {
-        SynchronizedStatement s = (SynchronizedStatement)clone();
+        SynchronizedStatement s = (SynchronizedStatement) clone();
         s.expr = expr.copyInline(ctx);
         if (body != null) {
             s.body = body.copyInline(ctx, valNeeded);
@@ -80,14 +78,15 @@ class SynchronizedStatement extends Statement {
     /**
      * Compute cost of inlining this statement
      */
-    public int costInline(int thresh, Environment env, Context ctx){
+    public int costInline(int thresh, Environment env, Context ctx) {
         int cost = 1;
         if (expr != null) {
-            cost += expr.costInline(thresh, env,ctx);
-            if (cost >= thresh) return cost;
+            cost += expr.costInline(thresh, env, ctx);
+            if (cost >= thresh)
+                return cost;
         }
         if (body != null) {
-            cost += body.costInline(thresh, env,ctx);
+            cost += body.costInline(thresh, env, ctx);
         }
         return cost;
     }
@@ -102,8 +101,7 @@ class SynchronizedStatement extends Statement {
 
         if (needReturnSlot) {
             Type returnType = ctx.field.getType().getReturnType();
-            LocalMember localfield = new LocalMember(0, clazz, 0, returnType,
-                                                   idFinallyReturnValue);
+            LocalMember localfield = new LocalMember(0, clazz, 0, returnType, idFinallyReturnValue);
             ctx.declare(env, localfield);
             Environment.debugOutput("Assigning return slot to " + localfield.number);
         }

@@ -29,9 +29,10 @@ public interface ReplyMessage extends Message, LocateReplyOrReplyMessage {
     int USER_EXCEPTION = 1;
     int SYSTEM_EXCEPTION = 2;
     int LOCATION_FORWARD = 3;
-    int LOCATION_FORWARD_PERM = 4;  // 1.2
-    int NEEDS_ADDRESSING_MODE = 5;  // 1.2
+    int LOCATION_FORWARD_PERM = 4; // 1.2
+    int NEEDS_ADDRESSING_MODE = 5; // 1.2
 
     ServiceContexts getServiceContexts();
-    void setIOR( IOR newIOR );
+
+    void setIOR(IOR newIOR);
 }

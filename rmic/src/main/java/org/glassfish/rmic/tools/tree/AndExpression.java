@@ -16,12 +16,10 @@ import org.glassfish.rmic.tools.asm.Label;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class AndExpression extends BinaryLogicalExpression {
+public class AndExpression extends BinaryLogicalExpression {
     /**
      * constructor
      */
@@ -32,14 +30,10 @@ class AndExpression extends BinaryLogicalExpression {
     /*
      * Check an "and" expression.
      *
-     * cvars is modified so that
-     *    cvar.vsTrue indicates variables with a known value if
-     *        both the left and right hand side are true
-     *    cvars.vsFalse indicates variables with a known value
-     *        either the left or right hand side is false
+     * cvars is modified so that cvar.vsTrue indicates variables with a known value if both the left and right hand side are
+     * true cvars.vsFalse indicates variables with a known value either the left or right hand side is false
      */
-    public void checkCondition(Environment env, Context ctx, Vset vset,
-                               Hashtable<Object, Object> exp, ConditionVars cvars) {
+    public void checkCondition(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp, ConditionVars cvars) {
         // Find out when the left side is true/false
         left.checkCondition(env, ctx, vset, exp, cvars);
         left = convert(env, ctx, Type.tBoolean, left);
@@ -52,7 +46,7 @@ class AndExpression extends BinaryLogicalExpression {
 
         // cvars.vsTrue already reports when both returned true
         // cvars.vsFalse must be set to either the left or right side
-        //    returning false
+        // returning false
         cvars.vsFalse = cvars.vsFalse.join(vsFalse);
     }
 

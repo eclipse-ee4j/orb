@@ -16,8 +16,6 @@ package com.sun.tools.corba.ee.idl;
 import java.io.PrintWriter;
 import java.util.Hashtable;
 
-public interface InterfaceGen extends com.sun.tools.corba.ee.idl.Generator
-{
-  void generate (Hashtable symbolTable, com.sun.tools.corba.ee.idl.InterfaceEntry entry, PrintWriter stream);
+public interface InterfaceGen extends com.sun.tools.corba.ee.idl.Generator {
+    void generate(Hashtable symbolTable, com.sun.tools.corba.ee.idl.InterfaceEntry entry, PrintWriter stream);
 } // interface InterfaceGen
-

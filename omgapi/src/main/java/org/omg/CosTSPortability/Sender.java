@@ -14,7 +14,7 @@ package org.omg.CosTSPortability;
 
 public interface Sender {
 
-    void sending_request(int id, org.omg.CosTransactions.PropagationContextHolder ctxh) ;
+    void sending_request(int id, org.omg.CosTransactions.PropagationContextHolder ctxh);
 
     void received_reply(int id, org.omg.CosTransactions.PropagationContext ctx, org.omg.CORBA.Environment env) throws org.omg.CORBA.WrongTransaction;
 }

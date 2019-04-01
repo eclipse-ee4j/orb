@@ -10,74 +10,76 @@
 
 package com.sun.corba.ee.spi.ior;
 
-import java.util.List ;
-import java.util.Iterator ;
+import java.util.List;
+import java.util.Iterator;
 
-import com.sun.corba.ee.spi.orb.ORBVersion ;
+import com.sun.corba.ee.spi.orb.ORBVersion;
 
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfile ;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfile;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import org.glassfish.gmbal.ManagedData ;
-import org.glassfish.gmbal.ManagedAttribute ;
-import org.glassfish.gmbal.InheritedAttribute ;
-import org.glassfish.gmbal.Description ;
+import org.glassfish.gmbal.ManagedData;
+import org.glassfish.gmbal.ManagedAttribute;
+import org.glassfish.gmbal.InheritedAttribute;
+import org.glassfish.gmbal.Description;
 
-/** An IOR is represented as a list of profiles.
-* Only instances of TaggedProfile are contained in the list.
-*/
+/**
+ * An IOR is represented as a list of profiles. Only instances of TaggedProfile are contained in the list.
+ */
 @ManagedData
-@Description( "Interoperable Object Reference: the internal structure of a remote object reference" )
-public interface IOR extends List<TaggedProfile>, Writeable, MakeImmutable
-{
+@Description("Interoperable Object Reference: the internal structure of a remote object reference")
+public interface IOR extends List<TaggedProfile>, Writeable, MakeImmutable {
     // This is used only for management
     @ManagedAttribute
-    @Description( "The list of profiles in this IOR" ) 
-    Iterator<TaggedProfile> getTaggedProfiles() ;
+    @Description("The list of profiles in this IOR")
+    Iterator<TaggedProfile> getTaggedProfiles();
 
-    ORB getORB() ;
+    ORB getORB();
 
-    /** Return the type id string from the IOR.
-    */
+    /**
+     * Return the type id string from the IOR.
+     */
     @ManagedAttribute
-    @Description( "The repository ID of the IOR" ) 
-    String getTypeId() ;
-   
-    /** Return an iterator that iterates over tagged profiles with
-    * identifier id.  It is not possible to modify the list through this
-    * iterator.
-    */
-    Iterator<TaggedProfile> iteratorById( int id ) ;
+    @Description("The repository ID of the IOR")
+    String getTypeId();
 
-    /** Return a representation of this IOR in the standard GIOP stringified
-     * format that begins with "IOR:".
+    /**
+     * Return an iterator that iterates over tagged profiles with identifier id. It is not possible to modify the list
+     * through this iterator.
      */
-    String stringify() ;
+    Iterator<TaggedProfile> iteratorById(int id);
 
-    /** Return a representation of this IOR in the standard GIOP marshalled
-     * form.
+    /**
+     * Return a representation of this IOR in the standard GIOP stringified format that begins with "IOR:".
      */
-    org.omg.IOP.IOR getIOPIOR() ;
+    String stringify();
 
-    /** Return true if this IOR has no profiles.
+    /**
+     * Return a representation of this IOR in the standard GIOP marshalled form.
      */
-    boolean isNil() ;
+    org.omg.IOP.IOR getIOPIOR();
 
-    /** Return true if this IOR is equivalent to ior.  Here equivalent means
-     * that the typeids are the same, they have the same number of profiles,
-     * and each profile is equivalent to the corresponding profile.
+    /**
+     * Return true if this IOR has no profiles.
      */
-    boolean isEquivalent(IOR ior) ;
+    boolean isNil();
 
-    /** Return the IORTemplate for this IOR.  This is simply a list
-     * of all TaggedProfileTemplates derived from the TaggedProfiles
-     * of the IOR.  
+    /**
+     * Return true if this IOR is equivalent to ior. Here equivalent means that the typeids are the same, they have the same
+     * number of profiles, and each profile is equivalent to the corresponding profile.
      */
-    IORTemplateList getIORTemplates() ;
+    boolean isEquivalent(IOR ior);
 
-    /** Return the first IIOPProfile in this IOR.
+    /**
+     * Return the IORTemplate for this IOR. This is simply a list of all TaggedProfileTemplates derived from the
+     * TaggedProfiles of the IOR.
      */
-    IIOPProfile getProfile() ;
+    IORTemplateList getIORTemplates();
+
+    /**
+     * Return the first IIOPProfile in this IOR.
+     */
+    IIOPProfile getProfile();
 }

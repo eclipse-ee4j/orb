@@ -16,7 +16,6 @@ package com.sun.tools.corba.ee.idl;
 import java.io.PrintWriter;
 import java.util.Hashtable;
 
-public interface AttributeGen extends Generator
-{
-  void generate (Hashtable symbolTable, com.sun.tools.corba.ee.idl.AttributeEntry entry, PrintWriter stream);
+public interface AttributeGen extends Generator {
+    void generate(Hashtable symbolTable, com.sun.tools.corba.ee.idl.AttributeEntry entry, PrintWriter stream);
 } // interface AttributeGen

@@ -8,17 +8,16 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package com.sun.corba.ee.spi.oa.rfm ;
+package com.sun.corba.ee.spi.oa.rfm;
 
-public interface ReferenceFactory extends org.omg.CORBA.Object,
-    org.omg.CORBA.portable.IDLEntity 
-{
-    /** Create an object reference with the given key and
-     * repository ID.
+public interface ReferenceFactory extends org.omg.CORBA.Object, org.omg.CORBA.portable.IDLEntity {
+    /**
+     * Create an object reference with the given key and repository ID.
      */
-    org.omg.CORBA.Object createReference( byte[] key ) ;
+    org.omg.CORBA.Object createReference(byte[] key);
 
-    /** Destroy this ReferenceFactory.
+    /**
+     * Destroy this ReferenceFactory.
      */
-    void destroy() ;
+    void destroy();
 }

@@ -10,16 +10,13 @@
 
 package corba.dynamicrmiiiop.testclasses;
 
-public final class TestStruct implements org.omg.CORBA.portable.IDLEntity
-{
-    public short x = (short)0;
+public final class TestStruct implements org.omg.CORBA.portable.IDLEntity {
+    public short x = (short) 0;
 
-    public TestStruct ()
-    {
-    } 
+    public TestStruct() {
+    }
 
-    public TestStruct (short _x)
-    {
+    public TestStruct(short _x) {
         x = _x;
     }
-} 
+}

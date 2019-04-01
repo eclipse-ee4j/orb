@@ -10,82 +10,71 @@
 
 package com.sun.corba.ee.impl.ior;
 
-import java.util.Arrays ;
+import java.util.Arrays;
 
 import org.omg.CORBA_2_3.portable.InputStream;
 import org.omg.CORBA_2_3.portable.OutputStream;
 
-import com.sun.corba.ee.spi.ior.Identifiable ;
+import com.sun.corba.ee.spi.ior.Identifiable;
 
-import org.glassfish.gmbal.ManagedData ;
-import org.glassfish.gmbal.ManagedAttribute ;
-import org.glassfish.gmbal.Description ;
+import org.glassfish.gmbal.ManagedData;
+import org.glassfish.gmbal.ManagedAttribute;
+import org.glassfish.gmbal.Description;
 
 /**
- * @author 
- * This is used for unknown components and profiles.  A TAG_MULTICOMPONENT_PROFILE will be represented this way.
+ * @author This is used for unknown components and profiles. A TAG_MULTICOMPONENT_PROFILE will be represented this way.
  */
 @ManagedData
-@Description( "A generic implementation of an IIOP encapsulation with an integer id" ) 
-public abstract class GenericIdentifiable implements Identifiable 
-{
+@Description("A generic implementation of an IIOP encapsulation with an integer id")
+public abstract class GenericIdentifiable implements Identifiable {
     private int id;
     private byte data[];
-    
-    public GenericIdentifiable(int id, InputStream is) 
-    {
-        this.id = id ;
-        data = EncapsulationUtility.readOctets( is ) ;
+
+    public GenericIdentifiable(int id, InputStream is) {
+        this.id = id;
+        data = EncapsulationUtility.readOctets(is);
     }
-    
-    public int getId() 
-    {
-        return id ;
+
+    public int getId() {
+        return id;
     }
-    
-    public void write(OutputStream os) 
-    {
-        os.write_ulong( data.length ) ;
-        os.write_octet_array( data, 0, data.length ) ;
+
+    public void write(OutputStream os) {
+        os.write_ulong(data.length);
+        os.write_octet_array(data, 0, data.length);
     }
-    
-    public String toString() 
-    {
-        return "GenericIdentifiable[id=" + getId() + "]" ;
+
+    public String toString() {
+        return "GenericIdentifiable[id=" + getId() + "]";
     }
-    
-    public boolean equals(Object obj) 
-    {
+
+    public boolean equals(Object obj) {
         if (obj == null)
-            return false ;
+            return false;
 
         if (!(obj instanceof GenericIdentifiable))
-            return false ;
+            return false;
 
-        GenericIdentifiable encaps = (GenericIdentifiable)obj ;
+        GenericIdentifiable encaps = (GenericIdentifiable) obj;
 
-        return (getId() == encaps.getId()) && 
-            Arrays.equals( data, encaps.data ) ;
-    }
-   
-    public int hashCode() 
-    {
-        int result = 17 ;
-        for (int ctr=0; ctr<data.length; ctr++ )
-            result = 37*result + data[ctr] ;
-        return result ;
+        return (getId() == encaps.getId()) && Arrays.equals(data, encaps.data);
     }
 
-    public GenericIdentifiable(int id, byte[] data) 
-    {
-        this.id = id ;
-        this.data = (byte[])(data.clone()) ;
+    public int hashCode() {
+        int result = 17;
+        for (int ctr = 0; ctr < data.length; ctr++)
+            result = 37 * result + data[ctr];
+        return result;
     }
-    
+
+    public GenericIdentifiable(int id, byte[] data) {
+        this.id = id;
+        this.data = (byte[]) (data.clone());
+    }
+
     @ManagedAttribute
-    @Description( "The tagged component or profile CDR encoded data" )
-    public byte[] getData() 
-    {
-        return (byte[])data.clone() ;
+    @Description("The tagged component or profile CDR encoded data")
+    public byte[] getData() {
+        return (byte[]) data.clone();
     }
 }

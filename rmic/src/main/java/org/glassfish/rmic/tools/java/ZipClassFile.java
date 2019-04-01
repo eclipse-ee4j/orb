@@ -17,15 +17,12 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 /**
- * This class is used to represent a file loaded from the class path, and
- * is a zip file entry.
+ * This class is used to represent a file loaded from the class path, and is a zip file entry.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-final
-class ZipClassFile extends ClassFile {
+final class ZipClassFile extends ClassFile {
     private final ZipFile zipFile;
     private final ZipEntry zipEntry;
 

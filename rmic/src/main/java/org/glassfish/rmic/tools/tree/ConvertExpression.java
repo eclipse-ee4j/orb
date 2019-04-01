@@ -16,12 +16,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class ConvertExpression extends UnaryExpression {
+public class ConvertExpression extends UnaryExpression {
     /**
      * Constructor
      */
@@ -41,58 +39,83 @@ class ConvertExpression extends UnaryExpression {
      */
     Expression simplify() {
         switch (right.op) {
-          case BYTEVAL:
-          case CHARVAL:
-          case SHORTVAL:
-          case INTVAL: {
-            int value = ((IntegerExpression)right).value;
+        case BYTEVAL:
+        case CHARVAL:
+        case SHORTVAL:
+        case INTVAL: {
+            int value = ((IntegerExpression) right).value;
             switch (type.getTypeCode()) {
-              case TC_BYTE:     return new ByteExpression(right.where, (byte)value);
-              case TC_CHAR:     return new CharExpression(right.where, (char)value);
-              case TC_SHORT:    return new ShortExpression(right.where, (short)value);
-              case TC_INT:      return new IntExpression(right.where, value);
-              case TC_LONG:     return new LongExpression(right.where, (long)value);
-              case TC_FLOAT:    return new FloatExpression(right.where, (float)value);
-              case TC_DOUBLE:   return new DoubleExpression(right.where, (double)value);
+            case TC_BYTE:
+                return new ByteExpression(right.where, (byte) value);
+            case TC_CHAR:
+                return new CharExpression(right.where, (char) value);
+            case TC_SHORT:
+                return new ShortExpression(right.where, (short) value);
+            case TC_INT:
+                return new IntExpression(right.where, value);
+            case TC_LONG:
+                return new LongExpression(right.where, (long) value);
+            case TC_FLOAT:
+                return new FloatExpression(right.where, (float) value);
+            case TC_DOUBLE:
+                return new DoubleExpression(right.where, (double) value);
             }
             break;
-          }
-          case LONGVAL: {
-            long value = ((LongExpression)right).value;
+        }
+        case LONGVAL: {
+            long value = ((LongExpression) right).value;
             switch (type.getTypeCode()) {
-              case TC_BYTE:     return new ByteExpression(right.where, (byte)value);
-              case TC_CHAR:     return new CharExpression(right.where, (char)value);
-              case TC_SHORT:    return new ShortExpression(right.where, (short)value);
-              case TC_INT:      return new IntExpression(right.where, (int)value);
-              case TC_FLOAT:    return new FloatExpression(right.where, (float)value);
-              case TC_DOUBLE:   return new DoubleExpression(right.where, (double)value);
+            case TC_BYTE:
+                return new ByteExpression(right.where, (byte) value);
+            case TC_CHAR:
+                return new CharExpression(right.where, (char) value);
+            case TC_SHORT:
+                return new ShortExpression(right.where, (short) value);
+            case TC_INT:
+                return new IntExpression(right.where, (int) value);
+            case TC_FLOAT:
+                return new FloatExpression(right.where, (float) value);
+            case TC_DOUBLE:
+                return new DoubleExpression(right.where, (double) value);
             }
             break;
-          }
-          case FLOATVAL: {
-            float value = ((FloatExpression)right).value;
+        }
+        case FLOATVAL: {
+            float value = ((FloatExpression) right).value;
             switch (type.getTypeCode()) {
-              case TC_BYTE:     return new ByteExpression(right.where, (byte)value);
-              case TC_CHAR:     return new CharExpression(right.where, (char)value);
-              case TC_SHORT:    return new ShortExpression(right.where, (short)value);
-              case TC_INT:      return new IntExpression(right.where, (int)value);
-              case TC_LONG:     return new LongExpression(right.where, (long)value);
-              case TC_DOUBLE:   return new DoubleExpression(right.where, (double)value);
+            case TC_BYTE:
+                return new ByteExpression(right.where, (byte) value);
+            case TC_CHAR:
+                return new CharExpression(right.where, (char) value);
+            case TC_SHORT:
+                return new ShortExpression(right.where, (short) value);
+            case TC_INT:
+                return new IntExpression(right.where, (int) value);
+            case TC_LONG:
+                return new LongExpression(right.where, (long) value);
+            case TC_DOUBLE:
+                return new DoubleExpression(right.where, (double) value);
             }
             break;
-          }
-          case DOUBLEVAL: {
-            double value = ((DoubleExpression)right).value;
+        }
+        case DOUBLEVAL: {
+            double value = ((DoubleExpression) right).value;
             switch (type.getTypeCode()) {
-              case TC_BYTE:     return new ByteExpression(right.where, (byte)value);
-              case TC_CHAR:     return new CharExpression(right.where, (char)value);
-              case TC_SHORT:    return new ShortExpression(right.where, (short)value);
-              case TC_INT:      return new IntExpression(right.where, (int)value);
-              case TC_LONG:     return new LongExpression(right.where, (long)value);
-              case TC_FLOAT:    return new FloatExpression(right.where, (float)value);
+            case TC_BYTE:
+                return new ByteExpression(right.where, (byte) value);
+            case TC_CHAR:
+                return new CharExpression(right.where, (char) value);
+            case TC_SHORT:
+                return new ShortExpression(right.where, (short) value);
+            case TC_INT:
+                return new IntExpression(right.where, (int) value);
+            case TC_LONG:
+                return new LongExpression(right.where, (long) value);
+            case TC_FLOAT:
+                return new FloatExpression(right.where, (float) value);
             }
             break;
-          }
+        }
         }
         return this;
     }
@@ -103,6 +126,7 @@ class ConvertExpression extends UnaryExpression {
     public boolean equals(int i) {
         return right.equals(i);
     }
+
     public boolean equals(boolean b) {
         return right.equals(b);
     }

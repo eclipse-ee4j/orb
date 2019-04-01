@@ -8,69 +8,56 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package com.sun.corba.ee.impl.orb ;
+package com.sun.corba.ee.impl.orb;
 
-import java.util.Properties ;
+import java.util.Properties;
 
-import com.sun.corba.ee.spi.orb.Operation ;
+import com.sun.corba.ee.spi.orb.Operation;
 
 public abstract class ParserActionBase implements ParserAction {
-    private String propertyName ;
-    private boolean prefix ;
-    private Operation operation ;
-    private String fieldName ;
+    private String propertyName;
+    private boolean prefix;
+    private Operation operation;
+    private String fieldName;
 
-    public int hashCode()
-    {
-        return propertyName.hashCode() ^ operation.hashCode() ^
-            fieldName.hashCode() ^ (prefix ? 0 : 1) ;
+    public int hashCode() {
+        return propertyName.hashCode() ^ operation.hashCode() ^ fieldName.hashCode() ^ (prefix ? 0 : 1);
     }
 
-    public boolean equals( Object obj )
-    {
+    public boolean equals(Object obj) {
         if (obj == this)
-            return true ;
+            return true;
 
         if (!(obj instanceof ParserActionBase))
-            return false ;
+            return false;
 
-        ParserActionBase other = (ParserActionBase)obj ;
+        ParserActionBase other = (ParserActionBase) obj;
 
-        return propertyName.equals( other.propertyName ) &&
-            prefix == other.prefix &&
-            operation.equals( other.operation ) &&
-            fieldName.equals( other.fieldName ) ;
+        return propertyName.equals(other.propertyName) && prefix == other.prefix && operation.equals(other.operation) && fieldName.equals(other.fieldName);
     }
 
-    public ParserActionBase( String propertyName, boolean prefix, 
-        Operation operation, String fieldName )
-    {
-        this.propertyName       = propertyName ;
-        this.prefix             = prefix ;
-        this.operation          = operation ;
-        this.fieldName          = fieldName ;
+    public ParserActionBase(String propertyName, boolean prefix, Operation operation, String fieldName) {
+        this.propertyName = propertyName;
+        this.prefix = prefix;
+        this.operation = operation;
+        this.fieldName = fieldName;
     }
 
-    public String getPropertyName() 
-    {
-        return propertyName ;
+    public String getPropertyName() {
+        return propertyName;
     }
 
-    public boolean isPrefix() 
-    {
-        return prefix ;
+    public boolean isPrefix() {
+        return prefix;
     }
 
-    public String getFieldName() 
-    {
-        return fieldName ;
+    public String getFieldName() {
+        return fieldName;
     }
 
-    public abstract Object apply( Properties props ) ;
+    public abstract Object apply(Properties props);
 
-    protected Operation getOperation()
-    {
-        return operation ;
+    protected Operation getOperation() {
+        return operation;
     }
 }
-

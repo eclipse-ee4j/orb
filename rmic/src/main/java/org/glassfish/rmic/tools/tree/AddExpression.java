@@ -14,12 +14,10 @@ import org.glassfish.rmic.tools.java.*;
 import org.glassfish.rmic.tools.asm.Assembler;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class AddExpression extends BinaryArithmeticExpression {
+public class AddExpression extends BinaryArithmeticExpression {
     /**
      * constructor
      */
@@ -52,24 +50,26 @@ class AddExpression extends BinaryArithmeticExpression {
     Expression eval(int a, int b) {
         return new IntExpression(where, a + b);
     }
+
     Expression eval(long a, long b) {
         return new LongExpression(where, a + b);
     }
+
     Expression eval(float a, float b) {
         return new FloatExpression(where, a + b);
     }
+
     Expression eval(double a, double b) {
         return new DoubleExpression(where, a + b);
     }
+
     Expression eval(String a, String b) {
         return new StringExpression(where, a + b);
     }
 
     /**
-     * Inline the value of an AddExpression.  If this AddExpression
-     * represents a concatenation of compile-time constant strings,
-     * dispatch to the special method inlineValueSB, which handles
-     * the inlining more efficiently.
+     * Inline the value of an AddExpression. If this AddExpression represents a concatenation of compile-time constant
+     * strings, dispatch to the special method inlineValueSB, which handles the inlining more efficiently.
      */
     public Expression inlineValue(Environment env, Context ctx) {
         if (type == Type.tString && isConstant()) {
@@ -85,56 +85,42 @@ class AddExpression extends BinaryArithmeticExpression {
     }
 
     /**
-     * Attempt to evaluate this expression.  If this expression
-     * yields a value, append it to the StringBuffer `buffer'.
-     * If this expression cannot be evaluated at this time (for
-     * example if it contains a division by zero, a non-constant
-     * subexpression, or a subexpression which "refuses" to evaluate)
-     * then return `null' to indicate failure.
+     * Attempt to evaluate this expression. If this expression yields a value, append it to the StringBuffer `buffer'. If
+     * this expression cannot be evaluated at this time (for example if it contains a division by zero, a non-constant
+     * subexpression, or a subexpression which "refuses" to evaluate) then return `null' to indicate failure.
      *
-     * It is anticipated that this method will be called to evaluate
-     * concatenations of compile-time constant strings.  The call
-     * originates from AddExpression#inlineValue().
+     * It is anticipated that this method will be called to evaluate concatenations of compile-time constant strings. The
+     * call originates from AddExpression#inlineValue().
      *
-     * This method does not use associativity to good effect in
-     * folding string concatenations.  This is room for improvement.
+     * This method does not use associativity to good effect in folding string concatenations. This is room for improvement.
      *
      * -------------
      *
-     * A bit of history: this method was added because an
-     * expression like...
+     * A bit of history: this method was added because an expression like...
      *
-     *     "a" + "b" + "c" + "d"
+     * "a" + "b" + "c" + "d"
      *
      * ...was evaluated at compile-time as...
      *
-     *     (new StringBuffer((new StringBuffer("a")).append("b").toString())).
-     *      append((new StringBuffer("c")).append("d").toString()).toString()
+     * (new StringBuffer((new StringBuffer("a")).append("b").toString())). append((new
+     * StringBuffer("c")).append("d").toString()).toString()
      *
-     * Alex Garthwaite, in profiling the memory allocation of the
-     * compiler, noticed this and suggested that the method inlineValueSB()
-     * be added to evaluate constant string concatenations in a more
-     * efficient manner.  The compiler now builds the string in a
-     * top-down fashion, by accumulating the result in a StringBuffer
-     * which is allocated once and passed in as a parameter.  The new
-     * evaluation scheme is equivalent to...
+     * Alex Garthwaite, in profiling the memory allocation of the compiler, noticed this and suggested that the method
+     * inlineValueSB() be added to evaluate constant string concatenations in a more efficient manner. The compiler now
+     * builds the string in a top-down fashion, by accumulating the result in a StringBuffer which is allocated once and
+     * passed in as a parameter. The new evaluation scheme is equivalent to...
      *
-     *     (new StringBuffer("a")).append("b").append("c").append("d")
-     *                 .toString()
+     * (new StringBuffer("a")).append("b").append("c").append("d") .toString()
      *
-     * ...which is more efficient.  Since then, the code has been modified
-     * to fix certain problems.  Now, for example, it can return `null'
-     * when it encounters a concatenation which it is not able to
-     * evaluate.
+     * ...which is more efficient. Since then, the code has been modified to fix certain problems. Now, for example, it can
+     * return `null' when it encounters a concatenation which it is not able to evaluate.
      *
      * See also Expression#inlineValueSB() and ExprExpression#inlineValueSB().
      */
-    protected StringBuffer inlineValueSB(Environment env,
-                                         Context ctx,
-                                         StringBuffer buffer) {
+    protected StringBuffer inlineValueSB(Environment env, Context ctx, StringBuffer buffer) {
         if (type != Type.tString) {
-            // This isn't a concatenation.  It is actually an addition
-            // of some sort.  Call the generic inlineValueSB()
+            // This isn't a concatenation. It is actually an addition
+            // of some sort. Call the generic inlineValueSB()
             return super.inlineValueSB(env, ctx, buffer);
         }
 
@@ -171,9 +157,7 @@ class AddExpression extends BinaryArithmeticExpression {
      * The cost of inlining this expression
      */
     public int costInline(int thresh, Environment env, Context ctx) {
-        return (type.isType(TC_CLASS) ? 12 : 1)
-            + left.costInline(thresh, env, ctx)
-            + right.costInline(thresh, env, ctx);
+        return (type.isType(TC_CLASS) ? 12 : 1) + left.costInline(thresh, env, ctx) + right.costInline(thresh, env, ctx);
     }
 
     /**
@@ -184,14 +168,10 @@ class AddExpression extends BinaryArithmeticExpression {
     }
 
     /**
-     * Convert this expression to a string and append it to the string
-     * buffer on the top of the stack.
-     * If the needBuffer argument is true, the string buffer needs to be
-     * created, initialized, and pushed on the stack, first.
+     * Convert this expression to a string and append it to the string buffer on the top of the stack. If the needBuffer
+     * argument is true, the string buffer needs to be created, initialized, and pushed on the stack, first.
      */
-    void codeAppend(Environment env, Context ctx, Assembler asm,
-                    ClassDeclaration sbClass, boolean needBuffer)
-        throws ClassNotFound, AmbiguousMember {
+    void codeAppend(Environment env, Context ctx, Assembler asm, ClassDeclaration sbClass, boolean needBuffer) throws ClassNotFound, AmbiguousMember {
         if (type.isType(TC_CLASS)) {
             left.codeAppend(env, ctx, asm, sbClass, needBuffer);
             right.codeAppend(env, ctx, asm, sbClass, false);
@@ -215,16 +195,12 @@ class AddExpression extends BinaryArithmeticExpression {
                     return;
                 }
 
-                ClassDeclaration sbClass =
-                    env.getClassDeclaration(idJavaLangStringBuffer);
+                ClassDeclaration sbClass = env.getClassDeclaration(idJavaLangStringBuffer);
                 ClassDefinition sourceClass = ctx.field.getClassDefinition();
                 // Create the string buffer and append to it.
                 codeAppend(env, ctx, asm, sbClass, true);
                 // Convert the string buffer to a string
-                MemberDefinition f =
-                    sbClass.getClassDefinition(env).matchMethod(env,
-                                                                sourceClass,
-                                                                idToString);
+                MemberDefinition f = sbClass.getClassDefinition(env).matchMethod(env, sourceClass, idToString);
                 asm.add(where, opc_invokevirtual, f);
             } catch (ClassNotFound e) {
                 throw new CompilerError(e);

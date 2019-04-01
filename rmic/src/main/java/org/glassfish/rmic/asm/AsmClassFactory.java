@@ -41,11 +41,13 @@ public class AsmClassFactory implements ClassDefinitionFactory {
     private Map<Identifier, Identifier> outerClasses = new HashMap<>();
 
     public AsmClassFactory() {
-        if (simulateMissingASM) throw new NoClassDefFoundError();
+        if (simulateMissingASM)
+            throw new NoClassDefFoundError();
     }
 
     /**
      * Returns the latest API supported by the active version of ASM.
+     *
      * @return an integer value
      */
     static int getLatestVersion() {
@@ -96,8 +98,8 @@ public class AsmClassFactory implements ClassDefinitionFactory {
 
         @Override
         public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
-            asmClass = new AsmClass(AsmClassFactory.this, toSourceFileName(name), access, toClassDeclaration(name),
-                                    toClassDeclaration(superName), toClassDeclarations(interfaces));
+            asmClass = new AsmClass(AsmClassFactory.this, toSourceFileName(name), access, toClassDeclaration(name), toClassDeclaration(superName),
+                    toClassDeclarations(interfaces));
         }
 
         private String toSourceFileName(String name) {

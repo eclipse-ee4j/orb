@@ -22,56 +22,51 @@ package org.omg.CORBA;
  */
 // @SuppressWarnings({"serial"})
 public final class UnionMember implements org.omg.CORBA.portable.IDLEntity {
-    //  instance variables
+    // instance variables
 
     /**
-     * The name of the union member described by this
-     * <code>UnionMember</code> object.
+     * The name of the union member described by this <code>UnionMember</code> object.
+     *
      * @serial
      */
     public String name;
 
     /**
-     * The label of the union member described by this
-     * <code>UnionMember</code> object.
+     * The label of the union member described by this <code>UnionMember</code> object.
+     *
      * @serial
      */
     public org.omg.CORBA.Any label;
 
     /**
-     * The type of the union member described by this
-     * <code>UnionMember</code> object.
+     * The type of the union member described by this <code>UnionMember</code> object.
+     *
      * @serial
      */
     public org.omg.CORBA.TypeCode type;
 
     /**
-     * The typedef that represents the IDL type of the union member described by this
-     * <code>UnionMember</code> object.
+     * The typedef that represents the IDL type of the union member described by this <code>UnionMember</code> object.
+     *
      * @serial
      */
     public org.omg.CORBA.IDLType type_def;
 
-    //  constructors
+    // constructors
 
     /**
-     * Constructs a new <code>UnionMember</code> object with its fields initialized
-     * to null.
+     * Constructs a new <code>UnionMember</code> object with its fields initialized to null.
      */
-    public UnionMember() { }
+    public UnionMember() {
+    }
 
     /**
-     * Constructs a new <code>UnionMember</code> object with its fields initialized
-     * to the given values.
+     * Constructs a new <code>UnionMember</code> object with its fields initialized to the given values.
      *
-     * @param __name a <code>String</code> object with the name of this 
-     *        <code>UnionMember</code> object
-     * @param __label an <code>Any</code> object with the label of this 
-     *        <code>UnionMember</code> object
-     * @param __type a <code>TypeCode</code> object describing the type of this 
-     *        <code>UnionMember</code> object
-     * @param __type_def an <code>IDLType</code> object that represents the
-     *        IDL type of this <code>UnionMember</code> object
+     * @param __name a <code>String</code> object with the name of this <code>UnionMember</code> object
+     * @param __label an <code>Any</code> object with the label of this <code>UnionMember</code> object
+     * @param __type a <code>TypeCode</code> object describing the type of this <code>UnionMember</code> object
+     * @param __type_def an <code>IDLType</code> object that represents the IDL type of this <code>UnionMember</code> object
      */
     public UnionMember(String __name, org.omg.CORBA.Any __label, org.omg.CORBA.TypeCode __type, org.omg.CORBA.IDLType __type_def) {
         name = __name;

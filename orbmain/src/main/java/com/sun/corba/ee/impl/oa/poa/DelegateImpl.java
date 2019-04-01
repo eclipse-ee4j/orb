@@ -14,96 +14,86 @@ import java.util.EmptyStackException;
 
 import org.omg.PortableServer.*;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import com.sun.corba.ee.spi.logging.POASystemException ;
+import com.sun.corba.ee.spi.logging.POASystemException;
 
-public class DelegateImpl implements org.omg.PortableServer.portable.Delegate
-{
-    private static final POASystemException wrapper =
-        POASystemException.self ;
+public class DelegateImpl implements org.omg.PortableServer.portable.Delegate {
+    private static final POASystemException wrapper = POASystemException.self;
 
-    private ORB orb ;
+    private ORB orb;
     private POAFactory factory;
 
-    public DelegateImpl(ORB orb, POAFactory factory){
-        this.orb = orb ;
+    public DelegateImpl(ORB orb, POAFactory factory) {
+        this.orb = orb;
         this.factory = factory;
     }
 
-    public org.omg.CORBA.ORB orb(Servant self)
-    {
+    public org.omg.CORBA.ORB orb(Servant self) {
         return orb;
     }
 
-    public org.omg.CORBA.Object this_object(Servant self)
-    {
+    public org.omg.CORBA.Object this_object(Servant self) {
         byte[] oid;
         POA poa;
         try {
             oid = orb.peekInvocationInfo().id();
-            poa = (POA)orb.peekInvocationInfo().oa();
-            String repId = self._all_interfaces(poa,oid)[0] ;
-            return poa.create_reference_with_id(oid, repId); 
-        } catch (EmptyStackException notInInvocationE) { 
-            //Not within an invocation context
+            poa = (POA) orb.peekInvocationInfo().oa();
+            String repId = self._all_interfaces(poa, oid)[0];
+            return poa.create_reference_with_id(oid, repId);
+        } catch (EmptyStackException notInInvocationE) {
+            // Not within an invocation context
             POAImpl defaultPOA = null;
             try {
-                defaultPOA = (POAImpl)self._default_POA();
-            } catch (ClassCastException exception){
-                throw wrapper.defaultPoaNotPoaimpl( exception ) ;
+                defaultPOA = (POAImpl) self._default_POA();
+            } catch (ClassCastException exception) {
+                throw wrapper.defaultPoaNotPoaimpl(exception);
             }
 
             try {
-                if (defaultPOA.getPolicies().isImplicitlyActivated() ||
-                    (defaultPOA.getPolicies().isUniqueIds() && 
-                     defaultPOA.getPolicies().retainServants())) {
+                if (defaultPOA.getPolicies().isImplicitlyActivated() || (defaultPOA.getPolicies().isUniqueIds() && defaultPOA.getPolicies().retainServants())) {
                     return defaultPOA.servant_to_reference(self);
                 } else {
-                    throw wrapper.wrongPoliciesForThisObject() ;
-                }    
-            } catch ( org.omg.PortableServer.POAPackage.ServantNotActive e) {
-                throw wrapper.thisObjectServantNotActive( e ) ;
-            } catch ( org.omg.PortableServer.POAPackage.WrongPolicy e) {
-                throw wrapper.thisObjectWrongPolicy( e ) ;
+                    throw wrapper.wrongPoliciesForThisObject();
+                }
+            } catch (org.omg.PortableServer.POAPackage.ServantNotActive e) {
+                throw wrapper.thisObjectServantNotActive(e);
+            } catch (org.omg.PortableServer.POAPackage.WrongPolicy e) {
+                throw wrapper.thisObjectWrongPolicy(e);
             }
         } catch (ClassCastException e) {
-            throw wrapper.defaultPoaNotPoaimpl( e ) ;
+            throw wrapper.defaultPoaNotPoaimpl(e);
         }
     }
 
-    public POA poa(Servant self)
-    {
+    public POA poa(Servant self) {
         try {
-            return (POA)orb.peekInvocationInfo().oa();
-        } catch (EmptyStackException exception){
+            return (POA) orb.peekInvocationInfo().oa();
+        } catch (EmptyStackException exception) {
             POA returnValue = factory.lookupPOA(self);
             if (returnValue != null) {
                 return returnValue;
             }
-            
-            throw wrapper.noContext( exception ) ;
+
+            throw wrapper.noContext(exception);
         }
     }
 
-    public byte[] object_id(Servant self)
-    {
-        try{
+    public byte[] object_id(Servant self) {
+        try {
             return orb.peekInvocationInfo().id();
-        } catch (EmptyStackException exception){
-            throw wrapper.noContext(exception) ;
+        } catch (EmptyStackException exception) {
+            throw wrapper.noContext(exception);
         }
     }
 
-    public POA default_POA(Servant self)
-    {
+    public POA default_POA(Servant self) {
         return factory.getRootPOA();
     }
 
-    public boolean is_a(Servant self, String repId)
-    {
-        String[] repositoryIds = self._all_interfaces(poa(self),object_id(self));
-        for ( int i=0; i<repositoryIds.length; i++ ) {
+    public boolean is_a(Servant self, String repId) {
+        String[] repositoryIds = self._all_interfaces(poa(self), object_id(self));
+        for (int i = 0; i < repositoryIds.length; i++) {
             if (repId.equals(repositoryIds[i])) {
                 return true;
             }
@@ -112,21 +102,19 @@ public class DelegateImpl implements org.omg.PortableServer.portable.Delegate
         return false;
     }
 
-    public boolean non_existent(Servant self)
-    {
-        //REVISIT
-        try{
+    public boolean non_existent(Servant self) {
+        // REVISIT
+        try {
             byte[] oid = orb.peekInvocationInfo().id();
-            return oid == null ;
-        } catch (EmptyStackException exception){
-            throw wrapper.noContext(exception) ;
+            return oid == null;
+        } catch (EmptyStackException exception) {
+            throw wrapper.noContext(exception);
         }
     }
 
     // The get_interface() method has been replaced by get_interface_def()
 
-    public org.omg.CORBA.Object get_interface_def(Servant Self)
-    {
-        throw wrapper.methodNotImplemented() ;
+    public org.omg.CORBA.Object get_interface_def(Servant Self) {
+        throw wrapper.methodNotImplemented();
     }
 }

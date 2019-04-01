@@ -17,12 +17,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class ContinueStatement extends Statement {
+public class ContinueStatement extends Statement {
     Identifier lbl;
 
     /**
@@ -41,20 +39,20 @@ class ContinueStatement extends Statement {
         checkLabel(env, ctx);
         reach(env, vset);
         // A new context is established here because the 'continue' statement
-        // itself may be labelled, however erroneously.  A 'CheckContext' must
+        // itself may be labelled, however erroneously. A 'CheckContext' must
         // be used here, as 'getContinueContext' is expected to return one.
-        CheckContext destctx = (CheckContext)new CheckContext(ctx, this).getContinueContext(lbl);
+        CheckContext destctx = (CheckContext) new CheckContext(ctx, this).getContinueContext(lbl);
         if (destctx != null) {
             switch (destctx.node.op) {
-              case FOR:
-              case DO:
-              case WHILE:
+            case FOR:
+            case DO:
+            case WHILE:
                 if (destctx.frameNumber != ctx.frameNumber) {
                     env.error(where, "branch.to.uplevel", lbl);
                 }
                 destctx.vsContinue = destctx.vsContinue.join(vset);
                 break;
-              default:
+            default:
                 env.error(where, "invalid.continue");
             }
         } else {
@@ -82,7 +80,7 @@ class ContinueStatement extends Statement {
      * Code
      */
     public void code(Environment env, Context ctx, Assembler asm) {
-        CodeContext destctx = (CodeContext)ctx.getContinueContext(lbl);
+        CodeContext destctx = (CodeContext) ctx.getContinueContext(lbl);
         codeFinally(env, ctx, asm, destctx, null);
         asm.add(where, opc_goto, destctx.contLabel);
     }

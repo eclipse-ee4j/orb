@@ -13,11 +13,7 @@ package com.sun.corba.ee.impl.legacy.connection;
 import com.sun.corba.ee.spi.legacy.connection.LegacyServerSocketEndPointInfo;
 import com.sun.corba.ee.spi.transport.SocketInfo;
 
-public class EndPointInfoImpl 
-    implements 
-        SocketInfo,
-        LegacyServerSocketEndPointInfo
-{
+public class EndPointInfoImpl implements SocketInfo, LegacyServerSocketEndPointInfo {
 
     protected String type;
     protected String hostname;
@@ -49,18 +45,15 @@ public class EndPointInfoImpl
         return port;
     }
 
-    public int getLocatorPort ()
-    {
+    public int getLocatorPort() {
         return locatorPort;
     }
 
-    public void setLocatorPort (int port)
-    {
+    public void setLocatorPort(int port) {
         locatorPort = port;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
@@ -72,7 +65,7 @@ public class EndPointInfoImpl
         if (!(obj instanceof EndPointInfoImpl)) {
             return false;
         }
-        EndPointInfoImpl other = (EndPointInfoImpl)obj;
+        EndPointInfoImpl other = (EndPointInfoImpl) obj;
         if (type == null) {
             if (other.type != null) {
                 return false;
@@ -89,13 +82,8 @@ public class EndPointInfoImpl
         return true;
     }
 
-    public String toString ()
-    {
-        return
-            type + " " +
-            name + " " +
-            hostname + " " +
-            port;
+    public String toString() {
+        return type + " " + name + " " + hostname + " " + port;
     }
 }
 

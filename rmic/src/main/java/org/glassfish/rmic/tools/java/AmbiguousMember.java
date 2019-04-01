@@ -11,16 +11,13 @@
 package org.glassfish.rmic.tools.java;
 
 /**
- * This exception is thrown when a field reference is
- * ambiguous.
+ * This exception is thrown when a field reference is ambiguous.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
 @SuppressWarnings("serial") // JDK implementation class
-public
-class AmbiguousMember extends Exception {
+public class AmbiguousMember extends Exception {
     /**
      * The field that was not found
      */

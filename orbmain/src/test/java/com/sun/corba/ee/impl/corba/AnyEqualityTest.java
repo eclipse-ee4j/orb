@@ -38,11 +38,12 @@ public class AnyEqualityTest {
         any = orb.create_any();
         any1 = orb.create_any();
         any2 = orb.create_any();
-     }
+    }
 
     @After
     public void tearDown() throws Exception {
-        for (Memento memento : mementos) memento.revert();
+        for (Memento memento : mementos)
+            memento.revert();
     }
 
     @Test

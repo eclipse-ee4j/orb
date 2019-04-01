@@ -16,73 +16,61 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Collections;
 
-import com.sun.corba.ee.spi.protocol.ClientRequestDispatcher ;
+import com.sun.corba.ee.spi.protocol.ClientRequestDispatcher;
 
-import com.sun.corba.ee.spi.protocol.LocalClientRequestDispatcherFactory ;
-import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher ;
-import com.sun.corba.ee.spi.protocol.RequestDispatcherRegistry ;
+import com.sun.corba.ee.spi.protocol.LocalClientRequestDispatcherFactory;
+import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher;
+import com.sun.corba.ee.spi.protocol.RequestDispatcherRegistry;
 
-import com.sun.corba.ee.spi.oa.ObjectAdapterFactory ;
+import com.sun.corba.ee.spi.oa.ObjectAdapterFactory;
 import org.glassfish.pfl.basic.contain.DenseIntMapImpl;
 
 /**
- * This is a registry of all subcontract ID dependent objects.  This includes:
- * LocalClientRequestDispatcherFactory, ClientRequestDispatcher, ServerSubcontract, and 
- * ObjectAdapterFactory. 
+ * This is a registry of all subcontract ID dependent objects. This includes: LocalClientRequestDispatcherFactory,
+ * ClientRequestDispatcher, ServerSubcontract, and ObjectAdapterFactory.
  */
 public class RequestDispatcherRegistryImpl implements RequestDispatcherRegistry {
-    protected int defaultId; // The default subcontract ID to use if there is no more specific ID available.  
+    protected int defaultId; // The default subcontract ID to use if there is no more specific ID available.
                              // This happens when invoking a foreign IOR.
 
-    private DenseIntMapImpl<ServerRequestDispatcher> SDRegistry ;
-    private DenseIntMapImpl<ClientRequestDispatcher> CSRegistry ;
-    private DenseIntMapImpl<ObjectAdapterFactory> OAFRegistry ; 
-    private DenseIntMapImpl<LocalClientRequestDispatcherFactory> LCSFRegistry ; 
-    private Set<ObjectAdapterFactory> objectAdapterFactories ;  
-    private Set<ObjectAdapterFactory> objectAdapterFactoriesView ;      // Read-only view of oaf instances
-    private Map<String,ServerRequestDispatcher> stringToServerSubcontract ;
+    private DenseIntMapImpl<ServerRequestDispatcher> SDRegistry;
+    private DenseIntMapImpl<ClientRequestDispatcher> CSRegistry;
+    private DenseIntMapImpl<ObjectAdapterFactory> OAFRegistry;
+    private DenseIntMapImpl<LocalClientRequestDispatcherFactory> LCSFRegistry;
+    private Set<ObjectAdapterFactory> objectAdapterFactories;
+    private Set<ObjectAdapterFactory> objectAdapterFactoriesView; // Read-only view of oaf instances
+    private Map<String, ServerRequestDispatcher> stringToServerSubcontract;
 
-    public RequestDispatcherRegistryImpl(int defaultId ) 
-    {
+    public RequestDispatcherRegistryImpl(int defaultId) {
         this.defaultId = defaultId;
-        SDRegistry = new DenseIntMapImpl<ServerRequestDispatcher>() ;
-        CSRegistry = new DenseIntMapImpl<ClientRequestDispatcher>() ;
-        OAFRegistry = new DenseIntMapImpl<ObjectAdapterFactory>() ;
-        LCSFRegistry = new DenseIntMapImpl<LocalClientRequestDispatcherFactory>() ;
-        objectAdapterFactories = new HashSet<ObjectAdapterFactory>() ;
-        objectAdapterFactoriesView = Collections.unmodifiableSet( objectAdapterFactories ) ;
-        stringToServerSubcontract = new HashMap<String,ServerRequestDispatcher>() ;
+        SDRegistry = new DenseIntMapImpl<ServerRequestDispatcher>();
+        CSRegistry = new DenseIntMapImpl<ClientRequestDispatcher>();
+        OAFRegistry = new DenseIntMapImpl<ObjectAdapterFactory>();
+        LCSFRegistry = new DenseIntMapImpl<LocalClientRequestDispatcherFactory>();
+        objectAdapterFactories = new HashSet<ObjectAdapterFactory>();
+        objectAdapterFactoriesView = Collections.unmodifiableSet(objectAdapterFactories);
+        stringToServerSubcontract = new HashMap<String, ServerRequestDispatcher>();
     }
 
-    public synchronized void registerClientRequestDispatcher( 
-        ClientRequestDispatcher csc, int scid)
-    {
-        CSRegistry.set( scid, csc ) ;
+    public synchronized void registerClientRequestDispatcher(ClientRequestDispatcher csc, int scid) {
+        CSRegistry.set(scid, csc);
     }
 
-    public synchronized void registerLocalClientRequestDispatcherFactory( 
-        LocalClientRequestDispatcherFactory csc, int scid)
-    {
-        LCSFRegistry.set( scid, csc ) ;
+    public synchronized void registerLocalClientRequestDispatcherFactory(LocalClientRequestDispatcherFactory csc, int scid) {
+        LCSFRegistry.set(scid, csc);
     }
 
-    public synchronized void registerServerRequestDispatcher( 
-        ServerRequestDispatcher ssc, int scid)
-    {
-        SDRegistry.set( scid, ssc ) ;
+    public synchronized void registerServerRequestDispatcher(ServerRequestDispatcher ssc, int scid) {
+        SDRegistry.set(scid, ssc);
     }
 
-    public synchronized void registerServerRequestDispatcher(
-        ServerRequestDispatcher scc, String name )
-    {
-        stringToServerSubcontract.put( name, scc ) ;
+    public synchronized void registerServerRequestDispatcher(ServerRequestDispatcher scc, String name) {
+        stringToServerSubcontract.put(name, scc);
     }
 
-    public synchronized void registerObjectAdapterFactory( 
-        ObjectAdapterFactory oaf, int scid)
-    {
-        objectAdapterFactories.add( oaf ) ;
-        OAFRegistry.set( scid, oaf ) ;
+    public synchronized void registerObjectAdapterFactory(ObjectAdapterFactory oaf, int scid) {
+        objectAdapterFactories.add(oaf);
+        OAFRegistry.set(scid, oaf);
     }
 
     // **************************************************
@@ -91,63 +79,56 @@ public class RequestDispatcherRegistryImpl implements RequestDispatcherRegistry 
 
     // Note that both forms of getServerRequestDispatcher need to return
     // the default server delegate if no other match is found.
-    // This is essential to proper handling of errors for 
-    // malformed requests.  In particular, a bad MAGIC will
+    // This is essential to proper handling of errors for
+    // malformed requests. In particular, a bad MAGIC will
     // result in a lookup in the named key table (stringToServerSubcontract),
-    // which must return a valid ServerRequestDispatcher.  A bad subcontract ID
+    // which must return a valid ServerRequestDispatcher. A bad subcontract ID
     // will similarly need to return the default ServerRequestDispatcher.
-    
-    public ServerRequestDispatcher getServerRequestDispatcher(int scid)
-    {
-        ServerRequestDispatcher sdel = SDRegistry.get(scid) ;
-        if ( sdel == null )
-            sdel = SDRegistry.get(defaultId) ;
+
+    public ServerRequestDispatcher getServerRequestDispatcher(int scid) {
+        ServerRequestDispatcher sdel = SDRegistry.get(scid);
+        if (sdel == null)
+            sdel = SDRegistry.get(defaultId);
 
         return sdel;
     }
 
-    public ServerRequestDispatcher getServerRequestDispatcher( String name )
-    {
-        ServerRequestDispatcher sdel = stringToServerSubcontract.get( name ) ;
+    public ServerRequestDispatcher getServerRequestDispatcher(String name) {
+        ServerRequestDispatcher sdel = stringToServerSubcontract.get(name);
 
-        if ( sdel == null )
-            sdel = SDRegistry.get(defaultId) ;
+        if (sdel == null)
+            sdel = SDRegistry.get(defaultId);
 
         return sdel;
     }
 
-    public LocalClientRequestDispatcherFactory getLocalClientRequestDispatcherFactory( 
-        int scid )
-    {
-        LocalClientRequestDispatcherFactory factory = LCSFRegistry.get(scid) ;
+    public LocalClientRequestDispatcherFactory getLocalClientRequestDispatcherFactory(int scid) {
+        LocalClientRequestDispatcherFactory factory = LCSFRegistry.get(scid);
         if (factory == null) {
-            factory = LCSFRegistry.get(defaultId) ;
+            factory = LCSFRegistry.get(defaultId);
         }
 
-        return factory ;
+        return factory;
     }
 
-    public ClientRequestDispatcher getClientRequestDispatcher( int scid )
-    {
-        ClientRequestDispatcher subcontract = CSRegistry.get(scid) ;
+    public ClientRequestDispatcher getClientRequestDispatcher(int scid) {
+        ClientRequestDispatcher subcontract = CSRegistry.get(scid);
         if (subcontract == null) {
-            subcontract = CSRegistry.get(defaultId) ;
+            subcontract = CSRegistry.get(defaultId);
         }
 
-        return subcontract ;
+        return subcontract;
     }
 
-    public ObjectAdapterFactory getObjectAdapterFactory( int scid )
-    {
-        ObjectAdapterFactory oaf = OAFRegistry.get(scid) ;
-        if ( oaf == null )
-            oaf = OAFRegistry.get(defaultId) ;
+    public ObjectAdapterFactory getObjectAdapterFactory(int scid) {
+        ObjectAdapterFactory oaf = OAFRegistry.get(scid);
+        if (oaf == null)
+            oaf = OAFRegistry.get(defaultId);
 
         return oaf;
     }
 
-    public Set<ObjectAdapterFactory> getObjectAdapterFactories() 
-    {
-        return objectAdapterFactoriesView ;
+    public Set<ObjectAdapterFactory> getObjectAdapterFactories() {
+        return objectAdapterFactoriesView;
     }
 }

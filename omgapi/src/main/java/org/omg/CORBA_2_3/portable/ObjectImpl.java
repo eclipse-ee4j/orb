@@ -14,22 +14,21 @@ package org.omg.CORBA_2_3.portable;
 import org.omg.CORBA_2_3.portable.Delegate;
 
 /**
- * ObjectImpl class is the base class for all stubs.  It provides the
- * basic delegation mechanism.  It extends org.omg.CORBA.portable.ObjectImpl
- * and provides new methods defined by CORBA 2.3.
+ * ObjectImpl class is the base class for all stubs. It provides the basic delegation mechanism. It extends
+ * org.omg.CORBA.portable.ObjectImpl and provides new methods defined by CORBA 2.3.
  *
  * @see org.omg.CORBA.portable.ObjectImpl
- * @author  OMG
+ * @author OMG
  * @version 1.16 07/27/07
- * @since   JDK1.2
+ * @since JDK1.2
  */
-
 
 public abstract class ObjectImpl extends org.omg.CORBA.portable.ObjectImpl {
 
-    /** Returns the codebase for this object reference.
-     * @return the codebase as a space delimited list of url strings or
-     * null if none.
+    /**
+     * Returns the codebase for this object reference.
+     *
+     * @return the codebase as a space delimited list of url strings or null if none.
      */
     public java.lang.String _get_codebase() {
         org.omg.CORBA.portable.Delegate delegate = _get_delegate();

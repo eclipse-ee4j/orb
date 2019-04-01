@@ -17,12 +17,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class ForStatement extends Statement {
+public class ForStatement extends Statement {
     Statement init;
     Expression cond;
     Expression inc;
@@ -82,7 +80,7 @@ class ForStatement extends Statement {
     public Statement inline(Environment env, Context ctx) {
         ctx = new Context(ctx, this);
         if (init != null) {
-            Statement body[] = {init, this};
+            Statement body[] = { init, this };
             init = null;
             return new CompoundStatement(where, body).inline(env, ctx);
         }
@@ -102,7 +100,7 @@ class ForStatement extends Statement {
      * Create a copy of the statement for method inlining
      */
     public Statement copyInline(Context ctx, boolean valNeeded) {
-        ForStatement s = (ForStatement)clone();
+        ForStatement s = (ForStatement) clone();
         if (init != null) {
             s.init = init.copyInline(ctx, valNeeded);
         }

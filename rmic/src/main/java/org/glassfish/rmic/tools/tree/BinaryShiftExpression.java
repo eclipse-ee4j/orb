@@ -13,12 +13,10 @@ package org.glassfish.rmic.tools.tree;
 import org.glassfish.rmic.tools.java.*;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class BinaryShiftExpression extends BinaryExpression {
+public class BinaryShiftExpression extends BinaryExpression {
     /**
      * constructor
      */
@@ -31,12 +29,11 @@ class BinaryShiftExpression extends BinaryExpression {
      */
     Expression eval() {
         // The eval code in BinaryExpression.java only works correctly
-        // for arithmetic expressions.  For shift expressions, we get cases
+        // for arithmetic expressions. For shift expressions, we get cases
         // where the left and right operand may legitimately be of mixed
-        // types (long and int).  This is a fix for 4082814.
+        // types (long and int). This is a fix for 4082814.
         if (left.op == LONGVAL && right.op == INTVAL) {
-            return eval(((LongExpression)left).value,
-                        ((IntExpression)right).value);
+            return eval(((LongExpression) left).value, ((IntExpression) right).value);
         }
 
         // Delegate the rest of the cases to our parent, so as to minimize

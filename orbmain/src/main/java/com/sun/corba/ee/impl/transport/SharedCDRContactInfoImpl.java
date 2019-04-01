@@ -28,109 +28,73 @@ import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.impl.protocol.MessageMediatorImpl;
 import com.sun.corba.ee.impl.protocol.SharedCDRClientRequestDispatcherImpl;
 
-public class SharedCDRContactInfoImpl
-    extends 
-        ContactInfoBase
-{
+public class SharedCDRContactInfoImpl extends ContactInfoBase {
     // This is only necessary for the pi.clientrequestinfo test.
     // It tests that request ids are different.
     // Rather than rewrite the test, just fake it.
     private static int requestId = 0;
 
-    private static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
-    public SharedCDRContactInfoImpl(
-        ORB orb,
-        ContactInfoList contactInfoList,
-        IOR effectiveTargetIOR,
-        short addressingDisposition)
-    {
+    public SharedCDRContactInfoImpl(ORB orb, ContactInfoList contactInfoList, IOR effectiveTargetIOR, short addressingDisposition) {
         this.orb = orb;
         this.contactInfoList = contactInfoList;
         this.effectiveTargetIOR = effectiveTargetIOR;
         this.addressingDisposition = addressingDisposition;
     }
 
-    public String getType()
-    {
-        throw wrapper.undefinedSocketinfoOperation() ;
+    public String getType() {
+        throw wrapper.undefinedSocketinfoOperation();
     }
 
-    public String getHost()
-    {
-        throw wrapper.undefinedSocketinfoOperation() ;
+    public String getHost() {
+        throw wrapper.undefinedSocketinfoOperation();
     }
 
-    public int getPort()
-    {
-        throw wrapper.undefinedSocketinfoOperation() ;
+    public int getPort() {
+        throw wrapper.undefinedSocketinfoOperation();
     }
 
-    public ClientRequestDispatcher getClientRequestDispatcher()
-    {
+    public ClientRequestDispatcher getClientRequestDispatcher() {
         // REVISIT - use registry
         return new SharedCDRClientRequestDispatcherImpl();
     }
 
-    public boolean isConnectionBased()
-    {
+    public boolean isConnectionBased() {
         return false;
     }
 
-    public boolean shouldCacheConnection()
-    {
+    public boolean shouldCacheConnection() {
         return false;
     }
 
-    public String getConnectionCacheType()
-    {
-        throw wrapper.methodShouldNotBeCalled();
-    }
-    
-    public Connection createConnection()
-    {
+    public String getConnectionCacheType() {
         throw wrapper.methodShouldNotBeCalled();
     }
 
-    // Called when client making an invocation.    
+    public Connection createConnection() {
+        throw wrapper.methodShouldNotBeCalled();
+    }
+
+    // Called when client making an invocation.
     @Override
-    public MessageMediator createMessageMediator(ORB broker,
-                                                 ContactInfo contactInfo,
-                                                 Connection connection,
-                                                 String methodName,
-                                                 boolean isOneWay)
-    {
+    public MessageMediator createMessageMediator(ORB broker, ContactInfo contactInfo, Connection connection, String methodName, boolean isOneWay) {
         if (connection != null) {
-            throw wrapper.connectionNotNullInCreateMessageMediator( connection ) ;
+            throw wrapper.connectionNotNullInCreateMessageMediator(connection);
         }
 
-        MessageMediator messageMediator =
-            new MessageMediatorImpl(
-                (ORB) broker,
-                (ContactInfo)contactInfo,
-                null, // Connection;
-                GIOPVersion.chooseRequestVersion( (ORB)broker,
-                     effectiveTargetIOR),
-                effectiveTargetIOR,
-                requestId++, // Fake RequestId
-                getAddressingDisposition(),
-                methodName,
-                isOneWay);
+        MessageMediator messageMediator = new MessageMediatorImpl((ORB) broker, (ContactInfo) contactInfo, null, // Connection;
+                GIOPVersion.chooseRequestVersion((ORB) broker, effectiveTargetIOR), effectiveTargetIOR, requestId++, // Fake RequestId
+                getAddressingDisposition(), methodName, isOneWay);
 
         return messageMediator;
     }
 
-    public CDROutputObject createOutputObject(MessageMediator messageMediator)
-    {
-        MessageMediator corbaMessageMediator = (MessageMediator)
-            messageMediator;
+    public CDROutputObject createOutputObject(MessageMediator messageMediator) {
+        MessageMediator corbaMessageMediator = (MessageMediator) messageMediator;
         // NOTE: GROW.
-        CDROutputObject outputObject =
-            OutputStreamFactory.newCDROutputObject(orb, messageMediator, 
-                                corbaMessageMediator.getRequestHeader(),
-                                corbaMessageMediator.getStreamFormatVersion(),
-                                BufferManagerFactory.GROW);
+        CDROutputObject outputObject = OutputStreamFactory.newCDROutputObject(orb, messageMediator, corbaMessageMediator.getRequestHeader(),
+                corbaMessageMediator.getStreamFormatVersion(), BufferManagerFactory.GROW);
         messageMediator.setOutputObject(outputObject);
         return outputObject;
     }
@@ -140,8 +104,7 @@ public class SharedCDRContactInfoImpl
     // spi.transport.CorbaContactInfo
     //
 
-    public String getMonitoringName()
-    {
+    public String getMonitoringName() {
         throw wrapper.methodShouldNotBeCalled();
     }
 
@@ -154,24 +117,18 @@ public class SharedCDRContactInfoImpl
     // See SocketOrChannelContactInfoImpl.equals.
 
     // This calculation must be identical to SocketOrChannelContactInfoImpl.
-    private int hashCode = 
-        SocketInfo.IIOP_CLEAR_TEXT.hashCode() + "localhost".hashCode() ^ -1;
+    private int hashCode = SocketInfo.IIOP_CLEAR_TEXT.hashCode() + "localhost".hashCode() ^ -1;
 
-    public int hashCode()
-    {
+    public int hashCode() {
         return hashCode;
     }
 
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         return obj instanceof SharedCDRContactInfoImpl;
     }
 
-    public String toString()
-    {
-        return
-            "SharedCDRContactInfoImpl[" 
-            + "]";
+    public String toString() {
+        return "SharedCDRContactInfoImpl[" + "]";
     }
 
     //////////////////////////////////////////////////

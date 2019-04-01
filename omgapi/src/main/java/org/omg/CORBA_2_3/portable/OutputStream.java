@@ -12,20 +12,20 @@
 package org.omg.CORBA_2_3.portable;
 
 /**
- * OutputStream provides interface for writing of all of the mapped IDL type
- * to the stream. It extends org.omg.CORBA.portable.OutputStream, and defines
- * new methods defined by CORBA 2.3.
+ * OutputStream provides interface for writing of all of the mapped IDL type to the stream. It extends
+ * org.omg.CORBA.portable.OutputStream, and defines new methods defined by CORBA 2.3.
  *
  * @see org.omg.CORBA.portable.OutputStream
- * @author  OMG
+ * @author OMG
  * @version 1.19 07/27/07
- * @since   JDK1.2
+ * @since JDK1.2
  */
 
 public abstract class OutputStream extends org.omg.CORBA.portable.OutputStream {
 
     /**
      * Marshals a value type to the output stream.
+     *
      * @param value is the acutal value to write
      */
     public void write_value(java.io.Serializable value) {
@@ -34,6 +34,7 @@ public abstract class OutputStream extends org.omg.CORBA.portable.OutputStream {
 
     /**
      * Marshals a value type to the output stream.
+     *
      * @param value is the acutal value to write
      * @param clz is the declared type of the value to be marshaled
      */
@@ -43,9 +44,9 @@ public abstract class OutputStream extends org.omg.CORBA.portable.OutputStream {
 
     /**
      * Marshals a value type to the output stream.
+     *
      * @param value is the acutal value to write
-     * @param repository_id identifies the type of the value type to 
-     * be marshaled
+     * @param repository_id identifies the type of the value type to be marshaled
      */
     public void write_value(java.io.Serializable value, String repository_id) {
         throw new org.omg.CORBA.NO_IMPLEMENT();
@@ -53,9 +54,9 @@ public abstract class OutputStream extends org.omg.CORBA.portable.OutputStream {
 
     /**
      * Marshals a value type to the output stream.
+     *
      * @param value is the acutal value to write
-     * @param factory is the instance of the helper to be used for marshaling
-     * the boxed value
+     * @param factory is the instance of the helper to be used for marshaling the boxed value
      */
     public void write_value(java.io.Serializable value, org.omg.CORBA.portable.BoxedValueHelper factory) {
         throw new org.omg.CORBA.NO_IMPLEMENT();
@@ -63,6 +64,7 @@ public abstract class OutputStream extends org.omg.CORBA.portable.OutputStream {
 
     /**
      * Marshals a value object or a stub object.
+     *
      * @param obj the actual value object to marshal or the stub to be marshalled
      */
     public void write_abstract_interface(java.lang.Object obj) {

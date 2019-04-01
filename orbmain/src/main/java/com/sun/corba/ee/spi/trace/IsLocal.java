@@ -8,19 +8,19 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package com.sun.corba.ee.spi.trace ;
+package com.sun.corba.ee.spi.trace;
 
-import java.lang.annotation.Target ;
-import java.lang.annotation.ElementType ;
-import java.lang.annotation.Retention ;
-import java.lang.annotation.RetentionPolicy ;
+import java.lang.annotation.Target;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import org.glassfish.pfl.tf.spi.annotation.MethodMonitorGroup;
 
-/** This annotation is applied to a class or interface to indicate
- * that its methods are classified as part of the code that determines whether
- * or not an invocation is a local invocation.
+/**
+ * This annotation is applied to a class or interface to indicate that its methods are classified as part of the code
+ * that determines whether or not an invocation is a local invocation.
  */
-@Target({ElementType.METHOD,ElementType.TYPE,ElementType.FIELD})
+@Target({ ElementType.METHOD, ElementType.TYPE, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @MethodMonitorGroup
 public @interface IsLocal {

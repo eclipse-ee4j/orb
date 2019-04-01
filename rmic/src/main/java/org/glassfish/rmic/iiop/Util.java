@@ -18,36 +18,33 @@ import java.io.File;
 
 /**
  * Util provides static utility methods used by other rmic classes.
+ *
  * @author Bryan Atsatt
  */
 
 public final class Util implements org.glassfish.rmic.Constants {
 
-
-    public static String packagePrefix(){ return PackagePrefixChecker.packagePrefix();}
-
+    public static String packagePrefix() {
+        return PackagePrefixChecker.packagePrefix();
+    }
 
     /**
-     * Return the directory that should be used for output for a given
-     * class.
+     * Return the directory that should be used for output for a given class.
+     *
      * @param theClass The fully qualified name of the class.
-     * @param rootDir The directory to use as the root of the
-     * package heirarchy.  May be null, in which case the current
+     * @param rootDir The directory to use as the root of the package heirarchy. May be null, in which case the current
      * working directory is used as the root.
      */
-    private static File getOutputDirectoryFor(Identifier theClass,
-                                             File rootDir,
-                                             BatchEnvironment env,
-                                             boolean idl ) {
+    private static File getOutputDirectoryFor(Identifier theClass, File rootDir, BatchEnvironment env, boolean idl) {
         File outputDir = null;
         String className = theClass.getFlatName().toString().replace('.', SIGC_INNERCLASS);
         String qualifiedClassName = className;
         String packagePath = null;
         String packageName = theClass.getQualifier().toString();
-        //Shift package names for stubs generated for interfaces.
-        /*if(type.isInterface())*/
+        // Shift package names for stubs generated for interfaces.
+        /* if(type.isInterface()) */
         packageName = correctPackageName(packageName, idl, env.getStandardPackage());
-        //Done.
+        // Done.
         if (packageName.length() > 0) {
             qualifiedClassName = packageName + "." + className;
             packagePath = packageName.replace('.', File.separatorChar);
@@ -67,7 +64,7 @@ public final class Util implements org.glassfish.rmic.Constants {
 
                 // Make sure the directory exists...
 
-                ensureDirectory(outputDir,env);
+                ensureDirectory(outputDir, env);
 
             } else {
 
@@ -98,7 +95,7 @@ public final class Util implements org.glassfish.rmic.Constants {
 
                 // Make sure the directory exists...
 
-                ensureDirectory(outputDir,env);
+                ensureDirectory(outputDir, env);
             }
         }
 
@@ -107,46 +104,41 @@ public final class Util implements org.glassfish.rmic.Constants {
         return outputDir;
     }
 
-    public static File getOutputDirectoryForIDL(Identifier theClass,
-                                             File rootDir,
-                                             BatchEnvironment env) {
+    public static File getOutputDirectoryForIDL(Identifier theClass, File rootDir, BatchEnvironment env) {
         return getOutputDirectoryFor(theClass, rootDir, env, true);
     }
 
-    public static File getOutputDirectoryForStub(Identifier theClass,
-                                             File rootDir,
-                                             BatchEnvironment env) {
+    public static File getOutputDirectoryForStub(Identifier theClass, File rootDir, BatchEnvironment env) {
         return getOutputDirectoryFor(theClass, rootDir, env, false);
     }
 
-    private static void ensureDirectory (File dir, BatchEnvironment env) {
+    private static void ensureDirectory(File dir, BatchEnvironment env) {
         if (!dir.exists()) {
             dir.mkdirs();
             if (!dir.exists()) {
-                env.error(0,"rmic.cannot.create.dir",dir.getAbsolutePath());
+                env.error(0, "rmic.cannot.create.dir", dir.getAbsolutePath());
                 throw new InternalError();
             }
         }
     }
 
-    public static String correctPackageName(
-            String p, boolean idl, boolean standardPackage){
-        if (idl){
+    public static String correctPackageName(String p, boolean idl, boolean standardPackage) {
+        if (idl) {
             return p;
         } else {
             if (standardPackage) {
                 return p;
             } else {
-              return PackagePrefixChecker.correctPackageName(p);
+                return PackagePrefixChecker.correctPackageName(p);
             }
         }
     }
 
-    public static boolean isOffendingPackage(String p){
+    public static boolean isOffendingPackage(String p) {
         return PackagePrefixChecker.isOffendingPackage(p);
     }
 
-    public static boolean hasOffendingPrefix(String p){
+    public static boolean hasOffendingPrefix(String p) {
         return PackagePrefixChecker.hasOffendingPrefix(p);
     }
 

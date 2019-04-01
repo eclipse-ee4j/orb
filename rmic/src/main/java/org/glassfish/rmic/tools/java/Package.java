@@ -15,12 +15,10 @@ import java.io.File;
 /**
  * This class is used to represent the classes in a package.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class Package {
+public class Package {
     /**
      * The path which we use to locate source files.
      */
@@ -37,8 +35,7 @@ class Package {
     private String pkg;
 
     /**
-     * Create a package given a source path, binary path, and package
-     * name.
+     * Create a package given a source path, binary path, and package name.
      */
     public Package(ClassPath binaryPath, Identifier pkg) {
         if (pkg.isInner())
@@ -48,14 +45,11 @@ class Package {
     }
 
     /**
-     * Check if a class is defined in this package.
-     * (If it is an inner class name, it is assumed to exist
-     * only if its binary file exists.  This is somewhat pessimistic.)
+     * Check if a class is defined in this package. (If it is an inner class name, it is assumed to exist only if its binary
+     * file exists. This is somewhat pessimistic.)
      */
     public boolean classExists(Identifier className) {
-        return getBinaryFile(className) != null ||
-                !className.isInner() &&
-               getSourceFile(className) != null;
+        return getBinaryFile(className) != null || !className.isInner() && getSourceFile(className) != null;
     }
 
     /**
@@ -68,9 +62,9 @@ class Package {
             return true;
         }
 
-        /* Accommodate ZIP files without CEN entries for directories
-         * (packages): look on class path for at least one binary
-         * file or one source file with the right package prefix
+        /*
+         * Accommodate ZIP files without CEN entries for directories (packages): look on class path for at least one binary file
+         * or one source file with the right package prefix
          */
         String prefix = pkg + File.separator;
 

@@ -19,52 +19,44 @@ package com.sun.tools.corba.ee.idl;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
-public class ResourceBundleUtil
-{
-  // <d58319>
-  /**
-   * Fetch the version number of this build of the IDL Parser Framework.
-   * This method may be called before or after the framework has been
-   * initialized. If the framework is inititialized, the version information
-   * is extracted from the message properties object; otherwise, it is extracted
-   * from the indicated resouce bundle.
-   * @return the version number.
-   **/
-  public static String getVersion ()
-  {
-    String version = getMessage ("Version.product", getMessage ("Version.number"));
-    return version;
-  } // getVersion
+public class ResourceBundleUtil {
+    // <d58319>
+    /**
+     * Fetch the version number of this build of the IDL Parser Framework. This method may be called before or after the
+     * framework has been initialized. If the framework is inititialized, the version information is extracted from the
+     * message properties object; otherwise, it is extracted from the indicated resouce bundle.
+     *
+     * @return the version number.
+     **/
+    public static String getVersion() {
+        String version = getMessage("Version.product", getMessage("Version.number"));
+        return version;
+    } // getVersion
 
+    //////////////
+    // Message-related methods
 
-  //////////////
-  // Message-related methods
+    public static String getMessage(String key, String... fill) {
+        String pattern = getResourceBundle().getString(key);
+        MessageFormat mf = new MessageFormat(pattern);
+        return mf.format(fill, new StringBuffer(), null).toString();
+    } // getMessage
 
-  public static String getMessage (String key, String... fill)
-  {
-    String pattern = getResourceBundle().getString(key) ;
-    MessageFormat mf = new MessageFormat( pattern ) ;
-    return mf.format( fill, new StringBuffer(), null ).toString() ;
-  } // getMessage
+    /**
+     * Register a ResourceBundle. This file will be searched for in the CLASSPATH.
+     */
+    public static void registerResourceBundle(ResourceBundle bundle) {
+        if (bundle != null)
+            fBundle = bundle;
+    } // registerResourceBundle
 
+    /** Gets the current ResourceBundle. */
+    public static ResourceBundle getResourceBundle() {
+        if (fBundle == null) {
+            fBundle = ResourceBundle.getBundle("com.sun.tools.corba.ee.idl.idl");
+        }
+        return fBundle;
+    } // getResourceBundle
 
-  /** Register a ResourceBundle.  This file will be searched for
-      in the CLASSPATH. */
-  public static void registerResourceBundle (ResourceBundle bundle)
-  {
-    if (bundle != null)
-      fBundle = bundle;
-  } // registerResourceBundle
-
-
-  /** Gets the current ResourceBundle.  */
-  public static ResourceBundle getResourceBundle ()
-  {
-    if (fBundle == null) {
-      fBundle = ResourceBundle.getBundle("com.sun.tools.corba.ee.idl.idl");
-    }
-    return fBundle;
-  } // getResourceBundle
-
-  private static ResourceBundle  fBundle = null ;
+    private static ResourceBundle fBundle = null;
 } // class ResourceBundleUtil

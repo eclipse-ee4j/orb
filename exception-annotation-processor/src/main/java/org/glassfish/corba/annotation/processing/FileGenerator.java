@@ -24,8 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
-* This class generates properties files based on annotations.
-*/
+ * This class generates properties files based on annotations.
+ */
 class FileGenerator {
     private Element classElement;
     private Date creationDate;
@@ -74,8 +74,8 @@ class FileGenerator {
     }
 
     private void writePropertyLine(Writer writer, Element methodElement) throws IOException {
-        writer.append('.').append(methodElement.getSimpleName()).append("=\"").append(getPrefix())
-              .append(": ").append(getMessage(methodElement)).append("\"\n");
+        writer.append('.').append(methodElement.getSimpleName()).append("=\"").append(getPrefix()).append(": ").append(getMessage(methodElement))
+                .append("\"\n");
     }
 
     private String getMessage(Element methodElement) {

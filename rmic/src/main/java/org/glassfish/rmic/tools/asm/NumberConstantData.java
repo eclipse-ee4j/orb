@@ -17,12 +17,10 @@ import java.io.DataOutputStream;
 /**
  * A numeric constant pool item. Can either be integer, float, long or double.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-final
-class NumberConstantData extends ConstantPoolData {
+final class NumberConstantData extends ConstantPoolData {
     Number num;
 
     /**
@@ -50,6 +48,7 @@ class NumberConstantData extends ConstantPoolData {
             out.writeDouble(num.doubleValue());
         }
     }
+
     /**
      * Return the order of the constant
      */

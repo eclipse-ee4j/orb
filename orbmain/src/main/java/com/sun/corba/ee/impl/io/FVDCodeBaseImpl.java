@@ -28,21 +28,17 @@ import com.sun.corba.ee.spi.logging.OMGSystemException;
 import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
 
 /**
- * This class acts as the remote interface to receivers wishing to retrieve
- * the information of a remote Class.
+ * This class acts as the remote interface to receivers wishing to retrieve the information of a remote Class.
  */
-public class FVDCodeBaseImpl extends _CodeBaseImplBase
-{
+public class FVDCodeBaseImpl extends _CodeBaseImplBase {
     // Contains rep. ids as keys to FullValueDescriptions
-    private static Map<String,FullValueDescription> fvds = 
-        new HashMap<String,FullValueDescription>();
+    private static Map<String, FullValueDescription> fvds = new HashMap<String, FullValueDescription>();
 
-    // Private ORBSingleton used when we need an ORB while not 
-    // having a delegate set.  
+    // Private ORBSingleton used when we need an ORB while not
+    // having a delegate set.
     private transient ORB orb = null;
 
-    private static final OMGSystemException wrapper =
-        OMGSystemException.self ;
+    private static final OMGSystemException wrapper = OMGSystemException.self;
 
     // backward compatability so that appropriate rep-id calculations
     // can take place
@@ -50,34 +46,33 @@ public class FVDCodeBaseImpl extends _CodeBaseImplBase
     // marshalling/unmarshalling
     private transient ValueHandlerImpl vhandler = null;
 
-    public FVDCodeBaseImpl( ValueHandler vh ) {
+    public FVDCodeBaseImpl(ValueHandler vh) {
         // vhandler will never be null
-        this.vhandler = (com.sun.corba.ee.impl.io.ValueHandlerImpl)vh ;  
+        this.vhandler = (com.sun.corba.ee.impl.io.ValueHandlerImpl) vh;
     }
 
     // Operation to obtain the IR from the sending context
-    public com.sun.org.omg.CORBA.Repository get_ir (){
+    public com.sun.org.omg.CORBA.Repository get_ir() {
         return null;
     }
 
     // Operations to obtain a URL to the implementation code
-    public String implementation (String x){
-        try{
+    public String implementation(String x) {
+        try {
             // Util.getCodebase may return null which would
             // cause a BAD_PARAM exception.
-            String result = Util.getInstance().getCodebase(
-                vhandler.getClassFromType(x));
+            String result = Util.getInstance().getCodebase(vhandler.getClassFromType(x));
             if (result == null) {
                 return "";
             } else {
                 return result;
             }
-        } catch(ClassNotFoundException cnfe){
-            throw wrapper.missingLocalValueImpl( cnfe ) ;
+        } catch (ClassNotFoundException cnfe) {
+            throw wrapper.missingLocalValueImpl(cnfe);
         }
     }
 
-    public String[] implementations (String[] x){
+    public String[] implementations(String[] x) {
         String result[] = new String[x.length];
 
         for (int i = 0; i < x.length; i++) {
@@ -88,37 +83,35 @@ public class FVDCodeBaseImpl extends _CodeBaseImplBase
     }
 
     // the same information
-    public FullValueDescription meta (String x){
-        try{
+    public FullValueDescription meta(String x) {
+        try {
             FullValueDescription result = fvds.get(x);
 
             if (result == null) {
-                try{
-                    result = ValueUtility.translate(_orb(), 
-                        ObjectStreamClass.lookup(vhandler.getAnyClassFromType(x)), vhandler);
-                } catch(Throwable t){
+                try {
+                    result = ValueUtility.translate(_orb(), ObjectStreamClass.lookup(vhandler.getAnyClassFromType(x)), vhandler);
+                } catch (Throwable t) {
                     if (orb == null) {
                         orb = ORB.init();
                     }
 
-                    result = ValueUtility.translate(orb, 
-                        ObjectStreamClass.lookup(vhandler.getAnyClassFromType(x)), vhandler);           
+                    result = ValueUtility.translate(orb, ObjectStreamClass.lookup(vhandler.getAnyClassFromType(x)), vhandler);
                 }
 
-                if (result != null){
+                if (result != null) {
                     fvds.put(x, result);
                 } else {
                     throw wrapper.missingLocalValueImpl();
                 }
             }
-                                
+
             return result;
-        } catch(Throwable t){
+        } catch (Throwable t) {
             throw wrapper.incompatibleValueImpl(t);
         }
     }
 
-    public FullValueDescription[] metas (String[] x){
+    public FullValueDescription[] metas(String[] x) {
         FullValueDescription descriptions[] = new FullValueDescription[x.length];
 
         for (int i = 0; i < x.length; i++) {
@@ -129,11 +122,10 @@ public class FVDCodeBaseImpl extends _CodeBaseImplBase
     }
 
     // information
-    public String[] bases (String x){
+    public String[] bases(String x) {
         try {
             Stack<String> repIds = new Stack<String>();
-            Class parent = ObjectStreamClass.lookup(
-                vhandler.getClassFromType(x)).forClass().getSuperclass();
+            Class parent = ObjectStreamClass.lookup(vhandler.getClassFromType(x)).forClass().getSuperclass();
 
             while (!parent.equals(java.lang.Object.class)) {
                 repIds.push(vhandler.createForAnyType(parent));
@@ -147,7 +139,7 @@ public class FVDCodeBaseImpl extends _CodeBaseImplBase
 
             return result;
         } catch (Throwable t) {
-            throw wrapper.missingLocalValueImpl( t );
+            throw wrapper.missingLocalValueImpl(t);
         }
     }
 }

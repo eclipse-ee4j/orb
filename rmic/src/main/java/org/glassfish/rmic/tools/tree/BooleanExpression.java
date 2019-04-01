@@ -17,12 +17,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class BooleanExpression extends ConstantExpression {
+public class BooleanExpression extends ConstantExpression {
     boolean value;
 
     /**
@@ -47,7 +45,6 @@ class BooleanExpression extends ConstantExpression {
         return value == b;
     }
 
-
     /**
      * Check if the expression is equal to its default static value
      */
@@ -55,23 +52,17 @@ class BooleanExpression extends ConstantExpression {
         return !value;
     }
 
-
     /*
      * Check a "not" expression.
      *
-     * cvars is modified so that
-     *    cvar.vsTrue indicates variables with a known value if
-     *         the expression is true.
-     *    cvars.vsFalse indicates variables with a known value if
-     *         the expression is false
+     * cvars is modified so that cvar.vsTrue indicates variables with a known value if the expression is true. cvars.vsFalse
+     * indicates variables with a known value if the expression is false
      *
-     * For constant expressions, set the side that corresponds to our
-     * already known value to vset.  Set the side that corresponds to the
-     * other way to "impossible"
+     * For constant expressions, set the side that corresponds to our already known value to vset. Set the side that
+     * corresponds to the other way to "impossible"
      */
 
-    public void checkCondition(Environment env, Context ctx,
-                               Vset vset, Hashtable<Object, Object> exp, ConditionVars cvars) {
+    public void checkCondition(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp, ConditionVars cvars) {
         if (value) {
             cvars.vsFalse = Vset.DEAD_END;
             cvars.vsTrue = vset;
@@ -81,7 +72,6 @@ class BooleanExpression extends ConstantExpression {
         }
     }
 
-
     /**
      * Code
      */
@@ -90,6 +80,7 @@ class BooleanExpression extends ConstantExpression {
             asm.add(where, opc_goto, lbl);
         }
     }
+
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         asm.add(where, opc_ldc, value ? 1 : 0);
     }

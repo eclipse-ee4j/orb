@@ -10,31 +10,31 @@
 
 package com.sun.corba.ee.spi.ior.iiop;
 
-import com.sun.corba.ee.spi.ior.TaggedProfileTemplate ;
+import com.sun.corba.ee.spi.ior.TaggedProfileTemplate;
 
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion ;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 
-import org.glassfish.gmbal.ManagedData ;
-import org.glassfish.gmbal.ManagedAttribute ;
-import org.glassfish.gmbal.Description ;
+import org.glassfish.gmbal.ManagedData;
+import org.glassfish.gmbal.ManagedAttribute;
+import org.glassfish.gmbal.Description;
 
 /**
- * IIOPProfileTemplate represents the parts of an IIOPProfile that are independent
- * of the object identifier.  It is a container of tagged components.
+ * IIOPProfileTemplate represents the parts of an IIOPProfile that are independent of the object identifier. It is a
+ * container of tagged components.
  */
 @ManagedData
-@Description( "Template for an IIOP profile" )
-public interface IIOPProfileTemplate extends TaggedProfileTemplate
-{
-    /** Return the GIOP version of this profile.
-    */
-    public GIOPVersion getGIOPVersion() ;
+@Description("Template for an IIOP profile")
+public interface IIOPProfileTemplate extends TaggedProfileTemplate {
+    /**
+     * Return the GIOP version of this profile.
+     */
+    public GIOPVersion getGIOPVersion();
 
-    /** Return the IIOP address from the IIOP profile.  This is called the 
-    * primary address here since other addresses may be contained in 
-    * components.
-    */
+    /**
+     * Return the IIOP address from the IIOP profile. This is called the primary address here since other addresses may be
+     * contained in components.
+     */
     @ManagedAttribute
-    @Description( "The host and port of the IP address for the primary endpoint of this profile" )
-    public IIOPAddress getPrimaryAddress()  ;
+    @Description("The host and port of the IP address for the primary endpoint of this profile")
+    public IIOPAddress getPrimaryAddress();
 }

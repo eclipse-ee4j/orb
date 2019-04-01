@@ -24,51 +24,45 @@ import java.util.Hashtable;
 /**
  *
  **/
-public class AttributeGen24 extends MethodGenClone24
-{
-  /**
-   * Public zero-argument constructor.
-   **/
-  public AttributeGen24 ()
-  {
-  } // ctor
+public class AttributeGen24 extends MethodGenClone24 {
+    /**
+     * Public zero-argument constructor.
+     **/
+    public AttributeGen24() {
+    } // ctor
 
-  /**
-   * (d62023-klr) Added for 2.4 RTF
-   **/
-  protected void abstractMethod (Hashtable symbolTable, MethodEntry m, PrintWriter stream)
-  {
-    AttributeEntry a = (AttributeEntry)m;
+    /**
+     * (d62023-klr) Added for 2.4 RTF
+     **/
+    protected void abstractMethod(Hashtable symbolTable, MethodEntry m, PrintWriter stream) {
+        AttributeEntry a = (AttributeEntry) m;
 
-    // Generate for the get method
-    super.abstractMethod (symbolTable, a, stream);
+        // Generate for the get method
+        super.abstractMethod(symbolTable, a, stream);
 
-    // Generate for the set method if the attribute is not readonly
-    if (!a.readOnly ())
-    {
-      setupForSetMethod ();
-      super.abstractMethod (symbolTable, a, stream);
-      clear ();
-    }
-  } // abstractMethod
+        // Generate for the set method if the attribute is not readonly
+        if (!a.readOnly()) {
+            setupForSetMethod();
+            super.abstractMethod(symbolTable, a, stream);
+            clear();
+        }
+    } // abstractMethod
 
-  /**
-   * (d62023-klr) Added for 2.4 RTF
-   **/
-  protected void interfaceMethod (Hashtable symbolTable, MethodEntry m, PrintWriter stream)
-  {
-    AttributeEntry a = (AttributeEntry)m;
+    /**
+     * (d62023-klr) Added for 2.4 RTF
+     **/
+    protected void interfaceMethod(Hashtable symbolTable, MethodEntry m, PrintWriter stream) {
+        AttributeEntry a = (AttributeEntry) m;
 
-    // Generate for the get method
-    super.interfaceMethod (symbolTable, a, stream);
+        // Generate for the get method
+        super.interfaceMethod(symbolTable, a, stream);
 
-    // Generate for the set method if the attribute is not readonly
-    if (!a.readOnly ())
-    {
-      setupForSetMethod ();
-      super.interfaceMethod (symbolTable, a, stream);
-      clear ();
-    }
-  } // interfaceMethod
+        // Generate for the set method if the attribute is not readonly
+        if (!a.readOnly()) {
+            setupForSetMethod();
+            super.interfaceMethod(symbolTable, a, stream);
+            clear();
+        }
+    } // interfaceMethod
 
 } // class AttributeGen24

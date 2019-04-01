@@ -29,7 +29,7 @@ import com.sun.corba.ee.spi.logging.OMGSystemException;
 import com.sun.corba.ee.impl.misc.ORBUtility;
 import com.sun.corba.ee.spi.protocol.MessageMediator;
 import com.sun.corba.ee.spi.trace.Transport;
-import com.sun.corba.ee.spi.trace.MonitorRead ;
+import com.sun.corba.ee.spi.trace.MonitorRead;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.nio.ByteOrder;
@@ -42,32 +42,26 @@ import org.omg.CORBA.TypeCode;
  */
 @Transport
 @MonitorRead
-public class CDRInputObject 
-    extends org.omg.CORBA_2_3.portable.InputStream
-    implements com.sun.corba.ee.impl.encoding.MarshalInputStream,
-               org.omg.CORBA.DataInputStream, org.omg.CORBA.portable.ValueInputStream
-{
-    private static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
-    private static final OMGSystemException omgWrapper =
-        OMGSystemException.self ;
+public class CDRInputObject extends org.omg.CORBA_2_3.portable.InputStream
+        implements com.sun.corba.ee.impl.encoding.MarshalInputStream, org.omg.CORBA.DataInputStream, org.omg.CORBA.portable.ValueInputStream {
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
+    private static final OMGSystemException omgWrapper = OMGSystemException.self;
     private static final long serialVersionUID = 3654171034620991056L;
 
-    private transient ORB orb ;
+    private transient ORB orb;
     private transient CDRInputStreamBase impl;
     private transient Connection corbaConnection;
     private transient Message header;
     protected transient MessageMediator messageMediator;
 
     // Present only to suppress FindBugs errors
-    private void readObject( ObjectInputStream is ) throws IOException,
-        ClassNotFoundException {
+    private void readObject(ObjectInputStream is) throws IOException, ClassNotFoundException {
 
-        orb = null ;
-        impl = null ;
-        corbaConnection = null ;
-        header = null ;
-        messageMediator = null ;
+        orb = null;
+        impl = null;
+        corbaConnection = null;
+        header = null;
+        messageMediator = null;
     }
 
     private boolean unmarshaledHeader;
@@ -83,50 +77,47 @@ public class CDRInputObject
 
     private static class InputStreamFactory {
         public static CDRInputStreamBase newInputStream(GIOPVersion version) {
-            switch(version.intValue()) {
-                case GIOPVersion.VERSION_1_0:
-                    return new CDRInputStream_1_0();
-                case GIOPVersion.VERSION_1_1:
-                    return new CDRInputStream_1_1();
-                case GIOPVersion.VERSION_1_2:
-                    return new CDRInputStream_1_2();
-                default:
-                    throw wrapper.unsupportedGiopVersion( version ) ;
+            switch (version.intValue()) {
+            case GIOPVersion.VERSION_1_0:
+                return new CDRInputStream_1_0();
+            case GIOPVersion.VERSION_1_1:
+                return new CDRInputStream_1_1();
+            case GIOPVersion.VERSION_1_2:
+                return new CDRInputStream_1_2();
+            default:
+                throw wrapper.unsupportedGiopVersion(version);
             }
         }
     }
 
     // Required for the case when a ClientResponseImpl is
     // created with a SystemException due to a dead server/closed
-    // connection with no warning.  Note that the stream will
+    // connection with no warning. Note that the stream will
     // not be initialized in this case.
-    // 
+    //
     // Probably also required by ServerRequestImpl.
-    // 
+    //
     // REVISIT.
     public CDRInputObject() {
     }
 
-     public CDRInputObject(CDRInputObject is) {
+    public CDRInputObject(CDRInputObject is) {
         impl = is.impl.dup();
         impl.setParent(this);
     }
 
-    protected CDRInputObject(org.omg.CORBA.ORB orb, ByteBuffer byteBuffer, int size,
-                             ByteOrder byteOrder, GIOPVersion version,
-                             BufferManagerRead bufMgr) {
+    protected CDRInputObject(org.omg.CORBA.ORB orb, ByteBuffer byteBuffer, int size, ByteOrder byteOrder, GIOPVersion version, BufferManagerRead bufMgr) {
 
-        this.orb = (ORB)orb ;
+        this.orb = (ORB) orb;
         createCDRInputStream(version, byteBuffer, size, byteOrder, bufMgr);
 
-        this.corbaConnection = null ;
-        this.header = null ;
-        this.unmarshaledHeader = false ;
-        this.messageMediator = null ;
+        this.corbaConnection = null;
+        this.header = null;
+        this.unmarshaledHeader = false;
+        this.messageMediator = null;
     }
 
-    private void createCDRInputStream(GIOPVersion version, ByteBuffer byteBuffer, int size,
-                                      ByteOrder byteOrder, BufferManagerRead bufMgr) {
+    private void createCDRInputStream(GIOPVersion version, ByteBuffer byteBuffer, int size, ByteOrder byteOrder, BufferManagerRead bufMgr) {
         impl = InputStreamFactory.newInputStream(version);
         impl.init(orb, byteBuffer, size, byteOrder, bufMgr);
         impl.setParent(this);
@@ -137,11 +128,10 @@ public class CDRInputObject
     }
 
     public CDRInputObject(ORB orb, Connection corbaConnection, ByteBuffer byteBuffer, Message header) {
-        this(orb, byteBuffer, header.getSize(), toByteOrder(header.isLittleEndian()), header.getGIOPVersion(),
-                createBufferManagerRead(orb, header));
+        this(orb, byteBuffer, header.getSize(), toByteOrder(header.isLittleEndian()), header.getGIOPVersion(), createBufferManagerRead(orb, header));
 
         this.corbaConnection = corbaConnection;
-        this.header = header ;
+        this.header = header;
 
         getBufferManager().init(header);
         setIndex(Message.GIOPMessageHeaderLength);
@@ -156,38 +146,34 @@ public class CDRInputObject
     // This connection normally is accessed from the message mediator.
     // However, giop input needs to get code set info from the connetion
     // *before* the message mediator is available.
-    public final Connection getConnection()
-    {
+    public final Connection getConnection() {
         return corbaConnection;
     }
 
     // XREVISIT - Should the header be kept in the stream or the
-    // message mediator?  Or should we not have a header and
+    // message mediator? Or should we not have a header and
     // have the information stored in the message mediator
     // directly?
-    public Message getMessageHeader() 
-    {
+    public Message getMessageHeader() {
         return header;
     }
 
-    private void unmarshalledHeader( Message msg ) { }
+    private void unmarshalledHeader(Message msg) {
+    }
 
     /**
-     * Unmarshal the extended GIOP header
-     * NOTE: May be fragmented, so should not be called by the ReaderThread.
-     * See CorbaResponseWaitingRoomImpl.waitForResponse.  It is done
-     * there in the client thread.
+     * Unmarshal the extended GIOP header NOTE: May be fragmented, so should not be called by the ReaderThread. See
+     * CorbaResponseWaitingRoomImpl.waitForResponse. It is done there in the client thread.
      */
     @Transport
-    public void unmarshalHeader()
-    {
+    public void unmarshalHeader() {
         // Unmarshal the extended GIOP message from the buffer.
 
         if (!unmarshaledHeader) {
             try {
                 getMessageHeader().read(this);
-                unmarshalledHeader( getMessageHeader() ) ;
-                unmarshaledHeader= true;
+                unmarshalledHeader(getMessageHeader());
+                unmarshaledHeader = true;
             } catch (RuntimeException e) {
                 throw e;
             }
@@ -195,13 +181,12 @@ public class CDRInputObject
     }
 
     /**
-     * Override the default CDR factory behavior to get the
-     * negotiated code sets from the connection.
+     * Override the default CDR factory behavior to get the negotiated code sets from the connection.
      *
      * These are only called once per message, the first time needed.
      *
-     * In the local case, there is no Connection, so use the
-     * local code sets.
+     * In the local case, there is no Connection, so use the local code sets.
+     *
      * @return The converter.
      */
     protected CodeSetConversion.BTCConverter createCharBTCConverter() {
@@ -213,9 +198,8 @@ public class CDRInputObject
         if (codesets == null) {
             return CodeSetConversion.impl().getBTCConverter(OSFCodeSetRegistry.ISO_8859_1, impl.getByteOrder());
         }
-        
-        OSFCodeSetRegistry.Entry charSet
-            = OSFCodeSetRegistry.lookupEntry(codesets.getCharCodeSet());
+
+        OSFCodeSetRegistry.Entry charSet = OSFCodeSetRegistry.lookupEntry(codesets.getCharCodeSet());
 
         if (charSet == null) {
             throw wrapper.unknownCodeset(codesets.getCharCodeSet());
@@ -239,20 +223,19 @@ public class CDRInputObject
             }
         }
 
-        OSFCodeSetRegistry.Entry wcharSet
-            = OSFCodeSetRegistry.lookupEntry(codesets.getWCharCodeSet());
+        OSFCodeSetRegistry.Entry wcharSet = OSFCodeSetRegistry.lookupEntry(codesets.getWCharCodeSet());
 
         if (wcharSet == null) {
             throw wrapper.unknownCodeset(codesets.getWCharCodeSet());
         }
 
         // For GIOP 1.2 and UTF-16, use big endian if there is no byte
-        // order marker.  (See issue 3405b)
+        // order marker. (See issue 3405b)
         //
         // For GIOP 1.1 and UTF-16, use the byte order the stream if
         // there isn't (and there shouldn't be) a byte order marker.
         //
-        // GIOP 1.0 doesn't have wchars.  If we're talking to a legacy ORB,
+        // GIOP 1.0 doesn't have wchars. If we're talking to a legacy ORB,
         // we do what our old ORBs did.
         if (wcharSet == OSFCodeSetRegistry.UTF_16) {
             if (getGIOPVersion().equals(GIOPVersion.V1_2)) {
@@ -274,7 +257,7 @@ public class CDRInputObject
         } else {
             return getConnection().getCodeSetContext();
         }
-    }    
+    }
 
     public CodeBase getCodeBase() {
         if (getConnection() == null) {
@@ -288,11 +271,10 @@ public class CDRInputObject
         return null;
     }
 
-    protected void dprint(String msg) 
-    {
+    protected void dprint(String msg) {
         ORBUtility.dprint("CDRInputObject", msg);
     }
-    
+
     // org.omg.CORBA.portable.InputStream
     @MonitorRead
     public final boolean read_boolean() {
@@ -440,7 +422,7 @@ public class CDRInputObject
     }
 
     @MonitorRead
-    @SuppressWarnings({"deprecation"})
+    @SuppressWarnings({ "deprecation" })
     @Override
     public final org.omg.CORBA.Principal read_Principal() {
         return impl.read_Principal();
@@ -490,8 +472,7 @@ public class CDRInputObject
 
     @MonitorRead
     @Override
-    public final java.io.Serializable read_value(
-        org.omg.CORBA.portable.BoxedValueHelper factory) {
+    public final java.io.Serializable read_value(org.omg.CORBA.portable.BoxedValueHelper factory) {
 
         return impl.read_value(factory);
     }
@@ -533,77 +514,77 @@ public class CDRInputObject
     // org.omg.CORBA.DataInputStream
 
     @MonitorRead
-    public final java.lang.Object read_Abstract () {
+    public final java.lang.Object read_Abstract() {
         return impl.read_Abstract();
     }
 
     @MonitorRead
-    public final java.io.Serializable read_Value () {
+    public final java.io.Serializable read_Value() {
         return impl.read_Value();
     }
 
     @MonitorRead
-    public final void read_any_array (org.omg.CORBA.AnySeqHolder seq, int offset, int length) {
+    public final void read_any_array(org.omg.CORBA.AnySeqHolder seq, int offset, int length) {
         impl.read_any_array(seq, offset, length);
     }
 
     @MonitorRead
-    public final void read_boolean_array (org.omg.CORBA.BooleanSeqHolder seq, int offset, int length) {
+    public final void read_boolean_array(org.omg.CORBA.BooleanSeqHolder seq, int offset, int length) {
         impl.read_boolean_array(seq, offset, length);
     }
 
     @MonitorRead
-    public final void read_char_array (org.omg.CORBA.CharSeqHolder seq, int offset, int length) {
+    public final void read_char_array(org.omg.CORBA.CharSeqHolder seq, int offset, int length) {
         impl.read_char_array(seq, offset, length);
     }
 
     @MonitorRead
-    public final void read_wchar_array (org.omg.CORBA.WCharSeqHolder seq, int offset, int length) {
+    public final void read_wchar_array(org.omg.CORBA.WCharSeqHolder seq, int offset, int length) {
         impl.read_wchar_array(seq, offset, length);
     }
 
     @MonitorRead
-    public final void read_octet_array (org.omg.CORBA.OctetSeqHolder seq, int offset, int length) {
+    public final void read_octet_array(org.omg.CORBA.OctetSeqHolder seq, int offset, int length) {
         impl.read_octet_array(seq, offset, length);
     }
 
     @MonitorRead
-    public final void read_short_array (org.omg.CORBA.ShortSeqHolder seq, int offset, int length) {
+    public final void read_short_array(org.omg.CORBA.ShortSeqHolder seq, int offset, int length) {
         impl.read_short_array(seq, offset, length);
     }
 
     @MonitorRead
-    public final void read_ushort_array (org.omg.CORBA.UShortSeqHolder seq, int offset, int length) {
+    public final void read_ushort_array(org.omg.CORBA.UShortSeqHolder seq, int offset, int length) {
         impl.read_ushort_array(seq, offset, length);
     }
 
     @MonitorRead
-    public final void read_long_array (org.omg.CORBA.LongSeqHolder seq, int offset, int length) {
+    public final void read_long_array(org.omg.CORBA.LongSeqHolder seq, int offset, int length) {
         impl.read_long_array(seq, offset, length);
     }
 
     @MonitorRead
-    public final void read_ulong_array (org.omg.CORBA.ULongSeqHolder seq, int offset, int length) {
+    public final void read_ulong_array(org.omg.CORBA.ULongSeqHolder seq, int offset, int length) {
         impl.read_ulong_array(seq, offset, length);
     }
 
     @MonitorRead
-    public final void read_ulonglong_array (org.omg.CORBA.ULongLongSeqHolder seq, int offset, int length) {
+    public final void read_ulonglong_array(org.omg.CORBA.ULongLongSeqHolder seq, int offset, int length) {
         impl.read_ulonglong_array(seq, offset, length);
     }
 
     @MonitorRead
-    public final void read_longlong_array (org.omg.CORBA.LongLongSeqHolder seq, int offset, int length) {
+    public final void read_longlong_array(org.omg.CORBA.LongLongSeqHolder seq, int offset, int length) {
         impl.read_longlong_array(seq, offset, length);
     }
 
     @MonitorRead
-    public final void read_float_array (org.omg.CORBA.FloatSeqHolder seq, int offset, int length) {
+    public final void read_float_array(org.omg.CORBA.FloatSeqHolder seq, int offset, int length) {
         impl.read_float_array(seq, offset, length);
     }
 
     @MonitorRead
-    public final void read_double_array (org.omg.CORBA.DoubleSeqHolder seq, int offset, int length) {
+    public final void read_double_array(org.omg.CORBA.DoubleSeqHolder seq, int offset, int length) {
         impl.read_double_array(seq, offset, length);
     }
 
@@ -694,10 +675,9 @@ public class CDRInputObject
     }
 
     /**
-     * Aligns the current position on the given octet boundary
-     * if there are enough bytes available to do so.  Otherwise,
-     * it just returns.  This is used for some (but not all)
-     * GIOP 1.2 message headers.
+     * Aligns the current position on the given octet boundary if there are enough bytes available to do so. Otherwise, it
+     * just returns. This is used for some (but not all) GIOP 1.2 message headers.
+     *
      * @param octetBoundary alignment boundary.
      */
     @MonitorRead
@@ -710,15 +690,12 @@ public class CDRInputObject
     public void setHeaderPadding(boolean headerPadding) {
         impl.setHeaderPadding(headerPadding);
     }
-    
+
     /**
-     * This must be called after determining the proper ORB version,
-     * and setting it on the stream's ORB instance.  It can be called
-     * after reading the service contexts, since that is the only place
-     * we can get the ORB version info.
+     * This must be called after determining the proper ORB version, and setting it on the stream's ORB instance. It can be
+     * called after reading the service contexts, since that is the only place we can get the ORB version info.
      *
-     * Trying to unmarshal things requiring repository IDs before calling
-     * this will result in NullPtrExceptions.
+     * Trying to unmarshal things requiring repository IDs before calling this will result in NullPtrExceptions.
      */
     public void performORBVersionSpecificInit() {
         // In the case of SystemExceptions, a stream is created
@@ -729,22 +706,18 @@ public class CDRInputObject
     }
 
     /**
-     * Resets any internal references to code set converters.
-     * This is useful for forcing the CDR stream to reacquire
-     * converters (probably from its subclasses) when state
-     * has changed.
+     * Resets any internal references to code set converters. This is useful for forcing the CDR stream to reacquire
+     * converters (probably from its subclasses) when state has changed.
      */
     public void resetCodeSetConverters() {
         impl.resetCodeSetConverters();
     }
 
-    public void setMessageMediator(MessageMediator messageMediator)
-    {
+    public void setMessageMediator(MessageMediator messageMediator) {
         this.messageMediator = messageMediator;
     }
 
-    public MessageMediator getMessageMediator()
-    {
+    public MessageMediator getMessageMediator() {
         return messageMediator;
     }
 

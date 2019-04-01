@@ -13,17 +13,14 @@ package org.glassfish.rmic.tools.java;
 import org.glassfish.rmic.TypeCode;
 
 /**
- * This class represents an Java method type.
- * It overrides the relevant methods in class Type.
+ * This class represents an Java method type. It overrides the relevant methods in class Type.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  *
- * @author      Arthur van Hoff
+ * @author Arthur van Hoff
  */
-public final
-class MethodType extends Type {
+public final class MethodType extends Type {
     /**
      * The return type.
      */
@@ -35,8 +32,8 @@ class MethodType extends Type {
     Type argTypes[];
 
     /**
-     * Construct a method type. Use Type.tMethod to create
-     * a new method type.
+     * Construct a method type. Use Type.tMethod to create a new method type.
+     *
      * @see Type.tMethod
      */
     MethodType(String typeSig, Type returnType, Type argTypes[]) {
@@ -57,11 +54,11 @@ class MethodType extends Type {
         if (t.getTypeCode() != TC_METHOD) {
             return false;
         }
-        MethodType m = (MethodType)t;
+        MethodType m = (MethodType) t;
         if (argTypes.length != m.argTypes.length) {
             return false;
         }
-        for (int i = argTypes.length - 1 ; i >= 0 ; i--) {
+        for (int i = argTypes.length - 1; i >= 0; i--) {
             if (argTypes[i] != m.argTypes[i]) {
                 return false;
             }
@@ -71,7 +68,7 @@ class MethodType extends Type {
 
     public int stackSize() {
         int n = 0;
-        for (int i = 0 ; i < argTypes.length ; i++) {
+        for (int i = 0; i < argTypes.length; i++) {
             n += argTypes[i].stackSize();
         }
         return n;
@@ -81,7 +78,7 @@ class MethodType extends Type {
         StringBuilder sb = new StringBuilder();
         sb.append(id);
         sb.append('(');
-        for (int i = 0 ; i < argTypes.length ; i++) {
+        for (int i = 0; i < argTypes.length; i++) {
             if (i > 0) {
                 sb.append(", ");
             }

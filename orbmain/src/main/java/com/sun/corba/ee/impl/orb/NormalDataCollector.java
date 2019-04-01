@@ -8,37 +8,33 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package com.sun.corba.ee.impl.orb ;
+package com.sun.corba.ee.impl.orb;
 
-import java.net.InetAddress ;
+import java.net.InetAddress;
 
-import java.util.Properties ;
+import java.util.Properties;
 
-import org.omg.CORBA.INTERNAL ;
-import org.omg.CORBA.CompletionStatus ;
+import org.omg.CORBA.INTERNAL;
+import org.omg.CORBA.CompletionStatus;
 
 public class NormalDataCollector extends DataCollectorBase {
-    private String[] args ;
+    private String[] args;
 
-    public NormalDataCollector( String[] args, Properties props, 
-        String localHostName, String configurationHostName ) 
-    {
-        super( props, localHostName, configurationHostName ) ;
-        this.args = args ;
+    public NormalDataCollector(String[] args, Properties props, String localHostName, String configurationHostName) {
+        super(props, localHostName, configurationHostName);
+        this.args = args;
     }
 
-    public boolean isApplet() 
-    {
-        return false ;
+    public boolean isApplet() {
+        return false;
     }
 
-    protected void collect()
-    {
-        checkPropertyDefaults() ;
+    protected void collect() {
+        checkPropertyDefaults();
 
-        findPropertiesFromFile() ;
-        findPropertiesFromSystem() ;
-        findPropertiesFromProperties() ;
-        findPropertiesFromArgs( args ) ;
+        findPropertiesFromFile();
+        findPropertiesFromSystem();
+        findPropertiesFromProperties();
+        findPropertiesFromArgs(args);
     }
 }

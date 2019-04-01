@@ -17,12 +17,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class ReturnStatement extends Statement {
+public class ReturnStatement extends Statement {
     Expression expr;
 
     /**
@@ -75,7 +73,7 @@ class ReturnStatement extends Statement {
         }
         if (expr != null) {
             // see if we are returning a value out of a try or synchronized
-            // statement.  If so, find the outermost one. . . .
+            // statement. If so, find the outermost one. . . .
             Node outerFinallyNode = null;
             for (Context c = ctx; c != null; c = c.prev) {
                 if (c.node == null) {
@@ -88,22 +86,20 @@ class ReturnStatement extends Statement {
                 if (c.node.op == SYNCHRONIZED) {
                     outerFinallyNode = c.node;
                     break;
-                } else if (c.node.op == FINALLY
-                           && ((CheckContext)c).vsContinue != null) {
+                } else if (c.node.op == FINALLY && ((CheckContext) c).vsContinue != null) {
                     outerFinallyNode = c.node;
                 }
             }
             if (outerFinallyNode != null) {
                 if (outerFinallyNode.op == FINALLY) {
-                    ((FinallyStatement)outerFinallyNode).needReturnSlot = true;
+                    ((FinallyStatement) outerFinallyNode).needReturnSlot = true;
                 } else {
-                    ((SynchronizedStatement)outerFinallyNode).needReturnSlot = true;
+                    ((SynchronizedStatement) outerFinallyNode).needReturnSlot = true;
                 }
             }
         }
         return DEAD_END;
     }
-
 
     /**
      * Inline
@@ -128,10 +124,7 @@ class ReturnStatement extends Statement {
     public Statement copyInline(Context ctx, boolean valNeeded) {
         Expression e = (expr != null) ? expr.copyInline(ctx) : null;
         if ((!valNeeded) && (e != null)) {
-            Statement body[] = {
-                new ExpressionStatement(where, e),
-                new InlineReturnStatement(where, null)
-            };
+            Statement body[] = { new ExpressionStatement(where, e), new InlineReturnStatement(where, null) };
             return new CompoundStatement(where, body);
         }
         return new InlineReturnStatement(where, e);

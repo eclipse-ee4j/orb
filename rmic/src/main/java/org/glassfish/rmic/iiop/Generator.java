@@ -26,10 +26,10 @@ import java.io.OutputStreamWriter;
 import java.util.HashSet;
 
 /**
- * Generator provides a small framework from which IIOP-specific
- * generators can inherit.  Common logic is implemented here which uses
- * both abstract methods as well as concrete methods which subclasses may
- * want to override. The following methods must be present in any subclass:
+ * Generator provides a small framework from which IIOP-specific generators can inherit. Common logic is implemented
+ * here which uses both abstract methods as well as concrete methods which subclasses may want to override. The
+ * following methods must be present in any subclass:
+ *
  * <pre>
  *      Default constructor
  *              CompoundType getTopType(BatchEnvironment env, ClassDefinition cdef);
@@ -42,10 +42,10 @@ import java.util.HashSet;
  *                              HashSet alreadyChecked,
  *                                                              IndentingWriter writer) throws IOException;
  * </pre>
- * @author      Bryan Atsatt
+ *
+ * @author Bryan Atsatt
  */
-public abstract class Generator implements      org.glassfish.rmic.Generator,
-                                                org.glassfish.rmic.iiop.Constants {
+public abstract class Generator implements org.glassfish.rmic.Generator, org.glassfish.rmic.iiop.Constants {
 
     private boolean alwaysGenerate = false;
     private BatchEnvironment env = null;
@@ -53,16 +53,15 @@ public abstract class Generator implements      org.glassfish.rmic.Generator,
 
     /**
      * Examine and consume command line arguments.
-     * @param argv The command line arguments. Ignore null
-     * and unknown arguments. Set each consumed argument to null.
+     *
+     * @param argv The command line arguments. Ignore null and unknown arguments. Set each consumed argument to null.
      * @param main Report any errors using the main.error() methods.
      * @return true if no errors, false otherwise.
      */
     public boolean parseArgs(String argv[], Main main) {
         for (int i = 0; i < argv.length; i++) {
             if (argv[i] != null) {
-                if (argv[i].equalsIgnoreCase("-always") ||
-                    argv[i].equalsIgnoreCase("-alwaysGenerate")) {
+                if (argv[i].equalsIgnoreCase("-always") || argv[i].equalsIgnoreCase("-alwaysGenerate")) {
                     alwaysGenerate = true;
                     argv[i] = null;
                 } else if (argv[i].equalsIgnoreCase("-xtrace")) {
@@ -76,12 +75,14 @@ public abstract class Generator implements      org.glassfish.rmic.Generator,
 
     /**
      * Return true if non-conforming types should be parsed.
+     *
      * @param stack The context stack.
      */
     protected abstract boolean parseNonConforming(ContextStack stack);
 
     /**
      * Create and return a top-level type.
+     *
      * @param cdef The top-level class definition.
      * @param stack The context stack.
      * @return The compound type or null if is non-conforming.
@@ -89,41 +90,37 @@ public abstract class Generator implements      org.glassfish.rmic.Generator,
     protected abstract CompoundType getTopType(ClassDefinition cdef, ContextStack stack);
 
     /**
-     * Return an array containing all the file names and types that need to be
-     * generated for the given top-level type.  The file names must NOT have an
-     * extension (e.g. ".java").
+     * Return an array containing all the file names and types that need to be generated for the given top-level type. The
+     * file names must NOT have an extension (e.g. ".java").
+     *
      * @param topType The type returned by getTopType().
-     * @param alreadyChecked A set of Types which have already been checked.
-     *  Intended to be passed to Type.collectMatching(filter,alreadyChecked).
+     * @param alreadyChecked A set of Types which have already been checked. Intended to be passed to
+     * Type.collectMatching(filter,alreadyChecked).
      */
-    protected abstract OutputType[] getOutputTypesFor(CompoundType topType,
-                                                      HashSet alreadyChecked);
+    protected abstract OutputType[] getOutputTypesFor(CompoundType topType, HashSet alreadyChecked);
 
     /**
-     * Return the file name extension for the given file name (e.g. ".java").
-     * All files generated with the ".java" extension will be compiled. To
-     * change this behavior for ".java" files, override the compileJavaSourceFile
-     * method to return false.
+     * Return the file name extension for the given file name (e.g. ".java"). All files generated with the ".java" extension
+     * will be compiled. To change this behavior for ".java" files, override the compileJavaSourceFile method to return
+     * false.
+     *
      * @param outputType One of the items returned by getOutputTypesFor(...)
      */
     protected abstract String getFileNameExtensionFor(OutputType outputType);
 
     /**
      * Write the output for the given OutputFileName into the output stream.
+     *
      * @param outputType One of the items returned by getOutputTypesFor(...)
-     * @param alreadyChecked A set of Types which have already been checked.
-     *  Intended to be passed to Type.collectMatching(filter,alreadyChecked).
+     * @param alreadyChecked A set of Types which have already been checked. Intended to be passed to
+     * Type.collectMatching(filter,alreadyChecked).
      * @param writer The output stream.
      */
-    protected abstract void writeOutputFor(OutputType outputType,
-                                                HashSet alreadyChecked,
-                                                IndentingWriter writer) throws IOException;
+    protected abstract void writeOutputFor(OutputType outputType, HashSet alreadyChecked, IndentingWriter writer) throws IOException;
 
     /**
-     * Return true if a new instance should be created for each
-     * class on the command line. Subclasses which return true
-     * should override newInstance() to return an appropriately
-     * constructed instance.
+     * Return true if a new instance should be created for each class on the command line. Subclasses which return true
+     * should override newInstance() to return an appropriately constructed instance.
      */
     protected abstract boolean requireNewInstance();
 
@@ -137,12 +134,12 @@ public abstract class Generator implements      org.glassfish.rmic.Generator,
         if (!result) {
 
             // Get a ClassFile instance for base source or class
-            // file.  We use ClassFile so that if the base is in
+            // file. We use ClassFile so that if the base is in
             // a zip file, we can still get at it's mod time...
 
             ClassFile baseFile;
             ClassPath path = env.getClassPath();
-            String className = theType.getQualifiedName().replace('.',File.separatorChar);
+            String className = theType.getQualifiedName().replace('.', File.separatorChar);
 
             // First try the source file...
 
@@ -167,9 +164,9 @@ public abstract class Generator implements      org.glassfish.rmic.Generator,
                 // file, create a class file instead since the source file
                 // will frequently be deleted...
 
-                String targetName = IDLNames.replace(target.getName(),".java",".class");
+                String targetName = IDLNames.replace(target.getName(), ".java", ".class");
                 String parentPath = target.getParent();
-                File targetFile = new File(parentPath,targetName);
+                File targetFile = new File(parentPath, targetName);
 
                 // Does the target file exist?
 
@@ -201,16 +198,15 @@ public abstract class Generator implements      org.glassfish.rmic.Generator,
     }
 
     /**
-     * Create and return a new instance of self. Subclasses
-     * which need to do something other than default construction
-     * must override this method.
+     * Create and return a new instance of self. Subclasses which need to do something other than default construction must
+     * override this method.
      */
     private Generator newInstance() {
         Generator result = null;
         try {
             result = getClass().newInstance();
-        }
-        catch (Exception ignored){} // Should ALWAYS work!
+        } catch (Exception ignored) {
+        } // Should ALWAYS work!
 
         return result;
     }
@@ -222,13 +218,12 @@ public abstract class Generator implements      org.glassfish.rmic.Generator,
     }
 
     /**
-     * Generate output. Any source files created which need compilation should
-     * be added to the compiler environment using the addGeneratedFile(File)
-     * method.
-     *  @param env       The compiler environment
-     * @param destDir   The directory for the root of the package hierarchy
-     * @param cdef      The definition for the implementation class or interface from
- *              which to generate output
+     * Generate output. Any source files created which need compilation should be added to the compiler environment using
+     * the addGeneratedFile(File) method.
+     *
+     * @param env The compiler environment
+     * @param destDir The directory for the root of the package hierarchy
+     * @param cdef The definition for the implementation class or interface from which to generate output
      */
     public void generate(org.glassfish.rmic.BatchEnvironment env, File destDir, ClassDefinition cdef) {
 
@@ -253,8 +248,8 @@ public abstract class Generator implements      org.glassfish.rmic.Generator,
 
             if (requireNewInstance()) {
 
-                                // Yes, so make one.  'this' instance is the one instantiated by Main
-                                // and which knows any needed command line args...
+                // Yes, so make one. 'this' instance is the one instantiated by Main
+                // and which knows any needed command line args...
 
                 generator = newInstance();
             }
@@ -266,13 +261,10 @@ public abstract class Generator implements      org.glassfish.rmic.Generator,
     }
 
     /**
-     * Create and return a new instance of self. Subclasses
-     * which need to do something other than default construction
-     * must override this method.
+     * Create and return a new instance of self. Subclasses which need to do something other than default construction must
+     * override this method.
      */
-    private void generateOutputFiles(CompoundType topType,
-                                     BatchEnvironment env,
-                                     File destDir) {
+    private void generateOutputFiles(CompoundType topType, BatchEnvironment env, File destDir) {
 
         // Grab the 'alreadyChecked' HashSet from the environment...
 
@@ -280,7 +272,7 @@ public abstract class Generator implements      org.glassfish.rmic.Generator,
 
         // Ask subclass for a list of output types...
 
-        OutputType[] types = getOutputTypesFor(topType,alreadyChecked);
+        OutputType[] types = getOutputTypesFor(topType, alreadyChecked);
 
         // Process each file...
 
@@ -288,13 +280,13 @@ public abstract class Generator implements      org.glassfish.rmic.Generator,
             File file = getFileFor(type, destDir);
 
             if (!requiresGeneration(file, type.getType())) {
-                if (env.verbose()) env.output(Main.getText("rmic.previously.generated", file.getPath()));
+                if (env.verbose())
+                    env.output(Main.getText("rmic.previously.generated", file.getPath()));
             } else {
                 // Now create an output stream and ask subclass to fill it up...
 
                 try {
-                    IndentingWriter out = new IndentingWriter(
-                            new OutputStreamWriter(new FileOutputStream(file)), INDENT_STEP, TAB_SIZE);
+                    IndentingWriter out = new IndentingWriter(new OutputStreamWriter(new FileOutputStream(file)), INDENT_STEP, TAB_SIZE);
 
                     long startTime = !env.verbose() ? 0 : System.currentTimeMillis();
                     writeOutputFor(type, alreadyChecked, out);
@@ -313,18 +305,17 @@ public abstract class Generator implements      org.glassfish.rmic.Generator,
         }
     }
 
-    protected void postProcessFile(BatchEnvironment env, File file) throws FileNotFoundException {}
+    protected void postProcessFile(BatchEnvironment env, File file) throws FileNotFoundException {
+    }
 
     /**
-     * Return the File object that should be used as the output file
-     * for the given OutputType.
+     * Return the File object that should be used as the output file for the given OutputType.
+     *
      * @param outputType The type to create a file for.
-     * @param destinationDir The directory to use as the root of the
-     * package heirarchy.  May be null, in which case the current
-     * classpath is searched to find the directory in which to create
-     * the output file.  If that search fails (most likely because the
-     * package directory lives in a zip or jar file rather than the
-     * file system), the current user directory is used.
+     * @param destinationDir The directory to use as the root of the package heirarchy. May be null, in which case the
+     * current classpath is searched to find the directory in which to create the output file. If that search fails (most
+     * likely because the package directory lives in a zip or jar file rather than the file system), the current user
+     * directory is used.
      */
     private File getFileFor(OutputType outputType, File destinationDir) {
         // Calling this method does some crucial initialization
@@ -337,19 +328,19 @@ public abstract class Generator implements      org.glassfish.rmic.Generator,
 
     protected abstract File getOutputDirectory(File destinationDir, Identifier id, BatchEnvironment environment);
 
-
     /**
      * Return an identifier to use for output.
+     *
      * @param outputType the type for which output is to be generated.
      * @return the new identifier. This implementation returns the input parameter.
      */
-    protected Identifier getOutputId (OutputType outputType) {
+    protected Identifier getOutputId(OutputType outputType) {
         return outputType.getType().getIdentifier();
     }
 
-    //_____________________________________________________________________
+    // _____________________________________________________________________
     // OutputType is a simple wrapper for a name and a Type
-    //_____________________________________________________________________
+    // _____________________________________________________________________
 
     public class OutputType {
         private String name;

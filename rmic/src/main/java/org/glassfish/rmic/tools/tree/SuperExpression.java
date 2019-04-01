@@ -16,12 +16,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class SuperExpression extends ThisExpression {
+public class SuperExpression extends ThisExpression {
 
     /**
      * Constructor
@@ -58,9 +56,7 @@ class SuperExpression extends ThisExpression {
     /**
      * Check if the present name is part of a scoping prefix.
      */
-    public Vset checkAmbigName(Environment env, Context ctx,
-                               Vset vset, Hashtable<Object, Object> exp,
-                               UnaryExpression loc) {
+    public Vset checkAmbigName(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp, UnaryExpression loc) {
         return checkCommon(env, ctx, vset, exp);
     }
 

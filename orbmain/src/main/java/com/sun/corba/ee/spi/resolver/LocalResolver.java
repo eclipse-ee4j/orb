@@ -8,15 +8,16 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package com.sun.corba.ee.spi.resolver ;
+package com.sun.corba.ee.spi.resolver;
 
 import org.glassfish.pfl.basic.func.NullaryFunction;
 
-/** A LocalResolver is a Resolver that allows registration of (name, CORBA object)
- * bindings.
+/**
+ * A LocalResolver is a Resolver that allows registration of (name, CORBA object) bindings.
  */
 public interface LocalResolver extends Resolver {
-    /** Register the Closure with the given name.
+    /**
+     * Register the Closure with the given name.
      */
-    void register( String name, NullaryFunction<org.omg.CORBA.Object> closure ) ;
+    void register(String name, NullaryFunction<org.omg.CORBA.Object> closure);
 }

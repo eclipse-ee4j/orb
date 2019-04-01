@@ -11,23 +11,23 @@
 
 package org.omg.CORBA_2_3.portable;
 
-/** 
- * Delegate class provides the ORB vendor specific implementation
- * of CORBA object.  It extends org.omg.CORBA.portable.Delegate and
- * provides new methods that were defined by CORBA 2.3.
+/**
+ * Delegate class provides the ORB vendor specific implementation of CORBA object. It extends
+ * org.omg.CORBA.portable.Delegate and provides new methods that were defined by CORBA 2.3.
  *
  * @see org.omg.CORBA.portable.Delegate
- * @author  OMG
+ * @author OMG
  * @version 1.16 07/27/07
- * @since   JDK1.2
+ * @since JDK1.2
  */
 
 public abstract class Delegate extends org.omg.CORBA.portable.Delegate {
 
-    /** Returns the codebase for object reference provided.
+    /**
+     * Returns the codebase for object reference provided.
+     *
      * @param self the object reference whose codebase needs to be returned.
-     * @return the codebase as a space delimited list of url strings or
-     * null if none.
+     * @return the codebase as a space delimited list of url strings or null if none.
      */
     public java.lang.String get_codebase(org.omg.CORBA.Object self) {
         return null;

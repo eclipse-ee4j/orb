@@ -11,14 +11,16 @@
 //      org/omg/CosTSPortability/ReceiverHolder.java
 
 package org.omg.CosTSPortability;
-public class ReceiverHolder
-{
-    //  instance variable 
+
+public class ReceiverHolder {
+    // instance variable
     public org.omg.CosTSPortability.Receiver value;
-    //  constructors 
+
+    // constructors
     public ReceiverHolder() {
         this(null);
     }
+
     public ReceiverHolder(org.omg.CosTSPortability.Receiver __arg) {
         value = __arg;
     }

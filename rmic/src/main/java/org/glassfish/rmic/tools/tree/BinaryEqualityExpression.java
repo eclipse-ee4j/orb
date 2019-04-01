@@ -13,12 +13,10 @@ package org.glassfish.rmic.tools.tree;
 import org.glassfish.rmic.tools.java.*;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class BinaryEqualityExpression extends BinaryExpression {
+public class BinaryEqualityExpression extends BinaryExpression {
     /**
      * constructor
      */
@@ -32,16 +30,14 @@ class BinaryEqualityExpression extends BinaryExpression {
     void selectType(Environment env, Context ctx, int tm) {
         Type t;
         if ((tm & TM_ERROR) != 0) {
-            // who cares.  One of them is an error.
+            // who cares. One of them is an error.
             return;
         } else if ((tm & (TM_CLASS | TM_ARRAY | TM_NULL)) != 0) {
             try {
-                if (env.explicitCast(left.type, right.type) ||
-                    env.explicitCast(right.type, left.type)) {
+                if (env.explicitCast(left.type, right.type) || env.explicitCast(right.type, left.type)) {
                     return;
                 }
-                env.error(where, "incompatible.type",
-                          left.type, left.type, right.type);
+                env.error(where, "incompatible.type", left.type, left.type, right.type);
             } catch (ClassNotFound e) {
                 env.error(where, "class.not.found", e.name, opNames[op]);
             }

@@ -15,12 +15,10 @@ import org.glassfish.rmic.tools.asm.Assembler;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class BinaryAssignExpression extends BinaryExpression {
+public class BinaryAssignExpression extends BinaryExpression {
     Expression implementation;
 
     /**
@@ -41,7 +39,7 @@ class BinaryAssignExpression extends BinaryExpression {
      */
     public Expression order() {
         if (precedence() >= left.precedence()) {
-            UnaryExpression e = (UnaryExpression)left;
+            UnaryExpression e = (UnaryExpression) left;
             left = e.right;
             e.right = order();
             return e;
@@ -52,7 +50,7 @@ class BinaryAssignExpression extends BinaryExpression {
     /**
      * Check void expression
      */
-    public Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object,Object> exp) {
+    public Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         return checkValue(env, ctx, vset, exp);
     }
 
@@ -64,6 +62,7 @@ class BinaryAssignExpression extends BinaryExpression {
             return implementation.inline(env, ctx);
         return inlineValue(env, ctx);
     }
+
     public Expression inlineValue(Environment env, Context ctx) {
         if (implementation != null)
             return implementation.inlineValue(env, ctx);

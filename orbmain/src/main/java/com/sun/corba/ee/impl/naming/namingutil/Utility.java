@@ -17,48 +17,45 @@ import org.omg.CORBA.DATA_CONVERSION;
 import com.sun.corba.ee.spi.logging.NamingSystemException;
 
 /**
- *  Utility methods for Naming.
+ * Utility methods for Naming.
  *
- *  @Author Hemanth
+ * @Author Hemanth
  */
 class Utility {
-    private static NamingSystemException wrapper =
-        NamingSystemException.self ;
+    private static NamingSystemException wrapper = NamingSystemException.self;
 
-    /** 
+    /**
      * cleanEscapes removes URL escapes as per IETF 2386 RFP.
      */
-    static String cleanEscapes( String stringToDecode ) {
+    static String cleanEscapes(String stringToDecode) {
         StringWriter theStringWithoutEscape = new StringWriter();
-        for( int i = 0; i < stringToDecode.length(); i++ ) {
-            char c = stringToDecode.charAt( i ) ;
-            if( c != '%' ) {
-                theStringWithoutEscape.write( c );
+        for (int i = 0; i < stringToDecode.length(); i++) {
+            char c = stringToDecode.charAt(i);
+            if (c != '%') {
+                theStringWithoutEscape.write(c);
             } else {
                 // Get the two hexadecimal digits and convert that into int
                 i++;
-                int Hex1 = hexOf( stringToDecode.charAt(i) );
+                int Hex1 = hexOf(stringToDecode.charAt(i));
                 i++;
-                int Hex2 = hexOf( stringToDecode.charAt(i) );
+                int Hex2 = hexOf(stringToDecode.charAt(i));
                 int value = (Hex1 * 16) + Hex2;
                 // Convert the integer to ASCII
-                theStringWithoutEscape.write( (char) value );
+                theStringWithoutEscape.write((char) value);
             }
         }
         return theStringWithoutEscape.toString();
     }
 
-    /** 
-     *  Converts an Ascii Character into Hexadecimal digit
-     *  NOTE: THIS METHOD IS DUPLICATED TO DELIVER NAMING AS A SEPARATE 
-     *  COMPONENT TO RI.
+    /**
+     * Converts an Ascii Character into Hexadecimal digit NOTE: THIS METHOD IS DUPLICATED TO DELIVER NAMING AS A SEPARATE
+     * COMPONENT TO RI.
      **/
-    static int hexOf( char x )
-    {
+    static int hexOf(char x) {
         int val;
 
         val = x - '0';
-        if (val >=0 && val <= 9) {
+        if (val >= 0 && val <= 9) {
             return val;
         }
 
@@ -72,18 +69,15 @@ class Utility {
             return val;
         }
 
-        throw new DATA_CONVERSION( );
+        throw new DATA_CONVERSION();
     }
 
     /**
-     * If GIOP Version is not correct, This method throws a BAD_PARAM
-     * Exception.
+     * If GIOP Version is not correct, This method throws a BAD_PARAM Exception.
      **/
-    static void validateGIOPVersion( IIOPEndpointInfo endpointInfo ) {
-        if ((endpointInfo.getMajor() > NamingConstants.MAJORNUMBER_SUPPORTED) ||
-            (endpointInfo.getMinor() > NamingConstants.MINORNUMBERMAX ) )
-        {
-            throw wrapper.insBadAddress() ;
+    static void validateGIOPVersion(IIOPEndpointInfo endpointInfo) {
+        if ((endpointInfo.getMajor() > NamingConstants.MAJORNUMBER_SUPPORTED) || (endpointInfo.getMinor() > NamingConstants.MINORNUMBERMAX)) {
+            throw wrapper.insBadAddress();
         }
     }
 }

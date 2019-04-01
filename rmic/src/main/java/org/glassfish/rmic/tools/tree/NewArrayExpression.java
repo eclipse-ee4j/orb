@@ -17,12 +17,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class NewArrayExpression extends NaryExpression {
+public class NewArrayExpression extends NaryExpression {
     Expression init;
 
     /**
@@ -43,8 +41,8 @@ class NewArrayExpression extends NaryExpression {
     public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         type = right.toType(env, ctx);
 
-        boolean flag = (init != null);  // flag says that dims are forbidden
-        for (int i = 0 ; i < args.length ; i++) {
+        boolean flag = (init != null); // flag says that dims are forbidden
+        for (int i = 0; i < args.length; i++) {
             Expression dim = args[i];
             if (dim == null) {
                 if (i == 0 && !flag) {
@@ -68,7 +66,7 @@ class NewArrayExpression extends NaryExpression {
     }
 
     public Expression copyInline(Context ctx) {
-        NewArrayExpression e = (NewArrayExpression)super.copyInline(ctx);
+        NewArrayExpression e = (NewArrayExpression) super.copyInline(ctx);
         if (init != null) {
             e.init = init.copyInline(ctx);
         }
@@ -80,7 +78,7 @@ class NewArrayExpression extends NaryExpression {
      */
     public Expression inline(Environment env, Context ctx) {
         Expression e = null;
-        for (int i = 0 ; i < args.length ; i++) {
+        for (int i = 0; i < args.length; i++) {
             if (args[i] != null) {
                 e = (e != null) ? new CommaExpression(where, e, args[i]) : args[i];
             }
@@ -89,10 +87,11 @@ class NewArrayExpression extends NaryExpression {
             e = (e != null) ? new CommaExpression(where, e, init) : init;
         return (e != null) ? e.inline(env, ctx) : null;
     }
+
     public Expression inlineValue(Environment env, Context ctx) {
         if (init != null)
             return init.inlineValue(env, ctx); // args are all null
-        for (int i = 0 ; i < args.length ; i++) {
+        for (int i = 0; i < args.length; i++) {
             if (args[i] != null) {
                 args[i] = args[i].inlineValue(env, ctx);
             }
@@ -105,7 +104,7 @@ class NewArrayExpression extends NaryExpression {
      */
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         int t = 0;
-        for (int i = 0 ; i < args.length ; i++) {
+        for (int i = 0; i < args.length; i++) {
             if (args[i] != null) {
                 args[i].codeValue(env, ctx, asm);
                 t++;
@@ -117,30 +116,38 @@ class NewArrayExpression extends NaryExpression {
         }
 
         switch (type.getElementType().getTypeCode()) {
-            case TC_BOOLEAN:
-                asm.add(where, opc_newarray, T_BOOLEAN);   break;
-            case TC_BYTE:
-                asm.add(where, opc_newarray, T_BYTE);      break;
-            case TC_SHORT:
-                asm.add(where, opc_newarray, T_SHORT);     break;
-            case TC_CHAR:
-                asm.add(where, opc_newarray, T_CHAR);      break;
-            case TC_INT:
-                asm.add(where, opc_newarray, T_INT);       break;
-            case TC_LONG:
-                asm.add(where, opc_newarray, T_LONG);      break;
-            case TC_FLOAT:
-                asm.add(where, opc_newarray, T_FLOAT);     break;
-            case TC_DOUBLE:
-                asm.add(where, opc_newarray, T_DOUBLE);    break;
-            case TC_ARRAY:
-                asm.add(where, opc_anewarray, type.getElementType());   break;
-            case TC_CLASS:
-                asm.add(where, opc_anewarray,
-                        env.getClassDeclaration(type.getElementType()));
-                break;
-            default:
-                throw new CompilerError("codeValue");
+        case TC_BOOLEAN:
+            asm.add(where, opc_newarray, T_BOOLEAN);
+            break;
+        case TC_BYTE:
+            asm.add(where, opc_newarray, T_BYTE);
+            break;
+        case TC_SHORT:
+            asm.add(where, opc_newarray, T_SHORT);
+            break;
+        case TC_CHAR:
+            asm.add(where, opc_newarray, T_CHAR);
+            break;
+        case TC_INT:
+            asm.add(where, opc_newarray, T_INT);
+            break;
+        case TC_LONG:
+            asm.add(where, opc_newarray, T_LONG);
+            break;
+        case TC_FLOAT:
+            asm.add(where, opc_newarray, T_FLOAT);
+            break;
+        case TC_DOUBLE:
+            asm.add(where, opc_newarray, T_DOUBLE);
+            break;
+        case TC_ARRAY:
+            asm.add(where, opc_anewarray, type.getElementType());
+            break;
+        case TC_CLASS:
+            asm.add(where, opc_anewarray, env.getClassDeclaration(type.getElementType()));
+            break;
+        default:
+            throw new CompilerError("codeValue");
         }
     }
 }

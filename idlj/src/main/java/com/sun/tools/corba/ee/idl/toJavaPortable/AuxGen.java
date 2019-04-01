@@ -18,7 +18,6 @@ import com.sun.tools.corba.ee.idl.SymtabEntry;
 /**
  *
  **/
-public interface AuxGen
-{
-  void generate (java.util.Hashtable symbolTable, SymtabEntry entry);
+public interface AuxGen {
+    void generate(java.util.Hashtable symbolTable, SymtabEntry entry);
 } // interface AuxGen

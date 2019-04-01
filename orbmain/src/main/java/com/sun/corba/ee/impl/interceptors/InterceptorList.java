@@ -19,52 +19,44 @@ import java.util.Iterator;
 import java.util.List;
 import java.lang.reflect.Array;
 
-import com.sun.corba.ee.spi.logging.InterceptorsSystemException ;
+import com.sun.corba.ee.spi.logging.InterceptorsSystemException;
 
-/** 
- * Provides a repository of registered Portable Interceptors, organized
- * by type.  This list is designed to be accessed as efficiently as 
- * possible during runtime, with the expense of added complexity during
- * initialization and interceptor registration.  The class is designed
- * to easily allow for the addition of new interceptor types.
+/**
+ * Provides a repository of registered Portable Interceptors, organized by type. This list is designed to be accessed as
+ * efficiently as possible during runtime, with the expense of added complexity during initialization and interceptor
+ * registration. The class is designed to easily allow for the addition of new interceptor types.
  */
 public class InterceptorList {
-    private static final InterceptorsSystemException wrapper =
-        InterceptorsSystemException.self ;
+    private static final InterceptorsSystemException wrapper = InterceptorsSystemException.self;
 
-    // Interceptor type list.  If additional interceptors are needed,
+    // Interceptor type list. If additional interceptors are needed,
     // add additional types in numerical order (do not skip numbers),
     // and update NUM_INTERCEPTOR_TYPES and classTypes accordingly.
-    // NUM_INTERCEPTOR_TYPES represents the number of interceptor 
+    // NUM_INTERCEPTOR_TYPES represents the number of interceptor
     // types, so we know how many lists to maintain.
-    static final int INTERCEPTOR_TYPE_CLIENT            = 0;
-    static final int INTERCEPTOR_TYPE_SERVER            = 1;
-    static final int INTERCEPTOR_TYPE_IOR               = 2;
-    
-    static final int NUM_INTERCEPTOR_TYPES              = 3;
-    
-    // Array of class types for interceptors.  This is used to create the
-    // appropriate array type for each interceptor type.  These must 
+    static final int INTERCEPTOR_TYPE_CLIENT = 0;
+    static final int INTERCEPTOR_TYPE_SERVER = 1;
+    static final int INTERCEPTOR_TYPE_IOR = 2;
+
+    static final int NUM_INTERCEPTOR_TYPES = 3;
+
+    // Array of class types for interceptors. This is used to create the
+    // appropriate array type for each interceptor type. These must
     // match the indices of the constants declared above.
-    static final Class[] classTypes = {
-        org.omg.PortableInterceptor.ClientRequestInterceptor.class,
-        org.omg.PortableInterceptor.ServerRequestInterceptor.class,
-        org.omg.PortableInterceptor.IORInterceptor.class
-    };
-    
+    static final Class[] classTypes = { org.omg.PortableInterceptor.ClientRequestInterceptor.class, org.omg.PortableInterceptor.ServerRequestInterceptor.class,
+            org.omg.PortableInterceptor.IORInterceptor.class };
+
     // True if no further interceptors may be registered with this list.
     private boolean locked = false;
 
-    // List of interceptors currently registered.  There are 
+    // List of interceptors currently registered. There are
     // NUM_INTERCEPTOR_TYPES lists of registered interceptors.
     // For example, interceptors[INTERCEPTOR_TYPE_CLIENT] contains an array
     // of objects of type ClientRequestInterceptor.
-    private Interceptor[][] interceptors = 
-        new Interceptor[NUM_INTERCEPTOR_TYPES][];
-   
+    private Interceptor[][] interceptors = new Interceptor[NUM_INTERCEPTOR_TYPES][];
+
     /**
-     * Creates a new Interceptor List.  Constructor is package scope so
-     * only the ORB can create it.
+     * Creates a new Interceptor List. Constructor is package scope so only the ORB can create it.
      */
     InterceptorList() {
         // Create empty interceptors arrays for each type:
@@ -72,122 +64,109 @@ public class InterceptorList {
     }
 
     /**
-     * Registers an interceptor of the given type into the interceptor list.
-     * The type is one of:
+     * Registers an interceptor of the given type into the interceptor list. The type is one of:
      * <ul>
-     *   <li>INTERCEPTOR_TYPE_CLIENT - ClientRequestInterceptor
-     *   <li>INTERCEPTOR_TYPE_SERVER - ServerRequestInterceptor
-     *   <li>INTERCEPTOR_TYPE_IOR - IORInterceptor
+     * <li>INTERCEPTOR_TYPE_CLIENT - ClientRequestInterceptor
+     * <li>INTERCEPTOR_TYPE_SERVER - ServerRequestInterceptor
+     * <li>INTERCEPTOR_TYPE_IOR - IORInterceptor
      * </ul>
      *
-     * @exception DuplicateName Thrown if an interceptor of the given
-     *     name already exists for the given type.
+     * @exception DuplicateName Thrown if an interceptor of the given name already exists for the given type.
      */
-    void register_interceptor( Interceptor interceptor, int type ) 
-        throws DuplicateName
-    {
+    void register_interceptor(Interceptor interceptor, int type) throws DuplicateName {
         // If locked, deny any further addition of interceptors.
-        if( locked ) {
-            throw wrapper.interceptorListLocked() ;
+        if (locked) {
+            throw wrapper.interceptorListLocked();
         }
-        
+
         // Cache interceptor name:
         String interceptorName = interceptor.name();
-        boolean anonymous = interceptorName.equals( "" );
+        boolean anonymous = interceptorName.equals("");
         boolean foundDuplicate = false;
         Interceptor[] interceptorList = interceptors[type];
 
-        // If this is not an anonymous interceptor, 
+        // If this is not an anonymous interceptor,
         // search for an interceptor of the same name in this category:
-        if( !anonymous ) {
+        if (!anonymous) {
             int size = interceptorList.length;
 
             // An O(n) search will suffice because register_interceptor is not
             // likely to be called often.
-            for( int i = 0; i < size; i++ ) {
-                Interceptor in = (Interceptor)interceptorList[i];
-                if( in.name().equals( interceptorName ) ) {
+            for (int i = 0; i < size; i++) {
+                Interceptor in = (Interceptor) interceptorList[i];
+                if (in.name().equals(interceptorName)) {
                     foundDuplicate = true;
                     break;
                 }
             }
         }
 
-        if( !foundDuplicate ) {
-            growInterceptorArray( type );
-            interceptors[type][interceptors[type].length-1] = interceptor;
-        }
-        else {
-            throw new DuplicateName( interceptorName );
+        if (!foundDuplicate) {
+            growInterceptorArray(type);
+            interceptors[type][interceptors[type].length - 1] = interceptor;
+        } else {
+            throw new DuplicateName(interceptorName);
         }
     }
 
     /**
-     * Locks this interceptor list so that no more interceptors may be
-     * registered.  This method is called after all interceptors are
-     * registered for security reasons.
+     * Locks this interceptor list so that no more interceptors may be registered. This method is called after all
+     * interceptors are registered for security reasons.
      */
     void lock() {
         locked = true;
     }
-    
+
     /**
-     * Retrieves an array of interceptors of the given type.  For efficiency,
-     * the type parameter is assumed to be valid.
+     * Retrieves an array of interceptors of the given type. For efficiency, the type parameter is assumed to be valid.
      */
-    Interceptor[] getInterceptors( int type ) {
+    Interceptor[] getInterceptors(int type) {
         return interceptors[type];
     }
 
     /**
-     * Returns true if there is at least one interceptor of the given type,
-     * or false if not.
+     * Returns true if there is at least one interceptor of the given type, or false if not.
      */
-    boolean hasInterceptorsOfType( int type ) {
+    boolean hasInterceptorsOfType(int type) {
         return interceptors[type].length > 0;
     }
-    
+
     /**
-     * Initializes all interceptors arrays to zero-length arrays of the
-     * correct type, based on the classTypes list.
+     * Initializes all interceptors arrays to zero-length arrays of the correct type, based on the classTypes list.
      */
     private void initInterceptorArrays() {
-        for( int type = 0; type < NUM_INTERCEPTOR_TYPES; type++ ) {
+        for (int type = 0; type < NUM_INTERCEPTOR_TYPES; type++) {
             Class classType = classTypes[type];
-            
+
             // Create a zero-length array for each type:
-            interceptors[type] = 
-                (Interceptor[])Array.newInstance( classType, 0 );
+            interceptors[type] = (Interceptor[]) Array.newInstance(classType, 0);
         }
     }
-    
+
     /**
      * Grows the given interceptor array by one:
      */
-    private void growInterceptorArray( int type ) {
+    private void growInterceptorArray(int type) {
         Class classType = classTypes[type];
         int currentLength = interceptors[type].length;
         Interceptor[] replacementArray;
-        
-        // Create new array to replace the old one.  The new array will be
+
+        // Create new array to replace the old one. The new array will be
         // one element larger but have the same type as the old one.
-        replacementArray = (Interceptor[])
-            Array.newInstance( classType, currentLength + 1 );
-        System.arraycopy( interceptors[type], 0,
-                          replacementArray, 0, currentLength );
+        replacementArray = (Interceptor[]) Array.newInstance(classType, currentLength + 1);
+        System.arraycopy(interceptors[type], 0, replacementArray, 0, currentLength);
         interceptors[type] = replacementArray;
     }
 
     /**
-     * Destroys all interceptors in this list by invoking their destroy()
-     * method.
+     * Destroys all interceptors in this list by invoking their destroy() method.
      */
     void destroyAll() {
         int numTypes = interceptors.length;
 
-        for( int i = 0; i < numTypes; i++ ) {
+        for (int i = 0; i < numTypes; i++) {
             int numInterceptors = interceptors[i].length;
-            for( int j = 0; j < numInterceptors; j++ ) {
+            for (int j = 0; j < numInterceptors; j++) {
                 interceptors[i][j].destroy();
             }
         }
@@ -202,14 +181,14 @@ public class InterceptorList {
 
         int numTypes = interceptors.length;
 
-        for( int i = 0; i < numTypes; i++ ) {
+        for (int i = 0; i < numTypes; i++) {
             int numInterceptors = interceptors[i].length;
             if (numInterceptors > 0) {
                 // Get fresh sorting bins for each non empty type.
                 sorted = new ArrayList<Interceptor>(); // not synchronized like we want.
                 unsorted = new ArrayList<Interceptor>();
             }
-            for( int j = 0; j < numInterceptors; j++ ) {
+            for (int j = 0; j < numInterceptors; j++) {
                 Interceptor interceptor = interceptors[i][j];
                 if (interceptor instanceof Comparable) {
                     sorted.add(interceptor);
@@ -222,26 +201,23 @@ public class InterceptorList {
                 // (i.e., ClassCastException and UnsupportedOperationException)
                 // flow back to the user.
                 // Note that this will cause an unchecked conversion warning
-                // because Interceptor is not Comparable.  We rely on dynamic
+                // because Interceptor is not Comparable. We rely on dynamic
                 // typing here: if an Interceptor is in the sorted list,
-                // it IS comparable by construction.  I don't think there
+                // it IS comparable by construction. I don't think there
                 // is any way to capture this in a Java type.
-                Collections.sort(List.class.cast( sorted ));
+                Collections.sort(List.class.cast(sorted));
                 Iterator<Interceptor> sortedIterator = sorted.iterator();
                 Iterator<Interceptor> unsortedIterator = unsorted.iterator();
-                for( int j = 0; j < numInterceptors; j++ ) {
+                for (int j = 0; j < numInterceptors; j++) {
                     if (sortedIterator.hasNext()) {
-                        interceptors[i][j] =
-                            sortedIterator.next();
+                        interceptors[i][j] = sortedIterator.next();
                     } else if (unsortedIterator.hasNext()) {
-                        interceptors[i][j] =
-                            unsortedIterator.next();
+                        interceptors[i][j] = unsortedIterator.next();
                     } else {
-                        throw wrapper.sortSizeMismatch() ;
+                        throw wrapper.sortSizeMismatch();
                     }
                 }
             }
         }
     }
 }
-

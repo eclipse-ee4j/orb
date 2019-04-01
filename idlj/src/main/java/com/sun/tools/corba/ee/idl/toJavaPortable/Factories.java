@@ -17,101 +17,83 @@ package com.sun.tools.corba.ee.idl.toJavaPortable;
 /**
  *
  **/
-public class Factories extends com.sun.tools.corba.ee.idl.Factories
-{
-  public com.sun.tools.corba.ee.idl.GenFactory genFactory ()
-  {
-    return new GenFactory();
-  } // genFactory
+public class Factories extends com.sun.tools.corba.ee.idl.Factories {
+    public com.sun.tools.corba.ee.idl.GenFactory genFactory() {
+        return new GenFactory();
+    } // genFactory
 
-  public com.sun.tools.corba.ee.idl.Arguments arguments ()
-  {
-    return new com.sun.tools.corba.ee.idl.toJavaPortable.Arguments();
-  } // arguments
+    public com.sun.tools.corba.ee.idl.Arguments arguments() {
+        return new com.sun.tools.corba.ee.idl.toJavaPortable.Arguments();
+    } // arguments
 
-  public String[] languageKeywords ()
-  {
-  // These are Java keywords that are not also IDL keywords.
-    return keywords;
-  } // languageKeywords
+    public String[] languageKeywords() {
+        // These are Java keywords that are not also IDL keywords.
+        return keywords;
+    } // languageKeywords
 
-  static String[] keywords =
-    {"abstract",   "break",     "byte",
-     "catch",      "class",     "continue",
-     "do",         "else",      "extends",
-     "false",      "final",     "finally",
-     "for",        "goto",      "if",
-     "implements", "import",    "instanceof",
-     "int",        "interface", "native",
-     "new",        "null",      "operator",
-     "outer",      "package",   "private",
-     "protected",  "public",    "return",
-     "static",     "super",     "synchronized",
-     "this",       "throw",     "throws",
-     "transient",  "true",      "try",
-     "volatile",   "while",
+    static String[] keywords = { "abstract", "break", "byte", "catch", "class", "continue", "do", "else", "extends", "false", "final", "finally", "for", "goto",
+            "if", "implements", "import", "instanceof", "int", "interface", "native", "new", "null", "operator", "outer", "package", "private", "protected",
+            "public", "return", "static", "super", "synchronized", "this", "throw", "throws", "transient", "true", "try", "volatile", "while",
 // Special reserved suffixes:
-     "+Helper",    "+Holder",   "+Package",
+            "+Helper", "+Holder", "+Package",
 // These following are not strictly keywords.  They
 // are methods on java.lang.Object and, as such, must
 // not have conflicts with methods defined on IDL
 // interfaces.  Treat them the same as keywords.
-     "clone",      "equals",       "finalize",
-     "getClass",   "hashCode",     "notify",
-     "notifyAll",  "toString",     "wait"};
+            "clone", "equals", "finalize", "getClass", "hashCode", "notify", "notifyAll", "toString", "wait" };
 
-  ///////////////
-  // toJava-specific factory methods
+    ///////////////
+    // toJava-specific factory methods
 
-  private com.sun.tools.corba.ee.idl.toJavaPortable.Helper _helper = null;        // <62023>
-  public com.sun.tools.corba.ee.idl.toJavaPortable.Helper helper ()
-  {
-    if (_helper == null)
-      if (com.sun.tools.corba.ee.idl.toJavaPortable.Util.corbaLevel(2.4f, 99.0f)) // <d60023>
-         _helper = new com.sun.tools.corba.ee.idl.toJavaPortable.Helper24();     // <d60023>
-      else
-         _helper = new com.sun.tools.corba.ee.idl.toJavaPortable.Helper();
-    return _helper;
-  } // helper
+    private com.sun.tools.corba.ee.idl.toJavaPortable.Helper _helper = null; // <62023>
 
-  private com.sun.tools.corba.ee.idl.toJavaPortable.ValueFactory _valueFactory = null;        // <62023>
-  public com.sun.tools.corba.ee.idl.toJavaPortable.ValueFactory valueFactory ()
-  {
-    if (_valueFactory == null)
-      if (com.sun.tools.corba.ee.idl.toJavaPortable.Util.corbaLevel(2.4f, 99.0f)) // <d60023>
-         _valueFactory = new com.sun.tools.corba.ee.idl.toJavaPortable.ValueFactory();     // <d60023>
-      // else return null since shouldn't be used
-    return _valueFactory;
-  } // valueFactory
+    public com.sun.tools.corba.ee.idl.toJavaPortable.Helper helper() {
+        if (_helper == null)
+            if (com.sun.tools.corba.ee.idl.toJavaPortable.Util.corbaLevel(2.4f, 99.0f)) // <d60023>
+                _helper = new com.sun.tools.corba.ee.idl.toJavaPortable.Helper24(); // <d60023>
+            else
+                _helper = new com.sun.tools.corba.ee.idl.toJavaPortable.Helper();
+        return _helper;
+    } // helper
 
-  private com.sun.tools.corba.ee.idl.toJavaPortable.DefaultFactory _defaultFactory = null;        // <62023>
-  public com.sun.tools.corba.ee.idl.toJavaPortable.DefaultFactory defaultFactory ()
-  {
-    if (_defaultFactory == null)
-      if (com.sun.tools.corba.ee.idl.toJavaPortable.Util.corbaLevel(2.4f, 99.0f)) // <d60023>
-         _defaultFactory = new com.sun.tools.corba.ee.idl.toJavaPortable.DefaultFactory();     // <d60023>
-      // else return null since shouldn't be used
-    return _defaultFactory;
-  } // defaultFactory
+    private com.sun.tools.corba.ee.idl.toJavaPortable.ValueFactory _valueFactory = null; // <62023>
 
-  private com.sun.tools.corba.ee.idl.toJavaPortable.Holder _holder = new com.sun.tools.corba.ee.idl.toJavaPortable.Holder();
-  public com.sun.tools.corba.ee.idl.toJavaPortable.Holder holder ()
-  {
-    return _holder;
-  } // holder
+    public com.sun.tools.corba.ee.idl.toJavaPortable.ValueFactory valueFactory() {
+        if (_valueFactory == null)
+            if (com.sun.tools.corba.ee.idl.toJavaPortable.Util.corbaLevel(2.4f, 99.0f)) // <d60023>
+                _valueFactory = new com.sun.tools.corba.ee.idl.toJavaPortable.ValueFactory(); // <d60023>
+        // else return null since shouldn't be used
+        return _valueFactory;
+    } // valueFactory
 
-  private com.sun.tools.corba.ee.idl.toJavaPortable.Skeleton _skeleton = new com.sun.tools.corba.ee.idl.toJavaPortable.Skeleton();
-  public com.sun.tools.corba.ee.idl.toJavaPortable.Skeleton skeleton ()
-  {
-    return _skeleton;
-  } // skeleton
+    private com.sun.tools.corba.ee.idl.toJavaPortable.DefaultFactory _defaultFactory = null; // <62023>
 
-  private com.sun.tools.corba.ee.idl.toJavaPortable.Stub _stub = new com.sun.tools.corba.ee.idl.toJavaPortable.Stub();
-  public com.sun.tools.corba.ee.idl.toJavaPortable.Stub stub ()
-  {
-    return _stub;
-  } // stub
+    public com.sun.tools.corba.ee.idl.toJavaPortable.DefaultFactory defaultFactory() {
+        if (_defaultFactory == null)
+            if (com.sun.tools.corba.ee.idl.toJavaPortable.Util.corbaLevel(2.4f, 99.0f)) // <d60023>
+                _defaultFactory = new com.sun.tools.corba.ee.idl.toJavaPortable.DefaultFactory(); // <d60023>
+        // else return null since shouldn't be used
+        return _defaultFactory;
+    } // defaultFactory
 
-  // toJava-specific factory methods
-  ///////////////
+    private com.sun.tools.corba.ee.idl.toJavaPortable.Holder _holder = new com.sun.tools.corba.ee.idl.toJavaPortable.Holder();
+
+    public com.sun.tools.corba.ee.idl.toJavaPortable.Holder holder() {
+        return _holder;
+    } // holder
+
+    private com.sun.tools.corba.ee.idl.toJavaPortable.Skeleton _skeleton = new com.sun.tools.corba.ee.idl.toJavaPortable.Skeleton();
+
+    public com.sun.tools.corba.ee.idl.toJavaPortable.Skeleton skeleton() {
+        return _skeleton;
+    } // skeleton
+
+    private com.sun.tools.corba.ee.idl.toJavaPortable.Stub _stub = new com.sun.tools.corba.ee.idl.toJavaPortable.Stub();
+
+    public com.sun.tools.corba.ee.idl.toJavaPortable.Stub stub() {
+        return _stub;
+    } // stub
+
+    // toJava-specific factory methods
+    ///////////////
 } // class Factories

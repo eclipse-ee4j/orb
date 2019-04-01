@@ -8,52 +8,45 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package com.sun.corba.ee.spi.extension ;
+package com.sun.corba.ee.spi.extension;
 
-import org.omg.CORBA.Policy ;
-import org.omg.CORBA.LocalObject ;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import org.omg.CORBA.Policy;
+import org.omg.CORBA.LocalObject;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
-/** Policy used to implement zero IIOP port policy in the POA.
-*/
-public class ZeroPortPolicy extends LocalObject implements Policy
-{
-    private static ZeroPortPolicy policy = new ZeroPortPolicy( true ) ;
+/**
+ * Policy used to implement zero IIOP port policy in the POA.
+ */
+public class ZeroPortPolicy extends LocalObject implements Policy {
+    private static ZeroPortPolicy policy = new ZeroPortPolicy(true);
 
-    private boolean flag = true ;
+    private boolean flag = true;
 
-    private ZeroPortPolicy( boolean type ) 
-    {
-        this.flag = type ;
+    private ZeroPortPolicy(boolean type) {
+        this.flag = type;
     }
 
-    public String toString()
-    {
-        return "ZeroPortPolicy[" + flag + "]" ;
+    public String toString() {
+        return "ZeroPortPolicy[" + flag + "]";
     }
 
-    public boolean forceZeroPort()
-    {
-        return flag ;
+    public boolean forceZeroPort() {
+        return flag;
     }
 
-    public synchronized static ZeroPortPolicy getPolicy()
-    {
-        return policy ;
+    public synchronized static ZeroPortPolicy getPolicy() {
+        return policy;
     }
 
-    public int policy_type ()
-    {
-        return ORBConstants.ZERO_PORT_POLICY ;
+    public int policy_type() {
+        return ORBConstants.ZERO_PORT_POLICY;
     }
 
-    public org.omg.CORBA.Policy copy ()
-    {
-        return this ;
+    public org.omg.CORBA.Policy copy() {
+        return this;
     }
 
-    public void destroy ()
-    {
+    public void destroy() {
         // NO-OP
     }
 }

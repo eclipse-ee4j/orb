@@ -34,27 +34,25 @@ public class CorbaResourceUtil {
         return message;
     }
 
-    public static String getText(String key, Object... args )
-    {
+    public static String getText(String key, Object... args) {
         String format = getString(key);
 
         if (format == null) {
-            StringBuilder sb = new StringBuilder(
-                "no text found: key = \"" ) ;
-            sb.append( key ) ;
-            sb.append( "\", arguments = " ) ;
-            
-            for (int ctr=0; ctr<args.length; ctr++) {
+            StringBuilder sb = new StringBuilder("no text found: key = \"");
+            sb.append(key);
+            sb.append("\", arguments = ");
+
+            for (int ctr = 0; ctr < args.length; ctr++) {
                 if (ctr != 0) {
-                    sb.append( ", " ) ;
+                    sb.append(", ");
                 }
 
-                sb.append( "\"{" ) ;
-                sb.append( ctr ) ;
-                sb.append( "}\"" ) ;
+                sb.append("\"{");
+                sb.append(ctr);
+                sb.append("}\"");
             }
 
-            format = sb.toString() ;
+            format = sb.toString();
         }
 
         return java.text.MessageFormat.format(format, args);
@@ -65,12 +63,10 @@ public class CorbaResourceUtil {
 
     private static void initResources() {
         try {
-            resources =
-                ResourceBundle.getBundle("com.sun.corba.ee.impl.resources.sunorb");
+            resources = ResourceBundle.getBundle("com.sun.corba.ee.impl.resources.sunorb");
             resourcesInitialized = true;
         } catch (MissingResourceException e) {
-            throw new Error("fatal: missing resource bundle: " +
-                            e.getClassName());
+            throw new Error("fatal: missing resource bundle: " + e.getClassName());
         }
     }
 

@@ -15,15 +15,13 @@ import java.io.IOException;
 import java.io.DataOutputStream;
 
 /**
- * Base constant data class. Every constant pool data item
- * is derived from this class.
+ * Base constant data class. Every constant pool data item is derived from this class.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
 
-abstract class  ConstantPoolData implements RuntimeConstants {
+abstract class ConstantPoolData implements RuntimeConstants {
     int index;
 
     /**

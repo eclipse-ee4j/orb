@@ -14,19 +14,16 @@ import org.glassfish.rmic.tools.java.*;
 import org.glassfish.rmic.tools.asm.Assembler;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class AssignAddExpression extends AssignOpExpression {
+public class AssignAddExpression extends AssignOpExpression {
     /**
      * Constructor
      */
     public AssignAddExpression(long where, Expression left, Expression right) {
         super(ASGADD, where, left, right);
     }
-
 
     /**
      * The cost of inlining this statement
@@ -40,12 +37,11 @@ class AssignAddExpression extends AssignOpExpression {
      */
     void code(Environment env, Context ctx, Assembler asm, boolean valNeeded) {
         if (itype.isType(TC_CLASS)) {
-            // Create code for     String += <value>
+            // Create code for String += <value>
             try {
                 // Create new string buffer.
-                Type argTypes[] = {Type.tString};
-                ClassDeclaration c =
-                    env.getClassDeclaration(idJavaLangStringBuffer);
+                Type argTypes[] = { Type.tString };
+                ClassDeclaration c = env.getClassDeclaration(idJavaLangStringBuffer);
 
                 if (updater == null) {
 
@@ -61,19 +57,16 @@ class AssignAddExpression extends AssignOpExpression {
                     // has length depth and is whatever is needed to get/set the
                     // value
                     left.codeLoad(env, ctx, asm);
-                    left.ensureString(env, ctx, asm);  // Why is this needed?
+                    left.ensureString(env, ctx, asm); // Why is this needed?
                     // stack: ...[<getter args>]<buffer><buffer><string>
                     // call .<init>(String)
                     ClassDefinition sourceClass = ctx.field.getClassDefinition();
-                    MemberDefinition f = c.getClassDefinition(env)
-                        .matchMethod(env, sourceClass,
-                                     idInit, argTypes);
+                    MemberDefinition f = c.getClassDefinition(env).matchMethod(env, sourceClass, idInit, argTypes);
                     asm.add(where, opc_invokespecial, f);
                     // stack: ...[<getter args>]<initialized buffer>
                     // .append(value).toString()
                     right.codeAppend(env, ctx, asm, c, false);
-                    f = c.getClassDefinition(env)
-                        .matchMethod(env, sourceClass, idToString);
+                    f = c.getClassDefinition(env).matchMethod(env, sourceClass, idToString);
                     asm.add(where, opc_invokevirtual, f);
                     // stack: ...[<getter args>]<string>
                     // dup the string past the <getter args>, if necessary.
@@ -91,7 +84,7 @@ class AssignAddExpression extends AssignOpExpression {
 
                     updater.startUpdate(env, ctx, asm, false);
                     // stack: ...[<getter args>]<string>
-                    left.ensureString(env, ctx, asm);  // Why is this needed?
+                    left.ensureString(env, ctx, asm); // Why is this needed?
                     asm.add(where, opc_new, c);
                     // stack: ...[<getter args>]<string><buffer>
                     asm.add(where, opc_dup_x1);
@@ -100,15 +93,12 @@ class AssignAddExpression extends AssignOpExpression {
                     // stack: ...[<getter args>]<buffer><buffer><string>
                     // call .<init>(String)
                     ClassDefinition sourceClass = ctx.field.getClassDefinition();
-                    MemberDefinition f = c.getClassDefinition(env)
-                        .matchMethod(env, sourceClass,
-                                     idInit, argTypes);
+                    MemberDefinition f = c.getClassDefinition(env).matchMethod(env, sourceClass, idInit, argTypes);
                     asm.add(where, opc_invokespecial, f);
                     // stack: ...[<getter args>]<initialized buffer>
                     // .append(value).toString()
                     right.codeAppend(env, ctx, asm, c, false);
-                    f = c.getClassDefinition(env)
-                        .matchMethod(env, sourceClass, idToString);
+                    f = c.getClassDefinition(env).matchMethod(env, sourceClass, idToString);
                     asm.add(where, opc_invokevirtual, f);
                     // stack: .. [<getter args>]<string>
                     updater.finishUpdate(env, ctx, asm, valNeeded);

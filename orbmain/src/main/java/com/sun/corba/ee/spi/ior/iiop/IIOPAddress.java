@@ -10,24 +10,23 @@
 
 package com.sun.corba.ee.spi.ior.iiop;
 
-import com.sun.corba.ee.spi.ior.Writeable ;
+import com.sun.corba.ee.spi.ior.Writeable;
 
-import org.glassfish.gmbal.ManagedData ;
-import org.glassfish.gmbal.ManagedAttribute ;
-import org.glassfish.gmbal.Description ;
+import org.glassfish.gmbal.ManagedData;
+import org.glassfish.gmbal.ManagedAttribute;
+import org.glassfish.gmbal.Description;
 
-/** IIOPAddress represents the host and port used to establish a
- * TCP connection for an IIOP request.
+/**
+ * IIOPAddress represents the host and port used to establish a TCP connection for an IIOP request.
  */
 @ManagedData
-@Description( "An IP address for the IIOP protocol" )
-public interface IIOPAddress extends Writeable 
-{
+@Description("An IP address for the IIOP protocol")
+public interface IIOPAddress extends Writeable {
     @ManagedAttribute
-    @Description( "The target host (name or IP address)" )
-    public String getHost() ;
+    @Description("The target host (name or IP address)")
+    public String getHost();
 
     @ManagedAttribute
-    @Description( "The target port (0-65535)" )
-    public int getPort() ;
+    @Description("The target port (0-65535)")
+    public int getPort();
 }

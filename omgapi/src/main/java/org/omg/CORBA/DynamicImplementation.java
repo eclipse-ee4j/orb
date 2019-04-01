@@ -19,8 +19,8 @@ import org.omg.CORBA.portable.ObjectImpl;
 public class DynamicImplementation extends org.omg.CORBA.portable.ObjectImpl {
 
     /**
-      * @deprecated Deprecated by Portable Object Adapter
-      */
+     * @deprecated Deprecated by Portable Object Adapter
+     */
 
     public void invoke(ServerRequest request) {
         throw new org.omg.CORBA.NO_IMPLEMENT();

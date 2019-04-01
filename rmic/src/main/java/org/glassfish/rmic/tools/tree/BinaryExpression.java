@@ -17,12 +17,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class BinaryExpression extends UnaryExpression {
+public class BinaryExpression extends UnaryExpression {
     Expression left;
 
     /**
@@ -38,7 +36,7 @@ class BinaryExpression extends UnaryExpression {
      */
     public Expression order() {
         if (precedence() > left.precedence()) {
-            UnaryExpression e = (UnaryExpression)left;
+            UnaryExpression e = (UnaryExpression) left;
             left = e.right;
             e.right = order();
             return e;
@@ -93,46 +91,53 @@ class BinaryExpression extends UnaryExpression {
         }
         return false;
     }
+
     /**
      * Evaluate
      */
     Expression eval(int a, int b) {
         return this;
     }
+
     Expression eval(long a, long b) {
         return this;
     }
+
     Expression eval(float a, float b) {
         return this;
     }
+
     Expression eval(double a, double b) {
         return this;
     }
+
     Expression eval(boolean a, boolean b) {
         return this;
     }
+
     Expression eval(String a, String b) {
         return this;
     }
+
     Expression eval() {
         // See also the eval() code in BinaryShiftExpression.java.
         if (left.op == right.op) {
             switch (left.op) {
-              case BYTEVAL:
-              case CHARVAL:
-              case SHORTVAL:
-              case INTVAL:
-                return eval(((IntegerExpression)left).value, ((IntegerExpression)right).value);
-              case LONGVAL:
-                return eval(((LongExpression)left).value, ((LongExpression)right).value);
-              case FLOATVAL:
-                return eval(((FloatExpression)left).value, ((FloatExpression)right).value);
-              case DOUBLEVAL:
-                return eval(((DoubleExpression)left).value, ((DoubleExpression)right).value);
-              case BOOLEANVAL:
-                return eval(((BooleanExpression)left).value, ((BooleanExpression)right).value);
-              case STRINGVAL:
-                return eval(((StringExpression)left).value, ((StringExpression)right).value);
+            case BYTEVAL:
+            case CHARVAL:
+            case SHORTVAL:
+            case INTVAL:
+                return eval(((IntegerExpression) left).value, ((IntegerExpression) right).value);
+            case LONGVAL:
+                return eval(((LongExpression) left).value, ((LongExpression) right).value);
+            case FLOATVAL:
+                return eval(((FloatExpression) left).value, ((FloatExpression) right).value);
+            case DOUBLEVAL:
+                return eval(((DoubleExpression) left).value, ((DoubleExpression) right).value);
+            case BOOLEANVAL:
+                return eval(((BooleanExpression) left).value, ((BooleanExpression) right).value);
+            case STRINGVAL:
+                return eval(((StringExpression) left).value, ((StringExpression) right).value);
             }
         }
         return this;
@@ -146,15 +151,16 @@ class BinaryExpression extends UnaryExpression {
         right = right.inline(env, ctx);
         return (left == null) ? right : new CommaExpression(where, left, right);
     }
+
     public Expression inlineValue(Environment env, Context ctx) {
         left = left.inlineValue(env, ctx);
         right = right.inlineValue(env, ctx);
         try {
             return eval().simplify();
         } catch (ArithmeticException e) {
-            // Got rid of this error message.  It isn't illegal to
+            // Got rid of this error message. It isn't illegal to
             // have a program which does a constant division by
-            // zero.  We return `this' to make the compiler to
+            // zero. We return `this' to make the compiler to
             // generate code here.
             // (bugs 4019304, 4089107).
             //
@@ -167,7 +173,7 @@ class BinaryExpression extends UnaryExpression {
      * Create a copy of the expression for method inlining
      */
     public Expression copyInline(Context ctx) {
-        BinaryExpression e = (BinaryExpression)clone();
+        BinaryExpression e = (BinaryExpression) clone();
         if (left != null) {
             e.left = left.copyInline(ctx);
         }
@@ -181,8 +187,7 @@ class BinaryExpression extends UnaryExpression {
      * The cost of inlining this expression
      */
     public int costInline(int thresh, Environment env, Context ctx) {
-        return 1 + ((left != null) ? left.costInline(thresh, env, ctx) : 0) +
-                   ((right != null) ? right.costInline(thresh, env, ctx) : 0);
+        return 1 + ((left != null) ? left.costInline(thresh, env, ctx) : 0) + ((right != null) ? right.costInline(thresh, env, ctx) : 0);
     }
 
     /**
@@ -191,6 +196,7 @@ class BinaryExpression extends UnaryExpression {
     void codeOperation(Environment env, Context ctx, Assembler asm) {
         throw new CompilerError("codeOperation: " + opNames[op]);
     }
+
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         if (type.isType(TC_BOOLEAN)) {
             Label l1 = new Label();

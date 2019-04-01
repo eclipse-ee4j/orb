@@ -18,30 +18,29 @@ import org.glassfish.pfl.basic.logex.WrapperGenerator;
  * @author ken_admin
  */
 public class StandardLogger extends WrapperGenerator.ExtensionBase {
-    public static final StandardLogger self = new StandardLogger() ;
+    public static final StandardLogger self = new StandardLogger();
 
-    private static final String SPI_PREFIX = "com.sun.corba.ee.spi." ;
-    private static final String IMPL_PREFIX = "com.sun.corba.ee.impl." ;
-    public static final String CORBA_LOGGER_PREFIX =
-        "javax.enterprise.resource.corba" ;
+    private static final String SPI_PREFIX = "com.sun.corba.ee.spi.";
+    private static final String IMPL_PREFIX = "com.sun.corba.ee.impl.";
+    public static final String CORBA_LOGGER_PREFIX = "javax.enterprise.resource.corba";
 
     @Override
-    public String getLoggerName( Class<?> cls ) {
-        final ExceptionWrapper ew = cls.getAnnotation( ExceptionWrapper.class ) ;
-        if (!ew.loggerName().equals( "" ))  {
-            return ew.loggerName() ;
+    public String getLoggerName(Class<?> cls) {
+        final ExceptionWrapper ew = cls.getAnnotation(ExceptionWrapper.class);
+        if (!ew.loggerName().equals("")) {
+            return ew.loggerName();
         }
 
-        final String name = cls.getPackage().getName() ;
-        String shortName ;
-        if (name.startsWith( SPI_PREFIX )) {
-            shortName = name.substring( SPI_PREFIX.length() ) ;
-        } else if (name.startsWith( IMPL_PREFIX )) {
-            shortName = name.substring( IMPL_PREFIX.length() ) ;
+        final String name = cls.getPackage().getName();
+        String shortName;
+        if (name.startsWith(SPI_PREFIX)) {
+            shortName = name.substring(SPI_PREFIX.length());
+        } else if (name.startsWith(IMPL_PREFIX)) {
+            shortName = name.substring(IMPL_PREFIX.length());
         } else {
-            shortName = name ;
+            shortName = name;
         }
 
-        return CORBA_LOGGER_PREFIX + "." + shortName ;
+        return CORBA_LOGGER_PREFIX + "." + shortName;
     }
 }

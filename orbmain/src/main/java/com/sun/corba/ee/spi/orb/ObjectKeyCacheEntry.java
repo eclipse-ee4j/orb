@@ -8,21 +8,21 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package com.sun.corba.ee.spi.orb ;
+package com.sun.corba.ee.spi.orb;
 
-import com.sun.corba.ee.spi.ior.ObjectKey ;
+import com.sun.corba.ee.spi.ior.ObjectKey;
 
-import com.sun.corba.ee.spi.oa.ObjectAdapter ;
+import com.sun.corba.ee.spi.oa.ObjectAdapter;
 
-/** Interface used to represent information cached for a particular byte[] that
- * represent a GIOP marshalled ObjectKey.
+/**
+ * Interface used to represent information cached for a particular byte[] that represent a GIOP marshalled ObjectKey.
  */
 public interface ObjectKeyCacheEntry {
-    ObjectKey getObjectKey() ;
+    ObjectKey getObjectKey();
 
-    ObjectAdapter getObjectAdapter() ;
+    ObjectAdapter getObjectAdapter();
 
-    void clearObjectAdapter() ;
+    void clearObjectAdapter();
 
-    void setObjectAdapter( ObjectAdapter oa ) ;
+    void setObjectAdapter(ObjectAdapter oa);
 }

@@ -8,36 +8,36 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package com.sun.corba.ee.spi.logex.corba ;
+package com.sun.corba.ee.spi.logex.corba;
 
-import org.omg.CORBA.CompletionStatus ;
+import org.omg.CORBA.CompletionStatus;
 
-/** Enum corresponding to CompletionStatus that can be used in annotations.
+/**
+ * Enum corresponding to CompletionStatus that can be used in annotations.
  *
  * @author ken
  */
 public enum CSValue {
     YES() {
         @Override
-        public CompletionStatus getCompletionStatus() { 
-            return CompletionStatus.COMPLETED_YES ;
+        public CompletionStatus getCompletionStatus() {
+            return CompletionStatus.COMPLETED_YES;
         }
     },
 
     NO {
         @Override
-        public CompletionStatus getCompletionStatus() { 
-            return CompletionStatus.COMPLETED_NO ;
+        public CompletionStatus getCompletionStatus() {
+            return CompletionStatus.COMPLETED_NO;
         }
     },
 
     MAYBE {
         @Override
-        public CompletionStatus getCompletionStatus() { 
-            return CompletionStatus.COMPLETED_MAYBE ;
+        public CompletionStatus getCompletionStatus() {
+            return CompletionStatus.COMPLETED_MAYBE;
         }
-    } ;
+    };
 
-    public abstract CompletionStatus getCompletionStatus() ;
+    public abstract CompletionStatus getCompletionStatus();
 }
-

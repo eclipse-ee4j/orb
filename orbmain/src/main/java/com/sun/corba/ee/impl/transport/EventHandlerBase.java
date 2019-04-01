@@ -24,12 +24,8 @@ import com.sun.corba.ee.spi.trace.Transport;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 
 @Transport
-public abstract class EventHandlerBase
-    implements
-        EventHandler
-{
-    private static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+public abstract class EventHandlerBase implements EventHandler {
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
     protected ORB orb;
     protected Work work;
@@ -42,49 +38,42 @@ public abstract class EventHandlerBase
     // EventHandler methods
     //
 
-    public void setUseSelectThreadToWait(boolean x)
-    {
+    public void setUseSelectThreadToWait(boolean x) {
         useSelectThreadToWait = x;
     }
 
-    public boolean shouldUseSelectThreadToWait()
-    {
+    public boolean shouldUseSelectThreadToWait() {
         return useSelectThreadToWait;
     }
 
-    public void setSelectionKey(SelectionKey selectionKey)
-    {
+    public void setSelectionKey(SelectionKey selectionKey) {
         this.selectionKey = selectionKey;
     }
 
-    public SelectionKey getSelectionKey()
-    {
+    public SelectionKey getSelectionKey() {
         return selectionKey;
     }
 
     @InfoMethod
-    private void display( String msg ) { }
+    private void display(String msg) {
+    }
 
     @InfoMethod
-    private void display( String msg, Object value ) { }
+    private void display(String msg, Object value) {
+    }
 
     /*
-     * NOTE:
-     * This is not thread-safe by design.
-     * Only one thread should call it - a reader/listener/select thread.
-     * Not stateless: interest ops, registration.
+     * NOTE: This is not thread-safe by design. Only one thread should call it - a reader/listener/select thread. Not
+     * stateless: interest ops, registration.
      */
     @Transport
-    public void handleEvent()
-    {
-        getSelectionKey().interestOps(getSelectionKey().interestOps() &
-                                      (~ getInterestOps()));
+    public void handleEvent() {
+        getSelectionKey().interestOps(getSelectionKey().interestOps() & (~getInterestOps()));
         if (shouldUseWorkerThreadForEvent()) {
             Throwable throwable = null;
             try {
-                display( "add work to pool 0") ;
-                orb.getThreadPoolManager().getThreadPool(0)
-                    .getWorkQueue(0).addWork(getWork());
+                display("add work to pool 0");
+                orb.getThreadPoolManager().getThreadPool(0).getWorkQueue(0).addWork(getWork());
             } catch (NoSuchThreadPoolException e) {
                 throwable = e;
             } catch (NoSuchWorkQueueException e) {
@@ -92,32 +81,28 @@ public abstract class EventHandlerBase
             }
             // REVISIT: need to close connection.
             if (throwable != null) {
-                display( "unexpected exception", throwable ) ;
+                display("unexpected exception", throwable);
                 throw wrapper.noSuchThreadpoolOrQueue(throwable, 0);
             }
         } else {
-            display( "doWork" ) ;
+            display("doWork");
             getWork().doWork();
         }
     }
 
-    public boolean shouldUseWorkerThreadForEvent()
-    {
+    public boolean shouldUseWorkerThreadForEvent() {
         return useWorkerThreadForEvent;
     }
 
-    public void setUseWorkerThreadForEvent(boolean x)
-    {
+    public void setUseWorkerThreadForEvent(boolean x) {
         useWorkerThreadForEvent = x;
     }
 
-    public void setWork(Work work)
-    {
+    public void setWork(Work work) {
         this.work = work;
     }
 
-    public Work getWork()
-    {
+    public Work getWork() {
         return work;
     }
 }

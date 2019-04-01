@@ -17,12 +17,10 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public
-class CastExpression extends BinaryExpression {
+public class CastExpression extends BinaryExpression {
     /**
      * constructor
      */
@@ -78,10 +76,10 @@ class CastExpression extends BinaryExpression {
     public Expression inline(Environment env, Context ctx) {
         return right.inline(env, ctx);
     }
+
     public Expression inlineValue(Environment env, Context ctx) {
         return right.inlineValue(env, ctx);
     }
-
 
     public int costInline(int thresh, Environment env, Context ctx) {
         if (ctx == null) {
@@ -92,16 +90,12 @@ class CastExpression extends BinaryExpression {
         try {
             // We only allow the inlining if the current class can access
             // the casting class
-            if (left.type.isType(TC_ARRAY) ||
-                 sourceClass.permitInlinedAccess(env,
-                                  env.getClassDeclaration(left.type)))
+            if (left.type.isType(TC_ARRAY) || sourceClass.permitInlinedAccess(env, env.getClassDeclaration(left.type)))
                 return 1 + right.costInline(thresh, env, ctx);
         } catch (ClassNotFound e) {
         }
         return thresh;
     }
-
-
 
     /**
      * Print

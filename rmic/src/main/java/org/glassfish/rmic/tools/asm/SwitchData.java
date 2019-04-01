@@ -16,12 +16,10 @@ import java.util.Enumeration;
 import java.util.Arrays;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: The contents of this source file are not part of any supported API. Code that depends on them does so at its
+ * own risk: they are subject to change or removal without notice.
  */
-public final
-class SwitchData {
+public final class SwitchData {
     int minValue, maxValue;
     Label defaultLabel = new Label();
     Hashtable<Integer, Label> tab = new Hashtable<>();
@@ -79,22 +77,26 @@ class SwitchData {
     public void initTableCase() {
         whereCaseTab = new Hashtable<Integer, Long>();
     }
+
     public void addTableCase(int index, long where) {
         if (whereCaseTab != null)
             whereCaseTab.put(Integer.valueOf(index), Long.valueOf(where));
     }
+
     // this puts String key into Hashtable<Integer, Long>
     @SuppressWarnings("unchecked")
     public void addTableDefault(long where) {
         if (whereCaseTab != null)
-            ((Hashtable)whereCaseTab).put("default", Long.valueOf(where));
+            ((Hashtable) whereCaseTab).put("default", Long.valueOf(where));
     }
+
     public long whereCase(Object key) {
         Long i = whereCaseTab.get(key);
         return (i == null) ? 0L : i.longValue();
     }
+
     public boolean getDefault() {
-         return (whereCase("default") != 0L);
+        return (whereCase("default") != 0L);
     }
 // end JCOV
 }
@@ -104,14 +106,13 @@ class SwitchDataEnumeration implements Enumeration<Integer> {
     private int current_index = 0;
 
     /**
-     * Create a new enumeration from the hashtable.  Each key in the
-     * hash table will be an Integer, with the value being a label.  The
-     * enumeration returns the keys in sorted order.
+     * Create a new enumeration from the hashtable. Each key in the hash table will be an Integer, with the value being a
+     * label. The enumeration returns the keys in sorted order.
      */
     SwitchDataEnumeration(Hashtable<Integer, Label> tab) {
         table = new Integer[tab.size()];
         int i = 0;
-        for (Enumeration<Integer> e = tab.keys() ; e.hasMoreElements() ; ) {
+        for (Enumeration<Integer> e = tab.keys(); e.hasMoreElements();) {
             table[i++] = e.nextElement();
         }
         Arrays.sort(table);

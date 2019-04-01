@@ -10,43 +10,40 @@
 
 package com.sun.corba.ee.spi.servicecontext;
 
-import org.omg.CORBA_2_3.portable.OutputStream ;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 
-import com.sun.corba.ee.spi.servicecontext.ServiceContext ;
+import com.sun.corba.ee.spi.servicecontext.ServiceContext;
 
-/** The collection of ServiceContext instances used in a particular
- * request.  
+/**
+ * The collection of ServiceContext instances used in a particular request.
  */
 public interface ServiceContexts {
-    /** Write the service contexts to the output stream.
-     * If an UnknownExceptionInfo service context is present,
-     * it is written out last, so that it follows any
-     * SendingContext service context.  This is required so that
-     * the codebase is available to handle value types if
-     * necessary.
-     * 
-     * We should really do this as SendingContext goes first, so
-     * that we can guarantee correct marshalling of non-standard
+    /**
+     * Write the service contexts to the output stream. If an UnknownExceptionInfo service context is present, it is written
+     * out last, so that it follows any SendingContext service context. This is required so that the codebase is available
+     * to handle value types if necessary.
+     *
+     * We should really do this as SendingContext goes first, so that we can guarantee correct marshalling of non-standard
      * service contexts.
      */
-    void write( OutputStream os, GIOPVersion gv ) ;
-    
-    /** Add a service context. Silently replaces an existing
-     * service context with the same id.
-     */
-    public void put( ServiceContext sc ) ;
+    void write(OutputStream os, GIOPVersion gv);
 
-    /** Remove the service context with the id, if any.
+    /**
+     * Add a service context. Silently replaces an existing service context with the same id.
      */
-    public void delete( int scId ) ;
+    public void put(ServiceContext sc);
 
-    /** Return the service context with scId, or null if not
-     * found.
+    /**
+     * Remove the service context with the id, if any.
      */
-    public ServiceContext get( int scId) ;
+    public void delete(int scId);
 
-    public ServiceContexts copy() ;
+    /**
+     * Return the service context with scId, or null if not found.
+     */
+    public ServiceContext get(int scId);
+
+    public ServiceContexts copy();
 }
-
