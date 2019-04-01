@@ -299,8 +299,15 @@ public class EncodingTestBase {
 
         @Override
         public int fragmentReadTimeout() {
-            if (asynchronousAction != null) asynchronousAction.exec();
             return 1;
+        }
+
+        @Override
+        public void waitNanos(Object obj, long waitNanos) throws InterruptedException {
+            if (asynchronousAction != null) {
+                asynchronousAction.exec();
+            }
+            ORBData.super.waitNanos(obj, waitNanos);
         }
 
         @Override

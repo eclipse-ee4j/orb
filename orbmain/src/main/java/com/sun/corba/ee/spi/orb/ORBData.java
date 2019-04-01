@@ -30,6 +30,8 @@ import org.glassfish.gmbal.AMXMetadata ;
 
 import org.glassfish.pfl.basic.contain.Pair ;
 
+import java.util.concurrent.TimeUnit;
+
 // Which attributes should become setters?  NOT everything, but only
 // those that we think might actually be useful to set.  This may change
 // over time.  On the other hande, essentially everything should be readable.
@@ -381,6 +383,10 @@ public interface ORBData {
     @ManagedAttribute
     @Description( "True if ORBD should not be used in this ORB instance")
     public boolean disableORBD() ;
+
+    default void waitNanos(Object obj, long waitNanos) throws InterruptedException {
+        TimeUnit.NANOSECONDS.timedWait(obj, waitNanos);
+    }
 }
 
 // End of file.
