@@ -21,7 +21,6 @@
 
     <artifactId>glassfish-corba-csiv2-idl</artifactId>
     <name>Generated CSIv2 APIs</name>
-    <packaging>bundle</packaging>
 
     <build>
         <plugins>

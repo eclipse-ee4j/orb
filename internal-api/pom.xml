@@ -22,7 +22,6 @@
     <artifactId>glassfish-corba-internal-api</artifactId>
     <name>Exposed Internal APIs</name>
     <description>Exposed Internal APIs</description>
-    <packaging>bundle</packaging>
 
     <dependencies>
         <dependency>

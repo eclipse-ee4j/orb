@@ -56,14 +56,14 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.0.2</version>
-                <configuration>
+                <configuration combine.self="override">
                     <archive>
                         <manifest>
                             <mainClass>org.glassfish.rmic.Main</mainClass>
                         </manifest>
                         <manifestEntries>
                             <Implementation-Version>${project.version}</Implementation-Version>
+                            <Implementation-Vendor>Eclipse Foundation</Implementation-Vendor>
                         </manifestEntries>
                     </archive>
                 </configuration>

@@ -20,7 +20,6 @@
 
     <artifactId>glassfish-corba-orb</artifactId>
     <name>GlassFish Corba ORB</name>
-    <packaging>bundle</packaging>
 
     <dependencies>
         <dependency>
@@ -83,14 +82,17 @@
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-all</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.meterware.simplestub</groupId>
             <artifactId>simplestub</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

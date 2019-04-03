@@ -129,19 +129,11 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.20</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.0.2</version>
+                <version>3.1.0</version>
                 <configuration>
                     <archive>
-                        <manifestEntries>
-                            <Implementation-Vendor>Oracle Corporation</Implementation-Vendor>
-                            <Built-By>Oracle</Built-By>
-                        </manifestEntries>
+                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
                     </archive>
                 </configuration>
             </plugin>
@@ -179,10 +171,29 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.20</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+                <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>3.3.0</version>
+                    <version>4.1.0</version>
                     <extensions>true</extensions>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>manifest</goal>
+                                <goal>install</goal>
+                                <goal>deploy</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
@@ -324,6 +335,28 @@
             </properties>
         </profile>
 
+        <profile>
+            <id>OSGi</id>
+            <activation>
+                <property>
+                    <name>use.osgi</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <configuration>
+                            <archive>
+                                <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                            </archive>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <!-- During release, always build with specified JDK -->
         <profile>
             <id>jvnet-release</id>
@@ -372,6 +405,46 @@
                             </execution>
                         </executions>
                     </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <!-- include required legal artifacts in module jars -->
+            <id>install-legal-files</id>
+            <activation>
+                <file>
+                    <exists>src/main/java</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.coderplus.maven.plugins</groupId>
+                        <artifactId>copy-rename-maven-plugin</artifactId>
+                        <version>1.0.1</version>
+                        <executions>
+                          <execution>
+                            <id>copy-legal-files</id>
+                            <phase>generate-resources</phase>
+                            <goals>
+                              <goal>copy</goal>
+                            </goals>
+                            <configuration>
+                                <fileSets>
+                                    <fileSet>
+                                        <sourceFile>${project.basedir}/../LICENSE.md</sourceFile>
+                                        <destinationFile>${project.build.outputDirectory}/META-INF/LICENSE</destinationFile>
+                                    </fileSet>
+                                    <fileSet>
+                                        <sourceFile>${project.basedir}/../NOTICE.md</sourceFile>
+                                        <destinationFile>${project.build.outputDirectory}/META-INF/NOTICE</destinationFile>
+                                    </fileSet>
+                                </fileSets>
+                            </configuration>
+                          </execution>
+                        </executions>
+                      </plugin>
                 </plugins>
             </build>
         </profile>
