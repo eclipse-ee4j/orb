@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2018, 2019, Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,6 +10,27 @@
 
 package org.glassfish.rmic;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.arrayContaining;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.emptyArray;
+import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeTrue;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import org.glassfish.rmic.classes.covariantReturn.DogFinder;
 import org.glassfish.rmic.classes.errorClasses.InterfaceWithNonRemoteMethod;
 import org.glassfish.rmic.classes.errorClasses.NotRemoteClass;
@@ -29,17 +50,6 @@ import org.glassfish.rmic.classes.systemexceptions.ServerInvokerServantPOA;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeTrue;
-
 /**
  * Tests RMIC by comparing the kept generated source files against the expected files.
  */
@@ -48,9 +58,7 @@ public class RmicGenerationTest {
     private static int testNum = 0;
     private static File rootDir;
     private static final boolean COMPILE_GENERATED = true;  // set false to check generated files without compiling
-    private static final String USE_LEGACY_PARSING_PROPERTY = "org.glassfish.rmic.UseLegacyClassParsing";
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     @BeforeClass
     public static void clearRootDir() throws IOException {
         rootDir = Files.createTempDirectory("rmic").toFile();
@@ -185,7 +193,7 @@ public class RmicGenerationTest {
 
     @Test
     public void whenBinaryIsMissing_dontCompileSources() throws Exception {
-        File generatedFile = new File(TestUtils.getClassPathString() + "Interface.java");
+        File generatedFile = new File(getTargetClassDir() + "Interface.java");
         BufferedWriter writer = new BufferedWriter(new FileWriter(generatedFile));
         writer.write("public class Interface implements java.rmi.Remote { }");
         writer.close();
@@ -199,6 +207,10 @@ public class RmicGenerationTest {
         } catch (AssertionError e) {
             assertThat(e.getMessage(), containsString("Class Interface not found"));
         }
+    }
+
+    private String getTargetClassDir() {
+        return TestUtils.getClassPathString().split(File.pathSeparator)[0];
     }
 
     @Test(expected = AssertionError.class)
@@ -234,12 +246,12 @@ public class RmicGenerationTest {
     }
 
     private File getModuleRoot() {
-        String classPathString = TestUtils.getClassPathString();
+        String classPathString = getTargetClassDir();
         return new File(classPathString.substring(0, classPathString.lastIndexOf("/target/")));
     }
 
     // Verifies that the generated files were deleted
-    private void checkGeneratedFilesDeleted(GenerationControl generator) throws IOException {
+    private void checkGeneratedFilesDeleted(GenerationControl generator) {
         String[] generatedFilePaths = getFilePaths(generator.getDestDir(), ".java");
 
         assertThat("In " + generator.getDestDir(), generatedFilePaths, emptyArray());
@@ -247,7 +259,7 @@ public class RmicGenerationTest {
 
     // Confirms that the generated files match those in the specified directory of master files
     @SuppressWarnings("SameParameterValue")
-    private void checkClassFilesPresent(GenerationControl generator, String mastersSubDir) throws IOException {
+    private void checkClassFilesPresent(GenerationControl generator, String mastersSubDir) {
         File masterDir = new File(getModuleRoot(), "src/test/masters/" + mastersSubDir);
 
         String[] generatedFilePaths = getFilePaths(generator.getDestDir(), ".class");
@@ -268,7 +280,7 @@ public class RmicGenerationTest {
         ArrayList<String> files = new ArrayList<>();
         appendFiles(files, rootDir, rootDir.getAbsolutePath().length() + 1, suffix);
         Collections.sort(files);
-        return files.toArray(new String[files.size()]);
+        return files.toArray(new String[0]);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -329,7 +341,6 @@ public class RmicGenerationTest {
         private ArrayList<String> argList = new ArrayList<>();
         private String[] classNames;
         private File destDir;
-        private String warning;
 
         @SuppressWarnings("ResultOfMethodCallIgnored")
         GenerationControl(String... classNames) {
@@ -341,7 +352,6 @@ public class RmicGenerationTest {
             addArgs("-classpath", classPath, "-d", destDir.getAbsolutePath());
         }
 
-        @SuppressWarnings("ResultOfMethodCallIgnored")
         private GenerationControl(Class<?>... classes) {
             this(toNameList(classes));
         }
@@ -354,21 +364,15 @@ public class RmicGenerationTest {
             return destDir;
         }
 
-        String getWarning() {
-            return warning;
-        }
-
         private void generate() throws IOException {
             if (argList.contains("-iiop") && !COMPILE_GENERATED) addArgs("-Xnocompile");
             for (String name : classNames)
                 addArgs(name);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             Main compiler = new Main(out, "rmic");
-            String[] argv = argList.toArray(new String[argList.size()]);
+            String[] argv = argList.toArray(new String[0]);
             if (!compiler.compile(argv))
                 throw createException(out);
-            else
-                warning = toMessage(out);
         }
 
         private AssertionError createException(ByteArrayOutputStream out) throws IOException {

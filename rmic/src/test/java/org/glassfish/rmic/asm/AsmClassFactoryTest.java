@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2018, 2019, Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,12 +10,12 @@
 
 package org.glassfish.rmic.asm;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+
 import org.glassfish.rmic.tools.java.ClassDefinitionFactoryTest;
 import org.junit.Test;
 import org.objectweb.asm.Opcodes;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 
 public class AsmClassFactoryTest extends ClassDefinitionFactoryTest {
 
@@ -25,6 +25,11 @@ public class AsmClassFactoryTest extends ClassDefinitionFactoryTest {
 
     @Test
     public void canRetrieveLatestAsmVersion() {
-        assertThat(AsmClassFactory.getLatestVersion(), equalTo(Opcodes.ASM6));
+        assertThat(AsmClassFactory.getLatestVersion(), equalTo(Opcodes.ASM7));
+    }
+
+    @Test
+    public void canRetrieveLatestSupportedClassVersion() {
+        assertThat(AsmClassFactory.getLatestClassVersion(), equalTo(Opcodes.V13));
     }
 }
