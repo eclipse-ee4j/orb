@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1998, 2019, Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -52,7 +52,7 @@ public interface RuntimeConstants {
     /* Class File Constants */
     int JAVA_MAGIC                   = 0xcafebabe;
     int JAVA_MIN_SUPPORTED_VERSION   = 45;
-    int JAVA_MAX_SUPPORTED_VERSION   = 53;
+    int JAVA_MAX_SUPPORTED_VERSION   = 60;
     int JAVA_MAX_SUPPORTED_MINOR_VERSION = 0;
 
     /* Generate class file version for 1.1  by default */

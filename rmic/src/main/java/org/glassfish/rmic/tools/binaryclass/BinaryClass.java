@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1994, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2019, Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.Vector;
+import org.glassfish.rmic.tools.javac.BatchEnvironment;
 
 /**
  * WARNING: The contents of this source file are not part of any
@@ -108,13 +109,14 @@ class BinaryClass extends ClassDefinition implements Constants {
                            org.glassfish.rmic.tools.javac.Main.getText(
                                "javac.err.version.too.old",
                                String.valueOf(version)));
-        } else if ((version > JAVA_MAX_SUPPORTED_VERSION)
-                     || (version == JAVA_MAX_SUPPORTED_VERSION
+        } else if ((version > getMaxSupportedClassVersion())
+                     || (version == getMaxSupportedClassVersion()
                   && minor_version > JAVA_MAX_SUPPORTED_MINOR_VERSION)) {
             throw new ClassFormatError(
                            org.glassfish.rmic.tools.javac.Main.getText(
                                "javac.err.version.too.recent",
-                               version+"."+minor_version));
+                               version+"."+minor_version,
+                               getMaxSupportedClassVersion() +"."+JAVA_MAX_SUPPORTED_MINOR_VERSION));
         }
 
         // Read the constant pool
@@ -133,7 +135,7 @@ class BinaryClass extends ClassDefinition implements Constants {
         ClassDeclaration superClassDecl = cpool.getDeclaration(env, in.readUnsignedShort());
 
         // Read the interface names - from JVM 4.1 ClassFile.interfaces_count
-        ClassDeclaration interfaces[] = new ClassDeclaration[in.readUnsignedShort()];
+        ClassDeclaration[] interfaces = new ClassDeclaration[in.readUnsignedShort()];
         for (int i = 0 ; i < interfaces.length ; i++) {
             // JVM 4.1 ClassFile.interfaces[]
             interfaces[i] = cpool.getDeclaration(env, in.readUnsignedShort());
@@ -201,6 +203,10 @@ class BinaryClass extends ClassDefinition implements Constants {
         }
 
         return c;
+    }
+
+    private static int getMaxSupportedClassVersion() {
+        return BatchEnvironment.getMaxSupportedClassVersion();
     }
 
     /**

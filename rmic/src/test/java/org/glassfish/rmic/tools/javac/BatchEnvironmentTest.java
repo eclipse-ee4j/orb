@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2018, 2019, Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,22 +10,22 @@
 
 package org.glassfish.rmic.tools.javac;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
+
 import com.meterware.simplestub.Memento;
 import com.meterware.simplestub.StaticStubSupport;
 import com.meterware.simplestub.SystemPropertySupport;
+import java.util.ArrayList;
+import java.util.List;
 import org.glassfish.rmic.BatchEnvironmentError;
 import org.glassfish.rmic.asm.AsmClassFactory;
 import org.glassfish.rmic.tools.binaryclass.BinaryClassFactory;
 import org.glassfish.rmic.tools.java.ClassDefinitionFactory;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
 
 @SuppressWarnings("deprecation")
 public class BatchEnvironmentTest {
@@ -33,10 +33,16 @@ public class BatchEnvironmentTest {
     private static final String JAVA_VERSION_PROPERTY = "java.version";
     private List<Memento> mementos = new ArrayList<>();
 
+    @BeforeClass
+    public static void ensureInitialized() {
+        BatchEnvironment.getMaxSupportedClassVersion();
+    }
+
     @Before
     public void setUp() throws Exception {
         mementos.add(SystemPropertySupport.preserve(USE_LEGACY_PARSING_PROPERTY));
         mementos.add(SystemPropertySupport.preserve(JAVA_VERSION_PROPERTY));
+        mementos.add(StaticStubSupport.preserve(BatchEnvironment.class, "classDefinitionFactory"));
         System.clearProperty(USE_LEGACY_PARSING_PROPERTY);
     }
 

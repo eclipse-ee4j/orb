@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1994, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2019, Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,12 +10,7 @@
 
 package org.glassfish.rmic.tools.javac;
 
-import org.glassfish.rmic.BatchEnvironmentError;
-import org.glassfish.rmic.asm.AsmClassFactory;
-import org.glassfish.rmic.tools.binaryclass.BinaryClassFactory;
-import org.glassfish.rmic.tools.java.*;
-import org.glassfish.rmic.tools.java.Package;
-import org.glassfish.rmic.tools.tree.Node;
+import static java.lang.Character.isDigit;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,8 +27,24 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
 import java.util.stream.Collectors;
-
-import static java.lang.Character.isDigit;
+import org.glassfish.rmic.BatchEnvironmentError;
+import org.glassfish.rmic.asm.AsmClassFactory;
+import org.glassfish.rmic.tools.binaryclass.BinaryClassFactory;
+import org.glassfish.rmic.tools.java.ClassDeclaration;
+import org.glassfish.rmic.tools.java.ClassDefinition;
+import org.glassfish.rmic.tools.java.ClassDefinitionFactory;
+import org.glassfish.rmic.tools.java.ClassFile;
+import org.glassfish.rmic.tools.java.ClassNotFound;
+import org.glassfish.rmic.tools.java.ClassPath;
+import org.glassfish.rmic.tools.java.CompilerError;
+import org.glassfish.rmic.tools.java.Constants;
+import org.glassfish.rmic.tools.java.Environment;
+import org.glassfish.rmic.tools.java.Identifier;
+import org.glassfish.rmic.tools.java.IdentifierToken;
+import org.glassfish.rmic.tools.java.MemberDefinition;
+import org.glassfish.rmic.tools.java.Package;
+import org.glassfish.rmic.tools.java.Type;
+import org.glassfish.rmic.tools.tree.Node;
 
 /**
  * Main environment of the batch version of the Java compiler,
@@ -43,7 +54,6 @@ import static java.lang.Character.isDigit;
  * supported API.  Code that depends on them does so at its own risk:
  * they are subject to change or removal without notice.
  */
-@Deprecated
 public
 class BatchEnvironment extends Environment implements ErrorConsumer {
     private static final String USE_LEGACY_PARSING_PROPERTY = "org.glassfish.rmic.UseLegacyClassParsing";
@@ -62,11 +72,15 @@ class BatchEnvironment extends Environment implements ErrorConsumer {
         }
     }
 
+    public static int getMaxSupportedClassVersion() {
+        return classDefinitionFactory.getMaxClassVersion();
+    }
+
     private static boolean useBinaryClassFactory() {
         return Boolean.getBoolean(USE_LEGACY_PARSING_PROPERTY) && mayUseBinaryClassFactory();
     }
 
-    private static boolean mayUseBinaryClassFactory() {
+    public static boolean mayUseBinaryClassFactory() {
         return isBinaryClassCompatibleJavaVersion(System.getProperty(JAVA_VERSION_PROPERTY));
     }
 

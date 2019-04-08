@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1994, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1994, 2019, Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -50,7 +50,7 @@ class Main implements Constants {
         return getText(key, fixed, null);
     }
 
-    static String getText(String key, String fixed1, String fixed2) {
+    public static String getText(String key, String fixed1, String fixed2) {
         return getText(key, fixed1, fixed2, null);
     }
 
