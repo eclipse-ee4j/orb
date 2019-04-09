@@ -334,28 +334,6 @@
             </properties>
         </profile>
 
-        <profile>
-            <id>OSGi</id>
-            <activation>
-                <property>
-                    <name>use.osgi</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <configuration>
-                            <archive>
-                                <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-                            </archive>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
         <!-- During release, always build with specified JDK -->
         <profile>
             <id>jvnet-release</id>
