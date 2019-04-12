@@ -333,59 +333,7 @@
                 <additionalparam>-Xdoclint:none</additionalparam>
             </properties>
         </profile>
-
-        <!-- During release, always build with specified JDK -->
-        <profile>
-            <id>oss-release</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-toolchains-plugin</artifactId>
-                        <version>1.1</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>toolchain</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <toolchains>
-                                <jdk>
-                                    <version>${jdkVersion}</version>
-                                    <vendor>oracle</vendor>
-                                </jdk>
-                            </toolchains>
-                        </configuration>
-                    </plugin>
-                    
-                    <!-- Must use 1.7 or 1.8 to do the release because of functional test dependencies on tools.jar -->
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-enforcer-plugin</artifactId>
-                        <version>1.4.1</version>
-                        <executions>
-                            <execution>
-                                <id>enforce-jdk-versions</id>
-                                <goals>
-                                    <goal>enforce</goal>
-                                </goals>
-                                <configuration>
-                                    <rules>
-                                        <requireJavaVersion>
-                                            <version>(,1.9)</version>
-                                            <message>functional-tests will not build with Java 9 or higher</message>
-                                        </requireJavaVersion>
-                                    </rules>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
+        
         <profile>
             <!-- include required legal artifacts in module jars -->
             <id>install-legal-files</id>
