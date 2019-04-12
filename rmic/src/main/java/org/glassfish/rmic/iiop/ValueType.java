@@ -425,15 +425,6 @@ public class ValueType extends ClassType {
             }
         }
 
-        // Ok, we've checked all of our fields. Are there any left in the "array"?
-        // If so, it's an error...
-
-        if (result && fields.size() > 0) {
-
-            result = false;
-            failedConstraint(9,quiet,stack,getQualifiedName());
-        }
-
         // Return result...
 
         return result;
