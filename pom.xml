@@ -336,7 +336,7 @@
 
         <!-- During release, always build with specified JDK -->
         <profile>
-            <id>jvnet-release</id>
+            <id>oss-release</id>
             <build>
                 <plugins>
                     <plugin>
