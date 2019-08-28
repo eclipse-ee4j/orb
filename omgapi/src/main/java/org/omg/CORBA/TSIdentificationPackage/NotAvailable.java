@@ -13,7 +13,7 @@ package org.omg.CORBA.TSIdentificationPackage;
  * A user-defined exception thrown if the ORB is unavailable
  * to register the call-back interfaces identified by the
  * OTS during initialization.
- * @see TSIdentification
+ * @see org.omg.CORBA.TSIdentification
  * @see AlreadyIdentified
  */
 public final class NotAvailable

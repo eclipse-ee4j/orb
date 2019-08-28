@@ -21,7 +21,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
 {
     /** Reads an IDL <code>Any</code> value from the input stream.
     * @return  the <code>Any</code> read.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -29,7 +29,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
 
     /** Reads an IDL boolean value from the input stream.
     * @return  the boolean read.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -37,7 +37,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
 
     /** Reads an IDL character value from the input stream.
     * @return  the character read.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -45,7 +45,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
 
     /** Reads an IDL wide character value from the input stream.
     * @return  the wide character read.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -53,7 +53,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
 
     /** Reads an IDL octet value from the input stream.
     * @return  the octet value read.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -61,7 +61,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
 
     /** Reads an IDL short from the input stream.
     * @return  the short read.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -69,7 +69,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
 
     /** Reads an IDL unsigned short from the input stream.
     * @return  the unsigned short read.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -77,7 +77,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
 
     /** Reads an IDL long from the input stream.
     * @return  the long read.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -85,7 +85,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
 
     /** Reads an IDL unsigned long from the input stream.
     * @return  the unsigned long read.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -93,7 +93,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
 
     /** Reads an IDL long long from the input stream.
     * @return  the long long read.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -101,7 +101,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
 
     /** Reads an unsigned IDL long long from the input stream.
     * @return  the unsigned long long read.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -109,7 +109,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
 
     /** Reads an IDL float from the input stream.
     * @return  the float read.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -117,7 +117,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
 
     /** Reads an IDL double from the input stream.
     * @return  the double read.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -126,7 +126,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
 
     /** Reads an IDL string from the input stream.
     * @return  the string read.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -134,7 +134,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
 
     /** Reads an IDL wide string from the input stream.
     * @return  the wide string read.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -142,7 +142,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
 
     /** Reads an IDL CORBA::Object from the input stream.
     * @return  the CORBA::Object read.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -150,7 +150,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
 
     /** Reads an IDL Abstract interface from the input stream.
     * @return  the Abstract interface read.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -158,7 +158,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
 
     /** Reads an IDL value type from the input stream.
     * @return  the value type read.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -166,7 +166,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
 
     /** Reads an IDL typecode from the input stream.
     * @return  the typecode read.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -178,7 +178,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
     * @param offset The index into seq of the first element to read from the
     * input stream.
     * @param length The number of elements to read from the input stream.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -190,7 +190,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
     * @param offset The index into seq of the first element to read from the
     * input stream.
     * @param length The number of elements to read from the input stream.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -202,7 +202,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
     * @param offset The index into seq of the first element to read from the
     * input stream.
     * @param length The number of elements to read from the input stream.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -214,7 +214,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
     * @param offset The index into seq of the first element to read from the
     * input stream.
     * @param length The number of elements to read from the input stream.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -226,7 +226,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
     * @param offset The index into seq of the first element to read from the
     * input stream.
     * @param length The number of elements to read from the input stream.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -238,7 +238,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
     * @param offset The index into seq of the first element to read from the
     * input stream.
     * @param length The number of elements to read from the input stream.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -250,7 +250,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
     * @param offset The index into seq of the first element to read from the
     * input stream.
     * @param length The number of elements to read from the input stream.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -262,7 +262,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
     * @param offset The index into seq of the first element to read from the
     * input stream.
     * @param length The number of elements to read from the input stream.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -274,7 +274,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
     * @param offset The index into seq of the first element to read from the
     * input stream.
     * @param length The number of elements to read from the input stream.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -286,7 +286,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
     * @param offset The index into seq of the first element to read from the
     * input stream.
     * @param length The number of elements to read from the input stream.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -298,7 +298,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
     * @param offset The index into seq of the first element to read from the
     * input stream.
     * @param length The number of elements to read from the input stream.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -310,7 +310,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
     * @param offset The index into seq of the first element to read from the
     * input stream.
     * @param length The number of elements to read from the input stream.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */
@@ -322,7 +322,7 @@ public interface DataInputStream extends org.omg.CORBA.portable.ValueBase
     * @param offset The index into seq of the first element to read from the
     * input stream.
     * @param length The number of elements to read from the input stream.
-    * @throws <code>org.omg.CORBA.MARSHAL</code>
+    * @throws org.omg.CORBA.MARSHAL
     * If an inconsistency is detected, including not having registered 
     * a streaming policy, then the standard system exception MARSHAL is raised.
     */

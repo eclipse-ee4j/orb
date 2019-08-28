@@ -37,7 +37,7 @@ package org.omg.CORBA;
  * The variable <code>k</code> represents the <code>TCKind</code>
  * instance for the IDL type <code>string</code>, which is
  * <code>tk_string</code>.
- * <P>
+ * 
  * <LI>the method <code>value</code> for accessing the
  * <code>_value</code> field of a <code>TCKind</code> constant
  * <P>Example:

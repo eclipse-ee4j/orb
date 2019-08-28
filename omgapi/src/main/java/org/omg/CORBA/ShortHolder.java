@@ -17,7 +17,7 @@ import org.omg.CORBA.portable.OutputStream;
 /**
  * The Holder for <tt>Short</tt>.  For more information on 
  * Holder files, see <a href="doc-files/generatedfiles.html#holder">
- * "Generated Files: Holder Files"</a>.<P
+ * "Generated Files: Holder Files"</a>.<P>
  * A Holder class for a <code>short</code>
  * that is used to store "out" and "inout" parameters in IDL operations.
  * If an IDL operation signature has an IDL <code>short</code> as an "out"
@@ -27,7 +27,7 @@ import org.omg.CORBA.portable.OutputStream;
  * must also fill the "in" value to be sent to the server.
  * Before the method invocation returns, the ORB will fill in the
  * value corresponding to the "out" value returned from the server.
- * <P>
+ * </P>
  * If <code>myShortHolder</code> is an instance of <code>ShortHolder</code>,
  * the value stored in its <code>value</code> field can be accessed with
  * <code>myShortHolder.value</code>.

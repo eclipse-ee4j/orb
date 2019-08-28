@@ -15,9 +15,9 @@ package org.omg.CORBA;
  * <code>SET_OVERRIDE</code> and <code>ADD_OVERRIDE</code>, which
  * indicate whether policies should replace the 
  * existing policies of an <code>Object</code> or be added to them.
- * <P>
- * The method {@link omg.org.CORBA.Object#_set_policy_override} takes
- * either <code>SetOverrideType.SET_OVERRIDE</code> or 
+ * <P> 
+ * The method {@link org.omg.CORBA.Object#_set_policy_override(org.omg.CORBA.Policy[], org.omg.CORBA.SetOverrideType)}
+ * takes either <code>SetOverrideType.SET_OVERRIDE</code> or 
  * <code>SetOverrideType.ADD_OVERRIDE</code> as its second argument.
  * The method <code>_set_policy_override</code>
  * creates a new <code>Object</code> initialized with the
