@@ -118,7 +118,8 @@ public class LocalObject implements org.omg.CORBA.Object
      * This method is the default implementation of the 
      * <code>org.omg.CORBA.Object</code> method.<P>
      * @return a duplicate of this <code>LocalObject</code> instance.
-     * @exception NO_IMPLEMENT
+     * @exception NO_IMPLEMENT because this is a locally constrained object
+     *      and this method does not apply to local objects
      * @see <a href="package-summary.html#unimpl"><code>CORBA</code> package
      *      comments for unimplemented features</a>
      */
@@ -131,7 +132,8 @@ public class LocalObject implements org.omg.CORBA.Object
      * the message "This is a locally constrained object."
      * This method is the default implementation of the 
      * <code>org.omg.CORBA.Object</code> method.<P>
-     * @exception NO_IMPLEMENT
+     * @exception NO_IMPLEMENT because this is a locally constrained object
+     *      and this method does not apply to local objects
      * @see <a href="package-summary.html#unimpl"><code>CORBA</code> package
      *      comments for unimplemented features</a>
      */
@@ -148,7 +150,8 @@ public class LocalObject implements org.omg.CORBA.Object
      * @param operation a <code>String</code> giving the name of an operation
      *        to be performed by the request that is returned
      * @return a <code>Request</code> object with the given operation
-     * @exception NO_IMPLEMENT
+     * @exception NO_IMPLEMENT because this is a locally constrained object
+     *      and this method does not apply to local objects
      * @see <a href="package-summary.html#unimpl"><code>CORBA</code> package
      *      comments for unimplemented features</a>
      */
@@ -172,7 +175,8 @@ public class LocalObject implements org.omg.CORBA.Object
      *                     container for the method's return value
      * @return a new <code>Request</code> object initialized with the given
      * arguments
-     * @exception NO_IMPLEMENT
+     * @exception NO_IMPLEMENT because this is a locally constrained object
+     *      and this method does not apply to local objects
      * @see <a href="package-summary.html#unimpl"><code>CORBA</code> package
      *      comments for unimplemented features</a>
      */
@@ -204,7 +208,8 @@ public class LocalObject implements org.omg.CORBA.Object
      *                     <code>Request</code> instance
      * @return the new <code>Request</code> object initialized with the given 
      * arguments
-     * @exception NO_IMPLEMENT
+     * @exception NO_IMPLEMENT because this is a locally constrained object
+     *      and this method does not apply to local objects
      * @see <a href="package-summary.html#unimpl"><code>CORBA</code> package
      *      comments for unimplemented features</a>
      */
@@ -240,7 +245,8 @@ public class LocalObject implements org.omg.CORBA.Object
      * the message "This is a locally constrained object."
      * This method is the default implementation of the 
      * <code>org.omg.CORBA.Object</code> method.<P>
-     * @exception NO_IMPLEMENT
+     * @exception NO_IMPLEMENT because this is a locally constrained object
+     *      and this method does not apply to local objects
      * @see <a href="package-summary.html#unimpl"><code>CORBA</code> package
      *      comments for unimplemented features</a>
      */
@@ -263,7 +269,8 @@ public class LocalObject implements org.omg.CORBA.Object
      * <code>org.omg.CORBA.Object</code> method.<P>
      * @return the ORB instance that created the Delegate contained in this
      * <code>ObjectImpl</code>
-     * @exception NO_IMPLEMENT
+     * @exception NO_IMPLEMENT because this is a locally constrained object
+     *      and this method does not apply to local objects
      * @see <a href="package-summary.html#unimpl"><code>CORBA</code> package
      *      comments for unimplemented features</a>
      */
@@ -296,7 +303,8 @@ public class LocalObject implements org.omg.CORBA.Object
      * does not apply to local objects and is therefore not implemented.
      * This method is the default implementation of the 
      * <code>org.omg.CORBA.Object</code> method.<P>
-     * @exception NO_IMPLEMENT
+     * @exception NO_IMPLEMENT because this is a locally constrained object
+     *      and this method does not apply to local objects
      * @see <a href="package-summary.html#unimpl"><code>CORBA</code> package
      *      comments for unimplemented features</a>
      */
@@ -334,7 +342,8 @@ public class LocalObject implements org.omg.CORBA.Object
      * <code>org.omg.CORBA.Object</code> method.<P>
      * Returns <code>true</code> for this <code>LocalObject</code> instance.<P>
      * @return <code>true</code> always
-     * @exception NO_IMPLEMENT
+     * @exception NO_IMPLEMENT because this is a locally constrained object
+     *      and this method does not apply to local objects
      * @see <a href="package-summary.html#unimpl"><code>CORBA</code> package
      *      comments for unimplemented features</a>
      */
@@ -368,7 +377,8 @@ public class LocalObject implements org.omg.CORBA.Object
      * This method is the default implementation of the 
      * <code>org.omg.CORBA.Object</code> method.<P>
      * @param servant the servant object on which to post-invoke
-     * @exception NO_IMPLEMENT
+     * @exception NO_IMPLEMENT because this is a locally constrained object
+     *      and this method does not apply to local objects
      * @see <a href="package-summary.html#unimpl"><code>CORBA</code> package
      *      comments for unimplemented features</a>
      */
@@ -457,7 +467,8 @@ public class LocalObject implements org.omg.CORBA.Object
      * value may also be passed to <code>_releaseReply</code>, in which case the
      * method is a no-op.<P>
      * @param input the reply stream back to the ORB or null
-     * @exception NO_IMPLEMENT
+     * @exception NO_IMPLEMENT because this is a locally constrained object
+     *      and this method does not apply to local objects
      * @see <a href="package-summary.html#unimpl"><code>CORBA</code> package
      *      comments for unimplemented features</a>
      */

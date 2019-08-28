@@ -38,7 +38,7 @@ package org.omg.CORBA;
  * <code>org.omg.CORBA.Object</code>
  * are provided in the class <code>org.omg.CORBA.portable.ObjectImpl</code>,
  * which is the base class for stubs and object implementations.
- * <p>
+ * </p>
  * @see org.omg.CORBA.portable.ObjectImpl
  */
 

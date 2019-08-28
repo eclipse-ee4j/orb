@@ -15,16 +15,15 @@ package org.omg.CORBA;
  *  with an array.
  * @deprecated Use the new <a href="../DynamicAny/DynArray.html">DynArray</a> instead
  */
-
-// @Deprecated
+@Deprecated
 public interface DynArray extends org.omg.CORBA.Object, org.omg.CORBA.DynAny
 {
     /**
      * Returns the value of all the elements of this array.
      *
      * @return the array of <code>Any</code> objects that is the value
-         *         for this <code>DynArray</code> object
-         * @see #set_elements
+     *         for this <code>DynArray</code> object
+     * @see #set_elements(org.omg.CORBA.Any[])
      */
     public org.omg.CORBA.Any[] get_elements();
 
@@ -33,8 +32,8 @@ public interface DynArray extends org.omg.CORBA.Object, org.omg.CORBA.DynAny
      * <code>DynArray</code> object to the given array.
      *
      * @param value the array of <code>Any</code> objects
-     * @exception InvalidSeq if the sequence is bad
-         * @see #get_elements
+     * @exception org.omg.CORBA.DynAnyPackage.InvalidSeq if the sequence is bad
+     * @see #get_elements()
      */
     public void set_elements(org.omg.CORBA.Any[] value)
         throws org.omg.CORBA.DynAnyPackage.InvalidSeq;

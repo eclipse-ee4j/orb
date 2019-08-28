@@ -38,7 +38,7 @@ public interface DynAny extends org.omg.CORBA.Object
      *
      * @param dyn_any the <code>DynAny</code> object whose contents
      *                are assigned to this <code>DynAny</code>. 
-     * @throws Invalid if the source <code>DynAny</code> is
+     * @throws org.omg.CORBA.DynAnyPackage.Invalid if the source <code>DynAny</code> is
      *            invalid 
      */
     public void assign(org.omg.CORBA.DynAny dyn_any)
@@ -49,7 +49,7 @@ public interface DynAny extends org.omg.CORBA.Object
      * object.
      *
      * @param value the <code>Any</code> object.
-     * @throws Invalid if the source <code>Any</code> object is
+     * @throws org.omg.CORBA.DynAnyPackage.Invalid if the source <code>Any</code> object is
      *                    empty or bad
      */
     public void from_any(org.omg.CORBA.Any value)
@@ -60,7 +60,7 @@ public interface DynAny extends org.omg.CORBA.Object
      * object.
      *
      * @return the <code>Any</code> object.
-     * @throws Invalid if this <code>DynAny</code> is empty or
+     * @throws org.omg.CORBA.DynAnyPackage.Invalid if this <code>DynAny</code> is empty or
      *                    bad.
      *            created or does not contain a meaningful value
      */

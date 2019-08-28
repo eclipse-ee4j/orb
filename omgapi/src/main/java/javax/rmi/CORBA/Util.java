@@ -149,6 +149,7 @@ an exported
 Tie#deactivate} 
      * to deactivate the object.
      * @param target the object to unexport.
+     * @throws java.rmi.NoSuchObjectException if the target object does not exist
      */
     public static void unexportObject(java.rmi.Remote target) 
         throws java.rmi.NoSuchObjectException 
@@ -162,6 +163,7 @@ Tie#deactivate}
     
     /**
      * Returns the tie (if any) for a given target object.
+     * @param target the Remote to get the Tie for
      * @return the tie or null if no tie is registered for the given target.
      */
     public static Tie getTie (Remote target) {
@@ -217,6 +219,7 @@ Tie#deactivate}
      * and <tt>loader</tt> is non-null, then call <tt>loader.loadClass(className)</tt>.
      * <LI>If a class was successfully loaded by step 1, 2, 3, or 4, then
      *  return the loaded class, else throw <tt>ClassNotFoundException</tt>.
+     * </UL>
      * @param className the name of the class.
      * @param remoteCodebase a space-separated list of URLs at which
      * the class might be found. May be null.

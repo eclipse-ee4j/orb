@@ -10,6 +10,8 @@
 
 package org.omg.CORBA.portable;
 
+import org.omg.CORBA.SystemException;
+
 /**
 This interface provides a dispatching mechanism for an incoming call.
 It is invoked by the ORB to dispatch a request to a servant.
@@ -54,6 +56,6 @@ public interface InvokeHandler {
 
     OutputStream _invoke(String method, InputStream input,
                          ResponseHandler handler)
-        throws org.omg.CORBA.SystemException;
+        throws SystemException;
 }
 

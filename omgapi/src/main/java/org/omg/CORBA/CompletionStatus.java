@@ -26,10 +26,10 @@ package org.omg.CORBA;
  * <P>
  * The class also contains two methods:
  * <UL>
- * <LI><code>public int <bold>value</bold>()</code> -- which accesses the
+ * <LI><code>public int <b>value</b>()</code> -- which accesses the
  * <code>value</code> field of a <code>CompletionStatus</code> object
  * <LI><code>public static CompletionStatus
- * <bold>from_int</bold>(int i)</code> --
+ * <b>from_int</b>(int i)</code> --
  * for creating an instance from one of the <code>int</code> members
  * </UL>
  * @version %I, %G

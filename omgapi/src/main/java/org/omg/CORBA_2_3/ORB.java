@@ -12,12 +12,16 @@
 package org.omg.CORBA_2_3;
 
 /**
- * A class extending <code>org.omg.CORBA.ORB</code> to make the ORB
+ * A class extending {@link org.omg.CORBA.ORB} to make the ORB
  * portable under the OMG CORBA version 2.3 specification.
  */
 public abstract class ORB extends org.omg.CORBA.ORB {
 
 /**
+ * Unimplemented method
+ * @param id the repository ID.
+ * @param factory the factory.
+ * @return the previously registered factory for the given repository ID, or null if no such factory was previously registered.
  * @see <a href="package-summary.html#unimpl"><code>CORBA_2_3</code> package
  *      comments for unimplemented features</a>
  */
@@ -29,6 +33,8 @@ public abstract class ORB extends org.omg.CORBA.ORB {
  
 
 /**
+ * Unimplemented method
+ * @param id the repository id
  * @see <a href="package-summary.html#unimpl"><code>CORBA_2_3</code> package
  *      comments for unimplemented features</a>
  */
@@ -39,6 +45,8 @@ public abstract class ORB extends org.omg.CORBA.ORB {
 
 
 /**
+ * @param id the repository id to lookup
+ * @return the value factory.
  * @see <a href="package-summary.html#unimpl"><code>CORBA_2_3</code> package
  *      comments for unimplemented features</a>
  */
@@ -49,6 +57,10 @@ public abstract class ORB extends org.omg.CORBA.ORB {
     
 
 /**
+ * Unimplemented method
+ * @param repid repository id
+ * @return a ValueDef
+ * @exception org.omg.CORBA.NO_IMPLEMENT  if repid does not represent a valuetype
  * @see <a href="package-summary.html#unimpl"><code>CORBA_2_3</code> package
  *      comments for unimplemented features</a>
  */
@@ -60,10 +72,11 @@ public abstract class ORB extends org.omg.CORBA.ORB {
      }
 
 
-/**
- * @see <a href="package-summary.html#unimpl"><code>CORBA_2_3</code> package
- *      comments for unimplemented features</a>
- */
+    /**
+     * Unimplemented method
+     * @param wrapper unused
+     * @see <a href="package-summary.html#unimpl"><code>CORBA_2_3</code> package comments for unimplemented features</a>
+     */
      public void set_delegate(java.lang.Object wrapper) {
        throw new org.omg.CORBA.NO_IMPLEMENT();
      }

@@ -84,7 +84,7 @@ import java.security.PrivilegedAction;
  * <P>
  * When an ORB instance is being created, the class name of the ORB
  * implementation is located using
- * the following standard search order:<P>
+ * the following standard search order:</P>
  *
  * <OL>
  *     <LI>check in Applet parameter or application string array, if any
@@ -1314,7 +1314,7 @@ abstract public class ORB {
     *        of type specified by the <tt>type</tt> parameter and 
     *        initialized to a state specified by the <tt>val</tt>
     *        parameter
-    * @throws <tt>org.omg.CORBA.PolicyError</tt> when the requested
+    * @throws org.omg.CORBA.PolicyError when the requested
     *        policy is not supported or a requested initial state 
     *        for the policy is not supported.
     */

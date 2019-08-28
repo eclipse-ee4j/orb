@@ -28,6 +28,7 @@ public interface ValueHandlerMultiFormat extends ValueHandler {
      * supports.  If not included, the default for GIOP 1.2
      * is stream format version 1, and stream format version
      * 2 for GIOP 1.3 and higher.
+     * @return the maximum version supported
      */
     byte getMaximumStreamFormatVersion();
 
@@ -39,14 +40,17 @@ public interface ValueHandlerMultiFormat extends ValueHandler {
      * getMaximumStreamFormatVersion method inclusive,
      * or else a BAD_PARAM exception with standard minor code
      * will be thrown.
-     *
+     * <p>
      * If the ORB calls the older ValueHandler.writeValue(OutputStream,
      * Serializable) method, stream format version 1 is implied.
-     *
+     * </p>
      * The ORB output stream passed to the ValueHandlerMultiFormat.writeValue
      * method must implement the ValueOutputStream interface, and the
      * ORB input stream passed to the ValueHandler.readValue method must
      * implement the ValueInputStream interface.
+     * @param out stream to write the value out to
+     * @param value a {@link java.io.Serializable} value to write
+     * @param streamFormatVersion stream format version
      */
     void writeValue(org.omg.CORBA.portable.OutputStream out,
                     java.io.Serializable value,
