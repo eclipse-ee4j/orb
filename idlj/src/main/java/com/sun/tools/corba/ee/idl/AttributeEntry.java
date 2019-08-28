@@ -39,6 +39,7 @@ public class AttributeEntry extends MethodEntry
     super (that, clone);
   } // ctor
 
+  @Override
   public Object clone ()
   {
     return new AttributeEntry (this);
@@ -50,6 +51,7 @@ public class AttributeEntry extends MethodEntry
        a subclass of SymtabEntry.
       @param stream the stream to which the generator should sent its output.
       @see com.sun.tools.corba.ee.idl.SymtabEntry */
+  @Override
   public void generate (Hashtable symbolTable, PrintWriter stream)
   {
     attributeGen.generate (symbolTable, this, stream);
@@ -58,18 +60,25 @@ public class AttributeEntry extends MethodEntry
   /** Access the attribute generator.
       @return an object which implements the AttributeGen interface.
       @see com.sun.tools.corba.ee.idl.AttributeGen */
+  @Override
   public com.sun.tools.corba.ee.idl.Generator generator ()
   {
     return attributeGen;
   } // generator
 
-  /** if true, only a get method will be generated. */
+  /** 
+   * If true, only a get method will be generated. 
+   * @return if the attribute is readonly
+   */
   public boolean readOnly ()
   {
     return _readOnly;
   } // readOnly
 
-  /** if true, only a get method will be generated. */
+  /** 
+   * Sets the readOnly parameter
+   * @param readOnly If true, only a get method will be generated.
+   */
   public void readOnly (boolean readOnly)
   {
     _readOnly = readOnly;

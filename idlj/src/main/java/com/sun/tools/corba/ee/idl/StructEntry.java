@@ -65,21 +65,25 @@ public class StructEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   } // generate
 
   /** Access the struct generator.
-      @returns an object which implements the StructGen interface.
+      @return an object which implements the StructGen interface.
       @see com.sun.tools.corba.ee.idl.StructGen */
   public com.sun.tools.corba.ee.idl.Generator generator ()
   {
     return structGen;
   } // generator
 
-  /** Add a member to the member list. */
+  /** Add a member to the member list.
+   * @param member member to add to list
+   */
   public void addMember (com.sun.tools.corba.ee.idl.TypedefEntry member)
   {
     _members.addElement (member);
   } // addMember
 
   /** This is a vector of TypedefEntry's.  In this context, only the name,
-      type, and arrayInfo fields hold any meaning. */
+    * type, and arrayInfo fields hold any meaning.
+    * @return a {@link Vector} of the members of the stuct
+    */
   public Vector members ()
   {
     return _members;
@@ -105,7 +109,9 @@ public class StructEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
       }
       </pre>
       Struct B is contained within struct A.
-      The members vector will contain entries for x and y. */
+      The members vector will contain entries for x and y. 
+    * @return a {@link Vector} of the {@link SymtabEntry} in the Struct
+    */
   public Vector contained ()
   {
     return _contained;

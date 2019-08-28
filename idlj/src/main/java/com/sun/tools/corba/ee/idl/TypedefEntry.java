@@ -45,8 +45,10 @@ public class TypedefEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   } // ctor
 
   /** This method returns a vector of Expressions, each expression
-      represents a dimension in an array.  A zero-length vector indicates
-      no array information.*/
+    * represents a dimension in an array.  A zero-length vector indicates
+    * no array information.
+    * @return a {link Vector} of {@link Expression}s
+    */
   public Vector arrayInfo ()
   {
     return _arrayInfo;

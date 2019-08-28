@@ -58,7 +58,7 @@ public abstract class FileLocator extends Object {
      *     java.lang.Object
      *     java.io.DataInputStream
      * </pre>
-     *
+     * @return a {@link NamedDataInputStream} of the file
      * @exception java.io.FileNotFoundException The requested class file
      * could not be found.
      * @exception java.io.IOException The requested class file
@@ -158,7 +158,7 @@ public abstract class FileLocator extends Object {
      *     All elements of the class path are searched for each name,
      *     before the next possible name is tried.
      * </pre>
-     *
+     * @return a {@link NamedDataInputStream} of the file
      * @exception java.io.FileNotFoundException The requested class file
      * could not be found.
      * @exception java.io.IOException The requested class file
@@ -209,7 +209,7 @@ public abstract class FileLocator extends Object {
      * character or using separator characters appropriate for the host file
      * system, in which case each directory or zip file in the CLASSPATH will
      * be used as a base for finding the fully-qualified file.
-     *
+     * @return a {@link NamedDataInputStream} of the file
      * @exception java.io.FileNotFoundException The requested class file
      * could not be found.
      * @exception java.io.IOException The requested class file
@@ -290,6 +290,8 @@ public abstract class FileLocator extends Object {
      * DataInputStream <i>if the DataInputStream was created using one
      * of the static locate methods supplied with this class</i>, otherwise
      * returns a zero length string.
+     * @param ds stream to get file name from
+     * @return fully qualified file nae
      */
     public static String getFileNameFromStream (DataInputStream ds) {
 
@@ -304,6 +306,8 @@ public abstract class FileLocator extends Object {
      * associated with a member of a zip file <i>if the DataInputStream was
      * created using one of the static locate methods supplied with this
      * class</i>, otherwise returns false.
+     * @param ds stream to check
+     * @return if a zip file is associated with the stream
      */
     public static boolean isZipFileAssociatedWithStream (DataInputStream ds) {
 

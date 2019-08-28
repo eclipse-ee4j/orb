@@ -81,6 +81,7 @@ public class Arguments
 
     /**
     * Collect the command-line parameters.
+    * @param args arguments passed in
     **/
     void parseArgs (String[] args) throws InvalidArgument {
         Vector unknownArgs = new Vector ();

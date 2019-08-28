@@ -65,7 +65,10 @@ public class IncludeEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   } // generator
 
   //d44810
-  /** Set the fully-qualified file specification of this include file. */
+  /** 
+   * Set the fully-qualified file specification of this include file.
+   * @param afn absolute filename
+   */
   public void absFilename (String afn)
   {
     _absFilename = afn;
@@ -80,13 +83,17 @@ public class IncludeEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   }
 
   /** Add an IncludeEntry to the list of files which this included
-      file includes. */
+    * file includes.
+    * @param entry IncludeEntry to add
+    */
   public void addInclude (IncludeEntry entry)
   {
     includeList.addElement (entry);
   } // addInclude
 
-  /** Get the list of files which this file includes. */
+  /** Get the list of files which this file includes.
+   * @return a {@link Vector} of files included
+   */
   public Vector includes ()
   {
     return includeList;

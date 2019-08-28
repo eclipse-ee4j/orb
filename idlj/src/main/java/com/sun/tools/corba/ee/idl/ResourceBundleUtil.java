@@ -49,7 +49,9 @@ public class ResourceBundleUtil
 
 
   /** Register a ResourceBundle.  This file will be searched for
-      in the CLASSPATH. */
+      in the CLASSPATH.
+    * @param bundle bundle to set as the current ResourceBundle
+    */
   public static void registerResourceBundle (ResourceBundle bundle)
   {
     if (bundle != null)
@@ -57,7 +59,9 @@ public class ResourceBundleUtil
   } // registerResourceBundle
 
 
-  /** Gets the current ResourceBundle.  */
+  /** Gets the current ResourceBundle.
+   * @return the current ResourceBundle
+   */
   public static ResourceBundle getResourceBundle ()
   {
     if (fBundle == null) {

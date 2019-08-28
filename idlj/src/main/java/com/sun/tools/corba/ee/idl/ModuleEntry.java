@@ -67,7 +67,7 @@ public class ModuleEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     return moduleGen;
   } // generator
 
-  /** alid entries in this vector are:  TypedefEntry, ExceptionEntry,
+  /** @param entry Valid entries in this vector are:  TypedefEntry, ExceptionEntry,
       StructEntry, UnionEntry, EnumEntry, ConstEntry, InterfaceEntry,
       ModuleEntry. */
   public void addContained (com.sun.tools.corba.ee.idl.SymtabEntry entry)
@@ -77,7 +77,9 @@ public class ModuleEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
 
   /** This is a vector of SymtabEntry's.  Valid entries in this vector are:
       TypedefEntry, ExceptionEntry, StructEntry, UnionEntry, EnumEntry,
-      ConstEntry, InterfaceEntry, ModuleEntry. */
+      ConstEntry, InterfaceEntry, ModuleEntry.
+    * @return a {@link Vector} of {@link SymtabEntry}
+    */
   public Vector contained ()
   {
     return _contained;

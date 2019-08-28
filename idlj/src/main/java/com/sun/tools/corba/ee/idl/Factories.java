@@ -43,28 +43,36 @@ import com.sun.tools.corba.ee.idl.constExpr.ExprFactory;
 public class Factories
 {
   /** Return the implementation of the GenFactory interface.  If this
-      returns null, then the compiler cannot generate anything. */
+      returns null, then the compiler cannot generate anything.
+    * @return {@code} null
+    */
   public GenFactory genFactory ()
   {
     return null;
   } // genFactory
 
   /** Return the implementation of the SymtabFactory interface.  If this
-      returns null, the default symbol table entries will be used. */
+      returns null, the default symbol table entries will be used.
+    * @return {@link DefaultSymtabFactory}
+    */
   public com.sun.tools.corba.ee.idl.SymtabFactory symtabFactory ()
   {
     return new com.sun.tools.corba.ee.idl.DefaultSymtabFactory();
   } // symtabFactory
 
   /** Return the implementation of the ExprFactory interface.  If this
-      returns null, the default expressions will be used. */
+      returns null, the default expressions will be used.
+    * @return {@link DefaultSymtabFactory}
+    */
   public ExprFactory exprFactory ()
   {
     return new DefaultExprFactory();
   } // exprFactory
 
   /** Return a subclass of the Arguments class.  If this returns null,
-      the default will be used. */
+    * the default will be used.
+    * @return a new instance of {@link Arguments}
+    */
   public com.sun.tools.corba.ee.idl.Arguments arguments ()
   {
     return new com.sun.tools.corba.ee.idl.Arguments();
@@ -79,7 +87,9 @@ public class Factories
       <dd>matches one or more characters
       <dt>`.'
       <dd>matches any single character
-      </dl> */
+      </dl>
+    * @return an array of keywords
+    */
   public String[] languageKeywords ()
   {
     return null;
