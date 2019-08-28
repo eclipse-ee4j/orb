@@ -217,6 +217,7 @@ public class Compile
 
   /**
    * Initialize the framework.
+   * @param args command line arguments
    **/
   protected void init (String[] args) throws com.sun.tools.corba.ee.idl.InvalidArgument
   {
@@ -234,6 +235,9 @@ public class Compile
    * generated.  All elements of the Enumeration will be extensions of
    * SymtabEntry.  If any errors were encountered during parsing, null
    * will be returned.
+   * @return {@link Enumeration}&lt;{@link SymtabEntry}&gt; 
+   *    or null if a non-IO error occured
+   * @throws IOException if there was an error reading the file
    **/
   protected Enumeration parse () throws IOException
   {
@@ -266,7 +270,7 @@ public class Compile
    * Invoke the generators.
    **/
   @SuppressWarnings("StatementWithEmptyBody")
-  protected void generate () throws IOException
+  protected void generate()
   {
     /*
     // print the symbol table
@@ -310,6 +314,7 @@ public class Compile
    * Start the parse/code generation process.  This method calls init,
    * parse, generate.  If more control is desired, rather than call start,
    * those three methods could be called explicitly.
+   * @param args command-line arguments
    **/
   public void start (String[] args)
   {

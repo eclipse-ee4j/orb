@@ -75,14 +75,18 @@ public class StringEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   } // generator
 
   /** The constant expression defining the maximum size of the string.
-      If it is null, then the string is unbounded. */
+    * If it is null, then the string is unbounded.
+    * @param expr the maximum size of the string to set
+    */
   public void maxSize (Expression expr)
   {
     _maxSize = expr;
   } // maxSize
 
   /** The constant expression defining the maximum size of the string.
-      If it is null, then the string is unbounded. */
+    * If it is null, then the string is unbounded.
+    * @return the maximum size of the String
+    */
   public Expression maxSize ()
   {
     return _maxSize;

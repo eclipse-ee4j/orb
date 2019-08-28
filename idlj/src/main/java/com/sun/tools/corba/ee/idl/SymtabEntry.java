@@ -62,7 +62,9 @@ public class SymtabEntry
         _comment = that._comment;       // <21jul1997daz>
   } // ctor
 
-  /** This is a shallow copy constructor */
+  /** This is a shallow copy constructor
+   * @param that SymtabEntry to copy
+   */
   SymtabEntry (SymtabEntry that)
   {
     _module     = that._module;
@@ -90,6 +92,7 @@ public class SymtabEntry
   } // initDynamicVars
 
   /** This is a shallow copy clone */
+  @Override
   public Object clone ()
   {
     return new SymtabEntry (this);
@@ -168,27 +171,35 @@ public class SymtabEntry
       ((com.sun.tools.corba.ee.idl.ForwardEntry)_type).types.addElement (this);
   } // type
 
-  /** The file name in which this entry was defined. */
+  /** The file name in which this entry was defined. 
+   * @return {@link IncludeEntry} of fileName
+   */
   public com.sun.tools.corba.ee.idl.IncludeEntry sourceFile ()
   {
     return _sourceFile;
   } // sourceFile
 
-  /** The file name in which this entry was defined. */
+  /** The file name in which this entry was defined.
+   * @param file {@link IncludeEntry} of the file 
+   */
   public void sourceFile (com.sun.tools.corba.ee.idl.IncludeEntry file)
   {
     _sourceFile = file;
   } // sourceFile
 
   /** This must be either an InterfaceEntry or a ModuleEntry.
-      It can be nothing else. */
+   * It can be nothing else.
+   * @return container of the entry
+   */
   public SymtabEntry container ()
   {
     return _container;
   } // container
 
   /** This must be either an InterfaceEntry or a ModuleEntry.
-      It can be nothing else. */
+    *  It can be nothing else. 
+    * @param newContainer {@link InterfaceEntry} or {@link ModuleEntry}
+    */
   public void container (SymtabEntry newContainer)
   {
     if (newContainer instanceof com.sun.tools.corba.ee.idl.InterfaceEntry || newContainer instanceof com.sun.tools.corba.ee.idl.ModuleEntry)
@@ -208,7 +219,9 @@ public class SymtabEntry
     _repID = id;
   } // repositoryID
 
-  /** Should this type be emitted? */
+  /** Should this type be emitted? 
+   * @return true if this type is emitted and referencable
+   */
   public boolean emit ()
   {
     return _emit && _isReferencable ;
@@ -255,20 +268,26 @@ public class SymtabEntry
   } // exitingInclude
 
   /** Other variables besides the default ones can be dynamically placed
-      into SymTabEntry (and therefore on all symbol table entries) by
-      extenders.  Before such a variable can exist, its key must be
-      obtained by calling getVariableKey. */
+    * into SymTabEntry (and therefore on all symbol table entries) by
+    * extenders.  Before such a variable can exist, its key must be
+    * obtained by calling getVariableKey.
+    * @return the key for placing variables into the entry
+    */
   public static int getVariableKey ()
   {
     return ++maxKey;
   } // dynamicVariable
 
   /** Other variables besides the default ones can be dynamically placed
-      into SymTabEntry (and therefore on all symbol table entries) by
-      extenders.  This method assigns the value to the variable of the
-      given key.  A valid key must be obtained by calling the method
-      getVariableKey.  If the key is invalid, NoSuchFieldException is
-      thrown. */
+    * into SymTabEntry (and therefore on all symbol table entries) by
+    * extenders.  This method assigns the value to the variable of the
+    * given key.  A valid key must be obtained by calling the method
+    * getVariableKey.  If the key is invalid, NoSuchFieldException is
+    * thrown.
+    * @param key obtained by {@link #getVariableKey()}
+    * @param value variable to assign to key
+    * @throws NoSuchFieldException if key is invalid
+    */
   public void dynamicVariable (int key, Object value) throws NoSuchFieldException
   {
     if (key > maxKey)
@@ -285,9 +304,13 @@ public class SymtabEntry
       into SymTabEntry (and therefore on all symbol table entries) by
       extenders.  This method gets the value of the variable of the
       given key.  A valid key must be obtained by calling the method
-      getVariableKey.  If the key is invalid, NoSuchFieldException is
-      thrown. */
-  public Object dynamicVariable (int key) throws NoSuchFieldException
+      getVariableKey.  If the key is invalid, {@link NoSuchFieldException} is
+      thrown. 
+    * @param key obtained by calling {@link #getVariableKey()}
+    * @return the variable for the key
+    * @throws NoSuchFieldException if key is invalid
+    */
+  public Object dynamicVariable(int key) throws NoSuchFieldException
   {
     if (key > maxKey)
       throw new NoSuchFieldException (Integer.toString (key));

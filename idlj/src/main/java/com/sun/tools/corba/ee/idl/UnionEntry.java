@@ -81,15 +81,19 @@ public class UnionEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     _branches.addElement (branch);
   } // addBranch
 
-  /** This is a vector of UnionBranch's. */
+  /** This is a vector of UnionBranch's.
+   * @return a {@link Vector} of {@link UnionBranch}
+   */
   public Vector branches ()
   {
     return _branches;
   } // branches
 
   /** This TypedefEntry describes the type and name for the default branch.
-      Like the entries in the branches vector, only the type and name fields
-      are pertinent. */
+    * Like the entries in the branches vector, only the type and name fields
+    * are pertinent.
+    * @param branch the {@link TypedefEntry} for the default
+    */
   public void defaultBranch (com.sun.tools.corba.ee.idl.TypedefEntry branch)
   {
     _defaultBranch = branch;
@@ -97,7 +101,9 @@ public class UnionEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
 
   /** This TypedefEntry describes the type and name for the default branch.
       Like the entries in the branches vector, only the type and name fields
-      are pertinent. */
+      are pertinent.
+    * @return {@link TypedefEntry} for the default
+    */
   public com.sun.tools.corba.ee.idl.TypedefEntry defaultBranch ()
   {
     return _defaultBranch;
@@ -108,7 +114,7 @@ public class UnionEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     _contained.addElement (entry);
   } // addContained
 
-  /** This is a vector of SymtabEntry's.  It itemizes any types which
+  /** This is a vector of SymtabEntrys.  It itemizes any types which
       this union contains.  For example:
 
       <pre>
@@ -124,7 +130,9 @@ public class UnionEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
           } y;
       }
       </pre>
-      Struct B is contained within union A. */
+      Struct B is contained within union A.
+  * @return a Vector of {@link SymtabEntry}s contained within
+  */
   public Vector contained ()
   {
     return _contained;

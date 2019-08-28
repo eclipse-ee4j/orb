@@ -71,19 +71,25 @@ public class ValueEntry extends com.sun.tools.corba.ee.idl.InterfaceEntry
   /** Add an InterfaceEntry to the list of interfaces which this value
       supports.  During parsing, the parameter to this method COULD be a
       ForwardEntry, but when parsing is complete, calling supports will
-      return a vector which only contains InterfaceEntry's. */
+    * return a vector which only contains InterfaceEntry's.
+    * @param supports a {@link ForwardEntry} or {@link InterfaceEntry}
+    */
   public void addSupport (com.sun.tools.corba.ee.idl.SymtabEntry supports)
   {
     _supports.addElement (supports);
   } // addSupport
 
-  /** This method returns a vector of InterfaceEntry's. */
+  /** This method returns a vector of InterfaceEntry's.
+   * @return a {@link Vector} of {@link InterfaceEntry}
+   */
   public Vector supports ()
   {
     return _supports;
   } // supports
 
-  /** Add to the list of support names. */
+  /** Add to the list of support names.
+   * @param name name to add
+   */
   public void addSupportName (String name)
   {
     _supportsNames.addElement (name);
@@ -92,7 +98,9 @@ public class ValueEntry extends com.sun.tools.corba.ee.idl.InterfaceEntry
   /** This method returns a vector of Strings, each of which is a fully
       qualified name of an interface. This vector corresponds to the
       supports vector.  The first element of this vector is the name of
-      the first element of the supports vector, etc. */
+      the first element of the supports vector, etc.
+    * @return a {@link Vector} of {@link String}s
+    */
   public Vector supportsNames ()
   {
     return _supportsNames;
@@ -360,20 +368,26 @@ public class ValueEntry extends com.sun.tools.corba.ee.idl.InterfaceEntry
   } // calcUnionType
 */
 
-  /** Get the 'custom' marshaling property. */
+  /** Get the 'custom' marshaling property.
+   * @return if the entry should be marshaled customly
+   */
   public boolean isCustom ()
   {
     return _custom;
   }
 
-  /** Set the 'custom' marshaling property. */
+  /** Set the 'custom' marshaling property.
+   * @param isCustom if the entry should be marshaled customly
+   */
   public void setCustom (boolean isCustom)
   {
     _custom = isCustom;
   }
 
   /** Return whether or not the value type can be "safely" truncated to
-      its concrete parent type. */
+    * its concrete parent type.
+    * @return true if it can be safely truncated
+    */
   public boolean isSafe ()
   {
     return _isSafe;

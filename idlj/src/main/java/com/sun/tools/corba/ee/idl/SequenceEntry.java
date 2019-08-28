@@ -85,7 +85,9 @@ public class SequenceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   } // generator
 
   /** the constant expression defining the maximum size of the sequence.
-      If it is null, then the sequence is unbounded. */
+    * If it is null, then the sequence is unbounded.
+    * @param expr maximum size of sequence
+    */
   public void maxSize (Expression expr)
   {
     _maxSize = expr;
@@ -98,13 +100,17 @@ public class SequenceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     return _maxSize;
   } // maxSize
 
-  /** Only sequences can be contained within sequences. */
+  /** Only sequences can be contained within sequences.
+   * @param entry a sequence to add
+   */
   public void addContained (com.sun.tools.corba.ee.idl.SymtabEntry entry)
   {
     _contained.addElement (entry);
   } // addContained
 
-  /** Only sequences can be contained within sequences. */
+  /** Only sequences can be contained within sequences.
+   * @return this should be a vector of {@link SequenceEntry}s
+   */
   public Vector contained ()
   {
     return _contained;

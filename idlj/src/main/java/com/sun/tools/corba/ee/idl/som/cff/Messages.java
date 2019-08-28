@@ -120,6 +120,7 @@ public abstract class Messages {
      * Loads additional message keys and text found in the passed
      * properties file.  The specified properties file is assumed to
      * reside in the CLASSPATH. An IOException is thrown if the loading fails.
+     * @param propertyFileName file name of properties file to load
      */
     public static final synchronized void msgLoad (String propertyFileName)
         throws IOException {
@@ -135,6 +136,8 @@ public abstract class Messages {
      * Returns the message text corresponding to the passed msgkey
      * string.  If the msgkey cannot be found, its value is returned
      * as the output message text.
+     * @param msgkey key of the message
+     * @return resulting message text
      */
     public static final String msg (String msgkey) {
 
@@ -155,6 +158,9 @@ public abstract class Messages {
      * <p>
      * If the msgkey cannot be found, its value is used as the
      * message text.
+     * @param msgkey message key
+     * @param parm parameter for the message
+     * @return resulting message text
      */
     public static final String msg (String msgkey, String parm) {
 

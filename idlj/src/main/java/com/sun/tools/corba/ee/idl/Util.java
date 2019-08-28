@@ -47,6 +47,7 @@ public class Util
    * initialized. If the framework is initialized, the version information
    * is extracted from the message properties object; otherwise, it is extracted
    * from the indicated messages file.
+   * @param filename name of file to get version number of
    * @return the version number.
    **/
   protected static String getVersion(String filename)
@@ -239,7 +240,9 @@ public class Util
     }
   }
 
-  /** Register a message resource.  This resource will be searched for in the CLASSPATH. */
+  /** Register a message resource.  This resource will be searched for in the CLASSPATH.
+   * @param resourceName new resource name to add
+   */
   public static void registerMessageResource(String resourceName) {
     if (resourceName != null)
       if (messages == null)
@@ -270,6 +273,8 @@ public class Util
 
   /** Searches the current user directory and a list of directories for
       a given short file name and returns its absolute file specification.
+      @param filename file to get absolute path of
+      @param includePaths a Vector of paths to look for the file
       @return Absolute file name of a given short filename
       @throws FileNotFoundException The file does not exist in the
        current user or specified directories.
@@ -307,6 +312,8 @@ public class Util
   /**
    * Compute the absolute value of the difference between two floating-point
    * numbers having single precision.
+   * @param f1 first floating-point number
+   * @param f2 second floating-point number
    * @return the absolute value of the difference between two floats.
    **/
   public static float absDelta (float f1, float f2)

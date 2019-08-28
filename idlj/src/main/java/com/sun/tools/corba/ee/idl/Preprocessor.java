@@ -849,6 +849,7 @@ public class Preprocessor
 
   /**
    * Get the current token.
+   * @return the current token
    **/
   String currentToken ()
   {
@@ -860,6 +861,8 @@ public class Preprocessor
    * It can take fully or partially qualified names and returns the
    * appropriate entry defined within the current scope.  If no entry
    * exists, null is returned.
+   * @param string entry name to look for
+   * @return entry with that name or {@code null} if no entry
    **/
   com.sun.tools.corba.ee.idl.SymtabEntry getEntryForName (String string)
   {
@@ -895,6 +898,7 @@ public class Preprocessor
    * This method returns a string of all of the characters from the
    * input file from the current position up to, but not including,
    * the end-of-line character(s).
+   * @return String from current position
    **/
   String getStringToEOL () throws IOException
   {
@@ -908,6 +912,7 @@ public class Preprocessor
    * meaning it does not stop if the given character is found within
    * parentheses or quotes.  For instance, given the input of
    * `start(inside)end', getUntil ('n') will return "start(inside)e"
+   * @param c token to read up to. The token itself will not be read
    **/
   String getUntil (char c) throws IOException
   {
@@ -934,6 +939,7 @@ public class Preprocessor
 
   /**
    * This method returns the next token String from the input file.
+   * @return the next token String
    **/
   String nextToken () throws IOException
   {
@@ -954,6 +960,7 @@ public class Preprocessor
    * of a scoped name.  It then parses the subsequent identifier and
    * double colon tokens, builds the scoped name, and finds the symbol
    * table entry with that name.
+   * @return a SymtabEntry of the name
    **/
   com.sun.tools.corba.ee.idl.SymtabEntry scopedName () throws IOException
   {
@@ -1018,6 +1025,7 @@ public class Preprocessor
   /**
    * This method skips the data in the input file until the specified
    * character is encountered, then it returns the next token.
+   * @param c token to indicate end of skipping
    **/
   String skipUntil (char c) throws IOException
   {
@@ -1029,6 +1037,8 @@ public class Preprocessor
   /**
    * This method displays a Parser Exception complete with line number
    * and position information with the given message string.
+   * @param message message to display as part of the Exception
+   * @see Exception#getMessage()
    **/
   void parseException (String message)
   {

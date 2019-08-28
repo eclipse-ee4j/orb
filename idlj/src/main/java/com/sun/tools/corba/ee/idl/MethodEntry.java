@@ -41,15 +41,17 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   protected MethodEntry (InterfaceEntry that, com.sun.tools.corba.ee.idl.IDLID clone)
   {
     super (that, clone);
-    if (module ().equals (""))
-      module (name ());
-    else if (!name ().equals (""))
-      module (module () + "/" + name ());
+    if (module().equals("")) {
+      module(name());
+    } else if (!name().equals("")) {
+      module(module() + "/" + name());
+    }
   } // ctor
 
+  @Override
   public Object clone ()
   {
-    return new MethodEntry (this);
+    return new MethodEntry(this);
   } // clone
 
   /** Invoke the method generator.
@@ -58,6 +60,7 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
        a subclass of SymtabEntry.
       @param stream the stream to which the generator should sent its output.
       @see com.sun.tools.corba.ee.idl.SymtabEntry */
+  @Override
   public void generate (Hashtable symbolTable, PrintWriter stream)
   {
     methodGen.generate (symbolTable, this, stream);
@@ -66,11 +69,13 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   /** Access the method generator.
       @return an object which implements the MethodGen interface.
       @see com.sun.tools.corba.ee.idl.MethodGen */
+  @Override
   public com.sun.tools.corba.ee.idl.Generator generator ()
   {
     return methodGen;
   } // generator
 
+  @Override
   public void type (com.sun.tools.corba.ee.idl.SymtabEntry newType)
   {
     super.type (newType);
@@ -78,20 +83,29 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
       typeName ("void");
   } // type
 
-  /** Add an exception to the exception list. */
+  /** 
+   * Add an exception to the exception list.
+   * @param exception Exception to add
+   */
   public void addException (com.sun.tools.corba.ee.idl.ExceptionEntry exception)
   {
     _exceptions.addElement (exception);
   } // addException
 
-  /** This a a vector of the exceptions which this method raises. */
+  /** 
+   * This a a vector of the exceptions which this method raises. 
+   * @return raised exceptions
+   */
   public Vector exceptions ()
   {
     return _exceptions;
   } // exceptions
 
-  /** Add an exception name to the list of exception names. */
-  public void addExceptionName (String name)
+  /** 
+   * Add an exception name to the list of exception names. 
+   * @param name the full name of an exception which this method throws
+   */
+  public void addExceptionName(String name)
   {
     _exceptionNames.addElement (name);
   } // addExceptionName
@@ -99,7 +113,9 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   /** This is a vector of strings, each of which is the full name of an
       exception which this method throws.  This vector corresponds to the
       exceptions vector.  The first element of this vector is the name
-      of the first element of the exceptions vector, etc. */
+      of the first element of the exceptions vector, etc. 
+    * @return all exceptions thrown by this method
+    */
   public Vector exceptionNames ()
   {
     return _exceptionNames;
@@ -111,45 +127,65 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     _contexts.addElement (context);
   } // addContext
 
-  /** This is a vector of strings, each of which is the name of a context. */
+  /** 
+   * This is a vector of strings, each of which is the name of a context. 
+   * @return name of contexts
+   */
   public Vector contexts ()
   {
     return _contexts;
   } // contexts
 
-  /** Add a parameter to the parameter list. */
+  /** 
+   * Add a parameter to the parameter list.
+   * This function should be called for the parameters in the order 
+   * the parameters appear on the method.
+   * @param parameter ParameterEntry to add
+   */
   public void addParameter (com.sun.tools.corba.ee.idl.ParameterEntry parameter)
   {
     _parameters.addElement (parameter);
   } // addParameter
 
-  /** This is a vector of ParameterEntry's.  They are the parameters on
-      this method and their order in the vector is the order they appear
-      on the method. */
+  /** 
+   * This is a vector of ParameterEntry's.  They are the parameters on
+   * this method and their order in the vector is the order they appear
+   * on the method. 
+   * @return {@link Vector} of parameters
+   */
   public Vector parameters ()
   {
     return _parameters;
   } // parameters
 
-  /** Is this a oneway method? */
+  /** Is this a oneway method?
+   * @param yes true if this is a oneway method
+   */
   public void oneway (boolean yes)
   {
     _oneway = yes;
   } // oneway
 
-  /** Is this a oneway method? */
+  /** Is this a oneway method? 
+   * @return true if oneway
+   */
   public boolean oneway ()
   {
     return _oneway;
   } // oneway
 
-  /** Is this a value method? */
+  /** 
+   * Is this a value method?
+   * @param yes true if this a value method
+   */
   public void valueMethod (boolean yes)
   {
     _valueMethod = yes;
   } // valueMethod
 
-  /** Is this a value method? */
+  /** Is this a value method? 
+   * @return true if this is a value method
+   */
   public boolean valueMethod ()
   {
     return _valueMethod;

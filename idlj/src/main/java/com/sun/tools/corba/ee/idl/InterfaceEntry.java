@@ -97,13 +97,18 @@ public class InterfaceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry imple
   /** Add an InterfaceEntry to the list of interfaces which this interface
       is derivedFrom.  During parsing, the parameter to this method COULD
       be a ForwardEntry, but when parsing is complete, calling derivedFrom
-      will return a vector which only contains InterfaceEntry's. */
+      will return a vector which only contains InterfaceEntry's.
+    * @param derivedFrom a {@link ForwardEntry} or {@link InterfaceEntry}
+    */
   public void addDerivedFrom (com.sun.tools.corba.ee.idl.SymtabEntry derivedFrom)
   {
     _derivedFrom.addElement (derivedFrom);
   } // addDerivedFrom
 
-  /** This method returns a vector of InterfaceEntry's. */
+  /** This method returns a vector of InterfaceEntry's.
+   * @return a {@link Vector} of interfaces which this interface is derived from
+   * @see #addDerivedFromName(java.lang.String) 
+   */
   public Vector derivedFrom ()
   {
     return _derivedFrom;
@@ -118,26 +123,34 @@ public class InterfaceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry imple
   /** This method returns a vector of Strings, each of which is a fully
       qualified name of an interface. This vector corresponds to the
       derivedFrom vector.  The first element of this vector is the name
-      of the first element of the derivedFrom vector, etc. */
+      of the first element of the derivedFrom vector, etc. 
+    * @return {@link Vector} of {@link String}s
+    */
   public Vector derivedFromNames ()
   {
     return _derivedFromNames;
   } // derivedFromNames
 
-  /** Add a method/attribute to the list of methods. */
+  /** Add a method/attribute to the list of methods.
+   * @param method method or attribute to add
+   */
   public void addMethod (com.sun.tools.corba.ee.idl.MethodEntry method)
   {
     _methods.addElement (method);
   } // addMethod
 
   /** This is a vector of MethodEntry's.  These are the methods and
-      attributes contained within this Interface. */
+    * attributes contained within this Interface.
+    * @return {@link Vector} of {@link MethodEntry}
+    */
   public Vector methods ()
   {
     return _methods;
   } // methods
 
-  /** Add a symbol table entry to this interface's contained vector. */
+  /** Add a symbol table entry to this interface's contained vector.
+   * @param entry new {@link SymtabEntry} to add
+   */
   public void addContained (com.sun.tools.corba.ee.idl.SymtabEntry entry)
   {
     _contained.addElement (entry);
@@ -146,7 +159,10 @@ public class InterfaceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry imple
   /** This is a vector of SymtabEntry's.  Valid entries in this vector are:
       AttributeEntry, ConstEntry, EnumEntry, ExceptionEntry, MethodEntry,
       StructEntry, NativeEntry, TypedefEntry, UnionEntry.  
-      Note that the methods vector is a subset of this vector. */
+      Note that the methods vector is a subset of this vector.
+    * @return {@link Vector} of {@link SymtabEntry}
+    * @see #methods()
+    */
   public Vector contained ()
   {
     return _contained;
@@ -280,7 +296,9 @@ public class InterfaceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry imple
   /** This method returns a vector of the elements in the state block.
       If it is null, this is not a stateful interface.  If it is non-null,
       but of zero length, then it is still stateful; it has no state
-      entries itself, but it has an ancestor which does. */
+      entries itself, but it has an ancestor which does.
+    * @return Vector of {@link InterfaceState}
+    */
   public Vector state ()
   {
     return _state;
@@ -312,7 +330,10 @@ public class InterfaceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry imple
     _interfaceType = type;
   }
 
-  /** Get the allMethods vector. */
+  /** Get the allMethods vector.
+   * @return Vector of all methods in the interface
+   * @see MethodEntry
+   */
   public Vector allMethods ()
   {
     return _allMethods;

@@ -67,13 +67,17 @@ public class EnumEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     return enumGen;
   } // generator
 
-  /** Add an element to the list of elements. */
+  /** Add an element to the list of elements.
+   * @param element new element to add
+   */
   public void addElement (String element)
   {
     _elements.addElement (element);
   } // addElement
 
-  /** Each element of the vector is a String. */
+  /** Each element of the vector is a String. 
+   * @return a {@link Vector} or all the elements in the enum
+   */
   public Vector elements ()
   {
     return _elements;

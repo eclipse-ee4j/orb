@@ -27,7 +27,9 @@ public abstract class PragmaHandler
 
   // Utility methods.
 
-  /** Get the current token. */
+  /** Get the current token.
+   * @return the current token
+   */
   protected String currentToken ()
   {
     return preprocessor.currentToken ();
@@ -36,7 +38,10 @@ public abstract class PragmaHandler
   /** This method, given an entry name, returns the entry with that name.
       It can take fully or partially qualified names and returns the
       appropriate entry defined within the current scope.  If no entry
-      exists, null is returned. */
+      exists, null is returned.
+    * @param string entry name to look for
+    * @return entry with that name or {@code null} if no entry
+    */
   protected SymtabEntry getEntryForName (String string)
   {
     return preprocessor.getEntryForName (string);
@@ -44,7 +49,9 @@ public abstract class PragmaHandler
 
   /** This method returns a string of all of the characters from the input
       file from the current position up to, but not including, the end-of-line
-      character(s). */
+      character(s).
+    * @return String from current position
+    */
   protected String getStringToEOL () throws IOException
   {
     return preprocessor.getStringToEOL ();
@@ -55,13 +62,18 @@ public abstract class PragmaHandler
       character.  It encapsulates parenthesis and quoted strings, meaning
       it does not stop if the given character is found within parentheses
       or quotes.  For instance, given the input of `start(inside)end',
-      getUntil ('n') will return "start(inside)e" */
+      getUntil ('n') will return "start(inside)e"
+    * @param c token to read up to. The token itself will not be read
+    */
   protected String getUntil (char c) throws IOException
   {
     return preprocessor.getUntil (c);
   } // getUntil
 
-  /** This method returns the next token String from the input file. */
+  /** 
+   * This method returns the next token String from the input file.
+   * @return the next token String
+   */
   protected String nextToken () throws IOException
   {
     return preprocessor.nextToken ();
@@ -70,7 +82,9 @@ public abstract class PragmaHandler
   /** This method assumes that the current token marks the beginning
       of a scoped name.  It then parses the subsequent identifier and
       double colon tokens, builds the scoped name, and finds the symbol
-      table entry with that name. */
+      table entry with that name.
+    * @return a SymtabEntry of the name
+    */
   protected SymtabEntry scopedName () throws IOException
   {
     return preprocessor.scopedName ();
@@ -83,14 +97,19 @@ public abstract class PragmaHandler
   } // skipToEOL
 
   /** This method skips the data in the input file until the specified
-      character is encountered, then it returns the next token. */
+    * character is encountered, then it returns the next token.
+    * @param c token to indicate end of skipping
+    */
   protected String skipUntil (char c) throws IOException
   {
     return preprocessor.skipUntil (c);
   } // skipUntil
 
   /** This method displays a Parser Exception complete with line number
-      and position information with the given message string. */
+      and position information with the given message string.
+    * @param message message to display as part of the Exception
+    * @see Exception#getMessage()
+    */
   protected void parseException (String message)
   {
     preprocessor.parseException (message);
