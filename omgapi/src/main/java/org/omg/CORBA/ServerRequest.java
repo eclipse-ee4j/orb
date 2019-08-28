@@ -260,7 +260,7 @@ public abstract class ServerRequest {
      * @exception BAD_PARAM if the given <code>Any</code> object does not
      *                      contain an exception or the exception is an
      *                      unlisted user exception
-     * @exception UNKNOWN_EXCEPTION if the given exception is an unlisted
+     * @exception org.omg.CORBA.portable.UnknownException if the given exception is an unlisted
      *                              user exception and the DIR did not
      *                              receive a BAD_PARAM exception
      * @see <a href="package-summary.html#unimpl"><code>CORBA</code>

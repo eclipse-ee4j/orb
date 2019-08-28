@@ -430,7 +430,7 @@ public abstract class TypeCode implements IDLEntity {
     /**
          * Returns the number of digits in the fixed type described by this
          * <code>TypeCode</code> object. For example, the typecode for
-         * the number 3000.275d could be <code>fixed<7,3></code>, where
+         * the number 3000.275d could be <code>fixed&lt;7,3&gt;</code>, where
          * 7 is the precision and 3 is the scale.
          *
          * @return the total number of digits
@@ -446,10 +446,10 @@ public abstract class TypeCode implements IDLEntity {
          * <code>TypeCode</code> object. A positive number indicates the
          * number of digits to the right of the decimal point. 
          * For example, the number 3000d could have the
-         * typecode <code>fixed<4,0></code>, where the first number is
+         * typecode <code>fixed&lt;4,0&gt;</code>, where the first number is
          * the precision and the second number is the scale.
          * A negative number is also possible and adds zeroes to the
-         * left of the decimal point.  In this case, <code>fixed<1,-3></code>,
+         * left of the decimal point.  In this case, <code>fixed&lt;1,-3&gt;</code>,
          * could be the typecode for the number 3000d.
          *
          * @return the scale of the fixed type that this

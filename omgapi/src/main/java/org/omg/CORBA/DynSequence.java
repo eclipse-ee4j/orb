@@ -49,8 +49,8 @@ public interface DynSequence extends org.omg.CORBA.Object, org.omg.CORBA.DynAny
          * array.
      *
      * @param value the array of <code>Any</code> objects to be set
-     * @exception InvalidSeq if the array of values is bad
-         * @see #get_elements
+     * @exception org.omg.CORBA.DynAnyPackage.InvalidSeq if the array of values is bad
+     * @see #get_elements
      */
     public void set_elements(org.omg.CORBA.Any[] value)
         throws org.omg.CORBA.DynAnyPackage.InvalidSeq;

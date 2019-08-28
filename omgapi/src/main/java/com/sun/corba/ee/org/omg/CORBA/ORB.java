@@ -31,7 +31,7 @@ abstract public class ORB extends org.omg.CORBA_2_3.ORB
      * @throws InvalidName if this operation is called with an empty string id
      *     or this operation is called with an id that is already registered,
      *     including the default names defined by OMG.
-     * @throws BAD_PARAM if the obj parameter is null.
+     * @throws org.omg.CORBA.BAD_PARAM if the obj parameter is null.
      */  
     public void register_initial_reference( String id,
                                             org.omg.CORBA.Object obj )

@@ -28,7 +28,8 @@ public interface DomainManagerOperations
      *  this domain.  The types of policies available are domain specific.
      *  See the CORBA specification for a list of standard ORB policies.
      *
-     *@param policy_type Type of policy to request
+     * @param policy_type Type of policy to request
+     * @return Policy for the domain
      */
     public org.omg.CORBA.Policy get_domain_policy(int policy_type);
 }

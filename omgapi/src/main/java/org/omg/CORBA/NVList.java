@@ -48,7 +48,7 @@ package org.omg.CORBA;
  * Note also that you can add any number of
  * <code>NamedValue</code> objects to this list regardless of
  * its original length.
- * <P>
+ * 
  * <LI><code>org.omg.CORBA.ORB.create_operation_list</code>
  * <PRE>
  *    org.omg.CORBA.NVList nv = orb.create_operation_list(myOperationDef);
@@ -58,7 +58,7 @@ package org.omg.CORBA;
  * arguments to the method described in the given
  * <code>OperationDef</code> object.
  * </OL>
- * <P>
+ * <p>
  * The methods in the class <code>NVList</code> all deal with
  * the <code>NamedValue</code> objects in the list.
  * There are three methods for adding a <code>NamedValue</code> object,
@@ -66,7 +66,7 @@ package org.omg.CORBA;
  * the list, a method for retrieving a <code>NamedValue</code> object
  * at a given index, and a method for removing a <code>NamedValue</code> object
  * at a given index.
- *
+ * </p>
  * @see org.omg.CORBA.Request
  * @see org.omg.CORBA.ServerRequest
  * @see org.omg.CORBA.NamedValue

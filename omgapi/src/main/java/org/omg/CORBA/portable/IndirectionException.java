@@ -24,7 +24,7 @@ import org.omg.CORBA.SystemException;
  * for an object with the stream offset specified by the indirection 
  * tag. The stream offset is returned in the exception's offset field.
  * @see org.omg.CORBA_2_3.portable.InputStream
- * @see org.omg.CORBA_2_3.portable.OuputStream
+ * @see org.omg.CORBA_2_3.portable.OutputStream
  */
 public class IndirectionException extends SystemException {
 

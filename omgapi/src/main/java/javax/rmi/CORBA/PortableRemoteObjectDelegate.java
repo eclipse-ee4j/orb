@@ -32,24 +32,35 @@ public interface PortableRemoteObjectDelegate {
 
     /**
      * Delegation call for {@link javax.rmi.PortableRemoteObject#exportObject}.
+     * @param obj object to export
+     * @throws RemoteException if the object cannot be exported
      */
     void exportObject(Remote obj)
         throws RemoteException;
 
     /**
      * Delegation call for {@link javax.rmi.PortableRemoteObject#toStub}.
+     * @param obj remote to convert to stub
+     * @return stub of the remote
+     * @throws NoSuchObjectException if the object does not exist
      */
     Remote toStub (Remote obj)   
         throws NoSuchObjectException;
 
     /**
      * Delegation call for {@link javax.rmi.PortableRemoteObject#unexportObject}.
+     * @param obj object to unremove
+     * @throws NoSuchObjectException if the object does not exist
      */
     void unexportObject(Remote obj) 
         throws NoSuchObjectException;
 
     /**
      * Delegation call for {@link javax.rmi.PortableRemoteObject#narrow}.
+     * @param narrowFrom object to narrow from
+     * @param narrowTo target to narrow to
+     * @return object of the desired type
+     * @throws ClassCastException if the object cannot be narrowed 
      */
     java.lang.Object narrow (java.lang.Object narrowFrom,
                                     java.lang.Class narrowTo)
@@ -57,6 +68,9 @@ public interface PortableRemoteObjectDelegate {
 
     /**
      * Delegation call for {@link javax.rmi.PortableRemoteObject#connect}.
+     * @param target remote object to connect
+     * @param source starting object
+     * @throws RemoteException if an error occurred connecting
      */
     void connect (Remote target, Remote source)
         throws RemoteException;
