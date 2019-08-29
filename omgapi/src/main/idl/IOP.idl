@@ -244,12 +244,10 @@ module IOP {
      * The <code>TAG_ALTERNATE_IIOP_ADDRESS</code> component has an 
      * associated value of type:
      * <code>
-     *   <pre>
      *     struct { 
      *         string HostID, 
      *         short Port 
      *     }; 
-     *   </pre>
      * </code>
      * encoded as a CDR encapsulation. 
      * <p>
@@ -410,7 +408,7 @@ module IOP {
      * encoded using GIOP 1.2 with a TCS-W of UTF-16.  This service context
      * may be sent on Reply messages with a reply_status of SYSTEM_EXCEPTION
      * or USER_EXCEPTION. The usage of this service context is defined
-     * by language mappings. <br/> <br/>
+     * by language mappings. <p>
      *
      * IDL/Java: ptc/02-01-22: 1.15.2: 
      * When a System Exception is marshaled, its GIOP Reply message shall
@@ -478,7 +476,7 @@ module IOP {
      *     a byte array.
      * @return A byte array containing the encoded Any. This byte array 
      *     contains both the <code>TypeCode</code> and the data of the type.
-     * @exception InvalidTypeForEncoding thrown if the type is not valid for 
+     * @exception org.omg.IOP.CodecPackage.InvalidTypeForEncoding thrown if the type is not valid for 
      *     the encoding format effective for this <code>Codec</code>.
      */
     CORBA::OctetSeq encode (in any data) 
@@ -491,7 +489,7 @@ module IOP {
      * @param data The data, in the form of a byte array, to be decoded into 
      *     an Any. 
      * @return An Any containing the data from the decoded byte array.
-     * @exception FormatMismatch is thrown if the byte array cannot be 
+     * @exception org.omg.IOP.CodecPackage.FormatMismatch is thrown if the byte array cannot be 
      *     decoded into an Any. 
      */
     any decode (in CORBA::OctetSeq data) raises (FormatMismatch);
@@ -504,7 +502,7 @@ module IOP {
      * @param data The data, in the form of an Any, to be encoded into 
      *     a byte array. 
      * @return A byte array containing the data from the encoded any.
-     * @exception InvalidTypeForEncoding thrown if the type is not valid for 
+     * @exception org.omg.IOP.CodecPackage.InvalidTypeForEncoding thrown if the type is not valid for 
      *     the encoding format effective for this <code>Codec</code>.
      */
     CORBA::OctetSeq encode_value (in any data) 
@@ -519,8 +517,9 @@ module IOP {
      *     into an Any. 
      * @param tc The TypeCode to be used to decode the data. 
      * @return An Any containing the data from the decoded byte array.
-     * @exception FormatMismatch thrown if the byte array cannot be 
-     *     decoded into an Any. 
+     * @exception org.omg.IOP.CodecPackage.FormatMismatch thrown if the byte array cannot be 
+     *     decoded into an Any.
+     * @exception org.omg.IOP.CodecPackage.TypeMismatch thrown
      */
     any decode_value (in CORBA::OctetSeq data, in CORBA::TypeCode tc)
       raises (FormatMismatch, TypeMismatch);
@@ -589,7 +588,7 @@ module IOP {
      * <p>
      * @param enc The encoding for which to create a <code>Codec</code>.
      * @return A <code>Codec</code> obtained with the given encoding.
-     * @exception UnknownEncoding thrown if this factory cannot create a 
+     * @exception org.omg.IOP.CodecFactoryPackage.UnknownEncoding thrown if this factory cannot create a 
      *     <code>Codec</code> of the given encoding.
      */
     Codec create_codec (in Encoding enc) raises (UnknownEncoding);

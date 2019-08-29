@@ -203,7 +203,7 @@ module PortableInterceptor {
      * @return The data, in the form of an Any, of the given slot identifier.
      * @exception InvalidSlot thrown if get_slot is called on a slot that 
      *     has not been allocated. 
-     * @exception BAD_INV_ORDER thrown if <code>get_slot</code> is called 
+     * @exception org.omg.CORBA.BAD_INV_ORDER thrown if <code>get_slot</code> is called 
      *     from within an ORB initializer 
      */
     any get_slot (in SlotId id) raises (InvalidSlot);
@@ -218,7 +218,7 @@ module PortableInterceptor {
      *     to the identified slot. 
      * @exception InvalidSlot thrown if <code>set_slot</code> is called on 
      *     a slot that has not been allocated.
-     * @exception BAD_INV_ORDER thrown if <code>set_slot</code> is called 
+     * @exception org.omg.CORBA.BAD_INV_ORDER thrown if <code>set_slot</code> is called 
      *     from within an ORB initializer. 
      */
     void set_slot (in SlotId id, in any data) raises (InvalidSlot);
@@ -247,11 +247,15 @@ module PortableInterceptor {
      * <code>request_id</code>. If GIOP is the transport mechanism used, 
      * then these IDs may very well be the same, but this is not guaranteed 
      * nor required.
+     *
+     * @return a unique ID
      */
     readonly attribute unsigned long request_id;
 
     /**
      * Returns the name of the operation being invoked.
+     *
+     * @return the operation name
      */
     readonly attribute string operation;
 
@@ -268,7 +272,8 @@ module PortableInterceptor {
      * <p>
      * <i>Note: Arguments are available for DSI/DII calls.</i>
      *
-     * @exception NO_RESOURCES thrown if arguments are not available.
+     * @return the arguments of the operation
+     * @exception org.omg.CORBA.NO_RESOURCES thrown if arguments are not available.
      * @see <a href="package-summary.html#unimpl">
      *     <code>PortableInterceptor</code> package comments for 
      *     limitations / unimplemented features</a>
@@ -289,7 +294,8 @@ module PortableInterceptor {
      * <p>
      * <i>Note: Exceptions are available for DSI/DII calls.</i>
      *
-     * @exception NO_RESOURCES thrown if exceptions are not available.
+     * @return exceptions that may be thrown
+     * @exception org.omg.CORBA.NO_RESOURCES thrown if exceptions are not available.
      * @see <a href="package-summary.html#unimpl">
      *     <code>PortableInterceptor</code> package comments for 
      *     limitations / unimplemented features</a>
@@ -309,7 +315,8 @@ module PortableInterceptor {
      * <p>
      * <i>Note: Contexts are available for DSI/DII calls.</i>
      *
-     * @exception NO_RESOURCES thrown if contexts are not available.
+     * @return contexts that may be passed on
+     * @exception org.omg.CORBA.NO_RESOURCES thrown if contexts are not available.
      * @see <a href="package-summary.html#unimpl">
      *     <code>PortableInterceptor</code> package comments for 
      *     limitations / unimplemented features</a>
@@ -328,7 +335,8 @@ module PortableInterceptor {
      * <i>Note: <code>operation_context</code> is available for 
      * DSI/DII calls.</i>
      *
-     * @exception NO_RESOURCES thrown if operation context is not available.
+     * @return the contexts being sent
+     * @exception org.omg.CORBA.NO_RESOURCES thrown if operation context is not available.
      * @see <a href="package-summary.html#unimpl">
      *     <code>PortableInterceptor</code> package comments for 
      *     limitations / unimplemented features</a>
@@ -349,7 +357,8 @@ module PortableInterceptor {
      * <p>
      * <i>Note: Result is available for DSI/DII calls.</i>
      *
-     * @exception NO_RESOURCES thrown if result is not available.
+     * @return the result of the operation invocation
+     * @exception org.omg.CORBA.NO_RESOURCES thrown if result is not available.
      * @see <a href="package-summary.html#unimpl">
      *     <code>PortableInterceptor</code> package comments for 
      *     limitations / unimplemented features</a>
@@ -366,6 +375,7 @@ module PortableInterceptor {
      * called. 
      * <p>
      * On the client, within <code>send_poll</code>, this attribute is true.
+     * @return whether a response is expected
      */
     readonly attribute boolean response_expected;
 
@@ -395,6 +405,7 @@ module PortableInterceptor {
      * target is invoked. This reply is not intercepted by server-side 
      * Interceptors.
      * 
+     * @return how far the request shall progress
      * @see <a href="package-summary.html#unimpl">
      *     <code>PortableInterceptor</code> package comments for 
      *     limitations / unimplemented features</a>
@@ -414,7 +425,7 @@ module PortableInterceptor {
      * On the client:
      * <ul>
      *   <li>Within the <code>receive_reply</code> interception point, this 
-     *       will only return <code>SUCCESSFUL</code></li>.
+     *       will only return <code>SUCCESSFUL</code>.</li>
      *   <li>Within the <code>receive_exception</code> interception point, 
      *       this will be either <code>SYSTEM_EXCEPTION</code> or 
      *       <code>USER_EXCEPTION</code>.</li>
@@ -443,6 +454,7 @@ module PortableInterceptor {
      *       with <code>LOCATION_FORWARD</code> as its status.</li>
      * </ul>
      * 
+     * @return the state of the operation
      * @see SUCCESSFUL
      * @see SYSTEM_EXCEPTION
      * @see USER_EXCEPTION
@@ -455,6 +467,7 @@ module PortableInterceptor {
      * Contains the object to which the request will be forwarded, if the 
      * <code>reply_status</code> attribute is <code>LOCATION_FORWARD</code>.
      * It is indeterminate whether a forwarded request will actually occur.
+     * @return object to forward to
      */
     readonly attribute Object forward_reference;
 
@@ -485,7 +498,7 @@ module PortableInterceptor {
      *     which is to be returned. 
      * @return The <code>IOP.ServiceContext</code> obtained with the 
      *     given identifier.
-     * @exception BAD_PARAM thrown with a standard minor code of 26, if the 
+     * @exception org.omg.CORBA.BAD_PARAM thrown with a standard minor code of 26, if the 
      *     request's service context does not contain an entry for that ID.
      */
     IOP::ServiceContext get_request_service_context 
@@ -499,7 +512,7 @@ module PortableInterceptor {
      *     which is to be returned. 
      * @return The <code>IOP.ServiceContext</code> obtained with the given 
      *     identifier. 
-     * @exception BAD_PARAM thrown with a standard minor code of 26 if the 
+     * @exception org.omg.CORBA.BAD_PARAM thrown with a standard minor code of 26 if the 
      *     request's service context does not contain an entry for that ID.
      */
     IOP::ServiceContext get_reply_service_context 
@@ -514,8 +527,9 @@ module PortableInterceptor {
    * validity of each attribute or operation.  If it is not valid, attempting 
    * to access it will result in a <code>BAD_INV_ORDER</code> being thrown
    * with a standard minor code of 14.
-   * <p>
+   * 
    * <table border>
+   * <caption>Request information</caption>
    *   <thead>
    *     <tr>
    *       <td>&nbsp;</td>
@@ -628,6 +642,7 @@ module PortableInterceptor {
      * Returns the object which the client called to perform the 
      * operation. 
      *
+     * @return the target object
      * @see #effective_target
      */
     readonly attribute Object target;
@@ -638,6 +653,7 @@ module PortableInterceptor {
      * then on subsequent requests, <code>effective_target</code> will 
      * contain the forwarded IOR while target will remain unchanged. 
      *
+     * @return the object on which the operation will be invoked
      * @see #target
      */
     readonly attribute Object effective_target;
@@ -647,6 +663,8 @@ module PortableInterceptor {
      * location forward has occurred for this operation's object and 
      * that object's profile changed accordingly, then this profile will 
      * be that located profile.
+     *
+     * @return the profile used
      */
     readonly attribute IOP::TaggedProfile effective_profile;
 
@@ -662,6 +680,7 @@ module PortableInterceptor {
      * the exception is available in the <code>received_exception_id</code> 
      * attribute.
      * 
+     * @return the returned exception
      * @see #received_exception_id
      */
     readonly attribute any received_exception;
@@ -669,7 +688,8 @@ module PortableInterceptor {
     /**
      * Returns the repository id of the exception to be returned to 
      * the client.
-     *
+     * 
+     * @return the repository id of the returned exception
      * @see #received_exception
      * @see <a href="package-summary.html#unimpl">
      *     <code>PortableInterceptor</code> package comments for 
@@ -690,7 +710,7 @@ module PortableInterceptor {
      *     is to be returned. 
      * @return The <code>IOP.TaggedComponent</code> obtained with the 
      *     given identifier.
-     * @exception BAD_PARAM thrown, with a standard minor code of 28, if
+     * @exception org.omg.CORBA.BAD_PARAM thrown, with a standard minor code of 28, if
      *     no component exists for the given component ID.
      * @see #get_effective_components
      */
@@ -704,7 +724,7 @@ module PortableInterceptor {
      * @param id The component id of the components which are to be returned. 
      * @return An array of <code>TaggedComponent</code> objects, each of 
      *     which contains the given identifier.
-     * @exception BAD_PARAM thrown, with a standard minor code of 28, if
+     * @exception org.omg.CORBA.BAD_PARAM thrown, with a standard minor code of 28, if
      *     no component exists for the given component ID.
      * @see #get_effective_component
      */
@@ -714,7 +734,7 @@ module PortableInterceptor {
     /**
      * Returns the given policy in effect for this operation. 
      * 
-     * @exception INV_POLICY thrown, with a standard minor code of 1, if the 
+     * @exception org.omg.CORBA.INV_POLICY thrown, with a standard minor code of 1, if the 
      *     policy type is not valid either because the specified type is 
      *     not supported by this ORB or because a policy object of that type 
      *     is not associated with this Object
@@ -771,8 +791,9 @@ module PortableInterceptor {
    * of each attribute or operation.  If it is not valid, attempting to access 
    * it will result in a <code>BAD_INV_ORDER</code> being thrown with a 
    * standard minor code of 14.
-   * <p>
+   * 
    * <table border>
+   *   <caption>Request Information</caption>
    *   <thead>
    *     <tr>
    *       <td>&nbsp;</td>
@@ -796,7 +817,7 @@ module PortableInterceptor {
    *    <td>yes</td> <td>yes</td> <td>yes</td> <td>yes</td> <td>yes</td></tr>
    * 
    *    <tr><td><b>arguments</b></td>
-   *    <td>no </td> <td>yes<sub>1</sub</td> 
+   *    <td>no </td> <td>yes<sub>1</sub></td> 
    *                              <td>yes</td> <td>no<sub>2</sub></td> 
    *                                                        <td>no<sub>2</sub>
    *                                                        </td></tr>
@@ -900,7 +921,7 @@ module PortableInterceptor {
    *       servant, which may no longer be available to the ORB. For example, 
    *       if the object's adapter is a POA that uses a 
    *       <code>ServantLocator</code>, then the ORB invokes the interception 
-   *       point after it calls <code>ServantLocator.postinvoke()</code></li>.
+   *       point after it calls <code>ServantLocator.postinvoke()</code></li>
    * </ol>
    *
    * @see ServerRequestInterceptor
@@ -916,7 +937,7 @@ module PortableInterceptor {
      * <code>TypeCode</code>), then this attribute will be an any 
      * containing the system exception <code>UNKNOWN</code> with a 
      * standard minor code of 1.
-     *
+     * @return Any containing an Exception
      * @see <a href="package-summary.html#unimpl">
      *     <code>PortableInterceptor</code> package comments for 
      *     limitations / unimplemented features</a>
@@ -926,34 +947,40 @@ module PortableInterceptor {
     /**
      * Returns the opaque <code>object_id</code> describing the target of 
      * the operation invocation.
+     * @return the object ID
      */
     readonly attribute ObjectId object_id;
 
     /** 
      * Returns the opaque identifier for the object adapter.
+     * @return the adapter ID
      */
     readonly attribute CORBA::OctetSeq adapter_id;
 
     /**
      * Returns the server ID that was specified on ORB::init using the -ORBServerId
      * argument.
+     * @return the server ID
      */
     readonly attribute ServerId server_id ;
 
     /** 
      * Returns the ID that was used to create the ORB.
+     * @return the ORB ID
      */
     readonly attribute ORBId orb_id ;
 
     /** 
      * Returns the sequence of strings that identifies the object
      * adapter instance that is handling this request.
+     * @return the sequence of strings
      */
     readonly attribute AdapterName adapter_name ;
 
     /**
      * Returns the repository id for the most derived interface of the 
      * servant.
+     * @return the repository ID
      */
     readonly attribute CORBA::RepositoryId 
       target_most_derived_interface;
@@ -968,7 +995,7 @@ module PortableInterceptor {
      *     policy to be returned. 
      * @return The <code>CORBA.Policy</code> obtained with the given 
      *     policy type.
-     * @exception INV_POLICY thrown, with a standard minor code of 2, if
+     * @exception org.omg.CORBA.INV_POLICY thrown, with a standard minor code of 2, if
      *     a policy for the given type was not registered via 
      *     <code>register_policy_factory</code>.
      * @see ORBInitInfo#register_policy_factory
@@ -1013,7 +1040,7 @@ module PortableInterceptor {
      *     then <code>BAD_INV_ORDER</code> with a standard minor code of 15 
      *     is thrown. If true, then the existing service context is 
      *     replaced by the new one.
-     * @exception BAD_INV_ORDER thrown, with a standard minor code of 15, if
+     * @exception org.omg.CORBA.BAD_INV_ORDER thrown, with a standard minor code of 15, if
      *     replace is false and a service context already exists with the
      *     given ID.
      */
@@ -1090,7 +1117,7 @@ module PortableInterceptor {
      * <code>COMPLETED_NO</code>.
      * 
      * @param ri Information about the current request being intercepted.
-     * @exception TIMEOUT thrown if the response is not available before 
+     * @exception org.omg.CORBA.TIMEOUT thrown if the response is not available before 
      *     the poll time-out expires
      */
     void send_poll (in ClientRequestInfo ri);
@@ -1397,6 +1424,9 @@ module PortableInterceptor {
     /** make_object creates a CORBA object reference according
     * to the data in this template, with the given repository ID and
     * object ID.
+    * @param repositoryId the repository ID
+    * @param object_id the object ID
+    * @return the resulting CORBA object
     */
     Object make_object( in string repositoryId, in ObjectId object_id ) ;
   } ;
@@ -1514,7 +1544,7 @@ module PortableInterceptor {
      * @param tagged_component The <code>IOP.TaggedComponent</code> to add. 
      * @param profile_id The profile id of the profile to 
      *     which this component will be added.
-     * @exception BAD_PARAM thrown, with a standard minor code of 29, if the 
+     * @exception org.omg.CORBA.BAD_PARAM thrown, with a standard minor code of 29, if the 
      *     given profile ID does not define a known profile or it is 
      *     impossible to add components to that profile.
      */
@@ -1524,16 +1554,22 @@ module PortableInterceptor {
 
     /** Return the adapter manager id of the object adapter
      * that was just created and is running IOR interceptors.
+     *
+     * @return the manager ID
      */
     readonly attribute AdapterManagerId manager_id ;
 
     /** Return the adapter state of the object adapter
      * that was just created and is running IOR interceptors.
+     *
+     * @return the state of the adapter
      */
     readonly attribute AdapterState state ;
 
     /** Return the object reference template of the object adapter
      * that was just created and is running IOR interceptors.
+     *
+     * @return the template
      */
     readonly attribute ObjectReferenceTemplate adapter_template ;
 
@@ -1543,6 +1579,7 @@ module PortableInterceptor {
      * as the value of the adapter_template attribute.  The current_factory 
      * may also be set to another object reference template inside an
      * IORInterceptor_3_0.
+     * 
      */
     attribute ObjectReferenceFactory current_factory ;
   };
@@ -1656,8 +1693,9 @@ module PortableInterceptor {
      * @param type An int specifying the type of policy being created. 
      * @param value An any containing data with which to construct the 
      *     <code>CORBA.Policy</code>. 
-     * @return A <code>CORBA.Policy<code> object of the specified type and 
+     * @return A <code>CORBA.Policy</code> object of the specified type and 
      *     value.
+     * @throws org.omg.CORBA.PolicyError if an error occured
      */
     CORBA::Policy create_policy 
       (in CORBA::PolicyType type, in any value)
@@ -1719,11 +1757,13 @@ module PortableInterceptor {
     /** 
      * Returns the arguments passed to <code>ORB.init</code>.  They may or
      * may not contain the ORB's arguments.
+     * @return the arguments for ORB.init
      */
     readonly attribute CORBA::StringSeq arguments;
 
     /** 
      * Returns the ID of the ORB being initialized.
+     * @return the ID of the ORB
      */
     readonly attribute string orb_id;
 
@@ -1735,6 +1775,7 @@ module PortableInterceptor {
      * processing service contexts, will require a <code>Codec</code>, a 
      * means of obtaining a <code>Codec</code> is necessary during ORB 
      * initialization.
+     * @return the IOP.CodeFactory
      */
     readonly attribute IOP::CodecFactory codec_factory;
 
@@ -1748,6 +1789,9 @@ module PortableInterceptor {
      * (<code>CORBA.ORB.InvalidName</code>) whereas the version in this 
      * interface uses IDL defined in this interface; the semantics are 
      * identical.
+     * @param id initial object id
+     * @param obj initial object to register
+     * @throws org.omg.PortableInterceptor.ORBInitInfoPackage.InvalidName  if the name is invalid
      */
     void register_initial_reference (in ObjectId id, in Object obj)
       raises (InvalidName);
@@ -1766,6 +1810,9 @@ module PortableInterceptor {
      * are identical.
      * <p>
      * This operation is only valid during post_init.
+     * @param id ID of the object
+     * @return initial references
+     * @throws org.omg.PortableInterceptor.ORBInitInfoPackage.InvalidName if the ID is not valid
      */
     Object resolve_initial_references (in ObjectId id) raises (InvalidName);
 
@@ -1775,7 +1822,7 @@ module PortableInterceptor {
      *
      * @param interceptor The <code>ClientRequestInterceptor</code> to be 
      *     added.
-     * @exception DuplicateName thrown if a client-side request Interceptor 
+     * @exception org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName thrown if a client-side request Interceptor 
      *     has already been registered with this Interceptor's name.
      */
     void add_client_request_interceptor 
@@ -1787,7 +1834,7 @@ module PortableInterceptor {
      * server-side request Interceptors.
      *
      * @param interceptor The ServerRequestInterceptor to be added.
-     * @exception DuplicateName thrown if a server-side request Interceptor 
+     * @exception org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName thrown if a server-side request Interceptor 
      *     has already been registered with this Interceptor's name
      */
     void add_server_request_interceptor (
@@ -1798,7 +1845,7 @@ module PortableInterceptor {
      * Used to add an IOR Interceptor to the list of IOR Interceptors. 
      *
      * @param interceptor The IORInterceptor to be added.
-     * @exception DuplicateName thrown if an IOR Interceptor has already 
+     * @exception org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName thrown if an IOR Interceptor has already 
      *     been registered with this Interceptor's name. 
      */
     void add_ior_interceptor (in IORInterceptor interceptor)
@@ -1811,7 +1858,7 @@ module PortableInterceptor {
      * the slots themselves cannot be initialized. 
      *
      * @return The index to the slot which has been allocated.
-     * @exception BAD_INV_ORDER thrown, with a standard minor code of 14, if 
+     * @exception org.omg.CORBA.BAD_INV_ORDER thrown, with a standard minor code of 14, if 
      *     <code>set_slot</code> or <code>get_slot</code> is called on the 
      *     <code>PICurrent</code> within an ORB initializer. 
      * @see Current
@@ -1825,7 +1872,7 @@ module PortableInterceptor {
      * @param type The policy type that the given <code>PolicyFactory</code> 
      *     serves. 
      * @param policy_factory The factory for the given policy type.
-     * @exception BAD_INV_ORDER thrown, with a standard minor code of 16, if 
+     * @exception org.omg.CORBA.BAD_INV_ORDER thrown, with a standard minor code of 16, if 
      *     a <code>PolicyFactory</code> already exists for the given 
      *     <code>PolicyType</code>.
      */
@@ -1891,7 +1938,7 @@ module PortableInterceptor {
    * <p>
    * A client-side logging service written by company X, for example, may 
    * have the following ORBInitializer implementation: 
-   * <code><pre>
+   * <code>
    * package com.x.logging;
    * 
    * import org.omg.PortableInterceptor.Interceptor; 
@@ -1911,7 +1958,7 @@ module PortableInterceptor {
    *         // This service does not need two init points. 
    *     } 
    * } 
-   * </pre></code>
+   * </code>
    * To run a program called <code>MyApp</code> using this logging 
    * service, the user could type: 
    *   <blockquote><code>
