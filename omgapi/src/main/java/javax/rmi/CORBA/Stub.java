@@ -137,6 +137,9 @@ public abstract class Stub extends ObjectImpl
 
     /**
      * Serialization method to restore the IOR state.
+     * @param stream stream to read object from
+     * @throws IOException if there was an error reading from the strea
+     * @throws ClassNotFoundException if the class that was represented by the steam cannot be found
      */
     private void readObject(java.io.ObjectInputStream stream)
         throws IOException, ClassNotFoundException {
@@ -153,11 +156,12 @@ public abstract class Stub extends ObjectImpl
 
     /**
      * Serialization method to save the IOR state.
-     * @serialData The length of the IOR type ID (int), followed by the IOR type ID
+     * @param stream The length of the IOR type ID (int), followed by the IOR type ID
      * (byte array encoded using ISO8859-1), followed by the number of IOR profiles
      * (int), followed by the IOR profiles.  Each IOR profile is written as a 
      * profile tag (int), followed by the length of the profile data (int), followed
      * by the profile data (byte array).
+     * @throws IOException if an error occurred writing to the delegated stub
      */
     private void writeObject(java.io.ObjectOutputStream stream) throws IOException {
 

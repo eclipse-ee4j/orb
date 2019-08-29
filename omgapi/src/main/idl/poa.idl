@@ -107,8 +107,10 @@ module PortableServer {
                 #pragma sun_local ThreadPolicy ""
         /**
          * specifies the policy value
+         *
+         * @return the policy value
          */
-                readonly attribute ThreadPolicyValue value; 
+         readonly attribute ThreadPolicyValue value; 
         }; 
 
         /**
@@ -130,8 +132,10 @@ module PortableServer {
                 #pragma sun_local LifespanPolicy ""
         /**
          * specifies the policy value
+         *
+         * @return the policy value
          */
-                readonly attribute LifespanPolicyValue value; 
+           readonly attribute LifespanPolicyValue value; 
         }; 
 
         /**
@@ -152,8 +156,10 @@ module PortableServer {
                 #pragma sun_local IdUniquenessPolicy ""
         /**
          * specifies the policy value
+         *
+         * @return the polucy value
          */
-                readonly attribute IdUniquenessPolicyValue value; 
+         readonly attribute IdUniquenessPolicyValue value; 
         }; 
 
         /**
@@ -176,8 +182,10 @@ module PortableServer {
                 #pragma sun_local IdAssignmentPolicy ""
         /**
          * specifies the policy value
+         *
+         * @return the policy value
          */
-                readonly attribute IdAssignmentPolicyValue value; 
+          readonly attribute IdAssignmentPolicyValue value; 
         }; 
 
         /**
@@ -201,8 +209,10 @@ module PortableServer {
                 #pragma sun_local ImplicitActivationPolicy ""
         /**
          * specifies the policy value
+         *
+         * @return the policy value
          */
-                readonly attribute ImplicitActivationPolicyValue value; 
+          readonly attribute ImplicitActivationPolicyValue value; 
         }; 
 
         /**
@@ -223,8 +233,10 @@ module PortableServer {
                 #pragma sun_local ServantRetentionPolicy ""
         /**
          * specifies the policy value
+         *
+         * @return the policy value
          */
-                readonly attribute ServantRetentionPolicyValue value; 
+          readonly attribute ServantRetentionPolicyValue value; 
         }; 
 
         /**
@@ -258,8 +270,10 @@ module PortableServer {
                 #pragma sun_local RequestProcessingPolicy ""
         /**
          * specifies the policy value
+         *
+         * @return the policy value
          */
-                readonly attribute RequestProcessingPolicyValue value; 
+          readonly attribute RequestProcessingPolicyValue value; 
         }; 
 
 
@@ -286,7 +300,7 @@ module PortableServer {
          * This operation changes the state of the POA manager 
          * to active, causing associated POAs to start processing
          * requests.
-         * @exception AdapterInactive is raised if the operation is
+         * @exception org.omg.PortableServer.POAManagerPackage.AdapterInactive is raised if the operation is
          *            invoked on the POAManager in inactive state.
          */
                 void activate() 
@@ -299,7 +313,7 @@ module PortableServer {
          *            returns immediately after changing state.  
          *            If TRUE, it waits for all active requests 
          *            to complete. 
-         * @exception AdapterInactive is raised if the operation is
+         * @exception org.omg.PortableServer.POAManagerPackage.AdapterInactive is raised if the operation is
          *            invoked on the POAManager in inactive state.
          */
                 void hold_requests(in boolean wait_for_completion) 
@@ -312,7 +326,7 @@ module PortableServer {
          *            returns immediately after changing state.  
          *            If TRUE, it waits for all active requests 
          *            to complete. 
-         * @exception AdapterInactive is raised if the operation is
+         * @exception org.omg.PortableServer.POAManagerPackage.AdapterInactive is raised if the operation is
          *            invoked on the POAManager in inactive state.
          */
                 void discard_requests(in boolean wait_for_completion)
@@ -331,7 +345,7 @@ module PortableServer {
          *            returns immediately after changing state.  
          *            If TRUE, it waits for all active requests 
          *            to complete. 
-         * @exception AdapterInactive is raised if the operation is
+         * @exception org.omg.PortableServer.POAManagerPackage.AdapterInactive is raised if the operation is
          *            invoked on the POAManager in inactive state.
          */
                 void deactivate(in boolean etherealize_objects, 
@@ -339,8 +353,10 @@ module PortableServer {
                         raises(AdapterInactive); 
         /**
          * This operation returns the state of the POA manager.
+         *
+         * @return the state of the manager
          */
-                State get_state();
+          State get_state();
         }; 
 
 
@@ -506,12 +522,13 @@ module PortableServer {
                                    out Cookie the_cookie ) 
                                 raises (ForwardRequest); 
         /**
-         * This operation is invoked whenener a servant completes
+         * This operation is invoked whenever a servant completes
          * a request.
          * @param oid the object id ssociated with object on which
          *            the request was made.
          * @param adapter the reference for POA in which the
          *                object was active.
+         * @param operation the operation to invoke
          * @param the_cookie  an opaque value that contains
          *                    the data set by preinvoke.
          * @param the_servant reference to the servant that is
@@ -624,10 +641,11 @@ module PortableServer {
          *        associated with the new POA.
          * @param policies specifies policy objects to be 
          *        associated with the POA to control its behavior.
-         * @exception AdapterAlreadyExists specifies that the
+         * @return the new POA
+         * @exception org.omg.PortableServer.POAPackage.AdapterAlreadyExists specifies that the
          *            target POA already has a child POA with 
          *            the specified name.
-         * @exception InvalidPolicy is raised if any of the
+         * @exception org.omg.PortableServer.POAPackage.InvalidPolicy is raised if any of the
          *            policy objects are not valid for the ORB,
          *            or are in conflict, or require an 
          *            administrative action that has not been
@@ -648,9 +666,9 @@ module PortableServer {
          *        the activate_it parameter is TRUE, the target 
          *        POA's AdapterActivator, if one exists, 
          *        is invoked.
-         * @return POA if one exists or is activated by the
+         * @return org.omg.PortableServer.POAPackage.POA if one exists or is activated by the
          *         AdapterActivator.
-         * @return AdapterNonExistent is raised if POA with
+         * @exception org.omg.PortableServer.POAPackage.AdapterNonExistent is raised if POA with
          *         a specified name cannot be found or
          *         activated using AdapaterActivator.
          */
@@ -746,11 +764,15 @@ module PortableServer {
         /**
          * This attribute identifies the POA relative to its 
          * parent. This name is assigned when the POA is created.
+         *
+         * @return name of the POA
          */
                 readonly attribute string the_name; 
         /**
          * This attribute identifies the parent of the POA. 
          * The parent of the root POA is null. 
+         *
+         * @return the parent of the POA
          */
                 readonly attribute POA the_parent; 
         /**
@@ -758,17 +780,22 @@ module PortableServer {
          * child POAs of the POA. The set of child POAs 
          * includes only the POA's immediate children, and 
          * not their descendants.
+         *
+         * @return the children of the POA
          */
                 readonly attribute POAList the_children;
         /**
          * This attribute identifies the POA manager 
          * associated with the POA.
+         *
+         * @return the POA manager
          */
                 readonly attribute POAManager the_POAManager; 
 
         /**
          * This attribute identifies the adapter activator 
          * associated with the POA.
+         *
          */
                 attribute AdapterActivator the_activator; 
 
@@ -786,9 +813,9 @@ module PortableServer {
          * interface. If the argument is nil, or does not support 
          * the required interface, then the OBJ_ADAPTER 
          * exception is raised.
-         * @return ServantManager associated with a POA or null if
+         * @return org.omg.PortableServer.POAPackage.ServantManager associated with a POA or null if
          *         none exists.
-         * @exception WrongPolicy raised if the 
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy raised if the 
          *            USE_SERVANT_MANAGER policy is not specified.
          */
                 ServantManager get_servant_manager() 
@@ -802,7 +829,7 @@ module PortableServer {
          * been set will result in the BAD_INV_ORDER exception 
          * being raised.
          * @param imgr servant manager to be used as a default.
-         * @exception WrongPolicy raised if the 
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy raised if the 
          *            USE_SERVANT_MANAGER policy is not specified.
          */
                 void set_servant_manager( in ServantManager imgr) 
@@ -817,9 +844,9 @@ module PortableServer {
          * This operation returns the default servant associated 
          * with the POA. 
          * @return p_servant default servant associated with a POA.
-         * @exception NoServant raised if no default servant is
+         * @exception org.omg.PortableServer.POAPackage.NoServant raised if no default servant is
          *            associated with the POA.
-         * @exception WrongPolicy raised if the 
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy raised if the 
          *            USE_DEFAULT_SERVANT policy is not specified.
          */
                 Servant get_servant() 
@@ -832,7 +859,7 @@ module PortableServer {
          * be used for all requests for which no servant is 
          * found in the Active Object Map.
          * @param p_servant servant to be used as a default.
-         * @exception WrongPolicy raised if the 
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy raised if the 
          *            USE_DEFAULT_SERVANT policy is not specified.
          */
                 void set_servant(in Servant p_servant) 
@@ -852,10 +879,10 @@ module PortableServer {
          * @param p_servant servant to be associated with an
          *            object to be activated.
          * @return POA generated object id.
-         * @exception ServantAlreadyActive is raised if the
+         * @exception org.omg.PortableServer.POAPackage.ServantAlreadyActive is raised if the
          *            POA has UNIQUE_ID policy and servant is
          *            is already in the Active Object Map.
-         * @exception WrongPolicy raised if the SYSTEM_ID and 
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy raised if the SYSTEM_ID and 
          *            RETAIN policies are not specified.
          */
                 ObjectId activate_object( in Servant p_servant ) 
@@ -867,12 +894,12 @@ module PortableServer {
          * @param id object id for the object to be activated.
          * @param p_servant servant to be associated with the
          *                  object.
-         * @exception ServantAlreadyActive raised if the POA 
+         * @exception org.omg.PortableServer.POAPackage.ServantAlreadyActive raised if the POA 
          *            has the UNIQUE_ID policy and the servant 
          *            is already in the Active Object Map.
-         * @exception ObjectAlreadyActive raised if the object is
+         * @exception org.omg.PortableServer.POAPackage.ObjectAlreadyActive raised if the object is
          *            already active in the POA.
-         * @exception WrongPolicy raised if the RETAIN policy is
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy raised if the RETAIN policy is
          *            is not specified.
          */
 
@@ -890,10 +917,10 @@ module PortableServer {
          * Object Map when all requests executing for that 
          * ObjectId have completed. 
          * @param oid Object Id for the object to be deactivated.
-         * @exception ObjectNotActive if the object with the
+         * @exception org.omg.PortableServer.POAPackage.ObjectNotActive if the object with the
          *            specified oid is not in the Active Object
          *            Map.
-         * @exception WrongPolicy raised if the RETAIN policy is
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy raised if the RETAIN policy is
          *            is not specified.
          */
                 void deactivate_object(in ObjectId oid) 
@@ -911,7 +938,7 @@ module PortableServer {
          *
          * @param intf rep id for creating an object reference.
          * @return object reference created using intf.
-         * @exception WrongPolicy if SYSTEM_ID policy is not 
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy if SYSTEM_ID policy is not 
          *            specified.
          */
                 Object create_reference ( in CORBA::RepositoryId intf ) 
@@ -929,7 +956,7 @@ module PortableServer {
          * @param oid object id for creating an objref
          * @param intf rep id for creating an objref
          * @return object reference created using oid and intf
-         * @exception BAD_PARAM is raised if the POA has the 
+         * @exception org.omg.CORBA.BAD_PARAM is raised if the POA has the 
          *             SYSTEM_ID policy and it detects that the 
          *             Object Id value was not generated by the 
          *             system or for this POA.
@@ -963,9 +990,9 @@ module PortableServer {
          *
          * @param p_servant servant for which the object disi returned.
          * @return object id associated with the servant.
-         * @exception ServantNotActive if the above rules and
+         * @exception org.omg.PortableServer.POAPackage.ServantNotActive if the above rules and
          *            policy combination is not met. 
-         * @exception WrongPolicy if the USE_DEFAULT_SERVANT policy
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy if the USE_DEFAULT_SERVANT policy
          *            or a combination of the RETAIN policy and 
          *            either the UNIQUE_ID or IMPLICIT_ACTIVATION 
          *            policies are not present. 
@@ -998,11 +1025,11 @@ module PortableServer {
          * @param p_servant servant for which the object reference
          *                  needs to be obtained.
          * @return object reference associated with the servant.
-         * @exception WrongPolicy if the operation is not invoked 
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy if the operation is not invoked 
          *            in the context of executing a request on 
          *            the specified servant and the required 
          *            policies are not present.
-         * @exception ServantNotActive if the above specified
+         * @exception org.omg.PortableServer.POAPackage.ServantNotActive if the above specified
          *            policies and rules are not met.
          */
                 Object servant_to_reference(in Servant p_servant) 
@@ -1023,13 +1050,13 @@ module PortableServer {
          * @param reference object reference for which the
          *                  servant is returned.
          * @return servant associated with the reference.
-         * @exception WrongPolicy if neither the RETAIN policy or 
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy if neither the RETAIN policy or 
          *            the USE_DEFAULT_SERVANT policy is present. 
-         * @exception ObjectNotActive if the servant is not
+         * @exception org.omg.PortableServer.POAPackage.ObjectNotActive if the servant is not
          *            present in the Active Object Map (for RETAIN)
          *            or no default servant is registered (for
          *            USE_DEFAULT_POLICY).
-         * @exception WrongAdapter if reference was not created by
+         * @exception org.omg.PortableServer.POAPackage.WrongAdapter if reference was not created by
          *            this POA instance.
          */
                 Servant reference_to_servant(in Object reference)
@@ -1046,10 +1073,10 @@ module PortableServer {
          * @param reference the object reference from which the
          *                  object id needs to be returned.
          * @return object id encapsulated in the reference.
-         * @exception WrongAdapter if the reference was not 
+         * @exception org.omg.PortableServer.POAPackage.WrongAdapter if the reference was not 
          *            created by the POA specified in the 
          *            reference.
-         * @exception WrongPolicy declared to allow future 
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy declared to allow future 
          *            extensions. 
          *
          */
@@ -1068,12 +1095,12 @@ module PortableServer {
          * @param oid object id for the which the servant is
          *            returned.
          * @return servant associated with oid.
-         * @exception ObjectNotActive is raised if ObjectId is
+         * @exception org.omg.PortableServer.POAPackage.ObjectNotActive is raised if ObjectId is
          *            is not in the Active Object Map (for RETAIN
          *            policy), or no default servant is registered
          *            (for USE_DEFAULT_SERVANT policy).
          *
-         * @exception WrongPolicy is raised if the RETAIN policy
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy is raised if the RETAIN policy
          *                        or the USE_DEFAULT_SERVANT 
          *                        policy is not present. 
          */
@@ -1089,9 +1116,9 @@ module PortableServer {
          *                 reference is returned.
          * @return the object reference 
          *
-         * @exception ObjectNotActive if the Object Id value 
+         * @exception org.omg.PortableServer.POAPackage.ObjectNotActive if the Object Id value 
          *             is not active in the POA.
-         * @exception WrongPolicy if the RETAIN policy is not 
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy if the RETAIN policy is not 
          *             present.
          */
                 Object id_to_reference(in ObjectId oid) 
@@ -1106,6 +1133,8 @@ module PortableServer {
          * in the same path with the same name as another POA, these POAs 
          * are identical and, therefore, have the same id.  For transient 
          * POAs, each POA is unique.
+         *
+         * @return the unique id
          */
                 readonly attribute ::org::omg::CORBA::OctetSeq id;
 
@@ -1152,7 +1181,7 @@ module PortableServer {
          *
          * @return The poa implementing the object
          * 
-         * @exception NoContext is raised when the operation is
+         * @exception org.omg.PortableServer.CurrentPackage.NoContext is raised when the operation is
          *            outside the context of a POA-dispatched 
          *            operation
          */
@@ -1165,7 +1194,7 @@ module PortableServer {
          *
          * @return the ObjectId of the object
          *
-         * @exception NoContext is raised when the operation
+         * @exception org.omg.PortableServer.CurrentPackage.NoContext is raised when the operation
          * is called outside the context of a POA-dispatched 
          * operation.
          */
