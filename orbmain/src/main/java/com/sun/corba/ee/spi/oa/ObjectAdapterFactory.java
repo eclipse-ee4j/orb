@@ -16,16 +16,24 @@ import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
 
 public interface ObjectAdapterFactory {
     /** Initialize this object adapter factory instance.
+     * 
+     * @param orb the ORB for the factory to use
     */
     void init( ORB orb ) ;
 
     /** Shutdown all object adapters and other state associated
      * with this factory.
+     * 
+     * @param waitForCompletion if this should wait for all object adapters
+     * to shut down
      */
     void shutdown( boolean waitForCompletion ) ;
 
     /** Find the ObjectAdapter instance that corresponds to the
     * given ObjectAdapterId.
+    * 
+    * @param oaid the id to look for
+    * @return the found instance
     */
     ObjectAdapter find( ObjectAdapterId oaid ) ;
 

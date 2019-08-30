@@ -21,12 +21,16 @@ import java.util.Vector ;
 public interface DataCollector {
     /** Return true iff this DataCollector was created from
      * applet data.
+     * 
+     * @return if this was created from an applet
      */
     boolean isApplet() ;
 
     /** Return true iff the local host and ORB initial host are the same.
     * This is provided to avoid exposing the local host in insecure
     * contexts.
+    * 
+    * @return if the local host and ORB initial host are the same
     */
     boolean initialHostIsLocal() ;
 
@@ -34,6 +38,8 @@ public interface DataCollector {
      * This must be called before getProperties 
      * may be called.  It may be called multiple times if different
      * sets of properties are needed for the same data sources.
+     * 
+     * @param parser parser used to obtain property names
      */
     void setParser( PropertyParser parser ) ;
 
@@ -44,6 +50,7 @@ public interface DataCollector {
      * mappings in the resulting properties.  Also, -ORBInitialServices
      * is handled specially in applet mode: they are converted from
      * relative to absolute URLs.
+     * @return consolidated property information
      * @throws IllegalStateException if setPropertyNames has not
      * been called.
      */

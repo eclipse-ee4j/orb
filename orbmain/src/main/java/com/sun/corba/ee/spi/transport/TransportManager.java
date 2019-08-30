@@ -66,6 +66,8 @@ public interface TransportManager {
     /** Return a MessageTraceManager for the current thread.
      * Each thread that calls getMessageTraceManager gets its own
      * independent copy.
+     * 
+     * @return MessageTraceManager for the current thread
      */
     MessageTraceManager getMessageTraceManager() ;
 

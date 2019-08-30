@@ -101,7 +101,7 @@ public interface PIHandler extends Closeable {
      * Called when the send_request or send_poll portable interception point
      * is to be invoked for all appropriate client-side request interceptors.
      *
-     * @exception RemarhsalException - Thrown when this request needs to
+     * @exception RemarshalException - Thrown when this request needs to
      *     be retried.
      */
     void invokeClientPIStartingPoint()

@@ -15,6 +15,9 @@ public interface ReferenceFactory extends org.omg.CORBA.Object,
 {
     /** Create an object reference with the given key and
      * repository ID.
+     * 
+     * @param key key for object
+     * @return the resulting object
      */
     org.omg.CORBA.Object createReference( byte[] key ) ;
 

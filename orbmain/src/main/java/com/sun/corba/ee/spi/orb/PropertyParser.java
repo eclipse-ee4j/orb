@@ -45,6 +45,8 @@ public class PropertyParser {
     }
 
     /** Return a map from field name to value.
+     * @param props properties to convert
+     * @return unsynchonized Map
     */
     public Map<String,Object> parse( Properties props )
     {

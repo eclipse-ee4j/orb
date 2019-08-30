@@ -48,6 +48,9 @@ public class IORFactories {
     private IORFactories() {} 
 
     /** Create an ObjectId for the given byte sequence.
+     * 
+     * @param id bytes to use
+     * @return resulting ObjectId
      */
     public static ObjectId makeObjectId( byte[] id )
     {
@@ -56,6 +59,10 @@ public class IORFactories {
 
     /** Create an ObjectKey for the given ObjectKeyTemplate and
      * ObjectId.
+     * 
+     * @param oktemp given template to use
+     * @param oid id of the ObjectKey
+     * @return resulting ObjectKey
      */
     public static ObjectKey makeObjectKey( ObjectKeyTemplate oktemp, ObjectId oid )
     {
@@ -63,6 +70,10 @@ public class IORFactories {
     }
 
     /** Create an empty IOR for the given orb and typeid.  The result is mutable.
+     * 
+     * @param orb orb to use
+     * @param typeid typid of IOR
+     * @return an empty IOR
      */
     public static IOR makeIOR( ORB orb, String typeid ) 
     {
@@ -70,6 +81,9 @@ public class IORFactories {
     }
 
     /** Create an empty IOR for the given orb with a null typeid.  The result is mutable.
+     * 
+     * @param orb the orb to use
+     * @return an empty IOR
      */
     public static IOR makeIOR( ORB orb ) 
     {
@@ -77,6 +91,10 @@ public class IORFactories {
     }
 
     /** Read an IOR from an InputStream.  ObjectKeys are not shared.
+     * 
+     * @param orb orb to use
+     * @param is stream to read from
+     * @return a new {@link IORImpl}
      */
     public static IOR makeIOR( ORB orb, InputStream is )
     {
@@ -85,6 +103,9 @@ public class IORFactories {
 
     /** Create an IORTemplate with the given ObjectKeyTemplate.  The result
      * is mutable.
+     * 
+     * @param oktemp ObjectKeyTemplate to use
+     * @return a mutable IORTemplate
      */
     public static IORTemplate makeIORTemplate( ObjectKeyTemplate oktemp )
     {
@@ -92,6 +113,9 @@ public class IORFactories {
     }
 
     /** Read an IORTemplate from an InputStream.
+     * 
+     * @param is stream to read template from
+     * @return read IORTemplate
      */
     public static IORTemplate makeIORTemplate( InputStream is )
     {
@@ -155,6 +179,8 @@ public class IORFactories {
     /** This method must be called in order to register the value
      * factories for the ObjectReferenceTemplate and ObjectReferenceFactory
      * value types.
+     * 
+     * @param orb ORB to register with
      */
     public static void registerValueFactories( ORB orb ) 
     {

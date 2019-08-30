@@ -25,6 +25,8 @@ public interface NullServant
 {
     /** Obtain the exception that is associated with this 
      * NullServant instance.
+     * 
+     * @return the exception
      */
     SystemException getException() ;
 }

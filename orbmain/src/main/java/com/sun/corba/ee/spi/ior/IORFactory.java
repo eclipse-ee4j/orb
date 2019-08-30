@@ -20,11 +20,20 @@ public interface IORFactory extends Writeable, MakeImmutable {
     /** Construct an IOR containing the given ORB, typeid, and ObjectId.
      * The same ObjectId will be used for all TaggedProfileTemplates in
      * the IORFactory.
+     * 
+     * @param orb  orb to use
+     * @param typeid typeID of IOR
+     * @param oid ObjectID of IOR
+     * @return constructed IOR
      */
     IOR makeIOR( ORB orb, String typeid, ObjectId oid ) ;
 
     /** Return true iff this.makeIOR(orb,typeid,oid).isEquivalent(
      * other.makeIOR(orb,typeid,oid) for all orb, typeid, and oid.
+     * 
+     * @param other IORFactory to check
+     * @return if they are equal
+     * @see IORFactory#makeIOR(com.sun.corba.ee.spi.orb.ORB, java.lang.String, com.sun.corba.ee.spi.ior.ObjectId) 
      */
     boolean isEquivalent( IORFactory other ) ;
 }

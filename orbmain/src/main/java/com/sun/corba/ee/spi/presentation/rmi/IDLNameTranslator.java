@@ -18,24 +18,34 @@ import java.lang.reflect.Method ;
 public interface IDLNameTranslator 
 {
     /** Get the interfaces that this IDLNameTranslator describes.
+     * 
+     * @return interfaces described
      */
     Class[] getInterfaces() ;
 
     /** Get all methods for this remote interface.
      * The methods are returned in a canonical order, that is,
      * they are always in the same order for a particular interface.
+     * 
+     * @return methods for interface
      */
     Method[] getMethods() ;
 
     /** Get the method from this IDLNameTranslator's interfaces that 
      * corresponds to the mangled name idlName.  Returns null
      * if there is no matching method.
+     * 
+     * @param idlName name of method
+     * @return method with the specified name
      */
     Method getMethod( String idlName )  ;
 
     /** Get the mangled name that corresponds to the given method 
      * on this IDLNameTranslator's interface.  Returns null
      * if there is no matching name.
+     * 
+     * @param method method to get name of
+     * @return the corresponding name
      */
     String getIDLName( Method method )  ;
 }

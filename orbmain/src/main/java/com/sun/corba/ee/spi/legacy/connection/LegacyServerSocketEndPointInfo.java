@@ -17,6 +17,7 @@ public interface LegacyServerSocketEndPointInfo
 {
     /**
      * e.g.: "CLEAR_TEXT", "SSL", ...
+     * @return type
      */
     public String getType();
 
@@ -25,6 +26,7 @@ public interface LegacyServerSocketEndPointInfo
      * Get the host name of this end point. Subcontracts must use this
      * instead of InetAddress.getHostName() because this would take
      * into account the value of the ORBServerHost property.
+     * @return the host name
      */
     public String getHostName();
 
@@ -33,6 +35,7 @@ public interface LegacyServerSocketEndPointInfo
     /**
      * The ORBD's proxy port of this end point.
      * Note: Pre-ORT "port-exchange" model.
+     * @return  proxy port
      */
     public int getLocatorPort();
     public void setLocatorPort(int port);

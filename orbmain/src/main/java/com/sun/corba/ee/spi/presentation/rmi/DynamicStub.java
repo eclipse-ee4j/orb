@@ -25,18 +25,30 @@ import org.omg.CORBA.ORB ;
 public interface DynamicStub extends org.omg.CORBA.Object
 {
     /** Similar to ObjectImpl._set_delegate
+     * 
+     * @param delegate delegate to set
+     * @see org.omg.CORBA.portable.ObjectImpl#_set_delegate(org.omg.CORBA.portable.Delegate)
      */
     void setDelegate( Delegate delegate ) ;
 
     /** Similar to ObjectImpl._get_delegate
+     * 
+     * @return Delegate contained
+     * @see org.omg.CORBA.portable.ObjectImpl#_get_delegate() 
      */
     Delegate getDelegate() ;
 
     /** Similar to ObjectImpl._orb()
+     * 
+     * @return the ORB instance that created the Delegat
+     * @see org.omg.CORBA.portable.ObjectImpl#_orb()
      */
     ORB getORB() ;
 
     /** Similar to ObjectImpl._ids
+     * 
+     * @return the array of all repository identifiers
+     * @see org.omg.CORBA.portable.ObjectImpl#_ids()
      */
     String[] getTypeIds() ; 
 
@@ -45,6 +57,8 @@ public interface DynamicStub extends org.omg.CORBA.Object
      * a dynamic stub is deserialized from an ObjectInputStream.
      * It is not needed when unmarshalling from a 
      * org.omg.CORBA.portable.InputStream.
+     * 
+     * @param orb ORB to connect to
      */
     void connect( ORB orb ) throws RemoteException ;
 

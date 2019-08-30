@@ -50,12 +50,10 @@ public interface ClientRequestDispatcher
      *
      * @return CDRInputObject if the message is synchronous.
      *
-     * @throws
-     * {@link org.omg.CORBA.portable.ApplicationException ApplicationException}
+     * @throws org.omg.CORBA.portable.ApplicationException ApplicationException
      * if the remote side raises an exception declared in the remote interface.
      * 
-     * @throws
-     * {@link org.omg.CORBA.portable.RemarshalException RemarshalException}
+     * @throws org.omg.CORBA.portable.RemarshalException RemarshalException
      * if the PEPt runtime would like the presentation block to start over.
      */
     public CDRInputObject marshalingComplete(java.lang.Object self,

@@ -12,8 +12,6 @@ package com.sun.corba.ee.spi.ior ;
 
 import org.omg.CORBA_2_3.portable.InputStream ;
 
-import com.sun.corba.ee.spi.ior.Identifiable ;
-
 import com.sun.corba.ee.spi.orb.ORB ;
 
 /** Factory interface for creating Identifiables.
@@ -21,11 +19,17 @@ import com.sun.corba.ee.spi.orb.ORB ;
 public interface IdentifiableFactory<E extends Identifiable> {
     /** Return the id of this factory, which is the id of the result 
      * of any create call.
+     * 
+     * @return the factory ID
      */
     public int getId() ;
 
     /** Construct the appropriate Identifiable object with the 
      * given id from the InputStream is.  
+     * 
+     * @param orb the ORB to use
+     * @param in details of the object to create
+     * @return the constructed object
      */
     public E create( ORB orb, InputStream in ) ;
 }

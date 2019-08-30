@@ -21,6 +21,12 @@ public interface ConnectionFinder<C extends Connection> {
     /** Method that searches idleConnections and busyConnections for 
      * the best connection.  May return null if no best connection
      * exists.  May create a new connection and return it.
+     * 
+     * @param cinfo info to match in the search
+     * @param idleConnections idle connections to search
+     * @param busyConnections busy connections to search
+     * @throws IOException if an error occurred
+     * @return the best connection
      */
     C find( ContactInfo<C> cinfo, Collection<C> idleConnections, 
         Collection<C> busyConnections ) throws IOException ;

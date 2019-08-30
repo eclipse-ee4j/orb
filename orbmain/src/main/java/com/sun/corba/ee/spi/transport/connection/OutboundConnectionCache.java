@@ -42,11 +42,15 @@ import java.io.IOException ;
 public interface OutboundConnectionCache<C extends Connection> 
     extends ConnectionCache<C> {
     /** Configured maximum number of connections supported per ContactInfo.
+     * @return maximum number of connections
      */
     int maxParallelConnections() ;
 
     /** Determine whether a new connection could be created by the
      * ConnectionCache or not.
+     * 
+     * @param cinfo info to use for {@link Connection}
+     * @return if a new connection can be created
      */
     boolean canCreateNewConnection( ContactInfo<C> cinfo ) ;
 
@@ -87,13 +91,22 @@ public interface OutboundConnectionCache<C extends Connection>
      * connection first.  This is done to aid a finder that wishes to consider 
      * load balancing in its determination of an appropriate connection.
      * <P>
+     * 
+     * @param cinfo info on Connection to get
+     * @param finder Finder to use to search for Connection
+     * @throws IOException if an error occurred
+     * @return {@link Connection} corresponding to the ContactInfo
      */
     C get( ContactInfo<C> cinfo, ConnectionFinder<C> finder 
         ) throws IOException ;
 
-    /** Behaves the same as get( ContactInfo<C>, ConnectionFinder<C> ) 
+    /** Behaves the same as {@link #get(ContactInfo, ConnectionFinder)}
      * except that no connection finder is provided, so that step is
      * ignored. 
+     * 
+     * @param cinfo info on Connection to get
+     * @throws IOException if an error occurred
+     * @return {@link Connection} corresponding to the ContactInfo
      */
     C get( ContactInfo<C> cinfo ) throws IOException ;
 
@@ -106,6 +119,9 @@ public interface OutboundConnectionCache<C extends Connection>
      * on the same connection on which the request was received.  This is
      * necessary to prevent reclamation of a Connection that is idle, but
      * still needed to send responses to old requests.
+     * 
+     * @param conn connection to release
+     * @param numResponseExpected number of responses expected
      */
     void release( C conn, int numResponseExpected ) ;
 
@@ -116,6 +132,8 @@ public interface OutboundConnectionCache<C extends Connection>
      * <P>
      * When a Connection is idle, and has no pending responses, it is
      * eligible for reclamation.
+     * 
+     * @param conn Connection that has received a response
      */
     void responseReceived( C conn ) ;
 }

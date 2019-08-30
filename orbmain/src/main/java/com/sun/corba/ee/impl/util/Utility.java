@@ -69,7 +69,6 @@ public final class Utility {
      * @param convertToStub true if implementation types should be
      * converted to Stubs rather than just org.omg.CORBA.Object.
      * @return the connected object.
-     * @exception NoSuchObjectException if obj is an implementation
      * which has not been exported.
      */
     public static Object autoConnect(Object obj, ORB orb, boolean convertToStub) 

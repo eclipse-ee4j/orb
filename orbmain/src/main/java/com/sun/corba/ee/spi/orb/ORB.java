@@ -522,11 +522,15 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
 
     /** Set the resolver used in this ORB.  This resolver will be used for list_initial_services
      * and resolve_initial_references.
+     * 
+     * @param resolver resolver to be used
      */
     public abstract void setResolver( Resolver resolver ) ;
 
     /** Get the resolver used in this ORB.  This resolver will be used for list_initial_services
      * and resolve_initial_references.
+     * 
+     * @return ORB Name resolver
      */
     @ManagedAttribute
     @Description( "ORB Name resolver" ) 
@@ -534,11 +538,15 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
 
     /** Set the LocalResolver used in this ORB.  This LocalResolver is used for 
      * register_initial_reference only.
+     * 
+     * @param resolver ORB Local Name resolver
      */
     public abstract void setLocalResolver( LocalResolver resolver ) ;
 
     /** Get the LocalResolver used in this ORB.  This LocalResolver is used for 
      * register_initial_reference only.
+     * 
+     * @return ORB Local Name resolver
      */
     @ManagedAttribute
     @Description( "ORB Local Name resolver" ) 
@@ -546,20 +554,28 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
 
     /** Set the operation used in string_to_object calls.  The Operation must expect a
      * String and return an org.omg.CORBA.Object.
+     * 
+     * @param operation to be used
      */
     public abstract void setURLOperation( Operation stringToObject ) ;
 
     /** Get the operation used in string_to_object calls.  The Operation must expect a
      * String and return an org.omg.CORBA.Object.
+     * 
+     * @return operation used
      */
     public abstract Operation getURLOperation() ;
 
     /** Set the ServerRequestDispatcher that should be used for handling INS requests.
+     * 
+     * @param insDelegate dispatcher to be used
      */
     public abstract void setINSDelegate( ServerRequestDispatcher insDelegate ) ;
 
     /** Factory finders for the various parts of the IOR: tagged components, tagged
      * profiles, and tagged profile templates.
+     * 
+     * @return Finder of Factories for TaggedComponents of IORs
      */
     @ManagedAttribute
     @Description( "Finder of Factories for TaggedComponents of IORs" )
@@ -620,6 +636,8 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
      * and guaranteed to be unique within the ClassLoader that loaded the
      * ORB class.  This is the default implementation inherited by the
      * ORBSingleton.
+     * 
+     * @return a unique name
      */
     @NameValue
     public String getUniqueOrbId()  {
@@ -684,16 +702,15 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
 
         mom.createRoot( this, getUniqueOrbId() ) ;
     }
-
-    /** Return the ORB's TimerManager.
-     */
-    // public abstract TimerManager<TimingPoints> getTimerManager() ;
     
-    // This method obtains an IOR from a CORBA object reference.
-    // The result is never null.
-    // Throws BAD_OPERATION (from oi._get_delegate) if obj is a
-    // normal objref, but does not have a delegate set.
-    // Throws BAD_PARAM if obj is a local object
+    /** This method obtains an IOR from a CORBA object reference.
+     * The result is never null.
+     * @param obj CORBA object reference
+     * @return obtained IOR
+     * @throws org.omg.CORBA.BAD_OPERATION (from oi._get_delegate) if obj is a
+     * normal objref, but does not have a delegate set.
+     * @throws org.omg.CORBA.BAD_PARAM if obj is a local object
+    */ 
     protected IOR getIOR( org.omg.CORBA.Object obj ) 
     {
         if (obj == null)
@@ -746,6 +763,9 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
      * what ORB implementation created it.  It may be more efficient for objrefs
      * that were created by this ORB implementation.
      *
+     * @param obj CORBA object to get IOR for
+     * @param connectIfNecessary connect to RMI-IIOP if not already
+     * @return obtained IOR
      * @exception SystemException (nullObjectReference) if obj is null
      * @exception SystemException (localObjectNotAllowed) of obj is a local CORBA object.
      */
@@ -756,6 +776,8 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
     }
 
     /** The singleton ORB does not need the cache, so just return null here.
+     * @param objKey ignored
+     * @return null
      */
     public ObjectKeyCacheEntry extractObjectKeyCacheEntry(byte[] objKey) {
         return null ;
@@ -763,6 +785,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
 
     /** Return whether or not the ORB is shutdown.  A shutdown ORB cannot process
      * incoming requests.
+     * @return true
      */
     public boolean orbIsShutdown() {
         return true ;

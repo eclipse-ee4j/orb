@@ -40,6 +40,7 @@ public interface IOR extends List<TaggedProfile>, Writeable, MakeImmutable
     ORB getORB() ;
 
     /** Return the type id string from the IOR.
+     * @return the repository ID
     */
     @ManagedAttribute
     @Description( "The repository ID of the IOR" ) 
@@ -48,36 +49,53 @@ public interface IOR extends List<TaggedProfile>, Writeable, MakeImmutable
     /** Return an iterator that iterates over tagged profiles with
     * identifier id.  It is not possible to modify the list through this
     * iterator.
+    * 
+    * @param id id of tagged profiles
+    * @return iterator of all tags
     */
     Iterator<TaggedProfile> iteratorById( int id ) ;
 
     /** Return a representation of this IOR in the standard GIOP stringified
      * format that begins with "IOR:".
+     * 
+     * @return a String version of the IOR
      */
     String stringify() ;
 
     /** Return a representation of this IOR in the standard GIOP marshalled
      * form.
+     * 
+     * @return a presentation of this IOR
      */
     org.omg.IOP.IOR getIOPIOR() ;
 
     /** Return true if this IOR has no profiles.
+     * 
+     * @return if there are no profiles
      */
     boolean isNil() ;
 
     /** Return true if this IOR is equivalent to ior.  Here equivalent means
      * that the typeids are the same, they have the same number of profiles,
      * and each profile is equivalent to the corresponding profile.
+     * 
+     * @param ior the IOR to compare with
+     * @return if they are equivalent
+     * @see #equals(java.lang.Object) 
      */
     boolean isEquivalent(IOR ior) ;
 
     /** Return the IORTemplate for this IOR.  This is simply a list
      * of all TaggedProfileTemplates derived from the TaggedProfiles
      * of the IOR.  
+     * 
+     * @return the IORTemplate
      */
     IORTemplateList getIORTemplates() ;
 
     /** Return the first IIOPProfile in this IOR.
+     * 
+     * @return the profile
      */
     IIOPProfile getProfile() ;
 }

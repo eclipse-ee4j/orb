@@ -35,6 +35,7 @@ public interface GroupInfoService
      * <code>getClusterInstanceInfo</code>
      * to get info.
      *
+     * @param x observer to add
      * @return true if the given observer is added.  False otherwise.
      */
     public boolean addObserver(GroupInfoServiceObserver x);
@@ -52,6 +53,9 @@ public interface GroupInfoService
      * so we can identifier the adapter.
      *
      * The adapter identification is used in testing.
+     * 
+     * @param adapterName name of cluster
+     * @return information about instances in the cluster
      */
     public List<ClusterInstanceInfo> getClusterInstanceInfo(
         String[] adapterName);
@@ -62,18 +66,25 @@ public interface GroupInfoService
      * so we can identifier the adapter.
      *
      * The adapter identification is used in testing.
+     * @param adapterName adapter to use
+     * @param endpoints  endpoints of cluster
+     * @return info on cluster
      */
     public List<ClusterInstanceInfo> getClusterInstanceInfo(
         String[] adapterName, List<String> endpoints );
 
     /**
      * This method only used during testing.
+     * @param adapterName name to add
+     * @return if addresses should be added
      */
     public boolean shouldAddAddressesToNonReferenceFactory(
         String[] adapterName);
 
     /**
      * This method only used during testing.
+     * @param adapterName name to add
+     * @return if label should be added
      */
     public boolean shouldAddMembershipLabel (String[] adapterName);
 }

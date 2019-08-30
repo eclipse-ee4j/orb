@@ -21,6 +21,9 @@ public interface IORTemplate extends List<TaggedProfileTemplate>,
 {
     /** Iterate over all TaggedProfileTemplates in this IORTemplate
      * with the given id.
+     * 
+     * @param id id to iterate over
+     * @return Iterator of TaggedProfileTemplates
      */
     Iterator<TaggedProfileTemplate> iteratorById( int id ) ;
 

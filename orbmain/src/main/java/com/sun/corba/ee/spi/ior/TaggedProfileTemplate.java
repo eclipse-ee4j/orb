@@ -48,7 +48,10 @@ public interface TaggedProfileTemplate extends List<TaggedComponent>,
 
     /** Return an iterator that iterates over tagged components with
     * identifier id.  It is not possible to modify the list through this
-    * iterator.  
+    * iterator.
+    * 
+    * @param id identifier id
+    * @return iterator of components
     */
     public Iterator<TaggedComponent> iteratorById( int id ) ;
 
@@ -56,17 +59,28 @@ public interface TaggedProfileTemplate extends List<TaggedComponent>,
         Class<T> cls )  ;
 
     /** Create a TaggedProfile from this template.
+     * 
+     * @param oktemp template to use
+     * @param id id for profile
+     * @return created Profile
     */
     TaggedProfile create( ObjectKeyTemplate oktemp, ObjectId id ) ;
 
     /** Write the profile create( oktemp, id ) to the OutputStream os.
+     * 
+     * @param oktemp template to use
+     * @param id ID of object
+     * @param os stream to write to
     */
     void write( ObjectKeyTemplate oktemp, ObjectId id, OutputStream os) ;
 
     /** Return true if temp is equivalent to this template.  Equivalence
      * means that in some sense an invocation on a profile created by this
      * template has the same results as an invocation on a profile
-     * created from temp.  Equivalence may be weaker than equality.  
+     * created from temp.  Equivalence may be weaker than equality. 
+     * 
+     * @param temp Template to compare
+     * @return if they are equivalent
      */
     boolean isEquivalent( TaggedProfileTemplate temp );
 
@@ -75,6 +89,10 @@ public interface TaggedProfileTemplate extends List<TaggedComponent>,
      * Interceptors.  Returns null if either the profile has no 
      * components, or if this type of profile can never contain
      * components.
+     * 
+     * @param orb ORB to use
+     * @param id id
+     * @return tagged components
      */
     org.omg.IOP.TaggedComponent[] getIOPComponents( 
         ORB orb, int id );

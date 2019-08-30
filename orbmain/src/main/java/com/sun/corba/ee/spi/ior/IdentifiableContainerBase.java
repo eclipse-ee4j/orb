@@ -34,6 +34,9 @@ public class IdentifiableContainerBase<E extends Identifiable>
     
     /** Return an iterator which iterates over all contained Identifiables
      * with type given by id.
+     * 
+     * @param id the id of the type
+     * @return iterator containing the types
      */
     public Iterator<E> iteratorById( final int id) 
     {

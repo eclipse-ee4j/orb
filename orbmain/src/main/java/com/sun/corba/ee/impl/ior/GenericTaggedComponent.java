@@ -43,7 +43,6 @@ public class GenericTaggedComponent extends GenericIdentifiable
     
     /**
      * @return org.omg.IOP.TaggedComponent
-     * @exception 
      * @author 
      */
     public org.omg.IOP.TaggedComponent getIOPComponent( ORB orb ) 

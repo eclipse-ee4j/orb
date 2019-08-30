@@ -19,7 +19,7 @@ import com.sun.corba.ee.impl.transport.connection.InboundConnectionCacheImpl ;
 /** A factory class for creating connections caches.
  * Note that a rather unusual syntax is needed for calling these methods:
  *
- * ConnectionCacheFactory.<V>makeXXXCache() 
+ * ConnectionCacheFactory.&lt;V&gt;makeXXXCache() 
  *
  * This is required because the type variable V is not used in the
  * parameters of the factory method (there are no parameters).

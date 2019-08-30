@@ -39,6 +39,7 @@ public interface TemporarySelectorState {
      * <p> This method does not offer real-time guarantees: It schedules
      * theTimeout as if by invoking the {@link Object#wait(long)} method. </p>
      *
+     * @param  theSelector The Selector to use
      * @param  theTimeout  If positive, block for up to <tt>theTimeout</tt>
      *                     milliseconds, more or less, while waiting for a
      *                     SelectableChannel to become ready; must be greater
@@ -47,7 +48,7 @@ public interface TemporarySelectorState {
      * @throws  IOException
      *          If an I/O error occurs
      *
-     * @throws  ClosedSelectorException
+     * @throws  java.nio.channels.ClosedSelectorException
      *          If this theSelector is closed
      *
      * @throws  IllegalArgumentException
@@ -71,24 +72,24 @@ public interface TemporarySelectorState {
      * @param  theOps
      *         The interest set for the resulting key
      *
-     * @throws  ClosedChannelException
+     * @throws  java.nio.channels.ClosedChannelException
      *          If theSelectableChannel is closed
      *
-     * @throws  IllegalBlockingModeException
+     * @throws  java.nio.channels.IllegalBlockingModeException
      *          If theSelectableChannel is in blocking mode
      *
-     * @throws  IllegalSelectorException
+     * @throws  java.nio.channels.IllegalSelectorException
      *          If thSelectableChannel was not created by the same provider
      *          as theSelector
      *
-     * @throws  CancelledKeyException
+     * @throws  java.nio.channels.CancelledKeyException
      *          If theSelectableChannel is currently registered with theSelector
      *          but the corresponding key has already been cancelled
      *
      * @throws  IllegalArgumentException
-     *          If a bit in <tt>theOps</tt> does not correspond to an operation
-     *          that is supported by theSelectableChannel, that is, if <tt>set &
-     *          ~theSeletableChannel.validOps() != 0</tt>
+     *          If a bit in <code>theOps</code> does not correspond to an operation
+     *          that is supported by theSelectableChannel, that is, if <code>set &amp;
+     *          ~theSeletableChannel.validOps() != 0</code>
      *
      * @return  A key representing the registration of theSelectableChannel with
      *         theSelector.
@@ -119,7 +120,7 @@ public interface TemporarySelectorState {
      * @param  theSelectionKey
      *         A key representing the registration of theSelectableChannel with
      *         theSelector
-     *
+     * @throws IOException if an error occurred
      * @return  TemporarySelectorState, the state of the TemporarySelector after
      *          invoking this method.
      */

@@ -97,11 +97,12 @@ import org.glassfish.gmbal.ManagedObject;
 *   <li>oa.returnServant()</li>
 *   <li>oa.exit()</li>
 *   <li>pop info</li>
-*   <ol>
-* </li>
+*   </ol>
+* <ul><li>
 * REVISIT: Is this the required order for exit/pop?  Can they be nested instead?
 * Note that getInvocationServant and returnServant may throw exceptions.  In such cases,
 * returnServant, exit, and pop must be called in the correct order.
+* </li></ul></li>
 * <li>The local pattern:  
 *   <ol>
 *   <li>oa = oaf.find( oaid )</li>
@@ -114,10 +115,11 @@ import org.glassfish.gmbal.ManagedObject;
 *   <li>oa.returnServant()</li>
 *   <li>oa.exit()</li>
 *   <li>pop info</li>
-*   <ol>
-* </li>
+*   </ol>
+* <ul><li>
 * This is the same as the remote case, except that setExecuteReturnServantInResponseConstructor
 * is not needed (or possible, since there is no server request).
+* </li></ul></li>
 * <li>The fast local pattern: When delegate is constructed, 
 *    first extract ObjectKey from IOR in delegate,
 *    then get ObjectId, ObjectAdapterId, and ObjectAdapterFactory (oaf). Then:
@@ -152,6 +154,8 @@ public interface ObjectAdapter
     ////////////////////////////////////////////////////////////////////////////
 
     /** Returns the ORB associated with this adapter.
+     * 
+     * @return the ORB
     */
     ORB getORB() ;
 
@@ -162,6 +166,8 @@ public interface ObjectAdapter
     * After that call completes, the IOR template must be made immutable.
     * Note that the server ID, ORB ID, and adapter name are all available
     * from the IOR template.
+    * 
+    * @return The IORTemplate used to create Object References
     */
     @ManagedAttribute
     @Description( "The IORTemplate used to create Object References")
@@ -172,6 +178,8 @@ public interface ObjectAdapter
     ////////////////////////////////////////////////////////////////////////////
 
     /** Return the ID of the AdapterManager for this object adapter.
+     * 
+     * @return The identifier for the AdapterManager that manages this ObjectAdapter
     */
     @ManagedAttribute
     @Description( "The identifier for the AdapterManager that manages this ObjectAdapter")
@@ -179,6 +187,8 @@ public interface ObjectAdapter
 
     /** Return the current state of this object adapter (see 
     * org.omg.PortableInterceptors for states.
+    * 
+    * @return the current state
     */
     short getState() ;
 
@@ -192,6 +202,8 @@ public interface ObjectAdapter
 
     /** Change the current factory.  This may only be called during the
     * AdapterCreated call.
+    * 
+    * @param factory the new factory
     */
     void setCurrentFactory( ObjectReferenceFactory factory ) ;
 
@@ -204,6 +216,9 @@ public interface ObjectAdapter
      * which allows the servant to be used directly as the stub.  This allows an object 
      * reference to be replaced by its servant when it is unmarshalled locally.  
      * Such objects are not ORB mediated.
+     * 
+     * @param objectId the object id to look for
+     * @return the corresponding servant
      */
     org.omg.CORBA.Object getLocalServant( byte[] objectId ) ;
 
@@ -212,7 +227,7 @@ public interface ObjectAdapter
     * The servant is set in the InvocationInfo argument that is passed into 
     * this call.  
     * @param info is the InvocationInfo object for the object reference
-    * @exception ForwardException (a runtime exception) is thrown if the request 
+    * @exception com.sun.corba.ee.spi.protocol.ForwardException (a runtime exception) is thrown if the request 
     * is to be handled by a different object reference.
     */
     void getInvocationServant( OAInvocationInfo info ) ;
@@ -236,10 +251,17 @@ public interface ObjectAdapter
 
     /** Create an instance of InvocationInfo that is appropriate for this 
     * Object adapter.
+    * 
+    * @param objectId objectID to use
+    * @return a new instance of {@link OAInvocationInfo}
     */
     OAInvocationInfo makeInvocationInfo( byte[] objectId ) ;
 
     /** Return the most derived interface for the given servant and objectId.
+     * 
+     * @param servant given servant
+     * @param objectId  given ID
+     * @return relevant interfaces
     */
     String[] getInterfaces( Object servant, byte[] objectId ) ;
 
