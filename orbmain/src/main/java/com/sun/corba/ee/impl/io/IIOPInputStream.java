@@ -271,7 +271,7 @@ public class IIOPInputStream
      * @since     JDK1.1
      */
     @ValueHandlerRead
-    public final synchronized Object readObjectDelegate() throws IOException
+    public final synchronized Object readObjectDelegate() throws ClassNotFoundException, OptionalDataException, StreamCorruptedException, IOException
     {
         try {
             readObjectState.readData(this);

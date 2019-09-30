@@ -89,7 +89,7 @@ public class ServerRequestDispatcherImpl
      * Need to signal one of OBJECT_HERE, OBJECT_FORWARD, OBJECT_NOT_EXIST.
      * @return Result is null if object is (possibly) implemented here, otherwise
      * an IOR indicating objref to forward the request to.
-     * @exception OBJECT_NOT_EXIST is thrown if we know the object does not 
+     * @exception org.omg.CORBA.OBJECT_NOT_EXIST is thrown if we know the object does not 
      * exist here, and we are not forwarding.
      */
     @Subcontract

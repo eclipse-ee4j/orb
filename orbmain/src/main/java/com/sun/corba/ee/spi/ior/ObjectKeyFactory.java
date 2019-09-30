@@ -12,20 +12,21 @@ package com.sun.corba.ee.spi.ior;
 
 import org.omg.CORBA_2_3.portable.InputStream ;
 
-import com.sun.corba.ee.spi.ior.ObjectKey ;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
-
 /** Construct ObjectKey and ObjectKeyTemplate instances from their
  * CDR-marshalled representation.
  */
 public interface ObjectKeyFactory 
 {
     /** Create an ObjectKey from its octet sequence representation.
+     * @param key
+     * @return created ObjectKey
      */
     ObjectKey create( byte[] key ) ;
 
     /** Create an ObjectKeyTemplate from its representation
      * in an InputStream.
+     * @param is stream to create template from
+     * @return create template
      */
     ObjectKeyTemplate createTemplate( InputStream is ) ;
 }

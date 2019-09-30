@@ -34,7 +34,6 @@ import com.sun.corba.ee.spi.trace.Naming;
  * The BootstrapServer is created supplying the Properties object, using no
  * external File object for storage, and the derived initial port number.
  * @see TransientNameService
- * @see BootstrapServer
  */
 @Naming
 public class TransientNameServer

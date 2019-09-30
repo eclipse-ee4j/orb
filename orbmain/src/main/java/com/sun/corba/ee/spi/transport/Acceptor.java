@@ -68,7 +68,7 @@ public abstract interface Acceptor
     /**
      * Used to determine if an <code>Acceptor</code> has been initialized.
      *
-     * @return <code>true</code. if the <code>Acceptor</code> has been
+     * @return <code>true</code>. if the <code>Acceptor</code> has been
      * initialized.
      */
     boolean initialized();
