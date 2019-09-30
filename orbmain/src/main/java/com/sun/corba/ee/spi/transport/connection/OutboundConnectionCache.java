@@ -91,7 +91,7 @@ public interface OutboundConnectionCache<C extends Connection>
     C get( ContactInfo<C> cinfo, ConnectionFinder<C> finder 
         ) throws IOException ;
 
-    /** Behaves the same as get( ContactInfo<C>, ConnectionFinder<C> ) 
+    /** Behaves the same as {@code get( ContactInfo<C>, ConnectionFinder<C> )}
      * except that no connection finder is provided, so that step is
      * ignored. 
      */

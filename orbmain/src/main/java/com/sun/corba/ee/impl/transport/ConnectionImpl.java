@@ -56,7 +56,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Harold Carr
- *         <p/>
+ *         <p>
  *         Note: this is the version WITHOUT the purgeCalls changes.
  *         The changes are in the 1.106 version, which is saved as
  *         SocketOrChannelConnectionImpl.1.106.sjava.
@@ -993,10 +993,10 @@ public class ConnectionImpl extends EventHandlerBase implements Connection, Work
     /**
      * Wake up the outstanding requests on the connection, and hand them
      * COMM_FAILURE exception with a given minor code.
-     * <p/>
+     * <p>
      * Also, delete connection from connection table and
      * stop the reader thread.
-     * <p/>
+     * </p>
      * Note that this should only ever be called by the Reader thread for
      * this connection.
      *

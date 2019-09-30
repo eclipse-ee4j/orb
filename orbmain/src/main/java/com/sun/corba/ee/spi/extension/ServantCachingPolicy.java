@@ -29,7 +29,7 @@ import com.sun.corba.ee.spi.misc.ORBConstants ;
 * <ol>
 * <li>POA current semantics
 * <li>Proper handling of POA destroy.
-* <ol>
+* </ol>
 * POA current semantics requires maintaining a ThreadLocal stack of
 * invocation information that is always available for POACurrent operations.
 * Maintaining this stack is expensive on the timescale of optimized co-located

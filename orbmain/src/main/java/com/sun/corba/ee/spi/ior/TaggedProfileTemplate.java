@@ -18,11 +18,6 @@ import java.util.Iterator ;
 
 import org.omg.CORBA_2_3.portable.OutputStream ;
 
-import com.sun.corba.ee.spi.ior.Identifiable ;
-import com.sun.corba.ee.spi.ior.Writeable ;
-import com.sun.corba.ee.spi.ior.ObjectId ;
-import com.sun.corba.ee.spi.ior.WriteContents ;
-
 import com.sun.corba.ee.spi.orb.ORB ;
 
 import org.glassfish.gmbal.ManagedData ;
@@ -48,7 +43,9 @@ public interface TaggedProfileTemplate extends List<TaggedComponent>,
 
     /** Return an iterator that iterates over tagged components with
     * identifier id.  It is not possible to modify the list through this
-    * iterator.  
+    * iterator.
+    * @param id id to look up
+    * @return Iterator over tagged components
     */
     public Iterator<TaggedComponent> iteratorById( int id ) ;
 
@@ -56,10 +53,17 @@ public interface TaggedProfileTemplate extends List<TaggedComponent>,
         Class<T> cls )  ;
 
     /** Create a TaggedProfile from this template.
+     * @param oktemp template to create from
+     * @param id id of object
+     * @return created TaggedProfile
     */
     TaggedProfile create( ObjectKeyTemplate oktemp, ObjectId id ) ;
 
     /** Write the profile create( oktemp, id ) to the OutputStream os.
+     * @param oktemp template to create from
+     * @param id id of object
+     * @param os stream to write to
+     * @see #create(com.sun.corba.ee.spi.ior.ObjectKeyTemplate, com.sun.corba.ee.spi.ior.ObjectId)
     */
     void write( ObjectKeyTemplate oktemp, ObjectId id, OutputStream os) ;
 
@@ -67,6 +71,8 @@ public interface TaggedProfileTemplate extends List<TaggedComponent>,
      * means that in some sense an invocation on a profile created by this
      * template has the same results as an invocation on a profile
      * created from temp.  Equivalence may be weaker than equality.  
+     * @param temp template to compare with
+     * @return true if they are equivalent
      */
     boolean isEquivalent( TaggedProfileTemplate temp );
 
@@ -75,6 +81,9 @@ public interface TaggedProfileTemplate extends List<TaggedComponent>,
      * Interceptors.  Returns null if either the profile has no 
      * components, or if this type of profile can never contain
      * components.
+     * @param orb ORB to get components from
+     * @param id ID of components to look up
+     * @return tagged components in this profile
      */
     org.omg.IOP.TaggedComponent[] getIOPComponents( 
         ORB orb, int id );

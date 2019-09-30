@@ -10,15 +10,11 @@
 
 package com.sun.corba.ee.impl.naming.namingutil;
 
-import org.omg.CORBA.CompletionStatus;
-import java.util.StringTokenizer;
-
 /**
  *  This class is the entry point to parse different types of INS URL's.
  * 
- *  @Author Hemanth
+ *  @author Hemanth
  */
-
 public class INSURLHandler {
 
     private static INSURLHandler insURLHandler = null;

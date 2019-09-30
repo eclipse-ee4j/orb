@@ -52,6 +52,7 @@ public interface ReferenceFactoryManager extends org.omg.CORBA.Object,
     public enum RFMState { READY, SUSPENDED }
 
     /** The state of the ReferenceFactoryManager.
+     * @return whether the manager is READY or SUSPENDED
      */
     public RFMState getState();
 
@@ -93,17 +94,23 @@ public interface ReferenceFactoryManager extends org.omg.CORBA.Object,
      * @param repositoryId is the repoid to be used when this reference factory
      * creates a new CORBA Object reference.
      * @param policies are the policies to be used to create the underlying POA.
+     * @param manager locator to use for the reference
+     * @return resulting ReferenceFactory with given policies
      */
     public ReferenceFactory create( String name, String repositoryId, List<Policy> policies,
         ServantLocator manager ) ;
 
     /** Get the ReferenceFactory name from a String[] adapterName, if
      * adapterName is the name of a ReferenceFactory.  If not, return null.
+     * @param name of factory
+     * @return found ReferenceFactory, null otherwise
      */
     public ReferenceFactory find( String[] adapterName ) ;
 
     /** Find the ReferenceFactory with the given name.
      * If no such ReferenceFactory exists, return null.
+     * @param name of factory
+     * @return found ReferenceFactory, null otherwise
      */
     public ReferenceFactory find( String name ) ;
 

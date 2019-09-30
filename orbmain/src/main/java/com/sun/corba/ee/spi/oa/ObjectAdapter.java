@@ -152,6 +152,7 @@ public interface ObjectAdapter
     ////////////////////////////////////////////////////////////////////////////
 
     /** Returns the ORB associated with this adapter.
+     * @return the associated ORB
     */
     ORB getORB() ;
 
@@ -162,6 +163,7 @@ public interface ObjectAdapter
     * After that call completes, the IOR template must be made immutable.
     * Note that the server ID, ORB ID, and adapter name are all available
     * from the IOR template.
+    * @return IOR template of this adapter
     */
     @ManagedAttribute
     @Description( "The IORTemplate used to create Object References")
@@ -172,13 +174,16 @@ public interface ObjectAdapter
     ////////////////////////////////////////////////////////////////////////////
 
     /** Return the ID of the AdapterManager for this object adapter.
+     * @return 
     */
     @ManagedAttribute
     @Description( "The identifier for the AdapterManager that manages this ObjectAdapter")
     int getManagerId() ;
 
     /** Return the current state of this object adapter (see 
-    * org.omg.PortableInterceptors for states.
+    * {@link org.omg.PortableInterceptors} for states).
+    * @return the current state of this object adapter 
+    * @see org.omg.PortableInterceptor
     */
     short getState() ;
 
@@ -192,6 +197,7 @@ public interface ObjectAdapter
 
     /** Change the current factory.  This may only be called during the
     * AdapterCreated call.
+    * @param factory replacement factory
     */
     void setCurrentFactory( ObjectReferenceFactory factory ) ;
 
@@ -204,6 +210,8 @@ public interface ObjectAdapter
      * which allows the servant to be used directly as the stub.  This allows an object 
      * reference to be replaced by its servant when it is unmarshalled locally.  
      * Such objects are not ORB mediated.
+     * @param objectId byte array representing the object ID
+     * @return corresponding servant
      */
     org.omg.CORBA.Object getLocalServant( byte[] objectId ) ;
 
@@ -236,10 +244,15 @@ public interface ObjectAdapter
 
     /** Create an instance of InvocationInfo that is appropriate for this 
     * Object adapter.
+    * @param objectId 
+    * @return created instance
     */
     OAInvocationInfo makeInvocationInfo( byte[] objectId ) ;
 
     /** Return the most derived interface for the given servant and objectId.
+     * @param servant servant object
+     * @param objectId byte array forming the objectId
+     * @return list of derived interfaces
     */
     String[] getInterfaces( Object servant, byte[] objectId ) ;
 

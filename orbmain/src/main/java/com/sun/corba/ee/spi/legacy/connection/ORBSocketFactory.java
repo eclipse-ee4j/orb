@@ -318,7 +318,7 @@ public interface ORBSocketFactory
 
 
     /**
-     * DEPRECATED.  DEPRECATED. DEPRECATED. DEPRECATED. <p
+     * DEPRECATED.  DEPRECATED. DEPRECATED. DEPRECATED. <p>
      *
      * This method is used by a client side ORB. <p>
      *

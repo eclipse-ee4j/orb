@@ -27,7 +27,7 @@ import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 * members:
 * <p>
 * <ul>
-* </li>a public static final int SERVICE_CONTEXT_ID that gives the OMG
+* <li>a public static final int SERVICE_CONTEXT_ID that gives the OMG
 * (or other) defined id for the service context.  This is needed for the
 * registration mechanism defined in ServiceContexts. OMG defined 
 * service context ids are taken from section 13.6.7 of ptc/98-12-04.</li>

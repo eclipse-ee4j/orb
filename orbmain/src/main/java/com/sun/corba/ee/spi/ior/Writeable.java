@@ -18,6 +18,7 @@ import org.omg.CORBA_2_3.portable.OutputStream ;
 public interface Writeable 
 {
     /** Write this object directly to the output stream.
+     * @param arg0 stream to write to
      */
     void write(OutputStream arg0);
 }

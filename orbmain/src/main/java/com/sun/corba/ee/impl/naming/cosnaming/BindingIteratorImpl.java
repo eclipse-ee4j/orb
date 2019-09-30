@@ -61,8 +61,9 @@ public abstract class BindingIteratorImpl extends BindingIteratorPOA
      * @return true if there were more bindings.
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA 
      * system exceptions.
-     * @see NextOne
+     * @see #nextOneImpl
      */
+    @Override
     public synchronized boolean next_one(org.omg.CosNaming.BindingHolder b)
     {
         // NextOne actually returns the next one
@@ -132,8 +133,9 @@ public abstract class BindingIteratorImpl extends BindingIteratorPOA
      * object reference is destroyed.
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA 
      * system exceptions.
-     * @see Destroy
+     * @see #destroyImpl
      */ 
+    @Override
     public synchronized void destroy()
     {
         // Destroy actually destroys

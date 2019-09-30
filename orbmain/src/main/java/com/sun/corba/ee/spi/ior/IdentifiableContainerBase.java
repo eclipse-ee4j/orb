@@ -32,8 +32,10 @@ public class IdentifiableContainerBase<E extends Identifiable>
         super( new ArrayList<E>() ) ;
     }
     
-    /** Return an iterator which iterates over all contained Identifiables
+    /** Return an iterator which iterates over all contained {@link Identifiable Identifiables}
      * with type given by id.
+     * @param id id of type
+     * @return Iterator of contained {@link Identifiable Identifiables}
      */
     public Iterator<E> iteratorById( final int id) 
     {

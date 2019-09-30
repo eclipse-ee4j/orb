@@ -15,6 +15,9 @@ public interface TaggedComponentFactoryFinder
 {
     /** Create a tagged component from a GIOP marshalled representation
      * of a tagged component.  This is needed for portable interceptors.
+     * @param orb ORB to use
+     * @param comp representation of a component to create from
+     * @return created tagged component
      */
     TaggedComponent create( org.omg.CORBA.ORB orb,
         org.omg.IOP.TaggedComponent comp ) ;

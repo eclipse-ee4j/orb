@@ -25,10 +25,14 @@ public interface IdentifiableFactoryFinder<E extends Identifiable>
      * appropriate generic container, or throw an error.
      * The type of generic container, or error behavior is 
      * a property of the implementation.
+     * @param id  id of registered factory
+     * @param is stream to read from
+     * @return {@link Identifiable} found
      */
     E create(int id, InputStream is);
 
     /** Register a factory for the given id.
+     * @param factory factory to register
      */
     void registerFactory( IdentifiableFactory<E> factory ) ; 
 }
