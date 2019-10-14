@@ -114,7 +114,7 @@ public class UnionEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     _contained.addElement (entry);
   } // addContained
 
-  /** This is a vector of SymtabEntrys.  It itemizes any types which
+  /** This is a vector of {@link SymtabEntry}s.  It itemizes any types which
       this union contains.  For example:
 
       <pre>

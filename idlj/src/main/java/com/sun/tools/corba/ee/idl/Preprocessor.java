@@ -912,7 +912,7 @@ public class Preprocessor
    * meaning it does not stop if the given character is found within
    * parentheses or quotes.  For instance, given the input of
    * `start(inside)end', getUntil ('n') will return "start(inside)e"
-   * @param c token to read up to. The token itself will not be read
+   * @param c token to read up to. The token itself will not be read.
    **/
   String getUntil (char c) throws IOException
   {

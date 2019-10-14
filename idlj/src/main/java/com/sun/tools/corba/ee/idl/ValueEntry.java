@@ -79,7 +79,7 @@ public class ValueEntry extends com.sun.tools.corba.ee.idl.InterfaceEntry
     _supports.addElement (supports);
   } // addSupport
 
-  /** This method returns a vector of InterfaceEntry's.
+  /** This method returns a vector of {@link InterfaceEntry}s.
    * @return a {@link Vector} of {@link InterfaceEntry}
    */
   public Vector supports ()
