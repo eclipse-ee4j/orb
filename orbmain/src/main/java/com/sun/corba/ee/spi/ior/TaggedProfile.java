@@ -50,23 +50,20 @@ public interface TaggedProfile extends Identifiable, MakeImmutable
      * isEquivalent( prof ) should imply that getObjectId().equals( 
      * prof.getObjectId() ) is true, and so is
      * getObjectKeyTemplate().equals( prof.getObjectKeyTemplate() ).
-     * 
-     * @param prof profile to compare to this
-     * @return if the profile is equivalent
+     * @param prof profile to compare with
+     * @return true if they are equivalent
      */
     boolean isEquivalent( TaggedProfile prof ) ;
 
     /** Return the TaggedProfile as a CDR encapsulation in the standard
      * format.  This is required for Portable interceptors.
-     * 
-     * @return a CDR encapsulated version
+     * @return the tagged profile
      */
     org.omg.IOP.TaggedProfile getIOPProfile();
 
     /** Return true if this TaggedProfile was created in orb.  
      *  Caches the result.
-     * 
-     * @return if this was created in ORB
+     * @return if this TaggedProfile was created in orb
      */
     boolean isLocal() ;
 }

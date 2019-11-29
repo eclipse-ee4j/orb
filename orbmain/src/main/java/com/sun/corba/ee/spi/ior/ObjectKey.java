@@ -22,13 +22,11 @@ import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher ;
 public interface ObjectKey extends Writeable
 {
     /** Return the object identifier for this Object key.
-     * 
-     * @return the object id
+     * @return the object identifier
     */
     ObjectId getId() ;
 
     /** Return the template for this object key.
-     * 
      * @return the template
     */
     ObjectKeyTemplate getTemplate()  ;

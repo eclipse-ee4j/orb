@@ -25,7 +25,7 @@ import java.util.*;
  * {@link ExceptionWrapper} annotation. An entry will be made for each method with a {@link Message} annotation.
  */
 @SupportedAnnotationTypes({"org.glassfish.pfl.basic.logex.ExceptionWrapper", "org.glassfish.pfl.basic.logex.Message"})
-@SupportedSourceVersion(SourceVersion.RELEASE_6)
+@SupportedSourceVersion(SourceVersion.RELEASE_8)
 public class ExceptionWrapperProcessor extends AbstractProcessor {
 
     Map<Element,FileGenerator> annotatedClasses = new HashMap<Element, FileGenerator>();

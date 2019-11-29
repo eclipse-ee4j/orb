@@ -24,8 +24,7 @@ import org.glassfish.gmbal.Description ;
 @Description( "The identifier for a particular Object adapter in the ORB" ) 
 public interface ObjectAdapterId extends Iterable<String>, Writeable {
     /** Return the number of elements in the adapter ID.
-     * 
-     * @return the number of elements
+     * @return number of elements
     */
     int getNumLevels() ;
 
@@ -36,11 +35,11 @@ public interface ObjectAdapterId extends Iterable<String>, Writeable {
     */
     @ManagedAttribute
     @Description( "Sequence of strings in the ObjectAdapterId" ) 
-    Iterator<String> iterator() ;
+    @Override
+    Iterator<String> iterator();
 
     /** Get the adapter name simply as an array of strings.
-     * 
-     * @return the adapter name
+     * @return adapter name
     */
     String[] getAdapterName() ;
 }

@@ -13,16 +13,12 @@ package com.sun.corba.ee.spi.ior;
 import java.util.List ;
 import java.util.Iterator ;
 
-import com.sun.corba.ee.spi.orb.ORBVersion ;
-
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion ;
 import com.sun.corba.ee.spi.ior.iiop.IIOPProfile ;
 
 import com.sun.corba.ee.spi.orb.ORB ;
 
 import org.glassfish.gmbal.ManagedData ;
 import org.glassfish.gmbal.ManagedAttribute ;
-import org.glassfish.gmbal.InheritedAttribute ;
 import org.glassfish.gmbal.Description ;
 
 /** An IOR is represented as a list of profiles.
@@ -57,45 +53,52 @@ public interface IOR extends List<TaggedProfile>, Writeable, MakeImmutable
 
     /** Return a representation of this IOR in the standard GIOP stringified
      * format that begins with "IOR:".
-     * 
-     * @return a String version of the IOR
+     * This does not return the same as {@link Object#toString}
+     * @return String representation
+     * @see java.lang.Object#toString() 
      */
     String stringify() ;
 
     /** Return a representation of this IOR in the standard GIOP marshalled
      * form.
-     * 
-     * @return a presentation of this IOR
+     * @return a representation of this IOR
      */
     org.omg.IOP.IOR getIOPIOR() ;
 
     /** Return true if this IOR has no profiles.
-     * 
-     * @return if there are no profiles
+     * @return true if there aren't any profiles, false otherwise
      */
     boolean isNil() ;
 
     /** Return true if this IOR is equivalent to ior.  Here equivalent means
      * that the typeids are the same, they have the same number of profiles,
      * and each profile is equivalent to the corresponding profile.
-     * 
-     * @param ior the IOR to compare with
-     * @return if they are equivalent
-     * @see #equals(java.lang.Object) 
+     * @param ior IOR to compare to
+     * @return true if they are equivalent
+     * @see #equals(java.lang.Object)
      */
     boolean isEquivalent(IOR ior) ;
+    
+    /**
+     * Return true if this IOR is equivalent to ior.  Here equivalent means
+     * that the typeids and delegates are the same. It does not check if the profiles
+     * are the same or of the same number.
+     * @param other object to compare to
+     * @return true if they are equivalent
+     * @see #isEquivalent(IOR)
+     */
+    @Override
+    boolean equals(Object other);
 
     /** Return the IORTemplate for this IOR.  This is simply a list
      * of all TaggedProfileTemplates derived from the TaggedProfiles
-     * of the IOR.  
-     * 
-     * @return the IORTemplate
+     * of the IOR.
+     * @return the IORTemplate for this IOR
      */
     IORTemplateList getIORTemplates() ;
 
     /** Return the first IIOPProfile in this IOR.
-     * 
-     * @return the profile
+     * @return the first IIOPProfile
      */
     IIOPProfile getProfile() ;
 }

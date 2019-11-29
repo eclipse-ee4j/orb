@@ -185,6 +185,7 @@ public abstract class ConnectionCacheBase
      * ParserTable.
      */
     @Transport
+    @Override
     synchronized public boolean reclaim() {
         long numberOfConnections = numberOfConnections() ;
 

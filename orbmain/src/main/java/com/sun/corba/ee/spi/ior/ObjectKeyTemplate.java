@@ -49,7 +49,6 @@ public interface ObjectKeyTemplate extends Writeable
     /** Return the server ID for this template.
     * For CORBA 3.0, this should be a String, but it is currently
     * an int in the object key template.
-    * 
     * @return The ID of the server that handles requests to this IOR"
     */
     @ManagedAttribute
@@ -57,7 +56,6 @@ public interface ObjectKeyTemplate extends Writeable
     public int getServerId() ;
 
     /** Return the ORB ID for this template.
-     * 
      * @return the ORB ID that created this IOR
     */
     @ManagedAttribute
@@ -65,7 +63,6 @@ public interface ObjectKeyTemplate extends Writeable
     public String getORBId() ;
 
     /** Return the object adapter ID for this template.
-     * 
      * @return The ObjectAdapterId that identifies the ObjectAdapter that created this IOR
     */
     @ManagedAttribute
@@ -76,8 +73,7 @@ public interface ObjectKeyTemplate extends Writeable
     * all of the template information.
     * This value is cached to avoid the expense of recomputing
     * it.
-    * 
-    * @return the adapter ID
+    * @return adapter ID for this template
     */
     public byte[] getAdapterId() ;
 

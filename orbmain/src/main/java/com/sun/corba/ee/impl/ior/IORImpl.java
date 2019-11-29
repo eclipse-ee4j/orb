@@ -123,7 +123,7 @@ public class IORImpl extends IdentifiableContainerBase<TaggedProfile>
     }
 
     /** Construct an empty IOR.  This is needed for null object references.
-     * @param orb ORB for IOR
+     * @param orb ORB to use as factory
     */
     public IORImpl( ORB orb )
     {

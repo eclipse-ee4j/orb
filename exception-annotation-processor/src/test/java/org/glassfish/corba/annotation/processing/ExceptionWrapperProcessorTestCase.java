@@ -79,9 +79,9 @@ public class ExceptionWrapperProcessorTestCase {
     }
 
     @Test
-    public void process_supportsSourceVersion6() {
+    public void process_supportsSourceVersion8() {
         SupportedSourceVersion annotation = ExceptionWrapperProcessor.class.getAnnotation(SupportedSourceVersion.class);
-        assertEquals(SourceVersion.RELEASE_6, annotation.value());
+        assertEquals(SourceVersion.RELEASE_8, annotation.value());
     }
 
     @Test

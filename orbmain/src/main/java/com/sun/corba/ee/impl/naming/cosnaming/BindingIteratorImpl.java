@@ -63,6 +63,7 @@ public abstract class BindingIteratorImpl extends BindingIteratorPOA
      * system exceptions.
      * @see #nextOneImpl(org.omg.CosNaming.BindingHolder)
      */
+    @Override
     public synchronized boolean next_one(org.omg.CosNaming.BindingHolder b)
     {
         // NextOne actually returns the next one
@@ -134,6 +135,7 @@ public abstract class BindingIteratorImpl extends BindingIteratorPOA
      * system exceptions.
      * @see #destroyImpl()
      */ 
+    @Override
     public synchronized void destroy()
     {
         // Destroy actually destroys

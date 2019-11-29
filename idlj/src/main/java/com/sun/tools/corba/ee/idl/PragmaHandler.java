@@ -62,8 +62,13 @@ public abstract class PragmaHandler
       character.  It encapsulates parenthesis and quoted strings, meaning
       it does not stop if the given character is found within parentheses
       or quotes.  For instance, given the input of `start(inside)end',
+<<<<<<< HEAD
       getUntil ('n') will return "start(inside)e"
     * @param c token to read up to. The token itself will not be read
+=======
+      getUntil ('n') will return "start(inside)e".
+    * @param c token to read up to. The token itself will not be read.
+>>>>>>> a20dedd913ddd9199c7aa90a2154e02d8bce5a04
     */
   protected String getUntil (char c) throws IOException
   {

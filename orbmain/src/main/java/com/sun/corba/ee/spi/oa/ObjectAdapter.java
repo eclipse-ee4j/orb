@@ -154,8 +154,7 @@ public interface ObjectAdapter
     ////////////////////////////////////////////////////////////////////////////
 
     /** Returns the ORB associated with this adapter.
-     * 
-     * @return the ORB
+     * @return the associated ORB
     */
     ORB getORB() ;
 
@@ -186,9 +185,9 @@ public interface ObjectAdapter
     int getManagerId() ;
 
     /** Return the current state of this object adapter (see 
-    * org.omg.PortableInterceptors for states.
-    * 
-    * @return the current state
+    * {@link org.omg.PortableInterceptor} for states).
+    * @return the current state of this object adapter 
+    * @see org.omg.PortableInterceptor
     */
     short getState() ;
 
@@ -202,8 +201,7 @@ public interface ObjectAdapter
 
     /** Change the current factory.  This may only be called during the
     * AdapterCreated call.
-    * 
-    * @param factory the new factory
+    * @param factory replacement factory
     */
     void setCurrentFactory( ObjectReferenceFactory factory ) ;
 
@@ -216,9 +214,8 @@ public interface ObjectAdapter
      * which allows the servant to be used directly as the stub.  This allows an object 
      * reference to be replaced by its servant when it is unmarshalled locally.  
      * Such objects are not ORB mediated.
-     * 
-     * @param objectId the object id to look for
-     * @return the corresponding servant
+     * @param objectId byte array representing the object ID
+     * @return corresponding servant
      */
     org.omg.CORBA.Object getLocalServant( byte[] objectId ) ;
 

@@ -127,6 +127,7 @@ public class TOAImpl extends ObjectAdapterBase implements TOA
     * same request.
     * @param info is the request containing the rest of the request
     */
+    @Override
     public void getInvocationServant( OAInvocationInfo info ) 
     {
         java.lang.Object servant = servants.lookupServant( info.id() ) ;

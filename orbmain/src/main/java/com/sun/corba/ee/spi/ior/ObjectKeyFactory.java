@@ -26,9 +26,8 @@ public interface ObjectKeyFactory
 
     /** Create an ObjectKeyTemplate from its representation
      * in an InputStream.
-     * 
-     * @param is InputSteam to use
-     * @return resulting ObjectKeyTemplate
+     * @param is stream to create template from
+     * @return create template
      */
     ObjectKeyTemplate createTemplate( InputStream is ) ;
 }

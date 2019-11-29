@@ -50,6 +50,7 @@ import java.util.concurrent.ConcurrentMap;
  * be found using the lookup method.
  *
  * @author  Roger Riggs
+ * @version ObjectStreamClass.java   1.17 99/06/07
  * @since   JDK1.1
  */
 @TraceValueHandler
