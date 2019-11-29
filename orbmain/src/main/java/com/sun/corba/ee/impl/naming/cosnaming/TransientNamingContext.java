@@ -65,6 +65,7 @@ public class TransientNamingContext extends NamingContextImpl implements NamingC
      * Constructs a new TransientNamingContext object.
      * @param orb an orb object.
      * @param initial the initial naming context.
+     * @param nsPOA the POA
      * @exception Exception a Java exception thrown of the base class cannot
      * initialize.   
      */

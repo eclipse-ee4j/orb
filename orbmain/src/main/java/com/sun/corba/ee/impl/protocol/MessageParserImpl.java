@@ -68,7 +68,9 @@ public class MessageParserImpl implements MessageParser {
     private Connection connection;
     private boolean expectingFragments;
 
-    /** Creates a new instance of MessageParserImpl */
+    /** Creates a new instance of MessageParserImpl
+     * @param orb the ORB
+     */
     public MessageParserImpl(ORB orb) {
         this.orb = orb;
         this.expectingMoreData = false;

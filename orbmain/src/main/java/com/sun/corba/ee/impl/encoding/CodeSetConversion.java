@@ -514,6 +514,8 @@ public class CodeSetConversion
 
     /**
      * CTB converter factory for single byte or variable length encodings.
+     * @param codeset Codeset to get converter for
+     * @return Char-to-Byte Converter for codeset
      */
     public CTBConverter getCTBConverter(OSFCodeSetRegistry.Entry codeset) {
         int alignment = (!codeset.isFixedWidth() ?
@@ -583,6 +585,8 @@ public class CodeSetConversion
 
     /**
      * BTCConverter factory for single byte or variable width encodings.
+     * @param codeset Codeset to get converter for
+     * @return new Byte-to-Char Converter
      */
     public BTCConverter getBTCConverter(OSFCodeSetRegistry.Entry codeset) {
         return new JavaBTCConverter(codeset);
@@ -590,9 +594,11 @@ public class CodeSetConversion
 
     /**
      * BTCConverter factory for fixed width multibyte encodings.
+     * @param codeset  Codeset to get converter for
+     * @param defaultByteOrder Order of bytes in the codeset
+     * @return Converter for a codeset
      */
-    public BTCConverter getBTCConverter(OSFCodeSetRegistry.Entry codeset,
-                                        ByteOrder defaultByteOrder) {
+    public BTCConverter getBTCConverter(OSFCodeSetRegistry.Entry codeset, ByteOrder defaultByteOrder) {
 
         if (codeset == OSFCodeSetRegistry.UTF_16 || codeset == OSFCodeSetRegistry.UCS_2) {
             return new UTF16BTCConverter(defaultByteOrder);
@@ -680,6 +686,9 @@ public class CodeSetConversion
     /**
      * Perform the code set negotiation algorithm and come up with
      * the two encodings to use.
+     * @param client Info from the client
+     * @param server Info from the server
+     * @return Resulted negotiated encoding context
      */
     public CodeSetComponentInfo.CodeSetContext negotiate(CodeSetComponentInfo client,
                                                          CodeSetComponentInfo server) {
@@ -714,6 +723,7 @@ public class CodeSetConversion
 
     /**
      * CodeSetConversion is a singleton, and this is the access point.
+     * @return A holder for {@link CodeSetConversion}
      */
     public static CodeSetConversion impl() {
         return CodeSetConversionHolder.csc ;

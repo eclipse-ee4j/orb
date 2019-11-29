@@ -93,6 +93,7 @@ public class ServerRequestDispatcherImpl
      * exist here, and we are not forwarding.
      */
     @Subcontract
+    @Override
     public IOR locate(ObjectKey okey) {
         ObjectKeyTemplate oktemp = okey.getTemplate() ;
 
@@ -115,6 +116,7 @@ public class ServerRequestDispatcherImpl
     private void exceptionMessage( String msg, Throwable thr ) { }
 
     @Subcontract
+    @Override
     public void dispatch(MessageMediator request) {
         // to set the codebase information, if any transmitted; and also
         // appropriate ORB Version.
@@ -218,8 +220,6 @@ public class ServerRequestDispatcherImpl
                 .handleThrowableDuringServerDispatch(
                     request, ex, CompletionStatus.COMPLETED_MAYBE);
         }
-
-        return;
     }
 
     @Subcontract
@@ -334,6 +334,8 @@ public class ServerRequestDispatcherImpl
     * return without performing any action, so that _non_existent can return
     * false.  Always throws OBJECT_NOT_EXIST for any other special method.
     * Update for issue 4385.
+     * @param operation Name of method to get
+     * @param nserv Servant throw associated {@link Exception} if not such method exists.
     */
     @Subcontract
     protected void handleNullServant(String operation, NullServant nserv ) {
@@ -538,10 +540,12 @@ public class ServerRequestDispatcherImpl
     /** Must always be called, just after the servant's method returns.
      *  Creates the ReplyMessage header and puts in the transaction context
      *  if necessary.
+     * @param req original request
+     * @param excany {@link Any} that contains an exception
+     * @return Response that contains the exception
      */
     @Subcontract
-    protected MessageMediator sendingReply(MessageMediator req,
-        Any excany) {
+    protected MessageMediator sendingReply(MessageMediator req, Any excany) {
 
         ServiceContexts scs = ServiceContextDefaults.makeServiceContexts(orb);
         operationAndId( req.getOperationName(), req.getRequestId() ) ;
@@ -584,10 +588,12 @@ public class ServerRequestDispatcherImpl
      * Handles setting the connection's code sets if required.
      * Returns true if the CodeSetContext was in the request, false
      * otherwise.
+     * @param request request to process
+     * @param contexts context to check
+     * @return if the CodeSetContext was in the request
      */
     @Subcontract
-    protected boolean processCodeSetContext(
-        MessageMediator request, ServiceContexts contexts) {
+    protected boolean processCodeSetContext(MessageMediator request, ServiceContexts contexts) {
 
         ServiceContext sc = contexts.get(
             CodeSetServiceContext.SERVICE_CONTEXT_ID);

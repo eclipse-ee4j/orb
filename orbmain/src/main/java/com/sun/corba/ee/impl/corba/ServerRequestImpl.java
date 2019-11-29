@@ -205,6 +205,7 @@ public class ServerRequestImpl extends ServerRequest {
 
     /** This is called from the ORB after the DynamicImplementation.invoke
      *  returns. Here we marshal the return value and inout/out params.
+     * @param os OutputStream into which to marshal the parameters
      */
     public void marshalReplyParams(OutputStream os)
     {

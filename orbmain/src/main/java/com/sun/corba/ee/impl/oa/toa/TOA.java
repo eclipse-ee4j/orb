@@ -21,10 +21,12 @@ import com.sun.corba.ee.spi.oa.ObjectAdapter ;
 public interface TOA extends ObjectAdapter {
     /** Connect the given servant to the ORB by allocating a transient object key
      *  and creating an IOR and object reference using the current factory.
+     * @param servant servant to connect to the ORB
      */
     void connect( org.omg.CORBA.Object servant ) ;
 
     /** Disconnect the object from this ORB.
+     * @param obj ORB to disconnect from
     */
     void disconnect( org.omg.CORBA.Object obj ) ;
 }

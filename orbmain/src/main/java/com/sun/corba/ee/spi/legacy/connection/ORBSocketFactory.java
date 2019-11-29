@@ -33,7 +33,7 @@ import com.sun.corba.ee.spi.transport.SocketInfo;
  *
  * property. <p>
  * 
- * Example: <p>
+ * Example:
 
  * <pre>
  *   -Dcom.sun.corba.ee.connection.ORBSocketFactoryClass=MySocketFactory
@@ -130,7 +130,7 @@ public interface ORBSocketFactory
      *
      * property. <p>
      *
-     * Example usage:<p>
+     * Example usage:
      *
      * <pre>
      *    ... \ 
@@ -188,7 +188,7 @@ public interface ORBSocketFactory
      * Once you have the port you may add information to references
      * created by the associated adapter by calling
      *
-     *    <code>IORInfo::add_ior_component</code><p> <p>
+     *    <code>IORInfo::add_ior_component</code><p>
      * 
      *
      * Note: if one is using a POA and the lifespan policy of that
@@ -232,7 +232,7 @@ public interface ORBSocketFactory
      *
      *    <code>ORBConstants.BAD_SERVER_ID_HANDLER_CLASS_PROPERTY</code> <p>
      *
-     * Example: <p>
+     * Example:
      *
      * <pre>
      *
@@ -347,6 +347,7 @@ public interface ORBSocketFactory
      * @param socketInfo socket information
      * @throws IOException  if an occurred creating the socket
      * @throws GetEndPointInfoAgainException if endpoint info must be retrieved again
+     * @return client socket
      * @deprecated 
      */
     public Socket createSocket(SocketInfo socketInfo)

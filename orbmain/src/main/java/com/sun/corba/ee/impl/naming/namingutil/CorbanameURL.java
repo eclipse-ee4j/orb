@@ -23,6 +23,7 @@ public class CorbanameURL extends INSURLBase
      * This constructor takes a corbaname: url with 'corbaname:' prefix stripped
      * and initializes all the variables accordingly. If there are any parsing
      * errors then BAD_PARAM exception is raised.
+     * @param aURL corbaname URL as a String
      */
     public CorbanameURL( String aURL ) {
         String url = aURL;

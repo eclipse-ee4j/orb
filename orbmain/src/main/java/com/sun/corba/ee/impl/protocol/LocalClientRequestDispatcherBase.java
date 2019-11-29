@@ -135,11 +135,12 @@ public abstract class LocalClientRequestDispatcherBase implements LocalClientReq
     /** Check that the servant in info (which must not be null) is
     * an instance of the expectedType.  If not, set the thread local flag
     * and return false.
+     * @param so Servant to check
+     * @param expectedType Type to check against
+     * @return If the servant is an instance of the expected type
     */
     @IsLocal
-    protected boolean checkForCompatibleServant( ServantObject so, 
-        Class expectedType )
-    {
+    protected boolean checkForCompatibleServant( ServantObject so, Class expectedType ) {
         if (so == null) {
             return false;
         }

@@ -30,6 +30,7 @@ import java.lang.annotation.RetentionPolicy ;
 public @interface CS {
     /** The CORBA CompletionStatus to be used for this method.
      * Can only be used for a method that returns a subclass of SystemException.
+     * @return {@link CSValue#NO} by default
      */
     CSValue value() default CSValue.NO ;
 }

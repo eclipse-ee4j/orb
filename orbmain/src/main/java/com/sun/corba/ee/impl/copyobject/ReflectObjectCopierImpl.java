@@ -138,6 +138,7 @@ public class ReflectObjectCopierImpl implements ObjectCopier {
 
     /** Create an ReflectObjectCopierImpl for the given ORB.
      * The orb is used for connection Remote instances.
+     * @param orb ORB to use for remote instances
      */
     public ReflectObjectCopierImpl( ORB orb )
     {

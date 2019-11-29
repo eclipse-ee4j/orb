@@ -169,11 +169,13 @@ public interface PIHandler extends Closeable {
      * Notifies PI of additional information for client-side interceptors.
      * PI will use this information as a source of information for the
      * ClientRequestInfo object.
+     * @param requestImpl request used as source of information
      */
     void setClientPIInfo( RequestImpl requestImpl ) ;
 
     /** 
      * Notify PI of the MessageMediator for the request.
+     * @param messageMediator Mediator to  notify
      */
     void setClientPIInfo(MessageMediator messageMediator) ;
 
@@ -223,6 +225,10 @@ public interface PIHandler extends Closeable {
      * PI will use this information as a source of information for the
      * ServerRequestInfo object.  poaimpl is declared as an Object so that
      * we need not introduce a dependency on the POA package.
+     * @param request Request holder, included the Connection
+     * @param oa Object Adapter
+     * @param objectId id of object
+     * @param oktemp template for object
      */
     void initializeServerPIInfo( MessageMediator request,
         ObjectAdapter oa, byte[] objectId, ObjectKeyTemplate oktemp ) ;
@@ -243,13 +249,15 @@ public interface PIHandler extends Closeable {
 
     /**
      * Notifies PI of additional information required for ServerRequestInfo.
+     * @param exception the exception that will be returned
      */
-    void setServerPIInfo( Exception exception ) ;
+    void setServerPIInfo( Exception exception );
 
     /**
      * Notifies PI of additional information for server-side interceptors.
      * PI will use this information as a source of information for the
      * ServerRequestInfo object.  These are the arguments for a DSI request.
+     * @param arguments Arguments for a DSI request.
      */
     void setServerPIInfo( NVList arguments ) ;
 
@@ -257,6 +265,7 @@ public interface PIHandler extends Closeable {
      * Notifies PI of additional information for server-side interceptors.
      * PI will use this information as a source of information for the
      * ServerRequestInfo object.  This is the exception of a DSI request.
+     * @param exception Exception of a DSI request
      */
     void setServerPIExceptionInfo( Any exception ) ;
 
@@ -264,6 +273,7 @@ public interface PIHandler extends Closeable {
      * Notifies PI of additional information for server-side interceptors.
      * PI will use this information as a source of information for the
      * ServerRequestInfo object.  This is the result of a DSI request.
+     * @param result Result of a DSI request
      */
     void setServerPIInfo( Any result ) ;
 

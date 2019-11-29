@@ -237,6 +237,7 @@ public final class ClientRequestInfoImpl
      * Creates a new ClientRequestInfo implementation.
      * The constructor is package scope since no other package need create
      * an instance of this class.
+     * @param myORB ORB to use
      */
     protected ClientRequestInfoImpl( ORB myORB ) { 
         super( myORB ); 
@@ -893,6 +894,7 @@ public final class ClientRequestInfoImpl
 
     /**
      * Sets DII request object in the RequestInfoObject.
+     * @param req The DII request object
      */
     protected void setDIIRequest(org.omg.CORBA.Request req) {
          request = req;
@@ -902,13 +904,15 @@ public final class ClientRequestInfoImpl
      * Keeps track of whether initiate was called for a DII request.  The ORB
      * needs to know this so it knows whether to ignore a second call to
      * initiateClientPIRequest or not.
+     * @param diiInitiate If initiate was called
      */
     protected void setDIIInitiate( boolean diiInitiate ) {
         this.diiInitiate = diiInitiate;
     }
 
     /**
-     * See comment for setDIIInitiate 
+     * @return If initiate was called for a DII request
+     * @see #setDIIInitiate(boolean) 
      */
     protected boolean isDIIInitiate() {
         return this.diiInitiate;
@@ -919,6 +923,7 @@ public final class ClientRequestInfoImpl
      * This is generally the case.  But exceptions which occur
      * after the stub's entry to _request but before the push
      * end up in _releaseReply which will try to pop unless told not to.
+     * @param piCurrentPushed If the stack should be pushed
      */
     protected void setPICurrentPushed( boolean piCurrentPushed ) {
         this.piCurrentPushed = piCurrentPushed;

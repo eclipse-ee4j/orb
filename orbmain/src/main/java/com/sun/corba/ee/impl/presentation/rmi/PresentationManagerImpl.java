@@ -173,7 +173,7 @@ public final class PresentationManagerImpl implements PresentationManager
 
     /** Register the dynamic StubFactoryFactory.  Note that
      * a dynamic StubFactoryFactory is optional.
-     * @param sff
+     * @param sff Factory to register
      */
     public void setStaticStubFactoryFactory(StubFactoryFactory sff) {
         staticStubFactoryFactory = sff;
@@ -181,7 +181,7 @@ public final class PresentationManagerImpl implements PresentationManager
 
     /** Register the static StubFactoryFactory.  Note that
      * a static StubFactoryFactory is always required for IDL.
-     * @param sff
+     * @param sff Factory to Register
      */
     public void setDynamicStubFactoryFactory(StubFactoryFactory sff) {
         dynamicStubFactoryFactory = sff;

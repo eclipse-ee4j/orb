@@ -121,11 +121,11 @@ public class CodegenProxyCreator {
      * @param cl the classloader in which to generate the class
      * @param debug if true, generate debug messages
      * @param ps a PrintStream to which the debug messages should be written
+     * @return Generator for class
      * @deprecated use {@link #create(Class, boolean, PrintStream)}
      */
     @Deprecated
-    public Class<?> create( ProtectionDomain pd, ClassLoader cl,
-        boolean debug, PrintStream ps ) {
+    public Class<?> create( ProtectionDomain pd, ClassLoader cl, boolean debug, PrintStream ps ) {
 
         Pair<String,String> nm = splitClassName( className ) ;
 
@@ -186,10 +186,10 @@ public class CodegenProxyCreator {
      * @param anchorClass a class in whose classloader the new class should be generated
      * @param debug if true, generate debug messages
      * @param ps a PrintStream to which the debug messages should be written
+     * @return Generator for class
      * @since 4.2.1
      */
-    public Class<?> create( Class<?> anchorClass,
-        boolean debug, PrintStream ps ) {
+    public Class<?> create( Class<?> anchorClass, boolean debug, PrintStream ps ) {
 
         Pair<String,String> nm = splitClassName( className ) ;
 

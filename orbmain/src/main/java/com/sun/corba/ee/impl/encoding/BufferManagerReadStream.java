@@ -48,6 +48,7 @@ public class BufferManagerReadStream
         this.orb = orb;
     }
 
+    @Override
     public void cancelProcessing(int requestId) {
         synchronized (fragmentQueue) {
             receivedCancel = true;
@@ -60,6 +61,7 @@ public class BufferManagerReadStream
     private void bufferMessage(String msg, int bbAddr, String tail) {}
 
     @Transport
+    @Override
     public void processFragment(ByteBuffer byteBuffer, FragmentMessage msg) {
         byteBuffer.position(msg.getHeaderLength());
 
@@ -78,6 +80,7 @@ public class BufferManagerReadStream
     }
 
     @Transport
+    @Override
     public ByteBuffer underflow(ByteBuffer byteBuffer) {
 
         ByteBuffer result;
@@ -140,6 +143,7 @@ public class BufferManagerReadStream
         return true;
     }
 
+    @Override
     public void init(Message msg) {
         if (msg != null) {
             endOfStream = !msg.moreFragmentsToFollow();
@@ -148,6 +152,7 @@ public class BufferManagerReadStream
 
     // Release any queued byteBuffers to the ByteBufferPoool
     @Transport
+    @Override
     public void close(ByteBuffer byteBuffer) {
         int inputBbAddress = 0;
 
@@ -177,7 +182,7 @@ public class BufferManagerReadStream
         fragmentQueue.clear();
 
         // release ByteBuffers on fragmentStack
-        if (fragmentStack != null && fragmentStack.size() != 0) {
+        if (fragmentStack != null && !fragmentStack.isEmpty()) {
             // IMPORTANT: The fragment stack may have one ByteBuffer
             //            on it that's also on the CDRInputStream if
             //            this method is called when the stream is 'marked'.
@@ -218,6 +223,7 @@ public class BufferManagerReadStream
     // Original state of the stream
     private Object streamMemento = null;
 
+    @Override
     public void mark(RestorableInputStream inputStream) {
         this.inputStream = inputStream;
         markEngaged = true;
@@ -232,6 +238,7 @@ public class BufferManagerReadStream
     }
 
     // Collects fragments received since the mark was engaged.
+    @Override
     public void fragmentationOccured(ByteBuffer newFrament) {
         if (!markEngaged) {
             return;
@@ -244,6 +251,7 @@ public class BufferManagerReadStream
         fragmentStack.addFirst(newFrament.duplicate());
     }
 
+    @Override
     public void reset() {
         if (!markEngaged) {
             // REVISIT - call to reset without call to mark
@@ -255,7 +263,7 @@ public class BufferManagerReadStream
         // If we actually did peek across fragments, we need
         // to push those fragments onto the front of the
         // buffer queue.
-        if (fragmentStack != null && fragmentStack.size() != 0) {
+        if (fragmentStack != null && !fragmentStack.isEmpty()) {
 
             synchronized (fragmentQueue) {
                 for (ByteBuffer aBuffer : fragmentStack) {
@@ -271,6 +279,7 @@ public class BufferManagerReadStream
         inputStream.restoreInternalState(streamMemento);
     }
 
+    @Override
     public MarkAndResetHandler getMarkAndResetHandler() {
         return this;
     }

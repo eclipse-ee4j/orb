@@ -637,6 +637,8 @@ public abstract class MessageBase implements Message {
 
     /**
      * Set a flag in the given buffer (fragment bit, byte order bit, etc)
+     * @param byteBuffer buffer to set flag in
+     * @param flag flag to set
      */
     public static void setFlag(ByteBuffer byteBuffer, int flag) {
         byte b = byteBuffer.get(6);
@@ -832,6 +834,8 @@ public abstract class MessageBase implements Message {
      * NOTE: Assumes Message already been filtered by
      * MessageBase.messageSupportsFragments(Message)
      *
+     * @param message message to set ID of
+     * @param byteBuffer buffer containing the request ID
      * @return <code>CorbaRequestId</code>if <code>Message</code> supports a 12
      *         + 4 byte GIOP header. Otherwise returns a CorbaRequestId with an
      *         undefined request id.

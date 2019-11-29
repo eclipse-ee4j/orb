@@ -86,6 +86,11 @@ public class EncapsInputStream extends CDRInputObject
      * unmarshaling RMI-IIOP valuetypes (technically against the
      * intention of an encapsulation, but necessary due to OMG
      * issue 4795.  Used by ServiceContexts.
+     * @param orb the ORB
+     * @param data data to read in
+     * @param size size of data
+     * @param version GIOP version
+     * @param codeBase CodeBase to use
      */
     public EncapsInputStream(org.omg.CORBA.ORB orb, 
                              byte[] data, 

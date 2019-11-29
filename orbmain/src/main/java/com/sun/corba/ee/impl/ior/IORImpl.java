@@ -63,16 +63,18 @@ public class IORImpl extends IdentifiableContainerBase<TaggedProfile>
     private boolean isCachedHashValue = false;
     private int cachedHashValue;
 
+    @Override
     public Iterator<TaggedProfile> getTaggedProfiles() {
         return iterator() ;
     }
 
+    @Override
     public ORB getORB()
     {
         return factory ;
     }
 
-    /* This variable is set directly from the constructors that take
+    /** This variable is set directly from the constructors that take
      * an IORTemplate or IORTemplateList as arguments; otherwise it
      * is derived from the list of TaggedProfile instances on the first
      * call to getIORTemplates.  Note that we assume that an IOR with
@@ -121,6 +123,7 @@ public class IORImpl extends IdentifiableContainerBase<TaggedProfile>
     }
 
     /** Construct an empty IOR.  This is needed for null object references.
+     * @param orb ORB for IOR
     */
     public IORImpl( ORB orb )
     {
@@ -135,6 +138,10 @@ public class IORImpl extends IdentifiableContainerBase<TaggedProfile>
 
     /** Construct an IOR from an IORTemplate by applying the same
     * object id to each TaggedProfileTemplate in the IORTemplate.
+     * @param orb ORB to use
+     * @param typeId ID of type to use
+     * @param iortemp Template to use
+     * @param id ID of created object
     */
     public IORImpl( ORB orb, String typeId, IORTemplate iortemp, ObjectId id) 
     {
@@ -159,6 +166,10 @@ public class IORImpl extends IdentifiableContainerBase<TaggedProfile>
 
     /** Construct an IOR from an IORTemplate by applying the same
     * object id to each TaggedProfileTemplate in the IORTemplate.
+     * @param orb ORB to use
+     * @param typeId ID of type to use
+     * @param iortemps list of templates
+     * @param id ID of created object
     */
     public IORImpl( ORB orb, String typeId, IORTemplateList iortemps, ObjectId id) 
     {

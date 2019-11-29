@@ -56,10 +56,11 @@ public interface NamingContextDataStore {
 
     /**
      * Method which implements unbinding a name.
+     * @param name name to unbind.
      * @return the object reference bound to the name, or null if not found.
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA system exceptions.
      */
-    org.omg.CORBA.Object unbindImpl(NameComponent n)
+    org.omg.CORBA.Object unbindImpl(NameComponent name)
         throws org.omg.CORBA.SystemException;
 
     /**

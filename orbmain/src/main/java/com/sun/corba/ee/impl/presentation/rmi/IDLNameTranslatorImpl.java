@@ -109,6 +109,8 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
     /**
      * Return an IDLNameTranslator for the given interface.  
      *
+     * @param interf Interface to get translator for.
+     * @return IDLNameTranslator for specified interface.
      * @throws IllegalStateException if given class is not a valid 
      *         RMI/IIOP Remote Interface
      */
@@ -123,8 +125,10 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
     }
 
     /**
-     * Return an IDLNameTranslator for the given interfacex.  
+     * Return an IDLNameTranslator for the given interfaces.
      *
+     * @param interfaces Interfaces to get a translator for
+     * @return IDLNameTranslator for specified interfaces.
      * @throws IllegalStateException if given classes are not  valid 
      *         RMI/IIOP Remote Interfaces
      */
@@ -527,6 +531,8 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
      * 4 hexadecimal characters(in upper case) representing the Unicode
      * value.  So, the Java name a$b is mapped to aU0024b and 
      * x\u03bCy is mapped to xU03BCy."
+     * @param c character to convert
+     * @return Unicode String
      */
     public static String charToUnicodeRepresentation(char c) {
         

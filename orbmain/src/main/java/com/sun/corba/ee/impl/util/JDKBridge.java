@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -42,6 +43,7 @@ public class JDKBridge {
     /**
      * Get local codebase System property (java.rmi.server.codebase).
      * May be null or a space separated array of URLS.
+     * @return The value of the property
      */
     public static String getLocalCodebase () {
         return localCodebase;
@@ -50,6 +52,7 @@ public class JDKBridge {
     /**
      * Return true if the system property "java.rmi.server.useCodebaseOnly"
      * is set, false otherwise.
+     * @return If the property is set
      */
     public static boolean useCodebaseOnly () {
         return useCodebaseOnly;
@@ -272,6 +275,7 @@ public class JDKBridge {
     /**
      * Set the default code base. This method is here only
      * for test code.
+     * @param codebase The local codebase
      */
     public static synchronized void setLocalCodebase(String codebase) {
         localCodebase = codebase;    
