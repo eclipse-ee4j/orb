@@ -42,6 +42,8 @@ public abstract class StubConnectImpl
     * @param proxy The externally visible stub seen by the user (may be the same as stub)
     * @param stub The stub implementation that extends ObjectImpl
     * @param orb The ORB to which we connect the stub.
+    * @return The IOR
+    * @throws RemoteException If an exception occurs
     */
     public static StubIORImpl connect( StubIORImpl ior, org.omg.CORBA.Object proxy, 
         org.omg.CORBA.portable.ObjectImpl stub, ORB orb ) throws RemoteException 

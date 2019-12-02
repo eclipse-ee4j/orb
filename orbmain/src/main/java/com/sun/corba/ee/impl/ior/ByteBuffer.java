@@ -184,7 +184,7 @@ public class ByteBuffer {
     /**
      * Returns an array containing all of the elements in this ByteBuffer
      * in the correct order.
-     *
+     * @return Array of elements in the buffer
      * @since 1.2
      */
     public byte[] toArray() {

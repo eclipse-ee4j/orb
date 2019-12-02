@@ -87,7 +87,7 @@ public interface TemporarySelectorState {
      *          but the corresponding key has already been cancelled
      *
      * @throws  IllegalArgumentException
-     *          If a bit in <code>theOps</cdoe> does not correspond to an operation
+     *          If a bit in <code>theOps</code> does not correspond to an operation
      *          that is supported by theSelectableChannel, that is, if <code>set &amp;
      *          ~theSeletableChannel.validOps() != 0</code>
      *

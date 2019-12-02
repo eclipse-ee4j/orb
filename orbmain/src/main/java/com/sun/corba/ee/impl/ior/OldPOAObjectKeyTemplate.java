@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2019 Payara Servicec Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,6 +28,10 @@ import com.sun.corba.ee.spi.orb.ORBVersionFactory ;
 public final class OldPOAObjectKeyTemplate extends OldObjectKeyTemplateBase 
 {
     /** This constructor reads the template ONLY from the stream
+     * @param orb ORB to use
+     * @param magic Magic number
+     * @param scid ID of template
+     * @param is stream to read from
     */
     public OldPOAObjectKeyTemplate( ORB orb, int magic, int scid, InputStream is ) 
     {
@@ -35,6 +40,11 @@ public final class OldPOAObjectKeyTemplate extends OldObjectKeyTemplateBase
     
     /** This constructor reads a complete ObjectKey (template and Id)
     * from the stream.
+     * @param orb  ORB to use
+     * @param magic Magic number
+     * @param scid ID of the Object
+     * @param is Stream to read from
+     * @param osh Holder for Octet
     */
     public OldPOAObjectKeyTemplate( ORB orb, int magic, int scid, InputStream is,
         OctetSeqHolder osh ) 
@@ -51,6 +61,7 @@ public final class OldPOAObjectKeyTemplate extends OldObjectKeyTemplateBase
             new ObjectAdapterIdNumber( poaid ) ) ;
     }
     
+    @Override
     public void writeTemplate(OutputStream os) 
     {
         os.write_long( getMagic() ) ;
@@ -66,14 +77,15 @@ public final class OldPOAObjectKeyTemplate extends OldObjectKeyTemplateBase
     }
  
     @Override
-    public ORBVersion getORBVersion()
-    {
-        if (getMagic() == ObjectKeyFactoryImpl.JAVAMAGIC_OLD)
-            return ORBVersionFactory.getOLD() ;
-        else if (getMagic() == ObjectKeyFactoryImpl.JAVAMAGIC_NEW)
-            return ORBVersionFactory.getNEW() ;
-        else
-            throw new INTERNAL() ;
+    public ORBVersion getORBVersion() {
+        switch (getMagic()) {
+            case ObjectKeyFactoryImpl.JAVAMAGIC_OLD:
+                return ORBVersionFactory.getOLD() ;
+            case ObjectKeyFactoryImpl.JAVAMAGIC_NEW:
+                return ORBVersionFactory.getNEW() ;
+            default:
+                throw new INTERNAL() ;
+        }
     }
 }
 

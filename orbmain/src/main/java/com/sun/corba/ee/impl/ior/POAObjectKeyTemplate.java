@@ -16,16 +16,10 @@ import org.omg.CORBA_2_3.portable.OutputStream ;
 import org.omg.CORBA.OctetSeqHolder ;
 
 import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.orb.ORBVersion ;
 import com.sun.corba.ee.spi.orb.ORBVersionFactory ;
 
 import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
 
-import com.sun.corba.ee.impl.ior.ObjectKeyFactoryImpl ;
-
-/**
- * @author 
- */
 public final class POAObjectKeyTemplate extends NewObjectKeyTemplateBase 
 {
     public static String[] readPOAName(
@@ -41,6 +35,10 @@ public final class POAObjectKeyTemplate extends NewObjectKeyTemplateBase
     }
 
     /** This constructor reads the template ONLY from the stream.
+     * @param orb ORB to use
+     * @param magic Magic number
+     * @param scid ID of template
+     * @param is stream to read from
     */
     public POAObjectKeyTemplate( ORB orb, int magic, int scid, InputStream is ) 
     {
@@ -52,10 +50,13 @@ public final class POAObjectKeyTemplate extends NewObjectKeyTemplateBase
 
     /** This constructor reads a complete ObjectKey (template and Id)
     * from the stream.
+     * @param orb  ORB to use
+     * @param magic Magic number
+     * @param scid ID of the Object
+     * @param is Stream to read from
+     * @param osh Holder for Octet
     */
-    public POAObjectKeyTemplate( ORB orb, int magic, int scid, InputStream is,
-        OctetSeqHolder osh ) 
-    {
+    public POAObjectKeyTemplate( ORB orb, int magic, int scid, InputStream is, OctetSeqHolder osh )  {
         super( orb, magic, scid, is.read_long(), is.read_string(),
             new ObjectAdapterIdArray( readPOAName( is ) ) ) ;
         
@@ -73,6 +74,7 @@ public final class POAObjectKeyTemplate extends NewObjectKeyTemplateBase
         setORBVersion( ORBVersionFactory.getORBVersion() ) ;
     }
     
+    @Override
     public void writeTemplate(OutputStream os) 
     {
         os.write_long( getMagic() ) ;

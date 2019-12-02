@@ -737,10 +737,11 @@ public abstract class NamingContextImpl
     * of Name Components.
     * @param sn Stringified Name of the object <p>
     * @return an array of name components
-    * @throws org.omg.CosNaming.NamingContextPackage.InvalidName
+    * @throws org.omg.CosNaming.NamingContextPackage.InvalidName if the name is invalid
     *
     */
     @Naming
+    @Override
     public org.omg.CosNaming.NameComponent[] to_name(String sn)
          throws org.omg.CosNaming.NamingContextPackage.InvalidName
     {
@@ -773,8 +774,8 @@ public abstract class NamingContextImpl
     * Name Service is running <p>
     * @param sn Stringified Name of the object <p>
     * @return a url string
-    * @throws org.omg.CosNaming.NamingContextExtPackage.InvalidAddress
-    * @throws org.omg.CosNaming.NamingContextPackage.InvalidName
+    * @throws org.omg.CosNaming.NamingContextExtPackage.InvalidAddress if the provided address is invalid
+    * @throws org.omg.CosNaming.NamingContextPackage.InvalidName if the provided Name is invalid
     *
     */ 
     @Naming
@@ -811,7 +812,7 @@ public abstract class NamingContextImpl
      * Indicates there is no object reference for the given name.
      * @exception org.omg.CosNaming.NamingContextPackage.CannotProceed
      * Indicates that the given compound name is incorrect
-     * @throws org.omg.CosNaming.NamingContextPackage.InvalidName
+     * @throws org.omg.CosNaming.NamingContextPackage.InvalidName if the provided Name was invalid
      *
      */
     @Naming

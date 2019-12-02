@@ -55,16 +55,16 @@ public class TSIdentificationImpl extends org.omg.CORBA.LocalObject
     /** getSender is not defined in the OTS spec. It is just a convenience
         method to allow the ORB to access the Sender subsequent to
         initialization.
+    * @return the ORB's Sender
     */
-    public org.omg.CosTSPortability.Sender
-        getSender()
-    {
+    public org.omg.CosTSPortability.Sender getSender() {
         return sender;
     }
 
     /** getReceiver is not defined in the OTS spec. It is just a convenience
         method to allow the ORB to access the Receiver subsequent to
         initialization.
+     * @return The receiver
     */
     public org.omg.CosTSPortability.Receiver
         getReceiver()

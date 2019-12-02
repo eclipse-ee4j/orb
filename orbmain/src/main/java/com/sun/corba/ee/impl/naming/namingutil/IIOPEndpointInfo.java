@@ -17,7 +17,7 @@ import com.sun.corba.ee.spi.misc.ORBConstants;
  *  host information used in creating the Service Object reference
  *  from the -ORBInitDef and -ORBDefaultInitDef definitions.
  *
- *  @Author Hemanth
+ *  @author Hemanth
  */
 public class IIOPEndpointInfo
 {

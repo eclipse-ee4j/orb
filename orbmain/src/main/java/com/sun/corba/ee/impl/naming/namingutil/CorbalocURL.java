@@ -25,6 +25,7 @@ public class CorbalocURL extends INSURLBase
      * This constructor parses the URL and initializes all the variables. Once
      * the URL Object is constructed it is immutable. URL parameter is a 
      * corbaloc: URL string with 'corbaloc:' prefix stripped.
+     * @param aURL corbaloc URL as a String
      */
     public CorbalocURL( String aURL ) {
         String url = aURL;

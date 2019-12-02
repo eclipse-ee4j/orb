@@ -58,6 +58,7 @@ public final class OSFCodeSetRegistry
          * Returns the Java equivalent name.  If the encoding has
          * an optional byte order marker, this name will map to the
          * Java encoding that includes the marker.
+         * @return The Java name
          */
         public String getName() {
             return javaName;
@@ -65,6 +66,7 @@ public final class OSFCodeSetRegistry
 
         /**
          * Get the OSF registry number for this code set.
+         * @return Encoding number
          */
         public int getNumber() {
             return encodingNum;
@@ -74,6 +76,7 @@ public final class OSFCodeSetRegistry
          * Is this a fixed or variable width code set?  (In CORBA
          * terms, "non-byte-oriented" or a "byte-oriented"
          * code set, respectively)
+         * @return True if this is a fixed with code set.
          */
         public boolean isFixedWidth() {
             return isFixedWidth;
@@ -196,6 +199,8 @@ public final class OSFCodeSetRegistry
     /**
      * Given an OSF registry value, return the corresponding Entry.
      * Returns null if an Entry for that value is unavailable.
+     * @param encodingValue value to look up
+     * @return Corresponding Entry
      */
     public static Entry lookupEntry(int encodingValue) {
         switch(encodingValue) {

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -55,14 +56,10 @@ import org.omg.PortableInterceptor.RequestInfo;
  * Implementation of the RequestInfo interface as specified in
  * orbos/99-12-02 section 5.4.1.
  */
-public abstract class RequestInfoImpl 
-    extends LocalObject 
-    implements RequestInfo, RequestInfoExt
-{
-    protected static final InterceptorsSystemException wrapper =
-        InterceptorsSystemException.self ;
-    static final OMGSystemException stdWrapper =
-        OMGSystemException.self ;
+public abstract class RequestInfoImpl extends LocalObject implements RequestInfo, RequestInfoExt {
+    
+    protected static final InterceptorsSystemException wrapper = InterceptorsSystemException.self ;
+    static final OMGSystemException stdWrapper = OMGSystemException.self ;
 
     //////////////////////////////////////////////////////////////////////
     //
@@ -70,48 +67,48 @@ public abstract class RequestInfoImpl
     //
     //////////////////////////////////////////////////////////////////////
 
-    // The ORB from which to get PICurrent and other info
+    /** The ORB from which to get PICurrent and other info */
     protected ORB myORB;
 
-    // The number of interceptors actually invoked for this client request.
-    // See setFlowStackIndex for a detailed description.
+    /** The number of interceptors actually invoked for this client request.
+     * See setFlowStackIndex for a detailed description.*/
     private int flowStackIndex = 0;
 
-    // The type of starting point call to make to the interceptors
-    // See ClientRequestInfoImpl and ServerRequestInfoImpl for a list of 
-    // appropriate constants.
+    /** The type of starting point call to make to the interceptors
+     * See ClientRequestInfoImpl and ServerRequestInfoImpl for a list of 
+     * appropriate constants. */
     int startingPointCall;
     
-    // The type of intermediate point call to make to the interceptors
-    // See ServerRequestInfoImpl for a list of appropriate constants.
-    // This does not currently apply to client request interceptors but is
-    // here in case intermediate points are introduced in the future.
+    /** The type of intermediate point call to make to the interceptors
+     * See ServerRequestInfoImpl for a list of appropriate constants.
+     * This does not currently apply to client request interceptors but is
+     * here in case intermediate points are introduced in the future. */
     int intermediatePointCall;
     
-    // The type of ending point call to make to the interceptors
-    // See ClientRequestInfoImpl and ServerRequestInfoImpl for a list of 
-    // appropriate constants.
+    /** The type of ending point call to make to the interceptors
+     * See ClientRequestInfoImpl and ServerRequestInfoImpl for a list of 
+     * appropriate constants. */
     int endingPointCall;
     
-    // The reply status to return in reply_status.  This is initialized
-    // to UNINITIALIZED so that we can tell if this has been set or not.
+    /** The reply status to return in reply_status.  This is initialized
+     * to UNINITIALIZED so that we can tell if this has been set or not. */
     protected short replyStatus = UNINITIALIZED;
     
-    // Constant for an uninitizlied reply status.
+    /** Constant for an uninitialized reply status. */
     static final short UNINITIALIZED = -1;
     
-    // Which points we are currently executing (so we can implement the
-    // validity table).  
+    /** Which points we are currently executing (so we can implement the
+     * validity table). */
     int currentExecutionPoint;
     static final int EXECUTION_POINT_STARTING = 0;
     static final int EXECUTION_POINT_INTERMEDIATE = 1;
     static final int EXECUTION_POINT_ENDING = 2;
     
-    // Set to true if all interceptors have had all their points
-    // executed.
+    /** Set to true if all interceptors have had all their points
+     * executed. */
     private boolean alreadyExecuted;
     
-    // Sources of request information
+    /** Sources of request information */
     protected Connection     connection;
 
     // The ForwardRequest object if this request is being forwarded.
@@ -122,11 +119,11 @@ public abstract class RequestInfoImpl
     private ForwardRequest forwardRequest;
     private IOR forwardRequestIOR;
 
-    // PICurrent's  SlotTable
+    /** PICurrent's  SlotTable */
     SlotTable slotTable;
 
-    // The exception to be returned by received_exception and 
-    // received_exception_id
+    /** The exception to be returned by received_exception and 
+     * received_exception_id */
     protected Exception exception;
    
     boolean interceptorsEnabledForThisRequest ;
@@ -202,6 +199,7 @@ public abstract class RequestInfoImpl
          
     /**
      * Creates a new RequestInfoImpl object.
+     * @param myORB ORB to use
      */
     public RequestInfoImpl( ORB myORB ) { 
         super();
@@ -222,15 +220,18 @@ public abstract class RequestInfoImpl
      * Uniquely identifies an active request/reply sequence.  Once a
      * request/reply sequence is concluded this ID may be reused.  (this
      * is NOT necessarily the same as the GIOP request_id).
+     * @return unique request identifier
      */
+    @Override
     abstract public int request_id ();
 
     /**
      * Implementation for operation() differs for client and server
      * implementations.
      *
-     * The name of the operation being invoked.
+     * @return The name of the operation being invoked.
      */
+    @Override
     abstract public String operation ();
 
 
@@ -238,35 +239,45 @@ public abstract class RequestInfoImpl
      * This method returns the list of arguments for the operation that was
      * invoked. It raises NO_RESOURCES exception if the operation is not invoked
      * by using DII mechanism.
+     * @return array of arguments
      */
+    @Override
     abstract public Parameter[] arguments ();
     
     /**
-     * This method returns the list of exceptios  that was raised when the
+     * This method returns the list of exceptions that was raised when the
      * operation was invoked. It raises NO_RESOURCES exception if the operation
      * is not invoked by using DII mechanism.
+     * @return array of raised exceptions
      */
+    @Override
     abstract public TypeCode[] exceptions ();
     
     /**
      * This method returns the list of contexts for the DII operation. 
      * It raises NO_RESOURCES exception if the operation is not invoked by 
      * using DII mechanism.
+     * @return array of contexts
      */
+    @Override
     abstract public String[] contexts ();
     
     /**
      * This method returns the list of operation_context for the DII operation. 
      * It raises NO_RESOURCES exception if the operation is not invoked by 
      * using DII mechanism.
+     * @return array of operation contexts
      */
+    @Override
     abstract public String[] operation_context ();
 
     /**
      * This method returns the result from the invoked DII operation.
      * It raises NO_RESOURCES exception if the operation is not invoked by 
      * using DII mechanism.
+     * @return the result from the invoked operation
      */
+    @Override
     abstract public Any result ();
     
     /**
@@ -278,7 +289,9 @@ public abstract class RequestInfoImpl
      * be called.  receive_other is called unless an exception occurs, in
      * which case receive_exception is called.  On the client, within
      * send_poll, this attribute is true.
+     * @return if a response is expected
      */
+    @Override
     abstract public boolean response_expected ();
     
     /**
@@ -288,12 +301,13 @@ public abstract class RequestInfoImpl
      * progress before control is returned to the client.  This attribute may 
      * have one of the follwing values:
      * <ul>
-     *   <li>Messaging::SYNC_NONE</li>
-     *   <li>Messaging::SYNC_WITH_TRANSPORT</li>
-     *   <li>Messaging::SYNC_WITH_SERVER</li>
-     *   <li>Messaging::SYNC_WITH_TARGET</li>
+     *   <li>{@link org.omg.Messaging.SYNC_NONE}</li>
+     *   <li>{@link org.omg.Messaging.SYNC_WITH_TRANSPORT}</li>
+     *   <li>{@link org.omg.Messaging.SYNC_WITH_SERVER}</li>
+     *   <li>{@link org.omg.Messaging.SYNC_WITH_TARGET}</li>
      * </ul>
      */
+    @Override
     public short sync_scope (){
         checkAccess( MID_SYNC_SCOPE );
         return SYNC_WITH_TRANSPORT.value; // REVISIT - get from MessageMediator
@@ -303,13 +317,15 @@ public abstract class RequestInfoImpl
      * Describes the state of the result of the operation invocation.  Its 
      * value can be one of the following:
      * <ul>
-     *   <li>PortableInterceptor::SUCCESSFUL</li>
-     *   <li>PortableInterceptor::SYSTEM_EXCEPTION</li>
-     *   <li>PortableInterceptor::USER_EXCEPTION</li>
-     *   <li>PortableInterceptor::LOCATION_FORWARD</li>
-     *   <li>PortableInterceptor::TRANSPORT_RETRY</li>
+     *   <li>{@link org.omg.PortableInterceptor.SUCCESSFUL}</li>
+     *   <li>{@link org.omg.PortableInterceptor.SYSTEM_EXCEPTION}</li>
+     *   <li>{@link org.omg.PortableInterceptor.USER_EXCEPTION}</li>
+     *   <li>{@link org.omg.PortableInterceptor.LOCATION_FORWARD}</li>
+     *   <li>{@link org.omg.PortableInterceptor.TRANSPORT_RETRY}</li>
      * </ul>
+     * @return result status
      */
+    @Override
     public short reply_status (){
         checkAccess( MID_REPLY_STATUS );
         return replyStatus;
@@ -323,7 +339,9 @@ public abstract class RequestInfoImpl
      * then this attribute will contain the object
      * to which the request will be forwarded.  It is indeterminate whether a
      * forwarded request will actually occur.
+     * @return object to which attribute is forwarded.
      */
+    @Override
     abstract public Object forward_reference ();
 
     
@@ -335,9 +353,12 @@ public abstract class RequestInfoImpl
      * with a TCKind value of tk_null is returned.
      * <p>
      * If the ID does not define an allocated slot, InvalidSlot is raised.
+     * @param id ID of the slot to get data from
+     * @return Data held in the given slot
+     * @throws InvalidSlot If the id is not for an allocated slot
      */
-    public Any get_slot (int id) 
-        throws InvalidSlot
+    @Override
+    public Any get_slot (int id) throws InvalidSlot
     {
         // access is currently valid for all states:
         //checkAccess( MID_GET_SLOT );
@@ -352,11 +373,13 @@ public abstract class RequestInfoImpl
      *
      * This operation returns a copy of the service context with the given ID
      * that is associated with the request.  If the request's service context
-     * does not contain an etry for that ID, BAD_PARAM with a minor code of
+     * does not contain an entry for that ID, BAD_PARAM with a minor code of
      * TBD_BP is raised.
+     * @param id ID of the service context
+     * @return A copy of the service context
      */
-    abstract public org.omg.IOP.ServiceContext 
-        get_request_service_context(int id);
+    @Override
+    abstract public org.omg.IOP.ServiceContext get_request_service_context(int id);
 
     /**
      * Implementation for get_reply_service_context() differs for client 
@@ -366,9 +389,11 @@ public abstract class RequestInfoImpl
      * that is associated with the reply.  IF the request's service context
      * does not contain an entry for that ID, BAD_PARAM with a minor code of
      * TBD_BP is raised.
+     * @param id ID of the service context
+     * @return A copy of the Service Context
      */
-    abstract public org.omg.IOP.ServiceContext
-        get_reply_service_context (int id);
+    @Override
+    abstract public org.omg.IOP.ServiceContext get_reply_service_context (int id);
 
     
     // NOTE: When adding a method, be sure to:
@@ -390,6 +415,7 @@ public abstract class RequestInfoImpl
      * Note: we store the connection as an internal type but
      * expose it here as an external type.
      */
+    @Override
     public com.sun.corba.ee.spi.legacy.connection.Connection connection()
     {
         return connection;
@@ -405,6 +431,8 @@ public abstract class RequestInfoImpl
      * into the given Any.  Throws an UNKNOWN with minor code
      * OMGSYstemException.UNKNOWN_USER_EXCEPTION if the Helper class could not be 
      * found to insert it with.
+     * @param appException Exception to insert
+     * @param result {@link Any} to insert Exception into
      */
     private void insertApplicationException( ApplicationException appException,
                                              Any result )
@@ -448,17 +476,8 @@ public abstract class RequestInfoImpl
             // Insert this UserException into the provided Any using the
             // helper class.
             insertUserException( userException, result );
-        } catch( ClassNotFoundException e ) {
-            throw stdWrapper.unknownUserException( e ) ;
-        } catch( NoSuchMethodException e ) {
-            throw stdWrapper.unknownUserException( e ) ;
-        } catch( SecurityException e ) {
-            throw stdWrapper.unknownUserException( e ) ;
-        } catch( IllegalAccessException e ) {
-            throw stdWrapper.unknownUserException( e ) ;
-        } catch( IllegalArgumentException e ) {
-            throw stdWrapper.unknownUserException( e ) ;
-        } catch( InvocationTargetException e ) {
+        } catch( ClassNotFoundException | NoSuchMethodException | SecurityException |
+                IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
             throw stdWrapper.unknownUserException( e ) ;
         }
     }
@@ -468,6 +487,8 @@ public abstract class RequestInfoImpl
      * Throws an UNKNOWN with minor code
      * OMGSYstemException.UNKNOWN_USER_EXCEPTION if the Helper class could not be 
      * found to insert it with.
+     * @param userException Exception to insert
+     * @param result {@link Any} to insert the exception into
      */
     private void insertUserException( UserException userException, Any result )
         throws UNKNOWN
@@ -486,17 +507,8 @@ public abstract class RequestInfoImpl
 
                 insertMethod.invoke( null, result, userException );
             }
-        } catch( ClassNotFoundException e ) {
-            throw stdWrapper.unknownUserException( e );
-        } catch( NoSuchMethodException e ) {
-            throw stdWrapper.unknownUserException( e );
-        } catch( SecurityException e ) {
-            throw stdWrapper.unknownUserException( e );
-        } catch( IllegalAccessException e ) {
-            throw stdWrapper.unknownUserException( e );
-        } catch( IllegalArgumentException e ) {
-            throw stdWrapper.unknownUserException( e );
-        } catch( InvocationTargetException e ) {
+        } catch( ClassNotFoundException | NoSuchMethodException | SecurityException |
+                IllegalAccessException | IllegalArgumentException | InvocationTargetException e ) {
             throw stdWrapper.unknownUserException( e );
         } 
     }
@@ -508,6 +520,8 @@ public abstract class RequestInfoImpl
 
     /**
      * Internal utility method to convert an NVList into a PI Parameter[]
+     * @param parNVList list to concert
+     * @return parameter array
      */
     protected Parameter[] nvListToParameterArray( NVList parNVList ) {
 
@@ -543,6 +557,8 @@ public abstract class RequestInfoImpl
      * If the exception is a UserException which cannot be inserted into 
      * an any, then this returns an Any containing the system exception 
      * UNKNOWN.
+     * @param exception Exception to wrap
+     * @return {@link Any} wrapping the exception
      */
     protected Any exceptionToAny( Exception exception ){
         Any result = myORB.create_any();
@@ -588,6 +604,10 @@ public abstract class RequestInfoImpl
      * Utility method to look up a service context with the given id and
      * convert it to an IOP.ServiceContext.  Uses the given HashMap as
      * a cache.  If not found in cache, the result is inserted in the cache.
+     * @param cachedServiceContexts cache to search first in
+     * @param serviceContexts contexts to look up in
+     * @param id  ID to use for look up
+     * @return found ServiceContext
      */
     protected org.omg.IOP.ServiceContext getServiceContext( 
         Map<Integer,org.omg.IOP.ServiceContext> cachedServiceContexts, 
@@ -646,7 +666,11 @@ public abstract class RequestInfoImpl
      * the given id already exists.
      * <p>
      * Uses the given HashMap as a cache.  If a service context is placed
-     * in the container, it goes in the HashMap as well.  
+     * in the container, it goes in the HashMap as well.
+     * @param cachedServiceContexts map to also add the context to
+     * @param serviceContexts ServiceContexts to add it to
+     * @param service_context context to add
+     * @param replace if a previous instance should be replaced
      */
     protected void addServiceContext( 
         Map<Integer, org.omg.IOP.ServiceContext> cachedServiceContexts, 
@@ -693,7 +717,9 @@ public abstract class RequestInfoImpl
      * so we know not to execute the corresponding ending interception
      * points for the interceptors whose starting interception points
      * were not completed.  This simulates the "Flow Stack Visual Model"
-     * presented in section 5.1.3.*/
+     * presented in section 5.1.3.
+     * @param num number of interceptors successfully invoked
+     */
     protected void setFlowStackIndex(int num ) {
         this.flowStackIndex = num;
     }
@@ -702,6 +728,8 @@ public abstract class RequestInfoImpl
      * Returns the number of interceptors whose starting interception
      * points were actually invoked on this client request.  See
      * setFlowStackIndex for more details.
+     * @return number of interceptors
+     * @see #setFlowStackIndex(int) 
      */
     protected int getFlowStackIndex() {
         return this.flowStackIndex;
@@ -710,6 +738,7 @@ public abstract class RequestInfoImpl
     /**
      * Sets which ending interception point should be called
      * for each interceptor in the virtual flow stack.
+     * @param call ending interception point
      */
     protected void setEndingPointCall( int call ) {
         this.endingPointCall = call;
@@ -718,6 +747,8 @@ public abstract class RequestInfoImpl
     /**
      * Retrieves the current ending point call type (see
      * setEndingPointCall for more details).
+     * @return ending point call type
+     * @see #setEndingPointCall(int) 
      */
     protected int getEndingPointCall() {
         return this.endingPointCall;
@@ -726,6 +757,7 @@ public abstract class RequestInfoImpl
     /**
      * Sets which intermediate interception point should be called
      * for each interceptor in the virtual flow stack.
+     * @param call intermediate interception point
      */
     protected void setIntermediatePointCall( int call ) {
         this.intermediatePointCall = call;
@@ -734,6 +766,8 @@ public abstract class RequestInfoImpl
     /**
      * Retrieves the current intermediate point call type (see
      * setEndingPointCall for more details).
+     * @return current intermediate point
+     * @see #setEndingPointCall(int) 
      */
     protected int getIntermediatePointCall() {
         return this.intermediatePointCall;
@@ -742,6 +776,7 @@ public abstract class RequestInfoImpl
     /**
      * Sets which starting interception point should be called
      * for each interceptor in the virtual flow stack.
+     * @param call which point should called
      */
     protected void setStartingPointCall( int call ) {
         this.startingPointCall = call;
@@ -750,6 +785,8 @@ public abstract class RequestInfoImpl
     /**
      * Retrieves the current starting point call type (see
      * setStartingPointCall for more details).
+     * @return the current stating point
+     * @see #setStartingPointCall(int) 
      */
     protected int getStartingPointCall() {
         return this.startingPointCall;
@@ -758,14 +795,16 @@ public abstract class RequestInfoImpl
     /**
      * Returns true if all interceptors' starting and ending points
      * have already executed to completion, or false if not yet.
+     * @return if all interceptors have been executed to completion
      */
     protected boolean getAlreadyExecuted() {
         return this.alreadyExecuted;
     }
     
     /**
-     * Sets whether all interceotrs' starting and ending points
+     * Sets whether all interceptors' starting and ending points
      * have already been executed to completion.
+     * @param alreadyExecuted if all interceptors have been executed
      */
     protected void setAlreadyExecuted( boolean alreadyExecuted ) {
         this.alreadyExecuted = alreadyExecuted;
@@ -773,6 +812,7 @@ public abstract class RequestInfoImpl
     
     /**
      * Sets the value to be returned by reply_status
+     * @param replyStatus The value of the reply status
      */
     protected void setReplyStatus( short replyStatus ) {
         this.replyStatus = replyStatus;
@@ -781,6 +821,7 @@ public abstract class RequestInfoImpl
     /**
      * Gets the current reply_status without doing an access check
      * (available only to package and subclasses)
+     * @return Current reply status
      */
     protected short getReplyStatus() {
         return this.replyStatus;
@@ -789,6 +830,8 @@ public abstract class RequestInfoImpl
     /**
      * Stores the given ForwardRequest object for later analysis.
      * This version supplements setForwardRequest( IOR );
+     * @param forwardRequest ForwardRequest to store
+     * @see #setForwardRequest(com.sun.corba.ee.spi.ior.IOR)
      */
     protected void setForwardRequest( ForwardRequest forwardRequest ) {
         this.forwardRequest = forwardRequest;
@@ -798,6 +841,8 @@ public abstract class RequestInfoImpl
     /** 
      * Stores the given IOR for later forward request analysis.
      * This version supplements setForwardRequest( ForwardRequest );
+     * @param ior IOR to store
+     * @see #setForwardRequest(org.omg.PortableInterceptor.ForwardRequest)
      */
     protected void setForwardRequest( IOR ior ) {
         this.forwardRequestIOR = ior;
@@ -806,6 +851,7 @@ public abstract class RequestInfoImpl
     
     /**
      * Retrieves the ForwardRequest object as a ForwardRequest exception.
+     * @return the ForwardRequest object
      */
     protected ForwardRequest getForwardRequestException() {
         if( this.forwardRequest == null ) {
@@ -822,6 +868,7 @@ public abstract class RequestInfoImpl
 
     /**
      * Retrieves the IOR of the ForwardRequest exception.
+     * @return The IOR of the exception
      */
     protected IOR getForwardRequestIOR() {
         if( this.forwardRequestIOR == null ) {
@@ -837,6 +884,7 @@ public abstract class RequestInfoImpl
     /**
      * Sets the exception to be returned by received_exception and
      * received_exception_id.
+     * @param exception exception to be returned
      */
     protected void setException( Exception exception ) {
         this.exception = exception;
@@ -854,6 +902,7 @@ public abstract class RequestInfoImpl
      * Sets the execution point that we are currently executing
      * (starting points, intermediate points, or ending points).
      * This allows us to enforce the validity table.
+     * @param executionPoint Current execution point
      */
     protected void setCurrentExecutionPoint( int executionPoint ) {
         this.currentExecutionPoint = executionPoint;

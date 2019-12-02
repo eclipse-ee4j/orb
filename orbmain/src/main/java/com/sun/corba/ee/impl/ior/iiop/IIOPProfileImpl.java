@@ -48,9 +48,6 @@ import org.omg.IOP.TAG_JAVA_CODEBASE;
 
 import java.util.Iterator;
 
-/**
- * @author
- */
 @IsLocal
 public class IIOPProfileImpl extends IdentifiableBase implements IIOPProfile
 {

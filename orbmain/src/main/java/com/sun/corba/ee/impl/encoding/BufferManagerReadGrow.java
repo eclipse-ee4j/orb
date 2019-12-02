@@ -22,14 +22,17 @@ public class BufferManagerReadGrow
     private static final ORBUtilSystemException wrapper =
         ORBUtilSystemException.self ;
 
+    @Override
     public void processFragment (ByteBuffer byteBuffer, FragmentMessage header)
     {
         // REVISIT - should we consider throwing an exception similar to what's
         //           done for underflow()???
     }
 
+    @Override
     public void init(Message msg) {}
 
+    @Override
     public ByteBuffer underflow(ByteBuffer byteBuffer) {
         throw wrapper.unexpectedEof() ;
     }
@@ -39,6 +42,7 @@ public class BufferManagerReadGrow
         return false;
     }
 
+    @Override
     public void cancelProcessing(int requestId) {}
     
     // Mark and reset handler -------------------------
@@ -47,10 +51,12 @@ public class BufferManagerReadGrow
     private RestorableInputStream inputStream;
     private boolean markEngaged = false;
 
+    @Override
     public MarkAndResetHandler getMarkAndResetHandler() {
         return this;
     }
 
+    @Override
     public void mark(RestorableInputStream is) {
         markEngaged = true;
         inputStream = is;
@@ -58,8 +64,10 @@ public class BufferManagerReadGrow
     }
 
     // This will never happen
+    @Override
     public void fragmentationOccured(ByteBuffer byteBuffer) {}
 
+    @Override
     public void reset() {
 
         if (!markEngaged)
@@ -71,5 +79,6 @@ public class BufferManagerReadGrow
     }
 
     // Nothing to close and cleanup.
+    @Override
     public void close(ByteBuffer byteBuffer) {}
 }

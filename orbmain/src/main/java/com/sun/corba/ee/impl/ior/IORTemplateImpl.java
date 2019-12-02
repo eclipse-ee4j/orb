@@ -28,7 +28,6 @@ import com.sun.corba.ee.spi.orb.ORB ;
 
 /**
  * This class is a container of TaggedProfileTemplates.
- * @author 
  */
 public class IORTemplateImpl 
     extends IdentifiableContainerBase<TaggedProfileTemplate>

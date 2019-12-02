@@ -125,7 +125,7 @@ public class TOAImpl extends ObjectAdapterBase implements TOA
     * This will update thread Current, so that subsequent calls to
     * returnServant and removeCurrent from the same thread are for the
     * same request.
-    * @param request is the request containing the rest of the request
+    * @param info is the request containing the rest of the request
     */
     @Override
     public void getInvocationServant( OAInvocationInfo info ) 

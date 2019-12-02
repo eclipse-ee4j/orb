@@ -111,7 +111,7 @@ public class InterOperableNamingImpl
      *
      * @param theStringifiedName which is the stringified name.
     * @return  Array of Name Components (Simple or Compound Names)
-    * @throws org.omg.CosNaming.NamingContextPackage.InvalidName
+    * @throws org.omg.CosNaming.NamingContextPackage.InvalidName if the stringified name is invalid
      */
    public org.omg.CosNaming.NameComponent[] convertToNameComponent( 
        String theStringifiedName )
@@ -337,6 +337,7 @@ public class InterOperableNamingImpl
      * @param address which is ip based host name
      * @param name which is the stringified name.
      * @return  url based Name.
+     * @throws InvalidAddress if the address is invalid
      */
     public String createURLBasedAddress( String address, String name )
         throws InvalidAddress

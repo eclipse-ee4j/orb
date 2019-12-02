@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -448,12 +449,20 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
     public abstract void setParameters( String[] args, Properties props ) ;
 
     // ORB versioning
+    /**
+     * Returns the implementation version of the ORB
+     * @return the ORB version.
+     */
     @ManagedAttribute
     @Description( "The implementation version of the ORB" )
     public abstract ORBVersion getORBVersion() ;
 
     public abstract void setORBVersion( ORBVersion version ) ;
 
+    /**
+     * Returns the IOR used for the Full Value Description
+     * @return The IOR used for the Full Value Description
+     */
     @ManagedAttribute
     @Description( "The IOR used for the Full Value Description" ) 
     public abstract IOR getFVDCodeBaseIOR() ;
@@ -491,30 +500,55 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
     @Description( "The transient ServerId of this ORB instance" ) 
     public abstract int getTransientServerId();
 
+    /**
+     * Returns the registry for all ServerContext factories of this server.
+     * @return the registry.
+     */
     @ManagedAttribute
     @Description( "The registry for all ServerContext factories" ) 
     public abstract ServiceContextFactoryRegistry getServiceContextFactoryRegistry() ;
 
+    /**
+     * Returns the cache used to optimise marshaling of ServiceContexts
+     * @return the cache used
+     */
     @ManagedAttribute
     @Description( "The cache used to opimize marshaling of ServiceContexts" ) 
     public abstract ServiceContextsCache getServiceContextsCache();
 
+    /**
+     * The RequestDispatcher registry, which contains the request handling code
+     * @return The RequestDispatcher registry
+     */
     @ManagedAttribute
     @Description( "The RequestDispatcher registry, which contains the request handling code" ) 
     public abstract RequestDispatcherRegistry getRequestDispatcherRegistry();
 
+    /**
+     * The ORB configuration data
+     * @return Config data
+     */
     @ManagedAttribute
     @Description( "The ORB configuration data" ) 
     public abstract ORBData getORBData() ;
 
     public abstract void setClientDelegateFactory( ClientDelegateFactory factory ) ;
 
+    /**
+     * Returns the ClientDelegateFactory, which is used to create the ClientDelegate that represents an IOR
+     * @return The ClientDelegateFactory
+     */
     @ManagedAttribute
     @Description( "The ClientDelegateFactory, which is used to create the ClientDelegate that represents an IOR" )
     public abstract ClientDelegateFactory getClientDelegateFactory() ;
 
     public abstract void setCorbaContactInfoListFactory( ContactInfoListFactory factory ) ;
 
+    /**
+     * Returns the CorbaContactInfoListFactory, which creates the contact info list that represents
+     * possible endpoints in an IOR.
+     * @return CorbaContactInfoListFactory used
+     */
     @ManagedAttribute
     @Description( "The CorbaContactInfoListFactory, which creates the contact info list that represents "
         + "possible endpoints in an IOR" ) 
@@ -555,7 +589,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
     /** Set the operation used in string_to_object calls.  The Operation must expect a
      * String and return an org.omg.CORBA.Object.
      * 
-     * @param operation to be used
+     * @param stringToObject operation to be used
      */
     public abstract void setURLOperation( Operation stringToObject ) ;
 
@@ -581,11 +615,19 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
     @Description( "Finder of Factories for TaggedComponents of IORs" )
     public abstract TaggedComponentFactoryFinder getTaggedComponentFactoryFinder() ;
 
+    /**
+     * Factory finders for the various parts of the IOR: tagged profiles
+     * @return Finder of Factories for TaggedProfiles of IORs
+     */
     @ManagedAttribute
     @Description( "Finder of Factories for TaggedProfiles of IORs" )
     public abstract IdentifiableFactoryFinder<TaggedProfile> 
         getTaggedProfileFactoryFinder() ;
 
+    /**
+     * Factory finders for the various parts of the IOR: tagged profile templates
+     * @return Finder of Factories for TaggedProfileTemplates of IORs
+     */
     @ManagedAttribute
     @Description( "Finder of Factories for TaggedProfileTemplates of IORs" )
     public abstract IdentifiableFactoryFinder<TaggedProfileTemplate> 
@@ -791,7 +833,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
         return true ;
     }
 
-    private static UnaryFunction<String,Class<?>> defaultClassNameResolver =
+    private static final UnaryFunction<String,Class<?>> defaultClassNameResolver =
         new UnaryFunction<String,Class<?>>() {
             public Class<?> evaluate( String name ) {
                 try {

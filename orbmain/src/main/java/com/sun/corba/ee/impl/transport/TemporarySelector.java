@@ -19,26 +19,25 @@ import com.sun.corba.ee.spi.transport.TemporarySelectorState;
 
 /**
  *
- * @author Charlie Hunt
- */
-
-/**
- *
  * Encapsulates a temporary Selector and temporary Selector state
+ * @author Charlie Hunt
  */
 public class TemporarySelector {
     
     private TemporarySelectorState itsState;
     private Selector itsSelector;
 
-    /** Creates a new instance of TemporarySelector */
+    /** Creates a new instance of TemporarySelector
+     * @param theSelectableChannel channel to select
+     * @throws java.io.IOException If an I/O error occurs
+     */
     public TemporarySelector(SelectableChannel theSelectableChannel) throws IOException {
         itsSelector = theSelectableChannel.provider().openSelector();
         itsState = new TemporarySelectorStateOpen();
     }
     
     /**
-     * NOTE: There is a potential for a situation, (albiet very remote), that
+     * NOTE: There is a potential for a situation, (albeit very remote), that
      *       some other thread may be initiating an explicit "close" of a 
      *       Connection (if someone overrides the implementation of
      *       SocketOrChannelConnectionImpl and an explicit call to "close"
@@ -48,7 +47,7 @@ public class TemporarySelector {
      *       of that TemporarySelector will not occur until the 
      *       select(long theTimeout) method exits, (i.e. maximum blocking wait
      *       time for the close will be theTimeout milliseconds which by
-     *       default is 2000 milliseconds).
+     *       default is 2000 milliseconds).<p>
      *       This artifact occurs as a result of the TemporarySelector's
      *       select() and close() operations being atomic operations.
      *       However, this potential issue does not exist in the current
@@ -59,10 +58,14 @@ public class TemporarySelector {
      *       can be found in the "no connection cache" plug-in implementation.
      *       To avoid this potential scenario, the "no connection
      *       cache" plug-in disables the read optimization to always
-     *       enter a blocking read.  
-     *       See com.sun.corba.ee.impl.plugin.hwlb.NoConnectionCacheImpl.java
-     *       to see how the 'always enter blocking read' optimization is
-     *       disabled.
+     *       enter a blocking read.
+     *       @see com.sun.corba.ee.impl.plugin.hwlb.NoConnectionCacheImpl
+     *       NoConnectionCacheImpl to see how the 'always enter blocking
+     *       read' optimization is disabled.
+     * @param theTimeout If positive, block for up to theTimeout milliseconds, more or less, while waiting for a SelectableChannel to become ready; 
+     *  must be greater than 0 in value
+     * @return The number of keys, possibly zero, whose ready-operation sets was updated.
+     * @throws java.io.IOException If an I/O error occurs
      */
     synchronized public int select(long theTimeout) throws IOException {
         return itsState.select(itsSelector, theTimeout);
@@ -98,6 +101,7 @@ public class TemporarySelector {
      *       See com.sun.corba.ee.impl.plugin.hwlb.NoConnectionCacheImpl.java
      *       to see how the 'always enter blocking read' optimization is
      *       disabled.
+     * @throws java.io.IOException If an I/O error occurs
      */
     synchronized public void close() throws IOException {
         itsState = itsState.close(itsSelector);

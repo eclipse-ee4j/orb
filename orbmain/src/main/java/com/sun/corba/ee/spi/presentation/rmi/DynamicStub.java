@@ -59,6 +59,7 @@ public interface DynamicStub extends org.omg.CORBA.Object
      * org.omg.CORBA.portable.InputStream.
      * 
      * @param orb ORB to connect to
+     * @throws RemoteException if unable to connect
      */
     void connect( ORB orb ) throws RemoteException ;
 

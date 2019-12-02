@@ -44,6 +44,7 @@ public final class CodecFactoryImpl
     /**
      * Creates a new CodecFactory implementation.  Stores the ORB that
      * created this factory, for later use by the Codec.
+     * @param orb ORB that created this factory
      */
     public CodecFactoryImpl( ORB orb ) {
         this.orb = orb;

@@ -266,6 +266,8 @@ public final class CodeSetComponentInfo {
      * and the rest is the conversion code set list.
      *
      * The numbers can either be decimal or hex.
+     * @param str List of OSF Code Set registry numbers
+     * @return Components
      */
     public static CodeSetComponent createFromString(String str) {
         if (str == null || str.length() == 0)

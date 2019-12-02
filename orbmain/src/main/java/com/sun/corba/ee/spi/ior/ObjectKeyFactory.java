@@ -18,7 +18,7 @@ import org.omg.CORBA_2_3.portable.InputStream ;
 public interface ObjectKeyFactory 
 {
     /** Create an ObjectKey from its octet sequence representation.
-     * @param key
+     * @param key representation of key
      * @return created ObjectKey
      */
     ObjectKey create( byte[] key ) ;

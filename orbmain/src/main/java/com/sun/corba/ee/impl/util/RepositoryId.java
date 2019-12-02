@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -589,10 +590,19 @@ public class RepositoryId {
         }
     }
 
+    @Override
     public final String toString() {
         return repId;
     }
 
+    /**
+     * Checks to see if the FullValueDescription should be retrieved.
+     * @param clazz The type to get description for
+     * @param repositoryID The repository ID
+     * @return If full description should be retrieved
+     * @throws IOException If suids do not match or if the repositoryID
+     * is not an RMIValueType.
+     */
     public static boolean useFullValueDescription(Class clazz, 
         String repositoryID) throws IOException{
 
@@ -602,8 +612,12 @@ public class RepositoryId {
 
     /**
      * Checks to see if the FullValueDescription should be retrieved.
-     * @exception IOException if suids do not match or if the repositoryID
-     * is not an RMIValueType
+     * @param clazz The type to get description for
+     * @param cinfo The ClassInfo for the type.
+     * @param repositoryID The repository ID
+     * @return If full description should be retrieved
+     * @exception IOException If suids do not match or if the repositoryID
+     * is not an RMIValueType.
      */
     public static boolean useFullValueDescription(Class clazz, 
         ClassInfoCache.ClassInfo cinfo,
@@ -687,6 +701,7 @@ public class RepositoryId {
      * that is not an array, it will produce a rep id for a sequence of zero 
      * length.  This would be an error.
      * @param ser The Java object to create a repository ID for
+     * @return Created repository ID
      **/
     public static String createSequenceRepID(java.lang.Object ser){
         return createSequenceRepID(ser.getClass());
@@ -697,6 +712,7 @@ public class RepositoryId {
      * this method assumes the object passed is an array.  If passed an object 
      * that is not an array, it will produce a malformed rep id.
      * @param clazz The Java class to create a repository ID for
+     * @return Created repository ID
      **/
     public static String createSequenceRepID(java.lang.Class clazz){
         synchronized (classSeqToRepStr) {
@@ -766,6 +782,7 @@ public class RepositoryId {
     /**
      * Creates a repository ID for a normal Java Type.  
      * @param ser The Java object to create a repository ID for
+     * @return Created repository ID
      * @exception com.sun.corba.ee.impl.io.TypeMismatchException if 
      * ser implements the org.omg.CORBA.portable.IDLEntity interface 
      * which indicates it is an IDL Value type.
@@ -801,6 +818,8 @@ public class RepositoryId {
     /**
      * Creates a repository ID for a normal Java Type.
      * @param clz The Java class to create a repository ID for
+     * @param cinfo ClassInfo; may be null
+     * @return Created repository ID
      * @exception com.sun.corba.ee.impl.io.TypeMismatchException if 
      * ser implements the * org.omg.CORBA.portable.IDLEntity interface 
      * which indicates it is an IDL Value type.
@@ -831,6 +850,7 @@ public class RepositoryId {
      * @param ser The IDL Value object to create a repository ID for
      * @param major The major version number
      * @param minor The minor version number
+     * @return Created repository ID
      * @exception com.sun.corba.ee.impl.io.TypeMismatchException if ser does not implement the
      * org.omg.CORBA.portable.IDLEntity interface which indicates it is an IDL Value type.
      **/
@@ -928,6 +948,8 @@ public class RepositoryId {
      * Convert strings with illegal IDL identifier characters.
      * <p>
      * Section 5.5.7 of OBV spec.
+     * @param name String to convert
+     * @return Converted String
      */
     public static String convertToISOLatin1 (String name) {
 

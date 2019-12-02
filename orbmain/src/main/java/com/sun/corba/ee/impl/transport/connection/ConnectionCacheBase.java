@@ -87,6 +87,7 @@ public abstract class ConnectionCacheBase<C extends Connection>
 
     /** Reclaim some idle cached connections.  Will never 
      * close a connection that is busy.
+     * @return True if at least one connection was reclaimed
      */
     @Transport
     protected boolean reclaim() {

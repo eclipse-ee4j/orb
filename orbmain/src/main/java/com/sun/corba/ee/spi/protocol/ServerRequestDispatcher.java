@@ -27,6 +27,8 @@ public abstract interface ServerRequestDispatcher
 {
     /**
      * Handle a locate request.
+     * @param key key to object to locate
+     * @return IOR for the request
      */
     public IOR locate(ObjectKey key);
 

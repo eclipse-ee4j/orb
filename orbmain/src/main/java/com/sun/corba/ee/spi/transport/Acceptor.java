@@ -68,7 +68,7 @@ public abstract interface Acceptor
     /**
      * Used to determine if an <code>Acceptor</code> has been initialized.
      *
-     * @return <code>true</code. if the <code>Acceptor</code> has been
+     * @return <code>true</code>. if the <code>Acceptor</code> has been
      * initialized.
      */
     boolean initialized();
@@ -92,12 +92,14 @@ public abstract interface Acceptor
     boolean shouldRegisterAcceptEvent();
 
     /** Blocks until a new Socket is available on the acceptor's port.
+     * @return the new socket
      */
-    Socket getAcceptedSocket() ; 
+    Socket getAcceptedSocket(); 
 
-    /** Handle a newly accepted Socket.  
+    /** Handle a newly accepted Socket.
+     * @param channel socket to handle
      */
-    void processSocket( Socket channel ) ;
+    void processSocket( Socket channel );
 
     /**
      * Close the <code>Acceptor</code>.

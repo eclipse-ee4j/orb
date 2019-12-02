@@ -78,6 +78,7 @@ public class IORFactories {
     }
 
     /** Create an empty IOR for the given orb with a null typeid.  The result is mutable.
+     * @param orb ORB to create IOR for
      * @return an empty IOR
      */
     public static IOR makeIOR( ORB orb ) 

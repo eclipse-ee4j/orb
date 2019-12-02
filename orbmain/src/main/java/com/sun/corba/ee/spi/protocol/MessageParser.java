@@ -63,6 +63,8 @@ public interface MessageParser {
      * <code>MessageParser</code> has more data to parse in the given
      * <code>ByteBuffer</code>.
      *
+     * @param byteBuffer Buffer to parse
+     * @param connection connection for message
      * @return <code>Message</code> if one is found in the <code>ByteBuffer</code>.
      *         Otherwise, returns null.
      */
@@ -87,23 +89,27 @@ public interface MessageParser {
     /**
      * Set the starting position where the next message in the
      * <code>ByteBuffer</code> given to <code>parseBytes()</code> begins.
+     * @param position the next starting position
      */
     void setNextMessageStartPosition(int position);
 
     /**
      * Get the starting position where the next message in the
      * <code>ByteBuffer</code> given to <code>parseBytes()</code> begins.
+     * @return start position in the buffer of the next message
      */
     int getNextMessageStartPosition();
 
     /**
      * Return the suggested number of bytes needed to hold the next message
      * to be parsed.
+     * @return bytes needed to hold message
      */
     int getSizeNeeded();
 
     /**
      * Returns the byte buffer (if any) associated with the last message returned.
+     * @return the associated byte buffer
      */
     ByteBuffer getMsgByteBuffer();
 

@@ -25,7 +25,6 @@ import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 * the service context and provides any needed methods for manipulating
 * the service context.  Each subclass must provide the following 
 * members:
-* <p>
 * <ul>
 * <li>a public static final int SERVICE_CONTEXT_ID that gives the OMG
 * (or other) defined id for the service context.  This is needed for the
@@ -35,7 +34,6 @@ import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 * <li>Appropriate definitions of getId() and writeData().  getId() must
 * return SERVICE_CONTEXT_ID.</li>
 * </ul>
-* <p>
 * The subclass can be constructed either directly from the service context
 * representation, or by reading the representation from an input stream.
 * These cases are needed when the service context is created and written to

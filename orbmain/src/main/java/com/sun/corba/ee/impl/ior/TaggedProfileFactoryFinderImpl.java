@@ -17,9 +17,6 @@ import com.sun.corba.ee.spi.orb.ORB ;
 
 import org.omg.CORBA_2_3.portable.InputStream ;
 
-/**
- * @author 
- */
 public class TaggedProfileFactoryFinderImpl extends
     IdentifiableFactoryFinderBase<TaggedProfile>
 {

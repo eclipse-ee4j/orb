@@ -90,6 +90,16 @@ public abstract class ObjectKeyTemplateBase implements ObjectKeyTemplate
         return buff.toArray() ;
     }
 
+    /** 
+     * This constructor reads a complete ObjectKey (template and Id)
+     * from the stream.
+     * @param orb  ORB to use
+     * @param magic Magic number
+     * @param scid ID of the Object
+     * @param serverid server ID
+     * @param orbid orbid
+     * @param oaid oaid
+    */
     public ObjectKeyTemplateBase( ORB orb, int magic, int scid, int serverid, 
         String orbid, ObjectAdapterId oaid ) 
     {
