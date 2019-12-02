@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,12 +41,14 @@ public class Message_1_2 extends Message_1_1
      * The byteBuffer is presumed to have contents of the message already
      * read in.  It must have 12 bytes of space at the beginning for the GIOP header,
      * but the header doesn't have to be copied in.
+     * @param byteBuffer buffer to get request ID of
      */
     public void unmarshalRequestID(ByteBuffer byteBuffer) {
         byteBuffer.order(isLittleEndian() ? ByteOrder.LITTLE_ENDIAN : ByteOrder.BIG_ENDIAN);
         request_id = byteBuffer.getInt(GIOPMessageHeaderLength);
     }
 
+    @Override
     public void write(org.omg.CORBA.portable.OutputStream ostream) {
         if (getEncodingVersion() == ORBConstants.CDR_ENC_VERSION) {
             super.write(ostream);
@@ -58,6 +61,7 @@ public class Message_1_2 extends Message_1_1
         GIOP_version = gv; // restore
     }
 
+    @Override
     public RequestId getCorbaRequestId() {
         return new RequestIdImpl(this.request_id);
     }

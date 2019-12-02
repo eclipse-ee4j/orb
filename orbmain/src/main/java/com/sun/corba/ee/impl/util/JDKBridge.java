@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -42,6 +43,7 @@ public class JDKBridge {
     /**
      * Get local codebase System property (java.rmi.server.codebase).
      * May be null or a space separated array of URLS.
+     * @return The value of the property
      */
     public static String getLocalCodebase () {
         return localCodebase;
@@ -50,6 +52,7 @@ public class JDKBridge {
     /**
      * Return true if the system property "java.rmi.server.useCodebaseOnly"
      * is set, false otherwise.
+     * @return If the property is set
      */
     public static boolean useCodebaseOnly () {
         return useCodebaseOnly;
@@ -181,7 +184,7 @@ public class JDKBridge {
      * @param loader a ClassLoader who may be used to
      * load the class if all other methods fail.
      * @return the <code>Class</code> object representing the loaded class.
-     * @exception throws ClassNotFoundException if class cannot be loaded.
+     * @throws ClassNotFoundException if class cannot be loaded.
      */
     public static Class loadClass (String className,
                                    String remoteCodebase,
@@ -221,7 +224,7 @@ public class JDKBridge {
      * @param remoteCodebase a space-separated array of urls at which
      * the class might be found. May be null.
      * @return the <code>Class</code> object representing the loaded class.
-     * @exception throws ClassNotFoundException if class cannot be loaded.
+     * @throws ClassNotFoundException if class cannot be loaded.
      */
     public static Class loadClass (String className,
                                    String remoteCodebase)
@@ -233,7 +236,7 @@ public class JDKBridge {
      * Returns a class instance for the specified class. 
      * @param className the name of the class
      * @return the <code>Class</code> object representing the loaded class.
-     * @exception throws ClassNotFoundException if class cannot be loaded.
+     * @throws ClassNotFoundException if class cannot be loaded.
      */
     public static Class loadClass (String className)
         throws ClassNotFoundException {
@@ -272,6 +275,7 @@ public class JDKBridge {
     /**
      * Set the default code base. This method is here only
      * for test code.
+     * @param codebase The local codebase
      */
     public static synchronized void setLocalCodebase(String codebase) {
         localCodebase = codebase;    

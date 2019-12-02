@@ -115,13 +115,17 @@ public class BootstrapServerRequestDispatcher
      * Locates the object mentioned in the locate requests, and returns
      * object here iff the object is the initial object key. A SystemException
      * thrown if the object key is not the initial object key.
+     * @param objectKey ignored
+     * @return {@code null}
      */
+    @Override
     public IOR locate( ObjectKey objectKey) {
         return null;
     }
 
     /**
      * Not implemented
+     * @return never
      */
     public int getId() {
         throw wrapper.genericNoImpl() ;

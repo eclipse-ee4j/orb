@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,6 +11,7 @@
 
 package com.sun.corba.ee.impl.presentation.rmi ;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Field;
 import java.util.Set;
@@ -43,6 +45,7 @@ public final class IDLTypesUtil {
      * Validate a class to ensure it conforms to the rules for a
      * Java RMI/IIOP interface.
      *
+     * @param c Class to validate
      * @throws IDLTypeException if not a valid RMI/IIOP interface.
      */
     public void validateRemoteInterface(Class c) throws IDLTypeException
@@ -77,6 +80,11 @@ public final class IDLTypesUtil {
         return;
     }
 
+    /**
+     * Checks if a class if a valid Java RMI/IIOP interface
+     * @param c Class to check
+     * @return If it is a remote interface
+     */
     public boolean isRemoteInterface(Class c)     
     {
         boolean remoteInterface = true;
@@ -91,6 +99,10 @@ public final class IDLTypesUtil {
 
     /**
      * Section 1.2.2 Primitive Types
+     * Checks if a class is a primitive type
+     * @param c Class to check 
+     * @return If the class is a primitive type.
+     * @see Class#isPrimitive()
      */ 
     public boolean isPrimitive(Class c) 
     {
@@ -103,6 +115,9 @@ public final class IDLTypesUtil {
 
     /**
      * Section 1.2.4
+     * Checks if a class is a {@link Serializable} value
+     * @param c class to check
+     * @return if the class is Serializable
      */
     public boolean isValue(Class c) 
     {
@@ -118,6 +133,11 @@ public final class IDLTypesUtil {
 
     /**
      * Section 1.2.5
+     * Checks if a class is an array of a primitive, Remote Interface,
+     * {@link org.omg.CORBA.portable.IDLEntity}, {@link Exception},
+     * {@link Serializable} value or CORBA {@link org.omg.CORBA.Object}.
+     * @param c Class to check
+     * @return If the class is an array
      */
     public boolean isArray(Class c) 
     {
@@ -140,6 +160,9 @@ public final class IDLTypesUtil {
 
     /**
      * Section 1.2.6
+     * Checks if a class is an {@link Exception}
+     * @param c Class to check if it is an exception.
+     * @return True if a subclass of {@link Exception}
      */
     public boolean isException(Class c) 
     {
@@ -174,6 +197,9 @@ public final class IDLTypesUtil {
 
     /**
      * Section 1.2.7
+     * If the class is a CORBA {@link org.omg.CORBA.Object}
+     * @param c class to check if it is a CORBA Object
+     * @return if it is an object.
      */ 
     public boolean isObjectReference(Class c) 
     {
@@ -187,6 +213,9 @@ public final class IDLTypesUtil {
 
     /**
      * Section 1.2.8
+     * Checks if a class is assignable to {@link org.omg.CORBA.portable.IDLEntity}
+     * @param c Class to check if it is an entity
+     * @return if the class is an entity.
      */ 
     public boolean isEntity(Class c)
     {
@@ -203,41 +232,44 @@ public final class IDLTypesUtil {
     /**
      * Return true if given method is legal property accessor as defined in 
      * Section 1.3.4.3 of Java2IDL spec.
+     * @param method Method to check
+     * @param clazz Class containing method
+     * @return If method if a legal accessor.
      */
-    public boolean isPropertyAccessorMethod(Method m, Class c) {
+    public boolean isPropertyAccessorMethod(Method method, Class clazz) {
         
-        String methodName = m.getName();
-        Class returnType  = m.getReturnType();
-        Class[] parameters = m.getParameterTypes();
-        Class[] exceptionTypes = m.getExceptionTypes();
+        String methodName = method.getName();
+        Class returnType  = method.getReturnType();
+        Class[] parameters = method.getParameterTypes();
+        Class[] exceptionTypes = method.getExceptionTypes();
         String propertyType = null;
 
         if( methodName.startsWith(GET_PROPERTY_PREFIX) ) {
 
             if((parameters.length == 0) && (returnType != Void.TYPE) &&
-                !readHasCorrespondingIsProperty(m, c)) {
+                !readHasCorrespondingIsProperty(method, clazz)) {
                 propertyType = GET_PROPERTY_PREFIX;
             }
            
         } else if( methodName.startsWith(SET_PROPERTY_PREFIX) ) {
             
             if((returnType == Void.TYPE) && (parameters.length == 1)) {
-                if (hasCorrespondingReadProperty(m, c, GET_PROPERTY_PREFIX) ||
-                    hasCorrespondingReadProperty(m, c, IS_PROPERTY_PREFIX)) {
+                if (hasCorrespondingReadProperty(method, clazz, GET_PROPERTY_PREFIX) ||
+                    hasCorrespondingReadProperty(method, clazz, IS_PROPERTY_PREFIX)) {
                     propertyType = SET_PROPERTY_PREFIX;
                 }
             }
 
         } else if( methodName.startsWith(IS_PROPERTY_PREFIX) ) {
             if((parameters.length == 0) && (returnType == Boolean.TYPE) &&
-                !isHasCorrespondingReadProperty(m, c)) {
+                !isHasCorrespondingReadProperty(method, clazz)) {
                 propertyType = IS_PROPERTY_PREFIX;             
             }
         }
 
         // Some final checks that apply to all properties.  
         if( propertyType != null ) {
-            if(!validPropertyExceptions(m) || 
+            if(!validPropertyExceptions(method) || 
                (methodName.length() <= propertyType.length())) {
                 propertyType = null;
             }                                       
@@ -353,6 +385,9 @@ public final class IDLTypesUtil {
     /**
      * Return IDL Type name for primitive types as defined in 
      * Section 1.3.3 of Java2IDL spec or null if not a primitive type.
+     * @param c the class to get the mapping for
+     * @return the IDLType of the primitive, or {@code null} if the
+     * class is not a primitive.
      */ 
     public IDLType getPrimitiveIDLTypeMapping(Class c) {
                
@@ -389,6 +424,9 @@ public final class IDLTypesUtil {
      * Return IDL Type name for special case type mappings as defined in
      * Table 1-1 of Java2IDL spec or null if given class is not a special
      * type.
+     * @param c class to get special case mapping for
+     * @return The IDLType for the special case, or {@code null} if it is
+     * not a special case.
      */
     public IDLType getSpecialCaseIDLTypeMapping(Class c) {
 

@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -69,7 +70,7 @@ public final class Utility {
      * @param convertToStub true if implementation types should be
      * converted to Stubs rather than just org.omg.CORBA.Object.
      * @return the connected object.
-     * @exception java.rmi.NoSuchObjectException if obj is an implementation
+     * @exception org.omg.CORBA.INV_OBJREF if obj is an implementation
      * which has not been exported.
      */
     public static Object autoConnect(Object obj, ORB orb, boolean convertToStub) 
@@ -235,7 +236,7 @@ public final class Utility {
         }
     }
     
-    /*
+    /**
      * Load a class and check that it is assignable to a given type.
      * @param className the class name.
      * @param remoteCodebase the codebase to use. May be null.
@@ -302,13 +303,15 @@ public final class Utility {
         return loadedClass;
     }
 
-    /*
+    /**
      * Load a class and check that it is compatible with a given type.
      * @param className the class name.
      * @param remoteCodebase the codebase to use. May be null.
-     * @param loadingContext the loading context. May be null.
-     * @param relatedType the related type. May be null.
+     * @param loader the loading context. May be null.
+     * @param relatedType Type to check compatibility with
+     * @param relatedTypeClassLoader the related type. May be null.
      * @return the loaded class.
+     * @throws java.lang.ClassNotFoundException If the className cannot be found
      */
     public static Class loadClassForClass (String className,
                                            String remoteCodebase,
@@ -359,6 +362,10 @@ public final class Utility {
      * Get the helper for an IDLValue
      *
      * Throws MARSHAL exception if no helper found.
+     * @param clazz Class to get helper for
+     * @param codebase The codebase to use. May be null.
+     * @param repId The repository ID
+     * @return The Helper
      */
     public static BoxedValueHelper getHelper(Class clazz, String codebase, 
         String repId)
@@ -388,14 +395,8 @@ public final class Utility {
                 clazz, clazzLoader);
             return (BoxedValueHelper)helperClass.newInstance();
 
-        } catch (ClassNotFoundException cnfe) {
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | ClassCastException cnfe) {
             throw wrapper.unableLocateValueHelper( cnfe );
-        } catch (IllegalAccessException iae) {
-            throw wrapper.unableLocateValueHelper( iae );
-        } catch (InstantiationException ie) {
-            throw wrapper.unableLocateValueHelper( ie );
-        } catch (ClassCastException cce) {
-            throw wrapper.unableLocateValueHelper( cce );
         }    
     }
 
@@ -403,9 +404,13 @@ public final class Utility {
      * Get the factory for an IDLValue
      *
      * Throws MARSHAL exception if no factory found.
+     * @param clazz The Class
+     * @param codebase The codebase to use. May be null.
+     * @param orb the ORB
+     * @param repId Repository ID
+     * @return The Factory
      */
-    public static ValueFactory getFactory(Class clazz, String codebase, 
-                               ORB orb, String repId)
+    public static ValueFactory getFactory(Class clazz, String codebase, ORB orb, String repId)
     {
         ValueFactory factory = null;
         if ((orb != null) && (repId != null)) {
@@ -449,27 +454,20 @@ public final class Utility {
                 clazzLoader, clazz, clazzLoader);
             return (ValueFactory)factoryClass.newInstance();
 
-        } catch (ClassNotFoundException cnfe) {
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException | ClassCastException cnfe) {
             throw omgWrapper.unableLocateValueFactory( cnfe);
-        } catch (IllegalAccessException iae) {
-            throw omgWrapper.unableLocateValueFactory( iae);
-        } catch (InstantiationException ie) {
-            throw omgWrapper.unableLocateValueFactory( ie);
-        } catch (ClassCastException cce) {
-            throw omgWrapper.unableLocateValueFactory( cce);
         }    
     }
 
-    /*
+    /**
      * Load an RMI-IIOP Stub given a Tie.
      * @param tie the tie.
-     * @param stubClass the stub class. May be null.
+     * @param stubFactory the Stub factory.
      * @param remoteCodebase the codebase to use. May be null.
      * @param onlyMostDerived if true, will fail if cannot load a stub for the
      * first repID in the tie. If false, will walk all repIDs.
      * @return the stub or null if not found.
      */
-
     public static Remote loadStub(Tie tie,
                                   PresentationManager.StubFactory stubFactory,
                                   String remoteCodebase,
@@ -547,7 +545,7 @@ public final class Utility {
         }
     }
     
-    /*
+    /**
      * Load an RMI-IIOP Stub given a Tie, but do not look in the cache.
      * This method must be called with the lock held for tieToStubCache.
      * @param tie the tie.
@@ -846,6 +844,8 @@ public final class Utility {
 
     /**
      * Create an RMI stub name.
+     * @param className Class to create stub of
+     * @return RMI stub name
      */
     public static String stubName (String className) 
     {
@@ -894,6 +894,8 @@ public final class Utility {
 
     /**
      * Create an RMI tie name.
+     * @param className Class used for RMI
+     * @return RMI Tie name
      */
     public static String tieName (String className) 
     {
@@ -923,6 +925,7 @@ public final class Utility {
 
     /**
      * Throws the CORBA equivalent of a java.io.NotSerializableException
+     * @param className Class that is non-serializable
      */
     public static void throwNotSerializableForCorba(String className) {
         throw omgWrapper.notSerializable( className ) ;
@@ -930,6 +933,8 @@ public final class Utility {
 
     /**
      * Create an IDL stub name.
+     * @param className Class to create stub name of
+     * @return Created stub name
      */
     public static String idlStubName(String className) 
     {
@@ -959,6 +964,8 @@ public final class Utility {
      * Read an object reference from the input stream and narrow
      * it to the desired type.
      * @param in the stream to read from.
+     * @param narrowTo Desired class
+     * @return Narrowed object
      * @throws ClassCastException if narrowFrom cannot be cast to narrowTo.
      */
     public static Object readObjectAndNarrow(InputStream in,
@@ -977,6 +984,8 @@ public final class Utility {
      * Read an abstract interface type from the input stream and narrow
      * it to the desired type.
      * @param in the stream to read from.
+     * @param narrowTo Desired class
+     * @return Narrowed object
      * @throws ClassCastException if narrowFrom cannot be cast to narrowTo.
      */
     public static Object readAbstractAndNarrow(

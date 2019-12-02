@@ -82,6 +82,7 @@ public class ObjectStreamField implements Comparable
 
     /**
      * Get the name of this field.
+     * @return The field name
      */
     public String getName() {
         return name;
@@ -93,6 +94,7 @@ public class ObjectStreamField implements Comparable
 
     /**
      * Get the type of the field.
+     * @return The type of the field
      */
     public Class getType() {
         if (clazz != null)
@@ -143,6 +145,7 @@ public class ObjectStreamField implements Comparable
 
     /**
      * test if this field is a primitive or not.
+     * @return if this field is primitive.
      */
     public boolean isPrimitive() {
         return (type != '[' && type != 'L');
@@ -154,6 +157,7 @@ public class ObjectStreamField implements Comparable
      * types that are primitives are "smaller" than objects.
      * if equal, the names are compared.
      */
+    @Override
     public int compareTo(Object o) {
         ObjectStreamField f2 = (ObjectStreamField)o;
         boolean thisprim = (this.typeString == null);
@@ -169,6 +173,8 @@ public class ObjectStreamField implements Comparable
      * Compare the types of two class descriptors.
      * The match if they have the same primitive types.
      * or if they are both objects and the object types match.
+     * @param other type to compare with
+     * @return if the two types are equivalent
      */
     public boolean typeEquals(ObjectStreamField other) {
         if (other == null || type != other.type)

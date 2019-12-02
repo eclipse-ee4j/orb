@@ -318,10 +318,13 @@ public final class ValueHandlerImpl implements javax.rmi.CORBA.ValueHandlerMulti
      *  Returns a boolean of whether or not RepositoryId indicates
      *  FullValueDescriptor.
      *  used for backward compatability
+     * @param clazz The type to get description for
+     * @param repositoryID The repository ID
+     * @return If full description should be retrieved
+     * @throws IOException If suids do not match or if the repositoryID
+     * is not an RMIValueType.
      */
-
-     public boolean useFullValueDescription(Class clazz, String repositoryID)
-        throws IOException
+     public boolean useFullValueDescription(Class clazz, String repositoryID) throws IOException
      {
         return RepositoryId.useFullValueDescription(clazz, repositoryID);
      }

@@ -20,11 +20,13 @@ import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopierFactory ;
 public interface CopierManager
 {
     /** Set the Id of the copier to use if no other copier has been set.
+     * @param id ID of the copier
      */
     void setDefaultId( int id ) ;
 
     /** Return the copier for the default copier id.  Throws a BAD_PARAM exception
      * if no default copier id has been set.
+     * @return ID of the copier
      */
     int getDefaultId() ;
 
@@ -34,6 +36,8 @@ public interface CopierManager
 
     /** Register an ObjectCopierFactory under a particular id.  This can be retrieved
      * later by getObjectCopierFactory.
+     * @param factory Factory to register
+     * @param id ID of the factory
      */
     void registerObjectCopierFactory( ObjectCopierFactory factory, int id ) ;
 }

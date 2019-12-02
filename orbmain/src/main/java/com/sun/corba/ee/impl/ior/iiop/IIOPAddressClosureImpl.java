@@ -12,9 +12,6 @@ package com.sun.corba.ee.impl.ior.iiop;
 
 import org.glassfish.pfl.basic.func.NullaryFunction;
 
-/**
- * @author 
- */
 public final class IIOPAddressClosureImpl extends IIOPAddressBase
 {
     private NullaryFunction<String> host;

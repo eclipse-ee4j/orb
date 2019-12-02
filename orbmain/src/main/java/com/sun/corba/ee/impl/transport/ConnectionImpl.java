@@ -56,7 +56,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Harold Carr
- *         <p/>
+ *         
  *         Note: this is the version WITHOUT the purgeCalls changes.
  *         The changes are in the 1.106 version, which is saved as
  *         SocketOrChannelConnectionImpl.1.106.sjava.

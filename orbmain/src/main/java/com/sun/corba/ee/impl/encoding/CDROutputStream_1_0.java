@@ -878,7 +878,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
     /**
      * Returns the current position relative to the start of the message.
      *
-     * @return
+     * @return current position
      */
     public int get_offset() {
         return byteBuffer.position();

@@ -176,14 +176,14 @@ public interface ObjectAdapter
     ////////////////////////////////////////////////////////////////////////////
 
     /** Return the ID of the AdapterManager for this object adapter.
-     * @return 
+     * @return the identifier
     */
     @ManagedAttribute
     @Description( "The identifier for the AdapterManager that manages this ObjectAdapter")
     int getManagerId() ;
 
     /** Return the current state of this object adapter (see 
-    * {@link org.omg.PortableInterceptors} for states).
+    * {@link org.omg.PortableInterceptor} for states).
     * @return the current state of this object adapter 
     * @see org.omg.PortableInterceptor
     */
@@ -246,7 +246,7 @@ public interface ObjectAdapter
 
     /** Create an instance of InvocationInfo that is appropriate for this 
     * Object adapter.
-    * @param objectId 
+    * @param objectId ID of object to create
     * @return created instance
     */
     OAInvocationInfo makeInvocationInfo( byte[] objectId ) ;

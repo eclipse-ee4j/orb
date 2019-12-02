@@ -102,6 +102,7 @@ public class IDLType {
      * True if this type doesn't have a containing module.  This
      * would be true of a java type defined in the default package
      * or a primitive.
+     * @return if there is a contained module.
      */
     public boolean hasModule() {
         return (modules_.length > 0) ;

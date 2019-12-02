@@ -165,9 +165,10 @@ public class CodegenStubBase extends Stub
      * constructing the Stub first, using the stub to construct the
      * InvocationHandler, and then completing the initialization of
      * the Stub by calling initialize.
+     * @param classData ClassData for codegen
+     * @param handler InvocationHandler to use
      */
-    public void initialize( PresentationManager.ClassData classData,
-        InvocationHandler handler )
+    public void initialize( PresentationManager.ClassData classData, InvocationHandler handler )
     {
         this.classData = classData ;
         this.handler = handler ;

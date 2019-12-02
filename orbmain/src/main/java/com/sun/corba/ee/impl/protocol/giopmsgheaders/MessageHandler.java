@@ -26,6 +26,8 @@ public interface MessageHandler
     /**
      * Used for message types for which we don't have concrete classes, yet,
      * such as CloseConnection and MessageError, as well as unknown types.
+     * @param header Message to handle
+     * @throws IOException If an IO error occurs
      */
     void handleInput(Message header) throws IOException;
 

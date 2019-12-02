@@ -29,7 +29,9 @@ public class RequestIdImpl implements RequestId {
     final static public 
             RequestId UNKNOWN_CORBA_REQUEST_ID = new RequestIdImpl();
 
-    /** Creetes a new instance of CorbaRequestIdImpl */
+    /** Creates a new instance of CorbaRequestIdImpl
+     * @param requestId value of the request ID
+     */
     public RequestIdImpl(int requestId) {
         this.value = requestId;
         this.defined = true;

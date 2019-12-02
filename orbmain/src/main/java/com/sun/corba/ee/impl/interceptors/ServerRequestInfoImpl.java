@@ -727,6 +727,10 @@ public final class ServerRequestInfoImpl
 
     /** 
      * Stores the various sources of information used for this info object.
+     * @param request Request holder, included the Connection
+     * @param oa Object Adapter
+     * @param objectId id of object
+     * @param oktemp template for object
      */
     protected synchronized void setInfo( MessageMediator request, ObjectAdapter oa,
         byte[] objectId, ObjectKeyTemplate oktemp ) 
@@ -741,6 +745,7 @@ public final class ServerRequestInfoImpl
 
     /**
      * Stores the various sources of information used for this info object.
+     * @param arguments Arguments for the operation
      */
     protected void setDSIArguments( NVList arguments ) {
         this.dsiArguments = arguments;
@@ -748,6 +753,7 @@ public final class ServerRequestInfoImpl
 
     /**
      * Stores the various sources of information used for this info object.
+     * @param exception {@link Any} holding exception that occurred during operation
      */
     protected void setDSIException( Any exception ) {
         this.dsiException = exception;
@@ -758,15 +764,13 @@ public final class ServerRequestInfoImpl
 
     /**
      * Stores the various sources of information used for this info object.
+     * @param result {@link Any} holding result of operation
      */
     protected void setDSIResult( Any result ) {
         this.dsiResult = result;
     }
 
-    /**
-     * Sets the exception to be returned by received_exception and
-     * received_exception_id.
-     */
+    @Override
     protected void setException( Exception exception ) {
         super.setException( exception );
 
@@ -779,10 +783,10 @@ public final class ServerRequestInfoImpl
     
     /**
      * Stores the various sources of information used for this info object.
+     * @param servant Servant used
+     * @param targetMostDerivedInterface derived interface
      */
-    protected void setInfo( java.lang.Object servant, 
-                            String targetMostDerivedInterface ) 
-    {
+    protected void setInfo( java.lang.Object servant, String targetMostDerivedInterface ) {
         this.servant = servant;
         this.targetMostDerivedInterface = targetMostDerivedInterface;
         this.isDynamic = 

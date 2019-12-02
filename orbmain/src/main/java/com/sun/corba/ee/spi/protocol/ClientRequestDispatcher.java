@@ -46,7 +46,7 @@ public interface ClientRequestDispatcher
      * method.
      *
      * @param self -
-     * @param outputObject
+     * @param outputObject object to mark as complete
      *
      * @return CDRInputObject if the message is synchronous.
      *
@@ -70,8 +70,9 @@ public interface ClientRequestDispatcher
      * This method may release resources.  In some cases it may cause
      * control or error messages to be sent.
      *
-     * @param broker -
-     * @param inputObject -
+     * @param broker ORB used
+     * @param self unused
+     * @param inputObject unused
      */
     public void endRequest(ORB broker,
                            java.lang.Object self, 

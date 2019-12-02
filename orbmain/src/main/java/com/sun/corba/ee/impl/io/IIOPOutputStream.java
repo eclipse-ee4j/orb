@@ -133,6 +133,8 @@ public class IIOPOutputStream
     /**
      * Override the actions of the final method "writeObject()"
      * in ObjectOutputStream.
+     * @param obj Object to write
+     * @param formatVersion Format version
      * @since     JDK1.1.6
      */
     @ValueHandlerWrite
@@ -185,6 +187,7 @@ public class IIOPOutputStream
      * @since     JDK1.1.6
      */
     @ValueHandlerWrite
+    @Override
     public final void defaultWriteObjectDelegate()
     /* throws IOException */
     {
@@ -207,6 +210,8 @@ public class IIOPOutputStream
     /**
      * Override the actions of the final method "enableReplaceObject()"
      * in ObjectOutputStream.
+     * @param enable ignored
+     * @return {@code false}
      * @since     JDK1.1.6
      */
     public final boolean enableReplaceObjectDelegate(boolean enable)
@@ -450,6 +455,8 @@ public class IIOPOutputStream
      * with larger than 8-bit chars).  The old behavior was preserved
      * in orbutil.IIOPInputStream_1_3 in order to interoperate with
      * our legacy ORBs.
+     * @param stream Stream to write to
+     * @param data Data to write
      */
     protected void internalWriteUTF(org.omg.CORBA.portable.OutputStream stream,
                                     String data) 

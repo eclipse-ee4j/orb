@@ -79,6 +79,9 @@ public class MessageTraceManagerImpl implements MessageTraceManager
     /** Return the contents of the byte buffer.  The ByteBuffer
      * is not modified.  The result is written starting at
      * index offset in the byte[].
+     * @param bb Buffer to read from
+     * @param offset Offset to start from, must be non-negative
+     * @return Contents of the buffer
      */
     public byte[] getBytes( ByteBuffer bb, int offset ) 
     {

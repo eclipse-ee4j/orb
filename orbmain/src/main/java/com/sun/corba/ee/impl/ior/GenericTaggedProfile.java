@@ -20,14 +20,9 @@ import com.sun.corba.ee.spi.ior.ObjectKey ;
 
 import com.sun.corba.ee.spi.orb.ORB ;
 
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion ;
-
 import com.sun.corba.ee.impl.encoding.EncapsOutputStream ;
 import com.sun.corba.ee.impl.encoding.OutputStreamFactory;
 
-/**
- * @author 
- */
 public class GenericTaggedProfile extends GenericIdentifiable implements TaggedProfile 
 {
     private ORB orb ;

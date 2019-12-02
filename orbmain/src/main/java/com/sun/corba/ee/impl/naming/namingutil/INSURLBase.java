@@ -12,8 +12,6 @@ package com.sun.corba.ee.impl.naming.namingutil;
 
 import com.sun.corba.ee.spi.logging.OMGSystemException ;
 
-import com.sun.corba.ee.spi.orb.ORB ;
-
 /** The corbaloc: URL definitions from the -ORBInitDef and -ORBDefaultInitDef's
  *  will be stored in this object. This object is capable of storing multiple
  *  Host profiles as defined in the CorbaLoc grammer.
@@ -36,6 +34,7 @@ public abstract class INSURLBase implements INSURL {
     /**
      *  A Utility method to throw BAD_PARAM exception to signal malformed
      *  INS URL.
+     * @param name Invalid name of the URL
      */
     protected void badAddress( String name )
     {

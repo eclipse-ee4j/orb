@@ -185,9 +185,9 @@ public class IIOPInputStream
 
     /**
      * Dummy constructor; passes upper stream a dummy stream;
+     * @throws IOException If an IO error occurs creating this stream.
      **/
-    public IIOPInputStream()
-        throws java.io.IOException {
+    public IIOPInputStream() throws java.io.IOException {
         super();
         resetStream();
     }
@@ -238,7 +238,6 @@ public class IIOPInputStream
     /**
      * Override the actions of the final method "readObject()"
      * in ObjectInputStream.
-     * @since     JDK1.1.6
      *
      * Read an object from the ObjectInputStream.
      * The class of the object, the signature of the class, and the values
@@ -259,6 +258,7 @@ public class IIOPInputStream
      * that should not be deserialized.  All exceptions are fatal to the
      * InputStream and leave it in an indeterminate state; it is up to the caller
      * to ignore or recover the stream state.
+     * @return the object read from stream
      * @exception InvalidClassException Something is wrong with a class used by
      *     serialization.
      * @exception StreamCorruptedException Control information in the
@@ -266,6 +266,7 @@ public class IIOPInputStream
      * @exception OptionalDataException Primitive data was found in the
      * stream instead of objects.
      * @exception IOException Any of the usual Input/Output related exceptions.
+     * @exception ClassNotFoundException Deserialised class could not be found
      * @since     JDK1.1
      */
     @ValueHandlerRead
@@ -445,6 +446,7 @@ public class IIOPInputStream
      * @since     JDK1.1
      */
     @ValueHandlerRead
+    @Override
     public final synchronized void defaultReadObjectDelegate() {
         try {
             if (currentObject == null || currentClassDesc == null) {
@@ -483,17 +485,14 @@ public class IIOPInputStream
             }
         } catch(NotActiveException nae) {
             bridge.throwException( nae ) ;
-        } catch(IOException ioe) {
+        } catch(IOException | ClassNotFoundException ioe) {
             bridge.throwException( ioe ) ;
-        } catch(ClassNotFoundException cnfe) {
-            bridge.throwException( cnfe ) ;
         }
     }
 
     /**
      * Override the actions of the final method "enableResolveObject()"
-     * in ObjectInputStream.
-     * @since     JDK1.1.6
+     * in ObjectInputStream. 
      *
      * Enable the stream to allow objects read from the stream to be replaced.
      * If the stream is a trusted class it is allowed to enable replacment.
@@ -502,8 +501,10 @@ public class IIOPInputStream
      * When enabled the resolveObject method is called for every object
      * being deserialized.
      *
+     * @param enable ignored 
+     * @return false
      * @exception SecurityException The classloader of this stream object is non-null.
-     * @since     JDK1.1
+     * @since     JDK1.1.6
      */
     public final boolean enableResolveObjectDelegate(boolean enable)
     /* throws SecurityException */
@@ -779,6 +780,8 @@ public class IIOPInputStream
      * with larger than 8-bit chars).  The old behavior was preserved
      * in orbutil.IIOPInputStream_1_3 in order to interoperate with
      * our legacy ORBs.
+     * @param stream Stream to read from
+     * @return String value read from the stream
      */
     @ValueHandlerRead
     protected String internalReadUTF(org.omg.CORBA.portable.InputStream stream)

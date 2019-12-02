@@ -143,6 +143,7 @@ public class BufferManagerWriteStream extends BufferManagerWrite
      * Get CorbaContactInfoListIterator
      * 
      * NOTE: Requires this.orb
+     * @return  the ContactInfoListIterator
      */
     protected ContactInfoListIterator getContactInfoListIterator() {
         return (ContactInfoListIterator) this.orb.getInvocationInfo().getContactInfoListIterator();

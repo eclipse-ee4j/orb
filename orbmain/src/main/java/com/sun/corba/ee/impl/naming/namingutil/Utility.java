@@ -19,7 +19,7 @@ import com.sun.corba.ee.spi.logging.NamingSystemException;
 /**
  *  Utility methods for Naming.
  *
- *  @Author Hemanth
+ *  @author Hemanth
  */
 class Utility {
     private static NamingSystemException wrapper =

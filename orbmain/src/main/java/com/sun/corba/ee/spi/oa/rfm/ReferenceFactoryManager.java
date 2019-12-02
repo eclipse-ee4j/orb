@@ -102,7 +102,7 @@ public interface ReferenceFactoryManager extends org.omg.CORBA.Object,
 
     /** Get the ReferenceFactory name from a String[] adapterName, if
      * adapterName is the name of a ReferenceFactory.  If not, return null.
-     * @param name of factory
+     * @param adapterName of factory
      * @return found ReferenceFactory, null otherwise
      */
     public ReferenceFactory find( String[] adapterName ) ;

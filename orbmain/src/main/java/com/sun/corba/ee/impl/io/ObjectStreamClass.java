@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-2012 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -157,6 +158,7 @@ public class ObjectStreamClass implements java.io.Serializable {
 
     /**
      * The name of the class described by this descriptor.
+     * @return name of class
      */
     public final String getName() {
         return name;
@@ -167,6 +169,8 @@ public class ObjectStreamClass implements java.io.Serializable {
      * The serialVersionUID defines a set of classes all with the same name
      * that have evolved from a common root class and agree to be serialized
      * and deserialized using a common format.
+     * @param clazz class to get UID of
+     * @return UID for the class
      */
     public static final long getSerialVersionUID( java.lang.Class<?> clazz) {
         ObjectStreamClass theosc = ObjectStreamClass.lookup( clazz );
@@ -181,6 +185,7 @@ public class ObjectStreamClass implements java.io.Serializable {
      * The serialVersionUID defines a set of classes all with the same name
      * that have evolved from a common root class and agree to be serialized
      * and deserialized using a common format.
+     * @return SerialVersionUID for this class.
      */
     public final long getSerialVersionUID() {
         return suid;
@@ -191,6 +196,7 @@ public class ObjectStreamClass implements java.io.Serializable {
      * The serialVersionUID defines a set of classes all with the same name
      * that have evolved from a common root class and agree to be serialized
      * and deserialized using a common format.
+     * @return UID for this class
      */
     public final String getSerialVersionUIDStr() {
         if (suidStr == null)
@@ -200,6 +206,8 @@ public class ObjectStreamClass implements java.io.Serializable {
 
     /**
      * Return the actual (computed) serialVersionUID for this class.
+     * @param clazz Class to get UID of
+     * @return The class UID
      */
     public static final long getActualSerialVersionUID( java.lang.Class<?> clazz )
     {
@@ -213,6 +221,7 @@ public class ObjectStreamClass implements java.io.Serializable {
 
     /**
      * Return the actual (computed) serialVersionUID for this class.
+     * @return UID for this class
      */
     public final long getActualSerialVersionUID() {
         return actualSuid;
@@ -220,6 +229,7 @@ public class ObjectStreamClass implements java.io.Serializable {
 
     /**
      * Return the actual (computed) serialVersionUID for this class.
+     * @return UID for this class
      */
     public final String getActualSerialVersionUIDStr() {
         if (actualSuidStr == null)
@@ -230,6 +240,7 @@ public class ObjectStreamClass implements java.io.Serializable {
     /**
      * Return the class in the local VM that this version is mapped to.
      * Null is returned if there is no corresponding local class.
+     * @return Class this is mapped to
      */
     public final Class<?> forClass() {
         return ofClass;
@@ -278,6 +289,7 @@ public class ObjectStreamClass implements java.io.Serializable {
 
     /**
      * Get the field of this class by name.
+     * @param name name of the field to get
      * @return The ObjectStreamField object of the named field or null if there
      * is no such named field.
      */
@@ -602,6 +614,7 @@ public class ObjectStreamClass implements java.io.Serializable {
 
     /**
      * This will return null if there is no writeObject method.
+     * @return A Serializable's optional custom data fake repository ID.
      */
     public final String getRMIIIOPOptionalDataRepId() {
         return rmiiiopOptionalDataRepId;

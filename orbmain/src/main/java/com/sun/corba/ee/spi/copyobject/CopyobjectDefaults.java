@@ -29,6 +29,8 @@ public abstract class CopyobjectDefaults
      * than the others: each ObjectCopier produced by the factory only preserves aliasing
      * within a single call to copy.  The others copiers all preserve aliasing across
      * all calls to copy (on the same ObjectCopier instance).
+     * @param orb ORB to use for remote instances
+     * @return CopierFactory
      */
     public static ObjectCopierFactory makeORBStreamObjectCopierFactory( final ORB orb ) 
     {
@@ -62,6 +64,7 @@ public abstract class CopyobjectDefaults
 
     /** Obtain the reference object "copier".  This does no copies: it just
      * returns whatever is passed to it.
+     * @return the reference copier
      */
     public static ObjectCopierFactory getReferenceObjectCopierFactory()
     {
@@ -73,6 +76,9 @@ public abstract class CopyobjectDefaults
      * instances of a fallback copier that first tries an ObjectCopier
      * created from f1, then tries one created from f2, if the first
      * throws a ReflectiveCopyException.
+     * @param f1 Factory to try first
+     * @param f2 Factory to try second
+     * @return CopierFactory
      */
     public static ObjectCopierFactory makeFallbackObjectCopierFactory( 
         final ObjectCopierFactory f1, final ObjectCopierFactory f2 )
@@ -89,6 +95,8 @@ public abstract class CopyobjectDefaults
 
     /** Obtain the old version of the reflective copier factory.  This is provided only
      * for benchmarking purposes.
+     * @param orb ORB to use for remote instances
+     * @return CopierFactory
      */
     public static ObjectCopierFactory makeOldReflectObjectCopierFactory( final ORB orb ) 
     {
@@ -104,6 +112,8 @@ public abstract class CopyobjectDefaults
      * copier, and about 10% faster than the old reflective copier.  It should
      * normally be used with a fallback copier, as there are some classes that simply
      * cannot be copied reflectively.
+     * @param orb ORB to use for remote instances
+     * @return CopierFactory
      */
     public static ObjectCopierFactory makeReflectObjectCopierFactory( final ORB orb ) 
     {
