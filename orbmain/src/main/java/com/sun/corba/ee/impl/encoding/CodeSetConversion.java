@@ -42,8 +42,8 @@ import com.sun.corba.ee.spi.logging.OMGSystemException;
  *           use NIO ByteBuffer and NIO CharBuffer, the interaction
  *           and interface between this class and the CDR streams
  *           should be looked at more closely for optimizations to
- *           avoid unnecessary copying of data between char[] &amp;
- *           CharBuffer and byte[] &amp; ByteBuffer, especially
+ *           avoid unnecessary copying of data between char[] &
+ *           CharBuffer and byte[] & ByteBuffer, especially
  *           DirectByteBuffers.
  *
  */

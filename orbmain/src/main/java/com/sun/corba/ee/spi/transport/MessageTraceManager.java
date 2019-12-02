@@ -25,10 +25,14 @@ public interface MessageTraceManager {
 
     /** Returns true if messages are to be captured on this thread, otherwise
      * false.
+     * 
+     * @return if messages are captured
      */
     boolean isEnabled() ;
 
     /** Called with flag=true to enable capture of messages.
+     * 
+     * @param flag enable capture
      */
     void enable( boolean flag ) ;
 
@@ -37,11 +41,15 @@ public interface MessageTraceManager {
      * If there is a Location Forward in this invocation, the 
      * the data returned will include all requests sent starting
      * with the first request.
+     * 
+     * @return array of messages
      */
     byte[][] getDataSent() ;
 
     /** Return an array of messages (represented as byte[]) for the 
-     * message(s) received since the last call to clear().  
+     * message(s) received since the last call to clear().
+     * 
+     * @return messages received
      */
     byte[][] getDataReceived() ;
 

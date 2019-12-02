@@ -181,6 +181,8 @@ public interface ORBData {
      *  the ORBServerId parameter, System properties, or other means.
      *  The user is also required to ensure that no two persistent servers
      *  on the same host have the same server-id.
+     * 
+     * @return persistent-server-id of server
      */
     @ManagedAttribute
     @Description( "DESC" ) 
@@ -195,8 +197,9 @@ public interface ORBData {
     public Class getBadServerIdHandler();
 
     /**
-    * Get the prefered code sets for connections. Should the client send the 
+    * Get the preferred code sets for connections. Should the client send the 
     * code set service context on every request?
+    * @return code sets for connections
     */
     @ManagedAttribute
     @Description( "DESC" ) 
@@ -211,6 +214,7 @@ public interface ORBData {
      * an ORBConfigurator.
      * XXX Should this be an operation, or a set only attribute?
      * Should it even be exposed in the MBean?
+     * @param init used to initialize resolve_initial_references
      */
     // @ManagedAttribute
     // @Description( "DESC" ) 

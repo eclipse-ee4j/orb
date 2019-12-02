@@ -124,7 +124,7 @@ public interface Connection
     /**
      * The "state" of the <code>Connection</code>.
      *
-     * param state
+     * @param state state to set
      */
     public void setState(String state);
 
@@ -149,7 +149,7 @@ public interface Connection
      * {@link com.sun.corba.ee.impl.encoding.CDROutputObject CDROutputObject}
      * on the <code>Connection</code>.
      *
-     * @param outputObject
+     * @param outputObject encoded data to send
      */
     public void sendWithoutLock(CDROutputObject outputObject);
 
@@ -159,7 +159,7 @@ public interface Connection
      *
      * This is useful in protocols which support fragmentation.
      *
-     * @param messageMediator
+     * @param messageMediator mediator to register
      */
     public void registerWaiter(MessageMediator messageMediator);
 
@@ -171,7 +171,8 @@ public interface Connection
      * or it may use the calling thread to perform the server-side work
      * (e.g., Solaris Doors).
      *
-     * @param messageMediator
+     * @param messageMediator mediator to process
+     * @return stream
      */
     public CDRInputObject waitForResponse(MessageMediator messageMediator);
 
@@ -179,7 +180,7 @@ public interface Connection
      * Unregister an invocation's * CorbaMessageMediator
      * with the <code>Connection</code>.
      *
-     * @param messageMediator
+     * @param messageMediator mediator to unregister
      */
     public void unregisterWaiter(MessageMediator messageMediator);
 
@@ -287,4 +288,3 @@ public interface Connection
 }
 
 // End of file.
-

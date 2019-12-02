@@ -181,7 +181,7 @@ public class JDKBridge {
      * @param loader a ClassLoader who may be used to
      * load the class if all other methods fail.
      * @return the <code>Class</code> object representing the loaded class.
-     * @exception ClassNotFoundException if class cannot be loaded.
+     * @exception throws ClassNotFoundException if class cannot be loaded.
      */
     public static Class loadClass (String className,
                                    String remoteCodebase,
@@ -221,7 +221,7 @@ public class JDKBridge {
      * @param remoteCodebase a space-separated array of urls at which
      * the class might be found. May be null.
      * @return the <code>Class</code> object representing the loaded class.
-     * @exception ClassNotFoundException if class cannot be loaded.
+     * @exception throws ClassNotFoundException if class cannot be loaded.
      */
     public static Class loadClass (String className,
                                    String remoteCodebase)
@@ -233,7 +233,7 @@ public class JDKBridge {
      * Returns a class instance for the specified class. 
      * @param className the name of the class
      * @return the <code>Class</code> object representing the loaded class.
-     * @exception ClassNotFoundException if class cannot be loaded.
+     * @exception throws ClassNotFoundException if class cannot be loaded.
      */
     public static Class loadClass (String className)
         throws ClassNotFoundException {

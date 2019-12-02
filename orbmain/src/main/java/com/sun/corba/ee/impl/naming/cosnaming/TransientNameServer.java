@@ -33,7 +33,7 @@ import com.sun.corba.ee.spi.trace.Naming;
  * (-ORBInitialPort), and if not set, defaults to the standard port number.
  * The BootstrapServer is created supplying the Properties object, using no
  * external File object for storage, and the derived initial port number.
- * @see TransientNameService
+ * @see com.sun.corba.se.internal.CosNaming.BootstrapServer
  */
 @Naming
 public class TransientNameServer

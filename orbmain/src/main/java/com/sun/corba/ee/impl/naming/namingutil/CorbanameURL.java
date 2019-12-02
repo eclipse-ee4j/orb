@@ -15,7 +15,7 @@ package com.sun.corba.ee.impl.naming.namingutil;
  *  will be stored in this object. This object is capable of storing CorbaLoc
  *  profiles as defined in the CorbaName grammer.
  *
- *  @author Hemanth
+ *  @Author Hemanth
  */
 public class CorbanameURL extends INSURLBase
 {

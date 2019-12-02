@@ -30,20 +30,26 @@ public interface ServiceContexts {
      * We should really do this as SendingContext goes first, so
      * that we can guarantee correct marshalling of non-standard
      * service contexts.
+     * @param os stream to write to
+     * @param gv version to use
      */
     void write( OutputStream os, GIOPVersion gv ) ;
     
     /** Add a service context. Silently replaces an existing
      * service context with the same id.
+     * @param sc service context to use
      */
     public void put( ServiceContext sc ) ;
 
     /** Remove the service context with the id, if any.
+     * @param scId service context id
      */
     public void delete( int scId ) ;
 
     /** Return the service context with scId, or null if not
      * found.
+     * @param scId service context id
+     * @return ServiceContext with the specified ID
      */
     public ServiceContext get( int scId) ;
 

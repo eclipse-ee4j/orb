@@ -51,7 +51,7 @@ import com.sun.corba.ee.spi.transport.SocketInfo;
  * documentation on <code>createServerSocket</code> below. 
  *
  */
-
+@Deprecated
 public interface ORBSocketFactory
 {
     /**
@@ -82,7 +82,7 @@ public interface ORBSocketFactory
      *     new java.net.Socket(socketInfo.getHost(),
      *                         socketInfo.getPort())
      * </pre>
-     *
+     * @deprecated 
      */
     public static final String IIOP_CLEAR_TEXT = "IIOP_CLEAR_TEXT";
 
@@ -256,9 +256,15 @@ public interface ORBSocketFactory
      *     <code>SOCKET_FACTORY_CLASS_PROPERTY</code> and
      *     <code>LISTEN_SOCKET_PROPERTY</code>
      *
-     * as used by other clients and servers in your distributed system. <p>
+     * as used by other clients and servers in your distributed system.
      *
+     * @param type type of socket to create
+     * @param port port to create socket on
+     * @return created socket
+     * @throws IOException If a socket could not be created
+     * @deprecated 
      */
+    @Deprecated
     public ServerSocket createServerSocket(String type, int port)
         throws 
             IOException;
@@ -309,9 +315,15 @@ public interface ORBSocketFactory
      *
      * The <code>SocketInfo</code> given to <code>getEndPointInfo</code>
      * is either null or an object obtained
-     * from <code>GetEndPointInfoAgainException</code> <p>
-     *
+     * from <code>GetEndPointInfoAgainException</code> 
+     * 
+     * @param orb ORB to use for getting socket
+     * @param ior IOR to look at tagged components of
+     * @param socketInfo information on socket
+     * @return the endpoint info
+     * @deprecated
      */
+    @Deprecated
     public SocketInfo getEndPointInfo(org.omg.CORBA.ORB orb,
                                         IOR ior,
                                         SocketInfo socketInfo);
@@ -331,8 +343,11 @@ public interface ORBSocketFactory
      * 
      * If this method throws GetEndPointInfoAgainException then the
      * ORB calls <code>getEndPointInfo</code> again, passing it the
-     * <code>SocketInfo</code> object contained in the exception. <p>
-     *
+     * <code>SocketInfo</code> object contained in the exception.
+     * @param socketInfo socket information
+     * @throws IOException  if an occurred creating the socket
+     * @throws GetEndPointInfoAgainException if endpoint info must be retrieved again
+     * @deprecated 
      */
     public Socket createSocket(SocketInfo socketInfo)
         throws
@@ -341,5 +356,3 @@ public interface ORBSocketFactory
 }
 
 // End of file.
-
-

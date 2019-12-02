@@ -20,7 +20,7 @@ import org.glassfish.gmbal.ManagedData ;
 import org.glassfish.gmbal.Description ;
 
 /**
- * @author 
+ * Generic representation of a tagged component of a type unknown to the ORB 
  */
 @ManagedData
 @Description( "Generic representation of a tagged component of a type "
@@ -38,6 +38,7 @@ public class GenericTaggedComponent extends GenericIdentifiable
         super( id, data ) ;
     }
     
+    @Override
     public org.omg.IOP.TaggedComponent getIOPComponent( ORB orb ) 
     {
         return new org.omg.IOP.TaggedComponent( getId(), 

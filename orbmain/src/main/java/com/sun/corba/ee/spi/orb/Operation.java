@@ -15,6 +15,8 @@ package com.sun.corba.ee.spi.orb ;
  */
 public interface Operation{
     /** Apply some function to a value and return the result.
+     * @param value value to apply function to
+     * @return result of function
     */
     Object operate( Object value ) ;
 }

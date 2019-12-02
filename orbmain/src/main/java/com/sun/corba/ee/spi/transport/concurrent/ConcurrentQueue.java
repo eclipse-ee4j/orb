@@ -25,6 +25,8 @@ public interface ConcurrentQueue<V> {
      */
     public interface Handle<V> {
         /** Return the value that corresponds to this handle.
+         * 
+         * @return the value
          */
         V value() ;
 
@@ -33,6 +35,8 @@ public interface ConcurrentQueue<V> {
          * true if the removal succeeded, or false if it failed.
          * which can occur if another thread has already called
          * poll or remove on this element.
+         * 
+         * @return if operation succeeded
          */
         boolean remove() ;
 
@@ -44,21 +48,28 @@ public interface ConcurrentQueue<V> {
     }
 
     /** Return the number of elements in the queue.
+     * 
+     * @return the number of elements
      */
     int size() ;
 
     /** Add a new element to the tail of the queue.
      * Returns a handle for the element in the queue.
+     * 
+     * @param arg element to add
+     * @return handle for element
      */
     Handle<V> offer( V arg ) ;
 
     /** Return the handle for the head of the queue.
      * The element is removed from the queue.
+     * @return handle for head of queue
      */
     Handle<V> poll() ;
 
     /** Return the handle for the head of the queue.
      * The element is not removed from the queue.
+     * @return handle for head of queue
      */
     Handle<V> peek() ;
 } 

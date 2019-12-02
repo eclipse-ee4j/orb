@@ -14,36 +14,50 @@ package com.sun.corba.ee.spi.transport.connection;
  * for sending and receiving messages.
  */
 public interface ConnectionCache<C extends Connection> {
-    /** User-provided indentifier for an instance of the 
+    /** User-provided identifier for an instance of the 
      * OutboundConnectionCache.
+     * 
+     * @return identifier String
      */
     String getCacheType() ;
 
     /** Total number of connections currently managed by the cache.
+     * 
+     * @return number of connections
      */
     long numberOfConnections() ;
 
     /** Number of idle connections; that is, connections for which the number of
      * get/release or responseReceived/responseProcessed calls are equal.
+     * 
+     * @return number of idle connections
      */
     long numberOfIdleConnections() ;
 
     /** Number of non-idle connections.  Normally, busy+idle==total, but this
      * may not be strictly true due to concurrent updates to the connection 
      * cache.
+     * 
+     * @return number of non-idle connections
      */
     long numberOfBusyConnections() ;
 
     /** Number of idle connections that are reclaimable.  Such connections
      * are not in use, and are not waiting to handle any responses.
+     * 
+     * @return number of reclaimable idle connections
      */
     long numberOfReclaimableConnections() ;
 
     /** Threshold at which connection reclamation begins.
+     * 
+     * @return  threshold
      */
     int highWaterMark() ;
 
     /** Number of connections to reclaim each time reclamation starts.
+     * 
+     * @return number to reclaim
      */
     int numberToReclaim() ;
     
@@ -51,6 +65,8 @@ public interface ConnectionCache<C extends Connection> {
      * to fail to be sent, and responses to be lost.  Intended for 
      * handling serious errors, such as loss of framing on a TCP stream,
      * that require closing the connection.
+     * 
+     * @param conn connection to close
      */
     void close( final C conn ) ;
 }
