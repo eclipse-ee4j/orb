@@ -27,8 +27,8 @@ import com.sun.corba.ee.spi.misc.ORBConstants ;
 * If servant caching is used, there are two different additional 
 * features of the POA that are expensive:
 * <ol>
-* <li>POA current semantics
-* <li>Proper handling of POA destroy.
+* <li>POA current semantics</li>
+* <li>Proper handling of POA destroy.</li>
 * </ol>
 * POA current semantics requires maintaining a ThreadLocal stack of
 * invocation information that is always available for POACurrent operations.
@@ -99,6 +99,7 @@ public class ServantCachingPolicy extends LocalObject implements Policy
     }
 
     /** Return the default servant caching policy.
+     * @return default policy
     */
     public synchronized static ServantCachingPolicy getPolicy()
     {

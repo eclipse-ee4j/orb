@@ -27,6 +27,8 @@ public interface ContactInfoListFactory {
     /**
      * This will be called after the no-arg constructor before
      * create is called.
+     * 
+     * @param orb ORB to use in factory
      */
     public void setORB(ORB orb);
 

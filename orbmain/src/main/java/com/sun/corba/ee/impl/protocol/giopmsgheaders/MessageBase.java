@@ -828,7 +828,7 @@ public abstract class MessageBase implements Message {
     /**
      * Get the request id from the 4 bytes following the 12 byte GIOP
      * request header if the request header exists. Otherwise, return 0.
-     * <p>
+     * <p/>
      * NOTE: Assumes Message already been filtered by
      * MessageBase.messageSupportsFragments(Message)
      * </p>

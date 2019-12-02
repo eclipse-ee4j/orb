@@ -70,6 +70,9 @@ public abstract class StubAdapter
     }
 
     /** Use implicit activation to get an object reference for the servant.
+     * 
+     * @param servant servant to activate
+     * @return reference to servant
      */
     public static org.omg.CORBA.Object activateServant( Servant servant ) 
     {
@@ -114,6 +117,9 @@ public abstract class StubAdapter
 
     /** Given any Tie, return the corresponding object refernce, activating
      * the Servant if necessary.
+     * 
+     * @param tie tie to activate
+     * @return reference to Tie
      */
     public static org.omg.CORBA.Object activateTie( Tie tie )
     {
@@ -136,6 +142,9 @@ public abstract class StubAdapter
 
     /** This also gets the delegate from a Servant by
      * using Servant._this_object()
+     * 
+     * @param stub stub to get delegate of
+     * @return the stub's Delegate
      */
     public static Delegate getDelegate( Object stub ) 
     {

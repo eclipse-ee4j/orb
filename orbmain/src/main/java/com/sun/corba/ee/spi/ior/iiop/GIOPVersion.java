@@ -161,6 +161,8 @@ public class GIOPVersion {
     /**
      * This chooses the appropriate GIOP version.
      *
+     * @param orb ORB to use
+     * @param ior IOR to use
      * @return smallest(profGIOPVersion, orbGIOPVersion).
      */
     public static GIOPVersion chooseRequestVersion(ORB orb, IOR ior ) {

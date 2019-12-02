@@ -15,10 +15,9 @@ import com.sun.corba.ee.spi.legacy.connection.Connection;
 /**
  * This interface is implemented by our implementation of 
  * PortableInterceptor.ClientRequestInfo and
- * PortableInterceptor.ServerRequestInfo. <p>
+ * PortableInterceptor.ServerRequestInfo.
  *
  */
-
 public interface RequestInfoExt
 {
     /**

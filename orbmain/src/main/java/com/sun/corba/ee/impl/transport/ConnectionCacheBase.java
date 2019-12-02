@@ -179,7 +179,7 @@ public abstract class ConnectionCacheBase
      * If connection reclamation becomes a performance issue, the connection
      * reclamation could make its own task and consequently executed in
      * a separate thread.
-     * Currently, the accept &amp; reclaim are done in the same thread, WorkerThread
+     * Currently, the accept and reclaim are done in the same thread, WorkerThread
      * by default. It could be changed such that the SelectorThread would do
      * it for SocketChannels and WorkerThreads for Sockets by updating the
      * ParserTable.

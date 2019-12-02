@@ -54,6 +54,8 @@ public interface InboundConnectionCache<C extends Connection> extends Connection
      *
      * XXX Should we age out connections?  
      * This would require actual time stamps, rather than just an LRU queue.
+     * 
+     * @param conn connection to mark as busy
      */
     void requestReceived( C conn ) ;
 
@@ -68,6 +70,9 @@ public interface InboundConnectionCache<C extends Connection> extends Connection
      * on the same connection on which the request was received.  This is
      * necessary to prevent reclamation of a Connection that is idle, but
      * still needed to send responses to old requests.
+     * 
+     * @param conn connection to mark as completed
+     * @param numResponseExpected responses expected
      */
     void requestProcessed( C conn, int numResponseExpected ) ;
 
@@ -76,6 +81,8 @@ public interface InboundConnectionCache<C extends Connection> extends Connection
      * <P>
      * When a Connection is idle, and has no pending responses, it is
      * eligible for reclamation.
+     * 
+     * @param conn connection that response has been sent on
      */
     void responseSent( C conn ) ;
 }

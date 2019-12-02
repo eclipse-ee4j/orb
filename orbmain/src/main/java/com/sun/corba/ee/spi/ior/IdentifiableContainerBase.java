@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -55,11 +56,13 @@ public class IdentifiableContainerBase<E extends Identifiable>
                 return null ;
             }
 
+            @Override
             public boolean hasNext() 
             {
                 return current != null ;
             }
 
+            @Override
             public E next()
             {
                 E result = current ;
@@ -67,6 +70,7 @@ public class IdentifiableContainerBase<E extends Identifiable>
                 return result ;
             }
 
+            @Override
             public void remove()
             {
                 iter.remove() ;

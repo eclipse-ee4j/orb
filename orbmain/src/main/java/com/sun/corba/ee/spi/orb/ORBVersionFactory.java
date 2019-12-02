@@ -49,6 +49,7 @@ public class ORBVersionFactory {
     }
 
     /** Return the current version of this ORB
+     * @return ORB version
      */
     public static ORBVersion getORBVersion()
     {

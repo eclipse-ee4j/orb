@@ -13,7 +13,7 @@ package com.sun.corba.ee.impl.naming.namingutil;
 /**
  *  This class is the entry point to parse different types of INS URL's.
  * 
- *  @author Hemanth
+ *  @Author Hemanth
  */
 public class INSURLHandler {
 

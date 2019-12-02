@@ -49,7 +49,6 @@ public abstract class ServiceContextBase {
     /** Simple default constructor used when subclass is constructed 
      * from its representation.
      */
-
     private byte[] data;
 
     protected ServiceContextBase() { }
@@ -60,6 +59,7 @@ public abstract class ServiceContextBase {
      * context representation can be read from in.
      * Note that the service context id has been consumed from the input
      * stream before this object is constructed.
+     * @param s stream to use to construct context
      */
     protected ServiceContextBase(InputStream s) 
     {
@@ -67,12 +67,16 @@ public abstract class ServiceContextBase {
     }
 
     /** Returns Service context id.  Must be overloaded in subclass.
+     * @return context id
      */
     public abstract int getId() ;
 
     /** Write the service context to an output stream.  This method 
      * must be used for writing the service context to a request or reply
      * header.
+     * @param s stream to write to
+     * @param gv version of the service context
+     * @throws SystemException if an error occurred writing to the stream
      */
     public synchronized void write(OutputStream s, GIOPVersion gv) throws SystemException {
         if (data == null) {
@@ -96,6 +100,7 @@ public abstract class ServiceContextBase {
 
     /** Writes the data used to represent the subclasses service context
      * into an encapsulation stream.  Must be overloaded in subclass.
+     * @param os stream to write to
      */
     protected abstract void writeData( OutputStream os ) ;
 

@@ -259,8 +259,6 @@ public class IIOPInputStream
      * that should not be deserialized.  All exceptions are fatal to the
      * InputStream and leave it in an indeterminate state; it is up to the caller
      * to ignore or recover the stream state.
-     * @exception java.lang.ClassNotFoundException Class of a serialized object
-     *      cannot be found.
      * @exception InvalidClassException Something is wrong with a class used by
      *     serialization.
      * @exception StreamCorruptedException Control information in the
@@ -444,11 +442,6 @@ public class IIOPInputStream
      * of the class being deserialized. It will throw the NotActiveException
      * if it is called otherwise.
      *
-     * @exception java.lang.ClassNotFoundException if the class of a serialized
-     *              object could not be found.
-     * @exception IOException        if an I/O error occurs.
-     * @exception NotActiveException if the stream is not currently reading
-     *              objects.
      * @since     JDK1.1
      */
     @ValueHandlerRead

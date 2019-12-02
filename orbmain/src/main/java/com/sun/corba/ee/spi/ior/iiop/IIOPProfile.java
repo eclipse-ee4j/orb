@@ -39,14 +39,20 @@ public interface IIOPProfile extends TaggedProfile
     /** Return the servant for this profile, if it is local 
      * AND if the OA that implements this objref supports direct access to servants 
      * outside of an invocation.
+     * 
+     * @return the profile servant
      */
     java.lang.Object getServant() ;
 
     /** Return the GIOPVersion of this profile.  Caches the result.
+     * 
+     * @return the GIOPVersion
      */
     GIOPVersion getGIOPVersion() ;
 
     /** Return the Codebase of this profile.  Caches the result.
+     * 
+     * @return the profile codebase
      */
     String getCodebase() ;
 }
