@@ -83,53 +83,52 @@ public class WorkQueueImpl implements WorkQueue
     // XXX Re-write this to use a simple poll( waitTime, TimeUnit.MILLISECONDS )
     // and avoid the race conditions.  The change is a little too large to make
     // right now (a few days before GFv3 HCF).  See issue 7722.
-    synchronized Work requestWork(long waitTime) throws WorkerThreadNotNeededException, 
+    synchronized Work requestWork(long waitTime) throws WorkerThreadNotNeededException,
         InterruptedException {
 
-        if (this.isQueueEmpty()) {
-            try {
-                ((ThreadPoolImpl)workerThreadPool).incrementNumberOfAvailableThreads();
-                long timeOutTime = System.currentTimeMillis() + waitTime;
+        try {
+            ((ThreadPoolImpl)workerThreadPool).incrementNumberOfAvailableThreads();
 
-                wait(waitTime);
-                
-                if (this.isQueueEmpty() && System.currentTimeMillis() >= timeOutTime) {
-                    int availableThreads = 
-                            workerThreadPool.numberOfAvailableThreads();
-                    int minThreads = workerThreadPool.minimumNumberOfThreads();
-                    if (availableThreads > minThreads) {
-                        // This thread has timed out and can die because 
-                        // we have enough available idle threads.
-                        // NOTE: It is expected the WorkerThread calling this
-                        //       method will gracefully exit as a result of
-                        //       catching the WorkerThreadNotNeededException.
-                        ((ThreadPoolImpl)workerThreadPool).
-                                              decrementCurrentNumberOfThreads();
-                        throw new WorkerThreadNotNeededException();
-                    } 
+            // Wait for the queue to become non-empty.
+            // Loop in case the wait() call returns early. This ensures that the full wait time is spent.
+            // If the queue is non-empty now, the loop exits immediately.
+            long startTime = Long.MAX_VALUE;
+            while (queue.isEmpty()) {
+                long now = System.currentTimeMillis();
+                // Guard against the system clock running backwards, which might otherwise cause long wait times.
+                startTime = Math.min(now, startTime);
+                long endTime = startTime + waitTime;
+                long remainingWaitTime = endTime - now;
+                if (remainingWaitTime <= 0) {
+                    break;
                 }
-                
-                // We still want to keep this thread, but let it do a
-                // poll in case we waited at least as long
-                // as timeOutTime, and then we were awakened by addWork.
-                // In that case, we still want to do the queue.poll().
-            } finally {
-                ((ThreadPoolImpl)workerThreadPool).decrementNumberOfAvailableThreads();
+                wait(remainingWaitTime);
             }
+        } finally {
+            ((ThreadPoolImpl)workerThreadPool).decrementNumberOfAvailableThreads();
         }
-        
+
         Work work = queue.poll();
-        if (work != null) {
-            workItemsDequeued++ ;
-            totalTimeInQueue += System.currentTimeMillis() - work.getEnqueueTime() ;
+        if (work == null) {
+            // The other waiting threads and this thread are available.
+            int availableThreads = workerThreadPool.numberOfAvailableThreads() + 1;
+            int minThreads = workerThreadPool.minimumNumberOfThreads();
+            if (availableThreads > minThreads) {
+                // This thread has timed out and can die because
+                // we have enough available idle threads.
+                // NOTE: It is expected the WorkerThread calling this
+                //       method will gracefully exit as a result of
+                //       catching the WorkerThreadNotNeededException.
+                ((ThreadPoolImpl)workerThreadPool).
+                        decrementCurrentNumberOfThreads();
+                throw new WorkerThreadNotNeededException();
+            }
+        } else {
+            workItemsDequeued++;
+            totalTimeInQueue += System.currentTimeMillis() - work.getEnqueueTime();
         }
 
-        return work ;
-    }
-
-    private synchronized boolean isQueueEmpty() {
-        int waitingThreads = workerThreadPool.numberOfAvailableThreads();
-        return (queue.size() - waitingThreads <= 0);
+        return work;
     }
 
     public synchronized void setThreadPool(ThreadPool workerThreadPool) {
