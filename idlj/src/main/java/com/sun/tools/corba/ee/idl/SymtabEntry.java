@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -86,7 +87,7 @@ public class SymtabEntry
 
   void initDynamicVars ()
   {
-    _dynamicVars = new Vector (maxKey + 1);
+    _dynamicVars = new Vector<>(maxKey + 1);
     for (int i = 0; i <= maxKey; ++i)
       _dynamicVars.addElement (null);
   } // initDynamicVars
@@ -362,7 +363,7 @@ public class SymtabEntry
   private com.sun.tools.corba.ee.idl.RepositoryID _repID      = new com.sun.tools.corba.ee.idl.IDLID("", "", "1.0");
   private boolean      _emit       = setEmit;
   private com.sun.tools.corba.ee.idl.Comment _comment    = null;
-  private Vector       _dynamicVars;
+  private Vector<Object>       _dynamicVars;
   private boolean      _isReferencable = true ;
 } // class SymtabEntry
 

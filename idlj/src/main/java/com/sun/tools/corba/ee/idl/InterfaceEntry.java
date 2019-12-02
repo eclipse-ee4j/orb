@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,12 +33,12 @@ public class InterfaceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry imple
   protected InterfaceEntry (InterfaceEntry that)
   {
     super (that);
-    _derivedFromNames = (Vector)that._derivedFromNames.clone ();
-    _derivedFrom      = (Vector)that._derivedFrom.clone ();
-    _methods          = (Vector)that._methods.clone ();
-    _allMethods       = (Vector)that._allMethods.clone ();
-    forwardedDerivers = (Vector)that.forwardedDerivers.clone ();
-    _contained        = (Vector)that._contained.clone ();
+    _derivedFromNames = (Vector<String>)that._derivedFromNames.clone ();
+    _derivedFrom      = (Vector<SymtabEntry>)that._derivedFrom.clone ();
+    _methods          = (Vector<MethodEntry>)that._methods.clone ();
+    _allMethods       = (Vector<MethodEntry>)that._allMethods.clone ();
+    forwardedDerivers = (Vector<InterfaceEntry>)that.forwardedDerivers.clone ();
+    _contained        = (Vector<SymtabEntry>)that._contained.clone ();
     _interfaceType    = that._interfaceType;
   } // ctor
 
@@ -70,6 +71,7 @@ public class InterfaceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry imple
       return _interfaceType == LOCAL_SIGNATURE_ONLY ;
   }
 
+  @Override
   public Object clone ()
   {
     return new InterfaceEntry (this);
@@ -81,6 +83,7 @@ public class InterfaceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry imple
        a subclass of SymtabEntry.
       @param stream the stream to which the generator should sent its output.
       @see com.sun.tools.corba.ee.idl.SymtabEntry */
+  @Override
   public void generate (Hashtable symbolTable, PrintWriter stream)
   {
     interfaceGen.generate (symbolTable, this, stream);
@@ -109,7 +112,7 @@ public class InterfaceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry imple
    * @return a {@link Vector} of interfaces which this interface is derived from
    * @see #addDerivedFromName(java.lang.String) 
    */
-  public Vector derivedFrom ()
+  public Vector<SymtabEntry> derivedFrom ()
   {
     return _derivedFrom;
   } // derivedFrom
@@ -126,7 +129,7 @@ public class InterfaceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry imple
       of the first element of the derivedFrom vector, etc. 
     * @return {@link Vector} of {@link String}s
     */
-  public Vector derivedFromNames ()
+  public Vector<String> derivedFromNames ()
   {
     return _derivedFromNames;
   } // derivedFromNames
@@ -143,7 +146,7 @@ public class InterfaceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry imple
     * attributes contained within this Interface.
     * @return {@link Vector} of {@link MethodEntry}
     */
-  public Vector methods ()
+  public Vector<MethodEntry> methods ()
   {
     return _methods;
   } // methods
@@ -163,10 +166,9 @@ public class InterfaceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry imple
     * @return {@link Vector} of {@link SymtabEntry}
     * @see #methods()
     */
-  public Vector contained ()
-  {
+  public Vector<SymtabEntry> contained () {
     return _contained;
-  } // contained
+  }
 
   void methodsAddElement (com.sun.tools.corba.ee.idl.MethodEntry method, com.sun.tools.corba.ee.idl.Scanner scanner)
   {
@@ -184,72 +186,69 @@ public class InterfaceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry imple
 
   void addToForwardedAllMethods (com.sun.tools.corba.ee.idl.MethodEntry method, com.sun.tools.corba.ee.idl.Scanner scanner)
   {
-    Enumeration e = forwardedDerivers.elements ();
-    while (e.hasMoreElements ())
-    {
-      InterfaceEntry derived = (InterfaceEntry)e.nextElement ();
-      if (derived.verifyMethod (method, scanner, true))
+    Enumeration<InterfaceEntry> e = forwardedDerivers.elements ();
+    while (e.hasMoreElements ()) {
+      InterfaceEntry derived = e.nextElement();
+      if (derived.verifyMethod (method, scanner, true)) {
         derived._allMethods.addElement (method);
+      }
     }
   } // addToForwardedAllMethods
 
   // Make sure a method by this name doesn't exist in this class or
   // in this class's parents
-  private boolean verifyMethod (com.sun.tools.corba.ee.idl.MethodEntry method, com.sun.tools.corba.ee.idl.Scanner scanner, boolean clash)
-  {
-    boolean unique = true;
-    String  lcName = method.name ().toLowerCase ();
-    Enumeration e  = _allMethods.elements ();
-    while (e.hasMoreElements ())
-    {
-      com.sun.tools.corba.ee.idl.MethodEntry emethod = (com.sun.tools.corba.ee.idl.MethodEntry)e.nextElement ();
+    private boolean verifyMethod(MethodEntry method, Scanner scanner, boolean clash) {
+        boolean unique = true;
+        String lcName = method.name().toLowerCase();
+        Enumeration<MethodEntry> e = _allMethods.elements();
+        while (e.hasMoreElements()) {
+            MethodEntry emethod = e.nextElement();
 
-      // Make sure the method doesn't exist either in its
-      // original name or in all lower case.  In IDL, identifiers
-      // which differ only in case are collisions.
-      String lceName = emethod.name ().toLowerCase ();
-      if (method != emethod && lcName.equals (lceName))
-      {
-        if (clash)
-          com.sun.tools.corba.ee.idl.ParseException.methodClash(scanner, fullName(), method.name());
-        else
-          com.sun.tools.corba.ee.idl.ParseException.alreadyDeclared(scanner, method.name());
-        unique = false;
-        break;
-      }
-    }
-    return unique;
-  } // verifyMethod
+            // Make sure the method doesn't exist either in its
+            // original name or in all lower case.  In IDL, identifiers
+            // which differ only in case are collisions.
+            String lceName = emethod.name().toLowerCase();
+            if (method != emethod && lcName.equals(lceName)) {
+                if (clash) {
+                    ParseException.methodClash(scanner, fullName(), method.name());
+                } else {
+                    ParseException.alreadyDeclared(scanner, method.name());
+                }
+                unique = false;
+                break;
+            }
+        }
+        return unique;
+    } // verifyMethod
 
-  void derivedFromAddElement (com.sun.tools.corba.ee.idl.SymtabEntry e, com.sun.tools.corba.ee.idl.Scanner scanner)
+  void derivedFromAddElement (SymtabEntry e, Scanner scanner)
   {
     addDerivedFrom (e);
     addDerivedFromName (e.fullName ());
     addParentType( e, scanner );
   } // derivedFromAddElement
 
-  void addParentType (com.sun.tools.corba.ee.idl.SymtabEntry e, com.sun.tools.corba.ee.idl.Scanner scanner)
+  void addParentType (SymtabEntry e, Scanner scanner)
   {
-    if (e instanceof com.sun.tools.corba.ee.idl.ForwardEntry)
-      addToDerivers ((com.sun.tools.corba.ee.idl.ForwardEntry)e);
+    if (e instanceof ForwardEntry)
+      addToDerivers ((ForwardEntry)e);
     else
     { // e instanceof InterfaceEntry
       InterfaceEntry derivedFrom = (InterfaceEntry)e;
 
-      // Compare all of the parent's methods to the methods on this
-      // interface, looking for name clashes:
-      for ( Enumeration enumeration = derivedFrom._allMethods.elements ();
-            enumeration.hasMoreElements (); )
-      {
-        com.sun.tools.corba.ee.idl.MethodEntry method = (com.sun.tools.corba.ee.idl.MethodEntry)enumeration.nextElement ();
-        if ( verifyMethod (method, scanner, true))
-          _allMethods.addElement (method);
+        // Compare all of the parent's methods to the methods on this
+        // interface, looking for name clashes:
+        for (Enumeration<MethodEntry> enumeration = derivedFrom._allMethods.elements(); enumeration.hasMoreElements();) {
+            MethodEntry method = enumeration.nextElement();
+            if (verifyMethod(method, scanner, true)) {
+                _allMethods.addElement(method);
+            }
 
-        // Add this method to the 'allMethods' list of any interfaces
-        // which may have inherited this one when it was a forward
-        // reference:
-        addToForwardedAllMethods (method, scanner);
-      }
+            // Add this method to the 'allMethods' list of any interfaces
+            // which may have inherited this one when it was a forward
+            // reference:
+            addToForwardedAllMethods(method, scanner);
+        }
 
       // If any of the parent's parents are forward entries, make
       // sure this interface gets added to their derivers list so
@@ -259,22 +258,22 @@ public class InterfaceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry imple
     }
   }  // addParentType
 
-  private void lookForForwardEntrys (com.sun.tools.corba.ee.idl.Scanner scanner, InterfaceEntry entry)
-  {
-    Enumeration parents = entry.derivedFrom ().elements ();
-    while (parents.hasMoreElements ())
-    {
-      com.sun.tools.corba.ee.idl.SymtabEntry parent = (com.sun.tools.corba.ee.idl.SymtabEntry)parents.nextElement ();
-      if (parent instanceof com.sun.tools.corba.ee.idl.ForwardEntry)
-        addToDerivers ((com.sun.tools.corba.ee.idl.ForwardEntry)parent);
-      else if (parent == entry)
-        com.sun.tools.corba.ee.idl.ParseException.selfInherit(scanner, entry.fullName());
-      else // it must be an InterfaceEntry
-        lookForForwardEntrys (scanner, (InterfaceEntry)parent);
-    }
-  } // lookForForwardEntrys
+    private void lookForForwardEntrys(Scanner scanner, InterfaceEntry entry) {
+        Enumeration<SymtabEntry> parents = entry.derivedFrom().elements();
+        while (parents.hasMoreElements()) {
+            SymtabEntry parent = parents.nextElement();
+            if (parent instanceof ForwardEntry) {
+                addToDerivers((ForwardEntry) parent);
+            } else if (parent == entry) {
+                ParseException.selfInherit(scanner, entry.fullName());
+            } else // it must be an InterfaceEntry
+            {
+                lookForForwardEntrys(scanner, (InterfaceEntry) parent);
+            }
+        }
+    } // lookForForwardEntrys
 
-  public boolean replaceForwardDecl (com.sun.tools.corba.ee.idl.ForwardEntry oldEntry, InterfaceEntry newEntry)
+  public boolean replaceForwardDecl (ForwardEntry oldEntry, InterfaceEntry newEntry)
   {
     int index = _derivedFrom.indexOf( oldEntry );
     if ( index >= 0 )
@@ -282,16 +281,16 @@ public class InterfaceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry imple
     return (index >= 0);
   } // replaceForwardDecl
 
-  private void addToDerivers (com.sun.tools.corba.ee.idl.ForwardEntry forward)
-  {
-    // Add this interface to the derivers list on the forward entry
-    // so that when the forward entry is defined, the 'allMethods'
-    // list of this interface can be updated.
-    forward.derivers.addElement (this);
-    Enumeration e = forwardedDerivers.elements ();
-    while (e.hasMoreElements ())
-      forward.derivers.addElement ((InterfaceEntry)e.nextElement ());
-  } // addToDerivers
+    private void addToDerivers(com.sun.tools.corba.ee.idl.ForwardEntry forward) {
+        // Add this interface to the derivers list on the forward entry
+        // so that when the forward entry is defined, the 'allMethods'
+        // list of this interface can be updated.
+        forward.derivers.addElement(this);
+        Enumeration<InterfaceEntry> e = forwardedDerivers.elements();
+        while (e.hasMoreElements()) {
+            forward.derivers.addElement(e.nextElement());
+        }
+    } // addToDerivers
 
   /** This method returns a vector of the elements in the state block.
       If it is null, this is not a stateful interface.  If it is non-null,
@@ -299,32 +298,36 @@ public class InterfaceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry imple
       entries itself, but it has an ancestor which does.
     * @return Vector of {@link InterfaceState}
     */
-  public Vector state ()
+  public Vector<InterfaceState> state ()
   {
     return _state;
   } // state
 
   public void initState ()
   {
-    _state = new Vector ();
+    _state = new Vector<>();
   } // initState
 
-  public void addStateElement (com.sun.tools.corba.ee.idl.InterfaceState state, com.sun.tools.corba.ee.idl.Scanner scanner)
-  {
-    if (_state == null)
-      _state = new Vector ();
-    String name = state.entry.name ();
-    for (Enumeration e = _state.elements (); e.hasMoreElements ();)
-      if (name.equals (((com.sun.tools.corba.ee.idl.InterfaceState) e.nextElement ()).entry.name ()))
-        com.sun.tools.corba.ee.idl.ParseException.duplicateState(scanner, name);
-    _state.addElement (state);
-  } // state
+    public void addStateElement(InterfaceState state, Scanner scanner) {
+        if (_state == null) {
+            _state = new Vector<>();
+        }
+        String name = state.entry.name();
+        for (Enumeration<InterfaceState> e = _state.elements(); e.hasMoreElements();) {
+            if (name.equals((e.nextElement()).entry.name())) {
+                ParseException.duplicateState(scanner, name);
+            }
+        }
+        _state.addElement(state);
+    } // state
 
+  @Override
   public int getInterfaceType ()
   {
     return _interfaceType;
   }
 
+  @Override
   public void setInterfaceType (int type)
   {
     _interfaceType = type;
@@ -334,19 +337,19 @@ public class InterfaceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry imple
    * @return Vector of all methods in the interface
    * @see MethodEntry
    */
-  public Vector allMethods ()
+  public Vector<MethodEntry> allMethods ()
   {
     return _allMethods;
   }
 
-  private Vector  _derivedFromNames = new Vector();
-  private Vector  _derivedFrom      = new Vector();
-  private Vector  _methods          = new Vector();
-          Vector  _allMethods       = new Vector();
-          Vector  forwardedDerivers = new Vector();
-  private Vector  _contained        = new Vector();
-  private Vector  _state            = null;
+  private Vector<String>  _derivedFromNames = new Vector<>();
+  private Vector<SymtabEntry>  _derivedFrom      = new Vector<>();
+  private Vector<MethodEntry>  _methods          = new Vector<>();
+          Vector<MethodEntry>  _allMethods       = new Vector();
+          Vector<InterfaceEntry>  forwardedDerivers = new Vector<>();
+  private Vector<SymtabEntry>  _contained        = new Vector<>();
+  private Vector<InterfaceState>  _state            = null;
   private int _interfaceType         = NORMAL;
 
-  static com.sun.tools.corba.ee.idl.InterfaceGen interfaceGen;
+  static InterfaceGen interfaceGen;
 } // class InterfaceEntry

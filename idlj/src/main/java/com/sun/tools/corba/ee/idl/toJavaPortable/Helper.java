@@ -79,7 +79,7 @@ public class Helper implements AuxGen
     if (entry instanceof ValueBoxEntry)
     {
       ValueBoxEntry v = (ValueBoxEntry) entry;
-      TypedefEntry member = ((InterfaceState) v.state ().elementAt (0)).entry;
+      TypedefEntry member = v.state().elementAt(0).entry;
       SymtabEntry mType =  member.type ();
 
       if (mType instanceof PrimitiveEntry)
@@ -278,9 +278,9 @@ public class Helper implements AuxGen
     // Generate body of type() method
 
     if (canRecurse) {
-    stream.println ("          __active = false;");
-    stream.println ("        }");
-    stream.println ("      }");
+        stream.println("          __active = false;");
+        stream.println("        }");
+        stream.println("      }");
     }
     stream.println ("    }");
     stream.println ("    return __typeCode;");

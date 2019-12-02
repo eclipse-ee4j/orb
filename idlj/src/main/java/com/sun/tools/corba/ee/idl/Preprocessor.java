@@ -56,9 +56,7 @@ public class Preprocessor
     macros  = p.macros;
   } // init
 
-  /**
-   *
-   **/
+  @Override
   protected Object clone ()
   {
     return new Preprocessor ();
@@ -94,7 +92,7 @@ public class Preprocessor
         case com.sun.tools.corba.ee.idl.Token.Else:
           if (alreadyProcessedABranch.empty ())
             throw com.sun.tools.corba.ee.idl.ParseException.elseNoIf(scanner);
-          else if (((Boolean)alreadyProcessedABranch.peek ()).booleanValue ())
+          else if ((alreadyProcessedABranch.peek ()).booleanValue ())
             skipToEndif ();
           else
           {
@@ -297,7 +295,7 @@ public class Preprocessor
     parser.parsingConditionalExpr = false;
     boolean expr;
     if (boolExpr.value () instanceof Boolean)
-      expr = ((Boolean)boolExpr.value ()).booleanValue ();
+      expr = ((Boolean)boolExpr.value ());
     else
       expr = ((Number)boolExpr.value ()).longValue () != 0;
     alreadyProcessedABranch.push (expr);
@@ -552,11 +550,11 @@ public class Preprocessor
    **/
   private void elif () throws IOException, com.sun.tools.corba.ee.idl.ParseException
   {
-    if (alreadyProcessedABranch.empty ())
+    if (alreadyProcessedABranch.empty ()) {
       throw com.sun.tools.corba.ee.idl.ParseException.elseNoIf(scanner);
-    else if (((Boolean)alreadyProcessedABranch.peek ()).booleanValue ())
+  } else if ((alreadyProcessedABranch.peek ()).booleanValue ()) {
       skipToEndif ();
-    else
+    } else
     {
       match (com.sun.tools.corba.ee.idl.Token.Elif);
       constExpr ();
@@ -660,7 +658,7 @@ public class Preprocessor
   // <d57110> Pragma ID can be appiled to modules and it is an error to
   // name a type in more than one ID pragma directive.
 
-  private Vector PragmaIDs = new Vector ();
+  private final Vector<SymtabEntry> PragmaIDs = new Vector<>();
 
   private void localPragma () throws IOException, com.sun.tools.corba.ee.idl.ParseException
   {
@@ -819,7 +817,7 @@ public class Preprocessor
     }
   } // versionPragma
 
-  private Vector pragmaHandlers = new Vector ();
+  private final Vector<PragmaHandler> pragmaHandlers = new Vector ();
 
   /**
    *
@@ -836,7 +834,7 @@ public class Preprocessor
   {
     for (int i = pragmaHandlers.size () - 1; i >= 0; --i)
     {
-      com.sun.tools.corba.ee.idl.PragmaHandler handler = (com.sun.tools.corba.ee.idl.PragmaHandler)pragmaHandlers.elementAt (i);
+      com.sun.tools.corba.ee.idl.PragmaHandler handler = pragmaHandlers.elementAt (i);
       if (handler.process (pragmaType, currentToken))
                 break;
     }
@@ -1058,14 +1056,14 @@ public class Preprocessor
   {
     token = t;
     // Get the parameter values from the macro 'call'
-    Vector parmValues = getParmValues ();
+    Vector<String> parmValues = getParmValues ();
 
     // Get the parameter names from the macro definition
     // NOTE:  a newline character is appended here so that when
     // getStringToEOL is called, it stops scanning at the end
     // of this string.
     scanner.scanString (macroDef + '\n');
-    Vector parmNames = new Vector ();
+    Vector<String> parmNames = new Vector<>();
     macro (parmNames);
 
     if (parmValues.size () < parmNames.size ())
@@ -1096,9 +1094,9 @@ public class Preprocessor
   /**
    *
    **/
-  private Vector getParmValues () throws IOException, com.sun.tools.corba.ee.idl.ParseException
+  private Vector<String> getParmValues () throws IOException, com.sun.tools.corba.ee.idl.ParseException
   {
-    Vector values = new Vector ();
+    Vector<String> values = new Vector<>();
     if (token.equals (com.sun.tools.corba.ee.idl.Token.Identifier))
     {
       match (com.sun.tools.corba.ee.idl.Token.Identifier);
@@ -1116,10 +1114,7 @@ public class Preprocessor
     return values;
   } // getParmValues
 
-  /**
-   *
-   **/
-  private void macroParmValues (Vector values) throws IOException, com.sun.tools.corba.ee.idl.ParseException
+  private void macroParmValues(Vector<String> values) throws IOException, com.sun.tools.corba.ee.idl.ParseException
   {
     while (!token.equals (com.sun.tools.corba.ee.idl.Token.RightParen))
     {
@@ -1129,10 +1124,7 @@ public class Preprocessor
     }
   } // macroParmValues
 
-  /**
-   *
-   **/
-  private void macro (Vector parmNames) throws IOException, com.sun.tools.corba.ee.idl.ParseException
+  private void macro (Vector<String> parmNames) throws IOException, com.sun.tools.corba.ee.idl.ParseException
   {
     match (token.type);
     match (com.sun.tools.corba.ee.idl.Token.LeftParen);
@@ -1140,10 +1132,7 @@ public class Preprocessor
     miniMatch (com.sun.tools.corba.ee.idl.Token.RightParen);
   } // macro
 
-  /**
-   *
-   **/
-  private void macroParms (Vector parmNames) throws IOException, com.sun.tools.corba.ee.idl.ParseException
+  private void macroParms (Vector<String> parmNames) throws IOException, com.sun.tools.corba.ee.idl.ParseException
   {
     if (!token.equals (com.sun.tools.corba.ee.idl.Token.RightParen))
     {
@@ -1153,10 +1142,7 @@ public class Preprocessor
     }
   } // macroParms
 
-  /**
-   *
-   **/
-  private void macroParms2 (Vector parmNames) throws IOException, com.sun.tools.corba.ee.idl.ParseException
+  private void macroParms2 (Vector<String> parmNames) throws IOException, com.sun.tools.corba.ee.idl.ParseException
   {
     while (!token.equals (com.sun.tools.corba.ee.idl.Token.RightParen))
     {
@@ -1166,9 +1152,6 @@ public class Preprocessor
     }
   } // macroParms2
 
-  /**
-   *
-   **/
   private String replaceAll (String string, String from, String to)
   {
     int index = 0;
@@ -1265,10 +1248,10 @@ public class Preprocessor
       fullName = name;
     else
     {
-      Enumeration pathList = parser.paths.elements ();
+      Enumeration<String> pathList = parser.paths.elements ();
       while (!file.canRead () && pathList.hasMoreElements ())
       {
-        fullName = (String)pathList.nextElement () + File.separatorChar + name;
+        fullName = pathList.nextElement () + File.separatorChar + name;
         file = new File (fullName);
       }
       if (!file.canRead ())
@@ -1299,7 +1282,7 @@ public class Preprocessor
     // instead of the input stream for a while.
     if (token.equals (com.sun.tools.corba.ee.idl.Token.Identifier) || token.equals (com.sun.tools.corba.ee.idl.Token.MacroIdentifier))
     {
-      String string = (String)symbols.get (token.name);
+      String string = symbols.get (token.name);
       if (string != null && !string.equals (""))
         // If this is a macro, parse the macro
         if (macros.contains (token.name))
@@ -1316,30 +1299,6 @@ public class Preprocessor
     }
   } // match
 
-  // <d62023>
-  /**
-   * Issue warnings about tokens scanned during preprocessing.
-   **/
-  private void issueTokenWarnings ()
-  {
-    if (parser.noWarn)
-      return;
-
-    // There are no keywords defined for preprocessing (only directives), so:
-    //
-    // 1.) Do not issue warnings for identifiers known to be keywords in
-    //     another level of IDL.
-    // 2.) Do not issue warnings for identifiers that collide with keywords
-    //     in letter, but not case.
-    // 3.) Do not issue warnings for deprecated keywords.
-    //
-    // Should we warn when a macro identifier replaces a keyword?  Hmmm.
-
-    // Deprecated directives?  None to date.
-    //if (token.isDirective () && token.isDeprecated ())
-    //  ParseException.warning (scanner, Util.getMesage ("Deprecated.directive", token.name));
-  } // issueTokenWarnings
-
   /**
    * This method is called when the parser encounters a left curly brace.
    * An extender of PragmaHandler may find scope information useful.
@@ -1355,7 +1314,7 @@ public class Preprocessor
   {
     for (int i = pragmaHandlers.size () - 1; i >= 0; --i)
     {
-      com.sun.tools.corba.ee.idl.PragmaHandler handler = (com.sun.tools.corba.ee.idl.PragmaHandler)pragmaHandlers.elementAt (i);
+      com.sun.tools.corba.ee.idl.PragmaHandler handler = pragmaHandlers.elementAt (i);
       handler.openScope (entry);
     }
   } // openScope
@@ -1373,15 +1332,15 @@ public class Preprocessor
   {
     for (int i = pragmaHandlers.size () - 1; i >= 0; --i)
     {
-      com.sun.tools.corba.ee.idl.PragmaHandler handler = (com.sun.tools.corba.ee.idl.PragmaHandler)pragmaHandlers.elementAt (i);
+      com.sun.tools.corba.ee.idl.PragmaHandler handler = pragmaHandlers.elementAt (i);
       handler.closeScope (entry);
     }
   } // closeScope
 
   private com.sun.tools.corba.ee.idl.Parser parser;
   private com.sun.tools.corba.ee.idl.Scanner scanner;
-  private Hashtable symbols;
-  private Vector    macros;
+  private Hashtable<String, String> symbols;
+  private Vector<String>    macros;
 
   // The logic associated with this stack is scattered above.
   // A concise map of the logic is:
@@ -1406,7 +1365,7 @@ public class Preprocessor
   //     push (true);
   // case #endif
   //   pop ();
-  private        Stack<Boolean>  alreadyProcessedABranch = new Stack<Boolean> ();
+  private final  Stack<Boolean>  alreadyProcessedABranch = new Stack<Boolean> ();
                  com.sun.tools.corba.ee.idl.Token token;
 
   private static String indent = "";

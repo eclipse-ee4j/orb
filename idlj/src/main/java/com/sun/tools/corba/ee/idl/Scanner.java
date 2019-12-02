@@ -141,7 +141,7 @@ class Scanner
     // is not a token:  white space, comments, ignored preprocessor
     // commands.
     com.sun.tools.corba.ee.idl.Token token = null;
-    String commentText = new String ("");
+    String commentText = "";
 
     while (token == null)
       try
@@ -1516,9 +1516,9 @@ class Scanner
   // things like:  block comments, quoted strings, tokens.
   private ScannerData data              = new ScannerData ();
   private Stack       dataStack         = new Stack ();
-  private Vector      keywords          = new Vector ();
-  private Vector      openEndedKeywords = new Vector ();
-  private Vector      wildcardKeywords  = new Vector ();
+  private Vector<String>      keywords          = new Vector<>();
+  private Vector<String>      openEndedKeywords = new Vector<>();
+  private Vector<String>      wildcardKeywords  = new Vector<>();
   private boolean     verbose;
   // <f46082.40> Identifiers starting with '_' are considered "Escaped",
   // except when scanned during preprocessing.  Class Preprocessor is

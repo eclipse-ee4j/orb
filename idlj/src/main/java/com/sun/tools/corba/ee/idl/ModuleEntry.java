@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,7 +31,7 @@ public class ModuleEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   protected ModuleEntry (ModuleEntry that)
   {
     super (that);
-    _contained = (Vector)that._contained.clone ();
+    _contained = (Vector<SymtabEntry>)that._contained.clone ();
   } // ctor
 
   protected ModuleEntry (com.sun.tools.corba.ee.idl.SymtabEntry that, IDLID clone)
@@ -54,6 +55,7 @@ public class ModuleEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
        a subclass of SymtabEntry.
       @param stream the stream to which the generator should sent its output.
       @see com.sun.tools.corba.ee.idl.SymtabEntry */
+  @Override
   public void generate (Hashtable symbolTable, PrintWriter stream)
   {
     moduleGen.generate (symbolTable, this, stream);
@@ -62,6 +64,7 @@ public class ModuleEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   /** Access the module generator.
       @return an object which implements the ModuleGen interface.
       @see com.sun.tools.corba.ee.idl.ModuleGen */
+  @Override
   public com.sun.tools.corba.ee.idl.Generator generator ()
   {
     return moduleGen;
@@ -80,12 +83,12 @@ public class ModuleEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
       ConstEntry, InterfaceEntry, ModuleEntry.
     * @return a {@link Vector} of {@link SymtabEntry}
     */
-  public Vector contained ()
+  public Vector<SymtabEntry> contained ()
   {
     return _contained;
   } // contained
 
-  private Vector _contained = new Vector ();
+  private Vector<SymtabEntry> _contained = new Vector<>();
 
   static com.sun.tools.corba.ee.idl.ModuleGen moduleGen;
 } // class ModuleEntry

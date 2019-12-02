@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -269,46 +270,42 @@ public class Compile
   /**
    * Invoke the generators.
    **/
-  @SuppressWarnings("StatementWithEmptyBody")
-  protected void generate()
-  {
-    /*
-    // print the symbol table
-    Enumeration v = parser.symbolTable.elements ();
-    Enumeration k = parser.symbolTable.keys ();
-    while (k.hasMoreElements ())
-      System.out.println (k.nextElement () + ":  " + v.nextElement ());
-    */
-    if (com.sun.tools.corba.ee.idl.ParseException.detected)
-      emitList = null;
-    else
-      emitList = parser.emitList.elements ();
-    if (emitList != null)
-    {
-      // Emit the output files for all of the types in the IDL file
-      if (arguments.verbose)
-        System.out.println ();
-      while (emitList.hasMoreElements ())
-      {
-        com.sun.tools.corba.ee.idl.SymtabEntry entry = (com.sun.tools.corba.ee.idl.SymtabEntry)emitList.nextElement ();
-        if (arguments.verbose)
-          if (entry.generator () instanceof com.sun.tools.corba.ee.idl.Noop)
-            ; // Nothing will be generated, so don't say so.
-          else if (entry.module () . equals (""))
-            System.out.println (com.sun.tools.corba.ee.idl.Util.getMessage("Compile.generating", entry.name()));
-          else
-            System.out.println (com.sun.tools.corba.ee.idl.Util.getMessage("Compile.generating", entry.module() + '/' + entry.name()));
-        entry.generate (symbolTable, null);
-        if (arguments.verbose)
-          if (entry.generator () instanceof com.sun.tools.corba.ee.idl.Noop)
-            ; // Nothing will be generated, so don't say so.
-          else if (entry.module () . equals (""))
-            System.out.println (com.sun.tools.corba.ee.idl.Util.getMessage("Compile.genDone", entry.name()));
-          else
-            System.out.println (com.sun.tools.corba.ee.idl.Util.getMessage("Compile.genDone", entry.module() + '/' + entry.name()));
-      }
+    @SuppressWarnings("StatementWithEmptyBody")
+    protected void generate() {
+        if (com.sun.tools.corba.ee.idl.ParseException.detected) {
+            emitList = null;
+        } else {
+            emitList = parser.emitList.elements();
+        }
+        if (emitList != null) {
+            // Emit the output files for all of the types in the IDL file
+            if (arguments.verbose) {
+                System.out.println();
+            }
+            while (emitList.hasMoreElements()) {
+                com.sun.tools.corba.ee.idl.SymtabEntry entry = emitList.nextElement();
+                if (arguments.verbose) {
+                    if (entry.generator() instanceof com.sun.tools.corba.ee.idl.Noop) {
+                        ; // Nothing will be generated, so don't say so.
+                    } else if (entry.module().equals("")) {
+                        System.out.println(com.sun.tools.corba.ee.idl.Util.getMessage("Compile.generating", entry.name()));
+                    } else {
+                        System.out.println(com.sun.tools.corba.ee.idl.Util.getMessage("Compile.generating", entry.module() + '/' + entry.name()));
+                    }
+                }
+                entry.generate(symbolTable, null);
+                if (arguments.verbose) {
+                    if (entry.generator() instanceof com.sun.tools.corba.ee.idl.Noop) {
+                        ; // Nothing will be generated, so don't say so.
+                    } else if (entry.module().equals("")) {
+                        System.out.println(com.sun.tools.corba.ee.idl.Util.getMessage("Compile.genDone", entry.name()));
+                    } else {
+                        System.out.println(com.sun.tools.corba.ee.idl.Util.getMessage("Compile.genDone", entry.module() + '/' + entry.name()));
+                    }
+                }
+            }
+        }
     }
-  } // generate
 
   /**
    * Start the parse/code generation process.  This method calls init,
@@ -461,7 +458,7 @@ public class Compile
    * an overrideNames entry of &lt;"TRUE", "true"&gt;.  NOTE:  Do NOT change this
    * variable to a new Hash table.  Just add elements to it.
    **/
-  protected Hashtable overrideNames    = new Hashtable ();
+  protected Hashtable<String, String> overrideNames    = new Hashtable<>();
   /**
    * This is the symbol table.  It will be empty until the parse method
    * executes.  If errors are encountered, the state of the symbol table
@@ -474,21 +471,21 @@ public class Compile
    * until the parse method executes.  If errors are encountered, the state
    * of this vector is undefined.
    **/
-  protected Vector includes            = new Vector ();
+  protected Vector<String> includes            = new Vector ();
   /**
    * This is a vector of IncludeEntry's.  It is a list of the files included
    * in the given IDL file.  It mirrors the includes vector.  It will be empty
    * until the parse method executes.  If errors are encountered, the state of
    * this vector is undefined.
    **/
-  private Vector includeEntries      = new Vector ();
+  private Vector<IncludeEntry> includeEntries      = new Vector<>();
   private static com.sun.tools.corba.ee.idl.Noop noop           = new com.sun.tools.corba.ee.idl.Noop();
   private com.sun.tools.corba.ee.idl.GenFactory genFactory     = null;
   private com.sun.tools.corba.ee.idl.SymtabFactory symtabFactory  = null;
   private ExprFactory   exprFactory    = null;
   private com.sun.tools.corba.ee.idl.Parser parser         = null;
   private com.sun.tools.corba.ee.idl.Preprocessor preprocessor   = new com.sun.tools.corba.ee.idl.Preprocessor();
-  private Enumeration   emitList       = null;
+  private Enumeration<SymtabEntry>   emitList       = null;
   private String[]      keywords       = null;
 } // class Compile
 

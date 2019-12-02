@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -84,7 +85,7 @@ public class Arguments
     * @param args arguments passed in
     **/
     void parseArgs (String[] args) throws InvalidArgument {
-        Vector unknownArgs = new Vector ();
+        Vector<String> unknownArgs = new Vector<>();
         int    i           = 0;
 
         try {
@@ -143,7 +144,7 @@ public class Arguments
                     if (level.charAt (0) == '-')
                         throw new InvalidArgument(args[i - 1]);
                     try {
-                        corbaLevel = new Float (level).floatValue ();
+                        corbaLevel = Float.parseFloat(level);
                     } catch (NumberFormatException e) {
                         throw new InvalidArgument(args[i]);
                     }
@@ -254,13 +255,13 @@ public class Arguments
    * A list of strings, each of which is a path from which included files
    * are found.
    **/
-  public Vector includePaths = new Vector ();
+  public Vector<String> includePaths = new Vector<>();
 
   /**
    * A table of defined symbols.  The key is the symbol name; the value
    * (if any) is the replacement value for the symbol.
    **/
-  public Hashtable definedSymbols = new Hashtable ();
+  public Hashtable<String, String> definedSymbols = new Hashtable ();
 
   /**
    * &lt;f46082.46.01&gt; True if new module entries are created for each

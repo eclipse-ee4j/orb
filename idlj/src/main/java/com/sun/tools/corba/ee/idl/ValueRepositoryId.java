@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,7 +24,7 @@ public class ValueRepositoryId
 {
   private MessageDigest sha;       // Message digest used to compute SHA-1
   private int           index;     // Current index in the 'logical' sequence
-  private Hashtable     types;     // Already processed types
+  private Hashtable<SymtabEntry, Integer>     types;     // Already processed types
   private String        hashcode;  // The computed hashcode
 
   public ValueRepositoryId ()
@@ -35,7 +36,7 @@ public class ValueRepositoryId
     catch (Exception exception)
     {}
     index    = 0;
-    types    = new Hashtable ();
+    types    = new Hashtable<>();
     hashcode = null;
   } // ctor
 
@@ -55,7 +56,7 @@ public class ValueRepositoryId
       @param entry the type to be added to the value RepositoryID. */
   public void addType (SymtabEntry entry)
   {
-    types.put (entry, new Integer (index));
+    types.put(entry, index);
   }
 
   /** Check to see if a specified type has already been processed. If so,
@@ -67,14 +68,14 @@ public class ValueRepositoryId
        and false otherwise. */
   public boolean isNewType (SymtabEntry entry)
   {
-    Object index = types.get (entry);
+    Integer index = types.get(entry);
     if (index == null)
     {
       addType (entry);
       return true;
     }
     addValue (0xFFFFFFFF);
-    addValue (((Integer)index).intValue ());
+    addValue(index);
     return false;
   } // isNewType
 

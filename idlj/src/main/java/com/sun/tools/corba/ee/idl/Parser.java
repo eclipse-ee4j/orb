@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -72,8 +73,8 @@ class Parser
     cppModule      = arguments.cppModule;
     // <f46082.51> Remove -stateful feature.
     //parseStateful  = arguments.parseStateful;
-    overrideNames  = (overrides == null) ? new Hashtable () : overrides;
-    symbolTable    = (symtab == null) ? new Hashtable () : symtab;
+    overrideNames  = (overrides == null) ? new Hashtable<>() : overrides;
+    symbolTable    = (symtab == null) ? new Hashtable<>() : symtab;
     keywords       = (genKeywords == null) ? new String [0] : genKeywords;
     stFactory      = stFac;
     exprFactory    = exprFac;
@@ -215,7 +216,7 @@ class Parser
         if (emitEntry instanceof IncludeEntry)
         {
           includes.addElement (emitEntry.name ());
-          includeEntries.addElement (emitEntry);
+          includeEntries.addElement ((IncludeEntry) emitEntry);
         }
       }
       else
@@ -241,8 +242,9 @@ class Parser
         checkContained ((com.sun.tools.corba.ee.idl.ModuleEntry)contained);
       if (contained.emit ())
       {
-        if (!emitList.contains (entry))
+        if (!emitList.contains (entry)) {
           emitList.addElement (entry);
+        }
         entry.emit (true);
         break;
       }
@@ -937,9 +939,10 @@ class Parser
     // Replace those ForwardValueEntry's with this ValueEntry:
     //if (!ForwardValueEntry.replaceForwardDecl (entry))
     //   ParseException.badAbstract (scanner, entry.fullName());
-    com.sun.tools.corba.ee.idl.SymtabEntry valueForward = (com.sun.tools.corba.ee.idl.SymtabEntry)Parser.symbolTable.get (entry.fullName ());
-    if (valueForward != null && valueForward instanceof com.sun.tools.corba.ee.idl.ForwardEntry)
+    com.sun.tools.corba.ee.idl.SymtabEntry valueForward = Parser.symbolTable.get(entry.fullName());
+    if (valueForward != null && valueForward instanceof com.sun.tools.corba.ee.idl.ForwardEntry) {
       com.sun.tools.corba.ee.idl.ParseException.forwardedValueBox(scanner, entry.fullName());
+    }
     pigeonhole (module, entry);
     ((com.sun.tools.corba.ee.idl.IDLID)repIDStack.peek ()).appendToName (name);
     currentModule = entry;
@@ -1079,7 +1082,7 @@ class Parser
   {
     while (entry instanceof com.sun.tools.corba.ee.idl.TypedefEntry)
     {
-      if (((com.sun.tools.corba.ee.idl.TypedefEntry)entry).arrayInfo ().size () != 0)
+      if (!((com.sun.tools.corba.ee.idl.TypedefEntry)entry).arrayInfo ().isEmpty())
         return true;
       entry = entry.type ();
     }
@@ -1091,7 +1094,7 @@ class Parser
    **/
   public static String overrideName (String string)
   {
-    String name = (String)overrideNames.get (string);
+    String name = overrideNames.get(string);
     return (name == null) ? string : name;
   } // overrideName
 
@@ -1292,9 +1295,9 @@ class Parser
       if (expr instanceof com.sun.tools.corba.ee.idl.constExpr.Terminal &&
           expr.value () instanceof BigInteger &&
           (overrideName (expr.type ()).equals ("float") ||
-               overrideName (expr.type ()).indexOf ("double") >= 0))
+              overrideName (expr.type ()).contains("double")))
       {
-        expr.value (new Double (((BigInteger)expr.value ()).doubleValue ()));
+        expr.value (((BigInteger)expr.value ()).doubleValue ());
       }
     }
     catch (com.sun.tools.corba.ee.idl.constExpr.EvaluationException exception)
@@ -2979,7 +2982,7 @@ class Parser
     // instead of the input stream for a while.
     if (token.equals (com.sun.tools.corba.ee.idl.Token.Identifier) || token.equals (com.sun.tools.corba.ee.idl.Token.MacroIdentifier))
     {
-      String string = (String)symbols.get (token.name);
+      String string = symbols.get (token.name);
       if (string != null && !string.equals (""))
       {
         // If this is a macro, parse the macro
@@ -3527,7 +3530,7 @@ class Parser
    **/
   com.sun.tools.corba.ee.idl.SymtabEntry searchOverrideNames (String name)
   {
-    String overrideName = (String)overrideNames.get (name);
+    String overrideName = overrideNames.get(name);
     return (overrideName != null)
         ? (com.sun.tools.corba.ee.idl.SymtabEntry)symbolTable.get (overrideName)
         : null;
@@ -3648,12 +3651,12 @@ class Parser
   /**
    *
    **/
-  private boolean isntInStringList (Vector list, String name)
+  private boolean isntInStringList (Vector<String> list, String name)
   {
     boolean isnt = true;
-    Enumeration e = list.elements ();
+    Enumeration<String> e = list.elements ();
     while (e.hasMoreElements ())
-      if (name.equals ((String)e.nextElement ()))
+      if (name.equals (e.nextElement()))
       {
         com.sun.tools.corba.ee.idl.ParseException.alreadyDeclared(scanner, name);
         isnt = false;
@@ -3714,9 +3717,9 @@ class Parser
    **/
   void forwardEntryCheck ()
   {
-    for (Enumeration e = symbolTable.elements (); e.hasMoreElements ();)
+    for (Enumeration<SymtabEntry> e = symbolTable.elements (); e.hasMoreElements ();)
     {
-      com.sun.tools.corba.ee.idl.SymtabEntry entry = (com.sun.tools.corba.ee.idl.SymtabEntry)e.nextElement ();
+      com.sun.tools.corba.ee.idl.SymtabEntry entry = e.nextElement ();
       if (entry instanceof com.sun.tools.corba.ee.idl.ForwardEntry)
         com.sun.tools.corba.ee.idl.ParseException.forwardEntry(scanner, entry.fullName());
     }
@@ -3821,10 +3824,10 @@ class Parser
 
   public static final String unknownNamePrefix = "uN__";
 
-       static Hashtable   symbolTable;
-              Hashtable   lcSymbolTable  = new Hashtable ();
-       static Hashtable   overrideNames;
-              Vector      emitList       = new Vector ();
+       static Hashtable<String, SymtabEntry>   symbolTable;
+              Hashtable<String, SymtabEntry>   lcSymbolTable  = new Hashtable ();
+       static Hashtable<String, String>   overrideNames;
+              Vector<SymtabEntry>      emitList       = new Vector ();
               boolean     emitAll;
   // <f46082.46.01>
               boolean     cppModule;
@@ -3833,9 +3836,9 @@ class Parser
               com.sun.tools.corba.ee.idl.Scanner scanner;
   // <f46082.40> No longer necessary due to new valueElement() algorithm.
   //          Stack       tokenStack     = new Stack();
-              Hashtable   symbols;
-              Vector      macros         = new Vector ();
-              Vector      paths;
+              Hashtable<String, String>   symbols;
+              Vector<String>      macros         = new Vector ();
+              Vector<String>      paths;
 
   // Only needed for the pragma directive
               com.sun.tools.corba.ee.idl.SymtabEntry currentModule  = null;
@@ -3855,8 +3858,8 @@ class Parser
   private static int ftlKey = com.sun.tools.corba.ee.idl.SymtabEntry.getVariableKey() ;
 
               int         sequence       = 0;
-              Vector      includes;
-              Vector      includeEntries;
+              Vector<String>      includes;
+              Vector<IncludeEntry>      includeEntries;
 
   // Only needed in primaryExpr.  Set in Preprocessor.booleanConstExpr.
               boolean     parsingConditionalExpr = false;

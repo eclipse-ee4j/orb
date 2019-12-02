@@ -11,9 +11,6 @@
 
 package com.sun.tools.corba.ee.idl.som.cff;
 
-import java.lang.Exception;
-import java.lang.String;
-import java.lang.System;
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.File;

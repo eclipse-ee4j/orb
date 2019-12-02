@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -55,7 +56,7 @@ public class Skeleton implements AuxGen
     if (entry instanceof ValueEntry) 
     {
       ValueEntry v = (ValueEntry) entry;
-      if ((v.supports ().size () == 0) ||
+      if ((v.supports ().isEmpty()) ||
           ((InterfaceEntry) v.supports ().elementAt (0)).isAbstract ()) {
         return;
         }
@@ -293,7 +294,7 @@ public class Skeleton implements AuxGen
   protected void buildMethodList ()
   {
     // Start from scratch
-    methodList = new Vector ();
+    methodList = new Vector<>();
 
     buildMethodList (i);
   } // buildMethodList
@@ -396,10 +397,10 @@ public class Skeleton implements AuxGen
     stream.println ("  {");
 
     int count = -1;
-    Enumeration e = methodList.elements ();
+    Enumeration<MethodEntry> e = methodList.elements();
     while (e.hasMoreElements ())
     {
-      MethodEntry method = (MethodEntry)e.nextElement ();
+      MethodEntry method = e.nextElement ();
       if (method instanceof AttributeEntry)
       {
         stream.println ("    _methods.put (\"_get_" + com.sun.tools.corba.ee.idl.toJavaPortable.Util.stripLeadingUnderscores(method.name()) + "\", " + (++count) + ");");
@@ -455,14 +456,14 @@ public class Skeleton implements AuxGen
   /**
    *
    **/
-  private void buildIDList (InterfaceEntry entry, Vector list)
+  private void buildIDList (InterfaceEntry entry, Vector<String> list)
   {
     if (!entry.fullName ().equals ("org/omg/CORBA/Object"))
     {
       String id = com.sun.tools.corba.ee.idl.toJavaPortable.Util.stripLeadingUnderscoresFromID(entry.repositoryID().ID());
       if (!list.contains (id))
         list.addElement (id);
-      Enumeration e = entry.derivedFrom ().elements ();
+      Enumeration<SymtabEntry> e = entry.derivedFrom().elements();
       while (e.hasMoreElements ())
         buildIDList ((InterfaceEntry)e.nextElement (), list);
     }
@@ -536,7 +537,7 @@ public class Skeleton implements AuxGen
   protected String         skeletonClassName   = null;
   protected boolean        tie         = false;
   protected boolean        poa         = false;
-  protected Vector         methodList  = null;
+  protected Vector<MethodEntry> methodList  = null;
   protected String         intfName    = "";
 } // class Skeleton
 

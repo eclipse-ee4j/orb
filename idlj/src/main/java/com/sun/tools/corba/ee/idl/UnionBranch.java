@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -13,6 +14,7 @@ package com.sun.tools.corba.ee.idl;
 
 // NOTES:
 
+import com.sun.tools.corba.ee.idl.constExpr.Expression;
 import java.util.Vector;
 
 /**
@@ -43,7 +45,7 @@ public class UnionBranch
   public TypedefEntry typedef;
   /** A vector of Expression's, one for each label in the order in which
       they appear in the IDL file.  The default branch has no label. */
-  public Vector labels = new Vector ();
+  public Vector<Expression> labels = new Vector<>();
   /** true if this is the default branch. */
   public boolean isDefault = false;
 } // class UnionBranch

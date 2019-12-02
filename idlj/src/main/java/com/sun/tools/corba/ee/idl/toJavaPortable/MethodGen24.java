@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,6 +16,7 @@ package com.sun.tools.corba.ee.idl.toJavaPortable;
 // -D62023   <klr> New file to implement CORBA 2.4 RTF
 // -D62794   <klr> Fix problem with no-arg create functions
 
+import com.sun.tools.corba.ee.idl.ExceptionEntry;
 import com.sun.tools.corba.ee.idl.MethodEntry;
 import com.sun.tools.corba.ee.idl.ParameterEntry;
 import com.sun.tools.corba.ee.idl.SymtabEntry;
@@ -43,18 +45,18 @@ public class MethodGen24 extends MethodGen
    */
   protected void writeParmList (MethodEntry m, boolean listTypes, PrintWriter stream) {
     boolean firstTime = true;
-    Enumeration e = m.parameters ().elements ();
-    while (e.hasMoreElements ())
-    {
-      if (firstTime)
-        firstTime = false;
-      else
-        stream.print (", ");
-      ParameterEntry parm = (ParameterEntry)e.nextElement ();
-      if (listTypes) {
-        writeParmType (parm.type (), parm.passType ());
-        stream.print (' ');
-      }
+    Enumeration<ParameterEntry> e = m.parameters().elements ();
+    while (e.hasMoreElements()) {
+        if (firstTime) {
+            firstTime = false;
+        } else {
+            stream.print(", ");
+        }
+        ParameterEntry parm = e.nextElement();
+        if (listTypes) {
+            writeParmType(parm.type(), parm.passType());
+            stream.print(' ');
+        }
       // Print parm name
       stream.print (parm.name ());
       // end of parameter list
@@ -114,11 +116,11 @@ public class MethodGen24 extends MethodGen
     this.symbolTable = symbolTable;
     this.m           = m;
     this.stream      = stream;
-    String typeName = m.container (). name ();
+    String typeName = m.container().name();
     stream.println ();
     if (m.comment () != null)
       m.comment ().generate ("  ", stream);
-    stream.print   ("  public " + typeName + " " + m.name () + " (");
+    stream.print   ("  public " + typeName + " " + m.name() + " (");
     writeParmList  (m, true, stream);
     stream.println (")");
     stream.println ("  {");
@@ -149,14 +151,14 @@ public class MethodGen24 extends MethodGen
 
     // Step 1.  Print the parameter list.
     boolean firstTime = true;
-    Enumeration e = m.parameters ().elements ();
-    while (e.hasMoreElements ())
-    {
-      if (firstTime)
-        firstTime = false;
-      else
-        stream.print (", ");
-      ParameterEntry parm = (ParameterEntry)e.nextElement ();
+    Enumeration<ParameterEntry> params = m.parameters().elements();
+    while (params.hasMoreElements()) {
+        if (firstTime) {
+            firstTime = false;
+        } else {
+            stream.print(", ");
+        }
+        ParameterEntry parm = params.nextElement();
 
       writeParmType (parm.type (), parm.passType ());
 
@@ -165,7 +167,7 @@ public class MethodGen24 extends MethodGen
     }
 
     // Step 2.  Add the context parameter if necessary.
-    if (m.contexts ().size () > 0)
+    if (m.contexts().size() > 0)
     {
       if (!firstTime)
         stream.print (", ");
@@ -173,24 +175,25 @@ public class MethodGen24 extends MethodGen
     }
 
     // Step 3.  Print the throws clause (if necessary).
-    if (m.exceptions ().size () > 0)
+    if (m.exceptions().size() > 0)
     {
       stream.print (") throws ");
-      e = m.exceptions ().elements ();
+      Enumeration<ExceptionEntry> exceptions = m.exceptions().elements();
       firstTime = true;
-      while (e.hasMoreElements ())
+      while (exceptions.hasMoreElements ())
       {
         if (firstTime)
           firstTime = false;
         else
           stream.print (", ");
-        stream.print (com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaName((SymtabEntry) e.nextElement()));
+        stream.print (com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaName((SymtabEntry) exceptions.nextElement()));
       }
     }
     else
       stream.print (')');
   } // writeMethodSignature
 
+  @Override
   protected void interfaceMethod (Hashtable symbolTable, MethodEntry m, PrintWriter stream)
   {
     this.symbolTable = symbolTable;

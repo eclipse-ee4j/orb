@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -163,10 +164,10 @@ public class StructGen implements com.sun.tools.corba.ee.idl.StructGen, com.sun.
   protected void generateContainedTypes ()
   {
     // Generate all of the contained types
-    Enumeration e = s.contained ().elements ();
+    Enumeration<SymtabEntry> e = s.contained ().elements ();
     while (e.hasMoreElements ())
     {
-      SymtabEntry entry = (SymtabEntry)e.nextElement ();
+      SymtabEntry entry = e.nextElement ();
 
       // Don't generate contained entries if they are sequences.
       // Sequences are unnamed and since they translate to arrays,
@@ -389,10 +390,10 @@ public class StructGen implements com.sun.tools.corba.ee.idl.StructGen, com.sun.
       stream.println (indent + "ostream.write_string (id ());");
     }
 
-    Vector members = ((StructEntry)entry).members ();
+    Vector<TypedefEntry> members = ((StructEntry)entry).members ();
     for (int i = 0; i < members.size (); ++i)
     {
-      TypedefEntry member = (TypedefEntry)members.elementAt (i);
+      TypedefEntry member = members.elementAt (i);
       SymtabEntry  mType = member.type ();
 
       if (!member.arrayInfo ().isEmpty () || mType instanceof SequenceEntry ||

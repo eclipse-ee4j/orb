@@ -48,9 +48,7 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
   {
   } // ctor
 
-  /**
-   *
-   **/
+  @Override
   public void generate (Hashtable symbolTable, UnionEntry u, PrintWriter s)
   {
     this.symbolTable = symbolTable;
@@ -579,10 +577,9 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
         Vector labels = branch.labels;
         String memberName = com.sun.tools.corba.ee.idl.toJavaPortable.Util.stripLeadingUnderscores(member.name());
  
-        if (labels.size() == 0) {
+        if (labels.isEmpty()) {
             stream.println ();
-            stream.println (indent + "// Branch for " + memberName + 
-                " (Default case)" );
+            stream.println (indent + "// Branch for " + memberName + " (Default case)" );
             SymtabEntry utype = com.sun.tools.corba.ee.idl.toJavaPortable.Util.typeOf(u.type());
             stream.println (indent + anyOfMembers + " = org.omg.CORBA.ORB.init ().create_any ();");
             // For default member, label is the zero octet (per CORBA spec.)
@@ -603,9 +600,9 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
             stream.println (indent + "  " + tcOfMembers + ',');
             stream.println (indent + "  null);");
         } else {
-            Enumeration enumeration = labels.elements() ;
+            Enumeration<Expression> enumeration = labels.elements() ;
             while (enumeration.hasMoreElements()) {
-                Expression expr = (Expression)(enumeration.nextElement()) ;
+                Expression expr = enumeration.nextElement() ;
                 String elem = com.sun.tools.corba.ee.idl.toJavaPortable.Util.parseExpression(expr) ;
 
                 stream.println ();
@@ -654,6 +651,7 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
     return index;
   } // helperType
 
+    @Override
     public int type (int index, String indent, com.sun.tools.corba.ee.idl.toJavaPortable.TCOffsets tcoffsets, String name,
         SymtabEntry entry, PrintWriter stream)
     {
@@ -661,6 +659,7 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
         return index;
     } 
 
+    @Override
     public void helperRead (String entryName, SymtabEntry entry, PrintWriter stream)
     {
         stream.println ("    " + entryName + " value = new " + entryName + " ();");
@@ -668,11 +667,13 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
         stream.println ("    return value;");
     } 
 
+    @Override
     public void helperWrite (SymtabEntry entry, PrintWriter stream)
     {
         write (0, "    ", "value", entry, stream);
     } 
 
+    @Override
     public int read (int index, String indent, String name, 
         SymtabEntry entry, PrintWriter stream)
     {
@@ -712,9 +713,9 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
                 (u.defaultBranch () != null || firstBranch.labels.size () == 2)) {
                 noCases = true;
             } else {
-                Expression expr = (Expression)(firstBranch.labels.firstElement()) ;
+                Expression expr = (firstBranch.labels.firstElement()) ;
                 Boolean bool = (Boolean)(expr.evaluate()) ;
-                firstBranchIsTrue = bool.booleanValue ();
+                firstBranchIsTrue = bool;
             }
         } catch (EvaluationException ex) {
             // no action
@@ -774,10 +775,10 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
         Enumeration e = u.branches ().elements ();
         while (e.hasMoreElements ()) {
             UnionBranch branch = (UnionBranch)e.nextElement ();
-            Enumeration labels = branch.labels.elements ();
+            Enumeration<Expression> labels = branch.labels.elements ();
 
             while (labels.hasMoreElements ()) {
-                Expression label = (Expression)labels.nextElement ();
+                Expression label = labels.nextElement ();
 
                 if (utype instanceof EnumEntry) {
                     String key = com.sun.tools.corba.ee.idl.toJavaPortable.Util.parseExpression(label);
@@ -998,11 +999,11 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
           ret = "(short)(" + ret + ')';
       }
     }
-    else if (type.name ().indexOf ("long") >= 0)
+    else if (type.name ().contains("long"))
     {
       if (expr.value () instanceof Long)
       {
-        long value = ((Long)expr.value ()).longValue ();
+        long value = ((Long)expr.value ());
         // value == Integer.MIN_VALUE because if the number is
         // Integer.MIN_VALUE, then it will have the 'L' suffix and
         // the cast will be necessary.
@@ -1011,7 +1012,7 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
       }
       else if (expr.value () instanceof Integer)
       {
-        int value = ((Integer)expr.value ()).intValue ();
+        int value = ((Integer)expr.value ());
         // value == Integer.MIN_VALUE because if the number is
         // Integer.MIN_VALUE, then it will have the 'L' suffix and
         // the cast will be necessary.

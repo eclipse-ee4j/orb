@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,9 +33,9 @@ public class ValueEntry extends com.sun.tools.corba.ee.idl.InterfaceEntry
   protected ValueEntry (ValueEntry that)
   {
      super (that);
-    _supportsNames = (Vector)that._supportsNames.clone ();
-    _supports      = (Vector)that._supports.clone ();
-    _initializers  = (Vector)that._initializers.clone ();
+    _supportsNames = (Vector<String>)that._supportsNames.clone ();
+    _supports      = (Vector<SymtabEntry>)that._supports.clone ();
+    _initializers  = (Vector<MethodEntry>)that._initializers.clone ();
     _custom        = that._custom;
     _isSafe        = that._isSafe;
   } // ctor
@@ -82,7 +83,7 @@ public class ValueEntry extends com.sun.tools.corba.ee.idl.InterfaceEntry
   /** This method returns a vector of {@link InterfaceEntry}s.
    * @return a {@link Vector} of {@link InterfaceEntry}
    */
-  public Vector supports ()
+  public Vector<SymtabEntry> supports ()
   {
     return _supports;
   } // supports
@@ -101,7 +102,7 @@ public class ValueEntry extends com.sun.tools.corba.ee.idl.InterfaceEntry
       the first element of the supports vector, etc.
     * @return a {@link Vector} of {@link String}s
     */
-  public Vector supportsNames ()
+  public Vector<String> supportsNames ()
   {
     return _supportsNames;
   } // supportsNames
@@ -135,6 +136,7 @@ public class ValueEntry extends com.sun.tools.corba.ee.idl.InterfaceEntry
     addParentType (e, scanner);
   } // derivedFromAddElement
 
+  @Override
   void derivedFromAddElement (com.sun.tools.corba.ee.idl.SymtabEntry e, com.sun.tools.corba.ee.idl.Scanner scanner)
   {
     // This code must check for duplicate interfaces being supported...
@@ -153,29 +155,28 @@ public class ValueEntry extends com.sun.tools.corba.ee.idl.InterfaceEntry
     return (index >= 0);
   }
 
-  void initializersAddElement (com.sun.tools.corba.ee.idl.MethodEntry method, com.sun.tools.corba.ee.idl.Scanner scanner)
-  {
-    // Check to see if the parameter signature is a duplicate:
-    Vector params = method.parameters ();
-    int    args   = params.size ();
-    for (Enumeration e = _initializers.elements (); e.hasMoreElements ();)
-    {
-      Vector params2 = ( (com.sun.tools.corba.ee.idl.MethodEntry) e.nextElement ()).parameters ();
-      if (args == params2.size ())
-      {
-        int i = 0;
-        for (; i < args; i++)
-          if (!((com.sun.tools.corba.ee.idl.ParameterEntry)params.elementAt (i)).type ().equals (
-                ((com.sun.tools.corba.ee.idl.ParameterEntry)params2.elementAt (i)).type ()))
-            break;
-        if (i >= args)
-          com.sun.tools.corba.ee.idl.ParseException.duplicateInit(scanner);
-      }
-    }
-    _initializers.addElement (method);
-  } // initializersAddElement
+    void initializersAddElement(com.sun.tools.corba.ee.idl.MethodEntry method, com.sun.tools.corba.ee.idl.Scanner scanner) {
+        // Check to see if the parameter signature is a duplicate:
+        Vector<ParameterEntry> params = method.parameters();
+        int args = params.size();
+        for (Enumeration<MethodEntry> e = _initializers.elements(); e.hasMoreElements();) {
+            Vector<ParameterEntry> params2 = e.nextElement().parameters();
+            if (args == params2.size()) {
+                int i = 0;
+                for (; i < args; i++) {
+                    if (!(params.elementAt(i)).type().equals((params2.elementAt(i)).type())) {
+                        break;
+                    }
+                }
+                if (i >= args) {
+                    com.sun.tools.corba.ee.idl.ParseException.duplicateInit(scanner);
+                }
+            }
+        }
+        _initializers.addElement(method);
+    } // initializersAddElement
 
-  public Vector initializers ()
+  public Vector<MethodEntry> initializers ()
   {
     return _initializers;
   }
@@ -393,9 +394,9 @@ public class ValueEntry extends com.sun.tools.corba.ee.idl.InterfaceEntry
     return _isSafe;
   }
 
-  private Vector   _supportsNames = new Vector ();
-  private Vector   _supports      = new Vector ();
-  private Vector   _initializers  = new Vector ();
+  private Vector<String>      _supportsNames = new Vector<>();
+  private Vector<SymtabEntry> _supports      = new Vector<>();
+  private Vector<MethodEntry> _initializers  = new Vector<>();
   private boolean  _custom        = false;
   private boolean  _isSafe        = false;
 

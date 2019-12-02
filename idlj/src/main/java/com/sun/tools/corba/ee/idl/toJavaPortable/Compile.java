@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -102,9 +103,7 @@ public class Compile extends com.sun.tools.corba.ee.idl.Compile
     compiler.start (args);
   } // main
 
- /**
-  *
-  **/
+  @Override
   public void start (String[] args)
   {
     try
@@ -249,14 +248,14 @@ public class Compile extends com.sun.tools.corba.ee.idl.Compile
   } // preParse
 
 
-  protected void preEmit (Enumeration emitList)
+  protected void preEmit (Enumeration<SymtabEntry> emitList)
   {
     typedefInfo = SymtabEntry.getVariableKey ();
-    Hashtable tempST = (Hashtable)symbolTable.clone ();
+    Hashtable<String, SymtabEntry> tempST = (Hashtable<String, SymtabEntry>)symbolTable.clone ();
 
-    for (Enumeration e = tempST.elements (); e.hasMoreElements ();)
+    for (Enumeration<SymtabEntry> e = tempST.elements(); e.hasMoreElements();)
     {
-      SymtabEntry element = (SymtabEntry)e.nextElement ();
+      SymtabEntry element = e.nextElement ();
 
       // Any other symbolTable processing?
       preEmitSTElement (element);
@@ -264,13 +263,13 @@ public class Compile extends com.sun.tools.corba.ee.idl.Compile
 
     // Do this processing AFTER any other processing to get the
     // correct names.
-    Enumeration elements = symbolTable.elements ();
+    Enumeration<SymtabEntry> elements = symbolTable.elements ();
     while (elements.hasMoreElements ())
     {
       // Find all TypedefEntry's and fill in the SymtabEntry.info
       // field with it's real type , including [][]... with const
       // exprs.
-      SymtabEntry element = (SymtabEntry)elements.nextElement ();
+      SymtabEntry element = elements.nextElement ();
       if (element instanceof TypedefEntry || element instanceof SequenceEntry)
         com.sun.tools.corba.ee.idl.toJavaPortable.Util.fillInfo(element);
 
@@ -283,21 +282,21 @@ public class Compile extends com.sun.tools.corba.ee.idl.Compile
 
       else if (element instanceof StructEntry)
       {
-        Enumeration members = ((StructEntry)element).members ().elements ();
+        Enumeration<TypedefEntry> members = ((StructEntry)element).members ().elements ();
         while (members.hasMoreElements ())
-          com.sun.tools.corba.ee.idl.toJavaPortable.Util.fillInfo((SymtabEntry) members.nextElement());
+          com.sun.tools.corba.ee.idl.toJavaPortable.Util.fillInfo(members.nextElement());
       }
       else if (element instanceof InterfaceEntry && ((InterfaceEntry)element).state () != null)
       {
-        Enumeration members = ((InterfaceEntry)element).state ().elements ();
+        Enumeration<InterfaceState> members = ((InterfaceEntry)element).state().elements();
         while (members.hasMoreElements ())
-          com.sun.tools.corba.ee.idl.toJavaPortable.Util.fillInfo(((InterfaceState) members.nextElement()).entry);
+          com.sun.tools.corba.ee.idl.toJavaPortable.Util.fillInfo((members.nextElement()).entry);
       }
       else if (element instanceof UnionEntry)
       {
-        Enumeration branches = ((UnionEntry)element).branches ().elements ();
+        Enumeration<UnionBranch> branches = ((UnionEntry)element).branches().elements();
         while (branches.hasMoreElements ())
-          com.sun.tools.corba.ee.idl.toJavaPortable.Util.fillInfo(((UnionBranch) branches.nextElement()).typedef);
+          com.sun.tools.corba.ee.idl.toJavaPortable.Util.fillInfo((branches.nextElement()).typedef);
       }
 
       // For each type that is at the top level that is NOT a module
@@ -310,7 +309,7 @@ public class Compile extends com.sun.tools.corba.ee.idl.Compile
 
     while (emitList.hasMoreElements ())
     {
-      SymtabEntry entry = (SymtabEntry)emitList.nextElement ();
+      SymtabEntry entry = emitList.nextElement ();
 
       // Any other emitList processing:
       preEmitELElement (entry);
@@ -325,10 +324,10 @@ public class Compile extends com.sun.tools.corba.ee.idl.Compile
   {
     // If the -package argument was used, search the packages list
     // for the given type name and prepend the package to it.
-    Hashtable packages = ((com.sun.tools.corba.ee.idl.toJavaPortable.Arguments)arguments).packages;
+    Hashtable<String, String> packages = ((com.sun.tools.corba.ee.idl.toJavaPortable.Arguments)arguments).packages;
     if (packages.size () > 0)
     {
-      String substr = (String)packages.get (entry.fullName ());
+      String substr = packages.get(entry.fullName ());
       if (substr != null)
       {
         String pkg = null;
@@ -374,7 +373,7 @@ public class Compile extends com.sun.tools.corba.ee.idl.Compile
   {
   } // preEmitELElement
 
-  public        Vector        importTypes  = new Vector ();
+  public        Vector<SymtabEntry> importTypes  = new Vector<>();
   public        SymtabFactory factory;
   public static int           typedefInfo;
   public        Hashtable     list         = new Hashtable ();

@@ -279,7 +279,7 @@ public class Util
       @throws FileNotFoundException The file does not exist in the
        current user or specified directories.
       @see java.io.File#getAbsolutePath */
-  public static String getAbsolutePath (String filename, Vector includePaths) throws FileNotFoundException
+  public static String getAbsolutePath (String filename, Vector<String> includePaths) throws FileNotFoundException
   {
     String filepath = null;
     File file = new File (filename);
@@ -288,10 +288,10 @@ public class Util
     else
     {
       String fullname = null;
-      Enumeration pathList = includePaths.elements ();
+      Enumeration<String> pathList = includePaths.elements ();
       while (!file.canRead () && pathList.hasMoreElements ())
       {
-        fullname = (String)pathList.nextElement () + File.separatorChar + filename;
+        fullname = pathList.nextElement() + File.separatorChar + filename;
         file = new File (fullname);
       }
       if (file.canRead ())
