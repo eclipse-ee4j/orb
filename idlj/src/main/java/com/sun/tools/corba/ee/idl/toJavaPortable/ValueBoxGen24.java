@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -50,6 +51,7 @@ public class ValueBoxGen24 extends ValueBoxGen
   } // writeTruncatable
 
  
+  @Override
   public void helperRead (String entryName, SymtabEntry entry, PrintWriter stream)
   {
     stream.println ("    if (!(istream instanceof org.omg.CORBA_2_3.portable.InputStream)) {");
@@ -64,8 +66,8 @@ public class ValueBoxGen24 extends ValueBoxGen
     stream.println ("  {");
 
     String indent = "    ";
-    Vector vMembers = ((ValueBoxEntry) entry).state ();
-    TypedefEntry member = ((InterfaceState) vMembers.elementAt (0)).entry;
+    Vector<InterfaceState> vMembers = ((ValueBoxEntry) entry).state ();
+    TypedefEntry member = vMembers.elementAt(0).entry;
     SymtabEntry mType = member.type ();
     if (mType instanceof PrimitiveEntry ||
         mType instanceof SequenceEntry ||
@@ -104,10 +106,11 @@ public class ValueBoxGen24 extends ValueBoxGen
     write (0, "    ", "valueType", entry, stream);
   } // helperWrite
 
+  @Override
   public int write (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
-    Vector vMembers = ( (ValueEntry) entry ).state ();
-    TypedefEntry member = ((InterfaceState) vMembers.elementAt (0)).entry;
+    Vector<InterfaceState> vMembers = ((ValueEntry) entry).state();
+    TypedefEntry member = vMembers.elementAt(0).entry;
     SymtabEntry mType = member.type ();
 
     if (mType instanceof PrimitiveEntry || !member.arrayInfo ().isEmpty ())

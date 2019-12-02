@@ -14,8 +14,6 @@ package com.sun.tools.corba.ee.idl;
 // NOTES:
 
 import java.io.PrintWriter;
-import java.io.IOException;
-import java.util.StringTokenizer;
 
 public class Comment
 {
@@ -28,10 +26,10 @@ public class Comment
   // System-dependent line separator
   private static String _eol = System.getProperty ("line.separator");
 
-  private String _text  = new String ("");
+  private String _text  = "";
   private int    _style = UNKNOWN;
 
-  Comment () {_text = new String (""); _style = UNKNOWN;} // ctor
+  Comment () {_text = ""; _style = UNKNOWN;} // ctor
 
   Comment (String text) {_text = text; _style = style (_text);} // ctor
 
@@ -74,7 +72,7 @@ public class Comment
     if (_text == null || printStream == null)
       return;
     if (indent == null)
-      indent = new String ("");
+      indent = "";
     switch (_style)
     {
       case JAVA_DOC:

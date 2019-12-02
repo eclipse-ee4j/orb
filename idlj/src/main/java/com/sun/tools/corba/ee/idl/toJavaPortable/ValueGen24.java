@@ -151,7 +151,7 @@ public class ValueGen24 extends ValueGen
     }
 
     // Write out the supported interfaces
-    Enumeration enumeration = v.supports().elements(); 
+    Enumeration<SymtabEntry> enumeration = v.supports().elements(); 
     while (enumeration.hasMoreElements())  {
         InterfaceEntry ie = (InterfaceEntry)(enumeration.nextElement()) ;
         String cname = com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaName(ie) ;

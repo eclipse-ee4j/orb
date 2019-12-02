@@ -68,9 +68,7 @@ public class AttributeGen extends MethodGen implements com.sun.tools.corba.ee.id
   {
   } // generate
 
-  /**
-   *
-   **/
+  @Override
   protected void interfaceMethod (Hashtable symbolTable, MethodEntry m, PrintWriter stream)
   {
     AttributeEntry a = (AttributeEntry)m;

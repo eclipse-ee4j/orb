@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -60,6 +61,7 @@ import com.sun.tools.corba.ee.idl.UnionBranch;
 import com.sun.tools.corba.ee.idl.UnionEntry;
 import com.sun.tools.corba.ee.idl.ValueBoxEntry;
 import com.sun.tools.corba.ee.idl.ValueEntry;
+import com.sun.tools.corba.ee.idl.constExpr.Expression;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -107,13 +109,12 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
     return isInterface (name, symbolTable);
   } // isInterface
 
-  static String arrayInfo (Vector arrayInfo)
+  static String arrayInfo (Vector<Expression> arrayInfo)
   {
-    int         arrays = arrayInfo.size ();
     String      info   = "";
-    Enumeration e      = arrayInfo.elements ();
+    Enumeration<Expression> e      = arrayInfo.elements ();
     while (e.hasMoreElements ())
-      info = info + '[' + parseExpression ((com.sun.tools.corba.ee.idl.constExpr.Expression)e.nextElement ()) + ']';
+      info = info + '[' + parseExpression(e.nextElement()) + ']';
     return info;
   } // arrayInfo
 
@@ -226,7 +227,7 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
 
   private static String doContainerFullName (SymtabEntry container)
   {
-    String name = "";
+    String name;
 
     if (container == null)
       name = "";
@@ -256,7 +257,7 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
   public static String javaName (SymtabEntry entry)
   {
     // First get the real name of this type
-    String name = "";
+    String name;
     if (entry instanceof TypedefEntry || entry instanceof SequenceEntry)
       try
       {
@@ -598,17 +599,17 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
   /**
    *
    **/
-  static private void printImports (Vector importList, PrintWriter stream)
+  static private void printImports (Vector<String> importList, PrintWriter stream)
   {
-    Enumeration e = importList.elements ();
+    Enumeration<String> e = importList.elements ();
     while (e.hasMoreElements ())
-      stream.println ("import " + (String)e.nextElement () + ';');
+      stream.println ("import " + e.nextElement () + ';');
   } // printImport
 
   /**
    *
    **/
-  static private void addTo (Vector importList, String name)
+  static private void addTo (Vector<String> importList, String name)
   {
     // REVISIT - <d62023-klr> was also importing ValueBaseHolder and Helper
     if (name.startsWith ("ValueBase"))  // don't import ValueBase*
@@ -623,9 +624,9 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
   /**
    *
    **/
-  static private Vector addImportLines (SymtabEntry entry, Vector importTypes, short type)
+  static private Vector<String> addImportLines (SymtabEntry entry, Vector importTypes, short type)
   {
-    Vector importList = new Vector ();
+    Vector<String> importList = new Vector<>();
     if (entry instanceof ConstEntry)
     {
       ConstEntry c      = (ConstEntry)entry;
@@ -653,10 +654,10 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
       if (i instanceof ValueEntry) // <d59512>
       {
         // Examine interface parents in supports vector.
-        Enumeration e = ((ValueEntry)i).supports ().elements ();
+        Enumeration<SymtabEntry> e = ((ValueEntry)i).supports().elements();
         while (e.hasMoreElements ())
         {
-          SymtabEntry parent = (SymtabEntry)e.nextElement ();
+          SymtabEntry parent = e.nextElement ();
           if (importTypes.contains (parent))
           {
             addTo (importList, parent.name () + "Operations");
@@ -666,22 +667,22 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
           {
             if (importTypes.contains (parent))
               addTo (importList, parent.name ());
-            Vector subImportList = addImportLines (parent, importTypes, StubFile);
-            Enumeration en = subImportList.elements ();
-            while (en.hasMoreElements ())
+            Vector<String> subImportList = addImportLines(parent, importTypes, StubFile);
+            Enumeration<String> en = subImportList.elements ();
+            while (en.hasMoreElements())
             {
-              addTo (importList, (String)en.nextElement ());
+              addTo (importList, en.nextElement());
             }
           }
         }
       }
       // Interface or valuetype -- Examine interface and valuetype parents,
       // Look through derivedFrom vector
-      Enumeration e = i.derivedFrom ().elements ();
-      while (e.hasMoreElements ())
+      Enumeration<SymtabEntry> symTabs = i.derivedFrom().elements();
+      while (symTabs.hasMoreElements())
       {
-        SymtabEntry parent = (SymtabEntry)e.nextElement ();
-        if (importTypes.contains (parent))
+        SymtabEntry parent = symTabs.nextElement();
+        if (importTypes.contains(parent))
         {
           addTo (importList, parent.name ());
           // <d59512> Always add both imports, even though superfluous.  Cannot
@@ -692,22 +693,22 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
         // If this is a stub, then recurse to the parents
         if (type == StubFile)
         {
-          Vector subImportList = addImportLines (parent, importTypes, StubFile);
-          Enumeration en = subImportList.elements ();
+          Vector<String> subImportList = addImportLines(parent, importTypes, StubFile);
+          Enumeration<String> en = subImportList.elements();
           while (en.hasMoreElements ())
           {
-            addTo (importList, (String)en.nextElement ());
+            addTo (importList, en.nextElement());
           }
         }
       }
       // Look through methods vector
-      e = i.methods ().elements ();
+      Enumeration<MethodEntry> e = i.methods().elements();
       while (e.hasMoreElements ())
       {
-        MethodEntry m = (MethodEntry)e.nextElement ();
+        MethodEntry m = e.nextElement();
 
         // Look at method type
-        SymtabEntry mtype = typeOf (m.type ());
+        SymtabEntry mtype = typeOf(m.type());
         if (mtype != null && importTypes.contains (mtype))
           if (type == TypeFile || type == StubFile)
           {
@@ -723,10 +724,10 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
           checkForBounds (mtype, importTypes, importList);
 
         // Look through exceptions
-        Enumeration exEnum = m.exceptions ().elements ();
+        Enumeration<ExceptionEntry> exEnum = m.exceptions().elements();
         while (exEnum.hasMoreElements ())
         {
-          ExceptionEntry ex = (ExceptionEntry)exEnum.nextElement ();
+          ExceptionEntry ex = exEnum.nextElement();
           if (importTypes.contains (ex))
           {
             addTo (importList, ex.name ());
@@ -735,26 +736,28 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
         }
 
         // Look through parameters
-        Enumeration parms = m.parameters ().elements ();
+        Enumeration<ParameterEntry> parms = m.parameters().elements();
         while (parms.hasMoreElements ())
         {
-          ParameterEntry parm = (ParameterEntry)parms.nextElement ();
-          SymtabEntry parmType = typeOf (parm.type ());
-          if (importTypes.contains (parmType))
-          {
-            // <d59771> Helper needed in stubs.
-            if (type == StubFile)
-              addTo (importList, parmType.name () + "Helper");
-            if (parm.passType () == ParameterEntry.In)
-              addTo (importList, parmType.name ());
-            else
-              addTo (importList, parmType.name () + "Holder");
-          }    
-          checkForArrays (parmType, importTypes, importList);
-          // <d42256>
-          if (type == StubFile)
-            checkForBounds (parmType, importTypes, importList);
-        }
+          ParameterEntry parm = parms.nextElement();
+          SymtabEntry parmType = typeOf(parm.type());
+          if (importTypes.contains(parmType)) {
+                  // <d59771> Helper needed in stubs.
+                  if (type == StubFile) {
+                      addTo(importList, parmType.name() + "Helper");
+                  }
+                  if (parm.passType() == ParameterEntry.In) {
+                      addTo(importList, parmType.name());
+                  } else {
+                      addTo(importList, parmType.name() + "Holder");
+                  }
+              }
+              checkForArrays(parmType, importTypes, importList);
+              // <d42256>
+              if (type == StubFile) {
+                  checkForBounds(parmType, importTypes, importList);
+              }
+          }
       }
     }
     else if (entry instanceof StructEntry)
@@ -762,10 +765,10 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
       StructEntry s = (StructEntry)entry;
 
       // Look through the members
-      Enumeration members = s.members ().elements ();
+      Enumeration<TypedefEntry> members = s.members().elements();
       while (members.hasMoreElements ())
       {
-        SymtabEntry member = (TypedefEntry)members.nextElement ();
+        SymtabEntry member = members.nextElement();
         // <d48034> Need to add helper name for typedef members.  This name
         // is referenced at typecode generation in Helper class.
         SymtabEntry memberType = member.type ();
@@ -816,10 +819,10 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
         // statement when bound expression contains non-literal constants.
         checkForBounds (typeOf (t), importTypes, importList);
       }
-      Vector subImportList = addImportLines (t.type (), importTypes, type);
-      Enumeration e = subImportList.elements ();
+      Vector<String> subImportList = addImportLines(t.type(), importTypes, type);
+      Enumeration<String> e = subImportList.elements();
       while (e.hasMoreElements ())
-        addTo (importList, (String)e.nextElement ());
+        addTo (importList, e.nextElement());
     }
     else if (entry instanceof UnionEntry)
     {
@@ -831,10 +834,10 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
         addTo (importList, utype.name ());
 
       // Look through the branches
-      Enumeration branches = u.branches ().elements ();
+      Enumeration<UnionBranch> branches = u.branches().elements();
       while (branches.hasMoreElements ())
       {
-        UnionBranch branch = (UnionBranch)branches.nextElement ();
+        UnionBranch branch = branches.nextElement();
         SymtabEntry branchEntry = typeOf (branch.typedef);
         if (importTypes.contains (branchEntry))
         {
@@ -851,25 +854,22 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
     // If a typedef is not a sequence or an array, only holders and
     // helpers are generated for it.  Remove references to such
     // class names.
-    Enumeration en = importList.elements ();
+    Enumeration<String> en = importList.elements();
     while (en.hasMoreElements ())
     {
-      String name = (String)en.nextElement ();
+      String name = en.nextElement();
       SymtabEntry e = (SymtabEntry)symbolTable.get (name);
       if (e != null && e instanceof TypedefEntry)
       {
         TypedefEntry t = (TypedefEntry)e;
-        if (t.arrayInfo ().size () == 0 || !(t.type () instanceof SequenceEntry))
+        if (t.arrayInfo().isEmpty() || !(t.type () instanceof SequenceEntry))
           importList.removeElement (name);
       }
     }
     return importList;
   } // addImportLines
 
-  /**
-   *
-   **/
-  static private void checkForArrays (SymtabEntry entry, Vector importTypes, Vector importList)
+  static private void checkForArrays (SymtabEntry entry, Vector<SymtabEntry> importTypes, Vector<String> importList)
   {
     if (entry instanceof TypedefEntry)
     {
@@ -879,10 +879,7 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
     }
   } // checkForArrays
 
-  /**
-   *
-   **/
-  static private String checkForArrayBase (TypedefEntry t, Vector importTypes, Vector importList)
+  static private String checkForArrayBase (TypedefEntry t, Vector<SymtabEntry> importTypes, Vector<String> importList)
   {
     String arrays = "";
     try
@@ -908,7 +905,7 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
   /**
    *
    **/
-  static private void checkForArrayDimensions (String arrays, Vector importTypes, Vector importList)
+  static private void checkForArrayDimensions (String arrays, Vector<SymtabEntry> importTypes, Vector<String> importList)
   {
     // See if any of the arrays contain a constentry.
     // If so, see if it should be added to the list.
@@ -917,14 +914,15 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
       int index = arrays.indexOf (']');
       String dim = arrays.substring (1, index);
       arrays = arrays.substring (index + 1);
-      SymtabEntry constant = (SymtabEntry)symbolTable.get (dim);
+      SymtabEntry constant = symbolTable.get(dim);
       if (constant == null)
       {
         // A constant expr could be of the form <const> OR
         // <interface>.<const>.  This if branch checks for that case.
         int i = dim.lastIndexOf ('.');
-        if (i >= 0)
-          constant = (SymtabEntry)symbolTable.get (dim.substring (0, i));
+        if (i >= 0) {
+          constant = symbolTable.get(dim.substring(0, i));
+        }
       }
       if (constant != null && importTypes.contains (constant))
         addTo (importList, constant.name ());
@@ -938,7 +936,7 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
   /**
    * Determine the import lines for template types.
    **/
-  static private void checkForBounds (SymtabEntry entry, Vector importTypes, Vector importList)
+  static private void checkForBounds (SymtabEntry entry, Vector<SymtabEntry> importTypes, Vector<String> importList)
   {
     // Obtain actual type, just to be complete.
     SymtabEntry entryType = entry;
@@ -956,7 +954,7 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
    * Extract the global constants from the supplied integer expression
    * representation (string) and add them to the supplied import list.
    **/
-  static private void checkForGlobalConstants (String exprRep, Vector importTypes, Vector importList)
+  static private void checkForGlobalConstants (String exprRep, Vector<SymtabEntry> importTypes, Vector<String> importList)
   {
     // NOTE: Do not use '/' as a delimiter. Symbol table names use '/' as a
     // delimiter and would not be otherwise properly collected. Blanks and
@@ -970,7 +968,7 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
       // forget constants declared within global interfaces!
       if (!token.equals ("/"))
       {
-        SymtabEntry typeEntry = (SymtabEntry)symbolTable.get (token);
+        SymtabEntry typeEntry = symbolTable.get(token);
         if (typeEntry instanceof ConstEntry)
         {
           int slashIdx = token.indexOf ('/');
@@ -981,7 +979,7 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
           }
           else  // Possible constant in global interface
           {
-            SymtabEntry constContainer = (SymtabEntry)symbolTable.get (token.substring (0, slashIdx));
+            SymtabEntry constContainer = symbolTable.get(token.substring (0, slashIdx));
             if (constContainer instanceof InterfaceEntry && importTypes.contains (constContainer))
               addTo (importList, constContainer.name ());
           }
@@ -1193,10 +1191,10 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
       return '(' + parseExpression ((com.sun.tools.corba.ee.idl.constExpr.Expression)e.value ()) + ')';
     else if (e.value () instanceof Character)
     {
-      if (((Character)e.value ()).charValue () == '\013')
+      if (((Character)e.value()) == '\013')
         // e.rep is \v.  \v for vertical tab is meaningless in Java.
         return "'\\013'";
-      else if (((Character)e.value ()).charValue () == '\007')
+      else if (((Character)e.value()) == '\007')
         // e.rep is \a.  \a for alert is meaningless in Java.
         return "'\\007'";
       else if (e.rep ().startsWith ("'\\x"))
@@ -1254,7 +1252,7 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
         else
           return '(' + v.toString () + 'L' + ')';
       }
-      else if ( type.indexOf("long long") >= 0 || type.equals("unsigned long") )
+      else if ( type.contains("long long") || type.equals("unsigned long") )
       {
         String rep   = e.rep ();
         int    index = rep.indexOf (')');
@@ -1296,10 +1294,11 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
     }
     else if (e.value () instanceof Number)
     {
-      if (e.type (). indexOf ("long long") >= 0)
-        castString = "(long)";
-      else
-        castString = "(int)";
+        if (e.type().contains("long long")) {
+            castString = "(long)";
+        } else {
+            castString = "(int)";
+        }
     }
     else
     {
@@ -1343,7 +1342,7 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
       // Support long long.
       //else
       //  castString = "(long)";
-      else if (e.type (). indexOf ("long long") >= 0)
+      else if (e.type ().contains("long long"))
         castString = "(long)";
       else
         castString = "(int)";
@@ -1395,7 +1394,7 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
         return false;
   } // corbaLevel
 
-  static Hashtable symbolTable = new Hashtable ();
+  static Hashtable<String, SymtabEntry> symbolTable = new Hashtable<>();
   private static Hashtable packageTranslation = new Hashtable() ;
 } // class Util
 

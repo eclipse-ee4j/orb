@@ -41,12 +41,8 @@ public class Arguments extends com.sun.tools.corba.ee.idl.Arguments
     corbaLevel = 2.4f;
   } // ctor
 
-  /**
-   *
-   **/
-  protected void parseOtherArgs (String[] args, 
-    Properties properties) throws InvalidArgument
-  {
+  @Override
+  protected void parseOtherArgs (String[] args, Properties properties) throws InvalidArgument {
     String skeletonPattern = null ;
     String tiePattern = null ;
 
@@ -59,7 +55,7 @@ public class Arguments extends com.sun.tools.corba.ee.idl.Arguments
     // supercede any idl.config file packages.
     try
     {
-      Vector unknownArgs = new Vector ();
+      Vector<String> unknownArgs = new Vector<>();
 
       // Process command line parameters
       for (int i = 0; i < args.length; ++i)
@@ -203,7 +199,7 @@ public class Arguments extends com.sun.tools.corba.ee.idl.Arguments
   /**
    *
    **/
-  protected int collectUnknownArg (String[] args, int i, Vector unknownArgs)
+  protected int collectUnknownArg (String[] args, int i, Vector<String> unknownArgs)
   {
     unknownArgs.addElement (args [i]);
     ++i;
@@ -287,7 +283,7 @@ public class Arguments extends com.sun.tools.corba.ee.idl.Arguments
   // This is a hash table whose keys are top-level typenames and
   // whose values are the package prefixes to those types.
   // For instance, <"CORBA", "org.omg"> is a possible entry.
-  public Hashtable packages         = new Hashtable ();
+  public Hashtable<String, String> packages         = new Hashtable<>();
 
   public    String separator        = null;
 
@@ -309,7 +305,7 @@ public class Arguments extends com.sun.tools.corba.ee.idl.Arguments
   // Key is original package name; value is translated package name.
   // Note that this translation happens AFTER prefixes are added in the
   // packages table.
-  public Hashtable packageTranslation = new Hashtable() ;
+  public Hashtable<String, String> packageTranslation = new Hashtable() ;
 
   public String    targetDir        = "";     // <f46838.4>
 } // class Arguments

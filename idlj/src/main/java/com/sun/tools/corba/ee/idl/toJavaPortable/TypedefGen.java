@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -89,9 +90,9 @@ public class TypedefGen implements com.sun.tools.corba.ee.idl.TypedefGen, com.su
       InterfaceEntry i = (InterfaceEntry)entry.container ();
       if (i.state () != null)
       {
-        Enumeration e = i.state ().elements ();
+        Enumeration<InterfaceState> e = i.state().elements();
         while (e.hasMoreElements ())
-          if (((InterfaceState)e.nextElement ()).entry == entry)
+          if (e.nextElement().entry == entry)
           {
             inStruct = true;
             break;
@@ -113,7 +114,7 @@ public class TypedefGen implements com.sun.tools.corba.ee.idl.TypedefGen, com.su
     // Print the base types typecode
     index = ((com.sun.tools.corba.ee.idl.toJavaPortable.JavaGenerator)td.type ().generator ()).type (index, indent, tcoffsets, name, td.type (), stream);
 
-    if (inStruct && td.arrayInfo ().size () != 0)
+    if (inStruct && !td.arrayInfo ().isEmpty())
       tcoffsets.bumpCurrentOffset (4); // for array length field
 
     // Print the array typecodes (if there are any)

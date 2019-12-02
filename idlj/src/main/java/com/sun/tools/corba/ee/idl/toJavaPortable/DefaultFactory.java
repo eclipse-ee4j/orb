@@ -46,6 +46,7 @@ public class DefaultFactory implements AuxGen
    * 6.) Write class closing (close curly)
    * 7.) Close the print stream
    **/
+  @Override
   public void generate (java.util.Hashtable symbolTable, SymtabEntry entry)
   {
     this.symbolTable = symbolTable;
@@ -74,14 +75,10 @@ public class DefaultFactory implements AuxGen
   /**
    * @return true if entry has any factory methods declared
    **/
-  protected boolean hasFactoryMethods ()
-  {
-    Vector init = ((ValueEntry)entry).initializers ();
-    if (init != null && init.size () > 0)
-      return true;
-    else
-      return false;
-  } // hasFactoryMethods
+    protected boolean hasFactoryMethods() {
+        Vector<MethodEntry> init = ((ValueEntry) entry).initializers();
+        return init != null && init.size() > 0;
+    }
 
   /**
    * Open the print stream for subsequent output.
@@ -124,14 +121,14 @@ public class DefaultFactory implements AuxGen
    **/
   protected void writeFactoryMethods ()
   {
-    Vector init = ((ValueEntry)entry).initializers ();
+    Vector<MethodEntry> init = ((ValueEntry)entry).initializers ();
     if (init != null)
     {
       for (int i = 0; i < init.size (); i++)
       {
-        MethodEntry element = (MethodEntry) init.elementAt (i);
+        MethodEntry element = init.elementAt(i);
         element.valueMethod (true); //tag value method if not tagged previously
-        ((com.sun.tools.corba.ee.idl.toJavaPortable.MethodGen24) element.generator ()).defaultFactoryMethod (symbolTable, element, stream);
+        ((com.sun.tools.corba.ee.idl.toJavaPortable.MethodGen24) element.generator()).defaultFactoryMethod(symbolTable, element, stream);
       }
     }
   } // writeFactoryMethods

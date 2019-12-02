@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,28 +37,22 @@ public class GenFileStream extends PrintWriter
     name = filename;
   } // ctor
 
-  public void close ()
-  {
-    File file = new File (name);
-    try
-    {
-      if (checkError ())
-        throw new IOException ();
-      // <f49747.1>
-      //FileOutputStream fileStream = new FileOutputStream (file);
-      //fileStream.write (byteStream.toByteArray ());
-      //fileStream.close ();
-      FileWriter fileWriter = new FileWriter (file);
-      fileWriter.write (charArrayWriter.toCharArray ());
-      fileWriter.close ();
-    }
-    catch (IOException e)
-    {
-      String[] parameters = {name, e.toString ()};
-      System.err.println (Util.getMessage("GenFileStream.1", parameters));
-    }
-    super.close ();
-  } // close
+    @Override
+    public void close() {
+        File file = new File(name);
+        try {
+            if (checkError()) {
+                throw new IOException();
+            }
+            try (FileWriter fileWriter = new FileWriter(file)) {
+                fileWriter.write(charArrayWriter.toCharArray());
+            }
+        } catch (IOException e) {
+            String[] parameters = {name, e.toString()};
+            System.err.println(Util.getMessage("GenFileStream.1", parameters));
+        }
+        super.close();
+    } // close
 
   public String name ()
   {
@@ -67,7 +62,7 @@ public class GenFileStream extends PrintWriter
   // <f49747.1>
   //private ByteArrayOutputStream        byteStream;
   //private static ByteArrayOutputStream tmpByteStream;
-  private        CharArrayWriter    charArrayWriter;
+  private final  CharArrayWriter    charArrayWriter;
   private static CharArrayWriter tmpCharArrayWriter;
-  private String                       name;
+  private final  String                        name;
 } // GenFileStream

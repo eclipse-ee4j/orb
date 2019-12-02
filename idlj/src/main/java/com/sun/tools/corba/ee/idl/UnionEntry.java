@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -38,12 +39,12 @@ public class UnionEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
       module (module () + name ());
       name ("");
     }
-    _branches      = (Vector)that._branches.clone ();
+    _branches      = (Vector<UnionBranch>)that._branches.clone ();
     _defaultBranch = that._defaultBranch;
     _contained     = that._contained;
   } // ctor
 
-  protected UnionEntry (com.sun.tools.corba.ee.idl.SymtabEntry that, IDLID clone)
+  protected UnionEntry (SymtabEntry that, IDLID clone)
   {
     super (that, clone);
     if (module ().equals (""))
@@ -52,6 +53,7 @@ public class UnionEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
       module (module () + "/" + name ());
   } // ctor
 
+  @Override
   public Object clone ()
   {
     return new UnionEntry (this);
@@ -63,6 +65,7 @@ public class UnionEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
        a subclass of SymtabEntry.
       @param stream the stream to which the generator should sent its output.
       @see com.sun.tools.corba.ee.idl.SymtabEntry */
+  @Override
   public void generate (Hashtable symbolTable, PrintWriter stream)
   {
     unionGen.generate (symbolTable, this, stream);
@@ -71,12 +74,13 @@ public class UnionEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   /** Access the union generator.
       @return an object which implements the UnionGen interface.
       @see com.sun.tools.corba.ee.idl.UnionGen */
+  @Override
   public com.sun.tools.corba.ee.idl.Generator generator ()
   {
     return unionGen;
   } // generator
 
-  void addBranch(com.sun.tools.corba.ee.idl.UnionBranch branch)
+  void addBranch(UnionBranch branch)
   {
     _branches.addElement (branch);
   } // addBranch
@@ -84,7 +88,7 @@ public class UnionEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   /** This is a vector of UnionBranch's.
    * @return a {@link Vector} of {@link UnionBranch}
    */
-  public Vector branches ()
+  public Vector<UnionBranch> branches ()
   {
     return _branches;
   } // branches
@@ -94,7 +98,7 @@ public class UnionEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     * are pertinent.
     * @param branch the {@link TypedefEntry} for the default
     */
-  public void defaultBranch (com.sun.tools.corba.ee.idl.TypedefEntry branch)
+  public void defaultBranch (TypedefEntry branch)
   {
     _defaultBranch = branch;
   } // defaultBranch
@@ -104,12 +108,12 @@ public class UnionEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
       are pertinent.
     * @return {@link TypedefEntry} for the default
     */
-  public com.sun.tools.corba.ee.idl.TypedefEntry defaultBranch ()
+  public TypedefEntry defaultBranch ()
   {
     return _defaultBranch;
   } // defaultBranch
 
-  public void addContained (com.sun.tools.corba.ee.idl.SymtabEntry entry)
+  public void addContained (SymtabEntry entry)
   {
     _contained.addElement (entry);
   } // addContained
@@ -133,17 +137,17 @@ public class UnionEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
       Struct B is contained within union A.
   * @return a Vector of {@link SymtabEntry}s contained within
   */
-  public Vector contained ()
+  public Vector<SymtabEntry> contained ()
   {
     return _contained;
   } // contained
 
   boolean has (Expression label)
   {
-    Enumeration eBranches = _branches.elements ();
+    Enumeration<UnionBranch> eBranches = _branches.elements ();
     while (eBranches.hasMoreElements ())
     {
-      Enumeration eLabels = ((com.sun.tools.corba.ee.idl.UnionBranch)eBranches.nextElement ()).labels.elements ();
+      Enumeration eLabels = (eBranches.nextElement()).labels.elements ();
       while (eLabels.hasMoreElements ())
       {
         Expression exp = (Expression)eLabels.nextElement ();
@@ -156,20 +160,21 @@ public class UnionEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
 
   boolean has (com.sun.tools.corba.ee.idl.TypedefEntry typedef)
   {
-    Enumeration e = _branches.elements ();
+    Enumeration<UnionBranch> e = _branches.elements ();
     while (e.hasMoreElements ())
     {
-      com.sun.tools.corba.ee.idl.UnionBranch branch = (com.sun.tools.corba.ee.idl.UnionBranch)e.nextElement ();
-      if (!branch.typedef.equals (typedef) && branch.typedef.name ().equals (typedef.name ()))
+      UnionBranch branch = e.nextElement();
+      if (!branch.typedef.equals (typedef) && branch.typedef.name ().equals (typedef.name ())) {
         return true;
+      }
     }
     return false;
   } // has
 
   /** A vector of UnionBranch's. */
-  private Vector       _branches      = new Vector ();
-  private com.sun.tools.corba.ee.idl.TypedefEntry _defaultBranch = null;
-  private Vector       _contained     = new Vector ();
+  private Vector<UnionBranch>       _branches      = new Vector<>();
+  private TypedefEntry _defaultBranch = null;
+  private Vector<SymtabEntry>       _contained     = new Vector ();
 
-  static com.sun.tools.corba.ee.idl.UnionGen unionGen;
+  static UnionGen unionGen;
 } // class UnionEntry

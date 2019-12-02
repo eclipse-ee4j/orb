@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -74,13 +75,9 @@ public class ValueFactory implements AuxGen
   /**
    * @return true if entry has any factory methods declared
    **/
-  protected boolean hasFactoryMethods ()
-  {
-    Vector init = ((ValueEntry)entry).initializers ();
-    if (init != null && init.size () > 0)
-      return true;
-    else
-      return false;
+  protected boolean hasFactoryMethods () {
+      Vector<MethodEntry> init = ((ValueEntry)entry).initializers();
+      return init != null && init.size () > 0;
   } // hasFactoryMethods
 
   /**
@@ -110,12 +107,12 @@ public class ValueFactory implements AuxGen
    **/
   protected void writeBody ()
   {
-    Vector init = ((ValueEntry)entry).initializers ();
+    Vector<MethodEntry> init = ((ValueEntry)entry).initializers ();
     if (init != null)
     {
       for (int i = 0; i < init.size (); i++)
       {
-        MethodEntry element = (MethodEntry) init.elementAt (i);
+        MethodEntry element = init.elementAt(i);
         element.valueMethod (true); //tag value method if not tagged previously
         ((com.sun.tools.corba.ee.idl.toJavaPortable.MethodGen) element.generator ()). interfaceMethod (symbolTable, element, stream);
       }

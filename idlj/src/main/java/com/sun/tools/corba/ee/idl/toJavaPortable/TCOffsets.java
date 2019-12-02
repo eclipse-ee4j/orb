@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,8 +35,8 @@ public class TCOffsets
    **/
   public int offset (String name)
   {
-    Integer value = (Integer)tcs.get (name);
-    return value == null ? -1 : value.intValue ();
+    Integer value = tcs.get (name);
+    return value == null ? -1 : value;
   } // offset
 
   /**
@@ -47,7 +48,7 @@ public class TCOffsets
       offset += 8;
     else
     {
-      tcs.put (entry.fullName (), Integer.valueOf (offset));
+      tcs.put(entry.fullName(), offset);
       offset += 4;
       String repID = Util.stripLeadingUnderscoresFromID(entry.repositoryID().ID());
       if (entry instanceof com.sun.tools.corba.ee.idl.InterfaceEntry)
@@ -68,7 +69,7 @@ public class TCOffsets
       else if (entry instanceof com.sun.tools.corba.ee.idl.TypedefEntry)
       {
         offset += alignStrLen (repID) + alignStrLen (entry.name ());
-        if (((com.sun.tools.corba.ee.idl.TypedefEntry)entry).arrayInfo ().size () != 0)
+        if (!((com.sun.tools.corba.ee.idl.TypedefEntry)entry).arrayInfo ().isEmpty())
           offset += 8;
       }
     }
@@ -94,7 +95,7 @@ public class TCOffsets
   public void setMember (com.sun.tools.corba.ee.idl.SymtabEntry entry)
   {
     offset += alignStrLen (entry.name ());
-    if (((com.sun.tools.corba.ee.idl.TypedefEntry)entry).arrayInfo ().size () != 0)
+    if (!((com.sun.tools.corba.ee.idl.TypedefEntry)entry).arrayInfo ().isEmpty())
       offset += 4;
   } // setMember
 
@@ -114,6 +115,6 @@ public class TCOffsets
     offset += value;
   } // bumpCurrentOffset
 
-  private Hashtable tcs    = new Hashtable ();
+  private Hashtable<String, Integer> tcs    = new Hashtable<>();
   private int       offset = 0;
 } // class TCOffsets

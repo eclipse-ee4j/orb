@@ -42,6 +42,7 @@ public class ForwardEntry extends com.sun.tools.corba.ee.idl.SymtabEntry impleme
       module (module () + "/" + name ());
   } // ctor
 
+  @Override
   public Object clone ()
   {
     return new ForwardEntry (this);
@@ -53,6 +54,7 @@ public class ForwardEntry extends com.sun.tools.corba.ee.idl.SymtabEntry impleme
        a subclass of SymtabEntry.
       @param stream the stream to which the generator should sent its output.
       @see com.sun.tools.corba.ee.idl.SymtabEntry */
+  @Override
   public void generate (Hashtable symbolTable, PrintWriter stream)
   {
     forwardGen.generate (symbolTable, this, stream);
@@ -61,12 +63,13 @@ public class ForwardEntry extends com.sun.tools.corba.ee.idl.SymtabEntry impleme
   /** Access the interface generator.
       @return an object which implements the InterfaceGen interface.
       @see com.sun.tools.corba.ee.idl.InterfaceGen */
+  @Override
   public com.sun.tools.corba.ee.idl.Generator generator ()
   {
     return forwardGen;
   } // generator
 
-  static boolean replaceForwardDecl (com.sun.tools.corba.ee.idl.InterfaceEntry interfaceEntry)
+  static boolean replaceForwardDecl (InterfaceEntry interfaceEntry)
   {
     boolean result = true;
     try
@@ -83,14 +86,14 @@ public class ForwardEntry extends com.sun.tools.corba.ee.idl.SymtabEntry impleme
         // other interfaces which derive from a ForwardEntry.  Replace
         // those ForwardEntry's with this InterfaceEntry:
         interfaceEntry.forwardedDerivers = forwardEntry.derivers;
-        for ( Enumeration derivers = forwardEntry.derivers.elements();
-              derivers.hasMoreElements(); )
-          ((com.sun.tools.corba.ee.idl.InterfaceEntry)derivers.nextElement ()).replaceForwardDecl (forwardEntry, interfaceEntry);
+          for (Enumeration<InterfaceEntry> derivers = forwardEntry.derivers.elements(); derivers.hasMoreElements();) {
+              (derivers.nextElement()).replaceForwardDecl(forwardEntry, interfaceEntry);
+          }
 
         // Replace the entry's whose types are forward declarations:
-        for ( Enumeration types = forwardEntry.types.elements ();
-              types.hasMoreElements (); )
-          ((com.sun.tools.corba.ee.idl.SymtabEntry)types.nextElement ()).type (interfaceEntry);
+          for (Enumeration<SymtabEntry> types = forwardEntry.types.elements(); types.hasMoreElements();) {
+              (types.nextElement()).type(interfaceEntry);
+          }
       }
     }
     catch (Exception exception)
@@ -101,18 +104,20 @@ public class ForwardEntry extends com.sun.tools.corba.ee.idl.SymtabEntry impleme
   ///////////////
   // Implement interface InterfaceType
 
+  @Override
   public int getInterfaceType ()
   {
     return _type;
   }
 
+  @Override
   public void setInterfaceType (int type)
   {
     _type = type;
   }
 
   static com.sun.tools.corba.ee.idl.ForwardGen forwardGen;
-  Vector            derivers   = new Vector (); // Vector of InterfaceEntry's.
-  Vector            types      = new Vector (); // Vector of the entry's whose type is a forward declaration.
+  Vector<InterfaceEntry>            derivers   = new Vector<>(); // Vector of InterfaceEntry's.
+  Vector<SymtabEntry>            types      = new Vector<>(); // Vector of the entry's whose type is a forward declaration.
   private int   _type  = com.sun.tools.corba.ee.idl.InterfaceType.NORMAL; // interface type
 } // class ForwardEntry

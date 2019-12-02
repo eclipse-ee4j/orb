@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -43,15 +44,13 @@ public class ValueBoxGen implements com.sun.tools.corba.ee.idl.ValueBoxGen, com.
   {
   } // ctor
 
-  /**
-   *
-   **/
+  @Override
   public void generate (Hashtable symbolTable, ValueBoxEntry v, PrintWriter str)
   {
     this.symbolTable = symbolTable;
     this.v = v;
 
-    TypedefEntry member = ((InterfaceState) v.state ().elementAt (0)).entry;
+    TypedefEntry member = v.state().elementAt(0).entry;
     SymtabEntry mType = member.type ();
     // if it's primitive type, generate a java class
     if (mType instanceof PrimitiveEntry)
@@ -69,10 +68,10 @@ public class ValueBoxGen implements com.sun.tools.corba.ee.idl.ValueBoxGen, com.
       // If a constructed type is nested in the value box,
       // value v struct s {...};
       // the bindings for the nested type must be handled here
-      Enumeration e = v.contained ().elements ();
+      Enumeration<SymtabEntry> e = v.contained().elements();
       while (e.hasMoreElements ())
       {
-        SymtabEntry contained = (SymtabEntry) e.nextElement ();
+        SymtabEntry contained = e.nextElement();
 
         // in case of value box w/ nested enum, ex: value v enum e {e0, e1,...};
         // the SymtabEntry for the enum and labels are contained in the vector.
@@ -128,7 +127,7 @@ public class ValueBoxGen implements com.sun.tools.corba.ee.idl.ValueBoxGen, com.
    **/
   protected void writeBody ()
   {
-    InterfaceState member = (InterfaceState) v.state ().elementAt (0);
+    InterfaceState member = v.state().elementAt(0);
     SymtabEntry entry = (SymtabEntry) member.entry;
     com.sun.tools.corba.ee.idl.toJavaPortable.Util.fillInfo(entry);
     if (entry.comment () != null)
@@ -195,10 +194,11 @@ public class ValueBoxGen implements com.sun.tools.corba.ee.idl.ValueBoxGen, com.
   ///////////////
   // From JavaGenerator
 
+  @Override
   public int helperType (int index, String indent, com.sun.tools.corba.ee.idl.toJavaPortable.TCOffsets tcoffsets, String name, SymtabEntry entry, PrintWriter stream)
   {
     ValueEntry vt = (ValueEntry) entry;
-    TypedefEntry member = (TypedefEntry) ((InterfaceState) (vt.state ()).elementAt (0)).entry;
+    TypedefEntry member = vt.state().elementAt(0).entry;
     SymtabEntry mType = com.sun.tools.corba.ee.idl.toJavaPortable.Util.typeOf(member);
     index = ((com.sun.tools.corba.ee.idl.toJavaPortable.JavaGenerator)mType.generator ()).type (index, indent, tcoffsets, name, mType, stream);
     stream.println (indent + name + " = org.omg.CORBA.ORB.init ().create_value_box_tc ("
@@ -219,6 +219,7 @@ public class ValueBoxGen implements com.sun.tools.corba.ee.idl.ValueBoxGen, com.
     return index;
   } // read
 
+  @Override
   public void helperRead (String entryName, SymtabEntry entry, PrintWriter stream)
   {
   // <d59418 - KLR> per Simon, make "static" read call istream.read_value.
@@ -234,8 +235,8 @@ public class ValueBoxGen implements com.sun.tools.corba.ee.idl.ValueBoxGen, com.
     // end of <d59418> changes
 
     String indent = "    ";
-    Vector vMembers = ((ValueBoxEntry) entry).state ();
-    TypedefEntry member = ((InterfaceState) vMembers.elementAt (0)).entry;
+    Vector<InterfaceState> vMembers = ((ValueBoxEntry) entry).state();
+    TypedefEntry member = vMembers.elementAt(0).entry;
     SymtabEntry mType = member.type ();
     if (mType instanceof PrimitiveEntry ||
         mType instanceof SequenceEntry ||
@@ -277,8 +278,8 @@ public class ValueBoxGen implements com.sun.tools.corba.ee.idl.ValueBoxGen, com.
 
   public int write (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
-    Vector vMembers = ( (ValueEntry) entry ).state ();
-    TypedefEntry member = ((InterfaceState) vMembers.elementAt (0)).entry;
+    Vector<InterfaceState> vMembers = ((ValueEntry) entry ).state();
+    TypedefEntry member = vMembers.elementAt(0).entry;
     SymtabEntry mType = member.type ();
 
     if (mType instanceof PrimitiveEntry || !member.arrayInfo ().isEmpty ())
@@ -301,13 +302,13 @@ public class ValueBoxGen implements com.sun.tools.corba.ee.idl.ValueBoxGen, com.
 
   protected void streamableRead (String entryName, SymtabEntry entry, PrintWriter stream)
   {
-    Vector vMembers = ( (ValueBoxEntry) entry ).state ();
-    TypedefEntry member = ((InterfaceState) vMembers.elementAt (0)).entry;
+    Vector<InterfaceState> vMembers = ((ValueBoxEntry) entry).state();
+    TypedefEntry member = vMembers.elementAt(0).entry;
     SymtabEntry mType = member.type ();
     if (mType instanceof PrimitiveEntry || mType instanceof SequenceEntry || mType instanceof TypedefEntry ||
         mType instanceof StringEntry || !member.arrayInfo ().isEmpty ())
     {
-      SymtabEntry mEntry = (SymtabEntry) ((InterfaceState) vMembers.elementAt (0)).entry;
+      SymtabEntry mEntry = (SymtabEntry) vMembers.elementAt (0).entry;
       ((com.sun.tools.corba.ee.idl.toJavaPortable.JavaGenerator)member.generator ()).read (0, "    ", entryName + ".value", member, stream);
     }
     else if (mType instanceof ValueEntry || mType instanceof ValueBoxEntry)

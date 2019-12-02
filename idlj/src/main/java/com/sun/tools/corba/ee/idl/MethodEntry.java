@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,10 +32,10 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   protected MethodEntry (MethodEntry that)
   {
     super (that);
-    _exceptionNames = (Vector)that._exceptionNames.clone ();
-    _exceptions     = (Vector)that._exceptions.clone ();
-    _contexts       = (Vector)that._contexts.clone ();
-    _parameters     = (Vector)that._parameters.clone ();
+    _exceptionNames = (Vector<String>)that._exceptionNames.clone ();
+    _exceptions     = (Vector<ExceptionEntry>)that._exceptions.clone ();
+    _contexts       = (Vector<String>)that._contexts.clone ();
+    _parameters     = (Vector<ParameterEntry>)that._parameters.clone ();
     _oneway         = that._oneway;
   } // ctor
 
@@ -96,7 +97,7 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
    * This a a vector of the exceptions which this method raises. 
    * @return raised exceptions
    */
-  public Vector exceptions ()
+  public Vector<ExceptionEntry> exceptions ()
   {
     return _exceptions;
   } // exceptions
@@ -116,7 +117,7 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
       of the first element of the exceptions vector, etc. 
     * @return all exceptions thrown by this method
     */
-  public Vector exceptionNames ()
+  public Vector<String> exceptionNames ()
   {
     return _exceptionNames;
   } // exceptionNames
@@ -131,7 +132,7 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
    * This is a vector of strings, each of which is the name of a context. 
    * @return name of contexts
    */
-  public Vector contexts ()
+  public Vector<String> contexts ()
   {
     return _contexts;
   } // contexts
@@ -153,7 +154,7 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
    * on the method. 
    * @return {@link Vector} of parameters
    */
-  public Vector parameters ()
+  public Vector<ParameterEntry> parameters ()
   {
     return _parameters;
   } // parameters
@@ -197,9 +198,9 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     addExceptionName (e.fullName ());
   } // exceptionsAddElement
 
-  private Vector  _exceptionNames = new Vector ();
-  private Vector  _exceptions     = new Vector ();
-  private Vector  _contexts       = new Vector ();
+  private Vector<String>  _exceptionNames = new Vector<>();
+  private Vector<ExceptionEntry>  _exceptions     = new Vector<>();
+  private Vector<String>  _contexts       = new Vector<>();
   private Vector  _parameters     = new Vector ();
   private boolean _oneway         = false;
   private boolean _valueMethod    = false;

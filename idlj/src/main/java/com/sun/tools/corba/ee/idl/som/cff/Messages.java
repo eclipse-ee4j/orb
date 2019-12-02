@@ -14,8 +14,6 @@ package com.sun.tools.corba.ee.idl.som.cff;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Properties;
-import java.lang.String;
-import java.lang.System;
 
 /**
  * This class provides messaging services for accessing, and merging

@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,7 +31,7 @@ public class EnumEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   protected EnumEntry (EnumEntry that)
   {
     super (that);
-    _elements = (Vector)that._elements.clone ();
+    _elements = (Vector<String>)that._elements.clone ();
   } // ctor
 
   protected EnumEntry (com.sun.tools.corba.ee.idl.SymtabEntry that, IDLID clone)
@@ -43,6 +44,7 @@ public class EnumEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
       module (module () + "/" + name ());
   } // ctor
 
+  @Override
   public Object clone ()
   {
     return new EnumEntry (this);
@@ -54,6 +56,7 @@ public class EnumEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
        a subclass of SymtabEntry.
       @param stream the stream to which the generator should sent its output.
       @see com.sun.tools.corba.ee.idl.SymtabEntry */
+  @Override
   public void generate (Hashtable symbolTable, PrintWriter stream)
   {
     enumGen.generate (symbolTable, this, stream);
@@ -62,6 +65,7 @@ public class EnumEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   /** Access the enumerator generator.
       @return an object which implements the EnumGen interface.
       @see com.sun.tools.corba.ee.idl.EnumGen */
+  @Override
   public com.sun.tools.corba.ee.idl.Generator generator ()
   {
     return enumGen;
@@ -78,11 +82,10 @@ public class EnumEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   /** Each element of the vector is a String. 
    * @return a {@link Vector} or all the elements in the enum
    */
-  public Vector elements ()
-  {
+  public Vector<String> elements() {
     return _elements;
   } // elements
 
   static com.sun.tools.corba.ee.idl.EnumGen enumGen;
-  private Vector  _elements = new Vector ();
+  private Vector<String>  _elements = new Vector<>();
 } // class EnumEntry

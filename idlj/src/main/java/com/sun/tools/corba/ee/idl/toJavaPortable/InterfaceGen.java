@@ -293,7 +293,7 @@ public class InterfaceGen implements com.sun.tools.corba.ee.idl.InterfaceGen, Ja
     else {
         // <d60929> - base abstract interfaces extend AbstractBase
         // changed to IDLEntity by SCN per latest spec...
-        if (i.derivedFrom ().size () == 0)
+        if (i.derivedFrom ().isEmpty())
           stream.print (" extends org.omg.CORBA.portable.IDLEntity");
     }
 
@@ -331,10 +331,10 @@ public class InterfaceGen implements com.sun.tools.corba.ee.idl.InterfaceGen, Ja
   protected void writeOperationsBody ()
   {
     // Generate everything but constants
-    Enumeration e = i.contained ().elements ();
+    Enumeration<SymtabEntry> e = i.contained ().elements ();
     while (e.hasMoreElements ())
     {
-      SymtabEntry contained = (SymtabEntry)e.nextElement ();
+      SymtabEntry contained = e.nextElement ();
       if (contained instanceof MethodEntry)
       {
         MethodEntry element = (MethodEntry)contained;
@@ -352,10 +352,10 @@ public class InterfaceGen implements com.sun.tools.corba.ee.idl.InterfaceGen, Ja
   protected void writeSignatureBody ()
   {
     // Generate only constants
-    Enumeration e = i.contained ().elements ();
+    Enumeration<SymtabEntry> e = i.contained().elements();
     while (e.hasMoreElements ())
     {
-      SymtabEntry contained = (SymtabEntry)e.nextElement ();
+      SymtabEntry contained = e.nextElement ();
       if (contained instanceof ConstEntry)
         contained.generate (symbolTable, stream);
     }
@@ -406,6 +406,7 @@ public class InterfaceGen implements com.sun.tools.corba.ee.idl.InterfaceGen, Ja
     return index;
   } // helperType
   */
+  @Override
   public int helperType (int index, String indent, com.sun.tools.corba.ee.idl.toJavaPortable.TCOffsets tcoffsets, String name, SymtabEntry entry, PrintWriter stream)
   {
     InterfaceEntry i = (InterfaceEntry)entry;

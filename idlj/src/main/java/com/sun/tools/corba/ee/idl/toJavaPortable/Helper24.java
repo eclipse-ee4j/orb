@@ -85,13 +85,13 @@ public class Helper24 extends Helper
    **/
   protected void writeHelperFactories ()
   {
-    Vector init = ((ValueEntry)entry).initializers ();
+    Vector<MethodEntry> init = ((ValueEntry)entry).initializers();
     if (init != null)
     {
       stream.println ();
       for (int i = 0; i < init.size (); i++)
       {
-        MethodEntry element = (MethodEntry) init.elementAt (i);
+        MethodEntry element = init.elementAt(i);
         element.valueMethod (true); //tag value method if not tagged previously
         ((com.sun.tools.corba.ee.idl.toJavaPortable.MethodGen24) element.generator ()). helperFactoryMethod (symbolTable, element, entry, stream);
       }

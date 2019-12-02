@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -48,11 +49,13 @@ public class SequenceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     repositoryID (com.sun.tools.corba.ee.idl.Util.emptyID);
   } // ctor
 
+  @Override
   public Object clone ()
   {
     return new SequenceEntry (this);
   } // clone
 
+  @Override
   public boolean isReferencable()
   {
     // A sequence is referencable if its component
@@ -60,6 +63,7 @@ public class SequenceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     return type().isReferencable() ;
   }
 
+  @Override
   public void isReferencable( boolean value ) 
   {
     // NO-OP: this cannot be set for a sequence.
@@ -71,6 +75,7 @@ public class SequenceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
        a subclass of SymtabEntry.
       @param stream the stream to which the generator should sent its output.
       @see com.sun.tools.corba.ee.idl.SymtabEntry */
+  @Override
   public void generate (Hashtable symbolTable, PrintWriter stream)
   {
     sequenceGen.generate (symbolTable, this, stream);
@@ -79,6 +84,7 @@ public class SequenceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   /** Access the sequence generator.
       @return an object which implements the SequenceGen interface.
       @see com.sun.tools.corba.ee.idl.SequenceGen */
+  @Override
   public com.sun.tools.corba.ee.idl.Generator generator ()
   {
     return sequenceGen;
@@ -111,7 +117,7 @@ public class SequenceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   /** Only sequences can be contained within sequences.
    * @return this should be a vector of {@link SequenceEntry}s
    */
-  public Vector contained ()
+  public Vector<SymtabEntry> contained ()
   {
     return _contained;
   } // contained
@@ -119,5 +125,5 @@ public class SequenceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   static com.sun.tools.corba.ee.idl.SequenceGen sequenceGen;
 
   private Expression _maxSize   = null;
-  private Vector     _contained = new Vector ();
+  private Vector<SymtabEntry>     _contained = new Vector<>();
 } // class SequenceEntry

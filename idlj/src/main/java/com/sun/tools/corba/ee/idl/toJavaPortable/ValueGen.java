@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -294,13 +295,13 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
    **/
   protected void writeInitializers ()
   {
-    Vector init = v.initializers ();
+    Vector<MethodEntry> init = v.initializers ();
     if (init != null)
     {
       stream.println ();
       for (int i = 0; i < init.size (); i++)
       {
-        MethodEntry element = (MethodEntry) init.elementAt (i);
+        MethodEntry element = init.elementAt(i);
         element.valueMethod (true);
         ((com.sun.tools.corba.ee.idl.toJavaPortable.MethodGen) element.generator ()). interfaceMethod (symbolTable, element, stream);
         if (element.parameters ().isEmpty ()) // <d57067-klr>
@@ -320,10 +321,10 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
     // Thus, if the declaration of a constructed type is nested in the decl.
     // of a state member, e.g   struct x {boolean b;}  memberx;
     // the generation of the nested type must be handled here.
-    Enumeration e = v.contained ().elements ();
+    Enumeration<SymtabEntry> e = v.contained().elements();
     while (e.hasMoreElements ())
     {
-      SymtabEntry contained = (SymtabEntry)e.nextElement ();
+      SymtabEntry contained = e.nextElement();
       if (contained instanceof MethodEntry)
       {
         MethodEntry element = (MethodEntry)contained;
@@ -354,10 +355,10 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
     if (v.supports ().size () > 0)
     {
       InterfaceEntry intf = (InterfaceEntry) v.supports ().elementAt (0);
-      Enumeration el = intf.allMethods ().elements ();
+      Enumeration<MethodEntry> el = intf.allMethods().elements();
       while (el.hasMoreElements ())
       {
-        MethodEntry m = (MethodEntry) el.nextElement ();
+        MethodEntry m = el.nextElement ();
         // <d59071> Don't alter the symbol table/emit list elements!
         //m.container (v);
         //((MethodGen)m.generator ()).interfaceMethod (symbolTable, m, stream);
@@ -373,10 +374,10 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
       ValueEntry parentValue = (ValueEntry) v.derivedFrom ().elementAt (i);
       if (parentValue.isAbstract ())
       {
-        Enumeration el = parentValue.allMethods ().elements ();
+        Enumeration<MethodEntry> el = parentValue.allMethods().elements();
         while (el.hasMoreElements ())
         {
-           MethodEntry m = (MethodEntry) el.nextElement ();
+           MethodEntry m = el.nextElement();
           // <d59071> Don't alter the symbol table/emit list elements!
           //m.container (v);
           //((MethodGen)m.generator ()).interfaceMethod (symbolTable, m, stream);
@@ -414,10 +415,11 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
   ///////////////
   // From JavaGenerator
 
+  @Override
   public int helperType (int index, String indent, com.sun.tools.corba.ee.idl.toJavaPortable.TCOffsets tcoffsets, String name, SymtabEntry entry, PrintWriter stream)
   {
     ValueEntry vt = (ValueEntry) entry;
-    Vector state = vt.state ();
+    Vector<InterfaceState> state = vt.state();
     int noOfMembers = state == null ? 0 : state.size ();
     String members = "_members" + index++;
     String tcOfMembers = "_tcOf" + members;
@@ -434,8 +436,8 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
 
     for (int k=0; k<noOfMembers; k++)
     {
-      InterfaceState valueMember = (InterfaceState)state.elementAt (k);
-      TypedefEntry member = (TypedefEntry)valueMember.entry;
+      InterfaceState valueMember = state.elementAt(k);
+      TypedefEntry member = valueMember.entry;
       SymtabEntry mType = com.sun.tools.corba.ee.idl.toJavaPortable.Util.typeOf(member);
       if (hasRepId (member))
       {
@@ -513,16 +515,17 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
 
   private static String getConcreteBaseTypeCode (ValueEntry vt)
   {
-    Vector v = vt.derivedFrom ();
+    Vector<SymtabEntry> v = vt.derivedFrom ();
     if (!vt.isAbstract ())
     {
-      SymtabEntry base = (SymtabEntry)vt.derivedFrom ().elementAt (0);
+      SymtabEntry base = vt.derivedFrom().elementAt(0);
       if (!"ValueBase".equals (base.name ()))
         return com.sun.tools.corba.ee.idl.toJavaPortable.Util.helperName(base, true) + ".type ()"; // <d61056>
     }
     return "null";
   } // getConcreteBaseTypeCode
 
+  @Override
   public void helperRead (String entryName, SymtabEntry entry, PrintWriter stream)
   {
   // <d59418 - KLR> per Simon, make "static" read call istream.read_value.
@@ -574,11 +577,12 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
     read (0, "    ", "value", entry, stream);
   } // helperRead
 
+  @Override
   public int read (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     // First do the state members from concrete parent hierarchy
-    Vector vParents = ((ValueEntry) entry).derivedFrom ();
-    if (vParents != null && vParents.size() != 0)
+    Vector<SymtabEntry> vParents = ((ValueEntry) entry).derivedFrom ();
+    if (vParents != null && !vParents.isEmpty())
     {
       ValueEntry parent = (ValueEntry) vParents.elementAt (0);
       if (parent == null)
@@ -588,12 +592,12 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
           stream.println(indent + com.sun.tools.corba.ee.idl.toJavaPortable.Util.helperName(parent, true) + ".read (istream, value);"); // <d60929> // <d61056>
     }
 
-    Vector vMembers = ((ValueEntry) entry).state ();
+    Vector<InterfaceState> vMembers = ((ValueEntry) entry).state();
     int noOfMembers = vMembers == null ? 0 : vMembers.size ();
 
     for (int k = 0; k < noOfMembers; k++)
     {
-      TypedefEntry member = (TypedefEntry)((InterfaceState)vMembers.elementAt (k)).entry;
+      TypedefEntry member = vMembers.elementAt(k).entry;
       String memberName = member.name ();
       SymtabEntry mType = member.type ();
 
@@ -661,8 +665,8 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
   public int write (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     // First do the state members from concrete parent hierarchy
-    Vector vParents = ((ValueEntry)entry).derivedFrom ();
-    if (vParents != null && vParents.size () != 0)
+    Vector<SymtabEntry> vParents = ((ValueEntry)entry).derivedFrom();
+    if (vParents != null && !vParents.isEmpty())
     {
       ValueEntry parent = (ValueEntry)vParents.elementAt (0);
       if (parent == null)
@@ -673,11 +677,11 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
           stream.println(indent + com.sun.tools.corba.ee.idl.toJavaPortable.Util.helperName(parent, true) + "._write (ostream, value);"); // <d60929> <d61056> <d62062>
     }
 
-    Vector vMembers = ((ValueEntry) entry ).state ();
+    Vector<InterfaceState> vMembers = ((ValueEntry) entry).state();
     int noOfMembers = vMembers == null ? 0 : vMembers.size ();
     for (int k = 0; k < noOfMembers; k++)
     {
-      TypedefEntry member = (TypedefEntry)((InterfaceState)vMembers.elementAt (k)).entry;
+      TypedefEntry member = vMembers.elementAt(k).entry;
       String memberName = member.name ();
       SymtabEntry mType = member.type ();
 
@@ -704,7 +708,7 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
 
     // workaround: if the abstract value type does not have any parent, a vector
     // containing ValueBase should be returned instead of an empty vector
-    if (v.derivedFrom ().size () == 0)
+    if (v.derivedFrom().isEmpty())
       stream.print (" extends org.omg.CORBA.portable.ValueBase"); // <d60929>
     else
     {

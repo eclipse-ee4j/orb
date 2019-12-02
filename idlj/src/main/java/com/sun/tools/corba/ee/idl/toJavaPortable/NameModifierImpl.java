@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -85,18 +86,20 @@ public class NameModifierImpl implements com.sun.tools.corba.ee.idl.toJavaPortab
             return true ;
     }
 
-    public String makeName( String base )
-    {
-        StringBuffer sb = new StringBuffer() ;
+    @Override
+    public String makeName(String base) {
+        StringBuilder sb = new StringBuilder();
 
-        if (prefix != null)
-            sb.append( prefix ) ;
+        if (prefix != null) {
+            sb.append(prefix);
+        }
 
-        sb.append( base ) ;
+        sb.append(base);
 
-        if (suffix != null)
-            sb.append( suffix ) ;
+        if (suffix != null) {
+            sb.append(suffix);
+        }
 
-        return sb.toString() ;
+        return sb.toString();
     }
 }

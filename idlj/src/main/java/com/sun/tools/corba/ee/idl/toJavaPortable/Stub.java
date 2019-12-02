@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -184,7 +185,7 @@ public class Stub implements AuxGen
   protected void buildMethodList ()
   {
     // Start from scratch
-    methodList = new Vector ();
+    methodList = new Vector<>();
 
     buildMethodList (i);
   } // buildMethodList
@@ -195,12 +196,12 @@ public class Stub implements AuxGen
   private void buildMethodList (InterfaceEntry entry)
   {
     // Add the local methods
-    Enumeration locals = entry.methods ().elements ();
+    Enumeration<MethodEntry> locals = entry.methods().elements();
     while (locals.hasMoreElements ())
       addMethod ((MethodEntry)locals.nextElement ());
 
     // Add the inherited methods
-    Enumeration parents = entry.derivedFrom ().elements ();
+    Enumeration<SymtabEntry> parents = entry.derivedFrom().elements();
     while (parents.hasMoreElements ())
     {
       InterfaceEntry parent = (InterfaceEntry)parents.nextElement ();
@@ -226,7 +227,7 @@ public class Stub implements AuxGen
     // Count the methods, attributes which are not readonly are
     // counted as 2 methods.
     int count = methodList.size ();
-    Enumeration e = methodList.elements ();
+    Enumeration<MethodEntry> e = methodList.elements ();
     while (e.hasMoreElements ())
     {
       Object method = e.nextElement ();
@@ -245,7 +246,7 @@ public class Stub implements AuxGen
     int realI = 0;
     for (int i = 0; i < methodList.size (); ++i)
     {
-      MethodEntry method = (MethodEntry)methodList.elementAt (i);
+      MethodEntry method = methodList.elementAt (i);
       if (!localStub) {
       ((com.sun.tools.corba.ee.idl.toJavaPortable.MethodGen)method.generator ()).stub (this.i.name(), isAbstract, symbolTable, method, stream, realI);
       } else {
@@ -261,14 +262,14 @@ public class Stub implements AuxGen
   /**
    *
    **/
-  private void buildIDList (InterfaceEntry entry, Vector list)
+  private void buildIDList (InterfaceEntry entry, Vector<String> list)
   {
     if (!entry.fullName ().equals ("org/omg/CORBA/Object"))
     {
       String id = com.sun.tools.corba.ee.idl.toJavaPortable.Util.stripLeadingUnderscoresFromID(entry.repositoryID().ID());
       if (!list.contains (id))
         list.addElement (id);
-      Enumeration e = entry.derivedFrom ().elements ();
+      Enumeration<SymtabEntry> e = entry.derivedFrom().elements();
       while (e.hasMoreElements ())
         buildIDList ((InterfaceEntry)e.nextElement (), list);
     }
@@ -279,18 +280,18 @@ public class Stub implements AuxGen
    **/
   private void writeIDs ()
   {
-    Vector list = new Vector ();
+    Vector<String> list = new Vector<>();
     buildIDList (i, list);
-    Enumeration e = list.elements ();
+    Enumeration<String> e = list.elements ();
     boolean first = true;
-    while (e.hasMoreElements ())
-    {
-      if (first)
-        first = false;
-      else
-        stream.println (", ");
-      stream.print ("    \"" + (String)e.nextElement () + '"');
-    }
+    while (e.hasMoreElements()) {
+          if (first) {
+              first = false;
+          } else {
+              stream.println(", ");
+          }
+          stream.print("    \"" + (String) e.nextElement() + '"');
+      }
   } // writeIDs
 
   /**
@@ -349,7 +350,7 @@ public class Stub implements AuxGen
   protected PrintWriter    stream      = null;
 
   // Unique to this generator
-  protected Vector         methodList  = null;
+  protected Vector<MethodEntry> methodList  = null;
   protected String         classSuffix = "";
   protected boolean        localStub = false;
   private   boolean        isAbstract = false;

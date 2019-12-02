@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,8 +41,8 @@ public class IncludeEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     super (that);
   } // ctor
 
-  public Object clone ()
-  {
+  @Override
+  public Object clone () {
     return new IncludeEntry (this);
   } // clone
 
@@ -51,6 +52,7 @@ public class IncludeEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
        a subclass of SymtabEntry.
       @param stream the stream to which the generator should sent its output.
       @see com.sun.tools.corba.ee.idl.SymtabEntry */
+  @Override
   public void generate (Hashtable symbolTable, PrintWriter stream)
   {
     includeGen.generate (symbolTable, this, stream);
@@ -59,6 +61,7 @@ public class IncludeEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   /** Access the Include type generator.
       @return an object which implements the IncludeGen interface.
       @see com.sun.tools.corba.ee.idl.IncludeGen */
+  @Override
   public com.sun.tools.corba.ee.idl.Generator generator ()
   {
     return includeGen;
@@ -94,14 +97,14 @@ public class IncludeEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   /** Get the list of files which this file includes.
    * @return a {@link Vector} of files included
    */
-  public Vector includes ()
+  public Vector<IncludeEntry> includes ()
   {
     return includeList;
   } // includes
 
   static com.sun.tools.corba.ee.idl.IncludeGen includeGen;
   /** List of files this file includes */
-  private Vector     includeList = new Vector ();
+  private Vector<IncludeEntry>     includeList = new Vector<>();
   //d44810 
   /** Absolute file name for .u file generation. */
   private String     _absFilename       = null;
