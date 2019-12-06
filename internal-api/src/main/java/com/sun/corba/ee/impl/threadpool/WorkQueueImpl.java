@@ -116,7 +116,7 @@ public class WorkQueueImpl implements WorkQueue
             if (availableThreads > minThreads) {
                 // This thread has timed out and can die because
                 // we have enough available idle threads.
-                // NOTE: It is expected the WorkerThread calling this
+                // NOTE: It is expected that the WorkerThread calling this
                 //       method will gracefully exit as a result of
                 //       catching the WorkerThreadNotNeededException.
                 ((ThreadPoolImpl)workerThreadPool).
