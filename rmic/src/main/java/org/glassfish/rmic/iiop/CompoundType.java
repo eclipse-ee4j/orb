@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1998, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -167,6 +168,7 @@ public abstract class CompoundType extends Type {
      * Return signature for this type  (e.g. com.acme.Dynamite
      * would return "com.acme.Dynamite", byte = "B")
      */
+    @Override
     public String getSignature() {
         String sig = classDecl.getType().getTypeSignature();
         if (sig.endsWith(";")) {
@@ -204,7 +206,7 @@ public abstract class CompoundType extends Type {
      */
     public InterfaceType[] getInterfaces() {
         if( interfaces != null ) {
-            return (InterfaceType[]) interfaces.clone();
+            return interfaces.clone();
         }
         return null;
     }
@@ -215,7 +217,7 @@ public abstract class CompoundType extends Type {
      */
     public Method[] getMethods() {
         if( methods != null ) {
-            return (Method[]) methods.clone();
+            return methods.clone();
         }
         return null;
     }
@@ -226,7 +228,7 @@ public abstract class CompoundType extends Type {
      */
     public Member[] getMembers() {
         if( members != null ) {
-            return (Member[]) members.clone();
+            return members.clone();
         }
         return null;
     }
@@ -257,6 +259,7 @@ public abstract class CompoundType extends Type {
     /**
      * Release all resources.
      */
+    @Override
     protected void destroy () {
         if (!destroyed) {
             super.destroy();
@@ -290,9 +293,10 @@ public abstract class CompoundType extends Type {
     /*
      * Load a Class instance. Return null if fail.
      */
-    protected Class loadClass() {
+    @Override
+    protected Class<?> loadClass() {
 
-        Class ourClass = null;
+        Class<?> ourClass = null;
 
         // Now try to get the Class...
         // The outer try block is there for people who might want to use
@@ -405,27 +409,23 @@ public abstract class CompoundType extends Type {
 
         CompoundType.Member[] members = getMembers();
 
-        for (int i = 0; i < members.length; i++) {
-            if (!members[i].isInnerClassDeclaration()) {
-                Type it = members[i].getType();
-                String visibility = members[i].getVisibility();
+        for (Member member : members) {
+            if (!member.isInnerClassDeclaration()) {
+                Type it = member.getType();
+                String visibility = member.getVisibility();
                 String name;
-
                 if (useIDLNames) {
-                    name = members[i].getIDLName();
+                    name = member.getIDLName();
                 } else {
-                    name = members[i].getName();
+                    name = member.getName();
                 }
-
-                String value = members[i].getValue();
-
+                String value = member.getValue();
                 writer.p(visibility);
                 if (visibility.length() > 0) {
                     writer.p(" ");
                 }
                 it.printTypeName(writer,useQualifiedNames,useIDLNames,globalIDLNames);
                 writer.p(" " + name);
-
                 if (value != null) {
                     writer.pln(" = " + value + ";");
                 } else {
@@ -444,8 +444,7 @@ public abstract class CompoundType extends Type {
 
         CompoundType.Method[] methods = getMethods();
 
-        for (int m = 0; m < methods.length; m++) {
-            CompoundType.Method theMethod = methods[m];
+        for (Method theMethod : methods) {
             printMethod(theMethod,writer,useQualifiedNames,useIDLNames,globalIDLNames);
         }
     }
@@ -679,9 +678,9 @@ public abstract class CompoundType extends Type {
     /**
      * Initialize this instance.
      */
-    protected boolean initialize (      Vector directInterfaces,
-                                        Vector directMethods,
-                                        Vector directMembers,
+    protected boolean initialize (      Vector<InterfaceType> directInterfaces,
+                                        Vector<Method> directMethods,
+                                        Vector<Member> directMembers,
                                         ContextStack stack,
                                         boolean quiet) {
 
@@ -719,12 +718,11 @@ public abstract class CompoundType extends Type {
 
             // If we have any un-initialized inner classes, now is the time
             // to init them...
-
-            for (int i = 0; i < members.length; i++) {
-                if (members[i].isInnerClassDeclaration()) {
+            for (Member member : members) {
+                if (member.isInnerClassDeclaration()) {
                     try {
-                        members[i].init(stack,this);
-                    } catch (CompilerError e) {
+                        member.init(stack, this);
+                    }catch (CompilerError e) {
                         return false;
                     }
                 }
@@ -925,14 +923,10 @@ public abstract class CompoundType extends Type {
                                              BatchEnvironment env) {
         org.glassfish.rmic.tools.java.Type exceptionType = ex.getClassDeclaration().getType();
 
-        if (exceptionType.equals(env.typeRemoteException) ||
-            exceptionType.equals(env.typeIOException) ||
-            exceptionType.equals(env.typeException) ||
-            exceptionType.equals(env.typeThrowable)) {
-
-            return true;
-        }
-        return false;
+        return exceptionType.equals(env.typeRemoteException) ||
+                exceptionType.equals(env.typeIOException) ||
+                exceptionType.equals(env.typeException) ||
+                exceptionType.equals(env.typeThrowable);
     }
 
     /*
@@ -947,12 +941,9 @@ public abstract class CompoundType extends Type {
         boolean haveRemote = false;
         ClassType[] exceptions = method.getExceptions();
 
-        for (int i = 0; i < exceptions.length; i++) {
-
+        for (ClassType exception : exceptions) {
             // Is it a conforming exception?
-
-            if (isRemoteException(exceptions[i],env)) {
-
+            if (isRemoteException(exception, env)) {
                 // Got it.
 
                 haveRemote = true;
@@ -975,8 +966,8 @@ public abstract class CompoundType extends Type {
         boolean noIDLEntity = !isIDLEntityException(method.getReturnType(),method,quiet);
         if (noIDLEntity) {
             Type[] args = method.getArguments();
-            for (int i = 0; i < args.length; i++) {
-                if (isIDLEntityException(args[i],method,quiet)) {
+            for (Type arg : args) {
+                if (isIDLEntityException(arg, method, quiet)) {
                     noIDLEntity = false;
                     break;
                 }
@@ -1003,6 +994,7 @@ public abstract class CompoundType extends Type {
     /**
      * Convert all invalid types to valid ones.
      */
+    @Override
     protected void swapInvalidTypes () {
 
         // Walk all interfaces and check them...
@@ -1014,15 +1006,13 @@ public abstract class CompoundType extends Type {
         }
 
         // Update methods...
-
-        for (int i = 0; i < methods.length; i++) {
-            methods[i].swapInvalidTypes();
+        for (Method method : methods) {
+            method.swapInvalidTypes();
         }
 
         // Update members...
-
-        for (int i = 0; i < members.length; i++) {
-            members[i].swapInvalidTypes();
+        for (Member member : members) {
+            member.swapInvalidTypes();
         }
     }
 
@@ -1030,9 +1020,10 @@ public abstract class CompoundType extends Type {
      * Add matching types to list. Return true if this type has not
      * been previously checked, false otherwise.
      */
+    @Override
     protected boolean addTypes (int typeCodeFilter,
-                                HashSet checked,
-                                Vector matching) {
+                                HashSet<Type> checked,
+                                Vector<Type> matching) {
 
         // Check self.
 
@@ -1074,15 +1065,9 @@ public abstract class CompoundType extends Type {
                 // Add args...
 
                 Type[] args = methods[i].getArguments();
-                //if (args == null) System.out.println("NULL for " + getQualifiedName() + " args");
 
-                for (int j = 0; j < args.length; j++) {
-
-                    Type arg = args[j];
-                    //if (arg == null) System.out.println("NULL for " + getQualifiedName() + " arg[" +j+"]");
-
-                                // Add argument...
-
+                for (Type arg : args) {
+                    // Add argument...
                     arg.addTypes(typeCodeFilter,checked,matching);
                 }
 
@@ -1182,8 +1167,8 @@ public abstract class CompoundType extends Type {
      * @param stack the context stack.
      * @return currentMethods or null if failed a constraint check.
      */
-    protected Vector updateParentClassMethods(ClassDefinition current,
-                                              Vector currentMethods,
+    protected Vector<Method> updateParentClassMethods(ClassDefinition current,
+                                              Vector<Method> currentMethods,
                                               boolean quiet,
                                               ContextStack stack)
         throws ClassNotFound {
@@ -1213,7 +1198,7 @@ public abstract class CompoundType extends Type {
 
                     Method method;
                     try {
-                        method = new Method((CompoundType)this,member,quiet,stack);
+                        method = new Method(this,member,quiet,stack);
                     } catch (Exception e) {
                         // Don't report anything here, it's already been reported...
                         return null;
@@ -1226,7 +1211,7 @@ public abstract class CompoundType extends Type {
 
                         // Yes, so update it...
 
-                        Method currentMethod = (Method)currentMethods.elementAt(index);
+                        Method currentMethod = currentMethods.elementAt(index);
                         currentMethod.setDeclaredBy(currentID);
                     }
                     else currentMethods.addElement(method);
@@ -1253,7 +1238,7 @@ public abstract class CompoundType extends Type {
      * @param stack the context stack.
      * @return directMethods or null if failed a constraint check.
      */
-    protected Vector addAllMethods (ClassDefinition current, Vector directMethods,
+    protected Vector<Method> addAllMethods (ClassDefinition current, Vector<Method> directMethods,
                                     boolean noMultiInheritedMethods,
                                     boolean quiet,
                                     ContextStack stack)
@@ -1267,12 +1252,8 @@ public abstract class CompoundType extends Type {
         // We want to add members starting at the _least_ derived
         // interfaces.  To do so, recurse until we have no more
         // interfaces...
-
-        for (int i = 0; i < interfaces.length; i++) {
-
-            Vector result = addAllMethods(interfaces[i].getClassDefinition(env),
-                                          directMethods,
-                                          noMultiInheritedMethods,quiet,stack);
+        for (ClassDeclaration intf : interfaces) {
+            Vector<Method> result = addAllMethods(intf.getClassDefinition(env), directMethods, noMultiInheritedMethods, quiet, stack);
             if (result == null) {
                 return null;
             }
@@ -1293,7 +1274,7 @@ public abstract class CompoundType extends Type {
 
                     Method method;
                     try {
-                        method = new Method((CompoundType)this,member,quiet,stack);
+                        method = new Method(this,member,quiet,stack);
                     } catch (Exception e) {
                         // Don't report anything here, it's already been reported...
                         return null;
@@ -1317,7 +1298,7 @@ public abstract class CompoundType extends Type {
 
                             // Nope. Say so and signal error by returning null..
 
-                            Method existingMethod = (Method) directMethods.elementAt(directMethods.indexOf(method));
+                            Method existingMethod = directMethods.elementAt(directMethods.indexOf(method));
                             ClassDefinition existingMemberClassDef = existingMethod.getMemberDefinition().getClassDefinition();
 
                             // There are more legal cases to consider here.
@@ -1340,7 +1321,7 @@ public abstract class CompoundType extends Type {
 
                         // find a matching method.
                         int index = directMethods.indexOf(method);
-                        Method other = (Method) directMethods.get(index);
+                        Method other = directMethods.get(index);
 
                         // merge the two methods, such that the new method
                         // will contain only those exception that can be thrown
@@ -1382,7 +1363,7 @@ public abstract class CompoundType extends Type {
      * Add all of the interfaces implemented directly by current
      * to the list. Returns null if any are non-conforming.
      */
-    protected Vector addRemoteInterfaces (Vector list,
+    protected Vector<InterfaceType> addRemoteInterfaces (Vector<InterfaceType> list,
                                           boolean allowNonConforming,
                                           ContextStack stack) throws ClassNotFound {
 
@@ -1440,8 +1421,7 @@ public abstract class CompoundType extends Type {
      * Add all of the interfaces implemented directly by current
      * to the list.
      */
-    protected Vector addNonRemoteInterfaces (Vector list,
-                                             ContextStack stack) throws ClassNotFound {
+    protected Vector<InterfaceType> addNonRemoteInterfaces (Vector<InterfaceType> list, ContextStack stack) throws ClassNotFound {
 
         // Add all the interfaces of current...
 
@@ -1487,7 +1467,7 @@ public abstract class CompoundType extends Type {
      * Walk self, adding constants and data members.
      * @return true if all conform, false otherwise.
      */
-    protected boolean addAllMembers (Vector allMembers,
+    protected boolean addAllMembers (Vector<Member> allMembers,
                                      boolean onlyConformingConstants,   // AND inner classes.
                                      boolean quiet,
                                      ContextStack stack) {
@@ -1541,7 +1521,7 @@ public abstract class CompoundType extends Type {
      * Walk self, adding constants.
      * @return true if all conform, false otherwise.
      */
-    protected boolean addConformingConstants (Vector allMembers,
+    protected boolean addConformingConstants (Vector<Member> allMembers,
                                               boolean quiet,
                                               ContextStack stack) {
 
@@ -1770,6 +1750,7 @@ public abstract class CompoundType extends Type {
         /**
          * Return context element name.
          */
+        @Override
         public String getElementName() {
             return memberDef.toString();
         }
@@ -1777,6 +1758,7 @@ public abstract class CompoundType extends Type {
         /**
          * Equality check based on method signature.
          */
+        @Override
         public boolean equals(Object obj) {
             Method other = (Method) obj;
 
@@ -1793,6 +1775,7 @@ public abstract class CompoundType extends Type {
             return false;
         }
 
+        @Override
         public int hashCode() {
             return getName().hashCode() ^ Arrays.hashCode(arguments);
         }
@@ -1811,7 +1794,7 @@ public abstract class CompoundType extends Type {
                           enclosing.getClassDefinition().getName());
             }
 
-            Vector legalExceptions = new Vector();
+            Vector<ValueType> legalExceptions = new Vector<>();
             try {
                 collectCompatibleExceptions(
                       other.exceptions, exceptions, legalExceptions);
@@ -1836,17 +1819,15 @@ public abstract class CompoundType extends Type {
          * that are subclasses of an exception in the "with" array.
          */
         private void collectCompatibleExceptions(
-                ValueType[] from, ValueType[] with, Vector list)
+                ValueType[] from, ValueType[] with, Vector<ValueType> list)
                 throws ClassNotFound {
 
-            for (int i = 0; i < from.length; i++) {
-                ClassDefinition exceptionDef = from[i].getClassDefinition();
-                if (!list.contains(from[i])) {
-                    for (int j = 0; j < with.length; j++) {
-                        if (exceptionDef.subClassOf(
-                                enclosing.getEnv(),
-                                with[j].getClassDeclaration())) {
-                            list.addElement(from[i]);
+            for (ValueType fromType : from) {
+                ClassDefinition exceptionDef = fromType.getClassDefinition();
+                if (!list.contains(fromType)) {
+                    for (ValueType withType : with) {
+                        if (exceptionDef.subClassOf(enclosing.getEnv(), withType.getClassDeclaration())) {
+                            list.addElement(fromType);
                             break;
                         }
                     }
@@ -1943,7 +1924,7 @@ public abstract class CompoundType extends Type {
          * Return the argument types of this method.
          */
         public Type[] getArguments() {
-            return (Type[]) arguments.clone();
+            return arguments.clone();
         }
 
         /**
@@ -1970,7 +1951,7 @@ public abstract class CompoundType extends Type {
          * methods that can be legally thrown in each of them.
          */
         public ValueType[] getExceptions() {
-            return (ValueType[]) exceptions.clone();
+            return exceptions.clone();
         }
 
         /**
@@ -1978,7 +1959,7 @@ public abstract class CompoundType extends Type {
          * ImplementationType and the exceptions list is narrower.
          */
         public ValueType[] getImplExceptions() {
-            return (ValueType[]) implExceptions.clone();
+            return implExceptions.clone();
         }
 
         /**
@@ -2092,11 +2073,12 @@ public abstract class CompoundType extends Type {
         /**
          * Return the string representation of this method.
          */
+        @Override
         public String toString() {
 
             if (stringRep == null) {
 
-                StringBuffer result = new StringBuffer(returnType.toString());
+                StringBuilder result = new StringBuilder(returnType.toString());
 
                 // Add name...
 
@@ -2336,7 +2318,7 @@ public abstract class CompoundType extends Type {
             org.glassfish.rmic.tools.java.Type[] args = memberDef.getType().getArgumentTypes();
             arguments = new Type[args.length];
             argumentNames = new String[args.length];
-            Vector origArgNames = memberDef.getArguments();
+            Vector<MemberDefinition> origArgNames = memberDef.getArguments();
 
             for (int i = 0; i < args.length; i++) {
                 Type type = null;
@@ -2383,6 +2365,7 @@ public abstract class CompoundType extends Type {
         /**
          * Cloning is supported by returning a shallow copy of this object.
          */
+        @Override
         protected Object clone() {
             try {
                 return super.clone();
@@ -2405,6 +2388,7 @@ public abstract class CompoundType extends Type {
         /**
          * Return context element name.
          */
+        @Override
         public String getElementName() {
             return "\"" + getName() + "\"";
         }
@@ -2487,6 +2471,7 @@ public abstract class CompoundType extends Type {
         /**
          * Return the string representation of this constant.
          */
+        @Override
         public String toString() {
 
             String result = type.toString();
@@ -2542,7 +2527,7 @@ public abstract class CompoundType extends Type {
         private String value;
         private String name;
         private String idlName;
-        private boolean innerClassDecl;
+        private final boolean innerClassDecl;
         private boolean constant;
         private MemberDefinition member;
         private boolean forceTransient;
@@ -2633,6 +2618,7 @@ public abstract class CompoundType extends Type {
         /**
          * Cloning is supported by returning a shallow copy of this object.
          */
+        @Override
         protected Object clone() {
             try {
                 return super.clone();

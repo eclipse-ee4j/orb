@@ -97,7 +97,7 @@ public abstract class Generator implements      org.glassfish.rmic.Generator,
      *  Intended to be passed to Type.collectMatching(filter,alreadyChecked).
      */
     protected abstract OutputType[] getOutputTypesFor(CompoundType topType,
-                                                      HashSet alreadyChecked);
+                                                      HashSet<Type> alreadyChecked);
 
     /**
      * Return the file name extension for the given file name (e.g. ".java").
@@ -116,7 +116,7 @@ public abstract class Generator implements      org.glassfish.rmic.Generator,
      * @param writer The output stream.
      */
     protected abstract void writeOutputFor(OutputType outputType,
-                                                HashSet alreadyChecked,
+                                                HashSet<Type> alreadyChecked,
                                                 IndentingWriter writer) throws IOException;
 
     /**

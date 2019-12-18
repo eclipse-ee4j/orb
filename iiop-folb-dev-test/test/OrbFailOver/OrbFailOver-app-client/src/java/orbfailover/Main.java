@@ -37,8 +37,6 @@ import javax.naming.Context;
 import javax.naming.NameClassPair;
 import javax.naming.NamingEnumeration;
 
-import orb.folb.LocationBeanRemote;
-
 import testtools.Test ;
 import testtools.Base ;
 import testtools.Post;
@@ -129,7 +127,7 @@ public class Main extends Base {
     private InitialContext makeIC( String eplist ) throws NamingException {
         InitialContext result ;
         if (eplist != null && !inst.useExternalEndpoints()) {
-            final Hashtable table = new Hashtable() ;
+            final Hashtable<String, String> table = new Hashtable<>() ;
             table.put( "com.sun.appserv.iiop.endpoints", eplist ) ;
             result = new InitialContext( table ) ;
         } else {

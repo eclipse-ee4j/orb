@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1998, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -43,13 +44,13 @@ public class BatchEnvironment extends org.glassfish.rmic.BatchEnvironment implem
 
     /* Common objects used within package */
 
-    HashSet alreadyChecked = new HashSet();
-    Hashtable allTypes = new Hashtable(3001, 0.5f);
-    Hashtable invalidTypes = new Hashtable(256, 0.5f);
+    HashSet<Type> alreadyChecked = new HashSet<>();
+    Hashtable<String, Type> allTypes = new Hashtable<>(3001, 0.5f);
+    Hashtable<Type, String> invalidTypes = new Hashtable<>(256, 0.5f);
     DirectoryLoader loader = null;
     ClassPathLoader classPathLoader = null;
-    Hashtable nameContexts = null;
-    Hashtable namesCache = new Hashtable();
+    Hashtable<String, NameContext> nameContexts = null;
+    Hashtable<String, String> namesCache = new Hashtable<>();
     NameContext modulesContext = new NameContext(false);
 
     ClassDefinition defRemote = null;
@@ -151,23 +152,23 @@ public class BatchEnvironment extends org.glassfish.rmic.BatchEnvironment implem
     /**
      * Clear out any data from previous executions.
      */
+    @Override
     public void reset () {
 
         // First, find all Type instances and call destroy()
         // on them...
 
-        for (Enumeration e = allTypes.elements() ; e.hasMoreElements() ;) {
-            Type type = (Type) e.nextElement();
+        for (Enumeration<Type> e = allTypes.elements() ; e.hasMoreElements() ;) {
+            Type type = e.nextElement();
             type.destroy();
         }
 
-        for (Enumeration e = invalidTypes.keys() ; e.hasMoreElements() ;) {
-            Type type = (Type) e.nextElement();
+        for (Enumeration<Type> e = invalidTypes.keys() ; e.hasMoreElements() ;) {
+            Type type = e.nextElement();
             type.destroy();
         }
 
-        for (Iterator e = alreadyChecked.iterator() ; e.hasNext() ;) {
-            Type type = (Type) e.next();
+        for (Type type : alreadyChecked) {
             type.destroy();
         }
 
@@ -177,8 +178,8 @@ public class BatchEnvironment extends org.glassfish.rmic.BatchEnvironment implem
         // nameContexts cache...
 
         if (nameContexts != null) {
-            for (Enumeration e = nameContexts.elements() ; e.hasMoreElements() ;) {
-                NameContext context = (NameContext) e.nextElement();
+            for (Enumeration<NameContext> e = nameContexts.elements() ; e.hasMoreElements() ;) {
+                NameContext context = e.nextElement();
                 context.clear();
             }
             nameContexts.clear();
@@ -202,6 +203,7 @@ public class BatchEnvironment extends org.glassfish.rmic.BatchEnvironment implem
     /**
      * Release resources, if any.
      */
+    @Override
     public void shutdown() {
         if (alreadyChecked != null) {
             //System.out.println();

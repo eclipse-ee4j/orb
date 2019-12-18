@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1998, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -36,14 +37,14 @@ import java.util.Vector;
 public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
 
     private boolean valueMethods = true;
-    private boolean factory = true;                              //init==!factory
-    private Hashtable ifHash = new Hashtable();              //IDL file Hashtable
-    private Hashtable imHash = new Hashtable();            //IDL module Hashtable
+    private boolean factory = true;                               //init==!factory
+    private Hashtable<String, String> ifHash = new Hashtable<>(); //IDL file Hashtable
+    private Hashtable<String, String> imHash = new Hashtable<>(); //IDL module Hashtable
 
-    private boolean isThrown = true;                      //flag for writeInclude
-    private boolean isException = true;       //flag for writeBanner, writeIfndef
-    private boolean isForward = true;                      //flag for writeIfndef
-    private boolean forValuetype = true;                 //flag for writeInherits
+    private final boolean isThrown = true;                      //flag for writeInclude
+    private final boolean isException = true;       //flag for writeBanner, writeIfndef
+    private final boolean isForward = true;                      //flag for writeIfndef
+    private final boolean forValuetype = true;                 //flag for writeInherits
 
     /**
      * Default constructor for Main to use.
@@ -63,6 +64,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * should override newInstance() to return an appropriately
      * constructed instance.
      */
+    @Override
     protected boolean requireNewInstance() {
         return false;
     }
@@ -71,6 +73,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * Return true if non-conforming types should be parsed.
      * @param stack The context stack.
      */
+    @Override
     protected boolean parseNonConforming(ContextStack stack) {
         return valueMethods;
     }
@@ -81,6 +84,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param stack The context stack.
      * @return An RemoteType or null if is non-conforming.
      */
+    @Override
     protected org.glassfish.rmic.iiop.CompoundType getTopType(ClassDefinition cdef,
                                                         ContextStack stack) {
         return CompoundType.forCompound(cdef,stack);
@@ -94,8 +98,8 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param ot the OutputType for which directory nesting is to be defined.
      * @return the new identifier.
      */
-    protected Identifier getOutputId (
-                                      OutputType ot ) {
+    @Override
+    protected Identifier getOutputId (OutputType ot ) {
         Identifier id = super.getOutputId( ot );
 
         Type t = ot.getType();
@@ -146,6 +150,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * method to return false.
      * @param outputType One of the items returned by getOutputTypesFor(...)
      */
+    @Override
     protected String getFileNameExtensionFor(OutputType outputType) {
         return IDL_FILE_EXTENSION;
     }
@@ -158,6 +163,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param main Report any errors using the main.error() methods.
      * @return true if no errors, false otherwise.
      */
+    @Override
     public boolean parseArgs(String argv[], Main main) {
         boolean result = super.parseArgs(argv,main);
         String idlFrom;
@@ -194,7 +200,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                                 idlTo = argv[i];
                                 argv[i] = null;
                                 ifHash.put( idlFrom,idlTo );
-                                continue nextArg;
+                                continue;
                             }
                         }
                         main.error("rmic.option.requires.argument", "-idlfile");
@@ -209,7 +215,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                                 idlTo = argv[i];
                                 argv[i] = null;
                                 imHash.put( idlFrom,idlTo );
-                                continue nextArg;
+                                continue;
                             }
                         }
                         main.error("rmic.option.requires.argument", "-idlmodule");
@@ -233,13 +239,14 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param alreadyChecked A set of Types which have already been checked.
      * @return Array of OutputTypes to generate
      */
+    @Override
     protected OutputType[] getOutputTypesFor(
                                              CompoundType topType,
-                                             HashSet alreadyChecked ) {
-        Vector refVec = getAllReferencesFor( topType );
-        Vector outVec = new Vector();
+                                             HashSet<Type> alreadyChecked ) {
+        Vector<Type> refVec = getAllReferencesFor( topType );
+        Vector<OutputType> outVec = new Vector<>();
         for ( int i1 = 0; i1 < refVec.size(); i1++ ) {          //forall references
-            Type t = (Type)refVec.elementAt( i1 );
+            Type t = refVec.elementAt( i1 );
             if ( t.isArray() ) {
                 ArrayType at = (ArrayType)t;
                 int dim = at.getArrayDimension();
@@ -273,11 +280,10 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param ct The given type.
      * @return Vector of Types for which IDL must be generated.
      */
-    protected Vector getAllReferencesFor(
-                                         CompoundType ct ) {
-        Hashtable refHash = new Hashtable();
-        Hashtable spcHash = new Hashtable();
-        Hashtable arrHash = new Hashtable();
+    protected Vector<Type> getAllReferencesFor(CompoundType ct ) {
+        Hashtable<String, CompoundType> refHash = new Hashtable<>();
+        Hashtable<String, CompoundType> spcHash = new Hashtable<>();
+        Hashtable<String, ArrayType> arrHash = new Hashtable<>();
         int refSize;
         refHash.put( ct.getQualifiedName(),ct );               //put the given type
         accumulateReferences( refHash,spcHash,arrHash );
@@ -287,26 +293,26 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         }
         while ( refSize < refHash.size() );        //till hashtable stays same size
 
-        Vector outVec = new Vector();
-        Enumeration e = refHash.elements();                   //ordinary references
-        while ( e.hasMoreElements() ) {
-            CompoundType t = (CompoundType)e.nextElement();
+        Vector<Type> outVec = new Vector<>();
+        Enumeration<CompoundType> compundElements = refHash.elements();                   //ordinary references
+        while ( compundElements.hasMoreElements() ) {
+            CompoundType t = compundElements.nextElement();
             outVec.addElement( t );
         }
-        e = spcHash.elements();                                //special references
-        while ( e.hasMoreElements() ) {
-            CompoundType t = (CompoundType)e.nextElement();
+        compundElements = spcHash.elements();                                //special references
+        while ( compundElements.hasMoreElements() ) {
+            CompoundType t = compundElements.nextElement();
             outVec.addElement( t );
     }
-        e = arrHash.elements();                                  //array references
+        Enumeration<ArrayType> arrElements = arrHash.elements();                                  //array references
                                          nextSequence:
-        while ( e.hasMoreElements() ) {
-            ArrayType at = (ArrayType)e.nextElement();
+        while ( arrElements.hasMoreElements() ) {
+            ArrayType at = arrElements.nextElement();
             int dim = at.getArrayDimension();
             Type et = at.getElementType();
-            Enumeration e2 = arrHash.elements();
+            Enumeration<ArrayType> e2 = arrHash.elements();
             while ( e2.hasMoreElements() ) {                   //eliminate duplicates
-                ArrayType at2 = (ArrayType)e2.nextElement();
+                ArrayType at2 = e2.nextElement();
                 if ( et == at2.getElementType() &&                //same element type &
                      dim < at2.getArrayDimension() )               //smaller dimension?
                     continue nextSequence;                              //ignore this one
@@ -326,28 +332,28 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param arrHash Hashtable containing referenced arrays (dimensioned)
      */
     protected void accumulateReferences(
-                                        Hashtable refHash,
-                                        Hashtable spcHash,
-                                        Hashtable arrHash ) {
-        Enumeration e = refHash.elements();
-        while ( e.hasMoreElements() ) {
-            CompoundType t = (CompoundType)e.nextElement();
-            Vector datVec = getData( t );                     //collect and sort data
-            Vector mthVec = getMethods( t );             //collect and filter methods
-            getInterfaces( t,refHash );                          //collect interfaces
-            getInheritance( t,refHash );                            //add inheritance
+                                        Hashtable<String, CompoundType> refHash,
+                                        Hashtable<String, CompoundType> spcHash,
+                                        Hashtable<String, ArrayType> arrHash ) {
+        Enumeration<CompoundType> compoundTypes = refHash.elements();
+        while ( compoundTypes.hasMoreElements() ) {
+            CompoundType type = compoundTypes.nextElement();
+            Vector<CompoundType.Member> datVec = getData( type );                     //collect and sort data
+            Vector<CompoundType.Method> mthVec = getMethods( type );             //collect and filter methods
+            getInterfaces( type,refHash );                          //collect interfaces
+            getInheritance( type,refHash );                            //add inheritance
             getMethodReferences( mthVec,refHash,spcHash,arrHash,refHash );
             getMemberReferences( datVec,refHash,spcHash,arrHash );
         }
-        e = arrHash.elements();                      //add array element references
-        while ( e.hasMoreElements() ) {
-            ArrayType at = (ArrayType)e.nextElement();
+        Enumeration<ArrayType> arrayElements = arrHash.elements();                      //add array element references
+        while ( arrayElements.hasMoreElements() ) {
+            ArrayType at = arrayElements.nextElement();
             Type et = at.getElementType();
             addReference( et,refHash,spcHash,arrHash );
         }
-        e = refHash.elements();
-        while ( e.hasMoreElements() ) {
-            CompoundType t = (CompoundType)e.nextElement();
+        Enumeration<CompoundType> refElements = refHash.elements();
+        while ( refElements.hasMoreElements() ) {
+            CompoundType t = refElements.nextElement();
             if ( !isIDLGeneratedFor( t ) )              //remove if no IDL generation
                 refHash.remove( t.getQualifiedName() );
     }
@@ -366,20 +372,25 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param t The type to check.
      * @return true or false
      */
-    protected boolean isIDLGeneratedFor(
-                                 CompoundType t ) {
-        if ( t.isCORBAObject() ) return false;
-        if ( t.isIDLEntity() )
-            if ( t.isBoxed() ) return true;
-            else if ( "org.omg.CORBA.portable.IDLEntity"
-                      .equals( t.getQualifiedName() ) ) return true;
-            else if ( t.isCORBAUserException() ) return true;
-            else return false;
-        Hashtable inhHash = new Hashtable();
-        getInterfaces( t,inhHash );
-        if ( t.getTypeCode() == TYPE_IMPLEMENTATION )
-            if ( inhHash.size() < 2 ) return false;         //no multiple inheritance
-            else return true;
+    protected boolean isIDLGeneratedFor(CompoundType t) {
+        if (t.isCORBAObject()) {
+            return false;
+        }
+        if (t.isIDLEntity()) {
+            if (t.isBoxed()) {
+                return true;
+            } else if ("org.omg.CORBA.portable.IDLEntity"
+                    .equals(t.getQualifiedName())) {
+                return true;
+            } else {
+                return t.isCORBAUserException();
+            }
+        }
+        Hashtable<String, CompoundType> inhHash = new Hashtable<>();
+        getInterfaces(t, inhHash);
+        if (t.getTypeCode() == TYPE_IMPLEMENTATION) {
+            return inhHash.size() >= 2; //no multiple inheritance
+        }
         return true;                                   //generate IDL for this type
     }
 
@@ -393,9 +404,10 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      *  Intended to be passed to Type.collectMatching(filter,alreadyChecked).
      * @param p The output stream.
      */
+    @Override
     protected void writeOutputFor(
                                   OutputType ot,
-                                  HashSet alreadyChecked,
+                                  HashSet<Type> alreadyChecked,
                                   IndentingWriter p )
         throws IOException {
         Type t = ot.getType();
@@ -457,8 +469,8 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                                        ImplementationType t,
                                        IndentingWriter p )
         throws IOException {
-        Hashtable inhHash = new Hashtable();
-        Hashtable refHash = new Hashtable();
+        Hashtable<String, CompoundType> inhHash = new Hashtable<>();
+        Hashtable<String, CompoundType> refHash = new Hashtable<>();
         getInterfaces( t,inhHash );                            //collect interfaces
 
         writeBanner( t,0,!isException,p );
@@ -483,44 +495,51 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * Write an IDL valuetype definition for
      * 1) a nonconforming Java class
      * 2) a nonconforming Java interface (that is not an AbstractType)
-     * @param t The current NC Type (NCClassType or NCInterfaceType)
-     * @param p The output stream.
+     * @param type The current NC Type (NCClassType or NCInterfaceType)
+     * @param stream The output stream.
      */
     protected void writeNCType(
-                               CompoundType t,
-                               IndentingWriter p )
+                               CompoundType type,
+                               IndentingWriter stream )
         throws IOException {
-        Vector conVec = getConstants( t );                      //collect constants
-        Vector mthVec = getMethods( t );                          //collect methods
-        Hashtable inhHash = new Hashtable();
-        Hashtable refHash = new Hashtable();
-        Hashtable spcHash = new Hashtable();
-        Hashtable arrHash = new Hashtable();
-        Hashtable excHash = new Hashtable();
-        getInterfaces( t,inhHash );                            //collect interfaces
-        getInheritance( t,inhHash );                              //add inheritance
+        Vector<CompoundType.Member> conVec = getConstants( type );                      //collect constants
+        Vector<CompoundType.Method> mthVec = getMethods( type );                          //collect methods
+        Hashtable<String, CompoundType> inhHash = new Hashtable<>();
+        Hashtable<String, CompoundType> refHash = new Hashtable<>();
+        Hashtable<String, CompoundType> spcHash = new Hashtable<>();
+        Hashtable<String, ArrayType> arrHash = new Hashtable<>();
+        Hashtable<String, CompoundType> excHash = new Hashtable<>();
+        getInterfaces( type,inhHash );                            //collect interfaces
+        getInheritance( type,inhHash );                              //add inheritance
         getMethodReferences( mthVec,refHash,spcHash,arrHash,excHash );
 
-        writeProlog( t,refHash,spcHash,arrHash,excHash,inhHash,p );
-        writeModule1( t,p );
-        p.pln();p.pI();
-        p.p( "abstract valuetype " + t.getIDLName() );
-        writeInherits( inhHash,!forValuetype,p );
+        writeProlog( type,refHash,spcHash,arrHash,excHash,inhHash,stream );
+        writeModule1( type,stream );
+        stream.pln();stream.pI();
+        stream.p( "abstract valuetype " + type.getIDLName() );
+        writeInherits( inhHash,!forValuetype,stream );
 
-        p.pln( " {" );
-        if ( conVec.size() + mthVec.size() > 0 ) {                   //any content?
-            p.pln();p.pI();
-            for ( int i1 = 0; i1 < conVec.size(); i1++ )            //write constants
-                writeConstant( (CompoundType.Member)conVec.elementAt( i1 ),p );
-            for ( int i1 = 0; i1 < mthVec.size(); i1++ )              //write methods
-                writeMethod( (CompoundType.Method)mthVec.elementAt( i1 ),p );
-            p.pO();p.pln();
+        stream.pln(" {");
+        if (conVec.size() + mthVec.size() > 0) {                   //any content?
+            stream.pln();
+            stream.pI();
+            for (int i1 = 0; i1 < conVec.size(); i1++) //write constants
+            {
+                writeConstant(conVec.elementAt(i1), stream);
+            }
+            for (int i1 = 0; i1 < mthVec.size(); i1++) //write methods
+            {
+                writeMethod(mthVec.elementAt(i1), stream);
+            }
+            stream.pO();
+            stream.pln();
         }
-        p.pln( "};" );
+        stream.pln("};");
 
-                p.pO();p.pln();
-        writeModule2( t,p );
-        writeEpilog( t,refHash,p );
+        stream.pO();
+        stream.pln();
+        writeModule2(type, stream);
+        writeEpilog(type, refHash, stream);
     }
 
 
@@ -536,13 +555,13 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                                RemoteType t,
                                IndentingWriter p )
         throws IOException {
-        Vector conVec = getConstants( t );                      //collect constants
-        Vector mthVec = getMethods( t );                          //collect methods
-        Hashtable inhHash = new Hashtable();
-        Hashtable refHash = new Hashtable();
-        Hashtable spcHash = new Hashtable();
-        Hashtable arrHash = new Hashtable();
-        Hashtable excHash = new Hashtable();
+        Vector<CompoundType.Member> conVec = getConstants( t );                      //collect constants
+        Vector<CompoundType.Method> mthVec = getMethods( t );                          //collect methods
+        Hashtable<String, CompoundType> inhHash = new Hashtable<>();
+        Hashtable<String, CompoundType> refHash = new Hashtable<>();
+        Hashtable<String, CompoundType> spcHash = new Hashtable<>();
+        Hashtable<String, ArrayType> arrHash = new Hashtable<>();
+        Hashtable<String, CompoundType> excHash = new Hashtable<>();
         getInterfaces( t,inhHash );                            //collect interfaces
         getMethodReferences( mthVec,refHash,spcHash,arrHash,excHash );
 
@@ -553,81 +572,86 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         p.p( "interface " + t.getIDLName() );
         writeInherits( inhHash,!forValuetype,p );
 
-        p.pln( " {" );
-        if ( conVec.size() + mthVec.size() > 0 ) {      //any constants or methods?
-            p.pln();p.pI();
-            for ( int i1 = 0; i1 < conVec.size(); i1++ )                  //constants
-                writeConstant( (CompoundType.Member)conVec.elementAt( i1 ),p );
-            for ( int i1 = 0; i1 < mthVec.size(); i1++ )        //methods, attributes
-                writeMethod( (CompoundType.Method)mthVec.elementAt( i1 ),p );
-            p.pO();p.pln();
+        p.pln(" {");
+        if (conVec.size() + mthVec.size() > 0) {      //any constants or methods?
+            p.pln();
+            p.pI();
+            for (int i1 = 0; i1 < conVec.size(); i1++) {//constants
+                writeConstant(conVec.elementAt(i1), p);
+            }
+            for (int i1 = 0; i1 < mthVec.size(); i1++) { //methods, attributes
+                writeMethod(mthVec.elementAt(i1), p);
+            }
+            p.pO();
+            p.pln();
         }
-        p.pln( "};" );
+        p.pln("};");
 
-        p.pO();p.pln();
-        writeRepositoryID ( t,p );
+        p.pO();
         p.pln();
-        writeModule2( t,p );
-        writeEpilog( t,refHash,p );
+        writeRepositoryID(t, p);
+        p.pln();
+        writeModule2(t, p);
+        writeEpilog(t, refHash, p);
     }
 
 
     /**
      * Write an IDL valuetype definition for a conforming Java class.
      * Methods and constructors are optional..controlled by -valueMethods flag
-     * @param t The current ValueType
-     * @param p The output stream.
+     * @param type The current ValueType
+     * @param outputStream The output stream.
      */
-    protected void writeValue(
-                              ValueType t,
-                              IndentingWriter p )
+    protected void writeValue(ValueType type, IndentingWriter outputStream )
         throws IOException {
-        Vector datVec = getData( t );                       //collect and sort data
-        Vector conVec = getConstants( t );                      //collect constants
-        Vector mthVec = getMethods( t );               //collect and filter methods
-        Hashtable inhHash = new Hashtable();
-        Hashtable refHash = new Hashtable();
-        Hashtable spcHash = new Hashtable();
-        Hashtable arrHash = new Hashtable();
-        Hashtable excHash = new Hashtable();
-        getInterfaces( t,inhHash );                            //collect interfaces
-        getInheritance( t,inhHash );                              //add inheritance
+        Vector<CompoundType.Member> datVec = getData(type);                       //collect and sort data
+        Vector<CompoundType.Member> conVec = getConstants(type);                      //collect constants
+        Vector<CompoundType.Method> mthVec = getMethods( type );               //collect and filter methods
+        Hashtable<String, CompoundType> inhHash = new Hashtable<>();
+        Hashtable<String, CompoundType> refHash = new Hashtable<>();
+        Hashtable<String, CompoundType> spcHash = new Hashtable<>();
+        Hashtable<String, ArrayType> arrHash = new Hashtable<>();
+        Hashtable<String, CompoundType> excHash = new Hashtable<>();
+        getInterfaces( type,inhHash );                            //collect interfaces
+        getInheritance( type,inhHash );                              //add inheritance
         getMethodReferences( mthVec,refHash,spcHash,arrHash,excHash );
         getMemberReferences( datVec,refHash,spcHash,arrHash );
 
-        writeProlog( t,refHash,spcHash,arrHash,excHash,inhHash,p );
-        writeModule1( t,p );
-        p.pln();p.pI();
-        if ( t.isCustom() ) p.p( "custom " );
-        p.p( "valuetype " + t.getIDLName() );
-        writeInherits( inhHash,forValuetype,p );
+        writeProlog( type,refHash,spcHash,arrHash,excHash,inhHash,outputStream );
+        writeModule1( type,outputStream );
+        outputStream.pln();outputStream.pI();
+        if ( type.isCustom() ) outputStream.p( "custom " );
+        outputStream.p( "valuetype " + type.getIDLName() );
+        writeInherits( inhHash,forValuetype,outputStream );
 
-        p.pln( " {" );
+        outputStream.pln( " {" );
         if ( conVec.size() + datVec.size() + mthVec.size() > 0 ) {   //any content?
-            p.pln();p.pI();
+            outputStream.pln();outputStream.pI();
             for ( int i1 = 0; i1 < conVec.size(); i1++ )            //write constants
-                writeConstant( (CompoundType.Member)conVec.elementAt( i1 ),p );
+                writeConstant(conVec.elementAt( i1 ),outputStream );
             for ( int i1 = 0; i1 < datVec.size(); i1++ ) {
-                CompoundType.Member mem = (CompoundType.Member)datVec.elementAt( i1 );
+                CompoundType.Member mem = datVec.elementAt( i1 );
                 if ( mem.getType().isPrimitive() )
-                    writeData( mem,p );                            //write primitive data
+                    writeData( mem,outputStream );                            //write primitive data
             }
             for ( int i1 = 0; i1 < datVec.size(); i1++ ) {
-                CompoundType.Member mem = (CompoundType.Member)datVec.elementAt( i1 );
+                CompoundType.Member mem = datVec.elementAt( i1 );
                 if ( !mem.getType().isPrimitive() )
-                    writeData( mem,p );                        //write non-primitive data
+                    writeData( mem,outputStream );                        //write non-primitive data
             }
-            for ( int i1 = 0; i1 < mthVec.size(); i1++ )              //write methods
-                writeMethod( (CompoundType.Method)mthVec.elementAt( i1 ),p );
-            p.pO();p.pln();
+            for (int i1 = 0; i1 < mthVec.size(); i1++)              //write methods
+                writeMethod(mthVec.elementAt(i1), outputStream);
+            outputStream.pO();
+            outputStream.pln();
         }
-        p.pln( "};" );
+        outputStream.pln( "};" );
 
-        p.pO();p.pln();
-        writeRepositoryID ( t,p );
-            p.pln();
-        writeModule2( t,p );
-        writeEpilog( t,refHash,p );
+        outputStream.pO();
+        outputStream.pln();
+        writeRepositoryID(type, outputStream);
+        outputStream.pln();
+        writeModule2( type,outputStream );
+        writeEpilog( type,refHash,outputStream );
         }
 
 
@@ -643,11 +667,11 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      */
     protected void writeProlog(
                                CompoundType t,
-                               Hashtable refHash,
-                               Hashtable spcHash,
-                               Hashtable arrHash,
-                               Hashtable excHash,
-                               Hashtable inhHash,
+                               Hashtable<String, CompoundType> refHash,
+                               Hashtable<String, CompoundType> spcHash,
+                               Hashtable<String, ArrayType> arrHash,
+                               Hashtable<String, CompoundType> excHash,
+                               Hashtable<String, CompoundType> inhHash,
                                IndentingWriter p )
         throws IOException {
         writeBanner( t,0,!isException,p );
@@ -670,7 +694,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      */
     protected void writeEpilog(
                                CompoundType t,
-                               Hashtable refHash,
+                               Hashtable<String, CompoundType> refHash,
                                IndentingWriter p )
         throws IOException {
         writeIncludes( refHash,!isThrown,p );     //#includes for forward dcl types
@@ -689,16 +713,26 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                                 IndentingWriter p )
         throws IOException {
         String spcName = t.getQualifiedName();
-        if ( "java.io.Serializable".equals( spcName ) )
-            writeJavaIoSerializable( t,p );
-        else if ( "java.io.Externalizable".equals( spcName ) )
-            writeJavaIoExternalizable( t,p );
-        else if ( "java.lang.Object".equals( spcName) )
-            writeJavaLangObject( t,p );
-        else if ( "java.rmi.Remote".equals( spcName) )
-            writeJavaRmiRemote( t,p );
-        else if ( "org.omg.CORBA.portable.IDLEntity".equals( spcName) )
-            writeIDLEntity( t,p );
+        if ( null != spcName )
+            switch (spcName) {
+            case "java.io.Serializable":
+                writeJavaIoSerializable( t,p );
+                break;
+            case "java.io.Externalizable":
+                writeJavaIoExternalizable( t,p );
+                break;
+            case "java.lang.Object":
+                writeJavaLangObject( t,p );
+                break;
+            case "java.rmi.Remote":
+                writeJavaRmiRemote( t,p );
+                break;
+            case "org.omg.CORBA.portable.IDLEntity":
+                writeIDLEntity( t,p );
+                break;
+            default:
+                break;
+        }
     }
 
 
@@ -814,27 +848,26 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param ct The current CompoundType
      * @param inhHash Hashtable containing the inherited interfaces
      */
-    protected void getInterfaces(
-                                 CompoundType ct,
-                                 Hashtable inhHash ) {
+    protected void getInterfaces(CompoundType ct, Hashtable<String, CompoundType> inhHash ) {
         InterfaceType[] infs = ct.getInterfaces();
-                                 nextInterface:
-        for ( int i1 = 0; i1 < infs.length; i1++ ) {  //forall inherited interfaces
-            String inhName = infs[i1].getQualifiedName();
+        
+        for (InterfaceType inf : infs) {
+            //forall inherited interfaces
+            String inhName = inf.getQualifiedName();
             switch ( ct.getTypeCode() ) {
-            case TYPE_NC_CLASS:
-            case TYPE_VALUE:                                   //filter for classes
-                if ( "java.io.Externalizable".equals( inhName ) ||
-                     "java.io.Serializable".equals( inhName ) ||
-                     "org.omg.CORBA.portable.IDLEntity".equals( inhName ) )
-                    continue nextInterface;
-                break;
-            default:                                        //filter for all others
-                if ( "java.rmi.Remote".equals( inhName ) )
-                    continue nextInterface;
-                break;
+                case TYPE_NC_CLASS:
+                case TYPE_VALUE:                                   //filter for classes
+                    if ( "java.io.Externalizable".equals( inhName ) ||
+                            "java.io.Serializable".equals( inhName ) ||
+                            "org.omg.CORBA.portable.IDLEntity".equals( inhName ) )
+                        continue;
+                    break;
+                default:                                        //filter for all others
+                    if ( "java.rmi.Remote".equals( inhName ) )
+                        continue;
+                    break;
             }
-            inhHash.put( inhName,infs[i1] );                           //add this one
+            inhHash.put(inhName, inf); //add this one
         }
     }
 
@@ -844,9 +877,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param ct The current CompoundType
      * @param inhHash Hashtable containing inherited types
      */
-    protected void getInheritance(
-                                  CompoundType ct,
-                                  Hashtable inhHash ) {
+    protected void getInheritance(CompoundType ct, Hashtable<String, CompoundType> inhHash ) {
         ClassType par = ct.getSuperclass();                            //get parent
         if ( par == null ) return;
         String parName = par.getQualifiedName();
@@ -871,18 +902,19 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param excHash Hashtable for exceptions thrown
      */
     protected void getMethodReferences(
-                                       Vector mthVec,
-                                       Hashtable refHash,
-                                       Hashtable spcHash,
-                                       Hashtable arrHash,
-                                       Hashtable excHash ) {
+                                       Vector<CompoundType.Method> mthVec,
+                                       Hashtable<String, CompoundType> refHash,
+                                       Hashtable<String, CompoundType> spcHash,
+                                       Hashtable<String, ArrayType> arrHash,
+                                       Hashtable<String, CompoundType> excHash ) {
         for ( int i1 = 0; i1 < mthVec.size(); i1++ ) {             //forall methods
-            CompoundType.Method mth = (CompoundType.Method)mthVec.elementAt( i1 );
+            CompoundType.Method mth = mthVec.elementAt( i1 );
             Type[] args = mth.getArguments();
             Type ret = mth.getReturnType();
             getExceptions( mth,excHash );                 //collect exceptions thrown
-            for ( int i2 = 0; i2 < args.length; i2++ )             //forall arguments
-                addReference( args[i2],refHash,spcHash,arrHash );
+            for (Type arg : args) {
+                addReference(arg, refHash, spcHash, arrHash);
+            }
             addReference( ret,refHash,spcHash,arrHash );
         }
     }
@@ -896,12 +928,12 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param arrHash Hashtable for array references
      */
     protected void getMemberReferences(
-                                       Vector datVec,
-                                       Hashtable refHash,
-                                       Hashtable spcHash,
-                                       Hashtable arrHash ) {
+                                       Vector<CompoundType.Member> datVec,
+                                       Hashtable<String, CompoundType> refHash,
+                                       Hashtable<String, CompoundType> spcHash,
+                                       Hashtable<String, ArrayType> arrHash ) {
         for ( int i1 = 0; i1 < datVec.size(); i1++ ) {         //forall datamembers
-            CompoundType.Member mem = (CompoundType.Member)datVec.elementAt( i1 );
+            CompoundType.Member mem = datVec.elementAt( i1 );
             Type dat = mem.getType();
             addReference( dat,refHash,spcHash,arrHash );
         }
@@ -919,9 +951,9 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      */
     protected void addReference(
                                 Type ref,
-                                Hashtable refHash,
-                                Hashtable spcHash,
-                                Hashtable arrHash ) {
+                                Hashtable<String, CompoundType> refHash,
+                                Hashtable<String, CompoundType> spcHash,
+                                Hashtable<String, ArrayType> arrHash ) {
         String rName = ref.getQualifiedName();
         switch ( ref.getTypeCode() ) {
         case TYPE_ABSTRACT:
@@ -929,18 +961,18 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         case TYPE_NC_CLASS:
         case TYPE_NC_INTERFACE:
         case TYPE_VALUE:
-            refHash.put( rName,ref );
+            refHash.put( rName, (CompoundType) ref );
             return;
         case TYPE_CORBA_OBJECT:
             if ( "org.omg.CORBA.Object".equals( rName ) ) return;      //don't want
-            refHash.put( rName,ref );
+            refHash.put(rName, (CompoundType) ref);
             return;
         case TYPE_ARRAY:                                                 //array?
-            arrHash.put( rName + ref.getArrayDimension(),ref );
+            arrHash.put(rName + ref.getArrayDimension(), (ArrayType) ref);
             return;
         default:
             if ( isSpecialReference( ref ) )                 //special IDL typedef?
-                spcHash.put( rName,ref );
+                spcHash.put(rName, (CompoundType) ref);
         }
     }
 
@@ -974,17 +1006,14 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param mth The current method
      * @param excHash Hashtable containing non-duplicate thrown exceptions
      */
-    protected void getExceptions(
-                                      CompoundType.Method mth,
-                                      Hashtable excHash ) {
+    protected void getExceptions(CompoundType.Method mth, Hashtable<String, CompoundType> excHash ) {
         ClassType[] excs = mth.getExceptions();
-        for ( int i1 = 0; i1 < excs.length; i1++ ) {            //forall exceptions
-            ClassType exc = excs[i1];
-            if ( exc.isCheckedException() &&
-                 !exc.isRemoteExceptionOrSubclass() ) {
+        for (ClassType exc : excs) {
+            //forall exceptions
+            if (exc.isCheckedException() && !exc.isRemoteExceptionOrSubclass()) {
                 excHash.put( exc.getQualifiedName(),exc );
+            }
         }
-    }
     }
 
 
@@ -994,9 +1023,8 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param ct The current CompoundType
      * @return Vector containing the methods
      */
-    protected Vector getMethods(
-                                CompoundType ct ) {
-        Vector vec = new Vector();
+    protected Vector<CompoundType.Method> getMethods(CompoundType ct ) {
+        Vector<CompoundType.Method> vec = new Vector<>();
         int ctType = ct.getTypeCode();
         switch ( ctType ) {
         case TYPE_ABSTRACT:
@@ -1009,23 +1037,25 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         Identifier ctId = ct.getIdentifier();
         CompoundType.Method[] mths = ct.getMethods();
                                 nextMethod:
-        for ( int i1 = 0; i1 < mths.length; i1++ ) {               //forall methods
-            if ( mths[i1].isPrivate() ||                            //private method?
-                 mths[i1].isInherited() )                         //inherited method?
-                continue nextMethod;                                   //yes..ignore it
-            if ( ctType == TYPE_VALUE ) {
-                String mthName = mths[i1].getName();
-                if ( "readObject"  .equals( mthName ) ||
-                     "writeObject" .equals( mthName ) ||
-                     "readExternal".equals( mthName ) ||
-                     "writeExternal".equals( mthName ) )
-                    continue nextMethod;                                //ignore this one
+        for (CompoundType.Method mth : mths) {
+            //forall methods
+            if (mth.isPrivate() || //private method?
+            mth.isInherited()) {
+                continue;                                   //yes..ignore it
             }
-            if ( ( ctType == TYPE_NC_CLASS ||
-                   ctType == TYPE_NC_INTERFACE ) &&
-                 mths[i1].isConstructor() )   //init not valid for abstract valuetype
-                continue nextMethod;                                  //ignore this one
-            vec.addElement( mths[i1] );                                //add this one
+            if (ctType == TYPE_VALUE) {
+                String mthName = mth.getName();
+                if ( "readObject"  .equals( mthName ) ||
+                        "writeObject" .equals( mthName ) ||
+                        "readExternal".equals( mthName ) ||
+                        "writeExternal".equals( mthName ) )
+                    continue;                                //ignore this one
+            }
+            if (( ctType == TYPE_NC_CLASS ||
+                    ctType == TYPE_NC_INTERFACE ) && mth.isConstructor()) {
+                continue;                                  //ignore this one
+            }
+            vec.addElement(mth); //add this one
         }
         return vec;
     }
@@ -1038,19 +1068,16 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param ct The current CompoundType
      * @return Vector containing the constants
      */
-    protected Vector getConstants(
-                                  CompoundType ct ) {
-        Vector vec = new Vector();
+    protected Vector<CompoundType.Member> getConstants(CompoundType ct ) {
+        
+        Vector<CompoundType.Member> vec = new Vector<>();
         CompoundType.Member[] mems = ct.getMembers();
-        for ( int i1 = 0; i1 < mems.length; i1++ ) {               //forall members
-            Type   memType  = mems[i1].getType();
-            String memValue = mems[i1].getValue();
-            if ( mems[i1].isPublic() &&
-                 mems[i1].isFinal()  &&
-                 mems[i1].isStatic() &&
-                 ( memType.isPrimitive() || "String".equals( memType.getName() ) ) &&
-                 memValue != null )
-                vec.addElement( mems[i1] );                              //add this one
+        for (CompoundType.Member mem : mems) {
+            Type memType = mem.getType();
+            String memValue = mem.getValue();
+            if (mem.isPublic() && mem.isFinal() && mem.isStatic() && (memType.isPrimitive() || "String".equals(memType.getName())) && memValue != null) {
+                vec.addElement(mem); //add this one
+            }
         }
         return vec;
     }
@@ -1065,24 +1092,21 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param t The current CompoundType
      * @return Vector containing the data fields
      */
-    protected Vector getData(
-                             CompoundType t ) {
-        Vector vec = new Vector();
+    protected Vector<CompoundType.Member> getData(CompoundType t ) {
+        Vector<CompoundType.Member> vec = new Vector<>();
         if ( t.getTypeCode() != TYPE_VALUE ) return vec;
         ValueType vt = (ValueType)t;
         CompoundType.Member[] mems = vt.getMembers();
         boolean notCust = !vt.isCustom();
-        for ( int i1 = 0; i1 < mems.length; i1++ ) {               //forall members
-            if ( !mems[i1].isStatic()    &&
-                 !mems[i1].isTransient() &&
-                 (  mems[i1].isPublic() || notCust ) ) {
+        for (CompoundType.Member mem : mems) {
+            if (!mem.isStatic() && !mem.isTransient() && (mem.isPublic() || notCust)) {
                 int i2;
-                String memName = mems[i1].getName();
+                String memName = mem.getName();
                 for ( i2 = 0; i2 < vec.size(); i2++ ) {      //insert in java lex order
-                    CompoundType.Member aMem = (CompoundType.Member)vec.elementAt( i2 );
+                    CompoundType.Member aMem = vec.elementAt(i2);
                     if ( memName.compareTo( aMem.getName() ) < 0 ) break;
                 }
-                vec.insertElementAt( mems[i1],i2 );                   //insert this one
+                vec.insertElementAt(mem, i2); //insert this one
             }
         }
         return vec;
@@ -1095,18 +1119,15 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param refHash Hashtable loaded with referenced types
      * @param p The output stream.
      */
-    protected void writeForwardReferences(
-                                          Hashtable refHash,
-                                          IndentingWriter p )
+    protected void writeForwardReferences(Hashtable<String, CompoundType> refHash, IndentingWriter p )
         throws IOException {
-        Enumeration refEnum = refHash.elements();
-        nextReference:
+        Enumeration<CompoundType> refEnum = refHash.elements();
         while ( refEnum.hasMoreElements() ) {
             Type t = (Type)refEnum.nextElement();
             if ( t.isCompound() ) {
                 CompoundType ct = (CompoundType)t;
                 if ( ct.isIDLEntity() )
-                    continue nextReference;                  //ignore IDLEntity reference
+                    continue;                  //ignore IDLEntity reference
             }
             writeForwardReference( t,p );
         }
@@ -1193,11 +1214,9 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param refHash Hashtable loaded with referenced types
      * @param p The output stream.
      */
-    protected void writeIDLEntityIncludes(
-                                          Hashtable refHash,
-                                          IndentingWriter p )
+    protected void writeIDLEntityIncludes(Hashtable<String, CompoundType> refHash, IndentingWriter p )
         throws IOException {
-        Enumeration refEnum = refHash.elements();
+        Enumeration<CompoundType> refEnum = refHash.elements();
         while ( refEnum.hasMoreElements() ) {
             Type t = (Type)refEnum.nextElement();
             if ( t.isCompound() ) {
@@ -1218,13 +1237,13 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param p The output stream.
      */
     protected void writeIncludes(
-                                 Hashtable incHash,
+                                 Hashtable<String, CompoundType> incHash,
                                  boolean isThrown,
                                  IndentingWriter p )
         throws IOException {
-        Enumeration incEnum = incHash.elements();
+        Enumeration<CompoundType> incEnum = incHash.elements();
         while ( incEnum.hasMoreElements() ) {
-            CompoundType t = (CompoundType)incEnum.nextElement();
+            CompoundType t = incEnum.nextElement();
             writeInclude( t,0,isThrown,p );
             }
     }
@@ -1236,20 +1255,18 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param arrHash Hashtable loaded with array types
      * @param p The output stream.
      */
-    protected void writeBoxedRMIIncludes(
-                                         Hashtable arrHash,
-                                         IndentingWriter p)
+    protected void writeBoxedRMIIncludes(Hashtable<String, ArrayType> arrHash, IndentingWriter p)
         throws IOException {
-        Enumeration e1 = arrHash.elements();
+        Enumeration<ArrayType> e1 = arrHash.elements();
         nextSequence:
         while ( e1.hasMoreElements() ) {
-            ArrayType at = (ArrayType)e1.nextElement();
+            ArrayType at = e1.nextElement();
             int dim = at.getArrayDimension();
             Type et = at.getElementType();
 
-            Enumeration e2 = arrHash.elements();
+            Enumeration<ArrayType> e2 = arrHash.elements();
             while ( e2.hasMoreElements() ) {                   //eliminate duplicates
-                ArrayType at2 = (ArrayType)e2.nextElement();
+                ArrayType at2 = e2.nextElement();
                 if ( et == at2.getElementType() &&                //same element type &
                      dim < at2.getArrayDimension() )               //smaller dimension?
                     continue nextSequence;                              //ignore this one
@@ -1264,13 +1281,10 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param inhHash Hashtable loaded with Types to include
      * @param p The output stream.
      */
-    protected void writeInheritedIncludes(
-                                          Hashtable inhHash,
-                                 IndentingWriter p )
-        throws IOException {
-        Enumeration inhEnum = inhHash.elements();
+    protected void writeInheritedIncludes(Hashtable<String, CompoundType> inhHash, IndentingWriter p ) throws IOException {
+        Enumeration<CompoundType> inhEnum = inhHash.elements();
         while ( inhEnum.hasMoreElements() ) {
-            CompoundType t = (CompoundType)inhEnum.nextElement();
+            CompoundType t = inhEnum.nextElement();
             writeInclude( t,0,!isThrown,p );
         }
     }
@@ -1354,11 +1368,11 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                  it.isIDLEntity() ) {                         //..for this IDLEntity?
                 String qName = t.getQualifiedName();   //fully qualified orig Java name
 
-                Enumeration k = ifHash.keys();
+                Enumeration<String> k = ifHash.keys();
                 while ( k.hasMoreElements() ) {      //loop thro user-defined -idlFiles
-                    String from = (String)k.nextElement();
+                    String from = k.nextElement();
                     if ( qName.startsWith( from ) ) {                    //found a match?
-                        String to = (String)ifHash.get( from );
+                        String to = ifHash.get(from);
                         p.pln( "#include \"" + to + "\"" );   //user-specified idl filename
                         return;                                   //don't look for any more
                     }
@@ -1369,7 +1383,9 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         else return;                             //no #include needed for primitive
 
         p.p( "#include \"" );                    //no -idlFile translation required
-        for ( int i1 = 0; i1 < modNames.length; i1++ ) p.p( modNames[i1] + "/" );
+        for (String modName : modNames) {
+            p.p(modName + "/");
+        }
         p.p( tName + ".idl\"" );
         p.pln();
     }
@@ -1385,10 +1401,11 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                                       Type t ) {
         String[] modNames = getIDLModuleNames( t );
         int len = modNames.length;
-        StringBuffer buf = new StringBuffer();
-        for ( int i1 = 0; i1 < len; i1++ )
-            buf.append( modNames[i1] + "." );
-        buf.append( t.getIDLName() );
+        StringBuilder buf = new StringBuilder();
+        for (int i1 = 0; i1 < len; i1++) {
+            buf.append(modNames[i1]).append(".");
+        }
+        buf.append(t.getIDLName() );
         return buf.toString();
     }
 
@@ -1409,10 +1426,11 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         String[] modNames = getIDLModuleNames( t );
         int len = modNames.length;
         if (len > 0) {
-            StringBuffer buf = new StringBuffer();
-            for ( int i1 = 0; i1 < len; i1++ )
-                buf.append( IDL_NAME_SEPARATOR + modNames[i1] );
-            buf.append( IDL_NAME_SEPARATOR + t.getIDLName() );
+            StringBuilder buf = new StringBuilder();
+            for (int i1 = 0; i1 < len; i1++) {
+                buf.append(IDL_NAME_SEPARATOR).append(modNames[i1]);
+            }
+            buf.append(IDL_NAME_SEPARATOR).append(t.getIDLName());
             return buf.toString();
         } else {
             return t.getIDLName();
@@ -1453,7 +1471,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         else return modNames;              //no preprocessing needed for primitives
 
         //it's an IDLEntity or an array of...
-        Vector mVec = new Vector();
+        Vector<String> mVec = new Vector<>();
         if ( !translateJavaPackage( ct,mVec ) )      //apply -idlModule translation
             stripJavaPackage( ct,mVec );             //..or strip prefixes (not both)
 
@@ -1483,7 +1501,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      */
     protected boolean translateJavaPackage(
                                            CompoundType ct,
-                                           Vector vec ) {
+                                           Vector<String> vec ) {
         vec.removeAllElements();
         boolean ret = false;
         String fc = null;
@@ -1492,14 +1510,16 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         String pName = ct.getPackageName();         //start from Java package names
         if ( pName == null ) return ret;
         StringTokenizer pt = new StringTokenizer( pName,"." );
-        while ( pt.hasMoreTokens() ) vec.addElement( pt.nextToken() );
+        while (pt.hasMoreTokens()) {
+            vec.addElement(pt.nextToken());
+        }
 
         if ( imHash.size() > 0 ) {           //any -idlModule translation to apply?
-            Enumeration k = imHash.keys();
+            Enumeration<String> k = imHash.keys();
 
         nextModule:
-            while ( k.hasMoreElements() ) {      //loop thro user-defined -idlModules
-                String from = (String)k.nextElement();                  //from String..
+            while ( k.hasMoreElements() ) {      //loop through user-defined -idlModules
+                String from = k.nextElement();
                 StringTokenizer ft = new StringTokenizer( from,"." );
                 int vecLen = vec.size();
                 int ifr;
@@ -1518,7 +1538,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                 for ( int i4 = 0; i4 < ifr; i4++ )
                     vec.removeElementAt( 0 );                     //remove 'from' package
 
-                String to = (String)imHash.get( from );                   //..to String
+                String to = imHash.get( from );                   //..to String
                 StringTokenizer tt = new StringTokenizer( to,IDL_NAME_SEPARATOR );
 
                 int itoco = tt.countTokens();
@@ -1546,9 +1566,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param ct CompoundType containing given IDLEntity.
      * @param vec Returned Vector of stripped IDL module names.
      */
-    protected void stripJavaPackage(
-                                    CompoundType ct,
-                                    Vector vec ) {
+    protected void stripJavaPackage(CompoundType ct, Vector<String> vec ) {
         vec.removeAllElements();
         if ( ! ct.isIDLEntity() ) return;
 
@@ -1562,15 +1580,17 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
 
         String pName = ct.getPackageName();         //start from Java package names
         if ( pName == null ) return;
-        Vector pVec = new Vector();
+        Vector<String> pVec = new Vector<>();
         StringTokenizer pt = new StringTokenizer( pName,"." );
-        while ( pt.hasMoreTokens() ) pVec.addElement( pt.nextToken() );
+        while (pt.hasMoreTokens()) {
+            pVec.addElement(pt.nextToken());
+        }
 
         int i1 = vec.size() - 1;
         int i2 = pVec.size() - 1;
         while ( i1 >= 0 && i2 >= 0 ) {                      //go R->L till mismatch
-            String rep = (String)( vec.elementAt( i1 ) );
-            String pkg = (String)( pVec.elementAt( i2 ) );
+            String rep = vec.elementAt( i1 );
+            String pkg = pVec.elementAt( i2 );
             if ( ! pkg.equals( rep ) ) break;
             i1--; i2--;
         }
@@ -1673,8 +1693,9 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         p.pln();p.pI();
 
         p.p( "valuetype " + tName + " " );
-        for ( int i1 = 0; i1 < modNames.length; i1++ )
-            p.p( IDL_NAME_SEPARATOR + modNames[i1] );
+        for (String modName : modNames) {
+            p.p(IDL_NAME_SEPARATOR + modName);
+        }
         p.pln( IDL_NAME_SEPARATOR + tName + ";" );
 
         p.pO();p.pln();
@@ -1742,56 +1763,68 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param forValuetype true if writing inheritance for a valuetype
      * @param p The output stream.
      */
-    protected void writeInherits(
-                                 Hashtable inhHash,
-                                 boolean forValuetype,
-                                 IndentingWriter p )
-        throws IOException {
+    protected void writeInherits(Hashtable<String, CompoundType> inhHash, boolean forValuetype, IndentingWriter p) throws IOException {
+        
         int itot = inhHash.size();
         int iinh = 0;
         int isup = 0;
-        if ( itot < 1 ) return;                         //any inheritance to write?
-        Enumeration inhEnum = inhHash.elements();
+        if (itot < 1) {
+            return;                         //any inheritance to write?
+        }
+        
+        Enumeration<CompoundType> inhEnum = inhHash.elements();
         CompoundType ct;
-        if ( forValuetype )
-            while ( inhEnum.hasMoreElements() ) {
-                ct = (CompoundType)inhEnum.nextElement();
-                if ( ct.getTypeCode() == TYPE_ABSTRACT ) isup++;
+        
+        if (forValuetype) {
+            while (inhEnum.hasMoreElements()) {
+                ct = inhEnum.nextElement();
+                if (ct.getTypeCode() == TYPE_ABSTRACT) {
+                    isup++;
+                }
             }
+        }
+        
         iinh = itot - isup;
 
-        if ( iinh > 0 ) {
-        p.p( ": " );
+        if (iinh > 0) {
+            p.p(": ");
             inhEnum = inhHash.elements();
-        while ( inhEnum.hasMoreElements() ) {         //write any class inheritance
-                ct = (CompoundType)inhEnum.nextElement();
-                if ( ct.isClass() ) {
-                    p.p( getQualifiedIDLName( ct ) );
-                    if ( iinh > 1 ) p.p( ", " );               //delimit them with commas
-                    else if ( itot > 1 ) p.p( " " );
-                break;                                                //only one parent
+            while (inhEnum.hasMoreElements()) {         //write any class inheritance
+                ct = inhEnum.nextElement();
+                if (ct.isClass()) {
+                    p.p(getQualifiedIDLName(ct));
+                    if (iinh > 1) {
+                        p.p(", ");               //delimit them with commas
+                    } else if (itot > 1) {
+                        p.p(" ");
+                    }
+                    break;                                                //only one parent
+                }
             }
-        }
-            int i = 0;
-        inhEnum = inhHash.elements();
-        while ( inhEnum.hasMoreElements() ) {     //write any interface inheritance
-                ct = (CompoundType)inhEnum.nextElement();
-                if ( !ct.isClass() &&
-                     !( ct.getTypeCode() == TYPE_ABSTRACT ) ) {
-                    if ( i++ > 0 ) p.p( ", " );                     //delimit with commas
-                    p.p( getQualifiedIDLName( ct ) );
-            }
-        }
-    }
-        if ( isup > 0 ) {                    //write abstract interface inheritance
-            p.p( " supports " );
             int i = 0;
             inhEnum = inhHash.elements();
-            while ( inhEnum.hasMoreElements() ) {
-                ct = (CompoundType)inhEnum.nextElement();
-                if ( ct.getTypeCode() == TYPE_ABSTRACT ) {
-                    if ( i++ > 0 ) p.p( ", " );                     //delimit with commas
-                    p.p( getQualifiedIDLName( ct ) );
+            while (inhEnum.hasMoreElements()) {     //write any interface inheritance
+                ct = inhEnum.nextElement();
+                if (!ct.isClass()
+                        && !(ct.getTypeCode() == TYPE_ABSTRACT)) {
+                    if (i++ > 0) {
+                        p.p(", ");                     //delimit with commas
+                    }
+                    p.p(getQualifiedIDLName(ct));
+                }
+            }
+        }
+        if (isup > 0) {                    //write abstract interface inheritance
+            p.p(" supports ");
+            int i = 0;
+            inhEnum = inhHash.elements();
+            while (inhEnum.hasMoreElements()) {
+                ct = inhEnum.nextElement();
+                if (ct.getTypeCode() == TYPE_ABSTRACT) {
+                    if (i++ > 0) {
+                        p.p(", ");                     //delimit with commas
+                    }
+                    p.p(getQualifiedIDLName(ct));
                 }
             }
         }
@@ -1870,7 +1903,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         Type[]    pts = method.getArguments();
         String[]  paramNames = method.getArgumentNames();
         Type      rt = method.getReturnType();
-        Hashtable excHash = new Hashtable();
+        Hashtable<String, CompoundType> excHash = new Hashtable<>();
         getExceptions( method,excHash );
 
         if ( method.isConstructor() )
@@ -1892,28 +1925,33 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         p.pO();
         p.p( " )" );
 
-        if ( excHash.size() > 0 ) {                      //any exceptions to write?
-            p.pln( " raises (" );
+        if (excHash.size() > 0) {                      //any exceptions to write?
+            p.pln(" raises (");
             p.pI();
             int i = 0;
-            Enumeration excEnum = excHash.elements();
-            while ( excEnum.hasMoreElements() ) {
-                ValueType exc = (ValueType)excEnum.nextElement();
-                if ( i > 0 ) p.pln( "," );                   //delimit them with commas
-                if ( exc.isIDLEntityException() )
-                    if ( exc.isCORBAUserException() )
-                        p.p( "::org::omg::CORBA::UserEx" );
-                    else {
-                        String[] modNames = getIDLModuleNames( exc );
-                        for ( int i2 = 0; i2 < modNames.length; i2++ )
-                            p.p( IDL_NAME_SEPARATOR + modNames[i2] );
-                        p.p( IDL_NAME_SEPARATOR + exc.getName() );
+            Enumeration<CompoundType> excEnum = excHash.elements();
+            while (excEnum.hasMoreElements()) {
+                ValueType exc = (ValueType) excEnum.nextElement();
+                if (i > 0) {
+                    p.pln(",");                   //delimit them with commas
+                }
+                if (exc.isIDLEntityException()) {
+                    if (exc.isCORBAUserException()) {
+                        p.p("::org::omg::CORBA::UserEx");
+                    } else {
+                        String[] modNames = getIDLModuleNames(exc);
+                        for (String modName : modNames) {
+                            p.p(IDL_NAME_SEPARATOR + modName);
+                        }
+                        p.p(IDL_NAME_SEPARATOR + exc.getName());
                     }
-                else p.p( exc.getQualifiedIDLExceptionName( true ) );
+                } else {
+                    p.p(exc.getQualifiedIDLExceptionName(true));
+                }
                 i++;
             }
             p.pO();
-            p.p( " )" );
+            p.p(" )");
         }
 
         p.pln( ";" );
@@ -1958,8 +1996,9 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
 
         p.pln( "/**" );
         p.p( " * " );
-        for ( int i1 = 0; i1 < modNames.length; i1++ )
-            p.p( modNames[i1] + "/" );
+        for (String modName : modNames) {
+            p.p(modName + "/");
+        }
         p.pln( fName + ".idl" );
         p.pln( " * Generated by rmic -idl. Do not edit" );
         String d = DateFormat.getDateTimeInstance(
@@ -2014,14 +2053,18 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         }
         p.pln();
         p.p( "#ifndef __" );
-        for ( int i = 0; i < modNames.length; i++ ) p.p( modNames[i] + "_" );
-        p.pln( fName + "__" );
-        if ( !isForward ) {
-        p.p( "#define __" );
-        for ( int i = 0; i < modNames.length; i++ ) p.p( modNames[i] + "_" );
-            p.pln( fName + "__" );
+        for (String modName : modNames) {
+            p.p(modName + "_");
+        }
+        p.pln(fName + "__");
+        if (!isForward) {
+            p.p("#define __");
+            for (String modName : modNames) {
+                p.p(modName + "_");
+            }
+            p.pln(fName + "__");
             p.pln();
-    }
+        }
     }
 
 
@@ -2048,8 +2091,9 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
 
         String[] modNames = getIDLModuleNames( t );
         p.pln();
-        for ( int i = 0; i < modNames.length; i++ )
-            p.pln( "module " + modNames[i] + " {" );
+        for (String modName : modNames) {
+            p.pln("module " + modName + " {");
+        }
     }
 
     /**
@@ -2062,7 +2106,9 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                                 IndentingWriter p )
         throws IOException {
         String[] modNames = getIDLModuleNames( t );
-        for ( int i=0; i < modNames.length; i++ ) p.pln( "};" );
+        for (String modName : modNames) {
+            p.pln( "};" );
+        }
         p.pln();
     }
 

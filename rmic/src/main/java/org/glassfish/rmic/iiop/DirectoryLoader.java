@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1998, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,14 +24,14 @@ import java.io.FileInputStream;
 
 public class DirectoryLoader extends ClassLoader {
 
-    private Hashtable cache;
+    private Hashtable<String, Class<?>> cache;
     private File root;
 
     /**
      * Constructor.
      */
     public DirectoryLoader (File rootDir) {
-        cache = new Hashtable();
+        cache = new Hashtable<>();
         if (rootDir == null || !rootDir.isDirectory()) {
             throw new IllegalArgumentException();
         }
@@ -42,7 +43,8 @@ public class DirectoryLoader extends ClassLoader {
     /**
      * Convenience version of loadClass which sets 'resolve' == true.
      */
-    public Class loadClass(String className) throws ClassNotFoundException {
+    @Override
+    public Class<?> loadClass(String className) throws ClassNotFoundException {
         return loadClass(className, true);
     }
 
@@ -51,9 +53,10 @@ public class DirectoryLoader extends ClassLoader {
      * both from loadClass above and from the internal function
      * FindClassFromClass.
      */
-    public synchronized Class loadClass(String className, boolean resolve)
+    @Override
+    public synchronized Class<?> loadClass(String className, boolean resolve)
         throws ClassNotFoundException {
-        Class result;
+        Class<?> result;
         byte  classData[];
 
         // Do we already have it in the cache?
