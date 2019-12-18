@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1998, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -94,7 +95,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
         // Check namesCache...
 
-        String result = (String) env.namesCache.get(name);
+        String result = env.namesCache.get(name);
 
         if (result == null) {
 
@@ -190,8 +191,8 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
      */
     public static String convertIDLKeywords (String name) {
 
-        for (int i = 0; i < IDL_KEYWORDS.length; i++) {
-            if (name.equalsIgnoreCase(IDL_KEYWORDS[i])) {
+        for (String IDL_KEYWORDS1 : IDL_KEYWORDS) {
+            if (name.equalsIgnoreCase(IDL_KEYWORDS1)) {
                 return "_" + name;
             }
         }
@@ -234,7 +235,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
         // Check namesCache...
 
-        String result = (String) env.namesCache.get(typeName);
+        String result = env.namesCache.get(typeName);
 
         if (result == null) {
 
@@ -335,7 +336,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
                 // Check namesCache...
 
-                String cachedItem = (String) env.namesCache.get(item);
+                String cachedItem = env.namesCache.get(item);
 
                 if (cachedItem == null) {
 
@@ -382,7 +383,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
      */
     public static String getArrayName (Type theType, int arrayDimension) {
 
-        StringBuffer idlName = new StringBuffer(64);
+        StringBuilder idlName = new StringBuilder(64);
 
         // Prefix with seq<n>_...
 
@@ -445,9 +446,8 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
             ClassType[] exceptions = method.getExceptions();
 
             if (exceptions.length > 0) {
-                for (int i = 0; i < exceptions.length; i++) {
-                    if (exceptions[i].isCheckedException() &&
-                        !exceptions[i].isRemoteExceptionOrSubclass()) {
+                for (ClassType exception : exceptions) {
+                    if (exception.isCheckedException() && !exception.isRemoteExceptionOrSubclass()) {
                         validExceptions = false;
                         break;
                     }
@@ -644,7 +644,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
                         // No, so convert the first character to lower case...
 
-                        StringBuffer buffer = new StringBuffer(name);
+                        StringBuilder buffer = new StringBuilder(name);
                         buffer.setCharAt(0,Character.toLowerCase(name.charAt(0)));
                         names[i] = buffer.toString();
                     }
@@ -881,32 +881,25 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
                 CompoundType.Method method = allMethods[i];
                 Type[] args = method.getArguments();
 
-                for (int k = 0; k < args.length; k++) {
-
-                                // Add the separator...
+                for (Type arg : args) {
+                    // Add the separator...
 
                     names[i] += "__";
-
-                                // Get the fully qualified IDL name, without the "::"
-                                // prefix...
-
-                    String argIDLName = args[k].getQualifiedIDLName(false);
-
-                                // Replace any occurances of "::_" with "_" to
-                                // undo any IDL keyword mangling and do next step
-                                // at the same time...
+                    // Get the fully qualified IDL name, without the "::"
+                    // prefix...
+                    String argIDLName = arg.getQualifiedIDLName(false);
+                    // Replace any occurances of "::_" with "_" to
+                    // undo any IDL keyword mangling and do next step
+                    // at the same time...
 
                     argIDLName = replace(argIDLName,"::_","_");
-
-                                // Replace any occurances of "::" with "_"...
+                    // Replace any occurances of "::" with "_"...
 
                     argIDLName = replace(argIDLName,"::","_");
-
-                                // Replace any occurances of " " with "_"...
+                    // Replace any occurances of " " with "_"...
 
                     argIDLName = replace(argIDLName," ","_");
-
-                                // Add the argument type name...
+                    // Add the argument type name...
 
                     names[i] += argIDLName;
                 }
@@ -1007,8 +1000,8 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
 
         NameContext context = new NameContext(true);
 
-        for (int i = 0; i < allMembers.length; i++) {
-            context.put(allMembers[i].getName());
+        for (CompoundType.Member allMember : allMembers) {
+            context.put(allMember.getName());
         }
 
         // Now set all the idl names...
@@ -1023,11 +1016,11 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
         // First see if we have a collision with the container name (28.3.2.9).
 
         String containerName = container.getIDLName();
-        for (int i = 0; i < allMembers.length; i++) {
-            String name = allMembers[i].getIDLName();
+        for (CompoundType.Member allMember : allMembers) {
+            String name = allMember.getIDLName();
             if (name.equalsIgnoreCase(containerName)) {
                 // REVISIT - How is this different than line 788
-                allMembers[i].setIDLName(name+"_");
+                allMember.setIDLName(name+"_");
             }
         }
 
@@ -1051,14 +1044,12 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
         boolean changed;
         do {
             changed = false;
-            for (int i = 0; i < allMembers.length; i++) {
-                String name = allMembers[i].getIDLName();
-                for (int j = 0; j < allMethods.length; j++) {
-                    if (allMethods[j].getIDLName().equals(name)) {
-
+            for (CompoundType.Member allMember : allMembers) {
+                String name = allMember.getIDLName();
+                for (CompoundType.Method allMethod : allMethods) {
+                    if (allMethod.getIDLName().equals(name)) {
                         // Collision, so append "_" to member name...
-
-                        allMembers[i].setIDLName(name+"_");
+                        allMember.setIDLName(name+"_");
                         changed = true;
                         break;
                     }
@@ -1145,7 +1136,7 @@ public class IDLNames implements org.glassfish.rmic.iiop.Constants {
             // We have at least one match, so gotta do the
             // work...
 
-            StringBuffer result = new StringBuffer(source.length() + 16);
+            StringBuilder result = new StringBuilder(source.length() + 16);
             int matchLength = match.length();
             int startIndex = 0;
 

@@ -62,7 +62,6 @@ import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
 import com.sun.corba.ee.spi.logging.OMGSystemException ;
 import com.sun.corba.ee.impl.ior.iiop.JavaSerializationComponent;
 import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
-import java.io.Serializable;
 
 /**
  *  Handy class full of static functions that don't belong in util.Utility for pure ORB reasons.
@@ -97,8 +96,9 @@ public final class ORBUtility {
 
     private static final ThreadLocal<LinkedList<Byte>> encVersionThreadLocal =
         new ThreadLocal<LinkedList<Byte>>() {
+            @Override
             protected LinkedList<Byte> initialValue() {
-                return new LinkedList<Byte>();
+                return new LinkedList<>();
             }
         };
 
@@ -443,7 +443,7 @@ public final class ORBUtility {
         return id;
     }
 
-    private static final Hashtable exceptionClassNames = new Hashtable();
+    private static final Hashtable<String, String> exceptionClassNames = new Hashtable<>();
     private static final Hashtable exceptionRepositoryIds = new Hashtable();
 
     static {
@@ -544,17 +544,15 @@ public final class ORBUtility {
         //
         // construct className -> repositoryId hashtable
         //
-        Enumeration keys = exceptionClassNames.keys();
-        java.lang.Object s;
+        Enumeration<String> keys = exceptionClassNames.keys();
         String rId;
         String cName;
 
         try{
             while (keys.hasMoreElements()) {
-                s = keys.nextElement();
-                rId = (String) s;
-                cName = (String) exceptionClassNames.get(rId);
-                exceptionRepositoryIds.put (cName, rId);
+                rId = keys.nextElement();
+                cName = exceptionClassNames.get(rId);
+                exceptionRepositoryIds.put(cName, rId);
             }
         } catch (NoSuchElementException e) { }
     }
@@ -997,7 +995,7 @@ public final class ORBUtility {
         String result =
             (String)AccessController.doPrivileged(new PrivilegedAction() {
                 public java.lang.Object run() {
-                    StringBuffer sb = new StringBuffer(500);
+                    StringBuilder sb = new StringBuilder(500);
                     ProtectionDomain pd = cl.getProtectionDomain();
                     Policy policy = Policy.getPolicy();
                     PermissionCollection pc = policy.getPermissions(pd);

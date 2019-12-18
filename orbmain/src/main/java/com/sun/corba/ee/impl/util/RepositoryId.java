@@ -62,15 +62,15 @@ public class RepositoryId {
         
     private static final long serialVersionUID = 123456789L;
 
-    private static final String defaultServerURL = (String)JDKBridge.getLocalCodebase() ;
+    private static final String defaultServerURL = JDKBridge.getLocalCodebase() ;
     private static final boolean useCodebaseOnly = JDKBridge.useCodebaseOnly() ;
 
-    private static final Map classToRepStr = new WeakHashMap();
-    private static final Map classIDLToRepStr = new WeakHashMap();
-    private static final Map classSeqToRepStr = new WeakHashMap();
+    private static final Map<Class<?>, String> classToRepStr = new WeakHashMap<>();
+    private static final Map<Class<?>, String> classIDLToRepStr = new WeakHashMap<>();
+    private static final Map<Class<?>, String> classSeqToRepStr = new WeakHashMap<>();
 
-    private static final Map repStrToByteArray = new IdentityHashMap();
-    private static final Map repStrToClass = new SoftCache();
+    private static final Map<String, byte[]> repStrToByteArray = new IdentityHashMap<>();
+    private static final Map<String, Class<?>> repStrToClass = new SoftCache<>();
 
     private String repId = null;
     private boolean isSupportedFormat = true;
@@ -186,75 +186,52 @@ public class RepositoryId {
     public static final String kRemoteTypeStr = "";
     public static final String kRemoteValueRepID = "";
 
-    public static final Hashtable kSpecialArrayTypeStrings = new Hashtable();
+    public static final Hashtable<String, StringBuffer> kSpecialArrayTypeStrings = new Hashtable<>();
 
     static {
-        kSpecialArrayTypeStrings.put("CORBA.WStringValue", 
-            new StringBuffer(java.lang.String.class.getName()));
-        kSpecialArrayTypeStrings.put("javax.rmi.CORBA.ClassDesc", 
-            new StringBuffer(java.lang.Class.class.getName()));
-        kSpecialArrayTypeStrings.put("CORBA.Object", 
-            new StringBuffer(java.rmi.Remote.class.getName()));
+        kSpecialArrayTypeStrings.put("CORBA.WStringValue", new StringBuffer(java.lang.String.class.getName()));
+        kSpecialArrayTypeStrings.put("javax.rmi.CORBA.ClassDesc", new StringBuffer(java.lang.Class.class.getName()));
+        kSpecialArrayTypeStrings.put("CORBA.Object", new StringBuffer(java.rmi.Remote.class.getName()));
     }
 
-    public static final Hashtable kSpecialCasesRepIDs = new Hashtable();
+    public static final Hashtable<Class<?>, String> kSpecialCasesRepIDs = new Hashtable<>();
 
     static {
-        kSpecialCasesRepIDs.put(java.lang.String.class, 
-            kWStringValueRepID);
-        kSpecialCasesRepIDs.put(java.lang.Class.class, 
-            kClassDescValueRepID);
-        kSpecialCasesRepIDs.put(java.rmi.Remote.class, 
-            kRemoteValueRepID);
+        kSpecialCasesRepIDs.put(java.lang.String.class, kWStringValueRepID);
+        kSpecialCasesRepIDs.put(java.lang.Class.class, kClassDescValueRepID);
+        kSpecialCasesRepIDs.put(java.rmi.Remote.class, kRemoteValueRepID);
     }
 
-    public static final Hashtable kSpecialCasesStubValues = new Hashtable();
+    public static final Hashtable<Class<?>, String> kSpecialCasesStubValues = new Hashtable<>();
 
     static {
-        kSpecialCasesStubValues.put(java.lang.String.class, 
-            kWStringStubValue);
-        kSpecialCasesStubValues.put(java.lang.Class.class, 
-            kClassDescStubValue);
-        kSpecialCasesStubValues.put(java.lang.Object.class, 
-            kObjectStubValue);
-        kSpecialCasesStubValues.put(java.io.Serializable.class, 
-            kSerializableStubValue);
-        kSpecialCasesStubValues.put(java.io.Externalizable.class, 
-            kExternalizableStubValue);
-        kSpecialCasesStubValues.put(java.rmi.Remote.class, 
-            kRemoteStubValue);
+        kSpecialCasesStubValues.put(java.lang.String.class, kWStringStubValue);
+        kSpecialCasesStubValues.put(java.lang.Class.class, kClassDescStubValue);
+        kSpecialCasesStubValues.put(java.lang.Object.class, kObjectStubValue);
+        kSpecialCasesStubValues.put(java.io.Serializable.class, kSerializableStubValue);
+        kSpecialCasesStubValues.put(java.io.Externalizable.class, kExternalizableStubValue);
+        kSpecialCasesStubValues.put(java.rmi.Remote.class, kRemoteStubValue);
     }
 
-    public static final Hashtable kSpecialCasesVersions = new Hashtable();
+    public static final Hashtable<Class<?>, String> kSpecialCasesVersions = new Hashtable<>();
 
     static {
-        kSpecialCasesVersions.put(java.lang.String.class, 
-            kWStringValueHash);
-        kSpecialCasesVersions.put(java.lang.Class.class, 
-            kClassDescValueHash);
-        kSpecialCasesVersions.put(java.lang.Object.class, 
-            kObjectValueHash);
-        kSpecialCasesVersions.put(java.io.Serializable.class, 
-            kSerializableValueHash);
-        kSpecialCasesVersions.put(java.io.Externalizable.class, 
-            kExternalizableValueHash);
-        kSpecialCasesVersions.put(java.rmi.Remote.class, 
-            kRemoteValueHash);
+        kSpecialCasesVersions.put(java.lang.String.class, kWStringValueHash);
+        kSpecialCasesVersions.put(java.lang.Class.class, kClassDescValueHash);
+        kSpecialCasesVersions.put(java.lang.Object.class, kObjectValueHash);
+        kSpecialCasesVersions.put(java.io.Serializable.class, kSerializableValueHash);
+        kSpecialCasesVersions.put(java.io.Externalizable.class, kExternalizableValueHash);
+        kSpecialCasesVersions.put(java.rmi.Remote.class, kRemoteValueHash);
     }
 
-    public static final Hashtable kSpecialCasesClasses = new Hashtable();
+    public static final Hashtable<String, Class<?>> kSpecialCasesClasses = new Hashtable<>();
 
     static {
-        kSpecialCasesClasses.put(kWStringTypeStr, 
-            java.lang.String.class);
-        kSpecialCasesClasses.put(kClassDescTypeStr, 
-            java.lang.Class.class);
-        kSpecialCasesClasses.put(kRemoteTypeStr, 
-            java.rmi.Remote.class);
-        kSpecialCasesClasses.put("org.omg.CORBA.WStringValue", 
-            java.lang.String.class);
-        kSpecialCasesClasses.put("javax.rmi.CORBA.ClassDesc", 
-            java.lang.Class.class);
+        kSpecialCasesClasses.put(kWStringTypeStr, java.lang.String.class);
+        kSpecialCasesClasses.put(kClassDescTypeStr, java.lang.Class.class);
+        kSpecialCasesClasses.put(kRemoteTypeStr, java.rmi.Remote.class);
+        kSpecialCasesClasses.put("org.omg.CORBA.WStringValue", java.lang.String.class);
+        kSpecialCasesClasses.put("javax.rmi.CORBA.ClassDesc", java.lang.Class.class);
 
         // 6793820: need to handle classes of primitive types!
         kSpecialCasesClasses.put( "boolean", boolean.class ) ;
@@ -267,24 +244,18 @@ public class RepositoryId {
         kSpecialCasesClasses.put( "double", double.class ) ;
     }
 
-    public static final Hashtable kSpecialCasesArrayPrefix = new Hashtable();
+    public static final Hashtable<Class<?>, String> kSpecialCasesArrayPrefix = new Hashtable<>();
 
     static {
-        kSpecialCasesArrayPrefix.put( java.lang.String.class, 
-            kValuePrefix + kSequencePrefix + kCORBAPrefix);
-        kSpecialCasesArrayPrefix.put( java.lang.Class.class, 
-            kValuePrefix + kSequencePrefix + "javax/rmi/CORBA/");
-        kSpecialCasesArrayPrefix.put( java.lang.Object.class, 
-            kValuePrefix + kSequencePrefix + "java/lang/");
-        kSpecialCasesArrayPrefix.put( java.io.Serializable.class, 
-            kValuePrefix + kSequencePrefix + "java/io/");
-        kSpecialCasesArrayPrefix.put( java.io.Externalizable.class, 
-            kValuePrefix + kSequencePrefix + "java/io/");
-        kSpecialCasesArrayPrefix.put( java.rmi.Remote.class, 
-            kValuePrefix + kSequencePrefix + kCORBAPrefix);
+        kSpecialCasesArrayPrefix.put( java.lang.String.class, kValuePrefix + kSequencePrefix + kCORBAPrefix);
+        kSpecialCasesArrayPrefix.put( java.lang.Class.class, kValuePrefix + kSequencePrefix + "javax/rmi/CORBA/");
+        kSpecialCasesArrayPrefix.put( java.lang.Object.class, kValuePrefix + kSequencePrefix + "java/lang/");
+        kSpecialCasesArrayPrefix.put( java.io.Serializable.class, kValuePrefix + kSequencePrefix + "java/io/");
+        kSpecialCasesArrayPrefix.put( java.io.Externalizable.class, kValuePrefix + kSequencePrefix + "java/io/");
+        kSpecialCasesArrayPrefix.put( java.rmi.Remote.class, kValuePrefix + kSequencePrefix + kCORBAPrefix);
     }
 
-    public static final Hashtable kSpecialPrimitives = new Hashtable();
+    public static final Hashtable<String, String> kSpecialPrimitives = new Hashtable<>();
 
     static {
         kSpecialPrimitives.put("int","long");
@@ -320,10 +291,8 @@ public class RepositoryId {
     public static final RepositoryIdCache cache = new RepositoryIdCache();
 
     // Interface Rep ID Strings
-    public static final String kjava_rmi_Remote = createForAnyType(
-        java.rmi.Remote.class);
-    public static final String korg_omg_CORBA_Object = createForAnyType(
-        org.omg.CORBA.Object.class);
+    public static final String kjava_rmi_Remote = createForAnyType(java.rmi.Remote.class);
+    public static final String korg_omg_CORBA_Object = createForAnyType(org.omg.CORBA.Object.class);
 
     // To create a RepositoryID, use code similar to the following:
     // RepositoryId.cache.getId( id );
@@ -477,7 +446,7 @@ public class RepositoryId {
 
     public static byte[] getByteArray(String repStr) {
         synchronized (repStrToByteArray){
-            return (byte[]) repStrToByteArray.get(repStr);
+            return repStrToByteArray.get(repStr);
         }
     }
 
@@ -511,11 +480,11 @@ public class RepositoryId {
     // This method calls getClazzFromType() and falls back to the repStrToClass
     // cache if no class was found.  It's used where any class matching the
     // given repid is an acceptable result.
-    public final Class getAnyClassFromType() throws ClassNotFoundException {
+    public final Class<?> getAnyClassFromType() throws ClassNotFoundException {
         try {
             return getClassFromType();
         } catch (ClassNotFoundException cnfe) {
-            Class clz = (Class)repStrToClass.get(repId);
+            Class<?> clz = repStrToClass.get(repId);
             if (clz != null)
                 return clz;
             else
@@ -523,12 +492,11 @@ public class RepositoryId {
         }
     }
 
-    public final Class getClassFromType()
-        throws ClassNotFoundException {
+    public final Class<?> getClassFromType() throws ClassNotFoundException {
         if (clazz != null)
             return clazz;
                 
-        Class specialCase = (Class)kSpecialCasesClasses.get(getClassName());
+        Class<?> specialCase = (Class)kSpecialCasesClasses.get(getClassName());
 
         if (specialCase != null) {
             clazz = specialCase;
@@ -551,12 +519,12 @@ public class RepositoryId {
         }
     }
 
-    public final Class getClassFromType(Class expectedType, String codebase)
+    public final Class<?> getClassFromType(Class<?> expectedType, String codebase)
         throws ClassNotFoundException {
         if (clazz != null)
             return clazz;
                 
-        Class specialCase = (Class)kSpecialCasesClasses.get(getClassName());
+        Class<?> specialCase = (Class)kSpecialCasesClasses.get(getClassName());
 
         if (specialCase != null){
             clazz = specialCase;
@@ -573,14 +541,14 @@ public class RepositoryId {
 
     }
 
-    public final Class getClassFromType(String url) 
+    public final Class<?> getClassFromType(String url) 
         throws ClassNotFoundException, MalformedURLException {
         
         // 6793820: check special cases BEFORE going to ClassLoader.
         if (clazz != null)
             return clazz;
 
-        Class specialCase = (Class)kSpecialCasesClasses.get(getClassName());
+        Class<?> specialCase = (Class)kSpecialCasesClasses.get(getClassName());
 
         if (specialCase != null) {
             clazz = specialCase;
@@ -619,7 +587,7 @@ public class RepositoryId {
      * @exception IOException If suids do not match or if the repositoryID
      * is not an RMIValueType.
      */
-    public static boolean useFullValueDescription(Class clazz, 
+    public static boolean useFullValueDescription(Class<?> clazz, 
         ClassInfoCache.ClassInfo cinfo,
         String repositoryID) throws IOException{
 
@@ -661,7 +629,7 @@ public class RepositoryId {
         }
     }
 
-    private static String createHashString(java.lang.Class clazz) {
+    private static String createHashString(Class<?> clazz) {
 
         ClassInfoCache.ClassInfo cinfo = ClassInfoCache.get( clazz ) ;
         if (cinfo.isInterface() || !cinfo.isASerializable(clazz))
@@ -714,15 +682,15 @@ public class RepositoryId {
      * @param clazz The Java class to create a repository ID for
      * @return Created repository ID
      **/
-    public static String createSequenceRepID(java.lang.Class clazz){
+    public static String createSequenceRepID(Class<?> clazz){
         synchronized (classSeqToRepStr) {
-            String repid = (String)classSeqToRepStr.get(clazz);
+            String repid = classSeqToRepStr.get(clazz);
             if (repid != null)
                 return repid;
 
-            Class originalClazz = clazz;
+            Class<?> originalClazz = clazz;
 
-            Class type = null;
+            Class<?> type = null;
             int numOfDims = 0;
 
             while ((type = clazz.getComponentType()) != null) {
@@ -734,7 +702,7 @@ public class RepositoryId {
                 repid = kValuePrefix + originalClazz.getName() 
                     + kPrimitiveSequenceValueHash;
             } else {
-                StringBuffer buf = new StringBuffer();
+                StringBuilder buf = new StringBuilder();
                 buf.append(kValuePrefix);
                 while(numOfDims-- > 0) {
                     buf.append("[");
@@ -751,11 +719,11 @@ public class RepositoryId {
     }
 
 
-    public static String createForSpecialCase(java.lang.Class clazz){
+    public static String createForSpecialCase(java.lang.Class<?> clazz){
         return createForSpecialCase( clazz, ClassInfoCache.get( clazz ) ) ;
     }
 
-    public static String createForSpecialCase(java.lang.Class clazz,
+    public static String createForSpecialCase(java.lang.Class<?> clazz,
         ClassInfoCache.ClassInfo cinfo ){
         if (cinfo.isArray()) {
             return createSequenceRepID(clazz);
@@ -771,7 +739,7 @@ public class RepositoryId {
     }
 
     public static String createForSpecialCase(java.io.Serializable ser){
-        Class clazz = ser.getClass();
+        Class<?> clazz = ser.getClass();
         if (ClassInfoCache.get(clazz).isArray()) {
             return createSequenceRepID(ser);
         } else {
@@ -794,8 +762,8 @@ public class RepositoryId {
             String repid = createForSpecialCase(ser);
             if (repid != null)
                 return repid;
-            Class clazz = ser.getClass();
-            repid = (String)classToRepStr.get(clazz);
+            Class<?> clazz = ser.getClass();
+            repid = classToRepStr.get(clazz);
 
             if (repid != null)
                 return repid;
@@ -804,12 +772,12 @@ public class RepositoryId {
                 createHashString(clazz);
 
             classToRepStr.put(clazz, repid);
-                repStrToClass.put(repid, clazz);
+            repStrToClass.put(repid, clazz);
             return repid;
         }
     }
 
-    public static String createForJavaType(Class clz)
+    public static String createForJavaType(Class<?> clz)
         throws com.sun.corba.ee.impl.io.TypeMismatchException
     {
         return createForJavaType( clz, ClassInfoCache.get( clz ) ) ;
@@ -824,7 +792,7 @@ public class RepositoryId {
      * ser implements the * org.omg.CORBA.portable.IDLEntity interface 
      * which indicates it is an IDL Value type.
      **/
-    public static String createForJavaType(Class clz, ClassInfoCache.ClassInfo cinfo )
+    public static String createForJavaType(Class<?> clz, ClassInfoCache.ClassInfo cinfo )
         throws com.sun.corba.ee.impl.io.TypeMismatchException
     {
         synchronized (classToRepStr){
@@ -832,7 +800,7 @@ public class RepositoryId {
             if (repid != null)
                 return repid;
 
-            repid = (String)classToRepStr.get(clz);
+            repid = classToRepStr.get(clz);
             if (repid != null)
                 return repid;
 
@@ -840,7 +808,7 @@ public class RepositoryId {
                 createHashString(clz);
 
             classToRepStr.put(clz, repid);
-                repStrToClass.put(repid, clz);
+            repStrToClass.put(repid, clz);
             return repid;
         }
     }
@@ -854,11 +822,11 @@ public class RepositoryId {
      * @exception com.sun.corba.ee.impl.io.TypeMismatchException if ser does not implement the
      * org.omg.CORBA.portable.IDLEntity interface which indicates it is an IDL Value type.
      **/
-    public static String createForIDLType(Class ser, int major, int minor)
+    public static String createForIDLType(Class<?> ser, int major, int minor)
         throws com.sun.corba.ee.impl.io.TypeMismatchException
     {
         synchronized (classIDLToRepStr){
-            String repid = (String)classIDLToRepStr.get(ser);
+            String repid = classIDLToRepStr.get(ser);
             if (repid != null)
                 return repid;
 
@@ -870,25 +838,20 @@ public class RepositoryId {
         }
     }
 
-    private static String getIdFromHelper(Class clazz){
+    private static String getIdFromHelper(Class<?> clazz){
         try {
-            Class helperClazz = 
+            Class<?> helperClazz = 
                 Utility.loadClassForClass(clazz.getName()+"Helper", 
                 null, clazz.getClassLoader(), clazz, clazz.getClassLoader());
             Method idMethod = helperClazz.getDeclaredMethod("id");
             return (String)idMethod.invoke(null);
-        } catch (java.lang.ClassNotFoundException cnfe) {
+        } catch (java.lang.ClassNotFoundException | java.lang.NoSuchMethodException
+                | java.lang.reflect.InvocationTargetException | java.lang.IllegalAccessException cnfe) {
             throw new org.omg.CORBA.MARSHAL(cnfe.toString());
-        } catch (java.lang.NoSuchMethodException nsme) {
-            throw new org.omg.CORBA.MARSHAL(nsme.toString());
-        } catch (java.lang.reflect.InvocationTargetException ite) {
-            throw new org.omg.CORBA.MARSHAL(ite.toString());
-        } catch (java.lang.IllegalAccessException iae) {
-            throw new org.omg.CORBA.MARSHAL(iae.toString());
         }
     }
 
-    public static String createForAnyType(Class type ) {
+    public static String createForAnyType(Class<?> type ) {
         return createForAnyType( type, ClassInfoCache.get( type ) ) ;
     }
 
@@ -899,7 +862,7 @@ public class RepositoryId {
      * @param cinfo The ClassInfo for the type (pre-computed elsewhere to save time)
      * @return The rep. id.
      **/
-    public static String createForAnyType(Class type, ClassInfoCache.ClassInfo cinfo) {
+    public static String createForAnyType(Class<?> type, ClassInfoCache.ClassInfo cinfo) {
         try{
             // We may re-compute the repo id more than once, but that's OK, because
             // it's always the same.
@@ -926,7 +889,7 @@ public class RepositoryId {
 
     }
 
-    public static boolean isAbstractBase(Class clazz) {
+    public static boolean isAbstractBase(Class<?> clazz) {
         ClassInfoCache.ClassInfo cinfo = ClassInfoCache.get( clazz ) ;
         return cinfo.isInterface() && cinfo.isAIDLEntity(clazz) 
             && !cinfo.isAValueBase(clazz) && !cinfo.isACORBAObject(clazz) ;
@@ -939,9 +902,10 @@ public class RepositoryId {
     }
 
     public static long fromHex(String hexNumber) {
-        if (hexNumber.startsWith("0x")) 
-            return Long.valueOf(hexNumber.substring(2), 16).longValue();
-        else return Long.valueOf(hexNumber, 16).longValue();
+        if (hexNumber.startsWith("0x")) {
+            return Long.valueOf(hexNumber.substring(2), 16);
+        }
+        return Long.valueOf(hexNumber, 16);
     }
 
     /**

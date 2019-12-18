@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1998, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -83,6 +84,7 @@ public class NCClassType extends ClassType {
     /**
      * Return a string describing this type.
      */
+    @Override
     public String getTypeDescription () {
         return addExceptionDescription("Non-conforming class");
     }
@@ -113,9 +115,9 @@ public class NCClassType extends ClassType {
 
         if (stack.getEnv().getParseNonConforming()) {
 
-            Vector directInterfaces = new Vector();
-            Vector directMethods = new Vector();
-            Vector directMembers = new Vector();
+            Vector<InterfaceType> directInterfaces = new Vector<>();
+            Vector<CompoundType.Method> directMethods = new Vector<>();
+            Vector<CompoundType.Member> directMembers = new Vector<>();
 
             try {
 

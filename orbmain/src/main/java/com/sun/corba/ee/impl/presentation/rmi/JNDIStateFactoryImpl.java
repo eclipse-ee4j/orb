@@ -58,9 +58,8 @@ public class JNDIStateFactoryImpl implements StateFactory {
      * @exception NamingException If some other problem prevented a CORBA
      *    object from being obtained from the Remote object.
      */
-    public Object getStateToBind(Object orig, Name name, Context ctx,
-        Hashtable<?,?> env) throws NamingException 
-    {
+    @Override
+    public Object getStateToBind(Object orig, Name name, Context ctx, Hashtable<?,?> env) throws NamingException {
         if (orig instanceof org.omg.CORBA.Object) {
             return orig;
         }

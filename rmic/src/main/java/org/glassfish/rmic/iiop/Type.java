@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1998, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -111,7 +112,7 @@ public abstract class Type implements org.glassfish.rmic.iiop.Constants, Context
     private String qualifiedIDLName;
 
     private String repositoryID;
-    private Class ourClass;
+    private Class<?> ourClass;
 
     private int status = STATUS_PENDING;
 
@@ -212,7 +213,7 @@ public abstract class Type implements org.glassfish.rmic.iiop.Constants, Context
     /**
      * Return the Class for this type.
      */
-    public Class getClassInstance() {
+    public Class<?> getClassInstance() {
         if (ourClass == null) {
             initClass();
         }
@@ -358,6 +359,7 @@ public abstract class Type implements org.glassfish.rmic.iiop.Constants, Context
     /**
      * Return a string representation of this type.
      */
+    @Override
     public String toString () {
         return getQualifiedName();
     }
@@ -386,6 +388,7 @@ public abstract class Type implements org.glassfish.rmic.iiop.Constants, Context
     /**
      * Equality check based on the string representation.
      */
+    @Override
     public boolean equals(Object obj) {
 
         String us = toString();
@@ -399,7 +402,7 @@ public abstract class Type implements org.glassfish.rmic.iiop.Constants, Context
      * @param typeCodeFilter The typeCode to use as a filter.
      */
     public Type[] collectMatching (int typeCodeFilter) {
-        return collectMatching(typeCodeFilter,new HashSet(env.allTypes.size()));
+        return collectMatching(typeCodeFilter,new HashSet<>(env.allTypes.size()));
     }
 
     /**
@@ -409,8 +412,8 @@ public abstract class Type implements org.glassfish.rmic.iiop.Constants, Context
      * @param alreadyChecked Contains types which have previously been checked
      * and will be ignored. Updated during collection.
      */
-    public Type[] collectMatching (int typeCodeFilter, HashSet alreadyChecked) {
-        Vector matching = new Vector();
+    public Type[] collectMatching (int typeCodeFilter, HashSet<Type> alreadyChecked) {
+        Vector<Type> matching = new Vector<>();
 
         // Fill up the list...
 
@@ -486,8 +489,8 @@ public abstract class Type implements org.glassfish.rmic.iiop.Constants, Context
                                 boolean useIDLNames,
                                 boolean globalIDLNames) throws IOException {
 
-        for (int i = 0; i < theTypes.length; i++) {
-            theTypes[i].println(writer,useQualifiedNames,useIDLNames,globalIDLNames);
+        for (Type theType : theTypes) {
+            theType.println(writer, useQualifiedNames, useIDLNames, globalIDLNames);
         }
     }
 
@@ -560,8 +563,8 @@ public abstract class Type implements org.glassfish.rmic.iiop.Constants, Context
 
         if (useIDLNames) {
             String[] moduleNames = getIDLModuleNames();
-            for (int i = 0; i < moduleNames.length; i++ ) {
-                writer.plnI("module " + moduleNames[i] + " {");
+            for (String moduleName : moduleNames) {
+                writer.plnI("module " + moduleName + " {");
             }
         } else {
             String packageName = getPackageName();
@@ -582,7 +585,7 @@ public abstract class Type implements org.glassfish.rmic.iiop.Constants, Context
      * Get a type out of the table.
      */
     protected static Type getType (String key, ContextStack stack) {
-        Type result = (Type) stack.getEnv().allTypes.get(key);
+        Type result = stack.getEnv().allTypes.get(key);
 
         if (result != null) {
             stack.traceExistingType(result);
@@ -595,7 +598,7 @@ public abstract class Type implements org.glassfish.rmic.iiop.Constants, Context
      * Remove a type from the table.
      */
     protected static void removeType (String key, ContextStack stack) {
-        Type value = (Type) stack.getEnv().allTypes.remove(key);
+        Type value = stack.getEnv().allTypes.remove(key);
         stack.getEnv().invalidTypes.put(value,key);
     }
 
@@ -604,7 +607,7 @@ public abstract class Type implements org.glassfish.rmic.iiop.Constants, Context
      */
     protected static void removeType (org.glassfish.rmic.tools.java.Type key, ContextStack stack) {
         String theKey = key.toString();
-        Type old = (Type) stack.getEnv().allTypes.remove(theKey);
+        Type old = stack.getEnv().allTypes.remove(theKey);
         putInvalidType(old,theKey,stack);
     }
 
@@ -648,8 +651,8 @@ public abstract class Type implements org.glassfish.rmic.iiop.Constants, Context
 
             // Walk all types and swap invalid...
 
-            for (Enumeration e = env.allTypes.elements() ; e.hasMoreElements() ;) {
-                Type it = (Type) e.nextElement();
+            for (Enumeration<Type> e = env.allTypes.elements() ; e.hasMoreElements() ;) {
+                Type it = e.nextElement();
                 it.swapInvalidTypes();
             }
 
@@ -707,10 +710,10 @@ public abstract class Type implements org.glassfish.rmic.iiop.Constants, Context
             return invalidType;
         }
 
-        String key = (String)env.invalidTypes.get(invalidType);
+        String key = env.invalidTypes.get(invalidType);
         Type result = null;
         if (key != null) {
-            result = (Type) env.allTypes.get(key);
+            result = env.allTypes.get(key);
         }
 
         if (result == null) {
@@ -893,6 +896,7 @@ public abstract class Type implements org.glassfish.rmic.iiop.Constants, Context
     /**
      * Cloning is supported by returning a shallow copy of this object.
      */
+    @Override
     protected Object clone() {
         try {
             return super.clone();
@@ -906,8 +910,8 @@ public abstract class Type implements org.glassfish.rmic.iiop.Constants, Context
      * been previously checked, false otherwise.
      */
     protected boolean addTypes (int typeCodeFilter,
-                                HashSet checked,
-                                Vector matching) {
+                                HashSet<Type> checked,
+                                Vector<Type> matching) {
 
         boolean result;
 
@@ -945,7 +949,7 @@ public abstract class Type implements org.glassfish.rmic.iiop.Constants, Context
     /*
      * Load a Class instance. Return null if fail.
      */
-    protected abstract Class loadClass();
+    protected abstract Class<?> loadClass();
 
     private boolean initClass() {
         if (ourClass == null) {

@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1998, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -50,14 +51,14 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
     private boolean useHash = true;
     private String stubBaseClass = DEFAULT_STUB_CLASS;
     private String tieBaseClass = DEFAULT_TIE_CLASS;
-    private HashSet namesInUse = new HashSet();
-    private Hashtable classesInUse = new Hashtable();
-    private Hashtable imports = new Hashtable();
+    private HashSet<String> namesInUse = new HashSet<>();
+    private Hashtable<String, String> classesInUse = new Hashtable<>();
+    private Hashtable<String, String> imports = new Hashtable<>();
     private int importCount = 0;
     private String currentPackage = null;
     private String currentClass = null;
     private boolean castArray = false;
-    private Hashtable transactionalObjects = new Hashtable() ;
+    private Hashtable<String, Object> transactionalObjects = new Hashtable<>();
     private boolean POATie = false ;
     private boolean emitPermissionCheck = false;
 
@@ -70,6 +71,7 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
     /**
      * Overridden in order to set the standardPackage flag.
      */
+    @Override
     public void generate(org.glassfish.rmic.BatchEnvironment env, File destDir, ClassDefinition cdef) {
         ((BatchEnvironment)env).setStandardPackage(standardPackage);
         super.generate(env, destDir, cdef);
@@ -81,6 +83,7 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
      * should override newInstance() to return an appropriately
      * constructed instance.
      */
+    @Override
     protected boolean requireNewInstance() {
         return false;
     }
@@ -89,6 +92,7 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
      * Return true if non-conforming types should be parsed.
      * @param stack The context stack.
      */
+    @Override
     protected boolean parseNonConforming(ContextStack stack) {
 
         // We let the environment setting decide so that
@@ -104,6 +108,7 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param stack The context stack.
      * @return The compound type or null if is non-conforming.
      */
+    @Override
     protected CompoundType getTopType(ClassDefinition cdef, ContextStack stack) {
 
         CompoundType result;
@@ -139,6 +144,7 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param main Report any errors using the main.error() methods.
      * @return true if no errors, false otherwise.
      */
+    @Override
     public boolean parseArgs(String argv[], Main main) {
         Object marker = new Object() ;
 
@@ -149,7 +155,7 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
         useHash = true;
         stubBaseClass = DEFAULT_STUB_CLASS;
         //       tieBaseClass = DEFAULT_TIE_CLASS;
-        transactionalObjects = new Hashtable() ;
+        transactionalObjects = new Hashtable<>();
 
         // Parse options...
 
@@ -227,8 +233,8 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param alreadyChecked A set of Types which have already been checked.
      *  Intended to be passed to topType.collectMatching(filter,alreadyChecked).
      */
-    protected OutputType[] getOutputTypesFor(CompoundType topType,
-                                             HashSet alreadyChecked) {
+    @Override
+    protected OutputType[] getOutputTypesFor(CompoundType topType, HashSet alreadyChecked) {
 
         // We want to generate stubs for all remote and implementation types,
         // so collect them up.
@@ -245,10 +251,7 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
         BatchEnvironment theEnv = topType.getEnv();
 
         // Now walk all types...
-
-        for (int i = 0; i < genTypes.length; i++) {
-
-            Type type = genTypes[i];
+        for (Type type : genTypes) {
             String typeName = type.getName();
             boolean createStub = true;
 
@@ -310,6 +313,7 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
      * method to return false.
      * @param outputType One of the items returned by getOutputTypesFor(...)
      */
+    @Override
     protected String getFileNameExtensionFor(OutputType outputType) {
         return SOURCE_FILE_EXTENSION;
     }
@@ -321,6 +325,7 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
      *  Intended to be passed to Type.collectMatching(filter,alreadyChecked).
      * @param writer The output stream.
      */
+    @Override
     protected void writeOutputFor(      OutputType outputType,
                                         HashSet alreadyChecked,
                                         IndentingWriter writer) throws IOException {
@@ -586,14 +591,14 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
 
         // Have we already got an entry for this qualifiedName?
 
-        String currentName = (String)classesInUse.get(qualifiedName);
+        String currentName = classesInUse.get(qualifiedName);
 
         if (currentName == null) {
 
             // No, never seen it before. Grab any existing import
             // name and then decide what to do...
 
-            String importName = (String) imports.get(unqualifiedName);
+            String importName = imports.get(unqualifiedName);
             String nameToUse = null;
 
             if (packageName == null) {
@@ -700,7 +705,7 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
     }
 
     String getName(String qualifiedName) {
-        return (String)classesInUse.get(qualifiedName);
+        return classesInUse.get(qualifiedName);
     }
 
     String getName(Identifier id) {
@@ -781,14 +786,14 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
         // Walk all methods and add types in use...
 
         CompoundType.Method[] methods = type.getMethods();
-        for (int i = 0; i < methods.length; i++) {
-            addClassInUse(methods[i].getReturnType());
-            addStubInUse(methods[i].getReturnType());
-            addClassInUse(methods[i].getArguments());
-            addStubInUse(methods[i].getArguments());
-            addClassInUse(methods[i].getExceptions());
+        for (CompoundType.Method method : methods) {
+            addClassInUse(method.getReturnType());
+            addStubInUse(method.getReturnType());
+            addClassInUse(method.getArguments());
+            addStubInUse(method.getArguments());
+            addClassInUse(method.getExceptions());
             // bug 4473859: Also include narrower subtypes for use
-            addClassInUse(methods[i].getImplExceptions());
+            addClassInUse(method.getImplExceptions());
         }
 
         // If this is a stub, add all interfaces...
@@ -814,8 +819,8 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
 
         String[] names = new String[importCount];
         int index = 0;
-        for (Enumeration e = imports.elements() ; e.hasMoreElements() ;) {
-            String it = (String) e.nextElement();
+        for (Enumeration<String> e = imports.elements() ; e.hasMoreElements() ;) {
+            String it = e.nextElement();
             if (it != NO_IMPORT) {
                 names[index++] = it;
             }
@@ -1000,12 +1005,11 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
         p.pOlnI("} catch (Throwable "+e1+") {");
 
         p.pln("Throwable "+e2+" = (Throwable)Util.copyObject("+e1+",_orb());");
-        for(int i = 0; i < exceptions.length; i++) {
-            if (exceptions[i].getIdentifier() != idRemoteException &&
-                exceptions[i].isType(TYPE_VALUE)) {
+        for (ValueType exception : exceptions) {
+            if (exception.getIdentifier() != idRemoteException && exception.isType(TYPE_VALUE)) {
                 // Added for Bug 4818753
-                p.plnI("if ("+e2+" instanceof "+getExceptionName(exceptions[i])+") {");
-                p.pln("throw ("+getExceptionName(exceptions[i])+")"+e2+";");
+                p.plnI("if ("+e2+" instanceof " + getExceptionName(exception) + ") {");
+                p.pln("throw (" + getExceptionName(exception) + ")" + e2 + ";");
                 p.pOln("}");
             }
         }
@@ -1038,17 +1042,15 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
         // any of the read calls...
 
         boolean needNewReadStreamClass = false;
-        for (int i = 0; i < exceptions.length; i++) {
-            if (exceptions[i].getIdentifier() != idRemoteException &&
-                exceptions[i].isType(TYPE_VALUE) &&
-                needNewReadStreamClass(exceptions[i])) {
+        for (ValueType exception : exceptions) {
+            if (exception.getIdentifier() != idRemoteException && exception.isType(TYPE_VALUE) && needNewReadStreamClass(exception)) {
                 needNewReadStreamClass = true;
                 break;
             }
         }
         if (!needNewReadStreamClass) {
-            for (int i = 0; i < paramTypes.length; i++) {
-                if (needNewReadStreamClass(paramTypes[i])) {
+            for (Type paramType : paramTypes) {
+                if (needNewReadStreamClass(paramType)) {
                     needNewReadStreamClass = true;
                     break;
                 }
@@ -1062,8 +1064,8 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
         // any of the write calls...
 
         boolean needNewWriteStreamClass = false;
-        for (int i = 0; i < paramTypes.length; i++) {
-            if (needNewWriteStreamClass(paramTypes[i])) {
+        for (Type paramType : paramTypes) {
+            if (needNewWriteStreamClass(paramType)) {
                 needNewWriteStreamClass = true;
                 break;
             }
@@ -1121,40 +1123,34 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
 
         boolean idRead = false;
         boolean idAllocated = false;
-        for(int i = 0; i < exceptions.length; i++) {
-            if (exceptions[i].getIdentifier() != idRemoteException) {
-
+        for (ValueType exception : exceptions) {
+            if (exception.getIdentifier() != idRemoteException) {
                 // Is this our special-case IDLEntity exception?
-
-                if (exceptions[i].isIDLEntityException() && !exceptions[i].isCORBAUserException()) {
-
+                if (exception.isIDLEntityException() && !exception.isCORBAUserException()) {
                     // Yes.
 
                     if (!idAllocated && !idRead) {
                         p.pln("String $_id = "+ex+".getId();");
                         idAllocated = true;
                     }
-
-                    String helperName = IDLNames.replace(exceptions[i].getQualifiedIDLName(false),"::",".");
+                    String helperName = IDLNames.replace(exception.getQualifiedIDLName(false), "::", ".");
                     helperName += "Helper";
                     p.plnI("if ($_id.equals("+helperName+".id())) {");
                     p.pln("throw "+helperName+".read("+in+");");
-
                 } else {
-
                     // No.
 
                     if (!idAllocated && !idRead) {
-        p.pln("String $_id = "+in+".read_string();");
+                        p.pln("String $_id = "+in+".read_string();");
                         idAllocated = true;
                         idRead = true;
                     } else if (idAllocated && !idRead) {
                         p.pln("$_id = "+in+".read_string();");
                         idRead = true;
                     }
-                    p.plnI("if ($_id.equals(\""+getExceptionRepositoryID(exceptions[i])+"\")) {");
+                    p.plnI("if ($_id.equals(\"" + getExceptionRepositoryID(exception) + "\")) {");
                     // Added for Bug 4818753
-                    p.pln("throw ("+getExceptionName(exceptions[i])+") "+in+".read_value(" + getExceptionName(exceptions[i]) + ".class);");
+                    p.pln("throw (" + getExceptionName(exception) + ") " + in + ".read_value(" + getExceptionName(exception) + ".class);");
                 }
                 p.pOln("}");
             }
@@ -1482,9 +1478,8 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
         }
 
         // Now copy contents of the types array...
-
-        for (int i = 0; i < types.length; i++) {
-            result[offset++] = getRepositoryID(types[i]);
+        for (Type type : types) {
+            result[offset++] = getRepositoryID(type);
         }
 
         // If we're supposed to, reverse the array. This
@@ -1509,7 +1504,7 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
      * Collect all the inherited remote interfaces.
      */
     Type[] collectAllRemoteInterfaces (CompoundType theType) {
-        Vector list = new Vector();
+        Vector<CompoundType> list = new Vector<>();
 
         // Collect up all the Remote interfaces, and get an instance
         // for java.rmi.Remote...
@@ -1527,7 +1522,7 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
     /**
      * Add all the inherited remote interfaces to list.
      */
-    void addRemoteInterfaces(Vector list, CompoundType theType) {
+    void addRemoteInterfaces(Vector<CompoundType> list, CompoundType theType) {
 
         if (theType != null) {
             if (theType.isInterface() && !list.contains(theType)) {
@@ -1592,9 +1587,9 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
 
         result = new RemoteType[remoteCount];
         int offset = 0;
-        for (int i = 0; i < list.length; i++) {
-            if (list[i].isType(TYPE_REMOTE)) {
-                result[offset++] = (RemoteType)list[i];
+        for (InterfaceType list1 : list) {
+            if (list1.isType(TYPE_REMOTE)) {
+                result[offset++] = (RemoteType) list1;
             }
         }
 
@@ -2002,9 +1997,7 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
         // Copy the current parameter names to a result array...
 
         String[] result = new String[origNames.length];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = origNames[i];
-        }
+        System.arraycopy(origNames, 0, result, 0, result.length);
 
         // Decide which arguments must be copied, if any. If
         // any of the arguments are types for which a 'real' copy
@@ -2112,15 +2105,15 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
     }
 
     void addNamesInUse(CompoundType.Method[] methods) {
-        for (int i = 0; i < methods.length; i++) {
-            addNamesInUse(methods[i]);
+        for (CompoundType.Method method : methods) {
+            addNamesInUse(method);
         }
     }
 
     void addNamesInUse(CompoundType.Method method) {
         String paramNames[] = method.getArgumentNames();
-        for (int i = 0; i < paramNames.length; i++) {
-            addNameInUse(paramNames[i]);
+        for (String paramName : paramNames) {
+            addNameInUse(paramName);
         }
     }
 
@@ -2224,31 +2217,23 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
         p.pln(");");
 
         if (handleExceptions) {
-            for(int i = 0; i < exceptions.length; i++) {
-                p.pOlnI("} catch ("+getName(exceptions[i])+" "+ex+") {");
-
+            for (ValueType exception : exceptions) {
+                p.pOlnI("} catch (" + getName(exception) + " " + ex + ") {");
                 // Is this our IDLEntity Exception special case?
-
-                if (exceptions[i].isIDLEntityException() && !exceptions[i].isCORBAUserException()) {
-
-                                // Yes...
-
-                    String helperName = IDLNames.replace(exceptions[i].getQualifiedIDLName(false),"::",".");
+                if (exception.isIDLEntityException() && !exception.isCORBAUserException()) {
+                    // Yes...
+                    String helperName = IDLNames.replace(exception.getQualifiedIDLName(false), "::", ".");
                     helperName += "Helper";
                     p.pln(idOutputStream+" "+out +" = "+reply+".createExceptionReply();");
                     p.pln(helperName+".write("+out+","+ex+");");
-
                 } else {
-
-                                // No...
-
-                    p.pln("String id = \"" + getExceptionRepositoryID(exceptions[i]) + "\";");
-                p.plnI(idExtOutputStream + " "+out+" = ");
-                p.pln("(" + idExtOutputStream + ") "+reply+".createExceptionReply();");
-                p.pOln(out+".write_string(id);");
-                    p.pln(out+".write_value("+ex+"," + getName(exceptions[i]) + ".class);");
+                    // No...
+                    p.pln("String id = \"" + getExceptionRepositoryID(exception) + "\";");
+                    p.plnI(idExtOutputStream + " "+out+" = ");
+                    p.pln("(" + idExtOutputStream + ") "+reply+".createExceptionReply();");
+                    p.pOln(out+".write_string(id);");
+                    p.pln(out+".write_value("+ex+"," + getName(exception) + ".class);");
                 }
-
                 p.pln("return "+out+";");
             }
             p.pOln("}");
@@ -2300,7 +2285,7 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
      */
     String testUtil(String objectName, Type ttype) {
         if (objectName.equals("Util")) {
-                String correctedName = (String)ttype.getPackageName() + "." + objectName;
+                String correctedName = ttype.getPackageName() + "." + objectName;
                 return correctedName;
         } else {
                 return objectName;
@@ -2320,19 +2305,21 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
 
 }
 
-class StringComparator implements java.util.Comparator {
-    public int compare(Object o1, Object o2) {
-        String s1 = (String)o1;
-        String s2 = (String)o2;
+class StringComparator implements java.util.Comparator<String> {
+    @Override
+    public int compare(String o1, String o2) {
+        String s1 = o1;
+        String s2 = o2;
         return s1.compareTo(s2);
     }
 }
 
 
-class UserExceptionComparator implements java.util.Comparator {
-    public int compare(Object o1, Object o2) {
-        ValueType v1 = (ValueType)o1;
-        ValueType v2 = (ValueType)o2;
+class UserExceptionComparator implements java.util.Comparator<ValueType> {
+    @Override
+    public int compare(ValueType o1, ValueType o2) {
+        ValueType v1 = o1;
+        ValueType v2 = o2;
         int result = 0;
         if (isUserException(v1)) {
             if (!isUserException(v2)) {

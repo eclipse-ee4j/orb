@@ -53,11 +53,10 @@ public class CachedCodeBase extends _CodeBaseImplBase
     private Hashtable<String,String[]> bases ;
 
     private volatile CodeBase delegate;
-    private Connection conn;
+    private final Connection conn;
 
-    private static Object iorMapLock = new Object() ; 
-    private static Hashtable<IOR,CodeBase> iorMap = 
-        new Hashtable<IOR,CodeBase>();
+    private static final Object iorMapLock = new Object() ; 
+    private static final Hashtable<IOR,CodeBase> iorMap = new Hashtable<>();
 
     public static synchronized void cleanCache( ORB orb ) {
         synchronized (iorMapLock) {
@@ -73,10 +72,12 @@ public class CachedCodeBase extends _CodeBaseImplBase
         conn = connection;
     }
 
+    @Override
     public com.sun.org.omg.CORBA.Repository get_ir () {
         return null;
     }
         
+    @Override
     public synchronized String implementation (String repId) {
         String urlResult = null;
 
@@ -95,6 +96,7 @@ public class CachedCodeBase extends _CodeBaseImplBase
         return urlResult;
     }
 
+    @Override
     public synchronized String[] implementations (String[] repIds) {
         String[] urlResults = new String[repIds.length];
 
@@ -104,6 +106,7 @@ public class CachedCodeBase extends _CodeBaseImplBase
         return urlResults;
     }
 
+    @Override
     public synchronized FullValueDescription meta (String repId) {
         FullValueDescription result = null;
 
@@ -122,6 +125,7 @@ public class CachedCodeBase extends _CodeBaseImplBase
         return result;
     }
 
+    @Override
     public synchronized FullValueDescription[] metas (String[] repIds) {
         FullValueDescription[] results 
             = new FullValueDescription[repIds.length];
@@ -132,6 +136,7 @@ public class CachedCodeBase extends _CodeBaseImplBase
         return results;
     }
 
+    @Override
     public synchronized String[] bases (String repId) {
 
         String[] results = null;

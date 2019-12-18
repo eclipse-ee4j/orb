@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1998, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,8 +22,8 @@ import java.util.Hashtable;
  */
 class NameContext {
 
-    private Hashtable table;
-    private boolean allowCollisions;
+    private Hashtable<String, Name> table;
+    private final boolean allowCollisions;
 
     /**
      * Get a context for the given name. Name may be null, in
@@ -49,14 +50,14 @@ class NameContext {
 
             // Nope, so do it...
 
-            env.nameContexts = new Hashtable();
+            env.nameContexts = new Hashtable<>();
 
         } else {
 
             // Yes, see if we already have the requested
             // context...
 
-            result = (NameContext) env.nameContexts.get(name);
+            result = env.nameContexts.get(name);
         }
 
         // Do we have the requested context?
@@ -80,7 +81,7 @@ class NameContext {
      */
     public NameContext (boolean allowCollisions) {
         this.allowCollisions = allowCollisions;
-        table = new Hashtable();
+        table = new Hashtable<>();
     }
 
     /**
@@ -122,7 +123,7 @@ class NameContext {
 
         // Does this key exist in the context?
 
-        Name value = (Name) table.get(key);
+        Name value = table.get(key);
 
         if (value != null) {
 
@@ -143,8 +144,7 @@ class NameContext {
                 } else {
 
                     // No, so return a message string...
-
-                    return new String("\"" + name + "\" and \"" + value.name + "\"");
+                    return "\"" + name + "\" and \"" + value.name + "\"";
                 }
             }
         } else {
@@ -163,7 +163,7 @@ class NameContext {
      */
     public String get (String name) {
 
-        Name it = (Name) table.get(name.toLowerCase());
+        Name it = table.get(name.toLowerCase());
         String result = name;
 
         // Do we need to mangle it?

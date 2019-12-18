@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1998, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -91,6 +92,7 @@ public class RemoteType extends InterfaceType {
     /**
      * Return a string describing this type.
      */
+    @Override
     public String getTypeDescription () {
         return "Remote interface";
     }
@@ -150,9 +152,9 @@ public class RemoteType extends InterfaceType {
 
         // Go check it out and gather up the info we need...
 
-        Vector directInterfaces = new Vector();
-        Vector directMethods = new Vector();
-        Vector directConstants = new Vector();
+        Vector<InterfaceType> directInterfaces = new Vector<>();
+        Vector<CompoundType.Method> directMethods = new Vector<>();
+        Vector<CompoundType.Member> directConstants = new Vector<>();
 
         if (isConformingRemoteInterface(directInterfaces,
                                         directMethods,
@@ -181,9 +183,9 @@ public class RemoteType extends InterfaceType {
      * @param quiet True if should not report constraint failures.
      * @return true if constraints satisfied, false otherwise.
      */
-    private boolean isConformingRemoteInterface (       Vector directInterfaces,
-                                                        Vector directMethods,
-                                                        Vector directConstants,
+    private boolean isConformingRemoteInterface (       Vector<InterfaceType> directInterfaces,
+                                                        Vector<CompoundType.Method> directMethods,
+                                                        Vector<CompoundType.Member> directConstants,
                                                         boolean quiet,
                                                         ContextStack stack) {
 
@@ -214,7 +216,7 @@ public class RemoteType extends InterfaceType {
 
             boolean methodsConform = true;
             for (int i = 0; i < directMethods.size(); i++) {
-                if (! isConformingRemoteMethod((Method) directMethods.elementAt(i),quiet)) {
+                if (!isConformingRemoteMethod(directMethods.elementAt(i),quiet)) {
                     methodsConform = false;
                 }
             }

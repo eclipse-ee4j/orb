@@ -49,6 +49,7 @@ class SourceMember extends MemberDefinition implements Constants {
     static final int INLINED    = 4;
     static final int ERROR      = 5;
 
+    @Override
     public Vector<MemberDefinition> getArguments() {
         return args;
     }
@@ -83,7 +84,7 @@ class SourceMember extends MemberDefinition implements Constants {
             if (argNames != null) {
                 Enumeration<MemberDefinition> e = argNames.elements();
                 Type argTypes[] = getType().getArgumentTypes();
-                for (int i = 0 ; i < argTypes.length ; i++) {
+                for (Type argType : argTypes) {
                     Object x = e.nextElement();
                     if (x instanceof LocalMember) {
                         // This should not happen, but it does
@@ -105,8 +106,7 @@ class SourceMember extends MemberDefinition implements Constants {
                         mod = token.getModifiers();
                         where = token.getWhere();
                     }
-                    args.addElement(new LocalMember(where, clazz, mod,
-                                                   argTypes[i], id));
+                    args.addElement(new LocalMember(where, clazz, mod, argType, id));
                 }
             }
         }
@@ -188,9 +188,7 @@ class SourceMember extends MemberDefinition implements Constants {
         argTypes[0] = arg.getType();
 
         // Add on the rest of the constructor arguments.
-        for (int i = 0; i < oldArgTypes.length; i++) {
-            argTypes[i + 1] = oldArgTypes[i];
-        }
+        System.arraycopy(oldArgTypes, 0, argTypes, 1, oldArgTypes.length);
 
         type = Type.tMethod(type.getReturnType(), argTypes);
     }
@@ -241,9 +239,7 @@ class SourceMember extends MemberDefinition implements Constants {
         }
 
         // Add the rest of the old arguments.
-        for (int i = 0; i < oldArgTypes.length; i++) {
-            argTypes[ins + i] = oldArgTypes[i];
-        }
+        System.arraycopy(oldArgTypes, 0, argTypes, ins, oldArgTypes.length);
 
         type = Type.tMethod(type.getReturnType(), argTypes);
     }
@@ -272,6 +268,7 @@ class SourceMember extends MemberDefinition implements Constants {
     /**
      * Get exceptions
      */
+    @Override
     public ClassDeclaration[] getExceptions(Environment env) {
         if ((!isMethod()) || (exp != null)) {
             return exp;
@@ -306,6 +303,7 @@ class SourceMember extends MemberDefinition implements Constants {
 
     public boolean resolved = false;
 
+    @Override
     public void resolveTypeStructure(Environment env) {
         if (tracing) env.dtEnter("SourceMember.resolveTypeStructure: " + this);
 
@@ -358,6 +356,7 @@ class SourceMember extends MemberDefinition implements Constants {
     /**
      * Get the class declaration in which the field is actually defined
      */
+    @Override
     public ClassDeclaration getDefiningClassDeclaration() {
         if (abstractSource == null)
             return super.getDefiningClassDeclaration();
@@ -370,6 +369,7 @@ class SourceMember extends MemberDefinition implements Constants {
      * allows access to deprecated features that are being compiled
      * in the same job.
      */
+    @Override
     public boolean reportDeprecated(Environment env) {
         return false;
     }
@@ -381,6 +381,7 @@ class SourceMember extends MemberDefinition implements Constants {
      * The real work is done by
      * {@code Vset check(Environment, Context, Vset)}.
      */
+    @Override
     public void check(Environment env) throws ClassNotFound {
         if (tracing) env.dtEnter("SourceMember.check: " +
                                  getName() + ", status = " + status);

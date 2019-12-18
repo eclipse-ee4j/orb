@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1998, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2019 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -118,6 +119,7 @@ public class ValueType extends ClassType {
     /**
      * Return a string describing this type.
      */
+    @Override
     public String getTypeDescription () {
         String result = addExceptionDescription("Value");
         if (isCustom) {
@@ -220,9 +222,9 @@ public class ValueType extends ClassType {
 
             // We're ok, so make up our collections...
 
-            Vector directInterfaces = new Vector();
-            Vector directMethods = new Vector();
-            Vector directMembers = new Vector();
+            Vector<InterfaceType> directInterfaces = new Vector<>();
+            Vector<Method> directMethods = new Vector<>();
+            Vector<Member> directMembers = new Vector<>();
 
             // Get interfaces...
 
@@ -318,21 +320,17 @@ public class ValueType extends ClassType {
     }
 
 
-    private boolean checkPersistentFields (Class clz, boolean quiet) {
+    private boolean checkPersistentFields (Class<?> clz, boolean quiet) {
 
         // Do we have a writeObject method?
-
-        for (int i = 0; i < methods.length; i++) {
-            if (methods[i].getName().equals("writeObject") &&
-                methods[i].getArguments().length == 1) {
-
-                Type returnType = methods[i].getReturnType();
-                Type arg = methods[i].getArguments()[0];
+        for (Method method : methods) {
+            if (method.getName().equals("writeObject") && method.getArguments().length == 1) {
+                Type returnType = method.getReturnType();
+                Type arg = method.getArguments()[0];
                 String id = arg.getQualifiedName();
-
                 if (returnType.isType(TYPE_VOID) &&
-                    id.equals("java.io.ObjectOutputStream")) {
-
+                        id.equals("java.io.ObjectOutputStream")) {
+                    
                     // Got one, so there's nothing to do...
 
                     return true;
@@ -344,25 +342,23 @@ public class ValueType extends ClassType {
 
         MemberDefinition spfDef = null;
 
-        for (int i = 0; i < members.length; i++) {
-            if (members[i].getName().equals("serialPersistentFields")) {
-
-                Member member = members[i];
+        for (Member member1 : members) {
+            if (member1.getName().equals("serialPersistentFields")) {
+                Member member = member1;
                 Type type = member.getType();
                 Type elementType = type.getElementType();
-
                 // We have a member with the correct name. Make sure
                 // we have the correct signature...
 
                 if (elementType != null &&
-                    elementType.getQualifiedName().equals(
-                                                          "java.io.ObjectStreamField")
-                    ) {
-
+                        elementType.getQualifiedName().equals(
+                                "java.io.ObjectStreamField")
+                        ) {
+                    
                     if (member.isStatic() &&
-                        member.isFinal() &&
-                        member.isPrivate()) {
-
+                            member.isFinal() &&
+                            member.isPrivate()) {
+                        
                         // We have the correct signature
 
                         spfDef = member.getMemberDefinition();
@@ -388,25 +384,19 @@ public class ValueType extends ClassType {
         // Ok, now we must examine the contents of the array -
         // then validate them...
 
-        Hashtable fields = getPersistentFields(clz);
+        Hashtable<String, String> fields = getPersistentFields(clz);
         boolean result = true;
 
-        for (int i = 0; i < members.length; i++) {
-            String fieldName = members[i].getName();
-            String fieldType = members[i].getType().getSignature();
-
+        for (Member member : members) {
+            String fieldName = member.getName();
+            String fieldType = member.getType().getSignature();
             // Is this field present in the array?
 
-            String type = (String) fields.get(fieldName);
-
+            String type = fields.get(fieldName);
             if (type == null) {
-
                 // No, so mark it transient...
-
-                members[i].setTransient();
-
+                member.setTransient();
             } else {
-
                 // Yes, does the type match?
 
                 if (type.equals(fieldType)) {
@@ -433,26 +423,26 @@ public class ValueType extends ClassType {
     /**
      * Get the names and types of all the persistent fields of a Class.
      */
-    private Hashtable getPersistentFields (Class clz) {
-        Hashtable result = new Hashtable();
+    private Hashtable<String, String> getPersistentFields (Class<?> clz) {
+        Hashtable<String, String> result = new Hashtable<>();
         ObjectStreamClass osc = ObjectStreamClass.lookup(clz);
         if (osc != null) {
             ObjectStreamField[] fields = osc.getFields();
-            for (int i = 0; i < fields.length; i++) {
+            for (ObjectStreamField field : fields) {
                 String typeSig;
-                String typePrefix = String.valueOf(fields[i].getTypeCode());
-                if (fields[i].isPrimitive()) {
+                String typePrefix = String.valueOf(field.getTypeCode());
+                if (field.isPrimitive()) {
                     typeSig = typePrefix;
                 } else {
-                    if (fields[i].getTypeCode() == '[') {
+                    if (field.getTypeCode() == '[') {
                         typePrefix = "";
                     }
-                    typeSig = typePrefix + fields[i].getType().getName().replace('.','/');
+                    typeSig = typePrefix + field.getType().getName().replace('.', '/');
                     if (typeSig.endsWith(";")) {
                         typeSig = typeSig.substring(0,typeSig.length()-1);
                     }
                 }
-                result.put(fields[i].getName(),typeSig);
+                result.put(field.getName(), typeSig);
             }
         }
         return result;
