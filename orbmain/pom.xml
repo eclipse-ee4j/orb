@@ -114,7 +114,8 @@
                             com.sun.corba.ee.impl.oa.*; version=1,
                             com.sun.corba.ee.impl.orb; version=1,
                             com.sun.corba.ee.impl.presentation.*; version=1,
-                            com.sun.corba.ee.impl.txpoa; version=1
+                            com.sun.corba.ee.impl.txpoa; version=1,
+                            com.sun.corba.ee.impl.util; version=1
                         </Export-Package>
                     </instructions>
                 </configuration>
