@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,13 +10,11 @@
 
 package com.sun.corba.ee.spi.ior.iiop;
 
-import com.sun.corba.ee.spi.ior.TaggedProfileTemplate ;
-
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion ;
-
-import org.glassfish.gmbal.ManagedData ;
-import org.glassfish.gmbal.ManagedAttribute ;
-import org.glassfish.gmbal.Description ;
+import com.sun.corba.ee.spi.ior.TaggedProfileTemplate;
+import com.sun.corba.ee.spi.transport.SocketInfo;
+import org.glassfish.gmbal.Description;
+import org.glassfish.gmbal.ManagedAttribute;
+import org.glassfish.gmbal.ManagedData;
 
 /**
  * IIOPProfileTemplate represents the parts of an IIOPProfile that are independent
@@ -41,4 +39,11 @@ public interface IIOPProfileTemplate extends TaggedProfileTemplate
     @ManagedAttribute
     @Description( "The host and port of the IP address for the primary endpoint of this profile" )
     public IIOPAddress getPrimaryAddress()  ;
+
+    /**
+     * Returns the description of a socket to create to access the associated endpoint. It's host and port
+     * will match the primary address
+     * @return a description of a socket.
+     */
+    SocketInfo getPrimarySocketInfo();
 }
