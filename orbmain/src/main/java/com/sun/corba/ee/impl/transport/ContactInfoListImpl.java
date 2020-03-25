@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -319,18 +319,11 @@ public class ContactInfoListImpl implements ContactInfoList {
         final boolean isLocal = iiopProfile.isLocal() ;
 
         if (effectiveTargetIORContactInfoList == null) {
-            effectiveTargetIORContactInfoList = 
-                new ArrayList<ContactInfo>();
+            effectiveTargetIORContactInfoList = new ArrayList<>();
 
-            String hostname = 
-                ((IIOPProfileTemplate)iiopProfile.getTaggedProfileTemplate())
-                    .getPrimaryAddress().getHost().toLowerCase();
-            int    port     = 
-                ((IIOPProfileTemplate)iiopProfile.getTaggedProfileTemplate())
-                    .getPrimaryAddress().getPort();
-            // For use by "sticky manager" if one is registered.
-            primaryContactInfo = 
-                createContactInfo(SocketInfo.IIOP_CLEAR_TEXT, hostname, port);
+            IIOPProfileTemplate taggedProfileTemplate = (IIOPProfileTemplate) iiopProfile.getTaggedProfileTemplate();
+            SocketInfo socketInfo = taggedProfileTemplate.getPrimarySocketInfo();
+            primaryContactInfo = createContactInfo(socketInfo.getType(), socketInfo.getHost(), socketInfo.getPort());
 
             if (isLocal) {
                 // NOTE: IMPORTANT:

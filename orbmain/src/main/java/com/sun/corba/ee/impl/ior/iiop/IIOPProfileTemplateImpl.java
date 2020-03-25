@@ -12,6 +12,8 @@ package com.sun.corba.ee.impl.ior.iiop;
 
 import java.util.Iterator ;
 
+import com.sun.corba.ee.spi.ior.iiop.JavaCodebaseComponent;
+import com.sun.corba.ee.spi.transport.SocketInfo;
 import org.omg.IOP.TAG_INTERNET_IOP ;
 
 import org.omg.CORBA_2_3.portable.InputStream ;
@@ -39,7 +41,7 @@ import com.sun.corba.ee.spi.orb.ORB ;
  * If getMinorVersion==0, this does not contain any tagged components
  */
 public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase 
-    implements IIOPProfileTemplate 
+    implements IIOPProfileTemplate, SocketInfo
 {
     private ORB orb ;
     private GIOPVersion giopVersion ;
@@ -51,13 +53,8 @@ public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder() ;
-        sb.append( "IIOPProfileTemplateImpl[giopVersion=") ;
-        sb.append(giopVersion.getMajor()).append('.').append(giopVersion.getMinor()) ;
-        sb.append( " primary=" ) ;
-        sb.append(primary.getHost()).append(':').append(primary.getPort()) ;
-        sb.append( ']' ) ;
-        return sb.toString() ;
+        return String.format("IIOPProfileTemplateImpl[giopVersion=%d.%d primary=%s:%d]",
+              giopVersion.getMajor(), giopVersion.getMinor(), primary.getHost(), primary.getPort());
     }
 
     public boolean equals( Object obj )
@@ -91,7 +88,35 @@ public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase
         return primary ;
     }
 
-    public IIOPProfileTemplateImpl( ORB orb, GIOPVersion version, IIOPAddress primary ) 
+    @Override
+    public SocketInfo getPrimarySocketInfo()
+    {
+        return this;
+    }
+
+    @Override
+    public String getType()
+    {
+        return stream().anyMatch(this::isSslTaggedComponent) ? SocketInfo.SSL_PREFIX : SocketInfo.IIOP_CLEAR_TEXT;
+    }
+
+    private boolean isSslTaggedComponent(TaggedComponent component) {
+        return component instanceof JavaCodebaseComponent && ((JavaCodebaseComponent) component).getURLs().contains("https:");
+    }
+
+    @Override
+    public String getHost()
+    {
+        return primary.getHost();
+    }
+
+    @Override
+    public int getPort()
+    {
+        return primary.getPort();
+    }
+
+    public IIOPProfileTemplateImpl( ORB orb, GIOPVersion version, IIOPAddress primary )
     {
         this.orb = orb ;
         this.giopVersion = version ;
