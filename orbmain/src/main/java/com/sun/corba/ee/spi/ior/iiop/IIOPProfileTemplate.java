@@ -41,7 +41,7 @@ public interface IIOPProfileTemplate extends TaggedProfileTemplate
     public IIOPAddress getPrimaryAddress()  ;
 
     /**
-     * Returns the description of a socket to create to access the associated endpoint. It's host and port
+     * Returns the description of a socket to create to access the associated endpoint. Its host and port
      * will match the primary address
      * @return a description of a socket.
      */
