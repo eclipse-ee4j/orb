@@ -58,13 +58,6 @@ import org.omg.PortableInterceptor.ForwardRequestHelper;
 import org.omg.PortableInterceptor.ORBInitInfo;
 import org.omg.PortableInterceptor.ORBInitializer;
 
-// BEGIN imports for IIOPPrimaryToContactInfo
-// END imports for IIOPPrimaryToContactInfo
-// BEGIN import for IORToSocketInfo
-
-
-// END import for IORToSocketInfo
-
 // REVISIT - log messages must be internationalized.
 
 /**
