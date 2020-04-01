@@ -21,7 +21,6 @@ public class Compile extends org.glassfish.corba.idl.toJavaPortable.Compile {
 
   public static void main (String[] args)
   {
-    Compile compiler = new Compile();
-    compiler.start (args);
+    org.glassfish.corba.idl.toJavaPortable.Compile.main(args);
   } // main
 }
