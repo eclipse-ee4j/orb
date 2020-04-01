@@ -81,6 +81,10 @@ public class EncodingTestBase {
         return result;
     }
 
+    byte getFormatVersion() {
+        return formatVersion;
+    }
+
     /** Returns a random value to ensure that the test never reads it. **/
     static byte pad() {
         return (byte) ((int) (Math.random() * 256));

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2020, Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,20 +10,27 @@
 
 package com.sun.corba.ee.impl.encoding;
 
+import java.io.IOException;
+import java.io.Serializable;
+import java.net.InetAddress;
+import java.util.Date;
+
 import com.sun.corba.ee.impl.util.RepositoryId;
 import com.sun.corba.ee.spi.orb.ORBVersionFactory;
 import org.junit.Test;
 import org.omg.CORBA.MARSHAL;
 import org.omg.CORBA.portable.IndirectionException;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.net.InetAddress;
-
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.sameInstance;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeFalse;
+import static org.junit.Assume.assumeTrue;
 
 public class CDRInputValueTest extends ValueTestBase {
 
@@ -184,7 +191,7 @@ public class CDRInputValueTest extends ValueTestBase {
         writeValueTag(ONE_REPID_ID);
         writeRepId(Value1.REPID);
 
-        writeWchar_1_1('x');
+        writeWchar_1_0('x');
         writeInt(3);
         writeIndirectionTo(location);
 
@@ -410,7 +417,7 @@ public class CDRInputValueTest extends ValueTestBase {
         writeRepId(Profession.REPID);
 
         startChunk();
-        writeByte(1);    // serial format version
+        startCustomMarshalingFormat(false);
         writeInt(5);
         endChunk();
         writeEndTag(-1);
@@ -422,4 +429,53 @@ public class CDRInputValueTest extends ValueTestBase {
         Profession profession = (Profession) value;
         assertThat(profession.getProfession(), equalTo("Lawyer"));
     }
+
+    /**
+     * The serialization of the java.util.Date class was changed between JDK8 and JDK11
+     */
+    @Test
+    public void readJDK8DateInstance() throws IOException {
+        assumeTrue(System.getProperty("java.version").startsWith("1.") );
+        Date date = readDateInstance(false);
+        assertThat(date.getTime(), equalTo(MSEC));
+    }
+
+    @Test
+    public void readJDK11DateInstance() throws IOException {
+        assumeFalse(System.getProperty("java.version").startsWith("1.") );
+        Date date = readDateInstance(true);
+        assertThat(date.getTime(), equalTo(MSEC));
+    }
+    
+
+    private Date readDateInstance(boolean defaultWriteObjectCalled) throws IOException {
+        useStreamFormatVersion2();
+        writeValueTag(ONE_REPID_ID | USE_CHUNKING);
+        writeRepId(DATE_REPID);
+
+        startChunk();
+        startCustomMarshalingFormat(defaultWriteObjectCalled);
+        endChunk();
+
+        writeValueTag(ONE_REPID_ID | USE_CHUNKING);
+        writeCustomRepId(DATE_REPID);
+        startChunk();
+        writeLong(MSEC);
+        endChunk();
+        writeEndTag(-1);
+
+        setMessageBody(getGeneratedBody());
+        Serializable value = getInputObject().read_value();
+
+        assertThat(value, instanceOf(Date.class));
+        return (Date) value;
+    }
+
+    @Test
+    public void name() {
+    }
+
+    private static final String DATE_REPID = "RMI:" + Date.class.getName() + ":AC117E28FE36587A:686A81014B597419";
+    private static final long MSEC = 1234567;
+
 }
