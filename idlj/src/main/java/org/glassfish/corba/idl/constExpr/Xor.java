@@ -1,0 +1,58 @@
+/*
+ * Copyright (c) 1997, 2020, Oracle and/or its affiliates.
+ * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Distribution License v. 1.0, which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+
+package org.glassfish.corba.idl.constExpr;
+
+// NOTES:
+
+import java.math.BigInteger;
+
+import org.glassfish.corba.idl.Util;
+
+public class Xor extends BinaryExpr
+{
+  protected Xor (org.glassfish.corba.idl.constExpr.Expression leftOperand, org.glassfish.corba.idl.constExpr.Expression rightOperand)
+  {
+    super ("^", leftOperand, rightOperand);
+  } // ctor
+
+  public Object evaluate () throws org.glassfish.corba.idl.constExpr.EvaluationException
+  {
+    try
+    {
+      Number l = (Number)left ().evaluate ();
+      Number r = (Number)right ().evaluate ();
+
+      if (l instanceof Float || l instanceof Double || r instanceof Float || r instanceof Double)
+      {
+        String[] parameters = {Util.getMessage ("EvaluationException.xor"), left ().value ().getClass ().getName (), right ().value ().getClass ().getName ()};
+        throw new org.glassfish.corba.idl.constExpr.EvaluationException(Util.getMessage ("EvaluationException.1", parameters));
+      }
+      else
+      {
+        // Xor (^)
+        //daz        value (new Long (l.longValue () ^ r.longValue ()));
+        //BigInteger uL = (BigInteger)toUnsigned((BigInteger)l);
+        //BigInteger uR = (BigInteger)toUnsigned((BigInteger)r);
+        //value (coerceToTarget(uL.xor (uR)));
+        BigInteger uL = (BigInteger)coerceToTarget((BigInteger)l);
+        BigInteger uR = (BigInteger)coerceToTarget((BigInteger)r);
+        value (uL.xor (uR));
+      }
+    }
+    catch (ClassCastException e)
+    {
+      String[] parameters = {Util.getMessage ("EvaluationException.xor"), left ().value ().getClass ().getName (), right ().value ().getClass ().getName ()};
+      throw new org.glassfish.corba.idl.constExpr.EvaluationException(Util.getMessage ("EvaluationException.1", parameters));
+    }
+    return value ();
+  } // evaluate
+} // class Xor
