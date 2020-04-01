@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2020, Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -12,8 +12,10 @@ package com.sun.corba.ee.impl.encoding;
 
 import java.io.Serializable;
 
+import com.sun.corba.ee.impl.util.RepositoryId;
+
 class Value1 implements Serializable {
-    static final String REPID = "RMI:com.sun.corba.ee.impl.encoding.Value1:3E1F37A79F0D0984:F72C4A0542764A7B";
+    static final String REPID = RepositoryId.createForJavaType(Value1.class);
     char aChar;
     int anInt;
 

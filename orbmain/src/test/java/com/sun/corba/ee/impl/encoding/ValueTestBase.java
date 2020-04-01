@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2018, 2020, Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,13 +10,13 @@
 
 package com.sun.corba.ee.impl.encoding;
 
-import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
-import org.glassfish.corba.testutils.HexBuffer;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Stack;
+
+import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
+import org.glassfish.corba.testutils.HexBuffer;
 
 public class ValueTestBase extends EncodingTestBase {
     protected static final int USE_CODEBASE = 0x01;
@@ -39,6 +39,11 @@ public class ValueTestBase extends EncodingTestBase {
         out.write(aByte);
     }
 
+    protected void startCustomMarshalingFormat(boolean defaultWriteObjectCalled) throws IOException {
+        out.write(getFormatVersion());
+        out.write(defaultWriteObjectCalled ? 1 : 0);
+    }
+
     protected int getCurrentLocation() {
         return out.pos();
     }
@@ -55,7 +60,13 @@ public class ValueTestBase extends EncodingTestBase {
         HexBuffer.dumpBuffer(getGeneratedBody());
     }
 
+    protected void writeWchar_1_0(char aChar) throws IOException {
+        out.write((aChar >> 8));
+        out.write(aChar);
+    }
+
     protected void writeWchar_1_1(char aChar) throws IOException {
+        align(2);
         out.write((aChar >> 8));
         out.write(aChar);
     }
@@ -101,6 +112,11 @@ public class ValueTestBase extends EncodingTestBase {
 
     protected void writeRepId(String id) throws IOException {
         writeString(id);
+    }
+
+    // Rep ID to define optional data in serial version 2 jidl ptc 03-01-17 1.4.10
+    protected void writeCustomRepId(String id) throws IOException {
+        writeString("org.omg.custom." + id);
     }
 
     protected void writeString(String string) throws IOException {
