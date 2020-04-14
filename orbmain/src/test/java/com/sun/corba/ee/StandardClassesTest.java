@@ -8,26 +8,18 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package org.glassfish.orb;
+package com.sun.corba.ee;
 
 import java.lang.reflect.Modifier;
 
 import org.hamcrest.Description;
 import org.junit.Test;
 
-import static org.glassfish.orb.StandardClassesTest.StandardClassMatcher.isConcreteImplementationOf;
+import static com.sun.corba.ee.StandardClassesTest.StandardClassMatcher.isConcreteImplementationOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 
 public class StandardClassesTest {
-/*
-| `javax.rmi.CORBA.UtilClass` | `com.sun.corba.ee.impl.javax.rmi.CORBA.Util` | `org.glassfish.corba.orb.impl.javax.rmi.CORBA.Util` |
-| `javax.rmi.CORBA.StubClass` | `com.sun.corba.ee.impl.javax.rmi.CORBA.StubDelegateImpl` | `org.glassfish.corba.orb.impl.javax.rmi.CORBA.StubDelegateImpl` |
-| `javax.rmi.CORBA.PortableRemoteObjectClass` | `com.sun.corba.ee.impl.javax.rmi.CORBA.PortableRemoteObject` | `org.glassfish.corba.orb.impl.javax.rmi.CORBA.PortableRemoteObject` |
-| `org.omg.CORBA.ORBClass` | `com.sun.corba.ee.impl.orb.ORBImpl` | `org.glassfish.corba.orb.impl.orb.ORBImpl` |
-| `org.omg.CORBA.ORBSingletonClass` | `com.sun.corba.ee.impl.orb.ORBSingleton` | `org.glassfish.corba.orb.impl.orb.ORBSingleton` |
-
- */
 
   private final static String LEGACY_UTIL_CLASS = "com.sun.corba.ee.impl.javax.rmi.CORBA.Util";
   private final static String LEGACY_STUB_CLASS = "com.sun.corba.ee.impl.javax.rmi.CORBA.StubDelegateImpl";

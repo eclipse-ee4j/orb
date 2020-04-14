@@ -126,6 +126,11 @@ public class ValueTestBase extends EncodingTestBase {
         out.write(0);
     }
 
+    protected void writeShort(short value) throws IOException {
+        align(2);
+        out.writeShort(value);
+    }
+
     protected void writeInt(int value) throws IOException {
         align(4);
         out.writeInt(value);
@@ -134,6 +139,16 @@ public class ValueTestBase extends EncodingTestBase {
     protected void writeLong(long value) throws IOException {
         align(8);
         out.writeLong(value);
+    }
+
+    protected void writeFloat(float value) throws IOException {
+        align(4);
+        out.writeFloat(value);
+    }
+
+    protected void writeDouble(double value) throws IOException {
+        align(8);
+        out.writeDouble(value);
     }
 
     private void align(int size) throws IOException {

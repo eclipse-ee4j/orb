@@ -76,28 +76,6 @@ public class CDRInputValueTest extends ValueTestBase {
 
         getInputObject().read_value();
     }
-/*
-
-    static final String VALUE1_REPID2 = "RMI:com.sun.corba.ee.impl.encoding.Value1:3E1F37A79F0B1235:F72C4A0542764A7B";
-
-    @Test
-    public void canReadSerializedValueWithMismatchedRepID() throws IOException {
-        writeValueTag(ONE_REPID_ID);
-        writeRepId(VALUE1_REPID2);
-
-        writeWchar_1_2('x');
-        writeInt(7);
-        writeInt(3);
-
-        setMessageBody(getGeneratedBody());
-
-        Object object = getInputObject().read_value();
-        assertTrue(object instanceof Value1);
-        Value1 value1 = (Value1) object;
-        assertEquals('x', value1.aChar);
-        assertEquals(3, value1.anInt);
-    }
-*/
 
     @Test
     public void canReadSerializedValue() throws IOException {
@@ -435,14 +413,18 @@ public class CDRInputValueTest extends ValueTestBase {
      */
     @Test
     public void readJDK8DateInstance() throws IOException {
-        assumeTrue(System.getProperty("java.version").startsWith("1.") );
+        assumeTrue(isJdk8_orEarlier());
         Date date = readDateInstance(false);
         assertThat(date.getTime(), equalTo(MSEC));
     }
 
+    private boolean isJdk8_orEarlier() {
+        return System.getProperty("java.version").startsWith("1.");
+    }
+
     @Test
     public void readJDK11DateInstance() throws IOException {
-        assumeFalse(System.getProperty("java.version").startsWith("1.") );
+        assumeFalse(isJdk8_orEarlier());
         Date date = readDateInstance(true);
         assertThat(date.getTime(), equalTo(MSEC));
     }

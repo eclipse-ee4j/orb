@@ -34,6 +34,7 @@ import com.sun.corba.ee.spi.transport.MessageTraceManager;
 import com.sun.corba.ee.spi.transport.TransportManager;
 import com.sun.org.omg.SendingContext.CodeBase;
 import org.glassfish.corba.testutils.HexBuffer;
+import com.sun.org.omg.CORBA.ValueDefPackage.FullValueDescription;
 import org.junit.Before;
 import org.omg.CORBA.portable.OutputStream;
 import org.omg.CORBA.portable.ValueFactory;
@@ -97,6 +98,7 @@ public class EncodingTestBase {
         orb.transportManager = transportManager;
         mediator.setConnection(connection);
         connection.fragments = fragments;
+        FVDBuilder.initialize(orb);
     }
 
     protected final ORB getOrb() {
@@ -431,6 +433,11 @@ public class EncodingTestBase {
         public String implementation(String s) {
             return null;
         }
+
+        @Override
+        public FullValueDescription meta(String x) {
+            return FVDBuilder.getMeta(x);
+        }
     }
 
     //------------------------------------- fake implementation of a Connection ----------------------------------------
@@ -496,6 +503,7 @@ public class EncodingTestBase {
             byteBuffer.get(buf);
             fragments.add(buf);
         }
+
     }
 
     //---------------------------------- fake implementation of a Message Mediator -------------------------------------
