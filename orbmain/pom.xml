@@ -1,6 +1,6 @@
 <!--
 
-    Copyright (c) 2018, 2019, Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2018, 2020, Oracle and/or its affiliates.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -116,6 +116,29 @@
                             com.sun.corba.ee.impl.util; version=1
                         </Export-Package>
                     </instructions>
+                </configuration>
+            </plugin>
+            
+            <!-- generate test idl -->
+            
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>idlj-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate-test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <sources>
+                        <source>
+                            <packagePrefixes>
+                                <packagePrefix><type>interceptors</type><prefix>com.sun.corba.ee.impl</prefix></packagePrefix>
+                            </packagePrefixes>
+                        </source>
+                    </sources>
                 </configuration>
             </plugin>
          </plugins>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020, Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,60 +10,49 @@
 
 package corba.orbconfig;
 
-import java.lang.reflect.Method ;
-import java.lang.reflect.Array ;
-
-import java.io.PrintStream ;
-
-import java.util.Properties ;
-import java.util.Map ;
-import java.util.HashMap ;
-import java.util.Set ;
-import java.util.HashSet ;
-
+import java.applet.Applet;
+import java.applet.AppletContext;
+import java.applet.AppletStub;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.lang.reflect.Array;
+import java.lang.reflect.Method;
 import java.net.InetAddress;
-import java.net.URL ;
-import java.net.MalformedURLException ;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
-import java.applet.Applet ;
-import java.applet.AppletContext ;
-import java.applet.AppletStub ;
-
-import java.io.File ;
-import java.io.OutputStream ;
-import java.io.FileOutputStream ;
-
-import com.sun.corba.ee.spi.orb.OperationFactory ;
-import com.sun.corba.ee.spi.orb.DataCollector ;
-import com.sun.corba.ee.spi.orb.Operation ;
-import com.sun.corba.ee.spi.orb.PropertyParser ;
-import com.sun.corba.ee.spi.orb.ParserImplBase ;
-import com.sun.corba.ee.spi.orb.ParserData ;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.orb.ORBData ;
-
-import com.sun.corba.ee.impl.orb.ORBDataParserImpl ;
-import com.sun.corba.ee.impl.orb.DataCollectorFactory ;
-import com.sun.corba.ee.impl.orb.ParserTable ;
-
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion ;
+import com.sun.corba.ee.impl.orb.DataCollectorFactory;
+import com.sun.corba.ee.impl.orb.ORBDataParserImpl;
+import com.sun.corba.ee.impl.orb.ParserTable;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.DataCollector;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ORBData;
+import com.sun.corba.ee.spi.orb.Operation;
+import com.sun.corba.ee.spi.orb.OperationFactory;
+import com.sun.corba.ee.spi.orb.ParserData;
+import com.sun.corba.ee.spi.orb.ParserImplBase;
+import com.sun.corba.ee.spi.orb.PropertyParser;
 import org.glassfish.pfl.basic.contain.Pair;
 import org.glassfish.pfl.basic.func.NullaryFunction;
-import org.glassfish.pfl.basic.func.NullaryPredicate;
 import org.glassfish.pfl.test.JUnitReportHelper;
 import org.glassfish.pfl.test.ObjectUtility;
 
 public class Client 
 {
-    private JUnitReportHelper helper ;
-    private PrintStream out ;
-    private TestSession session ;
-    private boolean noJavaHomeAvailable = false ;
 
-    public static void main(String args[])
+    private TestSession session ;
+
+    public static void main(String[] args)
     {
         System.out.println( "Starting NewORB test" ) ;
         try{
@@ -78,11 +67,10 @@ public class Client
         }
     }
 
-    public Client( Properties props, String args[], PrintStream out )
+    public Client(Properties props, String[] args, PrintStream out )
     {
-        this.out = System.out ;
-        helper = new JUnitReportHelper( Client.class.getName() ) ;
-        this.session = new TestSession( out, helper ) ;
+        JUnitReportHelper helper = new JUnitReportHelper(Client.class.getName());
+        this.session = new TestSession( out, helper) ;
 
         try {
             runTests() ;
@@ -236,41 +224,24 @@ public class Client
         res = ObjectUtility.make( false, false ).objectToString( y1 ) ;
         System.out.println( res ) ;
 
-        NullaryFunction<Object> closure1 = new NullaryFunction<Object>() {
-            public Object evaluate() {
-                return Boolean.valueOf( ObjectUtility.equals( y1, y1 ) ) ;
-            }
-        } ;
+        NullaryFunction<Object> closure1 = () -> ObjectUtility.equals(y1, y1);
 
         session.testForPass( "Testing structural equals: 1", closure1,
             Boolean.TRUE ) ;
 
-        NullaryFunction<Object> closure2 = new NullaryFunction<Object>() {
-            public Object evaluate() {
-                return Boolean.valueOf( ObjectUtility.equals( y1, y2 ) ) ;
-            }
-        } ;
+        NullaryFunction<Object> closure2 = () -> ObjectUtility.equals(y1, y2);
 
         session.testForPass( "Testing structural equals: 2", closure2,
             Boolean.TRUE ) ;
 
-        NullaryFunction<Object> closure3 = new NullaryFunction<Object>() {
-            public Object evaluate() {
-                return Boolean.valueOf( ObjectUtility.equals( y1, y3 ) ) ;
-            }
-        } ;
+        NullaryFunction<Object> closure3 = () -> ObjectUtility.equals(y1, y3);
 
         session.testForPass( "Testing structural equals: 3", closure3,
             Boolean.FALSE ) ;
 
-        NullaryFunction<Object> closure4 = new NullaryFunction<Object>() {
-            public Object evaluate() {
-                return Boolean.valueOf( ObjectUtility.equals( y3, y4 ) ) ;
-            }
-        } ;
+        NullaryFunction<Object> closure4 = () -> ObjectUtility.equals(y3, y4);
 
-        session.testForPass( "Testing structural equals: 4", closure4,
-            Boolean.FALSE ) ;
+        session.testForPass( "Testing structural equals: 4", closure4, Boolean.FALSE ) ;
 
         session.end() ;
     }
@@ -278,16 +249,13 @@ public class Client
     private NullaryFunction<Object> makeActionEvaluator( final Operation action,
         final Object data )
     {
-        return new NullaryFunction<Object>() {
-            public Object evaluate() {
-                action.operate( data )  ;
-                return true ;
-            }
-        } ;
+        return () -> {
+            action.operate( data )  ;
+            return true ;
+        };
     }
 
-    private void expectError( final Object data, final Operation action,
-        Class expectedError )
+    private void expectError( final Object data, final Operation action, Class<?> expectedError )
     {
         String msg = action + "(" + 
             ObjectUtility.make( true, true ).objectToString(data) +
@@ -315,23 +283,22 @@ public class Client
         // test indexAction
         Operation indexAction = OperationFactory.indexAction( 3 ) ;
 
-        Integer[] data1 = { Integer.valueOf(0), Integer.valueOf(1) } ;
+        Integer[] data1 = {0, 1} ;
         expectError( data1, indexAction, 
             java.lang.IndexOutOfBoundsException.class ) ;
 
-        Integer[] data2 = { Integer.valueOf(0), Integer.valueOf(1), 
-                            Integer.valueOf(2), Integer.valueOf(3) } ;
-        expectResult( data2, indexAction, Integer.valueOf(3) ) ;
+        Integer[] data2 = {0, 1, 2, 3} ;
+        expectResult( data2, indexAction, 3) ;
 
         // test booleanAction
         Operation booleanAction = OperationFactory.booleanAction() ;
-        expectResult( "TRUE", booleanAction, Boolean.valueOf( true ) ) ;
-        expectResult( "false", booleanAction, Boolean.valueOf( false ) ) ;
-        expectResult( "XXffOP2", booleanAction, Boolean.valueOf( false ) ) ;
+        expectResult( "TRUE", booleanAction, Boolean.TRUE) ;
+        expectResult( "false", booleanAction, Boolean.FALSE) ;
+        expectResult( "XXffOP2", booleanAction, Boolean.FALSE) ;
 
         // test integerAction
         Operation integerAction = OperationFactory.integerAction() ;
-        expectResult( "123", integerAction, Integer.valueOf( 123 ) ) ;
+        expectResult( "123", integerAction, 123) ;
         expectError( "123ACE", integerAction, 
             java.lang.NumberFormatException.class ) ;
 
@@ -346,14 +313,14 @@ public class Client
 
         // test setFlagAction
         Operation setFlagAction = OperationFactory.setFlagAction() ;
-        expectResult( "", setFlagAction, Boolean.valueOf( true ) ) ;
+        expectResult( "", setFlagAction, Boolean.TRUE) ;
 
         // test URLAction
         Operation URLAction = OperationFactory.URLAction() ;
         URL testURL = null ;
         try {
             testURL = new URL( "http://www.sun.com" ) ;
-        } catch (java.net.MalformedURLException exc) {}
+        } catch (java.net.MalformedURLException ignored) {}
 
         expectResult( "http://www.sun.com", URLAction, testURL ) ;
         // For some reason, all strings seem to work: explore later.
@@ -363,7 +330,7 @@ public class Client
         // test integerRangeAction
         Operation integerRangeAction = OperationFactory.integerRangeAction(
             12, 24 ) ;
-        expectResult( "13", integerRangeAction, Integer.valueOf( 13 ) ) ;
+        expectResult( "13", integerRangeAction, 13) ;
         expectError( "123ACE", integerRangeAction, 
             java.lang.NumberFormatException.class ) ;
         expectError( "2", integerRangeAction, 
@@ -373,8 +340,7 @@ public class Client
         Operation listAction = OperationFactory.listAction( ",", 
             integerAction ) ;
         String arg = "12,23,34,56,129" ;
-        Object[] expectedResult = { Integer.valueOf( 12 ), Integer.valueOf( 23 ),
-            Integer.valueOf( 34 ), Integer.valueOf( 56 ), Integer.valueOf( 129 ) } ;
+        Object[] expectedResult = {12, 23, 34, 56, 129} ;
 
         expectResult( arg, listAction, expectedResult ) ;
 
@@ -385,21 +351,19 @@ public class Client
             actions ) ;
 
         String arg2 = "12,23,this_thing,true" ;
-        Object[] expectedResult2 = { Integer.valueOf( 12 ), Integer.valueOf( 23 ),
-            "this_thing", Boolean.valueOf( true ) } ;
+        Object[] expectedResult2 = {12, 23, "this_thing", Boolean.TRUE} ;
 
         expectResult( arg2, sequenceAction, expectedResult2 ) ;
 
         // test compose
         Operation composition = OperationFactory.compose( listAction, 
             indexAction ) ;
-        expectResult( arg, composition, Integer.valueOf( 56 ) ) ;
+        expectResult( arg, composition, 56) ;
 
         // test mapAction
         Operation map = OperationFactory.mapAction( integerAction ) ;
         String[] strings = { "12", "23", "473", "2" } ;
-        Object[] result = { Integer.valueOf( 12 ), Integer.valueOf( 23 ), Integer.valueOf( 473 ),
-            Integer.valueOf( 2 ) } ;
+        Object[] result = {12, 23, 473, 2} ;
         expectResult( strings, map, result ) ;
 
         session.end() ;
@@ -714,7 +678,7 @@ public class Client
                 throw new Error( "Unexpected exception", exc ) ;
             }
         } else {
-            noJavaHomeAvailable = true ;
+            boolean noJavaHomeAvailable = true;
         }
     }
 
