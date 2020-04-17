@@ -18,6 +18,8 @@ import java.util.Stack;
 import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
 import org.glassfish.corba.testutils.HexBuffer;
 
+import static org.junit.Assert.assertTrue;
+
 public class ValueTestBase extends EncodingTestBase {
     protected static final int USE_CODEBASE = 0x01;
     protected static final int ONE_REPID_ID = 0x02;
@@ -37,6 +39,11 @@ public class ValueTestBase extends EncodingTestBase {
 
     protected void writeByte(int aByte) throws IOException {
         out.write(aByte);
+    }
+
+    protected void writeByteArray(byte[] bytes) throws IOException {
+        out.writeInt(bytes.length);
+        out.write(bytes);
     }
 
     protected void startCustomMarshalingFormat(boolean defaultWriteObjectCalled) throws IOException {
@@ -159,6 +166,15 @@ public class ValueTestBase extends EncodingTestBase {
     protected void writeIndirectionTo(int location) throws IOException {
         writeInt(-1);
         writeInt(location - out.pos());
+    }
+
+    @SuppressWarnings("unchecked")
+    protected <T> T readValueFromGeneratedBody(Class<?> valueClass) {
+      setMessageBody(getGeneratedBody());
+
+      Object object = getInputObject().read_value();
+      assertTrue(valueClass.isInstance(object));
+      return (T) object;
     }
 
     static class DataByteOutputStream extends DataOutputStream {

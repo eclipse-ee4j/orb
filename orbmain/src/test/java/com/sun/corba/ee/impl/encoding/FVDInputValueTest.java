@@ -73,15 +73,6 @@ public class FVDInputValueTest extends ValueTestBase {
     assertEquals(3, value1.anInt);
   }
 
-  @SuppressWarnings("unchecked")
-  private <T> T readValueFromGeneratedBody(Class<?> valueClass) {
-    setMessageBody(getGeneratedBody());
-
-    Object object = getInputObject().read_value();
-    assertTrue(valueClass.isInstance(object));
-    return (T) object;
-  }
-
   @Test
   public void canReadDerivedValueWithExtraFields() throws IOException {
     defineDerivedValueFVD();
@@ -115,15 +106,6 @@ public class FVDInputValueTest extends ValueTestBase {
           .withMember("extra", float.class)
           .withMember("aShort", short.class)
           .build();
-  }
-
-  /**
-   * A derived class that can be serialized.
-   */
-  static class DerivedValue extends Value1 {
-    boolean ready;
-    byte aByte;
-    short aShort;
   }
 
   static final String DERIVED_VALUE_REPID = getVariantRepId(RepositoryId.createForJavaType(DerivedValue.class));
