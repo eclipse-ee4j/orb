@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020, Oracle and/or its affiliates.
  * Copyright (c) 1998-2012 IBM Corp. All rights reserved.
  * Copyright (c) 2019 Payara Services Ltd.
  *
@@ -491,7 +491,6 @@ public class ObjectStreamClass implements java.io.Serializable {
                                 try {
                                     Field reflField = cl.getDeclaredField(fields[j].getName());
                                     if (fields[j].getType() == reflField.getType()) {
-                                        reflField.setAccessible(true);
                                         fields[j].setField(reflField);
                                     } else {
                                         Exceptions.self.fieldTypeMismatch(
