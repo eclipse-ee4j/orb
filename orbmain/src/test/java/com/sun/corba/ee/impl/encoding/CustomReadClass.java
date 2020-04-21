@@ -20,9 +20,9 @@ import java.io.Serializable;
 public class CustomReadClass implements Serializable {
   int aPositiveValue;
 
-  // Cannot have custom read that calls defaultReadObject without custom write, apparently
   private void readObject(ObjectInputStream anInputStream) throws IOException, ClassNotFoundException {
-    aPositiveValue = Math.min(anInputStream.readInt(), 1);
+    anInputStream.defaultReadObject();
+    aPositiveValue = Math.max(aPositiveValue, 1);
   }
 
 }

@@ -10,7 +10,7 @@
 
 package com.sun.corba.ee.impl.encoding;
 
-enum Enum1 {
+public enum Enum1 {
 
     up, down, strange, charm, truth, beauty;
 

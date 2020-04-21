@@ -10,13 +10,6 @@
 
 package com.sun.corba.ee.impl.encoding;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 import com.sun.corba.ee.impl.corba.TypeCodeImpl;
 import com.sun.corba.ee.impl.util.RepositoryId;
 import com.sun.corba.ee.spi.orb.ORB;
@@ -32,10 +25,15 @@ import org.omg.CORBA.VM_NONE;
 import org.omg.CORBA.VM_TRUNCATABLE;
 import org.omg.CORBA.ValueMember;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 public class FVDBuilder {
 
   private static Map<String,FullValueDescription> metas;
-  private static List<FVDBuilder> builders;
   private static ORB orb;
 
   private String repId;
@@ -50,7 +48,6 @@ public class FVDBuilder {
   static void initialize(ORB orb) {
     FVDBuilder.orb = orb;
     metas = new HashMap<>();
-    builders = new ArrayList<>();
   }
 
   static FullValueDescription getMeta(String repositoryID) {
@@ -59,9 +56,7 @@ public class FVDBuilder {
   }
 
   static FVDBuilder defineFullValueDescription(String repId) {
-    FVDBuilder fvdBuilder = new FVDBuilder(repId);
-    builders.add(fvdBuilder);
-    return fvdBuilder;
+    return new FVDBuilder(repId);
   }
 
   public FVDBuilder withCustomMarshalling() {
@@ -75,7 +70,9 @@ public class FVDBuilder {
   }
 
   public FVDBuilder withMember(String fieldName, Class<?> fieldClass) {
-    if (!fieldClass.isPrimitive()) throw new RuntimeException("Specify class for non-primitive fields");
+    if (!fieldClass.equals(String.class) && !fieldClass.isPrimitive())
+      throw new RuntimeException(String.format("%s field %s is not primitive; define it with its repository ID", fieldClass.getName(), fieldName));
+
     fields.add(new PrimitiveFieldBuilder(fieldName, fieldClass));
     return this;
   }
@@ -142,7 +139,7 @@ public class FVDBuilder {
     else if (type.equals(double.class))
       return new TypeCodeImpl(orb, TCKind._tk_double);
     else if (type.equals(String.class))
-      return new TypeCodeImpl(orb, TCKind._tk_string);
+      return new TypeCodeImpl(orb, TCKind._tk_value);
     else if (type.equals(long.class))
       return new TypeCodeImpl(orb, TCKind._tk_longlong);
     else
@@ -174,8 +171,8 @@ public class FVDBuilder {
     }
 
     private String getRepositoryId() {
-      return Serializable.class.isAssignableFrom(fieldClass)
-            ? RepositoryId.createForJavaType((Serializable) fieldClass)
+      return fieldClass.equals(String.class)
+            ? RepositoryId.kWStringValueRepID
             : RepositoryId.createForJavaType(fieldClass);
     }
   }
