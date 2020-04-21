@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020, Oracle and/or its affiliates.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -34,7 +34,6 @@ import org.omg.CORBA.ValueMember;
 import org.omg.CORBA.portable.IndirectionException;
 import org.omg.CORBA.portable.ValueInputStream;
 
-import javax.rmi.CORBA.ValueHandler;
 import java.io.EOFException;
 import java.io.Externalizable;
 import java.io.IOException;
@@ -49,10 +48,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import javax.rmi.CORBA.ValueHandler;
 
 /**
  * IIOPInputStream is used by the ValueHandlerImpl to handle Java serialization
@@ -1089,7 +1090,7 @@ public class IIOPInputStream
                                 readFormatVersion();
 
                                 // Read defaultWriteObject indicator
-                                boolean calledDefaultWriteObject = readBoolean();
+                                boolean calledDefaultWriteObject = readDefaultWriteObjectCalledFlag();
 
                                 readObjectState.beginUnmarshalCustomValue( this, 
                                     calledDefaultWriteObject, 
@@ -1150,6 +1151,32 @@ public class IIOPInputStream
             activeRecursionMgr.removeObject(offset);
         }
         return currentObject;
+    }
+
+    // This is a horrible workaround for a problem that looks a bit challenging to fix now.
+    // In JDK11, the Date class was modified to call defaultWriteObject(), which doesn't actually do anything but
+    // set the "defaultWriteObjectCalled" flag in the serialization of the class; unfortunately, the
+    // deserialization logic cannot handle that case and throws an exception. We are therefore employing this
+    // workaround to allow Date objects to be read across the wire between JDK8 and JDK11.
+    // Fixing it will involve massive code simplification in order to eliminate duplicate code and allow for
+    // implementation of a simpler state machine that depends on the data sent rather than how it was produced.
+    private boolean readDefaultWriteObjectCalledFlag() throws IOException {
+        boolean sentDefaultWriteObjectCalled = readBoolean();
+
+        if (isDateClassWorkaroundRequired()) return getDateClassWorkaroundValue();
+        return sentDefaultWriteObjectCalled;
+    }
+
+    private boolean isDateClassWorkaroundRequired() {
+        return currentClassDesc.getName().equals(Date.class.getName());
+    }
+
+    private boolean getDateClassWorkaroundValue() {
+        return isJdk11_orLater();
+    }
+
+    private boolean isJdk11_orLater() {
+        return !System.getProperty("java.version").startsWith("1.");
     }
 
     @InfoMethod

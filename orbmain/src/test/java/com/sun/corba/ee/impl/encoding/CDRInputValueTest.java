@@ -31,8 +31,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assume.assumeFalse;
-import static org.junit.Assume.assumeTrue;
 
 public class CDRInputValueTest extends ValueTestBase {
 
@@ -419,7 +417,6 @@ public class CDRInputValueTest extends ValueTestBase {
      */
     @Test
     public void readJDK8DateInstance() throws IOException {
-        assumeTrue(isJdk8_orEarlier());
         Date date = readDateInstance(false);
         assertThat(date.getTime(), equalTo(MSEC));
     }
@@ -430,7 +427,6 @@ public class CDRInputValueTest extends ValueTestBase {
 
     @Test
     public void readJDK11DateInstance() throws IOException {
-        assumeFalse(isJdk8_orEarlier());
         Date date = readDateInstance(true);
         assertThat(date.getTime(), equalTo(MSEC));
     }
