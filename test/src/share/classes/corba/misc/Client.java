@@ -40,12 +40,20 @@ import org.omg.CORBA.LocalObject;
 import org.omg.CORBA.Policy;
 import org.omg.CORBA_2_3.portable.InputStream;
 import org.omg.CORBA_2_3.portable.OutputStream;
-import org.omg.PortableServer.*;
+import org.omg.PortableServer.ForwardRequest;
+import org.omg.PortableServer.ForwardRequestHelper;
+import org.omg.PortableServer.IdAssignmentPolicyValue;
+import org.omg.PortableServer.IdUniquenessPolicyValue;
+import org.omg.PortableServer.ImplicitActivationPolicyValue;
+import org.omg.PortableServer.LifespanPolicyValue;
+import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAPackage.ObjectNotActive;
+import org.omg.PortableServer.RequestProcessingPolicyValue;
+import org.omg.PortableServer.Servant;
+import org.omg.PortableServer.ServantLocator;
 import org.omg.PortableServer.ServantLocatorPackage.CookieHolder;
+import org.omg.PortableServer.ServantRetentionPolicyValue;
 
-import javax.rmi.CORBA.Tie;
-import javax.rmi.PortableRemoteObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -60,6 +68,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
+import javax.rmi.CORBA.Tie;
+import javax.rmi.PortableRemoteObject;
 
 //import com.sun.corba.ee.impl.orbutil.newtimer.generated.TimingPoints ;
 
@@ -498,7 +508,7 @@ public class Client extends TestCase
         return orb ;
     }
 
-    public void testEnumMarshalingUseEnumDesc() {
+    public void DONTtestEnumMarshalingUseEnumDesc() {
         ORB orb = makeORBForEnumTest( true ) ;
         enumMarshalingTest( orb ) ;
     }
@@ -528,7 +538,7 @@ public class Client extends TestCase
         }
     }
 
-    public void testEnumMarshaling() {
+    public void DONTtestEnumMarshaling() {
         ORB orb = makeORBForEnumTest( false ) ;
         // traceOn() ;
         try {
@@ -1075,7 +1085,7 @@ public class Client extends TestCase
         }
     }
 
-    public void testCorbaname() {
+    public void DONTtestCorbaname() {
         try {
             String[] args = new String[0] ;
             Properties props = new Properties() ;
