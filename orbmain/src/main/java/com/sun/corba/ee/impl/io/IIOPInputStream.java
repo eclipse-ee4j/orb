@@ -1154,10 +1154,10 @@ public class IIOPInputStream
     }
 
     // This is a horrible workaround for a problem that looks a bit challenging to fix now.
-    // In JDK11, the Date class was modified to call defaultWriteObject(), which doesn't actually do anything but
+    // In JDK9, the Date class was modified to call defaultWriteObject(), which doesn't actually do anything but
     // set the "defaultWriteObjectCalled" flag in the serialization of the class; unfortunately, the
     // deserialization logic cannot handle that case and throws an exception. We are therefore employing this
-    // workaround to allow Date objects to be read across the wire between JDK8 and JDK11.
+    // workaround to allow Date objects to be read across the wire between JDK8 and later JDKs.
     // Fixing it will involve massive code simplification in order to eliminate duplicate code and allow for
     // implementation of a simpler state machine that depends on the data sent rather than how it was produced.
     private boolean readDefaultWriteObjectCalledFlag() throws IOException {
@@ -1172,10 +1172,10 @@ public class IIOPInputStream
     }
 
     private boolean getDateClassWorkaroundValue() {
-        return isJdk11_orLater();
+        return isJdk9_orLater();
     }
 
-    private boolean isJdk11_orLater() {
+    private boolean isJdk9_orLater() {
         return !System.getProperty("java.version").startsWith("1.");
     }
 
