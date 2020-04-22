@@ -27,7 +27,6 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestResult;
 import junit.framework.TestSuite;
-import org.glassfish.pfl.basic.contain.SPair;
 import org.glassfish.pfl.basic.logex.OperationTracer;
 import org.glassfish.pfl.test.TestCaseTools;
 import org.glassfish.pfl.tf.spi.MethodMonitorFactory;
@@ -489,31 +488,7 @@ public class Client extends TestCase
         }
     }
 
-    private Color[] colors = { Color.RED, Color.RED, Color.BLUE,
-        Color.RED, Color.GREEN, Color.GREEN, Color.GREEN, Color.GREEN,
-        Color.GREEN, Color.GREEN, Color.GREEN, Color.RED, Color.RED, 
-        Color.BLUE, Color.BLUE, Color.BLUE, Color.BLUE,     
-        Color.RED, Color.RED, Color.RED } ;
-
-    private SPair<SPair<Color,Color>,Color> pair = 
-        new SPair<SPair<Color,Color>,Color>(
-            new SPair<Color,Color>( Color.RED, Color.BLUE ), Color.RED ) ;
-    
-    private ORB makeORBForEnumTest( boolean useEnumDesc ) {
-        String[] args = new String[0] ;
-        Properties props = new Properties() ;
-        props.setProperty( ORBConstants.USE_ENUM_DESC, 
-            Boolean.toString( useEnumDesc ) ) ;
-        ORB orb = ORB.class.cast( ORB.init( args, props ) ) ;
-        return orb ;
-    }
-
-    public void DONTtestEnumMarshalingUseEnumDesc() {
-        ORB orb = makeORBForEnumTest( true ) ;
-        enumMarshalingTest( orb ) ;
-    }
-
-    private static final List<Class<? extends Annotation>> ioannos = 
+    private static final List<Class<? extends Annotation>> ioannos =
         new ArrayList<Class<? extends Annotation>>() ;
 
     static {
@@ -535,89 +510,6 @@ public class Client extends TestCase
     private void traceOff() {
         for (Class<? extends Annotation> cls : ioannos) {
             MethodMonitorRegistry.register( cls, null ) ;
-        }
-    }
-
-    public void DONTtestEnumMarshaling() {
-        ORB orb = makeORBForEnumTest( false ) ;
-        // traceOn() ;
-        try {
-            enumMarshalingTest( orb ) ;
-        } finally {
-            // traceOff() ;
-        }
-    }
-
-    private static final boolean SIMPLE = false ;
-
-    public void enumMarshalingTest( ORB orb ) {
-        try {
-            OutputStream os = OutputStream.class.cast( orb.create_output_stream() ) ;
-
-
-            if (SIMPLE) {
-                os.write_value( Color.BLUE ) ;
-            } else {
-                os.write_value( pair ) ;
-                os.write_value( colors ) ;
-                os.write_value( Color.BLUE ) ;
-                os.write_value( Coin.NICKEL ) ;
-                os.write_value( colors ) ;
-                os.write_value( TestEnum.HELLO ) ;
-            }
-
-            InputStream is = InputStream.class.cast( os.create_input_stream() ) ;
-
-            if (SIMPLE) {
-                System.out.println( "Testing BLUE" ) ;
-                Color shouldBeBlue = Color.class.cast( is.read_value() ) ;
-                assertSame( "Result of read_value is not the expected value",
-                    shouldBeBlue, Color.BLUE ) ;
-            } else {
-                System.out.println( "Testing pair" ) ;
-                SPair<SPair<Color,Color>,Color> shouldBePair = 
-                    (SPair<SPair<Color,Color>,Color>)(is.read_value()) ;
-
-                assertSame( "pair.first().first()", shouldBePair.first().first(),
-                    pair.first().first() ) ;
-
-                assertSame( "pair.first().second()", shouldBePair.first().second(),
-                    pair.first().second() ) ;
-
-                assertSame( "pair.second()", shouldBePair.second(),
-                    pair.second() ) ;
-
-                System.out.println( "Testing colors" ) ;
-                Color[] shouldBeColors = (Color[])is.read_value() ;
-                for (int ctr=0; ctr<colors.length; ctr++) {
-                    assertSame( "Result[" + ctr + "] is not the expected value",
-                        shouldBeColors[ctr], colors[ctr] ) ;
-                }
-
-                System.out.println( "Testing BLUE" ) ;
-                Color shouldBeBlue = Color.class.cast( is.read_value() ) ;
-                assertSame( "Result of read_value is not the expected value",
-                    shouldBeBlue, Color.BLUE ) ;
-
-                System.out.println( "Testing NICKEL" ) ;
-                Coin shouldBeNickel = Coin.class.cast( is.read_value() ) ;
-                assertSame( "Result of read_value is not the expected value",
-                    shouldBeNickel, Coin.NICKEL ) ;
-
-                System.out.println( "Testing colors" ) ;
-                shouldBeColors = (Color[])is.read_value() ;
-                for (int ctr=0; ctr<colors.length; ctr++) {
-                    assertSame( "Result[" + ctr + "] is not the expected value",
-                        shouldBeColors[ctr], colors[ctr] ) ;
-                }
-
-                System.out.println( "Testing TestEnum" ) ;
-                TestEnum shouldBeTestEnum = (TestEnum)is.read_value() ;
-                assertSame( "Result of read_value is not the expected value",
-                    shouldBeTestEnum, TestEnum.HELLO ) ;
-            }
-        } finally {
-            orb.destroy();
         }
     }
 
@@ -1082,27 +974,6 @@ public class Client extends TestCase
         } catch (Exception exc) {
             exc.printStackTrace() ;
             fail( exc.toString() ) ;
-        }
-    }
-
-    public void DONTtestCorbaname() {
-        try {
-            String[] args = new String[0] ;
-            Properties props = new Properties() ;
-            orb = ORB.class.cast( ORB.init( args, props ) ) ;
-
-            final String test = 
-                "corbaname:iiop:1.2@192.168.178.1:3700#ejb/XXServiceBean" ;
-
-            // orb.string_to_object( test ) ;
-
-            final String test2 = 
-                "corbaname:iiop:evolve300.evolve.local:3920#java:global/ferris-bank-business-services/account/AccountServiceBean__3_x_Internal_RemoteBusinessHome__" ;
-
-            orb.string_to_object( test2 ) ;
-        } finally {
-            if (orb != null)
-                orb.destroy() ;
         }
     }
 
