@@ -1,6 +1,6 @@
 <!--
 
-    Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2018, 2020, Oracle and/or its affiliates.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,6 +22,10 @@
     <name>Functional Tests</name>
     <packaging>pom</packaging>
 
+    <properties>
+        <debug.args>-Ddebug=ignored</debug.args>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.glassfish.gmbal</groupId>
@@ -31,6 +35,11 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>glassfish-corba-csiv2-idl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>idlj</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -293,11 +302,11 @@
 
         <profile>
             <id>test-with-args</id>
-	    <activation>
-      		<property>
-        	   <name>test.args</name>
-      		</property>
-    	    </activation>
+            <activation>
+                <property>
+                   <name>test.args</name>
+                </property>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
@@ -325,6 +334,18 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+
+        <profile>
+            <id>add-debug-args</id>
+            <activation>
+                <property>
+                   <name>debug.port</name>
+                </property>
+            </activation>
+            <properties>
+                <debug.args>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=localhost:${debug.port}</debug.args>
+            </properties>
         </profile>
     </profiles>
 </project>

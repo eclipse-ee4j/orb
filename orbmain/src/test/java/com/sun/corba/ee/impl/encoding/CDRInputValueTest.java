@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2020, Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,11 +19,18 @@ import org.omg.CORBA.portable.IndirectionException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.InetAddress;
+import java.util.Date;
 
+import static org.hamcrest.Matchers.arrayContaining;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.sameInstance;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class CDRInputValueTest extends ValueTestBase {
 
@@ -33,11 +40,9 @@ public class CDRInputValueTest extends ValueTestBase {
         writeValueTag(ONE_REPID_ID);
         writeRepId(RepositoryId.kWStringValueRepID);
         writeStringValue_1_2("This, too!");
-        setMessageBody( getGeneratedBody() );
 
-        Object object = getInputObject().read_value();
-        assertTrue( object instanceof String);
-        assertEquals("This, too!", object);
+        String string = readValueFromGeneratedBody(String.class);
+        assertEquals("This, too!", string);
     }
 
     @Test
@@ -50,11 +55,8 @@ public class CDRInputValueTest extends ValueTestBase {
         endChunk();
         writeEndTag(-1);
 
-        setMessageBody( getGeneratedBody() );
-
-        Object object = getInputObject().read_value();
-        assertTrue(object instanceof String);
-        assertEquals("This, too!", object);
+        String string = readValueFromGeneratedBody(String.class);
+        assertEquals("This, too!", string);
     }
 
     @Test(expected = MARSHAL.class)
@@ -65,48 +67,38 @@ public class CDRInputValueTest extends ValueTestBase {
         writeWchar_1_2('x');
         writeInt(3);
 
-        setMessageBody( getGeneratedBody() );
-
-        getInputObject().read_value();
+        readValueFromGeneratedBody(Object.class);
     }
-/*
-
-    static final String VALUE1_REPID2 = "RMI:com.sun.corba.ee.impl.encoding.Value1:3E1F37A79F0B1235:F72C4A0542764A7B";
-
-    @Test
-    public void canReadSerializedValueWithMismatchedRepID() throws IOException {
-        writeValueTag(ONE_REPID_ID);
-        writeRepId(VALUE1_REPID2);
-
-        writeWchar_1_2('x');
-        writeInt(7);
-        writeInt(3);
-
-        setMessageBody(getGeneratedBody());
-
-        Object object = getInputObject().read_value();
-        assertTrue(object instanceof Value1);
-        Value1 value1 = (Value1) object;
-        assertEquals('x', value1.aChar);
-        assertEquals(3, value1.anInt);
-    }
-*/
 
     @Test
     public void canReadSerializedValue() throws IOException {
         writeValueTag(ONE_REPID_ID);
-        writeRepId(Value1.REPID);
+        writeRepId(RepositoryId.createForJavaType(AllTypesFields.class));
+        startCustomMarshalingFormat(true);
 
-        writeWchar_1_2('x');
-        writeInt(3);
+        writeByte(1);
+        writeByte(71);
+        writeWchar_1_2('c');
+        writeDouble(10.24);
+        writeFloat(9.87F);
+        writeLong(1234L);
+        writeShort((short) 86);
+        writeInt(752);
+        writeValueTag(ONE_REPID_ID);
+        writeRepId(RepositoryId.kWStringValueRepID);
+        writeStringValue_1_2("Some value");
 
-        setMessageBody( getGeneratedBody() );
+        AllTypesFields object = readValueFromGeneratedBody(AllTypesFields.class);
 
-        Object object = getInputObject().read_value();
-        assertTrue(object instanceof Value1);
-        Value1 value1 = (Value1) object;
-        assertEquals('x', value1.aChar);
-        assertEquals(3, value1.anInt);
+        assertThat(object.getBooleanField(), is(true));
+        assertThat(object.getByteField(), equalTo((byte) 71));
+        assertThat(object.getCharField(), equalTo('c'));
+        assertThat(object.getDoubleField(), equalTo(10.24));
+        assertThat(object.getFloatField(), equalTo(9.87F));
+        assertThat(object.getLongField(), equalTo(1234L));
+        assertThat(object.getIntField(), equalTo(752));
+        assertThat(object.getShortField(), equalTo((short) 86));
+        assertThat(object.getStringField(), equalTo("Some value"));
     }
 
     @Test
@@ -116,10 +108,29 @@ public class CDRInputValueTest extends ValueTestBase {
 
         writeString(Enum1.strange.toString());
 
-        setMessageBody( getGeneratedBody() );
+        Enum1 enum1 = readValueFromGeneratedBody(Enum1.class);
+        assertEquals( Enum1.strange, enum1);
+    }
 
-        Object object = getInputObject().read_value();
-        assertEquals( Enum1.strange, object);
+    @Test
+    public void canReadEnumArray() throws IOException {
+        writeValueTag(ONE_REPID_ID);
+        writeRepId(RepositoryId.createForJavaType(Enum1[].class));
+
+        writeInt(3);   // array size
+        writeValueTag(ONE_REPID_ID);
+        int repIdLocation = getCurrentLocation();
+        writeRepId(RepositoryId.createForJavaType(Enum1.class));
+        writeString("strange");
+        writeValueTag(ONE_REPID_ID);
+        writeIndirectionTo(repIdLocation);
+        writeString("beauty");
+        writeValueTag(ONE_REPID_ID);
+        writeIndirectionTo(repIdLocation);
+        writeString("charm");
+
+        Enum1[] enums = readValueFromGeneratedBody(Enum1[].class);
+        assertThat(enums, arrayContaining(Enum1.strange, Enum1.beauty, Enum1.charm));
     }
 
     @Test
@@ -130,11 +141,7 @@ public class CDRInputValueTest extends ValueTestBase {
         int aByte = 0x45;
         writeByte(aByte);
 
-        setMessageBody( getGeneratedBody() );
-
-        Object object = getInputObject().read_value();
-        assertTrue(object instanceof IDLValue);
-        IDLValue value = (IDLValue) object;
+        IDLValue value = readValueFromGeneratedBody(IDLValue.class);
         assertEquals(0x45, value.aByte);
         assertEquals(0x450, value.anInt);
     }
@@ -184,7 +191,7 @@ public class CDRInputValueTest extends ValueTestBase {
         writeValueTag(ONE_REPID_ID);
         writeRepId(Value1.REPID);
 
-        writeWchar_1_1('x');
+        writeWchar_1_0('x');
         writeInt(3);
         writeIndirectionTo(location);
 
@@ -207,11 +214,7 @@ public class CDRInputValueTest extends ValueTestBase {
         endChunk();
         writeEndTag(-1);
 
-        setMessageBody( getGeneratedBody() );
-
-        Object object = getInputObject().read_value();
-        assertTrue(object instanceof Value1);
-        Value1 value1 = (Value1) object;
+        Value1 value1 = readValueFromGeneratedBody(Value1.class);
         assertEquals('x', value1.aChar);
         assertEquals(3, value1.anInt);
     }
@@ -230,11 +233,7 @@ public class CDRInputValueTest extends ValueTestBase {
         endChunk();
         writeEndTag(-1);
 
-        setMessageBody( getGeneratedBody() );
-
-        Object object = getInputObject().read_value();
-        assertTrue(object instanceof Value1);
-        Value1 value1 = (Value1) object;
+        Value1 value1 = readValueFromGeneratedBody(Value1.class);
         assertEquals('x', value1.aChar);
         assertEquals(3, value1.anInt);
     }
@@ -256,11 +255,7 @@ public class CDRInputValueTest extends ValueTestBase {
         endChunk();
         writeEndTag(-1);
 
-        setMessageBody( getGeneratedBody() );
-
-        Object object = getInputObject().read_value();
-        assertTrue(object instanceof Value2);
-        Value2 value2 = (Value2) object;
+        Value2 value2 = readValueFromGeneratedBody(Value2.class);
         assertEquals(750,value2.aLong);
         assertEquals('x', value2.aValue.aChar);
         assertEquals(3, value2.aValue.anInt);
@@ -284,9 +279,7 @@ public class CDRInputValueTest extends ValueTestBase {
         writeEndTag(-3);
         writeEndTag(-1);
 
-        setMessageBody( getGeneratedBody() );
-
-        getInputObject().read_value();
+        readValueFromGeneratedBody(Value2.class);
     }
 
     @Test
@@ -306,11 +299,7 @@ public class CDRInputValueTest extends ValueTestBase {
         endChunk();
         writeEndTag(-1);
 
-        setMessageBody( getGeneratedBody() );
-
-        Object object = getInputObject().read_value();
-        assertTrue(object instanceof Value2);
-        Value2 value2 = (Value2) object;
+        Value2 value2 = readValueFromGeneratedBody(Value2.class);
         assertEquals(750,value2.aLong);
         assertEquals('x', value2.aValue.aChar);
         assertEquals(3, value2.aValue.anInt);
@@ -376,7 +365,7 @@ public class CDRInputValueTest extends ValueTestBase {
         writeInt(0);  // the serialized form of the MALE constant, produced by writeReplace
         setMessageBody(getGeneratedBody());
 
-        assertThat(getInputObject().read_value(), sameInstance((Serializable) Gender.MALE));
+        assertThat(getInputObject().read_value(), sameInstance(Gender.MALE));
     }
 
     @Test
@@ -401,7 +390,7 @@ public class CDRInputValueTest extends ValueTestBase {
 
         setMessageBody(getGeneratedBody());
 
-        assertThat(getInputObject().read_value(), equalTo((Serializable) InetAddress.getLoopbackAddress()));
+        assertThat(getInputObject().read_value(), equalTo(InetAddress.getLoopbackAddress()));
     }
 
     @Test
@@ -410,7 +399,7 @@ public class CDRInputValueTest extends ValueTestBase {
         writeRepId(Profession.REPID);
 
         startChunk();
-        writeByte(1);    // serial format version
+        startCustomMarshalingFormat(false);
         writeInt(5);
         endChunk();
         writeEndTag(-1);
@@ -422,4 +411,127 @@ public class CDRInputValueTest extends ValueTestBase {
         Profession profession = (Profession) value;
         assertThat(profession.getProfession(), equalTo("Lawyer"));
     }
+
+    /**
+     * The serialization of the java.util.Date class was changed between JDK8 and JDK11
+     */
+    @Test
+    public void readJDK8DateInstance() throws IOException {
+        Date date = readDateInstance(false);
+        assertThat(date.getTime(), equalTo(MSEC));
+    }
+
+    private boolean isJdk8_orEarlier() {
+        return System.getProperty("java.version").startsWith("1.");
+    }
+
+    @Test
+    public void readJDK11DateInstance() throws IOException {
+        Date date = readDateInstance(true);
+        assertThat(date.getTime(), equalTo(MSEC));
+    }
+    
+
+    private Date readDateInstance(boolean defaultWriteObjectCalled) throws IOException {
+        useStreamFormatVersion2();
+        writeValueTag(ONE_REPID_ID | USE_CHUNKING);
+        writeRepId(DATE_REPID);
+
+        startChunk();
+        startCustomMarshalingFormat(defaultWriteObjectCalled);
+        endChunk();
+
+        writeValueTag(ONE_REPID_ID | USE_CHUNKING);
+        writeCustomRepId(DATE_REPID);
+        startChunk();
+        writeLong(MSEC);
+        endChunk();
+        writeEndTag(-1);
+
+        setMessageBody(getGeneratedBody());
+        Serializable value = getInputObject().read_value();
+
+        assertThat(value, instanceOf(Date.class));
+        return (Date) value;
+    }
+
+    @Test
+    public void canReadDerivedValueUsingDefaultMarshalling() throws IOException {
+        writeValueTag(ONE_REPID_ID);
+        writeRepId(DERIVED_VALUE_REPID);
+
+        writeWchar_1_2('x');
+        writeInt(3);
+
+        writeByte(0x34);    // Note that default serialization expects
+        writeShort((short) 24);    //  the primitive fields to be written
+        writeByte(1);       //  in alphabetical order
+
+        DerivedValue value = readValueFromGeneratedBody(DerivedValue.class);
+
+        assertEquals('x', value.aChar);
+        assertEquals(3, value.anInt);
+        assertTrue(value.ready);
+        assertEquals(0x34, value.aByte);
+        assertEquals(24, value.aShort);
+    }
+
+    static final String DERIVED_VALUE_REPID = RepositoryId.createForJavaType(DerivedValue.class);
+
+    @Test
+    public void canReadValueWithCustomMarshaling() throws IOException {
+        useStreamFormatVersion1();
+        writeValueTag(ONE_REPID_ID);
+        writeRepId(CUSTOM_VALUE_REPID);
+        startCustomMarshalingFormat(true);
+        writeDouble(12.34);       // Note that default serialization
+        writeFloat(127.0F);       // expects the primitive fields to be written
+        writeValueTag(ONE_REPID_ID);    // in alphabetical order, followed by the object fields
+        writeRepId(Value1.REPID);
+        writeWchar_1_2('x');
+        writeInt(3);
+
+
+        writeDouble(12.0);
+
+        CustomMarshalledValue value = readValueFromGeneratedBody(CustomMarshalledValue.class);
+
+        assertEquals('x', value.value1.aChar);
+        assertEquals(3, value.value1.anInt);
+        assertEquals(12.34, value.aDouble, 0.01);
+        assertEquals(127.0F, value.aFloat, 0.01);
+        assertEquals(12.0, value.customDouble, 0.01);
+    }
+
+    @Test
+    public void canReadValueWithCustomWriteMarshaling() throws IOException {
+      useStreamFormatVersion1();
+      writeValueTag(ONE_REPID_ID);
+      writeRepId(RepositoryId.createForJavaType(CustomWriteClass.class));
+      startCustomMarshalingFormat(true);
+      writeInt(73);
+
+      CustomWriteClass value = readValueFromGeneratedBody(CustomWriteClass.class);
+
+      assertEquals(73, value.aPositiveValue);
+    }
+
+    @Test
+    public void canReadValueWithCustomReadMarshaling() throws IOException {
+      useStreamFormatVersion1();
+      writeValueTag(ONE_REPID_ID);
+      writeRepId(RepositoryId.createForJavaType(CustomReadClass.class));
+      startCustomMarshalingFormat(false);
+      writeInt(-73);
+
+      CustomReadClass value = readValueFromGeneratedBody(CustomReadClass.class);
+
+      assertEquals(1, value.aPositiveValue);
+    }
+
+    static final String CUSTOM_VALUE_REPID = RepositoryId.createForJavaType(CustomMarshalledValue.class);
+
+    private static final String DATE_REPID = "RMI:" + Date.class.getName() + ":AC117E28FE36587A:686A81014B597419";
+    private static final long MSEC = 1234567;
+
 }

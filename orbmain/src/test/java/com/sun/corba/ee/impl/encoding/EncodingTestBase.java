@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2012, 2020, Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -9,6 +9,12 @@
  */
 
 package com.sun.corba.ee.impl.encoding;
+
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.meterware.simplestub.Stub;
 import com.sun.corba.ee.impl.orb.ORBImpl;
@@ -28,23 +34,22 @@ import com.sun.corba.ee.spi.transport.MessageTraceManager;
 import com.sun.corba.ee.spi.transport.TransportManager;
 import com.sun.org.omg.SendingContext.CodeBase;
 import org.glassfish.corba.testutils.HexBuffer;
+import com.sun.org.omg.CORBA.ValueDefPackage.FullValueDescription;
 import org.junit.Before;
 import org.omg.CORBA.portable.OutputStream;
 import org.omg.CORBA.portable.ValueFactory;
-
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.ArrayList;
-import java.util.List;
 
 import static com.meterware.simplestub.Stub.createStrictStub;
 import static com.sun.corba.ee.impl.encoding.EncodingTestBase.Endian.big_endian;
 import static com.sun.corba.ee.impl.encoding.EncodingTestBase.Endian.little_endian;
 import static com.sun.corba.ee.impl.encoding.EncodingTestBase.Fragments.more_fragments;
 import static com.sun.corba.ee.impl.encoding.EncodingTestBase.Fragments.no_more_fragments;
-import static com.sun.corba.ee.spi.ior.iiop.GIOPVersion.*;
-import static org.junit.Assert.*;
+import static com.sun.corba.ee.spi.ior.iiop.GIOPVersion.V1_0;
+import static com.sun.corba.ee.spi.ior.iiop.GIOPVersion.V1_1;
+import static com.sun.corba.ee.spi.ior.iiop.GIOPVersion.V1_2;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class EncodingTestBase {
     protected static final byte REQUEST = 0;
@@ -77,6 +82,10 @@ public class EncodingTestBase {
         return result;
     }
 
+    byte getFormatVersion() {
+        return formatVersion;
+    }
+
     /** Returns a random value to ensure that the test never reads it. **/
     static byte pad() {
         return (byte) ((int) (Math.random() * 256));
@@ -89,6 +98,7 @@ public class EncodingTestBase {
         orb.transportManager = transportManager;
         mediator.setConnection(connection);
         connection.fragments = fragments;
+        FVDBuilder.initialize(orb);
     }
 
     protected final ORB getOrb() {
@@ -326,6 +336,11 @@ public class EncodingTestBase {
         }
 
         @Override
+        public boolean useByteOrderMarkersInEncapsulations() {
+            return false;
+        }
+
+        @Override
         public boolean useRepId() {
             return useRepId;
         }
@@ -418,6 +433,11 @@ public class EncodingTestBase {
         public String implementation(String s) {
             return null;
         }
+
+        @Override
+        public FullValueDescription meta(String x) {
+            return FVDBuilder.getMeta(x);
+        }
     }
 
     //------------------------------------- fake implementation of a Connection ----------------------------------------
@@ -483,6 +503,7 @@ public class EncodingTestBase {
             byteBuffer.get(buf);
             fragments.add(buf);
         }
+
     }
 
     //---------------------------------- fake implementation of a Message Mediator -------------------------------------

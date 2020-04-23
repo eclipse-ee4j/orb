@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,10 +10,11 @@
 
 package com.sun.corba.ee.impl.encoding;
 
-public enum Enum1 {
-
-    up, down, strange, charm, truth, beauty;
-
-    static final String REPID = "RMI:com.sun.corba.ee.impl.encoding.Enum1:64D47C1D01980B5E:0000000000000000";
-
+/**
+ * A derived class that can be serialized.
+ */
+class DerivedValue extends Value1 {
+  boolean ready;
+  byte aByte;
+  short aShort;
 }
