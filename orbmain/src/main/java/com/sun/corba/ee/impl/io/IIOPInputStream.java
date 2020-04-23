@@ -842,15 +842,12 @@ public class IIOPInputStream
     }
 
     @Override
-    public final synchronized void registerValidation(ObjectInputValidation obj,
-                                                      int prio)
-        throws NotActiveException, InvalidObjectException{
+    public final synchronized void registerValidation(ObjectInputValidation obj, int prio) {
         throw Exceptions.self.registerValidationNotSupport() ;
     }
 
     @Override
-    protected final Class<?> resolveClass(java.io.ObjectStreamClass v)
-        throws IOException, ClassNotFoundException{
+    protected final Class<?> resolveClass(java.io.ObjectStreamClass v) throws IOException {
         throw Exceptions.self.resolveClassNotSupported() ;
     }
 
@@ -865,7 +862,7 @@ public class IIOPInputStream
         try{
             readObjectState.readData(this);
 
-            byte buf[] = new byte[len];
+            byte[] buf = new byte[len];
             orbStream.read_octet_array(buf, 0, len);
             return len;
         } catch (MARSHAL marshalException) {
@@ -1163,7 +1160,7 @@ public class IIOPInputStream
     private boolean readDefaultWriteObjectCalledFlag() throws IOException {
         boolean sentDefaultWriteObjectCalled = readBoolean();
 
-        if (isDateClassWorkaroundRequired()) return getDateClassWorkaroundValue();
+        if (isDateClassWorkaroundRequired()) return getSimulatedDefaultWriteObjectCalledFlag();
         return sentDefaultWriteObjectCalled;
     }
 
@@ -1171,7 +1168,9 @@ public class IIOPInputStream
         return currentClassDesc.getName().equals(Date.class.getName());
     }
 
-    private boolean getDateClassWorkaroundValue() {
+    // In order for the code to be able to deserialize a Date, it must view the defaultWriteObjectFlag as though
+    // it matches the behavior of the local class, which changed in JDK9.
+    private boolean getSimulatedDefaultWriteObjectCalledFlag() {
         return isJdk9_orLater();
     }
 
@@ -2926,7 +2925,7 @@ public class IIOPInputStream
         // Otherwise, it returns a reference to the
         // object.
         public Object getObject(int offset) throws IOException {
-            Integer position = Integer.valueOf(offset);
+            Integer position = offset;
 
             if (!offsetToObjectMap.containsKey(position)) {
                 throw new IOException("Invalid indirection to offset " + offset);
