@@ -17,6 +17,7 @@ import org.omg.CORBA.*;
 import org.omg.CORBA.TypeCodePackage.BadKind;
 
 import java.io.IOException;
+import java.nio.ByteOrder;
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
@@ -461,6 +462,17 @@ public class CDRInputTest extends EncodingTestBase {
         getInputObject().setHeaderPadding(true);
         assertEquals(256, getInputObject().read_long());
         assertEquals(-1, getInputObject().read_long());
+    }
+
+    @Test
+    public void whenMarkIsSetInV1_0_restorePreservesByteOrder() {
+        useV1_0();
+        setMessageBody(1);
+        getInputObject().consumeEndian();
+        assertEquals(ByteOrder.LITTLE_ENDIAN, getInputObject().getByteOrder());
+        getInputObject().mark(0);
+        getInputObject().reset();
+        assertEquals(ByteOrder.LITTLE_ENDIAN, getInputObject().getByteOrder());
     }
 
     @Test
