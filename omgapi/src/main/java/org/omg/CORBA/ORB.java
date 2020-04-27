@@ -282,27 +282,11 @@ abstract public class ORB {
             if (className == null)
                 className = defaultORBSingleton;
 
-            singleton = create_impl_with_systemclassloader(className);
+            singleton = create_impl(className);
         }
         return singleton;
     }
     
-    private static ORB create_impl_with_systemclassloader(String className) {
-        try {
-            checkPackageAccess(className);
-            ClassLoader cl = ClassLoader.getSystemClassLoader();
-            Class<org.omg.CORBA.ORB> orbBaseClass = org.omg.CORBA.ORB.class;
-            Class<?> singletonOrbClass = Class.forName(className, true, cl).asSubclass(orbBaseClass);
-            return (ORB)singletonOrbClass.newInstance();
-        } catch (Throwable ex) {
-            SystemException systemException = new INITIALIZE(
-                "can't instantiate default ORB implementation " + className);
-            systemException.initCause(ex);
-            throw systemException;
-        }
-
-    }
-
     private static ORB create_impl(String className) {
         
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
