@@ -230,6 +230,21 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
   {
     Vector labels = vectorizeLabels (u.branches (), true);
 
+    // #hd# bugfix for http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4504275 from 
+    // https://www.programcreek.com/java-api-examples/?code=jboss/openjdk-orb/openjdk-orb-master/src/share/classes/com/sun/tools/corba/se/idl/toJavaPortable/UnionGen.java
+    if (Util.javaName(utype).equals ("boolean")) {
+        stream.println( "" ) ;
+        stream.println( "  private void verifyDefault (boolean discriminator)" ) ;
+        stream.println( "  {" ) ;
+        if (labels.contains ("true"))
+            stream.println ("    if ( discriminator )");
+        else
+            stream.println ("    if ( !discriminator )");
+        stream.println( "        throw new org.omg.CORBA.BAD_OPERATION();" ) ;
+        stream.println( "  }" ) ;
+        return;
+    }
+
     stream.println( "" ) ;
     stream.println( "  private void verifyDefault( " + com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaName(utype) +
         " value )" ) ;
