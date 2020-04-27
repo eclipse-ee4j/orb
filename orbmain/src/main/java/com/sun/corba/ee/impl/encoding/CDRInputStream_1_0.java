@@ -1920,6 +1920,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
             valueHandler_ = valueHandler;
             specialNoOptionalDataState_ = specialNoOptionalDataState;
             byteBuffer_ = byteBuffer.duplicate();
+            byteBuffer_.order(byteBuffer.order());
         }
     }
 
