@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2018, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,7 +14,7 @@
  */
 package orb.folb;
 
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 import java.net.InetAddress;
 import java.util.Properties;
 import java.util.Enumeration;

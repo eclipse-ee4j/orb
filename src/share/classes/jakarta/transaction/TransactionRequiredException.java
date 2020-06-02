@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -9,7 +9,7 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-package javax.transaction;
+package jakarta.transaction;
 
 /**
  * This exception indicates that a request carried a null transaction context,

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -35,9 +35,9 @@ import org.omg.CORBA.portable.UnknownException;
 
 import javax.rmi.CORBA.Tie;
 import javax.rmi.CORBA.ValueHandler;
-import javax.transaction.InvalidTransactionException;
-import javax.transaction.TransactionRequiredException;
-import javax.transaction.TransactionRolledbackException;
+import jakarta.transaction.InvalidTransactionException;
+import jakarta.transaction.TransactionRequiredException;
+import jakarta.transaction.TransactionRolledbackException;
 import java.io.NotSerializableException;
 import java.io.Serializable;
 import java.rmi.AccessException;
