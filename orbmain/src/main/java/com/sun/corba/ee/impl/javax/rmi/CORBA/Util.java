@@ -35,9 +35,7 @@ import org.omg.CORBA.portable.UnknownException;
 
 import javax.rmi.CORBA.Tie;
 import javax.rmi.CORBA.ValueHandler;
-import javax.transaction.InvalidTransactionException;
-import javax.transaction.TransactionRequiredException;
-import javax.transaction.TransactionRolledbackException;
+
 import java.io.NotSerializableException;
 import java.io.Serializable;
 import java.rmi.AccessException;
@@ -55,6 +53,8 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.lang.Object;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 // These classes only exist in Java SE 6 and later.
 // This class must be able to function with non-Sun ORBs.
@@ -195,16 +195,48 @@ public class Util implements javax.rmi.CORBA.UtilDelegate
             RemoteException newEx = new NoSuchObjectException(message);
             newEx.detail = ex;
             return newEx;
-        } else if (ex instanceof TRANSACTION_REQUIRED) {
-            RemoteException newEx = new TransactionRequiredException(message);
-            newEx.detail = ex;
-            return newEx;
-        } else if (ex instanceof TRANSACTION_ROLLEDBACK) {
-            RemoteException newEx = new TransactionRolledbackException(message);
-            newEx.detail = ex;
-            return newEx;
-        } else if (ex instanceof INVALID_TRANSACTION) {
-            RemoteException newEx = new InvalidTransactionException(message);
+        } else if (ex instanceof TRANSACTION_REQUIRED || ex instanceof TRANSACTION_ROLLEDBACK || ex instanceof INVALID_TRANSACTION) {
+            RemoteException newEx;           
+            Class<RemoteException> clazz = null;
+            if (ex instanceof TRANSACTION_REQUIRED) {
+                try {
+                    clazz = (Class<RemoteException>) Class.forName("javax.transaction.TransactionRequiredException", true, Thread.currentThread().getContextClassLoader());
+                } catch (ClassNotFoundException ex1) {
+                        try {
+                            clazz = (Class<RemoteException>) Class.forName("jakarta.transaction.TransactionRequiredException", true, Thread.currentThread().getContextClassLoader());
+                        } catch (ClassNotFoundException ex2) {
+                    }
+                }
+            } else if (ex instanceof TRANSACTION_ROLLEDBACK) {
+                try {
+                    clazz = (Class<RemoteException>) Class.forName("javax.transaction.TransactionRolledbackException", true, Thread.currentThread().getContextClassLoader());
+                } catch (ClassNotFoundException ex1) {
+                        try {
+                            clazz = (Class<RemoteException>) Class.forName("jakarta.transaction.TransactionRolledbackException", true, Thread.currentThread().getContextClassLoader());
+                        } catch (ClassNotFoundException ex2) {
+                        }
+                }                
+            } else {
+                try {
+                    clazz = (Class<RemoteException>) Class.forName("javax.transaction.InvalidTransactionException", true, Thread.currentThread().getContextClassLoader());
+                } catch (ClassNotFoundException ex1) {
+                        try {
+                            clazz = (Class<RemoteException>) Class.forName("jakarta.transaction.InvalidTransactionException", true, Thread.currentThread().getContextClassLoader());
+                        } catch (ClassNotFoundException ex2) {
+                        }
+                }                   
+            }
+            
+            if (clazz == null) {
+                newEx = new RemoteException(message);
+            } else {
+                try {
+                    Constructor<RemoteException> constructor = clazz.getDeclaredConstructor(String.class);
+                    newEx = constructor.newInstance(message);
+                } catch (IllegalAccessException | IllegalArgumentException | InstantiationException | NoSuchMethodException | SecurityException | InvocationTargetException ex1) {
+                    newEx = new RemoteException(message);
+                } 
+            }
             newEx.detail = ex;
             return newEx;
         } else if (ex instanceof BAD_PARAM) {
