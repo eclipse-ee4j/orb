@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 202 Payara Services Limited
+ * Copyright (c) 2020 Payara Services Limited
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,7 +16,6 @@ import org.omg.CORBA.SystemException;
 import org.omg.CORBA.TRANSACTION_ROLLEDBACK;
 
 import static org.junit.Assert.assertTrue;
-import org.omg.CORBA.INVALID_ACTIVITY;
 import org.omg.CORBA.INVALID_TRANSACTION;
 import org.omg.CORBA.TRANSACTION_REQUIRED;
 
