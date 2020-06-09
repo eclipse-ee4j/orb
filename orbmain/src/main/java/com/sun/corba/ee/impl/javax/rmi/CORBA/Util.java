@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. 
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -195,48 +195,16 @@ public class Util implements javax.rmi.CORBA.UtilDelegate
             RemoteException newEx = new NoSuchObjectException(message);
             newEx.detail = ex;
             return newEx;
-        } else if (ex instanceof TRANSACTION_REQUIRED || ex instanceof TRANSACTION_ROLLEDBACK || ex instanceof INVALID_TRANSACTION) {
-            RemoteException newEx;           
-            Class<RemoteException> clazz = null;
-            if (ex instanceof TRANSACTION_REQUIRED) {
-                try {
-                    clazz = (Class<RemoteException>) Class.forName("javax.transaction.TransactionRequiredException", true, Thread.currentThread().getContextClassLoader());
-                } catch (ClassNotFoundException ex1) {
-                        try {
-                            clazz = (Class<RemoteException>) Class.forName("jakarta.transaction.TransactionRequiredException", true, Thread.currentThread().getContextClassLoader());
-                        } catch (ClassNotFoundException ex2) {
-                    }
-                }
-            } else if (ex instanceof TRANSACTION_ROLLEDBACK) {
-                try {
-                    clazz = (Class<RemoteException>) Class.forName("javax.transaction.TransactionRolledbackException", true, Thread.currentThread().getContextClassLoader());
-                } catch (ClassNotFoundException ex1) {
-                        try {
-                            clazz = (Class<RemoteException>) Class.forName("jakarta.transaction.TransactionRolledbackException", true, Thread.currentThread().getContextClassLoader());
-                        } catch (ClassNotFoundException ex2) {
-                        }
-                }                
-            } else {
-                try {
-                    clazz = (Class<RemoteException>) Class.forName("javax.transaction.InvalidTransactionException", true, Thread.currentThread().getContextClassLoader());
-                } catch (ClassNotFoundException ex1) {
-                        try {
-                            clazz = (Class<RemoteException>) Class.forName("jakarta.transaction.InvalidTransactionException", true, Thread.currentThread().getContextClassLoader());
-                        } catch (ClassNotFoundException ex2) {
-                        }
-                }                   
-            }
-            
-            if (clazz == null) {
-                newEx = new RemoteException(message);
-            } else {
-                try {
-                    Constructor<RemoteException> constructor = clazz.getDeclaredConstructor(String.class);
-                    newEx = constructor.newInstance(message);
-                } catch (IllegalAccessException | IllegalArgumentException | InstantiationException | NoSuchMethodException | SecurityException | InvocationTargetException ex1) {
-                    newEx = new RemoteException(message);
-                } 
-            }
+        } else if (ex instanceof TRANSACTION_REQUIRED) {
+            RemoteException newEx = createTransactionException("TransactionRequiredException", message);
+            newEx.detail = ex;
+            return newEx;
+        } else if (ex instanceof TRANSACTION_ROLLEDBACK) {
+            RemoteException newEx = createTransactionException("TransactionRolledbackException", message);
+            newEx.detail = ex;
+            return newEx;
+        } else if (ex instanceof INVALID_TRANSACTION) {
+            RemoteException newEx = createTransactionException("InvalidTransactionException", message);
             newEx.detail = ex;
             return newEx;
         } else if (ex instanceof BAD_PARAM) {
@@ -750,6 +718,39 @@ public class Util implements javax.rmi.CORBA.UtilDelegate
         } finally {
             OperationTracer.disable();
             OperationTracer.finish(); 
+        }
+    }
+    
+    /**
+     * Tries to find the correct remote exception to instantiate depending on whether
+     * javax.transaction or jakarta.transaction is on the classpath
+     * @param className Base class name of the exception
+     * @param message Message to add to the exception
+     * @return 
+     */
+    private RemoteException createTransactionException(String className, String message){
+        
+        Class clazz = null;
+        RemoteException ex = new RemoteException(message);
+        try {
+            clazz = (Class<RemoteException>) Class.forName("javax.transaction."+ className, true, Thread.currentThread().getContextClassLoader());
+        } catch (ClassNotFoundException ex1) {
+            try {
+                clazz = (Class<RemoteException>) Class.forName("jakarta.transaction." + className, true, Thread.currentThread().getContextClassLoader());
+            } catch (ClassNotFoundException ex2) {
+                // we can't find either on the classpath return a general Remote Exception
+                return  new RemoteException(message);
+            }
+        }
+        
+        try {
+            // construct an instance of the exception
+            Constructor<RemoteException> constructor = clazz.getDeclaredConstructor(String.class);
+            ex = constructor.newInstance(message);
+            return ex;
+        } catch (IllegalAccessException | IllegalArgumentException | InstantiationException | NoSuchMethodException | SecurityException | InvocationTargetException ex1) {
+            // there is a problem creating an exception instance so return a general RemoteException
+            return new RemoteException(message);
         }
     }
 }
