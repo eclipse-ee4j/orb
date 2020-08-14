@@ -733,10 +733,10 @@ public class Util implements javax.rmi.CORBA.UtilDelegate
         Class clazz = null;
         RemoteException ex = new RemoteException(message);
         try {
-            clazz = (Class<RemoteException>) Class.forName("javax.transaction."+ className, true, Thread.currentThread().getContextClassLoader());
+            clazz = (Class<RemoteException>) Class.forName("jakarta.transaction."+ className, true, Thread.currentThread().getContextClassLoader());
         } catch (ClassNotFoundException ex1) {
             try {
-                clazz = (Class<RemoteException>) Class.forName("jakarta.transaction." + className, true, Thread.currentThread().getContextClassLoader());
+                clazz = (Class<RemoteException>) Class.forName("javax.transaction." + className, true, Thread.currentThread().getContextClassLoader());
             } catch (ClassNotFoundException ex2) {
                 // we can't find either on the classpath return a general Remote Exception
                 return  new RemoteException(message);
