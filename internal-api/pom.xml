@@ -15,7 +15,7 @@
     <parent>
         <artifactId>glassfish-corba</artifactId>
         <groupId>org.glassfish.corba</groupId>
-        <version>4.2.3-SNAPSHOT</version>
+        <version>4.2.3-RC1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

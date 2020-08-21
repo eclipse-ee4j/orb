@@ -21,7 +21,7 @@
 
     <groupId>org.glassfish.corba</groupId>
     <artifactId>glassfish-corba</artifactId>
-    <version>4.2.3-SNAPSHOT</version>
+    <version>4.2.3-RC1</version>
     <name>ORB Implementation</name>
     <packaging>pom</packaging>
     <description>A CORBA ORB for Glassfish</description>
