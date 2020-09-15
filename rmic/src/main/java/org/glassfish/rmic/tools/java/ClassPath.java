@@ -89,7 +89,7 @@ class ClassPath {
             n++; i++;
         }
         // Build the class path
-        ClassPathEntry[] path = new ClassPathEntry[n+1];
+        ClassPathEntry[] path = new ClassPathEntry[n+2];
 
         int len = pathstr.length();
         for (i = n = 0; i < len; i = j + 1) {
