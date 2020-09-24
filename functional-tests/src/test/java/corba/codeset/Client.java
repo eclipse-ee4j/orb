@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -145,12 +146,12 @@ public class Client
 
         System.out.println("Testing code set list parsing...");
 
-        StringBuffer list1 = new StringBuffer();
+        StringBuilder list1 = new StringBuilder();
         list1.append(OSFCodeSetRegistry.ISO_8859_1.getNumber());
         list1.append(",0x");
         list1.append(Integer.toHexString(OSFCodeSetRegistry.UTF_8.getNumber()));
 
-        StringBuffer list2 = new StringBuffer();
+        StringBuilder list2 = new StringBuilder();
         list2.append("0x");
         list2.append(Integer.toHexString(OSFCodeSetRegistry.UTF_16.getNumber()));
         list2.append(", ");

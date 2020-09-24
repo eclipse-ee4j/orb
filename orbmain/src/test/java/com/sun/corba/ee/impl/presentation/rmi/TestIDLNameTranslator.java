@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -287,10 +288,9 @@ public class TestIDLNameTranslator extends TestCase {
         }
         
         private String getMethodString(Method m) {
-            StringBuffer methodStr = new StringBuffer(m.getName());
+            StringBuilder methodStr = new StringBuilder(m.getName());
             Class[] params = m.getParameterTypes();
-            for(int i = 0; i < params.length; i++) {
-                Class next = params[i];                
+            for (Class<?> next : params) {
                 methodStr.append("|");                                        
                 methodStr.append(next.getName());
             }

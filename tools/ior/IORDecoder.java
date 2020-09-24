@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -188,7 +189,7 @@ public class IORDecoder implements Utility
     public void printBuffer(byte[] buffer, 
                             TextOutputHandler out) {
 
-        StringBuffer msg = new StringBuffer();
+        StringBuilder msg = new StringBuilder();
         char[] charBuf = new char[16];
 
         for (int i = 0; i < buffer.length; i += 16) {

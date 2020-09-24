@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,9 +24,10 @@ public class TesterImpl extends PortableRemoteObject implements Tester
         return "Tester supports a remote method, String passString(String)";
     }
 
+    @Override
     public String passString(String theString) throws RemoteException {
         // reverse the string and send it back
-        StringBuffer sb = new StringBuffer(theString.length());
+        StringBuilder sb = new StringBuilder(theString.length());
         for (int i = (theString.length() - 1); i >= 0; i--) {
             sb.append(theString.charAt(i));
         }

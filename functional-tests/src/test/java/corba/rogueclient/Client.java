@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -30,7 +31,7 @@ public class Client extends Thread
     private static String tmpString = null;
 
     private static void initializeReallyBigString() {
-        StringBuffer sb = new StringBuffer(stringSize);
+        StringBuilder sb = new StringBuilder(stringSize);
         int index = 0;
         final int lengthOfStr = stringOf36.length();
         for (int i = 0; i < stringSize; i++) {

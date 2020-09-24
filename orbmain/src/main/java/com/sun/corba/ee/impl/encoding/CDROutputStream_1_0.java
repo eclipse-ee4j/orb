@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -1462,7 +1463,6 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
         String string = bigDecimal.toString();
         String integerPart;
         String fractionPart;
-        StringBuffer stringBuffer;
 
         // Get rid of the sign
         if (string.charAt(0) == '-' || string.charAt(0) == '+') {
@@ -1483,7 +1483,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
         }
 
         // Pad both parts with zeros as necessary
-        stringBuffer = new StringBuffer(digits);
+        StringBuilder stringBuffer = new StringBuilder(digits);
         if (fractionPart != null) {
             stringBuffer.append(fractionPart);
         }

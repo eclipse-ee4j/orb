@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -230,8 +231,7 @@ public class StubIORImpl implements Serializable
             equalArrays( profileData, other.profileData ) ;
     }
 
-    private void appendByteArray( StringBuffer result, byte[] data )
-    {
+    private void appendByteArray(StringBuilder result, byte[] data ) {
         for ( int ctr=0; ctr<data.length; ctr++ ) {
             result.append( Integer.toHexString( data[ctr] ) ) ;
         }
@@ -246,7 +246,7 @@ public class StubIORImpl implements Serializable
     @Override
     public String toString() 
     {
-        StringBuffer result = new StringBuffer() ;
+        StringBuilder result = new StringBuilder() ;
         result.append( "SimpleIORImpl[" ) ;
         String repositoryId = new String( typeData ) ;
         result.append( repositoryId ) ;

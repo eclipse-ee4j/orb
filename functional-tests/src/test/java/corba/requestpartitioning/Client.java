@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -39,7 +40,7 @@ public class Client
     }
 
     protected void initializeReallyBigString() {
-        StringBuffer sb = new StringBuffer(stringSize);
+        StringBuilder sb = new StringBuilder(stringSize);
         int index = 0;
         final int lengthOfStr = stringOf36.length();
         for (int i = 0; i < stringSize; i++) {
@@ -51,7 +52,7 @@ public class Client
 
     protected void printError(int myPoolId, int remotePoolId)
             throws Exception {
-        StringBuffer error =  new StringBuffer(80);
+        StringBuilder error =  new StringBuilder(80);
         error.append("FAILED: client requested thread pool id (");
         error.append(myPoolId);
         error.append(") not executed on expected server thread pool id (");

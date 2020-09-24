@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -98,9 +99,9 @@ public class NamingUtils {
      * This is used mainly for Logging.
      */
     static String getDirectoryStructuredName( NameComponent[] name ) {
-        StringBuffer directoryStructuredName = new StringBuffer("/"); 
-        for( int i = 0; i < name.length; i++ ) {
-            directoryStructuredName.append( name[i].id + "." + name[i].kind );
+        StringBuilder directoryStructuredName = new StringBuilder("/"); 
+        for (NameComponent component : name) {
+            directoryStructuredName.append(component.id).append(".").append(component.kind);
         }
         return directoryStructuredName.toString( );
     }

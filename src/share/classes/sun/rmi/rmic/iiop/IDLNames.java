@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -353,7 +354,7 @@ public class IDLNames implements sun.rmi.rmic.iiop.Constants {
      */
     public static String getArrayName (Type theType, int arrayDimension) {
 
-        StringBuffer idlName = new StringBuffer(64);
+        StringBuilder idlName = new StringBuilder(64);
 
         // Prefix with seq<n>_...
                 
@@ -615,7 +616,7 @@ public class IDLNames implements sun.rmi.rmic.iiop.Constants {
                         
                         // No, so convert the first character to lower case...
                         
-                        StringBuffer buffer = new StringBuffer(name);
+                        StringBuilder buffer = new StringBuilder(name);
                         buffer.setCharAt(0,Character.toLowerCase(name.charAt(0)));
                         names[i] = buffer.toString();
                     }
@@ -1116,7 +1117,7 @@ public class IDLNames implements sun.rmi.rmic.iiop.Constants {
             // We have at least one match, so gotta do the
             // work...
             
-            StringBuffer result = new StringBuffer(source.length() + 16);
+            StringBuilder result = new StringBuilder(source.length() + 16);
             int matchLength = match.length();
             int startIndex = 0;
                 

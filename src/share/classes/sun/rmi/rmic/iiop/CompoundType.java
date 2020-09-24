@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -2130,7 +2131,7 @@ public abstract class CompoundType extends Type {
 
             if (stringRep == null) {
 
-                StringBuffer result = new StringBuffer(returnType.toString());
+                StringBuilder result = new StringBuilder(returnType.toString());
 
                 // Add name...
 

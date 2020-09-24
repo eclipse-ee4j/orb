@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -411,7 +412,7 @@ public class Util {
         command.copyInto(arg);
 
         if (debugLevel >= Test.DISPLAY) {
-            StringBuffer buff = new StringBuffer() ;
+            StringBuilder buff = new StringBuilder() ;
             buff.append( "startProcess: about to exec:" ) ;
             for (int ctr=0; ctr<command.size(); ctr++ ) {
                 buff.append( " " ) ;
