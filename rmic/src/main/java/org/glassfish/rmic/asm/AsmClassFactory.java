@@ -52,7 +52,8 @@ public class AsmClassFactory implements ClassDefinitionFactory {
         try {
             int latest = 0;
             for (Field field : Opcodes.class.getDeclaredFields()) {
-                if (field.getName().startsWith("ASM") && field.getType().equals(int.class)) {
+                if (field.getName().startsWith("ASM") && field.getType().equals(int.class)
+                    && field.getAnnotation(Deprecated.class) == null) {
                     latest = Math.max(latest, field.getInt(Opcodes.class));
                 }
             }
