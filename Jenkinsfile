@@ -26,51 +26,11 @@ pipeline {
     // global timeout, abort after 6 hours
     timeout(time: 20, unit: 'MINUTES')
   }
-  agent {
-    kubernetes {
-      label "${env.label}"
-      defaultContainer 'jnlp'
-      yaml """
-apiVersion: v1
-kind: Pod
-metadata:
-spec:
-  volumes:
-    - name: maven-repo-shared-storage
-      persistentVolumeClaim:
-       claimName: glassfish-maven-repo-storage
-    - name: maven-repo-local-storage
-      emptyDir: {}
-  containers:
-  - name: jnlp
-    image: jenkins/jnlp-slave:alpine
-    imagePullPolicy: IfNotPresent
-    volumeMounts:
-    env:
-      - name: JAVA_TOOL_OPTIONS
-        value: -Xmx1G
-    resources:
-      limits:
-        memory: "1Gi"
-        cpu: "1"
-  - name: build-container
-    image: ee4jglassfish/ci:jdk-8.181
-    args:
-    - cat
-    tty: true
-    imagePullPolicy: Always
-    volumeMounts:
-      - mountPath: "/home/jenkins/.m2/repository"
-        name: maven-repo-shared-storage
-      - mountPath: "/home/jenkins/.m2/repository/org/glassfish/"
-        name: maven-repo-local-storage
-    resources:
-      limits:
-        memory: "7Gi"
-        cpu: "3"
-"""
+  agent any
+      tools {
+        maven 'apache-maven-latest'
+        jdk 'adoptopenjdk-hotspot-jdk8-latest'
     }
-  }
   stages {
     stage('build') {
       steps {
