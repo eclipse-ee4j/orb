@@ -23,7 +23,7 @@ pipeline {
     skipStagesAfterUnstable()
     // show timestamps in logs
     timestamps()
-    // global timeout, abort after 6 hours
+    // timeout, abort after 20 minutes
     timeout(time: 20, unit: 'MINUTES')
   }
   agent any
