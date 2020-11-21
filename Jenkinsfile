@@ -34,12 +34,8 @@ pipeline {
   stages {
     stage('build') {
       steps {
-        container('build-container') {
-          timeout(time: 10, unit: 'MINUTES') {
             sh 'mvn -Pstaging clean install'
             junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
-          }
-        }
       }
     }
   }
