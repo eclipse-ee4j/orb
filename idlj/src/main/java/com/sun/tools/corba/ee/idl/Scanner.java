@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -501,7 +502,7 @@ class Scanner
   private String getWString() throws IOException
   {
       readChar();
-      StringBuffer result = new StringBuffer();
+      StringBuilder result = new StringBuilder();
 
       while (data.ch != '"') {
           if (data.ch == '\\') {
@@ -624,7 +625,7 @@ class Scanner
 
   private com.sun.tools.corba.ee.idl.Token getString () throws IOException
   {
-    StringBuffer sbuf = new StringBuffer() ;
+    StringBuilder sbuf = new StringBuilder() ;
     boolean escaped = false;  // <d59166>
     boolean[] collidesWithKeyword = { false } ;  // <d62023>
 
@@ -1203,7 +1204,7 @@ class Scanner
    **/
   private String getLineComment () throws IOException
   {
-    StringBuffer sb = new StringBuffer( "/" );
+    StringBuilder sb = new StringBuilder( "/" );
     while (data.ch != '\n')
     {
       if (data.ch != '\r')
@@ -1218,7 +1219,7 @@ class Scanner
    **/
   private String getBlockComment () throws IOException
   {
-    StringBuffer sb = new StringBuffer ("/*");
+    StringBuilder sb = new StringBuilder("/*");
     try
     {
       boolean done = false;

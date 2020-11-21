@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -50,10 +51,11 @@ public class DebugExec extends ExternalExec
             + File.separator
             + "jdb";
 
-        StringBuffer cmd = new StringBuffer(jdb);
+        StringBuilder cmd = new StringBuilder(jdb);
 
-        for (int i = 1; i < command.length; i++)
-            cmd.append(' ' + command[i]);
+        for (int i = 1; i < command.length; i++) {
+            cmd.append(' ').append(command[i]);
+        }
 
         return cmd.toString();
     }

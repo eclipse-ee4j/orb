@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -221,11 +222,8 @@ public class ORBManager
     }
 
     private static void checkAdditionalORBListeners(Properties props) {
-        StringBuffer listenSockets = new StringBuffer("");
-        listenSockets.append(
-            (listenSockets.length()>0 ? "," : "")
-            + "FOO" + ":" + 2000
-            );
+        StringBuilder listenSockets = new StringBuilder("");
+        listenSockets.append(listenSockets.length()>0 ? "," : "").append("FOO:").append(2000);
         // Both ways work.
         //props.setProperty(ORB_LISTEN_SOCKET_PROPERTY, listenSockets.toString());
         System.setProperty(ORB_LISTEN_SOCKET_PROPERTY, listenSockets.toString());

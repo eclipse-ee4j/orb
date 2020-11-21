@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
- * Copyright (c) 2019 Payara Services Ltd.
+ * Copyright (c) 2019-2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -921,7 +921,7 @@ public class RepositoryId {
         if (length == 0) {
             return name;
         }
-        StringBuffer buffer = null;
+        StringBuilder buffer = null;
 
         for (int i = 0; i < length; i++) {
 
@@ -935,16 +935,15 @@ public class RepositoryId {
 
                     // No, so get set up...
 
-                    buffer = new StringBuffer(name.substring(0,i));
+                    buffer = new StringBuilder(name.substring(0,i));
                 }
 
                 // Convert the character into the IDL escape syntax...
-                buffer.append(
-                              "\\U" +
-                              (char)ASCII_HEX[(c & 0xF000) >>> 12] +
-                              (char)ASCII_HEX[(c & 0x0F00) >>> 8] +
-                              (char)ASCII_HEX[(c & 0x00F0) >>> 4] +
-                              (char)ASCII_HEX[(c & 0x000F)]);
+                buffer.append("\\U")
+                        .append((char)ASCII_HEX[(c & 0xF000) >>> 12])
+                        .append((char)ASCII_HEX[(c & 0x0F00) >>> 8])
+                        .append((char)ASCII_HEX[(c & 0x00F0) >>> 4])
+                        .append((char)ASCII_HEX[(c & 0x000F)]);
                         
             } else {
                 if (buffer != null) {
@@ -969,7 +968,7 @@ public class RepositoryId {
     private static String convertFromISOLatin1 (String name) {
 
         int index = -1;
-        StringBuffer buf = new StringBuffer(name);
+        StringBuilder buf = new StringBuilder(name);
 
         while ((index = buf.toString().indexOf("\\U")) != -1){
             String str = "0000" + buf.toString().substring(index+2, index+6);
@@ -982,7 +981,7 @@ public class RepositoryId {
                 buffer[j] |= 
                     (byte)((Utility.hexOf(str.charAt(i+1)) << 0) & 0x0F);
             }            
-            buf = new StringBuffer(delete(buf.toString(), index, index+6));
+            buf = new StringBuilder(delete(buf.toString(), index, index+6));
             buf.insert(index, (char)buffer[1]);
         }
         

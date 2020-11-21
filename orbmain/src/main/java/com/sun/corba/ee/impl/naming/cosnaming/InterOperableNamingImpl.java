@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -307,8 +308,8 @@ public class InterOperableNamingImpl
             return theString;
         }
         else {
-            StringBuffer src = new StringBuffer( theString );
-            StringBuffer dest = new StringBuffer( );
+            String src = theString;
+            StringBuilder dest = new StringBuilder();
             char c;
             for( int i = 0; i < theString.length( ); i++ ) {
                 c = src.charAt( i );

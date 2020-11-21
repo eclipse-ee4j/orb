@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -27,7 +28,7 @@ public class FragmentTest extends CORBATest {
                                 int serverVersion,
                                 int serverStrategy)
     {
-        StringBuffer output = new StringBuffer(80);
+        StringBuilder output = new StringBuilder(80);
 
         // Pleasing aesthetics
         output.append("      ");
@@ -47,7 +48,7 @@ public class FragmentTest extends CORBATest {
     private String testName(int clientVersion, int clientStrategy, int 
         serverVersion, int serverStrategy) {
 
-        StringBuffer output = new StringBuffer(80);
+        StringBuilder output = new StringBuilder(80);
 
         output.append(GIOP_version[clientVersion]);
         output.append("_");

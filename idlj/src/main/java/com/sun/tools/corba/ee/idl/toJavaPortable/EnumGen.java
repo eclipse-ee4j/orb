@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -178,13 +179,13 @@ public class EnumGen implements com.sun.tools.corba.ee.idl.EnumGen, JavaGenerato
 
   ///////////////
   // From JavaGenerator
-
+  @Override
   public int helperType (int index, String indent, com.sun.tools.corba.ee.idl.toJavaPortable.TCOffsets tcoffsets, String name, SymtabEntry entry, PrintWriter stream)
   {
     tcoffsets.set (entry);
     EnumEntry enumEntry = (EnumEntry)entry;
-    StringBuffer emit = new StringBuffer ("new String[] { ");
-    Enumeration e = enumEntry.elements ().elements ();
+    StringBuilder emit = new StringBuilder("new String[] { ");
+    Enumeration<String> e = enumEntry.elements ().elements ();
     boolean firstTime = true;
     while (e.hasMoreElements ())
     {
@@ -192,7 +193,7 @@ public class EnumGen implements com.sun.tools.corba.ee.idl.EnumGen, JavaGenerato
         firstTime = false;
       else
         emit.append (", ");
-      emit.append ('"' + com.sun.tools.corba.ee.idl.toJavaPortable.Util.stripLeadingUnderscores((String) e.nextElement()) + '"');
+      emit.append('"').append(com.sun.tools.corba.ee.idl.toJavaPortable.Util.stripLeadingUnderscores(e.nextElement())).append ('"');
     }
     emit.append ("} ");
     stream.println (indent + name + " = org.omg.CORBA.ORB.init ().create_enum_tc ("

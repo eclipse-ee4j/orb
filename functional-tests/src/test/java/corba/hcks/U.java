@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -722,10 +723,10 @@ public class U
     {
         StringBuffer sb = formatCall(ref, methodName, args);
         sb.append(newlineTab);
-        sb.append("expected " + expectedType + ": ");
+        sb.append("expected ").append(expectedType).append(": ");
         sb.append(expected);
         sb.append(newlineTab);
-        sb.append("but got " + resultType + ": ");
+        sb.append("but got ").append(resultType).append(": ");
         sb.append(result);
         reportError(sb.toString(), (Throwable)exception);
     }

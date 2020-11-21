@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -193,7 +194,7 @@ public class StreamReader extends Thread
     private String formatInputReceived()
     {
         boolean headerWritten = false;
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         Iterator i = inputReceived.iterator();
         while (i.hasNext()) {
             if (! headerWritten) {
@@ -201,7 +202,7 @@ public class StreamReader extends Thread
                 headerWritten = true;
             }
             String line = (String) i.next();
-            sb.append(line + '\n');
+            sb.append(line).append('\n');
         }
         return sb.toString();
     }

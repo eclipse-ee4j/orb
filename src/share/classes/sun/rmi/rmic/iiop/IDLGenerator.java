@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -1377,13 +1378,13 @@ public class IDLGenerator extends sun.rmi.rmic.iiop.Generator {
      * @param t Given Type
      * @return Array containing the original module nesting.
      */
-    protected String getQualifiedName(
-                                      Type t ) {
+    protected String getQualifiedName(Type t ) {
         String[] modNames = getIDLModuleNames( t );
         int len = modNames.length;
-        StringBuffer buf = new StringBuffer();
-        for ( int i1 = 0; i1 < len; i1++ )
-            buf.append( modNames[i1] + "." );
+        StringBuilder buf = new StringBuilder();
+        for ( int i1 = 0; i1 < len; i1++ ) {
+            buf.append(modNames[i1]).append(".");
+        }
         buf.append( t.getIDLName() );
         return buf.toString();
     }
@@ -1405,7 +1406,7 @@ public class IDLGenerator extends sun.rmi.rmic.iiop.Generator {
         String[] modNames = getIDLModuleNames( t );
         int len = modNames.length;
         if (len > 0) {
-            StringBuffer buf = new StringBuffer();
+            StringBuilder buf = new StringBuilder();
             for ( int i1 = 0; i1 < len; i1++ )
                 buf.append( IDL_NAME_SEPARATOR + modNames[i1] );
             buf.append( IDL_NAME_SEPARATOR + t.getIDLName() );

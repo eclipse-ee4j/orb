@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -102,14 +103,14 @@ public class GroupInfoServiceTestServant
     {
         try {
             dprint(".doThreadDump->:\n");
-            StringBuffer buf = new StringBuffer();
+            StringBuilder buf = new StringBuilder();
             for (Map.Entry<Thread, StackTraceElement[]> entry :
                      Thread.getAllStackTraces().entrySet())
             {
                 buf.append("\n");
-                buf.append(entry.getKey().toString() + "\n");
+                buf.append(entry.getKey().toString()).append("\n");
                 for (StackTraceElement element : entry.getValue()) {
-                    buf.append(element.toString() + "\n");
+                    buf.append(element.toString()).append("\n");
                 }
             }
             dprint(".doThreadDump: " + buf);

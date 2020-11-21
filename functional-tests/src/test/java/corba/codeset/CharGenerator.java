@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -24,7 +25,7 @@ public class CharGenerator
     }
 
     public static char[] getChars(CharSelector selector) {
-        StringBuffer sbuf = new StringBuffer();
+        StringBuilder sbuf = new StringBuilder();
         for (char ch = Character.MIN_VALUE; ch < Character.MAX_VALUE; ch++) {
             if (selector.testThisCharacter(ch))
                 sbuf.append(ch);

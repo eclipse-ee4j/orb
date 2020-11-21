@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 1997, 2020, Oracle and/or its affiliates.
  * Copyright (c) 1998-2012 IBM Corp. All rights reserved.
- * Copyright (c) 2019 Payara Services Ltd.
+ * Copyright (c) 2019-2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -331,7 +331,7 @@ public class ObjectStreamClass implements java.io.Serializable {
      */
     @Override
     public final String toString() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         sb.append(name);
         sb.append(": static final long serialVersionUID = ");
@@ -601,7 +601,7 @@ public class ObjectStreamClass implements java.io.Serializable {
      */
     private String computeRMIIIOPOptionalDataRepId() {
 
-        StringBuffer sbuf = new StringBuffer("RMI:org.omg.custom.");
+        StringBuilder sbuf = new StringBuilder("RMI:org.omg.custom.");
         sbuf.append(RepositoryId.convertToISOLatin1(this.getName()));
         sbuf.append(':');
         sbuf.append(this.getActualSerialVersionUIDStr());
@@ -1119,7 +1119,7 @@ public class ObjectStreamClass implements java.io.Serializable {
                 dimensions++;
                 cl = cl.getComponentType();
             }
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < dimensions; i++) {
                 sb.append("[");
             }
@@ -1155,13 +1155,13 @@ public class ObjectStreamClass implements java.io.Serializable {
      * Compute the JVM method descriptor for the method.
      */
     static String getSignature(Method meth) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         sb.append("(");
 
         Class<?>[] params = meth.getParameterTypes(); // avoid clone
-        for (int j = 0; j < params.length; j++) {
-            sb.append(getSignature(params[j]));
+        for (Class<?> param : params) {
+            sb.append(getSignature(param));
         }
         sb.append(")");
         sb.append(getSignature(meth.getReturnType()));
@@ -1172,13 +1172,13 @@ public class ObjectStreamClass implements java.io.Serializable {
      * Compute the JVM constructor descriptor for the constructor.
      */
     static String getSignature(Constructor<?> cons) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         sb.append("(");
 
         Class<?>[] params = cons.getParameterTypes(); // avoid clone
-        for (int j = 0; j < params.length; j++) {
-            sb.append(getSignature(params[j]));
+        for (Class<?> param : params) {
+            sb.append(getSignature(param));
         }
         sb.append(")V");
         return sb.toString();

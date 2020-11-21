@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -132,7 +133,7 @@ public class ContextStack {
      */
     final private void tracePrint (String text, boolean line) {
         int length = text.length() + (currentIndex * TRACE_INDENT.length());
-        StringBuffer buffer = new StringBuffer(length);
+        StringBuilder buffer = new StringBuilder(length);
         for (int i = 0; i < currentIndex; i++) {
             buffer.append(TRACE_INDENT);   
         }

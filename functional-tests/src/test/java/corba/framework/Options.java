@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -189,7 +190,7 @@ public class Options {
         activationDbDirName = javaIDLHome + File.separator + "db.dir" ;
         props.setProperty( ORBConstants.DB_DIR_PROPERTY, activationDbDirName ) ;
 
-        StringBuffer newPath = new StringBuffer(outputDirectory + File.pathSeparator);
+        StringBuilder newPath = new StringBuilder(outputDirectory + File.pathSeparator);
         newPath.append(System.getProperty("java.class.path"));
         classpath = newPath.toString();
     }

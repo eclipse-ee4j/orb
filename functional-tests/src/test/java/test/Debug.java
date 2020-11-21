@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2020 Payara Services Ltd. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -39,7 +40,7 @@ public class Debug {
     
     public final void log (byte[] data) {
         
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         for (int i = 0; i < data.length; i++) {
             if (i > 0) {
                 buf.append(' ');
@@ -97,7 +98,7 @@ public class Debug {
     }
 
     private static void doLogSystemProperties (String name) {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         Properties props = System.getProperties();
         buf.append("System Properties:");
         buf.append(eol);
