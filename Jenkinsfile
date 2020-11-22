@@ -27,15 +27,15 @@ pipeline {
     timeout(time: 20, unit: 'MINUTES')
   }
   agent any
-      tools {
-        maven 'apache-maven-latest'
-        jdk 'adoptopenjdk-hotspot-jdk8-latest'
-    }
+  tools {
+    maven 'apache-maven-latest'
+    jdk 'adoptopenjdk-hotspot-jdk8-latest'
+  }
   stages {
     stage('build') {
       steps {
-            sh 'mvn -Pstaging clean install'
-            junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
+        sh 'mvn -Pstaging clean install'
+        junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
       }
     }
   }
