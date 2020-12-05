@@ -5,3 +5,6 @@ build/**
 .idea/**
 *.iml
 
+.settings
+.classpath
+.project
