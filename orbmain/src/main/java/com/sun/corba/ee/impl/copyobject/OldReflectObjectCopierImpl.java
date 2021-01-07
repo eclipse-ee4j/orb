@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
+ * Copyright (c) 2021 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -65,8 +66,8 @@ import java.util.Map;
  */
 public class OldReflectObjectCopierImpl implements ObjectCopier 
 {
-    private IdentityHashMap objRefs;
-    private ORB orb ;
+    private final IdentityHashMap objRefs;
+    private final ORB orb;
 
     public OldReflectObjectCopierImpl( org.omg.CORBA.ORB orb ) 
     {
@@ -78,7 +79,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
      * reflectCache is used to cache the reflection attributes of
      *              a class
      */
-    private static Map reflectCache = new HashMap();
+    private static Map<Class, ReflectAttrs> reflectCache = new HashMap<>();
 
     /**
      * Provides the functionality of a cache for storing the various
@@ -213,13 +214,11 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
      * This method must be synchronized so that reflectCache.put can
      * safely update the reflectCache.
      */
-    private final synchronized ReflectAttrs getClassAttrs(Class cls) {
-        ReflectAttrs attrs = null;
-
-        attrs = (ReflectAttrs)reflectCache.get(cls);
+    private synchronized ReflectAttrs getClassAttrs(Class cls) {
+        ReflectAttrs attrs = reflectCache.get(cls);
         if (attrs == null) {
             attrs = new ReflectAttrs(cls);
-            reflectCache.put(cls, (Object)attrs);
+            reflectCache.put(cls, attrs);
         }
         return attrs;
     }
@@ -251,7 +250,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
      * @return the copied object.
      * @exception RemoteException if any object could not be copied.
      */
-    private final Object arrayCopy(Object obj, Class aClass) 
+    private Object arrayCopy(Object obj, Class aClass) 
         throws RemoteException, InstantiationException, 
         IllegalAccessException, InvocationTargetException
     {
@@ -304,7 +303,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
      * @param obj the object whose fields need to be copied
      * @exception RemoteException if any object could not be copied.
      */
-    private final void copyFields(Class cls, Field[] fields, Object obj, 
+    private void copyFields(Class cls, Field[] fields, Object obj, 
         Object copy) throws RemoteException, IllegalAccessException,
         InstantiationException, InvocationTargetException
     {
@@ -313,8 +312,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
         }
 
         // regular object, so copy the fields over
-        for (int idx=0; idx<fields.length; idx++) {
-            Field fld = fields[idx];
+        for (Field fld : fields) {
             int modifiers = fld.getModifiers() ;
             Object fobj = null;
             Class fieldClass = fld.getType();
@@ -410,7 +408,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
      * @param obj the object to copy or connect.
      * @return the copied object.
      */
-    private final Object reflectCopy(Object obj) 
+    private Object reflectCopy(Object obj) 
         throws RemoteException, InstantiationException, 
         IllegalAccessException, InvocationTargetException
     {
@@ -470,8 +468,8 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
         return copy( obj ) ;
     }
 
-    public Object copy(final Object obj) throws ReflectiveCopyException
-    {
+    @Override
+    public Object copy(final Object obj) throws ReflectiveCopyException {
         try {
             return AccessController.doPrivileged(
                 new PrivilegedExceptionAction() {
@@ -490,4 +488,3 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
         }
     }
 }
-

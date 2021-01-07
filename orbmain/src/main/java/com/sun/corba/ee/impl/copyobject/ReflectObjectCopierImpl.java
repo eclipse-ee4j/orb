@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
+ * Copyright (c) 2021 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -38,7 +39,6 @@ import org.glassfish.pfl.dynamic.copyobject.impl.ClassCopierFactory;
 import org.glassfish.pfl.dynamic.copyobject.impl.DefaultClassCopierFactories;
 import org.glassfish.pfl.dynamic.copyobject.impl.FastCache;
 import org.glassfish.pfl.dynamic.copyobject.impl.PipelineClassCopierFactory;
-import org.glassfish.pfl.dynamic.copyobject.spi.CopyobjectDefaults;
 import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopier;
 import org.glassfish.pfl.dynamic.copyobject.spi.ReflectiveCopyException;
 
@@ -104,7 +104,7 @@ public class ReflectObjectCopierImpl implements ObjectCopier {
             }
         } ;
 
-    private static ClassCopierFactory specialClassCopierFactory = 
+    private static final ClassCopierFactory specialClassCopierFactory = 
         new ClassCopierFactory() {
             public ClassCopier getClassCopier( Class cls 
             ) throws ReflectiveCopyException
@@ -136,14 +136,14 @@ public class ReflectObjectCopierImpl implements ObjectCopier {
     // so that any class is analyzed only once, instead of once per 
     // copier instance.  This is worth probably 20%+ in microbenchmark 
     // performance.
-    private static PipelineClassCopierFactory ccf = 
+    private static final PipelineClassCopierFactory ccf = 
         DefaultClassCopierFactories.getPipelineClassCopierFactory() ; 
     
     static {
         ccf.setSpecialClassCopierFactory( specialClassCopierFactory ) ;
     }
 
-    private Map oldToNew ;
+    private final Map oldToNew ;
 
     /** Create an ReflectObjectCopierImpl for the given ORB.
      * The orb is used for connection Remote instances.
@@ -153,10 +153,9 @@ public class ReflectObjectCopierImpl implements ObjectCopier {
     {
         localORB.set( orb ) ;
         if (DefaultClassCopierFactories.USE_FAST_CACHE) {
-            oldToNew =
-                new FastCache(new IdentityHashMap());
+            oldToNew = new FastCache(new IdentityHashMap<>());
         } else {
-            oldToNew = new IdentityHashMap();
+            oldToNew = new IdentityHashMap<>();
         }
     }
 
@@ -164,6 +163,7 @@ public class ReflectObjectCopierImpl implements ObjectCopier {
      * obj and between objects passed in multiple calls to the
      * same instance of ReflectObjectCopierImpl.
      */
+    @Override
     public Object copy( Object obj ) throws ReflectiveCopyException
     {
         return copy( obj, false ) ;

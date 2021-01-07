@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
+ * Copyright (c) 2021 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -31,6 +32,8 @@ import com.sun.corba.ee.impl.util.Utility;
 import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopier;
 
 public class ORBStreamObjectCopierImpl implements ObjectCopier {
+    
+    private final ORB orb;
 
     public ORBStreamObjectCopierImpl( ORB orb ) 
     {
@@ -41,6 +44,7 @@ public class ORBStreamObjectCopierImpl implements ObjectCopier {
         return copy( obj ) ;
     }
 
+    @Override
     public Object copy(Object obj) {
         if (obj instanceof Remote) {
             // Yes, so make sure it is connected and converted
@@ -53,6 +57,5 @@ public class ORBStreamObjectCopierImpl implements ObjectCopier {
         InputStream in = (InputStream)out.create_input_stream();
         return in.read_value();
     }
-
-    private ORB orb;
+    
 }
