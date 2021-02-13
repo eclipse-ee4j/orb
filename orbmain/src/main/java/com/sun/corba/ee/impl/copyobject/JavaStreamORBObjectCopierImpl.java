@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
+ * Copyright (c) 2021 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -29,7 +30,7 @@ import org.glassfish.pfl.dynamic.copyobject.impl.JavaStreamObjectCopierImpl ;
 
 
 public class JavaStreamORBObjectCopierImpl extends JavaStreamObjectCopierImpl {
-    private ORB orb ;
+    private final ORB orb ;
 
     public JavaStreamORBObjectCopierImpl( ORB orb ) {
         this.orb = orb ;

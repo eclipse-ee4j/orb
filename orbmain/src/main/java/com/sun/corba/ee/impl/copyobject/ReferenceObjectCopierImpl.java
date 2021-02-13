@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
+ * Copyright (c) 2021 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -28,8 +29,8 @@ public class ReferenceObjectCopierImpl implements ObjectCopier
         return obj ;
     }
 
-    public Object copy( Object obj )
-    {
+    @Override
+    public Object copy(Object obj) {
         return obj ;
     }
 }

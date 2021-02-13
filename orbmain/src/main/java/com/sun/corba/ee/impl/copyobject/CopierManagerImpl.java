@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
+ * Copyright (c) 2021 Payara Services Ltd.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -26,36 +27,36 @@ import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopierFactory;
 public class CopierManagerImpl implements CopierManager
 {
     private int defaultId ;
-    private DenseIntMapImpl<ObjectCopierFactory> map ;
+    private final DenseIntMapImpl<ObjectCopierFactory> map ;
 
     public CopierManagerImpl()
     {
         defaultId = 0 ;
-        map = new DenseIntMapImpl<ObjectCopierFactory>() ;
+        map = new DenseIntMapImpl<>() ;
     }
 
-    public void setDefaultId( int id ) 
-    {
+    @Override
+    public void setDefaultId( int id ) {
         defaultId = id ;
     }
 
-    public int getDefaultId() 
-    {
+    @Override
+    public int getDefaultId() {
         return defaultId ;
     }
 
-    public ObjectCopierFactory getObjectCopierFactory( int id ) 
-    {
+    @Override
+    public ObjectCopierFactory getObjectCopierFactory(int id) {
         return map.get( id ) ;
     }
 
-    public ObjectCopierFactory getDefaultObjectCopierFactory()
-    {
+    @Override
+    public ObjectCopierFactory getDefaultObjectCopierFactory() {
         return map.get( defaultId ) ;
     }
 
-    public void registerObjectCopierFactory( ObjectCopierFactory factory, int id ) 
-    {
+    @Override
+    public void registerObjectCopierFactory(ObjectCopierFactory factory, int id) {
         map.set( id, factory ) ;
     }
 }
