@@ -57,6 +57,6 @@ public class TestUtils {
     }
 
     private static String toPath(String className) {
-        return className.replace('.', File.separatorChar) + ".class";
+        return className.replace('.', '/') + ".class";
     }
 }
