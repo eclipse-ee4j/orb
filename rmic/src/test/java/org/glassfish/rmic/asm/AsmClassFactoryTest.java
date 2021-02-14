@@ -34,11 +34,11 @@ public class AsmClassFactoryTest extends ClassDefinitionFactoryTest {
 
     @Test
     public void canRetrieveLatestAsmVersion() {
-        assertThat(AsmClassFactory.getLatestVersion(), equalTo(Opcodes.ASM7));
+        assertThat(AsmClassFactory.getLatestVersion(), equalTo(Opcodes.ASM9));
     }
 
     @Test
     public void canRetrieveLatestSupportedClassVersion() {
-        assertThat(AsmClassFactory.getLatestClassVersion(), equalTo(Opcodes.V13));
+        assertThat(AsmClassFactory.getLatestClassVersion(), equalTo(Opcodes.V17));
     }
 }
