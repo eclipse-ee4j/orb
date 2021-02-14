@@ -43,7 +43,6 @@ import org.junit.Test;
 
 import javax.rmi.PortableRemoteObject;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.AccessibleObject;
@@ -93,7 +92,7 @@ public abstract class ClassDefinitionFactoryTest {
     }
 
     private String toPath(Class<?> aClass) {
-        return aClass.getName().replace('.', File.separatorChar) + ".class";
+        return aClass.getName().replace('.', '/') + ".class";
     }
 
     private void loadNested(ClassDefinition classDefinition) {

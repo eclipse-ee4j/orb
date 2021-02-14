@@ -19,8 +19,6 @@
 
 package com.sun.tools.corba.ee.idl.toJavaPortable;
 
-import java.io.File;
-
 public class TestUtils {
     @SuppressWarnings("ConstantConditions")
     public static String getClassPathString() {
@@ -30,6 +28,6 @@ public class TestUtils {
     }
 
     private static String toPath(String className) {
-        return className.replace('.', File.separatorChar) + ".class";
+        return className.replace('.', '/') + ".class";
     }
 }
