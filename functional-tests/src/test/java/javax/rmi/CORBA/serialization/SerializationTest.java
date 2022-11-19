@@ -37,6 +37,7 @@ import java.io.ObjectOutputStream;
 import java.util.Properties;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 import org.glassfish.pfl.test.JUnitReportHelper;
 import rmic.ObjectByValue;
 import org.omg.CORBA.WStringValueHelper;
@@ -401,6 +402,10 @@ public class SerializationTest extends test.Test
             HashMap hmap = new HashMap();
             sos.write_value(hmap);
 
+            test( "writeConcurrentHashMap" );
+            ConcurrentHashMap chmap = new ConcurrentHashMap();
+            sos.write_value(chmap);
+
             //System.out.println("offset = " + ((com.sun.corba.ee.impl.encoding.CDROutputStream)sos).get_offset());
             //System.out.println("countit = " + ((com.sun.corba.ee.impl.encoding.CDROutputStream)sos).countit);
 
@@ -744,6 +749,11 @@ public class SerializationTest extends test.Test
             HashMap _hmap = (HashMap)sis.read_value();
             if (!_hmap.equals(hmap))
                 throw new Error("HashMap test using hmap failed!");
+
+            test( "readConcurrentHashMap" );
+            ConcurrentHashMap _chmap = (ConcurrentHashMap)sis.read_value();
+            if (!_chmap.equals(chmap))
+                throw new Error("ConcurrentHashMap test using chmap failed!");
         } catch (Throwable e) {
             helper.fail( e ) ;
             status = new Error(e.getMessage());
