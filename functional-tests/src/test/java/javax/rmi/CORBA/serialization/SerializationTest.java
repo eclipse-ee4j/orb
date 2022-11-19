@@ -36,6 +36,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Properties;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 import org.glassfish.pfl.test.JUnitReportHelper;
@@ -398,6 +399,10 @@ public class SerializationTest extends test.Test
             ComplexTestObjectXXX xxx = new ComplexTestObjectXXX();
             sos.write_value(xxx);
 
+            test( "writeRandom" );
+            Random random = new Random();
+            sos.write_value(random);
+
             test( "writeHashMap" );
             HashMap hmap = new HashMap();
             sos.write_value(hmap);
@@ -744,6 +749,11 @@ public class SerializationTest extends test.Test
             ComplexTestObjectXXX _xxx = (ComplexTestObjectXXX)sis.read_value();
             if (!_xxx.equals(xxx))
                 throw new Error("Any test using xxx failed!");
+
+            test( "readRandom" );
+            Random _random = (Random)sis.read_value();
+            if (_random == null)
+                throw new Error("Random test using random failed!");
 
             test( "readHashMap" );
             HashMap _hmap = (HashMap)sis.read_value();
