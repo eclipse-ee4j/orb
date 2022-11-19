@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation. All rights reserved.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  *
@@ -34,6 +35,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Properties;
+import java.util.HashMap;
 import java.util.Vector;
 import org.glassfish.pfl.test.JUnitReportHelper;
 import rmic.ObjectByValue;
@@ -395,6 +397,10 @@ public class SerializationTest extends test.Test
             ComplexTestObjectXXX xxx = new ComplexTestObjectXXX();
             sos.write_value(xxx);
 
+            test( "writeHashMap" );
+            HashMap hmap = new HashMap();
+            sos.write_value(hmap);
+
             //System.out.println("offset = " + ((com.sun.corba.ee.impl.encoding.CDROutputStream)sos).get_offset());
             //System.out.println("countit = " + ((com.sun.corba.ee.impl.encoding.CDROutputStream)sos).countit);
 
@@ -733,6 +739,11 @@ public class SerializationTest extends test.Test
             ComplexTestObjectXXX _xxx = (ComplexTestObjectXXX)sis.read_value();
             if (!_xxx.equals(xxx))
                 throw new Error("Any test using xxx failed!");
+
+            test( "readHashMap" );
+            HashMap _hmap = (HashMap)sis.read_value();
+            if (!_hmap.equals(hmap))
+                throw new Error("HashMap test using hmap failed!");
         } catch (Throwable e) {
             helper.fail( e ) ;
             status = new Error(e.getMessage());
