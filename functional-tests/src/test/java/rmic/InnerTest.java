@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -27,9 +28,9 @@ import java.io.Serializable;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import org.glassfish.pfl.test.JUnitReportHelper;
-import sun.rmi.rmic.iiop.Constants;
-import sun.rmi.rmic.iiop.CompoundType;
-import sun.rmi.rmic.iiop.ContextStack;
+import org.glassfish.rmic.iiop.Constants;
+import org.glassfish.rmic.iiop.CompoundType;
+import org.glassfish.rmic.iiop.ContextStack;
 import sun.tools.java.ClassPath;
 
 public class InnerTest extends Test implements Constants {

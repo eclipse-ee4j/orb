@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -20,13 +21,13 @@
 
 package rmic;
 
-import sun.rmi.rmic.Names;
-import sun.rmi.rmic.iiop.Type;
-import sun.rmi.rmic.iiop.CompoundType;
-import sun.rmi.rmic.iiop.ContextStack;
-import sun.tools.java.ClassPath;
-import sun.tools.java.ClassDeclaration;
-import sun.tools.java.Identifier;
+import org.glassfish.rmic.Names;
+import org.glassfish.rmic.iiop.Type;
+import org.glassfish.rmic.iiop.CompoundType;
+import org.glassfish.rmic.iiop.ContextStack;
+import org.glassfish.rmic.tools.java.ClassPath;
+import org.glassfish.rmic.tools.java.ClassDeclaration;
+import org.glassfish.rmic.tools.java.Identifier;
 
 public class MapType extends CompoundType {
 

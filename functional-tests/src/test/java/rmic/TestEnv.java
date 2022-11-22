@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -20,27 +21,26 @@
 
 package rmic;
 
-import sun.rmi.rmic.Main;
-import sun.tools.java.ClassPath;
+import org.glassfish.rmic.Main;
+import org.glassfish.rmic.tools.java.ClassPath;
 import java.io.OutputStream;
 
-public class TestEnv extends sun.rmi.rmic.iiop.BatchEnvironment {
+public class TestEnv extends org.glassfish.rmic.iiop.BatchEnvironment {
 
     private boolean firstLine = true;
     
     public TestEnv(ClassPath path, OutputStream out) {
-        super(out,path,new Main(System.out, "rmic"));
+        super(out,path,new Main(System.out, "rmic").getDestinationDir());
     }
     
     public TestEnv(ClassPath path) {
-        super(System.out,path,new Main(System.out, "rmic"));
+        super(System.out,path,new Main(System.out, "rmic").getDestinationDir());
     }
 
     public void reset() {
         firstLine = true;
         nerrors = 0;
         nwarnings = 0;
-        ndeprecations = 0;
         super.reset();
     }
     
