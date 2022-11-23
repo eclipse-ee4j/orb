@@ -444,5 +444,14 @@
           <modules>
               <module>functional-tests</module>
           </modules>
+        </profile>
+        <profile>
+          <id>compiler-release-with-jdk9plus</id>
+            <activation>
+              <jdk>[9,)</jdk>
+            </activation>
+            <properties>
+              <maven.compiler.release>${jdkVersion}</maven.compiler.release>
+            </properties>
         </profile>    </profiles>
 </project>
