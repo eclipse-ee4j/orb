@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2020 Oracle and/or its affiliates.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -48,8 +49,8 @@ class AllTypesFields implements Serializable {
       new ObjectStreamField("aString", String.class)
       };
 
-  private void readObject(ObjectInputStream out) throws IOException, ClassNotFoundException {
-    final ObjectInputStream.GetField fields = out.readFields();
+  private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+    final ObjectInputStream.GetField fields = in.readFields();
     aBooleanField = fields.get("aBoolean", false);
     aByteField = fields.get("aByte", (byte) 0xff);
     aCharField = fields.get("aChar", 'z');
