@@ -40,6 +40,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import org.apache.commons.io.FileUtils;
 import org.glassfish.rmic.classes.covariantReturn.DogFinder;
 import org.glassfish.rmic.classes.errorClasses.InterfaceWithNonRemoteMethod;
 import org.glassfish.rmic.classes.errorClasses.NotRemoteClass;
@@ -56,6 +57,7 @@ import org.glassfish.rmic.classes.primitives.InterfaceWithNonPrimitiveConstant;
 import org.glassfish.rmic.classes.primitives.RmiTestRemoteImpl;
 import org.glassfish.rmic.classes.rmipoacounter.CounterImpl;
 import org.glassfish.rmic.classes.systemexceptions.ServerInvokerServantPOA;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -71,6 +73,11 @@ public class RmicGenerationTest {
     @BeforeClass
     public static void clearRootDir() throws IOException {
         rootDir = Files.createTempDirectory("rmic").toFile();
+    }
+
+    @AfterClass
+    public static void cleanRootDir() throws IOException {
+        FileUtils.deleteDirectory(rootDir);
     }
 
     @Test

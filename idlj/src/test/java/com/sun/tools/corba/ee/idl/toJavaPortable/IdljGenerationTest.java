@@ -19,6 +19,8 @@
 
 package com.sun.tools.corba.ee.idl.toJavaPortable;
 
+import org.apache.commons.io.FileUtils;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -45,6 +47,11 @@ public class IdljGenerationTest {
     @BeforeClass
     public static void clearRootDir() throws IOException {
         rootDir = Files.createTempDirectory("idlj").toFile();
+    }
+
+    @AfterClass
+    public static void cleanRootDir() throws IOException {
+        FileUtils.deleteDirectory(rootDir);
     }
 
     @Test
