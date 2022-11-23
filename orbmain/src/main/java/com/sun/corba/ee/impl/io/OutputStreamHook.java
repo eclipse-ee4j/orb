@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -31,7 +32,7 @@ import com.sun.corba.ee.spi.trace.StreamFormatVersion;
 @StreamFormatVersion
 public abstract class OutputStreamHook extends ObjectOutputStream
 {
-    private HookPutFields putFields = null;
+    private HookPutFields putFields = new HookPutFields();
     
     /**
      * Since ObjectOutputStream.PutField methods specify no exceptions,
@@ -145,7 +146,6 @@ public abstract class OutputStreamHook extends ObjectOutputStream
     @Override
     public ObjectOutputStream.PutField putFields()
         throws IOException {
-        putFields = new HookPutFields();
         return putFields;
     }
 
