@@ -22,6 +22,7 @@
 package com.sun.corba.ee.impl.io;
 
 import java.io.IOException;
+import java.io.NotActiveException;
 import java.io.ObjectOutputStream;
 import java.io.ObjectOutput;
 import java.util.Map;
@@ -32,7 +33,7 @@ import com.sun.corba.ee.spi.trace.StreamFormatVersion;
 @StreamFormatVersion
 public abstract class OutputStreamHook extends ObjectOutputStream
 {
-    private HookPutFields putFields = new HookPutFields();
+    private HookPutFields putFields = null;
     
     /**
      * Since ObjectOutputStream.PutField methods specify no exceptions,
@@ -146,6 +147,9 @@ public abstract class OutputStreamHook extends ObjectOutputStream
     @Override
     public ObjectOutputStream.PutField putFields()
         throws IOException {
+        if (putFields == null) {
+            putFields = new HookPutFields();
+        }
         return putFields;
     }
 
@@ -169,7 +173,11 @@ public abstract class OutputStreamHook extends ObjectOutputStream
 
         writeObjectState.defaultWriteObject(this);
 
-        putFields.write(this);
+        if (putFields != null) {
+            putFields.write(this);
+        } else {
+            throw new NotActiveException("no current PutField object");
+        }
     }
 
     abstract org.omg.CORBA_2_3.portable.OutputStream getOrbStream();
