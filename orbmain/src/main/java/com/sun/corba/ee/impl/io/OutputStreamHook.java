@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -21,6 +22,7 @@
 package com.sun.corba.ee.impl.io;
 
 import java.io.IOException;
+import java.io.NotActiveException;
 import java.io.ObjectOutputStream;
 import java.io.ObjectOutput;
 import java.util.Map;
@@ -145,7 +147,9 @@ public abstract class OutputStreamHook extends ObjectOutputStream
     @Override
     public ObjectOutputStream.PutField putFields()
         throws IOException {
-        putFields = new HookPutFields();
+        if (putFields == null) {
+            putFields = new HookPutFields();
+        }
         return putFields;
     }
 
@@ -169,7 +173,11 @@ public abstract class OutputStreamHook extends ObjectOutputStream
 
         writeObjectState.defaultWriteObject(this);
 
-        putFields.write(this);
+        if (putFields != null) {
+            putFields.write(this);
+        } else {
+            throw new NotActiveException("no current PutField object");
+        }
     }
 
     abstract org.omg.CORBA_2_3.portable.OutputStream getOrbStream();
