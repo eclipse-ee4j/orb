@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -21,7 +22,7 @@
 package rmic;
 
 import test.Test;
-import sun.rmi.rmic.iiop.StaticStringsHash;
+import org.glassfish.rmic.iiop.StaticStringsHash;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import org.glassfish.pfl.test.JUnitReportHelper;

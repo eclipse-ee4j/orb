@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -23,14 +24,14 @@ package rmic;
 import test.Util;
 import java.io.ByteArrayOutputStream;
 import java.util.Hashtable;
-import sun.tools.java.MemberDefinition;
-import sun.rmi.rmic.iiop.Type;
-import sun.rmi.rmic.iiop.ValueType;
-import sun.rmi.rmic.iiop.Constants;
-import sun.rmi.rmic.iiop.CompoundType;
-import sun.rmi.rmic.iiop.RemoteType;
-import sun.rmi.rmic.iiop.AbstractType;
-import sun.rmi.rmic.iiop.ContextStack;
+import org.glassfish.rmic.tools.java.MemberDefinition;
+import org.glassfish.rmic.iiop.Type;
+import org.glassfish.rmic.iiop.ValueType;
+import org.glassfish.rmic.iiop.Constants;
+import org.glassfish.rmic.iiop.CompoundType;
+import org.glassfish.rmic.iiop.RemoteType;
+import org.glassfish.rmic.iiop.AbstractType;
+import org.glassfish.rmic.iiop.ContextStack;
 
 import org.testng.Assert ;
 
@@ -246,7 +247,7 @@ public class TestExecutor {
         CompoundType na = (CompoundType)members[0].getType();
         String naName = members[0].getName();
         myAssert(naName.equals("notAbstract"),"Found wrong method: " + naName);
-        myAssert(na instanceof sun.rmi.rmic.iiop.NCInterfaceType,"Found wrong type: " + na.getClass());
+        myAssert(na instanceof org.glassfish.rmic.iiop.NCInterfaceType,"Found wrong type: " + na.getClass());
     }
 
     @Test

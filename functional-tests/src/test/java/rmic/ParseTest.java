@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -20,8 +21,8 @@
 
 package rmic;
 
-import sun.rmi.rmic.iiop.Constants;
-import sun.tools.java.ClassPath;
+import org.glassfish.rmic.iiop.Constants;
+import org.glassfish.rmic.tools.java.ClassPath;
 import java.lang.reflect.Method;
 
 import corba.framework.TestngRunner ;
@@ -36,7 +37,7 @@ public class ParseTest extends test.Test implements Constants {
         // the build environment. Don't ask.
 
         try {
-            Class env = sun.rmi.rmic.BatchEnvironment.class;
+            Class env = org.glassfish.rmic.BatchEnvironment.class;
             Method method = env.getMethod("createClassPath",new Class[]{java.lang.String.class});
             return (ClassPath) method.invoke(null,new Object[]{path});
         } catch (Throwable e) {
