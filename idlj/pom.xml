@@ -43,6 +43,11 @@
             <groupId>com.meterware.simplestub</groupId>
             <artifactId>simplestub</artifactId>
         </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

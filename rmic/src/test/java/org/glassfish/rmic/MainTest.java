@@ -19,9 +19,11 @@
 
 package org.glassfish.rmic;
 
+import org.apache.commons.io.FileUtils;
 import org.glassfish.rmic.classes.hcks.RmiIIServant;
 import org.glassfish.rmic.tools.java.ClassPath;
 import org.glassfish.rmic.tools.java.Identifier;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -47,6 +49,11 @@ public class MainTest {
         destDir = Files.createTempDirectory("rmic").toFile();
         environment = new BatchEnvironment(out, classPath, destDir);
         environment.flags = F_WARNINGS;
+    }
+
+    @After
+    public void tearDown() throws IOException {
+        FileUtils.deleteDirectory(destDir);
     }
 
     @Test
