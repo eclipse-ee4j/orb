@@ -102,7 +102,7 @@
         <copyright.template>make/copyright-information/copyright.txt</copyright.template>
         <copyright.update>false</copyright.update>
 
-        <jdkVersion>1.8</jdkVersion>
+        <jdkVersion>8</jdkVersion>
         <maven.compiler.source>${jdkVersion}</maven.compiler.source>
         <maven.compiler.target>${jdkVersion}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -449,5 +449,14 @@
           <modules>
               <module>functional-tests</module>
           </modules>
+        </profile>
+        <profile>
+          <id>compiler-release-with-jdk9plus</id>
+            <activation>
+              <jdk>[9,)</jdk>
+            </activation>
+            <properties>
+              <maven.compiler.release>${jdkVersion}</maven.compiler.release>
+            </properties>
         </profile>    </profiles>
 </project>
