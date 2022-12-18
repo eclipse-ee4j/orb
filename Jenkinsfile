@@ -22,8 +22,8 @@ pipeline {
     skipStagesAfterUnstable()
     // show timestamps in logs
     timestamps()
-    // timeout, abort after 20 minutes
-    timeout(time: 20, unit: 'MINUTES')
+    // timeout, abort after 60 minutes
+    timeout(time: 60, unit: 'MINUTES')
   }
   agent any
   tools {
@@ -33,7 +33,7 @@ pipeline {
   stages {
     stage('build') {
       steps {
-        sh 'mvn -Pstaging clean install'
+        sh 'mvn -Pstaging,all-tests clean install'
         junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
       }
     }
