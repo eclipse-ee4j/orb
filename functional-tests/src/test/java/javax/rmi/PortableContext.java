@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -23,7 +24,6 @@ package javax.rmi;
 import com.sun.corba.ee.impl.util.Utility;
 import com.sun.corba.ee.spi.JndiConstants;
 import org.omg.CORBA.ORB;
-import sun.rmi.registry.RegistryImpl;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.rmi.RMISecurityManager;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Hashtable;
@@ -923,7 +924,7 @@ class RMIRegistry {
             if (args.length >= 1) {
                 port = Integer.parseInt(args[0]);
             }
-            Registry registry = new RegistryImpl(port);
+            Registry registry = LocateRegistry.createRegistry(port);
             System.out.println("Ready.");
 
             // prevent registry from exiting
