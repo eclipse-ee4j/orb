@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -20,9 +21,10 @@
 
 package test;
 
+import org.glassfish.rmic.tools.java.ClassFile;
+import org.glassfish.rmic.tools.java.ClassPath;
+
 import java.io.File;
-import sun.tools.java.ClassPath;
-import sun.tools.java.ClassFile;
 import java.io.IOException;
 import java.util.StringTokenizer;
 

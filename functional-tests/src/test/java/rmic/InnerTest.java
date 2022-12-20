@@ -31,7 +31,6 @@ import org.glassfish.pfl.test.JUnitReportHelper;
 import org.glassfish.rmic.iiop.Constants;
 import org.glassfish.rmic.iiop.CompoundType;
 import org.glassfish.rmic.iiop.ContextStack;
-import sun.tools.java.ClassPath;
 
 public class InnerTest extends Test implements Constants {
 

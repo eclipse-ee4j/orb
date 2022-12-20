@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 1994, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2022 Contributors to the Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -181,7 +182,7 @@ class ClassPath {
     /**
      * Find the specified directory in the class path
      */
-    ClassFile getDirectory(String name) {
+    public ClassFile getDirectory(String name) {
         return getFile(name, true);
     }
 
