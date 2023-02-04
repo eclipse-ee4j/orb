@@ -65,17 +65,14 @@
         <dependency>
           <groupId>org.glassfish.pfl</groupId>
           <artifactId>pfl-basic</artifactId>
-          <version>${pfl-version}</version>
         </dependency>
         <dependency>
           <groupId>org.glassfish.pfl</groupId>
           <artifactId>pfl-dynamic</artifactId>
-          <version>${pfl-version}</version>
         </dependency>
         <dependency>
           <groupId>org.glassfish.pfl</groupId>
           <artifactId>pfl-tf</artifactId>
-          <version>${pfl-version}</version>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>

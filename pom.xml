@@ -137,6 +137,36 @@
                 <artifactId>commons-io</artifactId>
                 <version>2.9.0</version>
             </dependency>
+            <dependency>
+              <groupId>org.glassfish.pfl</groupId>
+              <artifactId>pfl-basic</artifactId>
+              <version>${pfl-version}</version>
+            </dependency>
+            <dependency>
+              <groupId>org.glassfish.pfl</groupId>
+              <artifactId>pfl-dynamic</artifactId>
+              <version>${pfl-version}</version>
+            </dependency>
+            <dependency>
+              <groupId>org.glassfish.pfl</groupId>
+              <artifactId>pfl-tf</artifactId>
+              <version>${pfl-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.pfl</groupId>
+                <artifactId>pfl-basic-tools</artifactId>
+                <version>${pfl-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.pfl</groupId>
+                <artifactId>pfl-tf-tools</artifactId>
+                <version>${pfl-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.pfl</groupId>
+                <artifactId>pfl-test</artifactId>
+                <version>${pfl-version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
