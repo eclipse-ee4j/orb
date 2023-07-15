@@ -20,6 +20,7 @@
 
 package com.sun.corba.ee.impl.misc;
 
+import java.net.Socket;
 import java.security.AccessController;
 import java.security.PermissionCollection;
 import java.security.Policy;
@@ -72,24 +73,33 @@ import com.sun.corba.ee.spi.logging.OMGSystemException ;
 import com.sun.corba.ee.impl.ior.iiop.JavaSerializationComponent;
 import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
 
+import static com.sun.corba.ee.spi.misc.ORBConstants.TRANSPORT_TCP_CONNECT_MAX_TIME_TO_WAIT;
+
 /**
  *  Handy class full of static functions that don't belong in util.Utility for pure ORB reasons.
  */
 public final class ORBUtility {
+
+    public static SocketChannel openSocketChannel(SocketAddress sa) throws IOException {
+        return openSocketChannel(sa, TRANSPORT_TCP_CONNECT_MAX_TIME_TO_WAIT);
+    }
+
     /** Utility method for working around leak in SocketChannel.open( SocketAddress )
      * method.
      * @param sa address to connect to
+     * @param timeout – the timeout value to be used in milliseconds.
      * @return The opened channel
      * @throws java.io.IOException If an I/O error occurs
      * @see SocketChannel#connect(java.net.SocketAddress)
      */
-    public static SocketChannel openSocketChannel( SocketAddress sa ) 
+    public static SocketChannel openSocketChannel(SocketAddress sa, int timeout)
         throws IOException {
 
         SocketChannel sc = SocketChannel.open() ;
 
         try {
-            sc.connect( sa ) ;
+            Socket socket = sc.socket();
+            socket.connect(sa, timeout);
             return sc ;
         } catch (RuntimeException | IOException exc ) {
             try {
