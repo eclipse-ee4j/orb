@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  * Copyright (c) 2019 Payara Services Ltd.
@@ -302,10 +303,14 @@ public final class Utility {
                     "expected Type.");
             }
 
-            if (expectedTypeClassLoader != null) {
-                loadedClass = expectedTypeClassLoader.loadClass(className);
-            } else {
-                loadedClass = ORBClassLoader.loadClass(className);
+            try {
+                if (expectedTypeClassLoader != null) {
+                    loadedClass = expectedTypeClassLoader.loadClass(className);
+                } else {
+                    loadedClass = ORBClassLoader.loadClass(className);
+                }
+            } catch (ClassNotFoundException e) {
+                wrapper.classNotFound(className);
             }
         }
 
