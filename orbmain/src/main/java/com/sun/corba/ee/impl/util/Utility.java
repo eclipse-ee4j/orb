@@ -309,7 +309,7 @@ public final class Utility {
                 } else {
                     loadedClass = ORBClassLoader.loadClass(className);
                 }
-            } catch (Exception e) {
+            } catch (ClassNotFoundException e) {
                 wrapper.classNotFound(className);
             }
         }
