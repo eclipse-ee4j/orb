@@ -38,7 +38,7 @@ import static org.junit.Assert.*;
 
 public class ConnectionImplTest extends TransportTestBase {
 
-    private static final byte[] BYTE_DATA = {0,1,2,3,4,5,6,7,8,9,10};
+    private static final byte[] BYTE_DATA = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
     @After
     public void tearDown() {
@@ -47,18 +47,17 @@ public class ConnectionImplTest extends TransportTestBase {
     }
 
     @Test
-    public void whenRequest1_0_receivedFromSocket_dispatchRequest() throws IOException {   // REG
+    public void whenRequest1_0_receivedFromSocket_dispatchRequest() throws IOException { // REG
         final List<Short> params = new ArrayList<Short>();
-        defineRequestDispatcher( new RequestDispatcher() {
+        defineRequestDispatcher(new RequestDispatcher() {
             public void readParameters(CDRInputObject input) {
                 params.add(input.read_short());
             }
         });
-        readFromSocketWithoutChannelAndDispatch(new byte[]{'G', 'I', 'O', 'P', 1, 0, Message.FLAG_NO_FRAG_BIG_ENDIAN,
-                Message.GIOPRequest, /* size */ 0, 0, 0, 38, /* no service contexts */ 0, 0, 0, 0,
-                /* request ID */ 0, 0, 0, 2, /* response expected */ 1, /* padding */ 0, 0, 0,
-                /* object key */ 0, 0, 0, 4, 0, 0, 0, 6, /* operation */ 0, 0, 0, 5, 'd', 'o', 'I', 't', 0,
-                0, 0, 0, /* principal */ 0, 0, 0, 0, /* short param */ 1, 1});
+        readFromSocketWithoutChannelAndDispatch(new byte[] { 'G', 'I', 'O', 'P', 1, 0, Message.FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPRequest,
+                /* size */ 0, 0, 0, 38, /* no service contexts */ 0, 0, 0, 0, /* request ID */ 0, 0, 0, 2, /* response expected */ 1,
+                /* padding */ 0, 0, 0, /* object key */ 0, 0, 0, 4, 0, 0, 0, 6, /* operation */ 0, 0, 0, 5, 'd', 'o', 'I', 't', 0, 0, 0, 0,
+                /* principal */ 0, 0, 0, 0, /* short param */ 1, 1 });
         getConnection().doWork();
         assertEquals(1, getMediators().size());
         MessageMediator mediator = getMediators().remove(0);
@@ -71,16 +70,15 @@ public class ConnectionImplTest extends TransportTestBase {
     @Test
     public void whenRequest1_0_receivedFromNio_dispatchRequest() throws IOException {
         final List<Short> params = new ArrayList<Short>();
-        defineRequestDispatcher( new RequestDispatcher() {
+        defineRequestDispatcher(new RequestDispatcher() {
             public void readParameters(CDRInputObject input) {
                 params.add(input.read_short());
             }
         });
-        readFromNio(new byte[]{'G', 'I', 'O', 'P', 1, 0, Message.FLAG_NO_FRAG_BIG_ENDIAN,
-                Message.GIOPRequest, /* size */ 0, 0, 0, 38, /* no service contexts */ 0, 0, 0, 0,
-                /* request ID */ 0, 0, 0, 2, /* response expected */ 1, /* padding */ 0, 0, 0,
-                /* object key */ 0, 0, 0, 4, 0, 0, 0, 6, /* operation */ 0, 0, 0, 5, 'd', 'o', 'I', 't', 0,
-                0, 0, 0, /* principal */ 0, 0, 0, 0, /* short param */ 1, 1});
+        readFromNio(new byte[] { 'G', 'I', 'O', 'P', 1, 0, Message.FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPRequest, /* size */ 0, 0, 0, 38,
+                /* no service contexts */ 0, 0, 0, 0, /* request ID */ 0, 0, 0, 2, /* response expected */ 1, /* padding */ 0, 0, 0,
+                /* object key */ 0, 0, 0, 4, 0, 0, 0, 6, /* operation */ 0, 0, 0, 5, 'd', 'o', 'I', 't', 0, 0, 0, 0, /* principal */ 0, 0,
+                0, 0, /* short param */ 1, 1 });
         getConnection().doWork();
         processQueuedWork();
 
@@ -95,16 +93,15 @@ public class ConnectionImplTest extends TransportTestBase {
     @Test
     public void whenRequest1_1_receivedFromNio_dispatchRequest() throws IOException {
         final List<Short> params = new ArrayList<Short>();
-        defineRequestDispatcher( new RequestDispatcher() {
+        defineRequestDispatcher(new RequestDispatcher() {
             public void readParameters(CDRInputObject input) {
                 params.add(input.read_short());
             }
         });
-        readFromNio(new byte[]{'G', 'I', 'O', 'P', 1, 1, Message.FLAG_NO_FRAG_BIG_ENDIAN,
-                Message.GIOPRequest, /* size */ 0, 0, 0, 38, /* no service contexts */ 0, 0, 0, 0,
-                /* request ID */ 0, 0, 0, 2, /* response expected */ 1, /* padding */ 0,0,0,
-                /* object key */ 0, 0, 0, 4, 0, 0, 0, 6, /* operation */ 0, 0, 0, 5, 'd', 'o', 'I', 't', 0,
-                0, 0, 0, /* principal */ 0, 0, 0, 0, /* short param */ 1, 1});
+        readFromNio(new byte[] { 'G', 'I', 'O', 'P', 1, 1, Message.FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPRequest, /* size */ 0, 0, 0, 38,
+                /* no service contexts */ 0, 0, 0, 0, /* request ID */ 0, 0, 0, 2, /* response expected */ 1, /* padding */ 0, 0, 0,
+                /* object key */ 0, 0, 0, 4, 0, 0, 0, 6, /* operation */ 0, 0, 0, 5, 'd', 'o', 'I', 't', 0, 0, 0, 0, /* principal */ 0, 0,
+                0, 0, /* short param */ 1, 1 });
         getConnection().doWork();
         processQueuedWork();
 
@@ -119,17 +116,15 @@ public class ConnectionImplTest extends TransportTestBase {
     @Test
     public void whenLittleEndianRequest1_2_receivedFromNio_dispatchRequest() throws IOException {
         final List<Short> params = new ArrayList<Short>();
-        defineRequestDispatcher( new RequestDispatcher() {
+        defineRequestDispatcher(new RequestDispatcher() {
             public void readParameters(CDRInputObject input) {
                 params.add(input.read_short());
             }
         });
-        readFromNio(new byte[]{'G', 'I', 'O', 'P', 1, 2, Message.LITTLE_ENDIAN_BIT,
-                Message.GIOPRequest, /* size */ 38, 0, 0, 0,
-                /* request ID */ 2, 0, 0, 0, /* response expected */ 1, /* request reserved */ 0, 0, 0,
-                /* use key */ 0, 0, /* padding */ 0, 0, /* object key */ 4, 0, 0, 0, 0, 0, 0, 6,
-                /* operation */ 5, 0, 0, 0, 'd', 'o', 'I', 't', 0,
-                /* padding */ 0, 0, 0, /* no service contexts */ 0, 0, 0, 0, /* short param */ 1, 1});
+        readFromNio(new byte[] { 'G', 'I', 'O', 'P', 1, 2, Message.LITTLE_ENDIAN_BIT, Message.GIOPRequest, /* size */ 38, 0, 0, 0,
+                /* request ID */ 2, 0, 0, 0, /* response expected */ 1, /* request reserved */ 0, 0, 0, /* use key */ 0, 0, /* padding */ 0,
+                0, /* object key */ 4, 0, 0, 0, 0, 0, 0, 6, /* operation */ 5, 0, 0, 0, 'd', 'o', 'I', 't', 0, /* padding */ 0, 0, 0,
+                /* no service contexts */ 0, 0, 0, 0, /* short param */ 1, 1 });
         getConnection().doWork();
         processQueuedWork();
 
@@ -142,21 +137,20 @@ public class ConnectionImplTest extends TransportTestBase {
     }
 
     @Test
-    public void whenRequest1_1_receivedFromSocketWithFragments_dispatchRequest() throws IOException, InterruptedException {   // REG
+    public void whenRequest1_1_receivedFromSocketWithFragments_dispatchRequest() throws IOException, InterruptedException { // REG
         final List<Short> params = new ArrayList<Short>();
-        defineRequestDispatcher( new RequestDispatcher() {
+        defineRequestDispatcher(new RequestDispatcher() {
             public void readParameters(CDRInputObject input) {
                 params.add(input.read_short());
             }
         });
-        readFromSocketWithoutChannelAndDispatch(new byte[]{'G', 'I', 'O', 'P', 1, 1, Message.MORE_FRAGMENTS_BIT,
-                Message.GIOPRequest, /* size */ 0, 0, 0, 36, /* no service contexts */ 0, 0, 0, 0,
-                /* request ID */ 0, 0, 0, 2, /* response expected */ 1, /* reserved */ 0, 0, 0,
-                /* object key */ 0, 0, 0, 4, 0, 0, 0, 6, /* operation */ 0, 0, 0, 5, 'd', 'o', 'I', 't', 0,
+        readFromSocketWithoutChannelAndDispatch(new byte[] { 'G', 'I', 'O', 'P', 1, 1, Message.MORE_FRAGMENTS_BIT, Message.GIOPRequest,
+                /* size */ 0, 0, 0, 36, /* no service contexts */ 0, 0, 0, 0, /* request ID */ 0, 0, 0, 2, /* response expected */ 1,
+                /* reserved */ 0, 0, 0, /* object key */ 0, 0, 0, 4, 0, 0, 0, 6, /* operation */ 0, 0, 0, 5, 'd', 'o', 'I', 't', 0,
                 /* padding */ 0, 0, 0, /* principal */ 0, 0, 0, 0,
 
-                'G', 'I', 'O', 'P', 1, 1, Message.FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPFragment,
-                /* size */ 0, 0, 0, 2, /* short param */ 1, 1});
+                'G', 'I', 'O', 'P', 1, 1, Message.FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPFragment, /* size */ 0, 0, 0, 2, /* short param */ 1,
+                1 });
         processSocketMessageWithFragments(1);
 
         assertEquals(1, getMediators().size());
@@ -181,14 +175,13 @@ public class ConnectionImplTest extends TransportTestBase {
                 params.add(input.read_short());
             }
         });
-        readFromNio(new byte[]{'G', 'I', 'O', 'P', 1, 1, Message.MORE_FRAGMENTS_BIT,
-                Message.GIOPRequest, /* size */ 0, 0, 0, 36, /* no service contexts */ 0, 0, 0, 0,
-                /* request ID */ 0, 0, 0, 2, /* response expected */ 1, /* reserved */ 0, 0, 0,
-                /* object key */ 0, 0, 0, 4, 0, 0, 0, 6, /* operation */ 0, 0, 0, 5, 'd', 'o', 'I', 't', 0,
-                /* padding */ 0, 0, 0, /* principal */ 0, 0, 0, 0,
+        readFromNio(new byte[] { 'G', 'I', 'O', 'P', 1, 1, Message.MORE_FRAGMENTS_BIT, Message.GIOPRequest, /* size */ 0, 0, 0, 36,
+                /* no service contexts */ 0, 0, 0, 0, /* request ID */ 0, 0, 0, 2, /* response expected */ 1, /* reserved */ 0, 0, 0,
+                /* object key */ 0, 0, 0, 4, 0, 0, 0, 6, /* operation */ 0, 0, 0, 5, 'd', 'o', 'I', 't', 0, /* padding */ 0, 0, 0,
+                /* principal */ 0, 0, 0, 0,
 
-                'G', 'I', 'O', 'P', 1, 1, Message.FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPFragment,
-                /* size */ 0, 0, 0, 2, /* short param */ 1, 1});
+                'G', 'I', 'O', 'P', 1, 1, Message.FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPFragment, /* size */ 0, 0, 0, 2, /* short param */ 1,
+                1 });
         processNioMessageWithFragments(1);
 
         assertEquals(1, getMediators().size());
@@ -207,15 +200,13 @@ public class ConnectionImplTest extends TransportTestBase {
                 params.add(input.read_short());
             }
         });
-        readFromNio(new byte[]{'G', 'I', 'O', 'P', 1, 2, Message.MORE_FRAGMENTS_BIT,
-                Message.GIOPRequest, /* size */ 0, 0, 0, 36,
-                /* request ID */ 0, 0, 0, 2, /* response expected */ 1, /* reserved */ 0, 0, 0,
-                /* use key */ 0, 0, /* padding */ 0, 0, /* object key */ 0, 0, 0, 4, 0, 0, 0, 6,
-                /* operation */ 0, 0, 0, 8, 'g', 'o', 'A', 'g', 'a', 'i', 'n', 0,
-                /* no service contexts */ 0, 0, 0, 0,
+        readFromNio(new byte[] {
+                'G', 'I', 'O', 'P', 1, 2, Message.MORE_FRAGMENTS_BIT, Message.GIOPRequest, /* size */ 0, 0, 0, 36, /* request ID */ 0, 0, 0,
+                2, /* response expected */ 1, /* reserved */ 0, 0, 0, /* use key */ 0, 0, /* padding */ 0, 0, /* object key */ 0, 0, 0, 4,
+                0, 0, 0, 6, /* operation */ 0, 0, 0, 8, 'g', 'o', 'A', 'g', 'a', 'i', 'n', 0, /* no service contexts */ 0, 0, 0, 0,
 
-                'G', 'I', 'O', 'P', 1, 2, Message.FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPFragment,
-                /* size */ 0, 0, 0, 6, /* request id */ 0, 0, 0, 2, /* short param */ 1, 1});
+                'G', 'I', 'O', 'P', 1, 2, Message.FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPFragment, /* size */ 0, 0, 0, 6, /* request id */ 0,
+                0, 0, 2, /* short param */ 1, 1 });
         processNioMessageWithFragments(1);
 
         assertEquals(1, getMediators().size());
@@ -236,8 +227,8 @@ public class ConnectionImplTest extends TransportTestBase {
 
     @Test
     public void whenCloseConnectionReceivedFromSocket_shutdownConnection() {
-        readFromSocketWithoutChannelAndDispatch(new byte[]{'G', 'I', 'O', 'P', 1, 1, Message.FLAG_NO_FRAG_BIG_ENDIAN,
-                Message.GIOPCloseConnection, /* size */ 0, 0, 0, 0});
+        readFromSocketWithoutChannelAndDispatch(new byte[] { 'G', 'I', 'O', 'P', 1, 1, Message.FLAG_NO_FRAG_BIG_ENDIAN,
+                Message.GIOPCloseConnection, /* size */ 0, 0, 0, 0 });
         getConnection().doWork();
         assertEquals(1, getNumConnectionsRemoved());
         getConnection().clearDiscardedThrowable();
@@ -258,7 +249,6 @@ public class ConnectionImplTest extends TransportTestBase {
         assertArrayEquals(BYTE_DATA, getSocketChannel().getDataWritten());
     }
 
-
     @Test
     public void whenNioChannelMomentarilyBusy_allDataIsWritten() throws IOException {
         useNio();
@@ -271,7 +261,8 @@ public class ConnectionImplTest extends TransportTestBase {
     @Test
     public void whenNioWholeMessageReceived_queueSingleEntry() throws IOException {
         useNio();
-        getSocketChannel().enqueData(new byte[]{'G', 'I', 'O', 'P', 1, 0, Message.FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPRequest, 0, 0, 0, 6, 1, 2, 3, 4, 5, 6});
+        getSocketChannel().enqueData(new byte[] { 'G', 'I', 'O', 'P', 1, 0, Message.FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPRequest, 0, 0, 0,
+                6, 1, 2, 3, 4, 5, 6 });
         getConnection().doWork();
         assertEquals(1, getWorkQueue().size());
         assertTrue(getWorkQueue().remove() instanceof MessageMediator);
@@ -280,7 +271,8 @@ public class ConnectionImplTest extends TransportTestBase {
     @Test
     public void whenNioMessageReceivedInTwoReads_queueSingleEntryAfterSecond() throws IOException {
         useNio();
-        getSocketChannel().enqueData(new byte[]{'G', 'I', 'O', 'P', 1, 0, Message.FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPRequest, 0, 0, 0, 6, 1, 2, 3, 4, 5, 6});
+        getSocketChannel().enqueData(new byte[] { 'G', 'I', 'O', 'P', 1, 0, Message.FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPRequest, 0, 0, 0,
+                6, 1, 2, 3, 4, 5, 6 });
         getSocketChannel().setNumBytesToRead(8, 0);
         getConnection().doWork();
         getConnection().doWork();
@@ -291,9 +283,9 @@ public class ConnectionImplTest extends TransportTestBase {
     @Test
     public void whenNioFragmentsIncluded_queueFirstMessageAndAddFragmentsToFragmentList() throws IOException {
         useNio();
-        byte[] messages = {'G', 'I', 'O', 'P', 1, 2, Message.MORE_FRAGMENTS_BIT, Message.GIOPRequest, 0, 0, 0, 6, 0, 0, 0, 3, 5, 6,
-                          'G', 'I', 'O', 'P', 1, 2, Message.MORE_FRAGMENTS_BIT, Message.GIOPFragment, 0, 0, 0, 6, 0, 0, 0, 3, 5, 6,
-                          'G', 'I', 'O', 'P', 1, 2, Message.FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPFragment, 0, 0, 0, 4, 0, 0, 0, 3};
+        byte[] messages = { 'G', 'I', 'O', 'P', 1, 2, Message.MORE_FRAGMENTS_BIT, Message.GIOPRequest, 0, 0, 0, 6, 0, 0, 0, 3, 5, 6, 'G',
+                'I', 'O', 'P', 1, 2, Message.MORE_FRAGMENTS_BIT, Message.GIOPFragment, 0, 0, 0, 6, 0, 0, 0, 3, 5, 6, 'G', 'I', 'O', 'P', 1,
+                2, Message.FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPFragment, 0, 0, 0, 4, 0, 0, 0, 3 };
         getSocketChannel().enqueData(messages);
         getConnection().doWork();
         assertEquals(1, getWorkQueue().size());
@@ -305,9 +297,9 @@ public class ConnectionImplTest extends TransportTestBase {
 
     @Test
     public void whenMessageWithFragmentsReceivedFromSocket_dispatchEachPart() throws IOException {
-        byte[] messages = {'G', 'I', 'O', 'P', 1, 2, Message.MORE_FRAGMENTS_BIT, Message.GIOPRequest, 0, 0, 0, 6, 0, 0, 0, 3, 5, 6,
-                          'G', 'I', 'O', 'P', 1, 2, Message.MORE_FRAGMENTS_BIT, Message.GIOPFragment, 0, 0, 0, 6, 0, 0, 0, 3, 5, 6,
-                          'G', 'I', 'O', 'P', 1, 2, Message.FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPFragment, 0, 0, 0, 4, 0, 0, 0, 3};
+        byte[] messages = { 'G', 'I', 'O', 'P', 1, 2, Message.MORE_FRAGMENTS_BIT, Message.GIOPRequest, 0, 0, 0, 6, 0, 0, 0, 3, 5, 6, 'G',
+                'I', 'O', 'P', 1, 2, Message.MORE_FRAGMENTS_BIT, Message.GIOPFragment, 0, 0, 0, 6, 0, 0, 0, 3, 5, 6, 'G', 'I', 'O', 'P', 1,
+                2, Message.FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPFragment, 0, 0, 0, 4, 0, 0, 0, 3 };
         readFromSocketWithoutChannelAndDispatch(messages);
         collectMediatorsAsDispatched();
         getConnection().doWork();
@@ -316,7 +308,5 @@ public class ConnectionImplTest extends TransportTestBase {
         getConnection().doWork();
         assertEquals(3, getMediators().size());
     }
-
-
 
 }

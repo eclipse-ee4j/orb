@@ -17,55 +17,56 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.spi.transport.concurrent ;
+package com.sun.corba.ee.spi.transport.concurrent;
 
-import com.sun.corba.ee.impl.transport.concurrent.ConcurrentQueueBlockingImpl ;
-import com.sun.corba.ee.impl.transport.concurrent.ConcurrentQueueNonBlockingImpl ;
-import com.sun.corba.ee.impl.transport.concurrent.ConcurrentQueueImpl ;
+import com.sun.corba.ee.impl.transport.concurrent.ConcurrentQueueBlockingImpl;
+import com.sun.corba.ee.impl.transport.concurrent.ConcurrentQueueNonBlockingImpl;
+import com.sun.corba.ee.impl.transport.concurrent.ConcurrentQueueImpl;
 
-/** A factory class for creating instances of ConcurrentQueue.
- * Note that a rather unusual syntax is needed for calling these methods:
+/**
+ * A factory class for creating instances of ConcurrentQueue. Note that a rather unusual syntax is needed for calling
+ * these methods:
  *
- * ConcurrentQueueFactory.&lt;V&gt;makeXXXConcurrentQueue() 
+ * ConcurrentQueueFactory.&lt;V&gt;makeXXXConcurrentQueue()
  *
- * This is required because the type variable V is not used in the
- * parameters of the factory method, so the correct type
+ * This is required because the type variable V is not used in the parameters of the factory method, so the correct type
  * cannot be inferred by the compiler.
  */
 public final class ConcurrentQueueFactory {
-    private ConcurrentQueueFactory() {} 
-
-    /** Create a ConcurrentQueue whose implementation never blocks.
-     * Currently not fully implemented: the NonBlocking and Blocking
-     * impls are basically the same.
-     * 
-     * @param <V> type of queue
-     * @param ttl time to live in milliseconds
-     * @return ConcurrentQueue
-     */
-    public static <V> ConcurrentQueue makeNonBlockingConcurrentQueue(final long ttl ) {
-        return new ConcurrentQueueNonBlockingImpl<V>( ttl ) ;
+    private ConcurrentQueueFactory() {
     }
 
-    /** Create a ConcurrentQueue whose implementation uses conventional
-     * locking to protect the data structure.
+    /**
+     * Create a ConcurrentQueue whose implementation never blocks. Currently not fully implemented: the NonBlocking and
+     * Blocking impls are basically the same.
      * 
      * @param <V> type of queue
      * @param ttl time to live in milliseconds
      * @return ConcurrentQueue
      */
-    public static <V> ConcurrentQueue makeBlockingConcurrentQueue(final long ttl ) {
-        return new ConcurrentQueueBlockingImpl<V>( ttl ) ;
+    public static <V> ConcurrentQueue makeNonBlockingConcurrentQueue(final long ttl) {
+        return new ConcurrentQueueNonBlockingImpl<V>(ttl);
     }
 
-    /** Create a ConcurrentQueue that does no locking at all.
-     * For use in data structures that manage their own locking.
+    /**
+     * Create a ConcurrentQueue whose implementation uses conventional locking to protect the data structure.
      * 
      * @param <V> type of queue
      * @param ttl time to live in milliseconds
      * @return ConcurrentQueue
      */
-    public static <V> ConcurrentQueue makeConcurrentQueue(final long ttl ) {
-        return new ConcurrentQueueImpl<V>( ttl ) ;
+    public static <V> ConcurrentQueue makeBlockingConcurrentQueue(final long ttl) {
+        return new ConcurrentQueueBlockingImpl<V>(ttl);
+    }
+
+    /**
+     * Create a ConcurrentQueue that does no locking at all. For use in data structures that manage their own locking.
+     * 
+     * @param <V> type of queue
+     * @param ttl time to live in milliseconds
+     * @return ConcurrentQueue
+     */
+    public static <V> ConcurrentQueue makeConcurrentQueue(final long ttl) {
+        return new ConcurrentQueueImpl<V>(ttl);
     }
 }

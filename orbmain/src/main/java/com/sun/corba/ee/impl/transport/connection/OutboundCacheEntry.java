@@ -19,20 +19,20 @@
 
 package com.sun.corba.ee.impl.transport.connection;
 
-import java.util.Queue ;
-import java.util.Collection ;
-import java.util.Collections ;
+import java.util.Queue;
+import java.util.Collection;
+import java.util.Collections;
 
-import java.util.concurrent.LinkedBlockingQueue ;
+import java.util.concurrent.LinkedBlockingQueue;
 
-import java.util.concurrent.locks.ReentrantLock ;
-import java.util.concurrent.locks.Condition ;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.Condition;
 
-import org.glassfish.gmbal.ManagedData ;
-import org.glassfish.gmbal.ManagedAttribute ;
-import org.glassfish.gmbal.Description ;
+import org.glassfish.gmbal.ManagedData;
+import org.glassfish.gmbal.ManagedAttribute;
+import org.glassfish.gmbal.Description;
 
-import com.sun.corba.ee.spi.transport.connection.Connection ;
+import com.sun.corba.ee.spi.transport.connection.Connection;
 import java.util.ArrayList;
 
 // Represents an entry in the outbound connection cache.  
@@ -40,107 +40,102 @@ import java.util.ArrayList;
 // (we also need to handle no share).
 @ManagedData
 public class OutboundCacheEntry<C extends Connection> {
-    private ReentrantLock lock ;
-    private final Condition waitForPendingConnections ;
+    private ReentrantLock lock;
+    private final Condition waitForPendingConnections;
 
-    public OutboundCacheEntry( ReentrantLock lock ) {
-        this.lock = lock ;
-        waitForPendingConnections = lock.newCondition() ;
+    public OutboundCacheEntry(ReentrantLock lock) {
+        this.lock = lock;
+        waitForPendingConnections = lock.newCondition();
     }
 
-    final Queue<C> idleConnections = new LinkedBlockingQueue<C>() ;
-    final Collection<C> idleConnectionsView =
-        Collections.unmodifiableCollection( idleConnections ) ;
+    final Queue<C> idleConnections = new LinkedBlockingQueue<C>();
+    final Collection<C> idleConnectionsView = Collections.unmodifiableCollection(idleConnections);
 
-    final Queue<C> busyConnections = new LinkedBlockingQueue<C>() ;
-    final Collection<C> busyConnectionsView =
-        Collections.unmodifiableCollection( busyConnections ) ;
+    final Queue<C> busyConnections = new LinkedBlockingQueue<C>();
+    final Collection<C> busyConnectionsView = Collections.unmodifiableCollection(busyConnections);
 
-    private int pendingConnections = 0 ;
+    private int pendingConnections = 0;
 
     @Override
     public String toString() {
-        lock.lock() ;
+        lock.lock();
         try {
-            return "OutboundCacheEntry[numIdle=" + idleConnections.size()
-                    + ",numBusy=" + busyConnections.size()
-                    + ",numPending=" + pendingConnections + "]" ;
+            return "OutboundCacheEntry[numIdle=" + idleConnections.size() + ",numBusy=" + busyConnections.size() + ",numPending="
+                    + pendingConnections + "]";
         } finally {
             lock.unlock();
         }
     }
 
     @ManagedAttribute
-    @Description( "list of idle connections")
+    @Description("list of idle connections")
     private Collection<C> idleConnections() {
-        lock.lock() ;
+        lock.lock();
         try {
-            return new ArrayList<C>( idleConnections ) ;
+            return new ArrayList<C>(idleConnections);
         } finally {
-            lock.unlock() ;
+            lock.unlock();
         }
     }
 
     @ManagedAttribute
-    @Description( "list of idle connections")
+    @Description("list of idle connections")
     private Collection<C> busyConnections() {
-        lock.lock() ;
+        lock.lock();
         try {
-            return new ArrayList<C>( busyConnections ) ;
+            return new ArrayList<C>(busyConnections);
         } finally {
-            lock.unlock() ;
+            lock.unlock();
         }
     }
 
-    @ManagedAttribute( id="numIdleConnections" )
-    @Description( "Number of idle connections" ) 
+    @ManagedAttribute(id = "numIdleConnections")
+    @Description("Number of idle connections")
     private int numIdleConnectionsAttribute() {
-        lock.lock() ;
+        lock.lock();
         try {
-            return idleConnections.size() ;
+            return idleConnections.size();
         } finally {
-            lock.unlock() ;
+            lock.unlock();
         }
     }
 
-    @ManagedAttribute( id="numPendingConnections" )
-    @Description( "Number of pending connections" ) 
+    @ManagedAttribute(id = "numPendingConnections")
+    @Description("Number of pending connections")
     private int numPendingConnectionsAttribute() {
-        lock.lock() ;
+        lock.lock();
         try {
-            return pendingConnections ;
+            return pendingConnections;
         } finally {
-            lock.unlock() ;
+            lock.unlock();
         }
     }
 
-    @ManagedAttribute( id="numBusyConnections" )
-    @Description( "Number of busy connections" ) 
+    @ManagedAttribute(id = "numBusyConnections")
+    @Description("Number of busy connections")
     private int numBusyConnectionsAttribute() {
-        lock.lock() ;
+        lock.lock();
         try {
-            return busyConnections.size() ;
+            return busyConnections.size();
         } finally {
-            lock.unlock() ;
+            lock.unlock();
         }
     }
 
     public int totalConnections() {
-        return idleConnections.size() + busyConnections.size() 
-            + pendingConnections ;
+        return idleConnections.size() + busyConnections.size() + pendingConnections;
     }
 
     public void startConnect() {
-        pendingConnections++ ;
+        pendingConnections++;
     }
 
     public void finishConnect() {
-        pendingConnections-- ;
-        waitForPendingConnections.signal() ;
+        pendingConnections--;
+        waitForPendingConnections.signal();
     }
 
     public void waitForConnection() {
-        waitForPendingConnections.awaitUninterruptibly() ;
+        waitForPendingConnections.awaitUninterruptibly();
     }
 }
-

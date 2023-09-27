@@ -18,20 +18,17 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.copyobject ;
+package com.sun.corba.ee.impl.copyobject;
 
 import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopier;
 
-
-public class ReferenceObjectCopierImpl implements ObjectCopier
-{
-    public Object copy( Object obj, boolean debug ) {
-        return obj ;
+public class ReferenceObjectCopierImpl implements ObjectCopier {
+    public Object copy(Object obj, boolean debug) {
+        return obj;
     }
 
     @Override
     public Object copy(Object obj) {
-        return obj ;
+        return obj;
     }
 }
-

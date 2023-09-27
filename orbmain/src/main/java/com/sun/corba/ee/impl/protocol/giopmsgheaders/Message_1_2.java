@@ -20,7 +20,6 @@
 
 package com.sun.corba.ee.impl.protocol.giopmsgheaders;
 
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -30,26 +29,21 @@ import com.sun.corba.ee.spi.protocol.RequestId;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.impl.protocol.RequestIdImpl;
 
-public class Message_1_2 extends Message_1_1
-{
+public class Message_1_2 extends Message_1_1 {
     protected int request_id = (int) 0;
 
-    Message_1_2() {}
-    
-    Message_1_2(int _magic, GIOPVersion _GIOP_version, byte _flags,
-            byte _message_type, int _message_size) {
+    Message_1_2() {
+    }
 
-        super(_magic,
-              _GIOP_version,
-              _flags,
-              _message_type,
-              _message_size);
-    }    
+    Message_1_2(int _magic, GIOPVersion _GIOP_version, byte _flags, byte _message_type, int _message_size) {
+
+        super(_magic, _GIOP_version, _flags, _message_type, _message_size);
+    }
 
     /**
-     * The byteBuffer is presumed to have contents of the message already
-     * read in.  It must have 12 bytes of space at the beginning for the GIOP header,
-     * but the header doesn't have to be copied in.
+     * The byteBuffer is presumed to have contents of the message already read in. It must have 12 bytes of space at the
+     * beginning for the GIOP header, but the header doesn't have to be copied in.
+     * 
      * @param byteBuffer buffer to get request ID of
      */
     public void unmarshalRequestID(ByteBuffer byteBuffer) {
@@ -64,8 +58,7 @@ public class Message_1_2 extends Message_1_1
             return;
         }
         GIOPVersion gv = GIOP_version; // save
-        GIOP_version = GIOPVersion.getInstance(GIOPVersion.V13_XX.getMajor(),
-                                               getEncodingVersion());
+        GIOP_version = GIOPVersion.getInstance(GIOPVersion.V13_XX.getMajor(), getEncodingVersion());
         super.write(ostream);
         GIOP_version = gv; // restore
     }
@@ -75,4 +68,3 @@ public class Message_1_2 extends Message_1_1
         return new RequestIdImpl(this.request_id);
     }
 }
-

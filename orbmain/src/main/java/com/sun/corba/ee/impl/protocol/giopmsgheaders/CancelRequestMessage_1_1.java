@@ -28,8 +28,7 @@ import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
  * @version 1.0
  */
 
-public final class CancelRequestMessage_1_1 extends Message_1_1
-        implements CancelRequestMessage {
+public final class CancelRequestMessage_1_1 extends Message_1_1 implements CancelRequestMessage {
 
     // Instance variables
 
@@ -37,11 +36,11 @@ public final class CancelRequestMessage_1_1 extends Message_1_1
 
     // Constructors
 
-    CancelRequestMessage_1_1() {}
+    CancelRequestMessage_1_1() {
+    }
 
     CancelRequestMessage_1_1(int _request_id) {
-        super(Message.GIOPBigMagic, GIOPVersion.V1_1, FLAG_NO_FRAG_BIG_ENDIAN,
-            Message.GIOPCancelRequest, CANCEL_REQ_MSG_SIZE);
+        super(Message.GIOPBigMagic, GIOPVersion.V1_1, FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPCancelRequest, CANCEL_REQ_MSG_SIZE);
         request_id = _request_id;
     }
 
@@ -54,7 +53,7 @@ public final class CancelRequestMessage_1_1 extends Message_1_1
     // IO methods
 
     public void read(org.omg.CORBA.portable.InputStream istream) {
-        super.read(istream);    
+        super.read(istream);
         this.request_id = istream.read_ulong();
     }
 
@@ -63,9 +62,7 @@ public final class CancelRequestMessage_1_1 extends Message_1_1
         ostream.write_ulong(this.request_id);
     }
 
-    public void callback(MessageHandler handler)
-        throws java.io.IOException
-    {
+    public void callback(MessageHandler handler) throws java.io.IOException {
         handler.handleInput(this);
     }
 } // class CancelRequestMessage_1_1

@@ -21,20 +21,19 @@ package com.sun.corba.ee.impl.encoding;
 
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 
-public class CDROutputStream_1_1 extends CDROutputStream_1_0
-{
-    // This is used to keep indirections working across fragments.  When added
+public class CDROutputStream_1_1 extends CDROutputStream_1_0 {
+    // This is used to keep indirections working across fragments. When added
     // to the current bbwi.position(), the result is the current position
     // in the byte stream without any fragment headers.
-    // 
+    //
     // It is equal to the following:
     //
     // n = number of buffers (0 is original buffer, 1 is first fragment, etc)
-    // 
+    //
     // n == 0, fragmentOffset = 0
     //
     // n > 0, fragmentOffset
-    //          = sum i=[1,n] { bbwi_i-1_.size - buffer i header length }
+    // = sum i=[1,n] { bbwi_i-1_.size - buffer i header length }
     //
     protected int fragmentOffset = 0;
 
@@ -42,9 +41,9 @@ public class CDROutputStream_1_1 extends CDROutputStream_1_0
     protected void alignAndReserve(int align, int n) {
 
         // Notice that in 1.1, we won't end a fragment with
-        // alignment padding.  We also won't guarantee that
+        // alignment padding. We also won't guarantee that
         // our fragments end on evenly divisible 8 byte
-        // boundaries.  There may be alignment
+        // boundaries. There may be alignment
         // necessary with the header of the next fragment
         // since the header isn't aligned on an 8 byte
         // boundary, so we have to calculate it twice.
@@ -75,13 +74,13 @@ public class CDROutputStream_1_1 extends CDROutputStream_1_0
         byteBuffer = bufferManagerWrite.overflow(byteBuffer, n);
 
         // At this point, if we fragmented, we should have a ByteBuffer
-        // with the fragment header already marshalled.  The size and length fields
+        // with the fragment header already marshalled. The size and length fields
         // should be updated accordingly, and the fragmented flag should be set.
         if (bufferManagerWrite.isFragmentOnOverflow()) {
 
             // Update fragmentOffset so indirections work properly.
             // At this point, oldSize is the entire length of the
-            // previous buffer.  bbwi.position() is the length of the
+            // previous buffer. bbwi.position() is the length of the
             // fragment header of this buffer.
             fragmentOffset += (oldSize - byteBuffer.position());
         }
@@ -98,10 +97,9 @@ public class CDROutputStream_1_1 extends CDROutputStream_1_0
     }
 
     @Override
-    public void write_wchar(char x)
-    {
+    public void write_wchar(char x) {
         // In GIOP 1.1, interoperability with wchar is limited
-        // to 2 byte fixed width encodings.  CORBA formal 99-10-07 15.3.1.6.
+        // to 2 byte fixed width encodings. CORBA formal 99-10-07 15.3.1.6.
         // Note that the following code prohibits UTF-16 with a byte
         // order marker (which would result in 4 bytes).
         CodeSetConversion.CTBConverter converter = getWCharConverter();
@@ -111,23 +109,19 @@ public class CDROutputStream_1_1 extends CDROutputStream_1_0
         if (converter.getNumBytes() != 2)
             throw wrapper.badGiop11Ctb();
 
-        alignAndReserve(converter.getAlignment(),
-                        converter.getNumBytes());
+        alignAndReserve(converter.getAlignment(), converter.getNumBytes());
 
-        parent.write_octet_array(converter.getBytes(),
-                                 0,
-                                 converter.getNumBytes());
+        parent.write_octet_array(converter.getBytes(), 0, converter.getNumBytes());
     }
 
     @Override
-    public void write_wstring(String value)
-    {
+    public void write_wstring(String value) {
         if (value == null) {
             throw wrapper.nullParam();
         }
 
         // The length is the number of code points (which are 2 bytes each)
-        // including the 2 byte null.  See CORBA formal 99-10-07 15.3.2.7.
+        // including the 2 byte null. See CORBA formal 99-10-07 15.3.2.7.
 
         int len = value.length() + 1;
 
@@ -140,7 +134,6 @@ public class CDROutputStream_1_1 extends CDROutputStream_1_0
         internalWriteOctetArray(converter.getBytes(), 0, converter.getNumBytes());
 
         // Write the 2 byte null ending
-        write_short((short)0);
+        write_short((short) 0);
     }
 }
-

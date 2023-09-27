@@ -22,17 +22,13 @@ package com.sun.corba.ee.spi.legacy.interceptor;
 import com.sun.corba.ee.spi.legacy.connection.Connection;
 
 /**
- * This interface is implemented by our implementation of 
- * PortableInterceptor.ClientRequestInfo and
+ * This interface is implemented by our implementation of PortableInterceptor.ClientRequestInfo and
  * PortableInterceptor.ServerRequestInfo.
  *
  */
-public interface RequestInfoExt
-{
+public interface RequestInfoExt {
     /**
-     * @return The connection on which the request is made.
-     *         The return value will be null when a local transport 
-     *         is used.
+     * @return The connection on which the request is made. The return value will be null when a local transport is used.
      */
     public Connection connection();
 }

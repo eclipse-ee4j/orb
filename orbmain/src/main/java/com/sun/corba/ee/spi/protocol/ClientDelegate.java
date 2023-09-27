@@ -22,9 +22,7 @@ package com.sun.corba.ee.spi.protocol;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.transport.ContactInfoList;
 
-public abstract class ClientDelegate
-    extends org.omg.CORBA_2_3.portable.Delegate 
-{
+public abstract class ClientDelegate extends org.omg.CORBA_2_3.portable.Delegate {
     /**
      * The ORB associated * with an invocation.
      *
@@ -33,8 +31,8 @@ public abstract class ClientDelegate
     public abstract ORB getBroker();
 
     /**
-     * Get the CorbaContactInfoList which represents they encoding/protocol/transport
-     * combinations that may be used to contact the service.
+     * Get the CorbaContactInfoList which represents they encoding/protocol/transport combinations that may be used to
+     * contact the service.
      *
      * @return CorbaContactInfoList
      */

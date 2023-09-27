@@ -28,10 +28,9 @@ import org.omg.CORBA.ExceptionList;
 import org.omg.CORBA.TypeCode;
 import org.omg.CORBA.ORB;
 
-
 public class ExceptionListImpl extends ExceptionList {
 
-    private static final int     INITIAL_CAPACITY       = 2;
+    private static final int INITIAL_CAPACITY = 2;
 
     private List<TypeCode> _exceptions;
 
@@ -39,19 +38,15 @@ public class ExceptionListImpl extends ExceptionList {
         _exceptions = new ArrayList<TypeCode>(INITIAL_CAPACITY);
     }
 
-    public synchronized int count() 
-    {
+    public synchronized int count() {
         return _exceptions.size();
     }
 
-    public synchronized void add(TypeCode tc)
-    {
+    public synchronized void add(TypeCode tc) {
         _exceptions.add(tc);
     }
 
-    public synchronized TypeCode item(int index)
-        throws Bounds
-    {
+    public synchronized TypeCode item(int index) throws Bounds {
         try {
             return _exceptions.get(index);
         } catch (IndexOutOfBoundsException e) {
@@ -59,9 +54,7 @@ public class ExceptionListImpl extends ExceptionList {
         }
     }
 
-    public synchronized void remove(int index)
-        throws Bounds
-    {
+    public synchronized void remove(int index) throws Bounds {
         try {
             _exceptions.remove(index);
         } catch (IndexOutOfBoundsException e) {
@@ -70,4 +63,3 @@ public class ExceptionListImpl extends ExceptionList {
     }
 
 }
-

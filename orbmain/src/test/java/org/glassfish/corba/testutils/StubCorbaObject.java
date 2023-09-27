@@ -58,7 +58,8 @@ public class StubCorbaObject implements org.omg.CORBA.Object {
         return null;
     }
 
-    public Request _create_request(Context context, String s, NVList nvList, NamedValue namedValue, ExceptionList exceptionList, ContextList contextList) {
+    public Request _create_request(Context context, String s, NVList nvList, NamedValue namedValue, ExceptionList exceptionList,
+            ContextList contextList) {
         return null;
     }
 

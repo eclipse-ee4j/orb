@@ -17,31 +17,31 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.orb ;
+package com.sun.corba.ee.impl.orb;
 
-import com.sun.corba.ee.spi.orb.ObjectKeyCacheEntry ;
+import com.sun.corba.ee.spi.orb.ObjectKeyCacheEntry;
 
-import com.sun.corba.ee.spi.ior.ObjectKey ;
+import com.sun.corba.ee.spi.ior.ObjectKey;
 
-import com.sun.corba.ee.spi.oa.ObjectAdapter ;
+import com.sun.corba.ee.spi.oa.ObjectAdapter;
 
 public class ObjectKeyCacheEntryImpl extends ObjectKeyCacheEntryBase {
-    private volatile ObjectAdapter oa ;
+    private volatile ObjectAdapter oa;
 
-    public ObjectKeyCacheEntryImpl( ObjectKey okey ) {
-        super( okey ) ;
-        oa = null ;
+    public ObjectKeyCacheEntryImpl(ObjectKey okey) {
+        super(okey);
+        oa = null;
     }
 
     public ObjectAdapter getObjectAdapter() {
-        return oa ;
+        return oa;
     }
 
     public void clearObjectAdapter() {
-        oa = null ;
+        oa = null;
     }
 
-    public void setObjectAdapter( ObjectAdapter oa ) {
-        this.oa = oa ;
+    public void setObjectAdapter(ObjectAdapter oa) {
+        this.oa = oa;
     }
 }

@@ -18,46 +18,43 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.copyobject ;
+package com.sun.corba.ee.impl.copyobject;
 
 import com.sun.corba.ee.spi.copyobject.CopierManager;
 import org.glassfish.pfl.basic.contain.DenseIntMapImpl;
 import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopierFactory;
 
-public class CopierManagerImpl implements CopierManager
-{
-    private int defaultId ;
-    private final DenseIntMapImpl<ObjectCopierFactory> map ;
+public class CopierManagerImpl implements CopierManager {
+    private int defaultId;
+    private final DenseIntMapImpl<ObjectCopierFactory> map;
 
-    public CopierManagerImpl()
-    {
-        defaultId = 0 ;
-        map = new DenseIntMapImpl<>() ;
+    public CopierManagerImpl() {
+        defaultId = 0;
+        map = new DenseIntMapImpl<>();
     }
 
     @Override
-    public void setDefaultId( int id ) {
-        defaultId = id ;
+    public void setDefaultId(int id) {
+        defaultId = id;
     }
 
     @Override
     public int getDefaultId() {
-        return defaultId ;
+        return defaultId;
     }
 
     @Override
     public ObjectCopierFactory getObjectCopierFactory(int id) {
-        return map.get( id ) ;
+        return map.get(id);
     }
 
     @Override
     public ObjectCopierFactory getDefaultObjectCopierFactory() {
-        return map.get( defaultId ) ;
+        return map.get(defaultId);
     }
 
     @Override
     public void registerObjectCopierFactory(ObjectCopierFactory factory, int id) {
-        map.set( id, factory ) ;
+        map.set(id, factory);
     }
 }
-

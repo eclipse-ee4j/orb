@@ -18,7 +18,7 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.presentation.rmi ;
+package com.sun.corba.ee.impl.presentation.rmi;
 
 /**
  * Holds information about the OMG IDL mapping of a Java type.
@@ -33,7 +33,6 @@ public class IDLType {
     // name of element within module
     private String memberName_;
 
-
     public IDLType(Class cl, String[] modules, String memberName) {
         cl_ = cl;
         modules_ = modules;
@@ -41,80 +40,79 @@ public class IDLType {
     }
 
     public IDLType(Class cl, String memberName) {
-        this( cl, new String[0], memberName ) ;
+        this(cl, new String[0], memberName);
     }
 
     public Class getJavaClass() {
         return cl_;
     }
 
-    public String[] getModules()
-    {
-        return modules_ ;
+    public String[] getModules() {
+        return modules_;
     }
-    
-    public String makeConcatenatedName( char separator, boolean fixIDLKeywords ) {
-        StringBuilder sbuff = new StringBuilder() ;
-        for (int ctr=0; ctr<modules_.length; ctr++) {
-            String mod = modules_[ctr] ;
-            if (ctr>0)
-                sbuff.append( separator ) ;
-            
-            if (fixIDLKeywords && IDLNameTranslatorImpl.isIDLKeyword(mod))
-                mod = IDLNameTranslatorImpl.mangleIDLKeywordClash( mod ) ;
 
-            sbuff.append( mod ) ;
+    public String makeConcatenatedName(char separator, boolean fixIDLKeywords) {
+        StringBuilder sbuff = new StringBuilder();
+        for (int ctr = 0; ctr < modules_.length; ctr++) {
+            String mod = modules_[ctr];
+            if (ctr > 0)
+                sbuff.append(separator);
+
+            if (fixIDLKeywords && IDLNameTranslatorImpl.isIDLKeyword(mod))
+                mod = IDLNameTranslatorImpl.mangleIDLKeywordClash(mod);
+
+            sbuff.append(mod);
         }
 
-        return sbuff.toString() ;
+        return sbuff.toString();
     }
-   
+
     public String getModuleName() {
         // Note that this should probably be makeConcatenatedName( '/', true )
         // for spec compliance,
         // but rmic does it this way, so we'll leave this.
         // The effect is that an overloaded method like
-        // void foo( bar.typedef.Baz ) 
+        // void foo( bar.typedef.Baz )
         // will get an IDL name of foo__bar_typedef_Baz instead of
         // foo__bar__typedef_Baz (note the extra _ before typedef).
-        return makeConcatenatedName( '_', false ) ;
+        return makeConcatenatedName('_', false);
     }
 
     public String getExceptionName() {
         // Here we will check for IDL keyword collisions (see bug 5010332).
-        // This means that the repository ID for 
+        // This means that the repository ID for
         // foo.exception.SomeException is
         // "IDL:foo/_exception/SomeEx:1.0" (note the underscore in front
         // of the exception module name).
-        String modName = makeConcatenatedName( '/', true ) ;
+        String modName = makeConcatenatedName('/', true);
 
-        String suffix = "Exception" ;
-        String excName = memberName_ ;
-        if (excName.endsWith( suffix )) {
-            int last = excName.length() - suffix.length() ;
-            excName = excName.substring( 0, last ) ;
+        String suffix = "Exception";
+        String excName = memberName_;
+        if (excName.endsWith(suffix)) {
+            int last = excName.length() - suffix.length();
+            excName = excName.substring(0, last);
         }
-   
+
         // See bug 4989312: we must always add the Ex.
-        excName += "Ex" ;
+        excName += "Ex";
 
         if (modName.length() == 0)
-            return "IDL:" + excName + ":1.0" ; 
+            return "IDL:" + excName + ":1.0";
         else
-            return "IDL:" + modName + '/' + excName + ":1.0" ; 
+            return "IDL:" + modName + '/' + excName + ":1.0";
     }
 
     public String getMemberName() {
         return memberName_;
     }
-    
+
     /**
-     * True if this type doesn't have a containing module.  This
-     * would be true of a java type defined in the default package
+     * True if this type doesn't have a containing module. This would be true of a java type defined in the default package
      * or a primitive.
+     * 
      * @return if there is a contained module.
      */
     public boolean hasModule() {
-        return (modules_.length > 0) ;
+        return (modules_.length > 0);
     }
 }

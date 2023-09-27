@@ -30,16 +30,15 @@ import com.sun.corba.ee.impl.encoding.CDRInputObject;
 import com.sun.corba.ee.impl.encoding.CDROutputObject;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 
 /**
- *  Static functions for TypeCode interpretation.
+ * Static functions for TypeCode interpretation.
  */
 public final class TCUtility {
-    private static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
-    @SuppressWarnings({"deprecation"})
+    @SuppressWarnings({ "deprecation" })
     static void marshalIn(org.omg.CORBA.portable.OutputStream s, TypeCode typeCode, long l, Object o) {
         switch (typeCode.kind().value()) {
         case TCKind._tk_null:
@@ -49,24 +48,24 @@ public final class TCUtility {
             break;
 
         case TCKind._tk_short:
-            s.write_short((short)(l & 0xFFFFL));
+            s.write_short((short) (l & 0xFFFFL));
             break;
 
         case TCKind._tk_ushort:
-            s.write_ushort((short)(l & 0xFFFFL));
+            s.write_ushort((short) (l & 0xFFFFL));
             break;
 
         case TCKind._tk_enum:
         case TCKind._tk_long:
-            s.write_long((int)(l & 0xFFFFFFFFL));
+            s.write_long((int) (l & 0xFFFFFFFFL));
             break;
 
         case TCKind._tk_ulong:
-            s.write_ulong((int)(l & 0xFFFFFFFFL));
+            s.write_ulong((int) (l & 0xFFFFFFFFL));
             break;
 
         case TCKind._tk_float:
-            s.write_float(Float.intBitsToFloat((int)(l & 0xFFFFFFFFL)));
+            s.write_float(Float.intBitsToFloat((int) (l & 0xFFFFFFFFL)));
             break;
 
         case TCKind._tk_double:
@@ -74,26 +73,26 @@ public final class TCUtility {
             break;
 
         case TCKind._tk_boolean:
-            if ( l == 0 )
+            if (l == 0)
                 s.write_boolean(false);
-            else        
+            else
                 s.write_boolean(true);
             break;
 
         case TCKind._tk_char:
-            s.write_char((char)(l & 0xFFFFL));
+            s.write_char((char) (l & 0xFFFFL));
             break;
 
         case TCKind._tk_octet:
-            s.write_octet((byte)(l & 0xFFL));
+            s.write_octet((byte) (l & 0xFFL));
             break;
 
         case TCKind._tk_any:
-            s.write_any((Any)o);
+            s.write_any((Any) o);
             break;
 
         case TCKind._tk_TypeCode:
-            s.write_TypeCode((TypeCode)o);
+            s.write_TypeCode((TypeCode) o);
             break;
 
         case TCKind._tk_Principal:
@@ -101,7 +100,7 @@ public final class TCUtility {
             break;
 
         case TCKind._tk_objref:
-            s.write_Object((org.omg.CORBA.Object)o);
+            s.write_Object((org.omg.CORBA.Object) o);
             break;
 
         case TCKind._tk_longlong:
@@ -113,20 +112,20 @@ public final class TCUtility {
             break;
 
         case TCKind._tk_wchar:
-            s.write_wchar((char)(l & 0xFFFFL));
+            s.write_wchar((char) (l & 0xFFFFL));
             break;
 
         case TCKind._tk_string:
-            s.write_string((String)o);
+            s.write_string((String) o);
             break;
 
         case TCKind._tk_wstring:
-            s.write_wstring((String)o);
+            s.write_wstring((String) o);
             break;
 
         case TCKind._tk_value:
         case TCKind._tk_value_box:
-            ((org.omg.CORBA_2_3.portable.OutputStream)s).write_value((Serializable)o);
+            ((org.omg.CORBA_2_3.portable.OutputStream) s).write_value((Serializable) o);
             break;
 
         case TCKind._tk_fixed:
@@ -134,13 +133,11 @@ public final class TCUtility {
             // OutputStream, this check will be unnecessary
             if (s instanceof CDROutputObject) {
                 try {
-                    ((CDROutputObject)s).write_fixed((BigDecimal)o,
-                                                    typeCode.fixed_digits(),
-                                                    typeCode.fixed_scale());
+                    ((CDROutputObject) s).write_fixed((BigDecimal) o, typeCode.fixed_digits(), typeCode.fixed_scale());
                 } catch (BadKind badKind) { // impossible
                 }
             } else {
-                s.write_fixed((BigDecimal)o);
+                s.write_fixed((BigDecimal) o);
             }
             break;
 
@@ -150,25 +147,24 @@ public final class TCUtility {
         case TCKind._tk_array:
         case TCKind._tk_alias:
         case TCKind._tk_except:
-            ((Streamable)o)._write(s);
+            ((Streamable) o)._write(s);
             break;
 
         case TCKind._tk_abstract_interface:
-            ((org.omg.CORBA_2_3.portable.OutputStream)s).write_abstract_interface(o);
+            ((org.omg.CORBA_2_3.portable.OutputStream) s).write_abstract_interface(o);
             break;
 
         case TCKind._tk_longdouble:
             // Unspecified for Java
         default:
-            throw wrapper.typecodeNotSupported() ;
+            throw wrapper.typecodeNotSupported();
         }
     }
 
-    static void unmarshalIn(org.omg.CORBA.portable.InputStream s, TypeCode typeCode, long[] la, Object[] oa) 
-    {
+    static void unmarshalIn(org.omg.CORBA.portable.InputStream s, TypeCode typeCode, long[] la, Object[] oa) {
         int type = typeCode.kind().value();
-        long l=0;
-        Object o=oa[0];
+        long l = 0;
+        Object o = oa[0];
 
         switch (type) {
         case TCKind._tk_null:
@@ -189,19 +185,19 @@ public final class TCUtility {
         case TCKind._tk_long:
             l = s.read_long() & 0xFFFFFFFFL;
             break;
- 
+
         case TCKind._tk_ulong:
             l = s.read_ulong() & 0xFFFFFFFFL;
-            break;  
- 
+            break;
+
         case TCKind._tk_float:
             l = Float.floatToIntBits(s.read_float()) & 0xFFFFFFFFL;
             break;
- 
+
         case TCKind._tk_double:
             l = Double.doubleToLongBits(s.read_double());
             break;
- 
+
         case TCKind._tk_char:
             l = s.read_char() & 0xFFFFL;
             break;
@@ -211,7 +207,7 @@ public final class TCUtility {
             break;
 
         case TCKind._tk_boolean:
-            if ( s.read_boolean() )
+            if (s.read_boolean())
                 l = 1;
             else
                 l = 0;
@@ -231,23 +227,23 @@ public final class TCUtility {
 
         case TCKind._tk_objref:
             if (o instanceof Streamable)
-                ((Streamable)o)._read(s);
+                ((Streamable) o)._read(s);
             else
                 o = s.read_Object();
             break;
- 
+
         case TCKind._tk_longlong:
             l = s.read_longlong();
             break;
- 
+
         case TCKind._tk_ulonglong:
             l = s.read_ulonglong();
-            break;  
+            break;
 
         case TCKind._tk_wchar:
             l = s.read_wchar() & 0xFFFFL;
             break;
- 
+
         case TCKind._tk_string:
             o = s.read_string();
             break;
@@ -258,7 +254,7 @@ public final class TCUtility {
 
         case TCKind._tk_value:
         case TCKind._tk_value_box:
-            o = ((org.omg.CORBA_2_3.portable.InputStream)s).read_value ();
+            o = ((org.omg.CORBA_2_3.portable.InputStream) s).read_value();
             break;
 
         case TCKind._tk_fixed:
@@ -266,11 +262,10 @@ public final class TCUtility {
                 // _REVISIT_ As soon as the java-rtf adds digits and scale parameters to
                 // InputStream, this check will be unnecessary
                 if (s instanceof CDRInputObject) {
-                    o = ((CDRInputObject)s).read_fixed(typeCode.fixed_digits(),
-                                                                typeCode.fixed_scale());
+                    o = ((CDRInputObject) s).read_fixed(typeCode.fixed_digits(), typeCode.fixed_scale());
                 } else {
                     BigDecimal bigDecimal = s.read_fixed();
-                    o = bigDecimal.movePointLeft((int)typeCode.fixed_scale());
+                    o = bigDecimal.movePointLeft((int) typeCode.fixed_scale());
                 }
             } catch (BadKind badKind) { // impossible
             }
@@ -282,17 +277,17 @@ public final class TCUtility {
         case TCKind._tk_array:
         case TCKind._tk_alias:
         case TCKind._tk_except:
-            ((Streamable)o)._read(s);
+            ((Streamable) o)._read(s);
             break;
 
         case TCKind._tk_abstract_interface:
-            o = ((org.omg.CORBA_2_3.portable.InputStream)s).read_abstract_interface();
+            o = ((org.omg.CORBA_2_3.portable.InputStream) s).read_abstract_interface();
             break;
 
         case TCKind._tk_longdouble:
             // Unspecified for Java
         default:
-            throw wrapper.typecodeNotSupported() ;
+            throw wrapper.typecodeNotSupported();
         }
 
         oa[0] = o;

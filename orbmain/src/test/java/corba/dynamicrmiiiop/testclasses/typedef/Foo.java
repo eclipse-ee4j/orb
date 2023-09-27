@@ -19,4 +19,5 @@
 
 package corba.dynamicrmiiiop.testclasses.typedef;
 
-public class Foo {}
+public class Foo {
+}

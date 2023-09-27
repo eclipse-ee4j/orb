@@ -17,8 +17,8 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.spi.ior ;
+package com.sun.corba.ee.spi.ior;
 
 public interface MakeImmutable {
-    void makeImmutable() ;
+    void makeImmutable();
 }

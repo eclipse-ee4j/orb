@@ -126,13 +126,8 @@ public class CDRInputTest extends EncodingTestBase {
 
     @Test
     public void can_read_integers() {
-        setMessageBody(0x04, pad(), /* short*/ FF, (byte) 0xf2,
-                /* short */ 0x00, 0x03,
-                pad(), pad(),
-                /* long1 */ 0, 1, 2, (byte) 0x83,
-                /* long2 */ FF, FF, (byte) 0xfd, 0x71,
-                pad(), pad(), pad(), pad(),
-                /* long long */ 0, 0, 1, 0, 0, (byte) 0x80, 1, 7,
+        setMessageBody(0x04, pad(), /* short */ FF, (byte) 0xf2, /* short */ 0x00, 0x03, pad(), pad(), /* long1 */ 0, 1, 2, (byte) 0x83,
+                /* long2 */ FF, FF, (byte) 0xfd, 0x71, pad(), pad(), pad(), pad(), /* long long */ 0, 0, 1, 0, 0, (byte) 0x80, 1, 7,
                 /* long long */ 0, 0, 1, 0, 0, 0, 1, 2);
 
         assertEquals("Octet value", 4, getInputObject().read_octet());
@@ -146,14 +141,8 @@ public class CDRInputTest extends EncodingTestBase {
 
     @Test
     public void can_read_little_endian_integers() {
-        setMessageBody(0x04, pad(),
-                       /* short*/      0xf2, FF,
-                       /* ushort */    0x03, 0x00,
-                       /* for long */ pad(), pad(),
-                       /* long */      0x83,     2, 1, 0,
-                       /* ulong */     0x71,  0xfd, FF, FF,
-                       /* for long_long */ pad(), pad(), pad(), pad(),
-                       /* long long */     7, 1, 0x80, 0, 0, 1, 0, 0);
+        setMessageBody(0x04, pad(), /* short */ 0xf2, FF, /* ushort */ 0x03, 0x00, /* for long */ pad(), pad(), /* long */ 0x83, 2, 1, 0,
+                /* ulong */ 0x71, 0xfd, FF, FF, /* for long_long */ pad(), pad(), pad(), pad(), /* long long */ 7, 1, 0x80, 0, 0, 1, 0, 0);
         useLittleEndian();
 
         assertEquals("Octet value", 4, getInputObject().read_octet());
@@ -166,8 +155,7 @@ public class CDRInputTest extends EncodingTestBase {
 
     @Test
     public void can_read_floats() {
-        setMessageBody(0x3f, 0x80,    0,    0,
-                       0x3f, 0xd5, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55);
+        setMessageBody(0x3f, 0x80, 0, 0, 0x3f, 0xd5, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55);
 
         assertEquals("Float", 1, getInputObject().read_float(), 0.001);
         assertEquals("Double", 0.33333, getInputObject().read_double(), 0.001);
@@ -175,25 +163,22 @@ public class CDRInputTest extends EncodingTestBase {
 
     @Test
     public void can_read_float_arrays() {
-        setMessageBody(0x3f, 0x80, 0, 0,
-                       0x46, 0x40, 0xE4, 0x7E);
+        setMessageBody(0x3f, 0x80, 0, 0, 0x46, 0x40, 0xE4, 0x7E);
         float[] actual = new float[2];
         getInputObject().read_float_array(actual, 0, 2);
 
-        assertEquals("Float 1", 1,            actual[0], 0.001);
+        assertEquals("Float 1", 1, actual[0], 0.001);
         assertEquals("Float 2", 12345.12346f, actual[1], 0.001);
     }
 
     @Test
     public void can_read_double_arrays() {
-        setMessageBody(pad(), pad(), pad(), pad(),
-                      0x3f, 0xd5, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55,
-                      0x40,    0,    0,    0,    0,    0,    0,    0);
+        setMessageBody(pad(), pad(), pad(), pad(), 0x3f, 0xd5, 0x55, 0x55, 0x55, 0x55, 0x55, 0x55, 0x40, 0, 0, 0, 0, 0, 0, 0);
         double[] actual = new double[2];
         getInputObject().read_double_array(actual, 0, 2);
 
         assertEquals("Double 1", 0.33333, actual[0], 0.001);
-        assertEquals("Double 2", 2,       actual[1], 0.001);
+        assertEquals("Double 2", 2, actual[1], 0.001);
     }
 
     @Test
@@ -231,7 +216,7 @@ public class CDRInputTest extends EncodingTestBase {
     public void canReadStringFromOldOrbWithTerminatorInNextFragment() {
         useV1_1();
         setOrbVersion(ORBVersionFactory.getOLD());
-        setMessageBody(0, 0, 0, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' );
+        setMessageBody(0, 0, 0, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
         addFragment(0, 'x');
         assertEquals("abcdefgh", getInputObject().read_string());
         assertEquals('x', getInputObject().read_char());
@@ -240,8 +225,7 @@ public class CDRInputTest extends EncodingTestBase {
     @Test(expected = MARSHAL.class)
     public void whenUsingV1_0_cannotReadWCharString() {
         useV1_0();
-        int[] data = {0, 0, 0, 22, FE, FF,
-                0, 'T', 0, 'h', 0, 'i', 0, 's', 0, ',', 0, ' ', 0, 't', 0, 'o', 0, 'o', 0, '!'};
+        int[] data = { 0, 0, 0, 22, FE, FF, 0, 'T', 0, 'h', 0, 'i', 0, 's', 0, ',', 0, ' ', 0, 't', 0, 'o', 0, 'o', 0, '!' };
         setMessageBody(data);
         assertEquals("Wide string value", "This, too!", getInputObject().read_wstring());
     }
@@ -249,12 +233,8 @@ public class CDRInputTest extends EncodingTestBase {
     @Test
     public void whenUsingV1_1_canReadCharAndWCharStrings() {
         useV1_1();
-        int[] data = {0, 0, 0, 11, 't', 'h', 'i', 's', ' ', 'w', 'o', 'r', 'k', 's', 0,
-                pad(),
-                0, 0, 0, 11,
-                0, 'T', 0, 'h', 0, 'i', 0, 's', 0, ',', 0, ' ', 0, 't', 0, 'o', 0, 'o', 0, '!',
-                0, 0,
-                pad(), pad(), 0, 0, 0, 0};
+        int[] data = { 0, 0, 0, 11, 't', 'h', 'i', 's', ' ', 'w', 'o', 'r', 'k', 's', 0, pad(), 0, 0, 0, 11, 0, 'T', 0, 'h', 0, 'i', 0, 's',
+                0, ',', 0, ' ', 0, 't', 0, 'o', 0, 'o', 0, '!', 0, 0, pad(), pad(), 0, 0, 0, 0 };
         setMessageBody(data);
 
         assertEquals("String value", "this works", getInputObject().read_string());
@@ -266,11 +246,8 @@ public class CDRInputTest extends EncodingTestBase {
     @Test
     public void whenUsingV1_2_canReadCharAndWCharStrings() {
         useV1_2();
-        int[] data = {0, 0, 0, 11, 't', 'h', 'i', 's', ' ', 'w', 'o', 'r', 'k', 's', 0,
-                pad(),
-                0, 0, 0, 22, FE, FF,
-                0, 'T', 0, 'h', 0, 'i', 0, 's', 0, ',', 0, ' ', 0, 't', 0, 'o', 0, 'o', 0, '!',
-                pad(), pad(), 0, 0, 0, 0};
+        int[] data = { 0, 0, 0, 11, 't', 'h', 'i', 's', ' ', 'w', 'o', 'r', 'k', 's', 0, pad(), 0, 0, 0, 22, FE, FF, 0, 'T', 0, 'h', 0, 'i',
+                0, 's', 0, ',', 0, ' ', 0, 't', 0, 'o', 0, 'o', 0, '!', pad(), pad(), 0, 0, 0, 0 };
         setMessageBody(data);
 
         assertEquals("String value", "this works", getInputObject().read_string());
@@ -280,8 +257,8 @@ public class CDRInputTest extends EncodingTestBase {
 
     @Test
     public void can_read_boolean_array() throws Exception {
-        final int[] data = {1, FF, 0, 7, 0};
-        final boolean[] expected = {true, true, false, true, false};
+        final int[] data = { 1, FF, 0, 7, 0 };
+        final boolean[] expected = { true, true, false, true, false };
         setMessageBody(data);
         readAndVerifyBooleanArray(expected);
     }
@@ -298,8 +275,8 @@ public class CDRInputTest extends EncodingTestBase {
 
     @Test
     public void can_read_octet_array() throws Exception {
-        final int[] data = {0, 1, 2, 3, -1, -1};
-        final byte[] expected = {0, 1, 2, 3, -1, -1};
+        final int[] data = { 0, 1, 2, 3, -1, -1 };
+        final byte[] expected = { 0, 1, 2, 3, -1, -1 };
         setMessageBody(data);
         readAndVerifyOctetArray(expected);
     }
@@ -307,8 +284,8 @@ public class CDRInputTest extends EncodingTestBase {
     @Test
     public void can_read_octet_array_acrossFragments() throws Exception {
         useV1_2();
-        final int[] data = {0, 1, 2, 3};
-        final byte[] expected = {0, 1, 2, 3, -1, -1};
+        final int[] data = { 0, 1, 2, 3 };
+        final byte[] expected = { 0, 1, 2, 3, -1, -1 };
         setMessageBody(data);
         addFragment(-1, -1);
         readAndVerifyOctetArray(expected);
@@ -321,11 +298,10 @@ public class CDRInputTest extends EncodingTestBase {
         assertArrayEquals("Octet array", expected, actual);
     }
 
-
     @Test
     public void can_read_short_array() throws Exception {
-        final int[] data = {0, 1, 2, 3, -1, -1};
-        final short[] expected = {1, 515, -1};
+        final int[] data = { 0, 1, 2, 3, -1, -1 };
+        final short[] expected = { 1, 515, -1 };
         setMessageBody(data);
         readAndVerifyShortArray(expected);
     }
@@ -337,11 +313,10 @@ public class CDRInputTest extends EncodingTestBase {
         assertArrayEquals(expected, actual);
     }
 
-
     @Test
     public void can_read_ushort_array() throws Exception {
-        final int[] data = {0, 1, 2, 3};
-        final short[] expected = {1, 515};
+        final int[] data = { 0, 1, 2, 3 };
+        final short[] expected = { 1, 515 };
         setMessageBody(data);
         readAndVerifyUshortArray(expected);
     }
@@ -353,11 +328,10 @@ public class CDRInputTest extends EncodingTestBase {
         assertArrayEquals(expected, actual);
     }
 
-
     @Test
     public void can_read_long_array() throws Exception {
-        final int[] data = {0, 1, 2, 3, -1, -1, -3, 30};
-        final int[] expected = {66051, -738};
+        final int[] data = { 0, 1, 2, 3, -1, -1, -3, 30 };
+        final int[] expected = { 66051, -738 };
         setMessageBody(data);
         readAndVerifyLongArray(expected);
     }
@@ -369,11 +343,10 @@ public class CDRInputTest extends EncodingTestBase {
         assertArrayEquals(expected, actual);
     }
 
-
     @Test
     public void can_read_ulong_array() throws Exception {
-        final int[] data = {0, 1, 2, 3, -1, -1, -3, 30};
-        final int[] expected = {66051, -738};
+        final int[] data = { 0, 1, 2, 3, -1, -1, -3, 30 };
+        final int[] expected = { 66051, -738 };
         setMessageBody(data);
         readAndVerifyULongArray(expected);
     }
@@ -388,8 +361,8 @@ public class CDRInputTest extends EncodingTestBase {
 
     @Test
     public void can_read_longlong_array() throws Exception {
-        final int[] data = {pad(), pad(), pad(), pad(), 0, 0, 1, 0, 0, 0, 1, 7, -1, -1, -1, -1, -1, -1, -3, -20};
-        final long[] expected = {1099511628039L, -532};
+        final int[] data = { pad(), pad(), pad(), pad(), 0, 0, 1, 0, 0, 0, 1, 7, -1, -1, -1, -1, -1, -1, -3, -20 };
+        final long[] expected = { 1099511628039L, -532 };
         setMessageBody(data);
 
         readAndVerifyLongLongArray(expected);
@@ -405,8 +378,8 @@ public class CDRInputTest extends EncodingTestBase {
 
     @Test
     public void can_read_ulonglong_array() throws Exception {
-        final int[] data = {pad(), pad(), pad(), pad(), 0, 0, 1, 0, 0, 0, 1, 7, FF, FF, FF, FF, FF, FF, -3, -20};
-        final long[] expected = {1099511628039L, -532};
+        final int[] data = { pad(), pad(), pad(), pad(), 0, 0, 1, 0, 0, 0, 1, 7, FF, FF, FF, FF, FF, FF, -3, -20 };
+        final long[] expected = { 1099511628039L, -532 };
         setMessageBody(data);
         readAndVerifyULongLongArray(expected);
     }
@@ -423,8 +396,8 @@ public class CDRInputTest extends EncodingTestBase {
 
     @Test
     public void can_read_char_array() throws Exception {
-        final int[] data = {'b', 'u', 'c', 'k', 'l', 'e', 'u', 'p'};
-        final char[] expected = {'b', 'u', 'c', 'k', 'l', 'e', 'u', 'p'};
+        final int[] data = { 'b', 'u', 'c', 'k', 'l', 'e', 'u', 'p' };
+        final char[] expected = { 'b', 'u', 'c', 'k', 'l', 'e', 'u', 'p' };
         setMessageBody(data);
         readAndVerifyCharArray(expected);
     }
@@ -440,8 +413,8 @@ public class CDRInputTest extends EncodingTestBase {
     @Test
     public void can_read_wchar_array() throws Exception {
         useV1_2();
-        final int[] data = {4, FE, FF, 0, 'b', 4, FE, FF, 0, 'u', 4, FF, FE, 't', 0};
-        final char[] expected = {'b', 'u', 't'};
+        final int[] data = { 4, FE, FF, 0, 'b', 4, FE, FF, 0, 'u', 4, FF, FE, 't', 0 };
+        final char[] expected = { 'b', 'u', 't' };
         setMessageBody(data);
         readAndVerifyWCharArray(expected);
     }
@@ -464,9 +437,7 @@ public class CDRInputTest extends EncodingTestBase {
     @Test
     public void whenUsingV1_2_headerPaddingForces8ByteAlignmentOnce() {
         useV1_2();
-        setMessageBody(pad(), pad(), pad(), pad(),
-                       0, 0, 1, 0,
-                       FF, FF, FF, FF);
+        setMessageBody(pad(), pad(), pad(), pad(), 0, 0, 1, 0, FF, FF, FF, FF);
 
         getInputObject().setHeaderPadding(true);
         assertEquals(256, getInputObject().read_long());
@@ -574,6 +545,7 @@ public class CDRInputTest extends EncodingTestBase {
 
         whileWaitingForFragmentsDo(new AsynchronousAction() {
             int iteration = 0;
+
             public void exec() {
                 if (iteration++ == 0)
                     Thread.currentThread().interrupt();
@@ -604,14 +576,14 @@ public class CDRInputTest extends EncodingTestBase {
 
     @Test
     public void whenTypeCodeHasNoBody_readKindOnly() {
-        setMessageBody( 0, 0, 0, 6);
+        setMessageBody(0, 0, 0, 6);
         TypeCode typeCode = getInputObject().read_TypeCode();
         assertEquals(TCKind.tk_float, typeCode.kind());
     }
 
     @Test
     public void whenTypeCodeIsString_readLength() throws BadKind {
-        setMessageBody( 0, 0, 0, 18, 0, 0, 1, 0);
+        setMessageBody(0, 0, 0, 18, 0, 0, 1, 0);
         TypeCode typeCode = getInputObject().read_TypeCode();
         assertEquals(TCKind.tk_string, typeCode.kind());
         assertEquals(256, typeCode.length());
@@ -619,7 +591,7 @@ public class CDRInputTest extends EncodingTestBase {
 
     @Test
     public void whenTypeCodeIsFixed_readDigitsAndScale() throws BadKind {
-        setMessageBody( 0, 0, 0, 28, 0, 10, 0, 6);
+        setMessageBody(0, 0, 0, 28, 0, 10, 0, 6);
         TypeCode typeCode = getInputObject().read_TypeCode();
         assertEquals(TCKind.tk_fixed, typeCode.kind());
         assertEquals(10, typeCode.fixed_digits());

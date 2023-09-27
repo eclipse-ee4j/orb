@@ -26,13 +26,15 @@ package com.sun.corba.ee.spi.protocol;
  */
 public interface RequestId {
     /**
-     * return its value 
+     * return its value
+     * 
      * @return ID
      */
     int getValue();
 
     /**
      * Is there a numeric value for this CorbaRequestId ?
+     * 
      * @return if a numeric value is defined
      */
     boolean isDefined();

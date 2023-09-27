@@ -24,28 +24,28 @@ package corba.dynamicrmiiiop.testclasses;
  */
 public class InvalidEntities {
 
-    public static final Class[] CLASSES = {
-        InvalidEntity1.class, 
-        InvalidEntity2.class,
-        InvalidEntity3.class, 
-        InvalidEntity4.class,
-        InvalidEntity5.class, 
-        InvalidEntity6.class
-    };
+    public static final Class[] CLASSES = { InvalidEntity1.class, InvalidEntity2.class, InvalidEntity3.class, InvalidEntity4.class,
+            InvalidEntity5.class, InvalidEntity6.class };
 
     // must be a class that is a subtype of org.omg.CORBA.portable.IDLEntity
-    public class InvalidEntity1 {}
-    
+    public class InvalidEntity1 {
+    }
+
     // must be a class that is a subtype of org.omg.CORBA.portable.IDLEntity
-    public class InvalidEntity2 extends InvalidEntity1 {}
+    public class InvalidEntity2 extends InvalidEntity1 {
+    }
 
-    // must be a class 
-    public interface InvalidEntity3 {}
-    
-    public interface InvalidEntity4 extends InvalidEntity3 {}
+    // must be a class
+    public interface InvalidEntity3 {
+    }
 
-    public interface InvalidEntity5 extends org.omg.CORBA.portable.IDLEntity {}
+    public interface InvalidEntity4 extends InvalidEntity3 {
+    }
 
-    public interface InvalidEntity6 extends InvalidEntity5 {}
+    public interface InvalidEntity5 extends org.omg.CORBA.portable.IDLEntity {
+    }
+
+    public interface InvalidEntity6 extends InvalidEntity5 {
+    }
 
 }

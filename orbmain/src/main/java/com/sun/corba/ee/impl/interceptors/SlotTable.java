@@ -35,17 +35,19 @@ public class SlotTable {
     /** Required for instantiating Any object. */
     private ORB orb;
 
-    /** The flag to check whether there are any updates in the current SlotTable.
-     * The slots will be reset to null, only if this flag is set. */
+    /**
+     * The flag to check whether there are any updates in the current SlotTable. The slots will be reset to null, only if
+     * this flag is set.
+     */
     private boolean dirtyFlag;
 
     /**
-     * The constructor instantiates an Array of Any[] of size given by slotSize
-     * parameter.
+     * The constructor instantiates an Array of Any[] of size given by slotSize parameter.
+     * 
      * @param orb The ORB
      * @param slotSize Size of array
      */
-    SlotTable( ORB orb, int slotSize ) {
+    SlotTable(ORB orb, int slotSize) {
         dirtyFlag = false;
         this.orb = orb;
         theSlotData = new Any[slotSize];
@@ -53,15 +55,15 @@ public class SlotTable {
 
     /**
      * This method sets the slot data at the given slot id (index).
+     * 
      * @param id Index
      * @param data Slot data
      * @throws InvalidSlot If the id is greater than the slot data size.
      */
-    public void set_slot( int id, Any data ) throws InvalidSlot
-    {
+    public void set_slot(int id, Any data) throws InvalidSlot {
         // First check whether the slot is allocated
         // If not, raise the invalid slot exception
-        if( id >= theSlotData.length ) {
+        if (id >= theSlotData.length) {
             throw new InvalidSlot();
         }
         dirtyFlag = true;
@@ -70,30 +72,29 @@ public class SlotTable {
 
     /**
      * This method get the slot data for the given slot id (index).
+     * 
      * @param id Index
      * @return Slot data
      * @throws InvalidSlot If the id is greater than the slot data size.
      */
-    public Any get_slot( int id ) throws InvalidSlot
-    {
+    public Any get_slot(int id) throws InvalidSlot {
         // First check whether the slot is allocated
         // If not, raise the invalid slot exception
-        if( id >= theSlotData.length ) {
+        if (id >= theSlotData.length) {
             throw new InvalidSlot();
         }
-        if( theSlotData[id] == null ) {
-            theSlotData [id] = new AnyImpl(orb);
+        if (theSlotData[id] == null) {
+            theSlotData[id] = new AnyImpl(orb);
         }
-        return theSlotData[ id ];
+        return theSlotData[id];
     }
-
 
     /**
      * This method resets all the slot data to null if dirtyFlag is set.
      */
-    void resetSlots( ) {
-        if( dirtyFlag == true ) {
-            for( int i = 0; i < theSlotData.length; i++ ) {
+    void resetSlots() {
+        if (dirtyFlag == true) {
+            for (int i = 0; i < theSlotData.length; i++) {
                 theSlotData[i] = null;
             }
         }
@@ -101,11 +102,11 @@ public class SlotTable {
 
     /**
      * This method returns the size of the allocated slots.
+     * 
      * @return slot size
      */
-    int getSize( ) {
+    int getSize() {
         return theSlotData.length;
     }
 
 }
-    

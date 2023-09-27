@@ -44,13 +44,12 @@ public class NioBufferWriter {
             // Can only occur on non-blocking connections.
             // Using long for backoff_factor to avoid floating point
             // calculations.
-            TcpTimeouts.Waiter waiter = tcpTimeouts.waiter() ;
+            TcpTimeouts.Waiter waiter = tcpTimeouts.waiter();
             SelectionKey sk = null;
             TemporarySelector tmpSelector = null;
             try {
                 tmpSelector = getTemporaryWriteSelector(socketChannel);
-                sk = tmpSelector.registerChannel(socketChannel,
-                                                SelectionKey.OP_WRITE);
+                sk = tmpSelector.registerChannel(socketChannel, SelectionKey.OP_WRITE);
                 while (byteBuffer.hasRemaining() && !waiter.isExpired()) {
                     int nsel = tmpSelector.select(waiter.getTimeForSleep());
                     if (nsel > 0) {
@@ -62,13 +61,12 @@ public class NioBufferWriter {
                     }
                     // selector timed out or no bytes have been written
                     if (nsel == 0 || nbytes == 0) {
-                        waiter.advance() ;
+                        waiter.advance();
                     }
                 }
             } catch (IOException ioe) {
                 ioe.printStackTrace();
-                throw ConnectionImpl.wrapper.exceptionWhenWritingWithTemporarySelector(ioe,
-                        byteBuffer.position(), byteBuffer.limit(),
+                throw ConnectionImpl.wrapper.exceptionWhenWritingWithTemporarySelector(ioe, byteBuffer.position(), byteBuffer.limit(),
                         waiter.timeWaiting(), tcpTimeouts.get_max_time_to_wait());
             } finally {
                 if (tmpSelector != null) {
@@ -78,8 +76,7 @@ public class NioBufferWriter {
             // if message not fully written, throw exception
             if (byteBuffer.hasRemaining() && waiter.isExpired()) {
                 // failed to write entire message
-                throw ConnectionImpl.wrapper.transportWriteTimeoutExceeded(
-                        tcpTimeouts.get_max_time_to_wait(), waiter.timeWaiting());
+                throw ConnectionImpl.wrapper.transportWriteTimeoutExceeded(tcpTimeouts.get_max_time_to_wait(), waiter.timeWaiting());
             }
         }
     }

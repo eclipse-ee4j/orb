@@ -19,60 +19,58 @@
 
 package com.sun.corba.ee.spi.protocol;
 
-import org.omg.CORBA.BAD_PARAM ;
+import org.omg.CORBA.BAD_PARAM;
 
-import com.sun.corba.ee.impl.misc.ORBUtility ;
+import com.sun.corba.ee.impl.misc.ORBUtility;
 
-import com.sun.corba.ee.spi.ior.IOR ;
+import com.sun.corba.ee.spi.ior.IOR;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
 /**
  * Thrown to signal an OBJECT_FORWARD or LOCATION_FORWARD
  */
 public class ForwardException extends RuntimeException {
-    private ORB orb ;
+    private ORB orb;
     private org.omg.CORBA.Object obj;
-    private IOR ior ;
+    private IOR ior;
 
-    public ForwardException( ORB orb, IOR ior ) {
+    public ForwardException(ORB orb, IOR ior) {
         super();
 
-        this.orb = orb ;
-        this.obj = null ;
-        this.ior = ior ;
+        this.orb = orb;
+        this.obj = null;
+        this.ior = ior;
     }
 
-    public ForwardException( ORB orb, org.omg.CORBA.Object obj) {
+    public ForwardException(ORB orb, org.omg.CORBA.Object obj) {
         super();
 
         // This check is done early so that no attempt
         // may be made to do a location forward to a local
-        // object.  Doing this lazily would allow 
+        // object. Doing this lazily would allow
         // forwarding to locals in some restricted cases.
         if (obj instanceof org.omg.CORBA.LocalObject)
-            throw new BAD_PARAM() ;
+            throw new BAD_PARAM();
 
-        this.orb = orb ;
-        this.obj = obj ;
-        this.ior = null ;
+        this.orb = orb;
+        this.obj = obj;
+        this.ior = null;
     }
 
-    public synchronized org.omg.CORBA.Object getObject()
-    {
+    public synchronized org.omg.CORBA.Object getObject() {
         if (obj == null) {
-            obj = ORBUtility.makeObjectReference( ior ) ;
+            obj = ORBUtility.makeObjectReference(ior);
         }
 
-        return obj ;
+        return obj;
     }
 
-    public synchronized IOR getIOR() 
-    {
+    public synchronized IOR getIOR() {
         if (ior == null) {
-            ior = orb.getIOR( obj, false ) ;
+            ior = orb.getIOR(obj, false);
         }
 
-        return ior ;
+        return ior;
     }
 }

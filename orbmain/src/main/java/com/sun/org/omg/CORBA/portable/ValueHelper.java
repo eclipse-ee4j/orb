@@ -23,16 +23,17 @@ import org.omg.CORBA.TypeCode;
 import org.omg.CORBA.portable.BoxedValueHelper;
 
 /**
- * An interface that is implemented by valuetype helper classes.
- * This interface appeared in CORBA 2.3 drafts but was removed from
- * the published CORBA 2.3 specification.
+ * An interface that is implemented by valuetype helper classes. This interface appeared in CORBA 2.3 drafts but was
+ * removed from the published CORBA 2.3 specification.
  * <P>
+ * 
  * @deprecated Deprecated by CORBA 2.3.
  */
 @Deprecated
 public interface ValueHelper extends BoxedValueHelper {
     Class get_class();
+
     String[] get_truncatable_base_ids();
+
     TypeCode get_type();
 }
-

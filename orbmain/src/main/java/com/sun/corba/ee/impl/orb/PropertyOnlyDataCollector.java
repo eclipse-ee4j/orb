@@ -17,32 +17,27 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.orb ;
+package com.sun.corba.ee.impl.orb;
 
-import java.net.InetAddress ;
+import java.net.InetAddress;
 
-import java.util.Properties ;
+import java.util.Properties;
 
-import org.omg.CORBA.INTERNAL ;
-import org.omg.CORBA.CompletionStatus ;
+import org.omg.CORBA.INTERNAL;
+import org.omg.CORBA.CompletionStatus;
 
-public class PropertyOnlyDataCollector extends DataCollectorBase 
-{
-    public PropertyOnlyDataCollector( Properties props, 
-        String localHostName, String configurationHostName ) 
-    {
-        super( props, localHostName, configurationHostName ) ;
+public class PropertyOnlyDataCollector extends DataCollectorBase {
+    public PropertyOnlyDataCollector(Properties props, String localHostName, String configurationHostName) {
+        super(props, localHostName, configurationHostName);
     }
 
-    public boolean isApplet() 
-    {
-        return false ;
+    public boolean isApplet() {
+        return false;
     }
 
-    protected void collect()
-    {
-        checkPropertyDefaults() ;
+    protected void collect() {
+        checkPropertyDefaults();
 
-        findPropertiesFromProperties() ;
+        findPropertiesFromProperties();
     }
 }

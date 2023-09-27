@@ -19,21 +19,23 @@
 
 package com.sun.corba.ee.spi.ior;
 
-import org.glassfish.gmbal.ManagedAttribute ;
-import org.glassfish.gmbal.Description ;
+import org.glassfish.gmbal.ManagedAttribute;
+import org.glassfish.gmbal.Description;
 
-/** This interface represents an entity that can be written to an
- * OutputStream and has an identity that is represented by an integer.
- * This identity is essentially the type of the entity, and is used in
- * order to know how to read the entity back from an InputStream.
+/**
+ * This interface represents an entity that can be written to an OutputStream and has an identity that is represented by
+ * an integer. This identity is essentially the type of the entity, and is used in order to know how to read the entity
+ * back from an InputStream.
+ * 
  * @author Ken Cavanaugh
  */
-public interface Identifiable extends Writeable
-{
-    /** Return the (type) identity of this entity.
+public interface Identifiable extends Writeable {
+    /**
+     * Return the (type) identity of this entity.
+     * 
      * @return int
      */
     @ManagedAttribute
-    @Description( "Id of tagged component or profile" )
+    @Description("Id of tagged component or profile")
     public int getId();
 }

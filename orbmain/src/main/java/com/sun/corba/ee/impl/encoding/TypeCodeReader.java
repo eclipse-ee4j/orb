@@ -31,19 +31,19 @@ import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import org.omg.CORBA.TypeCode ;
-import org.omg.CORBA.StructMember ;
-import org.omg.CORBA.UnionMember ;
-import org.omg.CORBA.ValueMember ;
-import org.omg.CORBA.TCKind ;
-import org.omg.CORBA.Any ;
-import org.omg.CORBA.BAD_TYPECODE ;
-import org.omg.CORBA.BAD_PARAM ;
-import org.omg.CORBA.BAD_OPERATION ;
-import org.omg.CORBA.INTERNAL ;
-import org.omg.CORBA.MARSHAL ;
+import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.StructMember;
+import org.omg.CORBA.UnionMember;
+import org.omg.CORBA.ValueMember;
+import org.omg.CORBA.TCKind;
+import org.omg.CORBA.Any;
+import org.omg.CORBA.BAD_TYPECODE;
+import org.omg.CORBA.BAD_PARAM;
+import org.omg.CORBA.BAD_OPERATION;
+import org.omg.CORBA.INTERNAL;
+import org.omg.CORBA.MARSHAL;
 
-import org.omg.CORBA.TypeCodePackage.BadKind ;
+import org.omg.CORBA.TypeCodePackage.BadKind;
 
 import org.omg.CORBA_2_3.portable.InputStream;
 import org.omg.CORBA_2_3.portable.OutputStream;
@@ -57,10 +57,16 @@ import com.sun.corba.ee.impl.encoding.CodeSetConversion;
 
 public interface TypeCodeReader extends MarshalInputStream {
     public void addTypeCodeAtPosition(TypeCodeImpl tc, int position);
+
     public TypeCodeImpl getTypeCodeAtPosition(int position);
+
     public void setEnclosingInputStream(InputStream enclosure);
+
     public TypeCodeReader getTopLevelStream();
+
     public int getTopLevelPosition();
+
     public int getPosition();
+
     public void printTypeMap();
 }

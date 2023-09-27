@@ -17,93 +17,86 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.spi.resolver ;
+package com.sun.corba.ee.spi.resolver;
 
-import java.io.File ;
+import java.io.File;
 
-import com.sun.corba.ee.impl.resolver.LocalResolverImpl ;
-import com.sun.corba.ee.impl.resolver.ORBInitRefResolverImpl ;
-import com.sun.corba.ee.impl.resolver.ORBDefaultInitRefResolverImpl ;
-import com.sun.corba.ee.impl.resolver.BootstrapResolverImpl ;
-import com.sun.corba.ee.impl.resolver.CompositeResolverImpl ;
-import com.sun.corba.ee.impl.resolver.INSURLOperationImpl ;
-import com.sun.corba.ee.impl.resolver.SplitLocalResolverImpl ;
-import com.sun.corba.ee.impl.resolver.FileResolverImpl ;
+import com.sun.corba.ee.impl.resolver.LocalResolverImpl;
+import com.sun.corba.ee.impl.resolver.ORBInitRefResolverImpl;
+import com.sun.corba.ee.impl.resolver.ORBDefaultInitRefResolverImpl;
+import com.sun.corba.ee.impl.resolver.BootstrapResolverImpl;
+import com.sun.corba.ee.impl.resolver.CompositeResolverImpl;
+import com.sun.corba.ee.impl.resolver.INSURLOperationImpl;
+import com.sun.corba.ee.impl.resolver.SplitLocalResolverImpl;
+import com.sun.corba.ee.impl.resolver.FileResolverImpl;
 
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.orb.Operation ;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.Operation;
 import org.glassfish.pfl.basic.contain.Pair;
 
-/** Utility class that provides factory methods for all of the 
- * standard resolvers that we provide.
+/**
+ * Utility class that provides factory methods for all of the standard resolvers that we provide.
  */
 public class ResolverDefault {
-    /** Return a local resolver that simply stores bindings in a map.
+    /**
+     * Return a local resolver that simply stores bindings in a map.
+     * 
      * @return a new LocalResolverImpl
-    */
-    public static LocalResolver makeLocalResolver( ) 
-    {
-        return new LocalResolverImpl() ;
+     */
+    public static LocalResolver makeLocalResolver() {
+        return new LocalResolverImpl();
     }
 
-    /** Return a resolver that relies on configured values of ORBInitRef for data.
+    /**
+     * Return a resolver that relies on configured values of ORBInitRef for data.
+     * 
      * @param urlOperation operation to get reference from URL
      * @param initRefs an array of Pairs oaf &lt;name of CORBA object, URL to get reference with&gt;
      * @return a new ORBInitRefResolver
-    */
-    public static Resolver makeORBInitRefResolver( Operation urlOperation,
-        Pair<String,String>[] initRefs ) 
-    {
-        return new ORBInitRefResolverImpl( urlOperation, initRefs ) ;
+     */
+    public static Resolver makeORBInitRefResolver(Operation urlOperation, Pair<String, String>[] initRefs) {
+        return new ORBInitRefResolverImpl(urlOperation, initRefs);
     }
 
-    public static Resolver makeORBDefaultInitRefResolver( Operation urlOperation,
-        String defaultInitRef ) 
-    {
-        return new ORBDefaultInitRefResolverImpl( urlOperation,
-            defaultInitRef ) ;
+    public static Resolver makeORBDefaultInitRefResolver(Operation urlOperation, String defaultInitRef) {
+        return new ORBDefaultInitRefResolverImpl(urlOperation, defaultInitRef);
     }
 
-    /** Return a resolver that uses the proprietary bootstrap protocol 
-    * to implement a resolver.  Obtains the necessary host and port 
-    * information from the ORB.
-    * @param orb ORB to use as resolver
-    * @param host host of IOR
-    * @param port port of IOR
-    * @return a new BoostrapResolver
-    */
-    public static Resolver makeBootstrapResolver( ORB orb, String host, int port ) 
-    {
-        return new BootstrapResolverImpl( orb, host, port ) ;
+    /**
+     * Return a resolver that uses the proprietary bootstrap protocol to implement a resolver. Obtains the necessary host
+     * and port information from the ORB.
+     * 
+     * @param orb ORB to use as resolver
+     * @param host host of IOR
+     * @param port port of IOR
+     * @return a new BoostrapResolver
+     */
+    public static Resolver makeBootstrapResolver(ORB orb, String host, int port) {
+        return new BootstrapResolverImpl(orb, host, port);
     }
 
-    /** Return a resolver composed of the two given resolvers.  result.list() is the 
-    * union of first.list() and second.list().  result.resolve( name ) returns
-    * first.resolve( name ) if that is not null, otherwise returns the result of
-    * second.resolve( name ).
-    * @param first first Resolver to try
-    * @param second seconds Resolver to try
-    * @return a new CompositeResolver
-    */
-    public static Resolver makeCompositeResolver( Resolver first, Resolver second ) 
-    {
-        return new CompositeResolverImpl( first, second ) ;
+    /**
+     * Return a resolver composed of the two given resolvers. result.list() is the union of first.list() and second.list().
+     * result.resolve( name ) returns first.resolve( name ) if that is not null, otherwise returns the result of
+     * second.resolve( name ).
+     * 
+     * @param first first Resolver to try
+     * @param second seconds Resolver to try
+     * @return a new CompositeResolver
+     */
+    public static Resolver makeCompositeResolver(Resolver first, Resolver second) {
+        return new CompositeResolverImpl(first, second);
     }
 
-    public static Operation makeINSURLOperation( ORB orb )
-    {
-        return new INSURLOperationImpl( orb ) ;
+    public static Operation makeINSURLOperation(ORB orb) {
+        return new INSURLOperationImpl(orb);
     }
 
-    public static LocalResolver makeSplitLocalResolver( Resolver resolver,
-        LocalResolver localResolver ) 
-    {
-        return new SplitLocalResolverImpl( resolver, localResolver ) ;
+    public static LocalResolver makeSplitLocalResolver(Resolver resolver, LocalResolver localResolver) {
+        return new SplitLocalResolverImpl(resolver, localResolver);
     }
 
-    public static Resolver makeFileResolver( ORB orb, File file ) 
-    {
-        return new FileResolverImpl( orb, file ) ;
+    public static Resolver makeFileResolver(ORB orb, File file) {
+        return new FileResolverImpl(orb, file);
     }
 }
-

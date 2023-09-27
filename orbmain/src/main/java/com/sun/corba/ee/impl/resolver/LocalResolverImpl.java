@@ -17,9 +17,9 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.resolver ;
+package com.sun.corba.ee.impl.resolver;
 
-import com.sun.corba.ee.spi.resolver.LocalResolver ;
+import com.sun.corba.ee.spi.resolver.LocalResolver;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -27,8 +27,7 @@ import java.util.concurrent.TimeUnit;
 import org.glassfish.pfl.basic.func.NullaryFunction;
 
 public class LocalResolverImpl implements LocalResolver {
-    ConcurrentHashMap<String,NullaryFunction<org.omg.CORBA.Object>> nameToClosure =
-        new ConcurrentHashMap<String,NullaryFunction<org.omg.CORBA.Object>>() ;
+    ConcurrentHashMap<String, NullaryFunction<org.omg.CORBA.Object>> nameToClosure = new ConcurrentHashMap<String, NullaryFunction<org.omg.CORBA.Object>>();
     final Lock lock = new ReentrantLock();
 
     public org.omg.CORBA.Object resolve(String name) {
@@ -54,11 +53,10 @@ public class LocalResolverImpl implements LocalResolver {
     }
 
     public java.util.Set<String> list() {
-        return nameToClosure.keySet() ;
+        return nameToClosure.keySet();
     }
 
-    public void register( String name,
-        NullaryFunction<org.omg.CORBA.Object> closure ) {
-        nameToClosure.put( name, closure ) ;
+    public void register(String name, NullaryFunction<org.omg.CORBA.Object> closure) {
+        nameToClosure.put(name, closure);
     }
 }

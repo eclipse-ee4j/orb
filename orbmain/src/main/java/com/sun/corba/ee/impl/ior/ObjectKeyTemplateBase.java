@@ -19,58 +19,54 @@
 
 package com.sun.corba.ee.impl.ior;
 
+import org.omg.CORBA_2_3.portable.InputStream;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
-import org.omg.CORBA_2_3.portable.InputStream ;
-import org.omg.CORBA_2_3.portable.OutputStream ;
+import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher;
 
-import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher ;
+import com.sun.corba.ee.spi.ior.ObjectId;
+import com.sun.corba.ee.spi.ior.ObjectAdapterId;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
 
-import com.sun.corba.ee.spi.ior.ObjectId ;
-import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ORBVersion;
 
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.orb.ORBVersion ;
-
-
-import com.sun.corba.ee.spi.logging.IORSystemException ;
+import com.sun.corba.ee.spi.logging.IORSystemException;
 
 /**
  * @author Ken Cavanaugh
  */
-public abstract class ObjectKeyTemplateBase implements ObjectKeyTemplate 
-{
-    protected static final IORSystemException wrapper =
-        IORSystemException.self ;
+public abstract class ObjectKeyTemplateBase implements ObjectKeyTemplate {
+    protected static final IORSystemException wrapper = IORSystemException.self;
 
     // Fixed constants for Java IDL object key template forms
-    public static final String JIDL_ORB_ID = "" ;
-    private static final String[] JIDL_OAID_STRINGS = { "TransientObjectAdapter" } ;
-    public static final ObjectAdapterId JIDL_OAID = new ObjectAdapterIdArray( JIDL_OAID_STRINGS ) ;
+    public static final String JIDL_ORB_ID = "";
+    private static final String[] JIDL_OAID_STRINGS = { "TransientObjectAdapter" };
+    public static final ObjectAdapterId JIDL_OAID = new ObjectAdapterIdArray(JIDL_OAID_STRINGS);
 
-    private ORB orb ;
-    private ORBVersion version ;
-    private int magic ;
-    private int scid ;
-    private int serverid ;
-    private String orbid ;
-    private ObjectAdapterId oaid ;
+    private ORB orb;
+    private ORBVersion version;
+    private int magic;
+    private int scid;
+    private int serverid;
+    private String orbid;
+    private ObjectAdapterId oaid;
 
-    private byte[] adapterId ;
+    private byte[] adapterId;
 
     public String toString() {
-        StringBuilder sb = new StringBuilder() ;
-        sb.append( "ObjectKeyTemplate[magic=") ;
-        sb.append( Integer.toHexString( magic ) ) ;
-        sb.append( " scid=" ) ;
-        sb.append( scid ) ;
-        sb.append( " serverid=") ;
-        sb.append( serverid )  ;
-        sb.append( " orbid=") ;
-        sb.append( orbid ) ;
-        sb.append( " oaid=" ) ;
-        sb.append( oaid.toString() ) ;
-        return sb.toString() ;
+        StringBuilder sb = new StringBuilder();
+        sb.append("ObjectKeyTemplate[magic=");
+        sb.append(Integer.toHexString(magic));
+        sb.append(" scid=");
+        sb.append(scid);
+        sb.append(" serverid=");
+        sb.append(serverid);
+        sb.append(" orbid=");
+        sb.append(orbid);
+        sb.append(" oaid=");
+        sb.append(oaid.toString());
+        return sb.toString();
     }
 
     public synchronized byte[] getAdapterId() {
@@ -78,126 +74,119 @@ public abstract class ObjectKeyTemplateBase implements ObjectKeyTemplate
             adapterId = computeAdapterId();
         }
 
-        return (byte[])(adapterId.clone()) ;
+        return (byte[]) (adapterId.clone());
     }
 
-    private byte[] computeAdapterId()
-    {
+    private byte[] computeAdapterId() {
         // write out serverid, orbid, oaid
-        ByteBuffer buff = new ByteBuffer() ;
+        ByteBuffer buff = new ByteBuffer();
 
-        buff.append( getServerId() ) ;
-        buff.append( orbid ) ;
+        buff.append(getServerId());
+        buff.append(orbid);
 
-        buff.append( oaid.getNumLevels() ) ;
+        buff.append(oaid.getNumLevels());
         for (String comp : oaid) {
-            buff.append( comp ) ;
+            buff.append(comp);
         }
 
-        buff.trimToSize() ;
+        buff.trimToSize();
 
-        return buff.toArray() ;
+        return buff.toArray();
     }
 
-    /** 
-     * This constructor reads a complete ObjectKey (template and Id)
-     * from the stream.
-     * @param orb  ORB to use
+    /**
+     * This constructor reads a complete ObjectKey (template and Id) from the stream.
+     * 
+     * @param orb ORB to use
      * @param magic Magic number
      * @param scid ID of the Object
      * @param serverid server ID
      * @param orbid orbid
      * @param oaid oaid
-    */
-    public ObjectKeyTemplateBase( ORB orb, int magic, int scid, int serverid, 
-        String orbid, ObjectAdapterId oaid ) 
-    {
-        this.orb = orb ;
-        this.magic = magic ;
-        this.scid = scid ;
-        this.serverid = serverid ;
-        this.orbid = orbid ;
-        this.oaid = oaid ;
+     */
+    public ObjectKeyTemplateBase(ORB orb, int magic, int scid, int serverid, String orbid, ObjectAdapterId oaid) {
+        this.orb = orb;
+        this.magic = magic;
+        this.scid = scid;
+        this.serverid = serverid;
+        this.orbid = orbid;
+        this.oaid = oaid;
 
         adapterId = null;
     }
 
     @Override
-    public boolean equals( Object obj ) {
+    public boolean equals(Object obj) {
         if (!(obj instanceof ObjectKeyTemplateBase))
-            return false ;
+            return false;
 
-        ObjectKeyTemplateBase other = (ObjectKeyTemplateBase)obj ;
+        ObjectKeyTemplateBase other = (ObjectKeyTemplateBase) obj;
 
-        return (magic == other.magic) && (scid == other.scid) &&
-            (serverid == other.serverid) && (version.equals( other.version ) &&
-            orbid.equals( other.orbid ) && oaid.equals( other.oaid )) ;
+        return (magic == other.magic) && (scid == other.scid) && (serverid == other.serverid)
+                && (version.equals(other.version) && orbid.equals(other.orbid) && oaid.equals(other.oaid));
     }
-   
+
     public int hashCode() {
-        int result = 17 ;
-        result = 37*result + magic ;
-        result = 37*result + scid ;
-        result = 37*result + serverid ;
-        result = 37*result + version.hashCode() ;
-        result = 37*result + orbid.hashCode() ;
-        result = 37*result + oaid.hashCode() ;
-        return result ;
+        int result = 17;
+        result = 37 * result + magic;
+        result = 37 * result + scid;
+        result = 37 * result + serverid;
+        result = 37 * result + version.hashCode();
+        result = 37 * result + orbid.hashCode();
+        result = 37 * result + oaid.hashCode();
+        return result;
     }
 
     public int getSubcontractId() {
-        return scid ;
+        return scid;
     }
 
     public int getServerId() {
-        return serverid ;
+        return serverid;
     }
 
     public String getORBId() {
-        return orbid ;
+        return orbid;
     }
 
     public ObjectAdapterId getObjectAdapterId() {
-        return oaid ;
+        return oaid;
     }
 
     public void write(ObjectId objectId, OutputStream os) {
-        writeTemplate( os ) ;
-        objectId.write( os ) ;
+        writeTemplate(os);
+        objectId.write(os);
     }
 
-    public void write( OutputStream os )
-    {
-        writeTemplate( os ) ;
+    public void write(OutputStream os) {
+        writeTemplate(os);
     }
 
-    abstract protected void writeTemplate( OutputStream os ) ;
-   
+    abstract protected void writeTemplate(OutputStream os);
+
     protected int getMagic() {
-        return magic ;
+        return magic;
     }
 
     // All subclasses should set the version in their constructors.
     // Public so it can be used in a white-box test.
-    public void setORBVersion( ORBVersion version ) {
-        this.version = version ;
+    public void setORBVersion(ORBVersion version) {
+        this.version = version;
     }
 
     public ORBVersion getORBVersion() {
-        return version ;
+        return version;
     }
 
-    protected byte[] readObjectKey( InputStream is ) {
-        int len = is.read_long() ;
-        byte[] result = new byte[len] ;
-        is.read_octet_array( result, 0, len ) ;
-        return result ;
+    protected byte[] readObjectKey(InputStream is) {
+        int len = is.read_long();
+        byte[] result = new byte[len];
+        is.read_octet_array(result, 0, len);
+        return result;
     }
 
-    public ServerRequestDispatcher getServerRequestDispatcher(
-        ObjectId id ) {
+    public ServerRequestDispatcher getServerRequestDispatcher(ObjectId id) {
 
-        return orb.getRequestDispatcherRegistry().getServerRequestDispatcher(
-            scid ) ;
+        return orb.getRequestDispatcherRegistry().getServerRequestDispatcher(scid);
     }
 }

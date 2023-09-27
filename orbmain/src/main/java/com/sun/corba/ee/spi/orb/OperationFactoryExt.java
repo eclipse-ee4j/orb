@@ -17,57 +17,54 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.spi.orb ;
+package com.sun.corba.ee.spi.orb;
 
-import java.lang.reflect.Constructor ;
+import java.lang.reflect.Constructor;
 
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 
-/** Provides an extension to the OperationFactory for convertAction( Class ),
- * which takes a Class with a constructor that takes a String as an argument.
- * It uses the constructor to create an instance of the Class from its argument.
- * <p> 
- * This is split off here to avoid problems with the build depending on the
- * version of OperationFactory that is in Java SE 5.0.
+/**
+ * Provides an extension to the OperationFactory for convertAction( Class ), which takes a Class with a constructor that
+ * takes a String as an argument. It uses the constructor to create an instance of the Class from its argument.
+ * <p>
+ * This is split off here to avoid problems with the build depending on the version of OperationFactory that is in Java
+ * SE 5.0.
  */
 public class OperationFactoryExt {
-    private static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
-    private OperationFactoryExt() {} 
+    private OperationFactoryExt() {
+    }
 
     private static class ConvertAction implements Operation {
-        private Class<?> cls ;
-        private Constructor<?> cons ;
+        private Class<?> cls;
+        private Constructor<?> cons;
 
-        public ConvertAction( Class<?> cls ) {
-            this.cls = cls ;
+        public ConvertAction(Class<?> cls) {
+            this.cls = cls;
             try {
-                cons = cls.getConstructor( String.class ) ;
+                cons = cls.getConstructor(String.class);
             } catch (Exception exc) {
-                throw wrapper.exceptionInConvertActionConstructor( exc,
-                    cls.getName() ) ;
+                throw wrapper.exceptionInConvertActionConstructor(exc, cls.getName());
             }
         }
 
-        public Object operate( Object value )
-        {
+        public Object operate(Object value) {
             try {
-                return cons.newInstance( value ) ;
+                return cons.newInstance(value);
             } catch (Exception exc) {
-                throw wrapper.exceptionInConvertAction( exc ) ;
+                throw wrapper.exceptionInConvertAction(exc);
             }
         }
 
         @Override
         public String toString() {
-            return "ConvertAction[" + cls.getName() + "]" ;
+            return "ConvertAction[" + cls.getName() + "]";
         }
 
         @Override
-        public boolean equals( Object obj ) 
-        {
-            if (this==obj) {
+        public boolean equals(Object obj) {
+            if (this == obj) {
                 return true;
             }
 
@@ -75,19 +72,18 @@ public class OperationFactoryExt {
                 return false;
             }
 
-            ConvertAction other = (ConvertAction)obj ;
+            ConvertAction other = (ConvertAction) obj;
 
-            return toString().equals( other.toString() ) ;
+            return toString().equals(other.toString());
         }
 
         @Override
-        public int hashCode()
-        {
-            return toString().hashCode() ;
+        public int hashCode() {
+            return toString().hashCode();
         }
     }
 
-    public static Operation convertAction( Class<?> cls ) {
-        return new ConvertAction( cls ) ;
+    public static Operation convertAction(Class<?> cls) {
+        return new ConvertAction(cls);
     }
 }

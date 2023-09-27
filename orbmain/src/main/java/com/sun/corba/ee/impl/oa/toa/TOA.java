@@ -17,26 +17,29 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.oa.toa ;
+package com.sun.corba.ee.impl.oa.toa;
 
-import com.sun.corba.ee.spi.oa.ObjectAdapter ;
+import com.sun.corba.ee.spi.oa.ObjectAdapter;
 
-/** The Transient Object Adapter is used for standard RMI-IIOP and Java-IDL 
- * (legacy JDK 1.2) object implementations.  Its protocol for managing objects is very
- * simple: just connect and disconnect.  There is only a single TOA instance per ORB,
- * and its lifetime is the same as the ORB.  The TOA instance is always ready to receive
- * messages except when the ORB is shutting down.
+/**
+ * The Transient Object Adapter is used for standard RMI-IIOP and Java-IDL (legacy JDK 1.2) object implementations. Its
+ * protocol for managing objects is very simple: just connect and disconnect. There is only a single TOA instance per
+ * ORB, and its lifetime is the same as the ORB. The TOA instance is always ready to receive messages except when the
+ * ORB is shutting down.
  */
 public interface TOA extends ObjectAdapter {
-    /** Connect the given servant to the ORB by allocating a transient object key
-     *  and creating an IOR and object reference using the current factory.
+    /**
+     * Connect the given servant to the ORB by allocating a transient object key and creating an IOR and object reference
+     * using the current factory.
+     * 
      * @param servant servant to connect to the ORB
      */
-    void connect( org.omg.CORBA.Object servant ) ;
+    void connect(org.omg.CORBA.Object servant);
 
-    /** Disconnect the object from this ORB.
+    /**
+     * Disconnect the object from this ORB.
+     * 
      * @param obj ORB to disconnect from
-    */
-    void disconnect( org.omg.CORBA.Object obj ) ;
+     */
+    void disconnect(org.omg.CORBA.Object obj);
 }
-

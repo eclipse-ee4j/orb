@@ -19,15 +19,14 @@
 
 package com.sun.corba.ee.spi.transport.connection;
 
-import java.io.IOException ;
+import java.io.IOException;
 
-/** A Connection represents some kind of channel to a (possibly different) process.
- * Here we only need the capability of closing the connection.  Any connection
- * must also define hashCode and equals properly so that it can be used in a map.
- * It is also recommended that toString() be defined to return a useful summary
- * of the connection (e.g. address information).
+/**
+ * A Connection represents some kind of channel to a (possibly different) process. Here we only need the capability of
+ * closing the connection. Any connection must also define hashCode and equals properly so that it can be used in a map.
+ * It is also recommended that toString() be defined to return a useful summary of the connection (e.g. address
+ * information).
  */
 public interface Connection {
-    void close() throws IOException ;
+    void close() throws IOException;
 }
-

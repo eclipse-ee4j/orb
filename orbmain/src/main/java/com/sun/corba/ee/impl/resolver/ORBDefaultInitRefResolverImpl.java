@@ -17,47 +17,44 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.resolver ;
+package com.sun.corba.ee.impl.resolver;
 
-import com.sun.corba.ee.spi.resolver.Resolver ;
+import com.sun.corba.ee.spi.resolver.Resolver;
 
-import com.sun.corba.ee.spi.orb.Operation ;
+import com.sun.corba.ee.spi.orb.Operation;
 import java.util.Set;
 
 public class ORBDefaultInitRefResolverImpl implements Resolver {
-    Operation urlHandler ;
-    String orbDefaultInitRef ;
+    Operation urlHandler;
+    String orbDefaultInitRef;
 
-    public ORBDefaultInitRefResolverImpl( Operation urlHandler, String orbDefaultInitRef ) 
-    {
-        this.urlHandler = urlHandler ;
+    public ORBDefaultInitRefResolverImpl(Operation urlHandler, String orbDefaultInitRef) {
+        this.urlHandler = urlHandler;
 
-        this.orbDefaultInitRef = orbDefaultInitRef ;
+        this.orbDefaultInitRef = orbDefaultInitRef;
     }
 
-    public org.omg.CORBA.Object resolve( String ident )
-    {
+    public org.omg.CORBA.Object resolve(String ident) {
         // If the ORBDefaultInitRef is not defined simply return null
-        if( orbDefaultInitRef == null ) {
+        if (orbDefaultInitRef == null) {
             return null;
         }
 
         String urlString;
-        // If the ORBDefaultInitDef is  defined as corbaloc: then create the
+        // If the ORBDefaultInitDef is defined as corbaloc: then create the
         // corbaloc String in the format
         // <ORBInitDefaultInitDef Param>/<Identifier>
         // and resolve it using resolveCorbaloc method
-        if( orbDefaultInitRef.startsWith( "corbaloc:" ) ) {
+        if (orbDefaultInitRef.startsWith("corbaloc:")) {
             urlString = orbDefaultInitRef + "/" + ident;
         } else {
             urlString = orbDefaultInitRef + "#" + ident;
         }
 
-        return (org.omg.CORBA.Object)urlHandler.operate( urlString ) ;
+        return (org.omg.CORBA.Object) urlHandler.operate(urlString);
     }
 
-    public Set<String> list()
-    {
-        return new java.util.HashSet() ;
+    public Set<String> list() {
+        return new java.util.HashSet();
     }
 }

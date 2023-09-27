@@ -24,47 +24,46 @@ package corba.dynamicrmiiiop.testclasses;
  */
 public class InvalidExceptions {
 
-    public static final Class[] CLASSES = {
-        InvalidException1.class, 
-        InvalidException2.class,
-        InvalidException3.class,
-        InvalidException4.class,
-        InvalidException5.class, 
-        InvalidException6.class,
-        InvalidException7.class,
-        InvalidException8.class,
-        InvalidException9.class, 
-        InvalidException10.class
-    };
+    public static final Class[] CLASSES = { InvalidException1.class, InvalidException2.class, InvalidException3.class,
+            InvalidException4.class, InvalidException5.class, InvalidException6.class, InvalidException7.class, InvalidException8.class,
+            InvalidException9.class, InvalidException10.class };
 
     // must be a checked exception
-    public class InvalidException1 {}
+    public class InvalidException1 {
+    }
 
     // must be a checked exception
-    public class InvalidException2 extends InvalidException1 {}
+    public class InvalidException2 extends InvalidException1 {
+    }
 
     // must be a checked exception
-    public class InvalidException3 extends Error {}
+    public class InvalidException3 extends Error {
+    }
 
     // must be a checked exception
-    public class InvalidException4 extends InvalidException3 {}
+    public class InvalidException4 extends InvalidException3 {
+    }
 
     // must be a checked exception
-    public class InvalidException5 extends RuntimeException {}
+    public class InvalidException5 extends RuntimeException {
+    }
 
     // must be a checked exception
-    public class InvalidException6 extends InvalidException5 {}
+    public class InvalidException6 extends InvalidException5 {
+    }
 
     // must be a checked exception
-    public interface InvalidException7 {}
+    public interface InvalidException7 {
+    }
 
     // must be a checked exception
-    public interface InvalidException8 extends java.io.Serializable {}
+    public interface InvalidException8 extends java.io.Serializable {
+    }
 
-    public class InvalidException9 extends Exception 
-        implements java.rmi.Remote {}
+    public class InvalidException9 extends Exception implements java.rmi.Remote {
+    }
 
-    public class InvalidException10 extends InvalidException9 {}
+    public class InvalidException10 extends InvalidException9 {
+    }
 
-    
 }

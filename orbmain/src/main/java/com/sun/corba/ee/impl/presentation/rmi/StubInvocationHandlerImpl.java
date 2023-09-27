@@ -17,7 +17,7 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.presentation.rmi ;
+package com.sun.corba.ee.impl.presentation.rmi;
 
 import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
 import com.sun.corba.ee.spi.orb.ORB;
@@ -46,26 +46,21 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 
 @IsLocal
-public final class StubInvocationHandlerImpl implements LinkedInvocationHandler  
-{
-    private transient PresentationManager.ClassData classData ;
-    private transient PresentationManager pm ;
-    private transient org.omg.CORBA.Object stub ;
-    private transient Proxy self ;
+public final class StubInvocationHandlerImpl implements LinkedInvocationHandler {
+    private transient PresentationManager.ClassData classData;
+    private transient PresentationManager pm;
+    private transient org.omg.CORBA.Object stub;
+    private transient Proxy self;
 
-    public void setProxy( Proxy self )
-    {
-        this.self = self ;
+    public void setProxy(Proxy self) {
+        this.self = self;
     }
 
-    public Proxy getProxy()
-    {
-        return self ;
+    public Proxy getProxy() {
+        return self;
     }
 
-    public StubInvocationHandlerImpl( PresentationManager pm,
-        PresentationManager.ClassData classData, org.omg.CORBA.Object stub ) 
-    {
+    public StubInvocationHandlerImpl(PresentationManager pm, PresentationManager.ClassData classData, org.omg.CORBA.Object stub) {
         if (!PresentationDefaults.inAppServer()) {
             SecurityManager s = System.getSecurityManager();
             if (s != null) {
@@ -73,146 +68,139 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler
             }
         }
 
-        this.classData = classData ;
-        this.pm = pm ;
-        this.stub = stub ;
+        this.classData = classData;
+        this.pm = pm;
+        this.stub = stub;
     }
 
     @IsLocal
-    private boolean isLocal(Delegate delegate)
-    {
-        boolean result = false ;
+    private boolean isLocal(Delegate delegate) {
+        boolean result = false;
         if (delegate instanceof ClientDelegate) {
-            ClientDelegate cdel = (ClientDelegate)delegate ;
-            ContactInfoList cil = cdel.getContactInfoList() ;
-            LocalClientRequestDispatcher lcrd =
-                cil.getLocalClientRequestDispatcher() ;
-            result = lcrd.useLocalInvocation( null ) ;
+            ClientDelegate cdel = (ClientDelegate) delegate;
+            ContactInfoList cil = cdel.getContactInfoList();
+            LocalClientRequestDispatcher lcrd = cil.getLocalClientRequestDispatcher();
+            result = lcrd.useLocalInvocation(null);
         }
-         
-        return result ;
+
+        return result;
     }
-    
-    public Object invoke( Object proxy, final Method method,
-        Object[] args ) throws Throwable {
 
-        Delegate delegate = null ;
+    public Object invoke(Object proxy, final Method method, Object[] args) throws Throwable {
+
+        Delegate delegate = null;
         try {
-            delegate = StubAdapter.getDelegate( stub ) ;
+            delegate = StubAdapter.getDelegate(stub);
         } catch (SystemException ex) {
-            throw Util.getInstance().mapSystemException(ex) ;
-        } 
+            throw Util.getInstance().mapSystemException(ex);
+        }
 
-        org.omg.CORBA.ORB delORB = delegate.orb( stub ) ;
+        org.omg.CORBA.ORB delORB = delegate.orb(stub);
         if (delORB instanceof ORB) {
-            ORB orb = (ORB)delORB ;
+            ORB orb = (ORB) delORB;
 
-            InvocationInterceptor interceptor = orb.getInvocationInterceptor() ;
+            InvocationInterceptor interceptor = orb.getInvocationInterceptor();
 
             try {
-                interceptor.preInvoke() ;
+                interceptor.preInvoke();
             } catch (Exception exc) {
                 // XXX Should we log this?
             }
 
             try {
-                return privateInvoke( delegate, proxy, method, args ) ;
+                return privateInvoke(delegate, proxy, method, args);
             } finally {
                 try {
-                    interceptor.postInvoke() ;
+                    interceptor.postInvoke();
                 } catch (Exception exc) {
                     // XXX Should we log this?
                 }
             }
         } else {
             // Not our ORB: so handle without invocation interceptor.
-            return privateInvoke( delegate, proxy, method, args ) ;
+            return privateInvoke(delegate, proxy, method, args);
         }
     }
 
     @InfoMethod
-    private void takingRemoteBranch() {}
+    private void takingRemoteBranch() {
+    }
 
     @InfoMethod
-    private void takingLocalBranch() {}
+    private void takingLocalBranch() {
+    }
 
-    /** Invoke the given method with the args and return the result.
-     *  This may result in a remote invocation.
-     *  @param proxy The proxy used for this class (null if not using java.lang.reflect.Proxy)
+    /**
+     * Invoke the given method with the args and return the result. This may result in a remote invocation.
+     * 
+     * @param proxy The proxy used for this class (null if not using java.lang.reflect.Proxy)
      */
     @IsLocal
-    private Object privateInvoke( Delegate delegate, Object proxy, final Method method,
-        Object[] args ) throws Throwable
-    {
+    private Object privateInvoke(Delegate delegate, Object proxy, final Method method, Object[] args) throws Throwable {
         boolean retry;
         do {
             retry = false;
-            String giopMethodName = classData.getIDLNameTranslator().
-              getIDLName( method )  ;
-            DynamicMethodMarshaller dmm = 
-              pm.getDynamicMethodMarshaller( method ) ;
-           
+            String giopMethodName = classData.getIDLNameTranslator().getIDLName(method);
+            DynamicMethodMarshaller dmm = pm.getDynamicMethodMarshaller(method);
+
             if (!isLocal(delegate)) {
                 try {
-                    takingRemoteBranch() ;
-                    org.omg.CORBA_2_3.portable.InputStream in = null ;
+                    takingRemoteBranch();
+                    org.omg.CORBA_2_3.portable.InputStream in = null;
                     try {
                         // create request
-                        org.omg.CORBA_2_3.portable.OutputStream out = 
-                          (org.omg.CORBA_2_3.portable.OutputStream)
-                          delegate.request( stub, giopMethodName, true);
+                        org.omg.CORBA_2_3.portable.OutputStream out = (org.omg.CORBA_2_3.portable.OutputStream) delegate.request(stub,
+                                giopMethodName, true);
                         // marshal arguments
-                        dmm.writeArguments( out, args ) ;
+                        dmm.writeArguments(out, args);
                         // finish invocation
-                        in = (org.omg.CORBA_2_3.portable.InputStream)
-                          delegate.invoke( stub, out);
+                        in = (org.omg.CORBA_2_3.portable.InputStream) delegate.invoke(stub, out);
                         // unmarshal result
-                        return dmm.readResult( in ) ;
+                        return dmm.readResult(in);
                     } catch (ApplicationException ex) {
-                        throw dmm.readException( ex ) ;
+                        throw dmm.readException(ex);
                     } catch (RemarshalException ex) {
-                      //return privateInvoke( delegate, proxy, method, args ) ; 
-                      retry = true;
+                        // return privateInvoke( delegate, proxy, method, args ) ;
+                        retry = true;
                     } finally {
-                        delegate.releaseReply( stub, in );
+                        delegate.releaseReply(stub, in);
                     }
                 } catch (SystemException ex) {
-                    throw Util.getInstance().mapSystemException(ex) ;
-                } 
+                    throw Util.getInstance().mapSystemException(ex);
+                }
             } else {
                 takingLocalBranch();
-                org.omg.CORBA.ORB orb = delegate.orb( stub ) ;
-                ServantObject so = delegate.servant_preinvoke( stub, giopMethodName,
-                                                               method.getDeclaringClass() );
+                org.omg.CORBA.ORB orb = delegate.orb(stub);
+                ServantObject so = delegate.servant_preinvoke(stub, giopMethodName, method.getDeclaringClass());
                 if (so == null) {
-                    //return privateInvoke( delegate, proxy, method, args ) ; 
+                    // return privateInvoke( delegate, proxy, method, args ) ;
                     retry = true;
                     continue;
                 }
 
                 try {
-                    Object[] copies = dmm.copyArguments( args, orb ) ;
+                    Object[] copies = dmm.copyArguments(args, orb);
 
-                    if (!method.isAccessible()) {       
+                    if (!method.isAccessible()) {
                         // Make sure that we can invoke a method from a normally
                         // inaccessible package, as this reflective class must always
                         // be able to invoke a non-public method.
                         AccessController.doPrivileged(new PrivilegedAction() {
                             public Object run() {
-                                method.setAccessible( true ) ;
-                                return null ;
-                            } 
-                        } ) ;
+                                method.setAccessible(true);
+                                return null;
+                            }
+                        });
                     }
 
-                    Object result = method.invoke( so.servant, copies ) ;
+                    Object result = method.invoke(so.servant, copies);
 
-                    return dmm.copyResult( result, orb ) ;
+                    return dmm.copyResult(result, orb);
                 } catch (InvocationTargetException ex) {
-                    Throwable mex = ex.getCause() ;
+                    Throwable mex = ex.getCause();
                     // mex should never be null, as null cannot be thrown
-                    if (dmm.isDeclaredException( mex ))
-                        throw mex ;
+                    if (dmm.isDeclaredException(mex))
+                        throw mex;
                     else
                         throw Util.getInstance().wrapException(mex);
                 } catch (Throwable thr) {
@@ -220,11 +208,11 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler
                         throw thr;
 
                     // This is not a user thrown exception from the
-                    // method call, so don't copy it.  This is either
+                    // method call, so don't copy it. This is either
                     // an error or a reflective invoke exception.
-                    throw Util.getInstance().wrapException( thr ) ;
-                } finally {              
-                    delegate.servant_postinvoke( stub, so);
+                    throw Util.getInstance().wrapException(thr);
+                } finally {
+                    delegate.servant_postinvoke(stub, so);
                 }
             }
         } while (retry);

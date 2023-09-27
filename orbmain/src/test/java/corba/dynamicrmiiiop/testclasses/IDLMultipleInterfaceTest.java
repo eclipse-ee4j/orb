@@ -19,32 +19,29 @@
 
 package corba.dynamicrmiiiop.testclasses;
 
-import java.rmi.RemoteException ;
+import java.rmi.RemoteException;
 
 public class IDLMultipleInterfaceTest {
 
     //
     // Set of idl names corresponding to alphabetically sorted set of
-    // interface methods.  See TestIDLNameTranslator for sorting details.    
+    // interface methods. See TestIDLNameTranslator for sorting details.
     //
-    public static final String[] IDL_NAMES = {   
-        "A1",
-        "CB",
-        "CC",
-        "CD" 
-    } ;
+    public static final String[] IDL_NAMES = { "A1", "CB", "CC", "CD" };
 
     public static String[] getIDLNames() {
         return IDL_NAMES;
     }
-    
+
     public interface first extends java.rmi.Remote {
-        void A1() throws RemoteException ;
-        void CC( int a ) throws RemoteException ;
+        void A1() throws RemoteException;
+
+        void CC(int a) throws RemoteException;
     }
 
     public interface second extends java.rmi.Remote {
-        void CB( int a ) throws RemoteException ;
-        void CD( int a ) throws RemoteException ;
+        void CB(int a) throws RemoteException;
+
+        void CD(int a) throws RemoteException;
     }
 }

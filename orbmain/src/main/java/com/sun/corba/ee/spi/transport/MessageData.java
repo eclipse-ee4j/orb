@@ -19,30 +19,27 @@
 
 package com.sun.corba.ee.spi.transport;
 
-import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message ;
+import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
 import com.sun.corba.ee.impl.encoding.CDRInputObject;
 
 public interface MessageData {
-    /** An array of GIOP messages.  The messages will
-     * satisfy:
+    /**
+     * An array of GIOP messages. The messages will satisfy:
      * <OL>
-     * <LI>If there is more than one message, the first message is 
-     * a request or a reply.</LI>
-     * <LI>If there is more than one message, all messages after the first
-     * will be fragment messages.</LI>
-     * <LI>If there is more than one message, all messages will share the
-     * same request ID (for GIOP 1.2).</LI>
-     * <LI>The more fragments bit will be set on all messages except the
-     * last message.</LI>
+     * <LI>If there is more than one message, the first message is a request or a reply.</LI>
+     * <LI>If there is more than one message, all messages after the first will be fragment messages.</LI>
+     * <LI>If there is more than one message, all messages will share the same request ID (for GIOP 1.2).</LI>
+     * <LI>The more fragments bit will be set on all messages except the last message.</LI>
      * </OL>
+     * 
      * @return GIOP messages
      */
-    Message[] getMessages() ;
+    Message[] getMessages();
 
-     /** A fully initialized input stream for the message data, positioned
-      * at the first element of the body.
-      * 
-      * @return stream of data
-      */
-    CDRInputObject getStream() ;
+    /**
+     * A fully initialized input stream for the message data, positioned at the first element of the body.
+     * 
+     * @return stream of data
+     */
+    CDRInputObject getStream();
 }

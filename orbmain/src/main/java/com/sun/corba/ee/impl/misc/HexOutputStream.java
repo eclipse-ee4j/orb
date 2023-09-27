@@ -24,35 +24,28 @@ import java.io.OutputStream;
 import java.io.IOException;
 
 /**
- * Writes each input byte as a 2 byte hexidecimal output pair making it
- * possible to turn arbitrary binary data into an ASCII format.
- * The high 4 bits of the byte is translated into the first byte.
+ * Writes each input byte as a 2 byte hexidecimal output pair making it possible to turn arbitrary binary data into an
+ * ASCII format. The high 4 bits of the byte is translated into the first byte.
  *
- * @author      Jeff Nisewanger
+ * @author Jeff Nisewanger
  */
-public class HexOutputStream extends OutputStream
-{
-    static private final char hex[] = {
-        '0', '1', '2', '3', '4', '5', '6', '7',
-        '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
-    };
+public class HexOutputStream extends OutputStream {
+    static private final char hex[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
-    private StringWriter writer; 
+    private StringWriter writer;
 
     /**
      * Creates a new HexOutputStream.
+     * 
      * @param w The underlying StringWriter.
      */
-    public
-        HexOutputStream(StringWriter w) {
+    public HexOutputStream(StringWriter w) {
         writer = w;
     }
 
-
     /**
-     * Writes a byte. Will block until the byte is actually
-     * written.
-     * param b The byte to write out.
+     * Writes a byte. Will block until the byte is actually written. param b The byte to write out.
+     * 
      * @exception java.io.IOException I/O error occurred.
      */
     public synchronized void write(int b) throws IOException {
@@ -64,12 +57,9 @@ public class HexOutputStream extends OutputStream
         write(b, 0, b.length);
     }
 
-    public synchronized void write(byte[] b, int off, int len)
-        throws IOException
-    {
-        for(int i=0; i < len; i++) {
+    public synchronized void write(byte[] b, int off, int len) throws IOException {
+        for (int i = 0; i < len; i++) {
             write(b[off + i]);
         }
     }
 }
-

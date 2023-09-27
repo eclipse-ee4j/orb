@@ -17,7 +17,7 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.presentation.rmi.codegen ;
+package com.sun.corba.ee.impl.presentation.rmi.codegen;
 
 import com.sun.corba.ee.impl.presentation.rmi.StubFactoryDynamicBase;
 import com.sun.corba.ee.impl.presentation.rmi.StubInvocationHandlerImpl;
@@ -32,48 +32,42 @@ import java.security.PrivilegedAction;
 import java.security.PrivilegedExceptionAction;
 import java.util.Map;
 
-public class StubFactoryCodegenImpl extends StubFactoryDynamicBase  
-{
-    private static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+public class StubFactoryCodegenImpl extends StubFactoryDynamicBase {
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
-    private static final String CODEGEN_KEY = "CodegenStubClass" ;
-    private final PresentationManager pm ;
+    private static final String CODEGEN_KEY = "CodegenStubClass";
+    private final PresentationManager pm;
 
-    public StubFactoryCodegenImpl( PresentationManager pm,
-        PresentationManager.ClassData classData, ClassLoader loader ) 
-    {
-        super( classData, loader ) ;
-        this.pm = pm ;
+    public StubFactoryCodegenImpl(PresentationManager pm, PresentationManager.ClassData classData, ClassLoader loader) {
+        super(classData, loader);
+        this.pm = pm;
     }
 
     private Class<?> getStubClass() {
         // IMPORTANT: A get & put to classData's dictionary can occur
-        //            by two or more threads in this method at the same
-        //            time. Therefore, classData must be synchronized here.
+        // by two or more threads in this method at the same
+        // time. Therefore, classData must be synchronized here.
 
         synchronized (classData) {
-            final Map<String,Object> dictionary = classData.getDictionary();
+            final Map<String, Object> dictionary = classData.getDictionary();
             return (Class<?>) dictionary.computeIfAbsent(CODEGEN_KEY, k -> createStubClass());
         }
     }
 
     private Class<?> createStubClass() {
-        final IDLNameTranslator nt = classData.getIDLNameTranslator() ;
-        final Class<?> theClass = classData.getMyClass() ;
-        final String stubClassName = Utility.dynamicStubName(theClass.getName() ) ;
-        final Class<?> baseClass = CodegenStubBase.class ;
-        final Class<?>[] interfaces = nt.getInterfaces() ;
-        final Method[] methods = nt.getMethods() ;
+        final IDLNameTranslator nt = classData.getIDLNameTranslator();
+        final Class<?> theClass = classData.getMyClass();
+        final String stubClassName = Utility.dynamicStubName(theClass.getName());
+        final Class<?> baseClass = CodegenStubBase.class;
+        final Class<?>[] interfaces = nt.getInterfaces();
+        final Method[] methods = nt.getMethods();
 
         // Create a StubGenerator that generates this stub class
         final CodegenProxyCreator creator = new CodegenProxyCreator(stubClassName, baseClass, interfaces, methods);
 
         // Invoke creator in a doPrivileged block if there is a security manager installed.
-        return System.getSecurityManager() == null
-              ? createStubClass(creator)
-              : AccessController.doPrivileged((PrivilegedAction<Class<?>>) () -> createStubClass(creator)
-        );
+        return System.getSecurityManager() == null ? createStubClass(creator)
+                : AccessController.doPrivileged((PrivilegedAction<Class<?>>) () -> createStubClass(creator));
     }
 
     private Class<?> createStubClass(CodegenProxyCreator creator) {
@@ -81,23 +75,22 @@ public class StubFactoryCodegenImpl extends StubFactoryDynamicBase
     }
 
     public org.omg.CORBA.Object makeStub() {
-        final Class<?> stubClass = getStubClass( ) ;
+        final Class<?> stubClass = getStubClass();
 
-        CodegenStubBase stub = null ;
+        CodegenStubBase stub = null;
 
         try {
             // Added doPriv for issue 778
-            stub = AccessController.doPrivileged(
-                  (PrivilegedExceptionAction<CodegenStubBase>) () -> (CodegenStubBase) stubClass.newInstance()
-            ) ;
+            stub = AccessController
+                    .doPrivileged((PrivilegedExceptionAction<CodegenStubBase>) () -> (CodegenStubBase) stubClass.newInstance());
         } catch (Exception exc) {
-            wrapper.couldNotInstantiateStubClass(exc, stubClass.getName()) ;
+            wrapper.couldNotInstantiateStubClass(exc, stubClass.getName());
         }
-        
-        InvocationHandler handler = new StubInvocationHandlerImpl(pm, classData, stub) ;
 
-        stub.initialize( classData, handler ) ;
+        InvocationHandler handler = new StubInvocationHandlerImpl(pm, classData, stub);
 
-        return stub ;
+        stub.initialize(classData, handler);
+
+        return stub;
     }
 }

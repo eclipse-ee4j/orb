@@ -17,37 +17,42 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.spi.ior ;
+package com.sun.corba.ee.spi.ior;
 
-import java.util.Iterator ;
+import java.util.Iterator;
 
-import org.glassfish.gmbal.ManagedData ;
-import org.glassfish.gmbal.ManagedAttribute ;
-import org.glassfish.gmbal.Description ;
+import org.glassfish.gmbal.ManagedData;
+import org.glassfish.gmbal.ManagedAttribute;
+import org.glassfish.gmbal.Description;
 
-/** This is the object adapter ID for an object adapter.
-* Typically this is the path of strings starting from the
-* Root POA to get to a POA, but other implementations are possible.
-*/
+/**
+ * This is the object adapter ID for an object adapter. Typically this is the path of strings starting from the Root POA
+ * to get to a POA, but other implementations are possible.
+ */
 @ManagedData
-@Description( "The identifier for a particular Object adapter in the ORB" ) 
+@Description("The identifier for a particular Object adapter in the ORB")
 public interface ObjectAdapterId extends Iterable<String>, Writeable {
-    /** Return the number of elements in the adapter ID.
+    /**
+     * Return the number of elements in the adapter ID.
+     * 
      * @return number of elements
-    */
-    int getNumLevels() ;
+     */
+    int getNumLevels();
 
-    /** Return an iterator that iterates over the components 
-    * of this adapter ID.  Each element is returned as a String.
-    * @return iterator over components
-    */
+    /**
+     * Return an iterator that iterates over the components of this adapter ID. Each element is returned as a String.
+     * 
+     * @return iterator over components
+     */
     @ManagedAttribute
-    @Description( "Sequence of strings in the ObjectAdapterId" ) 
+    @Description("Sequence of strings in the ObjectAdapterId")
     @Override
     Iterator<String> iterator();
 
-    /** Get the adapter name simply as an array of strings.
+    /**
+     * Get the adapter name simply as an array of strings.
+     * 
      * @return adapter name
-    */
-    String[] getAdapterName() ;
+     */
+    String[] getAdapterName();
 }

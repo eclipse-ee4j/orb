@@ -17,19 +17,18 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.ior ;
+package com.sun.corba.ee.impl.ior;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import com.sun.corba.ee.spi.ior.IORFactory ;
-import com.sun.corba.ee.spi.ior.IOR ;
-import com.sun.corba.ee.spi.ior.IORFactories ;
-import com.sun.corba.ee.spi.ior.IORTemplateList ;
-import com.sun.corba.ee.spi.ior.ObjectId ;
+import com.sun.corba.ee.spi.ior.IORFactory;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.ior.IORFactories;
+import com.sun.corba.ee.spi.ior.IORTemplateList;
+import com.sun.corba.ee.spi.ior.ObjectId;
 
-import com.sun.corba.ee.impl.misc.ORBUtility ;
+import com.sun.corba.ee.impl.misc.ORBUtility;
 import java.io.Serializable;
-
 
 // Made this serializable so that derived class ObjectReferenceFactoryImpl
 // does not require a void constructor.  Instead, this class is Serializable,
@@ -37,24 +36,20 @@ import java.io.Serializable;
 // This change cleans up a findbugs issue.
 public abstract class ObjectReferenceProducerBase implements Serializable {
     private static final long serialVersionUID = 6478965304620421549L;
-    transient protected ORB orb ;
+    transient protected ORB orb;
 
-    public abstract IORFactory getIORFactory() ;
+    public abstract IORFactory getIORFactory();
 
-    public abstract IORTemplateList getIORTemplateList() ;
+    public abstract IORTemplateList getIORTemplateList();
 
-    public ObjectReferenceProducerBase( ORB orb ) 
-    {
-        this.orb = orb ;
+    public ObjectReferenceProducerBase(ORB orb) {
+        this.orb = orb;
     }
 
-    public org.omg.CORBA.Object make_object (String repositoryId, 
-        byte[] objectId)
-    {
-        ObjectId oid = IORFactories.makeObjectId( objectId ) ;
-        IOR ior = getIORFactory().makeIOR( orb, repositoryId, oid ) ;
+    public org.omg.CORBA.Object make_object(String repositoryId, byte[] objectId) {
+        ObjectId oid = IORFactories.makeObjectId(objectId);
+        IOR ior = getIORFactory().makeIOR(orb, repositoryId, oid);
 
-        return ORBUtility.makeObjectReference( ior ) ;
+        return ORBUtility.makeObjectReference(ior);
     }
 }
-

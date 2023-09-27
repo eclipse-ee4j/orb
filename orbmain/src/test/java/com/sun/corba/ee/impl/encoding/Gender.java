@@ -27,7 +27,7 @@ import java.io.Serializable;
  */
 class Gender implements Serializable {
     private static final long serialVersionUID = 0x34789521D52D7FF2L;
-    
+
     final static String REPID = "RMI:com.sun.corba.ee.impl.encoding.Gender\\U0024SerializedForm:F85634868214EB9C:34789521D52D7FF2";
     final static Gender MALE = new Gender("Male");
     final static Gender FEMALE = new Gender("Female");
@@ -40,9 +40,7 @@ class Gender implements Serializable {
 
     @Override
     public String toString() {
-        return "Gender{" +
-                "name='" + name + '\'' +
-                '}';
+        return "Gender{" + "name='" + name + '\'' + '}';
     }
 
     private Object writeReplace() throws ObjectStreamException {

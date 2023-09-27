@@ -17,25 +17,28 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.spi.ior ;
+package com.sun.corba.ee.spi.ior;
 
-import org.omg.CORBA_2_3.portable.InputStream ;
-import com.sun.corba.ee.spi.orb.ORB ;
+import org.omg.CORBA_2_3.portable.InputStream;
+import com.sun.corba.ee.spi.orb.ORB;
 
-/** Factory interface for creating Identifiables.
+/**
+ * Factory interface for creating Identifiables.
  */
 public interface IdentifiableFactory<E extends Identifiable> {
-    /** Return the id of this factory, which is the id of the result 
-     * of any create call.
+    /**
+     * Return the id of this factory, which is the id of the result of any create call.
+     * 
      * @return factory id
      */
-    public int getId() ;
+    public int getId();
 
-    /** Construct the appropriate Identifiable object with the 
-     * given id from the InputStream is.  
+    /**
+     * Construct the appropriate Identifiable object with the given id from the InputStream is.
+     * 
      * @param orb ORB to use for creation
      * @param in stream to construct object from
      * @return constructed Identifiable
      */
-    public E create( ORB orb, InputStream in ) ;
+    public E create(ORB orb, InputStream in);
 }
