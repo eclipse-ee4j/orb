@@ -610,14 +610,14 @@ class Instruction implements Constants {
           case opc_tableswitch: {
             SwitchData sw = (SwitchData)value;
             int n = 1;
-            for(; ((pc + n) % 4) != 0 ; n++);
+            for(; ((pc + n) % 4) < 0 ; n++);
             return n + 16 + (sw.maxValue - sw.minValue) * 4;
           }
 
           case opc_lookupswitch: {
             SwitchData sw = (SwitchData)value;
             int n = 1;
-            for(; ((pc + n) % 4) != 0 ; n++);
+            for(; ((pc + n) % 4) < 0 ; n++);
             return n + 8 + sw.tab.size() * 8;
           }
 
@@ -742,7 +742,7 @@ class Instruction implements Constants {
           case opc_tableswitch: {
             SwitchData sw = (SwitchData)value;
             out.writeByte(opc);
-            for(int n = 1 ; ((pc + n) % 4) != 0 ; n++) {
+            for(int n = 1 ; ((pc + n) % 4) < 0 ; n++) {
                 out.writeByte(0);
             }
             out.writeInt(sw.defaultLabel.pc - pc);
@@ -760,7 +760,7 @@ class Instruction implements Constants {
             SwitchData sw = (SwitchData)value;
             out.writeByte(opc);
             int n = pc + 1;
-            for(; (n % 4) != 0 ; n++) {
+            for(; (n % 4) < 0 ; n++) {
                 out.writeByte(0);
             }
             out.writeInt(sw.defaultLabel.pc - pc);
