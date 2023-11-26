@@ -24,13 +24,12 @@ package corba.dynamicrmiiiop.testclasses;
  */
 public class ValidObjRefs {
 
-    public static final Class[] CLASSES = {
-        org.omg.CORBA.Object.class,
-        ValidObjRef1.class, ValidObjRef2.class
-    };
+    public static final Class[] CLASSES = { org.omg.CORBA.Object.class, ValidObjRef1.class, ValidObjRef2.class };
 
-    public interface ValidObjRef1 extends org.omg.CORBA.Object {}
+    public interface ValidObjRef1 extends org.omg.CORBA.Object {
+    }
 
-    public interface ValidObjRef2 extends ValidObjRef1 {}
+    public interface ValidObjRef2 extends ValidObjRef1 {
+    }
 
 }

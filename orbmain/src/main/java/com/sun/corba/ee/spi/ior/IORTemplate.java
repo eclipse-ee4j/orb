@@ -17,23 +17,22 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.spi.ior ;
+package com.sun.corba.ee.spi.ior;
 
-import java.util.List ;
-import java.util.Iterator ;
+import java.util.List;
+import java.util.Iterator;
 
-/** An IORTemplate provides all of the data necessary to create an IOR except
- * for the typeId and ObjectId.  
+/**
+ * An IORTemplate provides all of the data necessary to create an IOR except for the typeId and ObjectId.
  */
-public interface IORTemplate extends List<TaggedProfileTemplate>, 
-    IORFactory, MakeImmutable 
-{
-    /** Iterate over all TaggedProfileTemplates in this IORTemplate
-     * with the given id.
+public interface IORTemplate extends List<TaggedProfileTemplate>, IORFactory, MakeImmutable {
+    /**
+     * Iterate over all TaggedProfileTemplates in this IORTemplate with the given id.
+     * 
      * @param id id to look up
      * @return TaggedProfileTemplates in this IORTemplate
      */
-    Iterator<TaggedProfileTemplate> iteratorById( int id ) ;
+    Iterator<TaggedProfileTemplate> iteratorById(int id);
 
-    ObjectKeyTemplate getObjectKeyTemplate() ;
+    ObjectKeyTemplate getObjectKeyTemplate();
 }

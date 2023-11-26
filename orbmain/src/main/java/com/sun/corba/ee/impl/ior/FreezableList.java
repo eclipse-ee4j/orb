@@ -17,121 +17,105 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.ior ;
+package com.sun.corba.ee.impl.ior;
 
-import java.util.List ;
-import java.util.AbstractList ;
+import java.util.List;
+import java.util.AbstractList;
 
-import com.sun.corba.ee.spi.ior.MakeImmutable ;
+import com.sun.corba.ee.spi.ior.MakeImmutable;
 
-/** Simple class that delegates all List operations to 
-* another list.  It also can be frozen, which means that
-* a number of operations can be performed on the list,
-* and then the list can be made immutable, so that no
-* further changes are possible.  A FreezableList is frozen
-* using the makeImmutable method.
-*/
+/**
+ * Simple class that delegates all List operations to another list. It also can be frozen, which means that a number of
+ * operations can be performed on the list, and then the list can be made immutable, so that no further changes are
+ * possible. A FreezableList is frozen using the makeImmutable method.
+ */
 public class FreezableList<E> extends AbstractList<E> {
-    private List<E> delegate = null ;
-    private boolean immutable = false ;
+    private List<E> delegate = null;
+    private boolean immutable = false;
 
     @Override
-    public boolean equals( Object obj )
-    {
+    public boolean equals(Object obj) {
         if (obj == null)
-            return false ;
+            return false;
 
         if (!(obj instanceof FreezableList))
-            return false ;
+            return false;
 
-        FreezableList other = FreezableList.class.cast( obj ) ;
+        FreezableList other = FreezableList.class.cast(obj);
 
-        return delegate.equals( other.delegate ) &&
-            (immutable == other.immutable) ;
+        return delegate.equals(other.delegate) && (immutable == other.immutable);
     }
 
     @Override
-    public int hashCode()
-    {
-        return delegate.hashCode() ;
+    public int hashCode() {
+        return delegate.hashCode();
     }
 
-    public FreezableList( List<E> delegate, boolean immutable  )
-    {
-        this.delegate = delegate ;
-        this.immutable = immutable ;
+    public FreezableList(List<E> delegate, boolean immutable) {
+        this.delegate = delegate;
+        this.immutable = immutable;
     }
 
-    public FreezableList( List<E> delegate )
-    {
-        this( delegate, false ) ;
+    public FreezableList(List<E> delegate) {
+        this(delegate, false);
     }
 
-    public void makeImmutable()
-    {
-        immutable = true ;
+    public void makeImmutable() {
+        immutable = true;
     }
 
-    public boolean isImmutable()
-    {
-        return immutable ;
+    public boolean isImmutable() {
+        return immutable;
     }
 
-    public void makeElementsImmutable()
-    {
+    public void makeElementsImmutable() {
         for (E x : this) {
             if (x instanceof MakeImmutable) {
-                MakeImmutable element = MakeImmutable.class.cast( x ) ;
-                element.makeImmutable() ;
+                MakeImmutable element = MakeImmutable.class.cast(x);
+                element.makeImmutable();
             }
         }
     }
 
     // Methods overridden from AbstractList
 
-    public int size()
-    {
-        return delegate.size() ;
+    public int size() {
+        return delegate.size();
     }
 
-    public E get(int index)
-    {
-        return delegate.get(index) ;
-    }
-
-    @Override
-    public E set(int index, E element)
-    {
-        if (immutable)
-            throw new UnsupportedOperationException() ;
-
-        return delegate.set(index, element) ;
+    public E get(int index) {
+        return delegate.get(index);
     }
 
     @Override
-    public void add(int index, E element)
-    {
+    public E set(int index, E element) {
         if (immutable)
-            throw new UnsupportedOperationException() ;
+            throw new UnsupportedOperationException();
 
-        delegate.add(index, element) ;
+        return delegate.set(index, element);
     }
 
     @Override
-    public E remove(int index)
-    {
+    public void add(int index, E element) {
         if (immutable)
-            throw new UnsupportedOperationException() ;
+            throw new UnsupportedOperationException();
 
-        return delegate.remove(index) ;
+        delegate.add(index, element);
+    }
+
+    @Override
+    public E remove(int index) {
+        if (immutable)
+            throw new UnsupportedOperationException();
+
+        return delegate.remove(index);
     }
 
     // We also override subList so that the result is a FreezableList.
     @Override
-    public List<E> subList(int fromIndex, int toIndex)
-    {
-        List<E> list = delegate.subList(fromIndex, toIndex) ;
-        List<E> result = new FreezableList<E>( list, immutable ) ;
-        return result ;
+    public List<E> subList(int fromIndex, int toIndex) {
+        List<E> list = delegate.subList(fromIndex, toIndex);
+        List<E> result = new FreezableList<E>(list, immutable);
+        return result;
     }
 }

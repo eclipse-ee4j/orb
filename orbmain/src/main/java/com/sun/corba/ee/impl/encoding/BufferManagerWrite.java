@@ -26,33 +26,28 @@ import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import java.nio.ByteBuffer;
 
 /**
- * Defines the contract between the BufferManager and
- * CDR stream on the writing side.  The CDR stream
- * calls back to the BufferManagerWrite when it needs
- * more room in the output buffer to continue.  The
- * BufferManager can then grow the output buffer or
- * use some kind of fragmentation technique.
+ * Defines the contract between the BufferManager and CDR stream on the writing side. The CDR stream calls back to the
+ * BufferManagerWrite when it needs more room in the output buffer to continue. The BufferManager can then grow the
+ * output buffer or use some kind of fragmentation technique.
  */
-public abstract class BufferManagerWrite
-{
-    protected ORB orb ;
-    protected static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+public abstract class BufferManagerWrite {
+    protected ORB orb;
+    protected static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
-    BufferManagerWrite( ORB orb ) 
-    {
-        this.orb = orb ;
+    BufferManagerWrite(ORB orb) {
+        this.orb = orb;
     }
 
     /**
      * Has the stream sent out any fragments so far?
+     * 
      * @return If any fragments have been sent
      */
     public abstract boolean sentFragment();
 
     /**
-     * Has the entire message been sent?  (Has
-     * sendMessage been called?)
+     * Has the entire message been sent? (Has sendMessage been called?)
+     * 
      * @return If {@link #sendMessage()} has been called
      */
     public boolean sentFullMessage() {
@@ -60,8 +55,8 @@ public abstract class BufferManagerWrite
     }
 
     /**
-     * Returns the correct buffer size for this type of
-     * buffer manager as set in the ORB.
+     * Returns the correct buffer size for this type of buffer manager as set in the ORB.
+     * 
      * @return buffer size
      */
     public abstract int getBufferSize();
@@ -73,6 +68,7 @@ public abstract class BufferManagerWrite
 
     /**
      * Returns true if this buffer manager fragments when an overflow occurs.
+     * 
      * @return If this buffer manager fragments
      */
     public abstract boolean isFragmentOnOverflow();
@@ -82,33 +78,21 @@ public abstract class BufferManagerWrite
      *
      * IIOPOutputStream.writeTo called from IIOPOutputStream.invoke
      *
-     * Case: overflow was never called (bbwi.buf contains complete message).
-     *       Backpatch size field.
-     *       If growing or collecting:
-     *          this.bufQ.put(bbwi).
-     *          this.bufQ.iterate // However, see comment in getBufferQ
-     *             this.connection.send(fragment)
-     *       If streaming:
-     *          this.connection.send(bbwi).
+     * Case: overflow was never called (bbwi.buf contains complete message). Backpatch size field. If growing or collecting:
+     * this.bufQ.put(bbwi). this.bufQ.iterate // However, see comment in getBufferQ this.connection.send(fragment) If
+     * streaming: this.connection.send(bbwi).
      *
-     * Case: overflow was called N times (bbwi.buf contains last buffer).
-     *       If growing or collecting:
-     *          this.bufQ.put(bbwi).
-     *          backpatch size field in first buffer.
-     *          this.bufQ.iterate // However, see comment in getBufferQ
-     *             this.connection.send(fragment)
-     *       If streaming:
-     *          backpatch fragment size field in bbwi.buf.
-     *          Set no more fragments bit.
-     *          this.connection.send(bbwi).
+     * Case: overflow was called N times (bbwi.buf contains last buffer). If growing or collecting: this.bufQ.put(bbwi).
+     * backpatch size field in first buffer. this.bufQ.iterate // However, see comment in getBufferQ
+     * this.connection.send(fragment) If streaming: backpatch fragment size field in bbwi.buf. Set no more fragments bit.
+     * this.connection.send(bbwi).
      */
 
-    public abstract void sendMessage ();
-
+    public abstract void sendMessage();
 
     /**
-     * A reference to the connection level stream will be required when
-     * sending fragments.
+     * A reference to the connection level stream will be required when sending fragments.
+     * 
      * @param outputObject GIOPObject to use.
      */
     public void setOutputObject(Object outputObject) {
@@ -118,13 +102,12 @@ public abstract class BufferManagerWrite
     /**
      * Close the BufferManagerWrite and do any outstanding cleanup.
      */
-     abstract public void close();
+    abstract public void close();
 
     // XREVISIT - Currently a java.lang.Object during
-    // the rip-int-generic transition.  Should eventually
+    // the rip-int-generic transition. Should eventually
     // become a GIOPOutputObject.
     protected Object outputObject;
 
     protected boolean sentFullMessage = false;
 }
-

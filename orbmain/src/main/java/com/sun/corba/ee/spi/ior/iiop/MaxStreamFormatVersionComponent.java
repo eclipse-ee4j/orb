@@ -19,21 +19,18 @@
 
 package com.sun.corba.ee.spi.ior.iiop;
 
-import com.sun.corba.ee.spi.ior.TaggedComponent ;
+import com.sun.corba.ee.spi.ior.TaggedComponent;
 
-import org.glassfish.gmbal.ManagedData ;
-import org.glassfish.gmbal.ManagedAttribute ;
-import org.glassfish.gmbal.Description ;
+import org.glassfish.gmbal.ManagedData;
+import org.glassfish.gmbal.ManagedAttribute;
+import org.glassfish.gmbal.Description;
 
 // Java to IDL ptc 02-01-12 1.4.11
 // TAG_RMI_CUSTOM_MAX_STREAM_FORMAT
 @ManagedData
-@Description( "Component representing the maximum RMI-IIOP stream format " 
-    + "version to be used with this IOR" )
-public interface MaxStreamFormatVersionComponent extends TaggedComponent
-{
+@Description("Component representing the maximum RMI-IIOP stream format " + "version to be used with this IOR")
+public interface MaxStreamFormatVersionComponent extends TaggedComponent {
     @ManagedAttribute
-    @Description( "The maximum RMI-IIOP stream format version "
-        + "(usually 2)" ) 
-    public byte getMaxStreamFormatVersion() ;
+    @Description("The maximum RMI-IIOP stream format version " + "(usually 2)")
+    public byte getMaxStreamFormatVersion();
 }

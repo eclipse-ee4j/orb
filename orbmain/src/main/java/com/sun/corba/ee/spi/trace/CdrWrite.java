@@ -17,21 +17,20 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.spi.trace ;
+package com.sun.corba.ee.spi.trace;
 
-import java.lang.annotation.Target ;
-import java.lang.annotation.ElementType ;
-import java.lang.annotation.Retention ;
-import java.lang.annotation.RetentionPolicy ;
+import java.lang.annotation.Target;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import org.glassfish.pfl.tf.spi.annotation.MethodMonitorGroup;
 
-/** This annotation is applied to a class or interface to indicate
- * that its methods are classified as part of the CDR unmarshaling 
- * implementation in the ORB.
+/**
+ * This annotation is applied to a class or interface to indicate that its methods are classified as part of the CDR
+ * unmarshaling implementation in the ORB.
  */
-@Target({ElementType.METHOD,ElementType.TYPE,ElementType.FIELD})
+@Target({ ElementType.METHOD, ElementType.TYPE, ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
 @MethodMonitorGroup
 public @interface CdrWrite {
 }
-

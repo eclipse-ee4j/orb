@@ -18,31 +18,37 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.orb ;
+package com.sun.corba.ee.impl.orb;
 
-import java.util.Properties ;
+import java.util.Properties;
 
 public interface ParserAction {
-    /** Return the property name or prefix for which this action
-     * is applied.
+    /**
+     * Return the property name or prefix for which this action is applied.
+     * 
      * @return the property name or prefix.
      */
     String getPropertyName();
 
-    /** Return whether this action is for an exact match or a prefix
-     * match (true).
+    /**
+     * Return whether this action is for an exact match or a prefix match (true).
+     * 
      * @return true if this action is for an exact or prefix match.
      */
     boolean isPrefix();
 
-    /** Return the field name in an object that is set with the result
+    /**
+     * Return the field name in an object that is set with the result
+     * 
      * @return the field name
      */
     String getFieldName();
 
-    /** Apply this action to props and return the result.
+    /**
+     * Apply this action to props and return the result.
+     * 
      * @param props properties to apply action to
      * @return result of action
-    */
-    Object apply( Properties props );
+     */
+    Object apply(Properties props);
 }

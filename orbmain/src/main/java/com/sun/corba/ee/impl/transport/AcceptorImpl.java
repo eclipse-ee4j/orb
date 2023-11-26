@@ -29,7 +29,6 @@ import java.nio.channels.SocketChannel;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
-
 import com.sun.corba.ee.spi.transport.Selector;
 
 import com.sun.corba.ee.spi.orb.ORB;
@@ -41,16 +40,15 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 /**
  * @author Harold Carr
  */
-@Transport public class AcceptorImpl extends AcceptorBase {
+@Transport
+public class AcceptorImpl extends AcceptorBase {
     protected ServerSocketChannel serverSocketChannel;
     protected ServerSocket serverSocket;
-    
-    private Class<?> lastExceptionClassSeen = null ;
 
-    public AcceptorImpl(ORB orb, int port,
-                                       String name, String type)
-    {
-        super( orb, port, name, type ) ;
+    private Class<?> lastExceptionClassSeen = null;
+
+    public AcceptorImpl(ORB orb, int port, String name, String type) {
+        super(orb, port, name, type);
     }
 
     @Transport
@@ -67,8 +65,7 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
                 host = orb.getORBData().getORBServerHost();
                 inetSocketAddress = new InetSocketAddress(host, port);
             }
-            serverSocket = orb.getORBData().getSocketFactory()
-                .createServerSocket(type, inetSocketAddress);
+            serverSocket = orb.getORBData().getSocketFactory().createServerSocket(type, inetSocketAddress);
             internalInitialize();
             if (orb.getORBData().showInfoMessages()) {
                 wrapper.infoCreateListenerSucceeded(host, Integer.toString(port));
@@ -80,9 +77,7 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
         return true;
     }
 
-    protected void internalInitialize()
-        throws Exception
-    {
+    protected void internalInitialize() throws Exception {
         // Determine the listening port (for the IOR).
         // This is important when using emphemeral ports (i.e.,
         // when the port value to the constructor is 0).
@@ -98,24 +93,23 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
         serverSocketChannel = serverSocket.getChannel();
 
         if (serverSocketChannel != null) {
-            setUseSelectThreadToWait(
-                orb.getORBData().acceptorSocketUseSelectThreadToWait());
-            serverSocketChannel.configureBlocking(
-                ! orb.getORBData().acceptorSocketUseSelectThreadToWait());
+            setUseSelectThreadToWait(orb.getORBData().acceptorSocketUseSelectThreadToWait());
+            serverSocketChannel.configureBlocking(!orb.getORBData().acceptorSocketUseSelectThreadToWait());
         } else {
             // Configure to use listener and reader threads.
             setUseSelectThreadToWait(false);
         }
-        setUseWorkerThreadForEvent(
-            orb.getORBData().acceptorSocketUseWorkerThreadForEvent());
+        setUseWorkerThreadForEvent(orb.getORBData().acceptorSocketUseWorkerThreadForEvent());
 
     }
 
     @InfoMethod
-    private void usingServerSocket( ServerSocket ss ) { }
+    private void usingServerSocket(ServerSocket ss) {
+    }
 
     @InfoMethod
-    private void usingServerSocketChannel( ServerSocketChannel ssc ) { }
+    private void usingServerSocketChannel(ServerSocketChannel ssc) {
+    }
 
     @Transport
     public Socket getAcceptedSocket() {
@@ -125,31 +119,30 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
         try {
             if (serverSocketChannel == null) {
                 socket = serverSocket.accept();
-                usingServerSocket( serverSocket ) ;
+                usingServerSocket(serverSocket);
             } else {
                 socketChannel = serverSocketChannel.accept();
                 socket = socketChannel.socket();
                 usingServerSocketChannel(serverSocketChannel);
             }
 
-            orb.getORBData().getSocketFactory()
-                .setAcceptedSocketOptions(this, serverSocket, socket);
+            orb.getORBData().getSocketFactory().setAcceptedSocketOptions(this, serverSocket, socket);
 
             // Clear the last exception after a successful accept, in case
             // we get sporadic bursts of related failures.
-            lastExceptionClassSeen = null ;
+            lastExceptionClassSeen = null;
         } catch (IOException e) {
             // Log the exception at WARNING level, unless the same exception
-            // occurs repeatedly.  In that case, only log the first exception
-            // as a warning.  Log all exceptions with the same class after the
-            // first of that class at FINE level.  We want to avoid flooding the
+            // occurs repeatedly. In that case, only log the first exception
+            // as a warning. Log all exceptions with the same class after the
+            // first of that class at FINE level. We want to avoid flooding the
             // log when the same error occurs repeatedly (e.g. we are using an
             // SSLSocketChannel and there is a certificate problem that causes
             // ALL accepts to fail).
             if (e.getClass() == lastExceptionClassSeen) {
                 wrapper.ioexceptionInAcceptFine(e);
             } else {
-                lastExceptionClassSeen = e.getClass() ;
+                lastExceptionClassSeen = e.getClass();
                 wrapper.ioexceptionInAccept(e);
             }
 
@@ -157,18 +150,19 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
             // REVISIT - need to close - recreate - then register new one.
             orb.getTransportManager().getSelector(0).registerForEvent(this);
             // NOTE: if register cycling we do not want to shut down ORB
-            // since local beans will still work.  Instead one will see
+            // since local beans will still work. Instead one will see
             // a growing log file to alert admin of problem.
         }
 
-        return socket ;
+        return socket;
     }
 
     @InfoMethod
-    private void closeException( IOException exc ) { }
+    private void closeException(IOException exc) {
+    }
 
     @Transport
-    public void close () {
+    public void close() {
         try {
             Selector selector = orb.getTransportManager().getSelector(0);
             selector.unregisterForEvent(this);
@@ -197,33 +191,31 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
     //
 
     protected void accept() {
-        processSocket( getAcceptedSocket() ) ;
+        processSocket(getAcceptedSocket());
     }
 
     @Transport
     public void doWork() {
         try {
             if (selectionKey.isAcceptable()) {
-                AccessController.doPrivileged(
-                    new PrivilegedAction<Object>() {
-                        public java.lang.Object run() {
-                            accept() ;
-                            return null;
-                        }
+                AccessController.doPrivileged(new PrivilegedAction<Object>() {
+                    public java.lang.Object run() {
+                        accept();
+                        return null;
                     }
-                );
+                });
             } else {
-                selectionKeyNotAcceptable() ;
+                selectionKeyNotAcceptable();
             }
         } catch (SecurityException se) {
-            securityException( se ) ;
+            securityException(se);
             String permissionStr = ORBUtility.getClassSecurityInfo(getClass());
             wrapper.securityExceptionInAccept(se, permissionStr);
         } catch (Exception ex) {
-            otherException( ex ) ;
-            wrapper.exceptionInAccept(ex, ex.toString() );
+            otherException(ex);
+            wrapper.exceptionInAccept(ex, ex.toString());
         } catch (Throwable t) {
-            otherException( t ) ;
+            otherException(t);
         } finally {
 
             // IMPORTANT: To avoid bug (4953599), we force the
@@ -233,8 +225,8 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
             // indefinitely.
             // NOTE: If "acceptorSocketUseWorkerThreadForEvent" is
             // set to to false in ParserTable.java, then this method,
-            // doWork(), will get executed by the same thread 
-            // (SelectorThread) that does the NIO select. 
+            // doWork(), will get executed by the same thread
+            // (SelectorThread) that does the NIO select.
             // If "acceptorSocketUseWorkerThreadForEvent" is set
             // to true, a WorkerThread will execute this method,
             // doWork(). Hence, the registering of the enabling of
@@ -251,19 +243,21 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
     // SocketOrChannelAcceptor
     //
 
-    public ServerSocket getServerSocket()
-    {
+    public ServerSocket getServerSocket() {
         return serverSocket;
     }
 
     @InfoMethod
-    private void selectionKeyNotAcceptable() { }
+    private void selectionKeyNotAcceptable() {
+    }
 
     @InfoMethod
-    private void securityException(SecurityException se) { }
+    private void securityException(SecurityException se) {
+    }
 
     @InfoMethod
-    private void otherException(Throwable t) { }
+    private void otherException(Throwable t) {
+    }
     // END Legacy support
 }
 

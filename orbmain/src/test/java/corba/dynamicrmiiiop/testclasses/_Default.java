@@ -21,10 +21,13 @@ package corba.dynamicrmiiiop.testclasses;
 
 public class _Default {
 
-    public class Inner {}
+    public class Inner {
+    }
 
-    public class _Inner {}
+    public class _Inner {
+    }
 
-    public class Default {}
+    public class Default {
+    }
 
 }
