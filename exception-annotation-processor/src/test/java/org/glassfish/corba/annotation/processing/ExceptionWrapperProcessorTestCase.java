@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2018, 2020 Oracle and/or its affiliates.
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -30,8 +31,6 @@ import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
-import javax.annotation.processing.SupportedAnnotationTypes;
-import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Name;
@@ -77,20 +76,17 @@ public class ExceptionWrapperProcessorTestCase {
 
     @Test
     public void processor_supportsExceptionWrapperAnnotation() {
-        SupportedAnnotationTypes annotation = ExceptionWrapperProcessor.class.getAnnotation(SupportedAnnotationTypes.class);
-        assertTrue(Arrays.asList(annotation.value()).contains(ExceptionWrapper.class.getName()));
+        assertTrue(processor.getSupportedAnnotationTypes().contains(ExceptionWrapper.class.getName()));
     }
 
     @Test
     public void processor_supportsMessageAnnotation() {
-        SupportedAnnotationTypes annotation = ExceptionWrapperProcessor.class.getAnnotation(SupportedAnnotationTypes.class);
-        assertTrue(Arrays.asList(annotation.value()).contains(Message.class.getName()));
+        assertTrue(processor.getSupportedAnnotationTypes().contains(Message.class.getName()));
     }
 
     @Test
     public void process_supportsSourceVersion8() {
-        SupportedSourceVersion annotation = ExceptionWrapperProcessor.class.getAnnotation(SupportedSourceVersion.class);
-        assertEquals(SourceVersion.RELEASE_8, annotation.value());
+        assertEquals(SourceVersion.RELEASE_8, processor.getSupportedSourceVersion());
     }
 
     @Test
