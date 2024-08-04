@@ -332,7 +332,7 @@ public class ExceptionWrapperProcessorTestCase {
 
         @Override
         public SourceVersion getSourceVersion() {
-            return null;
+            return SourceVersion.RELEASE_8;
         }
 
         @Override
