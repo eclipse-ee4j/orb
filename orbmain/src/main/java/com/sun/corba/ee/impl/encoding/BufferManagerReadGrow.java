@@ -25,25 +25,22 @@ import com.sun.corba.ee.impl.protocol.giopmsgheaders.FragmentMessage;
 import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
 import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 
-public class BufferManagerReadGrow
-    implements BufferManagerRead, MarkAndResetHandler
-{
-    private static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+public class BufferManagerReadGrow implements BufferManagerRead, MarkAndResetHandler {
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
     @Override
-    public void processFragment (ByteBuffer byteBuffer, FragmentMessage header)
-    {
+    public void processFragment(ByteBuffer byteBuffer, FragmentMessage header) {
         // REVISIT - should we consider throwing an exception similar to what's
-        //           done for underflow()???
+        // done for underflow()???
     }
 
     @Override
-    public void init(Message msg) {}
+    public void init(Message msg) {
+    }
 
     @Override
     public ByteBuffer underflow(ByteBuffer byteBuffer) {
-        throw wrapper.unexpectedEof() ;
+        throw wrapper.unexpectedEof();
     }
 
     @Override
@@ -52,8 +49,9 @@ public class BufferManagerReadGrow
     }
 
     @Override
-    public void cancelProcessing(int requestId) {}
-    
+    public void cancelProcessing(int requestId) {
+    }
+
     // Mark and reset handler -------------------------
 
     private Object streamMemento;
@@ -74,7 +72,8 @@ public class BufferManagerReadGrow
 
     // This will never happen
     @Override
-    public void fragmentationOccured(ByteBuffer byteBuffer) {}
+    public void fragmentationOccured(ByteBuffer byteBuffer) {
+    }
 
     @Override
     public void reset() {
@@ -89,5 +88,6 @@ public class BufferManagerReadGrow
 
     // Nothing to close and cleanup.
     @Override
-    public void close(ByteBuffer byteBuffer) {}
+    public void close(ByteBuffer byteBuffer) {
+    }
 }

@@ -17,58 +17,48 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.spi.extension ;
+package com.sun.corba.ee.spi.extension;
 
-import org.omg.CORBA.Policy ;
-import org.omg.CORBA.LocalObject ;
+import org.omg.CORBA.Policy;
+import org.omg.CORBA.LocalObject;
 
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
-/** Policy used to support the request partitioning feature and to
- *  specify the partition to use.
-*/
-public class LoadBalancingPolicy extends LocalObject implements Policy
-{
-    private static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+/**
+ * Policy used to support the request partitioning feature and to specify the partition to use.
+ */
+public class LoadBalancingPolicy extends LocalObject implements Policy {
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
     private final int value;
 
-    public LoadBalancingPolicy( int value ) 
-    {
-        if (value < ORBConstants.FIRST_LOAD_BALANCING_VALUE ||
-            value > ORBConstants.LAST_LOAD_BALANCING_VALUE) {
-            throw wrapper.invalidLoadBalancingPolicyValue(
-                  value, ORBConstants.FIRST_LOAD_BALANCING_VALUE,
-                  ORBConstants.LAST_LOAD_BALANCING_VALUE);
+    public LoadBalancingPolicy(int value) {
+        if (value < ORBConstants.FIRST_LOAD_BALANCING_VALUE || value > ORBConstants.LAST_LOAD_BALANCING_VALUE) {
+            throw wrapper.invalidLoadBalancingPolicyValue(value, ORBConstants.FIRST_LOAD_BALANCING_VALUE,
+                    ORBConstants.LAST_LOAD_BALANCING_VALUE);
         }
         this.value = value;
     }
 
-    public int getValue()
-    {
+    public int getValue() {
         return value;
     }
 
-    public int policy_type()
-    {
-        return ORBConstants.LOAD_BALANCING_POLICY ;
+    public int policy_type() {
+        return ORBConstants.LOAD_BALANCING_POLICY;
     }
 
-    public org.omg.CORBA.Policy copy()
-    {
+    public org.omg.CORBA.Policy copy() {
         return this;
     }
 
-    public void destroy()
-    {
+    public void destroy() {
         // NO-OP
     }
 
     @Override
-    public String toString() 
-    {
-        return "LoadBalancingPolicy[" + value + "]" ;
+    public String toString() {
+        return "LoadBalancingPolicy[" + value + "]";
     }
 }

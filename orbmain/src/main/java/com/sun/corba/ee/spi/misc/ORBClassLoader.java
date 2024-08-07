@@ -17,29 +17,23 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.spi.misc ;
+package com.sun.corba.ee.spi.misc;
 
 /**
- * Based on feedback from bug report 4452016, all class loading
- * in the ORB is isolated here.  It is acceptable to use
- * Class.forName only when one is certain that the desired class
- * should come from the core JDK.
+ * Based on feedback from bug report 4452016, all class loading in the ORB is isolated here. It is acceptable to use
+ * Class.forName only when one is certain that the desired class should come from the core JDK.
  * <p>
- * Note that this class must not depend on generated log wrappers! 
+ * Note that this class must not depend on generated log wrappers!
  */
-public class ORBClassLoader
-{
-    public static Class loadClass(String className) 
-        throws ClassNotFoundException
-    {
+public class ORBClassLoader {
+    public static Class loadClass(String className) throws ClassNotFoundException {
         return getClassLoader().loadClass(className);
     }
 
-    public static ClassLoader getClassLoader() 
-    {
-        ClassLoader ccl = Thread.currentThread().getContextClassLoader() ;
+    public static ClassLoader getClassLoader() {
+        ClassLoader ccl = Thread.currentThread().getContextClassLoader();
         if (ccl != null)
-            return ccl; 
+            return ccl;
         else
             return ClassLoader.getSystemClassLoader();
     }

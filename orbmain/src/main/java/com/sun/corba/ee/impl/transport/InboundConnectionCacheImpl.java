@@ -29,57 +29,46 @@ import com.sun.corba.ee.spi.transport.InboundConnectionCache;
 
 import com.sun.corba.ee.spi.trace.Transport;
 
-import org.glassfish.gmbal.ManagedObject ;
-import org.glassfish.gmbal.AMXMetadata ;
-import org.glassfish.gmbal.Description ;
+import org.glassfish.gmbal.ManagedObject;
+import org.glassfish.gmbal.AMXMetadata;
+import org.glassfish.gmbal.Description;
 
 /**
  * @author Harold Carr
  */
 @Transport
 @ManagedObject
-@Description( "Cache of connections accepted by the ORB" ) 
-@AMXMetadata( type="corba-inbound-connection-cache-mon", group="monitoring" )
-public class InboundConnectionCacheImpl
-    extends
-        ConnectionCacheBase
-    implements
-        InboundConnectionCache
-{
+@Description("Cache of connections accepted by the ORB")
+@AMXMetadata(type = "corba-inbound-connection-cache-mon", group = "monitoring")
+public class InboundConnectionCacheImpl extends ConnectionCacheBase implements InboundConnectionCache {
     protected Collection<Connection> connectionCache;
-    private InboundConnectionCacheProbeProvider pp =
-        new InboundConnectionCacheProbeProvider() ;
+    private InboundConnectionCacheProbeProvider pp = new InboundConnectionCacheProbeProvider();
 
-    public InboundConnectionCacheImpl(ORB orb, Acceptor acceptor)
-    {
-        super(orb, acceptor.getConnectionCacheType(),
-              ((Acceptor)acceptor).getMonitoringName());
+    public InboundConnectionCacheImpl(ORB orb, Acceptor acceptor) {
+        super(orb, acceptor.getConnectionCacheType(), ((Acceptor) acceptor).getMonitoringName());
         this.connectionCache = new ArrayList<Connection>();
     }
 
-    public Connection get(Acceptor acceptor)
-    {
+    public Connection get(Acceptor acceptor) {
         throw wrapper.methodShouldNotBeCalled();
     }
-    
+
     @Transport
-    public void put(Acceptor acceptor, Connection connection)
-    {
+    public void put(Acceptor acceptor, Connection connection) {
         synchronized (backingStore()) {
             connectionCache.add(connection);
             connection.setConnectionCache(this);
             cacheStatisticsInfo();
-            pp.connectionOpenedEvent( acceptor.toString(), connection.toString() ) ;
+            pp.connectionOpenedEvent(acceptor.toString(), connection.toString());
         }
     }
 
     @Transport
-    public void remove(Connection connection)
-    {
+    public void remove(Connection connection) {
         synchronized (backingStore()) {
             connectionCache.remove(connection);
             cacheStatisticsInfo();
-            pp.connectionClosedEvent( connection.toString() ) ;
+            pp.connectionClosedEvent(connection.toString());
         }
     }
 
@@ -88,13 +77,11 @@ public class InboundConnectionCacheImpl
     // Implementation
     //
 
-    public Collection values()
-    {
+    public Collection values() {
         return connectionCache;
     }
 
-    protected Object backingStore()
-    {
+    protected Object backingStore() {
         return connectionCache;
     }
 }

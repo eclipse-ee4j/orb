@@ -27,17 +27,12 @@ import org.omg.PortableInterceptor.Current;
 import org.omg.PortableInterceptor.InvalidSlot;
 
 /**
- * PICurrent is the implementation of Current as specified in the Portable
- * Interceptors Spec orbos/99-12-02.
- * IMPORTANT: PICurrent is implemented with the assumption that get_slot()
- * or set_slot() will not be called in ORBInitializer.pre_init() and 
- * post_init().
+ * PICurrent is the implementation of Current as specified in the Portable Interceptors Spec orbos/99-12-02. IMPORTANT:
+ * PICurrent is implemented with the assumption that get_slot() or set_slot() will not be called in
+ * ORBInitializer.pre_init() and post_init().
  */
-public class PICurrent extends org.omg.CORBA.LocalObject
-    implements Current
-{
-    private static final OMGSystemException wrapper =
-        OMGSystemException.self ;
+public class PICurrent extends org.omg.CORBA.LocalObject implements Current {
+    private static final OMGSystemException wrapper = OMGSystemException.self;
 
     // slotCounter is used to keep track of ORBInitInfo.allocate_slot_id()
     private int slotCounter;
@@ -51,19 +46,17 @@ public class PICurrent extends org.omg.CORBA.LocalObject
 
     // ThreadLocal contains a stack of SlotTable which are used
     // for resolve_initial_references( "PICurrent" );
-    private transient ThreadLocal<SlotTableStack> threadLocalSlotTable
-        = new ThreadLocal<SlotTableStack>() {
+    private transient ThreadLocal<SlotTableStack> threadLocalSlotTable = new ThreadLocal<SlotTableStack>() {
         @Override
-            protected SlotTableStack initialValue( ) {
-                return new SlotTableStack( myORB, PICurrent.this );
-            }
-        };
+        protected SlotTableStack initialValue() {
+            return new SlotTableStack(myORB, PICurrent.this);
+        }
+    };
 
     /**
-     * PICurrent constructor which will be called for every ORB 
-     * initialization.
+     * PICurrent constructor which will be called for every ORB initialization.
      */
-    PICurrent( ORB myORB ) {
+    PICurrent(ORB myORB) {
         this.myORB = myORB;
         this.orbInitializing = true;
         slotCounter = 0;
@@ -75,95 +68,85 @@ public class PICurrent extends org.omg.CORBA.LocalObject
     }
 
     synchronized int getTableSize() {
-        return slotCounter ;
+        return slotCounter;
     }
 
     /**
-     * This method will be called from ORBInitInfo.allocate_slot_id( ).
-     * simply returns a slot id by incrementing slotCounter.
+     * This method will be called from ORBInitInfo.allocate_slot_id( ). simply returns a slot id by incrementing
+     * slotCounter.
      */
-    synchronized int allocateSlotId( ) {
+    synchronized int allocateSlotId() {
         int slotId = slotCounter;
         slotCounter = slotCounter + 1;
         return slotId;
     }
 
     /**
-     * This method gets the SlotTable which is on the top of the
-     * ThreadLocalStack.
+     * This method gets the SlotTable which is on the top of the ThreadLocalStack.
      */
-    SlotTable getSlotTable( ) {
+    SlotTable getSlotTable() {
         SlotTable table = threadLocalSlotTable.get().peekSlotTable();
         return table;
     }
 
     /**
-     * This method pushes a SlotTable on the SlotTableStack. When there is
-     * a resolve_initial_references("PICurrent") after this call. The new
-     * PICurrent will be returned.
+     * This method pushes a SlotTable on the SlotTableStack. When there is a resolve_initial_references("PICurrent") after
+     * this call. The new PICurrent will be returned.
      */
-    void pushSlotTable( ) {
+    void pushSlotTable() {
         SlotTableStack st = threadLocalSlotTable.get();
-        st.pushSlotTable( );
+        st.pushSlotTable();
     }
-
 
     /**
      * This method pops a SlotTable on the SlotTableStack.
      */
-    void popSlotTable( ) {
+    void popSlotTable() {
         SlotTableStack st = threadLocalSlotTable.get();
-        st.popSlotTable( );
+        st.popSlotTable();
     }
 
     /**
-     * This method sets the slot data at the given slot id (index) in the
-     * Slot Table which is on the top of the SlotTableStack.
+     * This method sets the slot data at the given slot id (index) in the Slot Table which is on the top of the
+     * SlotTableStack.
      */
-    public void set_slot( int id, Any data ) throws InvalidSlot 
-    {
-        if( orbInitializing ) {
+    public void set_slot(int id, Any data) throws InvalidSlot {
+        if (orbInitializing) {
             // As per ptc/00-08-06 if the ORB is still initializing, disallow
-            // calls to get_slot and set_slot.  If an attempt is made to call,
+            // calls to get_slot and set_slot. If an attempt is made to call,
             // throw a BAD_INV_ORDER.
-            throw wrapper.invalidPiCall3() ;
+            throw wrapper.invalidPiCall3();
         }
 
-        getSlotTable().set_slot( id, data );
+        getSlotTable().set_slot(id, data);
     }
 
     /**
-     * This method gets the slot data at the given slot id (index) from the
-     * Slot Table which is on the top of the SlotTableStack.
+     * This method gets the slot data at the given slot id (index) from the Slot Table which is on the top of the
+     * SlotTableStack.
      */
-    public Any get_slot( int id ) throws InvalidSlot 
-    {
-        if( orbInitializing ) {
+    public Any get_slot(int id) throws InvalidSlot {
+        if (orbInitializing) {
             // As per ptc/00-08-06 if the ORB is still initializing, disallow
-            // calls to get_slot and set_slot.  If an attempt is made to call,
+            // calls to get_slot and set_slot. If an attempt is made to call,
             // throw a BAD_INV_ORDER.
-            throw wrapper.invalidPiCall4() ;
+            throw wrapper.invalidPiCall4();
         }
 
-        return getSlotTable().get_slot( id );
+        return getSlotTable().get_slot(id);
     }
 
     /**
-     * This method resets all the slot data to null in the  
-     * Slot Table which is on the top of SlotTableStack.
+     * This method resets all the slot data to null in the Slot Table which is on the top of SlotTableStack.
      */
-    void resetSlotTable( ) {
+    void resetSlotTable() {
         getSlotTable().resetSlots();
     }
 
     /**
-     * Called from ORB when the ORBInitializers are about to start 
-     * initializing.
+     * Called from ORB when the ORBInitializers are about to start initializing.
      */
-    void setORBInitializing( boolean init ) {
+    void setORBInitializing(boolean init) {
         this.orbInitializing = init;
     }
 }
-
-
-    

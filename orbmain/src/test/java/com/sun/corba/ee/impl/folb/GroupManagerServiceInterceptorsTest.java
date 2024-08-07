@@ -62,8 +62,8 @@ public class GroupManagerServiceInterceptorsTest implements GroupInfoServiceObse
     private final TestClientRequestInfo clientRequestInfo = createStrictStub(TestClientRequestInfo.class);
     private final TestContactInfo contactInfo = createStrictStub(TestContactInfo.class);
 
-    private static final byte[] COMPONENT_DATA_1 = new byte[]{0, 1, 2, 5, 6};
-    private static final byte[] COMPONENT_DATA_2 = new byte[]{9, 3, 3};
+    private static final byte[] COMPONENT_DATA_1 = new byte[] { 0, 1, 2, 5, 6 };
+    private static final byte[] COMPONENT_DATA_2 = new byte[] { 9, 3, 3 };
 
     private int numMembershipChanges;
     private IOR locatedIOR;
@@ -102,7 +102,7 @@ public class GroupManagerServiceInterceptorsTest implements GroupInfoServiceObse
 
     @Test
     public void whenRequestIORContainsNoFolbMembershipComponent_doNothing() throws ForwardRequest {
-        defineFolbMembershipTaggedComponents();  // No components defined
+        defineFolbMembershipTaggedComponents(); // No components defined
 
         sendRequest();
 
@@ -149,15 +149,14 @@ public class GroupManagerServiceInterceptorsTest implements GroupInfoServiceObse
         receiveReply();
 
         assertEquals(1, numMembershipChanges);
-        assertEquals(ior,locatedIOR);
+        assertEquals(ior, locatedIOR);
     }
 
     private void setFolbIorUpdateContext(TestIOR ior) {
-        byte[] encodedIOR = {1,1,1,1};
-        clientGroupManager.setIORWithEncoding(ior,encodedIOR);
+        byte[] encodedIOR = { 1, 1, 1, 1 };
+        clientGroupManager.setIORWithEncoding(ior, encodedIOR);
         clientRequestInfo.setReplyServiceContext(new ServiceContext(ORBConstants.FOLB_IOR_UPDATE_SERVICE_CONTEXT_ID, encodedIOR));
     }
-
 
     public void clientInterceptorOnReceive_addsNewIORForListeners() {
         // when we receive a reply, if it has a service context of type ORBConstants.FOLB_IOR_UPDATE_SERVICE_CONTEXT_ID,
@@ -165,9 +164,9 @@ public class GroupManagerServiceInterceptorsTest implements GroupInfoServiceObse
         // (need this for receive_request, receive_exception, and receive_other)
     }
 
-    private void assertEqualData( byte[] expected, byte[] actual) {
+    private void assertEqualData(byte[] expected, byte[] actual) {
         if (!Arrays.equals(expected, actual))
-            fail( "expected " + Arrays.toString(expected) + " but was " + Arrays.toString(actual));
+            fail("expected " + Arrays.toString(expected) + " but was " + Arrays.toString(actual));
     }
 
     private ServiceContext getFolbMembershipServiceContext() {
@@ -210,7 +209,6 @@ public class GroupManagerServiceInterceptorsTest implements GroupInfoServiceObse
         return TestIOR.createIORWithTaggedComponents(ORBConstants.FOLB_MEMBERSHIP_LABEL_TAGGED_COMPONENT_ID, taggedComponents);
     }
 
-
     abstract static class TestORBInitInfo extends StubCorbaObject implements ORBInitInfo {
         List<ClientRequestInterceptor> clientRequestInterceptors = new ArrayList<ClientRequestInterceptor>();
 
@@ -222,13 +220,12 @@ public class GroupManagerServiceInterceptorsTest implements GroupInfoServiceObse
 
     class TestClientGroupManager extends ClientGroupManager {
 
-
         private TestIOR ior;
         private byte[] encodedIOR;
 
         @Override
         protected IOR extractIOR(byte[] data) {
-            assertEqualData(encodedIOR,data);
+            assertEqualData(encodedIOR, data);
             return ior;
         }
 
@@ -273,7 +270,6 @@ public class GroupManagerServiceInterceptorsTest implements GroupInfoServiceObse
         }
     }
 
-
     abstract static class TestORB extends ORB {
         private ORBData ORBData;
         private Map<String, Object> initialReferences = new HashMap<String, Object>();
@@ -295,12 +291,11 @@ public class GroupManagerServiceInterceptorsTest implements GroupInfoServiceObse
         }
     }
 
-
     abstract static public class TestClientRequestInfo implements ClientRequestInfo {
         private Object effectiveTarget;
         private String operation = "";
-        private Map<Integer,ServiceContext> requestServiceContexts = new HashMap<Integer, ServiceContext>();
-        private Map<Integer,ServiceContext> replyServiceContexts = new HashMap<Integer, ServiceContext>();
+        private Map<Integer, ServiceContext> requestServiceContexts = new HashMap<Integer, ServiceContext>();
+        private Map<Integer, ServiceContext> replyServiceContexts = new HashMap<Integer, ServiceContext>();
 
         public Object effective_target() {
             return effectiveTarget;
@@ -340,6 +335,5 @@ public class GroupManagerServiceInterceptorsTest implements GroupInfoServiceObse
             return 1000;
         }
     }
-
 
 }

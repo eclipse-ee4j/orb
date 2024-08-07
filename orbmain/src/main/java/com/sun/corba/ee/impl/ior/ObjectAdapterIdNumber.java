@@ -17,25 +17,22 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.ior ;
+package com.sun.corba.ee.impl.ior;
 
-/** ObjectAdapterIdNumber is used to represent pre-JDK 1.4 POA adapter
- * IDs.  The POA ID was simply represented as a single integer, which was
- * mapped to the actual POA instance.  Here, we just represent these
- * internally as arrays of the form { "OldRootPOA", "&lt;number&gt;" },
- * and provide an extra method to get the number back.
+/**
+ * ObjectAdapterIdNumber is used to represent pre-JDK 1.4 POA adapter IDs. The POA ID was simply represented as a single
+ * integer, which was mapped to the actual POA instance. Here, we just represent these internally as arrays of the form
+ * { "OldRootPOA", "&lt;number&gt;" }, and provide an extra method to get the number back.
  */
 public class ObjectAdapterIdNumber extends ObjectAdapterIdArray {
-    private int poaid ;
+    private int poaid;
 
-    public ObjectAdapterIdNumber( int poaid ) 
-    {
-        super( "OldRootPOA", Integer.toString( poaid ) ) ;
-        this.poaid = poaid ;
+    public ObjectAdapterIdNumber(int poaid) {
+        super("OldRootPOA", Integer.toString(poaid));
+        this.poaid = poaid;
     }
 
-    public int getOldPOAId()
-    {
-        return poaid ;
+    public int getOldPOAId() {
+        return poaid;
     }
 }

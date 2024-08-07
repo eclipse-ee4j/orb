@@ -29,49 +29,40 @@ import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 
 import com.sun.corba.ee.spi.transport.Connection;
 
-import com.sun.corba.ee.spi.ior.IOR ;
+import com.sun.corba.ee.spi.ior.IOR;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 import java.util.Hashtable;
 
 /**
- * Provides the reading side with a per connection cache of
- * info obtained via calls to the remote CodeBase.
+ * Provides the reading side with a per connection cache of info obtained via calls to the remote CodeBase.
  *
  * Previously, most of this was in IIOPConnection.
  *
- * Features:
- *    Delays cache creation unless used
- *    Postpones remote calls until necessary
- *    Handles creating obj ref from IOR
- *    Maintains caches for the following maps:
- *         CodeBase IOR to obj ref (global)
- *         RepId to implementation URL(s)
- *         RepId to remote FVD
- *         RepId to superclass type list
+ * Features: Delays cache creation unless used Postpones remote calls until necessary Handles creating obj ref from IOR
+ * Maintains caches for the following maps: CodeBase IOR to obj ref (global) RepId to implementation URL(s) RepId to
+ * remote FVD RepId to superclass type list
  *
  * Needs cache management.
  */
-public class CachedCodeBase extends _CodeBaseImplBase
-{
-    private static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+public class CachedCodeBase extends _CodeBaseImplBase {
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
-    private Hashtable<String,String> implementations ;
-    private Hashtable<String,FullValueDescription> fvds ;
-    private Hashtable<String,String[]> bases ;
+    private Hashtable<String, String> implementations;
+    private Hashtable<String, FullValueDescription> fvds;
+    private Hashtable<String, String[]> bases;
 
     private volatile CodeBase delegate;
     private final Connection conn;
 
-    private static final Object iorMapLock = new Object() ; 
-    private static final Hashtable<IOR,CodeBase> iorMap = new Hashtable<>();
+    private static final Object iorMapLock = new Object();
+    private static final Hashtable<IOR, CodeBase> iorMap = new Hashtable<>();
 
-    public static synchronized void cleanCache( ORB orb ) {
+    public static synchronized void cleanCache(ORB orb) {
         synchronized (iorMapLock) {
             for (IOR ior : iorMap.keySet()) {
                 if (ior.getORB() == orb) {
-                    iorMap.remove( ior ) ;
+                    iorMap.remove(ior);
                 }
             }
         }
@@ -82,16 +73,16 @@ public class CachedCodeBase extends _CodeBaseImplBase
     }
 
     @Override
-    public com.sun.org.omg.CORBA.Repository get_ir () {
+    public com.sun.org.omg.CORBA.Repository get_ir() {
         return null;
     }
-        
+
     @Override
-    public synchronized String implementation (String repId) {
+    public synchronized String implementation(String repId) {
         String urlResult = null;
 
         if (implementations == null)
-            implementations = new Hashtable<String,String>();
+            implementations = new Hashtable<String, String>();
         else
             urlResult = implementations.get(repId);
 
@@ -106,7 +97,7 @@ public class CachedCodeBase extends _CodeBaseImplBase
     }
 
     @Override
-    public synchronized String[] implementations (String[] repIds) {
+    public synchronized String[] implementations(String[] repIds) {
         String[] urlResults = new String[repIds.length];
 
         for (int i = 0; i < urlResults.length; i++)
@@ -116,11 +107,11 @@ public class CachedCodeBase extends _CodeBaseImplBase
     }
 
     @Override
-    public synchronized FullValueDescription meta (String repId) {
+    public synchronized FullValueDescription meta(String repId) {
         FullValueDescription result = null;
 
         if (fvds == null)
-            fvds = new Hashtable<String,FullValueDescription>();
+            fvds = new Hashtable<String, FullValueDescription>();
         else
             result = fvds.get(repId);
 
@@ -135,9 +126,8 @@ public class CachedCodeBase extends _CodeBaseImplBase
     }
 
     @Override
-    public synchronized FullValueDescription[] metas (String[] repIds) {
-        FullValueDescription[] results 
-            = new FullValueDescription[repIds.length];
+    public synchronized FullValueDescription[] metas(String[] repIds) {
+        FullValueDescription[] results = new FullValueDescription[repIds.length];
 
         for (int i = 0; i < results.length; i++)
             results[i] = meta(repIds[i]);
@@ -146,12 +136,12 @@ public class CachedCodeBase extends _CodeBaseImplBase
     }
 
     @Override
-    public synchronized String[] bases (String repId) {
+    public synchronized String[] bases(String repId) {
 
         String[] results = null;
 
         if (bases == null)
-            bases = new Hashtable<String,String[]>();
+            bases = new Hashtable<String, String[]>();
         else
             results = bases.get(repId);
 
@@ -166,7 +156,7 @@ public class CachedCodeBase extends _CodeBaseImplBase
     }
 
     // Ensures that we've used the connection's IOR to create
-    // a valid CodeBase delegate.  If this returns false, then
+    // a valid CodeBase delegate. If this returns false, then
     // it is not valid to access the delegate.
     private synchronized boolean connectedCodeBase() {
         if (delegate != null)
@@ -174,29 +164,29 @@ public class CachedCodeBase extends _CodeBaseImplBase
 
         if (conn.getCodeBaseIOR() == null) {
             // The delegate was null, so see if the connection's
-            // IOR was set.  If so, then we just need to connect
-            // it.  Otherwise, there is no hope of checking the
-            // remote code base.  That could be a bug if the
+            // IOR was set. If so, then we just need to connect
+            // it. Otherwise, there is no hope of checking the
+            // remote code base. That could be a bug if the
             // service context processing didn't occur, or it
             // could be that we're talking to a foreign ORB which
             // doesn't include this optional service context.
 
-            wrapper.codeBaseUnavailable( conn ) ;
+            wrapper.codeBaseUnavailable(conn);
 
             return false;
         }
 
-        synchronized(iorMapLock) {
+        synchronized (iorMapLock) {
             // Do we have a reference initialized by another connection?
-            delegate = iorMap.get( conn.getCodeBaseIOR() );
+            delegate = iorMap.get(conn.getCodeBaseIOR());
             if (delegate != null)
                 return true;
-            
+
             // Connect the delegate and update the cache
-            delegate = CodeBaseHelper.narrow( getObjectFromIOR() );
-            
+            delegate = CodeBaseHelper.narrow(getObjectFromIOR());
+
             // Save it for the benefit of other connections
-            iorMap.put( conn.getCodeBaseIOR(), delegate );
+            iorMap.put(conn.getCodeBaseIOR(), delegate);
         }
 
         // It's now safe to use the delegate
@@ -204,10 +194,8 @@ public class CachedCodeBase extends _CodeBaseImplBase
     }
 
     private org.omg.CORBA.Object getObjectFromIOR() {
-        return CDRInputStream_1_0.internalIORToObject(
-            conn.getCodeBaseIOR(), null /*stubFactory*/, conn.getBroker());
+        return CDRInputStream_1_0.internalIORToObject(conn.getCodeBaseIOR(), null /* stubFactory */, conn.getBroker());
     }
 }
 
 // End of file.
-

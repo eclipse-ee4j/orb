@@ -17,15 +17,18 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.spi.orb ;
+package com.sun.corba.ee.spi.orb;
 
-/** A generic class representing a function that takes a value and returns
- * a value.  This is a building block for property parsing.
+/**
+ * A generic class representing a function that takes a value and returns a value. This is a building block for property
+ * parsing.
  */
-public interface Operation{
-    /** Apply some function to a value and return the result.
+public interface Operation {
+    /**
+     * Apply some function to a value and return the result.
+     * 
      * @param value value to apply function to
      * @return result of function
-    */
-    Object operate( Object value ) ;
+     */
+    Object operate(Object value);
 }

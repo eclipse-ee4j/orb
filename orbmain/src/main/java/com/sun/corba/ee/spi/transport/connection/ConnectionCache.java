@@ -19,63 +19,67 @@
 
 package com.sun.corba.ee.spi.transport.connection;
 
-/** A connection cache manages a group of connections which may be re-used
- * for sending and receiving messages.
+/**
+ * A connection cache manages a group of connections which may be re-used for sending and receiving messages.
  */
 public interface ConnectionCache<C extends Connection> {
-    /** User-provided identifier for an instance of the 
-     * OutboundConnectionCache.
+    /**
+     * User-provided identifier for an instance of the OutboundConnectionCache.
      * 
      * @return identifier String
      */
-    String getCacheType() ;
+    String getCacheType();
 
-    /** Total number of connections currently managed by the cache.
+    /**
+     * Total number of connections currently managed by the cache.
      * 
      * @return number of connections
      */
-    long numberOfConnections() ;
+    long numberOfConnections();
 
-    /** Number of idle connections; that is, connections for which the number of
-     * get/release or responseReceived/responseProcessed calls are equal.
+    /**
+     * Number of idle connections; that is, connections for which the number of get/release or
+     * responseReceived/responseProcessed calls are equal.
      * 
      * @return number of idle connections
      */
-    long numberOfIdleConnections() ;
+    long numberOfIdleConnections();
 
-    /** Number of non-idle connections.  Normally, busy+idle==total, but this
-     * may not be strictly true due to concurrent updates to the connection 
-     * cache.
+    /**
+     * Number of non-idle connections. Normally, busy+idle==total, but this may not be strictly true due to concurrent
+     * updates to the connection cache.
      * 
      * @return number of non-idle connections
      */
-    long numberOfBusyConnections() ;
+    long numberOfBusyConnections();
 
-    /** Number of idle connections that are reclaimable.  Such connections
-     * are not in use, and are not waiting to handle any responses.
+    /**
+     * Number of idle connections that are reclaimable. Such connections are not in use, and are not waiting to handle any
+     * responses.
      * 
      * @return number of reclaimable idle connections
      */
-    long numberOfReclaimableConnections() ;
+    long numberOfReclaimableConnections();
 
-    /** Threshold at which connection reclamation begins.
+    /**
+     * Threshold at which connection reclamation begins.
      * 
-     * @return  threshold
+     * @return threshold
      */
-    int highWaterMark() ;
+    int highWaterMark();
 
-    /** Number of connections to reclaim each time reclamation starts.
+    /**
+     * Number of connections to reclaim each time reclamation starts.
      * 
      * @return number to reclaim
      */
-    int numberToReclaim() ;
-    
-    /** Close a connection, regardless of its state.  This may cause requests
-     * to fail to be sent, and responses to be lost.  Intended for 
-     * handling serious errors, such as loss of framing on a TCP stream,
-     * that require closing the connection.
+    int numberToReclaim();
+
+    /**
+     * Close a connection, regardless of its state. This may cause requests to fail to be sent, and responses to be lost.
+     * Intended for handling serious errors, such as loss of framing on a TCP stream, that require closing the connection.
      * 
      * @param conn connection to close
      */
-    void close( final C conn ) ;
+    void close(final C conn);
 }

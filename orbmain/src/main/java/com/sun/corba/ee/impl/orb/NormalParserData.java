@@ -17,31 +17,27 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.orb ;
+package com.sun.corba.ee.impl.orb;
 
-import java.util.Properties ;
+import java.util.Properties;
 
-import com.sun.corba.ee.spi.orb.Operation ;
-import com.sun.corba.ee.spi.orb.PropertyParser ;
+import com.sun.corba.ee.spi.orb.Operation;
+import com.sun.corba.ee.spi.orb.PropertyParser;
 
 public class NormalParserData extends ParserDataBase {
-    private String testData ;
+    private String testData;
 
-    public NormalParserData( String  propertyName,
-        Operation operation, String fieldName, Object defaultValue,
-        Object testValue, String testData )
-    {
-        super( propertyName, operation, fieldName, defaultValue, testValue ) ;
-        this.testData = testData ;
-    }
-    public void addToParser( PropertyParser parser ) 
-    {
-        parser.add( getPropertyName(), getOperation(), getFieldName() ) ;
+    public NormalParserData(String propertyName, Operation operation, String fieldName, Object defaultValue, Object testValue,
+            String testData) {
+        super(propertyName, operation, fieldName, defaultValue, testValue);
+        this.testData = testData;
     }
 
-    public void addToProperties( Properties props ) 
-    {
-        props.setProperty( getPropertyName(), testData ) ;
+    public void addToParser(PropertyParser parser) {
+        parser.add(getPropertyName(), getOperation(), getFieldName());
+    }
+
+    public void addToProperties(Properties props) {
+        props.setProperty(getPropertyName(), testData);
     }
 }
-

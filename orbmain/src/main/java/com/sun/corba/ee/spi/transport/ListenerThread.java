@@ -22,18 +22,10 @@ package com.sun.corba.ee.spi.transport;
 /**
  * @author Harold Carr
  */
-public interface ListenerThread 
-{
+public interface ListenerThread {
     public Acceptor getAcceptor();
+
     public void close();
 }
 
 // End of file.
-
-
-
-
-
-
-
-

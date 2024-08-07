@@ -27,10 +27,9 @@ import org.omg.DynamicAny.DynAnyPackage.TypeMismatch;
 import org.omg.DynamicAny.DynAnyPackage.InvalidValue;
 import org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
-abstract class DynAnyCollectionImpl extends DynAnyConstructedImpl
-{
+abstract class DynAnyCollectionImpl extends DynAnyConstructedImpl {
     private static final long serialVersionUID = -4420130353899323070L;
 
     //
@@ -95,15 +94,14 @@ abstract class DynAnyCollectionImpl extends DynAnyConstructedImpl
     // Collection methods
     //
 
-    public org.omg.CORBA.Any[] get_elements () {
+    public org.omg.CORBA.Any[] get_elements() {
         if (status == STATUS_DESTROYED) {
-            throw wrapper.dynAnyDestroyed() ;
+            throw wrapper.dynAnyDestroyed();
         }
         return (checkInitComponents() ? anys : null);
     }
 
-    protected abstract void checkValue(Object[] value)
-        throws org.omg.DynamicAny.DynAnyPackage.InvalidValue;
+    protected abstract void checkValue(Object[] value) throws org.omg.DynamicAny.DynAnyPackage.InvalidValue;
 
     // Initializes the elements of the ordered collection.
     // If value does not contain the same number of elements as the array dimension,
@@ -111,12 +109,10 @@ abstract class DynAnyCollectionImpl extends DynAnyConstructedImpl
     // If one or more elements have a type that is inconsistent with the collections TypeCode,
     // the operation raises TypeMismatch.
     // This operation does not change the current position.
-    public void set_elements (org.omg.CORBA.Any[] value)
-        throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch,
-               org.omg.DynamicAny.DynAnyPackage.InvalidValue
-    {
+    public void set_elements(org.omg.CORBA.Any[] value)
+            throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch, org.omg.DynamicAny.DynAnyPackage.InvalidValue {
         if (status == STATUS_DESTROYED) {
-            throw wrapper.dynAnyDestroyed() ;
+            throw wrapper.dynAnyDestroyed();
         }
         checkValue(value);
 
@@ -125,9 +121,9 @@ abstract class DynAnyCollectionImpl extends DynAnyConstructedImpl
 
         // We know that this is of kind tk_sequence or tk_array
         TypeCode expectedTypeCode = getContentType();
-        for (int i=0; i<value.length; i++) {
+        for (int i = 0; i < value.length; i++) {
             if (value[i] != null) {
-                if (! value[i].type().equal(expectedTypeCode)) {
+                if (!value[i].type().equal(expectedTypeCode)) {
                     clearData();
                     // _REVISIT_ More info
                     throw new TypeMismatch();
@@ -135,7 +131,7 @@ abstract class DynAnyCollectionImpl extends DynAnyConstructedImpl
                 try {
                     // Creates the appropriate subtype without copying the Any
                     components[i] = DynAnyUtil.createMostDerivedDynAny(value[i], orb, false);
-                    //System.out.println(this + " created component " + components[i]);
+                    // System.out.println(this + " created component " + components[i]);
                 } catch (InconsistentTypeCode itc) {
                     throw new InvalidValue();
                 }
@@ -150,20 +146,18 @@ abstract class DynAnyCollectionImpl extends DynAnyConstructedImpl
         representations = REPRESENTATION_COMPONENTS;
     }
 
-    public org.omg.DynamicAny.DynAny[] get_elements_as_dyn_any () {
+    public org.omg.DynamicAny.DynAny[] get_elements_as_dyn_any() {
         if (status == STATUS_DESTROYED) {
-            throw wrapper.dynAnyDestroyed() ;
+            throw wrapper.dynAnyDestroyed();
         }
         return (checkInitComponents() ? components : null);
     }
 
     // Same semantics as set_elements(Any[])
-    public void set_elements_as_dyn_any (org.omg.DynamicAny.DynAny[] value)
-        throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch,
-               org.omg.DynamicAny.DynAnyPackage.InvalidValue
-    {
+    public void set_elements_as_dyn_any(org.omg.DynamicAny.DynAny[] value)
+            throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch, org.omg.DynamicAny.DynAnyPackage.InvalidValue {
         if (status == STATUS_DESTROYED) {
-            throw wrapper.dynAnyDestroyed() ;
+            throw wrapper.dynAnyDestroyed();
         }
         checkValue(value);
 
@@ -173,9 +167,9 @@ abstract class DynAnyCollectionImpl extends DynAnyConstructedImpl
 
             // We know that this is of kind tk_sequence or tk_array
             TypeCode expectedTypeCode = getContentType();
-            for (int i=0; i<value.length; i++) {
+            for (int i = 0; i < value.length; i++) {
                 if (value[i] != null) {
-                    if (! value[i].type().equal(expectedTypeCode)) {
+                    if (!value[i].type().equal(expectedTypeCode)) {
                         clearData();
                         // _REVISIT_ More info
                         throw new TypeMismatch();

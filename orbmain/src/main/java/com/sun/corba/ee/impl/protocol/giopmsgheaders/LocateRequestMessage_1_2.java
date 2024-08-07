@@ -30,8 +30,7 @@ import com.sun.corba.ee.spi.orb.ObjectKeyCacheEntry;
  * @version 1.0
  */
 
-public final class LocateRequestMessage_1_2 extends Message_1_2
-        implements LocateRequestMessage {
+public final class LocateRequestMessage_1_2 extends Message_1_2 implements LocateRequestMessage {
 
     // Instance variables
 
@@ -46,8 +45,7 @@ public final class LocateRequestMessage_1_2 extends Message_1_2
     }
 
     LocateRequestMessage_1_2(ORB orb, int _request_id, TargetAddress _target) {
-        super(Message.GIOPBigMagic, GIOPVersion.V1_2, FLAG_NO_FRAG_BIG_ENDIAN,
-                Message.GIOPLocateRequest, 0);
+        super(Message.GIOPBigMagic, GIOPVersion.V1_2, FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPLocateRequest, 0);
         this.orb = orb;
         request_id = _request_id;
         target = _target;
@@ -74,7 +72,7 @@ public final class LocateRequestMessage_1_2 extends Message_1_2
         super.read(istream);
         this.request_id = istream.read_ulong();
         this.target = TargetAddressHelper.read(istream);
-        getObjectKeyCacheEntry(); // this does AddressingDisposition check        
+        getObjectKeyCacheEntry(); // this does AddressingDisposition check
     }
 
     public void write(org.omg.CORBA.portable.OutputStream ostream) {
@@ -84,8 +82,7 @@ public final class LocateRequestMessage_1_2 extends Message_1_2
         TargetAddressHelper.write(ostream, this.target);
     }
 
-    public void callback(MessageHandler handler)
-            throws java.io.IOException {
+    public void callback(MessageHandler handler) throws java.io.IOException {
         handler.handleInput(this);
     }
 

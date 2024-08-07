@@ -33,7 +33,7 @@ public class ComplexValue implements Serializable {
         this.anInt = anInt;
         arrayList.add(new Value1(aChar, anInt));
         char nextChar = Character.toUpperCase(aChar);
-        value = new Value1(nextChar, anInt+1);
+        value = new Value1(nextChar, anInt + 1);
     }
 
     ComplexValue() {

@@ -24,15 +24,16 @@ import java.nio.ByteBuffer;
 /**
  * @author Charlie Hunt
  */
-public interface ByteBufferPool
-{
+public interface ByteBufferPool {
     public ByteBuffer getByteBuffer(int theSize);
+
     public void releaseByteBuffer(ByteBuffer thebb);
+
     public int activeCount();
+
     /**
-     * Return a new <code>ByteBuffer</code> of at least <code>minimumSize</code>
-     * and copy any bytes in the <code>oldByteBuffer</code> starting at
-     * <code>oldByteBuffer.position()</code> up to <code>oldByteBuffer.limit()</code>
+     * Return a new <code>ByteBuffer</code> of at least <code>minimumSize</code> and copy any bytes in the
+     * <code>oldByteBuffer</code> starting at <code>oldByteBuffer.position()</code> up to <code>oldByteBuffer.limit()</code>
      * into the returned <code>ByteBuffer</code>.
      * 
      * @param oldByteBuffer old buffer to take bytes from

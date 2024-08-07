@@ -17,55 +17,51 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.ior ;
+package com.sun.corba.ee.impl.ior;
 
-import java.util.Iterator ;
-import java.util.Arrays ;
+import java.util.Iterator;
+import java.util.Arrays;
 
 public class ObjectAdapterIdArray extends ObjectAdapterIdBase {
-    private final String[] objectAdapterId ;
+    private final String[] objectAdapterId;
 
     @Override
-    public boolean equals( Object obj ) {
+    public boolean equals(Object obj) {
         // Note that the superclass equals method is correct and general,
-        // because it tests for equality using the iterator.  The state of
+        // because it tests for equality using the iterator. The state of
         // the derived classes simply implements the iterator.
         // This equals method is added here to appease findbugs.
-        return super.equals( obj ) ;
+        return super.equals(obj);
     }
 
-    public ObjectAdapterIdArray( String[] objectAdapterId )
-    {
-        this.objectAdapterId = (String[])objectAdapterId.clone() ;
+    public ObjectAdapterIdArray(String[] objectAdapterId) {
+        this.objectAdapterId = (String[]) objectAdapterId.clone();
     }
 
-    /** 
+    /**
      * Special constructor used for OA IDs of length 2.
+     * 
      * @param name1 First name part
      * @param name2 Second name part
      */
-    public ObjectAdapterIdArray( String name1, String name2 ) 
-    {
-        objectAdapterId = new String[2] ;
-        objectAdapterId[0] = name1 ;
-        objectAdapterId[1] = name2 ;
+    public ObjectAdapterIdArray(String name1, String name2) {
+        objectAdapterId = new String[2];
+        objectAdapterId[0] = name1;
+        objectAdapterId[1] = name2;
     }
 
     @Override
-    public int getNumLevels()
-    {
-        return objectAdapterId.length ;
+    public int getNumLevels() {
+        return objectAdapterId.length;
     }
 
     @Override
-    public Iterator<String> iterator()
-    {
-        return Arrays.asList( objectAdapterId ).iterator() ;
+    public Iterator<String> iterator() {
+        return Arrays.asList(objectAdapterId).iterator();
     }
 
     @Override
-    public String[] getAdapterName()
-    {      
-        return (String[])objectAdapterId.clone() ;
+    public String[] getAdapterName() {
+        return (String[]) objectAdapterId.clone();
     }
 }
