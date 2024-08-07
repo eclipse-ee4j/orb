@@ -206,7 +206,7 @@
             <!-- use the scm publish plugin to deploy to GitHub -->
             <plugin>
                 <artifactId>maven-scm-publish-plugin</artifactId>
-                <version>1.1</version>
+                <version>3.3.0</version>
                 <configuration>
                     <scmBranch>gh-pages</scmBranch>
                     <pubScmUrl>scm:git:https://github.com/javaee/glassfish-corba.git</pubScmUrl>
