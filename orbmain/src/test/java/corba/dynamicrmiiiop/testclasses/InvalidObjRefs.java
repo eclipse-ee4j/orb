@@ -24,40 +24,39 @@ package corba.dynamicrmiiiop.testclasses;
  */
 public class InvalidObjRefs {
 
-    public static final Class[] CLASSES = {
-        InvalidObjRef1.class, 
-        InvalidObjRef2.class,
-        InvalidObjRef3.class, 
-        InvalidObjRef4.class,
-        InvalidObjRef5.class, 
-        InvalidObjRef6.class,
-        InvalidObjRef7.class, 
-        InvalidObjRef8.class
-    };
+    public static final Class[] CLASSES = { InvalidObjRef1.class, InvalidObjRef2.class, InvalidObjRef3.class, InvalidObjRef4.class,
+            InvalidObjRef5.class, InvalidObjRef6.class, InvalidObjRef7.class, InvalidObjRef8.class };
 
     // must be subtype of org.omg.CORBA.Object
-    public interface InvalidObjRef1 {}
+    public interface InvalidObjRef1 {
+    }
 
     // must be subtype of org.omg.CORBA.Object
-    public interface InvalidObjRef2 extends InvalidObjRef1 {}
+    public interface InvalidObjRef2 extends InvalidObjRef1 {
+    }
 
     // must be subtype of org.omg.CORBA.Object
-    public class InvalidObjRef3 {}
+    public class InvalidObjRef3 {
+    }
 
     // must be subtype of org.omg.CORBA.Object
-    public class InvalidObjRef4 extends InvalidObjRef3 {}
+    public class InvalidObjRef4 extends InvalidObjRef3 {
+    }
 
     // must be an interface
-    public abstract class InvalidObjRef5 
-        extends org.omg.CORBA.portable.ObjectImpl {}
+    public abstract class InvalidObjRef5 extends org.omg.CORBA.portable.ObjectImpl {
+    }
 
     // must be an interface
-    public abstract class InvalidObjRef6 extends InvalidObjRef5 {}
+    public abstract class InvalidObjRef6 extends InvalidObjRef5 {
+    }
 
     // must be an interface
-    public abstract class InvalidObjRef7 implements org.omg.CORBA.Object {}
+    public abstract class InvalidObjRef7 implements org.omg.CORBA.Object {
+    }
 
     // must be an interface
-    public abstract class InvalidObjRef8 extends InvalidObjRef7 {}
+    public abstract class InvalidObjRef8 extends InvalidObjRef7 {
+    }
 
 }

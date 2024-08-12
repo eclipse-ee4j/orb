@@ -19,19 +19,18 @@
 
 package com.sun.corba.ee.spi.transport;
 
-public interface SocketInfo
-{
+public interface SocketInfo {
     // Endpoint types known in advance.
     // If you change the value of this constant then update
-    // activation.idl accordingly.  It has a duplicate definition
+    // activation.idl accordingly. It has a duplicate definition
     // to avoid a compilation dependency.
 
     String IIOP_CLEAR_TEXT = "IIOP_CLEAR_TEXT";
-    String SSL_PREFIX = "SSL" ;
+    String SSL_PREFIX = "SSL";
 
     String getType();
 
     String getHost();
 
-    int    getPort();
+    int getPort();
 }

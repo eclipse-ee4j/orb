@@ -31,40 +31,40 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 public class IIOPProfileTemplateImplTest {
-  private static final String HOST = "testhost";
-  private static final int PORT = 1234;
+    private static final String HOST = "testhost";
+    private static final int PORT = 1234;
 
-  private ORB orb = createStrictStub(ORB.class);
-  private GIOPVersion version = new GIOPVersion(1, 2);
-  private IIOPAddress primary = new IIOPAddressImpl(HOST, PORT);
-  private IIOPProfileTemplate impl = new IIOPProfileTemplateImpl(orb, version, primary);
+    private ORB orb = createStrictStub(ORB.class);
+    private GIOPVersion version = new GIOPVersion(1, 2);
+    private IIOPAddress primary = new IIOPAddressImpl(HOST, PORT);
+    private IIOPProfileTemplate impl = new IIOPProfileTemplateImpl(orb, version, primary);
 
-  @Test
-  public void socketHostAndAddress_matchPrimaryAddress() {
-    assertThat(impl.getPrimarySocketInfo().getHost(), equalTo(HOST));
-    assertThat(impl.getPrimarySocketInfo().getPort(), equalTo(PORT));
-  }
+    @Test
+    public void socketHostAndAddress_matchPrimaryAddress() {
+        assertThat(impl.getPrimarySocketInfo().getHost(), equalTo(HOST));
+        assertThat(impl.getPrimarySocketInfo().getPort(), equalTo(PORT));
+    }
 
-  @Test
-  public void whenNoTaggedComponents_socketTypeIsPlainText() {
-    assertThat(impl.getPrimarySocketInfo().getType(), equalTo(SocketInfo.IIOP_CLEAR_TEXT));
-  }
+    @Test
+    public void whenNoTaggedComponents_socketTypeIsPlainText() {
+        assertThat(impl.getPrimarySocketInfo().getType(), equalTo(SocketInfo.IIOP_CLEAR_TEXT));
+    }
 
-  @Test
-  public void whenContainsHttpJavaCodebaseComponent_socketTypeIsPlainText() {
-    addJavaCodebase("http://localhost:1401/base");
+    @Test
+    public void whenContainsHttpJavaCodebaseComponent_socketTypeIsPlainText() {
+        addJavaCodebase("http://localhost:1401/base");
 
-    assertThat(impl.getPrimarySocketInfo().getType(), equalTo(SocketInfo.IIOP_CLEAR_TEXT));
-  }
+        assertThat(impl.getPrimarySocketInfo().getType(), equalTo(SocketInfo.IIOP_CLEAR_TEXT));
+    }
 
-  @Test
-  public void whenContainsHttpsJavaCodebaseComponent_socketTypeIsSsl() {
-    addJavaCodebase("https://localhost:1402/base");
+    @Test
+    public void whenContainsHttpsJavaCodebaseComponent_socketTypeIsSsl() {
+        addJavaCodebase("https://localhost:1402/base");
 
-    assertThat(impl.getPrimarySocketInfo().getType(), equalTo(SocketInfo.SSL_PREFIX));
-  }
+        assertThat(impl.getPrimarySocketInfo().getType(), equalTo(SocketInfo.SSL_PREFIX));
+    }
 
-  private void addJavaCodebase(String urls) {
-    impl.add(new JavaCodebaseComponentImpl(urls));
-  }
+    private void addJavaCodebase(String urls) {
+        impl.add(new JavaCodebaseComponentImpl(urls));
+    }
 }

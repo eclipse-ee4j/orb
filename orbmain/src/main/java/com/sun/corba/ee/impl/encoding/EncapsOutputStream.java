@@ -29,20 +29,16 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 /**
- * Encapsulations are supposed to explicitly define their
- * code sets and GIOP version.  The original resolution to issue 2784 
- * said that the defaults were UTF-8 and UTF-16, but that was not
- * agreed upon.
+ * Encapsulations are supposed to explicitly define their code sets and GIOP version. The original resolution to issue
+ * 2784 said that the defaults were UTF-8 and UTF-16, but that was not agreed upon.
  *
- * These streams currently use CDR 1.2 with ISO8859-1 for char/string and
- * UTF16 for wchar/wstring.  If no byte order marker is available,
- * the endianness of the encapsulation is used.
+ * These streams currently use CDR 1.2 with ISO8859-1 for char/string and UTF16 for wchar/wstring. If no byte order
+ * marker is available, the endianness of the encapsulation is used.
  *
- * When more encapsulations arise that have their own special code
- * sets defined, we can make all constructors take such parameters.
+ * When more encapsulations arise that have their own special code sets defined, we can make all constructors take such
+ * parameters.
  */
-public class EncapsOutputStream extends CDROutputObject
-{
+public class EncapsOutputStream extends CDROutputObject {
 
     // REVISIT - Right now, EncapsOutputStream's do not use
     // pooled byte buffers. This is controlled by the following
@@ -70,12 +66,11 @@ public class EncapsOutputStream extends CDROutputObject
 
     // CDREncapsCodec
     //
-    // REVISIT.  A UTF-16 encoding with GIOP 1.1 will not work
+    // REVISIT. A UTF-16 encoding with GIOP 1.1 will not work
     // with byte order markers.
     public EncapsOutputStream(ORB orb, GIOPVersion version) {
-        super(orb, version, BufferManagerFactory.newWriteEncapsulationBufferManager(orb),
-              ORBConstants.STREAM_FORMAT_VERSION_1, usePooledByteBuffers
-        );
+        super(orb, version, BufferManagerFactory.newWriteEncapsulationBufferManager(orb), ORBConstants.STREAM_FORMAT_VERSION_1,
+                usePooledByteBuffers);
     }
 
     @Override
@@ -86,24 +81,24 @@ public class EncapsOutputStream extends CDROutputObject
 
     private static class EncapsInputStreamFactory implements InputObjectFactory {
         @Override
-        public CDRInputObject createInputObject(CDROutputObject outputObject, ORB orb, ByteBuffer byteBuffer, int size, GIOPVersion giopVersion) {
-            return com.sun.corba.ee.impl.encoding.EncapsInputStreamFactory.newEncapsInputStream(outputObject.orb(),
-            		byteBuffer, size, ByteOrder.BIG_ENDIAN, giopVersion);
+        public CDRInputObject createInputObject(CDROutputObject outputObject, ORB orb, ByteBuffer byteBuffer, int size,
+                GIOPVersion giopVersion) {
+            return com.sun.corba.ee.impl.encoding.EncapsInputStreamFactory.newEncapsInputStream(outputObject.orb(), byteBuffer, size,
+                    ByteOrder.BIG_ENDIAN, giopVersion);
         }
     }
-    
+
     @Override
     protected CodeSetConversion.CTBConverter createCharCTBConverter() {
-        return CodeSetConversion.impl().getCTBConverter(
-            OSFCodeSetRegistry.ISO_8859_1);
+        return CodeSetConversion.impl().getCTBConverter(OSFCodeSetRegistry.ISO_8859_1);
     }
 
     @Override
     protected CodeSetConversion.CTBConverter createWCharCTBConverter() {
         if (getGIOPVersion().equals(GIOPVersion.V1_0))
-            throw wrapper.wcharDataInGiop10();            
+            throw wrapper.wcharDataInGiop10();
 
-        // In the case of GIOP 1.1, we take the byte order of the stream 
+        // In the case of GIOP 1.1, we take the byte order of the stream
         // and don't use byte order markers since we're limited to a 2 byte
         // fixed width encoding.
         if (getGIOPVersion().equals(GIOPVersion.V1_1))
@@ -111,10 +106,10 @@ public class EncapsOutputStream extends CDROutputObject
 
         // Assume anything else meets GIOP 1.2 requirements
         //
-        // Use byte order markers?  If not, use big endian in GIOP 1.2.  
+        // Use byte order markers? If not, use big endian in GIOP 1.2.
         // (formal 00-11-03 15.3.16)
 
-        boolean useBOM = ((ORB)orb()).getORBData().useByteOrderMarkersInEncapsulations();
+        boolean useBOM = ((ORB) orb()).getORBData().useByteOrderMarkersInEncapsulations();
 
         return CodeSetConversion.impl().getCTBConverter(OSFCodeSetRegistry.UTF_16, false, useBOM);
     }

@@ -17,32 +17,36 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.spi.oa ;
+package com.sun.corba.ee.spi.oa;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
+import com.sun.corba.ee.spi.ior.ObjectAdapterId;
 
 public interface ObjectAdapterFactory {
-    
-    /** Initialize this object adapter factory instance.
+
+    /**
+     * Initialize this object adapter factory instance.
+     * 
      * @param orb to use for initalisation
-    */
-    void init( ORB orb ) ;
-
-    /** Shutdown all object adapters and other state associated
-     * with this factory.
-     * @param waitForCompletion if true then wait for all ongoing requests to finish before shutting down,
-     *  if false then shutdown immediatly.
      */
-    void shutdown( boolean waitForCompletion ) ;
+    void init(ORB orb);
 
-    /** Find the ObjectAdapter instance that corresponds to the
-    * given ObjectAdapterId.
-    * @param oaid id to look up
-    * @return found ObjectAdapter
-    */
-    ObjectAdapter find( ObjectAdapterId oaid ) ;
+    /**
+     * Shutdown all object adapters and other state associated with this factory.
+     * 
+     * @param waitForCompletion if true then wait for all ongoing requests to finish before shutting down, if false then
+     * shutdown immediatly.
+     */
+    void shutdown(boolean waitForCompletion);
 
-    ORB getORB() ;
+    /**
+     * Find the ObjectAdapter instance that corresponds to the given ObjectAdapterId.
+     * 
+     * @param oaid id to look up
+     * @return found ObjectAdapter
+     */
+    ObjectAdapter find(ObjectAdapterId oaid);
+
+    ORB getORB();
 }

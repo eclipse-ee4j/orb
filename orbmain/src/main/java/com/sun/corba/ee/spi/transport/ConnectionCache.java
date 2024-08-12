@@ -19,13 +19,12 @@
 
 package com.sun.corba.ee.spi.transport;
 
-import org.glassfish.external.statistics.CountStatistic ;
+import org.glassfish.external.statistics.CountStatistic;
 
 /**
  * @author Harold Carr
  */
-public interface ConnectionCache
-{
+public interface ConnectionCache {
     public String getMonitoringName();
 
     public String getCacheType();
@@ -40,11 +39,11 @@ public interface ConnectionCache
 
     public boolean reclaim();
 
-    /** Close all connections in the connection cache.
-     * This is used as a final cleanup, and will result
-     * in abrupt termination of any pending communications.
+    /**
+     * Close all connections in the connection cache. This is used as a final cleanup, and will result in abrupt termination
+     * of any pending communications.
      */
-    public void close() ;
+    public void close();
 }
 
 // End of file.

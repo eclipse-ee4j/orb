@@ -27,10 +27,9 @@ import org.omg.DynamicAny.*;
 import org.omg.DynamicAny.DynAnyPackage.InvalidValue;
 import org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
-public class DynArrayImpl extends DynAnyCollectionImpl implements DynArray
-{
+public class DynArrayImpl extends DynAnyCollectionImpl implements DynArray {
     private static final long serialVersionUID = -5898255222474271560L;
     //
     // Constructors
@@ -60,7 +59,7 @@ public class DynArrayImpl extends DynAnyCollectionImpl implements DynArray
         components = new DynAny[length];
         anys = new Any[length];
 
-        for (int i=0; i<length; i++) {
+        for (int i = 0; i < length; i++) {
             // _REVISIT_ Could use read_xxx_array() methods on InputStream for efficiency
             // but only for primitive types
             anys[i] = DynAnyUtil.extractAnyFromStream(contentType, input, orb);
@@ -84,7 +83,7 @@ public class DynArrayImpl extends DynAnyCollectionImpl implements DynArray
         components = new DynAny[length];
         anys = new Any[length];
 
-        for (int i=0; i<length; i++) {
+        for (int i = 0; i < length; i++) {
             createDefaultComponentAt(i, contentType);
         }
         return true;
@@ -100,19 +99,16 @@ public class DynArrayImpl extends DynAnyCollectionImpl implements DynArray
     // If one or more elements have a type that is inconsistent with the DynArrays TypeCode,
     // the operation raises TypeMismatch.
     // This operation does not change the current position.
-/*
-    public void set_elements (org.omg.CORBA.Any[] value)
-        throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch,
-               org.omg.DynamicAny.DynAnyPackage.InvalidValue;
-*/
+    /*
+     * public void set_elements (org.omg.CORBA.Any[] value) throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch,
+     * org.omg.DynamicAny.DynAnyPackage.InvalidValue;
+     */
 
     //
     // Utility methods
     //
 
-    protected void checkValue(Object[] value)
-        throws org.omg.DynamicAny.DynAnyPackage.InvalidValue
-    {
+    protected void checkValue(Object[] value) throws org.omg.DynamicAny.DynAnyPackage.InvalidValue {
         if (value == null || value.length != getBound()) {
             throw new InvalidValue();
         }

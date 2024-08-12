@@ -27,21 +27,19 @@ import com.sun.corba.ee.spi.orb.ORB;
 import org.omg.CORBA.INTERNAL;
 
 /**
- * Creates read/write buffer managers to handle over/under flow
- * in CDR*putStream.
+ * Creates read/write buffer managers to handle over/under flow in CDR*putStream.
  */
 
 public class BufferManagerFactory {
-    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self ;
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
-    public static final int GROW    = 0;
-    public static final int STREAM  = 2;
+    public static final int GROW = 0;
+    public static final int STREAM = 2;
 
     // The next two methods allow creation of BufferManagers based on GIOP version.
     // We may want more criteria to be involved in this decision.
     // These are only used for sending messages (so could be fragmenting)
-    public static BufferManagerRead newBufferManagerRead(
-            GIOPVersion version, byte encodingVersion, ORB orb) {
+    public static BufferManagerRead newBufferManagerRead(GIOPVersion version, byte encodingVersion, ORB orb) {
 
         // REVISIT - On the reading side, shouldn't we monitor the incoming
         // fragments on a given connection to determine what fragment size
@@ -52,15 +50,15 @@ public class BufferManagerFactory {
         }
 
         switch (version.intValue()) {
-            case GIOPVersion.VERSION_1_0:
-                return new BufferManagerReadGrow();
-            case GIOPVersion.VERSION_1_1:
-            case GIOPVersion.VERSION_1_2:
-                // The stream reader can handle fragmented and non-fragmented messages
-                return new BufferManagerReadStream(orb);
-            default:
-                // REVISIT - what is appropriate?
-                throw new INTERNAL("Unknown GIOP version: " + version);
+        case GIOPVersion.VERSION_1_0:
+            return new BufferManagerReadGrow();
+        case GIOPVersion.VERSION_1_1:
+        case GIOPVersion.VERSION_1_2:
+            // The stream reader can handle fragmented and non-fragmented messages
+            return new BufferManagerReadStream(orb);
+        default:
+            // REVISIT - what is appropriate?
+            throw new INTERNAL("Unknown GIOP version: " + version);
         }
     }
 
@@ -80,12 +78,12 @@ public class BufferManagerFactory {
             return new BufferManagerWriteGrow(orb);
         }
         switch (strategy) {
-            case BufferManagerFactory.GROW:
-                return new BufferManagerWriteGrow(orb);
-            case BufferManagerFactory.STREAM:
-                return new BufferManagerWriteStream(orb);
-            default:
-                throw new INTERNAL("Unknown buffer manager write strategy: " + strategy);
+        case BufferManagerFactory.GROW:
+            return new BufferManagerWriteGrow(orb);
+        case BufferManagerFactory.STREAM:
+            return new BufferManagerWriteStream(orb);
+        default:
+            throw new INTERNAL("Unknown buffer manager write strategy: " + strategy);
         }
     }
 

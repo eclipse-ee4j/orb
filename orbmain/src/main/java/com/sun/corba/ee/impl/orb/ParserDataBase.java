@@ -17,32 +17,43 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.orb ;
+package com.sun.corba.ee.impl.orb;
 
-import com.sun.corba.ee.spi.orb.ParserData ;
-import com.sun.corba.ee.spi.orb.Operation ;
+import com.sun.corba.ee.spi.orb.ParserData;
+import com.sun.corba.ee.spi.orb.Operation;
 
 public abstract class ParserDataBase implements ParserData {
-    private String  propertyName ;
-    private Operation operation ;       
-    private String fieldName ;
-    private Object defaultValue ;
-    private Object testValue ;
+    private String propertyName;
+    private Operation operation;
+    private String fieldName;
+    private Object defaultValue;
+    private Object testValue;
 
-    protected ParserDataBase( String  propertyName,
-        Operation operation, String fieldName, Object defaultValue,
-        Object testValue )
-    {
-        this.propertyName = propertyName  ;
-        this.operation = operation  ;   
-        this.fieldName = fieldName  ;
-        this.defaultValue = defaultValue  ;
-        this.testValue = testValue  ;
+    protected ParserDataBase(String propertyName, Operation operation, String fieldName, Object defaultValue, Object testValue) {
+        this.propertyName = propertyName;
+        this.operation = operation;
+        this.fieldName = fieldName;
+        this.defaultValue = defaultValue;
+        this.testValue = testValue;
     }
 
-    public String  getPropertyName() { return propertyName ; }
-    public Operation getOperation() { return operation ; }
-    public String getFieldName() { return fieldName ; }
-    public Object getDefaultValue() { return defaultValue ; }
-    public Object getTestValue() { return testValue ; }
+    public String getPropertyName() {
+        return propertyName;
+    }
+
+    public Operation getOperation() {
+        return operation;
+    }
+
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    public Object getDefaultValue() {
+        return defaultValue;
+    }
+
+    public Object getTestValue() {
+        return testValue;
+    }
 }

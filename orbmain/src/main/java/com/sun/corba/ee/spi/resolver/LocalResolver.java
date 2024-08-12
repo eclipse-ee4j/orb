@@ -17,17 +17,19 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.spi.resolver ;
+package com.sun.corba.ee.spi.resolver;
 
 import org.glassfish.pfl.basic.func.NullaryFunction;
 
-/** A LocalResolver is a Resolver that allows registration of (name, CORBA object)
- * bindings.
+/**
+ * A LocalResolver is a Resolver that allows registration of (name, CORBA object) bindings.
  */
 public interface LocalResolver extends Resolver {
-    /** Register the Closure with the given name.
+    /**
+     * Register the Closure with the given name.
+     * 
      * @param name name of Closure to register
      * @param closure supplier of CORBA object
      */
-    void register( String name, NullaryFunction<org.omg.CORBA.Object> closure ) ;
+    void register(String name, NullaryFunction<org.omg.CORBA.Object> closure);
 }

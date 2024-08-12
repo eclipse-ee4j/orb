@@ -23,15 +23,15 @@ import java.util.List;
 
 import com.sun.corba.ee.spi.ior.IOR;
 
-public interface IORToSocketInfo
-{
-    /** Used to extract socket address information from an IOR.
+public interface IORToSocketInfo {
+    /**
+     * Used to extract socket address information from an IOR.
+     * 
      * @param ior The ior from which the socket info is extracted.
      * @param previous The previous list, which may be reused if not null.
      * @return a list of SocketInfo.
      */
-    public List<? extends SocketInfo> getSocketInfo(IOR ior, 
-        List<? extends SocketInfo> previous);
+    public List<? extends SocketInfo> getSocketInfo(IOR ior, List<? extends SocketInfo> previous);
 }
 
 // End of file.

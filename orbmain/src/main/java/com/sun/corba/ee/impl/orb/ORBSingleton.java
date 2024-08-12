@@ -27,8 +27,6 @@ import java.applet.Applet;
 
 import java.net.URL;
 
-
-
 import org.omg.CORBA.ORBPackage.InvalidName;
 import org.omg.CORBA.NVList;
 import org.omg.CORBA.TCKind;
@@ -44,10 +42,10 @@ import org.omg.CORBA.PolicyError;
 
 import org.omg.CORBA.portable.OutputStream;
 
-import com.sun.corba.ee.spi.protocol.ClientInvocationInfo ;
+import com.sun.corba.ee.spi.protocol.ClientInvocationInfo;
 import com.sun.corba.ee.spi.transport.ContactInfo;
 import com.sun.corba.ee.spi.transport.ConnectionCache;
-import com.sun.corba.ee.spi.transport.Selector ;
+import com.sun.corba.ee.spi.transport.Selector;
 import com.sun.corba.ee.spi.transport.TransportManager;
 
 import com.sun.corba.ee.spi.orb.ORBData;
@@ -68,7 +66,7 @@ import com.sun.corba.ee.spi.ior.TaggedComponentFactoryFinder;
 import com.sun.corba.ee.spi.ior.ObjectKey;
 import com.sun.corba.ee.spi.ior.ObjectKeyFactory;
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-import com.sun.corba.ee.spi.transport.ContactInfoListFactory ;
+import com.sun.corba.ee.spi.transport.ContactInfoListFactory;
 import com.sun.corba.ee.spi.transport.TransportManager;
 import com.sun.corba.ee.spi.legacy.connection.LegacyServerSocketManager;
 import com.sun.corba.ee.spi.threadpool.ThreadPoolManager;
@@ -98,43 +96,42 @@ import org.glassfish.pfl.basic.func.NullaryFunction;
 /**
  * The restricted singleton ORB implementation.
  *
- * For now, this class must implement just enough functionality to be
- * used as a factory for immutable TypeCode instances.
+ * For now, this class must implement just enough functionality to be used as a factory for immutable TypeCode
+ * instances.
  *
  * See ORBImpl.java for the real ORB implementation.
+ * 
  * @see ORBImpl
  */
-public class ORBSingleton extends ORB
-{
+public class ORBSingleton extends ORB {
     // This is used to support read_Object.
     private static ORB fullORB;
-    private static PresentationManager.StubFactoryFactory staticStubFactoryFactory =
-        PresentationDefaults.getStaticStubFactoryFactory() ;
+    private static PresentationManager.StubFactoryFactory staticStubFactoryFactory = PresentationDefaults.getStaticStubFactoryFactory();
     // private TimerManager timerManager ;
 
     public ORBSingleton() {
         // timerManager = makeTimerManager( null ) ;
-        initializePrimitiveTypeCodeConstants() ;
+        initializePrimitiveTypeCodeConstants();
     }
 
     @Override
-    public void setParameters( String params[], Properties props ) {
-        // this is never called by ORB.init() 
+    public void setParameters(String params[], Properties props) {
+        // this is never called by ORB.init()
     }
 
     @Override
-    public void set_parameters( Properties props ) {
-        // this is never called by ORB.init() 
+    public void set_parameters(Properties props) {
+        // this is never called by ORB.init()
     }
 
     @Override
     protected void set_parameters(Applet app, Properties props) {
-        // this is never called by ORB.init() 
+        // this is never called by ORB.init()
     }
 
     @Override
-    protected void set_parameters (String params[], Properties props) {
-        // this is never called by ORB.init() 
+    protected void set_parameters(String params[], Properties props) {
+        // this is never called by ORB.init()
     }
 
     @Override
@@ -143,112 +140,81 @@ public class ORBSingleton extends ORB
     }
 
     @Override
-    public TypeCode create_struct_tc(String id,
-                                     String name,
-                                     StructMember[] members)
-    {
+    public TypeCode create_struct_tc(String id, String name, StructMember[] members) {
         return new TypeCodeImpl(this, TCKind._tk_struct, id, name, members);
     }
-  
+
     @Override
-    public TypeCode create_union_tc(String id,
-                                    String name,
-                                    TypeCode discriminator_type,
-                                    UnionMember[] members)
-    {
-        return new TypeCodeImpl(this,
-                                TCKind._tk_union, 
-                                id, 
-                                name, 
-                                discriminator_type, 
-                                members);
+    public TypeCode create_union_tc(String id, String name, TypeCode discriminator_type, UnionMember[] members) {
+        return new TypeCodeImpl(this, TCKind._tk_union, id, name, discriminator_type, members);
     }
-  
+
     @Override
-    public TypeCode create_enum_tc(String id, String name, String[] members)
-    {
+    public TypeCode create_enum_tc(String id, String name, String[] members) {
         return new TypeCodeImpl(this, TCKind._tk_enum, id, name, members);
     }
-  
+
     @Override
-    public TypeCode create_alias_tc(String id, String name, TypeCode original_type)
-    {
+    public TypeCode create_alias_tc(String id, String name, TypeCode original_type) {
         return new TypeCodeImpl(this, TCKind._tk_alias, id, name, original_type);
     }
-  
+
     @Override
-    public TypeCode create_exception_tc(String id, String name, StructMember[] members)
-    {
+    public TypeCode create_exception_tc(String id, String name, StructMember[] members) {
         return new TypeCodeImpl(this, TCKind._tk_except, id, name, members);
     }
-  
+
     @Override
-    public TypeCode create_interface_tc(String id, String name)
-    {
+    public TypeCode create_interface_tc(String id, String name) {
         return new TypeCodeImpl(this, TCKind._tk_objref, id, name);
     }
-  
+
     @Override
     public TypeCode create_string_tc(int bound) {
         return new TypeCodeImpl(this, TCKind._tk_string, bound);
     }
-  
+
     @Override
     public TypeCode create_wstring_tc(int bound) {
         return new TypeCodeImpl(this, TCKind._tk_wstring, bound);
     }
-  
+
     @Override
-    public TypeCode create_sequence_tc(int bound,
-                                       TypeCode element_type)
-    {
+    public TypeCode create_sequence_tc(int bound, TypeCode element_type) {
         return new TypeCodeImpl(this, TCKind._tk_sequence, bound, element_type);
     }
-  
+
     @Override
-    public TypeCode create_recursive_sequence_tc(int bound, int offset)
-    {
+    public TypeCode create_recursive_sequence_tc(int bound, int offset) {
         return new TypeCodeImpl(this, TCKind._tk_sequence, bound, offset);
     }
-  
+
     @Override
-    public TypeCode create_array_tc(int length, TypeCode element_type)
-    {
+    public TypeCode create_array_tc(int length, TypeCode element_type) {
         return new TypeCodeImpl(this, TCKind._tk_array, length, element_type);
     }
 
     @Override
-    public org.omg.CORBA.TypeCode create_native_tc(String id,
-                                                   String name)
-    {
+    public org.omg.CORBA.TypeCode create_native_tc(String id, String name) {
         return new TypeCodeImpl(this, TCKind._tk_native, id, name);
     }
 
     @Override
-    public org.omg.CORBA.TypeCode create_abstract_interface_tc(
-                                                               String id,
-                                                               String name)
-    {
+    public org.omg.CORBA.TypeCode create_abstract_interface_tc(String id, String name) {
         return new TypeCodeImpl(this, TCKind._tk_abstract_interface, id, name);
     }
 
     @Override
-    public org.omg.CORBA.TypeCode create_fixed_tc(short digits, short scale)
-    {
+    public org.omg.CORBA.TypeCode create_fixed_tc(short digits, short scale) {
         return new TypeCodeImpl(this, TCKind._tk_fixed, digits, scale);
     }
 
     // orbos 98-01-18: Objects By Value -- begin
 
     @Override
-    public org.omg.CORBA.TypeCode create_value_tc(String id,
-                                                  String name,
-                                                  short type_modifier,
-                                                  TypeCode concrete_base,
-                                                  ValueMember[] members)
-    {
-        return new TypeCodeImpl(this, TCKind._tk_value, id, name,
-                                type_modifier, concrete_base, members);
+    public org.omg.CORBA.TypeCode create_value_tc(String id, String name, short type_modifier, TypeCode concrete_base,
+            ValueMember[] members) {
+        return new TypeCodeImpl(this, TCKind._tk_value, id, name, type_modifier, concrete_base, members);
     }
 
     @Override
@@ -257,17 +223,13 @@ public class ORBSingleton extends ORB
     }
 
     @Override
-    public org.omg.CORBA.TypeCode create_value_box_tc(String id,
-                                                      String name,
-                                                      TypeCode boxed_type)
-    {
+    public org.omg.CORBA.TypeCode create_value_box_tc(String id, String name, TypeCode boxed_type) {
         return new TypeCodeImpl(this, TCKind._tk_value_box, id, name, boxed_type);
     }
 
     @Override
-    public TypeCode get_primitive_tc( TCKind tckind )
-    {
-        return get_primitive_tc( tckind.value() ) ;
+    public TypeCode get_primitive_tc(TCKind tckind) {
+        return get_primitive_tc(tckind.value());
     }
 
     @Override
@@ -278,8 +240,7 @@ public class ORBSingleton extends ORB
     // TypeCodeFactory interface methods.
     // Keeping track of type codes by repository id.
     /*
-     * Not strictly needed for TypeCode factory duty but these seem
-     * harmless enough.
+     * Not strictly needed for TypeCode factory duty but these seem harmless enough.
      */
 
     @Override
@@ -289,7 +250,7 @@ public class ORBSingleton extends ORB
 
     @Override
     public org.omg.CORBA.NVList create_operation_list(org.omg.CORBA.Object oper) {
-        throw wrapper.genericNoImpl() ;
+        throw wrapper.genericNoImpl();
     }
 
     @Override
@@ -308,21 +269,18 @@ public class ORBSingleton extends ORB
     }
 
     @Override
-    public org.omg.CORBA.Context get_default_context() 
-    {
-        throw wrapper.genericNoImpl() ;
+    public org.omg.CORBA.Context get_default_context() {
+        throw wrapper.genericNoImpl();
     }
 
     @Override
-    public org.omg.CORBA.Environment create_environment() 
-    {
+    public org.omg.CORBA.Environment create_environment() {
         return new EnvironmentImpl();
     }
 
     @Override
-    public org.omg.CORBA.Current get_current() 
-    {
-        throw wrapper.genericNoImpl() ;
+    public org.omg.CORBA.Current get_current() {
+        throw wrapper.genericNoImpl();
     }
 
     /*
@@ -330,29 +288,25 @@ public class ORBSingleton extends ORB
      */
 
     @Override
-    public String[] list_initial_services () 
-    {
-        throw wrapper.genericNoImpl() ;
+    public String[] list_initial_services() {
+        throw wrapper.genericNoImpl();
     }
 
     @Override
-    public org.omg.CORBA.Object resolve_initial_references(String identifier)
-        throws InvalidName
-    {
-        throw wrapper.genericNoImpl() ;
+    public org.omg.CORBA.Object resolve_initial_references(String identifier) throws InvalidName {
+        throw wrapper.genericNoImpl();
     }
 
     @Override
-    public void register_initial_reference(String id, org.omg.CORBA.Object obj ) throws InvalidName
-    {
-        throw wrapper.genericNoImpl() ;
+    public void register_initial_reference(String id, org.omg.CORBA.Object obj) throws InvalidName {
+        throw wrapper.genericNoImpl();
     }
 
     @Override
     public void send_multiple_requests_oneway(Request[] req) {
         throw new SecurityException("ORBSingleton: access denied");
     }
- 
+
     @Override
     public void send_multiple_requests_deferred(Request[] req) {
         throw new SecurityException("ORBSingleton: access denied");
@@ -362,7 +316,7 @@ public class ORBSingleton extends ORB
     public boolean poll_next_response() {
         throw new SecurityException("ORBSingleton: access denied");
     }
- 
+
     @Override
     public org.omg.CORBA.Request get_next_response() {
         throw new SecurityException("ORBSingleton: access denied");
@@ -378,9 +332,7 @@ public class ORBSingleton extends ORB
         throw new SecurityException("ORBSingleton: access denied");
     }
 
-    public java.rmi.Remote string_to_remote(String s)
-        throws java.rmi.RemoteException
-    {
+    public java.rmi.Remote string_to_remote(String s) throws java.rmi.RemoteException {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
@@ -395,14 +347,12 @@ public class ORBSingleton extends ORB
     }
 
     @Override
-    public void run()
-    {
+    public void run() {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
     @Override
-    public void shutdown(boolean wait_for_completion)
-    {
+    public void shutdown(boolean wait_for_completion) {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
@@ -420,80 +370,69 @@ public class ORBSingleton extends ORB
     }
 
     @Override
-    public boolean work_pending()
-    {
+    public boolean work_pending() {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
     @Override
-    public void perform_work()
-    {
+    public void perform_work() {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
     @Override
-    public org.omg.CORBA.portable.ValueFactory register_value_factory(String repositoryID, org.omg.CORBA.portable.ValueFactory factory)
-    {
+    public org.omg.CORBA.portable.ValueFactory register_value_factory(String repositoryID, org.omg.CORBA.portable.ValueFactory factory) {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
     @Override
-    public void unregister_value_factory(String repositoryID)
-    {
-        throw new SecurityException("ORBSingleton: access denied");
-    }
-    
-    @Override
-    public org.omg.CORBA.portable.ValueFactory lookup_value_factory(String repositoryID)
-    {
+    public void unregister_value_factory(String repositoryID) {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
     @Override
-    public TransportManager getTransportManager()
-    {
+    public org.omg.CORBA.portable.ValueFactory lookup_value_factory(String repositoryID) {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
     @Override
-    public TransportManager getCorbaTransportManager()
-    {
+    public TransportManager getTransportManager() {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
     @Override
-    public LegacyServerSocketManager getLegacyServerSocketManager()
-    {
+    public TransportManager getCorbaTransportManager() {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
-/*************************************************************************
-    These are methods from com.sun.corba.ee.impl.se.core.ORB
- ************************************************************************/
+    @Override
+    public LegacyServerSocketManager getLegacyServerSocketManager() {
+        throw new SecurityException("ORBSingleton: access denied");
+    }
 
-    private synchronized ORB getFullORB()
-    {
+    /*************************************************************************
+     * These are methods from com.sun.corba.ee.impl.se.core.ORB
+     ************************************************************************/
+
+    private synchronized ORB getFullORB() {
         if (fullORB == null) {
-            Properties props = new Properties() ;
+            Properties props = new Properties();
             // Do NOT allow this special ORB to be created with the
             // empty name, which could conflict with app server
             // requirement that first ORB created with the empty name has
-            // root monitoring agent name "orb" 
-            props.setProperty( ORBConstants.ORB_ID_PROPERTY,
-                "_$$$_INTERNAL_FULL_ORB_ID_$$$_" ) ;
+            // root monitoring agent name "orb"
+            props.setProperty(ORBConstants.ORB_ID_PROPERTY, "_$$$_INTERNAL_FULL_ORB_ID_$$$_");
 
             // We do not want to initialize the activation code here, because it is
-            // not included in the GF ORB bundles.  There is no need for 
+            // not included in the GF ORB bundles. There is no need for
             // activation code, because this internal "full" ORB is only used
             // to create typecodes that require a full ORB.
-            props.setProperty( ORBConstants.DISABLE_ORBD_INIT_PROPERTY,
-                "true" ) ;
+            props.setProperty(ORBConstants.DISABLE_ORBD_INIT_PROPERTY, "true");
 
-            fullORB = new ORBImpl() ;
-            fullORB.set_parameters( props ) ;
+            fullORB = new ORBImpl();
+            fullORB.set_parameters(props);
         }
 
-        return fullORB ;
+        return fullORB;
     }
 
     @Override
@@ -502,13 +441,12 @@ public class ORBSingleton extends ORB
     }
 
     @Override
-    public void setInvocationInterceptor(InvocationInterceptor interceptor ) {
+    public void setInvocationInterceptor(InvocationInterceptor interceptor) {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
     @Override
-    public RequestDispatcherRegistry getRequestDispatcherRegistry()
-    {
+    public RequestDispatcherRegistry getRequestDispatcherRegistry() {
         // To enable read_Object.
 
         return getFullORB().getRequestDispatcherRegistry();
@@ -516,77 +454,72 @@ public class ORBSingleton extends ORB
 
     /*
      * Return the service context registry
+     * 
      * @return throws {@link SecurityException}
      */
     @Override
-    public ServiceContextFactoryRegistry getServiceContextFactoryRegistry()
-    {
+    public ServiceContextFactoryRegistry getServiceContextFactoryRegistry() {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
     /**
      * Return the service context cache as null
+     * 
      * @return {@code null}
      */
     @Override
-    public ServiceContextsCache getServiceContextsCache()
-    {
+    public ServiceContextsCache getServiceContextsCache() {
         return null;
     }
 
     /**
      * Get the transient server ID
+     * 
      * @return throws {@link SecurityException}
      */
     @Override
-    public int getTransientServerId()
-    {
+    public int getTransientServerId() {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
     /**
      * Return the bootstrap naming port specified in the ORBInitialPort param.
+     * 
      * @return throws {@link SecurityException}
      */
-    public int getORBInitialPort()
-    {
+    public int getORBInitialPort() {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
     /**
      * Return the bootstrap naming host specified in the ORBInitialHost param.
+     * 
      * @return throws {@link SecurityException}
      */
-    public String getORBInitialHost()
-    {
+    public String getORBInitialHost() {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
-    public String getORBServerHost()
-    {
+    public String getORBServerHost() {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
-    public int getORBServerPort()
-    {
+    public int getORBServerPort() {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
-    public CodeSetComponentInfo getCodeSetComponentInfo() 
-    {
-            return new CodeSetComponentInfo();
+    public CodeSetComponentInfo getCodeSetComponentInfo() {
+        return new CodeSetComponentInfo();
     }
 
     @Override
-    public boolean isLocalHost( String host )
-    {
+    public boolean isLocalHost(String host) {
         // To enable read_Object.
         return false;
     }
 
     @Override
-    public boolean isLocalServerId( int subcontractId, int serverId )
-    {
+    public boolean isLocalServerId(int subcontractId, int serverId) {
         // To enable read_Object.
         return false;
     }
@@ -595,37 +528,33 @@ public class ORBSingleton extends ORB
      * Things from corba.ORB.
      */
     @Override
-    public ORBVersion getORBVersion()
-    {
+    public ORBVersion getORBVersion() {
         // Always use our latest ORB version (latest fixes, etc)
         return ORBVersionFactory.getORBVersion();
     }
 
     @Override
-    public void setORBVersion(ORBVersion verObj)
-    {
+    public void setORBVersion(ORBVersion verObj) {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
-    public String getAppletHost()
-    {
+    public String getAppletHost() {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
-    public URL getAppletCodeBase()
-    {
+    public URL getAppletCodeBase() {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
-    public int getHighWaterMark(){
+    public int getHighWaterMark() {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
-    public int getLowWaterMark(){
+    public int getLowWaterMark() {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
-    public int getNumberToReclaim(){
+    public int getNumberToReclaim() {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
@@ -638,234 +567,193 @@ public class ORBSingleton extends ORB
     }
 
     @Override
-    public IOR getFVDCodeBaseIOR(){
+    public IOR getFVDCodeBaseIOR() {
         throw new SecurityException("ORBSingleton: access denied");
     }
-            
+
     @Override
-    public Policy create_policy( int type, Any val ) throws PolicyError 
-    {
+    public Policy create_policy(int type, Any val) throws PolicyError {
         throw new NO_IMPLEMENT();
     }
 
-    public LegacyServerSocketEndPointInfo getServerEndpoint() 
-    {
-        return null ;
+    public LegacyServerSocketEndPointInfo getServerEndpoint() {
+        return null;
     }
 
-    public void setPersistentServerId( int id ) 
-    {
-    }
-
-    @Override
-    public TypeCodeImpl getTypeCodeForClass( Class c ) 
-    {
-        return null ;
+    public void setPersistentServerId(int id) {
     }
 
     @Override
-    public void setTypeCodeForClass( Class c, TypeCodeImpl tcimpl ) 
-    {
-    }
-
-    public boolean alwaysSendCodeSetServiceContext() 
-    {
-        return true ;
+    public TypeCodeImpl getTypeCodeForClass(Class c) {
+        return null;
     }
 
     @Override
-    public boolean isDuringDispatch() 
-    {
-        return false ;
+    public void setTypeCodeForClass(Class c, TypeCodeImpl tcimpl) {
+    }
+
+    public boolean alwaysSendCodeSetServiceContext() {
+        return true;
     }
 
     @Override
-    public void notifyORB() { }
-
-    @Override
-    public PIHandler getPIHandler() 
-    {
-        return null ;
+    public boolean isDuringDispatch() {
+        return false;
     }
 
     @Override
-    public void createPIHandler() 
-    {
-    }
-
-    public void checkShutdownState()
-    {
+    public void notifyORB() {
     }
 
     @Override
-    public void startingDispatch()
-    {
+    public PIHandler getPIHandler() {
+        return null;
     }
 
     @Override
-    public void finishedDispatch()
-    {
+    public void createPIHandler() {
     }
 
-    public void registerInitialReference( String id, 
-        NullaryFunction<org.omg.CORBA.Object> closure )
-    {
+    public void checkShutdownState() {
     }
 
     @Override
-    public ORBData getORBData() 
-    {
-        return getFullORB().getORBData() ;
+    public void startingDispatch() {
     }
 
     @Override
-    public void setClientDelegateFactory( ClientDelegateFactory factory ) 
-    {
+    public void finishedDispatch() {
+    }
+
+    public void registerInitialReference(String id, NullaryFunction<org.omg.CORBA.Object> closure) {
     }
 
     @Override
-    public ClientDelegateFactory getClientDelegateFactory() 
-    {
-        return getFullORB().getClientDelegateFactory() ;
+    public ORBData getORBData() {
+        return getFullORB().getORBData();
     }
 
     @Override
-    public void setCorbaContactInfoListFactory( ContactInfoListFactory factory )
-    {
+    public void setClientDelegateFactory(ClientDelegateFactory factory) {
     }
 
     @Override
-    public ContactInfoListFactory getCorbaContactInfoListFactory()
-    {
-        return getFullORB().getCorbaContactInfoListFactory() ;
+    public ClientDelegateFactory getClientDelegateFactory() {
+        return getFullORB().getClientDelegateFactory();
     }
 
     @Override
-    public Operation getURLOperation()
-    {
-        return null ;
+    public void setCorbaContactInfoListFactory(ContactInfoListFactory factory) {
     }
 
     @Override
-    public void setINSDelegate( ServerRequestDispatcher sdel )
-    {
+    public ContactInfoListFactory getCorbaContactInfoListFactory() {
+        return getFullORB().getCorbaContactInfoListFactory();
     }
 
     @Override
-    public TaggedComponentFactoryFinder getTaggedComponentFactoryFinder() 
-    {
-        return getFullORB().getTaggedComponentFactoryFinder() ;
+    public Operation getURLOperation() {
+        return null;
     }
 
     @Override
-    public IdentifiableFactoryFinder getTaggedProfileFactoryFinder() 
-    {
-        return getFullORB().getTaggedProfileFactoryFinder() ;
+    public void setINSDelegate(ServerRequestDispatcher sdel) {
     }
 
     @Override
-    public IdentifiableFactoryFinder getTaggedProfileTemplateFactoryFinder() 
-    {
-        return getFullORB().getTaggedProfileTemplateFactoryFinder() ;
+    public TaggedComponentFactoryFinder getTaggedComponentFactoryFinder() {
+        return getFullORB().getTaggedComponentFactoryFinder();
     }
 
     @Override
-    public ObjectKeyFactory getObjectKeyFactory() 
-    {
-        return getFullORB().getObjectKeyFactory() ;
+    public IdentifiableFactoryFinder getTaggedProfileFactoryFinder() {
+        return getFullORB().getTaggedProfileFactoryFinder();
     }
 
     @Override
-    public void setObjectKeyFactory( ObjectKeyFactory factory ) 
-    {
+    public IdentifiableFactoryFinder getTaggedProfileTemplateFactoryFinder() {
+        return getFullORB().getTaggedProfileTemplateFactoryFinder();
+    }
+
+    @Override
+    public ObjectKeyFactory getObjectKeyFactory() {
+        return getFullORB().getObjectKeyFactory();
+    }
+
+    @Override
+    public void setObjectKeyFactory(ObjectKeyFactory factory) {
         throw new SecurityException("ORBSingleton: access denied");
     }
 
     @Override
-    public void handleBadServerId( ObjectKey okey ) 
-    {
+    public void handleBadServerId(ObjectKey okey) {
     }
 
     @Override
-    public OAInvocationInfo peekInvocationInfo() 
-    {
-        return null ;
-    }
-
-    @Override
-    public void pushInvocationInfo( OAInvocationInfo info ) 
-    {
-    }
-
-    @Override
-    public OAInvocationInfo popInvocationInfo() 
-    {
-        return null ;
-    }
-
-    @Override
-    public ClientInvocationInfo createOrIncrementInvocationInfo() 
-    {
-        return null ;
-    }
-    
-    @Override
-    public void releaseOrDecrementInvocationInfo() 
-    {
-    }
-    
-    @Override
-    public ClientInvocationInfo getInvocationInfo() 
-    {
-        return null ;
-    }
-
-    public ConnectionCache getConnectionCache(ContactInfo contactInfo)
-    {
+    public OAInvocationInfo peekInvocationInfo() {
         return null;
     }
-    
+
     @Override
-    public void setResolver( Resolver resolver ) 
-    {
+    public void pushInvocationInfo(OAInvocationInfo info) {
     }
 
     @Override
-    public Resolver getResolver() 
-    {
-        return null ;
+    public OAInvocationInfo popInvocationInfo() {
+        return null;
     }
 
     @Override
-    public void setLocalResolver( LocalResolver resolver ) 
-    {
+    public ClientInvocationInfo createOrIncrementInvocationInfo() {
+        return null;
     }
 
     @Override
-    public LocalResolver getLocalResolver() 
-    {
-        return null ;
+    public void releaseOrDecrementInvocationInfo() {
     }
 
     @Override
-    public void setURLOperation( Operation stringToObject ) 
-    {
+    public ClientInvocationInfo getInvocationInfo() {
+        return null;
+    }
+
+    public ConnectionCache getConnectionCache(ContactInfo contactInfo) {
+        return null;
+    }
+
+    @Override
+    public void setResolver(Resolver resolver) {
+    }
+
+    @Override
+    public Resolver getResolver() {
+        return null;
+    }
+
+    @Override
+    public void setLocalResolver(LocalResolver resolver) {
+    }
+
+    @Override
+    public LocalResolver getLocalResolver() {
+        return null;
+    }
+
+    @Override
+    public void setURLOperation(Operation stringToObject) {
     }
 
     // NOTE: REMOVE THIS METHOD ONCE WE HAVE A ORT BASED ORBD
     @Override
-    public void setBadServerIdHandler( BadServerIdHandler handler )
-    {
+    public void setBadServerIdHandler(BadServerIdHandler handler) {
     }
 
     // NOTE: REMOVE THIS METHOD ONCE WE HAVE A ORT BASED ORBD
     @Override
-    public void initBadServerIdHandler()
-    {
+    public void initBadServerIdHandler() {
     }
 
-    public Selector getSelector(int x)
-    {
+    public Selector getSelector(int x) {
         return null;
     }
 
@@ -880,14 +768,12 @@ public class ORBSingleton extends ORB
 
     @Override
     public CopierManager getCopierManager() {
-        return null ;
+        return null;
     }
 
     /*
-    public TimerManager getTimerManager() {
-        return timerManager ;
-    }
-    */
+     * public TimerManager getTimerManager() { return timerManager ; }
+     */
 }
 
 // End of file.

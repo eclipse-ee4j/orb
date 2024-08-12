@@ -24,20 +24,19 @@ import java.util.Iterator;
 /**
  * @author Harold Carr
  */
-public interface ClientInvocationInfo 
-{
+public interface ClientInvocationInfo {
     public Iterator getContactInfoListIterator();
-    
+
     public void setContactInfoListIterator(Iterator contactInfoListIterator);
-    
+
     public boolean isRetryInvocation();
-    
+
     public void setIsRetryInvocation(boolean isRetryInvocation);
-    
+
     public int getEntryCount();
-    
+
     public void incrementEntryCount();
-    
+
     public void decrementEntryCount();
 
     public void setClientRequestDispatcher(ClientRequestDispatcher clientRequestDispatcher);

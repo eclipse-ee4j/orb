@@ -19,123 +19,109 @@
 
 package com.sun.corba.ee.impl.ior;
 
-import java.util.Iterator ;
+import java.util.Iterator;
 
-import org.omg.CORBA_2_3.portable.OutputStream ;
-import org.omg.CORBA_2_3.portable.InputStream ;
+import org.omg.CORBA_2_3.portable.OutputStream;
+import org.omg.CORBA_2_3.portable.InputStream;
 
-import com.sun.corba.ee.spi.ior.IdentifiableContainerBase ;
-import com.sun.corba.ee.spi.ior.IdentifiableFactoryFinder ;
-import com.sun.corba.ee.spi.ior.IORTemplate ;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
-import com.sun.corba.ee.spi.ior.TaggedProfileTemplate ;
-import com.sun.corba.ee.spi.ior.ObjectId ;
-import com.sun.corba.ee.spi.ior.IOR ;
-import com.sun.corba.ee.spi.ior.IORFactory ;
+import com.sun.corba.ee.spi.ior.IdentifiableContainerBase;
+import com.sun.corba.ee.spi.ior.IdentifiableFactoryFinder;
+import com.sun.corba.ee.spi.ior.IORTemplate;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
+import com.sun.corba.ee.spi.ior.TaggedProfileTemplate;
+import com.sun.corba.ee.spi.ior.ObjectId;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.ior.IORFactory;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
 /**
  * This class is a container of TaggedProfileTemplates.
  */
-public class IORTemplateImpl 
-    extends IdentifiableContainerBase<TaggedProfileTemplate>
-    implements IORTemplate
-{
-    private ObjectKeyTemplate oktemp ;
+public class IORTemplateImpl extends IdentifiableContainerBase<TaggedProfileTemplate> implements IORTemplate {
+    private ObjectKeyTemplate oktemp;
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder() ;
-        sb.append( "IORTemplate[oktemp=") ;
-        sb.append( oktemp.toString() ) ;
-        sb.append( " profile templates:") ;
-        sb.append( super.toString() ) ;
-        sb.append( ']' ) ;
-        return sb.toString() ;
+        StringBuilder sb = new StringBuilder();
+        sb.append("IORTemplate[oktemp=");
+        sb.append(oktemp.toString());
+        sb.append(" profile templates:");
+        sb.append(super.toString());
+        sb.append(']');
+        return sb.toString();
     }
 
     @Override
-    public boolean equals( Object obj )
-    {
+    public boolean equals(Object obj) {
         if (obj == null)
-            return false ;
+            return false;
 
         if (!(obj instanceof IORTemplateImpl))
-            return false ;
+            return false;
 
-        IORTemplateImpl other = (IORTemplateImpl)obj ;
+        IORTemplateImpl other = (IORTemplateImpl) obj;
 
-        return super.equals( obj ) && oktemp.equals( other.getObjectKeyTemplate() ) ;
+        return super.equals(obj) && oktemp.equals(other.getObjectKeyTemplate());
     }
 
     @Override
-    public int hashCode()
-    {
-        return super.hashCode() ^ oktemp.hashCode() ;
+    public int hashCode() {
+        return super.hashCode() ^ oktemp.hashCode();
     }
 
-    public ObjectKeyTemplate getObjectKeyTemplate()
-    {
-        return oktemp ;
+    public ObjectKeyTemplate getObjectKeyTemplate() {
+        return oktemp;
     }
 
-    public IORTemplateImpl( ObjectKeyTemplate oktemp )
-    {
-        this.oktemp = oktemp ;
+    public IORTemplateImpl(ObjectKeyTemplate oktemp) {
+        this.oktemp = oktemp;
     }
 
-    public IOR makeIOR( ORB orb, String typeid, ObjectId oid ) 
-    {
-        return new IORImpl( orb, typeid, this, oid ) ;
+    public IOR makeIOR(ORB orb, String typeid, ObjectId oid) {
+        return new IORImpl(orb, typeid, this, oid);
     }
 
-    public boolean isEquivalent( IORFactory other ) 
-    {
+    public boolean isEquivalent(IORFactory other) {
         if (!(other instanceof IORTemplate))
-            return false ;
+            return false;
 
-        IORTemplate list = (IORTemplate)other ;
+        IORTemplate list = (IORTemplate) other;
 
-        Iterator<TaggedProfileTemplate> thisIterator = iterator() ;
-        Iterator<TaggedProfileTemplate> listIterator = list.iterator() ;
+        Iterator<TaggedProfileTemplate> thisIterator = iterator();
+        Iterator<TaggedProfileTemplate> listIterator = list.iterator();
         while (thisIterator.hasNext() && listIterator.hasNext()) {
-            TaggedProfileTemplate thisTemplate = thisIterator.next() ;
-            TaggedProfileTemplate listTemplate = listIterator.next() ;
-            if (!thisTemplate.isEquivalent( listTemplate ))
-                return false ;
+            TaggedProfileTemplate thisTemplate = thisIterator.next();
+            TaggedProfileTemplate listTemplate = listIterator.next();
+            if (!thisTemplate.isEquivalent(listTemplate))
+                return false;
         }
 
-        return (thisIterator.hasNext() == listIterator.hasNext()) &&
-            getObjectKeyTemplate().equals( list.getObjectKeyTemplate() ) ;
+        return (thisIterator.hasNext() == listIterator.hasNext()) && getObjectKeyTemplate().equals(list.getObjectKeyTemplate());
     }
 
-    /** Ensure that this IORTemplate and all of its profiles can not be
-    * modified.  This overrides the method inherited from 
-    * FreezableList through IdentifiableContainerBase.
-    */
+    /**
+     * Ensure that this IORTemplate and all of its profiles can not be modified. This overrides the method inherited from
+     * FreezableList through IdentifiableContainerBase.
+     */
     @Override
-    public void makeImmutable()
-    {
-        makeElementsImmutable() ;
-        super.makeImmutable() ;
+    public void makeImmutable() {
+        makeElementsImmutable();
+        super.makeImmutable();
     }
 
-    public void write( OutputStream os ) 
-    {
-        oktemp.write( os ) ;
-        EncapsulationUtility.writeIdentifiableSequence( this, os ) ;
+    public void write(OutputStream os) {
+        oktemp.write(os);
+        EncapsulationUtility.writeIdentifiableSequence(this, os);
     }
 
-    public IORTemplateImpl( InputStream is ) 
-    {
-        ORB orb = (ORB)(is.orb()) ;
-        IdentifiableFactoryFinder<TaggedProfileTemplate> finder = 
-            orb.getTaggedProfileTemplateFactoryFinder() ;
+    public IORTemplateImpl(InputStream is) {
+        ORB orb = (ORB) (is.orb());
+        IdentifiableFactoryFinder<TaggedProfileTemplate> finder = orb.getTaggedProfileTemplateFactoryFinder();
 
-        oktemp = orb.getObjectKeyFactory().createTemplate( is ) ;
-        EncapsulationUtility.readIdentifiableSequence( this, finder, is ) ;
+        oktemp = orb.getObjectKeyFactory().createTemplate(is);
+        EncapsulationUtility.readIdentifiableSequence(this, finder, is);
 
-        makeImmutable() ;
+        makeImmutable();
     }
 }

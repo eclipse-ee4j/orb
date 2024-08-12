@@ -17,14 +17,14 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.presentation.rmi ;
+package com.sun.corba.ee.impl.presentation.rmi;
 
 import java.rmi.Remote;
 
 import javax.rmi.CORBA.Tie;
 
-import java.lang.reflect.Method ;
-import java.lang.reflect.InvocationTargetException ;
+import java.lang.reflect.Method;
+import java.lang.reflect.InvocationTargetException;
 
 import org.omg.CORBA.SystemException;
 import org.omg.CORBA_2_3.portable.InputStream;
@@ -33,25 +33,22 @@ import org.omg.CORBA.portable.ResponseHandler;
 import org.omg.CORBA.portable.UnknownException;
 import org.omg.PortableServer.Servant;
 
-import com.sun.corba.ee.spi.presentation.rmi.PresentationManager ;
-import com.sun.corba.ee.spi.presentation.rmi.PresentationDefaults ;
-import com.sun.corba.ee.spi.presentation.rmi.DynamicMethodMarshaller ;
+import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
+import com.sun.corba.ee.spi.presentation.rmi.PresentationDefaults;
+import com.sun.corba.ee.spi.presentation.rmi.DynamicMethodMarshaller;
 
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 
-import org.glassfish.pfl.basic.proxy.DynamicAccessPermission ;
+import org.glassfish.pfl.basic.proxy.DynamicAccessPermission;
 
-public final class ReflectiveTie extends Servant implements Tie 
-{
-    private static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+public final class ReflectiveTie extends Servant implements Tie {
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
-    private Remote target = null ;
-    private PresentationManager pm ;
-    private PresentationManager.ClassData classData = null ;
+    private Remote target = null;
+    private PresentationManager pm;
+    private PresentationManager.ClassData classData = null;
 
-    public ReflectiveTie( PresentationManager pm )
-    {
+    public ReflectiveTie(PresentationManager pm) {
         if (!PresentationDefaults.inAppServer()) {
             SecurityManager s = System.getSecurityManager();
             if (s != null) {
@@ -59,117 +56,102 @@ public final class ReflectiveTie extends Servant implements Tie
             }
         }
 
-        this.pm = pm ;
+        this.pm = pm;
     }
 
-    public String[] _all_interfaces(org.omg.PortableServer.POA poa, 
-        byte[] objectId)
-    {
-        return classData.getTypeIds() ;
+    public String[] _all_interfaces(org.omg.PortableServer.POA poa, byte[] objectId) {
+        return classData.getTypeIds();
     }
 
-    public void setTarget(Remote target) 
-    {
+    public void setTarget(Remote target) {
         this.target = target;
 
         if (target == null) {
-            classData = null ;
+            classData = null;
         } else {
-            Class targetClass = target.getClass() ;
-            classData = pm.getClassData( targetClass ) ;
+            Class targetClass = target.getClass();
+            classData = pm.getClassData(targetClass);
         }
     }
-    
-    public Remote getTarget() 
-    {
+
+    public Remote getTarget() {
         return target;
     }
-    
-    public org.omg.CORBA.Object thisObject() 
-    {
+
+    public org.omg.CORBA.Object thisObject() {
         return _this_object();
     }
-    
-    public void deactivate() 
-    {
-        try{
+
+    public void deactivate() {
+        try {
             _poa().deactivate_object(_poa().servant_to_id(this));
-        } catch (org.omg.PortableServer.POAPackage.WrongPolicy exception){
-            // ignore 
-        } catch (org.omg.PortableServer.POAPackage.ObjectNotActive exception){
-            // ignore 
-        } catch (org.omg.PortableServer.POAPackage.ServantNotActive exception){
-            // ignore 
+        } catch (org.omg.PortableServer.POAPackage.WrongPolicy exception) {
+            // ignore
+        } catch (org.omg.PortableServer.POAPackage.ObjectNotActive exception) {
+            // ignore
+        } catch (org.omg.PortableServer.POAPackage.ServantNotActive exception) {
+            // ignore
         }
     }
-    
+
     public org.omg.CORBA.ORB orb() {
         return _orb();
     }
-    
+
     public void orb(org.omg.CORBA.ORB orb) {
         try {
-            ((org.omg.CORBA_2_3.ORB)orb).set_delegate(this);
+            ((org.omg.CORBA_2_3.ORB) orb).set_delegate(this);
         } catch (ClassCastException e) {
-            throw wrapper.badOrbForServant( e ) ;
+            throw wrapper.badOrbForServant(e);
         }
     }
-   
-    public Object dispatchToMethod( Method javaMethod, Remote target, Object[] args ) 
-        throws InvocationTargetException {
+
+    public Object dispatchToMethod(Method javaMethod, Remote target, Object[] args) throws InvocationTargetException {
 
         try {
-            return javaMethod.invoke( target, args ) ;
+            return javaMethod.invoke(target, args);
         } catch (IllegalAccessException ex) {
-            throw wrapper.invocationErrorInReflectiveTie( ex, 
-                javaMethod.getName(), 
-                    javaMethod.getDeclaringClass().getName() ) ;
+            throw wrapper.invocationErrorInReflectiveTie(ex, javaMethod.getName(), javaMethod.getDeclaringClass().getName());
         } catch (IllegalArgumentException ex) {
-            throw wrapper.invocationErrorInReflectiveTie( ex, 
-                javaMethod.getName(), 
-                    javaMethod.getDeclaringClass().getName() ) ;
+            throw wrapper.invocationErrorInReflectiveTie(ex, javaMethod.getName(), javaMethod.getDeclaringClass().getName());
         }
     }
 
-    public org.omg.CORBA.portable.OutputStream  _invoke(String method, 
-        org.omg.CORBA.portable.InputStream _in, ResponseHandler reply) 
-    {
-        Method javaMethod = null ;
+    public org.omg.CORBA.portable.OutputStream _invoke(String method, org.omg.CORBA.portable.InputStream _in, ResponseHandler reply) {
+        Method javaMethod = null;
         DynamicMethodMarshaller dmm = null;
 
         try {
             InputStream in = (InputStream) _in;
 
-            javaMethod = classData.getIDLNameTranslator().getMethod( method ) ;
+            javaMethod = classData.getIDLNameTranslator().getMethod(method);
             if (javaMethod == null)
-                throw wrapper.methodNotFoundInTie( method, 
-                    target.getClass().getName() ) ;
+                throw wrapper.methodNotFoundInTie(method, target.getClass().getName());
 
-            dmm = pm.getDynamicMethodMarshaller( javaMethod ) ;
+            dmm = pm.getDynamicMethodMarshaller(javaMethod);
 
-            Object[] args = dmm.readArguments( in ) ;
+            Object[] args = dmm.readArguments(in);
 
-            Object result = dispatchToMethod( javaMethod, target, args ) ;
+            Object result = dispatchToMethod(javaMethod, target, args);
 
-            OutputStream os = (OutputStream)reply.createReply() ;
+            OutputStream os = (OutputStream) reply.createReply();
 
-            dmm.writeResult( os, result ) ; 
+            dmm.writeResult(os, result);
 
-            return os ;
+            return os;
         } catch (InvocationTargetException ex) {
             // Unwrap the actual exception so that it can be wrapped by an
             // UnknownException or thrown if it is a system exception.
             // This is expected in the server dispatcher code.
-            Throwable thr = ex.getCause() ;
+            Throwable thr = ex.getCause();
             if (thr instanceof SystemException)
-                throw (SystemException)thr ;
-            else if ((thr instanceof Exception) && 
-                dmm.isDeclaredException( thr )) {
-                OutputStream os = (OutputStream)reply.createExceptionReply() ;
-                dmm.writeException( os, (Exception)thr ) ;
-                return os ;     
+                throw (SystemException) thr;
+            else if ((thr instanceof Exception) && dmm.isDeclaredException(thr)) {
+                OutputStream os = (OutputStream) reply.createExceptionReply();
+                dmm.writeException(os, (Exception) thr);
+                return os;
             } else
-                throw new UnknownException( thr ) ;
+                throw new UnknownException(thr);
         }
     }
 }

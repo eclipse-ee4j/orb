@@ -36,10 +36,8 @@ import java.util.concurrent.TimeUnit;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 
 @Transport
-public class BufferManagerReadStream
-        implements BufferManagerRead, MarkAndResetHandler {
-    private static final ORBUtilSystemException wrapper =
-            ORBUtilSystemException.self;
+public class BufferManagerReadStream implements BufferManagerRead, MarkAndResetHandler {
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
     private volatile boolean receivedCancel = false;
     private int cancelReqId = 0;
@@ -48,9 +46,9 @@ public class BufferManagerReadStream
     private boolean endOfStream = true;
     private final BufferQueue fragmentQueue = new BufferQueue();
     // REVISIT - This should go in BufferManagerRead. But, since
-    //           BufferManagerRead is an interface. BufferManagerRead
-    //           might ought to be an abstract class instead of an
-    //           interface.
+    // BufferManagerRead is an interface. BufferManagerRead
+    // might ought to be an abstract class instead of an
+    // interface.
     private final ORB orb;
 
     BufferManagerReadStream(ORB orb) {
@@ -67,7 +65,8 @@ public class BufferManagerReadStream
     }
 
     @InfoMethod
-    private void bufferMessage(String msg, int bbAddr, String tail) {}
+    private void bufferMessage(String msg, int bbAddr, String tail) {
+    }
 
     @Transport
     @Override
@@ -173,12 +172,12 @@ public class BufferManagerReadStream
         // release ByteBuffers on fragmentQueue
         synchronized (fragmentQueue) {
             // IMPORTANT: The fragment queue may have one ByteBuffer
-            //            on it that's also on the CDRInputStream if
-            //            this method is called when the stream is 'marked'.
-            //            Thus, we'll compare the ByteBuffer passed
-            //            in (from a CDRInputStream) with all ByteBuffers
-            //            on the stack. If one is found to equal, it will
-            //            not be released to the ByteBufferPool.
+            // on it that's also on the CDRInputStream if
+            // this method is called when the stream is 'marked'.
+            // Thus, we'll compare the ByteBuffer passed
+            // in (from a CDRInputStream) with all ByteBuffers
+            // on the stack. If one is found to equal, it will
+            // not be released to the ByteBufferPool.
 
             ByteBuffer aBuffer;
             while (fragmentQueue.size() != 0) {
@@ -193,12 +192,12 @@ public class BufferManagerReadStream
         // release ByteBuffers on fragmentStack
         if (fragmentStack != null && !fragmentStack.isEmpty()) {
             // IMPORTANT: The fragment stack may have one ByteBuffer
-            //            on it that's also on the CDRInputStream if
-            //            this method is called when the stream is 'marked'.
-            //            Thus, we'll compare the ByteBuffer passed
-            //            in (from a CDRInputStream) with all ByteBuffers
-            //            on the stack. If one is found to equal, it will
-            //            not be released to the ByteBufferPool.
+            // on it that's also on the CDRInputStream if
+            // this method is called when the stream is 'marked'.
+            // Thus, we'll compare the ByteBuffer passed
+            // in (from a CDRInputStream) with all ByteBuffers
+            // on the stack. If one is found to equal, it will
+            // not be released to the ByteBufferPool.
 
             for (ByteBuffer aBuffer : fragmentStack) {
                 if (aBuffer != null) {

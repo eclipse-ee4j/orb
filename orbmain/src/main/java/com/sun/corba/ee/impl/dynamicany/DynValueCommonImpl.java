@@ -23,11 +23,10 @@ import org.omg.CORBA.TypeCode;
 import org.omg.CORBA.Any;
 import org.omg.DynamicAny.DynAnyPackage.InvalidValue;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 import org.omg.DynamicAny.DynValueCommon;
 
-abstract class DynValueCommonImpl extends DynAnyComplexImpl implements DynValueCommon
-{
+abstract class DynValueCommonImpl extends DynAnyComplexImpl implements DynValueCommon {
     private static final long serialVersionUID = -6538058649606934141L;
     //
     // Constructors
@@ -36,7 +35,7 @@ abstract class DynValueCommonImpl extends DynAnyComplexImpl implements DynValueC
     protected boolean isNull;
 
     private DynValueCommonImpl() {
-        this(null, (Any)null, false);
+        this(null, (Any) null, false);
         isNull = true;
     }
 
@@ -66,9 +65,9 @@ abstract class DynValueCommonImpl extends DynAnyComplexImpl implements DynValueC
     }
 
     // If this object represents a null valuetype then this operation
-    // replaces it with a newly constructed value with its components 
+    // replaces it with a newly constructed value with its components
     // initialized to default values as in DynAnyFactory::create_dyn_any_from_type_code.
-    // If this object represents a non-null valuetype, then this operation has no effect. 
+    // If this object represents a non-null valuetype, then this operation has no effect.
     public void set_to_value() {
         if (isNull) {
             isNull = false;
@@ -82,11 +81,9 @@ abstract class DynValueCommonImpl extends DynAnyComplexImpl implements DynValueC
     //
 
     // Required to raise InvalidValue if this is a null value type.
-    public org.omg.DynamicAny.NameValuePair[] get_members ()
-        throws org.omg.DynamicAny.DynAnyPackage.InvalidValue
-    {
+    public org.omg.DynamicAny.NameValuePair[] get_members() throws org.omg.DynamicAny.DynAnyPackage.InvalidValue {
         if (status == STATUS_DESTROYED) {
-            throw wrapper.dynAnyDestroyed() ;
+            throw wrapper.dynAnyDestroyed();
         }
         if (isNull) {
             throw new InvalidValue();
@@ -96,11 +93,9 @@ abstract class DynValueCommonImpl extends DynAnyComplexImpl implements DynValueC
     }
 
     // Required to raise InvalidValue if this is a null value type.
-    public org.omg.DynamicAny.NameDynAnyPair[] get_members_as_dyn_any ()
-        throws org.omg.DynamicAny.DynAnyPackage.InvalidValue
-    {
+    public org.omg.DynamicAny.NameDynAnyPair[] get_members_as_dyn_any() throws org.omg.DynamicAny.DynAnyPackage.InvalidValue {
         if (status == STATUS_DESTROYED) {
-            throw wrapper.dynAnyDestroyed() ;
+            throw wrapper.dynAnyDestroyed();
         }
         if (isNull) {
             throw new InvalidValue();
@@ -115,10 +110,8 @@ abstract class DynValueCommonImpl extends DynAnyComplexImpl implements DynValueC
 
     // Overridden to change to non-null status.
     @Override
-    public void set_members (org.omg.DynamicAny.NameValuePair[] value)
-        throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch,
-               org.omg.DynamicAny.DynAnyPackage.InvalidValue
-    {
+    public void set_members(org.omg.DynamicAny.NameValuePair[] value)
+            throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch, org.omg.DynamicAny.DynAnyPackage.InvalidValue {
         super.set_members(value);
         // If we didn't get an exception then this must be a valid non-null value
         isNull = false;
@@ -126,10 +119,8 @@ abstract class DynValueCommonImpl extends DynAnyComplexImpl implements DynValueC
 
     // Overridden to change to non-null status.
     @Override
-    public void set_members_as_dyn_any (org.omg.DynamicAny.NameDynAnyPair[] value)
-        throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch,
-               org.omg.DynamicAny.DynAnyPackage.InvalidValue
-    {
+    public void set_members_as_dyn_any(org.omg.DynamicAny.NameDynAnyPair[] value)
+            throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch, org.omg.DynamicAny.DynAnyPackage.InvalidValue {
         super.set_members_as_dyn_any(value);
         // If we didn't get an exception then this must be a valid non-null value
         isNull = false;
