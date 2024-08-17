@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -427,7 +428,7 @@ public class TestCodegenProxyCreator extends TestCase {
                         "corba.dynamicrmiiiop.TestInterfaceProxy", 
                         baseClass, interfaces, methods ) ;
 
-                proxyClass = pc.create( pd, loader, DEBUG, System.out ) ;
+                proxyClass = pc.create(this.getClass(), DEBUG, System.out ) ;
             }
 
             try {
