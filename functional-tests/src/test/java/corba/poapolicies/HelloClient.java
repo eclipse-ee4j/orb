@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -22,10 +23,10 @@ package corba.poapolicies;
 import HelloStuff.Hello;
 import HelloStuff.HelloHelper;
 import Util.CreationMethods;
-import Util.Factory;
+import Util.ServantFactory;
 
 public class HelloClient {
-    public static Hello createHello(CreationMethods c, Factory f) {
+    public static Hello createHello(CreationMethods c, ServantFactory f) {
         System.out.println("createHello");
         String id = HelloHelper.id();
         System.out.println("id: " + id);
@@ -60,7 +61,7 @@ public class HelloClient {
             System.out.println("Client starting");
 
             Utility u = new Utility(args);
-            Factory f = u.readFactory();
+            ServantFactory f = u.readFactory();
 
             System.out.println("readFactory");
             

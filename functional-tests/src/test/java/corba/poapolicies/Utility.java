@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -76,12 +77,12 @@ public class Utility {
         return null;
     }
 
-    public void writeFactory(Util.Factory ref) {
-        writeObjref(ref, "Factory");
+    public void writeFactory(Util.ServantFactory ref) {
+        writeObjref(ref, "ServantFactory");
     }
 
-    public Util.Factory readFactory() {
-        return Util.FactoryHelper.narrow(readObjref("Factory"));
+    public Util.ServantFactory readFactory() {
+        return Util.ServantFactoryHelper.narrow(readObjref("ServantFactory"));
     }
 }
 
