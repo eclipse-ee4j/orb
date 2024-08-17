@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  * Copyright (c) 2012, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -43,7 +44,8 @@ public class AnyEqualityTest {
     @Before
     public void setUp() throws Exception {
         mementos.add(SystemPropertySupport.install("org.omg.CORBA.ORBClass", "com.sun.corba.ee.impl.orb.ORBImpl"));
-        ORB orb = ORB.init(new String[0], null);
+        mementos.add(SystemPropertySupport.install("org.glassfish.gmbal.no.multipleUpperBoundsException", "true"));
+        ORB orb = ORB.init((String[]) null, null);
         any = orb.create_any();
         any1 = orb.create_any();
         any2 = orb.create_any();
@@ -51,7 +53,9 @@ public class AnyEqualityTest {
 
     @After
     public void tearDown() throws Exception {
-        for (Memento memento : mementos) memento.revert();
+        for (Memento memento : mementos) {
+            memento.revert();
+        }
     }
 
     @Test
