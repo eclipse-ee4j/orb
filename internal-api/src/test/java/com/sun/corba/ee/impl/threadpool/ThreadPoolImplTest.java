@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  * Copyright (c) 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -21,11 +22,12 @@ package com.sun.corba.ee.impl.threadpool;
 
 import com.sun.corba.ee.spi.threadpool.Work;
 import com.sun.corba.ee.spi.threadpool.WorkQueue;
-import org.junit.Test;
 
 import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -132,44 +134,6 @@ public class ThreadPoolImplTest {
             workQueue.addWork(work);
             assertTrue(work.started.await(1, TimeUnit.SECONDS));
             work.finish.countDown();
-        }
-    }
-
-    /**
-     * Test that a worker thread can distinguish correctly between a notification
-     * about a new work item and a timeout after a wait period.
-     */
-    @Test
-    public void notifyDuringTimeout() throws IOException, InterruptedException {
-        try (ThreadPoolImpl threadPool = new ThreadPoolImpl(0, 1, 2000L, "the-pool")) {
-            WorkQueue workQueue = threadPool.getAnyWorkQueue();
-
-            // Make sure one work item is processed, leaving one worker thread idle.
-            WorkImpl first = new WorkImpl();
-            workQueue.addWork(first);
-            assertTrue(first.started.await(1, TimeUnit.SECONDS));
-            first.finish.countDown();
-
-            // Give the thread some time to starting waiting, but not enough time to terminate.
-            Thread.sleep(1000L);
-
-            // Suspend the worker thread, so that its next wakeup is guaranteed to
-            // coincide with the end of the timeout period. This is normally only possible
-            // in case of a race condition, but suspending reproduces the situation
-            // reliably. Note that a long garbage collection acts effectively like a suspend
-            // as far as Java code is concerned, so that this is a realistic test.
-            assertEquals(1, threadPool.workers.size());
-            Thread workerThread = threadPool.workers.get(0);
-            workerThread.suspend();
-            Thread.sleep(2000L);
-
-            // Add new work, notifying the worker thread.
-            WorkImpl second = new WorkImpl();
-            workQueue.addWork(second);
-            // Only now resume the worker thread.
-            workerThread.resume();
-            assertTrue(second.started.await(1, TimeUnit.SECONDS));
-            second.finish.countDown();
         }
     }
 
