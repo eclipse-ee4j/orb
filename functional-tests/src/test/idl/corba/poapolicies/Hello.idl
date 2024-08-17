@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -37,7 +38,7 @@ module Util {
   // invocation path more extensively (example, ones that
   // throw exceptions etc)
 
-  interface Factory {
+  interface ServantFactory {
     Object create(in string intfName, in string implName, in CreationMethods how);
     void overAndOut();
   };

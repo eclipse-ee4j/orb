@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -80,7 +81,7 @@ public class Sample {
         }
 
         Class genClass = Sample.class ;
-        Class cls = _generate( genClass.getClassLoader(), genClass.getProtectionDomain(), null ) ;
+        Class cls = _generate( genClass, null ) ;
         
         try {
             Method m = cls.getDeclaredMethod( "main", String[].class ) ;

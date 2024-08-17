@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -19,7 +20,7 @@
 
 package corba.poapolicies;
 
-import Util.FactoryHelper;
+import Util.ServantFactoryHelper;
 import org.omg.PortableServer.POA;
 
 class Waiter extends Thread {
@@ -82,7 +83,7 @@ public class HelloServer
             
             byte[] id = thePOA.activate_object(theFactory);
             
-            u.writeFactory(FactoryHelper.narrow(thePOA.servant_to_reference(theFactory)));          
+            u.writeFactory(ServantFactoryHelper.narrow(thePOA.servant_to_reference(theFactory)));
             
             thePOA.the_POAManager().activate();
 
