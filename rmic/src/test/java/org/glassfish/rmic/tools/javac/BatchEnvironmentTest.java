@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation.
  * Copyright (c) 2018, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -85,14 +86,6 @@ public class BatchEnvironmentTest {
         System.setProperty(JAVA_VERSION_PROPERTY, jdkVersion);
     }
 
-    @Test(expected = BatchEnvironmentError.class)
-    public void whenAsmClassesMissingOnJdk10_reportError() throws Exception {
-        simulateAsmClassesMissing();
-        simulateJdkVersion("10");
-
-        BatchEnvironment.createClassDefinitionFactory();
-    }
-
     @Test
     public void whenLegacyParserRequestedOnJdk8_chooseBinaryParser() throws Exception {
         preferLegacyParser();
@@ -116,35 +109,4 @@ public class BatchEnvironmentTest {
 
         assertThat(factory, instanceOf(BinaryClassFactory.class));
     }
-
-    @Test
-    public void whenLegacyParserRequestedOnJdk10_chooseAsmParser() throws Exception {
-        preferLegacyParser();
-        simulateJdkVersion("10");
-
-        ClassDefinitionFactory factory = BatchEnvironment.createClassDefinitionFactory();
-
-        assertThat(factory, instanceOf(AsmClassFactory.class));
-    }
-
-    @Test
-    public void whenLegacyParserRequestedOnJdk10EarlyAccess_chooseAsmParser() throws Exception {
-        preferLegacyParser();
-        simulateJdkVersion("10-ea");
-
-        ClassDefinitionFactory factory = BatchEnvironment.createClassDefinitionFactory();
-
-        assertThat(factory, instanceOf(AsmClassFactory.class));
-    }
-
-    @Test
-    public void whenLegacyParserRequestedOnJdk11_chooseAsmParser() throws Exception {
-        preferLegacyParser();
-        simulateJdkVersion("11");
-
-        ClassDefinitionFactory factory = BatchEnvironment.createClassDefinitionFactory();
-
-        assertThat(factory, instanceOf(AsmClassFactory.class));
-    }
-
 }

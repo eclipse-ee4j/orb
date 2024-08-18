@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation.
  * Copyright (c) 1994, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -67,7 +68,7 @@ public
 class BatchEnvironment extends Environment implements ErrorConsumer {
     private static final String USE_LEGACY_PARSING_PROPERTY = "org.glassfish.rmic.UseLegacyClassParsing";
     private static final String JAVA_VERSION_PROPERTY = "java.version";
-    private static final int ASM_ONLY_JAVA_VERSION = 10;
+    private static final int ASM_ONLY_JAVA_VERSION = 22;
     private static final ClassDefinitionFactory classDefinitionFactory = createClassDefinitionFactory();
 
     static ClassDefinitionFactory createClassDefinitionFactory() {
