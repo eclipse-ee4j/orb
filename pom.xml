@@ -187,7 +187,7 @@
             <!-- prevent the site plugin from deploying to the scm url -->
             <plugin>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.12.1</version>
+                <version>3.20.0</version>
                 <executions>
                     <execution>
                         <id>stage-for-scm-publish</id>
