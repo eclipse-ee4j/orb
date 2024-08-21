@@ -107,8 +107,8 @@
         <maven.compiler.release>11</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.dynamicAnalysis>false</sonar.dynamicAnalysis>
-        <pfl-version>5.0.0</pfl-version>
-        <gmbal-version>4.0.3</gmbal-version>
+        <pfl-version>5.1.0</pfl-version>
+        <gmbal-version>4.1.0</gmbal-version>
     </properties>
 
     <dependencyManagement>
@@ -165,6 +165,17 @@
                 <groupId>org.glassfish.pfl</groupId>
                 <artifactId>pfl-test</artifactId>
                 <version>${pfl-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.glassfish.gmbal</groupId>
+                <artifactId>gmbal</artifactId>
+                <version>${gmbal-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.gmbal</groupId>
+                <artifactId>gmbal-api-only</artifactId>
+                <version>${gmbal-version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

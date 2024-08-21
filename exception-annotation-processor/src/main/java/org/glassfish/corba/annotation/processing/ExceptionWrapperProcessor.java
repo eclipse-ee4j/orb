@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  * Copyright (c) 2018, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -19,15 +20,22 @@
 
 package org.glassfish.corba.annotation.processing;
 
-import org.glassfish.pfl.basic.logex.ExceptionWrapper;
-import org.glassfish.pfl.basic.logex.Message;
+import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
-import javax.annotation.processing.*;
+import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.RoundEnvironment;
+import javax.annotation.processing.SupportedAnnotationTypes;
+import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
-import java.io.IOException;
-import java.util.*;
+
+import org.glassfish.pfl.basic.logex.ExceptionWrapper;
+import org.glassfish.pfl.basic.logex.Message;
 
 /**
  * This class creates properties files for annotated exception interfaces. Applicable interfaces are annotated with the
