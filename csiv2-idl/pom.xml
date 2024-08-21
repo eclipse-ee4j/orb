@@ -64,11 +64,6 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <configuration>
-                    <instructions>
-                        <Export-Package>com.sun.corba.ee.org.omg.*</Export-Package>
-                    </instructions>
-                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -250,8 +250,6 @@
                         <execution>
                             <goals>
                                 <goal>manifest</goal>
-                                <goal>install</goal>
-                                <goal>deploy</goal>
                             </goals>
                         </execution>
                     </executions>
