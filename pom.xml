@@ -107,8 +107,8 @@
         <jdkVersion>11</jdkVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.dynamicAnalysis>false</sonar.dynamicAnalysis>
-        <pfl-version>4.1.2</pfl-version>
-        <gmbal-version>4.0.3</gmbal-version>
+        <pfl-version>5.0.1-SNAPSHOT</pfl-version>
+        <gmbal-version>4.0.4-SNAPSHOT</gmbal-version>
     </properties>
 
     <dependencyManagement>
