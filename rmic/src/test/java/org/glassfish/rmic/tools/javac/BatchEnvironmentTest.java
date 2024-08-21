@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  * Copyright (c) 2018, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -16,17 +17,15 @@
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause OR GPL-2.0 WITH
  * Classpath-exception-2.0
  */
-
 package org.glassfish.rmic.tools.javac;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.instanceOf;
 
 import com.meterware.simplestub.Memento;
 import com.meterware.simplestub.StaticStubSupport;
 import com.meterware.simplestub.SystemPropertySupport;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.glassfish.rmic.BatchEnvironmentError;
 import org.glassfish.rmic.asm.AsmClassFactory;
 import org.glassfish.rmic.tools.binaryclass.BinaryClassFactory;
@@ -35,6 +34,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
 
 @SuppressWarnings("deprecation")
 public class BatchEnvironmentTest {
@@ -57,7 +59,9 @@ public class BatchEnvironmentTest {
 
     @After
     public void tearDown() throws Exception {
-        for (Memento memento : mementos) memento.revert();
+        for (Memento memento : mementos) {
+            memento.revert();
+        }
     }
 
     @Test
@@ -141,6 +145,27 @@ public class BatchEnvironmentTest {
     public void whenLegacyParserRequestedOnJdk11_chooseAsmParser() throws Exception {
         preferLegacyParser();
         simulateJdkVersion("11");
+
+        ClassDefinitionFactory factory = BatchEnvironment.createClassDefinitionFactory();
+
+        assertThat(factory, instanceOf(AsmClassFactory.class));
+    }
+
+    @Test
+    public void whenLegacyParserRequestedOnJdk17_chooseAsmParser() throws Exception {
+        preferLegacyParser();
+        simulateJdkVersion("17");
+
+        ClassDefinitionFactory factory = BatchEnvironment.createClassDefinitionFactory();
+
+        assertThat(factory, instanceOf(AsmClassFactory.class));
+    }
+
+
+    @Test
+    public void whenLegacyParserRequestedOnJdk21_chooseAsmParser() throws Exception {
+        preferLegacyParser();
+        simulateJdkVersion("21");
 
         ClassDefinitionFactory factory = BatchEnvironment.createClassDefinitionFactory();
 
