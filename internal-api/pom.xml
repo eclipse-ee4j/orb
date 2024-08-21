@@ -41,7 +41,6 @@
         <dependency>
           <groupId>org.glassfish.pfl</groupId>
           <artifactId>pfl-basic</artifactId>
-          <version>${pfl-version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
