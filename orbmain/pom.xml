@@ -105,27 +105,25 @@
                 <configuration>
                     <instructions>
                         <Export-Package>
-                            !com.sun.corba.ee.spi.threadpool, !com.sun.corba.ee.spi.logex.stdcorba,
-                            com.sun.corba.ee.spi.*; version=1,
-                            com.sun.corba.ee.impl.corba; version=1,
-                            com.sun.corba.ee.impl.encoding.*; version=1,
-                            com.sun.corba.ee.impl.folb; version=1,
-                            com.sun.corba.ee.impl.javax.*; version=1,
-                            com.sun.corba.ee.impl.misc; version=1,
-                            com.sun.corba.ee.impl.naming.*; version=1,
-                            com.sun.corba.ee.impl.oa.*; version=1,
-                            com.sun.corba.ee.impl.orb; version=1,
-                            com.sun.corba.ee.impl.presentation.*; version=1,
-                            com.sun.corba.ee.impl.txpoa; version=1,
-                            com.sun.corba.ee.impl.util; version=1,
-                            org.glassfish.jndi.*; version=1
+                            com.sun.corba.ee.spi.*,
+                            com.sun.corba.ee.impl.corba,
+                            com.sun.corba.ee.impl.encoding.*,
+                            com.sun.corba.ee.impl.folb,
+                            com.sun.corba.ee.impl.javax.*,
+                            com.sun.corba.ee.impl.misc,
+                            com.sun.corba.ee.impl.naming.*,
+                            com.sun.corba.ee.impl.oa.*,
+                            com.sun.corba.ee.impl.orb,
+                            com.sun.corba.ee.impl.presentation.*,
+                            com.sun.corba.ee.impl.txpoa,
+                            com.sun.corba.ee.impl.util,
+                            org.glassfish.jndi.*
                         </Export-Package>
                     </instructions>
                 </configuration>
             </plugin>
-            
+
             <!-- generate test idl -->
-            
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>idlj-maven-plugin</artifactId>
@@ -140,7 +138,10 @@
                     <sources>
                         <source>
                             <packagePrefixes>
-                                <packagePrefix><type>interceptors</type><prefix>com.sun.corba.ee.impl</prefix></packagePrefix>
+                                <packagePrefix>
+                                    <type>interceptors</type>
+                                    <prefix>com.sun.corba.ee.impl</prefix>
+                                </packagePrefix>
                             </packagePrefixes>
                         </source>
                     </sources>
