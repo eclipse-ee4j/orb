@@ -67,19 +67,12 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <configuration combine.self="override">
+                <configuration>
                     <archive>
                         <manifest>
                             <mainClass>org.glassfish.rmic.Main</mainClass>
                         </manifest>
-                        <manifestEntries>
-                            <Implementation-Version>${project.version}</Implementation-Version>
-                            <Implementation-Vendor>Eclipse Foundation</Implementation-Vendor>
-                        </manifestEntries>
                     </archive>
-                    <instructions>
-                        <Export-Package>org.glassfish.rmic.*</Export-Package>
-                    </instructions>
                 </configuration>
             </plugin>
         </plugins>
