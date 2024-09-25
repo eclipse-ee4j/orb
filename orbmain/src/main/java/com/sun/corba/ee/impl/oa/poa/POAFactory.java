@@ -180,7 +180,9 @@ public class POAFactory implements ObjectAdapterFactory
             NullaryFunction.Factory.makeConstant( 
                 (org.omg.CORBA.Object)poaCurrent ) ) ;
         this.mom = orb.mom() ;
-        mom.registerAtRoot( this ) ;
+        if (mom != null) {
+            mom.registerAtRoot( this ) ;
+        }
     }
 
     public ObjectAdapter find( ObjectAdapterId oaid )
