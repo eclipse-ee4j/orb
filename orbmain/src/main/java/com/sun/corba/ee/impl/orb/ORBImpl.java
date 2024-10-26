@@ -141,7 +141,9 @@ import org.glassfish.pfl.basic.contain.StackImpl;
 import org.glassfish.pfl.basic.contain.ResourceFactory;
 import org.glassfish.pfl.basic.func.NullaryFunction;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
-         
+
+import static com.sun.corba.ee.spi.misc.ORBConstants.SKIP_GMBAL_INIT;
+
 /**
  * The JavaIDL ORB implementation.
  */
@@ -550,7 +552,9 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB
         setDebugFlags( configData.getORBDebugFlags() ) ;
         configDataParsingComplete( getORBData().getORBId() ) ;
 
-        initManagedObjectManager() ;
+        if (!Boolean.parseBoolean(System.getProperty(SKIP_GMBAL_INIT, "false"))) {
+            initManagedObjectManager() ;
+        }
 
         // The TimerManager must be
         // initialized BEFORE the pihandler.initialize() call, in
@@ -618,8 +622,10 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB
 
         // Now the ORB is ready, so finish all of the MBean registration
         if (configData.registerMBeans()) {
-            mom.resumeJMXRegistration() ;
-            mbeansRegistereed( getORBData().getORBId() ) ;
+            if (mom != null) {
+                mom.resumeJMXRegistration() ;
+                mbeansRegistereed( getORBData().getORBId() ) ;
+            }
         }
     }
 

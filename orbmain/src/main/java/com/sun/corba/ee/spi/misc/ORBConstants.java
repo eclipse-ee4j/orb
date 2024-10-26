@@ -181,6 +181,7 @@ public class ORBConstants {
     public static final String SERVER_PORT_PROPERTY             = SUN_PREFIX + "ORBServerPort" ;
     public static final String SERVER_HOST_PROPERTY             = SUN_PREFIX + "ORBServerHost" ;
     public static final String ORB_ID_PROPERTY                  = CORBA_PREFIX + "ORBId" ;
+    public static final String SKIP_GMBAL_INIT                  = CORBA_PREFIX + "SkipGmbalInit" ;
     // This property is provided for backward compatibility reasons
     public static final String OLD_ORB_ID_PROPERTY              = SUN_PREFIX + "ORBid" ;
     public static final String ORB_SERVER_ID_PROPERTY           = CORBA_PREFIX + "ORBServerId" ;
