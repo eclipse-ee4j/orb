@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -23,11 +24,10 @@ public class IDLLeadingUnderscoresTest {
 
     //
     // Set of idl names corresponding to alphabetically sorted set of
-    // interface methods.  See TestIDLNameTranslator for sorting details.    
+    // interface methods.  See TestIDLNameTranslator for sorting details.
     //
-    static final String[] IDL_NAMES = {   
-       
-        "J_",
+    static final String[] IDL_NAMES = {
+
         "J_0",
         "J_J_",
         "J__",
@@ -36,14 +36,12 @@ public class IDLLeadingUnderscoresTest {
         "J_a",
         "J_jj"
     };
-    
+
     public static String[] getIDLNames() {
         return IDL_NAMES;
     }
 
     public interface IDLLeadingUnderscores extends java.rmi.Remote {
-
-        void _() throws java.rmi.RemoteException;
 
         void _0() throws java.rmi.RemoteException;
 
@@ -55,10 +53,10 @@ public class IDLLeadingUnderscoresTest {
 
         void __a() throws java.rmi.RemoteException;
 
-        void _a() throws java.rmi.RemoteException;       
+        void _a() throws java.rmi.RemoteException;
 
-        void _jj() throws java.rmi.RemoteException;       
-        
+        void _jj() throws java.rmi.RemoteException;
+
     }
 
 }

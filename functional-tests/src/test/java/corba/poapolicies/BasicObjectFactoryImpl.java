@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -20,11 +21,11 @@
 package corba.poapolicies;
 
 import Util.CreationMethods;
-import Util.FactoryPOA;
+import Util.ServantFactoryPOA;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.Servant;
 
-public class BasicObjectFactoryImpl extends FactoryPOA 
+public class BasicObjectFactoryImpl extends ServantFactoryPOA
 {
     final boolean useServantToReference = true;
 
