@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2020, 2022 Contributors to the Eclipse Foundation..
+ *  Copyright (c) 2020, 2024 Contributors to the Eclipse Foundation..
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,7 +28,7 @@ pipeline {
   agent any
   tools {
     maven 'apache-maven-latest'
-    jdk 'temurin-jdk11-latest'
+    jdk 'temurin-jdk21-latest'
   }
   stages {
     stage('build') {
