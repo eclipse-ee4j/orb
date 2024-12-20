@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -32,7 +33,8 @@ import javax.naming.NamingException ;
 
 import com.sun.corba.ee.spi.JndiConstants;
 import org.testng.TestNG ;
-import org.testng.annotations.Configuration ;
+import org.testng.annotations.AfterTest ;
+import org.testng.annotations.BeforeTest ;
 
 import com.sun.corba.ee.spi.orb.ORB ;
 
@@ -179,7 +181,7 @@ public abstract class Framework {
         }
     }
 
-    @Configuration( beforeTest = true ) 
+    @BeforeTest
     public void setUp() {
         setSystemProperties() ;
         serverORB = makeORB( true, extraServerProperties() ) ;
@@ -203,7 +205,7 @@ public abstract class Framework {
         }
     }
 
-    @Configuration( afterTest = true )
+    @AfterTest
     public void tearDown() {
         // The Client ORB does not correctly clean up its
         // exported targets: it tries to go to the SE

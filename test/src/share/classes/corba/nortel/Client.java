@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -37,8 +38,8 @@ import org.omg.CORBA.ORB ;
 import org.testng.TestNG ;
 import org.testng.Assert ;
 import org.testng.annotations.Test ;
-import org.testng.annotations.Configuration ;
-import org.testng.annotations.ExpectedExceptions ;
+import org.testng.annotations.AfterTest ;
+import org.testng.annotations.BeforeTest ;
 
 import com.sun.corba.ee.spi.misc.ORBConstants ;
 
@@ -202,7 +203,7 @@ public class Client {
         Assert.assertTrue( numExceptions < 2 ) ;
     }
 
-    @Configuration( beforeTest = true ) 
+    @BeforeTest
     public void setUp() {
         setSystemProperties() ;
 
@@ -262,7 +263,7 @@ public class Client {
         }
     }
 
-    @Configuration( afterTest = true )
+    @AfterTest
     public void tearDown() {
         // The Client ORB does not correctly clean up its
         // exported targets: it tries to go to the SE

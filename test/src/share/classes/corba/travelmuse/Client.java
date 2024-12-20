@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -29,7 +30,8 @@ import java.util.Properties;
 
 import corba.util.TransportManagerUtil;
 import org.testng.annotations.Test ;
-import org.testng.annotations.Configuration ;
+import org.testng.annotations.AfterTest ;
+import org.testng.annotations.BeforeTest ;
 import org.testng.Assert ;
 
 import corba.framework.TestngRunner;
@@ -51,7 +53,7 @@ public class Client {
     public Client() {
     }
 
-    @Configuration( beforeTest=true ) 
+    @BeforeTest
     public void setUp() {
         msg( "Configuring ORB" ) ;
         p.put("org.omg.CORBA.ORBClass", "com.sun.corba.ee.impl.orb.ORBImpl");
@@ -61,7 +63,7 @@ public class Client {
         myOrb.setDebugFlags( "cdr", "streamFormatVersion", "valueHandler" ) ;
     }
 
-    @Configuration( afterTest=true ) 
+    @AfterTest
     public void tearDown() {
         msg( "Cleaning up" ) ;
         orb.destroy();

@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2024 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -31,8 +32,6 @@ import org.testng.Assert ;
 import org.testng.annotations.BeforeSuite ;
 import org.testng.annotations.AfterSuite ;
 import org.testng.annotations.Test ;
-import org.testng.annotations.Configuration ;
-import org.testng.annotations.ExpectedExceptions ;
 
 import corba.framework.TestngRunner ;
 
