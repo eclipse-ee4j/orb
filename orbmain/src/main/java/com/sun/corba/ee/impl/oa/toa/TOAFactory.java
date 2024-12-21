@@ -81,7 +81,9 @@ public class TOAFactory implements ObjectAdapterFactory
         this.orb = orb ;
         tom = new TransientObjectManager( orb ) ;
         codebaseToTOA = new HashMap<String,TOAImpl>() ;
-        orb.mom().registerAtRoot( this ) ;
+        if (orb.mom() != null) {
+            orb.mom().registerAtRoot( this ) ;
+        }
     }
 
     public void shutdown( boolean waitForCompletion )
