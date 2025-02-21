@@ -38,7 +38,7 @@ import com.sun.corba.ee.impl.misc.ORBUtility;
 public class DefaultSocketFactoryImpl
     implements ORBSocketFactory
 {
-    protected ORB orb;
+    private ORB orb;
 
     public void setORB(ORB orb)
     {
@@ -60,6 +60,27 @@ public class DefaultSocketFactoryImpl
         }
         serverSocket.bind(inetSocketAddress);
         return serverSocket;
+    }
+
+    public Socket createSocket(String type, 
+                               InetSocketAddress inetSocketAddress)
+        throws IOException
+    {
+        SocketChannel socketChannel = null;
+        Socket socket = null;
+
+        if (orb.getORBData().connectionSocketType().equals(ORBConstants.SOCKETCHANNEL)) {
+            socketChannel = ORBUtility.openSocketChannel(inetSocketAddress);
+            socket = socketChannel.socket();
+        } else {
+            socket = new Socket(inetSocketAddress.getHostName(),
+                                inetSocketAddress.getPort());
+        }
+
+        // Disable Nagle's algorithm (i.e., always send immediately).
+        socket.setTcpNoDelay(true);
+
+        return socket;
     }
 
     public void setAcceptedSocketOptions(Acceptor acceptor,

@@ -225,13 +225,8 @@ public class ConnectionImpl extends EventHandlerBase implements Connection, Work
         this.contactInfo = contactInfo;
 
         try {
-            TcpTimeouts tcpConnectTimeouts = orb.getORBData().getTransportTcpConnectTimeouts();
             defineSocket(useSelectThreadToWait,
-                    orb.getORBData().getSocketFactory().createSocket(
-                            orb.getORBData().connectionSocketType(),
-                            new InetSocketAddress(hostname, port),
-                            tcpConnectTimeouts.get_max_time_to_wait())
-            );
+                    orb.getORBData().getSocketFactory().createSocket(socketType, new InetSocketAddress(hostname, port)));
         } catch (Throwable t) {
             throw wrapper.connectFailure(t, socketType, hostname,
                     Integer.toString(port));
