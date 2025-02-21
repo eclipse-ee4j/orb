@@ -24,13 +24,8 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.ServerSocket;
-import java.nio.channels.SocketChannel;
 
-import com.sun.corba.ee.impl.misc.ORBUtility;
-import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.spi.orb.ORB;
-
-import static com.sun.corba.ee.spi.misc.ORBConstants.TRANSPORT_TCP_CONNECT_MAX_TIME_TO_WAIT;
 
 /**
  * @author Harold Carr
@@ -43,31 +38,9 @@ public interface ORBSocketFactory
                                            InetSocketAddress inetSocketAddress)
         throws IOException;
 
-    public default Socket createSocket(String type,
-                                       InetSocketAddress inetSocketAddress) throws IOException {
-        return createSocket(type, inetSocketAddress, TRANSPORT_TCP_CONNECT_MAX_TIME_TO_WAIT);
-    }
-
-    public default Socket createSocket(String type,
-                                       InetSocketAddress inetSocketAddress,
-                                       int timeout)
-            throws IOException {
-        SocketChannel socketChannel = null;
-        Socket socket = null;
-
-        if (type.equals(ORBConstants.SOCKETCHANNEL)) {
-            socketChannel = ORBUtility.openSocketChannel(inetSocketAddress, timeout);
-            socket = socketChannel.socket();
-        } else {
-            socket = new Socket();
-            socket.connect(inetSocketAddress, timeout);
-        }
-
-        // Disable Nagle's algorithm (i.e., always send immediately).
-        socket.setTcpNoDelay(true);
-
-        return socket;
-    }
+    public Socket createSocket(String type, 
+                               InetSocketAddress inetSocketAddress)
+        throws IOException;
 
     public void setAcceptedSocketOptions(Acceptor acceptor,
                                          ServerSocket serverSocket,

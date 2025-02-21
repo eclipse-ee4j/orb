@@ -20,7 +20,6 @@
 package corba.nortel ;
 
 import com.sun.corba.ee.impl.transport.DefaultSocketFactoryImpl;
-import com.sun.corba.ee.spi.transport.TcpTimeouts;
 
 import java.io.IOException;
 
@@ -63,15 +62,13 @@ public class NortelSocketFactory extends DefaultSocketFactoryImpl {
         }
 
         Socket socket = null;
-        TcpTimeouts tcpConnectTimeouts = orb.getORBData().getTransportTcpConnectTimeouts();
         if (useNio) {
-            socket = super.createSocket(orb.getORBData().connectionSocketType(), in, tcpConnectTimeouts.get_max_time_to_wait());
+            socket = super.createSocket(type, in); 
         } else {
-            socket = new Socket();
-            socket.connect(in, tcpConnectTimeouts.get_max_time_to_wait());
+            socket = new Socket(in.getHostName(), in.getPort());
+            socket.setTcpNoDelay(true);
         }
-
-        socket.setTcpNoDelay(true);
+        
         savedSocket = socket;
         return socket;
     }
