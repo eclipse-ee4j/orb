@@ -25,6 +25,8 @@ module org.glassfish.corba.orb {
     requires org.glassfish.corba.internal;
     requires org.glassfish.corba.omgapi;
 
+    requires org.glassfish.external.management.api;
+
     requires org.glassfish.gmbal.api;
 
     requires org.glassfish.pfl.basic;
@@ -33,11 +35,13 @@ module org.glassfish.corba.orb {
 
     requires osgi.core;
 
+    exports com.sun.corba.ee.impl.ior;
     exports com.sun.corba.ee.impl.javax.rmi;
     exports com.sun.corba.ee.impl.javax.rmi.CORBA;
     exports com.sun.corba.ee.impl.legacy.connection;
     exports com.sun.corba.ee.impl.orb;
     exports com.sun.corba.ee.impl.util;
+    exports com.sun.corba.ee.spi.ior.iiop;
     exports com.sun.corba.ee.spi.transport;
 
     opens com.sun.corba.ee.impl.oa.poa;
