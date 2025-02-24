@@ -88,6 +88,11 @@
             <scope>test</scope>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish.gmbal</groupId>
+            <artifactId>gmbal</artifactId>
+            <scope>test</scope>
+        </dependency>
         <!-- It is used just by compiler, so we need to ensure order of build of modules. -->
         <dependency>
             <groupId>${project.groupId}</groupId>
