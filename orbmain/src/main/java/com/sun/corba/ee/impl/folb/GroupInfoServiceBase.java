@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -68,14 +69,16 @@ public abstract class GroupInfoServiceBase
         String[] adapterName) {
 
         // Make a copy of the internal data
-        return new ArrayList( internalClusterInstanceInfo() ) ;
+        List<ClusterInstanceInfo> internalInfo = internalClusterInstanceInfo();
+        return internalInfo == null ? new ArrayList<>() : new ArrayList<>(internalInfo);
     }
 
     public List<ClusterInstanceInfo> getClusterInstanceInfo(
         String[] adapterName, List<String> endpoints ) {
 
         // Make a copy of the internal data
-        return new ArrayList( internalClusterInstanceInfo( endpoints ) ) ;
+        List<ClusterInstanceInfo> internalInfo = internalClusterInstanceInfo(endpoints);
+        return internalInfo == null ? new ArrayList<>() : new ArrayList<>(internalInfo);
     }
 
     @Folb
