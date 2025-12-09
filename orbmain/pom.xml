@@ -132,6 +132,7 @@
                             com.sun.corba.ee.impl.naming.*,
                             com.sun.corba.ee.impl.oa.*,
                             com.sun.corba.ee.impl.orb,
+                            com.sun.corba.ee.impl.osgi.loader.*,
                             com.sun.corba.ee.impl.presentation.*,
                             com.sun.corba.ee.impl.txpoa,
                             com.sun.corba.ee.impl.util,
