@@ -42,7 +42,7 @@ import org.glassfish.pfl.basic.logex.Message;
  * {@link ExceptionWrapper} annotation. An entry will be made for each method with a {@link Message} annotation.
  */
 @SupportedAnnotationTypes({"org.glassfish.pfl.basic.logex.ExceptionWrapper", "org.glassfish.pfl.basic.logex.Message"})
-@SupportedSourceVersion(SourceVersion.RELEASE_8)
+@SupportedSourceVersion(SourceVersion.RELEASE_11)
 public class ExceptionWrapperProcessor extends AbstractProcessor {
 
     Map<Element,FileGenerator> annotatedClasses = new HashMap<Element, FileGenerator>();
@@ -50,35 +50,40 @@ public class ExceptionWrapperProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> typeElements, RoundEnvironment roundEnvironment) {
-        if (roundEnvironment.processingOver()) return false;
-        if (typeElements.isEmpty()) return false;
-
+        if (roundEnvironment.processingOver() || typeElements.isEmpty()) {
+            return false;
+        }
         processClassElements(roundEnvironment.getElementsAnnotatedWith(ExceptionWrapper.class));
         processMethodElements(roundEnvironment.getElementsAnnotatedWith(Message.class));
 
-        for (FileGenerator generator : annotatedClasses.values())
+        for (FileGenerator generator : annotatedClasses.values()) {
             writeFile(generator);
+        }
         return true;
     }
 
     private void writeFile(FileGenerator generator) {
         try {
-            if (generator.shouldWriteFile())
+            if (generator.shouldWriteFile()) {
                 generator.writeFile(processingEnv.getFiler());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private void processClassElements(Set<? extends Element> classElements) {
-        for (Element classElement : classElements)
+        for (Element classElement : classElements) {
             annotatedClasses.put(classElement,new FileGenerator(classElement, creationDate));
+        }
     }
 
     private void processMethodElements(Set<? extends Element> methodElements) {
-        for (Element methodElement : methodElements)
-            if (annotatedClasses.containsKey(methodElement.getEnclosingElement()))
+        for (Element methodElement : methodElements) {
+            if (annotatedClasses.containsKey(methodElement.getEnclosingElement())) {
                 annotatedClasses.get(methodElement.getEnclosingElement()).addMethod(methodElement);
+            }
+        }
     }
 
 }

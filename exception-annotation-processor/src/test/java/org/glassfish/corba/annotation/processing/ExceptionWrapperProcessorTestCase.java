@@ -1,6 +1,6 @@
 /*
+ * Copyright (c) 2024, 2025 Contributors to the Eclipse Foundation
  * Copyright (c) 2018, 2020 Oracle and/or its affiliates.
- * Copyright (c) 2024 Contributors to the Eclipse Foundation. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -21,10 +21,26 @@
 package org.glassfish.corba.annotation.processing;
 
 import com.meterware.simplestub.Stub;
-import org.glassfish.pfl.basic.logex.ExceptionWrapper;
-import org.glassfish.pfl.basic.logex.Message;
-import org.junit.Before;
-import org.junit.Test;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.lang.annotation.Annotation;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
@@ -40,13 +56,17 @@ import javax.lang.model.util.Types;
 import javax.tools.FileObject;
 import javax.tools.JavaFileManager;
 import javax.tools.JavaFileObject;
-import java.io.*;
-import java.lang.annotation.Annotation;
-import java.net.URI;
-import java.util.*;
+
+import org.glassfish.pfl.basic.logex.ExceptionWrapper;
+import org.glassfish.pfl.basic.logex.Message;
+import org.junit.Before;
+import org.junit.Test;
 
 import static com.meterware.simplestub.Stub.createStub;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * A test for the ExceptionWrapper annotation Processor.
@@ -57,7 +77,7 @@ public class ExceptionWrapperProcessorTestCase {
 
     private TestRoundEnvironment roundEnvironment;
     private ExceptionWrapperProcessor processor;
-  private List<FileObject> files = new ArrayList<FileObject>();
+    private List<FileObject> files = new ArrayList<FileObject>();
     private Set<TypeElement> typeElements;
     private FileGenerator fileGenerator;
     private Date creationDate = new Date();
@@ -86,7 +106,7 @@ public class ExceptionWrapperProcessorTestCase {
 
     @Test
     public void process_supportsSourceVersion8() {
-        assertEquals(SourceVersion.RELEASE_8, processor.getSupportedSourceVersion());
+        assertEquals(SourceVersion.RELEASE_11, processor.getSupportedSourceVersion());
     }
 
     @Test
@@ -136,7 +156,9 @@ public class ExceptionWrapperProcessorTestCase {
 
     private String asUnixPath( String path ) {
         String result = path.replace('\\', '/');
-        if (result.startsWith("file:/C:")) result = "file:C:" + result.substring(8);
+        if (result.startsWith("file:/C:")) {
+            result = "file:C:" + result.substring(8);
+        }
         return result;
     }
 
@@ -149,10 +171,11 @@ public class ExceptionWrapperProcessorTestCase {
     }
 
     private Set<Element> getAnnotatedElements(Class<? extends Annotation> annotationClass) {
-        if (annotations.containsKey(annotationClass))
+        if (annotations.containsKey(annotationClass)) {
             return annotations.get(annotationClass);
-        else
+        } else {
             return createAnnotatedElementsSet(annotationClass);
+        }
     }
 
     private Set<Element> createAnnotatedElementsSet(Class<? extends Annotation> annotationClass) {
@@ -237,11 +260,14 @@ public class ExceptionWrapperProcessorTestCase {
     class TestRoundEnvironment implements RoundEnvironment {
         boolean processingOver;
 
+        @Override
         public boolean processingOver() {
             return processingOver;
         }
 
+        @Override
         public boolean errorRaised() { return false; }
+        @Override
         public Set<? extends Element> getRootElements() { return null; }
 
         @Override
@@ -262,18 +288,22 @@ public class ExceptionWrapperProcessorTestCase {
             this.idPrefix = idPrefix;
         }
 
+        @Override
         public String idPrefix() {
             return idPrefix;
         }
 
+        @Override
         public String loggerName() {
             return "";
         }
 
+        @Override
         public String resourceBundle() {
             return "";
         }
 
+        @Override
         public Class<? extends Annotation> annotationType() {
             return ExceptionWrapper.class;
         }
@@ -286,6 +316,7 @@ public class ExceptionWrapperProcessorTestCase {
             this.value = value;
         }
 
+        @Override
         public String value() {
             return value;
         }
@@ -312,7 +343,9 @@ public class ExceptionWrapperProcessorTestCase {
 
         @Override
         public Filer getFiler() {
-            if (filer == null) filer = new TestFiler();
+            if (filer == null) {
+                filer = new TestFiler();
+            }
             return filer;
         }
 
@@ -328,15 +361,13 @@ public class ExceptionWrapperProcessorTestCase {
 
         @Override
         public SourceVersion getSourceVersion() {
-            return SourceVersion.RELEASE_8;
+            return SourceVersion.RELEASE_11;
         }
 
         @Override
         public Locale getLocale() {
             return null;
         }
-
-
     }
 
     class TestFiler implements Filer {
@@ -365,14 +396,11 @@ public class ExceptionWrapperProcessorTestCase {
         public FileObject getResource(JavaFileManager.Location location, CharSequence charSequence, CharSequence charSequence1) throws IOException {
             return null;
         }
-
-
     }
 
     class TestFileObject implements FileObject {
 
         private URI uri;
-
 
         TestFileObject(URI uri) {
             this.uri = uri;
@@ -422,8 +450,6 @@ public class ExceptionWrapperProcessorTestCase {
         public boolean delete() {
             return false;
         }
-
-
     }
 
     abstract static class TestElement implements TypeElement {
@@ -441,32 +467,35 @@ public class ExceptionWrapperProcessorTestCase {
             annotations.add(annotation);
         }
 
+        @Override
         public <A extends Annotation> A getAnnotation(Class<A> aClass) {
-            for (Annotation annotation : annotations)
-                if (aClass.isInstance(annotation)) return castTo(annotation);
+            for (Annotation annotation : annotations) {
+                if (aClass.isInstance(annotation)) {
+                    return castTo(annotation);
+                }
+            }
             return null;
         }
 
-      @SuppressWarnings("unchecked")
-      private <A extends Annotation> A castTo(Annotation annotation) {
-        return (A) annotation;
-      }
+        @SuppressWarnings("unchecked")
+        private <A extends Annotation> A castTo(Annotation annotation) {
+            return (A) annotation;
+        }
 
-      public Name getSimpleName() {
+        @Override
+        public Name getSimpleName() {
             return simpleName;
         }
 
+        @Override
         public Element getEnclosingElement() {
             return enclosingElement;
         }
 
         @Override
         public String toString() {
-            return enclosingElement == null ? simpleName.toString()
-                    : enclosingElement + "." + simpleName;
+            return enclosingElement == null ? simpleName.toString() : enclosingElement + "." + simpleName;
         }
-
-
     }
 
     static class TestName implements Name {
@@ -501,6 +530,5 @@ public class ExceptionWrapperProcessorTestCase {
         public String toString() {
             return value.toString();
         }
-
     }
 }
