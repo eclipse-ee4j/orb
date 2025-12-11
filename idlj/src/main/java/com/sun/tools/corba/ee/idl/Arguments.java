@@ -1,7 +1,8 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 1997-1999 IBM Corp. All rights reserved.
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  * Copyright (c) 2019 Payara Services Ltd.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 1999 IBM Corp. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -129,9 +130,6 @@ public class Arguments
                 } else if (lcArg.equals ("nowarn")) {
                     // <d62023> Suppress warnings
                     noWarn = true;
-                } else if (lcArg.equals ("trace")) {
-                    // Allow tracing.
-                    Runtime.getRuntime ().traceMethodCalls (true);
                 }
                 // <f46082.51> Remove -stateful feature.
                 //else if (lcArg.equals ("stateful"))
@@ -188,10 +186,9 @@ public class Arguments
 
         // Get and process the idl.config file.
         Properties props = new Properties ();
-        try {
-          DataInputStream stream = FileLocator.locateFileInClassPath ("idl.config");
-          props.load (stream);
-          addIncludePaths (props);
+        try (DataInputStream stream = FileLocator.locateFileInClassPath ("idl.config")) {
+            props.load (stream);
+            addIncludePaths (props);
         } catch (IOException e) {
         }
 
