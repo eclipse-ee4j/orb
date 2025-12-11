@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -40,6 +41,7 @@ import org.glassfish.gmbal.AMXMetadata;
 import org.glassfish.gmbal.Description;
 import org.glassfish.gmbal.ManagedAttribute;
 import org.glassfish.gmbal.ManagedObject;
+import org.glassfish.gmbal.ManagedObjectManager;
 
 @ManagedObject
 @Description( "The Factory for the TOA (transient object adapter)")
@@ -81,8 +83,9 @@ public class TOAFactory implements ObjectAdapterFactory
         this.orb = orb ;
         tom = new TransientObjectManager( orb ) ;
         codebaseToTOA = new HashMap<String,TOAImpl>() ;
-        if (orb.mom() != null) {
-            orb.mom().registerAtRoot( this ) ;
+        ManagedObjectManager mom = orb.mom();
+        if (mom != null) {
+            mom.registerAtRoot(this);
         }
     }
 
