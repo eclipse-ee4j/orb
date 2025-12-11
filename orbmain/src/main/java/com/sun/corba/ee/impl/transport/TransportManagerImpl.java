@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -48,6 +49,7 @@ import com.sun.corba.ee.spi.transport.OutboundConnectionCache;
 
 import org.glassfish.external.probe.provider.StatsProviderManager ;
 import org.glassfish.external.probe.provider.PluginPoint ;
+import org.glassfish.gmbal.ManagedObjectManager;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 
 /**
@@ -73,8 +75,9 @@ public class TransportManagerImpl
         outboundConnectionCaches = new HashMap<String,OutboundConnectionCache>();
         inboundConnectionCaches = new HashMap<String,InboundConnectionCache>();
         selector = new SelectorImpl(orb);
-        if (orb.mom() != null) {
-            orb.mom().register( orb, this ) ;
+        ManagedObjectManager mom = orb.mom();
+        if (mom != null) {
+            mom.register(orb, this);
         }
     }
 
@@ -101,8 +104,9 @@ public class TransportManagerImpl
 
                         // We need to clean up the multi-cache support:
                         // this really only works with a single cache.
-                        if (orb.mom() != null) {
-                            orb.mom().register( this, connectionCache ) ;
+                        ManagedObjectManager mom = orb.mom();
+                        if (mom != null) {
+                            mom.register(this, connectionCache);
                         }
                         StatsProviderManager.register( "orb", PluginPoint.SERVER,
                             "orb/transport/connectioncache/outbound", connectionCache ) ;
@@ -140,11 +144,10 @@ public class TransportManagerImpl
                     if (connectionCache == null) {
                         // REVISIT: Would like to be able to configure
                         // the connection cache type used.
-                        connectionCache = 
-                            new InboundConnectionCacheImpl(orb,
-                                                                acceptor);
-                        if (orb.mom() != null) {
-                            orb.mom().register( this, connectionCache ) ;
+                        connectionCache = new InboundConnectionCacheImpl(orb, acceptor);
+                        ManagedObjectManager mom = orb.mom();
+                        if (mom != null) {
+                            mom.register(this, connectionCache);
                         }
                         StatsProviderManager.register( "orb", PluginPoint.SERVER,
                             "orb/transport/connectioncache/inbound", connectionCache ) ;

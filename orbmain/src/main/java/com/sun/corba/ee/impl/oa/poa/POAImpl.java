@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -99,6 +100,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.glassfish.gmbal.Description;
 import org.glassfish.gmbal.ManagedAttribute;
 import org.glassfish.gmbal.ManagedObject;
+import org.glassfish.gmbal.ManagedObjectManager;
 import org.glassfish.gmbal.NameValue;
 import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopierFactory;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
@@ -316,8 +318,9 @@ public class POAImpl extends ObjectAdapterBase implements POA
 
     @Poa
     private static void registerMBean( ORB orb, Object obj ) {
-        if (orb.mom() != null) {
-            orb.mom().register( getPOAFactory( orb ), obj ) ;
+        ManagedObjectManager mom = orb.mom();
+        if (mom != null) {
+            mom.register(getPOAFactory(orb), obj);
         }
     }
 
@@ -825,12 +828,17 @@ public class POAImpl extends ObjectAdapterBase implements POA
                     // Only unregister if the poa is still registered: we may get
                     // here because another thread concurrently destroyed this POA.
                     // XXX This may not be necessary now.
-                    ObjectName oname = poa.getORB().mom().getObjectName( poa ) ; 
-                    if (oname != null) {
-                        unregisteringMBean( oname, poa ) ;
-                        poa.getORB().mom().unregister( poa );
+                    ManagedObjectManager mom = poa.getORB().mom();
+                    if (mom == null) {
+                        noMBean(poa);
+                        return;
+                    }
+                    ObjectName oname = mom.getObjectName(poa);
+                    if (oname == null) {
+                        noMBean(poa);
                     } else {
-                        noMBean( poa ) ;
+                        unregisteringMBean(oname, poa);
+                        mom.unregister(poa);
                     }
                 }
             } catch (Throwable thr) {
