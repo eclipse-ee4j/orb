@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2025 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -998,7 +999,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
                         throw new AdapterNonExistent();
                     }
                 } finally {
-                    if (readLocked) { readUnlock() ; } // Issue 14917: was unlock()
+                    if (readLocked) { readUnlock() ; readLocked = false; } // Issue 14917: was unlock()
                 }
             }
 
