@@ -1006,7 +1006,7 @@ public class POAImpl extends ObjectAdapterBase implements POA
                         throw new AdapterNonExistent();
                     }
                 } finally {
-                    if (readLocked) { readUnlock() ; } // Issue 14917: was unlock()
+                    if (readLocked) { readUnlock() ; readLocked = false; } // Issue 14917: was unlock()
                 }
             }
 
