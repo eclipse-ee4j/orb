@@ -36,6 +36,18 @@ pipeline {
         sh 'mvn -Pstaging,all-tests,dash-licenses clean install'
         junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
         archiveArtifacts artifacts: 'dash-summary.txt'
+
+        sh '''
+          for testClass in \
+            rmic.StaticStringsHashTest \
+            javax.rmi.CORBA.serialization.SerializationTest
+          do
+            mvn \
+              -f functional-tests \
+              antrun:run@run-tests \
+              -Dtest.args="-test ${testClass} -verbose"
+          done
+           '''
       }
     }
   }
