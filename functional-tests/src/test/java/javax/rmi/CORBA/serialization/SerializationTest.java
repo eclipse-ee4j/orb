@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  *
@@ -34,7 +35,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Properties;
+import java.util.HashMap;
+import java.util.Random;
 import java.util.Vector;
+import java.util.concurrent.ConcurrentHashMap;
 import org.glassfish.pfl.test.JUnitReportHelper;
 import rmic.ObjectByValue;
 import org.omg.CORBA.WStringValueHelper;
@@ -395,6 +399,18 @@ public class SerializationTest extends test.Test
             ComplexTestObjectXXX xxx = new ComplexTestObjectXXX();
             sos.write_value(xxx);
 
+            test( "writeRandom" );
+            Random random = new Random();
+            sos.write_value(random);
+
+            test( "writeHashMap" );
+            HashMap hmap = new HashMap();
+            sos.write_value(hmap);
+
+            test( "writeConcurrentHashMap" );
+            ConcurrentHashMap chmap = new ConcurrentHashMap();
+            sos.write_value(chmap);
+
             //System.out.println("offset = " + ((com.sun.corba.ee.impl.encoding.CDROutputStream)sos).get_offset());
             //System.out.println("countit = " + ((com.sun.corba.ee.impl.encoding.CDROutputStream)sos).countit);
 
@@ -733,6 +749,21 @@ public class SerializationTest extends test.Test
             ComplexTestObjectXXX _xxx = (ComplexTestObjectXXX)sis.read_value();
             if (!_xxx.equals(xxx))
                 throw new Error("Any test using xxx failed!");
+
+            test( "readRandom" );
+            Random _random = (Random)sis.read_value();
+            if (_random == null)
+                throw new Error("Random test using random failed!");
+
+            test( "readHashMap" );
+            HashMap _hmap = (HashMap)sis.read_value();
+            if (!_hmap.equals(hmap))
+                throw new Error("HashMap test using hmap failed!");
+
+            test( "readConcurrentHashMap" );
+            ConcurrentHashMap _chmap = (ConcurrentHashMap)sis.read_value();
+            if (!_chmap.equals(chmap))
+                throw new Error("ConcurrentHashMap test using chmap failed!");
         } catch (Throwable e) {
             helper.fail( e ) ;
             status = new Error(e.getMessage());
