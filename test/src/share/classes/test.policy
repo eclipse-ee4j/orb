@@ -1,4 +1,5 @@
 //
+//  Copyright (c) 2026 Contributors to the Eclipse Foundation.
 //  Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
 //
 //  This program and the accompanying materials are made available under the
@@ -30,6 +31,9 @@ grant {
     permission java.lang.RuntimePermission "setContextClassLoader";
     permission java.lang.RuntimePermission "getProtectionDomain" ;
     permission java.lang.RuntimePermission "shutdownHooks" ;
+    permission java.lang.RuntimePermission "createSecurityManager" ;
+    permission java.lang.RuntimePermission "setSecurityManager" ;
+    permission java.lang.RuntimePermission "getStackWalkerWithClassReference" ;
     permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
     permission java.net.SocketPermission "*:*", "listen, connect, accept, resolve";
     permission java.util.logging.LoggingPermission "control";
