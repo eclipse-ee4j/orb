@@ -235,6 +235,7 @@
                 <jvmarg value="-Dhttp.server.root.directory=${test-build.dir}/values2/classes"/>
                 <jvmarg value="-Djava.security.policy=../src/share/classes/test.policy"/>
                 <jvmarg value="-Djava.security.debug=debug"/>
+                <jvmarg value="-Dorg.glassfish.gmbal.no.multipleUpperBoundsException=true"/>
                 <jvmarg value="-Dorg.omg.CORBA.ORBClass=com.sun.corba.ee.impl.orb.ORBImpl"/>
                 <jvmarg value="-Dorg.omg.CORBA.ORBSingletonClass=com.sun.corba.ee.impl.orb.ORBSingleton"/>
                 <jvmarg value="-Dcom.sun.corba.ee.POA.ORBServerId=1"/>
