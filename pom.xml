@@ -131,7 +131,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.dynamicAnalysis>false</sonar.dynamicAnalysis>
         <pfl-version>5.1.0</pfl-version>
-        <gmbal-version>4.1.0</gmbal-version>
+        <gmbal-version>4.1.1</gmbal-version>
     </properties>
 
     <dependencyManagement>
