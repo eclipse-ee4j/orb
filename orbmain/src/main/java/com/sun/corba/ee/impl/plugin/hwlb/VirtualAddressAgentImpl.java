@@ -19,68 +19,52 @@
 
 package com.sun.corba.ee.impl.plugin.hwlb ;
 
-import java.lang.reflect.Field ;
-
-import java.security.AccessController ;
-import java.security.PrivilegedAction ;
-
-import java.util.Iterator ;
-
-import org.omg.CORBA.LocalObject ;
-
-import org.omg.CORBA_2_3.portable.InputStream ;
-
-import org.omg.IOP.TAG_INTERNET_IOP ;
-
-import org.omg.PortableInterceptor.ORBInitializer ;
-import org.omg.PortableInterceptor.IORInterceptor_3_0 ;
-import org.omg.PortableInterceptor.IORInfo ;
-import org.omg.PortableInterceptor.ORBInitInfo ;
-import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
-
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.orb.ORBData ;
-import com.sun.corba.ee.spi.orb.ORBConfigurator ;
-import com.sun.corba.ee.spi.orb.DataCollector ;
-import com.sun.corba.ee.spi.orb.ParserImplBase ;
-import com.sun.corba.ee.spi.orb.PropertyParser ;
-import com.sun.corba.ee.spi.orb.OperationFactory ;
-
-import com.sun.corba.ee.spi.ior.Identifiable ;
-import com.sun.corba.ee.spi.ior.IdentifiableFactoryFinder ;
-import com.sun.corba.ee.spi.ior.EncapsulationFactoryBase ;
-import com.sun.corba.ee.spi.ior.IORTemplate ;
-import com.sun.corba.ee.spi.ior.IORFactories ;
-import com.sun.corba.ee.spi.ior.TaggedProfileTemplate ;
-import com.sun.corba.ee.spi.ior.TaggedComponent ;
-import com.sun.corba.ee.spi.ior.TaggedProfile ;
-import com.sun.corba.ee.spi.ior.ObjectKey ;
-import com.sun.corba.ee.spi.ior.ObjectId ;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
-
-import com.sun.corba.ee.spi.ior.iiop.IIOPAddress ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPFactories ;
-import com.sun.corba.ee.spi.ior.iiop.AlternateIIOPAddressComponent ;
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion ;
-
-
-
+import com.sun.corba.ee.impl.interceptors.IORInfoImpl ;
 import com.sun.corba.ee.impl.ior.iiop.IIOPProfileImpl ;
 import com.sun.corba.ee.impl.ior.iiop.IIOPProfileTemplateImpl ;
-
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-
-import com.sun.corba.ee.impl.orb.ORBDataParserImpl ;
-
-
-
 import com.sun.corba.ee.impl.oa.poa.BadServerIdHandler ;
-
-import com.sun.corba.ee.impl.interceptors.IORInfoImpl ;
+import com.sun.corba.ee.impl.orb.ORBDataParserImpl ;
+import com.sun.corba.ee.spi.ior.EncapsulationFactoryBase ;
+import com.sun.corba.ee.spi.ior.IORFactories ;
+import com.sun.corba.ee.spi.ior.IORTemplate ;
+import com.sun.corba.ee.spi.ior.Identifiable ;
+import com.sun.corba.ee.spi.ior.IdentifiableFactoryFinder ;
+import com.sun.corba.ee.spi.ior.ObjectId ;
+import com.sun.corba.ee.spi.ior.ObjectKey ;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
+import com.sun.corba.ee.spi.ior.TaggedComponent ;
+import com.sun.corba.ee.spi.ior.TaggedProfile ;
+import com.sun.corba.ee.spi.ior.TaggedProfileTemplate ;
+import com.sun.corba.ee.spi.ior.iiop.AlternateIIOPAddressComponent ;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion ;
+import com.sun.corba.ee.spi.ior.iiop.IIOPAddress ;
+import com.sun.corba.ee.spi.ior.iiop.IIOPFactories ;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate ;
 import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.orb.DataCollector ;
+import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORBConfigurator ;
+import com.sun.corba.ee.spi.orb.ORBData ;
+import com.sun.corba.ee.spi.orb.OperationFactory ;
+import com.sun.corba.ee.spi.orb.ParserImplBase ;
+import com.sun.corba.ee.spi.orb.PropertyParser ;
 import com.sun.corba.ee.spi.trace.Subcontract;
+
+import java.lang.reflect.Field ;
+import java.security.AccessController ;
+import java.security.PrivilegedAction ;
+import java.util.Iterator ;
+
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
+import org.omg.CORBA.LocalObject ;
+import org.omg.CORBA_2_3.portable.InputStream ;
+import org.omg.IOP.TAG_INTERNET_IOP ;
+import org.omg.PortableInterceptor.IORInfo ;
+import org.omg.PortableInterceptor.IORInterceptor_3_0 ;
+import org.omg.PortableInterceptor.ORBInitInfo ;
+import org.omg.PortableInterceptor.ORBInitializer ;
+import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
 
 @Subcontract
 public class VirtualAddressAgentImpl 

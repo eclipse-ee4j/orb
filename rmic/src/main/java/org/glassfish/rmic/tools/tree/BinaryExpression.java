@@ -19,11 +19,14 @@
 
 package org.glassfish.rmic.tools.tree;
 
-import org.glassfish.rmic.tools.java.*;
-import org.glassfish.rmic.tools.asm.Label;
-import org.glassfish.rmic.tools.asm.Assembler;
 import java.io.PrintStream;
 import java.util.Hashtable;
+
+import org.glassfish.rmic.tools.asm.Assembler;
+import org.glassfish.rmic.tools.asm.Label;
+import org.glassfish.rmic.tools.java.CompilerError;
+import org.glassfish.rmic.tools.java.Environment;
+import org.glassfish.rmic.tools.java.Type;
 
 /**
  * WARNING: The contents of this source file are not part of any

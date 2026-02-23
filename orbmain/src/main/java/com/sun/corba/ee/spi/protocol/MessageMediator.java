@@ -21,26 +21,22 @@ package com.sun.corba.ee.spi.protocol;
 
 import com.sun.corba.ee.impl.encoding.CDRInputObject;
 import com.sun.corba.ee.impl.encoding.CDROutputObject;
-import com.sun.corba.ee.impl.protocol.giopmsgheaders.MessageBase;
-import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.spi.transport.Connection;
-import java.nio.ByteBuffer;
-
-import org.omg.CORBA.SystemException;
-import org.omg.CORBA.portable.ResponseHandler;
-import org.omg.CORBA_2_3.portable.InputStream;
-
-import com.sun.corba.ee.spi.ior.IOR;
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-import com.sun.corba.ee.spi.orb.ObjectKeyCacheEntry;
-import com.sun.corba.ee.spi.servicecontext.ServiceContexts;
-import com.sun.corba.ee.spi.transport.ContactInfo;
-
 import com.sun.corba.ee.impl.protocol.giopmsgheaders.LocateReplyMessage;
 import com.sun.corba.ee.impl.protocol.giopmsgheaders.LocateReplyOrReplyMessage;
 import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
 import com.sun.corba.ee.impl.protocol.giopmsgheaders.ReplyMessage;
 import com.sun.corba.ee.impl.protocol.giopmsgheaders.RequestMessage;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ObjectKeyCacheEntry;
+import com.sun.corba.ee.spi.servicecontext.ServiceContexts;
+import com.sun.corba.ee.spi.transport.Connection;
+import com.sun.corba.ee.spi.transport.ContactInfo;
+
+import org.omg.CORBA.SystemException;
+import org.omg.CORBA.portable.ResponseHandler;
+import org.omg.CORBA_2_3.portable.InputStream;
 
 /**
  * @author Harold Carr

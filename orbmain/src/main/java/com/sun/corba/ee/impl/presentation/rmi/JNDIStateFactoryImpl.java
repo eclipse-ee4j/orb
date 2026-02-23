@@ -22,12 +22,6 @@ package com.sun.corba.ee.impl.presentation.rmi ;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
 
-import javax.naming.ConfigurationException;
-import javax.naming.Context;
-import javax.naming.Name;
-import javax.naming.NamingException;
-import javax.naming.spi.StateFactory;
-import javax.rmi.PortableRemoteObject;
 import java.lang.reflect.Field;
 import java.rmi.Remote;
 import java.security.AccessController;
@@ -35,6 +29,13 @@ import java.security.PrivilegedAction;
 import java.util.Hashtable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import javax.naming.ConfigurationException;
+import javax.naming.Context;
+import javax.naming.Name;
+import javax.naming.NamingException;
+import javax.naming.spi.StateFactory;
+import javax.rmi.PortableRemoteObject;
 
 // This creates a dependendcy on the implementation
 // of the CosNaming service provider.

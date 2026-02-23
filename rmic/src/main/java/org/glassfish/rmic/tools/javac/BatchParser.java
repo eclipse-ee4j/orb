@@ -19,6 +19,10 @@
 
 package org.glassfish.rmic.tools.javac;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Vector;
+
 import org.glassfish.rmic.tools.java.ClassDefinition;
 import org.glassfish.rmic.tools.java.Environment;
 import org.glassfish.rmic.tools.java.Identifier;
@@ -28,10 +32,6 @@ import org.glassfish.rmic.tools.java.MemberDefinition;
 import org.glassfish.rmic.tools.java.Parser;
 import org.glassfish.rmic.tools.java.Type;
 import org.glassfish.rmic.tools.tree.Node;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Vector;
 
 /**
  * Batch file parser, this needs more work.

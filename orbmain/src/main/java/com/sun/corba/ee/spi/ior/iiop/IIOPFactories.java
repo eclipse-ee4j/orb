@@ -19,45 +19,34 @@
 
 package com.sun.corba.ee.spi.ior.iiop ;
 
-import org.omg.CORBA_2_3.portable.InputStream ;
-
-import com.sun.corba.ee.spi.ior.Identifiable ;
-import com.sun.corba.ee.spi.ior.IdentifiableFactory ;
-import com.sun.corba.ee.spi.ior.EncapsulationFactoryBase ;
-import com.sun.corba.ee.spi.ior.ObjectId ;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
-
-import com.sun.corba.ee.spi.ior.iiop.IIOPAddress ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate ;
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion ;
-
-import com.sun.corba.ee.spi.orb.ORB ;
-
-import com.sun.corba.ee.spi.folb.ClusterInstanceInfo ;
-
-import com.sun.corba.ee.impl.encoding.MarshalInputStream ;
-
-import com.sun.corba.ee.impl.ior.iiop.IIOPAddressImpl ;
-import com.sun.corba.ee.impl.ior.iiop.CodeSetsComponentImpl ;
 import com.sun.corba.ee.impl.ior.iiop.AlternateIIOPAddressComponentImpl ;
-import com.sun.corba.ee.impl.ior.iiop.JavaCodebaseComponentImpl ;
-import com.sun.corba.ee.impl.ior.iiop.MaxStreamFormatVersionComponentImpl ;
-import com.sun.corba.ee.impl.ior.iiop.JavaSerializationComponent;
-import com.sun.corba.ee.impl.ior.iiop.ORBTypeComponentImpl ;
+import com.sun.corba.ee.impl.ior.iiop.ClusterInstanceInfoComponentImpl ;
+import com.sun.corba.ee.impl.ior.iiop.CodeSetsComponentImpl ;
+import com.sun.corba.ee.impl.ior.iiop.IIOPAddressImpl ;
 import com.sun.corba.ee.impl.ior.iiop.IIOPProfileImpl ;
 import com.sun.corba.ee.impl.ior.iiop.IIOPProfileTemplateImpl ;
-import com.sun.corba.ee.impl.ior.iiop.RequestPartitioningComponentImpl ;
+import com.sun.corba.ee.impl.ior.iiop.JavaCodebaseComponentImpl ;
+import com.sun.corba.ee.impl.ior.iiop.JavaSerializationComponent;
 import com.sun.corba.ee.impl.ior.iiop.LoadBalancingComponentImpl ;
-import com.sun.corba.ee.impl.ior.iiop.ClusterInstanceInfoComponentImpl ;
+import com.sun.corba.ee.impl.ior.iiop.MaxStreamFormatVersionComponentImpl ;
+import com.sun.corba.ee.impl.ior.iiop.ORBTypeComponentImpl ;
+import com.sun.corba.ee.impl.ior.iiop.RequestPartitioningComponentImpl ;
+import com.sun.corba.ee.spi.folb.ClusterInstanceInfo ;
+import com.sun.corba.ee.spi.ior.EncapsulationFactoryBase ;
+import com.sun.corba.ee.spi.ior.Identifiable ;
+import com.sun.corba.ee.spi.ior.IdentifiableFactory ;
+import com.sun.corba.ee.spi.ior.ObjectId ;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
 import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB ;
 
+import org.omg.CORBA_2_3.portable.InputStream ;
 import org.omg.IOP.TAG_ALTERNATE_IIOP_ADDRESS ;
 import org.omg.IOP.TAG_CODE_SETS ;
-import org.omg.IOP.TAG_JAVA_CODEBASE ;
-import org.omg.IOP.TAG_RMI_CUSTOM_MAX_STREAM_FORMAT ;
-import org.omg.IOP.TAG_ORB_TYPE ;
 import org.omg.IOP.TAG_INTERNET_IOP ;
+import org.omg.IOP.TAG_JAVA_CODEBASE ;
+import org.omg.IOP.TAG_ORB_TYPE ;
+import org.omg.IOP.TAG_RMI_CUSTOM_MAX_STREAM_FORMAT ;
 
 /** This class provides all of the factories for the IIOP profiles and
  * components.  This includes direct construction of profiles and templates,

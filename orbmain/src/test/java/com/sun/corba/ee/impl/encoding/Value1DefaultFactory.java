@@ -19,10 +19,10 @@
 
 package com.sun.corba.ee.impl.encoding;
 
+import java.io.Serializable;
+
 import org.omg.CORBA.portable.ValueFactory;
 import org.omg.CORBA_2_3.portable.InputStream;
-
-import java.io.Serializable;
 
 public class Value1DefaultFactory implements ValueFactory {
     @Override

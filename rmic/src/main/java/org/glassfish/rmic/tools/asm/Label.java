@@ -20,7 +20,6 @@
 package org.glassfish.rmic.tools.asm;
 
 import org.glassfish.rmic.tools.java.MemberDefinition;
-import java.io.OutputStream;
 
 /**
  * A label instruction. This is a 0 size instruction.

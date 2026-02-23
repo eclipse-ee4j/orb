@@ -19,10 +19,11 @@
 
 package org.glassfish.rmic.tools.asm;
 
-import org.glassfish.rmic.tools.java.*;
-import org.glassfish.rmic.tools.tree.StringExpression;
-import java.io.IOException;
 import java.io.DataOutputStream;
+import java.io.IOException;
+
+import org.glassfish.rmic.tools.java.Environment;
+import org.glassfish.rmic.tools.tree.StringExpression;
 
 /**
  * This is a string expression constant. This constant

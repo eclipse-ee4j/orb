@@ -19,9 +19,10 @@
 
 package com.sun.corba.ee.spi.servicecontext;
 
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+
 import org.omg.CORBA_2_3.portable.InputStream ;
 import org.omg.CORBA_2_3.portable.OutputStream ;
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 
 /** Base class for all ServiceContext classes.
 * There is a derived ServiceContext class for each service context that

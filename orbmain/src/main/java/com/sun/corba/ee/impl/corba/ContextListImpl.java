@@ -20,11 +20,11 @@
 
 package com.sun.corba.ee.impl.corba;
 
-import java.util.List;
 import java.util.ArrayList;
-import org.omg.CORBA.ContextList;
+import java.util.List;
+
 import org.omg.CORBA.Bounds;
-import org.omg.CORBA.ORB;
+import org.omg.CORBA.ContextList;
 
 public class ContextListImpl extends ContextList 
 {

@@ -20,8 +20,6 @@
 
 package org.glassfish.rmic;
 
-import org.glassfish.rmic.tools.java.ClassPath;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -34,6 +32,8 @@ import java.util.Vector;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
+
+import org.glassfish.rmic.tools.java.ClassPath;
 
 /**
  * BatchEnvironment for rmic extends javac's version in four ways:

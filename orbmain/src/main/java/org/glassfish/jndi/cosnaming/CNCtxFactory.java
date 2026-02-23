@@ -18,10 +18,11 @@
  */
 package org.glassfish.jndi.cosnaming;
 
-import javax.naming.spi.InitialContextFactory;
-import javax.naming.*;
-
 import java.util.Hashtable;
+
+import javax.naming.Context;
+import javax.naming.NamingException;
+import javax.naming.spi.InitialContextFactory;
 
 /**
   * Implements the JNDI SPI InitialContextFactory interface used to

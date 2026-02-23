@@ -19,9 +19,9 @@
 
 package com.sun.corba.ee.spi.transport;
 
-import java.util.List;
-
 import com.sun.corba.ee.spi.ior.IOR;
+
+import java.util.List;
 
 public interface IORToSocketInfo
 {

@@ -19,9 +19,9 @@
 
 package org.glassfish.rmic;
 
-import org.junit.Test;
-
 import java.io.File;
+
+import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.arrayWithSize;

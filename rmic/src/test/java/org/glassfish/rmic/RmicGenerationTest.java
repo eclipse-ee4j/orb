@@ -19,13 +19,6 @@
 
 package org.glassfish.rmic;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.arrayContaining;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.emptyArray;
-import static org.junit.Assert.fail;
-import static org.junit.Assume.assumeTrue;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -40,6 +33,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+
 import org.apache.commons.io.FileUtils;
 import org.glassfish.rmic.classes.covariantReturn.DogFinder;
 import org.glassfish.rmic.classes.errorClasses.InterfaceWithNonRemoteMethod;
@@ -60,6 +54,13 @@ import org.glassfish.rmic.classes.systemexceptions.ServerInvokerServantPOA;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.arrayContaining;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.emptyArray;
+import static org.junit.Assert.fail;
+import static org.junit.Assume.assumeTrue;
 
 /**
  * Tests RMIC by comparing the kept generated source files against the expected files.

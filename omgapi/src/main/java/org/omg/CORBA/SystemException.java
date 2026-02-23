@@ -19,10 +19,6 @@
 
 package org.omg.CORBA;
 
-import org.omg.CORBA.portable.InputStream;
-import org.omg.CORBA.portable.OutputStream;
-import java.util.*;
-import org.omg.CORBA.OMGVMCID;
 import com.sun.corba.ee.org.omg.CORBA.SUNVMCID;
 
 /**

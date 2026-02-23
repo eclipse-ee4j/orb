@@ -20,21 +20,17 @@
 package com.sun.corba.ee.impl.ior;
 
 
-import org.omg.CORBA_2_3.portable.OutputStream ;
-
-import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher ;
-
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
-import com.sun.corba.ee.spi.ior.ObjectId ;
 import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
-
+import com.sun.corba.ee.spi.ior.ObjectId ;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
+import com.sun.corba.ee.spi.logging.IORSystemException ;
+import com.sun.corba.ee.spi.misc.ORBConstants ;
 import com.sun.corba.ee.spi.orb.ORB ;
 import com.sun.corba.ee.spi.orb.ORBVersion ;
 import com.sun.corba.ee.spi.orb.ORBVersionFactory ;
+import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher ;
 
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-
-import com.sun.corba.ee.spi.logging.IORSystemException ;
+import org.omg.CORBA_2_3.portable.OutputStream ;
 
 /**
  * @author Ken Cavanaugh

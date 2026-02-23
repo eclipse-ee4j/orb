@@ -33,10 +33,11 @@ import com.sun.corba.ee.spi.protocol.PIHandler;
 import com.sun.corba.ee.spi.transport.Connection;
 import com.sun.corba.ee.spi.transport.ContactInfo;
 import com.sun.corba.ee.spi.transport.ContactInfoListIterator;
-import org.junit.Test;
-import org.omg.CORBA.portable.RemarshalException;
 
 import java.util.Iterator;
+
+import org.junit.Test;
+import org.omg.CORBA.portable.RemarshalException;
 
 import static com.meterware.simplestub.Stub.createStrictStub;
 

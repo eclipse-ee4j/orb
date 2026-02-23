@@ -19,8 +19,10 @@
 
 package com.sun.corba.ee.impl.oa.poa;
 
-import org.omg.CORBA.*;
-import org.omg.PortableServer.*;
+import org.omg.CORBA.Policy;
+import org.omg.PortableServer.IMPLICIT_ACTIVATION_POLICY_ID;
+import org.omg.PortableServer.ImplicitActivationPolicy;
+import org.omg.PortableServer.ImplicitActivationPolicyValue;
 
 final class ImplicitActivationPolicyImpl
     extends org.omg.CORBA.LocalObject implements ImplicitActivationPolicy {

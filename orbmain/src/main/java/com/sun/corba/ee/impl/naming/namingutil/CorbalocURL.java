@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.impl.naming.namingutil;
 
-import java.util.*;
+import java.util.StringTokenizer;
 
 /** 
  *  The corbaloc: URL definitions from the -ORBInitDef and -ORBDefaultInitDef's

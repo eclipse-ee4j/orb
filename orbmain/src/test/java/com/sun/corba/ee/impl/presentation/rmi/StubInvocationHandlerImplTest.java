@@ -28,6 +28,10 @@ import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 import com.sun.corba.ee.spi.protocol.ClientDelegate;
 import com.sun.corba.ee.spi.protocol.LocalClientRequestDispatcher;
 import com.sun.corba.ee.spi.transport.ContactInfoList;
+
+import java.lang.reflect.Method;
+import java.rmi.RemoteException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.omg.CORBA.ORB;
@@ -35,9 +39,6 @@ import org.omg.CORBA.Object;
 import org.omg.CORBA.portable.Delegate;
 import org.omg.CORBA.portable.ObjectImpl;
 import org.omg.CORBA.portable.ServantObject;
-
-import java.lang.reflect.Method;
-import java.rmi.RemoteException;
 
 import static com.meterware.simplestub.Stub.createStrictStub;
 import static com.meterware.simplestub.Stub.createStub;

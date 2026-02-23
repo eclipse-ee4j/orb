@@ -21,12 +21,6 @@
 
 package org.glassfish.rmic.iiop;
 
-import org.glassfish.rmic.IndentingWriter;
-import org.glassfish.rmic.Main;
-import org.glassfish.rmic.tools.java.ClassDefinition;
-import org.glassfish.rmic.tools.java.CompilerError;
-import org.glassfish.rmic.tools.java.Identifier;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -37,6 +31,12 @@ import java.util.Hashtable;
 import java.util.Locale;
 import java.util.StringTokenizer;
 import java.util.Vector;
+
+import org.glassfish.rmic.IndentingWriter;
+import org.glassfish.rmic.Main;
+import org.glassfish.rmic.tools.java.ClassDefinition;
+import org.glassfish.rmic.tools.java.CompilerError;
+import org.glassfish.rmic.tools.java.Identifier;
 
 /**
  * An IDL generator for rmic.

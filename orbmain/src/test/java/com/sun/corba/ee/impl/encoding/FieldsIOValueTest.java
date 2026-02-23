@@ -19,10 +19,11 @@
 
 package com.sun.corba.ee.impl.encoding;
 
+import com.sun.corba.ee.impl.util.RepositoryId;
+
 import java.io.IOException;
 import java.math.BigInteger;
 
-import com.sun.corba.ee.impl.util.RepositoryId;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;

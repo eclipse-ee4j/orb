@@ -19,8 +19,9 @@
 
 package org.glassfish.rmic.classes.islocal;
 
-import javax.rmi.PortableRemoteObject;
 import java.rmi.RemoteException;
+
+import javax.rmi.PortableRemoteObject;
 
 public class MessageBuilderServantPOA extends PortableRemoteObject implements MessageBuilder {
     private static final String baseMsg = MessageBuilderServantPOA.class.getName();

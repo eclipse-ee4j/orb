@@ -21,8 +21,10 @@
 package com.sun.tools.corba.ee.idl.toJavaPortable;
 
 // NOTES:
-
-import com.sun.tools.corba.ee.idl.*;
+import com.sun.tools.corba.ee.idl.ForwardGen;
+import com.sun.tools.corba.ee.idl.IncludeGen;
+import com.sun.tools.corba.ee.idl.ParameterGen;
+import com.sun.tools.corba.ee.idl.PragmaGen;
 
 /**
  *

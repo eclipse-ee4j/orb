@@ -19,12 +19,12 @@
 
 package org.glassfish.rmic.tools.java;
 
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Collections;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Vector;
 
 /**
  * This class describes the classes and packages imported

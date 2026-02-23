@@ -19,8 +19,8 @@
 
 package org.glassfish.rmic.tools.javac;
 
-import org.glassfish.rmic.tools.java.*;
 import org.glassfish.rmic.tools.asm.Assembler;
+import org.glassfish.rmic.tools.java.MemberDefinition;
 
 /**
  * This class is used to represents fields while they are

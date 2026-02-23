@@ -19,9 +19,14 @@
 
 package org.glassfish.rmic.tools.tree;
 
-import org.glassfish.rmic.tools.java.*;
-import java.io.PrintStream;
 import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import org.glassfish.rmic.tools.java.ClassNotFound;
+import org.glassfish.rmic.tools.java.CompilerError;
+import org.glassfish.rmic.tools.java.Constants;
+import org.glassfish.rmic.tools.java.Environment;
+import org.glassfish.rmic.tools.java.Type;
 
 /**
  * WARNING: The contents of this source file are not part of any

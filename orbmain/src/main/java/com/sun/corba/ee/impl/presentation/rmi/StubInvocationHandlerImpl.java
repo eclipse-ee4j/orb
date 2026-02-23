@@ -30,6 +30,13 @@ import com.sun.corba.ee.spi.protocol.ClientDelegate;
 import com.sun.corba.ee.spi.protocol.LocalClientRequestDispatcher;
 import com.sun.corba.ee.spi.trace.IsLocal;
 import com.sun.corba.ee.spi.transport.ContactInfoList;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+
 import org.glassfish.pfl.basic.proxy.DynamicAccessPermission;
 import org.glassfish.pfl.basic.proxy.LinkedInvocationHandler;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
@@ -38,12 +45,6 @@ import org.omg.CORBA.portable.ApplicationException;
 import org.omg.CORBA.portable.Delegate;
 import org.omg.CORBA.portable.RemarshalException;
 import org.omg.CORBA.portable.ServantObject;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 @IsLocal
 public final class StubInvocationHandlerImpl implements LinkedInvocationHandler  

@@ -19,10 +19,10 @@
 
 package com.sun.corba.ee.impl.ior ;
 
-import java.util.List ;
-import java.util.AbstractList ;
-
 import com.sun.corba.ee.spi.ior.MakeImmutable ;
+
+import java.util.AbstractList ;
+import java.util.List ;
 
 /** Simple class that delegates all List operations to 
 * another list.  It also can be frozen, which means that

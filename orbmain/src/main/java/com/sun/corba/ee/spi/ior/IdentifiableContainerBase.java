@@ -20,10 +20,10 @@
 
 package com.sun.corba.ee.spi.ior;
 
+import com.sun.corba.ee.impl.ior.FreezableList ;
+
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import com.sun.corba.ee.impl.ior.FreezableList ;
 
 /** Convenience class for defining objects that contain lists of Identifiables.
  * Mainly implements iteratorById.  Also note that the constructor creates the

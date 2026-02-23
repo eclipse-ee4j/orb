@@ -28,21 +28,6 @@ import com.sun.corba.ee.spi.orb.ORBData;
 import com.sun.corba.ee.spi.transport.ContactInfo;
 import com.sun.corba.ee.spi.transport.IIOPPrimaryToContactInfo;
 import com.sun.corba.ee.spi.transport.IORToSocketInfo;
-import org.glassfish.corba.testutils.StubCorbaObject;
-import org.junit.Before;
-import org.junit.Test;
-import org.omg.CORBA.ORBPackage.InvalidName;
-import org.omg.CORBA.Object;
-import org.omg.IOP.CodecFactoryPackage.UnknownEncoding;
-import org.omg.IOP.CodecPackage.InvalidTypeForEncoding;
-import org.omg.IOP.ServiceContext;
-import org.omg.IOP.TaggedComponent;
-import org.omg.PortableInterceptor.ClientRequestInfo;
-import org.omg.PortableInterceptor.ClientRequestInterceptor;
-import org.omg.PortableInterceptor.ForwardRequest;
-import org.omg.PortableInterceptor.ORBInitInfo;
-import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
-import org.omg.PortableInterceptor.ORBInitializer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,8 +35,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.glassfish.corba.testutils.StubCorbaObject;
+import org.junit.Before;
+import org.junit.Test;
+import org.omg.CORBA.Object;
+import org.omg.CORBA.ORBPackage.InvalidName;
+import org.omg.IOP.ServiceContext;
+import org.omg.IOP.TaggedComponent;
+import org.omg.IOP.CodecFactoryPackage.UnknownEncoding;
+import org.omg.IOP.CodecPackage.InvalidTypeForEncoding;
+import org.omg.PortableInterceptor.ClientRequestInfo;
+import org.omg.PortableInterceptor.ClientRequestInterceptor;
+import org.omg.PortableInterceptor.ForwardRequest;
+import org.omg.PortableInterceptor.ORBInitInfo;
+import org.omg.PortableInterceptor.ORBInitializer;
+import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
+
 import static com.meterware.simplestub.Stub.createStrictStub;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 public class GroupManagerServiceInterceptorsTest implements GroupInfoServiceObserver {
 

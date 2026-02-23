@@ -19,13 +19,13 @@
 
 package org.glassfish.rmic.tools.binaryclass;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import org.glassfish.rmic.tools.java.Constants;
 import org.glassfish.rmic.tools.java.Environment;
 import org.glassfish.rmic.tools.java.Identifier;
-
-import java.io.IOException;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 
 /**
  * This class is used to represent an attribute from a binary class.

@@ -19,13 +19,13 @@
 
 package org.glassfish.rmic.tools.util;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.io.FileReader;
-import java.io.BufferedReader;
 import java.io.StreamTokenizer;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Various utility methods for processing Java tool command line arguments.

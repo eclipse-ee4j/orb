@@ -26,12 +26,13 @@ import com.sun.corba.ee.impl.protocol.giopmsgheaders.ReplyMessage;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.transport.Connection;
 import com.sun.corba.ee.spi.transport.ContactInfoListIterator;
-import org.glassfish.pfl.basic.reflection.Bridge;
-import org.omg.CORBA.SystemException;
-import org.omg.CORBA.portable.RemarshalException;
 
 import java.nio.ByteBuffer;
 import java.util.EmptyStackException;
+
+import org.glassfish.pfl.basic.reflection.Bridge;
+import org.omg.CORBA.SystemException;
+import org.omg.CORBA.portable.RemarshalException;
 
 /**
  * Streaming buffer manager.

@@ -21,6 +21,7 @@
 
 package com.sun.corba.ee.impl.io;
 
+import com.sun.corba.ee.impl.io.InputStreamHook.ReadObjectState;
 import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
 import com.sun.corba.ee.impl.misc.ClassInfoCache;
 import com.sun.corba.ee.impl.util.Utility;
@@ -32,17 +33,6 @@ import com.sun.org.omg.CORBA.OperationDescription;
 import com.sun.org.omg.CORBA.ParameterDescription;
 import com.sun.org.omg.CORBA.ValueDefPackage.FullValueDescription;
 import com.sun.org.omg.SendingContext.CodeBase;
-import org.glassfish.pfl.basic.logex.OperationTracer;
-import org.glassfish.pfl.basic.reflection.Bridge;
-import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
-import org.omg.CORBA.MARSHAL;
-import org.omg.CORBA.ORB;
-import org.omg.CORBA.SystemException;
-import org.omg.CORBA.TCKind;
-import org.omg.CORBA.TypeCode;
-import org.omg.CORBA.ValueMember;
-import org.omg.CORBA.portable.IndirectionException;
-import org.omg.CORBA.portable.ValueInputStream;
 
 import java.io.EOFException;
 import java.io.Externalizable;
@@ -63,7 +53,20 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import javax.rmi.CORBA.ValueHandler;
+
+import org.glassfish.pfl.basic.logex.OperationTracer;
+import org.glassfish.pfl.basic.reflection.Bridge;
+import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
+import org.omg.CORBA.MARSHAL;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.SystemException;
+import org.omg.CORBA.TCKind;
+import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.ValueMember;
+import org.omg.CORBA.portable.IndirectionException;
+import org.omg.CORBA.portable.ValueInputStream;
 
 /**
  * IIOPInputStream is used by the ValueHandlerImpl to handle Java serialization

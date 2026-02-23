@@ -19,23 +19,27 @@
 
 package com.sun.corba.ee.impl.oa.poa ;
 
-import org.glassfish.pfl.basic.fsm.StateEngine;
-import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
-import org.glassfish.pfl.basic.fsm.Guard;
-import org.glassfish.pfl.basic.fsm.Action;
-import org.glassfish.pfl.basic.fsm.Input;
-import org.glassfish.pfl.basic.fsm.FSM;
-import org.glassfish.pfl.basic.fsm.State;
-import org.glassfish.pfl.basic.fsm.Runner;
-import org.glassfish.pfl.basic.fsm.FSMImpl;
+import com.sun.corba.ee.spi.logging.POASystemException ;
+import com.sun.corba.ee.spi.trace.PoaFSM;
+
 import java.util.concurrent.locks.Condition ;
 
-import com.sun.corba.ee.spi.trace.PoaFSM;
-import com.sun.corba.ee.spi.logging.POASystemException ;
-
+import org.glassfish.pfl.basic.fsm.Action;
+import org.glassfish.pfl.basic.fsm.FSM;
+import org.glassfish.pfl.basic.fsm.FSMImpl;
+import org.glassfish.pfl.basic.fsm.Guard;
+import org.glassfish.pfl.basic.fsm.Guard.Base.IntFunc;
+import org.glassfish.pfl.basic.fsm.Input;
+import org.glassfish.pfl.basic.fsm.Runner;
+import org.glassfish.pfl.basic.fsm.State;
+import org.glassfish.pfl.basic.fsm.StateEngine;
+import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 import org.omg.PortableServer.POAPackage.ObjectAlreadyActive ;
 
-import static org.glassfish.pfl.basic.fsm.Guard.Base.* ;
+import static org.glassfish.pfl.basic.fsm.Guard.Base.constant;
+import static org.glassfish.pfl.basic.fsm.Guard.Base.eq;
+import static org.glassfish.pfl.basic.fsm.Guard.Base.gt;
+import static org.glassfish.pfl.basic.fsm.Guard.Base.makeGuard;
 
 /** AOMEntry represents a Servant or potential Servant in the ActiveObjectMap.
 * It may be in several states to allow for long incarnate or etherealize 

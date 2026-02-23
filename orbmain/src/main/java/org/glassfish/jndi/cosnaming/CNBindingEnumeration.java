@@ -18,13 +18,19 @@
  */
 package org.glassfish.jndi.cosnaming;
 
-import javax.naming.*;
+import java.util.Hashtable;
+import java.util.NoSuchElementException;
+
+import javax.naming.Name;
+import javax.naming.NamingEnumeration;
+import javax.naming.NamingException;
 import javax.naming.spi.NamingManager;
 
-import java.util.NoSuchElementException;
-import java.util.Hashtable;
-
-import org.omg.CosNaming.*;
+import org.omg.CosNaming.BindingIterator;
+import org.omg.CosNaming.BindingIteratorHolder;
+import org.omg.CosNaming.BindingListHolder;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContextPackage.CannotProceed;
 
 /**
   * Implements the JNDI NamingEnumeration interface for COS

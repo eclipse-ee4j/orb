@@ -21,9 +21,8 @@ package com.sun.corba.ee.impl.encoding;
 
 import java.io.IOException;
 
-import org.omg.CORBA.TypeCode;
 import org.omg.CORBA.Any;
-
+import org.omg.CORBA.TypeCode;
 import org.omg.CORBA.portable.InputStream;
 
 public interface MarshalOutputStream {

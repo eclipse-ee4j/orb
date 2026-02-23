@@ -26,8 +26,6 @@ package com.sun.corba.ee.spi.folb;
 
 import java.util.List;
 
-import com.sun.corba.ee.spi.folb.GroupInfoServiceObserver;
-
 /**
  * @author Harold Carr
  */

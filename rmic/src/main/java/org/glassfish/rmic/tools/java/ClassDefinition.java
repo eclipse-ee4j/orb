@@ -19,17 +19,17 @@
 
 package org.glassfish.rmic.tools.java;
 
-import org.glassfish.rmic.tools.tree.Context;
-import org.glassfish.rmic.tools.tree.Expression;
-import org.glassfish.rmic.tools.tree.LocalMember;
-import org.glassfish.rmic.tools.tree.UplevelReference;
-import org.glassfish.rmic.tools.tree.Vset;
-
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
+
+import org.glassfish.rmic.tools.tree.Context;
+import org.glassfish.rmic.tools.tree.Expression;
+import org.glassfish.rmic.tools.tree.LocalMember;
+import org.glassfish.rmic.tools.tree.UplevelReference;
+import org.glassfish.rmic.tools.tree.Vset;
 
 /**
  * This class is a Java class definition

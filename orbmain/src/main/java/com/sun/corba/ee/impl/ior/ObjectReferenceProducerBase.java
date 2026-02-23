@@ -19,15 +19,14 @@
 
 package com.sun.corba.ee.impl.ior ;
 
-import com.sun.corba.ee.spi.orb.ORB ;
-
-import com.sun.corba.ee.spi.ior.IORFactory ;
+import com.sun.corba.ee.impl.misc.ORBUtility ;
 import com.sun.corba.ee.spi.ior.IOR ;
 import com.sun.corba.ee.spi.ior.IORFactories ;
+import com.sun.corba.ee.spi.ior.IORFactory ;
 import com.sun.corba.ee.spi.ior.IORTemplateList ;
 import com.sun.corba.ee.spi.ior.ObjectId ;
+import com.sun.corba.ee.spi.orb.ORB ;
 
-import com.sun.corba.ee.impl.misc.ORBUtility ;
 import java.io.Serializable;
 
 

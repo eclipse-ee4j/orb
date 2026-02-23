@@ -19,27 +19,26 @@
 
 package com.sun.corba.ee.impl.encoding;
 
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.spi.protocol.MessageMediator ;
-import com.sun.corba.ee.spi.transport.TransportManager;
-import com.sun.corba.ee.spi.transport.Connection;
-
 import com.sun.corba.ee.impl.misc.ORBUtility;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
-import com.sun.corba.ee.spi.logging.OMGSystemException;
 import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
 import com.sun.corba.ee.impl.transport.MessageTraceManagerImpl;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+import com.sun.corba.ee.spi.logging.OMGSystemException;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.protocol.MessageMediator ;
+import com.sun.corba.ee.spi.trace.CdrWrite ;
+import com.sun.corba.ee.spi.transport.Connection;
+import com.sun.corba.ee.spi.transport.TransportManager;
 
 import java.io.IOException ;
 import java.io.ObjectInputStream;
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
+
 import org.omg.CORBA.Any;
 import org.omg.CORBA.DataOutputStream;
 import org.omg.CORBA.TypeCode;
-
-import com.sun.corba.ee.spi.trace.CdrWrite ;
 import org.omg.CORBA.portable.BoxedValueHelper;
 import org.omg.CORBA.portable.ValueOutputStream;
 

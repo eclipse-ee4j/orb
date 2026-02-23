@@ -20,83 +20,43 @@
 
 package com.sun.corba.ee.impl.oa.poa;
 
-import java.util.Collection ;
-import java.util.Set ;
-import java.util.HashSet ;
-import java.util.Map ;
-import java.util.HashMap ;
-import java.util.Iterator ;
-
-import java.util.concurrent.locks.Condition ;
-import java.util.concurrent.locks.ReentrantLock ;
-
-import javax.management.ObjectName ;
-
-import org.omg.CORBA.Policy ;
-import org.omg.CORBA.SystemException ;
-
-import org.omg.PortableServer.POA ;
-import org.omg.PortableServer.Servant ;
-import org.omg.PortableServer.POAManager ;
-import org.omg.PortableServer.AdapterActivator ;
-import org.omg.PortableServer.ServantManager ;
-import org.omg.PortableServer.ForwardRequest ;
-import org.omg.PortableServer.ThreadPolicy;
-import org.omg.PortableServer.LifespanPolicy;
-import org.omg.PortableServer.IdUniquenessPolicy;
-import org.omg.PortableServer.IdAssignmentPolicy;
-import org.omg.PortableServer.ImplicitActivationPolicy;
-import org.omg.PortableServer.ServantRetentionPolicy;
-import org.omg.PortableServer.RequestProcessingPolicy;
-import org.omg.PortableServer.ThreadPolicyValue ;
-import org.omg.PortableServer.LifespanPolicyValue ;
-import org.omg.PortableServer.IdUniquenessPolicyValue ;
-import org.omg.PortableServer.IdAssignmentPolicyValue ;
-import org.omg.PortableServer.ImplicitActivationPolicyValue ;
-import org.omg.PortableServer.ServantRetentionPolicyValue ;
-import org.omg.PortableServer.RequestProcessingPolicyValue ;
-import org.omg.PortableServer.POAPackage.AdapterAlreadyExists ;
-import org.omg.PortableServer.POAPackage.AdapterNonExistent ;
-import org.omg.PortableServer.POAPackage.InvalidPolicy ;
-import org.omg.PortableServer.POAPackage.WrongPolicy ;
-import org.omg.PortableServer.POAPackage.WrongAdapter ;
-import org.omg.PortableServer.POAPackage.NoServant ;
-import org.omg.PortableServer.POAPackage.ServantAlreadyActive ;
-import org.omg.PortableServer.POAPackage.ObjectAlreadyActive ;
-import org.omg.PortableServer.POAPackage.ServantNotActive ;
-import org.omg.PortableServer.POAPackage.ObjectNotActive ;
-
-import org.omg.PortableInterceptor.ObjectReferenceFactory ;
-import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
-import org.omg.PortableInterceptor.NON_EXISTENT ;
-
+import com.sun.corba.ee.impl.ior.ObjectAdapterIdArray ;
+import com.sun.corba.ee.impl.ior.POAObjectKeyTemplate ;
 import com.sun.corba.ee.spi.copyobject.CopierManager ;
-import com.sun.corba.ee.spi.oa.OADestroyed ;
-import com.sun.corba.ee.spi.oa.OAInvocationInfo ;
-import com.sun.corba.ee.spi.oa.ObjectAdapterBase ;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
-import com.sun.corba.ee.spi.ior.ObjectId ;
-import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
 import com.sun.corba.ee.spi.ior.IOR ;
 import com.sun.corba.ee.spi.ior.IORFactories ;
 import com.sun.corba.ee.spi.ior.IORTemplateList ;
+import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
+import com.sun.corba.ee.spi.ior.ObjectId ;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
 import com.sun.corba.ee.spi.ior.TaggedProfile ;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.protocol.ForwardException ;
-
-import com.sun.corba.ee.impl.ior.POAObjectKeyTemplate ;
-import com.sun.corba.ee.impl.ior.ObjectAdapterIdArray ;
 import com.sun.corba.ee.spi.logging.OMGSystemException;
 import com.sun.corba.ee.spi.logging.POASystemException;
 import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.oa.OADestroyed ;
+import com.sun.corba.ee.spi.oa.OAInvocationInfo ;
+import com.sun.corba.ee.spi.oa.ObjectAdapterBase ;
+import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.protocol.ForwardException ;
 import com.sun.corba.ee.spi.trace.Poa;
+
 import java.util.ArrayList;
+import java.util.Collection ;
+import java.util.HashMap ;
+import java.util.HashSet ;
+import java.util.Iterator ;
 import java.util.List;
+import java.util.Map ;
+import java.util.Set ;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Condition ;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+import javax.management.ObjectName ;
+
 import org.glassfish.gmbal.Description;
 import org.glassfish.gmbal.ManagedAttribute;
 import org.glassfish.gmbal.ManagedObject;
@@ -104,6 +64,41 @@ import org.glassfish.gmbal.ManagedObjectManager;
 import org.glassfish.gmbal.NameValue;
 import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopierFactory;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
+import org.omg.CORBA.Policy ;
+import org.omg.CORBA.SystemException ;
+import org.omg.PortableInterceptor.NON_EXISTENT ;
+import org.omg.PortableInterceptor.ObjectReferenceFactory ;
+import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
+import org.omg.PortableServer.AdapterActivator ;
+import org.omg.PortableServer.ForwardRequest ;
+import org.omg.PortableServer.IdAssignmentPolicy;
+import org.omg.PortableServer.IdAssignmentPolicyValue ;
+import org.omg.PortableServer.IdUniquenessPolicy;
+import org.omg.PortableServer.IdUniquenessPolicyValue ;
+import org.omg.PortableServer.ImplicitActivationPolicy;
+import org.omg.PortableServer.ImplicitActivationPolicyValue ;
+import org.omg.PortableServer.LifespanPolicy;
+import org.omg.PortableServer.LifespanPolicyValue ;
+import org.omg.PortableServer.POA ;
+import org.omg.PortableServer.POAManager ;
+import org.omg.PortableServer.RequestProcessingPolicy;
+import org.omg.PortableServer.RequestProcessingPolicyValue ;
+import org.omg.PortableServer.Servant ;
+import org.omg.PortableServer.ServantManager ;
+import org.omg.PortableServer.ServantRetentionPolicy;
+import org.omg.PortableServer.ServantRetentionPolicyValue ;
+import org.omg.PortableServer.ThreadPolicy;
+import org.omg.PortableServer.ThreadPolicyValue ;
+import org.omg.PortableServer.POAPackage.AdapterAlreadyExists ;
+import org.omg.PortableServer.POAPackage.AdapterNonExistent ;
+import org.omg.PortableServer.POAPackage.InvalidPolicy ;
+import org.omg.PortableServer.POAPackage.NoServant ;
+import org.omg.PortableServer.POAPackage.ObjectAlreadyActive ;
+import org.omg.PortableServer.POAPackage.ObjectNotActive ;
+import org.omg.PortableServer.POAPackage.ServantAlreadyActive ;
+import org.omg.PortableServer.POAPackage.ServantNotActive ;
+import org.omg.PortableServer.POAPackage.WrongAdapter ;
+import org.omg.PortableServer.POAPackage.WrongPolicy ;
 
 /**
  * POAImpl is the implementation of the Portable Object Adapter. It 

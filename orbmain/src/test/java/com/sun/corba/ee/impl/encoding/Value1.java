@@ -19,9 +19,9 @@
 
 package com.sun.corba.ee.impl.encoding;
 
-import java.io.Serializable;
-
 import com.sun.corba.ee.impl.util.RepositoryId;
+
+import java.io.Serializable;
 
 class Value1 implements Serializable {
     static final String REPID = RepositoryId.createForJavaType(Value1.class);

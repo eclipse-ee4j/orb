@@ -21,9 +21,9 @@ package com.sun.corba.ee.spi.ior ;
 
 import java.util.Iterator ;
 
-import org.glassfish.gmbal.ManagedData ;
-import org.glassfish.gmbal.ManagedAttribute ;
 import org.glassfish.gmbal.Description ;
+import org.glassfish.gmbal.ManagedAttribute ;
+import org.glassfish.gmbal.ManagedData ;
 
 /** This is the object adapter ID for an object adapter.
 * Typically this is the path of strings starting from the

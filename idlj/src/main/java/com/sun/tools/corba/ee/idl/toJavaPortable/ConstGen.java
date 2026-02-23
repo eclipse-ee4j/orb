@@ -20,18 +20,18 @@
 
 package com.sun.tools.corba.ee.idl.toJavaPortable;
 
-// NOTES:
-
-import java.io.PrintWriter;
-import java.util.Hashtable;
-
-import com.sun.tools.corba.ee.idl.GenFileStream;
 import com.sun.tools.corba.ee.idl.ConstEntry;
+import com.sun.tools.corba.ee.idl.GenFileStream;
 import com.sun.tools.corba.ee.idl.ModuleEntry;
 import com.sun.tools.corba.ee.idl.PrimitiveEntry;
 import com.sun.tools.corba.ee.idl.StringEntry;
 import com.sun.tools.corba.ee.idl.SymtabEntry;
 import com.sun.tools.corba.ee.idl.TypedefEntry;
+
+// NOTES:
+
+import java.io.PrintWriter;
+import java.util.Hashtable;
 
 /**
  *

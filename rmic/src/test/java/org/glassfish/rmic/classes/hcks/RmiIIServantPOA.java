@@ -24,10 +24,11 @@
 
 package org.glassfish.rmic.classes.hcks;
 
-import org.omg.CORBA.ORB;
+import java.rmi.RemoteException;
 
 import javax.rmi.PortableRemoteObject;
-import java.rmi.RemoteException;
+
+import org.omg.CORBA.ORB;
 
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class RmiIIServantPOA extends PortableRemoteObject implements RmiII {

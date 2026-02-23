@@ -21,6 +21,7 @@
 package org.glassfish.rmic;
 
 import java.io.File;
+
 import org.glassfish.rmic.tools.java.ClassDefinition;
 
 /**

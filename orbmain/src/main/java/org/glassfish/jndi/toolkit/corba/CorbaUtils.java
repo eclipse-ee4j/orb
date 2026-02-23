@@ -20,25 +20,23 @@
 
 package org.glassfish.jndi.toolkit.corba;
 
-// Needed for RMI/IIOP
-import java.rmi.Remote;
-
-import java.rmi.RemoteException;
-import java.util.Hashtable;
-import java.util.Properties;
-import java.util.Enumeration;
 import java.applet.Applet;
-
-import org.omg.CORBA.ORB;
-
-import javax.naming.Context;
-import javax.naming.ConfigurationException;
-import javax.rmi.CORBA.Stub;
-import javax.rmi.PortableRemoteObject;
-
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URLDecoder;
+// Needed for RMI/IIOP
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Properties;
+
+import javax.naming.ConfigurationException;
+import javax.naming.Context;
+import javax.rmi.PortableRemoteObject;
+import javax.rmi.CORBA.Stub;
+
+import org.omg.CORBA.ORB;
 
 /**
   * Contains utilities for performing CORBA-related tasks:

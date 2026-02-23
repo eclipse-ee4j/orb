@@ -19,20 +19,51 @@
 
 package org.glassfish.rmic.tools.javac;
 
-import org.glassfish.rmic.tools.java.*;
-import org.glassfish.rmic.tools.tree.*;
-import org.glassfish.rmic.tools.tree.CompoundStatement;
-import org.glassfish.rmic.tools.asm.Assembler;
-import org.glassfish.rmic.tools.asm.ConstantPool;
-import java.util.Vector;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.DataOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
+import java.util.Vector;
+
+import org.glassfish.rmic.tools.asm.Assembler;
+import org.glassfish.rmic.tools.asm.ConstantPool;
+import org.glassfish.rmic.tools.java.AmbiguousClass;
+import org.glassfish.rmic.tools.java.ClassDeclaration;
+import org.glassfish.rmic.tools.java.ClassDefinition;
+import org.glassfish.rmic.tools.java.ClassFile;
+import org.glassfish.rmic.tools.java.ClassNotFound;
+import org.glassfish.rmic.tools.java.CompilerError;
+import org.glassfish.rmic.tools.java.Environment;
+import org.glassfish.rmic.tools.java.Identifier;
+import org.glassfish.rmic.tools.java.IdentifierToken;
+import org.glassfish.rmic.tools.java.Imports;
+import org.glassfish.rmic.tools.java.MemberDefinition;
+import org.glassfish.rmic.tools.java.Type;
+import org.glassfish.rmic.tools.tree.AssignExpression;
+import org.glassfish.rmic.tools.tree.CatchStatement;
+import org.glassfish.rmic.tools.tree.CompoundStatement;
+import org.glassfish.rmic.tools.tree.Context;
+import org.glassfish.rmic.tools.tree.Expression;
+import org.glassfish.rmic.tools.tree.ExpressionStatement;
+import org.glassfish.rmic.tools.tree.FieldExpression;
+import org.glassfish.rmic.tools.tree.IdentifierExpression;
+import org.glassfish.rmic.tools.tree.LocalMember;
+import org.glassfish.rmic.tools.tree.MethodExpression;
+import org.glassfish.rmic.tools.tree.NewInstanceExpression;
+import org.glassfish.rmic.tools.tree.Node;
+import org.glassfish.rmic.tools.tree.ReturnStatement;
+import org.glassfish.rmic.tools.tree.Statement;
+import org.glassfish.rmic.tools.tree.StringExpression;
+import org.glassfish.rmic.tools.tree.SuperExpression;
+import org.glassfish.rmic.tools.tree.ThisExpression;
+import org.glassfish.rmic.tools.tree.ThrowStatement;
+import org.glassfish.rmic.tools.tree.TryStatement;
+import org.glassfish.rmic.tools.tree.TypeExpression;
+import org.glassfish.rmic.tools.tree.UplevelReference;
+import org.glassfish.rmic.tools.tree.Vset;
 
 /**
  * This class represents an Java class as it is read from

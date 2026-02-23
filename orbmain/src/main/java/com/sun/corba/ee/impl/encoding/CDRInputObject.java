@@ -19,28 +19,22 @@
 
 package com.sun.corba.ee.impl.encoding;
 
-import java.nio.ByteBuffer;
-
+import com.sun.corba.ee.impl.misc.ORBUtility;
 import com.sun.corba.ee.impl.protocol.giopmsgheaders.FragmentMessage;
+import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+import com.sun.corba.ee.spi.logging.OMGSystemException;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.protocol.MessageMediator;
+import com.sun.corba.ee.spi.trace.MonitorRead ;
+import com.sun.corba.ee.spi.trace.Transport;
+import com.sun.corba.ee.spi.transport.Connection;
 import com.sun.org.omg.SendingContext.CodeBase;
 
-import com.sun.corba.ee.spi.orb.ORB;
-
-import com.sun.corba.ee.spi.transport.Connection;
-
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-
-import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
-
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
-import com.sun.corba.ee.spi.logging.OMGSystemException;
-
-import com.sun.corba.ee.impl.misc.ORBUtility;
-import com.sun.corba.ee.spi.protocol.MessageMediator;
-import com.sun.corba.ee.spi.trace.Transport;
-import com.sun.corba.ee.spi.trace.MonitorRead ;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import org.omg.CORBA.Any;

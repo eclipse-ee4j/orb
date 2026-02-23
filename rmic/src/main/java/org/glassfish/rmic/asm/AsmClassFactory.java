@@ -19,6 +19,12 @@
 
 package org.glassfish.rmic.asm;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.glassfish.rmic.Names;
 import org.glassfish.rmic.tools.java.ClassDeclaration;
 import org.glassfish.rmic.tools.java.ClassDefinition;
@@ -32,12 +38,6 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A factory for a class definition produced via ASM.

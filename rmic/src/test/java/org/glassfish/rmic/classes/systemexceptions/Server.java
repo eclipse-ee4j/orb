@@ -19,9 +19,6 @@
 
 package org.glassfish.rmic.classes.systemexceptions;
 
-import javax.rmi.PortableRemoteObject;
-import java.rmi.RemoteException;
-
 public class Server {
     static void invoke(int excType) {
         System.out.println("Invoked with " + excType);

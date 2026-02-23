@@ -19,7 +19,12 @@
 
 package org.glassfish.rmic.tools.java;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The MethodSet structure is used to store methods for a class.

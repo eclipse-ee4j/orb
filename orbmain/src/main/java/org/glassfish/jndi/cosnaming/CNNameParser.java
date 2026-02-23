@@ -18,10 +18,16 @@
  */
 package org.glassfish.jndi.cosnaming;
 
-import javax.naming.*;
+import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
-import java.util.Enumeration;
+
+import javax.naming.CompositeName;
+import javax.naming.CompoundName;
+import javax.naming.InvalidNameException;
+import javax.naming.Name;
+import javax.naming.NameParser;
+import javax.naming.NamingException;
 
 import org.omg.CosNaming.NameComponent;
 

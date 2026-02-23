@@ -31,13 +31,12 @@ package com.sun.tools.corba.ee.idl.toJavaPortable;
 
 import com.sun.tools.corba.ee.idl.GenFileStream;
 import com.sun.tools.corba.ee.idl.InterfaceEntry;
-import com.sun.tools.corba.ee.idl.SymtabEntry;
-import com.sun.tools.corba.ee.idl.ValueEntry;
-import com.sun.tools.corba.ee.idl.ValueBoxEntry;
-import com.sun.tools.corba.ee.idl.TypedefEntry;
-import com.sun.tools.corba.ee.idl.InterfaceState;
 import com.sun.tools.corba.ee.idl.PrimitiveEntry;
 import com.sun.tools.corba.ee.idl.StructEntry;
+import com.sun.tools.corba.ee.idl.SymtabEntry;
+import com.sun.tools.corba.ee.idl.TypedefEntry;
+import com.sun.tools.corba.ee.idl.ValueBoxEntry;
+import com.sun.tools.corba.ee.idl.ValueEntry;
 
 /**
  *

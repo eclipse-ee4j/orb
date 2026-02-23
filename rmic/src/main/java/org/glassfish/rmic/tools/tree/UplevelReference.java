@@ -19,9 +19,13 @@
 
 package org.glassfish.rmic.tools.tree;
 
-import org.glassfish.rmic.tools.java.*;
-import org.glassfish.rmic.tools.tree.*;
 import org.glassfish.rmic.tools.asm.Assembler;
+import org.glassfish.rmic.tools.java.ClassDefinition;
+import org.glassfish.rmic.tools.java.CompilerError;
+import org.glassfish.rmic.tools.java.Constants;
+import org.glassfish.rmic.tools.java.Environment;
+import org.glassfish.rmic.tools.java.Identifier;
+import org.glassfish.rmic.tools.java.MemberDefinition;
 
 /**
  * A reference from one scope to another.

@@ -20,9 +20,9 @@
 
 package com.sun.corba.ee.spi.protocol;
 
-import java.util.Set;
-
 import com.sun.corba.ee.spi.oa.ObjectAdapterFactory ;
+
+import java.util.Set;
 
 /**
  * This is a registry of all subcontract ID dependent objects.  This includes:

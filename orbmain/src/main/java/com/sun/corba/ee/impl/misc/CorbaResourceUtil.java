@@ -19,8 +19,8 @@
 
 package com.sun.corba.ee.impl.misc;
 
-import java.util.ResourceBundle;
 import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 public class CorbaResourceUtil {
     public static String getString(String key) {

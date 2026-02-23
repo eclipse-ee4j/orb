@@ -19,10 +19,10 @@
 
 package com.sun.corba.ee.spi.transport;
 
+import com.sun.corba.ee.spi.threadpool.Work;
+
 import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
-
-import com.sun.corba.ee.spi.threadpool.Work;
 
 /**
  * @author Harold Carr

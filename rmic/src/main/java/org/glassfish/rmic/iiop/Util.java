@@ -21,9 +21,10 @@
 package org.glassfish.rmic.iiop;
 
 import com.sun.corba.ee.impl.util.PackagePrefixChecker;
-import org.glassfish.rmic.tools.java.Identifier;
 
 import java.io.File;
+
+import org.glassfish.rmic.tools.java.Identifier;
 
 /**
  * Util provides static utility methods used by other rmic classes.

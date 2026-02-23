@@ -19,15 +19,13 @@
 
 package com.sun.corba.ee.impl.ior;
 
-import org.omg.CORBA_2_3.portable.InputStream ;
-import org.omg.CORBA_2_3.portable.OutputStream ;
-
-import org.omg.CORBA.OctetSeqHolder ;
-
+import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
 import com.sun.corba.ee.spi.orb.ORB ;
 import com.sun.corba.ee.spi.orb.ORBVersionFactory ;
 
-import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
+import org.omg.CORBA.OctetSeqHolder ;
+import org.omg.CORBA_2_3.portable.InputStream ;
+import org.omg.CORBA_2_3.portable.OutputStream ;
 
 public final class POAObjectKeyTemplate extends NewObjectKeyTemplateBase 
 {

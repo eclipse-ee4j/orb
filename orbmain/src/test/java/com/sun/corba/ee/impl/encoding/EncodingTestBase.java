@@ -19,12 +19,6 @@
 
 package com.sun.corba.ee.impl.encoding;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.meterware.simplestub.Stub;
 import com.sun.corba.ee.impl.orb.ORBImpl;
 import com.sun.corba.ee.impl.protocol.giopmsgheaders.FragmentMessage;
@@ -41,9 +35,16 @@ import com.sun.corba.ee.spi.transport.ByteBufferPool;
 import com.sun.corba.ee.spi.transport.Connection;
 import com.sun.corba.ee.spi.transport.MessageTraceManager;
 import com.sun.corba.ee.spi.transport.TransportManager;
-import com.sun.org.omg.SendingContext.CodeBase;
-import org.glassfish.corba.testutils.HexBuffer;
 import com.sun.org.omg.CORBA.ValueDefPackage.FullValueDescription;
+import com.sun.org.omg.SendingContext.CodeBase;
+
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.glassfish.corba.testutils.HexBuffer;
 import org.junit.Before;
 import org.omg.CORBA.portable.OutputStream;
 import org.omg.CORBA.portable.ValueFactory;

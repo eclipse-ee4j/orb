@@ -19,14 +19,14 @@
 
 package org.glassfish.rmic.tools.binaryclass;
 
-import org.glassfish.rmic.tools.java.ClassDefinition;
-import org.glassfish.rmic.tools.java.ClassDefinitionFactory;
-import org.glassfish.rmic.tools.java.Environment;
-
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+
+import org.glassfish.rmic.tools.java.ClassDefinition;
+import org.glassfish.rmic.tools.java.ClassDefinitionFactory;
+import org.glassfish.rmic.tools.java.Environment;
 import org.objectweb.asm.Opcodes;
 
 public class BinaryClassFactory implements ClassDefinitionFactory {

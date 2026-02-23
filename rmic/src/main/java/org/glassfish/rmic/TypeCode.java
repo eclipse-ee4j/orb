@@ -19,7 +19,20 @@
 
 package org.glassfish.rmic;
 
-import static org.glassfish.rmic.tools.java.Constants.*;
+import static org.glassfish.rmic.tools.java.Constants.TC_ARRAY;
+import static org.glassfish.rmic.tools.java.Constants.TC_BOOLEAN;
+import static org.glassfish.rmic.tools.java.Constants.TC_BYTE;
+import static org.glassfish.rmic.tools.java.Constants.TC_CHAR;
+import static org.glassfish.rmic.tools.java.Constants.TC_CLASS;
+import static org.glassfish.rmic.tools.java.Constants.TC_DOUBLE;
+import static org.glassfish.rmic.tools.java.Constants.TC_ERROR;
+import static org.glassfish.rmic.tools.java.Constants.TC_FLOAT;
+import static org.glassfish.rmic.tools.java.Constants.TC_INT;
+import static org.glassfish.rmic.tools.java.Constants.TC_LONG;
+import static org.glassfish.rmic.tools.java.Constants.TC_METHOD;
+import static org.glassfish.rmic.tools.java.Constants.TC_NULL;
+import static org.glassfish.rmic.tools.java.Constants.TC_SHORT;
+import static org.glassfish.rmic.tools.java.Constants.TC_VOID;
 
 public enum TypeCode {
     BOOLEAN(TC_BOOLEAN) {

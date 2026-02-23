@@ -20,12 +20,12 @@
 
 package org.glassfish.rmic.iiop;
 
+import java.util.Vector;
+
 import org.glassfish.rmic.tools.java.ClassDefinition;
 import org.glassfish.rmic.tools.java.ClassNotFound;
 import org.glassfish.rmic.tools.java.CompilerError;
 import org.glassfish.rmic.tools.java.MemberDefinition;
-
-import java.util.Vector;
 
 /**
  * ImplementationType represents any non-special class which implements

@@ -20,21 +20,20 @@
 
 package com.sun.corba.ee.impl.io;
 
-import java.io.IOException;
-import java.io.StreamCorruptedException;
-import java.io.NotActiveException;
-import java.io.ObjectInputStream;
-
-import org.omg.CORBA.portable.ValueInputStream;
-
+import com.sun.corba.ee.spi.logging.OMGSystemException;
+import com.sun.corba.ee.spi.logging.UtilSystemException;
 import com.sun.corba.ee.spi.orb.ORBVersion;
 import com.sun.corba.ee.spi.orb.ORBVersionFactory;
-import com.sun.corba.ee.spi.logging.UtilSystemException;
-import com.sun.corba.ee.spi.logging.OMGSystemException;
-
 import com.sun.corba.ee.spi.trace.StreamFormatVersion;
+
+import java.io.IOException;
+import java.io.NotActiveException;
+import java.io.ObjectInputStream;
+import java.io.StreamCorruptedException;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.omg.CORBA.portable.ValueInputStream;
 
 @StreamFormatVersion
 public abstract class InputStreamHook extends ObjectInputStream

@@ -25,13 +25,15 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.StringTokenizer;
-import java.util.zip.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
 
 /**
  * FileLocator is an abstract class (one that cannot be instantiated) that

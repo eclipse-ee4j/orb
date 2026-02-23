@@ -19,13 +19,17 @@
 
 package org.glassfish.rmic.tools.asm;
 
-import org.glassfish.rmic.tools.java.*;
-import org.glassfish.rmic.tools.tree.StringExpression;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Vector;
-import java.io.IOException;
-import java.io.DataOutputStream;
+
+import org.glassfish.rmic.tools.java.ClassDeclaration;
+import org.glassfish.rmic.tools.java.Environment;
+import org.glassfish.rmic.tools.java.MemberDefinition;
+import org.glassfish.rmic.tools.java.RuntimeConstants;
+import org.glassfish.rmic.tools.java.Type;
+import org.glassfish.rmic.tools.tree.StringExpression;
 
 /**
  * A table of constants

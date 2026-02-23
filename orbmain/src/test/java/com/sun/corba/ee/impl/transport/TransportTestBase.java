@@ -44,7 +44,6 @@ import com.sun.corba.ee.spi.transport.MessageTraceManager;
 import com.sun.corba.ee.spi.transport.Selector;
 import com.sun.corba.ee.spi.transport.TcpTimeouts;
 import com.sun.corba.ee.spi.transport.TransportManager;
-import org.junit.Before;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -64,6 +63,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
+
+import org.junit.Before;
 
 import static com.meterware.simplestub.Stub.createStrictStub;
 import static com.meterware.simplestub.Stub.createStub;

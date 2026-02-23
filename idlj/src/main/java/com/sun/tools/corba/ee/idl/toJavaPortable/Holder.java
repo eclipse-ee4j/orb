@@ -24,12 +24,12 @@ package com.sun.tools.corba.ee.idl.toJavaPortable;
 // -D61056   <klr> Use Util.helperName
 
 import com.sun.tools.corba.ee.idl.GenFileStream;
-import com.sun.tools.corba.ee.idl.SymtabEntry;
-import com.sun.tools.corba.ee.idl.ValueBoxEntry;
 import com.sun.tools.corba.ee.idl.InterfaceState;
-import com.sun.tools.corba.ee.idl.TypedefEntry;
-import com.sun.tools.corba.ee.idl.StringEntry;
 import com.sun.tools.corba.ee.idl.PrimitiveEntry;
+import com.sun.tools.corba.ee.idl.StringEntry;
+import com.sun.tools.corba.ee.idl.SymtabEntry;
+import com.sun.tools.corba.ee.idl.TypedefEntry;
+import com.sun.tools.corba.ee.idl.ValueBoxEntry;
 
 /**
  *

@@ -19,17 +19,17 @@
 
 package org.glassfish.rmic.tools.java;
 
+import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
+
 import org.glassfish.rmic.tools.asm.Assembler;
 import org.glassfish.rmic.tools.tree.Context;
 import org.glassfish.rmic.tools.tree.Expression;
 import org.glassfish.rmic.tools.tree.Node;
 import org.glassfish.rmic.tools.tree.Statement;
 import org.glassfish.rmic.tools.tree.Vset;
-
-import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
 
 /**
  * This class defines a member of a Java class:

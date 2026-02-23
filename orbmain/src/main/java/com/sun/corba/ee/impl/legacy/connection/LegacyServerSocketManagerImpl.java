@@ -19,19 +19,16 @@
 
 package com.sun.corba.ee.impl.legacy.connection;
 
+import com.sun.corba.ee.impl.misc.ORBUtility;
+import com.sun.corba.ee.spi.legacy.connection.LegacyServerSocketEndPointInfo;
+import com.sun.corba.ee.spi.legacy.connection.LegacyServerSocketManager;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.orb.ORB;
+
 import java.util.Collection;
 import java.util.Iterator;
 
 import org.omg.CORBA.INTERNAL;
-import org.omg.CORBA.CompletionStatus;
-
-
-import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.spi.legacy.connection.LegacyServerSocketEndPointInfo;
-import com.sun.corba.ee.spi.legacy.connection.LegacyServerSocketManager;
-
-import com.sun.corba.ee.impl.misc.ORBUtility;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 
 public class LegacyServerSocketManagerImpl 
     implements

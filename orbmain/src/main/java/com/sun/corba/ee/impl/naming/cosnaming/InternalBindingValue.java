@@ -19,9 +19,7 @@
 
 package com.sun.corba.ee.impl.naming.cosnaming;
 
-import org.omg.CORBA.Object;
 import org.omg.CosNaming.Binding;
-import org.omg.CosNaming.NameComponent;
 
 /**
  * Class InternalBindingKey acts as a container for two objects, namely
