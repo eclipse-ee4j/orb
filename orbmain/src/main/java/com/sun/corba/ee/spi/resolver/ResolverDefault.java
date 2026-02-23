@@ -19,19 +19,19 @@
 
 package com.sun.corba.ee.spi.resolver ;
 
-import java.io.File ;
-
-import com.sun.corba.ee.impl.resolver.LocalResolverImpl ;
-import com.sun.corba.ee.impl.resolver.ORBInitRefResolverImpl ;
-import com.sun.corba.ee.impl.resolver.ORBDefaultInitRefResolverImpl ;
 import com.sun.corba.ee.impl.resolver.BootstrapResolverImpl ;
 import com.sun.corba.ee.impl.resolver.CompositeResolverImpl ;
-import com.sun.corba.ee.impl.resolver.INSURLOperationImpl ;
-import com.sun.corba.ee.impl.resolver.SplitLocalResolverImpl ;
 import com.sun.corba.ee.impl.resolver.FileResolverImpl ;
-
+import com.sun.corba.ee.impl.resolver.INSURLOperationImpl ;
+import com.sun.corba.ee.impl.resolver.LocalResolverImpl ;
+import com.sun.corba.ee.impl.resolver.ORBDefaultInitRefResolverImpl ;
+import com.sun.corba.ee.impl.resolver.ORBInitRefResolverImpl ;
+import com.sun.corba.ee.impl.resolver.SplitLocalResolverImpl ;
 import com.sun.corba.ee.spi.orb.ORB ;
 import com.sun.corba.ee.spi.orb.Operation ;
+
+import java.io.File ;
+
 import org.glassfish.pfl.basic.contain.Pair;
 
 /** Utility class that provides factory methods for all of the 

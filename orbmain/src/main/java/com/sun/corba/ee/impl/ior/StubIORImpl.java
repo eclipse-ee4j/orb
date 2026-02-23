@@ -21,24 +21,22 @@
 
 package com.sun.corba.ee.impl.ior;
 
-import java.io.ObjectOutputStream ;
-import java.io.IOException ;
-import java.io.Serializable ;
-
-import java.util.Arrays ;
-
-import org.omg.CORBA.ORB ;
-
-import org.omg.CORBA.portable.Delegate ;
-import org.omg.CORBA.portable.InputStream ;
-import org.omg.CORBA.portable.OutputStream ;
-
+import com.sun.corba.ee.impl.misc.ORBUtility;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 // Be very careful: com.sun.corba imports must not depend on 
 // PEORB internal classes in ways that prevent portability to
 // other vendor's ORBs.
 import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
-import com.sun.corba.ee.impl.misc.ORBUtility;
-import com.sun.corba.ee.spi.misc.ORBConstants;
+
+import java.io.IOException ;
+import java.io.ObjectOutputStream ;
+import java.io.Serializable ;
+import java.util.Arrays ;
+
+import org.omg.CORBA.ORB ;
+import org.omg.CORBA.portable.Delegate ;
+import org.omg.CORBA.portable.InputStream ;
+import org.omg.CORBA.portable.OutputStream ;
 
 /**
  * This class implements a very simply IOR representation

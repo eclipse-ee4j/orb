@@ -20,9 +20,8 @@
 
 package com.sun.corba.ee.impl.presentation.rmi ;
 
-import org.omg.CORBA_2_3.portable.OutputStream ;
-
 import org.omg.CORBA.portable.ApplicationException ;
+import org.omg.CORBA_2_3.portable.OutputStream ;
 
 public interface ExceptionHandler 
 {

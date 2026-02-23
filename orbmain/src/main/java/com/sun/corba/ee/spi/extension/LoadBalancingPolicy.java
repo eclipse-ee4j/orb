@@ -19,11 +19,11 @@
 
 package com.sun.corba.ee.spi.extension ;
 
-import org.omg.CORBA.Policy ;
-import org.omg.CORBA.LocalObject ;
-
 import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
 import com.sun.corba.ee.spi.misc.ORBConstants ;
+
+import org.omg.CORBA.LocalObject ;
+import org.omg.CORBA.Policy ;
 
 /** Policy used to support the request partitioning feature and to
  *  specify the partition to use.

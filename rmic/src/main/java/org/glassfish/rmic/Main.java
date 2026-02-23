@@ -20,14 +20,6 @@
 
 package org.glassfish.rmic;
 
-import org.glassfish.rmic.tools.java.ClassDeclaration;
-import org.glassfish.rmic.tools.java.ClassFile;
-import org.glassfish.rmic.tools.java.ClassNotFound;
-import org.glassfish.rmic.tools.java.ClassPath;
-import org.glassfish.rmic.tools.java.Identifier;
-import org.glassfish.rmic.tools.javac.SourceClass;
-import org.glassfish.rmic.tools.util.CommandLine;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -43,6 +35,14 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 import java.util.Vector;
+
+import org.glassfish.rmic.tools.java.ClassDeclaration;
+import org.glassfish.rmic.tools.java.ClassFile;
+import org.glassfish.rmic.tools.java.ClassNotFound;
+import org.glassfish.rmic.tools.java.ClassPath;
+import org.glassfish.rmic.tools.java.Identifier;
+import org.glassfish.rmic.tools.javac.SourceClass;
+import org.glassfish.rmic.tools.util.CommandLine;
 
 /**
  * Main "rmic" program.

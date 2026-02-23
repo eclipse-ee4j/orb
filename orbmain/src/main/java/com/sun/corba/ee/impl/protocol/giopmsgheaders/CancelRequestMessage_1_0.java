@@ -19,8 +19,6 @@
 
 package com.sun.corba.ee.impl.protocol.giopmsgheaders;
 
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-
 /**
  * This implements the GIOP 1.0 CancelRequest header.
  *

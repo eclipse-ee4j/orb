@@ -21,14 +21,15 @@ package com.sun.corba.ee.impl.encoding;
 
 import com.sun.corba.ee.impl.util.RepositoryId;
 import com.sun.corba.ee.spi.orb.ORBVersionFactory;
-import org.junit.Test;
-import org.omg.CORBA.MARSHAL;
-import org.omg.CORBA.portable.IndirectionException;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.InetAddress;
 import java.util.Date;
+
+import org.junit.Test;
+import org.omg.CORBA.MARSHAL;
+import org.omg.CORBA.portable.IndirectionException;
 
 import static org.hamcrest.Matchers.arrayContaining;
 import static org.hamcrest.Matchers.equalTo;

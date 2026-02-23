@@ -21,79 +21,70 @@
 
 package com.sun.corba.ee.impl.orb;
 
-import java.util.Properties;
-
-import java.applet.Applet;
-
-import java.net.URL;
-
-
-
-import org.omg.CORBA.ORBPackage.InvalidName;
-import org.omg.CORBA.NVList;
-import org.omg.CORBA.TCKind;
-import org.omg.CORBA.NO_IMPLEMENT;
-import org.omg.CORBA.Request;
-import org.omg.CORBA.TypeCode;
-import org.omg.CORBA.Any;
-import org.omg.CORBA.StructMember;
-import org.omg.CORBA.UnionMember;
-import org.omg.CORBA.ValueMember;
-import org.omg.CORBA.Policy;
-import org.omg.CORBA.PolicyError;
-
-import org.omg.CORBA.portable.OutputStream;
-
-import com.sun.corba.ee.spi.protocol.ClientInvocationInfo ;
-import com.sun.corba.ee.spi.transport.ContactInfo;
-import com.sun.corba.ee.spi.transport.ConnectionCache;
-import com.sun.corba.ee.spi.transport.Selector ;
-import com.sun.corba.ee.spi.transport.TransportManager;
-
-import com.sun.corba.ee.spi.orb.ORBData;
-import com.sun.corba.ee.spi.orb.Operation;
-import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.spi.orb.ORBVersion;
-import com.sun.corba.ee.spi.orb.ORBVersionFactory;
-import com.sun.corba.ee.spi.oa.OAInvocationInfo;
-import com.sun.corba.ee.spi.protocol.ClientDelegateFactory;
-import com.sun.corba.ee.spi.protocol.RequestDispatcherRegistry;
-import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher;
-import com.sun.corba.ee.spi.protocol.PIHandler;
-import com.sun.corba.ee.spi.resolver.Resolver;
-import com.sun.corba.ee.spi.resolver.LocalResolver;
-import com.sun.corba.ee.spi.ior.IOR;
-import com.sun.corba.ee.spi.ior.IdentifiableFactoryFinder;
-import com.sun.corba.ee.spi.ior.TaggedComponentFactoryFinder;
-import com.sun.corba.ee.spi.ior.ObjectKey;
-import com.sun.corba.ee.spi.ior.ObjectKeyFactory;
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-import com.sun.corba.ee.spi.transport.ContactInfoListFactory ;
-import com.sun.corba.ee.spi.transport.TransportManager;
-import com.sun.corba.ee.spi.legacy.connection.LegacyServerSocketManager;
-import com.sun.corba.ee.spi.threadpool.ThreadPoolManager;
-import com.sun.corba.ee.spi.copyobject.CopierManager;
-import com.sun.corba.ee.spi.presentation.rmi.InvocationInterceptor;
-import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
-import com.sun.corba.ee.spi.presentation.rmi.PresentationDefaults;
-
-import com.sun.corba.ee.spi.servicecontext.ServiceContextFactoryRegistry;
-import com.sun.corba.ee.spi.servicecontext.ServiceContextsCache;
-
-import com.sun.corba.ee.impl.corba.TypeCodeImpl;
-import com.sun.corba.ee.impl.corba.NVListImpl;
-import com.sun.corba.ee.impl.corba.NamedValueImpl;
-import com.sun.corba.ee.impl.corba.ExceptionListImpl;
+import com.sun.corba.ee.impl.corba.AnyImpl;
 import com.sun.corba.ee.impl.corba.ContextListImpl;
 import com.sun.corba.ee.impl.corba.EnvironmentImpl;
-import com.sun.corba.ee.impl.corba.AnyImpl;
+import com.sun.corba.ee.impl.corba.ExceptionListImpl;
+import com.sun.corba.ee.impl.corba.NVListImpl;
+import com.sun.corba.ee.impl.corba.NamedValueImpl;
+import com.sun.corba.ee.impl.corba.TypeCodeImpl;
 import com.sun.corba.ee.impl.encoding.BufferManagerFactory;
 import com.sun.corba.ee.impl.encoding.CodeSetComponentInfo;
 import com.sun.corba.ee.impl.encoding.OutputStreamFactory;
 import com.sun.corba.ee.impl.oa.poa.BadServerIdHandler;
-import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.copyobject.CopierManager;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.ior.IdentifiableFactoryFinder;
+import com.sun.corba.ee.spi.ior.ObjectKey;
+import com.sun.corba.ee.spi.ior.ObjectKeyFactory;
+import com.sun.corba.ee.spi.ior.TaggedComponentFactoryFinder;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 import com.sun.corba.ee.spi.legacy.connection.LegacyServerSocketEndPointInfo;
+import com.sun.corba.ee.spi.legacy.connection.LegacyServerSocketManager;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.oa.OAInvocationInfo;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ORBData;
+import com.sun.corba.ee.spi.orb.ORBVersion;
+import com.sun.corba.ee.spi.orb.ORBVersionFactory;
+import com.sun.corba.ee.spi.orb.Operation;
+import com.sun.corba.ee.spi.presentation.rmi.InvocationInterceptor;
+import com.sun.corba.ee.spi.presentation.rmi.PresentationDefaults;
+import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
+import com.sun.corba.ee.spi.protocol.ClientDelegateFactory;
+import com.sun.corba.ee.spi.protocol.ClientInvocationInfo ;
+import com.sun.corba.ee.spi.protocol.PIHandler;
+import com.sun.corba.ee.spi.protocol.RequestDispatcherRegistry;
+import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher;
+import com.sun.corba.ee.spi.resolver.LocalResolver;
+import com.sun.corba.ee.spi.resolver.Resolver;
+import com.sun.corba.ee.spi.servicecontext.ServiceContextFactoryRegistry;
+import com.sun.corba.ee.spi.servicecontext.ServiceContextsCache;
+import com.sun.corba.ee.spi.threadpool.ThreadPoolManager;
+import com.sun.corba.ee.spi.transport.ConnectionCache;
+import com.sun.corba.ee.spi.transport.ContactInfo;
+import com.sun.corba.ee.spi.transport.ContactInfoListFactory ;
+import com.sun.corba.ee.spi.transport.Selector ;
+import com.sun.corba.ee.spi.transport.TransportManager;
+
+import java.applet.Applet;
+import java.net.URL;
+import java.util.Properties;
+
 import org.glassfish.pfl.basic.func.NullaryFunction;
+import org.omg.CORBA.Any;
+import org.omg.CORBA.NO_IMPLEMENT;
+import org.omg.CORBA.NVList;
+import org.omg.CORBA.Policy;
+import org.omg.CORBA.PolicyError;
+import org.omg.CORBA.Request;
+import org.omg.CORBA.StructMember;
+import org.omg.CORBA.TCKind;
+import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.UnionMember;
+import org.omg.CORBA.ValueMember;
+import org.omg.CORBA.ORBPackage.InvalidName;
+import org.omg.CORBA.portable.OutputStream;
 
 /**
  * The restricted singleton ORB implementation.

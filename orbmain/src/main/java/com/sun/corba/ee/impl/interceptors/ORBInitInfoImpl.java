@@ -19,24 +19,23 @@
 
 package com.sun.corba.ee.impl.interceptors;
 
+import com.sun.corba.ee.spi.legacy.interceptor.ORBInitInfoExt ;
+import com.sun.corba.ee.spi.logging.InterceptorsSystemException;
+import com.sun.corba.ee.spi.logging.OMGSystemException;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.orb.ORB;
+
 import org.omg.CORBA.BAD_PARAM;
 import org.omg.CORBA.Policy;
 import org.omg.CORBA.PolicyError;
 import org.omg.IOP.CodecFactory;
-import org.omg.PortableInterceptor.ORBInitInfo;
 import org.omg.PortableInterceptor.ClientRequestInterceptor;
 import org.omg.PortableInterceptor.IORInterceptor;
+import org.omg.PortableInterceptor.ORBInitInfo;
 import org.omg.PortableInterceptor.PolicyFactory;
 import org.omg.PortableInterceptor.ServerRequestInterceptor;
 import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 import org.omg.PortableInterceptor.ORBInitInfoPackage.InvalidName;
-
-import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.spi.legacy.interceptor.ORBInitInfoExt ;
-
-import com.sun.corba.ee.spi.logging.InterceptorsSystemException;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
-import com.sun.corba.ee.spi.logging.OMGSystemException;
 
 /**
  * ORBInitInfoImpl is the implementation of the ORBInitInfo class to be

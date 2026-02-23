@@ -19,8 +19,8 @@
 
 package com.sun.corba.ee.spi.transport;
 
-import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message ;
 import com.sun.corba.ee.impl.encoding.CDRInputObject;
+import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message ;
 
 public interface MessageData {
     /** An array of GIOP messages.  The messages will

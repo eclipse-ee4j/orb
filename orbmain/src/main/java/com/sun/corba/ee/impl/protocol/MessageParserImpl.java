@@ -19,22 +19,22 @@
 
 package com.sun.corba.ee.impl.protocol;
 
+import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
+import com.sun.corba.ee.impl.protocol.giopmsgheaders.MessageBase;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.protocol.MessageMediator;
+import com.sun.corba.ee.spi.protocol.MessageParser;
+import com.sun.corba.ee.spi.protocol.RequestId;
+import com.sun.corba.ee.spi.trace.Giop;
+import com.sun.corba.ee.spi.trace.Transport;
+import com.sun.corba.ee.spi.transport.Connection;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.spi.protocol.MessageMediator;
-import com.sun.corba.ee.spi.protocol.RequestId;
-import com.sun.corba.ee.spi.transport.Connection;
-import com.sun.corba.ee.spi.protocol.MessageParser;
-
-import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
-import com.sun.corba.ee.impl.protocol.giopmsgheaders.MessageBase;
-import com.sun.corba.ee.spi.trace.Giop;
-import com.sun.corba.ee.spi.trace.Transport;
 import org.omg.CORBA.COMM_FAILURE;
 
 

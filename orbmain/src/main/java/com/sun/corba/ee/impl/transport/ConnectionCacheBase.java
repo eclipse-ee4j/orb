@@ -19,22 +19,20 @@
 
 package com.sun.corba.ee.impl.transport;
 
-import java.util.Collection;
-import java.util.Iterator;
-
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.trace.Transport;
 import com.sun.corba.ee.spi.transport.Connection;
 import com.sun.corba.ee.spi.transport.ConnectionCache;
 
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
-import com.sun.corba.ee.spi.trace.Transport;
-
-import org.glassfish.gmbal.ManagedAttribute ;
-import org.glassfish.gmbal.Description ;
-import org.glassfish.gmbal.NameValue ;
+import java.util.Collection;
+import java.util.Iterator;
 
 import org.glassfish.external.statistics.CountStatistic ;
 import org.glassfish.external.statistics.impl.CountStatisticImpl ;
+import org.glassfish.gmbal.Description ;
+import org.glassfish.gmbal.ManagedAttribute ;
+import org.glassfish.gmbal.NameValue ;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 
 

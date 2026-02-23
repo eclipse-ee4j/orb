@@ -19,13 +19,13 @@
 
 package com.sun.corba.ee.spi.transport;
 
+import com.sun.corba.ee.spi.orb.ORB;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.ServerSocket;
-
-import com.sun.corba.ee.spi.orb.ORB;
 
 /**
  * @author Harold Carr

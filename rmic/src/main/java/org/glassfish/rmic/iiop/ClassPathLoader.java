@@ -19,12 +19,12 @@
 
 package org.glassfish.rmic.iiop;
 
-import org.glassfish.rmic.tools.java.ClassFile;
-import org.glassfish.rmic.tools.java.ClassPath;
-
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
+
+import org.glassfish.rmic.tools.java.ClassFile;
+import org.glassfish.rmic.tools.java.ClassPath;
 
 /**
  * A ClassLoader that will ultimately use a given org.glassfish.rmic.tools.java.ClassPath to

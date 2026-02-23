@@ -21,6 +21,13 @@
 
 package com.sun.tools.corba.ee.idl.toJavaPortable;
 
+import com.sun.tools.corba.ee.idl.AttributeEntry;
+import com.sun.tools.corba.ee.idl.GenFileStream;
+import com.sun.tools.corba.ee.idl.InterfaceEntry;
+import com.sun.tools.corba.ee.idl.MethodEntry;
+import com.sun.tools.corba.ee.idl.SymtabEntry;
+import com.sun.tools.corba.ee.idl.ValueEntry;
+
 // NOTES:
 // -F46082.51<daz> Remove -stateful feature; javaStatefulName() obsolete.
 // -D57147   <klr> Make _Tie implement org.omg.CORBA.portable.InvokeHandler
@@ -28,18 +35,9 @@ package com.sun.tools.corba.ee.idl.toJavaPortable;
 // -D62739   <klr> no TIE for values that support abstract interfaces, etc.
 
 import java.io.PrintWriter;
-
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
-
-import com.sun.tools.corba.ee.idl.AttributeEntry;
-import com.sun.tools.corba.ee.idl.GenFileStream;
-
-import com.sun.tools.corba.ee.idl.InterfaceEntry;
-import com.sun.tools.corba.ee.idl.MethodEntry;
-import com.sun.tools.corba.ee.idl.SymtabEntry;
-import com.sun.tools.corba.ee.idl.ValueEntry;
 
 /**
  *

@@ -19,13 +19,9 @@
 
 package com.sun.corba.ee.impl.transport;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.glassfish.external.probe.provider.annotations.Probe ;
-import org.glassfish.external.probe.provider.annotations.ProbeProvider ;
 import org.glassfish.external.probe.provider.annotations.ProbeParam ;
+import org.glassfish.external.probe.provider.annotations.ProbeProvider ;
 
 /** This simple class is for the GFv3 probe mechanism.  As of 
  * 9/16/09, gfprobes have the unfortunate requirement that ALL

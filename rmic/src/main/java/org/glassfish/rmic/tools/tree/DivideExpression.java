@@ -19,9 +19,8 @@
 
 package org.glassfish.rmic.tools.tree;
 
-import org.glassfish.rmic.tools.java.*;
 import org.glassfish.rmic.tools.asm.Assembler;
-import java.util.Hashtable;
+import org.glassfish.rmic.tools.java.Environment;
 
 /**
  * WARNING: The contents of this source file are not part of any

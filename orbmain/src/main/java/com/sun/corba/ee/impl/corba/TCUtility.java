@@ -20,17 +20,18 @@
 
 package com.sun.corba.ee.impl.corba;
 
-import org.omg.CORBA.TCKind;
-import org.omg.CORBA.Any;
-import org.omg.CORBA.TypeCode;
-import org.omg.CORBA.portable.Streamable;
-import org.omg.CORBA.TypeCodePackage.BadKind;
-
 import com.sun.corba.ee.impl.encoding.CDRInputObject;
 import com.sun.corba.ee.impl.encoding.CDROutputObject;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+
+import org.omg.CORBA.Any;
+import org.omg.CORBA.TCKind;
+import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.TypeCodePackage.BadKind;
+import org.omg.CORBA.portable.Streamable;
 
 /**
  *  Static functions for TypeCode interpretation.

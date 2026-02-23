@@ -20,12 +20,11 @@
 package com.sun.corba.ee.spi.presentation.rmi ;
 
 import java.io.PrintStream ;
-
+import java.lang.reflect.Method ;
 import java.util.Map ;
 
-import java.lang.reflect.Method ;
-
 import javax.rmi.CORBA.Tie ;
+
 import org.glassfish.pfl.basic.proxy.InvocationHandlerFactory;
 
 /** Provides access to RMI-IIOP stubs and ties.  

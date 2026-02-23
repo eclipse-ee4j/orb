@@ -19,8 +19,10 @@
 
 package com.sun.corba.ee.impl.oa.poa;
 
-import org.omg.CORBA.*;
-import org.omg.PortableServer.*;
+import org.omg.CORBA.Policy;
+import org.omg.PortableServer.LIFESPAN_POLICY_ID;
+import org.omg.PortableServer.LifespanPolicy;
+import org.omg.PortableServer.LifespanPolicyValue;
 
 final class LifespanPolicyImpl
     extends org.omg.CORBA.LocalObject implements LifespanPolicy {

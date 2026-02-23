@@ -19,21 +19,20 @@
 
 package com.sun.corba.ee.impl.ior;
 
-import java.util.Iterator ;
-
-import org.omg.CORBA_2_3.portable.OutputStream ;
-import org.omg.CORBA_2_3.portable.InputStream ;
-
-import com.sun.corba.ee.spi.ior.IdentifiableContainerBase ;
-import com.sun.corba.ee.spi.ior.IdentifiableFactoryFinder ;
-import com.sun.corba.ee.spi.ior.IORTemplate ;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
-import com.sun.corba.ee.spi.ior.TaggedProfileTemplate ;
-import com.sun.corba.ee.spi.ior.ObjectId ;
 import com.sun.corba.ee.spi.ior.IOR ;
 import com.sun.corba.ee.spi.ior.IORFactory ;
-
+import com.sun.corba.ee.spi.ior.IORTemplate ;
+import com.sun.corba.ee.spi.ior.IdentifiableContainerBase ;
+import com.sun.corba.ee.spi.ior.IdentifiableFactoryFinder ;
+import com.sun.corba.ee.spi.ior.ObjectId ;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
+import com.sun.corba.ee.spi.ior.TaggedProfileTemplate ;
 import com.sun.corba.ee.spi.orb.ORB ;
+
+import java.util.Iterator ;
+
+import org.omg.CORBA_2_3.portable.InputStream ;
+import org.omg.CORBA_2_3.portable.OutputStream ;
 
 /**
  * This class is a container of TaggedProfileTemplates.

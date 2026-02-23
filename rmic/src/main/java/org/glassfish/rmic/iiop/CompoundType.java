@@ -21,6 +21,12 @@
 
 package org.glassfish.rmic.iiop;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Vector;
+
 import org.glassfish.rmic.IndentingWriter;
 import org.glassfish.rmic.tools.java.ClassDeclaration;
 import org.glassfish.rmic.tools.java.ClassDefinition;
@@ -30,12 +36,6 @@ import org.glassfish.rmic.tools.java.Identifier;
 import org.glassfish.rmic.tools.java.MemberDefinition;
 import org.glassfish.rmic.tools.tree.LocalMember;
 import org.glassfish.rmic.tools.tree.Node;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Vector;
 
 /**
  * A CompoundType is an abstract base class for all IIOP class and

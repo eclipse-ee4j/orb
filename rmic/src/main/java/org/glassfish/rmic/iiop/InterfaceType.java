@@ -20,11 +20,11 @@
 
 package org.glassfish.rmic.iiop;
 
+import java.io.IOException;
+
 import org.glassfish.rmic.IndentingWriter;
 import org.glassfish.rmic.tools.java.ClassDefinition;
 import org.glassfish.rmic.tools.java.CompilerError;
-
-import java.io.IOException;
 
 /**
  * InterfaceType is an abstract base representing any non-special

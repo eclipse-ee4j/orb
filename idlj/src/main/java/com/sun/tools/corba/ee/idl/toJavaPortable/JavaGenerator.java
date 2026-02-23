@@ -20,11 +20,11 @@
 
 package com.sun.tools.corba.ee.idl.toJavaPortable;
 
+import com.sun.tools.corba.ee.idl.SymtabEntry;
+
 // NOTES:
 
 import java.io.PrintWriter;
-
-import com.sun.tools.corba.ee.idl.SymtabEntry;
 
 /**
  *

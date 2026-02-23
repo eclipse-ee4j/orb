@@ -19,13 +19,13 @@
 
 package com.sun.corba.ee.impl.transport;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import java.io.EOFException;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;

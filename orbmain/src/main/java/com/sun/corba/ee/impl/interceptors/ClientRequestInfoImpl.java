@@ -19,50 +19,47 @@
 
 package com.sun.corba.ee.impl.interceptors;
 
-import java.util.Map ;
-import java.util.HashMap ;
-
-import org.omg.CORBA.Any;
-import org.omg.CORBA.BAD_INV_ORDER;
-import org.omg.CORBA.Context;
-import org.omg.CORBA.ContextList;
-import org.omg.CORBA.CTX_RESTRICT_SCOPE;
-import org.omg.CORBA.ExceptionList;
-import org.omg.CORBA.NamedValue;
-import org.omg.CORBA.NVList;
-import org.omg.CORBA.Object;
-import org.omg.CORBA.Policy;
-import org.omg.CORBA.SystemException;
-import org.omg.CORBA.TypeCode;
-import org.omg.CORBA.portable.ApplicationException;
-import com.sun.corba.ee.spi.servicecontext.ServiceContexts;
-
-import org.omg.IOP.ServiceContext;
-import org.omg.IOP.TaggedProfile;
-import org.omg.IOP.TaggedComponent;
-import org.omg.Dynamic.Parameter;
-import org.omg.PortableInterceptor.ClientRequestInfo;
-import org.omg.PortableInterceptor.LOCATION_FORWARD;
-import org.omg.PortableInterceptor.SUCCESSFUL;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-import org.omg.PortableInterceptor.TRANSPORT_RETRY;
-import org.omg.PortableInterceptor.USER_EXCEPTION;
-
-
+import com.sun.corba.ee.impl.misc.ORBUtility;
+import com.sun.corba.ee.impl.protocol.InvocationInfo;
 import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.protocol.MessageMediator;
 // 6763340
 import com.sun.corba.ee.spi.protocol.RetryType;
+import com.sun.corba.ee.spi.servicecontext.ServiceContexts;
+import com.sun.corba.ee.spi.trace.TraceInterceptor;
 import com.sun.corba.ee.spi.transport.ContactInfo;
 import com.sun.corba.ee.spi.transport.ContactInfoList;
 import com.sun.corba.ee.spi.transport.ContactInfoListIterator;
 
-import com.sun.corba.ee.impl.misc.ORBUtility;
-import com.sun.corba.ee.impl.protocol.InvocationInfo;
-import com.sun.corba.ee.spi.trace.TraceInterceptor;
+import java.util.HashMap ;
+import java.util.Map ;
+
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
+import org.omg.CORBA.Any;
+import org.omg.CORBA.BAD_INV_ORDER;
+import org.omg.CORBA.CTX_RESTRICT_SCOPE;
+import org.omg.CORBA.Context;
+import org.omg.CORBA.ContextList;
+import org.omg.CORBA.ExceptionList;
+import org.omg.CORBA.NVList;
+import org.omg.CORBA.NamedValue;
+import org.omg.CORBA.Object;
+import org.omg.CORBA.Policy;
+import org.omg.CORBA.SystemException;
+import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.portable.ApplicationException;
+import org.omg.Dynamic.Parameter;
+import org.omg.IOP.ServiceContext;
+import org.omg.IOP.TaggedComponent;
+import org.omg.IOP.TaggedProfile;
+import org.omg.PortableInterceptor.ClientRequestInfo;
+import org.omg.PortableInterceptor.LOCATION_FORWARD;
+import org.omg.PortableInterceptor.SUCCESSFUL;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+import org.omg.PortableInterceptor.TRANSPORT_RETRY;
+import org.omg.PortableInterceptor.USER_EXCEPTION;
 
 /**
  * Implementation of the ClientRequestInfo interface as specified in

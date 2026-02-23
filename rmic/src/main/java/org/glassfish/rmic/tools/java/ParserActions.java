@@ -19,7 +19,7 @@
 
 package org.glassfish.rmic.tools.java;
 
-import org.glassfish.rmic.tools.tree.*;
+import org.glassfish.rmic.tools.tree.Node;
 
 /**
  * This is the protocol by which a Parser makes callbacks

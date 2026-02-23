@@ -19,9 +19,9 @@
 
 package org.glassfish.rmic.tools.java;
 
-import org.glassfish.rmic.TypeCode;
-
 import java.util.Hashtable;
+
+import org.glassfish.rmic.TypeCode;
 
 /**
  * This class represents an Java Type.<p>

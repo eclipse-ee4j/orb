@@ -19,7 +19,6 @@
 
 package org.glassfish.rmic.tools.asm;
 
-import org.glassfish.rmic.tools.java.*;
 import java.util.Vector;
 
 /**

@@ -19,29 +19,25 @@
 
 package com.sun.corba.ee.spi.ior ;
 
-import java.io.Serializable ;
-
-import org.omg.CORBA_2_3.portable.InputStream ;
-
-import org.omg.CORBA.BAD_PARAM ;
-import org.omg.CORBA.portable.ValueFactory ;
-
-import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
-import org.omg.PortableInterceptor.ObjectReferenceFactory ;
-
-import com.sun.corba.ee.impl.ior.ObjectIdImpl ;
-import com.sun.corba.ee.impl.ior.ObjectKeyImpl ;
 import com.sun.corba.ee.impl.ior.IORImpl ;
 import com.sun.corba.ee.impl.ior.IORTemplateImpl ;
 import com.sun.corba.ee.impl.ior.IORTemplateListImpl ;
-import com.sun.corba.ee.impl.ior.ObjectReferenceProducerBase ;
-import com.sun.corba.ee.impl.ior.ObjectReferenceFactoryImpl ;
-import com.sun.corba.ee.impl.ior.ObjectReferenceTemplateImpl ;
+import com.sun.corba.ee.impl.ior.ObjectIdImpl ;
 import com.sun.corba.ee.impl.ior.ObjectKeyFactoryImpl ;
-
+import com.sun.corba.ee.impl.ior.ObjectKeyImpl ;
+import com.sun.corba.ee.impl.ior.ObjectReferenceFactoryImpl ;
+import com.sun.corba.ee.impl.ior.ObjectReferenceProducerBase ;
+import com.sun.corba.ee.impl.ior.ObjectReferenceTemplateImpl ;
 import com.sun.corba.ee.impl.misc.ORBUtility ;
-
 import com.sun.corba.ee.spi.orb.ORB ;
+
+import java.io.Serializable ;
+
+import org.omg.CORBA.BAD_PARAM ;
+import org.omg.CORBA.portable.ValueFactory ;
+import org.omg.CORBA_2_3.portable.InputStream ;
+import org.omg.PortableInterceptor.ObjectReferenceFactory ;
+import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
 
 /** This class provides a number of factory methods for creating
  * various IOR SPI classes which are not subclassed for specific protocols.

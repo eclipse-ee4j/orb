@@ -19,16 +19,16 @@
 
 package com.sun.corba.ee.impl.dynamicany;
 
-import org.omg.CORBA.TypeCode;
+import com.sun.corba.ee.spi.orb.ORB ;
+
 import org.omg.CORBA.Any;
 import org.omg.CORBA.BAD_OPERATION;
+import org.omg.CORBA.TypeCode;
 import org.omg.CORBA.TypeCodePackage.BadKind;
 import org.omg.CORBA.TypeCodePackage.Bounds;
-
-import com.sun.corba.ee.spi.orb.ORB ;
+import org.omg.DynamicAny.DynEnum;
 import org.omg.DynamicAny.DynAnyPackage.InvalidValue;
 import org.omg.DynamicAny.DynAnyPackage.TypeMismatch;
-import org.omg.DynamicAny.DynEnum;
 
 public class DynEnumImpl extends DynAnyBasicImpl implements DynEnum
 {

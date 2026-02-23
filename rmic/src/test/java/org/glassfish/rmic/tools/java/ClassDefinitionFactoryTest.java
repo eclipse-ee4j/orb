@@ -21,6 +21,21 @@ package org.glassfish.rmic.tools.java;
 
 import com.meterware.simplestub.Memento;
 import com.meterware.simplestub.StaticStubSupport;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.rmi.PortableRemoteObject;
+
 import org.glassfish.rmic.BatchEnvironment;
 import org.glassfish.rmic.Names;
 import org.glassfish.rmic.TestUtils;
@@ -41,25 +56,18 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.rmi.PortableRemoteObject;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.AccessibleObject;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.glassfish.rmic.tools.java.ClassDefinitionFactoryTest.ClassDeclarationMatcher.declarationFor;
 import static org.glassfish.rmic.tools.java.ClassDefinitionFactoryTest.MemberDefinitionMatcher.isDefinitionFor;
-import static org.glassfish.rmic.tools.java.Constants.*;
+import static org.glassfish.rmic.tools.java.Constants.M_ABSTRACT;
+import static org.glassfish.rmic.tools.java.Constants.M_INTERFACE;
+import static org.glassfish.rmic.tools.java.Constants.M_PUBLIC;
 import static org.glassfish.rmic.tools.java.RuntimeConstants.ACC_SUPER;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.arrayContainingInAnyOrder;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
 public abstract class ClassDefinitionFactoryTest {
     private ByteArrayOutputStream messagesOut = new ByteArrayOutputStream();

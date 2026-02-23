@@ -19,6 +19,11 @@
 
 package org.glassfish.rmic;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+
 import org.apache.commons.io.FileUtils;
 import org.glassfish.rmic.classes.hcks.RmiIIServant;
 import org.glassfish.rmic.tools.java.ClassPath;
@@ -27,14 +32,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-
 import static org.glassfish.rmic.tools.java.Constants.F_WARNINGS;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.arrayContainingInAnyOrder;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isEmptyString;
 
 public class MainTest {
 

@@ -19,13 +19,33 @@
 
 package org.glassfish.rmic.tools.javac;
 
-import org.glassfish.rmic.tools.java.*;
-import org.glassfish.rmic.tools.tree.*;
-import org.glassfish.rmic.tools.asm.*;
-import java.util.Vector;
+import java.io.PrintStream;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.io.PrintStream;
+import java.util.Vector;
+
+import org.glassfish.rmic.tools.asm.Assembler;
+import org.glassfish.rmic.tools.java.ClassDeclaration;
+import org.glassfish.rmic.tools.java.ClassDefinition;
+import org.glassfish.rmic.tools.java.ClassNotFound;
+import org.glassfish.rmic.tools.java.CompilerError;
+import org.glassfish.rmic.tools.java.Constants;
+import org.glassfish.rmic.tools.java.Environment;
+import org.glassfish.rmic.tools.java.Identifier;
+import org.glassfish.rmic.tools.java.IdentifierToken;
+import org.glassfish.rmic.tools.java.MemberDefinition;
+import org.glassfish.rmic.tools.java.Type;
+import org.glassfish.rmic.tools.tree.Context;
+import org.glassfish.rmic.tools.tree.Expression;
+import org.glassfish.rmic.tools.tree.ExpressionStatement;
+import org.glassfish.rmic.tools.tree.LocalMember;
+import org.glassfish.rmic.tools.tree.MethodExpression;
+import org.glassfish.rmic.tools.tree.Node;
+import org.glassfish.rmic.tools.tree.NullExpression;
+import org.glassfish.rmic.tools.tree.Statement;
+import org.glassfish.rmic.tools.tree.SuperExpression;
+import org.glassfish.rmic.tools.tree.UplevelReference;
+import org.glassfish.rmic.tools.tree.Vset;
 
 /**
  * A Source Member

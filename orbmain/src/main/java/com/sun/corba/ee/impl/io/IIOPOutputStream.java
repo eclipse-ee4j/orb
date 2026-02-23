@@ -25,9 +25,6 @@ import com.sun.corba.ee.impl.misc.ClassInfoCache;
 import com.sun.corba.ee.impl.util.RepositoryId;
 import com.sun.corba.ee.impl.util.Utility;
 import com.sun.corba.ee.spi.trace.ValueHandlerWrite;
-import org.glassfish.pfl.basic.reflection.Bridge;
-import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
-import org.omg.CORBA.portable.OutputStream;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -36,6 +33,10 @@ import java.io.NotActiveException;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Stack;
+
+import org.glassfish.pfl.basic.reflection.Bridge;
+import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
+import org.omg.CORBA.portable.OutputStream;
 
 
 /**

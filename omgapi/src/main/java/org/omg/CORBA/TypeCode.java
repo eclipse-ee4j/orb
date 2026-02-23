@@ -19,7 +19,7 @@
 
 package org.omg.CORBA;
 
-import org.omg.CORBA.TypeCodePackage.*;
+import org.omg.CORBA.TypeCodePackage.BadKind;
 import org.omg.CORBA.portable.IDLEntity;
 
 /**

@@ -19,8 +19,10 @@
 
 package com.sun.corba.ee.impl.oa.poa;
 
-import org.omg.CORBA.*;
-import org.omg.PortableServer.*;
+import org.omg.CORBA.Policy;
+import org.omg.PortableServer.REQUEST_PROCESSING_POLICY_ID;
+import org.omg.PortableServer.RequestProcessingPolicy;
+import org.omg.PortableServer.RequestProcessingPolicyValue;
 
 public class RequestProcessingPolicyImpl
     extends org.omg.CORBA.LocalObject implements RequestProcessingPolicy {

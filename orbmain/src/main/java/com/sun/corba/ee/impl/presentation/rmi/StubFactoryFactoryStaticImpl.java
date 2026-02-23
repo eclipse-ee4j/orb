@@ -19,18 +19,14 @@
 
 package com.sun.corba.ee.impl.presentation.rmi;
 
-import javax.rmi.CORBA.Tie ;
-
-import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
-
+import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
 import com.sun.corba.ee.impl.util.PackagePrefixChecker;
 import com.sun.corba.ee.impl.util.Utility;
-
-import com.sun.corba.ee.spi.misc.ORBClassLoader;
-
 import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.misc.ORBClassLoader;
+import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 
-import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
+import javax.rmi.CORBA.Tie ;
 
 public class StubFactoryFactoryStaticImpl extends 
     StubFactoryFactoryBase 

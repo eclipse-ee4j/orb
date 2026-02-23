@@ -19,8 +19,6 @@
 
 package com.sun.corba.ee.spi.transport;
 
-import org.glassfish.external.statistics.CountStatistic ;
-
 /**
  * @author Harold Carr
  */

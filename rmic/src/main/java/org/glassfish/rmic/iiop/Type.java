@@ -22,15 +22,16 @@
 package org.glassfish.rmic.iiop;
 
 import com.sun.corba.ee.impl.util.RepositoryId;
-import org.glassfish.rmic.IndentingWriter;
-import org.glassfish.rmic.Names;
-import org.glassfish.rmic.tools.java.ClassNotFound;
-import org.glassfish.rmic.tools.java.Identifier;
 
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Vector;
+
+import org.glassfish.rmic.IndentingWriter;
+import org.glassfish.rmic.Names;
+import org.glassfish.rmic.tools.java.ClassNotFound;
+import org.glassfish.rmic.tools.java.Identifier;
 
 /**
  * Type is an abstract base class for a family of types which provide

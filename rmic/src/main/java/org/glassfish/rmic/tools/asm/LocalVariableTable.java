@@ -19,9 +19,11 @@
 
 package org.glassfish.rmic.tools.asm;
 
-import org.glassfish.rmic.tools.java.*;
-import java.io.IOException;
 import java.io.DataOutputStream;
+import java.io.IOException;
+
+import org.glassfish.rmic.tools.java.Environment;
+import org.glassfish.rmic.tools.java.MemberDefinition;
 
 /**
  * This class is used to assemble the local variable table.

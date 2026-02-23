@@ -19,13 +19,13 @@
 
 package com.sun.corba.ee.impl.encoding;
 
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-import org.omg.CORBA.TypeCode;
 import org.omg.CORBA.Any;
-
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+import org.omg.CORBA.TypeCode;
 
 /**
  * Describes CDROutputObject delegates and provides some

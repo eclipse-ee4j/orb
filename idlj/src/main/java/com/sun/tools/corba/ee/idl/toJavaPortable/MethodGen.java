@@ -20,6 +20,21 @@
 
 package com.sun.tools.corba.ee.idl.toJavaPortable;
 
+import com.sun.tools.corba.ee.idl.AttributeEntry;
+import com.sun.tools.corba.ee.idl.ExceptionEntry;
+import com.sun.tools.corba.ee.idl.InterfaceEntry;
+import com.sun.tools.corba.ee.idl.InterfaceState;
+import com.sun.tools.corba.ee.idl.MethodEntry;
+import com.sun.tools.corba.ee.idl.ParameterEntry;
+import com.sun.tools.corba.ee.idl.PrimitiveEntry;
+import com.sun.tools.corba.ee.idl.SequenceEntry;
+import com.sun.tools.corba.ee.idl.StringEntry;
+import com.sun.tools.corba.ee.idl.SymtabEntry;
+import com.sun.tools.corba.ee.idl.TypedefEntry;
+import com.sun.tools.corba.ee.idl.ValueBoxEntry;
+import com.sun.tools.corba.ee.idl.ValueEntry;
+import com.sun.tools.corba.ee.idl.constExpr.Expression;
+
 // NOTES:
 // -After demarshalling an IOR, think about how to deal with the exceptions.
 // -catching Exception throws a string which should be in a properties file.
@@ -40,22 +55,6 @@ package com.sun.tools.corba.ee.idl.toJavaPortable;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.Hashtable;
-
-import com.sun.tools.corba.ee.idl.ExceptionEntry;
-import com.sun.tools.corba.ee.idl.InterfaceEntry;
-import com.sun.tools.corba.ee.idl.MethodEntry;
-import com.sun.tools.corba.ee.idl.ParameterEntry;
-import com.sun.tools.corba.ee.idl.PrimitiveEntry;
-import com.sun.tools.corba.ee.idl.StringEntry;
-import com.sun.tools.corba.ee.idl.SymtabEntry;
-import com.sun.tools.corba.ee.idl.SequenceEntry;
-import com.sun.tools.corba.ee.idl.ValueEntry;
-import com.sun.tools.corba.ee.idl.ValueBoxEntry;
-import com.sun.tools.corba.ee.idl.InterfaceState;
-import com.sun.tools.corba.ee.idl.TypedefEntry;
-import com.sun.tools.corba.ee.idl.AttributeEntry;
-
-import com.sun.tools.corba.ee.idl.constExpr.Expression;
 
 /**
  *

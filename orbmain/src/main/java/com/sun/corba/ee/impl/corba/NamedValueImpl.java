@@ -20,10 +20,10 @@
 
 package com.sun.corba.ee.impl.corba;
 
-import org.omg.CORBA.NamedValue;
-import org.omg.CORBA.Any;
-
 import com.sun.corba.ee.spi.orb.ORB ;
+
+import org.omg.CORBA.Any;
+import org.omg.CORBA.NamedValue;
 
 public class NamedValueImpl extends NamedValue 
 {

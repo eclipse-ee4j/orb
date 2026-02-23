@@ -19,11 +19,11 @@
 
 package com.sun.corba.ee.impl.protocol.giopmsgheaders;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 import com.sun.corba.ee.spi.protocol.RequestId;
+
+import java.io.IOException;
+import java.nio.ByteBuffer;
 
 /**
  * This is the base interface for different message type interfaces.

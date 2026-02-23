@@ -19,27 +19,21 @@
 
 package com.sun.corba.ee.impl.oa.rfm;
 
-import org.omg.CORBA.LocalObject ;
-
-import org.omg.PortableServer.POA ;
-
-import org.omg.PortableInterceptor.IORInterceptor_3_0 ;
-import org.omg.PortableInterceptor.IORInfo ;
-import org.omg.PortableInterceptor.ORBInitializer ;
-import org.omg.PortableInterceptor.ORBInitInfo ;
-import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
-
-import com.sun.corba.ee.spi.orb.ORBConfigurator ;
+import com.sun.corba.ee.spi.legacy.interceptor.IORInfoExt ;
+import com.sun.corba.ee.spi.logging.POASystemException ;
+import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.oa.ObjectAdapter ;
 import com.sun.corba.ee.spi.orb.DataCollector ;
 import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORBConfigurator ;
 
-import com.sun.corba.ee.spi.oa.ObjectAdapter ;
-
-import com.sun.corba.ee.spi.legacy.interceptor.IORInfoExt ;
-
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-
-import com.sun.corba.ee.spi.logging.POASystemException ;
+import org.omg.CORBA.LocalObject ;
+import org.omg.PortableInterceptor.IORInfo ;
+import org.omg.PortableInterceptor.IORInterceptor_3_0 ;
+import org.omg.PortableInterceptor.ORBInitInfo ;
+import org.omg.PortableInterceptor.ORBInitializer ;
+import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
+import org.omg.PortableServer.POA ;
 
 /** Used to initialize the ReferenceManager in the ORB.
  * The ReferenceManager is an optional component built

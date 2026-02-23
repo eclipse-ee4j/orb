@@ -19,27 +19,27 @@
 
 package com.sun.corba.ee.impl.resolver ;
 
-import org.omg.CORBA.portable.InputStream ;
-import org.omg.CORBA.portable.OutputStream ;
-import org.omg.CORBA.portable.ApplicationException ;
-import org.omg.CORBA.portable.RemarshalException ;
-
+import com.sun.corba.ee.impl.ior.ObjectIdImpl;
+import com.sun.corba.ee.impl.ior.ObjectKeyImpl;
+import com.sun.corba.ee.impl.misc.ORBUtility ;
 import com.sun.corba.ee.spi.ior.IOR ;
 import com.sun.corba.ee.spi.ior.IORFactories ;
 import com.sun.corba.ee.spi.ior.IORTemplate ;
 import com.sun.corba.ee.spi.ior.ObjectKey ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPAddress ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPFactories ;
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion ;
+import com.sun.corba.ee.spi.ior.iiop.IIOPAddress ;
+import com.sun.corba.ee.spi.ior.iiop.IIOPFactories ;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
 import com.sun.corba.ee.spi.orb.ORB ;
 import com.sun.corba.ee.spi.resolver.Resolver ;
 
-import com.sun.corba.ee.impl.ior.ObjectIdImpl;
-import com.sun.corba.ee.impl.ior.ObjectKeyImpl;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
-import com.sun.corba.ee.impl.misc.ORBUtility ;
 import java.util.Set;
+
+import org.omg.CORBA.portable.ApplicationException ;
+import org.omg.CORBA.portable.InputStream ;
+import org.omg.CORBA.portable.OutputStream ;
+import org.omg.CORBA.portable.RemarshalException ;
 
 public class BootstrapResolverImpl implements Resolver {
     private org.omg.CORBA.portable.Delegate bootstrapDelegate ;

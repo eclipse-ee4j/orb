@@ -22,13 +22,13 @@ package com.sun.corba.ee.impl.legacy.connection;
 
 
 
+import com.sun.corba.ee.impl.transport.ConnectionImpl;
 import com.sun.corba.ee.spi.legacy.connection.GetEndPointInfoAgainException;
 import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.trace.Transport;
 import com.sun.corba.ee.spi.transport.ContactInfo;
 import com.sun.corba.ee.spi.transport.SocketInfo;
 
-import com.sun.corba.ee.impl.transport.ConnectionImpl;
-import com.sun.corba.ee.spi.trace.Transport;
 import java.net.Socket;
 
 /**

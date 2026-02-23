@@ -26,6 +26,13 @@ import com.sun.org.omg.CORBA.AttributeDescription;
 import com.sun.org.omg.CORBA.Initializer;
 import com.sun.org.omg.CORBA.OperationDescription;
 import com.sun.org.omg.CORBA.ValueDefPackage.FullValueDescription;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import org.omg.CORBA.TCKind;
 import org.omg.CORBA.TypeCode;
 import org.omg.CORBA.VM_ABSTRACT;
@@ -33,12 +40,6 @@ import org.omg.CORBA.VM_CUSTOM;
 import org.omg.CORBA.VM_NONE;
 import org.omg.CORBA.VM_TRUNCATABLE;
 import org.omg.CORBA.ValueMember;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 /**
  * This class uses the fluent builder pattern (see https://dzone.com/articles/fluent-builder-pattern)

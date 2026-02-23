@@ -19,24 +19,19 @@
 
 package com.sun.corba.ee.impl.ior ;
 
-import org.omg.CORBA.portable.InputStream ;
-import org.omg.CORBA.portable.OutputStream ;
-import org.omg.CORBA.portable.StreamableValue ;
-
-import org.omg.CORBA.TypeCode ;
-
-import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
-import org.omg.PortableInterceptor.ObjectReferenceTemplateHelper ;
-
-
-import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
+import com.sun.corba.ee.spi.ior.IORFactories;
 import com.sun.corba.ee.spi.ior.IORFactory;
 import com.sun.corba.ee.spi.ior.IORTemplate;
 import com.sun.corba.ee.spi.ior.IORTemplateList;
-import com.sun.corba.ee.spi.ior.IORFactories;
-
-
+import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
 import com.sun.corba.ee.spi.orb.ORB ;
+
+import org.omg.CORBA.TypeCode ;
+import org.omg.CORBA.portable.InputStream ;
+import org.omg.CORBA.portable.OutputStream ;
+import org.omg.CORBA.portable.StreamableValue ;
+import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
+import org.omg.PortableInterceptor.ObjectReferenceTemplateHelper ;
 
 /** This is an implementation of the ObjectReferenceTemplate abstract value 
 * type defined by the portable interceptors IDL.  

@@ -19,8 +19,9 @@
 
 package org.glassfish.rmic.classes.systemexceptions;
 
-import javax.rmi.PortableRemoteObject;
 import java.rmi.RemoteException;
+
+import javax.rmi.PortableRemoteObject;
 
 public class ServerInvokerServantPOA extends PortableRemoteObject implements ServerInvoker {
 

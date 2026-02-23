@@ -19,8 +19,8 @@
 
 package com.sun.corba.ee.impl.encoding;
 
-import org.omg.CORBA.TypeCode;
 import org.omg.CORBA.Any;
+import org.omg.CORBA.TypeCode;
 
 public interface MarshalInputStream {
     public boolean      read_boolean();

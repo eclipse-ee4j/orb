@@ -35,14 +35,20 @@ import com.sun.corba.ee.spi.protocol.MessageParser;
 import com.sun.corba.ee.spi.transport.Connection;
 import com.sun.corba.ee.spi.transport.MessageTraceManager;
 import com.sun.corba.ee.spi.transport.TransportManager;
+
+import java.nio.ByteBuffer;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.omg.CORBA.COMM_FAILURE;
 
-import java.nio.ByteBuffer;
-
 import static com.meterware.simplestub.Stub.createStrictStub;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 public class MessageParserTest {
 

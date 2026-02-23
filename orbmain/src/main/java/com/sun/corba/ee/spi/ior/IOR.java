@@ -19,16 +19,15 @@
 
 package com.sun.corba.ee.spi.ior;
 
-import java.util.List ;
-import java.util.Iterator ;
-
 import com.sun.corba.ee.spi.ior.iiop.IIOPProfile ;
-
 import com.sun.corba.ee.spi.orb.ORB ;
 
-import org.glassfish.gmbal.ManagedData ;
-import org.glassfish.gmbal.ManagedAttribute ;
+import java.util.Iterator ;
+import java.util.List ;
+
 import org.glassfish.gmbal.Description ;
+import org.glassfish.gmbal.ManagedAttribute ;
+import org.glassfish.gmbal.ManagedData ;
 
 /** An IOR is represented as a list of profiles.
 * Only instances of TaggedProfile are contained in the list.

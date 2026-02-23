@@ -19,10 +19,9 @@
 
 package org.glassfish.rmic.tools.asm;
 
-import org.glassfish.rmic.tools.java.*;
-import java.util.Hashtable;
-import java.util.Enumeration;
 import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 /**
  * WARNING: The contents of this source file are not part of any

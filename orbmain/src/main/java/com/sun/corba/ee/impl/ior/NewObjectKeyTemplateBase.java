@@ -20,16 +20,14 @@
 package com.sun.corba.ee.impl.ior;
 
 
-import org.omg.CORBA_2_3.portable.InputStream ;
-import org.omg.CORBA_2_3.portable.OutputStream ;
-
-import com.sun.corba.ee.spi.ior.ObjectId ;
 import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
-
-
+import com.sun.corba.ee.spi.ior.ObjectId ;
 import com.sun.corba.ee.spi.orb.ORB ;
 import com.sun.corba.ee.spi.orb.ORBVersion ;
 import com.sun.corba.ee.spi.orb.ORBVersionFactory ;
+
+import org.omg.CORBA_2_3.portable.InputStream ;
+import org.omg.CORBA_2_3.portable.OutputStream ;
 
 public abstract class NewObjectKeyTemplateBase extends ObjectKeyTemplateBase 
 {

@@ -19,11 +19,12 @@
 
 package com.sun.corba.ee.impl.transport;
 
-import java.nio.ByteBuffer;
-import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.spi.transport.ByteBufferPool;
 import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.transport.ByteBufferPool;
+
+import java.nio.ByteBuffer;
 
 /**
  * @author Charlie Hunt

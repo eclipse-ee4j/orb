@@ -20,16 +20,15 @@
 package com.sun.corba.ee.impl.transport;
 
 import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
-import java.nio.channels.SelectionKey;
-
-import com.sun.corba.ee.spi.transport.EventHandler;
-
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.threadpool.NoSuchThreadPoolException;
 import com.sun.corba.ee.spi.threadpool.NoSuchWorkQueueException;
 import com.sun.corba.ee.spi.threadpool.Work;
-
 import com.sun.corba.ee.spi.trace.Transport;
+import com.sun.corba.ee.spi.transport.EventHandler;
+
+import java.nio.channels.SelectionKey;
+
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 
 @Transport

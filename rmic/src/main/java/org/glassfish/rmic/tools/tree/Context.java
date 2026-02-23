@@ -19,8 +19,13 @@
 
 package org.glassfish.rmic.tools.tree;
 
-import org.glassfish.rmic.tools.java.*;
-import org.glassfish.rmic.tools.asm.Assembler;
+import org.glassfish.rmic.tools.java.AmbiguousMember;
+import org.glassfish.rmic.tools.java.ClassDefinition;
+import org.glassfish.rmic.tools.java.ClassNotFound;
+import org.glassfish.rmic.tools.java.Constants;
+import org.glassfish.rmic.tools.java.Environment;
+import org.glassfish.rmic.tools.java.Identifier;
+import org.glassfish.rmic.tools.java.MemberDefinition;
 
 /**
  * WARNING: The contents of this source file are not part of any

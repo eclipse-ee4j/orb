@@ -19,23 +19,22 @@
 
 package com.sun.corba.ee.impl.naming.cosnaming;
 
-// Get CORBA type
-
-import org.omg.CORBA.Policy;
-import org.omg.PortableServer.POA;
-import org.omg.PortableServer.LifespanPolicyValue;
-import org.omg.PortableServer.IdAssignmentPolicyValue;
-import org.omg.PortableServer.ServantRetentionPolicyValue;
+import com.sun.corba.ee.spi.logging.NamingSystemException;
 
 // Get org.omg.CosNaming types
 
 // Import transient naming context
 import com.sun.corba.ee.spi.misc.ORBConstants;
-
-
-import com.sun.corba.ee.spi.logging.NamingSystemException;
 import com.sun.corba.ee.spi.oa.ObjectAdapter;
 import com.sun.corba.ee.spi.trace.Naming;
+
+// Get CORBA type
+
+import org.omg.CORBA.Policy;
+import org.omg.PortableServer.IdAssignmentPolicyValue;
+import org.omg.PortableServer.LifespanPolicyValue;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.ServantRetentionPolicyValue;
 
 /**
  * Class TransientNameService implements a transient name service

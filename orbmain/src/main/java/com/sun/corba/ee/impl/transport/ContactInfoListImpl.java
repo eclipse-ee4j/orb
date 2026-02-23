@@ -19,34 +19,33 @@
 
 package com.sun.corba.ee.impl.transport;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.concurrent.locks.ReentrantReadWriteLock ;
-import java.util.concurrent.locks.ReadWriteLock ;
-
+import com.sun.corba.ee.impl.protocol.NotLocalLocalCRDImpl;
 import com.sun.corba.ee.spi.ior.IOR ;
+import com.sun.corba.ee.spi.ior.TaggedComponent ;
+import com.sun.corba.ee.spi.ior.TaggedProfile ;
+import com.sun.corba.ee.spi.ior.TaggedProfileTemplate ;
 import com.sun.corba.ee.spi.ior.iiop.IIOPAddress ;
 import com.sun.corba.ee.spi.ior.iiop.IIOPProfile ;
 import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate ;
 import com.sun.corba.ee.spi.ior.iiop.LoadBalancingComponent ;
-import com.sun.corba.ee.spi.ior.TaggedProfile ;
-import com.sun.corba.ee.spi.ior.TaggedProfileTemplate ;
-import com.sun.corba.ee.spi.ior.TaggedComponent ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.protocol.LocalClientRequestDispatcher;
 import com.sun.corba.ee.spi.protocol.LocalClientRequestDispatcherFactory;
-import com.sun.corba.ee.spi.transport.ContactInfoList ;
-import com.sun.corba.ee.spi.transport.SocketInfo;
-import com.sun.corba.ee.spi.transport.ContactInfo;
-
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.impl.protocol.NotLocalLocalCRDImpl;
 import com.sun.corba.ee.spi.trace.IsLocal;
 import com.sun.corba.ee.spi.trace.Transport;
+import com.sun.corba.ee.spi.transport.ContactInfo;
+import com.sun.corba.ee.spi.transport.ContactInfoList ;
+import com.sun.corba.ee.spi.transport.SocketInfo;
 
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.locks.ReadWriteLock ;
+import java.util.concurrent.locks.ReentrantReadWriteLock ;
+
 import org.glassfish.pfl.basic.func.UnaryPredicate;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 

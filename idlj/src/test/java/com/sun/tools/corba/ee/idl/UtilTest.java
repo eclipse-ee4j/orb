@@ -21,11 +21,12 @@ package com.sun.tools.corba.ee.idl;
 
 import com.meterware.simplestub.Memento;
 import com.meterware.simplestub.StaticStubSupport;
+
+import java.util.HashSet;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.HashSet;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
