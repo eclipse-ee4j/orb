@@ -19,9 +19,9 @@
 
 package com.sun.corba.ee.spi.servicecontext;
 
-import java.util.EnumMap;
-import com.sun.corba.ee.impl.encoding.CodeSetComponentInfo;
 import com.sun.corba.ee.spi.orb.ORB;
+
+import java.util.EnumMap;
 
 public class ServiceContextsCache {
 

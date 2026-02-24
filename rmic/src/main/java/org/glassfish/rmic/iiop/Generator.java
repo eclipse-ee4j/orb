@@ -20,19 +20,19 @@
 
 package org.glassfish.rmic.iiop;
 
-import org.glassfish.rmic.IndentingWriter;
-import org.glassfish.rmic.Main;
-import org.glassfish.rmic.tools.java.ClassDefinition;
-import org.glassfish.rmic.tools.java.ClassFile;
-import org.glassfish.rmic.tools.java.ClassPath;
-import org.glassfish.rmic.tools.java.Identifier;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.HashSet;
+
+import org.glassfish.rmic.IndentingWriter;
+import org.glassfish.rmic.Main;
+import org.glassfish.rmic.tools.java.ClassDefinition;
+import org.glassfish.rmic.tools.java.ClassFile;
+import org.glassfish.rmic.tools.java.ClassPath;
+import org.glassfish.rmic.tools.java.Identifier;
 
 /**
  * Generator provides a small framework from which IIOP-specific

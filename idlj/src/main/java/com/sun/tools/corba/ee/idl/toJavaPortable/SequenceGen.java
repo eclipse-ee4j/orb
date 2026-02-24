@@ -20,20 +20,19 @@
 
 package com.sun.tools.corba.ee.idl.toJavaPortable;
 
+import com.sun.tools.corba.ee.idl.InterfaceEntry;
+import com.sun.tools.corba.ee.idl.PrimitiveEntry;
+import com.sun.tools.corba.ee.idl.SequenceEntry;
+import com.sun.tools.corba.ee.idl.StringEntry;
+import com.sun.tools.corba.ee.idl.SymtabEntry;
+import com.sun.tools.corba.ee.idl.constExpr.Expression;
+
 // NOTES:
 // -F46082.51<daz> Remove -stateful feature; javaStatefulName() obsolete.
 // -D61056   <klr> Use Util.helperName
 
 import java.io.PrintWriter;
 import java.util.Hashtable;
-
-import com.sun.tools.corba.ee.idl.InterfaceEntry;
-import com.sun.tools.corba.ee.idl.PrimitiveEntry;
-import com.sun.tools.corba.ee.idl.SequenceEntry;
-import com.sun.tools.corba.ee.idl.StringEntry;
-import com.sun.tools.corba.ee.idl.SymtabEntry;
-
-import com.sun.tools.corba.ee.idl.constExpr.Expression;
 
 /**
  *

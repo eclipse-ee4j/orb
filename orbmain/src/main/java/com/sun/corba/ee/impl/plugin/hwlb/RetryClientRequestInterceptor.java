@@ -24,15 +24,16 @@
 
 package com.sun.corba.ee.impl.plugin.hwlb ;
 
+import com.sun.corba.ee.impl.misc.ORBUtility;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+
+import org.omg.CORBA.SystemException;
 import org.omg.PortableInterceptor.ClientRequestInfo;
 import org.omg.PortableInterceptor.ClientRequestInterceptor;
 import org.omg.PortableInterceptor.ForwardRequest;
-import org.omg.PortableInterceptor.ORBInitializer;
 import org.omg.PortableInterceptor.ORBInitInfo;
+import org.omg.PortableInterceptor.ORBInitializer;
 import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
-import org.omg.CORBA.SystemException;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
-import com.sun.corba.ee.impl.misc.ORBUtility;
 
 public class RetryClientRequestInterceptor
     extends org.omg.CORBA.LocalObject

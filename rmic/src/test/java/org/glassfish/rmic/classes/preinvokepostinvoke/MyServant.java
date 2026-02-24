@@ -19,11 +19,12 @@
 
 package org.glassfish.rmic.classes.preinvokepostinvoke;
 
-import org.omg.CosNaming.NamingContextExt;
-import org.omg.CosNaming.NamingContextExtHelper;
+import java.rmi.RemoteException;
 
 import javax.rmi.PortableRemoteObject;
-import java.rmi.RemoteException;
+
+import org.omg.CosNaming.NamingContextExt;
+import org.omg.CosNaming.NamingContextExtHelper;
 
 public class MyServant extends PortableRemoteObject implements Interface
 {

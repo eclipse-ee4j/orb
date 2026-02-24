@@ -19,9 +19,9 @@
 
 package com.sun.corba.ee.impl.misc;
 
-import java.io.StringWriter;
-import java.io.OutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.StringWriter;
 
 /**
  * Writes each input byte as a 2 byte hexidecimal output pair making it

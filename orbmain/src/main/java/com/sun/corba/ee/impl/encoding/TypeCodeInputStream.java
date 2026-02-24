@@ -19,19 +19,15 @@
 
 package com.sun.corba.ee.impl.encoding;
 
+import com.sun.corba.ee.impl.corba.TypeCodeImpl;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+
+import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.HashMap;
 import java.util.Map;
-import java.nio.ByteBuffer;
-
-
 
 import org.omg.CORBA_2_3.portable.InputStream;
-
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-import com.sun.corba.ee.impl.corba.TypeCodeImpl;
-import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.impl.encoding.CDRInputObject;
 
 public class TypeCodeInputStream extends EncapsInputStream implements TypeCodeReader
 {

@@ -19,9 +19,11 @@
 
 package org.glassfish.rmic.tools.tree;
 
-import org.glassfish.rmic.tools.java.*;
 import java.io.PrintStream;
 import java.util.Hashtable;
+
+import org.glassfish.rmic.tools.java.Environment;
+import org.glassfish.rmic.tools.java.Type;
 
 /**
  * WARNING: The contents of this source file are not part of any

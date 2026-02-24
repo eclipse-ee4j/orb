@@ -19,15 +19,14 @@
 
 package com.sun.corba.ee.impl.legacy.connection;
 
-import java.util.Iterator ;
-
+import com.sun.corba.ee.impl.oa.poa.Policies;
+import com.sun.corba.ee.impl.transport.AcceptorImpl;
 import com.sun.corba.ee.spi.ior.IORTemplate;
 import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
 import com.sun.corba.ee.spi.orb.ORB;
-
-import com.sun.corba.ee.impl.oa.poa.Policies;
-import com.sun.corba.ee.impl.transport.AcceptorImpl;
 import com.sun.corba.ee.spi.trace.Transport;
+
+import java.util.Iterator ;
 
 /**
  * @author Harold Carr

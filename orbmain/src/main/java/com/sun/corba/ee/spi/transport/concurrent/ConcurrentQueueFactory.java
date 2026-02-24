@@ -20,8 +20,8 @@
 package com.sun.corba.ee.spi.transport.concurrent ;
 
 import com.sun.corba.ee.impl.transport.concurrent.ConcurrentQueueBlockingImpl ;
-import com.sun.corba.ee.impl.transport.concurrent.ConcurrentQueueNonBlockingImpl ;
 import com.sun.corba.ee.impl.transport.concurrent.ConcurrentQueueImpl ;
+import com.sun.corba.ee.impl.transport.concurrent.ConcurrentQueueNonBlockingImpl ;
 
 /** A factory class for creating instances of ConcurrentQueue.
  * Note that a rather unusual syntax is needed for calling these methods:

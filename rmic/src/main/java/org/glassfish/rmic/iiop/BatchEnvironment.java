@@ -21,16 +21,15 @@
 
 package org.glassfish.rmic.iiop;
 
-import org.glassfish.rmic.tools.java.ClassDefinition;
-import org.glassfish.rmic.tools.java.ClassNotFound;
-import org.glassfish.rmic.tools.java.ClassPath;
-
 import java.io.File;
 import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.Iterator;
+
+import org.glassfish.rmic.tools.java.ClassDefinition;
+import org.glassfish.rmic.tools.java.ClassNotFound;
+import org.glassfish.rmic.tools.java.ClassPath;
 
 /**
  * BatchEnvironment for iiop extends rmic's version to add

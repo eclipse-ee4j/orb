@@ -22,11 +22,11 @@ package com.sun.corba.ee.impl.transport;
 import com.sun.corba.ee.impl.encoding.CDRInputObject;
 import com.sun.corba.ee.impl.protocol.RequestIdImpl;
 import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
+import com.sun.corba.ee.impl.transport.TransportTestBase.BackgroundProcessor;
+import com.sun.corba.ee.impl.transport.TransportTestBase.RequestDispatcher;
+import com.sun.corba.ee.impl.transport.TransportTestBase.SocketChannelFake;
 import com.sun.corba.ee.spi.protocol.MessageMediator;
 import com.sun.corba.ee.spi.threadpool.Work;
-import org.junit.After;
-import org.junit.Ignore;
-import org.junit.Test;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -34,7 +34,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 
-import static org.junit.Assert.*;
+import org.junit.After;
+import org.junit.Test;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 public class ConnectionImplTest extends TransportTestBase {
 

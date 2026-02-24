@@ -18,12 +18,14 @@
  */
 package org.glassfish.jndi.cosnaming;
 
-import javax.naming.*;
-import javax.naming.spi.StateFactory;
+import java.rmi.Remote;
 import java.util.Hashtable;
 
-
-import java.rmi.Remote;
+import javax.naming.ConfigurationException;
+import javax.naming.Context;
+import javax.naming.Name;
+import javax.naming.NamingException;
+import javax.naming.spi.StateFactory;
 
 import org.glassfish.jndi.toolkit.corba.CorbaUtils;  // for RMI-IIOP
 

@@ -19,21 +19,18 @@
 
 package com.sun.corba.ee.spi.ior;
 
-import org.omg.CORBA_2_3.portable.OutputStream ;
-import org.omg.CORBA.ORB ;
-
+import com.sun.corba.ee.impl.ior.GenericTaggedComponent ;
 import com.sun.corba.ee.spi.ior.iiop.AlternateIIOPAddressComponent ;
-import com.sun.corba.ee.spi.ior.iiop.CodeSetsComponent ;                
+import com.sun.corba.ee.spi.ior.iiop.CodeSetsComponent ;
 import com.sun.corba.ee.spi.ior.iiop.JavaCodebaseComponent ;
 import com.sun.corba.ee.spi.ior.iiop.MaxStreamFormatVersionComponent ;
 import com.sun.corba.ee.spi.ior.iiop.ORBTypeComponent ;
 import com.sun.corba.ee.spi.ior.iiop.RequestPartitioningComponent ;
 
-import com.sun.corba.ee.impl.ior.GenericTaggedComponent ;
-
-import org.glassfish.gmbal.ManagedData ;
 import org.glassfish.gmbal.Description ;
 import org.glassfish.gmbal.IncludeSubclass ;
+import org.glassfish.gmbal.ManagedData ;
+import org.omg.CORBA.ORB ;
 
 /** Generic interface for all tagged components.  Users of the ORB may
 * create implementations of this class and also corresponding factories

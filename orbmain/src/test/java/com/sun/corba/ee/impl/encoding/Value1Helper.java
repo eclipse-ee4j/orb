@@ -20,11 +20,12 @@
 package com.sun.corba.ee.impl.encoding;
 
 import com.sun.org.omg.CORBA.portable.ValueHelper;
+
+import java.io.Serializable;
+
 import org.omg.CORBA.TypeCode;
 import org.omg.CORBA.TypeCodePackage.BadKind;
 import org.omg.CORBA.portable.OutputStream;
-
-import java.io.Serializable;
 
 import static com.meterware.simplestub.Stub.createStrictStub;
 

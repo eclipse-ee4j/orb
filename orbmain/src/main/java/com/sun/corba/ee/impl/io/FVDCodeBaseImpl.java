@@ -20,21 +20,18 @@
 
 package com.sun.corba.ee.impl.io;
 
-import org.omg.CORBA.ORB;
+import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
+import com.sun.corba.ee.spi.logging.OMGSystemException;
+import com.sun.org.omg.CORBA.ValueDefPackage.FullValueDescription;
+import com.sun.org.omg.SendingContext._CodeBaseImplBase;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
 
 import javax.rmi.CORBA.ValueHandler;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Stack;
-
-import com.sun.org.omg.CORBA.ValueDefPackage.FullValueDescription;
-
-import com.sun.org.omg.SendingContext._CodeBaseImplBase;
-
-import com.sun.corba.ee.spi.logging.OMGSystemException;
-
-import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
+import org.omg.CORBA.ORB;
 
 /**
  * This class acts as the remote interface to receivers wishing to retrieve

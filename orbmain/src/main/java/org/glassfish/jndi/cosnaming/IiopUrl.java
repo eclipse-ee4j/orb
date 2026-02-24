@@ -18,12 +18,13 @@
  */
 package org.glassfish.jndi.cosnaming;
 
+import java.net.MalformedURLException;
+import java.util.StringTokenizer;
+import java.util.Vector;
+
 import javax.naming.Name;
 import javax.naming.NamingException;
 
-import java.net.MalformedURLException;
-import java.util.Vector;
-import java.util.StringTokenizer;
 import org.glassfish.jndi.toolkit.corba.CorbaUtils;
 
 /**

@@ -21,11 +21,11 @@
 package com.sun.corba.ee.impl.presentation.rmi ;
 
 import java.io.Serializable;
-import java.lang.reflect.Method;
 import java.lang.reflect.Field;
-import java.util.Set;
+import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  * Utility class for testing RMI/IDL Types as defined in

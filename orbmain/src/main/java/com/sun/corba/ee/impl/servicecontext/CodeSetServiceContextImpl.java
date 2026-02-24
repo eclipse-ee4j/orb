@@ -19,17 +19,15 @@
 
 package com.sun.corba.ee.impl.servicecontext;
 
-import org.omg.CORBA_2_3.portable.InputStream;
-import org.omg.CORBA_2_3.portable.OutputStream;
-
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-
-import com.sun.corba.ee.spi.servicecontext.ServiceContextBase;
-import com.sun.corba.ee.spi.servicecontext.CodeSetServiceContext;
-
+import com.sun.corba.ee.impl.encoding.CodeSetComponentInfo  ;
 import com.sun.corba.ee.impl.encoding.MarshalInputStream ;
 import com.sun.corba.ee.impl.encoding.MarshalOutputStream ;
-import com.sun.corba.ee.impl.encoding.CodeSetComponentInfo  ;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+import com.sun.corba.ee.spi.servicecontext.CodeSetServiceContext;
+import com.sun.corba.ee.spi.servicecontext.ServiceContextBase;
+
+import org.omg.CORBA_2_3.portable.InputStream;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 public class CodeSetServiceContextImpl extends ServiceContextBase
     implements CodeSetServiceContext 

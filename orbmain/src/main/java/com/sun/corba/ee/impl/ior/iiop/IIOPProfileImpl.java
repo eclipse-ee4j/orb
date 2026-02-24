@@ -48,14 +48,15 @@ import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.orb.ORBVersion;
 import com.sun.corba.ee.spi.protocol.RequestDispatcherRegistry;
 import com.sun.corba.ee.spi.trace.IsLocal;
+
+import java.util.Iterator;
+
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 import org.omg.CORBA.SystemException;
 import org.omg.CORBA_2_3.portable.InputStream;
 import org.omg.CORBA_2_3.portable.OutputStream;
 import org.omg.IOP.TAG_INTERNET_IOP;
 import org.omg.IOP.TAG_JAVA_CODEBASE;
-
-import java.util.Iterator;
 
 @IsLocal
 public class IIOPProfileImpl extends IdentifiableBase implements IIOPProfile

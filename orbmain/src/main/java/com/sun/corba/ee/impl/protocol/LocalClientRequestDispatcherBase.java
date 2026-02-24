@@ -19,33 +19,26 @@
 
 package com.sun.corba.ee.impl.protocol;
 
-import org.omg.CORBA.TRANSIENT ;
-import org.omg.CORBA.SystemException ;
-
-import org.omg.CORBA.portable.ServantObject;
-
-
+import com.sun.corba.ee.spi.ior.IOR ;
+import com.sun.corba.ee.spi.ior.ObjectAdapterId;
+import com.sun.corba.ee.spi.ior.ObjectId;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
+import com.sun.corba.ee.spi.ior.TaggedProfile;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.logging.POASystemException;
+import com.sun.corba.ee.spi.oa.OADestroyed ;
+import com.sun.corba.ee.spi.oa.ObjectAdapterFactory;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.protocol.ForwardException ;
 import com.sun.corba.ee.spi.protocol.LocalClientRequestDispatcher;
 import com.sun.corba.ee.spi.protocol.RequestDispatcherRegistry;
-import com.sun.corba.ee.spi.protocol.ForwardException ;
-
-import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.spi.ior.IOR ;
-
-import com.sun.corba.ee.spi.oa.ObjectAdapterFactory;
-import com.sun.corba.ee.spi.oa.OADestroyed ;
-
-import com.sun.corba.ee.spi.ior.ObjectAdapterId;
-import com.sun.corba.ee.spi.ior.TaggedProfile;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
-import com.sun.corba.ee.spi.ior.ObjectId; 
-
-import com.sun.corba.ee.spi.logging.POASystemException;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
-
 import com.sun.corba.ee.spi.trace.IsLocal;
 import com.sun.corba.ee.spi.trace.Subcontract;
+
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
+import org.omg.CORBA.SystemException ;
+import org.omg.CORBA.TRANSIENT ;
+import org.omg.CORBA.portable.ServantObject;
 
 @Subcontract
 @IsLocal

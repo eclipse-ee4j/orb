@@ -21,11 +21,11 @@
 
 package org.glassfish.rmic.iiop;
 
+import java.util.Vector;
+
 import org.glassfish.rmic.tools.java.ClassDefinition;
 import org.glassfish.rmic.tools.java.ClassNotFound;
 import org.glassfish.rmic.tools.java.CompilerError;
-
-import java.util.Vector;
 
 /**
  * RemoteType represents any non-special interface which inherits

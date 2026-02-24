@@ -20,13 +20,12 @@
 
 package com.sun.corba.ee.impl.corba;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.omg.CORBA.Bounds;
 import org.omg.CORBA.ExceptionList;
 import org.omg.CORBA.TypeCode;
-import org.omg.CORBA.ORB;
 
 
 public class ExceptionListImpl extends ExceptionList {

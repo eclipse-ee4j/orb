@@ -19,9 +19,12 @@
 
 package org.glassfish.rmic.tools.asm;
 
-import org.glassfish.rmic.tools.java.*;
-import java.io.IOException;
 import java.io.DataOutputStream;
+import java.io.IOException;
+
+import org.glassfish.rmic.tools.java.ClassDeclaration;
+import org.glassfish.rmic.tools.java.Environment;
+import org.glassfish.rmic.tools.java.Type;
 
 /**
  * This is a class constant pool item.

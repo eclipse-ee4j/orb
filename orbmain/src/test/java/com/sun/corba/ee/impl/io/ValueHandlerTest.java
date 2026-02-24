@@ -22,14 +22,16 @@ package com.sun.corba.ee.impl.io;
 import com.sun.corba.ee.impl.encoding.Enum1;
 import com.sun.corba.ee.impl.encoding.ValueTestBase;
 import com.sun.corba.ee.impl.util.RepositoryId;
-import org.junit.Assert;
-import org.junit.Test;
-import org.omg.CORBA_2_3.portable.InputStream;
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Modifier;
+
 import javax.rmi.CORBA.ValueHandler;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.omg.CORBA_2_3.portable.InputStream;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;

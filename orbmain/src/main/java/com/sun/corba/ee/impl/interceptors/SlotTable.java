@@ -22,8 +22,9 @@ package com.sun.corba.ee.impl.interceptors;
 
 import com.sun.corba.ee.impl.corba.AnyImpl;
 import com.sun.corba.ee.spi.orb.ORB;
-import org.omg.PortableInterceptor.InvalidSlot;
+
 import org.omg.CORBA.Any;
+import org.omg.PortableInterceptor.InvalidSlot;
 
 /**
  * SlotTable is used internally by PICurrent to store the slot information.

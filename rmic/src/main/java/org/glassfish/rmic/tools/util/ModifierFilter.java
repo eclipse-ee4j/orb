@@ -19,7 +19,8 @@
 
 package org.glassfish.rmic.tools.util;
 
-import org.glassfish.rmic.tools.java.*;
+import org.glassfish.rmic.tools.java.ClassDefinition;
+import org.glassfish.rmic.tools.java.MemberDefinition;
 
 
 /**

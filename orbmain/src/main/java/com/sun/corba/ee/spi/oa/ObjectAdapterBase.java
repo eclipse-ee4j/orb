@@ -19,28 +19,26 @@
 
 package com.sun.corba.ee.spi.oa ;
 
-import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
-import org.omg.PortableInterceptor.ObjectReferenceFactory ;
-
-import org.omg.CORBA.Policy ;
-
+import com.sun.corba.ee.impl.oa.poa.Policies;
 import com.sun.corba.ee.spi.ior.IORFactories ;
 import com.sun.corba.ee.spi.ior.IORTemplate ;
 import com.sun.corba.ee.spi.ior.ObjectAdapterId;
 import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
+import com.sun.corba.ee.spi.logging.POASystemException ;
 import com.sun.corba.ee.spi.orb.ORB ;
 import com.sun.corba.ee.spi.protocol.PIHandler ;
 
-import com.sun.corba.ee.spi.logging.POASystemException ;
-import com.sun.corba.ee.impl.oa.poa.Policies;
 import org.glassfish.gmbal.Description;
 import org.glassfish.gmbal.ManagedAttribute;
 import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopierFactory;
+import org.omg.CORBA.Policy ;
 import org.omg.PortableInterceptor.ACTIVE;
 import org.omg.PortableInterceptor.DISCARDING;
 import org.omg.PortableInterceptor.HOLDING;
 import org.omg.PortableInterceptor.INACTIVE;
 import org.omg.PortableInterceptor.NON_EXISTENT;
+import org.omg.PortableInterceptor.ObjectReferenceFactory ;
+import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
 
 abstract public class ObjectAdapterBase extends org.omg.CORBA.LocalObject 
     implements ObjectAdapter

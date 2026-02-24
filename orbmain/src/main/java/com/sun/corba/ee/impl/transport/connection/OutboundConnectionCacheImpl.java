@@ -19,20 +19,17 @@
 
 package com.sun.corba.ee.impl.transport.connection;
 
-import java.io.IOException ;
-
-import java.util.concurrent.ConcurrentMap ;
-import java.util.concurrent.ConcurrentHashMap ;
-
-import java.util.concurrent.atomic.AtomicInteger ;
-
+import com.sun.corba.ee.spi.transport.concurrent.ConcurrentQueue;
+import com.sun.corba.ee.spi.transport.concurrent.ConcurrentQueueFactory;
 import com.sun.corba.ee.spi.transport.connection.Connection ;
 import com.sun.corba.ee.spi.transport.connection.ConnectionFinder ;
 import com.sun.corba.ee.spi.transport.connection.ContactInfo ;
 import com.sun.corba.ee.spi.transport.connection.OutboundConnectionCache ;
 
-import com.sun.corba.ee.spi.transport.concurrent.ConcurrentQueue;
-import com.sun.corba.ee.spi.transport.concurrent.ConcurrentQueueFactory;
+import java.io.IOException ;
+import java.util.concurrent.ConcurrentHashMap ;
+import java.util.concurrent.ConcurrentMap ;
+import java.util.concurrent.atomic.AtomicInteger ;
 
 /** Manage connections that are initiated from this VM. Connections are managed 
  * by a get/release mechanism and cached by the ContactInfo used to create them.

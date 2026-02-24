@@ -21,8 +21,6 @@
 package com.sun.corba.ee.impl.corba;
 
 import org.omg.CORBA.Environment;
-import org.omg.CORBA.UserException;
-import org.omg.CORBA.ORB;
 
 public class EnvironmentImpl extends Environment {
 

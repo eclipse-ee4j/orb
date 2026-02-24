@@ -24,6 +24,7 @@
 package org.omg.stub.java.rmi;
 
 import java.rmi.Remote;
+
 import javax.rmi.CORBA.Stub;
 
 /**

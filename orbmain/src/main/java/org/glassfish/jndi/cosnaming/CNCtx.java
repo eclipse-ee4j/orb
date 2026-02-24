@@ -18,6 +18,32 @@
  */
 package org.glassfish.jndi.cosnaming;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Hashtable;
+
+import javax.naming.CannotProceedException;
+import javax.naming.CommunicationException;
+import javax.naming.CompositeName;
+import javax.naming.ConfigurationException;
+import javax.naming.InvalidNameException;
+import javax.naming.Name;
+import javax.naming.NameClassPair;
+import javax.naming.NameNotFoundException;
+import javax.naming.NameParser;
+import javax.naming.NamingEnumeration;
+import javax.naming.NamingException;
+import javax.naming.NotContextException;
+import javax.naming.OperationNotSupportedException;
+import javax.naming.RefAddr;
+import javax.naming.Reference;
+import javax.naming.spi.NamingManager;
+import javax.naming.spi.ResolveResult;
+
 import org.glassfish.jndi.toolkit.corba.CorbaUtils;
 import org.omg.CORBA.BAD_PARAM;
 import org.omg.CORBA.ORB;
@@ -30,17 +56,6 @@ import org.omg.CosNaming.NamingContextPackage.InvalidName;
 import org.omg.CosNaming.NamingContextPackage.NotEmpty;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.omg.CosNaming.NamingContextPackage.NotFoundReason;
-
-import javax.naming.*;
-import javax.naming.spi.NamingManager;
-import javax.naming.spi.ResolveResult;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Hashtable;
 
 // Needed for creating default ORB
 

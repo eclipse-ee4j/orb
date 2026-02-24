@@ -19,25 +19,22 @@
 
 package com.sun.corba.ee.spi.transport;
 
+import com.sun.corba.ee.impl.encoding.CDRInputObject;
+import com.sun.corba.ee.impl.encoding.CDROutputObject;
+import com.sun.corba.ee.impl.encoding.CodeSetComponentInfo;
+import com.sun.corba.ee.spi.ior.IOR ;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.protocol.MessageMediator;
+import com.sun.corba.ee.spi.protocol.RequestId;
+import com.sun.org.omg.SendingContext.CodeBase;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.util.Queue;
 
 import org.omg.CORBA.SystemException;
-
-import com.sun.org.omg.SendingContext.CodeBase;
-
-
-import com.sun.corba.ee.spi.ior.IOR ;
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.spi.protocol.MessageMediator;
-import com.sun.corba.ee.spi.protocol.RequestId;
-
-import com.sun.corba.ee.impl.encoding.CodeSetComponentInfo;
-import com.sun.corba.ee.impl.encoding.CDRInputObject;
-import com.sun.corba.ee.impl.encoding.CDROutputObject;
 
 /**
  * @author Harold Carr

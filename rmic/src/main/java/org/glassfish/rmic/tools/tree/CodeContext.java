@@ -19,7 +19,6 @@
 
 package org.glassfish.rmic.tools.tree;
 
-import org.glassfish.rmic.tools.java.*;
 import org.glassfish.rmic.tools.asm.Label;
 
 /**

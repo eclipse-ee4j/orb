@@ -19,13 +19,11 @@
 
 package org.glassfish.rmic.tools.javac;
 
-import org.glassfish.rmic.tools.java.*;
-// JCOV
-// end JCOV
-
-import java.util.*;
 import java.text.MessageFormat;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
+import org.glassfish.rmic.tools.java.Constants;
 /**
  * Main program of the Java compiler
  *

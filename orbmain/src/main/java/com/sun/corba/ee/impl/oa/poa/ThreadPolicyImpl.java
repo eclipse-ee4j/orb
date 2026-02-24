@@ -19,8 +19,10 @@
 
 package com.sun.corba.ee.impl.oa.poa;
 
-import org.omg.CORBA.*;
-import org.omg.PortableServer.*;
+import org.omg.CORBA.Policy;
+import org.omg.PortableServer.THREAD_POLICY_ID;
+import org.omg.PortableServer.ThreadPolicy;
+import org.omg.PortableServer.ThreadPolicyValue;
 
 final class ThreadPolicyImpl
     extends org.omg.CORBA.LocalObject implements ThreadPolicy {

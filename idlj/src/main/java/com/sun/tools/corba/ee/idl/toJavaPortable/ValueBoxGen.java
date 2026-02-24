@@ -21,25 +21,25 @@
 
 package com.sun.tools.corba.ee.idl.toJavaPortable;
 
+import com.sun.tools.corba.ee.idl.GenFileStream;
+import com.sun.tools.corba.ee.idl.InterfaceState;
+import com.sun.tools.corba.ee.idl.PrimitiveEntry;
+import com.sun.tools.corba.ee.idl.SequenceEntry;
+import com.sun.tools.corba.ee.idl.StringEntry;
+import com.sun.tools.corba.ee.idl.SymtabEntry;
+import com.sun.tools.corba.ee.idl.TypedefEntry;
+import com.sun.tools.corba.ee.idl.ValueBoxEntry;
+import com.sun.tools.corba.ee.idl.ValueEntry;
+
 // NOTES:
 // -D60929   <klr> Update for RTF2.4 changes
 // -D61056   <klr> Use Util.helperName
 // -D62023   <klr> Fix generation botch in helper.read for boxed bounded strings
 
 import java.io.PrintWriter;
-import java.util.Hashtable;
 import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.Vector;
-
-import com.sun.tools.corba.ee.idl.GenFileStream;
-import com.sun.tools.corba.ee.idl.SymtabEntry;
-import com.sun.tools.corba.ee.idl.TypedefEntry;
-import com.sun.tools.corba.ee.idl.ValueEntry;
-import com.sun.tools.corba.ee.idl.ValueBoxEntry;
-import com.sun.tools.corba.ee.idl.InterfaceState;
-import com.sun.tools.corba.ee.idl.PrimitiveEntry;
-import com.sun.tools.corba.ee.idl.SequenceEntry;
-import com.sun.tools.corba.ee.idl.StringEntry;
 
 /**
  *

@@ -19,7 +19,7 @@
 
 package org.glassfish.rmic.tools.asm;
 
-import org.glassfish.rmic.tools.java.*;
+import org.glassfish.rmic.tools.java.MemberDefinition;
 
 /**
  * An object to represent a name and type constant pool data item.

@@ -20,10 +20,12 @@
 package com.sun.corba.ee.impl.resolver ;
 
 import com.sun.corba.ee.spi.resolver.LocalResolver ;
+
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.TimeUnit;
+
 import org.glassfish.pfl.basic.func.NullaryFunction;
 
 public class LocalResolverImpl implements LocalResolver {

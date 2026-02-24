@@ -21,14 +21,13 @@
 package com.sun.corba.ee.impl.protocol.giopmsgheaders;
 
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-
+import com.sun.corba.ee.impl.protocol.RequestIdImpl;
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.spi.protocol.RequestId;
 
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.impl.protocol.RequestIdImpl;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 public class Message_1_2 extends Message_1_1
 {

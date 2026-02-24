@@ -21,14 +21,14 @@
 
 package com.sun.corba.ee.impl.io;
 
+import com.sun.corba.ee.spi.trace.StreamFormatVersion;
+
 import java.io.IOException;
 import java.io.NotActiveException;
-import java.io.ObjectOutputStream;
 import java.io.ObjectOutput;
-import java.util.Map;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
-
-import com.sun.corba.ee.spi.trace.StreamFormatVersion;
+import java.util.Map;
 
 @StreamFormatVersion
 public abstract class OutputStreamHook extends ObjectOutputStream

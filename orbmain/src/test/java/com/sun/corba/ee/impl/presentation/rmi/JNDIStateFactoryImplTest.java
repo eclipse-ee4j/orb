@@ -23,15 +23,7 @@ import com.meterware.simplestub.Memento;
 import com.meterware.simplestub.StaticStubSupport;
 import com.meterware.simplestub.Stub;
 import com.sun.corba.ee.spi.orb.ORB;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.omg.CosNaming.NamingContext;
 
-import javax.naming.Context;
-import javax.naming.NamingException;
-import javax.rmi.CORBA.PortableRemoteObjectDelegate;
-import javax.rmi.PortableRemoteObject;
 import java.rmi.NoSuchObjectException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -39,9 +31,21 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.NamingException;
+import javax.rmi.PortableRemoteObject;
+import javax.rmi.CORBA.PortableRemoteObjectDelegate;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.omg.CosNaming.NamingContext;
+
 import static com.meterware.simplestub.Stub.createStrictStub;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.sameInstance;
 
 public class JNDIStateFactoryImplTest {
 

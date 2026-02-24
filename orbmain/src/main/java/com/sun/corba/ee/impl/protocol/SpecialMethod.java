@@ -20,16 +20,13 @@
 package com.sun.corba.ee.impl.protocol ;
 
 
-import org.omg.CORBA.portable.InputStream;
-import org.omg.CORBA.portable.OutputStream;
-
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.oa.NullServant ;
 import com.sun.corba.ee.spi.oa.ObjectAdapter;
-
 import com.sun.corba.ee.spi.protocol.MessageMediator;
 
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
-
-import com.sun.corba.ee.spi.oa.NullServant ;
+import org.omg.CORBA.portable.InputStream;
+import org.omg.CORBA.portable.OutputStream;
 
 public abstract class SpecialMethod {
     static final ORBUtilSystemException wrapper =

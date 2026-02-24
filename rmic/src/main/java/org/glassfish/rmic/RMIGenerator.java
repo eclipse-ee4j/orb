@@ -20,9 +20,9 @@
 
 package org.glassfish.rmic;
 
-import org.glassfish.rmic.tools.java.ClassDefinition;
-
 import java.io.File;
+
+import org.glassfish.rmic.tools.java.ClassDefinition;
 
 /**
  * A placeholder to handle the no-longer supported JRMP flags. Any attempt to use them will now result in an error.

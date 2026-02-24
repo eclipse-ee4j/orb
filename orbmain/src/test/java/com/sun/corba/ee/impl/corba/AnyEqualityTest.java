@@ -22,15 +22,16 @@ package com.sun.corba.ee.impl.corba;
 
 import com.meterware.simplestub.Memento;
 import com.meterware.simplestub.SystemPropertySupport;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.omg.CORBA.Any;
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.TypeCode;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 

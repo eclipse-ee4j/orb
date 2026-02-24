@@ -19,19 +19,18 @@
 
 package com.sun.corba.ee.impl.legacy.connection;
 
-import org.omg.CORBA.CompletionStatus;
-import org.omg.CORBA.SystemException;
-
+import com.sun.corba.ee.impl.transport.ContactInfoListIteratorImpl;
+import com.sun.corba.ee.impl.transport.SharedCDRContactInfoImpl;
 import com.sun.corba.ee.spi.legacy.connection.GetEndPointInfoAgainException;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.trace.IsLocal;
 import com.sun.corba.ee.spi.transport.ContactInfo;
 import com.sun.corba.ee.spi.transport.ContactInfoList;
 import com.sun.corba.ee.spi.transport.SocketInfo;
 
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
-import com.sun.corba.ee.impl.transport.ContactInfoListIteratorImpl;
-import com.sun.corba.ee.impl.transport.SharedCDRContactInfoImpl;
-import com.sun.corba.ee.spi.trace.IsLocal;
+import org.omg.CORBA.CompletionStatus;
+import org.omg.CORBA.SystemException;
 
 @IsLocal
 public class SocketFactoryContactInfoListIteratorImpl

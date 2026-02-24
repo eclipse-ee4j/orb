@@ -19,6 +19,17 @@
 
 package com.sun.corba.ee.impl.transport;
 
+import com.sun.corba.ee.impl.encoding.CDRInputObject;
+import com.sun.corba.ee.impl.misc.ORBUtility;
+import com.sun.corba.ee.impl.protocol.giopmsgheaders.LocateReplyOrReplyMessage;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.protocol.MessageMediator;
+import com.sun.corba.ee.spi.trace.Transport;
+import com.sun.corba.ee.spi.transport.Connection;
+import com.sun.corba.ee.spi.transport.ResponseWaitingRoom;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,22 +37,8 @@ import java.util.Map;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.omg.CORBA.CompletionStatus;
-import org.omg.CORBA.SystemException;
-
-
-import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.spi.protocol.MessageMediator;
-import com.sun.corba.ee.spi.transport.Connection;
-import com.sun.corba.ee.spi.transport.ResponseWaitingRoom;
-
-import com.sun.corba.ee.impl.encoding.CDRInputObject;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.impl.misc.ORBUtility;
-import com.sun.corba.ee.impl.protocol.giopmsgheaders.LocateReplyOrReplyMessage;
-import com.sun.corba.ee.spi.trace.Transport;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
+import org.omg.CORBA.SystemException;
 
 /**
  * @author Harold Carr

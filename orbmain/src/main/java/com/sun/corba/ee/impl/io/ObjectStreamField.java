@@ -21,11 +21,12 @@
 package com.sun.corba.ee.impl.io;
 
 import com.sun.corba.ee.impl.misc.ClassInfoCache;
-import org.glassfish.pfl.basic.reflection.Bridge;
 
 import java.lang.reflect.Field;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+
+import org.glassfish.pfl.basic.reflection.Bridge;
 
 /**
  * A description of a field in a serializable class.

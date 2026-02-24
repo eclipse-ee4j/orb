@@ -19,18 +19,15 @@
 
 package com.sun.corba.ee.impl.protocol.giopmsgheaders;
 
-import com.sun.corba.ee.spi.servicecontext.ServiceContextDefaults;
-import com.sun.corba.ee.spi.servicecontext.ServiceContexts;
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.spi.orb.ObjectKeyCacheEntry;
 import com.sun.corba.ee.impl.encoding.CDRInputObject;
 import com.sun.corba.ee.impl.encoding.CDROutputObject;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-
-import com.sun.corba.ee.spi.trace.Transport;
-
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ObjectKeyCacheEntry;
+import com.sun.corba.ee.spi.servicecontext.ServiceContextDefaults;
+import com.sun.corba.ee.spi.servicecontext.ServiceContexts;
+import com.sun.corba.ee.spi.trace.Transport;
 
 /**
  * This implements the GIOP 1.2 Request header.

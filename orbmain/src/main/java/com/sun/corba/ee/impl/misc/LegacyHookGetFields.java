@@ -20,7 +20,8 @@
 
 package com.sun.corba.ee.impl.misc;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.Hashtable;
 
 class LegacyHookGetFields extends ObjectInputStream.GetField {

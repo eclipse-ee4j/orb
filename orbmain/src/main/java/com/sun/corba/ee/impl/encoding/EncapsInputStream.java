@@ -19,13 +19,12 @@
 
 package com.sun.corba.ee.impl.encoding;
 
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.org.omg.SendingContext.CodeBase;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-
-import com.sun.org.omg.SendingContext.CodeBase;
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 
 /**
  * Encapsulations are supposed to explicitly define their

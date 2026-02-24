@@ -19,14 +19,13 @@
 
 package com.sun.corba.ee.impl.naming.cosnaming;
 
+import org.omg.CORBA.BAD_PARAM;
 // Import general CORBA classes
 import org.omg.CORBA.ORB;
-
 // Import org.omg.CosNaming classes
 import org.omg.CosNaming.Binding;
 import org.omg.CosNaming.BindingHolder;
 import org.omg.CosNaming.BindingIteratorPOA;
-import org.omg.CORBA.BAD_PARAM;
 
 /**
  * Class BindingIteratorImpl implements the org.omg.CosNaming::BindingIterator

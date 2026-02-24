@@ -20,8 +20,6 @@
 package org.glassfish.rmic.tools.java;
 
 import java.util.Hashtable;
-import java.io.PrintStream;
-import java.util.Enumeration;
 
 /**
  * A class to represent identifiers.<p>

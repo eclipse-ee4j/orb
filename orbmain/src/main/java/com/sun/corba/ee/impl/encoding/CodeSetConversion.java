@@ -19,23 +19,23 @@
 
 package com.sun.corba.ee.impl.encoding;
 
-import java.nio.ByteOrder;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.WeakHashMap;
+import com.sun.corba.ee.spi.logging.OMGSystemException;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CharsetDecoder;
 import java.nio.charset.CharacterCodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CharsetEncoder;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.MalformedInputException;
-import java.nio.charset.UnsupportedCharsetException;
 import java.nio.charset.UnmappableCharacterException;
-
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
-import com.sun.corba.ee.spi.logging.OMGSystemException;
+import java.nio.charset.UnsupportedCharsetException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * Collection of classes, interfaces, and factory methods for

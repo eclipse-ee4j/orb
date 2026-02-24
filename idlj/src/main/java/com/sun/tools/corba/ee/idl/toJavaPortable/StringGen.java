@@ -20,14 +20,14 @@
 
 package com.sun.tools.corba.ee.idl.toJavaPortable;
 
+import com.sun.tools.corba.ee.idl.StringEntry;
+import com.sun.tools.corba.ee.idl.SymtabEntry;
+
 // NOTES:
 // -D61056   <klr> Use Util.helperName
 
 import java.io.PrintWriter;
 import java.util.Hashtable;
-
-import com.sun.tools.corba.ee.idl.StringEntry;
-import com.sun.tools.corba.ee.idl.SymtabEntry;
 
 /**
  * Handles generation of CORBA strings as well as wstrings.  Be careful

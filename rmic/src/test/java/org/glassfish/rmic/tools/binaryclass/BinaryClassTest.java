@@ -19,11 +19,11 @@
 
 package org.glassfish.rmic.tools.binaryclass;
 
-import static org.junit.Assume.assumeTrue;
-
 import org.glassfish.rmic.tools.java.ClassDefinitionFactoryTest;
 import org.glassfish.rmic.tools.javac.BatchEnvironment;
 import org.junit.BeforeClass;
+
+import static org.junit.Assume.assumeTrue;
 
 public class BinaryClassTest extends ClassDefinitionFactoryTest {
 

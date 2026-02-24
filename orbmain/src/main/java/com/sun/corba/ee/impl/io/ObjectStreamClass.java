@@ -24,9 +24,6 @@ package com.sun.corba.ee.impl.io;
 import com.sun.corba.ee.impl.misc.ClassInfoCache;
 import com.sun.corba.ee.impl.util.RepositoryId;
 import com.sun.corba.ee.spi.trace.TraceValueHandler;
-import org.glassfish.pfl.basic.concurrent.SoftCache;
-import org.glassfish.pfl.basic.reflection.Bridge;
-import org.omg.CORBA.ValueMember;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -49,6 +46,10 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import org.glassfish.pfl.basic.concurrent.SoftCache;
+import org.glassfish.pfl.basic.reflection.Bridge;
+import org.omg.CORBA.ValueMember;
 
 /**
  * A ObjectStreamClass describes a class that can be serialized to a stream

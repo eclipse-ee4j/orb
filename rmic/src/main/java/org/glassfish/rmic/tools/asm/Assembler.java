@@ -19,14 +19,6 @@
 
 package org.glassfish.rmic.tools.asm;
 
-import org.glassfish.rmic.tools.java.ClassDefinition;
-import org.glassfish.rmic.tools.java.CompilerError;
-import org.glassfish.rmic.tools.java.Constants;
-import org.glassfish.rmic.tools.java.Environment;
-import org.glassfish.rmic.tools.java.MemberDefinition;
-import org.glassfish.rmic.tools.java.Type;
-import org.glassfish.rmic.tools.javac.SourceClass;
-
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -38,6 +30,14 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Enumeration;
 import java.util.Vector;
+
+import org.glassfish.rmic.tools.java.ClassDefinition;
+import org.glassfish.rmic.tools.java.CompilerError;
+import org.glassfish.rmic.tools.java.Constants;
+import org.glassfish.rmic.tools.java.Environment;
+import org.glassfish.rmic.tools.java.MemberDefinition;
+import org.glassfish.rmic.tools.java.Type;
+import org.glassfish.rmic.tools.javac.SourceClass;
 
 // JCOV
 // end JCOV

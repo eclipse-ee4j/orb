@@ -20,15 +20,15 @@
 
 package com.sun.tools.corba.ee.idl.toJavaPortable;
 
+import com.sun.tools.corba.ee.idl.GenFileStream;
+import com.sun.tools.corba.ee.idl.MethodEntry;
+import com.sun.tools.corba.ee.idl.SymtabEntry;
+import com.sun.tools.corba.ee.idl.ValueEntry;
+
 // NOTES:
 // -D62023 klr new class
 
 import java.util.Vector;
-
-import com.sun.tools.corba.ee.idl.GenFileStream;
-import com.sun.tools.corba.ee.idl.SymtabEntry;
-import com.sun.tools.corba.ee.idl.MethodEntry;
-import com.sun.tools.corba.ee.idl.ValueEntry;
 
 /**
  *

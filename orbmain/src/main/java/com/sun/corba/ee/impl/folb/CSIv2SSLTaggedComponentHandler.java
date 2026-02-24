@@ -24,13 +24,14 @@
 
 package com.sun.corba.ee.impl.folb;
 
-import java.util.List;
-import org.omg.IOP.TaggedComponent;
-import org.omg.PortableInterceptor.IORInfo;
-import com.sun.corba.ee.spi.folb.ClusterInstanceInfo;
 import com.sun.corba.ee.spi.folb.ClusterInstanceInfo;
 import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.transport.SocketInfo;
+
+import java.util.List;
+
+import org.omg.IOP.TaggedComponent;
+import org.omg.PortableInterceptor.IORInfo;
 
 /**
  * An implementation of this interface <code>org.omg.CORBA.LocalObject</code>.

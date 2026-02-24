@@ -19,8 +19,6 @@
 
 package org.glassfish.rmic.tools.javac;
 
-import static java.lang.Character.isDigit;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -36,6 +34,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
 import java.util.stream.Collectors;
+
 import org.glassfish.rmic.BatchEnvironmentError;
 import org.glassfish.rmic.asm.AsmClassFactory;
 import org.glassfish.rmic.tools.binaryclass.BinaryClassFactory;
@@ -54,6 +53,8 @@ import org.glassfish.rmic.tools.java.MemberDefinition;
 import org.glassfish.rmic.tools.java.Package;
 import org.glassfish.rmic.tools.java.Type;
 import org.glassfish.rmic.tools.tree.Node;
+
+import static java.lang.Character.isDigit;
 
 /**
  * Main environment of the batch version of the Java compiler,

@@ -19,10 +19,10 @@
 
 package org.omg.CORBA;
 
+import org.omg.CORBA.portable.IDLEntity;
 import org.omg.CORBA.portable.InputStream;
 import org.omg.CORBA.portable.OutputStream;
 import org.omg.CORBA.portable.Streamable;
-import org.omg.CORBA.portable.IDLEntity;
 
 /**
  * Serves as a container for any data that can be

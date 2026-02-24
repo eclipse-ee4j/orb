@@ -19,17 +19,15 @@
 
 package com.sun.corba.ee.spi.oa ;
 
-import org.omg.CORBA.Policy ;
-
-import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
-import org.omg.PortableInterceptor.ObjectReferenceFactory ;
-
+import com.sun.corba.ee.spi.ior.IORTemplate ;
 import com.sun.corba.ee.spi.orb.ORB ;
 
-import com.sun.corba.ee.spi.ior.IORTemplate ;
 import org.glassfish.gmbal.Description;
 import org.glassfish.gmbal.ManagedAttribute;
 import org.glassfish.gmbal.ManagedObject;
+import org.omg.CORBA.Policy ;
+import org.omg.PortableInterceptor.ObjectReferenceFactory ;
+import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
 
 // REVISIT: What should the order be?  enter/push...pop/exit?
 

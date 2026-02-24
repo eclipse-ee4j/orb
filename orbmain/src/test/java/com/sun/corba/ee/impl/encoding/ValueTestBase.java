@@ -19,12 +19,13 @@
 
 package com.sun.corba.ee.impl.encoding;
 
+import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Stack;
 
-import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
 import org.glassfish.corba.testutils.HexBuffer;
 
 import static org.junit.Assert.assertTrue;

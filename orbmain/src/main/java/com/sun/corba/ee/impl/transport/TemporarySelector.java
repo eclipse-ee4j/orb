@@ -19,12 +19,12 @@
 
 package com.sun.corba.ee.impl.transport;
 
+import com.sun.corba.ee.spi.transport.TemporarySelectorState;
+
 import java.io.IOException;
 import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
-
-import com.sun.corba.ee.spi.transport.TemporarySelectorState;
 
 /**
  *

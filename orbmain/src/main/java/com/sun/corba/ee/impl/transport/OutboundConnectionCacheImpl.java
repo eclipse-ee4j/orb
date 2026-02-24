@@ -19,20 +19,19 @@
 
 package com.sun.corba.ee.impl.transport;
 
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.trace.Transport;
+import com.sun.corba.ee.spi.transport.Connection;
+import com.sun.corba.ee.spi.transport.ContactInfo;
+import com.sun.corba.ee.spi.transport.OutboundConnectionCache;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.spi.transport.ContactInfo;
-
-import com.sun.corba.ee.spi.trace.Transport;
-import com.sun.corba.ee.spi.transport.Connection;
-import com.sun.corba.ee.spi.transport.OutboundConnectionCache;
-
-import org.glassfish.gmbal.ManagedObject ;
 import org.glassfish.gmbal.AMXMetadata ;
 import org.glassfish.gmbal.Description ;
+import org.glassfish.gmbal.ManagedObject ;
 
 /**
  * @author Harold Carr

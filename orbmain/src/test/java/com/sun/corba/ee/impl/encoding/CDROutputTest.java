@@ -21,18 +21,18 @@ package com.sun.corba.ee.impl.encoding;
 
 import com.sun.corba.ee.impl.corba.AnyImpl;
 import com.sun.corba.ee.impl.corba.TypeCodeImpl;
-import com.sun.corba.ee.impl.io.ValueUtility;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.orb.ORBVersionFactory;
+
+import java.io.IOException;
+import java.io.Serializable;
+
 import org.junit.Test;
 import org.omg.CORBA.BAD_PARAM;
 import org.omg.CORBA.MARSHAL;
 import org.omg.CORBA.TCKind;
 import org.omg.CORBA.TypeCode;
 import org.omg.CORBA_2_3.portable.InputStream;
-
-import java.io.IOException;
-import java.io.Serializable;
 
 import static org.junit.Assert.assertEquals;
 

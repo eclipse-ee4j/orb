@@ -21,21 +21,19 @@
 
 package com.sun.corba.ee.impl.util;
 
-import java.util.Map;
-import java.util.WeakHashMap;
-import java.util.Hashtable;
-import java.util.IdentityHashMap;
+import com.sun.corba.ee.impl.io.ObjectStreamClass;
+import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
+import com.sun.corba.ee.impl.misc.ClassInfoCache ;
+
 import java.io.IOException;
 import java.lang.reflect.Method;
-
 // Imports for using codebase URL to load class
 import java.net.MalformedURLException;
+import java.util.Hashtable;
+import java.util.IdentityHashMap;
+import java.util.Map;
+import java.util.WeakHashMap;
 
-import com.sun.corba.ee.impl.io.ObjectStreamClass;
-
-import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
-
-import com.sun.corba.ee.impl.misc.ClassInfoCache ;
 import org.glassfish.pfl.basic.concurrent.SoftCache;
 
 public class RepositoryId {

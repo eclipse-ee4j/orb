@@ -18,11 +18,12 @@
  */
 package com.sun.corba.ee.impl.interceptors;
 
-import java.math.BigDecimal;
-
 import com.sun.corba.ee.impl.corba.AnyImpl;
 import com.sun.corba.ee.impl.encoding.EncodingTestBase;
 import com.sun.corba.ee.spi.orb.ORB;
+
+import java.math.BigDecimal;
+
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.junit.Before;
@@ -31,12 +32,12 @@ import org.omg.CORBA.Any;
 import org.omg.CORBA.TCKind;
 import org.omg.IOP.Codec;
 import org.omg.IOP.CodecFactory;
+import org.omg.IOP.ENCODING_CDR_ENCAPS;
+import org.omg.IOP.Encoding;
 import org.omg.IOP.CodecFactoryPackage.UnknownEncoding;
 import org.omg.IOP.CodecPackage.FormatMismatch;
 import org.omg.IOP.CodecPackage.InvalidTypeForEncoding;
 import org.omg.IOP.CodecPackage.TypeMismatch;
-import org.omg.IOP.ENCODING_CDR_ENCAPS;
-import org.omg.IOP.Encoding;
 
 import static com.sun.corba.ee.impl.interceptors.CodecFactoryImplTest.TestStructMatcher.equalStruct;
 import static com.sun.corba.ee.impl.interceptors.CodecFactoryImplTest.TestUnionMatcher.equalUnion;

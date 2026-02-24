@@ -19,8 +19,9 @@
 
 package org.glassfish.rmic.classes.hcks;
 
-import javax.rmi.PortableRemoteObject;
 import java.rmi.RemoteException;
+
+import javax.rmi.PortableRemoteObject;
 
 public class RmiIIServant extends PortableRemoteObject implements RmiII {
 

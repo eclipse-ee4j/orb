@@ -19,12 +19,12 @@
 
 package com.sun.corba.ee.impl.threadpool;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
 import com.sun.corba.ee.spi.threadpool.ThreadPool;
 import com.sun.corba.ee.spi.threadpool.Work;
 import com.sun.corba.ee.spi.threadpool.WorkQueue;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 import org.glassfish.gmbal.Description ;
 import org.glassfish.gmbal.ManagedAttribute ;

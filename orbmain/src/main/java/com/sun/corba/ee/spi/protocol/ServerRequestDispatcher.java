@@ -20,9 +20,8 @@
 package com.sun.corba.ee.spi.protocol;
 
 
-import com.sun.corba.ee.spi.ior.ObjectKey;
-
 import com.sun.corba.ee.spi.ior.IOR ;
+import com.sun.corba.ee.spi.ior.ObjectKey;
 
 /**
  * Server delegate adds behavior on the server-side -- specifically

@@ -19,6 +19,8 @@
 
 package org.glassfish.rmic.asm;
 
+import java.util.Vector;
+
 import org.glassfish.rmic.tools.java.ClassDeclaration;
 import org.glassfish.rmic.tools.java.ClassDefinition;
 import org.glassfish.rmic.tools.java.ClassNotFound;
@@ -26,8 +28,6 @@ import org.glassfish.rmic.tools.java.Environment;
 import org.glassfish.rmic.tools.java.Identifier;
 import org.glassfish.rmic.tools.java.MemberDefinition;
 import org.glassfish.rmic.tools.java.Type;
-
-import java.util.Vector;
 
 public class AsmMemberDefinition extends MemberDefinition {
     private final ClassDeclaration[] exceptions;

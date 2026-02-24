@@ -20,9 +20,9 @@
 
 package org.glassfish.rmic;
 
-import java.io.Writer;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.Writer;
 
 /**
  * IndentingWriter is a BufferedWriter subclass that supports automatic

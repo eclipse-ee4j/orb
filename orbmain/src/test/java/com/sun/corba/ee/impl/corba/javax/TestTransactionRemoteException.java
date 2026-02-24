@@ -20,14 +20,16 @@
 package com.sun.corba.ee.impl.corba.javax;
 
 import java.rmi.RemoteException;
+
 import javax.rmi.CORBA.Util;
+
 import org.junit.Test;
+import org.omg.CORBA.INVALID_TRANSACTION;
 import org.omg.CORBA.SystemException;
+import org.omg.CORBA.TRANSACTION_REQUIRED;
 import org.omg.CORBA.TRANSACTION_ROLLEDBACK;
 
 import static org.junit.Assert.assertTrue;
-import org.omg.CORBA.INVALID_TRANSACTION;
-import org.omg.CORBA.TRANSACTION_REQUIRED;
 
 /**
  *

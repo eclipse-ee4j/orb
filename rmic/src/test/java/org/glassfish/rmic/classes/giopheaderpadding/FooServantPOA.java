@@ -19,8 +19,9 @@
 
 package org.glassfish.rmic.classes.giopheaderpadding;
 
-import javax.rmi.PortableRemoteObject;
 import java.rmi.RemoteException;
+
+import javax.rmi.PortableRemoteObject;
 
 public class FooServantPOA extends PortableRemoteObject implements Foo {
 

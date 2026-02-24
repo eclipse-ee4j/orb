@@ -21,8 +21,6 @@ package com.sun.corba.ee.spi.protocol ;
 
 import com.sun.corba.ee.spi.transport.ContactInfoList ;
 
-import com.sun.corba.ee.spi.protocol.ClientDelegate ;
-
 /** Interface used to create a ClientDelegate from a ContactInfoList.
  */
 public interface ClientDelegateFactory {
