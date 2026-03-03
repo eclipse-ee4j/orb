@@ -19,9 +19,9 @@
 
 package org.omg.CORBA;
 
-import org.omg.CORBA.portable.Streamable;
 import org.omg.CORBA.portable.InputStream;
 import org.omg.CORBA.portable.OutputStream;
+import org.omg.CORBA.portable.Streamable;
 
 /**
  * The Holder for <tt>Long</tt>.  For more information on 

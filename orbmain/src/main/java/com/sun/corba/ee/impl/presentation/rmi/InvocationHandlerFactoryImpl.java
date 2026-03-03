@@ -19,15 +19,14 @@
 
 package com.sun.corba.ee.impl.presentation.rmi ;
 
-import java.lang.reflect.InvocationHandler ;
-import java.lang.reflect.Proxy ;
-
+import com.sun.corba.ee.spi.presentation.rmi.DynamicStub ;
+import com.sun.corba.ee.spi.presentation.rmi.PresentationManager ;
 
 import java.io.ObjectStreamException ;
 import java.io.Serializable ;
+import java.lang.reflect.InvocationHandler ;
+import java.lang.reflect.Proxy ;
 
-import com.sun.corba.ee.spi.presentation.rmi.PresentationManager ;
-import com.sun.corba.ee.spi.presentation.rmi.DynamicStub ;
 import org.glassfish.pfl.basic.proxy.CompositeInvocationHandler;
 import org.glassfish.pfl.basic.proxy.CompositeInvocationHandlerImpl;
 import org.glassfish.pfl.basic.proxy.DelegateInvocationHandlerImpl;

@@ -19,9 +19,6 @@
 
 package org.glassfish.rmic.tools.asm;
 
-import org.glassfish.rmic.tools.java.*;
-import java.util.Hashtable;
-
 /**
  * WARNING: The contents of this source file are not part of any
  * supported API.  Code that depends on them does so at its own risk:

@@ -19,10 +19,15 @@
 
 package org.glassfish.rmic.tools.asm;
 
-import org.glassfish.rmic.tools.java.*;
-import java.util.Enumeration;
-import java.io.IOException;
 import java.io.DataOutputStream;
+import java.io.IOException;
+import java.util.Enumeration;
+
+import org.glassfish.rmic.tools.java.ClassDeclaration;
+import org.glassfish.rmic.tools.java.CompilerError;
+import org.glassfish.rmic.tools.java.Constants;
+import org.glassfish.rmic.tools.java.Environment;
+import org.glassfish.rmic.tools.java.MemberDefinition;
 
 /**
  * An Java instruction

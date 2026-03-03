@@ -19,7 +19,6 @@
  */
 
 package com.sun.corba.ee.impl.util;
-import java.util.Date;
 
 public class Version {
 

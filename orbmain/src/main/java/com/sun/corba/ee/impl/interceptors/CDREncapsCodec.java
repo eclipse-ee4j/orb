@@ -19,22 +19,19 @@
 
 package com.sun.corba.ee.impl.interceptors;
 
-import org.omg.CORBA.Any;
-import org.omg.CORBA.ORB;
-import org.omg.CORBA.TypeCode;
-
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-
 import com.sun.corba.ee.impl.corba.AnyImpl;
 import com.sun.corba.ee.impl.encoding.EncapsInputStream;
 import com.sun.corba.ee.impl.encoding.EncapsInputStreamFactory;
 import com.sun.corba.ee.impl.encoding.EncapsOutputStream;
 import com.sun.corba.ee.impl.encoding.OutputStreamFactory;
 import com.sun.corba.ee.impl.misc.ORBUtility;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
-
+import org.omg.CORBA.Any;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.TypeCode;
 import org.omg.IOP.Codec;
 import org.omg.IOP.CodecPackage.FormatMismatch;
 import org.omg.IOP.CodecPackage.InvalidTypeForEncoding;

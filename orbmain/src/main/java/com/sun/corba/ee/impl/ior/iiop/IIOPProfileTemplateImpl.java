@@ -19,31 +19,27 @@
 
 package com.sun.corba.ee.impl.ior.iiop;
 
-import java.util.Iterator ;
-
-import com.sun.corba.ee.spi.ior.iiop.JavaCodebaseComponent;
-import com.sun.corba.ee.spi.transport.SocketInfo;
-import org.omg.IOP.TAG_INTERNET_IOP ;
-
-import org.omg.CORBA_2_3.portable.InputStream ;
-import org.omg.CORBA_2_3.portable.OutputStream ;
-
+import com.sun.corba.ee.impl.encoding.OutputStreamFactory;
+import com.sun.corba.ee.impl.ior.EncapsulationUtility ;
+import com.sun.corba.ee.spi.ior.ObjectId ;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
 import com.sun.corba.ee.spi.ior.TaggedComponent ;
 import com.sun.corba.ee.spi.ior.TaggedProfile ;
 import com.sun.corba.ee.spi.ior.TaggedProfileTemplate ;
 import com.sun.corba.ee.spi.ior.TaggedProfileTemplateBase ;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
-import com.sun.corba.ee.spi.ior.ObjectId ;
-
-import com.sun.corba.ee.impl.ior.EncapsulationUtility ;
-
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate ;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion ;
 import com.sun.corba.ee.spi.ior.iiop.IIOPAddress ;
 import com.sun.corba.ee.spi.ior.iiop.IIOPFactories ;
-
-import com.sun.corba.ee.impl.encoding.OutputStreamFactory;
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion ;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate ;
+import com.sun.corba.ee.spi.ior.iiop.JavaCodebaseComponent;
 import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.transport.SocketInfo;
+
+import java.util.Iterator ;
+
+import org.omg.CORBA_2_3.portable.InputStream ;
+import org.omg.CORBA_2_3.portable.OutputStream ;
+import org.omg.IOP.TAG_INTERNET_IOP ;
 
 /**
  * @author 

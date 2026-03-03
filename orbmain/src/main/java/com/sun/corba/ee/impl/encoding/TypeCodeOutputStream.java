@@ -21,14 +21,14 @@ package com.sun.corba.ee.impl.encoding;
 
 
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-import org.omg.CORBA_2_3.portable.OutputStream;
-
 import com.sun.corba.ee.spi.orb.ORB;
 
+import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.HashMap;
 import java.util.Map;
-import java.nio.ByteBuffer;
+
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 public final class TypeCodeOutputStream extends EncapsOutputStream {
 

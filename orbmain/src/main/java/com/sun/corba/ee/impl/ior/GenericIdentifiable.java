@@ -19,16 +19,15 @@
 
 package com.sun.corba.ee.impl.ior;
 
-import java.util.Arrays ;
-
-import org.omg.CORBA_2_3.portable.InputStream;
-import org.omg.CORBA_2_3.portable.OutputStream;
-
 import com.sun.corba.ee.spi.ior.Identifiable ;
 
-import org.glassfish.gmbal.ManagedData ;
-import org.glassfish.gmbal.ManagedAttribute ;
+import java.util.Arrays ;
+
 import org.glassfish.gmbal.Description ;
+import org.glassfish.gmbal.ManagedAttribute ;
+import org.glassfish.gmbal.ManagedData ;
+import org.omg.CORBA_2_3.portable.InputStream;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 /**
  * @author 

@@ -19,10 +19,6 @@
 
 package com.sun.corba.ee.impl.presentation.rmi;
 
-import java.lang.reflect.InvocationHandler ;
-
-import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
-
 public class StubFactoryStaticImpl extends StubFactoryBase
 {
     private Class stubClass ;

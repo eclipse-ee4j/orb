@@ -21,6 +21,18 @@
 
 package com.sun.tools.corba.ee.idl.toJavaPortable;
 
+import com.sun.tools.corba.ee.idl.GenFileStream;
+import com.sun.tools.corba.ee.idl.InterfaceEntry;
+import com.sun.tools.corba.ee.idl.InterfaceState;
+import com.sun.tools.corba.ee.idl.PrimitiveEntry;
+import com.sun.tools.corba.ee.idl.SequenceEntry;
+import com.sun.tools.corba.ee.idl.StringEntry;
+import com.sun.tools.corba.ee.idl.StructEntry;
+import com.sun.tools.corba.ee.idl.SymtabEntry;
+import com.sun.tools.corba.ee.idl.TypedefEntry;
+import com.sun.tools.corba.ee.idl.ValueBoxEntry;
+import com.sun.tools.corba.ee.idl.ValueEntry;
+
 // NOTES:
 // - Think about arrays (and sequences?) as members
 //   - A sequence must be converted to an array, but a memory of the
@@ -37,18 +49,6 @@ import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
-
-import com.sun.tools.corba.ee.idl.GenFileStream;
-import com.sun.tools.corba.ee.idl.InterfaceEntry;
-import com.sun.tools.corba.ee.idl.PrimitiveEntry;
-import com.sun.tools.corba.ee.idl.SequenceEntry;
-import com.sun.tools.corba.ee.idl.StringEntry;
-import com.sun.tools.corba.ee.idl.StructEntry;
-import com.sun.tools.corba.ee.idl.SymtabEntry;
-import com.sun.tools.corba.ee.idl.TypedefEntry;
-import com.sun.tools.corba.ee.idl.ValueEntry;
-import com.sun.tools.corba.ee.idl.ValueBoxEntry;
-import com.sun.tools.corba.ee.idl.InterfaceState;
 
 /**
  *

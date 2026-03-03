@@ -21,6 +21,18 @@
 
 package com.sun.tools.corba.ee.idl.toJavaPortable;
 
+import com.sun.tools.corba.ee.idl.GenFileStream;
+import com.sun.tools.corba.ee.idl.InterfaceEntry;
+import com.sun.tools.corba.ee.idl.InterfaceState;
+import com.sun.tools.corba.ee.idl.MethodEntry;
+import com.sun.tools.corba.ee.idl.PrimitiveEntry;
+import com.sun.tools.corba.ee.idl.SequenceEntry;
+import com.sun.tools.corba.ee.idl.StringEntry;
+import com.sun.tools.corba.ee.idl.SymtabEntry;
+import com.sun.tools.corba.ee.idl.TypedefEntry;
+import com.sun.tools.corba.ee.idl.ValueBoxEntry;
+import com.sun.tools.corba.ee.idl.ValueEntry;
+
 // NOTES:
 // -F46082.51<daz> Remove -stateful feature; javaStatefulName() obsolete.
 // -D57067 <klr> suppress default init if an emit init explicitly specified.
@@ -35,21 +47,9 @@ package com.sun.tools.corba.ee.idl.toJavaPortable;
 // -D61650<daz> Remove '\n' from generated strings; use println()'s.
 
 import java.io.PrintWriter;
-import java.util.Hashtable;
 import java.util.Enumeration;
+import java.util.Hashtable;
 import java.util.Vector;
-
-import com.sun.tools.corba.ee.idl.GenFileStream;
-import com.sun.tools.corba.ee.idl.InterfaceEntry;
-import com.sun.tools.corba.ee.idl.SymtabEntry;
-import com.sun.tools.corba.ee.idl.TypedefEntry;
-import com.sun.tools.corba.ee.idl.ValueEntry;
-import com.sun.tools.corba.ee.idl.ValueBoxEntry;
-import com.sun.tools.corba.ee.idl.InterfaceState;
-import com.sun.tools.corba.ee.idl.MethodEntry;
-import com.sun.tools.corba.ee.idl.PrimitiveEntry;
-import com.sun.tools.corba.ee.idl.SequenceEntry;
-import com.sun.tools.corba.ee.idl.StringEntry;
 
 /**
  *

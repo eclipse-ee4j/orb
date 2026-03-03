@@ -20,9 +20,8 @@
 package com.sun.corba.ee.impl.transport.connection;
 
 
-import com.sun.corba.ee.spi.transport.connection.Connection ;
-
 import com.sun.corba.ee.spi.transport.concurrent.ConcurrentQueueFactory;
+import com.sun.corba.ee.spi.transport.connection.Connection ;
 
 abstract class ConnectionCacheBlockingBase<C extends Connection> 
     extends ConnectionCacheBase<C> {

@@ -23,10 +23,11 @@ package org.glassfish.rmic.iiop;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import org.glassfish.rmic.tools.java.CompilerError;
-import org.glassfish.rmic.tools.java.ClassDefinition;
+
 import org.glassfish.rmic.IndentingWriter;
 import org.glassfish.rmic.Main;
+import org.glassfish.rmic.tools.java.ClassDefinition;
+import org.glassfish.rmic.tools.java.CompilerError;
 
 /**
  * An IDL generator for rmic.

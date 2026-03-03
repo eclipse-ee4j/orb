@@ -20,6 +20,18 @@
 
 package com.sun.tools.corba.ee.idl.toJavaPortable;
 
+import com.sun.tools.corba.ee.idl.EnumEntry;
+import com.sun.tools.corba.ee.idl.GenFileStream;
+import com.sun.tools.corba.ee.idl.PrimitiveEntry;
+import com.sun.tools.corba.ee.idl.SequenceEntry;
+import com.sun.tools.corba.ee.idl.StringEntry;
+import com.sun.tools.corba.ee.idl.SymtabEntry;
+import com.sun.tools.corba.ee.idl.TypedefEntry;
+import com.sun.tools.corba.ee.idl.UnionBranch;
+import com.sun.tools.corba.ee.idl.UnionEntry;
+import com.sun.tools.corba.ee.idl.constExpr.EvaluationException;
+import com.sun.tools.corba.ee.idl.constExpr.Expression;
+
 // NOTES:
 // -cast() does not support longlong types yet.
 // -Deal with typedef changes.
@@ -31,19 +43,6 @@ import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
-
-import com.sun.tools.corba.ee.idl.GenFileStream;
-import com.sun.tools.corba.ee.idl.EnumEntry;
-import com.sun.tools.corba.ee.idl.PrimitiveEntry;
-import com.sun.tools.corba.ee.idl.SequenceEntry;
-import com.sun.tools.corba.ee.idl.StringEntry;
-import com.sun.tools.corba.ee.idl.SymtabEntry;
-import com.sun.tools.corba.ee.idl.TypedefEntry;
-import com.sun.tools.corba.ee.idl.UnionBranch;
-import com.sun.tools.corba.ee.idl.UnionEntry;
-
-import com.sun.tools.corba.ee.idl.constExpr.Expression;
-import com.sun.tools.corba.ee.idl.constExpr.EvaluationException;
 
 /**
  *

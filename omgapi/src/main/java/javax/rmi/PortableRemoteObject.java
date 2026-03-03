@@ -21,7 +21,6 @@
 package javax.rmi;      
 
 import com.sun.corba.ee.org.omg.CORBA.GetPropertyAction;
-import org.omg.CORBA.INITIALIZE;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,6 +32,8 @@ import java.rmi.server.RMIClassLoader;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Properties;
+
+import org.omg.CORBA.INITIALIZE;
 
 /**
  * Server implementation objects may either inherit from

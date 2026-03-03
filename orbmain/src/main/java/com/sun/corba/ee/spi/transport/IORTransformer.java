@@ -19,9 +19,9 @@
 
 package com.sun.corba.ee.spi.transport ;
 
-import com.sun.corba.ee.spi.ior.IOR ;
 import com.sun.corba.ee.impl.encoding.CDRInputObject ;
 import com.sun.corba.ee.impl.encoding.CDROutputObject ;
+import com.sun.corba.ee.spi.ior.IOR ;
 
 /** Interface that provides operations to transorm an IOR
  * between its programmatic representation and a representation

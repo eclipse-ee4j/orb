@@ -19,18 +19,18 @@
 
 package com.sun.corba.ee.impl.dynamicany;
 
-import org.omg.CORBA.TypeCode;
+import com.sun.corba.ee.spi.orb.ORB ;
+
 import org.omg.CORBA.Any;
+import org.omg.CORBA.TypeCode;
 import org.omg.CORBA.TypeCodePackage.BadKind;
 import org.omg.CORBA.TypeCodePackage.Bounds;
 import org.omg.CORBA.portable.InputStream;
-import org.omg.DynamicAny.DynAnyPackage.TypeMismatch;
-import org.omg.DynamicAny.DynAnyPackage.InvalidValue;
-import org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode;
-
-import com.sun.corba.ee.spi.orb.ORB ;
 import org.omg.DynamicAny.DynAny;
 import org.omg.DynamicAny.DynUnion;
+import org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode;
+import org.omg.DynamicAny.DynAnyPackage.InvalidValue;
+import org.omg.DynamicAny.DynAnyPackage.TypeMismatch;
 
 public class DynUnionImpl extends DynAnyConstructedImpl implements DynUnion
 {

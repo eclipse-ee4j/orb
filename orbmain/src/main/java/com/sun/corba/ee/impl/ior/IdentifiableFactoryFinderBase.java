@@ -19,18 +19,16 @@
 
 package com.sun.corba.ee.impl.ior ;
 
-import org.omg.CORBA_2_3.portable.InputStream ;
-
-import java.util.Map ;
-import java.util.HashMap ;
-
-import com.sun.corba.ee.spi.orb.ORB ;
-
 import com.sun.corba.ee.spi.ior.Identifiable ;
 import com.sun.corba.ee.spi.ior.IdentifiableFactory ;
 import com.sun.corba.ee.spi.ior.IdentifiableFactoryFinder ;
-
 import com.sun.corba.ee.spi.logging.IORSystemException ;
+import com.sun.corba.ee.spi.orb.ORB ;
+
+import java.util.HashMap ;
+import java.util.Map ;
+
+import org.omg.CORBA_2_3.portable.InputStream ;
 
 public abstract class IdentifiableFactoryFinderBase<E extends Identifiable> 
     implements IdentifiableFactoryFinder<E>

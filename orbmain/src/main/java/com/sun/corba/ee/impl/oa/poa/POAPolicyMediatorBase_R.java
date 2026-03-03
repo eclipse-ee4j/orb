@@ -19,16 +19,15 @@
 
 package com.sun.corba.ee.impl.oa.poa ;
 
-import org.omg.PortableServer.Servant ;
-
-import org.omg.PortableServer.POAPackage.WrongPolicy ;
-import org.omg.PortableServer.POAPackage.ServantNotActive ;
-import org.omg.PortableServer.POAPackage.ServantAlreadyActive ;
-import org.omg.PortableServer.POAPackage.ObjectNotActive ;
-import org.omg.PortableServer.POAPackage.ObjectAlreadyActive ;
-
 import com.sun.corba.ee.spi.trace.Poa;
+
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
+import org.omg.PortableServer.Servant ;
+import org.omg.PortableServer.POAPackage.ObjectAlreadyActive ;
+import org.omg.PortableServer.POAPackage.ObjectNotActive ;
+import org.omg.PortableServer.POAPackage.ServantAlreadyActive ;
+import org.omg.PortableServer.POAPackage.ServantNotActive ;
+import org.omg.PortableServer.POAPackage.WrongPolicy ;
 
 @Poa
 public abstract class POAPolicyMediatorBase_R extends POAPolicyMediatorBase {

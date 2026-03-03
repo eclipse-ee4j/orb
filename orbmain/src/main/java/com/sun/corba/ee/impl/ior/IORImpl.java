@@ -19,41 +19,34 @@
 
 package com.sun.corba.ee.impl.ior;
 
+import com.sun.corba.ee.impl.encoding.EncapsOutputStream;
+import com.sun.corba.ee.impl.encoding.MarshalOutputStream;
+import com.sun.corba.ee.impl.encoding.OutputStreamFactory;
+import com.sun.corba.ee.impl.misc.HexOutputStream;
+import com.sun.corba.ee.spi.ior.IOR ;
+import com.sun.corba.ee.spi.ior.IORFactories ;
+import com.sun.corba.ee.spi.ior.IORTemplate ;
+import com.sun.corba.ee.spi.ior.IORTemplateList ;
+import com.sun.corba.ee.spi.ior.IdentifiableContainerBase ;
+import com.sun.corba.ee.spi.ior.IdentifiableFactoryFinder ;
+import com.sun.corba.ee.spi.ior.ObjectId ;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
+import com.sun.corba.ee.spi.ior.TaggedProfile ;
+import com.sun.corba.ee.spi.ior.TaggedProfileTemplate ;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfile ;
+import com.sun.corba.ee.spi.logging.IORSystemException ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB;
+
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.HashMap ;
 import java.util.Iterator ;
 import java.util.Map ;
-import java.util.HashMap ;
-
-import java.io.StringWriter;
-import java.io.IOException;
 
 import org.omg.CORBA_2_3.portable.InputStream ;
 import org.omg.CORBA_2_3.portable.OutputStream ;
-
 import org.omg.IOP.TAG_INTERNET_IOP ;
-
-import com.sun.corba.ee.spi.ior.ObjectId ;
-import com.sun.corba.ee.spi.ior.TaggedProfileTemplate ;
-import com.sun.corba.ee.spi.ior.TaggedProfile ;
-import com.sun.corba.ee.spi.ior.IOR ;
-import com.sun.corba.ee.spi.ior.IORTemplate ;
-import com.sun.corba.ee.spi.ior.IORTemplateList ;
-import com.sun.corba.ee.spi.ior.IdentifiableFactoryFinder ;
-import com.sun.corba.ee.spi.ior.IdentifiableContainerBase ;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
-import com.sun.corba.ee.spi.ior.IORFactories ;
-
-import com.sun.corba.ee.spi.orb.ORB;
-
-import com.sun.corba.ee.impl.encoding.MarshalOutputStream;
-import com.sun.corba.ee.impl.encoding.OutputStreamFactory;
-import com.sun.corba.ee.impl.encoding.EncapsOutputStream;
-
-import com.sun.corba.ee.impl.misc.HexOutputStream;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-
-import com.sun.corba.ee.spi.logging.IORSystemException ;
-
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfile ;
 
 /** An IOR is represented as a list of profiles.
 * Only objects that extend TaggedProfile should be added to an IOR.

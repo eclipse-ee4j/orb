@@ -19,31 +19,29 @@
 
 package com.sun.corba.ee.impl.naming.cosnaming;
 
-import org.omg.CORBA.BAD_PARAM;
-import org.omg.PortableServer.POA;
-import org.omg.PortableServer.Servant;
-
-// Import org.omg.CosNaming classes
-import org.omg.CosNaming.BindingType;
-import org.omg.CosNaming.BindingTypeHolder;
-import org.omg.CosNaming.BindingListHolder;
-import org.omg.CosNaming.BindingIteratorHolder;
-import org.omg.CosNaming.NameComponent;
-import org.omg.CosNaming.NamingContextHelper;
-import org.omg.CosNaming.NamingContext;
-import org.omg.CosNaming.NamingContextExtPOA;
-import org.omg.CosNaming.NamingContextPackage.NotFound;
-
 import com.sun.corba.ee.impl.naming.namingutil.INSURLHandler;
 import com.sun.corba.ee.spi.logging.NamingSystemException ;
 import com.sun.corba.ee.spi.orb.ORB;
-
 import com.sun.corba.ee.spi.trace.Naming;
+
+import org.omg.CORBA.BAD_PARAM;
+import org.omg.CosNaming.BindingIteratorHolder;
+import org.omg.CosNaming.BindingListHolder;
+// Import org.omg.CosNaming classes
+import org.omg.CosNaming.BindingType;
+import org.omg.CosNaming.BindingTypeHolder;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextExtPOA;
+import org.omg.CosNaming.NamingContextHelper;
 import org.omg.CosNaming.NamingContextPackage.AlreadyBound;
 import org.omg.CosNaming.NamingContextPackage.CannotProceed;
 import org.omg.CosNaming.NamingContextPackage.InvalidName;
 import org.omg.CosNaming.NamingContextPackage.NotEmpty;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.omg.CosNaming.NamingContextPackage.NotFoundReason;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.Servant;
 
 /**
  * Class NamingContextImpl implements the org.omg.CosNaming::NamingContext

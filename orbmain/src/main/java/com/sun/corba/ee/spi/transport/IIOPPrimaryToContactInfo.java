@@ -21,8 +21,6 @@ package com.sun.corba.ee.spi.transport;
 
 import java.util.List;
 
-import com.sun.corba.ee.spi.transport.ContactInfo;
-
 /**
  * This interface is the "sticky manager" for IIOP failover.  The default
  * ORB does NOT contain a sticky manager.  One is registered by supplying

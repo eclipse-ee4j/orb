@@ -19,13 +19,12 @@
 
 package com.sun.corba.ee.spi.ior.iiop;
 
+import com.sun.corba.ee.impl.encoding.CodeSetComponentInfo ;
 import com.sun.corba.ee.spi.ior.TaggedComponent ;
 
-import com.sun.corba.ee.impl.encoding.CodeSetComponentInfo ;
-
-import org.glassfish.gmbal.ManagedData ;
-import org.glassfish.gmbal.ManagedAttribute ;
 import org.glassfish.gmbal.Description ;
+import org.glassfish.gmbal.ManagedAttribute ;
+import org.glassfish.gmbal.ManagedData ;
 
 
 /**

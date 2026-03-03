@@ -21,16 +21,24 @@ package com.sun.corba.ee.impl.encoding;
 
 import com.sun.corba.ee.impl.protocol.RequestCanceledException;
 import com.sun.corba.ee.spi.orb.ORBVersionFactory;
-import org.junit.Test;
-import org.omg.CORBA.*;
-import org.omg.CORBA.TypeCodePackage.BadKind;
 
 import java.io.IOException;
 import java.nio.ByteOrder;
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
+import org.omg.CORBA.COMM_FAILURE;
+import org.omg.CORBA.MARSHAL;
+import org.omg.CORBA.NO_IMPLEMENT;
+import org.omg.CORBA.TCKind;
+import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.TypeCodePackage.BadKind;
+
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class CDRInputTest extends EncodingTestBase {

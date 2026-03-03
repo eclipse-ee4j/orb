@@ -20,12 +20,13 @@
 
 package org.glassfish.rmic.iiop;
 
-import org.glassfish.rmic.tools.java.CompilerError;
-import org.glassfish.rmic.tools.java.ClassNotFound;
+import java.io.IOException;
+
+import org.glassfish.rmic.IndentingWriter;
 import org.glassfish.rmic.tools.java.ClassDeclaration;
 import org.glassfish.rmic.tools.java.ClassDefinition;
-import org.glassfish.rmic.IndentingWriter;
-import java.io.IOException;
+import org.glassfish.rmic.tools.java.ClassNotFound;
+import org.glassfish.rmic.tools.java.CompilerError;
 
 /**
  * ClassType is an abstract base representing any non-special class

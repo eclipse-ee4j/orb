@@ -19,26 +19,21 @@
 
 package com.sun.corba.ee.impl.transport.connection;
 
-import java.io.IOException ;
-
-import java.util.Map ;
-import java.util.HashMap ;
-
-import java.util.concurrent.locks.ReentrantLock ;
-
+import com.sun.corba.ee.spi.trace.Transport;
+import com.sun.corba.ee.spi.transport.concurrent.ConcurrentQueueFactory;
 import com.sun.corba.ee.spi.transport.connection.Connection ;
 import com.sun.corba.ee.spi.transport.connection.ConnectionFinder ;
 import com.sun.corba.ee.spi.transport.connection.ContactInfo ;
 import com.sun.corba.ee.spi.transport.connection.OutboundConnectionCache ;
 
-import com.sun.corba.ee.spi.transport.concurrent.ConcurrentQueueFactory;
-import com.sun.corba.ee.spi.trace.Transport;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.IOException ;
+import java.util.HashMap ;
+import java.util.Map ;
+import java.util.concurrent.locks.ReentrantLock ;
 
 import org.glassfish.gmbal.Description ;
-import org.glassfish.gmbal.ManagedObject ;
 import org.glassfish.gmbal.ManagedAttribute ;
+import org.glassfish.gmbal.ManagedObject ;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 
 @Transport

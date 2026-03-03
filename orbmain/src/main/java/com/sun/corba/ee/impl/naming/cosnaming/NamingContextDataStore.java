@@ -19,14 +19,11 @@
 
 package com.sun.corba.ee.impl.naming.cosnaming;
 
-// Import general CORBA classes
-import org.omg.CORBA.Object;
-
+import org.omg.CosNaming.BindingIteratorHolder;
+import org.omg.CosNaming.BindingListHolder;
 // Import org.omg.CosNaming classes
 import org.omg.CosNaming.BindingType;
 import org.omg.CosNaming.BindingTypeHolder;
-import org.omg.CosNaming.BindingListHolder;
-import org.omg.CosNaming.BindingIteratorHolder;
 import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContext;
 import org.omg.PortableServer.POA;

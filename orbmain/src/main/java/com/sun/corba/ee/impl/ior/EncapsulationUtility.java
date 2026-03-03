@@ -20,22 +20,20 @@
 
 package com.sun.corba.ee.impl.ior;
 
-import java.util.List;
-
-import org.omg.CORBA_2_3.portable.OutputStream ;
-import org.omg.CORBA_2_3.portable.InputStream ;
-
+import com.sun.corba.ee.impl.encoding.CDROutputObject ;
+import com.sun.corba.ee.impl.encoding.EncapsInputStream ;
+import com.sun.corba.ee.impl.encoding.EncapsInputStreamFactory;
+import com.sun.corba.ee.impl.encoding.EncapsOutputStream ;
+import com.sun.corba.ee.impl.encoding.OutputStreamFactory;
 import com.sun.corba.ee.spi.ior.Identifiable ;
 import com.sun.corba.ee.spi.ior.IdentifiableFactoryFinder ;
 import com.sun.corba.ee.spi.ior.WriteContents ;
-
 import com.sun.corba.ee.spi.orb.ORB ;
 
-import com.sun.corba.ee.impl.encoding.CDROutputObject ;
-import com.sun.corba.ee.impl.encoding.EncapsOutputStream ;
-import com.sun.corba.ee.impl.encoding.OutputStreamFactory;
-import com.sun.corba.ee.impl.encoding.EncapsInputStream ;
-import com.sun.corba.ee.impl.encoding.EncapsInputStreamFactory;
+import java.util.List;
+
+import org.omg.CORBA_2_3.portable.InputStream ;
+import org.omg.CORBA_2_3.portable.OutputStream ;
 
 /**
  * This static utility class contains various utility methods for reading and

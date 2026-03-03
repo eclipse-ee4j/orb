@@ -19,13 +19,6 @@
 
 package org.glassfish.rmic;
 
-import org.glassfish.rmic.tools.java.ClassDeclaration;
-import org.glassfish.rmic.tools.java.ClassDefinition;
-import org.glassfish.rmic.tools.java.ClassNotFound;
-import org.glassfish.rmic.tools.java.Identifier;
-import org.glassfish.rmic.tools.java.MemberDefinition;
-import org.glassfish.rmic.tools.java.Type;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -35,6 +28,13 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
+
+import org.glassfish.rmic.tools.java.ClassDeclaration;
+import org.glassfish.rmic.tools.java.ClassDefinition;
+import org.glassfish.rmic.tools.java.ClassNotFound;
+import org.glassfish.rmic.tools.java.Identifier;
+import org.glassfish.rmic.tools.java.MemberDefinition;
+import org.glassfish.rmic.tools.java.Type;
 
 /**
  * A RemoteClass object encapsulates RMI-specific information about

@@ -19,42 +19,37 @@
 
 package com.sun.corba.ee.impl.oa.rfm;
 
-import java.util.List ;
-import java.util.ArrayList ;
-import java.util.Map ;
-import java.util.HashMap ;
-import java.util.Arrays ;
-
-import java.util.concurrent.locks.ReentrantLock ;
-import java.util.concurrent.locks.Condition ;
-
-import org.omg.CORBA.Policy ;
-import org.omg.CORBA.LocalObject ;
-
-import org.omg.PortableServer.POA ;
-import org.omg.PortableServer.POAManager ;
-import org.omg.PortableServer.AdapterActivator ;
-import org.omg.PortableServer.ServantLocator ;
-import org.omg.PortableServer.RequestProcessingPolicyValue ;
-import org.omg.PortableServer.LifespanPolicyValue ;
-import org.omg.PortableServer.ServantRetentionPolicyValue ;
-
-import org.omg.PortableServer.POAManagerPackage.AdapterInactive ;
-
-import com.sun.corba.ee.spi.orb.ORB ;
-
+import com.sun.corba.ee.spi.logging.POASystemException ;
+import com.sun.corba.ee.spi.misc.ORBConstants ;
 import com.sun.corba.ee.spi.oa.ObjectAdapter ;
 import com.sun.corba.ee.spi.oa.rfm.ReferenceFactory ;
 import com.sun.corba.ee.spi.oa.rfm.ReferenceFactoryManager ;
-
-import com.sun.corba.ee.spi.logging.POASystemException ;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.orb.ORB ;
 import com.sun.corba.ee.spi.trace.Poa;
+
+import java.util.ArrayList ;
+import java.util.Arrays ;
+import java.util.HashMap ;
 import java.util.HashSet;
+import java.util.List ;
+import java.util.Map ;
 import java.util.Set;
+import java.util.concurrent.locks.Condition ;
+import java.util.concurrent.locks.ReentrantLock ;
+
 import org.glassfish.gmbal.Description;
 import org.glassfish.gmbal.ManagedObject;
 import org.glassfish.pfl.basic.contain.Pair;
+import org.omg.CORBA.LocalObject ;
+import org.omg.CORBA.Policy ;
+import org.omg.PortableServer.AdapterActivator ;
+import org.omg.PortableServer.LifespanPolicyValue ;
+import org.omg.PortableServer.POA ;
+import org.omg.PortableServer.POAManager ;
+import org.omg.PortableServer.RequestProcessingPolicyValue ;
+import org.omg.PortableServer.ServantLocator ;
+import org.omg.PortableServer.ServantRetentionPolicyValue ;
+import org.omg.PortableServer.POAManagerPackage.AdapterInactive ;
 
 @Poa
 @ManagedObject

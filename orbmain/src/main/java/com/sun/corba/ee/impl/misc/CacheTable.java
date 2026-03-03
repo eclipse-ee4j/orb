@@ -19,10 +19,8 @@
 
 package com.sun.corba.ee.impl.misc;
 
-import com.sun.corba.ee.spi.orb.ORB;
-
 import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
-
+import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.trace.Cdr;
 
 /** This is a hash table implementation that simultaneously maps key to value

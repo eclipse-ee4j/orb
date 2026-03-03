@@ -20,7 +20,9 @@
 
 package com.sun.corba.ee.impl.naming.cosnaming;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+
 import org.omg.CosNaming.NameComponent;
 
 

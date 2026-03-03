@@ -20,42 +20,35 @@
 
 package com.sun.corba.ee.impl.oa.poa ;
 
-import java.util.Set ;
+import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
+import com.sun.corba.ee.spi.logging.OMGSystemException ;
+import com.sun.corba.ee.spi.logging.POASystemException ;
+import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.oa.ObjectAdapter ;
+import com.sun.corba.ee.spi.oa.ObjectAdapterFactory ;
+import com.sun.corba.ee.spi.orb.ORB ;
+
+import java.util.ArrayList ;
 import java.util.HashSet ;
 import java.util.Iterator ;
 import java.util.List ;
-import java.util.ArrayList ;
 import java.util.Map ;
+import java.util.Set ;
 import java.util.WeakHashMap ;
 
-import org.omg.CORBA.OBJECT_NOT_EXIST ;
-import org.omg.CORBA.TRANSIENT ;
-
-import org.omg.CORBA.ORBPackage.InvalidName ;
-
-import org.omg.PortableServer.Servant ;
-import org.omg.PortableServer.POA ;
-import org.omg.PortableServer.POAManager ;
-
-import com.sun.corba.ee.spi.oa.ObjectAdapter ;
-import com.sun.corba.ee.spi.oa.ObjectAdapterFactory ;
-
-import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
-
-import com.sun.corba.ee.spi.orb.ORB ;
-
-import com.sun.corba.ee.spi.logging.POASystemException ;
-import com.sun.corba.ee.spi.logging.OMGSystemException ;
-
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-
+import org.glassfish.gmbal.AMXMetadata;
 import org.glassfish.gmbal.Description;
 import org.glassfish.gmbal.ManagedAttribute;
-import org.glassfish.gmbal.ManagedObject;
 import org.glassfish.gmbal.ManagedData;
+import org.glassfish.gmbal.ManagedObject;
 import org.glassfish.gmbal.ManagedObjectManager;
-import org.glassfish.gmbal.AMXMetadata;
 import org.glassfish.pfl.basic.func.NullaryFunction;
+import org.omg.CORBA.OBJECT_NOT_EXIST ;
+import org.omg.CORBA.TRANSIENT ;
+import org.omg.CORBA.ORBPackage.InvalidName ;
+import org.omg.PortableServer.POA ;
+import org.omg.PortableServer.POAManager ;
+import org.omg.PortableServer.Servant ;
 
 @ManagedObject
 @Description( "The factory for all POAs and POAManagers")

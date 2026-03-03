@@ -20,11 +20,10 @@
 package com.sun.corba.ee.impl.transport.connection;
 
 
-import java.util.concurrent.atomic.AtomicInteger ;
-
+import com.sun.corba.ee.spi.transport.concurrent.ConcurrentQueueFactory ;
 import com.sun.corba.ee.spi.transport.connection.Connection ;
 
-import com.sun.corba.ee.spi.transport.concurrent.ConcurrentQueueFactory ;
+import java.util.concurrent.atomic.AtomicInteger ;
 
 abstract class ConnectionCacheNonBlockingBase<C extends Connection> 
     extends ConnectionCacheBase<C> {

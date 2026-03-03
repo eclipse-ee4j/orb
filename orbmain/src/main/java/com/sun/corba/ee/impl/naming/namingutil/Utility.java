@@ -19,11 +19,11 @@
 
 package com.sun.corba.ee.impl.naming.namingutil;
 
+import com.sun.corba.ee.spi.logging.NamingSystemException;
+
 import java.io.StringWriter;
 
 import org.omg.CORBA.DATA_CONVERSION;
-
-import com.sun.corba.ee.spi.logging.NamingSystemException;
 
 /**
  *  Utility methods for Naming.

@@ -31,8 +31,19 @@ package com.sun.tools.corba.ee.idl.toJavaPortable;
 // -D58591<daz> Publicise _factories and compile for QuickTest.  Need to revert
 //  t0 private and add accessor methods.
 // -D59437<daz> Fill typename information for value boxes.
-
-import com.sun.tools.corba.ee.idl.*;
+import com.sun.tools.corba.ee.idl.IncludeEntry;
+import com.sun.tools.corba.ee.idl.InterfaceEntry;
+import com.sun.tools.corba.ee.idl.InterfaceState;
+import com.sun.tools.corba.ee.idl.InvalidArgument;
+import com.sun.tools.corba.ee.idl.ModuleEntry;
+import com.sun.tools.corba.ee.idl.PrimitiveEntry;
+import com.sun.tools.corba.ee.idl.SequenceEntry;
+import com.sun.tools.corba.ee.idl.StructEntry;
+import com.sun.tools.corba.ee.idl.SymtabEntry;
+import com.sun.tools.corba.ee.idl.SymtabFactory;
+import com.sun.tools.corba.ee.idl.TypedefEntry;
+import com.sun.tools.corba.ee.idl.UnionBranch;
+import com.sun.tools.corba.ee.idl.UnionEntry;
 
 import java.io.IOException;
 import java.util.Enumeration;

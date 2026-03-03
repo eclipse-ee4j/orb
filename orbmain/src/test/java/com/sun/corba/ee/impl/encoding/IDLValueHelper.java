@@ -19,10 +19,10 @@
 
 package com.sun.corba.ee.impl.encoding;
 
+import java.io.Serializable;
+
 import org.omg.CORBA.portable.InputStream;
 import org.omg.CORBA.portable.OutputStream;
-
-import java.io.Serializable;
 
 public class IDLValueHelper {
     public static Serializable read(InputStream is) {

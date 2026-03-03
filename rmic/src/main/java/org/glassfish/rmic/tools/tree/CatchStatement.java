@@ -19,12 +19,17 @@
 
 package org.glassfish.rmic.tools.tree;
 
-import org.glassfish.rmic.tools.java.*;
-import org.glassfish.rmic.tools.asm.Assembler;
-import org.glassfish.rmic.tools.asm.LocalVariable;
-import org.glassfish.rmic.tools.asm.Label;
 import java.io.PrintStream;
 import java.util.Hashtable;
+
+import org.glassfish.rmic.tools.asm.Assembler;
+import org.glassfish.rmic.tools.asm.LocalVariable;
+import org.glassfish.rmic.tools.java.ClassDefinition;
+import org.glassfish.rmic.tools.java.ClassNotFound;
+import org.glassfish.rmic.tools.java.Environment;
+import org.glassfish.rmic.tools.java.Identifier;
+import org.glassfish.rmic.tools.java.IdentifierToken;
+import org.glassfish.rmic.tools.java.Type;
 
 /**
  * WARNING: The contents of this source file are not part of any

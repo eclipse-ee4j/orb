@@ -19,19 +19,16 @@
 
 package com.sun.corba.ee.impl.resolver ;
 
+import com.sun.corba.ee.impl.misc.CorbaResourceUtil ;
+import com.sun.corba.ee.spi.orb.ORB ;
 import com.sun.corba.ee.spi.resolver.Resolver ;
-
-import java.util.Enumeration;
-import java.util.Properties;
-import java.util.Set;
-import java.util.HashSet;
 
 import java.io.File;
 import java.io.FileInputStream;
-
-import com.sun.corba.ee.spi.orb.ORB ;
-
-import com.sun.corba.ee.impl.misc.CorbaResourceUtil ;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Set;
 
 public class FileResolverImpl implements Resolver
 {

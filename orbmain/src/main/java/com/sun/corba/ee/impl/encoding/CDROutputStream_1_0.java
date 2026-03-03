@@ -21,64 +21,56 @@
 
 package com.sun.corba.ee.impl.encoding;
 
-import java.io.Serializable;
+import com.sun.corba.ee.impl.corba.TypeCodeImpl;
+import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
+import com.sun.corba.ee.impl.misc.CacheTable;
+import com.sun.corba.ee.impl.misc.ClassInfoCache;
+import com.sun.corba.ee.impl.misc.ORBUtility;
+import com.sun.corba.ee.impl.misc.RepositoryIdFactory;
+import com.sun.corba.ee.impl.misc.RepositoryIdStrings;
+import com.sun.corba.ee.impl.misc.RepositoryIdUtility;
+import com.sun.corba.ee.impl.util.Utility;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.ior.IORFactories;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.orb.ClassCodeBaseHandler;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ORBVersionFactory;
+import com.sun.corba.ee.spi.trace.CdrWrite;
+import com.sun.corba.ee.spi.trace.PrimitiveWrite;
+import com.sun.corba.ee.spi.transport.ByteBufferPool;
+import com.sun.org.omg.CORBA.portable.ValueHelper;
+
 import java.io.IOException;
-
+import java.io.Serializable;
 import java.lang.reflect.Method;
-
+import java.lang.reflect.Proxy;
 import java.nio.ByteBuffer;
-
 import java.security.AccessController;
-import java.security.PrivilegedExceptionAction;
 import java.security.PrivilegedActionException;
-
-import java.util.Map;
+import java.security.PrivilegedExceptionAction;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.rmi.CORBA.EnumDesc;
 import javax.rmi.CORBA.ProxyDesc;
-import java.lang.reflect.Proxy;
-
 import javax.rmi.CORBA.ValueHandler;
 import javax.rmi.CORBA.ValueHandlerMultiFormat;
 
-import com.sun.org.omg.CORBA.portable.ValueHelper;
+import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
+import org.omg.CORBA.Any;
 import org.omg.CORBA.CustomMarshal;
-import org.omg.CORBA.TypeCodePackage.BadKind;
 import org.omg.CORBA.SystemException;
 import org.omg.CORBA.TypeCode;
-import org.omg.CORBA.Any;
 import org.omg.CORBA.VM_CUSTOM;
-import org.omg.CORBA.VM_TRUNCATABLE;
 import org.omg.CORBA.VM_NONE;
-import org.omg.CORBA.portable.IDLEntity;
-import org.omg.CORBA.portable.CustomValue;
-import org.omg.CORBA.portable.StreamableValue;
+import org.omg.CORBA.VM_TRUNCATABLE;
+import org.omg.CORBA.TypeCodePackage.BadKind;
 import org.omg.CORBA.portable.BoxedValueHelper;
-
-import com.sun.corba.ee.spi.transport.ByteBufferPool;
-
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-import com.sun.corba.ee.spi.ior.IOR;
-import com.sun.corba.ee.spi.ior.IORFactories;
-import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.spi.orb.ORBVersionFactory;
-import com.sun.corba.ee.spi.orb.ClassCodeBaseHandler;
-
-import com.sun.corba.ee.impl.corba.TypeCodeImpl;
-import com.sun.corba.ee.impl.misc.CacheTable;
-import com.sun.corba.ee.impl.misc.ORBUtility;
-import com.sun.corba.ee.impl.misc.RepositoryIdStrings;
-import com.sun.corba.ee.impl.misc.RepositoryIdUtility;
-import com.sun.corba.ee.impl.misc.RepositoryIdFactory;
-import com.sun.corba.ee.impl.util.Utility;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
-import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
-
-import com.sun.corba.ee.impl.misc.ClassInfoCache;
-
-import com.sun.corba.ee.spi.trace.*;
-import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
+import org.omg.CORBA.portable.CustomValue;
+import org.omg.CORBA.portable.IDLEntity;
+import org.omg.CORBA.portable.StreamableValue;
 
 @CdrWrite
 @PrimitiveWrite

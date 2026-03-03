@@ -19,8 +19,8 @@
 
 package org.omg.CORBA.portable;
 
-import org.omg.CORBA.TypeCode;
 import org.omg.CORBA.Any;
+import org.omg.CORBA.TypeCode;
 
 /**
  * InputStream is the Java API for reading IDL types

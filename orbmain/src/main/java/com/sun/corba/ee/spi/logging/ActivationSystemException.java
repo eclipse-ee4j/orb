@@ -19,8 +19,8 @@
 
 package com.sun.corba.ee.spi.logging ;
 
-import com.sun.corba.ee.spi.logex.corba.ORBException ;
 import com.sun.corba.ee.spi.logex.corba.CorbaExtension ;
+import com.sun.corba.ee.spi.logex.corba.ORBException ;
 
 import org.glassfish.pfl.basic.logex.Chain;
 import org.glassfish.pfl.basic.logex.ExceptionWrapper;
@@ -28,7 +28,6 @@ import org.glassfish.pfl.basic.logex.Log;
 import org.glassfish.pfl.basic.logex.LogLevel;
 import org.glassfish.pfl.basic.logex.Message;
 import org.glassfish.pfl.basic.logex.WrapperGenerator;
-
 import org.omg.CORBA.INITIALIZE;
 import org.omg.CORBA.INTERNAL;
 import org.omg.CORBA.OBJECT_NOT_EXIST;

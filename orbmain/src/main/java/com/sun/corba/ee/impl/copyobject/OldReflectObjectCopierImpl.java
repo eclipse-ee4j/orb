@@ -34,9 +34,6 @@ package com.sun.corba.ee.impl.copyobject ;
 
 import com.sun.corba.ee.impl.util.Utility;
 import com.sun.corba.ee.spi.orb.ORB;
-import org.glassfish.pfl.basic.reflection.Bridge;
-import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopier;
-import org.glassfish.pfl.dynamic.copyobject.spi.ReflectiveCopyException;
 
 import java.io.Externalizable;
 import java.io.Serializable;
@@ -55,6 +52,10 @@ import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import org.glassfish.pfl.basic.reflection.Bridge;
+import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopier;
+import org.glassfish.pfl.dynamic.copyobject.spi.ReflectiveCopyException;
 
 /**
  * Provides the functionality of copying objects using reflection.

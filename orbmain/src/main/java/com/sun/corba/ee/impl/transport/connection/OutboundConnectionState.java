@@ -19,17 +19,16 @@
 
 package com.sun.corba.ee.impl.transport.connection;
 
-import java.io.IOException ;
-
+import com.sun.corba.ee.spi.trace.Transport;
+import com.sun.corba.ee.spi.transport.concurrent.ConcurrentQueue ;
 import com.sun.corba.ee.spi.transport.connection.Connection ;
 import com.sun.corba.ee.spi.transport.connection.ContactInfo ;
 
-import com.sun.corba.ee.spi.transport.concurrent.ConcurrentQueue ;
-import com.sun.corba.ee.spi.trace.Transport;
-import org.glassfish.gmbal.Description;
+import java.io.IOException ;
 
-import org.glassfish.gmbal.ManagedData ;
+import org.glassfish.gmbal.Description;
 import org.glassfish.gmbal.ManagedAttribute ;
+import org.glassfish.gmbal.ManagedData ;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 
 @Transport

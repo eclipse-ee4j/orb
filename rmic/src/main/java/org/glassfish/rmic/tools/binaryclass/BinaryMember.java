@@ -19,6 +19,11 @@
 
 package org.glassfish.rmic.tools.binaryclass;
 
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.util.Vector;
+
 import org.glassfish.rmic.tools.java.ClassDeclaration;
 import org.glassfish.rmic.tools.java.ClassDefinition;
 import org.glassfish.rmic.tools.java.ClassNotFound;
@@ -27,12 +32,16 @@ import org.glassfish.rmic.tools.java.Environment;
 import org.glassfish.rmic.tools.java.Identifier;
 import org.glassfish.rmic.tools.java.MemberDefinition;
 import org.glassfish.rmic.tools.java.Type;
-import org.glassfish.rmic.tools.tree.*;
-
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.util.Vector;
+import org.glassfish.rmic.tools.tree.BooleanExpression;
+import org.glassfish.rmic.tools.tree.DoubleExpression;
+import org.glassfish.rmic.tools.tree.Expression;
+import org.glassfish.rmic.tools.tree.FloatExpression;
+import org.glassfish.rmic.tools.tree.IntExpression;
+import org.glassfish.rmic.tools.tree.IntegerExpression;
+import org.glassfish.rmic.tools.tree.LocalMember;
+import org.glassfish.rmic.tools.tree.LongExpression;
+import org.glassfish.rmic.tools.tree.Node;
+import org.glassfish.rmic.tools.tree.StringExpression;
 
 /**
  * This class represents a binary member

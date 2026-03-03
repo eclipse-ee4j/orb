@@ -19,38 +19,32 @@
 
 package com.sun.corba.ee.impl.oa.poa;
 
-import java.util.Set;
-import java.util.HashSet;
-
-
-import org.omg.PortableServer.POAManager;
-import org.omg.PortableServer.POAManagerPackage.State;
-
-import org.omg.PortableInterceptor.DISCARDING ;
-import org.omg.PortableInterceptor.ACTIVE ;
-import org.omg.PortableInterceptor.HOLDING ;
-import org.omg.PortableInterceptor.INACTIVE ;
-import org.omg.PortableInterceptor.NON_EXISTENT ;
-
-import com.sun.corba.ee.spi.protocol.PIHandler ;
-
 import com.sun.corba.ee.spi.logging.POASystemException ;
-
+import com.sun.corba.ee.spi.protocol.PIHandler ;
 import com.sun.corba.ee.spi.trace.Poa;
+
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import org.glassfish.gmbal.ManagedObject ;
-import org.glassfish.gmbal.ManagedAttribute ;
-import org.glassfish.gmbal.ManagedOperation ;
 import org.glassfish.gmbal.Description ;
-import org.glassfish.gmbal.ParameterNames ;
+import org.glassfish.gmbal.ManagedAttribute ;
+import org.glassfish.gmbal.ManagedObject ;
+import org.glassfish.gmbal.ManagedOperation ;
 import org.glassfish.gmbal.NameValue ;
-
-import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
+import org.glassfish.gmbal.ParameterNames ;
 import org.glassfish.pfl.basic.contain.MultiSet ;
+import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
+import org.omg.PortableInterceptor.ACTIVE ;
+import org.omg.PortableInterceptor.DISCARDING ;
+import org.omg.PortableInterceptor.HOLDING ;
+import org.omg.PortableInterceptor.INACTIVE ;
+import org.omg.PortableInterceptor.NON_EXISTENT ;
+import org.omg.PortableServer.POAManager;
+import org.omg.PortableServer.POAManagerPackage.State;
 
 /** POAManagerImpl is the implementation of the POAManager interface.
  *  Its public methods are activate(), hold_requests(), discard_requests()

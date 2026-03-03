@@ -24,14 +24,15 @@ import com.sun.corba.ee.spi.ior.TaggedComponent;
 import com.sun.corba.ee.spi.ior.TaggedProfileTemplate;
 import com.sun.corba.ee.spi.ior.iiop.IIOPProfile;
 import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
-import org.omg.CORBA.ORB;
-import org.omg.CORBA_2_3.portable.OutputStream;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import org.omg.CORBA.ORB;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 import static com.meterware.simplestub.Stub.createStrictStub;
 

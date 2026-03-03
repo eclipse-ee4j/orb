@@ -19,8 +19,10 @@
 
 package com.sun.corba.ee.impl.oa.poa;
 
-import org.omg.CORBA.*;
-import org.omg.PortableServer.*;
+import org.omg.CORBA.Policy;
+import org.omg.PortableServer.ID_UNIQUENESS_POLICY_ID;
+import org.omg.PortableServer.IdUniquenessPolicy;
+import org.omg.PortableServer.IdUniquenessPolicyValue;
 
 final class IdUniquenessPolicyImpl
     extends org.omg.CORBA.LocalObject implements IdUniquenessPolicy {

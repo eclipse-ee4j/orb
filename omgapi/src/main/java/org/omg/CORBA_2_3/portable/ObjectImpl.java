@@ -20,8 +20,6 @@
 
 package org.omg.CORBA_2_3.portable;
 
-import org.omg.CORBA_2_3.portable.Delegate;
-
 /**
  * ObjectImpl class is the base class for all stubs.  It provides the
  * basic delegation mechanism.  It extends org.omg.CORBA.portable.ObjectImpl

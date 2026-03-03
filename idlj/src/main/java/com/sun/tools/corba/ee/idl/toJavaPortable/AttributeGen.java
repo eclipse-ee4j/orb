@@ -20,17 +20,17 @@
 
 package com.sun.tools.corba.ee.idl.toJavaPortable;
 
-// NOTES:
-
-import java.io.PrintWriter;
-import java.util.Enumeration;
-import java.util.Hashtable;
-
 import com.sun.tools.corba.ee.idl.AttributeEntry;
 import com.sun.tools.corba.ee.idl.InterfaceEntry;
 import com.sun.tools.corba.ee.idl.MethodEntry;
 import com.sun.tools.corba.ee.idl.ParameterEntry;
 import com.sun.tools.corba.ee.idl.SymtabEntry;
+
+// NOTES:
+
+import java.io.PrintWriter;
+import java.util.Enumeration;
+import java.util.Hashtable;
 
 /**
  *

@@ -20,11 +20,12 @@
 package com.sun.corba.ee.impl.encoding;
 
 import com.sun.corba.ee.impl.util.RepositoryId;
+
+import java.io.IOException;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import java.io.IOException;
 
 import static com.sun.corba.ee.impl.encoding.FVDBuilder.defineFullValueDescription;
 import static org.hamcrest.MatcherAssert.assertThat;

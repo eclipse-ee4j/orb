@@ -22,6 +22,7 @@ package com.sun.corba.ee.impl.folb;
 import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.protocol.ClientDelegate;
 import com.sun.corba.ee.spi.transport.ContactInfoList;
+
 import org.omg.CORBA.portable.ObjectImpl;
 
 import static com.meterware.simplestub.Stub.createStrictStub;

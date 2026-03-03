@@ -19,14 +19,6 @@
 
 package com.sun.corba.ee.impl.folb;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import javax.rmi.PortableRemoteObject;
-
 import com.sun.corba.ee.impl.interceptors.ClientRequestInfoImpl;
 import com.sun.corba.ee.spi.folb.ClusterInstanceInfo;
 import com.sun.corba.ee.spi.folb.GroupInfoService;
@@ -45,6 +37,16 @@ import com.sun.corba.ee.spi.transport.ContactInfo;
 import com.sun.corba.ee.spi.transport.IIOPPrimaryToContactInfo;
 import com.sun.corba.ee.spi.transport.IORToSocketInfo;
 import com.sun.corba.ee.spi.transport.SocketInfo;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import javax.rmi.PortableRemoteObject;
+
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 import org.omg.CORBA.Any;
 import org.omg.CORBA.BAD_PARAM;
@@ -55,11 +57,11 @@ import org.omg.CosNaming.NamingContextHelper;
 import org.omg.IOP.Codec;
 import org.omg.IOP.CodecFactory;
 import org.omg.IOP.CodecFactoryHelper;
+import org.omg.IOP.Encoding;
+import org.omg.IOP.ServiceContext;
 import org.omg.IOP.CodecFactoryPackage.UnknownEncoding;
 import org.omg.IOP.CodecPackage.FormatMismatch;
 import org.omg.IOP.CodecPackage.TypeMismatch;
-import org.omg.IOP.Encoding;
-import org.omg.IOP.ServiceContext;
 import org.omg.PortableInterceptor.ClientRequestInfo;
 import org.omg.PortableInterceptor.ClientRequestInterceptor;
 import org.omg.PortableInterceptor.ForwardRequest;

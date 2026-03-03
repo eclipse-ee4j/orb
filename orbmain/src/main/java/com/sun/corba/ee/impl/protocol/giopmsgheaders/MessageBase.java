@@ -19,6 +19,29 @@
 
 package com.sun.corba.ee.impl.protocol.giopmsgheaders;
 
+import com.sun.corba.ee.impl.misc.ORBUtility;
+import com.sun.corba.ee.impl.orb.ObjectKeyCacheEntryNoObjectAdapterImpl;
+import com.sun.corba.ee.impl.protocol.AddressingDispositionException;
+import com.sun.corba.ee.impl.protocol.RequestIdImpl;
+import com.sun.corba.ee.impl.transport.MessageTraceManagerImpl;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.ior.ObjectKey;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+import com.sun.corba.ee.spi.ior.iiop.IIOPFactories;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfile;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
+import com.sun.corba.ee.spi.ior.iiop.RequestPartitioningComponent;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.misc.ORBClassLoader;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ObjectKeyCacheEntry;
+import com.sun.corba.ee.spi.protocol.RequestId;
+import com.sun.corba.ee.spi.servicecontext.ServiceContexts;
+import com.sun.corba.ee.spi.trace.Giop;
+import com.sun.corba.ee.spi.transport.Connection;
+import com.sun.corba.ee.spi.transport.TransportManager;
+
 import java.lang.reflect.Constructor;
 import java.nio.ByteBuffer;
 import java.util.Iterator;
@@ -27,30 +50,6 @@ import org.omg.CORBA.COMM_FAILURE;
 import org.omg.CORBA.CompletionStatus;
 import org.omg.CORBA.SystemException;
 import org.omg.IOP.TaggedProfile;
-
-import com.sun.corba.ee.spi.ior.ObjectKey;
-import com.sun.corba.ee.spi.ior.IOR;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfile;
-import com.sun.corba.ee.spi.ior.iiop.IIOPFactories;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-import com.sun.corba.ee.spi.ior.iiop.RequestPartitioningComponent;
-import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.spi.orb.ObjectKeyCacheEntry;
-import com.sun.corba.ee.spi.misc.ORBClassLoader;
-import com.sun.corba.ee.spi.protocol.RequestId;
-import com.sun.corba.ee.spi.servicecontext.ServiceContexts;
-import com.sun.corba.ee.spi.transport.Connection;
-import com.sun.corba.ee.spi.transport.TransportManager;
-
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
-import com.sun.corba.ee.impl.orb.ObjectKeyCacheEntryNoObjectAdapterImpl;
-import com.sun.corba.ee.impl.misc.ORBUtility;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.impl.protocol.AddressingDispositionException;
-import com.sun.corba.ee.impl.protocol.RequestIdImpl;
-import com.sun.corba.ee.impl.transport.MessageTraceManagerImpl;
-import com.sun.corba.ee.spi.trace.Giop;
 
 /**
  * This class acts as the base class for the various GIOP message types. This

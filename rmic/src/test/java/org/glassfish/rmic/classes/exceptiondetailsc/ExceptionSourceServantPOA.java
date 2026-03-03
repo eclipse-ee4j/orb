@@ -19,10 +19,11 @@
 
 package org.glassfish.rmic.classes.exceptiondetailsc;
 
-import org.omg.CORBA.FREE_MEM;
+import java.rmi.RemoteException;
 
 import javax.rmi.PortableRemoteObject;
-import java.rmi.RemoteException;
+
+import org.omg.CORBA.FREE_MEM;
 
 public class ExceptionSourceServantPOA extends PortableRemoteObject implements ExceptionSource {
     public static final String baseMsg = ExceptionSourceServantPOA.class.getName();

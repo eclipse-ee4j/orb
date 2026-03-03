@@ -19,20 +19,16 @@
 
 package com.sun.corba.ee.spi.ior;
 
-import org.glassfish.gmbal.ManagedAttribute ;
-import org.glassfish.gmbal.Description ;
-
-import java.util.List ;
-import java.util.Iterator ;
-
-import org.omg.CORBA_2_3.portable.OutputStream ;
-
 import com.sun.corba.ee.spi.orb.ORB ;
 
-import org.glassfish.gmbal.ManagedData ;
+import java.util.Iterator ;
+import java.util.List ;
+
 import org.glassfish.gmbal.Description ;
-import org.glassfish.gmbal.InheritedAttribute ;
 import org.glassfish.gmbal.IncludeSubclass ;
+import org.glassfish.gmbal.ManagedAttribute ;
+import org.glassfish.gmbal.ManagedData ;
+import org.omg.CORBA_2_3.portable.OutputStream ;
 
 /** Base template for creating TaggedProfiles.  A TaggedProfile will often contain
 * tagged components.  A template that does not contain components acts like 

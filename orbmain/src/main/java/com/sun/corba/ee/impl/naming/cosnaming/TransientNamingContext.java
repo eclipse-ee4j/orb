@@ -19,22 +19,21 @@
 
 package com.sun.corba.ee.impl.naming.cosnaming;
 
-// Import general CORBA classes
-import org.omg.PortableServer.POA;
+import com.sun.corba.ee.spi.logging.NamingSystemException;
+import com.sun.corba.ee.spi.trace.Naming;
+
+import java.util.HashMap;
+import java.util.Map;
 
 // Import org.omg.CosNaming types
 import org.omg.CosNaming.Binding;
+import org.omg.CosNaming.BindingIteratorHolder;
+import org.omg.CosNaming.BindingListHolder;
 import org.omg.CosNaming.BindingType;
 import org.omg.CosNaming.BindingTypeHolder;
-import org.omg.CosNaming.BindingListHolder;
-import org.omg.CosNaming.BindingIteratorHolder;
 import org.omg.CosNaming.NameComponent;
-
-import java.util.Map;
-import java.util.HashMap;
-
-import com.sun.corba.ee.spi.logging.NamingSystemException;
-import com.sun.corba.ee.spi.trace.Naming;
+// Import general CORBA classes
+import org.omg.PortableServer.POA;
 
 
 /**

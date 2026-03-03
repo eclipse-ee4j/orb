@@ -19,10 +19,9 @@
 
 package com.sun.corba.ee.spi.orb ;
 
-import com.sun.corba.ee.spi.orb.ORBVersion ;
 import com.sun.corba.ee.impl.orb.ORBVersionImpl ;
+
 import org.omg.CORBA.portable.InputStream ;
-import org.omg.CORBA.INTERNAL ;
 
 public class ORBVersionFactory {
     private ORBVersionFactory() {} ;

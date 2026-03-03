@@ -19,15 +19,13 @@
 
 package org.omg.CORBA.portable;
 
-import org.omg.CORBA.Request;
-import org.omg.CORBA.NamedValue;
-import org.omg.CORBA.NVList;
-import org.omg.CORBA.ExceptionList;
-import org.omg.CORBA.ContextList;
-import org.omg.CORBA.Context;
-import org.omg.CORBA.TypeCode;
 import org.omg.CORBA.BAD_OPERATION;
-import org.omg.CORBA.SystemException;
+import org.omg.CORBA.Context;
+import org.omg.CORBA.ContextList;
+import org.omg.CORBA.ExceptionList;
+import org.omg.CORBA.NVList;
+import org.omg.CORBA.NamedValue;
+import org.omg.CORBA.Request;
 
 
 /**

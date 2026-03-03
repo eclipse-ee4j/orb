@@ -19,8 +19,9 @@
 
 package org.glassfish.rmic.tools.tree;
 
-import org.glassfish.rmic.tools.java.*;
 import java.util.Hashtable;
+
+import org.glassfish.rmic.tools.java.Environment;
 
 /**
  * Parenthesized expressions.

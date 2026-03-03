@@ -22,12 +22,13 @@ package com.sun.corba.ee.impl.encoding;
 import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
 import com.sun.corba.ee.impl.util.RepositoryId;
 import com.sun.corba.ee.spi.orb.ORBVersionFactory;
-import org.junit.Test;
-import org.omg.CORBA.VM_TRUNCATABLE;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
+
+import org.junit.Test;
+import org.omg.CORBA.VM_TRUNCATABLE;
 
 import static com.meterware.simplestub.Stub.createStrictStub;
 

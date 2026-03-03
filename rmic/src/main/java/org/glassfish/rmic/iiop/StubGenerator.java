@@ -23,12 +23,6 @@ package org.glassfish.rmic.iiop;
 
 import com.sun.corba.ee.impl.util.PackagePrefixChecker;
 import com.sun.corba.ee.impl.util.Utility;
-import org.glassfish.rmic.IndentingWriter;
-import org.glassfish.rmic.Main;
-import org.glassfish.rmic.tools.java.ClassDefinition;
-import org.glassfish.rmic.tools.java.ClassFile;
-import org.glassfish.rmic.tools.java.CompilerError;
-import org.glassfish.rmic.tools.java.Identifier;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -38,6 +32,13 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Vector;
+
+import org.glassfish.rmic.IndentingWriter;
+import org.glassfish.rmic.Main;
+import org.glassfish.rmic.tools.java.ClassDefinition;
+import org.glassfish.rmic.tools.java.ClassFile;
+import org.glassfish.rmic.tools.java.CompilerError;
+import org.glassfish.rmic.tools.java.Identifier;
 
 
 /**

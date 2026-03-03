@@ -19,18 +19,14 @@
 
 package com.sun.corba.ee.impl.protocol.giopmsgheaders;
 
-import org.omg.CORBA.SystemException;
-
-import org.omg.CORBA_2_3.portable.InputStream;
-
+import com.sun.corba.ee.impl.encoding.CDRInputObject;
 import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.ior.IORFactories;
-
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
 import com.sun.corba.ee.spi.orb.ORB;
 
-import com.sun.corba.ee.impl.encoding.CDRInputObject;
-
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import org.omg.CORBA.SystemException;
+import org.omg.CORBA_2_3.portable.InputStream;
 
 /**
  * This implements the GIOP 1.0 LocateReply header.
