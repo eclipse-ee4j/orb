@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -23,15 +24,12 @@ import com.sun.corba.ee.spi.ior.IOR;
 
 import java.util.List;
 
-public interface IORToSocketInfo
-{
-    /** Used to extract socket address information from an IOR.
+public interface IORToSocketInfo {
+    /**
+     * Used to extract socket address information from an IOR.
      * @param ior The ior from which the socket info is extracted.
      * @param previous The previous list, which may be reused if not null.
      * @return a list of SocketInfo.
      */
-    public List<? extends SocketInfo> getSocketInfo(IOR ior, 
-        List<? extends SocketInfo> previous);
+    List<? extends SocketInfo> getSocketInfo(IOR ior, List<? extends SocketInfo> previous);
 }
-
-// End of file.
