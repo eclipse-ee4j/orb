@@ -23,7 +23,7 @@ module org.glassfish.corba.orb {
     requires java.sql;
 
     requires org.glassfish.corba.internal;
-    requires org.glassfish.corba.omgapi;
+    requires transitive org.glassfish.corba.omgapi;
 
     requires org.glassfish.external.management.api;
 
