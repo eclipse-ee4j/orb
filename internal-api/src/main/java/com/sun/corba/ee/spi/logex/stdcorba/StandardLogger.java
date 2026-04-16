@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -31,8 +32,7 @@ public class StandardLogger extends WrapperGenerator.ExtensionBase {
 
     private static final String SPI_PREFIX = "com.sun.corba.ee.spi." ;
     private static final String IMPL_PREFIX = "com.sun.corba.ee.impl." ;
-    public static final String CORBA_LOGGER_PREFIX =
-        "javax.enterprise.resource.corba" ;
+    public static final String CORBA_LOGGER_PREFIX = "jakarta.enterprise.resource.corba";
 
     @Override
     public String getLoggerName( Class<?> cls ) {
