@@ -87,7 +87,7 @@ public class AsmClassFactory implements ClassDefinitionFactory {
             }
             return latest;
         } catch (IllegalAccessException e) {
-            return Opcodes.V11;
+            return Opcodes.V17;
         }
     }
 
