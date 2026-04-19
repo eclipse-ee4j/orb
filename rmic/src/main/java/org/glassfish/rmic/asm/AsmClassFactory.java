@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.glassfish.rmic.Names;
 import org.glassfish.rmic.tools.java.ClassDeclaration;
@@ -51,7 +52,9 @@ public class AsmClassFactory implements ClassDefinitionFactory {
     private Map<Identifier, Identifier> outerClasses = new HashMap<>();
 
     public AsmClassFactory() {
-        if (simulateMissingASM) throw new NoClassDefFoundError();
+        if (simulateMissingASM) {
+            throw new NoClassDefFoundError();
+        }
     }
 
     /**
@@ -80,8 +83,11 @@ public class AsmClassFactory implements ClassDefinitionFactory {
     static int getLatestClassVersion() {
         try {
             int latest = 0;
+            Pattern versionsPattern = Pattern.compile("V[0-9]+");
             for (Field field : Opcodes.class.getDeclaredFields()) {
-                if (!field.getName().equals("V1_1") && field.getName().startsWith("V") && field.getType().equals(int.class)) {
+                if (versionsPattern.matcher(field.getName()).matches()
+                    && field.getName().startsWith("V")
+                    && field.getType().equals(int.class)) {
                     latest = Math.max(latest, field.getInt(Opcodes.class));
                 }
             }
@@ -92,8 +98,9 @@ public class AsmClassFactory implements ClassDefinitionFactory {
     }
 
     Identifier getOuterClassName(Identifier className) {
-        if (isResolvedInnerClassName(className))
+        if (isResolvedInnerClassName(className)) {
             className = Names.mangleClass(className);
+        }
         return outerClasses.get(className);
     }
 
@@ -136,8 +143,9 @@ public class AsmClassFactory implements ClassDefinitionFactory {
 
         private String toSourceFileName(String name) {
             String className = toClassName(name);
-            if (className.contains("$"))
+            if (className.contains("$")) {
                 className = className.substring(0, className.indexOf("$"));
+            }
             return className + ".java";
         }
 
@@ -147,8 +155,9 @@ public class AsmClassFactory implements ClassDefinitionFactory {
 
         private ClassDeclaration[] toClassDeclarations(String... names) {
             ClassDeclaration[] result = new ClassDeclaration[names.length];
-            for (int i = 0; i < names.length; i++)
+            for (int i = 0; i < names.length; i++) {
                 result[i] = new ClassDeclaration(getIdentifier(names[i]));
+            }
             return result;
         }
 
@@ -162,8 +171,9 @@ public class AsmClassFactory implements ClassDefinitionFactory {
 
         @Override
         public void visitInnerClass(String name, String outerName, String innerName, int access) {
-            if (outerName != null)
+            if (outerName != null) {
                 outerClasses.put(getIdentifier(name), getIdentifier(outerName));
+            }
         }
 
         @Override

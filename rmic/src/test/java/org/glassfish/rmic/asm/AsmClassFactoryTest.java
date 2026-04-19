@@ -1,6 +1,6 @@
 /*
+ * Copyright (c) 2025, 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 2018, 2020 Oracle and/or its affiliates. All rights reserved.
- * Copyright (c) 2025 Contributors to the Eclipse Foundation
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -26,7 +26,6 @@ import org.objectweb.asm.Opcodes;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.greaterThan;
 
 public class AsmClassFactoryTest extends ClassDefinitionFactoryTest {
 
@@ -41,6 +40,6 @@ public class AsmClassFactoryTest extends ClassDefinitionFactoryTest {
 
     @Test
     public void canRetrieveLatestSupportedClassVersion() {
-        assertThat(AsmClassFactory.getLatestClassVersion(), greaterThan(Opcodes.V25));
+        assertThat(AsmClassFactory.getLatestClassVersion(), equalTo(Opcodes.V26));
     }
 }
