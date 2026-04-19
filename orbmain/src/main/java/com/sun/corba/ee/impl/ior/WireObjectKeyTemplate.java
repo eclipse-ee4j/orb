@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -35,95 +36,94 @@ import org.omg.CORBA_2_3.portable.OutputStream ;
 /**
  * @author Ken Cavanaugh
  */
-public class WireObjectKeyTemplate implements ObjectKeyTemplate 
-{
-    private ORB orb ;
-    private static final IORSystemException wrapper =
-        IORSystemException.self ;
-    private static ObjectAdapterId NULL_OBJECT_ADAPTER_ID = 
-        new ObjectAdapterIdArray( new String[0] ) ;
+public class WireObjectKeyTemplate implements ObjectKeyTemplate {
+
+    private static final IORSystemException WRAPPER = IORSystemException.self;
+    private static final ObjectAdapterId NULL_OBJECT_ADAPTER_ID = new ObjectAdapterIdArray(new String[0]);
+
+    private ORB orb;
+
+    public WireObjectKeyTemplate(ORB orb) {
+        this.orb = orb;
+    }
 
     @Override
-    public boolean equals( Object obj )
-    {
+    public boolean equals(Object obj) {
         if (obj == null) {
-            return false ;
+            return false;
         }
-
-        return obj instanceof WireObjectKeyTemplate ;
+        return obj instanceof WireObjectKeyTemplate;
     }
 
     @Override
-    public int hashCode()
-    {
-        return 53 ; // All WireObjectKeyTemplates are the same, so they should 
-                    // have the same hashCode.
+    public int hashCode() {
+        return 53; // All WireObjectKeyTemplates are the same, so they should
+                   // have the same hashCode.
     }
 
-    public WireObjectKeyTemplate( ORB orb )
-    {
-        initORB( orb ) ;
+    @Override
+    public void write(ObjectId id, OutputStream os) {
+        byte[] key = id.getId();
+        os.write_octet_array(key, 0, key.length);
     }
 
-    private void initORB( ORB orb ) 
-    {
-        this.orb = orb ;
-    }
-
-    public void write( ObjectId id, OutputStream os ) 
-    {
-        byte[] key = id.getId() ;
-        os.write_octet_array( key, 0, key.length ) ;
-    }
-
-    public void write( OutputStream os ) 
-    {
+    @Override
+    public void write(OutputStream os) {
         // Does nothing
     }
 
-    public int getSubcontractId()
-    {
-        return ORBConstants.DEFAULT_SCID ;
+    @Override
+    public int getSubcontractId() {
+        return ORBConstants.DEFAULT_SCID;
     }
 
     // While it might make sense to throw an exception here, this causes
     // problems since we need to check whether unusual object references
-    // are local or not.  It seems that the easiest way to handle this is
+    // are local or not. It seems that the easiest way to handle this is
     // to return an invalid server id.
-    public int getServerId() 
-    {
-        return -1 ;
+    @Override
+    public int getServerId() {
+        return -1;
     }
 
-    public String getORBId()
-    {
-        throw wrapper.orbIdNotAvailable() ;
+    @Override
+    public String getORBId() {
+        throw WRAPPER.orbIdNotAvailable();
     }
 
-    public ObjectAdapterId getObjectAdapterId() 
-    {
-        return NULL_OBJECT_ADAPTER_ID ;
-
-        // throw wrapper.objectAdapterIdNotAvailable() ;
+    @Override
+    public ObjectAdapterId getObjectAdapterId() {
+        return NULL_OBJECT_ADAPTER_ID;
     }
+
 
     // Adapter ID is not available, since our
     // ORB did not implement the object carrying this key.
-    public byte[] getAdapterId()
-    {
-        throw wrapper.adapterIdNotAvailable() ;
+    @Override
+    public byte[] getAdapterId() {
+        throw WRAPPER.adapterIdNotAvailable();
     }
 
-    public ORBVersion getORBVersion() 
-    {
-        return ORBVersionFactory.getFOREIGN() ;
+
+    @Override
+    public ORBVersion getORBVersion() {
+        return ORBVersionFactory.getFOREIGN();
     }
 
-    public ServerRequestDispatcher getServerRequestDispatcher( ObjectId id )
-    {
-        byte[] bid = id.getId() ;
-        String str = new String( bid ) ;
-        return orb.getRequestDispatcherRegistry().getServerRequestDispatcher(
-            str ) ;
+
+    @Override
+    public ServerRequestDispatcher getServerRequestDispatcher(ObjectId id) {
+        byte[] bid = id.getId();
+        String str = new String(bid);
+        return orb.getRequestDispatcherRegistry().getServerRequestDispatcher(str);
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName()
+            + "[subcontractId=" + getSubcontractId()
+            + " serverId=" + getServerId()
+            + " objectadapterId=" + getObjectAdapterId()
+            + "]";
     }
 }

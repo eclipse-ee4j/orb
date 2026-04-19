@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  *
@@ -34,7 +35,6 @@ import com.sun.corba.ee.spi.ior.ObjectKey;
 import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
-import com.sun.corba.ee.spi.logging.POASystemException;
 import com.sun.corba.ee.spi.oa.NullServant;
 import com.sun.corba.ee.spi.oa.OADestroyed;
 import com.sun.corba.ee.spi.oa.OAInvocationInfo;
@@ -58,6 +58,8 @@ import com.sun.corba.ee.spi.servicecontext.UEInfoServiceContext;
 import com.sun.corba.ee.spi.trace.Subcontract;
 import com.sun.corba.ee.spi.transport.Connection;
 
+import java.lang.System.Logger;
+
 import org.glassfish.pfl.basic.logex.OperationTracer;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 import org.omg.CORBA.Any;
@@ -69,14 +71,13 @@ import org.omg.CORBA.portable.InvokeHandler;
 import org.omg.CORBA.portable.OutputStream;
 import org.omg.CORBA.portable.UnknownException;
 
+import static java.lang.System.Logger.Level.DEBUG;
+
 @Subcontract
-public class ServerRequestDispatcherImpl
-    implements ServerRequestDispatcher
-{
-    private static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
-    private static final POASystemException poaWrapper =
-        POASystemException.self ;
+public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
+
+    private static final Logger LOG = System.getLogger(ServerRequestDispatcherImpl.class.getName());
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
     protected ORB orb; // my ORB instance
 
@@ -307,6 +308,7 @@ public class ServerRequestDispatcherImpl
     @Subcontract
     protected void checkServerId(ObjectKey okey) {
         ObjectKeyTemplate oktemp = okey.getTemplate() ;
+        LOG.log(DEBUG, () -> "Checking server ID for " + oktemp);
         int sId = oktemp.getServerId() ;
         int scid = oktemp.getSubcontractId() ;
 

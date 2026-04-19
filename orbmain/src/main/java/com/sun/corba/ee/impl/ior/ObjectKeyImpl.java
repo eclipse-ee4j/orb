@@ -104,8 +104,13 @@ public class ObjectKeyImpl implements ObjectKey
         return array.clone() ;
     }
 
-    public ServerRequestDispatcher getServerRequestDispatcher()
-    {
-        return oktemp.getServerRequestDispatcher( id ) ;
+    @Override
+    public ServerRequestDispatcher getServerRequestDispatcher() {
+        return oktemp.getServerRequestDispatcher(id);
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "[id=" + id + "]";
     }
 }

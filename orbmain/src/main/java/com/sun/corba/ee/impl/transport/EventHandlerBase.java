@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -128,6 +129,10 @@ public abstract class EventHandlerBase
     {
         return work;
     }
-}
 
-// End of file.
+    @Override
+    public String toString() {
+        return getClass().getName() + "[orb=" + orb + ", shouldUseSelectThreadToWait=" + shouldUseSelectThreadToWait()
+            + ", shouldUseWorkerThreadForEvent" + shouldUseWorkerThreadForEvent() + "]";
+    }
+}

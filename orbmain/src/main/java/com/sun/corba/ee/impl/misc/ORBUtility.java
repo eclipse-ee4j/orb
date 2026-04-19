@@ -1,6 +1,7 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 2019 Payara Services Ltd.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -41,6 +42,7 @@ import com.sun.corba.ee.spi.transport.ContactInfoList ;
 import java.io.IOException ;
 import java.io.PrintStream ;
 import java.io.Serializable;
+import java.lang.System.Logger;
 import java.net.SocketAddress ;
 import java.nio.ByteBuffer ;
 import java.nio.channels.SocketChannel ;
@@ -68,10 +70,14 @@ import org.omg.CORBA.TypeCodePackage.BadKind ;
 import org.omg.CORBA.portable.InputStream ;
 import org.omg.CORBA.portable.OutputStream ;
 
+import static java.lang.System.Logger.Level.DEBUG;
+
 /**
  *  Handy class full of static functions that don't belong in util.Utility for pure ORB reasons.
  */
 public final class ORBUtility {
+    private static final Logger LOG = System.getLogger(ORBUtility.class.getName());
+
     /** Utility method for working around leak in SocketChannel.open( SocketAddress )
      * method.
      * @param sa address to connect to
@@ -79,24 +85,20 @@ public final class ORBUtility {
      * @throws java.io.IOException If an I/O error occurs
      * @see SocketChannel#connect(java.net.SocketAddress)
      */
-    public static SocketChannel openSocketChannel( SocketAddress sa ) 
-        throws IOException {
-
-        SocketChannel sc = SocketChannel.open() ;
-
+    public static SocketChannel openSocketChannel(SocketAddress sa) throws IOException {
+        LOG.log(DEBUG, "openSocketChannel({0})", sa);
+        SocketChannel sc = SocketChannel.open();
         try {
-            sc.connect( sa ) ;
-            return sc ;
-        } catch (RuntimeException | IOException exc ) {
+            sc.connect(sa);
+            return sc;
+        } catch (RuntimeException | IOException exc) {
             try {
-                sc.close() ;
+                sc.close();
             } catch (IOException ioe) {
-                // Ignore this: close exceptions are useless.
+                exc.addSuppressed(ioe);
             }
-
-            throw exc ;
+            throw exc;
         }
-        
     }
 
     private static final ThreadLocal<LinkedList<Byte>> encVersionThreadLocal =
