@@ -40,11 +40,11 @@ import org.omg.IOP.CodecPackage.TypeMismatch;
 /**
  * CDREncapsCodec is an implementation of Codec, as described
  * in orbos/99-12-02, that supports CDR encapsulation version 1.0, 1.1, and
- * 1.2.  
+ * 1.2.
  */
-public final class CDREncapsCodec 
-    extends org.omg.CORBA.LocalObject 
-    implements Codec 
+public final class CDREncapsCodec
+    extends org.omg.CORBA.LocalObject
+    implements Codec
 {
     // The ORB that created the factory this codec was created from
     private transient ORB orb;
@@ -76,24 +76,24 @@ public final class CDREncapsCodec
     }
 
     /**
-     * Convert the given any into a CDR encapsulated octet sequence 
+     * Convert the given any into a CDR encapsulated octet sequence
      */
-    public byte[] encode( Any data ) 
-        throws InvalidTypeForEncoding 
+    public byte[] encode( Any data )
+        throws InvalidTypeForEncoding
     {
-        if ( data == null ) 
+        if ( data == null )
             throw wrapper.nullParamNoComplete() ;
         return encodeImpl( data, true );
     }
 
     /**
-     * Decode the given octet sequence into an any based on a CDR 
+     * Decode the given octet sequence into an any based on a CDR
      * encapsulated octet sequence.
      */
-    public Any decode ( byte[] data ) 
-        throws FormatMismatch 
+    public Any decode ( byte[] data )
+        throws FormatMismatch
     {
-        if( data == null ) 
+        if( data == null )
             throw wrapper.nullParamNoComplete() ;
         return decodeImpl( data, null );
     }
@@ -102,39 +102,39 @@ public final class CDREncapsCodec
      * Convert the given any into a CDR encapsulated octet sequence.  Only
      * the data is stored.  The type code is not.
      */
-    public byte[] encode_value( Any data ) 
-        throws InvalidTypeForEncoding 
+    public byte[] encode_value( Any data )
+        throws InvalidTypeForEncoding
     {
-        if( data == null ) 
+        if( data == null )
             throw wrapper.nullParamNoComplete() ;
         return encodeImpl( data, false );
     }
 
     /**
-     * Decode the given octet sequence into an any based on a CDR 
+     * Decode the given octet sequence into an any based on a CDR
      * encapsulated octet sequence.  The type code is expected not to appear
      * in the octet sequence, and the given type code is used instead.
      */
-    public Any decode_value( byte[] data, TypeCode tc ) 
+    public Any decode_value( byte[] data, TypeCode tc )
         throws FormatMismatch, TypeMismatch
     {
-        if( data == null ) 
+        if( data == null )
             throw wrapper.nullParamNoComplete() ;
-        if( tc == null ) 
+        if( tc == null )
             throw  wrapper.nullParamNoComplete() ;
         return decodeImpl( data, tc );
     }
 
     /**
-     * Convert the given any into a CDR encapsulated octet sequence.  
+     * Convert the given any into a CDR encapsulated octet sequence.
      * If sendTypeCode is true, the type code is sent with the message, as in
      * a standard encapsulation.  If it is false, only the data is sent.
      * Either way, the endian type is sent as the first part of the message.
      */
-    private byte[] encodeImpl( Any data, boolean sendTypeCode ) 
-        throws InvalidTypeForEncoding 
+    private byte[] encodeImpl( Any data, boolean sendTypeCode )
+        throws InvalidTypeForEncoding
     {
-        if( data == null ) 
+        if( data == null )
             throw wrapper.nullParamNoComplete() ;
 
         // _REVISIT_ Note that InvalidTypeForEncoding is never thrown in
@@ -185,20 +185,20 @@ public final class CDREncapsCodec
                 ORBUtility.popEncVersionFromThreadLocalState();
             }
         }
-        
+
         return retValue;
     }
 
     /**
-     * Decode the given octet sequence into an any based on a CDR 
+     * Decode the given octet sequence into an any based on a CDR
      * encapsulated octet sequence.  If the type code is null, it is
      * expected to appear in the octet sequence.  Otherwise, the given
      * type code is used.
      */
-    private Any decodeImpl( byte[] data, TypeCode tc ) 
-        throws FormatMismatch 
+    private Any decodeImpl( byte[] data, TypeCode tc )
+        throws FormatMismatch
     {
-        if( data == null ) 
+        if( data == null )
             throw wrapper.nullParamNoComplete() ;
 
         AnyImpl any = null;  // return value
@@ -221,7 +221,7 @@ public final class CDREncapsCodec
 
         try {
 
-            EncapsInputStream cdrIn = EncapsInputStreamFactory.newEncapsInputStream( orb, data, 
+            EncapsInputStream cdrIn = EncapsInputStreamFactory.newEncapsInputStream( orb, data,
                 data.length, giopVersion );
 
             cdrIn.consumeEndian();
@@ -236,7 +236,7 @@ public final class CDREncapsCodec
             any.read_value( cdrIn, tc );
 
         } catch( RuntimeException e ) {
-            // See above note.  
+            // See above note.
             throw new FormatMismatch();
         } finally {
             if (pop) {

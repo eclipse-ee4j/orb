@@ -52,12 +52,12 @@ public class Interceptor
     // Interceptor operations
     //
 
-    public String name() 
+    public String name()
     {
         return this.getClass().getName();
     }
 
-    public void destroy() 
+    public void destroy()
     {
     }
 
@@ -144,7 +144,7 @@ public class Interceptor
             System.out.println("Cannot register interceptor: " + t);
         }
     }
-    
+
     public void post_init(ORBInitInfo info) {}
 }
 

@@ -39,15 +39,15 @@ import org.omg.PortableInterceptor.ORBInitInfoPackage.InvalidName;
 
 /**
  * ORBInitInfoImpl is the implementation of the ORBInitInfo class to be
- * passed to ORBInitializers, as described in orbos/99-12-02.  
+ * passed to ORBInitializers, as described in orbos/99-12-02.
  */
-public final class ORBInitInfoImpl 
+public final class ORBInitInfoImpl
     extends org.omg.CORBA.LocalObject
     implements ORBInitInfo, ORBInitInfoExt
 {
     // The ORB we are initializing
     private transient ORB orb;
-    
+
     private static final InterceptorsSystemException wrapper =
         InterceptorsSystemException.self ;
     private static final ORBUtilSystemException orbutilWrapper =
@@ -61,7 +61,7 @@ public final class ORBInitInfoImpl
     // The ID of the ORB being initialized
     private String orbId;
 
-    // The CodecFactory 
+    // The CodecFactory
     private CodecFactory codecFactory;
 
     // The current stage of initialization
@@ -79,14 +79,14 @@ public final class ORBInitInfoImpl
     // The description for the OBJECT_NOT_EXIST exception in STAGE_CLOSED
     private static final String MESSAGE_ORBINITINFO_INVALID =
         "ORBInitInfo object is only valid during ORB_init";
- 
+
     /**
      * Creates a new ORBInitInfoImpl object (scoped to package)
      *
      * @param args The arguments passed to ORB_init.
      */
-    ORBInitInfoImpl( ORB orb, String[] args, 
-        String orbId, CodecFactory codecFactory ) 
+    ORBInitInfoImpl( ORB orb, String[] args,
+        String orbId, CodecFactory codecFactory )
     {
         this.orb = orb;
         this.args = args;
@@ -161,18 +161,18 @@ public final class ORBInitInfoImpl
      * 11-81.  This operation is identical to ORB::register_initial_reference
      * described there.  This same functionality exists here because the ORB,
      * not yet fully initialized, is not yet available but initial references
-     * may need to be registered as part of Interceptor registration.  
+     * may need to be registered as part of Interceptor registration.
      * <p>
      * This method may not be called during post_init.
      */
-    public void register_initial_reference( String id, 
+    public void register_initial_reference( String id,
                                             org.omg.CORBA.Object obj )
         throws InvalidName
     {
         checkStage();
         if( id == null ) nullParam();
 
-        // As per CORBA 3.0 section 21.8.1, 
+        // As per CORBA 3.0 section 21.8.1,
         // if null is passed as the obj parameter,
         // throw BAD_PARAM with minor code OMGSystemException.RIR_WITH_NULL_OBJECT.
         // Though the spec is talking about IDL null, we will address both
@@ -204,23 +204,23 @@ public final class ORBInitInfoImpl
      * <p>
      * This method may not be called during pre_init.
      */
-    public org.omg.CORBA.Object resolve_initial_references (String id) 
+    public org.omg.CORBA.Object resolve_initial_references (String id)
         throws InvalidName
     {
         checkStage();
         if( id == null ) nullParam();
 
         if( stage == STAGE_PRE_INIT ) {
-            // Initializer is not allowed to invoke this method during 
+            // Initializer is not allowed to invoke this method during
             // this stage.
 
-            // _REVISIT_ Spec issue: What exception should really be 
+            // _REVISIT_ Spec issue: What exception should really be
             // thrown here?
             throw wrapper.rirInvalidPreInit() ;
         }
 
         org.omg.CORBA.Object objRef = null;
-        
+
         try {
             objRef = orb.resolve_initial_references( id );
         }
@@ -233,8 +233,8 @@ public final class ORBInitInfoImpl
     }
 
     // New method from CORBA 3.1
-    public void add_client_request_interceptor_with_policy ( 
-        ClientRequestInterceptor interceptor, Policy[] policies ) 
+    public void add_client_request_interceptor_with_policy (
+        ClientRequestInterceptor interceptor, Policy[] policies )
         throws DuplicateName
     {
         add_client_request_interceptor( interceptor ) ;
@@ -247,20 +247,20 @@ public final class ORBInitInfoImpl
      * If a client-side request Interceptor has already been registered
      * with this Interceptor's name, DuplicateName is raised.
      */
-    public void add_client_request_interceptor ( 
-        ClientRequestInterceptor interceptor) 
+    public void add_client_request_interceptor (
+        ClientRequestInterceptor interceptor)
         throws DuplicateName
     {
         checkStage();
         if( interceptor == null ) nullParam();
 
-        orb.getPIHandler().register_interceptor( interceptor, 
+        orb.getPIHandler().register_interceptor( interceptor,
             InterceptorList.INTERCEPTOR_TYPE_CLIENT );
     }
 
     // New method from CORBA 3.1
-    public void add_server_request_interceptor_with_policy ( 
-        ServerRequestInterceptor interceptor, Policy[] policies ) 
+    public void add_server_request_interceptor_with_policy (
+        ServerRequestInterceptor interceptor, Policy[] policies )
         throws DuplicateName, PolicyError
     {
         add_server_request_interceptor( interceptor ) ;
@@ -274,19 +274,19 @@ public final class ORBInitInfoImpl
      * with this Interceptor's name, DuplicateName is raised.
      */
     public void add_server_request_interceptor (
-        ServerRequestInterceptor interceptor) 
+        ServerRequestInterceptor interceptor)
         throws DuplicateName
     {
         checkStage();
         if( interceptor == null ) nullParam();
-        
-        orb.getPIHandler().register_interceptor( interceptor, 
+
+        orb.getPIHandler().register_interceptor( interceptor,
             InterceptorList.INTERCEPTOR_TYPE_SERVER );
     }
 
     // New method from CORBA 3.1
-    public void add_ior_interceptor_with_policy ( 
-        IORInterceptor interceptor, Policy[] policies ) 
+    public void add_ior_interceptor_with_policy (
+        IORInterceptor interceptor, Policy[] policies )
         throws DuplicateName, PolicyError
     {
         add_ior_interceptor( interceptor ) ;
@@ -300,13 +300,13 @@ public final class ORBInitInfoImpl
      * with this Interceptor's name, DuplicateName is raised.
      */
     public void add_ior_interceptor (
-        IORInterceptor interceptor ) 
+        IORInterceptor interceptor )
         throws DuplicateName
     {
         checkStage();
         if( interceptor == null ) nullParam();
 
-        orb.getPIHandler().register_interceptor( interceptor, 
+        orb.getPIHandler().register_interceptor( interceptor,
             InterceptorList.INTERCEPTOR_TYPE_IOR );
     }
 
@@ -326,10 +326,10 @@ public final class ORBInitInfoImpl
     /**
      * Register a PolicyFactory for the given PolicyType.
      * <p>
-     * If a PolicyFactory already exists for the given PolicyType, 
+     * If a PolicyFactory already exists for the given PolicyType,
      * BAD_INV_ORDER is raised with a minor code of TBD_BIO+2.
      */
-    public void register_policy_factory( int type, 
+    public void register_policy_factory( int type,
                                          PolicyFactory policy_factory )
     {
         checkStage();
@@ -342,8 +342,8 @@ public final class ORBInitInfoImpl
      * Called when an invalid null parameter was passed.  Throws a
      * BAD_PARAM with a minor code of 1
      */
-    private void nullParam() 
-        throws BAD_PARAM 
+    private void nullParam()
+        throws BAD_PARAM
     {
         throw orbutilWrapper.nullParam() ;
     }

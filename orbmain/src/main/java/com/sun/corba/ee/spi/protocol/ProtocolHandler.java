@@ -33,10 +33,10 @@ import org.omg.CORBA.portable.UnknownException;
  */
 public abstract interface ProtocolHandler
 {
-    public void handleRequest(RequestMessage header, 
+    public void handleRequest(RequestMessage header,
                               MessageMediator messageMediator);
 
-    public void handleRequest(LocateRequestMessage header, 
+    public void handleRequest(LocateRequestMessage header,
                               MessageMediator messageMediator);
 
     public MessageMediator createResponse(
@@ -54,10 +54,10 @@ public abstract interface ProtocolHandler
         ServiceContexts svc);
     public MessageMediator createLocationForward(
         MessageMediator messageMediator,
-        IOR ior, 
+        IOR ior,
         ServiceContexts svc);
 
-    public void handleThrowableDuringServerDispatch( 
+    public void handleThrowableDuringServerDispatch(
         MessageMediator request,
         Throwable exception,
         CompletionStatus completionStatus);

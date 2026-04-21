@@ -22,9 +22,9 @@
 package org.omg.CosTSPortability;
 public class ReceiverHolder
 {
-    //  instance variable 
+    //  instance variable
     public org.omg.CosTSPortability.Receiver value;
-    //  constructors 
+    //  constructors
     public ReceiverHolder() {
         this(null);
     }

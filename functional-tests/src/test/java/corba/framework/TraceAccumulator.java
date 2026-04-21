@@ -32,23 +32,23 @@ public class TraceAccumulator implements MethodEventListener
         clear() ;
     }
 
-    public void clear() 
+    public void clear()
     {
         elements = new ArrayList() ;
     }
 
-    private void addElement( boolean isEnter, MethodEvent event ) 
+    private void addElement( boolean isEnter, MethodEvent event )
     {
         TraceElement tel = new TraceElement( isEnter, event ) ;
         elements.add( tel ) ;
     }
 
-    public void methodEntered( MethodEvent event ) 
+    public void methodEntered( MethodEvent event )
     {
         addElement( true, event ) ;
     }
 
-    public void methodExited( MethodEvent event ) 
+    public void methodExited( MethodEvent event )
     {
         addElement( false, event ) ;
     }

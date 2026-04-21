@@ -39,7 +39,7 @@ import com.sun.corba.ee.impl.legacy.connection.DefaultSocketFactory;
 import com.sun.corba.ee.impl.legacy.connection.EndPointInfoImpl;
 
 public class SocketFactoryImpl
-    implements 
+    implements
         ORBSocketFactory
 {
     ORBSocketFactory socketFactory;

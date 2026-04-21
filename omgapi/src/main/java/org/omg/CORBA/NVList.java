@@ -57,7 +57,7 @@ package org.omg.CORBA;
  * Note also that you can add any number of
  * <code>NamedValue</code> objects to this list regardless of
  * its original length.
- * 
+ *
  * <LI><code>org.omg.CORBA.ORB.create_operation_list</code>
  * <PRE>
  *    org.omg.CORBA.NVList nv = orb.create_operation_list(myOperationDef);

@@ -39,14 +39,14 @@ import com.sun.corba.ee.spi.transport.TransportManager;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.impl.legacy.connection.LegacyServerSocketManagerImpl;
 
-public class Server 
+public class Server
 {
     public static final String baseMsg = Server.class.getName();
     public static final String main = baseMsg + ".main";
-    public static final String thisPackage = 
+    public static final String thisPackage =
         Server.class.getPackage().getName();
 
-    public static final String rmiiIServantPOA_Tie = 
+    public static final String rmiiIServantPOA_Tie =
         thisPackage + "._rmiiIServantPOA_Tie";
 
     public static final String rmiiIPOA     = "rmiiIPOA";
@@ -90,7 +90,7 @@ public class Server
             synchronized (ColocatedClientServer.signal) {
                 ColocatedClientServer.signal.notifyAll();
             }
-            
+
             orb.run();
 
         } catch (Exception e) {

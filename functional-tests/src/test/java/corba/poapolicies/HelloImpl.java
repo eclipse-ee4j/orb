@@ -37,5 +37,5 @@ public class HelloImpl extends HelloPOA
             return "Welcome, POA (oid = "+new String(id)+")";
     }
 }
-        
+
 

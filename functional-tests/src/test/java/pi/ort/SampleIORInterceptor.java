@@ -34,9 +34,9 @@ import org.omg.IOP.TAG_INTERNET_IOP;
 /**
  * Thoroughly tests IORInterceptor support.
  */
-public class SampleIORInterceptor 
-    extends LocalObject 
-    implements IORInterceptor_3_0 
+public class SampleIORInterceptor
+    extends LocalObject
+    implements IORInterceptor_3_0
 {
 
     // The name for this interceptor
@@ -70,24 +70,24 @@ public class SampleIORInterceptor
         com.sun.corba.ee.impl.interceptors.IORInfoImpl iorInfoImpl =
             (com.sun.corba.ee.impl.interceptors.IORInfoImpl) info;
         ObjectReferenceTemplate ort = iorInfoImpl.adapter_template();
-        if( !ort.orb_id().equals( Constants.ORB_ID )  && 
+        if( !ort.orb_id().equals( Constants.ORB_ID )  &&
             !ort.orb_id().equals(com.sun.corba.ee.impl.ior.ObjectKeyTemplateBase.JIDL_ORB_ID)) {
-            System.err.println( 
+            System.err.println(
                 "ORBId is not passed to components_established correctly..");
             System.exit( -1 );
         }
 
         if( !ort.server_id().equals( Constants.ORB_SERVER_ID ) ) {
-            System.err.println( 
+            System.err.println(
                 "ORBServerId is not passed to components_established correctly..");
             System.exit( -1 );
         }
     }
 
-    public void adapter_state_changed( ObjectReferenceTemplate[] templates, 
+    public void adapter_state_changed( ObjectReferenceTemplate[] templates,
         short state )
     {
-        ORTStateChangeEvaluator.getInstance( ).registerAdapterStateChange( 
+        ORTStateChangeEvaluator.getInstance( ).registerAdapterStateChange(
             templates, state );
     }
 

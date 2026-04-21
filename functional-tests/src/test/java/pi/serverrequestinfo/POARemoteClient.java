@@ -35,7 +35,7 @@ import java.io.*;
 
 import ServerRequestInfo.*;
 
-public class POARemoteClient 
+public class POARemoteClient
     extends POAClient
 {
     public static void main(String args[]) {
@@ -50,7 +50,7 @@ public class POARemoteClient
     }
 
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         out.println( "============================================" );

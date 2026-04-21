@@ -66,7 +66,7 @@ public class EffectiveProfileStrategy
 
 
     public void receive_exception (
-        SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) 
+        SampleClientRequestInterceptor interceptor, ClientRequestInfo ri)
         throws ForwardRequest
     {
         super.receive_exception( interceptor, ri );
@@ -80,7 +80,7 @@ public class EffectiveProfileStrategy
     }
 
     public void receive_other (
-        SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) 
+        SampleClientRequestInterceptor interceptor, ClientRequestInfo ri)
         throws ForwardRequest
     {
         super.receive_other( interceptor, ri );
@@ -89,12 +89,12 @@ public class EffectiveProfileStrategy
             testEffectiveProfile( "receive_other", ri );
         }
         catch( Exception ex ) {
-            failException( "receive_other", ex ); 
+            failException( "receive_other", ex );
         }
     }
 
-    private void testEffectiveProfile( String methodName, 
-                                       ClientRequestInfo ri ) 
+    private void testEffectiveProfile( String methodName,
+                                       ClientRequestInfo ri )
     {
         String header = methodName + "(): ";
         TaggedProfile profile = ri.effective_profile();

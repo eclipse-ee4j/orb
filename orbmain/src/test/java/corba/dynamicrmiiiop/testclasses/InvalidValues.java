@@ -28,7 +28,7 @@ public class InvalidValues {
         InvalidValue1.class, InvalidValue2.class,
         InvalidValue3.class, InvalidValue4.class,
         InvalidValue5.class, InvalidValue6.class,
-        InvalidValue7.class        
+        InvalidValue7.class
     };
 
     // must be a subtype of Serializable
@@ -45,14 +45,14 @@ public class InvalidValues {
 
     // can't implement Remote
     public class InvalidValue5 implements java.rmi.Remote {}
-    
+
     // can't implement Remote
     public class InvalidValue6 implements java.io.Serializable,
         java.rmi.Remote {}
-    
+
     // can't implement Remote, directly or indirectly
     public class InvalidValue7 extends InvalidValue5 {}
 
-    
-    
+
+
 }

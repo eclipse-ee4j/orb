@@ -35,8 +35,8 @@ import java.io.*;
 
 import ServerRequestInterceptor.*;
 
-public abstract class POAClient 
-    extends ClientCommon 
+public abstract class POAClient
+    extends ClientCommon
 {
     // The hello object to make invocations on.
     hello helloRef;
@@ -46,7 +46,7 @@ public abstract class POAClient
 
     // To be invoked after the orb is created by subclasses.
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         this.out = out;
@@ -74,8 +74,8 @@ public abstract class POAClient
     /**
      * Invoke the method with the given name on the object
      */
-    protected void invokeMethod( String methodName ) 
-        throws Exception 
+    protected void invokeMethod( String methodName )
+        throws Exception
     {
         if( methodName.equals( "sayHello" ) ) {
             helloRef.sayHello();
@@ -83,15 +83,15 @@ public abstract class POAClient
         else if( methodName.equals( "sayOneway" ) ) {
             helloRef.sayOneway();
         }
-        else if( methodName.equals( "saySystemException" ) ) { 
+        else if( methodName.equals( "saySystemException" ) ) {
             helloRef.saySystemException();
         }
-        else if( methodName.equals( "sayUserException" ) ) { 
+        else if( methodName.equals( "sayUserException" ) ) {
             try {
                 helloRef.sayUserException();
                 out.println( "    - Did not catch ForwardRequest user " +
                     "exception (error)" );
-                throw new RuntimeException( 
+                throw new RuntimeException(
                     "Did not catch ForwardRequest user exception " +
                     "on sayUserException" );
             }
@@ -113,7 +113,7 @@ public abstract class POAClient
         }
         else if( methodName.equals( "_is_a" ) ) {
             out.println( "    - Invoking _is_a..." );
-            out.println( "    - Result: " + 
+            out.println( "    - Result: " +
                 helloRef._is_a( "IDL:ServerRequestInterceptor/goodbye:1.0" ) );
             out.println( "    - Invoked." );
         }
@@ -133,7 +133,7 @@ public abstract class POAClient
             out.println( "    - Invoked." );
         }
     }
-    
+
     /**
      * Implementation borrwed from corba.socket.HelloClient.java test
      */
@@ -141,18 +141,18 @@ public abstract class POAClient
         throws Exception
     {
         // Get the root naming context
-        org.omg.CORBA.Object objRef = 
+        org.omg.CORBA.Object objRef =
             orb.resolve_initial_references("NameService");
         NamingContext ncRef = NamingContextHelper.narrow(objRef);
-        
+
         // resolve the Object Reference in Naming
         NameComponent nc = new NameComponent(name, "");
         NameComponent path[] = {nc};
         hello helloRef = helloHelper.narrow(ncRef.resolve(path));
-        
+
         return helloRef;
     }
-    
+
 
 }
 

@@ -34,7 +34,7 @@ public interface ByteBufferPool
      * and copy any bytes in the <code>oldByteBuffer</code> starting at
      * <code>oldByteBuffer.position()</code> up to <code>oldByteBuffer.limit()</code>
      * into the returned <code>ByteBuffer</code>.
-     * 
+     *
      * @param oldByteBuffer old buffer to take bytes from
      * @param minimumSize minimum size of Buffer
      * @return the new ByteBuffer

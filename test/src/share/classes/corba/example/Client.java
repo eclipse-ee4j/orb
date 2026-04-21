@@ -54,10 +54,10 @@ public class Client implements Runnable
             ORB orb = ORB.init(args, props);
 
             // get the root naming context
-            org.omg.CORBA.Object objRef = 
+            org.omg.CORBA.Object objRef =
                 orb.resolve_initial_references("NameService");
             NamingContext ncRef = NamingContextHelper.narrow(objRef);
- 
+
             // resolve the Object Reference in Naming
             NameComponent nc = new NameComponent("Hello", "");
             NameComponent path[] = {nc};
@@ -80,19 +80,19 @@ public class Client implements Runnable
 
             // Perform a simple test on stub equality. ie., test two stubs
             // which point to the same object for equality.
-            
+
             nc = new NameComponent("Hello", "");
             path = new NameComponent[] {nc};
             hello helloRef2 = helloHelper.narrow(ncRef.resolve(path));
-            
+
             boolean result = helloRef.equals(helloRef2);
             System.out.println("equals: " + result);
-            if (result == false) {                
+            if (result == false) {
                 errorOccured = true;
             }
-            
+
             // test finished
-                        
+
             System.out.println ("All threads returned, client finished");
 
             if (errorOccured)
@@ -113,7 +113,7 @@ public class Client implements Runnable
                 String hello = helloRef.sayHello();
                 System.out.println(hello);
                 if (!hello.equals ("Hello world!")) {
-                    System.out.println ("Bad result of \"" + hello + "\" in " 
+                    System.out.println ("Bad result of \"" + hello + "\" in "
                                         + Thread.currentThread ());
                     signalError ();
                 }

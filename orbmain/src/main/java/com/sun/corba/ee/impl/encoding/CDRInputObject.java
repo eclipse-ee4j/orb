@@ -45,7 +45,7 @@ import org.omg.CORBA.TypeCode;
  */
 @Transport
 @MonitorRead
-public class CDRInputObject 
+public class CDRInputObject
     extends org.omg.CORBA_2_3.portable.InputStream
     implements com.sun.corba.ee.impl.encoding.MarshalInputStream,
                org.omg.CORBA.DataInputStream, org.omg.CORBA.portable.ValueInputStream
@@ -103,9 +103,9 @@ public class CDRInputObject
     // created with a SystemException due to a dead server/closed
     // connection with no warning.  Note that the stream will
     // not be initialized in this case.
-    // 
+    //
     // Probably also required by ServerRequestImpl.
-    // 
+    //
     // REVISIT.
     public CDRInputObject() {
     }
@@ -168,7 +168,7 @@ public class CDRInputObject
     // message mediator?  Or should we not have a header and
     // have the information stored in the message mediator
     // directly?
-    public Message getMessageHeader() 
+    public Message getMessageHeader()
     {
         return header;
     }
@@ -216,7 +216,7 @@ public class CDRInputObject
         if (codesets == null) {
             return CodeSetConversion.impl().getBTCConverter(OSFCodeSetRegistry.ISO_8859_1, impl.getByteOrder());
         }
-        
+
         OSFCodeSetRegistry.Entry charSet
             = OSFCodeSetRegistry.lookupEntry(codesets.getCharCodeSet());
 
@@ -277,7 +277,7 @@ public class CDRInputObject
         } else {
             return getConnection().getCodeSetContext();
         }
-    }    
+    }
 
     public CodeBase getCodeBase() {
         if (getConnection() == null) {
@@ -291,11 +291,11 @@ public class CDRInputObject
         return null;
     }
 
-    protected void dprint(String msg) 
+    protected void dprint(String msg)
     {
         ORBUtility.dprint("CDRInputObject", msg);
     }
-    
+
     // org.omg.CORBA.portable.InputStream
     @MonitorRead
     public final boolean read_boolean() {
@@ -713,7 +713,7 @@ public class CDRInputObject
     public void setHeaderPadding(boolean headerPadding) {
         impl.setHeaderPadding(headerPadding);
     }
-    
+
     /**
      * This must be called after determining the proper ORB version,
      * and setting it on the stream's ORB instance.  It can be called

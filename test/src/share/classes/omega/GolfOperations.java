@@ -28,7 +28,7 @@ package omega;
 * 22 April 1999 21:50:06 o'clock GMT+00:00
 */
 
-public interface GolfOperations 
+public interface GolfOperations
 {
     int count ();
     void bar ();

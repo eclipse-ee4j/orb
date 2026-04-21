@@ -53,37 +53,37 @@ public class ImplementationType extends ClassType {
                                                        ContextStack stack,
                                                        boolean quiet) {
         if (stack.anyErrors()) return null;
-        
+
         boolean doPop = false;
         ImplementationType result = null;
-        
+
         try {
             // Do we already have it?
-                        
-            sun.tools.java.Type theType = classDef.getType();           
+
+            sun.tools.java.Type theType = classDef.getType();
             Type existing = getType(theType,stack);
-                        
+
             if (existing != null) {
-                                
+
                 if (!(existing instanceof ImplementationType)) return null; // False hit.
-                        
+
                                 // Yep, so return it...
-                                
+
                 return (ImplementationType) existing;
-                                
+
             }
-                        
+
             // Could this be an implementation?
-                        
+
             if (couldBeImplementation(quiet,stack,classDef)) {
-                    
+
                 // Yes, so check it...
-                    
+
                 ImplementationType it = new ImplementationType(stack, classDef);
                 putType(theType,it,stack);
                 stack.push(it);
                 doPop = true;
-                
+
                 if (it.initialize(stack,quiet)) {
                     stack.pop(true);
                     result = it;
@@ -95,7 +95,7 @@ public class ImplementationType extends ClassType {
         } catch (CompilerError e) {
             if (doPop) stack.pop(false);
         }
-        
+
         return result;
     }
 
@@ -118,8 +118,8 @@ public class ImplementationType extends ClassType {
     private ImplementationType(ContextStack stack, ClassDefinition classDef) {
         super(TYPE_IMPLEMENTATION | TM_CLASS | TM_COMPOUND,classDef,stack); // Use special constructor.
     }
-   
-    
+
+
     private static boolean couldBeImplementation(boolean quiet, ContextStack stack,
                                                  ClassDefinition classDef) {
         boolean result = false;
@@ -135,11 +135,11 @@ public class ImplementationType extends ClassType {
         } catch (ClassNotFound e) {
             classNotFound(stack,e);
         }
-            
-        return result; 
+
+        return result;
     }
-                                                
-                                                
+
+
     /**
      * Initialize this instance.
      */
@@ -147,9 +147,9 @@ public class ImplementationType extends ClassType {
 
         boolean result = false;
         ClassDefinition theClass = getClassDefinition();
-                
+
         if (initParents(stack)) {
-                
+
             // Make up our collections...
 
             Vector directInterfaces = new Vector();
@@ -161,7 +161,7 @@ public class ImplementationType extends ClassType {
                 if (addRemoteInterfaces(directInterfaces,true,stack) != null) {
 
                     boolean haveRemote = false;
-                    
+
                     // Get methods from all interfaces...
 
                     for (int i = 0; i < directInterfaces.size(); i++) {
@@ -170,22 +170,22 @@ public class ImplementationType extends ClassType {
                             theInt.isType(TYPE_JAVA_RMI_REMOTE)) {
                             haveRemote = true;
                         }
-                                
+
                         copyRemoteMethods(theInt,directMethods);
                     }
 
                     // Make sure we have at least one remote interface...
-                    
+
                     if (!haveRemote) {
                         failedConstraint(8,quiet,stack,getQualifiedName());
                         return false;
                     }
-                            
+
                     // Now check the methods to ensure we have the
                     // correct throws clauses...
-                            
+
                     if (checkMethods(theClass,directMethods,stack,quiet)) {
-                            
+
                         // We're ok, so pass 'em up...
 
                         result = initialize(directInterfaces,directMethods,null,stack,quiet);
@@ -195,30 +195,30 @@ public class ImplementationType extends ClassType {
                 classNotFound(stack,e);
             }
         }
-        
+
         return result;
     }
-        
+
     private static void copyRemoteMethods(InterfaceType type, Vector list) {
-                
+
         if (type.isType(TYPE_REMOTE)) {
-                    
+
             // Copy all the unique methods from type...
-                
+
             Method[] allMethods = type.getMethods();
-                
+
             for (int i = 0; i < allMethods.length; i++) {
                 Method theMethod = allMethods[i];
-                        
+
                 if (!list.contains(theMethod)) {
                     list.addElement(theMethod);
                 }
             }
-                
+
             // Now recurse thru all inherited interfaces...
-                
+
             InterfaceType[] allInterfaces = type.getInterfaces();
-                
+
             for (int i = 0; i < allInterfaces.length; i++) {
                 copyRemoteMethods(allInterfaces[i],list);
             }
@@ -227,24 +227,24 @@ public class ImplementationType extends ClassType {
 
     // Walk all methods of the class, and for each that is already in
     // the list, call setImplExceptions()...
-    
+
     private boolean checkMethods(ClassDefinition theClass, Vector list,
                                  ContextStack stack, boolean quiet) {
 
         // Convert vector to array...
-        
+
         Method[] methods = new Method[list.size()];
         list.copyInto(methods);
 
         for (MemberDefinition member = theClass.getFirstMember();
              member != null;
              member = member.getNextMember()) {
-                
+
             if (member.isMethod() && !member.isConstructor()
                 && !member.isInitializer()) {
 
                 // It's a method...
-                    
+
                 if (!updateExceptions(member,methods,stack,quiet)) {
                     return false;
                 }
@@ -252,22 +252,22 @@ public class ImplementationType extends ClassType {
         }
         return true;
     }
-        
+
     private boolean updateExceptions (MemberDefinition implMethod, Method[] list,
                                       ContextStack stack, boolean quiet) {
         int length = list.length;
         String implMethodSig = implMethod.toString();
-            
+
         for (int i = 0; i < length; i++) {
             Method existingMethod = list[i];
-            MemberDefinition existing = existingMethod.getMemberDefinition();  
+            MemberDefinition existing = existingMethod.getMemberDefinition();
 
             // Do we have a matching method?
-            
+
             if (implMethodSig.equals(existing.toString())) {
-                                            
+
                 // Yes, so create exception list...
-                    
+
                 try {
                     ValueType[] implExcept = getMethodExceptions(implMethod,quiet,stack);
                     existingMethod.setImplExceptions(implExcept);

@@ -43,17 +43,17 @@ public class ServiceContextStrategy
     private final static int FAKEID_RRSC = 2126;
     private final static int FAKEID_RR = 2127;
 
-    private final static byte[] FAKEDATA1 = { 
+    private final static byte[] FAKEDATA1 = {
         (byte)1, (byte)2, (byte)3, (byte)4 };
-    private final static byte[] FAKEDATA2 = { 
+    private final static byte[] FAKEDATA2 = {
         (byte)5, (byte)6, (byte)7 };
-    private final static byte[] FAKEDATA3 = { 
+    private final static byte[] FAKEDATA3 = {
         (byte)8 };
-    private final static byte[] FAKEDATA4 = { 
+    private final static byte[] FAKEDATA4 = {
         (byte)2 };
-    private final static byte[] FAKEDATA_RRSC = { 
+    private final static byte[] FAKEDATA_RRSC = {
         (byte)1, (byte)8, (byte)2 };
-    private final static byte[] FAKEDATA_RR = { 
+    private final static byte[] FAKEDATA_RR = {
         (byte)9, (byte)8, (byte)9 };
 
 
@@ -142,7 +142,7 @@ public class ServiceContextStrategy
 
     private void testGetReplySC( String methodName, ServerRequestInfo ri ) {
         if( methodName.equals( "rrsc" ) ||
-            methodName.equals( "receive_request" ) ) 
+            methodName.equals( "receive_request" ) )
         {
             // get_reply_service_context is invalid here.
             try {
@@ -161,10 +161,10 @@ public class ServiceContextStrategy
         }
     }
 
-    private void testSC( String reqOrRep, String methodName, 
-                         ServerRequestInfo ri ) 
+    private void testSC( String reqOrRep, String methodName,
+                         ServerRequestInfo ri )
     {
-        String header = methodName + "(): get_" + reqOrRep + 
+        String header = methodName + "(): get_" + reqOrRep +
             "_service_context";
 
         // Test to ensure an invalid ID raises a BAD_PARAM:
@@ -247,20 +247,20 @@ public class ServiceContextStrategy
         if( methodName.equals( "rrsc" ) ) {
             try {
                 // Add FAKEID_RRSC, FAKE_DATA_RRSC
-                ServiceContext sc = new ServiceContext( FAKEID_RRSC, 
+                ServiceContext sc = new ServiceContext( FAKEID_RRSC,
                                                         FAKEDATA_RRSC );
                 ri.add_reply_service_context( sc, true );
                 log( header + "added service context RRSC." );
             }
             catch( BAD_INV_ORDER e ) {
-                fail( header + 
+                fail( header +
                       "denied access to add_reply_service_context." );
             }
         }
         else if( methodName.equals( "receive_request" ) ) {
             try {
                 // Add FAKEID_RR, FAKE_DATA1
-                ServiceContext sc = new ServiceContext( FAKEID_RR, 
+                ServiceContext sc = new ServiceContext( FAKEID_RR,
                                                         FAKEDATA1 );
                 ri.add_reply_service_context( sc, true );
                 log( header + "added service context RR." );
@@ -291,7 +291,7 @@ public class ServiceContextStrategy
                 }
             }
             catch( BAD_INV_ORDER e ) {
-                fail( header + 
+                fail( header +
                       "denied access to add_reply_service_context." );
             }
         }

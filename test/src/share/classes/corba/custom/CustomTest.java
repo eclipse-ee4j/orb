@@ -68,7 +68,7 @@ public class CustomTest extends CORBATest
             // Go ahead and restart both server and client each time to
             // make sure we test all fragment sizes for replies, too.
             server.start();
-            client.start() ; 
+            client.start() ;
 
             try {
                 if (client.waitFor(60000) == Controller.SUCCESS) {

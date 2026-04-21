@@ -21,8 +21,8 @@ package pi.orbinit;
 
 import ORBInitTest.*;
 
-public class SampleObjectImpl 
-    extends _SampleObjectImplBase 
+public class SampleObjectImpl
+    extends _SampleObjectImplBase
 {
     private short _x;
     private short _y;

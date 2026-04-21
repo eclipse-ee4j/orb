@@ -33,13 +33,13 @@ import org.omg.CORBA.*;
  *     count = 2, send_request, receive_exception (SystemException)
  *     count = 3, send_request, receive_exception (UserException)
  *     count = 4, send_request, receive_other
- * All points are checked in order to assure received_exception() 
+ * All points are checked in order to assure received_exception()
  * can only be called in the receive_exception interception point.
  */
 public class ExceptionStrategy
     extends InterceptorStrategy
 {
-    
+
     private int count = 0;
 
     public void receive_request_service_contexts (
@@ -47,8 +47,8 @@ public class ExceptionStrategy
         throws ForwardRequest
     {
         super.receive_request_service_contexts( interceptor, ri );
-         
-        try { 
+
+        try {
             count++;
 
             testException( "rrsc", ri );
@@ -113,8 +113,8 @@ public class ExceptionStrategy
         }
     }
 
-    private void testException( String methodName, 
-                                ServerRequestInfo ri ) 
+    private void testException( String methodName,
+                                ServerRequestInfo ri )
     {
         String header = methodName + "(): ";
         if( methodName.equals( "send_exception" ) ) {
@@ -122,7 +122,7 @@ public class ExceptionStrategy
                 // Called for System Exception:
                 // Test send_exception:
                 Any sendingException = ri.sending_exception();
-                SystemException sysex = ORBUtility.extractSystemException( 
+                SystemException sysex = ORBUtility.extractSystemException(
                     sendingException );
                 if( !(sysex instanceof IMP_LIMIT) ) {
                     fail( header + "sending_exception() did not return " +
@@ -136,29 +136,29 @@ public class ExceptionStrategy
             else if( count == 3 ) {
                 // Called for User Exception:
                 // Test send_exception:
-                // _REVISIT_ Currently, we do not have access to the 
+                // _REVISIT_ Currently, we do not have access to the
                 // user exception in the Java Language mappings.  When this
                 // is fixed, uncomment this test.
                 /*
                 Any sendingException = ri.sending_exception();
 
                 try {
-                    log( header + "Got any with type = " + 
+                    log( header + "Got any with type = " +
                         sendingException.type().name() );
                 }
                 catch( org.omg.CORBA.TypeCodePackage.BadKind e ) {
                     log( "" + e );
                 }
 
-                SystemException sex = 
+                SystemException sex =
                     ORBUtility.extractSystemException( sendingException );
                 log( "SystemException: " + sex );
                 log( "SystemException: " + sex.getMessage() );
 
-                ExampleException exception = ExampleExceptionHelper.extract( 
+                ExampleException exception = ExampleExceptionHelper.extract(
                     sendingException );
                 if( !exception.reason.equals( "valid" ) ) {
-                    fail( header + 
+                    fail( header +
                           "sending_exception() did not return valid " +
                           "ExampleException.  Reason = " + exception.reason );
                 }
@@ -176,7 +176,7 @@ public class ExceptionStrategy
             // We should not be able to access received_exception!
             try {
                 ri.sending_exception();
-                fail( header + 
+                fail( header +
                       "sending_exception() did not raise BAD_INV_ORDER!" );
             }
             catch( BAD_INV_ORDER e ) {

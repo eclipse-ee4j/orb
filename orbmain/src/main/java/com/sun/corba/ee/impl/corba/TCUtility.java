@@ -77,7 +77,7 @@ public final class TCUtility {
         case TCKind._tk_boolean:
             if ( l == 0 )
                 s.write_boolean(false);
-            else        
+            else
                 s.write_boolean(true);
             break;
 
@@ -165,7 +165,7 @@ public final class TCUtility {
         }
     }
 
-    static void unmarshalIn(org.omg.CORBA.portable.InputStream s, TypeCode typeCode, long[] la, Object[] oa) 
+    static void unmarshalIn(org.omg.CORBA.portable.InputStream s, TypeCode typeCode, long[] la, Object[] oa)
     {
         int type = typeCode.kind().value();
         long l=0;
@@ -190,19 +190,19 @@ public final class TCUtility {
         case TCKind._tk_long:
             l = s.read_long() & 0xFFFFFFFFL;
             break;
- 
+
         case TCKind._tk_ulong:
             l = s.read_ulong() & 0xFFFFFFFFL;
-            break;  
- 
+            break;
+
         case TCKind._tk_float:
             l = Float.floatToIntBits(s.read_float()) & 0xFFFFFFFFL;
             break;
- 
+
         case TCKind._tk_double:
             l = Double.doubleToLongBits(s.read_double());
             break;
- 
+
         case TCKind._tk_char:
             l = s.read_char() & 0xFFFFL;
             break;
@@ -236,19 +236,19 @@ public final class TCUtility {
             else
                 o = s.read_Object();
             break;
- 
+
         case TCKind._tk_longlong:
             l = s.read_longlong();
             break;
- 
+
         case TCKind._tk_ulonglong:
             l = s.read_ulonglong();
-            break;  
+            break;
 
         case TCKind._tk_wchar:
             l = s.read_wchar() & 0xFFFFL;
             break;
- 
+
         case TCKind._tk_string:
             o = s.read_string();
             break;

@@ -40,7 +40,7 @@ import org.omg.CORBA.ORB ;
 */
 @ManagedData
 @Description( "Base class for all TaggedComponents" )
-@IncludeSubclass( { AlternateIIOPAddressComponent.class, 
+@IncludeSubclass( { AlternateIIOPAddressComponent.class,
     CodeSetsComponent.class, JavaCodebaseComponent.class,
     MaxStreamFormatVersionComponent.class, ORBTypeComponent.class,
     RequestPartitioningComponent.class,

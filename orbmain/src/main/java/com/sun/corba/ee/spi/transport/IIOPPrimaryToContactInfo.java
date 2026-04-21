@@ -35,7 +35,7 @@ import java.util.List;
  * case of statefull session beans.
  *
  * Note: This assumes static lists of replicas (e.g., AS 8.1 EE).
- * This does NOT work well with LOCATION_FORWARD.  
+ * This does NOT work well with LOCATION_FORWARD.
  *
  * @author Harold Carr
  */
@@ -48,7 +48,7 @@ public interface IIOPPrimaryToContactInfo
 
     /**
      * @param primary the key.
-     * @param previous if null return true.  Otherwise, find previous in 
+     * @param previous if null return true.  Otherwise, find previous in
      * <code>contactInfos</code> and if another <code>ContactInfo</code>
      * follows it in the list then return true.  Otherwise false.
      * @param contactInfos the list of replicas associated with the

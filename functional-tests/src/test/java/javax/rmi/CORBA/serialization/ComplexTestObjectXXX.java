@@ -31,9 +31,9 @@ public class ComplexTestObjectXXX implements Serializable
     float fFloat;
     double fDouble;
     String fString;
-    
+
     Object fHandleAsAny = null;
-    
+
     ComplexTestObjectOne fOne = null;
     ComplexTestObjectTwo fTwo = null;
 
@@ -54,11 +54,11 @@ public class ComplexTestObjectXXX implements Serializable
         try
             {
                 ComplexTestObjectXXX ctbo = (ComplexTestObjectXXX)o;
-                return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) && 
-                        (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat) && 
+                return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) &&
+                        (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat) &&
                         (ctbo.fDouble == fDouble)
                         && (ctbo.fHandleAsAny.equals(fHandleAsAny))
-                        && (ctbo.fOne.equals(fOne)) 
+                        && (ctbo.fOne.equals(fOne))
                         && (ctbo.fTwo.equals(fTwo))
                         );
             }

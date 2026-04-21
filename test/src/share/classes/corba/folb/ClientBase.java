@@ -51,7 +51,7 @@ import org.omg.CORBA.SystemException ;
 /**
  * @author Harold Carr
  */
-public abstract class ClientBase {    
+public abstract class ClientBase {
     protected static final ORBUtilSystemException wrapper =
         ORBUtilSystemException.self ;
 
@@ -115,12 +115,12 @@ public abstract class ClientBase {
             gis.addObserver(new GroupInfoServiceObserver() {
                 public void membershipChange() {
                     dprint(".membershipChange->:");
-                    dprint(".membershipChange: " 
+                    dprint(".membershipChange: "
                            + gis.getClusterInstanceInfo((String[])null));
                     dprint(".membershipChange<-:");
                 }
             } );
-            
+
             dprint("--------------------------------------------------");
             dprint("new InitialContext");
             dprint("--------------------------------------------------");
@@ -129,38 +129,38 @@ public abstract class ClientBase {
             initialContext = new InitialContext(env);
 
             dprint("--------------------------------------------------");
-            dprint("lookup and narrow: " 
+            dprint("lookup and narrow: "
                    + Common.GIS_POA_WITH_ADDRESSES_WITH_LABEL);
             dprint("--------------------------------------------------");
             gisPoaWithAddressesWithLabels = (GroupInfoServiceTest)
                 U.lookupAndNarrow(Common.GIS_POA_WITH_ADDRESSES_WITH_LABEL,
-                                  GroupInfoServiceTest.class, 
+                                  GroupInfoServiceTest.class,
                                   initialContext);
 
             dprint("--------------------------------------------------");
-            dprint("lookup and narrow: " 
+            dprint("lookup and narrow: "
                    + Common.GIS_POA_WITHOUT_ADDRESSES_WITHOUT_LABEL);
             dprint("--------------------------------------------------");
             gisPoaWithoutAddressesWithoutLabel = (GroupInfoServiceTest)
-                U.lookupAndNarrow(Common.GIS_POA_WITHOUT_ADDRESSES_WITHOUT_LABEL, 
-                                  GroupInfoServiceTest.class, 
+                U.lookupAndNarrow(Common.GIS_POA_WITHOUT_ADDRESSES_WITHOUT_LABEL,
+                                  GroupInfoServiceTest.class,
                                   initialContext);
 
             dprint("--------------------------------------------------");
-            dprint("Lookup and narrow: " 
+            dprint("Lookup and narrow: "
                    + Common.TEST_RFM_WITH_ADDRESSES_WITH_LABEL);
             dprint("--------------------------------------------------");
-            testRfmWithAddressesWithLabel = (EchoTest) 
+            testRfmWithAddressesWithLabel = (EchoTest)
                 U.lookupAndNarrow(Common.TEST_RFM_WITH_ADDRESSES_WITH_LABEL,
                                   EchoTest.class,
                                   initialContext);
-            
-            
+
+
             dprint("--------------------------------------------------");
-            dprint("Lookup and narrow: " 
+            dprint("Lookup and narrow: "
                    + Common.TEST_RFM_WITH_ADDRESSES_WITHOUT_LABEL);
             dprint("--------------------------------------------------");
-            testRfmWithAddressesWithoutLabel = (EchoTest) 
+            testRfmWithAddressesWithoutLabel = (EchoTest)
                 U.lookupAndNarrow(Common.TEST_RFM_WITH_ADDRESSES_WITHOUT_LABEL,
                                   EchoTest.class,
                                   initialContext);
@@ -213,7 +213,7 @@ public abstract class ClientBase {
                         Common.TEST_RFM_WITH_ADDRESSES_WITH_LABEL,
                         "Failover without update (send label, no IORUpdate)",
                         corba.folb_8_1.Common.Z,
-                        SEND_MEMBERSHIP_LABEL, NO_IOR_UPDATE);      
+                        SEND_MEMBERSHIP_LABEL, NO_IOR_UPDATE);
 
         dprint("--------------------------------------------------");
         dprint("Restart X Acceptor");
@@ -234,10 +234,10 @@ public abstract class ClientBase {
         dprint("--------------------------------------------------");
     }
 
-    protected void makeCall(EchoTest ref, String refName, String arg, 
-        String socketType, boolean sendMembershipLabel, 
+    protected void makeCall(EchoTest ref, String refName, String arg,
+        String socketType, boolean sendMembershipLabel,
         boolean receiveIORUpdate) {
-        
+
         try {
             String msg = null ;
 
@@ -259,7 +259,7 @@ public abstract class ClientBase {
             }
 
             if (sendMembershipLabel == ClientGroupManager.sentMemberShipLabel) {
-                dprint("    Correctly handled membership label: " 
+                dprint("    Correctly handled membership label: "
                        + sentOrNotSent(sendMembershipLabel));
             } else {
                 dprint( "ERROR: incorrectly handled membership label:"
@@ -271,7 +271,7 @@ public abstract class ClientBase {
             }
 
             if (receiveIORUpdate == ClientGroupManager.receivedIORUpdate) {
-                dprint("    Correctly handled IOR update: " 
+                dprint("    Correctly handled IOR update: "
                        + receivedOrNotReceived(receiveIORUpdate));
             } else {
                 dprint( "ERROR: incorrectly handled IOR update:"
@@ -294,7 +294,7 @@ public abstract class ClientBase {
         return x ? "received" : "not received";
     }
 
-    protected void checkMarshalException(String msg, Exception got, 
+    protected void checkMarshalException(String msg, Exception got,
         SystemException expected) {
 
         Throwable thr = got ;
@@ -311,7 +311,7 @@ public abstract class ClientBase {
             sysex = (SystemException)thr ;
         }
 
-        if ((sysex != null) && (sysex.minor == expected.minor) 
+        if ((sysex != null) && (sysex.minor == expected.minor)
             && (sysex.completed == expected.completed)) {
             dprint("--------------------------------------------------");
             dprint(msg + ": SUCCEEDED");

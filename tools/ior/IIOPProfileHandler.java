@@ -34,7 +34,7 @@ import org.omg.CORBA.Any;
  */
 public class IIOPProfileHandler implements EncapsHandler
 {
-    public void display(byte[] data, 
+    public void display(byte[] data,
                         TextOutputHandler out,
                         Utility util)
         throws DecodingException {

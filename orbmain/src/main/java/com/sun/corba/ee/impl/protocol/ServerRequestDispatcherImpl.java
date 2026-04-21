@@ -96,7 +96,7 @@ public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
      * Need to signal one of OBJECT_HERE, OBJECT_FORWARD, OBJECT_NOT_EXIST.
      * @return Result is null if object is (possibly) implemented here, otherwise
      * an IOR indicating objref to forward the request to.
-     * @exception org.omg.CORBA.OBJECT_NOT_EXIST is thrown if we know the object does not 
+     * @exception org.omg.CORBA.OBJECT_NOT_EXIST is thrown if we know the object does not
      * exist here, and we are not forwarding.
      */
     @Subcontract
@@ -114,7 +114,7 @@ public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
         findObjectAdapter(oktemp);
 
         return null ;
-    }           
+    }
 
     @InfoMethod
     private void generalMessage( String msg ) { }
@@ -246,7 +246,7 @@ public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
 
     // Note that objectAdapter.enter() must be called before getServant.
     @Subcontract
-    private java.lang.Object getServant(ObjectAdapter objectAdapter, 
+    private java.lang.Object getServant(ObjectAdapter objectAdapter,
         byte[] objectId, String operation) throws OADestroyed {
 
         OAInvocationInfo info = objectAdapter.makeInvocationInfo(objectId);
@@ -338,7 +338,7 @@ public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
     }
 
     /** Always throws OBJECT_NOT_EXIST if operation is not a special method.
-    * If operation is _non_existent or _not_existent, this will just 
+    * If operation is _non_existent or _not_existent, this will just
     * return without performing any action, so that _non_existent can return
     * false.  Always throws OBJECT_NOT_EXIST for any other special method.
     * Update for issue 4385.
@@ -438,12 +438,12 @@ public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
                 orb.setORBVersion(ORBVersionFactory.getFOREIGN());
             }
     }
-    
+
     @Subcontract
     protected MessageMediator dispatchToServant(
-        java.lang.Object servant, 
+        java.lang.Object servant,
         MessageMediator req,
-        byte[] objectId, ObjectAdapter objectAdapter) 
+        byte[] objectId, ObjectAdapter objectAdapter)
     {
         try {
             if (orb.operationTraceDebugFlag) {
@@ -465,31 +465,31 @@ public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
 
                 response = method.invoke(servant, req, objectId, objectAdapter);
                 return response ;
-            } 
-            
+            }
+
             // Invoke on the servant using the portable DSI skeleton
             if (servant instanceof org.omg.CORBA.DynamicImplementation) {
                 generalMessage( "Handling old style DSI type servant") ;
 
-                org.omg.CORBA.DynamicImplementation dynimpl = 
+                org.omg.CORBA.DynamicImplementation dynimpl =
                     (org.omg.CORBA.DynamicImplementation)servant;
                 ServerRequestImpl sreq = new ServerRequestImpl(req, orb);
 
                 // Note: When/if dynimpl.invoke calls arguments() or
                 // set_exception() then intermediate points are run.
                 dynimpl.invoke(sreq);
-                
+
                 response = handleDynamicResult(sreq, req);
             } else if (servant instanceof org.omg.PortableServer.DynamicImplementation) {
                 generalMessage( "Handling POA DSI type servant" ) ;
-                org.omg.PortableServer.DynamicImplementation dynimpl = 
+                org.omg.PortableServer.DynamicImplementation dynimpl =
                     (org.omg.PortableServer.DynamicImplementation)servant;
                 ServerRequestImpl sreq = new ServerRequestImpl(req, orb);
 
                 // Note: When/if dynimpl.invoke calls arguments() or
                 // set_exception() then intermediate points are run.
                 dynimpl.invoke(sreq);
-                
+
                 response = handleDynamicResult(sreq, req);
             } else {
                 generalMessage( "Handling invoke handler type servant" ) ;
@@ -628,7 +628,7 @@ public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
 
             synchronized (connection) {
                 if (connection.getCodeSetContext() == null) {
-                    operationAndId(request.getOperationName(), 
+                    operationAndId(request.getOperationName(),
                         request.getRequestId() );
                     codeSetServiceContextInfo(cssc);
 

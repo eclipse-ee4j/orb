@@ -30,7 +30,7 @@ import org.glassfish.gmbal.ManagedData ;
  */
 @ManagedData
 @Description( "An IP address for the IIOP protocol" )
-public interface IIOPAddress extends Writeable 
+public interface IIOPAddress extends Writeable
 {
     @ManagedAttribute
     @Description( "The target host (name or IP address)" )

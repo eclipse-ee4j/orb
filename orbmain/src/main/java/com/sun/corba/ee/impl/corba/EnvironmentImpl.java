@@ -29,8 +29,8 @@ public class EnvironmentImpl extends Environment {
     public EnvironmentImpl()
     {
     }
-  
-    public Exception exception() 
+
+    public Exception exception()
     {
         return _exc;
     }

@@ -26,9 +26,9 @@ import org.omg.CORBA.TypeCode;
 import org.omg.CORBA.portable.InputStream;
 
 public interface MarshalOutputStream {
-    
+
     public InputStream create_input_stream();
-  
+
     public void write_boolean(boolean value);
     public void write_char(char value);
     public void write_wchar(char value);
@@ -71,12 +71,12 @@ public interface MarshalOutputStream {
     public void start_block();
     public void end_block();
 
-    /* 
+    /*
      * Additional Methods
      */
 
     public void   putEndian();
-    public void   writeTo(java.io.OutputStream s) 
+    public void   writeTo(java.io.OutputStream s)
         throws IOException;
 
     public byte[] toByteArray();

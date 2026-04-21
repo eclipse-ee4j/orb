@@ -35,13 +35,13 @@ import java.net.Socket;
 import org.glassfish.pfl.basic.func.UnaryVoidFunction;
 
 /** This class provices standard building blocks for the ORB, as do all Default classes
- * in the various packages.  
+ * in the various packages.
  */
 public abstract class TransportDefault {
     private TransportDefault() {}
 
     public static ContactInfoListFactory makeCorbaContactInfoListFactory(
-        final ORB broker ) 
+        final ORB broker )
     {
         return new ContactInfoListFactory() {
             public void setORB(ORB orb) { }
@@ -89,5 +89,5 @@ public abstract class TransportDefault {
             operation ) ;
     }
 }
-    
+
 // End of file.

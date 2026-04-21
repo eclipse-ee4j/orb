@@ -54,7 +54,7 @@ public class FragmentTest extends CORBATest {
         System.out.print(output.toString());
     }
 
-    private String testName(int clientVersion, int clientStrategy, int 
+    private String testName(int clientVersion, int clientStrategy, int
         serverVersion, int serverStrategy) {
 
         StringBuilder output = new StringBuilder(80);
@@ -76,7 +76,7 @@ public class FragmentTest extends CORBATest {
         System.out.println(result);
     }
 
-    protected void doTest() throws Throwable  
+    protected void doTest() throws Throwable
     {
         int errors = 0;
         int fragmentSize = 1024;
@@ -115,7 +115,7 @@ public class FragmentTest extends CORBATest {
         }
 
         System.out.print("      Test result : " );
-        
+
         if (errors > 0)
             throw new Exception("Errors detected");
     }

@@ -25,7 +25,7 @@ import org.omg.CORBA.portable.Streamable;
 
 
 /**
- * The Holder for <tt>Float</tt>.  For more information on 
+ * The Holder for <tt>Float</tt>.  For more information on
  * Holder files, see <a href="doc-files/generatedfiles.html#holder">
  * "Generated Files: Holder Files"</a>.<P>
  * A Holder class for a <code>float</code>

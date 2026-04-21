@@ -30,18 +30,18 @@ import rmic.OnlyRemoteServant;
 public class ServantInner implements SInner {
     public ServantInner () throws RemoteException {
     }
-    
+
     public SInner echo (SInner in) throws RemoteException {
         return in;
     }
-    
+
     public CodeBase getCodeBase() throws RemoteException {
         javax.rmi.CORBA.ValueHandler vh = Util.createValueHandler();
         return (CodeBase) vh.getRunTimeCodeBase();
     }
-    
+
     public Remote getOnlyRemote() throws RemoteException {
         return new OnlyRemoteServant();
     }
-    
+
 }

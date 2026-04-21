@@ -37,16 +37,16 @@ import ClientRequestInterceptor.*; // hello interface
 public class POALocalServer {
     // Set from run()
     private PrintStream out;
-    
+
     private static final String ROOT_POA = "RootPOA";
-    
+
     private POA rootPOA;
-    
+
     private com.sun.corba.ee.spi.orb.ORB orb;
 
-    public void run( com.sun.corba.ee.spi.orb.ORB orb, java.lang.Object syncObject, 
-                     Properties environment, String args[], PrintStream out, 
-                     PrintStream err, Hashtable extra) 
+    public void run( com.sun.corba.ee.spi.orb.ORB orb, java.lang.Object syncObject,
+                     Properties environment, String args[], PrintStream out,
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         this.out = out;
@@ -63,11 +63,11 @@ public class POALocalServer {
             throw e;
         }
         rootPOA.the_POAManager().activate();
-        
+
         // Set up hello object and helloForward object for POA remote case:
         createAndBind( "Hello1" );
         createAndBind( "Hello1Forward" );
-        
+
         // no handshake required here.
         //out.println("Server is ready.");
         //out.flush();
@@ -84,7 +84,7 @@ public class POALocalServer {
         }
 
     }
-    
+
     /**
      * Implementation borrowed from corba.socket.HelloServer test
      */
@@ -93,19 +93,19 @@ public class POALocalServer {
     {
         // create servant and register it with the ORB
         helloServant helloRef = new helloServant( out );
-      
+
         byte[] id = rootPOA.activate_object(helloRef);
         org.omg.CORBA.Object ref = rootPOA.id_to_reference(id);
-      
+
         // get the root naming context
-        org.omg.CORBA.Object objRef = 
+        org.omg.CORBA.Object objRef =
             orb.resolve_initial_references("NameService");
         NamingContext ncRef = NamingContextHelper.narrow(objRef);
-      
+
         // bind the Object Reference in Naming
         NameComponent nc = new NameComponent(name, "");
         NameComponent path[] = {nc};
-            
+
         ncRef.rebind(path, ref);
     }
 

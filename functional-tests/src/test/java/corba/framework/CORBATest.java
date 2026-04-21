@@ -489,9 +489,9 @@ public abstract class CORBATest extends test.RemoteTest
 
         Hashtable hash = new Hashtable( extra ) ;
 
-        exec.initialize(className, name, copy, null, argArray, 
-            Options.getReportDirectory() + name + ".out.txt", 
-            Options.getReportDirectory() + name + ".err.txt", hash, emmaPort); 
+        exec.initialize(className, name, copy, null, argArray,
+            Options.getReportDirectory() + name + ".out.txt",
+            Options.getReportDirectory() + name + ".err.txt", hash, emmaPort);
 
         controllers.add(exec);
 
@@ -543,7 +543,7 @@ public abstract class CORBATest extends test.RemoteTest
         throws Exception
     {
         Test.dprint("Creating server object...");
-        return createProcess( className, ControllerKind.SERVER, serverName, 
+        return createProcess( className, ControllerKind.SERVER, serverName,
             Options.getServerProperties(), Options.getServerArgs(), Options.getServerExtra() ) ;
     }
 
@@ -587,7 +587,7 @@ public abstract class CORBATest extends test.RemoteTest
         throws Exception {
 
         Test.dprint("Creating client object...");
-        return createProcess( className, ControllerKind.CLIENT, clientName, 
+        return createProcess( className, ControllerKind.CLIENT, clientName,
             Options.getClientProperties(), Options.getClientArgs(), Options.getClientExtra() ) ;
     }
 

@@ -72,7 +72,7 @@ public class CustomMarshaled implements Serializable
 
             if (!((String)(in.readObject())).equals("CustomMarshaled 1.0"))
                 throw new IOException("Strings didn't match properly");
-        } 
+        }
 
         // If it's a bad (has a bug) custom marshaler, it leaves the
         // string on the wire

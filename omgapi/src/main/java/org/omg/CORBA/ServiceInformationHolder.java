@@ -20,7 +20,7 @@
 package org.omg.CORBA;
 
 /**
- * The Holder for <tt>ServiceInformation</tt>.  For more information on 
+ * The Holder for <tt>ServiceInformation</tt>.  For more information on
  * Holder files, see <a href="doc-files/generatedfiles.html#holder">
  * "Generated Files: Holder Files"</a>.<P>
  * A Holder class for a <code>ServiceInformation</code> object
@@ -53,7 +53,7 @@ public final class ServiceInformationHolder
     public ServiceInformationHolder() {
         this(null);
     }
-        
+
     /**
      * Constructs a new <code>ServiceInformationHolder</code> object with its
      * <code>value</code> field initialized to the given
@@ -83,7 +83,7 @@ public final class ServiceInformationHolder
      * Reads unmarshalled data from the input stream <code>in</code> and assigns it to
      * the <code>value</code> field in this <code>ServiceInformationHolder</code> object.
      *
-     * @param in the <code>InputStream</code> object containing CDR 
+     * @param in the <code>InputStream</code> object containing CDR
      *              formatted data from the wire
      */
     public void _read(org.omg.CORBA.portable.InputStream in) {

@@ -29,10 +29,10 @@ import java.io.*;
 import ServerRequestInfo.*;
 
 /**
- * Servant implementation.  
+ * Servant implementation.
  */
-class helloDSIDeprecatedServant 
-    extends org.omg.CORBA.DynamicImplementation 
+class helloDSIDeprecatedServant
+    extends org.omg.CORBA.DynamicImplementation
 {
     // The object to delegate to
     DSIImpl impl;
@@ -40,11 +40,11 @@ class helloDSIDeprecatedServant
     public static String[] __ids = { "IDL:ServerRequestInfo/hello:1.0" };
 
     public String[] _ids() {
-        return __ids; 
+        return __ids;
     }
 
-    public helloDSIDeprecatedServant( ORB orb, PrintStream out, String symbol, 
-        helloDelegate.ClientCallback clientCallback ) 
+    public helloDSIDeprecatedServant( ORB orb, PrintStream out, String symbol,
+        helloDelegate.ClientCallback clientCallback )
     {
         impl = new DSIImpl( orb, out, symbol, clientCallback );
     }

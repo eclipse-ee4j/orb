@@ -20,22 +20,22 @@
 package org.omg.CORBA;
 
 
-/** 
- * An interface defined in the OMG Transactions Service Specification 
+/**
+ * An interface defined in the OMG Transactions Service Specification
  * that provides methods to allow the JTS to register
- * its Sender and Receiver interfaces with the ORB. <code>TSIdentification</code> 
- * methods are always called from the same address space (i.e. it is 
- * a pseudo-object), hence it is not necessary to define any stubs/skeletons. 
- * During initialization, an instance of <code>TSIdentification</code> is provided 
- * to the JTS by the ORB using the method 
+ * its Sender and Receiver interfaces with the ORB. <code>TSIdentification</code>
+ * methods are always called from the same address space (i.e. it is
+ * a pseudo-object), hence it is not necessary to define any stubs/skeletons.
+ * During initialization, an instance of <code>TSIdentification</code> is provided
+ * to the JTS by the ORB using the method
  * <code>com.sun.corba.ee.spi.costransactions.TransactionService.identify_ORB</code>.
 */
 
-public interface TSIdentification { 
+public interface TSIdentification {
 
-    /** 
-     * Called by the OTS 
-     * during initialization in order to register its Sender 
+    /**
+     * Called by the OTS
+     * during initialization in order to register its Sender
      * callback interface with the ORB. This method
      * may throw an <code>AlreadyIdentified</code> exception if
      * the registration has already been done previously.
@@ -47,18 +47,18 @@ public interface TSIdentification {
          * @throws org.omg.CORBA.TSIdentificationPackage.AlreadyIdentified
          *         if the given <code>Sender</code> object has already been registered
          *         with the ORB
-         *         
+         *
     */
-    public void 
+    public void
         identify_sender(org.omg.CosTSPortability.Sender senderOTS)
-        throws org.omg.CORBA.TSIdentificationPackage.NotAvailable, 
+        throws org.omg.CORBA.TSIdentificationPackage.NotAvailable,
                org.omg.CORBA.TSIdentificationPackage.AlreadyIdentified ;
 
 
-    /** 
-     * Called by the OTS during 
-     * initialization to register its <code>Receiver</code> callback interface 
-     * with the ORB.  This operation may throw an <code> AlreadyIdentified</code> 
+    /**
+     * Called by the OTS during
+     * initialization to register its <code>Receiver</code> callback interface
+     * with the ORB.  This operation may throw an <code> AlreadyIdentified</code>
      * exception if the registration has already been done previously.
          * @param receiverOTS the <code>Receiver</code> object to register with the ORB
          * @throws org.omg.CORBA.TSIdentificationPackage.NotAvailable
@@ -68,9 +68,9 @@ public interface TSIdentification {
          *         if the given <code>Receiver</code> object has already been registered
          *         with the ORB
     */
-    public void 
+    public void
         identify_receiver(org.omg.CosTSPortability.Receiver receiverOTS)
-        throws org.omg.CORBA.TSIdentificationPackage.NotAvailable, 
+        throws org.omg.CORBA.TSIdentificationPackage.NotAvailable,
                org.omg.CORBA.TSIdentificationPackage.AlreadyIdentified ;
 }
 

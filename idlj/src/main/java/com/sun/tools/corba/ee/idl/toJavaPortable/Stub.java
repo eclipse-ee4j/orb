@@ -57,7 +57,7 @@ public class Stub implements AuxGen
     this.localStub   = i.isLocalServant();
     this.isAbstract  = i.isAbstract( );
     init ();
-    
+
     openStream ();
     if (stream == null)
       return;
@@ -181,7 +181,7 @@ public class Stub implements AuxGen
     // _opsClass to $opsClass. Will clean it up in Tiger
     // _REVISIT_ (Hemanth 03/05/2002)
     if (localStub) {
-        stream.println ("  final public static java.lang.Class _opsClass = " + 
+        stream.println ("  final public static java.lang.Class _opsClass = " +
             name + "Operations.class;");
         stream.println ();
     }
@@ -245,7 +245,7 @@ public class Stub implements AuxGen
     }
 
     if( (((com.sun.tools.corba.ee.idl.toJavaPortable.Arguments) com.sun.tools.corba.ee.idl.toJavaPortable.Compile.compiler.arguments).LocalOptimization )
-      && !isAbstract ) 
+      && !isAbstract )
     {
         stream.println( "    final public static java.lang.Class _opsClass =" );
         stream.println( "        " + this.i.name() + "Operations.class;" );

@@ -139,8 +139,8 @@ module CORBA {
     typedef sequence <Identifier> EnumMemberSeq;
 
     // orbos 98-01-18: Objects By Value -- begin
-    typedef short Visibility;   
-    const Visibility PRIVATE_MEMBER = 0; 
+    typedef short Visibility;
+    const Visibility PRIVATE_MEMBER = 0;
     const Visibility PUBLIC_MEMBER = 1;
 
     struct ValueMember {
@@ -160,7 +160,7 @@ module CORBA {
     typedef sequence <Initializer> InitializerSeq;
 
     typedef sequence <ValueDef> ValueDefSeq;
-    
+
     // orbos 98-01-18: Objects By Value -- end
 
 
@@ -276,7 +276,7 @@ module CORBA {
             in InterfaceDefSeq supported_interfaces,
             in InitializerSeq initializers
             );
-        
+
         // orbos 98-01-18: Objects By Value
         ValueBoxDef create_value_box(
             in RepositoryId id,
@@ -284,13 +284,13 @@ module CORBA {
             in VersionSpec version,
             in IDLType original_type_def
             );
-        
+
         NativeDef create_native(
             in RepositoryId id,
             in Identifier name,
             in VersionSpec version
             );
-        
+
     };
 
 
@@ -740,7 +740,7 @@ module CORBA {
         RepositoryId base_value;
     };
 
-    interface ValueBoxDef : IDLType 
+    interface ValueBoxDef : IDLType
 
       /** ValueBoxDef is an interface that reresents a value type with
         a single data member inside its state section and no
@@ -765,7 +765,7 @@ module CORBA {
     {
         attribute IDLType original_type_def;
     };
-    
+
     // orbos 98-01-18: Objects By Value -- end
 
     enum TCKind {

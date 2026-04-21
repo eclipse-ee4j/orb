@@ -41,7 +41,7 @@ import ServerRequestInterceptor.*;
 /**
  * Common base class for RMI client test code
  */
-public abstract class RMIClient 
+public abstract class RMIClient
     extends ClientCommon
 {
     // The hello object to make invocations on.
@@ -55,7 +55,7 @@ public abstract class RMIClient
 
     // to be invoked from subclasses after the ORB is created.
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         this.out = out;
@@ -88,8 +88,8 @@ public abstract class RMIClient
     /**
      * Invoke the method with the given name on the object
      */
-    protected void invokeMethod( String methodName ) 
-        throws Exception 
+    protected void invokeMethod( String methodName )
+        throws Exception
     {
         try {
             if( methodName.equals( "sayHello" ) ) {
@@ -98,15 +98,15 @@ public abstract class RMIClient
             else if( methodName.equals( "sayOneway" ) ) {
                 helloRef.sayOneway();
             }
-            else if( methodName.equals( "saySystemException" ) ) { 
+            else if( methodName.equals( "saySystemException" ) ) {
                 helloRef.saySystemException();
             }
-            else if( methodName.equals( "sayUserException" ) ) { 
+            else if( methodName.equals( "sayUserException" ) ) {
                 try {
                     helloRef.sayUserException();
                     out.println( "    - Did not catch ForwardRequest user " +
                         "exception (error)" );
-                    throw new RuntimeException( 
+                    throw new RuntimeException(
                         "Did not catch ForwardRequest user exception " +
                         "on sayUserException" );
                 }
@@ -120,7 +120,7 @@ public abstract class RMIClient
             throw (Exception)e.detail;
         }
     }
-    
+
     /**
      * Resolves name using RMI
      */
@@ -133,7 +133,7 @@ public abstract class RMIClient
 
         return helloRef;
     }
-    
+
 
 }
 

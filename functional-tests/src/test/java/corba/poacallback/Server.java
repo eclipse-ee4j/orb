@@ -36,7 +36,7 @@ public class Server {
      public static void main( String[] args ) {
         System.out.println( " Starting Server.... " );
         System.out.flush( );
-     
+
         try {
             orb = ORB.init( args, null );
             createReferenceAndBind( "poa1", new idlI1ServantLocator( orb ),
@@ -59,7 +59,7 @@ public class Server {
         }
     }
 
-    private static void createReferenceAndBind( String poaName, 
+    private static void createReferenceAndBind( String poaName,
         ServantLocator locator, String repId, String bindingName )
     {
         try {
@@ -72,20 +72,20 @@ public class Server {
             policies[1] = rPOA.create_request_processing_policy(
                           RequestProcessingPolicyValue.USE_SERVANT_MANAGER);
 
-            org.omg.CORBA.Object obj = 
+            org.omg.CORBA.Object obj =
                 orb.resolve_initial_references( "NameService");
-            org.omg.CosNaming.NamingContextExt nctx = 
+            org.omg.CosNaming.NamingContextExt nctx =
                 org.omg.CosNaming.NamingContextExtHelper.narrow( obj );
 
             POA poa = rPOA.create_POA( poaName, null, policies );
             poa.set_servant_manager( locator );
-            obj = poa.create_reference_with_id( 
+            obj = poa.create_reference_with_id(
                 (new String( "idlI")).getBytes( ), repId );
 
             poa.the_POAManager().activate();
 
 
-            org.omg.CosNaming.NameComponent[] nc = 
+            org.omg.CosNaming.NameComponent[] nc =
                 nctx.to_name( bindingName );
             nctx.rebind( nc, obj );
         } catch( Exception e ) {
@@ -94,12 +94,12 @@ public class Server {
     }
 }
 
-        
-        
 
 
-       
-    
+
+
+
+
 
 
 

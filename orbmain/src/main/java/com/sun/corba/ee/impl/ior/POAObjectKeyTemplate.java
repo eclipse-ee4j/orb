@@ -27,7 +27,7 @@ import org.omg.CORBA.OctetSeqHolder ;
 import org.omg.CORBA_2_3.portable.InputStream ;
 import org.omg.CORBA_2_3.portable.OutputStream ;
 
-public final class POAObjectKeyTemplate extends NewObjectKeyTemplateBase 
+public final class POAObjectKeyTemplate extends NewObjectKeyTemplateBase
 {
     public static String[] readPOAName(
         org.omg.CORBA.portable.InputStream istream)
@@ -47,7 +47,7 @@ public final class POAObjectKeyTemplate extends NewObjectKeyTemplateBase
      * @param scid ID of template
      * @param is stream to read from
     */
-    public POAObjectKeyTemplate( ORB orb, int magic, int scid, InputStream is ) 
+    public POAObjectKeyTemplate( ORB orb, int magic, int scid, InputStream is )
     {
         super( orb, magic, scid, is.read_long(), is.read_string(),
             new ObjectAdapterIdArray( readPOAName( is ) ) ) ;
@@ -66,23 +66,23 @@ public final class POAObjectKeyTemplate extends NewObjectKeyTemplateBase
     public POAObjectKeyTemplate( ORB orb, int magic, int scid, InputStream is, OctetSeqHolder osh )  {
         super( orb, magic, scid, is.read_long(), is.read_string(),
             new ObjectAdapterIdArray( readPOAName( is ) ) ) ;
-        
+
         osh.value = readObjectKey( is ) ;
 
         setORBVersion( is ) ;
     }
-    
-    public POAObjectKeyTemplate( ORB orb, int scid, int serverid, String orbid, 
-        ObjectAdapterId objectAdapterId) 
+
+    public POAObjectKeyTemplate( ORB orb, int scid, int serverid, String orbid,
+        ObjectAdapterId objectAdapterId)
     {
         super( orb, ObjectKeyFactoryImpl.JAVAMAGIC_NEWER, scid, serverid, orbid,
             objectAdapterId ) ;
 
         setORBVersion( ORBVersionFactory.getORBVersion() ) ;
     }
-    
+
     @Override
-    public void writeTemplate(OutputStream os) 
+    public void writeTemplate(OutputStream os)
     {
         os.write_long( getMagic() ) ;
         os.write_long( getSubcontractId() ) ;

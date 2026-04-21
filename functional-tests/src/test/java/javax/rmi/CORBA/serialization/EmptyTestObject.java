@@ -26,7 +26,7 @@ import java.io.ObjectOutputStream;
 
 public class EmptyTestObject implements java.io.Serializable
 {
-    
+
     public EmptyTestObject()
     {
     }

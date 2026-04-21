@@ -30,31 +30,31 @@ import org.omg.CORBA.ORB;
  * Common methods for Server implementations in this test to use
  */
 public abstract class ServerCommon
-    implements InternalProcess 
+    implements InternalProcess
 {
     // Set from run()
     com.sun.corba.ee.spi.orb.ORB orb;
-    
+
     // Set from run()
     PrintStream out;
-    
+
     // Set from run()
     PrintStream err;
 
     // True if one of the methods on the Servant was invoked, false if not.
     // This is reset and set, and tested for each invocation tested.
     static boolean servantInvoked = false;
-    
+
     // True if the client is currently waiting for syncWithServer to return
     // or false otherwise.
     static boolean syncing = false;
-    
+
     // The name of the next method to invoke:
     static String nextMethodToInvoke;
-    
+
     // An object for syncWithServer to wait on before returning to the client.
     static final Integer syncObject = new Integer( 0 );
-    
+
     // Constant string to indicate to the client that we are done.
     static final String EXIT_METHOD = "exit";
 
@@ -90,17 +90,17 @@ public abstract class ServerCommon
         out.println();
         out.println( "Running common ServerRequestInterceptor tests" );
         out.println( "=============================================" );
-        
+
         // Wait for client to synchronize with server for the first time.
         // We do this because we want testInvocation to wait for the client
         // at the end of an invocation so we know the method finished
-        // executing.  However, we do not want to incur the 0.5 second 
-        // overhead of waiting for the client both at the begininng and the 
-        // end of the testInvocation method.  
+        // executing.  However, we do not want to incur the 0.5 second
+        // overhead of waiting for the client both at the begininng and the
+        // end of the testInvocation method.
         waitForClient();
-        
+
         // No exceptions thrown.  Should call receive_request_service_contexts,
-        // receive_request, process sayHello, and then send_reply on all 
+        // receive_request, process sayHello, and then send_reply on all
         // 3 interceptors in the correct order
         out.println( "+ Testing standard invocation..." );
         testInvocation( "testStandardInvocation",
@@ -108,24 +108,24 @@ public abstract class ServerCommon
             "rs1rs2rs3rr1rr2rr3sr3sr2sr1", "sayHello", "[Hello1]", false );
 
         // No exceptions thrown.  Should call receive_request_service_contexts,
-        // receive_request, process sayOneWay, and then send_reply on all 
+        // receive_request, process sayOneWay, and then send_reply on all
         // 3 interceptors in the correct order
         out.println( "+ Testing oneway invocation..." );
         testInvocation( "testOnewayInvocation",
             SampleServerRequestInterceptor.MODE_NORMAL,
             "rs1rs2rs3rr1rr2rr3sr3sr2sr1", "sayOneway", "[Hello1]", false );
-        
-        // SYSTEM_EXCEPTION thrown by method.  Should call 
+
+        // SYSTEM_EXCEPTION thrown by method.  Should call
         // receive_request_service_contexts, receive_request,
         // process saySystemException, and then send_exception on all 3
         // interceptors in the correct order.
         out.println( "+ Testing invocation resulting in SYSTEM_EXCEPTION..." );
         testInvocation( "testInvocationResultSystemException",
             SampleServerRequestInterceptor.MODE_NORMAL,
-            "rs1rs2rs3rr1rr2rr3se3se2se1", "saySystemException", 
+            "rs1rs2rs3rr1rr2rr3se3se2se1", "saySystemException",
             "[Hello1]", true );
 
-        // USER_EXCEPTION thrown by method.  Should call 
+        // USER_EXCEPTION thrown by method.  Should call
         // receive_request_service_contexts, receive_request,
         // process sayUserException, and then send_exception on all 3
         // interceptors in the correct order.
@@ -135,13 +135,13 @@ public abstract class ServerCommon
         out.println( "+ Testing invocation resulting in USER_EXCEPTION..." );
         testInvocation( "testInvocationResultUserException",
             SampleServerRequestInterceptor.MODE_NORMAL,
-            "rs1rs2rs3rr1rr2rr3se3se2se1", "sayUserException", 
+            "rs1rs2rs3rr1rr2rr3se3se2se1", "sayUserException",
             "[Hello1]", false );
 
         // SYSTEM_EXCEPTION thrown in rrsc for second interceptor.
         // Should result in rrsc being called for 1 and 2, but not
         // 3, no intermediate points invoked, and send_exception
-        // called for 1 only.  The method sayHello should never be 
+        // called for 1 only.  The method sayHello should never be
         // invoked.
         out.println( "+ Testing invocation where interceptor #2 " +
             "throws exception in rrsc." );
@@ -158,13 +158,13 @@ public abstract class ServerCommon
             "raises ForwardRequest in rrsc." );
         testInvocation( "testInvocationInterceptorForwardRequestRRSC",
             SampleServerRequestInterceptor.MODE_RRSC_FORWARD_REQUEST,
-            "rs1rs2so1rs1rs2rs3rr1rr2rr3sr3sr2sr1", "sayHello", 
+            "rs1rs2so1rs1rs2rs3rr1rr2rr3sr3sr2sr1", "sayHello",
             "[Hello1Forward]", false );
 
         // SYSTEM_EXCEPTION thrown in rr for second interceptor.
         // Should result in rrsc being called for all interceptors,
         // intermediate points rr1 and rr2 but not rr3, and send_exception
-        // called for all points.  The method sayHello should never be 
+        // called for all points.  The method sayHello should never be
         // invoked.
         out.println( "+ Testing invocation where interceptor #2 " +
             "throws exception in rr." );
@@ -174,8 +174,8 @@ public abstract class ServerCommon
 
         // ForwardRequest raised in rr for second interceptor.
         // Should result in rrsc being called for all interceptors,
-        // intermediate points rr1 and rr2 but not rr3, and 
-        // send_other for all interceptors.  The method sayHello should 
+        // intermediate points rr1 and rr2 but not rr3, and
+        // send_other for all interceptors.  The method sayHello should
         // be called on the second object.
         out.println( "+ Testing invocation where interceptor #2 " +
             "raises ForwardRequest in rr." );
@@ -204,7 +204,7 @@ public abstract class ServerCommon
             "throws exception in se." );
         testInvocation( "testInvocationInterceptorExceptionSE",
             SampleServerRequestInterceptor.MODE_SE_SYSTEM_EXCEPTION,
-            "rs1rs2rs3rr1rr2rr3se3se2se1", "saySystemException", 
+            "rs1rs2rs3rr1rr2rr3se3se2se1", "saySystemException",
             "[Hello1]", true );
 
         // ForwardRequest thrown in se for second interceptor.
@@ -217,7 +217,7 @@ public abstract class ServerCommon
             "throws forward request in se." );
         testInvocation( "testInvocationInterceptorForwardRequestSE",
             SampleServerRequestInterceptor.MODE_SE_FORWARD_REQUEST,
-            "rs1rs2rs3rr1rr2rr3se3se2so1rs1rs2rs3rr1rr2rr3se3se2se1", 
+            "rs1rs2rs3rr1rr2rr3se3se2so1rs1rs2rs3rr1rr2rr3se3se2se1",
             "saySystemException", "[Hello1][Hello1Forward]", true );
 
         // _REVISIT_ The callCounter should be zero here.  However,
@@ -241,16 +241,16 @@ public abstract class ServerCommon
         }
     }
 
-    /** 
+    /**
      * Tests a standard invocation by instructing the client to
      * resolve a reference to helloServer and make an invocation,
      * recording the interceptor invocation ordering.  Assumes we are
      * already synchronized with the client.
      *
-     * @param mode - See SampleServerRequestIntreceptor.testMode for more 
-     *     details of mode parameter.  
+     * @param mode - See SampleServerRequestIntreceptor.testMode for more
+     *     details of mode parameter.
      * @param correctOrder - See SampleServerRequestInterceptor.
-     *     invocationOrder for more details on correctOrder.  
+     *     invocationOrder for more details on correctOrder.
      * @param methodName is either "sayHello" or "sayException"
      * @param correctMethodOrder - See SampleServerRequestInterceptor.
      *     methodOrder for more details on correctMethodOrder.
@@ -258,25 +258,25 @@ public abstract class ServerCommon
      *     to the client or false if not.
      */
     void testInvocation( String name,
-                         int mode, 
+                         int mode,
                          String correctOrder,
                          String methodName,
                          String correctMethodOrder,
                          boolean exceptionExpected )
-        throws Exception 
+        throws Exception
     {
         helper.start( name ) ;
 
         try {
             // We are already synchronized with the client.
-            
+
             // Prepare for the call:
             nextMethodToInvoke = methodName;
             servantInvoked = false;
             SampleServerRequestInterceptor.invocationOrder = "";
             SampleServerRequestInterceptor.methodOrder = "";
             SampleServerRequestInterceptor.setTestMode( mode );
-            
+
             // Return from syncWithServer() and let the client make the call:
             synchronized( syncObject ) {
                 syncObject.notify();
@@ -293,14 +293,14 @@ public abstract class ServerCommon
                 }
                 out.println( "    - This should be long enough." );
             }
-            
+
             // Wait for client to synchronize with server again.  Now we know
             // for sure that the method invocation is complete.  Even if the
             // call was a oneway, we can be fairly certain the call has completed
             // since we delay for 0.5 seconds before exiting waitForClient()
             // which should be enough time in most cases.
             waitForClient();
-            
+
             // Examine invocation order to ensure everything was called in the
             // right order.
             //
@@ -317,15 +317,15 @@ public abstract class ServerCommon
             // were called, and in the right order.
             String methodOrder = SampleServerRequestInterceptor.methodOrder;
             checkMethodOrder( correctMethodOrder, methodOrder );
-            
+
             // Determine if an exception was raised:
-            out.println( "    - Client-side exception expected: " + 
+            out.println( "    - Client-side exception expected: " +
                 exceptionExpected );
-            out.println( "    - Client-side exception raised: " + 
+            out.println( "    - Client-side exception raised: " +
                 exceptionRaised );
             if( exceptionExpected != exceptionRaised ) {
-                throw new RuntimeException( "Method should " + 
-                    (!exceptionExpected ? "not" : "") + 
+                throw new RuntimeException( "Method should " +
+                    (!exceptionExpected ? "not" : "") +
                     " have raised an exception!" );
             }
 
@@ -334,7 +334,7 @@ public abstract class ServerCommon
             helper.fail( exc ) ;
         }
     }
-    
+
     /**
      * Waits for the client to sync with the server
      */
@@ -347,8 +347,8 @@ public abstract class ServerCommon
             catch( InterruptedException e ) {
             }
         }
-        
-        // Leave enough time for the method and interceptors to finish 
+
+        // Leave enough time for the method and interceptors to finish
         // invoking so we can clear the invocation history:
         try {
             Thread.sleep( 500 );
@@ -357,7 +357,7 @@ public abstract class ServerCommon
         }
         out.println( "    - Synchronized with client." );
     }
-    
+
     /**
      * Notifies the client it is time to exit
      */
@@ -368,14 +368,14 @@ public abstract class ServerCommon
             syncObject.notify();
         }
     }
-    
+
     /**
      * Checks the invocation order against the correct invocation order,
      * displays some debug output and throws an Exception if they do not
      * match.
      */
-    private void checkOrder( String correctOrder, String order ) 
-        throws Exception 
+    private void checkOrder( String correctOrder, String order )
+        throws Exception
     {
         // Because we synchronize with the client before we check the
         // invocation order, all invocations for syncWithServer are
@@ -385,7 +385,7 @@ public abstract class ServerCommon
         //
         // Client                      Server
         //   |                           |
-        //  [ ]     syncWithServer()     | 
+        //  [ ]     syncWithServer()     |
         //  [ ]------------------------>[ ]     rs1 rs2 rs3 rr1 rr2 rr3
         //  [ ]                         [ ]
         //  [ ]     "sayHello"          [ ]   // order cleared here
@@ -399,7 +399,7 @@ public abstract class ServerCommon
         //  [ ]                          |    // </important>
         //  [ ]     syncWithServer()     |
         //  [ ]------------------------>[ ]     rs1 rs2 rs3 rr1 rr2 rr3
-        //  [ ]                         [ ] 
+        //  [ ]                         [ ]
         //  [ ]                         [ ]   // check order here
         //  [ ]                         [ ]   // next test begins soon after.
         //  ...                         ...
@@ -412,17 +412,17 @@ public abstract class ServerCommon
         String prependOrder = "sr3sr2sr1";
         String appendedOrder = "rs1rs2rs3rr1rr2rr3";
         correctOrder = prependOrder + correctOrder + appendedOrder;
-        
-        out.println( "    - Expected invocation order: " + 
-                     correctOrder.substring( prependOrder.length(), 
-                                             correctOrder.length() - 
+
+        out.println( "    - Expected invocation order: " +
+                     correctOrder.substring( prependOrder.length(),
+                                             correctOrder.length() -
                                              appendedOrder.length() ) );
-        
-        out.println( "    - Actual invocation order: " + 
-                     order.substring( prependOrder.length(), 
+
+        out.println( "    - Actual invocation order: " +
+                     order.substring( prependOrder.length(),
                                       order.length() -
                                       appendedOrder.length() ) );
-        
+
         if( !order.equals( correctOrder ) ) {
             out.println( "    - MISMATCH.  Exiting." );
             throw new Exception( "Invocation order mismatch." );
@@ -430,20 +430,20 @@ public abstract class ServerCommon
     }
 
     /**
-     * Checks the method invocation order against the correct method 
-     * invocation order, displays some debug output and throws an Exception 
+     * Checks the method invocation order against the correct method
+     * invocation order, displays some debug output and throws an Exception
      * if they do not match.
      */
-    private void checkMethodOrder( String correctMethodOrder, 
-                                   String methodOrder ) 
-        throws Exception 
+    private void checkMethodOrder( String correctMethodOrder,
+                                   String methodOrder )
+        throws Exception
     {
-        out.println( "    - Expected method invocation order: " + 
+        out.println( "    - Expected method invocation order: " +
                      correctMethodOrder );
-        
-        out.println( "    - Actual method invocation order: " + 
+
+        out.println( "    - Actual method invocation order: " +
                      methodOrder );
-        
+
         if( !methodOrder.equals( correctMethodOrder ) ) {
             out.println( "    - MISMATCH.  Exiting." );
             throw new Exception( "Method Invocation order mismatch." );

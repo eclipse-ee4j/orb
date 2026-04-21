@@ -55,25 +55,25 @@ public class BootstrapResolverImpl implements Resolver {
         IIOPAddress addr = IIOPFactories.makeIIOPAddress( host, port ) ;
         IIOPProfileTemplate ptemp = IIOPFactories.makeIIOPProfileTemplate(
             orb, GIOPVersion.V1_0, addr);
-            
+
         IORTemplate iortemp = IORFactories.makeIORTemplate( okey.getTemplate() ) ;
         iortemp.add( ptemp ) ;
 
         IOR initialIOR = iortemp.makeIOR( orb, "", okey.getId() ) ;
 
-        bootstrapDelegate = ORBUtility.makeClientDelegate( initialIOR ) ;       
+        bootstrapDelegate = ORBUtility.makeClientDelegate( initialIOR ) ;
     }
 
     /**
-     * For the BootStrap operation we do not expect to have more than one 
+     * For the BootStrap operation we do not expect to have more than one
      * parameter. We do not want to extend BootStrap protocol any further,
      * as INS handles most of what BootStrap can handle in a portable way.
      *
-     * @return InputStream which contains the response from the 
+     * @return InputStream which contains the response from the
      * BootStrapOperation.
      */
     private InputStream invoke( String operationName, String parameter )
-    { 
+    {
         boolean remarshal = true;
 
         // Invoke.
@@ -100,7 +100,7 @@ public class BootstrapResolverImpl implements Resolver {
                 // The only reason a null objref is passed is to get the version of
                 // invoke used by streams.  Otherwise the PortableInterceptor
                 // call stack will become unbalanced since the version of
-                // invoke which only takes the stream does not call 
+                // invoke which only takes the stream does not call
                 // PortableInterceptor ending points.
                 // Note that the first parameter is ignored inside invoke.
 
@@ -116,12 +116,12 @@ public class BootstrapResolverImpl implements Resolver {
         return inStream;
     }
 
-    public org.omg.CORBA.Object resolve( String identifier ) 
+    public org.omg.CORBA.Object resolve( String identifier )
     {
         InputStream inStream = null ;
         org.omg.CORBA.Object result = null ;
 
-        try { 
+        try {
             inStream = invoke( "get", identifier ) ;
 
             result = inStream.read_Object();

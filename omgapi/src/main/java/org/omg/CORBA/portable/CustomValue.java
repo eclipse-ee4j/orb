@@ -18,11 +18,11 @@
  */
 
 /**
- * Defines the base interface for all custom value types 
+ * Defines the base interface for all custom value types
  * generated from IDL.
  *
- * All value types implement ValueBase either directly 
- * or indirectly by implementing either the StreamableValue 
+ * All value types implement ValueBase either directly
+ * or indirectly by implementing either the StreamableValue
  * or CustomValue interface.
  * @author OMG
  * @version 1.16 07/27/07
@@ -32,7 +32,7 @@ package org.omg.CORBA.portable;
 
 import org.omg.CORBA.CustomMarshal;
 /**
- * An extension of <code>ValueBase</code> that is implemented by custom value 
+ * An extension of <code>ValueBase</code> that is implemented by custom value
  * types.
  */
 public interface CustomValue extends ValueBase, CustomMarshal {

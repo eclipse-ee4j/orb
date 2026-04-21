@@ -31,7 +31,7 @@ public class ServantImpl implements Servant {
         return value.getTotal();
     }
 
-    public ParentClass receiveMismatch(ParentClass value) 
+    public ParentClass receiveMismatch(ParentClass value)
         throws java.rmi.RemoteException {
         try{
             return (ParentClass)Class.forName("javax.rmi.download.values.ClientA").newInstance();
@@ -41,7 +41,7 @@ public class ServantImpl implements Servant {
         }
     }
 
-    public ParentClass receiveABC(ParentClass value) 
+    public ParentClass receiveABC(ParentClass value)
         throws java.rmi.RemoteException {
         try{
             return (ParentClass)Class.forName("javax.rmi.download.values.ClassC").newInstance();
@@ -51,7 +51,7 @@ public class ServantImpl implements Servant {
         }
     }
 
-    public ParentClass receiveAE(ParentClass value) 
+    public ParentClass receiveAE(ParentClass value)
         throws java.rmi.RemoteException {
         try{
             return (ParentClass)Class.forName("javax.rmi.download.values.ClassE").newInstance();

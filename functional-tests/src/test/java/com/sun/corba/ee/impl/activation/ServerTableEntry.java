@@ -26,7 +26,7 @@ package com.sun.corba.ee.impl.activation;
  * @since       JDK1.2
  */
 
- 
+
 import com.sun.corba.ee.spi.activation.Server;
 import com.sun.corba.ee.spi.activation.EndPointInfo;
 import com.sun.corba.ee.spi.activation.ORBAlreadyRegistered;
@@ -44,7 +44,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-public class ServerTableEntry 
+public class ServerTableEntry
 {
 
     private final static int DE_ACTIVATED = 0;
@@ -102,7 +102,7 @@ public class ServerTableEntry
         pathSep   = System.getProperty("path.separator");
     }
 
-    ServerTableEntry( ActivationSystemException wrapper, 
+    ServerTableEntry( ActivationSystemException wrapper,
         int serverId, ServerDef serverDef, int initialPort,
         String dbDirName, boolean verify, boolean debug )
     {
@@ -117,44 +117,44 @@ public class ServerTableEntry
         state = ACTIVATING;
 
         // compute the activation command
-        activationCmd = 
-        
+        activationCmd =
+
             // add path to the java vm
             javaHome + fileSep + "bin" + fileSep + "java " +
 
             // add any arguments to the server Java VM
-            serverDef.serverVmArgs + " " + 
+            serverDef.serverVmArgs + " " +
 
             // add ORB properties
             "-Dioser=" + System.getProperty( "ioser" ) + " " +
             "-D" + ORBConstants.INITIAL_PORT_PROPERTY   + "=" + initialPort + " " +
             "-D" + ORBConstants.DB_DIR_PROPERTY         + "=" + dbDirName + " " +
-            "-D" + ORBConstants.ACTIVATED_PROPERTY      + "=true " + 
+            "-D" + ORBConstants.ACTIVATED_PROPERTY      + "=true " +
             "-D" + ORBConstants.ORB_SERVER_ID_PROPERTY  + "=" + serverId + " " +
-            "-D" + ORBConstants.SERVER_NAME_PROPERTY    + "=" + serverDef.serverName + " " + 
+            "-D" + ORBConstants.SERVER_NAME_PROPERTY    + "=" + serverDef.serverName + " " +
             // we need to pass in the verify flag, so that the server is not
             // launched, when we try to validate its definition during registration
             // into the RepositoryImpl
 
-            (verify ? "-D" + ORBConstants.SERVER_DEF_VERIFY_PROPERTY + "=true ": "") + 
+            (verify ? "-D" + ORBConstants.SERVER_DEF_VERIFY_PROPERTY + "=true ": "") +
 
             // add classpath to the server
-            "-classpath " + classPath + 
-            (serverDef.serverClassPath.equals("") == true ? "" : pathSep) + 
-            serverDef.serverClassPath + 
+            "-classpath " + classPath +
+            (serverDef.serverClassPath.equals("") == true ? "" : pathSep) +
+            serverDef.serverClassPath +
 
             // add server class name and arguments
             " com.sun.corba.ee.impl.activation.ServerMain " + serverDef.serverArgs
-            
+
             // Add the debug flag, if any
             + (debug ? " -debug" : "") ;
 
-        if (debug) System.out.println( 
-                                      "ServerTableEntry constructed with activation command " + 
+        if (debug) System.out.println(
+                                      "ServerTableEntry constructed with activation command " +
                                       activationCmd);
     }
 
-    /** 
+    /**
      * Verify whether the server definition is valid.
      */
     public int verify()
@@ -163,7 +163,7 @@ public class ServerTableEntry
 
             if (debug)
                 System.out.println("Server being verified w/" + activationCmd);
-        
+
             process = Runtime.getRuntime().exec(activationCmd);
             int result = process.waitFor();
             if (debug)
@@ -171,7 +171,7 @@ public class ServerTableEntry
             return result ;
         } catch (Exception e) {
             if (debug)
-                printDebug( "verify", "returns unknown error because of exception " + 
+                printDebug( "verify", "returns unknown error because of exception " +
                             e ) ;
             return ServerMain.UNKNOWN_ERROR;
         }
@@ -185,7 +185,7 @@ public class ServerTableEntry
         System.out.println("ServerTableEntry: message =" + msg);
         System.out.println();
     }
-        
+
     synchronized void activate() throws org.omg.CORBA.SystemException
     {
         state = ACTIVATED;
@@ -194,7 +194,7 @@ public class ServerTableEntry
             if (debug)
                 printDebug("activate", "activating server");
             process = Runtime.getRuntime().exec(activationCmd);
-        } catch (Exception e) { 
+        } catch (Exception e) {
             deActivate();
             if (debug)
                 printDebug("activate", "throwing premature process exit");
@@ -211,14 +211,14 @@ public class ServerTableEntry
             //state = RUNNING;
             //notifyAll();
 
-            if (debug) 
+            if (debug)
                 printDebug("register", "process registered back");
 
         } else {
 
-            if (debug) 
+            if (debug)
                 printDebug("register", "throwing premature process exit");
-            throw wrapper.serverNotExpectedToRegister() ; 
+            throw wrapper.serverNotExpectedToRegister() ;
         }
     }
 
@@ -231,14 +231,14 @@ public class ServerTableEntry
             throw new ORBAlreadyRegistered(orbId);
         }
 
-        // store all listener ports and their types 
+        // store all listener ports and their types
         List<EndPointInfo> serverListenerPorts = new ArrayList<EndPointInfo>() ;
         for (int i = 0; i < endpointList.length; i++) {
-            serverListenerPorts.add( new EndPointInfo( 
+            serverListenerPorts.add( new EndPointInfo(
                 endpointList[i].endpointType, endpointList[i].port ) ) ;
 
             if (debug)
-                System.out.println("registering type: " + endpointList[i].endpointType  +  
+                System.out.println("registering type: " + endpointList[i].endpointType  +
                     "  port  " + endpointList[i].port);
         }
 
@@ -252,10 +252,10 @@ public class ServerTableEntry
         // _REVISIT_, If the state is not equal to ACTIVATED then it is a bug
         // need to log that error, once the Logging framework is in place
         // for rip-int.
-        if (debug) 
+        if (debug)
             printDebug("registerPorts", "process registered Ports");
     }
-    
+
     synchronized void install()
     {
         if (state == RUNNING)
@@ -287,17 +287,17 @@ public class ServerTableEntry
         }
     }
 
-    synchronized void holdDown() 
+    synchronized void holdDown()
     {
         state = HELD_DOWN;
 
-        if (debug) 
+        if (debug)
             printDebug( "holdDown", "server held down" ) ;
 
         notifyAll();
     }
 
-    synchronized void deActivate() 
+    synchronized void deActivate()
     {
         state = DE_ACTIVATED;
 
@@ -318,8 +318,8 @@ public class ServerTableEntry
                 return;
             }
             synchronized ( this ) {
-                // Clear the PortInformation as it is old 
-                orbAndPortInfo.clear(); 
+                // Clear the PortInformation as it is old
+                orbAndPortInfo.clear();
                 // Move the state to De-Activated, So that the next
                 // call to this server will re-activate.
                 deActivate();
@@ -327,42 +327,42 @@ public class ServerTableEntry
         }
     }
 
-    synchronized boolean isValid() 
+    synchronized boolean isValid()
     {
         if ((state == ACTIVATING) || (state == HELD_DOWN)) {
             if (debug)
                 printDebug( "isValid", "returns true" ) ;
 
             return true;
-        }       
+        }
 
         try {
             int exitVal = process.exitValue();
         } catch (IllegalThreadStateException e1) {
             return true;
-        }  
-     
+        }
+
         if (state == ACTIVATED) {
             if (activateRetryCount < ActivationRetryMax) {
                 if (debug)
                     printDebug("isValid", "reactivating server");
                 activateRetryCount++;
-                activate(); 
+                activate();
                 return true;
             }
-         
+
             if (debug)
                 printDebug("isValid", "holding server down");
 
             holdDown();
             return true;
         }
- 
+
         deActivate();
         return false;
     }
 
-    synchronized ORBPortInfo[] lookup(String endpointType) throws ServerHeldDown 
+    synchronized ORBPortInfo[] lookup(String endpointType) throws ServerHeldDown
     {
         while ((state == ACTIVATING) || (state == ACTIVATED)) {
             try {
@@ -372,7 +372,7 @@ public class ServerTableEntry
         }
 
         ORBPortInfo[] orbAndPortList = null;
-     
+
         if (state == RUNNING) {
             orbAndPortList = new ORBPortInfo[orbAndPortInfo.size()];
 
@@ -387,8 +387,8 @@ public class ServerTableEntry
                     // return the port corresponding to the endpointType
                     for (EndPointInfo ep : serverListenerPorts) {
                         if (debug)
-                            System.out.println("lookup num-ports " + 
-                                serverListenerPorts.size() + "   " + 
+                            System.out.println("lookup num-ports " +
+                                serverListenerPorts.size() + "   " +
                                 ep.endpointType + "   " + ep.port );
                         if (ep.endpointType.equals(endpointType)) {
                             port = ep.port;
@@ -403,14 +403,14 @@ public class ServerTableEntry
             }
             return orbAndPortList;
         }
-     
-        if (debug) 
+
+        if (debug)
             printDebug("lookup", "throwing server held down error");
- 
+
         throw new ServerHeldDown( serverId ) ;
     }
 
-    synchronized EndPointInfo[] lookupForORB(String orbId) 
+    synchronized EndPointInfo[] lookupForORB(String orbId)
         throws ServerHeldDown, InvalidORBid
     {
         while ((state == ACTIVATING) || (state == ACTIVATED)) {
@@ -420,7 +420,7 @@ public class ServerTableEntry
             } catch(Exception e) {}
         }
         EndPointInfo[] portList = null;
-     
+
         if (state == RUNNING) {
             try {
                 // get an entry corresponding to orbId
@@ -431,8 +431,8 @@ public class ServerTableEntry
                 int i = 0 ;
                 for (EndPointInfo ep : serverListenerPorts) {
                     if (debug)
-                        System.out.println("lookup num-ports " + 
-                            serverListenerPorts.size() + "   " + 
+                        System.out.println("lookup num-ports " +
+                            serverListenerPorts.size() + "   " +
                             ep.endpointType + "   " + ep.port );
                     portList[i] = new EndPointInfo(ep.endpointType, ep.port);
                 }
@@ -443,10 +443,10 @@ public class ServerTableEntry
 
             return portList;
         }
-     
-        if (debug) 
+
+        if (debug)
             printDebug("lookup", "throwing server held down error");
- 
+
         throw new ServerHeldDown( serverId ) ;
     }
 
@@ -464,12 +464,12 @@ public class ServerTableEntry
         }
         return orbList;
     }
- 
+
     int getServerId()
     {
         return serverId;
     }
-    
+
     boolean isActive()
     {
         return (state == RUNNING) || (state == ACTIVATED);
@@ -481,27 +481,27 @@ public class ServerTableEntry
         deActivate();
 
         try {
-            if (serverObj != null) 
+            if (serverObj != null)
                 serverObj.shutdown();
 
             if (debug)
                 printDebug( "destroy", "server shutdown successfully" ) ;
         } catch (Exception ex) {
             if (debug)
-                printDebug( "destroy", 
+                printDebug( "destroy",
                             "server shutdown threw exception" + ex ) ;
             // ex.printStackTrace();
         }
 
         try {
-            if (process != null) 
+            if (process != null)
                 process.destroy();
 
             if (debug)
                 printDebug( "destroy", "process destroyed successfully" ) ;
         } catch (Exception ex) {
             if (debug)
-                printDebug( "destroy", 
+                printDebug( "destroy",
                             "process destroy threw exception" + ex ) ;
 
             // ex.printStackTrace();

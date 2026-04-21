@@ -40,7 +40,7 @@ public class CustomMarshalTester extends MarshalTester implements Serializable
 
     public boolean equals(Object obj) {
         try {
-            return super.equals(obj) 
+            return super.equals(obj)
                 && items.equals(((CustomMarshalTester)obj).items);
         } catch (ClassCastException cce) {
             cce.printStackTrace();
@@ -63,7 +63,7 @@ public class CustomMarshalTester extends MarshalTester implements Serializable
         while (iter.hasNext())
             s.writeObject(iter.next());
     }
-    
+
     private void readObject(java.io.ObjectInputStream s)
         throws IOException, ClassNotFoundException {
 

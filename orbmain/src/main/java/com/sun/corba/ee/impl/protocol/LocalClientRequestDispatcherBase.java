@@ -54,7 +54,7 @@ public abstract class LocalClientRequestDispatcherBase implements LocalClientReq
     // implementation with a single implementation?
     private static final int INITIAL_BACKOFF = 1 ;  // initially start off very small
                                                     // because 1 millisecond is a long time for a local call.
-                                                   
+
     private static final int MAX_BACKOFF   = 1000 ;   // Never sleep longer than this
     private static final int MAX_WAIT_TIME = 10 * 1000 ; // Total time to wait for a local request.
 
@@ -67,7 +67,7 @@ public abstract class LocalClientRequestDispatcherBase implements LocalClientReq
     protected ObjectAdapterId oaid ;
     protected byte[] objectId ;
 
-    // If isNextIsLocalValid.get() == Boolean.TRUE, 
+    // If isNextIsLocalValid.get() == Boolean.TRUE,
     // the next call to isLocal should be valid
     private static final ThreadLocal isNextCallValid = new ThreadLocal() {
         @Override
@@ -81,7 +81,7 @@ public abstract class LocalClientRequestDispatcherBase implements LocalClientReq
         this.orb = orb ;
 
         TaggedProfile prof = ior.getProfile() ;
-        servantIsLocal = orb.getORBData().isLocalOptimizationAllowed() && 
+        servantIsLocal = orb.getORBData().isLocalOptimizationAllowed() &&
             prof.isLocal();
 
         ObjectKeyTemplate oktemp = prof.getObjectKeyTemplate() ;
@@ -93,7 +93,7 @@ public abstract class LocalClientRequestDispatcherBase implements LocalClientReq
         objectId = oid.getId() ;
     }
 
-    public byte[] getObjectId() 
+    public byte[] getObjectId()
     {
         return objectId ;
     }
@@ -120,7 +120,7 @@ public abstract class LocalClientRequestDispatcherBase implements LocalClientReq
     *
     */
     @IsLocal
-    public boolean useLocalInvocation( org.omg.CORBA.Object self ) 
+    public boolean useLocalInvocation( org.omg.CORBA.Object self )
     {
         if (isNextCallValid.get() == Boolean.TRUE) {
             return servantIsLocal;
@@ -128,7 +128,7 @@ public abstract class LocalClientRequestDispatcherBase implements LocalClientReq
             isNextCallValid.set(Boolean.TRUE);
         }
 
-        return false ;    
+        return false ;
     }
 
     @InfoMethod
@@ -155,7 +155,7 @@ public abstract class LocalClientRequestDispatcherBase implements LocalClientReq
             isNextCallValid.set( Boolean.FALSE ) ;
 
             // When servant_preinvoke returns null, the stub will
-            // recursively re-invoke itself.  Thus, the next call made from 
+            // recursively re-invoke itself.  Thus, the next call made from
             // the stub is another useLocalInvocation call.
             return false ;
         }
@@ -163,19 +163,19 @@ public abstract class LocalClientRequestDispatcherBase implements LocalClientReq
         return true ;
     }
 
-    // The actual servant_preinvoke implementation, which must be 
-    // overridden.  This method may throw exceptions 
+    // The actual servant_preinvoke implementation, which must be
+    // overridden.  This method may throw exceptions
     // which are handled by servant_preinvoke.
-    protected ServantObject internalPreinvoke( 
-        org.omg.CORBA.Object self, String operation, 
-        Class expectedType ) throws OADestroyed 
+    protected ServantObject internalPreinvoke(
+        org.omg.CORBA.Object self, String operation,
+        Class expectedType ) throws OADestroyed
     {
         return null ;
     }
 
     // This method is called when OADestroyed is caught.  This allows
     // subclasses to provide cleanup code if necessary.
-    protected void cleanupAfterOADestroyed() 
+    protected void cleanupAfterOADestroyed()
     {
         // Default is NO-OP
     }

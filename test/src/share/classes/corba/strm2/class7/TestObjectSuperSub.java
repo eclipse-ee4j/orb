@@ -20,7 +20,7 @@
 import java.io.*;
 import java.math.*;
 
-public class TestObjectSuperSub extends TestObjectSuper 
+public class TestObjectSuperSub extends TestObjectSuper
 {
     public int dataxss0;
     public Long dataxss1;
@@ -48,7 +48,7 @@ public class TestObjectSuperSub extends TestObjectSuper
     public boolean equals(Object obj) {
         try {
             TestObjectSuperSub other = (TestObjectSuperSub)obj;
-            
+
             if (other == null)
                 return false;
 
@@ -71,9 +71,9 @@ public class TestObjectSuperSub extends TestObjectSuper
         out.writeObject(optData);
     }
 
-    private void readObject(java.io.ObjectInputStream in) 
+    private void readObject(java.io.ObjectInputStream in)
         throws IOException, ClassNotFoundException {
-        
+
         in.defaultReadObject();
 
         try {

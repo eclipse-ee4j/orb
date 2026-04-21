@@ -24,18 +24,18 @@
 
 package corba.hcks;
 
-import java.rmi.Remote; 
-import java.rmi.RemoteException; 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 public interface rmiiI
-    extends 
-        Remote 
-{ 
+    extends
+        Remote
+{
     String sayHello ()
         throws
-            RemoteException; 
+            RemoteException;
 
-    int    sendBytes (byte[] x) 
+    int    sendBytes (byte[] x)
         throws
             RemoteException;
 

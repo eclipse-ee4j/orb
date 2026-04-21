@@ -53,9 +53,9 @@ public class ServantImpl implements Servant {
 
     public String passClass(Class clz) throws java.rmi.RemoteException {
         return "Name:"+clz.getName();
-    }   
+    }
 
-    public java.lang.Object testWriteReadObject(java.lang.Object o) 
+    public java.lang.Object testWriteReadObject(java.lang.Object o)
         throws java.rmi.RemoteException {
         return o;
     }

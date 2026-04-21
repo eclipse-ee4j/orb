@@ -29,7 +29,7 @@ import org.omg.CORBA.*;
 /**
  * Registers the necessary IORInterceptor interceptors to test IORInterceptor.
  */
-public class ServerTestInitializer 
+public class ServerTestInitializer
     extends org.omg.CORBA.LocalObject
     implements ORBInitializer
 {

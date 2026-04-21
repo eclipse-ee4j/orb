@@ -27,12 +27,12 @@ package corba.hcks;
 import org.omg.CORBA.ORB;
 
 class idlSAIServant
-    extends 
+    extends
         idlSAIPOA
 {
     public ORB orb;
     public static String clazz = "idlSAIServant";
-    
+
     public idlSAIServant ( ORB orb ) { this.orb = orb; }
     public String raiseForwardRequestInIncarnate ( String a ) { return a; }
     public String raiseObjectNotExistInIncarnate ( String a ) { return a; }

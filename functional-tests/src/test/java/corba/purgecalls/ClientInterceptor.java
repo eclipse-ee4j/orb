@@ -43,12 +43,12 @@ public class ClientInterceptor
     // Interceptor operations
     //
 
-    public String name() 
+    public String name()
     {
-        return baseMsg; 
+        return baseMsg;
     }
 
-    public void destroy() 
+    public void destroy()
     {
     }
 

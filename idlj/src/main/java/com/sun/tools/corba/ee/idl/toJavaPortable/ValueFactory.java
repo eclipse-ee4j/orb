@@ -61,7 +61,7 @@ public class ValueFactory implements AuxGen
     this.symbolTable = symbolTable;
     this.entry       = entry;
     init ();
-    if (hasFactoryMethods ()) { 
+    if (hasFactoryMethods ()) {
         openStream ();
         if (stream == null)
           return;

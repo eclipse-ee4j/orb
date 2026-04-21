@@ -54,13 +54,13 @@ import org.omg.CORBA.ORBPackage.InvalidName ;
 import org.omg.CosNaming.NamingContextExt ;
 import org.omg.CosNaming.NamingContextExtHelper ;
 
-/** 
+/**
  * This class provides an Operation that converts from CORBA INS URL strings into
  * CORBA object references.  It will eventually become extensible, but for now it
  * simply encapsulates the existing implementation.  Once the full extensibility
  * is in place, we want this operation to convert string to INSURL, which has mainly
  * a public resolver method that returns an object reference.
- * 
+ *
  * @author  Hemanth
  * @author  Ken
  */
@@ -86,7 +86,7 @@ public class INSURLOperationImpl implements Operation
 
     private static final int NIBBLES_PER_BYTE = 2 ;
     private static final int UN_SHIFT = 4 ; // "UPPER NIBBLE" shift factor for <<
-    
+
     /** This static method takes a Stringified IOR and converts it into IOR object.
       * It is the caller's responsibility to only pass strings that start with "IOR:".
       */
@@ -102,13 +102,13 @@ public class INSURLOperationImpl implements Operation
              buf[j] = (byte)((ORBUtility.hexOf(str.charAt(i)) << UN_SHIFT) & 0xF0);
              buf[j] |= (byte)(ORBUtility.hexOf(str.charAt(i+1)) & 0x0F);
         }
-        EncapsInputStream s = EncapsInputStreamFactory.newEncapsInputStream(orb, buf, buf.length, 
+        EncapsInputStream s = EncapsInputStreamFactory.newEncapsInputStream(orb, buf, buf.length,
             orb.getORBData().getGIOPVersion());
         s.consumeEndian();
         return s.read_Object() ;
     }
 
-    public Object operate( Object arg ) 
+    public Object operate( Object arg )
     {
         if (arg instanceof String) {
             String str = (String)arg ;
@@ -134,18 +134,18 @@ public class INSURLOperationImpl implements Operation
             return resolveCorbaloc( (CorbalocURL)theURLObject );
         }
     }
-      
+
     /**
      *  resolves a corbaloc: url that is encapsulated in a CorbalocURL object.
-     * 
+     *
      *  @return the CORBA.Object if resolution is successful
      */
     private org.omg.CORBA.Object resolveCorbaloc(
-        CorbalocURL theCorbaLocObject ) 
+        CorbalocURL theCorbaLocObject )
     {
         org.omg.CORBA.Object result = null;
         // If RIR flag is true use the Bootstrap protocol
-        // Bug 6678177 noticed that this is incorrect: rir means use 
+        // Bug 6678177 noticed that this is incorrect: rir means use
         // resolve_initial_references on the local ORB!
         if( theCorbaLocObject.getRIRFlag( ) )  {
             String keyString = theCorbaLocObject.getKeyString() ;
@@ -167,7 +167,7 @@ public class INSURLOperationImpl implements Operation
 
     /**
      *  resolves a corbaname: url that is encapsulated in a CorbanameURL object.
-     * 
+     *
      *  @return the CORBA.Object if resolution is successful
      */
     private org.omg.CORBA.Object resolveCorbaname( CorbanameURL theCorbaName ) {
@@ -181,13 +181,13 @@ public class INSURLOperationImpl implements Operation
                 theNamingContext = getDefaultRootNamingContext( );
             } else {
                 // Case 2 of corbaname: ::hostname#
-                org.omg.CORBA.Object corbalocResult = 
+                org.omg.CORBA.Object corbalocResult =
                     getIORUsingCorbaloc( theCorbaName );
                 if( corbalocResult == null ) {
                     return null;
                 }
 
-                theNamingContext = 
+                theNamingContext =
                     NamingContextExtHelper.narrow( corbalocResult );
             }
 
@@ -209,10 +209,10 @@ public class INSURLOperationImpl implements Operation
 
     /**
      *  This is an internal method to get the IOR from the CorbalocURL object.
-     * 
+     *
      *  @return the CORBA.Object if resolution is successful
      */
-    private org.omg.CORBA.Object getIORUsingCorbaloc( INSURL corbalocObject ) 
+    private org.omg.CORBA.Object getIORUsingCorbaloc( INSURL corbalocObject )
     {
         Map     profileMap = new HashMap();
         List    profileList1_0 = new ArrayList();
@@ -226,17 +226,17 @@ public class INSURLOperationImpl implements Operation
             return null;
         }
 
-        ObjectKey key = orb.getObjectKeyFactory().create( 
+        ObjectKey key = orb.getObjectKeyFactory().create(
             theKeyString.getBytes() );
         IORTemplate iortemp = IORFactories.makeIORTemplate( key.getTemplate() );
 
         java.util.Iterator iterator = theEndpointInfo.iterator( );
         while( iterator.hasNext( ) ) {
-            IIOPEndpointInfo element = 
+            IIOPEndpointInfo element =
                 (IIOPEndpointInfo) iterator.next( );
-            IIOPAddress addr = IIOPFactories.makeIIOPAddress( element.getHost(), 
+            IIOPAddress addr = IIOPFactories.makeIIOPAddress( element.getHost(),
                 element.getPort() );
-            GIOPVersion giopVersion = GIOPVersion.getInstance( (byte)element.getMajor(), 
+            GIOPVersion giopVersion = GIOPVersion.getInstance( (byte)element.getMajor(),
                                              (byte)element.getMinor());
             IIOPProfileTemplate profileTemplate = null;
             if (giopVersion.equals(GIOPVersion.V1_0)) {
@@ -294,12 +294,12 @@ public class INSURLOperationImpl implements Operation
     /**
      *  This is required for corbaname: resolution. Currently we
      *  are not caching RootNamingContext as the reference to rootNamingContext
-     *  may not be Persistent in all the implementations. 
+     *  may not be Persistent in all the implementations.
      *  _REVISIT_ to clear the rootNamingContext in case of COMM_FAILURE.
-     * 
-     *  @return the org.omg.COSNaming.NamingContextExt if resolution is 
+     *
+     *  @return the org.omg.COSNaming.NamingContextExt if resolution is
      *   successful
-     *  
+     *
      */
     private NamingContextExt getDefaultRootNamingContext( ) {
         synchronized( rootContextCacheLock ) {

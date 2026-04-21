@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.spi.resolver ;
 
-/** Resolver defines the operations needed to support ORB operations for 
+/** Resolver defines the operations needed to support ORB operations for
  * resolve_initial_references and list_initial_services.
  */
 public interface Resolver {
@@ -30,7 +30,7 @@ public interface Resolver {
      */
     org.omg.CORBA.Object resolve( String name ) ;
 
-    /** Return the entire collection of names that are currently bound 
+    /** Return the entire collection of names that are currently bound
      * by this resolver.  Resulting collection contains only strings for
      * which resolve does not return null.  Some resolvers may not support
      * this method, in which case they return an empty set.

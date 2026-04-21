@@ -112,7 +112,7 @@ public final class RequestMessage_1_0 extends Message_1_0
 
 
     // Mutators
-    
+
     public void setThreadPoolToUse(int poolToUse) {
         // No-op, must be GIOP Version 1.1 or greater
         // to support this SUN PROPRIETARY EXTENSION.

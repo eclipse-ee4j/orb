@@ -52,14 +52,14 @@ public class IORDecoder implements Utility
      * map files, and a default TextOutputHandler.
      */
     public IORDecoder(ORB orb) throws InitializationException {
-        this(orb, 
-             DEFAULT_TAG_PROFILE_FILE, 
-             DEFAULT_TAG_COMP_FILE, 
+        this(orb,
+             DEFAULT_TAG_PROFILE_FILE,
+             DEFAULT_TAG_COMP_FILE,
              new TextOutputHandler());
     }
 
     /**
-     * Resolves a CodecFactory and processes the tagged component and 
+     * Resolves a CodecFactory and processes the tagged component and
      * tagged profile handler files.
      */
     public IORDecoder(ORB orb,
@@ -74,7 +74,7 @@ public class IORDecoder implements Utility
             out = textOutputHandler;
             util = this;
 
-            org.omg.CORBA.Object objRef 
+            org.omg.CORBA.Object objRef
                 = orb.resolve_initial_references("CodecFactory");
 
             if (objRef == null)
@@ -130,12 +130,12 @@ public class IORDecoder implements Utility
     public static void main(String[] args)
     {
         try {
-            
+
             if (args.length != 1) {
                 System.out.println("IORDecoder <stringified IOR>");
                 return;
             }
-            
+
             ORB orb = ORB.init(args, System.getProperties());
 
             IORDecoder printIOR = new IORDecoder(orb);
@@ -195,18 +195,18 @@ public class IORDecoder implements Utility
      * Pretty prints the buffer as hex with ASCII
      * interpretation on the side.
      */
-    public void printBuffer(byte[] buffer, 
+    public void printBuffer(byte[] buffer,
                             TextOutputHandler out) {
 
         StringBuilder msg = new StringBuilder();
         char[] charBuf = new char[16];
 
         for (int i = 0; i < buffer.length; i += 16) {
-            
+
             int j = 0;
-            
+
             msg.setLength(0);
-            
+
             // For every 16 bytes, there is one line
             // of output.  First, the hex output of
             // the 16 bytes with each byte separated
@@ -218,13 +218,13 @@ public class IORDecoder implements Utility
                 String hex = Integer.toHexString(k);
                 if (hex.length() == 1)
                     hex = "0" + hex;
-                
+
                 msg.append(hex);
                 msg.append(' ');
-                
+
                 j++;
             }
-            
+
             // Add any extra spaces to align the
             // text column in case we didn't end
             // at 16
@@ -232,11 +232,11 @@ public class IORDecoder implements Utility
                 msg.append("   ");
                 j++;
             }
-            
+
             // Now output the ASCII equivalents.  Non-ASCII
             // characters are shown as periods.
             int x = 0;
-            
+
             while (x < 16 && x + i < buffer.length) {
                 if (Character.isLetterOrDigit((char)buffer[i + x]))
                     charBuf[x] = (char)buffer[i + x];
@@ -244,7 +244,7 @@ public class IORDecoder implements Utility
                     charBuf[x] = '.';
                 x++;
             }
-            
+
             msg.append(charBuf, 0, x);
 
             out.output(msg.toString());
@@ -309,7 +309,7 @@ public class IORDecoder implements Utility
                 // We also have a Map from the tag to an EncapsHandler
                 // for TaggedProfiles
                 TaggedProfile tp = (TaggedProfile)object;
-                
+
                 displayTaggedEntry(name, tp.tag, tp.profile_data, tagProfileMap, out);
             } else {
                 out.output(name + ':');
@@ -359,7 +359,7 @@ public class IORDecoder implements Utility
                 dumpData(data, out);
             }
         }
-        
+
         out.decreaseIndentLevel();
     }
 

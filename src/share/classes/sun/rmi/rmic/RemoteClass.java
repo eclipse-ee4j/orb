@@ -48,7 +48,7 @@ public class RemoteClass implements sun.rmi.rmic.RMIConstants {
     /**
      * Create a RemoteClass object representing the remote meta-information
      * of the given class.
-     * 
+     *
      * Returns true if successful.  If the class is not a properly formed
      * remote implementation class or if some other error occurs, the
      * return value will be null, and errors will have been reported to
@@ -740,7 +740,7 @@ public class RemoteClass implements sun.rmi.rmic.RMIConstants {
          * Create a new Method object corresponding to the given
          * method definition.
          */
-        /* 
+        /*
          * Temporarily comment out the private modifier until
          * the VM allows outer class to access inner class's
          * private constructor

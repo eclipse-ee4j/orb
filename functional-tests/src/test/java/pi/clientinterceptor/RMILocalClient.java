@@ -38,13 +38,13 @@ import ClientRequestInterceptor.*;
 /**
  * Tests RMI Local invocation (with a co-located orb)
  */
-public class RMILocalClient 
+public class RMILocalClient
     extends ClientCommon
-    implements InternalProcess 
+    implements InternalProcess
 {
     // Reference to hello object
     private helloIF helloRef;
-    
+
     // Reference to hello object to be forwarded to:
     private helloIF helloRefForward;
 
@@ -84,10 +84,10 @@ public class RMILocalClient
             new Thread() {
                 public void run() {
                     try {
-                        (new RMILocalServer()).run( 
+                        (new RMILocalServer()).run(
                                                 client.orb, client.syncObject,
                                                 System.getProperties(),
-                                                arguments, System.out, 
+                                                arguments, System.out,
                                                 System.err, null );
                     }
                     catch( Exception e ) {
@@ -121,7 +121,7 @@ public class RMILocalClient
     }
 
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         try {
@@ -135,7 +135,7 @@ public class RMILocalClient
     /**
      * Clear invocation flags of helloRef and helloRefForward
      */
-    protected void clearInvoked() 
+    protected void clearInvoked()
         throws Exception
     {
         helloRef.clearInvoked();
@@ -145,7 +145,7 @@ public class RMILocalClient
     /**
      * Invoke the method with the given name on the object
      */
-    protected void invokeMethod( String methodName ) 
+    protected void invokeMethod( String methodName )
         throws Exception
     {
         try {
@@ -168,8 +168,8 @@ public class RMILocalClient
     /**
      * Return true if the method was invoked
      */
-    protected boolean wasInvoked() 
-        throws Exception 
+    protected boolean wasInvoked()
+        throws Exception
     {
         return helloRef.wasInvoked();
     }
@@ -177,8 +177,8 @@ public class RMILocalClient
     /**
      * Return true if the method was forwarded
      */
-    protected boolean didForward() 
-        throws Exception 
+    protected boolean didForward()
+        throws Exception
     {
         return helloRefForward.wasInvoked();
     }
@@ -186,8 +186,8 @@ public class RMILocalClient
     /**
      * Perform ClientRequestInterceptor tests
      */
-    protected void testClientInterceptor() 
-        throws Exception 
+    protected void testClientInterceptor()
+        throws Exception
     {
         super.testClientInterceptor();
     }
@@ -196,8 +196,8 @@ public class RMILocalClient
      * Re-resolves all references to eliminate any cached ForwardRequests
      * from the last invocation
      */
-    protected void resolveReferences() 
-        throws Exception 
+    protected void resolveReferences()
+        throws Exception
     {
         out.println( "    + resolving references..." );
         out.println( "      - disabling interceptors..." );
@@ -209,7 +209,7 @@ public class RMILocalClient
         helloRefForward = resolve( "Hello1Forward" );
         // The initializer will store the location the interceptors should
         // use during a forward request:
-        TestInitializer.helloRefForward = 
+        TestInitializer.helloRefForward =
             (org.omg.CORBA.Object)helloRefForward;
         out.println( "      - enabling interceptors..." );
         SampleClientRequestInterceptor.enabled = true;
@@ -250,7 +250,7 @@ public class RMILocalClient
         }
     }
 
-    
+
 }
 
 

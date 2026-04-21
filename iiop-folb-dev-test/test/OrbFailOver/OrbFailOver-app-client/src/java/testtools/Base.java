@@ -58,17 +58,17 @@ public class Base {
         @Help( "Control debugging mode")
         boolean debug() ;
 
-        @DefaultValue( "false" ) 
-        @Help( "Displays the valid test case identifiers" ) 
+        @DefaultValue( "false" )
+        @Help( "Displays the valid test case identifiers" )
         boolean cases() ;
 
-        @DefaultValue( "" ) 
-        @Help( "A list of test cases to include: includes everything if empty" ) 
+        @DefaultValue( "" )
+        @Help( "A list of test cases to include: includes everything if empty" )
         @Separator( "," )
         List<String> include() ;
 
-        @DefaultValue( "" ) 
-        @Help( "A list of test cases to excelude: include everything if empty" ) 
+        @DefaultValue( "" )
+        @Help( "A list of test cases to excelude: include everything if empty" )
         @Separator( "," )
         List<String> exclude()  ;
     }
@@ -132,7 +132,7 @@ public class Base {
 
 
         Class<?>[] interfaces = (parserInterface == null)
-            ? new Class<?>[]{ Arguments.class } 
+            ? new Class<?>[]{ Arguments.class }
             : new Class<?>[]{ Arguments.class, parserInterface } ;
 
         ArgParser parser = new ArgParser( Arrays.asList(interfaces)) ;
@@ -159,7 +159,7 @@ public class Base {
                 msg( "    " + getTestId( m ) ).nl() ;
             }
         }
-        
+
         currentResults = new ArrayList<String>() ;
         // currentNotes = new ArrayList<String>() ;
     }

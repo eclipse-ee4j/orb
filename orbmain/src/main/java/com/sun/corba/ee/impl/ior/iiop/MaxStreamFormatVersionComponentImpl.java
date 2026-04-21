@@ -28,7 +28,7 @@ import org.omg.IOP.TAG_RMI_CUSTOM_MAX_STREAM_FORMAT;
 
 // Java to IDL ptc 02-01-12 1.4.11
 // TAG_RMI_CUSTOM_MAX_STREAM_FORMAT
-public class MaxStreamFormatVersionComponentImpl extends TaggedComponentBase 
+public class MaxStreamFormatVersionComponentImpl extends TaggedComponentBase
     implements MaxStreamFormatVersionComponent
 {
     private byte version;
@@ -41,7 +41,7 @@ public class MaxStreamFormatVersionComponentImpl extends TaggedComponentBase
         if (!(obj instanceof MaxStreamFormatVersionComponentImpl))
             return false ;
 
-        MaxStreamFormatVersionComponentImpl other = 
+        MaxStreamFormatVersionComponentImpl other =
             (MaxStreamFormatVersionComponentImpl)obj ;
 
         return version == other.version ;
@@ -71,12 +71,12 @@ public class MaxStreamFormatVersionComponentImpl extends TaggedComponentBase
         return version;
     }
 
-    public void writeContents(OutputStream os) 
+    public void writeContents(OutputStream os)
     {
         os.write_octet(version);
     }
-    
-    public int getId() 
+
+    public int getId()
     {
         return TAG_RMI_CUSTOM_MAX_STREAM_FORMAT.value;
     }

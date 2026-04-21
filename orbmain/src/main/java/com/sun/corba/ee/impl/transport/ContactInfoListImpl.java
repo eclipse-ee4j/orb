@@ -160,12 +160,12 @@ public class ContactInfoListImpl implements ContactInfoList {
         this(orb);
         setTargetIOR(targetIOR);
     }
-    
+
     public synchronized Iterator<ContactInfo> iterator()
     {
         createContactInfoList();
         Iterator<ContactInfo> result = new ContactInfoListIteratorImpl(
-            orb, this, primaryContactInfo, 
+            orb, this, primaryContactInfo,
             rotate( effectiveTargetIORContactInfoList ),
             usePerRequestLoadBalancing );
 
@@ -201,7 +201,7 @@ public class ContactInfoListImpl implements ContactInfoList {
     {
         return targetIOR;
     }
-    
+
     private IIOPAddress getPrimaryAddress( IOR ior ) {
         if (ior != null) {
             for (TaggedProfile tprof : ior) {
@@ -257,13 +257,13 @@ public class ContactInfoListImpl implements ContactInfoList {
         // Set the per request load balancing flag.
         IIOPProfile prof = newIOR.getProfile() ;
         TaggedProfileTemplate temp = prof.getTaggedProfileTemplate() ;
-        Iterator<TaggedComponent> lbcomps = 
+        Iterator<TaggedComponent> lbcomps =
             temp.iteratorById( ORBConstants.TAG_LOAD_BALANCING_ID ) ;
         if (lbcomps.hasNext()) {
             LoadBalancingComponent lbcomp = null ;
             lbcomp = (LoadBalancingComponent)(lbcomps.next()) ;
-            usePerRequestLoadBalancing = 
-                lbcomp.getLoadBalancingValue() == ORBConstants.PER_REQUEST_LOAD_BALANCING ; 
+            usePerRequestLoadBalancing =
+                lbcomp.getLoadBalancingValue() == ORBConstants.PER_REQUEST_LOAD_BALANCING ;
         }
     }
 
@@ -340,7 +340,7 @@ public class ContactInfoListImpl implements ContactInfoList {
                 // the IOR - so if we added other addresses then
                 // transactions and interceptors would not execute.
                 ContactInfo contactInfo = new SharedCDRContactInfoImpl(
-                    orb, this, effectiveTargetIOR, 
+                    orb, this, effectiveTargetIOR,
                     orb.getORBData().getGIOPAddressDisposition());
                 effectiveTargetIORContactInfoList.add(contactInfo);
             } else {
@@ -393,7 +393,7 @@ public class ContactInfoListImpl implements ContactInfoList {
         int port) {
 
         return new ContactInfoImpl(
-            orb, this, 
+            orb, this,
             // XREVISIT - See Base Line 62
             effectiveTargetIOR,
             orb.getORBData().getGIOPAddressDisposition(),
@@ -403,7 +403,7 @@ public class ContactInfoListImpl implements ContactInfoList {
     /**
      * setLocalSubcontract sets cached information that is set whenever
      * the effectiveTargetIOR changes.
-     * 
+     *
      * Note: this must be maintained accurately whether or not the ORB
      * allows local optimization, because ServantManagers in the POA
      * ALWAYS use local optimization ONLY (they do not have a remote case).
@@ -420,7 +420,7 @@ public class ContactInfoListImpl implements ContactInfoList {
             // Note that we have no plan to support multi-profile IORs.
             int scid = effectiveTargetIOR.getProfile().getObjectKeyTemplate().
                 getSubcontractId() ;
-            LocalClientRequestDispatcherFactory lcsf = 
+            LocalClientRequestDispatcherFactory lcsf =
                 orb.getRequestDispatcherRegistry().
                     getLocalClientRequestDispatcherFactory( scid ) ;
             if (lcsf != null) {

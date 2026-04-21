@@ -68,7 +68,7 @@ public class Client
             InitialContext initialContext = new InitialContext(env);
 
             Test ref  = (Test)
-                lookupAndNarrow(Common.ReferenceName, Test.class, 
+                lookupAndNarrow(Common.ReferenceName, Test.class,
                                 initialContext);
 
             long startTime = System.currentTimeMillis();
@@ -124,7 +124,7 @@ public class Client
         }
     }
 
-    public static Object lookupAndNarrow(String name, 
+    public static Object lookupAndNarrow(String name,
                                          Class clazz,
                                          InitialContext initialContext)
         throws

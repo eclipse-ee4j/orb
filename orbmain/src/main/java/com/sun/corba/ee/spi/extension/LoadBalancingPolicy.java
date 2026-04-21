@@ -35,7 +35,7 @@ public class LoadBalancingPolicy extends LocalObject implements Policy
 
     private final int value;
 
-    public LoadBalancingPolicy( int value ) 
+    public LoadBalancingPolicy( int value )
     {
         if (value < ORBConstants.FIRST_LOAD_BALANCING_VALUE ||
             value > ORBConstants.LAST_LOAD_BALANCING_VALUE) {
@@ -67,7 +67,7 @@ public class LoadBalancingPolicy extends LocalObject implements Policy
     }
 
     @Override
-    public String toString() 
+    public String toString()
     {
         return "LoadBalancingPolicy[" + value + "]" ;
     }

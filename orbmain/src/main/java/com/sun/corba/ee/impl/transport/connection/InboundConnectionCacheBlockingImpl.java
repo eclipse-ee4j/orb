@@ -30,13 +30,13 @@ import java.util.Map ;
 
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 
-/** Manage connections that are initiated from another VM. 
+/** Manage connections that are initiated from another VM.
  *
  * @author Ken Cavanaugh
  */
 @Transport
-public final class InboundConnectionCacheBlockingImpl<C extends Connection> 
-    extends ConnectionCacheBlockingBase<C> 
+public final class InboundConnectionCacheBlockingImpl<C extends Connection>
+    extends ConnectionCacheBlockingBase<C>
     implements InboundConnectionCache<C> {
 
     private final Map<C,ConnectionState<C>> connectionMap ;
@@ -46,15 +46,15 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection>
     }
 
     private static final class ConnectionState<C extends Connection> {
-        final C connection ;            // Connection of the 
+        final C connection ;            // Connection of the
                                         // ConnectionState
-        int busyCount ;                 // Number of calls to 
+        int busyCount ;                 // Number of calls to
                                         // get without release
-        int expectedResponseCount ;     // Number of expected 
-                                        // responses not yet 
+        int expectedResponseCount ;     // Number of expected
+                                        // responses not yet
                                         // received
 
-        ConcurrentQueue.Handle reclaimableHandle ;  // non-null iff connection 
+        ConcurrentQueue.Handle reclaimableHandle ;  // non-null iff connection
                                                     // is not in use and has no
                                                     // outstanding requests
 
@@ -67,7 +67,7 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection>
         }
     }
 
-    public InboundConnectionCacheBlockingImpl( final String cacheType, 
+    public InboundConnectionCacheBlockingImpl( final String cacheType,
         final int highWaterMark, final int numberToReclaim, final long ttl ) {
 
         super( cacheType, highWaterMark, numberToReclaim, ttl ) ;
@@ -107,7 +107,7 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection>
     }
 
     @Transport
-    public synchronized void requestProcessed( final C conn, 
+    public synchronized void requestProcessed( final C conn,
         final int numResponsesExpected ) {
         final ConnectionState<C> cs = connectionMap.get( conn ) ;
 
@@ -140,7 +140,7 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection>
         }
     }
 
-    /** Decrement the number of expected responses.  When a connection is idle 
+    /** Decrement the number of expected responses.  When a connection is idle
      * and has no expected responses, it can be reclaimed.
      */
     @Transport
@@ -189,7 +189,7 @@ public final class InboundConnectionCacheBlockingImpl<C extends Connection>
         }
     }
 
-    // Atomically either get the ConnectionState for conn OR 
+    // Atomically either get the ConnectionState for conn OR
     // create a new one AND put it in the cache
     private ConnectionState<C> getConnectionState( C conn ) {
         // This should be the only place a CacheEntry is constructed.

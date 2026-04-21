@@ -41,7 +41,7 @@ public final class Bounds extends org.omg.CORBA.UserException {
     }
 
     /**
-     * Constructs a <code>Bounds</code> exception with the specified 
+     * Constructs a <code>Bounds</code> exception with the specified
      * reason message.
      * @param reason the String containing a reason message
      */

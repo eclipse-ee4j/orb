@@ -51,7 +51,7 @@ public class Message_1_1
 
     Message_1_1() {
     }
-    
+
     Message_1_1(int _magic, GIOPVersion _GIOP_version, byte _flags,
             byte _message_type, int _message_size) {
         magic = _magic;

@@ -27,7 +27,7 @@ import com.sun.corba.ee.spi.servicecontext.ServiceContextFactoryRegistry ;
 import java.util.HashMap ;
 import java.util.Map ;
 
-public class ServiceContextFactoryRegistryImpl 
+public class ServiceContextFactoryRegistryImpl
     implements ServiceContextFactoryRegistry
 {
     private static final ORBUtilSystemException wrapper =
@@ -40,9 +40,9 @@ public class ServiceContextFactoryRegistryImpl
     {
         scMap = new HashMap<Integer, ServiceContext.Factory>() ;
         this.orb = orb ;
-    }           
+    }
 
-    public void register( ServiceContext.Factory factory ) 
+    public void register( ServiceContext.Factory factory )
     {
         if (scMap.get(factory.getId()) == null) {
             scMap.put(factory.getId(), factory);

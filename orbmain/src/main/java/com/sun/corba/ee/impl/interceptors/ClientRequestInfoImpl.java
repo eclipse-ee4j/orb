@@ -66,15 +66,15 @@ import org.omg.PortableInterceptor.USER_EXCEPTION;
  * orbos/99-12-02 section 5.4.2.
  */
 @TraceInterceptor
-public final class ClientRequestInfoImpl 
-    extends RequestInfoImpl 
-    implements ClientRequestInfo 
+public final class ClientRequestInfoImpl
+    extends RequestInfoImpl
+    implements ClientRequestInfo
 {
 
     // The available constants for startingPointCall
     static final int CALL_SEND_REQUEST = 0;
     static final int CALL_SEND_POLL = 1;
-    
+
     // The available constants for endingPointCall
     static final int CALL_RECEIVE_REPLY = 0;
     static final int CALL_RECEIVE_EXCEPTION = 1;
@@ -85,11 +85,11 @@ public final class ClientRequestInfoImpl
     // NOTE: IF AN ATTRIBUTE IS ADDED, PLEASE UPDATE RESET();
     //
     //////////////////////////////////////////////////////////////////////
-    
-    // The current retry request status.  True if this request is being 
+
+    // The current retry request status.  True if this request is being
     // retried and this info object is to be reused, or false otherwise.
     private RetryType retryRequest;
-    
+
     // The number of times this info object has been (re)used.  This is
     // incremented every time a request is retried, and decremented every
     // time a request is complete.  When this reaches zero, the info object
@@ -123,13 +123,13 @@ public final class ClientRequestInfoImpl
 
 
     private boolean piCurrentPushed;
-    
+
     //////////////////////////////////////////////////////////////////////
     //
     // NOTE: IF AN ATTRIBUTE IS ADDED, PLEASE UPDATE RESET();
     //
     //////////////////////////////////////////////////////////////////////
-    
+
     /**
      * Reset the info object so that it can be reused for a retry,
      * for example.
@@ -171,13 +171,13 @@ public final class ClientRequestInfoImpl
         startingPointCall = CALL_SEND_REQUEST;
         endingPointCall = CALL_RECEIVE_REPLY;
     }
-    
+
     /*
      **********************************************************************
      * Access protection
      **********************************************************************/
-    
-    // Method IDs for all methods in ClientRequestInfo.  This allows for a 
+
+    // Method IDs for all methods in ClientRequestInfo.  This allows for a
     // convenient O(1) lookup for checkAccess().
     private static final int MID_TARGET                      = MID_RI_LAST + 1;
     private static final int MID_EFFECTIVE_TARGET            = MID_RI_LAST + 2;
@@ -188,7 +188,7 @@ public final class ClientRequestInfoImpl
     private static final int MID_GET_EFFECTIVE_COMPONENTS    = MID_RI_LAST + 7;
     private static final int MID_GET_REQUEST_POLICY          = MID_RI_LAST + 8;
     private static final int MID_ADD_REQUEST_SERVICE_CONTEXT = MID_RI_LAST + 9;
-    
+
     // ClientRequestInfo validity table (see ptc/00-08-06 table 21-1).
     // Note: These must be in the same order as specified in contants.
     private static final boolean validCall[][] = {
@@ -197,11 +197,11 @@ public final class ClientRequestInfoImpl
         // s_pol = send_poll        r_exc = receive_exception
         //                          r_oth = receive_other
         //
-        // A true value indicates call is valid at specified point.  
+        // A true value indicates call is valid at specified point.
         // A false value indicates the call is invalid.
         //
         //
-        // NOTE: If the order or number of columns change, update 
+        // NOTE: If the order or number of columns change, update
         // checkAccess() accordingly.
         //
         //                              { s_req, s_pol, r_rep, r_exc, r_oth }
@@ -232,25 +232,25 @@ public final class ClientRequestInfoImpl
         /*get_request_policy*/          { true , false, true , true , true  },
         /*add_request_service_context*/ { true , false, false, false, false }
     };
-    
+
 
     /*
      **********************************************************************
      * Public ClientRequestInfo interfaces
      **********************************************************************/
-    
+
     /**
      * Creates a new ClientRequestInfo implementation.
      * The constructor is package scope since no other package need create
      * an instance of this class.
      * @param myORB ORB to use
      */
-    protected ClientRequestInfoImpl( ORB myORB ) { 
-        super( myORB ); 
+    protected ClientRequestInfoImpl( ORB myORB ) {
+        super( myORB );
         startingPointCall = CALL_SEND_REQUEST;
         endingPointCall = CALL_RECEIVE_REPLY;
     }
-    
+
     /**
      * The object which the client called to perform the operation.
      */
@@ -266,12 +266,12 @@ public final class ClientRequestInfoImpl
         }
         return cachedTargetObject;
     }
-    
+
     /**
-     * The actual object on which the operation will be invoked.  If the 
-     * reply_status is LOCATION_FORWARD, then on subsequent requests, 
-     * effective_target will contain the forwarded IOR while target will 
-     * remain unchanged.  
+     * The actual object on which the operation will be invoked.  If the
+     * reply_status is LOCATION_FORWARD, then on subsequent requests,
+     * effective_target will contain the forwarded IOR while target will
+     * remain unchanged.
      */
     @TraceInterceptor
     public org.omg.CORBA.Object effective_target() {
@@ -290,11 +290,11 @@ public final class ClientRequestInfoImpl
         }
         return cachedEffectiveTargetObject;
     }
-    
+
     /**
-     * The profile that will be used to send the request.  If a location 
-     * forward has occurred for this operation's object and that object's 
-     * profile change accordingly, then this profile will be that located 
+     * The profile that will be used to send the request.  If a location
+     * forward has occurred for this operation's object and that object's
+     * profile change accordingly, then this profile will be that located
      * profile.
      */
     @TraceInterceptor
@@ -314,7 +314,7 @@ public final class ClientRequestInfoImpl
 
         return cachedEffectiveProfile;
     }
-    
+
     /**
      * Contains the exception to be returned to the client.
      */
@@ -332,7 +332,7 @@ public final class ClientRequestInfoImpl
 
         return cachedReceivedException;
     }
-    
+
     /**
      * The CORBA::RepositoryId of the exception to be returned to the client.
      */
@@ -363,17 +363,17 @@ public final class ClientRequestInfoImpl
 
         return cachedReceivedExceptionId;
     }
-    
+
     /**
-     * Returns the IOP::TaggedComponent with the given ID from the profile 
-     * selected for this request.  IF there is more than one component for a 
-     * given component ID, it is undefined which component this operation 
+     * Returns the IOP::TaggedComponent with the given ID from the profile
+     * selected for this request.  IF there is more than one component for a
+     * given component ID, it is undefined which component this operation
      * returns (get_effective_component should be called instead).
      */
     @TraceInterceptor
     public TaggedComponent get_effective_component (int id){
         checkAccess( MID_GET_EFFECTIVE_COMPONENT );
-            
+
         TaggedComponent[] comps = get_effective_components( id ) ;
         if ((comps != null) && (comps.length > 0)) {
             return comps[0];
@@ -381,9 +381,9 @@ public final class ClientRequestInfoImpl
             return null ;
         }
     }
-    
+
     /**
-     * Returns all the tagged components with the given ID from the profile 
+     * Returns all the tagged components with the given ID from the profile
      * selected for this request.
      */
     @TraceInterceptor
@@ -436,7 +436,7 @@ public final class ClientRequestInfoImpl
 
         return result;
     }
-    
+
     /**
      * Returns the given policy in effect for this operation.
      */
@@ -446,15 +446,15 @@ public final class ClientRequestInfoImpl
         // _REVISIT_ Our ORB is not policy-based at this time.
         throw wrapper.piOrbNotPolicyBased() ;
     }
-    
+
     /**
      * Allows interceptors to add service contexts to the request.
      * <p>
-     * There is no declaration of the order of the service contexts.  They 
+     * There is no declaration of the order of the service contexts.  They
      * may or may not appear in the order they are added.
      */
     @TraceInterceptor
-    public void add_request_service_context (ServiceContext service_context, 
+    public void add_request_service_context (ServiceContext service_context,
                                              boolean replace) {
 
         checkAccess( MID_ADD_REQUEST_SERVICE_CONTEXT );
@@ -468,7 +468,7 @@ public final class ClientRequestInfoImpl
                            messageMediator.getRequestServiceContexts(),
                            service_context, replace );
     }
-    
+
     // NOTE: When adding a method, be sure to:
     // 1. Add a MID_* constant for that method
     // 2. Call checkAccess at the start of the method
@@ -478,18 +478,18 @@ public final class ClientRequestInfoImpl
      **********************************************************************
      * Public RequestInfo interfaces
      *
-     * These are implemented here because they have differing 
+     * These are implemented here because they have differing
      * implementations depending on whether this is a client or a server
      * request info object.
      **********************************************************************/
-   
+
     /**
      * See RequestInfoImpl for javadoc.
      */
     public int request_id (){
         // access is currently valid for all states:
         //checkAccess( MID_REQUEST_ID );
-        /* 
+        /*
          * NOTE: The requestId in client interceptors is the same as the
          * GIOP request id.  This works because both interceptors and
          * request ids are scoped by the ORB on the client side.
@@ -512,7 +512,7 @@ public final class ClientRequestInfoImpl
 
     @Override
     public String toString() {
-        return "ClientRequestInfoImpl[operation=" 
+        return "ClientRequestInfoImpl[operation="
             + operation() + "]" ;
     }
 
@@ -806,10 +806,10 @@ public final class ClientRequestInfoImpl
     @Override
     public com.sun.corba.ee.spi.legacy.connection.Connection connection()
     {
-        return (com.sun.corba.ee.spi.legacy.connection.Connection) 
+        return (com.sun.corba.ee.spi.legacy.connection.Connection)
             messageMediator.getConnection();
     }
-    
+
 
 
     /*
@@ -823,15 +823,15 @@ public final class ClientRequestInfoImpl
         // REVISIT - so mediator can handle DII in subcontract.
         this.messageMediator.setDIIInfo(request);
     }
-    
+
     /**
-     * Set or reset the retry request flag.  
+     * Set or reset the retry request flag.
      */
     void setRetryRequest( RetryType retryRequest ) {
         // 6763340
         this.retryRequest = retryRequest;
     }
-    
+
     /**
      * Retrieve the current retry request status.
      */
@@ -839,7 +839,7 @@ public final class ClientRequestInfoImpl
         // 6763340
         return this.retryRequest;
     }
-    
+
     /**
      * Increases the entry count by 1.
      */
@@ -851,7 +851,7 @@ public final class ClientRequestInfoImpl
 
     @InfoMethod
     private void entryCount( int count ) { }
-    
+
     /**
      * Decreases the entry count by 1.
      */
@@ -860,7 +860,7 @@ public final class ClientRequestInfoImpl
         this.entryCount--;
         entryCount( this.entryCount ) ;
     }
-    
+
     /**
      * Retrieve the current entry count
      */
@@ -868,7 +868,7 @@ public final class ClientRequestInfoImpl
     int getEntryCount() {
         return this.entryCount;
     }
-    
+
     /**
      * Overridden from RequestInfoImpl.  Calls the super class, then
      * sets the ending point call depending on the reply status.
@@ -918,7 +918,7 @@ public final class ClientRequestInfoImpl
 
     /**
      * @return If initiate was called for a DII request
-     * @see #setDIIInitiate(boolean) 
+     * @see #setDIIInitiate(boolean)
      */
     protected boolean isDIIInitiate() {
         return this.diiInitiate;
@@ -958,8 +958,8 @@ public final class ClientRequestInfoImpl
     /**
      * See description for RequestInfoImpl.checkAccess
      */
-    protected void checkAccess( int methodID ) 
-        throws BAD_INV_ORDER 
+    protected void checkAccess( int methodID )
+        throws BAD_INV_ORDER
     {
         // Make sure currentPoint matches the appropriate index in the
         // validCall table:
@@ -989,13 +989,13 @@ public final class ClientRequestInfoImpl
             }
             break;
         }
-        
+
         // Check the validCall table:
         if( !validCall[methodID][validCallIndex] ) {
             throw stdWrapper.invalidPiCall2() ;
         }
     }
-    
+
 }
 
 // End of file.

@@ -33,6 +33,6 @@ import org.glassfish.gmbal.ManagedData ;
 public interface AlternateIIOPAddressComponent extends TaggedComponent
 {
     @ManagedAttribute
-    @Description( "The Alternate address" ) 
+    @Description( "The Alternate address" )
     public IIOPAddress getAddress() ;
 }

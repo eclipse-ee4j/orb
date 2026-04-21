@@ -75,7 +75,7 @@ public class SocketFactoryConnectionImpl
     public String toString()
     {
         synchronized ( stateEvent ){
-            return 
+            return
                 "SocketFactoryConnectionImpl[" + " "
                 + (socketChannel == null ?
                    socket.toString() : socketChannel.toString()) + " "

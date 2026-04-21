@@ -90,7 +90,7 @@ public class Client extends TestCase
 
     /** Trivial implementation of the testing interface
      */
-    public static class TestInterfaceImpl extends PortableRemoteObject 
+    public static class TestInterfaceImpl extends PortableRemoteObject
         implements TestInterface
     {
         public TestInterfaceImpl() throws RemoteException
@@ -108,23 +108,23 @@ public class Client extends TestCase
             return obj ;
         }
 
-        public int twoArrays( byte[] one, byte[] two ) throws RemoteException 
+        public int twoArrays( byte[] one, byte[] two ) throws RemoteException
         {
             return one.length + two.length ;
         }
 
-        public void setAttribute( ObjectName on, Attribute at ) throws RemoteException 
+        public void setAttribute( ObjectName on, Attribute at ) throws RemoteException
         {
         }
     }
-    
+
     // An extension of the TestSetup test decorator (that is,
     // interceptor) that is used to initialize ORBs before the
     // tests start, and clean the ORBs up after the test completes.
     // Also sets up the tester remote object.
     private static class ORBManager extends TestSetup
     {
-        public ORBManager( Test test ) 
+        public ORBManager( Test test )
         {
             super( test ) ;
         }
@@ -132,7 +132,7 @@ public class Client extends TestCase
         public void setUp()
         {
             // Use dynamic RMI-IIOP so we don't need a separate rmic run
-            System.setProperty( "com.sun.corba.ee.ORBUseDynamicStub", 
+            System.setProperty( "com.sun.corba.ee.ORBUseDynamicStub",
                 "true" ) ;
             System.setProperty( "javax.rmi.CORBA.UtilClass",
                 "com.sun.corba.ee.impl.javax.rmi.CORBA.Util" ) ;
@@ -154,7 +154,7 @@ public class Client extends TestCase
             }
 
             Tie tie = Util.getTie( servant ) ;
-            
+
             // Set up client and server ORBs.
             Properties props = new Properties() ;
             props.setProperty( "org.omg.CORBA.ORBClass",
@@ -176,7 +176,7 @@ public class Client extends TestCase
             TestInterface serverRef = null ;
 
             try {
-                serverRef = (TestInterface)PortableRemoteObject.toStub( 
+                serverRef = (TestInterface)PortableRemoteObject.toStub(
                     servant ) ;
             } catch (Exception exc) {
                 exc.printStackTrace() ;
@@ -185,7 +185,7 @@ public class Client extends TestCase
 
             // Get a reference in the client ORB.  This will insure that
             // we actually marshal the data.
-            String str = serverORB.object_to_string( 
+            String str = serverORB.object_to_string(
                 (org.omg.CORBA.Object)serverRef ) ;
             org.omg.CORBA.Object clientObj = clientORB.string_to_object( str ) ;
             tester = (TestInterface)PortableRemoteObject.narrow(
@@ -206,23 +206,23 @@ public class Client extends TestCase
     // private static final int REP_COUNT = 1000 ;
     // private List<TimedTest> timedTests ;
 
-    private ValueMember makeValueMember( String name, TypeCode type, 
-        boolean isPublic ) 
+    private ValueMember makeValueMember( String name, TypeCode type,
+        boolean isPublic )
     {
-        return new ValueMember( name, "", "", "", type, null, 
-            isPublic ? PUBLIC_MEMBER.value : PRIVATE_MEMBER.value) ; 
+        return new ValueMember( name, "", "", "", type, null,
+            isPublic ? PUBLIC_MEMBER.value : PRIVATE_MEMBER.value) ;
     }
 
     /**
     private TypeCode makeValueTypeCode( ORB orb )
     {
-        String repoID = 
+        String repoID =
             "RMI:weblogic.management.WebLogicObjectName:6488C1A74F9FA9EA:66076A3E2CDE" ;
 
         String name = "weblogic.management.WebLogicObjectName" ;
 
         TypeCode recursiveTypeCode  = orb.create_recursive_tc( repoID ) ;
-        TypeCode nullTypeCode       = orb.get_primitive_tc( TCKind.tk_null ) ;  
+        TypeCode nullTypeCode       = orb.get_primitive_tc( TCKind.tk_null ) ;
         TypeCode booleanTypeCode    = orb.get_primitive_tc( TCKind.tk_boolean ) ;
         TypeCode longTypeCode       = orb.get_primitive_tc( TCKind.tk_long ) ;
 
@@ -231,7 +231,7 @@ public class Client extends TestCase
             makeValueMember( "isAdmin",   booleanTypeCode,   false ),
             makeValueMember( "isConfig",  booleanTypeCode,   false ),
             makeValueMember( "isRuntime", booleanTypeCode,   false ),
-            makeValueMember( "parent",    recursiveTypeCode, false ) 
+            makeValueMember( "parent",    recursiveTypeCode, false )
         } ;
 
         TypeCode result = orb.create_value_tc(
@@ -248,8 +248,8 @@ public class Client extends TestCase
             result[ctr] = 0 ;
         return result ;
     }
- 
-    public static void main( String[] args ) 
+
+    public static void main( String[] args )
     {
         debug = (args.length>0) && args[0].equals( "-debug" ) ;
 
@@ -280,16 +280,16 @@ public class Client extends TestCase
 
     public static Test suite()
     {
-        System.out.println( 
+        System.out.println(
             "==============================================================\n" +
             "Testing Message Trace Manager\n" +
-            "==============================================================\n" 
+            "==============================================================\n"
         ) ;
 
         // TestSuite created only to include the ORBManager setup wrapper,
         // which wraps the real TestSuite made from this class.
         // This causes the ORBs for this test to be created before all
-        // tests run, and destroyed after all tests are completed.  
+        // tests run, and destroyed after all tests are completed.
         TestSuite main = new TestSuite( "main" ) ;
         TestSuite ts = TestCaseTools.makeTestSuite( Client.class ) ;
         main.addTest( new ORBManager( ts ) ) ;
@@ -320,7 +320,7 @@ public class Client extends TestCase
         return -1 ;
     }
 
-    private int getInt( byte[] buffer, int offset ) 
+    private int getInt( byte[] buffer, int offset )
     {
         int b1 = (int)buffer[offset] & 0xFF ;
         int b2 = (int)buffer[offset+1] & 0xFF ;
@@ -333,9 +333,9 @@ public class Client extends TestCase
     // (we'll assume GIOP 1.2 only here)
     private static final int HEADER_LENGTH = 16 ;
 
-    private byte[] makeSingleStream( byte[][] data ) 
+    private byte[] makeSingleStream( byte[][] data )
     {
-        // Copy the first byte[] and all but the first 16 bytes of 
+        // Copy the first byte[] and all but the first 16 bytes of
         // each subsequent byte[] into the result.
         int size = 0 ;
         for (int ctr=0; ctr<data.length; ctr++)
@@ -353,7 +353,7 @@ public class Client extends TestCase
         int srcOffset = 0 ;
         for (int ctr=0; ctr<data.length; ctr++) {
             int copyLength = data[ctr].length - srcOffset ;
-            System.arraycopy( data[ctr], srcOffset, result, resOffset, 
+            System.arraycopy( data[ctr], srcOffset, result, resOffset,
                 copyLength ) ;
 
             srcOffset = HEADER_LENGTH ;
@@ -363,7 +363,7 @@ public class Client extends TestCase
         return result ;
     }
 
-    private static void displayData( String msg, byte[][] data ) 
+    private static void displayData( String msg, byte[][] data )
     {
         for (int ctr=0; ctr<data.length; ctr++) {
             ByteBuffer buffer = ByteBuffer.wrap( data[ctr] ) ;
@@ -415,7 +415,7 @@ public class Client extends TestCase
                 displayData( "dataReceived", dataSent ) ;
                 // clientORB.clearDebugFlag( "giop" ) ;
             }
-                
+
             mtm.clear() ;
             mtm.enable( false ) ;
 
@@ -434,7 +434,7 @@ public class Client extends TestCase
 
             // Search for 0xffffffffffff (the start of the indirection) after
             // the typecode.
-            byte[] secondp = new byte[] { (byte)0xff, (byte)0xff, (byte)0xff, 
+            byte[] secondp = new byte[] { (byte)0xff, (byte)0xff, (byte)0xff,
                 (byte)0xff, (byte)0xff, (byte)0xff } ;
             int secondIndex = findPattern( buffer, firstIndex, secondp ) ;
             assertTrue( "Could not find start of indirection", secondIndex >= 0 ) ;
@@ -464,7 +464,7 @@ public class Client extends TestCase
         for (int ctr=startSize; ctr<=endSize; ctr++) {
             byte[] pad = makeBytes( ctr ) ;
             Object result = null ;
-            
+
             try {
                 result = tester.echo( pad, data ) ;
             } catch (Exception exc) {
@@ -497,7 +497,7 @@ public class Client extends TestCase
         // I don't have time to fix the other typecode problem.
         final int lowerBound = 747 ;
         final int upperBound = 749 ;    // set this to a larger value to
-                                        // reproduce bug. 
+                                        // reproduce bug.
         for (int ctr=lowerBound; ctr<upperBound; ctr++) {
             byte[] pad = makeBytes( ctr ) ;
             TypeCode resultTypeCode = null ;
@@ -505,7 +505,7 @@ public class Client extends TestCase
             try {
                 resultTypeCode = tester.testit( pad, valueTypeCode ) ;
                 if (debug)
-                    System.out.println( 
+                    System.out.println(
                         "TypeCode marshalling succeeded with a pad size of " + ctr ) ;
             } catch (Exception exc) {
                 fail( "TypeCode marshalling failed with a pad size of " + ctr ) ;
@@ -514,7 +514,7 @@ public class Client extends TestCase
             }
 
             //if (!resultTypeCode.equals( valueTypeCode ))
-                //System.out.println( "Typecodes are not equal with a pad size of " 
+                //System.out.println( "Typecodes are not equal with a pad size of "
                     //+ ctr ) ;
         }
     }
@@ -527,17 +527,17 @@ public class Client extends TestCase
             super() ;
         }
 
-        public MessageDataTestSuite( String name ) 
+        public MessageDataTestSuite( String name )
         {
             super( name ) ;
         }
 
-        private void initByteArray( byte[] data, byte value ) 
+        private void initByteArray( byte[] data, byte value )
         {
             for (int ctr=0; ctr<data.length; ctr++ )
                 data[ctr] = value ;
         }
-        
+
         // Expected data
         private boolean initialized = false ;
         private byte[] data1 = new byte[ 4000 ] ;
@@ -555,20 +555,20 @@ public class Client extends TestCase
 
         // Do not call this from the constructor, as it runs before
         // the ORB is initialized!
-        private void init() 
+        private void init()
         {
             if (initialized) {
                 return ;
             } else {
                 initialized = true ;
             }
-            
+
             ctm = clientORB.getCorbaTransportManager() ;
             mtm = ctm.getMessageTraceManager() ;
 
             initByteArray( data1, (byte)0xCC ) ;
             initByteArray( data2, (byte)0xEE ) ;
-        
+
             mtm.clear() ;
             mtm.enable( true ) ;
 
@@ -586,7 +586,7 @@ public class Client extends TestCase
                 displayData( "dataSent", dataSent ) ;
                 displayData( "dataReceived", dataSent ) ;
             }
-                
+
             mtm.clear() ;
             mtm.enable( false ) ;
 
@@ -594,29 +594,29 @@ public class Client extends TestCase
             // temporarily commented out receivedMD = ctm.getMessageData( dataReceived ) ;
         }
 
-        private void checkMessages( Message[] msgs, int firstMessageType ) 
+        private void checkMessages( Message[] msgs, int firstMessageType )
         {
-            for (int ctr=0; ctr<msgs.length; ctr++) 
-                checkMessage( msgs[ctr], 
-                    ctr==0 ? firstMessageType : Message.GIOPFragment, 
+            for (int ctr=0; ctr<msgs.length; ctr++)
+                checkMessage( msgs[ctr],
+                    ctr==0 ? firstMessageType : Message.GIOPFragment,
                     ctr, msgs.length ) ;
         }
 
-        private void checkMessage( Message msg, int msgType, int msgNum, 
+        private void checkMessage( Message msg, int msgType, int msgNum,
             int numMsgs )
         {
-            assertEquals( "Bad message type", 
+            assertEquals( "Bad message type",
                 msgType, msg.getType() ) ;
-            assertEquals( "Bad GIOP Version", 
+            assertEquals( "Bad GIOP Version",
                 msg.getGIOPVersion(), GIOPVersion.V1_2 ) ;
-            assertEquals( "Bad encoding version", 
+            assertEquals( "Bad encoding version",
                 msg.getEncodingVersion(), ORBConstants.CDR_ENC_VERSION ) ;
             assertTrue( "Incorrect setting of moreFragmentsToFollow on " +
                 ((msgNum < numMsgs-1) ? ("message " + msgNum) : "last message"),
                 msg.moreFragmentsToFollow() == msgNum < numMsgs - 1) ;
         }
 
-        private boolean equalArrays( byte[] arr1, byte[] arr2 ) 
+        private boolean equalArrays( byte[] arr1, byte[] arr2 )
         {
             if ((arr1 == null) || (arr2 == null))
                 return arr1 == arr2 ;
@@ -646,8 +646,8 @@ public class Client extends TestCase
                 for (int ctr=0; ctr<dataSent.length; ctr++) {
                     byte[] data = dataSent[ctr] ;
                     Message msg = TransportManagerUtil.getMessage(data, clientORB) ;
-                    checkMessage( msg, 
-                        ctr==0 ? Message.GIOPRequest : Message.GIOPFragment, 
+                    checkMessage( msg,
+                        ctr==0 ? Message.GIOPRequest : Message.GIOPFragment,
                         ctr, dataSent.length ) ;
                 }
             } catch (Exception exc) {
@@ -690,16 +690,16 @@ public class Client extends TestCase
          * the data is received in a different thread than the thread that is
          * waiting for the data, but the MessageDataManager is local to the
          * thread that is waiting, so we can't easily get the data captured
-         * into the correct place.  This appears to be solvable, but 
+         * into the correct place.  This appears to be solvable, but
          * complicated, so I'll defer this until later.
          *
          * Notes:
          * Messages are received and handled in CorbaMessageMediatorImpl.
          * See in particular the handleInput methods for FragmentMessage_1_2 and
-         * ReplyMessage_1_2.  The client thread is waiting in the 
+         * ReplyMessage_1_2.  The client thread is waiting in the
          * CorbaResponseWaitingRoomImpl.waitForResponse method.  I think we
          * need to make the raw message available in the OutCallDesc,
-         * which may require changes in the CorbaResponseWaitingRoomImpl.responseReceived 
+         * which may require changes in the CorbaResponseWaitingRoomImpl.responseReceived
          * method.
          *
          * Note that the "NO" at the start of these methods prevents JUnit from

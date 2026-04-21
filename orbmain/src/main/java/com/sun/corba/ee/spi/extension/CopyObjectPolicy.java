@@ -30,7 +30,7 @@ public class CopyObjectPolicy extends LocalObject implements Policy
 {
     private final int value ;
 
-    public CopyObjectPolicy( int value ) 
+    public CopyObjectPolicy( int value )
     {
         this.value = value ;
     }
@@ -55,7 +55,7 @@ public class CopyObjectPolicy extends LocalObject implements Policy
         // NO-OP
     }
 
-    public String toString() 
+    public String toString()
     {
         return "CopyObjectPolicy[" + value + "]" ;
     }

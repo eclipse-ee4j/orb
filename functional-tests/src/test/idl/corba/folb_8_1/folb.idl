@@ -20,11 +20,11 @@
 /**
  * @author Harold Carr
  */
-module corba 
+module corba
 {
   module folb_8_1
   {
-    struct TaggedCustomSocketInfo { 
+    struct TaggedCustomSocketInfo {
       string  type;
       string  host;
       long    port;

@@ -24,11 +24,11 @@ import java.lang.reflect.Method ;
 public interface ElementParser extends UnaryFunction<String,Object> {
     String[] describe() ;
 
-    UnaryFunction<Method,ElementParser> factory = 
-	new UnaryFunction<Method,ElementParser>() {   
+    UnaryFunction<Method,ElementParser> factory =
+    new UnaryFunction<Method,ElementParser>() {
         @Override
-	    public ElementParser evaluate( Method m ) {
-		return new ElementParserImpl( m ) ;
-	    }
-	} ;
+        public ElementParser evaluate( Method m ) {
+        return new ElementParserImpl( m ) ;
+        }
+    } ;
 }

@@ -93,7 +93,7 @@ public class JourneyArrow extends Arrow
 
         super.draw (g);
     }
-  
+
 
 
 

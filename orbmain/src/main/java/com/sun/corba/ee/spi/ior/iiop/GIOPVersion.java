@@ -52,7 +52,7 @@ public class GIOPVersion {
     public static final int VERSION_1_1 = 0x0101;
     public static final int VERSION_1_2 = 0x0102;
     public static final int VERSION_1_3 = 0x0103;
-    public static final int VERSION_13_XX = 
+    public static final int VERSION_13_XX =
         (13 << 8) | ORBConstants.JAVA_ENC_VERSION;
 
     // Instance variables
@@ -94,7 +94,7 @@ public class GIOPVersion {
     public boolean equals(GIOPVersion gv){
         if (gv == null) {
             return false ;
-        } 
+        }
 
         return gv.major == this.major && gv.minor == this.minor ;
     }
@@ -106,7 +106,7 @@ public class GIOPVersion {
             return false;
     }
 
-    public int hashCode() 
+    public int hashCode()
     {
         return 37*major + minor ;
     }

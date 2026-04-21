@@ -28,15 +28,15 @@
 package org.omg.CosNaming;
 
 @SuppressWarnings({"deprecation"})
-public abstract class _BindingIteratorImplBase 
-    extends org.omg.CORBA.DynamicImplementation 
+public abstract class _BindingIteratorImplBase
+    extends org.omg.CORBA.DynamicImplementation
     implements org.omg.CosNaming.BindingIterator {
-    
+
     // Constructor
     public _BindingIteratorImplBase() {
         super();
     }
-    
+
     // Type strings for this class and its superclases
     private static final String _type_ids[] = {
         "IDL:omg.org/CosNaming/BindingIterator:1.0"

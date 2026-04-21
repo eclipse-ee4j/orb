@@ -20,8 +20,8 @@
 package org.omg.CORBA;
 
 /**
- * This exception indicates an internal failure in an ORB, for 
- * example, if an ORB has detected corruption of its internal 
+ * This exception indicates an internal failure in an ORB, for
+ * example, if an ORB has detected corruption of its internal
  * data structures.<P>
  * It contains a minor code, which gives more detailed information about
  * what caused the exception, and a completion status. It may also contain
@@ -38,7 +38,7 @@ package org.omg.CORBA;
 
 public final class INTERNAL extends SystemException {
     /**
-     * Constructs an <code>INTERNAL</code> exception with a default 
+     * Constructs an <code>INTERNAL</code> exception with a default
      * minor code of 0 and a completion state of COMPLETED_NO.
      */
     public INTERNAL() {

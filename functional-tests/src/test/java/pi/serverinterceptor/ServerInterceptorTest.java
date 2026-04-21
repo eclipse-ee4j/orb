@@ -33,15 +33,15 @@ import java.util.*;
  * behaviors, and in what order those interception points are invoked.
  */
 public class ServerInterceptorTest
-    extends CORBATest 
+    extends CORBATest
 {
     // Set to true if at least one test failes
     private boolean failed = false;
 
     Controller orbd;
 
-    protected void doTest() 
-        throws Throwable 
+    protected void doTest()
+        throws Throwable
     {
         startORBD();
         System.out.println();
@@ -91,7 +91,7 @@ public class ServerInterceptorTest
             clientProps.setProperty(ORBConstants.PERSISTENT_SERVER_PORT_PROPERTY,
                                     Options.getUnusedPort().toString());
 
-            // Start only a server - the server will create the client in this 
+            // Start only a server - the server will create the client in this
             // test.  Create it as a client so no handshake is tested for.
             server = createClient( "pi.serverinterceptor.POALocalServer",
                                    "poalocal" );
@@ -120,7 +120,7 @@ public class ServerInterceptorTest
             serverProps.setProperty(ORBConstants.PERSISTENT_SERVER_PORT_PROPERTY,
                                     Options.getUnusedPort().toString());
 
-            server = createServer( "pi.serverinterceptor.POARemoteServer", 
+            server = createServer( "pi.serverinterceptor.POARemoteServer",
                                    "poa-server" );
             server.start();
 
@@ -145,7 +145,7 @@ public class ServerInterceptorTest
 
         try {
 
-            // Start only a server - the server will create the client in this 
+            // Start only a server - the server will create the client in this
             // test.  Create it as a client so no handshake is tested for.
             server = createClient( "pi.serverinterceptor.DSIPOALocalServer",
                                    "dsipoalocal" );
@@ -159,12 +159,12 @@ public class ServerInterceptorTest
     }
 
     private void testPOADSIRemote()
-        throws Throwable 
+        throws Throwable
     {
         Controller client, server;
 
         try {
-            server = createServer( "pi.serverinterceptor.DSIPOARemoteServer", 
+            server = createServer( "pi.serverinterceptor.DSIPOARemoteServer",
                                    "dsi-poa-server" );
             server.start();
             client = createClient( "pi.serverinterceptor.POARemoteClient",
@@ -185,7 +185,7 @@ public class ServerInterceptorTest
         Controller server;
 
         try {
-            // Start only a server - the server will create the client in this 
+            // Start only a server - the server will create the client in this
             // test.  Create it as a client so no handshake is tested for.
             server = createClient( "pi.serverinterceptor.RMILocalServer",
                                    "rmilocal" );
@@ -198,7 +198,7 @@ public class ServerInterceptorTest
         }
     }
 
-    private void testRMIRemote() 
+    private void testRMIRemote()
         throws Throwable
     {
         Controller client, server;
@@ -226,7 +226,7 @@ public class ServerInterceptorTest
         Controller server;
 
         try {
-            // Start only a server - the server will create the client in this 
+            // Start only a server - the server will create the client in this
             // test.  Create it as a client so no handshake is tested for.
             server = createClient( "pi.serverinterceptor.DSIRMILocalServer",
                                    "dsirmilocal" );
@@ -282,8 +282,8 @@ public class ServerInterceptorTest
             System.out.print( "FAILED, Server crashed" );
             failed = true;
         }
-        else if( (client != null) && 
-                 (client.exitValue() != Controller.SUCCESS) ) 
+        else if( (client != null) &&
+                 (client.exitValue() != Controller.SUCCESS) )
         {
             System.out.print( "FAILED, Client exit value = " +
                 client.exitValue() );

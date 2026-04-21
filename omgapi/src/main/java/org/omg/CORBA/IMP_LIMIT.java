@@ -20,11 +20,11 @@
 package org.omg.CORBA;
 
 /**
- * This exception indicates that an implementation limit was 
- * exceeded in the ORB run time. For example, an ORB may reach 
- * the maximum number of references it can hold simultaneously 
- * in an address space, the size of a parameter may have 
- * exceeded the allowed maximum, or an ORB may impose a maximum 
+ * This exception indicates that an implementation limit was
+ * exceeded in the ORB run time. For example, an ORB may reach
+ * the maximum number of references it can hold simultaneously
+ * in an address space, the size of a parameter may have
+ * exceeded the allowed maximum, or an ORB may impose a maximum
  * on the number of clients or servers that can run simultaneously.<P>
  * It contains a minor code, which gives more detailed information about
  * what caused the exception, and a completion status. It may also contain
@@ -39,7 +39,7 @@ package org.omg.CORBA;
 
 public final class IMP_LIMIT extends SystemException {
     /**
-     * Constructs an <code>IMP_LIMIT</code> exception with a default 
+     * Constructs an <code>IMP_LIMIT</code> exception with a default
      * minor code of 0 and a completion state of COMPLETED_NO.
      */
     public IMP_LIMIT() {

@@ -37,7 +37,7 @@ import org.glassfish.gmbal.ManagedObject ;
  */
 @Transport
 @ManagedObject
-@Description( "Cache of connections accepted by the ORB" ) 
+@Description( "Cache of connections accepted by the ORB" )
 @AMXMetadata( type="corba-inbound-connection-cache-mon", group="monitoring" )
 public class InboundConnectionCacheImpl
     extends
@@ -60,7 +60,7 @@ public class InboundConnectionCacheImpl
     {
         throw wrapper.methodShouldNotBeCalled();
     }
-    
+
     @Transport
     public void put(Acceptor acceptor, Connection connection)
     {

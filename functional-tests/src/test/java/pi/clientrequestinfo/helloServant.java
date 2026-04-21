@@ -28,10 +28,10 @@ import org.omg.CORBA.*;
 import ClientRequestInfo.*; // hello interface
 
 /**
- * Servant implementation.  
+ * Servant implementation.
  */
-public class helloServant 
-        extends helloPOA 
+public class helloServant
+        extends helloPOA
 {
     // contains implementations of methods.
     private helloDelegate delegate;
@@ -44,17 +44,17 @@ public class helloServant
     public String sayHello() {
         return delegate.sayHello();
     }
-    
+
     public String saySystemException() {
         return delegate.saySystemException();
     }
-    
-    public void sayUserException() 
-        throws ExampleException 
+
+    public void sayUserException()
+        throws ExampleException
     {
         delegate.sayUserException();
     }
-    
+
     public void sayOneway() {
         delegate.sayOneway();
     }
@@ -66,7 +66,7 @@ public class helloServant
     public void clearInvoked() {
         delegate.clearInvoked();
     }
-    
+
     public boolean wasInvoked() {
         return delegate.wasInvoked();
     }

@@ -100,14 +100,14 @@ public class ParserTable {
 
     private ParserData[] parserData ;
 
-    public ParserData[] getParserData() 
+    public ParserData[] getParserData()
     {
         return parserData ;
     }
 
     public static ObjectName testGmbalRootParentName ;
 
-    public final static String TEST_GMBAL_ROOT_PARENT_NAME = 
+    public final static String TEST_GMBAL_ROOT_PARENT_NAME =
         "test:pp=\"/\",type=\"Foo\",name=\"1\"" ;
 
     static {
@@ -121,7 +121,7 @@ public class ParserTable {
     private ParserTable( UnaryFunction<String,Class<?>> cnr ) {
         classAction = OperationFactory.classAction( cnr ) ;
 
-        String codeSetTestString = 
+        String codeSetTestString =
             OSFCodeSetRegistry.ISO_8859_1_VALUE + "," +
             OSFCodeSetRegistry.UTF_16_VALUE + "," +
             OSFCodeSetRegistry.ISO_646_VALUE ;
@@ -130,7 +130,7 @@ public class ParserTable {
 
         USLPort[] USLPorts = { new USLPort( "FOO", 2701 ), new USLPort( "BAR", 3333 ) } ;
 
-        TcpTimeouts testTcpTimeouts = TcpTimeouts.factory.create(       
+        TcpTimeouts testTcpTimeouts = TcpTimeouts.factory.create(
             2000, 6000, 20 ) ;
 
         TcpTimeouts defaultTcpTimeouts = TcpTimeouts.factory.create(
@@ -147,181 +147,181 @@ public class ParserTable {
             ORBConstants.TRANSPORT_TCP_CONNECT_BACKOFF_FACTOR,
             ORBConstants.TRANSPORT_TCP_CONNECT_MAX_SINGLE_WAIT );
 
-        ORBInitializer[] TestORBInitializers = 
-            { null, 
-              new TestORBInitializer1(), 
+        ORBInitializer[] TestORBInitializers =
+            { null,
+              new TestORBInitializer1(),
               new TestORBInitializer2() }  ;
-        Pair[] TestORBInitData = { 
+        Pair[] TestORBInitData = {
             new Pair<String,String>( "foo.bar.blech.NonExistent", "dummy" ),
             new Pair<String,String>( MY_CLASS_NAME + "$TestORBInitializer1", "dummy" ),
             new Pair<String,String>( MY_CLASS_NAME + "$TestORBInitializer2", "dummy" ) } ;
 
         Acceptor[] TestAcceptors =
-            { null, 
-              new TestAcceptor2(), 
+            { null,
+              new TestAcceptor2(),
               new TestAcceptor1()
             }  ;
         // REVISIT: The test data gets put into a Properties object where
         // order is not guaranteed.  Thus the above array is in reverse.
-        Pair[] TestAcceptorData = { 
+        Pair[] TestAcceptorData = {
             new Pair<String,String>( "foo.bar.blech.NonExistent", "dummy" ),
             new Pair<String,String>( MY_CLASS_NAME + "$TestAcceptor1", "dummy" ),
             new Pair<String,String>( MY_CLASS_NAME + "$TestAcceptor2", "dummy" ) } ;
 
         Pair[] TestORBInitRefData =
-            { new Pair<String,String>( "Foo", "ior:930492049394" ), 
+            { new Pair<String,String>( "Foo", "ior:930492049394" ),
               new Pair<String,String>( "Bar", "ior:3453465785633576" ) } ;
 
         // Why are we not handling INITIAL_SERVICES?
         // URL testServicesURL = null ;
-        // String testServicesString = "corbaloc::camelot/NameService" ; 
+        // String testServicesString = "corbaloc::camelot/NameService" ;
         // try {
             // testServicesURL = new URL( testServicesString )  ;
         // } catch (Exception exc) {
         // }
 
-        // propertyName, 
-        // operation, 
-        // fieldName, defaultValue, 
-        // testValue, testData (string or Pair[]) 
+        // propertyName,
+        // operation,
+        // fieldName, defaultValue,
+        // testValue, testData (string or Pair[])
         ParserData[] pd = {
-            ParserDataFactory.make( ORBConstants.DEBUG_PROPERTY, 
-                OperationFactory.listAction( ",", OperationFactory.stringAction()), 
+            ParserDataFactory.make( ORBConstants.DEBUG_PROPERTY,
+                OperationFactory.listAction( ",", OperationFactory.stringAction()),
                 "debugFlags", new String[0],
-                debugTestData, "subcontract,poa,transport" ), 
-            ParserDataFactory.make( ORBConstants.INITIAL_HOST_PROPERTY, 
-                OperationFactory.stringAction(), 
+                debugTestData, "subcontract,poa,transport" ),
+            ParserDataFactory.make( ORBConstants.INITIAL_HOST_PROPERTY,
+                OperationFactory.stringAction(),
                 "ORBInitialHost", "",
                 "Foo", "Foo" ),
-            ParserDataFactory.make( ORBConstants.INITIAL_PORT_PROPERTY, 
-                OperationFactory.integerAction(), 
+            ParserDataFactory.make( ORBConstants.INITIAL_PORT_PROPERTY,
+                OperationFactory.integerAction(),
                 "ORBInitialPort", Integer.valueOf( ORBConstants.DEFAULT_INITIAL_PORT ),
                 Integer.valueOf( 27314 ), "27314" ),
             // Where did this come from?
-            //ParserDataFactory.make( ORBConstants.INITIAL_PORT_PROPERTY, 
-                //OperationFactory.booleanAction(), 
+            //ParserDataFactory.make( ORBConstants.INITIAL_PORT_PROPERTY,
+                //OperationFactory.booleanAction(),
                 //"ORBInitialPortInitialized", Boolean.FALSE,
                 //Boolean.TRUE, "27314" ),
-            ParserDataFactory.make( ORBConstants.SERVER_HOST_PROPERTY, 
-                OperationFactory.stringAction(), 
+            ParserDataFactory.make( ORBConstants.SERVER_HOST_PROPERTY,
+                OperationFactory.stringAction(),
                 "ORBServerHost", "",
                 "camelot", "camelot" ),
-            ParserDataFactory.make( ORBConstants.SERVER_PORT_PROPERTY, 
-                OperationFactory.integerAction(), 
+            ParserDataFactory.make( ORBConstants.SERVER_PORT_PROPERTY,
+                OperationFactory.integerAction(),
                 "ORBServerPort", Integer.valueOf( 0 ),
                 Integer.valueOf( 38143 ), "38143" ),
-            ParserDataFactory.make( ORBConstants.ORB_ID_PROPERTY, 
-                OperationFactory.stringAction(), 
+            ParserDataFactory.make( ORBConstants.ORB_ID_PROPERTY,
+                OperationFactory.stringAction(),
                 "orbId", "",
                 "foo", "foo" ),
-            ParserDataFactory.make( ORBConstants.OLD_ORB_ID_PROPERTY, 
-                OperationFactory.stringAction(), 
+            ParserDataFactory.make( ORBConstants.OLD_ORB_ID_PROPERTY,
+                OperationFactory.stringAction(),
                 "orbId", "",
                 "foo", "foo" ),
-            ParserDataFactory.make( ORBConstants.ORB_SERVER_ID_PROPERTY, 
-                OperationFactory.integerAction(), 
+            ParserDataFactory.make( ORBConstants.ORB_SERVER_ID_PROPERTY,
+                OperationFactory.integerAction(),
                 "persistentServerId", Integer.valueOf(-1),
                 Integer.valueOf( 1234), "1234" ),
-            ParserDataFactory.make( 
-                ORBConstants.ORB_SERVER_ID_PROPERTY, 
-                OperationFactory.setFlagAction(), 
+            ParserDataFactory.make(
+                ORBConstants.ORB_SERVER_ID_PROPERTY,
+                OperationFactory.setFlagAction(),
                 "persistentServerIdInitialized", Boolean.FALSE,
                 Boolean.TRUE, "1234" ),
             // REVISIT after switch
-            // ParserDataFactory.make( ORBConstants.INITIAL_SERVICES_PROPERTY, 
-                // OperationFactory.URLAction(), 
+            // ParserDataFactory.make( ORBConstants.INITIAL_SERVICES_PROPERTY,
+                // OperationFactory.URLAction(),
                 // "servicesUrl", null,
                 // testServicesURL, testServicesString ),
-            // ParserDataFactory.make( ORBConstants.DEFAULT_INIT_REF_PROPERTY, 
-                // OperationFactory.stringAction(), 
-                // "defaultInitRef", null, 
+            // ParserDataFactory.make( ORBConstants.DEFAULT_INIT_REF_PROPERTY,
+                // OperationFactory.stringAction(),
+                // "defaultInitRef", null,
                 // "Fooref", "Fooref" ),
-            ParserDataFactory.make( ORBConstants.HIGH_WATER_MARK_PROPERTY, 
-                OperationFactory.integerAction(), 
+            ParserDataFactory.make( ORBConstants.HIGH_WATER_MARK_PROPERTY,
+                OperationFactory.integerAction(),
                 "highWaterMark", Integer.valueOf( 240 ),
                 Integer.valueOf( 3745 ), "3745" ),
-            ParserDataFactory.make( ORBConstants.LOW_WATER_MARK_PROPERTY, 
-                OperationFactory.integerAction(), 
+            ParserDataFactory.make( ORBConstants.LOW_WATER_MARK_PROPERTY,
+                OperationFactory.integerAction(),
                 "lowWaterMark", Integer.valueOf( 100 ),
                 Integer.valueOf( 12 ), "12" ),
-            ParserDataFactory.make( ORBConstants.NUMBER_TO_RECLAIM_PROPERTY, 
-                OperationFactory.integerAction(), 
+            ParserDataFactory.make( ORBConstants.NUMBER_TO_RECLAIM_PROPERTY,
+                OperationFactory.integerAction(),
                 "numberToReclaim", Integer.valueOf( 5 ),
                 Integer.valueOf( 231 ), "231" ),
-            ParserDataFactory.make( ORBConstants.GIOP_VERSION, 
-                makeGVOperation(), 
+            ParserDataFactory.make( ORBConstants.GIOP_VERSION,
+                makeGVOperation(),
                 "giopVersion", GIOPVersion.DEFAULT_VERSION,
                 new GIOPVersion( 2, 3 ), "2.3" ),
-            ParserDataFactory.make( ORBConstants.GIOP_FRAGMENT_SIZE, 
+            ParserDataFactory.make( ORBConstants.GIOP_FRAGMENT_SIZE,
                 makeFSOperation(), "giopFragmentSize",
                 Integer.valueOf( ORBConstants.GIOP_DEFAULT_FRAGMENT_SIZE ),
                 Integer.valueOf( 65536 ), "65536" ),
-            ParserDataFactory.make( ORBConstants.GIOP_BUFFER_SIZE, 
-                OperationFactory.integerAction(), 
+            ParserDataFactory.make( ORBConstants.GIOP_BUFFER_SIZE,
+                OperationFactory.integerAction(),
                 "giopBufferSize", Integer.valueOf( ORBConstants.GIOP_DEFAULT_BUFFER_SIZE ),
                 Integer.valueOf( 234000 ), "234000" ),
-            ParserDataFactory.make( ORBConstants.GIOP_11_BUFFMGR, 
+            ParserDataFactory.make( ORBConstants.GIOP_11_BUFFMGR,
                 makeBMGROperation(),
                 "giop11BuffMgr", Integer.valueOf( ORBConstants.DEFAULT_GIOP_11_BUFFMGR ),
                 Integer.valueOf( 1 ), "CLCT" ),
-            ParserDataFactory.make( ORBConstants.GIOP_12_BUFFMGR, 
+            ParserDataFactory.make( ORBConstants.GIOP_12_BUFFMGR,
                 makeBMGROperation(),
                 "giop12BuffMgr", Integer.valueOf( ORBConstants.DEFAULT_GIOP_12_BUFFMGR ),
                 Integer.valueOf( 0 ), "GROW" ),
 
-            // Note that the same property is used to set two different 
+            // Note that the same property is used to set two different
             // fields here.  This requires that both entries use the same test
             // data, or the test will fail.
-            ParserDataFactory.make( ORBConstants.GIOP_TARGET_ADDRESSING, 
-                OperationFactory.compose( OperationFactory.integerRangeAction( 0, 3 ), 
+            ParserDataFactory.make( ORBConstants.GIOP_TARGET_ADDRESSING,
+                OperationFactory.compose( OperationFactory.integerRangeAction( 0, 3 ),
                     OperationFactory.convertIntegerToShort() ),
-                "giopTargetAddressPreference", 
+                "giopTargetAddressPreference",
                 Short.valueOf( ORBConstants.ADDR_DISP_HANDLE_ALL ),
                 Short.valueOf( (short)2 ), "2" ),
-            ParserDataFactory.make( ORBConstants.GIOP_TARGET_ADDRESSING, 
-                makeADOperation(), 
+            ParserDataFactory.make( ORBConstants.GIOP_TARGET_ADDRESSING,
+                makeADOperation(),
                 "giopAddressDisposition", Short.valueOf( KeyAddr.value ),
                 Short.valueOf( (short)2 ), "2" ),
-            ParserDataFactory.make( ORBConstants.ALWAYS_SEND_CODESET_CTX_PROPERTY, 
-                OperationFactory.booleanAction(), 
+            ParserDataFactory.make( ORBConstants.ALWAYS_SEND_CODESET_CTX_PROPERTY,
+                OperationFactory.booleanAction(),
                 "alwaysSendCodeSetCtx", Boolean.TRUE,
                 Boolean.FALSE, "false"),
-            ParserDataFactory.make( ORBConstants.USE_BOMS, 
-                OperationFactory.booleanAction(), 
-                "useByteOrderMarkers", 
+            ParserDataFactory.make( ORBConstants.USE_BOMS,
+                OperationFactory.booleanAction(),
+                "useByteOrderMarkers",
                     Boolean.valueOf( ORBConstants.DEFAULT_USE_BYTE_ORDER_MARKERS ),
                 Boolean.FALSE, "false" ),
-            ParserDataFactory.make( ORBConstants.USE_BOMS_IN_ENCAPS, 
-                OperationFactory.booleanAction(), 
-                "useByteOrderMarkersInEncaps", 
+            ParserDataFactory.make( ORBConstants.USE_BOMS_IN_ENCAPS,
+                OperationFactory.booleanAction(),
+                "useByteOrderMarkersInEncaps",
                     Boolean.valueOf( ORBConstants.DEFAULT_USE_BYTE_ORDER_MARKERS_IN_ENCAPS ),
-                Boolean.FALSE, "false" ), 
-            ParserDataFactory.make( ORBConstants.CHAR_CODESETS, 
-                makeCSOperation(), 
+                Boolean.FALSE, "false" ),
+            ParserDataFactory.make( ORBConstants.CHAR_CODESETS,
+                makeCSOperation(),
                 "charData", CodeSetComponentInfo.JAVASOFT_DEFAULT_CODESETS.getCharComponent(),
                 CodeSetComponentInfo.createFromString( codeSetTestString ), codeSetTestString ),
-            ParserDataFactory.make( ORBConstants.WCHAR_CODESETS, 
-                makeCSOperation(), 
+            ParserDataFactory.make( ORBConstants.WCHAR_CODESETS,
+                makeCSOperation(),
                 "wcharData", CodeSetComponentInfo.JAVASOFT_DEFAULT_CODESETS.getWCharComponent(),
                 CodeSetComponentInfo.createFromString( codeSetTestString ), codeSetTestString ),
-            ParserDataFactory.make( ORBConstants.ALLOW_LOCAL_OPTIMIZATION, 
-                OperationFactory.booleanAction(), 
+            ParserDataFactory.make( ORBConstants.ALLOW_LOCAL_OPTIMIZATION,
+                OperationFactory.booleanAction(),
                 "allowLocalOptimization", Boolean.FALSE,
                 Boolean.TRUE, "true" ),
-            ParserDataFactory.make( ORBConstants.LEGACY_SOCKET_FACTORY_CLASS_PROPERTY, 
-                makeLegacySocketFactoryOperation(), 
+            ParserDataFactory.make( ORBConstants.LEGACY_SOCKET_FACTORY_CLASS_PROPERTY,
+                makeLegacySocketFactoryOperation(),
                 // No default - must be set by user if they are using
                 // legacy socket factory.
                 "legacySocketFactory", null,
-                new TestLegacyORBSocketFactory(), 
+                new TestLegacyORBSocketFactory(),
                 MY_CLASS_NAME + "$TestLegacyORBSocketFactory" ),
             ParserDataFactory.make( ORBConstants.SOCKET_FACTORY_CLASS_PROPERTY,
-                makeSocketFactoryOperation(), 
+                makeSocketFactoryOperation(),
                 "socketFactory", new DefaultSocketFactoryImpl(),
-                new TestORBSocketFactory(), 
+                new TestORBSocketFactory(),
                 MY_CLASS_NAME + "$TestORBSocketFactory" ),
-            ParserDataFactory.make( ORBConstants.LISTEN_SOCKET_PROPERTY, 
-                makeUSLOperation() , 
+            ParserDataFactory.make( ORBConstants.LISTEN_SOCKET_PROPERTY,
+                makeUSLOperation() ,
                 "userSpecifiedListenPorts", new USLPort[0],
                 USLPorts, "FOO:2701,BAR:3333" ),
             ParserDataFactory.make( ORBConstants.IOR_TO_SOCKET_INFO_CLASS_PROPERTY,
@@ -334,33 +334,33 @@ public class ParserTable {
                 "iiopPrimaryToContactInfo", null,
                 new TestIIOPPrimaryToContactInfo(),
                 MY_CLASS_NAME + "$TestIIOPPrimaryToContactInfo" ),
-            ParserDataFactory.make( ORBConstants.CONTACT_INFO_LIST_FACTORY_CLASS_PROPERTY, 
-                makeContactInfoListFactoryOperation(), 
+            ParserDataFactory.make( ORBConstants.CONTACT_INFO_LIST_FACTORY_CLASS_PROPERTY,
+                makeContactInfoListFactoryOperation(),
                 "corbaContactInfoListFactory", null,
-                new TestContactInfoListFactory(), 
+                new TestContactInfoListFactory(),
                 MY_CLASS_NAME + "$TestContactInfoListFactory" ),
-            ParserDataFactory.make( ORBConstants.PERSISTENT_SERVER_PORT_PROPERTY, 
-                OperationFactory.integerAction(), 
+            ParserDataFactory.make( ORBConstants.PERSISTENT_SERVER_PORT_PROPERTY,
+                OperationFactory.integerAction(),
                 "persistentServerPort", Integer.valueOf( 0 ),
                 Integer.valueOf( 2743 ), "2743" ),
-            ParserDataFactory.make( ORBConstants.PERSISTENT_SERVER_PORT_PROPERTY, 
-                OperationFactory.setFlagAction(), 
+            ParserDataFactory.make( ORBConstants.PERSISTENT_SERVER_PORT_PROPERTY,
+                OperationFactory.setFlagAction(),
                 "persistentPortInitialized", Boolean.FALSE,
                 Boolean.TRUE, "2743" ),
-            ParserDataFactory.make( ORBConstants.ACTIVATED_PROPERTY, 
-                OperationFactory.booleanAction(), 
+            ParserDataFactory.make( ORBConstants.ACTIVATED_PROPERTY,
+                OperationFactory.booleanAction(),
                 "serverIsORBActivated", Boolean.FALSE,
                 Boolean.TRUE, "true" ),
-            ParserDataFactory.make( ORBConstants.BAD_SERVER_ID_HANDLER_CLASS_PROPERTY,  
+            ParserDataFactory.make( ORBConstants.BAD_SERVER_ID_HANDLER_CLASS_PROPERTY,
                 classAction,
                 "badServerIdHandlerClass", null,
                 TestBadServerIdHandler.class, MY_CLASS_NAME + "$TestBadServerIdHandler" ),
-            ParserDataFactory.make( ORBConstants.PI_ORB_INITIALIZER_CLASS_PREFIX,  
-                makeROIOperation(), 
+            ParserDataFactory.make( ORBConstants.PI_ORB_INITIALIZER_CLASS_PREFIX,
+                makeROIOperation(),
                 "orbInitializers", new ORBInitializer[0],
                 TestORBInitializers, TestORBInitData, ORBInitializer.class ),
-            ParserDataFactory.make( ORBConstants.ACCEPTOR_CLASS_PREFIX_PROPERTY,  
-                makeAcceptorInstantiationOperation(), 
+            ParserDataFactory.make( ORBConstants.ACCEPTOR_CLASS_PREFIX_PROPERTY,
+                makeAcceptorInstantiationOperation(),
                 "acceptors", new Acceptor[0],
                 TestAcceptors, TestAcceptorData, Acceptor.class ),
 
@@ -385,29 +385,29 @@ public class ParserTable {
             //   useWorkerThreadForEvent = true
 
             ParserDataFactory.make( ORBConstants.ACCEPTOR_SOCKET_TYPE_PROPERTY,
-                OperationFactory.stringAction(), 
+                OperationFactory.stringAction(),
                 "acceptorSocketType", ORBConstants.SOCKETCHANNEL,
                 "foo", "foo" ),
 
             ParserDataFactory.make( ORBConstants.USE_NIO_SELECT_TO_WAIT_PROPERTY,
-                OperationFactory.booleanAction(), 
+                OperationFactory.booleanAction(),
                 "acceptorSocketUseSelectThreadToWait", Boolean.TRUE,
                 Boolean.TRUE, "true" ),
-            ParserDataFactory.make( ORBConstants.ACCEPTOR_SOCKET_USE_WORKER_THREAD_FOR_EVENT_PROPERTY, 
-                OperationFactory.booleanAction(), 
+            ParserDataFactory.make( ORBConstants.ACCEPTOR_SOCKET_USE_WORKER_THREAD_FOR_EVENT_PROPERTY,
+                OperationFactory.booleanAction(),
                 "acceptorSocketUseWorkerThreadForEvent", Boolean.TRUE,
                 Boolean.TRUE, "true" ),
             ParserDataFactory.make( ORBConstants.CONNECTION_SOCKET_TYPE_PROPERTY,
-                OperationFactory.stringAction(), 
+                OperationFactory.stringAction(),
                 "connectionSocketType", ORBConstants.SOCKETCHANNEL,
                 "foo", "foo" ),
             ParserDataFactory.make( ORBConstants.USE_NIO_SELECT_TO_WAIT_PROPERTY,
-                OperationFactory.booleanAction(), 
+                OperationFactory.booleanAction(),
                 "connectionSocketUseSelectThreadToWait", Boolean.TRUE,
                 Boolean.TRUE, "true" ),
-            ParserDataFactory.make( 
-                ORBConstants.CONNECTION_SOCKET_USE_WORKER_THREAD_FOR_EVENT_PROPERTY, 
-                OperationFactory.booleanAction(), 
+            ParserDataFactory.make(
+                ORBConstants.CONNECTION_SOCKET_USE_WORKER_THREAD_FOR_EVENT_PROPERTY,
+                OperationFactory.booleanAction(),
                 "connectionSocketUseWorkerThreadForEvent", Boolean.TRUE,
                 Boolean.TRUE, "true" ),
             ParserDataFactory.make( ORBConstants.WAIT_FOR_RESPONSE_TIMEOUT,
@@ -417,56 +417,56 @@ public class ParserTable {
             ParserDataFactory.make( ORBConstants.DISABLE_DIRECT_BYTE_BUFFER_USE_PROPERTY,
                 OperationFactory.booleanAction(),
                 "disableDirectByteBufferUse", Boolean.TRUE, // was Boolean.FALSE,
-                Boolean.TRUE, "true" ), 
-            ParserDataFactory.make(ORBConstants.TRANSPORT_TCP_TIMEOUTS_PROPERTY, 
+                Boolean.TRUE, "true" ),
+            ParserDataFactory.make(ORBConstants.TRANSPORT_TCP_TIMEOUTS_PROPERTY,
                 OperationFactoryExt.convertAction( TcpTimeoutsImpl.class ),
                 "tcpTimeouts",  defaultTcpTimeouts,
                 testTcpTimeouts, "2000:6000:20" ),
-            ParserDataFactory.make(ORBConstants.TRANSPORT_TCP_CONNECT_TIMEOUTS_PROPERTY, 
+            ParserDataFactory.make(ORBConstants.TRANSPORT_TCP_CONNECT_TIMEOUTS_PROPERTY,
                 OperationFactoryExt.convertAction( TcpTimeoutsImpl.class ),
                 "tcpConnectTimeouts",  defaultTcpConnectTimeouts,
                 testTcpConnectTimeouts, "20:60000:100:5000" ),
             ParserDataFactory.make(
                 ORBConstants.ENABLE_JAVA_SERIALIZATION_PROPERTY,
-                OperationFactory.booleanAction(), 
+                OperationFactory.booleanAction(),
                 "enableJavaSerialization", Boolean.FALSE,
                 Boolean.FALSE, "false"),
             ParserDataFactory.make(
                 ORBConstants.USE_REP_ID,
-                OperationFactory.booleanAction(), 
+                OperationFactory.booleanAction(),
                 "useRepId", Boolean.TRUE,
                 Boolean.TRUE, "true"),
-            ParserDataFactory.make( ORBConstants.ORB_INIT_REF_PROPERTY,  
-                OperationFactory.identityAction(), 
+            ParserDataFactory.make( ORBConstants.ORB_INIT_REF_PROPERTY,
+                OperationFactory.identityAction(),
                 "orbInitialReferences", new Pair[0],
                 TestORBInitRefData, TestORBInitRefData, Pair.class ),
-            ParserDataFactory.make( 
-                ORBConstants.SHOW_INFO_MESSAGES,  
+            ParserDataFactory.make(
+                ORBConstants.SHOW_INFO_MESSAGES,
                 OperationFactory.booleanAction(),
                 "showInfoMessages", Boolean.FALSE,
                 Boolean.FALSE, "false" ),
-            ParserDataFactory.make( 
-                ORBConstants.GET_SERVICE_CONTEXT_RETURNS_NULL,  
+            ParserDataFactory.make(
+                ORBConstants.GET_SERVICE_CONTEXT_RETURNS_NULL,
                 OperationFactory.booleanAction(),
                 "getServiceContextReturnsNull", Boolean.FALSE,
                 Boolean.FALSE, "false" ),
-            ParserDataFactory.make( ORBConstants.APPSERVER_MODE, 
-                OperationFactory.booleanAction(), 
+            ParserDataFactory.make( ORBConstants.APPSERVER_MODE,
+                OperationFactory.booleanAction(),
                 "isAppServerMode", Boolean.FALSE,
                 Boolean.FALSE, "FALSE"),
             ParserDataFactory.make(ORBConstants.READ_BYTE_BUFFER_SIZE_PROPERTY,
-                OperationFactory.integerAction(), 
+                OperationFactory.integerAction(),
                 "readByteBufferSize",
                 Integer.valueOf(ORBConstants.DEFAULT_READ_BYTE_BUFFER_SIZE),
                 Integer.valueOf(8192), "8192"),
             ParserDataFactory.make(ORBConstants.MAX_READ_BYTE_BUFFER_SIZE_THRESHOLD_PROPERTY,
-                OperationFactory.integerAction(), 
+                OperationFactory.integerAction(),
                 "maxReadByteBufferSizeThreshold",
                 Integer.valueOf(ORBConstants.MAX_READ_BYTE_BUFFER_SIZE_THRESHOLD),
-                Integer.valueOf(4000000), "4000000"),            
+                Integer.valueOf(4000000), "4000000"),
             ParserDataFactory.make(
                 ORBConstants.POOLED_DIRECT_BYTE_BUFFER_SLAB_SIZE_PROPERTY,
-                OperationFactory.integerAction(), 
+                OperationFactory.integerAction(),
                 "pooledDirectByteBufferSlabSize",
                 Integer.valueOf(ORBConstants.DEFAULT_POOLED_DIRECT_BYTE_BUFFER_SLAB_SIZE),
                 Integer.valueOf(1048576), "1048576"),
@@ -507,7 +507,7 @@ public class ParserTable {
                 Boolean.FALSE, "FALSE" ),
             ParserDataFactory.make(
                 ORBConstants.FRAGMENT_READ_TIMEOUT,
-                OperationFactory.integerAction(), 
+                OperationFactory.integerAction(),
                 "fragmentReadTimeout",
                 Integer.valueOf(ORBConstants.DEFAULT_FRAGMENT_READ_TIMEOUT ),
                 Integer.valueOf(23000), "23000"),
@@ -518,17 +518,17 @@ public class ParserTable {
         } ;
 
         parserData = pd ;
-    } 
+    }
 
     public static final class TestBadServerIdHandler implements BadServerIdHandler
     {
         @Override
-        public boolean equals( Object other ) 
+        public boolean equals( Object other )
         {
             return other instanceof TestBadServerIdHandler ;
         }
 
-        public void handle( ObjectKey objectKey ) 
+        public void handle( ObjectKey objectKey )
         {
         }
 
@@ -539,14 +539,14 @@ public class ParserTable {
         }
     }
 
-    private Operation makeUSLOperation() 
+    private Operation makeUSLOperation()
     {
-        Operation[] siop = { OperationFactory.stringAction(), 
+        Operation[] siop = { OperationFactory.stringAction(),
             OperationFactory.integerAction() } ;
         Operation op2 = OperationFactory.sequenceAction( ":", siop ) ;
 
         Operation uslop = new Operation() {
-            public Object operate( Object value ) 
+            public Object operate( Object value )
             {
                 Object[] values = (Object[])value ;
                 String type = (String)(values[0]) ;
@@ -554,13 +554,13 @@ public class ParserTable {
                 return new USLPort( type, port.intValue() ) ;
             }
         } ;
-        
+
         Operation op3 = OperationFactory.compose( op2, uslop ) ;
         Operation listenop = OperationFactory.listAction( ",", op3 ) ;
         return listenop ;
     }
-   
-    public static final class TestLegacyORBSocketFactory 
+
+    public static final class TestLegacyORBSocketFactory
         implements com.sun.corba.ee.spi.legacy.connection.ORBSocketFactory
     {
         public boolean equals( Object other )
@@ -585,7 +585,7 @@ public class ParserTable {
         }
     }
 
-    public static final class TestORBSocketFactory 
+    public static final class TestORBSocketFactory
         implements com.sun.corba.ee.spi.transport.ORBSocketFactory
     {
         public boolean equals( Object other )
@@ -648,7 +648,7 @@ public class ParserTable {
         }
     }
 
-    public static final class TestContactInfoListFactory 
+    public static final class TestContactInfoListFactory
         implements ContactInfoListFactory
     {
         public boolean equals( Object other )
@@ -661,10 +661,10 @@ public class ParserTable {
         public ContactInfoList create( IOR ior ) { return null; }
     }
 
-    private Operation makeMapOperation( final Map map ) 
+    private Operation makeMapOperation( final Map map )
     {
         return new Operation() {
-            public Object operate( Object value ) 
+            public Object operate( Object value )
             {
                 return map.get( value ) ;
             }
@@ -683,7 +683,7 @@ public class ParserTable {
     private Operation makeLegacySocketFactoryOperation()
     {
         Operation sfop = new Operation() {
-            public Object operate( Object value ) 
+            public Object operate( Object value )
             {
                 String param = (String)value ;
 
@@ -701,8 +701,8 @@ public class ParserTable {
                             legacySocketFactoryClass.toString() ) ;
                     }
                 } catch (Exception ex) {
-                    // ClassNotFoundException, IllegalAccessException, 
-                    // InstantiationException, SecurityException or 
+                    // ClassNotFoundException, IllegalAccessException,
+                    // InstantiationException, SecurityException or
                     // ClassCastException
                     throw wrapper.badCustomSocketFactory( ex, param ) ;
                 }
@@ -711,11 +711,11 @@ public class ParserTable {
 
         return sfop ;
     }
-    
+
     private Operation makeSocketFactoryOperation()
     {
         Operation sfop = new Operation() {
-            public Object operate( Object value ) 
+            public Object operate( Object value )
             {
                 String param = (String)value ;
 
@@ -732,8 +732,8 @@ public class ParserTable {
                         throw wrapper.illegalSocketFactoryType( socketFactoryClass.toString() ) ;
                     }
                 } catch (Exception ex) {
-                    // ClassNotFoundException, IllegalAccessException, 
-                    // InstantiationException, SecurityException or 
+                    // ClassNotFoundException, IllegalAccessException,
+                    // InstantiationException, SecurityException or
                     // ClassCastException
                     throw wrapper.badCustomSocketFactory( ex, param ) ;
                 }
@@ -742,11 +742,11 @@ public class ParserTable {
 
         return sfop ;
     }
-    
+
     private Operation makeIORToSocketInfoOperation()
     {
         Operation op = new Operation() {
-            public Object operate( Object value ) 
+            public Object operate( Object value )
             {
                 String param = (String)value ;
 
@@ -762,8 +762,8 @@ public class ParserTable {
                         throw wrapper.illegalIorToSocketInfoType( iorToSocketInfoClass.toString() ) ;
                     }
                 } catch (Exception ex) {
-                    // ClassNotFoundException, IllegalAccessException, 
-                    // InstantiationException, SecurityException or 
+                    // ClassNotFoundException, IllegalAccessException,
+                    // InstantiationException, SecurityException or
                     // ClassCastException
                     throw wrapper.badCustomIorToSocketInfo( ex, param ) ;
                 }
@@ -772,11 +772,11 @@ public class ParserTable {
 
         return op ;
     }
-    
+
     private Operation makeIIOPPrimaryToContactInfoOperation()
     {
         Operation op = new Operation() {
-            public Object operate( Object value ) 
+            public Object operate( Object value )
             {
                 String param = (String)value ;
 
@@ -790,12 +790,12 @@ public class ParserTable {
                         .isAssignableFrom(iiopPrimaryToContactInfoClass)) {
                         return iiopPrimaryToContactInfoClass.newInstance();
                     } else {
-                        throw wrapper.illegalIiopPrimaryToContactInfoType( 
+                        throw wrapper.illegalIiopPrimaryToContactInfoType(
                             iiopPrimaryToContactInfoClass.toString() ) ;
                     }
                 } catch (Exception ex) {
-                    // ClassNotFoundException, IllegalAccessException, 
-                    // InstantiationException, SecurityException or 
+                    // ClassNotFoundException, IllegalAccessException,
+                    // InstantiationException, SecurityException or
                     // ClassCastException
                     throw wrapper.badCustomIiopPrimaryToContactInfo( ex, param ) ;
                 }
@@ -804,11 +804,11 @@ public class ParserTable {
 
         return op ;
     }
-    
+
     private Operation makeContactInfoListFactoryOperation()
     {
         Operation op = new Operation() {
-            public Object operate( Object value ) 
+            public Object operate( Object value )
             {
                 String param = (String)value ;
 
@@ -826,8 +826,8 @@ public class ParserTable {
                             contactInfoListFactoryClass.toString() ) ;
                     }
                 } catch (Exception ex) {
-                    // ClassNotFoundException, IllegalAccessException, 
-                    // InstantiationException, SecurityException or 
+                    // ClassNotFoundException, IllegalAccessException,
+                    // InstantiationException, SecurityException or
                     // ClassCastException
                     throw wrapper.badContactInfoListFactory( ex, param ) ;
                 }
@@ -836,7 +836,7 @@ public class ParserTable {
 
         return op ;
     }
-    
+
     private Operation makeCSOperation()
     {
         Operation csop = new Operation() {
@@ -853,13 +853,13 @@ public class ParserTable {
     private Operation makeADOperation()
     {
         Operation admap = new Operation() {
-            private Integer[] map = { 
-                Integer.valueOf( KeyAddr.value ), 
-                Integer.valueOf( ProfileAddr.value ), 
+            private Integer[] map = {
+                Integer.valueOf( KeyAddr.value ),
+                Integer.valueOf( ProfileAddr.value ),
                 Integer.valueOf( ReferenceAddr.value ),
                 Integer.valueOf( KeyAddr.value ) } ;
 
-            public Object operate( Object value ) 
+            public Object operate( Object value )
             {
                 int val = ((Integer)value).intValue() ;
                 return map[val] ;
@@ -868,14 +868,14 @@ public class ParserTable {
 
         Operation rangeop = OperationFactory.integerRangeAction( 0, 3 ) ;
         Operation op1 = OperationFactory.compose( rangeop, admap ) ;
-        Operation result = OperationFactory.compose( op1, 
+        Operation result = OperationFactory.compose( op1,
             OperationFactory.convertIntegerToShort() ) ;
         return result ;
     }
 
     private Operation makeFSOperation() {
         Operation fschecker = new Operation() {
-            public Object operate( Object value ) 
+            public Object operate( Object value )
             {
                 int giopFragmentSize = ((Integer)value).intValue() ;
                 if (giopFragmentSize < ORBConstants.GIOP_FRAGMENT_MINIMUM_SIZE){
@@ -891,7 +891,7 @@ public class ParserTable {
             }
         } ;
 
-        Operation result = OperationFactory.compose( OperationFactory.integerAction(), 
+        Operation result = OperationFactory.compose( OperationFactory.integerAction(),
             fschecker ) ;
         return result ;
     }
@@ -907,43 +907,43 @@ public class ParserTable {
                 int minor = ((Integer)(nums[1])).intValue() ;
 
                 return new GIOPVersion( major, minor ) ;
-            } 
+            }
         } ;
-        
-        Operation result = OperationFactory.compose( gvHelper, gvMain ); 
+
+        Operation result = OperationFactory.compose( gvHelper, gvMain );
         return result ;
     }
 
-    public static final class TestORBInitializer1 extends org.omg.CORBA.LocalObject 
-        implements ORBInitializer 
+    public static final class TestORBInitializer1 extends org.omg.CORBA.LocalObject
+        implements ORBInitializer
     {
         public boolean equals( Object other )
         {
             return other instanceof TestORBInitializer1 ;
         }
 
-        public void pre_init( ORBInitInfo info ) 
+        public void pre_init( ORBInitInfo info )
         {
         }
 
-        public void post_init( ORBInitInfo info ) 
+        public void post_init( ORBInitInfo info )
         {
         }
     }
 
     public static final class TestORBInitializer2 extends org.omg.CORBA.LocalObject
-        implements ORBInitializer 
+        implements ORBInitializer
     {
         public boolean equals( Object other )
         {
             return other instanceof TestORBInitializer2 ;
         }
 
-        public void pre_init( ORBInitInfo info ) 
+        public void pre_init( ORBInitInfo info )
         {
         }
 
-        public void post_init( ORBInitInfo info ) 
+        public void post_init( ORBInitInfo info )
         {
         }
     }
@@ -960,28 +960,28 @@ public class ParserTable {
                 if (initClass == null)
                     return null ;
 
-                // For security reasons avoid creating an instance 
-                // if this class is one that would fail the class cast 
+                // For security reasons avoid creating an instance
+                // if this class is one that would fail the class cast
                 // to ORBInitializer anyway.
-                if( org.omg.PortableInterceptor.ORBInitializer.class.isAssignableFrom( 
+                if( org.omg.PortableInterceptor.ORBInitializer.class.isAssignableFrom(
                     initClass ) ) {
                     // Now that we have a class object, instantiate one and
                     // remember it:
-                    ORBInitializer initializer = null ; 
+                    ORBInitializer initializer = null ;
 
                     try {
                         initializer = (ORBInitializer)AccessController.doPrivileged(
                             new PrivilegedExceptionAction() {
-                                public Object run() 
-                                    throws InstantiationException, IllegalAccessException 
+                                public Object run()
+                                    throws InstantiationException, IllegalAccessException
                                 {
                                     return initClass.newInstance() ;
                                 }
-                            } 
+                            }
                         ) ;
                     } catch (PrivilegedActionException exc) {
                         // Unwrap the exception, as we don't care exc here
-                        throw wrapper.orbInitializerFailure( exc.getException(), 
+                        throw wrapper.orbInitializerFailure( exc.getException(),
                             initClass.getName() ) ;
                     } catch (Exception exc) {
                         throw wrapper.orbInitializerFailure( exc, initClass.getName() ) ;
@@ -1017,7 +1017,7 @@ public class ParserTable {
         public void setUseWorkerThreadForConnections(boolean x) { }
         public boolean shouldUseWorkerThreadForConnections() { return true; }
         public Socket getAcceptedSocket() { return null ; }
-        public void processSocket( Socket socket ) { } 
+        public void processSocket( Socket socket ) { }
         public void close() { }
         public EventHandler getEventHandler() { return null; }
 
@@ -1072,7 +1072,7 @@ public class ParserTable {
         public void setUseWorkerThreadForConnections(boolean x) { }
         public boolean shouldUseWorkerThreadForConnections() { return true; }
         public Socket getAcceptedSocket() { return null ; }
-        public void processSocket( Socket socket ) { } 
+        public void processSocket( Socket socket ) { }
         public void close() { }
         public EventHandler getEventHandler() { return null; }
 
@@ -1121,8 +1121,8 @@ public class ParserTable {
                 if (initClass == null)
                     return null ;
 
-                // For security reasons avoid creating an instance 
-                // if this class is one that would fail the class cast 
+                // For security reasons avoid creating an instance
+                // if this class is one that would fail the class cast
                 // to ORBInitializer anyway.
                 if( Acceptor.class.isAssignableFrom( initClass ) ) {
                     // Now that we have a class object, instantiate one and
@@ -1132,16 +1132,16 @@ public class ParserTable {
                     try {
                         acceptor = (Acceptor)AccessController.doPrivileged(
                             new PrivilegedExceptionAction() {
-                                public Object run() 
-                                    throws InstantiationException, IllegalAccessException 
+                                public Object run()
+                                    throws InstantiationException, IllegalAccessException
                                 {
                                     return initClass.newInstance() ;
                                 }
-                            } 
+                            }
                         ) ;
                     } catch (PrivilegedActionException exc) {
                         // Unwrap the exception, as we don't care exc here
-                        throw wrapper.acceptorInstantiationFailure( exc.getException(), 
+                        throw wrapper.acceptorInstantiationFailure( exc.getException(),
                             initClass.getName() ) ;
                     } catch (Exception exc) {
                         throw wrapper.acceptorInstantiationFailure( exc, initClass.getName() ) ;
@@ -1161,7 +1161,7 @@ public class ParserTable {
 
     private Operation makeInitRefOperation() {
         return new Operation() {
-            public Object operate( Object value ) 
+            public Object operate( Object value )
             {
                 // Object is String[] of length 2.
                 String[] values = (String[])value ;

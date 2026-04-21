@@ -47,7 +47,7 @@ public class ServerRequestImpl extends ServerRequest {
     private NVList               _arguments     = null;
     private Context              _ctx           = null;
     private InputStream          _ins           = null;
-        
+
     // booleans to check for various operation invocation restrictions
     private boolean             _paramsCalled   = false;
     private boolean             _resultSet      = false;
@@ -57,7 +57,7 @@ public class ServerRequestImpl extends ServerRequest {
 
 
     public ServerRequestImpl (MessageMediator req, ORB orb) {
-        _opName = req.getOperationName(); 
+        _opName = req.getOperationName();
         _ins    = (InputStream)req.getInputObject();
         _ctx    = null;         // if we support contexts, this would
                                 // presumably also  be available on
@@ -71,12 +71,12 @@ public class ServerRequestImpl extends ServerRequest {
     }
 
     @Override
-    public void arguments(NVList args) 
+    public void arguments(NVList args)
     {
         if (_paramsCalled)
             throw _wrapper.argumentsCalledMultiple() ;
 
-        if (_exceptionSet) 
+        if (_exceptionSet)
             throw _wrapper.argumentsCalledAfterException() ;
 
         if (args == null )
@@ -88,12 +88,12 @@ public class ServerRequestImpl extends ServerRequest {
         for (int i=0; i < args.count() ; i++) {
             try {
                 arg = args.item(i);
-            } catch (Bounds e) {        
+            } catch (Bounds e) {
                 throw _wrapper.boundsCannotOccur(e) ;
             }
 
             try {
-                if ((arg.flags() == org.omg.CORBA.ARG_IN.value) || 
+                if ((arg.flags() == org.omg.CORBA.ARG_IN.value) ||
                     (arg.flags() == org.omg.CORBA.ARG_INOUT.value)) {
                     // unmarshal the value into the Any
                     arg.value().read_value(_ins, arg.value().type());
@@ -109,11 +109,11 @@ public class ServerRequestImpl extends ServerRequest {
         _orb.getPIHandler().setServerPIInfo( _arguments );
         _orb.getPIHandler().invokeServerPIIntermediatePoint();
     }
-    
+
     @Override
     public void set_result(Any res) {
         // check for invocation restrictions
-        if (!_paramsCalled) 
+        if (!_paramsCalled)
             throw _wrapper.argumentsNotCalled() ;
         if (_resultSet)
             throw _wrapper.setResultCalledMultiple() ;
@@ -125,7 +125,7 @@ public class ServerRequestImpl extends ServerRequest {
         _resultAny = res;
         _resultSet = true;
 
-        // Notify portable interceptors of the result so that 
+        // Notify portable interceptors of the result so that
         // ServerRequestInfo.result() functions as desired.
         _orb.getPIHandler().setServerPIInfo( _resultAny );
 
@@ -134,14 +134,14 @@ public class ServerRequestImpl extends ServerRequest {
     }
 
     @Override
-    public void set_exception(Any exc) 
+    public void set_exception(Any exc)
     {
         // except can be called by the DIR at any time (CORBA 2.2 section 6.3).
 
         if ( exc == null )
             throw _wrapper.setExceptionCalledNullArgs() ;
 
-        // Ensure that the Any contains a SystemException or a 
+        // Ensure that the Any contains a SystemException or a
         // UserException. If the UserException is not a declared exception,
         // the client will get an UNKNOWN exception.
         TCKind kind = exc.type().kind();
@@ -156,7 +156,7 @@ public class ServerRequestImpl extends ServerRequest {
 
         // The user can only call arguments once and not at all after
         // set_exception.  (internal flags ensure this).  However, the user
-        // can call set_exception multiple times.  Therefore, we only 
+        // can call set_exception multiple times.  Therefore, we only
         // invoke receive_request the first time set_exception is
         // called (if they haven't already called arguments).
         if( !_exceptionSet && !_paramsCalled ) {
@@ -169,21 +169,21 @@ public class ServerRequestImpl extends ServerRequest {
         // actual marshaling of the reply msg header and exception takes place
         // after the DSI returns control to the ORB.
     }
-    
+
 
     /** This is called from the ORB after the DynamicImplementation.invoke
      *  returns. Here we set the result if result() has not already been called.
-     *  @return the exception if there is one (then ORB will not call 
+     *  @return the exception if there is one (then ORB will not call
      *  marshalReplyParams()) otherwise return null.
      */
     public Any checkResultCalled()
     {
         // Two things to be checked (CORBA 2.2 spec, section 6.3):
         // 1. Unless it calls set_exception(), the DIR must call arguments()
-        //    exactly once, even if the operation signature contains 
+        //    exactly once, even if the operation signature contains
         //    no parameters.
-        // 2. Unless set_exception() is called, if the invoked operation has a 
-        //    non-void result type, set_result() must be called exactly once 
+        // 2. Unless set_exception() is called, if the invoked operation has a
+        //    non-void result type, set_result() must be called exactly once
         //    before the DIR returns.
 
         if ( _paramsCalled && _resultSet ) // normal invocation return
@@ -206,7 +206,7 @@ public class ServerRequestImpl extends ServerRequest {
             }
         } else if ( _exceptionSet )
             return _exception;
-        else { 
+        else {
             throw _wrapper.dsimethodNotcalled( ) ;
         }
     }
@@ -235,11 +235,11 @@ public class ServerRequestImpl extends ServerRequest {
         }
     }
 
-    public Context ctx() 
+    public Context ctx()
     {
-        if ( !_paramsCalled || _resultSet || _exceptionSet ) 
+        if ( !_paramsCalled || _resultSet || _exceptionSet )
             throw _wrapper.contextCalledOutOfOrder() ;
 
         throw _wrapper.contextNotImplemented() ;
-    }  
+    }
 }

@@ -26,21 +26,21 @@ import java.util.List;
 import org.omg.CORBA.Bounds;
 import org.omg.CORBA.ContextList;
 
-public class ContextListImpl extends ContextList 
+public class ContextListImpl extends ContextList
 {
     private final static int     INITIAL_CAPACITY       = 2;
 
     private org.omg.CORBA.ORB _orb;
     private List<String> _contexts;
 
-    public ContextListImpl(org.omg.CORBA.ORB orb) 
+    public ContextListImpl(org.omg.CORBA.ORB orb)
     {
         // Note: This orb could be an instanceof ORBSingleton or ORB
         _orb = orb;
         _contexts = new ArrayList<String>(INITIAL_CAPACITY);
     }
 
-    public synchronized int count() 
+    public synchronized int count()
     {
         return _contexts.size();
     }

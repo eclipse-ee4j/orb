@@ -24,16 +24,16 @@
 
 package corba.islocal;
 
-import java.rmi.Remote; 
-import java.rmi.RemoteException; 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 public interface rmiiI
-    extends 
-        Remote 
-{ 
+    extends
+        Remote
+{
     String m(String x)
         throws
-            RemoteException; 
+            RemoteException;
 }
 
 // End of file.

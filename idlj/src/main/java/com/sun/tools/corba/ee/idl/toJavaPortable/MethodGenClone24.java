@@ -22,8 +22,8 @@ package com.sun.tools.corba.ee.idl.toJavaPortable;
 
 // NOTES:
 // -D62023   <klr> New file to implement CORBA 2.4 RTF
-// NOTE: The methods in this class should be exact copies of the 
-// correspoind methods in MethodGen24. The purpose of this class is 
+// NOTE: The methods in this class should be exact copies of the
+// correspoind methods in MethodGen24. The purpose of this class is
 // to inject the changes made in MethodGen24 between AttributeGen
 // and AttributeGen24. When the AttributeGen24 changes are merged, this
 // class should be deleted.

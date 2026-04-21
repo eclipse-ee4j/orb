@@ -73,11 +73,11 @@ public final class UnionMember implements org.omg.CORBA.portable.IDLEntity {
      * Constructs a new <code>UnionMember</code> object with its fields initialized
      * to the given values.
      *
-     * @param __name a <code>String</code> object with the name of this 
+     * @param __name a <code>String</code> object with the name of this
      *        <code>UnionMember</code> object
-     * @param __label an <code>Any</code> object with the label of this 
+     * @param __label an <code>Any</code> object with the label of this
      *        <code>UnionMember</code> object
-     * @param __type a <code>TypeCode</code> object describing the type of this 
+     * @param __type a <code>TypeCode</code> object describing the type of this
      *        <code>UnionMember</code> object
      * @param __type_def an <code>IDLType</code> object that represents the
      *        IDL type of this <code>UnionMember</code> object

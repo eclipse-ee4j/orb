@@ -56,7 +56,7 @@ public class SocketFactory
     //
 
     @Override
-    public SocketInfo getEndPointInfo(ORB orb, 
+    public SocketInfo getEndPointInfo(ORB orb,
                                         IOR ior,
                                         SocketInfo socketInfo)
     {
@@ -88,7 +88,7 @@ public class SocketFactory
         // No alternate addresses.  Just use profile address.
         Client.foundAlternateIIOPAddressComponent = false; // For test.
 
-        IIOPProfileTemplate temp = 
+        IIOPProfileTemplate temp =
             (IIOPProfileTemplate)ior.getProfile().getTaggedProfileTemplate() ;
         IIOPAddress primary = temp.getPrimaryAddress() ;
         String host = primary.getHost().toLowerCase();

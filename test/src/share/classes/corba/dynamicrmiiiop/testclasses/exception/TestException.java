@@ -21,7 +21,7 @@ package corba.dynamicrmiiiop.testclasses.exception ;
 
 public class TestException extends Exception
 {
-    TestException( String msg ) 
+    TestException( String msg )
     {
         super( msg ) ;
     }

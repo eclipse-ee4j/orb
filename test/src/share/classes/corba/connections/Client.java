@@ -36,7 +36,7 @@ import corba.hcks.U;
 
 import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
 
-public class Client 
+public class Client
 {
     public static boolean showInbound = true;
     public static int NUM_THREADS = 100;
@@ -139,7 +139,7 @@ public class Client
 
             ORB thisOrb = (ORB)StubAdapter.getORB( result ) ;
 
-            U.sop(i + ": lookup: " + rn 
+            U.sop(i + ": lookup: " + rn
                   + " orbIdentity: " + System.identityHashCode(thisOrb)
                   + " stubIdentity: " + System.identityHashCode(result)
                   + " iorIdentity: " + System.identityHashCode(ior)

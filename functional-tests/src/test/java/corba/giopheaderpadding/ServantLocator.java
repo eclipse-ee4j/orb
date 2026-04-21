@@ -49,7 +49,7 @@ public class ServantLocator extends org.omg.CORBA.LocalObject
 
         Servant servant = null;
         try {
-            servant = 
+            servant =
                 (Servant)javax.rmi.CORBA.Util.getTie(new rmiiIServantPOA());
         } catch (Exception e) {
             U.sopUnexpectedException(baseMsg, e);

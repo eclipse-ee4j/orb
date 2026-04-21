@@ -20,8 +20,8 @@
 package org.omg.CORBA;
 
 /**
- * This exception indicates a persistent storage failure, for example, 
- * failure to establish a database connection or corruption of a 
+ * This exception indicates a persistent storage failure, for example,
+ * failure to establish a database connection or corruption of a
  * database.<P>
  * It contains a minor code, which gives more detailed information about
  * what caused the exception, and a completion status. It may also contain

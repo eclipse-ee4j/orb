@@ -28,7 +28,7 @@ import java.rmi.RemoteException;
 import javax.rmi.PortableRemoteObject;
 
 public class rmiiAttributesIServantPOA
-    extends 
+    extends
         PortableRemoteObject
     implements
         rmiiAttributesI

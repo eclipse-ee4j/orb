@@ -506,7 +506,7 @@ class Parser
             boolean isInterface = (realParent instanceof com.sun.tools.corba.ee.idl.InterfaceEntry);
             if (entry.derivedFrom ().contains (realParent))
                 com.sun.tools.corba.ee.idl.ParseException.alreadyDerived(scanner, realParent.fullName(), entry.fullName());
-            else if (!entry.isAbstract () || 
+            else if (!entry.isAbstract () ||
                 (((com.sun.tools.corba.ee.idl.InterfaceType)realParent).getInterfaceType() == com.sun.tools.corba.ee.idl.InterfaceType.ABSTRACT))
                 entry.derivedFromAddElement (realParent, scanner);
             else
@@ -626,7 +626,7 @@ class Parser
     match (com.sun.tools.corba.ee.idl.Token.Valuetype);
     String name = token.name;
     match (com.sun.tools.corba.ee.idl.Token.Identifier);
-  
+
     switch (token.type)
     {
       case com.sun.tools.corba.ee.idl.Token.LeftBrace:
@@ -702,7 +702,7 @@ class Parser
     match (com.sun.tools.corba.ee.idl.Token.LeftBrace);
     while (token.type != com.sun.tools.corba.ee.idl.Token.RightBrace)
     {
-      valueElement (entry);  
+      valueElement (entry);
     }
     prep.closeScope (entry);
     match (com.sun.tools.corba.ee.idl.Token.RightBrace);
@@ -722,7 +722,7 @@ class Parser
             stFactory.valueEntry ());
         com.sun.tools.corba.ee.idl.SymtabEntry realParent = typeOf (parent);
         if (isValue (realParent) && !(realParent instanceof com.sun.tools.corba.ee.idl.ValueBoxEntry))
-            entry.derivedFromAddElement (realParent, isTruncatable, 
+            entry.derivedFromAddElement (realParent, isTruncatable,
                 scanner);
         else if (isForward(realParent))
             com.sun.tools.corba.ee.idl.ParseException.illegalForwardInheritance(scanner,
@@ -1166,7 +1166,7 @@ class Parser
         // java.lang.Long.MAX_VALUE/MIN_VALUE:
         BigInteger llMax = BigInteger.valueOf (Long.MAX_VALUE);
         BigInteger llMin = BigInteger.valueOf (Long.MIN_VALUE);
-        if (((BigInteger)n).compareTo (llMax) > 0 || 
+        if (((BigInteger)n).compareTo (llMax) > 0 ||
             ((BigInteger)n).compareTo (llMin) < 0)
             outOfRange = true;
     } else if (t == qualifiedEntry ("unsigned long long")) {
@@ -1174,7 +1174,7 @@ class Parser
             multiply (BigInteger.valueOf (2)).
             add (BigInteger.valueOf (1));
         BigInteger ullMin = BigInteger.valueOf (0);
-        if (((BigInteger)n).compareTo (ullMax) > 0 || 
+        if (((BigInteger)n).compareTo (ullMax) > 0 ||
             ((BigInteger)n).compareTo (ullMin) < 0)
             outOfRange = true;
     } else {
@@ -1215,8 +1215,8 @@ class Parser
             // exception, then an error occurred and was reported
             // earlier.  Move on.
         }
-    } 
-    
+    }
+
     if (!e.type().equals( t.name())) {
         // cannot mix strings and wide strings
         com.sun.tools.corba.ee.idl.ParseException.wrongExprType(scanner, t.name(), e.type()) ;
@@ -1253,7 +1253,7 @@ class Parser
     // <d52042> Added range checking for floats.
     //if (!(t.name ().equals (overrideName ("float")) ||
     //    t.name ().equals (overrideName ("double"))))
-    //  ParseException.wrongExprType (scanner, 
+    //  ParseException.wrongExprType (scanner,
     //      t.fullName (), (f instanceof Float) ? "float" : "double");
     //KEEP: Useful for debugging com.sun.tools.corba.ee.idl.constExpr package
     //System.out.println ("verifyFloat, f = " + f.toString ());
@@ -2080,7 +2080,7 @@ class Parser
       match (com.sun.tools.corba.ee.idl.Token.RightBrace) ;
       repIDStack.pop() ;
     } else if (token.equals( com.sun.tools.corba.ee.idl.Token.Semicolon )) {
-      structEntry = makeStructEntry( name, entry, true ) ; 
+      structEntry = makeStructEntry( name, entry, true ) ;
     } else {
       throw com.sun.tools.corba.ee.idl.ParseException.syntaxError (scanner,
               new int[]{com.sun.tools.corba.ee.idl.Token.Semicolon, com.sun.tools.corba.ee.idl.Token.LeftBrace}, token.type);
@@ -2089,7 +2089,7 @@ class Parser
   } // structType
 
   private com.sun.tools.corba.ee.idl.StructEntry makeStructEntry( String name, com.sun.tools.corba.ee.idl.SymtabEntry entry,
-    boolean isForward )  
+    boolean isForward )
   {
     com.sun.tools.corba.ee.idl.StructEntry structEntry = stFactory.structEntry (entry,
       (com.sun.tools.corba.ee.idl.IDLID)repIDStack.peek () );
@@ -2098,7 +2098,7 @@ class Parser
     structEntry.name (name);
     // Comment must immediately preceed "struct" keyword
     structEntry.comment (tokenHistory.lookBack (1).comment);
-    pigeonhole( entry, structEntry ) ; 
+    pigeonhole( entry, structEntry ) ;
     return structEntry ;
   }
 
@@ -2177,12 +2177,12 @@ class Parser
       throw com.sun.tools.corba.ee.idl.ParseException.syntaxError (scanner,
               new int[]{com.sun.tools.corba.ee.idl.Token.Semicolon, com.sun.tools.corba.ee.idl.Token.Switch}, token.type);
     }
-     
+
     return unionEntry ;
   } // unionType
 
   private com.sun.tools.corba.ee.idl.UnionEntry makeUnionEntry( String name, com.sun.tools.corba.ee.idl.SymtabEntry entry,
-    boolean isForward )  
+    boolean isForward )
   {
     com.sun.tools.corba.ee.idl.UnionEntry unionEntry = stFactory.unionEntry (entry,
       (com.sun.tools.corba.ee.idl.IDLID)repIDStack.peek () );
@@ -2191,7 +2191,7 @@ class Parser
     unionEntry.name (name);
     // Comment must immediately preceed "union" keyword
     unionEntry.comment (tokenHistory.lookBack (1).comment);
-    pigeonhole( entry, unionEntry ) ; 
+    pigeonhole( entry, unionEntry ) ;
     return unionEntry ;
   }
 
@@ -2471,7 +2471,7 @@ class Parser
             }
             fwdTypes.add( newEntry ) ;
         } catch (NoSuchFieldException exc) {
-            throw new IllegalStateException() ; 
+            throw new IllegalStateException() ;
         }
     }
 
@@ -3017,7 +3017,7 @@ class Parser
   {
     if (noWarn)
       return;
-      
+
     if ((token.equals (com.sun.tools.corba.ee.idl.Token.Identifier) || token.equals (com.sun.tools.corba.ee.idl.Token.MacroIdentifier))
         && !token.isEscaped ())
     {
@@ -3148,9 +3148,9 @@ class Parser
                     entry.repositoryID () instanceof com.sun.tools.corba.ee.idl.IDLID &&
                     oldEntry.repositoryID () instanceof com.sun.tools.corba.ee.idl.IDLID) {
 
-                    String repIDPrefix = 
+                    String repIDPrefix =
                         ((com.sun.tools.corba.ee.idl.IDLID)entry.repositoryID ()).prefix ();
-                    String oldRepIDPrefix = 
+                    String oldRepIDPrefix =
                         ((com.sun.tools.corba.ee.idl.IDLID)oldEntry.repositoryID ()).prefix ();
 
                     if (!(repIDPrefix.equals (oldRepIDPrefix))) {
@@ -3164,7 +3164,7 @@ class Parser
                 oldEntry instanceof com.sun.tools.corba.ee.idl.ModuleEntry) {
                 // Allow multiple ModuleEntrys when user submits
                 // the -cppModule flag.
-            } else if (fullName.startsWith ("org/omg/CORBA") || 
+            } else if (fullName.startsWith ("org/omg/CORBA") ||
                 fullName.startsWith ("CORBA")) {
                 // Ignore CORBA PIDL types entered at preParse() by generator.
             } else if (isForwardable( oldEntry, entry )) {
@@ -3180,9 +3180,9 @@ class Parser
                     com.sun.tools.corba.ee.idl.ParseException.alreadyDeclared(scanner, fullName);
 
                 if (entry.isReferencable()) {
-                    String firstFile = 
+                    String firstFile =
                         oldEntry.sourceFile().absFilename() ;
-                    String defFile = 
+                    String defFile =
                         entry.sourceFile().absFilename() ;
                     if (!firstFile.equals( defFile ))
                         com.sun.tools.corba.ee.idl.ParseException.declNotInSameFile(scanner,
@@ -3193,7 +3193,7 @@ class Parser
                         List oldRefList ;
 
                         try {
-                            oldRefList = (List)oldEntry.dynamicVariable( 
+                            oldRefList = (List)oldEntry.dynamicVariable(
                                 ftlKey ) ;
                         } catch (NoSuchFieldException exc) {
                             throw new IllegalStateException() ;
@@ -3497,7 +3497,7 @@ class Parser
     if (type != null) {
         return type; // found type definition.
     }
-    
+
     // search up the interface inheritance tree.
     return searchLocalInheritanceScope(name, ptype);
   }

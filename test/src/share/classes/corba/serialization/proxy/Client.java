@@ -25,7 +25,7 @@ import javax.naming.*;
 
 import java.io.*;
 
-public class Client 
+public class Client
 {
     public static void main(String args[])
     {

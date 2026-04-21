@@ -31,7 +31,7 @@ import java.security.ProtectionDomain ;
 
 import com.sun.corba.ee.impl.presentation.rmi.codegen.CodegenProxyCreator ;
 
-/** Test for the codegen-based ProxyCreator.  
+/** Test for the codegen-based ProxyCreator.
  * Steps to test:
  * <OL>
  * <LI>Create a class with a method Object invoke( int methodNumber, Object[] args ).
@@ -78,9 +78,9 @@ public class TestCodegenProxyCreator extends TestCase {
         double echo( double arg ) ;
         Object echo( Object arg ) ;
         Integer echo( Integer arg ) ;
-        void throwIf42( int arg ) throws TestException ; 
+        void throwIf42( int arg ) throws TestException ;
         int return42() ;
-        void alwaysThrow() throws TestException ;       
+        void alwaysThrow() throws TestException ;
         void sideEffect() ;
         boolean sideEffectCalled() ;
         int sum( int arg1, int arg2 ) ;
@@ -94,47 +94,47 @@ public class TestCodegenProxyCreator extends TestCase {
     public static class TestInterfaceImpl implements TestInterface {
         private boolean sideEffectCalledFlag = false ;
 
-        public boolean sideEffectCalled() 
+        public boolean sideEffectCalled()
         {
             return sideEffectCalledFlag ;
         }
 
-        public boolean echo( boolean arg ) 
+        public boolean echo( boolean arg )
         {
             return arg ;
         }
 
-        public char echo( char arg ) 
+        public char echo( char arg )
         {
             return arg ;
         }
 
-        public byte echo( byte arg ) 
+        public byte echo( byte arg )
         {
             return arg ;
         }
 
-        public short echo( short arg ) 
+        public short echo( short arg )
         {
             return arg ;
         }
 
-        public int echo( int arg ) 
+        public int echo( int arg )
         {
             return arg ;
         }
 
-        public long echo( long arg ) 
+        public long echo( long arg )
         {
             return arg ;
         }
 
-        public float echo( float arg ) 
+        public float echo( float arg )
         {
             return arg ;
         }
 
-        public double echo( double arg ) 
+        public double echo( double arg )
         {
             return arg ;
         }
@@ -144,7 +144,7 @@ public class TestCodegenProxyCreator extends TestCase {
             return arg ;
         }
 
-        public Integer echo( Integer arg ) 
+        public Integer echo( Integer arg )
         {
             return arg ;
         }
@@ -155,47 +155,47 @@ public class TestCodegenProxyCreator extends TestCase {
                 throw new TestException() ;
         }
 
-        public int return42() 
+        public int return42()
         {
             return 42 ;
         }
 
-        public void alwaysThrow() throws TestException 
+        public void alwaysThrow() throws TestException
         {
             throw new TestException() ;
         }
 
-        public void sideEffect() 
+        public void sideEffect()
         {
             sideEffectCalledFlag = true ;
         }
 
-        public int sum( int arg1, int arg2 ) 
+        public int sum( int arg1, int arg2 )
         {
             return arg1 + arg2 ;
         }
 
-        public String concat( String arg1, String arg2 ) 
+        public String concat( String arg1, String arg2 )
         {
             return arg1 + arg2 ;
         }
 
-        public String concat( int arg1, String arg2 ) 
+        public String concat( int arg1, String arg2 )
         {
             return arg1 + arg2 ;
         }
 
-        public String concat( String arg1, int arg2 ) 
+        public String concat( String arg1, int arg2 )
         {
             return arg1 + arg2 ;
         }
 
-        public String concat( String arg1, int arg2, String arg3 ) 
+        public String concat( String arg1, int arg2, String arg3 )
         {
             return arg1 + arg2 + arg3 ;
         }
 
-        public String concat( int arg1, String arg2, int arg3 ) 
+        public String concat( int arg1, String arg2, int arg3 )
         {
             return arg1 + arg2 + arg3 ;
         }
@@ -204,7 +204,7 @@ public class TestCodegenProxyCreator extends TestCase {
     public static abstract class TestInterfaceImplTester extends TestCase {
 
         public abstract TestInterface getTestInterface() ;
-    
+
         public TestInterfaceImplTester()
         {
             super() ;
@@ -235,14 +235,14 @@ public class TestCodegenProxyCreator extends TestCase {
             assertEquals( getTestInterface().echo( (short)23 ), (short)23 ) ;
         }
 
-        public void testIntEcho() 
+        public void testIntEcho()
         {
             assertEquals( getTestInterface().echo( 3214 ), 3214 ) ;
         }
 
         public void testLongEcho()
         {
-            assertEquals( getTestInterface().echo( 12345678901234L ), 
+            assertEquals( getTestInterface().echo( 12345678901234L ),
                 12345678901234L ) ;
         }
 
@@ -262,7 +262,7 @@ public class TestCodegenProxyCreator extends TestCase {
             assertEquals( getTestInterface().echo( obj ), obj ) ;
         }
 
-        public void testIntegerEcho() 
+        public void testIntegerEcho()
         {
             Integer num = new Integer( 43 ) ;
             assertEquals( getTestInterface().echo( num ), num ) ;
@@ -335,13 +335,13 @@ public class TestCodegenProxyCreator extends TestCase {
 
         public void testConcatSIS()
         {
-            assertEquals( getTestInterface().concat( "Test", 1, " Another" ), 
+            assertEquals( getTestInterface().concat( "Test", 1, " Another" ),
                 "Test1 Another" ) ;
         }
 
         public void testConcatISI()
         {
-            assertEquals( getTestInterface().concat( 1, "Test", 2 ), 
+            assertEquals( getTestInterface().concat( 1, "Test", 2 ),
                 "1Test2" ) ;
         }
     }
@@ -360,7 +360,7 @@ public class TestCodegenProxyCreator extends TestCase {
             object = new TestInterfaceImpl() ;
         }
 
-        public TestInterface getTestInterface() 
+        public TestInterface getTestInterface()
         {
             return object ;
         }
@@ -379,13 +379,13 @@ public class TestCodegenProxyCreator extends TestCase {
                 return this ;
             }
 
-            public void initialize( Method[] methods, TestInterface ti ) 
+            public void initialize( Method[] methods, TestInterface ti )
             {
                 this.methods = methods ;
                 this.ti = ti ;
             }
 
-            public Object invoke( int methodNumber, 
+            public Object invoke( int methodNumber,
                 Object[] args ) throws Throwable
             {
                 try {
@@ -396,7 +396,7 @@ public class TestCodegenProxyCreator extends TestCase {
             }
         }
 
-        public ProxyTestSuite( String name ) 
+        public ProxyTestSuite( String name )
         {
             super( name ) ;
             init() ;
@@ -411,7 +411,7 @@ public class TestCodegenProxyCreator extends TestCase {
         private void init()
         {
             TestInterface ti = new TestInterfaceImpl() ;
-            
+
             // Make sure we only try to create the proxy class once!
             if (proxyClass == null) {
                 // Set up proxy for ti: this is really the main part of the test
@@ -423,9 +423,9 @@ public class TestCodegenProxyCreator extends TestCase {
                 ProtectionDomain pd = this.getClass().getProtectionDomain() ;
                 ClassLoader loader = this.getClass().getClassLoader() ;
 
-                CodegenProxyCreator pc = 
-                    new CodegenProxyCreator( 
-                        "corba.dynamicrmiiiop.TestInterfaceProxy", 
+                CodegenProxyCreator pc =
+                    new CodegenProxyCreator(
+                        "corba.dynamicrmiiiop.TestInterfaceProxy",
                         baseClass, interfaces, methods ) ;
 
                 proxyClass = pc.create(this.getClass(), DEBUG, System.out ) ;
@@ -441,7 +441,7 @@ public class TestCodegenProxyCreator extends TestCase {
             }
         }
 
-        public TestInterface getTestInterface() 
+        public TestInterface getTestInterface()
         {
             return object ;
         }
@@ -452,7 +452,7 @@ public class TestCodegenProxyCreator extends TestCase {
         // Dummy test to avoid Junit complaints.
     }
 
-    public static Test suite() 
+    public static Test suite()
     {
         return new TestSuite( TestCodegenProxyCreator.class ) ;
     }

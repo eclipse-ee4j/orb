@@ -42,7 +42,7 @@ public class StreamReader extends Thread
      * which reads everything from the input stream and can even
      * wait for a handshake, but doesn't write to anything.
      */
-    public static final OutputStream NULL_OUTPUT_STREAM 
+    public static final OutputStream NULL_OUTPUT_STREAM
         = new NullOutputStream();
 
     private OutputStream originalStream;
@@ -114,7 +114,7 @@ public class StreamReader extends Thread
 
                 try {
                     input = in.readLine();
-                    if (Test.debug) 
+                    if (Test.debug)
                         System.out.println( "Streamreader.read: " + input ) ;
 
                     // readLine should return null at the end of the
@@ -124,7 +124,7 @@ public class StreamReader extends Thread
                     if (++inputReceivedThreshold > 10000) {
                        inputReceived.clear();
                     }
-        
+
                 } catch (java.io.IOException exc) {
                     // We also can get errors due to the InputStream being
                     // closed.  Simply treat these as termination.  This
@@ -137,13 +137,13 @@ public class StreamReader extends Thread
 
                 output(input);
 
-                if (handshake != null && 
-                    handshakeStatus == WAITING && 
+                if (handshake != null &&
+                    handshakeStatus == WAITING &&
                     handshake.equals(input)) {
 
                     signalHandshakeReceived();
                 }
-                    
+
             }
 
             // Process/input stream ended before the handshake
@@ -160,7 +160,7 @@ public class StreamReader extends Thread
                 out.close();
         }
     }
-    
+
     private synchronized void signalBadHandshake() {
         if (Test.debug)
             System.out.println( "Streamreader.signalBadHandshake called" ) ;
@@ -175,13 +175,13 @@ public class StreamReader extends Thread
         this.notifyAll();
     }
 
-    public synchronized void waitForHandshake() 
+    public synchronized void waitForHandshake()
         throws InterruptedException, Exception {
 
         waitForHandshake(0);
     }
 
-    public synchronized void waitForHandshake(long timeout) 
+    public synchronized void waitForHandshake(long timeout)
         throws InterruptedException, Exception {
 
         if (handshake != null) {

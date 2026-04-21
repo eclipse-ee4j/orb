@@ -34,8 +34,8 @@ import org.omg.PortableServer.POAPackage.WrongPolicy ;
 
 /** POAPolicyMediator defines an interface to which the POA delegates all
  * policy specific operations.  This permits code paths for different
- * policies to be optimized by creating the correct code at POA creation 
- * time.  Also note that as much as possible, this interface does not 
+ * policies to be optimized by creating the correct code at POA creation
+ * time.  Also note that as much as possible, this interface does not
  * do any concurrency control, except as noted.  The POA is responsible
  * for concurrency control.
  */
@@ -70,15 +70,15 @@ public interface POAPolicyMediator {
     @Description( "This POA's server ID")
     int getServerId();
 
-    /** Get the servant to use for an invocation with the 
+    /** Get the servant to use for an invocation with the
     * given id and operation.
     * @param id the object ID for which we are requesting a servant
-    * @param operation the name of the operation to be performed on 
+    * @param operation the name of the operation to be performed on
     * the servant
     * @return the resulting Servant.
     * @throws ForwardRequest if the current ORB must forward the result.
     */
-    java.lang.Object getInvocationServant( byte[] id, 
+    java.lang.Object getInvocationServant( byte[] id,
         String operation ) throws ForwardRequest ;
 
     /** Release a servant that was obtained from getInvocationServant.
@@ -123,7 +123,7 @@ public interface POAPolicyMediator {
     */
     void setDefaultServant( Servant servant ) throws WrongPolicy ;
 
-    void activateObject( byte[] id, Servant servant ) 
+    void activateObject( byte[] id, Servant servant )
         throws ObjectAlreadyActive, ServantAlreadyActive, WrongPolicy ;
 
     /** Deactivate the object that is associated with the given id.

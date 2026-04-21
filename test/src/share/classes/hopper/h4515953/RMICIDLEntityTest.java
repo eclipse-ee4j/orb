@@ -47,4 +47,4 @@ public class RMICIDLEntityTest extends CORBATest
 
     }
 }
-    
+

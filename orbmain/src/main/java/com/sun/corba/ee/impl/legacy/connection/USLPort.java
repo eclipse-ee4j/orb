@@ -25,7 +25,7 @@ import org.glassfish.gmbal.ManagedData ;
 
 @ManagedData
 @Description( "An address of a transport endpoint that the ORB "
-    + "uses for listening to incoming requests" ) 
+    + "uses for listening to incoming requests" )
 public class USLPort
 {
     private String type;
@@ -42,7 +42,7 @@ public class USLPort
     public String getType  () { return type; }
 
     @ManagedAttribute
-    @Description( "The TCP port number" ) 
+    @Description( "The TCP port number" )
     public int    getPort  () { return port; }
     public String toString () { return type + ":" + port; }
 }

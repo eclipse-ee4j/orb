@@ -47,9 +47,9 @@ public class ErrorAccumulator
         return errorsInTest ;
     }
 
-    public ErrorAccumulator() 
+    public ErrorAccumulator()
     {
-        numberOfErrors = 0; 
+        numberOfErrors = 0;
         errors = new ArrayList<MessageAndException>();
         startTest() ;
     }
@@ -84,7 +84,7 @@ public class ErrorAccumulator
         if (printErrors) {
             Iterator iterator = errors.iterator();
             while (iterator.hasNext()) {
-                MessageAndException messageAndException = 
+                MessageAndException messageAndException =
                     (MessageAndException) iterator.next();
                 U.reportError(printStackTrace,
                               messageAndException.getMessage(),
@@ -102,8 +102,8 @@ public class ErrorAccumulator
             return first() ;
         }
 
-        public Throwable getException() { 
-            return second() ; 
+        public Throwable getException() {
+            return second() ;
         }
     }
 }

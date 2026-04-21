@@ -35,22 +35,22 @@ import org.glassfish.pfl.basic.contain.DenseIntMapImpl;
 
 /**
  * This is a registry of all subcontract ID dependent objects.  This includes:
- * LocalClientRequestDispatcherFactory, ClientRequestDispatcher, ServerSubcontract, and 
- * ObjectAdapterFactory. 
+ * LocalClientRequestDispatcherFactory, ClientRequestDispatcher, ServerSubcontract, and
+ * ObjectAdapterFactory.
  */
 public class RequestDispatcherRegistryImpl implements RequestDispatcherRegistry {
-    protected int defaultId; // The default subcontract ID to use if there is no more specific ID available.  
+    protected int defaultId; // The default subcontract ID to use if there is no more specific ID available.
                              // This happens when invoking a foreign IOR.
 
     private DenseIntMapImpl<ServerRequestDispatcher> SDRegistry ;
     private DenseIntMapImpl<ClientRequestDispatcher> CSRegistry ;
-    private DenseIntMapImpl<ObjectAdapterFactory> OAFRegistry ; 
-    private DenseIntMapImpl<LocalClientRequestDispatcherFactory> LCSFRegistry ; 
-    private Set<ObjectAdapterFactory> objectAdapterFactories ;  
+    private DenseIntMapImpl<ObjectAdapterFactory> OAFRegistry ;
+    private DenseIntMapImpl<LocalClientRequestDispatcherFactory> LCSFRegistry ;
+    private Set<ObjectAdapterFactory> objectAdapterFactories ;
     private Set<ObjectAdapterFactory> objectAdapterFactoriesView ;      // Read-only view of oaf instances
     private Map<String,ServerRequestDispatcher> stringToServerSubcontract ;
 
-    public RequestDispatcherRegistryImpl(int defaultId ) 
+    public RequestDispatcherRegistryImpl(int defaultId )
     {
         this.defaultId = defaultId;
         SDRegistry = new DenseIntMapImpl<ServerRequestDispatcher>() ;
@@ -62,19 +62,19 @@ public class RequestDispatcherRegistryImpl implements RequestDispatcherRegistry 
         stringToServerSubcontract = new HashMap<String,ServerRequestDispatcher>() ;
     }
 
-    public synchronized void registerClientRequestDispatcher( 
+    public synchronized void registerClientRequestDispatcher(
         ClientRequestDispatcher csc, int scid)
     {
         CSRegistry.set( scid, csc ) ;
     }
 
-    public synchronized void registerLocalClientRequestDispatcherFactory( 
+    public synchronized void registerLocalClientRequestDispatcherFactory(
         LocalClientRequestDispatcherFactory csc, int scid)
     {
         LCSFRegistry.set( scid, csc ) ;
     }
 
-    public synchronized void registerServerRequestDispatcher( 
+    public synchronized void registerServerRequestDispatcher(
         ServerRequestDispatcher ssc, int scid)
     {
         SDRegistry.set( scid, ssc ) ;
@@ -86,7 +86,7 @@ public class RequestDispatcherRegistryImpl implements RequestDispatcherRegistry 
         stringToServerSubcontract.put( name, scc ) ;
     }
 
-    public synchronized void registerObjectAdapterFactory( 
+    public synchronized void registerObjectAdapterFactory(
         ObjectAdapterFactory oaf, int scid)
     {
         objectAdapterFactories.add( oaf ) ;
@@ -99,12 +99,12 @@ public class RequestDispatcherRegistryImpl implements RequestDispatcherRegistry 
 
     // Note that both forms of getServerRequestDispatcher need to return
     // the default server delegate if no other match is found.
-    // This is essential to proper handling of errors for 
+    // This is essential to proper handling of errors for
     // malformed requests.  In particular, a bad MAGIC will
     // result in a lookup in the named key table (stringToServerSubcontract),
     // which must return a valid ServerRequestDispatcher.  A bad subcontract ID
     // will similarly need to return the default ServerRequestDispatcher.
-    
+
     public ServerRequestDispatcher getServerRequestDispatcher(int scid)
     {
         ServerRequestDispatcher sdel = SDRegistry.get(scid) ;
@@ -124,7 +124,7 @@ public class RequestDispatcherRegistryImpl implements RequestDispatcherRegistry 
         return sdel;
     }
 
-    public LocalClientRequestDispatcherFactory getLocalClientRequestDispatcherFactory( 
+    public LocalClientRequestDispatcherFactory getLocalClientRequestDispatcherFactory(
         int scid )
     {
         LocalClientRequestDispatcherFactory factory = LCSFRegistry.get(scid) ;
@@ -154,7 +154,7 @@ public class RequestDispatcherRegistryImpl implements RequestDispatcherRegistry 
         return oaf;
     }
 
-    public Set<ObjectAdapterFactory> getObjectAdapterFactories() 
+    public Set<ObjectAdapterFactory> getObjectAdapterFactories()
     {
         return objectAdapterFactoriesView ;
     }

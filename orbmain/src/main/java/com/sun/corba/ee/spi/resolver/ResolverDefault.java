@@ -34,14 +34,14 @@ import java.io.File ;
 
 import org.glassfish.pfl.basic.contain.Pair;
 
-/** Utility class that provides factory methods for all of the 
+/** Utility class that provides factory methods for all of the
  * standard resolvers that we provide.
  */
 public class ResolverDefault {
     /** Return a local resolver that simply stores bindings in a map.
      * @return a new LocalResolverImpl
     */
-    public static LocalResolver makeLocalResolver( ) 
+    public static LocalResolver makeLocalResolver( )
     {
         return new LocalResolverImpl() ;
     }
@@ -52,32 +52,32 @@ public class ResolverDefault {
      * @return a new ORBInitRefResolver
     */
     public static Resolver makeORBInitRefResolver( Operation urlOperation,
-        Pair<String,String>[] initRefs ) 
+        Pair<String,String>[] initRefs )
     {
         return new ORBInitRefResolverImpl( urlOperation, initRefs ) ;
     }
 
     public static Resolver makeORBDefaultInitRefResolver( Operation urlOperation,
-        String defaultInitRef ) 
+        String defaultInitRef )
     {
         return new ORBDefaultInitRefResolverImpl( urlOperation,
             defaultInitRef ) ;
     }
 
-    /** Return a resolver that uses the proprietary bootstrap protocol 
-    * to implement a resolver.  Obtains the necessary host and port 
+    /** Return a resolver that uses the proprietary bootstrap protocol
+    * to implement a resolver.  Obtains the necessary host and port
     * information from the ORB.
     * @param orb ORB to use as resolver
     * @param host host of IOR
     * @param port port of IOR
     * @return a new BoostrapResolver
     */
-    public static Resolver makeBootstrapResolver( ORB orb, String host, int port ) 
+    public static Resolver makeBootstrapResolver( ORB orb, String host, int port )
     {
         return new BootstrapResolverImpl( orb, host, port ) ;
     }
 
-    /** Return a resolver composed of the two given resolvers.  result.list() is the 
+    /** Return a resolver composed of the two given resolvers.  result.list() is the
     * union of first.list() and second.list().  result.resolve( name ) returns
     * first.resolve( name ) if that is not null, otherwise returns the result of
     * second.resolve( name ).
@@ -85,7 +85,7 @@ public class ResolverDefault {
     * @param second seconds Resolver to try
     * @return a new CompositeResolver
     */
-    public static Resolver makeCompositeResolver( Resolver first, Resolver second ) 
+    public static Resolver makeCompositeResolver( Resolver first, Resolver second )
     {
         return new CompositeResolverImpl( first, second ) ;
     }
@@ -96,12 +96,12 @@ public class ResolverDefault {
     }
 
     public static LocalResolver makeSplitLocalResolver( Resolver resolver,
-        LocalResolver localResolver ) 
+        LocalResolver localResolver )
     {
         return new SplitLocalResolverImpl( resolver, localResolver ) ;
     }
 
-    public static Resolver makeFileResolver( ORB orb, File file ) 
+    public static Resolver makeFileResolver( ORB orb, File file )
     {
         return new FileResolverImpl( orb, file ) ;
     }

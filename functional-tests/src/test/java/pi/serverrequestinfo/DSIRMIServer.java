@@ -38,14 +38,14 @@ import java.rmi.*;
 import javax.rmi.*;
 import javax.naming.*;
 
-public abstract class DSIRMIServer 
-    extends ServerCommon 
+public abstract class DSIRMIServer
+    extends ServerCommon
     implements helloDelegate.ClientCallback
 {
     InitialContext initialNamingContext;
 
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         try {
@@ -58,12 +58,12 @@ public abstract class DSIRMIServer
 
             // Set up hello object:
             out.println( "+ Creating and binding Hello1 object..." );
-            TestInitializer.helloRef = createAndBind( "Hello1", 
+            TestInitializer.helloRef = createAndBind( "Hello1",
                                                       "[Hello1]" );
 
             out.println( "+ Creating and binding Hello1Forward object..." );
             TestInitializer.helloRefForward = createAndBind( "Hello1Forward",
-                                                             "[Hello1Forward]" ); 
+                                                             "[Hello1Forward]" );
 
             handshake();
 
@@ -86,12 +86,12 @@ public abstract class DSIRMIServer
     /**
      * Creates and binds a hello object using RMI
      */
-    public org.omg.CORBA.Object createAndBind ( String name, 
+    public org.omg.CORBA.Object createAndBind ( String name,
                                                 String symbol )
         throws Exception
     {
         // create and register it with RMI
-        helloDSIDeprecatedServant obj = new helloDSIDeprecatedServant( 
+        helloDSIDeprecatedServant obj = new helloDSIDeprecatedServant(
             orb, out, symbol, this );
         orb.connect( obj );
         initialNamingContext.rebind( name, obj );
@@ -111,10 +111,10 @@ public abstract class DSIRMIServer
     /**
      * Passes in the appropriate valid and invalid repository ids for RMI
      */
-    protected void testAttributesValid() 
+    protected void testAttributesValid()
         throws Exception
     {
-        testAttributesValid( 
+        testAttributesValid(
             "IDL:ServerRequestInfo/hello:1.0",
             "IDL:ServerRequestInfo/goodbye:1.0" );
     }
@@ -125,7 +125,7 @@ public abstract class DSIRMIServer
     public String sayHello() {
         String result = "";
 
-        out.println( 
+        out.println(
             "    + ClientCallback: resolving and invoking sayHello()..." );
         try {
             hello helloRef = resolve( "Hello1" );
@@ -140,8 +140,8 @@ public abstract class DSIRMIServer
     }
 
     public void saySystemException() {
-        out.println( 
-            "    + ClientCallback: resolving and invoking " + 
+        out.println(
+            "    + ClientCallback: resolving and invoking " +
             "saySystemException()..." );
         try {
             hello helloRef = resolve( "Hello1" );

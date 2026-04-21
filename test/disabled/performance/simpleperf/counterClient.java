@@ -113,7 +113,7 @@ public class counterClient implements InternalProcess
 
         return tpoa ;
     }
-        
+
     private counterIF createCounter(ORB orb, POA tpoa)
     {
         // create an objref using POA
@@ -122,23 +122,23 @@ public class counterClient implements InternalProcess
 
         org.omg.CORBA.Object obj = tpoa.create_reference_with_id(id, intf);
 
-        counterIF counterRef 
+        counterIF counterRef
             = (counterIF)PortableRemoteObject.narrow(obj, counterIF.class );
 
-        return counterRef ; 
+        return counterRef ;
     }
 
-    private counterIF lookupDifferentORBCounter( ORB orb, ORB orb2, POA tpoa ) 
+    private counterIF lookupDifferentORBCounter( ORB orb, ORB orb2, POA tpoa )
     {
         counterIF result = createCounter( orb, tpoa ) ;
 
         String str = orb.object_to_string( (org.omg.CORBA.Object)result ) ;
-        org.omg.CORBA.Object obj = orb2.string_to_object( str ) ;       
+        org.omg.CORBA.Object obj = orb2.string_to_object( str ) ;
 
         return (counterIF)PortableRemoteObject.narrow( obj, counterIF.class ) ;
     }
 
-    private counterIF lookupCounter( ORB orb, POA tpoa ) 
+    private counterIF lookupCounter( ORB orb, POA tpoa )
     {
         counterIF result = createCounter( orb, tpoa ) ;
 
@@ -146,7 +146,7 @@ public class counterClient implements InternalProcess
 
         /*
         try {
-            NamingContextExt nc = NamingContextExtHelper.narrow( 
+            NamingContextExt nc = NamingContextExtHelper.narrow(
                 orb.resolve_initial_references( "NameService" ) ) ;
 
             NameComponent[] name = nc.to_name( "FooObject" ) ;
@@ -156,11 +156,11 @@ public class counterClient implements InternalProcess
             System.out.println( exc ) ;
             exc.printStackTrace() ;
             return null ;
-        } 
+        }
         */
 
         String str = orb.object_to_string( (org.omg.CORBA.Object)result ) ;
-        obj = orb.string_to_object( str ) ;     
+        obj = orb.string_to_object( str ) ;
 
         return (counterIF)PortableRemoteObject.narrow( obj, counterIF.class ) ;
     }
@@ -168,7 +168,7 @@ public class counterClient implements InternalProcess
     private static final int WARMUP = 10000 ;
     private static final int COUNT =  2000 ;
 
-    private void warmup( counterIF counterRef ) 
+    private void warmup( counterIF counterRef )
         throws RemoteException {
 
         long value = 0 ;
@@ -178,7 +178,7 @@ public class counterClient implements InternalProcess
         }
     }
 
-    private void performTest(PrintStream out, counterIF counterRef, 
+    private void performTest(PrintStream out, counterIF counterRef,
         String testType ) throws RemoteException
     {
         long value = 0 ;
@@ -187,7 +187,7 @@ public class counterClient implements InternalProcess
         for (int i = 0; i < COUNT; i++) {
             value += counterRef.increment(1);
         }
-        
+
         double elapsed = System.nanoTime() - time ;
 
         out.println( "Test " + testType + " : " + (elapsed/COUNT)/1000 ) ;
@@ -198,13 +198,13 @@ public class counterClient implements InternalProcess
         // create and initialize the ORB
         environment.setProperty( ORBConstants.TIMING_POINTS_ENABLED,
             "true" ) ;
-        environment.setProperty( ORBConstants.ALLOW_LOCAL_OPTIMIZATION, 
+        environment.setProperty( ORBConstants.ALLOW_LOCAL_OPTIMIZATION,
             "true" ) ;
         if (DEBUG) {
-            environment.setProperty( "com.sun.corba.ee.ORBDebug", 
+            environment.setProperty( "com.sun.corba.ee.ORBDebug",
                 "subcontract" ) ;
         }
-        environment.setProperty( ORBConstants.ORB_ID_PROPERTY, id ) ; 
+        environment.setProperty( ORBConstants.ORB_ID_PROPERTY, id ) ;
         ORB orb = (ORB)org.omg.CORBA.ORB.init(args, environment);
 
         // Use the optimized reflective object copier for this test
@@ -212,7 +212,7 @@ public class counterClient implements InternalProcess
         CopierManager cm = orb.getCopierManager() ;
         int defaultId = cm.getDefaultId() ;
         cm.registerObjectCopierFactory( ocf, defaultId ) ;
-        
+
         System.out.println( "Using optimized reflective copier" ) ;
 
         return orb ;
@@ -238,7 +238,7 @@ public class counterClient implements InternalProcess
         db.controller.register( db.seh ) ;
 
         if (DEBUG) {
-            TimerEventHandler tracingHandler = 
+            TimerEventHandler tracingHandler =
                 tf.makeTracingEventHandler( "DEBUG" ) ;
             db.controller.register( tracingHandler ) ;
         }
@@ -264,12 +264,12 @@ public class counterClient implements InternalProcess
         db.top.disable() ;
         db.tp.Cdr().disable() ;
         db.tp.DynamicType().disable() ;
-        
+
         // Dump out timing results.
-        Map<Timer,Statistics> result = db.seh.stats() ; 
+        Map<Timer,Statistics> result = db.seh.stats() ;
         // TimerUtils.writeHtmlTable( result, db.seh.name() + "TimingData.html",
             // "Timing Data for making " + COUNT
-            // + " non-colocated calls in the same VM (" 
+            // + " non-colocated calls in the same VM ("
             // + db.seh.name() + ")" ) ;
     }
 
@@ -292,7 +292,7 @@ public class counterClient implements InternalProcess
             POA minscpoa = createSCPOA(orb, rootPOA, ServantCachingPolicy.MINIMAL_SEMANTICS );
 
             out.println( "Times per invocation in microseconds:" ) ;
-            out.println( 
+            out.println(
                 "-------------------------------------------------------------" ) ;
             counterIF counterRef1 = createCounter( orb, poa ) ;
             warmup( counterRef1 ) ;
@@ -337,7 +337,7 @@ public class counterClient implements InternalProcess
             warmup( counterRef8 ) ;
             DataBlock db2 = startTiming( orb2 ) ;
             try {
-                performTest(out, counterRef8, 
+                performTest(out, counterRef8,
                     "local POA (full servant caching) after resolve in different ORB" ) ;
             } finally {
                 // stopTiming( db ) ;
@@ -390,14 +390,14 @@ class CounterServantLocator extends org.omg.CORBA.LocalObject implements Servant
         this.servant = servant;
     }
 
-    public Servant preinvoke(byte[] oid, POA adapter, String operation, 
+    public Servant preinvoke(byte[] oid, POA adapter, String operation,
                              CookieHolder the_cookie)
         throws org.omg.PortableServer.ForwardRequest
     {
         return servant ;
     }
 
-    public void postinvoke(byte[] oid, POA adapter, String operation, 
+    public void postinvoke(byte[] oid, POA adapter, String operation,
                            java.lang.Object cookie, Servant servant)
     {
         return;

@@ -22,13 +22,13 @@ package com.sun.corba.ee.impl.presentation.rmi ;
 import com.sun.corba.ee.spi.presentation.rmi.PresentationManager ;
 import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
 
-public abstract class StubFactoryBase implements PresentationManager.StubFactory 
+public abstract class StubFactoryBase implements PresentationManager.StubFactory
 {
     private String[] typeIds = null ;
 
     protected final PresentationManager.ClassData classData ;
 
-    protected StubFactoryBase( PresentationManager.ClassData classData ) 
+    protected StubFactoryBase( PresentationManager.ClassData classData )
     {
         this.classData = classData ;
     }

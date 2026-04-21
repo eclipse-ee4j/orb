@@ -32,9 +32,9 @@ import com.sun.corba.ee.spi.orb.PropertyParser;
 import com.sun.corba.ee.spi.orb.DataCollector;
 import com.sun.corba.ee.spi.orb.OperationFactory;
 
-public class UserORBConfiguratorImpl 
-    implements 
-        ORBConfigurator 
+public class UserORBConfiguratorImpl
+    implements
+        ORBConfigurator
 {
     public static String propertyName = "userConfigProperty";
 
@@ -45,14 +45,14 @@ public class UserORBConfiguratorImpl
             this.orb = orb ;
         }
 
-        public Class testclass = 
+        public Class testclass =
             corba.orbconfigappserv.UserORBConfiguratorImpl.class;
 
         public PropertyParser makeParser()
         {
             PropertyParser parser = new PropertyParser() ;
             parser.add( propertyName,
-                        OperationFactory.classAction(orb.classNameResolver()), 
+                        OperationFactory.classAction(orb.classNameResolver()),
                         "testclass" ) ;
             return parser ;
         }
@@ -71,5 +71,5 @@ public class UserORBConfiguratorImpl
                 throw new org.omg.CORBA.INITIALIZE(ex.toString());
             }
         }
-    }   
+    }
 }

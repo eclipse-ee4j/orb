@@ -25,7 +25,7 @@ import java.io.*;
 
 public class OBVTestObjectCustomImpl extends OBVTestObjectCustom {
     private static Random r = new Random();
-    
+
     // We mark these as transients just so we can make sure during the test that
     // only by using the marshal and unmarshal methods could this class be serialized.
     private transient int fInt;
@@ -33,7 +33,7 @@ public class OBVTestObjectCustomImpl extends OBVTestObjectCustom {
     private transient float fFloat;
     private transient double fDouble;
     private transient String fString;
-    
+
     OBVTestObjectCustomImpl(int aInt, long aLong, float aFloat, double aDouble, String aString)
     {
         fInt = aInt;
@@ -85,7 +85,7 @@ public class OBVTestObjectCustomImpl extends OBVTestObjectCustom {
         os.write_double(fDouble);
         os.write_string(fString);
     }
- 
+
     public void unmarshal (org.omg.CORBA.DataInputStream is)
     {
         fInt = is.read_long();

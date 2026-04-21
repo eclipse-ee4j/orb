@@ -64,7 +64,7 @@ public class GIOPHeaderPaddingTest extends CORBATest {
         doTestType("Server", "Server",
                    "Client", "Client");
 
-        Controller colocatedClientServer = 
+        Controller colocatedClientServer =
             createClient(thisPackage + ".ColocatedClientServer",
                          "colocatedClientServer");
         colocatedClientServer.start();

@@ -71,7 +71,7 @@ public class GalaxyView extends JPanel implements MouseListener, MouseMotionList
     {
         fUI = ui;
         fGame = game;
-    
+
         Dimension size = new Dimension (700,700);
         setSize (size);
         setPreferredSize (size);
@@ -113,7 +113,7 @@ public class GalaxyView extends JPanel implements MouseListener, MouseMotionList
             PlanetViewUI planetUI = new PlanetViewUI (planet);
             fPlanetBounds[i] = planetUI.getBounds ();
         }
-    
+
     }
 
     private Image loadImage (String name)
@@ -347,7 +347,7 @@ public class GalaxyView extends JPanel implements MouseListener, MouseMotionList
                 fUI.updateShipListView ();
                 refreshCache ();
             }
-      
+
             repaint ();
         }
     }

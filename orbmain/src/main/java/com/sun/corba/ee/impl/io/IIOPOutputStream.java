@@ -51,13 +51,13 @@ import org.omg.CORBA.portable.OutputStream;
 public class IIOPOutputStream
     extends com.sun.corba.ee.impl.io.OutputStreamHook
 {
-    private static Bridge bridge = 
+    private static Bridge bridge =
         AccessController.doPrivileged(
             new PrivilegedAction<Bridge>() {
                 public Bridge run() {
                     return Bridge.get() ;
                 }
-            } 
+            }
         ) ;
 
     private org.omg.CORBA_2_3.portable.OutputStream orbStream;
@@ -72,7 +72,7 @@ public class IIOPOutputStream
 
     private IOException abortIOException = null;
 
-    private Stack<ObjectStreamClass> classDescStack = 
+    private Stack<ObjectStreamClass> classDescStack =
         new Stack<ObjectStreamClass>();
 
     public IIOPOutputStream()
@@ -228,7 +228,7 @@ public class IIOPOutputStream
     /* throws SecurityException */
     {
         return false;
-                
+
     }
 
 
@@ -469,7 +469,7 @@ public class IIOPOutputStream
      * @param data Data to write
      */
     protected void internalWriteUTF(org.omg.CORBA.portable.OutputStream stream,
-                                    String data) 
+                                    String data)
     {
         stream.write_wstring(data);
     }
@@ -717,9 +717,9 @@ public class IIOPOutputStream
             int callType = ValueHandlerImpl.kValueType;
             ClassInfoCache.ClassInfo cinfo = field.getClassInfo() ;
 
-            if (cinfo.isInterface()) { 
+            if (cinfo.isInterface()) {
                 String className = type.getName();
-                
+
                 if (cinfo.isARemote(type)) {
                     // RMI Object reference...
                     callType = ValueHandlerImpl.kRemoteType;
@@ -733,17 +733,17 @@ public class IIOPOutputStream
                     callType = ValueHandlerImpl.kAbstractType;
                 }
             }
-                                        
+
             switch (callType) {
-            case ValueHandlerImpl.kRemoteType: 
+            case ValueHandlerImpl.kRemoteType:
                 Util.getInstance().writeRemoteObject(orbStream, objectValue);
                 break;
-            case ValueHandlerImpl.kAbstractType: 
+            case ValueHandlerImpl.kAbstractType:
                 Util.getInstance().writeAbstractObject(orbStream, objectValue);
                 break;
             case ValueHandlerImpl.kValueType:
                 try{
-                    orbStream.write_value((java.io.Serializable)objectValue, 
+                    orbStream.write_value((java.io.Serializable)objectValue,
                         type);
                 } catch(ClassCastException cce){
                     if (objectValue instanceof java.io.Serializable) {

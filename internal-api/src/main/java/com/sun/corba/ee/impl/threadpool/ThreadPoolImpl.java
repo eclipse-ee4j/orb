@@ -40,7 +40,7 @@ import org.glassfish.gmbal.ManagedObject ;
 import org.glassfish.gmbal.NameValue ;
 
 @ManagedObject
-@Description( "A ThreadPool used by the ORB" ) 
+@Description( "A ThreadPool used by the ORB" )
 public class ThreadPoolImpl implements ThreadPool
 {
     public static final int DEFAULT_INACTIVITY_TIMEOUT = 120000;
@@ -49,33 +49,33 @@ public class ThreadPoolImpl implements ThreadPool
     private static final AtomicInteger threadCounter = new AtomicInteger(0);
 
     // Any time currentThreadCount and/or availableWorkerThreads is updated
-    // or accessed this ThreadPool's WorkQueue must be locked. And, it is 
+    // or accessed this ThreadPool's WorkQueue must be locked. And, it is
     // expected that this ThreadPool's WorkQueue is the only object that
     // updates and accesses these values directly and indirectly though a
     // call to a method in this ThreadPool. If any call to update or access
     // those values must synchronized on this ThreadPool's WorkQueue.
     final private WorkQueue workQueue;
-    
+
     // Stores the number of available worker threads
     private int availableWorkerThreads = 0;
-    
+
     // Stores the number of threads in the threadpool currently
     private int currentThreadCount = 0;
-    
+
     // Minimum number of worker threads created at instantiation of the threadpool
     final private int minWorkerThreads;
-    
+
     // Maximum number of worker threads in the threadpool
     final private int maxWorkerThreads;
-    
+
     // Inactivity timeout value for worker threads to exit and stop running
     final private long inactivityTimeout;
-    
+
     // Running count of the work items processed
-    // Set the value to 1 so that divide by zero is avoided in 
+    // Set the value to 1 so that divide by zero is avoided in
     // averageWorkCompletionTime()
     private AtomicLong processedCount = new AtomicLong(1);
-    
+
     // Running aggregate of the time taken in millis to execute work items
     // processed by the threads in the threadpool
     private AtomicLong totalTimeTaken = new AtomicLong(0);
@@ -86,7 +86,7 @@ public class ThreadPoolImpl implements ThreadPool
     // ThreadGroup in which threads should be created
     private ThreadGroup threadGroup ;
 
-    final private ClassLoader workerThreadClassLoader ; 
+    final private ClassLoader workerThreadClassLoader ;
 
     final Object workersLock = new Object() ;
 
@@ -97,7 +97,7 @@ public class ThreadPoolImpl implements ThreadPool
      * ClassLoader.
      */
     public ThreadPoolImpl(String threadpoolName) {
-        this( Thread.currentThread().getThreadGroup(), threadpoolName ) ; 
+        this( Thread.currentThread().getThreadGroup(), threadpoolName ) ;
     }
 
     /** Create an unbounded thread pool in the given thread group
@@ -112,7 +112,7 @@ public class ThreadPoolImpl implements ThreadPool
      * with the given ClassLoader as the worker thread default
      * ClassLoader.
      */
-    public ThreadPoolImpl(ThreadGroup tg, String threadpoolName, 
+    public ThreadPoolImpl(ThreadGroup tg, String threadpoolName,
         ClassLoader defaultClassLoader) {
 
         inactivityTimeout = DEFAULT_INACTIVITY_TIMEOUT;
@@ -124,12 +124,12 @@ public class ThreadPoolImpl implements ThreadPool
         name = threadpoolName;
         workerThreadClassLoader = defaultClassLoader ;
     }
- 
+
     /** Create a bounded thread pool in the current thread group
      * with the current context ClassLoader as the worker thread default
      * ClassLoader.
      */
-    public ThreadPoolImpl( int minSize, int maxSize, long timeout, 
+    public ThreadPoolImpl( int minSize, int maxSize, long timeout,
         String threadpoolName) {
 
         this( minSize, maxSize, timeout, threadpoolName, getDefaultClassLoader() ) ;
@@ -139,8 +139,8 @@ public class ThreadPoolImpl implements ThreadPool
      * with the given ClassLoader as the worker thread default
      * ClassLoader.
      */
-    public ThreadPoolImpl( int minSize, int maxSize, long timeout, 
-        String threadpoolName, ClassLoader defaultClassLoader ) 
+    public ThreadPoolImpl( int minSize, int maxSize, long timeout,
+        String threadpoolName, ClassLoader defaultClassLoader )
     {
         inactivityTimeout = timeout;
         minWorkerThreads = minSize;
@@ -185,12 +185,12 @@ public class ThreadPoolImpl implements ThreadPool
         if (System.getSecurityManager() == null)
             return Thread.currentThread().getContextClassLoader() ;
         else {
-            final ClassLoader cl = AccessController.doPrivileged( 
+            final ClassLoader cl = AccessController.doPrivileged(
                 new PrivilegedAction<ClassLoader>() {
                     public ClassLoader run() {
                         return Thread.currentThread().getContextClassLoader() ;
                     }
-                } 
+                }
             ) ;
 
             return cl ;
@@ -210,7 +210,7 @@ public class ThreadPoolImpl implements ThreadPool
         return workQueue;
     }
 
-    private Thread createWorkerThreadHelper( String name ) { 
+    private Thread createWorkerThreadHelper( String name ) {
         // Thread creation needs to be in a doPrivileged block
         // if there is a non-null security manager for two reasons:
         // 1. The creation of a thread in a specific ThreadGroup
@@ -251,7 +251,7 @@ public class ThreadPoolImpl implements ThreadPool
         synchronized (workersLock) {
             workers.add( thread ) ;
         }
-        
+
         // The thread must be set to a daemon thread so the
         // VM can exit if the only threads left are PooledThreads
         // or other daemons.  We don't want to rely on the
@@ -259,9 +259,9 @@ public class ThreadPoolImpl implements ThreadPool
         // Note that no exception is possible here since we
         // are inside the doPrivileged block.
         thread.setDaemon(true);
-        
+
         Exceptions.self.workerThreadCreated( thread, thread.getContextClassLoader() ) ;
-        
+
         thread.start();
         return null ;
     }
@@ -296,7 +296,7 @@ public class ThreadPoolImpl implements ThreadPool
             }
         }
     }
-    
+
     public int minimumNumberOfThreads() {
         return minWorkerThreads;
     }
@@ -308,9 +308,9 @@ public class ThreadPoolImpl implements ThreadPool
     public long idleTimeoutForThreads() {
         return inactivityTimeout;
     }
-    
+
     @ManagedAttribute
-    @Description( "The current number of threads" ) 
+    @Description( "The current number of threads" )
     public int currentNumberOfThreads() {
         synchronized (workQueue) {
             return currentThreadCount;
@@ -330,7 +330,7 @@ public class ThreadPoolImpl implements ThreadPool
     }
 
     @ManagedAttribute
-    @Description( "The number of available threads in this ThreadPool" ) 
+    @Description( "The number of available threads in this ThreadPool" )
     public int numberOfAvailableThreads() {
          synchronized (workQueue) {
             return availableWorkerThreads;
@@ -338,21 +338,21 @@ public class ThreadPoolImpl implements ThreadPool
     }
 
     @ManagedAttribute
-    @Description( "The number of threads busy processing work in this ThreadPool" ) 
+    @Description( "The number of threads busy processing work in this ThreadPool" )
     public int numberOfBusyThreads() {
         synchronized (workQueue) {
             return (currentNumberOfThreads() - numberOfAvailableThreads());
         }
     }
-    
+
     @ManagedAttribute
-    @Description( "The average time needed to complete a work item" ) 
+    @Description( "The average time needed to complete a work item" )
     public long averageWorkCompletionTime() {
         return (totalTimeTaken.get() / processedCount.get());
     }
-    
+
     @ManagedAttribute
-    @Description( "The number of work items processed" ) 
+    @Description( "The number of work items processed" )
     public long currentProcessedCount() {
         return processedCount.get();
     }
@@ -362,34 +362,34 @@ public class ThreadPoolImpl implements ThreadPool
         return name;
     }
 
-    /** 
-    * This method will return the number of WorkQueues serviced by the threadpool. 
-    */ 
+    /**
+    * This method will return the number of WorkQueues serviced by the threadpool.
+    */
     public int numberOfWorkQueues() {
         return 1;
-    } 
+    }
 
 
     private static int getUniqueThreadId() {
         return ThreadPoolImpl.threadCounter.incrementAndGet();
     }
 
-    /** 
+    /**
      * This method will decrement the number of available threads
-     * in the threadpool which are waiting for work. Called from 
+     * in the threadpool which are waiting for work. Called from
      * WorkQueueImpl.requestWork()
-     */ 
+     */
     void decrementNumberOfAvailableThreads() {
         synchronized (workQueue) {
             availableWorkerThreads--;
         }
     }
-    
-    /** 
+
+    /**
      * This method will increment the number of available threads
-     * in the threadpool which are waiting for work. Called from 
+     * in the threadpool which are waiting for work. Called from
      * WorkQueueImpl.requestWork()
-     */ 
+     */
     void incrementNumberOfAvailableThreads() {
         synchronized (workQueue) {
             availableWorkerThreads++;
@@ -406,7 +406,7 @@ public class ThreadPoolImpl implements ThreadPool
         private volatile boolean closeCalled = false ;
 
         WorkerThread(ThreadGroup tg, String threadPoolName) {
-            super(tg, THREAD_POOLNAME_PREFIX_STR + threadPoolName + 
+            super(tg, THREAD_POOLNAME_PREFIX_STR + threadPoolName +
                   WORKER_THREAD_NAME_PREFIX_STR + ThreadPoolImpl.getUniqueThreadId());
             this.currentWork = null;
         }
@@ -415,12 +415,12 @@ public class ThreadPoolImpl implements ThreadPool
             if (System.getSecurityManager() == null)
                 setClassLoaderHelper() ;
             else {
-                AccessController.doPrivileged( 
+                AccessController.doPrivileged(
                     new PrivilegedAction<ClassLoader>() {
                         public ClassLoader run() {
                             return WorkerThread.this.setClassLoaderHelper() ;
                         }
-                    } 
+                    }
                 ) ;
             }
         }
@@ -429,14 +429,14 @@ public class ThreadPoolImpl implements ThreadPool
             Thread thr = Thread.currentThread() ;
             ClassLoader result = thr.getContextClassLoader() ;
             thr.setContextClassLoader( workerThreadClassLoader ) ;
-            return result ; 
+            return result ;
         }
 
         public synchronized void close() {
             closeCalled = true ;
             interrupt() ;
         }
-        
+
         private void resetClassLoader() {
             ClassLoader currentClassLoader = null;
             try {
@@ -448,7 +448,7 @@ public class ThreadPoolImpl implements ThreadPool
                             public ClassLoader run() {
                                 return getContextClassLoader();
                             }
-                        } 
+                        }
                     );
                 }
             } catch (SecurityException se) {
@@ -456,7 +456,7 @@ public class ThreadPoolImpl implements ThreadPool
             }
 
             if (workerThreadClassLoader != currentClassLoader) {
-                Exceptions.self.workerThreadForgotClassloaderReset(this, 
+                Exceptions.self.workerThreadForgotClassloaderReset(this,
                     currentClassLoader, workerThreadClassLoader);
 
                 try {
@@ -493,29 +493,29 @@ public class ThreadPoolImpl implements ThreadPool
                     try {
                         currentWork = ((WorkQueueImpl)workQueue).requestWork(
                             inactivityTimeout);
-                        if (currentWork == null) 
+                        if (currentWork == null)
                             continue;
                     } catch (WorkerThreadNotNeededException toe) {
-                        Exceptions.self.workerThreadNotNeeded(this, 
+                        Exceptions.self.workerThreadNotNeeded(this,
                             currentNumberOfThreads(), minimumNumberOfThreads());
                         closeCalled = true ;
                         continue ;
                     } catch (InterruptedException exc) {
                         Thread.interrupted() ;
-                        Exceptions.self.workQueueThreadInterrupted( exc, super.getName(), 
+                        Exceptions.self.workQueueThreadInterrupted( exc, super.getName(),
                             Boolean.valueOf( closeCalled ) ) ;
 
                         continue ;
                     } catch (Throwable t) {
-                        Exceptions.self.workerThreadThrowableFromRequestWork(t, this, 
+                        Exceptions.self.workerThreadThrowableFromRequestWork(t, this,
                                 workQueue.getName());
-                        
+
                         continue;
-                    } 
+                    }
 
                     performWork() ;
 
-                    // set currentWork to null so that the work item can be 
+                    // set currentWork to null so that the work item can be
                     // garbage collected without waiting for the next work item.
                     currentWork = null;
 

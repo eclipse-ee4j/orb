@@ -19,6 +19,6 @@
  */
 
 package javax.rmi;
-public interface HashCodeA extends java.rmi.Remote { 
+public interface HashCodeA extends java.rmi.Remote {
 }
 

@@ -21,8 +21,8 @@ package org.omg.CORBA;
 
 /**
  * Exception thrown
- * when an ORB has encountered a failure during its initialization, 
- * such as failure to acquire networking resources or detecting a 
+ * when an ORB has encountered a failure during its initialization,
+ * such as failure to acquire networking resources or detecting a
  * configuration error.<P>
  * It contains a minor code, which gives more detailed information about
  * what caused the exception, and a completion status. It may also contain

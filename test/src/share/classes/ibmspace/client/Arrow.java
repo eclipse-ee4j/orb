@@ -156,7 +156,7 @@ public class Arrow
         if ( fTail != null && fHead != null ) {
 
             // Compute lenth and unit lengths in x and y directions
-      
+
             fDX = (double)fHead.x - (double)fTail.x;
             fDY = (double)fHead.y - (double)fTail.y;
             fLen = Math.sqrt (fDX*fDX + fDY*fDY);

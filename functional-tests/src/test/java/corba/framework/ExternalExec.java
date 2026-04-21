@@ -59,11 +59,11 @@ public class ExternalExec extends ControllerAdapter
     public static final String HANDSHAKE_KEY = "handshake" ;
     protected String handshake = null ;
     private boolean addOrbToXbootClasspath ;
-    
+
     public ExternalExec( boolean addOrbToXbootClasspath ) {
         this.addOrbToXbootClasspath = addOrbToXbootClasspath ;
     }
-    
+
     public ExternalExec() {
         this( false ) ;
     }
@@ -85,7 +85,7 @@ public class ExternalExec extends ControllerAdapter
     protected ProcessMonitor monitor;
 
     /**
-     * Exit value of the process.  Will be INVALID_STATE, 
+     * Exit value of the process.  Will be INVALID_STATE,
      * Controller.STOPPED, Controller.SUCCESS, or a positive value
      * indicating failure.
      */
@@ -122,18 +122,18 @@ public class ExternalExec extends ControllerAdapter
      */
     protected void addClasspath()
     {
-        String[] cp = new String[] { "-classpath", 
+        String[] cp = new String[] { "-classpath",
             Options.getClasspath() };
         VMArgs = CORBAUtil.combine(cp, VMArgs);
-    
+
         if (addOrbToXbootClasspath) {
-            String[] bcp = new String[] { "-Xbootclasspath/p:" + 
+            String[] bcp = new String[] { "-Xbootclasspath/p:" +
                 System.getProperty( "corba.test.orb.classpath" ) } ;
             VMArgs = CORBAUtil.combine(bcp, VMArgs);
-        }       
+        }
     }
-   
-    protected String[] getDebugVMArgs() 
+
+    protected String[] getDebugVMArgs()
     {
         return new String[0] ;
     }
@@ -144,14 +144,14 @@ public class ExternalExec extends ControllerAdapter
     }
 
     /**
-     * Create a String array with the complete command to execute, 
+     * Create a String array with the complete command to execute,
      * including the java executable path.
      *
      *@return   Complete command line
      */
     protected String[] buildCommand()
     {
-        List<String> cmd = new ArrayList<String>() ; 
+        List<String> cmd = new ArrayList<String>() ;
         // Command line array:
 
         // [java executable]
@@ -166,7 +166,7 @@ public class ExternalExec extends ControllerAdapter
         // Java executable
         cmd.add( Options.getJavaExec() ) ;
         cmd.addAll(Arrays.asList(VMArgs));
-      
+
         // -D environment variables
         Enumeration names = environment.propertyNames();
         while(names.hasMoreElements()) {
@@ -199,7 +199,7 @@ public class ExternalExec extends ControllerAdapter
             String[] cmd = buildCommand() ;
 
             if (Test.forkDebugLevel >= Test.DISPLAY) {
-                System.out.println( 
+                System.out.println(
                     "-----------------------------------------------------------------" ) ;
                 System.out.println( "Current working directory: " +
                 System.getProperty( "user.dir" ) ) ;
@@ -207,7 +207,7 @@ public class ExternalExec extends ControllerAdapter
                 for (String str : cmd) {
                     System.out.println("\t" + str);
                 }
-                System.out.println( 
+                System.out.println(
                     "-----------------------------------------------------------------" ) ;
             }
 
@@ -261,7 +261,7 @@ public class ExternalExec extends ControllerAdapter
         terminate() ;
     }
 
-    public final void kill() 
+    public final void kill()
     {
         terminate() ;
     }
@@ -272,7 +272,7 @@ public class ExternalExec extends ControllerAdapter
             exitValue = process.waitFor() ;
             return exitValue ;
         } catch (InterruptedException exc) {
-            throw exc ;    
+            throw exc ;
         } finally {
             duration = System.currentTimeMillis() - startTime ;
         }
@@ -281,7 +281,7 @@ public class ExternalExec extends ControllerAdapter
     public int waitFor(long timeout) throws Exception
     {
         long stop = System.currentTimeMillis() + timeout;
-        
+
         do {
             if (finished()) {
                 break;

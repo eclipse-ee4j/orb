@@ -26,11 +26,11 @@ import java.security.BasicPermission ;
  * BridgePermission("getBridge") permission must be held by the
  * caller of sun.corba.Bridge.get().
  */
-public final class BridgePermission extends BasicPermission 
+public final class BridgePermission extends BasicPermission
 {
     /**
      * Creates a new BridgePermission with the specified name.
-     * The name is the symbolic name of the BridgePermission. 
+     * The name is the symbolic name of the BridgePermission.
      * The only valid name here is "getBridge".
      *
      * @param name the name of the BridgePermission.

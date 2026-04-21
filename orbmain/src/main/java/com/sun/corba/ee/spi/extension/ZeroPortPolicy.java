@@ -32,7 +32,7 @@ public class ZeroPortPolicy extends LocalObject implements Policy
 
     private boolean flag = true ;
 
-    private ZeroPortPolicy( boolean type ) 
+    private ZeroPortPolicy( boolean type )
     {
         this.flag = type ;
     }

@@ -33,8 +33,8 @@ public final class IIOPAddressImpl extends IIOPAddressBase
 
     private String host;
     private int port;
-    
-    public IIOPAddressImpl( String host, int port ) 
+
+    public IIOPAddressImpl( String host, int port )
     {
         if ((port < 0) || (port > 65535)) {
             throw wrapper.badIiopAddressPort(port);

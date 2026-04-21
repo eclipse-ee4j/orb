@@ -33,7 +33,7 @@ public class idlValueTypeBImpl
     public idlValueTypeBImpl () {}
 
     public idlValueTypeBImpl (short a, short b)
-    { 
+    {
         this.a = a;
         this.b = b;
     }

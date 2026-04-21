@@ -27,15 +27,15 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 public class OrderBL {
-    
+
     static DatatypeFactory df;
 
     public OrderBL() {
     }
-    
+
     public Order GetOrder(int orderId, int customerId) {
         int id = 1;
-        
+
         Address ship = new Address();
         ship.setFirstName("Ship FirstName "+ id);
         ship.setLastName("Ship LastName " + id);
@@ -44,7 +44,7 @@ public class OrderBL {
         ship.setCity( "City " + id);
         ship.setState( "State " + id);
         ship.setZip( "12345");
-        
+
         Address bill = new Address();
         bill.setFirstName("Bill FirstName "+ id);
         bill.setLastName("Bill LastName " + id);
@@ -52,37 +52,37 @@ public class OrderBL {
         bill.setAddress2("Street Address Line 2 " + id);
         bill.setCity( "City " + id);
         bill.setState( "State " + id);
-        bill.setZip( "12345");        
-        
+        bill.setZip( "12345");
+
         Customer customer = new Customer();
         customer.setCustomerId(customerId) ;
         customer.setContactFirstName("FirstName " + id);
         customer.setContactLastName( "LastName " + id);
         customer.setContactPhone(Integer.toString(id));
-        
+
         try {
            if( df == null )
             df = DatatypeFactory.newInstance();
         }
         catch(javax.xml.datatype.DatatypeConfigurationException ex) {
         }
-        
+
         XMLGregorianCalendar date = df.newXMLGregorianCalendar();
         date.setYear(2005);
         date.setMonth(DatatypeConstants.MARCH);
         date.setDay(29);
         date.setTime(11,11,11);
-        
+
         customer.setLastActivityDate(date) ;
         customer.setCreditCardNumber(""+id);
         customer.setCreditCardExpirationDate( ""+id) ;
         customer.setBillingAddress(bill) ;
-        customer.setShippingAddress(ship) ;       
-        
+        customer.setShippingAddress(ship) ;
+
         int numberLineItems = 50;
         ArrayOfLineItem linearray = new ArrayOfLineItem();
         List<LineItem> lines = linearray.getLineItem();
-        
+
         for(int i = 0; i < numberLineItems; i++) {
             LineItem line = new LineItem();
             line.setOrderId(orderId);
@@ -91,17 +91,17 @@ public class OrderBL {
             line.setProductDescription("Test Product " +i);
             line.setOrderQuantity(1);
             line.setUnitPrice((float) 1.00);
-            
+
             lines.add(line);
         }
-        
+
         Order order = new Order();
         order.setOrderId(orderId);
         order.setOrderStatus( 1);
         order.setOrderDate(date);
         order.setOrderTotalAmount((float) 50);
         order.setCustomer(customer);
-        order.setLineItems(linearray);        
+        order.setLineItems(linearray);
         return order;
     }
 }

@@ -88,7 +88,7 @@ public class EnumEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     _elements.addElement (element);
   } // addElement
 
-  /** Each element of the vector is a String. 
+  /** Each element of the vector is a String.
    * @return a {@link Vector} or all the elements in the enum
    */
   public Vector<String> elements() {

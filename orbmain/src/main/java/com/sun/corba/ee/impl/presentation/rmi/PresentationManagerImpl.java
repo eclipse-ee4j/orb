@@ -84,8 +84,8 @@ public final class PresentationManagerImpl implements PresentationManager
 // PresentationManager interface
 ////////////////////////////////////////////////////////////////////////////////
 
-    public synchronized DynamicMethodMarshaller getDynamicMethodMarshaller( 
-        Method method ) 
+    public synchronized DynamicMethodMarshaller getDynamicMethodMarshaller(
+        Method method )
     {
         if (method == null) {
             return null;
@@ -99,7 +99,7 @@ public final class PresentationManagerImpl implements PresentationManager
         return classToClassData.get(cls) ;
     }
 
-    private class ClassDataImpl implements PresentationManager.ClassData 
+    private class ClassDataImpl implements PresentationManager.ClassData
     {
         private Class<?> cls ;
         private IDLNameTranslator nameTranslator ;
@@ -120,7 +120,7 @@ public final class PresentationManagerImpl implements PresentationManager
             Class<?>[] interfaces = getInterfaces( rootSet ) ;
             nameTranslator = IDLNameTranslatorImpl.get( interfaces ) ;
             typeIds = makeTypeIds( root, gr, rootSet ) ;
-            ihfactory = new InvocationHandlerFactoryImpl( 
+            ihfactory = new InvocationHandlerFactoryImpl(
                 PresentationManagerImpl.this, this ) ;
             dictionary = new HashMap<String,Object>() ;
         }
@@ -140,7 +140,7 @@ public final class PresentationManagerImpl implements PresentationManager
             return typeIds.clone() ;
         }
 
-        public InvocationHandlerFactory getInvocationHandlerFactory() 
+        public InvocationHandlerFactory getInvocationHandlerFactory()
         {
             return ihfactory ;
         }
@@ -151,8 +151,8 @@ public final class PresentationManagerImpl implements PresentationManager
         }
     }
 
-    public PresentationManager.StubFactoryFactory getStubFactoryFactory( 
-        boolean isDynamic ) 
+    public PresentationManager.StubFactoryFactory getStubFactoryFactory(
+        boolean isDynamic )
     {
         if (isDynamic) {
             return getDynamicStubFactoryFactory();
@@ -193,16 +193,16 @@ public final class PresentationManagerImpl implements PresentationManager
         return dynamicStubFactoryFactory.getTie( null ) ;
     }
 
-    public String getRepositoryId( java.rmi.Remote impl ) 
+    public String getRepositoryId( java.rmi.Remote impl )
     {
         // Get an empty reflective Tie.
         Tie tie = getTie() ;
-        
+
         // Setting the target causes the ReflectiveTieImpl to
         // compute all of the required repo ID information.
         tie.setTarget( impl ) ;
 
-        return Servant.class.cast( tie )._all_interfaces( 
+        return Servant.class.cast( tie )._all_interfaces(
             (POA)null, (byte[])null)[0] ;
     }
 
@@ -220,7 +220,7 @@ public final class PresentationManagerImpl implements PresentationManager
                 public Object run() {
                     return cls.getMethods() ;
                 }
-            } 
+            }
         ) ;
 
         for( int ctr=0; ctr<methods.length; ctr++) {
@@ -252,11 +252,11 @@ public final class PresentationManagerImpl implements PresentationManager
             }
 
             // Expand all nodes into the graph
-            gr.getRoots() ; 
+            gr.getRoots() ;
 
             // remove the roots and find roots again
             gr.removeAll( initialRootSet ) ;
-            rootSet = gr.getRoots() ;    
+            rootSet = gr.getRoots() ;
         }
 
         return rootSet ;
@@ -336,7 +336,7 @@ public final class PresentationManagerImpl implements PresentationManager
             Class<?>[] interfaces = interf.getInterfaces() ;
             for (int ctr=0; ctr<interfaces.length; ctr++) {
                 Class<?> cls = interfaces[ctr] ;
-                ClassInfoCache.ClassInfo cinfo = 
+                ClassInfoCache.ClassInfo cinfo =
                     ClassInfoCache.get( cls ) ;
                 if (cinfo.isARemote(cls) &&
                     !Remote.class.equals(cls)) {
@@ -348,7 +348,7 @@ public final class PresentationManagerImpl implements PresentationManager
         }
 
         @Override
-        public String toString() 
+        public String toString()
         {
             return "NodeImpl[" + interf + "]" ;
         }

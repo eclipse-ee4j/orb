@@ -30,7 +30,7 @@ import java.util.Map ;
 
 import org.omg.CORBA_2_3.portable.InputStream ;
 
-public abstract class IdentifiableFactoryFinderBase<E extends Identifiable> 
+public abstract class IdentifiableFactoryFinderBase<E extends Identifiable>
     implements IdentifiableFactoryFinder<E>
 {
     protected static final IORSystemException wrapper =
@@ -45,15 +45,15 @@ public abstract class IdentifiableFactoryFinderBase<E extends Identifiable>
         this.orb = orb ;
     }
 
-    protected IdentifiableFactory<E> getFactory(int id) 
+    protected IdentifiableFactory<E> getFactory(int id)
     {
         return map.get( id ) ;
     }
 
-    public abstract E handleMissingFactory( int id, 
+    public abstract E handleMissingFactory( int id,
         InputStream is ) ;
-        
-    public E create(int id, InputStream is) 
+
+    public E create(int id, InputStream is)
     {
         IdentifiableFactory<E> factory = getFactory( id ) ;
 
@@ -63,8 +63,8 @@ public abstract class IdentifiableFactoryFinderBase<E extends Identifiable>
             return handleMissingFactory(id, is);
         }
     }
-    
-    public void registerFactory(IdentifiableFactory<E> factory) 
+
+    public void registerFactory(IdentifiableFactory<E> factory)
     {
         map.put( factory.getId(), factory ) ;
     }

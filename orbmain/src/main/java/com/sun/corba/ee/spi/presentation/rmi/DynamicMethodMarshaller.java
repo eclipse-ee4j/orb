@@ -33,7 +33,7 @@ import org.omg.CORBA_2_3.portable.OutputStream ;
 public interface DynamicMethodMarshaller
 {
     /** Returns the method used to create this DynamicMethodMarshaller.
-     * 
+     *
      * @return the method used
      */
     Method getMethod() ;
@@ -41,7 +41,7 @@ public interface DynamicMethodMarshaller
     /** Copy the arguments as needed for this particular method.
      * Can be optimized so that as little copying as possible is
      * performed.
-     * 
+     *
      * @param args arguments to copy
      * @param orb ORB to use
      * @throws RemoteException if there is a remote error
@@ -51,7 +51,7 @@ public interface DynamicMethodMarshaller
 
     /** Read the arguments for this method from the InputStream.
      * Returns null if there are no arguments.
-     * 
+     *
      * @param is stream to read arguments from
      * @return array of arguments
      */
@@ -59,7 +59,7 @@ public interface DynamicMethodMarshaller
 
     /** Write arguments for this method to the OutputStream.
      * Does nothing if there are no arguments.
-     * 
+     *
      * @param os stream to write to
      * @param args arguments to write
      */
@@ -68,7 +68,7 @@ public interface DynamicMethodMarshaller
     /** Copy the result as needed for this particular method.
      * Can be optimized so that as little copying as possible is
      * performed.
-     * 
+     *
      * @param result Object to copy
      * @param orb ORB to use for copying
      * @throws RemoteException if there is an error with the ORB
@@ -76,9 +76,9 @@ public interface DynamicMethodMarshaller
      */
     Object copyResult( Object result, ORB orb ) throws RemoteException ;
 
-    /** Read the result from the InputStream.  Returns null 
+    /** Read the result from the InputStream.  Returns null
      * if the result type is null.
-     * 
+     *
      * @param is stream to read from
      * @return result
      */
@@ -86,7 +86,7 @@ public interface DynamicMethodMarshaller
 
     /** Write the result to the OutputStream.  Does nothing if
      * the result type is null.
-     * 
+     *
      * @param os stream to write to
      * @param result result to write to stream
      */
@@ -94,7 +94,7 @@ public interface DynamicMethodMarshaller
 
     /** Returns true iff thr's class is a declared exception (or a subclass of
      * a declared exception) for this DynamicMethodMarshaller's method.
-     * 
+     *
      * @param thr throwable to checl
      * @return if it is a declared (non-runtime) exception
      */
@@ -103,16 +103,16 @@ public interface DynamicMethodMarshaller
     /** Write the repository ID of the exception and the value of the
      * exception to the OutputStream.  ex should be a declared exception
      * for this DynamicMethodMarshaller's method.
-     * 
+     *
      * @param os stream to write to
      * @param ex exception to write
      */
     void writeException( OutputStream os, Exception ex ) ;
 
-    /** Reads an exception ID and the corresponding exception from 
+    /** Reads an exception ID and the corresponding exception from
      * the input stream.  This should be an exception declared in
      * this method.
-     * 
+     *
      * @param ae id of exception to read
      * @return read exception
      */

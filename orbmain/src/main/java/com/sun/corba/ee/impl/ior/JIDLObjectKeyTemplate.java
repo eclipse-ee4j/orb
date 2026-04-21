@@ -38,7 +38,7 @@ public final class JIDLObjectKeyTemplate extends NewObjectKeyTemplateBase
      * @param scid ID of template
      * @param is stream to read from
     */
-    public JIDLObjectKeyTemplate( ORB orb, int magic, int scid, InputStream is ) 
+    public JIDLObjectKeyTemplate( ORB orb, int magic, int scid, InputStream is )
     {
         super( orb, magic, scid, is.read_long(), JIDL_ORB_ID, JIDL_OAID );
 
@@ -54,7 +54,7 @@ public final class JIDLObjectKeyTemplate extends NewObjectKeyTemplateBase
      * @param osh Holder for Octet
     */
     public JIDLObjectKeyTemplate( ORB orb, int magic, int scid, InputStream is,
-        OctetSeqHolder osh ) 
+        OctetSeqHolder osh )
     {
         super( orb, magic, scid, is.read_long(), JIDL_ORB_ID, JIDL_OAID );
 
@@ -62,15 +62,15 @@ public final class JIDLObjectKeyTemplate extends NewObjectKeyTemplateBase
 
         setORBVersion( is ) ;
     }
-    
-    public JIDLObjectKeyTemplate( ORB orb, int scid, int serverid ) 
+
+    public JIDLObjectKeyTemplate( ORB orb, int scid, int serverid )
     {
-        super( orb, ObjectKeyFactoryImpl.JAVAMAGIC_NEWER, scid, serverid, 
-            JIDL_ORB_ID, JIDL_OAID ) ; 
+        super( orb, ObjectKeyFactoryImpl.JAVAMAGIC_NEWER, scid, serverid,
+            JIDL_ORB_ID, JIDL_OAID ) ;
 
         setORBVersion( ORBVersionFactory.getORBVersion() ) ;
     }
-   
+
     @Override
     protected void writeTemplate( OutputStream os )
     {

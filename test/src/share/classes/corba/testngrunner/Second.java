@@ -76,7 +76,7 @@ public class Second {
     public void anotherTest() {
         msg( "anotherTest called" ) ;
     }
-    
+
     @AfterSuite
     public void shutdown() {
         msg( "shutdown called" ) ;

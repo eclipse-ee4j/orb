@@ -61,7 +61,7 @@ public class Holder implements AuxGen
     this.symbolTable = symbolTable;
     this.entry       = entry;
     init ();
-    
+
     openStream ();
     if (stream == null)
       return;

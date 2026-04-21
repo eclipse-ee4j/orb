@@ -40,7 +40,7 @@ import org.glassfish.gmbal.ManagedObjectManager;
 @ManagedObject
 @Description( "The Factory for the TOA (transient object adapter)")
 @AMXMetadata( isSingleton=true )
-public class TOAFactory implements ObjectAdapterFactory 
+public class TOAFactory implements ObjectAdapterFactory
 {
     private static final ORBUtilSystemException wrapper =
         ORBUtilSystemException.self ;
@@ -49,7 +49,7 @@ public class TOAFactory implements ObjectAdapterFactory
 
     private TOAImpl toa ;
     private Map<String,TOAImpl> codebaseToTOA ;
-    private TransientObjectManager tom ; 
+    private TransientObjectManager tom ;
 
     @ManagedAttribute
     @Description( "The default TOA used only for dispatch, not objref creation")
@@ -63,7 +63,7 @@ public class TOAFactory implements ObjectAdapterFactory
         return new HashMap<String,TOAImpl>( codebaseToTOA ) ;
     }
 
-    public ObjectAdapter find ( ObjectAdapterId oaid ) 
+    public ObjectAdapter find ( ObjectAdapterId oaid )
     {
         if (oaid.equals( ObjectKeyTemplateBase.JIDL_OAID )  ) {
             return getTOA();
@@ -102,7 +102,7 @@ public class TOAFactory implements ObjectAdapterFactory
         return myToa ;
     }
 
-    public synchronized TOA getTOA() 
+    public synchronized TOA getTOA()
     {
         if (toa == null) {
             // The dispatch-only TOA is not used for creating
@@ -114,7 +114,7 @@ public class TOAFactory implements ObjectAdapterFactory
         return toa ;
     }
 
-    public ORB getORB() 
+    public ORB getORB()
     {
         return orb ;
     }

@@ -23,7 +23,7 @@ package com.sun.corba.ee.impl.ior;
 
 import com.sun.corba.ee.impl.misc.ORBUtility;
 import com.sun.corba.ee.spi.misc.ORBConstants;
-// Be very careful: com.sun.corba imports must not depend on 
+// Be very careful: com.sun.corba imports must not depend on
 // PEORB internal classes in ways that prevent portability to
 // other vendor's ORBs.
 import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
@@ -43,18 +43,18 @@ import org.omg.CORBA.portable.OutputStream ;
  * which must be completely ORBImpl free so that this class
  * can be used in the implementation of a portable StubDelegateImpl.
  */
-public class StubIORImpl implements Serializable 
+public class StubIORImpl implements Serializable
 {
     private static final long serialVersionUID = -6261452601247416282L;
     // cached hash code
     transient private int hashCode = 0 ;
-    
+
     // IOR components
     private byte[] typeData;
     private int[] profileTags;
     private byte[][] profileData;
 
-    public StubIORImpl() 
+    public StubIORImpl()
     {
         typeData = null ;
         profileTags = null ;
@@ -80,7 +80,7 @@ public class StubIORImpl implements Serializable
         }
 
         try {
-            // write the IOR to an OutputStream and get an InputStream 
+            // write the IOR to an OutputStream and get an InputStream
             OutputStream ostr = StubAdapter.getORB(obj).create_output_stream();
             ostr.write_Object(obj);
             InputStream istr = ostr.create_input_stream();
@@ -106,7 +106,7 @@ public class StubIORImpl implements Serializable
         }
 
     }
-   
+
     public Delegate getDelegate(ORB orb) {
 
         // All externally visible IOR representations must be handled
@@ -118,7 +118,7 @@ public class StubIORImpl implements Serializable
 
         try {
 
-            // write IOR components to an org.omg.CORBA.portable.OutputStream 
+            // write IOR components to an org.omg.CORBA.portable.OutputStream
             OutputStream ostr = orb.create_output_stream();
             ostr.write_long(typeData.length);
             ostr.write_octet_array(typeData, 0, typeData.length);
@@ -144,8 +144,8 @@ public class StubIORImpl implements Serializable
     }
 
     // DO NOT MODIFY THIS METHOD - implements OMG standard behavior.
-    public  void doRead( java.io.ObjectInputStream stream ) 
-        throws IOException, ClassNotFoundException 
+    public  void doRead( java.io.ObjectInputStream stream )
+        throws IOException, ClassNotFoundException
     {
         // read the IOR from the ObjectInputStream
         int typeLength = stream.readInt();
@@ -163,7 +163,7 @@ public class StubIORImpl implements Serializable
 
     // DO NOT MODIFY THIS METHOD - implements OMG standard behavior.
     public  void doWrite( ObjectOutputStream stream )
-        throws IOException 
+        throws IOException
     {
         // write the IOR to the ObjectOutputStream
         stream.writeInt(typeData.length);
@@ -182,7 +182,7 @@ public class StubIORImpl implements Serializable
      * @return the hash code value.
      */
     @Override
-    public synchronized int hashCode() 
+    public synchronized int hashCode()
     {
         if (hashCode == 0) {
 
@@ -199,10 +199,10 @@ public class StubIORImpl implements Serializable
             }
         }
 
-        return hashCode;    
+        return hashCode;
     }
 
-    private boolean equalArrays( byte[][] data1, byte[][] data2 ) 
+    private boolean equalArrays( byte[][] data1, byte[][] data2 )
     {
         if (data1.length != data2.length) {
             return false ;
@@ -218,16 +218,16 @@ public class StubIORImpl implements Serializable
     }
 
     @Override
-    public boolean equals(java.lang.Object obj) 
+    public boolean equals(java.lang.Object obj)
     {
         if (this == obj) {
-            return true;    
+            return true;
         }
-        
+
         if (!(obj instanceof StubIORImpl)) {
-            return false;            
+            return false;
         }
-        
+
         StubIORImpl other = (StubIORImpl) obj;
         if (other.hashCode() != this.hashCode()) {
             return false;
@@ -251,7 +251,7 @@ public class StubIORImpl implements Serializable
      * @return a string representation of this stub.
      */
     @Override
-    public String toString() 
+    public String toString()
     {
         StringBuilder result = new StringBuilder() ;
         result.append( "SimpleIORImpl[" ) ;

@@ -51,7 +51,7 @@ public class WStringValueHelperTest extends CORBATest
         if (!tc.kind().equals(TCKind.tk_value_box) ||
             !tc.content_type().kind().equals(TCKind.tk_wstring)) {
             Exception exc = new Exception("Bad TypeCode from WStringValueHelper: "
-                                + " kind: " 
+                                + " kind: "
                                 + tc.content_type().kind().value());
             throw exc ;
         }
@@ -60,17 +60,17 @@ public class WStringValueHelperTest extends CORBATest
     }
 
 
-    // This has nothing to do with the logic of the 
+    // This has nothing to do with the logic of the
     // test.  It is only to allow us to only run this on
     // hopper or greater JDKs.
     public boolean jdkIsHopperOrGreater() throws Exception {
-        
+
         // Should probably use Merlin's new perl-like
         // feature.
 
         try {
 
-            String version 
+            String version
                 = System.getProperty("java.version");
 
             System.out.println(INDENT
@@ -120,7 +120,7 @@ public class WStringValueHelperTest extends CORBATest
                                    + " This test can only be run on Hopper or greater JDKs.  Skipping test.");
                 return;
             }
-                
+
         } catch (Exception ex) {
             System.out.println(INDENT
                                + "* Error determing JDK version.  Can only run on Hopper or greater JDKs.  Skipping test.  Error was: " + ex);

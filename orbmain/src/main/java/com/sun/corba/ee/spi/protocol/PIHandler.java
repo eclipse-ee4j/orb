@@ -47,7 +47,7 @@ public interface PIHandler extends Closeable {
     * will need access to the PIHandler through the ORB.
     */
     public void initialize() ;
-    
+
     public void destroyInterceptors() ;
 
     /*
@@ -56,14 +56,14 @@ public interface PIHandler extends Closeable {
      ****************************/
 
     /**
-     * Called when a new object adapter is created.  
+     * Called when a new object adapter is created.
      *
      * @param oa The adapter associated with the interceptors to be
      *   invoked.
      */
     void objectAdapterCreated( ObjectAdapter oa )  ;
 
-    /** 
+    /**
      * Called whenever a state change occurs in an adapter manager.
      *
      * @param managerId managerId The adapter manager id
@@ -77,7 +77,7 @@ public interface PIHandler extends Closeable {
     * was not caused by an adapter manager state change.
     *
     * @param templates The templates that are changing state.
-    * @param newState The new state of the adapters identified by the 
+    * @param newState The new state of the adapters identified by the
     * templates.
     */
     void adapterStateChanged( ObjectReferenceTemplate[] templates,
@@ -131,7 +131,7 @@ public interface PIHandler extends Closeable {
         int replyStatus, Exception exception ) ;
 
     /**
-     * Called when a retry is needed after initiateClientPIRequest but 
+     * Called when a retry is needed after initiateClientPIRequest but
      * before invokeClientPIRequest.  In this case, we need to properly
      * balance initiateClientPIRequest/cleanupClientPIRequest calls,
      * but WITHOUT extraneous calls to invokeClientPIEndingPoint
@@ -178,7 +178,7 @@ public interface PIHandler extends Closeable {
      */
     void setClientPIInfo( RequestImpl requestImpl ) ;
 
-    /** 
+    /**
      * Notify PI of the MessageMediator for the request.
      * @param messageMediator Mediator to  notify
      */
@@ -216,7 +216,7 @@ public interface PIHandler extends Closeable {
      * to be invoked for all appropriate server-side request interceptors.
      *
      * @param replyMessage The iiop.messages.ReplyMessage containing the
-     *     reply status.  
+     *     reply status.
      * @throws ForwardException Thrown if an interceptor raises
      *     ForwardRequest.  This is an unchecked exception so that we need
      *     not modify the entire execution path to declare throwing
@@ -292,7 +292,7 @@ public interface PIHandler extends Closeable {
 
     Policy create_policy( int type, Any val ) throws PolicyError ;
 
-    void register_interceptor( Interceptor interceptor, int type ) 
+    void register_interceptor( Interceptor interceptor, int type )
         throws DuplicateName ;
 
     Current getPICurrent() ;

@@ -20,13 +20,13 @@
 package org.omg.CORBA;
 
 /**
- * An abstract value type that is meant to 
- * be used by the ORB, not the user. Semantically it is treated 
- * as a custom valuetype's implicit base class, although the custom 
- * valuetype does not actually inherit it in IDL. The implementer 
- * of a custom value type shall provide an implementation of the 
- * <tt>CustomMarshal</tt> operations. The manner in which this is done is 
- * specified in the IDL to Java language mapping. Each custom 
+ * An abstract value type that is meant to
+ * be used by the ORB, not the user. Semantically it is treated
+ * as a custom valuetype's implicit base class, although the custom
+ * valuetype does not actually inherit it in IDL. The implementer
+ * of a custom value type shall provide an implementation of the
+ * <tt>CustomMarshal</tt> operations. The manner in which this is done is
+ * specified in the IDL to Java language mapping. Each custom
  * marshaled value type shall have its own implementation.
  * @see DataOutputStream
  * @see DataInputStream
@@ -35,15 +35,15 @@ public interface CustomMarshal {
     /**
      * Marshal method has to be implemented by the Customized Marshal class
      * This is the method invoked for Marshalling.
-     * 
+     *
      * @param os a DataOutputStream
-     */ 
+     */
     void marshal(DataOutputStream os);
     /**
      * Unmarshal method has to be implemented by the Customized Marshal class
      * This is the method invoked for Unmarshalling.
-     * 
+     *
      * @param is a DataInputStream
-     */ 
+     */
     void unmarshal(DataInputStream is);
 }

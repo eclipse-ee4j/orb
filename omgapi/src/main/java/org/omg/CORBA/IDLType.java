@@ -39,7 +39,7 @@ package org.omg.CORBA;
   * other interfaces wherever definitions of <code>IDLType</code> must be referenced.
   */
 
-public interface IDLType extends IDLTypeOperations, org.omg.CORBA.IRObject, org.omg.CORBA.portable.IDLEntity 
+public interface IDLType extends IDLTypeOperations, org.omg.CORBA.IRObject, org.omg.CORBA.portable.IDLEntity
 {
 } // interface IDLType
 

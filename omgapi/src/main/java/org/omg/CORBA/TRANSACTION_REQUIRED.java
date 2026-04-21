@@ -20,7 +20,7 @@
 package org.omg.CORBA;
 
 /**
- * Exception  indicates that the request carried a null transaction context, 
+ * Exception  indicates that the request carried a null transaction context,
  * but an active transaction is required.<P>
  * It contains a minor code, which gives information about
  * what caused the exception, and a completion status. It may also contain

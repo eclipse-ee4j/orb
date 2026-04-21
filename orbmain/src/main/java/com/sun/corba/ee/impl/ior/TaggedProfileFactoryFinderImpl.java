@@ -27,12 +27,12 @@ import org.omg.CORBA_2_3.portable.InputStream ;
 public class TaggedProfileFactoryFinderImpl extends
     IdentifiableFactoryFinderBase<TaggedProfile>
 {
-    public TaggedProfileFactoryFinderImpl( ORB orb ) 
+    public TaggedProfileFactoryFinderImpl( ORB orb )
     {
         super( orb ) ;
     }
 
-    public TaggedProfile handleMissingFactory( int id, InputStream is) 
+    public TaggedProfile handleMissingFactory( int id, InputStream is)
     {
         return new GenericTaggedProfile( id, is ) ;
     }

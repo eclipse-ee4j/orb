@@ -24,7 +24,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
- * Utility class to encapsulate the logic to make DII calls on the 
+ * Utility class to encapsulate the logic to make DII calls on the
  * hello interface.
  */
 public class helloDIIClientStub {
@@ -55,11 +55,11 @@ public class helloDIIClientStub {
       // Create result parameter:
       Any result = orb.create_any();
       result.insert_string( "dummy" );
-      NamedValue resultVal = orb.create_named_value( "result", result, 
+      NamedValue resultVal = orb.create_named_value( "result", result,
           org.omg.CORBA.ARG_OUT.value );
 
       // Invoke method:
-      Request thisReq = object._create_request( null, "sayHello", 
+      Request thisReq = object._create_request( null, "sayHello",
           argList, resultVal );
       thisReq.invoke();
 
@@ -75,11 +75,11 @@ public class helloDIIClientStub {
       // Create result parameter:
       Any result = orb.create_any();
       result.insert_string( "dummy" );
-      NamedValue resultVal = orb.create_named_value( "result", result, 
+      NamedValue resultVal = orb.create_named_value( "result", result,
           org.omg.CORBA.ARG_OUT.value );
 
       // Invoke method:
-      Request thisReq = object._create_request( null, "saySystemException", 
+      Request thisReq = object._create_request( null, "saySystemException",
           argList, resultVal );
       thisReq.invoke();
 
@@ -95,7 +95,7 @@ public class helloDIIClientStub {
       // No result parameter:
 
       // Invoke method as a oneway:
-      Request thisReq = object._create_request( null, "sayOneway", 
+      Request thisReq = object._create_request( null, "sayOneway",
           argList, null );
       thisReq.send_oneway();
   }
@@ -111,11 +111,11 @@ public class helloDIIClientStub {
       // Create result parameter:
       Any result = orb.create_any();
       result.insert_boolean( true );
-      NamedValue resultVal = orb.create_named_value( "result", result, 
+      NamedValue resultVal = orb.create_named_value( "result", result,
           org.omg.CORBA.ARG_OUT.value );
 
       // Invoke method:
-      Request thisReq = object._create_request( null, "_is_a", 
+      Request thisReq = object._create_request( null, "_is_a",
           argList, resultVal );
       thisReq.invoke();
 
@@ -131,11 +131,11 @@ public class helloDIIClientStub {
       // Create result parameter:
       Any result = orb.create_any();
       result.insert_boolean( false );
-      NamedValue resultVal = orb.create_named_value( "result", result, 
+      NamedValue resultVal = orb.create_named_value( "result", result,
           org.omg.CORBA.ARG_OUT.value );
 
       // Invoke method:
-      Request thisReq = object._create_request( null, "_non_existent", 
+      Request thisReq = object._create_request( null, "_non_existent",
           argList, resultVal );
       thisReq.invoke();
 
@@ -151,11 +151,11 @@ public class helloDIIClientStub {
       // Create result parameter:
       Any result = orb.create_any();
       result.insert_Object( (org.omg.CORBA.Object)null );
-      NamedValue resultVal = orb.create_named_value( "result", result, 
+      NamedValue resultVal = orb.create_named_value( "result", result,
           org.omg.CORBA.ARG_OUT.value );
 
       // Invoke method:
-      Request thisReq = object._create_request( null, "_get_interface_def", 
+      Request thisReq = object._create_request( null, "_get_interface_def",
           argList, resultVal );
 
       try {
@@ -177,7 +177,7 @@ public class helloDIIClientStub {
       // No result parameter:
 
       // Invoke method:
-      Request thisReq = object._create_request( null, "clearInvoked", 
+      Request thisReq = object._create_request( null, "clearInvoked",
           argList, null );
       thisReq.invoke();
   }
@@ -189,11 +189,11 @@ public class helloDIIClientStub {
       // Create result parameter:
       Any result = orb.create_any();
       result.insert_boolean( false );
-      NamedValue resultVal = orb.create_named_value( "result", result, 
+      NamedValue resultVal = orb.create_named_value( "result", result,
           org.omg.CORBA.ARG_OUT.value );
 
       // Invoke method:
-      Request thisReq = object._create_request( null, "wasInvoked", 
+      Request thisReq = object._create_request( null, "wasInvoked",
           argList, resultVal );
       thisReq.invoke();
 
@@ -209,7 +209,7 @@ public class helloDIIClientStub {
       // No result parameter:
 
       // Invoke method:
-      Request thisReq = object._create_request( null, "resetServant", 
+      Request thisReq = object._create_request( null, "resetServant",
           argList, null );
       thisReq.invoke();
   }

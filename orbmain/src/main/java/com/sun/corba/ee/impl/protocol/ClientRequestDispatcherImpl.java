@@ -84,11 +84,11 @@ public class ClientRequestDispatcherImpl
     // Used for locking
     private final Object lock = new Object();
 
-    private ORBVersionServiceContext ovsc = 
+    private ORBVersionServiceContext ovsc =
                    ServiceContextDefaults.makeORBVersionServiceContext();
 
 
-    private MaxStreamFormatVersionServiceContext msfvc = 
+    private MaxStreamFormatVersionServiceContext msfvc =
                             ServiceContextDefaults.getMaxStreamFormatVersionServiceContext();
 
     private ConcurrentMap<ContactInfo,Object> locks =
@@ -217,7 +217,7 @@ public class ClientRequestDispatcherImpl
                             connectionRegistered( connection ) ;
                         }
 
-                        // Do not do connection reclaim here since the 
+                        // Do not do connection reclaim here since the
                         // connections are marked in use by registerWaiter()
                         // call and since this call happens later do it after
                         // that.
@@ -335,13 +335,13 @@ public class ClientRequestDispatcherImpl
     @Subcontract
     public CDRInputObject marshalingComplete(java.lang.Object self,
                                           CDROutputObject outputObject)
-        throws 
-            ApplicationException, 
+        throws
+            ApplicationException,
             org.omg.CORBA.portable.RemarshalException
     {
         MessageMediator messageMediator = outputObject.getMessageMediator();
         ORB orb = messageMediator.getBroker();
-        operationAndId(messageMediator.getOperationName(), 
+        operationAndId(messageMediator.getOperationName(),
             messageMediator.getRequestId() );
 
         try {
@@ -441,7 +441,7 @@ public class ClientRequestDispatcherImpl
     private void receivedUserExceptionNotDII( Throwable exc, Throwable newExc ) { }
 
     @Subcontract
-    protected CDRInputObject processResponse(ORB orb, 
+    protected CDRInputObject processResponse(ORB orb,
         MessageMediator messageMediator, CDRInputObject inputObject)
         throws ApplicationException, org.omg.CORBA.portable.RemarshalException {
 
@@ -493,7 +493,7 @@ public class ClientRequestDispatcherImpl
 
                 if (doRemarshal) {
                     reportException( "Do remarshal", se);
-                        
+
                     // Invoke Portable Interceptors with receive_exception:
                     exception = orb.getPIHandler().invokeClientPIEndingPoint(
                         ReplyMessage.SYSTEM_EXCEPTION, se );
@@ -520,7 +520,7 @@ public class ClientRequestDispatcherImpl
                 // No retry, so see if was unknown.
                 reportException( "NO remarshal", se);
 
-                ServiceContexts contexts = 
+                ServiceContexts contexts =
                     messageMediator.getReplyServiceContexts();
                 if (contexts != null) {
                     UEInfoServiceContext usc =
@@ -597,13 +597,13 @@ public class ClientRequestDispatcherImpl
                 if (newException instanceof ApplicationException) {
                     throw (ApplicationException)newException;
                 }
-                // For DII: 
+                // For DII:
                 // This return will be ignored - already unmarshaled above.
                 return inputObject;
 
             } else if (messageMediator.isLocationForwardReply()) {
                 generalMessage( "received location forward");
-                
+
                 // NOTE: Expects iterator to update target IOR
                 getContactInfoListIterator(orb).reportRedirect(
                     messageMediator.getContactInfo(),
@@ -684,7 +684,7 @@ public class ClientRequestDispatcherImpl
     @Subcontract
     protected void continueOrThrowSystemOrRemarshal(
         MessageMediator messageMediator, Exception exception)
-        throws 
+        throws
             SystemException, RemarshalException
     {
         final ORB orb = messageMediator.getBroker();
@@ -738,7 +738,7 @@ public class ClientRequestDispatcherImpl
         ServiceContexts contexts = null;
 
         // If Java serialization is used.
-        if (ORBUtility.getEncodingVersion() != ORBConstants.CDR_ENC_VERSION) {    
+        if (ORBUtility.getEncodingVersion() != ORBConstants.CDR_ENC_VERSION) {
             contexts = messageMediator.getRequestServiceContexts();
             ORBVersionServiceContext lsc =
                 ServiceContextDefaults.getORBVersionServiceContext() ;
@@ -746,10 +746,10 @@ public class ClientRequestDispatcherImpl
             return;
         }
 
-        if (c != null &&            
-            giopVersion.equals(GIOPVersion.V1_2) && 
+        if (c != null &&
+            giopVersion.equals(GIOPVersion.V1_2) &&
             c.getBroker().getORBData().alwaysSendCodeSetServiceContext()) {
-            if (!c.isPostInitialContexts()) {          
+            if (!c.isPostInitialContexts()) {
                 contexts = (messageMediator.getBroker()).
                                                 getServiceContextsCache().get(
                                                 ServiceContextsCache.CASE.CLIENT_INITIAL);
@@ -765,14 +765,14 @@ public class ClientRequestDispatcherImpl
 
         } else {
             contexts = messageMediator.getRequestServiceContexts();
-        
+
             addCodeSetServiceContext(c, contexts, giopVersion);
 
             // Add the RMI-IIOP max stream format version
             // service context to every request.  Once we have GIOP 1.3,
             // we could skip it since we now support version 2, but
             // probably safer to always send it.
-            
+
             contexts.put( msfvc );
 
             // ORBVersion servicecontext needs to be sent
@@ -787,14 +787,14 @@ public class ClientRequestDispatcherImpl
                 // context would not be sent.
                 SendingContextServiceContext scsc =
                   ServiceContextDefaults.makeSendingContextServiceContext(
-                                                    orb.getFVDCodeBaseIOR() ) ; 
+                                                    orb.getFVDCodeBaseIOR() ) ;
                 contexts.put( scsc ) ;
             }
-        }    
+        }
     }
 
     @Subcontract
-    protected void consumeServiceContexts(ORB orb, 
+    protected void consumeServiceContexts(ORB orb,
                                         MessageMediator messageMediator)
     {
         ServiceContexts ctxts = messageMediator.getReplyServiceContexts();
@@ -821,7 +821,7 @@ public class ClientRequestDispatcherImpl
             } catch (Throwable t) {
                 throw wrapper.badStringifiedIor( t ) ;
             }
-        } 
+        }
 
         // see if the version subcontract is present, if yes, then set
         // the ORBversion
@@ -901,7 +901,7 @@ public class ClientRequestDispatcherImpl
             // XREVISIT NOTE - Assumes unregistering the waiter for
             // location forwards has already happened somewhere else.
             // The code below is only going to unregister the final successful
-            // request. 
+            // request.
 
             // NOTE: In the case of a recursive stack of endRequests in a
             // finally block (because of Remarshal) only the first call to
@@ -914,9 +914,9 @@ public class ClientRequestDispatcherImpl
             // that occur in the ORB after send_request (which includes
             // after returning from _request) before _invoke:
             orb.getPIHandler().cleanupClientPIRequest();
-            
+
             // REVISIT: Early replies?
-        } catch (IOException ex) { 
+        } catch (IOException ex) {
             // See CDRInput/OutputObject.close() for more info.
             // This won't result in a Corba error if an IOException happens.
             reportException("ignoring IOException", ex );
@@ -943,7 +943,7 @@ public class ClientRequestDispatcherImpl
             if (conn.getCodeSetContext() != null) {
                 return;
             }
-            
+
             // This only looks at the first code set component.  If
             // there can be multiple locations with multiple code sets,
             // this requires more work.
@@ -968,7 +968,7 @@ public class ClientRequestDispatcherImpl
                 = CodeSetConversion.impl().negotiate(
                       conn.getBroker().getORBData().getCodeSetComponentInfo(),
                       serverCodeSets);
-            
+
             conn.setCodeSetContext(result);
         }
     }
@@ -997,7 +997,7 @@ public class ClientRequestDispatcherImpl
         if (giopVersion.equals(GIOPVersion.V1_0) || conn == null) {
             return;
         }
-        
+
         CodeSetComponentInfo.CodeSetContext codeSetCtx = null;
 
         if (conn.getBroker().getORBData().alwaysSendCodeSetServiceContext() ||
@@ -1006,7 +1006,7 @@ public class ClientRequestDispatcherImpl
             // Get the negotiated code sets (if any) out of the connection
             codeSetCtx = conn.getCodeSetContext();
         }
-        
+
         // Either we shouldn't send the code set service context, or
         // for some reason, the connection doesn't have its code sets.
         // Perhaps the server didn't include them in the IOR.  Uses
@@ -1015,10 +1015,10 @@ public class ClientRequestDispatcherImpl
             return;
         }
 
-        CodeSetServiceContext cssc = 
+        CodeSetServiceContext cssc =
             ServiceContextDefaults.makeCodeSetServiceContext(codeSetCtx);
         ctxs.put(cssc);
-    }    
+    }
 
     @Subcontract
     protected String peekUserExceptionId(CDRInputObject inputObject) {
@@ -1028,7 +1028,7 @@ public class ClientRequestDispatcherImpl
         String result = cdrInputObject.read_string();
         cdrInputObject.reset();
         return result;
-    }                     
+    }
 }
 
 // End of file.

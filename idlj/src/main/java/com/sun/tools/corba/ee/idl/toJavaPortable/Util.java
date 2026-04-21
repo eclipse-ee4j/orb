@@ -108,10 +108,10 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
     symbolTable = symtab;
   } // setSymbolTable
 
-  public static void setPackageTranslation( Hashtable pkgtrans ) 
+  public static void setPackageTranslation( Hashtable pkgtrans )
   {
     packageTranslation = pkgtrans ;
-  } 
+  }
 
   public static boolean isInterface (String name)
   {
@@ -205,12 +205,12 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
   public static String containerFullName( SymtabEntry container)
   {
       String name = doContainerFullName( container ) ;
-      if (packageTranslation.size() > 0) 
+      if (packageTranslation.size() > 0)
           name = translate( name ) ;
       return name ;
   }
 
-  public static String translate( String name ) 
+  public static String translate( String name )
   {
       String head = name ;
       String tail = "" ;
@@ -249,7 +249,7 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
       else
         name = container.name ();
 
-      if (container.container () != null && 
+      if (container.container () != null &&
         !container.container ().name ().equals (""))
         name = doContainerFullName (container.container ()) + '/' + name;
     }
@@ -786,7 +786,7 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
         {
           // If this IS a typedef, then there are only Helper/Holder classes.
           //if (!(member instanceof TypedefEntry))
-          // <d59437>  Valueboxes 
+          // <d59437>  Valueboxes
           if (!(member instanceof TypedefEntry) && !(member instanceof ValueBoxEntry))
             addTo (importList, member.name ());
           // <d48034> Add helper name of alias, too, if member is a typedef.
@@ -1101,7 +1101,7 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
       filename = filename.substring (targetDir.length ());
     stream.println ();
     stream.println ("/**");
-    stream.println ("* " + filename.replace (File.separatorChar, '/') + 
+    stream.println ("* " + filename.replace (File.separatorChar, '/') +
         " .");
     stream.println ("* " + Util.getMessage ("toJavaProlog1",
         Util.getMessage ("Version.product", Util.getMessage ("Version.number"))));
@@ -1237,9 +1237,9 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
     {
       // Get the correct primitive type. Since integer types (octet, short,
       // long, long long, unsigned short, unsigned long, unsigned long long)
-      // could be aliased (typedef'ed) to any arbitrary levels, the code 
+      // could be aliased (typedef'ed) to any arbitrary levels, the code
       // below walks up the alias chain to get to the primitive type.
-  
+
       // Get the symbol table entry corresponding to the 'type'.
       SymtabEntry typeEntry = (SymtabEntry) symbolTable.get(e.type());
 
@@ -1390,7 +1390,7 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
 
   // <d62023>
   /**
-   * @return true if the current setting of corbaLevel is within delta of 
+   * @return true if the current setting of corbaLevel is within delta of
    *    the range min &lt;= corbaLevel &lt;= max
    **/
   public static boolean corbaLevel (float min, float max)

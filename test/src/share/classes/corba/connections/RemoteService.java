@@ -31,9 +31,9 @@ import javax.rmi.CORBA.Util;
 import com.sun.corba.ee.spi.orb.ORB;
 
 public class RemoteService
-    extends 
+    extends
         PortableRemoteObject
-    implements 
+    implements
         RemoteInterface
 {
     ORB orb;
@@ -42,7 +42,7 @@ public class RemoteService
     ConnectionStatistics stats;
 
     public RemoteService (ORB orb, String serverName)
-        throws RemoteException 
+        throws RemoteException
     {
         super();
         this.orb = orb;
@@ -52,7 +52,7 @@ public class RemoteService
     }
 
     public Struct[] method(Struct[] in)
-        throws RemoteException 
+        throws RemoteException
     {
         return in;
     }

@@ -27,8 +27,8 @@ package corba.hcks;
 import org.omg.CORBA.ORB;
 
 class idlControllerStaticServant
-    extends 
-        _idlControllerIImplBase 
+    extends
+        _idlControllerIImplBase
 {
     public static final String baseMsg =
         idlControllerStaticServant.class.getName();

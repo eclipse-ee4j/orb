@@ -85,7 +85,7 @@ public class Client implements Runnable {
                     System.out.println("FAILURE");
                     System.out.println("------------------------------------");
                     e.printStackTrace(System.out);
-                    RuntimeException rte = 
+                    RuntimeException rte =
                         new RuntimeException("Incorrect exception");
                     rte.initCause(e);
                     throw rte;

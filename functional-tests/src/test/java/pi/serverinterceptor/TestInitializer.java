@@ -27,10 +27,10 @@ import java.io.*;
 import org.omg.CORBA.*;
 
 /**
- * Registers the necessary Server Interceptors to test 
+ * Registers the necessary Server Interceptors to test
  * ServerRequestInterceptor.
  */
-public class TestInitializer 
+public class TestInitializer
     extends org.omg.CORBA.LocalObject
     implements ORBInitializer
 {
@@ -52,7 +52,7 @@ public class TestInitializer
      * Creates a TestInitializer
      */
     public TestInitializer() {
-    } 
+    }
 
     /**
      * Called before all references are registered

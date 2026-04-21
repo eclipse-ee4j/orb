@@ -17,10 +17,10 @@
  * Classpath-exception-2.0
  */
 
-// 
+//
 // naming_client.java - test for name service
-// 
-// 
+//
+//
 package naming.cosnaming;
 
 import java.lang.Thread;
@@ -49,10 +49,10 @@ public class naming_client
             String nsKey = "NameService";
 
             NamingContext initial = null;
-      
+
             // Get an orb object
             java.util.Properties props = System.getProperties();
-      
+
             // Parse arguments
             for (int i=0;i<args.length;i++) {
                 if (args[i].equals("-t") || args[i].equals("-threads")
@@ -92,9 +92,9 @@ public class naming_client
                 }
 
             }
-      
+
             org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init(args,props);
-      
+
             // Get the initial list of services
             String[] list = orb.list_initial_services();
 
@@ -134,7 +134,7 @@ public class naming_client
 
             // Get the name service initial object reference
             message("getting initial naming context");
-        
+
             // Pick the initial naming context to start with
             if (nsIOR != null && nsIOR.length() > 0) {
                 // Specified IOR
@@ -173,9 +173,9 @@ public class naming_client
                 initial = null;
                 throw new Exception("Cannot obtain initial naming context, no IOR or key available!");
             }
-      
+
             message("got initial naming context: " + initial);
-          
+
             // Start clients
             if (numberOfClients < 2) {
                 message("running single client synchronously with " + numberOfObjects + " objects");
@@ -208,7 +208,7 @@ public class naming_client
                         throw ex;
                     }
                 }
-        
+
                 // Collect errors
                 for (int i=0;i<numberOfClients;i++)
                     totalErrors += tests[i].getErrors();
@@ -219,20 +219,20 @@ public class naming_client
             if (totalErrors > 0)
                 System.exit (1);
 
-        } catch (Throwable ex) { 
+        } catch (Throwable ex) {
             System.err.println("Caught exception: " + ex);
             ex.printStackTrace();
             System.exit (1);
         }
     }
-  
+
     public static void message(String msg) {
         System.out.println("naming_client: " + msg);
     }
     public static void error_message(String msg) {
         System.err.println("naming_client: error: " + msg);
     }
-  
+
 }
 
 final class NamingTester implements Runnable
@@ -243,7 +243,7 @@ final class NamingTester implements Runnable
     private int me;
     private int numberOfObjects;
     private org.omg.CORBA.ORB theORB;
-  
+
     NamingTester(org.omg.CORBA.ORB orb,int id,int numObjs,NamingContext initNC)
     {
         me = id;
@@ -251,11 +251,11 @@ final class NamingTester implements Runnable
         theORB = orb;
         theRoot = initNC;
     }
-  
+
     public void run()
     {
         Random random = new Random();
-    
+
         try {
             // Create a playground name
             message("creating a playground");
@@ -298,7 +298,7 @@ final class NamingTester implements Runnable
                     playgroundName[0].id = playgroundName[0].id + "[" + ri + "]";
                 }
             }
-      
+
             if (playground == null) {
                 errors++;
                 error_message("haven't got a playground, exiting!");
@@ -352,7 +352,7 @@ final class NamingTester implements Runnable
 
                 message("creating names and object references for " + numberOfObjects +
                         " objects");
-        
+
                 // Fill out objectrefs and their names
                 for (int i=0;i<numberOfObjects;i++) {
                     // Set object to playground object ref
@@ -366,7 +366,7 @@ final class NamingTester implements Runnable
                 NameComponent[] invalid_name = new NameComponent[1];
                 invalid_name[0] = new NameComponent();
                 invalid_name[0].id = "(" + me + ":" + (numberOfObjects+1) + ")";
-                invalid_name[0].kind = "(" + Thread.currentThread().getName() + ")";    
+                invalid_name[0].kind = "(" + Thread.currentThread().getName() + ")";
 
                 // Bind all objects under the names
                 message("bind() " + numberOfObjects + " objects");
@@ -378,7 +378,7 @@ final class NamingTester implements Runnable
                                       nameToString(names[i]) + "!");
                     }
                 }
-        
+
                 // Bind all objects under the names a second time (throws ex)
                 message("bind() " + numberOfObjects + " objects a second time");
                 for (int i=0;i<numberOfObjects;i++) {
@@ -391,7 +391,7 @@ final class NamingTester implements Runnable
                         //message("2nd bind() throws already bound exception, that's fine");
                     }
                 }
-        
+
                 // Rebind all objects under the names
                 message("rebind() " + numberOfObjects + " objects");
                 for (int i=0;i<numberOfObjects;i++) {
@@ -461,7 +461,7 @@ final class NamingTester implements Runnable
                     message("playground.resolve(" + nameToString(invalid_name) +
                             ") throws NotFound, which it should.");
                 }
-        
+
                 // List the names
                 boolean[] seen = new boolean[numberOfObjects];
                 boolean more = false;
@@ -501,7 +501,7 @@ final class NamingTester implements Runnable
                 // Remove iterator
                 if (bih.value != null)
                     bih.value.destroy();
-        
+
                 // Unbind all names
                 message("unbind() " + numberOfObjects + " objects");
                 for (int i=0;i<numberOfObjects;i++) {
@@ -524,7 +524,7 @@ final class NamingTester implements Runnable
                 errors++;
                 error_message("playground not found while cleaning up: " + ex);
             }
-      
+
             try {
                 message("destroying playground");
                 playground.destroy();
@@ -562,7 +562,7 @@ final class NamingTester implements Runnable
         s = s + "}";
         return s;
     }
-  
+
     public int getErrors() {
         return errors;
     }

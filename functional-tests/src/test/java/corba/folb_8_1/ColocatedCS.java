@@ -58,7 +58,7 @@ public class ColocatedCS
             } else {
                 Client.orb = orb;
             }
-            
+
             ServerThread ServerThread = new ServerThread(av);
             ServerThread.start();
             synchronized (signal) {

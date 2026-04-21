@@ -64,5 +64,5 @@ public class GalaxyProfile implements java.io.Serializable
     {
         return fDensity;
     }
-  
+
 }

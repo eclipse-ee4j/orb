@@ -27,9 +27,9 @@ package corba.connections;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface RemoteInterface 
-    extends 
-        Remote 
+public interface RemoteInterface
+    extends
+        Remote
 {
     public Struct[] method(Struct[] in)
         throws RemoteException;

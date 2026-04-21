@@ -26,11 +26,11 @@ import java.util.EnumMap;
 public class ServiceContextsCache {
 
     public static enum CASE {
-                    CLIENT_INITIAL, 
-                    CLIENT_SUBSEQUENT, 
-                    SERVER_INITIAL, 
+                    CLIENT_INITIAL,
+                    CLIENT_SUBSEQUENT,
+                    SERVER_INITIAL,
                     SERVER_SUBSEQUENT};
-  
+
     private EnumMap<CASE, ServiceContexts> data;
     private ORB orb;
 
@@ -48,31 +48,31 @@ public class ServiceContextsCache {
             //CLIENT_INITIAL
             ServiceContexts scContainer = ServiceContextDefaults.makeServiceContexts(orb);
             scContainer.put(ServiceContextDefaults.getMaxStreamFormatVersionServiceContext());
-            scContainer.put(ServiceContextDefaults.getORBVersionServiceContext());      
+            scContainer.put(ServiceContextDefaults.getORBVersionServiceContext());
             scContainer.put(ServiceContextDefaults.makeSendingContextServiceContext(orb.getFVDCodeBaseIOR()));
 
             data.put(CASE.CLIENT_INITIAL, scContainer);
-            
+
             //CLIENT_SUBSEQUENT
             scContainer = ServiceContextDefaults.makeServiceContexts(orb);
             scContainer.put(ServiceContextDefaults.getMaxStreamFormatVersionServiceContext());
-            scContainer.put(ServiceContextDefaults.getORBVersionServiceContext());      
-            
+            scContainer.put(ServiceContextDefaults.getORBVersionServiceContext());
+
             data.put(CASE.CLIENT_SUBSEQUENT, scContainer);
-            
+
             //SERVER_INITIAL
             scContainer = ServiceContextDefaults.makeServiceContexts(orb);
-            scContainer.put(ServiceContextDefaults.getORBVersionServiceContext());      
+            scContainer.put(ServiceContextDefaults.getORBVersionServiceContext());
             scContainer.put(ServiceContextDefaults.makeSendingContextServiceContext(orb.getFVDCodeBaseIOR()));
-            
+
             data.put(CASE.SERVER_INITIAL, scContainer);
-            
+
             //SERVER_SUBSEQUENT
             scContainer = ServiceContextDefaults.makeServiceContexts(orb);
-            scContainer.put(ServiceContextDefaults.getORBVersionServiceContext());      
-            
-            data.put(CASE.SERVER_SUBSEQUENT, scContainer); 
-            
+            scContainer.put(ServiceContextDefaults.getORBVersionServiceContext());
+
+            data.put(CASE.SERVER_SUBSEQUENT, scContainer);
+
         }
 
         return (data.get(c)).copy();

@@ -31,9 +31,9 @@ import java.util.Properties;
 import java.util.Enumeration;
 
 public class Debug {
-    
+
     private String name = null;
-    
+
     public Debug (String name) {
         if (name == null) {
             name = "";
@@ -42,13 +42,13 @@ public class Debug {
         }
         setTop();
     }
-    
+
     public final void log (String msg) {
         doLog(name,msg);
     }
-    
+
     public final void log (byte[] data) {
-        
+
         StringBuilder buf = new StringBuilder();
         for (int i = 0; i < data.length; i++) {
             if (i > 0) {
@@ -57,27 +57,27 @@ public class Debug {
             buf.append((char)ASCII_HEX[(data[i] & 0xF0) >>> 4]);
             buf.append((char)ASCII_HEX[(data[i] & 0x0F)]);
         }
-        
+
         doLog(name,buf.toString());
     }
-    
+
     public final void logStack () {
-        doLogStack(name);    
+        doLogStack(name);
     }
-    
+
     public final void logSystemProperties () {
-        doLogSystemProperties(name);    
+        doLogSystemProperties(name);
     }
-    
+
     public final void logException (Throwable e) {
         doLogException(name,e);
     }
-    
-    
+
+
     private static synchronized void setTop() {
         lastName = "atsatt :-)";
     }
-    
+
     private static synchronized void doLog (String name, String msg) {
         if (log == null) {
             initLog(name);
@@ -87,7 +87,7 @@ public class Debug {
             }
         }
         lastName = name;
-        log.println(name + msg);    
+        log.println(name + msg);
     }
 
     private static String getStack(int trimSize) {
@@ -122,18 +122,18 @@ public class Debug {
         }
         doLog(name, buf.toString());
     }
-    
+
     private static void doLogException (String name, Throwable e) {
         doLog(name,"Caught " + e + eol + getStack(0));
     }
-    
+
     public static void main (String[] args) {
         Debug d = new Debug("main");
         d.log("Testing...");
         d.logStack();
         d.logSystemProperties();
     }
-    
+
     private static PrintWriter log = null;
     private static final String LOG_NAME = "DebugLog";
     private static final String LOG_EXT = ".txt";
@@ -158,7 +158,7 @@ public class Debug {
         (byte)'E',
         (byte)'F',
     };
-        
+
     private static synchronized void initLog(String name) {
         if (log == null) {
             rootDir = new File(System.getProperty("user.dir"));
@@ -167,14 +167,14 @@ public class Debug {
             log.println();
         }
     }
-    
+
     private static PrintWriter createLog (int number) {
         String fileName = LOG_NAME + Integer.toString(number) + LOG_EXT;
         File file = new File(rootDir,fileName);
-        
+
         // If file exists, assume another vm process owns it, and
         // bump the number...
-        
+
         if (file.exists()) {
             return createLog(++number);
         }

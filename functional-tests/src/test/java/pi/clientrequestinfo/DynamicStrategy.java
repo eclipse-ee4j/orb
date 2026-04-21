@@ -117,7 +117,7 @@ public class DynamicStrategy
 
 
     public void receive_exception (
-        SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) 
+        SampleClientRequestInterceptor interceptor, ClientRequestInfo ri)
         throws ForwardRequest
     {
         try {
@@ -159,7 +159,7 @@ public class DynamicStrategy
     }
 
     public void receive_other (
-        SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) 
+        SampleClientRequestInterceptor interceptor, ClientRequestInfo ri)
         throws ForwardRequest
     {
         try {
@@ -202,7 +202,7 @@ public class DynamicStrategy
 
     // Test that arguments() returns valid values.
     private void testArguments( String interceptionPoint, String methodName,
-        ClientRequestInfo ri ) 
+        ClientRequestInfo ri )
         throws Exception
     {
         String header = interceptionPoint + "(): ";
@@ -260,7 +260,7 @@ public class DynamicStrategy
 
     // Test that exceptions() returns valid values.
     private void testExceptions( String interceptionPoint, String methodName,
-        ClientRequestInfo ri ) 
+        ClientRequestInfo ri )
         throws Exception
     {
         String header = interceptionPoint + "(): ";
@@ -279,7 +279,7 @@ public class DynamicStrategy
                     String id = excList[0].id();
                     String correctId = ExampleExceptionHelper.id();
                     if( !correctId.equals( id ) ) {
-                        fail( header + "the exception id is " + id + 
+                        fail( header + "the exception id is " + id +
                             " instead of " + correctId );
                     }
                     else {
@@ -292,7 +292,7 @@ public class DynamicStrategy
 
     // Tests that contexts() returns valid values.
     private void testContexts( String interceptionPoint, String methodName,
-        ClientRequestInfo ri ) 
+        ClientRequestInfo ri )
         throws Exception
     {
         String header = interceptionPoint + "(): ";
@@ -315,12 +315,12 @@ public class DynamicStrategy
                 }
             }
         }
-        
+
     }
 
     // Tests that result() returns a valid value.
     private void testResult( String interceptionPoint, String methodName,
-        ClientRequestInfo ri ) 
+        ClientRequestInfo ri )
         throws Exception
     {
         String header = interceptionPoint + "(): ";

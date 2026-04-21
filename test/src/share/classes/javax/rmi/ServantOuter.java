@@ -25,7 +25,7 @@ import java.rmi.RemoteException;
 
 public interface ServantOuter extends Remote {
     public ServantOuter echo (ServantOuter in) throws RemoteException;
-    
+
     public class Inner implements ServantOuter {
         public Inner () throws RemoteException {}
         public ServantOuter echo (ServantOuter in) throws RemoteException {return in;}

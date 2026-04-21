@@ -40,10 +40,10 @@ import org.omg.PortableServer.POA;
 
 class policy2_servantA extends policy_2POA
 {
-        
+
         private int countValue;
-        
-        public policy2_servantA() 
+
+        public policy2_servantA()
         {
                 countValue = 0;
         }
@@ -53,7 +53,7 @@ class policy2_servantA extends policy_2POA
          * The funtion intakes no parameter
          * and returns an int value incremented by one.
          */
-        
+
         public int increment()
         {
                 return ++countValue;
@@ -62,10 +62,10 @@ class policy2_servantA extends policy_2POA
 
 class policy2_servantB extends policy_2POA
 {
-        
+
         private int countValue;
-        
-        public policy2_servantB() 
+
+        public policy2_servantB()
         {
                 countValue = 1000;
         }
@@ -75,7 +75,7 @@ class policy2_servantB extends policy_2POA
          * The funtion intakes no parameter
          * and returns an int value incremented by one.
          */
-        
+
         public int increment()
         {
                 return ++countValue;
@@ -84,11 +84,11 @@ class policy2_servantB extends policy_2POA
 
 public class policy2Server
 {
-        
+
         private static final String msgPassed = "policy_2: **PASSED**";
-        
+
         private static final String msgFailed = "policy_2: **FAILED**";
-        
+
         public static void main( String args[] )
         {
                 try
@@ -100,16 +100,16 @@ public class policy2Server
                         prop.setProperty( ORBConstants.OLD_ORB_ID_PROPERTY, "sunorb1");
                         prop.setProperty( ORBConstants.ORB_SERVER_ID_PROPERTY, "257");
                         prop.setProperty( ORBConstants.PERSISTENT_SERVER_PORT_PROPERTY, "10032");
-//                      System.out.println(ORBConstants.OLD_ORB_ID_PROPERTY 
+//                      System.out.println(ORBConstants.OLD_ORB_ID_PROPERTY
 //                          + prop.getProperty(ORBConstants.OLD_ORB_ID_PROPERTY));
                         ORB orb1 = ORB.init( args, prop );
-                        
+
                         prop = new Properties();
                         prop.setProperty("org.omg.CORBA.ORBClass", System.getProperty("org.omg.CORBA.ORBClass"));
                         prop.setProperty( ORBConstants.OLD_ORB_ID_PROPERTY, "sunorb2");
                         prop.setProperty( ORBConstants.ORB_SERVER_ID_PROPERTY, "257");
                         prop.setProperty( ORBConstants.PERSISTENT_SERVER_PORT_PROPERTY, "20032");
-//                      System.out.println(ORBConstants.OLD_ORB_ID_PROPERTY 
+//                      System.out.println(ORBConstants.OLD_ORB_ID_PROPERTY
 //                          + prop.getProperty(ORBConstants.OLD_ORB_ID_PROPERTY));
                         ORB orb2 = ORB.init( args, prop );
 
@@ -140,10 +140,10 @@ public class policy2Server
 
                         POA rootPoa = (POA)orb.resolve_initial_references( "RootPOA" );
                         rootPoa.the_POAManager().activate();
-                        
-                        // Create a POA 
+
+                        // Create a POA
                         POA childpoa = null;
-                        
+
                         // create policy for the new POA.
                         Policy[] policy = new Policy[7];
                         policy[0] = rootPoa.create_id_assignment_policy( IdAssignmentPolicyValue.SYSTEM_ID );
@@ -153,20 +153,20 @@ public class policy2Server
                         policy[4] = rootPoa.create_servant_retention_policy( ServantRetentionPolicyValue.RETAIN );
                         policy[5] = rootPoa.create_request_processing_policy( RequestProcessingPolicyValue.USE_ACTIVE_OBJECT_MAP_ONLY );
                         policy[6] = rootPoa.create_implicit_activation_policy( ImplicitActivationPolicyValue.NO_IMPLICIT_ACTIVATION );
-                        
+
                         // get the root naming context
                         org.omg.CORBA.Object obj = orb.resolve_initial_references( "NameService" );
                         NamingContext rootContext = NamingContextHelper.narrow( obj );
-                        
+
                         // create the child poa and activate it
                         childpoa = rootPoa.create_POA( "policy_2", null, policy );
                         childpoa.the_POAManager().activate();
                         childpoa.activate_object( (Servant)servantObj );
-                        
+
                         // Binding to NamingService
                         System.out.println( "Binding to NamingService" );
                         NameComponent nc = new NameComponent( Name, "" );
-                        NameComponent path[] = 
+                        NameComponent path[] =
                         {
                                 nc
                         };

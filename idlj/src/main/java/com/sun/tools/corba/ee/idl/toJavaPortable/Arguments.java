@@ -255,7 +255,7 @@ public class Arguments extends com.sun.tools.corba.ee.idl.Arguments
             sp = skeletonPattern ;
         else if (POAServer)
             sp = "%POA" ;
-        else 
+        else
             sp = "_%ImplBase" ;
 
         if (tiePattern != null)

@@ -45,12 +45,12 @@ public class Comment
   /** Sets comment text */
   public void text (String string) {_text = string; _style = style (_text);}
 
-  /** Returns comment text 
+  /** Returns comment text
    * @return comment text
    */
   public String text () {return _text;}
 
-  /** Returns the comment style of a string. 
+  /** Returns the comment style of a string.
    * @param text text to check the style of
    * @return -1 =Unknown, 0 = Javadoc, 1 = Comment block, 2= Comment Line
    */
@@ -71,8 +71,8 @@ public class Comment
   /** Writes comment text to standard output (debug). */
   public void write () {System.out.println (_text);}
 
-  /** Writes comment text to the specified print stream in the appropriate format. 
-   * @param indent string to print at the start of each line. 
+  /** Writes comment text to the specified print stream in the appropriate format.
+   * @param indent string to print at the start of each line.
    *    {@code null} is equivalent to an empty string.
    * @param printStream stream to write text to
    */

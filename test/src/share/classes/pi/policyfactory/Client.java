@@ -74,7 +74,7 @@ public class Client implements Runnable
             } else {
                 System.err.println( "PolicyFactory positive tests Failure" );
                 System.err.flush();
-                signalError (); 
+                signalError ();
                 helper.fail( msg ) ;
             }
 
@@ -87,24 +87,24 @@ public class Client implements Runnable
             } else {
                 System.err.println( "PolicyFactory negative tests Failure" );
                 System.err.flush();
-                signalError (); 
+                signalError ();
                 helper.fail( msg ) ;
             }
         } catch( Exception e ) {
             System.err.println( "PolicyFactory test Failed with exception" + e);
             System.err.flush();
-            signalError (); 
+            signalError ();
         } finally {
             helper.done() ;
         }
     }
 
-    /** This method tests 
-     *  1. To see whether the Policy created with type 100 is created from 
-     *     PolicyFactoryHundred. This check is made by testing 
+    /** This method tests
+     *  1. To see whether the Policy created with type 100 is created from
+     *     PolicyFactoryHundred. This check is made by testing
      *     whether policy.policy_type method returns 100.
-     *  2. To see whether the Policy created with type 10000 is created from 
-     *     PolicyFactoryThousandPlus. This check is made by testing 
+     *  2. To see whether the Policy created with type 10000 is created from
+     *     PolicyFactoryThousandPlus. This check is made by testing
      *     whether policy.policy_type method returns 10000.
      */
     private boolean positiveTest( ) {
@@ -133,10 +133,10 @@ public class Client implements Runnable
             System.err.println( msg ) ;
             System.err.flush( );
             return FAILURE;
-        }   
+        }
         try {
             policy = orb.create_policy( 10000, any );
-        } catch( Exception e ) {  
+        } catch( Exception e ) {
             msg = "PolicyFactoryTest.positiveTest failed with " +
                 " an Exception " + e ;
             System.err.println( msg ) ;
@@ -157,22 +157,22 @@ public class Client implements Runnable
             System.err.println( msg ) ;
             System.err.flush( );
             return FAILURE;
-        }   
+        }
         return SUCCESS;
     }
 
-    /** This method tests to see whether the Policy could be created with 
+    /** This method tests to see whether the Policy could be created with
      *  type 100000 for which there is no PolicyFactory registered.
      *  Before invoking this methos the ORBInitializer (TestORBInitializer)
-     *  registers 3 policy factories with types 100, 1000 and 1000000. If the 
-     *  call to create policy with type 100000 does not raise policy error 
+     *  registers 3 policy factories with types 100, 1000 and 1000000. If the
+     *  call to create policy with type 100000 does not raise policy error
      *  then it's an error.
      */
     private boolean negativeTest( ) {
         try {
             Any any = orb.create_any() ;
             org.omg.CORBA.Policy policy = orb.create_policy( 100000, any );
-        } 
+        }
         catch( org.omg.CORBA.PolicyError e ) {
             msg = "Caught org.omg.CORBA.PolicyError in " +
                 "PolicyFactory.negativeTest() as expected..." ;
@@ -185,5 +185,5 @@ public class Client implements Runnable
         }
         return FAILURE;
     }
-       
+
 }

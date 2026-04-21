@@ -24,7 +24,7 @@ import org.omg.CORBA.portable.OutputStream;
 import org.omg.CORBA.portable.Streamable;
 
 /**
- * The Holder for <tt>String</tt>.  For more information on 
+ * The Holder for <tt>String</tt>.  For more information on
  * Holder files, see <a href="doc-files/generatedfiles.html#holder">
  * "Generated Files: Holder Files"</a>.<p>
  * A Holder class for a <code>String</code>

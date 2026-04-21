@@ -30,7 +30,7 @@ import ServerRequestInfo.*;
 
 /**
  * Servant implementation, shared by ServerRequestDispatcher and POA versions of
- * the servant.  
+ * the servant.
  */
 class DSIImpl {
     // The object to delegate all calls to:
@@ -40,7 +40,7 @@ class DSIImpl {
     private ORB orb;
 
     public DSIImpl( ORB orb, PrintStream out, String symbol,
-        helloDelegate.ClientCallback clientCallback ) 
+        helloDelegate.ClientCallback clientCallback )
     {
         super();
         this.orb = orb;
@@ -94,7 +94,7 @@ class DSIImpl {
         ret.type( orb.get_primitive_tc( TCKind.tk_void ) );
         r.set_result( ret );
     }
-    
+
     private void saySystemException( ServerRequest r ) {
         // Must call arguments first.  Bug?
         NVList list = orb.create_list( 0 );
@@ -113,7 +113,7 @@ class DSIImpl {
             r.set_exception( any );
         }
     }
-    
+
     private void syncWithServer( ServerRequest r ) {
         // Decode exceptionRaised parameter
         NVList nvlist = orb.create_list( 0 );

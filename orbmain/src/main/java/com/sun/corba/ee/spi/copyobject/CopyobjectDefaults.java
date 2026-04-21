@@ -41,7 +41,7 @@ public abstract class CopyobjectDefaults
      * @param orb ORB to use for remote instances
      * @return CopierFactory
      */
-    public static ObjectCopierFactory makeORBStreamObjectCopierFactory( final ORB orb ) 
+    public static ObjectCopierFactory makeORBStreamObjectCopierFactory( final ORB orb )
     {
         return new ObjectCopierFactory() {
             public ObjectCopier make( )
@@ -51,7 +51,7 @@ public abstract class CopyobjectDefaults
         } ;
     }
 
-    public static ObjectCopierFactory makeJavaStreamObjectCopierFactory( final ORB orb ) 
+    public static ObjectCopierFactory makeJavaStreamObjectCopierFactory( final ORB orb )
     {
         return new ObjectCopierFactory() {
             public ObjectCopier make( )
@@ -63,9 +63,9 @@ public abstract class CopyobjectDefaults
 
     private static final ObjectCopier referenceObjectCopier = new ReferenceObjectCopierImpl() ;
 
-    private static ObjectCopierFactory referenceObjectCopierFactory = 
+    private static ObjectCopierFactory referenceObjectCopierFactory =
         new ObjectCopierFactory() {
-            public ObjectCopier make() 
+            public ObjectCopier make()
             {
                 return referenceObjectCopier ;
             }
@@ -89,11 +89,11 @@ public abstract class CopyobjectDefaults
      * @param f2 Factory to try second
      * @return CopierFactory
      */
-    public static ObjectCopierFactory makeFallbackObjectCopierFactory( 
+    public static ObjectCopierFactory makeFallbackObjectCopierFactory(
         final ObjectCopierFactory f1, final ObjectCopierFactory f2 )
     {
         return new ObjectCopierFactory() {
-            public ObjectCopier make() 
+            public ObjectCopier make()
             {
                 ObjectCopier c1 = f1.make() ;
                 ObjectCopier c2 = f2.make() ;
@@ -107,7 +107,7 @@ public abstract class CopyobjectDefaults
      * @param orb ORB to use for remote instances
      * @return CopierFactory
      */
-    public static ObjectCopierFactory makeOldReflectObjectCopierFactory( final ORB orb ) 
+    public static ObjectCopierFactory makeOldReflectObjectCopierFactory( final ORB orb )
     {
         return new ObjectCopierFactory() {
             public ObjectCopier make()
@@ -124,7 +124,7 @@ public abstract class CopyobjectDefaults
      * @param orb ORB to use for remote instances
      * @return CopierFactory
      */
-    public static ObjectCopierFactory makeReflectObjectCopierFactory( final ORB orb ) 
+    public static ObjectCopierFactory makeReflectObjectCopierFactory( final ORB orb )
     {
         return new ObjectCopierFactory() {
             public ObjectCopier make( )

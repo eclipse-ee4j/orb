@@ -39,10 +39,10 @@ public class MyServantLocator
     public Servant preinvoke(byte[] oid, POA poa, String operation,
                              CookieHolder cookieHolder)
     {
-        System.out.println( "MyServantLocator.preinvoke called " ); 
+        System.out.println( "MyServantLocator.preinvoke called " );
 
         TestAssert.preinvokeCalled( );
-       
+
         try {
             return (Servant)javax.rmi.CORBA.Util.getTie(new MyServant( orb ));
         } catch( Throwable e ) {
@@ -52,11 +52,11 @@ public class MyServantLocator
         return null;
     }
 
- 
+
     public void postinvoke(byte[] oid, POA poa, String operation,
                            java.lang.Object cookie, Servant servant)
     {
-        System.out.println( "MyServantLocator.postinvoke called " ); 
+        System.out.println( "MyServantLocator.postinvoke called " );
 
         TestAssert.postinvokeCalled( );
     }

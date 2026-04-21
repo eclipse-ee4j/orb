@@ -56,14 +56,14 @@ public class LocalStubTest extends RemoteTest {
      */
     protected String[] getRemoteServantClasses () {
         /*
-        
+
         // If we can, delete the rmic.LocalHello and
         // rmic.LocalHelloServant class files so that
         // rmic will compile them. This will ensure that
         // real argument names will be used and tests
         // that the generated variable names will not
         // clash...
-        
+
         ClassPath path = null;
         try {
             path = ParseTest.createClassPath();
@@ -77,13 +77,13 @@ public class LocalStubTest extends RemoteTest {
                     }
                 }
             }
-        
+
             path.close();
         } catch (Exception e) {}
-        
+
         */
 
-        return compileEm;  
+        return compileEm;
     }
 
     /**
@@ -110,7 +110,7 @@ public class LocalStubTest extends RemoteTest {
     private void newTest( String name ) {
         if (first)
             first = false ;
-        else 
+        else
             helper.pass() ;
 
         helper.start( name ) ;
@@ -122,7 +122,7 @@ public class LocalStubTest extends RemoteTest {
      */
     public void doTest (ServantContext context) throws Throwable {
         String currentCodebase = JDKBridge.getLocalCodebase();
-        
+
         try {
             newTest( "startServant" ) ;
             // Start up our servant. (The 'iiop' flag is set to true by RemoteTest
@@ -137,9 +137,9 @@ public class LocalStubTest extends RemoteTest {
             LocalHello remoteRef = (LocalHello) PortableRemoteObject.narrow(remote,LocalHello.class);
 
             if (!remoteRef.sayHello("LocalStubTest").equals("Hello LocalStubTest")) {
-                throw new Exception("Could not communicate with servant.");   
+                throw new Exception("Could not communicate with servant.");
             }
-            
+
             newTest( "remoteRefIsRemoteStub" ) ;
             // Make sure that remoteRef is really a remote stub...
             Delegate del = StubAdapter.getDelegate( remoteRef ) ;
@@ -147,9 +147,9 @@ public class LocalStubTest extends RemoteTest {
             ServantObject so = del.servant_preinvoke(
                 (org.omg.CORBA.Object)remoteRef,"method",LocalHello.class);
             if (so != null) {
-                throw new Exception("Got local stub for remoteRef.");   
+                throw new Exception("Got local stub for remoteRef.");
             }
-            
+
             newTest( "makeLocalServant" ) ;
             // Make a local servant, connect it and convert it to a stub...
             LocalHelloServant localImpl = new LocalHelloServant();
@@ -158,11 +158,11 @@ public class LocalStubTest extends RemoteTest {
             if (localRef1 == null) {
                 throw new Exception ("toStub() failed");
             }
-            
+
             // Now make sure it is really a local stub by calling
             // servant_preinvoke and comparing the result to our
             // local servant...
-            
+
             newTest( "localRefIsLocal" ) ;
             del = StubAdapter.getDelegate( localRef1 ) ;
             so = del.servant_preinvoke((org.omg.CORBA.Object)localRef1,
@@ -173,17 +173,17 @@ public class LocalStubTest extends RemoteTest {
             if (so.servant != localImpl) {
                 throw new Exception("servant_preinvoke() returned wrong servant");
             }
-            
+
             // Publish and retrieve localImpl to/from name service...
-            newTest( "unmarshaledLocalRefStillLocal" ) ; 
+            newTest( "unmarshaledLocalRefStillLocal" ) ;
             Context nameContext = context.getNameContext();
             nameContext.rebind("localRef2",localImpl);
             Object temp = nameContext.lookup("localRef2");
 
             LocalHello localRef2 = (LocalHello) PortableRemoteObject.narrow(temp,LocalHello.class);
-      
+
             // Now make sure it is local...
-            
+
             del = StubAdapter.getDelegate( localRef2 ) ;
             so = del.servant_preinvoke( (org.omg.CORBA.Object)localRef2,
                 "method",LocalHello.class);
@@ -195,7 +195,7 @@ public class LocalStubTest extends RemoteTest {
             }
 
             // Now make sure local copying gets done correctly...
-            newTest( "localCopyobjectOK" ) ; 
+            newTest( "localCopyobjectOK" ) ;
             String localString1 = "one";
             RemoteException localValue1 = new RemoteException();
             BAD_OPERATION localValue2 = new BAD_OPERATION();
@@ -205,11 +205,11 @@ public class LocalStubTest extends RemoteTest {
             int localValue2Hash = System.identityHashCode(localValue2);
             int[] primitiveArray1 = {3,7,9};
             char[][] primitiveArray2 = {{'a'},{'b'},{'c','d'}};
-                
+
             if (localRef2.echoArg1(3,localValue3) == localValue3) {
                 throw new Exception("localValue3 not copied!");
             }
- 
+
             if (localRef2.echoString(localValue1,localString1,localValue3) == localString1) {
                 throw new Exception("localString1 not copied!");
             }
@@ -217,7 +217,7 @@ public class LocalStubTest extends RemoteTest {
             if (localRef2.echoObject(localValue1) == localValue1) {
                 throw new Exception("localValue1 not copied!");
             }
-            
+
             int[] pArray1Copy = (int[])localRef2.echoObject(primitiveArray1);
             if (pArray1Copy == primitiveArray1) {
                 throw new Exception("primitiveArray1 not copied!");
@@ -227,7 +227,7 @@ public class LocalStubTest extends RemoteTest {
                 primitiveArray1[2] != pArray1Copy[2]) {
                 throw new Exception("primitiveArray1 not copied *correctly*!");
             }
-            
+
             char[][] pArray2Copy = (char[][])localRef2.echoObject(primitiveArray2);
             if (pArray2Copy == primitiveArray2) {
                 throw new Exception("primitiveArray2 not copied!");
@@ -249,31 +249,31 @@ public class LocalStubTest extends RemoteTest {
             if (hash[0] == localString1Hash ||
                 hash[1] == localString1Hash ||
                 hash[2] == localValue1Hash) {
-                throw new Exception("string,string,value did not get copies!");                
+                throw new Exception("string,string,value did not get copies!");
             }
-            
+
             hash = localRef2.identityHash(localValue1,localValue1,localValue2);
             if (hash[0] == localValue1Hash ||
                 hash[1] == localValue1Hash ||
                 hash[2] == localValue2Hash) {
-                throw new Exception("string,string,value did not get copies!");                
+                throw new Exception("string,string,value did not get copies!");
             }
-                       
+
             if (!StubAdapter.isStub(localRef2.echoObject(new LocalHelloServant()))) {
-                throw new Exception("localRef2.echoObject(impl) did not return a stub!");                
+                throw new Exception("localRef2.echoObject(impl) did not return a stub!");
             }
 
             if (!StubAdapter.isStub(remoteRef.echoObject(new LocalHelloServant()))) {
-                throw new Exception("remoteRef.echoObject(impl) did not return a stub!");                
+                throw new Exception("remoteRef.echoObject(impl) did not return a stub!");
             }
-                      
+
             RemoteException[] array2 = {localValue1,localValue1};
             if (Util.copyObjects(array2,orb) == array2) {
-                throw new Exception ("Util.copyObjects(array2) == array2");   
+                throw new Exception ("Util.copyObjects(array2) == array2");
             }
-            
+
             // Unexport our localImpl and make sure that stub is invalid...
-            newTest( "unexportLocalObject" ) ; 
+            newTest( "unexportLocalObject" ) ;
             PortableRemoteObject.unexportObject(localImpl);
             boolean failed = false;
             try {
@@ -282,9 +282,9 @@ public class LocalStubTest extends RemoteTest {
                 failed = true;
             }
             if (!failed) {
-                throw new Exception("localRef2.echoString() succeeded on unexported impl.");    
+                throw new Exception("localRef2.echoString() succeeded on unexported impl.");
             }
-            
+
             del = StubAdapter.getDelegate( localRef2 ) ;
             so = del.servant_preinvoke( (org.omg.CORBA.Object)localRef2,
                 "method",LocalHello.class);
@@ -292,7 +292,7 @@ public class LocalStubTest extends RemoteTest {
                 throw new Exception("servant_preinvoke() did not return null");
             }
 
-            if (!first) 
+            if (!first)
                 helper.pass() ;
         } catch (Throwable thr) {
             helper.fail( thr ) ;
@@ -300,7 +300,7 @@ public class LocalStubTest extends RemoteTest {
             helper.done() ;
             // Put the codebase back...
             JDKBridge.setLocalCodebase(currentCodebase);
-            
+
             // Rename our class files back to the correct names...
             for (int i = 0; i < 2; i++) {
                 File current = classFiles[i];

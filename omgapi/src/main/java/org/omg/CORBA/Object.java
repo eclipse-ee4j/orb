@@ -225,15 +225,15 @@ public interface Object {
 
 
     /**
-     * Returns the <code>Policy</code> object of the specified type 
+     * Returns the <code>Policy</code> object of the specified type
      * which applies to this object.
-     * 
+     *
      * @param policy_type the type of policy to be obtained
-     * @return A <code>Policy</code> object of the type specified by 
+     * @return A <code>Policy</code> object of the type specified by
      *         the policy_type parameter
-     * @exception org.omg.CORBA.BAD_PARAM when the value of policy type 
-     * is not valid either because the specified type is not supported by this 
-     * ORB or because a policy object of that type is not associated with this 
+     * @exception org.omg.CORBA.BAD_PARAM when the value of policy type
+     * is not valid either because the specified type is not supported by this
+     * ORB or because a policy object of that type is not associated with this
      * Object
      */
     Policy _get_policy(int policy_type);
@@ -241,13 +241,13 @@ public interface Object {
 
     /**
      * Retrieves the <code>DomainManagers</code> of this object.
-     * This allows administration services (and applications) to retrieve the 
-     * domain managers, and hence the security and other policies applicable 
+     * This allows administration services (and applications) to retrieve the
+     * domain managers, and hence the security and other policies applicable
      * to individual objects that are members of the domain.
-     * 
+     *
      * @return the list of immediately enclosing domain managers of this object.
-     *  At least one domain manager is always returned in the list since by 
-     * default each object is associated with at least one domain manager at 
+     *  At least one domain manager is always returned in the list since by
+     * default each object is associated with at least one domain manager at
      * creation.
      */
     DomainManager[] _get_domain_managers();
@@ -256,10 +256,10 @@ public interface Object {
     /**
      * Returns a new <code>Object</code> with the given policies
          * either replacing any existing policies in this
-         * <code>Object</code> or with the given policies added 
+         * <code>Object</code> or with the given policies added
          * to the existing ones, depending on the value of the
          * given <code>SetOverrideType</code> object.
-         * 
+         *
          * @param policies an array of <code>Policy</code> objects containing
          *                 the policies to be added or to be used as replacements
          * @param set_add either <code>SetOverrideType.SET_OVERRIDE</code>, indicating

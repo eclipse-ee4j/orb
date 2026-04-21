@@ -74,7 +74,7 @@ public final class LocateRequestMessage_1_2 extends Message_1_2
         super.read(istream);
         this.request_id = istream.read_ulong();
         this.target = TargetAddressHelper.read(istream);
-        getObjectKeyCacheEntry(); // this does AddressingDisposition check        
+        getObjectKeyCacheEntry(); // this does AddressingDisposition check
     }
 
     public void write(org.omg.CORBA.portable.OutputStream ostream) {

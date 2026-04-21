@@ -30,7 +30,7 @@ import ORBInitTest.*;
 /**
  * Sample ServerRequestInterceptor for use in testing
  */
-public class SampleServerRequestInterceptor 
+public class SampleServerRequestInterceptor
     extends org.omg.CORBA.LocalObject
     implements ServerRequestInterceptor
 {
@@ -51,26 +51,26 @@ public class SampleServerRequestInterceptor
         destroyCount++;
     }
 
-    public void receive_request_service_contexts (ServerRequestInfo ri) 
+    public void receive_request_service_contexts (ServerRequestInfo ri)
         throws ForwardRequest
     {
     }
 
-    public void receive_request (ServerRequestInfo ri) 
-        throws ForwardRequest 
+    public void receive_request (ServerRequestInfo ri)
+        throws ForwardRequest
     {
     }
 
     public void send_reply (ServerRequestInfo ri) {
     }
 
-    public void send_exception (ServerRequestInfo ri) 
-        throws ForwardRequest 
+    public void send_exception (ServerRequestInfo ri)
+        throws ForwardRequest
     {
     }
 
-    public void send_other (ServerRequestInfo ri) 
-        throws ForwardRequest 
+    public void send_other (ServerRequestInfo ri)
+        throws ForwardRequest
     {
     }
 

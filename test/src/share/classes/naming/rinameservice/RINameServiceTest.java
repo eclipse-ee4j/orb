@@ -38,7 +38,7 @@ public class RINameServiceTest extends CORBATest
         Options.setJavaFiles(javaFiles);
 
         compileJavaFiles( );
- 
+
         Controller client = createClient(
             "naming.rinameservice.NameServiceClient" );
         Controller server = createServer(
@@ -48,12 +48,12 @@ public class RINameServiceTest extends CORBATest
         Thread.sleep( 10000 );
         client.start();
         Thread.sleep( 10000 );
-        
+
         server.stop();
         client.stop();
     }
 }
 
 
-    
+
 

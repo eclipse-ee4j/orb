@@ -42,7 +42,7 @@ public class POAAndEquals extends CORBATest
                   Options.getORBClass());
         String args[] = new String[] { "-ORBInitialPort",
                                        Options.getORBInitialPort() };
- 
+
         return ORB.init(args, props);
     }
 
@@ -53,7 +53,7 @@ public class POAAndEquals extends CORBATest
         Hashtable clientExtra = Options.getClientExtra();
         clientExtra.put("orb", orb);
 
-        Controller client 
+        Controller client
             = createClient("corba.poaandequals.WombatClient");
 
         Hashtable serverExtra = Options.getServerExtra();

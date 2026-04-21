@@ -71,7 +71,7 @@ public interface TemporarySelectorState {
    /**
      * Registers theSelectableChannel with theSelector, setting theSelection to
      * the key returned by the registeration.
-     * 
+     *
      * @param  theSelector
      *         The selector with which this channel is to be registered
      *
@@ -108,7 +108,7 @@ public interface TemporarySelectorState {
                                         int theOps) throws IOException;
 
    /**
-     * Requests that the registration of a SelectableChannel with theSelector, 
+     * Requests that the registration of a SelectableChannel with theSelector,
      * theSelectionKey be cancelled and flushed from theSelector.  Upon return
      * theSelectionKey will be invalid and will have been flushed from
      * theSelector's key sets.
@@ -141,7 +141,7 @@ public interface TemporarySelectorState {
      * Closes theSelector.
      *
      * <p> If a thread is currently blocked in one of theSelector's selection
-     * methods then it is interrupted as if by invoking theSelector's 
+     * methods then it is interrupted as if by invoking theSelector's
      * wakeup method.
      *
      * <p> Any uncancelled keys still associated with theSelector are

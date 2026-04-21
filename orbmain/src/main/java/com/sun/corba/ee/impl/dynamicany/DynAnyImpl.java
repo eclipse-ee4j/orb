@@ -89,7 +89,7 @@ abstract class DynAnyImpl extends org.omg.CORBA.LocalObject implements DynAny
 
     protected DynAnyFactory factory() {
         try {
-            return (DynAnyFactory)orb.resolve_initial_references( 
+            return (DynAnyFactory)orb.resolve_initial_references(
                 ORBConstants.DYN_ANY_FACTORY_NAME );
         } catch (InvalidName in) {
             throw new RuntimeException("Unable to find DynAnyFactory");

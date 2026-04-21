@@ -64,7 +64,7 @@ public class SsPicInterceptor
     public static final byte[] serviceContextData = { 1 };
 
     //
-    // From client to server and vice-versa.  
+    // From client to server and vice-versa.
     // Services the client call itself.
     //
 
@@ -129,7 +129,7 @@ public class SsPicInterceptor
         return name;
     }
 
-    public void destroy() 
+    public void destroy()
     {
     }
 
@@ -146,7 +146,7 @@ public class SsPicInterceptor
         Any any = null;
         any = U.getSlot(ri, sPic1SlotId);
         if (! U.isTkNull(any)) {
-            ServiceContext serviceContext = 
+            ServiceContext serviceContext =
                 new ServiceContext(sPic1ServiceContextId, serviceContextData);
             ri.add_request_service_context(serviceContext, false);
         }
@@ -158,7 +158,7 @@ public class SsPicInterceptor
         any = null;
         any = U.getSlot(ri, sPic2SlotId);
         if (U.isTkBoolean(any)) {
-            ServiceContext serviceContext = 
+            ServiceContext serviceContext =
                 new ServiceContext(sPic2ServiceContextId, serviceContextData);
             ri.add_request_service_context(serviceContext, false);
         }
@@ -177,7 +177,7 @@ public class SsPicInterceptor
             // This should not result in an exception.
             // If it does the client test will report it.
             ri.get_reply_service_context(sPic1ServiceContextId);
-        
+
             // The server's sets to these same slot ids should not effect
             // the client interceptors ri slots nor
             // the client interceptors pic slots.
@@ -242,7 +242,7 @@ public class SsPicInterceptor
             } catch (BAD_PARAM e) {
                 // Recusion indicator not set so make the call.
                 try {
-                    idlSLI ridlSLI1 = 
+                    idlSLI ridlSLI1 =
                         idlSLIHelper.narrow(
                          nameService.resolve(U.makeNameComponent(C.idlSLI1)));
                     ridlSLI1.sPic2();
@@ -277,7 +277,7 @@ public class SsPicInterceptor
             // Complete the end-to-end test by sending a reply
             // service context if all went well.  If this is absent
             // for this method then the test will complain.
-            ServiceContext serviceContext = 
+            ServiceContext serviceContext =
                 new ServiceContext(sPic1ServiceContextId, serviceContextData);
             ri.add_reply_service_context(serviceContext, false);
         }

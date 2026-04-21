@@ -23,11 +23,11 @@ package javax.rmi.download;
 public  interface Servant
     extends java.rmi.Remote {
     public String EchoSingleRemoteInterface() throws java.rmi.RemoteException;
-        
+
     public TheValue getValue() throws java.rmi.RemoteException;
 
     public void forceNotSerializableException(java.io.Serializable val) throws java.rmi.RemoteException;
-        
+
     public java.io.Serializable forceNotSerializableException() throws java.rmi.RemoteException;
 
     public void throwRemoteExceptionWithNonSerializableValue() throws java.rmi.RemoteException;

@@ -215,8 +215,8 @@ public class ClientForTiming
              ((ClientDelegate)
               ((_I2Stub)i2Ref)._get_delegate())
               .getContactInfoList()).getPrimaryContactInfo();
-        
-        dprint("--------- i2Ref primaryContactInfo: " 
+
+        dprint("--------- i2Ref primaryContactInfo: "
                + serverPrimaryContactInfo);
         dprint();
 
@@ -269,7 +269,7 @@ public class ClientForTiming
         dprint("was mapped to: " + o);
         primaryToContactInfo.map.put(serverPrimaryContactInfo,
                                      serverClearTextEntry);
-        dprint("now mapped to: " 
+        dprint("now mapped to: "
                + primaryToContactInfo.map.get(serverClearTextEntry));
         dprint();
     }
@@ -283,13 +283,13 @@ public class ClientForTiming
         dprint("killFailedOverToConnection");
         dprint("key: " + serverPrimaryContactInfo);
         dprint("removing connection: " + Client.lastConnectionUsed);
-        dprint("from connection cache BEFORE: " + 
+        dprint("from connection cache BEFORE: " +
                transportManager
                    .getOutboundConnectionCache(serverPrimaryContactInfo));
         Client.lastConnectionUsed.close();
         Thread.sleep(1000);
         dprint();
-        dprint("from connection cache AFTER: " + 
+        dprint("from connection cache AFTER: " +
                transportManager
                    .getOutboundConnectionCache(serverPrimaryContactInfo));
         dprint();
@@ -433,10 +433,10 @@ public class ClientForTiming
                                       boolean failover,
                                       boolean cache)
     {
-        String directory = 
+        String directory =
             System.getProperty("output.dir")
             + System.getProperty("file.separator");
-        return 
+        return
             //"/tmp/"
             directory
             + withOrWithout(failoverSupport, "FailoverSupport")

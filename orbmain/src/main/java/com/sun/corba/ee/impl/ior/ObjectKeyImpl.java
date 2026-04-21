@@ -33,7 +33,7 @@ import org.omg.CORBA_2_3.portable.OutputStream ;
 /**
  * @author  Ken Cavanaugh
  */
-public class ObjectKeyImpl implements ObjectKey 
+public class ObjectKeyImpl implements ObjectKey
 {
     private static final IORSystemException wrapper =
         IORSystemException.self ;
@@ -41,7 +41,7 @@ public class ObjectKeyImpl implements ObjectKey
     private ObjectKeyTemplate oktemp;
     private ObjectId id;
     private byte[] array;
-    
+
     public ObjectKeyImpl( ObjectKeyTemplate oktemp, ObjectId id) {
         this.oktemp = oktemp ;
         this.id = id ;
@@ -70,7 +70,7 @@ public class ObjectKeyImpl implements ObjectKey
         return oktemp.hashCode() ^ id.hashCode() ;
     }
 
-    public ObjectKeyTemplate getTemplate() 
+    public ObjectKeyTemplate getTemplate()
     {
         return oktemp ;
     }
@@ -80,14 +80,14 @@ public class ObjectKeyImpl implements ObjectKey
         return id ;
     }
 
-    public void write( OutputStream os ) 
+    public void write( OutputStream os )
     {
         oktemp.write( id, os ) ;
     }
 
-    public synchronized byte[] getBytes(org.omg.CORBA.ORB orb) 
+    public synchronized byte[] getBytes(org.omg.CORBA.ORB orb)
     {
-        if (array == null) {        
+        if (array == null) {
             EncapsOutputStream os = OutputStreamFactory.newEncapsOutputStream((ORB)orb);
             try {
                 write(os);
@@ -96,7 +96,7 @@ public class ObjectKeyImpl implements ObjectKey
                 try {
                     os.close();
                 } catch (java.io.IOException e) {
-                    wrapper.ioexceptionDuringStreamClose(e);    
+                    wrapper.ioexceptionDuringStreamClose(e);
                 }
             }
         }

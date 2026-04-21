@@ -36,7 +36,7 @@ import java.util.Vector;
  * instead of the current static approach.  It should set up the defaults from
  * system properties and arguments to the constructor in the constructor.
  * It should provide setters and getters as needed for the tests.
- * Note that all setters must update all data, especially including the 
+ * Note that all setters must update all data, especially including the
  * properties returned from getORBDProperties, getClientProperties, and getServerProperties.
  */
 public class Options {
@@ -50,12 +50,12 @@ public class Options {
     private static Port orbInitialPort;
     private static Port activationPort;
 
-    private static String javaIDLHome;                  
+    private static String javaIDLHome;
     private static String activationDbDirName;          // NO key   defActivationDbDirName
     private static String classpath;                    // key java.class.path
     private static String orbClass;                     // key org.omg.CORBA.ORBClass
 
-    private static Vector orbdArgs ; 
+    private static Vector orbdArgs ;
     private static Vector serverArgs ;
     private static Vector clientArgs ;
 
@@ -77,7 +77,7 @@ public class Options {
 
     private static String emmaFile;
 
-    // Note:  Directories must have the file separator already appended 
+    // Note:  Directories must have the file separator already appended
     //        to the end
     private static String testDirectory;
     private static String reportDirectory;
@@ -124,7 +124,7 @@ public class Options {
     private static String getTestDirectory( CORBATest parent ) {
         String testBase = (String)(parent.getArgs().get( "-testbase" )) ;
         String testRoot = "" ;
-        
+
         if (testBase == null) {
             testRoot = "/../src/share/classes/";
             testBase = System.getProperty( "user.dir" ) ;
@@ -132,13 +132,13 @@ public class Options {
             testRoot = "/src/share/classes/";
         }
 
-        String result = testBase + testRoot.replace('/', File.separatorChar) + 
+        String result = testBase + testRoot.replace('/', File.separatorChar) +
             getPackageAsDir( parent )  + File.separator;
         return result ;
     }
 
     /**
-     * Initialize the options.  This should be called by the 
+     * Initialize the options.  This should be called by the
      * test framework, not individual tests.  It should be called
      * before each new test runs to reset everything.
      *
@@ -155,11 +155,11 @@ public class Options {
 
         orbdExtra.put(ExternalExec.HANDSHAKE_KEY, defORBDHandshake);
         serverExtra.put(ExternalExec.HANDSHAKE_KEY, defServerHandshake);
-        
+
         rmicArgs = new Vector(10);
         idlCompilerArgs = new Vector(10);
         javacArgs = new Vector(10);
-        
+
         javaFiles = null ;
         idlFiles = null ;
         rmicFiles = null ;
@@ -330,7 +330,7 @@ public class Options {
     }
 
     /**
-     * Return the class path to pass to subprocesses 
+     * Return the class path to pass to subprocesses
      * (defaults to the system property java.class.path
      * plus the output directory).
      */
@@ -481,7 +481,7 @@ public class Options {
     }
 
     /**
-     * Utility method for adding space separated arguments to 
+     * Utility method for adding space separated arguments to
      * a given vector.
      */
     private static void addArgsFromString(String args, Vector container)
@@ -545,7 +545,7 @@ public class Options {
         return idlFiles;
     }
 
-    public static String getEmmaFile() { 
+    public static String getEmmaFile() {
         return emmaFile ;
     }
 

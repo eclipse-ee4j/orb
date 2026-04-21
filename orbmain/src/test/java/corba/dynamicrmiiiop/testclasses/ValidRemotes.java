@@ -25,7 +25,7 @@ package corba.dynamicrmiiiop.testclasses;
 public class ValidRemotes {
 
     public static final Class[] CLASSES = {
-        java.rmi.Remote.class, 
+        java.rmi.Remote.class,
         ValidRemote0.class, ValidRemote1.class,
         ValidRemote2.class, ValidRemote3.class,
         ValidRemote4.class, ValidRemote5.class,
@@ -35,11 +35,11 @@ public class ValidRemotes {
     };
 
     public interface ValidRemote0 extends java.rmi.Remote {}
-    
+
     public interface ValidRemote1 extends ValidRemote0 {}
 
     public interface ValidRemote2 extends java.rmi.Remote {
-        public void foo1() throws java.rmi.RemoteException, 
+        public void foo1() throws java.rmi.RemoteException,
             java.io.IOException, java.lang.Exception, java.lang.Throwable;
     }
 
@@ -66,12 +66,12 @@ public class ValidRemotes {
     }
 
     public interface ValidRemote6 extends java.rmi.Remote {
-        public void foo1() throws java.rmi.RemoteException, 
+        public void foo1() throws java.rmi.RemoteException,
             java.lang.Exception;
-            
-        public void foo2() 
+
+        public void foo2()
             throws java.rmi.RemoteException, Exception1;
-        
+
     }
 
     public static class Exception1 extends java.lang.Exception {}
@@ -82,7 +82,7 @@ public class ValidRemotes {
         void foo(String[] b) throws java.rmi.RemoteException;
     }
 
-    public interface ValidRemote8 extends 
+    public interface ValidRemote8 extends
         ValidRemote2, ValidRemote5, ValidRemote7 {}
 
     public interface ValidRemote9 extends ValidRemote8 {

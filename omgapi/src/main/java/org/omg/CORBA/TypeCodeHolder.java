@@ -24,7 +24,7 @@ import org.omg.CORBA.portable.OutputStream;
 import org.omg.CORBA.portable.Streamable;
 
 /**
- * The Holder for <tt>TypeCode</tt>.  For more information on 
+ * The Holder for <tt>TypeCode</tt>.  For more information on
  * Holder files, see <a href="doc-files/generatedfiles.html#holder">
  * "Generated Files: Holder Files"</a>.<P>
  * A Holder class for a <code>TypeCode</code> object
@@ -72,7 +72,7 @@ public final class TypeCodeHolder implements Streamable {
     }
 
     /**
-     * Reads from <code>input</code> and initalizes the value in 
+     * Reads from <code>input</code> and initalizes the value in
      * this <code>TypeCodeHolder</code> object
      * with the unmarshalled data.
      *
@@ -83,7 +83,7 @@ public final class TypeCodeHolder implements Streamable {
     }
 
     /**
-     * Marshals to <code>output</code> the value in 
+     * Marshals to <code>output</code> the value in
      * this <code>TypeCodeHolder</code> object.
      *
      * @param output the OutputStream which will contain the CDR formatted data

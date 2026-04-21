@@ -565,7 +565,7 @@ public class Main implements org.glassfish.rmic.Constants {
 
     boolean displayErrors(BatchEnvironment env) {
         List<String> summary = new ArrayList<>();
-        
+
         if (env.nerrors > 0) summary.add(getErrorSummary(env));
         if (env.nwarnings > 0) summary.add(getWarningSummary(env));
         if (!summary.isEmpty()) output(String.join(", ", summary));

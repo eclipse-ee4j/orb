@@ -33,17 +33,17 @@ import org.omg.CORBA.*;
  *     count = 2, send_request, receive_exception (SystemException)
  *     count = 3, send_request, receive_exception (UserException)
  *     count = 4, send_request, receive_other
- * All points are checked in order to assure received_exception() 
+ * All points are checked in order to assure received_exception()
  * can only be called in the receive_exception interception point.
  */
 public class ExceptionStrategy
     extends InterceptorStrategy
 {
-    
+
     private int count = 0;
 
 
-    // True if this test is being run in DII mode.  In DII mode, all 
+    // True if this test is being run in DII mode.  In DII mode, all
     // UserException tests are skipped.
     //
     // _REVISIT_ Remove this special mode once UserExceptions work properly
@@ -63,8 +63,8 @@ public class ExceptionStrategy
         throws ForwardRequest
     {
         super.send_request( interceptor, ri );
-        
-        try { 
+
+        try {
             count++;
 
             testException( "send_request", ri );
@@ -96,7 +96,7 @@ public class ExceptionStrategy
 
 
     public void receive_exception (
-        SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) 
+        SampleClientRequestInterceptor interceptor, ClientRequestInfo ri)
         throws ForwardRequest
     {
         super.receive_exception( interceptor, ri );
@@ -110,7 +110,7 @@ public class ExceptionStrategy
     }
 
     public void receive_other (
-        SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) 
+        SampleClientRequestInterceptor interceptor, ClientRequestInfo ri)
         throws ForwardRequest
     {
         super.receive_other( interceptor, ri );
@@ -123,8 +123,8 @@ public class ExceptionStrategy
         }
     }
 
-    private void testException( String methodName, 
-                                ClientRequestInfo ri ) 
+    private void testException( String methodName,
+                                ClientRequestInfo ri )
     {
         String header = methodName + "(): ";
         if( methodName.equals( "receive_exception" ) ) {
@@ -132,7 +132,7 @@ public class ExceptionStrategy
                 // Called for System Exception:
                 // Test received_exception:
                 Any receivedException = ri.received_exception();
-                SystemException sysex = ORBUtility.extractSystemException( 
+                SystemException sysex = ORBUtility.extractSystemException(
                     receivedException );
                 if( !(sysex instanceof UNKNOWN) ) {
                     fail( header + "received_exception() did not return " +
@@ -142,13 +142,13 @@ public class ExceptionStrategy
                     log( header + "received_exception() returned " +
                          "correct SystemException." );
                 }
-                
+
                 // Test received_exception_id:
                 String exceptionId = ri.received_exception_id();
 
-                log( header + "exceptionId for SystemException is: " + 
+                log( header + "exceptionId for SystemException is: " +
                     exceptionId );
-                
+
                 if( exceptionId.indexOf( "UNKNOWN" ) == -1 ) {
                     fail( header + "exceptionId incorrect!" );
                 }
@@ -156,17 +156,17 @@ public class ExceptionStrategy
             else if( count == 3 ) {
                 // Skip this test in DII mode:
                 if( diiMode ) {
-                    log( header + "skipping UserException test for DII" );    
+                    log( header + "skipping UserException test for DII" );
                 }
                 else {
                     // Called for User Exception:
                     // Test received_exception:
                     Any receivedException = ri.received_exception();
 
-                    ExampleException exception = 
+                    ExampleException exception =
                         ExampleExceptionHelper.extract( receivedException );
                     if( !exception.reason.equals( "valid" ) ) {
-                        fail( header + 
+                        fail( header +
                               "received_exception() did not return valid " +
                               "ExampleException" );
                     }
@@ -177,9 +177,9 @@ public class ExceptionStrategy
                     // Test received_exception_id:
                     String exceptionId = ri.received_exception_id();
 
-                    log( header + "exceptionId for UserException is: " + 
+                    log( header + "exceptionId for UserException is: " +
                         exceptionId );
-                    
+
                     if( exceptionId.indexOf( "ExampleException" ) == -1 ) {
                         fail( header + "exceptionId incorrect!" );
                     }
@@ -194,21 +194,21 @@ public class ExceptionStrategy
             // We should not be able to access received_exception!
             try {
                 ri.received_exception();
-                fail( header + 
+                fail( header +
                       "received_exception() did not raise BAD_INV_ORDER!" );
             }
             catch( BAD_INV_ORDER e ) {
                 log( header + "received_exception() raised BAD_INV_ORDER (ok)");
             }
-            
+
             // We should not be able to access received_exception_id!
             try {
                 ri.received_exception_id();
-                fail( header + 
+                fail( header +
                       "received_exception_id() did not raise BAD_INV_ORDER!" );
             }
             catch( BAD_INV_ORDER e ) {
-                log( header + 
+                log( header +
                      "received_exception_id() raised BAD_INV_ORDER (ok)");
             }
         }

@@ -24,7 +24,7 @@ import com.sun.corba.ee.spi.orb.ParserData ;
 
 public abstract class ParserDataBase implements ParserData {
     private String  propertyName ;
-    private Operation operation ;       
+    private Operation operation ;
     private String fieldName ;
     private Object defaultValue ;
     private Object testValue ;
@@ -34,7 +34,7 @@ public abstract class ParserDataBase implements ParserData {
         Object testValue )
     {
         this.propertyName = propertyName  ;
-        this.operation = operation  ;   
+        this.operation = operation  ;
         this.fieldName = fieldName  ;
         this.defaultValue = defaultValue  ;
         this.testValue = testValue  ;

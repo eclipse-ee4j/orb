@@ -36,7 +36,7 @@ public class PrefixParserAction extends ParserActionBase {
 
     private Class componentType ;
 
-    public PrefixParserAction( String propertyName, 
+    public PrefixParserAction( String propertyName,
         Operation operation, String fieldName, Class componentType )
     {
         super( propertyName, true, operation, fieldName ) ;
@@ -49,7 +49,7 @@ public class PrefixParserAction extends ParserActionBase {
      * which forms the result of apply.  Returns null if there are no
      * matches.
      */
-    public Object apply( Properties props ) 
+    public Object apply( Properties props )
     {
         String prefix = getPropertyName() ;
         int prefixLength = prefix.length() ;
@@ -57,7 +57,7 @@ public class PrefixParserAction extends ParserActionBase {
             prefix += '.' ;
             prefixLength++ ;
         }
-            
+
         List matches = new LinkedList() ;
 
         // Find all keys in props that start with propertyName

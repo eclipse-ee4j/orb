@@ -59,17 +59,17 @@ public abstract class POAPolicyMediatorBase implements POAPolicyMediator {
         return policies ;
     }
 
-    public final int getScid() 
+    public final int getScid()
     {
         return scid ;
     }
 
-    public final int getServerId() 
+    public final int getServerId()
     {
         return serverid ;
     }
 
-    POAPolicyMediatorBase( Policies policies, POAImpl poa ) 
+    POAPolicyMediatorBase( Policies policies, POAImpl poa )
     {
         if (policies.isSingleThreaded()) {
             throw wrapper.singleThreadNotSupported();
@@ -108,10 +108,10 @@ public abstract class POAPolicyMediatorBase implements POAPolicyMediator {
         isUnique = policies.isUniqueIds() ;
         isSystemId = policies.isSystemAssignedIds() ;
 
-        sysIdCounter = 0 ; 
+        sysIdCounter = 0 ;
     }
-    
-    public final java.lang.Object getInvocationServant( byte[] id, 
+
+    public final java.lang.Object getInvocationServant( byte[] id,
         String operation ) throws ForwardRequest
     {
         java.lang.Object result = internalGetServant( id, operation ) ;
@@ -122,9 +122,9 @@ public abstract class POAPolicyMediatorBase implements POAPolicyMediator {
     // Create a delegate and stick it in the servant.
     // This delegate is needed during dispatch for the ObjectImpl._orb()
     // method to work.
-    protected final void setDelegate(Servant servant, byte[] id) 
+    protected final void setDelegate(Servant servant, byte[] id)
     {
-        //This new servant delegate no longer needs the id for 
+        //This new servant delegate no longer needs the id for
         // its initialization.
         servant._set_delegate(delegateImpl);
     }
@@ -141,6 +141,6 @@ public abstract class POAPolicyMediatorBase implements POAPolicyMediator {
         return array;
     }
 
-    protected abstract  java.lang.Object internalGetServant( byte[] id, 
+    protected abstract  java.lang.Object internalGetServant( byte[] id,
         String operation ) throws ForwardRequest ;
 }

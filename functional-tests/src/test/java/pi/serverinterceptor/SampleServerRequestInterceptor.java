@@ -31,12 +31,12 @@ import org.omg.PortableInterceptor.ServerRequestInterceptor;
 /**
  * Sample ServerRequestInterceptor for use in testing
  */
-public class SampleServerRequestInterceptor 
-    extends org.omg.CORBA.LocalObject 
+public class SampleServerRequestInterceptor
+    extends org.omg.CORBA.LocalObject
     implements ServerRequestInterceptor
 {
     // This string is modified from within this class and from Server.java.
-    // It keeps track of which method was invoked when by appending 
+    // It keeps track of which method was invoked when by appending
     // two-letter codes in succession.  The following codes are used
     // <name> represents the name of the interceptor invoked.  This is
     // used to check order of interceptor invocation.
@@ -56,7 +56,7 @@ public class SampleServerRequestInterceptor
 
     // The message to embed in exceptions so they can be checked for validity.
     public static final String VALID_MESSAGE = "Valid Test Result.";
-    
+
     // This attribute is set by Server.java to indicate how this interceptor
     // should behave.  There are a predetermined set of behavior values:
     //   MODE_NORMAL - All interceptors exit without throwing an Exception
@@ -72,7 +72,7 @@ public class SampleServerRequestInterceptor
     //     while interceptor 2 throws a SYSTEM_EXCEPTION from sr.
 
     private static int testMode;
-    
+
     public static final int MODE_NORMAL                = 0;
     public static final int MODE_RRSC_SYSTEM_EXCEPTION = 1;
     public static final int MODE_RRSC_FORWARD_REQUEST  = 2;
@@ -89,7 +89,7 @@ public class SampleServerRequestInterceptor
     // diagram in ServerCommon.checkOrder) and because the mode is reset
     // after the first time the mode flag becomes relevant.
     private static int endpointSkip;
-    
+
     private String name;
 
     // Counter to make sure each start is mated by an end
@@ -124,8 +124,8 @@ public class SampleServerRequestInterceptor
     public void destroy() {
     }
 
-    public void receive_request_service_contexts (ServerRequestInfo ri) 
-        throws ForwardRequest 
+    public void receive_request_service_contexts (ServerRequestInfo ri)
+        throws ForwardRequest
     {
         callCounter++; // Starting point - add
         printPointEntry("receive_request_service_contexts", ri);
@@ -134,7 +134,7 @@ public class SampleServerRequestInterceptor
         // the RMI case and we are not interested in recording those.
         if( !dontIgnoreIsA && ri.operation().equals( "_is_a" ) ) {
             if( name.equals( "1" ) ) {
-                System.out.println( 
+                System.out.println(
                     "    - Interceptor: Ignoring _is_a call..." );
             }
         }
@@ -173,7 +173,7 @@ public class SampleServerRequestInterceptor
         }
     }
 
-    public void receive_request (ServerRequestInfo ri) 
+    public void receive_request (ServerRequestInfo ri)
         throws ForwardRequest
     {
         printPointEntry("receive_request", ri);
@@ -202,7 +202,7 @@ public class SampleServerRequestInterceptor
         }
     }
 
-    public void send_reply (ServerRequestInfo ri) 
+    public void send_reply (ServerRequestInfo ri)
     {
         printPointEntry("send_reply", ri);
         callCounter--; // Ending point - subtract
@@ -236,7 +236,7 @@ public class SampleServerRequestInterceptor
         }
     }
 
-    public void send_exception (ServerRequestInfo ri) 
+    public void send_exception (ServerRequestInfo ri)
         throws ForwardRequest
     {
         printPointEntry("send_exception", ri);
@@ -281,8 +281,8 @@ public class SampleServerRequestInterceptor
         }
     }
 
-    public void send_other (ServerRequestInfo ri) 
-        throws ForwardRequest 
+    public void send_other (ServerRequestInfo ri)
+        throws ForwardRequest
     {
         printPointEntry("send_other", ri);
         callCounter--; // Ending point - subtract

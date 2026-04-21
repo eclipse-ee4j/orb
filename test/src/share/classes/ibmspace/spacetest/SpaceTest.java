@@ -43,15 +43,15 @@ public class SpaceTest extends RemoteTest {
     };
 
     private static final int TIMING_ITERATIONS = 100;
- 
+
     /**
      * Return an array of fully qualified remote servant class
      * names for which ties/skels need to be generated. Return
      * empty array if none.
      */
-     
+
     protected String[] getRemoteServantClasses () {
-        return compileEm;  
+        return compileEm;
     }
 
     /**
@@ -73,18 +73,18 @@ public class SpaceTest extends RemoteTest {
      * Perform the test.
      * @param context The context returned by getServantContext().
      */
-     
+
     public void doTest (ServantContext context) throws Throwable {
-        JUnitReportHelper helper = new JUnitReportHelper( 
-            this.getClass().getName() 
+        JUnitReportHelper helper = new JUnitReportHelper(
+            this.getClass().getName()
             + ( iiop ? "_iiop" : "_jrmp" ) ) ;
-        
+
         helper.start( "spaceTest" ) ;
 
         try {
             // First ensure that the caches are cleared out so
             // that we can switch between IIOP and JRMP...
-            
+
             //Utility.clearCaches();
 
             Remote remote = context.startServant(servantClass,"SpaceConquest",true,iiop);

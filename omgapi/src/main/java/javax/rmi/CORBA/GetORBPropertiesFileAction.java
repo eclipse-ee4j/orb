@@ -54,7 +54,7 @@ class GetORBPropertiesFileAction implements PrivilegedAction {
                 return ;
 
             FileInputStream in = new FileInputStream( file ) ;
-            
+
             try {
                 props.load( in ) ;
             } finally {
@@ -62,12 +62,12 @@ class GetORBPropertiesFileAction implements PrivilegedAction {
             }
         } catch (Exception exc) {
             if (debug)
-                System.out.println( "ORB properties file " + fileName + 
+                System.out.println( "ORB properties file " + fileName +
                     " not found: " + exc) ;
         }
     }
 
-    public Object run() 
+    public Object run()
     {
         Properties defaults = new Properties() ;
 

@@ -28,7 +28,7 @@ import org.omg.CORBA.ORB;
 import org.omg.CORBA.NO_MEMORY;
 
 class idlSLIServant
-    extends 
+    extends
         idlSLIPOA
 {
     public static String baseMsg = idlSLIServant.class.getName();
@@ -47,7 +47,7 @@ class idlSLIServant
     }
 
     public String raiseUserInServantThenSystemInPOThenSE ( )
-        throws 
+        throws
             idlExampleException
     {
         C.throwUserException(baseMsg +
@@ -68,12 +68,12 @@ class idlSLIServant
     public String throwThreadDeathInReceiveRequestServiceContexts( String a )
     {
         U.sop(U.servant(a));
-        return a; 
+        return a;
     }
     public String throwThreadDeathInPreinvoke ( String a )
     {
         U.sop(U.servant(a));
-        return a; 
+        return a;
     }
     public String throwThreadDeathInReceiveRequest ( String a )
     {
@@ -86,15 +86,15 @@ class idlSLIServant
         U.sop(U.servant(a));
         throw new ThreadDeath();
     }
-    public String throwThreadDeathInPostinvoke ( String a ) 
+    public String throwThreadDeathInPostinvoke ( String a )
     {
         U.sop(U.servant(a));
-        return a; 
+        return a;
     }
-    public String throwThreadDeathInSendReply ( String a ) 
-    { 
+    public String throwThreadDeathInSendReply ( String a )
+    {
         U.sop(U.servant(a));
-        return a; 
+        return a;
     }
     public String throwThreadDeathInServantThenSysInPostThenSysInSendException ( String a )
     {

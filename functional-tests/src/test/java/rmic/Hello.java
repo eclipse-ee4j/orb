@@ -53,6 +53,6 @@ public interface Hello extends java.rmi.Remote
     public void throwError(Error it) throws java.rmi.RemoteException;
     public void throwRemoteException(java.rmi.RemoteException it) throws java.rmi.RemoteException;
     public void throwRuntimeException(RuntimeException it) throws java.rmi.RemoteException;
-   
+
     public Hello echoRemote (Hello stub) throws java.rmi.RemoteException;
 }

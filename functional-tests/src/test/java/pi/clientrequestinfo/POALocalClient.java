@@ -35,13 +35,13 @@ import ClientRequestInfo.*;
 /**
  * Tests POA Local invocation (with a co-located orb)
  */
-public class POALocalClient 
+public class POALocalClient
     extends ClientCommon
-    implements InternalProcess 
+    implements InternalProcess
 {
     // Reference to hello object
     private hello helloRef;
-    
+
     // Reference to hello object to be forwarded to:
     private hello helloRefForward;
 
@@ -71,10 +71,10 @@ public class POALocalClient
             new Thread() {
                 public void run() {
                     try {
-                        (new POALocalServer()).run( 
+                        (new POALocalServer()).run(
                                                 client.orb, client.syncObject,
                                                 System.getProperties(),
-                                                arguments, System.out, 
+                                                arguments, System.out,
                                                 System.err, null );
                     }
                     catch( Exception e ) {
@@ -108,7 +108,7 @@ public class POALocalClient
     }
 
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         try {
@@ -122,7 +122,7 @@ public class POALocalClient
     /**
      * Clear invocation flags of helloRef and helloRefForward
      */
-    protected void clearInvoked() 
+    protected void clearInvoked()
         throws Exception
     {
         helloRef.clearInvoked();
@@ -132,7 +132,7 @@ public class POALocalClient
     /**
      * Invoke the method with the given name on the object
      */
-    protected void invokeMethod( String methodName ) 
+    protected void invokeMethod( String methodName )
         throws Exception
     {
         // Make an invocation:
@@ -156,8 +156,8 @@ public class POALocalClient
     /**
      * Return true if the method was invoked
      */
-    protected boolean wasInvoked() 
-        throws Exception 
+    protected boolean wasInvoked()
+        throws Exception
     {
         return helloRef.wasInvoked();
     }
@@ -165,8 +165,8 @@ public class POALocalClient
     /**
      * Return true if the method was forwarded
      */
-    protected boolean didForward() 
-        throws Exception 
+    protected boolean didForward()
+        throws Exception
     {
         return helloRefForward.wasInvoked();
     }
@@ -174,8 +174,8 @@ public class POALocalClient
     /**
      * Perform ClientRequestInfo tests
      */
-    protected void testClientRequestInfo () 
-        throws Exception 
+    protected void testClientRequestInfo ()
+        throws Exception
     {
         super.testClientRequestInfo();
     }
@@ -184,8 +184,8 @@ public class POALocalClient
      * Re-resolves all references to eliminate any cached ForwardRequests
      * from the last invocation
      */
-    protected void resolveReferences() 
-        throws Exception 
+    protected void resolveReferences()
+        throws Exception
     {
         out.println( "    + resolving references..." );
         out.println( "      - disabling interceptors..." );
@@ -212,18 +212,18 @@ public class POALocalClient
         throws Exception
     {
         // Get the root naming context
-        org.omg.CORBA.Object objRef = 
+        org.omg.CORBA.Object objRef =
             orb.resolve_initial_references("NameService");
         NamingContext ncRef = NamingContextHelper.narrow(objRef);
-        
+
         // resolve the Object Reference in Naming
         NameComponent nc = new NameComponent(name, "");
         NameComponent path[] = {nc};
         hello helloRef = helloHelper.narrow(ncRef.resolve(path));
-        
+
         return helloRef;
     }
-    
+
 }
 
 

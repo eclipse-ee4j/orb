@@ -40,7 +40,7 @@ class Tester extends Thread{
         totalThread++;
     }
 
-    public void run() 
+    public void run()
     {
         System.out.println("Sending array of length " + size);
 
@@ -102,16 +102,16 @@ public class Client
             testCatagory[i].arrayLength = data[i*4+2];
             testCatagory[i].threadNumber = data[i*4+3];
         }
-    }   
+    }
 
-        
+
 
     // size must be divisible by four
 
     public static org.omg.CORBA.Object readObjref(String file, org.omg.CORBA.ORB orb) {
         String fil = System.getProperty("output.dir")+System.getProperty("file.separator")+file;
         try {
-            java.io.DataInputStream in = 
+            java.io.DataInputStream in =
                 new java.io.DataInputStream(new FileInputStream(fil));
             String ior = in.readLine();
             System.out.println("IOR: "+ior);
@@ -138,10 +138,10 @@ public class Client
                 ORB orb = ORB.init(args, System.getProperties());
 
             /*
-            org.omg.CORBA.Object objRef = 
+            org.omg.CORBA.Object objRef =
                 orb.resolve_initial_references("NameService");
             NamingContext ncRef = NamingContextHelper.narrow(objRef);
- 
+
             NameComponent nc = new NameComponent("FragmentTester", "");
             NameComponent path[] = {nc};
 
@@ -150,8 +150,8 @@ public class Client
 
                 org.omg.CORBA.Object obj = readObjref("IOR", orb);
 
-                FragmentTester tester = 
-                    (FragmentTester) PortableRemoteObject.narrow(obj, 
+                FragmentTester tester =
+                    (FragmentTester) PortableRemoteObject.narrow(obj,
                                                                  FragmentTester.class);
 
             // Do the crazy work here

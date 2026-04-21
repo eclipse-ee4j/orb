@@ -34,7 +34,7 @@ import java.util.Map;
 public abstract class OutputStreamHook extends ObjectOutputStream
 {
     private HookPutFields putFields = null;
-    
+
     /**
      * Since ObjectOutputStream.PutField methods specify no exceptions,
      * we are not checking for null parameters on put methods.
@@ -48,42 +48,42 @@ public abstract class OutputStreamHook extends ObjectOutputStream
         public void put(String name, boolean value){
             fields.put(name, Boolean.valueOf(value));
         }
-                
+
         /**
          * Put the value of the named char field into the persistent fields.
          */
         public void put(String name, char value){
             fields.put(name, Character.valueOf(value));
         }
-                
+
         /**
          * Put the value of the named byte field into the persistent fields.
          */
         public void put(String name, byte value){
             fields.put(name, Byte.valueOf(value));
         }
-                
+
         /**
          * Put the value of the named short field into the persistent fields.
          */
         public void put(String name, short value){
             fields.put(name, Short.valueOf(value));
         }
-                
+
         /**
          * Put the value of the named int field into the persistent fields.
          */
         public void put(String name, int value){
             fields.put(name, Integer.valueOf(value));
         }
-                
+
         /**
          * Put the value of the named long field into the persistent fields.
          */
         public void put(String name, long value){
             fields.put(name, Long.valueOf(value));
         }
-                
+
         /**
          * Put the value of the named float field into the persistent fields.
          *
@@ -91,21 +91,21 @@ public abstract class OutputStreamHook extends ObjectOutputStream
         public void put(String name, float value){
             fields.put(name, Float.valueOf(value));
         }
-                
+
         /**
          * Put the value of the named double field into the persistent field.
          */
         public void put(String name, double value){
             fields.put(name, Double.valueOf(value));
         }
-                
+
         /**
          * Put the value of the named Object field into the persistent field.
          */
         public void put(String name, Object value){
             fields.put(name, value);
         }
-                
+
         /**
          * Write the data and fields to the specified ObjectOutput stream.
          */
@@ -131,7 +131,7 @@ public abstract class OutputStreamHook extends ObjectOutputStream
     public OutputStreamHook()
         throws java.io.IOException {
         super();
-                
+
     }
 
     @StreamFormatVersion
@@ -143,7 +143,7 @@ public abstract class OutputStreamHook extends ObjectOutputStream
     }
 
     public abstract void defaultWriteObjectDelegate();
-        
+
     @Override
     public ObjectOutputStream.PutField putFields()
         throws IOException {
@@ -186,13 +186,13 @@ public abstract class OutputStreamHook extends ObjectOutputStream
 
 
     // The following is a State pattern implementation of what
-    // should be done when a Serializable has a 
+    // should be done when a Serializable has a
     // writeObject method.  This was especially necessary for
     // RMI-IIOP stream format version 2.  Please see the
     // state diagrams in the docs directory of the workspace.
 
     protected WriteObjectState writeObjectState = NOT_IN_WRITE_OBJECT;
-    
+
     @StreamFormatVersion
     protected void setState(WriteObjectState newState) {
         writeObjectState = newState;
@@ -262,7 +262,7 @@ public abstract class OutputStreamHook extends ObjectOutputStream
         public void enterWriteObjectOverride(OutputStreamHook stream) throws IOException {
             throw Exceptions.self.calledWriteObjectTwice() ;
         }
-        
+
         @Override
         @StreamFormatVersion
         public void exitWriteObjectOverride(OutputStreamHook stream) throws IOException {
@@ -320,7 +320,7 @@ public abstract class OutputStreamHook extends ObjectOutputStream
             if (stream.getStreamFormatVersion() == 2) {
                 stream.getOrbStream().write_long(0);
             }
-            
+
             stream.setState(NOT_IN_WRITE_OBJECT);
         }
 
@@ -338,7 +338,7 @@ public abstract class OutputStreamHook extends ObjectOutputStream
             // If in stream format version 2, put the fake valuetype
             // header.
             stream.beginOptionalCustomData();
-            
+
             stream.setState(WROTE_CUSTOM_DATA);
         }
     }
@@ -359,7 +359,7 @@ public abstract class OutputStreamHook extends ObjectOutputStream
 
         @Override
         @StreamFormatVersion
-        public void defaultWriteObjectOverride(OutputStreamHook stream) 
+        public void defaultWriteObjectOverride(OutputStreamHook stream)
             throws IOException {
             throw Exceptions.self.defaultWriteObjectAfterCustomData() ;
         }

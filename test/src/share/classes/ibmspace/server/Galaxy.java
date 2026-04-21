@@ -58,7 +58,7 @@ public class Galaxy implements Serializable
         for (i=0; i<fNumberOfPlanets; i++) {
             fHomes[i] = null;
         }
-    
+
     }
 
     public PlanetImpl createHomeWorldFor (Player player)

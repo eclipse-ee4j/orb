@@ -35,7 +35,7 @@ import org.omg.CORBA.ORB;
  * enabled, each stub has an associated delegate.
  *
  * Delegates are enabled by providing the delegate's class name as the
- * value of the 
+ * value of the
  * <code>javax.rmi.CORBA.StubClass</code>
  * system property.
  *
@@ -73,7 +73,7 @@ public interface StubDelegate {
      */
     void connect(Stub self, ORB orb)
         throws RemoteException;
- 
+
     // _REVISIT_ cannot link to Stub.readObject directly... why not?
     /**
      * Delegation call for
@@ -88,7 +88,7 @@ public interface StubDelegate {
 
     // _REVISIT_ cannot link to Stub.writeObject directly... why not?
     /**
-     * Delegation call for 
+     * Delegation call for
      * <a href="{@docRoot}/serialized-form.html#javax.rmi.CORBA.Stub"><code>Stub.writeObject(java.io.ObjectOutputStream)</code></a>.
      * @param self stub to write
      * @param s stream to write to

@@ -26,7 +26,7 @@ public class Default {
 
     public class Inner {}
 
-    public class _Inner {}    
+    public class _Inner {}
 
     public class _Default {}
 

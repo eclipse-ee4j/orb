@@ -160,7 +160,7 @@ public final class ORBUtility {
      * @param gv The maximum GIOP version supported
      * @return the Java serialization encoding version.
      */
-    public static byte chooseEncodingVersion(ORB orb, IOR ior, 
+    public static byte chooseEncodingVersion(ORB orb, IOR ior,
                                              GIOPVersion gv) {
 
         // Is Java serialization enabled?
@@ -173,12 +173,12 @@ public final class ORBUtility {
         if (orb.getORBData().isJavaSerializationEnabled() &&
                !(gv.lessThan(GIOPVersion.V1_2))) {
             IIOPProfile prof = ior.getProfile();
-            IIOPProfileTemplate profTemp = 
+            IIOPProfileTemplate profTemp =
                 (IIOPProfileTemplate) prof.getTaggedProfileTemplate();
             java.util.Iterator iter = profTemp.iteratorById(
                                   ORBConstants.TAG_JAVA_SERIALIZATION_ID);
             if (iter.hasNext()) {
-                JavaSerializationComponent jc = 
+                JavaSerializationComponent jc =
                     (JavaSerializationComponent) iter.next();
                 byte jcVersion = jc.javaSerializationVersion();
                 if (jcVersion >= ORBConstants.JAVA_ENC_VERSION) {
@@ -196,7 +196,7 @@ public final class ORBUtility {
 
     private ORBUtility() {}
 
-    private static ORBUtilSystemException wrapper = 
+    private static ORBUtilSystemException wrapper =
         ORBUtilSystemException.self ;
     private static OMGSystemException omgWrapper =
         OMGSystemException.self ;
@@ -245,7 +245,7 @@ public final class ORBUtility {
         out.write_string(repID);
         out.write_long(ex.minor);
         out.write_long(ex.completed.value());
-        any.read_value(out.create_input_stream(), 
+        any.read_value(out.create_input_stream(),
             getSystemExceptionTypeCode(orb, repID, name));
     }
 
@@ -258,9 +258,9 @@ public final class ORBUtility {
         return ORBUtility.readSystemException(in);
     }
 
-    private static ValueHandler vhandler = 
-    		Util.getInstance().createValueHandler();
-    
+    private static ValueHandler vhandler =
+            Util.getInstance().createValueHandler();
+
     /**
      * Gets the ValueHandler from Util.createValueHandler.
      * @return gets the ValueHandler
@@ -274,7 +274,7 @@ public final class ORBUtility {
      * is ignored
      * @param orb ignored
      * @return The correct ValueHandler
-     * @see #createValueHandler() 
+     * @see #createValueHandler()
      */
     public static ValueHandler createValueHandler(ORB orb) {
         return vhandler;
@@ -388,7 +388,7 @@ public final class ORBUtility {
     {
         try {
             String name = classNameOf(strm.read_string());
-            SystemException ex 
+            SystemException ex
                 = (SystemException)ORBClassLoader.loadClass(name).newInstance();
             ex.minor = strm.read_long();
             ex.completed = CompletionStatus.from_int(strm.read_long());
@@ -430,7 +430,7 @@ public final class ORBUtility {
         className = (String) exceptionClassNames.get(repositoryId);
         return className != null ;
     }
-    
+
     /**
      * Get the repository id corresponding to a particular class.
      * This is used by the system to write the
@@ -538,7 +538,7 @@ public final class ORBUtility {
         exceptionClassNames.put("IDL:omg.org/CORBA/TIMEOUT:1.0",
                                 "org.omg.CORBA.TIMEOUT");
         exceptionClassNames.put("IDL:omg.org/CORBA/BAD_QOS:1.0",
-                                "org.omg.CORBA.BAD_QOS");        
+                                "org.omg.CORBA.BAD_QOS");
 
         // Exception types introduced in CORBA 3.0
         exceptionClassNames.put("IDL:omg.org/CORBA/INVALID_ACTIVITY:1.0",
@@ -546,7 +546,7 @@ public final class ORBUtility {
         exceptionClassNames.put("IDL:omg.org/CORBA/ACTIVITY_COMPLETED:1.0",
                                 "org.omg.CORBA.ACTIVITY_COMPLETED");
         exceptionClassNames.put("IDL:omg.org/CORBA/ACTIVITY_REQUIRED:1.0",
-                                "org.omg.CORBA.ACTIVITY_REQUIRED");        
+                                "org.omg.CORBA.ACTIVITY_REQUIRED");
 
         //
         // construct className -> repositoryId hashtable
@@ -638,7 +638,7 @@ public final class ORBUtility {
      * @param v1 first version string
      * @param v2 second version string
      * @return 1, 0 or -1 if v1 is greater than, equal to, or less than v2.
-     * @see #compareVersion(int[], int[]) 
+     * @see #compareVersion(int[], int[])
     */
     public static synchronized int compareVersion(String v1, String v2) {
         return compareVersion(parseVersion(v1), parseVersion(v2));
@@ -658,7 +658,7 @@ public final class ORBUtility {
     // Return a compressed representation of the thread name.  This is particularly
     // useful on the server side, where there are many SelectReaderThreads, and
     // we need a short unambiguous name for such threads.
-    public static String getThreadName( Thread thr ) 
+    public static String getThreadName( Thread thr )
     {
         if (thr == null) {
             return "null";
@@ -687,7 +687,7 @@ public final class ORBUtility {
         return "SelectReaderThread[" + tokens[2] + ":" + tokens[3] + "]" ;
     }
 
-    private static String formatStackTraceElement( StackTraceElement ste ) 
+    private static String formatStackTraceElement( StackTraceElement ste )
     {
         return compressClassName( ste.getClassName() ) + "." + ste.getMethodName() +
             (ste.isNativeMethod() ? "(Native Method)" :
@@ -696,7 +696,7 @@ public final class ORBUtility {
               (ste.getFileName() != null ?  "("+ste.getFileName()+")" : "(Unknown Source)")));
     }
 
-    private static void printStackTrace( StackTraceElement[] trace ) 
+    private static void printStackTrace( StackTraceElement[] trace )
     {
         System.out.println( "    Stack Trace:" ) ;
         // print the stack trace, ommitting the zeroth element, which is
@@ -733,11 +733,11 @@ public final class ORBUtility {
         printStackTrace( thr.getStackTrace() ) ;
     }
 
-    public static synchronized void dprint(java.lang.Object caller, 
-        String msg, Throwable t) 
-    { 
+    public static synchronized void dprint(java.lang.Object caller,
+        String msg, Throwable t)
+    {
         System.out.println(
-            compressClassName( caller.getClass().getName() ) + 
+            compressClassName( caller.getClass().getName() ) +
             '(' + Thread.currentThread() + "): " + msg);
 
         if (t != null) {
@@ -745,9 +745,9 @@ public final class ORBUtility {
         }
     }
 
-    public static String[] concatenateStringArrays( String[] arr1, String[] arr2 ) 
+    public static String[] concatenateStringArrays( String[] arr1, String[] arr2 )
     {
-        String[] result = new String[ 
+        String[] result = new String[
             arr1.length + arr2.length ] ;
         System.arraycopy(arr1, 0, result, 0, arr1.length);
         System.arraycopy(arr2, 0, result, arr1.length, arr2.length);
@@ -799,7 +799,7 @@ public final class ORBUtility {
      * @param ior object to make reference of
      * @return Object pointing to the IOR
     */
-    public static org.omg.CORBA.Object makeObjectReference( IOR ior )   
+    public static org.omg.CORBA.Object makeObjectReference( IOR ior )
     {
         ClientDelegate del = makeClientDelegate( ior ) ;
         org.omg.CORBA.Object objectImpl = new CORBAObjectImpl() ;
@@ -888,7 +888,7 @@ public final class ORBUtility {
                     } else {
                         value = 16*value + hexOf( ch ) ;
                         if (!startByte) {
-                            result[index++] = (byte)value ;     
+                            result[index++] = (byte)value ;
                             value = 0 ;
                         }
                         startByte = !startByte ;
@@ -916,8 +916,8 @@ public final class ORBUtility {
         char[] charBuf = new char[16];
         for (int i = 0; i < length; i += 16) {
             int j = 0;
-            
-            // For every 16 bytes, there is one line of output.  First, 
+
+            // For every 16 bytes, there is one line of output.  First,
             // the hex output of the 16 bytes with each byte separated
             // by a space.
             while (j < 16 && (i + j) < length) {
@@ -932,7 +932,7 @@ public final class ORBUtility {
                 sbuf.append(hex).append(" ");
                 j++;
             }
-            
+
             // Add any extra spaces to align the
             // text column in case we didn't end
             // at 16
@@ -940,7 +940,7 @@ public final class ORBUtility {
                 sbuf.append("   ");
                 j++;
             }
-            
+
             // Now output the ASCII equivalents.  Non-ASCII
             // characters are shown as periods.
             int x = 0;
@@ -961,12 +961,12 @@ public final class ORBUtility {
     * hex and ASCII.
     * @param msg The message to use as the header for this display
     * @param buffer The ByteBuffer containing the data.  The contents
-    * from 0 to buffer.position() are printed out.  Remember to set 
+    * from 0 to buffer.position() are printed out.  Remember to set
     * position!
     * @param ps The PrintStream to use for the display.
     */
-    public static void printBuffer(String msg, 
-        ByteBuffer buffer, PrintStream ps ) 
+    public static void printBuffer(String msg,
+        ByteBuffer buffer, PrintStream ps )
     {
         StringBuffer sbuf = new StringBuffer() ;
         int length = buffer.position() ;
@@ -990,7 +990,7 @@ public final class ORBUtility {
     public static String getClassSecurityInfo(final Class cl)
     {
         // Returns a String which looks similar to:
-        // PermissionCollection java.security.Permissions@1053693 ... 
+        // PermissionCollection java.security.Permissions@1053693 ...
         // (java.io.FilePermission <<ALL FILES>> ....)
         // (java.io.FilePermission /export0/sunwappserv/lib/- ...)
         // ... other permissions ...

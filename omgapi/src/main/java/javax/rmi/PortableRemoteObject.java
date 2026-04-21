@@ -18,7 +18,7 @@
  * Classpath-exception-2.0
  */
 
-package javax.rmi;      
+package javax.rmi;
 
 import com.sun.corba.ee.org.omg.CORBA.GetPropertyAction;
 
@@ -44,7 +44,7 @@ import org.omg.CORBA.INITIALIZE;
  * The connect method makes a Remote object ready for remote communication.
  * The unexportObject method is used to deregister a server object, allowing it to become
  * available for garbage collection.
- * The narrow method takes an object reference or abstract interface type and 
+ * The narrow method takes an object reference or abstract interface type and
  * attempts to narrow it to conform to
  * the given interface. If the operation is successful the result will be an
  * object of the specified type, otherwise an exception will be thrown.
@@ -73,7 +73,7 @@ public class PortableRemoteObject {
             PortableRemoteObject.exportObject((Remote)this);
         }
     }
-    
+
     /**
      * Makes a server object ready to receive remote calls. Note
      * that subclasses of PortableRemoteObject do not need to call this
@@ -94,13 +94,13 @@ public class PortableRemoteObject {
      * Returns a stub for the given server object.
      * @param obj the server object for which a stub is required. Must either be a subclass
      * of PortableRemoteObject or have been previously the target of a call to
-     * {@link #exportObject}. 
+     * {@link #exportObject}.
      * @return the most derived stub for the object.
      * @exception NoSuchObjectException if a stub cannot be located for the given server object.
      */
-    public static Remote toStub (Remote obj) 
+    public static Remote toStub (Remote obj)
         throws NoSuchObjectException {
-       
+
         if (proDelegate != null) {
             return proDelegate.toStub(obj);
         }
@@ -114,13 +114,13 @@ public class PortableRemoteObject {
      * @exception NoSuchObjectException if the remote object is not
      * currently exported.
      */
-    public static void unexportObject(Remote obj) 
+    public static void unexportObject(Remote obj)
         throws NoSuchObjectException {
-            
+
         if (proDelegate != null) {
             proDelegate.unexportObject(obj);
         }
-        
+
     }
 
     /**
@@ -139,15 +139,15 @@ public class PortableRemoteObject {
             return proDelegate.narrow(narrowFrom, narrowTo);
         }
         return null;
-               
+
     }
- 
+
     /**
      * Makes a Remote object ready for remote communication. This normally
      * happens implicitly when the object is sent or received as an argument
      * on a remote method call, but in some circumstances it is useful to
-     * perform this action by making an explicit call.  See the 
-     * {@link javax.rmi.CORBA.Stub#connect} method for more information. 
+     * perform this action by making an explicit call.  See the
+     * {@link javax.rmi.CORBA.Stub#connect} method for more information.
      * @param target the object to connect.
      * @param source a previously connected object.
      * @throws RemoteException if <code>source</code> is not connected
@@ -156,11 +156,11 @@ public class PortableRemoteObject {
      */
     public static void connect (Remote target, Remote source)
         throws RemoteException {
-    
+
         if (proDelegate != null) {
             proDelegate.connect(target, source);
         }
- 
+
     }
 
     // Same code as in javax.rmi.CORBA.Util. Can not be shared because they
@@ -174,7 +174,7 @@ public class PortableRemoteObject {
             Properties props = getORBPropertiesFile();
             if (props != null) {
                 className = props.getProperty(classKey);
-            } 
+            }
         }
         if (className == null) {
                 className = defaultPortableRemoteObjectImplName;
@@ -207,7 +207,7 @@ public class PortableRemoteObject {
             return RMIClassLoader.loadClass(className);
         } catch (MalformedURLException e) {
             String msg = "Could not load " + className + ": " + e.toString();
-            ClassNotFoundException exc = new ClassNotFoundException( msg ) ; 
+            ClassNotFoundException exc = new ClassNotFoundException( msg ) ;
             throw exc ;
         }
     }
@@ -248,7 +248,7 @@ class GetORBPropertiesFileAction implements PrivilegedAction {
                 return ;
 
             FileInputStream in = new FileInputStream( file ) ;
-            
+
             try {
                 props.load( in ) ;
             } finally {
@@ -256,12 +256,12 @@ class GetORBPropertiesFileAction implements PrivilegedAction {
             }
         } catch (Exception exc) {
             if (debug)
-                System.out.println( "ORB properties file " + fileName + 
+                System.out.println( "ORB properties file " + fileName +
                     " not found: " + exc) ;
         }
     }
 
-    public Object run() 
+    public Object run()
     {
         Properties defaults = new Properties() ;
 

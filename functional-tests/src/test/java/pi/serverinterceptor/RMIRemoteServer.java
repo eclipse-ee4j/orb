@@ -38,7 +38,7 @@ import java.rmi.*;
 import javax.rmi.*;
 import javax.naming.*;
 
-public class RMIRemoteServer 
+public class RMIRemoteServer
     extends RMIServer
 {
     public static void main(String args[]) {
@@ -53,7 +53,7 @@ public class RMIRemoteServer
     }
 
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         TestInitializer.out = out;

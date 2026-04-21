@@ -191,7 +191,7 @@ public class Client
         //////////////////////////////////////////////////
         //
         // Test fallback.
-        // 
+        //
         // This should stick on Z if sticky manager registered.
         // Otherwise it should go to W.
         //
@@ -223,7 +223,7 @@ public class Client
                        iRef, true);
         } else {
             // Unregister W.
-            unregister(Common.socketTypes[0], iRef, true); 
+            unregister(Common.socketTypes[0], iRef, true);
         }
 
         END("unregister W if no sticky, Z if sticky present");
@@ -270,8 +270,8 @@ public class Client
         } else {
             System.out.println();
             System.out.println("++++++ ERROR: INCORRECT SOCKETYPE: "
-                               + lastSocketTypeUsed 
-                               + "; expected: " 
+                               + lastSocketTypeUsed
+                               + "; expected: "
                                + socketType
                                + " ++++++");
             System.out.println();
@@ -291,12 +291,12 @@ public class Client
     // Interceptor operations
     //
 
-    public String name() 
+    public String name()
     {
-        return baseMsg; 
+        return baseMsg;
     }
 
-    public void destroy() 
+    public void destroy()
     {
     }
 
@@ -354,7 +354,7 @@ public class Client
                         // so it does NOT map.  Just assume it.
                         // Also assume we don't look at the primary which
                         // is also NOT mapped.
-                        lastSocketTypeUsed = 
+                        lastSocketTypeUsed =
                             Common.socketTypes[Common.socketTypes.length - 1];
                     }
                 } else {

@@ -28,7 +28,7 @@ import org.omg.CORBA.portable.ServantObject ;
 
 public class InfoOnlyServantCacheLocalCRDImpl extends ServantCacheLocalCRDBase
 {
-    public InfoOnlyServantCacheLocalCRDImpl( ORB orb, int scid, IOR ior ) 
+    public InfoOnlyServantCacheLocalCRDImpl( ORB orb, int scid, IOR ior )
     {
         super( (com.sun.corba.ee.spi.orb.ORB)orb, scid, ior ) ;
     }
@@ -50,7 +50,7 @@ public class InfoOnlyServantCacheLocalCRDImpl extends ServantCacheLocalCRDBase
     }
 
     public void servant_postinvoke(org.omg.CORBA.Object self,
-                                   ServantObject servantobj) 
+                                   ServantObject servantobj)
     {
         orb.popInvocationInfo() ;
     }

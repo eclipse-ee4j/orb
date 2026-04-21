@@ -126,7 +126,7 @@ import org.glassfish.pfl.test.TestBase;
  * Make StandardTest extend JapexDriver
  * Implement the driver methods as follows:
  *  initializeDriver
- *      set up ORB 
+ *      set up ORB
  *      init stub
  *  prepare
  *      Gather parameters from the TestCase:
@@ -134,12 +134,12 @@ import org.glassfish.pfl.test.TestBase;
  *          - Test size
  *      Initialize an instance of SingleTest with the size required for the test
  *  warmup
- *      Just calls run 
+ *      Just calls run
  *  run
  *      calls SingleTest.run
  *  terminateDriver
  *      shutdown the ORB
- *      
+ *
  * @author Ken Cavanaugh
  */
 public class StandardTest extends JapexDriverBase {
@@ -157,9 +157,9 @@ public class StandardTest extends JapexDriverBase {
             try {
                 proDelegate = javax.rmi.PortableRemoteObject.class.getDeclaredField(
                     "proDelegate" ) ;
-                stubDelegateClass = Stub.class.getDeclaredField( 
+                stubDelegateClass = Stub.class.getDeclaredField(
                     "stubDelegateClass" ) ;
-                utilDelegate = javax.rmi.CORBA.Util.class.getDeclaredField( 
+                utilDelegate = javax.rmi.CORBA.Util.class.getDeclaredField(
                     "utilDelegate" ) ;
                 singletonORB = org.omg.CORBA.ORB.class.getDeclaredField(
                     "singleton" ) ;
@@ -179,13 +179,13 @@ public class StandardTest extends JapexDriverBase {
     // in a subsequent run, which causes severe problems with objects
     // not having the correct type (because the class names are the same,
     // but the ClassLoaders are different).  This works by re-initializaing delegates
-    // at the beginning of each run. 
+    // at the beginning of each run.
     private synchronized static void reinitCorbaDelegateHack() {
         if (!corbaReinit) {
             try {
                 stubDelegateClass.set( null, StubDelegateImpl.class ) ;
                 proDelegate.set( null, new PortableRemoteObject() ) ;
-                utilDelegate.set( null, new Util() ) ; 
+                utilDelegate.set( null, new Util() ) ;
 
                 synchronized( org.omg.CORBA.ORB.class ) {
                     singletonORB.set( null, null ) ;
@@ -210,7 +210,7 @@ public class StandardTest extends JapexDriverBase {
     private static int numInstances = 0 ;
 
     static {
-        // The following must be set as system properties 
+        // The following must be set as system properties
         System.setProperty( "javax.rmi.CORBA.PortableRemoteObjectClass",
             "com.sun.corba.ee.impl.javax.rmi.PortableRemoteObject" ) ;
         System.setProperty( "javax.rmi.CORBA.StubClass",
@@ -232,7 +232,7 @@ public class StandardTest extends JapexDriverBase {
     private NamingContextExt serverNamingRoot = null ;
 
     // Client and server state are both active in LOCAL mode.
-    
+
     public StandardTest() {
         // nothing to do here
     }
@@ -318,7 +318,7 @@ public class StandardTest extends JapexDriverBase {
     private static void decodeString(String echoString) {
         int length = echoString.length();
     }
-    
+
     private static void decodeStruct(Struct echoStruct) {
         float f = echoStruct.getVarFloat();
         int i = echoStruct.getVarInt();
@@ -457,7 +457,7 @@ public class StandardTest extends JapexDriverBase {
             struct = new Struct();
             struct.setVarInt(5);
             struct.setVarFloat(2.5f);
-            struct.setVarString("Hello There!");            
+            struct.setVarString("Hello There!");
         }
 
         public void run() throws Exception {
@@ -504,7 +504,7 @@ public class StandardTest extends JapexDriverBase {
 
             final Item[] itemlist = new Item[size];
             items = new ItemArrayType();
-            
+
             for (int i = 0; i < size; i++) {
                 itemlist[i] = new Item();
                 itemlist[i].setId(java.lang.Integer.toString(i));
@@ -517,7 +517,7 @@ public class StandardTest extends JapexDriverBase {
                 loc.setDescription("Santa Clara, California");
                 loc.setAddress("1000, network circle");
                 itemlist[i].setLocation(loc);
-                
+
                 try {
                     DatatypeFactory df = DatatypeFactory.newInstance();
                     XMLGregorianCalendar cal = df.newXMLGregorianCalendar();
@@ -529,7 +529,7 @@ public class StandardTest extends JapexDriverBase {
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-                
+
                 items.getItems().add(itemlist[i]);
             }
         }
@@ -581,7 +581,7 @@ public class StandardTest extends JapexDriverBase {
             this.mySize = size ;
 
             int id = 1;
-            
+
             // create the order object
             Address ship = new Address();
             ship.setFirstName("Ship FirstName "+ id);
@@ -610,22 +610,22 @@ public class StandardTest extends JapexDriverBase {
             } catch (javax.xml.datatype.DatatypeConfigurationException ex){
                 throw new RuntimeException(ex);
             }
-            
+
             XMLGregorianCalendar date = df.newXMLGregorianCalendar();
             date.setYear(2005);
             date.setMonth(DatatypeConstants.MARCH);
             date.setDay(29);
             date.setTime(11,11,11);
-            
+
             customer.setLastActivityDate(date) ;
             customer.setCreditCardNumber(""+id);
             customer.setCreditCardExpirationDate( ""+id) ;
             customer.setBillingAddress(bill) ;
-            customer.setShippingAddress(ship) ;            
-            
+            customer.setShippingAddress(ship) ;
+
             ArrayOfLineItem linearray = new ArrayOfLineItem();
             List<LineItem> lines = linearray.getLineItem();
-            
+
             for (int i = 0; i < size; i++){
                 LineItem line = new LineItem();
                 line.setOrderId(orderId);
@@ -636,7 +636,7 @@ public class StandardTest extends JapexDriverBase {
                 line.setUnitPrice((float) 1.00);
                 lines.add(line);
             }
-            
+
             order = new Order();
             order.setOrderId(orderId);
             order.setOrderStatus(1);
@@ -692,47 +692,47 @@ public class StandardTest extends JapexDriverBase {
     }
     */
 
-    @Target( ElementType.METHOD ) 
+    @Target( ElementType.METHOD )
     @Retention( RetentionPolicy.RUNTIME )
     public @interface TestClass {
         Class<?> value() ;
     }
 
     public interface Test extends Remote {
-        @TestClass( EchoTest.class ) 
+        @TestClass( EchoTest.class )
         public int echo( int value ) throws RemoteException ;
-        
-        @TestClass( GetDataTest.class ) 
+
+        @TestClass( GetDataTest.class )
         public List<SampleData.Data> getData() throws RemoteException ;
 
-        @TestClass( GetDataArrayTest.class ) 
+        @TestClass( GetDataArrayTest.class )
         public SampleData.Data[] getDataArray() throws RemoteException ;
 
-        @TestClass( GetTestRefsTest.class ) 
+        @TestClass( GetTestRefsTest.class )
         public List<Test> getTestRefs() throws RemoteException ;
 
         public void done() throws RemoteException ;
 
         // The following methods are taken from the wspex test.
-        @TestClass( EchoVoidTest.class ) 
+        @TestClass( EchoVoidTest.class )
         void echoVoid() throws RemoteException ;
 
-        @TestClass( EchoStringTest.class ) 
+        @TestClass( EchoStringTest.class )
         String echoString(String value) throws RemoteException ;
-        
-        @TestClass( EchoStructTest.class ) 
+
+        @TestClass( EchoStructTest.class )
         Struct echoStruct(Struct parameters) throws RemoteException ;
-        
-        @TestClass( EchoSyntheticTest.class ) 
+
+        @TestClass( EchoSyntheticTest.class )
         Synthetic echoSynthetic(Synthetic s) throws RemoteException ;
-        
-        @TestClass( EchoArrayTest.class ) 
+
+        @TestClass( EchoArrayTest.class )
         ItemArrayType echoArray(ItemArrayType items) throws RemoteException ;
-        
-        @TestClass( GetOrderTest.class ) 
+
+        @TestClass( GetOrderTest.class )
         Order getOrder(int orderId, int customerId) throws RemoteException ;
-               
-        @TestClass( EchoOrderTest.class ) 
+
+        @TestClass( EchoOrderTest.class )
         EchoOrderResponse echoOrder(EchoOrderRequest or) throws RemoteException ;
     }
 
@@ -769,7 +769,7 @@ public class StandardTest extends JapexDriverBase {
                 return null ;
             }
 
-            GenericClass<SingleTest> gclass = 
+            GenericClass<SingleTest> gclass =
                 new GenericClass<SingleTest>( SingleTest.class, cls ) ;
             return gclass.create( args ) ;
         }
@@ -793,7 +793,7 @@ public class StandardTest extends JapexDriverBase {
         public int echo( int value ) throws RemoteException {
             return value ;
         }
-        
+
         public List<SampleData.Data> getData() throws RemoteException {
             return data ;
         }
@@ -812,24 +812,24 @@ public class StandardTest extends JapexDriverBase {
         public String echoString(String value) {
             return value;
         }
-        
+
         public Struct echoStruct(Struct parameters) {
             return parameters;
         }
-        
+
         public Synthetic echoSynthetic(Synthetic s) {
             return s;
         }
-        
+
         public ItemArrayType echoArray(ItemArrayType items) {
             return items;
         }
-        
-        public Order getOrder(int orderId, int customerId) {        
+
+        public Order getOrder(int orderId, int customerId) {
             OrderBL bl = new OrderBL();
             return bl.GetOrder(orderId, customerId);
         }
-               
+
         public EchoOrderResponse echoOrder(EchoOrderRequest or){
             Order order = or.getEchoOrderRequest();
             EchoOrderResponse res = new EchoOrderResponse();
@@ -868,7 +868,7 @@ public class StandardTest extends JapexDriverBase {
         }
 
         public synchronized Servant preinvoke( byte[] oid, POA adapter,
-            String operation, CookieHolder the_cookie 
+            String operation, CookieHolder the_cookie
         ) throws ForwardRequest {
             return servant ;
         }
@@ -884,7 +884,7 @@ public class StandardTest extends JapexDriverBase {
 
     private void bindName( NamingContext ctx, String sname,
         org.omg.CORBA.Object objref )
-        throws NotFound, CannotProceed, AlreadyBound, InvalidName 
+        throws NotFound, CannotProceed, AlreadyBound, InvalidName
     {
         NameComponent[] name = serverNamingRoot.to_name( sname ) ;
         NamingContext current = ctx ;
@@ -903,13 +903,13 @@ public class StandardTest extends JapexDriverBase {
                     current = current.bind_new_context( arr ) ;
                 }
             } else {
-                current.bind( arr, objref ) ; 
+                current.bind( arr, objref ) ;
             }
         }
     }
-  /* 
+  /*
     private static Object copy( Object obj ) throws ReflectiveCopyException {
-        ObjectCopierFactory ocf = 
+        ObjectCopierFactory ocf =
             CopyobjectDefaults.makeORBStreamObjectCopierFactory( clientORB ) ;
         ObjectCopier oc = ocf.make() ;
         return oc.copy( obj ) ;
@@ -932,13 +932,13 @@ public class StandardTest extends JapexDriverBase {
             Integer.toString( argData.fragmentSize() ) ) ;
         baseProps.setProperty( ORBConstants.USE_NIO_SELECT_TO_WAIT_PROPERTY,
             Boolean.toString( !argData.blocking() ) ) ;
-    
+
         // baseProps.setProperty( ORBConstants.ALLOW_LOCAL_OPTIMIZATION,
             // "true" ) ;
         // For debugging only
         // baseProps.setProperty( ORBConstants.DEBUG_PROPERTY,
             // "transport,subcontract" ) ;
-        
+
         return baseProps ;
     }
 
@@ -1018,7 +1018,7 @@ public class StandardTest extends JapexDriverBase {
         { JAPEX_OBJREF_NAME, true }
         // { "testref/nocache", false }
     } ;
-   
+
     protected synchronized void initializeServer() {
         String[] myArgs = {} ;
 
@@ -1039,12 +1039,12 @@ public class StandardTest extends JapexDriverBase {
             serverORB.setDebugFlag( "giopSize" ) ;
         }
         new TransientNameService( serverORB ) ;
-        
+
         // Get the RFM and naming service
         ReferenceFactoryManager rfm = null ;
 
         try {
-            rfm = ReferenceFactoryManager.class.cast( 
+            rfm = ReferenceFactoryManager.class.cast(
                 serverORB.resolve_initial_references( "ReferenceFactoryManager" )) ;
             rfm.activate() ;
             serverNamingRoot = NamingContextExtHelper.narrow(
@@ -1070,9 +1070,9 @@ public class StandardTest extends JapexDriverBase {
         ReferenceFactory nocacheFactory = rfm.create( nocacheFactoryName,
             repositoryId, nocacheFactoryPolicies, locator ) ;
 
-        List<Policy> cacheFactoryPolicies = Arrays.asList( 
+        List<Policy> cacheFactoryPolicies = Arrays.asList(
             (Policy)ServantCachingPolicy.getPolicy() ) ;
-        ReferenceFactory cacheFactory = rfm.create( cacheFactoryName, 
+        ReferenceFactory cacheFactory = rfm.create( cacheFactoryName,
             repositoryId, cacheFactoryPolicies, locator ) ;
 
         // Use a ReferenceFactory to create objref and register it with naming
@@ -1081,7 +1081,7 @@ public class StandardTest extends JapexDriverBase {
             boolean useCaching = Boolean.class.cast( data[1] ) ;
             ReferenceFactory factory = useCaching ? cacheFactory : nocacheFactory ;
             byte[] oid = new byte[] { (byte)0, (byte)1, (byte)2 } ;
-            org.omg.CORBA.Object objref = factory.createReference( oid ) ; 
+            org.omg.CORBA.Object objref = factory.createReference( oid ) ;
             Test ref = Test.class.cast( javax.rmi.PortableRemoteObject.narrow( objref,
                 Test.class )) ;
             locator.setRef( ref ) ;
@@ -1131,10 +1131,10 @@ public class StandardTest extends JapexDriverBase {
             for (int ctr = 0; ctr < count; ctr++) {
                 test.run();
             }
-                
+
             final double elapsed = System.nanoTime() - time ;
 
-            log( test.description() + " : " + (elapsed/count)/1000 
+            log( test.description() + " : " + (elapsed/count)/1000
                 + " microseconds" ) ;
         } catch (Exception rex) {
             fatal( test.description() + ": error in test: ", rex ) ;
@@ -1147,7 +1147,7 @@ public class StandardTest extends JapexDriverBase {
         SingleTest st = new IntCopyTest() ;
         performSingleTest( st ) ;
     }
-    
+
     public void testDataStreamCopy() {
         SingleTest st = new DataCopyTest() ;
         performSingleTest( st ) ;
@@ -1163,7 +1163,7 @@ public class StandardTest extends JapexDriverBase {
             performSingleTest( st ) ;
         }
     }
-   
+
     @org.glassfish.pfl.test.TestCase( "data" )
     public void testDataCall() {
         for ( Object[] data : objrefData) {
@@ -1173,7 +1173,7 @@ public class StandardTest extends JapexDriverBase {
             performSingleTest( st ) ;
         }
     }
-    
+
     @org.glassfish.pfl.test.TestCase( "data-array" )
     public void testDataArrayCall() {
         for ( Object[] data : objrefData) {
@@ -1183,7 +1183,7 @@ public class StandardTest extends JapexDriverBase {
             performSingleTest( st ) ;
         }
     }
-    
+
     @org.glassfish.pfl.test.TestCase( "get-test-refs" )
     public void testGetTestRefsCall() {
         for ( Object[] data : objrefData) {
@@ -1342,29 +1342,29 @@ public class StandardTest extends JapexDriverBase {
     //
     // end of JapexDriver methods
 
-    public enum TestMode { LOCAL, CLIENT, SERVER, JAPEX } 
+    public enum TestMode { LOCAL, CLIENT, SERVER, JAPEX }
 
     public interface ArgumentData {
-        @DefaultValue( "LOCAL" ) 
+        @DefaultValue( "LOCAL" )
         TestMode mode() ;
 
-        @DefaultValue( "3700" ) 
+        @DefaultValue( "3700" )
         int port() ;
 
         /* Default in server is to listen for all incoming requests. */
-        @DefaultValue( "" ) 
+        @DefaultValue( "" )
         String hostName() ;
 
-        @DefaultValue( "4096" ) 
+        @DefaultValue( "4096" )
         int fragmentSize() ;
 
-        @DefaultValue( "false" ) 
+        @DefaultValue( "false" )
         boolean blocking() ;
 
-        @DefaultValue( "500" ) 
+        @DefaultValue( "500" )
         int warmup() ;
 
-        @DefaultValue( "500" ) 
+        @DefaultValue( "500" )
         int count() ;
 
         /*
@@ -1372,13 +1372,13 @@ public class StandardTest extends JapexDriverBase {
         boolean doCopyTests() ;
         */
 
-        @DefaultValue( "false" ) 
+        @DefaultValue( "false" )
         boolean getSize() ;
 
-        @DefaultValue( "false" ) 
+        @DefaultValue( "false" )
         boolean getRead() ;
 
-        @DefaultValue( "false" ) 
+        @DefaultValue( "false" )
         boolean useJapex() ;
 
         @DefaultValue( "1" )

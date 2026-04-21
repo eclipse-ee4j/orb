@@ -38,7 +38,7 @@ import javax.rmi.*;
 
 import ServerRequestInfo.*;
 
-public class RMILocalClient 
+public class RMILocalClient
     extends RMIClient
 {
     public RMILocalClient( com.sun.corba.ee.spi.orb.ORB orb ) {
@@ -46,7 +46,7 @@ public class RMILocalClient
     }
 
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         out.println( "===========================================" );

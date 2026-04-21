@@ -32,7 +32,7 @@ import org.omg.CORBA_2_3.portable.OutputStream ;
 public final class ObjectIdImpl implements ObjectId
 {
     private byte[] id;
-    
+
     @Override
     public boolean equals( Object obj )
     {
@@ -45,7 +45,7 @@ public final class ObjectIdImpl implements ObjectId
     }
 
     @Override
-    public int hashCode() 
+    public int hashCode()
     {
         int result = 17 ;
         for (int ctr=0; ctr<id.length; ctr++)
@@ -53,7 +53,7 @@ public final class ObjectIdImpl implements ObjectId
         return result ;
     }
 
-    public ObjectIdImpl( byte[] id ) 
+    public ObjectIdImpl( byte[] id )
     {
         if (id == null) {
             this.id = null ;

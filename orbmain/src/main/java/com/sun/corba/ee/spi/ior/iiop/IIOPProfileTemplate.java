@@ -35,15 +35,15 @@ import org.glassfish.gmbal.ManagedData;
 public interface IIOPProfileTemplate extends TaggedProfileTemplate
 {
     /** Return the GIOP version of this profile.
-     * 
+     *
      * @return the GIOP version
     */
     public GIOPVersion getGIOPVersion() ;
 
-    /** Return the IIOP address from the IIOP profile.  This is called the 
-    * primary address here since other addresses may be contained in 
+    /** Return the IIOP address from the IIOP profile.  This is called the
+    * primary address here since other addresses may be contained in
     * components.
-    * 
+    *
     * @return The host and port of the IP address for the primary endpoint of this profile
     */
     @ManagedAttribute

@@ -20,7 +20,7 @@
 package org.omg.CORBA.TypeCodePackage;
 
 /**
- * The exception <code>BadKind</code> is thrown when 
+ * The exception <code>BadKind</code> is thrown when
  * an inappropriate operation is invoked on a <code>TypeCode</code> object. For example,
  * invoking the method <code>discriminator_type()</code> on an instance of
  * <code>TypeCode</code> that does not represent an IDL union will cause the
@@ -41,7 +41,7 @@ public final class BadKind extends org.omg.CORBA.UserException {
     }
 
     /**
-     * Constructs a <code>BadKind</code> exception with the specified 
+     * Constructs a <code>BadKind</code> exception with the specified
      * reason message.
      * @param reason the String containing a reason message
      */

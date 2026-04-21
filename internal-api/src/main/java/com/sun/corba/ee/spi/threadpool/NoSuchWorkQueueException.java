@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.spi.threadpool;
 
-public class NoSuchWorkQueueException extends Exception 
+public class NoSuchWorkQueueException extends Exception
 {
 }
 

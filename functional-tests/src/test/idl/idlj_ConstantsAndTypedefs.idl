@@ -63,7 +63,7 @@ const unsigned long unsigned_long_value = 4294967295;
 const long long long_long_value = -9223372036854775808;
 
 // Java can't handle (2^63)+1. It will be converted to -((2^63)-1)
-const unsigned long long unsigned_long_long_value = 9223372036854775809; 
+const unsigned long long unsigned_long_long_value = 9223372036854775809;
 
 // enum type
 

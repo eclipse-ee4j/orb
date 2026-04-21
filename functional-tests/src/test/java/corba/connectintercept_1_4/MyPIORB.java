@@ -27,14 +27,14 @@ package corba.connectintercept_1_4;
 import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.impl.orb.ORBImpl;
 
-public class MyPIORB 
+public class MyPIORB
     extends
-        ORBImpl 
+        ORBImpl
 {
-    public static final String baseMsg = 
+    public static final String baseMsg =
         MyPIORB.class.getName() + ".objectReferenceCreated: ";
 
-    protected IOR objectReferenceCreated (IOR ior) 
+    protected IOR objectReferenceCreated (IOR ior)
     {
         String componentData = Common.createComponentData(baseMsg, this);
 
@@ -47,6 +47,6 @@ public class MyPIORB
         return ior ;
     }
 }
- 
+
 // End of file.
 

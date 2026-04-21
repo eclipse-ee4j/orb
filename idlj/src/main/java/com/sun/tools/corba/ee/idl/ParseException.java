@@ -341,7 +341,7 @@ class ParseException extends Exception
   static ParseException wrongExprType (com.sun.tools.corba.ee.idl.Scanner scanner, String mustBe, String is)
   {
     scannerInfo (scanner);
-    String[] parameters = {filename, Integer.toString (lineNumber), 
+    String[] parameters = {filename, Integer.toString (lineNumber),
       is, mustBe, line, pointer};
     return new ParseException (com.sun.tools.corba.ee.idl.Util.getMessage("ParseException.constExprType",
             parameters));
@@ -351,7 +351,7 @@ class ParseException extends Exception
     String baseName )
   {
     scannerInfo( scanner ) ;
-    String[] parameters = { filename, Integer.toString(lineNumber), 
+    String[] parameters = { filename, Integer.toString(lineNumber),
         declName, baseName, line, pointer } ;
     return new ParseException (com.sun.tools.corba.ee.idl.Util.getMessage(
             "ParseException.forwardInheritance", parameters) ) ;
@@ -361,7 +361,7 @@ class ParseException extends Exception
     String declName )
   {
     scannerInfo( scanner ) ;
-    String[] parameters = { filename, Integer.toString(lineNumber), 
+    String[] parameters = { filename, Integer.toString(lineNumber),
         declName, line, pointer } ;
     return new ParseException (com.sun.tools.corba.ee.idl.Util.getMessage(
             "ParseException.illegalIncompleteTypeReference", parameters) ) ;

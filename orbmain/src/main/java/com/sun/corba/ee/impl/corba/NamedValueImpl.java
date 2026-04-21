@@ -25,14 +25,14 @@ import com.sun.corba.ee.spi.orb.ORB ;
 import org.omg.CORBA.Any;
 import org.omg.CORBA.NamedValue;
 
-public class NamedValueImpl extends NamedValue 
+public class NamedValueImpl extends NamedValue
 {
     private String _name;
     private Any    _value;
     private int    _flags;
     private ORB    _orb;
- 
-    public NamedValueImpl(ORB orb) 
+
+    public NamedValueImpl(ORB orb)
     {
         // Note: This orb could be an instanceof ORBSingleton or ORB
         _orb = orb;
@@ -40,9 +40,9 @@ public class NamedValueImpl extends NamedValue
     }
 
     public NamedValueImpl(ORB orb,
-                          String name, 
-                          Any value, 
-                          int flags) 
+                          String name,
+                          Any value,
+                          int flags)
     {
         // Note: This orb could be an instanceof ORBSingleton or ORB
         _orb    = orb;
@@ -50,8 +50,8 @@ public class NamedValueImpl extends NamedValue
         _value  = value;
         _flags      = flags;
     }
-    
-    public String name() 
+
+    public String name()
     {
         return _name;
     }

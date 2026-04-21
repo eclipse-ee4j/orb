@@ -33,7 +33,7 @@ import java.net.MalformedURLException;
  * are static.
  */
 public final class RepIdDelegator
-    implements RepositoryIdStrings, 
+    implements RepositoryIdStrings,
                RepositoryIdUtility,
                RepositoryIdInterface
 {
@@ -52,7 +52,7 @@ public final class RepIdDelegator
     {
         return RepositoryId.createForJavaType(ser);
     }
-               
+
     public String createForJavaType(Class clz)
         throws TypeMismatchException
     {
@@ -78,7 +78,7 @@ public final class RepIdDelegator
     }
 
     // RepositoryIdUtility methods
-    
+
     public boolean isChunkedEncoding(int valueTag) {
         return RepositoryId.isChunkedEncoding(valueTag);
     }
@@ -137,14 +137,14 @@ public final class RepIdDelegator
         return delegate.getClassFromType();
     }
 
-    public Class getClassFromType(String codebaseURL) 
+    public Class getClassFromType(String codebaseURL)
         throws ClassNotFoundException, MalformedURLException
     {
         return delegate.getClassFromType(codebaseURL);
     }
 
     public Class getClassFromType(Class expectedType,
-                                  String codebaseURL) 
+                                  String codebaseURL)
         throws ClassNotFoundException, MalformedURLException
     {
         return delegate.getClassFromType(expectedType, codebaseURL);

@@ -75,7 +75,7 @@ public class ShipListPanel extends JScrollPane
         Object[] sel = fList.getSelectedValues ();
 
         if ( sel == null && Array.getLength(sel) == 0 ) return null;
-    
+
         Fleet[] fleets = new Fleet [Array.getLength(sel)];
         int fleet = 0;
 

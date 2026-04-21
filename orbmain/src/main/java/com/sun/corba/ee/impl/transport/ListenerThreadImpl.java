@@ -51,7 +51,7 @@ public class ListenerThreadImpl
     }
 
     ////////////////////////////////////////////////////
-    // 
+    //
     // ListenerThread methods.
     //
 
@@ -110,12 +110,12 @@ public class ListenerThreadImpl
         }
     }
 
-    public void setEnqueueTime(long timeInMillis) 
+    public void setEnqueueTime(long timeInMillis)
     {
         enqueueTime = timeInMillis;
     }
 
-    public long getEnqueueTime() 
+    public long getEnqueueTime()
     {
         return enqueueTime;
     }

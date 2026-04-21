@@ -30,7 +30,7 @@ import org.omg.CORBA_2_3.portable.InputStream ;
 import org.omg.CORBA_2_3.portable.OutputStream ;
 
 public class ORBVersionServiceContextImpl extends ServiceContextBase
-    implements ORBVersionServiceContext 
+    implements ORBVersionServiceContext
 {
     // current ORB Version
     private ORBVersion version = ORBVersionFactory.getORBVersion() ;
@@ -59,9 +59,9 @@ public class ORBVersionServiceContextImpl extends ServiceContextBase
         version = ORBVersionFactory.create( in ) ;
     }
 
-    public int getId() 
-    { 
-        return SERVICE_CONTEXT_ID ; 
+    public int getId()
+    {
+        return SERVICE_CONTEXT_ID ;
     }
 
     public void writeData( OutputStream os ) throws SystemException
@@ -69,12 +69,12 @@ public class ORBVersionServiceContextImpl extends ServiceContextBase
         version.write( os ) ;
     }
 
-    public ORBVersion getVersion() 
+    public ORBVersion getVersion()
     {
         return version ;
     }
 
-    public String toString() 
+    public String toString()
     {
         return "ORBVersionServiceContextImpl[ version=" + version + " ]" ;
     }

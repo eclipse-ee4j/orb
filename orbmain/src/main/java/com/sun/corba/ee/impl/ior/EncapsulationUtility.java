@@ -41,7 +41,7 @@ import org.omg.CORBA_2_3.portable.OutputStream ;
  *
  * @author Ken Cavanaugh
  */
-public final class EncapsulationUtility 
+public final class EncapsulationUtility
 {
     private EncapsulationUtility()
     {
@@ -54,9 +54,9 @@ public final class EncapsulationUtility
      * @param finder Factory to use in creation
      * @param istr Stream to read from
      */
-    public static <E extends Identifiable> void readIdentifiableSequence( 
+    public static <E extends Identifiable> void readIdentifiableSequence(
         List<E> container,
-        IdentifiableFactoryFinder<E> finder, InputStream istr) 
+        IdentifiableFactoryFinder<E> finder, InputStream istr)
     {
         int count = istr.read_long() ;
         for (int ctr = 0; ctr<count; ctr++) {
@@ -87,14 +87,14 @@ public final class EncapsulationUtility
      * @param os Stream to write to
     */
     public static void writeOutputStream( OutputStream dataStream,
-        OutputStream os ) 
+        OutputStream os )
     {
         byte[] data = ((CDROutputObject)dataStream).toByteArray() ;
         os.write_long( data.length ) ;
         os.write_octet_array( data, 0, data.length ) ;
     }
 
-    /** Helper method to read the octet array from is, deencapsulate it, 
+    /** Helper method to read the octet array from is, deencapsulate it,
     * and return
     * as another InputStream.  This must be called inside the
     * constructor of a derived class to obtain the correct stream
@@ -106,18 +106,18 @@ public final class EncapsulationUtility
     public static InputStream getEncapsulationStream( ORB orb, InputStream is )
     {
         byte[] data = readOctets( is ) ;
-        EncapsInputStream result = EncapsInputStreamFactory.newEncapsInputStream( orb, data, 
+        EncapsInputStream result = EncapsInputStreamFactory.newEncapsInputStream( orb, data,
             data.length ) ;
         result.consumeEndian() ;
         return result ;
-    } 
+    }
 
     /** Helper method that reads an octet array from an input stream.
     * Defined as static here so that it can be used in another class.
     * @param is Stream to read from
     * @return Array of bytes from stream
     */
-    public static byte[] readOctets( InputStream is ) 
+    public static byte[] readOctets( InputStream is )
     {
         int len = is.read_ulong() ;
         byte[] data = new byte[len] ;

@@ -19,7 +19,7 @@
 
 import java.io.*;
 
-public class TestObjectSuperSub extends TestObjectSuper 
+public class TestObjectSuperSub extends TestObjectSuper
 {
     public int dataxss0;
     public Long dataxss1;
@@ -39,7 +39,7 @@ public class TestObjectSuperSub extends TestObjectSuper
     }
 
     public String toString() {
-        return 
+        return
             (super.getClass().equals(Object.class) ? "" : super.toString())
             + " [TestObjectSuperSub dataxss0=" + dataxss0
             + ", dataxss1" + dataxss1
@@ -49,7 +49,7 @@ public class TestObjectSuperSub extends TestObjectSuper
     public boolean equals(Object obj) {
         try {
             TestObjectSuperSub other = (TestObjectSuperSub)obj;
-            
+
             if (other == null)
                 return false;
 
@@ -66,5 +66,5 @@ public class TestObjectSuperSub extends TestObjectSuper
 
 
 
-    
+
 

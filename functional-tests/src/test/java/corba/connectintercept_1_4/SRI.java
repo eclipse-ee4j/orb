@@ -41,7 +41,7 @@ public class SRI
 
     public String name() { return baseMsg; }
 
-    public void destroy() 
+    public void destroy()
     {
         if (balance != 0) {
             throw new RuntimeException(baseMsg + ": Interceptors not balanced.");

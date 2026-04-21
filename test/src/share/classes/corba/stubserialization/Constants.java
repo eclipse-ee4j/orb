@@ -23,4 +23,4 @@ public class Constants {
     public static final String HELLO = "HELLO FROM SERVER";
     public static final String HELLO_SERVICE = "HELLO_SERVICE";
     public static final String SERIALIZED_STUB_FILE_NAME = "HelloStream";
-} 
+}

@@ -52,7 +52,7 @@ public class StressClient {
     }
 
     // Similar to ConsoleHandler, but outputs to System.out
-    // instead of System.err, which works better with the 
+    // instead of System.err, which works better with the
     // CORBA test framework.
     public static class SystemOutputHandler extends StreamHandler {
         public SystemOutputHandler() {
@@ -69,7 +69,7 @@ public class StressClient {
 
         @Override
         public void publish(LogRecord record) {
-            super.publish(record);      
+            super.publish(record);
             flush();
         }
 
@@ -93,13 +93,13 @@ public class StressClient {
 
     private void testBanner( String msg ) {
         if (DEBUG) {
-            System.out.println( 
+            System.out.println(
                 "======================================="
                 + "==============================" ) ;
 
             System.out.println( msg ) ;
 
-            System.out.println( 
+            System.out.println(
                 "======================================="
                 + "==============================" ) ;
         }
@@ -112,13 +112,13 @@ public class StressClient {
     private void checkStats( ConnectionCache<ConnectionImpl> cc, int idle,
         int reclaimable, int busy, int total ) {
 
-        checkStat( cc.numberOfIdleConnections(), idle, 
+        checkStat( cc.numberOfIdleConnections(), idle,
             "Idle connections" ) ;
         checkStat( cc.numberOfReclaimableConnections(), reclaimable,
             "Reclaimable connections" ) ;
         checkStat( cc.numberOfBusyConnections(), busy,
             "Busy connections" ) ;
-        checkStat( cc.numberOfConnections(), total, 
+        checkStat( cc.numberOfConnections(), total,
             "Total connections" ) ;
     }
 
@@ -133,12 +133,12 @@ public class StressClient {
 
     private static final int NUMBER_TO_RECLAIM = 1 ;
     private static final int MAX_PARALLEL_CONNECTIONS = 4 ;
-    private static final int HIGH_WATER_MARK = 15 ; 
+    private static final int HIGH_WATER_MARK = 15 ;
     private static final int TTL = 2*60*1000 ;      // 2 minute TTL (time to live)
                                                     // for reclaimable connections
 
-    private final OutboundConnectionCache<ConnectionImpl> obcache ; 
-    private final InboundConnectionCache<ConnectionImpl> ibcache ; 
+    private final OutboundConnectionCache<ConnectionImpl> obcache ;
+    private final InboundConnectionCache<ConnectionImpl> ibcache ;
     private final List<ContactInfoImpl> cinfos ;
     private final RandomDelay operationDelay ;
 
@@ -194,7 +194,7 @@ public class StressClient {
 
         cinfos = new ArrayList<ContactInfoImpl>() ;
         for (int ctr = 0; ctr < NUM_CONTACT_INFO; ctr++ ) {
-            cinfos.add( ContactInfoImpl.get( "ContactInfo:"+ctr, 
+            cinfos.add( ContactInfoImpl.get( "ContactInfo:"+ctr,
                 MIN_CREATE_CONNECTION_DELAY, MAX_CREATE_CONNECTION_DELAY ) ) ;
         }
 
@@ -234,7 +234,7 @@ public class StressClient {
         System.out.println( "Number of reclaimable connections: " +
             ibcache.numberOfReclaimableConnections() ) ;
     }
-    
+
     public static void main( String[] args ) {
         TestngRunner runner = new TestngRunner() ;
         runner.registerClass( Client.class ) ;

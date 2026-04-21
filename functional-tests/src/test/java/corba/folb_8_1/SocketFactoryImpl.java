@@ -45,14 +45,14 @@ public class SocketFactoryImpl
         this.orb = orb;
     }
 
-    public ServerSocket createServerSocket(String type, 
+    public ServerSocket createServerSocket(String type,
                                            InetSocketAddress inetSocketAddress)
         throws IOException
     {
         ServerSocket serverSocket = null;
         try {
             if (! Common.timing) {
-                System.out.println(".createServerSocket->: " + type + " " 
+                System.out.println(".createServerSocket->: " + type + " "
                                    + inetSocketAddress);
             }
 
@@ -68,13 +68,13 @@ public class SocketFactoryImpl
             return serverSocket;
         } finally {
             if (! Common.timing) {
-                System.out.println(".createServerSocket<-: " + type + " " 
+                System.out.println(".createServerSocket<-: " + type + " "
                                    + inetSocketAddress + " " + serverSocket);
             }
         }
     }
 
-    public Socket createSocket(String type, 
+    public Socket createSocket(String type,
                                InetSocketAddress inetSocketAddress)
         throws IOException
     {
@@ -82,7 +82,7 @@ public class SocketFactoryImpl
 
         try {
             if (! Common.timing) {
-                System.out.println(".createSocket->: " + type + " " 
+                System.out.println(".createSocket->: " + type + " "
                                    + inetSocketAddress);
             }
 
@@ -103,7 +103,7 @@ public class SocketFactoryImpl
 
         } finally {
             if (! Common.timing) {
-                System.out.println(".createSocket<-: " + type + " " 
+                System.out.println(".createSocket<-: " + type + " "
                                    + inetSocketAddress + " " + socket);
             }
         }

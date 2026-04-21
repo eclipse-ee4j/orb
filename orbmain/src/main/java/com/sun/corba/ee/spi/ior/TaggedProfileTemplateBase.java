@@ -26,10 +26,10 @@ import java.util.Iterator ;
 
 import org.omg.CORBA_2_3.portable.OutputStream ;
 
-public abstract class TaggedProfileTemplateBase 
-    extends IdentifiableContainerBase<TaggedComponent> 
+public abstract class TaggedProfileTemplateBase
+    extends IdentifiableContainerBase<TaggedComponent>
     implements TaggedProfileTemplate
-{   
+{
     public void write( OutputStream os )
     {
         EncapsulationUtility.writeEncapsulation( this, os ) ;

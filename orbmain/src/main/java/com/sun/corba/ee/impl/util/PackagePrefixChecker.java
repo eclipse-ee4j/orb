@@ -24,7 +24,7 @@ package com.sun.corba.ee.impl.util;
  * @author M. Mortazavi
  */
 
-public final class PackagePrefixChecker 
+public final class PackagePrefixChecker
 {
     private static final String PACKAGE_PREFIX = "org.omg.stub.";
     private static final int PACKAGE_PREFIX_LENGTH = PACKAGE_PREFIX.length() ;
@@ -35,7 +35,7 @@ public final class PackagePrefixChecker
     {
         if (isOffendingPackage(p))
             return PACKAGE_PREFIX+p;
-        else 
+        else
             return p;
     }
 
@@ -56,9 +56,9 @@ public final class PackagePrefixChecker
 
     public static String withoutPackagePrefix(String p)
     {
-        if (hasBeenPrefixed(p)) 
+        if (hasBeenPrefixed(p))
             return p.substring(PACKAGE_PREFIX_LENGTH) ;
-        else 
+        else
             return p;
     }
 }

@@ -31,17 +31,17 @@ import org.omg.CORBA.INTERNAL;
 import javax.rmi.PortableRemoteObject;        // IIOP
 
 public class rmiiIServant
-    extends 
+    extends
         //UnicastRemoteObject // JRMP
         PortableRemoteObject  // IIOP
-    implements 
+    implements
         rmiiI
 {
     public static final String baseMsg = rmiiIServant.class.getName();
 
     public rmiiIServant ()
         throws
-            RemoteException 
+            RemoteException
     {
         super();
     }

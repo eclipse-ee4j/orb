@@ -24,12 +24,12 @@ import com.sun.corba.ee.spi.orb.ORB ;
 
 import org.omg.CORBA_2_3.portable.InputStream ;
 
-public abstract class EncapsulationFactoryBase<E extends Identifiable> 
+public abstract class EncapsulationFactoryBase<E extends Identifiable>
     implements IdentifiableFactory<E> {
 
     private int id ;
 
-    public int getId() 
+    public int getId()
     {
         return id ;
     }
@@ -39,7 +39,7 @@ public abstract class EncapsulationFactoryBase<E extends Identifiable>
         this.id = id ;
     }
 
-    public final E create( ORB orb, InputStream in ) 
+    public final E create( ORB orb, InputStream in )
     {
         InputStream is = EncapsulationUtility.getEncapsulationStream( orb, in ) ;
         return readContents( is ) ;

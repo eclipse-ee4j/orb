@@ -31,7 +31,7 @@ import ORBInitTest.*;
 /**
  * Sample IORInterceptor for use in testing
  */
-public class SampleIORInterceptor 
+public class SampleIORInterceptor
     extends org.omg.CORBA.LocalObject
     implements IORInterceptor
 {
@@ -60,7 +60,7 @@ public class SampleIORInterceptor
     {
     }
 
-    public void adapter_state_changed( ObjectReferenceTemplate[] templates, 
+    public void adapter_state_changed( ObjectReferenceTemplate[] templates,
         short state )
     {
     }

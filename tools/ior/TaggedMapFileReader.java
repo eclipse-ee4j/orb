@@ -31,7 +31,7 @@ import org.omg.IOP.CodecFactoryPackage.*;
  * Space delimited entries, one per line, in the following
  * format:
  *
- * <tag number> <class name> [<encoding>] 
+ * <tag number> <class name> [<encoding>]
  *
  * <class name> is either the name of an EncapsHandler,
  * or the name of an IDL Helper class.  If you have a Helper
@@ -65,11 +65,11 @@ public class TaggedMapFileReader
      * for use with helper classes.
      */
     private Encoding parseEncodingForHelper(StringTokenizer strTok) {
-            
+
         Encoding encoding = DEFAULT_ENCODING;
 
         if (strTok.hasMoreTokens()) {
-            
+
             String encodingStr = strTok.nextToken();
             String majorStr = strTok.nextToken();
             String minorStr = strTok.nextToken();
@@ -80,7 +80,7 @@ public class TaggedMapFileReader
                 encodingNum = ENCODING_CDR_ENCAPS.value;
             else
                 encodingNum = Short.parseShort(encodingStr);
-            
+
             encoding = new Encoding(encodingNum,
                                     Byte.parseByte(majorStr),
                                     Byte.parseByte(minorStr));
@@ -97,7 +97,7 @@ public class TaggedMapFileReader
     private EncapsHandler createTagHelperHandler(String helperClassName,
                                                  Encoding encoding,
                                                  Utility util)
-        throws ClassNotFoundException, 
+        throws ClassNotFoundException,
                IllegalAccessException,
                IllegalArgumentException,
                InvocationTargetException,
@@ -117,12 +117,12 @@ public class TaggedMapFileReader
     private void parseLine(String fullLine,
                            Map map,
                            Utility util) {
-        
-        StringTokenizer strTok 
+
+        StringTokenizer strTok
             = new StringTokenizer(fullLine);
 
         String number = strTok.nextToken();
-        
+
         // Allow comment lines
         if (number.startsWith("//"))
             return;
@@ -130,13 +130,13 @@ public class TaggedMapFileReader
         Integer tag = Integer.valueOf(number);
 
         String className = strTok.nextToken();
-        
+
         try {
 
             EncapsHandler handler;
 
             if (className.endsWith("Helper")) {
-                handler 
+                handler
                     = createTagHelperHandler(className,
                                              parseEncodingForHelper(strTok),
                                              util);

@@ -22,7 +22,7 @@ package corba.lbq ;
 import java.rmi.Remote ;
 import java.rmi.RemoteException ;
 
-/** Interface for a remote object used to control a server. 
+/** Interface for a remote object used to control a server.
  */
 public interface ServerControl extends Remote {
     /** Query the server to discover its port for use in LB
@@ -34,7 +34,7 @@ public interface ServerControl extends Remote {
      */
     void registerReportCallback( ServerReporter reporter ) throws RemoteException ;
 
-    /** Causes the server to start rejecting requests after numRequests have 
+    /** Causes the server to start rejecting requests after numRequests have
      * been handled.
      * setRejecting and clearRejecting can be queued.
      */

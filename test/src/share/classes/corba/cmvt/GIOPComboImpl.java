@@ -46,26 +46,26 @@ public class GIOPComboImpl extends PortableRemoteObject implements GIOPCombo
         throw it ;
     }
 
-    public String  echo( String string) 
+    public String  echo( String string)
         throws java.rmi.RemoteException
     {
         System.out.println( "echo String  " + string +".");
         return string;
     }
-    public java.util.Hashtable echo( java.util.Hashtable ht) 
+    public java.util.Hashtable echo( java.util.Hashtable ht)
         throws java.rmi.RemoteException
     {
         System.out.println( "echo Hashtable of size " + ht.size()+".");
         return ht;
     }
-    public java.util.Vector echo( java.util.Vector vector) 
+    public java.util.Vector echo( java.util.Vector vector)
         throws java.rmi.RemoteException
     {
         System.out.println( "echo Vector of size " + vector.size()+".");
         return vector;
     }
-    public CustomMarshalledValueType echo(CustomMarshalledValueType cmvt) 
-        throws java.rmi.RemoteException 
+    public CustomMarshalledValueType echo(CustomMarshalledValueType cmvt)
+        throws java.rmi.RemoteException
     {
         System.out.println( "echo CustomMarshalledValueType with body of size " + cmvt.body.length);
         return cmvt;

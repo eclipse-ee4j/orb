@@ -70,16 +70,16 @@ public class FragmentTesterImpl extends PortableRemoteObject implements Fragment
         return this.interceptor.isBalanced();
     }
 
-    public java.lang.Object testFragmentedReply(boolean isSerializable) 
+    public java.lang.Object testFragmentedReply(boolean isSerializable)
             throws RemoteException {
 
         if (isSerializable) {
             return new java.lang.Object();
         }
-            
-        return new java.io.Serializable() {};             
+
+        return new java.io.Serializable() {};
     }
-    
+
     // used for header padding test only. The following two method names differ
     // just by one character. This ensures that the request header for atleast
     // one of these methods would not be naturally aligned on an 8-octet

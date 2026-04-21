@@ -31,12 +31,12 @@ import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
-public class Client 
+public class Client
 {
     public static final String baseMsg = Client.class.getName();
     public static final String main = baseMsg + ".main";
 
-    public static final String ORBClassKey = 
+    public static final String ORBClassKey =
         "org.omg.CORBA.ORBClass";
     public static final String ORBSingletonClassKey =
         "org.omg.CORBA.ORBSingletonClass";
@@ -53,17 +53,17 @@ public class Client
                       com.sun.corba.ee.internal.corba.ORBSingleton.class);
 
             // FULL ORBs
-            createORB(false, true,  "x", null);         
-            createORB(true,  true,  
+            createORB(false, true,  "x", null);
+            createORB(true,  true,
                       "com.sun.corba.ee.impl.orb.ORBImpl",
                       com.sun.corba.ee.impl.orb.ORBImpl.class);
             createORB(true,  true,
                       "com.sun.corba.ee.internal.Interceptors.PIORB",
                       com.sun.corba.ee.internal.Interceptors.PIORB.class);
-            createORB(true,  true,  
+            createORB(true,  true,
                       "com.sun.corba.ee.internal.POA.POAORB",
                       com.sun.corba.ee.internal.POA.POAORB.class);
-            createORB(true,  true,  
+            createORB(true,  true,
                       "com.sun.corba.ee.internal.iiop.ORB",
                       com.sun.corba.ee.internal.iiop.ORB.class);
 
@@ -77,7 +77,7 @@ public class Client
         System.exit(Controller.SUCCESS);
     }
 
-    private static void createORB(boolean shouldExist, 
+    private static void createORB(boolean shouldExist,
                                   boolean isFullORB,
                                   String className,
                                   Class clazz)

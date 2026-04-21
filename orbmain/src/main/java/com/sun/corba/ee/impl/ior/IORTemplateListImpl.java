@@ -33,7 +33,7 @@ import java.util.Iterator ;
 import org.omg.CORBA_2_3.portable.InputStream ;
 import org.omg.CORBA_2_3.portable.OutputStream ;
 
-public class IORTemplateListImpl extends FreezableList<IORTemplate> 
+public class IORTemplateListImpl extends FreezableList<IORTemplate>
     implements IORTemplateList
 {
     public IORTemplateListImpl()
@@ -41,7 +41,7 @@ public class IORTemplateListImpl extends FreezableList<IORTemplate>
         super( new ArrayList<IORTemplate>() ) ;
     }
 
-    public IORTemplateListImpl( InputStream is ) 
+    public IORTemplateListImpl( InputStream is )
     {
         this() ;
         int size = is.read_long() ;
@@ -60,7 +60,7 @@ public class IORTemplateListImpl extends FreezableList<IORTemplate>
         super.makeImmutable() ;
     }
 
-    public void write( OutputStream os ) 
+    public void write( OutputStream os )
     {
         os.write_long( size() ) ;
         for (IORTemplate iortemp : this) {
@@ -68,12 +68,12 @@ public class IORTemplateListImpl extends FreezableList<IORTemplate>
         }
     }
 
-    public IOR makeIOR( ORB orb, String typeid, ObjectId oid ) 
+    public IOR makeIOR( ORB orb, String typeid, ObjectId oid )
     {
         return new IORImpl( orb, typeid, this, oid ) ;
     }
 
-    public boolean isEquivalent( IORFactory other ) 
+    public boolean isEquivalent( IORFactory other )
     {
         if (!(other instanceof IORTemplateList))
             return false ;

@@ -25,7 +25,7 @@ import org.omg.CORBA.LocalObject ;
 import org.omg.CORBA.Policy ;
 
 /** Policy used to implement servant caching optimization in the POA.
-* Creating a POA with an instance pol of this policy where 
+* Creating a POA with an instance pol of this policy where
 * pol.getType() &gt; NO_SERVANT_CACHING will cause the servant to be
 * looked up in the POA and cached in the LocalClientRequestDispatcher when
 * the ClientRequestDispatcher is colocated with the implementation of the
@@ -34,7 +34,7 @@ import org.omg.CORBA.Policy ;
 * must be handled by the same servant.  Note that this is typically the
 * case for EJB implementations.
 * <p>
-* If servant caching is used, there are two different additional 
+* If servant caching is used, there are two different additional
 * features of the POA that are expensive:
 * <ol>
 * <li>POA current semantics</li>
@@ -43,14 +43,14 @@ import org.omg.CORBA.Policy ;
 * POA current semantics requires maintaining a ThreadLocal stack of
 * invocation information that is always available for POACurrent operations.
 * Maintaining this stack is expensive on the timescale of optimized co-located
-* calls, so the option is provided to turn it off.  Similarly, causing 
+* calls, so the option is provided to turn it off.  Similarly, causing
 * POA.destroy() calls to wait for all active calls in the POA to complete
 * requires careful tracking of the entry and exit of invocations in the POA.
 * Again, tracking this is somewhat expensive.
 */
 public class ServantCachingPolicy extends LocalObject implements Policy
 {
-    /** Do not cache servants in the ClientRequestDispatcher.  This will 
+    /** Do not cache servants in the ClientRequestDispatcher.  This will
      * always support the full POA semantics, including changing the
      * servant that handles requests on a particular objref.
      */
@@ -64,7 +64,7 @@ public class ServantCachingPolicy extends LocalObject implements Policy
 
     /** Perform servant caching, preservent only POA current semantics.
     * At least this level is required in order to support selection of ObjectCopiers
-    * for co-located RMI-IIOP calls, as the current copier is stored in 
+    * for co-located RMI-IIOP calls, as the current copier is stored in
     * OAInvocationInfo, which must be present on the stack inside the call.
     */
     public static final int INFO_ONLY_SEMANTICS =  2 ;
@@ -78,27 +78,27 @@ public class ServantCachingPolicy extends LocalObject implements Policy
     private static ServantCachingPolicy minimalPolicy = null ;
 
     private int type ;
-    
+
     public String typeToName()
     {
         switch (type) {
-            case FULL_SEMANTICS: 
+            case FULL_SEMANTICS:
                 return "FULL" ;
-            case INFO_ONLY_SEMANTICS: 
+            case INFO_ONLY_SEMANTICS:
                 return "INFO_ONLY" ;
-            case MINIMAL_SEMANTICS: 
+            case MINIMAL_SEMANTICS:
                 return "MINIMAL" ;
-            default: 
+            default:
                 return "UNKNOWN(" + type + ")" ;
         }
     }
 
-    public String toString() 
+    public String toString()
     {
         return "ServantCachingPolicy[" + typeToName() + "]" ;
     }
 
-    private ServantCachingPolicy( int type ) 
+    private ServantCachingPolicy( int type )
     {
         this.type = type ;
     }

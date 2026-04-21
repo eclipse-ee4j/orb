@@ -24,7 +24,7 @@ import org.omg.CORBA.portable.OutputStream;
 import org.omg.CORBA.portable.Streamable;
 
 /**
- * The Holder for <tt>Byte</tt>.  For more information on 
+ * The Holder for <tt>Byte</tt>.  For more information on
  * Holder files, see <a href="doc-files/generatedfiles.html#holder">
  * "Generated Files: Holder Files"</a>.<P>
  * A Holder class for a <code>byte</code>
@@ -82,7 +82,7 @@ public final class ByteHolder implements Streamable {
     }
 
     /**
-     * Marshals to <code>output</code> the value in 
+     * Marshals to <code>output</code> the value in
      * this <code>ByteHolder</code> object.
      *
      * @param output the OutputStream which will contain the CDR formatted data.
@@ -95,7 +95,7 @@ public final class ByteHolder implements Streamable {
      * Returns the TypeCode corresponding to the value held in
      * this <code>ByteHolder</code> object.
      *
-     * @return    the TypeCode of the value held in 
+     * @return    the TypeCode of the value held in
      *               this <code>ByteHolder</code> object
      */
     public org.omg.CORBA.TypeCode _type() {

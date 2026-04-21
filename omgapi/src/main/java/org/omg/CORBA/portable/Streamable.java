@@ -39,7 +39,7 @@ public interface Streamable {
      */
     void _read(InputStream istream);
     /**
-     * Marshals to <code>ostream</code> the value in the 
+     * Marshals to <code>ostream</code> the value in the
      * <code>value</code> field of the Holder.
      *
      * @param     ostream   the CDR OutputStream

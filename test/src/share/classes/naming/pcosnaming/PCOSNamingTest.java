@@ -53,7 +53,7 @@ public class PCOSNamingTest extends CORBATest
         compileJavaFiles();
 
         Controller orbd = createORBD();
-        Controller client 
+        Controller client
             = createClient("naming.pcosnaming.helloClient");
 
         Object serverExtras[] = new Object[3];

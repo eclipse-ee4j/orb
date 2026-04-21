@@ -63,12 +63,12 @@ public class NortelSocketFactory extends DefaultSocketFactoryImpl {
 
         Socket socket = null;
         if (useNio) {
-            socket = super.createSocket(type, in); 
+            socket = super.createSocket(type, in);
         } else {
             socket = new Socket(in.getHostName(), in.getPort());
             socket.setTcpNoDelay(true);
         }
-        
+
         savedSocket = socket;
         return socket;
     }

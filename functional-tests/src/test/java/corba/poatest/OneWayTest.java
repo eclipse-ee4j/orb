@@ -35,7 +35,7 @@ public class OneWayTest extends CORBATest
         server.start();
 
         Controller client = createClient("corba.poatest.helloClient");
-    
+
         client.start();
 
         client.waitFor();

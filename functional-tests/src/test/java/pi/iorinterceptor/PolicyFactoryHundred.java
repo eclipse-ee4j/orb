@@ -23,7 +23,7 @@ import java.util.*;
 import java.io.*;
 import org.omg.CORBA.*;
 
-/** 
+/**
  * This is the Policy Factory to create PolicyHundred object.
  */
 public class PolicyFactoryHundred extends LocalObject
@@ -35,4 +35,4 @@ public class PolicyFactoryHundred extends LocalObject
         return new PolicyHundred( val.extract_long() );
     }
 }
-  
+

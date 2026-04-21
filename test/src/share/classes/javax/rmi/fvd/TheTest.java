@@ -34,7 +34,7 @@ import org.glassfish.pfl.test.JUnitReportHelper;
 
 public class TheTest extends test.Test {
     // This test runs the NameServer on port 1050.
-    
+
     private static  String[] myArgs = new String[]{"-ORBInitialPort" , "1050" };
     static Process nameServer  = null;
     static Process server      = null;
@@ -49,7 +49,7 @@ public class TheTest extends test.Test {
         try {
             // Now we need to start our test server. The test server will register with the NameServer.
             compileClasses();
-        } catch(Throwable t) { 
+        } catch(Throwable t) {
             System.out.println("Compiling classes failed : "+t.toString());
         }
     }
@@ -65,7 +65,7 @@ public class TheTest extends test.Test {
             //System.setSecurityManager(new javax.rmi.download.SecurityManager());
             //System.setSecurityManager(new java.rmi.RMISecurityManager());
 
-            // First Compile the classes to generate the Stub and Tie 
+            // First Compile the classes to generate the Stub and Tie
             // files that are needed.  NOTE: This requires the latest
             // RMIC compiler that supports IIOP.
 
@@ -75,35 +75,35 @@ public class TheTest extends test.Test {
             String testPolicy = System.getProperty("java.security.policy");
             if (testPolicy!=null)
                 properties.addElement("-Djava.security.policy="+testPolicy);
-                        
-                        
+
+
             // Start it
             String valueClasses = getClassesDirectory("values");
             server = Util.startServer("javax.rmi.fvd.TheServer",
                                       properties, valueClasses);
-            
+
             // Lets setup some properties that we are using
             // for this test and then create the ORB Object...
             Properties props = System.getProperties();
-            
+
             props.put(  "java.naming.factory.initial",
                         JndiConstants.COSNAMING_CONTEXT_FACTORY);
-            
-            props.put(  "org.omg.CORBA.ORBClass", 
+
+            props.put(  "org.omg.CORBA.ORBClass",
                         "com.sun.corba.ee.impl.orb.ORBImpl");
-            
-            props.put(  "org.omg.CORBA.ORBSingletonClass", 
+
+            props.put(  "org.omg.CORBA.ORBSingletonClass",
                         "com.sun.corba.ee.impl.orb.ORBSingleton");
-            
+
             ORB orb = ORB.init(myArgs, props);
-                
+
             // We are going to use JNDI/CosNaming so lets go ahead and
             // create our root naming context.  NOTE:  We setup CosNaming
             // as our naming plug-in for JNDI by setting properties above.
             Hashtable env = new Hashtable();
             env.put(  "java.naming.corba.orb", orb);
             Context ic = new InitialContext(env);
-            
+
             // Let the test begin...
             // Resolve the Object Reference using JNDI/CosNaming
             java.lang.Object objref  = ic.lookup("TheFVDTestServer");
@@ -117,7 +117,7 @@ public class TheTest extends test.Test {
                 properties.addElement("-Djava.security.policy="+testPolicy);
 
                 // Start it
-                client = Util.startServer("javax.rmi.fvd.TheClient", 
+                client = Util.startServer("javax.rmi.fvd.TheClient",
                     properties, getClassesDirectory("values2"));
 
                 helper.pass() ;
@@ -144,9 +144,9 @@ public class TheTest extends test.Test {
             if (server != null) {
                 server.destroy();
             }
-  
+
             // Make sure we kill the NameServer...
-            
+
             if (nameServer != null) {
                 nameServer.destroy();
             }
@@ -170,7 +170,7 @@ public class TheTest extends test.Test {
             server.destroy();
             server = null;
         }
-  
+
         if (nameServer != null) {
             nameServer.destroy();
             nameServer = null;
@@ -183,9 +183,9 @@ public class TheTest extends test.Test {
         String arg = "-iiop";
         String[] additionalArgs = null;
         String[] classes = {"javax.rmi.fvd.ServantImpl", "javax.rmi.fvd.LogImpl"};
-        
+
         // Create the additional args array...
-               
+
         String outputDirectory = null;
         int length = 3;
         Hashtable flags = getArgs();
@@ -195,7 +195,7 @@ public class TheTest extends test.Test {
         }
         additionalArgs = new String[length];
         int offset = 0;
-        
+
         if (outputDirectory != null) {
             additionalArgs[offset++] = "-d";
             additionalArgs[offset++] = outputDirectory;
@@ -203,9 +203,9 @@ public class TheTest extends test.Test {
         additionalArgs[offset++] = "-Xreverseids";
         additionalArgs[offset++] = "-alwaysgenerate";
         additionalArgs[offset++] = "-keepgenerated";
-        
+
         // Run rmic...
-        
+
         Util.rmic(arg,additionalArgs,classes,false);
     }
 }

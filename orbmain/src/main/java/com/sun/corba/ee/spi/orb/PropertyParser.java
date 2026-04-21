@@ -32,23 +32,23 @@ import java.util.Properties ;
 public class PropertyParser {
     private List<ParserAction> actions ;
 
-    public PropertyParser( ) 
+    public PropertyParser( )
     {
         actions = new LinkedList<ParserAction>() ;
     }
 
-    public PropertyParser add( String propName, 
+    public PropertyParser add( String propName,
         Operation action, String fieldName )
     {
-        actions.add( ParserActionFactory.makeNormalAction( propName, 
+        actions.add( ParserActionFactory.makeNormalAction( propName,
             action, fieldName ) ) ;
         return this ;
     }
 
-    public PropertyParser addPrefix( String propName, 
+    public PropertyParser addPrefix( String propName,
         Operation action, String fieldName, Class<?> componentType )
     {
-        actions.add( ParserActionFactory.makePrefixAction( propName, 
+        actions.add( ParserActionFactory.makePrefixAction( propName,
             action, fieldName, componentType ) ) ;
         return this ;
     }
@@ -63,8 +63,8 @@ public class PropertyParser {
         Iterator<ParserAction> iter = actions.iterator() ;
         while (iter.hasNext()) {
             ParserAction act = iter.next() ;
-            Object result = act.apply( props ) ; 
-                
+            Object result = act.apply( props ) ;
+
             // A null result means that the property was not set for
             // this action, so do not override the default value in this case.
             if (result != null) {

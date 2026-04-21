@@ -94,7 +94,7 @@ public class ForwardReferenceStrategy
                 ri.forward_reference();
                 fail( "send_reply(): forward_reference() did not " +
                       "raise BAD_INV_ORDER" );
-            }                                               
+            }
             catch( BAD_INV_ORDER e ) {
                 log( "send_reply(): forward_reference() " +
                      "raised BAD_INV_ORDER (ok)" );

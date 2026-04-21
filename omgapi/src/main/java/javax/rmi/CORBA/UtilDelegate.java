@@ -36,7 +36,7 @@ import org.omg.CORBA.portable.OutputStream;
  * methods of <code>javax.rmi.CORBA.Util</code>.
  *
  * Delegation is enabled by providing the delegate's class name as the
- * value of the 
+ * value of the
  * <code>javax.rmi.CORBA.UtilClass</code>
  * system property.
  *
@@ -85,14 +85,14 @@ public interface UtilDelegate {
      * @param target target for the tie
      */
     void registerTarget(Tie tie, Remote target);
-    
+
     /**
      * Delegation call for {@link Util#unexportObject}.
      * @param target the object to unexport
      * @throws NoSuchObjectException if the target object does not exist
      */
     void unexportObject(Remote target) throws NoSuchObjectException;
-    
+
     /**
      * Delegation call for {@link Util#getTie}.
      * @param target the object to get the tie for
@@ -123,7 +123,7 @@ public interface UtilDelegate {
      * @return the <code>Class</code> object representing the loaded class.
      * @exception ClassNotFoundException if class cannot be loaded.
      */
-    Class loadClass(String className, String remoteCodebase, ClassLoader loader) 
+    Class loadClass(String className, String remoteCodebase, ClassLoader loader)
         throws ClassNotFoundException;
 
     /**
@@ -140,7 +140,7 @@ public interface UtilDelegate {
 
     /**
      * Delegation call for {@link Util#wrapException}.
-     * @param obj the exception to wrap. 
+     * @param obj the exception to wrap.
      * @return the wrapped exception.
      */
     RemoteException wrapException(Throwable obj);
@@ -153,7 +153,7 @@ public interface UtilDelegate {
      * @throws RemoteException if the object could not be copied or connected.
      */
     Object copyObject(Object obj, ORB orb) throws RemoteException;
-    
+
     /**
      * Delegation call for {@link Util#copyObjects}.
      * @param obj the objects to copy or connect.
@@ -164,4 +164,4 @@ public interface UtilDelegate {
     Object[] copyObjects(Object[] obj, ORB orb) throws RemoteException;
 
 }
-            
+

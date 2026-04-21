@@ -595,7 +595,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
     @CdrWrite
     private void writeValueBase(org.omg.CORBA.portable.ValueBase object,
                                 Class clazz) {
-        // _REVISIT_ could check to see whether chunking really needed 
+        // _REVISIT_ could check to see whether chunking really needed
         mustChunk = true;
 
         int indirection = writeValueTag(true, true, getCodebase(clazz));
@@ -610,7 +610,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
         endValueChunk(true);
     }
 
-    // We know that object is not null, because that was checked in 
+    // We know that object is not null, because that was checked in
     // write_value( Serializable, String )
     @CdrWrite
     private void writeRMIIIOPValueType(Serializable object, Class clazz,
@@ -892,7 +892,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
         write_long(0);
 
         // Has to happen after write_long since write_long could
-        // trigger grow which is overridden by subclasses to 
+        // trigger grow which is overridden by subclasses to
         // depend on inBlock.
         inBlock = true;
 
@@ -934,7 +934,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
 
         // Test to see if the block was of zero length
         // If so, remove the block instead of ending it
-        // (This can happen if the last field written 
+        // (This can happen if the last field written
         //  in a value was another value)
         blockSizePosition(blockSizePosition);
 
@@ -1324,7 +1324,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
 
             writeNestingLevel();
 
-            // Remember the last index and position.  
+            // Remember the last index and position.
             // These are only used when chunking.
             end_flag_index = byteBuffer.position();
             end_flag_position = get_offset();
@@ -1398,7 +1398,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
 
     @CdrWrite
     private void writeIDLEntity(IDLEntity object) {
-        // _REVISIT_ could check to see whether chunking really needed 
+        // _REVISIT_ could check to see whether chunking really needed
         mustChunk = true;
 
         String repository_id = repIdStrs.createForJavaType(object);
@@ -1412,7 +1412,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
         // Write Value chunk
         startValueChunk(true);
 
-        // Write the IDLEntity using reflection 
+        // Write the IDLEntity using reflection
         try {
             ClassLoader clazzLoader = (clazz == null ? null : clazz.getClassLoader());
             final Class helperClass = Utility.loadClassForClass(

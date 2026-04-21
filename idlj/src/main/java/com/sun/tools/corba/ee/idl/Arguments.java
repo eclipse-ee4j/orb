@@ -70,7 +70,7 @@ public class Arguments
   } // parseOtherArgs
 
 
-    protected void setDebugFlags( String args ) 
+    protected void setDebugFlags( String args )
     {
         StringTokenizer st = new StringTokenizer( args, "," ) ;
         while (st.hasMoreTokens()) {
@@ -79,7 +79,7 @@ public class Arguments
             // If there is a public boolean data member in this class
             // named token + "DebugFlag", set it to true.
             try {
-                Field fld = this.getClass().getField( token + "DebugFlag" ) ; 
+                Field fld = this.getClass().getField( token + "DebugFlag" ) ;
                 int mod = fld.getModifiers() ;
                 if (Modifier.isPublic( mod ) && !Modifier.isStatic( mod ))
                     if (fld.getType() == boolean.class)

@@ -29,21 +29,21 @@ public class CodeBaseTest extends CORBATest
 {
     public static final String VALUE_DIR = "values";
     public static final String STUBTIE_DIR = "stubtie";
-    public static final String[] VALUES 
+    public static final String[] VALUES
         = new String[] { "TestValue.java" };
 
         protected void doTest() throws Throwable {
-        
+
         if (test.Test.useJavaSerialization()) {
             return;
         }
 
         // Generate stubs and ties in the STUBTIE_DIR off of
         // the main output directory.
-        String stubTieDir = (new File(Options.getOutputDirectory() 
+        String stubTieDir = (new File(Options.getOutputDirectory()
                                       + STUBTIE_DIR
                                       + File.separator)).getAbsolutePath();
-        String valueDir = (new File(Options.getOutputDirectory() 
+        String valueDir = (new File(Options.getOutputDirectory()
                                     + VALUE_DIR
                                     + File.separator)).getAbsolutePath();
 
@@ -64,7 +64,7 @@ public class CodeBaseTest extends CORBATest
         Options.setOutputDirectory(oldOutputDir);
 
         String oldClasspath = Options.getClasspath();
-        String cpWithAllClasses = 
+        String cpWithAllClasses =
             stubTieDir
             + File.pathSeparator
             + valueDir
@@ -91,7 +91,7 @@ public class CodeBaseTest extends CORBATest
             + webServerPort
             + "/";
 
-        String fullCodeBase 
+        String fullCodeBase
             = baseURL + STUBTIE_DIR + "/ "
             + baseURL + VALUE_DIR + "/";
 
@@ -141,7 +141,7 @@ public class CodeBaseTest extends CORBATest
         }
 
 
-        Test.dprint("Testing code downloading by the " 
+        Test.dprint("Testing code downloading by the "
                     + (serverDownloading ? "server" : "client"));
 
         server.start();
@@ -174,7 +174,7 @@ public class CodeBaseTest extends CORBATest
         Properties props = Options.getServerProperties() ;
         int emmaPort = EmmaControl.setCoverageProperties( props ) ;
 
-        String args[] = new String[] { 
+        String args[] = new String[] {
                              "-port",
                              "" + webServerPort,
                              "-docroot",

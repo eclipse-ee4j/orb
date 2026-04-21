@@ -42,7 +42,7 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 @Transport public class AcceptorImpl extends AcceptorBase {
     protected ServerSocketChannel serverSocketChannel;
     protected ServerSocket serverSocket;
-    
+
     private Class<?> lastExceptionClassSeen = null ;
 
     public AcceptorImpl(ORB orb, int port,
@@ -231,8 +231,8 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
             // indefinitely.
             // NOTE: If "acceptorSocketUseWorkerThreadForEvent" is
             // set to to false in ParserTable.java, then this method,
-            // doWork(), will get executed by the same thread 
-            // (SelectorThread) that does the NIO select. 
+            // doWork(), will get executed by the same thread
+            // (SelectorThread) that does the NIO select.
             // If "acceptorSocketUseWorkerThreadForEvent" is set
             // to true, a WorkerThread will execute this method,
             // doWork(). Hence, the registering of the enabling of

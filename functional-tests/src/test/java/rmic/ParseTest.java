@@ -29,7 +29,7 @@ import corba.framework.TestngRunner ;
 
 public class ParseTest extends test.Test implements Constants {
     public static ClassPath createClassPath() {
-            
+
         String path = System.getProperty("java.class.path");
 
         // Use reflection to call sun.rmi.rmic.BatchEnvironment.createClassPath(path)
@@ -41,17 +41,17 @@ public class ParseTest extends test.Test implements Constants {
             Method method = env.getMethod("createClassPath",new Class[]{java.lang.String.class});
             return (ClassPath) method.invoke(null,new Object[]{path});
         } catch (Throwable e) {
-            if (e instanceof ThreadDeath) 
+            if (e instanceof ThreadDeath)
                 throw (ThreadDeath)e;
             throw new Error("ParseTest.createClassPath() caught "+e);
         }
     }
-    
+
     public void run( ) {
         TestngRunner runner = new TestngRunner() ;
         runner.registerClass( TestExecutor.class ) ;
         runner.run() ;
-        if (runner.hasFailure()) 
+        if (runner.hasFailure())
             status = new Error( "test failed" ) ;
     }
 }

@@ -78,7 +78,7 @@ import org.omg.PortableInterceptor.ORBInitializer;
 public class ClientGroupManager
     extends
         org.omg.CORBA.LocalObject
-    implements 
+    implements
         ClientRequestInterceptor,
         GroupInfoService,
         IIOPPrimaryToContactInfo,
@@ -105,7 +105,7 @@ public class ClientGroupManager
     private CSIv2SSLTaggedComponentHandler csiv2SSLTaggedComponentHandler;
     private transient GIS gis = new GIS();
 
-    public ClientGroupManager() {       
+    public ClientGroupManager() {
     }
 
     @InfoMethod
@@ -159,7 +159,7 @@ public class ClientGroupManager
     private void returningPreviousSocketInfo( List lst ) { }
 
     @Folb
-    public List getSocketInfo(IOR ior, List previous) 
+    public List getSocketInfo(IOR ior, List previous)
     {
         initialize();
 
@@ -200,7 +200,7 @@ public class ClientGroupManager
                     ClusterInstanceInfoComponent.class );
 
             while (iterator.hasNext()) {
-                ClusterInstanceInfo clusterInstanceInfo = 
+                ClusterInstanceInfo clusterInstanceInfo =
                     iterator.next().getClusterInstanceInfo() ;
                 List<com.sun.corba.ee.spi.folb.SocketInfo> endpoints =
                   clusterInstanceInfo.endpoints();
@@ -216,17 +216,17 @@ public class ClientGroupManager
             // List alternate TAG_ALTERNATE_IIOP_ADDRESS (for corbaloc)
             //
 
-            final Iterator<AlternateIIOPAddressComponent> aiterator = 
+            final Iterator<AlternateIIOPAddressComponent> aiterator =
                 iiopProfileTemplate.iteratorById(
                     org.omg.IOP.TAG_ALTERNATE_IIOP_ADDRESS.value,
                     AlternateIIOPAddressComponent.class );
 
             while (aiterator.hasNext()) {
                 AlternateIIOPAddressComponent alternate = aiterator.next();
-                
+
                 String host = alternate.getAddress().getHost().toLowerCase();
                 int port = alternate.getAddress().getPort();
-                
+
                 result.add(createSocketInfo(
                     "AlternateIIOPAddressComponent",
                     SocketInfo.IIOP_CLEAR_TEXT, host, port));
@@ -247,7 +247,7 @@ public class ClientGroupManager
     private SocketInfo createSocketInfo(final String msg,
                                         final String type,
                                         final String host,
-                                        final int port) 
+                                        final int port)
     {
         return new SocketInfo() {
                 public String getType() {
@@ -398,7 +398,7 @@ public class ClientGroupManager
                     int position = contactInfos.indexOf(result);
                     if (position == -1) {
                         // It is possible that communication to the key
-                        // took place on SharedCDR, then a corbaloc to 
+                        // took place on SharedCDR, then a corbaloc to
                         // same location uses a SocketOrChannelContactInfo
                         // and vice versa.
                         cannotFindMappedEntry();
@@ -495,7 +495,7 @@ public class ClientGroupManager
     {
         public List<ClusterInstanceInfo> internalClusterInstanceInfo( List<String> endpoints )
         {
-            if (lastIOR == null) {           
+            if (lastIOR == null) {
                 return getInitialClusterInstanceInfo(orb, endpoints );
             }
 
@@ -509,11 +509,11 @@ public class ClientGroupManager
                     ORBConstants.FOLB_MEMBER_ADDRESSES_TAGGED_COMPONENT_ID,
                     ClusterInstanceInfoComponent.class );
 
-            LinkedList<ClusterInstanceInfo> results = 
+            LinkedList<ClusterInstanceInfo> results =
                 new LinkedList<ClusterInstanceInfo>();
 
             while (iterator.hasNext()) {
-                ClusterInstanceInfo clusterInstanceInfo = 
+                ClusterInstanceInfo clusterInstanceInfo =
                     iterator.next().getClusterInstanceInfo() ;
                 results.add(clusterInstanceInfo);
             }
@@ -566,12 +566,12 @@ public class ClientGroupManager
     // Interceptor operations
     //
 
-    public String name() 
+    public String name()
     {
-        return baseMsg; 
+        return baseMsg;
     }
 
-    public void destroy() 
+    public void destroy()
     {
     }
 
@@ -600,7 +600,7 @@ public class ClientGroupManager
             Iterator iterator = iiopProfileTemplate.iteratorById(
                 ORBConstants.FOLB_MEMBERSHIP_LABEL_TAGGED_COMPONENT_ID);
             if (iterator.hasNext()) {
-                org.omg.IOP.TaggedComponent membershipLabelTaggedComponent = 
+                org.omg.IOP.TaggedComponent membershipLabelTaggedComponent =
                     ((com.sun.corba.ee.spi.ior.TaggedComponent)iterator.next())
                         .getIOPComponent(orb);
                 byte[] data = membershipLabelTaggedComponent.component_data;
@@ -705,7 +705,7 @@ public class ClientGroupManager
     // ORBInitializer
     //
 
-    public void pre_init(ORBInitInfo info) 
+    public void pre_init(ORBInitInfo info)
     {
     }
 
@@ -724,7 +724,7 @@ public class ClientGroupManager
     //
 
     @Folb
-    public void configure(DataCollector collector, ORB orb) 
+    public void configure(DataCollector collector, ORB orb)
     {
         this.orb = orb;
         orb.getORBData().addORBInitializer(this);

@@ -76,7 +76,7 @@ public abstract class DataCollectorBase implements DataCollector {
     public boolean initialHostIsLocal()
     {
         checkSetParserCalled() ;
-        return localHostName.equals( resultProps.getProperty( 
+        return localHostName.equals( resultProps.getProperty(
             ORBConstants.INITIAL_HOST_PROPERTY ) ) ;
     }
 
@@ -178,12 +178,12 @@ public abstract class DataCollectorBase implements DataCollector {
         } ;
 
         findPropertiesByName( propertyNames.iterator(), callback ) ;
-    
+
         // Special Case:
         //
         // Convert any applet parameter relative URLs to an
-        // absolute URL based on the Document Root. This is so HTML 
-        // URLs can be kept relative which is sometimes useful for 
+        // absolute URL based on the Document Root. This is so HTML
+        // URLs can be kept relative which is sometimes useful for
         // managing the Document Root layout.
         PropertyCallback URLCallback = new PropertyCallback() {
             public String get( String name ) {
@@ -203,21 +203,21 @@ public abstract class DataCollectorBase implements DataCollector {
             }
         } ;
 
-        findPropertiesByName( URLPropertyNames.iterator(), 
+        findPropertiesByName( URLPropertyNames.iterator(),
             URLCallback ) ;
     }
 
-    private void doProperties( final Properties props ) 
+    private void doProperties( final Properties props )
     {
         PropertyCallback callback =  new PropertyCallback() {
             public String get(String name) {
                 return props.getProperty(name);
             }
         } ;
-        
+
         findPropertiesByName( propertyNames.iterator(), callback ) ;
 
-        findPropertiesByPrefix( propertyPrefixes, 
+        findPropertiesByPrefix( propertyPrefixes,
             makeIterator( props.propertyNames()), callback );
     }
 
@@ -268,7 +268,7 @@ public abstract class DataCollectorBase implements DataCollector {
 // internal implementation
 //////////////////////////////////////////////////////////
 
-    // Store name, value in resultProps, with special 
+    // Store name, value in resultProps, with special
     // treatment of ORBInitRef.  All updates to resultProps
     // must happen through this method.
     private void setProperty( String name, String value )
@@ -343,7 +343,7 @@ public abstract class DataCollectorBase implements DataCollector {
     // Map command-line arguments to ORB properties.
     //
     private String findMatchingPropertyName( Set<String> names,
-        String suffix ) 
+        String suffix )
     {
         Iterator<String> iter = names.iterator() ;
         while (iter.hasNext()) {
@@ -392,7 +392,7 @@ public abstract class DataCollectorBase implements DataCollector {
             }
 
             FileInputStream in = new FileInputStream( file ) ;
-            
+
             try {
                 props.load( in ) ;
             } finally {
@@ -400,7 +400,7 @@ public abstract class DataCollectorBase implements DataCollector {
             }
         } catch (Exception exc) {
             // if (ORBInitDebug)
-                // dprint( "ORB properties file " + fileName + " not found: " + 
+                // dprint( "ORB properties file " + fileName + " not found: " +
                     // exc) ;
         }
     }
@@ -430,8 +430,8 @@ public abstract class DataCollectorBase implements DataCollector {
             prefix.startsWith( ORBConstants.SUN_PREFIX ) ;
     }
 
-    // Return only those element of prefixes for which hasCORBAPrefix 
-    // is true.  
+    // Return only those element of prefixes for which hasCORBAPrefix
+    // is true.
     private Set<String> getCORBAPrefixes( final Set<String> prefixes )
     {
         Set<String> result = new HashSet<String>() ;

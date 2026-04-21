@@ -37,7 +37,7 @@ public class Common
     private static final String NameService = "NameService";
 
     public static org.omg.CORBA.Object resolve(String name, ORB orb)
-        throws 
+        throws
             Exception
     {
         return getNameService(orb).resolve(makeNameComponent(name));
@@ -46,7 +46,7 @@ public class Common
     public static org.omg.CORBA.Object rebind(String name,
                                               org.omg.CORBA.Object ref,
                                               ORB orb)
-        throws 
+        throws
             Exception
     {
         getNameService(orb).rebind(makeNameComponent(name), ref);

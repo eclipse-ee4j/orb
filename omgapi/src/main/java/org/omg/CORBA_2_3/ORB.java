@@ -39,7 +39,7 @@ public abstract class ORB extends org.omg.CORBA.ORB {
     {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
- 
+
 
 /**
  * Unimplemented method
@@ -63,7 +63,7 @@ public abstract class ORB extends org.omg.CORBA.ORB {
     {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
-    
+
 
 /**
  * Unimplemented method

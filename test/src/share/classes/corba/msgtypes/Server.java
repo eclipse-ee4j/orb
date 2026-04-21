@@ -161,10 +161,10 @@ public class Server extends LocalObject implements ORBInitializer {
         try {
             Properties props = new Properties( System.getProperties() ) ;
             String className = ServerRequestHandler.class.getName() ;
-            props.setProperty( 
+            props.setProperty(
                 ORBConstants.BAD_SERVER_ID_HANDLER_CLASS_PROPERTY,
                 className ) ;
-            
+
             ORB orb = ORB.init(args, System.getProperties());
 
             com.sun.corba.ee.spi.orb.ORB ourORB
@@ -186,7 +186,7 @@ public class Server extends LocalObject implements ORBInitializer {
 
             byte[] id = rootPOA.activate_object(
                 (org.omg.PortableServer.Servant)tie ) ;
-                                                 
+
             org.omg.CORBA.Object obj = rootPOA.id_to_reference( id ) ;
 
             writeObjref(obj, "IOR", orb);

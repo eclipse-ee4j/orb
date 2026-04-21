@@ -29,7 +29,7 @@ import org.omg.CORBA.ORB;
 import corba.framework.Controller;
 import corba.framework.Options;
 
-public class Server 
+public class Server
 {
     public static final String baseMsg = Server.class.getName();
     public static final String main = baseMsg + ".main";
@@ -49,7 +49,7 @@ public class Server
             Client.writeProperties(props, getBootstrapFilePathAndName());
 
             // Set up args.
-            String[] args = { "-InitialServicesFile", 
+            String[] args = { "-InitialServicesFile",
                               getBootstrapFilePathAndName(),
                               "-ORBInitialPort",
                               Client.getORBInitialPort() };

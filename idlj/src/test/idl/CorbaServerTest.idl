@@ -24,8 +24,8 @@ module glassfish {
 module idlj {
 
   struct CORBAStruct {
-   	long l;
-    long long lll;		// The name is 3 chars long to avoid a JDK alignment bug.
+       long l;
+    long long lll;        // The name is 3 chars long to avoid a JDK alignment bug.
     string s;
     any a;
   };
@@ -36,12 +36,12 @@ module idlj {
   };
 
   union CORBAUnion switch ( long ) {
-  	case 0: boolean b;
-  	case 1: wstring w;
-  	case 2: string s;
-  	case 3: any a;
-  	case 4: CORBAStruct cs;
-  	default: long long lll;
+      case 0: boolean b;
+      case 1: wstring w;
+      case 2: string s;
+      case 3: any a;
+      case 4: CORBAStruct cs;
+      default: long long lll;
   };
 
   enum CORBAEnum {
@@ -56,7 +56,7 @@ module idlj {
   interface CORBAServerTest {
     exception AnException {};
     exception MungedException {
-		#pragma ID MungedException "IDL:org/glassfish/idlj/MungedExRepid:1.0"
+        #pragma ID MungedException "IDL:org/glassfish/idlj/MungedExRepid:1.0"
     };
 
     string test_primitive(in string s, in long l);
@@ -96,7 +96,7 @@ module idlj {
   };
 
   interface DummyCORBAServer {
-	#pragma ID DummyCORBAServer "IDL:org/glassfish/idlj/MungedRepid:1.0"
+    #pragma ID DummyCORBAServer "IDL:org/glassfish/idlj/MungedRepid:1.0"
   };
 
 

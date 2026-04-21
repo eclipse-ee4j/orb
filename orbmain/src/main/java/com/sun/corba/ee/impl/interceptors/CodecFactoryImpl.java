@@ -30,11 +30,11 @@ import org.omg.IOP.CodecFactoryPackage.UnknownEncoding;
 
 /**
  * CodecFactoryImpl is the implementation of the Codec Factory, as described
- * in orbos/99-12-02.  
+ * in orbos/99-12-02.
  */
-public final class CodecFactoryImpl 
+public final class CodecFactoryImpl
     extends org.omg.CORBA.LocalObject
-    implements CodecFactory 
+    implements CodecFactory
 {
     // The ORB that created this Codec Factory
     private transient ORB orb;
@@ -57,7 +57,7 @@ public final class CodecFactoryImpl
     public CodecFactoryImpl( ORB orb ) {
         this.orb = orb;
 
-        // Precreate a codec for version 1.0 through 
+        // Precreate a codec for version 1.0 through
         // 1.(MAX_MINOR_VERSION_SUPPORTED).  This can be
         // done since Codecs are immutable in their current implementation.
         // This is an optimization that eliminates the overhead of creating
@@ -69,14 +69,14 @@ public final class CodecFactoryImpl
 
     /**
      * Creates a codec of the given encoding.  The only format recognized
-     * by this factory is ENCODING_CDR_ENCAPS, versions 1.0 through 
+     * by this factory is ENCODING_CDR_ENCAPS, versions 1.0 through
      * 1.(MAX_MINOR_VERSION_SUPPORTED).
      *
-     * @exception UnknownEncoding Thrown if this factory cannot create a 
+     * @exception UnknownEncoding Thrown if this factory cannot create a
      *   Codec of the given encoding.
      */
-    public Codec create_codec ( Encoding enc ) 
-        throws UnknownEncoding 
+    public Codec create_codec ( Encoding enc )
+        throws UnknownEncoding
     {
         if( enc == null ) nullParam();
 
@@ -84,10 +84,10 @@ public final class CodecFactoryImpl
 
         // This is the only format we can currently create codecs for:
         if( (enc.format == ENCODING_CDR_ENCAPS.value) &&
-            (enc.major_version == 1) ) 
+            (enc.major_version == 1) )
         {
-            if( (enc.minor_version >= 0) && 
-                (enc.minor_version <= MAX_MINOR_VERSION_SUPPORTED) ) 
+            if( (enc.minor_version >= 0) &&
+                (enc.minor_version <= MAX_MINOR_VERSION_SUPPORTED) )
             {
                 result = codecs[enc.minor_version];
             }
@@ -104,7 +104,7 @@ public final class CodecFactoryImpl
      * Called when an invalid null parameter was passed.  Throws a
      * BAD_PARAM with a minor code of 1
      */
-    private void nullParam() 
+    private void nullParam()
     {
         throw wrapper.nullParamNoComplete() ;
     }

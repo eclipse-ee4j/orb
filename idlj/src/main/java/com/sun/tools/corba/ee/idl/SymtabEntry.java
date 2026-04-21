@@ -180,7 +180,7 @@ public class SymtabEntry
       ((com.sun.tools.corba.ee.idl.ForwardEntry)_type).types.addElement (this);
   } // type
 
-  /** The file name in which this entry was defined. 
+  /** The file name in which this entry was defined.
    * @return {@link IncludeEntry} of fileName
    */
   public com.sun.tools.corba.ee.idl.IncludeEntry sourceFile ()
@@ -189,7 +189,7 @@ public class SymtabEntry
   } // sourceFile
 
   /** The file name in which this entry was defined.
-   * @param file {@link IncludeEntry} of the file 
+   * @param file {@link IncludeEntry} of the file
    */
   public void sourceFile (com.sun.tools.corba.ee.idl.IncludeEntry file)
   {
@@ -206,7 +206,7 @@ public class SymtabEntry
   } // container
 
   /** This must be either an InterfaceEntry or a ModuleEntry.
-    *  It can be nothing else. 
+    *  It can be nothing else.
     * @param newContainer {@link InterfaceEntry} or {@link ModuleEntry}
     */
   public void container (SymtabEntry newContainer)
@@ -228,7 +228,7 @@ public class SymtabEntry
     _repID = id;
   } // repositoryID
 
-  /** Should this type be emitted? 
+  /** Should this type be emitted?
    * @return true if this type is emitted and referencable
    */
   public boolean emit ()
@@ -258,7 +258,7 @@ public class SymtabEntry
     return _isReferencable ;
   }
 
-  public void isReferencable( boolean value ) 
+  public void isReferencable( boolean value )
   {
     _isReferencable = value ;
   }
@@ -314,7 +314,7 @@ public class SymtabEntry
       extenders.  This method gets the value of the variable of the
       given key.  A valid key must be obtained by calling the method
       getVariableKey.  If the key is invalid, {@link NoSuchFieldException} is
-      thrown. 
+      thrown.
     * @param key obtained by calling {@link #getVariableKey()}
     * @return the variable for the key
     * @throws NoSuchFieldException if key is invalid

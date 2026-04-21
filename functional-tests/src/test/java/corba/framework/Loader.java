@@ -77,7 +77,7 @@ public class Loader extends ClassLoader
     }
 
     /**
-     * Try to load the specified class using the extra paths.  This is 
+     * Try to load the specified class using the extra paths.  This is
      * called by the parent loader once it has tried all other means
      * (such as checking for it being loaded, or using the system loader).
      *
@@ -85,7 +85,7 @@ public class Loader extends ClassLoader
      *@exception ClassNotFoundException couldn't find the class
      *@return loaded Class instance
      */
-    protected Class findClass(String name) throws ClassNotFoundException 
+    protected Class findClass(String name) throws ClassNotFoundException
     {
         byte[] b = loadClassData(name);
         return defineClass(name, b, 0, b.length);
@@ -99,14 +99,14 @@ public class Loader extends ClassLoader
      *@return byte array containing the contents of the class file
      *@exception ClassNotFoundException error loading the class
      */
-    private byte[] loadClassData(String className) 
+    private byte[] loadClassData(String className)
         throws ClassNotFoundException
     {
         byte data[] = null;
 
         // Build the file name and subdirectory from the
         // class name
-        String filename = className.replace('.', File.separatorChar) 
+        String filename = className.replace('.', File.separatorChar)
                           + ".class";
 
         Enumeration paths = extraPaths.elements();
@@ -115,31 +115,31 @@ public class Loader extends ClassLoader
         while (paths.hasMoreElements() && data == null) {
 
             File file = new File((String)paths.nextElement()
-                                 + File.separator 
+                                 + File.separator
                                  + filename);
 
             if (!file.exists())
                 continue;
 
             try {
-                
+
                 // Found the file, so open it for reading
                 FileInputStream in = new FileInputStream(file);
-                
+
                 // Protect against data loss (shouldn't happen)
                 if (file.length() > Integer.MAX_VALUE)
                     throw new IOException (className
                                          + " exceeds max length");
 
                 data = new byte[(int)file.length()];
-                
+
                 // Read in the file contents
                 if (in.read(data) != data.length)
                     throw new IOException ("Lost data when loading "
                                          + className);
-                
+
                 in.close();
-                
+
             } catch (Exception ex) {
                 throw new ClassNotFoundException(className, ex);
             }
@@ -151,5 +151,5 @@ public class Loader extends ClassLoader
         return data;
     }
 }
-        
-        
+
+

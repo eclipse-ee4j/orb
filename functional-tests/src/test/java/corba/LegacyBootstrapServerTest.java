@@ -36,7 +36,7 @@ public class LegacyBootstrapServerTest extends CORBATest {
         // The ORBD is NOT used.
         // However, when it wasn't here then createServer below complained
         // Caught java.io.FileNotFoundException: gen/corba/legacybootstrapserver/server.out.txt (No such file or directory)
-        
+
         Controller orbd   = createORBD();
 
         Controller server = createServer(Server.class.getName());

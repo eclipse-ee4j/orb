@@ -81,7 +81,7 @@ public final class OSFCodeSetRegistry
             return encodingNum;
         }
 
-        /** 
+        /**
          * Is this a fixed or variable width code set?  (In CORBA
          * terms, "non-byte-oriented" or a "byte-oriented"
          * code set, respectively)
@@ -94,7 +94,7 @@ public final class OSFCodeSetRegistry
         public int getMaxBytesPerChar() {
             return maxBytesPerChar;
         }
-        
+
         /**
          * First checks reference equality since it's expected
          * people will use the pre-defined constant Entries.
@@ -110,7 +110,7 @@ public final class OSFCodeSetRegistry
                 = (OSFCodeSetRegistry.Entry)obj;
 
             return (javaName.equals(other.javaName) &&
-                    encodingNum == other.encodingNum && 
+                    encodingNum == other.encodingNum &&
                     isFixedWidth == other.isFixedWidth &&
                     maxBytesPerChar == other.maxBytesPerChar);
         }
@@ -128,9 +128,9 @@ public final class OSFCodeSetRegistry
      * when nothing else is specified.
      */
     public static final Entry ISO_8859_1
-        = new Entry("ISO-8859-1", 
-                    ISO_8859_1_VALUE, 
-                    true, 
+        = new Entry("ISO-8859-1",
+                    ISO_8859_1_VALUE,
+                    true,
                     1);
 
     /**
@@ -160,9 +160,9 @@ public final class OSFCodeSetRegistry
      * a special case for compatibility.
      */
     public static final Entry UTF_16
-        = new Entry("UTF-16", 
-                    UTF_16_VALUE, 
-                    true, 
+        = new Entry("UTF-16",
+                    UTF_16_VALUE,
+                    true,
                     4);
 
     /**
@@ -171,9 +171,9 @@ public final class OSFCodeSetRegistry
      * only one octet, it is really the same as Latin-1.
      */
     public static final Entry UTF_8
-        = new Entry("UTF-8", 
-                    UTF_8_VALUE, 
-                    false, 
+        = new Entry("UTF-8",
+                    UTF_8_VALUE,
+                    false,
                     6);
 
     /*
@@ -188,9 +188,9 @@ public final class OSFCodeSetRegistry
      * won't work!  Beware!
      */
     public static final Entry UCS_2
-        = new Entry("UCS-2", 
-                    UCS_2_VALUE, 
-                    true, 
+        = new Entry("UCS-2",
+                    UCS_2_VALUE,
+                    true,
                     2);
 
     /**
@@ -199,10 +199,10 @@ public final class OSFCodeSetRegistry
      * the Java char.  This is a 7-bit encoding, so they
      * were really sending ISO8859-1.
      */
-    public static final Entry ISO_646 
-        = new Entry("US-ASCII", 
-                    ISO_646_VALUE, 
-                    true, 
+    public static final Entry ISO_646
+        = new Entry("US-ASCII",
+                    ISO_646_VALUE,
+                    true,
                     1);
 
     /**

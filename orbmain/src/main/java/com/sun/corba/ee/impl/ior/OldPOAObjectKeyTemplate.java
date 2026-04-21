@@ -33,7 +33,7 @@ import org.omg.CORBA_2_3.portable.OutputStream ;
 /**
  * @author Ken Cavanaugh
  */
-public final class OldPOAObjectKeyTemplate extends OldObjectKeyTemplateBase 
+public final class OldPOAObjectKeyTemplate extends OldObjectKeyTemplateBase
 {
     /** This constructor reads the template ONLY from the stream
      * @param orb ORB to use
@@ -41,11 +41,11 @@ public final class OldPOAObjectKeyTemplate extends OldObjectKeyTemplateBase
      * @param scid ID of template
      * @param is stream to read from
     */
-    public OldPOAObjectKeyTemplate( ORB orb, int magic, int scid, InputStream is ) 
+    public OldPOAObjectKeyTemplate( ORB orb, int magic, int scid, InputStream is )
     {
         this( orb, magic, scid, is.read_long(), is.read_long(), is.read_long() ) ;
     }
-    
+
     /** This constructor reads a complete ObjectKey (template and Id)
     * from the stream.
      * @param orb  ORB to use
@@ -55,22 +55,22 @@ public final class OldPOAObjectKeyTemplate extends OldObjectKeyTemplateBase
      * @param osh Holder for Octet
     */
     public OldPOAObjectKeyTemplate( ORB orb, int magic, int scid, InputStream is,
-        OctetSeqHolder osh ) 
+        OctetSeqHolder osh )
     {
         this( orb, magic, scid, is ) ;
         osh.value = readObjectKey( is ) ;
     }
-    
-    public OldPOAObjectKeyTemplate( ORB orb, int magic, int scid, int serverid, 
-        int orbid, int poaid) 
+
+    public OldPOAObjectKeyTemplate( ORB orb, int magic, int scid, int serverid,
+        int orbid, int poaid)
     {
         super( orb, magic, scid, serverid,
-            Integer.toString( orbid ), 
+            Integer.toString( orbid ),
             new ObjectAdapterIdNumber( poaid ) ) ;
     }
-    
+
     @Override
-    public void writeTemplate(OutputStream os) 
+    public void writeTemplate(OutputStream os)
     {
         os.write_long( getMagic() ) ;
         os.write_long( getSubcontractId() ) ;
@@ -83,7 +83,7 @@ public final class OldPOAObjectKeyTemplate extends OldObjectKeyTemplateBase
         int poaid = oaid.getOldPOAId()  ;
         os.write_long( poaid ) ;
     }
- 
+
     @Override
     public ORBVersion getORBVersion() {
         switch (getMagic()) {

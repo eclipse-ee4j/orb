@@ -42,16 +42,16 @@ public class ThreadPoolFactory {
      * with the given ClassLoader as the worker thread default
      * ClassLoader.
      */
-    public ThreadPool create(ThreadGroup tg, String threadpoolName, 
+    public ThreadPool create(ThreadGroup tg, String threadpoolName,
         ClassLoader defaultClassLoader) {
         return new ThreadPoolImpl( tg, threadpoolName, defaultClassLoader ) ;
     }
- 
+
     /** Create a bounded thread pool in the current thread group
      * with the current context ClassLoader as the worker thread default
      * ClassLoader.
      */
-    public ThreadPool create( int minSize, int maxSize, long timeout, 
+    public ThreadPool create( int minSize, int maxSize, long timeout,
         String threadpoolName) {
 
         return new ThreadPoolImpl( minSize, maxSize, timeout, threadpoolName ) ;
@@ -61,8 +61,8 @@ public class ThreadPoolFactory {
      * with the given ClassLoader as the worker thread default
      * ClassLoader.
      */
-    public ThreadPool create( int minSize, int maxSize, long timeout, 
-        String threadpoolName, ClassLoader defaultClassLoader ) 
+    public ThreadPool create( int minSize, int maxSize, long timeout,
+        String threadpoolName, ClassLoader defaultClassLoader )
     {
         return new ThreadPoolImpl( minSize, maxSize, timeout,
             threadpoolName, defaultClassLoader ) ;

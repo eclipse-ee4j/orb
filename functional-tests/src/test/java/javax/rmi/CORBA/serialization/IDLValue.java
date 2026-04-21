@@ -31,7 +31,7 @@ public class IDLValue implements org.omg.CORBA.portable.IDLEntity
     public float fFloat;
     public double fDouble;
     public String fString;
-    
+
     public IDLValue()
     {
         fInt = r.nextInt();
@@ -46,8 +46,8 @@ public class IDLValue implements org.omg.CORBA.portable.IDLEntity
         try
             {
                 IDLValue ctbo = (IDLValue)o;
-                return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) && 
-                        (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat) && 
+                return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) &&
+                        (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat) &&
                         (ctbo.fDouble == fDouble));
             }
         catch(Exception e)

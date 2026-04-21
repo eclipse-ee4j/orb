@@ -27,14 +27,14 @@ public class POAPoliciesTest extends CORBATest
 {
     private void testWithFactory(String poaFactory) throws Throwable
     {
-        Test.dprint("Using POA Factory: " 
+        Test.dprint("Using POA Factory: "
                     + (poaFactory == null ? "(Default)" : poaFactory));
 
         if (poaFactory != null) {
             Properties serverProps = Options.getServerProperties();
             serverProps.setProperty("POAFactory", poaFactory);
         }
-        
+
         Controller server = createServer("corba.poapolicies.HelloServer");
 
         Controller client = createClient("corba.poapolicies.HelloClient", poaFactory );
@@ -58,4 +58,4 @@ public class POAPoliciesTest extends CORBATest
     }
 }
 
-    
+

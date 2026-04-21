@@ -38,7 +38,7 @@ import com.sun.corba.ee.impl.util.Utility;
 /**
  * A Generator object will generate the Java source code of the stub
  * and skeleton classes for an RMI remote implementation class, using
- * a particular stub protocol version.  
+ * a particular stub protocol version.
  *
  * @version     1.27, 07/27/07
  * @author      Peter Jones,  Bryan Atsatt
@@ -180,13 +180,13 @@ public class RMIGenerator implements RMIConstants, Generator {
             String classNameStr = className.getName().toString();
             File temp = new File(packageDir, Utility.tieName(classNameStr) + ".class");
             if (temp.exists()) {
-                
+
                 // Found a tie. Is IIOP generation also being done?
-                
+
                 if (!env.getMain().iiopGeneration) {
-                    
+
                     // No, so write a warning...
-                
+
                     env.error(0,"warn.rmic.tie.found",
                               classNameStr,
                               temp.getAbsolutePath());
@@ -805,7 +805,7 @@ public class RMIGenerator implements RMIConstants, Generator {
         p.pln("throw new " + idUnmarshalException +
             "(\"invalid method number\");");
         p.pOln("}");                    // end switch statement
-        
+
         p.pOln("}");                    // end dispatch() method
 
         p.pOln("}");                    // end skeleton class
@@ -905,7 +905,7 @@ public class RMIGenerator implements RMIConstants, Generator {
         p.pln("throw new " +
             idMarshalException + "(\"error marshalling return\", e);");
         p.pOln("}");
-        
+
         p.pln("break;");                // break from switch statement
 
         p.pOlnI("}");                   // end nested block statement

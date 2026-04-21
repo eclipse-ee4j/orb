@@ -29,7 +29,7 @@ package com.sun.org.omg.CORBA;
 
 // This file has been manually _CHANGED_
 
-public interface IRObjectOperations 
+public interface IRObjectOperations
 {
 
     // read interface

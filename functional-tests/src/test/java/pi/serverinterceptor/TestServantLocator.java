@@ -47,14 +47,14 @@ public class TestServantLocator
     /**
      * Creates the servant locator.
      */
-    public TestServantLocator( PrintStream out, ORB orb, 
-                               org.omg.CORBA.Object helloRefForward ) 
+    public TestServantLocator( PrintStream out, ORB orb,
+                               org.omg.CORBA.Object helloRefForward )
     {
         this.out = out;
         this.orb = orb;
         this.helloRefForward = helloRefForward;
         this.firstTime = true;
-    } 
+    }
 
     public Servant preinvoke(byte[] oid, POA adapter, String operation,
                              CookieHolder the_cookie)

@@ -55,7 +55,7 @@ public class DynEnumImpl extends DynAnyBasicImpl implements DynEnum
         // The any doesn't have to be initialized. We have a default value in this case.
         try {
             currentEnumeratorIndex = any.extract_long();
-        } catch (BAD_OPERATION e) { 
+        } catch (BAD_OPERATION e) {
             // _REVISIT_: Fix Me
             currentEnumeratorIndex = 0;
             any.type(any.type());

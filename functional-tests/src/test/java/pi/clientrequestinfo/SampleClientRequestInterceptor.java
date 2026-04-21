@@ -32,17 +32,17 @@ import org.omg.PortableInterceptor.ClientRequestInterceptor;
  * performed on interceptor number 2 and only if the target() is not
  * helloRefForward.
  */
-public class SampleClientRequestInterceptor 
-    extends org.omg.CORBA.LocalObject 
+public class SampleClientRequestInterceptor
+    extends org.omg.CORBA.LocalObject
     implements ClientRequestInterceptor
 {
     // The dyanmic strategy that will be used for this round.
     public static InterceptorStrategy strategy = null;
-    
+
     // The name of this interceptor
     private String name;
 
-    // True if enabled, false if all interception points must 
+    // True if enabled, false if all interception points must
     // return immediately.
     public static boolean enabled = false;
 
@@ -67,7 +67,7 @@ public class SampleClientRequestInterceptor
     public static boolean invokeOnForwardedObject = false;
 
     private static int invokeCount = 0;
-    
+
     public SampleClientRequestInterceptor( String name ) {
         this.name = name;
     }
@@ -79,16 +79,16 @@ public class SampleClientRequestInterceptor
     public void destroy() {
     }
 
-    public void send_request (ClientRequestInfo ri) 
-        throws ForwardRequest 
+    public void send_request (ClientRequestInfo ri)
+        throws ForwardRequest
     {
         // Only execute if the interceptor is enabled, this interception
-        // point is enabled, we are the second interceptor, and we are 
+        // point is enabled, we are the second interceptor, and we are
         // executing on hello, not helloForward.
         if( !enabled ) return;
         if( !sendRequestEnabled ) return;
         if( !name.equals( "2" ) ) return;
-        if( !invokeOnForwardedObject && 
+        if( !invokeOnForwardedObject &&
             TestInitializer.helloRefForward._is_equivalent(
             ri.effective_target() ) ) return;
 
@@ -101,7 +101,7 @@ public class SampleClientRequestInterceptor
                     ClientCommon.client.invokeMethod( "sayHello" );
                 }
                 catch( Exception e ) {
-                    // If this throws an exception, convert it into a 
+                    // If this throws an exception, convert it into a
                     // SystemException.
                     throw new BAD_OPERATION( e.getMessage() );
                 }
@@ -112,7 +112,7 @@ public class SampleClientRequestInterceptor
 
     public void send_poll (ClientRequestInfo ri) {
         // Only execute if the interceptor is enabled, this interception
-        // point is enabled, we are the second interceptor, and we are 
+        // point is enabled, we are the second interceptor, and we are
         // executing on hello, not helloForward.
         if( !enabled ) return;
         if( !sendPollEnabled ) return;
@@ -126,7 +126,7 @@ public class SampleClientRequestInterceptor
 
     public void receive_reply (ClientRequestInfo ri) {
         // Only execute if the interceptor is enabled, this interception
-        // point is enabled, we are the second interceptor, and we are 
+        // point is enabled, we are the second interceptor, and we are
         // executing on hello, not helloForward.
         if( !enabled ) return;
         if( !receiveReplyEnabled ) return;
@@ -138,11 +138,11 @@ public class SampleClientRequestInterceptor
         strategy.receive_reply( this, ri );
     }
 
-    public void receive_exception (ClientRequestInfo ri) 
+    public void receive_exception (ClientRequestInfo ri)
         throws ForwardRequest
     {
         // Only execute if the interceptor is enabled, this interception
-        // point is enabled, we are the second interceptor, and we are 
+        // point is enabled, we are the second interceptor, and we are
         // executing on hello, not helloForward.
         if( !enabled ) return;
         if( !receiveExceptionEnabled ) return;
@@ -153,7 +153,7 @@ public class SampleClientRequestInterceptor
 
         if( exceptionRedirectToOther &&
             !TestInitializer.helloRefForward._is_equivalent(
-            ri.effective_target() ) ) 
+            ri.effective_target() ) )
         {
             // Override strategy, and cause this exception to redirect to
             // a receive_other on interceptor number 1.
@@ -164,11 +164,11 @@ public class SampleClientRequestInterceptor
         }
     }
 
-    public void receive_other (ClientRequestInfo ri) 
-        throws ForwardRequest 
+    public void receive_other (ClientRequestInfo ri)
+        throws ForwardRequest
     {
         // Only execute if the interceptor is enabled, this interception
-        // point is enabled, we are the second interceptor, and we are 
+        // point is enabled, we are the second interceptor, and we are
         // executing on hello, not helloForward.
         if( !enabled ) return;
         if( !receiveOtherEnabled ) return;

@@ -26,13 +26,13 @@ import com.sun.tools.corba.ee.idl.som.cff.Messages;
 
 import java.util.Vector;
 /**
- * This is an implementation that handles 
+ * This is an implementation that handles
  * #pragma meta scoped_name string
  * where
  * <UL>
  * <LI>    scoped_name ==  "::" separated scoped name
  * <LI>    string ==  separated identifiers, such as "localonly",
- *          "abstract", or "init". 
+ *          "abstract", or "init".
  *         D59407: NOTE: any non-white-space is grouped
  *          as part of the identifier.
  * </UL>
@@ -42,9 +42,9 @@ import java.util.Vector;
  * is MetaPragma.metaKey
  *
  * It is possible to associate a meta pragma with a forward entry.
- * At some point after the parser has completed, 
- * the method processForward(ForwardEntry entry) should be called 
- * for each ForwardEntry so that the meta information can be folded from 
+ * At some point after the parser has completed,
+ * the method processForward(ForwardEntry entry) should be called
+ * for each ForwardEntry so that the meta information can be folded from
  * the ForwardEntry into the corresponding InterfaceEntry.
  */
 public class MetaPragma extends PragmaHandler {
@@ -142,16 +142,16 @@ public class MetaPragma extends PragmaHandler {
      *
      *  State          token        next             action
      *  -----------------------------------------------------
-     *   initial     whitespace     initial          
-     *   initial     SlashStar      comment          
-     *   initial     SlashSlash     final              
-     *   initial     no more        final              
+     *   initial     whitespace     initial
+     *   initial     SlashStar      comment
+     *   initial     SlashSlash     final
+     *   initial     no more        final
      *   initial     text           text             add to text buffer
      *   initial     StarSlash      initial
-     *   comment     StarSlash      initial          
+     *   comment     StarSlash      initial
      *   comment     SlashStar      comment
      *   comment     whitespace     comment
-     *   comment     SlashSlash     comment          
+     *   comment     SlashSlash     comment
      *   comment     text           comment
      *   comment     no more        final
      *   text        text           text              add to buffer
@@ -160,7 +160,7 @@ public class MetaPragma extends PragmaHandler {
      *   text        SlashSlash     final             put in vector
      *   text        StarSlash      initial           put in vector
      *   text        no more        final             put in vector
-     *   
+     *
     */
     private static int initialState = 0;
     private static int commentState = 1;
@@ -173,7 +173,7 @@ public class MetaPragma extends PragmaHandler {
         int index = 0;
         while ( state != finalState ){
              boolean isNoMore = index >= msg.length();
-             char ch = ' ';   
+             char ch = ' ';
              boolean isSlashStar = false;
              boolean isSlashSlash = false;
              boolean isWhiteSpace = false;
@@ -196,13 +196,13 @@ public class MetaPragma extends PragmaHandler {
                          isStarSlash = true;
                          index++;
                      } else isText = true;
-                 } 
+                 }
                  else if ( Character.isSpaceChar(ch) || (ch == ',') // 59601
                               || (ch == ';') ) // 59683
                      isWhiteSpace = true;
                  else isText = true;
             }
-   
+
             if (state == initialState){
                    if (isSlashStar){
                       state = commentState;

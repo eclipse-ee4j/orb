@@ -45,7 +45,7 @@ public interface ValueHandler {
      **/
     java.io.Serializable readValue(org.omg.CORBA.portable.InputStream in,
                                    int offset,
-                                   java.lang.Class clz, 
+                                   java.lang.Class clz,
                                    String repositoryID,
                                    org.omg.SendingContext.RunTime sender);
 

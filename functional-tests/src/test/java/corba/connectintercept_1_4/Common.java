@@ -81,7 +81,7 @@ public abstract class Common
         if (x >= currentOrder) {
             currentOrder = x;
         } else {
-            throw new INTERNAL("Interceptor ordering (up): " 
+            throw new INTERNAL("Interceptor ordering (up): "
                                + x + " " + currentOrder,
                                -45,
                                CompletionStatus.COMPLETED_MAYBE);
@@ -116,7 +116,7 @@ public abstract class Common
                 System.exit(-1);
             }
         } else {
-            throw new RuntimeException(ccd + 
+            throw new RuntimeException(ccd +
                                        ": unexpected type of object: " + o);
         }
 

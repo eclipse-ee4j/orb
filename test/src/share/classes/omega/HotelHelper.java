@@ -74,22 +74,22 @@ public final class HotelHelper implements com.sun.org.omg.CORBA.portable.ValueHe
 
                                 // ValueMember instance for tango
                                 _tcOf_members0 = org.omg.CORBA.ORB.init ().get_primitive_tc (org.omg.CORBA.TCKind.tk_long);
-                                _members0[0] = new org.omg.CORBA.ValueMember ("tango", 
-                                                                              "", 
-                                                                              _id, 
-                                                                              "", 
-                                                                              _tcOf_members0, 
-                                                                              null, 
+                                _members0[0] = new org.omg.CORBA.ValueMember ("tango",
+                                                                              "",
+                                                                              _id,
+                                                                              "",
+                                                                              _tcOf_members0,
+                                                                              null,
                                                                               org.omg.CORBA.PUBLIC_MEMBER.value);
 
                                 // ValueMember instance for quickstep
                                 _tcOf_members0 = org.omg.CORBA.ORB.init ().get_primitive_tc (org.omg.CORBA.TCKind.tk_long);
-                                _members0[1] = new org.omg.CORBA.ValueMember ("quickstep", 
-                                                                              "", 
-                                                                              _id, 
-                                                                              "", 
-                                                                              _tcOf_members0, 
-                                                                              null, 
+                                _members0[1] = new org.omg.CORBA.ValueMember ("quickstep",
+                                                                              "",
+                                                                              _id,
+                                                                              "",
+                                                                              _tcOf_members0,
+                                                                              null,
                                                                               org.omg.CORBA.PUBLIC_MEMBER.value);
 
                                 __typeCode = org.omg.CORBA.ORB.init ().create_value_tc (_id, "Hotel", org.omg.CORBA.VM_NONE.value, null, _members0);

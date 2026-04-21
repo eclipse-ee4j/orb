@@ -49,4 +49,4 @@ public interface SpaceConquest extends Remote
     Planet[]      getGalaxyMap () throws RemoteException;
     int           getNumberOfPlanets () throws RemoteException;
     Planet        getPlanet (int index) throws RemoteException;
-} 
+}

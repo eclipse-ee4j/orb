@@ -28,7 +28,7 @@ import org.omg.PortableInterceptor.*;
 import ServerRequestInfo.*;
 
 /**
- * Servant implementation.  
+ * Servant implementation.
  */
 class helloDelegate implements helloIF {
     private PrintStream out = null;
@@ -50,8 +50,8 @@ class helloDelegate implements helloIF {
         public void saySystemException();
     }
 
-    public helloDelegate( PrintStream out, String symbol, 
-        ClientCallback callback ) 
+    public helloDelegate( PrintStream out, String symbol,
+        ClientCallback callback )
     {
         super();
         this.out = out;
@@ -69,23 +69,23 @@ class helloDelegate implements helloIF {
         out.println( "    - helloDelegate: sayOneway() invoked" );
         SampleServerRequestInterceptor.methodOrder += symbol;
     }
-    
+
     public void saySystemException() {
         out.println( "    - helloDelegate: saySystemException() invoked" );
         SampleServerRequestInterceptor.methodOrder += symbol;
         throw new IMP_LIMIT( SampleServerRequestInterceptor.VALID_MESSAGE );
     }
 
-    public void sayUserException() 
+    public void sayUserException()
         throws ExampleException
     {
         out.println( "    - helloDelegate: sayUserException() invoked" );
         SampleServerRequestInterceptor.methodOrder += symbol;
         throw new ExampleException( "valid" );
     }
-    
+
     // Client code calls this to synchronize with server.  This call
-    // blocks until the server is ready for the next invocation.  
+    // blocks until the server is ready for the next invocation.
     // It then returns a String containing the name of the method to
     // invoke on (either "sayHello" or "saySystemException").
     // If the string "exit" is returned, the Client's
@@ -95,11 +95,11 @@ class helloDelegate implements helloIF {
     //     an exception on the client side.
     public String syncWithServer( boolean exceptionRaised ) {
         out.println( "    - helloDelegate: syncWithServer() invoked" );
-        // Notify the test case that the client is waiting for 
+        // Notify the test case that the client is waiting for
         // syncWithServer to return:
         ServerCommon.syncing = true;
         ServerCommon.exceptionRaised = exceptionRaised;
-        
+
         // Wait for the next test case to start:
         synchronized( ServerCommon.syncObject ) {
             try {
@@ -109,18 +109,18 @@ class helloDelegate implements helloIF {
                 // ignore, assume we are good to go.
             }
         }
-        
+
         ServerCommon.syncing = false;
-        
+
         return ServerCommon.nextMethodToInvoke;
     }
 
     /**
-     * If n is 0, sayHello is invoked.  
-     * If n is 1, saySystemException is invoked. 
+     * If n is 0, sayHello is invoked.
+     * If n is 1, saySystemException is invoked.
      */
     public void sayInvokeAgain( int n ) {
-        out.println( "    - helloDelegate: sayInvokeAgain( " + n + 
+        out.println( "    - helloDelegate: sayInvokeAgain( " + n +
             " ) invoked" );
         SampleServerRequestInterceptor.methodOrder += symbol;
 
@@ -130,13 +130,13 @@ class helloDelegate implements helloIF {
             clientCallback.sayHello();
             break;
         case INVOKE_SAY_SYSTEM_EXCEPTION.value:
-            out.println( 
+            out.println(
                 "    - helloDelegate: invoking saySystemException..." );
             clientCallback.saySystemException();
             break;
         }
 
-        out.println( "    - helloDelegate: sayInvokeAgain( " + n + 
+        out.println( "    - helloDelegate: sayInvokeAgain( " + n +
             " ) returning..." );
     }
 

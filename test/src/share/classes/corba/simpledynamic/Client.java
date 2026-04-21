@@ -65,12 +65,12 @@ public class Client {
             BASE + "impl.javax.rmi.PortableRemoteObject" ) ;
 
         // We will only use dynamic RMI-IIOP for this test.
-        System.out.println( "Setting property " + ORBConstants.USE_DYNAMIC_STUB_PROPERTY 
+        System.out.println( "Setting property " + ORBConstants.USE_DYNAMIC_STUB_PROPERTY
             + " to true" ) ;
         System.setProperty( ORBConstants.USE_DYNAMIC_STUB_PROPERTY, "true" ) ;
 
         // Use the J2SE ic provider
-        System.setProperty( "java.naming.factory.initial", 
+        System.setProperty( "java.naming.factory.initial",
             JndiConstants.COSNAMING_CONTEXT_FACTORY ) ;
     }
 
@@ -96,7 +96,7 @@ public class Client {
         ORB orb = ORB.init( new String[0], props ) ;
 
         if (isServer) {
-            new TransientNameService( 
+            new TransientNameService(
                 com.sun.corba.ee.spi.orb.ORB.class.cast(orb) ) ;
         }
 
@@ -223,7 +223,7 @@ public class Client {
         tng.setOutputDirectory( "gen/corba/simpledynamic/test-output" ) ;
 
         Class[] tngClasses = new Class[] {
-            Client.class 
+            Client.class
         } ;
 
         tng.setTestClasses( tngClasses ) ;

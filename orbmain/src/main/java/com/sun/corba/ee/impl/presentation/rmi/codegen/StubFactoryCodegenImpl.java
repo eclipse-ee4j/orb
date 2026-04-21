@@ -33,7 +33,7 @@ import java.security.PrivilegedAction;
 import java.security.PrivilegedExceptionAction;
 import java.util.Map;
 
-public class StubFactoryCodegenImpl extends StubFactoryDynamicBase  
+public class StubFactoryCodegenImpl extends StubFactoryDynamicBase
 {
     private static final ORBUtilSystemException wrapper =
         ORBUtilSystemException.self ;
@@ -42,7 +42,7 @@ public class StubFactoryCodegenImpl extends StubFactoryDynamicBase
     private final PresentationManager pm ;
 
     public StubFactoryCodegenImpl( PresentationManager pm,
-        PresentationManager.ClassData classData, ClassLoader loader ) 
+        PresentationManager.ClassData classData, ClassLoader loader )
     {
         super( classData, loader ) ;
         this.pm = pm ;
@@ -94,7 +94,7 @@ public class StubFactoryCodegenImpl extends StubFactoryDynamicBase
         } catch (Exception exc) {
             wrapper.couldNotInstantiateStubClass(exc, stubClass.getName()) ;
         }
-        
+
         InvocationHandler handler = new StubInvocationHandlerImpl(pm, classData, stub) ;
 
         stub.initialize( classData, handler ) ;

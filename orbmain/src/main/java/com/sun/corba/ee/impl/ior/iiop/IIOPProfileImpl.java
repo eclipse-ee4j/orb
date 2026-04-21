@@ -133,17 +133,17 @@ public class IIOPProfileImpl extends IdentifiableBase implements IIOPProfile
         return proftemp ;
     }
 
-    public ObjectKeyTemplate getObjectKeyTemplate() 
+    public ObjectKeyTemplate getObjectKeyTemplate()
     {
         return oktemp ;
     }
 
-    private IIOPProfileImpl( ORB orb ) 
+    private IIOPProfileImpl( ORB orb )
     {
         this.orb = orb ;
     }
 
-    public IIOPProfileImpl( ORB orb, ObjectKeyTemplate oktemp, ObjectId oid, 
+    public IIOPProfileImpl( ORB orb, ObjectKeyTemplate oktemp, ObjectId oid,
         IIOPProfileTemplate proftemp )
     {
         this( orb ) ;
@@ -158,7 +158,7 @@ public class IIOPProfileImpl extends IdentifiableBase implements IIOPProfile
         init( is ) ;
     }
 
-    public IIOPProfileImpl( ORB orb, org.omg.IOP.TaggedProfile profile) 
+    public IIOPProfileImpl( ORB orb, org.omg.IOP.TaggedProfile profile)
     {
         this( orb ) ;
 
@@ -167,7 +167,7 @@ public class IIOPProfileImpl extends IdentifiableBase implements IIOPProfile
             throw wrapper.invalidTaggedProfile() ;
         }
 
-        EncapsInputStream istr = EncapsInputStreamFactory.newEncapsInputStream(orb, profile.profile_data, 
+        EncapsInputStream istr = EncapsInputStreamFactory.newEncapsInputStream(orb, profile.profile_data,
             profile.profile_data.length);
         istr.consumeEndian();
         init( istr ) ;
@@ -185,7 +185,7 @@ public class IIOPProfileImpl extends IdentifiableBase implements IIOPProfile
         oktemp = okey.getTemplate() ;
         oid = okey.getId() ;
 
-        proftemp = IIOPFactories.makeIIOPProfileTemplate( orb, 
+        proftemp = IIOPFactories.makeIIOPProfileTemplate( orb,
             version, primary ) ;
 
         // Handle any tagged components (if applicable)
@@ -214,7 +214,7 @@ public class IIOPProfileImpl extends IdentifiableBase implements IIOPProfile
             // and so getCodebase ned never call uncachedGetCodebase.
             cachedCodebase = true;
         }
-    }   
+    }
 
     public void writeContents(OutputStream os)
     {
@@ -234,7 +234,7 @@ public class IIOPProfileImpl extends IdentifiableBase implements IIOPProfile
 
         IIOPProfile other = (IIOPProfile)prof ;
 
-        return oid.equals( other.getObjectId() ) && 
+        return oid.equals( other.getObjectId() ) &&
                proftemp.isEquivalent( other.getTaggedProfileTemplate() ) &&
                oktemp.equals( other.getObjectKeyTemplate() ) ;
     }
@@ -257,11 +257,11 @@ public class IIOPProfileImpl extends IdentifiableBase implements IIOPProfile
     }
 
     private String uncachedGetCodeBase() {
-        Iterator<TaggedComponent> iter = 
+        Iterator<TaggedComponent> iter =
             proftemp.iteratorById( TAG_JAVA_CODEBASE.value ) ;
 
         if (iter.hasNext()) {
-            JavaCodebaseComponent jcbc = 
+            JavaCodebaseComponent jcbc =
                 JavaCodebaseComponent.class.cast( iter.next() ) ;
             return jcbc.getURLs() ;
         }
@@ -332,7 +332,7 @@ public class IIOPProfileImpl extends IdentifiableBase implements IIOPProfile
         }
 
         RequestDispatcherRegistry scr = orb.getRequestDispatcherRegistry() ;
-        ObjectAdapterFactory oaf = scr.getObjectAdapterFactory( 
+        ObjectAdapterFactory oaf = scr.getObjectAdapterFactory(
             oktemp.getSubcontractId() ) ;
 
         ObjectAdapterId oaid = oktemp.getObjectAdapterId() ;

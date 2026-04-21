@@ -91,7 +91,7 @@ public class TypedefEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     return type().isReferencable() ;
   }
 
-  public void isReferencable( boolean value ) 
+  public void isReferencable( boolean value )
   {
     // NO-OP: this cannot be set for a typedef.
   }

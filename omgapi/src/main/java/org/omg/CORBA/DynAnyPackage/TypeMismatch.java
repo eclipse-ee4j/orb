@@ -22,7 +22,7 @@ package org.omg.CORBA.DynAnyPackage;
 /**
  * TypeMismatch is thrown by dynamic any accessor methods when
  * type of the actual contents do not match what is trying to be
- * accessed.  
+ * accessed.
  */
 // @SuppressWarnings({"serial"})
 public final class TypeMismatch

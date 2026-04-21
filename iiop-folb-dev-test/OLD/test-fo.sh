@@ -24,7 +24,7 @@ ASADMIN="${S1AS_HOME}/bin/asadmin"
 APPCLIENT="${S1AS_HOME}/bin/appclient"
 PROPS_FILE=${PWD}/logging.properties
 
-# HOST_PORTS=${instance1_node}:${instance1_IIOP_LISTENER_PORT},${instance2_node}:${instance2_IIOP_LISTENER_PORT},${instance3_node}:${instance3_IIOP_LISTENER_PORT} 
+# HOST_PORTS=${instance1_node}:${instance1_IIOP_LISTENER_PORT},${instance2_node}:${instance2_IIOP_LISTENER_PORT},${instance3_node}:${instance3_IIOP_LISTENER_PORT}
 HOST_PORTS=${instance1_node}:${instance1_IIOP_LISTENER_PORT},${instance2_node}:${instance2_IIOP_LISTENER_PORT}
 INSTANCES=${instance1_name},${instance2_name},${instance3_name}
 

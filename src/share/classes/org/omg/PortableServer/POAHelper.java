@@ -41,7 +41,7 @@ abstract public class POAHelper
 {
     private static String  _id = "IDL:omg.org/PortableServer/POA:2.3";
 
-    public static void insert (org.omg.CORBA.Any a, 
+    public static void insert (org.omg.CORBA.Any a,
         org.omg.PortableServer.POA that)
     {
         org.omg.CORBA.portable.OutputStream out = a.create_output_stream ();
@@ -76,7 +76,7 @@ abstract public class POAHelper
         throw new org.omg.CORBA.MARSHAL ();
     }
 
-    public static void write (org.omg.CORBA.portable.OutputStream ostream, 
+    public static void write (org.omg.CORBA.portable.OutputStream ostream,
        org.omg.PortableServer.POA value)
     {
         throw new org.omg.CORBA.MARSHAL ();

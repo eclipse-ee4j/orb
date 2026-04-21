@@ -49,18 +49,18 @@ public class Skeleton implements AuxGen
 
   public Skeleton ()
   {
-  } 
+  }
 
   public void generate (Hashtable symbolTable, SymtabEntry entry)
   {
-    // <d62739-begin> 
-    // Per Simon, 5-12-99, don't generate TIE or Skeleton for 
+    // <d62739-begin>
+    // Per Simon, 5-12-99, don't generate TIE or Skeleton for
     //
-    // 1) valuetypes supporting abstract interfaces 
+    // 1) valuetypes supporting abstract interfaces
     // 2) valuetypes with no supports.
     // 3) abstract interfaces
     //
-    if (entry instanceof ValueEntry) 
+    if (entry instanceof ValueEntry)
     {
       ValueEntry v = (ValueEntry) entry;
       if ((v.supports ().isEmpty()) ||
@@ -94,12 +94,12 @@ public class Skeleton implements AuxGen
     tie = ((com.sun.tools.corba.ee.idl.toJavaPortable.Arguments) com.sun.tools.corba.ee.idl.toJavaPortable.Compile.compiler.arguments).TIEServer ;
     poa = ((com.sun.tools.corba.ee.idl.toJavaPortable.Arguments) com.sun.tools.corba.ee.idl.toJavaPortable.Compile.compiler.arguments).POAServer ;
 
-    skeletonNameModifier = 
+    skeletonNameModifier =
         ((com.sun.tools.corba.ee.idl.toJavaPortable.Arguments) com.sun.tools.corba.ee.idl.toJavaPortable.Compile.compiler.arguments).skeletonNameModifier ;
-    tieNameModifier = 
+    tieNameModifier =
         ((com.sun.tools.corba.ee.idl.toJavaPortable.Arguments) com.sun.tools.corba.ee.idl.toJavaPortable.Compile.compiler.arguments).tieNameModifier ;
-    
-    tieClassName = tieNameModifier.makeName( i.name() ) ; 
+
+    tieClassName = tieNameModifier.makeName( i.name() ) ;
     skeletonClassName = skeletonNameModifier.makeName( i.name() ) ;
 
     intfName = com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaName(i);
@@ -134,16 +134,16 @@ public class Skeleton implements AuxGen
   protected void writeClassDeclaration ()
   {
     if (tie){
-        stream.println ("public class " + tieClassName + 
+        stream.println ("public class " + tieClassName +
             " extends " + skeletonClassName ) ;
-    } else { 
+    } else {
         if (poa) {
-            stream.println ("public abstract class " + skeletonClassName + 
+            stream.println ("public abstract class " + skeletonClassName +
                             " extends org.omg.PortableServer.Servant");
             stream.print   (" implements " + intfName + "Operations, ");
             stream.println ("org.omg.CORBA.portable.InvokeHandler");
         } else {
-            stream.println ("public abstract class " + skeletonClassName + 
+            stream.println ("public abstract class " + skeletonClassName +
                             " extends org.omg.CORBA.portable.ObjectImpl");
             stream.print   ("                implements " + intfName + ", ");
             stream.println ("org.omg.CORBA.portable.InvokeHandler");
@@ -178,10 +178,10 @@ public class Skeleton implements AuxGen
         } else {
             writeMethods ();
             stream.println ("  private " + intfName + "Operations _impl;");
-        } 
+        }
     } else { //Both POA and ImplBase are abstract InvokeHandler
         //The logic is here for future use
-        if (poa) { 
+        if (poa) {
             writeMethodTable ();
             writeDispatchMethod ();
             writeCORBAOperations ();
@@ -204,7 +204,7 @@ public class Skeleton implements AuxGen
     stream.println ();
     if (tie){
         stream.println ("} // class " + tieClassName);
-    } else { 
+    } else {
         stream.println ("} // class " + skeletonClassName);
     }
   } // writeClosing
@@ -226,7 +226,7 @@ public class Skeleton implements AuxGen
             stream.println ("  public " + tieClassName + " ()");
             stream.println ("  {");
             stream.println ("  }");
-        } else { 
+        } else {
             stream.println ("  public " + skeletonClassName + " ()");
             stream.println ("  {");
             stream.println ("  }");
@@ -241,7 +241,7 @@ public class Skeleton implements AuxGen
             //Write state setters and getters
             writePOATieFieldAccessMethods();
         } else {
-            stream.println ("  public " + tieClassName + 
+            stream.println ("  public " + tieClassName +
                             " (" + intfName + "Operations impl)");
             stream.println ("  {");
             // Does it derive from a interface having state, e.g., valuetype?
@@ -252,7 +252,7 @@ public class Skeleton implements AuxGen
             stream.println ("    _impl = impl;");
             stream.println ("  }");
             stream.println ();
-        } 
+        }
     } else { //Skeleton is not Tie so it has no constructors.
         if (poa) {
         } else {
@@ -268,7 +268,7 @@ public class Skeleton implements AuxGen
     stream.println ("      this._impl = delegate;");
     stream.println ("  }");
     //Second constructor specifying default poa.
-    stream.println ("  public " + tieClassName + " ( " + intfName + 
+    stream.println ("  public " + tieClassName + " ( " + intfName +
                     "Operations delegate , org.omg.PortableServer.POA poa ) {");
     stream.println ("      this._impl = delegate;");
     stream.println ("      this._poa      = poa;");
@@ -279,11 +279,11 @@ public class Skeleton implements AuxGen
     //Getting delegate
     stream.println ("  public " + intfName+ "Operations _delegate() {");
     stream.println ("      return this._impl;");
-    stream.println ("  }");    
+    stream.println ("  }");
     //Setting delegate
     stream.println ("  public void _delegate (" + intfName + "Operations delegate ) {");
     stream.println ("      this._impl = delegate;");
-    stream.println ("  }");            
+    stream.println ("  }");
     //Overriding default poa
     stream.println ("  public org.omg.PortableServer.POA _default_POA() {");
     stream.println ("      if(_poa != null) {");
@@ -292,7 +292,7 @@ public class Skeleton implements AuxGen
     stream.println ("      else {");
     stream.println ("          return super._default_POA();");
     stream.println ("      }");
-    stream.println ("  }");  
+    stream.println ("  }");
   }
 
   /**
@@ -432,7 +432,7 @@ public class Skeleton implements AuxGen
               MethodEntry method = (MethodEntry)methodList.elementAt (i);
               ((com.sun.tools.corba.ee.idl.toJavaPortable.MethodGen)method.generator ()).skeleton
                   (symbolTable, method, stream, realI);
-              if (method instanceof AttributeEntry && 
+              if (method instanceof AttributeEntry &&
                   !((AttributeEntry)method).readOnly ())
                   realI += 2;
               else
@@ -496,7 +496,7 @@ public class Skeleton implements AuxGen
 
   protected void writePOACORBAOperations(){
       stream.println ("  public String[] _all_interfaces (org.omg.PortableServer.POA poa, byte[] objectId)");
-      //Right now, with our POA implementation, the same 
+      //Right now, with our POA implementation, the same
       //implementation of _ids() type methods seem to work for both non-POA
       //as well as POA servers. We need to REVISIT since the equivalent
       //POA interface, i.e. _all_interfaces, has parameters which are not being

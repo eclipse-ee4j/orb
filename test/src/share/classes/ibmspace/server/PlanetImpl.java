@@ -165,7 +165,7 @@ public class PlanetImpl implements Planet, java.io.Serializable
         return fSettlement;
     }
 
-  
+
     //
     // Setters
     //

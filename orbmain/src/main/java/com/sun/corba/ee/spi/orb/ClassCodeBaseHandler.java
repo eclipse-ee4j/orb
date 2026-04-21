@@ -21,7 +21,7 @@ package com.sun.corba.ee.spi.orb;
 
 public interface ClassCodeBaseHandler {
     /** Returns some sort of codebase for the given class, or null.
-     * It is expected that, if str is the result of getCodeBase( cls ), 
+     * It is expected that, if str is the result of getCodeBase( cls ),
      * then loadClass( str, cls.getClassName() ) will return cls.
      * @param cls Class for which we need a codebase
      * @return A codebase to use with this handler, or null if this handler
@@ -30,7 +30,7 @@ public interface ClassCodeBaseHandler {
     String getCodeBase( Class<?> cls ) ;
 
     /** load a class given the classname and a codebase.
-     * The className will always satisfy cls.getClassName().equals( className ) 
+     * The className will always satisfy cls.getClassName().equals( className )
      * if the call succeeds and returns a Class.
      * @param codebase A string that somehow describes which ClassLoader to use.
      * For example, the string could be an ordinary URL that a URL ClassLoader can use,

@@ -72,7 +72,7 @@ import org.testng.annotations.Test ;
  *
  * This test first tests the normal rmi-iiop invocation path from client
  * server. A typical HelloWorld kind of test.
- * 
+ *
  * After testing the normal invocation, it serializes the HelloStub into a
  * FileOutputStream and then deserializes it back and makes the same invocation.
  * This is a typical case in our AppServer's Stateless Session Beans
@@ -88,7 +88,7 @@ public class Client
 
     private static String[] args;
 
-    public static void main( String[] args ) 
+    public static void main( String[] args )
     {
         Client.args = args ;
         TestngRunner runner = new TestngRunner() ;
@@ -108,7 +108,7 @@ public class Client
         NamingContext ncRef = NamingContextHelper.narrow(objRef);
         NameComponent nc = new NameComponent(Constants.HELLO_SERVICE, "");
         NameComponent[] path = {nc};
-                                                                            
+
         hello = (Hello)PortableRemoteObject.narrow(ncRef.resolve(path),
                                                    Hello.class);
     }
@@ -161,18 +161,18 @@ public class Client
     }
 
     @Test
-    private void serializeStub( String fname, Remote stub ) 
+    private void serializeStub( String fname, Remote stub )
     {
         FileOutputStream fos = null ;
         ObjectOutputStream oos = null ;
 
         try {
             System.out.println(
-                "Serialing the Stub to FileOutputStream " + fname + 
+                "Serialing the Stub to FileOutputStream " + fname +
                     ": Start");
             fos = new FileOutputStream( getFile(fname) ) ;
             oos = new ObjectOutputStream(fos);
-            oos.writeObject(stub); 
+            oos.writeObject(stub);
             System.out.println(
                 "Serializing the Stub to a FileOutputStream " + fname +
                 ": Complete");
@@ -193,7 +193,7 @@ public class Client
     }
 
     @Test
-    private void deserializeStubandInvoke( String fname ) 
+    private void deserializeStubandInvoke( String fname )
     {
         FileInputStream fis = null ;
         ObjectInputStream ois = null ;
@@ -203,12 +203,12 @@ public class Client
                "DeSerializing the Stub from a FileStream Start");
            fis = new FileInputStream( getFile(fname) ) ;
            ois = new ObjectInputStream(fis);
-           Object obj = ois.readObject(); 
+           Object obj = ois.readObject();
            StubAdapter.connect( obj, orb ) ;
            System.out.println(
                "DeSerializing the Stub from a FileStream Complete");
            Hello helloAfterDeserialization = (Hello) obj;
-           System.out.println( 
+           System.out.println(
                "Invoking after Serialization and Deserialization" );
            String messageFromServer = helloAfterDeserialization.sayHello();
            if( !messageFromServer.equals( Constants.HELLO ) ) {
@@ -216,10 +216,10 @@ public class Client
                System.exit( 1 );
            }
            System.out.println( "Message from Server = " + messageFromServer );
-           System.out.println( 
+           System.out.println(
                "Invoking after Serialization and Deserialization Complete" );
        } catch( Exception e ) {
-           System.err.println( 
+           System.err.println(
                "Exception in Stub DeSerialization and Invoke : " + e );
            e.printStackTrace( );
            System.exit( 1 );
@@ -237,7 +237,7 @@ public class Client
 
     /*
     @Test
-    public void testAppReturnValue() 
+    public void testAppReturnValue()
     {
         try {
             TestAppReturnValue v1 = new TestAppReturnValue() ;
@@ -245,7 +245,7 @@ public class Client
             if (!v1.toString().equals( v2.toString() ))
                 throw new RuntimeException( "v1 and v2 are not equal" ) ;
         } catch (Exception exc) {
-           System.err.println( 
+           System.err.println(
                "Exception in TestAppReturnValue : " + exc );
            exc.printStackTrace( );
            System.exit( 1 );

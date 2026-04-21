@@ -20,19 +20,19 @@
 package com.sun.corba.ee.impl.threadpool;
 
 public class WorkerThreadNotNeededException extends Exception {
-    
+
     public WorkerThreadNotNeededException() {
         super();
     }
-    
+
     public WorkerThreadNotNeededException(String message) {
         super(message);
     }
-    
+
     public WorkerThreadNotNeededException(String message, Throwable cause) {
         super(message, cause);
     }
-    
+
     public WorkerThreadNotNeededException(Throwable cause) {
         super(cause);
     }

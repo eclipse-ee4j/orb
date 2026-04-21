@@ -44,15 +44,15 @@ public class BatchEnvironment extends sun.rmi.rmic.BatchEnvironment implements C
      * this is very expensive, so the default should be false.
      */
     private boolean parseNonConforming = false;
-    
+
     /**
      * This flag indicates that the stubs and ties need to be generated without
      * the package prefix (org.omg.stub).
      */
     private boolean standardPackage;
-    
+
     /* Common objects used within package */
-    
+
     HashSet alreadyChecked = new HashSet();
     Hashtable allTypes = new Hashtable(3001, 0.5f);
     Hashtable invalidTypes = new Hashtable(256, 0.5f);
@@ -61,7 +61,7 @@ public class BatchEnvironment extends sun.rmi.rmic.BatchEnvironment implements C
     Hashtable nameContexts = null;
     Hashtable namesCache = new Hashtable();
     NameContext modulesContext = new NameContext(false);
-    
+
     ClassDefinition defRemote = null;
     ClassDefinition defError = null;
     ClassDefinition defException = null;
@@ -73,20 +73,20 @@ public class BatchEnvironment extends sun.rmi.rmic.BatchEnvironment implements C
     ClassDefinition defRuntimeException = null;
     ClassDefinition defIDLEntity = null;
     ClassDefinition defValueBase = null;
-    
+
     sun.tools.java.Type typeRemoteException = null;
     sun.tools.java.Type typeIOException = null;
     sun.tools.java.Type typeException = null;
     sun.tools.java.Type typeThrowable = null;
-    
+
     ContextStack contextStack = null;
-    
+
     /**
      * Create a BatchEnvironment for rmic with the given class path,
      * stream for messages and Main.
      */
     public BatchEnvironment(OutputStream out, ClassPath path, Main main) {
-        
+
         super(out,path,main);
 
         // Make sure we have our definitions...
@@ -105,22 +105,22 @@ public class BatchEnvironment extends sun.rmi.rmic.BatchEnvironment implements C
             defSerializable =
                 getClassDeclaration(idJavaIoSerializable).getClassDefinition(this);
             defRuntimeException =
-                getClassDeclaration(idJavaLangRuntimeException).getClassDefinition(this);    
+                getClassDeclaration(idJavaLangRuntimeException).getClassDefinition(this);
             defExternalizable =
-                getClassDeclaration(idJavaIoExternalizable).getClassDefinition(this);    
+                getClassDeclaration(idJavaIoExternalizable).getClassDefinition(this);
             defThrowable=
-                getClassDeclaration(idJavaLangThrowable).getClassDefinition(this);    
+                getClassDeclaration(idJavaLangThrowable).getClassDefinition(this);
             defIDLEntity=
-                getClassDeclaration(idIDLEntity).getClassDefinition(this);    
+                getClassDeclaration(idIDLEntity).getClassDefinition(this);
             defValueBase=
-                getClassDeclaration(idValueBase).getClassDefinition(this);    
+                getClassDeclaration(idValueBase).getClassDefinition(this);
             typeRemoteException = defRemoteException.getClassDeclaration().getType();
             typeException = defException.getClassDeclaration().getType();
             typeIOException = getClassDeclaration(idJavaIoIOException).getType();
             typeThrowable = getClassDeclaration(idJavaLangThrowable).getType();
 
             classPathLoader = new ClassPathLoader(path);
-            
+
         } catch (ClassNotFound e) {
             error(0, "rmic.class.not.found", e.name);
             throw new Error();
@@ -133,36 +133,36 @@ public class BatchEnvironment extends sun.rmi.rmic.BatchEnvironment implements C
     public boolean getParseNonConforming () {
         return parseNonConforming;
     }
-    
+
     /**
      * Set whether or not to parse non-conforming types.
      */
     public void setParseNonConforming (boolean parseEm) {
-            
+
         // If we are transitioning from not parsing to
         // parsing, we need to throw out any previously
         // parsed types...
-            
+
         if (parseEm && !parseNonConforming) {
-            reset();    
+            reset();
         }
-            
+
         parseNonConforming = parseEm;
     }
-    
+
     void setStandardPackage(boolean standardPackage) {
         this.standardPackage = standardPackage;
     }
-    
+
     boolean getStandardPackage() {
         return standardPackage;
     }
-    
+
     /**
      * Clear out any data from previous executions.
      */
     public void reset () {
-        
+
         // First, find all Type instances and call destroy()
         // on them...
 
@@ -180,12 +180,12 @@ public class BatchEnvironment extends sun.rmi.rmic.BatchEnvironment implements C
             Type type = (Type) e.next();
             type.destroy();
         }
-        
+
         if (contextStack != null) contextStack.clear();
-        
+
         // Remove and clear all NameContexts in the
         // nameContexts cache...
-            
+
         if (nameContexts != null) {
             for (Enumeration e = nameContexts.elements() ; e.hasMoreElements() ;) {
                 NameContext context = (NameContext) e.nextElement();
@@ -201,7 +201,7 @@ public class BatchEnvironment extends sun.rmi.rmic.BatchEnvironment implements C
         alreadyChecked.clear();
         namesCache.clear();
         modulesContext.clear();
-        
+
         // Clean up remaining...
         loader = null;
         parseNonConforming = false;
@@ -241,7 +241,7 @@ public class BatchEnvironment extends sun.rmi.rmic.BatchEnvironment implements C
             typeIOException = null;
             typeException = null;
             typeThrowable = null;
-            
+
             super.shutdown();
         }
     }

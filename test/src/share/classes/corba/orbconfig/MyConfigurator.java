@@ -27,7 +27,7 @@ public class MyConfigurator implements ORBConfigurator
 {
     public static boolean wasCalled = false ;
 
-    public void configure( DataCollector dc, ORB orb ) 
+    public void configure( DataCollector dc, ORB orb )
     {
         wasCalled = true ;
     }

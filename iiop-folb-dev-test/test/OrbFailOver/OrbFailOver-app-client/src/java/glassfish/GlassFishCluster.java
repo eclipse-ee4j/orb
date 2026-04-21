@@ -216,7 +216,7 @@ public class GlassFishCluster {
             final int currentPortBase = portBase
                 + index * CREATE_INSTANCES_PORT_INCREMENT ;
             final String instanceName = instanceBaseName + index ;
-            InstanceInfo info = createInstance( instanceName, node, 
+            InstanceInfo info = createInstance( instanceName, node,
                 currentPortBase, orbDebug) ;
             result.put( instanceName, info ) ;
         }
@@ -244,7 +244,7 @@ public class GlassFishCluster {
             }
         }
     }
-    
+
     public void killInstance( String instanceName ) {
         if (instanceInfoMap.keySet().contains(instanceName)) {
             if (gfInst.ac().killInstance( instanceName )) {
@@ -252,7 +252,7 @@ public class GlassFishCluster {
             }
         }
     }
-    
+
     public Set<String> runningInstances() {
         return new HashSet<String>( runningInstances ) ;
     }

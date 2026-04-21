@@ -66,11 +66,11 @@ public class AttributesValidStrategy
         try {
             super.receive_request_service_contexts( interceptor, ri );
 
-            String validName = (count == 0) ?  
+            String validName = (count == 0) ?
                 "sayHello" : "saySystemException";
             this.operationName = ri.operation();
             log( "rrsc(): Expected operation name = " + validName );
-            log( "rrsc(): Actual operation name = " + 
+            log( "rrsc(): Actual operation name = " +
                 this.operationName );
 
             if( !this.operationName.equals( validName ) ) {
@@ -79,7 +79,7 @@ public class AttributesValidStrategy
 
             checkSyncScope( "rrsc", ri );
 
-            // Check that within rrsc, reply_status 
+            // Check that within rrsc, reply_status
             // throws BAD_INV_ORDER:
             try {
                 short replyStatus = ri.reply_status();
@@ -131,7 +131,7 @@ public class AttributesValidStrategy
             checkOperation( "receive_request", ri.operation() );
             checkSyncScope( "receive_request", ri );
 
-            // Check that within receive_request, reply_status 
+            // Check that within receive_request, reply_status
             // throws BAD_INV_ORDER:
             try {
                 short replyStatus = ri.reply_status();
@@ -206,7 +206,7 @@ public class AttributesValidStrategy
             checkOperation( "send_exception", ri.operation() );
             checkSyncScope( "send_exception", ri );
 
-            // Check that within send_exception, reply_status is 
+            // Check that within send_exception, reply_status is
             // SYSTEM_EXCEPTION or USER_EXCEPTION:
             boolean[] validValues = { false, true, true, false, false };
             checkReplyStatus( "send_exception", ri, validValues );
@@ -230,7 +230,7 @@ public class AttributesValidStrategy
             checkOperation( "send_other", ri.operation() );
             checkSyncScope( "send_other", ri );
 
-            // Check that within send_other, reply_status is 
+            // Check that within send_other, reply_status is
             // SUCCESSFUL, LOCATION_FORWARD, or TRANSPORT_RETRY.
             boolean[] validValues = { true, false, false, true, true };
             checkReplyStatus( "send_other", ri, validValues );
@@ -248,7 +248,7 @@ public class AttributesValidStrategy
     private void checkOperation( String method, String opName ) {
         log( method + "(): Actual operation name = " + opName );
         if( !opName.equals( this.operationName ) ) {
-            fail( "Operation name in " + method + " not equal to " + 
+            fail( "Operation name in " + method + " not equal to " +
                   "operation name in send_request()" );
         }
     }
@@ -283,13 +283,13 @@ public class AttributesValidStrategy
     }
 
     private void checkObjectId( String method, ServerRequestInfo ri ) {
-        // Check that object_id is valid 
+        // Check that object_id is valid
         byte[] objectId = ri.object_id();
         if( Arrays.equals( this.objectId, objectId ) ) {
             log( method + "(): Object id is valid" );
         }
         else {
-            fail( method + "(): Object id is invalid (" + 
+            fail( method + "(): Object id is invalid (" +
                 objectId + ")" );
         }
     }
@@ -301,7 +301,7 @@ public class AttributesValidStrategy
             log( method + "(): Adapter id is valid" );
         }
         else {
-            fail( method + "(): Adapter id is invalid (" + 
+            fail( method + "(): Adapter id is invalid (" +
                 adapterId + ")" );
         }
     }
@@ -309,7 +309,7 @@ public class AttributesValidStrategy
     // TMDI = Target Most Dervied Interface
     private void checkTMDI( String method, ServerRequestInfo ri ) {
         if( !method.equals( "receive_request" ) ) {
-            // everything but receive_request should disallow access to 
+            // everything but receive_request should disallow access to
             // target_most_derived_interface
             try {
                 ri.target_most_derived_interface();
@@ -324,10 +324,10 @@ public class AttributesValidStrategy
         }
         else {
             // Check that target_most_dervied_interface is valid
-            String targetMostDerivedInterface = 
+            String targetMostDerivedInterface =
                 ri.target_most_derived_interface();
             if( targetMostDerivedInterface == null ) {
-                fail( method + "(): Target most derived interface " + 
+                fail( method + "(): Target most derived interface " +
                     "is null" );
             }
             else if( targetMostDerivedInterface.equals( "" ) ) {
@@ -335,11 +335,11 @@ public class AttributesValidStrategy
                     "is empty string" );
             }
             else if( targetMostDerivedInterface.equals( validRepId ) ) {
-                log( method + "(): Target most derived interface " + 
+                log( method + "(): Target most derived interface " +
                     "is " + targetMostDerivedInterface );
             }
             else {
-                fail( method + "(): Target most derived interface " + 
+                fail( method + "(): Target most derived interface " +
                     "is " + targetMostDerivedInterface + ".  Expecting " +
                     validRepId + " instead." );
             }
@@ -348,7 +348,7 @@ public class AttributesValidStrategy
 
     private void checkTargetIsA( String method, ServerRequestInfo ri ) {
         if( !method.equals( "receive_request" ) ) {
-            // everything but receive_request should disallow access to 
+            // everything but receive_request should disallow access to
             // target_is_a.
             try {
                 ri.target_is_a( validRepId );
@@ -364,20 +364,20 @@ public class AttributesValidStrategy
         else {
             // Check that target_is_a is valid
             if( ri.target_is_a( validRepId ) ) {
-                log( method + "(): target_is_a(" + 
+                log( method + "(): target_is_a(" +
                     validRepId + ") is true (ok)" );
             }
             else {
-                fail( method + "(): target_is_a(" + validRepId + 
+                fail( method + "(): target_is_a(" + validRepId +
                     ") is false." );
             }
 
             if( ri.target_is_a( invalidRepId ) ) {
-                fail( method + "(): target_is_a(" + 
+                fail( method + "(): target_is_a(" +
                     invalidRepId + ") is true" );
             }
             else {
-                log( method + "(): target_is_a(" + 
+                log( method + "(): target_is_a(" +
                     invalidRepId + ") is false (ok)." );
             }
         }

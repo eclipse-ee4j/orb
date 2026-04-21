@@ -62,11 +62,11 @@ import org.omg.PortableInterceptor.TRANSPORT_RETRY;
 import org.omg.PortableInterceptor.USER_EXCEPTION;
 import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
-/** 
- * Provides portable interceptor functionality.  
+/**
+ * Provides portable interceptor functionality.
  */
 @TraceInterceptor
-public class PIHandlerImpl implements PIHandler 
+public class PIHandlerImpl implements PIHandler
 {
     private ORB orb ;
 
@@ -108,9 +108,9 @@ public class PIHandlerImpl implements PIHandler
     // Key for the table is PolicyType which is an Integer
     // Value is PolicyFactory.
     private Map<Integer,PolicyFactory> policyFactoryTable;
-    
+
     // Table to convert from a ReplyMessage.? to a PI replyStatus short.
-    // Note that this table relies on the order and constants of 
+    // Note that this table relies on the order and constants of
     // ReplyMessage not to change.
     private final static short REPLY_MESSAGE_TO_PI_REPLY_STATUS[] = {
         SUCCESSFUL.value,       // = ReplyMessage.NO_EXCEPTION
@@ -120,7 +120,7 @@ public class PIHandlerImpl implements PIHandler
         LOCATION_FORWARD.value, // = ReplyMessage.LOCATION_FORWARD_PERM
         TRANSPORT_RETRY.value   // = ReplyMessage.NEEDS_ADDRESSING_MODE
     };
-        
+
     static String getReplyStatus( int piReplyStatus ) {
         switch (piReplyStatus) {
             case SUCCESSFUL.value: return "SUCCESSFUL" ;
@@ -134,8 +134,8 @@ public class PIHandlerImpl implements PIHandler
 
     // ThreadLocal containing a stack to store client request info objects
     // and a disable count.
-    private ThreadLocal<RequestInfoStack<ClientRequestInfoImpl>> 
-        threadLocalClientRequestInfoStack = 
+    private ThreadLocal<RequestInfoStack<ClientRequestInfoImpl>>
+        threadLocalClientRequestInfoStack =
             new ThreadLocal<RequestInfoStack<ClientRequestInfoImpl>>() {
                 @Override
                 protected RequestInfoStack<ClientRequestInfoImpl> initialValue() {
@@ -152,7 +152,7 @@ public class PIHandlerImpl implements PIHandler
                 return new RequestInfoStack<ServerRequestInfoImpl>();
             }
         };
-    
+
     @TraceInterceptor
     public void close() {
         orb = null ;
@@ -181,13 +181,13 @@ public class PIHandlerImpl implements PIHandler
         public boolean equals( Object o ) {
             return super.equals( o ) ;
         }
-        
+
         @Override
         public int hashCode() {
             return super.hashCode() ;
         }
     }
-        
+
     public PIHandlerImpl( ORB orb, String[] args ) {
         this.orb = orb ;
 
@@ -212,7 +212,7 @@ public class PIHandlerImpl implements PIHandler
 
         // Register the PI current and Codec factory objects
         orb.getLocalResolver().register( ORBConstants.PI_CURRENT_NAME,
-            NullaryFunction.Factory.makeConstant( 
+            NullaryFunction.Factory.makeConstant(
                 (org.omg.CORBA.Object)current ) ) ;
         orb.getLocalResolver().register( ORBConstants.CODEC_FACTORY_NAME,
             NullaryFunction.Factory.makeConstant(
@@ -308,7 +308,7 @@ public class PIHandlerImpl implements PIHandler
     }
 
     @TraceInterceptor
-    public void adapterStateChanged( ObjectReferenceTemplate[] 
+    public void adapterStateChanged( ObjectReferenceTemplate[]
         templates, short newState ) {
 
         if (!hasIORInterceptors)
@@ -330,7 +330,7 @@ public class PIHandlerImpl implements PIHandler
             threadLocalClientRequestInfoStack.get();
         infoStack.disableCount++;
     }
-    
+
     @TraceInterceptor
     public void enableInterceptorsThisThread() {
         if( !hasClientInterceptors )
@@ -340,9 +340,9 @@ public class PIHandlerImpl implements PIHandler
             threadLocalClientRequestInfoStack.get();
         infoStack.disableCount--;
     }
-    
+
     @TraceInterceptor
-    public void invokeClientPIStartingPoint() 
+    public void invokeClientPIStartingPoint()
         throws RemarshalException {
 
         if( !hasClientInterceptors ) return;
@@ -511,7 +511,7 @@ public class PIHandlerImpl implements PIHandler
 
     @InfoMethod
     private void clientInfoStackWasPopped() { }
-    
+
     @TraceInterceptor
     public void cleanupClientPIRequest() {
         if( !hasClientInterceptors ) return;
@@ -557,7 +557,7 @@ public class PIHandlerImpl implements PIHandler
 
         peekClientRequestInfoImplStack().setInfo(messageMediator);
     }
-    
+
     @TraceInterceptor
     public void setClientPIInfo( RequestImpl requestImpl ) {
         if( !hasClientInterceptors ) return;
@@ -565,12 +565,12 @@ public class PIHandlerImpl implements PIHandler
 
         peekClientRequestInfoImplStack().setDIIRequest( requestImpl );
     }
-    
+
     /*
      *****************
      * Server PI hooks
      *****************/
-    
+
     @TraceInterceptor
     public void invokeServerPIStartingPoint() {
         if( !hasServerInterceptors ) return;
@@ -596,7 +596,7 @@ public class PIHandlerImpl implements PIHandler
         // Handle SystemException or ForwardRequest:
         serverPIHandleExceptions( info );
     }
-    
+
     @TraceInterceptor
     public void invokeServerPIEndingPoint( ReplyMessage replyMessage ) {
         if( !hasServerInterceptors ) return;
@@ -607,7 +607,7 @@ public class PIHandlerImpl implements PIHandler
 
         // REVISIT: This was done inside of invokeServerInterceptorEndingPoint
         // but needs to be here for now.  See comment in that method for why.
-        info.setCurrentExecutionPoint( 
+        info.setCurrentExecutionPoint(
             ServerRequestInfoImpl.EXECUTION_POINT_ENDING );
 
         // It is possible we might have entered this method more than
@@ -675,7 +675,7 @@ public class PIHandlerImpl implements PIHandler
             }
         }
     }
-    
+
     @TraceInterceptor
     public void setServerPIInfo( Exception exception ) {
         if( !hasServerInterceptors ) return;
@@ -732,9 +732,9 @@ public class PIHandlerImpl implements PIHandler
 
         info.setInfo( request, oa, objectId, oktemp );
     }
-    
+
     @TraceInterceptor
-    public void setServerPIInfo( java.lang.Object servant, 
+    public void setServerPIInfo( java.lang.Object servant,
         String targetMostDerivedInterface ) {
         if( !hasServerInterceptors ) return;
 
@@ -752,10 +752,10 @@ public class PIHandlerImpl implements PIHandler
 
         serverInfoStackWasPopped();
     }
-    
-    /* 
+
+    /*
      **********************************************************************
-     *  The following methods are private utility methods. 
+     *  The following methods are private utility methods.
      ************************************************************************/
 
     /**
@@ -800,10 +800,10 @@ public class PIHandlerImpl implements PIHandler
         }
         return result;
     }
-    
-    /** 
-     * Convenience method to get the ClientRequestInfoImpl object off the 
-     * top of the ThreadLocal stack.  Throws an INTERNAL exception if 
+
+    /**
+     * Convenience method to get the ClientRequestInfoImpl object off the
+     * top of the ThreadLocal stack.  Throws an INTERNAL exception if
      * the Info stack is empty.
      */
     @TraceInterceptor
@@ -820,8 +820,8 @@ public class PIHandlerImpl implements PIHandler
         return info;
     }
 
-    /** 
-     * Convenience method to get the ServerRequestInfoImpl object off the 
+    /**
+     * Convenience method to get the ServerRequestInfoImpl object off the
      * top of the ThreadLocal stack.  Returns null if there are none.
      */
     @TraceInterceptor
@@ -838,10 +838,10 @@ public class PIHandlerImpl implements PIHandler
 
         return info;
     }
-    
+
     /**
      * Convenience method to determine whether Client PI is enabled
-     * for requests on this thread. 
+     * for requests on this thread.
      */
     @TraceInterceptor
     private boolean isClientPIEnabledForThisThread() {
@@ -849,7 +849,7 @@ public class PIHandlerImpl implements PIHandler
             threadLocalClientRequestInfoStack.get();
         return (infoStack.disableCount == 0);
     }
-    
+
     /**
      * Call pre_init on all ORB initializers
      */
@@ -900,7 +900,7 @@ public class PIHandlerImpl implements PIHandler
         }
     }
 
-    /** 
+    /**
      * Creates the ORBInitInfo object to be passed to ORB intializers'
      * pre_init and post_init methods
      */
@@ -933,7 +933,7 @@ public class PIHandlerImpl implements PIHandler
      *     name already exists for the given type.
      */
     @TraceInterceptor
-    public void register_interceptor( Interceptor interceptor, int type ) 
+    public void register_interceptor( Interceptor interceptor, int type )
         throws DuplicateName {
         // We will assume interceptor is not null, since it is called
         // internally.
@@ -959,19 +959,19 @@ public class PIHandlerImpl implements PIHandler
      * Called when an invalid null parameter was passed.  Throws a
      * BAD_PARAM with a minor code of 1
      */
-    private void nullParam() 
-        throws BAD_PARAM 
+    private void nullParam()
+        throws BAD_PARAM
     {
         throw orbutilWrapper.nullParam() ;
     }
 
     /** This is the implementation of standard API defined in org.omg.CORBA.ORB
-     *  class. This method finds the Policy Factory for the given Policy Type 
-     *  and instantiates the Policy object from the Factory. It will throw 
+     *  class. This method finds the Policy Factory for the given Policy Type
+     *  and instantiates the Policy object from the Factory. It will throw
      *  PolicyError exception, If the PolicyFactory for the given type is
      *  not registered.
      *  _REVISIT_, Once Policy Framework work is completed, Reorganize
-     *  this method to com.sun.corba.ee.spi.orb.ORB. 
+     *  this method to com.sun.corba.ee.spi.orb.ORB.
      */
     @TraceInterceptor
     public org.omg.CORBA.Policy create_policy(int type, org.omg.CORBA.Any val)
@@ -1014,7 +1014,7 @@ public class PIHandlerImpl implements PIHandler
             throw omgWrapper.policyFactoryRegFailed( type ) ;
         }
     }
-    
+
     public synchronized int allocateServerRequestId ()
     {
         return serverRequestIdCounter++;

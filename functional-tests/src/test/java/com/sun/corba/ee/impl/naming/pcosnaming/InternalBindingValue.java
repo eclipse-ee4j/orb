@@ -39,7 +39,7 @@ public class InternalBindingValue
     // will be set once and then the result will be used everytime.
     public String strObjectRef;
     transient private org.omg.CORBA.Object theObjectRef;
-  
+
     // Default constructor
     public InternalBindingValue() {
     }
@@ -60,5 +60,5 @@ public class InternalBindingValue
     {
         theObjectRef = ObjectRef;
     }
-    
+
 }

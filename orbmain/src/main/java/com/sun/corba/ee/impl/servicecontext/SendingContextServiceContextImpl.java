@@ -42,25 +42,25 @@ public class SendingContextServiceContextImpl extends ServiceContextBase
     public SendingContextServiceContextImpl(InputStream is, GIOPVersion gv)
     {
         super(is) ;
-        ior = IORFactories.makeIOR( (ORB)is.orb(), is ) ;       
+        ior = IORFactories.makeIOR( (ORB)is.orb(), is ) ;
     }
 
-    public int getId() 
-    { 
-        return SERVICE_CONTEXT_ID ; 
+    public int getId()
+    {
+        return SERVICE_CONTEXT_ID ;
     }
 
-    public void writeData( OutputStream os ) 
+    public void writeData( OutputStream os )
     {
         ior.write( os ) ;
     }
 
-    public IOR getIOR() 
+    public IOR getIOR()
     {
         return ior ;
     }
 
-    public String toString() 
+    public String toString()
     {
         return "SendingContexServiceContextImpl[ ior=" + ior + " ]" ;
     }

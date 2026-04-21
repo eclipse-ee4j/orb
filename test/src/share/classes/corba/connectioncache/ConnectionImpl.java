@@ -18,13 +18,13 @@
  */
 
 package corba.connectioncache ;
-    
-// A simple implementation of Connection for testing.  No 
+
+// A simple implementation of Connection for testing.  No
 
 import com.sun.corba.ee.spi.transport.connection.Connection;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-// synchronization is required to use this class.  
+// synchronization is required to use this class.
 public class ConnectionImpl implements Connection {
     private String name ;
     private long id ;
@@ -46,14 +46,14 @@ public class ConnectionImpl implements Connection {
     // we do not access a closed connection.
     public void access() {
         if (isClosed.get())
-            throw new RuntimeException( "Illegal access: connection " 
+            throw new RuntimeException( "Illegal access: connection "
                 + name + " is closed." ) ;
     }
 
     public void close() {
         boolean wasClosed = isClosed.getAndSet( true ) ;
         if (wasClosed)
-            throw new RuntimeException( 
+            throw new RuntimeException(
                 "Attempting to close connection " ) ;
     }
 

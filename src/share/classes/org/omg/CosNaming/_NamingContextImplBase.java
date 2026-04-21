@@ -28,10 +28,10 @@
 package org.omg.CosNaming;
 
 @SuppressWarnings({"deprecation"})
-public abstract class _NamingContextImplBase 
-    extends org.omg.CORBA.DynamicImplementation 
+public abstract class _NamingContextImplBase
+    extends org.omg.CORBA.DynamicImplementation
     implements org.omg.CosNaming.NamingContext {
-    
+
     // Constructor
     public _NamingContextImplBase() {
         super();

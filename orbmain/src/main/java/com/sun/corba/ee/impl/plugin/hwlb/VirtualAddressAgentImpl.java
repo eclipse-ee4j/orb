@@ -67,16 +67,16 @@ import org.omg.PortableInterceptor.ORBInitializer ;
 import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
 
 @Subcontract
-public class VirtualAddressAgentImpl 
-    extends LocalObject 
+public class VirtualAddressAgentImpl
+    extends LocalObject
     implements ORBConfigurator, ORBInitializer, IORInterceptor_3_0
 {
     private static final ORBUtilSystemException wrapper =
         ORBUtilSystemException.self ;
 
-    public static final String VAA_HOST_PROPERTY = ORBConstants.SUN_PREFIX + 
+    public static final String VAA_HOST_PROPERTY = ORBConstants.SUN_PREFIX +
         "ORBVAAHost" ;
-    public static final String VAA_PORT_PROPERTY = ORBConstants.SUN_PREFIX + 
+    public static final String VAA_PORT_PROPERTY = ORBConstants.SUN_PREFIX +
         "ORBVAAPort" ;
     private static final long serialVersionUID = 5670615031510472636L;
 
@@ -108,14 +108,14 @@ public class VirtualAddressAgentImpl
         }
     }
 
-    @InfoMethod 
+    @InfoMethod
     private void agentAddress( IIOPAddress addr ) { }
 
     @Subcontract
     public void configure( DataCollector dc, final ORB orb ) {
         this.orb = orb ;
 
-        orb.setBadServerIdHandler( 
+        orb.setBadServerIdHandler(
             new BadServerIdHandler() {
                 public void handle( ObjectKey objectkey ) {
                     // NO-OP
@@ -127,16 +127,16 @@ public class VirtualAddressAgentImpl
         // host/port information from the data collector
         final AddressParser parser = new AddressParser() ;
         parser.init( dc ) ;
-        addr = IIOPFactories.makeIIOPAddress( host, port ) ;    
+        addr = IIOPFactories.makeIIOPAddress( host, port ) ;
         agentAddress(addr);
 
         // Register the special IIOPProfile in the TaggedProfileFactoryFinder.
         // This means that the isLocal check will be handled properly even
         // when an objref leaves the server that created it and then comes
         // back and gets unmarshalled.
-        IdentifiableFactoryFinder finder = 
+        IdentifiableFactoryFinder finder =
             orb.getTaggedProfileFactoryFinder() ;
-        finder.registerFactory( 
+        finder.registerFactory(
             new EncapsulationFactoryBase( TAG_INTERNET_IOP.value ) {
                 public Identifiable readContents( InputStream in ) {
                     Identifiable result = new SpecialIIOPProfileImpl( in ) ;
@@ -165,8 +165,8 @@ public class VirtualAddressAgentImpl
             new PrivilegedAction() {
                 public Object run() {
                     try {
-                        final Field fld = 
-                            ORBDataParserImpl.class.getDeclaredField( 
+                        final Field fld =
+                            ORBDataParserImpl.class.getDeclaredField(
                                 "orbInitializers" ) ;
                         fld.setAccessible( true ) ;
                         fld.set( odata, newOrbInits ) ;
@@ -230,7 +230,7 @@ public class VirtualAddressAgentImpl
             if (!isLocalChecked) {
                 isLocalChecked = true ;
 
-                IIOPProfileTemplate ptemp = 
+                IIOPProfileTemplate ptemp =
                     (IIOPProfileTemplate)getTaggedProfileTemplate() ;
 
                 iiopProfileTemplate(ptemp);
@@ -247,8 +247,8 @@ public class VirtualAddressAgentImpl
     // create creates SpecialIIOPProfileImpl instead of IIOPProfileImpl.
     private class SpecialIIOPProfileTemplateImpl extends
         IIOPProfileTemplateImpl {
-        
-        private ORB orb ; 
+
+        private ORB orb ;
 
         public SpecialIIOPProfileTemplateImpl( ORB orb, GIOPVersion version,
             IIOPAddress primary ) {
@@ -268,28 +268,28 @@ public class VirtualAddressAgentImpl
             final IIOPProfileTemplate oldTemplate = (IIOPProfileTemplate)temp ;
 
             // FINALLY, here is where we actualy replace the
-            // default address (from the ORB configuration) that 
-            // is normally used for IOR creation with the 
+            // default address (from the ORB configuration) that
+            // is normally used for IOR creation with the
             // virtual adress of the external agent.
             //
-            // However, we also want to change the behavior of 
+            // However, we also want to change the behavior of
             // the TaggedProfile.isLocal method, so that objrefs
             // created by this template are recognized as being local.
             // To do this, we need to subclass IIOPProfileImpl, overriding
-            // the definition of isLocal, and then subclass 
+            // the definition of isLocal, and then subclass
             // IIOPProfileTemplateImpl, overriding the create method
             // to use the subclass of IIOPProfileImpl.
-            final IIOPProfileTemplate result = 
+            final IIOPProfileTemplate result =
                 new SpecialIIOPProfileTemplateImpl(
                     orb, oldTemplate.getGIOPVersion(), addr ) ;
 
             final Iterator iter = oldTemplate.iterator() ;
             while (iter.hasNext()) {
                 TaggedComponent comp = (TaggedComponent)iter.next() ;
-                if (!(comp instanceof AlternateIIOPAddressComponent)) 
+                if (!(comp instanceof AlternateIIOPAddressComponent))
                     result.add( comp ) ;
             }
-        
+
             return result ;
         } else {
             return temp ;
@@ -305,12 +305,12 @@ public class VirtualAddressAgentImpl
         IORInfoImpl myInfo = (IORInfoImpl)info ;
 
         // Get the object adapter's adapter_template as an IORTemplate
-        final IORTemplate iort = 
-            (IORTemplate)IORFactories.getIORFactory( 
+        final IORTemplate iort =
+            (IORTemplate)IORFactories.getIORFactory(
                 myInfo.adapter_template() ) ;
 
         // Make a copy of the original IORTempalte
-        final IORTemplate result = IORFactories.makeIORTemplate( 
+        final IORTemplate result = IORFactories.makeIORTemplate(
             iort.getObjectKeyTemplate() ) ;
 
         // Clone iort, but remove all TAG_ALTERNATE_ADDRESS components,
@@ -322,7 +322,7 @@ public class VirtualAddressAgentImpl
             result.add( makeCopy( tpt ) ) ;
         }
 
-        final ObjectReferenceTemplate newOrt = 
+        final ObjectReferenceTemplate newOrt =
             IORFactories.makeObjectReferenceTemplate( orb, result ) ;
 
         // Install the modified copy as the current_factory (instead of the

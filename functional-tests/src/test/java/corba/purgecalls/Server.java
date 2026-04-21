@@ -30,7 +30,7 @@ import corba.hcks.U;
 import org.omg.CORBA.ORB;
 import org.omg.PortableServer.POA;
 
-public class Server 
+public class Server
 {
     public static final String baseMsg = Server.class.getName();
     public static final String main = baseMsg + ".main";

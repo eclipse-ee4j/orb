@@ -35,7 +35,7 @@ import org.omg.IOP.TAG_ALTERNATE_IIOP_ADDRESS ;
 public class DefaultIORToSocketInfoImpl
     implements IORToSocketInfo
 {
-    public List<? extends SocketInfo> getSocketInfo(IOR ior, 
+    public List<? extends SocketInfo> getSocketInfo(IOR ior,
         List<? extends SocketInfo> previous) {
 
         // 6152681
@@ -51,7 +51,7 @@ public class DefaultIORToSocketInfoImpl
         IIOPAddress primary = iiopProfileTemplate.getPrimaryAddress() ;
         String hostname = primary.getHost().toLowerCase();
         int    port     = primary.getPort();
-        // NOTE: we could check for 0 (i.e., CSIv2) but, for a 
+        // NOTE: we could check for 0 (i.e., CSIv2) but, for a
         // non-CSIv2-configured client ORB talking to a CSIv2 configured
         // server ORB you might end up with an empty contact info list
         // which would then report a failure which would not be as

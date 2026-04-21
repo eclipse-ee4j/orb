@@ -38,7 +38,7 @@ class LegacyHookGetFields extends ObjectInputStream.GetField {
     public java.io.ObjectStreamClass getObjectStreamClass() {
         return null;
     }
-                
+
     /**
      * Return true if the named field is defaulted and has no value
      * in this stream.
@@ -48,66 +48,66 @@ class LegacyHookGetFields extends ObjectInputStream.GetField {
         throws IOException, IllegalArgumentException  {
         return (!fields.containsKey(name));
     }
-                
+
     /**
      * Get the value of the named boolean field from the persistent field.
      */
     @Override
-    public boolean get(String name, boolean defvalue) 
+    public boolean get(String name, boolean defvalue)
         throws IOException, IllegalArgumentException {
         if (defaulted(name))
             return defvalue;
         else return ((Boolean)fields.get(name));
         }
-                
+
     /**
      * Get the value of the named char field from the persistent fields.
      */
     @Override
-    public char get(String name, char defvalue) 
+    public char get(String name, char defvalue)
         throws IOException, IllegalArgumentException {
         if (defaulted(name))
             return defvalue;
         else return ((Character)fields.get(name));
 
     }
-                
+
     /**
      * Get the value of the named byte field from the persistent fields.
      */
     @Override
-    public byte get(String name, byte defvalue) 
+    public byte get(String name, byte defvalue)
         throws IOException, IllegalArgumentException {
         if (defaulted(name))
             return defvalue;
         else return ((Byte)fields.get(name));
 
     }
-                
+
     /**
      * Get the value of the named short field from the persistent fields.
      */
     @Override
-    public short get(String name, short defvalue) 
+    public short get(String name, short defvalue)
         throws IOException, IllegalArgumentException {
         if (defaulted(name))
             return defvalue;
         else return ((Short)fields.get(name));
 
     }
-                
+
     /**
      * Get the value of the named int field from the persistent fields.
      */
     @Override
-    public int get(String name, int defvalue) 
+    public int get(String name, int defvalue)
         throws IOException, IllegalArgumentException {
         if (defaulted(name))
             return defvalue;
         else return ((Integer)fields.get(name));
 
     }
-                
+
     /**
      * Get the value of the named long field from the persistent fields.
      */
@@ -119,45 +119,45 @@ class LegacyHookGetFields extends ObjectInputStream.GetField {
         else return ((Long)fields.get(name));
 
     }
-                
+
     /**
      * Get the value of the named float field from the persistent fields.
      */
     @Override
-    public float get(String name, float defvalue) 
+    public float get(String name, float defvalue)
         throws IOException, IllegalArgumentException {
         if (defaulted(name))
             return defvalue;
         else return ((Float)fields.get(name));
 
     }
-                
+
     /**
      * Get the value of the named double field from the persistent field.
      */
     @Override
-    public double get(String name, double defvalue) 
+    public double get(String name, double defvalue)
         throws IOException, IllegalArgumentException  {
         if (defaulted(name))
             return defvalue;
         else return ((Double)fields.get(name)).doubleValue();
 
     }
-                
+
     /**
      * Get the value of the named Object field from the persistent field.
      */
     @Override
-    public Object get(String name, Object defvalue) 
+    public Object get(String name, Object defvalue)
         throws IOException, IllegalArgumentException {
         if (defaulted(name))
             return defvalue;
         else return fields.get(name);
 
     }
-                
+
     @Override
     public String toString(){
         return fields.toString();
     }
-}    
+}

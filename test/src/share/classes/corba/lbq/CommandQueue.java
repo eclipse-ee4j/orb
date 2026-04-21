@@ -26,12 +26,12 @@ public class CommandQueue {
     private Command head ; // points to last command before sink
     private Command tail ; // points to first command to evaluate
 
-    public interface Event { } 
+    public interface Event { }
 
-    public interface Command extends UnaryFunction<Event, Command> { 
+    public interface Command extends UnaryFunction<Event, Command> {
         void setNext( Command next ) ;
     }
-  
+
     public static abstract class CommandBase implements Command {
         protected Command next = null ;
 
@@ -127,10 +127,10 @@ public class CommandQueue {
         cq.event( ev ) ; // should do nothing
         cq.event( ev ) ; // should do nothing
 
-        Command d1 = new Display( "Display 1" ) ;       
-        Command d2 = new Display( "Display 2" ) ;       
-        Command d3 = new Display( "Display 3" ) ;       
-        Command d4 = new Display( "Display 4" ) ;       
+        Command d1 = new Display( "Display 1" ) ;
+        Command d2 = new Display( "Display 2" ) ;
+        Command d3 = new Display( "Display 3" ) ;
+        Command d4 = new Display( "Display 4" ) ;
 
         cq.add( 0, d1 ) ;
         cq.add( 5, d2 ) ;

@@ -22,11 +22,11 @@ package org.omg.CORBA;
 /**
  * The mapping of a CORBA <code>enum</code> tagging
  * <code>SET_OVERRIDE</code> and <code>ADD_OVERRIDE</code>, which
- * indicate whether policies should replace the 
+ * indicate whether policies should replace the
  * existing policies of an <code>Object</code> or be added to them.
- * <P> 
+ * <P>
  * The method {@link org.omg.CORBA.Object#_set_policy_override(org.omg.CORBA.Policy[], org.omg.CORBA.SetOverrideType)}
- * takes either <code>SetOverrideType.SET_OVERRIDE</code> or 
+ * takes either <code>SetOverrideType.SET_OVERRIDE</code> or
  * <code>SetOverrideType.ADD_OVERRIDE</code> as its second argument.
  * The method <code>_set_policy_override</code>
  * creates a new <code>Object</code> initialized with the
@@ -44,7 +44,7 @@ package org.omg.CORBA;
 
 // @SuppressWarnings({"serial"})
 public class SetOverrideType implements org.omg.CORBA.portable.IDLEntity {
-    
+
     /**
      * The <code>int</code> constant for the enum value SET_OVERRIDE.
      */
@@ -80,7 +80,7 @@ public class SetOverrideType implements org.omg.CORBA.portable.IDLEntity {
      *
      * @param  i the <code>int</code> to convert; must be either
      *         <code>SetOverrideType._SET_OVERRIDE</code> or
-     *         <code>SetOverrideType._ADD_OVERRIDE</code> 
+     *         <code>SetOverrideType._ADD_OVERRIDE</code>
      * @return  the <code>SetOverrideType</code> instance whose value
      *       matches the given <code>int</code>
      * @exception  BAD_PARAM  if the given <code>int</code> does not
@@ -102,7 +102,7 @@ public class SetOverrideType implements org.omg.CORBA.portable.IDLEntity {
     /**
      * Constructs a <code>SetOverrideType</code> instance from an
      * <code>int</code>.
-     * @param _value must be either <code>SET_OVERRIDE</code> or 
+     * @param _value must be either <code>SET_OVERRIDE</code> or
      *        <code>ADD_OVERRIDE</code>
      */
     protected SetOverrideType(int _value){

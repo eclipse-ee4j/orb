@@ -58,7 +58,7 @@ public class Client {
     }
 
     // Similar to ConsoleHandler, but outputs to System.out
-    // instead of System.err, which works better with the 
+    // instead of System.err, which works better with the
     // CORBA test framework.
     public static class SystemOutputHandler extends StreamHandler {
         public SystemOutputHandler() {
@@ -75,7 +75,7 @@ public class Client {
 
         @Override
         public void publish(LogRecord record) {
-            super.publish(record);      
+            super.publish(record);
             flush();
         }
 
@@ -105,26 +105,26 @@ public class Client {
     private static final int TTL = 2*60*1000 ;      // 2 minute TTL (time to live)
                                                     // for reclaimable connections
 
-    private static final OutboundConnectionCache<ConnectionImpl> obcache = 
+    private static final OutboundConnectionCache<ConnectionImpl> obcache =
         ConnectionCacheFactory.<ConnectionImpl>
             makeBlockingOutboundConnectionCache(
                 "BlockingOutboundCache", HIGH_WATER_MARK, NUMBER_TO_RECLAIM,
                 MAX_PARALLEL_CONNECTIONS, TTL ) ;
 
-    private static final InboundConnectionCache<ConnectionImpl> ibcache = 
+    private static final InboundConnectionCache<ConnectionImpl> ibcache =
         ConnectionCacheFactory.<ConnectionImpl>
             makeBlockingInboundConnectionCache(
                 "BlockingInboundCache", HIGH_WATER_MARK, NUMBER_TO_RECLAIM, TTL ) ;
 
     private void testBanner( String msg ) {
         if (DEBUG) {
-            System.out.println( 
+            System.out.println(
                 "======================================="
                 + "==============================" ) ;
 
             System.out.println( msg ) ;
 
-            System.out.println( 
+            System.out.println(
                 "======================================="
                 + "==============================" ) ;
         }
@@ -134,12 +134,12 @@ public class Client {
     @Test()
     public void nonBlockingConcurrentQueueTest() {
         testBanner( "nonBlockingConccurentQueueTest" ) ;
-        ConcurrentQueue<Integer> testQ = 
+        ConcurrentQueue<Integer> testQ =
             ConcurrentQueueFactory.<Integer>makeConcurrentQueue( TTL ) ;
         testConcurrentQueue( testQ ) ;
     }
 
-    private ConcurrentQueue.Handle<Integer> addData( 
+    private ConcurrentQueue.Handle<Integer> addData(
         ConcurrentQueue<Integer> arg,
         int[] data, int valueForHandleToReturn ) {
 
@@ -161,10 +161,10 @@ public class Client {
         Assert.assertEquals( queue.size(), master.length ) ;
         for (int val : master) {
             int qval = queue.poll().value() ;
-            Assert.assertEquals( val, qval ) ; 
+            Assert.assertEquals( val, qval ) ;
         }
     }
-    
+
     private void testConcurrentQueue( ConcurrentQueue<Integer> arg ) {
         final int[] data = { 23, 43, 51, 3, 7, 9, 22, 33 } ;
         final int valueToDelete = 51 ;
@@ -186,26 +186,26 @@ public class Client {
         Assert.assertEquals( actual, expected, type ) ;
     }
 
-    private void checkStats( ConnectionCache cc, int idle, int reclaimable, 
+    private void checkStats( ConnectionCache cc, int idle, int reclaimable,
         int busy, int total ) {
 
-        checkStat( cc.numberOfIdleConnections(), idle, 
+        checkStat( cc.numberOfIdleConnections(), idle,
             "Idle connections" ) ;
         checkStat( cc.numberOfReclaimableConnections(), reclaimable,
             "Reclaimable connections" ) ;
         checkStat( cc.numberOfBusyConnections(), busy,
             "Busy connections" ) ;
-        checkStat( cc.numberOfConnections(), total, 
+        checkStat( cc.numberOfConnections(), total,
             "Total connections" ) ;
     }
 
-    // Each of the simple tests expects that all connections in the cache have 
-    // been closed, which may not be the case if a test fails.  So we impose 
-    // an order on the tests to make sure that we stop if a test leaves things 
+    // Each of the simple tests expects that all connections in the cache have
+    // been closed, which may not be the case if a test fails.  So we impose
+    // an order on the tests to make sure that we stop if a test leaves things
     // in a bad state.
     //
     // Inbound and Outbound can be tested independently.
-    
+
     // Do a single get/release/responseReceived cycle
     @Test(dependsOnMethods={"nonBlockingConcurrentQueueTest"})
     public void outboundTest1() throws IOException {
@@ -219,7 +219,7 @@ public class Client {
 
         obcache.responseReceived( c1 ) ;
         checkStats( obcache, 1, 1, 0, 1 ) ;
-        
+
         obcache.close( c1 ) ;
         checkStats( obcache, 0, 0, 0, 0 ) ;
     }
@@ -245,13 +245,13 @@ public class Client {
 
         obcache.responseReceived( c1 ) ;
         checkStats( obcache, 2, 1, 0, 2 ) ;
-        
+
         obcache.responseReceived( c2 ) ;
         checkStats( obcache, 2, 2, 0, 2 ) ;
-        
+
         obcache.close( c2 ) ;
         checkStats( obcache, 1, 1, 0, 1 ) ;
-        
+
         obcache.close( c1 ) ;
         checkStats( obcache, 0, 0, 0, 0 ) ;
     }
@@ -266,12 +266,12 @@ public class Client {
             ConnectionImpl conn = obcache.get( cinfo ) ;
             conns.add( conn ) ;
         }
-        Assert.assertEquals( conns.size(), MAX_PARALLEL_CONNECTIONS, 
+        Assert.assertEquals( conns.size(), MAX_PARALLEL_CONNECTIONS,
             "Connections after add" ) ;
         checkStats( obcache, 0, 0, 4, 4 ) ;
 
         ConnectionImpl c1 = obcache.get( cinfo ) ;
-        Assert.assertTrue( conns.contains( c1 ), 
+        Assert.assertTrue( conns.contains( c1 ),
             "Expect connection c1 is already in conns" ) ;
         checkStats( obcache, 0, 0, 4, 4 ) ;
 
@@ -303,11 +303,11 @@ public class Client {
         for (int ctr=0; ctr<numContactInfo; ctr++) {
             cinfos.add( ContactInfoImpl.get( "ContactInfo" + ctr ) ) ;
         }
-        final ContactInfoImpl overcinfo = 
+        final ContactInfoImpl overcinfo =
             ContactInfoImpl.get( "OverflowContactInfo" ) ;
 
-        // Open up HIGH_WATER_MARK total connections 
-        List<HashSet<ConnectionImpl>> csa = 
+        // Open up HIGH_WATER_MARK total connections
+        List<HashSet<ConnectionImpl>> csa =
             new ArrayList<HashSet<ConnectionImpl>>() ;
         for (int ctr=0; ctr<numContactInfo; ctr++) {
             HashSet<ConnectionImpl> set = new HashSet<ConnectionImpl>() ;
@@ -330,7 +330,7 @@ public class Client {
         // Get a response to free overflow conn: should close
         obcache.responseReceived( over ) ;
         checkStats( obcache, 0, 0, HIGH_WATER_MARK, HIGH_WATER_MARK ) ;
-        
+
         // Again open up connection on so far unused ContactInfoImpl
         over = obcache.get( overcinfo ) ;
         checkStats( obcache, 0, 0, HIGH_WATER_MARK+1, HIGH_WATER_MARK+1 ) ;
@@ -343,7 +343,7 @@ public class Client {
         ConnectionImpl over1 = obcache.get( overcinfo ) ;
         ConnectionImpl over2 = obcache.get( overcinfo ) ;
         checkStats( obcache, 0, 0, HIGH_WATER_MARK+1, HIGH_WATER_MARK+1 ) ;
-        Assert.assertEquals( over1, over2, 
+        Assert.assertEquals( over1, over2,
             "Connections from two overflow get calls" ) ;
 
         obcache.release( over2, 0 ) ;
@@ -373,7 +373,7 @@ public class Client {
             cinfo.setUnreachable( false ) ;
         }
     }
-    
+
     private static <V> V getSecondOrFirst( Collection<V> coll ) {
         V first = null ;
         V second = null ;
@@ -392,52 +392,52 @@ public class Client {
     }
 
     // Several tests for ConnectionFinders
-    private static ConnectionFinder<ConnectionImpl> cf1 = 
+    private static ConnectionFinder<ConnectionImpl> cf1 =
         new ConnectionFinder<ConnectionImpl>() {
-            public ConnectionImpl find( 
+            public ConnectionImpl find(
                 ContactInfo<ConnectionImpl> cinfo,
                 Collection<ConnectionImpl> idleConnections,
-                Collection<ConnectionImpl> busyConnections 
+                Collection<ConnectionImpl> busyConnections
                 ) throws IOException {
 
                 return getSecondOrFirst( idleConnections ) ;
-            } 
+            }
         } ;
 
-    private static ConnectionFinder<ConnectionImpl> cf2 = 
+    private static ConnectionFinder<ConnectionImpl> cf2 =
         new ConnectionFinder<ConnectionImpl>() {
-            public ConnectionImpl find( 
+            public ConnectionImpl find(
                 ContactInfo<ConnectionImpl> cinfo,
                 Collection<ConnectionImpl> idleConnections,
-                Collection<ConnectionImpl> busyConnections 
+                Collection<ConnectionImpl> busyConnections
                 ) throws IOException {
 
                 return getSecondOrFirst( busyConnections ) ;
-            } 
+            }
         } ;
 
-    private static ConnectionFinder<ConnectionImpl> cf3 = 
+    private static ConnectionFinder<ConnectionImpl> cf3 =
         new ConnectionFinder<ConnectionImpl>() {
-            public ConnectionImpl find( 
+            public ConnectionImpl find(
                 ContactInfo<ConnectionImpl> cinfo,
                 Collection<ConnectionImpl> idleConnections,
-                Collection<ConnectionImpl> busyConnections 
+                Collection<ConnectionImpl> busyConnections
                 ) throws IOException {
 
                 return cinfo.createConnection() ;
-            } 
+            }
         } ;
 
-    private static ConnectionFinder<ConnectionImpl> cf4 = 
+    private static ConnectionFinder<ConnectionImpl> cf4 =
         new ConnectionFinder<ConnectionImpl>() {
-            public ConnectionImpl find( 
+            public ConnectionImpl find(
                 ContactInfo<ConnectionImpl> cinfo,
                 Collection<ConnectionImpl> idleConnections,
-                Collection<ConnectionImpl> busyConnections 
+                Collection<ConnectionImpl> busyConnections
                 ) throws IOException {
 
                 return null ;
-            } 
+            }
         } ;
 
     @Test(dependsOnMethods={"nonBlockingConcurrentQueueTest", "outboundTest4"})
@@ -519,7 +519,7 @@ public class Client {
 
         ibcache.responseSent( c1 ) ;
         checkStats( ibcache, 1, 1, 0, 1 ) ;
-        
+
         ibcache.close( c1 ) ;
         checkStats( ibcache, 0, 0, 0, 0 ) ;
     }
@@ -547,13 +547,13 @@ public class Client {
 
         ibcache.responseSent( c1 ) ;
         checkStats( ibcache, 2, 1, 0, 2 ) ;
-        
+
         ibcache.responseSent( c2 ) ;
         checkStats( ibcache, 2, 2, 0, 2 ) ;
-        
+
         ibcache.close( c2 ) ;
         checkStats( ibcache, 1, 1, 0, 1 ) ;
-        
+
         ibcache.close( c1 ) ;
         checkStats( ibcache, 0, 0, 0, 0 ) ;
     }
@@ -567,11 +567,11 @@ public class Client {
         for (int ctr=0; ctr<numContactInfo; ctr++) {
             cinfos.add( ContactInfoImpl.get( "ContactInfo" + ctr ) ) ;
         }
-        final ContactInfoImpl overcinfo = 
+        final ContactInfoImpl overcinfo =
             ContactInfoImpl.get( "OverflowContactInfo" ) ;
 
-        // Open up HIGH_WATER_MARK total connections 
-        List<HashSet<ConnectionImpl>> csa = 
+        // Open up HIGH_WATER_MARK total connections
+        List<HashSet<ConnectionImpl>> csa =
             new ArrayList<HashSet<ConnectionImpl>>() ;
         for (int ctr=0; ctr<numContactInfo; ctr++) {
             ContactInfoImpl cinfo = cinfos.get(ctr) ;
@@ -598,7 +598,7 @@ public class Client {
         // Get a response to free overflow conn: should close
         ibcache.responseSent( over ) ;
         checkStats( ibcache, 0, 0, HIGH_WATER_MARK, HIGH_WATER_MARK ) ;
-        
+
         // Again open up connection on so far unused ContactInfoImpl
         over = overcinfo.createConnection() ;
         ibcache.requestReceived( over ) ;

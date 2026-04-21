@@ -85,7 +85,7 @@ public class ContactInfoListIteratorImpl
         if (listOfContactInfos != null) {
             // listOfContactInfos is null when used by the legacy
             // socket factory.  In that case this iterator is NOT used.
-            
+
             this.effectiveTargetIORIterator = listOfContactInfos.iterator() ;
         }
         // List is immutable so no need to synchronize access.
@@ -133,7 +133,7 @@ public class ContactInfoListIteratorImpl
             if (waiter.isExpired()) {
                 display("time to wait for connection exceeded " ,
                    tcpTimeouts.get_max_time_to_wait());
-                
+
                 // NOTE: Need to indicate the timeout.
                 // And it needs to break the loop in the delegate.
                 failureException = wrapper.communicationsRetryTimeout(
@@ -151,7 +151,7 @@ public class ContactInfoListIteratorImpl
         }
 
         if (primaryToContactInfo != null) {
-            result = primaryToContactInfo.hasNext( primaryContactInfo, 
+            result = primaryToContactInfo.hasNext( primaryContactInfo,
                 previousContactInfo, listOfContactInfos);
         } else {
             result = effectiveTargetIORIterator.hasNext();
@@ -242,7 +242,7 @@ public class ContactInfoListIteratorImpl
         if (ex instanceof COMM_FAILURE) {
             SystemException se = (SystemException) ex;
             if (se.minor == ORBUtilSystemException.CONNECTION_REBIND) {
-                display( "COMM_FAILURE(connection rebind): " 
+                display( "COMM_FAILURE(connection rebind): "
                     + "retry with previous contact info", ex ) ;
 
                 retryWithPreviousContactInfo = true;
@@ -316,9 +316,9 @@ public class ContactInfoListIteratorImpl
     // Implementation.
     //
 
-    // 
+    //
     // REVISIT:
-    // 
+    //
     // The normal operation for a standard iterator is to throw
     // ConcurrentModificationException whenever the underlying collection
     // changes.  This is implemented by keeping a modification counter (the
@@ -326,7 +326,7 @@ public class ContactInfoListIteratorImpl
     // Essentially what you need to do is whenever the iterator fails this
     // way, go back to ContactInfoList and get a new iterator.
     //
-    // Need to update CorbaClientRequestDispatchImpl to catch and use 
+    // Need to update CorbaClientRequestDispatchImpl to catch and use
     // that exception.
     //
 
@@ -338,7 +338,7 @@ public class ContactInfoListIteratorImpl
         // does not declare that exception.
         // To keep the two-level dispatching (first level chooses ContactInfo,
         // second level is specific to that ContactInfo/EPT) we need to
-        // ensure that the request dispatchers get their iterator from the 
+        // ensure that the request dispatchers get their iterator from the
         // InvocationStack (i.e., ThreadLocal). That way if the list iterator
         // needs a complete update it happens right here.
 

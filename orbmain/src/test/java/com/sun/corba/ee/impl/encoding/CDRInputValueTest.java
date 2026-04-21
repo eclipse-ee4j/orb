@@ -440,7 +440,7 @@ public class CDRInputValueTest extends ValueTestBase {
         Date date = readDateInstance(true);
         assertThat(date.getTime(), equalTo(MSEC));
     }
-    
+
 
     private Date readDateInstance(boolean defaultWriteObjectCalled) throws IOException {
         useStreamFormatVersion2();

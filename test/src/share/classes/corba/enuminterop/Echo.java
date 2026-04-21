@@ -21,10 +21,10 @@ package corba.enuminterop ;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-                                                                                
+
 public interface Echo extends Remote
 {
-    enum Day { Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday } 
+    enum Day { Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday }
 
     Object echoObject( String arg ) throws RemoteException ;
 

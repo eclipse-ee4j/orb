@@ -28,7 +28,7 @@ public class StockDefaultFactory implements StockValueFactory {
   }
 
   public java.io.Serializable read_value (org.omg.CORBA_2_3.portable.InputStream is)
-  {                 
+  {
     return is.read_value(new StockImpl ());
   }
 }

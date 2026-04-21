@@ -38,7 +38,7 @@ public class ValueObject implements java.io.Serializable, AbstractObject {
     }
 
     public String getCodeBase() throws java.rmi.RemoteException {
-        return RMIClassLoader.getClassAnnotation(getClass());  
+        return RMIClassLoader.getClassAnnotation(getClass());
     }
 }
 

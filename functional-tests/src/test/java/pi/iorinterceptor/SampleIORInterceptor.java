@@ -35,9 +35,9 @@ import com.sun.corba.ee.spi.logging.OMGSystemException;
 /**
  * Thoroughly tests IORInterceptor support.
  */
-public class SampleIORInterceptor 
-    extends LocalObject 
-    implements IORInterceptor 
+public class SampleIORInterceptor
+    extends LocalObject
+    implements IORInterceptor
 {
     private static final OMGSystemException wrapper =
         OMGSystemException.self ;
@@ -56,19 +56,19 @@ public class SampleIORInterceptor
     // True if establish_components was ever called on this interceptor,
     // or false if not
     public static boolean establishComponentsCalled = false;
-    
+
     // True if establish_components completed successfully, or false if
     // not.
     public static boolean establishComponentsPassed = false;
-    
+
     // Constant for fake tag values:
     public static final int FAKE_TAG_1 = 8954;
     public static final int FAKE_TAG_2 = 8955;
-    
+
     // Constants for fake data to put in the tagged components:
     public static byte[] FAKE_DATA_1 = null;
     public static byte[] FAKE_DATA_2 = null;
-    
+
     // constant for a profile ID that does not exist:
     public static final int INVALID_PROFILE_ID = 1234;
 
@@ -96,7 +96,7 @@ public class SampleIORInterceptor
             // Get a Singleton ORB and create sample data to insert into
             // profiles:
             ORB initORB = ServerTestInitializer.orb;
-            org.omg.CORBA.Object objRef = 
+            org.omg.CORBA.Object objRef =
                 initORB.resolve_initial_references( "CodecFactory" );
             CodecFactory codecFactory = CodecFactoryHelper.narrow( objRef );
             Codec codec = codecFactory.create_codec( new Encoding(
@@ -112,18 +112,18 @@ public class SampleIORInterceptor
 
             // Add a component to all profiles:
             out.println( "    - adding component to all profiles..." );
-            TaggedComponent tcAllProfiles = new TaggedComponent( FAKE_TAG_1, 
+            TaggedComponent tcAllProfiles = new TaggedComponent( FAKE_TAG_1,
                                                                  FAKE_DATA_1 );
             info.add_ior_component( tcAllProfiles );
 
             // Add a component to only the TAG_INTERNET_IOP profile:
             out.println( "    - adding component to specific profile..." );
-            TaggedComponent tcSpecificProfile = 
+            TaggedComponent tcSpecificProfile =
                 new TaggedComponent( FAKE_TAG_2, FAKE_DATA_2 );
             int profileId = TAG_INTERNET_IOP.value;
             info.add_ior_component_to_profile( tcSpecificProfile, profileId );
 
-            // Add a component with the same component ID as an existing 
+            // Add a component with the same component ID as an existing
             // component:
             out.println( "    - adding duplicate components..." );
             info.add_ior_component_to_profile( tcSpecificProfile, profileId );
@@ -131,7 +131,7 @@ public class SampleIORInterceptor
             // Add a component to a profile that does not exist:
             out.println( "    - adding component to non-existent profile..." );
             try {
-                info.add_ior_component_to_profile( tcSpecificProfile, 
+                info.add_ior_component_to_profile( tcSpecificProfile,
                                                    INVALID_PROFILE_ID );
                 out.println( "      + No exception thrown" );
                 establishComponentsPassed = false;
@@ -139,7 +139,7 @@ public class SampleIORInterceptor
             catch( BAD_PARAM e ) {
                 out.println( "      + Correct exception thrown" );
                 if( e.minor != wrapper.INVALID_PROFILE_ID ) {
-                    out.println( "      + Incorrect minor code ( " + e.minor + 
+                    out.println( "      + Incorrect minor code ( " + e.minor +
                         ") detected." );
                     establishComponentsPassed = false;
                 }
@@ -169,12 +169,12 @@ public class SampleIORInterceptor
                     establishComponentsPassed = false;
                 }
                 else {
-                    IdUniquenessPolicy idUniquenessPolicy = 
+                    IdUniquenessPolicy idUniquenessPolicy =
                         (IdUniquenessPolicy)policy;
-                    if( idUniquenessPolicy.value().value() == 
-                        IdUniquenessPolicyValue._MULTIPLE_ID ) 
+                    if( idUniquenessPolicy.value().value() ==
+                        IdUniquenessPolicyValue._MULTIPLE_ID )
                     {
-                        out.println( "ok" ); 
+                        out.println( "ok" );
                     }
                     else {
                         out.println( "wrong policy value!" );
@@ -195,7 +195,7 @@ public class SampleIORInterceptor
                 else {
                     PolicyHundred hundredPolicy = (PolicyHundred)policy;
                     if( hundredPolicy.getValue() == 99 ) {
-                        out.println( "ok" ); 
+                        out.println( "ok" );
                     }
                     else {
                         out.println( "wrong policy value!" );
@@ -222,7 +222,7 @@ public class SampleIORInterceptor
                 }
             }
             catch( INV_POLICY e ) {
-                out.println( 
+                out.println(
                     "INV_POLICY thrown. (error - should return null)" );
                 establishComponentsPassed = false;
             }
@@ -239,7 +239,7 @@ public class SampleIORInterceptor
     {
     }
 
-    public void adapter_state_changed( ObjectReferenceTemplate[] templates, 
+    public void adapter_state_changed( ObjectReferenceTemplate[] templates,
         short state )
     {
     }

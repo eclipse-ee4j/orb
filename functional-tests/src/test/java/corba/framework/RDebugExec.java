@@ -52,7 +52,7 @@ public class RDebugExec extends ExternalExec
 
     protected String[] getDebugVMArgs()
     {
-        String[] result = { "-Xdebug", "-Xnoagent", 
+        String[] result = { "-Xdebug", "-Xnoagent",
             "-Xrunjdwp:transport=dt_socket,server=y,suspend=y" } ;
 
         return result ;
@@ -84,12 +84,12 @@ public class RDebugExec extends ExternalExec
     {
         // we don't want to stop; just tell the user and let them
         // tell us when to stop
-        
+
         printDebugBreak();
 
         System.out.println("The framework wants to stop the "
                            + processName + " process");
-        
+
         waitForEnter("Press enter to terminate the process");
 
         kill();

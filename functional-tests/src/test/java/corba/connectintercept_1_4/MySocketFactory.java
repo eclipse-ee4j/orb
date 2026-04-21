@@ -68,7 +68,7 @@ public class MySocketFactory
 
     public ServerSocket createServerSocket(String type, int port)
         throws
-            IOException 
+            IOException
     {
         System.out.println("createServerSocket(" + type + ", " + port + ")");
         createSocketMessage("ServerSocket", type, "localhost", port);
@@ -88,7 +88,7 @@ public class MySocketFactory
     // Client side.
     //
 
-    public SocketInfo getEndPointInfo(ORB orb, 
+    public SocketInfo getEndPointInfo(ORB orb,
                                         IOR ior,
                                         SocketInfo socketInfo)
     {
@@ -118,7 +118,7 @@ public class MySocketFactory
             // we give bad info so we can raise an exception
             // in createSocket and end up here again to test
             // the get info loop.
-            socketInfo = 
+            socketInfo =
                 new SocketInfoImpl(Common.DummyType,
                                      Common.DummyHost,
                                      Common.DummyPort,
@@ -151,12 +151,12 @@ public class MySocketFactory
                 ior.getProfile().getTaggedProfileTemplate().getIOPComponents(
                     (com.sun.corba.ee.spi.orb.ORB)orb, Common.ListenPortsComponentID);
             if (taggedComponents.length > 0) {
-                String componentData = 
+                String componentData =
                     new String(taggedComponents[0].component_data);
                 System.out.println("componentData: " + componentData);
                 iorSocketInfo.put(ior, parseComponentData(componentData));
             }
-            socketInfo = 
+            socketInfo =
                 new SocketInfoImpl(ORBSocketFactory.IIOP_CLEAR_TEXT,
                                      host,
                                      port,
@@ -199,7 +199,7 @@ public class MySocketFactory
         System.out.println("createSocket(" + type + ", " + host + ", " + port +")");
         if (type.equals(Common.DummyType) &&
             host.equals(Common.DummyHost) &&
-            port == Common.DummyPort) 
+            port == Common.DummyPort)
         {
             // This is to test the "get info" loop.
             throw new GetEndPointInfoAgainException(socketInfo);
@@ -208,7 +208,7 @@ public class MySocketFactory
         createSocketMessage("ClientSocket", type, host, port);
 
         if (type.equals(ORBSocketFactory.IIOP_CLEAR_TEXT)) {
-            InetSocketAddress address = 
+            InetSocketAddress address =
                 new InetSocketAddress(host, port);
             SocketChannel socketChannel = ORBUtility.openSocketChannel(address);
             Socket socket = socketChannel.socket();
@@ -222,12 +222,12 @@ public class MySocketFactory
         }
     }
 
-    private void createSocketMessage(String clientOrServer, 
+    private void createSocketMessage(String clientOrServer,
                                      String type,
                                      String host,
                                      int port)
     {
-        System.out.println("  creating " + clientOrServer + 
+        System.out.println("  creating " + clientOrServer +
                            " " + type + " " + host + " " + port);
     }
 
@@ -235,7 +235,7 @@ public class MySocketFactory
     {
         // REVISIT:
         // Workaround for:
-        // componentData: ^@^@^@^@^@^@^@*MyType1:48154,MyType2:48155,MyType3:48156^@ 
+        // componentData: ^@^@^@^@^@^@^@*MyType1:48154,MyType2:48155,MyType3:48156^@
         // when getting forwarded IOR from orbd.
         if (!componentData.startsWith(Common.MyType1)) {
             componentData = new String(componentData.getBytes(),
@@ -245,7 +245,7 @@ public class MySocketFactory
 
 
         Vector typePortPairs = new Vector();
-        StringTokenizer pairs = 
+        StringTokenizer pairs =
             new StringTokenizer(componentData, ",");
         while (pairs.hasMoreTokens()) {
             String current = pairs.nextToken();
@@ -291,9 +291,9 @@ class SocketInfoImpl
     @Override
     public String toString()
     {
-        return 
-            "(SocketInfoImpl " + type 
-            + " " + hostname + " " + port 
+        return
+            "(SocketInfoImpl " + type
+            + " " + hostname + " " + port
             + " " + cookie
             + ")";
     }
@@ -314,6 +314,6 @@ class TypePortPair
     public String toString () { return type + ":" + port; }
 }
 
-                
+
 
 // End of file.

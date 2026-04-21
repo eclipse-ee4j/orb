@@ -90,10 +90,10 @@ public interface Message {
 
     void callback(MessageHandler handler) throws IOException;
     void setEncodingVersion(byte version);
-    
+
     /**
      * Return a Message's CorbaRequestId. Messages which do not support
-     * a request id in the 4 bytes following the 12 byte GIOP message 
+     * a request id in the 4 bytes following the 12 byte GIOP message
      * header shall return an undefined CorbaRequestId.
      * @return a Message's CorbaRequestId.
      */

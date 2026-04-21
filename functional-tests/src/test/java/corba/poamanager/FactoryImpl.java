@@ -30,9 +30,9 @@ public final class FactoryImpl extends GenericFactoryPOA
     final boolean useServantToReference = true;
 
     final String idString = new String("Blue Skies, Black Death");
-    
+
     private POA poa;
-    
+
     public FactoryImpl(POA poa) {
         this.poa = poa;
     }
@@ -121,5 +121,5 @@ public final class FactoryImpl extends GenericFactoryPOA
     }
 
 }
-        
-            
+
+

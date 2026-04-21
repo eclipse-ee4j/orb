@@ -75,7 +75,7 @@ public class ConcurrentQueueImpl<V> implements ConcurrentQueue<V> {
             return value ;
         }
 
-        /** Delete the element corresponding to this handle 
+        /** Delete the element corresponding to this handle
          * from the queue.  Takes constant time.
          */
         public boolean remove() {
@@ -114,7 +114,7 @@ public class ConcurrentQueueImpl<V> implements ConcurrentQueue<V> {
             throw new IllegalArgumentException( "Argument cannot be null" ) ;
 
         Entry<V> entry = new Entry<V>( arg, System.currentTimeMillis() + ttl ) ;
-        
+
         entry.next = head ;
         entry.prev = head.prev ;
         head.prev.next = entry ;
@@ -142,9 +142,9 @@ public class ConcurrentQueueImpl<V> implements ConcurrentQueue<V> {
 
     public Handle<V> peek() {
         Entry<V> first = head.next ;
-        if (first == head) 
+        if (first == head)
             return null ;
         else
             return first.handle() ;
     }
-} 
+}

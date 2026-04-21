@@ -25,7 +25,7 @@ import org.omg.CORBA.*;
 import ClientRequestInfo.*;
 
 /**
- * Invocation strategy in which three calls are made.  
+ * Invocation strategy in which three calls are made.
  * 1. No exception raised
  * 2. SystemException raised
  * 3. UserException raised

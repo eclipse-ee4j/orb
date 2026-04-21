@@ -45,32 +45,32 @@ import junit.framework.TestCase;
 public class TestIDLNameTranslator extends TestCase {
 
     private static final Class[] nonRemoteInterfaces = {
-        InvalidRemotes.InvalidRemote1.class, 
+        InvalidRemotes.InvalidRemote1.class,
         InvalidRemotes.InvalidRemote2.class,
-        InvalidRemotes.InvalidRemote3.class, 
+        InvalidRemotes.InvalidRemote3.class,
         InvalidRemotes.InvalidRemote4.class,
-        InvalidRemotes.InvalidRemote5.class, 
+        InvalidRemotes.InvalidRemote5.class,
         // InvalidRemote6 has a method that declares an unchecked exception.
         // Although bad practice, this is not an error.
         // InvalidRemotes.InvalidRemote6.class,
-        // InvalidRemotes.InvalidRemote7.class, 
+        // InvalidRemotes.InvalidRemote7.class,
         // InvalidRemotes.InvalidRemote8.class,
-        InvalidRemotes.InvalidRemote9.class, 
+        InvalidRemotes.InvalidRemote9.class,
         InvalidRemotes.InvalidRemote10.class,
-        InvalidRemotes.InvalidRemote11.class, 
-        // The following test for interfaces that inherit the 
+        InvalidRemotes.InvalidRemote11.class,
+        // The following test for interfaces that inherit the
         // same method from multiple super-interfaces.  This is supposed
         // to be illegal, but rmic allows it, so we will also allow it here.
         //InvalidRemotes.InvalidRemote12.class,
-        //InvalidRemotes.InvalidRemote13.class, 
+        //InvalidRemotes.InvalidRemote13.class,
         //InvalidRemotes.InvalidRemote14.class,
         //InvalidRemotes.InvalidRemote15.class,
-        InvalidRemotes.InvalidRemote16.class,        
+        InvalidRemotes.InvalidRemote16.class,
         InvalidRemotes.InvalidRemote17.class,
         InvalidRemotes.InvalidRemote18.class,
         InvalidRemotes.InvalidRemote19.class
     };
-    
+
     protected void setUp() {}
 
     protected void tearDown() {}
@@ -78,40 +78,40 @@ public class TestIDLNameTranslator extends TestCase {
     public void testMultipleInterfaces()
     {
         doIDLNameTranslationTest( IDLMultipleInterfaceTest.class,
-            new Class[] { 
+            new Class[] {
                 IDLMultipleInterfaceTest.first.class,
                 IDLMultipleInterfaceTest.second.class
             }
         ) ;
     }
 
-    public void testIDLProperties() 
+    public void testIDLProperties()
     {
         doIDLNameTranslationTest(IDLPropertiesTest.class,
-                                 IDLPropertiesTest.IDLProperties.class); 
+                                 IDLPropertiesTest.IDLProperties.class);
     }
 
-    public void testOverloadedMethods() 
+    public void testOverloadedMethods()
     {
         doIDLNameTranslationTest(IDLOverloadedTest.class,
-            IDLOverloadedTest.IDLOverloaded.class); 
+            IDLOverloadedTest.IDLOverloaded.class);
     }
-    
-    public void testContainerClash() 
+
+    public void testContainerClash()
     {
-        
-       
+
+
         doIDLNameTranslationTest(new String[] { "ContainerClash1_" },
                                  ContainerClash1.class);
-                                 
+
         doIDLNameTranslationTest(new String[] { "ContainerCLASH2_" },
                                  ContainerClash2.class);
-    
+
         doIDLNameTranslationTest(new String[] { "J_ContainerClash3_" },
                                  _ContainerClash3.class);
-                                 
+
         doIDLNameTranslationTest(new String[] { "J_ContainerCLASH4_" },
-                                 _ContainerClash4.class);    
+                                 _ContainerClash4.class);
     }
 
     public void testLeadingUnderscores()
@@ -132,7 +132,7 @@ public class TestIDLNameTranslator extends TestCase {
                                  IDLKeywordsTest.IDLKeywords.class);
     }
 
-    public void testDefaultPackageClasses() 
+    public void testDefaultPackageClasses()
     {
         Class testClass = null;
         Class testInterface = null;
@@ -154,7 +154,7 @@ public class TestIDLNameTranslator extends TestCase {
                 " at index " + i ;
 
             try {
-                IDLNameTranslator translator = 
+                IDLNameTranslator translator =
                     IDLNameTranslatorImpl.get(nonRemote);
                 assertTrue(msg, false);
             } catch(IllegalStateException ise) {
@@ -176,13 +176,13 @@ public class TestIDLNameTranslator extends TestCase {
                                  IDLComboTest1.IDLCombo.class);
     }
 
-    private String[] getExpectedIdlNames( Class cls ) 
+    private String[] getExpectedIdlNames( Class cls )
     {
         String[] expectedIdlNames = new String[0];
         try {
             Method idlNamesMethod = cls.getMethod("getIDLNames",
                                                         new Class[] {});
-            expectedIdlNames = (String[]) 
+            expectedIdlNames = (String[])
                 idlNamesMethod.invoke(null, new Object[] {});
         } catch(Exception e) {
             e.printStackTrace();
@@ -192,11 +192,11 @@ public class TestIDLNameTranslator extends TestCase {
         return expectedIdlNames ;
     }
 
-    private void doIDLNameTranslationTest(Class testClass, 
+    private void doIDLNameTranslationTest(Class testClass,
         Class[] testInterfaces)
     {
-        String[] expectedIdlNames = getExpectedIdlNames( testClass ) ; 
-        IDLNameTranslator nameTranslator = 
+        String[] expectedIdlNames = getExpectedIdlNames( testClass ) ;
+        IDLNameTranslator nameTranslator =
             IDLNameTranslatorImpl.get(testInterfaces);
         Method[] sortedMethods = getSortedMethods( testInterfaces );
 
@@ -204,21 +204,21 @@ public class TestIDLNameTranslator extends TestCase {
             sortedMethods );
     }
 
-    private void doIDLNameTranslationTest(Class testClass, 
+    private void doIDLNameTranslationTest(Class testClass,
         Class testInterface)
     {
-        String[] expectedIdlNames = getExpectedIdlNames( testClass ) ; 
+        String[] expectedIdlNames = getExpectedIdlNames( testClass ) ;
         doIDLNameTranslationTest( expectedIdlNames, testInterface ) ;
     }
 
-    private void doIDLNameTranslationTest(String[] expectedIdlNames, 
+    private void doIDLNameTranslationTest(String[] expectedIdlNames,
         Class testInterface)
     {
-        IDLNameTranslator nameTranslator = 
+        IDLNameTranslator nameTranslator =
             IDLNameTranslatorImpl.get(testInterface);
         Method[] sortedMethods = getSortedMethods(
             new Class[] { testInterface } );
-      
+
         doIDLNameTranslationTest(expectedIdlNames, nameTranslator,
             sortedMethods );
     }
@@ -236,13 +236,13 @@ public class TestIDLNameTranslator extends TestCase {
 
             assertEquals(msg, expected, translatedName);
             assertEquals(msg, m,
-                                nameTranslator.getMethod(expected));           
+                                nameTranslator.getMethod(expected));
         }
     }
 
     public void testUnicodeTranslation()
     {
-        IDLNameTranslatorImpl nameTranslator = 
+        IDLNameTranslatorImpl nameTranslator =
             (IDLNameTranslatorImpl)IDLNameTranslatorImpl.get(
                 java.rmi.Remote.class);
 
@@ -265,7 +265,7 @@ public class TestIDLNameTranslator extends TestCase {
 
     }
 
-    private Method[] getSortedMethods(Class[] classes) 
+    private Method[] getSortedMethods(Class[] classes)
     {
         SortedSet sortedMethods = new TreeSet(new MethodComparator());
 
@@ -279,19 +279,19 @@ public class TestIDLNameTranslator extends TestCase {
         }
 
         Method[] sortedMethodArray = new Method[sortedMethods.size()];
-        
+
         sortedMethods.toArray(sortedMethodArray);
 
         /** Uncomment to print method order.  Useful when
             debugging interfaces with multiple methods that have
             complex signatures
-        
+
         System.out.println(sortedMethodArray.length + " sorted methods : ");
         for(int i = 0; i < sortedMethodArray.length; i++) {
             System.out.println(sortedMethodArray[i]);
         }
         */
-        
+
         return sortedMethodArray;
     }
 
@@ -300,7 +300,7 @@ public class TestIDLNameTranslator extends TestCase {
     // Method strings are composed of method name,
     // (case sensitive), followed by comma-separated list of the value
     // of Class.getName() for each parameter type.
-    // 
+    //
     //
     private static class MethodComparator implements java.util.Comparator {
         public int compare(Object o1, Object o2) {
@@ -308,12 +308,12 @@ public class TestIDLNameTranslator extends TestCase {
             String m2 = getMethodString((Method)o2);
             return m1.compareTo(m2);
         }
-        
+
         private String getMethodString(Method m) {
             StringBuilder methodStr = new StringBuilder(m.getName());
             Class[] params = m.getParameterTypes();
             for (Class<?> next : params) {
-                methodStr.append("|");                                        
+                methodStr.append("|");
                 methodStr.append(next.getName());
             }
             return methodStr.toString();

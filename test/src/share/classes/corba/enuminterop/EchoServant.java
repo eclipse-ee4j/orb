@@ -21,7 +21,7 @@ package corba.enuminterop;
 
 import java.rmi.RemoteException;
 
-import javax.rmi.PortableRemoteObject; 
+import javax.rmi.PortableRemoteObject;
 
 public class EchoServant extends PortableRemoteObject implements Echo
 {

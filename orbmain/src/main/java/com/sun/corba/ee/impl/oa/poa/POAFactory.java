@@ -53,7 +53,7 @@ import org.omg.PortableServer.Servant ;
 @ManagedObject
 @Description( "The factory for all POAs and POAManagers")
 @AMXMetadata( isSingleton=true )
-public class POAFactory implements ObjectAdapterFactory 
+public class POAFactory implements ObjectAdapterFactory
 {
     private static final POASystemException wrapper =
         POASystemException.self ;
@@ -74,7 +74,7 @@ public class POAFactory implements ObjectAdapterFactory
     private boolean isShuttingDown = false ;
     private ManagedObjectManager mom ;
 
-    public POASystemException getWrapper() 
+    public POASystemException getWrapper()
     {
         return wrapper ;
     }
@@ -102,13 +102,13 @@ public class POAFactory implements ObjectAdapterFactory
             this.poa = poa ;
         }
 
-        @ManagedAttribute 
-        @Description( "Servant" ) 
+        @ManagedAttribute
+        @Description( "Servant" )
         Servant getServant() { return servant ; }
 
         @ManagedAttribute
-        @Description( "POA for Servant" ) 
-        POAImpl getPOA() { return poa ; } 
+        @Description( "POA for Servant" )
+        POAImpl getPOA() { return poa ; }
     }
 
     @ManagedAttribute
@@ -146,32 +146,32 @@ public class POAFactory implements ObjectAdapterFactory
         return rootPOA ;
     }
 
-    public synchronized POA lookupPOA (Servant servant) 
+    public synchronized POA lookupPOA (Servant servant)
     {
         return exportedServantsToPOA.get(servant);
     }
 
-    public synchronized void registerPOAForServant(POA poa, Servant servant) 
+    public synchronized void registerPOAForServant(POA poa, Servant servant)
     {
         exportedServantsToPOA.put(servant, poa);
     }
 
-    public synchronized void unregisterPOAForServant(POA poa, Servant servant) 
+    public synchronized void unregisterPOAForServant(POA poa, Servant servant)
     {
         exportedServantsToPOA.remove(servant);
     }
 
 // Implementation of ObjectAdapterFactory interface
 
-    public void init( ORB orb ) 
+    public void init( ORB orb )
     {
         this.orb = orb ;
         delegateImpl = new DelegateImpl( orb, this ) ;
         registerRootPOA() ;
 
         POACurrent poaCurrent = new POACurrent(orb);
-        orb.getLocalResolver().register( ORBConstants.POA_CURRENT_NAME, 
-            NullaryFunction.Factory.makeConstant( 
+        orb.getLocalResolver().register( ORBConstants.POA_CURRENT_NAME,
+            NullaryFunction.Factory.makeConstant(
                 (org.omg.CORBA.Object)poaCurrent ) ) ;
         this.mom = orb.mom() ;
         if (mom != null) {
@@ -217,7 +217,7 @@ public class POAFactory implements ObjectAdapterFactory
 
     public void shutdown( boolean waitForCompletion )
     {
-        // It is important to copy the list of POAManagers first because 
+        // It is important to copy the list of POAManagers first because
         // pm.deactivate removes itself from poaManagers!
         Iterator<POAManager> managers = null ;
         synchronized (this) {
@@ -234,7 +234,7 @@ public class POAFactory implements ObjectAdapterFactory
 
 // Special methods used to manipulate global POA related state
 
-    public synchronized void removePoaManager( POAManager manager ) 
+    public synchronized void removePoaManager( POAManager manager )
     {
         poaManagers.remove(manager);
         if (mom != null) {
@@ -264,7 +264,7 @@ public class POAFactory implements ObjectAdapterFactory
                 }
             } ;
 
-        orb.getLocalResolver().register( ORBConstants.ROOT_POA_NAME, 
+        orb.getLocalResolver().register( ORBConstants.ROOT_POA_NAME,
             NullaryFunction.Factory.makeFuture( rpClosure ) ) ;
     }
 
@@ -281,13 +281,13 @@ public class POAFactory implements ObjectAdapterFactory
                 rootPOA = (POAImpl)obj ;
             } catch (InvalidName inv) {
                 throw wrapper.cantResolveRootPoa( inv ) ;
-            } 
+            }
         }
 
         return rootPOA;
     }
 
-    public org.omg.PortableServer.portable.Delegate getDelegateImpl() 
+    public org.omg.PortableServer.portable.Delegate getDelegateImpl()
     {
         return delegateImpl ;
     }
@@ -297,8 +297,8 @@ public class POAFactory implements ObjectAdapterFactory
         return poaId++ ;
     }
 
-    public ORB getORB() 
+    public ORB getORB()
     {
         return orb ;
     }
-} 
+}

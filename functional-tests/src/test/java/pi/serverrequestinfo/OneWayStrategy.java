@@ -47,7 +47,7 @@ public class OneWayStrategy
         SampleServerRequestInterceptor interceptor, ServerRequestInfo ri)
     {
         super.receive_request( interceptor, ri );
-        
+
         try {
             checkResponseExpected( "receive_request", ri );
         }
@@ -60,7 +60,7 @@ public class OneWayStrategy
         SampleServerRequestInterceptor interceptor, ServerRequestInfo ri)
     {
         super.send_reply( interceptor, ri );
-        
+
         try {
             checkResponseExpected( "send_reply", ri );
         }
@@ -75,7 +75,7 @@ public class OneWayStrategy
         boolean responseExpected = ri.response_expected();
         boolean validExpected = !operationName.equals( "sayOneway" );
 
-        log( method + "(): Operation " + operationName + 
+        log( method + "(): Operation " + operationName +
              ", response expected = " + responseExpected );
 
         if( responseExpected != validExpected ) {

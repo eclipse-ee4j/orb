@@ -38,12 +38,12 @@ import ServerRequestInterceptor.*;
 /**
  * Tests POA Local invocations (with a co-located orb)
  */
-public class POALocalServer 
+public class POALocalServer
     extends POAServer
 {
     // Object to synchronize on to wait for server to start:
     private java.lang.Object syncObject;
-    
+
     public static void main(String args[]) {
         final String[] arguments = args;
         try {
@@ -106,7 +106,7 @@ public class POALocalServer
     }
 
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         super.run( environment, args, out, err, extra );

@@ -47,37 +47,37 @@ public class MessageTraceManagerImpl implements MessageTraceManager
         init() ;
     }
 
-    private void init() 
+    private void init()
     {
         dataSent = new ArrayList() ;
         dataReceived = new ArrayList() ;
         initHeaderRecorder() ;
     }
 
-    public boolean isEnabled() 
+    public boolean isEnabled()
     {
         return enabled ;
     }
 
-    public void enable( boolean flag ) 
+    public void enable( boolean flag )
     {
         enabled = flag ;
     }
 
-    public byte[][] getDataSent() 
+    public byte[][] getDataSent()
     {
         return (byte[][])dataSent.toArray(
             new byte[dataSent.size()][] ) ;
     }
 
-    public byte[][] getDataReceived() 
+    public byte[][] getDataReceived()
     {
         return (byte[][])dataReceived.toArray(
             new byte[dataReceived.size()][] ) ;
     }
 
     // Methods that are used internally to record messages
-   
+
     private void initHeaderRecorder()
     {
         RHRCalled = false ;
@@ -91,7 +91,7 @@ public class MessageTraceManagerImpl implements MessageTraceManager
      * @param offset Offset to start from, must be non-negative
      * @return Contents of the buffer
      */
-    public byte[] getBytes( ByteBuffer bb, int offset ) 
+    public byte[] getBytes( ByteBuffer bb, int offset )
     {
         ByteBuffer view = bb.asReadOnlyBuffer() ;
         view.flip() ;
@@ -99,7 +99,7 @@ public class MessageTraceManagerImpl implements MessageTraceManager
         byte[] buffer = new byte[ len + offset ] ;
         view.get( buffer, offset, len ) ;
 
-        return buffer ; 
+        return buffer ;
     }
 
     @Override
@@ -108,8 +108,8 @@ public class MessageTraceManagerImpl implements MessageTraceManager
         byte[] buffer = getBytes( message, 0 ) ;
         dataSent.add( buffer ) ;
     }
-    
-    public void recordHeaderReceived( ByteBuffer message ) 
+
+    public void recordHeaderReceived( ByteBuffer message )
     {
         if (RHRCalled) {
             // Previous call was for header only: no body
@@ -121,7 +121,7 @@ public class MessageTraceManagerImpl implements MessageTraceManager
         header = getBytes( message, 0 ) ;
     }
 
-    public void recordBodyReceived( ByteBuffer message ) 
+    public void recordBodyReceived( ByteBuffer message )
     {
         if (!RHRCalled)
             // This string is 12 characters long, so the ASCII
@@ -132,7 +132,7 @@ public class MessageTraceManagerImpl implements MessageTraceManager
         byte[] buffer = getBytes( message, header.length ) ;
         System.arraycopy( header, 0, buffer, header.length,
             message.remaining() ) ;
-        dataReceived.add( buffer ) ;    
+        dataReceived.add( buffer ) ;
 
         initHeaderRecorder() ;
     }

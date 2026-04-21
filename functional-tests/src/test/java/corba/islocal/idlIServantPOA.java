@@ -27,7 +27,7 @@ package corba.islocal;
 import corba.hcks.U;
 
 class idlIServantPOA
-    extends 
+    extends
         idlIPOA
 {
     public static final String baseMsg = idlIServantPOA.class.getName();

@@ -39,13 +39,13 @@ public class AlternateIIOPAddressComponentImpl extends TaggedComponentBase
         if (!(obj instanceof AlternateIIOPAddressComponentImpl))
             return false ;
 
-        AlternateIIOPAddressComponentImpl other = 
+        AlternateIIOPAddressComponentImpl other =
             (AlternateIIOPAddressComponentImpl)obj ;
 
         return addr.equals( other.addr ) ;
     }
-     
-    public int hashCode() 
+
+    public int hashCode()
     {
         return addr.hashCode() ;
     }
@@ -55,22 +55,22 @@ public class AlternateIIOPAddressComponentImpl extends TaggedComponentBase
         return "AlternateIIOPAddressComponentImpl[addr=" + addr + "]" ;
     }
 
-    public AlternateIIOPAddressComponentImpl( IIOPAddress addr ) 
+    public AlternateIIOPAddressComponentImpl( IIOPAddress addr )
     {
         this.addr = addr ;
     }
-    
+
     public IIOPAddress getAddress()
     {
         return addr ;
     }
 
-    public void writeContents(OutputStream os) 
+    public void writeContents(OutputStream os)
     {
         addr.write( os ) ;
     }
-    
-    public int getId() 
+
+    public int getId()
     {
         return TAG_ALTERNATE_IIOP_ADDRESS.value ; // 3 in CORBA 2.3.1 13.6.3
     }

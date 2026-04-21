@@ -36,7 +36,7 @@ public class TheTest extends test.Test {
     private static  String[] myArgs = new String[]{"-ORBInitialPort" , "1050" };
 
     public  void run() {
-        JUnitReportHelper helper = new JUnitReportHelper( 
+        JUnitReportHelper helper = new JUnitReportHelper(
             this.getClass().getName() ) ;
 
         String testName     = new TheTest().getClass().getName();
@@ -45,50 +45,50 @@ public class TheTest extends test.Test {
         boolean testPassed  = true;
 
         try {
-            // First Compile the classes to generate the Stub and Tie 
-            // files that are needed.  
+            // First Compile the classes to generate the Stub and Tie
+            // files that are needed.
             if (!getArgs().containsKey("-normic")) {
                 compileClasses();
             }
-            
+
             // Now we need to start the NameServer and
             // our test server. The test server will register
             // with the NameServer.
-            
+
             nameServer  = Util.startNameServer("1050",true);
             server      = Util.startServer("javax.rmi.test1.TheServer");
-            
+
             // Lets setup some properties that we are using
             // for this test and then create the ORB Object...
 
             Properties props = System.getProperties();
-            
+
             props.put(  "java.naming.factory.initial",
                         JndiConstants.COSNAMING_CONTEXT_FACTORY);
-            
-            props.put(  "org.omg.CORBA.ORBClass", 
+
+            props.put(  "org.omg.CORBA.ORBClass",
                         "com.sun.corba.ee.impl.orb.ORBImpl");
-            
-            props.put(  "org.omg.CORBA.ORBSingletonClass", 
+
+            props.put(  "org.omg.CORBA.ORBSingletonClass",
                         "com.sun.corba.ee.impl.orb.ORBSingleton");
-            
+
             ORB orb = ORB.init(myArgs, props);
-                
+
             // We are going to use JNDI/CosNaming so lets go ahead and
             // create our root naming context.  NOTE:  We setup CosNaming
             // as our naming plug-in for JNDI by setting properties above.
             Hashtable env = new Hashtable();
             env.put(  "java.naming.corba.orb", orb);
-            
+
             Context ic = new InitialContext(env);
-            
+
             // Let the test begin...
             helper.start( "test1" ) ;
             // Resolve the Object Reference using JNDI/CosNaming
             java.lang.Object objref  = ic.lookup("TheTestServer");
 
             // This test is designed to verify PortableRemoteObject.narrow
-          
+
             try {
                 RemoteInterface1 narrowTo = null;
                 if ( (narrowTo = (RemoteInterface1)
@@ -154,7 +154,7 @@ public class TheTest extends test.Test {
             if (server != null) {
                 server.destroy();
             }
-  
+
             if (nameServer != null) {
                 nameServer.destroy();
             }
@@ -173,15 +173,15 @@ public class TheTest extends test.Test {
 
     // Compiling ComboInterface cause the compiler to compile
     // all the other classes that need to be compiled.
-    
+
     private  void compileClasses () throws Exception
     {
         String arg = "-iiop";
         String[] additionalArgs = null;
         String[] classes = {"javax.rmi.test1.ComboInterfaceImpl"};
-        
+
         // Create the additional args array...
-               
+
         String outputDirectory = null;
         int length = 3;
         Hashtable flags = getArgs();
@@ -191,7 +191,7 @@ public class TheTest extends test.Test {
         }
         additionalArgs = new String[length];
         int offset = 0;
-        
+
         if (outputDirectory != null) {
             additionalArgs[offset++] = "-d";
             additionalArgs[offset++] = outputDirectory;
@@ -199,9 +199,9 @@ public class TheTest extends test.Test {
         additionalArgs[offset++] = "-Xreverseids";
         additionalArgs[offset++] = "-alwaysgenerate";
         additionalArgs[offset++] = "-keepgenerated";
-        
+
         // Run rmic...
-        
+
         Util.rmic(arg,additionalArgs,classes,false);
     }
 }

@@ -59,9 +59,9 @@ public interface ClientRequestDispatcher
      *
      * @return CDRInputObject if the message is synchronous.
      *
-     * @throws org.omg.CORBA.portable.ApplicationException 
+     * @throws org.omg.CORBA.portable.ApplicationException
      * if the remote side raises an exception declared in the remote interface.
-     * 
+     *
      * @throws org.omg.CORBA.portable.RemarshalException RemarshalException
      * if the PEPt runtime would like the presentation block to start over.
      */
@@ -69,7 +69,7 @@ public interface ClientRequestDispatcher
                                           CDROutputObject outputObject)
     // REVISIT EXCEPTIONS
         throws
-            org.omg.CORBA.portable.ApplicationException, 
+            org.omg.CORBA.portable.ApplicationException,
             org.omg.CORBA.portable.RemarshalException;
 
     /**
@@ -84,7 +84,7 @@ public interface ClientRequestDispatcher
      * @param inputObject unused
      */
     public void endRequest(ORB broker,
-                           java.lang.Object self, 
+                           java.lang.Object self,
                            CDRInputObject inputObject);
 }
 

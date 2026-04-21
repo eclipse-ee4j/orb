@@ -45,7 +45,7 @@ public class Util {
     // This can only be set at static initialization time (no sync necessary).
     private static javax.rmi.CORBA.UtilDelegate utilDelegate = null;
     private static final String UtilClassKey = "javax.rmi.CORBA.UtilClass";
-    private static final String defaultUtilImplName = 
+    private static final String defaultUtilImplName =
         "com.sun.corba.ee.impl.javax.rmi.CORBA.Util";
 
     static {
@@ -61,7 +61,7 @@ public class Util {
      * @return the mapped exception.
      */
     public static RemoteException mapSystemException(SystemException ex) {
-        
+
         if (utilDelegate != null) {
             return utilDelegate.mapSystemException(ex);
         }
@@ -96,41 +96,41 @@ public class Util {
     /**
      * Writes a java.lang.Object as a CORBA Object. If <code>obj</code> is
      * an exported RMI-IIOP server object, the tie is found
-     * and wired to <code>obj</code>, then written to 
-<code>out.write_Object(org.omg.CORBA.Object)</code>. 
-     * If <code>obj</code> is a CORBA Object, it is written to 
+     * and wired to <code>obj</code>, then written to
+<code>out.write_Object(org.omg.CORBA.Object)</code>.
+     * If <code>obj</code> is a CORBA Object, it is written to
      * <code>out.write_Object(org.omg.CORBA.Object)</code>.
      * @param out the stream in which to write the object.
      * @param obj the object to write.
      */
     public static void writeRemoteObject(OutputStream out,
                                          java.lang.Object obj) {
-                                                
+
         if (utilDelegate != null) {
             utilDelegate.writeRemoteObject(out, obj);
         }
 
     }
-    
+
     /**
-     * Writes a java.lang.Object as either a value or a CORBA Object. 
-     * If <code>obj</code> is a value object or a stub object, it is written to 
-     * <code>out.write_abstract_interface(java.lang.Object)</code>. If <code>obj</code> 
-is 
-an exported 
+     * Writes a java.lang.Object as either a value or a CORBA Object.
+     * If <code>obj</code> is a value object or a stub object, it is written to
+     * <code>out.write_abstract_interface(java.lang.Object)</code>. If <code>obj</code>
+is
+an exported
      * RMI-IIOP server object, the tie is found and wired to <code>obj</code>,
-     * then written to <code>out.write_abstract_interface(java.lang.Object)</code>. 
+     * then written to <code>out.write_abstract_interface(java.lang.Object)</code>.
      * @param out the stream in which to write the object.
      * @param obj the object to write.
      */
     public static void writeAbstractObject(OutputStream out,
                                            java.lang.Object obj) {
-                                                
+
         if (utilDelegate != null) {
             utilDelegate.writeAbstractObject(out, obj);
         }
     }
-    
+
     /**
      * Registers a target for a tie. Adds the tie to an internal table and calls
      * {@link Tie#setTarget} on the tie object.
@@ -139,22 +139,22 @@ an exported
      */
     public static void registerTarget(javax.rmi.CORBA.Tie tie,
                                       java.rmi.Remote target) {
-        
+
         if (utilDelegate != null) {
             utilDelegate.registerTarget(tie, target);
         }
 
     }
-    
+
     /**
-     * Removes the associated tie from an internal table and calls {@link 
-Tie#deactivate} 
+     * Removes the associated tie from an internal table and calls {@link
+Tie#deactivate}
      * to deactivate the object.
      * @param target the object to unexport.
      * @throws java.rmi.NoSuchObjectException if the target object does not exist
      */
-    public static void unexportObject(java.rmi.Remote target) 
-        throws java.rmi.NoSuchObjectException 
+    public static void unexportObject(java.rmi.Remote target)
+        throws java.rmi.NoSuchObjectException
     {
 
         if (utilDelegate != null) {
@@ -162,7 +162,7 @@ Tie#deactivate}
         }
 
     }
-    
+
     /**
      * Returns the tie (if any) for a given target object.
      * @param target the Remote to get the Tie for
@@ -179,7 +179,7 @@ Tie#deactivate}
 
     /**
      * Returns a singleton instance of a class that implements the
-     * {@link ValueHandler} interface. 
+     * {@link ValueHandler} interface.
      * @return a class which implements the ValueHandler interface.
      */
     public static ValueHandler createValueHandler() {
@@ -192,7 +192,7 @@ Tie#deactivate}
     }
 
     /**
-     * Returns the codebase, if any, for the given class. 
+     * Returns the codebase, if any, for the given class.
      * @param clz the class to get a codebase for.
      * @return a space-separated list of URLs, or null.
      */
@@ -204,15 +204,15 @@ Tie#deactivate}
     }
 
     /**
-     * Returns a class instance for the specified class. 
+     * Returns a class instance for the specified class.
      * <P>The spec for this method is the "Java to IDL language
      * mapping", ptc/00-01-06.
      * <P>In Java SE Platform, this method works as follows:
      * <UL><LI>Find the first non-null <tt>ClassLoader</tt> on the
      * call stack and attempt to load the class using this
-     * <tt>ClassLoader</tt>. 
-     * <LI>If the first step fails, and if <tt>remoteCodebase</tt> 
-     * is non-null and 
+     * <tt>ClassLoader</tt>.
+     * <LI>If the first step fails, and if <tt>remoteCodebase</tt>
+     * is non-null and
      * <tt>useCodebaseOnly</tt> is false, then call
      * <tt>java.rmi.server.RMIClassLoader.loadClass(remoteCodebase, className)</tt>.
      * <LI>If <tt>remoteCodebase</tt> is null or <tt>useCodebaseOnly</tt>
@@ -236,20 +236,20 @@ Tie#deactivate}
         throws ClassNotFoundException {
         if (utilDelegate != null) {
             return utilDelegate.loadClass(className,remoteCodebase,loader);
-        }  
+        }
         return null ;
     }
 
 
     /**
-     * The <tt>isLocal</tt> method has the same semantics as the 
+     * The <tt>isLocal</tt> method has the same semantics as the
      * <tt>ObjectImpl._is_local</tt>
      * method, except that it can throw a <tt>RemoteException</tt>.
-     *   
+     *
      * The <tt>_is_local()</tt> method is provided so that stubs may determine if a
      * particular object is implemented by a local servant and hence local
      * invocation APIs may be used.
-     * 
+     *
      * @param stub the stub to test.
      *
      * @return The <tt>_is_local()</tt> method returns true if
@@ -269,10 +269,10 @@ Tie#deactivate}
 
         return false;
     }
-    
+
     /**
      * Wraps an exception thrown by an implementation
-     * method.  It returns the corresponding client-side exception. 
+     * method.  It returns the corresponding client-side exception.
      * @param orig the exception to wrap.
      * @return the wrapped exception.
      */
@@ -296,16 +296,16 @@ Tie#deactivate}
      */
     public static Object[] copyObjects (Object[] obj, ORB orb)
         throws RemoteException {
-    
+
         if (utilDelegate != null) {
             return utilDelegate.copyObjects(obj, orb);
         }
-        
+
         return null;
     }
 
     /**
-     * Copies or connects an object. Used by local stubs to copy 
+     * Copies or connects an object. Used by local stubs to copy
      * an actual parameter, result object, or exception.
      * @param obj the object to copy.
      * @param orb the ORB.
@@ -325,8 +325,8 @@ Tie#deactivate}
     // are in different packages and the visibility needs to be package for
     // security reasons. If you know a better solution how to share this code
     // then remove it from PortableRemoteObject. Also in Stub.java
-    private static Object createDelegateIfSpecified(String classKey, 
-        String defaultClassName) 
+    private static Object createDelegateIfSpecified(String classKey,
+        String defaultClassName)
     {
         String className = (String)
             AccessController.doPrivileged(new GetPropertyAction(classKey));
@@ -367,14 +367,14 @@ Tie#deactivate}
             return RMIClassLoader.loadClass(className);
         } catch (MalformedURLException e) {
             String msg = "Could not load " + className + ": " + e.toString();
-            ClassNotFoundException exc = new ClassNotFoundException( msg ) ; 
+            ClassNotFoundException exc = new ClassNotFoundException( msg ) ;
             throw exc ;
         }
     }
     /**
      * Load the orb.properties file.
      */
-    private static Properties getORBPropertiesFile () 
+    private static Properties getORBPropertiesFile ()
     {
         return (Properties) AccessController.doPrivileged(
             new GetORBPropertiesFileAction());
@@ -389,6 +389,6 @@ Tie#deactivate}
             sm.checkPermission(new SerializablePermission(
               "enableCustomValueHandler"));
         }
-    }   
+    }
 
 }

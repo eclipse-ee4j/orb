@@ -44,7 +44,7 @@ public class AcceptorAndContactInfoTest
         doTestType("Server", "Server",
                    "Client", "Client");
 
-        Controller colocatedClientServer = 
+        Controller colocatedClientServer =
             createClient(thisPackage + ".ColocatedClientServer",
                          "colocatedClientServer");
         colocatedClientServer.start();

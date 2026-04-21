@@ -21,9 +21,9 @@ package org.omg.CORBA;
 
 /**
  * This exception is raised if an ORB cannot convert the representation
- * of data as marshaled into its native representation or vice-versa. 
- * For example, DATA_CONVERSION can be raised if wide character codeset 
- * conversion fails, or if an ORB cannot convert floating point values 
+ * of data as marshaled into its native representation or vice-versa.
+ * For example, DATA_CONVERSION can be raised if wide character codeset
+ * conversion fails, or if an ORB cannot convert floating point values
  * between different representations.<P>
  * It contains a minor code, which gives more detailed information about
  * what caused the exception, and a completion status. It may also contain

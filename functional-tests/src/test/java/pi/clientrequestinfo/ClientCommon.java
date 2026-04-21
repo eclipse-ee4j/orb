@@ -32,10 +32,10 @@ abstract public class ClientCommon
 {
     // Set from run()
     protected com.sun.corba.ee.spi.orb.ORB orb;
-    
+
     // Set from run()
     public PrintStream out;
-    
+
     // Set from run()
     public PrintStream err;
 
@@ -49,7 +49,7 @@ abstract public class ClientCommon
     public static ClientCommon client;
 
     JUnitReportHelper helper = new JUnitReportHelper( this.getClass().getName() ) ;
-    
+
     protected void finish() {
         helper.done() ;
     }
@@ -61,9 +61,9 @@ abstract public class ClientCommon
         // create and initialize the ORB with initializer
         String testInitializer = "pi.clientrequestinfo.TestInitializer";
         Properties props = new Properties() ;
-        props.put( "org.omg.CORBA.ORBClass", 
+        props.put( "org.omg.CORBA.ORBClass",
                    System.getProperty("org.omg.CORBA.ORBClass"));
-        props.put( ORBConstants.PI_ORB_INITIALIZER_CLASS_PREFIX + 
+        props.put( ORBConstants.PI_ORB_INITIALIZER_CLASS_PREFIX +
                    testInitializer, "" );
         this.orb = (com.sun.corba.ee.spi.orb.ORB)ORB.init(args, props);
         TestInitializer.orb = this.orb;
@@ -91,7 +91,7 @@ abstract public class ClientCommon
 
         testException();
     }
-    
+
     /**
      * Clear invocation flags of helloRef and helloRefForward
      */
@@ -108,7 +108,7 @@ abstract public class ClientCommon
     abstract protected boolean wasInvoked() throws Exception;
 
     /**
-     * Return true if the method was forwarded 
+     * Return true if the method was forwarded
      */
     abstract protected boolean didForward() throws Exception;
 
@@ -125,9 +125,9 @@ abstract public class ClientCommon
     protected void setParameters( InterceptorStrategy interceptorStrategy,
                                   InvokeStrategy invokeStrategy )
     {
-        out.println( "  - Using interceptor strategy " + 
+        out.println( "  - Using interceptor strategy " +
             interceptorStrategy.getClass().getName() );
-        out.println( "  - Using invocation strategy " + 
+        out.println( "  - Using invocation strategy " +
             invokeStrategy.getClass().getName() );
         this.interceptorStrategy = interceptorStrategy;
         this.invokeStrategy = invokeStrategy;
@@ -136,8 +136,8 @@ abstract public class ClientCommon
     /**
      * Executes the test case set up with the parameters in setParameters
      */
-    protected void runTestCase( String testName ) 
-        throws Exception 
+    protected void runTestCase( String testName )
+        throws Exception
     {
         helper.start( testName ) ;
 
@@ -161,12 +161,12 @@ abstract public class ClientCommon
      *********************************************************************
      * Test assertions
      *********************************************************************/
-    
+
     /**
-     * Tests request_id().  
+     * Tests request_id().
      */
-    protected void testRequestId() 
-        throws Exception 
+    protected void testRequestId()
+        throws Exception
     {
         out.println( "+ Testing request_id()..." );
 
@@ -188,12 +188,12 @@ abstract public class ClientCommon
      * Tests various attributes are valid.  Attributes tested:
      *    operation(), sync_scope(), reply_status()
      */
-    protected void testAttributesValid() 
-        throws Exception 
+    protected void testAttributesValid()
+        throws Exception
     {
         out.println( "+ Testing for valid attributes..." );
 
-        InterceptorStrategy interceptorStrategy = 
+        InterceptorStrategy interceptorStrategy =
             new AttributesValidStrategy();
         InvokeStrategy invokeStrategy = new InvokeVisitAll();
         setParameters( interceptorStrategy, invokeStrategy );
@@ -203,8 +203,8 @@ abstract public class ClientCommon
     /**
      * Tests response_expected() by invoking a oneWay method
      */
-    protected void testOneWay() 
-        throws Exception 
+    protected void testOneWay()
+        throws Exception
     {
         out.println( "+ Testing response_expected() with one way..." );
 
@@ -215,14 +215,14 @@ abstract public class ClientCommon
     }
 
     /**
-     * Tests forward_reference() 
+     * Tests forward_reference()
      */
-    protected void testForwardReference() 
-        throws Exception 
+    protected void testForwardReference()
+        throws Exception
     {
         out.println( "+ Testing forward_reference()..." );
 
-        InterceptorStrategy interceptorStrategy = 
+        InterceptorStrategy interceptorStrategy =
             new ForwardReferenceStrategy();
         InvokeStrategy invokeStrategy = new InvokeVisitAllForward();
         setParameters( interceptorStrategy, invokeStrategy );
@@ -233,12 +233,12 @@ abstract public class ClientCommon
      * Tests get_request_service_context(), get_reply_service_context().
      * and add_request_service_context().
      */
-    protected void testServiceContext() 
+    protected void testServiceContext()
         throws Exception
     {
         out.println( "+ Testing {get|add}_*_service_context()..." );
 
-        InterceptorStrategy interceptorStrategy = 
+        InterceptorStrategy interceptorStrategy =
             new ServiceContextStrategy();
         InvokeStrategy invokeStrategy = new InvokeVisitAll();
         setParameters( interceptorStrategy, invokeStrategy );
@@ -253,7 +253,7 @@ abstract public class ClientCommon
     {
         out.println( "+ Testing effective_profile()..." );
 
-        InterceptorStrategy interceptorStrategy = 
+        InterceptorStrategy interceptorStrategy =
             new EffectiveProfileStrategy();
         InvokeStrategy invokeStrategy = new InvokeVisitAll();
         setParameters( interceptorStrategy, invokeStrategy );
@@ -268,7 +268,7 @@ abstract public class ClientCommon
     {
         out.println( "+ Testing received_exception[_id]()..." );
 
-        InterceptorStrategy interceptorStrategy = 
+        InterceptorStrategy interceptorStrategy =
             new ExceptionStrategy();
         InvokeStrategy invokeStrategy = new InvokeExceptions();
         setParameters( interceptorStrategy, invokeStrategy );

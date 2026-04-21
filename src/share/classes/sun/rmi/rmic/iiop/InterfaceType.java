@@ -33,11 +33,11 @@ import sun.rmi.rmic.IndentingWriter;
  * @author      Bryan Atsatt
  */
 public abstract class InterfaceType extends CompoundType {
-        
+
     //_____________________________________________________________________
     // Public Interfaces
     //_____________________________________________________________________
-        
+
     /**
      * Print this type.
      * @param writer The stream to print to.
@@ -49,7 +49,7 @@ public abstract class InterfaceType extends CompoundType {
                         boolean useQualifiedNames,
                         boolean useIDLNames,
                         boolean globalIDLNames) throws IOException {
-                                                        
+
         if (isInner()) {
             writer.p("// " + getTypeDescription() + " (INNER)");
         } else {
@@ -57,11 +57,11 @@ public abstract class InterfaceType extends CompoundType {
         }
         writer.pln(" (" + getRepositoryID() + ")\n");
         printPackageOpen(writer,useIDLNames);
-                
+
         if (!useIDLNames) {
             writer.p("public ");
         }
-                
+
         writer.p("interface " + getTypeName(false,useIDLNames,false));
         printImplements(writer,"",useQualifiedNames,useIDLNames,globalIDLNames);
         writer.plnI(" {");
@@ -77,7 +77,7 @@ public abstract class InterfaceType extends CompoundType {
         }
         printPackageClose(writer,useIDLNames);
     }
-        
+
     //_____________________________________________________________________
     // Subclass/Internal Interfaces
     //_____________________________________________________________________
@@ -88,12 +88,12 @@ public abstract class InterfaceType extends CompoundType {
      */
     protected InterfaceType(ContextStack stack, int typeCode, ClassDefinition classDef) {
         super(stack,typeCode,classDef); // Call special parent constructor.
-            
+
         if ((typeCode & TM_INTERFACE) == 0 || ! classDef.isInterface()) {
             throw new CompilerError("Not an interface");
         }
     }
-    
+
     /**
      * Create a InterfaceType instance for the given class.  The resulting
      * object is not yet completely initialized. Subclasses must call
@@ -103,7 +103,7 @@ public abstract class InterfaceType extends CompoundType {
                             ClassDefinition classDef,
                             int typeCode) {
         super(stack,classDef,typeCode);
-        
+
         if ((typeCode & TM_INTERFACE) == 0 || ! classDef.isInterface()) {
             throw new CompilerError("Not an interface");
         }

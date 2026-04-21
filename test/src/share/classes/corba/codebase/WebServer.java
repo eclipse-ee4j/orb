@@ -35,14 +35,14 @@ public class WebServer extends Thread implements HttpConstants {
     Properties aliases = null;
     boolean started = false;
     ServerSocket ss = null;
-    
+
     public static void main(String[] a) throws Exception {
         int port = 31397;
         String rootPath = System.getProperty("user.dir");
         int threads = 5;
         boolean error = false;
         Properties aliases = new Properties();
-        
+
         for (int i = 0; i < a.length; i++) {
             String arg = a[i];
             if (arg.equals("-port")) {
@@ -70,13 +70,13 @@ public class WebServer extends Thread implements HttpConstants {
                 error = true;
             }
         }
-        
+
         File root = new File(rootPath);
         if (!root.exists()) {
             System.out.println("docroot '" + rootPath + "' does not exist.");
             error = true;
         }
-        
+
         if (!error) {
             System.out.println("WebServer(port=" + port + ", " +
                                          "root=" + root + ", " +
@@ -89,11 +89,11 @@ public class WebServer extends Thread implements HttpConstants {
             System.out.println("Usage: test.WebServer [-port n][-docroot docRootPath][-threads n][-alias x=y]");
         }
     }
-    
+
     public WebServer (int port, File root, int threads) throws Exception {
         this(port,root,threads,null,null);
     }
-    
+
     public WebServer (int port, File root, int threads,
                       Properties aliases, PrintStream log) throws Exception {
         this.root = root;
@@ -123,7 +123,7 @@ public class WebServer extends Thread implements HttpConstants {
             }
         }
     }
-    
+
     public boolean waitTillReady() {
         if (!Thread.currentThread().isAlive()) {
             return false; // Died.
@@ -137,17 +137,17 @@ public class WebServer extends Thread implements HttpConstants {
         }
         return true;
     }
-    
+
     public void quit() {
         try {
             ss.close();
         } catch (Exception e){}
-        
+
         run = false;
     }
-    
+
     public void run () {
-        
+
         try {
             /* start worker threads */
             for (int i = 0; i < workers; ++i) {
@@ -157,12 +157,12 @@ public class WebServer extends Thread implements HttpConstants {
             }
 
             ss = new ServerSocket(port);
-            
+
             synchronized(this) {
                 started = true;
                 notifyAll();
             }
-            
+
             while (run) {
                 try {
                     Socket s = ss.accept();
@@ -180,9 +180,9 @@ public class WebServer extends Thread implements HttpConstants {
                     }
                 } catch (IOException e) {}
             }
-            
-            
-            
+
+
+
         } catch (Exception e) {
             log.println("WebServer died. Caught " + e);
         }
@@ -200,7 +200,7 @@ class Worker implements HttpConstants, Runnable {
     /* Socket to client we're handling */
     private Socket s;
     private WebServer server;
-    
+
     Worker(WebServer server) {
         this.server = server;
         buf = new byte[BUF_SIZE];
@@ -346,7 +346,7 @@ class Worker implements HttpConstants, Runnable {
                     targ = ind;
                 }
             }
- 
+
             boolean OK = printHeaders(targ, ps);
             if (doingGet) {
                 if (OK) {
@@ -357,7 +357,7 @@ class Worker implements HttpConstants, Runnable {
                     send404(targ, ps);
                 }
             } else {
-                server.log("HEAD "+targ+" OK");   
+                server.log("HEAD "+targ+" OK");
             }
         } finally {
             ps.flush();
@@ -377,7 +377,7 @@ class Worker implements HttpConstants, Runnable {
         server.log.println("checkAliases: " + name + " --> " + result);
         return result;
     }
-    
+
     boolean printHeaders(File targ, PrintStream ps) throws IOException {
         boolean ret = false;
         int rCode = 0;

@@ -28,7 +28,7 @@ package omega;
 * 22 April 1999 21:50:06 o'clock GMT+00:00
 */
 
-public interface Golf extends GolfOperations, org.omg.CORBA.Object, org.omg.CORBA.portable.IDLEntity 
+public interface Golf extends GolfOperations, org.omg.CORBA.Object, org.omg.CORBA.portable.IDLEntity
 {
     public static final int uniform = (int)(2);
 } // interface Golf

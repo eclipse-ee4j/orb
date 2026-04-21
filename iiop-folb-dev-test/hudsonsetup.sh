@@ -36,7 +36,7 @@ OPT2="-Dj2ee.server.home=${WORKSPACE}/glassfish4"
 JAVA_HOME=/usr/jdk/latest
 export JAVA_HOME
 ant $OPT1 $OPT2 clean
-ant $OPT1 $OPT2 
+ant $OPT1 $OPT2
 cd $CORBA_DEVTEST_WS
 export DEBUGGER=0
 

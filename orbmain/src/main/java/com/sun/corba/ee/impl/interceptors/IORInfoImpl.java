@@ -40,23 +40,23 @@ import org.omg.PortableInterceptor.ObjectReferenceTemplate;
 
 /**
  * IORInfoImpl is the implementation of the IORInfo class, as described
- * in orbos/99-12-02, section 7.  
+ * in orbos/99-12-02, section 7.
  */
-public final class IORInfoImpl 
-    extends LocalObject 
+public final class IORInfoImpl
+    extends LocalObject
     implements IORInfo, IORInfoExt
 {
     // State values that determine which methods are allowed.
     // get_effective_policy, manager_id, and adapter_state are valid unless STATE_DONE
 
     // add_component, and add_component_to_profile are valid.
-    private static final int STATE_INITIAL = 0 ; 
+    private static final int STATE_INITIAL = 0 ;
 
     // adapter_template, and R/W to current_factory are valid
-    private static final int STATE_ESTABLISHED = 1 ; 
+    private static final int STATE_ESTABLISHED = 1 ;
 
     // No methods are valid in this state
-    private static final int STATE_DONE = 2 ; 
+    private static final int STATE_DONE = 2 ;
 
     // The current state of this object
     private int state = STATE_INITIAL ;
@@ -83,20 +83,20 @@ public final class IORInfoImpl
     }
 
     /**
-     * An ORB service implementation may determine what server side policy 
-     * of a particular type is in effect for an IOR being constructed by 
-     * calling the get_effective_policy operation.  When the IOR being 
-     * constructed is for an object implemented using a POA, all Policy 
-     * objects passed to the PortableServer::POA::create_POA call that 
+     * An ORB service implementation may determine what server side policy
+     * of a particular type is in effect for an IOR being constructed by
+     * calling the get_effective_policy operation.  When the IOR being
+     * constructed is for an object implemented using a POA, all Policy
+     * objects passed to the PortableServer::POA::create_POA call that
      * created that POA are accessible via get_effective_policy.
      * <p>
-     * If a policy for the given type is not known to the ORB, then this 
+     * If a policy for the given type is not known to the ORB, then this
      * operation will raise INV_POLICY with a standard minor code of 2.
      *
-     * @param type The CORBA::PolicyType specifying the type of policy to 
+     * @param type The CORBA::PolicyType specifying the type of policy to
      *   return.
      * @return The effective CORBA::Policy object of the requested type.
-     *   If the given policy type is known, but no policy of that type is 
+     *   If the given policy type is known, but no policy of that type is
      *   in effect, then this operation will return a nil object reference.
      */
     public Policy get_effective_policy (int type) {
@@ -106,9 +106,9 @@ public final class IORInfoImpl
     }
 
     /**
-     * A portable ORB service implementation calls this method from its 
-     * implementation of establish_components to add a tagged component to 
-     * the set which will be included when constructing IORs.  The 
+     * A portable ORB service implementation calls this method from its
+     * implementation of establish_components to add a tagged component to
+     * the set which will be included when constructing IORs.  The
      * components in this set will be included in all profiles.
      * <p>
      * Any number of components may exist with the same component ID.
@@ -119,34 +119,34 @@ public final class IORInfoImpl
         checkState( STATE_INITIAL ) ;
 
         if( tagged_component == null ) nullParam();
-        addIORComponentToProfileInternal( tagged_component, 
+        addIORComponentToProfileInternal( tagged_component,
                                           adapter.getIORTemplate().iterator());
     }
 
     /**
-     * A portable ORB service implementation calls this method from its 
-     * implementation of establish_components to add a tagged component to 
-     * the set which will be included when constructing IORs.  The 
+     * A portable ORB service implementation calls this method from its
+     * implementation of establish_components to add a tagged component to
+     * the set which will be included when constructing IORs.  The
      * components in this set will be included in the specified profile.
      * <p>
      * Any number of components may exist with the same component ID.
      * <p>
-     * If the given profile ID does not define a known profile or it is 
-     * impossible to add components to thgat profile, BAD_PARAM is raised 
+     * If the given profile ID does not define a known profile or it is
+     * impossible to add components to thgat profile, BAD_PARAM is raised
      * with a minor code of TBD_BP + 3.
      *
      * @param tagged_component The IOP::TaggedComponent to add.
-     * @param profile_id The IOP::ProfileId tof the profile to which this 
+     * @param profile_id The IOP::ProfileId tof the profile to which this
      *     component will be added.
      */
-    public void add_ior_component_to_profile ( 
-        TaggedComponent tagged_component, int profile_id ) 
+    public void add_ior_component_to_profile (
+        TaggedComponent tagged_component, int profile_id )
     {
         checkState( STATE_INITIAL ) ;
 
         if( tagged_component == null ) nullParam();
-        addIORComponentToProfileInternal( 
-            tagged_component, adapter.getIORTemplate().iteratorById( 
+        addIORComponentToProfileInternal(
+            tagged_component, adapter.getIORTemplate().iteratorById(
             profile_id ) );
     }
 
@@ -174,7 +174,7 @@ public final class IORInfoImpl
     {
         return adapter;
     }
-    
+
     public int manager_id()
     {
         checkState( STATE_INITIAL, STATE_ESTABLISHED) ;
@@ -189,7 +189,7 @@ public final class IORInfoImpl
         return adapter.getState() ;
     }
 
-    public ObjectReferenceTemplate adapter_template() 
+    public ObjectReferenceTemplate adapter_template()
     {
         checkState( STATE_ESTABLISHED) ;
 
@@ -197,18 +197,18 @@ public final class IORInfoImpl
         // IIOPProfileTemplate.  This is a restriction of our
         // implementation.  Also, note the the ObjectReferenceTemplate
         // is called when a certain POA is created in a certain ORB
-        // in a certain server, so the server_id, orb_id, and 
+        // in a certain server, so the server_id, orb_id, and
         // poa_id operations must be well-defined no matter what
         // kind of implementation is used: e.g., if a POA creates
         // IORs with multiple profiles, they must still all agree
         // about this information.  Thus, we are justified in
-        // extracting the single IIOPProfileTemplate to create 
+        // extracting the single IIOPProfileTemplate to create
         // an ObjectReferenceTemplate here.
 
         return adapter.getAdapterTemplate() ;
     }
 
-    public ObjectReferenceFactory current_factory() 
+    public ObjectReferenceFactory current_factory()
     {
         checkState( STATE_ESTABLISHED) ;
 
@@ -226,22 +226,22 @@ public final class IORInfoImpl
      * Internal utility method to add an IOR component to the set of profiles
      * present in the iterator.
      */
-    private void addIORComponentToProfileInternal( 
+    private void addIORComponentToProfileInternal(
         TaggedComponent tagged_component, Iterator iterator )
     {
         // Convert the given IOP::TaggedComponent into the appropriate
         // type for the TaggedProfileTemplate
-        TaggedComponentFactoryFinder finder = 
+        TaggedComponentFactoryFinder finder =
             orb.getTaggedComponentFactoryFinder();
-        com.sun.corba.ee.spi.ior.TaggedComponent newTaggedComponent = 
+        com.sun.corba.ee.spi.ior.TaggedComponent newTaggedComponent =
             finder.create( orb, tagged_component );
-        
+
         // Iterate through TaggedProfileTemplates and add the given tagged
         // component to the appropriate one(s).
         boolean found = false;
         while( iterator.hasNext() ) {
             found = true;
-            TaggedProfileTemplate taggedProfileTemplate = 
+            TaggedProfileTemplate taggedProfileTemplate =
                 (TaggedProfileTemplate)iterator.next();
             taggedProfileTemplate.add( newTaggedComponent );
         }
@@ -252,12 +252,12 @@ public final class IORInfoImpl
             throw omgWrapper.invalidProfileId() ;
         }
     }
-    
+
     /**
      * Called when an invalid null parameter was passed.  Throws a
      * BAD_PARAM with a minor code of 1
      */
-    private void nullParam() 
+    private void nullParam()
     {
         throw orbutilWrapper.nullParamNoComplete() ;
     }

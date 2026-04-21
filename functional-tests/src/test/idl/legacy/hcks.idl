@@ -67,11 +67,11 @@ module hcks
         public idlOctetArray10000 octetArray;
     };
 
-    struct recursiveType { 
-        string a; 
-        string b; 
-        sequence<recursiveType,1> s; 
-    }; 
+    struct recursiveType {
+        string a;
+        string b;
+        sequence<recursiveType,1> s;
+    };
 
     interface idlControllerI
     {
@@ -82,7 +82,7 @@ module hcks
     {
               string        syncOK ( in string arg1 );
 
-              idlValueTypeA sendValue (in idlValueTypeA a, 
+              idlValueTypeA sendValue (in idlValueTypeA a,
                                        in idlValueTypeB b,
                                        in idlValueTypeC c,
                                        in idlValueTypeD d,
@@ -92,7 +92,7 @@ module hcks
 
         oneway void         asyncOK (in idlJString data);
 
-               void         throwUserException () 
+               void         throwUserException ()
                                 raises (idlExampleException);
 
                void         throwSystemException ();
@@ -162,10 +162,10 @@ module hcks
                readonly attribute short readOnlyShortAttribute;
     };
 
-    interface sendRecursiveType { 
-        any sendAsAny(in any x); 
-        recursiveType sendAsType(in recursiveType x); 
-    }; 
+    interface sendRecursiveType {
+        any sendAsAny(in any x);
+        recursiveType sendAsType(in recursiveType x);
+    };
 
 }; // module hcks
 

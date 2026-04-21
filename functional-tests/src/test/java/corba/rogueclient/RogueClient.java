@@ -121,9 +121,9 @@ public class RogueClient implements Runnable
         try {
 
             for (int i = 0; i < byteBuffer.position(); i += 16) {
-                
+
                 int j = 0;
-                
+
                 // For every 16 bytes, there is one line
                 // of output.  First, the hex output of
                 // the 16 bytes with each byte separated
@@ -138,7 +138,7 @@ public class RogueClient implements Runnable
                     System.out.print(hex + " ");
                     j++;
                 }
-                
+
                 // Add any extra spaces to align the
                 // text column in case we didn't end
                 // at 16
@@ -146,7 +146,7 @@ public class RogueClient implements Runnable
                     System.out.print("   ");
                     j++;
                 }
-                
+
                 // Now output the ASCII equivalents.  Non-ASCII
                 // characters are shown as periods.
                 int x = 0;
@@ -180,19 +180,19 @@ public class RogueClient implements Runnable
 
         itsHostname = primary.getHost().toLowerCase();
         itsPort = primary.getPort();
-        
+
         String testerIOR = tester.toString();
         print("\tRemote object, Tester " + testerIOR);
         print("\tCan be found at:");
         print("\tHostname -> " + itsHostname);
         print("\tPort -> " + itsPort);
         print("Successful");
-    } 
+    }
 
     private void createConnectionToServer() throws Exception {
         start( "createConnectionToServer",
             createConnectionToServerCallCounter++ ) ;
-        
+
         // create SocketChannel to server
         try {
             InetSocketAddress isa = new InetSocketAddress(itsHostname, itsPort);
@@ -254,7 +254,7 @@ public class RogueClient implements Runnable
     }
 
     private void sendData(ByteBuffer byteBuffer, int numBytesToWrite)
-        throws Exception { 
+        throws Exception {
 
         int bytesWrit;
         do {
@@ -304,7 +304,7 @@ public class RogueClient implements Runnable
 
         try {
             sendData(b, Message.GIOPMessageHeaderLength);
-            
+
             // send message body 1 byte a time with a delay between them
             for (int i = Message.GIOPMessageHeaderLength; i < byteBuffer.limit(); i++) {
                 b = ByteBuffer.allocateDirect(1);
@@ -396,7 +396,7 @@ public class RogueClient implements Runnable
 
     private void runSendMessageAndCloseConnection() throws Exception {
         start( "runSendMessageAndCloseConnection" ) ;
-        
+
         ByteBuffer byteBuffer = createGIOPMessage();
         byteBuffer.flip();
         try {
@@ -427,7 +427,7 @@ public class RogueClient implements Runnable
             for (Thread thread : rogueClientThreads) {
                 thread.start();
             }
-            
+
             for (Thread thread : rogueClientThreads) {
                 thread.join();
             }
@@ -463,7 +463,7 @@ public class RogueClient implements Runnable
             print("Looking up Tester...");
             java.lang.Object tst = rootContext.lookup("Tester");
             print("Narrowing...");
-            Tester tester 
+            Tester tester
                 = (Tester)PortableRemoteObject.narrow(tst,
                                                       Tester.class);
             getHostnameAndPort(tester);
@@ -510,10 +510,10 @@ public class RogueClient implements Runnable
 
         } catch (Exception ex) {
             ex.printStackTrace() ;
-        } 
+        }
 
         int failures = numFailures.get() ;
-        if (failures == 0) 
+        if (failures == 0)
             System.out.println("Test finished successfully...");
 
         System.exit( numFailures.get() ) ;

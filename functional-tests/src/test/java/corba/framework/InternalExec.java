@@ -49,7 +49,7 @@ public class InternalExec extends ControllerAdapter
             duration = System.currentTimeMillis() - startTime ;
         }
     }
-   
+
     public long duration() {
         return duration ;
     }
@@ -107,7 +107,7 @@ public class InternalExec extends ControllerAdapter
             exitValue = 1;
         }
     }
-                 
+
     /**
      * Exit value of this process.
      */

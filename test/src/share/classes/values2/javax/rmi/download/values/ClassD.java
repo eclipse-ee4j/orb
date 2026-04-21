@@ -24,11 +24,11 @@ public class ClassD extends ClassA{
     private static final long serialVersionUID = 128456789L;
 
     private int a;
-        
+
     public ClassD(){
         a = 7;
     }
-        
+
     public long getTotal(){
         return  super.getTotal() + a;
     }

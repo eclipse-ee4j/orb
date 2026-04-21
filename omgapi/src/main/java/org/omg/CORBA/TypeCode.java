@@ -111,7 +111,7 @@ import org.omg.CORBA.portable.IDLEntity;
  * These methods may be invoked on <code>objref</code>, <code>struct</code>,
  * <code>union</code>, <code>enum</code>,
  * <code>alias</code>, <code>exception</code>, <code>value</code>,
- * <code>value_box</code>, <code>native</code>, 
+ * <code>value_box</code>, <code>native</code>,
  * and <code>abstract_interface</code>:
  * <UL>
  * <LI><code>id</code>
@@ -178,7 +178,7 @@ public abstract class TypeCode implements IDLEntity {
     public abstract boolean equal(TypeCode tc);
 
     /**
-         * Tests to see if the given <code>TypeCode</code> object is 
+         * Tests to see if the given <code>TypeCode</code> object is
          * equivalent to this <code>TypeCode</code> object.
          * <P>
          * Not implemented; see package comments.
@@ -195,7 +195,7 @@ public abstract class TypeCode implements IDLEntity {
     /**
      * Strips out all optional name and member name fields,
      * but leaves all alias typecodes intact.
-         * @return a <code>TypeCode</code> object with optional name and 
+         * @return a <code>TypeCode</code> object with optional name and
          *         member name fields stripped out, except for alias typecodes,
          *         which are left intact
      * @see <a href="package-summary.html#unimpl"><code>CORBA</code> package
@@ -451,9 +451,9 @@ public abstract class TypeCode implements IDLEntity {
     public abstract short fixed_digits() throws BadKind ;
 
     /**
-         * Returns the scale of the fixed type described by this 
+         * Returns the scale of the fixed type described by this
          * <code>TypeCode</code> object. A positive number indicates the
-         * number of digits to the right of the decimal point. 
+         * number of digits to the right of the decimal point.
          * For example, the number 3000d could have the
          * typecode <code>fixed&lt;4,0&gt;</code>, where the first number is
          * the precision and the second number is the scale.
@@ -484,11 +484,11 @@ public abstract class TypeCode implements IDLEntity {
      *           is invoked on a non-value type <code>TypeCode</code>
      *           object
      * @throws org.omg.CORBA.TypeCodePackage.Bounds
-     *           if the given index is out of bounds 
+     *           if the given index is out of bounds
      * @see <a href="package-summary.html#unimpl"><code>CORBA</code> package
      *      comments for unimplemented features</a>
      */
-    
+
     abstract public short member_visibility(int index)
         throws BadKind, org.omg.CORBA.TypeCodePackage.Bounds ;
 
@@ -508,7 +508,7 @@ public abstract class TypeCode implements IDLEntity {
      * @see <a href="package-summary.html#unimpl"><code>CORBA</code> package
      *      comments for unimplemented features</a>
      */
-    
+
     abstract public short type_modifier() throws BadKind ;
 
     /**
@@ -524,6 +524,6 @@ public abstract class TypeCode implements IDLEntity {
      * @see <a href="package-summary.html#unimpl"><code>CORBA</code> package
      *      comments for unimplemented features</a>
      */
-    
+
     abstract public TypeCode concrete_base_type() throws BadKind ;
 }

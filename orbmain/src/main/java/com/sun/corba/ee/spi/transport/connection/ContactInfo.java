@@ -31,7 +31,7 @@ import java.io.IOException ;
 public interface ContactInfo<C extends Connection> {
     /** Create a new Connection from this ContactInfo.
      * Throws an IOException if Connection creation fails.
-     * 
+     *
      * @throws IOException if creation fails
      * @return a new {@link Connection}
      */

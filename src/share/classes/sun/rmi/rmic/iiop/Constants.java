@@ -105,11 +105,11 @@ public interface Constants extends sun.rmi.rmic.Constants {
     public static final int TAB_SIZE = Integer.MAX_VALUE; // No tabs.
 
     // Type status codes:
-    
+
     public static final int STATUS_PENDING = 0;
     public static final int STATUS_VALID = 1;
     public static final int STATUS_INVALID = 2;
-    
+
     // Java Names:
 
     public static final String NAME_SEPARATOR = ".";
@@ -171,30 +171,30 @@ public interface Constants extends sun.rmi.rmic.Constants {
     public static final String EXCEPTION_SUFFIX = "Exception";
     public static final String ERROR_SUFFIX = "Error";
     public static final String EX_SUFFIX = "Ex";
-        
+
     public static final String IDL_REPOSITORY_ID_PREFIX = "IDL:";
     public static final String IDL_REPOSITORY_ID_VERSION = ":1.0";
-                
+
     public static final String[]  IDL_CORBA_MODULE = {"CORBA"};
     public static final String[]  IDL_SEQUENCE_MODULE = {"org","omg","boxedRMI"};
     public static final String[]  IDL_BOXEDIDL_MODULE = {"org","omg","boxedIDL"};
 
     public static final String    IDL_CLASS = "ClassDesc";
     public static final String[]  IDL_CLASS_MODULE = {"javax","rmi","CORBA"};
- 
+
     public static final String    IDL_IDLENTITY = "IDLEntity";
     public static final String    IDL_SERIALIZABLE = "Serializable";
     public static final String    IDL_EXTERNALIZABLE = "Externalizable";
     public static final String[]  IDL_JAVA_IO_MODULE = {"java","io"};
     public static final String[]  IDL_ORG_OMG_CORBA_MODULE = {"org","omg","CORBA"};
     public static final String[]  IDL_ORG_OMG_CORBA_PORTABLE_MODULE = {"org","omg","CORBA","portable"};
-      
+
     public static final String    IDL_JAVA_LANG_OBJECT = "_Object";
     public static final String[]  IDL_JAVA_LANG_MODULE = {"java","lang"};
-    
+
     public static final String    IDL_JAVA_RMI_REMOTE = "Remote";
     public static final String[]  IDL_JAVA_RMI_MODULE = {"java","rmi"};
-   
+
     public static final String  IDL_SEQUENCE = "seq";
 
     public static final String  IDL_CONSTRUCTOR = "create";
@@ -264,16 +264,16 @@ public interface Constants extends sun.rmi.rmic.Constants {
     public static final int TM_SPECIAL_INTERFACE= 0x20000000;
     public static final int TM_NON_CONFORMING   = 0x40000000;
     public static final int TM_INNER            = 0x80000000;
-    
+
     // Attribute kinds...
-    
+
     public static final int ATTRIBUTE_NONE = 0;     // Not an attribute.
     public static final int ATTRIBUTE_IS = 1;       // read-only, had "is" prefix.
     public static final int ATTRIBUTE_GET = 2;      // read-only, had "get" prefix.
     public static final int ATTRIBUTE_IS_RW = 3;    // read-write, had "is" prefix.
     public static final int ATTRIBUTE_GET_RW = 4;   // read-write, had "get" prefix.
     public static final int ATTRIBUTE_SET = 5;      // had "set" prefix.
-    
+
     public static final String[] ATTRIBUTE_WIRE_PREFIX = {
         "",
         "_get_",

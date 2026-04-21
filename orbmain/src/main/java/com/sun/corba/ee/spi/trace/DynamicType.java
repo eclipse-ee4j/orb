@@ -27,7 +27,7 @@ import java.lang.annotation.Target ;
 import org.glassfish.pfl.tf.spi.annotation.MethodMonitorGroup;
 
 /** This annotation is applied to a class or interface to indicate
- * that its traced methods are classified as part of the 
+ * that its traced methods are classified as part of the
  * TypeCode/Any implementation in the ORB.
  */
 @Target({ElementType.METHOD,ElementType.TYPE,ElementType.FIELD})

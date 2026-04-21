@@ -62,8 +62,8 @@ public interface MarshalInputStream {
      */
     public org.omg.CORBA.Object read_Object(Class stubClass);
     public java.io.Serializable read_value() throws Exception;
-    
-    /* 
+
+    /*
      * Additional Methods
      */
     public void consumeEndian();
@@ -91,7 +91,7 @@ public interface MarshalInputStream {
      * converter to something different after reading the
      * code set service context for the first time.  Initially,
      * we use ISO8859-1 to read the operation name (it can't
-     * be more than ASCII).  
+     * be more than ASCII).
      */
     public void resetCodeSetConverters();
 }

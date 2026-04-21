@@ -53,7 +53,7 @@ public class ODebugExec extends ExternalExec
     protected String[] getDebugVMArgs()
     {
         String sourcepath = System.getProperty( "com.sun.corba.ee.test.sourcepath" ) ;
-        String[] result = { "com.lambda.Debugger.Debugger", "sourcepath", 
+        String[] result = { "com.lambda.Debugger.Debugger", "sourcepath",
             sourcepath } ;
 
         return result ;
@@ -79,12 +79,12 @@ public class ODebugExec extends ExternalExec
     {
         // we don't want to stop; just tell the user and let them
         // tell us when to stop
-        
+
         printDebugBreak();
 
         System.out.println("The framework wants to stop the "
                            + processName + " process");
-        
+
         waitForEnter("Press enter to terminate the process");
 
         exitValue();

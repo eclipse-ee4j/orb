@@ -31,7 +31,7 @@ public class CDRInputStream_1_2 extends CDRInputStream_1_1
     // padded appropriately. However, if there is no body to a request or reply
     // message, there is no header padding, in the unfragmented case.
     protected boolean headerPadding;
-    
+
     // used to remember headerPadding flag when mark() and restore() are used.
     protected boolean restoreHeaderPadding;
 
@@ -43,7 +43,7 @@ public class CDRInputStream_1_2 extends CDRInputStream_1_1
 
     // the mark and reset methods have been overridden to remember the
     // headerPadding flag.
-    
+
     @Override
     public void mark(int readlimit) {
         super.mark(readlimit);
@@ -66,7 +66,7 @@ public class CDRInputStream_1_2 extends CDRInputStream_1_1
         ((CDRInputStream_1_2)result).headerPadding = this.headerPadding;
         return result;
     }
-    
+
     @CdrRead
     @Override
     protected void alignAndCheck(int align, int n) {
@@ -111,7 +111,7 @@ public class CDRInputStream_1_2 extends CDRInputStream_1_1
     public GIOPVersion getGIOPVersion() {
         return GIOPVersion.V1_2;
     }
-        
+
     @Override
     public char read_wchar() {
         // In GIOP 1.2, a wchar is encoded as an unsigned octet length

@@ -33,7 +33,7 @@ import com.sun.corba.ee.spi.misc.ORBClassLoader ;
 
 /**
  * @version     1.8, 99/11/02
- * @author      Ken Cavanaugh 
+ * @author      Ken Cavanaugh
  * @since       JDK1.2
  */
 public class ServerMain
@@ -59,25 +59,25 @@ public class ServerMain
         }
     }
 
-    private void redirectIOStreams() 
+    private void redirectIOStreams()
     {
         // redirect out and err streams
         try {
-            String logDirName = 
-                System.getProperty( ORBConstants.DB_DIR_PROPERTY ) + 
-                System.getProperty("file.separator") + 
+            String logDirName =
+                System.getProperty( ORBConstants.DB_DIR_PROPERTY ) +
+                System.getProperty("file.separator") +
                 ORBConstants.SERVER_LOG_DIR +
                 System.getProperty("file.separator");
 
             // Check that the logDirName exists
             new File(logDirName);
 
-            String server = System.getProperty( 
+            String server = System.getProperty(
                 ORBConstants.ORB_SERVER_ID_PROPERTY ) ;
 
-            FileOutputStream foutStream = 
+            FileOutputStream foutStream =
                 new FileOutputStream(logDirName + server+".out", true);
-            FileOutputStream ferrStream = 
+            FileOutputStream ferrStream =
                 new FileOutputStream(logDirName + server+".err", true);
 
             PrintStream pSout = new PrintStream(foutStream, true);
@@ -94,20 +94,20 @@ public class ServerMain
 
     /** Write a time-stamped message to the indicated PrintStream.
     */
-    private static void writeLogMessage( PrintStream pstream, String msg ) 
+    private static void writeLogMessage( PrintStream pstream, String msg )
     {
         Date date = new Date();
         pstream.print( "[" + date.toString() + "] " + msg + "\n");
     }
-        
+
     /** Write information to standard out only.
     */
-    public static void logInformation( String msg ) 
+    public static void logInformation( String msg )
     {
         writeLogMessage( System.out, "        " + msg ) ;
     }
 
-    /** Write error message to standard out and standard err. 
+    /** Write error message to standard out and standard err.
     */
     public static void logError( String msg )
     {
@@ -115,27 +115,27 @@ public class ServerMain
         writeLogMessage( System.err, "ERROR:  " + msg ) ;
     }
 
-    /** Write final message to log(s) and then terminate by calling 
+    /** Write final message to log(s) and then terminate by calling
     * System.exit( code ).  If code == OK, write a normal termination
     * message to standard out, otherwise write an abnormal termination
     * message to standard out and standard error.
     */
-    public static void logTerminal( String msg, int code ) 
+    public static void logTerminal( String msg, int code )
     {
         if (code == 0) {
             writeLogMessage( System.out, "        " + msg ) ;
         } else {
-            writeLogMessage( System.out, "FATAL:  " + 
+            writeLogMessage( System.out, "FATAL:  " +
                 printResult( code ) + ": " + msg ) ;
 
-            writeLogMessage( System.err, "FATAL:  " + 
+            writeLogMessage( System.err, "FATAL:  " +
                 printResult( code ) + ": " + msg ) ;
         }
 
         System.exit( code ) ;
     }
-    
-    private Method getMainMethod( Class serverClass ) 
+
+    private Method getMainMethod( Class serverClass )
     {
         Method method = null ;
 
@@ -143,15 +143,15 @@ public class ServerMain
             method = serverClass.getDeclaredMethod( "main", String[].class ) ;
         } catch (Exception exc) {
             logTerminal( exc.getMessage(), NO_MAIN_METHOD ) ;
-        } 
+        }
 
         if (!isPublicStaticVoid( method ))
             logTerminal( "", NO_MAIN_METHOD ) ;
-        
+
         return method ;
     }
 
-    private boolean isPublicStaticVoid( Method method ) 
+    private boolean isPublicStaticVoid( Method method )
     {
         // check modifiers: public static
         int modifiers =  method.getModifiers ();
@@ -173,19 +173,19 @@ public class ServerMain
 
         return true ;
     }
-    
+
     private Method getNamedMethod( Class serverClass, String methodName )
     {
         Method method = null ;
 
         try {
-            method = serverClass.getDeclaredMethod( methodName, 
+            method = serverClass.getDeclaredMethod( methodName,
                 org.omg.CORBA.ORB.class ) ;
         } catch (Exception exc) {
             return null ;
         }
 
-        if (!isPublicStaticVoid( method )) 
+        if (!isPublicStaticVoid( method ))
             return null ;
 
         return method ;
@@ -195,8 +195,8 @@ public class ServerMain
     {
         try {
             redirectIOStreams() ;
-            
-            String serverClassName = System.getProperty( 
+
+            String serverClassName = System.getProperty(
                 ORBConstants.SERVER_NAME_PROPERTY ) ;
 
             // determine the main class
@@ -207,21 +207,21 @@ public class ServerMain
                 serverClass = Class.forName( serverClassName ) ;
             } catch (ClassNotFoundException ex) {
                 // eat the exception and try to load using SystemClassLoader
-                serverClass = Class.forName( serverClassName, true, 
+                serverClass = Class.forName( serverClassName, true,
                     ORBClassLoader.getClassLoader() );
             }
 
-            if (debug) 
+            if (debug)
                 System.out.println("class " + serverClassName + " found");
-            
+
             // get the main method
             Method mainMethod = getMainMethod( serverClass ) ;
 
             // This piece of code is required, to verify the server definition
-            // without launching it.  
+            // without launching it.
 
             // verify the server
-            
+
             boolean serverVerifyFlag = Boolean.getBoolean(
                 ORBConstants.SERVER_DEF_VERIFY_PROPERTY) ;
             if (serverVerifyFlag) {
@@ -237,10 +237,10 @@ public class ServerMain
             registerCallback( serverClass ) ;
             mainMethod.invoke(null, new Object[] { args } );
         } catch (ClassNotFoundException e) {
-            logTerminal("ClassNotFound exception: " + e.getMessage(), 
+            logTerminal("ClassNotFound exception: " + e.getMessage(),
                 MAIN_CLASS_NOT_FOUND);
         } catch (Exception e) {
-            logTerminal("Exception: " + e.getMessage(), 
+            logTerminal("Exception: " + e.getMessage(),
                 APPLICATION_ERROR);
         }
     }
@@ -252,7 +252,7 @@ public class ServerMain
 
     private static final boolean debug = false;
 
-    private int getServerId() 
+    private int getServerId()
     {
         Integer serverId = Integer.getInteger( ORBConstants.ORB_SERVER_ID_PROPERTY ) ;
 
@@ -262,24 +262,24 @@ public class ServerMain
         return serverId.intValue() ;
     }
 
-    private void registerCallback( Class serverClass ) 
+    private void registerCallback( Class serverClass )
     {
         Method installMethod = getNamedMethod( serverClass, "install" ) ;
         Method uninstallMethod = getNamedMethod( serverClass, "uninstall" ) ;
         Method shutdownMethod = getNamedMethod( serverClass, "shutdown" ) ;
 
         Properties props = new Properties() ;
-        props.put( "org.omg.CORBA.ORBClass", 
+        props.put( "org.omg.CORBA.ORBClass",
             "com.sun.corba.ee.impl.orb.ORBImpl" ) ;
         // NOTE: Very important to pass this property, otherwise the
-        // Persistent Server registration will be unsucessfull. 
+        // Persistent Server registration will be unsucessfull.
         props.put( ORBConstants.ACTIVATED_PROPERTY, "false" );
         String args[] = null ;
         ORB orb = ORB.init( args, props ) ;
 
-        ServerCallback serverObj = new ServerCallback( orb, 
+        ServerCallback serverObj = new ServerCallback( orb,
             installMethod, uninstallMethod, shutdownMethod ) ;
-        
+
         int serverId = getServerId() ;
 
         try {
@@ -293,7 +293,7 @@ public class ServerMain
     }
 }
 
-class ServerCallback extends 
+class ServerCallback extends
     com.sun.corba.ee.spi.activation._ServerImplBase
 {
     private ORB orb;
@@ -302,9 +302,9 @@ class ServerCallback extends
     private transient Method shutdownMethod ;
 
     ServerCallback(ORB orb, Method installMethod, Method uninstallMethod,
-        Method shutdownMethod ) 
+        Method shutdownMethod )
     {
-        this.orb = orb;   
+        this.orb = orb;
         this.installMethod = installMethod ;
         this.uninstallMethod = uninstallMethod ;
         this.shutdownMethod = shutdownMethod ;
@@ -312,20 +312,20 @@ class ServerCallback extends
         orb.connect( this ) ;
     }
 
-    private void invokeMethod( Method method ) 
+    private void invokeMethod( Method method )
     {
-        if (method != null)     
+        if (method != null)
             try {
                 method.invoke( null, orb ) ;
             } catch (Exception exc) {
-                ServerMain.logError( "could not invoke " + method.getName() + 
+                ServerMain.logError( "could not invoke " + method.getName() +
                     " method: " + exc.getMessage() ) ;
             }
     }
 
     // shutdown the ORB and wait for completion
     public void shutdown()
-    { 
+    {
         ServerMain.logInformation( "Shutdown starting" ) ;
 
         invokeMethod( shutdownMethod ) ;
@@ -335,7 +335,7 @@ class ServerCallback extends
         ServerMain.logTerminal( "Shutdown completed", ServerMain.OK ) ;
     }
 
-    public void install() 
+    public void install()
     {
         ServerMain.logInformation( "Install starting" ) ;
 

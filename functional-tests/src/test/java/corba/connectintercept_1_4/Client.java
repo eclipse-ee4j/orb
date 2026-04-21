@@ -34,7 +34,7 @@ import com.sun.corba.ee.spi.misc.ORBConstants;
 public class Client
 {
     public static final String baseMsg = Client.class.getName();
-    
+
     public static final String defaultFactoryClassName =
         //REVISIT Common.DEFAULT_FACTORY_CLASS
         "com.sun.corba.ee.impl.legacy.connection.DefaultSocketFactory";
@@ -58,7 +58,7 @@ public class Client
             System.out.println("Case 1:  Default factory");
             System.out.println();
 
-            testFactory(args, 
+            testFactory(args,
                         props,
                         defaultFactoryClassName
                         );
@@ -75,11 +75,11 @@ public class Client
             props.put(ORBConstants.LEGACY_SOCKET_FACTORY_CLASS_PROPERTY,
                       Common.CUSTOM_FACTORY_CLASS);
 
-            testFactory(args, 
+            testFactory(args,
                         props,
                         Common.CUSTOM_FACTORY_CLASS);
 
-            // 
+            //
             // Success.
             //
 
@@ -93,7 +93,7 @@ public class Client
         }
     }
 
-    public static void testFactory(String args[], 
+    public static void testFactory(String args[],
                                    Properties props,
                                    String factoryName)
         throws Exception
@@ -110,7 +110,7 @@ public class Client
 
 
         // Make sure that the factory that was used matches the name given.
-        ORBSocketFactory socketFactory = 
+        ORBSocketFactory socketFactory =
            ((com.sun.corba.ee.spi.orb.ORB)orb).getORBData().getLegacySocketFactory();
         if (socketFactory == null) {
             if (factoryName.equals(defaultFactoryClassName)) {
@@ -162,7 +162,7 @@ public class Client
     }
 
     public static org.omg.CORBA.Object resolve(String msg,
-                                               String name, 
+                                               String name,
                                                ORB orb)
         throws Exception
     {

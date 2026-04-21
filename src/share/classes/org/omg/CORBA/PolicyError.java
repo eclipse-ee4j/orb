@@ -29,7 +29,7 @@ package org.omg.CORBA;
 // @SuppressWarnings({"serial"})
 public final class PolicyError extends org.omg.CORBA.UserException {
 
-    /** 
+    /**
      * The reason for the <code>PolicyError</code> exception being thrown.
      * @serial
      */

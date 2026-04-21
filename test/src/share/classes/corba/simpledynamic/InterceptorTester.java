@@ -53,7 +53,7 @@ public class InterceptorTester extends LocalObject implements
         errors = 0 ;
         exceptionExpected = false ;
     }
-    
+
     public int getErrors() {
         return errors ;
     }
@@ -61,7 +61,7 @@ public class InterceptorTester extends LocalObject implements
     public void setExceptionExpected() {
         exceptionExpected = true ;
     }
-    
+
     private void msg( String msg ) {
         if (verbose) {
             System.out.println( "+++InterceptorTester: " + msg ) ;

@@ -27,7 +27,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 /**
- * 
+ *
  * DEPRECATED.  DEPRECATED. DEPRECATED. DEPRECATED. <p>
  * DEPRECATED.  DEPRECATED. DEPRECATED. DEPRECATED. <p>
  *
@@ -36,12 +36,12 @@ import java.net.Socket;
  *
  * Usage: <p>
  *
- * One specifies a class which implements this interface via the 
+ * One specifies a class which implements this interface via the
  *
  *     <code>ORBConstants.SOCKET_FACTORY_CLASS_PROPERTY</code>
  *
  * property. <p>
- * 
+ *
  * Example:
 
  * <pre>
@@ -52,12 +52,12 @@ import java.net.Socket;
  * server side and the client side (but this is not required). <p>
  *
  * A <code>ORBSocketFactory</code> class should have a public default
- * constructor which is called once per instantiating ORB.init call. 
+ * constructor which is called once per instantiating ORB.init call.
  * That ORB then calls the methods of that <code>ORBSocketFactory</code>
  * to obtain client and server sockets. <p>
  *
  * This interface also supports multiple server end points.  See the
- * documentation on <code>createServerSocket</code> below. 
+ * documentation on <code>createServerSocket</code> below.
  *
  */
 @Deprecated
@@ -70,12 +70,12 @@ public interface ORBSocketFactory
      * That port is put into IOP profiles of object references exported
      * by an ORB. <p>
      *
-     * If 
+     * If
      *
-     *     <code>createServerSocket(String type, int port)</code> 
+     *     <code>createServerSocket(String type, int port)</code>
      *
      * is passed <code>IIOP_CLEAR_TEXT</code> as a <code>type</code>
-     * argument it should then call and return 
+     * argument it should then call and return
      *
      *     <code>new java.net.ServerSocket(int port)</code> <p>
      *
@@ -91,7 +91,7 @@ public interface ORBSocketFactory
      *     new java.net.Socket(socketInfo.getHost(),
      *                         socketInfo.getPort())
      * </pre>
-     * @deprecated 
+     * @deprecated
      */
     public static final String IIOP_CLEAR_TEXT = "IIOP_CLEAR_TEXT";
 
@@ -104,7 +104,7 @@ public interface ORBSocketFactory
      * When an ORB needs to create a listen socket on which connection
      * requests are accepted it calls
      *
-     *     <code>createServerSocket(String type, int port)</code>. 
+     *     <code>createServerSocket(String type, int port)</code>.
      *
      * The type argument says which type of socket should be created. <p>
      *
@@ -112,7 +112,7 @@ public interface ORBSocketFactory
      * an instance of <code>ORBSocketFactory</code>, except in the case
      * of <code>IIOP_CLEAR_TEXT</code>, in which case a standard server
      * socket should be created. <p>
-     * 
+     *
      *
      * Multiple Server Port API: <p>
      *
@@ -142,13 +142,13 @@ public interface ORBSocketFactory
      * Example usage:
      *
      * <pre>
-     *    ... \ 
+     *    ... \
      *    -Dcom.sun.corba.ee.connection.ORBSocketFactoryClass=com.my.MySockFact \
      *    -Dcom.sun.corba.ee.connection.ORBListenSocket=SSL:0,foo:1 \
-     *    ... 
+     *    ...
      * </pre>
      *
-     * The meaning of the "type" (SSL and foo above) is controlled 
+     * The meaning of the "type" (SSL and foo above) is controlled
      * by the user. <p>
      *
      * ORBListenSocket is only meaningful for servers. <p>
@@ -160,7 +160,7 @@ public interface ORBSocketFactory
      * the associated type. <p>
      *
      * If number is greater then 0 use that port number. <p>
-     * 
+     *
      * An ORB creates a listener socket for each type
      * specified by the user by calling
      *
@@ -173,13 +173,13 @@ public interface ORBSocketFactory
      * all the end points which were specified.  It may be necessary
      * to add this additional end point information to object references
      * exported by this ORB.  <p>
-     * 
+     *
      * Each object reference will contain the ORB's default IIOP_CLEAR_TEXT
      * end point in its IOP profile.  To add additional end point information
      * (i.e., an SSL port) to an IOR (i.e., an object reference) one needs
      * to intercept IOR creation using
      * an <code>PortableInterceptor::IORInterceptor</code>. <p>
-     * 
+     *
      * Using PortableInterceptors (with a non-standard extension): <p>
      *
      * Register an <code>IORInterceptor</code>.  Inside its
@@ -193,15 +193,15 @@ public interface ORBSocketFactory
      * int port = ext.getServerPort("myType");
      *
      * </pre>
-     * 
+     *
      * Once you have the port you may add information to references
      * created by the associated adapter by calling
      *
      *    <code>IORInfo::add_ior_component</code><p>
-     * 
+     *
      *
      * Note: if one is using a POA and the lifespan policy of that
-     * POA is persistent then the port number returned 
+     * POA is persistent then the port number returned
      * by <code>getServerPort</code> <em>may</em>
      * be the corresponding ORBD port, depending on whether the POA/ORBD
      * protocol is the present port exchange or if, in the future,
@@ -214,7 +214,7 @@ public interface ORBSocketFactory
      * If object reference
      * exchange is used then the server's transient port will be returned
      * since the templates are exchanged after adding components.) <p>
-     * 
+     *
      *
      * Persistent object reference support: <p>
      *
@@ -231,7 +231,7 @@ public interface ORBSocketFactory
      *
      * Note: when using the port exchange protocol
      * the ORBD and servers will exchange port
-     * numbers for each given type so they know about each other. 
+     * numbers for each given type so they know about each other.
      * When using object reference template exchange the server's
      * transient ports are contained in the template. <p>
      *
@@ -248,12 +248,12 @@ public interface ORBSocketFactory
      * -Dcom.sun.corba.ee.POA.ORBBadServerIdHandlerClass=corba.socketPersistent.MyBadServerIdHandler
      *
      * </pre>
-     * 
+     *
      * The <code>BadServerIdHandler</code> ...<p>
      *
      * See <code>com.sun.corba.ee.impl.activation.ServerManagerImpl.handle</code>
      * for example code on writing a bad server id handler.  NOTE:  This
-     * is an unsupported internal API.  It will not exist in future releases. 
+     * is an unsupported internal API.  It will not exist in future releases.
      * <p>
      *
      *
@@ -271,11 +271,11 @@ public interface ORBSocketFactory
      * @param port port to create socket on
      * @return created socket
      * @throws IOException If a socket could not be created
-     * @deprecated 
+     * @deprecated
      */
     @Deprecated
     public ServerSocket createServerSocket(String type, int port)
-        throws 
+        throws
             IOException;
 
 
@@ -289,7 +289,7 @@ public interface ORBSocketFactory
      * associated ORB will call
      *
      * <pre>
-     *    getEndPointInfo(ORB orb, 
+     *    getEndPointInfo(ORB orb,
      *                    IOR ior,
      *                    SocketInfo socketInfo)
      * </pre>
@@ -324,8 +324,8 @@ public interface ORBSocketFactory
      *
      * The <code>SocketInfo</code> given to <code>getEndPointInfo</code>
      * is either null or an object obtained
-     * from <code>GetEndPointInfoAgainException</code> 
-     * 
+     * from <code>GetEndPointInfoAgainException</code>
+     *
      * @param orb ORB to use for getting socket
      * @param ior IOR to look at tagged components of
      * @param socketInfo information on socket
@@ -349,7 +349,7 @@ public interface ORBSocketFactory
      * Note: the <code>SocketInfo</code> is the same instance as was
      * returned by <code>getSocketInfo</code> so extra cookie info may
      * be attached. <p>
-     * 
+     *
      * If this method throws GetEndPointInfoAgainException then the
      * ORB calls <code>getEndPointInfo</code> again, passing it the
      * <code>SocketInfo</code> object contained in the exception.
@@ -357,7 +357,7 @@ public interface ORBSocketFactory
      * @throws IOException  if an occurred creating the socket
      * @throws GetEndPointInfoAgainException if endpoint info must be retrieved again
      * @return client socket
-     * @deprecated 
+     * @deprecated
      */
     public Socket createSocket(SocketInfo socketInfo)
         throws

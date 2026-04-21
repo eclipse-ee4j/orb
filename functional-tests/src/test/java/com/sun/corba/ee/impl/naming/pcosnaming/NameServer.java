@@ -38,7 +38,7 @@ import org.omg.CosNaming.NamingContext;
  * @since       JDK1.2
  */
 
-public class NameServer 
+public class NameServer
 {
     private ORB orb;
 
@@ -46,24 +46,24 @@ public class NameServer
 
     private final static String dbName = "names.db";
 
-    public static void main(String args[]) 
+    public static void main(String args[])
     {
         NameServer ns = new NameServer(args);
         ns.run();
     }
 
-    protected NameServer(String args[]) 
+    protected NameServer(String args[])
     {
         // create the ORB Object
         java.util.Properties props = System.getProperties();
         props.put( ORBConstants.ORB_SERVER_ID_PROPERTY, "1000" ) ;
-        props.put("org.omg.CORBA.ORBClass", 
+        props.put("org.omg.CORBA.ORBClass",
                   "com.sun.corba.ee.impl.orb.ORBImpl");
         orb = (ORB) org.omg.CORBA.ORB.init(args,props);
 
         // set up the database directory
         String dbDirName = props.getProperty( ORBConstants.DB_DIR_PROPERTY ) +
-            props.getProperty("file.separator") + dbName + 
+            props.getProperty("file.separator") + dbName +
             props.getProperty("file.separator");
 
         dbDir = new File(dbDirName);
@@ -76,7 +76,7 @@ public class NameServer
         }
     }
 
-    protected void run() 
+    protected void run()
     {
         try {
 

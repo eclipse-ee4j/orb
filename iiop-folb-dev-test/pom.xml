@@ -33,22 +33,22 @@
 
     <build>
       <plugins>
-	<plugin>
-	  <artifactId>exec-maven-plugin</artifactId>
-	  <groupId>org.codehaus.mojo</groupId>
+    <plugin>
+      <artifactId>exec-maven-plugin</artifactId>
+      <groupId>org.codehaus.mojo</groupId>
           <version>1.2.1</version>
-	  <executions>
-	    <execution>
+      <executions>
+        <execution>
               <phase>integration-test</phase>
-	      <goals>
-	        <goal>exec</goal>
-	      </goals>
-	      <configuration>
-	        <executable>samplerun.sh</executable>
-	      </configuration>
-	    </execution>
-	  </executions>
-	</plugin>
+          <goals>
+            <goal>exec</goal>
+          </goals>
+          <configuration>
+            <executable>samplerun.sh</executable>
+          </configuration>
+        </execution>
+      </executions>
+    </plugin>
       </plugins>
     </build>
 </project>

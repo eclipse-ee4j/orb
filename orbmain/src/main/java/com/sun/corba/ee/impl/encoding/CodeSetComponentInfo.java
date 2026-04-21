@@ -52,7 +52,7 @@ public final class CodeSetComponentInfo {
 
             CodeSetComponent other = (CodeSetComponent)obj ;
 
-            return (nativeCodeSet == other.nativeCodeSet) && 
+            return (nativeCodeSet == other.nativeCodeSet) &&
                 Arrays.equals( conversionCodeSets, other.conversionCodeSets ) ;
         }
 
@@ -64,14 +64,14 @@ public final class CodeSetComponentInfo {
                 result = 37*result + conversionCodeSets[ctr] ;
             return result ;
         }
-        
+
         public CodeSetComponent() {}
-        
+
         public CodeSetComponent(int nativeCodeSet, int[] conversionCodeSets) {
             this.nativeCodeSet = nativeCodeSet;
             if (conversionCodeSets == null)
                 this.conversionCodeSets = new int[0];
-            else 
+            else
                 this.conversionCodeSets = conversionCodeSets.clone();
         }
 
@@ -82,7 +82,7 @@ public final class CodeSetComponentInfo {
             in.read_ulong_array(conversionCodeSets, 0, len);
 
         }
-        
+
         public void write(MarshalOutputStream out) {
             out.write_ulong(nativeCodeSet);
             out.write_long(conversionCodeSets.length);
@@ -183,19 +183,19 @@ public final class CodeSetComponentInfo {
     public static final class CodeSetContext {
         private int char_data;
         private int wchar_data;
-        
+
         public CodeSetContext() {}
 
         public CodeSetContext(int charEncoding, int wcharEncoding) {
             char_data = charEncoding;
             wchar_data = wcharEncoding;
         }
-        
+
         public void read(MarshalInputStream in) {
             char_data = in.read_ulong();
             wchar_data = in.read_ulong();
         }
-        
+
         public void write(MarshalOutputStream out) {
             out.write_ulong(char_data);
             out.write_ulong(wchar_data);
@@ -204,7 +204,7 @@ public final class CodeSetComponentInfo {
         public int getCharCodeSet() {
             return char_data;
         }
-        
+
         public int getWCharCodeSet() {
             return wchar_data;
         }
@@ -248,7 +248,7 @@ public final class CodeSetComponentInfo {
      */
     public static final CodeSetComponentInfo JAVASOFT_DEFAULT_CODESETS;
     static {
-        CodeSetComponent charData 
+        CodeSetComponent charData
             = new CodeSetComponent(OSFCodeSetRegistry.ISO_8859_1.getNumber(),
                                    new int[] {
                                        OSFCodeSetRegistry.UTF_8.getNumber(),
@@ -299,7 +299,7 @@ public final class CodeSetComponentInfo {
             // Now process the other values as part of the
             // conversion code set list.
             while (stok.hasMoreTokens()) {
-                
+
                 // decode allows us to specify hex, decimal, etc
                 Integer value = Integer.decode(stok.nextToken());
 

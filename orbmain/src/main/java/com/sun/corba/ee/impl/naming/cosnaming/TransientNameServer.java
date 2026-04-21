@@ -56,8 +56,8 @@ public class TransientNameServer
         org.omg.CORBA.Object rootContext = null;
         try {
             com.sun.corba.ee.spi.orb.ORB coreORB =
-                (com.sun.corba.ee.spi.orb.ORB)orb ; 
-                
+                (com.sun.corba.ee.spi.orb.ORB)orb ;
+
             TransientNameService tns = new TransientNameService(coreORB );
             return tns.initialNamingContext();
         } catch (org.omg.CORBA.SystemException e) {
@@ -86,7 +86,7 @@ public class TransientNameServer
 
             props.put( ORBConstants.ORB_SERVER_ID_PROPERTY,
                 ORBConstants.NAME_SERVICE_SERVER_ID ) ;
-            props.put( "org.omg.CORBA.ORBClass", 
+            props.put( "org.omg.CORBA.ORBClass",
                 "com.sun.corba.ee.impl.orb.ORBImpl" );
 
             String ips = null ;
@@ -100,7 +100,7 @@ public class TransientNameServer
                     }
                 }
 
-                String hostName = 
+                String hostName =
                     System.getProperty( ORBConstants.INITIAL_HOST_PROPERTY ) ;
 
                 if( hostName != null ) {
@@ -123,13 +123,13 @@ public class TransientNameServer
                     }
                 }
 
-                if (args[i].equals("-ORBInitialHost" ) ) { 
+                if (args[i].equals("-ORBInitialHost" ) ) {
                     invalidHostOption = true;
                     throw wrapper.transientNameServerBadHost() ;
                 }
             }
 
-            // If initialPort is not set, then we need to set the Default 
+            // If initialPort is not set, then we need to set the Default
             // Initial Port Property for the ORB
             if( initialPort == 0 ) {
                 initialPort = ORBConstants.DEFAULT_INITIAL_PORT;
@@ -139,17 +139,17 @@ public class TransientNameServer
 
             // Set -ORBInitialPort = Persistent Server Port so that ORBImpl
             // will start Boot Strap.
-            props.put( ORBConstants.PERSISTENT_SERVER_PORT_PROPERTY, 
+            props.put( ORBConstants.PERSISTENT_SERVER_PORT_PROPERTY,
                java.lang.Integer.toString(initialPort) );
 
             org.omg.CORBA.ORB corb = ORB.init( args, props ) ;
-  
+
             org.omg.CORBA.Object ns = initializeRootNamingContext( corb ) ;
-            ((com.sun.corba.ee.org.omg.CORBA.ORB)corb).register_initial_reference( 
+            ((com.sun.corba.ee.org.omg.CORBA.ORB)corb).register_initial_reference(
                 "NamingService", ns ) ;
 
             String stringifiedIOR = null;
- 
+
             if( ns != null ) {
                 stringifiedIOR = corb.object_to_string(ns) ;
             } else {
@@ -161,7 +161,7 @@ public class TransientNameServer
             }
 
             // This is used for handshaking by the IBM test framework!
-            // Do not modify, unless another synchronization protocol is 
+            // Do not modify, unless another synchronization protocol is
             // used to replace this hack!
 
             System.out.println(CorbaResourceUtil.getText(
@@ -195,6 +195,6 @@ public class TransientNameServer
 
     /**
      * Private constructor since no object of this type should be instantiated.
-     */ 
+     */
     private TransientNameServer() {}
 }

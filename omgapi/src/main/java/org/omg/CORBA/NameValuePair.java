@@ -43,7 +43,7 @@ public final class NameValuePair implements org.omg.CORBA.portable.IDLEntity {
      * of this object have to be accessed individually.
      */
     public NameValuePair() { }
-        
+
     /**
      * Constructs a <code>NameValuePair</code> object that associates
      * the given name with the given <code>org.omg.CORBA.Any</code> object.

@@ -236,7 +236,7 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
   {
     Vector labels = vectorizeLabels (u.branches (), true);
 
-    // #hd# bugfix for http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4504275 from 
+    // #hd# bugfix for http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4504275 from
     // https://www.programcreek.com/java-api-examples/?code=jboss/openjdk-orb/openjdk-orb-master/src/share/classes/com/sun/tools/corba/se/idl/toJavaPortable/UnionGen.java
     if (Util.javaName(utype).equals ("boolean")) {
         stream.println( "" ) ;
@@ -558,7 +558,7 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
   // of the number of labels in each branch of the union.  Note that the
   // label for the default branch has size 0, but still counts in the total
   // size.
-  private int unionLabelSize( UnionEntry un ) 
+  private int unionLabelSize( UnionEntry un )
   {
     int size = 0 ;
     Vector branches = un.branches() ;
@@ -569,7 +569,7 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
     }
     return size ;
   }
-  
+
   public int helperType (int index, String indent, com.sun.tools.corba.ee.idl.toJavaPortable.TCOffsets tcoffsets,
     String name, SymtabEntry entry, PrintWriter stream)
   {
@@ -584,7 +584,7 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
         innerOffsets, discTypeCode, u.type (), stream);
     tcoffsets.bumpCurrentOffset (innerOffsets.currentOffset ());
 
-    stream.println (indent + "org.omg.CORBA.UnionMember[] " + membersName + 
+    stream.println (indent + "org.omg.CORBA.UnionMember[] " + membersName +
         " = new org.omg.CORBA.UnionMember [" + unionLabelSize(u) + "];");
     String tcOfMembers = "_tcOf" + membersName;
     String anyOfMembers = "_anyOf" + membersName;
@@ -599,7 +599,7 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
         TypedefEntry member = branch.typedef;
         Vector labels = branch.labels;
         String memberName = com.sun.tools.corba.ee.idl.toJavaPortable.Util.stripLeadingUnderscores(member.name());
- 
+
         if (labels.isEmpty()) {
             stream.println ();
             stream.println (indent + "// Branch for " + memberName + " (Default case)" );
@@ -615,7 +615,7 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
             innerOffsets = new com.sun.tools.corba.ee.idl.toJavaPortable.TCOffsets();
             innerOffsets.set (entry);
             innerOffsets.bumpCurrentOffset (offsetSoFar - offsetForUnion);
-      
+
             // Build union member
             stream.println (indent + membersName + '[' + i + "] = new org.omg.CORBA.UnionMember (");
             stream.println (indent + "  \"" + memberName + "\",");
@@ -629,16 +629,16 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
                 String elem = com.sun.tools.corba.ee.idl.toJavaPortable.Util.parseExpression(expr) ;
 
                 stream.println ();
-                stream.println (indent + "// Branch for " + memberName + 
+                stream.println (indent + "// Branch for " + memberName +
                     " (case label " + elem + ")" );
-          
+
                 SymtabEntry utype = com.sun.tools.corba.ee.idl.toJavaPortable.Util.typeOf(u.type());
-          
+
                 // Build any
                 stream.println (indent + anyOfMembers + " = org.omg.CORBA.ORB.init ().create_any ();");
-            
+
                 if (utype instanceof PrimitiveEntry)
-                    stream.println (indent + anyOfMembers + ".insert_" + 
+                    stream.println (indent + anyOfMembers + ".insert_" +
                     com.sun.tools.corba.ee.idl.toJavaPortable.Util.collapseName(utype.name()) + " ((" + com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaName(utype) +
                         ')' + elem + ");");
                 else { // it must be enum
@@ -654,7 +654,7 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
                 innerOffsets = new com.sun.tools.corba.ee.idl.toJavaPortable.TCOffsets();
                 innerOffsets.set (entry);
                 innerOffsets.bumpCurrentOffset (offsetSoFar - offsetForUnion);
-          
+
                 // Build union member
                 stream.println (indent + membersName + '[' + i + "] = new org.omg.CORBA.UnionMember (");
                 stream.println (indent + "  \"" + memberName + "\",");
@@ -668,9 +668,9 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
     tcoffsets.bumpCurrentOffset (innerOffsets.currentOffset ());
 
     // Build create_union_tc
-    stream.println (indent + name + " = org.omg.CORBA.ORB.init ().create_union_tc (" + 
+    stream.println (indent + name + " = org.omg.CORBA.ORB.init ().create_union_tc (" +
         com.sun.tools.corba.ee.idl.toJavaPortable.Util.helperName(u, true) + ".id (), \"" + entry.name () + "\", " +
-        discTypeCode + ", " + membersName + ");"); 
+        discTypeCode + ", " + membersName + ");");
     return index;
   } // helperType
 
@@ -680,7 +680,7 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
     {
         stream.println (indent + name + " = " + com.sun.tools.corba.ee.idl.toJavaPortable.Util.helperName(entry, true) + ".type ();");
         return index;
-    } 
+    }
 
     @Override
     public void helperRead (String entryName, SymtabEntry entry, PrintWriter stream)
@@ -688,16 +688,16 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
         stream.println ("    " + entryName + " value = new " + entryName + " ();");
         read (0, "    ", "value", entry, stream);
         stream.println ("    return value;");
-    } 
+    }
 
     @Override
     public void helperWrite (SymtabEntry entry, PrintWriter stream)
     {
         write (0, "    ", "value", entry, stream);
-    } 
+    }
 
     @Override
-    public int read (int index, String indent, String name, 
+    public int read (int index, String indent, String name,
         SymtabEntry entry, PrintWriter stream)
     {
         UnionEntry u = (UnionEntry)entry;
@@ -716,9 +716,9 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
             index = readNonBoolean (disName, index, indent, name, u, stream);
 
         return index;
-    } 
+    }
 
-    private int readBoolean (String disName, int index, String indent, 
+    private int readBoolean (String disName, int index, String indent,
         String name, UnionEntry u, PrintWriter stream)
     {
         UnionBranch firstBranch = (UnionBranch)u.branches ().firstElement ();
@@ -732,7 +732,7 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
         boolean firstBranchIsTrue = false;
         boolean noCases = false;
         try {
-            if (u.branches ().size () == 1 && 
+            if (u.branches ().size () == 1 &&
                 (u.defaultBranch () != null || firstBranch.labels.size () == 2)) {
                 noCases = true;
             } else {
@@ -762,8 +762,8 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
                 stream.println (indent + "  value._default(" + disName + ");");
             else {
                 stream.println (indent + '{');
-                index = readBranch (index, indent + "  ", firstBranch.typedef.name (), 
-                    disName, firstBranch.typedef, stream); 
+                index = readBranch (index, indent + "  ", firstBranch.typedef.name (),
+                    disName, firstBranch.typedef, stream);
                 stream.println (indent + '}');
             }
 
@@ -773,16 +773,16 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
                 stream.println (indent + "  value._default(" + disName + ");");
             else {
                 stream.println (indent + '{');
-                index = readBranch (index, indent + "  ", secondBranch.typedef.name (), 
+                index = readBranch (index, indent + "  ", secondBranch.typedef.name (),
                     disName, secondBranch.typedef, stream);
                 stream.println (indent + '}');
             }
         }
 
         return index;
-    } 
+    }
 
-    private int readNonBoolean (String disName, int index, String indent, 
+    private int readNonBoolean (String disName, int index, String indent,
         String name, UnionEntry u, PrintWriter stream)
     {
         SymtabEntry utype = com.sun.tools.corba.ee.idl.toJavaPortable.Util.typeOf(u.type());
@@ -812,7 +812,7 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
 
             if (!branch.typedef.equals (u.defaultBranch ())) {
                 index = readBranch (index, indent + "    ", branch.typedef.name (),
-                    branch.labels.size() > 1 ? disName : "" ,  
+                    branch.labels.size() > 1 ? disName : "" ,
                     branch.typedef, stream);
                 stream.println (indent + "    break;");
             }
@@ -831,37 +831,37 @@ public class UnionGen implements com.sun.tools.corba.ee.idl.UnionGen, com.sun.to
                 index = readBranch (index, indent + "    ", u.defaultBranch ().name (), disName,
                     u.defaultBranch (), stream);
             }
-        
+
             stream.println (indent + "    break;");
         }
 
         stream.println (indent + '}');
 
         return index;
-    } 
+    }
 
     private int readBranch (int index, String indent, String name, String disName, TypedefEntry entry, PrintWriter stream)
     {
         SymtabEntry type = entry.type ();
         com.sun.tools.corba.ee.idl.toJavaPortable.Util.writeInitializer(indent, '_' + name, "", entry, stream);
 
-        if (!entry.arrayInfo ().isEmpty () || 
-            type instanceof SequenceEntry || 
-            type instanceof PrimitiveEntry || 
+        if (!entry.arrayInfo ().isEmpty () ||
+            type instanceof SequenceEntry ||
+            type instanceof PrimitiveEntry ||
             type instanceof StringEntry) {
             index = ((com.sun.tools.corba.ee.idl.toJavaPortable.JavaGenerator)entry.generator ()).read (index, indent, '_' + name, entry, stream);
         } else {
             stream.println (indent + '_' + name + " = " + com.sun.tools.corba.ee.idl.toJavaPortable.Util.helperName(type, true) + ".read (istream);");
         }
 
-        stream.print (indent + "value." + name + " ("); 
-        if( disName == "" ) 
+        stream.print (indent + "value." + name + " (");
+        if( disName == "" )
             stream.println("_" + name + ");");
         else
-            stream.println(disName + ", " + "_" + name + ");"); 
+            stream.println(disName + ", " + "_" + name + ");");
 
         return index;
-    } 
+    }
 
   /**
    *

@@ -24,8 +24,8 @@ import java.util.Properties ;
 // import com.vladium.emma.ctl.ctlCommand ;
 
 /** Programmatic API for use in controlling emma.  This is
- * specific to emma version 2.1.  This is intended for use 
- * in a test harness that execs test programs.  Note that 
+ * specific to emma version 2.1.  This is intended for use
+ * in a test harness that execs test programs.  Note that
  * the execed Java program must be started with the following
  * properties:
  * <ul>
@@ -35,7 +35,7 @@ import java.util.Properties ;
  * </ul>
  * The port should be one obtained from allocatePort, but that is
  * not too important.
- * Also note that if several programs are execed, each must 
+ * Also note that if several programs are execed, each must
  * have a unique port.  This is yet another CORBA test framework
  * feature that prevents more than one concurrent test run per
  * machine.
@@ -72,7 +72,7 @@ public class EmmaControl {
 
     /** Tell emma to dump the coverage data for the process listening
      * for emma command on port to the given fileName.  fileName is
-     * interpreted on the client side and the new coverage data is 
+     * interpreted on the client side and the new coverage data is
      * merged into the existing file.  Emma will not dump on process
      * exit after this method is used.
      */
@@ -80,14 +80,14 @@ public class EmmaControl {
         String[] args = new String[] {
                 "-connect",
                 "localhost:" + port,
-                "-command", 
+                "-command",
                 "coverage.dump," + fileName + ",true,true"
             } ;
 
         /*
         if (DEBUG) {
             System.out.print( "Executing emma ctl command with args:" ) ;
-            for (String arg : args) 
+            for (String arg : args)
                 System.out.print( " " + arg ) ;
             System.out.println() ;
         }

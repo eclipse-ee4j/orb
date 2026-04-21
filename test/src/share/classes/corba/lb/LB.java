@@ -96,7 +96,7 @@ public class LB {
             String data = get() ;
             if (isCommand(data))
                 throw new RuntimeException( "Next argument is not a command" ) ;
-            
+
             return data ;
         }
 
@@ -146,9 +146,9 @@ public class LB {
             } else {
                 head = str.substring( 0, lindex ) ;
                 tail = str.substring( lindex+1 ) ;
-            } 
+            }
 
-            int port = Integer.valueOf( tail ).intValue() ; 
+            int port = Integer.valueOf( tail ).intValue() ;
             InetSocketAddress isa = new InetSocketAddress( head, port ) ;
             result.add( isa ) ;
         }
@@ -165,7 +165,7 @@ public class LB {
      */
     public static void main( String[] args ) {
       try {
-        ArgParser ap = new ArgParser( args ) ; 
+        ArgParser ap = new ArgParser( args ) ;
         while (!ap.done()) {
           String command = ap.getCommand() ;
           if (command.equals( "-listen" )) {
@@ -177,7 +177,7 @@ public class LB {
           } else if (command.equals( "-ORBInitialPort" )) {
             String data = ap.getData() ;
           }
-          //this else block is causing it to exit since it is finding args other than -listen and -pool. 
+          //this else block is causing it to exit since it is finding args other than -listen and -pool.
           //-ORBInitialPort is also getting passed
           //else {
           //usageAndExit(null) ;
@@ -187,10 +187,10 @@ public class LB {
         usageAndExit(exc ) ;
       }
       run() ;
-      
+
     }
 
-    private static String makeAndSetName( String name, InetAddress addr, int port, 
+    private static String makeAndSetName( String name, InetAddress addr, int port,
         int count ) {
 
         String result = name + "(" + count + "):" + addr + ":" + port ;
@@ -199,7 +199,7 @@ public class LB {
     }
 
     private static void makeCleaner( final InetAddress addr,
-        final int port, final int count, final Thread t1, final Thread t2, 
+        final int port, final int count, final Thread t1, final Thread t2,
         final Socket ss, final Socket cs ) {
 
         new Thread() {
@@ -270,7 +270,7 @@ public class LB {
         public synchronized void close() {
             dprint( name + ": close called, running = " + running ) ;
             if (running) {
-                running = false ; 
+                running = false ;
                 try {
                     inputSocket.close() ;
                 } catch (Exception exc) {
@@ -279,7 +279,7 @@ public class LB {
                 }
 
                 peer.close() ;
-            } 
+            }
         }
 
         public void setPeer( DataCopier peer ) {
@@ -287,10 +287,10 @@ public class LB {
         }
     }
 
-    private static DataCopier makeDataCopier( final String name, 
+    private static DataCopier makeDataCopier( final String name,
         final InetAddress addr, final int port, final int count,
         final Socket s, final OutputStream os ) {
-        
+
         String myName = makeAndSetName( name, addr, port, count ) ;
         DataCopier result = new DataCopier( myName, s, os ) ;
 
@@ -310,12 +310,12 @@ public class LB {
             InetSocketAddress isa = (InetSocketAddress)pool.get(poolIndex) ;
             InetAddress addr = isa.getAddress() ;
             int port = isa.getPort() ;
-            
+
             Socket client = null ;
 
             try {
                 client = new Socket( addr, port ) ;
-                
+
                 // Create two data copiers:
                 DataCopier t1 = makeDataCopier( "S->C", addr, port, count, socket,
                     client.getOutputStream() ) ;
@@ -346,7 +346,7 @@ public class LB {
 
     private static int acceptCount = 0 ;
 
-    private static void run() {  
+    private static void run() {
         try {
             ServerSocket ss = new ServerSocket( myPort ) ;
             System.out.println("Server is ready." ) ;
@@ -365,7 +365,7 @@ public class LB {
             }
         } catch (IOException exc) {
             usageAndExit( exc ) ;
-        } 
+        }
     }
 }
-    
+

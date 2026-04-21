@@ -29,7 +29,7 @@ import java.nio.channels.SelectionKey;
  *
  * This should only be registered with ONE selector.
  */
-public interface EventHandler 
+public interface EventHandler
 {
     public void setUseSelectThreadToWait(boolean x);
     public boolean shouldUseSelectThreadToWait();

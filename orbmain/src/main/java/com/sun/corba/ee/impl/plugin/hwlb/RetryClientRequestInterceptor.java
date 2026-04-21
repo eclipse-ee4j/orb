@@ -39,7 +39,7 @@ public class RetryClientRequestInterceptor
     extends org.omg.CORBA.LocalObject
     implements ORBInitializer, ClientRequestInterceptor
 {
-    private static final String baseMsg = 
+    private static final String baseMsg =
         RetryClientRequestInterceptor.class.getName();
 
     private static final String TRANSIENT_REPOSITORY_ID =
@@ -127,12 +127,12 @@ public class RetryClientRequestInterceptor
     // Interceptor operations
     //
 
-    public String name() 
+    public String name()
     {
-        return baseMsg; 
+        return baseMsg;
     }
 
-    public void destroy() 
+    public void destroy()
     {
     }
 
@@ -162,8 +162,8 @@ public class RetryClientRequestInterceptor
             return;
         }
 
-        String msg = 
-            ".receive_exception:" 
+        String msg =
+            ".receive_exception:"
             + " " + ri.received_exception_id()
             + " " + ri.operation()
             + ": ";
@@ -175,8 +175,8 @@ public class RetryClientRequestInterceptor
             }
 
             setStartTime(System.currentTimeMillis());
-            
-        } else if (System.currentTimeMillis() - getStartTime() 
+
+        } else if (System.currentTimeMillis() - getStartTime()
                    >= transientRetryTimeout) {
 
             if (debug) {
@@ -208,7 +208,7 @@ public class RetryClientRequestInterceptor
             throw new ForwardRequest(ri.target());
         } else {
             if (debug) {
-                System.out.println(msg + "unexpected: " 
+                System.out.println(msg + "unexpected: "
                                    + ri.received_exception_id());
             }
         }
@@ -224,11 +224,11 @@ public class RetryClientRequestInterceptor
     // ORBInitializer
     //
 
-    public void pre_init(ORBInitInfo info) 
+    public void pre_init(ORBInitInfo info)
     {
     }
 
-    public void post_init(ORBInitInfo info) 
+    public void post_init(ORBInitInfo info)
     {
         try {
             if (debug) {
@@ -259,10 +259,10 @@ public class RetryClientRequestInterceptor
             return false;
         }
 
-        SystemException se = 
+        SystemException se =
             ORBUtility.extractSystemException(ri.received_exception());
 
-        return 
+        return
             se instanceof org.omg.CORBA.OBJECT_NOT_EXIST
             && se.minor == ORBUtilSystemException.BAD_SERVER_ID;
     }

@@ -20,10 +20,10 @@
 package corba.serialization.proxy;
 
 import java.rmi.RemoteException;
-import javax.rmi.PortableRemoteObject; 
+import javax.rmi.PortableRemoteObject;
 import java.lang.reflect.*;
 
-public class FrobnicatorProviderBean extends PortableRemoteObject implements 
+public class FrobnicatorProviderBean extends PortableRemoteObject implements
                                                         FrobnicatorProvider
 {
      public FrobnicatorProviderBean() throws RemoteException {
@@ -34,8 +34,8 @@ public class FrobnicatorProviderBean extends PortableRemoteObject implements
      public Frobnicator getFrobnicator() throws RemoteException {
           return (Frobnicator)
                    Proxy.newProxyInstance(
-                        Frobnicator.class.getClassLoader(), 
-                        new Class[] { Frobnicator.class }, 
+                        Frobnicator.class.getClassLoader(),
+                        new Class[] { Frobnicator.class },
                         new Handler()
                    );
     }

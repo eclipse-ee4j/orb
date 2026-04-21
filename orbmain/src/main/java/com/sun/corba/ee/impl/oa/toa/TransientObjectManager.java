@@ -34,11 +34,11 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 public final class TransientObjectManager {
     private ORB orb ;
     private int maxSize = 128;
-    private Element[] elementArray; 
+    private Element[] elementArray;
     private Element freeList;
 
-    @ManagedAttribute() 
-    @Description( "The element array mapping indices into servants" ) 
+    @ManagedAttribute()
+    @Description( "The element array mapping indices into servants" )
     private synchronized Element[] getElements() {
         return elementArray.clone() ;
     }
@@ -49,7 +49,7 @@ public final class TransientObjectManager {
 
         elementArray = new Element[maxSize];
         elementArray[maxSize-1] = new Element(maxSize-1,null);
-        for ( int i=maxSize-2; i>=0; i-- ) 
+        for ( int i=maxSize-2; i>=0; i-- )
             elementArray[i] = new Element(i,elementArray[i+1]);
         freeList = elementArray[0];
     }
@@ -57,18 +57,18 @@ public final class TransientObjectManager {
     @com.sun.corba.ee.spi.trace.TransientObjectManager
     public synchronized byte[] storeServant(java.lang.Object servant, java.lang.Object servantData)
     {
-        if ( freeList == null ) 
+        if ( freeList == null )
             doubleSize();
 
         Element elem = freeList;
         freeList = (Element)freeList.servant;
-        
+
         byte[] result = elem.getKey(servant, servantData);
         return result ;
     }
 
     @com.sun.corba.ee.spi.trace.TransientObjectManager
-    public synchronized java.lang.Object lookupServant(byte transientKey[]) 
+    public synchronized java.lang.Object lookupServant(byte transientKey[])
     {
         int index = ORBUtility.bytesToInt(transientKey,0);
         int counter = ORBUtility.bytesToInt(transientKey,4);
@@ -78,7 +78,7 @@ public final class TransientObjectManager {
             return elementArray[index].servant;
         }
 
-        // servant not found 
+        // servant not found
         return null;
     }
 
@@ -93,7 +93,7 @@ public final class TransientObjectManager {
             return elementArray[index].servantData;
         }
 
-        // servant not found 
+        // servant not found
         return null;
     }
 
@@ -113,7 +113,7 @@ public final class TransientObjectManager {
     public synchronized byte[] getKey(java.lang.Object servant)
     {
         for ( int i=0; i<maxSize; i++ )
-            if ( elementArray[i].valid && 
+            if ( elementArray[i].valid &&
                  elementArray[i].servant == servant )
                 return elementArray[i].toBytes();
 
@@ -131,10 +131,10 @@ public final class TransientObjectManager {
         elementArray = new Element[maxSize];
 
         for ( int i=0; i<oldSize; i++ )
-            elementArray[i] = old[i];    
+            elementArray[i] = old[i];
 
         elementArray[maxSize-1] = new Element(maxSize-1,null);
-        for ( int i=maxSize-2; i>=oldSize; i-- ) 
+        for ( int i=maxSize-2; i>=oldSize; i-- )
             elementArray[i] = new Element(i,elementArray[i+1]);
         freeList = elementArray[oldSize];
     }
@@ -145,9 +145,9 @@ public final class TransientObjectManager {
 @Description( "A single element mapping one ObjectId to a Servant")
 final class Element {
     java.lang.Object servant=null;     // also stores "next pointer" in free list
-    java.lang.Object servantData=null;    
+    java.lang.Object servantData=null;
     int index=-1;
-    int counter=0; 
+    int counter=0;
     boolean valid=false; // valid=true if this Element contains
     // a valid servant
 
@@ -191,7 +191,7 @@ final class Element {
     }
 
     byte[] toBytes()
-    {    
+    {
         // Convert the index+counter into an 8-byte (big-endian) key.
 
         byte key[] = new byte[8];
@@ -214,7 +214,7 @@ final class Element {
     }
 
     @Override
-    public String toString() 
+    public String toString()
     {
         return "Element[" + index + ", " + counter + "]" ;
     }

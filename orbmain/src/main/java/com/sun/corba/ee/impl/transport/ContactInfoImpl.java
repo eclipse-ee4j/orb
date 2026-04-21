@@ -41,7 +41,7 @@ public class ContactInfoImpl
     protected String hostname;
     protected int    port;
 
-    // XREVISIT 
+    // XREVISIT
     // See SocketOrChannelAcceptorImpl.createMessageMediator
     // See SocketFactoryContactInfoImpl.constructor()
     // See SocketOrChannelContactInfoImpl.constructor()
@@ -141,9 +141,9 @@ public class ContactInfoImpl
     // NOTE: hashCode should only check type/host/port, otherwise
     // RMI-IIOP Failover will break.  See IIOPPrimaryToContactInfoImpl.java
     // in the app server or in the Corba unit tests.
-    
+
     @Override
-    public int hashCode() 
+    public int hashCode()
     {
         if (! isHashCodeCached) {
             cachedHashCode = socketType.hashCode() ^ hostname.hashCode() ^ port;
@@ -155,9 +155,9 @@ public class ContactInfoImpl
     // NOTE: equals should only check type/host/port, otherwise
     // RMI-IIOP Failover will break.  See IIOPPrimaryToContactInfoImpl.java
     // in the app server or in the Corba unit tests.
-    
+
     @Override
-    public boolean equals(Object obj) 
+    public boolean equals(Object obj)
     {
         if (obj == null) {
             return false;
@@ -187,7 +187,7 @@ public class ContactInfoImpl
     public String toString()
     {
         return
-            "SocketOrChannelContactInfoImpl[" 
+            "SocketOrChannelContactInfoImpl["
             + socketType + " "
             + hostname + " "
             + port
@@ -199,7 +199,7 @@ public class ContactInfoImpl
     // Implementation
     //
 
-    protected void dprint(String msg) 
+    protected void dprint(String msg)
     {
         ORBUtility.dprint("SocketOrChannelContactInfoImpl", msg);
     }

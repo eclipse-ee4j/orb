@@ -28,7 +28,7 @@ import org.omg.CORBA.FREE_MEM;
 import corba.hcks.U;
 
 class idlIServantConnect
-    extends 
+    extends
         _idlIImplBase
 {
     public static final String baseMsg = idlIServantConnect.class.getName();

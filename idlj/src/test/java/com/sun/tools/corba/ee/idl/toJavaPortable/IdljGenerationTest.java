@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 2018, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -103,11 +104,13 @@ public class IdljGenerationTest {
 
     @SuppressWarnings("ConstantConditions")
     private void appendFiles(ArrayList<String> files, File currentDir, int rootDirLength, String suffix) {
-        for (File file : currentDir.listFiles())
-            if (file.isDirectory())
+        for (File file : currentDir.listFiles()) {
+            if (file.isDirectory()) {
                 appendFiles(files, file, rootDirLength, suffix);
-            else if (file.getName().endsWith(suffix))
+            } else if (file.getName().endsWith(suffix)) {
                 files.add(getRelativePath(file, rootDirLength));
+            }
+        }
     }
 
     private String getRelativePath(File file, int rootDirLength) {
@@ -115,8 +118,9 @@ public class IdljGenerationTest {
     }
 
     private void compareGeneratedFiles(File expectedDir, File actualDir, String... generatedFileNames) throws IOException {
-        for (String filePath : generatedFileNames)
+        for (String filePath : generatedFileNames) {
             compareFiles(filePath, expectedDir, actualDir);
+        }
     }
 
     private void compareFiles(String filePath, File masterDirectory, File generationDirectory) throws IOException {
@@ -127,27 +131,29 @@ public class IdljGenerationTest {
     }
 
     private void compareFiles(File expectedFile, File actualFile) throws IOException {
-        LineNumberReader expected = new LineNumberReader(new FileReader(expectedFile));
-        LineNumberReader actual = new LineNumberReader(new FileReader(actualFile));
+        try (LineNumberReader expected = new LineNumberReader(new FileReader(expectedFile));
+            LineNumberReader actual = new LineNumberReader(new FileReader(actualFile))) {
 
-        String expectedLine = "";
-        String actualLine = "";
-        while (expectedLine != null && actualLine != null && linesMatch(expectedLine, actualLine)) {
-            expectedLine = expected.readLine();
-            actualLine = actual.readLine();
+            String expectedLine = "";
+            String actualLine = "";
+            while (expectedLine != null && actualLine != null && linesMatch(expectedLine, actualLine)) {
+                expectedLine = expected.readLine();
+                actualLine = actual.readLine();
+            }
+
+            if (expectedLine == actualLine) {
+                return;
+            }
+
+            if (expectedLine == null) {
+                fail("Unexpected line in generated file at " + actual.getLineNumber() + ": " + actualLine);
+            } else if (actualLine == null) {
+                fail("Actual file ends unexpectedly at line " + expected.getLineNumber());
+            } else {
+                fail("Generated file mismatch in " + actualFile + " at line " + actual.getLineNumber() + "\nshould be <"
+                    + expectedLine + "> " + "\nbut found <" + actualLine + ">");
+            }
         }
-
-        if (expectedLine == null && actualLine == null) return;
-
-        if (expectedLine == null)
-            fail("Unexpected line in generated file at " + actual.getLineNumber() + ": " + actualLine);
-        else if (actualLine == null)
-            fail("Actual file ends unexpectedly at line " + expected.getLineNumber());
-        else
-            fail("Generated file mismatch in " + actualFile + " at line " + actual.getLineNumber() +
-                    "\nshould be <" + expectedLine + "> " +
-                    "\nbut found <" + actualLine + ">");
-
     }
 
     private boolean linesMatch(String expectedLine, String actualLine) {
@@ -187,9 +193,12 @@ public class IdljGenerationTest {
         }
 
         private void generate() throws IOException {
-            if (argList.contains("-iiop") && !COMPILE_GENERATED) addArgs("-Xnocompile");
-            for (String name : idlFiles)
+            if (argList.contains("-iiop") && !COMPILE_GENERATED) {
+                addArgs("-Xnocompile");
+            }
+            for (String name : idlFiles) {
                 addArgs(new File(getModuleRoot(), name).getAbsolutePath());
+            }
             Compile.compiler = new Compile();
             String[] argv = argList.toArray(new String[argList.size()]);
             Compile.compiler.start(argv);
@@ -199,8 +208,9 @@ public class IdljGenerationTest {
 
     private static String[] toNameList(Class<?>[] classes) {
         String[] nameList = new String[classes.length];
-        for (int i = 0; i < classes.length; i++)
+        for (int i = 0; i < classes.length; i++) {
             nameList[i] = classes[i].getName();
+        }
         return nameList;
     }
 }

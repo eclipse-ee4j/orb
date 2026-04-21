@@ -103,7 +103,7 @@ public class FVDInputValueTest extends ValueTestBase {
     writeByte(0x34);
     writeFloat(0.25f);
     writeShort((short) 24);
-    
+
     DerivedValue value = readValueFromGeneratedBody(DerivedValue.class);
 
     assertEquals('x', value.aChar);
@@ -212,7 +212,7 @@ public class FVDInputValueTest extends ValueTestBase {
   }
 
   final boolean BAD_STATE_MACHINE=true;
-  
+
   @Test
   public void canReadDerivedValue_whenSenderHasUnknownCustomMarshalledSuperclass() throws IOException {
     assumeFalse(BAD_STATE_MACHINE);
@@ -476,7 +476,7 @@ public class FVDInputValueTest extends ValueTestBase {
           .withMember("aDouble", double.class)
           .withMember("aString", String.class)
           .build();
-    
+
   }
   static final String CUSTOM_ALL_FIELDS_REPID = getVariantRepId(RepositoryId.createForJavaType(AllTypesFields.class));
 

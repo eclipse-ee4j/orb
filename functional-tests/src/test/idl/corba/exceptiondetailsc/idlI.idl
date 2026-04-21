@@ -22,7 +22,7 @@
 // Last Modified : 2003 Jul 28 (Mon) 09:25:44 by Harold Carr.
 //
 
-module corba 
+module corba
 {
     module exceptiondetailsc
     {

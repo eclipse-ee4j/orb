@@ -22,7 +22,7 @@ package corba.dynamicrmiiiop.testclasses ;
 import java.rmi.Remote ;
 import java.rmi.RemoteException ;
 
-public interface DMMImplTestClasses 
+public interface DMMImplTestClasses
 {
     public interface AllRemote
     {
@@ -30,14 +30,14 @@ public interface DMMImplTestClasses
 
         AllRemote make( String arg ) throws RemoteException ;
     }
-    
+
     public interface SomeRemote
     {
         SomeRemote make( SomeRemote arg ) throws RemoteException ;
 
         SomeRemote make( String arg ) ;
     }
-    
+
     public interface NoRemote
     {
         NoRemote make( NoRemote arg ) ;
@@ -58,7 +58,7 @@ public interface DMMImplTestClasses
 
         public abstract int bar ();
 
-    } 
+    }
 
     public final class IDLStruct implements org.omg.CORBA.portable.IDLEntity
     {
@@ -73,13 +73,13 @@ public interface DMMImplTestClasses
         {
             arg1 = _arg1;
             arg2 = _arg2;
-        } 
-    } 
+        }
+    }
 
-    public interface IDLInterface extends org.omg.CORBA.Object, 
-        org.omg.CORBA.portable.IDLEntity 
+    public interface IDLInterface extends org.omg.CORBA.Object,
+        org.omg.CORBA.portable.IDLEntity
     {
         String name ();
         void name (String newName);
-    } 
+    }
 }

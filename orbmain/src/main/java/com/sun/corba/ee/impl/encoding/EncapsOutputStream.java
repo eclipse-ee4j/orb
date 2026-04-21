@@ -29,7 +29,7 @@ import java.nio.ByteOrder;
 
 /**
  * Encapsulations are supposed to explicitly define their
- * code sets and GIOP version.  The original resolution to issue 2784 
+ * code sets and GIOP version.  The original resolution to issue 2784
  * said that the defaults were UTF-8 and UTF-16, but that was not
  * agreed upon.
  *
@@ -87,10 +87,10 @@ public class EncapsOutputStream extends CDROutputObject
         @Override
         public CDRInputObject createInputObject(CDROutputObject outputObject, ORB orb, ByteBuffer byteBuffer, int size, GIOPVersion giopVersion) {
             return com.sun.corba.ee.impl.encoding.EncapsInputStreamFactory.newEncapsInputStream(outputObject.orb(),
-            		byteBuffer, size, ByteOrder.BIG_ENDIAN, giopVersion);
+                    byteBuffer, size, ByteOrder.BIG_ENDIAN, giopVersion);
         }
     }
-    
+
     @Override
     protected CodeSetConversion.CTBConverter createCharCTBConverter() {
         return CodeSetConversion.impl().getCTBConverter(
@@ -100,9 +100,9 @@ public class EncapsOutputStream extends CDROutputObject
     @Override
     protected CodeSetConversion.CTBConverter createWCharCTBConverter() {
         if (getGIOPVersion().equals(GIOPVersion.V1_0))
-            throw wrapper.wcharDataInGiop10();            
+            throw wrapper.wcharDataInGiop10();
 
-        // In the case of GIOP 1.1, we take the byte order of the stream 
+        // In the case of GIOP 1.1, we take the byte order of the stream
         // and don't use byte order markers since we're limited to a 2 byte
         // fixed width encoding.
         if (getGIOPVersion().equals(GIOPVersion.V1_1))
@@ -110,7 +110,7 @@ public class EncapsOutputStream extends CDROutputObject
 
         // Assume anything else meets GIOP 1.2 requirements
         //
-        // Use byte order markers?  If not, use big endian in GIOP 1.2.  
+        // Use byte order markers?  If not, use big endian in GIOP 1.2.
         // (formal 00-11-03 15.3.16)
 
         boolean useBOM = ((ORB)orb()).getORBData().useByteOrderMarkersInEncapsulations();

@@ -35,7 +35,7 @@ import org.omg.PortableServer.POAPackage.WrongPolicy ;
 public class POAPolicyMediatorImpl_NR_UDS extends POAPolicyMediatorBase {
     private Servant defaultServant ;
 
-    POAPolicyMediatorImpl_NR_UDS( Policies policies, POAImpl poa ) 
+    POAPolicyMediatorImpl_NR_UDS( Policies policies, POAImpl poa )
     {
         super( policies, poa ) ;
 
@@ -50,8 +50,8 @@ public class POAPolicyMediatorImpl_NR_UDS extends POAPolicyMediatorBase {
 
         defaultServant = null ;
     }
-    
-    protected java.lang.Object internalGetServant( byte[] id, 
+
+    protected java.lang.Object internalGetServant( byte[] id,
         String operation ) throws ForwardRequest {
 
         poa.readLock() ;
@@ -66,17 +66,17 @@ public class POAPolicyMediatorImpl_NR_UDS extends POAPolicyMediatorBase {
         }
     }
 
-    public void returnServant() 
+    public void returnServant()
     {
         // NO-OP
     }
 
-    public void etherealizeAll() 
-    {   
+    public void etherealizeAll()
+    {
         // NO-OP
     }
 
-    public void clearAOM() 
+    public void clearAOM()
     {
         // NO-OP
     }
@@ -91,7 +91,7 @@ public class POAPolicyMediatorImpl_NR_UDS extends POAPolicyMediatorBase {
         throw new WrongPolicy();
     }
 
-    public Servant getDefaultServant() throws NoServant, WrongPolicy 
+    public Servant getDefaultServant() throws NoServant, WrongPolicy
     {
         if (defaultServant == null) {
             throw new NoServant();
@@ -105,23 +105,23 @@ public class POAPolicyMediatorImpl_NR_UDS extends POAPolicyMediatorBase {
         setDelegate(defaultServant, "DefaultServant".getBytes());
     }
 
-    public final void activateObject(byte[] id, Servant servant) 
+    public final void activateObject(byte[] id, Servant servant)
         throws WrongPolicy, ServantAlreadyActive, ObjectAlreadyActive
     {
         throw new WrongPolicy();
     }
 
-    public Servant deactivateObject( byte[] id ) throws ObjectNotActive, WrongPolicy 
+    public Servant deactivateObject( byte[] id ) throws ObjectNotActive, WrongPolicy
     {
         throw new WrongPolicy();
     }
 
     public byte[] servantToId( Servant servant ) throws ServantNotActive, WrongPolicy
-    {   
+    {
         throw new WrongPolicy();
     }
 
-    public Servant idToServant( byte[] id ) 
+    public Servant idToServant( byte[] id )
         throws WrongPolicy, ObjectNotActive
     {
         if (defaultServant != null) {

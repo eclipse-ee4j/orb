@@ -339,7 +339,7 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
         MethodEntry element = (MethodEntry)contained;
         ((com.sun.tools.corba.ee.idl.toJavaPortable.MethodGen)element.generator ()).interfaceMethod (symbolTable, element, stream);
       }
-      else 
+      else
       {
         // Generate the type referenced by the typedef.
         if (contained instanceof TypedefEntry)
@@ -644,7 +644,7 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
     stream.println ();
 
     // <d62062>
-    // per Simon, 4/27/99, add static _write that marshals the state of this 
+    // per Simon, 4/27/99, add static _write that marshals the state of this
     //  value for non-custom valuetypes
     if (!((ValueEntry)entry).isCustom ())
     {
@@ -655,7 +655,7 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
        stream.println ();
     }
 
-    // done with "_write", now do "write_value 
+    // done with "_write", now do "write_value
     stream.println ("  public void write_value (org.omg.CORBA.portable.OutputStream ostream, java.io.Serializable obj)"); // <d60929>
     stream.println ("  {");
 

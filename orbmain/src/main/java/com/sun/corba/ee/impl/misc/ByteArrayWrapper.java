@@ -33,11 +33,11 @@ public class ByteArrayWrapper {
         return objKey;
     }
 
-    public boolean equals( Object obj ) {  
+    public boolean equals( Object obj ) {
         if (obj == null)
             return false ;
 
-        if (obj instanceof ByteArrayWrapper) {   
+        if (obj instanceof ByteArrayWrapper) {
             return Arrays.equals(objKey, ((ByteArrayWrapper)obj).getObjKey());
         } else {
             return false;

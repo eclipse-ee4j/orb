@@ -32,7 +32,7 @@ import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 import org.omg.PortableInterceptor.Current;
 import org.omg.PortableInterceptor.CurrentHelper;
 
-public class MyORBInitializer 
+public class MyORBInitializer
     extends
         org.omg.CORBA.LocalObject
     implements
@@ -55,7 +55,7 @@ public class MyORBInitializer
     public void post_init(ORBInitInfo info)
     {
         try {
-            Current piCurrent = 
+            Current piCurrent =
                 CurrentHelper.narrow(
                     info.resolve_initial_references(U.PICurrent));
             NamingContext nameService =
@@ -67,7 +67,7 @@ public class MyORBInitializer
             int sPic2ASlotId = info.allocate_slot_id();
             int sPic2BSlotId = info.allocate_slot_id();
 
-            SsPicInterceptor sPicAInt = 
+            SsPicInterceptor sPicAInt =
                 new SsPicInterceptor(SsPicInterceptor.sPic1AServiceContextId,
                                      SsPicInterceptor.sPic2AServiceContextId,
                                      SsPicInterceptor.sPic1ASlotId,
@@ -77,9 +77,9 @@ public class MyORBInitializer
                                      "sPicA");
             info.add_client_request_interceptor(sPicAInt);
             info.add_server_request_interceptor(sPicAInt);
-            
-            
-            SsPicInterceptor sPicBInt = 
+
+
+            SsPicInterceptor sPicBInt =
                 new SsPicInterceptor(SsPicInterceptor.sPic1BServiceContextId,
                                      SsPicInterceptor.sPic2BServiceContextId,
                                      SsPicInterceptor.sPic1BSlotId,
@@ -96,5 +96,5 @@ public class MyORBInitializer
     }
 
 }
- 
+
 // End of file.

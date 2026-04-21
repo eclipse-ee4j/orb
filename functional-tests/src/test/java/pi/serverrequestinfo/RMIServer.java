@@ -38,14 +38,14 @@ import java.rmi.*;
 import javax.rmi.*;
 import javax.naming.*;
 
-public abstract class RMIServer 
-    extends ServerCommon 
+public abstract class RMIServer
+    extends ServerCommon
     implements helloDelegate.ClientCallback
 {
     InitialContext initialNamingContext;
 
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         try {
@@ -58,12 +58,12 @@ public abstract class RMIServer
 
             // Set up hello object:
             out.println( "+ Creating and binding Hello1 object..." );
-            TestInitializer.helloRef = createAndBind( "Hello1", 
+            TestInitializer.helloRef = createAndBind( "Hello1",
                                                       "[Hello1]" );
 
             out.println( "+ Creating and binding Hello1Forward object..." );
             TestInitializer.helloRefForward = createAndBind( "Hello1Forward",
-                                                             "[Hello1Forward]" ); 
+                                                             "[Hello1Forward]" );
 
             handshake();
 
@@ -86,7 +86,7 @@ public abstract class RMIServer
     /**
      * Creates and binds a hello object using RMI
      */
-    public org.omg.CORBA.Object createAndBind ( String name, 
+    public org.omg.CORBA.Object createAndBind ( String name,
                                                 String symbol )
         throws Exception
     {
@@ -95,7 +95,7 @@ public abstract class RMIServer
         initialNamingContext.rebind( name, obj );
 
         java.lang.Object o = initialNamingContext.lookup( name );
-        helloIF helloRef = (helloIF)PortableRemoteObject.narrow( o, 
+        helloIF helloRef = (helloIF)PortableRemoteObject.narrow( o,
             helloIF.class );
         return (org.omg.CORBA.Object)helloRef;
     }
@@ -110,20 +110,20 @@ public abstract class RMIServer
     /**
      * Passes in the appropriate valid and invalid repository ids for RMI
      */
-    protected void testAttributesValid() 
+    protected void testAttributesValid()
         throws Exception
     {
-        testAttributesValid( 
+        testAttributesValid(
             "RMI:pi.serverrequestinfo.helloIF:0000000000000000",
             "RMI:pi.serverrequestinfo.goodbyeIF:0000000000000000" );
     }
 
-    
+
     // ClientCallback interface for request info stack test:
     public String sayHello() {
         String result = "";
 
-        out.println( 
+        out.println(
             "    + ClientCallback: resolving and invoking sayHello()..." );
         try {
             helloIF helloRef = resolve( "Hello1" );
@@ -138,8 +138,8 @@ public abstract class RMIServer
     }
 
     public void saySystemException() {
-        out.println( 
-            "    + ClientCallback: resolving and invoking " + 
+        out.println(
+            "    + ClientCallback: resolving and invoking " +
             "saySystemException()..." );
         try {
             helloIF helloRef = resolve( "Hello1" );
@@ -155,7 +155,7 @@ public abstract class RMIServer
             throw e;
         }
         catch( Throwable e ) {
-            System.err.println( "ClientCallback: Exception " + 
+            System.err.println( "ClientCallback: Exception " +
                 e.getClass().getName() + " thrown." );
             e.printStackTrace();
             throw new RuntimeException( "ClientCallback: Exception thrown." );

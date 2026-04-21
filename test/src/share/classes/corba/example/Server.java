@@ -48,36 +48,36 @@ public class Server
 //          props.put(ORBConstants.DEBUG_PROPERTY, "transport,giop");
 //            props.put(ORBConstants.GIOP_FRAGMENT_SIZE, "32");
             ORB orb = ORB.init(args, props);
-      
+
             // Get rootPOA
             POA rootPOA = (POA)orb.resolve_initial_references("RootPOA");
             rootPOA.the_POAManager().activate();
-      
+
             // create servant and register it with the ORB
             helloServant helloRef = new helloServant();
-      
+
             byte[] id = rootPOA.activate_object(helloRef);
-      
+
             // get the root naming context
-            org.omg.CORBA.Object objRef = 
+            org.omg.CORBA.Object objRef =
                 orb.resolve_initial_references("NameService");
             NamingContext ncRef = NamingContextHelper.narrow(objRef);
-      
+
             // bind the Object Reference in Naming
             NameComponent nc = new NameComponent("Hello", "");
             NameComponent path[] = {nc};
-      
+
             org.omg.CORBA.Object ref = rootPOA.id_to_reference(id);
-            
+
             ncRef.rebind(path, ref);
-            
+
             // Emit the handshake the test framework expects
             // (can be changed in Options by the running test)
             System.out.println ("Server is ready.");
 
             // Wait for clients
             orb.run();
-            
+
         } catch (Exception e) {
             System.err.println("ERROR: " + e);
             e.printStackTrace(System.out);

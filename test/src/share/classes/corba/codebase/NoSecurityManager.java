@@ -30,7 +30,7 @@ import java.security.*;
  */
 public class NoSecurityManager extends java.rmi.RMISecurityManager {
 
-    public void checkCreateClassLoader() { } 
+    public void checkCreateClassLoader() { }
     public void checkAccess(Thread g) { }
     public void checkAccess(ThreadGroup g) { }
     public void checkExit(int status) { }
@@ -66,4 +66,4 @@ public class NoSecurityManager extends java.rmi.RMISecurityManager {
 
     public void checkPermission(Permission perm, Object context) {
     }
-}       
+}

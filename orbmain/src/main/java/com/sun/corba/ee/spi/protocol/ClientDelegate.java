@@ -23,7 +23,7 @@ import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.transport.ContactInfoList;
 
 public abstract class ClientDelegate
-    extends org.omg.CORBA_2_3.portable.Delegate 
+    extends org.omg.CORBA_2_3.portable.Delegate
 {
     /**
      * The ORB associated * with an invocation.

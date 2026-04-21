@@ -26,32 +26,32 @@ import org.omg.CORBA.portable.InputStream ;
 public class ORBVersionFactory {
     private ORBVersionFactory() {} ;
 
-    public static ORBVersion getFOREIGN() 
+    public static ORBVersion getFOREIGN()
     {
         return ORBVersionImpl.FOREIGN ;
     }
 
-    public static ORBVersion getOLD() 
+    public static ORBVersion getOLD()
     {
         return ORBVersionImpl.OLD ;
     }
 
-    public static ORBVersion getNEW() 
+    public static ORBVersion getNEW()
     {
         return ORBVersionImpl.NEW ;
     }
 
-    public static ORBVersion getJDK1_3_1_01() 
+    public static ORBVersion getJDK1_3_1_01()
     {
         return ORBVersionImpl.JDK1_3_1_01 ;
     }
 
-    public static ORBVersion getNEWER() 
+    public static ORBVersion getNEWER()
     {
         return ORBVersionImpl.NEWER ;
     }
 
-    public static ORBVersion getPEORB() 
+    public static ORBVersion getPEORB()
     {
         return ORBVersionImpl.PEORB ;
     }
@@ -64,19 +64,19 @@ public class ORBVersionFactory {
         return ORBVersionImpl.PEORB ;
     }
 
-    public static ORBVersion create( InputStream is ) 
+    public static ORBVersion create( InputStream is )
     {
         byte value = is.read_octet() ;
         return byteToVersion( value ) ;
     }
 
-    private static ORBVersion byteToVersion( byte value ) 
+    private static ORBVersion byteToVersion( byte value )
     {
-        /* Throwing an exception here would cause this version to be 
-        * incompatible with future versions of the ORB, to the point 
+        /* Throwing an exception here would cause this version to be
+        * incompatible with future versions of the ORB, to the point
         * that this version could
-        * not even unmarshal objrefs from a newer version that uses 
-        * extended versioning.  Therefore, we will simply treat all 
+        * not even unmarshal objrefs from a newer version that uses
+        * extended versioning.  Therefore, we will simply treat all
         * unknown versions as the latest version.
         if (value < 0)
             throw new INTERNAL() ;
@@ -101,7 +101,7 @@ public class ORBVersionFactory {
             case ORBVersion.JDK1_3_1_01: return ORBVersionImpl.JDK1_3_1_01 ;
             case ORBVersion.NEWER : return ORBVersionImpl.NEWER ;
             case ORBVersion.PEORB : return ORBVersionImpl.PEORB ;
-            default : return new ORBVersionImpl(value); 
+            default : return new ORBVersionImpl(value);
         }
     }
 }

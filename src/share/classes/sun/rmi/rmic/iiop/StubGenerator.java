@@ -52,14 +52,14 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
     private static final String DEFAULT_STUB_CLASS = "javax.rmi.CORBA.Stub";
     private static final String DEFAULT_TIE_CLASS = "org.omg.CORBA_2_3.portable.ObjectImpl";
     private static final String DEFAULT_POA_TIE_CLASS = "org.omg.PortableServer.Servant";
-    
+
     protected boolean reverseIDs = false;
     protected boolean localStubs = true;
     protected boolean standardPackage = false;
     protected boolean useHash = true;
     protected String stubBaseClass = DEFAULT_STUB_CLASS;
     protected String tieBaseClass = DEFAULT_TIE_CLASS;
-    protected HashSet namesInUse = new HashSet();  
+    protected HashSet namesInUse = new HashSet();
     protected Hashtable classesInUse = new Hashtable();
     protected Hashtable imports = new Hashtable();
     protected int importCount = 0;
@@ -68,7 +68,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
     protected boolean castArray = false;
     protected Hashtable transactionalObjects = new Hashtable() ;
     protected boolean POATie = false ;
-        
+
     /**
      * Default constructor for Main to use.
      */
@@ -94,18 +94,18 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
     protected boolean requireNewInstance() {
         return false;
     }
-    
+
     /**
      * Return true if non-conforming types should be parsed.
      * @param stack The context stack.
      */
     protected boolean parseNonConforming(ContextStack stack) {
-            
+
         // We let the environment setting decide so that
         // another generator (e.g. IDLGenerator) can change
         // it and we will just go with the flow...
-            
-        return stack.getEnv().getParseNonConforming();   
+
+        return stack.getEnv().getParseNonConforming();
     }
 
     /**
@@ -115,27 +115,27 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
      * @return The compound type or null if is non-conforming.
      */
     protected CompoundType getTopType(ClassDefinition cdef, ContextStack stack) {
-        
+
         CompoundType result = null;
 
-        // Do we have an interface? 
-        
+        // Do we have an interface?
+
         if (cdef.isInterface()) {
-                    
+
             // Yes, so first try Abstract...
-                    
+
             result = AbstractType.forAbstract(cdef,stack,true);
-                        
+
             if (result == null) {
-                            
+
                 // Then try Remote...
-                            
+
                 result = RemoteType.forRemote(cdef,stack,false);
             }
         } else {
-                    
+
             // Not an interface, so try Implementation...
-                    
+
             result = ImplementationType.forImplementation(cdef,stack,false);
         }
 
@@ -151,9 +151,9 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
      */
     public boolean parseArgs(String argv[], Main main) {
         Object marker = new Object() ;
-                
+
         // Reset any cached options...
-                
+
         reverseIDs = false;
         localStubs = true;
         useHash = true;
@@ -162,7 +162,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         transactionalObjects = new Hashtable() ;
 
         // Parse options...
-                
+
         boolean result = super.parseArgs(argv,main);
         if (result) {
             for (int i = 0; i < argv.length; i++) {
@@ -227,8 +227,8 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
     }
 
     /**
-     * Return an array containing all the file names and types that need to be 
-     * generated for the given top-level type.  The file names must NOT have an 
+     * Return an array containing all the file names and types that need to be
+     * generated for the given top-level type.  The file names must NOT have an
      * extension (e.g. ".java").
      * @param topType The type returned by getTopType().
      * @param alreadyChecked A set of Types which have already been checked.
@@ -244,7 +244,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         // types which have previously been checked. By doing so, we ensure that if
         // the command line contains Hello and HelloImpl, we will only generate
         // output for Hello once...
-       
+
         int filter = TYPE_REMOTE | TYPE_IMPLEMENTATION;
         Type[] genTypes = topType.collectMatching(filter,alreadyChecked);
         int count = genTypes.length;
@@ -252,60 +252,60 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         BatchEnvironment theEnv = topType.getEnv();
 
         // Now walk all types...
-        
+
         for (int i = 0; i < genTypes.length; i++) {
-            
+
             Type type = genTypes[i];
             String typeName = type.getName();
             boolean createStub = true;
-            
+
             // Is it an implementation type?
-            
+
             if (type instanceof ImplementationType) {
-            
+
                 // Yes, so add a tie for it...
-                
+
                 list.addElement(new OutputType(Utility.tieNameForCompiler(typeName), type));
-  
+
                 // Does it have more than 1 remote interface?  If so, we
                 // want to create a stub for it...
-                
+
                 int remoteInterfaceCount = 0;
                 InterfaceType[] interfaces = ((CompoundType)type).getInterfaces();
                 for (int j = 0; j < interfaces.length; j++) {
-                    if (interfaces[j].isType(TYPE_REMOTE) && 
+                    if (interfaces[j].isType(TYPE_REMOTE) &&
                         !interfaces[j].isType(TYPE_ABSTRACT)) {
                         remoteInterfaceCount++;
                     }
                 }
-                
+
                 if (remoteInterfaceCount <= 1) {
-                
+
                     // No, so do not create a stub for this type...
-                    
+
                     createStub = false;
                 }
             }
- 
+
             // Is it an abstract interface type?
 
             if (type instanceof AbstractType) {
-             
+
                 // Do not create a stub for this type...
- 
+
                 createStub = false;  // d11141
             }
-                          
+
             if (createStub) {
 
                 // Add a stub for the type...
-                
+
                 list.addElement(new OutputType(Utility.stubNameForCompiler(typeName), type));
             }
         }
 
         // Copy list into array..
-        
+
         OutputType[] outputTypes = new OutputType[list.size()];
         list.copyInto(outputTypes);
         return outputTypes;
@@ -339,19 +339,19 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         // Are we doing a Stub or Tie?
 
         if (fileName.endsWith(Utility.RMI_STUB_SUFFIX)) {
-                    
+
             // Stub.
-                
+
             writeStub(outputType,writer);
-                
+
         } else {
-                
+
             // Tie
-                
+
             writeTie(outputType,writer);
         }
     }
-                                            
+
     /**
      * Write a stub for the specified type.
      */
@@ -360,7 +360,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
 
         CompoundType theType = (CompoundType) outputType.getType();
         RemoteType[] remoteInterfaces = getDirectRemoteInterfaces(theType);
-        
+
         // Write comment.
 
         p.pln("// Stub class generated by rmic, do not edit.");
@@ -368,11 +368,11 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         p.pln();
 
         // Set our standard classes...
-        
+
         setStandardClassesInUse(theType,true);
-                
+
         // Add classes for this type...
-                
+
         addClassesInUse(theType,remoteInterfaces);
 
         // START OF IASRI 6307510
@@ -381,7 +381,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         // END OF IASRI 6307510
 
         // Write package and import statements...
-                
+
         writePackageAndImports(p);
 
         // Declare the stub class; implement all remote interfaces.
@@ -398,7 +398,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
                 p.p(objName);
             }
         }
-                
+
         // Add java.rmi.Remote if this type does not implement it.
         // This allows stubs for Abstract interfaces to be treated
         // uniformly...
@@ -407,23 +407,23 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
             p.pln(",");
             p.p(getName("java.rmi.Remote"));
         }
-        
+
         p.plnI(" {");
         p.pln();
-        
+
         // Write the ids...
-        
+
         writeIds( p, theType, false );
         p.pln();
- 
+
         // Write the _ids() method...
-                
+
         p.plnI("public String[] _ids() { ");
         p.pln("return _type_ids;");
         p.pOln("}");
-                
+
         // Get all the methods and write each stub method...
-        
+
         CompoundType.Method[] remoteMethods = theType.getMethods();
         int methodCount = remoteMethods.length;
         if (methodCount > 0) {
@@ -440,12 +440,12 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         }
 
         // Write the cast array hack...
-        
+
         writeCastArray(p);
-                
+
         p.pOln("}");            // end stub class
     }
-    
+
     void addClassInUse(String qualifiedName) {
         String unqualifiedName = qualifiedName;
         String packageName = null;
@@ -456,7 +456,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         }
         addClassInUse(unqualifiedName,qualifiedName,packageName);
     }
-    
+
     void addClassInUse(Type type) {
         if (!type.isPrimitive()) {
             Identifier id = type.getIdentifier();
@@ -474,7 +474,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
 
     void addClassInUse(Type[] types) {
         for (int i = 0; i < types.length; i++) {
-            addClassInUse(types[i]);   
+            addClassInUse(types[i]);
         }
     }
 
@@ -489,12 +489,12 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
             } else {
                 fullName = packageName + "." + stubName;
             }
-            addClassInUse(stubName,fullName,packageName);               
+            addClassInUse(stubName,fullName,packageName);
         }
         if (type.isType(TYPE_REMOTE) ||
             type.isType(TYPE_JAVA_RMI_REMOTE)) {
             addClassInUse("javax.rmi.PortableRemoteObject");
-        }  
+        }
     }
 
     String getStubNameFor(Type type, boolean qualified) {
@@ -504,7 +504,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
             className = type.getQualifiedName();
         } else {
             className = type.getName();
-        }        
+        }
         if (((CompoundType)type).isCORBAObject()) {
             stubName = Utility.idlStubName(className);
         } else {
@@ -518,43 +518,43 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
             addStubInUse(types[i]);
         }
     }
-    
+
     private static final String NO_IMPORT = new String();
-    
+
     void addClassInUse(String unqualifiedName, String qualifiedName, String packageName) {
 
         // Have we already got an entry for this qualifiedName?
-        
+
         String currentName = (String)classesInUse.get(qualifiedName);
-        
+
         if (currentName == null) {
-            
+
             // No, never seen it before. Grab any existing import
             // name and then decide what to do...
-            
+
             String importName = (String) imports.get(unqualifiedName);
             String nameToUse = null;
-                
+
             if (packageName == null) {
-                
+
                 // Default package, so doesn't matter which name to use...
-                
+
                 nameToUse = unqualifiedName;
-                
+
             } else if (packageName.equals("java.lang")) {
-                
+
                 // java.lang.*, so use unqualified name...
-                
+
                 nameToUse = unqualifiedName;
 
                 // unless you want to be able to import things from the right place :--)
 
                 if(nameToUse.endsWith("_Stub")) nameToUse = Util.packagePrefix()+qualifiedName;
-                
+
             } else if (currentPackage != null && packageName.equals(currentPackage)) {
-                
+
                 // Class in currentPackage, so use unqualified name...
-                
+
                 nameToUse = unqualifiedName;
 
                 // Do we already have a previous import under this
@@ -568,41 +568,41 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
 
                 }
 
-            } else if (importName != null) { 
-                                
+            } else if (importName != null) {
+
                 // It is in some package for which we normally
                 // would import, but we have a previous import
                 // under this unqualified name. We must use
                 // the qualified name...
-                    
+
                 nameToUse = qualifiedName;
 
                 /*
                   // Is the currentPackage the default package?
-                
+
                   if (currentPackage == null) {
-                
+
                   // Yes, so undo the import so that all
                   // uses for this name will be qualified...
-                    
+
                   String old = (String)imports.remove(unqualifiedName);
                   classesInUse.put(old,old);
                   importCount--;
-                
+
                   // Note that this name is in use but should
                   // not be imported...
-                    
-                  imports.put(nameToUse,NO_IMPORT);                
+
+                  imports.put(nameToUse,NO_IMPORT);
                   }
                 */
-            } else if (qualifiedName.equals("org.omg.CORBA.Object")) { 
-                
+            } else if (qualifiedName.equals("org.omg.CORBA.Object")) {
+
                 // Always qualify this quy to avoid confusion...
-                
+
                 nameToUse = qualifiedName;
-                
-            } else {          
-                
+
+            } else {
+
                 // Default to using unqualified name, and add
                 // this guy to the imports...
 
@@ -615,56 +615,56 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
                     imports.put(unqualifiedName,qualifiedName);
                     importCount++;
                 }
-            }           
-            
+            }
+
             // Now add the name...
-                    
-            classesInUse.put(qualifiedName,nameToUse);                      
+
+            classesInUse.put(qualifiedName,nameToUse);
         }
     }
- 
+
     String getName(Type type) {
         if (type.isPrimitive()) {
             return type.getName() + type.getArrayBrackets();
         }
         Identifier id = type.getIdentifier();
-        String name = IDLNames.replace(id.toString(),". ",".");        
+        String name = IDLNames.replace(id.toString(),". ",".");
         return getName(name) + type.getArrayBrackets();
-    }   
+    }
 
     // Added for Bug 4818753
     String getExceptionName(Type type) {
         Identifier id = type.getIdentifier();
-        return IDLNames.replace(id.toString(),". ",".");        
-    }   
+        return IDLNames.replace(id.toString(),". ",".");
+    }
 
     String getName(String qualifiedName) {
         return (String)classesInUse.get(qualifiedName);
     }
-    
+
     String getName(Identifier id) {
         return getName(id.toString());
     }
-    
+
     String getStubName(Type type) {
         String stubName = getStubNameFor(type,true);
         return getName(stubName);
     }
-    
+
     void setStandardClassesInUse(CompoundType type,
                                  boolean stub) throws IOException {
-        
+
         // Reset our state...
-        
+
         currentPackage = type.getPackageName();
         imports.clear();
         classesInUse.clear();
         namesInUse.clear();
         importCount = 0;
         castArray = false;
- 
+
         // Add the top-level type...
-        
+
         addClassInUse(type);
 
         // START OF IASRI 6307510
@@ -679,23 +679,23 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         // END OF IASRI 6307510
 
         // Set current class name...
-        
+
         if (stub) {
-            currentClass = Utility.stubNameForCompiler(type.getName());   
+            currentClass = Utility.stubNameForCompiler(type.getName());
         } else {
-            currentClass = Utility.tieNameForCompiler(type.getName());   
+            currentClass = Utility.tieNameForCompiler(type.getName());
         }
-        
+
         // Add current class...
-        
+
         if (currentPackage == null) {
             addClassInUse(currentClass,currentClass,currentPackage);
         } else {
             addClassInUse(currentClass,(currentPackage+"."+currentClass),currentPackage);
         }
- 
+
         // Add standard classes...
-        
+
         addClassInUse("javax.rmi.CORBA.Util");
         addClassInUse(idRemote.toString());
         addClassInUse(idRemoteException.toString());
@@ -707,7 +707,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         addClassInUse(idReplyHandler.toString());
 
         // Add stub/tie specific imports...
-        
+
         if (stub) {
             addClassInUse(stubBaseClass);
             addClassInUse("java.rmi.UnexpectedException");
@@ -715,7 +715,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
             addClassInUse(idApplicationException.toString());
             if (localStubs) {
                 addClassInUse("org.omg.CORBA.portable.ServantObject");
-            }      
+            }
         } else {
             addClassInUse(type);
             addClassInUse(tieBaseClass);
@@ -725,11 +725,11 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
             addClassInUse(idJavaLangThrowable.toString());
         }
     }
-    
+
     void addClassesInUse(CompoundType type, RemoteType[] interfaces) {
 
         // Walk all methods and add types in use...
-        
+
         CompoundType.Method[] methods = type.getMethods();
         for (int i = 0; i < methods.length; i++) {
             addClassInUse(methods[i].getReturnType());
@@ -740,28 +740,28 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
             // bug 4473859: Also include narrower subtypes for use
             addClassInUse(methods[i].getImplExceptions());
         }
-        
+
         // If this is a stub, add all interfaces...
-        
+
         if (interfaces != null) {
             addClassInUse(interfaces);
         }
     }
-    
+
     void writePackageAndImports(IndentingWriter p) throws IOException {
 
         // Write package declaration...
-        
+
         if (currentPackage != null) {
-            p.pln("package " + 
+            p.pln("package " +
                    Util.correctPackageName(
                         currentPackage, false, standardPackage)
                    + ";");
-            p.pln();                             
+            p.pln();
         }
-       
+
         // Get imports into an array and sort them...
-        
+
         String[] names = new String[importCount];
         int index = 0;
         for (Enumeration e = imports.elements() ; e.hasMoreElements() ;) {
@@ -774,34 +774,34 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         Arrays.sort(names,new StringComparator());
 
         // Now dump them out...
-        
+
         for (int i = 0; i < importCount; i++) {
             if(
-               Util.isOffendingPackage(names[i]) 
+               Util.isOffendingPackage(names[i])
                && names[i].endsWith("_Stub")
                && String.valueOf(names[i].charAt(names[i].lastIndexOf(".")+1)).equals("_")
                ){
                 p.pln("import " + PackagePrefixChecker.packagePrefix()+names[i]+";");
             } else{
-                p.pln("import " + names[i] + ";");   
+                p.pln("import " + names[i] + ";");
             }
         }
         p.pln();
 
-        // Include offending packages . . . 
+        // Include offending packages . . .
         if ( currentPackage!=null && Util.isOffendingPackage(currentPackage) ){
             p.pln("import " + currentPackage +".*  ;");
         }
         p.pln();
-        
+
     }
 
     boolean implementsRemote(CompoundType theType) {
         boolean result = theType.isType(TYPE_REMOTE) && !theType.isType(TYPE_ABSTRACT);
-        
+
         // If theType is not remote, look at all the interfaces
         // until we find one that is...
-        
+
         if (!result) {
             InterfaceType[] interfaces = theType.getInterfaces();
             for (int i = 0; i < interfaces.length; i++) {
@@ -811,16 +811,16 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
                 }
             }
         }
-        
+
         return result;
     }
-        
+
     void writeStubMethod (  IndentingWriter p,
                             CompoundType.Method method,
                             CompoundType theType) throws IOException {
-        
+
         // Wtite the method declaration and opening brace...
-        
+
         String methodName = method.getName();
         String methodIDLName = method.getIDLName();
 
@@ -828,7 +828,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         String paramNames[] = method.getArgumentNames();
         Type returnType = method.getReturnType();
         ValueType[] exceptions = getStubExceptions(method,false);
-        
+
         addNamesInUse(method);
         addNameInUse("_type_ids");
 
@@ -853,17 +853,17 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         }
 
         p.plnI(" {");
-        
+
         // Now create the method body...
-        
+
         if (localStubs) {
             writeLocalStubMethodBody(p,method,theType);
         } else {
             writeNonLocalStubMethodBody(p,method,theType);
         }
- 
+
         // Close out the method...
-        
+
         p.pOln("}");
     }
 
@@ -871,14 +871,14 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
     void writeLocalStubMethodBody (IndentingWriter p,
                                    CompoundType.Method method,
                                    CompoundType theType) throws IOException {
-    
+
         String objName;
         String paramNames[] = method.getArgumentNames();
         Type returnType = method.getReturnType();
         ValueType[] exceptions = getStubExceptions(method,false);
         String methodName = method.getName();
         String methodIDLName = method.getIDLName();
-        
+
         p.plnI("if (!Util.isLocal(this)) {");
         writeNonLocalStubMethodBody(p,method,theType);
         p.pOlnI("} else {");
@@ -902,14 +902,14 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
 
         p.pOln("}");
         p.plnI("try {");
-        
+
         // Generate code to copy required arguments, and
         // get back the names by which all arguments are known...
-        
+
         String[] argNames = writeCopyArguments(method,p);
 
         // Now write the method...
-        
+
         boolean copyReturn = mustCopy(returnType);
         String resultName = null;
         if (!returnType.isType(TYPE_VOID)) {
@@ -923,13 +923,13 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         }
         objName = testUtil(getName(theType), theType);
         p.p("(("+objName+")"+so+".servant)."+methodName+"(");
-        
+
         for (int i = 0; i < argNames.length; i++) {
             if (i > 0)
                 p.p(", ");
             p.p(argNames[i]);
         }
-        
+
         if (copyReturn) {
             p.pln(");");
             objName = testUtil(getName(returnType), returnType);
@@ -941,7 +941,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         String e1 = getVariableName("ex");
         String e2 = getVariableName("exCopy");
         p.pOlnI("} catch (Throwable "+e1+") {");
-          
+
         p.pln("Throwable "+e2+" = (Throwable)Util.copyObject("+e1+",_orb());");
         for(int i = 0; i < exceptions.length; i++) {
             if (exceptions[i].getIdentifier() != idRemoteException &&
@@ -952,19 +952,19 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
                 p.pOln("}");
             }
         }
-        
+
         p.pln("throw Util.wrapException("+e2+");");
         p.pOlnI("} finally {");
         p.pln("_servant_postinvoke("+so+");");
         p.pOln("}");
-        p.pOln("}");    
+        p.pOln("}");
     }
 
 
     void writeNonLocalStubMethodBody (  IndentingWriter p,
                                         CompoundType.Method method,
                                         CompoundType theType) throws IOException {
-                                
+
         String methodName = method.getName();
         String methodIDLName = method.getIDLName();
 
@@ -972,11 +972,11 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         String paramNames[] = method.getArgumentNames();
         Type returnType = method.getReturnType();
         ValueType[] exceptions = getStubExceptions(method,true);
-    
+
         String in = getVariableName("in");
         String out = getVariableName("out");
         String ex = getVariableName("ex");
-        
+
         // Decide if we need to use the new streams for
         // any of the read calls...
 
@@ -1003,7 +1003,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
 
         // Decide if we need to use the new streams for
         // any of the write calls...
-        
+
         boolean needNewWriteStreamClass = false;
         for (int i = 0; i < paramTypes.length; i++) {
             if (needNewWriteStreamClass(paramTypes[i])) {
@@ -1013,7 +1013,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         }
 
         // Now write the method, inserting casts where needed...
-        
+
         p.plnI("try {");
         if (needNewReadStreamClass) {
             p.pln(idExtInputStream + " "+in+" = null;");
@@ -1023,7 +1023,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         p.plnI("try {");
 
         String argStream = "null";
-        
+
         if (needNewWriteStreamClass) {
             p.plnI(idExtOutputStream + " "+out+" = ");
             p.pln("(" + idExtOutputStream + ")");
@@ -1032,7 +1032,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         } else {
             p.pln("OutputStream "+out+" = _request(\"" + methodIDLName + "\", true);");
         }
-        
+
         if (paramTypes.length > 0) {
             writeMarshalArguments(p, out, paramTypes, paramNames);
             p.pln();
@@ -1052,9 +1052,9 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
             writeUnmarshalArgument(p, in, returnType, null);
             p.pln();
         }
-        
+
         // Handle ApplicationException...
-        
+
         p.pOlnI("} catch ("+getName(idApplicationException)+" "+ex+") {");
         if (needNewReadStreamClass) {
             p.pln(in + " = (" + idExtInputStream + ") "+ex+".getInputStream();");
@@ -1066,27 +1066,27 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         boolean idAllocated = false;
         for(int i = 0; i < exceptions.length; i++) {
             if (exceptions[i].getIdentifier() != idRemoteException) {
-        
+
                 // Is this our special-case IDLEntity exception?
-                    
+
                 if (exceptions[i].isIDLEntityException() && !exceptions[i].isCORBAUserException()) {
-                                    
+
                     // Yes.
-                                    
+
                     if (!idAllocated && !idRead) {
                         p.pln("String $_id = "+ex+".getId();");
                         idAllocated = true;
                     }
-                                    
+
                     String helperName = IDLNames.replace(exceptions[i].getQualifiedIDLName(false),"::",".");
                     helperName += "Helper";
                     p.plnI("if ($_id.equals("+helperName+".id())) {");
                     p.pln("throw "+helperName+".read("+in+");");
-                                    
+
                 } else {
-                                    
+
                     // No.
-                                    
+
                     if (!idAllocated && !idRead) {
         p.pln("String $_id = "+in+".read_string();");
                         idAllocated = true;
@@ -1111,9 +1111,9 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
             idRead = true;
         }
         p.pln("throw new UnexpectedException($_id);");
-        
+
         // Handle RemarshalException...
-        
+
         p.pOlnI("} catch ("+getName(idRemarshalException)+" "+ex+") {");
         if (!returnType.isType(TYPE_VOID)) {
             p.p("return ");
@@ -1126,18 +1126,18 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
             p.p(paramNames[i]);
         }
         p.pln(");");
-                
+
         // Ensure that we release the reply...
-                
+
         p.pOlnI("} finally {");
         p.pln("_releaseReply("+in+");");
-                
-        p.pOln("}"); 
-        
+
+        p.pOln("}");
+
         // Handle SystemException...
-        
+
         p.pOlnI("} catch (SystemException "+ex+") {");
-        p.pln("throw Util.mapSystemException("+ex+");");                
+        p.pln("throw Util.mapSystemException("+ex+");");
         p.pOln("}");
 
         // returnResult(p,returnType);
@@ -1152,20 +1152,20 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
     }
 
     int getTypeCode(Type type) {
-            
+
         int typeCode = type.getTypeCode();
-            
+
         // Handle late-breaking special case for
         // abstract IDL entities...
-        
+
         if ((type instanceof CompoundType) &&
             ((CompoundType)type).isAbstractBase()) {
-            typeCode = TYPE_ABSTRACT;   
+            typeCode = TYPE_ABSTRACT;
         }
-   
+
         return typeCode;
     }
-    
+
 
     /**
      * Write a snippet of Java code to marshal a value named "name" of
@@ -1253,11 +1253,11 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
                                 String name) throws IOException {
 
         int typeCode = getTypeCode(type);
-            
+
         if (name != null) {
             p.p(name + " = ");
         }
-        
+
         switch (typeCode) {
         case TYPE_BOOLEAN:
             p.p(streamName + ".read_boolean();");
@@ -1345,51 +1345,51 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
     String[] getAllRemoteRepIDs (CompoundType theType) {
 
         String[] result;
-        
+
         // Collect up all the (inherited) remote interfaces
-        // (ignores all the 'special' interfaces: Remote, 
+        // (ignores all the 'special' interfaces: Remote,
         // Serializable, Externalizable)...
-        
+
         Type[] types = collectAllRemoteInterfaces(theType);
-        
+
         int length = types.length;
         boolean haveImpl = theType instanceof ImplementationType;
         InterfaceType[] interfaces = theType.getInterfaces();
         int remoteCount = countRemote(interfaces,false);
         int offset = 0;
-        
+
         // Do we have an implementation type that implements
         // more than one remote interface?
-        
+
         if (haveImpl && remoteCount > 1) {
-            
+
             // Yes, so we need to insert it at the beginning...
-            
+
             result = new String[length + 1];
             result[0] = getRepositoryID(theType);
             offset = 1;
-            
+
         } else {
-            
+
             // No.
-            
+
             result = new String[length];
-        
+
             // Here we need to ensure that the most derived
             // interface ends up being first in the list. If
             // there is only one, we're done.
-            
+
             if (length > 1) {
-                
+
                 // First, decide what the most derived type is...
-                
+
                 String mostDerived = null;
-                
+
                 if (haveImpl) {
-                    
+
                     // If we get here, we know that there is only one
                     // direct remote interface, so just find it...
-                    
+
                     for (int i = 0; i < interfaces.length; i++) {
                         if (interfaces[i].isType(TYPE_REMOTE)) {
                             mostDerived = interfaces[i].getRepositoryID();
@@ -1397,37 +1397,37 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
                         }
                     }
                 } else {
-                    
+
                     // If we get here we know that theType is a RemoteType
                     // so just use its id...
-                    
+
                     mostDerived = theType.getRepositoryID();
                 }
-                
+
                 // Now search types list and make sure mostDerived is
                 // at index zero...
-                
+
                 for (int i = 0; i < length; i++) {
                     if (types[i].getRepositoryID() == mostDerived) {
-                        
+
                         // Found it. Swap it if we need to...
-                        
+
                         if (i > 0) {
                             Type temp = types[0];
                             types[0] = types[i];
                             types[i] = temp;
                         }
-                        
+
                         break;
                     }
                 }
             }
         }
-        
+
         // Now copy contents of the types array...
-        
+
         for (int i = 0; i < types.length; i++) {
-            result[offset++] = getRepositoryID(types[i]);   
+            result[offset++] = getRepositoryID(types[i]);
         }
 
         // If we're supposed to, reverse the array. This
@@ -1442,97 +1442,97 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
                 String temp = result[start];
                 result[start++] = result[end];
                 result[end--] = temp;
-            }  
+            }
         }
-        
+
         return result;
     }
-         
+
     /**
      * Collect all the inherited remote interfaces.
      */
     Type[] collectAllRemoteInterfaces (CompoundType theType) {
         Vector list = new Vector();
-        
+
         // Collect up all the Remote interfaces, and get an instance
         // for java.rmi.Remote...
-        
+
         addRemoteInterfaces(list,theType);
-        
+
         // Create and return our results...
-        
+
         Type[] result = new Type[list.size()];
         list.copyInto(result);
-        
+
         return result;
     }
-    
+
     /**
      * Add all the inherited remote interfaces to list.
      */
     void addRemoteInterfaces(Vector list, CompoundType theType) {
-        
+
         if (theType != null) {
             if (theType.isInterface() && !list.contains(theType)) {
-                list.addElement(theType);    
+                list.addElement(theType);
             }
-            
+
             InterfaceType[] interfaces = theType.getInterfaces();
             for (int i = 0; i < interfaces.length; i++) {
-                
+
                 if (interfaces[i].isType(TYPE_REMOTE)) {
                     addRemoteInterfaces(list,interfaces[i]);
                 }
             }
-        
+
             addRemoteInterfaces(list,theType.getSuperclass());
         }
     }
-    
+
     /**
      * Get a list of all the remote interfaces which this stub
      * should declare.
      */
     RemoteType[] getDirectRemoteInterfaces (CompoundType theType) {
-  
+
         RemoteType[] result;
         InterfaceType[] interfaces = theType.getInterfaces();
-        
+
         // First, get a list of all the interfaces...
-        
+
         InterfaceType[] list;
-        
+
         // Because we can be passed either an ImplementationType
         // (which has interfaces) or a RemoteType (which is an
         // interface and may have interfaces) we must handle each
         // separately...
-        
+
         // Do we have an implementation type?
-        
+
         if (theType instanceof ImplementationType) {
-            
+
             // Yes, so list is exactly what this type
             // implements and is correct already.
-            
+
             list = interfaces;
-        
+
         } else {
-            
+
             // No, so list is just theType...
-            
+
             list = new InterfaceType[1];
             list[0] = (InterfaceType) theType;
         }
-        
+
         // Ok, now count up the remote interfaces, allocate
         // our result and fill it in...
-        
+
         int remoteCount = countRemote(list,false);
-        
+
         if (remoteCount == 0) {
-            throw new CompilerError("iiop.StubGenerator: No remote interfaces!");   
+            throw new CompilerError("iiop.StubGenerator: No remote interfaces!");
         }
-        
+
         result = new RemoteType[remoteCount];
         int offset = 0;
         for (int i = 0; i < list.length; i++) {
@@ -1540,19 +1540,19 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
                 result[offset++] = (RemoteType)list[i];
             }
         }
-        
+
         return result;
     }
-    
+
     int countRemote (Type[] list, boolean includeAbstract) {
         int remoteCount = 0;
         for (int i = 0; i < list.length; i++) {
             if (list[i].isType(TYPE_REMOTE) &&
                 (includeAbstract || !list[i].isType(TYPE_ABSTRACT))) {
-                remoteCount++;                    
+                remoteCount++;
             }
         }
-        
+
         return remoteCount;
     }
 
@@ -1570,12 +1570,12 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
     void writeIds(IndentingWriter p, CompoundType theType, boolean isTie
                   ) throws IOException {
         p.plnI("private static final String[] _type_ids = {");
-    
+
         String[] ids = getAllRemoteRepIDs(theType);
 
         if (ids.length >0 ) {
             for(int i = 0; i < ids.length; i++) {
-                if (i > 0) 
+                if (i > 0)
                     p.pln(", ");
                 p.p("\"" + ids[i] + "\"");
             }
@@ -1592,7 +1592,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
             p.pln( "\"IDL:omg.org/CosTransactions/TransactionalObject:1.0\"" ) ;
         } else if (ids.length > 0) {
             p.pln();
-        }            
+        }
         p.pOln("};");
     }
 
@@ -1601,11 +1601,11 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
      * Write the Tie for the remote class to a stream.
      */
     protected void writeTie(OutputType outputType,
-                            IndentingWriter p) throws IOException 
+                            IndentingWriter p) throws IOException
     {
         CompoundType theType = (CompoundType) outputType.getType();
         RemoteType[] remoteInterfaces = null;
-                
+
         // Write comment...
         p.pln("// Tie class generated by rmic, do not edit.");
         p.pln("// Contents subject to change without notice.");
@@ -1613,10 +1613,10 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
 
         // Set our standard classes...
         setStandardClassesInUse(theType,false);
-                
+
         // Add classes for this type...
         addClassesInUse(theType,remoteInterfaces);
-                
+
         // START OF IASRI 6307510
         imports.remove(theType.getName().toString());
         importCount--;
@@ -1626,7 +1626,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         writePackageAndImports(p);
 
         // Declare the tie class.
-        p.p("public class " + currentClass + " extends " + 
+        p.p("public class " + currentClass + " extends " +
             getName(tieBaseClass) + " implements Tie");
 
         // Add java.rmi.Remote if this type does not implement it.
@@ -1643,16 +1643,16 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         p.pln();
         p.pln("private " + getName(theType) + " target = null;");
         p.pln();
-        
+
         // Write the ids...
         writeIds( p, theType, true ) ;
-        
+
         // Write setTarget method...
         p.pln();
         p.plnI("public void setTarget(Remote target) {");
         p.pln("this.target = (" + getName(theType) + ") target;");
         p.pOln("}");
-                
+
         // Write getTarget method...
         p.pln();
         p.plnI("public Remote getTarget() {");
@@ -1683,23 +1683,23 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
 
         // Get all the methods...
         CompoundType.Method[] remoteMethods = theType.getMethods();
-        
+
         // Register all the argument names used, plus our
         // data member names...
-        
+
         addNamesInUse(remoteMethods);
         addNameInUse("target");
         addNameInUse("_type_ids");
-        
+
         // Write the _invoke method...
         p.pln();
-        
+
         String in = getVariableName("in");
         String _in = getVariableName("_in");
         String ex = getVariableName("ex");
         String method = getVariableName("method");
         String reply = getVariableName("reply");
-        
+
         p.plnI("public OutputStream  _invoke(String "+method+", InputStream "+_in+", " +
                "ResponseHandler "+reply+") throws SystemException {");
 
@@ -1708,12 +1708,12 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
             p.plnI(idExtInputStream + " "+in+" = ");
             p.pln("(" + idExtInputStream + ") "+_in+";");
             p.pO();
-                    
+
             // See if we should use a hash table style
             // comparison...
 
             StaticStringsHash hash = getStringsHash(remoteMethods);
-            
+
             if (hash != null) {
                 p.plnI("switch ("+method+"."+hash.method+") {");
                 for (int i = 0; i < hash.buckets.length; i++) {
@@ -1735,12 +1735,12 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
                 if (i > 0) {
                     p.pO("} else ");
                 }
-                
+
                 p.plnI("if ("+method+".equals(\""+ current.getIDLName() +"\")) {");
                 writeTieMethod(p, theType, current);
             }
             }
-                    
+
             if (hash != null) {
                 p.pI();
                 //        p.plnI("default:");
@@ -1748,7 +1748,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
                 //   p.pOlnI("} else {");
             }
             //              p.pln("throw new "+getName(idBadMethodException)+"();");
-                    
+
             if (hash != null) {
                 p.pO();
             }
@@ -1757,20 +1757,20 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
 
             p.pOlnI("} catch ("+getName(idSystemException)+" "+ex+") {");
             p.pln("throw "+ex+";");
-                    
+
             p.pOlnI("} catch ("+getName(idJavaLangThrowable)+" "+ex+") {");
             p.pln("throw new " + getName(idPortableUnknownException) + "("+ex+");");
             p.pOln("}");
         } else {
             // No methods...
-                    
+
             p.pln("throw new " + getName(idBadMethodException) + "();");
         }
-                
+
         p.pOln("}");            // end invoke
 
         // Write the cast array hack...
-        
+
         writeCastArray(p);
 
         // End tie class...
@@ -1786,11 +1786,11 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         p.pln("");
     }
 
-    public void write_tie_thisObject_method(IndentingWriter p, 
+    public void write_tie_thisObject_method(IndentingWriter p,
                                             Identifier idCorbaObject)
         throws IOException
     {
-        if(POATie){ 
+        if(POATie){
             p.plnI("public " + idCorbaObject + " thisObject() {");
             /*
             p.pln("org.omg.CORBA.Object objref = null;");
@@ -1856,7 +1856,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         p.pln("catch(ClassCastException e) {");
         p.pln("    throw new org.omg.CORBA.BAD_PARAM");
         p.pln("        (\"POA Servant requires an instance of org.omg.CORBA_2_3.ORB\");");
-        p.pln("}");        
+        p.pln("}");
         p.pOln("}");
         } else {
         p.plnI("public void orb(ORB orb) {");
@@ -1879,18 +1879,18 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         }
     }
 
-  
+
     StaticStringsHash getStringsHash (CompoundType.Method[] methods) {
         if (useHash && methods.length > 1) {
             String[] methodNames = new String[methods.length];
             for (int i = 0; i < methodNames.length; i++) {
-                methodNames[i] = methods[i].getIDLName();   
+                methodNames[i] = methods[i].getIDLName();
             }
             return new StaticStringsHash(methodNames);
         }
         return null;
     }
-    
+
     static boolean needNewReadStreamClass(Type type) {
         if (type.isType(TYPE_ABSTRACT)) {
             return true;
@@ -1903,7 +1903,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         }
         return needNewWriteStreamClass(type);
     }
-   
+
     static boolean needNewWriteStreamClass(Type type) {
         switch (type.getTypeCode()) {
         case TYPE_VOID:
@@ -1915,11 +1915,11 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         case TYPE_LONG:
         case TYPE_FLOAT:
         case TYPE_DOUBLE:           return false;
-                
+
         case TYPE_STRING:           return true;
-        case TYPE_ANY:              return false;            
+        case TYPE_ANY:              return false;
         case TYPE_CORBA_OBJECT:     return false;
-        case TYPE_REMOTE:           return false;  
+        case TYPE_REMOTE:           return false;
         case TYPE_ABSTRACT:         return false;
         case TYPE_NC_INTERFACE:     return true;
         case TYPE_VALUE:            return true;
@@ -1927,11 +1927,11 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         case TYPE_NC_CLASS:         return true;
         case TYPE_ARRAY:            return true;
         case TYPE_JAVA_RMI_REMOTE:  return false;
-                
+
         default: throw new Error("unexpected type code: " + type.getTypeCode());
         }
     }
-    
+
     /*
      * Decide which arguments need to be copied and write
      * the copy code. Returns an array of argument names to
@@ -1939,17 +1939,17 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
      */
     String[] writeCopyArguments(CompoundType.Method method,
                                 IndentingWriter p) throws IOException {
-        
+
         Type[] args = method.getArguments();
         String[] origNames = method.getArgumentNames();
-        
+
         // Copy the current parameter names to a result array...
-        
+
         String[] result = new String[origNames.length];
         for (int i = 0; i < result.length; i++) {
             result[i] = origNames[i];
         }
-        
+
         // Decide which arguments must be copied, if any. If
         // any of the arguments are types for which a 'real' copy
         // will be done, rather than just an autoConnect, set
@@ -1962,7 +1962,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         int copyCount = 0;
         int firstCopiedArg = 0; // Only used in single copy case.  It is only the first arg that
                                 // needs copying IF copyCount == 1.
-        
+
         for (int i = 0; i < args.length; i++) {
             if (mustCopy(args[i])) {
                 copyArg[i] = true;
@@ -1970,13 +1970,13 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
                 firstCopiedArg = i;
                 if (args[i].getTypeCode() != TYPE_REMOTE &&
                     args[i].getTypeCode() != TYPE_IMPLEMENTATION) {
-                    realCopy = true;   
+                    realCopy = true;
                 }
             } else {
                 copyArg[i] = false;
             }
         }
-        
+
         // Do we have any types which must be copied?
         if (copyCount > 0) {
             // Yes. Are we only doing the copy to ensure
@@ -1987,12 +1987,12 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
                 // to preserve any shared references...
                 for (int i = 0; i < args.length; i++) {
                     if (args[i].getTypeCode() == TYPE_STRING) {
-                        copyArg[i] = true;   
+                        copyArg[i] = true;
                         copyCount++;
                     }
                 }
             }
-            
+
             // We're ready to generate code. Do we have more than
             // one to copy?
             if (copyCount > 1) {
@@ -2010,7 +2010,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
                     }
                 }
                 p.pln("},_orb());");
-                
+
                 // For each of the types which was copied, create
                 // a local temporary for it, updating the result
                 // array with the new local parameter name...
@@ -2018,7 +2018,7 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
                 for (int i = 0; i < args.length; i++) {
                     if (copyArg[i]) {
                         result[i] = getVariableName(result[i]+"Copy");
-                        p.pln( getName(args[i]) + " " + result[i] + " = (" + getName(args[i]) + ") " + 
+                        p.pln( getName(args[i]) + " " + result[i] + " = (" + getName(args[i]) + ") " +
                                arrayName + "[" + copyIndex++ +"];");
                     }
                 }
@@ -2026,12 +2026,12 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
                 // Generate a call to copyObject, updating the result
                 // with the new local parameter name...
                 result[firstCopiedArg] = getVariableName(result[firstCopiedArg]+"Copy");
-                p.pln( getName(args[firstCopiedArg]) + " " + result[firstCopiedArg] + " = (" + 
+                p.pln( getName(args[firstCopiedArg]) + " " + result[firstCopiedArg] + " = (" +
                        getName(args[firstCopiedArg]) + ") Util.copyObject(" +
                        origNames[firstCopiedArg] + ",_orb());");
             }
         }
-        
+
         return result;
     }
 
@@ -2041,37 +2041,37 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
     String getRepositoryID(Type type) {
         return IDLNames.replace(type.getRepositoryID(), SINGLE_SLASH, DOUBLE_SLASH);
     }
-    
+
     String getExceptionRepositoryID(Type type) {
         ClassType theType = (ClassType) type;
         return IDLNames.getIDLRepositoryID(theType.getQualifiedIDLExceptionName(false));
     }
-    
+
     String getVariableName(String proposed) {
         while (namesInUse.contains(proposed)) {
-            proposed = "$" + proposed;  
+            proposed = "$" + proposed;
         }
-        
+
         return proposed;
     }
-  
+
     void addNamesInUse(CompoundType.Method[] methods) {
         for (int i = 0; i < methods.length; i++) {
-            addNamesInUse(methods[i]);   
+            addNamesInUse(methods[i]);
         }
     }
-  
+
     void addNamesInUse(CompoundType.Method method) {
         String paramNames[] = method.getArgumentNames();
         for (int i = 0; i < paramNames.length; i++) {
-            addNameInUse(paramNames[i]);   
+            addNameInUse(paramNames[i]);
         }
     }
-    
+
     void addNameInUse(String name) {
-        namesInUse.add(name);   
+        namesInUse.add(name);
     }
-    
+
     static boolean mustCopy(Type type) {
         switch (type.getTypeCode()) {
         case TYPE_VOID:
@@ -2084,20 +2084,20 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         case TYPE_FLOAT:
         case TYPE_DOUBLE:
         case TYPE_STRING:           return false;
-                
+
         case TYPE_ANY:              return true;
-                
+
         case TYPE_CORBA_OBJECT:     return false;
-                
-        case TYPE_REMOTE:               
+
+        case TYPE_REMOTE:
         case TYPE_ABSTRACT:
         case TYPE_NC_INTERFACE:
         case TYPE_VALUE:
         case TYPE_IMPLEMENTATION:
         case TYPE_NC_CLASS:
-        case TYPE_ARRAY:            
+        case TYPE_ARRAY:
         case TYPE_JAVA_RMI_REMOTE:  return true;
-                
+
         default: throw new Error("unexpected type code: " + type.getTypeCode());
         }
     }
@@ -2114,14 +2114,14 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         if (sort) {
             Arrays.sort(list,new UserExceptionComparator());
             }
-           
-        return list; 
+
+        return list;
                 }
-    
+
     ValueType[] getTieExceptions (CompoundType.Method method) {
         return method.getUniqueCatchList(method.getImplExceptions());
     }
- 
+
     void writeTieMethod(IndentingWriter p, CompoundType type,
                         CompoundType.Method method) throws IOException {
         String methodName = method.getName();
@@ -2133,16 +2133,16 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         String ex = getVariableName("ex");
         String out = getVariableName("out");
         String reply = getVariableName("reply");
-        
+
         for (int i = 0; i < paramTypes.length; i++) {
             p.p(getName(paramTypes[i])+" "+paramNames[i]+" = ");
             writeUnmarshalArgument(p, in, paramTypes[i], null);
             p.pln();
         }
-                                
+
         boolean handleExceptions = exceptions != null;
         boolean doReturn = !returnType.isType(TYPE_VOID);
-                
+
         if (handleExceptions && doReturn) {
             String objName = testUtil(getName(returnType), returnType);
             p.pln(objName+" result;");
@@ -2170,29 +2170,29 @@ public class StubGenerator extends sun.rmi.rmic.iiop.Generator {
         if (handleExceptions) {
             for(int i = 0; i < exceptions.length; i++) {
                 p.pOlnI("} catch ("+getName(exceptions[i])+" "+ex+") {");
-                            
+
                 // Is this our IDLEntity Exception special case?
-                            
+
                 if (exceptions[i].isIDLEntityException() && !exceptions[i].isCORBAUserException()) {
-                            
+
                                 // Yes...
-                                
+
                     String helperName = IDLNames.replace(exceptions[i].getQualifiedIDLName(false),"::",".");
                     helperName += "Helper";
                     p.pln(idOutputStream+" "+out +" = "+reply+".createExceptionReply();");
                     p.pln(helperName+".write("+out+","+ex+");");
-                                
+
                 } else {
-                                
+
                                 // No...
-                                
+
                     p.pln("String id = \"" + getExceptionRepositoryID(exceptions[i]) + "\";");
                 p.plnI(idExtOutputStream + " "+out+" = ");
                 p.pln("(" + idExtOutputStream + ") "+reply+".createExceptionReply();");
                 p.pOln(out+".write_string(id);");
                     p.pln(out+".write_value("+ex+"," + getName(exceptions[i]) + ".class);");
                 }
-                
+
                 p.pln("return "+out+";");
             }
             p.pOln("}");
@@ -2272,12 +2272,12 @@ class UserExceptionComparator implements java.util.Comparator {
             }
         } else if (isUserException(v2)) {
             if (!isUserException(v1)) {
-                result = 1;   
+                result = 1;
             }
         }
         return result;
     }
-    
+
     final boolean isUserException(ValueType it) {
         return it.isIDLEntityException() && !it.isCORBAUserException();
     }

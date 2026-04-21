@@ -17,7 +17,7 @@
  * Classpath-exception-2.0
  */
 
-module corba 
+module corba
 {
   module connectintercept_1_4
   {

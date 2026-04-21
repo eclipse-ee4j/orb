@@ -28,7 +28,7 @@ import org.omg.CORBA_2_3.portable.OutputStream;
 import com.sun.corba.ee.spi.misc.ORBConstants ;
 
 public class Client {
-    
+
     public static void main(String args[]) {
 
         try {
@@ -50,7 +50,7 @@ public class Client {
             ostr.write_value(inStrSeq, new test.StringSeqHelper());
             InputStream istr = (org.omg.CORBA_2_3.portable.InputStream)
                 ostr.create_input_stream();
-            String[] outStrSeq = (String[]) 
+            String[] outStrSeq = (String[])
                 istr.read_value(new test.StringSeqHelper());
             for (int i = 0; i < outStrSeq.length; i++) {
                 if (!(outStrSeq[i].equals(inStrSeq[i]))) {

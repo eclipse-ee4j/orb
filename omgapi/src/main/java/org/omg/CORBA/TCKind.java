@@ -46,7 +46,7 @@ package org.omg.CORBA;
  * The variable <code>k</code> represents the <code>TCKind</code>
  * instance for the IDL type <code>string</code>, which is
  * <code>tk_string</code>.
- * 
+ *
  * <LI>the method <code>value</code> for accessing the
  * <code>_value</code> field of a <code>TCKind</code> constant
  * <P>Example:
@@ -417,13 +417,13 @@ public class TCKind {
      */
     public static final TCKind tk_value_box = new TCKind(_tk_value_box);
     // orbos 98-01-18: Objects By Value -- end
-    
+
     /**
      * The <code>TCKind</code> constant whose <code>value</code> field is
      * initialized with <code>TCKind._tk_native</code>.
      */
     public static final TCKind tk_native = new TCKind(_tk_native);
-    
+
     /**
      * The <code>TCKind</code> constant whose <code>value</code> field is
      * initialized with <code>TCKind._tk_abstract_interface</code>.

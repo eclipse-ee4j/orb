@@ -35,13 +35,13 @@ import ClientRequestInfo.*;
 /**
  * Tests DII POA Remote invocation
  */
-public class DIIPOAClient 
+public class DIIPOAClient
     extends ClientCommon
-    implements InternalProcess 
+    implements InternalProcess
 {
     // Reference to hello object
     private helloDIIClientStub helloRef;
-    
+
     // Reference to hello object to be forwarded to:
     private helloDIIClientStub helloRefForward;
 
@@ -57,7 +57,7 @@ public class DIIPOAClient
     }
 
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         TestInitializer.out = out;
@@ -82,7 +82,7 @@ public class DIIPOAClient
     /**
      * Clear invocation flags of helloRef and helloRefForward
      */
-    protected void clearInvoked() 
+    protected void clearInvoked()
         throws Exception
     {
         helloRef.clearInvoked();
@@ -92,7 +92,7 @@ public class DIIPOAClient
     /**
      * Invoke the method with the given name on the object
      */
-    protected void invokeMethod( String methodName ) 
+    protected void invokeMethod( String methodName )
         throws Exception
     {
         // Make an invocation:
@@ -116,8 +116,8 @@ public class DIIPOAClient
     /**
      * Return true if the method was invoked
      */
-    protected boolean wasInvoked() 
-        throws Exception 
+    protected boolean wasInvoked()
+        throws Exception
     {
         return helloRef.wasInvoked();
     }
@@ -125,8 +125,8 @@ public class DIIPOAClient
     /**
      * Return true if the method was forwarded
      */
-    protected boolean didForward() 
-        throws Exception 
+    protected boolean didForward()
+        throws Exception
     {
         return helloRefForward.wasInvoked();
     }
@@ -134,8 +134,8 @@ public class DIIPOAClient
     /**
      * Perform ClientRequestRequestInfo tests
      */
-    protected void testClientRequestInfo() 
-        throws Exception 
+    protected void testClientRequestInfo()
+        throws Exception
     {
         super.testClientRequestInfo();
 
@@ -147,8 +147,8 @@ public class DIIPOAClient
      * Re-resolves all references to eliminate any cached ForwardRequests
      * from the last invocation
      */
-    protected void resolveReferences() 
-        throws Exception 
+    protected void resolveReferences()
+        throws Exception
     {
         out.println( "    + resolving references..." );
         out.println( "      - disabling interceptors..." );
@@ -175,22 +175,22 @@ public class DIIPOAClient
         throws Exception
     {
         // Get the root naming context
-        org.omg.CORBA.Object objRef = 
+        org.omg.CORBA.Object objRef =
             orb.resolve_initial_references("NameService");
         NamingContext ncRef = NamingContextHelper.narrow(objRef);
-        
+
         // resolve the Object Reference in Naming
         NameComponent nc = new NameComponent(name, "");
         NameComponent path[] = {nc};
         org.omg.CORBA.Object helloRef = ncRef.resolve( path );
-        
+
         return new helloDIIClientStub( orb, helloRef );
     }
 
     /**
      * Test DII-specific features
      */
-    protected void testDynamic() 
+    protected void testDynamic()
         throws Exception
     {
         out.println( "+ Testing DII ClientRequestInfo methods..." );
@@ -206,7 +206,7 @@ public class DIIPOAClient
      * When asked to run exception tests, run in DII mode.
      * This will skip any UserException-related tests.
      */
-    protected void testException() 
+    protected void testException()
         throws Exception
     {
         out.println( "+ Testing received_exception[_id]() in DII mode..." );
@@ -217,7 +217,7 @@ public class DIIPOAClient
         setParameters( interceptorStrategy, invokeStrategy );
         runTestCase( "received_exception[_id]" );
     }
-    
+
 }
 
 

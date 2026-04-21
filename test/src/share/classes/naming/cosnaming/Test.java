@@ -34,7 +34,7 @@ public class Test extends CORBATest
         orbd.start();
 
         Controller client = createClient("naming.cosnaming.naming_client");
-        
+
         client.start();
 
         client.waitFor(60000);

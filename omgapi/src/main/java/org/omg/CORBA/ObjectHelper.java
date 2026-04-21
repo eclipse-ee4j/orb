@@ -18,12 +18,12 @@
  * Classpath-exception-2.0
  */
 
-/** 
-* The Helper for <tt>Object</tt>.  For more information on 
+/**
+* The Helper for <tt>Object</tt>.  For more information on
 * Helper files, see <a href="doc-files/generatedfiles.html#helper">
 * "Generated Files: Helper Files"</a>.<P>
-*/ 
- 
+*/
+
 package org.omg.CORBA;
 
 abstract public class ObjectHelper

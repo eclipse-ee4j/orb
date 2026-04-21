@@ -50,7 +50,7 @@ public class counterServer {
 
     // Temporary hack to get this test to work and keep the output
     // directory clean
-    private static final String outputDirOffset 
+    private static final String outputDirOffset
         = "/corba/rmipoacounter/".replace('/', File.separatorChar);
 
     public static void main(String args[])
@@ -67,7 +67,7 @@ public class counterServer {
 
             // create and initialize the ORB
             Properties p = new Properties();
-            p.put("org.omg.CORBA.ORBClass", 
+            p.put("org.omg.CORBA.ORBClass",
                   System.getProperty("org.omg.CORBA.ORBClass"));
             p.put( ORBConstants.ORB_SERVER_ID_PROPERTY, "9999");
             ORB orb = ORB.init(args, p);
@@ -120,11 +120,11 @@ public class counterServer {
         }
     }
 
-        
+
     private static boolean isFirstTime()
         throws Exception
     {
-        // Check if the counterValue file is there 
+        // Check if the counterValue file is there
         String name = System.getProperty("output.dir")
             + outputDirOffset
             + "counterValue";
@@ -142,7 +142,7 @@ public class counterServer {
         tpolicy[1] = rootPOA.create_request_processing_policy(
             RequestProcessingPolicyValue.USE_SERVANT_MANAGER);
         POA tpoa = rootPOA.create_POA("PersistentPOA", null, tpolicy);
- 
+
         // register the ServantActivator with the POA, then activate POA
         CounterServantActivator csa = new CounterServantActivator(orb);
         tpoa.set_servant_manager(csa);
@@ -150,7 +150,7 @@ public class counterServer {
         return tpoa;
     }
 
-    static Servant makeCounterServant( ORB orb ) 
+    static Servant makeCounterServant( ORB orb )
     {
         counterImpl impl = null ;
 
@@ -172,12 +172,12 @@ public class counterServer {
         byte[] id = Counter1Id.getBytes();
         String intf = new _counterImpl_Tie()._all_interfaces(tpoa,id)[0];
 
-        org.omg.CORBA.Object obj = tpoa.create_reference_with_id(id, 
+        org.omg.CORBA.Object obj = tpoa.create_reference_with_id(id,
                                                                  intf);
 
         Class intfr = Class.forName("corba.rmipoacounter.counterIF");
 
-        counterIF counterRef 
+        counterIF counterRef
             = (counterIF)PortableRemoteObject.narrow(obj, counterIF.class );
 
         // put objref in NameService
@@ -190,10 +190,10 @@ public class counterServer {
         ncRef.rebind(path, obj);
 
         // invoke on the local objref to test local invocations
-        if ( counterServer.debug ) 
+        if ( counterServer.debug )
             System.out.println("\nTesting local invocation: Client thread is "+Thread.currentThread());
         long value = counterRef.increment(1);
-        if ( counterServer.debug ) 
+        if ( counterServer.debug )
             System.out.println(value);
     }
 
@@ -208,7 +208,7 @@ public class counterServer {
         tpolicy[2] = rootPOA.create_servant_retention_policy(
             ServantRetentionPolicyValue.NON_RETAIN);
         POA tpoa = rootPOA.create_POA("NonRetainPOA", null, tpolicy);
-        
+
         // register the ServantLocator with the POA, then activate POA
         CounterServantLocator csl = new CounterServantLocator(orb);
         tpoa.set_servant_manager(csl);
@@ -235,7 +235,7 @@ public class counterServer {
                  ncRef.rebind(path, counterRef);
         **********/
         OutputStream f = new FileOutputStream(
-                                              System.getProperty("output.dir") 
+                                              System.getProperty("output.dir")
                                               + outputDirOffset
                                               + "counterior2") ;
         DataOutputStream out = new DataOutputStream(f) ;
@@ -258,14 +258,14 @@ class MyAdapterActivator extends org.omg.CORBA.LocalObject implements AdapterAct
 
     public boolean unknown_adapter(POA parent, String name)
     {
-        if ( counterServer.debug ) 
+        if ( counterServer.debug )
             System.out.println("\nIn MyAdapterActivator.unknown_adapter, parent = "+parent.the_name()+" child = "+name);
         try {
             if ( name.equals("PersistentPOA") )
                 counterServer.createPersistentPOA(orb, parent);
             else if ( name.equals("NonRetainPOA") )
                 counterServer.createNonRetainPOA(orb, parent);
-            else 
+            else
                 return false;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -292,7 +292,7 @@ class CounterServantActivator extends org.omg.CORBA.LocalObject implements Serva
     {
         Servant servant = counterServer.makeCounterServant( orb ) ;
 
-        if ( counterServer.debug ) 
+        if ( counterServer.debug )
             System.out.println("\nIn CounterServantActivator.incarnate,   oid = "
                                +oid
                                +" poa = "+adapter.the_name()
@@ -300,10 +300,10 @@ class CounterServantActivator extends org.omg.CORBA.LocalObject implements Serva
         return servant;
     }
 
-    public void etherealize(byte[] oid, POA adapter, Servant servant, 
+    public void etherealize(byte[] oid, POA adapter, Servant servant,
                             boolean cleanup_in_progress, boolean remaining_activations)
     {
-        if ( counterServer.debug ) 
+        if ( counterServer.debug )
             System.out.println("\nIn CounterServantActivator.etherealize, oid = "
                                +oid
                                +" poa = "+adapter.the_name()
@@ -323,7 +323,7 @@ class CounterServantLocator extends org.omg.CORBA.LocalObject implements Servant
         this.orb = orb;
     }
 
-    public Servant preinvoke(byte[] oid, POA adapter, String operation, 
+    public Servant preinvoke(byte[] oid, POA adapter, String operation,
                              CookieHolder the_cookie)
         throws org.omg.PortableServer.ForwardRequest
     {
@@ -331,7 +331,7 @@ class CounterServantLocator extends org.omg.CORBA.LocalObject implements Servant
         String newidStr = "somethingdifferent";
 
         // Tests location forwards
-        if ( sid.equals(counterServer.Counter2Id) ) { 
+        if ( sid.equals(counterServer.Counter2Id) ) {
             // construct a new objref to forward to.
             byte[] id = newidStr.getBytes();
             org.omg.CORBA.Object obj = null;
@@ -356,7 +356,7 @@ class CounterServantLocator extends org.omg.CORBA.LocalObject implements Servant
         MyCookie cookie = new MyCookie();
         Servant servant = counterServer.makeCounterServant( orb ) ;
 
-        if ( counterServer.debug ) 
+        if ( counterServer.debug )
             System.out.println("\nIn CounterServantLocator.preinvoke,  oid = "
                                +oidStr
                                +" poa = "+adapter.the_name()
@@ -367,10 +367,10 @@ class CounterServantLocator extends org.omg.CORBA.LocalObject implements Servant
         return servant;
     }
 
-    public void postinvoke(byte[] oid, POA adapter, String operation, 
+    public void postinvoke(byte[] oid, POA adapter, String operation,
                            java.lang.Object cookie, Servant servant)
     {
-        if ( counterServer.debug ) 
+        if ( counterServer.debug )
             System.out.println("\nIn CounterServantLocator.postinvoke, oid = "
                                +new String(oid)
                                +" poa = "+adapter.the_name()
@@ -380,5 +380,5 @@ class CounterServantLocator extends org.omg.CORBA.LocalObject implements Servant
     }
 }
 
-class MyCookie 
+class MyCookie
 {}

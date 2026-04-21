@@ -55,7 +55,7 @@ module activation {
         ServerId serverId ;
     };
 
-    /** Raised if an operation is attempted against a server that is in a 
+    /** Raised if an operation is attempted against a server that is in a
     * hold down state.  A server becomes held down if it fails to activate
     * within 10 seconds.
     */
@@ -63,7 +63,7 @@ module activation {
         ServerId serverId ;
     };
 
-    /** Raised if an attempt is made to activate a server that is already 
+    /** Raised if an attempt is made to activate a server that is already
     * running.
     */
     exception ServerAlreadyActive{
@@ -77,7 +77,7 @@ module activation {
         ServerId serverId;
     };
 
-    /** Raised if an attempt is made to install a server that is currently 
+    /** Raised if an attempt is made to install a server that is currently
     * installed.  Note that a newly created server starts out in an uninstalled
     * state.
     */
@@ -85,8 +85,8 @@ module activation {
         ServerId serverId;
     } ;
 
-    /** Raised if an attempt is made to uninstall a server that is currently 
-    * uninstalled.  Note that a newly created server starts out in an 
+    /** Raised if an attempt is made to uninstall a server that is currently
+    * uninstalled.  Note that a newly created server starts out in an
     * uninstalled
     * state.
     */
@@ -148,29 +148,29 @@ module activation {
 
     interface Activator {
         // A new ORB started server registers itself with the Activator
-        void active(in ServerId serverId, in Server serverObj) 
+        void active(in ServerId serverId, in Server serverObj)
             raises (ServerNotRegistered);
 
         // Install a particular kind of endpoint
-        void registerEndpoints( in ServerId serverId, in ORBid orbId, 
-            in EndpointInfoList endPointInfo) 
+        void registerEndpoints( in ServerId serverId, in ORBid orbId,
+            in EndpointInfoList endPointInfo)
             raises (ServerNotRegistered,NoSuchEndPoint, ORBAlreadyRegistered) ;
 
         // list active servers
         ServerIds getActiveServers();
 
         // If the server is not running, start it up.
-        void activate(in ServerId serverId) 
+        void activate(in ServerId serverId)
             raises (ServerAlreadyActive, ServerNotRegistered, ServerHeldDown);
 
         // If the server is running, shut it down
-        void shutdown(in ServerId serverId) 
+        void shutdown(in ServerId serverId)
             raises (ServerNotActive, ServerNotRegistered);
 
-        // Invoke the server install hook.  If the server is not 
+        // Invoke the server install hook.  If the server is not
         // currently running, this method will activate it.
-        void install(in ServerId serverId) 
-            raises (ServerNotRegistered, ServerHeldDown, 
+        void install(in ServerId serverId)
+            raises (ServerNotRegistered, ServerHeldDown,
                 ServerAlreadyInstalled);
 
         // list all registered ORBs for a server
@@ -180,8 +180,8 @@ module activation {
         // Invoke the server uninstall hook.  If the server is not
         // currently running, this method will activate it.
         // After this hook completes, the server may still be running.
-        void uninstall(in ServerId serverId) 
-            raises (ServerNotRegistered, ServerHeldDown, 
+        void uninstall(in ServerId serverId)
+            raises (ServerNotRegistered, ServerHeldDown,
                 ServerAlreadyUninstalled);
     };
 
@@ -206,7 +206,7 @@ module activation {
         // Starts the server if it is not already running.
         ServerLocation locateServer(
             in ServerId serverId,
-            in string endPoint) 
+            in string endPoint)
             raises(NoSuchEndPoint, ServerNotRegistered, ServerHeldDown);
 
         // locate server - returns all ports registered with a specified ORB for
@@ -214,7 +214,7 @@ module activation {
         // Starts the server if it is not already running.
         ServerLocationPerORB locateServerForORB(
             in ServerId serverId,
-            in ORBid orbId) 
+            in ORBid orbId)
             raises(InvalidORBid, ServerNotRegistered, ServerHeldDown);
 
         // get the port for the endpoint of the locator
@@ -249,36 +249,36 @@ module activation {
                                         // serverName values.
             string  serverName;         // Class name of server's main class.
             string  serverClassPath;    // class path used to run the server.
-            string  serverArgs;         
+            string  serverArgs;
             string  serverVmArgs;
         };
-        
+
         // register server definition
         // This returns the serverId of the server.  A newly created server is
         // always uninstalled.
-        ServerId registerServer (in ServerDef serverDef) 
+        ServerId registerServer (in ServerDef serverDef)
             raises (ServerAlreadyRegistered, BadServerDefinition);
-        
+
         // unregister server definition
-        void unregisterServer (in ServerId serverId) 
+        void unregisterServer (in ServerId serverId)
             raises (ServerNotRegistered);
 
         // get server definition
-        ServerDef getServer(in ServerId serverId) 
+        ServerDef getServer(in ServerId serverId)
             raises (ServerNotRegistered);
 
         // Return whether the server has been installed
-        boolean isInstalled( in ServerId serverId ) 
+        boolean isInstalled( in ServerId serverId )
             raises (ServerNotRegistered);
 
         // Mark the server as being installed.  Raises ServerAlreadyInstalled
         // if the server is currently marked as installed.
-        void install( in ServerId serverId ) 
+        void install( in ServerId serverId )
             raises (ServerNotRegistered, ServerAlreadyInstalled) ;
 
         // Mark the server as being uninstalled.  Raises ServerAlreadyUninstalled
         // if the server is currently marked as uninstalled.
-        void uninstall( in ServerId serverId ) 
+        void uninstall( in ServerId serverId )
             raises (ServerNotRegistered, ServerAlreadyUninstalled) ;
 
         // list registered servers
@@ -286,12 +286,12 @@ module activation {
 
         typedef sequence<string>    StringSeq ;
 
-        // Returns list of ALL applicationNames defined in ServerDefs of registered 
+        // Returns list of ALL applicationNames defined in ServerDefs of registered
         // servers.
         StringSeq   getApplicationNames();
 
         // Find the ServerID associated with the given application name.
-        ServerId getServerID( in string applicationName ) 
+        ServerId getServerID( in string applicationName )
                 raises (ServerNotRegistered) ;
     };
 };

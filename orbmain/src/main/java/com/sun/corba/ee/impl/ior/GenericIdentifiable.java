@@ -30,39 +30,39 @@ import org.omg.CORBA_2_3.portable.InputStream;
 import org.omg.CORBA_2_3.portable.OutputStream;
 
 /**
- * @author 
+ * @author
  * This is used for unknown components and profiles.  A TAG_MULTICOMPONENT_PROFILE will be represented this way.
  */
 @ManagedData
-@Description( "A generic implementation of an IIOP encapsulation with an integer id" ) 
-public abstract class GenericIdentifiable implements Identifiable 
+@Description( "A generic implementation of an IIOP encapsulation with an integer id" )
+public abstract class GenericIdentifiable implements Identifiable
 {
     private int id;
     private byte data[];
-    
-    public GenericIdentifiable(int id, InputStream is) 
+
+    public GenericIdentifiable(int id, InputStream is)
     {
         this.id = id ;
         data = EncapsulationUtility.readOctets( is ) ;
     }
-    
-    public int getId() 
+
+    public int getId()
     {
         return id ;
     }
-    
-    public void write(OutputStream os) 
+
+    public void write(OutputStream os)
     {
         os.write_ulong( data.length ) ;
         os.write_octet_array( data, 0, data.length ) ;
     }
-    
-    public String toString() 
+
+    public String toString()
     {
         return "GenericIdentifiable[id=" + getId() + "]" ;
     }
-    
-    public boolean equals(Object obj) 
+
+    public boolean equals(Object obj)
     {
         if (obj == null)
             return false ;
@@ -72,11 +72,11 @@ public abstract class GenericIdentifiable implements Identifiable
 
         GenericIdentifiable encaps = (GenericIdentifiable)obj ;
 
-        return (getId() == encaps.getId()) && 
+        return (getId() == encaps.getId()) &&
             Arrays.equals( data, encaps.data ) ;
     }
-   
-    public int hashCode() 
+
+    public int hashCode()
     {
         int result = 17 ;
         for (int ctr=0; ctr<data.length; ctr++ )
@@ -84,15 +84,15 @@ public abstract class GenericIdentifiable implements Identifiable
         return result ;
     }
 
-    public GenericIdentifiable(int id, byte[] data) 
+    public GenericIdentifiable(int id, byte[] data)
     {
         this.id = id ;
         this.data = (byte[])(data.clone()) ;
     }
-    
+
     @ManagedAttribute
     @Description( "The tagged component or profile CDR encoded data" )
-    public byte[] getData() 
+    public byte[] getData()
     {
         return (byte[])data.clone() ;
     }

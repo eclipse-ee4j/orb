@@ -61,7 +61,7 @@ public class ConnectionStatistics
             pac(result, "ERROR: Missing: " + attributeName ) ;
             pac(result, "--------------------------------------------------");
             System.exit(1);
-        } 
+        }
     }
 
     private void handleConnectionCache( StringBuffer result,

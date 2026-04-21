@@ -37,9 +37,9 @@ public class CustomMarshaledValueImpl extends CustomMarshaledValue
         wstr = "";
     }
 
-    public CustomMarshaledValueImpl(char ch, 
-                                    char wch, 
-                                    String str, 
+    public CustomMarshaledValueImpl(char ch,
+                                    char wch,
+                                    String str,
                                     String wstr,
                                     char[] chSeq,
                                     char[] wchSeq) {
@@ -47,7 +47,7 @@ public class CustomMarshaledValueImpl extends CustomMarshaledValue
         this.wch = wch;
         if (str == null)
             this.str = "";
-        else 
+        else
             this.str = new String(str);
         if (wstr == null)
             this.wstr = "";

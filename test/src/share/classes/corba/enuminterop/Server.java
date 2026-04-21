@@ -32,37 +32,37 @@ import org.omg.CosNaming.*;
 import org.omg.PortableServer.*;
 
 import com.sun.corba.ee.spi.presentation.rmi.PresentationManager ;
-                                                                                
+
 import com.sun.corba.ee.spi.misc.ORBConstants ;
 
 
 /**
- * This is a Server that uses Dynamic RMI IIOP Tie model. A Simple Server 
+ * This is a Server that uses Dynamic RMI IIOP Tie model. A Simple Server
  * with 1 Servant that is associated with the RootPOA.
  */
 public class Server {
     public final static String REF_NAME = "EchoService" ;
-    
+
     private static final String PKG_PREFIX = "com.sun.corba." + "se." ;
 
     public static void main(String[] args ) {
         try {
             System.out.println( "Arguments:" ) ;
-            for (String str : args) 
+            for (String str : args)
                 System.out.println( "\t" + str ) ;
 
             // Use the JDK ORB for this test
-            System.setProperty( "org.omg.CORBA.ORBClass", 
+            System.setProperty( "org.omg.CORBA.ORBClass",
                 PKG_PREFIX + "impl.orb.ORBImpl" ) ;
-            System.setProperty( "org.omg.CORBA.ORBSingletonClass", 
+            System.setProperty( "org.omg.CORBA.ORBSingletonClass",
                 PKG_PREFIX + "impl.orb.ORBSingleton" ) ;
 
             System.setProperty( "javax.rmi.CORBA.PortableRemoteObjectClass",
-                PKG_PREFIX + "impl.javax.rmi.PortableRemoteObject" ) ; 
+                PKG_PREFIX + "impl.javax.rmi.PortableRemoteObject" ) ;
             System.setProperty( "javax.rmi.CORBA.StubClass",
-                PKG_PREFIX + "impl.javax.rmi.CORBA.StubDelegateImpl" ) ; 
+                PKG_PREFIX + "impl.javax.rmi.CORBA.StubDelegateImpl" ) ;
             System.setProperty( "javax.rmi.CORBA.UtilClass",
-                PKG_PREFIX + "impl.javax.rmi.CORBA.Util" ) ; 
+                PKG_PREFIX + "impl.javax.rmi.CORBA.Util" ) ;
 
             System.setProperty( "com.sun.CORBA.ORBDebug", "subcontract" ) ;
 
@@ -72,19 +72,19 @@ public class Server {
 
             org.omg.CORBA.Object objRef =
                 orb.resolve_initial_references("NameService");
- 
+
             NamingContext ncRef = NamingContextHelper.narrow(objRef);
             NameComponent nc = new NameComponent( REF_NAME, "");
             NameComponent path[] = {nc};
 
             POA rootPOA = (POA)orb.resolve_initial_references( "RootPOA" );
             rootPOA.the_POAManager().activate();
-            
+
             byte[] id = REF_NAME.getBytes();
-            rootPOA.activate_object_with_id(id, 
+            rootPOA.activate_object_with_id(id,
                 (Servant)makeEchoServant(orb));
             org.omg.CORBA.Object obj = rootPOA.id_to_reference( id );
-                                                                                
+
             ncRef.rebind(path, obj);
 
             // wait for invocations from clients

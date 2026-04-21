@@ -24,7 +24,7 @@
 
 #include "IOP.idl"
 
-module messages { 
+module messages {
 
         typedef short AddressingDisposition;
         const short KeyAddr = 0;

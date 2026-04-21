@@ -47,7 +47,7 @@ public class IORDump {
         "ENDPOINT_ID_POSITION",
         null,
         null,
-        null,                           
+        null,
         null,                           // 10
         null,
         "LOCATION_POLICY",
@@ -90,16 +90,16 @@ public class IORDump {
         null, null, null, null, null,
         null, null, null, null, null,   // 90
         null, null, null, null, null,
-        null, null, null, null, 
+        null, null, null, null,
         "DCE_STRING_BINDING",            // 100
         "DCE_BINDING_NAME",
         "DCE_NO_PIPES",
         "DCE_SEC_MECH",
         null, null,
         null, null, null, null, null,   // 110
-        null, null, null, null, null,   
+        null, null, null, null, null,
         null, null, null, null, null,   // 120
-        null, null, 
+        null, null,
         "INET_SEC_TRANS"
     } ;
 
@@ -142,7 +142,7 @@ public class IORDump {
         for (TaggedProfile tprof : ior) {
             dumpTaggedProfile( tprof ) ;
         }
-        pr.out().out().nl() ; 
+        pr.out().out().nl() ;
     }
 
     public static void dumpTaggedProfile( TaggedProfile tprof ) {
@@ -165,7 +165,7 @@ public class IORDump {
         pr.nl().p( "Tagged components:" ).in() ;
         for (TaggedComponent tcomp : tpt ) {
             int id = tcomp.getId() ;
-            pr.nl().p( "id = ", tcomp.getId(), 
+            pr.nl().p( "id = ", tcomp.getId(),
                 " (", getTaggedComponentName( id ), ")" ).in() ;
             if (tcomp instanceof GenericIdentifiable) {
                 GenericIdentifiable gid = (GenericIdentifiable)tcomp ;

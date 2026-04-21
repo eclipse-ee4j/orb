@@ -35,13 +35,13 @@ import java.io.*;
 
 import ServerRequestInterceptor.*;
 
-public class DSIPOARemoteServer 
+public class DSIPOARemoteServer
     extends DSIPOAServer
 {
     public static void main(String args[]) {
         try {
             (new DSIPOARemoteServer()).run( System.getProperties(),
-                                            args, System.out, System.err, 
+                                            args, System.out, System.err,
                                             null );
         }
         catch( Exception e ) {
@@ -51,7 +51,7 @@ public class DSIPOARemoteServer
     }
 
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         TestInitializer.out = out;

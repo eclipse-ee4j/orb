@@ -22,7 +22,7 @@ package corba.fragment;
 import java.rmi.Remote ;
 import java.rmi.RemoteException ;
 
-public interface FragmentTester extends java.rmi.Remote 
+public interface FragmentTester extends java.rmi.Remote
 {
     public byte[] verifyTransmission(byte array[])
         throws RemoteException, BadArrayException;

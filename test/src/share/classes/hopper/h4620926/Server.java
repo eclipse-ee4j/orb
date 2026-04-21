@@ -42,7 +42,7 @@ public class Server {
             // try {
                 // delay = Integer.parseInt(args[0]);
             // } catch (Exception e) { }
-            
+
             Properties props = new Properties() ;
             props.setProperty( "com.sun.corba.ee.ORBDebug", "poa" ) ;
             ORB orb = ORB.init(args, props);
@@ -58,7 +58,7 @@ public class Server {
             POA childPOA = rootPOA.create_POA("Child", null, policy);
             childPOA.set_servant_manager(new MyServantActivator());
             System.out.println("Set servant manager");
-        
+
             String str = "ABCRef";
             org.omg.CORBA.Object obj = childPOA.create_reference_with_id(
                 str.getBytes(), "IDL:test/Hello:1.0");
@@ -95,7 +95,7 @@ class MyServantActivator extends LocalObject implements ServantActivator {
     }
 
     public void etherealize(byte[] oid, POA adapter, Servant servant,
-                            boolean cleanUpInProgress, 
+                            boolean cleanUpInProgress,
                             boolean remaingActivations) {
         System.out.println("Etherealizing Object ");
     }

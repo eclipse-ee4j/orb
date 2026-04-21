@@ -35,8 +35,8 @@ import org.glassfish.external.amx.AMXGlassfish ;
  * static factory method here.  Note that this also assumes that the created
  * ORB should be suitable for running inside GlassFish v3.
  */
-public class ORBFactory {   
-    private ORBFactory() {} 
+public class ORBFactory {
+    private ORBFactory() {}
 
     public static ORB create( String[] args, Properties props, boolean useOSGi ) {
         ORB result = create() ;
@@ -52,7 +52,7 @@ public class ORBFactory {
         return result ;
     }
 
-    /** Complete the initialization of the ORB.  
+    /** Complete the initialization of the ORB.
      * useOSGi if true will cause an ORB initialization
      * suitable for use in GlassFish v3.
      * @param orb The orb to initialize.

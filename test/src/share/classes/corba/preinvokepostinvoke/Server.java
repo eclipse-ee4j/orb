@@ -33,18 +33,18 @@ import com.sun.corba.ee.spi.extension.ServantCachingPolicy;
 public class Server {
 
      private static ORB orb;
-     private static  org.omg.CosNaming.NamingContextExt nctx; 
-     private static  POA poaWithServantCachingPolicy; 
+     private static  org.omg.CosNaming.NamingContextExt nctx;
+     private static  POA poaWithServantCachingPolicy;
 
 
      public static void main( String[] args ) {
         System.out.println( " Starting Server.... " );
         System.out.flush( );
-     
+
         try {
             orb = ORB.init( args, null );
 
-            org.omg.CORBA.Object obj = 
+            org.omg.CORBA.Object obj =
                 orb.resolve_initial_references( "NameService");
             nctx = org.omg.CosNaming.NamingContextExtHelper.narrow( obj );
 
@@ -60,7 +60,7 @@ public class Server {
 
             MyServantLocator sl = new MyServantLocator( orb );
 
-            poaWithServantCachingPolicy = rPOA.create_POA( "poa", null, 
+            poaWithServantCachingPolicy = rPOA.create_POA( "poa", null,
                 policies );
             poaWithServantCachingPolicy.set_servant_manager( sl );
             poaWithServantCachingPolicy.the_POAManager().activate();
@@ -91,7 +91,7 @@ public class Server {
     private static void bindInstance( String repId, String bindingName )
     {
         try {
-            org.omg.CORBA.Object obj = 
+            org.omg.CORBA.Object obj =
                 poaWithServantCachingPolicy.create_reference_with_id(
                     bindingName.getBytes( ), repId );
             org.omg.CosNaming.NameComponent[] nc = nctx.to_name( bindingName );
@@ -106,7 +106,7 @@ public class Server {
              org.omg.CORBA.Object obj;
 
              obj = nctx.resolve_str( "Instance1" );
-             Interface i1 = 
+             Interface i1 =
                  (Interface) PortableRemoteObject.narrow(obj,Interface.class );
              i1.o1( "Invoking from Client..." );
         }catch( Exception e ) {
@@ -116,12 +116,12 @@ public class Server {
     }
 }
 
-        
-        
 
 
-       
-    
+
+
+
+
 
 
 

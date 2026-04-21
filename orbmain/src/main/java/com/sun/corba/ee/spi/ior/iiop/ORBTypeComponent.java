@@ -29,10 +29,10 @@ import org.glassfish.gmbal.ManagedData ;
  * @author Ken Cavanaugh
  */
 @ManagedData
-@Description( "The ORB type" ) 
+@Description( "The ORB type" )
 public interface ORBTypeComponent extends TaggedComponent
 {
     @ManagedAttribute
-    @Description( "The ORB type" ) 
+    @Description( "The ORB type" )
     public int getORBType() ;
 }

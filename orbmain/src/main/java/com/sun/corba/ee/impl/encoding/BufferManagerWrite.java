@@ -38,7 +38,7 @@ public abstract class BufferManagerWrite
     protected static final ORBUtilSystemException wrapper =
         ORBUtilSystemException.self ;
 
-    BufferManagerWrite( ORB orb ) 
+    BufferManagerWrite( ORB orb )
     {
         this.orb = orb ;
     }

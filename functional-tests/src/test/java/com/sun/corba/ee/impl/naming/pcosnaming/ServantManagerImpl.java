@@ -70,7 +70,7 @@ public class ServantManagerImpl extends org.omg.CORBA.LocalObject implements Ser
     }
 
 
-    public Servant preinvoke(byte[] oid, POA adapter, String operation, 
+    public Servant preinvoke(byte[] oid, POA adapter, String operation,
                              CookieHolder cookie) throws ForwardRequest
     {
 
@@ -97,7 +97,7 @@ public class ServantManagerImpl extends org.omg.CORBA.LocalObject implements Ser
         if( context != null ) {
             // Returning Context from Cache
             return context;
-        }       
+        }
 
         File contextFile = new File(logDir, objKey);
         if (contextFile.exists()) {
@@ -120,7 +120,7 @@ public class ServantManagerImpl extends org.omg.CORBA.LocalObject implements Ser
         return context;
     }
 
-    public NamingContextImpl addContext(String objKey, 
+    public NamingContextImpl addContext(String objKey,
                                         NamingContextImpl context)
     {
         File contextFile =  new File(logDir, objKey);
@@ -134,7 +134,7 @@ public class ServantManagerImpl extends org.omg.CORBA.LocalObject implements Ser
                 oos.writeObject(context);
                 oos.close();
             } catch (Exception ex) {
-                throw new RuntimeException( "Error in adding new context " 
+                throw new RuntimeException( "Error in adding new context "
                     + objKey, ex) ;
             }
         }
@@ -149,7 +149,7 @@ public class ServantManagerImpl extends org.omg.CORBA.LocalObject implements Ser
         contexts.put(objKey, context);
 
         return context;
-    }   
+    }
 
     public void updateContext( String objKey,
                                    NamingContextImpl context )
@@ -159,7 +159,7 @@ public class ServantManagerImpl extends org.omg.CORBA.LocalObject implements Ser
                 contextFile.delete( );
                 contextFile =  new File(logDir, objKey);
         }
-                
+
         try {
             FileOutputStream fos = new FileOutputStream(contextFile);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -233,7 +233,7 @@ class CounterDB {
     public synchronized int getNextCounter()
     {
         int counterVal = counter.intValue();
-        counter = Integer.valueOf(++counterVal); 
+        counter = Integer.valueOf(++counterVal);
         writeCounter();
 
         return counterVal;

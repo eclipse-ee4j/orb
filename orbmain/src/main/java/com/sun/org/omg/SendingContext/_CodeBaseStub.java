@@ -173,7 +173,7 @@ public class _CodeBaseStub extends org.omg.CORBA.portable.ObjectImpl implements 
 
     // Type-specific CORBA::Object operations
     private static String[] __ids = {
-        "IDL:omg.org/SendingContext/CodeBase:1.0", 
+        "IDL:omg.org/SendingContext/CodeBase:1.0",
         "IDL:omg.org/SendingContext/RunTime:1.0"};
 
     public String[] _ids ()
@@ -183,7 +183,7 @@ public class _CodeBaseStub extends org.omg.CORBA.portable.ObjectImpl implements 
 
     private void readObject (java.io.ObjectInputStream s)
     {
-        try 
+        try
             {
                 String str = s.readUTF ();
                 org.omg.CORBA.Object obj = org.omg.CORBA.ORB.init ().string_to_object (str);
@@ -194,7 +194,7 @@ public class _CodeBaseStub extends org.omg.CORBA.portable.ObjectImpl implements 
 
     private void writeObject (java.io.ObjectOutputStream s)
     {
-        try 
+        try
             {
                 String str = org.omg.CORBA.ORB.init ().object_to_string (this);
                 s.writeUTF (str);

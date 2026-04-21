@@ -38,7 +38,7 @@ abstract public class InvokeStrategy {
     public void invoke() throws Exception {
         // Reset the request interceptor to prepare for test:
         SampleServerRequestInterceptor.enabled = true;
-        SampleServerRequestInterceptor.receiveRequestServiceContextsEnabled = 
+        SampleServerRequestInterceptor.receiveRequestServiceContextsEnabled =
             true;
         SampleServerRequestInterceptor.receiveRequestEnabled = true;
         SampleServerRequestInterceptor.sendReplyEnabled = true;

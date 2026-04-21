@@ -58,7 +58,7 @@ public class LoggingServiceServerInterceptor
             NameComponent path[] =
                 { new NameComponent("LoggingService", "") };
             try {
-                loggingService = 
+                loggingService =
                     LoggingServiceHelper.narrow(nameService.resolve(path));
             } catch (Throwable t) {
                 System.out.println("Exception handling not shown.");
@@ -80,12 +80,12 @@ public class LoggingServiceServerInterceptor
     // Interceptor operations
     //
 
-    public String name() 
+    public String name()
     {
         return "LoggingServiceServerInterceptor";
     }
 
-    public void destroy() 
+    public void destroy()
     {
     }
 
@@ -175,7 +175,7 @@ public class LoggingServiceServerInterceptor
         // IMPORTANT:
         // The conditional logging of the invocation is only necessary
         // if there is a chance that the object being invoked is colocated
-        // in the same ORB as this interceptor.  Otherwise the outcall to 
+        // in the same ORB as this interceptor.  Otherwise the outcall to
         // the logging service can be made unconditionally.
 
         // Always set the recursion slot.

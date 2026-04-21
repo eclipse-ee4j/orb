@@ -34,7 +34,7 @@ class HelloImpl
     extends
         HelloPOA
 {
-    public HelloImpl() 
+    public HelloImpl()
     {
     }
 
@@ -63,7 +63,7 @@ public class Server
             byte[] id = rootPOA.activate_object(hello);
             org.omg.CORBA.Object ref = rootPOA.id_to_reference(id);
 
-            NamingContext namingContext = 
+            NamingContext namingContext =
                 NamingContextHelper.narrow(orb.resolve_initial_references(
                     "NameService"));
             NameComponent nc = new NameComponent("Server", "");

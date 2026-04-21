@@ -61,12 +61,12 @@ public abstract class Test implements java.lang.Runnable
 
     static {
         displayRuntimeInformation() ;
-    } 
+    }
 
     public static String display( String[] args ) {
         String result = null ;
         for (String str : args) {
-            if (result == null) 
+            if (result == null)
                 result = "[" + str ;
             else
                 result += ", " + str ;
@@ -80,22 +80,22 @@ public abstract class Test implements java.lang.Runnable
             RuntimeMXBean bean = ManagementFactory.getRuntimeMXBean() ;
 
             System.out.println( "Boot classpath = " ) ;
-            for (String str : bean.getBootClassPath().split(":")) 
+            for (String str : bean.getBootClassPath().split(":"))
                 System.out.println( "\t" + str ) ;
 
             System.out.println( "System classpath = " ) ;
-            for (String str : bean.getClassPath().split(":")) 
+            for (String str : bean.getClassPath().split(":"))
                 System.out.println( "\t" + str ) ;
 
             List<String> args = bean.getInputArguments() ;
             System.out.println( "VM arguments:" ) ;
-            for (String str : args ) 
+            for (String str : args )
                 System.out.println( "\t" + str ) ;
         }
     }
 
     // Set this to true to turn on the use of a security manager
-    // that actually enforces security (and watch all of the tests 
+    // that actually enforces security (and watch all of the tests
     // fail due to access exceptions).
     private static final boolean USE_REAL_SECURITY_MANAGER = false ;
 
@@ -134,12 +134,12 @@ public abstract class Test implements java.lang.Runnable
 
     public static boolean debug = false;
     public static int forkDebugLevel = 0 ;
-    
-    // forkDebugLevel values 
+
+    // forkDebugLevel values
     public static int DISPLAY = 1 ;
     public static int ATTACH = 2 ;
 
-    public static void dprint( String msg ) 
+    public static void dprint( String msg )
     {
         if (debug)
             System.out.println( "TEST: " + msg ) ;
@@ -222,7 +222,7 @@ public abstract class Test implements java.lang.Runnable
         }
         return result;
     }
-    
+
     /**
      * Gets the main argument list as a Hashtable.
      **/
@@ -242,7 +242,7 @@ public abstract class Test implements java.lang.Runnable
             demure = args.containsKey(DEMURE_FLAG);
 
             // If FVD_FLAG exists, set test boolean on IIOPInputStream.
-            // This forces the runtime to always use FullValueDescription 
+            // This forces the runtime to always use FullValueDescription
             // instead of ObjectStreamClass
         } catch (java.lang.Throwable thr) {
             System.out.println( "Caught exception " + thr ) ;
@@ -276,24 +276,24 @@ public abstract class Test implements java.lang.Runnable
             if (USE_REAL_SECURITY_MANAGER)
                 System.setSecurityManager( new SecurityManager() ) ;
             else
-                // This disables all security checks. 
+                // This disables all security checks.
                 System.setSecurityManager(new javax.rmi.download.SecurityManager());
 
             // Initialize the port based properties with free ports...
 
             Properties sysProps = System.getProperties();
             int[] ports = getFreePorts(2);
-            
+
             if (sysProps.get("http.server.port") == null) {
                 // System.out.println("Setting http.server.port = "+ports[0]);
                 sysProps.put("http.server.port",Integer.toString(ports[0]));
             }
-            
+
             if (sysProps.get("name.server.port") == null) {
                 // System.out.println("Setting name.server.port = "+ports[1]);
                 sysProps.put("name.server.port",Integer.toString(ports[1]));
             }
-            
+
             if (sysProps.get("java.rmi.server.codebase") == null) {
                 String codebase = "http://localhost:"+Integer.toString(ports[0])+"/";
                 // System.out.println("Setting java.rmi.server.codebase = "+codebase);
@@ -306,7 +306,7 @@ public abstract class Test implements java.lang.Runnable
             }
 
             // Run the test...
-            
+
             if (run(args)) {
                 System.out.println("\nTests Completed\n ---- Press CTRL-C to Finish ----");
                 while(true);
@@ -455,11 +455,11 @@ public abstract class Test implements java.lang.Runnable
             if (!source[i].equals(target[i])) {
 
                 // Doesn't match. Should we ignore both lines?
-                
+
                 boolean doTokenMatch = true;
                 boolean ignoreSource = false;
                 boolean ignoreTarget = false;
-                
+
                 if (ignorePrefix != null) {
                     for (String anIgnorePrefix : ignorePrefix) {
                         if (source[i].startsWith(anIgnorePrefix)) {
@@ -472,26 +472,26 @@ public abstract class Test implements java.lang.Runnable
                 }
 
                 // Are we supposed to ignore BOTH lines?
-                
+
                 if (ignoreSource && ignoreTarget) {
-                    
+
                     // Yes, so skip token match and leave match = true...
-                    
+
                     doTokenMatch = false;
-                    
+
                 } else {
-                    
+
                     // No, are we supposed to ignore ONE line?
-                    
+
                     if (ignoreSource || ignoreTarget) {
-                        
+
                         // Yes, so skip token match and set match = false...
-                        
+
                         doTokenMatch = false;
                         match = false;
                     }
                 }
-                
+
                 if (doTokenMatch) {
 
                     // Nope, so tokenize, sort and re-compare...
@@ -526,7 +526,7 @@ public abstract class Test implements java.lang.Runnable
                     }
                 }
             }
-            
+
             if (!match) {
                 String error =  "found '" + source[i] + "', expected '" + target[i] + "'.";
                 throw new Error("Resource comparison failed for " + className + ": " + error);
@@ -608,20 +608,20 @@ public abstract class Test implements java.lang.Runnable
                 }
             }
         } finally {
-            if (inStream != null) 
+            if (inStream != null)
                 inStream.close();
-            if (refStream != null) 
+            if (refStream != null)
                 refStream.close();
         }
     }
 
-        
-    // Returns a platform specific build classes directory (either windows or unix ONLY). 
+
+    // Returns a platform specific build classes directory (either windows or unix ONLY).
     // Returns null if tests are in test jar or build directory does not exist.
     //
     // NOTE : This is meant strictly for the original RMI-IIOP workspace structure.
     public static String getClassesDirectory(String childWorkspace) {
-                
+
         String className = "com.sun.corba.ee.impl.orb.ORBImpl";
         ClassPath classPath = new ClassPath(System.getProperty("java.class.path"));
         ClassFile cls = classPath.getFile(className.replace('.',File.separatorChar) + ".class");
@@ -630,23 +630,23 @@ public abstract class Test implements java.lang.Runnable
         } catch (IOException e) {
             // ignore
         }
-                
+
         if (cls != null) {
-                        
+
             File pathDir;
-                        
-            // Ok, we have a ClassFile for com.sun.corba.ee.impl.orb.ORBImpl.class. Is it in 
+
+            // Ok, we have a ClassFile for com.sun.corba.ee.impl.orb.ORBImpl.class. Is it in
             // a zip file?
-                        
+
             if (cls.isZipped()) {
-                                
+
                 return null;
 
             } else {
                 String platform = "win32";
 
                                 // No, so walk back to root...
-                                
+
                 String path = cls.getPath();
                 if (File.separatorChar == '\\') {
                     path = path.replace('/',File.separatorChar);
@@ -655,7 +655,7 @@ public abstract class Test implements java.lang.Runnable
                     path = path.replace('\\',File.separatorChar);
                 }
                 File dir = new File(path);
-                                
+
 
                 // the hardcoded number 10 has to be changed depending on
                 // the hierarchy presented by the className, if the hierarchy
@@ -663,18 +663,18 @@ public abstract class Test implements java.lang.Runnable
 
                 for (int i = 0; i < 10; i++) {
                     dir = new File(dir.getParent());
-                                        
+
                 }
-                                
+
                 pathDir = new File(dir,
                                    childWorkspace+File.separatorChar+
                                    "build"+File.separatorChar+
                                    platform+File.separatorChar+
                                    "classes");
             }
-                        
+
             // If we have a directory, update the Hashtable...
-                        
+
             if (pathDir.exists() && pathDir.isDirectory()) {
                 return pathDir.getPath();
             }
@@ -682,13 +682,13 @@ public abstract class Test implements java.lang.Runnable
         }
         else return null;
     }
-        
+
     private static void setDefaultOutputDir(Hashtable<String, String> flags) {
         String outputDir = flags.get(OUTPUT_DIRECTORY);
         if (outputDir == null) {
-        
+
             // No output dir, so set to gen if present...
- 
+
             String className = "com.sun.corba.ee.spi.orb.ORB";
             ClassPath classPath = new ClassPath(System.getProperty("java.class.path"));
             ClassFile cls = classPath.getFile(className.replace('.',File.separatorChar) + ".class");
@@ -701,21 +701,21 @@ public abstract class Test implements java.lang.Runnable
             if (cls != null) {
 
                 File genDir = null;
-                
-                // Ok, we have a ClassFile for com.sun.corba.ee.spi.orb.ORB.class. Is it in 
+
+                // Ok, we have a ClassFile for com.sun.corba.ee.spi.orb.ORB.class. Is it in
                 // a zip file?
-                
+
                 if (cls.isZipped()) {
-                    
+
                     // Yes. _REVISIT_
-                    
+
                     System.out.println("test.Test found com.sun.corba.ee.spi.orb.ORB.class in: " + cls.getPath());
                     System.out.println("The output directory did not default to 'gen'.");
-                
+
                 } else {
-                    
+
                     // No, so walk back to root...
-                    
+
                     String path = cls.getPath();
                     if (File.separatorChar == '\\') {
                         path = path.replace('/',File.separatorChar);
@@ -733,14 +733,14 @@ public abstract class Test implements java.lang.Runnable
                 }
 
                 // If we have a directory, update the Hashtable...
-                
+
                 if (genDir != null && genDir.exists() && genDir.isDirectory()) {
                     flags.put(OUTPUT_DIRECTORY,genDir.getPath());
                 }
             }
         }
     }
-    
+
     private static boolean expandMagicDirectoryFor(String key, Hashtable<String, String> flags) {
 
         boolean result = false;
@@ -842,39 +842,39 @@ public abstract class Test implements java.lang.Runnable
 
         return (flags.containsKey(WAIT_FLAG)) ;
     }
-    
+
     private static boolean useDynamicStubs()
     {
-        // return Boolean.getBoolean( 
+        // return Boolean.getBoolean(
             // ORBConstants.USE_DYNAMIC_STUB_PROPERTY ) ;
         return ORB.getPresentationManager().useDynamicStubs() ;
     }
 
     private static boolean useCodegenReflectiveCopyobject()
     {
-        return Boolean.getBoolean( 
+        return Boolean.getBoolean(
             ORBConstants.USE_CODEGEN_REFLECTIVE_COPYOBJECT ) ;
     }
 
     // This is needed in several tests.
     public static boolean useJavaSerialization()
     {
-        return Boolean.getBoolean( 
+        return Boolean.getBoolean(
             ORBConstants.ENABLE_JAVA_SERIALIZATION_PROPERTY ) ;
     }
 
     public static boolean debugORBInit()
     {
-        return Boolean.getBoolean( 
+        return Boolean.getBoolean(
             ORBConstants.INIT_DEBUG_PROPERTY ) ;
     }
 
-    public static void identifyEnvironment() 
+    public static void identifyEnvironment()
     {
         System.out.println( "Running on " + new Date() ) ;
         System.out.println( "Running with " + (useCodegenReflectiveCopyobject() ?
             "codegen" : "standard") + " reflective object copier" ) ;
-        System.out.println( "Running with " + (useDynamicStubs() ? 
+        System.out.println( "Running with " + (useDynamicStubs() ?
             "dynamic" : "static") + " stubs" ) ;
         System.out.println("Running with serialization encoding: " +
                            (useJavaSerialization() ? "JSG" : "CDR"));
@@ -885,20 +885,20 @@ public abstract class Test implements java.lang.Runnable
         System.out.println("ORB initialization debugging is " +
             (debugORBInit() ? "on" : "off"));
         System.out.println( "Environment:" ) ;
-        System.out.println( "    java.version               = " + 
+        System.out.println( "    java.version               = " +
             System.getProperty( "java.version" ) ) ;
-        System.out.println( "    java.vm.name               = " + 
+        System.out.println( "    java.vm.name               = " +
             System.getProperty( "java.vm.name" ) ) ;
-        System.out.println( "    os.name                    = " + 
+        System.out.println( "    os.name                    = " +
             System.getProperty( "os.name" ) ) ;
-        System.out.println( "    os.arch                    = " + 
+        System.out.println( "    os.arch                    = " +
             System.getProperty( "os.arch" ) ) ;
-        System.out.println( "    os.version                 = " + 
+        System.out.println( "    os.version                 = " +
             System.getProperty( "os.version" ) ) ;
     }
 
     public static void runTestFile(String testFile, String[] args) {
-        if (testFile == null) 
+        if (testFile == null)
             UsageAndExit();
 
         // Open up the file...
@@ -911,7 +911,7 @@ public abstract class Test implements java.lang.Runnable
             File theFile = new File(testFile);
 
             if (!theFile.exists()) {
-                System.out.println("Test file does not exist: " + 
+                System.out.println("Test file does not exist: " +
                                    theFile.getPath());
                 System.exit(1);
             }
@@ -975,7 +975,7 @@ public abstract class Test implements java.lang.Runnable
                     command.addElement(System.getProperty("java.class.path"));
 
                     command.addElement(
-                        "-Djavax.rmi.CORBA.UtilClass=" + 
+                        "-Djavax.rmi.CORBA.UtilClass=" +
                         "com.sun.corba.ee.impl.javax.rmi.CORBA.Util");
                     command.addElement(
                         "-Djavax.rmi.CORBA.StubClass=" +
@@ -983,7 +983,7 @@ public abstract class Test implements java.lang.Runnable
                     command.addElement(
                         "-Djavax.rmi.CORBA.PortableRemoteObjectClass=" +
                         "com.sun.corba.ee.impl.javax.rmi.PortableRemoteObject");
-                
+
                     Util.inheritProperties( command ) ;
 
                     command.addElement("test.Test");
@@ -991,21 +991,21 @@ public abstract class Test implements java.lang.Runnable
                     for (String testArg : testArgs) {
                         command.addElement(testArg);
                     }
-       
+
                     for (int j = 0; j < args.length; j++) {
                         if (args[j].equals(TEST_FILE_NAME_FLAG)) {
-                            j++;   
+                            j++;
                         } else {
                             command.addElement(args[j]);
                         }
                     }
-                    
+
                     String[] theCommand = new String[command.size()];
                     command.copyInto(theCommand);
-                    
+
                     if (forkDebugLevel >= DISPLAY) {
                         System.out.println( "Forking Test:" ) ;
-                        for (String str : theCommand) 
+                        for (String str : theCommand)
                             System.out.println( "\t" + str ) ;
                     }
 
@@ -1013,7 +1013,7 @@ public abstract class Test implements java.lang.Runnable
                                                      System.err);
 
                     if (result != 0) {
-                        mainResult = result;   
+                        mainResult = result;
                     }
                 } else {
                     run(theArgs);
@@ -1043,7 +1043,7 @@ public abstract class Test implements java.lang.Runnable
     public static void runTestClass(String testClassName, Hashtable<String, String> flags, String args[]) {
         dprint( "Running test " + testClassName ) ;
 
-        if (testClassName == null) 
+        if (testClassName == null)
             UsageAndExit();
 
         Test testObj = null;
@@ -1125,7 +1125,7 @@ public abstract class Test implements java.lang.Runnable
                     testObj.results[i].put(STATUS, status);
                     mainResult = 1;
                 }
-                
+
                 if (verbose) {
                     System.out.print("[" + duration + "ms] ");
                     if (status == null) System.out.println("PASSED");
@@ -1155,7 +1155,7 @@ public abstract class Test implements java.lang.Runnable
                 throw (ThreadDeath) e;
             } else {
                 mainResult = 1;
-                System.out.print( "    " + testClassName + 
+                System.out.print( "    " + testClassName +
                                   " failed, caught: " + e);
                 e.printStackTrace();
             }

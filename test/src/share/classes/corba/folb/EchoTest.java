@@ -26,8 +26,8 @@ package corba.folb;
 
 import java.util.List;
 
-import java.rmi.Remote; 
-import java.rmi.RemoteException; 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /**
  * @author Harold Carr

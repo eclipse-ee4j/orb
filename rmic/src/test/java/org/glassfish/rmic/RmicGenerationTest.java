@@ -236,7 +236,7 @@ public class RmicGenerationTest {
         generator.addArgs("-iiop");
         generator.generate();
     }
-    
+
     @Test(expected = AssertionError.class)
     public void whenInterfaceHasNonRemoteMethod_cannotGenerate() throws Exception {
         GenerationControl generator = new GenerationControl(InterfaceWithNonRemoteMethod.class);
@@ -312,7 +312,7 @@ public class RmicGenerationTest {
     private String getRelativePath(File file, int rootDirLength) {
         return file.getAbsolutePath().substring(rootDirLength);
     }
-    
+
     private void compareGeneratedFiles(File expectedDir, File actualDir, String... generatedFileNames) throws IOException {
         for (String filePath : generatedFileNames)
             compareFiles(filePath, expectedDir, actualDir);

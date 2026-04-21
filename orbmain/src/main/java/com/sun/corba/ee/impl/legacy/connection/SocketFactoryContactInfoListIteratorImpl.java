@@ -91,7 +91,7 @@ public class SocketFactoryContactInfoListIteratorImpl
                 return true;
             } else {
                 if (ex.getCause() instanceof GetEndPointInfoAgainException) {
-                    socketInfoCookie = 
+                    socketInfoCookie =
                         ((GetEndPointInfoAgainException) ex.getCause())
                         .getEndPointInfo();
                     return true;
@@ -99,7 +99,7 @@ public class SocketFactoryContactInfoListIteratorImpl
 
                 if (se.completed == CompletionStatus.COMPLETED_NO) {
                     if (contactInfoList.getEffectiveTargetIOR() !=
-                        contactInfoList.getTargetIOR()) 
+                        contactInfoList.getTargetIOR())
                     {
                         // retry from root ior
                         contactInfoList.setEffectiveTargetIOR(

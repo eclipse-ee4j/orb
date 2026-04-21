@@ -21,7 +21,7 @@ package org.omg.CORBA;
 
 /**
  * Standard exception  thrown
- * when an invocation cannot be made because of an incompatibility between 
+ * when an invocation cannot be made because of an incompatibility between
  * <tt>Policy</tt> overrides that apply to the particular invocation.
  * It contains a minor code, which gives more detailed information about
  * what caused the exception, and a completion status. It may also contain

@@ -28,7 +28,7 @@ import java.nio.channels.SelectableChannel;
 
 /** A version of an Acceptor that does not own the ServerSocket.
  * Instead, SelectableChannels obtained from the ServerSocket are
- * given to the processSocket method 
+ * given to the processSocket method
  *
  * @author ken
  */

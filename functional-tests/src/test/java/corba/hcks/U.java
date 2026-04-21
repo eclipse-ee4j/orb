@@ -73,7 +73,7 @@ public class U
     private static ErrorAccumulator ea ;
     private static String testName ;
     private static boolean hasError = false ;
-    
+
     public static boolean hasError() {
         return hasError ;
     }
@@ -87,12 +87,12 @@ public class U
 
     // KMC: all done
     public static void done() {
-        if (testName != null) 
+        if (testName != null)
             testComplete() ;
 
         helper.done() ;
     }
-    
+
     // KMC: helper support
     private static void testComplete() {
         List<ErrorAccumulator.MessageAndException> errors = ea.getTestErrors() ;
@@ -243,7 +243,7 @@ public class U
         return servant;
     }
 
-    public static org.omg.CORBA.Object 
+    public static org.omg.CORBA.Object
         createWithServantAndBind (String  name,
                                   Servant servant,
                                   POA     poa,
@@ -279,7 +279,7 @@ public class U
         throws
             Exception
     {
-        org.omg.CORBA.Object ref = 
+        org.omg.CORBA.Object ref =
             createRMIPOABind(name, tieClassName, poa, orb, initialContext);
 
         // Do a colocated invocation.
@@ -302,10 +302,10 @@ public class U
         // Class.forName is used so there is no compile time reference
         // to the Tie class.  This makes it possible to first compile
         // the *.java files with javac then run rmic on the servant classes
-        // to generate the Ties.  
+        // to generate the Ties.
 
         byte[] oid = name.getBytes();
-        Servant servant = 
+        Servant servant =
             (Servant) Class.forName(tieClassName).newInstance();
         String repositoryId = servant._all_interfaces(poa, oid)[0];
         org.omg.CORBA.Object ref =
@@ -321,7 +321,7 @@ public class U
 
     // RMI-IIOP Naming.
 
-    public static Object lookupAndNarrow(String name, 
+    public static Object lookupAndNarrow(String name,
                                          Class clazz,
                                          InitialContext initialContext)
         throws
@@ -333,7 +333,7 @@ public class U
     // IDL Naming.
 
     public static org.omg.CORBA.Object resolve(String name, ORB orb)
-        throws 
+        throws
             Exception
     {
         return getNameService(orb).resolve(makeNameComponent(name));
@@ -343,7 +343,7 @@ public class U
     public static org.omg.CORBA.Object rebind(String name,
                                               org.omg.CORBA.Object ref,
                                               ORB orb)
-        throws 
+        throws
             Exception
     {
         getNameService(orb).rebind(makeNameComponent(name), ref);
@@ -446,7 +446,7 @@ public class U
         return isTk(TCKind.tk_null, any);
     }
 
-    public static boolean isTk(TCKind tk, Any any) 
+    public static boolean isTk(TCKind tk, Any any)
     {
         TypeCode typeCode = any.type();
         TCKind tcKind = typeCode.kind();
@@ -560,7 +560,7 @@ public class U
                     acceptor.close();
 
                     // Close the connection
-                    Collection connections = 
+                    Collection connections =
                         ((com.sun.corba.ee.impl.transport.ConnectionCacheBase)transportManager.getInboundConnectionCache(acceptor)).values();
                     i = connections.iterator();
                     while (i.hasNext()) {
@@ -741,7 +741,7 @@ public class U
     }
 
     public static StringBuffer formatCall(Object ref,
-                                          String methodName, 
+                                          String methodName,
                                           Object[] args)
     {
         StringBuffer result = new StringBuffer(ref + "." + methodName + "(");
@@ -769,7 +769,7 @@ public class U
         printStackTrace = b;
     }
 
-    public static void reportError( String msg, 
+    public static void reportError( String msg,
                                    Throwable t)
     {
         ea.add(msg, t);

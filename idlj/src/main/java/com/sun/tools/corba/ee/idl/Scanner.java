@@ -161,8 +161,8 @@ class Scanner
           skipWhiteSpace ();
           continue;
         }
-        
-        // Special case for wchar and wstring literals.  
+
+        // Special case for wchar and wstring literals.
         // The values are preceded by an L.
         //
         // Bug fix 4382578:  Can't compile a wchar literal.
@@ -184,7 +184,7 @@ class Scanner
                 token = getCharacterToken(true);
                 readChar();
                 continue;
-            } else 
+            } else
             if (data.ch == '"') {
                 // It was a wstring literal.
                 //
@@ -211,7 +211,7 @@ class Scanner
             (data.ch == '_')   ||
             Character.isLetter (data.ch)) {
             token = getString ();
-        } else 
+        } else
         if ((data.ch >= '0' && data.ch <= '9') || data.ch == '.') {
             token = getNumber ();
         } else {
@@ -475,18 +475,18 @@ class Scanner
         throw new EOFException ();
       else
       {
-        // <d56351> Indicate end-of-scope for include file to parser.  
+        // <d56351> Indicate end-of-scope for include file to parser.
         //Parser.exitingInclude ();
 
         // IBM.11666 - begin
-        //if (!emitAll && data.includeIsImport && !data.macrodata) 
-        //{                                                        
-        //SymtabEntry.exitingInclude ();                           
-        //Parser.exitingInclude (); // <d59469>                    
-        //}                                                        
-        if (!data.macrodata)                                       
-        {                                                          
-            if (!emitAll && data.includeIsImport)                  
+        //if (!emitAll && data.includeIsImport && !data.macrodata)
+        //{
+        //SymtabEntry.exitingInclude ();
+        //Parser.exitingInclude (); // <d59469>
+        //}
+        if (!data.macrodata)
+        {
+            if (!emitAll && data.includeIsImport)
                 com.sun.tools.corba.ee.idl.SymtabEntry.exitingInclude();
             com.sun.tools.corba.ee.idl.Parser.exitingInclude();
         } // IBM.11666 - end
@@ -642,7 +642,7 @@ class Scanner
     if (data.ch == '_') {
         sbuf.append( data.ch ) ;
         readChar ();
-        if (escaped = escapedOK) 
+        if (escaped = escapedOK)
             if (data.ch == '_')
                 throw new com.sun.tools.corba.ee.idl.InvalidCharacter(data.filename, currentLine (),
                     currentLineNumber (), currentLinePosition (), data.ch);
@@ -663,7 +663,7 @@ class Scanner
     if (!escaped) { // Escaped id ==> ignore keyword check
         com.sun.tools.corba.ee.idl.Token result = com.sun.tools.corba.ee.idl.Token.makeKeywordToken(string, corbaLevel, escapedOK,
                 collidesWithKeyword) ;
-        if (result != null) 
+        if (result != null)
             return result ;
     }
 

@@ -24,10 +24,10 @@
 
 package corba.giopheaderpadding;
 
-import java.rmi.Remote; 
-import java.rmi.RemoteException; 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
-public interface rmiiI extends Remote { 
+public interface rmiiI extends Remote {
     byte fooA(byte x) throws RemoteException;
     void fooB() throws RemoteException;
 }

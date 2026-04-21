@@ -41,9 +41,9 @@ import org.omg.PortableServer.POA ;
  * of POAs that require reconfigurability.  This class
  * sets up the ORB as follows:
  * <ol>
- * <li>Create an instance of ReferenceFactoryManagerImpl and register it with 
+ * <li>Create an instance of ReferenceFactoryManagerImpl and register it with
  * register_local_reference.
- * <li>Create and register an IORInterceptor that prevent outside POAs from 
+ * <li>Create and register an IORInterceptor that prevent outside POAs from
  * interfering with the ReferenceManager.
  * </ol>
  */
@@ -52,8 +52,8 @@ public class ReferenceManagerConfigurator implements ORBConfigurator {
         POASystemException.self ;
 
     private static class RMIORInterceptor
-        extends LocalObject 
-        implements IORInterceptor_3_0 
+        extends LocalObject
+        implements IORInterceptor_3_0
     {
         private ReferenceFactoryManagerImpl rm ;
 
@@ -72,7 +72,7 @@ public class ReferenceManagerConfigurator implements ORBConfigurator {
         public void establish_components( IORInfo info ) {
             // NO-OP
         }
-        
+
         public void adapter_manager_state_changed( int id, short state ) {
             // NO-OP
         }
@@ -81,7 +81,7 @@ public class ReferenceManagerConfigurator implements ORBConfigurator {
             // NO-OP
         }
 
-        // We must do the checking here, because exceptions are not 
+        // We must do the checking here, because exceptions are not
         // ignored.  All exceptions thrown in establish_components
         // are ignored.  The whole purpose of this interceptor is
         // to throw an exception if an error is detected.
@@ -97,8 +97,8 @@ public class ReferenceManagerConfigurator implements ORBConfigurator {
     }
 
     private static class RMORBInitializer
-        extends LocalObject 
-        implements ORBInitializer 
+        extends LocalObject
+        implements ORBInitializer
     {
         private IORInterceptor_3_0 interceptor ;
 
@@ -119,13 +119,13 @@ public class ReferenceManagerConfigurator implements ORBConfigurator {
         }
     }
 
-    public void configure( DataCollector collector, ORB orb ) 
+    public void configure( DataCollector collector, ORB orb )
     {
         try {
             ReferenceFactoryManagerImpl rm = new ReferenceFactoryManagerImpl( orb ) ;
             orb.register_initial_reference( ORBConstants.REFERENCE_FACTORY_MANAGER, rm ) ;
             IORInterceptor_3_0 interceptor = new RMIORInterceptor( rm ) ;
-            ORBInitializer initializer = new RMORBInitializer( interceptor ) ;  
+            ORBInitializer initializer = new RMORBInitializer( interceptor ) ;
             orb.getORBData().addORBInitializer( initializer ) ;
         } catch (Exception exc) {
             throw wrapper.rfmConfigureException( exc ) ;

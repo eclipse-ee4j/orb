@@ -106,7 +106,7 @@ public class GetServerPolicyStrategy
         }
     }
 
-    private void checkGetServerPolicy( String method, ServerRequestInfo ri ) 
+    private void checkGetServerPolicy( String method, ServerRequestInfo ri )
         throws Exception
     {
         // Try an invalid policy:
@@ -133,7 +133,7 @@ public class GetServerPolicyStrategy
 
         // Try a standard policy:
         try {
-            Policy policy = ri.get_server_policy( 
+            Policy policy = ri.get_server_policy(
                 ID_UNIQUENESS_POLICY_ID.value );
             if( policy instanceof IdUniquenessPolicy ) {
                 log( method + "(): get_server_policy( STANDARD ) " +
@@ -141,7 +141,7 @@ public class GetServerPolicyStrategy
             }
             else {
                 fail( method + "(): get_server_policy( STANDARD ) " +
-                    "returns incorrect policy: " + 
+                    "returns incorrect policy: " +
                     policy.getClass().getName() );
             }
         }
@@ -164,7 +164,7 @@ public class GetServerPolicyStrategy
             }
             else {
                 fail( method + "(): get_server_policy( CUSTOM ) " +
-                    "returns incorrect policy: " + 
+                    "returns incorrect policy: " +
                     policy.getClass().getName() );
             }
         }

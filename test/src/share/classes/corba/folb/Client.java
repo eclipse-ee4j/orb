@@ -32,13 +32,13 @@ import org.testng.annotations.BeforeSuite ;
  * @author Harold Carr
  */
 public class Client extends ClientBase {
-    
+
     // public CSIv2SSLTaggedComponentHandler csiv2SSLTaggedComponentHandler;
 
     public Client() {
     }
 
-    @BeforeSuite 
+    @BeforeSuite
     public void clientSetup() {
         setup( getDefaultProperties() ) ;
     }
@@ -49,7 +49,7 @@ public class Client extends ClientBase {
         dprint("testBootstrap (missing label, therefore IORUpdate)");
         dprint("--------------------------------------------------");
 
-        makeCall(testRfmWithAddressesWithoutLabel, 
+        makeCall(testRfmWithAddressesWithoutLabel,
                  Common.TEST_RFM_WITH_ADDRESSES_WITHOUT_LABEL,
                  "BOOTSTRAP1 Test (missing label, therefore IORUpdate)",
                  corba.folb_8_1.Common.W,
@@ -171,7 +171,7 @@ public class Client extends ClientBase {
         }
     }
 
-    private void doAddInstance( 
+    private void doAddInstance(
         GroupInfoServiceTest gist,
         String arg ) throws Exception {
 
@@ -187,7 +187,7 @@ public class Client extends ClientBase {
         Thread.sleep( 2*1000 ) ;
     }
 
-    private void doRemoveInstance( 
+    private void doRemoveInstance(
         GroupInfoServiceTest gist,
         String arg ) throws Exception {
 

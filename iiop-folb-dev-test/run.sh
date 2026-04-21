@@ -31,7 +31,7 @@
 # Use 'localhost' for single node setup. See issue GLASSFISH-15863
 DAS_HOST="localhost"
 # Must allow at least 5 instances for the test
-# Must be able to access the available nodes from the DAS using 
+# Must be able to access the available nodes from the DAS using
 # SSH without password.
 
 AVAILABLE_NODES="localhost:5"
@@ -41,7 +41,7 @@ AVAILABLE_NODES="localhost:5"
 # or just set SKIP_SETUP=true.  Different installXXX commands
 # can be used to copy updated modules into the GF image, avoiding a
 # rebuild of GF (which can take 30+ minutes)
-# 
+#
 # Install scripts:
 #   installgfv3     install GF 3.1 image from a local build
 #   installgforb    install GF 3.1 orb glue bundles (orb/orb-iiop, etc.)
@@ -94,9 +94,9 @@ set -x
 # echo ${APPCLIENT} ${SETUP_ARGS} ${CLIENT_ARGS} ${TEST_ARGS} $@ ;
 
 if [ "${DEBUGGER}" = "1" ];
-then 
-    CMD="${APPCLIENT} ${DEBUG_ARGS} ${SETUP_ARGS} ${CLIENT_ARGS} ${TEST_ARGS} $@ "    
-else 
+then
+    CMD="${APPCLIENT} ${DEBUG_ARGS} ${SETUP_ARGS} ${CLIENT_ARGS} ${TEST_ARGS} $@ "
+else
 #    CMD="${APPCLIENT} ${SETUP_ARGS} ${CLIENT_ARGS} ${TEST_ARGS} $@ "
     CMD="${APPCLIENT} ${SETUP_ARGS} -Djava.rmi.server.useCodebaseOnly=true ${CLIENT_ARGS} ${TEST_ARGS} $@ "
 fi
@@ -108,7 +108,7 @@ exitStatus=$?
 # if [ "${DEBUGGER}" = "1" ];
 # then ${APPCLIENT} ${DEBUG_ARGS} ${SETUP_ARGS} ${TARGET_DEF} ${CLIENT_ARGS} ${TEST_ARGS} -useExternalEndpoints true $@
 # else ${APPCLIENT} ${SETUP_ARGS} ${CLIENT_ARGS} ${TEST_ARGS} -useExternalEndpoints true $@
-# fi 
+# fi
 
 date
 exit $exitStatus

@@ -17,13 +17,13 @@
  * Classpath-exception-2.0
  */
 
-package corba.dynamicrmiiiop.testclasses ; 
+package corba.dynamicrmiiiop.testclasses ;
 
 import java.rmi.Remote ;
 import java.rmi.RemoteException ;
 import java.util.Map ;
 
-public interface TieTest extends Remote 
+public interface TieTest extends Remote
 {
     void hasAByteArray( byte[] arg ) throws RemoteException ;
 

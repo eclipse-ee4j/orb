@@ -24,13 +24,13 @@ S1AS_HOME="${instance1_s1as_home}/glassfish"
 ASADMIN="${S1AS_HOME}/bin/asadmin"
 APPCLIENT="${S1AS_HOME}/bin/appclient"
 
-# HOST_PORTS=${instance1_node}:${instance1_IIOP_LISTENER_PORT},${instance2_node}:${instance2_IIOP_LISTENER_PORT},${instance3_node}:${instance3_IIOP_LISTENER_PORT} 
+# HOST_PORTS=${instance1_node}:${instance1_IIOP_LISTENER_PORT},${instance2_node}:${instance2_IIOP_LISTENER_PORT},${instance3_node}:${instance3_IIOP_LISTENER_PORT}
 HOST_PORTS=${instance1_node}:${instance1_IIOP_LISTENER_PORT},${instance2_node}:${instance2_IIOP_LISTENER_PORT}
 
-######### customized cluster creation 
+######### customized cluster creation
 # ${ASADMIN} start-domain --debug
-# ${ASADMIN} create-cluster ${cluster_name}  
-# ${ASADMIN} create-local-instance --cluster ${cluster_name} ${instance1_name}  
+# ${ASADMIN} create-cluster ${cluster_name}
+# ${ASADMIN} create-local-instance --cluster ${cluster_name} ${instance1_name}
 # ${ASADMIN} create-local-instance --cluster ${cluster_name} ${instance2_name}
 ######### end customized cluster creation
 

@@ -58,7 +58,7 @@ public class Server
 
             // Get a reference to rootpoa
             POA rootPOA = POAHelper.narrow(
-                   orb.resolve_initial_references(ORBConstants.ROOT_POA_NAME)); 
+                   orb.resolve_initial_references(ORBConstants.ROOT_POA_NAME));
 
             // Create servant and register it with the ORB
             TesterImpl testerImpl = new TesterImpl();
@@ -96,7 +96,7 @@ public class Server
                 poa[i] = rootPOA.create_POA(poaName, null, policy);
                 poa[i].activate_object(testerImpl);
 
-                org.omg.CORBA.Object ref = 
+                org.omg.CORBA.Object ref =
                        poa[i].servant_to_reference(testerImpl);
                 Tester testerRef = TesterHelper.narrow(ref);
 
@@ -106,12 +106,12 @@ public class Server
 
                 poa[i].the_POAManager().activate();
             }
-    
+
             // create one POA for default thread pool
             String specialPoaName = "POA-Default-Tester";
             POA specialPoa = rootPOA.create_POA(specialPoaName, null, null);
             specialPoa.activate_object(testerImpl);
-            org.omg.CORBA.Object sref = 
+            org.omg.CORBA.Object sref =
                        specialPoa.servant_to_reference(testerImpl);
             Tester specialTesterRef = TesterHelper.narrow(sref);
             String sname = "DefaultTester";

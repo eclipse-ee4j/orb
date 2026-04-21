@@ -82,7 +82,7 @@ public class WorkQueueImpl implements WorkQueue
         //       of threads.
         // REVISIT - A possible solution to the above issue is check the
         //           enqueued Work timestamp periodically by another thread
-        //           and create a Worker Thread if a piece of Work sits on 
+        //           and create a Worker Thread if a piece of Work sits on
         //           Work Queue for longer than some threshold.
             // add a WorkerThread
             ((ThreadPoolImpl)workerThreadPool).createWorkerThread();
@@ -175,7 +175,7 @@ public class WorkQueueImpl implements WorkQueue
     public synchronized long averageTimeInQueue() {
         if (workItemsDequeued == 0) {
             return 0 ;
-        } else { 
+        } else {
             return (totalTimeInQueue/workItemsDequeued);
         }
     }

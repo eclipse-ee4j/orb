@@ -21,7 +21,7 @@ package org.omg.CORBA;
 
 
 /**
-* The Stub for <tt>IDLType</tt>.  For more information on 
+* The Stub for <tt>IDLType</tt>.  For more information on
 * Stub files, see <a href="doc-files/generatedfiles.html#stub">
 * "Generated Files: Stubs"</a>.<P>
 * org/omg/CORBA/_IDLTypeStub.java
@@ -118,7 +118,7 @@ public class _IDLTypeStub extends org.omg.CORBA.portable.ObjectImpl implements o
 
   // Type-specific CORBA::Object operations
   private static String[] __ids = {
-    "IDL:omg.org/CORBA/IDLType:1.0", 
+    "IDL:omg.org/CORBA/IDLType:1.0",
     "IDL:omg.org/CORBA/IRObject:1.0"};
 
   public String[] _ids ()
@@ -128,7 +128,7 @@ public class _IDLTypeStub extends org.omg.CORBA.portable.ObjectImpl implements o
 
   private void readObject (java.io.ObjectInputStream s)
   {
-     try 
+     try
      {
        String str = s.readUTF ();
        org.omg.CORBA.Object obj = org.omg.CORBA.ORB.init ().string_to_object (str);
@@ -139,7 +139,7 @@ public class _IDLTypeStub extends org.omg.CORBA.portable.ObjectImpl implements o
 
   private void writeObject (java.io.ObjectOutputStream s)
   {
-     try 
+     try
      {
        String str = org.omg.CORBA.ORB.init ().object_to_string (this);
        s.writeUTF (str);

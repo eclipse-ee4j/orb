@@ -97,7 +97,7 @@ public abstract class AcceptorBase
     public String getName() {
         return getInterfaceName() ;
     }
-    
+
     public String getType() {
         return type ;
     }
@@ -151,10 +151,10 @@ public abstract class AcceptorBase
             // NEVER create an AlternateIIOPAddress for an SSL acceptor!
             if (!type.startsWith( SocketInfo.SSL_PREFIX )) {
                 IIOPAddress iiopAddress = IIOPFactories.makeIIOPAddress(hname, port);
-                AlternateIIOPAddressComponent iiopAddressComponent = 
+                AlternateIIOPAddressComponent iiopAddressComponent =
                     IIOPFactories.makeAlternateIIOPAddressComponent(iiopAddress);
                 while (iterator.hasNext()) {
-                    TaggedProfileTemplate taggedProfileTemplate = 
+                    TaggedProfileTemplate taggedProfileTemplate =
                         (TaggedProfileTemplate)iterator.next();
                     taggedProfileTemplate.add(iiopAddressComponent);
                 }
@@ -177,15 +177,15 @@ public abstract class AcceptorBase
             templatePort = orb.getLegacyServerSocketManager()
                 .legacyGetPersistentServerPort(SocketInfo.IIOP_CLEAR_TEXT);
         }
-        IIOPAddress addr = IIOPFactories.makeIIOPAddress(hostname, 
+        IIOPAddress addr = IIOPFactories.makeIIOPAddress(hostname,
             templatePort);
-        IIOPProfileTemplate iiopProfile = IIOPFactories.makeIIOPProfileTemplate(orb, 
+        IIOPProfileTemplate iiopProfile = IIOPFactories.makeIIOPProfileTemplate(orb,
             version, addr);
 
         if (version.supportsIORIIOPProfileComponents()) {
             iiopProfile.add(IIOPFactories.makeCodeSetsComponent(orb));
             iiopProfile.add(IIOPFactories.makeMaxStreamFormatVersionComponent());
-            RequestPartitioningPolicy rpPolicy = 
+            RequestPartitioningPolicy rpPolicy =
                 (RequestPartitioningPolicy) policies.get_effective_policy(
                 ORBConstants.REQUEST_PARTITIONING_POLICY);
 

@@ -28,7 +28,7 @@ import com.sun.corba.ee.spi.protocol.ForwardException;
 import com.sun.corba.ee.spi.trace.Subcontract;
 
 @Subcontract
-public abstract class ServantCacheLocalCRDBase 
+public abstract class ServantCacheLocalCRDBase
     extends LocalClientRequestDispatcherBase {
 
     private OAInvocationInfo cachedInfo ;

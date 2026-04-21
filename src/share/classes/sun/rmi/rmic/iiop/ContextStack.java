@@ -30,7 +30,7 @@ import sun.tools.java.CompilerError;
 public class ContextStack {
 
     // Context codes.
-    
+
     public static final int TOP = 1;
 
     public static final int METHOD = 2;
@@ -47,7 +47,7 @@ public class ContextStack {
     public static final int EXTENDS = 11;
 
     // String versions of context codes.
-    
+
     private static final String[] CODE_NAMES = {
         "UNKNOWN ",
         "Top level type ",
@@ -63,7 +63,7 @@ public class ContextStack {
         "Extends ",
     };
     // Member data.
-    
+
     private int currentIndex = -1;
     private int maxIndex = 100;
     private TypeContext[] stack = new TypeContext[maxIndex];
@@ -73,7 +73,7 @@ public class ContextStack {
     private TypeContext tempContext = new TypeContext();
 
     private static final String TRACE_INDENT = "   ";
-    
+
     /**
      * Constructor.
      */
@@ -81,21 +81,21 @@ public class ContextStack {
         this.env = env;
         env.contextStack = this;
     }
- 
+
     /**
      * Return true if env.nerrors > 0.
      */
     public boolean anyErrors () {
         return env.nerrors > 0;
     }
-        
+
     /**
      * Enable/disable tracing.
      */
     public void setTrace(boolean trace) {
         this.trace = trace;
     }
-        
+
     /**
      * Check trace flag.
      */
@@ -109,21 +109,21 @@ public class ContextStack {
     public BatchEnvironment getEnv() {
         return env;
     }
-   
+
     /**
      * Set the new context.
      */
     public void setNewContextCode(int code) {
         newCode = code;
     }
-        
+
     /**
      * Get the current context code.
      */
     public int getCurrentContextCode() {
         return newCode;
     }
- 
+
 
     /**
      * If tracing on, write the current call stack (not the context stack) to
@@ -132,11 +132,11 @@ public class ContextStack {
     final void traceCallStack () {
         if (trace) dumpCallStack();
     }
-    
+
     public final static void dumpCallStack() {
         new Error().printStackTrace(System.out);
     }
-    
+
     /**
      * Print a line indented by stack depth.
      */
@@ -144,7 +144,7 @@ public class ContextStack {
         int length = text.length() + (currentIndex * TRACE_INDENT.length());
         StringBuilder buffer = new StringBuilder(length);
         for (int i = 0; i < currentIndex; i++) {
-            buffer.append(TRACE_INDENT);   
+            buffer.append(TRACE_INDENT);
         }
         buffer.append(text);
         if (line) {
@@ -152,7 +152,7 @@ public class ContextStack {
         }
         System.out.print(buffer.toString());
     }
-    
+
     /**
      * If tracing on, print a line.
      */
@@ -161,7 +161,7 @@ public class ContextStack {
             tracePrint(text,false);
         }
     }
-    
+
     /**
      * If tracing on, print a line followed by a '\n'.
      */
@@ -170,7 +170,7 @@ public class ContextStack {
             tracePrint(text,true);
         }
     }
-    
+
     /**
      * If tracing on, print a pre-mapped ContextElement.
      */
@@ -180,7 +180,7 @@ public class ContextStack {
             traceln(toResultString(tempContext,true,true));
         }
     }
-    
+
     /**
      * Push a new element on the stack.
      * @return the new element.
@@ -200,24 +200,24 @@ public class ContextStack {
         }
 
         // Make sure we have a context object to use at this position...
-        
+
         TypeContext it = stack[currentIndex];
 
         if (it == null) {
             it = new TypeContext();
             stack[currentIndex] = it;
         }
-        
+
         // Set the context object...
 
         it.set(newCode,element);
-        
+
         // Trace...
-        
+
         traceln(toTrialString(it));
-        
+
         // Return...
-        
+
         return it;
     }
 
@@ -230,26 +230,26 @@ public class ContextStack {
         if (currentIndex < 0) {
             throw new CompilerError("Nothing on stack!");
         }
-        
+
         newCode = stack[currentIndex].getCode();
         traceln(toResultString(stack[currentIndex],wasValid,false));
-        
+
         Type last = stack[currentIndex].getCandidateType();
         if (last != null) {
-        
+
             // Set status...
-           
+
             if (wasValid) {
                 last.setStatus(Constants.STATUS_VALID);
             } else {
                 last.setStatus(Constants.STATUS_INVALID);
-            }          
+            }
         }
-        
-        currentIndex--;       
-        
+
+        currentIndex--;
+
         if (currentIndex < 0) {
-            
+
             // Done parsing, so update the invalid types
             // if this type was valid...
 
@@ -295,7 +295,7 @@ public class ContextStack {
      * Is parent context a value type?
      */
     public boolean isParentAValue () {
-        
+
         if (currentIndex > 0) {
             return stack[currentIndex - 1].isValue();
         } else {
@@ -307,26 +307,26 @@ public class ContextStack {
      * Get parent context. Null if none.
      */
     public TypeContext getParentContext () {
-        
+
         if (currentIndex > 0) {
             return stack[currentIndex - 1];
         } else {
             return null;
         }
     }
-    
+
     /**
      * Get a string for the context name...
      */
     public String getContextCodeString () {
-        
+
         if (currentIndex >= 0) {
             return CODE_NAMES[newCode];
         } else {
             return CODE_NAMES[0];
         }
     }
-    
+
     /**
      * Get a string for the given context code...
      */
@@ -342,9 +342,9 @@ public class ContextStack {
             return it.toString();
         }
     }
-    
+
     private String toResultString (TypeContext it, boolean result, boolean preExisting) {
-        int code = it.getCode();        
+        int code = it.getCode();
         if (code != METHOD && code != MEMBER) {
             if (result) {
                 String str = it.toString() + " --> " + it.getTypeDescription();
@@ -360,11 +360,11 @@ public class ContextStack {
             }
         }
         return it.toString() + " [Did not map]";
-    }  
-    
+    }
+
     public void clear () {
         for (int i = 0; i < stack.length; i++) {
-            if (stack[i] != null) stack[i].destroy();   
+            if (stack[i] != null) stack[i].destroy();
         }
     }
 }
@@ -421,14 +421,14 @@ public boolean isValue () {
     public boolean isConstant () {
         return code == ContextStack.MEMBER_CONSTANT;
     }
-    
+
     public void destroy() {
         if (element instanceof Type) {
             ((Type)element).destroy();
         }
         element = null;
     }
-    
+
     private int code = 0;
     private ContextElement element = null;
     private boolean isValue = false;

@@ -36,13 +36,13 @@ class JDKClassLoader {
     private static final JDKClassLoaderCache classCache
         = new JDKClassLoaderCache();
 
-    private static final Bridge bridge = 
+    private static final Bridge bridge =
         (Bridge)AccessController.doPrivileged(
             new PrivilegedAction() {
                 public Object run() {
                     return Bridge.get() ;
                 }
-            } 
+            }
         ) ;
 
     static Class loadClass(Class aClass, String className)
@@ -92,7 +92,7 @@ class JDKClassLoader {
             }
         }
     }
-        
+
     /**
      * Private cache implementation specific to JDKClassLoader.
      */
@@ -111,7 +111,7 @@ class JDKClassLoader {
         // A key currently consists of the class name as well as
         // the latest user defined class loader, so it's fairly
         // expensive to create.
-        public final Object createKey(String className, ClassLoader latestLoader) {          
+        public final Object createKey(String className, ClassLoader latestLoader) {
             return new CacheKey(className, latestLoader);
         }
 
@@ -136,7 +136,7 @@ class JDKClassLoader {
         {
             String className;
             ClassLoader loader;
-        
+
             public CacheKey(String className, ClassLoader loader) {
                 this.className = className;
                 this.loader = loader;
@@ -170,7 +170,7 @@ class JDKClassLoader {
                     // loading.
                     return (className.equals(other.className) &&
                             loader == other.loader);
-                    
+
                 } catch (ClassCastException cce) {
                     return false;
                 }

@@ -20,7 +20,7 @@
 package com.sun.corba.ee.impl.plugin.hwlb ;
 
 import com.sun.corba.ee.impl.encoding.CDRInputObject ;
-// The following 3 implementation classes are needed as base 
+// The following 3 implementation classes are needed as base
 // classes.  This needs some architectural changes, perhaps
 // adding a codegen-based proxy layer for dynamic inheritance.
 import com.sun.corba.ee.impl.protocol.ClientRequestDispatcherImpl ;
@@ -50,7 +50,7 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 import org.omg.CORBA.LocalObject ;
 
 
-/** Install this in an ORB using the property 
+/** Install this in an ORB using the property
  * ORBConstants.USER_CONFIGURATOR_PREFIX + "corba.lb.NoConnectionCacheImpl" = "dummy"
  */
 @Transport
@@ -144,7 +144,7 @@ public class NoConnectionCacheImpl
 
         @Transport
         @Override
-        public synchronized void close() {  
+        public synchronized void close() {
             super.closeConnectionResources() ;
         }
     }
@@ -207,7 +207,7 @@ public class NoConnectionCacheImpl
 
     public void configure( DataCollector dc, final ORB orb ) {
         ContactInfoListFactory factory = new ContactInfoListFactory() {
-            public void setORB(ORB orb) {} 
+            public void setORB(ORB orb) {}
             public ContactInfoList create( IOR ior ) {
                 return new NCCContactInfoListImpl( orb, ior ) ;
             }
@@ -218,7 +218,7 @@ public class NoConnectionCacheImpl
         // when using a NCCConnectionCache because clients will close a
         // Connection when a response to a request has been received.  Hence,
         // if the client knows when it receives a response to a request and
-        // then closes the Connection, there's no reason to enable an 
+        // then closes the Connection, there's no reason to enable an
         // optimization that will force a blocking read which will wait for
         // more data to arrive after the client's response has been received.
         orb.getORBData().alwaysEnterBlockingRead( false ) ;

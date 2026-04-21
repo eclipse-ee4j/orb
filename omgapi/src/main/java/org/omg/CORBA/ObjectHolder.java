@@ -25,7 +25,7 @@ import org.omg.CORBA.portable.Streamable;
 
 
 /**
- * The Holder for <tt>Object</tt>.  For more information on 
+ * The Holder for <tt>Object</tt>.  For more information on
  * Holder files, see <a href="doc-files/generatedfiles.html#holder">
  * "Generated Files: Holder Files"</a>.<P>
  * A Holder class for a CORBA object reference (a value of type
@@ -59,7 +59,7 @@ public final class ObjectHolder implements Streamable {
      */
     public ObjectHolder() {
     }
-    
+
     /**
      * Constructs a new <code>ObjectHolder</code> object with its
      * <code>value</code> field initialized to the given
@@ -84,7 +84,7 @@ public final class ObjectHolder implements Streamable {
     }
 
     /**
-     * Marshals to <code>output</code> the value in 
+     * Marshals to <code>output</code> the value in
      * this <code>ObjectHolder</code> object.
      *
      * @param output the OutputStream which will contain the CDR formatted data.
@@ -94,7 +94,7 @@ public final class ObjectHolder implements Streamable {
     }
 
     /**
-     * Returns the TypeCode corresponding to the value held in 
+     * Returns the TypeCode corresponding to the value held in
      * this <code>ObjectHolder</code> object
      *
      * @return    the TypeCode of the value held in

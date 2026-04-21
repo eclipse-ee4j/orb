@@ -27,28 +27,28 @@ import org.omg.CORBA.ORB ;
 import org.omg.CORBA_2_3.portable.InputStream ;
 
 /**
- * Generic representation of a tagged component of a type unknown to the ORB 
+ * Generic representation of a tagged component of a type unknown to the ORB
  */
 @ManagedData
 @Description( "Generic representation of a tagged component of a type "
-    + "unknown to the ORB" ) 
-public class GenericTaggedComponent extends GenericIdentifiable 
-    implements TaggedComponent 
+    + "unknown to the ORB" )
+public class GenericTaggedComponent extends GenericIdentifiable
+    implements TaggedComponent
 {
-    public GenericTaggedComponent( int id, InputStream is ) 
+    public GenericTaggedComponent( int id, InputStream is )
     {
         super( id, is ) ;
     }
 
-    public GenericTaggedComponent( int id, byte[] data ) 
+    public GenericTaggedComponent( int id, byte[] data )
     {
         super( id, data ) ;
     }
-    
+
     @Override
-    public org.omg.IOP.TaggedComponent getIOPComponent( ORB orb ) 
+    public org.omg.IOP.TaggedComponent getIOPComponent( ORB orb )
     {
-        return new org.omg.IOP.TaggedComponent( getId(), 
+        return new org.omg.IOP.TaggedComponent( getId(),
             getData() ) ;
     }
 }

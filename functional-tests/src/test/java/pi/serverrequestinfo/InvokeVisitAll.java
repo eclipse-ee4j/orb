@@ -30,7 +30,7 @@ import org.omg.CORBA.*;
  *    rrsc, rr, se
  *    rrsc, rr, so
  */
-public class InvokeVisitAll 
+public class InvokeVisitAll
     extends InvokeStrategy
 {
     // String to prepend to any outgoing call for this invocation strategy.

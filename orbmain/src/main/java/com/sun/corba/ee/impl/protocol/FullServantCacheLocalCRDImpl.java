@@ -31,7 +31,7 @@ import org.omg.CORBA.portable.ServantObject ;
 @Subcontract
 public class FullServantCacheLocalCRDImpl extends ServantCacheLocalCRDBase
 {
-    public FullServantCacheLocalCRDImpl( ORB orb, int scid, IOR ior ) 
+    public FullServantCacheLocalCRDImpl( ORB orb, int scid, IOR ior )
     {
         super( orb, scid, ior ) ;
     }

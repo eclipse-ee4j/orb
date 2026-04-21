@@ -33,7 +33,7 @@ public interface RepositoryIdInterface
         throws ClassNotFoundException, MalformedURLException;
 
     Class getClassFromType(Class expectedType,
-                           String codebaseURL) 
+                           String codebaseURL)
         throws ClassNotFoundException, MalformedURLException;
 
     String getClassName();

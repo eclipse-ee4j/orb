@@ -32,8 +32,8 @@ import org.omg.PortableServer.POAPackage.WrongPolicy ;
 @Poa
 public abstract class POAPolicyMediatorBase_R extends POAPolicyMediatorBase {
     protected ActiveObjectMap activeObjectMap ;
-    
-    POAPolicyMediatorBase_R( Policies policies, POAImpl poa ) 
+
+    POAPolicyMediatorBase_R( Policies policies, POAImpl poa )
     {
         super( policies, poa ) ;
 
@@ -44,13 +44,13 @@ public abstract class POAPolicyMediatorBase_R extends POAPolicyMediatorBase {
 
         activeObjectMap = ActiveObjectMap.create(poa, !isUnique);
     }
-    
-    public void returnServant() 
+
+    public void returnServant()
     {
         // NO-OP
     }
 
-    public void clearAOM() 
+    public void clearAOM()
     {
         activeObjectMap.clear() ;
         activeObjectMap = null ;
@@ -85,7 +85,7 @@ public abstract class POAPolicyMediatorBase_R extends POAPolicyMediatorBase {
     }
 
     @Poa
-    public final void activateObject(byte[] id, Servant servant) 
+    public final void activateObject(byte[] id, Servant servant)
         throws WrongPolicy, ServantAlreadyActive, ObjectAlreadyActive
     {
         if (isUnique && activeObjectMap.contains(servant)) {
@@ -100,17 +100,17 @@ public abstract class POAPolicyMediatorBase_R extends POAPolicyMediatorBase {
 
         activateServant( key, entry, servant ) ;
     }
-    
+
     @Poa
-    public Servant deactivateObject( byte[] id ) 
-        throws ObjectNotActive, WrongPolicy 
+    public Servant deactivateObject( byte[] id )
+        throws ObjectNotActive, WrongPolicy
     {
         ActiveObjectMap.Key key = new ActiveObjectMap.Key( id ) ;
         return deactivateObject( key ) ;
     }
-    
+
     @Poa
-    protected void deactivateHelper( ActiveObjectMap.Key key, AOMEntry entry, 
+    protected void deactivateHelper( ActiveObjectMap.Key key, AOMEntry entry,
         Servant s ) throws ObjectNotActive, WrongPolicy
     {
         // Default does nothing, but the USE_SERVANT_MANAGER case
@@ -127,7 +127,7 @@ public abstract class POAPolicyMediatorBase_R extends POAPolicyMediatorBase {
     private void deactivatingObject( Servant s, POAImpl poa ) { }
 
     @Poa
-    public Servant deactivateObject( ActiveObjectMap.Key key ) 
+    public Servant deactivateObject( ActiveObjectMap.Key key )
         throws ObjectNotActive, WrongPolicy {
 
         AOMEntry entry = activeObjectMap.get(key);
@@ -149,7 +149,7 @@ public abstract class POAPolicyMediatorBase_R extends POAPolicyMediatorBase {
 
     @Poa
     public byte[] servantToId( Servant servant ) throws ServantNotActive, WrongPolicy
-    {   
+    {
         if (!isUnique && !isImplicit) {
             throw new WrongPolicy();
         }
@@ -159,10 +159,10 @@ public abstract class POAPolicyMediatorBase_R extends POAPolicyMediatorBase {
             if (key != null) {
                 return key.id();
             }
-        } 
+        }
 
         // assert !isUnique || (servant not in activateObjectMap)
-        
+
         if (isImplicit) {
             try {
                 byte[] id = newSystemId();

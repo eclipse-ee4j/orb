@@ -87,7 +87,7 @@ public class Client implements Runnable {
                 System.out.println( "Caught Exception " + e + " as expected " );
             }
         }
-        
+
         // If we are here then we passed the test
         return true;
     }

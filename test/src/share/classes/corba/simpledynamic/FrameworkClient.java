@@ -40,7 +40,7 @@ import java.rmi.RemoteException ;
 import org.testng.Assert ;
 import org.testng.annotations.Test ;
 import org.testng.annotations.BeforeGroups ;
-  
+
 import corba.nortel.NortelSocketFactory ;
 
 import com.sun.corba.ee.spi.misc.ORBConstants ;
@@ -74,12 +74,12 @@ public class FrameworkClient extends Framework {
         System.out.println( "+++FrameworkClient: " + msg ) ;
     }
 
-    @BeforeGroups( { TESTREF_GROUP } ) 
+    @BeforeGroups( { TESTREF_GROUP } )
     public void initTestRef() {
         bindServant( makeServant( SERVER_NAME ), Echo.class, TEST_REF_NAME ) ;
     }
 
-    @Test( groups = { TESTREF_GROUP } ) 
+    @Test( groups = { TESTREF_GROUP } )
     public void firstTest() {
         try {
             InterceptorTester.theTester.clear() ;
@@ -133,18 +133,18 @@ public class FrameworkClient extends Framework {
         result.setProperty( ORBConstants.TIMING_POINTS_ENABLED, "true" ) ;
 
         result.setProperty( ORBConstants.DEBUG_PROPERTY, "valueHandler,streamFormatVersion,cdr" ) ;
-        
+
         // register nortel socket factory
-        result.setProperty( ORBConstants.SOCKET_FACTORY_CLASS_PROPERTY, 
+        result.setProperty( ORBConstants.SOCKET_FACTORY_CLASS_PROPERTY,
             NortelSocketFactory.class.getName() ) ;
-        
+
         // register ORBInitializer
-        result.setProperty( ORBConstants.PI_ORB_INITIALIZER_CLASS_PREFIX + 
+        result.setProperty( ORBConstants.PI_ORB_INITIALIZER_CLASS_PREFIX +
             InterceptorTester.class.getName(), "true" ) ;
 
-        // result.setProperty( ORBConstants.DEBUG_PROPERTY, 
+        // result.setProperty( ORBConstants.DEBUG_PROPERTY,
             // "transport" ) ;
-        
+
         result.setProperty( ORBConstants.TRANSPORT_TCP_CONNECT_TIMEOUTS_PROPERTY,
             "100:2000:100" ) ;
 
@@ -218,11 +218,11 @@ public class FrameworkClient extends Framework {
             NortelSocketFactory.simulateConnectionDown() ;
             InterceptorTester.theTester.setExceptionExpected() ;
 
-            msg( "******* Start Test with disconnected connection *******" ) ; 
+            msg( "******* Start Test with disconnected connection *******" ) ;
             // getClientORB().setDebugFlag( "transport" ) ;
             sref.echo( arg ) ;
             // getClientORB().clearDebugFlag( "transport" ) ;
-            msg( "******* End test with disconnected connection *******" ) ; 
+            msg( "******* End test with disconnected connection *******" ) ;
         } catch (MarshalException exc) {
             msg( "Caught expected MarshalException" ) ;
         } catch (Exception exc) {
@@ -234,12 +234,12 @@ public class FrameworkClient extends Framework {
         }
     }
 
-    @Test( groups = { TESTREF_GROUP } ) 
+    @Test( groups = { TESTREF_GROUP } )
     public void testWriteFailureFragment() {
         testWriteFailure( makeIntArray( 50000 ) ) ;
     }
 
-    @Test( groups = { TESTREF_GROUP } ) 
+    @Test( groups = { TESTREF_GROUP } )
     public void testWriteFailureNoFragment() {
         testWriteFailure( makeIntArray( 50 ) ) ;
     }
@@ -303,7 +303,7 @@ public class FrameworkClient extends Framework {
             Echo serv = makeServant( "purple" ) ;
             connectServant( serv, getClientORB() ) ;
             Echo stub = toStub( serv, Echo.class ) ;
-            getClientORB().register_initial_reference( name, 
+            getClientORB().register_initial_reference( name,
                 (org.omg.CORBA.Object)stub ) ;
 
             Echo echo = narrow( orb.string_to_object( url ), Echo.class ) ;
@@ -322,13 +322,13 @@ public class FrameworkClient extends Framework {
         private TimerGroup serverCDR ;
 
         public CDRTimerContext( ORB clientORB, ORB serverORB ) {
-            final TimerManager<TimingPoints> clientTM = 
+            final TimerManager<TimingPoints> clientTM =
                 clientORB.makeTimerManager( TimingPoints.class) ;
             clientLEH = clientTM.factory().makeLogEventHandler( "Client_CDR_LEH" ) ;
             clientTM.controller().register( clientLEH ) ;
             clientCDR = clientTM.points().Cdr() ;
 
-            final TimerManager<TimingPoints> serverTM = 
+            final TimerManager<TimingPoints> serverTM =
                 serverORB.makeTimerManager( TimingPoints.class ) ;
             serverLEH = serverTM.factory().makeLogEventHandler( "Server_CDR_LEH" ) ;
             serverTM.controller().register( serverLEH ) ;

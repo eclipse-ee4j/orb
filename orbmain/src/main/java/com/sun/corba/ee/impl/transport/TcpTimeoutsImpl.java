@@ -52,12 +52,12 @@ public class TcpTimeoutsImpl implements TcpTimeouts
         }
     }
 
-    public TcpTimeoutsImpl( int initial_time, int max_time, 
+    public TcpTimeoutsImpl( int initial_time, int max_time,
         int backoff_percent) {
         this( initial_time, max_time, backoff_percent, Integer.MAX_VALUE ) ;
     }
 
-    public TcpTimeoutsImpl( int initial_time, int max_time, 
+    public TcpTimeoutsImpl( int initial_time, int max_time,
         int backoff_percent, int max_single_wait_time ) {
         this.initial_time_to_wait = initial_time;
         this.max_time_to_wait = max_time;
@@ -153,9 +153,9 @@ public class TcpTimeoutsImpl implements TcpTimeouts
 
     @Override
     public String toString() {
-        return "TcpTimeoutsImpl[" 
+        return "TcpTimeoutsImpl["
             + initial_time_to_wait + ":"
-            + max_time_to_wait + ":" 
+            + max_time_to_wait + ":"
             + backoff_factor + ":"
             + max_single_wait_time + "]" ;
     }

@@ -34,9 +34,9 @@ public class RMICompiler extends Compiler
     /**
      * Default RMIC class name
      */
-    protected static final String DEFAULT_RMIC_CLASS 
+    protected static final String DEFAULT_RMIC_CLASS
         = "sun.rmi.rmic.Main";
-    
+
     /**
      * Returns the class name of the compiler.
      */
@@ -44,7 +44,7 @@ public class RMICompiler extends Compiler
     {
         return DEFAULT_RMIC_CLASS;
     }
-    
+
     /**
      * Compile the given class files.  Files are given as absolute paths.
      * The text output messages from the compile are placed in files

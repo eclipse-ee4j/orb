@@ -27,9 +27,9 @@ package corba.hcks;
 import com.sun.corba.ee.impl.orb.ORBImpl;
 import com.sun.corba.ee.spi.servicecontext.ServiceContexts;
 
-public class MyPOAORB 
-    extends 
-        ORBImpl 
+public class MyPOAORB
+    extends
+        ORBImpl
 {
     public static final String baseMsg = MyPOAORB.class.getName();
 
@@ -38,7 +38,7 @@ public class MyPOAORB
     public static boolean throwRuntimeExceptionInSendingRequestServiceContexts
         = false;
 
-    protected void sendingRequestServiceContexts( ServiceContexts scs ) 
+    protected void sendingRequestServiceContexts( ServiceContexts scs )
     {
         if (showProprietaryHooks) {
             U.sop(baseMsg + ".sendingRequestServiceContexts - " + scs);
@@ -56,7 +56,7 @@ public class MyPOAORB
         }
     }
 
-    protected void receivedRequestServiceContexts(ServiceContexts scs) 
+    protected void receivedRequestServiceContexts(ServiceContexts scs)
     {
         if (showProprietaryHooks) {
             U.sop(baseMsg + ".receivedRequestServiceContexts - " + scs);
@@ -70,5 +70,5 @@ public class MyPOAORB
         }
     }
 }
- 
+
 // End of file.

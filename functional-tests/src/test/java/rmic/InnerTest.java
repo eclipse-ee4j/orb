@@ -46,7 +46,7 @@ public class InnerTest extends Test implements Constants {
       Remote interface        Value                   RV
       Remote interface        Servant                 RS
       Remote interface        Abstract interface      RA
- 
+
       interface               Remote interface        IR
       interface               interface               II
       interface               Value                   IV
@@ -71,7 +71,7 @@ public class InnerTest extends Test implements Constants {
       Abstract interface      Servant                 AS
       Abstract interface      Abstract interface      AA
     */
-    private static final String[] CASES = { 
+    private static final String[] CASES = {
         "RR","RI","RV","RS","RA",
         "IR","II","IV","IS","IA",
         "VR","VI","VV","VS","VA",//"SR",
@@ -88,12 +88,12 @@ public class InnerTest extends Test implements Constants {
         default: throw new Error("Unkown type.");
         }
     }
-    
+
     private void checkType(String className, char typeInitial) {
         env.reset();
         int typeCode = typeCode(typeInitial);
         CompoundType type = (CompoundType) MapType.getType(className,stack);
-        
+
         if (type == null) {
             throw new Error(type + " is null");
         }
@@ -102,17 +102,17 @@ public class InnerTest extends Test implements Constants {
             throw new Error(type + " is not expected type. Found " + type.getTypeDescription());
         }
     }
-    
-    
+
+
     /**
      * Run the test.
      */
     public void run () {
-        JUnitReportHelper helper = new JUnitReportHelper( 
+        JUnitReportHelper helper = new JUnitReportHelper(
             this.getClass().getName() ) ;
 
         try {
-    
+
             out = new ByteArrayOutputStream();
             env = new TestEnv(rmic.ParseTest.createClassPath(),out);
             stack = new ContextStack(env);
@@ -120,13 +120,13 @@ public class InnerTest extends Test implements Constants {
             // Do the tests...
             for (int i = 0; i < CASES.length; i++) {
                 helper.start( "test_" + CASES[i] ) ;
-                String outerClass = "rmic." + CASES[i];   
+                String outerClass = "rmic." + CASES[i];
                 checkType(outerClass,CASES[i].charAt(0));
                 checkType(outerClass + ".Inner",CASES[i].charAt(1));
                 checkType(outerClass + ".Inner",CASES[i].charAt(1));
                 helper.pass() ;
             }
-    
+
             env.shutdown();
 
         } catch (ThreadDeath death) {
@@ -329,10 +329,10 @@ class SI implements RR {
 class SV implements RR {
     public SV () throws RemoteException {}
     public String hello () throws RemoteException {return "Hello";}
-    
+
     // Note: Changed to static to avoid error caused by
     // rmic.SV data member and constructor...
-    
+
     static public class Inner implements Serializable {
         public String hello;
     }

@@ -25,13 +25,13 @@ import org.glassfish.pfl.test.JUnitReportHelper;
 import org.glassfish.pfl.test.ObjectUtility;
 
 /** TestSession manages running of tests and checking results within
-* a test session.  If the session fails any test, the whole session 
+* a test session.  If the session fails any test, the whole session
 * fails with an Error, which can be used to trigger failure in the
 * CORBA test framework.  This allows complete testing on a major subsystem
 * to report a series of failures, while better containing failures by
 * not testing related subsystems.
 */
-public class TestSession 
+public class TestSession
 {
     private PrintStream out ;
     private boolean errorFlag ;
@@ -51,7 +51,7 @@ public class TestSession
     /** Print a message indicating the start of the session.
     * Also clears the error flag.
     */
-    public void start( String sessionName ) 
+    public void start( String sessionName )
     {
         this.sessionName = sessionName ;
         this.errorFlag = false ;
@@ -87,7 +87,7 @@ public class TestSession
             thr.printStackTrace() ;
         }
     }
-    
+
     public void testForException( String name, NullaryFunction<Object> closure,
         Class expectedExceptionClass )
     {
@@ -128,7 +128,7 @@ public class TestSession
         helper.fail( msg ) ;
     }
 
-    private void testPass() 
+    private void testPass()
     {
         testPass( null ) ;
     }

@@ -40,8 +40,8 @@ public class JRMPPerformance extends test.Test
 
     public void run()
     {
-        
-        try {        
+
+        try {
 
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             ObjectOutputStream sos = new ObjectOutputStream(bos);
@@ -106,7 +106,7 @@ public class JRMPPerformance extends test.Test
             sos.writeObject( aSharedRefsArray );
 
             // Check single dimensional primitive array...
-            
+
             int[] array1 = {0,5,7,9,11,13};
             sos.writeObject(array1);
 
@@ -150,7 +150,7 @@ public class JRMPPerformance extends test.Test
             sos.writeObject(dim3);
 
             // Check single dimensional object array...
-            
+
             ObjectByValue[] array3 =    {
                 new ObjectByValue(5,10,"a","f"),
                 new ObjectByValue(6,11,"b","g"),
@@ -158,8 +158,8 @@ public class JRMPPerformance extends test.Test
                 new ObjectByValue(8,13,"d","i"),
                 new ObjectByValue(9,14,"e","j"),
             };
-            sos.writeObject(array3);      
-            
+            sos.writeObject(array3);
+
             // Check multi dimensional object array...
 
             ObjectByValue[][] array4 =   {   {
@@ -175,19 +175,19 @@ public class JRMPPerformance extends test.Test
                                                  new ObjectByValue(2,15,"f","l"),
                                              }
             };
-                                
+
             sos.writeObject(array4);
 
             /***************************************************************/
             /*********************** READ DATA BACK IN *********************/
             /***************************************************************/
 
-            ObjectInputStream sis = 
+            ObjectInputStream sis =
                 new ObjectInputStream(new ByteArrayInputStream(bos.toByteArray()));
-                                                                                                                  
+
 
             TestOBV2 _tobv2 = (TestOBV2)sis.readObject();
-                        
+
             Exception _exception = (Exception)sis.readObject();
             if (!_exception.getMessage().equals("Test Exception"))
                 throw new Error("Test Exception failed!");
@@ -309,7 +309,7 @@ public class JRMPPerformance extends test.Test
             }
 
             long[][] array2Echo = (long[][])sis.readObject();
-            
+
             for (int i = 0; i < array2.length; i++) {
                 for (int j = 0; j < array2[i].length; j++) {
                     if (array2[i][j] != array2Echo[i][j]) {
@@ -320,14 +320,14 @@ public class JRMPPerformance extends test.Test
 
             // Recursive array references
             Object recursiveArrayEcho[] = (Object[])sis.readObject();
-            if ((recursiveArrayEcho[0] != recursiveArrayEcho) || 
-                (recursiveArrayEcho[2] != recursiveArrayEcho) || 
-                (recursiveArrayEcho[3] != recursiveArrayEcho) || 
+            if ((recursiveArrayEcho[0] != recursiveArrayEcho) ||
+                (recursiveArrayEcho[2] != recursiveArrayEcho) ||
+                (recursiveArrayEcho[3] != recursiveArrayEcho) ||
                 (!((String)recursiveArrayEcho[1]).equals("Hello")))
                 throw new Exception("RecursiveArray test failed!");
 
             short[][][] dim3Echo = (short[][][])sis.readObject();
-            
+
             for (int i = 0; i < dim3.length; i++) {
                 for (int j = 0; j < dim3[i].length; j++) {
                     for (int k = 0; k < dim3[i][j].length; k++) {
@@ -346,7 +346,7 @@ public class JRMPPerformance extends test.Test
             }
 
             ObjectByValue[][] array4Echo = (ObjectByValue[][])sis.readObject();
-      
+
             for (int i = 0; i < array4.length; i++) {
                 for (int j = 0; j < array4[i].length; j++) {
                     if (!array4[i][j].equals(array4Echo[i][j])) {
@@ -354,7 +354,7 @@ public class JRMPPerformance extends test.Test
                     }
                 }
             }
- 
+
 
         }
         catch(Throwable e)

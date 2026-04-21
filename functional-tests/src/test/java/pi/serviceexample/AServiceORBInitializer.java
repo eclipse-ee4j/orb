@@ -33,7 +33,7 @@ import org.omg.PortableInterceptor.CurrentHelper;
 import org.omg.PortableInterceptor.ORBInitInfo;
 
 
-public class AServiceORBInitializer 
+public class AServiceORBInitializer
     extends org.omg.CORBA.LocalObject
     implements org.omg.PortableInterceptor.ORBInitializer
 {
@@ -77,7 +77,7 @@ public class AServiceORBInitializer
             Encoding encoding = new Encoding((short)0, (byte)1, (byte)2);
             Codec codec = codecFactory.create_codec(encoding);
             aServiceInterceptor.setCodec(codec);
-            
+
             AServiceIORInterceptor aServiceIORInterceptor =
                 new AServiceIORInterceptor(codec);
             info.add_ior_interceptor(aServiceIORInterceptor);
@@ -88,5 +88,5 @@ public class AServiceORBInitializer
     }
 
 }
- 
+
 // End of file.

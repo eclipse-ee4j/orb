@@ -52,46 +52,46 @@ import org.omg.CORBA_2_3.portable.OutputStream;
 public final class TypeCodeImpl extends TypeCode {
     private static final long serialVersionUID = -5320808494290154449L;
 
-    // the indirection TCKind, needed for recursive typecodes. 
+    // the indirection TCKind, needed for recursive typecodes.
     private static final int tk_indirect = 0xFFFFFFFF;
-  
+
     // typecode encodings have three different categories that determine
     // how the encoding should be done.
-  
+
     private static final int EMPTY = 0;     // no parameters
     private static final int SIMPLE = 1;    // simple parameters.
-    private static final int COMPLEX = 2;   // complex parameters. need to 
-                                            // use CDR encapsulation for parameters 
+    private static final int COMPLEX = 2;   // complex parameters. need to
+                                            // use CDR encapsulation for parameters
 
     // a table storing the encoding category for the various typecodes.
     private static final int typeTable[] = {
-        EMPTY,          // tk_null      
-        EMPTY,          // tk_void      
-        EMPTY,          // tk_short     
-        EMPTY,          // tk_long      
-        EMPTY,          // tk_ushort    
-        EMPTY,          // tk_ulong     
-        EMPTY,          // tk_float     
-        EMPTY,          // tk_double    
-        EMPTY,          // tk_boolean   
-        EMPTY,          // tk_char      
-        EMPTY,          // tk_octet     
-        EMPTY,          // tk_any       
-        EMPTY,          // tk_typecode  
-        EMPTY,          // tk_principal 
-        COMPLEX,        // tk_objref    
-        COMPLEX,        // tk_struct    
-        COMPLEX,        // tk_union     
-        COMPLEX,        // tk_enum      
-        SIMPLE,         // tk_string    
-        COMPLEX,        // tk_sequence  
-        COMPLEX,        // tk_array     
-        COMPLEX,        // tk_alias     
-        COMPLEX,        // tk_except    
-        EMPTY,          // tk_longlong  
-        EMPTY,          // tk_ulonglong 
+        EMPTY,          // tk_null
+        EMPTY,          // tk_void
+        EMPTY,          // tk_short
+        EMPTY,          // tk_long
+        EMPTY,          // tk_ushort
+        EMPTY,          // tk_ulong
+        EMPTY,          // tk_float
+        EMPTY,          // tk_double
+        EMPTY,          // tk_boolean
+        EMPTY,          // tk_char
+        EMPTY,          // tk_octet
+        EMPTY,          // tk_any
+        EMPTY,          // tk_typecode
+        EMPTY,          // tk_principal
+        COMPLEX,        // tk_objref
+        COMPLEX,        // tk_struct
+        COMPLEX,        // tk_union
+        COMPLEX,        // tk_enum
+        SIMPLE,         // tk_string
+        COMPLEX,        // tk_sequence
+        COMPLEX,        // tk_array
+        COMPLEX,        // tk_alias
+        COMPLEX,        // tk_except
+        EMPTY,          // tk_longlong
+        EMPTY,          // tk_ulonglong
         EMPTY,          // tk_longdouble
-        EMPTY,          // tk_wchar     
+        EMPTY,          // tk_wchar
         SIMPLE,         // tk_wstring
         SIMPLE,         // tk_fixed
         COMPLEX,        // tk_value
@@ -140,7 +140,7 @@ public final class TypeCodeImpl extends TypeCode {
 
     private int                 _kind           = 0;    // the typecode kind
 
-    // data members for representing the various kinds of typecodes. 
+    // data members for representing the various kinds of typecodes.
     private String          _id             = "";   // the typecode repository id
     private String          _name           = "";   // the typecode name
     private int             _memberCount    = 0;    // member count
@@ -172,7 +172,7 @@ public final class TypeCodeImpl extends TypeCode {
 
     // the ORB instance: may be instanceof ORBSingleton or ORB
     @Copy( CopyType.IDENTITY )
-    private transient ORB _orb;                 
+    private transient ORB _orb;
 
     @Copy( CopyType.IDENTITY )
     private static final ORBUtilSystemException wrapper =
@@ -191,7 +191,7 @@ public final class TypeCodeImpl extends TypeCode {
         // initialized to tk_null
         _orb = orb;
     }
-      
+
     public TypeCodeImpl(ORB orb, TypeCode tc)
     // to handle conversion of "remote" typecodes into "native" style.
     // also see the 'convertToNative(ORB orb, TypeCode tc)' function
@@ -264,7 +264,7 @@ public final class TypeCodeImpl extends TypeCode {
                 _name = tc.name();
                 break;
             }
-          
+
             // set up stuff for unions
             switch (_kind) {
             case TCKind._tk_union:
@@ -276,7 +276,7 @@ public final class TypeCodeImpl extends TypeCode {
                 }
                 break;
             }
-          
+
             // set up length
             switch (_kind) {
             case TCKind._tk_string:
@@ -285,7 +285,7 @@ public final class TypeCodeImpl extends TypeCode {
             case TCKind._tk_array:
                 _length = tc.length();
             }
-          
+
             // set up content type
             switch (_kind) {
             case TCKind._tk_sequence:
@@ -302,7 +302,7 @@ public final class TypeCodeImpl extends TypeCode {
         // dont have to worry about these since code ensures we dont step
         // out of bounds.
     }
-        
+
     public TypeCodeImpl(ORB orb, int creationKind) {
         this(orb);
 
@@ -317,7 +317,7 @@ public final class TypeCodeImpl extends TypeCode {
 
         // do initialization for special cases
         switch (_kind) {
-            case TCKind._tk_objref: 
+            case TCKind._tk_objref:
                 // this is being used to create typecode for CORBA::Object
                 setId("IDL:omg.org/CORBA/Object:1.0");
                 _name = "Object";
@@ -334,7 +334,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
-    public TypeCodeImpl(ORB orb, int creationKind, 
+    public TypeCodeImpl(ORB orb, int creationKind,
         String id, String name, StructMember[] members) {
         this(orb);
 
@@ -342,7 +342,7 @@ public final class TypeCodeImpl extends TypeCode {
     }
 
     @DynamicType
-    private void createStructTypeCode(ORB orb, int creationKind, 
+    private void createStructTypeCode(ORB orb, int creationKind,
         String id, String name, StructMember[] members) {
 
         if ((creationKind == TCKind._tk_struct) || (creationKind == TCKind._tk_except)) {
@@ -350,7 +350,7 @@ public final class TypeCodeImpl extends TypeCode {
             setId(id);
             _name               = name;
             _memberCount        = members.length;
-        
+
             _memberNames = new String[_memberCount];
             _memberTypes = new TypeCodeImpl[_memberCount];
 
@@ -359,11 +359,11 @@ public final class TypeCodeImpl extends TypeCode {
                 _memberTypes[i] = convertToNative(_orb, members[i].type);
                 _memberTypes[i].setParent(this);
             }
-        } 
+        }
     }
 
     @DynamicType
-    private void createUnionTypeCode(ORB orb, int creationKind, String id, String name, 
+    private void createUnionTypeCode(ORB orb, int creationKind, String id, String name,
         TypeCode discriminator_type, UnionMember[] members) {
 
         if (creationKind == TCKind._tk_union) {
@@ -392,7 +392,7 @@ public final class TypeCodeImpl extends TypeCode {
         } // else initializes to null
     }
 
-    public TypeCodeImpl(ORB orb, int creationKind, String id, String name, 
+    public TypeCodeImpl(ORB orb, int creationKind, String id, String name,
         TypeCode discriminator_type, UnionMember[] members) {
 
         this(orb) ;
@@ -400,7 +400,7 @@ public final class TypeCodeImpl extends TypeCode {
     }
 
     @DynamicType
-    private void createValueTypeCode(ORB orb, int creationKind, String id, String name, 
+    private void createValueTypeCode(ORB orb, int creationKind, String id, String name,
         short type_modifier, TypeCode concrete_base, ValueMember[] members) {
 
         if (creationKind == TCKind._tk_value) {
@@ -426,7 +426,7 @@ public final class TypeCodeImpl extends TypeCode {
         } // else initializes to null
     }
 
-    public TypeCodeImpl(ORB orb, int creationKind, String id, String name, 
+    public TypeCodeImpl(ORB orb, int creationKind, String id, String name,
         short type_modifier, TypeCode concrete_base, ValueMember[] members) {
         this(orb) ;
 
@@ -434,7 +434,7 @@ public final class TypeCodeImpl extends TypeCode {
     }
 
     @DynamicType
-    private void createEnumTypeCode(ORB orb, int creationKind, String id, String name, 
+    private void createEnumTypeCode(ORB orb, int creationKind, String id, String name,
         String[] members) {
 
         if (creationKind == TCKind._tk_enum) {
@@ -458,10 +458,10 @@ public final class TypeCodeImpl extends TypeCode {
     }
 
     @DynamicType
-    private void createAliasTypeCode(ORB orb, int creationKind, String id, String name, 
+    private void createAliasTypeCode(ORB orb, int creationKind, String id, String name,
         TypeCode original_type) {
 
-        if (creationKind == TCKind._tk_alias 
+        if (creationKind == TCKind._tk_alias
             || creationKind == TCKind._tk_value_box) {
 
             _kind               = creationKind;
@@ -493,7 +493,7 @@ public final class TypeCodeImpl extends TypeCode {
         createObjrefTypeCode( orb, creationKind, id, name ) ;
     }
 
-      
+
     @DynamicType
     private void createStringTypeCode(ORB orb, int creationKind, int bound) {
         if (bound < 0) {
@@ -524,7 +524,7 @@ public final class TypeCodeImpl extends TypeCode {
         this(orb) ;
         createArrayTypeCode( orb, creationKind, bound, element_type ) ;
     }
-      
+
     @DynamicType
     private void createRecursiveSequenceTypeCode(ORB orb, int creationKind, int bound, int offset) {
         if (creationKind == TCKind._tk_sequence) {
@@ -540,7 +540,7 @@ public final class TypeCodeImpl extends TypeCode {
         createRecursiveSequenceTypeCode( orb, creationKind, bound, offset ) ;
     }
 
-    
+
     @DynamicType
     private void createRecursiveTypeCode(ORB orb, String id) {
         _kind   = tk_indirect;
@@ -581,7 +581,7 @@ public final class TypeCodeImpl extends TypeCode {
     // efficient typecode comparisons for primitive typecodes.
     //
     protected static TypeCodeImpl convertToNative(ORB orb,
-                                                  TypeCode tc) 
+                                                  TypeCode tc)
     {
         if (tc instanceof TypeCodeImpl) {
             return (TypeCodeImpl) tc;
@@ -592,7 +592,7 @@ public final class TypeCodeImpl extends TypeCode {
 
     public static CDROutputObject newOutputStream(ORB orb) {
         TypeCodeOutputStream tcos = OutputStreamFactory.newTypeCodeOutputStream(orb);
-        //if (debug) System.out.println("Created TypeCodeOutputStream " + tcos + 
+        //if (debug) System.out.println("Created TypeCodeOutputStream " + tcos +
         // " with no parent");
         return tcos;
     }
@@ -627,7 +627,7 @@ public final class TypeCodeImpl extends TypeCode {
             } catch (BadKind e) {
                 // can't happen
                 throw wrapper.badkindCannotOccur() ;
-            } 
+            }
         }
     }
 
@@ -678,7 +678,7 @@ public final class TypeCodeImpl extends TypeCode {
             while (realType.kind().value() == TCKind._tk_alias) {
                 realType = realType.content_type();
             }
-        } catch (BadKind bad) { 
+        } catch (BadKind bad) {
             // impossible
             throw wrapper.badkindCannotOccur() ;
         }
@@ -713,7 +713,7 @@ public final class TypeCodeImpl extends TypeCode {
             case EMPTY:
                 // no parameters to check.
                 return true;
-          
+
             case SIMPLE:
                 switch (_kind) {
                 case TCKind._tk_string:
@@ -726,7 +726,7 @@ public final class TypeCodeImpl extends TypeCode {
                 default:
                     return false;
                 }
-          
+
             case COMPLEX:
 
                 switch(_kind) {
@@ -739,13 +739,13 @@ public final class TypeCodeImpl extends TypeCode {
                         }
 
                         if (_id.compareTo(
-                            (_orb.get_primitive_tc(_kind)).id()) == 0) 
+                            (_orb.get_primitive_tc(_kind)).id()) == 0)
                         {
                             return true;
                         }
 
                         if (tc.id().compareTo(
-                            (_orb.get_primitive_tc(_kind)).id()) == 0) 
+                            (_orb.get_primitive_tc(_kind)).id()) == 0)
                         {
                             return true;
                         }
@@ -860,7 +860,7 @@ public final class TypeCodeImpl extends TypeCode {
                         if (_id.compareTo(tc.id()) != 0) {
                             return false;
                         }
-                        
+
                         // check for member types.
                         for (int i = 0 ; i < _memberCount ; i++) {
                             if (_memberAccess[i] != tc.member_visibility(i) || !_memberTypes[i].equal(tc.member_type(i))) {
@@ -870,7 +870,7 @@ public final class TypeCodeImpl extends TypeCode {
                         if (_type_modifier == tc.type_modifier()) {
                             return false;
                         }
-                        
+
                         // concrete_base may be null
                         TypeCode tccb = tc.concrete_base_type();
 
@@ -918,14 +918,14 @@ public final class TypeCodeImpl extends TypeCode {
         }
 
         // If the result of the kind operation on either TypeCode is tk_alias, recursively
-        // replace the TypeCode with the result of calling content_type, until the kind 
+        // replace the TypeCode with the result of calling content_type, until the kind
         // is no longer tk_alias.
         // Note: Always resolve indirect types first!
         TypeCode myRealType = (_kind == tk_indirect ? indirectType() : this);
         myRealType = realType(myRealType);
         TypeCode otherRealType = realType(tc);
 
-        // If results of the kind operation on each typecode differ, 
+        // If results of the kind operation on each typecode differ,
         // equivalent returns false.
         if (myRealType.kind().value() != otherRealType.kind().value()) {
             return false;
@@ -1037,21 +1037,21 @@ public final class TypeCodeImpl extends TypeCode {
         return this;
     }
 
-    public TCKind kind() 
+    public TCKind kind()
     {
         if (_kind == tk_indirect) {
             return indirectType().kind();
         }
         return TCKind.from_int(_kind);
     }
-      
-    public boolean is_recursive() 
+
+    public boolean is_recursive()
     {
         // Recursive is the only form of indirect type codes right now.
         // Indirection can also be used for repeated type codes.
         return (_kind == tk_indirect);
     }
-      
+
     public String id()
         throws BadKind
     {
@@ -1156,7 +1156,7 @@ public final class TypeCodeImpl extends TypeCode {
             throw new BadKind();
         }
     }
-      
+
     public Any member_label(int index)
         throws BadKind, org.omg.CORBA.TypeCodePackage.Bounds
     {
@@ -1216,7 +1216,7 @@ public final class TypeCodeImpl extends TypeCode {
             throw new BadKind();
         }
     }
-      
+
     public TypeCode content_type()
         throws BadKind
     {
@@ -1252,7 +1252,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
-    public short member_visibility(int index) throws BadKind, 
+    public short member_visibility(int index) throws BadKind,
         org.omg.CORBA.TypeCodePackage.Bounds {
         switch (_kind) {
         case tk_indirect:
@@ -1322,7 +1322,7 @@ public final class TypeCodeImpl extends TypeCode {
 
         // Bug fix 5034649: allow for padding that precedes the typecode kind.
         int myPosition = tcis.getTopLevelPosition()-4;
-        
+
         // check validity of kind
         if ((_kind < 0 || _kind > typeTable.length) && _kind != tk_indirect) {
             throw wrapper.cannotMarshalBadTckind() ;
@@ -1411,7 +1411,7 @@ public final class TypeCodeImpl extends TypeCode {
     }
 
     @DynamicType
-    private void readValueBodyComplexUnion( InputStream is, 
+    private void readValueBodyComplexUnion( InputStream is,
         TypeCodeInputStream _encap ) {
 
         setId(_encap.read_string());
@@ -1495,7 +1495,7 @@ public final class TypeCodeImpl extends TypeCode {
     }
 
     @DynamicType
-    private void readValueBodyComplexSequence( InputStream is, 
+    private void readValueBodyComplexSequence( InputStream is,
         TypeCodeInputStream _encap ) {
 
         _contentType = new TypeCodeImpl((ORB)is.orb());
@@ -1521,7 +1521,7 @@ public final class TypeCodeImpl extends TypeCode {
     }
 
     @DynamicType
-    private void readValueBodyComplexStruct( InputStream is, 
+    private void readValueBodyComplexStruct( InputStream is,
         TypeCodeInputStream _encap ) {
 
         setId(_encap.read_string());
@@ -1577,7 +1577,7 @@ public final class TypeCodeImpl extends TypeCode {
 
             case COMPLEX:
                 TypeCodeInputStream _encap ;
-                _encap = TypeCodeInputStream.readEncapsulation(is, 
+                _encap = TypeCodeInputStream.readEncapsulation(is,
                     is.orb());
 
                 switch(_kind) {
@@ -1658,7 +1658,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
 
         tcos.write_long(_kind);
-        
+
         // Bug fix 5034649:
         // Do this AFTER the write of the _kind in case the alignment
         // for the long changes the position.
@@ -1668,7 +1668,7 @@ public final class TypeCodeImpl extends TypeCode {
             case EMPTY:
                 // nothing more to marshal
                 break;
-              
+
             case SIMPLE:
                 switch (_kind) {
                     case TCKind._tk_string:
@@ -1687,7 +1687,7 @@ public final class TypeCodeImpl extends TypeCode {
                         throw wrapper.invalidSimpleTypecode() ;
                 }
                 break;
-              
+
             case COMPLEX:
                 TypeCodeOutputStream _encap = tcos.createEncapsulation(tcos.orb());
 
@@ -1697,7 +1697,7 @@ public final class TypeCodeImpl extends TypeCode {
                         _encap.write_string(_id);
                         _encap.write_string(_name);
                         break;
-                
+
                     case TCKind._tk_union:
                         _encap.write_string(_id);
                         _encap.write_string(_name);
@@ -1793,7 +1793,7 @@ public final class TypeCodeImpl extends TypeCode {
                             _memberTypes[i].write_value(_encap);
                         }
                         break;
-                
+
                     case TCKind._tk_value:
                         _encap.write_string(_id);
                         _encap.write_string(_name);
@@ -1813,7 +1813,7 @@ public final class TypeCodeImpl extends TypeCode {
                             _encap.write_short(_memberAccess[i]);
                         }
                         break;
-                  
+
                     default:
                         throw wrapper.invalidTypecodeKindMarshal() ;
                 }
@@ -1834,7 +1834,7 @@ public final class TypeCodeImpl extends TypeCode {
      * @param dst target for copy.
      */
     @DynamicType
-    protected void copy(org.omg.CORBA.portable.InputStream src, 
+    protected void copy(org.omg.CORBA.portable.InputStream src,
         org.omg.CORBA.portable.OutputStream dst) {
         switch (_kind) {
 
@@ -1873,7 +1873,7 @@ public final class TypeCodeImpl extends TypeCode {
         case TCKind._tk_boolean:
             dst.write_boolean(src.read_boolean());
             break;
-          
+
         case TCKind._tk_char:
             dst.write_char(src.read_char());
             break;
@@ -1881,7 +1881,7 @@ public final class TypeCodeImpl extends TypeCode {
         case TCKind._tk_wchar:
             dst.write_wchar(src.read_wchar());
             break;
-          
+
         case TCKind._tk_octet:
             dst.write_octet(src.read_octet());
             break;
@@ -1913,7 +1913,7 @@ public final class TypeCodeImpl extends TypeCode {
             dst.write_short(src.read_short());
             break;
 
-        case TCKind._tk_any: 
+        case TCKind._tk_any:
             Any tmp =  ((CDRInputObject)src).orb().create_any();
             TypeCodeImpl t = new TypeCodeImpl((ORB)dst.orb());
             t.read_value((org.omg.CORBA_2_3.portable.InputStream)src);
@@ -1921,12 +1921,12 @@ public final class TypeCodeImpl extends TypeCode {
             tmp.read_value(src, t);
             tmp.write_value(dst);
             break;
-        
-        case TCKind._tk_TypeCode: 
+
+        case TCKind._tk_TypeCode:
             dst.write_TypeCode(src.read_TypeCode());
             break;
-        
-        case TCKind._tk_Principal: 
+
+        case TCKind._tk_Principal:
             dst.write_Principal(src.read_Principal());
             break;
 
@@ -2022,7 +2022,7 @@ public final class TypeCodeImpl extends TypeCode {
                     dst.write_longlong(value);
                     break;
                 }
-                    
+
                 case TCKind._tk_ulonglong: {
                     long value = src.read_longlong();
                     tagValue.insert_ulonglong(value);
@@ -2042,7 +2042,7 @@ public final class TypeCodeImpl extends TypeCode {
             }
 
             // using the value of the tag, find out the type of the value
-            // following. 
+            // following.
 
             int labelIndex;
             for (labelIndex = 0; labelIndex < _unionLabels.length; labelIndex++) {
@@ -2066,7 +2066,7 @@ public final class TypeCodeImpl extends TypeCode {
         case TCKind._tk_enum:
             dst.write_long(src.read_long());
             break;
-          
+
         case TCKind._tk_sequence:
             int seqLength = src.read_long();
 
@@ -2241,7 +2241,7 @@ public final class TypeCodeImpl extends TypeCode {
                 break;
 
             case TCKind._tk_alias:
-                s.print("alias " + _name + " = " + 
+                s.print("alias " + _name + " = " +
                     (_contentType != null ? _contentType._name : "<unresolved>"));
                 break;
 

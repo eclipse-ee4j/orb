@@ -48,7 +48,7 @@ public interface Generator {
      * @return true if no errors, false otherwise.
      */
     public boolean parseArgs(String argv[], Main main);
-    
+
     /**
      * Generate output. Any source files created which need compilation should
      * be added to the compiler environment using the addGeneratedFile(File)

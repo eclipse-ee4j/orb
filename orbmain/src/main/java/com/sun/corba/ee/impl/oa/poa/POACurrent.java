@@ -31,7 +31,7 @@ import org.omg.PortableServer.Servant;
 import org.omg.PortableServer.CurrentPackage.NoContext;
 import org.omg.PortableServer.ServantLocatorPackage.CookieHolder;
 public class POACurrent extends org.omg.CORBA.portable.ObjectImpl
-    implements org.omg.PortableServer.Current 
+    implements org.omg.PortableServer.Current
 {
     private ORB orb;
     private static final POASystemException wrapper =
@@ -54,7 +54,7 @@ public class POACurrent extends org.omg.CORBA.portable.ObjectImpl
     //
 
     public POA get_POA()
-        throws 
+        throws
             NoContext
     {
         POA poa = (POA)(peekThrowNoContext().oa());
@@ -63,7 +63,7 @@ public class POACurrent extends org.omg.CORBA.portable.ObjectImpl
     }
 
     public byte[] get_object_id()
-        throws 
+        throws
             NoContext
     {
         byte[] objectid = peekThrowNoContext().id();
@@ -106,7 +106,7 @@ public class POACurrent extends org.omg.CORBA.portable.ObjectImpl
     }
 
     // This is public so we can test the stack balance.
-    // It is not a security hole since this same info can be obtained from 
+    // It is not a security hole since this same info can be obtained from
     // PortableInterceptors.
     public String getOperation()
     {

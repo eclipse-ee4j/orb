@@ -87,7 +87,7 @@ public class ForwardEntry extends com.sun.tools.corba.ee.idl.SymtabEntry impleme
           (ForwardEntry) com.sun.tools.corba.ee.idl.Parser.symbolTable.get (interfaceEntry.fullName ());
       if ( forwardEntry != null )
       {
-        result = (interfaceEntry.getInterfaceType () == 
+        result = (interfaceEntry.getInterfaceType () ==
             forwardEntry.getInterfaceType ());
         forwardEntry.type (interfaceEntry);
 

@@ -37,7 +37,7 @@ public final class _Remote_Stub extends Stub implements Remote {
     private static final String _type_ids[] = {
         ""
     };
-    
+
     /**
      * Returns an array of repository ids that an object implements.
      * The string at index zero represents the most derived interface.  The last id,
@@ -47,5 +47,5 @@ public final class _Remote_Stub extends Stub implements Remote {
      */
     public String[] _ids() {
         return (String[]) _type_ids.clone();
-    } 
+    }
 }

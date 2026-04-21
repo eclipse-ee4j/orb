@@ -53,7 +53,7 @@ public class TestObjectSuper implements Serializable
     }
 
     public String toString() {
-        return 
+        return
             (super.getClass().equals(Object.class) ? "" : super.toString())
             + " [TestObjectSuper dataS1=" + dataS1
             + ", dataS2=" + (int)dataS2

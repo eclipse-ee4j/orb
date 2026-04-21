@@ -67,11 +67,11 @@ public class ByteBufferPoolImpl implements ByteBufferPool {
                         (byteBufferSlab.capacity() - byteBufferSlab.limit() < size)) {
                     byteBufferSlab = allocateDirectByteBufferSlab();
                 }
-                
+
                 byteBufferSlab.limit(byteBufferSlab.position() + size);
                 ByteBuffer view = byteBufferSlab.slice();
                 byteBufferSlab.position(byteBufferSlab.limit());
-                
+
                 return view;
             }
         } else {
@@ -112,25 +112,25 @@ public class ByteBufferPoolImpl implements ByteBufferPool {
         if (size > orb.getORBData().getMaxReadByteBufferSizeThreshold()) {
             if (minimumSize > orb.getORBData().getMaxReadByteBufferSizeThreshold()) {
                 throw wrapper.maximumReadByteBufferSizeExceeded(
-                      orb.getORBData().getMaxReadByteBufferSizeThreshold(), size, 
+                      orb.getORBData().getMaxReadByteBufferSizeThreshold(), size,
                       ORBConstants.MAX_READ_BYTE_BUFFER_SIZE_THRESHOLD_PROPERTY);
             } else {
-                // minimumSize is greater than 1/2 of size, and less than or 
-                // equal to max read byte buffer size threshold. So, just 
+                // minimumSize is greater than 1/2 of size, and less than or
+                // equal to max read byte buffer size threshold. So, just
                 // re-allocate a ByteBuffer of minimumSize.
                 size = minimumSize;
             }
         }
-        
+
         ByteBuffer newByteBuffer = getByteBuffer(size);
-        
+
         // copy oldByteBuffer into newByteBuffer
         newByteBuffer.put(oldByteBuffer);
-        
+
         return newByteBuffer;
     }
 
-    /** 
+    /**
      * Allocate a DirectByteBuffer slab.
      */
     private ByteBuffer allocateDirectByteBufferSlab() {

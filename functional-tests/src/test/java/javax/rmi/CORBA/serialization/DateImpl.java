@@ -20,7 +20,7 @@
 
 package javax.rmi.CORBA.serialization;
 
-public class DateImpl extends Date 
+public class DateImpl extends Date
 {
     //nk
     private java.util.Date delegate = null;
@@ -36,7 +36,7 @@ public class DateImpl extends Date
     public  DateImpl (long arg0)
     {
         //nk
-        delegate = new java.util.Date(arg0);    
+        delegate = new java.util.Date(arg0);
         //nk
     }
 
@@ -59,13 +59,13 @@ public class DateImpl extends Date
         //nk
         delegate = new java.util.Date(arg0, arg1, arg2, arg3, arg4, arg5);
         //nk
-        
+
     }
 
     public  DateImpl (String arg0)
     {
         //nk
-        delegate = new java.util.Date(arg0);    
+        delegate = new java.util.Date(arg0);
         //nk
     }
 
@@ -137,7 +137,7 @@ public class DateImpl extends Date
         //nk
         return delegate.getHours();
         //nk
-        
+
     }
 
     public void hours (int newHours)
@@ -164,14 +164,14 @@ public class DateImpl extends Date
     public int seconds ()
     {
         //nk
-        return delegate.getSeconds();   
+        return delegate.getSeconds();
         //nk
     }
 
     public void seconds (int newSeconds)
     {
         //nk
-        delegate.setSeconds(newSeconds);        
+        delegate.setSeconds(newSeconds);
         //nk
     }
 
@@ -214,7 +214,7 @@ public class DateImpl extends Date
     {
         //nk
         return delegate.hashCode();
-        //nk    
+        //nk
     }
 
     public String _toString ()
@@ -243,7 +243,7 @@ public class DateImpl extends Date
         //nk
         return delegate.getTimezoneOffset();
         //nk
-        
+
     }
 
     //nk
@@ -252,12 +252,12 @@ public class DateImpl extends Date
         this.delegate = delegate;
     }
 
-    public java.util.Date getDelegate() 
+    public java.util.Date getDelegate()
     {
         return delegate;
-    }   
+    }
     //nk
-        
+
   //nk
   //Methods to be implemented for Custom Marshalling
     public void marshal(org.omg.CORBA.DataOutputStream os)

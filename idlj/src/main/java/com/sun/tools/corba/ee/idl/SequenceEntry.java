@@ -73,7 +73,7 @@ public class SequenceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   }
 
   @Override
-  public void isReferencable( boolean value ) 
+  public void isReferencable( boolean value )
   {
     // NO-OP: this cannot be set for a sequence.
   }

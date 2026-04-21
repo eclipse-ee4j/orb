@@ -37,7 +37,7 @@ public class RequestId1Strategy
         throws ForwardRequest
     {
         super.send_request( interceptor, ri );
-        
+
         try {
             this.requestId = ri.request_id();
             log( "send_request(): request_id = " + requestId );
@@ -68,7 +68,7 @@ public class RequestId1Strategy
 
 
     public void receive_exception (
-        SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) 
+        SampleClientRequestInterceptor interceptor, ClientRequestInfo ri)
         throws ForwardRequest
     {
         super.receive_exception( interceptor, ri );
@@ -81,11 +81,11 @@ public class RequestId1Strategy
     }
 
     public void receive_other (
-        SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) 
+        SampleClientRequestInterceptor interceptor, ClientRequestInfo ri)
         throws ForwardRequest
     {
         super.receive_other( interceptor, ri );
-        
+
         try {
             testId( "receive_other", ri.request_id() );
         }

@@ -34,7 +34,7 @@ import org.glassfish.pfl.basic.func.UnaryFunction;
 /** This is a static factory class for commonly used operations
 * for property parsing.  The following operations are supported:
 * <ul>
-* <li>maskErrorAction( Operation op ) executes op and returns the result.  If op throws an 
+* <li>maskErrorAction( Operation op ) executes op and returns the result.  If op throws an
 * exception, the result is null.
 * <li>indexAction( int arg ) returns the [arg] element of value, which must be an Object[]</li>
 * <li>identityAction() return the value</li>
@@ -44,7 +44,7 @@ import org.glassfish.pfl.basic.func.UnaryFunction;
 * <li>classAction() returns a class for the String value, as loaded by the ORB classloader</li>
 * <li>setFlagAction() always return Boolean.TRUE</li>
 * <li>URLAction() returns a java.net.URL for the String value, which must be a valid URL</li>
-* <li>integerRangeAction( int min, int max ) returns an Integer for the String value, which must be a 
+* <li>integerRangeAction( int min, int max ) returns an Integer for the String value, which must be a
 * decimal integer in the range min to max inclusive</li>
 * <li>listAction( String sep, Operation ) tokenizes the String value with sep as separator, then
 * applies the Operation to each token, and returns an array of the result</li>
@@ -53,7 +53,7 @@ import org.glassfish.pfl.basic.func.UnaryFunction;
 * <li>compose( Operation op1, Operation op2 ) is the operation that applies op2 to the result of applying
 * op1 to the value</li>
 * <li>mapAction( Operation ) applies the Operation to each element of an array of objects, and returns
-* an array of the results</li> 
+* an array of the results</li>
 * <li>mapSequenceAction( Operation[] ) applies the corresponding element of the Operation array to an
 * element of the Object[] value, and returns an array of the results</li>
 * <li>convertIntegerToShort coerces an Integer into a Short.</li>
@@ -79,7 +79,7 @@ public abstract class OperationFactory {
         }
     }
 
-    private static Object[] getObjectArray( Object obj ) 
+    private static Object[] getObjectArray( Object obj )
     {
         if (obj instanceof Object[]) {
             return (Object[]) obj;
@@ -99,7 +99,7 @@ public abstract class OperationFactory {
 
     private static abstract class OperationBase implements Operation{
         @Override
-        public boolean equals( Object obj ) 
+        public boolean equals( Object obj )
         {
             if (this==obj) {
                 return true;
@@ -151,11 +151,11 @@ public abstract class OperationFactory {
         return new MaskErrorAction( op ) ;
     }
 
-    private static class IndexAction extends OperationBase 
+    private static class IndexAction extends OperationBase
     {
         private int index ;
 
-        public IndexAction( int index ) 
+        public IndexAction( int index )
         {
             this.index = index ;
         }
@@ -166,13 +166,13 @@ public abstract class OperationFactory {
         }
 
         @Override
-        public String toString() 
-        { 
-            return "indexAction(" + index + ")" ; 
+        public String toString()
+        {
+            return "indexAction(" + index + ")" ;
         }
     }
 
-    public static Operation indexAction( int index ) 
+    public static Operation indexAction( int index )
     {
         return new IndexAction( index ) ;
     }
@@ -242,7 +242,7 @@ public abstract class OperationFactory {
 
     private static Operation integerActionImpl = new IntegerAction() ;
 
-    private static class StringAction extends OperationBase 
+    private static class StringAction extends OperationBase
     {
         public Object operate( Object value )
         {
@@ -255,7 +255,7 @@ public abstract class OperationFactory {
 
     private static Operation stringActionImpl = new StringAction() ;
 
-    private static class ClassAction extends OperationBase 
+    private static class ClassAction extends OperationBase
     {
         private UnaryFunction<String,Class<?>> resolver ;
 
@@ -263,7 +263,7 @@ public abstract class OperationFactory {
             this.resolver = resolver ;
         }
 
-        public Object operate( Object value ) 
+        public Object operate( Object value )
         {
             String className = getString( value ) ;
 
@@ -273,7 +273,7 @@ public abstract class OperationFactory {
             } catch (Exception exc) {
                 throw wrapper.classActionException( exc, className ) ;
             }
-        } 
+        }
 
         @Override
         public String toString() { return "classAction[" + resolver + "]" ; }
@@ -281,10 +281,10 @@ public abstract class OperationFactory {
 
     private static class SetFlagAction extends OperationBase
     {
-        public Object operate( Object value ) 
+        public Object operate( Object value )
         {
             return Boolean.TRUE ;
-        } 
+        }
 
         @Override
         public String toString() { return "setFlagAction" ; }
@@ -367,7 +367,7 @@ public abstract class OperationFactory {
             this.max = max ;
         }
 
-        public Object operate( Object value ) 
+        public Object operate( Object value )
         {
             int result = Integer.parseInt( getString( value ) ) ;
             if ((result >= min) && (result <= max)) {
@@ -378,8 +378,8 @@ public abstract class OperationFactory {
         }
 
         @Override
-        public String toString() { 
-            return "integerRangeAction(" + min + "," + max + ")" ; 
+        public String toString() {
+            return "integerRangeAction(" + min + "," + max + ")" ;
         }
     }
 
@@ -402,9 +402,9 @@ public abstract class OperationFactory {
         // of the first result, rather than just using Object[], which is
         // not convertible into the correct type.  Also note that no tokens
         // results in a null result.
-        public Object operate( Object value ) 
+        public Object operate( Object value )
         {
-            StringTokenizer st = new StringTokenizer( getString( value ), 
+            StringTokenizer st = new StringTokenizer( getString( value ),
                 sep ) ;
             int length = st.countTokens() ;
             Object result = null ;
@@ -416,25 +416,25 @@ public abstract class OperationFactory {
                     result =
                         Array.newInstance(val.getClass(), length);
                 }
-                Array.set( result, ctr++, val ) ;       
+                Array.set( result, ctr++, val ) ;
             }
 
             return result ;
-        } 
+        }
 
         @Override
-        public String toString() { 
-            return "listAction(separator=\"" + sep + 
-                "\",action=" + act + ")" ; 
+        public String toString() {
+            return "listAction(separator=\"" + sep +
+                "\",action=" + act + ")" ;
         }
     }
 
-    public static Operation listAction( String sep, Operation act ) 
+    public static Operation listAction( String sep, Operation act )
     {
         return new ListAction( sep, act ) ;
     }
 
-    private static class SequenceAction extends OperationBase 
+    private static class SequenceAction extends OperationBase
     {
         private String sep ;
         private Operation[] actions ;
@@ -445,9 +445,9 @@ public abstract class OperationFactory {
             this.actions = actions ;
         }
 
-        public Object operate( Object value ) 
+        public Object operate( Object value )
         {
-            StringTokenizer st = new StringTokenizer( getString( value ), 
+            StringTokenizer st = new StringTokenizer( getString( value ),
                 sep ) ;
 
             int numTokens = st.countTokens() ;
@@ -465,23 +465,23 @@ public abstract class OperationFactory {
             }
 
             return result ;
-        } 
+        }
 
         @Override
-        public String toString() { 
-            return "sequenceAction(separator=\"" + sep + 
-                "\",actions=" + 
-                ObjectUtility.compactObjectToString(actions) + ")" ; 
+        public String toString() {
+            return "sequenceAction(separator=\"" + sep +
+                "\",actions=" +
+                ObjectUtility.compactObjectToString(actions) + ")" ;
         }
     }
 
-    public static Operation sequenceAction( String sep, 
-        Operation[] actions ) 
+    public static Operation sequenceAction( String sep,
+        Operation[] actions )
     {
         return new SequenceAction( sep, actions ) ;
     }
 
-    private static class ComposeAction extends OperationBase 
+    private static class ComposeAction extends OperationBase
     {
         private Operation op1 ;
         private Operation op2 ;
@@ -492,18 +492,18 @@ public abstract class OperationFactory {
             this.op2 = op2 ;
         }
 
-        public Object operate( Object value ) 
+        public Object operate( Object value )
         {
             return op2.operate( op1.operate( value ) ) ;
-        } 
+        }
 
         @Override
-        public String toString() { 
+        public String toString() {
             return "composition(" + op1 + "," + op2 + ")" ;
         }
     }
 
-    public static Operation compose( Operation op1, Operation op2 ) 
+    public static Operation compose( Operation op1, Operation op2 )
     {
         return new ComposeAction( op1, op2 ) ;
     }
@@ -528,12 +528,12 @@ public abstract class OperationFactory {
         }
 
         @Override
-        public String toString() { 
+        public String toString() {
             return "mapAction(" + op + ")" ;
         }
     }
 
-    public static Operation mapAction( Operation op )  
+    public static Operation mapAction( Operation op )
     {
         return new MapAction( op ) ;
     }
@@ -558,18 +558,18 @@ public abstract class OperationFactory {
         }
 
         @Override
-        public String toString() { 
-            return "mapSequenceAction(" + 
+        public String toString() {
+            return "mapSequenceAction(" +
                 ObjectUtility.compactObjectToString(op) + ")" ;
         }
     }
 
-    public static Operation mapSequenceAction( Operation[] op )  
+    public static Operation mapSequenceAction( Operation[] op )
     {
         return new MapSequenceAction( op ) ;
     }
 
-    private static class ConvertIntegerToShort extends OperationBase 
+    private static class ConvertIntegerToShort extends OperationBase
     {
         public Object operate( Object value )
         {
@@ -584,7 +584,7 @@ public abstract class OperationFactory {
 
     private static Operation convertIntegerToShortImpl = new ConvertIntegerToShort() ;
 
-    public static Operation convertIntegerToShort() 
+    public static Operation convertIntegerToShort()
     {
         return convertIntegerToShortImpl ;
     }

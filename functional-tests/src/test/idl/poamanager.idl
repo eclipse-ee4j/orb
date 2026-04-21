@@ -27,7 +27,7 @@ module HelloStuff {
   interface Hello {
     string hi();
   };
-}; 
+};
 
 module Util {
   enum CreationMethods {

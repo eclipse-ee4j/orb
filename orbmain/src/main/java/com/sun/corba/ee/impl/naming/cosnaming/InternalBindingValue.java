@@ -31,7 +31,7 @@ public class InternalBindingValue
     public Binding theBinding;
     public String strObjectRef;
     public org.omg.CORBA.Object theObjectRef;
-  
+
     // Default constructor
     public InternalBindingValue() {}
 

@@ -51,7 +51,7 @@ public abstract class ParserActionBase implements ParserAction {
             fieldName.equals( other.fieldName ) ;
     }
 
-    public ParserActionBase( String propertyName, boolean prefix, 
+    public ParserActionBase( String propertyName, boolean prefix,
         Operation operation, String fieldName )
     {
         this.propertyName       = propertyName ;
@@ -60,17 +60,17 @@ public abstract class ParserActionBase implements ParserAction {
         this.fieldName          = fieldName ;
     }
 
-    public String getPropertyName() 
+    public String getPropertyName()
     {
         return propertyName ;
     }
 
-    public boolean isPrefix() 
+    public boolean isPrefix()
     {
         return prefix ;
     }
 
-    public String getFieldName() 
+    public String getFieldName()
     {
         return fieldName ;
     }

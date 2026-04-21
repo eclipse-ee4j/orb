@@ -24,7 +24,7 @@ import org.omg.CORBA.portable.OutputStream;
 import org.omg.CORBA.portable.Streamable;
 
 /**
- * The Holder for <tt>Double</tt>.  For more information on 
+ * The Holder for <tt>Double</tt>.  For more information on
  * Holder files, see <a href="doc-files/generatedfiles.html#holder">
  * "Generated Files: Holder Files"</a>.<P>
  * A Holder class for a <code>double</code>
@@ -52,7 +52,7 @@ public final class DoubleHolder implements Streamable {
      */
 
     public double value;
-    
+
     /**
      * Constructs a new <code>DoubleHolder</code> object with its
      * <code>value</code> field initialized to 0.0.
@@ -94,7 +94,7 @@ public final class DoubleHolder implements Streamable {
     /**
      * Return the <code>TypeCode</code> of this holder object.
      *
-     * @return the <code>TypeCode</code> object. 
+     * @return the <code>TypeCode</code> object.
      */
     public org.omg.CORBA.TypeCode _type() {
         return ORB.init().get_primitive_tc(TCKind.tk_double);

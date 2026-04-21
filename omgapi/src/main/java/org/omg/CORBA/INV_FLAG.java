@@ -21,7 +21,7 @@ package org.omg.CORBA;
 
 /**
  * Exception thrown
- * when an invalid flag was passed to an operation (for example, when 
+ * when an invalid flag was passed to an operation (for example, when
  * creating a DII request).<P>
  * It contains a minor code, which gives more detailed information about
  * what caused the exception, and a completion status. It may also contain
@@ -35,7 +35,7 @@ package org.omg.CORBA;
 
 public final class INV_FLAG extends SystemException {
     /**
-     * Constructs an <code>INV_FLAG</code> exception with a default 
+     * Constructs an <code>INV_FLAG</code> exception with a default
      * minor code of 0 and a completion state of COMPLETED_NO.
      */
     public INV_FLAG() {

@@ -23,9 +23,9 @@ package com.sun.corba.ee.impl.presentation.rmi ;
 import org.omg.CORBA.portable.ApplicationException ;
 import org.omg.CORBA_2_3.portable.OutputStream ;
 
-public interface ExceptionHandler 
+public interface ExceptionHandler
 {
-    /** Return true iff cls is an exception class that is 
+    /** Return true iff cls is an exception class that is
      * assignment compatible with an exception declared
      * on the method used to create this ExceptionHandler.
      * @param cls Class to check
@@ -33,9 +33,9 @@ public interface ExceptionHandler
      */
     boolean isDeclaredException( Class cls );
 
-    /** Write the exception ex to os.  ex must be assignment 
+    /** Write the exception ex to os.  ex must be assignment
      * compatible with an exception
-     * declared on the method used to create this 
+     * declared on the method used to create this
      * ExceptionHandler.
      * @param os Stream to write to.
      * @param ex Exception to write.
@@ -46,8 +46,8 @@ public interface ExceptionHandler
      * in the ApplicationException.  If ae represents
      * an exception that is assignment compatible with
      * an exception on the method used to create this
-     * exception handler, return the exception, 
-     * otherwise return an UnexpectedException wrapping 
+     * exception handler, return the exception,
+     * otherwise return an UnexpectedException wrapping
      * the exception in ae.
      * @param ae Exception to get input stream to read exception from.
      * @return Exception from from stream.

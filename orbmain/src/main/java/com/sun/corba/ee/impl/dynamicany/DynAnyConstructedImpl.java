@@ -665,7 +665,7 @@ abstract class DynAnyConstructedImpl extends DynAnyImpl
         }
         currentComponent.insert_dyn_any(value);
     }
-    
+
     public void insert_val(java.io.Serializable value)
         throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch,
                org.omg.DynamicAny.DynAnyPackage.InvalidValue

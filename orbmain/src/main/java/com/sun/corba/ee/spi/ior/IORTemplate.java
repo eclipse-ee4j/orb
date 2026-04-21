@@ -23,10 +23,10 @@ import java.util.Iterator ;
 import java.util.List ;
 
 /** An IORTemplate provides all of the data necessary to create an IOR except
- * for the typeId and ObjectId.  
+ * for the typeId and ObjectId.
  */
-public interface IORTemplate extends List<TaggedProfileTemplate>, 
-    IORFactory, MakeImmutable 
+public interface IORTemplate extends List<TaggedProfileTemplate>,
+    IORFactory, MakeImmutable
 {
     /** Iterate over all TaggedProfileTemplates in this IORTemplate
      * with the given id.

@@ -101,11 +101,11 @@ public class BarControl extends JComponent implements MouseMotionListener
         fActionSource.removeActionListener (listener);
     }
 
-  
+
     //
     // Setters
     //
-  
+
     public void setColor (Color c)
     {
         fColor = c;
@@ -207,7 +207,7 @@ public class BarControl extends JComponent implements MouseMotionListener
         g.drawLine (xe,ye,xe,y);
         g.drawLine (xei,yei,xi,yei);
         g.drawLine (xei,yei,xei,yi);
-    
+
     }
 
     //
@@ -232,7 +232,7 @@ public class BarControl extends JComponent implements MouseMotionListener
         double percentage = 0.0;
 
         if ( fOrientation == HORIZONTAL ) {
-            int x = insets.left; 
+            int x = insets.left;
             int width = getSize().width - insets.left - insets.right;
             width = Math.max(width,0);
             if ( p.x > x )
@@ -256,5 +256,5 @@ public class BarControl extends JComponent implements MouseMotionListener
 
 
 
-  
+
 }

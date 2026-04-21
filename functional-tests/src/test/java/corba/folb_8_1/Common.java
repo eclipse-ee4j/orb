@@ -97,7 +97,7 @@ public abstract class Common
         childPoa.the_POAManager().activate();
         return childPoa;
     }
-        
+
     // create servant and register it with a POA
     public static org.omg.CORBA.Object createAndBind(String name,
                                                      ORB orb, POA poa)
@@ -138,7 +138,7 @@ public abstract class Common
     public static Codec getCodec(ORB orb)
     {
         try {
-            CodecFactory codecFactory = 
+            CodecFactory codecFactory =
                 CodecFactoryHelper.narrow(orb.resolve_initial_references("CodecFactory"));
             return codecFactory.create_codec(new Encoding((short)ENCODING_CDR_ENCAPS.value, (byte)1, (byte)2));
         } catch (Exception e) {
@@ -153,7 +153,7 @@ public abstract class Common
         String[] result = new String[a1.length + a2.length];
 
         int index = 0;
-        
+
         for (int i = 0; i < a1.length; ++i) {
             result[index++] = a1[i];
         }

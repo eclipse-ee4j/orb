@@ -56,7 +56,7 @@ public class TestServant
 
     private static UtilSystemException wrapper =
         UtilSystemException.self ;
-    
+
     private static class ThrowsSysEx implements Serializable {
         private void readObject( java.io.ObjectInputStream is ) {
             throw wrapper.testException( 42 ) ;

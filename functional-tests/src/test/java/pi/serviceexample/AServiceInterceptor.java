@@ -62,12 +62,12 @@ public class AServiceInterceptor
     // Interceptor operations
     //
 
-    public String name() 
+    public String name()
     {
         return "AServiceInterceptor";
     }
 
-    public void destroy() 
+    public void destroy()
     {
     }
 

@@ -29,7 +29,7 @@ import org.omg.CORBA.ORB;
 import org.omg.CosNaming.*;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
-public class Client 
+public class Client
 {
     public static void main(String[] args)
     {
@@ -41,7 +41,7 @@ public class Client
                       "dummy");
             ORB orb = ORB.init(args, props);
 
-            NamingContext namingContext = 
+            NamingContext namingContext =
                 NamingContextHelper.narrow(orb.resolve_initial_references(
                     "NameService"));
             NameComponent nc = new NameComponent("Server", "");

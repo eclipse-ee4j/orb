@@ -26,7 +26,7 @@ import com.sun.corba.ee.spi.misc.ORBConstants;
 
 import org.omg.CORBA_2_3.portable.OutputStream;
 
-public class LoadBalancingComponentImpl extends TaggedComponentBase 
+public class LoadBalancingComponentImpl extends TaggedComponentBase
     implements LoadBalancingComponent
 {
 
@@ -42,7 +42,7 @@ public class LoadBalancingComponentImpl extends TaggedComponentBase
             return false;
         }
 
-        LoadBalancingComponentImpl other = 
+        LoadBalancingComponentImpl other =
             (LoadBalancingComponentImpl)obj ;
 
         return loadBalancingValue == other.loadBalancingValue ;
@@ -81,12 +81,12 @@ public class LoadBalancingComponentImpl extends TaggedComponentBase
         return loadBalancingValue;
     }
 
-    public void writeContents(OutputStream os) 
+    public void writeContents(OutputStream os)
     {
         os.write_ulong(loadBalancingValue);
     }
-    
-    public int getId() 
+
+    public int getId()
     {
         return ORBConstants.TAG_LOAD_BALANCING_ID;
     }

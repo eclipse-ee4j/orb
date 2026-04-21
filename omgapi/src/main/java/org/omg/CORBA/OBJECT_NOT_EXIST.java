@@ -20,13 +20,13 @@
 package org.omg.CORBA;
 
 /**
- * Exception raised whenever an invocation on a deleted object was 
- * performed. It is an authoritative  "hard"  fault report. Anyone 
- * receiving it is allowed (even expected) to delete all copies of 
- * this object reference and to perform other appropriate  "final 
- * recovery"  style procedures. Bridges forward this exception to 
- * clients, also destroying any records they may hold (for example, 
- * proxy objects used in reference translation). The clients could 
+ * Exception raised whenever an invocation on a deleted object was
+ * performed. It is an authoritative  "hard"  fault report. Anyone
+ * receiving it is allowed (even expected) to delete all copies of
+ * this object reference and to perform other appropriate  "final
+ * recovery"  style procedures. Bridges forward this exception to
+ * clients, also destroying any records they may hold (for example,
+ * proxy objects used in reference translation). The clients could
  * in turn purge any of their own data structures.
  * <P>
  * It contains a minor code, which gives more detailed information about

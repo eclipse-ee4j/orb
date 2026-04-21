@@ -30,12 +30,12 @@ import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher;
 /**
  * INSServerRequestDispatcher handles all INS related discovery request. The INS Service
  * can be registered using ORB.register_initial_reference().
- * This Singleton subcontract just 
+ * This Singleton subcontract just
  * finds the target IOR and does location forward.
  * XXX PI points are not invoked in either dispatch() or locate() method this
  * should be fixed in Tiger.
- */ 
-public class INSServerRequestDispatcher 
+ */
+public class INSServerRequestDispatcher
     implements ServerRequestDispatcher
 {
     private static final ORBUtilSystemException wrapper =
@@ -48,8 +48,8 @@ public class INSServerRequestDispatcher
     }
 
     // Need to signal one of OBJECT_HERE, OBJECT_FORWARD, OBJECT_NOT_EXIST.
-    public IOR locate(ObjectKey okey) { 
-        // send a locate forward with the right IOR. If the insKey is not 
+    public IOR locate(ObjectKey okey) {
+        // send a locate forward with the right IOR. If the insKey is not
         // registered then it will throw OBJECT_NOT_EXIST Exception
         String insKey = new String( okey.getBytes(orb) );
         return getINSReference( insKey );
@@ -57,9 +57,9 @@ public class INSServerRequestDispatcher
 
     public void dispatch(MessageMediator request)
     {
-        // send a locate forward with the right IOR. If the insKey is not 
+        // send a locate forward with the right IOR. If the insKey is not
         // registered then it will throw OBJECT_NOT_EXIST Exception
-        String insKey = new String( 
+        String insKey = new String(
             request.getObjectKeyCacheEntry().getObjectKey().getBytes(orb) );
         request.getProtocolHandler()
             .createLocationForward(request, getINSReference( insKey ), null);

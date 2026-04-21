@@ -73,7 +73,7 @@ public class LMSQueue<V> {
             firstNodePrev = hd.prev ;                               //D07
             val = hd.getValue() ;                                   //D08
             if (hd == head.get()) {                                 //D09
-                if (val != null) {                                  //D10  
+                if (val != null) {                                  //D10
                     if (tl != hd) {                                 //D11
                         if (firstNodePrev == null) {                //D12
                             fixList( tl, hd ) ;                     //D13
@@ -95,7 +95,7 @@ public class LMSQueue<V> {
                     }                                               //D32
                 } else {                                            //D33,D34
                     if (tail == head) {                             //D35
-                        return null ;                               //D36   
+                        return null ;                               //D36
                     } else {                                        //D37,D38
                         if (firstNodePrev == null) {                //D39
                             fixList( tl, hd ) ;                     //D40

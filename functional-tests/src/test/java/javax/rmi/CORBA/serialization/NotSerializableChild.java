@@ -22,7 +22,7 @@ package javax.rmi.CORBA.serialization;
 
 public class NotSerializableChild extends IsSerializable {
     int Int2 = 333;
-        
+
     public NotSerializableChild(){
         super("Not a serializable child");
     }

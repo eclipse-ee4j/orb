@@ -38,11 +38,11 @@ import ServerRequestInterceptor.*;
 /**
  * Common base class for POA Server test files.
  */
-public abstract class POAServer 
-    extends ServerCommon 
+public abstract class POAServer
+    extends ServerCommon
 {
     static final String ROOT_POA = "RootPOA";
-    
+
     POA rootPOA;
     POA persistentPOA;
 
@@ -50,10 +50,10 @@ public abstract class POAServer
     String hello2IOR;
 
     TestServantLocator servantLocator;
-    
+
     // To be invoked by subclass after orb is created.
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         try {
@@ -68,27 +68,27 @@ public abstract class POAServer
                 throw e;
             }
             rootPOA.the_POAManager().activate();
-            
+
             // Set up hello object:
             out.println( "+ Creating and binding Hello1 object..." );
-            TestInitializer.helloRef = createAndBind( rootPOA, "Hello1", 
+            TestInitializer.helloRef = createAndBind( rootPOA, "Hello1",
                                                       "[Hello1]" );
 
             out.println( "+ Creating and binding Hello1Forward object..." );
-            TestInitializer.helloRefForward = createAndBind( rootPOA, 
+            TestInitializer.helloRefForward = createAndBind( rootPOA,
                                                              "Hello1Forward",
-                                                             "[Hello1Forward]" ); 
+                                                             "[Hello1Forward]" );
 
             // Create a persistent, non-retaining POA with a ServantLocator:
             out.println( "+ Creating persistent POA with ServantLocator..." );
             persistentPOA = createPersistentPOA();
 
             out.println( "+ Creating and binding Hello2 reference..." );
-            hello2IOR = createReference( persistentPOA, "Hello2", 
+            hello2IOR = createReference( persistentPOA, "Hello2",
                                          hello2Id.getBytes() );
 
             handshake();
-            
+
             // Test ServerInterceptor
             testServerInterceptor();
 
@@ -129,17 +129,17 @@ public abstract class POAServer
             "redirects..." );
         testInvocation( "testInvocationServantLocatorRedirect",
             SampleServerRequestInterceptor.MODE_NORMAL,
-            "rs1rs2rs3so3so2so1rs1rs2rs3rr1rr2rr3sr3sr2sr1", 
+            "rs1rs2rs3so3so2so1rs1rs2rs3rr1rr2rr3sr3sr2sr1",
             "sayHello2@" + hello2IOR, "[Hello1]", false );
 
-        // ServantLocator forwards to Hello1 and send_other throws 
+        // ServantLocator forwards to Hello1 and send_other throws
         // SystemException.
         out.println( "+ Testing invocation where ServantLocator redirects " +
             "and send_other throws SystemException..." );
         servantLocator.resetFirstTime();
         testInvocation( "testInvocationServantLocatorRedirectSendOtherSystemException",
             SampleServerRequestInterceptor.MODE_SO_SYSTEM_EXCEPTION,
-            "rs1rs2rs3so3so2se1", 
+            "rs1rs2rs3so3so2se1",
             "sayHello2@" + hello2IOR, "", true );
 
         // ServantLocator forwards to Hello1 and send_other redirects to
@@ -149,12 +149,12 @@ public abstract class POAServer
         servantLocator.resetFirstTime();
         testInvocation( "testInvocationServantLocatorRedirectSendOtherRedirect",
             SampleServerRequestInterceptor.MODE_SO_FORWARD_REQUEST,
-            "rs1rs2rs3so3so2so1rs1rs2rs3rr1rr2rr3sr3sr2sr1", 
+            "rs1rs2rs3so3so2so1rs1rs2rs3rr1rr2rr3sr3sr2sr1",
             "sayHello2@" + hello2IOR, "[Hello1Forward]", false );
     }
 
     /**
-     * Tests the special operations _is_a, _get_interface_def, and 
+     * Tests the special operations _is_a, _get_interface_def, and
      * _non_existent.
      */
     void testSpecialOps()
@@ -171,7 +171,7 @@ public abstract class POAServer
             "rs1rs2rs3rr1rr2rr3sr3sr2sr1",
             "_is_a", "", false );
 
-        // We do not implement this interface in our ORB. 
+        // We do not implement this interface in our ORB.
         // Thus, the send_exception.  We pass in false for exception
         // expected because this is not the exception we normally look for.
         out.println( "+ Testing _get_interface_def..." );
@@ -205,7 +205,7 @@ public abstract class POAServer
         POA tpoa = rootPOA.create_POA("PersistentPOA", null, tpolicy);
 
         // register the ServantLocator with the POA, then activate POA
-        servantLocator = new TestServantLocator( out, orb, 
+        servantLocator = new TestServantLocator( out, orb,
             TestInitializer.helloRef );
         tpoa.set_servant_manager( servantLocator );
         tpoa.the_POAManager().activate();
@@ -213,13 +213,13 @@ public abstract class POAServer
     }
 
     /**
-     * Creates an object with an id, but does not bind it to the naming 
+     * Creates an object with an id, but does not bind it to the naming
      * service.  Returns the ior for that object.
      */
-    String createReference( POA poa, String name, byte[] id ) 
+    String createReference( POA poa, String name, byte[] id )
         throws Exception
     {
-        org.omg.CORBA.Object obj = poa.create_reference_with_id( id, 
+        org.omg.CORBA.Object obj = poa.create_reference_with_id( id,
             "IDL:ServerRequestInterceptor/hello:1.0" );
         return orb.object_to_string( obj );
     }
@@ -227,7 +227,7 @@ public abstract class POAServer
     /**
      * Implementation borrowed from corba.socket.HelloServer test
      */
-    public org.omg.CORBA.Object createAndBind ( POA poa, String name, 
+    public org.omg.CORBA.Object createAndBind ( POA poa, String name,
                                                 String symbol )
         throws Exception
     {
@@ -236,16 +236,16 @@ public abstract class POAServer
 
         byte[] id = poa.activate_object(helloRef);
         org.omg.CORBA.Object ref = poa.id_to_reference(id);
-      
+
         // get the root naming context
-        org.omg.CORBA.Object objRef = 
+        org.omg.CORBA.Object objRef =
             orb.resolve_initial_references("NameService");
         NamingContext ncRef = NamingContextHelper.narrow(objRef);
-      
+
         // bind the Object Reference in Naming
         NameComponent nc = new NameComponent(name, "");
         NameComponent path[] = {nc};
-            
+
         ncRef.rebind(path, ref);
 
         return ref;

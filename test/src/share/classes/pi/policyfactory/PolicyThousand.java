@@ -40,4 +40,4 @@ public class PolicyThousand extends LocalObject
         // Do Nothing
     }
 }
-  
+

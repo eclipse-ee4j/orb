@@ -80,7 +80,7 @@ public class TestClientDelegate extends ClientDelegate
         invocationState = next ;
     }
 
-    public TestClientDelegate( ORB orb, TestTransport transport, 
+    public TestClientDelegate( ORB orb, TestTransport transport,
         final TieTestImpl impl, Tie tie, ResponseHandler rhandler )
     {
         this.transport = transport ;
@@ -100,13 +100,13 @@ public class TestClientDelegate extends ClientDelegate
                 return isLocal ;
             }
 
-            public boolean is_local( org.omg.CORBA.Object self ) 
+            public boolean is_local( org.omg.CORBA.Object self )
             {
                 return isLocal ;
             }
 
             public ServantObject servant_preinvoke( org.omg.CORBA.Object self,
-                String operation, Class expectedType ) 
+                String operation, Class expectedType )
             {
                 checkState( USE_LOCAL_TRUE, PREINVOKE_CALLED ) ;
 
@@ -191,48 +191,48 @@ public class TestClientDelegate extends ClientDelegate
         return orb ;
     }
 
-    public boolean is_local(org.omg.CORBA.Object self) 
+    public boolean is_local(org.omg.CORBA.Object self)
     {
         return lcrd.is_local( self ) ;
     }
 
-    public ServantObject servant_preinvoke( org.omg.CORBA.Object self, 
-        String operation, Class expectedType) 
+    public ServantObject servant_preinvoke( org.omg.CORBA.Object self,
+        String operation, Class expectedType)
     {
         return lcrd.servant_preinvoke( self, operation, expectedType ) ;
     }
 
-    public void servant_postinvoke( org.omg.CORBA.Object self, 
-        ServantObject servant) 
+    public void servant_postinvoke( org.omg.CORBA.Object self,
+        ServantObject servant)
     {
         lcrd.servant_postinvoke( self, servant ) ;
     }
 
     public OutputStream request(org.omg.CORBA.Object self,
                                 String operation,
-                                boolean responseExpected) 
+                                boolean responseExpected)
     {
         checkState( USE_LOCAL_FALSE, REQUEST_CALLED ) ;
-        
+
         return transport.makeRequest( operation ) ;
     }
 
-    public InputStream invoke(org.omg.CORBA.Object self, 
+    public InputStream invoke(org.omg.CORBA.Object self,
         OutputStream output)
-        throws ApplicationException, RemarshalException 
+        throws ApplicationException, RemarshalException
     {
         checkState( REQUEST_CALLED, INVOKE_CALLED ) ;
-        InputStream is = transport.getInputStream( (org.omg.CORBA_2_3.portable.OutputStream)output ) ; 
+        InputStream is = transport.getInputStream( (org.omg.CORBA_2_3.portable.OutputStream)output ) ;
         String mname = transport.readRequestHeader( (org.omg.CORBA_2_3.portable.InputStream)is ) ;
         OutputStream os = (OutputStream)tie._invoke( mname, is, rhandler ) ;
         InputStream result = transport.getInputStream( (org.omg.CORBA_2_3.portable.OutputStream)os ) ;
-        transport.readReplyHeader( (org.omg.CORBA_2_3.portable.InputStream)result ) ; 
+        transport.readReplyHeader( (org.omg.CORBA_2_3.portable.InputStream)result ) ;
         // readReplyHeader throws ApplicationException on exceptions
         return result ;
     }
 
-    public void releaseReply( org.omg.CORBA.Object self, 
-        InputStream input) 
+    public void releaseReply( org.omg.CORBA.Object self,
+        InputStream input)
     {
         checkState( INVOKE_CALLED, RELEASE_CALLED ) ;
     }
@@ -252,7 +252,7 @@ public class TestClientDelegate extends ClientDelegate
                 return null ;
             }
 
-            
+
             public void setTargetIOR(IOR ior)
             {
                 // NO-OP
@@ -281,7 +281,7 @@ public class TestClientDelegate extends ClientDelegate
             }
 
 
-            public LocalClientRequestDispatcher 
+            public LocalClientRequestDispatcher
                 getLocalClientRequestDispatcher()
             {
                 return lcrd ;
@@ -303,7 +303,7 @@ public class TestClientDelegate extends ClientDelegate
         invocationState = START ;
     }
 
-    public void startRemoteTest() 
+    public void startRemoteTest()
     {
         isLocal = false ;
         invocationState = START ;

@@ -32,5 +32,5 @@ public interface LegacyServerSocketManager
 
     public boolean legacyIsLocalServerPort(int port);
 }
-    
+
 // End of file.

@@ -30,7 +30,7 @@ import org.omg.CORBA_2_3.portable.InputStream;
 import org.omg.CORBA_2_3.portable.OutputStream;
 
 public class CodeSetServiceContextImpl extends ServiceContextBase
-    implements CodeSetServiceContext 
+    implements CodeSetServiceContext
 {
     private CodeSetComponentInfo.CodeSetContext csc ;
 
@@ -46,22 +46,22 @@ public class CodeSetServiceContextImpl extends ServiceContextBase
         csc.read( (MarshalInputStream)in ) ;
     }
 
-    public int getId() 
-    { 
-        return SERVICE_CONTEXT_ID ; 
+    public int getId()
+    {
+        return SERVICE_CONTEXT_ID ;
     }
 
-    public void writeData( OutputStream os ) 
+    public void writeData( OutputStream os )
     {
         csc.write( (MarshalOutputStream)os ) ;
     }
-    
-    public CodeSetComponentInfo.CodeSetContext getCodeSetContext() 
+
+    public CodeSetComponentInfo.CodeSetContext getCodeSetContext()
     {
         return csc ;
     }
 
-    public String toString() 
+    public String toString()
     {
         return "CodeSetServiceContextImpl[ csc=" + csc + " ]" ;
     }

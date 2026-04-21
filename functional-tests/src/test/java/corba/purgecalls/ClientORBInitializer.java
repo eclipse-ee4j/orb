@@ -28,7 +28,7 @@ import corba.hcks.U;
 import org.omg.PortableInterceptor.ORBInitializer;
 import org.omg.PortableInterceptor.ORBInitInfo;
 
-public class ClientORBInitializer 
+public class ClientORBInitializer
     extends
         org.omg.CORBA.LocalObject
     implements
@@ -52,5 +52,5 @@ public class ClientORBInitializer
     }
 
 }
- 
+
 // End of file.

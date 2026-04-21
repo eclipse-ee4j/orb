@@ -44,7 +44,7 @@ public class FactoryForRetainAndUseServantManager implements POAFactory {
             parent.create_servant_retention_policy(ServantRetentionPolicyValue.RETAIN);
         policies[1] =
             parent.create_request_processing_policy(RequestProcessingPolicyValue.USE_SERVANT_MANAGER);
-        
+
         POA p = parent.create_POA("RetainAndUseServantManager",
                                   null,
                                   policies);

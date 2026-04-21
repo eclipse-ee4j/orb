@@ -70,7 +70,7 @@ public final class TypeCodeOutputStream extends EncapsOutputStream {
         if (enclosure != null && enclosure instanceof TypeCodeOutputStream) {
             int pos = ((TypeCodeOutputStream)enclosure).getTopLevelPosition()
                 + getPosition();
-            // Add four bytes for the encaps length, not another 4 for the 
+            // Add four bytes for the encaps length, not another 4 for the
             // byte order which is included in getPosition().
             if (isEncapsulation) {
                 pos += 4;

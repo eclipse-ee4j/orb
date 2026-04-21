@@ -36,7 +36,7 @@ public interface Tester extends Remote, AbsTester {
 
     Properties verify(Properties props) throws RemoteException;
 
-    MarshalTester verify(byte[] predata, MarshalTester input, byte[] postdata) 
+    MarshalTester verify(byte[] predata, MarshalTester input, byte[] postdata)
         throws RemoteException, DataCorruptedException;
 
     Hashtable verify(Hashtable table) throws RemoteException;
@@ -45,7 +45,7 @@ public interface Tester extends Remote, AbsTester {
 
     void throwRemoteException() throws RemoteException;
 
-    void throwCheckedException() 
+    void throwCheckedException()
         throws CheckedException, RemoteException;
 
     AbsTester getAbsTester() throws RemoteException;

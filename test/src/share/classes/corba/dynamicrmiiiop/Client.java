@@ -93,8 +93,8 @@ public class Client extends TestCase
     private static final boolean DEBUG = false ;
     // private static final int REP_COUNT = 1000 ;
     // private List<TimedTest> timedTests ;
- 
-    public static void main( String[] args ) 
+
+    public static void main( String[] args )
     {
         Client root = new Client() ;
         TestResult result = junit.textui.TestRunner.run(root.suite()) ;
@@ -122,10 +122,10 @@ public class Client extends TestCase
 
     public static Test suite()
     {
-        System.out.println( 
+        System.out.println(
             "==============================================================\n" +
             "Testing Dynamic RMI-IIOP\n" +
-            "==============================================================\n" 
+            "==============================================================\n"
         ) ;
 
         TestSuite ts = (TestSuite)TestCaseTools.makeTestSuite( Client.class ) ;
@@ -144,7 +144,7 @@ public class Client extends TestCase
         return ts ;
     }
 
-    // This is provided to prevent JUnit from complaining that Client 
+    // This is provided to prevent JUnit from complaining that Client
     // does not contain tests.
     public void testDummy()
     {
@@ -153,13 +153,13 @@ public class Client extends TestCase
 
     public void testExceptionNameMangling()
     {
-        Class testClass = 
+        Class testClass =
             corba.dynamicrmiiiop.testclasses.exception.TestException.class ;
         String expectedId = "IDL:corba/dynamicrmiiiop/testclasses/_exception/TestEx:1.0" ;
 
-        ExceptionHandlerImpl eh = new ExceptionHandlerImpl( 
+        ExceptionHandlerImpl eh = new ExceptionHandlerImpl(
             new Class[0] ) ;
-        ExceptionHandlerImpl.ExceptionRW erw = 
+        ExceptionHandlerImpl.ExceptionRW erw =
             eh.getRMIExceptionRW( testClass ) ;
         assertEquals( expectedId, erw.getId() ) ;
     }
@@ -177,7 +177,7 @@ public class Client extends TestCase
         if ((obj1 == null) || (obj2 == null)) {
             if (obj1 == obj2)
                 return ;
-            else 
+            else
                 fail( "Objects not the same: obj1 = " + obj1 +
                     " obj2 = " + obj2 ) ;
         }
@@ -188,7 +188,7 @@ public class Client extends TestCase
 
             return ;
         }
-        
+
         if (!(obj1 instanceof Throwable) || !(obj2 instanceof Throwable)) {
             fail( "Objects are not both throwable: obj1 = " + obj1 +
                 " obj2 = " + obj2 ) ;
@@ -202,11 +202,11 @@ public class Client extends TestCase
         /* Don't care about matching messages: that's up to the logex code.
         boolean sameMessage = equalOrNull( thr1.getMessage(), thr2.getMessage() ) ;
         if (!sameMessage) {
-            fail( "thr1 and thr2 do not have the same message: thr1 message = " 
+            fail( "thr1 and thr2 do not have the same message: thr1 message = "
                 + thr1.getMessage() + " thr2 message = " + thr2.getMessage() ) ;
         }
         */
-            
+
         sameException( thr1.getCause(), thr2.getCause() ) ;
 
         if (thr1 instanceof UnknownException) {
@@ -214,8 +214,8 @@ public class Client extends TestCase
             UnknownException unk2 = (UnknownException)thr2 ;
 
             sameException( unk1.originalEx, unk2.originalEx ) ;
-        } 
-        
+        }
+
         if (thr1 instanceof SystemException) {
             SystemException sys1 = (SystemException)thr1 ;
             SystemException sys2 = (SystemException)thr2 ;
@@ -228,14 +228,14 @@ public class Client extends TestCase
             int cs2 = sys2.completed.value() ;
 
             if (cs1 != cs2)
-                fail( "sys1 and sys2 do not have the same completion status: cs1 = " 
+                fail( "sys1 and sys2 do not have the same completion status: cs1 = "
                     + cs1 + " cs2 = " + cs2 ) ;
         }
     }
 
     public static class ORBInitTestSuite extends TestCase
     {
-        /** A simple class that allows checking of the result of a 
+        /** A simple class that allows checking of the result of a
          * computation both in the current thread and in a new thread.
          */
         public static abstract class ThreadableTest implements Runnable
@@ -251,8 +251,8 @@ public class Client extends TestCase
             }
 
             abstract public void run() ;
-    
-            protected void setActual( Object actual ) 
+
+            protected void setActual( Object actual )
             {
                 this.actual = actual ;
             }
@@ -278,7 +278,7 @@ public class Client extends TestCase
                 boolean done = false ;
                 while (!done) {
                     try {
-                        thr.join() ; 
+                        thr.join() ;
                         done = true ;
                     } catch (InterruptedException exc) {
                         // NO-OP: just retry the join call
@@ -289,17 +289,17 @@ public class Client extends TestCase
             }
         }
 
-        public static class TestStubFactoryFactoryType extends ThreadableTest 
+        public static class TestStubFactoryFactoryType extends ThreadableTest
         {
             public TestStubFactoryFactoryType( boolean expected )
             {
-                super( "StubFactoryFactory", Boolean.valueOf( 
+                super( "StubFactoryFactory", Boolean.valueOf(
                     expected ) ) ;
             }
 
             public void run()
             {
-                setActual( Boolean.valueOf( 
+                setActual( Boolean.valueOf(
                     ORB.getStubFactoryFactory().
                         createsDynamicStubs() ) ) ;
             }
@@ -310,7 +310,7 @@ public class Client extends TestCase
             super() ;
         }
 
-        public ORBInitTestSuite( String name ) 
+        public ORBInitTestSuite( String name )
         {
             super( name ) ;
         }
@@ -322,7 +322,7 @@ public class Client extends TestCase
          *  chooser.
          */
 
-        ORB makeORB( boolean useDynamic ) 
+        ORB makeORB( boolean useDynamic )
         {
             Properties props = new Properties() ;
             String[] args = null ;
@@ -340,10 +340,10 @@ public class Client extends TestCase
    the ORB type exactly here, and setting the global presentation manager
    can only happen once.  We'll omit these for now.
 
-        public void testDynamicORB() 
+        public void testDynamicORB()
         {
             ORB orb = makeORB( true ) ;
-            ThreadableTest tt2 = new TestStubFactoryFactoryType( 
+            ThreadableTest tt2 = new TestStubFactoryFactoryType(
                 true ) ;
             tt2.testSameThread() ;
             tt2.testDifferentThread() ;
@@ -353,7 +353,7 @@ public class Client extends TestCase
         {
             ORB orb = makeORB( true ) ;
             ORB sorb = (ORB)ORB.init() ;
-            ThreadableTest tt2 = new TestStubFactoryFactoryType( 
+            ThreadableTest tt2 = new TestStubFactoryFactoryType(
                 true ) ;
             tt2.testSameThread() ;
             tt2.testDifferentThread() ;
@@ -368,7 +368,7 @@ public class Client extends TestCase
             private String name ;
             private Set children ;
 
-            public NodeTestImpl( String name ) 
+            public NodeTestImpl( String name )
             {
                 this.name = name ;
                 children = new HashSet() ;
@@ -386,7 +386,7 @@ public class Client extends TestCase
             }
 
             @Override
-            public boolean equals( Object obj ) 
+            public boolean equals( Object obj )
             {
                 if (this == obj)
                     return true ;
@@ -405,7 +405,7 @@ public class Client extends TestCase
                 return name.hashCode() ;
             }
 
-            public Set getChildren() 
+            public Set getChildren()
             {
                 return children ;
             }
@@ -416,7 +416,7 @@ public class Client extends TestCase
             super() ;
         }
 
-        public GraphTestSuite( String name ) 
+        public GraphTestSuite( String name )
         {
             super( name ) ;
         }
@@ -630,7 +630,7 @@ public class Client extends TestCase
 
         public void testDiamondInterface()
         {
-            doTest( A.class, A.class, new Class[] { B.class, C.class, 
+            doTest( A.class, A.class, new Class[] { B.class, C.class,
                 D.class } ) ;
         }
 
@@ -646,19 +646,19 @@ public class Client extends TestCase
 
         public void testClassDiamondInterface()
         {
-            doTest( C3.class, A.class, new Class[] { B.class, C.class, 
+            doTest( C3.class, A.class, new Class[] { B.class, C.class,
                 D.class } ) ;
         }
 
         public void testClassInheritance()
         {
-            doTest( C4.class, A.class, new Class[] { B.class, C.class, 
+            doTest( C4.class, A.class, new Class[] { B.class, C.class,
                 D.class } ) ;
         }
 
         public void testClassMultipleInterface()
         {
-            doTest( C5.class, C5.class, new Class[] { A.class, B.class, 
+            doTest( C5.class, C5.class, new Class[] { A.class, B.class,
                 C.class, D.class, E.class, F.class, G.class} ) ;
         }
 
@@ -674,7 +674,7 @@ public class Client extends TestCase
         private void init()
         {
             Properties props = new Properties() ;
-            props.setProperty( "org.omg.CORBA.ORBClass", 
+            props.setProperty( "org.omg.CORBA.ORBClass",
                 "com.sun.corba.ee.impl.orb.ORBImpl" ) ;
             String[] args = null ;
             orb = (ORB)org.omg.CORBA.ORB.init( args, props ) ;
@@ -687,7 +687,7 @@ public class Client extends TestCase
             init() ;
         }
 
-        public TypeIdTestSuite( String name ) 
+        public TypeIdTestSuite( String name )
         {
             super( name ) ;
             init() ;
@@ -707,31 +707,31 @@ public class Client extends TestCase
             for (int ctr=startIndex; ctr<classes.length; ctr++ ) {
                 String str = makeTypeId( classes[ctr] ) ;
                 result.add( str ) ;
-            } 
+            }
             return result ;
         }
 
-        private String makeTypeId( Class cls ) 
+        private String makeTypeId( Class cls )
         {
             return RepositoryId.createForJavaType( cls ) ;
             // return "RMI:" + cls.getName() + ":0000000000000000" ;
         }
 
-        private void doTest( Class root, Class expectedZerothId, 
+        private void doTest( Class root, Class expectedZerothId,
             Class[] otherIds )
         {
             PresentationManager.ClassData cdata = pm.getClassData( root ) ;
-            String[] typeIds = cdata.getTypeIds() ;    
+            String[] typeIds = cdata.getTypeIds() ;
             String firstId = typeIds[0] ;
             Set rest = makeSet( typeIds, 1 ) ;
 
             String expectedFirstId = makeTypeId( expectedZerothId ) ;
             Set expectedRest = makeSet( otherIds, 0 ) ;
 
-            assertEquals( "firstId = " + firstId + " expectedFirstId = " + 
+            assertEquals( "firstId = " + firstId + " expectedFirstId = " +
                 expectedFirstId, firstId, expectedFirstId ) ;
 
-            assertTrue( "rest = " + rest + " expectedRest = " + expectedRest, 
+            assertTrue( "rest = " + rest + " expectedRest = " + expectedRest,
                 rest.equals( expectedRest ) ) ;
         }
 
@@ -741,7 +741,7 @@ public class Client extends TestCase
     {
         /* Test strategy:
          * Same test class as in the TieTestSuite?
-         * Simple methods: 0,1 arg; 0,1 result; 
+         * Simple methods: 0,1 arg; 0,1 result;
          * Echo test: for each kind of type, have an echo method that takes and
          * returns that type.  Verify that the DMM reads and writes these types
          * correctly (run the test for R/W arg/result).
@@ -763,7 +763,7 @@ public class Client extends TestCase
          * IDLEntity
          * HashMap (a value type)
          *
-         * It is actually more important to verify that the 
+         * It is actually more important to verify that the
          * DMM correctly assigns the right ReaderWriter to each type.
          */
 
@@ -772,12 +772,12 @@ public class Client extends TestCase
             super() ;
         }
 
-        public DMMTestSuite( String name ) 
+        public DMMTestSuite( String name )
         {
             super( name ) ;
         }
 
-        // This is provided to prevent JUnit from complaining that Client 
+        // This is provided to prevent JUnit from complaining that Client
         // does not contain tests.
         public void testDummy()
         {
@@ -788,7 +788,7 @@ public class Client extends TestCase
     public static class DMMImplTestSuite extends TestCase
     {
         /*
-         * It is actually more important to verify that the 
+         * It is actually more important to verify that the
          * DMM correctly assigns the right ReaderWriter to each type.
          * To do this, we test DynamicMethodMarshalledImpl.makeReadWriter
          * directly to see that the correct ReaderWriter is created
@@ -800,7 +800,7 @@ public class Client extends TestCase
             super() ;
         }
 
-        public DMMImplTestSuite( String name ) 
+        public DMMImplTestSuite( String name )
         {
             super( name ) ;
         }
@@ -810,23 +810,23 @@ public class Client extends TestCase
             return "ReaderWriter[" + cname + "]" ;
         }
 
-        private String makeRWName( String type, String cname ) 
+        private String makeRWName( String type, String cname )
         {
             return makeRWName( type + "(" + cname + ")" ) ;
         }
 
         private void doTest( Class cls, String cname )
         {
-            DynamicMethodMarshallerImpl.ReaderWriter rw = 
+            DynamicMethodMarshallerImpl.ReaderWriter rw =
                 DynamicMethodMarshallerImpl.makeReaderWriter( cls ) ;
             assertEquals( makeRWName( cname ), rw.toString() ) ;
         }
 
-        private void doClassTest( Class cls, String type ) 
+        private void doClassTest( Class cls, String type )
         {
-            DynamicMethodMarshallerImpl.ReaderWriter rw = 
+            DynamicMethodMarshallerImpl.ReaderWriter rw =
                 DynamicMethodMarshallerImpl.makeReaderWriter( cls ) ;
-            assertEquals( makeRWName( type, cls.getName() ), 
+            assertEquals( makeRWName( type, cls.getName() ),
                 rw.toString() ) ;
         }
 
@@ -872,7 +872,7 @@ public class Client extends TestCase
 
         public void testCORBAObject()
         {
-            doTest( org.omg.CORBA.Object.class, 
+            doTest( org.omg.CORBA.Object.class,
                 "org.omg.CORBA.Object" ) ;
         }
 
@@ -903,25 +903,25 @@ public class Client extends TestCase
 
         public void testAllRemote()
         {
-            doTest( DMMImplTestClasses.AllRemote.class, 
+            doTest( DMMImplTestClasses.AllRemote.class,
                 "abstract_interface" ) ;
         }
 
         public void testSomeRemote()
         {
-            doClassTest( DMMImplTestClasses.SomeRemote.class, 
+            doClassTest( DMMImplTestClasses.SomeRemote.class,
                 "value" ) ;
         }
 
         public void testNoRemote()
         {
-            doClassTest( DMMImplTestClasses.NoRemote.class, 
+            doClassTest( DMMImplTestClasses.NoRemote.class,
                 "value" ) ;
         }
 
         public void testNoMethods()
         {
-            doTest( DMMImplTestClasses.NoMethods.class, 
+            doTest( DMMImplTestClasses.NoMethods.class,
                 "abstract_interface" ) ;
         }
 
@@ -977,7 +977,7 @@ public class Client extends TestCase
             init() ;
         }
 
-        public IDLTypeTestSuite( String name ) 
+        public IDLTypeTestSuite( String name )
         {
             super( name ) ;
             init() ;
@@ -993,12 +993,12 @@ public class Client extends TestCase
             assertEquals( itype1.getModuleName(), "" ) ;
         }
 
-        public void testGetModuleName2() 
+        public void testGetModuleName2()
         {
             assertEquals( itype2.getModuleName(), "first" ) ;
         }
 
-        public void testGetModuleName3() 
+        public void testGetModuleName3()
         {
             assertEquals( itype3.getModuleName(), "first_second" ) ;
         }
@@ -1013,21 +1013,21 @@ public class Client extends TestCase
         public void testGetExceptionName2()
         {
             assertTrue( "Actual value=" + itype2.getExceptionName(),
-                itype2.getExceptionName().equals( 
+                itype2.getExceptionName().equals(
                 "IDL:first/BarEx:1.0" ) ) ;
         }
 
         public void testGetExceptionName3()
         {
             assertTrue( "Actual value=" + itype3.getExceptionName(),
-                itype3.getExceptionName().equals( 
+                itype3.getExceptionName().equals(
                 "IDL:first/second/BazEx:1.0" ) ) ;
         }
 
         public void testGetExceptionName4()
         {
             assertTrue( "Actual value=" + itype4.getExceptionName(),
-                itype4.getExceptionName().equals( 
+                itype4.getExceptionName().equals(
                 "IDL:java/lang/Ex:1.0" ) ) ;
         }
 
@@ -1064,7 +1064,7 @@ public class Client extends TestCase
 
     // Methods shared by stub and tie tests.
 
-    public static  Method getMethodByName( String mname ) 
+    public static  Method getMethodByName( String mname )
     {
         Method[] methods = TieTest.class.getDeclaredMethods() ;
         Method method = null ;
@@ -1087,12 +1087,12 @@ public class Client extends TestCase
             this.transport = transport ;
         }
 
-        public org.omg.CORBA.portable.OutputStream createReply() 
+        public org.omg.CORBA.portable.OutputStream createReply()
         {
             return transport.makeNormalReply() ;
         }
 
-        public org.omg.CORBA.portable.OutputStream createExceptionReply() 
+        public org.omg.CORBA.portable.OutputStream createExceptionReply()
         {
             return transport.makeExceptionReply() ;
         }
@@ -1101,14 +1101,14 @@ public class Client extends TestCase
     public static class TieTestSuite extends TestCase
     {
         /* Test strategy:
-         * Create a remote interface TieTest that contains all necessary 
+         * Create a remote interface TieTest that contains all necessary
          * methods for different argument and result patterns.
          * Assume that the DMM test has handled all of the oddball cases.
          * Give the methods unique names just to make things easier.
          * For each method, define a set of arguments and an expected result.
          * Have some methods throw exceptions:
          *  1. System Exception
-         *  2. Java exception (we don't do anything at this level with other 
+         *  2. Java exception (we don't do anything at this level with other
          *     types).
          * Create a TieTestImpl class that implements TieTest and also defines
          * the arguments to pass to a method and the expected result.
@@ -1132,7 +1132,7 @@ public class Client extends TestCase
         private TestTransport transport = null ;
         private PresentationManager pm = null ;
         private PresentationManager.ClassData cdata = null ;
-        
+
         private Tie tie = null ;
         private TieTestImpl impl = null ;
 
@@ -1141,7 +1141,7 @@ public class Client extends TestCase
         private void init()
         {
             Properties props = new Properties() ;
-            props.setProperty( "org.omg.CORBA.ORBClass", 
+            props.setProperty( "org.omg.CORBA.ORBClass",
                 "com.sun.corba.ee.impl.orb.ORBImpl" ) ;
             String[] args = null ;
             orb = (ORB)org.omg.CORBA.ORB.init( args, props ) ;
@@ -1153,7 +1153,7 @@ public class Client extends TestCase
             tie.orb( orb ) ;
             impl = new TieTestImpl() ;
             tie.setTarget( impl ) ;
-            
+
             rhandler = new ResponseHandlerImpl( transport ) ;
         }
 
@@ -1163,7 +1163,7 @@ public class Client extends TestCase
             init() ;
         }
 
-        public TieTestSuite( String name ) 
+        public TieTestSuite( String name )
         {
             super( name ) ;
             init() ;
@@ -1173,7 +1173,7 @@ public class Client extends TestCase
         {
             IDLNameTranslator nt = cdata.getIDLNameTranslator() ;
             Method method = getMethodByName( mname ) ;
-            DynamicMethodMarshaller dmm = pm.getDynamicMethodMarshaller( 
+            DynamicMethodMarshaller dmm = pm.getDynamicMethodMarshaller(
                 method ) ;
             Object[] args = impl.getExpectedArguments( mname ) ;
 
@@ -1185,7 +1185,7 @@ public class Client extends TestCase
                 wireMname = mname ;
 
             OutputStream os = transport.makeRequest( wireMname ) ;
-            if ((args != null) && (dmm != null)) 
+            if ((args != null) && (dmm != null))
                 dmm.writeArguments( os, args ) ;
             InputStream is = transport.getInputStream( os ) ;
             transport.readRequestHeader( is ) ;
@@ -1197,7 +1197,7 @@ public class Client extends TestCase
         {
             InputStream is = transport.getInputStream( os ) ;
             Method method = getMethodByName( mname ) ;
-            DynamicMethodMarshaller dmm = pm.getDynamicMethodMarshaller( 
+            DynamicMethodMarshaller dmm = pm.getDynamicMethodMarshaller(
                 method ) ;
 
             try {
@@ -1222,22 +1222,22 @@ public class Client extends TestCase
                 fail( err ) ;
         }
 
-        public void doTest( String mname ) 
-        { 
+        public void doTest( String mname )
+        {
             Object expectedResult = impl.getExpectedTieResult( mname ) ;
             InputStream is = makeInputStream( mname ) ;
             Method method = getMethodByName( mname ) ;
-            String methodWireName = cdata.getIDLNameTranslator().getIDLName( 
+            String methodWireName = cdata.getIDLNameTranslator().getIDLName(
                 method ) ;
             try {
-                OutputStream os = (OutputStream)tie._invoke( methodWireName, 
+                OutputStream os = (OutputStream)tie._invoke( methodWireName,
                     is, rhandler ) ;
                 checkOutputStream( expectedResult, mname, os ) ;
             } catch (Exception exc) {
                 Client.sameException( exc, expectedResult ) ;
             }
 
-            checkLastError() ; 
+            checkLastError() ;
         }
 
         public void testHasAByteArray() {
@@ -1303,7 +1303,7 @@ public class Client extends TestCase
     public static class StubTestSuite extends TestCase
     {
         /* Test strategy:
-         * Create a remote interface StubTest that contains all necessary 
+         * Create a remote interface StubTest that contains all necessary
          * methods for different argument and result patterns.
          * Assume that the DMM test has handled all of the oddball cases.
          * Give the methods unique names just to make things easier.
@@ -1318,29 +1318,29 @@ public class Client extends TestCase
          * Most of the Delegate methods are no-ops.  We only implement
          * those methods required by the dynamic stub:
          * 1. Delegate.request( proxy, String, respExp )
-         *      Just create a stream and return it.  This must contain the 
+         *      Just create a stream and return it.  This must contain the
          *      method name.
-         * 2. Delegate.invoke( proxy, OutputStream ) 
+         * 2. Delegate.invoke( proxy, OutputStream )
          *      Unmarshal args and check that they match.
          *      Construct response according to method name for the test case.
          * 3. Delegate.releaseReply( proxy, InputStream )
          *      Just set a flag that this has been called, which needs to be
          *      checked in the test case.
          * 4. Delegate.servant_preinvoke( proxy, String, Class )
-         * 5. Delegate.servant_postinvoke( proxy, ServantObject ) 
+         * 5. Delegate.servant_postinvoke( proxy, ServantObject )
          * 6. Delegate is an instance of CorbaClientDelegate
-         * 7. Delegate.getContactInfoList needs to return a 
+         * 7. Delegate.getContactInfoList needs to return a
          *    CorbaContactInfoList that:
-         * 8. Implement getLocalClientRequestDispatcher by returning a 
+         * 8. Implement getLocalClientRequestDispatcher by returning a
          *    LocalClientRequestDispatcher that allows the test to return either
          *    true or false for lcrd.useLocalInvocation.
          *
-         * Test cases: (we have already exercised enough of the 0-1 arg/result 
+         * Test cases: (we have already exercised enough of the 0-1 arg/result
          * cases)
-         * 1 arg, 1 result, return result 
+         * 1 arg, 1 result, return result
          *      check for correct result
          * 1 arg, 1 result, throws system exception
-         *      check for correctly mapped exception 
+         *      check for correctly mapped exception
          * 1 arg, 1 result, throws java exception
          *      check for Unknown
          * 1 arg, 1 result, throws declared exception
@@ -1355,7 +1355,7 @@ public class Client extends TestCase
         private void init()
         {
             Properties props = new Properties() ;
-            props.setProperty( "org.omg.CORBA.ORBClass", 
+            props.setProperty( "org.omg.CORBA.ORBClass",
                 "com.sun.corba.ee.impl.orb.ORBImpl" ) ;
             String[] args = null ;
             ORB orb = (ORB)org.omg.CORBA.ORB.init( args, props ) ;
@@ -1370,7 +1370,7 @@ public class Client extends TestCase
             tie.setTarget( impl ) ;
 
             ResponseHandler rhandler = new ResponseHandlerImpl( transport ) ;
-            delegate = new TestClientDelegate( orb, transport, impl, tie, 
+            delegate = new TestClientDelegate( orb, transport, impl, tie,
                 rhandler ) ;
             Class cls = TieTest.class ;
             stub = sff.createStubFactory( cls.getName(), false, "", cls,
@@ -1384,14 +1384,14 @@ public class Client extends TestCase
             init() ;
         }
 
-        public StubTestSuite( String name ) 
+        public StubTestSuite( String name )
         {
             super( name ) ;
             init() ;
         }
 
-        public void doTest( String mname ) 
-        { 
+        public void doTest( String mname )
+        {
             Object expectedResult = impl.getExpectedStubResult( mname ) ;
             Method method = getMethodByName( mname ) ;
             Object[] expectedArgs = impl.getExpectedArguments( mname ) ;
@@ -1406,7 +1406,7 @@ public class Client extends TestCase
                 fail( "Unexpected exception " + ex + " in doTest" ) ;
             }
 
-            checkLastError() ; 
+            checkLastError() ;
         }
 
         private void doLocalTest( String name )
@@ -1426,10 +1426,10 @@ public class Client extends TestCase
             String err = impl.getLastError() ;
             if (err != null)
                 fail( err ) ;
-            delegate.checkForError(); 
+            delegate.checkForError();
         }
 
-        public void testLocalHasAByteArray() 
+        public void testLocalHasAByteArray()
         {
             doLocalTest( "hasAByteArray" ) ;
         }
@@ -1486,7 +1486,7 @@ public class Client extends TestCase
             doLocalTest( "vm2" ) ;
         }
 
-        public void testRemoteHasAByteArray() 
+        public void testRemoteHasAByteArray()
         {
             doRemoteTest( "hasAByteArray" ) ;
         }

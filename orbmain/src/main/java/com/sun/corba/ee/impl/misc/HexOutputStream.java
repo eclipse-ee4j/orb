@@ -37,7 +37,7 @@ public class HexOutputStream extends OutputStream
         '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
     };
 
-    private StringWriter writer; 
+    private StringWriter writer;
 
     /**
      * Creates a new HexOutputStream.

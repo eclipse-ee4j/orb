@@ -50,9 +50,9 @@
         </condition>
     </fail>
     <target depends="dist" description="Build whole project." name="default"/>
-    <!-- 
+    <!--
                 ======================
-                INITIALIZATION SECTION 
+                INITIALIZATION SECTION
                 ======================
             -->
     <target name="-pre-init">
@@ -525,7 +525,7 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
         <copy file="${file.reference.gmbal.jar}" todir="${dist.ear.dir}/lib"/>
         <copy file="${file.reference.javaee.jar}" todir="${dist.ear.dir}/lib"/>
         <copy todir="${dist.ear.dir}/lib">
-            <fileset dir="../../../${j2ee.server.home}/modules"> 
+            <fileset dir="../../../${j2ee.server.home}/modules">
                 <filename name="${file.reference.glassfish-corba-*.jar}"/>
             </fileset>
         </copy>

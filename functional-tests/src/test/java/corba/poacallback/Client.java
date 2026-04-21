@@ -22,13 +22,13 @@ package corba.poacallback;
 public class Client {
     private static org.omg.CORBA.ORB orb;
 
-    public static void main( String[] args ) { 
+    public static void main( String[] args ) {
         try {
             orb = org.omg.CORBA.ORB.init( args, null );
 
-            org.omg.CORBA.Object obj = 
+            org.omg.CORBA.Object obj =
                 orb.resolve_initial_references( "NameService");
-            org.omg.CosNaming.NamingContextExt nctx = 
+            org.omg.CosNaming.NamingContextExt nctx =
                 org.omg.CosNaming.NamingContextExtHelper.narrow( obj );
 
             obj = nctx.resolve_str( "idlI1" );

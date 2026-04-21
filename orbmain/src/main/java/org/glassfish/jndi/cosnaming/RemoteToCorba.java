@@ -56,22 +56,22 @@ public class RemoteToCorba implements StateFactory {
      */
     public Object getStateToBind(Object orig, Name name, Context ctx,
         Hashtable<?,?> env) throws NamingException {
-    	try {
-	        if (orig instanceof org.omg.CORBA.Object) {
-	            // Already a CORBA object, just use it
-	            return null;
-	        }
+        try {
+            if (orig instanceof org.omg.CORBA.Object) {
+                // Already a CORBA object, just use it
+                return null;
+            }
 
-	        if (orig instanceof Remote) {
-	            // Turn remote object into org.omg.CORBA.Object
-	            // Returns null if JRMP; let next factory try
-	            // CNCtx will eventually throw IllegalArgumentException if
-	            // no CORBA object gotten
-	            return CorbaUtils.remoteToCorba((Remote)orig, ((CNCtx)ctx)._orb);
-	        }
-	    }catch(Exception e){
-	    	e.printStackTrace();
-	    };
+            if (orig instanceof Remote) {
+                // Turn remote object into org.omg.CORBA.Object
+                // Returns null if JRMP; let next factory try
+                // CNCtx will eventually throw IllegalArgumentException if
+                // no CORBA object gotten
+                return CorbaUtils.remoteToCorba((Remote)orig, ((CNCtx)ctx)._orb);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        };
         return null; // pass and let next state factory try
     }
 }

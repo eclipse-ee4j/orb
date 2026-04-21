@@ -50,7 +50,7 @@ import com.sun.tools.corba.ee.idl.constExpr.Expression;
 // -D59560   <klr> call read/write_Context
 // -D60929   <klr> Update for RTF2.4 changes
 // -D61056   <klr> Use Util.helperName
-// -D61650<daz> Remove '\n' from generated strings; use println()'s. 
+// -D61650<daz> Remove '\n' from generated strings; use println()'s.
 
 import java.io.PrintWriter;
 import java.util.Enumeration;
@@ -119,10 +119,10 @@ public class MethodGen implements com.sun.tools.corba.ee.idl.MethodGen
   /**
    *
    **/
-  protected void stub (String className, boolean isAbstract, 
+  protected void stub (String className, boolean isAbstract,
       Hashtable symbolTable, MethodEntry m, PrintWriter stream, int index)
   {
-    localOptimization = 
+    localOptimization =
         ((Arguments) com.sun.tools.corba.ee.idl.toJavaPortable.Compile.compiler.arguments).LocalOptimization;
     this.isAbstract  = isAbstract;
     this.symbolTable = symbolTable;
@@ -467,7 +467,7 @@ public class MethodGen implements com.sun.tools.corba.ee.idl.MethodGen
         stream.println (ONE_INDENT + "while(true) {" );
         stream.println(TWO_INDENT + "if(!this._is_local()) {" );
     }
-    stream.println(THREE_INDENT + 
+    stream.println(THREE_INDENT +
         "org.omg.CORBA.portable.InputStream $in = null;");
     stream.println(THREE_INDENT + "try {");
     stream.println(FOUR_INDENT + "org.omg.CORBA.portable.OutputStream $out =" +
@@ -481,7 +481,7 @@ public class MethodGen implements com.sun.tools.corba.ee.idl.MethodGen
       ParameterEntry parm = (ParameterEntry)parms.nextElement ();
       SymtabEntry parmType = com.sun.tools.corba.ee.idl.toJavaPortable.Util.typeOf(parm.type());
       if (parmType instanceof StringEntry)
-        if ((parm.passType () == ParameterEntry.In) || 
+        if ((parm.passType () == ParameterEntry.In) ||
             (parm.passType () == ParameterEntry.Inout))
         {
           StringEntry string = (StringEntry)parmType;
@@ -493,9 +493,9 @@ public class MethodGen implements com.sun.tools.corba.ee.idl.MethodGen
             stream.print (" == null || " + parm.name ());
             if (parm.passType () == ParameterEntry.Inout)
               stream.print (".value"); // get from holder
-            stream.println (".length () > (" + 
+            stream.println (".length () > (" +
                 com.sun.tools.corba.ee.idl.toJavaPortable.Util.parseExpression(string.maxSize()) + "))");
-            stream.println (THREE_INDENT + 
+            stream.println (THREE_INDENT +
                 "throw new org.omg.CORBA.BAD_PARAM (0," +
                 " org.omg.CORBA.CompletionStatus.COMPLETED_NO);");
           }
@@ -512,7 +512,7 @@ public class MethodGen implements com.sun.tools.corba.ee.idl.MethodGen
         writeOutputStreamWrite(FOUR_INDENT, "$out", parm.name (), parm.type (),
             stream);
       else if (parm.passType () == ParameterEntry.Inout)
-        writeOutputStreamWrite(FOUR_INDENT, "$out", parm.name () + ".value", 
+        writeOutputStreamWrite(FOUR_INDENT, "$out", parm.name () + ".value",
             parm.type (), stream);
     }
 
@@ -522,12 +522,12 @@ public class MethodGen implements com.sun.tools.corba.ee.idl.MethodGen
       stream.println(FOUR_INDENT + "org.omg.CORBA.ContextList $contextList =" +
          "_orb ().create_context_list ();");
 
-      for (int cnt = 0; cnt < m.contexts ().size (); cnt++) 
+      for (int cnt = 0; cnt < m.contexts ().size (); cnt++)
       {
-          stream.println(FOUR_INDENT + 
+          stream.println(FOUR_INDENT +
              "$contextList.add (\"" + m.contexts (). elementAt (cnt) + "\");");
       }
-      stream.println(FOUR_INDENT + 
+      stream.println(FOUR_INDENT +
           "$out.write_Context ($context, $contextList);");
     }
 
@@ -549,19 +549,19 @@ public class MethodGen implements com.sun.tools.corba.ee.idl.MethodGen
         if (parm.type () instanceof ValueBoxEntry)
         {
           ValueBoxEntry v = (ValueBoxEntry) parm.type ();
-          TypedefEntry member = 
+          TypedefEntry member =
               ((InterfaceState) v.state ().elementAt (0)).entry;
           SymtabEntry mType = member.type ();
           if (mType instanceof PrimitiveEntry)
-            stream.println(FOUR_INDENT +  parm.name () + 
-                ".value = (" + writeInputStreamRead ("$in", parm.type ()) + 
+            stream.println(FOUR_INDENT +  parm.name () +
+                ".value = (" + writeInputStreamRead ("$in", parm.type ()) +
                 ").value;");
           else
-            stream.println(FOUR_INDENT +  parm.name () + 
+            stream.println(FOUR_INDENT +  parm.name () +
                 ".value = " + writeInputStreamRead ("$in", parm.type ()) +";");
         }
         else
-          stream.println (FOUR_INDENT +  parm.name () + ".value = " + 
+          stream.println (FOUR_INDENT +  parm.name () + ".value = " +
               writeInputStreamRead ("$in", parm.type ()) + ";");
       }
     }
@@ -573,15 +573,15 @@ public class MethodGen implements com.sun.tools.corba.ee.idl.MethodGen
       ParameterEntry parm = (ParameterEntry)parms.nextElement ();
       SymtabEntry parmType = com.sun.tools.corba.ee.idl.toJavaPortable.Util.typeOf(parm.type());
       if (parmType instanceof StringEntry)
-        if ((parm.passType () == ParameterEntry.Out) || 
+        if ((parm.passType () == ParameterEntry.Out) ||
             (parm.passType () == ParameterEntry.Inout))
         {
           StringEntry string = (StringEntry)parmType;
           if (string.maxSize () != null)
           {
-            stream.print (FOUR_INDENT + "if (" + parm.name () + 
+            stream.print (FOUR_INDENT + "if (" + parm.name () +
                 ".value.length ()");
-            stream.println ("         > (" + 
+            stream.println ("         > (" +
                 com.sun.tools.corba.ee.idl.toJavaPortable.Util.parseExpression(string.maxSize()) + "))");
             stream.println (FIVE_INDENT + "throw new org.omg.CORBA.MARSHAL(0,"+
                 "org.omg.CORBA.CompletionStatus.COMPLETED_NO);");
@@ -593,7 +593,7 @@ public class MethodGen implements com.sun.tools.corba.ee.idl.MethodGen
       StringEntry string = (StringEntry)mtype;
       if (string.maxSize () != null)
       {
-        stream.println(FOUR_INDENT + "if ($result.length () > (" + 
+        stream.println(FOUR_INDENT + "if ($result.length () > (" +
             com.sun.tools.corba.ee.idl.toJavaPortable.Util.parseExpression(string.maxSize()) + "))");
         stream.println (FIVE_INDENT + "throw new org.omg.CORBA.MARSHAL (0," +
             " org.omg.CORBA.CompletionStatus.COMPLETED_NO);");
@@ -609,7 +609,7 @@ public class MethodGen implements com.sun.tools.corba.ee.idl.MethodGen
     }
 
     // Step 6  Handle exceptions
-    stream.println(THREE_INDENT + 
+    stream.println(THREE_INDENT +
         "} catch (org.omg.CORBA.portable.ApplicationException " + "$ex) {");
     stream.println(FOUR_INDENT + "$in = $ex.getInputStream ();");
     stream.println(FOUR_INDENT + "String _id = $ex.getId ();");
@@ -630,16 +630,16 @@ public class MethodGen implements com.sun.tools.corba.ee.idl.MethodGen
           stream.print(FOUR_INDENT + "else if ");
 
         stream.println( "(_id.equals (\"" + exc.repositoryID ().ID () + "\"))");
-        stream.println (FIVE_INDENT + "throw " + 
+        stream.println (FIVE_INDENT + "throw " +
             com.sun.tools.corba.ee.idl.toJavaPortable.Util.helperName((SymtabEntry) exc, false) + ".read ($in);");
       }
       stream.println(FOUR_INDENT + "else");
-      stream.println(FIVE_INDENT + "throw new org.omg.CORBA.MARSHAL (_id);"); 
+      stream.println(FIVE_INDENT + "throw new org.omg.CORBA.MARSHAL (_id);");
     }
     else
       stream.println(FOUR_INDENT + "throw new org.omg.CORBA.MARSHAL (_id);");
 
-    stream.println(THREE_INDENT + 
+    stream.println(THREE_INDENT +
         "} catch (org.omg.CORBA.portable.RemarshalException $rm) {");
     stream.print( FOUR_INDENT );
     if (m.type () != null) // not a void method
@@ -679,12 +679,12 @@ public class MethodGen implements com.sun.tools.corba.ee.idl.MethodGen
 
 
   /**
-   * This method writes the else part of the stub method invocation to 
-   * enable local invocation in case of collocation. 
-   * NOTE: This will only be invoked from writeStubBody. 
+   * This method writes the else part of the stub method invocation to
+   * enable local invocation in case of collocation.
+   * NOTE: This will only be invoked from writeStubBody.
    */
-  private void writeStubBodyForLocalInvocation( String className, 
-      String methodName ) 
+  private void writeStubBodyForLocalInvocation( String className,
+      String methodName )
   {
     stream.println (TWO_INDENT + "else {" );
     stream.println (THREE_INDENT +
@@ -708,7 +708,7 @@ public class MethodGen implements com.sun.tools.corba.ee.idl.MethodGen
     if ( !voidReturnType ) {
         stream.println (FOUR_INDENT + com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaName(this.m.type()) +
             " $result;");
-    } 
+    }
     if( !isValueInitializer() ) {
         if ( voidReturnType ) {
             stream.print(FOUR_INDENT + "_self." + methodName + "( " );
@@ -1040,7 +1040,7 @@ public class MethodGen implements com.sun.tools.corba.ee.idl.MethodGen
     }
     else if (type instanceof StringEntry)
       read = source + ".read_" + type.name () + " ()";
-    else 
+    else
       read = com.sun.tools.corba.ee.idl.toJavaPortable.Util.helperName(type, true) + ".read (" + source + ')'; // <d61056>
     return read;
   } // writeInputStreamRead

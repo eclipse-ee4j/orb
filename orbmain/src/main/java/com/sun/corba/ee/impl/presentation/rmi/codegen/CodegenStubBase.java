@@ -40,7 +40,7 @@ import java.security.PrivilegedAction ;
 
 import javax.rmi.CORBA.Stub ;
 
-public class CodegenStubBase extends Stub 
+public class CodegenStubBase extends Stub
 {
     private transient String[] typeIds ;
     private transient Method[] methods ;
@@ -52,7 +52,7 @@ public class CodegenStubBase extends Stub
 
     private Object readResolve( ) throws ObjectStreamException
     {
-        // Note that we cannot use PRO.narrow here, because the 
+        // Note that we cannot use PRO.narrow here, because the
         // delegate is not set by deserializing the stub.  Only
         // the IOR is set, because a deserialized stub is not connected
         // to an ORB.
@@ -71,10 +71,10 @@ public class CodegenStubBase extends Stub
     // is private in javax.rmi.CORBA.Stub, and Stub must follow
     // the OMG standard.  So, we use reflection to get stubDelegate.
     // We also need to handle the case where the stubDelegate has not
-    // been set yet.  This reqires a call to the private method 
+    // been set yet.  This reqires a call to the private method
     // setDefaultDelegate.
     //
-    private static StubDelegateImpl getStubDelegateImpl( 
+    private static StubDelegateImpl getStubDelegateImpl(
         final org.omg.CORBA.Object stub )
     {
         StubDelegateImpl sdi = getStubDelegateImplField( stub ) ;
@@ -85,10 +85,10 @@ public class CodegenStubBase extends Stub
         return sdi ;
     }
 
-    private static StubDelegateImpl getStubDelegateImplField( 
+    private static StubDelegateImpl getStubDelegateImplField(
         final org.omg.CORBA.Object stub )
     {
-        return (StubDelegateImpl)AccessController.doPrivileged( 
+        return (StubDelegateImpl)AccessController.doPrivileged(
             new PrivilegedAction() {
                 public Object run() {
                     try {
@@ -97,7 +97,7 @@ public class CodegenStubBase extends Stub
                         return fld.get( stub ) ;
                     } catch (Exception exc) {
                         throw wrapper.couldNotAccessStubDelegate() ;
-                    } 
+                    }
                 }
             }
         ) ;
@@ -107,12 +107,12 @@ public class CodegenStubBase extends Stub
 
     private static void setDefaultDelegate( final org.omg.CORBA.Object stub )
     {
-        AccessController.doPrivileged( 
+        AccessController.doPrivileged(
             new PrivilegedAction() {
                 public Object run() {
                     try {
                         if (setDefaultDelegateMethod == null) {
-                            setDefaultDelegateMethod = 
+                            setDefaultDelegateMethod =
                                 Stub.class.getDeclaredMethod( "setDefaultDelegate") ;
                             setDefaultDelegateMethod.setAccessible( true ) ;
                         }
@@ -128,7 +128,7 @@ public class CodegenStubBase extends Stub
     }
 
     private void readObject( ObjectInputStream stream ) throws
-        IOException, ClassNotFoundException 
+        IOException, ClassNotFoundException
     {
         // Let the superclass do the read of the internal IOR,
         // but we need to restore our transient fields.  But
@@ -139,7 +139,7 @@ public class CodegenStubBase extends Stub
 
         StubIORImpl ior = sdi.getIOR() ;
         String repositoryId = ior.getRepositoryId() ;
-        String cname = RepositoryId.cache.getId( repositoryId ).getClassName() ; 
+        String cname = RepositoryId.cache.getId( repositoryId ).getClassName() ;
 
         Class cls = null ;
 
@@ -152,8 +152,8 @@ public class CodegenStubBase extends Stub
         PresentationManager pm = ORB.getPresentationManager() ;
         classData = pm.getClassData( cls ) ;
 
-        InvocationHandler handler = new StubInvocationHandlerImpl( pm, 
-            classData, this ) ; 
+        InvocationHandler handler = new StubInvocationHandlerImpl( pm,
+            classData, this ) ;
         initialize( classData, handler ) ;
     }
 
@@ -192,12 +192,12 @@ public class CodegenStubBase extends Stub
             StubAdapter.getDelegate( this )) ;
         return result ;
     }
-    
+
     // Needed in generated code
-    protected Object invoke( int methodNumber, Object[] args ) throws Throwable 
+    protected Object invoke( int methodNumber, Object[] args ) throws Throwable
     {
         Method method = methods[methodNumber] ;
-        
+
         // Pass null for the Proxy since we don't have one.
         return handler.invoke( null, method, args ) ;
     }

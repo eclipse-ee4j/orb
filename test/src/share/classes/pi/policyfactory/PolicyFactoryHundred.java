@@ -34,4 +34,4 @@ public class PolicyFactoryHundred extends LocalObject
         return new PolicyHundred();
     }
 }
-  
+

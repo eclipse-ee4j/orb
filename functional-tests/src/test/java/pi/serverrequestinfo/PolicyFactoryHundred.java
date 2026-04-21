@@ -23,7 +23,7 @@ import java.util.*;
 import java.io.*;
 import org.omg.CORBA.*;
 
-/** 
+/**
  * This is the Policy Factory to create PolicyHundred object.
  *
  * COPIED FROM iorinterceptor test.
@@ -37,4 +37,4 @@ public class PolicyFactoryHundred extends LocalObject
         return new PolicyHundred( val.extract_long() );
     }
 }
-  
+

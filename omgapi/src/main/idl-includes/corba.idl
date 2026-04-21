@@ -18,24 +18,24 @@
  */
 
 // minimal definitions to keep idltojava happy while compiling poa.idl
-#pragma prefix "omg.org" 
+#pragma prefix "omg.org"
 
-module CORBA {   
+module CORBA {
 
         typedef string Identifier;
         typedef string RepositoryId;
 
-        // basic Policy definition 
+        // basic Policy definition
         typedef unsigned long PolicyType ;
 
         /** The Policy interface provides a mechanism for ORBs and Object
-        * Services to allow access to certain choices that affect their 
+        * Services to allow access to certain choices that affect their
         * operation.  This information is accessed in a structured manner
         * using interfaces derived from the org.omg.CORBA.Policy interface.
         */
-        interface Policy { 
-                /** Return the constant value that corresponds to the 
-                * type of the policy object.  The values of 
+        interface Policy {
+                /** Return the constant value that corresponds to the
+                * type of the policy object.  The values of
                 * the polivy objectys are allocated by the OMG.
                 * New values for PolicyType should be obtained from the OMG by
                 * sending mail to request@omg.org.  In general the constant
@@ -50,15 +50,15 @@ module CORBA {
                 * relationships that the policy had with any domain or object.
                 * @return the copy of the policy object.
                 */
-                Policy copy( ); 
+                Policy copy( );
 
                 /** Destroys the policy object.  It is the responsibility of
                 * the policy object to determine whether it can be destroyed.
                 */
-                void destroy( ); 
-        }; 
+                void destroy( );
+        };
 
-        typedef sequence <Policy> PolicyList; 
+        typedef sequence <Policy> PolicyList;
 
         /**
          * An interface that makes it possible to access information

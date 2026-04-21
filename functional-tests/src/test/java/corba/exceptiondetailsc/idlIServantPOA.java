@@ -28,7 +28,7 @@ import org.omg.CORBA.FREE_MEM;
 import corba.hcks.U;
 
 class idlIServantPOA
-    extends 
+    extends
         idlIPOA
 {
     public static final String baseMsg = idlIServantPOA.class.getName();

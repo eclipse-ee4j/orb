@@ -53,11 +53,11 @@ public class GraphProcessorImpl extends PortableRemoteObject implements GraphPro
             Node node = (Node)enumeration.nextElement();
             System.out.println("Link " + (i++) + ": "
                                + (node == graphStart ? "good" : "bad"));
-            
+
         }
     }
 
-    public Object verifyTransmission(Object input) 
+    public Object verifyTransmission(Object input)
     {
         return input;
     }

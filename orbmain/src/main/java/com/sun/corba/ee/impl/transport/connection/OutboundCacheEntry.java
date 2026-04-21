@@ -33,8 +33,8 @@ import org.glassfish.gmbal.Description ;
 import org.glassfish.gmbal.ManagedAttribute ;
 import org.glassfish.gmbal.ManagedData ;
 
-// Represents an entry in the outbound connection cache.  
-// This version handles normal shareable ContactInfo 
+// Represents an entry in the outbound connection cache.
+// This version handles normal shareable ContactInfo
 // (we also need to handle no share).
 @ManagedData
 public class OutboundCacheEntry<C extends Connection> {
@@ -91,7 +91,7 @@ public class OutboundCacheEntry<C extends Connection> {
     }
 
     @ManagedAttribute( id="numIdleConnections" )
-    @Description( "Number of idle connections" ) 
+    @Description( "Number of idle connections" )
     private int numIdleConnectionsAttribute() {
         lock.lock() ;
         try {
@@ -102,7 +102,7 @@ public class OutboundCacheEntry<C extends Connection> {
     }
 
     @ManagedAttribute( id="numPendingConnections" )
-    @Description( "Number of pending connections" ) 
+    @Description( "Number of pending connections" )
     private int numPendingConnectionsAttribute() {
         lock.lock() ;
         try {
@@ -113,7 +113,7 @@ public class OutboundCacheEntry<C extends Connection> {
     }
 
     @ManagedAttribute( id="numBusyConnections" )
-    @Description( "Number of busy connections" ) 
+    @Description( "Number of busy connections" )
     private int numBusyConnectionsAttribute() {
         lock.lock() ;
         try {
@@ -124,7 +124,7 @@ public class OutboundCacheEntry<C extends Connection> {
     }
 
     public int totalConnections() {
-        return idleConnections.size() + busyConnections.size() 
+        return idleConnections.size() + busyConnections.size()
             + pendingConnections ;
     }
 

@@ -20,8 +20,8 @@
 package org.omg.CORBA;
 
 /**
- * Exception thrown when the ORB has encountered some general resource 
- * limitation. For example, the run time may have reached the maximum 
+ * Exception thrown when the ORB has encountered some general resource
+ * limitation. For example, the run time may have reached the maximum
  * permissible number of open connections.<P>
  * It contains a minor code, which gives more detailed information about
  * what caused the exception, and a completion status. It may also contain

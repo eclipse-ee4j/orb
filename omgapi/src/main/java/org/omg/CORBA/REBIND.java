@@ -20,8 +20,8 @@
 package org.omg.CORBA;
 
 /**
- * <code>REBIND</code> is raised when the current effective RebindPolicy, 
- * has a value of NO_REBIND or NO_RECONNECT and an invocation on a bound 
+ * <code>REBIND</code> is raised when the current effective RebindPolicy,
+ * has a value of NO_REBIND or NO_RECONNECT and an invocation on a bound
  * object reference results in a LocateReply message with status
  * OBJECT_FORWARD or a Reply message with status LOCATION_FORWARD.
  * This exception is also raised if the current effective RebindPolicy has
@@ -44,9 +44,9 @@ public final class REBIND extends SystemException {
     }
 
     /**
-     * Constructs an <code>REBIND</code> exception with the 
+     * Constructs an <code>REBIND</code> exception with the
      * specified message.
-     * 
+     *
      * @param detailMessage string containing a detailed message.
      */
     public REBIND(String detailMessage) {
@@ -54,27 +54,27 @@ public final class REBIND extends SystemException {
     }
 
     /**
-     * Constructs an <code>REBIND</code> exception with the 
+     * Constructs an <code>REBIND</code> exception with the
      * specified minor code and completion status.
-     * 
+     *
      * @param minorCode minor code.
      * @param completionStatus completion status.
      */
-    public REBIND(int minorCode, 
+    public REBIND(int minorCode,
                   CompletionStatus completionStatus) {
         this("", minorCode, completionStatus);
     }
 
     /**
-     * Constructs an <code>REBIND</code> exception with the 
+     * Constructs an <code>REBIND</code> exception with the
      * specified message, minor code, and completion status.
-     * 
+     *
      * @param detailMessage string containing a detailed message.
      * @param minorCode minor code.
      * @param completionStatus completion status.
      */
-    public REBIND(String detailMessage, 
-                  int minorCode, 
+    public REBIND(String detailMessage,
+                  int minorCode,
                   CompletionStatus completionStatus) {
         super(detailMessage, minorCode, completionStatus);
     }

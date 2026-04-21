@@ -49,12 +49,12 @@ import javax.rmi.PortableRemoteObject;
 //import java.rmi.Naming; // JRMP
 import javax.naming.InitialContext;    // IIOP
 
-public class Server 
+public class Server
 {
     public static final String baseMsg = Server.class.getName();
     public static final String main = baseMsg + ".main";
 
-    public static final String rmiiIServantPOA_Tie = 
+    public static final String rmiiIServantPOA_Tie =
         Server.class.getPackage().getName() + "._rmiiIServantPOA_Tie";
 
     public static String giopVersion = C.GIOP_VERSION_1_2;
@@ -84,9 +84,9 @@ public class Server
     public static void main(String[] av)
     {
         // REVISIT - where did this come from?
-        if (System.getSecurityManager() == null) { 
-            //System.setSecurityManager(new RMISecurityManager()); 
-        } 
+        if (System.getSecurityManager() == null) {
+            //System.setSecurityManager(new RMISecurityManager());
+        }
 
         try {
             U.sop(main + " starting");
@@ -109,7 +109,7 @@ public class Server
             //
 
             Policy[] policies;
-            
+
             policies = U.createUseServantManagerPolicies(
                            rRootPOA,
                            ServantRetentionPolicyValue.RETAIN);
@@ -167,7 +167,7 @@ public class Server
                                        new idlHEADERIServant(orb),
                                        rRootPOA, orb);
 
-            ridlStaticPoa = 
+            ridlStaticPoa =
                 idlIHelper.narrow(U.createWithServantAndBind(
                     C.idlStaticPOA, new idlPOAServant(orb), rRootPOA, orb));
 
@@ -197,7 +197,7 @@ public class Server
             //
 
             U.createWithIdAndBind(C.idlSLI1, idlSLIHelper.id(), rSLPOA, orb);
-            U.createWithIdAndBind(C.idlAlwaysForward, 
+            U.createWithIdAndBind(C.idlAlwaysForward,
                                              idlSLIHelper.id(), rSLPOA, orb);
             U.createWithIdAndBind(C.idlAlwaysForwardedToo,
                                              idlSLIHelper.id(), rSLPOA, orb);
@@ -228,7 +228,7 @@ public class Server
                                        new idlI_Tie(ridlStatic),
                                        orb);
 
-            U.createWithConnectAndBind(C.idlDynamic, 
+            U.createWithConnectAndBind(C.idlDynamic,
                                        new idlDeprecatedDynamicServant(orb),
                                        orb);
 
@@ -236,13 +236,13 @@ public class Server
             // The controller.
             //
 
-            
+
             ridlControllerStaticServant = new idlControllerStaticServant();
             U.createWithConnectAndBind(C.idlControllerStatic,
                                        ridlControllerStaticServant,
                                        orb);
             ridlControllerStaticServant.setRidlStaticORB(orb);
-            
+
 
             // Do an invocation on the reference to see how it works
             // directly in the server.

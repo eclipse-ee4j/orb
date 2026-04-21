@@ -33,11 +33,11 @@ import org.glassfish.gmbal.ManagedData ;
 @ManagedData
 @Description( "The character codesets to be used for encoding "
     + "strings sent to the object reference represented by "
-    + "this IOR" ) 
+    + "this IOR" )
 public interface CodeSetsComponent extends TaggedComponent
 {
     @ManagedAttribute
-    @Description( "The codeset component info" ) 
+    @Description( "The codeset component info" )
     // we'll just use toString() to represent this
     public CodeSetComponentInfo getCodeSetComponentInfo() ;
 }

@@ -25,33 +25,33 @@ public class TestConstants {
      public static final String INSServiceName = "HelloService";
 
      // Flavor 1: iiop version and port specified
-     public static final String corbalocURL1 = 
-         "corbaloc:iiop:1.2@[::FFFF:10.5.32.14]:" 
+     public static final String corbalocURL1 =
+         "corbaloc:iiop:1.2@[::FFFF:10.5.32.14]:"
          + ORBInitialPort + "/" + INSServiceName;
 
      // Flavor 2: iiop version not specified and port specified
-     public static final String corbalocURL2 = 
-         "corbaloc:iiop:[::FFFF:10.5.32.14]:" 
+     public static final String corbalocURL2 =
+         "corbaloc:iiop:[::FFFF:10.5.32.14]:"
          + ORBInitialPort + "/" + INSServiceName;
 
      // Flavor 3: iiop version specified and port not specified
-     public static final String corbalocURL3 = 
-         "corbaloc:iiop:1.2@[::FFFF:10.5.32.14]:" 
+     public static final String corbalocURL3 =
+         "corbaloc:iiop:1.2@[::FFFF:10.5.32.14]:"
          + ORBInitialPort + "/" + INSServiceName;
 
      // Flavor 4: iiop version not specified and port not specified
-     public static final String corbalocURL4 = 
-         "corbaloc:iiop:[::FFFF:10.5.32.14]:" 
+     public static final String corbalocURL4 =
+         "corbaloc:iiop:[::FFFF:10.5.32.14]:"
          + ORBInitialPort + "/" + INSServiceName;
 
      // Flavor 5: negative test no colon
-     public static final String corbalocURL5 = 
-         "corbaloc:iiop:[::FFFF:10.5.32.14]" 
+     public static final String corbalocURL5 =
+         "corbaloc:iiop:[::FFFF:10.5.32.14]"
          + ORBInitialPort + "/" + INSServiceName;
 
      // Flavor 6: negative test no bracket and no colon
-     public static final String corbalocURL6 = 
-         "corbaloc:iiop:[::FFFF:10.5.32.14" 
+     public static final String corbalocURL6 =
+         "corbaloc:iiop:[::FFFF:10.5.32.14"
          + ORBInitialPort + "/" + INSServiceName;
      public static final String returnString = "HELLO";
 

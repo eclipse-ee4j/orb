@@ -68,8 +68,8 @@ module corba {
         interface Sample {
             MoreFooSeq op1() ;
             void op2(
-                in MoreFooTree t 
+                in MoreFooTree t
             ) ;
         } ;
-    } ;  
-} ;  
+    } ;
+} ;

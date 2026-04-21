@@ -34,7 +34,7 @@ import ClientRequestInterceptor.*; // hello interface
 public class helloDelegate extends Observable implements helloIF {
     private boolean invoked = false;
     private PrintStream out = null;
-    
+
     public helloDelegate( PrintStream out ) {
         super();
         this.out = out;
@@ -45,24 +45,24 @@ public class helloDelegate extends Observable implements helloIF {
         invoked = true;
         return "Hello, world!";
     }
-    
+
     public String saySystemException() {
         out.println( "helloServant: saySystemException() invoked" );
         invoked = true;
         throw new UNKNOWN( "Valid Test Result" );
     }
-    
+
     // This will cause a receive_reply to be invoked since this
     // is a one-way method.
     public void sayOneway() {
         out.println( "helloServant: sayOneway() invoked" );
         invoked = true;
     }
-    
+
     public void clearInvoked() {
         invoked = false;
     }
-    
+
     public boolean wasInvoked() {
         return invoked;
     }

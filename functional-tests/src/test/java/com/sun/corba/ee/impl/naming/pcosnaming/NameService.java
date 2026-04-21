@@ -56,7 +56,7 @@ public class NameService
 
         // Moved this to the creation of the ORB that is passed into this
         // constructor.
-        // 
+        //
         // This is required for creating Persistent Servants under this ORB
         // Right now the Persistent NameService and ORBD are launched together
         // Find out a better way of doing this, Since ORBD is an important
@@ -89,13 +89,13 @@ public class NameService
         nsPOA.the_POAManager().activate( );
 
         // create and set the servant manager
-        contextMgr = new 
+        contextMgr = new
             ServantManagerImpl(orb, logDir, this );
 
         // The RootObject key will be NC0
-        String rootKey = contextMgr.getRootObjectKey( ); 
+        String rootKey = contextMgr.getRootObjectKey( );
         // initialize the root Naming Context
-        NamingContextImpl nc = 
+        NamingContextImpl nc =
                 new NamingContextImpl( orb, rootKey, this, contextMgr );
         nc = contextMgr.addContext( rootKey, nc );
         nc.setServantManagerImpl( contextMgr );
@@ -104,7 +104,7 @@ public class NameService
 
         nsPOA.set_servant_manager(contextMgr);
         rootContext = NamingContextHelper.narrow(
-        nsPOA.create_reference_with_id( rootKey.getBytes( ), 
+        nsPOA.create_reference_with_id( rootKey.getBytes( ),
         NamingContextHelper.id( ) ) );
     }
 
@@ -118,7 +118,7 @@ public class NameService
     }
 
     /**
-     * This method returns nsPOA which is the only POA that we use for 
+     * This method returns nsPOA which is the only POA that we use for
      * Persistent Naming Contexts.
      */
     POA getNSPOA( ) {
@@ -164,7 +164,7 @@ public class NameService
         }
 
         return null;
-    }   
+    }
 
     /** getObjectReferenceFromKey returns the Object reference from the objectkey
      * using POA.create_reference_with_id method.
@@ -180,7 +180,7 @@ public class NameService
         }
 
         return theObject;
-    } 
+    }
 
     /**
      * getObjectKey gets the Object Key from the reference using POA.reference_to_id method

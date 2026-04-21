@@ -27,8 +27,8 @@ package com.sun.corba.ee.impl.misc;
  */
 public class LogKeywords {
 
-    /** 
-     ** Keywords for Lifecycle Loggers. 
+    /**
+     ** Keywords for Lifecycle Loggers.
      ** _REVISIT_ After it is clearly defined in JSR 117
      **/
     public final static String LIFECYCLE_CREATE     = "<<LIFECYCLE CREATE>>";
@@ -42,8 +42,8 @@ public class LogKeywords {
     public final static String NAMING_REBIND        = "<<NAMING REBIND>>";
 }
 
-    
-    
 
-     
+
+
+
 

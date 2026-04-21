@@ -80,7 +80,7 @@ public abstract class ContactInfoBase
         return connectionCache;
     }
 
-    // Called when client making an invocation.    
+    // Called when client making an invocation.
     @Transport
     public MessageMediator createMessageMediator(ORB broker,
                                                  ContactInfo contactInfo,
@@ -113,7 +113,7 @@ public abstract class ContactInfoBase
     public CDROutputObject createOutputObject(MessageMediator messageMediator) {
 
         CDROutputObject outputObject =
-            OutputStreamFactory.newCDROutputObject(orb, messageMediator, 
+            OutputStreamFactory.newCDROutputObject(orb, messageMediator,
                                 messageMediator.getRequestHeader(),
                                 messageMediator.getStreamFormatVersion());
 

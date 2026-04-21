@@ -38,11 +38,11 @@ import com.sun.corba.ee.spi.ior.ObjectKeyFactory ;
 
 import com.sun.corba.ee.spi.ior.iiop.IIOPFactories ;
 import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate ;
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion; 
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 
-import com.sun.corba.ee.spi.protocol.ForwardException; 
+import com.sun.corba.ee.spi.protocol.ForwardException;
 
-import com.sun.corba.ee.spi.orb.ORB; 
+import com.sun.corba.ee.spi.orb.ORB;
 
 import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.impl.misc.ORBUtility;
@@ -93,7 +93,7 @@ public class ORBDBadServerIdHandler
         try {
             location  = locator.locateServerForORB(serverId, orbId);
 
-            int clearPort = 
+            int clearPort =
                 locator.getServerPortForType(location, IIOP_CLEAR_TEXT.value);
 
             int myType1Port
@@ -125,7 +125,7 @@ public class ORBDBadServerIdHandler
               8. Make IOR immutable.
             */
 
-            IIOPProfileTemplate sipt = 
+            IIOPProfileTemplate sipt =
                 IIOPFactories.makeIIOPProfileTemplate(
                     (com.sun.corba.ee.spi.orb.ORB)orb,
                     GIOPVersion.V1_2,
@@ -133,7 +133,7 @@ public class ORBDBadServerIdHandler
             sipt.add(new ORBDListenPortsComponent(componentData));
             IORTemplate iortemp = IORFactories.makeIORTemplate( poktemp ) ;
             iortemp.add( sipt ) ;
-            newIOR = iortemp.makeIOR( (com.sun.corba.ee.spi.orb.ORB)orb, 
+            newIOR = iortemp.makeIOR( (com.sun.corba.ee.spi.orb.ORB)orb,
                 "IDL:org/omg/CORBA/Object:1.0", okey.getId() );
 
             /*

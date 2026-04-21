@@ -38,8 +38,8 @@ import javax.rmi.*;
 
 import ServerRequestInterceptor.*;
 
-public class RMIRemoteClient 
-    extends RMIClient 
+public class RMIRemoteClient
+    extends RMIClient
 {
     public static void main(String args[]) {
         try {
@@ -53,7 +53,7 @@ public class RMIRemoteClient
     }
 
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         out.println( "============================================" );

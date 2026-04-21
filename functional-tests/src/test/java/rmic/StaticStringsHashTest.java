@@ -34,19 +34,19 @@ public class StaticStringsHashTest extends Test {
 
     static final String[][] TEST_CASES = {
         {
-            "a", "b", "c"   
+            "a", "b", "c"
         },
         {
-            "one", "two", "three"   
+            "one", "two", "three"
         },
         {
-            "a", "bb", "ccc"   
+            "a", "bb", "ccc"
         },
         {
-            "method_1", "method_3", "method_2"   
+            "method_1", "method_3", "method_2"
         },
         {
-            "asd;lfjafd;ljadsfkja;dslfjadsiewqrpouew0-adsflkjfdsa[09qrewlkjafdm/asdfa.madsfpoiuawer;lkjadfa;lkjadsf;lkjqewrpoiqu", 
+            "asd;lfjafd;ljadsfkja;dslfjadsiewqrpouew0-adsflkjfdsa[09qrewlkjafdm/asdfa.madsfpoiuawer;lkjadfa;lkjadsf;lkjqewrpoiqu",
             "a;lkqreoiufds;lkafdsoiuqerw;nafdpoiuafd;ln;aqreopiuadslkfjafdpoiuqrew;lkjasdfpoiuawer;lnvc/nm/",
             "dfas;lkjrewqpoiuafd.,mn40987145lkhjafavpoiuqre,mnzv.,mvczxoiusatrnafd;lhjafo",
             "daf;lkjasdfp0uqrnmae0uafd;lkjaffjkl;asdpoiuqweru8a8fdsj;lfa/.m vc;'afd[poier",
@@ -242,7 +242,7 @@ public class StaticStringsHashTest extends Test {
             "* </pre>",
         },
     };
-    
+
     /**
      * Perform the test.
      */
@@ -252,38 +252,38 @@ public class StaticStringsHashTest extends Test {
         int length = list.length;
 
         // Make sure lengths are the same...
-        
+
         if (hash.keys.length != hash.buckets.length) {
-            throw new Error("lengths not equal");        
+            throw new Error("lengths not equal");
         }
 
         // Mark all the indices we find. Ensure that for each
         // bucket, each string in the bucket has the key
         // listed in the keys array...
-        
+
         int[] found = new int[length];
         for (int i = 0; i < hash.buckets.length; i++) {
             int currentHash = hash.keys[i];
             for (int j = 0; j < hash.buckets[i].length; j++) {
                 int index = hash.buckets[i][j];
-                        
+
                 // Make sure it is not already used...
-                        
+
                 if (found[index] == 1) {
                     throw new Error("index found more than once");
                 } else {
                     found[index] = 1;
                 }
-                        
+
                 int h = hash.getKey(list[index]);
                 if (h != currentHash) {
-                    throw new Error("hash does not match");   
+                    throw new Error("hash does not match");
                 }
             }
         }
-        
+
         // Make sure all indices are represented...
-        
+
         for (int i = 0; i < length; i++) {
             if (found[i] != 1) {
                 throw new Error("index "+i+" not found");
@@ -298,7 +298,7 @@ public class StaticStringsHashTest extends Test {
         try {
             for (int i = 0; i < TEST_CASES.length; i++) {
                 helper.start( "test_" + i ) ;
-                check(TEST_CASES[i]);   
+                check(TEST_CASES[i]);
                 helper.pass() ;
             }
         } catch (ThreadDeath death) {

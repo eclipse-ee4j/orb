@@ -18,7 +18,7 @@
  */
 
 //
-// Tests nested type declarations whose type definitions are in 
+// Tests nested type declarations whose type definitions are in
 // inherited super interfaces.
 //
 module test {

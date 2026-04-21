@@ -85,14 +85,14 @@ public class GroupInfoServiceTestServant
         return true;
     }
 
-    public boolean addAcceptor(String x) 
+    public boolean addAcceptor(String x)
         throws RemoteException
     {
         dprint(".add->: " + x);
-        boolean result = 
+        boolean result =
             U.registerAcceptor(
-                x, 
-                ((Integer)corba.folb_8_1.Common.socketTypeToPort.get(x)).intValue(), 
+                x,
+                ((Integer)corba.folb_8_1.Common.socketTypeToPort.get(x)).intValue(),
                 orb);
         dprint(".add<-: " + x + " " + result);
         return result;

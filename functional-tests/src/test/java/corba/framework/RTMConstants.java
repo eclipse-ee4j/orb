@@ -23,7 +23,7 @@ public class RTMConstants {
         public static final int PASS = 1;
         public static final int FAIL = 2;
 
-        public static final String SERVER_READY = new String("Server is ready." ) ; 
+        public static final String SERVER_READY = new String("Server is ready." ) ;
 
         public static final int AND = 3;
         public static final int OR  = 4;

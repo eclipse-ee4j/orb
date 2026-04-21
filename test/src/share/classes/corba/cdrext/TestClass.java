@@ -32,7 +32,7 @@ public class TestClass implements Serializable
     public boolean equals(Object obj) {
         if (obj == null)
             return false;
-        
+
         try {
             return instance.equals(((TestClass)obj).instance);
         } catch (ClassCastException cce) {
@@ -48,13 +48,13 @@ public class TestClass implements Serializable
 
         private long data;
 
-        public void readExternal(ObjectInput decoder) 
+        public void readExternal(ObjectInput decoder)
             throws IOException, ClassNotFoundException {
 
             data = decoder.readLong();
         }
 
-        public void writeExternal(ObjectOutput encoder) 
+        public void writeExternal(ObjectOutput encoder)
             throws IOException {
 
             encoder.writeLong(data);

@@ -21,7 +21,7 @@
 package com.sun.tools.corba.ee.idl;
 
 // NOTES:
- 
+
 import java.io.PrintWriter;
 import java.util.Hashtable;
 

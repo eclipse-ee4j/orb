@@ -36,7 +36,7 @@ public class Client
     public static final String baseMsg = Client.class.getName();
 
     public static boolean foundAlternateIIOPAddressComponent = false;
-    
+
     public static void main(String args[])
     {
         try {

@@ -44,46 +44,46 @@ public interface DistributedSet extends Remote {
      * Get this set's name.
      */
     public String getName () throws RemoteException;
-    
+
     /*
      * Notify this set that the specified set is joining. If the set
      * already is 'known' by this instance, this call performs no
      * action.
      */
     public void join (String setName, DistributedSet set) throws RemoteException;
-    
+
     /*
      * Notify this set that the specified set is leaving.
      */
     public void leave (String setName) throws RemoteException;
-    
+
     /*
      * Broadcast a message to all sets.
      */
     public void broadcastMessage (String message) throws RemoteException;
-    
+
     /*
      * Send a message to specified set.
      */
     public void sendMessage (DistributedSet toSet, String message) throws RemoteException;
-    
+
     /*
      * Receive a message from another set.
      */
     public void receiveMessage (String message, String fromSetName) throws RemoteException;
-    
+
     /*
-     * Return the number of currently active sets, _excluding_ 
+     * Return the number of currently active sets, _excluding_
      * this instance.
      */
     public int countSets () throws RemoteException;
-    
+
     /*
      * List the names of all the active sets, _excluding_ this
      * instance.
      */
     public String[] listSetNames () throws RemoteException;
-    
+
     /*
      * Get a set instance by name. Returns null if not found.
      */

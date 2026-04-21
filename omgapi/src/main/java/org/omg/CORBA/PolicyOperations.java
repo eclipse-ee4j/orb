@@ -21,7 +21,7 @@ package org.omg.CORBA;
 
 
 /**
-* The interface for <tt>Policy</tt>.  For more information on 
+* The interface for <tt>Policy</tt>.  For more information on
 * Operations interfaces, see <a href="doc-files/generatedfiles.html#operations">
 * "Generated Files: Operations files"</a>.
 *<P>
@@ -34,12 +34,12 @@ package org.omg.CORBA;
 /**
  * Provides the operations for a <code>Policy</code> object.
  */
-public interface PolicyOperations 
+public interface PolicyOperations
 {
 
-  /** 
-   * Returns the constant value that corresponds to the 
-   * type of the policy object.  The values of 
+  /**
+   * Returns the constant value that corresponds to the
+   * type of the policy object.  The values of
    * the policy objects are allocated by the OMG.
    * New values for PolicyType should be obtained from the OMG by
    * sending mail to request@omg.org.  In general the constant
@@ -51,7 +51,7 @@ public interface PolicyOperations
    */
   int policy_type ();
 
-  /** 
+  /**
    * Returns a copy of the <code>Policy</code> object. The copy does not retain
    * any relationships that the policy had with any domain or object.
    *
@@ -59,7 +59,7 @@ public interface PolicyOperations
    */
   org.omg.CORBA.Policy copy ();
 
-  /** 
+  /**
    * Destroys the <code>Policy</code> object.  It is the responsibility of
    * the <code>Policy</code> object to determine whether it can be destroyed.
    */

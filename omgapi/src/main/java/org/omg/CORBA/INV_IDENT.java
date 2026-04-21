@@ -20,9 +20,9 @@
 package org.omg.CORBA;
 
 /**
- * This exception indicates that an IDL identifier is syntactically 
- * invalid. It may be raised if, for example, an identifier passed 
- * to the interface repository does not conform to IDL identifier 
+ * This exception indicates that an IDL identifier is syntactically
+ * invalid. It may be raised if, for example, an identifier passed
+ * to the interface repository does not conform to IDL identifier
  * syntax, or if an illegal operation name is used with the DII.<P>
  * It contains a minor code, which gives more detailed information about
  * what caused the exception, and a completion status. It may also contain
@@ -56,7 +56,7 @@ public final class INV_IDENT extends SystemException {
      * Constructs an <code>INV_IDENT</code> exception with the specified
      * minor code and completion status.
      * @param minor the minor code
-     * @param completed a <code>CompletionStatus</code> object indicating 
+     * @param completed a <code>CompletionStatus</code> object indicating
      *                  the completion status
      */
     public INV_IDENT(int minor, CompletionStatus completed) {
@@ -69,7 +69,7 @@ public final class INV_IDENT extends SystemException {
      * A detail message is a String that describes this particular exception.
      * @param s the String containing a detail message
      * @param minor the minor code
-     * @param completed a <code>CompletionStatus</code> object indicating 
+     * @param completed a <code>CompletionStatus</code> object indicating
      *                  the completion status
      */
     public INV_IDENT(String s, int minor, CompletionStatus completed) {

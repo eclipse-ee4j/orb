@@ -40,9 +40,9 @@ public final class CODESET_INCOMPATIBLE extends SystemException {
     }
 
     /**
-     * Constructs an <code>CODESET_INCOMPATIBLE</code> exception with the 
+     * Constructs an <code>CODESET_INCOMPATIBLE</code> exception with the
      * specified message.
-     * 
+     *
      * @param detailMessage string containing a detailed message.
      */
     public CODESET_INCOMPATIBLE(String detailMessage) {
@@ -50,27 +50,27 @@ public final class CODESET_INCOMPATIBLE extends SystemException {
     }
 
     /**
-     * Constructs an <code>CODESET_INCOMPATIBLE</code> exception with the 
+     * Constructs an <code>CODESET_INCOMPATIBLE</code> exception with the
      * specified minor code and completion status.
-     * 
+     *
      * @param minorCode minor code.
      * @param completionStatus completion status.
      */
-    public CODESET_INCOMPATIBLE(int minorCode, 
+    public CODESET_INCOMPATIBLE(int minorCode,
                                 CompletionStatus completionStatus) {
         this("", minorCode, completionStatus);
     }
 
     /**
-     * Constructs an <code>CODESET_INCOMPATIBLE</code> exception with the 
+     * Constructs an <code>CODESET_INCOMPATIBLE</code> exception with the
      * specified message, minor code, and completion status.
-     * 
+     *
      * @param detailMessage string containing a detailed message.
      * @param minorCode minor code.
      * @param completionStatus completion status.
      */
-    public CODESET_INCOMPATIBLE(String detailMessage, 
-                                int minorCode, 
+    public CODESET_INCOMPATIBLE(String detailMessage,
+                                int minorCode,
                                 CompletionStatus completionStatus) {
         super(detailMessage, minorCode, completionStatus);
     }

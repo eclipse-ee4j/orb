@@ -36,14 +36,14 @@ import corba.framework.Options;
 import corba.hcks.C;
 import corba.hcks.U;
 
-public class Server 
+public class Server
 {
     public static final String baseMsg = Server.class.getName();
     public static final String main = baseMsg + ".main";
-    public static final String thisPackage = 
+    public static final String thisPackage =
         Server.class.getPackage().getName();
 
-    public static final String rmiiIServantPOA_Tie = 
+    public static final String rmiiIServantPOA_Tie =
         thisPackage + "._rmiiIServantPOA_Tie";
 
     public static final String idlIConnect  = "idlIConnect";
@@ -76,7 +76,7 @@ public class Server
 
             U.sop("Creating/binding IDL references.");
 
-            U.createWithConnectAndBind(idlIConnect, 
+            U.createWithConnectAndBind(idlIConnect,
                                        new idlIServantConnect(), orb);
             U.createWithServantAndBind(idlIPOA,
                                        new idlIServantPOA(), rootPOA, orb);
@@ -100,7 +100,7 @@ public class Server
             synchronized (ColocatedClientServer.signal) {
                 ColocatedClientServer.signal.notifyAll();
             }
-            
+
             orb.run();
 
         } catch (Exception e) {

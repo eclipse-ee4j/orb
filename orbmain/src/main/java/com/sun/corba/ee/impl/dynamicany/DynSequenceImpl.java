@@ -194,7 +194,7 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
             // ?f the current position is -1 before decreasing the length, it remains at -1.
             // ?f the current position indicates a valid element and that element is not removed
             // when the length is decreased, the current position remains unaffected.
-            // ?f the current position indicates a valid element and that element is removed, 
+            // ?f the current position indicates a valid element and that element is removed,
             // the current position is set to -1.
             if (len == 0 || index >= len) {
                 index = NO_INDEX;

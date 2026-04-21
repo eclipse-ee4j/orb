@@ -41,7 +41,7 @@ import java.math.BigInteger;
  **/
 public class Terminal extends Expression
 {
-  protected Terminal (String representation, Character charValue, 
+  protected Terminal (String representation, Character charValue,
     boolean isWide)
   {
     rep (representation);

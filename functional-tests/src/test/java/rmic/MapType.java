@@ -32,7 +32,7 @@ import org.glassfish.rmic.tools.java.Identifier;
 public class MapType extends CompoundType {
 
     public static boolean resetTypesForEach = false;
-        
+
     private MapType() {
         super(null,0,null);
     }
@@ -45,14 +45,14 @@ public class MapType extends CompoundType {
     public int getCount () {
         return countTypes();
     }
-    
+
     public static Type getType (String className,
                                 ContextStack stack) {
-            
+
         if (MapType.resetTypesForEach) {
             stack.getEnv().reset();
         }
-            
+
         Identifier classID = Identifier.lookup(className);
         classID = stack.getEnv().resolvePackageQualifiedName(classID);
         classID = Names.mangleClass(classID);
@@ -86,7 +86,7 @@ public class MapType extends CompoundType {
                     if (result != null) {
                         if (env.nerrors > 0) {
                             status = 1;
-                            System.out.println("!!!Failure: result = " + result.getTypeDescription());   
+                            System.out.println("!!!Failure: result = " + result.getTypeDescription());
                         } else {
                             System.out.println(" = " + result.getTypeDescription());
                         }
@@ -101,7 +101,7 @@ public class MapType extends CompoundType {
             System.out.println("!!!Exception: caught " + e);
             status = 1;
         }
-                
+
         System.exit(status);
     }
 }

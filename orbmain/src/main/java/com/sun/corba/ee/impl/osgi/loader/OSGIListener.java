@@ -45,7 +45,7 @@ import org.osgi.service.packageadmin.ExportedPackage ;
 import org.osgi.service.packageadmin.PackageAdmin ;
 
 /** OSGi class that monitors which bundles provide classes that the ORB
- * needs to instantiate for initialization.  
+ * needs to instantiate for initialization.
  * <p>
  * Note that OSGIListener must be a Bundle-Activator in the glassfish-corba-orb
  * bundle.
@@ -85,7 +85,7 @@ public class OSGIListener implements BundleActivator, SynchronousBundleListener 
         }
     }
 
-    private static Class<?> secureLoadClass( final Bundle bundle, 
+    private static Class<?> secureLoadClass( final Bundle bundle,
         final String className ) throws ClassNotFoundException {
 
         if (System.getSecurityManager() == null) {
@@ -105,14 +105,14 @@ public class OSGIListener implements BundleActivator, SynchronousBundleListener 
         }
     }
 
-    // Map from class name to Bundle, which identifies all known 
+    // Map from class name to Bundle, which identifies all known
     // ORB-Class-Providers.
     private static Map<String,Bundle> classNameMap =
         new ConcurrentHashMap<String,Bundle>() ;
 
     // Map from package name to Bundle, which identifies all known
     // exported packages.
-    private static Map<String,Bundle> packageNameMap = 
+    private static Map<String,Bundle> packageNameMap =
         new ConcurrentHashMap<String,Bundle>() ;
 
     private static String getBundleEventType( int type ) {
@@ -170,7 +170,7 @@ public class OSGIListener implements BundleActivator, SynchronousBundleListener 
             try {
                 return secureLoadClass( bundle, arg );
             } catch (ClassNotFoundException ex) {
-                throw wrapper.bundleCouldNotLoadClass( ex, arg, 
+                throw wrapper.bundleCouldNotLoadClass( ex, arg,
                     bundle.getSymbolicName() ) ;
             }
         }
@@ -215,7 +215,7 @@ public class OSGIListener implements BundleActivator, SynchronousBundleListener 
                 classNotFoundInBundle( cls.getName() ) ;
                 return null ;
             }
-            
+
             String name = bundle.getSymbolicName() ;
 
             Dictionary headers = secureGetHeaders( bundle ) ;
@@ -405,7 +405,7 @@ public class OSGIListener implements BundleActivator, SynchronousBundleListener 
     public void start( BundleContext context ) {
         // Get a referece to the PackageAdmin service before we
         // do ANYTHING else.
-        final ServiceReference sref = context.getServiceReference( 
+        final ServiceReference sref = context.getServiceReference(
             "org.osgi.service.packageadmin.PackageAdmin" ) ;
         setPackageAdmin( (PackageAdmin)context.getService( sref ) ) ;
 
@@ -414,7 +414,7 @@ public class OSGIListener implements BundleActivator, SynchronousBundleListener 
         }
 
         context.addBundleListener(this);
-        
+
         // Probe all existing bundles for ORB providers
         probeBundlesForProviders() ;
         for (Bundle bundle : context.getBundles()) {

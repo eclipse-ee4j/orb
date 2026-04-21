@@ -59,12 +59,12 @@ public abstract class ConnectionCacheBase
     private static final String BUSY_ID_STD     = "ConnectionsBusy" ;
     private static final String BUSY_ID         = "connectionsbusy" ;
 
-    private static final String TOTAL_DESC = 
-        "Total number of connections in the connection cache" ; 
-    private static final String IDLE_DESC = 
-        "Number of connections in the connection cache that are idle" ; 
+    private static final String TOTAL_DESC =
+        "Total number of connections in the connection cache" ;
+    private static final String IDLE_DESC =
+        "Number of connections in the connection cache that are idle" ;
     private static final String BUSY_DESC =
-        "Number of connections in the connection cache that are in use" ; 
+        "Number of connections in the connection cache that are in use" ;
 
     protected ORB orb;
     protected long timestamp = 0;
@@ -79,7 +79,7 @@ public abstract class ConnectionCacheBase
         this.monitoringName = monitoringName;
         dprintCreation();
     }
-    
+
     @NameValue
     public String getCacheType()
     {
@@ -92,7 +92,7 @@ public abstract class ConnectionCacheBase
         c.setTimeStamp(timestamp++);
     }
 
-    private CountStatistic  makeCountStat( String name, String desc, 
+    private CountStatistic  makeCountStat( String name, String desc,
         long value ) {
 
         CountStatisticImpl result = new CountStatisticImpl( name,
@@ -109,11 +109,11 @@ public abstract class ConnectionCacheBase
         }
     }
 
-    @ManagedAttribute( id=TOTAL_ID ) 
-    @Description( TOTAL_DESC ) 
+    @ManagedAttribute( id=TOTAL_ID )
+    @Description( TOTAL_DESC )
     private CountStatistic numberOfConnectionsAttr()
     {
-        return makeCountStat( TOTAL_ID_STD, TOTAL_DESC, 
+        return makeCountStat( TOTAL_ID_STD, TOTAL_DESC,
             numberOfConnections() ) ;
     }
 
@@ -127,11 +127,11 @@ public abstract class ConnectionCacheBase
         return count ;
     }
 
-    @ManagedAttribute( id=IDLE_ID ) 
+    @ManagedAttribute( id=IDLE_ID )
     @Description( IDLE_DESC )
     private CountStatistic numberOfIdleConnectionsAttr()
     {
-        return makeCountStat( IDLE_ID_STD, IDLE_DESC, 
+        return makeCountStat( IDLE_ID_STD, IDLE_DESC,
             numberOfIdleConnections() ) ;
     }
 
@@ -150,11 +150,11 @@ public abstract class ConnectionCacheBase
         return count ;
     }
 
-    @ManagedAttribute( id=BUSY_ID ) 
+    @ManagedAttribute( id=BUSY_ID )
     @Description( BUSY_DESC )
     private CountStatistic numberOfBusyConnectionsAttr()
     {
-        return makeCountStat( BUSY_ID_STD, BUSY_DESC, 
+        return makeCountStat( BUSY_ID_STD, BUSY_DESC,
             numberOfBusyConnections() ) ;
     }
 
@@ -169,7 +169,7 @@ public abstract class ConnectionCacheBase
                 }
             }
         }
-        
+
         return count ;
     }
 

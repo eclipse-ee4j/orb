@@ -59,7 +59,7 @@ public final class ReplyMessage_1_2 extends Message_1_2
     private int minorCode = 0;
     private CompletionStatus completionStatus = null;
     private short addrDisposition = KeyAddr.value; // default;
-    
+
     // Constructors
 
     ReplyMessage_1_2(ORB orb) {
@@ -95,7 +95,7 @@ public final class ReplyMessage_1_2 extends Message_1_2
     public short getAddrDisposition() {
         return this.addrDisposition;
     }
-    
+
     public ServiceContexts getServiceContexts() {
         return this.service_contexts;
     }
@@ -164,7 +164,7 @@ public final class ReplyMessage_1_2 extends Message_1_2
             // read GIOP::AddressingDisposition from body and resend the
             // original request using the requested addressing mode. The
             // resending is transparent to the client program.
-            this.addrDisposition = AddressingDispositionHelper.read(istream);            
+            this.addrDisposition = AddressingDispositionHelper.read(istream);
         }
     }
 

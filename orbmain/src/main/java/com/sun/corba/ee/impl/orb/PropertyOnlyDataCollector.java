@@ -21,15 +21,15 @@ package com.sun.corba.ee.impl.orb ;
 
 import java.util.Properties ;
 
-public class PropertyOnlyDataCollector extends DataCollectorBase 
+public class PropertyOnlyDataCollector extends DataCollectorBase
 {
-    public PropertyOnlyDataCollector( Properties props, 
-        String localHostName, String configurationHostName ) 
+    public PropertyOnlyDataCollector( Properties props,
+        String localHostName, String configurationHostName )
     {
         super( props, localHostName, configurationHostName ) ;
     }
 
-    public boolean isApplet() 
+    public boolean isApplet()
     {
         return false ;
     }

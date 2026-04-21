@@ -61,12 +61,12 @@ public class StressParseIIOP {
     public int parse () {
 
         int result = 0;
-                
+
         // Collect all classes...
 
         Vector allClasses = ClassEnumerator.getClasses(classPath,true);
         System.out.println("Processing " + allClasses.size() + " classes:\n");
-        
+
         // Split the list if needed...
 
         Vector[] classes = split(allClasses,batchSize);
@@ -79,7 +79,7 @@ public class StressParseIIOP {
                 result = exitValue;
             }
         }
-                
+
         return result;
     }
 
@@ -144,7 +144,7 @@ public class StressParseIIOP {
             args[offset++] = (String) list.elementAt(i);
         }
         totalCount += listSize;
-        
+
         // Run the command and exit...
 
         return execAndWaitFor(args);
@@ -190,12 +190,12 @@ public class StressParseIIOP {
         // Tell it to do it's thing...
 
         int result = 0;
-        
+
         try {
             long startTime = System.currentTimeMillis();
             result = parser.parse();
             long duration = System.currentTimeMillis() - startTime;
-                        
+
             if (result == 0) {
                 System.out.println("PASS. Completed in " + duration + " ms.");
             } else {
@@ -209,7 +209,7 @@ public class StressParseIIOP {
             System.err.println("Error! Caught " + e.getMessage());
             e.printStackTrace(System.err);
         }
-        
+
         System.exit(result);
     }
 

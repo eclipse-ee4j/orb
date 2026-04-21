@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.internal.POA;
 
-/** 
+/**
  * Deprecated class for backward compatibility.
  */
 public class POAORB extends com.sun.corba.ee.internal.iiop.ORB

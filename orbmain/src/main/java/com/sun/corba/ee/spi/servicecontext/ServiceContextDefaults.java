@@ -40,7 +40,7 @@ import org.omg.CORBA_2_3.portable.InputStream ;
 public abstract class ServiceContextDefaults {
 
     private static ORBVersion orbVersion = ORBVersionFactory.getORBVersion();
-    private static ORBVersionServiceContext orbVersionContext = 
+    private static ORBVersionServiceContext orbVersionContext =
                         new ORBVersionServiceContextImpl( orbVersion );
 
     private ServiceContextDefaults() {}
@@ -50,19 +50,19 @@ public abstract class ServiceContextDefaults {
         return new ServiceContextsImpl( orb ) ;
     }
 
-    public static ServiceContexts makeServiceContexts( InputStream is ) 
+    public static ServiceContexts makeServiceContexts( InputStream is )
     {
         return new ServiceContextsImpl( is ) ;
     }
 
-    public static ServiceContextFactoryRegistry makeServiceContextFactoryRegistry( 
-        ORB orb ) 
+    public static ServiceContextFactoryRegistry makeServiceContextFactoryRegistry(
+        ORB orb )
     {
         return new ServiceContextFactoryRegistryImpl( orb ) ;
     }
 
-    public static CodeSetServiceContext makeCodeSetServiceContext( 
-        CodeSetComponentInfo.CodeSetContext csc ) 
+    public static CodeSetServiceContext makeCodeSetServiceContext(
+        CodeSetComponentInfo.CodeSetContext csc )
     {
         return new CodeSetServiceContextImpl( csc ) ;
     }
@@ -82,7 +82,7 @@ public abstract class ServiceContextDefaults {
         } ;
     }
 
-    public static ServiceContext.Factory 
+    public static ServiceContext.Factory
         makeMaxStreamFormatVersionServiceContextFactory()
     {
         return new ServiceContext.Factory() {
@@ -98,13 +98,13 @@ public abstract class ServiceContextDefaults {
         } ;
     }
 
-    public static MaxStreamFormatVersionServiceContext 
+    public static MaxStreamFormatVersionServiceContext
         getMaxStreamFormatVersionServiceContext()
     {
         return MaxStreamFormatVersionServiceContextImpl.singleton ;
     }
 
-    public static MaxStreamFormatVersionServiceContext 
+    public static MaxStreamFormatVersionServiceContext
         makeMaxStreamFormatVersionServiceContext( byte version )
     {
         return new MaxStreamFormatVersionServiceContextImpl( version ) ;
@@ -150,7 +150,7 @@ public abstract class ServiceContextDefaults {
         } ;
     }
 
-    public static SendingContextServiceContext 
+    public static SendingContextServiceContext
         makeSendingContextServiceContext( IOR ior )
     {
         return new SendingContextServiceContextImpl( ior ) ;
@@ -171,19 +171,19 @@ public abstract class ServiceContextDefaults {
         } ;
     }
 
-    public static UEInfoServiceContext 
+    public static UEInfoServiceContext
         makeUEInfoServiceContext( Throwable thr )
     {
         return new UEInfoServiceContextImpl( thr ) ;
     }
 
-    public static UnknownServiceContext 
+    public static UnknownServiceContext
         makeUnknownServiceContext( int id, byte[] data )
     {
         return new UnknownServiceContextImpl( id, data ) ;
     }
 
-    public static UnknownServiceContext 
+    public static UnknownServiceContext
         makeUnknownServiceContext( int id, InputStream str )
     {
         return new UnknownServiceContextImpl( id, str ) ;

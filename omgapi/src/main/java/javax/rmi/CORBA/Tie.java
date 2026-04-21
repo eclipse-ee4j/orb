@@ -34,32 +34,32 @@ public interface Tie extends org.omg.CORBA.portable.InvokeHandler {
      * @return an object reference for the target object.
      */
     org.omg.CORBA.Object thisObject();
-    
+
     /**
      * Deactivates the target object represented by this tie.
      * @throws NoSuchObjectException if this tie does not represent an object
      */
     void deactivate() throws NoSuchObjectException;
-    
+
     /**
      * Returns the ORB for this tie.
      * @return the ORB.
      */
     ORB orb();
-    
+
     /**
      * Sets the ORB for this tie.
      * @param orb the ORB.
      */
     void orb(ORB orb);
-    
+
     /**
      * Called by {@link Util#registerTarget} to set the target
      * for this tie.
      * @param target the object to use as the target for this tie.
      */
     void setTarget(java.rmi.Remote target);
-   
+
     /**
      * Returns the target for this tie.
      * @return the target.

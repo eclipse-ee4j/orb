@@ -36,12 +36,12 @@ import org.omg.CORBA.SystemException;
 import org.omg.CORBA.portable.Delegate;
 import org.omg.CORBA.portable.ObjectImpl;
 
-public abstract class StubConnectImpl 
+public abstract class StubConnectImpl
 {
-    private static UtilSystemException wrapper = 
+    private static UtilSystemException wrapper =
         UtilSystemException.self ;
 
-    /** Connect the stub to the orb if necessary.  
+    /** Connect the stub to the orb if necessary.
     * @param ior The StubIORImpl for this stub (may be null)
     * @param proxy The externally visible stub seen by the user (may be the same as stub)
     * @param stub The stub implementation that extends ObjectImpl
@@ -49,40 +49,40 @@ public abstract class StubConnectImpl
     * @return The IOR
     * @throws RemoteException If an exception occurs
     */
-    public static StubIORImpl connect( StubIORImpl ior, org.omg.CORBA.Object proxy, 
-        org.omg.CORBA.portable.ObjectImpl stub, ORB orb ) throws RemoteException 
+    public static StubIORImpl connect( StubIORImpl ior, org.omg.CORBA.Object proxy,
+        org.omg.CORBA.portable.ObjectImpl stub, ORB orb ) throws RemoteException
     {
         Delegate del = null ;
 
         try {
             try {
                 del = StubAdapter.getDelegate( stub );
-                
-                if (del.orb(stub) != orb) 
+
+                if (del.orb(stub) != orb)
                     throw wrapper.connectWrongOrb() ;
-            } catch (org.omg.CORBA.BAD_OPERATION err) {    
+            } catch (org.omg.CORBA.BAD_OPERATION err) {
                 if (ior == null) {
                     // No IOR, can we get a Tie for this stub?
                     Tie tie = (javax.rmi.CORBA.Tie) Utility.getAndForgetTie(proxy);
-                    if (tie == null) 
+                    if (tie == null)
                         throw wrapper.connectNoTie() ;
 
-                    // Is the tie already connected?  If it is, check that it's 
+                    // Is the tie already connected?  If it is, check that it's
                     // connected to the same ORB, otherwise connect it.
                     ORB existingOrb = orb ;
                     try {
                         existingOrb = tie.orb();
-                    } catch (BAD_OPERATION exc) { 
+                    } catch (BAD_OPERATION exc) {
                         // Thrown when tie is an ObjectImpl and its delegate is not set.
                         tie.orb(orb);
-                    } catch (BAD_INV_ORDER exc) { 
+                    } catch (BAD_INV_ORDER exc) {
                         // Thrown when tie is a Servant and its delegate is not set.
                         tie.orb(orb);
                     }
 
-                    if (existingOrb != orb) 
+                    if (existingOrb != orb)
                         throw wrapper.connectTieWrongOrb() ;
-                        
+
                     // Get the delegate for the stub from the tie.
                     del = StubAdapter.getDelegate( tie ) ;
                     ObjectImpl objref = new CORBAObjectImpl() ;

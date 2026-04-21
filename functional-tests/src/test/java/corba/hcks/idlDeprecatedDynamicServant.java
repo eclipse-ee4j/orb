@@ -38,15 +38,15 @@ class idlDeprecatedDynamicServant
 
     private ORB orb;
 
-    public idlDeprecatedDynamicServant(ORB orb) 
+    public idlDeprecatedDynamicServant(ORB orb)
     {
         this.orb = orb;
     }
 
-    public void invoke(ServerRequest r) 
+    public void invoke(ServerRequest r)
     {
         idlDynInvokeHelper.invoke(orb, r);
-    }    
+    }
 }
 
 // End of file.

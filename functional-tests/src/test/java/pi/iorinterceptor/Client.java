@@ -31,19 +31,19 @@ import corba.framework.*;
 import java.util.*;
 import java.io.*;
 
-public class Client 
-    implements InternalProcess 
+public class Client
+    implements InternalProcess
 {
 
     // Set from run()
     private ORB orb;
-    
+
     // Set from run()
     private PrintStream out;
-    
+
     // Set from run()
     private PrintStream err;
-    
+
     private CodecFactory codecFactory;
 
     public static void main(String args[]) {
@@ -58,7 +58,7 @@ public class Client
     }
 
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         out.println( "Instantiating ORB" );
@@ -69,7 +69,7 @@ public class Client
 
         // create and initialize the ORB
         Properties props = new Properties() ;
-        props.put( "org.omg.CORBA.ORBClass", 
+        props.put( "org.omg.CORBA.ORBClass",
                    System.getProperty("org.omg.CORBA.ORBClass"));
         ORB orb = ORB.init(args, props);
 

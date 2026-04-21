@@ -31,16 +31,16 @@ import java.awt.*;
 /**
  * The evolved Rectangle Class. Interally consists of two fields of type
  * Point but externally is still 4 integers (so that it is compatible
- * with the original rectangle class) 
+ * with the original rectangle class)
  *
  * In order to make this possible, we need to use the Serializable
- * Field API so that we can define serializable fields that are 
+ * Field API so that we can define serializable fields that are
  * not part of the implementation class.
  */
 class ARectangle implements java.io.Serializable {
 
     // new rectangle representation
-    
+
     /**
      * First of two points forming diagonal of rectangle.
      *
@@ -58,52 +58,52 @@ class ARectangle implements java.io.Serializable {
      */
     Point point2;
 
-    /* 
+    /*
      * mandatory SUID field for an evolved Serializable class.
      * serialVersionUID is gotten by doing the serialver command
      * on the original class:
-     *                  serialver ARectangle (the original rectangle) 
-     */ 
+     *                  serialver ARectangle (the original rectangle)
+     */
     static final long serialVersionUID = 9030593813711490592L;
- 
+
 
     /**
-     * The special member, serialPeristentFields, explicitly declares 
+     * The special member, serialPeristentFields, explicitly declares
      * Serializable fields for this class. This allows for fields other
-     * than the fields in the class to be persistent. Since we want to 
-     * save the state of the two Points point1 and point2, we declare 
+     * than the fields in the class to be persistent. Since we want to
+     * save the state of the two Points point1 and point2, we declare
      * the 4 ints as the serial persistent fields
-     * 
-     * @serialField x1  Integer 
+     *
+     * @serialField x1  Integer
      *              X-coordinate of point 1 of diagonal points of rectangle.
-     * @serialField y1  Integer 
+     * @serialField y1  Integer
      *              Y-coordinate of point 1 of diagonal points of rectangle.
-     * @serialField x2  Integer 
+     * @serialField x2  Integer
      *              X-coordinate of point 2 of diagonal points of rectangle.
-     * @serialField y2  Integer 
+     * @serialField y2  Integer
      *              Y-coordinate of point 2 of diagonal points of rectangle.
      */
-    private static final ObjectStreamField[] serialPersistentFields = { 
-        new ObjectStreamField("x1", Integer.TYPE), 
-        new ObjectStreamField("y1", Integer.TYPE), 
-        new ObjectStreamField("x2", Integer.TYPE), 
-        new ObjectStreamField("y2", Integer.TYPE) 
-    }; 
-    
+    private static final ObjectStreamField[] serialPersistentFields = {
+        new ObjectStreamField("x1", Integer.TYPE),
+        new ObjectStreamField("y1", Integer.TYPE),
+        new ObjectStreamField("x2", Integer.TYPE),
+        new ObjectStreamField("y2", Integer.TYPE)
+    };
+
     ARectangle(int x1, int y1, int x2, int y2) {
         point1 = new Point(x1, y1);
         point2 = new Point(x2, y2);
     }
 
     /**
-     * writeObject - Writes out the serializable fields 
-     * (the 4 integers, x1, y1, x2, y2) using the 
+     * writeObject - Writes out the serializable fields
+     * (the 4 integers, x1, y1, x2, y2) using the
      * Serializable Field API. (the methods putFields and
      * writeFields of the ObjectOutputStream Class and the method put
      * of the ObjectOutputStream.PutField inner class)
-     * 
+     *
      * @serialData Only the serializable fields of the class are written.
-     *             No optional data written. 
+     *             No optional data written.
      */
     private void writeObject(ObjectOutputStream s)
         throws IOException {
@@ -114,14 +114,14 @@ class ARectangle implements java.io.Serializable {
         fields.put("y1", point1.y);
         fields.put("x2", point2.x);
         fields.put("y2", point2.y);
-                
+
         // save them
-        s.writeFields();        
+        s.writeFields();
     }
 
     /**
-     * readsObject - Reads in the serializable fields 
-     * (the 4 integers, x1, y1, x2, y2) using the 
+     * readsObject - Reads in the serializable fields
+     * (the 4 integers, x1, y1, x2, y2) using the
      * Serializable Field API. (the methods getFields and
      * readFields of the ObjectInputStream Class and the method get
      * of the ObjectOutputStream.GetField inner class)
@@ -130,22 +130,22 @@ class ARectangle implements java.io.Serializable {
      */
     private void readObject(ObjectInputStream s)
         throws IOException {
-                
+
         // prepare to read the alternate persistent fields
         ObjectInputStream.GetField fields = null;
-        try { 
+        try {
             fields = s.readFields();
 
         } catch (Exception ClassNotFoundException) {
             throw new IOException();
         }
-                
+
         // read the alternate persistent fields
         int x1 = (int)fields.get("x1", 0);
         int y1 = (int)fields.get("y1", 0);
         int x2 = (int)fields.get("x2", 0);
         int y2 = (int)fields.get("y2", 0);
-                
+
         // save them back as Points.
         point1 = new Point(x1, y1);
         point2 = new Point(x2, y2);

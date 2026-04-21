@@ -76,7 +76,7 @@ import org.omg.CORBA.SystemException;
 
 /**
  * @author Harold Carr
- *         
+ *
  *         Note: this is the version WITHOUT the purgeCalls changes.
  *         The changes are in the 1.106 version, which is saved as
  *         SocketOrChannelConnectionImpl.1.106.sjava.
@@ -739,7 +739,7 @@ public class ConnectionImpl extends EventHandlerBase implements Connection, Work
         // Don't we need to check for CloseConnection
         // here?  REVISIT
 
-        // XREVISIT - Shouldn't the MessageMediator 
+        // XREVISIT - Shouldn't the MessageMediator
         // be the one to handle writing the data here?
 
         try {
@@ -752,7 +752,7 @@ public class ConnectionImpl extends EventHandlerBase implements Connection, Work
 
         } catch (IOException exc) {
             // Since IIOPOutputStream's msgheader is set only once, and not
-            // altered during sending multiple fragments, the original 
+            // altered during sending multiple fragments, the original
             // msgheader will always have the requestId.
             // REVISIT This could be optimized to send a CancelRequest only
             // if any fragments had been sent already.
@@ -859,7 +859,7 @@ public class ConnectionImpl extends EventHandlerBase implements Connection, Work
         return responseWaitingRoom;
     }
 
-    // REVISIT - inteface defines isServer but already defined in 
+    // REVISIT - inteface defines isServer but already defined in
     // higher interface.
 
     public void serverRequestMapPut(int reqId, MessageMediator messageMediator) {
@@ -1324,8 +1324,8 @@ public class ConnectionImpl extends EventHandlerBase implements Connection, Work
 
     @Transport
     protected void blockingRead() {
-        // Precondition: byteBuffer's position must be pointing to where next 
-        //               bit of data should be read and MessageParser's next 
+        // Precondition: byteBuffer's position must be pointing to where next
+        //               bit of data should be read and MessageParser's next
         //               message start position must be set.
 
         TcpTimeouts.Waiter waiter = tcpTimeouts.waiter();
@@ -1481,15 +1481,15 @@ public class ConnectionImpl extends EventHandlerBase implements Connection, Work
     @Transport
     private void resumeSelectOnMainSelector() {
         // NOTE: VERY IMPORTANT:
-        // Re-enable read event handling on main Selector after getting to 
+        // Re-enable read event handling on main Selector after getting to
         // the point that proper serialization of fragments is ensured.
         // parseBytesAndDispatchMessages() and MessageParserImpl.parseBytes()
         // ensures this by tracking fragment messages for a given request id
         // for GIOP 1.2 and tracking GIOP 1.1 fragment messages.
 
-        // IMPORTANT: To avoid bug (4953599), we force the Thread that does the 
-        // NIO select to also do the enable/disable of interest ops using 
-        // SelectionKey.interestOps(Ops of Interest). Otherwise, the 
+        // IMPORTANT: To avoid bug (4953599), we force the Thread that does the
+        // NIO select to also do the enable/disable of interest ops using
+        // SelectionKey.interestOps(Ops of Interest). Otherwise, the
         // SelectionKey.interestOps(Ops of Interest) may block indefinitely in
         // this thread.
         orb.getTransportManager().getSelector(0).registerInterestOps(this);

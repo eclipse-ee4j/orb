@@ -29,13 +29,13 @@ import org.omg.CORBA.ORB ;
 
 
 
-public class ResolveDeadlock {   
+public class ResolveDeadlock {
 
     private static final String PORT_NUM = "3074" ;
     private static ORB serverORB ;
 
     private static void initializeORBs( String[] args ) {
-        // The following must be set as system properties 
+        // The following must be set as system properties
         System.setProperty( "javax.rmi.CORBA.PortableRemoteObjectClass",
             "com.sun.corba.ee.impl.javax.rmi.PortableRemoteObject" ) ;
         System.setProperty( "javax.rmi.CORBA.StubClass",
@@ -55,7 +55,7 @@ public class ResolveDeadlock {
         serverProps.setProperty( ORBConstants.INITIAL_PORT_PROPERTY,
             PORT_NUM ) ;
         serverProps.setProperty( ORBConstants.ALLOW_LOCAL_OPTIMIZATION,
-            "true" ) ;  
+            "true" ) ;
         serverProps.setProperty( ORBConstants.PERSISTENT_SERVER_PORT_PROPERTY,
             PORT_NUM ) ;
         serverProps.setProperty( ORBConstants.SERVER_HOST_PROPERTY,
@@ -68,7 +68,7 @@ public class ResolveDeadlock {
         // Ignore the args! Don't want to pick up setting of ORBInitialPort from args!
         String[] noArgs = null ;
         serverORB = ORB.init( noArgs, serverProps ) ;
-        new TransientNameService( 
+        new TransientNameService(
             com.sun.corba.ee.spi.orb.ORB.class.cast(serverORB) ) ;
 
         // Activate the transport
@@ -85,8 +85,8 @@ public class ResolveDeadlock {
             //lookup a non-existing name "Foo"
             org.omg.CORBA.Object objRef = serverORB.resolve_initial_references( "Foo" );
             System.out.println( "Unexpectedly found the name Foo! ");
-            System.exit(1);         
-        } catch (Exception exc) {           
+            System.exit(1);
+        } catch (Exception exc) {
             System.out.println( "Expected exception in getting initial references: " + exc);
             exc.printStackTrace() ;
             System.exit(0) ;

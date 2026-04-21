@@ -52,7 +52,7 @@ public class EnumGen implements com.sun.tools.corba.ee.idl.EnumGen, JavaGenerato
     this.symbolTable = symbolTable;
     this.e           = e;
     init ();
-    
+
     openStream ();
     if (stream == null) return;
     generateHolder ();

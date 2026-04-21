@@ -33,11 +33,11 @@ import corba.hcks.U;
 
 import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
 
-public class Client 
+public class Client
 {
     public static final String baseMsg = Client.class.getName();
     public static final String main = baseMsg + ".main";
-    
+
     public static ORB orb;
     public static InitialContext initialContext;
 
@@ -90,7 +90,7 @@ public class Client
 
             /* REVISIT - you cannot call StubAdapter.isLocal outside of stub.
                It HAS state.
-            boolean isLocalResult = 
+            boolean isLocalResult =
                 StubAdapter.isLocal((javax.rmi.CORBA.Stub)rmiiIConnect);
             U.sop("StubAdapter.isLocal: " + isLocalResult);
             if (isLocalResult != ColocatedClientServer.isColocated) {

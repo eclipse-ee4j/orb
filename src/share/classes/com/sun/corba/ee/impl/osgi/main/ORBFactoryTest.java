@@ -38,9 +38,9 @@ import com.sun.corba.ee.spi.oa.rfm.ReferenceFactoryManager ;
 
 public class ORBFactoryTest implements BundleActivator, SynchronousBundleListener {
     private static PackageAdmin pkgAdmin ;
-    
+
     private static String getBundleEventType( int type ) {
-        if (type == BundleEvent.INSTALLED) 
+        if (type == BundleEvent.INSTALLED)
             return "INSTALLED" ;
         else if (type == BundleEvent.LAZY_ACTIVATION)
             return "LAZY_ACTIVATION" ;
@@ -60,7 +60,7 @@ public class ORBFactoryTest implements BundleActivator, SynchronousBundleListene
             return "UNRESOLVED" ;
         else if (type == BundleEvent.UPDATED)
             return "UPDATED" ;
-        else 
+        else
             return "ILLEGAL-EVENT-TYPE" ;
     }
 
@@ -103,7 +103,7 @@ public class ORBFactoryTest implements BundleActivator, SynchronousBundleListene
         int type = event.getType() ;
         String name = event.getBundle().getSymbolicName() ;
 
-        msg( "Received event type " 
+        msg( "Received event type "
             + getBundleEventType( type ) + " for bundle " + name ) ;
 
         // Only want to know when this bundle changes state, not the others.
@@ -118,7 +118,7 @@ public class ORBFactoryTest implements BundleActivator, SynchronousBundleListene
                 props.setProperty( ORBConstants.RFM_PROPERTY, "dummy" ) ;
                 orb = ORBFactory.create() ;
                 ORBFactory.initialize( orb, args, props, true ) ;
-                ReferenceFactoryManager rfm = 
+                ReferenceFactoryManager rfm =
                     (ReferenceFactoryManager)orb.resolve_initial_references(
                         ORBConstants.REFERENCE_FACTORY_MANAGER ) ;
                 msg( "ORB successfully created" ) ;

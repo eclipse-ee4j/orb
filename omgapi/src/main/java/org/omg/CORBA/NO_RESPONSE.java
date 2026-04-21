@@ -20,8 +20,8 @@
 package org.omg.CORBA;
 
 /**
- * This exception is raised if a client attempts to retrieve the result 
- * of a deferred synchronous call, but the response for the request is 
+ * This exception is raised if a client attempts to retrieve the result
+ * of a deferred synchronous call, but the response for the request is
  * not yet available.<P>
  * It contains a minor code, which gives more detailed information about
  * what caused the exception, and a completion status. It may also contain

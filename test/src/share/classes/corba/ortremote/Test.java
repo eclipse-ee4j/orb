@@ -46,11 +46,11 @@ import org.omg.PortableServer.ServantRetentionPolicyValue;
 
 public class Test
 {
-    public static ORTEcho makeServant( POA poa ) throws RemoteException 
+    public static ORTEcho makeServant( POA poa ) throws RemoteException
     {
         return new ORTEchoImpl( poa ) ;
     }
-   
+
     static class CounterServantLocator extends LocalObject implements ServantLocator
     {
         public Servant preinvoke( byte[] oid, POA poa, String operation,
@@ -61,7 +61,7 @@ public class Test
             try {
                 impl = makeServant( poa ) ;
             } catch (RemoteException rexc) {
-                RuntimeException exc = new RuntimeException( 
+                RuntimeException exc = new RuntimeException(
                     "Error in creating servant" ) ;
                 exc.initCause( rexc ) ;
                 throw exc ;
@@ -72,7 +72,7 @@ public class Test
         }
 
         public void postinvoke( byte[] oid, POA poa, String operation,
-            java.lang.Object cookie, Servant servant ) 
+            java.lang.Object cookie, Servant servant )
         {
             // NOP
         }
@@ -83,7 +83,7 @@ public class Test
         return new CounterServantLocator() ;
     }
 
-    public static ORB makeORB() 
+    public static ORB makeORB()
     {
         Properties props = null ;
         String[] args = null ;
@@ -129,13 +129,13 @@ public class Test
 
         org.omg.CORBA.Object serverObjref = poa.create_reference_with_id( id,
             "IDL:omg.org/Object:1.0" ) ;
-        
+
         String serverObjrefStr = serverORB.object_to_string( serverObjref ) ;
 
         org.omg.CORBA.Object clientObjref = clientORB.string_to_object( serverObjrefStr ) ;
 
         final ORTEcho testRef = (ORTEcho)PortableRemoteObject.narrow( clientObjref, ORTEcho.class ) ;
-        
+
         ObjectAdapter oa = (ObjectAdapter)poa ;
         ObjectReferenceFactory orf = oa.getCurrentFactory() ;
         ObjectReferenceTemplate ort = oa.getAdapterTemplate() ;
@@ -156,7 +156,7 @@ public class Test
                 }
             },
             orf ) ;
-        
+
         session.testForPass( "ObjectReferenceTemplate",
             new NullaryFunction<Object>() {
                 public Object evaluate() {

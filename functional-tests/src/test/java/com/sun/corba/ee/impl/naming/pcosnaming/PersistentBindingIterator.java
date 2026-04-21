@@ -54,7 +54,7 @@ public class PersistentBindingIterator extends BindingIteratorImpl
      * @param thePOA the POA to use.
      * @throws java.lang.Exception can throw many exceptions?
      */
-    public PersistentBindingIterator(org.omg.CORBA.ORB orb, 
+    public PersistentBindingIterator(org.omg.CORBA.ORB orb,
         Map<InternalBindingKey,InternalBindingValue> aTable,
         POA thePOA ) throws java.lang.Exception
     {
@@ -84,9 +84,9 @@ public class PersistentBindingIterator extends BindingIteratorImpl
             NameComponent[] nlist = new NameComponent[1];
             nlist[0] = n;
             BindingType theType = theElement.theBindingType;
-            
+
             b.value =
-                new Binding( nlist, theType );  
+                new Binding( nlist, theType );
         } else {
             // Return empty but marshalable binding
             b.value = new Binding(new NameComponent[0],BindingType.nobject);
@@ -114,7 +114,7 @@ public class PersistentBindingIterator extends BindingIteratorImpl
 
     /**
    * Returns the remaining number of elements in the iterator.
-   * @return the remaining number of elements in the iterator.   
+   * @return the remaining number of elements in the iterator.
    */
     public final int remainingElementsImpl() {
         return currentSize;

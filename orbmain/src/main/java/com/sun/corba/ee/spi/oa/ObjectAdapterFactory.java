@@ -23,7 +23,7 @@ import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
 import com.sun.corba.ee.spi.orb.ORB ;
 
 public interface ObjectAdapterFactory {
-    
+
     /** Initialize this object adapter factory instance.
      * @param orb to use for initalisation
     */

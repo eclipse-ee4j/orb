@@ -64,7 +64,7 @@ public class INSServer implements InternalProcess
 
             HelloImpl helloRef = new HelloImpl( );
             orb.connect( helloRef );
-            ((com.sun.corba.ee.spi.orb.ORB)orb).register_initial_reference( 
+            ((com.sun.corba.ee.spi.orb.ORB)orb).register_initial_reference(
                 TestConstants.INSServiceName, helloRef );
 
             //handshake:
@@ -79,8 +79,8 @@ public class INSServer implements InternalProcess
     }
 }
 
-        
-        
+
+
 
 
 

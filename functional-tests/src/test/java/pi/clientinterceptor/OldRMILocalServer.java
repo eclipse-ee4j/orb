@@ -36,19 +36,19 @@ import javax.naming.*;
 /**
  * Server for RMI/IIOP version of test.  Uses old _*ImplBase skeletons.
  */
-public class OldRMILocalServer 
+public class OldRMILocalServer
     implements Observer
 {
     // Set from run()
     private PrintStream out;
-    
+
     private com.sun.corba.ee.spi.orb.ORB orb;
 
     InitialContext initialNamingContext;
 
     public void run( com.sun.corba.ee.spi.orb.ORB orb, java.lang.Object syncObject,
                      Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         this.out = out;
@@ -80,7 +80,7 @@ public class OldRMILocalServer
         }
 
     }
-    
+
     /**
      * Creates and binds a hello object using RMI
      */
@@ -96,7 +96,7 @@ public class OldRMILocalServer
         delegate.addObserver( this );
     }
 
-    private void rebindObjects() 
+    private void rebindObjects()
         throws Exception
     {
         createAndBind( "Hello1" );

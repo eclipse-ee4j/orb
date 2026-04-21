@@ -21,13 +21,13 @@ package corba.dynamicrmiiiop.testclasses;
 
 /**
  * Invalid RMI/IDL Remote Interface Types
- */ 
+ */
 public class InvalidRemotes {
 
     // should extend java.rmi.Remote, either directly or indirectly
     public interface InvalidRemote1 {}
-    
-    // should extend java.rmi.Remote, either directly or indirectly 
+
+    // should extend java.rmi.Remote, either directly or indirectly
     public interface InvalidRemote2 extends InvalidRemote1 {}
 
     // RMI/IDL Exceptions should not extend java.rmi.Remote, either directly
@@ -53,26 +53,26 @@ public class InvalidRemotes {
     // super-class exception types.
     public interface InvalidRemote5 extends java.rmi.Remote {
         public void foo1();
-    }    
+    }
 
     // contains method with invalid exception type
     public interface InvalidRemote6 extends java.rmi.Remote {
         public void foo1() throws java.rmi.RemoteException, java.lang.Error;
-    } 
+    }
 
     // contains method with invalid exception type
     public interface InvalidRemote7 extends java.rmi.Remote {
-        public void foo1() throws java.rmi.RemoteException, 
+        public void foo1() throws java.rmi.RemoteException,
             java.lang.RuntimeException;
-    } 
+    }
 
     private class InvalidException3 extends java.lang.RuntimeException {}
     // contains method with invalid exception type
     public interface InvalidRemote8 extends java.rmi.Remote {
-        public void foo1() throws java.rmi.RemoteException, 
+        public void foo1() throws java.rmi.RemoteException,
             InvalidException3;
-    } 
-    
+    }
+
     // has a field other than primitive or String
     public interface InvalidRemote9 extends java.rmi.Remote {
         Object o = null;
@@ -94,9 +94,9 @@ public class InvalidRemotes {
     private interface D extends B {}
 
     // can't directly inherit from multiple base interfaces which define a
-    // method with the same name.  
+    // method with the same name.
     public interface InvalidRemote11 extends java.rmi.Remote, C, D {}
-    
+
     private interface E {
         void foo() throws java.rmi.RemoteException;
     }
@@ -120,7 +120,7 @@ public class InvalidRemotes {
     // method with the same name
     public interface InvalidRemote14 extends G, java.rmi.Remote, H {}
 
-    
+
     // can't directly inherit from multiple base interfaces which define a
     // method with the same name.  doesn't matter if a method with the same
     // name is defined in the most derived interface
@@ -135,7 +135,7 @@ public class InvalidRemotes {
     public interface InvalidRemote17 extends java.rmi.Remote {
         int[] FOO = { 1, 2, 3 };
     }
-    
+
     // applying mangling rules results in clash
     public interface InvalidRemote18 extends java.rmi.Remote {
         void J_foo() throws java.rmi.RemoteException;
@@ -148,6 +148,6 @@ public class InvalidRemotes {
         void foo(int a) throws java.rmi.RemoteException;
         void foo__long() throws java.rmi.RemoteException;
     }
-    
+
 
 }

@@ -46,9 +46,9 @@ public class C
 {
     // Custom classes.
 
-    public static String MyPOAORB         = 
+    public static String MyPOAORB         =
         C.class.getPackage().getName() + ".MyPOAORB";
-    public static String MyORBInitializer = 
+    public static String MyORBInitializer =
         C.class.getPackage().getName() + ".MyORBInitializer";
 
     // Names for references in naming.
@@ -104,7 +104,7 @@ public class C
         "raiseSystemExceptionInPostinvoke";
     public static String raiseUserInServantThenSystemInPOThenSE =
         "raiseUserInServantThenSystemInPOThenSE";
-    public static String raiseSystemInServantThenPOThenSE = 
+    public static String raiseSystemInServantThenPOThenSE =
         "raiseSystemInServantThenPOThenSE";
 
     public static String throwThreadDeathInReceiveRequestServiceContexts =
@@ -153,7 +153,7 @@ public class C
     public static String testEffectiveTarget2   = "testEffectiveTarget2";
     public static String sendValue              = "sendValue";
     public static String object_to_string       = "object_to_string";
-    public static String isIdenticalWithSavedIOR = 
+    public static String isIdenticalWithSavedIOR =
         "isIdenticalWithSavedIOR";
 
 
@@ -176,7 +176,7 @@ public class C
 
     public static final int minorCodeForTestExceptions = -45;
 
-    public static String rmiiColocatedCallResult = 
+    public static String rmiiColocatedCallResult =
         "makeColocatedCallFromServant colocatedCallFromServant makeColocatedCallFromServant makeColocatedCallFromServant makeColocatedCallFromServant makeColocatedCallFromServant makeColocatedCallFromServant";
 
     public static String idlSAI1ColocatedCallResult =
@@ -191,8 +191,8 @@ public class C
 
     public static ORB createORB(String[] av, int fragmentSize)
     {
-        return createORB(av, 
-                         GIOP_VERSION_1_2, 
+        return createORB(av,
+                         GIOP_VERSION_1_2,
                          (fragmentSize > 0 ? BUFFMGR_STRATEGY_STREAM :
                                              BUFFMGR_STRATEGY_GROW),
                          fragmentSize);
@@ -221,17 +221,17 @@ public class C
         throws
             NamingException
     {
-        Hashtable env = new Hashtable();                  
-        env.put(U.javaNamingCorbaOrb, orb);          
-        return new InitialContext(env); 
+        Hashtable env = new Hashtable();
+        env.put(U.javaNamingCorbaOrb, orb);
+        return new InitialContext(env);
     }
 
     //
     // Colocation factoring.
     //
 
-    public static String makeColocatedCallFromServant(String name, 
-                                                      ORB orb, 
+    public static String makeColocatedCallFromServant(String name,
+                                                      ORB orb,
                                                       String delegator)
     {
         String result = null;
@@ -243,7 +243,7 @@ public class C
             result = doCall(ridlSMI, result, orb);
 
         } catch (Exception e) {
-            U.sopUnexpectedException(delegator + "." + 
+            U.sopUnexpectedException(delegator + "." +
                                      C.makeColocatedCallFromServant,
                                      e);
         }
@@ -259,7 +259,7 @@ public class C
         return info + " " + result;
     }
 
-    public static String colocatedCallFromServant(String a, 
+    public static String colocatedCallFromServant(String a,
                                                   ORB orb,
                                                   String delegator)
     {
@@ -284,7 +284,7 @@ public class C
 
     public static void throwSystemException(String message)
     {
-        throw new IMP_LIMIT(message, 
+        throw new IMP_LIMIT(message,
                             minorCodeForTestExceptions,
                             CompletionStatus.COMPLETED_NO);
 
@@ -299,7 +299,7 @@ public class C
     {
         throw new UNKNOWN(message,
                           minorCodeForTestExceptions,
-                          CompletionStatus.COMPLETED_NO);       
+                          CompletionStatus.COMPLETED_NO);
     }
 
     //
@@ -308,13 +308,13 @@ public class C
 
     public static boolean testAndIncrementPICSlot(boolean ensure,
                                                   String message,
-                                                  int id, 
+                                                  int id,
                                                   int shouldBe,
                                                   ORB orb)
     {
         Current piCurrent = null;
         try {
-            piCurrent = 
+            piCurrent =
                 CurrentHelper.narrow(
                     orb.resolve_initial_references(U.PICurrent));
         } catch (org.omg.CORBA.ORBPackage.InvalidName e) {

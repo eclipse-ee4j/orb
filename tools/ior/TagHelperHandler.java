@@ -44,7 +44,7 @@ public class TagHelperHandler implements EncapsHandler
     private static final Object[] NO_ARGS = new Object[] {};
 
     public TagHelperHandler(String helperClassName, Codec codec)
-        throws ClassNotFoundException, 
+        throws ClassNotFoundException,
                IllegalAccessException,
                IllegalArgumentException,
                InvocationTargetException,
@@ -61,8 +61,8 @@ public class TagHelperHandler implements EncapsHandler
         Class helper = Class.forName(helperClassName);
 
         typeCode
-            = (TypeCode)helper.getDeclaredMethod("type", 
-                                                 NO_ARG_TYPES).invoke(null, 
+            = (TypeCode)helper.getDeclaredMethod("type",
+                                                 NO_ARG_TYPES).invoke(null,
                                                                       NO_ARGS);
 
         extractMethod
@@ -83,7 +83,7 @@ public class TagHelperHandler implements EncapsHandler
 
             // Have the helper extract the desired type from
             // the any.
-            java.lang.Object value = extractMethod.invoke(null, 
+            java.lang.Object value = extractMethod.invoke(null,
                                                           new Object[] { any });
 
             // Recursively display the type via reflection.

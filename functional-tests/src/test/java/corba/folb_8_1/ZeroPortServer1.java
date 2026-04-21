@@ -53,11 +53,11 @@ public class ZeroPortServer1
 
             POA poa = Common.createPOA("zeroPortPOA", true, orb);
             Common.createAndBind(serverName, orb, poa);
-      
+
             System.out.println ("Server is ready.");
 
             orb.run();
-            
+
         } catch (Exception e) {
             System.out.println(baseMsg + e);
             e.printStackTrace(System.out);

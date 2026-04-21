@@ -48,7 +48,7 @@ public class ORBConstants {
        64 component tags  0x53554e00 - 0x53554e3f ("SUN\x00" - "SUN\x3f")
     */
 
-    // All NEO service contexts must be in the range 
+    // All NEO service contexts must be in the range
     // NEO_FIRST_SERVICE_CONTEXT to
     // NEO_FIRST_SERVICE_CONTEXT + NUM_NEO_SERVICE_CONTEXTS - 1
     public static final int NEO_FIRST_SERVICE_CONTEXT = 0x4e454f00 ;
@@ -67,20 +67,20 @@ public class ORBConstants {
     public static final int TAG_CONTAINER_ID =
         SUN_TAGGED_COMPONENT_ID_BASE + 0;
     // Used by AS 8.1 for Request Partioning
-    public static final int TAG_REQUEST_PARTITIONING_ID = 
+    public static final int TAG_REQUEST_PARTITIONING_ID =
         SUN_TAGGED_COMPONENT_ID_BASE + 1;
     // TaggedComponentId for Java serialization tagged component.
     public static final int TAG_JAVA_SERIALIZATION_ID =
         SUN_TAGGED_COMPONENT_ID_BASE + 2;
 
     // Introduced in AS 9.0
-    public static final int FOLB_MEMBER_ADDRESSES_TAGGED_COMPONENT_ID = 
+    public static final int FOLB_MEMBER_ADDRESSES_TAGGED_COMPONENT_ID =
         SUN_TAGGED_COMPONENT_ID_BASE + 3;
     // Introduced in AS 9.0
     public static final int FOLB_MEMBERSHIP_LABEL_TAGGED_COMPONENT_ID =
         SUN_TAGGED_COMPONENT_ID_BASE + 4;
     // Introduced in GFv2.1
-    public static final int TAG_LOAD_BALANCING_ID = 
+    public static final int TAG_LOAD_BALANCING_ID =
         SUN_TAGGED_COMPONENT_ID_BASE + 5;
 
     ////////////////////////////////////////////////////
@@ -90,7 +90,7 @@ public class ORBConstants {
 
     // Used by AS 7 for IIOP failover.
     public static final int CONTAINER_ID_SERVICE_CONTEXT =
-        SUN_SERVICE_CONTEXT_ID_BASE + 0;        
+        SUN_SERVICE_CONTEXT_ID_BASE + 0;
 
     // Introduced in AS 9.
     public static final int FOLB_MEMBERSHIP_LABEL_SERVICE_CONTEXT_ID =
@@ -136,7 +136,7 @@ public class ORBConstants {
         return (scid & 2) == 0 ;
     }
 
-    public static int makePersistent( int scid ) 
+    public static int makePersistent( int scid )
     {
         return scid | 2 ;
     }
@@ -147,7 +147,7 @@ public class ORBConstants {
     // 1. Property names must start with either
     //    CORBA_PREFIX or SUN_PREFIX.
     // 2. Property names must have unique suffixes after the last ".".
-    // 3. Property names must have "ORB" as the first 3 letters 
+    // 3. Property names must have "ORB" as the first 3 letters
     //    in their suffix.
     // 4. proprietary property names should have a subsystem
     //    where appropriate after the prefix.
@@ -196,7 +196,7 @@ public class ORBConstants {
     public static final String GIOP_BUFFER_SIZE                 = SUN_PREFIX + "giop.ORBBufferSize" ;
     public static final String GIOP_11_BUFFMGR                  = SUN_PREFIX + "giop.ORBGIOP11BuffMgr";
     public static final String GIOP_12_BUFFMGR                  = SUN_PREFIX + "giop.ORBGIOP12BuffMgr";
-    public static final String GIOP_TARGET_ADDRESSING           = SUN_PREFIX + "giop.ORBTargetAddressing";    
+    public static final String GIOP_TARGET_ADDRESSING           = SUN_PREFIX + "giop.ORBTargetAddressing";
     public static final int GIOP_DEFAULT_FRAGMENT_SIZE = 4096;
     public static final int GIOP_DEFAULT_BUFFER_SIZE = 4096;
     public static final int DEFAULT_GIOP_11_BUFFMGR = 0; //Growing
@@ -216,7 +216,7 @@ public class ORBConstants {
     public static final int GIOP_FRAGMENT_DIVISOR = 8;
     public static final int GIOP_FRAGMENT_MINIMUM_SIZE = 32;
 
-    public static final String ENV_IS_SERVER_PROPERTY = 
+    public static final String ENV_IS_SERVER_PROPERTY =
         SUN_PREFIX + "ORBEnvironmentIsGlassFishServer" ;
 
     // connection management properties
@@ -265,11 +265,11 @@ public class ORBConstants {
         SUN_PREFIX + "transport.ORBTCPTimeouts";
 
     // Same syntax as TRANSPORT_TCP_TIMEOUTS_PROPERTY
-    public static final String TRANSPORT_TCP_CONNECT_TIMEOUTS_PROPERTY = 
+    public static final String TRANSPORT_TCP_CONNECT_TIMEOUTS_PROPERTY =
         SUN_PREFIX + "transport.ORBTCPConnectTimeouts" ;
 
-    // initial time to wait in milliseconds in a temporary 
-    // Selector.select(long wait) if a transport tcp read 
+    // initial time to wait in milliseconds in a temporary
+    // Selector.select(long wait) if a transport tcp read
     // or write returns 0 bytes
     public static final int TRANSPORT_TCP_INITIAL_TIME_TO_WAIT = 2000;
 
@@ -311,7 +311,7 @@ public class ORBConstants {
         SUN_PREFIX + "transport.ORBAcceptorSocketUseWorkerThreadForEvent";
 
     // Applicable on client-side. "Socket" | "SocketChannel"
-    public static final String CONNECTION_SOCKET_TYPE_PROPERTY = 
+    public static final String CONNECTION_SOCKET_TYPE_PROPERTY =
         SUN_PREFIX + "transport.ORBConnectionSocketType";
 
     // Applicable if using SocketChannel and using select thread
@@ -319,7 +319,7 @@ public class ORBConstants {
         SUN_PREFIX + "transport.ORBConnectionSocketUseWorkerThreadForEvent";
 
     // Used to disable the use of direct byte buffers.  This enables much easier
-    // debugging, because the contents of a direct byte buffer cannot be 
+    // debugging, because the contents of a direct byte buffer cannot be
     // viewed in most (all?) debuggers.
     public static final String DISABLE_DIRECT_BYTE_BUFFER_USE_PROPERTY =
         SUN_PREFIX + "transport.ORBDisableDirectByteBufferUse" ;
@@ -328,13 +328,13 @@ public class ORBConstants {
     // optimized read strategy which is used when USE_NIO_SELECT_TO_WAIT_PROPERTY
     // is true, (default).
     public static final int DEFAULT_READ_BYTE_BUFFER_SIZE = 64000;
-    
+
     // Property name to change the DEFAULT_READ_BYTE_BUFFER_SIZE value.
     public static final String READ_BYTE_BUFFER_SIZE_PROPERTY =
         SUN_PREFIX + "transport.ORBReadByteBufferSize";
 
     // The default pooled DirectByteBuffer slab size.
-    public static final int DEFAULT_POOLED_DIRECT_BYTE_BUFFER_SLAB_SIZE = 
+    public static final int DEFAULT_POOLED_DIRECT_BYTE_BUFFER_SLAB_SIZE =
                                                          4000000; // 4 megabytes
 
     // The property name to set the size of the pooled DirectByteBuffer
@@ -371,38 +371,38 @@ public class ORBConstants {
     public static final String WAIT_FOR_RESPONSE_TIMEOUT =
         SUN_PREFIX + "transport.ORBWaitForResponseTimeout";
 
-    public static final String NO_DEFAULT_ACCEPTORS = 
+    public static final String NO_DEFAULT_ACCEPTORS =
         SUN_PREFIX + "transport.ORBNoDefaultAcceptors" ;
 
-    public static final String REGISTER_MBEANS = 
+    public static final String REGISTER_MBEANS =
         SUN_PREFIX + "ORBRegisterMBeans" ;
 
     public static final int DEFAULT_FRAGMENT_READ_TIMEOUT = 18000 ;
 
-    public static final String FRAGMENT_READ_TIMEOUT = 
+    public static final String FRAGMENT_READ_TIMEOUT =
         SUN_PREFIX + "ORBFragmentReadTimeout" ;
 
     // POA related policies
-    public static final String PERSISTENT_SERVER_PORT_PROPERTY  = 
+    public static final String PERSISTENT_SERVER_PORT_PROPERTY  =
         SUN_PREFIX + "POA.ORBPersistentServerPort" ;
-    public static final String BAD_SERVER_ID_HANDLER_CLASS_PROPERTY = 
+    public static final String BAD_SERVER_ID_HANDLER_CLASS_PROPERTY =
         SUN_PREFIX + "POA.ORBBadServerIdHandlerClass" ;
-    public static final String ACTIVATED_PROPERTY               = 
+    public static final String ACTIVATED_PROPERTY               =
         SUN_PREFIX + "POA.ORBActivated" ;
-    public static final String SERVER_NAME_PROPERTY             = 
+    public static final String SERVER_NAME_PROPERTY             =
         SUN_PREFIX + "POA.ORBServerName" ;
 
     // Server Properties; e.g. when properties passed to ORB activated
     // servers
 
-    public static final String SERVER_DEF_VERIFY_PROPERTY       = 
+    public static final String SERVER_DEF_VERIFY_PROPERTY       =
         SUN_PREFIX + "activation.ORBServerVerify" ;
 
-    public static final String JTS_CLASS_PROPERTY               = 
+    public static final String JTS_CLASS_PROPERTY               =
         SUN_PREFIX + "CosTransactions.ORBJTSClass" ;
 
     // Property for enabling ORB's use of Java serialization.
-    public static final String ENABLE_JAVA_SERIALIZATION_PROPERTY = 
+    public static final String ENABLE_JAVA_SERIALIZATION_PROPERTY =
         SUN_PREFIX + "encoding.ORBEnableJavaSerialization";
 
     // Constants for ORB prefixes **************************************************************
@@ -410,26 +410,26 @@ public class ORBConstants {
     public static final String PI_ORB_INITIALIZER_CLASS_PREFIX   =
         "org.omg.PortableInterceptor.ORBInitializerClass.";
 
-    public static final String USER_CONFIGURATOR_PREFIX = 
+    public static final String USER_CONFIGURATOR_PREFIX =
         SUN_PREFIX + "ORBUserConfigurators." ;
 
-    public static final String RFM_PROPERTY = USER_CONFIGURATOR_PREFIX 
+    public static final String RFM_PROPERTY = USER_CONFIGURATOR_PREFIX
         + "com.sun.corba.ee.impl.oa.rfm.ReferenceManagerConfigurator" ;
 
-    public static final String USE_DYNAMIC_STUB_PROPERTY = 
+    public static final String USE_DYNAMIC_STUB_PROPERTY =
         SUN_PREFIX + "ORBUseDynamicStub" ;
 
     public static final String DEBUG_DYNAMIC_STUB =
         SUN_PREFIX + "ORBDebugStubGeneration" ;
-    
+
     // Not available through ORBData: used only in test.Test
     // and in the optional ClassCopierOrdinaryImpl class.
-    public static final String USE_CODEGEN_REFLECTIVE_COPYOBJECT = 
+    public static final String USE_CODEGEN_REFLECTIVE_COPYOBJECT =
         SUN_PREFIX + "ORBUseCodegenReflectiveCopyobject" ;
 
     public static final String DYNAMIC_STUB_FACTORY_FACTORY_CLASS =
         SUN_PREFIX + "ORBDynamicStubFactoryFactoryClass" ;
-    
+
     // Constants for NameService properties ************************************
 
     public static final int DEFAULT_INITIAL_PORT                 = 900;
@@ -485,7 +485,7 @@ public class ORBConstants {
 
     public static final String LOG_LEVEL_PROPERTY               = SUN_PREFIX + "ORBLogLevel";
 
-    public static final String LOG_RESOURCE_FILE                = 
+    public static final String LOG_RESOURCE_FILE                =
         "com.sun.corba.ee.impl.logging.LogStrings";
 
     public static final String SHOW_INFO_MESSAGES
@@ -511,16 +511,16 @@ public class ORBConstants {
     public static final String INITIAL_NAME_SERVICE_NAME= "InitialNameService" ;
     public static final String TRANSACTION_CURRENT_NAME = "TransactionCurrent" ;
     public static final String DYN_ANY_FACTORY_NAME     = "DynAnyFactory" ;
-    public static final String REFERENCE_FACTORY_MANAGER= "ReferenceFactoryManager" ; 
+    public static final String REFERENCE_FACTORY_MANAGER= "ReferenceFactoryManager" ;
 
     // New for Portable Interceptors
     public static final String PI_CURRENT_NAME          = "PICurrent" ;
     public static final String CODEC_FACTORY_NAME       = "CodecFactory" ;
 
-    public static final String FOLB_CLIENT_GROUP_INFO_SERVICE = 
+    public static final String FOLB_CLIENT_GROUP_INFO_SERVICE =
         "FolbClientGroupInfoService";
 
-    public static final String FOLB_SERVER_GROUP_INFO_SERVICE = 
+    public static final String FOLB_SERVER_GROUP_INFO_SERVICE =
         "FolbServerGroupInfoService";
 
     public static final String CSI_V2_SSL_TAGGED_COMPONENT_HANDLER =
@@ -595,7 +595,7 @@ public class ORBConstants {
 
     // Constants used for denoting different serialization encodings.
     public static final byte CDR_ENC_VERSION = (byte) 0;
-    public static final byte JAVA_ENC_VERSION = (byte) 1; 
+    public static final byte JAVA_ENC_VERSION = (byte) 1;
 
     // property to check if the current ORB was created from within the app server
     public static final String APPSERVER_MODE = SUN_PREFIX + "ORBAppServerMode";
@@ -605,17 +605,17 @@ public class ORBConstants {
 
     // Enable the use of internal timing points.  This slows the ORB down slightly,
     // even if none of the individual timing points are themselves enabled.
-    public static final String TIMING_POINTS_ENABLED = SUN_PREFIX 
+    public static final String TIMING_POINTS_ENABLED = SUN_PREFIX
         + "ORBEnableTimingPoints" ;
 
     // Enable the use of the EnumDesc class for marshaling enums.  Really only
     // present for testing.
-    public static final String USE_ENUM_DESC = SUN_PREFIX 
+    public static final String USE_ENUM_DESC = SUN_PREFIX
         + "ORBUseEnumDesc" ;
 
     // Specify an AMXv3-compliant ObjectName (as a string) for the parent of the
     // ORB's gmbal root.
-    public static final String GMBAL_ROOT_PARENT_NAME = SUN_PREFIX 
+    public static final String GMBAL_ROOT_PARENT_NAME = SUN_PREFIX
         + "ORBGmbalRootParentName" ;
 }
 

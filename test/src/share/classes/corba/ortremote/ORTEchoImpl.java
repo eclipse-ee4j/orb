@@ -36,16 +36,16 @@ public class ORTEchoImpl extends PortableRemoteObject implements ORTEcho
         this.poa = poa ;
     }
 
-    public ObjectReferenceTemplate getORT() throws RemoteException 
+    public ObjectReferenceTemplate getORT() throws RemoteException
     {
         ObjectAdapter oa = (ObjectAdapter)poa ;
         return oa.getAdapterTemplate() ;
     }
 
-    public ObjectReferenceFactory getORF() throws RemoteException 
+    public ObjectReferenceFactory getORF() throws RemoteException
     {
         ObjectAdapter oa = (ObjectAdapter)poa ;
         return oa.getCurrentFactory() ;
     }
-} 
+}
 

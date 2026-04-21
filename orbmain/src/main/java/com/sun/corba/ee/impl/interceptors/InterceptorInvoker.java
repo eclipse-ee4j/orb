@@ -38,10 +38,10 @@ import org.omg.PortableInterceptor.ObjectReferenceTemplate;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.omg.PortableInterceptor.ServerRequestInterceptor;
 
-/** 
+/**
  * Handles invocation of interceptors.  Has specific knowledge of how to
- * invoke IOR, ClientRequest, and ServerRequest interceptors.  
- * Makes use of the InterceptorList to retrieve the list of interceptors to 
+ * invoke IOR, ClientRequest, and ServerRequest interceptors.
+ * Makes use of the InterceptorList to retrieve the list of interceptors to
  * be invoked.  Most methods in this class are package scope so that they
  * may only be called from the PIHandlerImpl.
  */
@@ -63,8 +63,8 @@ public class InterceptorInvoker {
     // PICurrent variable.
     private PICurrent current;
 
-    // NOTE: Be careful about adding additional attributes to this class.  
-    // Multiple threads may be calling methods on this invoker at the same 
+    // NOTE: Be careful about adding additional attributes to this class.
+    // Multiple threads may be calling methods on this invoker at the same
     // time.
 
     /**
@@ -72,8 +72,8 @@ public class InterceptorInvoker {
      * only the ORB can create it.  The invoker is initially disabled, and
      * must be explicitly enabled using setEnabled().
      */
-    InterceptorInvoker( ORB orb, InterceptorList interceptorList, 
-                        PICurrent piCurrent ) 
+    InterceptorInvoker( ORB orb, InterceptorList interceptorList,
+                        PICurrent piCurrent )
     {
         this.orb = orb;
         this.interceptorList = interceptorList;
@@ -91,7 +91,7 @@ public class InterceptorInvoker {
     synchronized boolean getEnabled() {
         return this.enabled ;
     }
-    
+
     /*
      **********************************************************************
      * IOR Interceptor invocation
@@ -244,7 +244,7 @@ public class InterceptorInvoker {
                 // Client's TSC is now RSC via RequestInfo.
                 current.pushSlotTable( );
                 info.setPICurrentPushed( true );
-                info.setCurrentExecutionPoint( 
+                info.setCurrentExecutionPoint(
                     ClientRequestInfoImpl.EXECUTION_POINT_STARTING );
 
                 // Get all ClientRequestInterceptors:
@@ -260,7 +260,7 @@ public class InterceptorInvoker {
                 boolean continueProcessing = true;
 
                 // This ORB only supports send_request.  It does not implement
-                // the CORBA messaging specification, so send_poll is not 
+                // the CORBA messaging specification, so send_poll is not
                 // needed.
                 for( int i = 0; continueProcessing && (i < size); i++ ) {
                     ClientRequestInterceptor cri = clientInterceptors[i] ;
@@ -354,7 +354,7 @@ public class InterceptorInvoker {
                 // NOTE: It is assumed someplace else prepared a
                 // fresh TSC slot table.
 
-                info.setCurrentExecutionPoint( 
+                info.setCurrentExecutionPoint(
                     ClientRequestInfoImpl.EXECUTION_POINT_ENDING );
 
                 // Get all ClientRequestInterceptors:
@@ -470,7 +470,7 @@ public class InterceptorInvoker {
                 // interceptors need to make out calls.
                 current.pushSlotTable( );
 
-                info.setCurrentExecutionPoint( 
+                info.setCurrentExecutionPoint(
                     ServerRequestInfoImpl.EXECUTION_POINT_STARTING );
 
                 // Get all ServerRequestInterceptors:
@@ -562,7 +562,7 @@ public class InterceptorInvoker {
      * Invokes receive_request interception points
      */
     @TraceInterceptor
-    void invokeServerInterceptorIntermediatePoint( 
+    void invokeServerInterceptorIntermediatePoint(
         ServerRequestInfoImpl info ) {
 
         int intermediatePointCall = info.getIntermediatePointCall();
@@ -573,7 +573,7 @@ public class InterceptorInvoker {
             // NOTE: do not touch the slotStack.  The RSC and TSC are
             // equivalent at this point.
 
-            info.setCurrentExecutionPoint( 
+            info.setCurrentExecutionPoint(
                 ServerRequestInfoImpl.EXECUTION_POINT_INTERMEDIATE );
 
             // Get all ServerRequestInterceptors:
@@ -723,18 +723,18 @@ public class InterceptorInvoker {
             }
         } // end enabled check
     }
-    
+
     /*
      **********************************************************************
      * Private utility methods
      **********************************************************************/
-    
+
     /**
-     * Update the client delegate in the event of a ForwardRequest, given the 
+     * Update the client delegate in the event of a ForwardRequest, given the
      * information in the passed-in info object.
      */
     @TraceInterceptor
-    private void updateClientRequestDispatcherForward( 
+    private void updateClientRequestDispatcherForward(
         ClientRequestInfoImpl info ) {
 
         ForwardRequest forwardRequest = info.getForwardRequestException();
@@ -751,5 +751,5 @@ public class InterceptorInvoker {
             info.setLocatedIOR( ior );
         }
     }
-    
+
 }
