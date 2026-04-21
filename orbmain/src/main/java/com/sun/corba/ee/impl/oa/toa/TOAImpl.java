@@ -67,7 +67,7 @@ import org.omg.PortableInterceptor.ObjectReferenceFactory ;
 */
 @ManagedObject
 @Description( "The Transient Object Adapter")
-public class TOAImpl extends ObjectAdapterBase implements TOA 
+public class TOAImpl extends ObjectAdapterBase implements TOA
 {
     private static AtomicLong currentId = new AtomicLong( 0 );
 
@@ -92,7 +92,7 @@ public class TOAImpl extends ObjectAdapterBase implements TOA
         return servants ;
     }
 
-    public TOAImpl( ORB orb, TransientObjectManager tom, String codebase ) 
+    public TOAImpl( ORB orb, TransientObjectManager tom, String codebase )
     {
         super( orb ) ;
         servants = tom ;
@@ -110,7 +110,7 @@ public class TOAImpl extends ObjectAdapterBase implements TOA
 
         // REVISIT - absorb codebase into a policy
         initializeTemplate( oktemp, true,
-                            policies, 
+                            policies,
                             codebase,
                             null, // manager id
                             oktemp.getObjectAdapterId()
@@ -125,19 +125,19 @@ public class TOAImpl extends ObjectAdapterBase implements TOA
         return cm.getDefaultObjectCopierFactory() ;
     }
 
-    public org.omg.CORBA.Object getLocalServant( byte[] objectId ) 
+    public org.omg.CORBA.Object getLocalServant( byte[] objectId )
     {
         return (org.omg.CORBA.Object)(servants.lookupServant( objectId ) ) ;
     }
 
-    /** Get the servant for the request given by the parameters. 
+    /** Get the servant for the request given by the parameters.
     * This will update thread Current, so that subsequent calls to
     * returnServant and removeCurrent from the same thread are for the
     * same request.
     * @param info is the request containing the rest of the request
     */
     @Override
-    public void getInvocationServant( OAInvocationInfo info ) 
+    public void getInvocationServant( OAInvocationInfo info )
     {
         java.lang.Object servant = servants.lookupServant( info.id() ) ;
         if (servant == null) {
@@ -154,22 +154,22 @@ public class TOAImpl extends ObjectAdapterBase implements TOA
 
     /** Return the most derived interface for the given servant and objectId.
     */
-    public String[] getInterfaces( Object servant, byte[] objectId ) 
+    public String[] getInterfaces( Object servant, byte[] objectId )
     {
         return StubAdapter.getTypeIds( servant ) ;
     }
 
-    public Policy getEffectivePolicy( int type ) 
+    public Policy getEffectivePolicy( int type )
     {
         return null ;
     }
 
-    public int getManagerId() 
+    public int getManagerId()
     {
         return -1 ;
     }
 
-    public short getState() 
+    public short getState()
     {
         return ACTIVE.value ;
     }
@@ -178,13 +178,13 @@ public class TOAImpl extends ObjectAdapterBase implements TOA
     {
     }
 
-    public void exit() 
+    public void exit()
     {
     }
- 
+
     // Methods unique to the TOA
 
-    public void connect( org.omg.CORBA.Object objref) 
+    public void connect( org.omg.CORBA.Object objref)
     {
         // Store the objref and get a userkey allocated by the transient
         // object manager.
@@ -198,30 +198,30 @@ public class TOAImpl extends ObjectAdapterBase implements TOA
         org.omg.CORBA.Object obj = orf.make_object( id, key ) ;
 
         // Copy the delegate from the new objref to the argument
-        org.omg.CORBA.portable.Delegate delegate = StubAdapter.getDelegate( 
+        org.omg.CORBA.portable.Delegate delegate = StubAdapter.getDelegate(
             obj ) ;
         ContactInfoList ccil = ((ClientDelegate) delegate).getContactInfoList() ;
-        LocalClientRequestDispatcher lcs = 
+        LocalClientRequestDispatcher lcs =
             ccil.getLocalClientRequestDispatcher() ;
 
         if (lcs instanceof JIDLLocalCRDImpl) {
             JIDLLocalCRDImpl jlcs = (JIDLLocalCRDImpl)lcs ;
             jlcs.setServant( objref ) ;
-        } else {        
-            throw new RuntimeException( 
+        } else {
+            throw new RuntimeException(
                 "TOAImpl.connect can not be called on " + lcs ) ;
         }
 
         StubAdapter.setDelegate( objref, delegate ) ;
     }
 
-    public void disconnect( org.omg.CORBA.Object objref ) 
+    public void disconnect( org.omg.CORBA.Object objref )
     {
         // Get the delegate, then ior, then transientKey, then delete servant
-        org.omg.CORBA.portable.Delegate del = StubAdapter.getDelegate( 
-            objref ) ; 
+        org.omg.CORBA.portable.Delegate del = StubAdapter.getDelegate(
+            objref ) ;
         ContactInfoList ccil = ((ClientDelegate) del).getContactInfoList() ;
-        LocalClientRequestDispatcher lcs = 
+        LocalClientRequestDispatcher lcs =
             ccil.getLocalClientRequestDispatcher() ;
 
         if (lcs instanceof JIDLLocalCRDImpl) {
@@ -229,9 +229,9 @@ public class TOAImpl extends ObjectAdapterBase implements TOA
             byte[] oid = jlcs.getObjectId() ;
             servants.deleteServant(oid);
             jlcs.unexport() ;
-        } else {        
-            throw new RuntimeException( 
+        } else {
+            throw new RuntimeException(
                 "TOAImpl.disconnect can not be called on " + lcs ) ;
         }
     }
-} 
+}

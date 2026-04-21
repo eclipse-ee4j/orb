@@ -50,37 +50,37 @@ public class TheClient {
 
     public static void main(String[] args) {
         try {
-                        
+
             System.setSecurityManager(new javax.rmi.download.SecurityManager());
             // Lets setup some properties that we are using
             // for this test and then create the ORB Object...
-                        
+
             Properties props = System.getProperties();
-            
+
             props.put(  "java.naming.factory.initial",
                         JndiConstants.COSNAMING_CONTEXT_FACTORY);
-            
-            props.put(  "org.omg.CORBA.ORBClass", 
+
+            props.put(  "org.omg.CORBA.ORBClass",
                         "com.sun.corba.ee.impl.orb.ORBImpl");
-            
-            props.put(  "org.omg.CORBA.ORBSingletonClass", 
+
+            props.put(  "org.omg.CORBA.ORBSingletonClass",
                         "com.sun.corba.ee.impl.orb.ORBSingleton");
-            
+
             ORB orb = ORB.init(myArgs, props);
-                
+
             // We are going to use JNDI/CosNaming so lets go ahead and
             // create our root naming context.  NOTE:  We setup CosNaming
             // as our naming plug-in for JNDI by setting properties above.
             Hashtable env = new Hashtable();
             env.put(  "java.naming.corba.orb", orb);
             Context ic = new InitialContext(env);
-            
+
             // Let the test begin...
             // Resolve the Object Reference using JNDI/CosNaming
             java.lang.Object objref  = ic.lookup("TheFVDTestServer");
-                        
+
             // This test is designed to verify PortableRemoteObject.narrow
-                        
+
             try{
                 Servant narrowTo = null;
                 if ( (narrowTo = (Servant)
@@ -94,7 +94,7 @@ public class TheClient {
 
                     // Send a mismatched class
                     // i.e. a matching class hierarchy with differing fields
-                    ParentClass mismatch = 
+                    ParentClass mismatch =
                         (ParentClass)Class.forName("javax.rmi.download.values.ClientA").newInstance();
                     if (mismatch == null)
                         throw new Error("Could not create javax.rmi.download.values.ClientA");
@@ -105,21 +105,21 @@ public class TheClient {
                     // Send a differing hierarchy
                     // - Sender (TheClient) has shallow hierarchy C->A whereas
                     //   receiver (TheServer) has deeper hierarchy C->B->A.
-                    ParentClass shallowHierarchy = 
+                    ParentClass shallowHierarchy =
                         (ParentClass)Class.forName("javax.rmi.download.values.ClassC").newInstance();
-                                        
+
                     if (shallowHierarchy == null)
                         throw new Error("Could not create javax.rmi.download.values.ClassA");
 
                     if (narrowTo.send(shallowHierarchy) != shallowHierarchy.getOriginalTotal())
                         throw new Error("shallowHierarchy class not sent correctly!");
-                                        
+
                     // Send a differing hierarchy
                     // - Sender (TheClient) has deeper hierarchy E->D->A whereas
                     //   receiver (TheServer) has shallow hierarchy E->A.
-                    ParentClass deeperHierarchy = 
+                    ParentClass deeperHierarchy =
                         (ParentClass)Class.forName("javax.rmi.download.values.ClassE").newInstance();
-                                        
+
                     if (deeperHierarchy == null)
                         throw new Error("Could not create javax.rmi.download.values.ClassE");
 
@@ -129,7 +129,7 @@ public class TheClient {
                     // Send a value with a member who's type (class) does
                     // not exist on the receiver's side (i.e. not codebase
                     // to download it from either).
-                    ParentClass missingClassContainer = 
+                    ParentClass missingClassContainer =
                         (ParentClass)Class.forName("javax.rmi.download.values.MissingContainer").newInstance();
 
                     if (missingClassContainer == null)
@@ -139,8 +139,8 @@ public class TheClient {
                         throw new Error("missingClassContainer class not sent correctly");
 
                     passed();
-                                        
-                                        
+
+
                 }
                 else throw new Error("Failed to find narrowTo");
 
@@ -148,7 +148,7 @@ public class TheClient {
             } catch (Throwable ex) {
                 failed(ex);
 
-            }        
+            }
         } catch (Exception ex) {
             failed(ex);
 

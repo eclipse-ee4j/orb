@@ -56,7 +56,7 @@ public class ConstGen implements com.sun.tools.corba.ee.idl.ConstGen
     this.c           = c;
     this.stream      = s;
     init ();
-    
+
     if (c.container () instanceof ModuleEntry)
       generateConst ();
     else if (stream != null)
@@ -100,7 +100,7 @@ public class ConstGen implements com.sun.tools.corba.ee.idl.ConstGen
   {
     Util.writePackage(stream, c);
     Util.writeProlog(stream, ((GenFileStream) stream).name());
-    stream.println ("public interface " + c.name ()); 
+    stream.println ("public interface " + c.name ());
         // should not be done according to the mapping
         // + " extends org.omg.CORBA.portable.IDLEntity");
     stream.println ("{");
@@ -122,7 +122,7 @@ public class ConstGen implements com.sun.tools.corba.ee.idl.ConstGen
     if (c.comment () != null)
       c.comment ().generate ("  ", stream);
     if (c.container () instanceof ModuleEntry) {
-        
+
       stream.print ("  public static final " + Util.javaName(c.type()) + " value = ");
     } else {
       stream.print ("  public static final " + Util.javaName(c.type()) + ' ' + c.name () + " = ");

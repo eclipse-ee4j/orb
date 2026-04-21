@@ -53,8 +53,8 @@ public class DelegateImpl implements org.omg.PortableServer.portable.Delegate
             oid = orb.peekInvocationInfo().id();
             poa = (POA)orb.peekInvocationInfo().oa();
             String repId = self._all_interfaces(poa,oid)[0] ;
-            return poa.create_reference_with_id(oid, repId); 
-        } catch (EmptyStackException notInInvocationE) { 
+            return poa.create_reference_with_id(oid, repId);
+        } catch (EmptyStackException notInInvocationE) {
             //Not within an invocation context
             POAImpl defaultPOA = null;
             try {
@@ -65,12 +65,12 @@ public class DelegateImpl implements org.omg.PortableServer.portable.Delegate
 
             try {
                 if (defaultPOA.getPolicies().isImplicitlyActivated() ||
-                    (defaultPOA.getPolicies().isUniqueIds() && 
+                    (defaultPOA.getPolicies().isUniqueIds() &&
                      defaultPOA.getPolicies().retainServants())) {
                     return defaultPOA.servant_to_reference(self);
                 } else {
                     throw wrapper.wrongPoliciesForThisObject() ;
-                }    
+                }
             } catch ( org.omg.PortableServer.POAPackage.ServantNotActive e) {
                 throw wrapper.thisObjectServantNotActive( e ) ;
             } catch ( org.omg.PortableServer.POAPackage.WrongPolicy e) {
@@ -90,7 +90,7 @@ public class DelegateImpl implements org.omg.PortableServer.portable.Delegate
             if (returnValue != null) {
                 return returnValue;
             }
-            
+
             throw wrapper.noContext( exception ) ;
         }
     }

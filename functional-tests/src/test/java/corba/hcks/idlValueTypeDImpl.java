@@ -33,7 +33,7 @@ public class idlValueTypeDImpl
     public idlValueTypeDImpl () {}
 
     public idlValueTypeDImpl (short d)
-    { 
+    {
         this.d = d;
     }
 

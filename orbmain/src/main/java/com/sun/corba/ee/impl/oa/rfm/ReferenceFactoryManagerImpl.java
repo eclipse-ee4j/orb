@@ -54,7 +54,7 @@ import org.omg.PortableServer.POAManagerPackage.AdapterInactive ;
 @Poa
 @ManagedObject
 @Description( "The ReferenceFactoryManager, used to handle dynamic cluster membership updates")
-public class ReferenceFactoryManagerImpl 
+public class ReferenceFactoryManagerImpl
     extends org.omg.CORBA.LocalObject
     implements ReferenceFactoryManager
 {
@@ -85,7 +85,7 @@ public class ReferenceFactoryManagerImpl
     private List<Policy> standardPolicies ;
     private POA parentPOA ;
     private String[] parentPOAAdapterName ;
-        
+
     public ReferenceFactoryManagerImpl( ORB orb )
     {
         lock = new ReentrantLock() ;
@@ -100,9 +100,9 @@ public class ReferenceFactoryManagerImpl
     }
 
     @Poa
-    private class AdapterActivatorImpl 
-        extends LocalObject 
-        implements AdapterActivator 
+    private class AdapterActivatorImpl
+        extends LocalObject
+        implements AdapterActivator
     {
         private static final long serialVersionUID = 7922226881290146012L;
 
@@ -152,9 +152,9 @@ public class ReferenceFactoryManagerImpl
     // Policy used to indicate that a POA may particpate in the reference manager.
     // If this policy is not present, and a create_POA call is made under base POA,
     // an IORInterceptor will be used reject the POA creation.
-    private static class ReferenceManagerPolicy 
-        extends LocalObject 
-        implements Policy 
+    private static class ReferenceManagerPolicy
+        extends LocalObject
+        implements Policy
     {
         private static Policy thisPolicy = new ReferenceManagerPolicy() ;
         private static final long serialVersionUID = -4780983694679451387L;
@@ -189,7 +189,7 @@ public class ReferenceFactoryManagerImpl
     }
 
     @Poa
-    public void activate() 
+    public void activate()
     {
         lock.lock() ;
         try {
@@ -197,17 +197,17 @@ public class ReferenceFactoryManagerImpl
                 throw wrapper.rfmAlreadyActive();
             }
 
-            rootPOA = (POA)orb.resolve_initial_references( 
+            rootPOA = (POA)orb.resolve_initial_references(
                 ORBConstants.ROOT_POA_NAME ) ;
 
-            standardPolicies = Arrays.asList( 
-                ReferenceManagerPolicy.getPolicy(), 
-                rootPOA.create_servant_retention_policy( 
+            standardPolicies = Arrays.asList(
+                ReferenceManagerPolicy.getPolicy(),
+                rootPOA.create_servant_retention_policy(
                     ServantRetentionPolicyValue.NON_RETAIN ),
                 rootPOA.create_request_processing_policy(
                     RequestProcessingPolicyValue.USE_SERVANT_MANAGER ),
-                rootPOA.create_lifespan_policy( 
-                    LifespanPolicyValue.PERSISTENT ) 
+                rootPOA.create_lifespan_policy(
+                    LifespanPolicyValue.PERSISTENT )
             ) ;
 
             Policy[] policies = { ReferenceManagerPolicy.getPolicy() } ;
@@ -234,13 +234,13 @@ public class ReferenceFactoryManagerImpl
     // to attempt to deploy an EJB while the cluster shape is changing.
     // We really need to enqueue (at least) create calls while suspended.
     // It may also be better to get rid of separate suspend/resume calls, instead
-    // passing an object to a method that does suspend/resume (as in 
+    // passing an object to a method that does suspend/resume (as in
     // doPrivileged).  See GF issue 4560.
     @Poa
-    public ReferenceFactory create( final String name, 
+    public ReferenceFactory create( final String name,
                                     final String repositoryId,
                                     final List<Policy> policies,
-                                    final ServantLocator locator ) 
+                                    final ServantLocator locator )
     {
         lock.lock() ;
         try {
@@ -274,7 +274,7 @@ public class ReferenceFactoryManagerImpl
     }
 
     @Poa
-    public ReferenceFactory find( String[] adapterName ) 
+    public ReferenceFactory find( String[] adapterName )
     {
         lock.lock() ;
         try {
@@ -285,7 +285,7 @@ public class ReferenceFactoryManagerImpl
             if (!isActive) {
                 return null;
             }
-            
+
             int expectedLength = parentPOAAdapterName.length + 1 ;
 
             if (expectedLength != adapterName.length) {
@@ -340,7 +340,7 @@ public class ReferenceFactoryManagerImpl
     // but that would require significant testing.
 
     @Poa
-    public void suspend() 
+    public void suspend()
     {
         lock.lock() ;
 
@@ -386,7 +386,7 @@ public class ReferenceFactoryManagerImpl
     }
 
     @Poa
-    public void resume() 
+    public void resume()
     {
         lock.lock() ;
 
@@ -490,7 +490,7 @@ public class ReferenceFactoryManagerImpl
      * This parameter must not be null.
      */
     @Poa
-    public void restart( Map<String,Pair<ServantLocator,List<Policy>>> updates ) 
+    public void restart( Map<String,Pair<ServantLocator,List<Policy>>> updates )
     {
         suspend() ;
         try {
@@ -513,7 +513,7 @@ public class ReferenceFactoryManagerImpl
     // ReferenceFactoryImpl just delegates to these methods.
     @Poa
     org.omg.CORBA.Object createReference( String name, byte[] key,
-        String repositoryId ) 
+        String repositoryId )
     {
         try {
             POA child = parentPOA.find_POA( name, true ) ;
@@ -561,7 +561,7 @@ public class ReferenceFactoryManagerImpl
         // Only check the case where poa does not have the reference manager
         // policy.  We assume that we handle the policy correctly inside
         // the RFM itself.
-        Policy policy = ObjectAdapter.class.cast(poa).getEffectivePolicy( 
+        Policy policy = ObjectAdapter.class.cast(poa).getEffectivePolicy(
             ORBConstants.REFERENCE_MANAGER_POLICY ) ;
         if (policy != null) {
             return;
@@ -571,7 +571,7 @@ public class ReferenceFactoryManagerImpl
         // active RFM.  If poa's parent POA has the policy, we have an
         // error.
         POA parent = poa.the_parent() ;
-        Policy parentPolicy = 
+        Policy parentPolicy =
             ObjectAdapter.class.cast(parent).getEffectivePolicy(
             ORBConstants.REFERENCE_MANAGER_POLICY ) ;
         if (parentPolicy != null) {
@@ -592,7 +592,7 @@ public class ReferenceFactoryManagerImpl
 
     // locking not required
     @Poa
-    public boolean isRfmName( String[] adapterName ) 
+    public boolean isRfmName( String[] adapterName )
     {
         if (!isActive) {
             return false ;

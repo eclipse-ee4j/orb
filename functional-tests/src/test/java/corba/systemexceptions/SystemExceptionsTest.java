@@ -34,7 +34,7 @@ import corba.framework.*;
 public class SystemExceptionsTest extends CORBATest {
     public static final String thisPackage =
         SystemExceptionsTest.class.getPackage().getName();
-    
+
     protected void doTest() throws Throwable {
         Controller orbd = createORBD();
         orbd.start();
@@ -46,7 +46,7 @@ public class SystemExceptionsTest extends CORBATest {
         doTestType("Server", "Server",
                    "Client", "Client");
 
-        Controller colocatedClientServer = 
+        Controller colocatedClientServer =
             createClient(thisPackage + ".ColocatedClientServer",
                          "colocatedClientServer");
         colocatedClientServer.start();

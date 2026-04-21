@@ -40,11 +40,11 @@ import org.omg.CORBA.ORB;
 public class FVDCodeBaseImpl extends _CodeBaseImplBase
 {
     // Contains rep. ids as keys to FullValueDescriptions
-    private static Map<String,FullValueDescription> fvds = 
+    private static Map<String,FullValueDescription> fvds =
         new HashMap<String,FullValueDescription>();
 
-    // Private ORBSingleton used when we need an ORB while not 
-    // having a delegate set.  
+    // Private ORBSingleton used when we need an ORB while not
+    // having a delegate set.
     private transient ORB orb = null;
 
     private static final OMGSystemException wrapper =
@@ -58,7 +58,7 @@ public class FVDCodeBaseImpl extends _CodeBaseImplBase
 
     public FVDCodeBaseImpl( ValueHandler vh ) {
         // vhandler will never be null
-        this.vhandler = (com.sun.corba.ee.impl.io.ValueHandlerImpl)vh ;  
+        this.vhandler = (com.sun.corba.ee.impl.io.ValueHandlerImpl)vh ;
     }
 
     // Operation to obtain the IR from the sending context
@@ -100,15 +100,15 @@ public class FVDCodeBaseImpl extends _CodeBaseImplBase
 
             if (result == null) {
                 try{
-                    result = ValueUtility.translate(_orb(), 
+                    result = ValueUtility.translate(_orb(),
                         ObjectStreamClass.lookup(vhandler.getAnyClassFromType(x)), vhandler);
                 } catch(Throwable t){
                     if (orb == null) {
                         orb = ORB.init();
                     }
 
-                    result = ValueUtility.translate(orb, 
-                        ObjectStreamClass.lookup(vhandler.getAnyClassFromType(x)), vhandler);           
+                    result = ValueUtility.translate(orb,
+                        ObjectStreamClass.lookup(vhandler.getAnyClassFromType(x)), vhandler);
                 }
 
                 if (result != null){
@@ -117,7 +117,7 @@ public class FVDCodeBaseImpl extends _CodeBaseImplBase
                     throw wrapper.missingLocalValueImpl();
                 }
             }
-                                
+
             return result;
         } catch(Throwable t){
             throw wrapper.incompatibleValueImpl(t);

@@ -34,7 +34,7 @@ import corba.framework.Controller;
 import corba.framework.Options;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
-public class Client 
+public class Client
 {
     public static final String baseMsg = Client.class.getName();
     public static final String main = baseMsg + ".main";
@@ -68,7 +68,7 @@ public class Client
             // NOTE: without this wait the test fails.
             // Wait a second before removing it so that
             // the file modified time looks diferent to the server
-            // from the last update.  
+            // from the last update.
             Thread.sleep(1000);
             update(false, "foo", null);
             lookup(false, "foo");
@@ -84,14 +84,14 @@ public class Client
         System.exit(Controller.SUCCESS);
     }
 
-    public static org.omg.CORBA.Object lookup(boolean shouldBeThere, 
+    public static org.omg.CORBA.Object lookup(boolean shouldBeThere,
                                               String name)
         throws
             Exception
     {
         String filename = getBootstrapFilePathAndName();
         System.out.println(filename
-                           + " lookup(" 
+                           + " lookup("
                            + (shouldBeThere ? "shouldFind" : "shouldNotFind") + ", "
                            + name + ")");
 
@@ -119,7 +119,7 @@ public class Client
 
     public static String getBootstrapFilePathAndName()
     {
-        return 
+        return
             //Options.getOutputDirectory()
             System.getProperty("output.dir")
             + System.getProperty("file.separator")
@@ -134,7 +134,7 @@ public class Client
     {
         String filename = getBootstrapFilePathAndName();
         System.out.println(filename
-                           + " update(" 
+                           + " update("
                            + (shouldAdd ? "add" : "remove") + ", "
                            + name + ", "
                            + (o == null ? "null" : "IOR") + ")");

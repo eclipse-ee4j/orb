@@ -24,8 +24,8 @@ import sun.tools.java.ClassPath ;
 import sun.tools.java.ClassFile ;
 
 /**
- * A ClassLoader that will ultimately use a given sun.tools.java.ClassPath to 
- * find the desired file.  This works for any JAR files specified in the given 
+ * A ClassLoader that will ultimately use a given sun.tools.java.ClassPath to
+ * find the desired file.  This works for any JAR files specified in the given
  * ClassPath as well -- reusing all of that wonderful sun.tools.java code.
  *
  *@author Everett Anderson
@@ -38,8 +38,8 @@ public class ClassPathLoader extends ClassLoader
         this.classPath = classPath;
     }
 
-    // Called by the super class 
-    protected Class findClass(String name) throws ClassNotFoundException 
+    // Called by the super class
+    protected Class findClass(String name) throws ClassNotFoundException
     {
         byte[] b = loadClassData(name);
         return defineClass(name, b, 0, b.length);
@@ -48,19 +48,19 @@ public class ClassPathLoader extends ClassLoader
     /**
      * Load the class with the given fully qualified name from the ClassPath.
      */
-    private byte[] loadClassData(String className) 
+    private byte[] loadClassData(String className)
         throws ClassNotFoundException
     {
         // Build the file name and subdirectory from the
         // class name
-        String filename = className.replace('.', File.separatorChar) 
+        String filename = className.replace('.', File.separatorChar)
                           + ".class";
 
-        // Have ClassPath find the file for us, and wrap it in a 
+        // Have ClassPath find the file for us, and wrap it in a
         // ClassFile.  Note:  This is where it looks inside jar files that
         // are specified in the path.
         ClassFile classFile = classPath.getFile(filename);
- 
+
         if (classFile != null) {
 
             // Provide the most specific reason for failure in addition
@@ -72,16 +72,16 @@ public class ClassPathLoader extends ClassLoader
                 // ClassFile is beautiful because it shields us from
                 // knowing if it's a separate file or an entry in a
                 // jar file.
-                DataInputStream input 
+                DataInputStream input
                     = new DataInputStream(classFile.getInputStream());
 
-                // Can't rely on input available() since it will be 
+                // Can't rely on input available() since it will be
                 // something unusual if it's a jar file!  May need
                 // to worry about a possible problem if someone
                 // makes a jar file entry with a size greater than
                 // max int.
                 data = new byte[(int)classFile.length()];
-                
+
                 try {
                     input.readFully(data);
                 } catch (IOException ex) {

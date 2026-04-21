@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.spi.ior;
 
-public interface TaggedComponentFactoryFinder 
+public interface TaggedComponentFactoryFinder
     extends IdentifiableFactoryFinder<TaggedComponent>
 {
     /** Create a tagged component from a GIOP marshalled representation

@@ -47,7 +47,7 @@ public class ConstEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     _value = that._value;
   } // ctor
 
-  /** This is a shallow copy constructor. 
+  /** This is a shallow copy constructor.
    * @param that entry to copy
    * @param clone id of the clone
    */

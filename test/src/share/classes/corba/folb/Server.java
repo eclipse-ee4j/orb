@@ -79,20 +79,20 @@ public class Server
 
 
         //
-        // Must set server id and persistent port for 
+        // Must set server id and persistent port for
         // persistent POAs (e.g., ReferenceFactory)
         //
-        
+
         // 300 is arbitrary;
         props.setProperty(ORBConstants.ORB_SERVER_ID_PROPERTY, "300");
         // 4567 is arbitrary;
         props.setProperty(ORBConstants.PERSISTENT_SERVER_PORT_PROPERTY,
                           new Integer(4567).toString());
-        
+
         //
         // Tell the ORB to listen on user-define ports
         //
-        
+
         String listenPorts = corba.folb_8_1.Server.formatListenPorts();
         props.setProperty(ORBConstants.LISTEN_SOCKET_PROPERTY, listenPorts);
         U.sop("Listen ports: " + listenPorts);
@@ -112,11 +112,11 @@ public class Server
         // which then registers itself as an ORBInitializer
         // to then register itself as IOR and ServerRequest Interceptors.
         //
-        
+
         props.setProperty(ORBConstants.USER_CONFIGURATOR_PREFIX
                           + ServerGroupManager.class.getName(),
                           "dummy");
-        
+
         //
         // This configurator registers the "fake" GIS
         //
@@ -197,7 +197,7 @@ public class Server
             ref = rf.createReference(objectId);
 
             dprint("--------------------------------------------------");
-            dprint("bind reference: " 
+            dprint("bind reference: "
                    + Common.TEST_RFM_WITH_ADDRESSES_WITH_LABEL);
             dprint("--------------------------------------------------");
             U.rebind(Common.RFM_WITH_ADDRESSES_WITH_LABEL, ref, orb);
@@ -211,7 +211,7 @@ public class Server
             //
 
             dprint("--------------------------------------------------");
-            dprint("create ReferenceFactory: " 
+            dprint("create ReferenceFactory: "
                    + Common.RFM_WITH_ADDRESSES_WITHOUT_LABEL);
             dprint("--------------------------------------------------");
             rf = rfm.create(Common.RFM_WITH_ADDRESSES_WITHOUT_LABEL,
@@ -223,7 +223,7 @@ public class Server
             ref = rf.createReference(objectId);
 
             dprint("--------------------------------------------------");
-            dprint("bind reference: " 
+            dprint("bind reference: "
                    + Common.TEST_RFM_WITH_ADDRESSES_WITHOUT_LABEL);
             U.rebind(Common.TEST_RFM_WITH_ADDRESSES_WITHOUT_LABEL, ref, orb);
             dprint("--------------------------------------------------");
@@ -233,7 +233,7 @@ public class Server
             // This object is also used to control GIS.
             //
 
-            GroupInfoServiceImpl gis = (GroupInfoServiceImpl) 
+            GroupInfoServiceImpl gis = (GroupInfoServiceImpl)
                 orb.resolve_initial_references(
                     ORBConstants.FOLB_SERVER_GROUP_INFO_SERVICE);
 
@@ -256,11 +256,11 @@ public class Server
 
 
             dprint("--------------------------------------------------");
-            dprint("createPOA: " 
+            dprint("createPOA: "
                    + Common.GIS_POA_WITH_ADDRESSES_WITH_LABEL);
             dprint("--------------------------------------------------");
 
-            POA poaWithTags = 
+            POA poaWithTags =
                 rootPOA.create_POA(Common.POA_WITH_ADDRESSES_WITH_LABEL,
                                    null, null);
             poaWithTags.the_POAManager().activate();
@@ -295,7 +295,7 @@ public class Server
     // ORBConfigurator
     //
 
-    public void configure(DataCollector collector, ORB orb) 
+    public void configure(DataCollector collector, ORB orb)
     {
         dprint(".configure->:");
 
@@ -323,11 +323,11 @@ public class Server
 
     private static class TestServantLocator
         extends LocalObject
-        implements ServantLocator 
+        implements ServantLocator
     {
         ORB orb;
 
-        public TestServantLocator(ORB orb) 
+        public TestServantLocator(ORB orb)
         {
             this.orb = orb;
         }

@@ -29,7 +29,7 @@ import org.omg.CORBA.portable.ApplicationException ;
 import org.omg.CORBA_2_3.portable.InputStream ;
 import org.omg.CORBA_2_3.portable.OutputStream ;
 
-public class ExceptionHandlerImpl implements ExceptionHandler 
+public class ExceptionHandlerImpl implements ExceptionHandler
 {
     private static final ORBUtilSystemException wrapper =
         ORBUtilSystemException.self;
@@ -37,7 +37,7 @@ public class ExceptionHandlerImpl implements ExceptionHandler
     private ExceptionRW[] rws ;
 
 ///////////////////////////////////////////////////////////////////////////////
-// ExceptionRW interface and implementations.  
+// ExceptionRW interface and implementations.
 // Used to read and write exceptions.
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -57,12 +57,12 @@ public class ExceptionHandlerImpl implements ExceptionHandler
         private Class cls ;
         private String id ;
 
-        public ExceptionRWBase( Class cls ) 
+        public ExceptionRWBase( Class cls )
         {
             this.cls = cls ;
         }
 
-        public Class getExceptionClass() 
+        public Class getExceptionClass()
         {
             return cls ;
         }
@@ -83,7 +83,7 @@ public class ExceptionHandlerImpl implements ExceptionHandler
         private Method readMethod ;
         private Method writeMethod ;
 
-        public ExceptionRWIDLImpl( Class cls ) 
+        public ExceptionRWIDLImpl( Class cls )
         {
             super( cls ) ;
 
@@ -100,36 +100,36 @@ public class ExceptionHandlerImpl implements ExceptionHandler
             }
 
             try {
-                writeMethod = helperClass.getDeclaredMethod( "write", 
+                writeMethod = helperClass.getDeclaredMethod( "write",
                     org.omg.CORBA.portable.OutputStream.class, cls ) ;
             } catch (Exception ex) {
                 throw wrapper.badHelperWriteMethod( ex, helperName ) ;
             }
 
             try {
-                readMethod = helperClass.getDeclaredMethod( "read", 
+                readMethod = helperClass.getDeclaredMethod( "read",
                     org.omg.CORBA.portable.InputStream.class ) ;
             } catch (Exception ex) {
                 throw wrapper.badHelperReadMethod( ex, helperName ) ;
             }
         }
 
-        public void write( OutputStream os, Exception ex ) 
+        public void write( OutputStream os, Exception ex )
         {
             try {
                 writeMethod.invoke( null, os, ex ) ;
             } catch (Exception exc) {
-                throw wrapper.badHelperWriteMethod( exc, 
+                throw wrapper.badHelperWriteMethod( exc,
                     writeMethod.getDeclaringClass().getName() ) ;
             }
         }
 
-        public Exception read( InputStream is ) 
+        public Exception read( InputStream is )
         {
             try {
                 return (Exception)readMethod.invoke( null, is ) ;
             } catch (Exception ex) {
-                throw wrapper.badHelperReadMethod( ex, 
+                throw wrapper.badHelperReadMethod( ex,
                     readMethod.getDeclaringClass().getName() ) ;
             }
         }
@@ -137,19 +137,19 @@ public class ExceptionHandlerImpl implements ExceptionHandler
 
     public class ExceptionRWRMIImpl extends ExceptionRWBase
     {
-        public ExceptionRWRMIImpl( Class cls ) 
+        public ExceptionRWRMIImpl( Class cls )
         {
             super( cls ) ;
             setId( IDLNameTranslatorImpl.getExceptionId( cls ) ) ;
         }
 
-        public void write( OutputStream os, Exception ex ) 
+        public void write( OutputStream os, Exception ex )
         {
             os.write_string( getId() ) ;
             os.write_value( ex, getExceptionClass() ) ;
         }
 
-        public Exception read( InputStream is ) 
+        public Exception read( InputStream is )
         {
             is.read_string() ; // read and ignore!
             return (Exception)is.read_value( getExceptionClass() ) ;
@@ -181,17 +181,17 @@ public class ExceptionHandlerImpl implements ExceptionHandler
                     erw = new ExceptionRWRMIImpl( cls ) ;
 
                 /* The following check is not performed
-                 * in order to maintain compatibility with 
+                 * in order to maintain compatibility with
                  * rmic.  See bug 4989312.
-                 
+
                 // Check for duplicate repository ID
                 String repositoryId = erw.getId() ;
                 int duplicateIndex = findDeclaredException( repositoryId ) ;
                 if (duplicateIndex > 0) {
                     ExceptionRW duprw = rws[duplicateIndex] ;
-                    String firstClassName = 
+                    String firstClassName =
                         erw.getExceptionClass().getName() ;
-                    String secondClassName = 
+                    String secondClassName =
                         duprw.getExceptionClass().getName() ;
                     throw wrapper.duplicateExceptionRepositoryId(
                         firstClassName, secondClassName, repositoryId ) ;
@@ -204,7 +204,7 @@ public class ExceptionHandlerImpl implements ExceptionHandler
         }
     }
 
-    private int findDeclaredException( Class cls ) 
+    private int findDeclaredException( Class cls )
     {
         for (int ctr = 0; ctr < rws.length; ctr++) {
             Class next = rws[ctr].getExceptionClass() ;
@@ -218,25 +218,25 @@ public class ExceptionHandlerImpl implements ExceptionHandler
     private int findDeclaredException( String repositoryId )
     {
         for (int ctr=0; ctr<rws.length; ctr++) {
-            // This may occur when rws has not been fully 
+            // This may occur when rws has not been fully
             // populated, in which case the search should just fail.
             if (rws[ctr]==null)
                 return -1 ;
 
             String rid = rws[ctr].getId() ;
-            if (repositoryId.equals( rid )) 
+            if (repositoryId.equals( rid ))
                 return ctr ;
         }
 
         return -1 ;
     }
 
-    public boolean isDeclaredException( Class cls ) 
+    public boolean isDeclaredException( Class cls )
     {
         return findDeclaredException( cls ) >= 0 ;
     }
 
-    public void writeException( OutputStream os, Exception ex ) 
+    public void writeException( OutputStream os, Exception ex )
     {
         int index = findDeclaredException( ex.getClass() ) ;
         if (index < 0)
@@ -246,10 +246,10 @@ public class ExceptionHandlerImpl implements ExceptionHandler
         rws[index].write( os, ex ) ;
     }
 
-    public Exception readException( ApplicationException ae ) 
+    public Exception readException( ApplicationException ae )
     {
-        // Note that the exception ID is present in both ae 
-        // and in the input stream from ae.  The exception 
+        // Note that the exception ID is present in both ae
+        // and in the input stream from ae.  The exception
         // reader must actually read the exception ID from
         // the stream.
         InputStream is = (InputStream)ae.getInputStream() ;

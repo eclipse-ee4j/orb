@@ -34,20 +34,20 @@ import java.util.*;
  * </ul>
  */
 public class ClientInterceptorTest
-    extends CORBATest 
+    extends CORBATest
 {
     // Set to true if at least one test fails.
     private boolean failed = false;
 
     Controller orbd;
 
-    protected void doTest() 
-        throws Throwable 
+    protected void doTest()
+        throws Throwable
     {
         System.out.println();
         System.out.println( "      \t\t\t\tLocal\t\tRemote" );
 
-        startORBD( );        
+        startORBD( );
 
         beginTest( "[POA]\t\t\t" );
         testPOALocal();
@@ -72,7 +72,7 @@ public class ClientInterceptorTest
         endTest( "\t\t" );
         testClientDelegateDIIRemote();
         endTest( "\n" );
-        stopORBD( );        
+        stopORBD( );
 
         System.out.println();
         System.out.print( "      Final Result: " );
@@ -127,7 +127,7 @@ public class ClientInterceptorTest
 
         try {
             // Start only a client - the client will create the server.
-            client = createClient( 
+            client = createClient(
                 "pi.clientinterceptor.DIIPOALocalClient", "diipoalocal" );
             client.start();
             client.waitFor();
@@ -159,7 +159,7 @@ public class ClientInterceptorTest
         }
     }
 
-    private void testRMILocal() 
+    private void testRMILocal()
         throws Throwable
     {
         try {
@@ -177,7 +177,7 @@ public class ClientInterceptorTest
         }
     }
 
-    private void testRMIRemote() 
+    private void testRMIRemote()
         throws Throwable
     {
         Controller client, server;
@@ -198,7 +198,7 @@ public class ClientInterceptorTest
         }
     }
 
-    private void testClientDelegateDIILocal() 
+    private void testClientDelegateDIILocal()
         throws Throwable
     {
         Controller client;
@@ -216,7 +216,7 @@ public class ClientInterceptorTest
         }
     }
 
-    private void testClientDelegateDIIRemote() 
+    private void testClientDelegateDIIRemote()
         throws Throwable
     {
         Controller client, server;
@@ -237,19 +237,19 @@ public class ClientInterceptorTest
         }
     }
 
-    private void beginTest( String name ) 
+    private void beginTest( String name )
         throws Exception
     {
         System.out.print( "      " + name );
     }
 
-    private void endTest( String terminator ) 
+    private void endTest( String terminator )
         throws Exception
     {
         System.out.print( terminator );
     }
 
-    private void startORBD() 
+    private void startORBD()
         throws Exception
     {
         orbd = createORBD();
@@ -263,7 +263,7 @@ public class ClientInterceptorTest
         pause();
     }
 
-    private void printEndTest( Controller client, Controller server ) 
+    private void printEndTest( Controller client, Controller server )
         throws Throwable
     {
         if( (server != null) && server.finished() ) {
@@ -271,7 +271,7 @@ public class ClientInterceptorTest
             failed = true;
         }
         else if( client.exitValue() != Controller.SUCCESS ) {
-            System.out.print( "FAILED, Client exit value = " + 
+            System.out.print( "FAILED, Client exit value = " +
                 client.exitValue() );
             failed = true;
         }

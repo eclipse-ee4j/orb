@@ -36,25 +36,25 @@ import static org.junit.Assert.assertTrue;
  * @author steve
  */
 public class TestTransactionRemoteException {
-    
+
     @Test
     public void canLoadTransactionException() {
-        
+
         SystemException se = new TRANSACTION_ROLLEDBACK();
         RemoteException re = Util.mapSystemException(se);
         assertTrue(re.getClass().getName().endsWith("TransactionRolledbackException"));
         assertTrue(re.getCause().equals(se));
-        
+
         se = new TRANSACTION_REQUIRED();
         re = Util.mapSystemException(se);
         assertTrue(re.getClass().getName().endsWith("TransactionRequiredException"));
-        assertTrue(re.getCause().equals(se));   
-        
+        assertTrue(re.getCause().equals(se));
+
         se = new INVALID_TRANSACTION();
         re = Util.mapSystemException(se);
         assertTrue(re.getClass().getName().endsWith("InvalidTransactionException"));
-        assertTrue(re.getCause().equals(se));        
-        
+        assertTrue(re.getCause().equals(se));
+
     }
-    
+
 }

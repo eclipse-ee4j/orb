@@ -24,12 +24,12 @@ public class ClientA extends javax.rmi.fvd.ParentClass{
     private static final long serialVersionUID = 113456789L;
 
     private int c, d;
-        
+
     public ClientA(){
         c = 456;
         d = 31;
     }
-        
+
     public long getTotal(){
         return  super.getTotal() + c + d;
     }

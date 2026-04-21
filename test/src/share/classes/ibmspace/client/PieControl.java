@@ -179,7 +179,7 @@ public  class PieControl extends JComponent implements MouseMotionListener
                 double sine = o/h;
 
                 return (0.25 - (Math.asin(sine) * 0.5) / Math.PI);
-        
+
             } else {
                 // second quadrant 90 - 179
 

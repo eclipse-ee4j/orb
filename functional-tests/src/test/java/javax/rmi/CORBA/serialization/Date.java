@@ -27,7 +27,7 @@ package javax.rmi.CORBA.serialization;
 * 01 June 1999 20:22:16 o'clock GMT+00:00
 */
 
-public abstract class Date implements javax.rmi.CORBA.serialization.Cloneable, org.omg.CORBA.portable.CustomValue 
+public abstract class Date implements javax.rmi.CORBA.serialization.Cloneable, org.omg.CORBA.portable.CustomValue
 {
   private static String[] _truncatable_ids = {
     DateHelper.id ()

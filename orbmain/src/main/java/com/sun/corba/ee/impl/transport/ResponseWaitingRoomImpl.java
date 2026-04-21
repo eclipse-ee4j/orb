@@ -70,7 +70,7 @@ public class ResponseWaitingRoomImpl
     {
         this.orb = orb;
         this.connection = connection;
-        this.out_calls = 
+        this.out_calls =
                Collections.synchronizedMap(new HashMap<Integer, OutCallDesc>());
     }
 
@@ -83,7 +83,7 @@ public class ResponseWaitingRoomImpl
             messageMediator.getOperationName() ) ;
 
         Integer requestId = messageMediator.getRequestId();
-        
+
         OutCallDesc call = new OutCallDesc();
         call.messageMediator = messageMediator;
         OutCallDesc exists = out_calls.put(requestId, call);
@@ -112,21 +112,21 @@ public class ResponseWaitingRoomImpl
     @Transport
     public CDRInputObject waitForResponse(MessageMediator messageMediator) {
         CDRInputObject returnStream = null;
-        
+
         display( "messageMediator request ID",
             messageMediator.getRequestId() ) ;
         display( "messageMediator operation name",
             messageMediator.getOperationName() ) ;
-        
+
         Integer requestId = messageMediator.getRequestId();
-        
+
         if (messageMediator.isOneWay()) {
             // The waiter is removed in releaseReply in the same
             // way as a normal request.
             display( "Oneway request: not waiting") ;
             return null;
         }
-        
+
         OutCallDesc call = out_calls.get(requestId);
         if (call == null) {
             throw wrapper.nullOutCall() ;
@@ -136,7 +136,7 @@ public class ResponseWaitingRoomImpl
         // to use it with Condition.awaitNanos()
         long waitForResponseTimeout =
                 orb.getORBData().getWaitForResponseTimeout() * 1000 * 1000;
-        
+
         try {
             call.lock.lock();
             while (call.inputObject == null && call.exception == null) {
@@ -145,7 +145,7 @@ public class ResponseWaitingRoomImpl
                 // and signals us.
                 try {
                     display( "Waiting for response..." ) ;
-                    
+
                     waitForResponseTimeout =
                             call.condition.awaitNanos(waitForResponseTimeout);
                     if (call.inputObject == null && call.exception == null) {
@@ -174,15 +174,15 @@ public class ResponseWaitingRoomImpl
                 display( "Exception from call", call.exception ) ;
                 throw call.exception;
             }
-            
+
             returnStream = call.inputObject;
         } finally {
             call.lock.unlock();
         }
-        
+
         // REVISIT -- exceptions from unmarshaling code will
         // go up through this client thread!
-        
+
         if (returnStream != null) {
             // On fragmented streams the header MUST be unmarshaled here
             // (in the client thread) in case it blocks.
@@ -191,7 +191,7 @@ public class ResponseWaitingRoomImpl
             // REVISIT: cast - need interface method.
             ((CDRInputObject)returnStream).unmarshalHeader();
         }
-        
+
         return returnStream;
     }
 
@@ -233,7 +233,7 @@ public class ResponseWaitingRoomImpl
         // The thread signalled will remove outcall descriptor if appropriate.
         // Otherwise, it'll be removed when last fragment for it has been put on
         // BufferManagerRead's queue.
-        
+
         try {
             call.lock.lock();
             MessageMediator messageMediator =

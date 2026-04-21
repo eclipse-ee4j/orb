@@ -48,7 +48,7 @@ public class HcksTest
         doTestType("Server_1_1", "remoteServer_1_1",
                    "Client_1_1", "remoteClient_1_1");
 
-        Controller colocatedClientServer = 
+        Controller colocatedClientServer =
             createClient(thisPackage + ".ColocatedClientServer",
                          "colocatedClientServer");
         colocatedClientServer.start();

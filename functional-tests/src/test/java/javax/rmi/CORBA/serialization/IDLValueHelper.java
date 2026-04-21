@@ -84,7 +84,7 @@ public abstract class IDLValueHelper
         value.fString = istream.read_string();
         return value;
     }
-        
+
     public static void write (org.omg.CORBA.portable.OutputStream ostream, IDLValue value)
     {
         ostream.write_long(value.fInt);
@@ -93,5 +93,5 @@ public abstract class IDLValueHelper
         ostream.write_double(value.fDouble);
         ostream.write_string(value.fString);
     }
-        
+
 }

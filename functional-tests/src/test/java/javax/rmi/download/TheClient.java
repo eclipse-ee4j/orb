@@ -54,33 +54,33 @@ public class TheClient {
             System.setSecurityManager(new javax.rmi.download.SecurityManager());
             // Lets setup some properties that we are using
             // for this test and then create the ORB Object...
-                        
+
             Properties props = System.getProperties();
-            
+
             props.put(  "java.naming.factory.initial",
                         JndiConstants.COSNAMING_CONTEXT_FACTORY);
-            
-            props.put(  "org.omg.CORBA.ORBClass", 
+
+            props.put(  "org.omg.CORBA.ORBClass",
                         "com.sun.corba.ee.impl.orb.ORBImpl");
-            
-            props.put(  "org.omg.CORBA.ORBSingletonClass", 
+
+            props.put(  "org.omg.CORBA.ORBSingletonClass",
                         "com.sun.corba.ee.impl.orb.ORBSingleton");
-            
+
             ORB orb = ORB.init(myArgs, props);
-                
+
             // We are going to use JNDI/CosNaming so lets go ahead and
             // create our root naming context.  NOTE:  We setup CosNaming
             // as our naming plug-in for JNDI by setting properties above.
             Hashtable env = new Hashtable();
             env.put(  "java.naming.corba.orb", orb);
             Context ic = new InitialContext(env);
-            
+
             // Let the test begin...
             // Resolve the Object Reference using JNDI/CosNaming
             java.lang.Object objref  = ic.lookup("TheDownloadTestServer");
-                        
+
             // This test is designed to verify PortableRemoteObject.narrow
-                        
+
             try{
                 Servant narrowTo = null;
                 if ( (narrowTo = (Servant)
@@ -91,7 +91,7 @@ public class TheClient {
                         System.err.println(mssg);
                         throw new Exception("javax.rmi.download.TheTest: SingleRemoteInterface() narrow failed");
                     }
-                                        
+
                     IIOPTestSerializable ones = new IIOPTestSerializable();
                     ones.setRef(serv1);
                     IIOPTestSerializable twos = (IIOPTestSerializable)serv1.testWriteReadObject(ones);
@@ -100,16 +100,16 @@ public class TheClient {
                     if (!mssg2.equals("EchoSingleRemoteInterface")) {
                         System.err.println(mssg);
                         throw new Exception("javax.rmi.download.TheTest: Reverse pass failed");
-                    }   
-                                        
+                    }
+
                     passed();
-                                        
-                                        
+
+
                 }
             } catch (Throwable ex) {
                 failed(ex);
                 ex.printStackTrace();
-            }        
+            }
         } catch (Exception ex) {
             failed(ex);
             ex.printStackTrace(System.out);

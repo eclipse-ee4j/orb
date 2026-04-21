@@ -33,7 +33,7 @@ public class Order implements Serializable {
 
     /**
      * Gets the value of the orderId property.
-     * 
+     *
      */
     public int getOrderId() {
         return orderId;
@@ -41,7 +41,7 @@ public class Order implements Serializable {
 
     /**
      * Sets the value of the orderId property.
-     * 
+     *
      */
     public void setOrderId(int value) {
         this.orderId = value;
@@ -49,7 +49,7 @@ public class Order implements Serializable {
 
     /**
      * Gets the value of the orderStatus property.
-     * 
+     *
      */
     public int getOrderStatus() {
         return orderStatus;
@@ -57,7 +57,7 @@ public class Order implements Serializable {
 
     /**
      * Sets the value of the orderStatus property.
-     * 
+     *
      */
     public void setOrderStatus(int value) {
         this.orderStatus = value;
@@ -65,11 +65,11 @@ public class Order implements Serializable {
 
     /**
      * Gets the value of the orderDate property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link XMLGregorianCalendar }
-     *     
+     *
      */
     public XMLGregorianCalendar getOrderDate() {
         return orderDate;
@@ -77,11 +77,11 @@ public class Order implements Serializable {
 
     /**
      * Sets the value of the orderDate property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link XMLGregorianCalendar }
-     *     
+     *
      */
     public void setOrderDate(XMLGregorianCalendar value) {
         this.orderDate = value;
@@ -89,7 +89,7 @@ public class Order implements Serializable {
 
     /**
      * Gets the value of the orderTotalAmount property.
-     * 
+     *
      */
     public float getOrderTotalAmount() {
         return orderTotalAmount;
@@ -97,7 +97,7 @@ public class Order implements Serializable {
 
     /**
      * Sets the value of the orderTotalAmount property.
-     * 
+     *
      */
     public void setOrderTotalAmount(float value) {
         this.orderTotalAmount = value;
@@ -105,11 +105,11 @@ public class Order implements Serializable {
 
     /**
      * Gets the value of the customer property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link Customer }
-     *     
+     *
      */
     public Customer getCustomer() {
         return customer;
@@ -117,11 +117,11 @@ public class Order implements Serializable {
 
     /**
      * Sets the value of the customer property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link Customer }
-     *     
+     *
      */
     public void setCustomer(Customer value) {
         this.customer = value;
@@ -129,11 +129,11 @@ public class Order implements Serializable {
 
     /**
      * Gets the value of the lineItems property.
-     * 
+     *
      * @return
      *     possible object is
      *     {@link ArrayOfLineItem }
-     *     
+     *
      */
     public ArrayOfLineItem getLineItems() {
         return lineItems;
@@ -141,11 +141,11 @@ public class Order implements Serializable {
 
     /**
      * Sets the value of the lineItems property.
-     * 
+     *
      * @param value
      *     allowed object is
      *     {@link ArrayOfLineItem }
-     *     
+     *
      */
     public void setLineItems(ArrayOfLineItem value) {
         this.lineItems = value;

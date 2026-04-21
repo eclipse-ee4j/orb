@@ -36,7 +36,7 @@ public class TestRMIIDLTypes extends TestCase {
 
     private IDLTypesUtil idlTypesUtil;
 
-    public static Test suite() 
+    public static Test suite()
     {
         return new TestSuite(TestRMIIDLTypes.class);
     }
@@ -50,7 +50,7 @@ public class TestRMIIDLTypes extends TestCase {
     {
     }
 
-    public void testPrimitiveTypes() 
+    public void testPrimitiveTypes()
     {
         Class[] primitives = {
             Void.TYPE, Boolean.TYPE, Byte.TYPE, Character.TYPE,
@@ -70,7 +70,7 @@ public class TestRMIIDLTypes extends TestCase {
         }
 
         Class[] nonPrimitives = {
-            Byte.class, Short.class, Integer.class, Long.class, Float.class, 
+            Byte.class, Short.class, Integer.class, Long.class, Float.class,
             Double.class, String.class, java.util.Date.class, Object.class
         };
 
@@ -79,10 +79,10 @@ public class TestRMIIDLTypes extends TestCase {
             String msg = nonPrimitive.getName();
             assertFalse(msg, idlTypesUtil.isPrimitive(nonPrimitive));
         }
-        
+
     }
 
-    public void testRemoteInterfaceTypes() 
+    public void testRemoteInterfaceTypes()
     {
 
         Class[] remoteInterfaces = ValidRemotes.CLASSES;
@@ -103,8 +103,8 @@ public class TestRMIIDLTypes extends TestCase {
 
         // NOTE invalid remote interfaces are tested in TestIDLNameTranslator
     }
-    
-    public void testValueTypes() 
+
+    public void testValueTypes()
     {
 
         Class[] values = ValidValues.CLASSES;
@@ -130,7 +130,7 @@ public class TestRMIIDLTypes extends TestCase {
             String msg = nonValue.getName();
             assertFalse(msg, idlTypesUtil.isValue(nonValue));
         }
-        
+
     }
 
     public void testExceptionTypes()
@@ -159,7 +159,7 @@ public class TestRMIIDLTypes extends TestCase {
             Class nonException = nonExceptions[i];
             String msg = nonException.getName();
             assertFalse(msg, idlTypesUtil.isException(nonException));
-        }        
+        }
     }
 
     public void testObjRefs()
@@ -187,7 +187,7 @@ public class TestRMIIDLTypes extends TestCase {
             Class nonObjRef = nonObjRefs[i];
             String msg = nonObjRef.getName();
             assertFalse(msg, idlTypesUtil.isObjectReference(nonObjRef));
-        }        
+        }
 
     }
 
@@ -218,7 +218,7 @@ public class TestRMIIDLTypes extends TestCase {
             Class nonEntity = nonEntities[i];
             String msg = nonEntity.getName();
             assertFalse(msg, idlTypesUtil.isEntity(nonEntity));
-        }        
+        }
 
     }
 

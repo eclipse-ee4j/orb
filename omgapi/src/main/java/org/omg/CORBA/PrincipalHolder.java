@@ -25,7 +25,7 @@ import org.omg.CORBA.portable.Streamable;
 
 
 /**
- * The Holder for <tt>Principal</tt>.  For more information on 
+ * The Holder for <tt>Principal</tt>.  For more information on
  * Holder files, see <a href="doc-files/generatedfiles.html#holder">
  * "Generated Files: Holder Files"</a>.<P>
  * A container class for values of type <code>Principal</code>

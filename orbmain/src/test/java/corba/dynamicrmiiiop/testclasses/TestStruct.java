@@ -25,10 +25,10 @@ public final class TestStruct implements org.omg.CORBA.portable.IDLEntity
 
     public TestStruct ()
     {
-    } 
+    }
 
     public TestStruct (short _x)
     {
         x = _x;
     }
-} 
+}

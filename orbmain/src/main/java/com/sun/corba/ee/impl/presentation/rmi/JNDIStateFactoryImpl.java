@@ -44,7 +44,7 @@ import javax.rmi.PortableRemoteObject;
   * StateFactory that turns java.rmi.Remote objects to org.omg.CORBA.Object.
   * This version works either with standard RMI-IIOP or Dynamic RMI-IIOP.
   *
-  * @author Ken Cavanaugh 
+  * @author Ken Cavanaugh
   */
 
 public class JNDIStateFactoryImpl implements StateFactory {
@@ -57,7 +57,7 @@ public class JNDIStateFactoryImpl implements StateFactory {
      * If input is not a Remote object, or if Remote object uses JRMP, return null.
      * If the RMI-IIOP library is not available, throw ConfigurationException.
      *
-     * @param orig The object to turn into a CORBA object. If not Remote, 
+     * @param orig The object to turn into a CORBA object. If not Remote,
      *             or if is a JRMP stub or impl, return null.
      * @param name Ignored
      * @param ctx The non-null CNCtx whose ORB to use.
@@ -78,7 +78,7 @@ public class JNDIStateFactoryImpl implements StateFactory {
             return null;
         }
 
-        ORB orb = getORB( ctx ) ; 
+        ORB orb = getORB( ctx ) ;
         if (orb == null) {
             // Wrong kind of context, so just give up and let another StateFactory
             // try to satisfy getStateToBind.
@@ -99,7 +99,7 @@ public class JNDIStateFactoryImpl implements StateFactory {
 
         if (StubAdapter.isStub( stub )) {
             try {
-                StubAdapter.connect( stub, orb ) ; 
+                StubAdapter.connect( stub, orb ) ;
             } catch (Exception exc) {
                 Exceptions.self.couldNotConnect( exc ) ;
 
@@ -117,7 +117,7 @@ public class JNDIStateFactoryImpl implements StateFactory {
         return stub ;
     }
 
-    // This is necessary because the _orb field is package private in 
+    // This is necessary because the _orb field is package private in
     // com.sun.jndi.cosnaming.CNCtx.  This is not an ideal solution.
     // The best solution for our ORB is to change the CosNaming provider
     // to use the StubAdapter.  But this has problems as well, because

@@ -43,9 +43,9 @@ public class ClientCircular extends ClientBase {
     @BeforeSuite
     public void clientSetup() throws Exception {
         Properties props = getDefaultProperties() ;
-            
+
         // Set retry timeout to 5 seconds.
-        props.setProperty(ORBConstants.TRANSPORT_TCP_CONNECT_TIMEOUTS_PROPERTY, 
+        props.setProperty(ORBConstants.TRANSPORT_TCP_CONNECT_TIMEOUTS_PROPERTY,
             "250:5000:100");
         // props.setProperty(ORBConstants.DEBUG_PROPERTY,
                           // "transport,subcontract");

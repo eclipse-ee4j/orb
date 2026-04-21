@@ -34,7 +34,7 @@ public class PolicyFactoryTest extends CORBATest
     // compiled with these.
     public static String[] javaFiles = {"Client.java",
                                         "TestORBInitializer.java" };
-                                        
+
 
     // This is the main method defining the test.  All tests
     // should have this.

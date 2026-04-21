@@ -42,12 +42,12 @@ public abstract class ObjectReferenceProducerBase implements Serializable {
 
     public abstract IORTemplateList getIORTemplateList() ;
 
-    public ObjectReferenceProducerBase( ORB orb ) 
+    public ObjectReferenceProducerBase( ORB orb )
     {
         this.orb = orb ;
     }
 
-    public org.omg.CORBA.Object make_object (String repositoryId, 
+    public org.omg.CORBA.Object make_object (String repositoryId,
         byte[] objectId)
     {
         ObjectId oid = IORFactories.makeObjectId( objectId ) ;

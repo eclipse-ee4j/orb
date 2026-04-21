@@ -26,7 +26,7 @@ import com.sun.corba.ee.spi.misc.ORBConstants;
 
 import org.omg.CORBA_2_3.portable.OutputStream;
 
-public class ClusterInstanceInfoComponentImpl extends TaggedComponentBase 
+public class ClusterInstanceInfoComponentImpl extends TaggedComponentBase
     implements ClusterInstanceInfoComponent {
 
     private final ClusterInstanceInfo clusterInstanceInfoValue;
@@ -38,10 +38,10 @@ public class ClusterInstanceInfoComponentImpl extends TaggedComponentBase
             return false;
         }
 
-        ClusterInstanceInfoComponentImpl other = 
+        ClusterInstanceInfoComponentImpl other =
             (ClusterInstanceInfoComponentImpl)obj ;
 
-        return clusterInstanceInfoValue.equals( 
+        return clusterInstanceInfoValue.equals(
             other.clusterInstanceInfoValue ) ;
     }
 
@@ -52,7 +52,7 @@ public class ClusterInstanceInfoComponentImpl extends TaggedComponentBase
 
     @Override
     public String toString() {
-        return "ClusterInstanceInfoComponentImpl[clusterInstanceInfoValue=" 
+        return "ClusterInstanceInfoComponentImpl[clusterInstanceInfoValue="
             + clusterInstanceInfoValue + "]" ;
     }
 
@@ -69,7 +69,7 @@ public class ClusterInstanceInfoComponentImpl extends TaggedComponentBase
     public void writeContents(OutputStream os) {
         clusterInstanceInfoValue.write(os);
     }
-    
+
     public int getId() {
         return ORBConstants.FOLB_MEMBER_ADDRESSES_TAGGED_COMPONENT_ID ;
     }

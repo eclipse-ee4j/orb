@@ -113,11 +113,11 @@ import org.omg.PortableServer.Servant;
 
 @OrbLifeCycle
 @ManagedObject
-@Description( "The Main ORB Implementation object" ) 
+@Description( "The Main ORB Implementation object" )
 @AMXMetadata( type="ORB-Root" )
 public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
     implements TypeCodeFactory
-{   
+{
     static {
         MethodMonitorFactoryDefaults.addPrefix( "com.sun.corba.ee", "ORB" ) ;
     }
@@ -131,10 +131,10 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
     //    are needed in both ORBImpl and ORBSingleton.
     // 3. Logging support is here so that we can avoid problems with
     //    incompletely initialized ORBs that need to perform logging.
-    
+
     // This is not one of the xxxDebugFlags because it is used to debug the mechanism
     // that sets the xxxDebugFlags!
-    public static final boolean orbInitDebug = AccessController.doPrivileged( 
+    public static final boolean orbInitDebug = AccessController.doPrivileged(
         new PrivilegedAction<Boolean>() {
             public Boolean run() {
                 return Boolean.getBoolean( ORBConstants.INIT_DEBUG_PROPERTY );
@@ -146,7 +146,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
     // All debug flags must be public boolean types.
     // These are set by passing the flag -ORBDebug x,y,z in the ORB init args.
     // Note that x,y,z must not contain spaces.
-    // 
+    //
     // The annotations (when present) connect the ORB debug flags to the tracing
     // system.  Whenever a flag is set, the corresponding tracing annotation
     // is also set in the MethodMonitorRegistry to a standard tracing
@@ -165,7 +165,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
 
     @Poa
     public boolean poaDebugFlag = false ;
-    
+
     @PoaFSM
     public boolean poaFSMDebugFlag = false ;
 
@@ -268,7 +268,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
     public DebugFlagResult clearDebugFlag( String name ) {
         return setDebugFlag( name, false ) ;
     }
-   
+
     private DebugFlagResult setDebugFlags( boolean flag, String... names ) {
         DebugFlagResult res = DebugFlagResult.OK ;
         for (String name : names) {
@@ -310,7 +310,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
     // In ORBSingleton, this happens in the constructor.  It ORBImpl, it cannot
     // happen in the constructor: instead, it must be called in post_init.
     protected ManagedObjectManager mom ;
-    
+
     // SystemException log wrappers.  Protected so that they can be used in
     // subclasses.
     protected static final ORBUtilSystemException wrapper =
@@ -340,7 +340,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
     public abstract OAInvocationInfo popInvocationInfo() ;
 
     @ManagedAttribute
-    @Description( "The ORB's transport manager" ) 
+    @Description( "The ORB's transport manager" )
     public abstract TransportManager getCorbaTransportManager();
 
     public abstract LegacyServerSocketManager getLegacyServerSocketManager();
@@ -364,13 +364,13 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
      * @return The PresentationManager.
      */
     @ManagedAttribute
-    @Description( "The presentation manager, which handles stub creation" ) 
-    public static PresentationManager getPresentationManager() 
+    @Description( "The presentation manager, which handles stub creation" )
+    public static PresentationManager getPresentationManager()
     {
         /**/
         return presentationManager;
         /*/
-    	AppContext ac = AppContext.getAppContext();
+        AppContext ac = AppContext.getAppContext();
         PresentationManager pm = (PresentationManager) ac.get(PresentationManager.class);
         if (pm == null) {
             pm = PresentationDefaults.makeOrbPresentationManager() ;
@@ -381,21 +381,21 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
         /**/
     }
 
-    /** Get the appropriate StubFactoryFactory.  This 
+    /** Get the appropriate StubFactoryFactory.  This
      * will be dynamic or static depending on whether
      * com.sun.corba.ee.ORBUseDynamicStub is true or false.
      * @return The stub factory factory.
      */
-    public static PresentationManager.StubFactoryFactory 
+    public static PresentationManager.StubFactoryFactory
         getStubFactoryFactory()
     {
-    	PresentationManager gPM = getPresentationManager();
+        PresentationManager gPM = getPresentationManager();
         boolean useDynamicStubs = gPM.useDynamicStubs() ;
         return useDynamicStubs ? gPM.getDynamicStubFactoryFactory() : gPM.getStaticStubFactoryFactory();
     }
 
     /** Obtain the InvocationInterceptor for this ORB instance.
-     * By default this does nothing.  
+     * By default this does nothing.
      * @return The InvocationInterceptor.
      */
     public abstract InvocationInterceptor getInvocationInterceptor() ;
@@ -405,9 +405,9 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
      * are mediated by this ORB instance.
      * @param interceptor The InvocationInterceptor to add.
      */
-    public abstract void setInvocationInterceptor( 
+    public abstract void setInvocationInterceptor(
         InvocationInterceptor interceptor ) ;
-    
+
     protected ORB()
     {
 
@@ -418,44 +418,44 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
 
     protected void initializePrimitiveTypeCodeConstants() {
         primitiveTypeCodeConstants = new TypeCodeImpl[] {
-            new TypeCodeImpl(this, TCKind._tk_null),    
+            new TypeCodeImpl(this, TCKind._tk_null),
             new TypeCodeImpl(this, TCKind._tk_void),
-            new TypeCodeImpl(this, TCKind._tk_short),           
-            new TypeCodeImpl(this, TCKind._tk_long),    
-            new TypeCodeImpl(this, TCKind._tk_ushort),  
-            new TypeCodeImpl(this, TCKind._tk_ulong),   
-            new TypeCodeImpl(this, TCKind._tk_float),   
-            new TypeCodeImpl(this, TCKind._tk_double),  
-            new TypeCodeImpl(this, TCKind._tk_boolean), 
-            new TypeCodeImpl(this, TCKind._tk_char),    
+            new TypeCodeImpl(this, TCKind._tk_short),
+            new TypeCodeImpl(this, TCKind._tk_long),
+            new TypeCodeImpl(this, TCKind._tk_ushort),
+            new TypeCodeImpl(this, TCKind._tk_ulong),
+            new TypeCodeImpl(this, TCKind._tk_float),
+            new TypeCodeImpl(this, TCKind._tk_double),
+            new TypeCodeImpl(this, TCKind._tk_boolean),
+            new TypeCodeImpl(this, TCKind._tk_char),
             new TypeCodeImpl(this, TCKind._tk_octet),
-            new TypeCodeImpl(this, TCKind._tk_any),     
-            new TypeCodeImpl(this, TCKind._tk_TypeCode),        
+            new TypeCodeImpl(this, TCKind._tk_any),
+            new TypeCodeImpl(this, TCKind._tk_TypeCode),
             new TypeCodeImpl(this, TCKind._tk_Principal),
-            new TypeCodeImpl(this, TCKind._tk_objref),  
-            null,       // tk_struct    
-            null,       // tk_union     
-            null,       // tk_enum      
-            new TypeCodeImpl(this, TCKind._tk_string),          
-            null,       // tk_sequence  
-            null,       // tk_array     
-            null,       // tk_alias     
-            null,       // tk_except    
-            new TypeCodeImpl(this, TCKind._tk_longlong),        
+            new TypeCodeImpl(this, TCKind._tk_objref),
+            null,       // tk_struct
+            null,       // tk_union
+            null,       // tk_enum
+            new TypeCodeImpl(this, TCKind._tk_string),
+            null,       // tk_sequence
+            null,       // tk_array
+            null,       // tk_alias
+            null,       // tk_except
+            new TypeCodeImpl(this, TCKind._tk_longlong),
             new TypeCodeImpl(this, TCKind._tk_ulonglong),
             new TypeCodeImpl(this, TCKind._tk_longdouble),
-            new TypeCodeImpl(this, TCKind._tk_wchar),           
-            new TypeCodeImpl(this, TCKind._tk_wstring), 
-            new TypeCodeImpl(this, TCKind._tk_fixed),   
-            new TypeCodeImpl(this, TCKind._tk_value),   
+            new TypeCodeImpl(this, TCKind._tk_wchar),
+            new TypeCodeImpl(this, TCKind._tk_wstring),
+            new TypeCodeImpl(this, TCKind._tk_fixed),
+            new TypeCodeImpl(this, TCKind._tk_value),
             new TypeCodeImpl(this, TCKind._tk_value_box),
-            new TypeCodeImpl(this, TCKind._tk_native),  
+            new TypeCodeImpl(this, TCKind._tk_native),
             new TypeCodeImpl(this, TCKind._tk_abstract_interface)
         } ;
     }
 
     // Typecode support: needed in both ORBImpl and ORBSingleton
-    public TypeCodeImpl get_primitive_tc(int kind) 
+    public TypeCodeImpl get_primitive_tc(int kind)
     {
         try {
             return primitiveTypeCodeConstants[kind] ;
@@ -464,12 +464,12 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
         }
     }
 
-    public synchronized void setTypeCode(String id, TypeCodeImpl code) 
+    public synchronized void setTypeCode(String id, TypeCodeImpl code)
     {
         typeCodeMap.put(id, code);
     }
 
-    public synchronized TypeCodeImpl getTypeCode(String id) 
+    public synchronized TypeCodeImpl getTypeCode(String id)
     {
         return typeCodeMap.get(id);
     }
@@ -502,24 +502,24 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
      * @return The IOR used for the Full Value Description
      */
     @ManagedAttribute
-    @Description( "The IOR used for the Full Value Description" ) 
+    @Description( "The IOR used for the Full Value Description" )
     public abstract IOR getFVDCodeBaseIOR() ;
 
     /**
-     * Handle a bad server id for the given object key.  This should 
+     * Handle a bad server id for the given object key.  This should
      * always through an exception: either a ForwardException to
      * allow another server to handle the request, or else an error
-     * indication.  
+     * indication.
      * @param okey The ObjectKey to check for a valid server id.
      */
     public abstract void handleBadServerId( ObjectKey okey ) ;
     public abstract void setBadServerIdHandler( BadServerIdHandler handler ) ;
     public abstract void initBadServerIdHandler() ;
-    
+
     public abstract void notifyORB() ;
 
-    @ManagedAttribute 
-    @Description( "The PortableInterceptor Handler" ) 
+    @ManagedAttribute
+    @Description( "The PortableInterceptor Handler" )
     public abstract PIHandler getPIHandler() ;
 
     public abstract void createPIHandler() ;
@@ -530,12 +530,12 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
     public abstract void startingDispatch();
     public abstract void finishedDispatch();
 
-    /** Return this ORB's transient server ID.  This is needed for 
+    /** Return this ORB's transient server ID.  This is needed for
      * initializing object adapters.
      * @return The transient server id.
      */
     @ManagedAttribute
-    @Description( "The transient ServerId of this ORB instance" ) 
+    @Description( "The transient ServerId of this ORB instance" )
     public abstract int getTransientServerId();
 
     /**
@@ -543,7 +543,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
      * @return the registry.
      */
     @ManagedAttribute
-    @Description( "The registry for all ServerContext factories" ) 
+    @Description( "The registry for all ServerContext factories" )
     public abstract ServiceContextFactoryRegistry getServiceContextFactoryRegistry() ;
 
     /**
@@ -551,7 +551,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
      * @return the cache used
      */
     @ManagedAttribute
-    @Description( "The cache used to opimize marshaling of ServiceContexts" ) 
+    @Description( "The cache used to opimize marshaling of ServiceContexts" )
     public abstract ServiceContextsCache getServiceContextsCache();
 
     /**
@@ -559,7 +559,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
      * @return The RequestDispatcher registry
      */
     @ManagedAttribute
-    @Description( "The RequestDispatcher registry, which contains the request handling code" ) 
+    @Description( "The RequestDispatcher registry, which contains the request handling code" )
     public abstract RequestDispatcherRegistry getRequestDispatcherRegistry();
 
     /**
@@ -567,7 +567,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
      * @return Config data
      */
     @ManagedAttribute
-    @Description( "The ORB configuration data" ) 
+    @Description( "The ORB configuration data" )
     public abstract ORBData getORBData() ;
 
     public abstract void setClientDelegateFactory( ClientDelegateFactory factory ) ;
@@ -589,64 +589,64 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
      */
     @ManagedAttribute
     @Description( "The CorbaContactInfoListFactory, which creates the contact info list that represents "
-        + "possible endpoints in an IOR" ) 
+        + "possible endpoints in an IOR" )
     public abstract ContactInfoListFactory getCorbaContactInfoListFactory() ;
 
     /** Set the resolver used in this ORB.  This resolver will be used for list_initial_services
      * and resolve_initial_references.
-     * 
+     *
      * @param resolver resolver to be used
      */
     public abstract void setResolver( Resolver resolver ) ;
 
     /** Get the resolver used in this ORB.  This resolver will be used for list_initial_services
      * and resolve_initial_references.
-     * 
+     *
      * @return ORB Name resolver
      */
     @ManagedAttribute
-    @Description( "ORB Name resolver" ) 
+    @Description( "ORB Name resolver" )
     public abstract Resolver getResolver() ;
 
-    /** Set the LocalResolver used in this ORB.  This LocalResolver is used for 
+    /** Set the LocalResolver used in this ORB.  This LocalResolver is used for
      * register_initial_reference only.
-     * 
+     *
      * @param resolver ORB Local Name resolver
      */
     public abstract void setLocalResolver( LocalResolver resolver ) ;
 
-    /** Get the LocalResolver used in this ORB.  This LocalResolver is used for 
+    /** Get the LocalResolver used in this ORB.  This LocalResolver is used for
      * register_initial_reference only.
-     * 
+     *
      * @return ORB Local Name resolver
      */
     @ManagedAttribute
-    @Description( "ORB Local Name resolver" ) 
+    @Description( "ORB Local Name resolver" )
     public abstract LocalResolver getLocalResolver() ;
 
     /** Set the operation used in string_to_object calls.  The Operation must expect a
      * String and return an org.omg.CORBA.Object.
-     * 
+     *
      * @param stringToObject operation to be used
      */
     public abstract void setURLOperation( Operation stringToObject ) ;
 
     /** Get the operation used in string_to_object calls.  The Operation must expect a
      * String and return an org.omg.CORBA.Object.
-     * 
+     *
      * @return operation used
      */
     public abstract Operation getURLOperation() ;
 
     /** Set the ServerRequestDispatcher that should be used for handling INS requests.
-     * 
+     *
      * @param insDelegate dispatcher to be used
      */
     public abstract void setINSDelegate( ServerRequestDispatcher insDelegate ) ;
 
     /** Factory finders for the various parts of the IOR: tagged components, tagged
      * profiles, and tagged profile templates.
-     * 
+     *
      * @return Finder of Factories for TaggedComponents of IORs
      */
     @ManagedAttribute
@@ -659,7 +659,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
      */
     @ManagedAttribute
     @Description( "Finder of Factories for TaggedProfiles of IORs" )
-    public abstract IdentifiableFactoryFinder<TaggedProfile> 
+    public abstract IdentifiableFactoryFinder<TaggedProfile>
         getTaggedProfileFactoryFinder() ;
 
     /**
@@ -668,7 +668,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
      */
     @ManagedAttribute
     @Description( "Finder of Factories for TaggedProfileTemplates of IORs" )
-    public abstract IdentifiableFactoryFinder<TaggedProfileTemplate> 
+    public abstract IdentifiableFactoryFinder<TaggedProfileTemplate>
         getTaggedProfileTemplateFactoryFinder() ;
 
     @ManagedAttribute
@@ -679,7 +679,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
 
     // Logging SPI
 
-    public static Logger getLogger( String name ) 
+    public static Logger getLogger( String name )
     {
         return Logger.getLogger( name, ORBConstants.LOG_RESOURCE_FILE ) ;
     }
@@ -689,7 +689,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
     //       There can be more than one ORB per process.
     //       This method must also be inherited by both ORB and ORBSingleton.
     @ManagedAttribute
-    @Description( "The ByteBuffer pool used in the ORB" ) 
+    @Description( "The ByteBuffer pool used in the ORB" )
     public ByteBufferPool getByteBufferPool()
     {
         if (byteBufferPool == null)
@@ -705,39 +705,39 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
     public abstract void setThreadPoolManager(ThreadPoolManager mgr);
 
     @ManagedAttribute
-    @Description( "The ORB's threadpool manager" ) 
+    @Description( "The ORB's threadpool manager" )
     public abstract ThreadPoolManager getThreadPoolManager();
 
     @ManagedAttribute
-    @Description( "The ORB's object copier manager" ) 
+    @Description( "The ORB's object copier manager" )
     public abstract CopierManager getCopierManager() ;
 
     /** Returns a name for this ORB that is based on the ORB id (if any)
      * and guaranteed to be unique within the ClassLoader that loaded the
      * ORB class.  This is the default implementation inherited by the
      * ORBSingleton.
-     * 
+     *
      * @return a unique name
      */
     @NameValue
     public String getUniqueOrbId()  {
         return "###DEFAULT_UNIQUE_ORB_ID###" ;
     }
-    
+
     // Interfaces used only to define InheritedAttributes for other classes
     // If we register a class that has Servant in its inheritance, it will
     // pick up these InheritedAttributes.
     @ManagedData
     @Description( "A servant, which implements a remote object in the server" )
     @InheritedAttributes( {
-        @InheritedAttribute( methodName="_get_delegate", id="delegate", 
+        @InheritedAttribute( methodName="_get_delegate", id="delegate",
             description="Delegate that implements this servant" ),
         @InheritedAttribute( methodName="_orb", id="orb",
             description="The ORB for this Servant" ),
         @InheritedAttribute( methodName="toString", id="representation",
             description="Representation of this Servant" ),
         @InheritedAttribute( methodName="_all_interfaces", id="typeIds",
-            description="The types implemented by this Servant" ) } 
+            description="The types implemented by this Servant" ) }
     )
     public interface DummyServant{}
 
@@ -773,7 +773,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
 
         mom.setRuntimeDebug( mbeanRuntimeDebugFlag ) ;
 
-        mom.stripPrefix( "com.sun.corba.ee", "com.sun.corba.ee.spi", "com.sun.corba.ee.spi.orb", 
+        mom.stripPrefix( "com.sun.corba.ee", "com.sun.corba.ee.spi", "com.sun.corba.ee.spi.orb",
             "com.sun.corba.ee.impl" ) ;
 
         mom.suspendJMXRegistration() ;
@@ -782,7 +782,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
 
         mom.createRoot( this, getUniqueOrbId() ) ;
     }
-    
+
     /** This method obtains an IOR from a CORBA object reference.
      * The result is never null.
      * @param obj CORBA object reference
@@ -790,15 +790,15 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
      * @throws org.omg.CORBA.BAD_OPERATION (from oi._get_delegate) if obj is a
      * normal objref, but does not have a delegate set.
      * @throws org.omg.CORBA.BAD_PARAM if obj is a local object
-    */ 
-    protected IOR getIOR( org.omg.CORBA.Object obj ) 
+    */
+    protected IOR getIOR( org.omg.CORBA.Object obj )
     {
         if (obj == null)
             throw wrapper.nullObjectReference() ;
 
         IOR ior = null ;
         if (StubAdapter.isStub(obj)) {
-            org.omg.CORBA.portable.Delegate del = StubAdapter.getDelegate( 
+            org.omg.CORBA.portable.Delegate del = StubAdapter.getDelegate(
                 obj ) ;
 
             if (del instanceof ClientDelegate) {
@@ -809,7 +809,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
                     throw wrapper.nullIor() ;
 
                 return ior ;
-            } 
+            }
 
             if (obj instanceof ObjectImpl) {
                 // Get the ORB instance of obj so we can use that ORB
@@ -821,13 +821,13 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
                 // CorbaClientDelegate.  Here we need to marshal obj to an output stream,
                 // then read the IOR back in.  Note that the output stream MUST be
                 // created by the ORB to which obj is attached, otherwise we get an
-                // infinite recursion between this code and 
+                // infinite recursion between this code and
                 // CDROutputStream_1_0.write_Object.
                 org.omg.CORBA.portable.OutputStream os = oiorb.create_output_stream() ;
                 os.write_Object( obj ) ;
                 org.omg.CORBA.portable.InputStream is = os.create_input_stream() ;
-                ior = IORFactories.makeIOR( this,  
-                    org.omg.CORBA_2_3.portable.InputStream.class.cast( is ) ) ; 
+                ior = IORFactories.makeIOR( this,
+                    org.omg.CORBA_2_3.portable.InputStream.class.cast( is ) ) ;
                 return ior ;
             } else {
                 throw wrapper.notAnObjectImpl() ;
@@ -938,7 +938,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
 
     public abstract TransportManager getTransportManager();
 
-    
+
 }
 
 // End of file.

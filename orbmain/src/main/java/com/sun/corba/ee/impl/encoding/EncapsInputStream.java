@@ -28,7 +28,7 @@ import java.nio.ByteOrder;
 
 /**
  * Encapsulations are supposed to explicitly define their
- * code sets and GIOP version.  The original resolution to issue 2784 
+ * code sets and GIOP version.  The original resolution to issue 2784
  * said that the defaults were UTF-8 and UTF-16, but that was not
  * agreed upon.
  *
@@ -65,13 +65,13 @@ public class EncapsInputStream extends CDRInputObject
     }
 
     // exported to Glassfish - DON'T change this!!!
-    public EncapsInputStream(org.omg.CORBA.ORB orb, byte[] data, int size) 
+    public EncapsInputStream(org.omg.CORBA.ORB orb, byte[] data, int size)
     {
         this(orb, data, size, GIOPVersion.V1_2);
     }
-    
+
     // corba/AnyImpl
-    public EncapsInputStream(EncapsInputStream eis) 
+    public EncapsInputStream(EncapsInputStream eis)
     {
         super(eis);
 
@@ -84,7 +84,7 @@ public class EncapsInputStream extends CDRInputObject
     // Assumes big endian (can use consumeEndian to read and set
     // the endianness if it is an encapsulation with a byte order
     // mark at the beginning)
-    public EncapsInputStream(org.omg.CORBA.ORB orb, byte[] data, int size, GIOPVersion version) 
+    public EncapsInputStream(org.omg.CORBA.ORB orb, byte[] data, int size, GIOPVersion version)
     {
         this(orb, data, size, ByteOrder.BIG_ENDIAN, version);
     }
@@ -100,14 +100,14 @@ public class EncapsInputStream extends CDRInputObject
      * @param version GIOP version
      * @param codeBase CodeBase to use
      */
-    public EncapsInputStream(org.omg.CORBA.ORB orb, 
-                             byte[] data, 
-                             int size, 
-                             GIOPVersion version, 
+    public EncapsInputStream(org.omg.CORBA.ORB orb,
+                             byte[] data,
+                             int size,
+                             GIOPVersion version,
                              CodeBase codeBase) {
-        super(orb, 
-              ByteBuffer.wrap(data), 
-              size, 
+        super(orb,
+              ByteBuffer.wrap(data),
+              size,
               ByteOrder.BIG_ENDIAN,
               version,
                 BufferManagerFactory.newReadEncapsulationBufferManager()
@@ -145,7 +145,7 @@ public class EncapsInputStream extends CDRInputObject
         // Our UTF_16 converter will work with byte order markers, and if
         // they aren't present, it will use the provided endianness.
         //
-        // With no byte order marker, it's big endian in GIOP 1.2.  
+        // With no byte order marker, it's big endian in GIOP 1.2.
         // formal 00-11-03 15.3.16.
         return CodeSetConversion.impl().getBTCConverter(OSFCodeSetRegistry.UTF_16, ByteOrder.BIG_ENDIAN);
     }

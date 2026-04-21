@@ -23,11 +23,11 @@ import com.sun.corba.ee.spi.oa.NullServant ;
 
 import org.omg.CORBA.SystemException ;
 
-public class NullServantImpl implements NullServant 
+public class NullServantImpl implements NullServant
 {
     private SystemException sysex ;
 
-    public NullServantImpl( SystemException ex ) 
+    public NullServantImpl( SystemException ex )
     {
         this.sysex = ex ;
     }

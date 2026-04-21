@@ -17,7 +17,7 @@
  * Classpath-exception-2.0
  */
 
-package corba.dynamicrmiiiop ; 
+package corba.dynamicrmiiiop ;
 
 import org.omg.CORBA.portable.ApplicationException ;
 import org.omg.CORBA_2_3.portable.InputStream ;
@@ -34,7 +34,7 @@ import com.sun.corba.ee.spi.orb.ORB ;
 public class TestTransport {
     private ORB orb ;
 
-    public TestTransport( ORB orb ) 
+    public TestTransport( ORB orb )
     {
         this.orb = orb ;
     }
@@ -43,7 +43,7 @@ public class TestTransport {
     private static final int NORMAL_REPLY_HEADER = 30 ;
     private static final int EXCEPTION_REPLY_HEADER = 36 ;
 
-    public InputStream getInputStream( OutputStream os ) 
+    public InputStream getInputStream( OutputStream os )
     {
         CDROutputObject cos = (CDROutputObject)os ;
         byte[] data = cos.toByteArray() ;
@@ -58,7 +58,7 @@ public class TestTransport {
         return result ;
     }
 
-    public OutputStream makeNormalReply() 
+    public OutputStream makeNormalReply()
     {
         OutputStream result = new EncapsOutputStream( orb ) ;
         result.write_long( NORMAL_REPLY_HEADER ) ;
@@ -71,12 +71,12 @@ public class TestTransport {
         result.write_long( EXCEPTION_REPLY_HEADER ) ;
         return result ;
     }
-    
+
     public String readRequestHeader( InputStream is )
     {
         int header = is.read_long() ;
         if (header != REQUEST_HEADER)
-            throw new RuntimeException( 
+            throw new RuntimeException(
                 "InputStream does not begin with REQUEST_HEADER" ) ;
         return is.read_string() ;
     }
@@ -92,9 +92,9 @@ public class TestTransport {
         String result = inputObject.read_string();
         inputObject.reset();
         return result;
-    }                     
+    }
 
-    public void readReplyHeader( InputStream is ) 
+    public void readReplyHeader( InputStream is )
         throws ApplicationException
     {
         int header = is.read_long() ;

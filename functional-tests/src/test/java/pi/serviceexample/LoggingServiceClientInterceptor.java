@@ -54,12 +54,12 @@ public class LoggingServiceClientInterceptor
     // Interceptor operations
     //
 
-    public String name() 
+    public String name()
     {
         return "LoggingServiceClientInterceptor";
     }
 
-    public void destroy() 
+    public void destroy()
     {
     }
 
@@ -121,7 +121,7 @@ public class LoggingServiceClientInterceptor
                 loggingService.log(ri.operation() + " " + point);
             }
         } catch (InvalidSlot e) {
-            System.out.println("Exception handling not shown.");            
+            System.out.println("Exception handling not shown.");
         }
     }
 }

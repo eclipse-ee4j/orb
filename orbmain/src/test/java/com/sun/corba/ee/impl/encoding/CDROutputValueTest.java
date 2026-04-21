@@ -355,7 +355,7 @@ public class CDROutputValueTest extends ValueTestBase {
     public void whenExternalizableObjectWritten_invokeWriteExternalMethod() throws Exception {
         Profession profession = Profession.DOCTOR;
         getOutputObject().write_value(profession);
-        
+
         writeValueTag(ONE_REPID_ID | USE_CHUNKING);  // custom marshalling requires a chunk
         writeRepId(Profession.REPID);
 

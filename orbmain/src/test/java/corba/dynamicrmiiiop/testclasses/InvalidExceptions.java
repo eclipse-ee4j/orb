@@ -25,15 +25,15 @@ package corba.dynamicrmiiiop.testclasses;
 public class InvalidExceptions {
 
     public static final Class[] CLASSES = {
-        InvalidException1.class, 
+        InvalidException1.class,
         InvalidException2.class,
         InvalidException3.class,
         InvalidException4.class,
-        InvalidException5.class, 
+        InvalidException5.class,
         InvalidException6.class,
         InvalidException7.class,
         InvalidException8.class,
-        InvalidException9.class, 
+        InvalidException9.class,
         InvalidException10.class
     };
 
@@ -61,10 +61,10 @@ public class InvalidExceptions {
     // must be a checked exception
     public interface InvalidException8 extends java.io.Serializable {}
 
-    public class InvalidException9 extends Exception 
+    public class InvalidException9 extends Exception
         implements java.rmi.Remote {}
 
     public class InvalidException10 extends InvalidException9 {}
 
-    
+
 }

@@ -72,13 +72,13 @@ public class ObjectStreamClass implements java.io.Serializable {
     // True if this is an Enum type (6877056)
     private boolean isEnum ;
 
-    private static final Bridge bridge = 
+    private static final Bridge bridge =
         AccessController.doPrivileged(
             new PrivilegedAction<Bridge>() {
                 public Bridge run() {
                     return Bridge.get() ;
                 }
-            } 
+            }
         ) ;
 
     /** Find the descriptor for a class that can be serialized.  Null
@@ -110,7 +110,7 @@ public class ObjectStreamClass implements java.io.Serializable {
                 /* Check if it's serializable */
                 ClassInfoCache.ClassInfo cinfo = ClassInfoCache.get( cl ) ;
                 boolean serializable = Serializable.class.isAssignableFrom(cl) ;
-                
+
                 /* If the class is only Serializable,
                  * lookup the descriptor for the superclass.
                  */
@@ -155,7 +155,7 @@ public class ObjectStreamClass implements java.io.Serializable {
             // (see bug 4165204 "ObjectStreamClass can hold global lock
             // for a very long time").
             //
-            // We will need to live with 4165204 until we can rewrite 
+            // We will need to live with 4165204 until we can rewrite
             // this to follow the improved java.io.ObjectStreamClass
             // in J2SE 1.4 and later.  Calling desc.init() outside of
             // this synchronized block can lead to deadlocks as
@@ -569,7 +569,7 @@ public class ObjectStreamClass implements java.io.Serializable {
                         writeReplaceObjectMethod = bridge.writeReplaceForSerialization(cl);
                         readResolveObjectMethod = bridge.readResolveForSerialization(cl);
 
-                        if (externalizable) 
+                        if (externalizable)
                             cons = bridge.newConstructorForExternalization(cl) ;
                         else
                             cons = bridge.newConstructorForSerialization(cl) ;
@@ -591,7 +591,7 @@ public class ObjectStreamClass implements java.io.Serializable {
             // class is Externalizable.
             // If we have a write object method, precompute the
             // RMI-IIOP stream format version 2 optional data
-            // repository ID.  
+            // repository ID.
             if (hasWriteObject() || isExternalizable())
                 rmiiiopOptionalDataRepId = computeRMIIIOPOptionalDataRepId();
 
@@ -847,13 +847,13 @@ public class ObjectStreamClass implements java.io.Serializable {
     public static final int CLASS_MASK = Modifier.PUBLIC | Modifier.FINAL |
         Modifier.INTERFACE | Modifier.ABSTRACT ;
     public static final int FIELD_MASK = Modifier.PUBLIC | Modifier.PRIVATE |
-        Modifier.PROTECTED | Modifier.STATIC | Modifier.FINAL | 
+        Modifier.PROTECTED | Modifier.STATIC | Modifier.FINAL |
         Modifier.TRANSIENT | Modifier.VOLATILE ;
     public static final int METHOD_MASK = Modifier.PUBLIC | Modifier.PRIVATE |
-        Modifier.PROTECTED | Modifier.STATIC | Modifier.FINAL | 
+        Modifier.PROTECTED | Modifier.STATIC | Modifier.FINAL |
         Modifier.SYNCHRONIZED | Modifier.NATIVE | Modifier.ABSTRACT |
         Modifier.STRICT ;
-    
+
     /*
      * Compute a hash for the specified class.  Incrementally add
      * items to the hash accumulating in the digest stream.
@@ -861,7 +861,7 @@ public class ObjectStreamClass implements java.io.Serializable {
      */
     private static long _computeSerialVersionUID(Class<?> cl) {
         if (DEBUG_SVUID)
-            msg( "Computing SerialVersionUID for " + cl ) ; 
+            msg( "Computing SerialVersionUID for " + cl ) ;
         ByteArrayOutputStream devnull = new ByteArrayOutputStream(512);
         ClassInfoCache.ClassInfo cinfo = ClassInfoCache.get( cl ) ;
 
@@ -1049,7 +1049,7 @@ public class ObjectStreamClass implements java.io.Serializable {
 
         ByteArrayOutputStream devnull = new ByteArrayOutputStream(512);
         ClassInfoCache.ClassInfo cinfo = ClassInfoCache.get( cl ) ;
-                
+
         long h = 0;
         try {
             if (!cinfo.isASerializable(cl) || cinfo.isInterface()) {
@@ -1066,11 +1066,11 @@ public class ObjectStreamClass implements java.io.Serializable {
 
             // Get SUID of parent
             Class<?> parent = cl.getSuperclass();
-            if ((parent != null))  
-            // SerialBug 1; acc. to spec the one for 
+            if ((parent != null))
+            // SerialBug 1; acc. to spec the one for
             // java.lang.object
             // should be computed and put
-            //     && (parent != java.lang.Object.class)) 
+            //     && (parent != java.lang.Object.class))
             {
                 data.writeLong(computeStructuralUID(lookup(parent), parent));
             }
@@ -1094,7 +1094,7 @@ public class ObjectStreamClass implements java.io.Serializable {
                 data.writeUTF(field[i].getName());
                 data.writeUTF(field[i].getSignature());
             }
-                        
+
             /* Compute the hash value for this class.
              * Use only the first 64 bits of the hash.
              */
@@ -1102,7 +1102,7 @@ public class ObjectStreamClass implements java.io.Serializable {
             byte hasharray[] = md.digest();
             // int minimum = Math.min(8, hasharray.length);
             // SerialBug 3: SHA computation is wrong; for loop reversed
-            //for (int i = minimum; i > 0; i--) 
+            //for (int i = minimum; i > 0; i--)
             for (int i = 0; i < Math.min(8, hasharray.length); i++) {
                 h += (long)(hasharray[i] & 255) << (i * 8);
             }
@@ -1253,7 +1253,7 @@ public class ObjectStreamClass implements java.io.Serializable {
     int objFields;
 
     /**
-     * Flag indicating whether or not this instance has 
+     * Flag indicating whether or not this instance has
      * successfully completed initialization.  This is to
      * try to fix bug 4373844.  Working to move to
      * reusing java.io.ObjectStreamClass for JDK 1.5.
@@ -1303,7 +1303,7 @@ public class ObjectStreamClass implements java.io.Serializable {
     private static Comparator<Class<?>> compareClassByName =
         new CompareClassByName();
 
-    private static class CompareClassByName 
+    private static class CompareClassByName
         implements Comparator<Class<?>> {
 
         public int compare(Class<?> c1, Class<?> c2) {
@@ -1317,7 +1317,7 @@ public class ObjectStreamClass implements java.io.Serializable {
     private final static Comparator<ObjectStreamField> compareObjStrFieldsByName
         = new CompareObjStrFieldsByName();
 
-    private static class CompareObjStrFieldsByName 
+    private static class CompareObjStrFieldsByName
         implements Comparator<ObjectStreamField> {
 
         public int compare(ObjectStreamField o1, ObjectStreamField o2) {
@@ -1331,7 +1331,7 @@ public class ObjectStreamClass implements java.io.Serializable {
     private static Comparator<Member> compareMemberByName =
         new CompareMemberByName();
 
-    private static class CompareMemberByName 
+    private static class CompareMemberByName
         implements Comparator<Member> {
 
         public int compare(Member o1, Member o2) {
@@ -1351,7 +1351,7 @@ public class ObjectStreamClass implements java.io.Serializable {
 
     /* It is expensive to recompute a method or constructor signature
        many times, so compute it only once using this data structure. */
-    private static class MethodSignature 
+    private static class MethodSignature
         implements Comparator<MethodSignature> {
 
         Member member;

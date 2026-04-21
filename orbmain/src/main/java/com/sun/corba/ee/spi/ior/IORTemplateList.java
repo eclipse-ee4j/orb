@@ -27,8 +27,8 @@ import java.util.List ;
  * Note that any IORFactory can be added to an IORTemplateList, but it is flattened
  * so that the result is just a list of IORTemplate instances.
  */
-public interface IORTemplateList extends List<IORTemplate>, 
-    IORFactory, MakeImmutable 
+public interface IORTemplateList extends List<IORTemplate>,
+    IORFactory, MakeImmutable
 {
 }
 

@@ -24,7 +24,7 @@ public class ClassA extends javax.rmi.fvd.ParentClass {
     private static final long serialVersionUID = 123456789L;
 
     private int a;
-        
+
     public ClassA(){
         a = 3;
     }

@@ -145,7 +145,7 @@ public class GameSurrogate
                       fPlanets[p] = fSpaceConquest.getPlanet (p);
                       }
                     */
-        
+
 
                     fNumberOfPlanets = Array.getLength (fPlanets);
                     fPlanetViews = new PlanetView [fNumberOfPlanets];
@@ -401,7 +401,7 @@ public class GameSurrogate
             }
     }
 
-  
+
     public long getCalls ()
     {
         if ( fGameView == null ) return 0;

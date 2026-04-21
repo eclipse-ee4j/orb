@@ -351,7 +351,7 @@ public class GameUI implements ActionListener
 
     }
 
-  
+
     protected void updateShipListView ()
     {
         fShipListView.removeAll ();
@@ -583,7 +583,7 @@ public class GameUI implements ActionListener
             if ( message.equals("") ) {
                 if ( cost > shipSavings || metal > shipMetal ) {
                     message = "You do not have enough money or metal!";
-                } 
+                }
             }
 
             if ( !message.equals("") ) {

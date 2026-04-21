@@ -126,7 +126,7 @@ public class WrapperInputStream extends org.omg.CORBA_2_3.portable.InputStream i
             //if (TypeCodeImpl.debug) System.out.println("Creating typeMap");
             typeMap = new HashMap<Integer,TypeCodeImpl>(16);
         }
-        //if (TypeCodeImpl.debug) System.out.println(this + " adding tc " 
+        //if (TypeCodeImpl.debug) System.out.println(this + " adding tc "
         //  + tc + " at position " + position);
         typeMap.put(position, tc);
     }
@@ -134,7 +134,7 @@ public class WrapperInputStream extends org.omg.CORBA_2_3.portable.InputStream i
     public TypeCodeImpl getTypeCodeAtPosition(int position) {
         if (typeMap == null)
             return null;
-        //if (TypeCodeImpl.debug) System.out.println("Getting tc " 
+        //if (TypeCodeImpl.debug) System.out.println("Getting tc "
         //    + typeMap.get(position) + " at position " + position);
         return typeMap.get(position);
     }

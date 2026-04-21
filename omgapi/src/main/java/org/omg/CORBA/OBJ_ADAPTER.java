@@ -20,9 +20,9 @@
 package org.omg.CORBA;
 
 /**
- * This exception typically indicates an administrative mismatch, for 
- * example, a server may have made an attempt to register itself with 
- * an implementation repository under a name that is already in use, 
+ * This exception typically indicates an administrative mismatch, for
+ * example, a server may have made an attempt to register itself with
+ * an implementation repository under a name that is already in use,
  * or is unknown to the repository. <P>
  * It contains a minor code, which gives more detailed information about
  * what caused the exception, and a completion status. It may also contain

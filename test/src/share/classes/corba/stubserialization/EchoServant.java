@@ -21,7 +21,7 @@ package corba.stubserialization;
 
 import java.rmi.RemoteException;
 
-import javax.rmi.PortableRemoteObject; 
+import javax.rmi.PortableRemoteObject;
 
 public class EchoServant extends PortableRemoteObject implements Echo
 {
@@ -30,7 +30,7 @@ public class EchoServant extends PortableRemoteObject implements Echo
         super() ;
     }
 
-    public String echo( String arg ) 
+    public String echo( String arg )
     {
         return arg ;
     }

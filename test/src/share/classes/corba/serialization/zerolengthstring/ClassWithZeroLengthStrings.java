@@ -19,10 +19,10 @@
 
 /**
  * ClassWithZeroLengthStrings contains 5 fields of which 4 fields are zero
- * length Strings. field2 and field3 are same instance (so there is an 
+ * length Strings. field2 and field3 are same instance (so there is an
  * indirection while reading field4) and field4 and field5 are same instance(
  * so there is an indirection while reading field5). The main idea behind this
- * object is to check whether the aliasing is maintaned when we do a 
+ * object is to check whether the aliasing is maintaned when we do a
  * Util.copyObject( ) by checking for validateObject( ).
  */
 package corba.serialization.zerolengthstring;
@@ -60,7 +60,7 @@ public class ClassWithZeroLengthStrings implements Serializable {
     /**
      * We do read all the transient String fields using the readObject.
      */
-    private void readObject(ObjectInputStream in) 
+    private void readObject(ObjectInputStream in)
         throws IOException, ClassNotFoundException
     {
        in.defaultReadObject();
@@ -72,7 +72,7 @@ public class ClassWithZeroLengthStrings implements Serializable {
 
 
     /**
-     * Important method to check whether the structure of the object is 
+     * Important method to check whether the structure of the object is
      * maintained correctly after Util.copyObject( )
      */
     public boolean validateObject( ) {
@@ -83,7 +83,7 @@ public class ClassWithZeroLengthStrings implements Serializable {
 
        // Structurally fields 2,3,4 and 5 are all Zero Length Strings
        String zeroLengthString = new String("");
-       if( !field2.equals( zeroLengthString ) 
+       if( !field2.equals( zeroLengthString )
         || !field3.equals( zeroLengthString )
         || !field4.equals( zeroLengthString )
         || !field5.equals( zeroLengthString ) )

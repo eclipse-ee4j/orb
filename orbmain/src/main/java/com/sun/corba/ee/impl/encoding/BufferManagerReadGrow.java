@@ -53,7 +53,7 @@ public class BufferManagerReadGrow
 
     @Override
     public void cancelProcessing(int requestId) {}
-    
+
     // Mark and reset handler -------------------------
 
     private Object streamMemento;

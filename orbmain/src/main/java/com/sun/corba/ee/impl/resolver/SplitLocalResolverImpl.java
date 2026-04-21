@@ -26,18 +26,18 @@ import java.util.Set;
 
 import org.glassfish.pfl.basic.func.NullaryFunction;
 
-public class SplitLocalResolverImpl implements LocalResolver 
+public class SplitLocalResolverImpl implements LocalResolver
 {
     private Resolver resolver ;
     private LocalResolver localResolver ;
 
-    public SplitLocalResolverImpl( Resolver resolver, 
+    public SplitLocalResolverImpl( Resolver resolver,
         LocalResolver localResolver ) {
         this.resolver = resolver ;
         this.localResolver = localResolver ;
     }
 
-    public void register( String name, 
+    public void register( String name,
         NullaryFunction<org.omg.CORBA.Object> closure ) {
         localResolver.register( name, closure ) ;
     }

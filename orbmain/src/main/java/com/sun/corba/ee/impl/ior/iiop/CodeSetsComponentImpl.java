@@ -29,14 +29,14 @@ import org.omg.CORBA_2_3.portable.InputStream ;
 import org.omg.CORBA_2_3.portable.OutputStream ;
 import org.omg.IOP.TAG_CODE_SETS ;
 
-public class CodeSetsComponentImpl extends TaggedComponentBase 
+public class CodeSetsComponentImpl extends TaggedComponentBase
     implements CodeSetsComponent
 {
     CodeSetComponentInfo csci ;
- 
+
     public boolean equals( Object obj )
     {
-        if (!(obj instanceof CodeSetsComponentImpl)) 
+        if (!(obj instanceof CodeSetsComponentImpl))
             return false ;
 
         CodeSetsComponentImpl other = (CodeSetsComponentImpl)obj ;
@@ -50,11 +50,11 @@ public class CodeSetsComponentImpl extends TaggedComponentBase
     }
 
     public String toString()
-    {   
+    {
         return "CodeSetsComponentImpl[csci=" + csci + "]" ;
     }
 
-    public CodeSetsComponentImpl() 
+    public CodeSetsComponentImpl()
     {
         // Uses our default code sets (see CodeSetComponentInfo)
         csci = new CodeSetComponentInfo() ;
@@ -73,18 +73,18 @@ public class CodeSetsComponentImpl extends TaggedComponentBase
         else
             csci = orb.getORBData().getCodeSetComponentInfo();
     }
-    
+
     public CodeSetComponentInfo getCodeSetComponentInfo()
     {
         return csci ;
     }
 
-    public void writeContents(OutputStream os) 
+    public void writeContents(OutputStream os)
     {
         csci.write( (MarshalOutputStream)os ) ;
     }
-    
-    public int getId() 
+
+    public int getId()
     {
         return TAG_CODE_SETS.value ; // 1 in CORBA 2.3.1 13.6.3
     }

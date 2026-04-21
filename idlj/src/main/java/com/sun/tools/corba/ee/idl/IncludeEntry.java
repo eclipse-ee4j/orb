@@ -77,7 +77,7 @@ public class IncludeEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   } // generator
 
   //d44810
-  /** 
+  /**
    * Set the fully-qualified file specification of this include file.
    * @param afn absolute filename
    */
@@ -114,7 +114,7 @@ public class IncludeEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   static com.sun.tools.corba.ee.idl.IncludeGen includeGen;
   /** List of files this file includes */
   private Vector<IncludeEntry>     includeList = new Vector<>();
-  //d44810 
+  //d44810
   /** Absolute file name for .u file generation. */
   private String     _absFilename       = null;
 } // class IncludeEntry

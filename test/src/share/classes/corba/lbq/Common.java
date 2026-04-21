@@ -61,7 +61,7 @@ public class Common
     private static final String NameService = "NameService";
 
     public static org.omg.CORBA.Object resolve(String name, ORB orb)
-        throws 
+        throws
             Exception
     {
         return getNameService(orb).resolve(makeNameComponent(name));
@@ -70,14 +70,14 @@ public class Common
     public static org.omg.CORBA.Object rebind(String name,
                                               org.omg.CORBA.Object ref,
                                               ORB orb)
-        throws 
+        throws
             Exception
     {
         NamingContext nc = getNameService(orb);
         nc.rebind(makeNameComponent(name), ref);
         return ref;
     }
-  
+
     public static NameComponent[] makeNameComponent(String name)
     {
         Vector result = new Vector();
@@ -117,15 +117,15 @@ public class Common
             new PrivilegedAction() {
                 public Object run() {
                     try {
-                        final Field fld = 
-                            ORBDataParserImpl.class.getDeclaredField( 
+                        final Field fld =
+                            ORBDataParserImpl.class.getDeclaredField(
                                 "orbInitializers" ) ;
                         fld.setAccessible( true ) ;
                         fld.set( odata, newOrbInits ) ;
                         return null ;
                     } catch (Exception exc) {
                       exc.printStackTrace();
-                        throw new RuntimeException( 
+                        throw new RuntimeException(
                             "Could not set ORBData.orbInitializers", exc ) ;
                     }
                 }
@@ -165,7 +165,7 @@ public class Common
             POA rootPOA = (POA) orb.resolve_initial_references("RootPOA") ;
             rootPOA.activate_object_with_id( id, servant ) ;
             org.omg.CORBA.Object ref = rootPOA.id_to_reference( id ) ;
-            rebind( name, ref, orb ) ;  
+            rebind( name, ref, orb ) ;
         } catch (Exception exc) {
             throw new RuntimeException( exc ) ;
         }

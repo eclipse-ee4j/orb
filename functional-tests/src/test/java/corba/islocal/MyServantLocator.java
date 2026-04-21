@@ -45,7 +45,7 @@ public class MyServantLocator
         ServantLocator
 {
     public static final String baseMsg = MyServantLocator.class.getName();
-    public static final String thisPackage = 
+    public static final String thisPackage =
         MyServantLocator.class.getPackage().getName();
 
 
@@ -64,7 +64,7 @@ public class MyServantLocator
         Tie tie                      = null;
         try {
             classLoader = new CustomClassLoader();
-            rmiiIServantPOAClass = 
+            rmiiIServantPOAClass =
                 classLoader.loadClass(thisPackage + ".rmiiIServantPOA");
             rmiiIServantPOAObject = rmiiIServantPOAClass.newInstance();
             classLoader = rmiiIServantPOAObject.getClass().getClassLoader();

@@ -37,7 +37,7 @@ public interface DynFixed extends org.omg.CORBA.Object, org.omg.CORBA.DynAny
     public byte[] get_value();
 
     /**
-     * Sets the given fixed type instance as the value for this 
+     * Sets the given fixed type instance as the value for this
      * <code>DynFixed</code> object.
      *
      * @param val the value of the fixed type as a byte array

@@ -29,14 +29,14 @@ public class ConcurrentQueueNonBlockingImpl<V> implements ConcurrentQueue<V> {
     // we need to atomically update more than one location at a time in the structure.
     // Short of a transactional memory implementation, we would either need a complicated
     // implementation implementing recursive fixup, or something like the Ladan-Mozes and
-    // Shavit algorithm (see "An Optimistic Approach to Lock-Free FIFO Queues" 
+    // Shavit algorithm (see "An Optimistic Approach to Lock-Free FIFO Queues"
     // at http://people.csail.mit.edu/edya/publications/publicationsAndPatents.htm)
     // that delays fixing up one direction in a double linked list.  However, that
     // algorithm does not consider general deletion, and I don't know whether that
     // capability can be easily added or not.
     // Any of these approaches are quite complicated, and so we won't go there yet.
     // As always, first make it work, then make it fast(er), but only if necessary.
-    // 
+    //
     // Structure: Head points to a node containing a null value, which is a special marker.
     // head.next is the first element, head.prev is the last.  The queue is empty if
     // head.next == head.prev == head.
@@ -88,7 +88,7 @@ public class ConcurrentQueueNonBlockingImpl<V> implements ConcurrentQueue<V> {
             return value ;
         }
 
-        /** Delete the element corresponding to this handle 
+        /** Delete the element corresponding to this handle
          * from the queue.  Takes constant time.
          */
         public boolean remove() {
@@ -131,7 +131,7 @@ public class ConcurrentQueueNonBlockingImpl<V> implements ConcurrentQueue<V> {
             throw new IllegalArgumentException( "Argument cannot be null" ) ;
 
         Entry<V> entry = new Entry<V>( arg, System.currentTimeMillis() + ttl ) ;
-        
+
         synchronized (lock) {
             entry.next = head ;
             entry.prev = head.prev ;
@@ -164,11 +164,11 @@ public class ConcurrentQueueNonBlockingImpl<V> implements ConcurrentQueue<V> {
     public Handle<V> peek() {
         synchronized (lock) {
             Entry<V> first = head.next ;
-            if (first == head) 
+            if (first == head)
                 return null ;
             else
                 return first.handle() ;
         }
     }
-} 
+}
 

@@ -18,7 +18,7 @@
  */
 
 //
-// Tests nested type declarations whose type definitions are in 
+// Tests nested type declarations whose type definitions are in
 // inherited super interfaces.
 //
 module TestIdlj {
@@ -61,7 +61,7 @@ module TestIdlj {
 
     interface B5 : B4 {
         typedef B4_long B5_long;
-        exception BB_Exception { 
+        exception BB_Exception {
             B4_long  x;
             B5_long y;
         };

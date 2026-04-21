@@ -33,7 +33,7 @@ import org.omg.PortableServer.POA;
  * "data store" associated with a NamingContext implementation.
  * It allows for different implementations of naming contexts that
  * support the same API but differ in storage mechanism.
- */  
+ */
 public interface NamingContextDataStore {
     /**
      * Method which implements binding a name to an object as
@@ -95,7 +95,7 @@ public interface NamingContextDataStore {
      */
     void destroyImpl()
         throws org.omg.CORBA.SystemException;
-  
+
     /**
      * Method which returns whether this NamingContext is empty
      * or not.

@@ -29,7 +29,7 @@ public class ReferenceFactoryImpl extends LocalObject implements ReferenceFactor
     private String name ;
     private String repositoryId ;
 
-    public ReferenceFactoryImpl( ReferenceFactoryManagerImpl manager, 
+    public ReferenceFactoryImpl( ReferenceFactoryManagerImpl manager,
         String name, String repositoryId ) {
         this.manager = manager ;
         this.name = name ;

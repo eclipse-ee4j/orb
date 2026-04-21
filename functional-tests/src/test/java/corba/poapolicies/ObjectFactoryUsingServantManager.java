@@ -28,7 +28,7 @@ public class ObjectFactoryUsingServantManager extends BasicObjectFactoryImpl {
     public org.omg.CORBA.Object create(String intfName,
                                        String implName,
                                        CreationMethods how) {
-        
+
         String objectId = "ObjectID" + idNum++;
 
         try {

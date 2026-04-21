@@ -25,21 +25,21 @@ package com.sun.corba.ee.spi.misc ;
  * Class.forName only when one is certain that the desired class
  * should come from the core JDK.
  * <p>
- * Note that this class must not depend on generated log wrappers! 
+ * Note that this class must not depend on generated log wrappers!
  */
 public class ORBClassLoader
 {
-    public static Class loadClass(String className) 
+    public static Class loadClass(String className)
         throws ClassNotFoundException
     {
         return getClassLoader().loadClass(className);
     }
 
-    public static ClassLoader getClassLoader() 
+    public static ClassLoader getClassLoader()
     {
         ClassLoader ccl = Thread.currentThread().getContextClassLoader() ;
         if (ccl != null)
-            return ccl; 
+            return ccl;
         else
             return ClassLoader.getSystemClassLoader();
     }

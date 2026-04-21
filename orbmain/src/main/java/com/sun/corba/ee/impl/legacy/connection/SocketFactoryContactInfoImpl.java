@@ -31,7 +31,7 @@ import com.sun.corba.ee.spi.transport.SocketInfo;
 /**
  * @author Harold Carr
  */
-public class SocketFactoryContactInfoImpl 
+public class SocketFactoryContactInfoImpl
     extends
         ContactInfoImpl
 {
@@ -39,7 +39,7 @@ public class SocketFactoryContactInfoImpl
         ORBUtilSystemException.self ;
     protected SocketInfo socketInfo;
 
-    // XREVISIT 
+    // XREVISIT
     // See SocketOrChannelAcceptorImpl.createMessageMediator
     // See SocketFactoryContactInfoImpl.constructor()
     // See SocketOrChannelContactInfoImpl.constructor()
@@ -58,7 +58,7 @@ public class SocketFactoryContactInfoImpl
         this.effectiveTargetIOR = effectiveTargetIOR;
         this.addressingDisposition = addressingDisposition;
 
-        socketInfo = 
+        socketInfo =
             orb.getORBData().getLegacySocketFactory()
                 .getEndPointInfo(orb, effectiveTargetIOR, cookie);
 
@@ -87,7 +87,7 @@ public class SocketFactoryContactInfoImpl
     public String toString()
     {
         return
-            "SocketFactoryContactInfoImpl[" 
+            "SocketFactoryContactInfoImpl["
             + socketType + " "
             + hostname + " "
             + port

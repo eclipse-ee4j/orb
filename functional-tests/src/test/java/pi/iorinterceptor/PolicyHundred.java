@@ -23,7 +23,7 @@ import java.util.*;
 import java.io.*;
 import org.omg.CORBA.*;
 
-/** 
+/**
  * This Policy object's type is 100.
  */
 public class PolicyHundred extends LocalObject
@@ -52,4 +52,4 @@ public class PolicyHundred extends LocalObject
         return value;
     }
 }
-  
+

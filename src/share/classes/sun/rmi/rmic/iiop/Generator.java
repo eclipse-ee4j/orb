@@ -37,12 +37,12 @@ import java.util.HashSet;
 
 /**
  * Generator provides a small framework from which IIOP-specific
- * generators can inherit.  Common logic is implemented here which uses  
+ * generators can inherit.  Common logic is implemented here which uses
  * both abstract methods as well as concrete methods which subclasses may
  * want to override. The following methods must be present in any subclass:
  * <pre>
  *      Default constructor
- *              CompoundType getTopType(BatchEnvironment env, ClassDefinition cdef); 
+ *              CompoundType getTopType(BatchEnvironment env, ClassDefinition cdef);
  *      int parseArgs(String argv[], int currentIndex);
  *      boolean requireNewInstance();
  *              OutputType[] getOutputTypesFor(CompoundType topType,
@@ -57,13 +57,13 @@ import java.util.HashSet;
  */
 public abstract class Generator implements      sun.rmi.rmic.Generator,
                                                 sun.rmi.rmic.iiop.Constants {
-        
+
     protected boolean alwaysGenerate = false;
     protected BatchEnvironment env = null;
-    protected ContextStack contextStack = null; 
+    protected ContextStack contextStack = null;
     private boolean trace = false;
-    protected boolean idl = false;  
-    
+    protected boolean idl = false;
+
     /**
      * Examine and consume command line arguments.
      * @param argv The command line arguments. Ignore null
@@ -86,13 +86,13 @@ public abstract class Generator implements      sun.rmi.rmic.Generator,
         }
         return true;
     }
-    
+
     /**
      * Return true if non-conforming types should be parsed.
      * @param stack The context stack.
      */
     protected abstract boolean parseNonConforming(ContextStack stack);
-    
+
     /**
      * Create and return a top-level type.
      * @param cdef The top-level class definition.
@@ -100,10 +100,10 @@ public abstract class Generator implements      sun.rmi.rmic.Generator,
      * @return The compound type or null if is non-conforming.
      */
     protected abstract CompoundType getTopType(ClassDefinition cdef, ContextStack stack);
-    
+
     /**
-     * Return an array containing all the file names and types that need to be 
-     * generated for the given top-level type.  The file names must NOT have an 
+     * Return an array containing all the file names and types that need to be
+     * generated for the given top-level type.  The file names must NOT have an
      * extension (e.g. ".java").
      * @param topType The type returned by getTopType().
      * @param alreadyChecked A set of Types which have already been checked.
@@ -111,7 +111,7 @@ public abstract class Generator implements      sun.rmi.rmic.Generator,
      */
     protected abstract OutputType[] getOutputTypesFor(CompoundType topType,
                                                       HashSet alreadyChecked);
-        
+
     /**
      * Return the file name extension for the given file name (e.g. ".java").
      * All files generated with the ".java" extension will be compiled. To
@@ -120,7 +120,7 @@ public abstract class Generator implements      sun.rmi.rmic.Generator,
      * @param outputType One of the items returned by getOutputTypesFor(...)
      */
     protected abstract String getFileNameExtensionFor(OutputType outputType);
-        
+
     /**
      * Write the output for the given OutputFileName into the output stream.
      * @param name One of the items returned by getOutputTypesFor(...)
@@ -131,7 +131,7 @@ public abstract class Generator implements      sun.rmi.rmic.Generator,
     protected abstract void writeOutputFor(OutputType outputType,
                                                 HashSet alreadyChecked,
                                                 IndentingWriter writer) throws IOException;
-   
+
     /**
      * Return true if a new instance should be created for each
      * class on the command line. Subclasses which return true
@@ -139,80 +139,80 @@ public abstract class Generator implements      sun.rmi.rmic.Generator,
      * constructed instance.
      */
     protected abstract boolean requireNewInstance();
-       
+
     /**
      * Return true if the specified file needs generation.
      */
     public boolean requiresGeneration (File target, Type theType) {
-    
+
         boolean result = alwaysGenerate;
-        
+
         if (!result) {
-        
+
             // Get a ClassFile instance for base source or class
             // file.  We use ClassFile so that if the base is in
             // a zip file, we can still get at it's mod time...
-            
+
             ClassFile baseFile;
             ClassPath path = env.getClassPath();
             String className = theType.getQualifiedName().replace('.',File.separatorChar);
-            
+
             // First try the source file...
-            
+
             baseFile = path.getFile(className + ".source");
-            
+
             if (baseFile == null) {
-                
+
                 // Then try class file...
-                
+
                 baseFile = path.getFile(className + ".class");
             }
 
             // Do we have a baseFile?
-            
+
             if (baseFile != null) {
-               
+
                 // Yes, grab baseFile's mod time...
-                        
+
                 long baseFileMod = baseFile.lastModified();
-        
+
                 // Get a File instance for the target. If it is a source
                 // file, create a class file instead since the source file
                 // will frequently be deleted...
-                
-                String targetName = IDLNames.replace(target.getName(),".java",".class");  
+
+                String targetName = IDLNames.replace(target.getName(),".java",".class");
                 String parentPath = target.getParent();
                 File targetFile = new File(parentPath,targetName);
 
                 // Does the target file exist?
-                
+
                 if (targetFile.exists()) {
-                    
+
                     // Yes, so grab it's mod time...
-                    
+
                     long targetFileMod = targetFile.lastModified();
-                    
+
                     // Set result...
-                    
+
                     result = targetFileMod < baseFileMod;
-                    
+
                 } else {
-                    
+
                     // No, so we must generate...
-      
+
                     result = true;
-                }   
+                }
             } else {
-                
+
                 // No, so we must generate...
-                
+
                 result = true;
             }
         }
 
         return result;
     }
-    
+
     /**
      * Create and return a new instance of self. Subclasses
      * which need to do something other than default construction
@@ -224,7 +224,7 @@ public abstract class Generator implements      sun.rmi.rmic.Generator,
             result = (Generator) getClass().newInstance();
         }
         catch (Exception e){} // Should ALWAYS work!
-        
+
         return result;
     }
 
@@ -233,7 +233,7 @@ public abstract class Generator implements      sun.rmi.rmic.Generator,
      */
     protected Generator() {
     }
-    
+
     /**
      * Generate output. Any source files created which need compilation should
      * be added to the compiler environment using the addGeneratedFile(File)
@@ -246,40 +246,40 @@ public abstract class Generator implements      sun.rmi.rmic.Generator,
      *                          for generated files. May be null.
      */
     public void generate(sun.rmi.rmic.BatchEnvironment env, ClassDefinition cdef, File destDir) {
-                
+
         this.env = (BatchEnvironment) env;
         contextStack = new ContextStack(this.env);
         contextStack.setTrace(trace);
-                
+
         // Make sure the environment knows whether or not to parse
         // non-conforming types. This will clear out any previously
         // parsed types if necessary...
-        
+
         this.env.setParseNonConforming(parseNonConforming(contextStack));
-                
+
         // Get our top level type...
-                
+
         CompoundType topType = getTopType(cdef,contextStack);
         if (topType != null) {
-                        
+
             Generator generator = this;
-                        
+
             // Do we need to make a new instance?
-                        
+
             if (requireNewInstance()) {
-                                
+
                                 // Yes, so make one.  'this' instance is the one instantiated by Main
                                 // and which knows any needed command line args...
-                                
+
                 generator = newInstance();
             }
 
             // Now generate all output files...
-                        
+
             generator.generateOutputFiles(topType, this.env, destDir);
         }
     }
-        
+
     /**
      * Create and return a new instance of self. Subclasses
      * which need to do something other than default construction
@@ -288,45 +288,45 @@ public abstract class Generator implements      sun.rmi.rmic.Generator,
     protected void generateOutputFiles (CompoundType topType,
                                         BatchEnvironment env,
                                         File destDir) {
-                
+
         // Grab the 'alreadyChecked' HashSet from the environment...
-                
+
         HashSet alreadyChecked = env.alreadyChecked;
-                
+
         // Ask subclass for a list of output types...
-                
+
         OutputType[] types = getOutputTypesFor(topType,alreadyChecked);
-                
+
         // Process each file...
-                
+
         for (int i = 0; i < types.length; i++) {
             OutputType current = types[i];
-            String className = current.getName(); 
+            String className = current.getName();
             File file = getFileFor(current,destDir);
             boolean sourceFile = false;
-                        
+
             // Do we need to generate this file?
-                        
+
             if (requiresGeneration(file,current.getType())) {
-                
+
                 // Yes. If java source file, add to environment so will be compiled...
-                        
+
                 if (file.getName().endsWith(".java")) {
                     sourceFile = compileJavaSourceFile(current);
-                        
+
                                 // Are we supposeded to compile this one?
-                                
+
                     if (sourceFile) {
                         env.addGeneratedFile(file);
                     }
                 }
-                        
+
                 // Now create an output stream and ask subclass to fill it up...
-                        
+
                 try {
                    IndentingWriter out = new IndentingWriter(
                                                               new OutputStreamWriter(new FileOutputStream(file)),INDENT_STEP,TAB_SIZE);
-        
+
                     long startTime = 0;
                     if (env.verbose()) {
                         startTime = System.currentTimeMillis();
@@ -347,16 +347,16 @@ public abstract class Generator implements      sun.rmi.rmic.Generator,
                     return;
                 }
             } else {
-                
+
                 // No, say so if we need to...
-                
+
                 if (env.verbose()) {
                     env.output(Main.getText("rmic.previously.generated", file.getPath()));
                 }
             }
         }
     }
-        
+
     /**
      * Return the File object that should be used as the output file
      * for the given OutputType.
@@ -381,7 +381,7 @@ public abstract class Generator implements      sun.rmi.rmic.Generator,
         String classFileName = outputType.getName() + getFileNameExtensionFor(outputType);
         return new File(packageDir, classFileName);
     }
-                                
+
     /**
      * Return an identifier to use for output.
      * @param outputType the type for which output is to be generated.
@@ -399,7 +399,7 @@ public abstract class Generator implements      sun.rmi.rmic.Generator,
     protected boolean compileJavaSourceFile (OutputType outputType) {
         return true;
     }
-            
+
     //_____________________________________________________________________
     // OutputType is a simple wrapper for a name and a Type
     //_____________________________________________________________________
@@ -412,11 +412,11 @@ public abstract class Generator implements      sun.rmi.rmic.Generator,
             this.name = name;
             this.type = type;
         }
-        
+
         public String getName() {
             return name;
         }
-        
+
         public Type getType() {
             return type;
         }

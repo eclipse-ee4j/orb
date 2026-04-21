@@ -34,7 +34,7 @@ import org.omg.CORBA.ORB;
  *
  *      Client                      Server
  *        |                           |
- *       [ ]     syncWithServer()     | 
+ *       [ ]     syncWithServer()     |
  *       [ ]------------------------>[ ]     rs1 rs2 rs3 rr1 rr2 rr3
  *       [ ]                         [ ]
  *       [ ]     "sayHello"          [ ]   // order cleared here
@@ -48,20 +48,20 @@ import org.omg.CORBA.ORB;
  *       [ ]                          |    // </important>
  *       [ ]     syncWithServer()     |
  *       [ ]------------------------>[ ]     rs1 rs2 rs3 rr1 rr2 rr3
- *       [ ]                         [ ] 
+ *       [ ]                         [ ]
  *       [ ]                         [ ]   // check order here
  *       [ ]                         [ ]   // next test begins soon after.
  *       ...                         ...
  */
 public abstract class ServerCommon
-    implements InternalProcess 
+    implements InternalProcess
 {
     // Set from run()
     com.sun.corba.ee.spi.orb.ORB orb;
-    
+
     // Set from run()
     PrintStream out;
-    
+
     // Set from run()
     PrintStream err;
 
@@ -74,13 +74,13 @@ public abstract class ServerCommon
     // True if the client is currently waiting for syncWithServer to return
     // or false otherwise.
     static boolean syncing = false;
-    
+
     // The name of the next method to invoke:
     static String nextMethodToInvoke;
-    
+
     // An object for syncWithServer to wait on before returning to the client.
     static final Integer syncObject = new Integer( 0 );
-    
+
     // Constant string to indicate to the client that we are done.
     static final String EXIT_METHOD = "exit";
 
@@ -121,7 +121,7 @@ public abstract class ServerCommon
 
         ServerCommon.server = this;
         waitForClient();
-        
+
         // Run tests:
         testRequestId();
         testAttributesValid();
@@ -135,15 +135,15 @@ public abstract class ServerCommon
     /**
      * Invoke the method with the given name on the object
      */
-    protected void invokeMethod( String methodName ) 
+    protected void invokeMethod( String methodName )
         throws Exception
     {
         // We are already synchronized with the client.
-        
+
         // Prepare for the call:
         nextMethodToInvoke = methodName;
         SampleServerRequestInterceptor.methodOrder = "";
-        
+
         // Return from syncWithServer() and let the client make the call:
         synchronized( syncObject ) {
             syncObject.notify();
@@ -160,7 +160,7 @@ public abstract class ServerCommon
             }
             out.println( "    - This should be long enough." );
         }
-        
+
         // Wait for client to synchronize with server again.  Now we know
         // for sure that the method invocation is complete.  Even if the
         // call was a oneway, we can be fairly certain the call has completed
@@ -181,8 +181,8 @@ public abstract class ServerCommon
             catch( InterruptedException e ) {
             }
         }
-        
-        // Leave enough time for the method and interceptors to finish 
+
+        // Leave enough time for the method and interceptors to finish
         // invoking so we can clear the invocation history:
         try {
             Thread.sleep( 500 );
@@ -191,7 +191,7 @@ public abstract class ServerCommon
         }
         out.println( "    - Synchronized with client." );
     }
-    
+
     /**
      * Notifies the client it is time to exit
      */
@@ -248,7 +248,7 @@ public abstract class ServerCommon
      *********************************************************************
      * Test assertions
      *********************************************************************/
-   
+
     /**
      * Tests request_id().
      */
@@ -334,7 +334,7 @@ public abstract class ServerCommon
     }
 
     /**
-     * Tests sending_exception() 
+     * Tests sending_exception()
      */
     protected void testException()
         throws Exception
@@ -349,10 +349,10 @@ public abstract class ServerCommon
     }
 
     /**
-     * Tests that, if we make a co-located orb-mediated call from within a 
+     * Tests that, if we make a co-located orb-mediated call from within a
      * servant, the info stack is exercised.
      */
-    protected void testRequestInfoStack()                   
+    protected void testRequestInfoStack()
         throws Exception
     {
         out.println( "+ Testing request info stack..." );

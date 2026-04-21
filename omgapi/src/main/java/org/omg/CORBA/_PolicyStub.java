@@ -21,7 +21,7 @@ package org.omg.CORBA;
 
 
 /**
-* The Stub for <tt>Policy</tt>.  For more information on 
+* The Stub for <tt>Policy</tt>.  For more information on
 * Stub files, see <a href="doc-files/generatedfiles.html#stub">
 * "Generated Files: Stubs"</a>.<P>
 * org/omg/CORBA/_PolicyStub.java
@@ -54,8 +54,8 @@ public class _PolicyStub extends org.omg.CORBA.portable.ObjectImpl implements or
   }
 
 
-  /** Returns the constant value that corresponds to the 
-                * type of the policy object.  The values of 
+  /** Returns the constant value that corresponds to the
+                * type of the policy object.  The values of
                 * the polivy objectys are allocated by the OMG.
                 * New values for PolicyType should be obtained from the OMG by
                 * sending mail to request@omg.org.  In general the constant
@@ -139,7 +139,7 @@ public class _PolicyStub extends org.omg.CORBA.portable.ObjectImpl implements or
 
   private void readObject (java.io.ObjectInputStream s)
   {
-     try 
+     try
      {
        String str = s.readUTF ();
        org.omg.CORBA.Object obj = org.omg.CORBA.ORB.init ().string_to_object (str);
@@ -150,7 +150,7 @@ public class _PolicyStub extends org.omg.CORBA.portable.ObjectImpl implements or
 
   private void writeObject (java.io.ObjectOutputStream s)
   {
-     try 
+     try
      {
        String str = org.omg.CORBA.ORB.init ().object_to_string (this);
        s.writeUTF (str);

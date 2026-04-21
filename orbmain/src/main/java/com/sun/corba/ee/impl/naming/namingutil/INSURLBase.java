@@ -57,7 +57,7 @@ public abstract class INSURLBase implements INSURL {
 
     public boolean getRIRFlag( ) {
         return rirFlag;
-    } 
+    }
 
     public java.util.List getEndpointInfo( ) {
         return theEndpointInfo;
@@ -85,6 +85,6 @@ public abstract class INSURLBase implements INSURL {
             System.out.println( "Stringified Name = " + getStringifiedName() );
         }
     }
-    
+
 }
 

@@ -28,7 +28,7 @@ import ClientRequestInfo.*;
 /**
  * Invocation strategy in which each interception point is visited, similar
  * to InvokeVisitAll, but sayArguments is called instead of sayHello.
- * 
+ *
  * The following order is used:
  *    send_request, receive_reply
  *    send_request, receive_exception

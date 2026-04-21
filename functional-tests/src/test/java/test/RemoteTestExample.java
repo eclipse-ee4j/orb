@@ -41,14 +41,14 @@ public class RemoteTestExample extends RemoteTest {
     private static final String publishName     = "HelloServer";
     private static final String servantClass    = "test.HelloServant";
     private static final String[] compileEm     = {servantClass};
-   
+
     /**
      * Return an array of fully qualified remote servant class
      * names for which ties/skels need to be generated. Return
      * empty array if none.
      */
     protected String[] getRemoteServantClasses () {
-        return compileEm;  
+        return compileEm;
     }
 
     /**

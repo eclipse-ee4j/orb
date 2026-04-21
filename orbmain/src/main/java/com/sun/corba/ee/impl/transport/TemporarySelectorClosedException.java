@@ -28,7 +28,7 @@ import java.io.IOException;
  * @author Charlie Hunt
  */
 public class TemporarySelectorClosedException extends IOException {
-    
+
     /** Creates a new instance of TemporarySelectorClosedException
      * @param theMessage The details message
      */

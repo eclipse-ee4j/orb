@@ -28,7 +28,7 @@ import java.util.*;
  * covered in this test.
  */
 public class ServerRequestInfoTest
-    extends CORBATest 
+    extends CORBATest
 {
     public static String[] idlFiles = { "serverrequestinfo.idl" };
 
@@ -38,15 +38,15 @@ public class ServerRequestInfoTest
     Controller orbd;
 
     /*
-    public static String[] javaFiles = { 
+    public static String[] javaFiles = {
         "ClientCommon.java",
-        "ServerCommon.java", 
-        "POAClient.java", 
+        "ServerCommon.java",
+        "POAClient.java",
         "POAServer.java",
-        "POALocalClient.java", 
+        "POALocalClient.java",
         "POALocalServer.java",
         "DSIPOALocalServer.java",
-        "POARemoteClient.java", 
+        "POARemoteClient.java",
         "POARemoteServer.java",
         "DSIPOARemoteServer.java",
         "RMIClient.java",
@@ -98,8 +98,8 @@ public class ServerRequestInfoTest
     };
     */
 
-    protected void doTest() 
-        throws Throwable 
+    protected void doTest()
+        throws Throwable
     {
         /*
         Options.addIDLCompilerArgs( "-fall" );
@@ -113,7 +113,7 @@ public class ServerRequestInfoTest
         compileJavaFiles();
         */
 
-        startORBD(); 
+        startORBD();
         System.out.println();
         System.out.println( "      \t\t\t\tLocal\t\tRemote" );
 
@@ -317,7 +317,7 @@ public class ServerRequestInfoTest
         }
     }
 
-    private void beginTest( String name ) 
+    private void beginTest( String name )
         throws Exception
     {
         System.out.print( "      " + name );
@@ -329,7 +329,7 @@ public class ServerRequestInfoTest
         System.out.print( terminator );
     }
 
-    private void printEndTest( Controller client, Controller server ) 
+    private void printEndTest( Controller client, Controller server )
         throws Throwable
     {
         if( (server != null) && server.finished() ) {
@@ -337,7 +337,7 @@ public class ServerRequestInfoTest
             failed = true;
         }
         else if( client.exitValue() != Controller.SUCCESS ) {
-            System.out.print( "FAILED, Client exit value = " + 
+            System.out.print( "FAILED, Client exit value = " +
                 client.exitValue() );
             failed = true;
         }

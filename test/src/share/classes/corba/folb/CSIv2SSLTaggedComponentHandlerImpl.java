@@ -57,7 +57,7 @@ public class CSIv2SSLTaggedComponentHandlerImpl
     // CSIv2SSLTaggedComponentHandler
     //
 
-    public TaggedComponent insert(IORInfo iorInfo, 
+    public TaggedComponent insert(IORInfo iorInfo,
                                   List<ClusterInstanceInfo> clusterInstanceInfo)
     {
         if (debug) { dprint(".insert: " + iorInfo); }
@@ -75,7 +75,7 @@ public class CSIv2SSLTaggedComponentHandlerImpl
     // ORBConfigurator
     //
 
-    public void configure(DataCollector collector, ORB orb) 
+    public void configure(DataCollector collector, ORB orb)
     {
         if (debug) { dprint(".configure->:"); }
 

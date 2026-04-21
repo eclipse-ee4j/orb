@@ -52,7 +52,7 @@ public class CacheTable<K> {
             val = v;
             next = null;
             rnext = null;
-        } 
+        }
     }
 
     private boolean noReverseMap;
@@ -61,13 +61,13 @@ public class CacheTable<K> {
     // size must be power of 2
     private static final int INITIAL_SIZE = 64 ;
     private static final int MAX_SIZE = 1 << 30;
-    private static final int INITIAL_THRESHHOLD = 48 ; 
+    private static final int INITIAL_THRESHHOLD = 48 ;
     private int size;
     private int threshhold ;
     private int entryCount;
     private Entry<K>[] map;
     private Entry<K>[] rmap;
-      
+
     private ORB orb;
 
     public  CacheTable(String cacheType, ORB orb, boolean u) {
@@ -113,7 +113,7 @@ public class CacheTable<K> {
         // This is used for both the
         // key and the value side of the mapping.  It's not clear
         // how useful this is in this application, as the low-order
-        // bits change a lot for both sides.  
+        // bits change a lot for both sides.
         h ^= (h >>> 20) ^ (h >>> 12) ;
         return (h ^ (h >>> 7) ^ (h >>> 4)) & (size - 1) ;
     }
@@ -126,7 +126,7 @@ public class CacheTable<K> {
         return hashModTableSize(val);
     }
 
-    /** Store the (key,val) pair in the hash table, unless 
+    /** Store the (key,val) pair in the hash table, unless
      * (key,val) is already present.  Returns true if a new (key,val)
      * pair was added, else false.  val must be non-negative, but
      * this is not checked.
@@ -150,20 +150,20 @@ public class CacheTable<K> {
             if (e.key == key) {
                 if (e.val != val) {
                     // duplicateIndirectionOffset error here is not an error:
-                    // A serializable/externalizable class that defines 
+                    // A serializable/externalizable class that defines
                     // a readResolve method that creates a canonical representation
-                    // of a value can legally have the same key occuring at 
+                    // of a value can legally have the same key occuring at
                     // multiple values.  This is GlassFish issue 1605.
                     // Note: we store this anyway, so that getVal can find the key.
                     wrapper.duplicateIndirectionOffset();
-                } else {        
+                } else {
                     // if we get here we are trying to put in the same key/val pair
                     // this is a no-op, so we just return
                     return false;
                 }
             }
         }
-        
+
         Entry<K> newEntry = new Entry<K>(key, val);
         newEntry.next = map[index];
         map[index] = newEntry;
@@ -196,7 +196,7 @@ public class CacheTable<K> {
     }
 
     public final boolean containsVal(int val) {
-        return (getKey(val) != null); 
+        return (getKey(val) != null);
     }
 
     /** Return the key where (key,val) is present in the map.

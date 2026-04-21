@@ -46,24 +46,24 @@ public class UEInfoServiceContextImpl extends ServiceContextBase
     {
         super(is) ;
 
-        try { 
+        try {
             unknown = (Throwable) in.read_value() ;
         } catch (Exception e) {
             unknown = wrapper.couldNotReadInfo( e ) ;
         }
     }
 
-    public int getId() 
-    { 
-        return SERVICE_CONTEXT_ID ; 
+    public int getId()
+    {
+        return SERVICE_CONTEXT_ID ;
     }
 
-    public void writeData( OutputStream os ) 
+    public void writeData( OutputStream os )
     {
         os.write_value( (Serializable)unknown ) ;
     }
 
-    public Throwable getUE() { return unknown ; } 
+    public Throwable getUE() { return unknown ; }
 
     @Override
     public String toString()

@@ -32,7 +32,7 @@ import java.util.Properties;
 import org.omg.CORBA.COMM_FAILURE;
 import org.omg.CORBA.ORB;
 
-public class Client 
+public class Client
 {
     public static final String baseMsg = Client.class.getName();
     public static final String main = baseMsg + ".main";
@@ -52,8 +52,8 @@ public class Client
             props.put(U.ORBInitializerClass + "." + "corba.purgecalls.ClientORBInitializer", "ignored");
             orb = ORB.init(av, props);
 
-            
-            rServerSide =  
+
+            rServerSide =
                 ServerSideHelper.narrow(U.resolve(Server.ServerSide, orb));
 
             runTests();
@@ -89,7 +89,7 @@ public class Client
     {
         CallThread CallThread = new CallThread();
         CallThread.start();
-    
+
         Thread.sleep(5000);
 
         Socket socket = requestConnection.getSocket();

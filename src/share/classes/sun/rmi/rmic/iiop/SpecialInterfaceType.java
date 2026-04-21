@@ -62,31 +62,31 @@ public class SpecialInterfaceType extends InterfaceType {
                                                     ContextStack stack) {
 
         if (stack.anyErrors()) return null;
-        
+
         // Do we already have it?
-        
+
         sun.tools.java.Type type = theClass.getType();
         Type existing = getType(type,stack);
-        
+
         if (existing != null) {
-          
+
             if (!(existing instanceof SpecialInterfaceType)) return null; // False hit.
-          
+
             // Yep, so return it...
-          
+
             return (SpecialInterfaceType) existing;
         }
-  
+
         // Is it special?
-  
+
         if (isSpecial(type,theClass,stack)) {
-  
+
             // Yes...
-            
+
             SpecialInterfaceType result = new SpecialInterfaceType(stack,0,theClass);
             putType(type,result,stack);
             stack.push(result);
-        
+
             if (result.initialize(type,stack)) {
                 stack.pop(true);
                 return result;
@@ -135,7 +135,7 @@ public class SpecialInterfaceType extends InterfaceType {
                 if (env.defCorbaObject.implementedBy(env,theClass.getClassDeclaration())) return true;
             } catch (ClassNotFound e) {
                 classNotFound(stack,e);
-            }            
+            }
         }
         return false;
     }
@@ -168,22 +168,22 @@ public class SpecialInterfaceType extends InterfaceType {
                 idlName = IDL_IDLENTITY;
                 idlModuleName = IDL_ORG_OMG_CORBA_PORTABLE_MODULE;
             } else {
-              
+
                 typeCode = TYPE_CORBA_OBJECT;
-                    
+
                 // Is it exactly org.omg.CORBA.Object?
-                    
+
                 if (id == idCorbaObject) {
-                        
+
                     // Yes, so special case...
-                        
+
                     idlName = IDLNames.getTypeName(typeCode,constant);
                     idlModuleName = null;
-                    
+
                 } else {
-                        
+
                     // No, so get the correct names...
-                        
+
                     try {
 
                         // These can fail if we get case-sensitive name matches...
@@ -216,7 +216,7 @@ public class SpecialInterfaceType extends InterfaceType {
         setNames(id,idlModuleName,idlName);
 
         // Initialize CompoundType...
-        
+
         return initialize(null,null,null,stack,false);
     }
 }

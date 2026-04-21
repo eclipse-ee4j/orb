@@ -145,7 +145,7 @@ public final class ReplyMessage_1_1 extends Message_1_1
     }
 
     // Note, this writes only the header information. SystemException or
-    // IOR may be written afterwards into the reply mesg body.    
+    // IOR may be written afterwards into the reply mesg body.
     public void write(org.omg.CORBA.portable.OutputStream ostream) {
         super.write(ostream);
         service_contexts.write(

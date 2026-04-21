@@ -43,7 +43,7 @@ import org.omg.CORBA_2_3.portable.InputStream ;
 import org.omg.CORBA_2_3.portable.OutputStream ;
 
 @TraceServiceContext
-public class ServiceContextsImpl implements ServiceContexts 
+public class ServiceContextsImpl implements ServiceContexts
 {
     private static final ORBUtilSystemException wrapper =
         ORBUtilSystemException.self ;
@@ -52,7 +52,7 @@ public class ServiceContextsImpl implements ServiceContexts
 
     private final ORB orb ;
 
-    /** 
+    /**
      * Map of all ServiceContext objects in this container.
      *
      * Keys are java.lang.Integers for service context IDs.
@@ -62,7 +62,7 @@ public class ServiceContextsImpl implements ServiceContexts
      * This provides a mild optimization if we don't happen to
      * use a given service context, but it's main advantage is
      * that it allows us to change the order in which we
-     * unmarshal them.  We need to do the UnknownExceptionInfo service 
+     * unmarshal them.  We need to do the UnknownExceptionInfo service
      * context after the SendingContextRunTime service context so that we can
      * get the CodeBase if necessary.
      */
@@ -129,13 +129,13 @@ public class ServiceContextsImpl implements ServiceContexts
         scMap = new HashMap<Integer,Object>();
 
         // Use the GIOP version of the ORB.  Should
-        // be specified in ServiceContext.  
+        // be specified in ServiceContext.
         // See REVISIT below concerning giopVersion.
         giopVersion = orb.getORBData().getGIOPVersion();
         codeBase = null ;
     }
 
-    /** 
+    /**
      * Read the Service contexts from the input stream.
      * @param s Stream to get context from
      */
@@ -167,7 +167,7 @@ public class ServiceContextsImpl implements ServiceContexts
      */
     @TraceServiceContext
     private ServiceContext unmarshal(int scId, byte[] data) {
-        ServiceContextFactoryRegistry scr = 
+        ServiceContextFactoryRegistry scr =
             orb.getServiceContextFactoryRegistry();
 
         ServiceContext.Factory factory = scr.find(scId);
@@ -191,7 +191,7 @@ public class ServiceContextsImpl implements ServiceContexts
             //
             // Note:  As of Jan 2001, no standard OMG or Sun service contexts
             // ship wchar data or are defined as using anything but GIOP 1.0 CDR.
-            EncapsInputStream eis = EncapsInputStreamFactory.newEncapsInputStream(orb, data, data.length, 
+            EncapsInputStream eis = EncapsInputStreamFactory.newEncapsInputStream(orb, data, data.length,
                 giopVersion, codeBase);
 
             try {
@@ -218,7 +218,7 @@ public class ServiceContextsImpl implements ServiceContexts
         return sc;
     }
 
-    /** 
+    /**
      * Write the service contexts to the output stream.
      *
      * If they haven't been unmarshaled, we don't have to
@@ -248,7 +248,7 @@ public class ServiceContextsImpl implements ServiceContexts
         }
 
         // Write the UnknownExceptionInfo service context last
-        // (so it will be after the CodeBase) 
+        // (so it will be after the CodeBase)
         Object uesc = scMap.get(ueid) ;
         if (uesc != null) {
             writeMapEntry(os, ueid, uesc, gv);
@@ -267,7 +267,7 @@ public class ServiceContextsImpl implements ServiceContexts
      * know the GIOP version it is meant for.
      */
     @TraceServiceContext
-    private void writeMapEntry(OutputStream os, int id, Object scObj, 
+    private void writeMapEntry(OutputStream os, int id, Object scObj,
         GIOPVersion gv) {
         if (scObj instanceof byte[]) {
             // If it's still in byte[] form, we don't need to
@@ -290,13 +290,13 @@ public class ServiceContextsImpl implements ServiceContexts
     }
 
     @TraceServiceContext
-    public void put( ServiceContext sc ) 
+    public void put( ServiceContext sc )
     {
         scMap.put(sc.getId(), sc);
     }
 
     @TraceServiceContext
-    public void delete( int scId ) 
+    public void delete( int scId )
     {
         scMap.remove(scId);
     }
@@ -319,7 +319,7 @@ public class ServiceContextsImpl implements ServiceContexts
         }
 
         serviceContextIdFound(id);
-        
+
         // Lazy unmarshaling on first use.
         if (result instanceof byte[]) {
             unmarshallingServiceContext(id) ;

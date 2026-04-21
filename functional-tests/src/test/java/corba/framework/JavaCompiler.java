@@ -27,7 +27,7 @@ import java.util.StringTokenizer;
  */
 public class JavaCompiler extends Compiler
 {
-    private boolean newVM() 
+    private boolean newVM()
     {
         String version = System.getProperty( "java.version" ) ;
         StringTokenizer st = new StringTokenizer( version, "." ) ;
@@ -49,7 +49,7 @@ public class JavaCompiler extends Compiler
     public String compilerClassName()
     {
         // Break this up to avoid rename conflicts on sun tools java.
-        return (newVM() ? "com.sun." : "sun.") 
+        return (newVM() ? "com.sun." : "sun.")
             + "tools.javac.Main" ;
     }
 
@@ -82,7 +82,7 @@ public class JavaCompiler extends Compiler
         args.add(outputDirectory);
         // args.add("-bootclasspath");
         // args.add(Options.getClasspath());
-        args.add( "-Xbootclasspath/p:" + 
+        args.add( "-Xbootclasspath/p:" +
             System.getProperty( "corba.test.orb.classpath" ) ) ;
 
         if (arguments != null)

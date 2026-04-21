@@ -64,7 +64,7 @@ public class Client implements InternalProcess
     {
     }
 
-    private POA createPOA( POA rootPOA ) 
+    private POA createPOA( POA rootPOA )
         throws AdapterAlreadyExists, InvalidPolicy,
             WrongPolicy, RemoteException
     {
@@ -76,9 +76,9 @@ public class Client implements InternalProcess
                     RequestProcessingPolicyValue.USE_SERVANT_MANAGER),
                 rootPOA.create_servant_retention_policy(
                     ServantRetentionPolicyValue.NON_RETAIN),
-                ServantCachingPolicy.getFullPolicy() 
-            } 
-        ) ; 
+                ServantCachingPolicy.getFullPolicy()
+            }
+        ) ;
 
         EchoImpl impl = new EchoImpl();
         Servant servant = (Servant)(javax.rmi.CORBA.Util.getTie( impl ) ) ;
@@ -88,11 +88,11 @@ public class Client implements InternalProcess
         return tpoa ;
     }
 
-    private POA createPOAWithCopyObjectPolicy( POA rootPOA ) 
+    private POA createPOAWithCopyObjectPolicy( POA rootPOA )
         throws AdapterAlreadyExists, InvalidPolicy,
             WrongPolicy, RemoteException
     {
-        POA tpoa = rootPOA.create_POA( "POA2", rootPOA.the_POAManager(), 
+        POA tpoa = rootPOA.create_POA( "POA2", rootPOA.the_POAManager(),
             new Policy[] {
                 rootPOA.create_lifespan_policy(
                     LifespanPolicyValue.TRANSIENT),
@@ -101,9 +101,9 @@ public class Client implements InternalProcess
                 rootPOA.create_servant_retention_policy(
                     ServantRetentionPolicyValue.NON_RETAIN),
                 ServantCachingPolicy.getFullPolicy(),
-                new CopyObjectPolicy( UserConfigurator.REFERENCE_INDEX ) 
-            } 
-        ) ; 
+                new CopyObjectPolicy( UserConfigurator.REFERENCE_INDEX )
+            }
+        ) ;
 
         EchoImpl impl = new EchoImpl();
         Servant servant = (Servant)(javax.rmi.CORBA.Util.getTie( impl ) ) ;
@@ -112,7 +112,7 @@ public class Client implements InternalProcess
 
         return tpoa ;
     }
-        
+
     private Echo createEcho(POA tpoa)
     {
         // create an objref using POA
@@ -121,18 +121,18 @@ public class Client implements InternalProcess
 
         org.omg.CORBA.Object obj = tpoa.create_reference_with_id(id, intf);
 
-        Echo echoRef 
+        Echo echoRef
             = (Echo)PortableRemoteObject.narrow(obj, Echo.class );
 
-        return echoRef ; 
+        return echoRef ;
     }
-    
+
     private void checkResult( String name )
     {
         // The expected result is that the make method is
         // entered, exited, entered, and exited, since
         // both the argument and the result are copier.
-        MethodEvent mev = MethodEvent.make( name, 
+        MethodEvent mev = MethodEvent.make( name,
             UserConfigurator.makeMethod ) ;
         List expected = new ArrayList() ;
         expected.add( new TraceElement( true, mev ) ) ;
@@ -145,7 +145,7 @@ public class Client implements InternalProcess
     }
 
     private void performTest(PrintStream out, Echo echoRef,
-        String interceptorName ) 
+        String interceptorName )
         throws RemoteException
     {
         UserConfigurator.traceAccum.clear() ;
@@ -165,15 +165,15 @@ public class Client implements InternalProcess
         environment.list(out);
 
         try {
-            // Create a new ORB with a user configurator to the ORB that uses 
+            // Create a new ORB with a user configurator to the ORB that uses
             // ProxyInterceptors.
             environment.setProperty( "com.sun.corba.ee.ORBAllowLocalOptimization",
                 "true" ) ;
-            environment.setProperty( 
+            environment.setProperty(
                 "com.sun.corba.ee.ORBUserConfigurators.corba.copyobjectpolicy." +
                 "UserConfigurator", "true" ) ;
 
-            //environment.setProperty( "com.sun.corba.ee.ORBDebug", 
+            //environment.setProperty( "com.sun.corba.ee.ORBDebug",
                 //"transport,subcontract,poa,serviceContext,giop,giopVersion" ) ;
 
             ORB orb = ORB.init(args, environment);
@@ -219,8 +219,8 @@ public class Client implements InternalProcess
     }
 }
 
-class EchoServantLocator 
-    extends org.omg.CORBA.LocalObject 
+class EchoServantLocator
+    extends org.omg.CORBA.LocalObject
     implements ServantLocator
 {
     Servant servant;
@@ -230,14 +230,14 @@ class EchoServantLocator
         this.servant = servant;
     }
 
-    public Servant preinvoke(byte[] oid, POA adapter, String operation, 
+    public Servant preinvoke(byte[] oid, POA adapter, String operation,
                              CookieHolder the_cookie)
         throws org.omg.PortableServer.ForwardRequest
     {
         return servant ;
     }
 
-    public void postinvoke(byte[] oid, POA adapter, String operation, 
+    public void postinvoke(byte[] oid, POA adapter, String operation,
                            java.lang.Object cookie, Servant servant)
     {
         return;

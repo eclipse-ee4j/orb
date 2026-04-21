@@ -31,19 +31,19 @@ import org.glassfish.gmbal.ManagedData ;
 import org.omg.CORBA_2_3.portable.OutputStream ;
 
 /** Base template for creating TaggedProfiles.  A TaggedProfile will often contain
-* tagged components.  A template that does not contain components acts like 
+* tagged components.  A template that does not contain components acts like
 * an empty immutable list.
 *
 * @author Ken Cavanaugh
 */
 @ManagedData
-@Description( "A template for creating a TaggedProfile" ) 
+@Description( "A template for creating a TaggedProfile" )
 @IncludeSubclass( { com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate.class } )
-public interface TaggedProfileTemplate extends List<TaggedComponent>, 
+public interface TaggedProfileTemplate extends List<TaggedComponent>,
     Identifiable, WriteContents, MakeImmutable
-{    
+{
     @ManagedAttribute
-    @Description( "The list of TaggedComponents in this TaggedProfileTemplate" ) 
+    @Description( "The list of TaggedComponents in this TaggedProfileTemplate" )
     public Iterator<TaggedComponent> getTaggedComponents() ;
 
     /** Return an iterator that iterates over tagged components with
@@ -54,7 +54,7 @@ public interface TaggedProfileTemplate extends List<TaggedComponent>,
     */
     public Iterator<TaggedComponent> iteratorById( int id ) ;
 
-    public <T extends TaggedComponent> Iterator<T> iteratorById( int id, 
+    public <T extends TaggedComponent> Iterator<T> iteratorById( int id,
         Class<T> cls )  ;
 
     /** Create a TaggedProfile from this template.
@@ -75,7 +75,7 @@ public interface TaggedProfileTemplate extends List<TaggedComponent>,
     /** Return true if temp is equivalent to this template.  Equivalence
      * means that in some sense an invocation on a profile created by this
      * template has the same results as an invocation on a profile
-     * created from temp.  Equivalence may be weaker than equality.  
+     * created from temp.  Equivalence may be weaker than equality.
      * @param temp template to compare with
      * @return true if they are equivalent
      */
@@ -83,13 +83,13 @@ public interface TaggedProfileTemplate extends List<TaggedComponent>,
 
     /** Return the tagged components in this profile (if any)
      * in the GIOP marshalled form, which is required for Portable
-     * Interceptors.  Returns null if either the profile has no 
+     * Interceptors.  Returns null if either the profile has no
      * components, or if this type of profile can never contain
      * components.
      * @param orb ORB to get components from
      * @param id ID of components to look up
      * @return tagged components in this profile
      */
-    org.omg.IOP.TaggedComponent[] getIOPComponents( 
+    org.omg.IOP.TaggedComponent[] getIOPComponents(
         ORB orb, int id );
 }

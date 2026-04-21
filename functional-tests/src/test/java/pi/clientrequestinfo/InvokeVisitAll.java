@@ -30,7 +30,7 @@ import org.omg.CORBA.*;
  *    send_request, receive_exception
  *    send_request, receive_other
  */
-public class InvokeVisitAll 
+public class InvokeVisitAll
     extends InvokeStrategy
 {
     public void invoke() throws Exception {

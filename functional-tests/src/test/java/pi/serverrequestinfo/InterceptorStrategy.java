@@ -23,7 +23,7 @@ import com.sun.corba.ee.impl.interceptors.*;
 import org.omg.PortableInterceptor.*;
 
 /**
- * Base class for all server request interceptor strategies used in this 
+ * Base class for all server request interceptor strategies used in this
  * test.  This allows for dyanmic behavior modifications between test cases.
  * Default method implementations do nothing.
  */
@@ -35,7 +35,7 @@ abstract public class InterceptorStrategy {
     /** The reason for failure */
     public String failReason = null;
 
-    /** 
+    /**
      * Logs the given message as test output.
      */
     protected void log( String message ) {
@@ -50,13 +50,13 @@ abstract public class InterceptorStrategy {
         failReason = reason;
         failed = true;
     }
-    
+
     /**
      * Reports a test failure, using the exception object as a reason.
      * The origin of failure is given in the origin string.
      */
     protected void failException( String origin, Exception ex ) {
-        String failReason = "Exception " + 
+        String failReason = "Exception " +
             ex.getClass().getName() + "( " + ex.getMessage() + " )" +
             " in " + this.getClass().getName() + "." + origin + ".";
         ServerCommon.server.out.println( "    + ERROR: " + failReason );
@@ -81,13 +81,13 @@ abstract public class InterceptorStrategy {
     }
 
     public void send_exception (
-        SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) 
+        SampleServerRequestInterceptor interceptor, ServerRequestInfo ri)
         throws ForwardRequest
     {
     }
 
     public void send_other (
-        SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) 
+        SampleServerRequestInterceptor interceptor, ServerRequestInfo ri)
         throws ForwardRequest
     {
     }

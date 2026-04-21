@@ -33,13 +33,13 @@ public class NamingUtils {
     /**
      * Debug flag which must be true for debug streams to be created and
      * dprint output to be generated.
-     */ 
+     */
     public static boolean debug = false;
 
     /**
      * Prints the message to the debug stream if debugging is enabled.
      * @param msg the debug message to print.
-     */ 
+     */
     public static void dprint(String msg) {
         if (debug && debugStream != null)
             debugStream.println(msg);
@@ -48,7 +48,7 @@ public class NamingUtils {
     /**
      * Prints the message to the error stream (System.err is default).
      * @param msg the error message to print.
-     */ 
+     */
     public static void errprint(String msg) {
         if (errStream != null)
             errStream.println(msg);
@@ -71,7 +71,7 @@ public class NamingUtils {
      * Create a debug print stream to the supplied log file.
      * @param logFile the file to which debug output will go.
      * @exception IOException thrown if the file cannot be opened for output.
-     */ 
+     */
     public static void makeDebugStream(File logFile)
         throws java.io.IOException {
         // Create an outputstream for debugging
@@ -80,16 +80,16 @@ public class NamingUtils {
         java.io.DataOutputStream logDStream =
             new java.io.DataOutputStream(logOStream);
         debugStream = new java.io.PrintStream(logDStream);
-      
+
         // Emit first message
         debugStream.println("Debug Stream Enabled.");
     }
-  
+
     /**
      * Create a error print stream to the supplied file.
      * @param errFile the file to which error messages will go.
      * @exception IOException thrown if the file cannot be opened for output.
-     */ 
+     */
     public static void makeErrStream(File errFile)
         throws java.io.IOException {
         if (debug) {
@@ -101,7 +101,7 @@ public class NamingUtils {
             errStream = new java.io.PrintStream(errDStream);
             dprint("Error stream setup completed.");
         }
-    }  
+    }
 
 
     /**
@@ -110,7 +110,7 @@ public class NamingUtils {
      * This is used mainly for Logging.
      */
     static String getDirectoryStructuredName( NameComponent[] name ) {
-        StringBuilder directoryStructuredName = new StringBuilder("/"); 
+        StringBuilder directoryStructuredName = new StringBuilder("/");
         for (NameComponent component : name) {
             directoryStructuredName.append(component.id).append(".").append(component.kind);
         }
@@ -125,5 +125,5 @@ public class NamingUtils {
     /**
      * The error printstream.
      */
-    public static java.io.PrintStream errStream;  
+    public static java.io.PrintStream errStream;
 }

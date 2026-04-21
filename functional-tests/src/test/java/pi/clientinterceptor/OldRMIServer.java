@@ -36,12 +36,12 @@ import javax.naming.*;
 /**
  * Server for RMI/IIOP version of test.  Uses old _*ImplBase skeletons.
  */
-public class OldRMIServer 
-    implements InternalProcess 
+public class OldRMIServer
+    implements InternalProcess
 {
     // Set from run()
     private PrintStream out;
-    
+
     private com.sun.corba.ee.spi.orb.ORB orb;
 
     InitialContext initialNamingContext;
@@ -58,7 +58,7 @@ public class OldRMIServer
     }
 
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         this.out = out;
@@ -68,7 +68,7 @@ public class OldRMIServer
 
         // create and initialize the ORB
         Properties props = new Properties() ;
-        props.put( "org.omg.CORBA.ORBClass", 
+        props.put( "org.omg.CORBA.ORBClass",
                    System.getProperty("org.omg.CORBA.ORBClass"));
         ORB orb = ORB.init(args, props);
         this.orb = (com.sun.corba.ee.spi.orb.ORB)orb;
@@ -97,7 +97,7 @@ public class OldRMIServer
         }
 
     }
-    
+
     /**
      * Creates and binds a hello object using RMI
      */

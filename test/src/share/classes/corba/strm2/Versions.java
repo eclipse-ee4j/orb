@@ -43,7 +43,7 @@ package corba.strm2;
  */
 public interface Versions
 {
-    String[] testableVersions = new String[] { 
+    String[] testableVersions = new String[] {
         "class0", "class1", "class2", "class3", "class4" };
 
 }

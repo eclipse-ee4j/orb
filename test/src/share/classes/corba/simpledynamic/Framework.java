@@ -63,12 +63,12 @@ public abstract class Framework {
             BASE + "impl.javax.rmi.PortableRemoteObject" ) ;
 
         // We will only use dynamic RMI-IIOP for this test.
-        System.out.println( "Setting property " + ORBConstants.USE_DYNAMIC_STUB_PROPERTY 
+        System.out.println( "Setting property " + ORBConstants.USE_DYNAMIC_STUB_PROPERTY
             + " to true" ) ;
         System.setProperty( ORBConstants.USE_DYNAMIC_STUB_PROPERTY, "true" ) ;
 
         // Use the J2SE ic provider
-        System.setProperty( "java.naming.factory.initial", 
+        System.setProperty( "java.naming.factory.initial",
             JndiConstants.COSNAMING_CONTEXT_FACTORY ) ;
     }
 
@@ -96,7 +96,7 @@ public abstract class Framework {
         updateORB( orb, isServer ) ;
 
         if (isServer) {
-            new TransientNameService( 
+            new TransientNameService(
                 com.sun.corba.ee.spi.orb.ORB.class.cast(orb) ) ;
         }
 
@@ -144,8 +144,8 @@ public abstract class Framework {
     protected Properties extraClientProperties() {
         return new Properties() ;
     }
-    
-    /** Connect a servant of type cls to the orb.  
+
+    /** Connect a servant of type cls to the orb.
     */
     protected <T extends Remote> void connectServant( T servant, ORB orb ) {
 
@@ -160,7 +160,7 @@ public abstract class Framework {
     /** Connect a servant to the server ORB, and register it with the
      * server InitialContext under name.
      */
-    protected <T extends Remote> void bindServant( T servant, Class<T> cls, 
+    protected <T extends Remote> void bindServant( T servant, Class<T> cls,
         String name ) {
 
         connectServant( servant, getServerORB() ) ;

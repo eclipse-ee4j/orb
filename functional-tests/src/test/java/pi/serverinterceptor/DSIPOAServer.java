@@ -37,16 +37,16 @@ import ServerRequestInterceptor.*;
 /**
  * Common base class for DSI POA Server test files.
  */
-public abstract class DSIPOAServer 
-    extends ServerCommon 
+public abstract class DSIPOAServer
+    extends ServerCommon
 {
     static final String ROOT_POA = "RootPOA";
-    
+
     POA rootPOA;
 
     // To be invoked by subclass after orb is created.
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         try {
@@ -61,19 +61,19 @@ public abstract class DSIPOAServer
                 throw e;
             }
             rootPOA.the_POAManager().activate();
-            
+
             // Set up hello object:
             out.println( "+ Creating and binding Hello1 object..." );
-            TestInitializer.helloRef = createAndBind( rootPOA, "Hello1", 
+            TestInitializer.helloRef = createAndBind( rootPOA, "Hello1",
                                                       "[Hello1]" );
 
             out.println( "+ Creating and binding Hello1Forward object..." );
-            TestInitializer.helloRefForward = createAndBind( rootPOA, 
+            TestInitializer.helloRefForward = createAndBind( rootPOA,
                                                              "Hello1Forward",
-                                                             "[Hello1Forward]" ); 
+                                                             "[Hello1Forward]" );
 
             handshake();
-            
+
             // Test ServerInterceptor
             testServerInterceptor();
 
@@ -97,7 +97,7 @@ public abstract class DSIPOAServer
     abstract void waitForClients();
 
     /**
-     * Tests the special operations _is_a, _get_interface_def, and 
+     * Tests the special operations _is_a, _get_interface_def, and
      * _non_existent.
      */
     void testSpecialOps()
@@ -114,7 +114,7 @@ public abstract class DSIPOAServer
             "rs1rs2rs3rr1rr2rr3sr3sr2sr1",
             "_is_a", "", false );
 
-        // We do not implement this interface in our ORB. 
+        // We do not implement this interface in our ORB.
         // Thus, the send_exception.  We pass in false for exception
         // expected because this is not the exception we normally look for.
         out.println( "+ Testing _get_interface_def..." );
@@ -133,7 +133,7 @@ public abstract class DSIPOAServer
     /**
      * Implementation borrowed from corba.socket.HelloServer test
      */
-    public org.omg.CORBA.Object createAndBind ( POA poa, String name, 
+    public org.omg.CORBA.Object createAndBind ( POA poa, String name,
                                                 String symbol )
         throws Exception
     {
@@ -142,16 +142,16 @@ public abstract class DSIPOAServer
 
         byte[] id = poa.activate_object(helloRef);
         org.omg.CORBA.Object ref = poa.id_to_reference(id);
-      
+
         // get the root naming context
-        org.omg.CORBA.Object objRef = 
+        org.omg.CORBA.Object objRef =
             orb.resolve_initial_references("NameService");
         NamingContext ncRef = NamingContextHelper.narrow(objRef);
-      
+
         // bind the Object Reference in Naming
         NameComponent nc = new NameComponent(name, "");
         NameComponent path[] = {nc};
-            
+
         ncRef.rebind(path, ref);
 
         return ref;

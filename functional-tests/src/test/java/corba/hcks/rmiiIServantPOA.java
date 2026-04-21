@@ -30,7 +30,7 @@ import org.omg.CORBA.INTERNAL;
 import org.omg.CORBA.ORB;
 
 public class rmiiIServantPOA
-    extends 
+    extends
         PortableRemoteObject
     implements
         rmiiI
@@ -43,9 +43,9 @@ public class rmiiIServantPOA
     public rmiiIServantPOA (ORB orb, String name)
         throws
             RemoteException
-    { 
+    {
         // DO NOT CALL SUPER - that would connect the object.
-        this.orb = orb; 
+        this.orb = orb;
         this.name = name;
     }
 

@@ -89,8 +89,8 @@ public class TransientNameService
     }
 
 
-    /** 
-     * This method initializes Transient Name Service by associating Root 
+    /**
+     * This method initializes Transient Name Service by associating Root
      * context with POA and registering the root context with INS Object Keymap.
      */
     @Naming
@@ -99,7 +99,7 @@ public class TransientNameService
         throws org.omg.CORBA.INITIALIZE
     {
         try {
-            POA rootPOA = (POA) orb.resolve_initial_references( 
+            POA rootPOA = (POA) orb.resolve_initial_references(
                 ORBConstants.ROOT_POA_NAME );
             rootPOA.the_POAManager().activate();
 
@@ -123,13 +123,13 @@ public class TransientNameService
             initialContext.localRoot =
                 nsPOA.id_to_reference( rootContextId );
             theInitialNamingContext = initialContext.localRoot;
-            orb.register_initial_reference( nameServiceName, 
+            orb.register_initial_reference( nameServiceName,
                 theInitialNamingContext );
         } catch (org.omg.CORBA.SystemException e) {
             throw wrapper.transNsCannotCreateInitialNcSys( e ) ;
         } catch (Exception e) {
             throw wrapper.transNsCannotCreateInitialNc( e ) ;
-        } 
+        }
     }
 
 

@@ -838,7 +838,7 @@ module DynamicAny {
         * of the struct as indicated by the DynStruct's TypeCode or they must be empty strings.
         * The operation makes no attempt to assign member values based on member names.
         *
-        * @param value value to initialise to 
+        * @param value value to initialise to
         * @exception org.omg.DynamicAny.DynAnyPackage.TypeMismatch if the member names supplied in the passed sequence do not match the
         *            corresponding member name in the DynStruct's TypeCode and they are not empty strings
         * @exception org.omg.DynamicAny.DynAnyPackage.InvalidValue if the passed sequence has a number of elements that disagrees
@@ -922,7 +922,7 @@ module DynamicAny {
         CORBA::TCKind discriminator_kind();
 
         /**
-        * Returns the TCKind value of the currently active members TypeCode. 
+        * Returns the TCKind value of the currently active members TypeCode.
         *
         * @return the TCKind
         * @exception org.omg.DynamicAny.DynAnyPackage.InvalidValue if the union does not have a currently active member
@@ -933,7 +933,7 @@ module DynamicAny {
         /**
         * Returns the currently active member. Note that the returned reference remains valid only
         * for as long as the currently active member does not change. Using the returned reference
-        * beyond the life time of the currently active member raises OBJECT_NOT_EXIST. 
+        * beyond the life time of the currently active member raises OBJECT_NOT_EXIST.
         *
         * @return the currently active member
         * @exception org.omg.DynamicAny.DynAnyPackage.InvalidValue if the union has no active member
@@ -1090,10 +1090,10 @@ module DynamicAny {
         /**
         * Replaces a null value type with a newly constructed value. Its components are initialized
         * to default values as in DynAnyFactory.create_dyn_any_from_type_code.
-        * If the DynValueCommon represents a non-null value type, then this operation has no effect. 
+        * If the DynValueCommon represents a non-null value type, then this operation has no effect.
         */
         void set_to_value();
-    }; 
+    };
 
     /**
     * DynValue objects support the manipulation of IDL non-boxed value types.
@@ -1105,7 +1105,7 @@ module DynamicAny {
     * <P>Warning: Indiscriminantly changing the contents of private value type members can cause the value type
     * implementation to break by violating internal constraints. Access to private members is provided to support
     * such activities as ORB bridging and debugging and should not be used to arbitrarily violate
-    * the encapsulation of the value type. 
+    * the encapsulation of the value type.
     */
     interface DynValue : DynValueCommon {
         #pragma sun_localservant DynValue ""

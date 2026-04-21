@@ -36,7 +36,7 @@ public class Server
     public static void writeObjref(org.omg.CORBA.Object ref, String file, org.omg.CORBA.ORB orb) {
         String fil = System.getProperty("output.dir")+System.getProperty("file.separator")+file;
         try {
-            java.io.DataOutputStream out = new 
+            java.io.DataOutputStream out = new
                 java.io.DataOutputStream(new FileOutputStream(fil));
             out.writeBytes(orb.object_to_string(ref));
         } catch (java.io.IOException e) {
@@ -48,7 +48,7 @@ public class Server
     public static void main(String args[])
     {
         try {
-      
+
             ORB orb = ORB.init(args, System.getProperties());
 
             com.sun.corba.ee.spi.orb.ORB ourORB
@@ -60,15 +60,15 @@ public class Server
                                + ourORB.getORBData().getGIOPBuffMgrStrategy(
                                     ourORB.getORBData().getGIOPVersion())
                                + "====");
-      
+
             // Get rootPOA
             POA rootPOA = (POA)orb.resolve_initial_references("RootPOA");
             rootPOA.the_POAManager().activate();
 
             GIOPComboImpl impl = new GIOPComboImpl();
-            javax.rmi.CORBA.Tie tie = javax.rmi.CORBA.Util.getTie( impl ) ; 
+            javax.rmi.CORBA.Tie tie = javax.rmi.CORBA.Util.getTie( impl ) ;
 
-            byte[] id = rootPOA.activate_object( 
+            byte[] id = rootPOA.activate_object(
                                                  (org.omg.PortableServer.Servant)tie ) ;
             org.omg.CORBA.Object obj = rootPOA.id_to_reference( id ) ;
 
@@ -78,7 +78,7 @@ public class Server
             System.out.println ("Server is ready.");
 
             orb.run();
-            
+
         } catch (Exception e) {
             System.err.println("ERROR: " + e);
             e.printStackTrace(System.out);

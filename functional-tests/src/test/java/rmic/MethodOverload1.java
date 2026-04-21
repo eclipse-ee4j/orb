@@ -30,7 +30,7 @@ public class MethodOverload1 {
         "foo__long",
         "foo__java_rmi_RemoteException",
     };
-    
+
     public static final boolean[] CONSTRUCTOR = {
         true,
         false,
@@ -72,12 +72,12 @@ class MethodOverload4 {
 
     public MethodOverload4() {}
     public MethodOverload4(char i) {}
-    
+
     public static final String[] IDL_NAMES = {
         "create__",
         "create__wchar",
     };
-    
+
     public static final boolean[] CONSTRUCTOR = {
         true,
         true,
@@ -89,13 +89,13 @@ class MethodOverload5 {
     public MethodOverload5() {}
     public MethodOverload5(char i) {}
     public void create(){}
-    
+
     public static final String[] IDL_NAMES = {
         "create__",
         "create__wchar",
         "create",
     };
-    
+
     public static final boolean[] CONSTRUCTOR = {
         true,
         true,
@@ -109,14 +109,14 @@ class MethodOverload6 {
     public MethodOverload6(char i) {}
     public void create(){}
     public void create(char i){}
-    
+
     public static final String[] IDL_NAMES = {
         "create____",
         "create__wchar__",
         "create__",
         "create__wchar",
     };
-    
+
     public static final boolean[] CONSTRUCTOR = {
         true,
         true,

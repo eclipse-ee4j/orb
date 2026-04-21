@@ -122,7 +122,7 @@ public class JourneyImpl implements Journey, java.io.Serializable
 
         fDistanceTraveled += fFleet.getSpeed ();
         fFleet.move (fDistanceTraveled);
-    
+
         if ( fDistanceTraveled >= fTotalDistance ) {
             fIsComplete = true;
             fDestination.acceptOrbit (fFleet);

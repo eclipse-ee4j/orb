@@ -399,7 +399,7 @@ public class DynAnyBasicImpl extends DynAnyImpl
         // _REVISIT_ Copy value here?
         any.insert_any(value.to_any());
     }
-    
+
     public void insert_val(java.io.Serializable value)
         throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch,
                org.omg.DynamicAny.DynAnyPackage.InvalidValue

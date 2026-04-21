@@ -28,7 +28,7 @@ import java.util.Iterator;
 /**
  * @author Harold Carr
  */
-public class SocketFactoryContactInfoListImpl 
+public class SocketFactoryContactInfoListImpl
     extends
         ContactInfoListImpl
 {

@@ -23,9 +23,9 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.io.IOException;
 
-public interface Cat extends Remote { 
+public interface Cat extends Remote {
     String cat(String one, String two, String three, Object it) throws RemoteException;
-   
+
     public class Servant implements Cat {
         public String cat(String one, String two, String three, Object it) {
             return one + two + three + it.toString();

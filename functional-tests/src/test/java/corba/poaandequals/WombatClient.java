@@ -41,7 +41,7 @@ public class WombatClient extends ThreadProcess
         String ior = null;
 
         try {
-            java.io.DataInputStream in = 
+            java.io.DataInputStream in =
                 new java.io.DataInputStream(new FileInputStream(fil));
             ior = in.readLine();
             out.println("IOR: "+ ior);
@@ -64,7 +64,7 @@ public class WombatClient extends ThreadProcess
             Wombat w = WombatHelper.narrow(readObjref("WombatObjRef"));
 
             out.println("Invoking...");
-            
+
             out.println("Result: " + w.squawk() + " squawked");
 
             setExitValue(Controller.SUCCESS);

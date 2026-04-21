@@ -25,7 +25,7 @@ import org.omg.CORBA.portable.Streamable;
 
 
 /**
- * The Holder for <tt>Fixed</tt>.  For more information on 
+ * The Holder for <tt>Fixed</tt>.  For more information on
  * Holder files, see <a href="doc-files/generatedfiles.html#holder">
  * "Generated Files: Holder Files"</a>.<P>
  * FixedHolder is a container class for values of IDL type "fixed",
@@ -80,11 +80,11 @@ public final class FixedHolder implements Streamable {
         output.write_fixed(value);
     }
 
-    
+
     /**
      * Return the <code>TypeCode</code> of this holder object.
      *
-     * @return the <code>TypeCode</code> object. 
+     * @return the <code>TypeCode</code> object.
      */
     public org.omg.CORBA.TypeCode _type() {
         return ORB.init().get_primitive_tc(TCKind.tk_fixed);

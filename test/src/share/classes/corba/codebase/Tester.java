@@ -23,9 +23,9 @@ public interface Tester extends java.rmi.Remote {
 
     void printMessage(String message) throws java.rmi.RemoteException;
 
-    Object requestValue() 
-        throws java.rmi.RemoteException, 
-               ClassNotFoundException, 
+    Object requestValue()
+        throws java.rmi.RemoteException,
+               ClassNotFoundException,
                InstantiationException,
                IllegalAccessException;
 

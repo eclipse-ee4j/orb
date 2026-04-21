@@ -119,7 +119,7 @@ public class StructEntry extends SymtabEntry
       }
       </pre>
       Struct B is contained within struct A.
-      The members vector will contain entries for x and y. 
+      The members vector will contain entries for x and y.
     * @return a {@link Vector} of the {@link SymtabEntry} in the Struct
     */
   public Vector<SymtabEntry> contained() {

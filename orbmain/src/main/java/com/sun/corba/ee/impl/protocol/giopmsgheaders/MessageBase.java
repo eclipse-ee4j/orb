@@ -65,7 +65,7 @@ public abstract class MessageBase implements Message {
 
     private int threadPoolToUse;
 
-    // (encodingVersion == 0x00) implies CDR encoding, 
+    // (encodingVersion == 0x00) implies CDR encoding,
     // (encodingVersion >  0x00) implies Java serialization encoding version.
     private byte encodingVersion = ORBConstants.CDR_ENC_VERSION;
 
@@ -370,9 +370,9 @@ public abstract class MessageBase implements Message {
             //
             // IMPORTANT: Request partitioning is a PROPRIETARY EXTENSION !!!
             //
-            // NOTE: Bitwise operators will promote a byte to an int before 
+            // NOTE: Bitwise operators will promote a byte to an int before
             //       performing a bitwise operation and bytes, ints, longs, etc
-            //       are signed types in Java. Thus, the need for the 
+            //       are signed types in Java. Thus, the need for the
             //       THREAD_POOL_TO_USE_MASK operation.
             msg.threadPoolToUse = (it[6] >>> 2) & THREAD_POOL_TO_USE_MASK;
             msg11.message_type = it[7];
@@ -473,7 +473,7 @@ public abstract class MessageBase implements Message {
         } else {
 
             if (!(gv.equals(GIOPVersion.V1_2))) {
-                // only object_key based target addressing is allowed for 
+                // only object_key based target addressing is allowed for
                 // GIOP 1.0 & 1.1
                 throw wrapper.giopVersionError();
             }

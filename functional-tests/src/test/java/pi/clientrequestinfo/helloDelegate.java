@@ -31,13 +31,13 @@ import ClientRequestInfo.*; // hello interface
 /**
  * Contains the actual implementations of hello operations.
  */
-public class helloDelegate 
+public class helloDelegate
     extends Observable
-    implements helloIF 
+    implements helloIF
 {
     private boolean invoked = false;
     private PrintStream out = null;
-    
+
     public helloDelegate( PrintStream out ) {
         super();
         this.out = out;
@@ -48,21 +48,21 @@ public class helloDelegate
         invoked = true;
         return "Hello, world!";
     }
-    
+
     public String saySystemException() {
         out.println( "helloServant: saySystemException() invoked" );
         invoked = true;
         throw new UNKNOWN( "Valid Test Result" );
     }
 
-    public void sayUserException() 
-        throws ExampleException 
+    public void sayUserException()
+        throws ExampleException
     {
         out.println( "helloServant: sayUserException() invoked" );
         invoked = true;
         throw new ExampleException( "valid" );
     }
-    
+
     // This will cause a receive_reply to be invoked since this
     // is a one-way method.
     public void sayOneway() {
@@ -76,11 +76,11 @@ public class helloDelegate
 
         return "return value";
     }
-    
+
     public void clearInvoked() {
         invoked = false;
     }
-    
+
     public boolean wasInvoked() {
         return invoked;
     }

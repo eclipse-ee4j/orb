@@ -109,7 +109,7 @@ public class DebugExec extends ExternalExec
         printDebugBreak();
         System.out.println("Start the " + processName + " process");
         System.out.println();
-        
+
         System.out.println("How to run the process with jdb: ");
         System.out.println();
 
@@ -119,7 +119,7 @@ public class DebugExec extends ExternalExec
 
         try {
             writeJDBCmdFile(jdbStr);
-            
+
             System.out.println("The above command was written to: "
                                + jdbCmd.getName());
             System.out.println("This file will be deleted when the test finishes");
@@ -153,9 +153,9 @@ public class DebugExec extends ExternalExec
 
         System.out.println("The framework wants to stop the "
                            + processName + " process");
-        
+
         String result = promptUser("Did this process end on its own [default: No]? ");
-        
+
         if (result == null || !result.toUpperCase().startsWith("Y")) {
             waitForEnter("Press enter when you have killed this process");
             exitValue = STOPPED;
@@ -197,7 +197,7 @@ public class DebugExec extends ExternalExec
      */
     public int exitValue() throws IllegalThreadStateException
     {
-        if (!started) 
+        if (!started)
             throw new IllegalThreadStateException(processName
                                                   + " was never started");
 

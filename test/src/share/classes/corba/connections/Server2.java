@@ -27,7 +27,7 @@ package corba.connections;
 public class Server2
 {
     public static void main(String[] av)
-    {    
+    {
         String[] args = { Server.server2, Server.service21, Server.service22 };
         Server.main(args);
     }

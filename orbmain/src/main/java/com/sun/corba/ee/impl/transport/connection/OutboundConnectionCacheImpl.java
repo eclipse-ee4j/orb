@@ -31,38 +31,38 @@ import java.util.concurrent.ConcurrentHashMap ;
 import java.util.concurrent.ConcurrentMap ;
 import java.util.concurrent.atomic.AtomicInteger ;
 
-/** Manage connections that are initiated from this VM. Connections are managed 
+/** Manage connections that are initiated from this VM. Connections are managed
  * by a get/release mechanism and cached by the ContactInfo used to create them.
  * For efficiency, multiple connections (referred to as parallel connections)
- * may be created using the same ContactInfo.  Connections are reclaimed when 
+ * may be created using the same ContactInfo.  Connections are reclaimed when
  * they are no longer in use and there are too many connections open.
  * <P>
- * A connection is obtained through the get method, and released back to the 
- * cache through the release method.  Note that a connection that is released 
- * may still be expecting a response, in which case the connection is NOT 
- * eligible for reclamation.  If a connection is released to the cache while 
- * expecting a response, the connection must me made available for reclamation 
+ * A connection is obtained through the get method, and released back to the
+ * cache through the release method.  Note that a connection that is released
+ * may still be expecting a response, in which case the connection is NOT
+ * eligible for reclamation.  If a connection is released to the cache while
+ * expecting a response, the connection must me made available for reclamation
  * by calling responseReceived.
  *
- * XXX Should a get/release cycle expect at most one response?  
- * Should it support more than one response?  
+ * XXX Should a get/release cycle expect at most one response?
+ * Should it support more than one response?
  * Are there cases where we don't know in advance how many responses
  * are expected?
  * <P>
- * A connection basically represents some sort of communication channel, but 
- * few requirements are placed on the connection.  Basically the ability to 
+ * A connection basically represents some sort of communication channel, but
+ * few requirements are placed on the connection.  Basically the ability to
  * close a connection is required in order for reclamation to work.
- * <P> 
+ * <P>
  * Also we need the ContactInfo as a factory for the Connection.
  *
  * @author Ken Cavanaugh
  */
-public final class OutboundConnectionCacheImpl<C extends Connection> 
-    extends ConnectionCacheNonBlockingBase<C> 
+public final class OutboundConnectionCacheImpl<C extends Connection>
+    extends ConnectionCacheNonBlockingBase<C>
     implements OutboundConnectionCache<C> {
 
-    private final int maxParallelConnections ;  // Maximum number of connections 
-                                                // we will open to the same 
+    private final int maxParallelConnections ;  // Maximum number of connections
+                                                // we will open to the same
                                                 // endpoint
 
     private final ConcurrentMap<ContactInfo<C>,CacheEntry<C>> entryMap ;
@@ -77,33 +77,33 @@ public final class OutboundConnectionCacheImpl<C extends Connection>
     }
 
     private static final class ConnectionState<C extends Connection> {
-        final ContactInfo<C> cinfo ;                    // ContactInfo used to 
+        final ContactInfo<C> cinfo ;                    // ContactInfo used to
                                                         // create this Connection
-        final C connection ;                            // Connection of the 
+        final C connection ;                            // Connection of the
                                                         // ConnectionState
-        final CacheEntry<C> entry ;                     // This Connection's 
+        final CacheEntry<C> entry ;                     // This Connection's
                                                         // CacheEntry
 
-        final AtomicInteger busyCount ;                 // Number of calls to 
+        final AtomicInteger busyCount ;                 // Number of calls to
                                                         // get without release
-        final AtomicInteger expectedResponseCount ;     // Number of expected 
-                                                        // responses not yet 
+        final AtomicInteger expectedResponseCount ;     // Number of expected
+                                                        // responses not yet
                                                         // received
 
-        // At all times, a connection is either on the busy or idle queue in 
-        // its ConnectionEntry, and so only the corresponding handle is 
-        // non-null.  If idleHandle is non-null, reclaimableHandle may also 
-        // be non-null if the Connection is also on the 
+        // At all times, a connection is either on the busy or idle queue in
+        // its ConnectionEntry, and so only the corresponding handle is
+        // non-null.  If idleHandle is non-null, reclaimableHandle may also
+        // be non-null if the Connection is also on the
         // reclaimableConnections queue.
-        volatile ConcurrentQueue.Handle reclaimableHandle ;  // non-null iff connection 
+        volatile ConcurrentQueue.Handle reclaimableHandle ;  // non-null iff connection
                                                              // is not in use and has no
                                                              // outstanding requests
-        volatile ConcurrentQueue.Handle idleHandle ;         // non-null iff connection 
+        volatile ConcurrentQueue.Handle idleHandle ;         // non-null iff connection
                                                              // is not in use
-        volatile ConcurrentQueue.Handle busyHandle ;         // non-null iff connection 
+        volatile ConcurrentQueue.Handle busyHandle ;         // non-null iff connection
                                                              // is in use
 
-        ConnectionState( final ContactInfo<C> cinfo, final CacheEntry<C> entry, 
+        ConnectionState( final ContactInfo<C> cinfo, final CacheEntry<C> entry,
             final C conn ) {
 
             this.cinfo = cinfo ;
@@ -118,8 +118,8 @@ public final class OutboundConnectionCacheImpl<C extends Connection>
         }
     }
 
-    // Represents an entry in the outbound connection cache.  
-    // This version handles normal shareable ContactInfo 
+    // Represents an entry in the outbound connection cache.
+    // This version handles normal shareable ContactInfo
     // (we also need to handle no share).
     private static final class CacheEntry<C extends Connection> {
         final ConcurrentQueue<C> idleConnections =
@@ -133,18 +133,18 @@ public final class OutboundConnectionCacheImpl<C extends Connection>
         }
     }
 
-    public OutboundConnectionCacheImpl( final String cacheType, 
-        final int highWaterMark, final int numberToReclaim, 
+    public OutboundConnectionCacheImpl( final String cacheType,
+        final int highWaterMark, final int numberToReclaim,
         final int maxParallelConnections, final long ttl ) {
 
         super( cacheType, highWaterMark, numberToReclaim, ttl ) ;
         this.maxParallelConnections = maxParallelConnections ;
 
-        this.entryMap = 
+        this.entryMap =
             new ConcurrentHashMap<ContactInfo<C>,CacheEntry<C>>() ;
-        this.connectionMap = 
+        this.connectionMap =
             new ConcurrentHashMap<C,ConnectionState<C>>() ;
-        this.reclaimableConnections = 
+        this.reclaimableConnections =
             ConcurrentQueueFactory.<C>makeBlockingConcurrentQueue( ttl ) ;
     }
 
@@ -167,25 +167,25 @@ public final class OutboundConnectionCacheImpl<C extends Connection>
         do {
             result = entry.idleConnections.poll().value() ;
             if (result == null) {
-                if (canCreateNewConnection( entry )) { 
+                if (canCreateNewConnection( entry )) {
                     // If this throws an exception just let it
                     // propagate: let a higher layer handle a
                     // connection creation failure.
-                    result = cinfo.createConnection() ; 
+                    result = cinfo.createConnection() ;
 
-                    final ConnectionState<C> cs = new ConnectionState<C>( cinfo, 
+                    final ConnectionState<C> cs = new ConnectionState<C>( cinfo,
                         entry, result ) ;
                     connectionMap.put( result, cs ) ;
 
                     // Make sure this connection is busy: it is
                     // available to other get calls as soon as
-                    // it is added to the busy queue.  For this reason we 
-                    // must increment busyCount BEFORE we add the result 
+                    // it is added to the busy queue.  For this reason we
+                    // must increment busyCount BEFORE we add the result
                     // to the entry busy queue.
                     cs.busyCount.incrementAndGet() ;
                     entry.busyConnections.offer( result ) ;
                     totalBusy.incrementAndGet() ;
-                } else { 
+                } else {
                     // use a busy connection, move to end of busyConnections
                     // to indicate that the connection has been used recently.
 
@@ -209,7 +209,7 @@ public final class OutboundConnectionCacheImpl<C extends Connection>
                         } else {
                             // another thread closed this connection: try again
                             result = null ;
-                        }       
+                        }
                     }
                 }
             }
@@ -223,9 +223,9 @@ public final class OutboundConnectionCacheImpl<C extends Connection>
             final ConnectionState<C> cs = connectionMap.get( conn ) ;
 
             if (cs == null) {
-                return ; 
+                return ;
             } else {
-                int numResp = cs.expectedResponseCount.addAndGet( 
+                int numResp = cs.expectedResponseCount.addAndGet(
                     numResponsesExpected ) ;
                 int numBusy = cs.busyCount.decrementAndGet() ;
 
@@ -237,26 +237,26 @@ public final class OutboundConnectionCacheImpl<C extends Connection>
                         wasOnBusy = busyHandle.remove() ;
 
                     if (wasOnBusy) {
-                        // At this point, it is possible that we have removed a 
-                        // busy connection from the busy queue, because the 
-                        // connection became busy again between the 
-                        // decrementAndGet call and the remove call.  But, now 
-                        // that the entry is NOT on the busy or idle queues 
-                        // (because a connection is 
+                        // At this point, it is possible that we have removed a
+                        // busy connection from the busy queue, because the
+                        // connection became busy again between the
+                        // decrementAndGet call and the remove call.  But, now
+                        // that the entry is NOT on the busy or idle queues
+                        // (because a connection is
                         // never on both queues at the same time),
                         // it cannot again change state.
-                    
+
                         if (cs.busyCount.get() > 0) {
                             cs.busyHandle = entry.busyConnections.offer( conn ) ;
                         } else {
                             // If the connection does not have waiters, put it on
                             // the global idle queue.
                             //
-                            // This is probably unlikely here, because 
-                            // release usually requires some response before 
+                            // This is probably unlikely here, because
+                            // release usually requires some response before
                             // the connection is eligible for reclamation.
                             if (cs.expectedResponseCount.get() == 0) {
-                                cs.reclaimableHandle = 
+                                cs.reclaimableHandle =
                                     reclaimableConnections.offer( conn ) ;
                                 totalBusy.decrementAndGet() ;
                             }
@@ -270,7 +270,7 @@ public final class OutboundConnectionCacheImpl<C extends Connection>
         }
     }
 
-    /** Decrement the number of expected responses.  When a connection is idle 
+    /** Decrement the number of expected responses.  When a connection is idle
      * and has no expected responses, it can be reclaimed.
      */
     public void responseReceived( final C conn ) {
@@ -315,14 +315,14 @@ public final class OutboundConnectionCacheImpl<C extends Connection>
         if (ih != null)
             ih.remove() ;
 
-        try { 
+        try {
             conn.close() ;
         } catch (IOException exc) {
             // XXX log this
         }
     }
 
-    // Atomically either get the entry for ContactInfo OR 
+    // Atomically either get the entry for ContactInfo OR
     // create a new one AND put it in the cache
     private CacheEntry<C> getEntry( ContactInfo<C> cinfo ) {
         // This should be the only place a CacheEntry is constructed.
@@ -334,14 +334,14 @@ public final class OutboundConnectionCacheImpl<C extends Connection>
             return entry ;
     }
 
-    // Return true iff the configuration and the current entry support 
-    // creating another connection.  Note that it must ALWAYS be 
+    // Return true iff the configuration and the current entry support
+    // creating another connection.  Note that it must ALWAYS be
     // legal to create a new connection if there is currently no connection.
     private boolean canCreateNewConnection( final CacheEntry<C> entry ) {
         final int totalConnections = totalBusy.get() + totalIdle.get() ;
         final int totalConnectionsInEntry = entry.totalConnections() ;
-        return (totalConnectionsInEntry == 0) || 
-            ((totalConnections < highWaterMark()) && 
+        return (totalConnectionsInEntry == 0) ||
+            ((totalConnections < highWaterMark()) &&
             (totalConnectionsInEntry < maxParallelConnections)) ;
     }
 

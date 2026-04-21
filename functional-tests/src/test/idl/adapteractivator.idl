@@ -22,7 +22,7 @@ module corba {
                 interface Hello {
                         string sayHello();
                 };
-                                                                
+
                 interface Close {
                         oneway void shutdown();
                 };

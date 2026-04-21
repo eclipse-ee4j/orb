@@ -102,7 +102,7 @@ public final class CompletionStatus implements org.omg.CORBA.portable.IDLEntity
  * @param i  one of <code>_COMPLETED_YES</code>, <code>_COMPLETED_NO</code>, or
  *          <code>_COMPLETED_MAYBE</code>
  *
- * @return  one of the possible <code>CompletionStatus</code> objects 
+ * @return  one of the possible <code>CompletionStatus</code> objects
  *          with values:
  *          <code>_COMPLETED_YES</code>, <code>_COMPLETED_NO</code>, or
  *          <code>_COMPLETED_MAYBE</code>

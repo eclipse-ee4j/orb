@@ -41,7 +41,7 @@ public class StubWrapper implements DynamicStub
 {
     private org.omg.CORBA.Object object ;
 
-    public StubWrapper( org.omg.CORBA.Object object ) 
+    public StubWrapper( org.omg.CORBA.Object object )
     {
         if (!(StubAdapter.isStub(object)))
             throw new IllegalStateException() ;
@@ -49,37 +49,37 @@ public class StubWrapper implements DynamicStub
         this.object = object ;
     }
 
-    public void setDelegate( Delegate delegate ) 
+    public void setDelegate( Delegate delegate )
     {
         StubAdapter.setDelegate( object, delegate ) ;
     }
 
-    public Delegate getDelegate() 
+    public Delegate getDelegate()
     {
         return StubAdapter.getDelegate( object ) ;
     }
 
-    public ORB getORB() 
+    public ORB getORB()
     {
         return StubAdapter.getORB( object ) ;
     }
 
-    public String[] getTypeIds() 
+    public String[] getTypeIds()
     {
         return StubAdapter.getTypeIds( object ) ;
     }
 
-    public void connect( ORB orb ) throws RemoteException 
+    public void connect( ORB orb ) throws RemoteException
     {
         StubAdapter.connect( object, (com.sun.corba.ee.spi.orb.ORB)orb ) ;
     }
 
-    public boolean isLocal() 
+    public boolean isLocal()
     {
         return StubAdapter.isLocal( object ) ;
     }
 
-    public OutputStream request( String operation, boolean responseExpected ) 
+    public OutputStream request( String operation, boolean responseExpected )
     {
         return StubAdapter.request( object, operation, responseExpected ) ;
     }
@@ -124,13 +124,13 @@ public class StubWrapper implements DynamicStub
         return object._request( operation ) ;
     }
 
-    public Request _create_request( Context ctx, String operation, NVList arg_list, 
+    public Request _create_request( Context ctx, String operation, NVList arg_list,
         NamedValue result)
     {
         return object._create_request( ctx, operation, arg_list, result ) ;
     }
 
-    public Request _create_request( Context ctx, String operation, NVList arg_list, 
+    public Request _create_request( Context ctx, String operation, NVList arg_list,
         NamedValue result, ExceptionList exclist, ContextList ctxlist)
     {
         return object._create_request( ctx, operation, arg_list, result,
@@ -147,7 +147,7 @@ public class StubWrapper implements DynamicStub
         return object._get_domain_managers() ;
     }
 
-    public org.omg.CORBA.Object _set_policy_override( Policy[] policies, 
+    public org.omg.CORBA.Object _set_policy_override( Policy[] policies,
         SetOverrideType set_add)
     {
         return object._set_policy_override( policies, set_add ) ;

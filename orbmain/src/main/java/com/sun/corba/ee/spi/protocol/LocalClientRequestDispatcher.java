@@ -38,7 +38,7 @@ public interface LocalClientRequestDispatcher
      * has been set to an object of the expected type (Note: the object may
      * or may not be the actual servant instance). The local stub may cast
      * the servant field to the expected type, and then invoke the operation
-     * directly. 
+     * directly.
      *
      * @param self The object reference which delegated to this delegate.
      *
@@ -61,7 +61,7 @@ public interface LocalClientRequestDispatcher
                                            Class expectedType);
 
     public void servant_postinvoke(org.omg.CORBA.Object self,
-                                   ServantObject servant); 
+                                   ServantObject servant);
 }
 
 // End of file.

@@ -38,7 +38,7 @@ public class OAInvocationInfo extends ServantObject {
     private java.lang.Object    servantContainer ;
 
     // These fields are to support standard OMG APIs.
-    private ObjectAdapter       oa; 
+    private ObjectAdapter       oa;
     private byte[]              oid;
 
     // These fields are to support the Object adapter implementation.
@@ -75,12 +75,12 @@ public class OAInvocationInfo extends ServantObject {
 
     // Create CookieHolder on demand.  This is only called by a single
     // thread, so no synchronization is needed.
-    public CookieHolder     getCookieHolder()   
-    { 
+    public CookieHolder     getCookieHolder()
+    {
         if (cookieHolder == null)
             cookieHolder = new CookieHolder() ;
 
-        return cookieHolder; 
+        return cookieHolder;
     }
 
     public String           getOperation()      { return operation; }
@@ -88,14 +88,14 @@ public class OAInvocationInfo extends ServantObject {
 
     //setters
     public void setOperation( String operation )    { this.operation = operation ; }
-    public void setCopierFactory( ObjectCopierFactory factory )    { this.factory = factory ; } 
+    public void setCopierFactory( ObjectCopierFactory factory )    { this.factory = factory ; }
 
-    public void setServant(Object servant) 
-    { 
+    public void setServant(Object servant)
+    {
         servantContainer = servant ;
         if (servant instanceof Tie)
             this.servant = ((Tie)servant).getTarget() ;
         else
-            this.servant = servant; 
+            this.servant = servant;
     }
 }

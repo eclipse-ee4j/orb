@@ -30,7 +30,7 @@ public abstract class StubFactoryFactoryBase implements
      *
      * @param fullName fully qualified name remote class
      */
-    public String getStubName(String fullName) 
+    public String getStubName(String fullName)
     {
         return Utility.stubName( fullName ) ;
     }

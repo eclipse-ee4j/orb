@@ -168,7 +168,7 @@ public class ClassComparer
         }
 
         /**
-         * Checks for 
+         * Checks for
          *
          * 1. Name
          * 2. Parameter types (in certain order)
@@ -228,11 +228,11 @@ public class ClassComparer
         private boolean classNamesCheck(Class[] classes1, Class[] classes2) {
             if (classes1.length != classes2.length)
                 return false;
-            
+
             for (int i = 0; i < classes1.length; i++)
                 if (!classes1[i].getName().equals(classes2[i].getName()))
                     return false;
-            
+
             return true;
         }
     }
@@ -311,14 +311,14 @@ public class ClassComparer
         public int hashCode() {
             return cl.getName().hashCode();
         }
-        
+
         /**
          * Filter declared methods to get public and private method
          * Set of CCMethods.
          */
         private Set getMethods(Class cl) {
             Method[] declMethods = cl.getDeclaredMethods();
-            
+
             Set result = new HashSet(declMethods.length);
             for (int i = 0; i < declMethods.length; i++) {
                 if (!Modifier.isPublic(declMethods[i].getModifiers()) &&
@@ -378,16 +378,16 @@ public class ClassComparer
         public String compare(CCClass other) {
             StringBuffer sbuf = new StringBuffer();
 
-            CCClass.compareCCComparables(this, 
-                                         methods, 
-                                         other, 
-                                         other.methods, 
+            CCClass.compareCCComparables(this,
+                                         methods,
+                                         other,
+                                         other.methods,
                                          sbuf);
 
-            CCClass.compareCCComparables(this, 
-                                         fields, 
-                                         other, 
-                                         other.fields, 
+            CCClass.compareCCComparables(this,
+                                         fields,
+                                         other,
+                                         other.fields,
                                          sbuf);
 
             CCClass.compareCCComparables(this,
@@ -443,15 +443,15 @@ public class ClassComparer
                     sbuf.append(names.next());
                     sbuf.append(' ');
                 }
-                
+
                 sbuf.append(LINE_SEPARATOR);
             }
         }
 
-        /** 
+        /**
          * Used to diff Sets of CCMethods, CCFields, and CCClasses.
          */
-        public static void compareCCComparables(CCClass c1, 
+        public static void compareCCComparables(CCClass c1,
                                                 Set ccSet1,
                                                 CCClass c2,
                                                 Set ccSet2,
@@ -554,17 +554,17 @@ public class ClassComparer
     public static CCComparable findEquivalent(CCComparable value,
                                               Set set) {
         Iterator iter = set.iterator();
-        
+
         while (iter.hasNext()) {
             CCComparable testValue = (CCComparable)iter.next();
-            
+
             if (value.isEquivalent(testValue))
                 return value;
         }
-        
+
         return null;
     }
-    
+
     /**
      * Arguments:
      *
@@ -603,8 +603,8 @@ public class ClassComparer
             this.classPath = new ClassPath(classPathString);
         }
 
-        // Called by the super class 
-        protected Class findClass(String name) throws ClassNotFoundException 
+        // Called by the super class
+        protected Class findClass(String name) throws ClassNotFoundException
         {
             byte[] b = loadClassData(name);
             return defineClass(name, b, 0, b.length);
@@ -633,19 +633,19 @@ public class ClassComparer
         /**
          * Load the class with the given fully qualified name from the ClassPath.
          */
-        private byte[] loadClassData(String className) 
+        private byte[] loadClassData(String className)
             throws ClassNotFoundException
         {
             // Build the file name and subdirectory from the
             // class name
-            String filename = className.replace('.', File.separatorChar) 
+            String filename = className.replace('.', File.separatorChar)
                 + ".class";
 
-            // Have ClassPath find the file for us, and wrap it in a 
+            // Have ClassPath find the file for us, and wrap it in a
             // ClassFile.  Note:  This is where it looks inside jar files that
             // are specified in the path.
             ClassFile classFile = classPath.getFile(filename);
- 
+
             if (classFile != null) {
 
                 // Provide the most specific reason for failure in addition
@@ -657,16 +657,16 @@ public class ClassComparer
                     // ClassFile is beautiful because it shields us from
                     // knowing if it's a separate file or an entry in a
                     // jar file.
-                    DataInputStream input 
+                    DataInputStream input
                         = new DataInputStream(classFile.getInputStream());
 
-                    // Can't rely on input available() since it will be 
+                    // Can't rely on input available() since it will be
                     // something unusual if it's a jar file!  May need
                     // to worry about a possible problem if someone
                     // makes a jar file entry with a size greater than
                     // max int.
                     data = new byte[(int)classFile.length()];
-                
+
                     try {
                         input.readFully(data);
                     } catch (IOException ex) {

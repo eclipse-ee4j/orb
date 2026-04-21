@@ -25,13 +25,13 @@ public class IDLOverloadedTest {
 
         public class Extra\u0301Inner {}
     }
-    
-    
+
+
     //
     // Set of idl names corresponding to alphabetically sorted set of
-    // interface methods.  See TestIDLNameTranslator for sorting details.    
+    // interface methods.  See TestIDLNameTranslator for sorting details.
     //
-    public static final String[] IDL_NAMES = {   
+    public static final String[] IDL_NAMES = {
 
         "A__",
         "A__org_omg_boxedRMI_seq1_octet",
@@ -41,7 +41,7 @@ public class IDLOverloadedTest {
         "A__org_omg_boxedRMI_seq1_long",
         "A__org_omg_boxedRMI_seq1_long_long",
 
-        "A__org_omg_boxedRMI_corba_dynamicrmiiiop_testclasses_seq1_IDLOverloadedTest__InnerU0300__ExtraU0301Inner",        
+        "A__org_omg_boxedRMI_corba_dynamicrmiiiop_testclasses_seq1_IDLOverloadedTest__InnerU0300__ExtraU0301Inner",
         "A__org_omg_boxedRMI_corba_dynamicrmiiiop_testclasses_seq1_IDLOverloadedTest__InnerU0300",
 
         "A__org_omg_boxedRMI_java_io_seq1_Externalizable",
@@ -94,12 +94,12 @@ public class IDLOverloadedTest {
         "A__java_rmi_Remote",
         "A__javax_swing_UIDefaults__ActiveValue",
 
-        "A__long_long",        
+        "A__long_long",
         "A__Object",
         "A__short"
-       
+
     };
-    
+
     public static String[] getIDLNames() {
         return IDL_NAMES;
     }
@@ -171,12 +171,12 @@ public class IDLOverloadedTest {
         void A(java.rmi.Remote r) throws java.rmi.RemoteException;
         void A(javax.swing.UIDefaults.ActiveValue s) throws java.rmi.RemoteException;
 
-        void A(long j) throws java.rmi.RemoteException;        
-        
+        void A(long j) throws java.rmi.RemoteException;
+
         void A(org.omg.CORBA.Object o) throws java.rmi.RemoteException;
         void A(short s) throws java.rmi.RemoteException;
-        
-        void A(TestStruct t) throws java.rmi.RemoteException; 
+
+        void A(TestStruct t) throws java.rmi.RemoteException;
     }
 
 }

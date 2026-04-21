@@ -61,11 +61,11 @@ import org.omg.PortableServer.ServantLocatorPackage.CookieHolder ;
  *
  * This is needed for getting the information about all the cluster endpoints
  * when an appclient/standalone client enables FOLB.
- * Without this feature, the client always ends up talking to only the endpoints specified 
- * as part of the endpoints property. But in reality, the the endpoints property only contains  
+ * Without this feature, the client always ends up talking to only the endpoints specified
+ * as part of the endpoints property. But in reality, the the endpoints property only contains
  * around 2 endpoints for bootstrapping purposes.
  *
- * In this design, we register the following remote object with CosNaming 
+ * In this design, we register the following remote object with CosNaming
  * and then look it up in CosNaming to get hold of the cluster instances
  * This is done only once (during the first call to new InitialContext()).
  *
@@ -84,14 +84,14 @@ public class InitialGroupInfoService {
     @Folb
     public static class InitialGISImpl extends PortableRemoteObject
         implements InitialGIS {
-       
+
         private ORB orb;
 
-        public InitialGISImpl(ORB orb) throws RemoteException {   
-            super() ;      
-            this.orb = orb;     
+        public InitialGISImpl(ORB orb) throws RemoteException {
+            super() ;
+            this.orb = orb;
         }
-        
+
         @InfoMethod
         private void exceptionReport( Exception exc ) { }
 
@@ -116,7 +116,7 @@ public class InitialGroupInfoService {
     public static class InitialGISServantLocator extends LocalObject
         implements ServantLocator {
         private Servant servant ;
-        private InitialGISImpl impl = null; 
+        private InitialGISImpl impl = null;
 
         public InitialGISServantLocator(ORB orb) {
             try {
@@ -136,7 +136,7 @@ public class InitialGroupInfoService {
         }
 
         public synchronized Servant preinvoke( byte[] oid, POA adapter,
-            String operation, CookieHolder the_cookie 
+            String operation, CookieHolder the_cookie
         ) throws ForwardRequest {
             return servant ;
         }
@@ -146,7 +146,7 @@ public class InitialGroupInfoService {
         }
     }
 
-    public InitialGroupInfoService(ORB orb) {             
+    public InitialGroupInfoService(ORB orb) {
         bindName(orb);
     }
 
@@ -156,7 +156,7 @@ public class InitialGroupInfoService {
         POA rootPOA = (POA)orb.resolve_initial_references(
             ORBConstants.ROOT_POA_NAME ) ;
 
-        Policy[] arr = new Policy[] {                                   
+        Policy[] arr = new Policy[] {
             rootPOA.create_servant_retention_policy(
                 ServantRetentionPolicyValue.NON_RETAIN ),
             rootPOA.create_request_processing_policy(
@@ -169,21 +169,21 @@ public class InitialGroupInfoService {
 
         InitialGISServantLocator servantLocator =
             new InitialGISServantLocator(orb);
-        poa.set_servant_manager(servantLocator) ; 
+        poa.set_servant_manager(servantLocator) ;
         poa.the_POAManager().activate();
 
         byte[] id = new byte[]{ 1, 2, 3 } ;
-        org.omg.CORBA.Object provider = 
+        org.omg.CORBA.Object provider =
           poa.create_reference_with_id(id, servantLocator.getType());
-            
+
         // put object in NameService
         org.omg.CORBA.Object objRef =
           orb.resolve_initial_references("NameService");
         NamingContext ncRef = NamingContextHelper.narrow(objRef);
-        NameComponent nc = 
+        NameComponent nc =
           new NameComponent(ORBConstants.INITIAL_GROUP_INFO_SERVICE, "");
         NameComponent path[] = {nc};
-        ncRef.rebind(path, provider);   
+        ncRef.rebind(path, provider);
       } catch (Exception e) {
           throw wrapper.bindNameException( e ) ;
       }

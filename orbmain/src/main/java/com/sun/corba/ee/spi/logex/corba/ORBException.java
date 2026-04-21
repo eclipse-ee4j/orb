@@ -36,7 +36,7 @@ import java.lang.annotation.Target ;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ORBException {
-    /** Return true if this is an OMG exception with the OMG VMCID, 
+    /** Return true if this is an OMG exception with the OMG VMCID,
      * false if it is using the old SUN VMCID.
      * @return {@code false} by default
      */

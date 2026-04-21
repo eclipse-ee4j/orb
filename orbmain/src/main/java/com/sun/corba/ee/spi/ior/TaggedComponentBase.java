@@ -30,10 +30,10 @@ import org.omg.CORBA_2_3.portable.InputStream ;
  * the getIOPComponent method using the TaggedComponent.write() method.
  * @author Ken Cavanaugh
  */
-public abstract class TaggedComponentBase extends IdentifiableBase 
-    implements TaggedComponent 
+public abstract class TaggedComponentBase extends IdentifiableBase
+    implements TaggedComponent
 {
-    public org.omg.IOP.TaggedComponent getIOPComponent( 
+    public org.omg.IOP.TaggedComponent getIOPComponent(
         org.omg.CORBA.ORB orb )
     {
         EncapsOutputStream os = OutputStreamFactory.newEncapsOutputStream( (ORB)orb ) ;

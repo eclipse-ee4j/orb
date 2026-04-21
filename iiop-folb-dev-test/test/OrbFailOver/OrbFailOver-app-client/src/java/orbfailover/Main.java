@@ -439,7 +439,7 @@ public class Main extends Base {
                     ac.startInstance( stoppedInstance ) ;
                     stoppedInstance = null ;
                 }
-            } 
+            }
         } catch (Exception exc) {
             fail( "caught naming exception " + exc ) ;
         } finally {
@@ -1011,7 +1011,7 @@ public class Main extends Base {
             clearORBDebug(flags);
         }
     }
-    
+
     // Test scenario:
     // 1. Run a 3 instance cluster
     // 2. Create initialContext with running instances.
@@ -1031,21 +1031,21 @@ public class Main extends Base {
         } else {
             note("test15804sfsb: Cluster Size= "  +  running.size());
         }
-        
+
         InitialContext ic = makeIC() ;
         Location slsb = lookup( ic, BeanType.SLSB ) ;
-        
+
         String inst1 = invokeMethod(slsb) ;
         gfCluster.stopInstance(inst1);
 
-	gfCluster.sleep(2);
+    gfCluster.sleep(2);
         Location sfsb = lookup( ic, BeanType.SFSB ) ;
         String inst2 = invokeMethod(sfsb) ;
         gfCluster.stopInstance(inst2);
-	gfCluster.sleep(2);
+    gfCluster.sleep(2);
         String inst3 = invokeMethod(sfsb) ;
     }
-   
+
     // same as 15804sfsb, except that we use manual kill instance
     @Test( "15804sfsb_kill" )
     public void test15804sfsb_kill() throws NamingException {
@@ -1056,12 +1056,12 @@ public class Main extends Base {
         } else {
             note("test15804sfsb: Cluster Size= "  +  running.size());
         }
-               
+
         InitialContext ic = makeIC() ;
         Location slsb = lookup( ic, BeanType.SLSB ) ;
-        
+
         String inst1 = invokeMethod(slsb) ;
-        
+
         gfCluster.killInstance(inst1);
         try {
             Thread.sleep(2000);
@@ -1069,8 +1069,8 @@ public class Main extends Base {
             //ignore
         }
         Location sfsb = lookup( ic, BeanType.SFSB ) ;
-        String inst2 = invokeMethod(sfsb) ;    
-        
+        String inst2 = invokeMethod(sfsb) ;
+
         gfCluster.killInstance(inst2);
         try {
             Thread.sleep(2000);
@@ -1079,7 +1079,7 @@ public class Main extends Base {
         }
         String inst3 = invokeMethod(sfsb) ;
     }
-    
+
     // same as 15804sfsb_kill, except that we delete an instance midway
     // 1. Run a 3 instance cluster
     // 2. Create initialContext with running instances.
@@ -1100,7 +1100,7 @@ public class Main extends Base {
 //Kill the instance with message [SFSB1Bean.getName]
 //Run test with appclient: appclient ... com.sun.appserver.ee.tests.client.ClientDynamicClusterRemoveInstance MultipleFO
 //Exception was throw on client side.
-        
+
     @Test( "15804sfsb_kill_delete" )
     public void test15804sfsb_kill_delete() throws NamingException {
         Set<String> running = gfCluster.runningInstances() ;
@@ -1110,12 +1110,12 @@ public class Main extends Base {
         } else {
             note("test15804sfsb: Cluster Size= "  +  running.size());
         }
-               
+
         InitialContext ic = makeIC() ;
         Location slsb = lookup( ic, BeanType.SLSB ) ;
-        
+
         String inst1 = invokeMethod(slsb) ;
-        
+
         gfCluster.killInstance(inst1);
         try {
             Thread.sleep(2000);
@@ -1129,8 +1129,8 @@ public class Main extends Base {
             //ignore
         }
         Location sfsb = lookup( ic, BeanType.SFSB ) ;
-        String inst2 = invokeMethod(sfsb) ;    
-        
+        String inst2 = invokeMethod(sfsb) ;
+
         gfCluster.killInstance(inst2);
         try {
             Thread.sleep(2000);
@@ -1158,10 +1158,10 @@ public class Main extends Base {
         } else {
             note("test15804slsb: Cluster Size= "  +  running.size());
         }
-        
+
         InitialContext ic = makeIC() ;
         Location sfsb = lookup( ic, BeanType.SFSB ) ;
-        
+
         String inst1 = invokeMethod(sfsb) ;
         gfCluster.stopInstance(inst1);
 

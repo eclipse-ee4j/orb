@@ -34,12 +34,12 @@ public class NormalParserData extends ParserDataBase {
         super( propertyName, operation, fieldName, defaultValue, testValue ) ;
         this.testData = testData ;
     }
-    public void addToParser( PropertyParser parser ) 
+    public void addToParser( PropertyParser parser )
     {
         parser.add( getPropertyName(), getOperation(), getFieldName() ) ;
     }
 
-    public void addToProperties( Properties props ) 
+    public void addToProperties( Properties props )
     {
         props.setProperty( getPropertyName(), testData ) ;
     }

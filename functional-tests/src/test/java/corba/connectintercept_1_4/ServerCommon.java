@@ -37,7 +37,7 @@ class ExIServant extends ExIPOA
 {
     public ORB orb;
 
-    public ExIServant(ORB orb) 
+    public ExIServant(ORB orb)
     {
         this.orb = orb;
     }
@@ -71,7 +71,7 @@ public class ServerCommon
             System.out.println(baseMsg + ".main: unknown: " + av[0]);
             System.exit(-1);
         }
-            
+
         try {
 
             Properties props = System.getProperties();
@@ -112,11 +112,11 @@ public class ServerCommon
 
             createAndBind(Common.serverName1);
             createAndBind(Common.serverName2);
-      
+
             System.out.println ("Server is ready.");
 
             orb.run();
-            
+
         } catch (Exception e) {
             System.out.println(baseMsg + ".main: ERROR: " + e);
             e.printStackTrace(System.out);

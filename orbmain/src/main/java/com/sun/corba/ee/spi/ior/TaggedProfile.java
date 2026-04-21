@@ -28,15 +28,15 @@ import org.glassfish.gmbal.ManagedData ;
  * A profile contains all of the information necessary for an invocation.
  * It contains one or more endpoints that may be used for an invocation.
  * A TaggedProfile conceptually has three parts: A TaggedProfileTemplate,
- * an ObjectKeyTemplate, and an ObjectId.  
+ * an ObjectKeyTemplate, and an ObjectId.
  */
 @ManagedData
 @Description( "A TaggedProfile contained in an IOR" )
-@IncludeSubclass( { com.sun.corba.ee.spi.ior.iiop.IIOPProfile.class } ) 
+@IncludeSubclass( { com.sun.corba.ee.spi.ior.iiop.IIOPProfile.class } )
 public interface TaggedProfile extends Identifiable, MakeImmutable
 {
     @ManagedAttribute
-    @Description( "Template for this TaggedProfile" ) 
+    @Description( "Template for this TaggedProfile" )
     TaggedProfileTemplate getTaggedProfileTemplate() ;
 
     @ManagedAttribute
@@ -44,17 +44,17 @@ public interface TaggedProfile extends Identifiable, MakeImmutable
     ObjectId getObjectId() ;
 
     @ManagedAttribute
-    @Description( "The template for the ObjectKey in the IIOPProfile in this IOR" ) 
+    @Description( "The template for the ObjectKey in the IIOPProfile in this IOR" )
     ObjectKeyTemplate getObjectKeyTemplate() ;
 
     ObjectKey getObjectKey() ;
 
     /** Return true is prof is equivalent to this TaggedProfile.
-     * This means that this and prof are indistinguishable for 
+     * This means that this and prof are indistinguishable for
      * the purposes of remote invocation.  Typically this means that
      * the profile data is identical and both profiles contain exactly
      * the same components (if components are applicable).
-     * isEquivalent( prof ) should imply that getObjectId().equals( 
+     * isEquivalent( prof ) should imply that getObjectId().equals(
      * prof.getObjectId() ) is true, and so is
      * getObjectKeyTemplate().equals( prof.getObjectKeyTemplate() ).
      * @param prof profile to compare with
@@ -68,7 +68,7 @@ public interface TaggedProfile extends Identifiable, MakeImmutable
      */
     org.omg.IOP.TaggedProfile getIOPProfile();
 
-    /** Return true if this TaggedProfile was created in orb.  
+    /** Return true if this TaggedProfile was created in orb.
      *  Caches the result.
      * @return if this TaggedProfile was created in orb
      */

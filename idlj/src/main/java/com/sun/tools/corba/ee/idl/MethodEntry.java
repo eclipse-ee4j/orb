@@ -93,7 +93,7 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
       typeName ("void");
   } // type
 
-  /** 
+  /**
    * Add an exception to the exception list.
    * @param exception Exception to add
    */
@@ -102,8 +102,8 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     _exceptions.addElement (exception);
   } // addException
 
-  /** 
-   * This a a vector of the exceptions which this method raises. 
+  /**
+   * This a a vector of the exceptions which this method raises.
    * @return raised exceptions
    */
   public Vector<ExceptionEntry> exceptions ()
@@ -111,8 +111,8 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     return _exceptions;
   } // exceptions
 
-  /** 
-   * Add an exception name to the list of exception names. 
+  /**
+   * Add an exception name to the list of exception names.
    * @param name the full name of an exception which this method throws
    */
   public void addExceptionName(String name)
@@ -123,7 +123,7 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   /** This is a vector of strings, each of which is the full name of an
       exception which this method throws.  This vector corresponds to the
       exceptions vector.  The first element of this vector is the name
-      of the first element of the exceptions vector, etc. 
+      of the first element of the exceptions vector, etc.
     * @return all exceptions thrown by this method
     */
   public Vector<String> exceptionNames ()
@@ -137,8 +137,8 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     _contexts.addElement (context);
   } // addContext
 
-  /** 
-   * This is a vector of strings, each of which is the name of a context. 
+  /**
+   * This is a vector of strings, each of which is the name of a context.
    * @return name of contexts
    */
   public Vector<String> contexts ()
@@ -146,9 +146,9 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     return _contexts;
   } // contexts
 
-  /** 
+  /**
    * Add a parameter to the parameter list.
-   * This function should be called for the parameters in the order 
+   * This function should be called for the parameters in the order
    * the parameters appear on the method.
    * @param parameter ParameterEntry to add
    */
@@ -157,10 +157,10 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     _parameters.addElement (parameter);
   } // addParameter
 
-  /** 
+  /**
    * This is a vector of ParameterEntry's.  They are the parameters on
    * this method and their order in the vector is the order they appear
-   * on the method. 
+   * on the method.
    * @return {@link Vector} of parameters
    */
   public Vector<ParameterEntry> parameters ()
@@ -176,7 +176,7 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     _oneway = yes;
   } // oneway
 
-  /** Is this a oneway method? 
+  /** Is this a oneway method?
    * @return true if oneway
    */
   public boolean oneway ()
@@ -184,7 +184,7 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     return _oneway;
   } // oneway
 
-  /** 
+  /**
    * Is this a value method?
    * @param yes true if this a value method
    */
@@ -193,7 +193,7 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     _valueMethod = yes;
   } // valueMethod
 
-  /** Is this a value method? 
+  /** Is this a value method?
    * @return true if this is a value method
    */
   public boolean valueMethod ()

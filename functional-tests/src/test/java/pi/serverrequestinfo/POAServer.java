@@ -38,12 +38,12 @@ import ServerRequestInfo.*;
 /**
  * Common base class for POA Server test files.
  */
-public abstract class POAServer 
-    extends ServerCommon 
+public abstract class POAServer
+    extends ServerCommon
     implements helloDelegate.ClientCallback
 {
     static final String ROOT_POA = "RootPOA";
-    
+
     POA rootPOA;
 
     POA childPOA1;
@@ -66,7 +66,7 @@ public abstract class POAServer
 
     // To be invoked by subclass after orb is created.
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         try {
@@ -83,16 +83,16 @@ public abstract class POAServer
                 throw e;
             }
             rootPOA.the_POAManager().activate();
-            
+
             // Set up hello object:
             out.println( "+ Creating and binding Hello1 object..." );
-            TestInitializer.helloRef = createAndBind( rootPOA, "Hello1", 
+            TestInitializer.helloRef = createAndBind( rootPOA, "Hello1",
                                                       "[Hello1]" );
 
             out.println( "+ Creating and binding Hello1Forward object..." );
-            TestInitializer.helloRefForward = createAndBind( rootPOA, 
+            TestInitializer.helloRefForward = createAndBind( rootPOA,
                                                              "Hello1Forward",
-                                                             "[Hello1Forward]" ); 
+                                                             "[Hello1Forward]" );
 
             // Create 2 additional POAs, each with different IDs, so we can test
             // adapter_id:
@@ -101,7 +101,7 @@ public abstract class POAServer
             createChildPOA( 2 );
 
             handshake();
-            
+
             // Test ServerRequestInfo
             testServerRequestInfo();
 
@@ -130,13 +130,13 @@ public abstract class POAServer
     /**
      * Implementation borrowed from corba.socket.HelloServer test
      */
-    public org.omg.CORBA.Object createAndBind ( POA poa, String name, 
+    public org.omg.CORBA.Object createAndBind ( POA poa, String name,
                                                 String symbol )
         throws Exception
     {
         // create servant and register it with the ORB
         Servant helloRef;
-        
+
         if( dsi ) {
             helloRef = new helloDSIServant( orb, out, symbol, this );
         }
@@ -146,16 +146,16 @@ public abstract class POAServer
 
         byte[] id = poa.activate_object(helloRef);
         org.omg.CORBA.Object ref = poa.id_to_reference(id);
-      
+
         // get the root naming context
-        org.omg.CORBA.Object objRef = 
+        org.omg.CORBA.Object objRef =
             orb.resolve_initial_references("NameService");
         NamingContext ncRef = NamingContextHelper.narrow(objRef);
-      
+
         // bind the Object Reference in Naming
         NameComponent nc = new NameComponent(name, "");
         NameComponent path[] = {nc};
-            
+
         ncRef.rebind(path, ref);
 
         return ref;
@@ -164,10 +164,10 @@ public abstract class POAServer
     /**
      * Passes in the appropriate valid and invalid repository ids for POA
      */
-    protected void testAttributesValid() 
+    protected void testAttributesValid()
         throws Exception
     {
-        testAttributesValid( 
+        testAttributesValid(
             "IDL:ServerRequestInfo/hello:1.0",
             "IDL:ServerRequestInfo/goodbye:1.0" );
     }
@@ -200,7 +200,7 @@ public abstract class POAServer
      * Special test case for get_server_policy that verifies we can retrieve
      * policies from ServerRequestInfo
      */
-    protected void testGetServerPolicy() 
+    protected void testGetServerPolicy()
         throws Exception
     {
         out.println( "+ Testing get_server_policy..." );
@@ -215,7 +215,7 @@ public abstract class POAServer
      * Creates a child POA and remember its adapter id.  Attach some policies
      * to the POA so we can test get_server_policy later on.
      */
-    private void createChildPOA( int n ) 
+    private void createChildPOA( int n )
         throws Exception
     {
         Policy[] policies = new Policy[2];
@@ -228,7 +228,7 @@ public abstract class POAServer
 
         POA tpoa = rootPOA.create_POA( "childPOA" + n, null, policies );
         tpoa.the_POAManager().activate();
-        org.omg.CORBA.Object obj = 
+        org.omg.CORBA.Object obj =
             createAndBind( tpoa, "HelloChild" + n, "[HelloChild" + n + "]" );
         byte[] id = tpoa.id();
 
@@ -250,7 +250,7 @@ public abstract class POAServer
     public String sayHello() {
         String result = "";
 
-        out.println( 
+        out.println(
             "    + ClientCallback: resolving and invoking sayHello()..." );
         try {
             hello helloRef = POAClient.resolve( orb, "Hello1" );
@@ -266,8 +266,8 @@ public abstract class POAServer
     }
 
     public void saySystemException() {
-        out.println( 
-            "    + ClientCallback: resolving and invoking " + 
+        out.println(
+            "    + ClientCallback: resolving and invoking " +
             "saySystemException()..." );
         try {
             hello helloRef = POAClient.resolve( orb, "Hello1" );

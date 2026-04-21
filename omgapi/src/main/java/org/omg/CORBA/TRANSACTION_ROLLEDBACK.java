@@ -20,9 +20,9 @@
 package org.omg.CORBA;
 
 /**
- * Exception  thrown when the transaction associated with the request has 
- * already been rolled back or marked to roll back. Thus, the requested 
- * operation either could not be performed or was not performed because 
+ * Exception  thrown when the transaction associated with the request has
+ * already been rolled back or marked to roll back. Thus, the requested
+ * operation either could not be performed or was not performed because
  * further computation on behalf of the transaction would be fruitless.<P>
  * See the OMG Transaction
  * Service specification for details.

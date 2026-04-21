@@ -62,7 +62,7 @@ public class TestObject extends TestObjectSuper implements Testable
     }
 
     private void readObject(java.io.ObjectInputStream is)
-        throws IOException, ClassNotFoundException 
+        throws IOException, ClassNotFoundException
     {
         is.defaultReadObject();
     }

@@ -34,7 +34,7 @@ final class IdUniquenessPolicyImpl
     public IdUniquenessPolicyValue value() {
         return value;
     }
- 
+
     public int policy_type()
     {
         return ID_UNIQUENESS_POLICY_ID.value ;

@@ -39,23 +39,23 @@ public class OutboundConnectionState<C extends Connection> {
 
     private ConnectionStateValue csv ;  // Indicates state of connection
 
-    final ContactInfo<C> cinfo ;        // ContactInfo used to create this 
+    final ContactInfo<C> cinfo ;        // ContactInfo used to create this
                                         // Connection
     final C connection ;                // Connection of the ConnectionState
                                         //
     final OutboundCacheEntry<C> entry ; // This Connection's OutboundCacheEntry
 
     private int busyCount ;             // Number of calls to get without release
-              
-    int expectedResponseCount ;         // Number of expected responses not yet 
+
+    int expectedResponseCount ;         // Number of expected responses not yet
                                         // received
 
-    // At all times, a connection is either on the busy or idle queue in 
-    // its ConnectionEntry.  If the connection is on the idle queue, 
-    // reclaimableHandle may also be non-null if the Connection is also on 
+    // At all times, a connection is either on the busy or idle queue in
+    // its ConnectionEntry.  If the connection is on the idle queue,
+    // reclaimableHandle may also be non-null if the Connection is also on
     // the reclaimableConnections queue.
-    ConcurrentQueue.Handle<C> reclaimableHandle ;   // non-null iff 
-                                                    // connection is not 
+    ConcurrentQueue.Handle<C> reclaimableHandle ;   // non-null iff
+                                                    // connection is not
                                                     // in use and has no
                                                     // outstanding requests
 
@@ -82,7 +82,7 @@ public class OutboundConnectionState<C extends Connection> {
 
     @ManagedAttribute
     private synchronized OutboundCacheEntry<C> cacheEntry() { return entry ; }
-    
+
     @ManagedAttribute
     private synchronized int busyCount() { return busyCount ; }
 
@@ -96,7 +96,7 @@ public class OutboundConnectionState<C extends Connection> {
         return reclaimableHandle != null ;
     }
 
-    public OutboundConnectionState( final ContactInfo<C> cinfo, 
+    public OutboundConnectionState( final ContactInfo<C> cinfo,
         final OutboundCacheEntry<C> entry, final C conn ) {
 
         this.csv = ConnectionStateValue.NEW ;
@@ -111,18 +111,18 @@ public class OutboundConnectionState<C extends Connection> {
 
 // Methods used in OutboundConnectionCacheBlockingImpl
 
-    public synchronized boolean isBusy() { 
-        return csv == ConnectionStateValue.BUSY ; 
-    } 
+    public synchronized boolean isBusy() {
+        return csv == ConnectionStateValue.BUSY ;
+    }
 
-    public synchronized boolean isIdle() { 
-        return csv == ConnectionStateValue.IDLE ; 
-    } 
+    public synchronized boolean isIdle() {
+        return csv == ConnectionStateValue.IDLE ;
+    }
 
-    // Mark this connection as being busy, and increment 
+    // Mark this connection as being busy, and increment
     // busyCount.
     @Transport
-    public synchronized void acquire() { 
+    public synchronized void acquire() {
         if (busyCount == 0) {
             entry.idleConnections.remove( connection ) ;
             removeFromReclaim() ;
@@ -137,7 +137,7 @@ public class OutboundConnectionState<C extends Connection> {
         entry.busyConnections.offer( connection ) ;
     }
 
-    public synchronized void setReclaimableHandle( 
+    public synchronized void setReclaimableHandle(
         ConcurrentQueue.Handle<C> handle ) {
         reclaimableHandle = handle ;
     }

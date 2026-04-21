@@ -42,7 +42,7 @@ public class TestObjectSuper implements Serializable
     }
 
     public String toString() {
-        return 
+        return
             (super.getClass().equals(Object.class) ? "" : super.toString())
             + " [TestObjectSuper dataS1=" + dataS1
             + ", dataS2=" + (int)dataS2
@@ -96,13 +96,13 @@ public class TestObjectSuper implements Serializable
     }
 
     private void readObject(java.io.ObjectInputStream is)
-        throws IOException, ClassNotFoundException 
+        throws IOException, ClassNotFoundException
     {
         is.defaultReadObject();
 
         try {
             is.defaultReadObject();
-            
+
             // Should throw an error for calling this twice
 
             throw new IOException("Error -- should not allow defRdObj call twice");

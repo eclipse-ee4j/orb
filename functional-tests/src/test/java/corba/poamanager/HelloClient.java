@@ -39,8 +39,8 @@ public class HelloClient {
         ORBUtilSystemException.self ;
     private static final POASystemException poaWrapper =
         POASystemException.self ;
-    
-    public static void main(String[] args) 
+
+    public static void main(String[] args)
     {
         try {
             Utility u = new Utility(args);
@@ -50,7 +50,7 @@ public class HelloClient {
             System.out.println("----------------------------------------");
             System.out.println("Creating objects");
             System.out.println("----------------------------------------");
-            
+
             Hello h1 = createHello(CreationMethods.EXPLICIT_ACTIVATION_WITH_POA_ASSIGNED_OIDS, f);
 
             Hello h2 = createHello(CreationMethods.EXPLICIT_ACTIVATION_WITH_USER_ASSIGNED_OIDS, f);
@@ -217,19 +217,19 @@ public class HelloClient {
         System.out.println("----------------------------------------");
     }
 
-    public static Hello createHello(CreationMethods c, GenericFactory f) 
+    public static Hello createHello(CreationMethods c, GenericFactory f)
     {
         return HelloHelper.narrow(f.create(HelloHelper.id(),
                                            "corba.poamanager.HelloImpl",
                                            c));
     }
 
-    static final void invoke(Hello h) 
+    static final void invoke(Hello h)
     {
         System.out.println(h.hi());
     }
 
-    static final WorkerThread invokeOnThread(Hello h) 
+    static final WorkerThread invokeOnThread(Hello h)
     {
         WorkerThread th = new WorkerThread(h);
         th.start();
@@ -238,7 +238,7 @@ public class HelloClient {
 
     public static void checkTransient(String msg, COMM_FAILURE e)
     {
-        SystemException expected = 
+        SystemException expected =
             orbutilWrapper.communicationsRetryTimeout( new RuntimeException(),
                 -1);
         SystemException expectedCause = poaWrapper.poaDiscarding();
@@ -264,7 +264,7 @@ public class HelloClient {
 }
 
 
-class WorkerThread extends Thread 
+class WorkerThread extends Thread
 {
     Hello h;
     private boolean errorOccured;

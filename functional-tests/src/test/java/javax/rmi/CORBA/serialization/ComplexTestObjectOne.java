@@ -32,7 +32,7 @@ public class ComplexTestObjectOne implements Serializable
     public double fDouble;
     public String fString;
     public java.lang.Object fMarshalAsAny;
-    
+
     public ComplexTestObjectOne()
     {
         fInt = 1;//r.nextInt();
@@ -48,8 +48,8 @@ public class ComplexTestObjectOne implements Serializable
         try
             {
                 ComplexTestObjectOne ctbo = (ComplexTestObjectOne)o;
-                return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) && 
-                        (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat) && 
+                return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) &&
+                        (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat) &&
                         (ctbo.fDouble == fDouble) && (ctbo.fMarshalAsAny.equals(fMarshalAsAny)));
             }
         catch(Exception e)

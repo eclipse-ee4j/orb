@@ -37,10 +37,10 @@ public class Client
             ORB orb = ORB.init(args, System.getProperties());
 
             // get the root naming context
-            org.omg.CORBA.Object objRef = 
+            org.omg.CORBA.Object objRef =
                     orb.resolve_initial_references("NameService");
             NamingContext ncRef = NamingContextHelper.narrow(objRef);
-     
+
             // resolve the Object Reference in Naming
             NameComponent nc = new NameComponent("Hello", "");
             NameComponent path[] = {nc};
@@ -140,14 +140,14 @@ public class Client
 
         // In this test we will verify the method signatures of the
         // Helper classes generated for the interfaces defined in hello.idl
-        
+
         //
         // Foo is an abtract interface so the following method should exist
         // in the Helper class:
-        // 
+        //
         // public static <typename> unchecked_narrow( java.lang.Object obj) {...}
-        // 
-        
+        //
+
         verifyMethodExists(corba.unarrow.FooHelper.class, "unchecked_narrow",
                 new Class[]{java.lang.Object.class}, corba.unarrow.Foo.class);
 
@@ -161,7 +161,7 @@ public class Client
         //
         // public static <typename> unchecked_narrow( java.lang.Object obj) {...}
         //
-        
+
 
         verifyMethodExists(corba.unarrow.BarHelper.class, "unchecked_narrow",
                 new Class[]{java.lang.Object.class}, corba.unarrow.Bar.class);

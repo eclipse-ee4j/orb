@@ -21,7 +21,7 @@ package com.sun.corba.ee.impl.naming.namingutil;
 
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
-/** 
+/**
  *  EndpointInfo is used internally by CorbaLoc object to store the
  *  host information used in creating the Service Object reference
  *  from the -ORBInitDef and -ORBDefaultInitDef definitions.
@@ -43,7 +43,7 @@ public class IIOPEndpointInfo
     }
 
     IIOPEndpointInfo( ) {
-        // Default IIOP Version 
+        // Default IIOP Version
         major = ORBConstants.DEFAULT_INS_GIOP_MAJOR_VERSION;
         minor = ORBConstants.DEFAULT_INS_GIOP_MINOR_VERSION;
         // Default host is localhost

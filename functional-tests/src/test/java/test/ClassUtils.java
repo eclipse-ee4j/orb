@@ -50,10 +50,10 @@ public class ClassUtils {
         try {
             path.close();
         } catch (IOException e) {}
-            
+
         return result;
     }
-        
+
     /**
      * Return the directory which contains a given class (either .java or .class).
      * @param className Fully qualified class name.
@@ -63,9 +63,9 @@ public class ClassUtils {
      * @return the directory or null if none found (or zipped).
      */
     public static File packageDirectory (String className, ClassPath path, boolean requireFile) {
-        
+
         // Try binary first, then source, then directory...
-            
+
         File result = packageDirectory(className,path,".class");
         if (result == null) {
             result = packageDirectory(className,path,".java");
@@ -82,7 +82,7 @@ public class ClassUtils {
         }
         return result;
     }
-        
+
     private static boolean directoryInPath(String dirPath, String path) {
         if (!dirPath.endsWith(File.separator)) {
             dirPath = dirPath + File.separator;
@@ -92,25 +92,25 @@ public class ClassUtils {
             String entry = st.nextToken();
             if (!entry.endsWith(".zip") &&
                 !entry.endsWith(".jar")) {
-                     
+
                 if (entry.equals(".")) {
                     return true;
                 } else {
                     if (!entry.endsWith(File.separator)) {
-                        entry = entry + File.separator;  
+                        entry = entry + File.separator;
                     }
                     if (entry.equalsIgnoreCase(dirPath)) {
-                        return true;   
+                        return true;
                     }
                 }
             }
         }
-      
+
         return false;
     }
-        
+
     private static File packageDirectory (String className, ClassPath path, String fileExt) {
-        
+
         ClassFile cls = path.getFile(className.replace('.',File.separatorChar) + fileExt);
 
         if (cls != null && ! cls.isZipped()) {

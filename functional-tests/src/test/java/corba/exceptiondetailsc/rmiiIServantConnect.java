@@ -30,16 +30,16 @@ import org.omg.CORBA.FREE_MEM;
 import corba.hcks.U;
 
 public class rmiiIServantConnect
-    extends 
+    extends
         PortableRemoteObject
-    implements 
+    implements
         rmiiI
 {
     public static final String baseMsg = rmiiIServantConnect.class.getName();
 
     public rmiiIServantConnect ()
         throws
-            RemoteException 
+            RemoteException
     {
         super();
     }

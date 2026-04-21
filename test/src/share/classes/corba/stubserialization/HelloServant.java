@@ -21,7 +21,7 @@ package corba.stubserialization;
 
 import java.rmi.RemoteException;
 
-import javax.rmi.PortableRemoteObject; 
+import javax.rmi.PortableRemoteObject;
 import java.io.FileInputStream ;
 import java.io.ObjectInputStream ;
 
@@ -32,18 +32,18 @@ public class HelloServant extends PortableRemoteObject implements Hello
 {
     ORB orb ;
 
-    public HelloServant( ORB orb ) throws RemoteException 
+    public HelloServant( ORB orb ) throws RemoteException
     {
         super();
         this.orb = orb ;
     }
-        
+
     public String sayHello( ) throws RemoteException
     {
         return Constants.HELLO;
     }
 
-    public String sayHelloToStub( String fileName ) throws RemoteException 
+    public String sayHelloToStub( String fileName ) throws RemoteException
     {
        FileInputStream fis = null ;
        ObjectInputStream ois = null ;
@@ -53,17 +53,17 @@ public class HelloServant extends PortableRemoteObject implements Hello
                "Deserializing the Stub from a FileStream: Start");
            fis = new FileInputStream( Client.getFile( fileName ) ) ;
            ois = new ObjectInputStream(fis);
-           Object obj = ois.readObject(); 
+           Object obj = ois.readObject();
            StubAdapter.connect( obj, orb ) ;
            System.out.println(
                "Deserializing the Stub from a FileStream: Complete");
            Echo echo = (Echo) obj;
-           System.out.println( 
+           System.out.println(
                "Invoking after Serialization and Deserialization" );
            String msg = echo.echo( Constants.HELLO ) ;
-           System.out.println( 
+           System.out.println(
                "Invoking after Serialization and Deserialization Complete" );
-           return msg ; 
+           return msg ;
         } catch (Exception exc) {
             throw new RemoteException( "Error in sayHelloToStub", exc ) ;
         } finally {
@@ -80,7 +80,7 @@ public class HelloServant extends PortableRemoteObject implements Hello
     }
 
     /*
-    public TestAppReturnValue getTARV() throws RemoteException 
+    public TestAppReturnValue getTARV() throws RemoteException
     {
         return new TestAppReturnValue() ;
     }

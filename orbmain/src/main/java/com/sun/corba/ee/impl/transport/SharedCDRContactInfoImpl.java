@@ -36,7 +36,7 @@ import com.sun.corba.ee.spi.transport.ContactInfoList;
 import com.sun.corba.ee.spi.transport.SocketInfo;
 
 public class SharedCDRContactInfoImpl
-    extends 
+    extends
         ContactInfoBase
 {
     // This is only necessary for the pi.clientrequestinfo test.
@@ -94,13 +94,13 @@ public class SharedCDRContactInfoImpl
     {
         throw wrapper.methodShouldNotBeCalled();
     }
-    
+
     public Connection createConnection()
     {
         throw wrapper.methodShouldNotBeCalled();
     }
 
-    // Called when client making an invocation.    
+    // Called when client making an invocation.
     @Override
     public MessageMediator createMessageMediator(ORB broker,
                                                  ContactInfo contactInfo,
@@ -134,7 +134,7 @@ public class SharedCDRContactInfoImpl
             messageMediator;
         // NOTE: GROW.
         CDROutputObject outputObject =
-            OutputStreamFactory.newCDROutputObject(orb, messageMediator, 
+            OutputStreamFactory.newCDROutputObject(orb, messageMediator,
                                 corbaMessageMediator.getRequestHeader(),
                                 corbaMessageMediator.getStreamFormatVersion(),
                                 BufferManagerFactory.GROW);
@@ -161,7 +161,7 @@ public class SharedCDRContactInfoImpl
     // See SocketOrChannelContactInfoImpl.equals.
 
     // This calculation must be identical to SocketOrChannelContactInfoImpl.
-    private int hashCode = 
+    private int hashCode =
         SocketInfo.IIOP_CLEAR_TEXT.hashCode() + "localhost".hashCode() ^ -1;
 
     public int hashCode()
@@ -177,7 +177,7 @@ public class SharedCDRContactInfoImpl
     public String toString()
     {
         return
-            "SharedCDRContactInfoImpl[" 
+            "SharedCDRContactInfoImpl["
             + "]";
     }
 

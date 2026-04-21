@@ -194,8 +194,8 @@ module Messaging {
     valuetype ExceptionHolder {
       void raise_exception() raises (UserExceptionBase);
       void raise_exception_with_list(
-	  in Dynamic::ExceptionList exc_list)
-	raises (UserExceptionBase);
+      in Dynamic::ExceptionList exc_list)
+    raises (UserExceptionBase);
       private boolean is_system_exception;
       private boolean byte_order;
       private sequence<octet> marshaled_exception;

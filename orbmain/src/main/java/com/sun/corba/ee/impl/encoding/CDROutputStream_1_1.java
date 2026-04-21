@@ -26,11 +26,11 @@ public class CDROutputStream_1_1 extends CDROutputStream_1_0
     // This is used to keep indirections working across fragments.  When added
     // to the current bbwi.position(), the result is the current position
     // in the byte stream without any fragment headers.
-    // 
+    //
     // It is equal to the following:
     //
     // n = number of buffers (0 is original buffer, 1 is first fragment, etc)
-    // 
+    //
     // n == 0, fragmentOffset = 0
     //
     // n > 0, fragmentOffset

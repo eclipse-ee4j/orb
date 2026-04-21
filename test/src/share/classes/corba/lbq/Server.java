@@ -58,13 +58,13 @@ public class Server
 
             POA rootPOA = (POA) orb.resolve_initial_references("RootPOA");
             Policy[] policies = new Policy[] {
-                rootPOA.create_lifespan_policy( 
+                rootPOA.create_lifespan_policy(
                     LifespanPolicyValue.PERSISTENT ),
-                rootPOA.create_id_uniqueness_policy( 
+                rootPOA.create_id_uniqueness_policy(
                     IdUniquenessPolicyValue.UNIQUE_ID ),
-                rootPOA.create_id_assignment_policy( 
+                rootPOA.create_id_assignment_policy(
                     IdAssignmentPolicyValue.USER_ID ),
-                rootPOA.create_implicit_activation_policy( 
+                rootPOA.create_implicit_activation_policy(
                     ImplicitActivationPolicyValue.NO_IMPLICIT_ACTIVATION ),
                 rootPOA.create_servant_retention_policy(
                     ServantRetentionPolicyValue.RETAIN ),
@@ -72,7 +72,7 @@ public class Server
                     RequestProcessingPolicyValue.USE_ACTIVE_OBJECT_MAP_ONLY )
             } ;
 
-            POA testPOA = rootPOA.create_POA( "testPOA", rootPOA.the_POAManager(), 
+            POA testPOA = rootPOA.create_POA( "testPOA", rootPOA.the_POAManager(),
                 policies ) ;
 
             rootPOA.the_POAManager().activate();
@@ -80,7 +80,7 @@ public class Server
             Servant servant = (Servant)
                 javax.rmi.CORBA.Util.getTie(new TestServant());
 
-            createWithServantAndBind(Common.ReferenceName, servant, 
+            createWithServantAndBind(Common.ReferenceName, servant,
                                      testPOA, orb);
 
             System.out.println("--------------------------------------------");
@@ -103,7 +103,7 @@ public class Server
         }
     }
 
-    public static org.omg.CORBA.Object 
+    public static org.omg.CORBA.Object
         createWithServantAndBind (String  name,
                                   Servant servant,
                                   POA     poa,
@@ -118,6 +118,6 @@ public class Server
         return ref;
     }
 
-} 
+}
 
 // End of file.

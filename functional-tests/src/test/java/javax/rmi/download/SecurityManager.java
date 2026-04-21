@@ -30,7 +30,7 @@ public class SecurityManager extends java.rmi.RMISecurityManager {
     //   public void checkPermission(Permission perm) {
     //    }
 
-    public void checkCreateClassLoader() { } 
+    public void checkCreateClassLoader() { }
     public void checkAccess(Thread g) { }
     public void checkAccess(ThreadGroup g) { }
     public void checkExit(int status) { }
@@ -60,4 +60,4 @@ public class SecurityManager extends java.rmi.RMISecurityManager {
     public void checkSetFactory() { }
     public void checkMemberAccess(Class<?> clazz, int which) { }
     public void checkSecurityAccess(String provider) { }
-}       
+}

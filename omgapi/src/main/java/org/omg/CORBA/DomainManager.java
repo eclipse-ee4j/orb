@@ -31,7 +31,7 @@ package org.omg.CORBA;
  *  creating and accessing policies.
  */
 
-public interface DomainManager extends DomainManagerOperations, 
+public interface DomainManager extends DomainManagerOperations,
     org.omg.CORBA.Object, org.omg.CORBA.portable.IDLEntity
 {
 }

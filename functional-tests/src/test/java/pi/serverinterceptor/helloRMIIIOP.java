@@ -30,17 +30,17 @@ import org.omg.PortableInterceptor.*;
 import ServerRequestInterceptor.*; // hello interface
 
 /**
- * RMI/IIOP implementation.  
+ * RMI/IIOP implementation.
  */
-public class helloRMIIIOP 
-    extends PortableRemoteObject 
+public class helloRMIIIOP
+    extends PortableRemoteObject
     implements helloIF
 {
     // Contains the actual implementation of the hello interface.
     private helloDelegate delegate = null;
-    
-    public helloRMIIIOP( PrintStream out, String symbol ) 
-        throws RemoteException 
+
+    public helloRMIIIOP( PrintStream out, String symbol )
+        throws RemoteException
     {
         super();
         this.delegate = new helloDelegate( out, symbol );
@@ -53,17 +53,17 @@ public class helloRMIIIOP
     public void sayOneway() {
         delegate.sayOneway();
     }
-    
+
     public void saySystemException() {
         delegate.saySystemException();
     }
 
-    public void sayUserException() 
+    public void sayUserException()
         throws ForwardRequest
     {
         delegate.sayUserException();
     }
-    
+
     public String syncWithServer( boolean exceptionRaised ) {
         return delegate.syncWithServer( exceptionRaised );
     }

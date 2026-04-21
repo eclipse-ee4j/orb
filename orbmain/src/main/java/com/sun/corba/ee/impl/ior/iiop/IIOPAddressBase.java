@@ -31,7 +31,7 @@ abstract class IIOPAddressBase implements IIOPAddress
     // ints throught this code, except that marshalling requires a
     // scaling conversion.  intToShort and shortToInt are provided
     // for this purpose.
-    protected short intToShort( int value ) 
+    protected short intToShort( int value )
     {
         if (value > 32767)
             return (short)(value - 65536) ;
@@ -59,7 +59,7 @@ abstract class IIOPAddressBase implements IIOPAddress
 
         IIOPAddress other = (IIOPAddress)obj ;
 
-        return getHost().equals(other.getHost()) && 
+        return getHost().equals(other.getHost()) &&
             (getPort() == other.getPort()) ;
     }
 

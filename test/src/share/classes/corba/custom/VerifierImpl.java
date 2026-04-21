@@ -29,7 +29,7 @@ public class VerifierImpl extends PortableRemoteObject implements Verifier
         super();
     }
 
-    public Object verifyTransmission(Object input) 
+    public Object verifyTransmission(Object input)
     {
         return input;
     }

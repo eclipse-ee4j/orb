@@ -98,12 +98,12 @@ import org.omg.CORBA.ORBPackage.InvalidName;
  *
  *     <LI>check in properties parameter, if any
  *
- *     <LI>check in the System properties 
+ *     <LI>check in the System properties
  *
- *     <LI>check in the orb.properties file located in the user.home 
+ *     <LI>check in the orb.properties file located in the user.home
  *         directory (if any)
  *
- *     <LI>check in the orb.properties file located in the java.home/lib 
+ *     <LI>check in the orb.properties file located in the java.home/lib
  *         directory (if any)
  *
  *     <LI>fall back on a hardcoded default behavior (use the Java&nbsp;IDL
@@ -230,26 +230,26 @@ abstract public class ORB {
 
                 public java.lang.Object run() {
                     String userHome = System.getProperty("user.home");
-                    String fileName = userHome + File.separator + 
+                    String fileName = userHome + File.separator +
                         "orb.properties" ;
                     Properties props = getFileProperties( fileName ) ;
 
                     if (props != null) {
                         String value = props.getProperty( name ) ;
-                        if (value != null) 
+                        if (value != null)
                             return value ;
                     }
-                        
+
                     String javaHome = System.getProperty("java.home");
                     fileName = javaHome + File.separator
                         + "lib" + File.separator + "orb.properties";
                     props = getFileProperties( fileName ) ;
 
-                    if (props == null) 
+                    if (props == null)
                         return null ;
                     else
                         return props.getProperty( name ) ;
-                }       
+                }
             }
         );
 
@@ -577,17 +577,17 @@ abstract public class ORB {
                 cl = ClassLoader.getSystemClassLoader();
             // if this throws a ClassNotFoundException, it will be caught below.
             opDefClass = Class.forName(opDefClassName, true, cl);
-            
+
             Class[] args = { opDefClass } ;
-            java.lang.reflect.Method meth = 
-                this.getClass().getMethod("create_operation_list", 
+            java.lang.reflect.Method meth =
+                this.getClass().getMethod("create_operation_list",
                     args );
 
             Object[] args2 = { oper } ;
             // The following line causes a warning on JDK 1.5 and later
-            // because invoke is a varargs method and this is not 
+            // because invoke is a varargs method and this is not
             // a varargs call.  But using varargs here causes rmic -iiop
-            // to fail!  Fixing rmic requires rewriting the IIOP 
+            // to fail!  Fixing rmic requires rewriting the IIOP
             // backend to avoid using the old sun.tools code.
             return (org.omg.CORBA.NVList)meth.invoke(this, args2);
         } catch( java.lang.reflect.InvocationTargetException exs ) {
@@ -802,7 +802,7 @@ abstract public class ORB {
     abstract public TypeCode create_interface_tc(String id, String name);
 
     /**
-     * Creates a <code>TypeCode</code> object representing a bounded IDL 
+     * Creates a <code>TypeCode</code> object representing a bounded IDL
      * <code>string</code>.
      * The <code>TypeCode</code> object is initialized with the given bound,
      * which represents the maximum length of the string. Zero indicates
@@ -925,7 +925,7 @@ abstract public class ORB {
 
 
     // orbos 98-01-18: Objects By Value -- begin
-    
+
 
     /**
      * Create a <code>TypeCode</code> object for an IDL value type.
@@ -994,7 +994,7 @@ abstract public class ORB {
     public org.omg.CORBA.TypeCode create_recursive_tc(String id) {
         // implemented in subclass
         throw new org.omg.CORBA.NO_IMPLEMENT();
-    }   
+    }
 
     /**
      * Creates a <code>TypeCode</code> object for an IDL value box.
@@ -1013,7 +1013,7 @@ abstract public class ORB {
     }
 
     // orbos 98-01-18: Objects By Value -- end
-    
+
     /**
      * Creates an IDL <code>Any</code> object initialized to
      * contain a <code>Typecode</code> object whose <code>kind</code> field
@@ -1119,15 +1119,15 @@ abstract public class ORB {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
 
-    /** 
-     * Used to obtain information about CORBA facilities and services 
-     * that are supported by this ORB. The service type for which 
-     * information is being requested is passed in as the in 
+    /**
+     * Used to obtain information about CORBA facilities and services
+     * that are supported by this ORB. The service type for which
+     * information is being requested is passed in as the in
      * parameter <tt>service_type</tt>, the values defined by
-     * constants in the CORBA module. If service information is 
+     * constants in the CORBA module. If service information is
      * available for that type, that is returned in the out parameter
      * <tt>service_info</tt>, and the operation returns the
-     * value <tt>true</tt>. If no information for the requested 
+     * value <tt>true</tt>. If no information for the requested
      * services type is available, the operation returns <tt>false</tt>
      *  (i.e., the service is not supported by this ORB).
      * <P>
@@ -1137,9 +1137,9 @@ abstract public class ORB {
      *        that will hold the <code>ServiceInformation</code> object
      *        produced by this method
      * @return <code>true</code> if service information is available
-     *        for the <tt>service_type</tt>; 
+     *        for the <tt>service_type</tt>;
      *         <tt>false</tt> if no information for the
-     *         requested services type is available 
+     *         requested services type is available
      * @see <a href="package-summary.html#unimpl"><code>CORBA</code> package
      *      comments for unimplemented features</a>
      */
@@ -1151,7 +1151,7 @@ abstract public class ORB {
 
     // orbos 98-01-18: Objects By Value -- begin
 
-    /** 
+    /**
      * Creates a new <code>DynAny</code> object from the given
      * <code>Any</code> object.
      * <P>
@@ -1169,8 +1169,8 @@ abstract public class ORB {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
 
-    /** 
-     * Creates a basic <code>DynAny</code> object from the given 
+    /**
+     * Creates a basic <code>DynAny</code> object from the given
      * <code>TypeCode</code> object.
      * <P>
      * @param type the <code>TypeCode</code> object from which to create a new
@@ -1189,7 +1189,7 @@ abstract public class ORB {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
 
-    /** 
+    /**
      * Creates a new <code>DynStruct</code> object from the given
      * <code>TypeCode</code> object.
      * <P>
@@ -1209,7 +1209,7 @@ abstract public class ORB {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
 
-    /** 
+    /**
      * Creates a new <code>DynSequence</code> object from the given
      * <code>TypeCode</code> object.
      * <P>
@@ -1230,7 +1230,7 @@ abstract public class ORB {
     }
 
 
-    /** 
+    /**
      * Creates a new <code>DynArray</code> object from the given
      * <code>TypeCode</code> object.
      * <P>
@@ -1250,7 +1250,7 @@ abstract public class ORB {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
 
-    /** 
+    /**
      * Creates a new <code>DynUnion</code> object from the given
      * <code>TypeCode</code> object.
      * <P>
@@ -1270,7 +1270,7 @@ abstract public class ORB {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
 
-    /** 
+    /**
      * Creates a new <code>DynEnum</code> object from the given
      * <code>TypeCode</code> object.
      * <P>
@@ -1290,23 +1290,23 @@ abstract public class ORB {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
 
-    /** 
-    * Can be invoked to create new instances of policy objects 
-    * of a specific type with specified initial state. If 
-    * <tt>create_policy</tt> fails to instantiate a new Policy 
+    /**
+    * Can be invoked to create new instances of policy objects
+    * of a specific type with specified initial state. If
+    * <tt>create_policy</tt> fails to instantiate a new Policy
     * object due to its inability to interpret the requested type
     * and content of the policy, it raises the <tt>PolicyError</tt>
     * exception with the appropriate reason.
-    * @param type the <tt>PolicyType</tt> of the policy object to 
+    * @param type the <tt>PolicyType</tt> of the policy object to
     *        be created
     * @param val the value that will be used to set the initial
     *        state of the <tt>Policy</tt> object that is created
-    * @return Reference to a newly created <tt>Policy</tt> object 
-    *        of type specified by the <tt>type</tt> parameter and 
+    * @return Reference to a newly created <tt>Policy</tt> object
+    *        of type specified by the <tt>type</tt> parameter and
     *        initialized to a state specified by the <tt>val</tt>
     *        parameter
     * @throws org.omg.CORBA.PolicyError when the requested
-    *        policy is not supported or a requested initial state 
+    *        policy is not supported or a requested initial state
     *        for the policy is not supported.
     */
     public org.omg.CORBA.Policy create_policy(int type, org.omg.CORBA.Any val)
@@ -1315,11 +1315,11 @@ abstract public class ORB {
         // Currently not implemented until PIORB.
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
-    
+
     private final static void checkPackageAccess(String name) {
         SecurityManager s = System.getSecurityManager();
         if (s == null) return;
-        
+
         String cname = name.replace('/', '.');
         if (cname.startsWith("[")) {
             int b = cname.lastIndexOf('[') + 2;
@@ -1327,9 +1327,9 @@ abstract public class ORB {
                 cname = cname.substring(b);
             }
         }
-    	int i = cname.lastIndexOf('.');
-    	if (i != -1) {
-    	    s.checkPackageAccess(cname.substring(0, i));
-    	}
+        int i = cname.lastIndexOf('.');
+        if (i != -1) {
+            s.checkPackageAccess(cname.substring(0, i));
+        }
     }
 }

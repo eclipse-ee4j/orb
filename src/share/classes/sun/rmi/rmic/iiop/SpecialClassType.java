@@ -55,38 +55,38 @@ public class SpecialClassType extends ClassType {
     public static SpecialClassType forSpecial (ClassDefinition theClass,
                                                ContextStack stack) {
         if (stack.anyErrors()) return null;
-                
+
         sun.tools.java.Type type = theClass.getType();
-        
+
         // Do we already have it?
-        
+
         String typeKey = type.toString() + stack.getContextCodeString();
-                
+
         Type existing = getType(typeKey,stack);
-                
+
         if (existing != null) {
-                        
+
             if (!(existing instanceof SpecialClassType)) return null; // False hit.
-                        
+
             // Yep, so return it...
-                        
+
             return (SpecialClassType) existing;
         }
-        
+
         // Is it a special type?
-        
+
         int typeCode = getTypeCode(type,theClass,stack);
-        
+
         if (typeCode != TYPE_NONE) {
-            
+
             // Yes...
-            
+
             SpecialClassType result = new SpecialClassType(stack,typeCode,theClass);
             putType(typeKey,result,stack);
             stack.push(result);
             stack.pop(true);
             return result;
-                
+
         } else {
 
             return null;
@@ -114,9 +114,9 @@ public class SpecialClassType extends ClassType {
         String idlName = null;
         String[] idlModuleName = null;
         boolean constant = stack.size() > 0 && stack.getContext().isConstant();
-        
+
         // Set names...
-        
+
         switch (typeCode) {
         case TYPE_STRING:   {
             idlName = IDLNames.getTypeName(typeCode,constant);
@@ -125,30 +125,30 @@ public class SpecialClassType extends ClassType {
             }
             break;
         }
-            
+
         case TYPE_ANY:   {
             idlName = IDL_JAVA_LANG_OBJECT;
             idlModuleName = IDL_JAVA_LANG_MODULE;
             break;
         }
         }
-        
+
         setNames(id,idlModuleName,idlName);
 
         // Init parents...
-        
+
         if (!initParents(stack)) {
-        
+
             // Should not be possible!
-            
+
             throw new CompilerError("SpecialClassType found invalid parent.");
         }
-        
+
         // Initialize CompoundType...
-        
+
         initialize(null,null,null,stack,false);
     }
-    
+
     private static int getTypeCode(sun.tools.java.Type type, ClassDefinition theClass, ContextStack stack) {
         if (type.isType(TC_CLASS)) {
             Identifier id = type.getClassName();

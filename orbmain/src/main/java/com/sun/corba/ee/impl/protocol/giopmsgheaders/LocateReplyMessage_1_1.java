@@ -78,7 +78,7 @@ public final class LocateReplyMessage_1_1 extends Message_1_1
     public short getAddrDisposition() {
         return KeyAddr.value;
     }
-        
+
     public SystemException getSystemException(String message) {
         return null; // 1.0 LocateReply body does not contain SystemException
     }

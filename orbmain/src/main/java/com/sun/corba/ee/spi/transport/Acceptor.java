@@ -36,24 +36,24 @@ import org.glassfish.gmbal.ManagedObject ;
 /**
  * @author Harold Carr
  */
-@ManagedObject 
-@Description( "An Acceptor represents an endpoint on which the ORB handles incoming connections" ) 
+@ManagedObject
+@Description( "An Acceptor represents an endpoint on which the ORB handles incoming connections" )
 public abstract interface Acceptor
 {
     @ManagedAttribute
-    @Description( "The TCP port of this Acceptor" )  
+    @Description( "The TCP port of this Acceptor" )
     int getPort() ;
 
     @ManagedAttribute
-    @Description( "The name of the IP interface for this Acceptor" ) 
+    @Description( "The name of the IP interface for this Acceptor" )
     String getInterfaceName() ;
 
     @ManagedAttribute
-    @Description( "The type of requests that this Acceptor handles" ) 
+    @Description( "The type of requests that this Acceptor handles" )
     String getType() ;
 
     @ManagedAttribute
-    @Description( "True if this acceptor is used to lazily start the ORB" ) 
+    @Description( "True if this acceptor is used to lazily start the ORB" )
     boolean isLazy() ;
 
     void addToIORTemplate(IORTemplate iorTemplate, Policies policies,
@@ -102,7 +102,7 @@ public abstract interface Acceptor
     /** Blocks until a new Socket is available on the acceptor's port.
      * @return the new socket
      */
-    Socket getAcceptedSocket(); 
+    Socket getAcceptedSocket();
 
     /** Handle a newly accepted Socket.
      * @param channel socket to handle
@@ -117,7 +117,7 @@ public abstract interface Acceptor
     EventHandler getEventHandler();
 
     CDROutputObject createOutputObject(ORB broker, MessageMediator messageMediator);
-    
+
     ServerSocket getServerSocket();
 }
 

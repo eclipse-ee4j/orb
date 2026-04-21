@@ -55,7 +55,7 @@ import org.omg.IOP.TAG_INTERNET_IOP ;
 * is included here.
 * @author Ken Cavanaugh
 */
-public class IORImpl extends IdentifiableContainerBase<TaggedProfile> 
+public class IORImpl extends IdentifiableContainerBase<TaggedProfile>
     implements IOR
 {
     private String typeId;
@@ -103,11 +103,11 @@ public class IORImpl extends IdentifiableContainerBase<TaggedProfile>
     }
 
     @Override
-    public int hashCode() 
+    public int hashCode()
     {
-        if (!isCachedHashValue) { 
-            cachedHashValue = (super.hashCode() ^ typeId.hashCode()); 
-            isCachedHashValue = true; 
+        if (!isCachedHashValue) {
+            cachedHashValue = (super.hashCode() ^ typeId.hashCode());
+            isCachedHashValue = true;
         }
         return cachedHashValue;
     }
@@ -145,19 +145,19 @@ public class IORImpl extends IdentifiableContainerBase<TaggedProfile>
      * @param iortemp Template to use
      * @param id ID of created object
     */
-    public IORImpl( ORB orb, String typeId, IORTemplate iortemp, ObjectId id) 
+    public IORImpl( ORB orb, String typeId, IORTemplate iortemp, ObjectId id)
     {
         this( orb, typeId ) ;
 
         this.iortemps = IORFactories.makeIORTemplateList() ;
         this.iortemps.add( iortemp ) ;
-    
+
         addTaggedProfiles( iortemp, id ) ;
-        
+
         makeImmutable() ;
     }
-    
-    private void addTaggedProfiles( IORTemplate iortemp, ObjectId id ) 
+
+    private void addTaggedProfiles( IORTemplate iortemp, ObjectId id )
     {
         ObjectKeyTemplate oktemp = iortemp.getObjectKeyTemplate() ;
         for( TaggedProfileTemplate temp : iortemp) {
@@ -173,7 +173,7 @@ public class IORImpl extends IdentifiableContainerBase<TaggedProfile>
      * @param iortemps list of templates
      * @param id ID of created object
     */
-    public IORImpl( ORB orb, String typeId, IORTemplateList iortemps, ObjectId id) 
+    public IORImpl( ORB orb, String typeId, IORTemplateList iortemps, ObjectId id)
     {
         this( orb, typeId ) ;
 
@@ -184,29 +184,29 @@ public class IORImpl extends IdentifiableContainerBase<TaggedProfile>
             IORTemplate iortemp = iter.next() ;
             addTaggedProfiles( iortemp, id ) ;
         }
-        
+
         makeImmutable() ;
     }
-    
+
     // Note that orb is not always the ORB of is!
-    public IORImpl(ORB orb, InputStream is) 
+    public IORImpl(ORB orb, InputStream is)
     {
         this( orb, is.read_string() ) ;
 
-        IdentifiableFactoryFinder<TaggedProfile> finder = 
+        IdentifiableFactoryFinder<TaggedProfile> finder =
             factory.getTaggedProfileFactoryFinder() ;
 
         EncapsulationUtility.readIdentifiableSequence( this, finder, is ) ;
 
         makeImmutable() ;
     }
-    
-    public String getTypeId() 
+
+    public String getTypeId()
     {
         return typeId ;
     }
-    
-    public void write(OutputStream os) 
+
+    public void write(OutputStream os)
     {
         os.write_string( typeId ) ;
         EncapsulationUtility.writeIdentifiableSequence( this, os ) ;
@@ -240,8 +240,8 @@ public class IORImpl extends IdentifiableContainerBase<TaggedProfile>
 
         super.makeImmutable() ;
     }
-    
-    public org.omg.IOP.IOR getIOPIOR() {    
+
+    public org.omg.IOP.IOR getIOPIOR() {
         EncapsOutputStream os = OutputStreamFactory.newEncapsOutputStream(factory);
         write(os);
         InputStream is = (InputStream) (os.create_input_stream());
@@ -270,13 +270,13 @@ public class IORImpl extends IdentifiableContainerBase<TaggedProfile>
             }
         }
 
-        return myIterator.hasNext() == otherIterator.hasNext() ; 
+        return myIterator.hasNext() == otherIterator.hasNext() ;
     }
 
-    private void initializeIORTemplateList() 
+    private void initializeIORTemplateList()
     {
         // Maps ObjectKeyTemplate to IORTemplate
-        Map<ObjectKeyTemplate,IORTemplate> oktempToIORTemplate = 
+        Map<ObjectKeyTemplate,IORTemplate> oktempToIORTemplate =
             new HashMap<ObjectKeyTemplate,IORTemplate>() ;
 
         iortemps = IORFactories.makeIORTemplateList() ;
@@ -311,11 +311,11 @@ public class IORImpl extends IdentifiableContainerBase<TaggedProfile>
 
     /** Return the IORTemplateList for this IOR.  Will throw
      * exception if it is not possible to generate an IOR
-     * from the IORTemplateList that is equal to this IOR, 
+     * from the IORTemplateList that is equal to this IOR,
      * which can only happen if not every TaggedProfile in the
      * IOR has the same ObjectId.
      */
-    public synchronized IORTemplateList getIORTemplates() 
+    public synchronized IORTemplateList getIORTemplates()
     {
         if (iortemps == null) {
             initializeIORTemplateList();
@@ -326,24 +326,24 @@ public class IORImpl extends IdentifiableContainerBase<TaggedProfile>
 
     /** Return the first IIOPProfile in this IOR.
      * Originally we planned to remove this, because we planned to use
-     * multiple IIOP profiles.  However, we really have no need for 
+     * multiple IIOP profiles.  However, we really have no need for
      * multiple profiles in the ORB, so we will probably never remove
      * this API.
      */
-    public IIOPProfile getProfile() 
+    public IIOPProfile getProfile()
     {
         IIOPProfile iop = null ;
-        Iterator<TaggedProfile> iter = 
+        Iterator<TaggedProfile> iter =
             iteratorById( TAG_INTERNET_IOP.value ) ;
         if (iter.hasNext()) {
             iop =
                 IIOPProfile.class.cast(iter.next());
         }
- 
+
         if (iop != null) {
             return iop;
         }
- 
+
         // if we come to this point then no IIOP Profile
         // is present.  Therefore, throw an exception.
         throw wrapper.iorMustHaveIiopProfile() ;

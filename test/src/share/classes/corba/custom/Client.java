@@ -35,7 +35,7 @@ public class Client
 
         for (int i = 0; i < size; i++)
             valueBuf[i] = filler;
-        
+
         return new String(valueBuf);
     }
 
@@ -72,7 +72,7 @@ public class Client
     //
     // These are really scary failures because the ORB level doesn't throw
     // exceptions.  It delivers data, but it's not the same as what was
-    // sent!  
+    // sent!
     public static void testArrayListNodeFailure2(Verifier verifier)
         throws RemoteException, Exception
     {
@@ -170,17 +170,17 @@ public class Client
 
             ORB orb = ORB.init(args, System.getProperties());
 
-            org.omg.CORBA.Object objRef = 
+            org.omg.CORBA.Object objRef =
                 orb.resolve_initial_references("NameService");
             NamingContext ncRef = NamingContextHelper.narrow(objRef);
- 
+
             NameComponent nc = new NameComponent("Verifier", "");
             NameComponent path[] = {nc};
 
             org.omg.CORBA.Object obj = ncRef.resolve(path);
 
-            Verifier verifier = 
-                (Verifier) PortableRemoteObject.narrow(obj, 
+            Verifier verifier =
+                (Verifier) PortableRemoteObject.narrow(obj,
                                                        Verifier.class);
 
             Client.testArrayListNodeFailure1(verifier);

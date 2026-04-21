@@ -30,11 +30,11 @@ public class BasicObjectFactoryImpl extends ServantFactoryPOA
     final boolean useServantToReference = true;
 
     final String idString = new String("Blue Skies, Black Death");
-    
+
     POA poa;
 
     public java.lang.Object doneCV = new java.lang.Object();
-    
+
     void setPOA(POA p) {
         poa = p;
     }
@@ -44,7 +44,7 @@ public class BasicObjectFactoryImpl extends ServantFactoryPOA
             doneCV.notifyAll();
         }
     }
-    
+
     public org.omg.CORBA.Object create(String intfName,
                                        String implName, CreationMethods how) {
         try {
@@ -112,5 +112,5 @@ public class BasicObjectFactoryImpl extends ServantFactoryPOA
         return null;
     }
 }
-        
-            
+
+

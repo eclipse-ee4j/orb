@@ -30,21 +30,21 @@ import org.omg.CORBA.Bounds;
 import org.omg.CORBA.NVList;
 import org.omg.CORBA.NamedValue;
 
-public class NVListImpl extends NVList 
+public class NVListImpl extends NVList
 {
     private final static int     INITIAL_CAPACITY       = 4;
 
     private List<NamedValue> _namedValues;
     private ORB orb;
 
-    public NVListImpl(ORB orb) 
+    public NVListImpl(ORB orb)
     {
         // Note: This orb could be an instanceof ORBSingleton or ORB
         this.orb = orb;
         _namedValues = new ArrayList<NamedValue>(INITIAL_CAPACITY);
     }
 
-    public NVListImpl(ORB orb, int size) 
+    public NVListImpl(ORB orb, int size)
     {
         this.orb = orb;
 
@@ -52,7 +52,7 @@ public class NVListImpl extends NVList
         _namedValues = new ArrayList<NamedValue>(size);
     }
 
-    public synchronized int count() 
+    public synchronized int count()
     {
         return _namedValues.size();
     }
@@ -66,7 +66,7 @@ public class NVListImpl extends NVList
 
     public synchronized NamedValue add_item(String itemName, int flags)
     {
-        NamedValue tmpVal = new NamedValueImpl(orb, itemName, new AnyImpl(orb), 
+        NamedValue tmpVal = new NamedValueImpl(orb, itemName, new AnyImpl(orb),
             flags);
         _namedValues.add(tmpVal);
         return tmpVal;

@@ -57,7 +57,7 @@ public abstract class SpecialMethod {
 }
 
 class NonExistent extends SpecialMethod {
-    public boolean isNonExistentMethod() 
+    public boolean isNonExistentMethod()
     {
         return true ;
     }
@@ -87,7 +87,7 @@ class NotExistent extends NonExistent {
 }
 
 class IsA extends SpecialMethod  {      // _is_a
-    public boolean isNonExistentMethod() 
+    public boolean isNonExistentMethod()
     {
         return false ;
     }
@@ -104,9 +104,9 @@ class IsA extends SpecialMethod  {      // _is_a
             return request.getProtocolHandler().createSystemExceptionResponse(
                 request, wrapper.badSkeleton(), null);
         }
-        
+
         String[] ids = objectAdapter.getInterfaces( servant, objectId );
-        String clientId = 
+        String clientId =
             ((InputStream)request.getInputObject()).read_string();
         boolean answer = false;
         for(int i = 0; i < ids.length; i++) {
@@ -115,7 +115,7 @@ class IsA extends SpecialMethod  {      // _is_a
                 break;
             }
         }
-            
+
         MessageMediator response =
             request.getProtocolHandler().createResponse(request, null);
         ((OutputStream)response.getOutputObject()).write_boolean(answer);
@@ -124,7 +124,7 @@ class IsA extends SpecialMethod  {      // _is_a
 }
 
 class GetInterface extends SpecialMethod  {     // _get_interface
-    public boolean isNonExistentMethod() 
+    public boolean isNonExistentMethod()
     {
         return false ;
     }

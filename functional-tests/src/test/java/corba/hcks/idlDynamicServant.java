@@ -38,15 +38,15 @@ class idlDynamicServant
 
     private ORB orb;
 
-    public idlDynamicServant(ORB orb) 
+    public idlDynamicServant(ORB orb)
     {
         this.orb = orb;
     }
 
-    public void invoke(ServerRequest r) 
+    public void invoke(ServerRequest r)
     {
         idlDynInvokeHelper.invoke(orb, r);
-    }    
+    }
 }
 
 // End of file.

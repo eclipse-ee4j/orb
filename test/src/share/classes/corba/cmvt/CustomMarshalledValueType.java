@@ -40,7 +40,7 @@ public class CustomMarshalledValueType implements java.io.Serializable{
                 System.out.println("Compared all body elements");
                 return e;
             }
-            
+
         }
         else return false ;
     }
@@ -49,7 +49,7 @@ public class CustomMarshalledValueType implements java.io.Serializable{
     {
         stream.defaultWriteObject();
         stream.writeBoolean(true);
-        
+
     }
     private void readObject(java.io.ObjectInputStream stream)
                throws java.io.IOException, ClassNotFoundException

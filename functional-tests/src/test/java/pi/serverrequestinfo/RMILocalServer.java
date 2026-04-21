@@ -37,12 +37,12 @@ import java.rmi.*;
 import javax.rmi.*;
 import javax.naming.*;
 
-public class RMILocalServer 
+public class RMILocalServer
     extends RMIServer
 {
     // Object to syncrhornize on to wait for server to start:
     private java.lang.Object syncObject;
-    
+
     public static void main(String args[]) {
         final String[] arguments = args;
         try {
@@ -104,7 +104,7 @@ public class RMILocalServer
     }
 
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         super.run( environment, args, out, err, extra );

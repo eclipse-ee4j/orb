@@ -24,7 +24,7 @@ import com.sun.corba.ee.spi.ior.MakeImmutable ;
 import java.util.AbstractList ;
 import java.util.List ;
 
-/** Simple class that delegates all List operations to 
+/** Simple class that delegates all List operations to
 * another list.  It also can be frozen, which means that
 * a number of operations can be performed on the list,
 * and then the list can be made immutable, so that no

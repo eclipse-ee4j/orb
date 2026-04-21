@@ -44,7 +44,7 @@ import org.omg.CORBA.portable.InputStream ;
 import org.omg.CORBA.portable.OutputStream ;
 import org.omg.CORBA.portable.RemarshalException ;
 
-public class RequestImpl 
+public class RequestImpl
     extends Request
 {
     ///////////////////////////////////////////////////////////////////////////
@@ -68,7 +68,7 @@ public class RequestImpl
     private long[]               _paramLongs;
     private java.lang.Object[]   _paramObjects;
 
-    // support for deferred invocations. 
+    // support for deferred invocations.
     // protected instead of private since it needs to be set by the
     // thread object doing the asynchronous invocation.
     protected boolean            gotResponse    = false;
@@ -103,7 +103,7 @@ public class RequestImpl
             _arguments = argumentList;
         }
 
-        // set result container. 
+        // set result container.
         _result = resultContainer;
 
         // initialize exception list if not passed in
@@ -120,7 +120,7 @@ public class RequestImpl
             _ctxList = ctxList;
         }
 
-        // initialize environment 
+        // initialize environment
         _env    = new EnvironmentImpl();
 
     }
@@ -130,45 +130,45 @@ public class RequestImpl
         return _target;
     }
 
-    public synchronized String operation() 
+    public synchronized String operation()
     {
         return _opName;
     }
 
-    public synchronized NVList arguments() 
+    public synchronized NVList arguments()
     {
         return _arguments;
     }
-    
-    public synchronized NamedValue result() 
+
+    public synchronized NamedValue result()
     {
         return _result;
     }
-    
-    public synchronized Environment env() 
+
+    public synchronized Environment env()
     {
         return _env;
     }
-    
-    public synchronized ExceptionList exceptions() 
+
+    public synchronized ExceptionList exceptions()
     {
         return _exceptions;
     }
-    
-    public synchronized ContextList contexts() 
+
+    public synchronized ContextList contexts()
     {
         return _ctxList;
     }
-    
-    public synchronized Context ctx() 
+
+    public synchronized Context ctx()
     {
         if (_ctx == null) {
             _ctx = new ContextImpl(_orb);
         }
         return _ctx;
     }
-    
-    public synchronized void ctx(Context newCtx) 
+
+    public synchronized void ctx(Context newCtx)
     {
         _ctx = newCtx;
     }
@@ -223,7 +223,7 @@ public class RequestImpl
     {
         _exceptions.add(exceptionType);
     }
-    
+
     public synchronized void invoke()
     {
         doInvocation();
@@ -234,23 +234,23 @@ public class RequestImpl
         _isOneWay = true;
         doInvocation();
     }
-    
+
     public synchronized void send_deferred()
     {
         AsynchInvoke invokeObject = new AsynchInvoke(_orb, this, false);
         new Thread(invokeObject).start();
     }
-    
+
     public synchronized boolean poll_response()
     {
         // this method has to be synchronized even though it seems
         // "readonly" since the thread object doing the asynchronous
         // invocation can potentially update this variable in parallel.
         // updates are currently simply synchronized againt the request
-        // object. 
+        // object.
         return gotResponse;
     }
-    
+
     public synchronized void get_response()
         throws org.omg.CORBA.WrongTransaction
     {
@@ -259,11 +259,11 @@ public class RequestImpl
             // doing the asynchronous invocation.
             try {
                 wait();
-            } 
+            }
             catch (InterruptedException e) {}
         }
     }
-    
+
     ///////////////////////////////////////////////////////////////////////////
     // private helper methods
 
@@ -273,13 +273,13 @@ public class RequestImpl
      */
     protected void doInvocation()
     {
-        org.omg.CORBA.portable.Delegate delegate = StubAdapter.getDelegate( 
+        org.omg.CORBA.portable.Delegate delegate = StubAdapter.getDelegate(
             _target ) ;
 
-        // Initiate Client Portable Interceptors.  Inform the PIHandler that 
-        // this is a DII request so that it knows to ignore the second 
-        // inevitable call to initiateClientPIRequest in createRequest. 
-        // Also, save the RequestImpl object for later use. 
+        // Initiate Client Portable Interceptors.  Inform the PIHandler that
+        // this is a DII request so that it knows to ignore the second
+        // inevitable call to initiateClientPIRequest in createRequest.
+        // Also, save the RequestImpl object for later use.
         _orb.getPIHandler().initiateClientPIRequest( true );
         _orb.getPIHandler().setClientPIInfo( this );
 
@@ -335,7 +335,7 @@ public class RequestImpl
             if ( returnType.kind().value() != TCKind._tk_void )
                 returnAny.read_value(is, returnType);
         }
-        
+
         // Now unmarshal the out/inout args
         try {
             for ( int i=0; i<_arguments.count() ; i++) {
@@ -345,7 +345,7 @@ public class RequestImpl
                     break;
                 case ARG_OUT.value:
                 case ARG_INOUT.value:
-                    Any any = nv.value();       
+                    Any any = nv.value();
                     any.read_value(is, any.type());
                     break;
                 default:

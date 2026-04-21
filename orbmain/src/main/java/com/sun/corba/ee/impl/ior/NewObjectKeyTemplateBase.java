@@ -29,10 +29,10 @@ import com.sun.corba.ee.spi.orb.ORBVersionFactory ;
 import org.omg.CORBA_2_3.portable.InputStream ;
 import org.omg.CORBA_2_3.portable.OutputStream ;
 
-public abstract class NewObjectKeyTemplateBase extends ObjectKeyTemplateBase 
+public abstract class NewObjectKeyTemplateBase extends ObjectKeyTemplateBase
 {
-    public NewObjectKeyTemplateBase( ORB orb, int magic, int scid, int serverid, 
-        String orbid, ObjectAdapterId oaid ) 
+    public NewObjectKeyTemplateBase( ORB orb, int magic, int scid, int serverid,
+        String orbid, ObjectAdapterId oaid )
     {
         super( orb, magic, scid, serverid, orbid, oaid ) ;
         // subclass must set the version, since we don't have the object key here.
@@ -41,22 +41,22 @@ public abstract class NewObjectKeyTemplateBase extends ObjectKeyTemplateBase
             throw wrapper.badMagic(magic);
         }
     }
-   
+
     @Override
-    public void write(ObjectId objectId, OutputStream os) 
+    public void write(ObjectId objectId, OutputStream os)
     {
         super.write( objectId, os ) ;
         getORBVersion().write( os ) ;
     }
 
     @Override
-    public void write(OutputStream os) 
+    public void write(OutputStream os)
     {
         super.write( os ) ;
         getORBVersion().write( os ) ;
     }
 
-    protected void setORBVersion( InputStream is ) 
+    protected void setORBVersion( InputStream is )
     {
         ORBVersion version = ORBVersionFactory.create( is ) ;
         setORBVersion( version ) ;

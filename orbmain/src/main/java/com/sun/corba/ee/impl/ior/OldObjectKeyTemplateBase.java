@@ -26,10 +26,10 @@ import com.sun.corba.ee.spi.orb.ORBVersionFactory ;
 /**
  * @author Ken Cavanaugh
  */
-public abstract class OldObjectKeyTemplateBase extends ObjectKeyTemplateBase 
+public abstract class OldObjectKeyTemplateBase extends ObjectKeyTemplateBase
 {
     public OldObjectKeyTemplateBase( ORB orb, int magic, int scid, int serverid,
-        String orbid, ObjectAdapterId oaid ) 
+        String orbid, ObjectAdapterId oaid )
     {
         super( orb, magic, scid, serverid, orbid, oaid ) ;
 

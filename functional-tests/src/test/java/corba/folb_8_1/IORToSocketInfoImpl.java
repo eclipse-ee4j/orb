@@ -69,7 +69,7 @@ public class IORToSocketInfoImpl
         IIOPAddress primary = iiopProfileTemplate.getPrimaryAddress() ;
         String hostname = primary.getHost().toLowerCase();
         int    port     = primary.getPort();
-        socketInfo = createSocketInfo("Primary", 
+        socketInfo = createSocketInfo("Primary",
                                       SocketInfo.IIOP_CLEAR_TEXT,
                                       hostname, port);
         result.add(socketInfo);
@@ -88,7 +88,7 @@ public class IORToSocketInfoImpl
                 (AlternateIIOPAddressComponent) iterator.next();
             hostname   = alternate.getAddress().getHost().toLowerCase();
             port       = alternate.getAddress().getPort();
-            socketInfo = createSocketInfo("Alternate", 
+            socketInfo = createSocketInfo("Alternate",
                                           SocketInfo.IIOP_CLEAR_TEXT,
                                           hostname, port);
             result.add(socketInfo);
@@ -116,7 +116,7 @@ public class IORToSocketInfoImpl
                 System.out.println("Unexpected: " + e);
                 System.exit(1);
             }
-            TaggedCustomSocketInfo taggedSocketInfo = 
+            TaggedCustomSocketInfo taggedSocketInfo =
                 TaggedCustomSocketInfoHelper.extract(any);
             socketInfo = createSocketInfo("custom",
                                           taggedSocketInfo.type,
@@ -139,7 +139,7 @@ public class IORToSocketInfoImpl
                                         final String hostname, final int port)
     {
         if (! Common.timing) {
-            System.out.println(testMessage + " " + type 
+            System.out.println(testMessage + " " + type
                                + " " + hostname + " " + port);
         }
         return new SocketInfo() {
@@ -157,7 +157,7 @@ public class IORToSocketInfoImpl
     private void dprint(String msg)
     {
         ORBUtility.dprint("IORToSocketInfoImpl", msg);
-    }   
+    }
 }
 
 // End of file.

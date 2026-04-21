@@ -63,11 +63,11 @@ public abstract class CompoundType extends Type {
     protected boolean isRemoteExceptionOrSubclass = false;
     protected String idlExceptionName;
     protected String qualifiedIDLExceptionName;
-    
+
     //_____________________________________________________________________
     // Public Interfaces
     //_____________________________________________________________________
-   
+
     /**
      * Return true if this type implements
      * org.omg.CORBA.Object.
@@ -83,7 +83,7 @@ public abstract class CompoundType extends Type {
     public boolean isIDLEntity () {
         return isIDLEntity;
     }
-   
+
     /**
      * Return true if this type implements
      * org.omg.CORBA.portable.ValueBase.
@@ -91,7 +91,7 @@ public abstract class CompoundType extends Type {
     public boolean isValueBase () {
         return isValueBase;
     }
-   
+
     /**
      * Return true if this type is a CORBA
      * abstract interface.
@@ -99,7 +99,7 @@ public abstract class CompoundType extends Type {
     public boolean isAbstractBase () {
         return isAbstractBase;
     }
-    
+
     /**
      * Return true if this type is an exception.
      */
@@ -123,7 +123,7 @@ public abstract class CompoundType extends Type {
     public boolean isRemoteExceptionOrSubclass () {
         return isRemoteExceptionOrSubclass;
     }
-    
+
     /**
      * Return true if this type is exactly
      * org.omg.CORBA.UserException.
@@ -131,7 +131,7 @@ public abstract class CompoundType extends Type {
     public boolean isCORBAUserException () {
         return isCORBAUserException;
     }
-        
+
     /**
      * Return true if this type implements
      * isIDLEntity() && isException().
@@ -141,15 +141,15 @@ public abstract class CompoundType extends Type {
     }
     /**
      * Return true if isIDLEntity() && !isValueBase()
-     * && !isAbstractBase() && !isCORBAObject() 
+     * && !isAbstractBase() && !isCORBAObject()
      * && !isIDLEntityException().
      */
     public boolean isBoxed () {
-        return (isIDLEntity() && !isValueBase() && 
+        return (isIDLEntity() && !isValueBase() &&
                 !isAbstractBase() && !isCORBAObject() &&
                 !isIDLEntityException());
     }
- 
+
     /**
      * If this type represents an exception, return the
      * IDL name including the "Ex" mangling, otherwise
@@ -166,15 +166,15 @@ public abstract class CompoundType extends Type {
      * @param global If true, prepends "::".
      */
     public String getQualifiedIDLExceptionName (boolean global) {
-        if (qualifiedIDLExceptionName != null && 
-            global && 
+        if (qualifiedIDLExceptionName != null &&
+            global &&
             getIDLModuleNames().length > 0) {
             return IDL_NAME_SEPARATOR + qualifiedIDLExceptionName;
         } else {
             return qualifiedIDLExceptionName;
         }
     }
- 
+
     /**
      * Return signature for this type  (e.g. com.acme.Dynamite
      * would return "com.acme.Dynamite", byte = "B")
@@ -186,7 +186,7 @@ public abstract class CompoundType extends Type {
         }
         return sig;
     }
-        
+
     /**
      * Return the ClassDeclaration for this type.
      */
@@ -260,36 +260,36 @@ public abstract class CompoundType extends Type {
 
         return result;
     }
- 
-    
+
+
     //_____________________________________________________________________
     // Subclass/Internal Interfaces
     //_____________________________________________________________________
 
     /**
      * Release all resources.
-     */         
+     */
     protected void destroy () {
         if (!destroyed) {
             super.destroy();
 
             if (methods != null) {
                 for (int i = 0; i < methods.length; i++) {
-                    if (methods[i] != null) methods[i].destroy();   
+                    if (methods[i] != null) methods[i].destroy();
                 }
                 methods = null;
             }
 
             if (interfaces != null) {
                 for (int i = 0; i < interfaces.length; i++) {
-                    if (interfaces[i] != null) interfaces[i].destroy();   
+                    if (interfaces[i] != null) interfaces[i].destroy();
                 }
                 interfaces = null;
             }
-            
+
             if (members != null) {
                 for (int i = 0; i < members.length; i++) {
-                    if (members[i] != null) members[i].destroy();   
+                    if (members[i] != null) members[i].destroy();
                 }
                 members = null;
             }
@@ -298,14 +298,14 @@ public abstract class CompoundType extends Type {
             classDecl = null;
         }
     }
- 
+
     /*
      * Load a Class instance. Return null if fail.
      */
     protected Class loadClass() {
-                
+
         Class ourClass = null;
-        
+
         // To avoid getting out-of-date Class instances, and
         // to ensure that there is an instance, we must compile
         // any classes that we've seen and which are not yet
@@ -320,7 +320,7 @@ public abstract class CompoundType extends Type {
                 ClassDeclaration c = (ClassDeclaration)e.nextElement();
             }
             failedConstraint(26,false,stack,"required classes");
-            env.flushErrors();                                      
+            env.flushErrors();
         }
 
         // Now try to get the Class...
@@ -366,7 +366,7 @@ public abstract class CompoundType extends Type {
                 }
                 env.loader = new DirectoryLoader(destDir);
             }
-                
+
             try {
                 ourClass = env.loader.loadClass(getQualifiedName());
             } catch (Exception e) {}
@@ -374,7 +374,7 @@ public abstract class CompoundType extends Type {
 
         return ourClass;
     }
- 
+
     // Print "extends XX"
 
     protected boolean printExtends (IndentingWriter writer,
@@ -532,13 +532,13 @@ public abstract class CompoundType extends Type {
         // Write exceptions...
 
         ClassType[] exceptions;
-   
+
         if (isType(TYPE_IMPLEMENTATION)) {
             exceptions = it.getImplExceptions();
         } else {
             exceptions = it.getExceptions();
         }
-        
+
         for (int i = 0; i < exceptions.length; i++) {
             if (i == 0) {
                 if (useIDLNames) {
@@ -567,7 +567,7 @@ public abstract class CompoundType extends Type {
         if (useIDLNames && exceptions.length > 0) {
             writer.p(")");
         }
-        
+
         if (it.isInherited()) {
             writer.p(" // Inherited from ");
         writer.p(it.getDeclaredBy());
@@ -587,24 +587,24 @@ public abstract class CompoundType extends Type {
         interfaces = new InterfaceType[0];
         methods = new Method[0];
         members = new Member[0];
-        
+
         // If we are an inner class/interface, reset the type codes...
-        
+
         if (classDef.isInnerClass()) {
-            setTypeCode(typeCode | TM_INNER);   
+            setTypeCode(typeCode | TM_INNER);
         }
-        
+
         // Set special flags...
-        
+
         setFlags();
     }
 
     private void setFlags() {
-  
+
         try {
-  
+
         // Set our special interface flags...
-        
+
             isCORBAObject = env.defCorbaObject.implementedBy(env,classDecl);
             isIDLEntity = env.defIDLEntity.implementedBy(env,classDecl);
             isValueBase = env.defValueBase.implementedBy(env,classDecl);
@@ -613,26 +613,26 @@ public abstract class CompoundType extends Type {
                              !isValueBase &&    // Does not implement ValueBase.
                              !isCORBAObject;    // Does not implement org.omg.CORBA.Object;
             isCORBAUserException = (classDecl.getName() == idCorbaUserException);
-        
+
             // Is this an exception?
 
             if (env.defThrowable.implementedBy(env, classDecl)) {
-       
+
                 // Yes...
 
                 isException = true;
-                            
+
                 // Is it a checked exception?
-                                
+
                 if (env.defRuntimeException.implementedBy(env,classDecl) ||
                     env.defError.implementedBy(env,classDecl)) {
-                    isCheckedException = false;   
+                    isCheckedException = false;
                 } else {
                     isCheckedException = true;
                 }
-                
+
                 // Is it java.rmi.RemoteException or a subclass?
-                
+
                 if (env.defRemoteException.implementedBy(env,classDecl)) {
                     isRemoteExceptionOrSubclass = true;
                 } else {
@@ -645,7 +645,7 @@ public abstract class CompoundType extends Type {
             classNotFound(stack,e);
         }
     }
-    
+
     /**
      * Create a CompoundType instance for the given class.  The resulting
      * object is not yet completely initialized.
@@ -657,13 +657,13 @@ public abstract class CompoundType extends Type {
         classDecl = classDef.getClassDeclaration();
 
         // If we are an inner class/interface, reset the type codes...
-        
+
         if (classDef.isInnerClass()) {
-            setTypeCode(typeCode | TM_INNER);   
+            setTypeCode(typeCode | TM_INNER);
         }
-        
+
         // Set special flags...
-        
+
         setFlags();
 
         // Set names...
@@ -684,12 +684,12 @@ public abstract class CompoundType extends Type {
             // Is this an exception?
 
             if (isException()) {
-       
+
                 // Yes, so set our mangled exception names...
 
                 isException = true;
                 idlExceptionName = IDLNames.getExceptionName(getIDLName());
-                qualifiedIDLExceptionName = 
+                qualifiedIDLExceptionName =
                     IDLNames.getQualifiedName(getIDLModuleNames(),idlExceptionName);
             }
 
@@ -715,7 +715,7 @@ public abstract class CompoundType extends Type {
                                         boolean quiet) {
 
         boolean result = true;
-        
+
         // Initialize our arrays...
 
         if (directInterfaces != null && directInterfaces.size() > 0) {
@@ -748,7 +748,7 @@ public abstract class CompoundType extends Type {
 
             // If we have any un-initialized inner classes, now is the time
             // to init them...
-            
+
             for (int i = 0; i < members.length; i++) {
                 if (members[i].isInnerClassDeclaration()) {
                     try {
@@ -772,47 +772,47 @@ public abstract class CompoundType extends Type {
         } else {
             members = new Member[0];
         }
-  
+
         // Set our repositoryID...
-                        
+
         if (result) {
             result = setRepositoryID();
         }
 
         return result;
     }
-                                    
+
     /*
      * Return Type or null if error. classDef may be null.
      */
     protected static Type makeType (sun.tools.java.Type theType,
                                     ClassDefinition classDef,
                                     ContextStack stack) {
-        
+
         if (stack.anyErrors()) return null;
-        
+
         // See if we can find this type in the cache.  If so, return it...
-        
+
         String key = theType.toString();
-        
+
         Type result = getType(key,stack);
-        
+
         if (result != null) {
             return result;
         }
 
         // Gotta try with context...
-        
+
         result = getType(key + stack.getContextCodeString(),stack);
-            
+
         if (result != null) {
             return result;
-        }   
+        }
 
         // Gotta map it...
 
         BatchEnvironment env = stack.getEnv();
-        int typeCode = theType.getTypeCode(); 
+        int typeCode = theType.getTypeCode();
         switch (typeCode) {
         case TC_BOOLEAN:
         case TC_BYTE:
@@ -838,12 +838,12 @@ public abstract class CompoundType extends Type {
             }
 
         case TC_CLASS:
-            {                           
+            {
                 try {
                                 // First, make sure we have the class definition...
 
                     ClassDefinition theClass = classDef;
-                                        
+
                     if (theClass == null) {
                         theClass = env.getClassDeclaration(theType).getClassDefinition(env);
                     }
@@ -864,13 +864,13 @@ public abstract class CompoundType extends Type {
 
                                 // Yep, so just see if we can create an instance of RemoteType
                                 // from it...
-                                
+
                                 boolean parentIsValue = stack.isParentAValue();
                                 result = RemoteType.forRemote(theClass,stack,parentIsValue);
 
                                 // If we did not succeed AND we are in a value context, then
                                 // go ahead and make an NC type out of it...
-                                
+
                                 if (result == null && parentIsValue) {
                                     result = NCInterfaceType.forNCInterface(theClass,stack);
                                 }
@@ -910,7 +910,7 @@ public abstract class CompoundType extends Type {
 
                                 // If we did not succeed AND inValue is true, then
                                 // go ahead and make an NC type out of it...
-                                
+
                                 if (result == null && parentIsValue) {
                                     result = NCClassType.forNCClass(theClass,stack);
                                 }
@@ -925,7 +925,7 @@ public abstract class CompoundType extends Type {
 
                                     result = ValueType.forValue(theClass,stack,true);
                                 }
-                                         
+
                                 if (result == null) {
 
                                     // Treat it as a non-conforming class type...
@@ -940,25 +940,25 @@ public abstract class CompoundType extends Type {
                 }
                 break;
             }
-                    
+
         default: throw new CompilerError("Unknown typecode (" + typeCode + ") for " + theType.getTypeSignature());
         }
-        
+
         return result;
     }
-    
+
     /*
      * Check if exception is RemoteException or one of its parents.
      */
     public static boolean isRemoteException (ClassType ex,
                                              BatchEnvironment env) {
         sun.tools.java.Type exceptionType = ex.getClassDeclaration().getType();
-                
+
         if (exceptionType.equals(env.typeRemoteException) ||
             exceptionType.equals(env.typeIOException) ||
             exceptionType.equals(env.typeException) ||
             exceptionType.equals(env.typeThrowable)) {
-                    
+
             return true;
         }
         return false;
@@ -969,7 +969,7 @@ public abstract class CompoundType extends Type {
      */
     protected boolean isConformingRemoteMethod (Method method, boolean quiet)
         throws ClassNotFound {
-                
+
         // Do we have one exception that is RemoteException or
         // a superclass of RemoteException?
 
@@ -981,16 +981,16 @@ public abstract class CompoundType extends Type {
             // Is it a conforming exception?
 
             if (isRemoteException(exceptions[i],env)) {
-                        
+
                 // Got it.
-                
+
                 haveRemote = true;
                 break;
             }
         }
-        
+
         // Do we have our exception?
-        
+
         if (!haveRemote) {
 
             // No, so report failure...
@@ -1000,7 +1000,7 @@ public abstract class CompoundType extends Type {
 
         // Are any of the arguments exceptions which implement IDLEntity?
         // If so, report failure...
-        
+
         boolean noIDLEntity = !isIDLEntityException(method.getReturnType(),method,quiet);
         if (noIDLEntity) {
             Type[] args = method.getArguments();
@@ -1031,14 +1031,14 @@ public abstract class CompoundType extends Type {
 
     /**
      * Convert all invalid types to valid ones.
-     */         
+     */
     protected void swapInvalidTypes () {
 
         // Walk all interfaces and check them...
 
         for (int i = 0; i < interfaces.length; i++) {
             if (interfaces[i].getStatus() != STATUS_VALID) {
-                interfaces[i] = (InterfaceType)getValidType(interfaces[i]); 
+                interfaces[i] = (InterfaceType)getValidType(interfaces[i]);
             }
         }
 
@@ -1051,7 +1051,7 @@ public abstract class CompoundType extends Type {
         // Update members...
 
         for (int i = 0; i < members.length; i++) {
-            members[i].swapInvalidTypes(); 
+            members[i].swapInvalidTypes();
         }
     }
 
@@ -1201,7 +1201,7 @@ public abstract class CompoundType extends Type {
 
 
     /*
-     * Update any method from 'currentMethods' which is defined in a 
+     * Update any method from 'currentMethods' which is defined in a
      * parent class so that it's 'declaredBy' field specifies the
      * parent.
      * @param current The class or interface to gather methods from.
@@ -1216,14 +1216,14 @@ public abstract class CompoundType extends Type {
                                               boolean quiet,
                                               ContextStack stack)
         throws ClassNotFound {
-                                                    
+
         ClassDeclaration parentDecl = current.getSuperClass(env);
-        
+
         while (parentDecl != null) {
-            
+
             ClassDefinition parentDef = parentDecl.getClassDefinition(env);
             Identifier currentID = parentDecl.getName();
-            
+
             if ( currentID == idJavaLangObject ) break;
 
             // Walk all members of this class and update any that
@@ -1232,7 +1232,7 @@ public abstract class CompoundType extends Type {
             for (MemberDefinition member = parentDef.getFirstMember();
                  member != null;
                  member = member.getNextMember()) {
-                    
+
                 if (member.isMethod() &&
                     !member.isInitializer() &&
                     !member.isConstructor() &&
@@ -1258,15 +1258,15 @@ public abstract class CompoundType extends Type {
                         Method currentMethod = (Method)currentMethods.elementAt(index);
                         currentMethod.setDeclaredBy(currentID);
                     }
-                    else currentMethods.addElement(method);    
+                    else currentMethods.addElement(method);
                 }
             }
 
             // Update parent and keep walking up the chain...
-            
+
             parentDecl = parentDef.getSuperClass(env);
         }
-        
+
         return currentMethods;
     }
 
@@ -1365,17 +1365,17 @@ public abstract class CompoundType extends Type {
                             }
                         }
 
-                        // Bug fix 5014329                        
+                        // Bug fix 5014329
 
                         // find a matching method.
                         int index = directMethods.indexOf(method);
                         Method other = (Method) directMethods.get(index);
-                                                
+
                         // merge the two methods, such that the new method
                         // will contain only those exception that can be thrown
                         // by both these methods, not just one of them.
                         Method newMethod = method.mergeWith(other);
-                        
+
                         // replace the old method with the new.
                         directMethods.set(index, newMethod);
                     }
@@ -1421,23 +1421,23 @@ public abstract class CompoundType extends Type {
         ClassDeclaration[] interfaces = theInterface.getInterfaces();
 
         stack.setNewContextCode(ContextStack.IMPLEMENTS);
-        
+
         for (int i = 0; i < interfaces.length; i++) {
 
             ClassDefinition def = interfaces[i].getClassDefinition(env);
-                
+
             // Is it a SpecialInterfaceType...
-                
+
             InterfaceType it = SpecialInterfaceType.forSpecial(def,stack);;
-            
+
             if (it == null) {
-            
+
                 // No, is it Remote?
-                
+
                 if (env.defRemote.implementedBy(env, interfaces[i])) {
-                
+
                     // Yes, so it must be a RemoteType.
-                    
+
                     it = RemoteType.forRemote(def,stack,false);
 
                 } else {
@@ -1454,7 +1454,7 @@ public abstract class CompoundType extends Type {
                     }
                 }
             }
-            
+
             if (it != null) {
                 list.addElement(it);
             } else {
@@ -1478,7 +1478,7 @@ public abstract class CompoundType extends Type {
         ClassDeclaration[] interfaces = theInterface.getInterfaces();
 
         stack.setNewContextCode(ContextStack.IMPLEMENTS);
-           
+
         for (int i = 0; i < interfaces.length; i++) {
 
             ClassDefinition def = interfaces[i].getClassDefinition(env);
@@ -1492,7 +1492,7 @@ public abstract class CompoundType extends Type {
                 // Then try AbstractType...
 
                 it = AbstractType.forAbstract(def,stack,true);
- 
+
                 if (it == null) {
 
                     // Then try NCInterfaceType...
@@ -1533,7 +1533,7 @@ public abstract class CompoundType extends Type {
 
                     try {
                         String value = null;
-    
+
                         // Prod it to setValue if it is a constant...
 
                         member.getValue(env);
@@ -1605,7 +1605,7 @@ public abstract class CompoundType extends Type {
 
                     try {
                         String value = null;
-    
+
                         // Prod it to setValue if it is a constant...
 
                         member.getValue(env);
@@ -1614,17 +1614,17 @@ public abstract class CompoundType extends Type {
 
                         Node node = member.getValue();
 
-                        if (node != null) {  
+                        if (node != null) {
                             value = node.toString();
                         }
 
 
                         // Is it a constant?
-                    
+
                         if (value != null) {
-                            
+
                             // Yes, is it conforming?
-                            
+
                             if (!isConformingConstantType(member)) {
                                 failedConstraint(3,quiet,stack,member.getClassDefinition(),member.getName());
                                 result = false;
@@ -1665,7 +1665,7 @@ public abstract class CompoundType extends Type {
                 try {
                     ValueType type = ValueType.forValue(theClass,stack,false);
                     if (type != null) {
-                            exceptions[i] = type;                           
+                            exceptions[i] = type;
                         } else {
                             result = false;
                         }
@@ -1681,14 +1681,14 @@ public abstract class CompoundType extends Type {
             classNotFound(quiet,stack,e);
             result = false;
         }
-                
+
         if (!result) {
             throw new Exception();
         }
-                
-        // Remove any duplicates (javac seems to allow them, but rmic will 
+
+        // Remove any duplicates (javac seems to allow them, but rmic will
         // generate bad ties)...
-                
+
         int dupCount = 0;
         for (int i = 0; i < exceptions.length; i++) {
             for (int j = 0; j < exceptions.length; j++) {
@@ -1708,7 +1708,7 @@ public abstract class CompoundType extends Type {
             }
             exceptions = temp;
         }
-                
+
         return exceptions;
     }
 
@@ -1748,7 +1748,7 @@ public abstract class CompoundType extends Type {
                                     ContextStack stack,
                                     CompoundType enclosing,
                                     boolean dataMember) {
-                                        
+
         if (type.isType(TYPE_IMPLEMENTATION)) {
             int constraint = dataMember ? 28 : 21;
             failedConstraint(constraint,quiet,stack,type,enclosing.getName());
@@ -1756,11 +1756,11 @@ public abstract class CompoundType extends Type {
         }
         return true;
     }
-    
+
     //_____________________________________________________________________
     // Inner Class "Method"
-    //_____________________________________________________________________       
-    
+    //_____________________________________________________________________
+
     /**
      * A CompoundType.Method object encapsulates IIOP-specific information
      * about a particular method in the interface represented by the outer
@@ -1770,67 +1770,67 @@ public abstract class CompoundType extends Type {
 
         /**
          * Is this method inherited?
-         */     
+         */
         public boolean isInherited () {
-            return declaredBy != enclosing.getIdentifier();    
+            return declaredBy != enclosing.getIdentifier();
         }
- 
+
         /**
          * Is this method an attribute?
          * Return true if getAttributeKind != ATTRIBUTE_NONE.
-         */     
+         */
         public boolean isAttribute () {
-            return attributeKind != ATTRIBUTE_NONE;    
+            return attributeKind != ATTRIBUTE_NONE;
         }
-        
+
         /**
          * Is this method a read-write attribute?
-         */     
+         */
         public boolean isReadWriteAttribute () {
             return attributeKind == ATTRIBUTE_IS_RW ||
-                attributeKind == ATTRIBUTE_GET_RW;    
+                attributeKind == ATTRIBUTE_GET_RW;
         }
 
         /**
          * Return the attribute kind.
-         */     
+         */
         public int getAttributeKind() {
-            return attributeKind;    
+            return attributeKind;
         }
-        
+
         /**
          * Return the attribute name. Will be null if
          * attribute kind == ATTRIBUTE_NONE.
-         */     
+         */
         public String getAttributeName() {
-            return attributeName;    
+            return attributeName;
         }
-       
+
         /**
          * For kinds ATTRIBUTE_GET_RW or ATTRIBUTE_IS_RW, return
          * the index of the matching ATTRIBUTE_SET method, and
          * vice-versa. For all other cases, return -1.
-         */     
+         */
         public int getAttributePairIndex() {
-            return attributePairIndex;    
+            return attributePairIndex;
         }
-       
+
         /**
          * Return context element name.
-         */     
+         */
         public String getElementName() {
-            return memberDef.toString();    
+            return memberDef.toString();
         }
-        
+
         /**
          * Equality check based on method signature.
          */
         public boolean equals(Object obj) {
             Method other = (Method) obj;
-            
-            if (getName().equals(other.getName()) && 
+
+            if (getName().equals(other.getName()) &&
                 arguments.length == other.arguments.length) {
-                    
+
                 for (int i = 0; i < arguments.length; i++) {
                     if (! arguments[i].equals(other.arguments[i])) {
                         return false;
@@ -1851,10 +1851,10 @@ public abstract class CompoundType extends Type {
          */
         public Method mergeWith(Method other) {
             if (!equals(other)) {
-                env.error(0, "attempt to merge method failed:", getName(), 
+                env.error(0, "attempt to merge method failed:", getName(),
                           enclosing.getClassDefinition().getName());
             }
-    
+
             Vector legalExceptions = new Vector();
             try {
                 collectCompatibleExceptions(
@@ -1866,15 +1866,15 @@ public abstract class CompoundType extends Type {
                           enclosing.getClassDefinition().getName());
                 return null;
             }
-    
+
             Method merged = (Method) clone();
             merged.exceptions = new ValueType[legalExceptions.size()];
             legalExceptions.copyInto(merged.exceptions);
             merged.implExceptions = merged.exceptions;
-    
+
             return merged;
         }
-    
+
         /**
          * Add to the supplied list all exceptions in the "from" array
          * that are subclasses of an exception in the "with" array.
@@ -1888,7 +1888,7 @@ public abstract class CompoundType extends Type {
                 if (!list.contains(from[i])) {
                     for (int j = 0; j < with.length; j++) {
                         if (exceptionDef.subClassOf(
-                                enclosing.getEnv(), 
+                                enclosing.getEnv(),
                                 with[j].getClassDeclaration())) {
                             list.addElement(from[i]);
                             break;
@@ -1919,22 +1919,22 @@ public abstract class CompoundType extends Type {
         public String getVisibility() {
             return vis;
         }
-        
+
         /**
          * Methods to check various attributes.
          */
         public boolean isPublic() {
             return memberDef.isPublic();
         }
-        
+
         public boolean isProtected() {
             return memberDef.isPrivate();
         }
-        
+
         public boolean isPrivate() {
             return memberDef.isPrivate();
         }
- 
+
         public boolean isStatic() {
             return memberDef.isStatic();
         }
@@ -2016,7 +2016,7 @@ public abstract class CompoundType extends Type {
         public ValueType[] getExceptions() {
             return (ValueType[]) exceptions.clone();
         }
- 
+
         /**
          * Same as getExceptions(), except when method is in an
          * ImplementationType and the exceptions list is narrower.
@@ -2027,16 +2027,16 @@ public abstract class CompoundType extends Type {
 
         /**
          * Return an array containing only those exceptions which
-         * need to be caught.  Removes java.rmi.RemoteException, 
-         * java.lang.RuntimeException, java.lang.Error, and their 
-         * subclasses, then removes any exceptions which are more 
+         * need to be caught.  Removes java.rmi.RemoteException,
+         * java.lang.RuntimeException, java.lang.Error, and their
+         * subclasses, then removes any exceptions which are more
          * derived than another in the list. Returns null if no
          * exceptions need to be caught.
          */
         public ValueType[] getUniqueCatchList(ValueType[] list) {
             ValueType[] result = list;
             int newSize = list.length;
-            
+
             try {
 
                 // First, remove RemoteException, RuntimeException, Error, and their subclasses...
@@ -2067,9 +2067,9 @@ public abstract class CompoundType extends Type {
             } catch (ClassNotFound e) {
                 classNotFound(stack,e); // Report error but do not stop.
             }
-            
+
             // Create new list if we removed anything...
-            
+
             if (newSize < list.length) {
                 ValueType[] temp = new ValueType[newSize];
                 int offset = 0;
@@ -2080,7 +2080,7 @@ public abstract class CompoundType extends Type {
                 }
                 list = temp;
             }
-            
+
             if (list.length == 0) {
                 return null;
             } else {
@@ -2090,16 +2090,16 @@ public abstract class CompoundType extends Type {
 
         /**
          * Return an array containing only those exceptions which need to be
-         * handled explicitly by the stub.  Removes java.lang.RuntimeException, 
+         * handled explicitly by the stub.  Removes java.lang.RuntimeException,
          * java.lang.Error, and their subclasses, since these are all passed
-         * back as CORBA system exceptions.  Also removes subclasses of 
+         * back as CORBA system exceptions.  Also removes subclasses of
          * java.rmi.RemoteException but not java.rmi.RemoteException itself,
          * since this may need to be thrown by the stub.
          */
         public ValueType[] getFilteredStubExceptions(ValueType[] list) {
             ValueType[] result = list;
             int newSize = list.length;
-            
+
             try {
 
                 for (int i = 0; i < list.length; i++) {
@@ -2116,9 +2116,9 @@ public abstract class CompoundType extends Type {
             } catch (ClassNotFound e) {
                 classNotFound(stack,e); // Report error but do not stop.
             }
-            
+
             // Create new list if we removed anything...
-            
+
             if (newSize < list.length) {
                 ValueType[] temp = new ValueType[newSize];
                 int offset = 0;
@@ -2129,7 +2129,7 @@ public abstract class CompoundType extends Type {
                 }
                 list = temp;
             }
-            
+
             return list;
         }
 
@@ -2180,28 +2180,28 @@ public abstract class CompoundType extends Type {
             return stringRep;
         }
 
-    
+
         /**
          * Set attribute kind. May only be called during initialization.
-         */     
+         */
         public void setAttributeKind(int kind) {
             attributeKind = kind;
         }
-        
+
         /**
          * Set pair index. May only be called during initialization.
-         */     
+         */
         public void setAttributePairIndex(int index) {
             attributePairIndex = index;
         }
-        
+
         /**
          * Set attribute name. May only be called during initialization.
-         */     
+         */
         public void setAttributeName(String name) {
             attributeName = name;
         }
-        
+
         /**
          * Set the idl name. May only be called during initialization.
          */
@@ -2225,20 +2225,20 @@ public abstract class CompoundType extends Type {
 
         /**
          * Convert all invalid types to valid ones.
-         */     
+         */
         protected void swapInvalidTypes () {
 
             // Check return type...
 
             if (returnType.getStatus() != STATUS_VALID) {
-                returnType = getValidType(returnType); 
+                returnType = getValidType(returnType);
             }
 
             // Check args...
 
             for (int i = 0; i < arguments.length; i++) {
                 if (arguments[i].getStatus() != STATUS_VALID) {
-                    arguments[i] = getValidType(arguments[i]); 
+                    arguments[i] = getValidType(arguments[i]);
                 }
             }
 
@@ -2246,7 +2246,7 @@ public abstract class CompoundType extends Type {
 
             for (int i = 0; i < exceptions.length; i++) {
                 if (exceptions[i].getStatus() != STATUS_VALID) {
-                    exceptions[i] = (ValueType)getValidType(exceptions[i]); 
+                    exceptions[i] = (ValueType)getValidType(exceptions[i]);
                 }
             }
 
@@ -2254,15 +2254,15 @@ public abstract class CompoundType extends Type {
 
             for (int i = 0; i < implExceptions.length; i++) {
                 if (implExceptions[i].getStatus() != STATUS_VALID) {
-                    implExceptions[i] = (ValueType)getValidType(implExceptions[i]); 
+                    implExceptions[i] = (ValueType)getValidType(implExceptions[i]);
                 }
             }
         }
-        
+
         /**
          * Release all resources.
-         */     
-        public void destroy () {    
+         */
+        public void destroy () {
             if (memberDef != null) {
                 memberDef = null;
                 enclosing = null;
@@ -2273,7 +2273,7 @@ public abstract class CompoundType extends Type {
                     }
                     exceptions = null;
                 }
-                
+
                 if (implExceptions != null) {
                     for (int i = 0; i < implExceptions.length; i++) {
                         if (implExceptions[i] != null) implExceptions[i].destroy();
@@ -2281,10 +2281,10 @@ public abstract class CompoundType extends Type {
                     }
                     implExceptions = null;
                 }
-                
+
                 if (returnType != null) returnType.destroy();
                 returnType = null;
-                
+
                 if (arguments != null) {
                     for (int i = 0; i < arguments.length; i++) {
                         if (arguments[i] != null) arguments[i].destroy();
@@ -2292,14 +2292,14 @@ public abstract class CompoundType extends Type {
                     }
                     arguments = null;
                 }
-                
+
                 if (argumentNames != null) {
                     for (int i = 0; i < argumentNames.length; i++) {
                         argumentNames[i] = null;
                     }
                     argumentNames = null;
                 }
-                
+
                 vis = null;
                 name = null;
                 idlName = null;
@@ -2308,7 +2308,7 @@ public abstract class CompoundType extends Type {
                 declaredBy = null;
             }
         }
-    
+
         private MemberDefinition memberDef;
         private CompoundType enclosing;
         private ValueType[] exceptions;
@@ -2324,7 +2324,7 @@ public abstract class CompoundType extends Type {
         private String attributeName = null;
         private int attributePairIndex = -1;
         private Identifier declaredBy = null;
-        
+
         /**
          * Make up an argument name for the given type.
          */
@@ -2340,20 +2340,20 @@ public abstract class CompoundType extends Type {
                        MemberDefinition memberDef,
                        boolean quiet,
                        ContextStack stack) throws Exception {
-                            
+
             this.enclosing = enclosing;
             this.memberDef = memberDef;
             vis = getVisibilityString(memberDef);
             idlName = null; // See setIDLName()
             boolean valid = true;
-            declaredBy = memberDef.getClassDeclaration().getName(); 
+            declaredBy = memberDef.getClassDeclaration().getName();
 
             // Set name...
 
             name = memberDef.getName().toString();
 
             // Update the context...
-            
+
             stack.setNewContextCode(ContextStack.METHOD);
             stack.push(this);
 
@@ -2383,7 +2383,7 @@ public abstract class CompoundType extends Type {
             Vector origArgNames = memberDef.getArguments();
 
             for (int i = 0; i < args.length; i++) {
-                Type type = null;                   
+                Type type = null;
                 try {
                     type = makeType(args[i],null,stack);
                 } catch (Exception e) {
@@ -2406,14 +2406,14 @@ public abstract class CompoundType extends Type {
                     failedConstraint(25,false,stack,enclosing.getQualifiedName(),name);
                 }
             }
-                        
+
             if (!valid) {
                 stack.pop(false);
                 throw new Exception();
             }
 
             // Set exceptions...
-            
+
             try {
                 exceptions = enclosing.getMethodExceptions(memberDef,quiet,stack);
                 implExceptions = exceptions;
@@ -2423,7 +2423,7 @@ public abstract class CompoundType extends Type {
                 throw new Exception();
             }
         }
-        
+
         /**
          * Cloning is supported by returning a shallow copy of this object.
          */
@@ -2448,11 +2448,11 @@ public abstract class CompoundType extends Type {
 
         /**
          * Return context element name.
-         */     
+         */
         public String getElementName() {
-            return "\"" + getName() + "\"";    
+            return "\"" + getName() + "\"";
         }
-        
+
         /**
          * Return the type of this member.
          */
@@ -2481,26 +2481,26 @@ public abstract class CompoundType extends Type {
         public String getVisibility() {
             return vis;
         }
-        
+
         /**
          * Methods to check various attributes.
          */
         public boolean isPublic() {
             return member.isPublic();
         }
-        
+
         public boolean isPrivate() {
             return member.isPrivate();
         }
- 
+
         public boolean isStatic() {
             return member.isStatic();
         }
- 
+
         public boolean isFinal() {
             return member.isFinal();
         }
- 
+
         public boolean isTransient() {
             if (forceTransient) return true;
             return member.isTransient();
@@ -2512,7 +2512,7 @@ public abstract class CompoundType extends Type {
         public String getValue() {
             return value;
         }
-        
+
         /**
          * Return true if this member represents an inner class declaration,
          * false otherwise.
@@ -2520,7 +2520,7 @@ public abstract class CompoundType extends Type {
         public boolean isInnerClassDeclaration() {
             return innerClassDecl;
         }
-        
+
         /**
          * Return true if this member represents a constant.
          */
@@ -2544,13 +2544,13 @@ public abstract class CompoundType extends Type {
 
         /**
          * Convert all invalid types to valid ones.
-         */     
+         */
         protected void swapInvalidTypes () {
             if (type.getStatus() != STATUS_VALID) {
-                type = getValidType(type); 
+                type = getValidType(type);
             }
         }
-        
+
         protected void setTransient() {
             if (! isTransient()) {
                 forceTransient = true;
@@ -2561,14 +2561,14 @@ public abstract class CompoundType extends Type {
                 }
             }
         }
-        
+
         protected MemberDefinition getMemberDefinition() {
             return member;
         }
-        
+
         /**
          * Release all resources.
-         */     
+         */
         public void destroy () {
             if (type != null) {
                 type.destroy();
@@ -2580,7 +2580,7 @@ public abstract class CompoundType extends Type {
                 member = null;
             }
         }
-        
+
         private Type type;
         private String vis;
         private String value;
@@ -2602,28 +2602,28 @@ public abstract class CompoundType extends Type {
             this.value = value;
             forceTransient = false;
             innerClassDecl = member.getInnerClass() != null;
-            
+
             // If we are not an inner class, finish initializing now.
             // Otherwise, wait until outer class is finished, then
             // call init to avoid potential recursion problems...
-                
+
             if (!innerClassDecl) {
                 init (stack,enclosing);
             }
         }
-            
+
         public void init (ContextStack stack, CompoundType enclosing) {
-                        
+
             constant = false;
             name = member.getName().toString();
             vis = getVisibilityString(member);
             idlName = null;
 
             // Add self to stack...
-                
+
             int contextCode = ContextStack.MEMBER;
             stack.setNewContextCode(contextCode);
-            
+
             // Check for special contextCodes...
 
             if (member.isVariable()) {
@@ -2636,21 +2636,21 @@ public abstract class CompoundType extends Type {
                     contextCode = ContextStack.MEMBER_TRANSIENT;
                 }
             }
-                        
+
             stack.setNewContextCode(contextCode);
             stack.push(this);
-        
+
             type = makeType(member.getType(),null,stack);
-            
+
             if (type == null ||
-                (!innerClassDecl && 
-                 !member.isStatic() && 
-                 !member.isTransient() && 
+                (!innerClassDecl &&
+                 !member.isStatic() &&
+                 !member.isTransient() &&
                  !assertNotImpl(type,false,stack,enclosing,true))) {
                 stack.pop(false);
-                throw new CompilerError("");    
+                throw new CompilerError("");
             }
-                                        
+
             // Clean up primitive constant values...
 
             if (constant && type.isPrimitive()) {

@@ -33,8 +33,8 @@ import org.omg.CORBA.portable.StreamableValue ;
 import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
 import org.omg.PortableInterceptor.ObjectReferenceTemplateHelper ;
 
-/** This is an implementation of the ObjectReferenceTemplate abstract value 
-* type defined by the portable interceptors IDL.  
+/** This is an implementation of the ObjectReferenceTemplate abstract value
+* type defined by the portable interceptors IDL.
 * Note that this is a direct Java implementation
 * of the abstract value type: there is no stateful value type defined in IDL,
 * since defining the state in IDL is awkward and inefficient.  The best way
@@ -42,7 +42,7 @@ import org.omg.PortableInterceptor.ObjectReferenceTemplateHelper ;
 * to and read from CORBA streams.
 */
 public class ObjectReferenceTemplateImpl extends ObjectReferenceProducerBase
-    implements ObjectReferenceTemplate, StreamableValue 
+    implements ObjectReferenceTemplate, StreamableValue
 {
     private static final long serialVersionUID = 6441570404699638098L;
     transient private IORTemplate iorTemplate ;
@@ -53,7 +53,7 @@ public class ObjectReferenceTemplateImpl extends ObjectReferenceProducerBase
         _read( is ) ;
     }
 
-    public ObjectReferenceTemplateImpl( ORB orb, IORTemplate iortemp ) 
+    public ObjectReferenceTemplateImpl( ORB orb, IORTemplate iortemp )
     {
         super( orb ) ;
         iorTemplate = iortemp ;
@@ -68,7 +68,7 @@ public class ObjectReferenceTemplateImpl extends ObjectReferenceProducerBase
 
         ObjectReferenceTemplateImpl other = (ObjectReferenceTemplateImpl)obj ;
 
-        return (iorTemplate != null) && 
+        return (iorTemplate != null) &&
             iorTemplate.equals( other.iorTemplate ) ;
     }
 
@@ -81,24 +81,24 @@ public class ObjectReferenceTemplateImpl extends ObjectReferenceProducerBase
     // Note that this repository ID must reflect the implementation
     // of the abstract valuetype (that is, this class), not the
     // repository ID of the org.omg.PortableInterceptor.ObjectReferenceTemplate
-    // class.  This allows for multiple independent implementations 
+    // class.  This allows for multiple independent implementations
     // of the abstract valuetype, should that become necessary.
-    public static final String repositoryId = 
+    public static final String repositoryId =
         "IDL:com/sun/corba/ee/impl/ior/ObjectReferenceTemplateImpl:1.0" ;
 
-    public String[] _truncatable_ids() 
+    public String[] _truncatable_ids()
     {
         return new String[] { repositoryId } ;
     }
 
-    public TypeCode _type() 
+    public TypeCode _type()
     {
         return ObjectReferenceTemplateHelper.type() ;
     }
 
     // Read the data into a (presumably) empty ORTImpl.  This sets the
     // orb to the ORB of the InputStream.
-    public void _read( InputStream is ) 
+    public void _read( InputStream is )
     {
         org.omg.CORBA_2_3.portable.InputStream istr =
             (org.omg.CORBA_2_3.portable.InputStream)is ;
@@ -106,9 +106,9 @@ public class ObjectReferenceTemplateImpl extends ObjectReferenceProducerBase
         orb = (ORB)(istr.orb()) ;
     }
 
-    public void _write( OutputStream os ) 
+    public void _write( OutputStream os )
     {
-        org.omg.CORBA_2_3.portable.OutputStream ostr = 
+        org.omg.CORBA_2_3.portable.OutputStream ostr =
             (org.omg.CORBA_2_3.portable.OutputStream)os ;
 
         iorTemplate.write( ostr ) ;
@@ -127,18 +127,18 @@ public class ObjectReferenceTemplateImpl extends ObjectReferenceProducerBase
 
     public String[] adapter_name()
     {
-        ObjectAdapterId poaid = 
+        ObjectAdapterId poaid =
             iorTemplate.getObjectKeyTemplate().getObjectAdapterId() ;
 
         return poaid.getAdapterName() ;
     }
 
-    public IORFactory getIORFactory() 
+    public IORFactory getIORFactory()
     {
         return iorTemplate ;
     }
 
-    public IORTemplateList getIORTemplateList() 
+    public IORTemplateList getIORTemplateList()
     {
         IORTemplateList tl = IORFactories.makeIORTemplateList() ;
         tl.add( iorTemplate ) ;

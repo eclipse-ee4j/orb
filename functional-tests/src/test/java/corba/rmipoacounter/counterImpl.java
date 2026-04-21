@@ -26,14 +26,14 @@ import java.io.File ;
 import java.io.RandomAccessFile ;
 import org.omg.PortableServer.POA ;
 
-public class counterImpl extends PortableRemoteObject implements counterIF  
+public class counterImpl extends PortableRemoteObject implements counterIF
 {
     // Temporary hack to get this test to work and keep the output
     // directory clean
-    private static final String outputDirOffset 
+    private static final String outputDirOffset
         = "/corba/rmipoacounter/".replace('/', File.separatorChar);
 
-    String name; 
+    String name;
     private int value;
     ORB orb;
     private int myid;
@@ -46,11 +46,11 @@ public class counterImpl extends PortableRemoteObject implements counterIF
         this.orb = orb;
         this.debug = debug ;
 
-        name = System.getProperty("output.dir") 
+        name = System.getProperty("output.dir")
             + outputDirOffset
             + "counterValue";
 
-        try { 
+        try {
             File f = new File(name);
             if ( !f.exists() ) {
                 RandomAccessFile file = new RandomAccessFile(f, "rw");
@@ -66,20 +66,20 @@ public class counterImpl extends PortableRemoteObject implements counterIF
 
     public synchronized long increment(long invalue) throws RemoteException
     {
-        if ( debug ) 
-            System.out.println( "\nIn counterServant " + myid + 
+        if ( debug )
+            System.out.println( "\nIn counterServant " + myid +
                                 " increment(), invalue = " + invalue + " Server thread is " +
                                 Thread.currentThread());
 
         try {
             // Test Current operations
-            org.omg.PortableServer.Current current = 
+            org.omg.PortableServer.Current current =
                 (org.omg.PortableServer.Current)orb.resolve_initial_references(
                                                                                "POACurrent");
             POA poa = current.get_POA();
             byte[] oid = current.get_object_id();
 
-            if ( debug ) 
+            if ( debug )
                 System.out.println( "POA = " + poa.the_name() + " objectid = " +
                                     oid);
 

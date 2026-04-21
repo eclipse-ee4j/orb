@@ -43,8 +43,8 @@ import org.omg.PortableServer.POAPackage.WrongPolicy ;
  * We cannot simply change ObjectImpl as it is a standard API.
  * We also cannot change the code generation of Stubs, as that
  * is also standard.  Hence I am left with this ugly class.
- */ 
-public abstract class StubAdapter 
+ */
+public abstract class StubAdapter
 {
     private StubAdapter() {}
 
@@ -63,7 +63,7 @@ public abstract class StubAdapter
             (stub instanceof ObjectImpl) ;
     }
 
-    public static void setDelegate( Object stub, Delegate delegate ) 
+    public static void setDelegate( Object stub, Delegate delegate )
     {
         if (stub instanceof DynamicStub) {
             ((DynamicStub) stub).setDelegate(delegate);
@@ -75,11 +75,11 @@ public abstract class StubAdapter
     }
 
     /** Use implicit activation to get an object reference for the servant.
-     * 
+     *
      * @param servant servant to activate
      * @return reference to servant
      */
-    public static org.omg.CORBA.Object activateServant( Servant servant ) 
+    public static org.omg.CORBA.Object activateServant( Servant servant )
     {
         POA poa = servant._default_POA() ;
         org.omg.CORBA.Object ref = null ;
@@ -99,7 +99,7 @@ public abstract class StubAdapter
             // This servant is managed by one of our POAs,
             // so only activate it if there has not been
             // an explicit state change, that is, if the POA
-            // has never changed state from the initial 
+            // has never changed state from the initial
             // HOLDING state.
             POAManagerImpl mgrImpl = (POAManagerImpl)mgr ;
             mgrImpl.implicitActivation() ;
@@ -122,7 +122,7 @@ public abstract class StubAdapter
 
     /** Given any Tie, return the corresponding object refernce, activating
      * the Servant if necessary.
-     * 
+     *
      * @param tie tie to activate
      * @return reference to Tie
      */
@@ -147,11 +147,11 @@ public abstract class StubAdapter
 
     /** This also gets the delegate from a Servant by
      * using Servant._this_object()
-     * 
+     *
      * @param stub stub to get delegate of
      * @return the stub's Delegate
      */
-    public static Delegate getDelegate( Object stub ) 
+    public static Delegate getDelegate( Object stub )
     {
         if (stub instanceof DynamicStub) {
             return ((DynamicStub) stub).getDelegate();
@@ -165,8 +165,8 @@ public abstract class StubAdapter
             throw wrapper.getDelegateRequiresStub();
         }
     }
-    
-    public static ORB getORB( Object stub ) 
+
+    public static ORB getORB( Object stub )
     {
         if (stub instanceof DynamicStub) {
             return ((DynamicStub)stub).getORB() ;
@@ -188,11 +188,11 @@ public abstract class StubAdapter
         }
     }
 
-    public static void connect( Object stub, 
-        ORB orb ) throws java.rmi.RemoteException 
+    public static void connect( Object stub,
+        ORB orb ) throws java.rmi.RemoteException
     {
         if (stub instanceof DynamicStub) {
-            ((DynamicStub)stub).connect( 
+            ((DynamicStub)stub).connect(
                 (com.sun.corba.ee.spi.orb.ORB)orb ) ;
         } else if (stub instanceof javax.rmi.CORBA.Stub) {
             ((javax.rmi.CORBA.Stub)stub).connect( orb ) ;
@@ -214,8 +214,8 @@ public abstract class StubAdapter
         }
     }
 
-    public static OutputStream request( Object stub, 
-        String operation, boolean responseExpected ) 
+    public static OutputStream request( Object stub,
+        String operation, boolean responseExpected )
     {
         if (stub instanceof DynamicStub) {
             return ((DynamicStub)stub).request( operation,

@@ -51,29 +51,29 @@ public class CORBAUtil
      *@return  OutputStream for writing to the file
      *@exception  FileNotFoundException  Error creating the file
      */
-    public static OutputStream openFile(String dir, 
+    public static OutputStream openFile(String dir,
                                         String name) throws FileNotFoundException
     {
         CORBAUtil.mkdir(dir);
-        
+
         return CORBAUtil.openFile(dir + File.separator + name);
     }
-    
+
     /**
-     * Open/create a file at the given full path, appending to it if it is 
+     * Open/create a file at the given full path, appending to it if it is
      * already there.
      *
      *@param fullpath   Path and name of the file
      *@return  OutputStream for writing to the file
      *@exception  FileNotFoundException   Error creating the file
      */
-    public static OutputStream openFile(String fullpath) 
+    public static OutputStream openFile(String fullpath)
         throws FileNotFoundException
     {
         return new BufferedOutputStream(new FileOutputStream(fullpath, true));
     }
-    
-    
+
+
     /**
      * Convert the given Vector to a String array.  Returns null if the given
      * Vector is null.
@@ -94,7 +94,7 @@ public class CORBAUtil
     }
 
     /**
-     * Return the package name of the given object.  Sometimes 
+     * Return the package name of the given object.  Sometimes
      * getPackage() returns null, but Class getName() always returns
      * a fully qualified package and class name.
      *
@@ -197,7 +197,7 @@ public class CORBAUtil
                 result = file.getAbsolutePath();
         }
 
-        if (result == null) 
+        if (result == null)
             throw new FileNotFoundException(filename);
 
         return result;
@@ -215,11 +215,11 @@ public class CORBAUtil
      *
      */
     public static void toAbsolutePaths(String[] files,
-                                       String[] dirs) 
+                                       String[] dirs)
         throws FileNotFoundException
     {
         // No null check
-        for (int i = 0; i < files.length; i++) 
+        for (int i = 0; i < files.length; i++)
             files[i] = CORBAUtil.toAbsolutePath(files[i],
                                                 dirs);
     }
@@ -249,33 +249,33 @@ public class CORBAUtil
 
             fr1 = new FileReader(f1);
             fr2 = new FileReader(f2);
-            
+
             LineNumberReader file1 = new LineNumberReader(fr1);
             LineNumberReader file2 = new LineNumberReader(fr2);
-            
+
             String file1line, file2line;
 
             do {
 
                 file1line = file1.readLine();
                 file2line = file2.readLine();
-                
+
                 if (file1line == null && file2line == null)
                     continue;
 
                 if (file1line == null && file2line != null)
-                    throw new Exception(filePath1 
+                    throw new Exception(filePath1
                                         + " is shorter than " + filePath2);
-                
+
                 if (file2line == null)
                     throw new Exception(filePath2
                                         + " is shorter than " + filePath1);
-            
+
                 if (!file1line.equals(file2line))
                     throw new Exception(filePath1 + " and " + filePath2
                                         + " differ on at least line: "
                                         + file1.getLineNumber());
-                
+
             } while (file1line != null && file2line != null);
 
         } finally {

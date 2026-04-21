@@ -84,7 +84,7 @@ public abstract class ThreadProcess implements InternalProcess, Runnable
 
             if (!finished()) {
                 exitValue = Controller.STOPPED;
-                
+
                 // The thread should eventually call setFinished and
                 // exit which will wake up any waiters.  (It knows
                 // it must leave because now stopped() returns true.)

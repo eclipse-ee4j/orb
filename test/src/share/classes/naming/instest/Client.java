@@ -44,18 +44,18 @@ public class Client implements Runnable {
     {
         try {
             Properties props = new Properties() ;
-            //props.setProperty( "com.sun.corba.ee.ORBDebug", 
+            //props.setProperty( "com.sun.corba.ee.ORBDebug",
                 //"subcontract,transport,naming,serviceContext,transientObjectManager" ) ;
             ORB orb = ORB.init( args, props );
 
             String corbalocURL
                 = System.getProperty(TestConstants.URL_PROPERTY);
 
-            Object obj 
+            Object obj
                 = orb.string_to_object(corbalocURL);
 
             if( obj == null ) {
-                System.err.println( "string_to_object(" + 
+                System.err.println( "string_to_object(" +
                     corbalocURL + ") failed.." );
                 System.err.flush();
                 signalError ();

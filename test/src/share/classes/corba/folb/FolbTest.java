@@ -74,12 +74,12 @@ public class FolbTest
         client = createClient(thisPackage+"."+"ClientMulti", "ClientMulti");
         server.start();
         client.start();
-        
+
         client.waitFor(300000); // 5 minutes
 
         client.stop();
-        server.stop();        
-        
+        server.stop();
+
         //
         // ClientCircular test
         //
@@ -88,12 +88,12 @@ public class FolbTest
         client = createClient(thisPackage+"."+"ClientCircular", "ClientCircular");
         server.start();
         client.start();
-        
+
         client.waitFor(180000);
 
         client.stop();
         server.stop();
-        
+
         //
         // ClientWaitTimeout test
         //
@@ -102,14 +102,14 @@ public class FolbTest
         client = createClient(thisPackage+"."+"ClientWaitTimeout", "ClientWaitTimeout");
         server.start();
         client.start();
-        
+
         client.waitFor(120000);
-        * 
+        *
         * End Issue # GLASSFISH_CORBA-7.
-        **/ 
+        **/
         client.stop();
         server.stop();
-        
+
         //
         // Cleanup
         //

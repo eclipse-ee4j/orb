@@ -54,7 +54,7 @@ public final class CancelRequestMessage_1_1 extends Message_1_1
     // IO methods
 
     public void read(org.omg.CORBA.portable.InputStream istream) {
-        super.read(istream);    
+        super.read(istream);
         this.request_id = istream.read_ulong();
     }
 

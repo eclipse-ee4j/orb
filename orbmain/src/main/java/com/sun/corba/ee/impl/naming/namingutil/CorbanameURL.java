@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.impl.naming.namingutil;
 
-/** 
+/**
  *  The corbaname: URL definitions from the -ORBInitDef and -ORBDefaultInitDef's
  *  will be stored in this object. This object is capable of storing CorbaLoc
  *  profiles as defined in the CorbaName grammer.
@@ -36,7 +36,7 @@ public class CorbanameURL extends INSURLBase
      */
     public CorbanameURL( String aURL ) {
         String url = aURL;
-  
+
         // First Clean the URL Escapes if there are any
         try {
             url = Utility.cleanEscapes( url );
@@ -55,7 +55,7 @@ public class CorbanameURL extends INSURLBase
         try {
             // Check the corbaloc grammar and set the returned corbaloc
             // object to the CorbaName Object
-            INSURL insURL = 
+            INSURL insURL =
                 INSURLHandler.getINSURLHandler().parseURL( corbalocString );
             copyINSURL( insURL );
             // String after '#' is the Stringified name used to resolve
@@ -68,7 +68,7 @@ public class CorbanameURL extends INSURLBase
                 int start = delimiterIndex + 1 ;
                 String result = url.substring(start) ;
                 theStringifiedName = result ;
-            } 
+            }
         } catch( Exception e ) {
             badAddress( e, aURL );
         }
@@ -76,7 +76,7 @@ public class CorbanameURL extends INSURLBase
 
     /**
      * A Utility method to copy all the variables from CorbalocURL object to
-     * this instance. 
+     * this instance.
      */
     private void copyINSURL( INSURL url ) {
         rirFlag = url.getRIRFlag( );

@@ -140,6 +140,6 @@ public interface Exceptions {
     static final int TSV_START = TPM_START + EXCEPTIONS_PER_CLASS ;
 
     @Message( "Thread state validator threw an exception on validator {0}" )
-    @Log( id = TSV_START + 0 ) 
+    @Log( id = TSV_START + 0 )
     RuntimeException threadStateValidatorException( Runnable run, @Chain Throwable exc ) ;
 }

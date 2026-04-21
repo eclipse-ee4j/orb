@@ -30,7 +30,7 @@ public class NameModifierImpl implements com.sun.tools.corba.ee.idl.toJavaPortab
         this.suffix = null ;
     }
 
-    public NameModifierImpl( String prefix, String suffix ) 
+    public NameModifierImpl( String prefix, String suffix )
     {
         this.prefix = prefix ;
         this.suffix = suffix ;
@@ -38,31 +38,31 @@ public class NameModifierImpl implements com.sun.tools.corba.ee.idl.toJavaPortab
 
     /** Construct a NameModifier from a pattern of the form xxx%xxx.
     * The pattern must consist of characters chosen from the
-    * set [A-Za-z0-9%$_]. In addition, the pattern must contain 
-    * exactly one % character.  Finally, if % is not the first char in 
+    * set [A-Za-z0-9%$_]. In addition, the pattern must contain
+    * exactly one % character.  Finally, if % is not the first char in
     * the pattern, the pattern must not start with a number.
     * <p>
     * The semantics of makeName are very simply: just replace the
     * % character with the base in the pattern and return the result.
     */
-    public NameModifierImpl( String pattern ) 
+    public NameModifierImpl( String pattern )
     {
         int first = pattern.indexOf( '%' ) ;
         int last  = pattern.lastIndexOf( '%' ) ;
 
         if (first != last)
-            throw new IllegalArgumentException( 
+            throw new IllegalArgumentException(
                 Util.getMessage("NameModifier.TooManyPercent") ) ;
 
         if (first == -1)
-            throw new IllegalArgumentException( 
+            throw new IllegalArgumentException(
                 Util.getMessage("NameModifier.NoPercent") ) ;
 
         for (int ctr = 0; ctr<pattern.length(); ctr++) {
             char ch = pattern.charAt( ctr ) ;
             if (invalidChar( ch, ctr==0 )) {
                 char[] chars = new char[] { ch } ;
-                throw new IllegalArgumentException( 
+                throw new IllegalArgumentException(
                     Util.getMessage("NameModifier.InvalidChar",
                             new String(chars)) ) ;
             }
@@ -73,11 +73,11 @@ public class NameModifierImpl implements com.sun.tools.corba.ee.idl.toJavaPortab
         suffix = pattern.substring( first+1 ) ;
     }
 
-    /** Return true if ch is invalid as a character in an 
+    /** Return true if ch is invalid as a character in an
     * identifier.  If ch is a number, it is invalid only if
     * isFirst is true.
     */
-    private boolean invalidChar( char ch, boolean isFirst ) 
+    private boolean invalidChar( char ch, boolean isFirst )
     {
         if (('A'<=ch) && (ch<='Z'))
             return false ;

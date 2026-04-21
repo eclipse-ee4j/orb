@@ -43,11 +43,11 @@ public class ServiceContextStrategy
     private final static int FAKEID2 = 2124;
     private final static int FAKEID3 = 2125;
 
-    private final static byte[] FAKEDATA1 = { 
+    private final static byte[] FAKEDATA1 = {
         (byte)1, (byte)2, (byte)3, (byte)4 };
-    private final static byte[] FAKEDATA2 = { 
+    private final static byte[] FAKEDATA2 = {
         (byte)5, (byte)6, (byte)7 };
-    private final static byte[] FAKEDATA3 = { 
+    private final static byte[] FAKEDATA3 = {
         (byte)8 };
 
 
@@ -145,10 +145,10 @@ public class ServiceContextStrategy
         }
     }
 
-    private void testSC( String reqOrRep, String methodName, 
-                         ClientRequestInfo ri ) 
+    private void testSC( String reqOrRep, String methodName,
+                         ClientRequestInfo ri )
     {
-        String header = methodName + "(): get_" + reqOrRep + 
+        String header = methodName + "(): get_" + reqOrRep +
             "_service_context";
 
         // Test to ensure an invalid ID raises a BAD_PARAM:
@@ -187,7 +187,7 @@ public class ServiceContextStrategy
             log( header + "( " + id + " ) exists (ok)." );
 
             // Commenting out copy test due to "good citizen" assumption.
-            /* 
+            /*
             // Ensure this is a copy and not the real thing:
             byte altered = ++sc.context_data[0];
 
@@ -275,7 +275,7 @@ public class ServiceContextStrategy
                 }
             }
             catch( BAD_INV_ORDER e ) {
-                fail( header + 
+                fail( header +
                       "denied access to add_request_service_context." );
             }
         }
@@ -285,11 +285,11 @@ public class ServiceContextStrategy
             try {
                 ServiceContext sc = new ServiceContext( FAKEID1, FAKEDATA1 );
                 ri.add_request_service_context( sc, true );
-                fail( header + 
+                fail( header +
                       "invalid access to add_request_service_context." );
             }
             catch( BAD_INV_ORDER e ) {
-                log( header + 
+                log( header +
                       "denied access to add_request_service_context (ok)." );
             }
         }

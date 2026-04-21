@@ -63,7 +63,7 @@ public class Client {
     private String RENAMED_BASE = "com.sun.corba.ee." ;
 
     private void setSystemProperties( String base ) {
-        // Set the RMI-IIOP delegates and the singleton according to base.      
+        // Set the RMI-IIOP delegates and the singleton according to base.
         System.setProperty( "javax.rmi.CORBA.UtilClass",
             base + "impl.javax.rmi.CORBA.Util" ) ;
         System.setProperty( "javax.rmi.CORBA.StubClass",
@@ -74,12 +74,12 @@ public class Client {
         // We will only use dynamic RMI-IIOP for this test.
         // And only for the EE ORB: the SE ORB uses a slightly different
         // property name.
-        System.out.println( "Setting property " + ORBConstants.USE_DYNAMIC_STUB_PROPERTY 
+        System.out.println( "Setting property " + ORBConstants.USE_DYNAMIC_STUB_PROPERTY
             + " to true" ) ;
         System.setProperty( ORBConstants.USE_DYNAMIC_STUB_PROPERTY, "true" ) ;
 
         // Use the J2SE ic provider
-        System.setProperty( "java.naming.factory.initial", 
+        System.setProperty( "java.naming.factory.initial",
             JndiConstants.COSNAMING_CONTEXT_FACTORY ) ;
     }
 
@@ -105,7 +105,7 @@ public class Client {
         ORB orb = ORB.init( new String[0], props ) ;
 
         if (isServer) {
-            new TransientNameService( 
+            new TransientNameService(
                 com.sun.corba.ee.spi.orb.ORB.class.cast(orb) ) ;
         }
 
@@ -174,7 +174,7 @@ public class Client {
     public void setUp() {
         setSystemProperties( RENAMED_BASE ) ;
         serverORB = makeORB( RENAMED_BASE, true ) ;
-        // This should be SE_BASE 
+        // This should be SE_BASE
         clientORB = makeORB( SE_BASE, false ) ;
 
         try {
@@ -224,7 +224,7 @@ public class Client {
         TestNG tng = new TestNG() ;
 
         Class[] tngClasses = new Class[] {
-            Client.class 
+            Client.class
         } ;
 
         tng.setTestClasses( tngClasses ) ;

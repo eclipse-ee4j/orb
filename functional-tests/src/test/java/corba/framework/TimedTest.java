@@ -23,7 +23,7 @@ import junit.extensions.RepeatedTest ;
 import junit.framework.TestResult ;
 import junit.framework.Test ;
 
-public class TimedTest extends RepeatedTest 
+public class TimedTest extends RepeatedTest
 {
     // Duration in nanoseconds
     private long duration ;
@@ -45,7 +45,7 @@ public class TimedTest extends RepeatedTest
         duration = stopTime - startTime ;
     }
 
-    public long getDuration() 
+    public long getDuration()
     {
         return duration ;
     }

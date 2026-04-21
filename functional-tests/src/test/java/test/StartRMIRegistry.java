@@ -28,7 +28,7 @@ import java.rmi.RMISecurityManager;
 public class StartRMIRegistry {
 
     private static Registry registry = null;
-    
+
     /**
      * Main program to start a registry. <br>
      * The port number can be specified on the command line.

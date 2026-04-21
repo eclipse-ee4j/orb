@@ -92,29 +92,29 @@ public class ClassInfoCache {
         private boolean isAString ;
         private boolean isAIDLEntity ;
 
-        private LazyWrapper isARemote = new LazyWrapper( 
+        private LazyWrapper isARemote = new LazyWrapper(
             Remote.class ) ;
-        private LazyWrapper isARemoteException = new LazyWrapper( 
+        private LazyWrapper isARemoteException = new LazyWrapper(
             RemoteException.class ) ;
-        private LazyWrapper isAUserException = new LazyWrapper( 
+        private LazyWrapper isAUserException = new LazyWrapper(
             UserException.class ) ;
-        private LazyWrapper isAObjectImpl = new LazyWrapper( 
+        private LazyWrapper isAObjectImpl = new LazyWrapper(
             ObjectImpl.class ) ;
-        private LazyWrapper isAORB = new LazyWrapper( 
+        private LazyWrapper isAORB = new LazyWrapper(
             ORB.class ) ;
-        private LazyWrapper isAStreamable = new LazyWrapper( 
+        private LazyWrapper isAStreamable = new LazyWrapper(
             Streamable.class ) ;
-        private LazyWrapper isAStreamableValue = new LazyWrapper( 
+        private LazyWrapper isAStreamableValue = new LazyWrapper(
             StreamableValue.class ) ;
-        private LazyWrapper isACustomValue = new LazyWrapper( 
+        private LazyWrapper isACustomValue = new LazyWrapper(
             CustomValue.class ) ;
-        private LazyWrapper isACORBAObject = new LazyWrapper( 
+        private LazyWrapper isACORBAObject = new LazyWrapper(
             org.omg.CORBA.Object.class ) ;
-        private LazyWrapper isASerializable = new LazyWrapper( 
+        private LazyWrapper isASerializable = new LazyWrapper(
             Serializable.class ) ;
-        private LazyWrapper isAExternalizable = new LazyWrapper( 
+        private LazyWrapper isAExternalizable = new LazyWrapper(
             Externalizable.class ) ;
-        private LazyWrapper isAClass = new LazyWrapper( 
+        private LazyWrapper isAClass = new LazyWrapper(
             Class.class ) ;
 
         private String repositoryId = null ;
@@ -157,7 +157,7 @@ public class ClassInfoCache {
 
             return false ;
         }
-        
+
         public synchronized String getRepositoryId() {
             return repositoryId ;
         }
@@ -166,50 +166,50 @@ public class ClassInfoCache {
             this.repositoryId = repositoryId ;
         }
 
-        public boolean isARemote( Class<?> cls ) { 
-            return isARemote.get(cls) ; 
+        public boolean isARemote( Class<?> cls ) {
+            return isARemote.get(cls) ;
         }
-        public boolean isARemoteException( Class<?> cls ) { 
-            return isARemoteException.get(cls) ; 
+        public boolean isARemoteException( Class<?> cls ) {
+            return isARemoteException.get(cls) ;
         }
-        public boolean isAUserException( Class<?> cls ) { 
-            return isAUserException.get(cls) ; 
+        public boolean isAUserException( Class<?> cls ) {
+            return isAUserException.get(cls) ;
         }
-        public boolean isAObjectImpl( Class<?> cls ) { 
-            return isAObjectImpl.get(cls) ; 
+        public boolean isAObjectImpl( Class<?> cls ) {
+            return isAObjectImpl.get(cls) ;
         }
-        public boolean isAORB( Class<?> cls ) { 
-            return isAORB.get(cls) ; 
+        public boolean isAORB( Class<?> cls ) {
+            return isAORB.get(cls) ;
         }
-        public boolean isAIDLEntity( Class<?> cls ) { 
-            return isAIDLEntity ; 
+        public boolean isAIDLEntity( Class<?> cls ) {
+            return isAIDLEntity ;
         }
-        public boolean isAStreamable( Class<?> cls ) { 
-            return isAStreamable.get(cls) ; 
+        public boolean isAStreamable( Class<?> cls ) {
+            return isAStreamable.get(cls) ;
         }
-        public boolean isAStreamableValue( Class<?> cls ) { 
-            return isAStreamableValue.get(cls) ; 
+        public boolean isAStreamableValue( Class<?> cls ) {
+            return isAStreamableValue.get(cls) ;
         }
-        public boolean isACustomValue( Class<?> cls ) { 
-            return isACustomValue.get(cls) ; 
+        public boolean isACustomValue( Class<?> cls ) {
+            return isACustomValue.get(cls) ;
         }
-        public boolean isAValueBase( Class<?> cls ) { 
-            return isAValueBase ; 
+        public boolean isAValueBase( Class<?> cls ) {
+            return isAValueBase ;
         }
-        public boolean isACORBAObject( Class<?> cls ) { 
-            return isACORBAObject.get(cls) ; 
+        public boolean isACORBAObject( Class<?> cls ) {
+            return isACORBAObject.get(cls) ;
         }
-        public boolean isASerializable( Class<?> cls ) { 
-            return isASerializable.get(cls) ; 
+        public boolean isASerializable( Class<?> cls ) {
+            return isASerializable.get(cls) ;
         }
-        public boolean isAExternalizable( Class<?> cls ) { 
-            return isAExternalizable.get(cls) ; 
+        public boolean isAExternalizable( Class<?> cls ) {
+            return isAExternalizable.get(cls) ;
         }
-        public boolean isAString( Class<?> cls ) { 
-            return isAString ; 
+        public boolean isAString( Class<?> cls ) {
+            return isAString ;
         }
-        public boolean isAClass( Class<?> cls ) { 
-            return isAClass.get(cls) ; 
+        public boolean isAClass( Class<?> cls ) {
+            return isAClass.get(cls) ;
         }
 
         public boolean isArray() { return isArray ; }
@@ -226,8 +226,8 @@ public class ClassInfoCache {
     /* Version using ConcurrentMap for testing ONLY
      * (This would pin Classes (and thus ClassLoaders), leading to
      * App server deployment memory leaks.
-    
-    private static ConcurrentMap<Class,ClassInfo> classData = 
+
+    private static ConcurrentMap<Class,ClassInfo> classData =
         new ConcurrentHashMap<Class,ClassInfo>() ;
 
     public static ClassInfo get( Class cls ) {
@@ -268,7 +268,7 @@ public class ClassInfoCache {
     public static Class getEnumClass( ClassInfo cinfo, Class cls ) {
         ClassInfo currInfo = cinfo ;
         Class currClass = cls ;
-        while (currClass != null) { 
+        while (currClass != null) {
             if (currClass.isEnum()) {
                 break ;
             }

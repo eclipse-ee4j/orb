@@ -30,14 +30,14 @@ import java.util.Iterator;
 
 import org.omg.CORBA.INTERNAL;
 
-public class LegacyServerSocketManagerImpl 
+public class LegacyServerSocketManagerImpl
     implements
         LegacyServerSocketManager
 {
     protected ORB orb;
     private static final ORBUtilSystemException wrapper =
         ORBUtilSystemException.self ;
-    
+
     public LegacyServerSocketManagerImpl(ORB orb) {
         this.orb = orb;
     }
@@ -71,7 +71,7 @@ public class LegacyServerSocketManagerImpl
     public synchronized int legacyGetTransientOrPersistentServerPort(
         String socketType)
     {
-            return legacyGetServerPort(socketType, 
+            return legacyGetServerPort(socketType,
                                        orb.getORBData()
                                        .getServerIsORBActivated());
     }
@@ -94,7 +94,7 @@ public class LegacyServerSocketManagerImpl
 
     // Check to see if the given port is equal to any of the ORB Server Ports.
     // Used in IIOPProfileImpl, ORBImpl.
-    public boolean legacyIsLocalServerPort(int port) 
+    public boolean legacyIsLocalServerPort(int port)
     {
         // If port is 0 (which signifies in CSIv2 that clear text
         // communication is not allowed), we must return true, because
@@ -104,7 +104,7 @@ public class LegacyServerSocketManagerImpl
         }
 
         Iterator iterator = getAcceptorIterator();
-        while (iterator.hasNext()) { 
+        while (iterator.hasNext()) {
             LegacyServerSocketEndPointInfo endPoint = cast(iterator.next());
             if (endPoint != null && endPoint.getPort() == port) {
                 return true;
@@ -136,7 +136,7 @@ public class LegacyServerSocketManagerImpl
 
     private Iterator getAcceptorIterator()
     {
-        Collection acceptors = 
+        Collection acceptors =
             orb.getCorbaTransportManager().getAcceptors(null, null);
         if (acceptors != null) {
             return acceptors.iterator();

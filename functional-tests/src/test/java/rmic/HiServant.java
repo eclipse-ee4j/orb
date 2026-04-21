@@ -27,20 +27,20 @@ public class HiServant implements Hi {
     public String hi_0 () {
         return "Hi!";
     }
-    
+
     public String hi_1 () throws ClassNotFoundException {
-        throw new ClassNotFoundException();   
+        throw new ClassNotFoundException();
     }
-    
+
     public String hi_2 () throws Exception {
-        return "hi";   
+        return "hi";
     }
-    
+
     public String hi_3 () throws IOException,ClassNotFoundException {
-        return "hi";   
+        return "hi";
     }
-    
+
     public String hi_4 (String in) throws IOException,ClassNotFoundException,HelloException {
-        return "hi";   
+        return "hi";
     }
 }

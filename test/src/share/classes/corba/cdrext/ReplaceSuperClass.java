@@ -52,7 +52,7 @@ public class ReplaceSuperClass implements Serializable
                 && strValue.equals(((ReplaceSuperClass)obj).strValue);
         }
     }
-    
+
     protected Object writeReplace() {
         System.out.println("---- writeReplace ----");
 

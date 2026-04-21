@@ -32,10 +32,10 @@ import org.omg.CORBA_2_3.portable.InputStream;
 import org.omg.CORBA_2_3.portable.OutputStream;
 
 public class ORBStreamObjectCopierImpl implements ObjectCopier {
-    
+
     private final ORB orb;
 
-    public ORBStreamObjectCopierImpl( ORB orb ) 
+    public ORBStreamObjectCopierImpl( ORB orb )
     {
         this.orb = orb ;
     }
@@ -57,5 +57,5 @@ public class ORBStreamObjectCopierImpl implements ObjectCopier {
         InputStream in = (InputStream)out.create_input_stream();
         return in.read_value();
     }
-    
+
 }

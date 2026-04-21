@@ -28,14 +28,14 @@ import org.omg.CORBA_2_3.portable.InputStream ;
  * @author Ken Cavanaugh
  */
 public class TaggedProfileTemplateFactoryFinderImpl extends
-    IdentifiableFactoryFinderBase<TaggedProfileTemplate> 
+    IdentifiableFactoryFinderBase<TaggedProfileTemplate>
 {
     public TaggedProfileTemplateFactoryFinderImpl( ORB orb )
-    { 
+    {
         super( orb ) ;
     }
 
-    public TaggedProfileTemplate handleMissingFactory( int id, InputStream is) 
+    public TaggedProfileTemplate handleMissingFactory( int id, InputStream is)
     {
         throw wrapper.taggedProfileTemplateFactoryNotFound( id ) ;
     }

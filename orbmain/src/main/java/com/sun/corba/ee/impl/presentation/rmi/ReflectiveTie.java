@@ -38,7 +38,7 @@ import org.omg.CORBA_2_3.portable.InputStream;
 import org.omg.CORBA_2_3.portable.OutputStream;
 import org.omg.PortableServer.Servant;
 
-public final class ReflectiveTie extends Servant implements Tie 
+public final class ReflectiveTie extends Servant implements Tie
 {
     private static final ORBUtilSystemException wrapper =
         ORBUtilSystemException.self ;
@@ -59,13 +59,13 @@ public final class ReflectiveTie extends Servant implements Tie
         this.pm = pm ;
     }
 
-    public String[] _all_interfaces(org.omg.PortableServer.POA poa, 
+    public String[] _all_interfaces(org.omg.PortableServer.POA poa,
         byte[] objectId)
     {
         return classData.getTypeIds() ;
     }
 
-    public void setTarget(Remote target) 
+    public void setTarget(Remote target)
     {
         this.target = target;
 
@@ -76,34 +76,34 @@ public final class ReflectiveTie extends Servant implements Tie
             classData = pm.getClassData( targetClass ) ;
         }
     }
-    
-    public Remote getTarget() 
+
+    public Remote getTarget()
     {
         return target;
     }
-    
-    public org.omg.CORBA.Object thisObject() 
+
+    public org.omg.CORBA.Object thisObject()
     {
         return _this_object();
     }
-    
-    public void deactivate() 
+
+    public void deactivate()
     {
         try{
             _poa().deactivate_object(_poa().servant_to_id(this));
         } catch (org.omg.PortableServer.POAPackage.WrongPolicy exception){
-            // ignore 
+            // ignore
         } catch (org.omg.PortableServer.POAPackage.ObjectNotActive exception){
-            // ignore 
+            // ignore
         } catch (org.omg.PortableServer.POAPackage.ServantNotActive exception){
-            // ignore 
+            // ignore
         }
     }
-    
+
     public org.omg.CORBA.ORB orb() {
         return _orb();
     }
-    
+
     public void orb(org.omg.CORBA.ORB orb) {
         try {
             ((org.omg.CORBA_2_3.ORB)orb).set_delegate(this);
@@ -111,25 +111,25 @@ public final class ReflectiveTie extends Servant implements Tie
             throw wrapper.badOrbForServant( e ) ;
         }
     }
-   
-    public Object dispatchToMethod( Method javaMethod, Remote target, Object[] args ) 
+
+    public Object dispatchToMethod( Method javaMethod, Remote target, Object[] args )
         throws InvocationTargetException {
 
         try {
             return javaMethod.invoke( target, args ) ;
         } catch (IllegalAccessException ex) {
-            throw wrapper.invocationErrorInReflectiveTie( ex, 
-                javaMethod.getName(), 
+            throw wrapper.invocationErrorInReflectiveTie( ex,
+                javaMethod.getName(),
                     javaMethod.getDeclaringClass().getName() ) ;
         } catch (IllegalArgumentException ex) {
-            throw wrapper.invocationErrorInReflectiveTie( ex, 
-                javaMethod.getName(), 
+            throw wrapper.invocationErrorInReflectiveTie( ex,
+                javaMethod.getName(),
                     javaMethod.getDeclaringClass().getName() ) ;
         }
     }
 
-    public org.omg.CORBA.portable.OutputStream  _invoke(String method, 
-        org.omg.CORBA.portable.InputStream _in, ResponseHandler reply) 
+    public org.omg.CORBA.portable.OutputStream  _invoke(String method,
+        org.omg.CORBA.portable.InputStream _in, ResponseHandler reply)
     {
         Method javaMethod = null ;
         DynamicMethodMarshaller dmm = null;
@@ -139,7 +139,7 @@ public final class ReflectiveTie extends Servant implements Tie
 
             javaMethod = classData.getIDLNameTranslator().getMethod( method ) ;
             if (javaMethod == null)
-                throw wrapper.methodNotFoundInTie( method, 
+                throw wrapper.methodNotFoundInTie( method,
                     target.getClass().getName() ) ;
 
             dmm = pm.getDynamicMethodMarshaller( javaMethod ) ;
@@ -150,7 +150,7 @@ public final class ReflectiveTie extends Servant implements Tie
 
             OutputStream os = (OutputStream)reply.createReply() ;
 
-            dmm.writeResult( os, result ) ; 
+            dmm.writeResult( os, result ) ;
 
             return os ;
         } catch (InvocationTargetException ex) {
@@ -160,11 +160,11 @@ public final class ReflectiveTie extends Servant implements Tie
             Throwable thr = ex.getCause() ;
             if (thr instanceof SystemException)
                 throw (SystemException)thr ;
-            else if ((thr instanceof Exception) && 
+            else if ((thr instanceof Exception) &&
                 dmm.isDeclaredException( thr )) {
                 OutputStream os = (OutputStream)reply.createExceptionReply() ;
                 dmm.writeException( os, (Exception)thr ) ;
-                return os ;     
+                return os ;
             } else
                 throw new UnknownException( thr ) ;
         }

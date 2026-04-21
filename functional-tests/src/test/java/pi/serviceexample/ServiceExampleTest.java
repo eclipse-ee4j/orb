@@ -64,7 +64,7 @@ public class ServiceExampleTest
 
         // Colocated.
 
-        Controller colocatedServers = 
+        Controller colocatedServers =
             createServer(thisPackage + ".ColocatedServers",
                          "colocatedClientServer");
         colocatedServers.start();

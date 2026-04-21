@@ -45,7 +45,7 @@ import org.testng.Assert ;
  */
 public class ClientMulti extends ClientBase {
 
-    @BeforeSuite 
+    @BeforeSuite
     public void clientSetup() {
         setup( getDefaultProperties() ) ;
     }
@@ -88,7 +88,7 @@ class CallThread extends Thread
     boolean done;
 
     CallThread(int iterations, EchoTest ref)
-    { 
+    {
         this.failures = 0 ;
         this.iterations = iterations;
         this.ref = ref;

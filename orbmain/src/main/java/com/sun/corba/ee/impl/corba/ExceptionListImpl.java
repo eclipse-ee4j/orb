@@ -38,7 +38,7 @@ public class ExceptionListImpl extends ExceptionList {
         _exceptions = new ArrayList<TypeCode>(INITIAL_CAPACITY);
     }
 
-    public synchronized int count() 
+    public synchronized int count()
     {
         return _exceptions.size();
     }

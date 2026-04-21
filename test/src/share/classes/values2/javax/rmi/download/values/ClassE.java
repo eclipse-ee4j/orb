@@ -23,13 +23,13 @@ package javax.rmi.download.values;
 public class ClassE extends ClassD{
     private static final long serialVersionUID = 222456789L;
     private int f, g, h;
-        
+
     public ClassE(){
         f = 6;
         g = 8;
         h = 2;
     }
-        
+
     public long getTotal(){
         return  super.getTotal() + f + g + h;
     }

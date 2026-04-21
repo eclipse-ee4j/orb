@@ -24,7 +24,7 @@ import org.omg.CORBA.portable.OutputStream;
 import org.omg.CORBA.portable.Streamable;
 
 /**
- * The Holder for <tt>Long</tt>.  For more information on 
+ * The Holder for <tt>Long</tt>.  For more information on
  * Holder files, see <a href="doc-files/generatedfiles.html#holder">
  * "Generated Files: Holder Files"</a>.<P>
  * A Holder class for a <code>long</code>
@@ -91,7 +91,7 @@ public final class LongHolder implements Streamable {
     }
 
     /**
-     * Returns the <code>TypeCode</code> object 
+     * Returns the <code>TypeCode</code> object
      * corresponding to the value held in the Holder.
      *
      * @return    the TypeCode of the value held in the holder

@@ -27,7 +27,7 @@ import java.lang.annotation.Target ;
 import org.glassfish.pfl.tf.spi.annotation.MethodMonitorGroup;
 
 /** This annotation is applied to a class or interface to indicate
- * that its methods are classified as part of the ValueHandler implementation 
+ * that its methods are classified as part of the ValueHandler implementation
  * that is used for reading value types in the ORB.
  */
 @Target({ElementType.METHOD,ElementType.TYPE,ElementType.FIELD})

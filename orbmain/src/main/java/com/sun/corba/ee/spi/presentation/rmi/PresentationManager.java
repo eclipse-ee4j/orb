@@ -27,9 +27,9 @@ import javax.rmi.CORBA.Tie ;
 
 import org.glassfish.pfl.basic.proxy.InvocationHandlerFactory;
 
-/** Provides access to RMI-IIOP stubs and ties.  
- * Any style of stub and tie generation may be used.  
- * This includes compiler generated stubs and runtime generated stubs 
+/** Provides access to RMI-IIOP stubs and ties.
+ * Any style of stub and tie generation may be used.
+ * This includes compiler generated stubs and runtime generated stubs
  * as well as compiled and reflective ties.  There is normally
  * only one instance of this interface per VM.  The instance
  * is obtained from the static method
@@ -56,7 +56,7 @@ public interface PresentationManager
 
         /** Create a stub factory for stubs for the interface whose type is given by
          * className.  className may identify either an IDL interface or an RMI-IIOP
-         * interface.  
+         * interface.
          * @param className The name of the remote interface as a Java class name.
          * @param isIDLStub True if className identifies an IDL stub, else false.
          * @param remoteCodeBase The CodeBase to use for loading Stub classes, if
@@ -65,7 +65,7 @@ public interface PresentationManager
          * @param classLoader The classLoader to use (may be null).
          * @return The stub factory
          */
-        PresentationManager.StubFactory createStubFactory( String className, 
+        PresentationManager.StubFactory createStubFactory( String className,
             boolean isIDLStub, String remoteCodeBase, Class<?> expectedClass,
             ClassLoader classLoader);
 
@@ -77,7 +77,7 @@ public interface PresentationManager
         Tie getTie( Class<?> cls ) ;
 
         /** Return whether or not this StubFactoryFactory creates StubFactory
-         * instances that create dynamic stubs and ties.  At the top level, 
+         * instances that create dynamic stubs and ties.  At the top level,
          * true indicates that rmic -iiop is not needed for generating stubs
          * or ties.
          *
@@ -106,7 +106,7 @@ public interface PresentationManager
         String[] getTypeIds() ;
     }
 
-    public interface ClassData 
+    public interface ClassData
     {
         /** Get the class used to create this ClassData instance
          *
@@ -130,7 +130,7 @@ public interface PresentationManager
 
         /** Get the InvocationHandlerFactory that is used to create
          * an InvocationHandler for dynamic stubs of the type of the
-         * ClassData.  
+         * ClassData.
          *
          * @return InvocationHandlerFactory.
          */
@@ -147,17 +147,17 @@ public interface PresentationManager
     }
 
     /** Get the ClassData for a particular class.
-     * This class may be an implementation class, in which 
-     * case the IDLNameTranslator handles all Remote interfaces implemented by 
-     * the class.  If the class implements more than one remote interface, and not 
-     * all of the remote interfaces are related by inheritance, then the type 
-     * IDs have the implementation class as element 0.  
+     * This class may be an implementation class, in which
+     * case the IDLNameTranslator handles all Remote interfaces implemented by
+     * the class.  If the class implements more than one remote interface, and not
+     * all of the remote interfaces are related by inheritance, then the type
+     * IDs have the implementation class as element 0.
      * @param cls iClass fro which we need ClassData.
      * @return The ClassData.
      */
     ClassData getClassData( Class<?> cls ) ;
 
-    /** Given a particular method, return a DynamicMethodMarshaller 
+    /** Given a particular method, return a DynamicMethodMarshaller
      * for that method.  This is used for dynamic stubs and ties.
      * @param method Method for which we need a DynamicMethodMarshaller.
      * @return The DynamicMethodMarshaller.

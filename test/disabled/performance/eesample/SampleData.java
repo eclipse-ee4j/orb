@@ -42,7 +42,7 @@ public class SampleData {
         String name ;
         String cnpj ;
         String obs ;
-    } 
+    }
 
     public List<Data> parse( String[][] data ) {
         List<Data> result = new ArrayList<Data>( data.length ) ;
@@ -65,7 +65,7 @@ public class SampleData {
             size += 4 ;
             size += 4 ;
             size += data.name.length() + 1 ;
-            size += data.cnpj.length() + 1 ; 
+            size += data.cnpj.length() + 1 ;
             size += data.obs.length() + 1 ;
             result += size ;
         }

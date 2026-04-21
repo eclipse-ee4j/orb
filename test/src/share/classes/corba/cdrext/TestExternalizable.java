@@ -44,7 +44,7 @@ public class TestExternalizable implements Externalizable
         try {
             if (obj == null)
                 return false;
-            
+
             TestExternalizable other
                 = (TestExternalizable)obj;
 
@@ -71,7 +71,7 @@ public class TestExternalizable implements Externalizable
         out.writeChar(data4);
     }
 
-    public void readExternal(ObjectInput in) 
+    public void readExternal(ObjectInput in)
         throws IOException, ClassNotFoundException {
 
         data1 = in.readLong();

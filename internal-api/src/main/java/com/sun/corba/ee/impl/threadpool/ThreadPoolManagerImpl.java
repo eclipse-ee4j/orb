@@ -29,8 +29,8 @@ import java.security.AccessController ;
 import java.security.PrivilegedAction;
 import java.util.concurrent.atomic.AtomicInteger ;
 
-public class ThreadPoolManagerImpl implements ThreadPoolManager 
-{ 
+public class ThreadPoolManagerImpl implements ThreadPoolManager
+{
     public static final String THREADPOOL_DEFAULT_NAME = "default-threadpool";
 
     private ThreadPool threadPool ;
@@ -60,36 +60,36 @@ public class ThreadPoolManagerImpl implements ThreadPoolManager
         // Our solution is to create all of our threads in the highest thread
         // group that we have access to, given our own security clearance.
         //
-        try { 
-            // try to get a thread group that's as high in the threadgroup  
+        try {
+            // try to get a thread group that's as high in the threadgroup
             // parent-child hierarchy, as we can get to.
-            // this will prevent an ORB thread created during applet-init from 
+            // this will prevent an ORB thread created during applet-init from
             // being killed when an applet dies.
-            tg = AccessController.doPrivileged( 
-                new PrivilegedAction<ThreadGroup>() { 
-                    public ThreadGroup run() { 
-                        ThreadGroup tg = Thread.currentThread().getThreadGroup() ;  
-                        ThreadGroup ptg = tg ; 
-                        try { 
-                            while (ptg != null) { 
-                                tg = ptg;  
-                                ptg = tg.getParent(); 
-                            } 
-                        } catch (SecurityException se) { 
+            tg = AccessController.doPrivileged(
+                new PrivilegedAction<ThreadGroup>() {
+                    public ThreadGroup run() {
+                        ThreadGroup tg = Thread.currentThread().getThreadGroup() ;
+                        ThreadGroup ptg = tg ;
+                        try {
+                            while (ptg != null) {
+                                tg = ptg;
+                                ptg = tg.getParent();
+                            }
+                        } catch (SecurityException se) {
                             // Discontinue going higher on a security exception.
                         }
-                        return new ThreadGroup(tg, "ORB ThreadGroup " + tgCount.getAndIncrement() ); 
-                    } 
+                        return new ThreadGroup(tg, "ORB ThreadGroup " + tgCount.getAndIncrement() );
+                    }
                 }
             );
-        } catch (SecurityException e) { 
-            // something wrong, we go back to the original code 
-            tg = Thread.currentThread().getThreadGroup(); 
+        } catch (SecurityException e) {
+            // something wrong, we go back to the original code
+            tg = Thread.currentThread().getThreadGroup();
         }
 
         return tg ;
     }
- 
+
     public void close() {
         try {
             threadPool.close() ;
@@ -120,54 +120,54 @@ public class ThreadPoolManagerImpl implements ThreadPoolManager
         threadGroup = null ;
     }
 
-    /** 
-    * This method will return an instance of the threadpool given a threadpoolId, 
-    * that can be used by any component in the app. server. 
+    /**
+    * This method will return an instance of the threadpool given a threadpoolId,
+    * that can be used by any component in the app. server.
     *
     * @throws NoSuchThreadPoolException thrown when invalid threadpoolId is passed
     * as a parameter
-    */ 
-    public ThreadPool getThreadPool(String threadpoolId) 
+    */
+    public ThreadPool getThreadPool(String threadpoolId)
         throws NoSuchThreadPoolException {
-            
+
         return threadPool;
     }
 
-    /** 
-    * This method will return an instance of the threadpool given a numeric threadpoolId. 
-    * This method will be used by the ORB to support the functionality of 
-    * dedicated threadpool for EJB beans 
+    /**
+    * This method will return an instance of the threadpool given a numeric threadpoolId.
+    * This method will be used by the ORB to support the functionality of
+    * dedicated threadpool for EJB beans
     *
     * @throws NoSuchThreadPoolException thrown when invalidnumericIdForThreadpool is passed
     * as a parameter
-    */ 
-    public ThreadPool getThreadPool(int numericIdForThreadpool) 
-        throws NoSuchThreadPoolException { 
+    */
+    public ThreadPool getThreadPool(int numericIdForThreadpool)
+        throws NoSuchThreadPoolException {
 
         return threadPool;
     }
 
-    /** 
-    * This method is used to return the numeric id of the threadpool, given a String 
-    * threadpoolId. This is used by the POA interceptors to add the numeric threadpool 
-    * Id, as a tagged component in the IOR. This is used to provide the functionality of 
-    * dedicated threadpool for EJB beans 
-    */ 
-    public int  getThreadPoolNumericId(String threadpoolId) { 
+    /**
+    * This method is used to return the numeric id of the threadpool, given a String
+    * threadpoolId. This is used by the POA interceptors to add the numeric threadpool
+    * Id, as a tagged component in the IOR. This is used to provide the functionality of
+    * dedicated threadpool for EJB beans
+    */
+    public int  getThreadPoolNumericId(String threadpoolId) {
         return 0;
     }
 
-    /** 
-    * Return a String Id for a numericId of a threadpool managed by the threadpool 
-    * manager 
-    */ 
+    /**
+    * Return a String Id for a numericId of a threadpool managed by the threadpool
+    * manager
+    */
     public String getThreadPoolStringId(int numericIdForThreadpool) {
        return "";
-    } 
+    }
 
-    /** 
-    * Returns the first instance of ThreadPool in the ThreadPoolManager 
-    */ 
+    /**
+    * Returns the first instance of ThreadPool in the ThreadPoolManager
+    */
     public ThreadPool getDefaultThreadPool() {
         return threadPool;
     }
@@ -193,7 +193,7 @@ public class ThreadPoolManagerImpl implements ThreadPoolManager
     }
 
     /**
-     * Sets a ThreadPoolChooser for a particular componentId in the ThreadPoolManager. This 
+     * Sets a ThreadPoolChooser for a particular componentId in the ThreadPoolManager. This
      * would enable any component to add a ThreadPoolChooser for their specific use
      */
     public void setThreadPoolChooser(String componentId, ThreadPoolChooser aThreadPoolChooser) {
@@ -202,7 +202,7 @@ public class ThreadPoolManagerImpl implements ThreadPoolManager
     }
 
     /**
-     * Gets the numeric index associated with the componentId specified for a 
+     * Gets the numeric index associated with the componentId specified for a
      * ThreadPoolChooser. This method would help the component call the more
      * efficient implementation i.e. getThreadPoolChooser(int componentIndex)
      */
@@ -212,6 +212,6 @@ public class ThreadPoolManagerImpl implements ThreadPoolManager
         return 0;
     }
 
-} 
+}
 
 // End of file.

@@ -28,7 +28,7 @@ package com.sun.corba.ee.impl.ior ;
 public class ObjectAdapterIdNumber extends ObjectAdapterIdArray {
     private int poaid ;
 
-    public ObjectAdapterIdNumber( int poaid ) 
+    public ObjectAdapterIdNumber( int poaid )
     {
         super( "OldRootPOA", Integer.toString( poaid ) ) ;
         this.poaid = poaid ;

@@ -20,7 +20,7 @@
 package org.omg.CORBA;
 
 /**
- * Exception thrown when an object reference denotes an existing object, 
+ * Exception thrown when an object reference denotes an existing object,
  * but that the object does not support the operation that was invoked.<P>
  * It contains a minor code, which gives more detailed information about
  * what caused the exception, and a completion status. It may also contain
@@ -36,7 +36,7 @@ package org.omg.CORBA;
 public final class BAD_OPERATION extends SystemException {
 
     /**
-     * Constructs a <code>BAD_OPERATION</code> exception with a default 
+     * Constructs a <code>BAD_OPERATION</code> exception with a default
      * minor code of 0 and a completion state of COMPLETED_NO.
      */
     public BAD_OPERATION() {

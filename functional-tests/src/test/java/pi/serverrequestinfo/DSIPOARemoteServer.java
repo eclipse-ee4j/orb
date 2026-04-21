@@ -35,7 +35,7 @@ import java.io.*;
 
 import ServerRequestInfo.*;
 
-public class DSIPOARemoteServer 
+public class DSIPOARemoteServer
     extends POAServer
 {
     public DSIPOARemoteServer() {
@@ -55,7 +55,7 @@ public class DSIPOARemoteServer
     }
 
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         TestInitializer.out = out;

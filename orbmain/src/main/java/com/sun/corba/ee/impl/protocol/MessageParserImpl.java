@@ -218,7 +218,7 @@ public class MessageParserImpl implements MessageParser {
         if (bytesInBuffer >= Message.GIOPMessageHeaderLength) {
             // get message header
             message = MessageBase.parseGiopHeader(orb, connection, byteBuffer, nextMsgStartPos);
-            
+
             // is there enough bytes for a message body?
             if (bytesInBuffer >= message.getSize()) {
 
@@ -303,7 +303,7 @@ public class MessageParserImpl implements MessageParser {
     public boolean hasMoreBytesToParse() {
         return moreBytesToParse;
     }
-    
+
     /**
      * Set the starting position where the next message in the
      * <code>ByteBuffer</code> given to <code>parseBytes()</code> begins.
@@ -311,7 +311,7 @@ public class MessageParserImpl implements MessageParser {
     public void setNextMessageStartPosition(int position) {
         this.nextMsgStartPos = position;
     }
-    
+
     /**
      * Get the starting position where the next message in the
      * <code>ByteBuffer</code> given to <code>parseBytes()</code> begins.
@@ -319,7 +319,7 @@ public class MessageParserImpl implements MessageParser {
     public int getNextMessageStartPosition() {
         return this.nextMsgStartPos;
     }
-    
+
     /** Return a string representing this MessageParser's state */
     @Override
     public String toString() {

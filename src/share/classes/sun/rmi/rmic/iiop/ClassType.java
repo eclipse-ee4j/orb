@@ -41,7 +41,7 @@ public abstract class ClassType extends CompoundType {
     //_____________________________________________________________________
     // Public Interfaces
     //_____________________________________________________________________
-    
+
     /**
      * Return the parent class of this type. Returns null if this
      * type is an interface or if there is no parent.
@@ -49,8 +49,8 @@ public abstract class ClassType extends CompoundType {
     public ClassType getSuperclass() {
         return parent;
     }
-        
-   
+
+
     /**
      * Print this type.
      * @param writer The stream to print to.
@@ -62,20 +62,20 @@ public abstract class ClassType extends CompoundType {
                         boolean useQualifiedNames,
                         boolean useIDLNames,
                         boolean globalIDLNames) throws IOException {
-                                                        
+
         if (isInner()) {
             writer.p("// " + getTypeDescription() + " (INNER)");
         } else {
             writer.p("// " + getTypeDescription());
         }
         writer.pln(" (" + getRepositoryID() + ")\n");
-                
+
         printPackageOpen(writer,useIDLNames);
-                
+
         if (!useIDLNames) {
             writer.p("public ");
         }
-                
+
         String prefix = "";
         writer.p("class " + getTypeName(false,useIDLNames,false));
         if (printExtends(writer,useQualifiedNames,useIDLNames,globalIDLNames)) {
@@ -92,10 +92,10 @@ public abstract class ClassType extends CompoundType {
         } else {
             writer.pOln("}");
         }
-                
+
         printPackageClose(writer,useIDLNames);
     }
-    
+
 
     //_____________________________________________________________________
     // Subclass/Internal Interfaces
@@ -110,7 +110,7 @@ public abstract class ClassType extends CompoundType {
     }
     }
         }
-        
+
     /**
      * Create a ClassType instance for the given class. NOTE: This constructor
      * is ONLY for SpecialClassType.
@@ -122,20 +122,20 @@ public abstract class ClassType extends CompoundType {
         }
         parent = null;
     }
-  
+
     /**
      * Create a ClassType instance for the given class. NOTE: This constructor
      * is ONLY for ImplementationType. It does not walk the parent chain.
      */
     protected ClassType(int typeCode, ClassDefinition classDef,ContextStack stack) {
         super(stack,classDef,typeCode);
-        
+
         if ((typeCode & TM_CLASS) == 0 && classDef.isInterface()) {
             throw new CompilerError("Not a class");
         }
         parent = null;
     }
-   
+
     /**
      * Create an ClassType instance for the given class.  The resulting
      * object is not yet completely initialized. Subclasses must call
@@ -153,14 +153,14 @@ public abstract class ClassType extends CompoundType {
 
     /**
      * Convert all invalid types to valid ones.
-     */         
+     */
     protected void swapInvalidTypes () {
         super.swapInvalidTypes();
         if (parent != null && parent.getStatus() != STATUS_VALID) {
-            parent = (ClassType) getValidType(parent); 
+            parent = (ClassType) getValidType(parent);
         }
     }
-    
+
     /**
      * Modify the type description with exception info.
      */
@@ -174,17 +174,17 @@ public abstract class ClassType extends CompoundType {
         }
         return typeDesc;
     }
-    
-    
+
+
     protected boolean initParents(ContextStack stack) {
-    
+
         stack.setNewContextCode(ContextStack.EXTENDS);
         BatchEnvironment env = stack.getEnv();
-        
+
         // Init parent...
-        
+
         boolean result = true;
-        
+
         try {
             ClassDeclaration parentDecl = getClassDefinition().getSuperClass(env);
             if (parentDecl != null) {
@@ -198,7 +198,7 @@ public abstract class ClassType extends CompoundType {
             classNotFound(stack,e);
             throw new CompilerError("ClassType constructor");
         }
-                
+
         return result;
     }
 }

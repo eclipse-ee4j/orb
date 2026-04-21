@@ -46,7 +46,7 @@ public class MarshalTester implements Serializable {
 
     public char charField;
     public String stringField;
-        
+
     public byte[] byteArrayField;
     public boolean[] booleanArrayField;
     public short[] shortArrayField;
@@ -110,13 +110,13 @@ public class MarshalTester implements Serializable {
 
         charField = '\u6D77';
         stringField = "\u6D77\u6D77\u6D77";
-            
+
         byteArrayField = new byte[] { (byte)241,
                                       (byte)59,
                                       (byte)59,
                                       (byte)0,
                                       (byte)53 };
-            
+
         booleanArrayField = new boolean[] { false, true };
 
         shortArrayField = new short[] { (short)943,
@@ -154,7 +154,7 @@ public class MarshalTester implements Serializable {
 
         this.remoteField = remoteField;
 
-        externalizableField 
+        externalizableField
             = new TestExternalizable(90283091824L,
                                      "I like \u65E5\u672C",
                                      59021,

@@ -24,7 +24,7 @@ import org.omg.CORBA.portable.OutputStream;
 import org.omg.CORBA.portable.Streamable;
 
 /**
- * The Holder for <tt>ValueBase</tt>.  For more information on 
+ * The Holder for <tt>ValueBase</tt>.  For more information on
  * Holder files, see <a href="doc-files/generatedfiles.html#holder">
  * "Generated Files: Holder Files"</a>.<P>
  * A Holder class for a <code>java.io.Serializable</code>
@@ -45,7 +45,7 @@ import org.omg.CORBA.portable.Streamable;
 public final class ValueBaseHolder implements Streamable {
 
     /**
-     * The <code>java.io.Serializable</code> value held by this 
+     * The <code>java.io.Serializable</code> value held by this
      * <code>ValueBaseHolder</code> object.
      */
     public java.io.Serializable value;
@@ -89,7 +89,7 @@ public final class ValueBaseHolder implements Streamable {
     }
 
     /**
-     * Returns the <code>TypeCode</code> object 
+     * Returns the <code>TypeCode</code> object
      * corresponding to the value held in the Holder.
      *
      * @return    the TypeCode of the value held in the holder

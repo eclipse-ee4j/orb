@@ -234,10 +234,10 @@ public abstract class OutputStream extends java.io.OutputStream
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
 
-    /** 
+    /**
      * Writes an integer (length of arrays) onto this stream.
      * @param b the value to be written.
-     * @throws java.io.IOException if there is an input/output error 
+     * @throws java.io.IOException if there is an input/output error
      * @see <a href="package-summary.html#unimpl"><code>portable</code>
      * package comments for unimplemented features</a>
      */
@@ -245,7 +245,7 @@ public abstract class OutputStream extends java.io.OutputStream
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
 
-    /** 
+    /**
      * Writes a BigDecimal number.
      * @param value a BidDecimal--value to be written.
      */
@@ -253,10 +253,10 @@ public abstract class OutputStream extends java.io.OutputStream
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
 
-    /** 
+    /**
      * Writes a CORBA context on this stream. The
      * Context is marshaled as a sequence of strings.
-     * Only those Context values specified in the contexts 
+     * Only those Context values specified in the contexts
      * parameter are actually written.
      * @param ctx a CORBA context
      * @param contexts a <code>ContextList</code> object containing the list of contexts

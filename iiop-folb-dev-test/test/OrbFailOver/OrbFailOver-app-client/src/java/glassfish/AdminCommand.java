@@ -152,8 +152,8 @@ public class AdminCommand {
 
     public boolean createNodeSsh( String nodeHost, String installDir,
         String agentName ) {
-        String str = String.format( 
-            "--user admin create-node-ssh --nodehost %s --installdir %s %s", 
+        String str = String.format(
+            "--user admin create-node-ssh --nodehost %s --installdir %s %s",
             nodeHost, installDir, agentName );
         return adminCommand( str ) ;
     }
@@ -196,7 +196,7 @@ public class AdminCommand {
         return result ;
     }
 
-    public boolean createInstance( String agentName, String clusterName, 
+    public boolean createInstance( String agentName, String clusterName,
         int portBase, String instanceName ) {
         String command = String.format( "create-instance --node %s "
                 + "--cluster %s --portbase %d --checkports=true %s",
@@ -249,10 +249,10 @@ public class AdminCommand {
         if (!Command("scripts/kill " + processCommandContains)) {
             System.out.println("SEVERE ERROR: Failed to kill instance "  + name + ", trying stop instance!");
             return stopInstance(name);
-        }   
+        }
         return true ;
     }
-    
+
     public boolean destroyCluster(String clusterName) {
         return adminCommand( "delete-cluster " + clusterName ) ;
     }

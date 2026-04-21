@@ -29,11 +29,11 @@ public abstract class OBVTestObjectOne implements org.omg.CORBA.portable.Streama
   protected transient float fFloat = (float)0;
   protected transient double fDouble = (double)0;
   protected transient String fString = null;
-    
+
   private static String[] _truncatable_ids = {
     OBVTestObjectOneHelper.id ()
   };
-    
+
   public String[] _truncatable_ids() {
     return _truncatable_ids;
     }

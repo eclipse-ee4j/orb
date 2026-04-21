@@ -40,13 +40,13 @@ public class IIOPPerformance extends test.Test
 {
     public void run()
     {
-        try {        
+        try {
             Properties orbProps = new Properties() ;
-            orbProps.put( "org.omg.CORBA.ORBClass", 
+            orbProps.put( "org.omg.CORBA.ORBClass",
                           "com.sun.corba.ee.impl.orb.ORBImpl" ) ;
-            orbProps.put( "org.omg.CORBA.ORBSingletonClass", 
+            orbProps.put( "org.omg.CORBA.ORBSingletonClass",
                           "com.sun.corba.ee.impl.orb.ORBSingleton" ) ;
-            org.omg.CORBA.ORB orb = 
+            org.omg.CORBA.ORB orb =
                 org.omg.CORBA.ORB.init(getArgsAsArgs(),orbProps);
 
             org.omg.CORBA_2_3.portable.OutputStream sos =
@@ -112,7 +112,7 @@ public class IIOPPerformance extends test.Test
             sos.write_value( aSharedRefsArray );
 
             // Check single dimensional primitive array...
-            
+
             int[] array1 = {0,5,7,9,11,13};
             sos.write_value(array1);
 
@@ -156,7 +156,7 @@ public class IIOPPerformance extends test.Test
             sos.write_value(dim3);
 
             // Check single dimensional object array...
-            
+
             ObjectByValue[] array3 =    {
                 new ObjectByValue(5,10,"a","f"),
                 new ObjectByValue(6,11,"b","g"),
@@ -164,8 +164,8 @@ public class IIOPPerformance extends test.Test
                 new ObjectByValue(8,13,"d","i"),
                 new ObjectByValue(9,14,"e","j"),
             };
-            sos.write_value(array3);      
-            
+            sos.write_value(array3);
+
             // Check multi dimensional object array...
 
             ObjectByValue[][] array4 =   {   {
@@ -181,18 +181,18 @@ public class IIOPPerformance extends test.Test
                                                  new ObjectByValue(2,15,"f","l"),
                                              }
             };
-                                
+
             sos.write_value(array4);
 
             /***************************************************************/
             /*********************** READ DATA BACK IN *********************/
             /***************************************************************/
 
-            org.omg.CORBA_2_3.portable.InputStream sis = 
+            org.omg.CORBA_2_3.portable.InputStream sis =
                 (org.omg.CORBA_2_3.portable.InputStream)sos.create_input_stream();
 
             TestOBV2 _tobv2 = (TestOBV2)sis.read_value();
-                        
+
             Exception _exception = (Exception)sis.read_value();
             if (!_exception.getMessage().equals("Test Exception"))
                 throw new Error("Test Exception failed!");
@@ -314,7 +314,7 @@ public class IIOPPerformance extends test.Test
             }
 
             long[][] array2Echo = (long[][])sis.read_value();
-            
+
             for (int i = 0; i < array2.length; i++) {
                 for (int j = 0; j < array2[i].length; j++) {
                     if (array2[i][j] != array2Echo[i][j]) {
@@ -325,14 +325,14 @@ public class IIOPPerformance extends test.Test
 
             // Recursive array references
             Object recursiveArrayEcho[] = (Object[])sis.read_value();
-            if ((recursiveArrayEcho[0] != recursiveArrayEcho) || 
-                (recursiveArrayEcho[2] != recursiveArrayEcho) || 
-                (recursiveArrayEcho[3] != recursiveArrayEcho) || 
+            if ((recursiveArrayEcho[0] != recursiveArrayEcho) ||
+                (recursiveArrayEcho[2] != recursiveArrayEcho) ||
+                (recursiveArrayEcho[3] != recursiveArrayEcho) ||
                 (!((String)recursiveArrayEcho[1]).equals("Hello")))
                 throw new Exception("RecursiveArray test failed!");
 
             short[][][] dim3Echo = (short[][][])sis.read_value();
-            
+
             for (int i = 0; i < dim3.length; i++) {
                 for (int j = 0; j < dim3[i].length; j++) {
                     for (int k = 0; k < dim3[i][j].length; k++) {
@@ -351,7 +351,7 @@ public class IIOPPerformance extends test.Test
             }
 
             ObjectByValue[][] array4Echo = (ObjectByValue[][])sis.read_value();
-      
+
             for (int i = 0; i < array4.length; i++) {
                 for (int j = 0; j < array4[i].length; j++) {
                     if (!array4[i][j].equals(array4Echo[i][j])) {
@@ -359,7 +359,7 @@ public class IIOPPerformance extends test.Test
                     }
                 }
             }
- 
+
 
 
         }

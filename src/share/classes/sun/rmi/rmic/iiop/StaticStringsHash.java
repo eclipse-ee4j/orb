@@ -48,17 +48,17 @@ package sun.rmi.rmic.iiop;
  * @author      Bryan Atsatt
  */
 public class StaticStringsHash {
-    
+
     /** The set of strings upon which the hash info is created */
     public String[] strings = null;
-   
+
     /** Unique hash keys */
     public int[] keys = null;
-    
+
     /** Buckets for each key, where buckets[x][y] is an index
      * into the strings[] array. */
     public int[][] buckets = null;
-    
+
     /** The method to invoke on String to produce the hash key */
     public String method = null;
 
@@ -87,17 +87,17 @@ public class StaticStringsHash {
         tempKeys = new int[length];
         bucketSizes = new int[length];
         setMinStringLength();
-            
+
         // Decide on the best algorithm based on
         // which one has the smallest maximum
         // bucket depth. First, try length()...
-            
+
         int currentMaxDepth = getKeys(LENGTH);
         int useCharAt = -1;
         boolean useHashCode = false;
-            
+
         if (currentMaxDepth > 1) {
-                
+
             // At least one bucket had more than one
             // entry, so try charAt(i).  If there
             // are a lot of strings in the array,
@@ -106,13 +106,13 @@ public class StaticStringsHash {
             // characters to avoid spending a lot
             // of time here that is most likely to
             // be pointless...
-                
+
             int minLength = minStringLength;
             if (length > CHAR_AT_MAX_LINES &&
                 length * minLength > CHAR_AT_MAX_CHARS) {
-                minLength = length/CHAR_AT_MAX_CHARS;    
+                minLength = length/CHAR_AT_MAX_CHARS;
             }
-                
+
             charAt = 0;
             for (int i = 0; i < minLength; i++) {
                 int charAtDepth = getKeys(CHAR_AT);
@@ -126,10 +126,10 @@ public class StaticStringsHash {
                 charAt++;
             }
             charAt = useCharAt;
-            
-            
+
+
             if (currentMaxDepth > 1) {
-                
+
                 // At least one bucket had more than one
                 // entry, try hashCode().
                 //
@@ -139,49 +139,49 @@ public class StaticStringsHash {
                 // substantially better. The definition of 'substantial'
                 // here is not very well founded, and could be improved
                 // with some further analysis ;^)
-                    
+
                 int hashCodeDepth = getKeys(HASH_CODE);
-                if (hashCodeDepth < currentMaxDepth-3) { 
-                        
+                if (hashCodeDepth < currentMaxDepth-3) {
+
                     // Using the full hashCode results in at least
                     // 3 fewer entries in the worst bucket, so will
-                    // therefore avoid at least 3 calls to equals() 
+                    // therefore avoid at least 3 calls to equals()
                     // in the worst case.
                     //
                     // Note that using a number smaller than 3 could
                     // result in using a hashCode when there are only
                     // 2 strings in the array, and that would surely
                     // be a poor performance choice.
-                        
+
                     useHashCode = true;
-                }                       
+                }
             }
-                
+
             // Reset keys if needed...
-                
+
             if (!useHashCode) {
                 if (useCharAt >= 0) {
-                        
+
                     // Use the charAt(i) method...
-                        
+
                     getKeys(CHAR_AT);
-                        
+
                 } else {
-                        
+
                     // Use length method...
-                        
+
                     getKeys(LENGTH);
                 }
             }
         }
 
         // Now allocate and fill our real hashKeys array...
-                        
+
         keys = new int[bucketCount];
         System.arraycopy(tempKeys,0,keys,0,bucketCount);
- 
+
         // Sort keys and bucketSizes arrays...
- 
+
         boolean didSwap;
         do {
             didSwap = false;
@@ -198,12 +198,12 @@ public class StaticStringsHash {
             }
         }
         while (didSwap == true);
-    
+
         // Allocate our buckets array. Fill the string
         // index slot with an unused key so we can
         // determine which are free...
-        
-        int unused = findUnusedKey();           
+
+        int unused = findUnusedKey();
         buckets = new int[bucketCount][];
         for (int i = 0; i < bucketCount; i++) {
             buckets[i] = new int[bucketSizes[i]];
@@ -213,7 +213,7 @@ public class StaticStringsHash {
         }
 
         // And fill it in...
-                    
+
         for(int i = 0; i < strings.length; i++) {
             int key = getKey(strings[i]);
             for (int j = 0; j < bucketCount; j++) {
@@ -227,9 +227,9 @@ public class StaticStringsHash {
                 }
             }
         }
-    } 
-    
-    /** Print an optimized 'contains' method for the 
+    }
+
+    /** Print an optimized 'contains' method for the
      * argument strings
      */
     public static void main (String[] args) {
@@ -254,7 +254,7 @@ public class StaticStringsHash {
         System.out.println("        return false;");
         System.out.println("    }");
     }
-    
+
     private int length;
     private int[] tempKeys;
     private int[] bucketSizes;
@@ -263,23 +263,23 @@ public class StaticStringsHash {
     private int minStringLength = Integer.MAX_VALUE;
     private int keyKind;
     private int charAt;
-    
+
     private static final int LENGTH = 0;
     private static final int CHAR_AT = 1;
     private static final int HASH_CODE = 2;
-    
+
     /* Determines the maximum number of charAt(i)
      * tests that will be done. The search is
      * limited because if the number of characters
      * is large enough, the likelyhood of finding
-     * a good hash key  based on this method is 
+     * a good hash key  based on this method is
      * low. The CHAR_AT_MAX_CHARS limit only
      * applies f there are more strings than
-     * CHAR_AT_MAX_LINES. 
+     * CHAR_AT_MAX_LINES.
      */
     private static final int CHAR_AT_MAX_LINES = 50;
     private static final int CHAR_AT_MAX_CHARS = 1000;
-    
+
     private void resetKeys(int keyKind) {
         this.keyKind = keyKind;
         switch (keyKind) {
@@ -294,7 +294,7 @@ public class StaticStringsHash {
             bucketSizes[i] = 0;
         }
     }
-    
+
     private void setMinStringLength() {
         for (int i = 0; i < length; i++) {
             if (strings[i].length() < minStringLength) {
@@ -302,16 +302,16 @@ public class StaticStringsHash {
             }
         }
     }
-    
+
     private int findUnusedKey() {
         int unused = 0;
         int keysLength = keys.length;
-        
+
         // Note that we just assume that resource
         // exhaustion will occur rather than an
         // infinite loop here if the set of keys
         // is very large.
-        
+
         while (true) {
             boolean match = false;
             for (int i = 0; i < keysLength; i++) {
@@ -328,7 +328,7 @@ public class StaticStringsHash {
         }
         return unused;
     }
-  
+
     private int getKeys(int methodKind) {
         resetKeys(methodKind);
         for(int i = 0; i < strings.length; i++) {
@@ -338,9 +338,9 @@ public class StaticStringsHash {
     }
 
     private void addKey(int key) {
-                            
+
         // Have we seen this one before?
-                            
+
         boolean addIt = true;
         for (int j = 0; j < bucketCount; j++) {
             if (tempKeys[j] == key) {
@@ -352,11 +352,11 @@ public class StaticStringsHash {
                 break;
             }
         }
-                            
+
         if (addIt) {
             tempKeys[bucketCount] = key;
             bucketSizes[bucketCount] = 1;
             bucketCount++;
         }
     }
-}    
+}

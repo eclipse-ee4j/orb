@@ -43,7 +43,7 @@ public interface MessageParser {
      * contains a partial <code>Message</code>.
      *
      * @return - <code>true</code> if more bytes are needed to construct a
-     *           <code>Message</code>.  <code>false</code>, if no 
+     *           <code>Message</code>.  <code>false</code>, if no
      *           additional bytes remain to be parsed into a <code>Message</code>.
      */
     boolean isExpectingMoreData();
@@ -53,20 +53,20 @@ public interface MessageParser {
      * <code>Message</code>, then return a newly initialized <code>Message</code>.
      * Otherwise, return null.
      *
-     * When this method is first called, it is assumed that 
-     * <code>ByteBuffer.position()</code> points to the location in the 
+     * When this method is first called, it is assumed that
+     * <code>ByteBuffer.position()</code> points to the location in the
      * <code>ByteBuffer</code> where the beginning of the first
      * <code>Message</code> begins.
-     * 
-     * If there is no partial <code>Message</code> remaining in the 
+     *
+     * If there is no partial <code>Message</code> remaining in the
      * <code>ByteBuffer</code> when this method exits, this method will e
      * <code>this.expectingMoreData</code> to <code>false</code>.
      * Otherwise, it will be set to <code>true</code>.
-     * 
-     * Callees of this method may check <code>isExpectingMoreData()</code> 
-     * subsequently to determine if this <code>MessageParser</code> is expecting 
-     * more data to complete a protocol data unit.  Callees may also 
-     * subsequently check <code>hasMoreBytesToParse()</code> to determine if this 
+     *
+     * Callees of this method may check <code>isExpectingMoreData()</code>
+     * subsequently to determine if this <code>MessageParser</code> is expecting
+     * more data to complete a protocol data unit.  Callees may also
+     * subsequently check <code>hasMoreBytesToParse()</code> to determine if this
      * <code>MessageParser</code> has more data to parse in the given
      * <code>ByteBuffer</code>.
      *

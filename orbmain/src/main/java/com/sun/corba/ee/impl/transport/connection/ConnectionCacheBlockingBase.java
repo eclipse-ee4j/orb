@@ -23,7 +23,7 @@ package com.sun.corba.ee.impl.transport.connection;
 import com.sun.corba.ee.spi.transport.concurrent.ConcurrentQueueFactory;
 import com.sun.corba.ee.spi.transport.connection.Connection ;
 
-abstract class ConnectionCacheBlockingBase<C extends Connection> 
+abstract class ConnectionCacheBlockingBase<C extends Connection>
     extends ConnectionCacheBase<C> {
 
     protected int totalBusy ;   // Number of busy connections
@@ -37,7 +37,7 @@ abstract class ConnectionCacheBlockingBase<C extends Connection>
         this.totalBusy = 0 ;
         this.totalIdle = 0 ;
 
-        this.reclaimableConnections = 
+        this.reclaimableConnections =
             ConcurrentQueueFactory.<C>makeConcurrentQueue( ttl ) ;
     }
 
@@ -57,4 +57,4 @@ abstract class ConnectionCacheBlockingBase<C extends Connection>
         return reclaimableConnections.size() ;
     }
 }
- 
+

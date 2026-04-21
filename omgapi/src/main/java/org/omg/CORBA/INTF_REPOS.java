@@ -21,8 +21,8 @@ package org.omg.CORBA;
 
 /**
  * Exception raised
- * when an ORB cannot reach the interface 
- * repository, or some other failure relating to the interface repository 
+ * when an ORB cannot reach the interface
+ * repository, or some other failure relating to the interface repository
  * is detected.<P>
  * It contains a minor code, which gives more detailed information about
  * what caused the exception, and a completion status. It may also contain

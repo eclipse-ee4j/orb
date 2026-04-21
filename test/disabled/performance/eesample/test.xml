@@ -32,12 +32,12 @@
     <param name="japex.classPath" value="../../../../../../build/libcache/gmbal.jar"/>
     <param name="japex.classPath" value="../../../../../../build/libcache/management-api.jar"/>
     <param name="japex.classPath" value="../../../../../../build/libcache/org.osgi.core.jar"/>
-    
+
     <driver name="StandardTest" xmlns="http://www.sun.com/japex/testSuite">
         <param name="japex.driverClass" value="performance.eesample.StandardTest"/>
         <param name="description" value="TestService IIOP Driver"/>
     </driver>
-    
+
     <testCase name="echoVoid">
         <param name="methodName" value="echoVoid"/>
         <param name="size" value="0"/>

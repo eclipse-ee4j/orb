@@ -859,7 +859,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      */
     protected void getInterfaces(CompoundType ct, Hashtable<String, CompoundType> inhHash ) {
         InterfaceType[] infs = ct.getInterfaces();
-        
+
         for (InterfaceType inf : infs) {
             //forall inherited interfaces
             String inhName = inf.getQualifiedName();
@@ -1078,7 +1078,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @return Vector containing the constants
      */
     protected Vector<CompoundType.Member> getConstants(CompoundType ct ) {
-        
+
         Vector<CompoundType.Member> vec = new Vector<>();
         CompoundType.Member[] mems = ct.getMembers();
         for (CompoundType.Member mem : mems) {
@@ -1773,17 +1773,17 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
      * @param p The output stream.
      */
     protected void writeInherits(Hashtable<String, CompoundType> inhHash, boolean forValuetype, IndentingWriter p) throws IOException {
-        
+
         int itot = inhHash.size();
         int iinh = 0;
         int isup = 0;
         if (itot < 1) {
             return;                         //any inheritance to write?
         }
-        
+
         Enumeration<CompoundType> inhEnum = inhHash.elements();
         CompoundType ct;
-        
+
         if (forValuetype) {
             while (inhEnum.hasMoreElements()) {
                 ct = inhEnum.nextElement();
@@ -1792,7 +1792,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
                 }
             }
         }
-        
+
         iinh = itot - isup;
 
         if (iinh > 0) {

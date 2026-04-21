@@ -56,7 +56,7 @@ public class RMIPOACounterTest extends CORBATest
         clientExtra.put("server", server);
 
         /*
-          This is basically a test of persistent servers.  The server 
+          This is basically a test of persistent servers.  The server
           maintains a counter in a file, and can be restarted without
           losing it.  Plus, the reference in ORBD stays the same.
         */

@@ -40,7 +40,7 @@ import org.glassfish.pfl.dynamic.copyobject.spi.ReflectiveCopyException;
 import org.omg.CORBA.portable.Delegate ;
 import org.omg.CORBA.portable.ObjectImpl ;
 
-/** Class used to deep copy arbitrary data.  A single 
+/** Class used to deep copy arbitrary data.  A single
  * ReflectObjectCopierImpl
  * instance will preserve all object aliasing across multiple calls
  * to copy.
@@ -57,14 +57,14 @@ public class ReflectObjectCopierImpl implements ObjectCopier {
     // a Remote needs to be copied, because the autoConnect
     // call requires an ORB.  We do not want to pass an ORB
     // everywhere because that would make the ClassCopier instances
-    // ORB dependent, which would prevent them from being 
+    // ORB dependent, which would prevent them from being
     // statically scoped.  Note that this is package private so that
     // ObjectCopier can access this data member.
     static final ThreadLocal localORB = new ThreadLocal() ;
 
     // Special ClassCopier instances needed for CORBA
-    
-    // For java.rmi.Remote, we need to call autoConnect, 
+
+    // For java.rmi.Remote, we need to call autoConnect,
     // which requires an orb.
     private static ClassCopier remoteClassCopier =
         new ClassCopierBase( "remote" ) {
@@ -78,12 +78,12 @@ public class ReflectObjectCopierImpl implements ObjectCopier {
         new ClassCopierBase( "identity" ) {
             public Object createCopy( Object source ) {
                 return source ;
-            } 
+            }
         } ;
 
     // For ObjectImpl, we just make a shallow copy, since the Delegate
     // is mostly immutable.
-    private static ClassCopier corbaClassCopier = 
+    private static ClassCopier corbaClassCopier =
         new ClassCopierBase( "corba" ) {
             public Object createCopy( Object source) {
                 ObjectImpl oi = (ObjectImpl)source ;
@@ -102,13 +102,13 @@ public class ReflectObjectCopierImpl implements ObjectCopier {
             }
         } ;
 
-    private static final ClassCopierFactory specialClassCopierFactory = 
+    private static final ClassCopierFactory specialClassCopierFactory =
         new ClassCopierFactory() {
-            public ClassCopier getClassCopier( Class cls 
+            public ClassCopier getClassCopier( Class cls
             ) throws ReflectiveCopyException
             {
                 ClassInfoCache.ClassInfo cinfo = ClassInfoCache.get( cls ) ;
-                
+
                 // Handle Remote: this must come before CORBA.Object,
                 // since a corba Object may also be a Remote.
                 if (cinfo.isARemote(cls)) {
@@ -131,12 +131,12 @@ public class ReflectObjectCopierImpl implements ObjectCopier {
 
     // It is very important that ccf be static.  This means that
     // ccf is shared across all instances of the object copier,
-    // so that any class is analyzed only once, instead of once per 
-    // copier instance.  This is worth probably 20%+ in microbenchmark 
+    // so that any class is analyzed only once, instead of once per
+    // copier instance.  This is worth probably 20%+ in microbenchmark
     // performance.
-    private static final PipelineClassCopierFactory ccf = 
-        DefaultClassCopierFactories.getPipelineClassCopierFactory() ; 
-    
+    private static final PipelineClassCopierFactory ccf =
+        DefaultClassCopierFactories.getPipelineClassCopierFactory() ;
+
     static {
         ccf.setSpecialClassCopierFactory( specialClassCopierFactory ) ;
     }

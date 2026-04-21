@@ -40,7 +40,7 @@ public class RemoteObjectServer extends PortableRemoteObject implements RemoteOb
     }
 
     public String getCodeBase() throws java.rmi.RemoteException {
-        return RMIClassLoader.getClassAnnotation(getClass());  
+        return RMIClassLoader.getClassAnnotation(getClass());
     }
 }
 

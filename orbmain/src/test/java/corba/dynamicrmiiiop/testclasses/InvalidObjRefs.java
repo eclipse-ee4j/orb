@@ -25,13 +25,13 @@ package corba.dynamicrmiiiop.testclasses;
 public class InvalidObjRefs {
 
     public static final Class[] CLASSES = {
-        InvalidObjRef1.class, 
+        InvalidObjRef1.class,
         InvalidObjRef2.class,
-        InvalidObjRef3.class, 
+        InvalidObjRef3.class,
         InvalidObjRef4.class,
-        InvalidObjRef5.class, 
+        InvalidObjRef5.class,
         InvalidObjRef6.class,
-        InvalidObjRef7.class, 
+        InvalidObjRef7.class,
         InvalidObjRef8.class
     };
 
@@ -48,7 +48,7 @@ public class InvalidObjRefs {
     public class InvalidObjRef4 extends InvalidObjRef3 {}
 
     // must be an interface
-    public abstract class InvalidObjRef5 
+    public abstract class InvalidObjRef5
         extends org.omg.CORBA.portable.ObjectImpl {}
 
     // must be an interface

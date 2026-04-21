@@ -47,7 +47,7 @@ import org.omg.CORBA.portable.RemarshalException;
 import org.omg.CORBA.portable.ServantObject;
 
 @IsLocal
-public final class StubInvocationHandlerImpl implements LinkedInvocationHandler  
+public final class StubInvocationHandlerImpl implements LinkedInvocationHandler
 {
     private transient PresentationManager.ClassData classData ;
     private transient PresentationManager pm ;
@@ -65,7 +65,7 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler
     }
 
     public StubInvocationHandlerImpl( PresentationManager pm,
-        PresentationManager.ClassData classData, org.omg.CORBA.Object stub ) 
+        PresentationManager.ClassData classData, org.omg.CORBA.Object stub )
     {
         if (!PresentationDefaults.inAppServer()) {
             SecurityManager s = System.getSecurityManager();
@@ -90,10 +90,10 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler
                 cil.getLocalClientRequestDispatcher() ;
             result = lcrd.useLocalInvocation( null ) ;
         }
-         
+
         return result ;
     }
-    
+
     public Object invoke( Object proxy, final Method method,
         Object[] args ) throws Throwable {
 
@@ -102,7 +102,7 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler
             delegate = StubAdapter.getDelegate( stub ) ;
         } catch (SystemException ex) {
             throw Util.getInstance().mapSystemException(ex) ;
-        } 
+        }
 
         org.omg.CORBA.ORB delORB = delegate.orb( stub ) ;
         if (delORB instanceof ORB) {
@@ -150,16 +150,16 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler
             retry = false;
             String giopMethodName = classData.getIDLNameTranslator().
               getIDLName( method )  ;
-            DynamicMethodMarshaller dmm = 
+            DynamicMethodMarshaller dmm =
               pm.getDynamicMethodMarshaller( method ) ;
-           
+
             if (!isLocal(delegate)) {
                 try {
                     takingRemoteBranch() ;
                     org.omg.CORBA_2_3.portable.InputStream in = null ;
                     try {
                         // create request
-                        org.omg.CORBA_2_3.portable.OutputStream out = 
+                        org.omg.CORBA_2_3.portable.OutputStream out =
                           (org.omg.CORBA_2_3.portable.OutputStream)
                           delegate.request( stub, giopMethodName, true);
                         // marshal arguments
@@ -172,21 +172,21 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler
                     } catch (ApplicationException ex) {
                         throw dmm.readException( ex ) ;
                     } catch (RemarshalException ex) {
-                      //return privateInvoke( delegate, proxy, method, args ) ; 
+                      //return privateInvoke( delegate, proxy, method, args ) ;
                       retry = true;
                     } finally {
                         delegate.releaseReply( stub, in );
                     }
                 } catch (SystemException ex) {
                     throw Util.getInstance().mapSystemException(ex) ;
-                } 
+                }
             } else {
                 takingLocalBranch();
                 org.omg.CORBA.ORB orb = delegate.orb( stub ) ;
                 ServantObject so = delegate.servant_preinvoke( stub, giopMethodName,
                                                                method.getDeclaringClass() );
                 if (so == null) {
-                    //return privateInvoke( delegate, proxy, method, args ) ; 
+                    //return privateInvoke( delegate, proxy, method, args ) ;
                     retry = true;
                     continue;
                 }
@@ -194,7 +194,7 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler
                 try {
                     Object[] copies = dmm.copyArguments( args, orb ) ;
 
-                    if (!method.isAccessible()) {       
+                    if (!method.isAccessible()) {
                         // Make sure that we can invoke a method from a normally
                         // inaccessible package, as this reflective class must always
                         // be able to invoke a non-public method.
@@ -202,7 +202,7 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler
                             public Object run() {
                                 method.setAccessible( true ) ;
                                 return null ;
-                            } 
+                            }
                         } ) ;
                     }
 
@@ -224,7 +224,7 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler
                     // method call, so don't copy it.  This is either
                     // an error or a reflective invoke exception.
                     throw Util.getInstance().wrapException( thr ) ;
-                } finally {              
+                } finally {
                     delegate.servant_postinvoke( stub, so);
                 }
             }

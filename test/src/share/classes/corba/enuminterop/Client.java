@@ -52,7 +52,7 @@ public class Client
 
     private static String[] args;
 
-    public static void main( String[] args ) 
+    public static void main( String[] args )
     {
         Client.args = args ;
         TestngRunner runner = new TestngRunner() ;
@@ -72,7 +72,7 @@ public class Client
         NamingContext ncRef = NamingContextHelper.narrow(objRef);
         NameComponent nc = new NameComponent(Server.REF_NAME, "");
         NameComponent[] path = {nc};
-                                                                            
+
         echo = (Echo)PortableRemoteObject.narrow(ncRef.resolve(path),
                                                    Echo.class);
     }

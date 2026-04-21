@@ -114,7 +114,7 @@ import org.omg.IOP.TAG_RMI_CUSTOM_MAX_STREAM_FORMAT;
 @Subcontract
 @Transport
 public class MessageMediatorImpl
-    implements 
+    implements
         MessageMediator,
         ProtocolHandler,
         MessageHandler,
@@ -150,8 +150,8 @@ public class MessageMediatorImpl
     protected boolean _executeRemoveThreadInfoInResponseConstructor = false;
     protected boolean _executePIInResponseConstructor = false;
 
-    // The localMaxVersion is used for caching the value of 
-    //MaxStreamFormatVersion if the ORB has been created by the app server  
+    // The localMaxVersion is used for caching the value of
+    //MaxStreamFormatVersion if the ORB has been created by the app server
     private static byte localMaxVersion =  ORBUtility.getMaxStreamFormatVersion();
 
     // time this CorbaMessageMediator (Work) was added to a WorkQueue.
@@ -171,7 +171,7 @@ public class MessageMediatorImpl
                                     boolean isOneWay)
     {
         this( orb, connection ) ;
-            
+
         this.contactInfo = contactInfo;
         this.addrDisposition = addrDisposition;
 
@@ -184,7 +184,7 @@ public class MessageMediatorImpl
          * GIOP 1.2.  So we can't optimize this here.
         if (orb.getORBData().isAppServerMode() == true) {
             streamFormatVersion = localMaxVersion;
-        } 
+        }
         */
 
         streamFormatVersionSet = true;
@@ -213,9 +213,9 @@ public class MessageMediatorImpl
     // Dispatcher constructor.
     //
 
-    // Note: in some cases (e.g., a reply message) this message 
-    // mediator will only be used for dispatch.  Then the original 
-    // request side mediator will take over. 
+    // Note: in some cases (e.g., a reply message) this message
+    // mediator will only be used for dispatch.  Then the original
+    // request side mediator will take over.
     public MessageMediatorImpl(ORB orb,
                                     Connection connection,
                                     Message dispatchHeader,
@@ -284,13 +284,13 @@ public class MessageMediatorImpl
 
     public void setReplyHeader(LocateReplyOrReplyMessage header) {
         this.replyHeader = header;
-        this.replyIOR = header.getIOR(); 
+        this.replyIOR = header.getIOR();
     }
 
     public LocateReplyMessage getLocateReplyHeader() {
         return (LocateReplyMessage) replyHeader;
     }
-    
+
     public ReplyMessage getReplyHeader() {
         return (ReplyMessage) replyHeader;
     }
@@ -298,11 +298,11 @@ public class MessageMediatorImpl
     public void setReplyExceptionDetailMessage(String message) {
         replyExceptionDetailMessage = message;
     }
-    
+
     public RequestMessage getRequestHeader() {
         return requestHeader;
     }
-    
+
     public GIOPVersion getGIOPVersion() {
         if (messageHeader != null) {
             return messageHeader.getGIOPVersion() ;
@@ -317,7 +317,7 @@ public class MessageMediatorImpl
 
     public byte getEncodingVersion() {
         if (messageHeader != null) {
-            return messageHeader.getEncodingVersion() ; 
+            return messageHeader.getEncodingVersion() ;
         }
 
         if (getRequestHeader() == null) {
@@ -369,13 +369,13 @@ public class MessageMediatorImpl
 
     @Subcontract
     public void sendCancelRequestIfFinalFragmentNotSent() {
-        if ((!sentFullMessage()) && sentFragment() && 
+        if ((!sentFullMessage()) && sentFragment() &&
             (!cancelRequestAlreadySent) && !connection.isClosed()) {
 
             try {
                 connection.sendCancelRequestWithLock(getGIOPVersion(),
                                                      getRequestId());
-                // Case: first a location forward, then a marshaling 
+                // Case: first a location forward, then a marshaling
                 // exception (e.g., non-serializable object).  Only
                 // send cancel once.
                 cancelRequestAlreadySent = true;
@@ -403,7 +403,7 @@ public class MessageMediatorImpl
     @Subcontract
     public boolean sentFragment() {
         if (outputObject != null) {
-            BufferManagerWrite buffMan = 
+            BufferManagerWrite buffMan =
                 outputObject.getBufferManager() ;
 
             if (buffMan != null) {
@@ -551,7 +551,7 @@ public class MessageMediatorImpl
         MaxStreamFormatVersionServiceContext msfvsc
             = (MaxStreamFormatVersionServiceContext)svc.get(
                 MaxStreamFormatVersionServiceContext.SERVICE_CONTEXT_ID);
-            
+
         if (msfvsc != null) {
             byte remoteMaxVersion = msfvsc.getMaximumStreamFormatVersion();
 
@@ -580,15 +580,15 @@ public class MessageMediatorImpl
                  (replyHeader.getReplyStatus() == ReplyMessage.LOCATION_FORWARD_PERM) );
         //return replyHeader.getReplyStatus() == ReplyMessage.LOCATION_FORWARD;
     }
-    
+
     public boolean isDifferentAddrDispositionRequestedReply() {
         return replyHeader.getReplyStatus() == ReplyMessage.NEEDS_ADDRESSING_MODE;
     }
-    
+
     public short getAddrDispositionReply() {
         return replyHeader.getAddrDisposition();
     }
-    
+
     public IOR getForwardedIOR() {
         return replyHeader.getIOR();
     }
@@ -600,7 +600,7 @@ public class MessageMediatorImpl
     ////////////////////////////////////////////////////
     //
     // Used by server side.
-    // 
+    //
 
     public ObjectKeyCacheEntry getObjectKeyCacheEntry() {
         return getRequestHeader().getObjectKeyCacheEntry() ;
@@ -657,7 +657,7 @@ public class MessageMediatorImpl
     @Transport
     private byte getStreamFormatVersionForThisRequest(IOR ior, GIOPVersion giopVersion) {
 
-        IOR effectiveTargetIOR = 
+        IOR effectiveTargetIOR =
             this.contactInfo.getEffectiveTargetIOR();
         IIOPProfileTemplate temp =
             (IIOPProfileTemplate)effectiveTargetIOR.getProfile().getTaggedProfileTemplate();
@@ -683,7 +683,7 @@ public class MessageMediatorImpl
     ////////////////////////////////////////////////////////////////////////
 
     // REVISIT - This could be a separate implementation object looked
-    // up in a registry.  However it needs some state in the message 
+    // up in a registry.  However it needs some state in the message
     // mediator so combine for now.
 
 
@@ -761,7 +761,7 @@ public class MessageMediatorImpl
             // put the on the WorkQueue here.
             addMessageMediatorToWorkQueue(messageMediator);
         } else {
-            if (message.getType() == Message.GIOPFragment || 
+            if (message.getType() == Message.GIOPFragment ||
                 message.getType() == Message.GIOPCancelRequest) {
                 // applies to FragmentMessage_1_[1|2] and CancelRequestMessage
                 // when using non-blocking NIO SocketChannels
@@ -806,7 +806,7 @@ public class MessageMediatorImpl
         } else {
             // Leader/Follower when using reader thread.
             // When this thread is done working it will go back in pool.
-        
+
             isThreadDone = true;
 
             // First unregister current registration.
@@ -823,7 +823,7 @@ public class MessageMediatorImpl
         if (getConnection().getEventHandler().shouldUseSelectThreadToWait()) {
             resumeOptimizedReadProcessing(header);
         } else {
-            // When using reader thread then wen this thread is 
+            // When using reader thread then wen this thread is
             // done working it will continue reading.
             isThreadDone = false;
         }
@@ -880,7 +880,7 @@ public class MessageMediatorImpl
             // Mask the exception from thread.;
         }
     }
-    
+
     @Transport
     public void handleInput(RequestMessage_1_1 header) throws IOException {
         generalMessage( "GIOP Request 1.1") ;
@@ -963,7 +963,7 @@ public class MessageMediatorImpl
             // Mask the exception from thread.;
         }
     }
-    
+
     @Transport
     public void handleInput(ReplyMessage_1_1 header) throws IOException {
         generalMessage( "GIOP ReplyMessage 1.1" ) ;
@@ -975,9 +975,9 @@ public class MessageMediatorImpl
                 // More fragments are coming to complete this reply, so keep
                 // a reference to the InputStream so we can add the fragments
                 connection.clientReply_1_1_Put(this);
-            
+
                 // In 1.1, we can't assume that we have the request ID in the
-                // first fragment.  Thus, another thread is used 
+                // first fragment.  Thus, another thread is used
                 // to be the reader while this thread unmarshals
                 // the extended header and wakes up the client thread.
                 setWorkThenPoolOrResumeOptimizedRead(header);
@@ -1234,7 +1234,7 @@ public class MessageMediatorImpl
                     mediator =
                         connection.serverRequestMapGet(header.getRequestId());
                 } else {
-                    mediator = 
+                    mediator =
                         connection.clientRequestMapGet(header.getRequestId());
                 }
 
@@ -1302,7 +1302,7 @@ public class MessageMediatorImpl
             // Mask the exception from thread.;
         }
     }
-    
+
     private void throwNotImplemented(String msg) {
         throw new RuntimeException(
             "CorbaMessageMediatorImpl: not implemented " + msg);
@@ -1324,7 +1324,7 @@ public class MessageMediatorImpl
          *
          *  - the hope is that worker thread would call BMR.underflow()
          *    to wait for more fragments to come in. When BMR.underflow() is
-         *    called, if a CancelRequest had already arrived,  
+         *    called, if a CancelRequest had already arrived,
          *    the worker thread would throw ThreadDeath,
          *    else the thread would wait to be notified of the
          *    arrival of a new fragment or CancelRequest. Upon notification,
@@ -1337,9 +1337,9 @@ public class MessageMediatorImpl
          *    So, setting the abort flag in BMR has no effect. The request
          *    processing will complete normally.
          *
-         *  - in the case where the server has received enough fragments to 
-         *    start processing the request and the server sends out 
-         *    an early reply. In such a case if the CancelRequest arrives 
+         *  - in the case where the server has received enough fragments to
+         *    start processing the request and the server sends out
+         *    an early reply. In such a case if the CancelRequest arrives
          *    after the reply has been sent, it has no effect.
          */
 
@@ -1354,7 +1354,7 @@ public class MessageMediatorImpl
         // was the request 1.2 ?
         MessageMediator mediator = connection.serverRequestMapGet(cancelReqId);
         int requestId ;
-        if (mediator == null) { 
+        if (mediator == null) {
             // was the request 1.1 ?
             mediator = connection.serverRequest_1_1_Get();
             if (mediator == null) {
@@ -1395,7 +1395,7 @@ public class MessageMediatorImpl
         if (msg.getType() != Message.GIOPRequest) {
             // Any mediator obtained here should only ever be for a GIOP
             // request.
-            wrapper.badMessageTypeForCancel() ; 
+            wrapper.badMessageTypeForCancel() ;
         }
 
         // At this point we have a valid message mediator that contains
@@ -1561,7 +1561,7 @@ public class MessageMediatorImpl
         LocateRequestMessage msg = (LocateRequestMessage) messageMediator.getDispatchHeader();
         IOR ior = null;
         LocateReplyMessage reply = null;
-        short addrDisp = -1; 
+        short addrDisp = -1;
 
         try {
             messageMediator.getInputObject().unmarshalHeader();
@@ -1576,7 +1576,7 @@ public class MessageMediatorImpl
             if ( ior == null ) {
                 reply = MessageBase.createLocateReply(
                             myOrb, msg.getGIOPVersion(),
-                            msg.getEncodingVersion(), 
+                            msg.getEncodingVersion(),
                             msg.getRequestId(),
                             LocateReplyMessage.OBJECT_HERE, null);
 
@@ -1593,7 +1593,7 @@ public class MessageMediatorImpl
 
             // create a response containing the expected target
             // addressing disposition.
-            
+
             reply = MessageBase.createLocateReply(
                         myOrb, msg.getGIOPVersion(),
                         msg.getEncodingVersion(),
@@ -1642,7 +1642,7 @@ public class MessageMediatorImpl
         CDROutputObject outObj;
 
         if (msg.getGIOPVersion().lessThan(GIOPVersion.V1_2)) {
-            // locate msgs 1.0 & 1.1 :=> grow, 
+            // locate msgs 1.0 & 1.1 :=> grow,
             // REVISIT - build from factory
             outObj = OutputStreamFactory.newCDROutputObject( messageMediator.getBroker(), this,
                              GIOPVersion.V1_0,
@@ -1678,7 +1678,7 @@ public class MessageMediatorImpl
             return;
         }
         */
-        handleThrowableDuringServerDispatch(messageMediator, throwable, 
+        handleThrowableDuringServerDispatch(messageMediator, throwable,
             completionStatus, 1);
     }
 
@@ -1709,11 +1709,11 @@ public class MessageMediatorImpl
                     messageMediator,
                     (AddressingDispositionException)throwable);
                 return;
-            } 
+            }
 
             // Else.
 
-            SystemException sex = 
+            SystemException sex =
                 convertThrowableToSystemException(throwable, completionStatus);
 
             createSystemExceptionResponse(messageMediator, sex, null);
@@ -1734,7 +1734,7 @@ public class MessageMediatorImpl
     }
 
     @Subcontract
-    protected SystemException convertThrowableToSystemException( 
+    protected SystemException convertThrowableToSystemException(
         Throwable throwable, CompletionStatus completionStatus) {
 
         if (throwable instanceof SystemException) {
@@ -1763,7 +1763,7 @@ public class MessageMediatorImpl
         // If user code throws a non-SystemException report it generically.
         //
 
-        return wrapper.runtimeexception( throwable, 
+        return wrapper.runtimeexception( throwable,
             throwable.getClass().getName(), throwable.getMessage());
     }
 
@@ -1777,18 +1777,18 @@ public class MessageMediatorImpl
         // from iiop.RequestProcessor.
 
         // Respond with expected target addressing disposition.
-                    
+
         switch (messageMediator.getRequestHeader().getType()) {
         case Message.GIOPRequest :
             ORB myOrb = messageMediator.getBroker() ;
 
             ReplyMessage repHdr = MessageBase.createReply( myOrb,
-                messageMediator.getGIOPVersion(), 
-                messageMediator.getEncodingVersion(), 
-                messageMediator.getRequestId(), 
-                ReplyMessage.NEEDS_ADDRESSING_MODE, 
+                messageMediator.getGIOPVersion(),
+                messageMediator.getEncodingVersion(),
+                messageMediator.getRequestId(),
+                ReplyMessage.NEEDS_ADDRESSING_MODE,
                 ServiceContextDefaults.makeServiceContexts(myOrb), null);
-            
+
             // REVISIT: via acceptor factory.
             CDROutputObject outObj = OutputStreamFactory.newCDROutputObject(
                 messageMediator.getBroker(),
@@ -1811,7 +1811,7 @@ public class MessageMediatorImpl
                 messageMediator.getGIOPVersion(),
                 messageMediator.getEncodingVersion(), messageMediator.getRequestId(),
                 LocateReplyMessage.LOC_NEEDS_ADDRESSING_MODE,
-                null);                                   
+                null);
 
             addrDisp = ex.expectedAddrDisp();
 
@@ -1862,11 +1862,11 @@ public class MessageMediatorImpl
         // NOTE: This service context container gets augmented in
         // tail call.
         ServiceContexts contexts = null;
-        SystemException sys = new UNKNOWN( 0, 
+        SystemException sys = new UNKNOWN( 0,
             CompletionStatus.COMPLETED_MAYBE);
-        contexts = ServiceContextDefaults.makeServiceContexts( 
+        contexts = ServiceContextDefaults.makeServiceContexts(
             messageMediator.getBroker());
-        UEInfoServiceContext uei = 
+        UEInfoServiceContext uei =
             ServiceContextDefaults.makeUEInfoServiceContext(sys);
         contexts.put( uei ) ;
         return createSystemExceptionResponse(messageMediator, sys, contexts);
@@ -1885,7 +1885,7 @@ public class MessageMediatorImpl
             // stream here.  This will cause an incomplete last fragment
             // to be sent.  Then the other side will get a marshaling error
             // when attempting to unmarshal.
-            
+
             // REVISIT: Impl - make interface method to do the following.
             MessageMediatorImpl mediator = (MessageMediatorImpl)
                 messageMediator.getConnection()
@@ -1899,13 +1899,13 @@ public class MessageMediatorImpl
             // REVISIT: need to think about messageMediator containing correct
             // pointer to output object.
             if (existingOutputObject != null &&
-                mediator.sentFragment() && 
+                mediator.sentFragment() &&
                 ! mediator.sentFullMessage())
             {
                 return mediator;
             }
         }
-    
+
         // Only do this if interceptors have been initialized on this request
         // and have not completed their lifecycle (otherwise the info stack
         // may be empty or have a different request's entry on top).
@@ -1914,7 +1914,7 @@ public class MessageMediatorImpl
             // Inform Portable Interceptors of the SystemException.  This is
             // required to be done here because the ending interception point
             // is called in the when creating the response below
-            // but we do not currently write the SystemException into the 
+            // but we do not currently write the SystemException into the
             // response until after the ending point is called.
             messageMediator.getBroker().getPIHandler().setServerPIInfo( ex );
         }
@@ -1923,7 +1923,7 @@ public class MessageMediatorImpl
             reportException( "Creating system exception response for", ex ) ;
         }
 
-        ServiceContexts serviceContexts = 
+        ServiceContexts serviceContexts =
             getServiceContextsForReply(messageMediator, svc);
 
         // NOTE: We MUST add the service context before creating
@@ -1953,7 +1953,7 @@ public class MessageMediatorImpl
         PrintWriter pw = new PrintWriter(baos);
         ex.printStackTrace(pw);
         pw.flush(); // NOTE: you must flush or baos will be empty.
-        EncapsOutputStream encapsOutputStream = 
+        EncapsOutputStream encapsOutputStream =
             OutputStreamFactory.newEncapsOutputStream(mediator.getBroker());
         encapsOutputStream.putEndian();
         encapsOutputStream.write_wstring(baos.toString());
@@ -1968,13 +1968,13 @@ public class MessageMediatorImpl
     public MessageMediator createLocationForward(
         MessageMediator messageMediator, IOR ior, ServiceContexts svc) {
 
-        ReplyMessage reply 
+        ReplyMessage reply
             = MessageBase.createReply(
                   messageMediator.getBroker(),
                   messageMediator.getGIOPVersion(),
                   messageMediator.getEncodingVersion(), messageMediator.getRequestId(),
                   ReplyMessage.LOCATION_FORWARD,
-                  getServiceContextsForReply(messageMediator, svc), 
+                  getServiceContextsForReply(messageMediator, svc),
                   ior);
 
         return createResponseHelper(messageMediator, reply, ior);
@@ -1983,7 +1983,7 @@ public class MessageMediatorImpl
     @Subcontract
     protected MessageMediator createResponseHelper(
         MessageMediator messageMediator, ServiceContexts svc) {
-        ReplyMessage message = 
+        ReplyMessage message =
             MessageBase.createReply(
                 messageMediator.getBroker(),
                 messageMediator.getGIOPVersion(),
@@ -2023,15 +2023,15 @@ public class MessageMediatorImpl
         runRemoveThreadInfo(messageMediator);
 
         createResponseHelperInfo(reply);
-                      
+
         messageMediator.setReplyHeader(reply);
 
         CDROutputObject replyOutputObject;
         // REVISIT = do not use null.
-        // 
+        //
         if (messageMediator.getConnection() == null) {
             // REVISIT - needs factory
-            replyOutputObject = 
+            replyOutputObject =
                 OutputStreamFactory.newCDROutputObject(orb, messageMediator,
                                     messageMediator.getReplyHeader(),
                                     messageMediator.getStreamFormatVersion(),
@@ -2108,8 +2108,8 @@ public class MessageMediatorImpl
             (messageMediator.getBroker()).getPIHandler().
                 invokeServerPIEndingPoint( reply );
 
-            // Note this will be executed even if a ForwardRequest or 
-            // SystemException is thrown by a Portable Interceptors ending 
+            // Note this will be executed even if a ForwardRequest or
+            // SystemException is thrown by a Portable Interceptors ending
             // point since we end up in this constructor again anyway.
             (messageMediator.getBroker()).getPIHandler().
                 cleanupServerPIRequest();
@@ -2140,8 +2140,8 @@ public class MessageMediatorImpl
         // NOTE : We only want to send the runtime context the first time,
         // only in the case where the encoding is set to CDR.
         if (contexts == null) {
-            if (getGIOPVersion().equals(GIOPVersion.V1_2) && 
-                c != null && 
+            if (getGIOPVersion().equals(GIOPVersion.V1_2) &&
+                c != null &&
                 c.getBroker().getORBData().alwaysSendCodeSetServiceContext() &&
                 (getEncodingVersion() == ORBConstants.CDR_ENC_VERSION)) {
                 if (!c.isPostInitialContexts()) {
@@ -2159,14 +2159,14 @@ public class MessageMediatorImpl
                 contexts = ServiceContextDefaults.makeServiceContexts(
                     messageMediator.getBroker());
             }
-        } 
+        }
 
         if (c != null && !c.isPostInitialContexts() &&
                 (getEncodingVersion() == ORBConstants.CDR_ENC_VERSION)) {
             c.setPostInitialContexts();
-            SendingContextServiceContext scsc = 
-                ServiceContextDefaults.makeSendingContextServiceContext( 
-                    messageMediator.getBroker().getFVDCodeBaseIOR()) ; 
+            SendingContextServiceContext scsc =
+                ServiceContextDefaults.makeSendingContextServiceContext(
+                    messageMediator.getBroker().getFVDCodeBaseIOR()) ;
 
             if (contexts.get( scsc.getId() ) != null) {
                 throw wrapper.duplicateSendingContextServiceContext();
@@ -2178,7 +2178,7 @@ public class MessageMediatorImpl
 
         // send ORBVersion servicecontext as part of the Reply
 
-        ORBVersionServiceContext ovsc 
+        ORBVersionServiceContext ovsc
             = ServiceContextDefaults.makeORBVersionServiceContext();
 
         if (contexts.get( ovsc.getId() ) != null) {
@@ -2206,17 +2206,17 @@ public class MessageMediatorImpl
         }
     }
 
-    // 
+    //
     // Work implementation
     //
-    
+
     @InfoMethod
     private void ignoringThrowable( Throwable thr ) { }
 
     /**
      * Execute dispatch in its own WorkerThread. Prior to this method being
-     * called this object must be initialized with a valid connection 
-     * (CorbaConnection), orb (ORB), dispatchHeader (Message) and 
+     * called this object must be initialized with a valid connection
+     * (CorbaConnection), orb (ORB), dispatchHeader (Message) and
      * dispatchByteBuffer (ByteBuffer).
      */
     @Subcontract

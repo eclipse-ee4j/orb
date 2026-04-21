@@ -76,7 +76,7 @@ public class Client {
     public void test6() {
         msg( "test6 called" ) ;
     }
-    
+
     @AfterSuite
     public void shutdown() {
         msg( "shutdown called" ) ;

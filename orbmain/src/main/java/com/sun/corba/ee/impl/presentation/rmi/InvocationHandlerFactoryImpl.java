@@ -33,14 +33,14 @@ import org.glassfish.pfl.basic.proxy.DelegateInvocationHandlerImpl;
 import org.glassfish.pfl.basic.proxy.InvocationHandlerFactory;
 import org.glassfish.pfl.basic.proxy.LinkedInvocationHandler;
 
-public class InvocationHandlerFactoryImpl implements InvocationHandlerFactory 
+public class InvocationHandlerFactoryImpl implements InvocationHandlerFactory
 {
     private final PresentationManager.ClassData classData ;
     private final PresentationManager pm ;
     private Class<?>[] proxyInterfaces ;
 
     public InvocationHandlerFactoryImpl( PresentationManager pm,
-        PresentationManager.ClassData classData ) 
+        PresentationManager.ClassData classData )
     {
         this.classData = classData ;
         this.pm = pm ;
@@ -55,12 +55,12 @@ public class InvocationHandlerFactoryImpl implements InvocationHandlerFactory
     }
 
     private static class CustomCompositeInvocationHandlerImpl extends
-        CompositeInvocationHandlerImpl implements LinkedInvocationHandler, 
+        CompositeInvocationHandlerImpl implements LinkedInvocationHandler,
         Serializable
     {
         private transient DynamicStub stub ;
 
-        public void setProxy( Proxy proxy ) 
+        public void setProxy( Proxy proxy )
         {
             if (proxy instanceof DynamicStub) {
                 ((DynamicStubImpl)stub).setSelf( (DynamicStub)proxy ) ;
@@ -84,7 +84,7 @@ public class InvocationHandlerFactoryImpl implements InvocationHandlerFactory
          * It will be custom marshaled, with the actual writing done in
          * StubIORImpl.  There is a corresponding readResolve method on
          * DynamicStubImpl which will re-create the full invocation
-         * handler on read, and return the invocation handler on the 
+         * handler on read, and return the invocation handler on the
          * readResolve method.
          */
         public Object writeReplace() throws ObjectStreamException
@@ -93,32 +93,32 @@ public class InvocationHandlerFactoryImpl implements InvocationHandlerFactory
         }
     }
 
-    public InvocationHandler getInvocationHandler() 
+    public InvocationHandler getInvocationHandler()
     {
-        final DynamicStub stub = new DynamicStubImpl( 
-            classData.getTypeIds() ) ; 
+        final DynamicStub stub = new DynamicStubImpl(
+            classData.getTypeIds() ) ;
 
         return getInvocationHandler( stub ) ;
     }
 
     // This is also used in DynamicStubImpl to implement readResolve.
-    InvocationHandler getInvocationHandler( DynamicStub stub ) 
+    InvocationHandler getInvocationHandler( DynamicStub stub )
     {
         // Create an invocation handler for the methods defined on DynamicStub,
         // which extends org.omg.CORBA.Object.  This handler delegates all
-        // calls directly to a DynamicStubImpl, which extends 
+        // calls directly to a DynamicStubImpl, which extends
         // org.omg.CORBA.portable.ObjectImpl.
-        InvocationHandler dynamicStubHandler = 
+        InvocationHandler dynamicStubHandler =
             DelegateInvocationHandlerImpl.create( stub ) ;
 
         // Create an invocation handler that handles any remote interface
         // methods.
-        InvocationHandler stubMethodHandler = new StubInvocationHandlerImpl( 
+        InvocationHandler stubMethodHandler = new StubInvocationHandlerImpl(
             pm, classData, stub ) ;
 
         // Create a composite handler that handles the DynamicStub interface
         // as well as the remote interfaces.
-        final CompositeInvocationHandler handler = 
+        final CompositeInvocationHandler handler =
             new CustomCompositeInvocationHandlerImpl( stub ) ;
         handler.addInvocationHandler( DynamicStub.class,
             dynamicStubHandler ) ;
@@ -130,10 +130,10 @@ public class InvocationHandlerFactoryImpl implements InvocationHandlerFactory
         // If the method passed to invoke is not from DynamicStub or its superclasses,
         // it must be from an implemented interface, so we just handle
         // all of these with the stubMethodHandler.  This used to be
-        // done be adding explicit entries for stubMethodHandler for 
+        // done be adding explicit entries for stubMethodHandler for
         // each remote interface, but that does not work correctly
         // for abstract interfaces, since the graph analysis ignores
-        // abstract interfaces in order to compute the type ids 
+        // abstract interfaces in order to compute the type ids
         // correctly (see PresentationManagerImpl.NodeImpl.getChildren).
         // Rather than produce more graph traversal code to handle this
         // problem, we simply use a default.

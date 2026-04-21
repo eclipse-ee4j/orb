@@ -23,7 +23,7 @@ package javax.rmi.download.values;
 public class MissingClass implements java.io.Serializable {
 
     private int a;
-        
+
     public MissingClass(){
         a = 3;
     }

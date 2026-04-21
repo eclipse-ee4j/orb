@@ -353,7 +353,7 @@ public class GameViewImpl implements GameView, java.io.Serializable
         System.out.println ("getCalls");
         return fGame.getCalls ();
     }
-  
+
 
     //
     // Internal Helper Methods

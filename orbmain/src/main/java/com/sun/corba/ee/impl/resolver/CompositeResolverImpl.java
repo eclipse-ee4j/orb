@@ -28,16 +28,16 @@ public class CompositeResolverImpl implements Resolver {
     private Resolver first ;
     private Resolver second ;
 
-    public CompositeResolverImpl( Resolver first, Resolver second ) 
+    public CompositeResolverImpl( Resolver first, Resolver second )
     {
         this.first = first ;
         this.second = second ;
     }
 
-    public org.omg.CORBA.Object resolve( String name ) 
+    public org.omg.CORBA.Object resolve( String name )
     {
         org.omg.CORBA.Object result = first.resolve( name ) ;
-        if (result == null) 
+        if (result == null)
             result = second.resolve( name ) ;
         return result ;
     }

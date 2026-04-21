@@ -52,7 +52,7 @@ public abstract class Stub extends ObjectImpl
         Object stubDelegateInstance = (Object) createDelegateIfSpecified(StubClassKey, defaultStubImplName);
         if (stubDelegateInstance != null)
             stubDelegateClass = stubDelegateInstance.getClass();
-        
+
     }
 
 
@@ -117,20 +117,20 @@ public abstract class Stub extends ObjectImpl
         }
         return super.toString();
     }
-    
+
     /**
      * Connects this stub to an ORB. Required after the stub is deserialized
      * but not after it is demarshalled by an ORB stream. If an unconnected
-     * stub is passed to an ORB stream for marshalling, it is implicitly 
+     * stub is passed to an ORB stream for marshalling, it is implicitly
      * connected to that ORB. Application code should not call this method
-     * directly, but should call the portable wrapper method 
+     * directly, but should call the portable wrapper method
      * {@link javax.rmi.PortableRemoteObject#connect}.
      * @param orb the ORB to connect to.
      * @exception RemoteException if the stub is already connected to a different
      * ORB, or if the stub does not represent an exported remote or local object.
      */
     public void connect(ORB orb) throws RemoteException {
-        
+
         if (stubDelegate == null) {
             setDefaultDelegate();
         }
@@ -156,7 +156,7 @@ public abstract class Stub extends ObjectImpl
 
         if (stubDelegate != null) {
             stubDelegate.readObject(this, stream);
-        } 
+        }
 
     }
 
@@ -164,7 +164,7 @@ public abstract class Stub extends ObjectImpl
      * Serialization method to save the IOR state.
      * @param stream The length of the IOR type ID (int), followed by the IOR type ID
      * (byte array encoded using ISO8859-1), followed by the number of IOR profiles
-     * (int), followed by the IOR profiles.  Each IOR profile is written as a 
+     * (int), followed by the IOR profiles.  Each IOR profile is written as a
      * profile tag (int), followed by the length of the profile data (int), followed
      * by the profile data (byte array).
      * @throws IOException if an error occurred writing to the delegated stub
@@ -177,7 +177,7 @@ public abstract class Stub extends ObjectImpl
 
         if (stubDelegate != null) {
             stubDelegate.writeObject(this, stream);
-        } 
+        }
     }
 
     private void setDefaultDelegate() {
@@ -196,10 +196,10 @@ public abstract class Stub extends ObjectImpl
     // are in different packages and the visibility needs to be package for
     // security reasons. If you know a better solution how to share this code
     // then remove it from PortableRemoteObject. Also in Util.java
-    private static Object createDelegateIfSpecified(String classKey, 
+    private static Object createDelegateIfSpecified(String classKey,
         String defaultClassName) {
 
-        String className = 
+        String className =
             (String)AccessController.doPrivileged(new GetPropertyAction(classKey));
         if (className == null) {
             Properties props = getORBPropertiesFile();
@@ -239,7 +239,7 @@ public abstract class Stub extends ObjectImpl
             return RMIClassLoader.loadClass(className);
         } catch (MalformedURLException e) {
             String msg = "Could not load " + className + ": " + e.toString();
-            ClassNotFoundException exc = new ClassNotFoundException( msg ) ; 
+            ClassNotFoundException exc = new ClassNotFoundException( msg ) ;
             throw exc ;
         }
     }

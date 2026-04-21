@@ -73,7 +73,7 @@ public class NamingContextImpl extends NamingContextExtPOA
     private static final long serialVersionUID = -2162298692680847808L;
 
     // The ORB is required to do string_to_object() operations
-    // All the references are stored in the files in the form of IOR strings 
+    // All the references are stored in the files in the form of IOR strings
     private transient ORB orb;
 
     // The ObjectKey will be in the format NC<Index> which uniquely identifies
@@ -83,7 +83,7 @@ public class NamingContextImpl extends NamingContextExtPOA
     // Hash table contains all the entries in the NamingContexts. The
     // CORBA.Object references will be stored in the form of IOR strings
     // and the Child Naming Contexts will have its key as the entry in the
-    // table. This table is written into File everytime an update is made 
+    // table. This table is written into File everytime an update is made
     // on this context.
     private final Hashtable theHashtable = new Hashtable( );
 
@@ -108,7 +108,7 @@ public class NamingContextImpl extends NamingContextExtPOA
     // Defined so that we can get FindBugs to shut up about the transient fields.
     // The various setYYY methods are called in ServantManagerImpl to correctly
     // re-set the transient fields after deserialization.
-    private void readObject( ObjectInputStream is ) 
+    private void readObject( ObjectInputStream is )
         throws IOException, ClassNotFoundException {
         is.defaultReadObject() ;
 
@@ -117,8 +117,8 @@ public class NamingContextImpl extends NamingContextExtPOA
         theNameServiceHandle = null ;
         theServantManagerImplHandle = null ;
 
-        insImpl = 
-            new com.sun.corba.ee.impl.naming.cosnaming.InterOperableNamingImpl(); 
+        insImpl =
+            new com.sun.corba.ee.impl.naming.cosnaming.InterOperableNamingImpl();
     }
 
     /**
@@ -131,7 +131,7 @@ public class NamingContextImpl extends NamingContextExtPOA
      * @exception java.lang.Exception a Java exception.
      */
 
-    public NamingContextImpl(ORB orb, String objKey, 
+    public NamingContextImpl(ORB orb, String objKey,
         NameService theNameService, ServantManagerImpl theServantManagerImpl  )
         throws Exception
     {
@@ -142,8 +142,8 @@ public class NamingContextImpl extends NamingContextExtPOA
         this.objKey = objKey;
         theNameServiceHandle = theNameService;
         theServantManagerImplHandle = theServantManagerImpl;
-        insImpl = 
-            new com.sun.corba.ee.impl.naming.cosnaming.InterOperableNamingImpl(); 
+        insImpl =
+            new com.sun.corba.ee.impl.naming.cosnaming.InterOperableNamingImpl();
     }
 
     @Naming
@@ -157,7 +157,7 @@ public class NamingContextImpl extends NamingContextExtPOA
     }
 
     @Naming
-    public void setServantManagerImpl( 
+    public void setServantManagerImpl(
                 ServantManagerImpl theServantManagerImpl )
     {
         theServantManagerImplHandle = theServantManagerImpl;
@@ -582,7 +582,7 @@ public class NamingContextImpl extends NamingContextExtPOA
             // Compute tail
             NameComponent[] tail = new NameComponent[n.length - 1];
             System.arraycopy(n,1,tail,0,n.length-1);
-            
+
             // How should we propagate the bind
             switch (bt.value()) {
             case BindingType._nobject:
@@ -677,7 +677,7 @@ public class NamingContextImpl extends NamingContextExtPOA
             // Resolve rest of name in context
             return context.resolve(tail);
         }
-    }  
+    }
 
     /**
    * Implements unbinding bound names in this NamingContext. If the
@@ -732,7 +732,7 @@ public class NamingContextImpl extends NamingContextExtPOA
 
             // Resolve first  - must be resolveable
             NamingContext context = resolveFirstAsContext(impl,n);
-            
+
             // Compute tail
             NameComponent[] tail = new NameComponent[n.length - 1];
             System.arraycopy(n,1,tail,0,n.length-1);
@@ -809,7 +809,7 @@ public class NamingContextImpl extends NamingContextExtPOA
     }
 
     /**
-    * Implements all flavors of binding( bind and bindcontext) 
+    * Implements all flavors of binding( bind and bindcontext)
     * This method will be called from the superclass's doBind( ) method
     * which takes care of all the conditions before calling this method.
     * i.e., It checks whether the Name is already Bounded, Then in the
@@ -822,12 +822,12 @@ public class NamingContextImpl extends NamingContextExtPOA
     * @param bt Type of binding (as object or as context).
     * @exception org.omg.CosNaming.NamingContextPackage.NotFound  raised
     * if the NameComoponent list is invalid
-    * @exception org.omg.CosNaming.NamingContextPackage.CannotProceed 
+    * @exception org.omg.CosNaming.NamingContextPackage.CannotProceed
     * Could not proceed in resolving the Name from the given NameComponent
-    * @exception org.omg.CosNaming.NamingContextPackage.AlreadyBound An object 
+    * @exception org.omg.CosNaming.NamingContextPackage.AlreadyBound An object
     * is already bound under the supplied name.
     * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA
-    * system exceptions 
+    * system exceptions
     * @see Resolve
     * @see Unbind
     */
@@ -845,7 +845,7 @@ public class NamingContextImpl extends NamingContextExtPOA
         try {
             if( bt.value() == BindingType._nobject ) {
                 // If the BindingType is an ObjectRef then Stringify this ref and
-                // Store it in InternalBindingValue instance. This is required 
+                // Store it in InternalBindingValue instance. This is required
                 // because the Object References has to be stored in file
                 value = new InternalBindingValue(bt, orb.object_to_string(obj) );
                 value.setObjectRef( obj );
@@ -898,16 +898,16 @@ public class NamingContextImpl extends NamingContextExtPOA
             // If the NameComponent list has no entry then it means the current
             // context was requested
             bth.value = BindingType.ncontext;
-            return theNameServiceHandle.getObjectReferenceFromKey(      
+            return theNameServiceHandle.getObjectReferenceFromKey(
                 this.objKey );
         }
 
         InternalBindingKey key = new InternalBindingKey(n);
-        InternalBindingValue value = 
+        InternalBindingValue value =
             (InternalBindingValue) this.theHashtable.get(key);
 
         if( value == null ) {
-            // No entry was found for the given name and hence return NULL 
+            // No entry was found for the given name and hence return NULL
             // NamingContextDataStore throws appropriate exception if
             // required.
             return null;
@@ -924,7 +924,7 @@ public class NamingContextImpl extends NamingContextExtPOA
             if( value.strObjectRef.startsWith( "NC" ) ) {
                 bth.value = BindingType.ncontext;
                 return theNameServiceHandle.getObjectReferenceFromKey( value.strObjectRef );
-            } else { 
+            } else {
                 // Else, It is a Object Reference. Check whether Object Reference
                 // can be obtained directly, If not then convert the stringified
                 // reference to object and return.
@@ -932,8 +932,8 @@ public class NamingContextImpl extends NamingContextExtPOA
 
                 if (theObjectFromStringifiedReference == null ) {
                     try {
-                        theObjectFromStringifiedReference = 
-                        orb.string_to_object( value.strObjectRef );     
+                        theObjectFromStringifiedReference =
+                        orb.string_to_object( value.strObjectRef );
                         value.setObjectRef( theObjectFromStringifiedReference );
                     } catch( Exception e ) {
                         throw wrapper.resolveConversionFailure( e );
@@ -977,22 +977,22 @@ public class NamingContextImpl extends NamingContextExtPOA
 
             if( value.strObjectRef.startsWith( "NC" ) ) {
                 theServantManagerImplHandle.readInContext( value.strObjectRef );
-                Object theObjectFromStringfiedReference = 
+                Object theObjectFromStringfiedReference =
                 theNameServiceHandle.getObjectReferenceFromKey( value.strObjectRef );
                 return theObjectFromStringfiedReference;
             } else {
                 Object theObjectFromStringifiedReference = value.getObjectRef( );
 
-                if( theObjectFromStringifiedReference == null ) { 
+                if( theObjectFromStringifiedReference == null ) {
                     theObjectFromStringifiedReference =
-                    orb.string_to_object( value.strObjectRef );         
+                    orb.string_to_object( value.strObjectRef );
                 }
 
                 return theObjectFromStringifiedReference;
             }
         } catch( Exception e ) {
             throw wrapper.unbindFailure( e );
-        } 
+        }
     }
 
    /**
@@ -1167,7 +1167,7 @@ public class NamingContextImpl extends NamingContextExtPOA
                &&( ( theNameComponents[i].kind == null )
                  ||( theNameComponents[i].kind.length() == 0 ) ) ) {
                 throw new InvalidName();
-            }     
+            }
         }
 
         return theNameComponents;
@@ -1202,11 +1202,11 @@ public class NamingContextImpl extends NamingContextExtPOA
             throw new org.omg.CosNaming.NamingContextExtPackage.InvalidAddress();
         }
 
-        String urlBasedAddress = null; 
+        String urlBasedAddress = null;
 
         try {
             urlBasedAddress = insImpl.createURLBasedAddress( addr, sn );
-        } catch (Exception e ) { 
+        } catch (Exception e ) {
             urlBasedAddress = null;
         }
 
@@ -1257,7 +1257,7 @@ public class NamingContextImpl extends NamingContextExtPOA
         theObject = resolve( theNameComponents );
         return theObject;
     }
-  
+
    /**
    * This is a debugging Method
    */
@@ -1275,7 +1275,7 @@ public class NamingContextImpl extends NamingContextExtPOA
         java.util.Enumeration e = theHashtable.keys( );
         for( ; e.hasMoreElements(); )
         {
-              InternalBindingValue thevalue = 
+              InternalBindingValue thevalue =
                         (InternalBindingValue) this.theHashtable.get(e.nextElement());
                 if( thevalue != null )
                 {

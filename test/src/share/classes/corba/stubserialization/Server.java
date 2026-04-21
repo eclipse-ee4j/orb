@@ -32,12 +32,12 @@ import org.omg.CosNaming.*;
 import org.omg.PortableServer.*;
 
 import com.sun.corba.ee.spi.presentation.rmi.PresentationManager ;
-                                                                                
+
 import com.sun.corba.ee.spi.misc.ORBConstants ;
 
 
 /**
- * This is a Server that uses Dynamic RMI IIOP Tie model. A Simple Server 
+ * This is a Server that uses Dynamic RMI IIOP Tie model. A Simple Server
  * with 1 Servant that is associated with the RootPOA.
  */
 public class Server {
@@ -49,19 +49,19 @@ public class Server {
 
             org.omg.CORBA.Object objRef =
                 orb.resolve_initial_references("NameService");
- 
+
             NamingContext ncRef = NamingContextHelper.narrow(objRef);
             NameComponent nc = new NameComponent(Constants.HELLO_SERVICE, "");
             NameComponent path[] = {nc};
 
             POA rootPOA = (POA)orb.resolve_initial_references( "RootPOA" );
             rootPOA.the_POAManager().activate();
-            
+
             byte[] id = Constants.HELLO_SERVICE.getBytes();
-            rootPOA.activate_object_with_id(id, 
+            rootPOA.activate_object_with_id(id,
                 (Servant)makeHelloServant((com.sun.corba.ee.spi.orb.ORB)orb));
             org.omg.CORBA.Object obj = rootPOA.id_to_reference( id );
-                                                                                
+
             ncRef.rebind(path, obj);
 
             // wait for invocations from clients

@@ -40,13 +40,13 @@ public class PrefixParserData extends ParserDataBase {
         this.componentType = componentType ;
     }
 
-    public void addToParser( PropertyParser parser ) 
+    public void addToParser( PropertyParser parser )
     {
-        parser.addPrefix( getPropertyName(), getOperation(), getFieldName(), 
+        parser.addPrefix( getPropertyName(), getOperation(), getFieldName(),
             componentType ) ;
     }
 
-    public void addToProperties( Properties props ) 
+    public void addToProperties( Properties props )
     {
         for (Pair<String,String> sp : testData) {
             String propName = getPropertyName() ;

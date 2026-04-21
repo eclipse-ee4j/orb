@@ -42,7 +42,7 @@ import static org.glassfish.pfl.basic.fsm.Guard.Base.gt;
 import static org.glassfish.pfl.basic.fsm.Guard.Base.makeGuard;
 
 /** AOMEntry represents a Servant or potential Servant in the ActiveObjectMap.
-* It may be in several states to allow for long incarnate or etherealize 
+* It may be in several states to allow for long incarnate or etherealize
 * operations.  The methods on this class mostly represent input symbols to
 * the state machine that controls the lifecycle of the entry.  A library is
 * used to build the state machine rather than the more usual state pattern
@@ -54,18 +54,18 @@ public class AOMEntry extends FSMImpl {
         POASystemException.self ;
 
     private Runner runner ;
-    private final Thread[] etherealizer ;   // The actual etherealize operation 
-                                            // for this entry.  It is 
+    private final Thread[] etherealizer ;   // The actual etherealize operation
+                                            // for this entry.  It is
                                             // represented as a Thread because
-                                            // the POA.deactivate_object never 
+                                            // the POA.deactivate_object never
                                             // waits for the completion.
-    private final int[] counter ;           // single element holder for counter 
+    private final int[] counter ;           // single element holder for counter
                                             // accessed in actions
     private final Condition wait ;          // accessed in actions
 
     final POAImpl poa ;
 
-    public static final State INVALID = new State( "Invalid", 
+    public static final State INVALID = new State( "Invalid",
         State.Kind.INITIAL ) ;
 
     public static final State INCARN  = new State( "Incarnating" ) {
@@ -189,26 +189,26 @@ public class AOMEntry extends FSMImpl {
         engine.add( INCARN,  EXIT,                              null,               INCARN      ) ;
         engine.add( INCARN,  START_ETH, waitGuard,              null,               INCARN      ) ;
         engine.add( INCARN,  INC_DONE,                          null,               VALID       ) ;
-        engine.add( INCARN,  INC_FAIL,                          decrementAction,    INVALID     ) ;  
-        engine.add( INCARN,  ACTIVATE,                          oaaAction,          INCARN      ) ;  
+        engine.add( INCARN,  INC_FAIL,                          decrementAction,    INVALID     ) ;
+        engine.add( INCARN,  ACTIVATE,                          oaaAction,          INCARN      ) ;
 
         engine.add( VALID,   ENTER,                             incrementAction,    VALID       ) ;
         engine.add( VALID,   EXIT,                              decrementAction,    VALID       ) ;
         engine.add( VALID,   START_ETH, greaterZeroGuard,       null,               ETHP        ) ;
         engine.add( VALID,   START_ETH, zeroGuard,              null,               ETH         ) ;
-        engine.add( VALID,   ACTIVATE,                          oaaAction,          VALID       ) ;  
+        engine.add( VALID,   ACTIVATE,                          oaaAction,          VALID       ) ;
 
         engine.add( ETHP,    ENTER,     waitGuard,              null,               ETHP        ) ;
         engine.add( ETHP,    START_ETH,                         null,               ETHP        ) ;
         engine.add( ETHP,    EXIT,      greaterOneGuard,        decrementAction,    ETHP        ) ;
         engine.add( ETHP,    EXIT,      oneGuard,               decrementAction,    ETH         ) ;
-        engine.add( ETHP,    ACTIVATE,                          oaaAction,          ETHP        ) ;  
+        engine.add( ETHP,    ACTIVATE,                          oaaAction,          ETHP        ) ;
 
         engine.add( ETH,     START_ETH,                         null,               ETH         ) ;
         engine.add( ETH,     ETH_DONE,                          null,               DESTROYED   ) ;
         engine.add( ETH,     ENTER,     waitGuard,              null,               ETH         ) ;
-        engine.add( ETH,     ACTIVATE,                          oaaAction,          ETH ) ;  
-        
+        engine.add( ETH,     ACTIVATE,                          oaaAction,          ETH ) ;
+
         engine.setDefault( DESTROYED, throwIllegalStateExceptionAction, DESTROYED ) ;
 
         engine.done() ;
@@ -239,10 +239,10 @@ public class AOMEntry extends FSMImpl {
     // Methods that drive the FSM: the real interface to this class
     // Most just call the doIt method, but startEtherealize needs
     // the etherealizer.
-    public void startEtherealize( Thread etherealizer ) 
-    { 
+    public void startEtherealize( Thread etherealizer )
+    {
         this.etherealizer[0] = etherealizer ;
-        runner.doIt( START_ETH ) ; 
+        runner.doIt( START_ETH ) ;
     }
 
     public void etherealizeComplete() { runner.doIt( ETH_DONE ) ; }
@@ -251,9 +251,9 @@ public class AOMEntry extends FSMImpl {
     public void enter() { runner.doIt( ENTER ) ; }
     public void exit() { runner.doIt( EXIT ) ; }
 
-    public void activateObject() throws ObjectAlreadyActive { 
+    public void activateObject() throws ObjectAlreadyActive {
         try {
-            runner.doIt( ACTIVATE ) ; 
+            runner.doIt( ACTIVATE ) ;
         } catch (RuntimeException exc) {
             Throwable thr = exc.getCause() ;
             if (thr instanceof ObjectAlreadyActive) {

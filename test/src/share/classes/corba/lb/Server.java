@@ -72,13 +72,13 @@ public class Server
 
             POA rootPOA = (POA) orb.resolve_initial_references("RootPOA");
             Policy[] policies = new Policy[] {
-                rootPOA.create_lifespan_policy( 
+                rootPOA.create_lifespan_policy(
                     LifespanPolicyValue.PERSISTENT ),
-                rootPOA.create_id_uniqueness_policy( 
+                rootPOA.create_id_uniqueness_policy(
                     IdUniquenessPolicyValue.UNIQUE_ID ),
-                rootPOA.create_id_assignment_policy( 
+                rootPOA.create_id_assignment_policy(
                     IdAssignmentPolicyValue.USER_ID ),
-                rootPOA.create_implicit_activation_policy( 
+                rootPOA.create_implicit_activation_policy(
                     ImplicitActivationPolicyValue.NO_IMPLICIT_ACTIVATION ),
                 rootPOA.create_servant_retention_policy(
                     ServantRetentionPolicyValue.RETAIN ),
@@ -86,7 +86,7 @@ public class Server
                     RequestProcessingPolicyValue.USE_ACTIVE_OBJECT_MAP_ONLY )
             } ;
 
-            POA testPOA = rootPOA.create_POA( "testPOA", rootPOA.the_POAManager(), 
+            POA testPOA = rootPOA.create_POA( "testPOA", rootPOA.the_POAManager(),
                 policies ) ;
 
             Servant servant = (Servant)
@@ -98,7 +98,7 @@ public class Server
             System.out.println("Server is ready.");
             System.out.println("--------------------------------------------");
 
-            createWithServantAndBind(Common.ReferenceName, servant, 
+            createWithServantAndBind(Common.ReferenceName, servant,
                                      testPOA, orb);
             // This should come AFTER we have set up the servant, otherwise a
             // request could be processed before the server is ready.
@@ -131,7 +131,7 @@ public class Server
 
             System.out.println( "test.is_local() = " +
                 ((org.omg.CORBA.portable.ObjectImpl)test)._is_local() ) ;
-            
+
             for (int ctr=0; ctr<10; ctr++) {
                 System.out.println( "Local invocation with argument " + ctr ) ;
                 int result = test.echo( ctr ) ;
@@ -147,7 +147,7 @@ public class Server
         System.out.println("--------------------------------------------");
     }
 
-    public static org.omg.CORBA.Object 
+    public static org.omg.CORBA.Object
         createWithServantAndBind (String  name,
                                   Servant servant,
                                   POA     poa,
@@ -162,6 +162,6 @@ public class Server
         return ref;
     }
 
-} 
+}
 
 // End of file.

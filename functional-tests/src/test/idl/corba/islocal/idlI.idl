@@ -22,7 +22,7 @@
 // Last Modified : 2003 Apr 18 (Fri) 15:05:19 by Harold Carr.
 //
 
-module corba 
+module corba
 {
     module islocal
     {

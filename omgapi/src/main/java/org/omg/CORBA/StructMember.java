@@ -27,11 +27,11 @@
 package org.omg.CORBA;
 
 /**
- * Describes a member of an IDL <code>struct</code> in the 
+ * Describes a member of an IDL <code>struct</code> in the
  * Interface Repository, including
- * the  name of the <code>struct</code> member, the type of 
+ * the  name of the <code>struct</code> member, the type of
  * the <code>struct</code> member, and
- * the typedef that represents the IDL type of the 
+ * the typedef that represents the IDL type of the
  * <code>struct</code> member
  * described the <code>struct</code> member object.
  */

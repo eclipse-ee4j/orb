@@ -35,7 +35,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.sameInstance;
 
-public class ORBTest {                                                                                      
+public class ORBTest {
   private static final String ORBClassKey = "org.omg.CORBA.ORBClass";
   private static final String ORBSingletonClassKey = "org.omg.CORBA.ORBSingletonClass";
 

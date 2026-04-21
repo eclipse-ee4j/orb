@@ -56,7 +56,7 @@ public class MyInterceptor
     public static final int serverSendServiceContextID = 9999;
 
     // Meaningless but big enought to cause fragmentation.a
-    public static byte[] serviceContextData = 
+    public static byte[] serviceContextData =
         { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
           10, 11, 12, 13, 14, 15, 16, 17, 18, 19};
 
@@ -75,12 +75,12 @@ public class MyInterceptor
     // Interceptor operations
     //
 
-    public String name() 
+    public String name()
     {
-        return baseMsg; 
+        return baseMsg;
     }
 
-    public void destroy() 
+    public void destroy()
     {
     }
 
@@ -218,7 +218,7 @@ public class MyInterceptor
         } else if (operation.equals(C.throwThreadDeathInServantThenSysInPostThenSysInSendException))
         {
             throw new PERSIST_STORE();
-/* KMC: Can't find any test affected by this code in HCKS, which causes problems in testMisc            
+/* KMC: Can't find any test affected by this code in HCKS, which causes problems in testMisc
         } else if (operation.equals(C.sendTwoObjects)) {
             SystemException sex =
                 ORBUtility.extractSystemException(ri.sending_exception());
@@ -296,7 +296,7 @@ public class MyInterceptor
             org.omg.CORBA.Object target = ri.effective_target();
             // Only do this on type idlI.
             // Note: Do not use target._is_a to avoid interceptor recursion.
-            if ( StubAdapter.getTypeIds(target)[0].equals( 
+            if ( StubAdapter.getTypeIds(target)[0].equals(
                 idlIHelper.id() )) {
                 ri.get_reply_service_context(serverReceiveServiceContextID);
                 ri.get_reply_service_context(serverSendServiceContextID);

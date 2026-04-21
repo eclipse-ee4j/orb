@@ -87,7 +87,7 @@ public class TestngRunner {
     public TestngRunner() {
         final String propName = "junit.report.dir" ;
 
-        String reportDir = System.getProperty( propName ) ; 
+        String reportDir = System.getProperty( propName ) ;
         if (reportDir == null) {
             System.setProperty( propName, "." ) ;
             reportDir = "." ;
@@ -100,7 +100,7 @@ public class TestngRunner {
         if (!outdir.isDirectory())
             throw new RuntimeException( outdir + " is not a directory" ) ;
 
-        outdirName = reportDir + File.separatorChar + 
+        outdirName = reportDir + File.separatorChar +
             System.getProperty( "corba.test.controller.name", "default" ) ;
 
         File destDir = new File( outdirName ) ;
@@ -139,9 +139,9 @@ public class TestngRunner {
     }
 
     public void systemExit() {
-        if (hasFailure) 
+        if (hasFailure)
             System.exit( 1 ) ;
-        else 
+        else
             System.exit( 0 ) ;
     }
 }

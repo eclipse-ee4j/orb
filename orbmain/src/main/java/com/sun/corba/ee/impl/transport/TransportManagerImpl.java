@@ -62,7 +62,7 @@ public class TransportManagerImpl
     protected final Map<String,OutboundConnectionCache> outboundConnectionCaches;
     protected final Map<String,InboundConnectionCache> inboundConnectionCaches;
     protected Selector selector;
-    
+
     public TransportManagerImpl(ORB orb)
     {
         this.orb = orb;
@@ -78,7 +78,7 @@ public class TransportManagerImpl
 
     public ByteBufferPool getByteBufferPool(int id)
     {
-        throw new RuntimeException(); 
+        throw new RuntimeException();
     }
 
     public OutboundConnectionCache getOutboundConnectionCache(
@@ -93,7 +93,7 @@ public class TransportManagerImpl
                     if (connectionCache == null) {
                         // REVISIT: Would like to be able to configure
                         // the connection cache type used.
-                        connectionCache = 
+                        connectionCache =
                             new OutboundConnectionCacheImpl(orb,
                                                                  contactInfo);
 
@@ -162,7 +162,7 @@ public class TransportManagerImpl
         return selector ;
     }
 
-    public Selector getSelector(int id) 
+    public Selector getSelector(int id)
     {
         return selector;
     }
@@ -225,13 +225,13 @@ public class TransportManagerImpl
 
     // REVISIT - POA specific policies
     @Transport
-    public void addToIORTemplate(IORTemplate iorTemplate, 
+    public void addToIORTemplate(IORTemplate iorTemplate,
                                  Policies policies,
                                  String codebase,
                                  String objectAdapterManagerId,
                                  ObjectAdapterId objectAdapterId)
     {
-        Iterator iterator = 
+        Iterator iterator =
             getAcceptors(objectAdapterManagerId, objectAdapterId).iterator();
         while (iterator.hasNext()) {
             Acceptor acceptor = (Acceptor) iterator.next();
@@ -241,13 +241,13 @@ public class TransportManagerImpl
 
     private ThreadLocal currentMessageTraceManager =
         new ThreadLocal() {
-            public Object initialValue() 
+            public Object initialValue()
             {
                 return new MessageTraceManagerImpl( ) ;
             }
         } ;
 
-    public MessageTraceManager getMessageTraceManager() 
+    public MessageTraceManager getMessageTraceManager()
     {
         return (MessageTraceManager)(currentMessageTraceManager.get()) ;
     }

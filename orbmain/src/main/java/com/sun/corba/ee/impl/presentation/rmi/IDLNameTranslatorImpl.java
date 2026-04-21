@@ -40,7 +40,7 @@ import org.glassfish.pfl.basic.proxy.DynamicAccessPermission ;
 public class IDLNameTranslatorImpl implements IDLNameTranslator {
 
     // From CORBA Spec, Table 6 Keywords.
-    // Note that since all IDL identifiers are case 
+    // Note that since all IDL identifiers are case
     // insensitive, java identifier comparisons to these
     // will be case insensitive also.
     private static String[] IDL_KEYWORDS = {
@@ -58,9 +58,9 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
 
     private static char[] HEX_DIGITS = {
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-        'A', 'B', 'C', 'D', 'E', 'F' 
+        'A', 'B', 'C', 'D', 'E', 'F'
     };
-    
+
     private static final String UNDERSCORE = "_";
 
     // used to mangle java inner class names
@@ -78,7 +78,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
     private static final String ID_CONTAINER_CLASH_CHAR = UNDERSCORE;
 
     // separator used between types in a mangled overloaded method name
-    private static final String OVERLOADED_TYPE_SEPARATOR = 
+    private static final String OVERLOADED_TYPE_SEPARATOR =
         UNDERSCORE + UNDERSCORE;
 
     // string appended to attribute if it clashes with a method name
@@ -103,8 +103,8 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
     //
     // Instance state
     //
-    
-    // Remote interface for name translation.  
+
+    // Remote interface for name translation.
     private Class[] interf_;
 
     // Maps used to hold name translations.  These do not need to be
@@ -113,13 +113,13 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
     private Map<Method,String> methodToIDLNameMap_;
     private Map<String,Method> IDLNameToMethodMap_;
     private Method[] methods_;
-    
+
     /**
-     * Return an IDLNameTranslator for the given interface.  
+     * Return an IDLNameTranslator for the given interface.
      *
      * @param interf Interface to get translator for.
      * @return IDLNameTranslator for specified interface.
-     * @throws IllegalStateException if given class is not a valid 
+     * @throws IllegalStateException if given class is not a valid
      *         RMI/IIOP Remote Interface
      */
     public static IDLNameTranslator get( final Class interf )
@@ -137,7 +137,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
      *
      * @param interfaces Interfaces to get a translator for
      * @return IDLNameTranslator for specified interfaces.
-     * @throws IllegalStateException if given classes are not  valid 
+     * @throws IllegalStateException if given classes are not  valid
      *         RMI/IIOP Remote Interfaces
      */
     public static IDLNameTranslator get( final Class[] interfaces )
@@ -150,7 +150,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
             } ) ;
     }
 
-    public static String getExceptionId( Class cls ) 
+    public static String getExceptionId( Class cls )
     {
         // Requirements for this method:
         // 1. cls must be an exception but not a RemoteException.
@@ -174,20 +174,20 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
         return methods_ ;
     }
 
-    public Method getMethod( String idlName ) 
+    public Method getMethod( String idlName )
     {
         return IDLNameToMethodMap_.get(idlName);
     }
 
-    public String getIDLName( Method method ) 
+    public String getIDLName( Method method )
     {
         return methodToIDLNameMap_.get(method);
     }
 
     /**
-     * Initialize an IDLNameTranslator for the given interface.  
+     * Initialize an IDLNameTranslator for the given interface.
      *
-     * @throws IllegalStateException if given class is not a valid 
+     * @throws IllegalStateException if given class is not a valid
      *         RMI/IIOP Remote Interface
      */
     private IDLNameTranslatorImpl(Class<?>[] interfaces)
@@ -212,7 +212,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
         }
     }
 
-    private void buildNameTranslation() 
+    private void buildNameTranslation()
     {
         // holds method info, keyed by method
         Map<Method,IDLMethodInfo> allMethodInfo =
@@ -226,37 +226,37 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
                 public Object run() {
                     Method.setAccessible( methods, true ) ;
                     return null ;
-                } 
+                }
             } ) ;
 
             // Take an initial pass through all the methods and create some
-            // information that will be used to track the IDL name 
+            // information that will be used to track the IDL name
             // transformation.
             for (Method nextMethod : methods) {
                 IDLMethodInfo methodInfo = new IDLMethodInfo();
 
-                methodInfo.method = nextMethod;           
+                methodInfo.method = nextMethod;
 
                 if (idlTypesUtil.isPropertyAccessorMethod(nextMethod, interf)) {
                     methodInfo.isProperty = true;
                     String attributeName = idlTypesUtil.
                         getAttributeNameForProperty(nextMethod.getName());
                     methodInfo.originalName = attributeName;
-                    methodInfo.mangledName  = attributeName;               
+                    methodInfo.mangledName  = attributeName;
                 } else {
                     methodInfo.isProperty = false;
                     methodInfo.originalName = nextMethod.getName();
                     methodInfo.mangledName  = nextMethod.getName();
                 }
-                
+
                 allMethodInfo.put(nextMethod, methodInfo);
             }
         }
 
         //
         // Perform case sensitivity test first.  This applies to all
-        // method names AND attributes.  Compare each method name and 
-        // attribute to all other method names and attributes.  If names 
+        // method names AND attributes.  Compare each method name and
+        // attribute to all other method names and attributes.  If names
         // differ only in case, apply mangling as defined in section 1.3.2.7
         // of Java2IDL spec.  Note that we compare using the original names.
         //
@@ -265,7 +265,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
                 if( (outer != inner) &&
                     (!outer.originalName.equals(inner.originalName)) &&
                     outer.originalName.equalsIgnoreCase(inner.originalName) ) {
-                    outer.mangledName = 
+                    outer.mangledName =
                         mangleCaseSensitiveCollision(outer.originalName);
                     break;
                 }
@@ -273,9 +273,9 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
         }
 
         for (IDLMethodInfo next : allMethodInfo.values()) {
-            next.mangledName = 
+            next.mangledName =
                 mangleIdentifier(next.mangledName, next.isProperty);
-        }         
+        }
 
         //
         // Now check for overloaded method names and apply 1.3.2.6.
@@ -293,7 +293,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
                 }
             }
         }
-       
+
         //
         // Now mangle any properties that clash with method names.
         //
@@ -318,11 +318,11 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
             String mappedContainerName = getMappedContainerName(interf);
             for (IDLMethodInfo next : allMethodInfo.values()) {
                 if( !next.isProperty &&
-                    identifierClashesWithContainer(mappedContainerName, 
+                    identifierClashesWithContainer(mappedContainerName,
                                                    next.mangledName)) {
                     next.mangledName = mangleContainerClash(next.mangledName);
                 }
-            }         
+            }
         }
 
         //
@@ -330,12 +330,12 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
         //
         methodToIDLNameMap_ = new HashMap<Method,String>();
         IDLNameToMethodMap_ = new HashMap<String,Method>();
-        methods_ = allMethodInfo.keySet().toArray( 
+        methods_ = allMethodInfo.keySet().toArray(
             new Method[0] ) ;
 
         for (IDLMethodInfo next : allMethodInfo.values()) {
             String idlName = next.mangledName;
-            if( next.isProperty ) {                
+            if( next.isProperty ) {
                 String origMethodName = next.method.getName();
                 String prefix = "";
 
@@ -349,17 +349,17 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
 
                 idlName = prefix + next.mangledName;
             }
-            
+
             methodToIDLNameMap_.put(next.method, idlName);
 
             // Final check to see if there are any clashes after all the
             // manglings have been applied.  If so, this is treated as an
-            // invalid interface.  Currently, we do a CASE-SENSITIVE 
-            // comparison since that matches the rmic behavior.  
+            // invalid interface.  Currently, we do a CASE-SENSITIVE
+            // comparison since that matches the rmic behavior.
             if( IDLNameToMethodMap_.containsKey(idlName) ) {
                 Method clash = IDLNameToMethodMap_.get(idlName);
-                throw new IllegalStateException("Error : methods " + 
-                    clash + " and " + next.method + 
+                throw new IllegalStateException("Error : methods " +
+                    clash + " and " + next.method +
                     " both result in IDL name '" + idlName + "'");
             } else {
                 IDLNameToMethodMap_.put(idlName, next.method);
@@ -370,13 +370,13 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
 
     }
 
-    
+
     /**
      * Perform all necessary stand-alone identifier mangling operations
      * on a java identifier that is being transformed into an IDL name.
      * That is, mangling operations that don't require looking at anything
-     * else but the identifier itself.  This covers sections 1.3.2.2, 1.3.2.3, 
-     * and 1.3.2.4 of the Java2IDL spec.  Method overloading and 
+     * else but the identifier itself.  This covers sections 1.3.2.2, 1.3.2.3,
+     * and 1.3.2.4 of the Java2IDL spec.  Method overloading and
      * case-sensitivity checks are handled elsewhere.
      */
 
@@ -389,48 +389,48 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
         String mangledName = identifier;
 
         //
-        // Apply leading underscore test (1.3.2.3) 
-        // This should be done before IDL Keyword clash test, since clashing 
+        // Apply leading underscore test (1.3.2.3)
+        // This should be done before IDL Keyword clash test, since clashing
         // IDL keywords are mangled by adding a leading underscore.
         //
         if( hasLeadingUnderscore(mangledName) ) {
-            mangledName = mangleLeadingUnderscore(mangledName);            
-        }         
-        
+            mangledName = mangleLeadingUnderscore(mangledName);
+        }
+
         //
         // Apply IDL keyword clash test (1.3.2.2).
-        // This is not needed for attributes since when the full property 
+        // This is not needed for attributes since when the full property
         // name is composed it cannot clash with an IDL keyword.
         // (Also, rmic doesn't do it.)
         //
-        
+
         if( !attribute && isIDLKeyword(mangledName) ) {
-            mangledName = mangleIDLKeywordClash(mangledName);           
-        } 
+            mangledName = mangleIDLKeywordClash(mangledName);
+        }
 
         //
-        // Replace illegal IDL identifier characters (1.3.2.4) 
+        // Replace illegal IDL identifier characters (1.3.2.4)
         // for all method names and attributes.
         //
         if( !isIDLIdentifier(mangledName) ) {
             mangledName = mangleUnicodeChars(mangledName);
-        }       
-        
+        }
+
         return mangledName;
     }
 
     // isIDLKeyword and mangleIDLKeywordClash are exposed here so that
-    // IDLType can use them.  
-    
+    // IDLType can use them.
+
     /**
      * Checks whether a java identifier clashes with an
      * IDL keyword.  Note that this is a case-insensitive
      * comparison.
      *
      * Used to implement section 1.3.2.2 of Java2IDL spec.
-     */ 
+     */
     static boolean isIDLKeyword(String identifier) {
-        
+
         String identifierAllCaps = identifier.toUpperCase();
 
         return idlKeywords_.contains(identifierAllCaps);
@@ -469,28 +469,28 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
                 mangledIdentifier.append(unicode);
             }
         }
-        
+
         return mangledIdentifier.toString();
     }
 
     /**
      * Implements mangling portion of Section 1.3.2.7 of Java2IDL spec.
-     * This method only deals with the actual mangling.  Decision about 
-     * whether case-sensitive collision mangling is required is made 
+     * This method only deals with the actual mangling.  Decision about
+     * whether case-sensitive collision mangling is required is made
      * elsewhere.
-     * 
-     * 
-     * "...a mangled name is generated consisting of the original name 
-     * followed by an underscore separated list of decimal indices 
-     * into the string, where the indices identify all the upper case 
+     *
+     *
+     * "...a mangled name is generated consisting of the original name
+     * followed by an underscore separated list of decimal indices
+     * into the string, where the indices identify all the upper case
      * characters in the original string. Indices are zero based."
      *
-     */ 
+     */
     String mangleCaseSensitiveCollision(String identifier) {
 
         StringBuilder mangledIdentifier = new StringBuilder(identifier);
 
-        // There is always at least one trailing underscore, whether or 
+        // There is always at least one trailing underscore, whether or
         // not the identifier has uppercase letters.
         mangledIdentifier.append(UNDERSCORE);
 
@@ -499,7 +499,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
             char next = identifier.charAt(i);
             if( Character.isUpperCase(next) ) {
                 // This bit of logic is needed to ensure that we have
-                // an underscore separated list of indices but no 
+                // an underscore separated list of indices but no
                 // trailing underscores.  Basically, after we have at least
                 // one uppercase letter, we always put an undercore before
                 // printing the next one.
@@ -520,7 +520,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
 
     /**
      * Implements Section 1.3.2.9 of Java2IDL Mapping. Container in this
-     * context means the name of the java Class(excluding package) in which 
+     * context means the name of the java Class(excluding package) in which
      * the identifier is defined.  Comparison is case-insensitive.
      */
     private static boolean identifierClashesWithContainer
@@ -533,20 +533,20 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
      * Returns Unicode mangling as defined in Section 1.3.2.4 of
      * Java2IDL spec.
      *
-     * "For Java identifiers that contain illegal OMG IDL identifier 
+     * "For Java identifiers that contain illegal OMG IDL identifier
      * characters such as '$' or Unicode characters outside of ISO Latin 1,
      * any such illegal characters are replaced by "U" followed by the
      * 4 hexadecimal characters(in upper case) representing the Unicode
-     * value.  So, the Java name a$b is mapped to aU0024b and 
+     * value.  So, the Java name a$b is mapped to aU0024b and
      * x\u03bCy is mapped to xU03BCy."
      * @param c character to convert
      * @return Unicode String
      */
     public static String charToUnicodeRepresentation(char c) {
-        
+
         int orig = (int) c;
         StringBuilder hexString = new StringBuilder();
-        
+
         int value = orig;
 
         while( value > 0 ) {
@@ -573,7 +573,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
             char nextChar = identifier.charAt(i);
             // 1st char must be alphbetic.
             isIdentifier  = (i == 0) ?
-                isIDLAlphabeticChar(nextChar) : 
+                isIDLAlphabeticChar(nextChar) :
                 isIDLIdentifierChar(nextChar);
             if( !isIdentifier ) {
                 break;
@@ -581,11 +581,11 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
         }
 
         return isIdentifier;
-        
+
     }
 
     private static boolean isIDLIdentifierChar(char c) {
-        return (isIDLAlphabeticChar(c) || 
+        return (isIDLAlphabeticChar(c) ||
                 isIDLDecimalDigit(c)   ||
                 isUnderscore(c));
     }
@@ -593,7 +593,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
     /**
      * True if character is one of 114 Alphabetic characters as
      * specified in Table 2 of Chapter 3 in CORBA spec.
-     */ 
+     */
     private static boolean isIDLAlphabeticChar(char c) {
 
         // NOTE that we can't use the java.lang.Character
@@ -602,30 +602,30 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
         // the CORBA spec.  Instead, we test for inclusion in the
         // Unicode value ranges for the corresponding legal characters.
 
-        boolean alphaChar = 
+        boolean alphaChar =
             (
              // A - Z
-             ((c >= 0x0041) && (c <= 0x005A)) 
+             ((c >= 0x0041) && (c <= 0x005A))
 
              ||
-             
+
              // a - z
-             ((c >= 0x0061) && (c <= 0x007A)) 
-             
+             ((c >= 0x0061) && (c <= 0x007A))
+
              ||
-             
+
              // other letter uppercase, other letter lowercase, which is
              // the entire upper half of C1 Controls except X and /
              ((c >= 0x00C0) && (c <= 0x00FF)
               && (c != 0x00D7) && (c != 0x00F7)));
-        
+
         return alphaChar;
     }
 
     /**
-     * True if character is one of 10 Decimal Digits 
+     * True if character is one of 10 Decimal Digits
      * specified in Table 3 of Chapter 3 in CORBA spec.
-     */ 
+     */
     private static boolean isIDLDecimalDigit(char c) {
         return ( (c >= 0x0030) && (c <= 0x0039) );
     }
@@ -633,12 +633,12 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
     private static boolean isUnderscore(char c) {
         return ( c == 0x005F );
     }
-    
+
     /**
      * Mangle an overloaded method name as defined in Section 1.3.2.6 of
      * Java2IDL spec.  Current value of method name is passed in as argument.
      * We can't start from original method name since the name might have
-     * been partially mangled as a result of the other rules.  
+     * been partially mangled as a result of the other rules.
      */
     private static String mangleOverloadedMethod(String mangledName, Method m) {
 
@@ -646,15 +646,15 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
 
         // Start by appending the separator string
         String newMangledName = mangledName + OVERLOADED_TYPE_SEPARATOR;
-        
+
         Class<?>[] parameterTypes = m.getParameterTypes();
-        
+
         for(int i = 0; i < parameterTypes.length; i++) {
             Class<?> nextParamType = parameterTypes[i];
-            
+
             if( i > 0 ) {
                 newMangledName += OVERLOADED_TYPE_SEPARATOR;
-            }            
+            }
             IDLType idlType = classToIDLType(nextParamType);
 
             String moduleName = idlType.getModuleName();
@@ -662,10 +662,10 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
 
             String typeName = (moduleName.length() > 0) ?
                 moduleName + UNDERSCORE + memberName : memberName;
-                                   
-            if( !idlTypesUtil.isPrimitive(nextParamType) && 
-                (idlTypesUtil.getSpecialCaseIDLTypeMapping(nextParamType) 
-                 == null) &&               
+
+            if( !idlTypesUtil.isPrimitive(nextParamType) &&
+                (idlTypesUtil.getSpecialCaseIDLTypeMapping(nextParamType)
+                 == null) &&
                 isIDLKeyword(typeName) ) {
                 typeName = mangleIDLKeywordClash(typeName);
             }
@@ -673,14 +673,14 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
             typeName = mangleUnicodeChars(typeName);
 
             newMangledName += typeName;
-        }        
+        }
 
-        return newMangledName;        
+        return newMangledName;
     }
 
 
     private static IDLType classToIDLType(Class<?> c) {
-               
+
         IDLType idlType = null;
         IDLTypesUtil idlTypesUtil = new IDLTypesUtil();
 
@@ -689,7 +689,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
             idlType = idlTypesUtil.getPrimitiveIDLTypeMapping(c);
 
         } else if( c.isArray() ) {
-            
+
             // Calculate array depth, as well as base element type.
             Class<?> componentType = c.getComponentType();
             int numArrayDimensions = 1;
@@ -698,24 +698,24 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
                 numArrayDimensions++;
             }
             IDLType componentIdlType = classToIDLType(componentType);
-            
+
             String[] modules = BASE_IDL_ARRAY_MODULE_TYPE;
             if( componentIdlType.hasModule() ) {
                 final String[] cModules = componentIdlType.getModules() ;
-                final String[] newModules = new String[ modules.length + 
+                final String[] newModules = new String[ modules.length +
                     cModules.length ] ;
                 System.arraycopy(modules, 0, newModules, 0, modules.length);
-                System.arraycopy(cModules, 0, newModules, modules.length, 
+                System.arraycopy(cModules, 0, newModules, modules.length,
                     cModules.length);
                 modules = newModules ;
             }
 
-            String memberName = BASE_IDL_ARRAY_ELEMENT_TYPE + 
-                numArrayDimensions + UNDERSCORE + 
-                componentIdlType.getMemberName();                
-            
+            String memberName = BASE_IDL_ARRAY_ELEMENT_TYPE +
+                numArrayDimensions + UNDERSCORE +
+                componentIdlType.getMemberName();
+
             idlType = new IDLType(c, modules, memberName);
-               
+
         } else {
             idlType = idlTypesUtil.getSpecialCaseIDLTypeMapping(c);
 
@@ -725,18 +725,18 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
                 String memberName = getUnmappedContainerName(c);
 
                 // replace inner class separator with double underscore
-                memberName = memberName.replaceAll("\\$", 
+                memberName = memberName.replaceAll("\\$",
                                                    INNER_CLASS_SEPARATOR);
-                                
+
                 if( hasLeadingUnderscore(memberName) ) {
                     memberName = mangleLeadingUnderscore(memberName);
-                }                    
+                }
 
                 // Get raw package name.  If there is a package, it
                 // will still have the "." separators and none of the
                 // mangling rules will have been applied.
-                String packageName = getPackageName(c);                 
-                
+                String packageName = getPackageName(c);
+
                 if (packageName == null) {
                     idlType = new IDLType( c, memberName ) ;
                 } else {
@@ -745,17 +745,17 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
                     if (idlTypesUtil.isEntity(c)) {
                         packageName = "org.omg.boxedIDL." + packageName ;
                     }
-                    
-                    // Section 1.3.2.1 and 1.3.2.6 of Java2IDL spec defines 
-                    // rules for mapping java packages to IDL modules and for 
+
+                    // Section 1.3.2.1 and 1.3.2.6 of Java2IDL spec defines
+                    // rules for mapping java packages to IDL modules and for
                     // mangling module name portion of type name.  NOTE that
-                    // of the individual identifier mangling rules, 
-                    // only the leading underscore test is done here.  
+                    // of the individual identifier mangling rules,
+                    // only the leading underscore test is done here.
                     // The other two(IDL Keyword, Illegal Unicode chars) are
-                    // done in mangleOverloadedMethodName.  
-                    StringTokenizer tokenizer = 
+                    // done in mangleOverloadedMethodName.
+                    StringTokenizer tokenizer =
                         new StringTokenizer(packageName, ".");
-                    
+
                     String[] modules = new String[ tokenizer.countTokens() ] ;
                     int index = 0 ;
                     while (tokenizer.hasMoreElements()) {
@@ -764,7 +764,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
                             mangleLeadingUnderscore( next ) : next;
 
                         modules[index++] = moreMangled ;
-                    }                                                          
+                    }
 
                     idlType = new IDLType(c, modules, memberName);
                 }
@@ -794,7 +794,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
         }
         return packageName;
     }
-    
+
     private static String getMappedContainerName(Class<?> c) {
         String unmappedName = getUnmappedContainerName(c);
 
@@ -810,7 +810,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
         String packageName = getPackageName(c);
 
         String fullyQualifiedClassName = c.getName();
-               
+
         if( packageName != null ) {
             int packageLength = packageName.length();
             memberName = fullyQualifiedClassName.substring(packageLength + 1);
@@ -826,18 +826,18 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
      * Internal helper class for tracking information related to each
      * interface method while we're building the name translation table.
      */
-    private static class IDLMethodInfo 
+    private static class IDLMethodInfo
     {
         public Method method;
         public boolean isProperty;
-        
-        // If this is a property, originalName holds the original 
+
+        // If this is a property, originalName holds the original
         // attribute name. Otherwise, it holds the original method name.
         public String originalName;
 
-        // If this is a property, mangledName holds the mangled attribute 
-        // name. Otherwise, it holds the mangled method name. 
-        public String mangledName;        
+        // If this is a property, mangledName holds the mangled attribute
+        // name. Otherwise, it holds the mangled method name.
+        public String mangledName;
 
     }
 

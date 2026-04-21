@@ -102,7 +102,7 @@ public class CodeSetConversion
         // save references.
         public abstract byte[] getBytes();
     }
-    
+
     /**
      * Abstraction for byte to char conversion.
      */
@@ -124,7 +124,7 @@ public class CodeSetConversion
 
     /**
      * Implementation of CTBConverter which uses a nio.Charset.CharsetEncoder
-     * to do the real work.  Handles translation of exceptions to the 
+     * to do the real work.  Handles translation of exceptions to the
      * appropriate CORBA versions.
      */
     private class JavaCTBConverter extends CTBConverter
@@ -139,7 +139,7 @@ public class CodeSetConversion
         // alignment of 2 (2 bytes per char)
         private int alignment;
 
-        // Char buffer to hold the input. 
+        // Char buffer to hold the input.
         private char[] chars = null;
 
         // How many bytes are generated from the conversion?
@@ -188,7 +188,7 @@ public class CodeSetConversion
         public void convert(char chToConvert) {
             if (chars == null)
                 chars = new char[1];
-            
+
             // The CharToByteConverter only takes a char[]
             chars[0] = chToConvert;
             numChars = 1;
@@ -205,7 +205,7 @@ public class CodeSetConversion
                 chars = new char[strToConvert.length()];
 
             numChars = strToConvert.length();
-            
+
             buffer = cacheEncoder.get(strToConvert);
             if (buffer != null) {
                 numBytes = buffer.limit();
@@ -226,7 +226,7 @@ public class CodeSetConversion
         public final int getNumBytes() {
             return numBytes;
         }
-        
+
         public final int getAlignment() {
             return alignment;
         }
@@ -244,7 +244,7 @@ public class CodeSetConversion
 
         private void convertCharArray() {
             try {
-                
+
                 // Possible optimization of directly converting into the CDR buffer.
                 // However, that means the CDR code would have to reserve
                 // a 4 byte string length ahead of time, and we'd need a
@@ -300,7 +300,7 @@ public class CodeSetConversion
 
     /**
      * Implementation of BTCConverter which uses a sun.io.ByteToCharConverter
-     * for the real work.  Handles translation of exceptions to the 
+     * for the real work.  Handles translation of exceptions to the
      * appropriate CORBA versions.
      */
     private class JavaBTCConverter extends BTCConverter {
@@ -502,7 +502,7 @@ public class CodeSetConversion
                 int b2 = array[offset + 1] & 0x00FF;
 
                 char marker = (char)((b1 << 8) | (b2));
-                
+
                 return (marker == UTF16_BE_MARKER || marker == UTF16_LE_MARKER);
             } else
                 return false;
@@ -511,7 +511,7 @@ public class CodeSetConversion
         /**
          * The current solution for dealing with UTF-16 in CORBA
          * is that if our sun.io converter requires byte order markers,
-         * and then we see a CORBA wstring/wchar without them, we 
+         * and then we see a CORBA wstring/wchar without them, we
          * switch to the sun.io converter that doesn't require them.
          */
         private void switchToConverter(OSFCodeSetRegistry.Entry newCodeSet) {
@@ -530,16 +530,16 @@ public class CodeSetConversion
         int alignment = (!codeset.isFixedWidth() ?
                          1 :
                          codeset.getMaxBytesPerChar());
-            
+
         return new JavaCTBConverter(codeset, alignment);
     }
 
     /**
      * CTB converter factory for multibyte (mainly fixed) encodings.
      *
-     * Because of the awkwardness with byte order markers and the possibility of 
-     * using UCS-2, you must specify both the endianness of the stream as well as 
-     * whether or not to use byte order markers if applicable.  UCS-2 has no byte 
+     * Because of the awkwardness with byte order markers and the possibility of
+     * using UCS-2, you must specify both the endianness of the stream as well as
+     * whether or not to use byte order markers if applicable.  UCS-2 has no byte
      * order markers.  UTF-16 has optional markers.
      *
      * If you select useByteOrderMarkers, there is no guarantee that the encoding
@@ -622,7 +622,7 @@ public class CodeSetConversion
         }
     }
 
-    /** 
+    /**
      * Follows the code set negotiation algorithm in CORBA formal 99-10-07 13.7.2.
      *
      * Returns the proper negotiated OSF character encoding number or
@@ -687,7 +687,7 @@ public class CodeSetConversion
         // UTF8 and UTF16, the fall back code sets.  It's also a lot
         // of work to implement.  In the case of incompatibility, the
         // spec says to throw a CODESET_INCOMPATIBLE exception.
-        
+
         // Use the fallback
         return CodeSetConversion.FALLBACK_CODESET;
     }
@@ -747,18 +747,18 @@ public class CodeSetConversion
     private CodeSetCache cache = new CodeSetCache();
 
     // CodeSet converters are cached once created and are shared with multiple
-    //  worker threads as shared objects. Each converter's 
+    //  worker threads as shared objects. Each converter's
     //  btc/ctb object has cached string<-->byte[] cache on a per thread basis.
-    //  Everytime a string is encoded/decoded it's result will be stored in 
+    //  Everytime a string is encoded/decoded it's result will be stored in
     //  the weak HashMap of the respective converters.
-    private ThreadLocal <HashMap<OSFCodeSetRegistry.Entry, BTCConverter>> 
+    private ThreadLocal <HashMap<OSFCodeSetRegistry.Entry, BTCConverter>>
         cacheBTCC = new ThreadLocal() {
         @Override
         public HashMap<OSFCodeSetRegistry.Entry, BTCConverter> initialValue() {
             return new HashMap<OSFCodeSetRegistry.Entry, BTCConverter>() ;
         }
     };
-    private ThreadLocal <HashMap<OSFCodeSetRegistry.Entry, CTBConverter>> 
+    private ThreadLocal <HashMap<OSFCodeSetRegistry.Entry, CTBConverter>>
         cacheCTBC = new ThreadLocal() {
         @Override
         public HashMap<OSFCodeSetRegistry.Entry, CTBConverter> initialValue() {

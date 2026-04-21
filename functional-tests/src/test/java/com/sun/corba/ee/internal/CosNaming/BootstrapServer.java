@@ -44,8 +44,8 @@ public class BootstrapServer
      /**
      * Main startup routine for the bootstrap server.
      * It first determines the port on which to listen, checks that the
-     * specified file is available, and then creates the resolver 
-     * that will be used to service the requests in the 
+     * specified file is available, and then creates the resolver
+     * that will be used to service the requests in the
      * BootstrapServerRequestDispatcher.
      * @param args the command-line arguments to the main program.
      */
@@ -72,7 +72,7 @@ public class BootstrapServer
         }
 
         if (propertiesFilename == null) {
-            System.out.println( 
+            System.out.println(
                 "Bootstrapserver -InitialServicesFile <filename> "
                     + "-ORBInitialPort <num>" ) ;
             return;
@@ -83,14 +83,14 @@ public class BootstrapServer
 
         // Verify that if it exists, it is readable
         if (file.exists() == true && file.canRead() == false) {
-            System.err.println( "File " + file.getAbsolutePath() 
+            System.err.println( "File " + file.getAbsolutePath()
                 + " is not readable" ) ;
             return;
         }
 
         // Success: start up
         System.out.println(
-            "Bootstrapserver started on port " + Integer.toString(initialPort) 
+            "Bootstrapserver started on port " + Integer.toString(initialPort)
                 + " wirh InitialServicesFile " + file.getAbsolutePath());
 
         Properties props = new Properties() ;
@@ -99,7 +99,7 @@ public class BootstrapServer
         // old legacy code in ORBConfiguratorImpl.  When (if?)
         // the legacy support is removed, this code will need
         // to create an Acceptor directly.
-        props.put( ORBConstants.SERVER_PORT_PROPERTY,  
+        props.put( ORBConstants.SERVER_PORT_PROPERTY,
             Integer.toString( initialPort ) ) ;
 
         ORB orb = (ORB) org.omg.CORBA.ORB.init(args,props);

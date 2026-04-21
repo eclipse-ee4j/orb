@@ -34,16 +34,16 @@ import java.io.*;
 
 import ClientRequestInfo.*; // hello interface
 
-public class POAServer 
-    implements InternalProcess 
+public class POAServer
+    implements InternalProcess
 {
     // Set from run()
     private PrintStream out;
-    
+
     private static final String ROOT_POA = "RootPOA";
-    
+
     private POA rootPOA;
-    
+
     private com.sun.corba.ee.spi.orb.ORB orb;
 
     public static void main(String args[]) {
@@ -58,7 +58,7 @@ public class POAServer
     }
 
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         this.out = out;
@@ -68,7 +68,7 @@ public class POAServer
 
         // create and initialize the ORB
         Properties props = new Properties() ;
-        props.put( "org.omg.CORBA.ORBClass", 
+        props.put( "org.omg.CORBA.ORBClass",
                    System.getProperty("org.omg.CORBA.ORBClass"));
         ORB orb = ORB.init(args, props);
         this.orb = (com.sun.corba.ee.spi.orb.ORB)orb;
@@ -84,11 +84,11 @@ public class POAServer
             throw e;
         }
         rootPOA.the_POAManager().activate();
-        
+
         // Set up hello object and helloForward object for POA remote case:
         createAndBind( "Hello1" );
         createAndBind( "Hello1Forward" );
-        
+
         //handshake:
         out.println("Server is ready.");
         out.flush();
@@ -100,7 +100,7 @@ public class POAServer
         }
 
     }
-    
+
     /**
      * Implementation borrowed from corba.socket.HelloServer test
      */
@@ -109,19 +109,19 @@ public class POAServer
     {
         // create servant and register it with the ORB
         helloServant helloRef = new helloServant( out );
-      
+
         byte[] id = rootPOA.activate_object(helloRef);
         org.omg.CORBA.Object ref = rootPOA.id_to_reference(id);
-      
+
         // get the root naming context
-        org.omg.CORBA.Object objRef = 
+        org.omg.CORBA.Object objRef =
             orb.resolve_initial_references("NameService");
         NamingContext ncRef = NamingContextHelper.narrow(objRef);
-      
+
         // bind the Object Reference in Naming
         NameComponent nc = new NameComponent(name, "");
         NameComponent path[] = {nc};
-            
+
         ncRef.rebind(path, ref);
     }
 

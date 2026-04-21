@@ -102,13 +102,13 @@ public class SelectorImpl
         closed = false;
     }
 
-    public void setTimeout(long timeout) 
+    public void setTimeout(long timeout)
     {
         this.timeout = timeout;
     }
 
     @ManagedAttribute
-    @Description( "The selector timeout" ) 
+    @Description( "The selector timeout" )
     public long getTimeout()
     {
         return timeout;
@@ -243,7 +243,7 @@ public class SelectorImpl
     //
 
     @InfoMethod
-    private void beginSelect() { } 
+    private void beginSelect() { }
 
     @InfoMethod
     private void endSelect() { }
@@ -491,7 +491,7 @@ public class SelectorImpl
     @Transport
     private void createReaderThread(EventHandler eventHandler) {
         Connection connection = eventHandler.getConnection();
-        ReaderThread readerThread = 
+        ReaderThread readerThread =
             new ReaderThreadImpl(orb, connection );
         synchronized (this) {
             readerThreads.put(eventHandler, readerThread);

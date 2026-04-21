@@ -47,10 +47,10 @@ public class Client
             ORB orb = ORB.init(args, System.getProperties());
 
             // get the root naming context
-            org.omg.CORBA.Object objRef = 
+            org.omg.CORBA.Object objRef =
                 orb.resolve_initial_references("NameService");
             NamingContext ncRef = NamingContextHelper.narrow(objRef);
- 
+
             // resolve the Object Reference in Naming
             NameComponent nc = new NameComponent("Tester", "");
             NameComponent path[] = {nc};

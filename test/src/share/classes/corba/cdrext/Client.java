@@ -32,7 +32,7 @@ import org.testng.Assert ;
 
 import corba.framework.TestngRunner ;
 
-public class Client { 
+public class Client {
     // Important: put the initialContext here so that is does NOT get GCed and finalized
     // while the test is running!
     private InitialContext rootContext ;
@@ -42,7 +42,7 @@ public class Client {
      * payload parameter, this should allow us to break
      * the MarshalTester's data across just about all
      * possible fragment points.  This exercises code for
-     * handling primitives, etc, across fragment 
+     * handling primitives, etc, across fragment
      * boundaries.  A CustomMarshalTester can be used to
      * add the further complicating factor of chunking.
      *
@@ -50,10 +50,10 @@ public class Client {
      * across boundaries, or indirections interacting with
      * chunks.
      */
-    private void testFragmentation(Tester tester, 
+    private void testFragmentation(Tester tester,
         MarshalTester payload) throws Exception {
 
-        System.out.println("Testing fragmentation with a " + payload.getClass().getName() 
+        System.out.println("Testing fragmentation with a " + payload.getClass().getName()
             + "...");
 
         for (int i = 0; i < 2048; i++) {
@@ -112,7 +112,7 @@ public class Client {
         }
     }
 
-    /** 
+    /**
      * Very that Remote exceptions work.  We had a compatibility
      * problem between 1.3.x and 1.4.0 with Remote and unchecked
      * exceptions.  Unfortunately, unless used in multi-JVM
@@ -151,12 +151,12 @@ public class Client {
     }
 
     /**
-     * Even though AbsTester isn't Remote or Serializable, 
+     * Even though AbsTester isn't Remote or Serializable,
      * this should work since the Server's getAbsTester
      * method returns a Tester (subinterface of AbsTester).
      */
     @Test
-    public void testAbstractInterface() 
+    public void testAbstractInterface()
         throws RemoteException, DataCorruptedException
     {
         System.out.println("Testing abstract interface...");
@@ -183,7 +183,7 @@ public class Client {
     @Test
     public void testIncorrectCharTC()
         throws DataCorruptedException, RemoteException {
-        
+
         System.out.println("Testing for incorrect char TC...");
 
         Character ch1 = new Character('\u6D77');
@@ -195,13 +195,13 @@ public class Client {
 
     /**
      * Simply passes an object which uses PutField/GetField.
-     */    
+     */
     @Test
     public void testPutFieldsGetFields()
         throws DataCorruptedException, RemoteException {
 
         System.out.println("Testing PutFields/GetFields...");
-        
+
         TestObject to = new TestObject();
 
         if (!to.equals(tester.verify(to)))
@@ -240,7 +240,7 @@ public class Client {
      * NOTE: this class CANNOT be marshalled properly,
      * because the nest inner class is not in a static context,
      * which means that it does not have a no-args constructor,
-     * even if no constructor is declared.  This means that 
+     * even if no constructor is declared.  This means that
      * the nested inner class is not properly externalizable,
      * and this test is invalid.  Note that it used to work
      * with the previous native implementation.
@@ -249,7 +249,7 @@ public class Client {
         throws DataCorruptedException, RemoteException {
 
         TestClass data = new TestClass();
-        
+
         System.out.println("Testing static nested inner class...");
 
         java.lang.Object result = tester.verify(data);
@@ -362,9 +362,9 @@ public class Client {
      * is broken in RMI-IIOP, but the problem usually clears up.
      */
     @Test
-    public void testProperties() 
+    public void testProperties()
         throws RemoteException,
-               DataCorruptedException 
+               DataCorruptedException
     {
         System.out.println("Testing Properties objects...");
 
@@ -380,11 +380,11 @@ public class Client {
         defaults.setProperty("Test3", "Test4");
         Properties props2 = new Properties(defaults);
         props2.setProperty("Test5", "Test6");
-        
+
         if (!props2.equals(tester.verify(props2)))
             throw new DataCorruptedException("Test 3 failed");
         if (!props2.equals(tester.verify((Object)props2)))
-            throw new DataCorruptedException("Test 4 failed");       
+            throw new DataCorruptedException("Test 4 failed");
 
         System.out.println("PASSED");
     }
@@ -485,7 +485,7 @@ public class Client {
         java.lang.Object tst = rootContext.lookup("Tester");
 
         System.out.println("Narrowing...");
-        tester = (Tester)PortableRemoteObject.narrow(tst, 
+        tester = (Tester)PortableRemoteObject.narrow(tst,
             Tester.class);
     }
 

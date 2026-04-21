@@ -36,7 +36,7 @@ import org.omg.CORBA.portable.Delegate ;
 import org.omg.CORBA.portable.OutputStream ;
 import org.omg.CORBA_2_3.portable.ObjectImpl ;
 
-public class DynamicStubImpl extends ObjectImpl 
+public class DynamicStubImpl extends ObjectImpl
     implements DynamicStub, Serializable
 {
     private static final long serialVersionUID = 4852612040012087675L;
@@ -45,7 +45,7 @@ public class DynamicStubImpl extends ObjectImpl
     private StubIORImpl ior ;
     private DynamicStub self = null ;  // The actual DynamicProxy for this stub.
 
-    public void setSelf( DynamicStub self ) 
+    public void setSelf( DynamicStub self )
     {
         this.self = self ;
     }
@@ -55,18 +55,18 @@ public class DynamicStubImpl extends ObjectImpl
         return self ;
     }
 
-    public DynamicStubImpl( String[] typeIds ) 
+    public DynamicStubImpl( String[] typeIds )
     {
         this.typeIds = typeIds ;
         ior = null ;
     }
 
-    public void setDelegate( Delegate delegate ) 
+    public void setDelegate( Delegate delegate )
     {
         _set_delegate( delegate ) ;
     }
 
-    public Delegate getDelegate() 
+    public Delegate getDelegate()
     {
         return _get_delegate() ;
     }
@@ -76,17 +76,17 @@ public class DynamicStubImpl extends ObjectImpl
         return _orb() ;
     }
 
-    public String[] _ids() 
+    public String[] _ids()
     {
         return typeIds.clone() ;
     }
 
-    public String[] getTypeIds() 
+    public String[] getTypeIds()
     {
         return _ids() ;
     }
 
-    public void connect( ORB orb ) throws RemoteException 
+    public void connect( ORB orb ) throws RemoteException
     {
         ior = StubConnectImpl.connect( ior, self, this, orb ) ;
     }
@@ -96,13 +96,13 @@ public class DynamicStubImpl extends ObjectImpl
         return _is_local() ;
     }
 
-    public OutputStream request( String operation, 
-        boolean responseExpected ) 
+    public OutputStream request( String operation,
+        boolean responseExpected )
     {
-        return _request( operation, responseExpected ) ; 
+        return _request( operation, responseExpected ) ;
     }
-    
-    private void readObject( ObjectInputStream stream ) throws 
+
+    private void readObject( ObjectInputStream stream ) throws
         IOException, ClassNotFoundException
     {
         ior = new StubIORImpl() ;
@@ -121,7 +121,7 @@ public class DynamicStubImpl extends ObjectImpl
     public Object readResolve()
     {
         String repositoryId = ior.getRepositoryId() ;
-        String cname = RepositoryId.cache.getId( repositoryId ).getClassName() ; 
+        String cname = RepositoryId.cache.getId( repositoryId ).getClassName() ;
 
         Class<?> cls = null ;
 
@@ -131,10 +131,10 @@ public class DynamicStubImpl extends ObjectImpl
             Exceptions.self.readResolveClassNotFound( exc, cname ) ;
         }
 
-        PresentationManager pm = 
+        PresentationManager pm =
             com.sun.corba.ee.spi.orb.ORB.getPresentationManager() ;
         PresentationManager.ClassData classData = pm.getClassData( cls ) ;
-        InvocationHandlerFactoryImpl ihfactory = 
+        InvocationHandlerFactoryImpl ihfactory =
             (InvocationHandlerFactoryImpl)classData.getInvocationHandlerFactory() ;
         return ihfactory.getInvocationHandler( this ) ;
     }

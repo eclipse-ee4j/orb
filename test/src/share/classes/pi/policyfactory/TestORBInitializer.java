@@ -43,7 +43,7 @@ public class TestORBInitializer extends LocalObject
         PolicyFactory policyFactory1000Plus = new PolicyFactoryThousandPlus( );
         PolicyFactory policyFactory100 = new PolicyFactoryHundred( );
         // Same PolicyFactory for types 1000 and 10000. create_policy() method
-        // takes care of instantiating the right policy based on policy type. 
+        // takes care of instantiating the right policy based on policy type.
         info.register_policy_factory( 1000, policyFactory1000Plus );
         info.register_policy_factory( 10000, policyFactory1000Plus );
         info.register_policy_factory( 100, policyFactory100 );
@@ -51,4 +51,4 @@ public class TestORBInitializer extends LocalObject
         System.out.flush( );
     }
 }
-  
+

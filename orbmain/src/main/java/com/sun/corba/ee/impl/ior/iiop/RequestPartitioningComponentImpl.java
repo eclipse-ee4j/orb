@@ -26,7 +26,7 @@ import com.sun.corba.ee.spi.misc.ORBConstants;
 
 import org.omg.CORBA_2_3.portable.OutputStream;
 
-public class RequestPartitioningComponentImpl extends TaggedComponentBase 
+public class RequestPartitioningComponentImpl extends TaggedComponentBase
     implements RequestPartitioningComponent
 {
     private static final ORBUtilSystemException wrapper =
@@ -41,7 +41,7 @@ public class RequestPartitioningComponentImpl extends TaggedComponentBase
             return false;
         }
 
-        RequestPartitioningComponentImpl other = 
+        RequestPartitioningComponentImpl other =
             (RequestPartitioningComponentImpl)obj ;
 
         return partitionToUse == other.partitionToUse ;
@@ -80,12 +80,12 @@ public class RequestPartitioningComponentImpl extends TaggedComponentBase
         return partitionToUse;
     }
 
-    public void writeContents(OutputStream os) 
+    public void writeContents(OutputStream os)
     {
         os.write_ulong(partitionToUse);
     }
-    
-    public int getId() 
+
+    public int getId()
     {
         return ORBConstants.TAG_REQUEST_PARTITIONING_ID;
     }

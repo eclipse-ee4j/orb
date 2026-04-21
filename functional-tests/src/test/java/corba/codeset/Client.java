@@ -52,7 +52,7 @@ public class Client
         res = ver.verifyWChar(Client.TEST_WCHAR);
         if (res != Client.TEST_WCHAR)
             throw new Exception("Invalid wchar result: (int)" + (int)res);
-        
+
         System.out.println("Testing string...");
         String sending = new String(latin1);
         String resStr = ver.verifyString(sending);
@@ -75,21 +75,21 @@ public class Client
                 if (sending.charAt(i) != resStr.charAt(i)) {
                     System.out.println("chars not eq:");
                 }
-                if (Character.UnicodeBlock.of(sending.charAt(i)) != 
+                if (Character.UnicodeBlock.of(sending.charAt(i)) !=
                     Character.UnicodeBlock.of(resStr.charAt(i))) {
                     System.out.println("chars UnicodeBlock not eq:");
                 }
                 System.out.println(
-                    "send: " 
+                    "send: "
                     + sending.charAt(i)
                     + " " + Character.UnicodeBlock.of(sending.charAt(i))
                     + "/n"
-                    + "recv: " 
+                    + "recv: "
                     + resStr.charAt(i)
                     + " " + Character.UnicodeBlock.of(resStr.charAt(i))
                     );
             }
-            throw new Exception("Invalid result wstring: \n" + 
+            throw new Exception("Invalid result wstring: \n" +
                                 " Got: " + resStr + "\n" +
                                 " Expected: " + sending);
         }
@@ -120,30 +120,30 @@ public class Client
                                 + wchHolder.value.length);
         for (int i = 0; i < someUnicode.length; i++)
             if (wchHolder.value[i] != someUnicode[i])
-                throw new Exception("Unequal wchar at idx " + i);     
-        
+                throw new Exception("Unequal wchar at idx " + i);
+
         if (testValueTypes) {
 
             System.out.println("Testing custom marshaler...");
-            CodeSetTester.CustomMarshaledValueImpl cv 
+            CodeSetTester.CustomMarshaledValueImpl cv
                 = new CodeSetTester.CustomMarshaledValueImpl(Client.TEST_CHAR,
                                                              Client.TEST_WCHAR,
                                                              new String(latin1),
                                                              new String(someUnicode),
                                                              latin1,
                                                              someUnicode);
-            
+
             CodeSetTester.CustomMarshaledValue rescv = ver.verifyTransmission(cv);
-            
+
             if (!cv.equals(rescv)) {
                 System.out.println("Unequal custom values:");
                 System.out.println("old: " + cv);
                 System.out.println("new: " + rescv);
-                
+
                 throw new Exception("Unequal custom values");
             }
         }
-            
+
         System.out.println("PASSED");
     }
 
@@ -193,10 +193,10 @@ public class Client
             ORB orb = ORB.init(args, System.getProperties());
 
             // get the root naming context
-            org.omg.CORBA.Object objRef = 
+            org.omg.CORBA.Object objRef =
                 orb.resolve_initial_references("NameService");
             NamingContext ncRef = NamingContextHelper.narrow(objRef);
- 
+
             // resolve the Object Reference in Naming
             NameComponent nc = new NameComponent("Verifier", "");
             NameComponent path[] = {nc};

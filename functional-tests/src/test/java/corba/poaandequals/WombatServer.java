@@ -32,7 +32,7 @@ import org.omg.CORBA.ORB;
 import org.omg.CORBA.ORBPackage.InvalidName;
 import org.omg.PortableServer.POA;
 
-public class WombatServer implements InternalProcess 
+public class WombatServer implements InternalProcess
 {
     PrintStream out;
     PrintStream err;
@@ -40,14 +40,14 @@ public class WombatServer implements InternalProcess
 
     static String root = "RootPOA";
 
-    public void writeObjref(org.omg.CORBA.Object ref, 
+    public void writeObjref(org.omg.CORBA.Object ref,
                             String file,
                             String outputDir) throws java.io.IOException {
         String fil = outputDir
             + File.separator
             + file;
 
-        java.io.DataOutputStream outstr = new 
+        java.io.DataOutputStream outstr = new
             java.io.DataOutputStream(new FileOutputStream(fil));
         outstr.writeBytes(orb.object_to_string(ref));
     }
@@ -83,7 +83,7 @@ public class WombatServer implements InternalProcess
             try {
                 helper.start( "ActivationTest" ) ;
                 id = poa.activate_object(w);
-                writeObjref(poa.create_reference_with_id(id, 
+                writeObjref(poa.create_reference_with_id(id,
                     WombatHelper.id()), "WombatObjRef",
                     environment.getProperty("output.dir"));
                 poa.the_POAManager().activate();
@@ -95,7 +95,7 @@ public class WombatServer implements InternalProcess
             }
 
             out.println("Activated object, starting client");
-        
+
             client.start();
             client.waitFor();
 
@@ -112,7 +112,7 @@ public class WombatServer implements InternalProcess
             }
 
             out.println("Destroying poa");
-            
+
             poa.destroy(true, false);
 
             out.println("Finished");

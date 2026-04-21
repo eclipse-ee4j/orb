@@ -88,7 +88,7 @@ public class ServerManagerImpl extends _ServerManagerImplBase
     ActivationSystemException wrapper;
     String dbDirName;
     boolean debug = false ;
- 
+
     private int serverStartupDelay;
 
     ServerManagerImpl(ORB orb, TransportManager transportManager,
@@ -223,7 +223,7 @@ public class ServerManagerImpl extends _ServerManagerImplBase
                         serverId + " called.  This server is now active." ) ;
 
                 entry.registerPorts( orbId, endpointList );
-               
+
             }
         }
     }
@@ -233,14 +233,14 @@ public class ServerManagerImpl extends _ServerManagerImplBase
         int[] list = null;
 
         synchronized (serverTable) {
-            List<ServerTableEntry> servers = 
+            List<ServerTableEntry> servers =
                 new ArrayList<ServerTableEntry>() ;
 
             try {
-                for (Map.Entry<Integer,ServerTableEntry> entry : 
+                for (Map.Entry<Integer,ServerTableEntry> entry :
                     serverTable.entrySet()) {
                     ServerTableEntry def = entry.getValue() ;
-                    if (def.isValid() && def.isActive())        
+                    if (def.isValid() && def.isActive())
                         servers.add( def ) ;
                 }
             } catch (NoSuchElementException e) {
@@ -250,7 +250,7 @@ public class ServerManagerImpl extends _ServerManagerImplBase
             // collect the active entries
             list = new int[servers.size()];
             int i = 0 ;
-            for (ServerTableEntry entry : servers) 
+            for (ServerTableEntry entry : servers)
                 list[i++] = entry.getServerId() ;
         }
 
@@ -350,7 +350,7 @@ public class ServerManagerImpl extends _ServerManagerImplBase
                 throw new ServerHeldDown( entry.getServerId() );
             }
 
-            String host = 
+            String host =
                 orb.getLegacyServerSocketManager()
                     .legacyGetEndpoint(LegacyServerSocketEndPointInfo.DEFAULT_ENDPOINT).getHostName();
             location.hostname = host ;
@@ -400,7 +400,7 @@ public class ServerManagerImpl extends _ServerManagerImplBase
                 throw new ServerHeldDown( entry.getServerId() );
             }
 
-            String host = 
+            String host =
                 orb.getLegacyServerSocketManager()
                     .legacyGetEndpoint(LegacyServerSocketEndPointInfo.DEFAULT_ENDPOINT).getHostName();
             location.hostname = host ;
@@ -516,7 +516,7 @@ public class ServerManagerImpl extends _ServerManagerImplBase
     }
 
 
-    public void handle(ObjectKey okey) 
+    public void handle(ObjectKey okey)
     {
         IOR newIOR = null;
         ServerLocationPerORB location;
@@ -531,7 +531,7 @@ public class ServerManagerImpl extends _ServerManagerImplBase
             // first registered by the server
             ServerTableEntry entry = getEntry( serverId ) ;
             location = locateServerForORB(entry, orbId, true);
-             
+
             if (debug)
                 System.out.println( "ServerManagerImpl: handle called for server id" +
                         serverId + "  orbid  " + orbId) ;
@@ -552,9 +552,9 @@ public class ServerManagerImpl extends _ServerManagerImplBase
 
             // create a new IOR with the correct port and correct tagged
             // components
-            IIOPAddress addr = IIOPFactories.makeIIOPAddress( 
+            IIOPAddress addr = IIOPFactories.makeIIOPAddress(
                 location.hostname, clearPort ) ;
-            IIOPProfileTemplate iptemp = 
+            IIOPProfileTemplate iptemp =
                 IIOPFactories.makeIIOPProfileTemplate(
                     orb, GIOPVersion.V1_2, addr ) ;
             if (GIOPVersion.V1_2.supportsIORIIOPProfileComponents()) {
@@ -564,7 +564,7 @@ public class ServerManagerImpl extends _ServerManagerImplBase
             IORTemplate iortemp = IORFactories.makeIORTemplate(oktemp) ;
             iortemp.add( iptemp ) ;
 
-            newIOR = iortemp.makeIOR(orb, "IDL:org/omg/CORBA/Object:1.0", 
+            newIOR = iortemp.makeIOR(orb, "IDL:org/omg/CORBA/Object:1.0",
                 okey.getId() );
         } catch (Exception e) {
             throw wrapper.errorInBadServerIdHandler( e ) ;
@@ -574,17 +574,17 @@ public class ServerManagerImpl extends _ServerManagerImplBase
             System.out.println( "ServerManagerImpl: handle " +
                                 "throws ForwardException" ) ;
 
-        
+
         try {
-            // This delay is required in case of Server is activated or 
-            // re-activated the first time. Server needs some time before 
-            // handling all the requests. 
+            // This delay is required in case of Server is activated or
+            // re-activated the first time. Server needs some time before
+            // handling all the requests.
             // (Talk to Ken to see whether there is a better way of doing this).
             Thread.sleep( serverStartupDelay );
         } catch ( Exception e ) {
             System.out.println( "Exception = " + e );
             e.printStackTrace();
-        } 
+        }
 
         throw new ForwardException(orb, newIOR);
     }

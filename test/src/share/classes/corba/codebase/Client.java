@@ -25,7 +25,7 @@ import javax.naming.*;
 
 import java.io.*;
 
-public class Client 
+public class Client
 {
     // Tests stub/tie downloading
     public static void testDownloading(Tester tester) throws Exception
@@ -35,13 +35,13 @@ public class Client
         System.out.println("PASSED");
     }
 
-    public static void testServerValueDownloading(Tester tester) 
+    public static void testServerValueDownloading(Tester tester)
         throws Exception
     {
         System.out.println("Testing server value downloading");
 
         Class testValueClass = Class.forName("TestValue");
-        
+
         String result = tester.processValue(testValueClass.newInstance());
 
         if (!testValueClass.getName().equals(result))
@@ -107,9 +107,9 @@ public class Client
             Client.tryLoadingClasses();
 
             rootContext = new InitialContext();
-            Tester tester 
+            Tester tester
                 = (Tester)PortableRemoteObject.narrow(rootContext.lookup("Tester"), Tester.class);
-            
+
             System.out.println("Testing downloading.  Server downloading? "
                                + System.getProperty(Tester.SERVER_DOWNLOADING_FLAG));
 

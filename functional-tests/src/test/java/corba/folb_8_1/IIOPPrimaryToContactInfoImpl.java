@@ -48,7 +48,7 @@ import com.sun.corba.ee.impl.misc.ORBUtility;
  * This is the "sticky manager" - based on the 7.1 EE concept.
  * @author Harold Carr
  */
-public class IIOPPrimaryToContactInfoImpl 
+public class IIOPPrimaryToContactInfoImpl
     implements IIOPPrimaryToContactInfo
 {
 
@@ -104,12 +104,12 @@ public class IIOPPrimaryToContactInfoImpl
         try {
             if (! debugChecked) {
                 debugChecked = true;
-                debug = ((ORB)primary.getBroker()).transportDebugFlag 
+                debug = ((ORB)primary.getBroker()).transportDebugFlag
                         || _logger.isLoggable(Level.FINE);
             }
 
             if (debug) {
-                dprint(".hasNext->: " 
+                dprint(".hasNext->: "
                        + formatKeyPreviousList(getKey(primary),
                                                previous,
                                                contactInfos));
@@ -121,7 +121,7 @@ public class IIOPPrimaryToContactInfoImpl
                 int previousIndex = contactInfos.indexOf(previous);
                 int contactInfosSize = contactInfos.size();
                 if (debug) {
-                    dprint(".hasNext: " 
+                    dprint(".hasNext: "
                            + previousIndex + " " + contactInfosSize);
                 }
                 if (previousIndex < 0) {
@@ -134,7 +134,7 @@ public class IIOPPrimaryToContactInfoImpl
                         "Problem in " + baseMsg + ".hasNext: previousIndex: "
                         + previousIndex);
 
-                    _logger.log(Level.SEVERE, 
+                    _logger.log(Level.SEVERE,
                         "Problem in " + baseMsg + ".hasNext: previousIndex: "
                         + previousIndex, rte);
                     throw rte;
@@ -149,7 +149,7 @@ public class IIOPPrimaryToContactInfoImpl
             }
             return result;
         } catch (Throwable t) {
-            _logger.log(Level.WARNING, 
+            _logger.log(Level.WARNING,
                         "Problem in " + baseMsg + ".hasNext",
                         t);
             RuntimeException rte =
@@ -168,7 +168,7 @@ public class IIOPPrimaryToContactInfoImpl
 
             if (debug) {
                 debugMsg = "";
-                dprint(".next->: " 
+                dprint(".next->: "
                        + formatKeyPreviousList(getKey(primary),
                                                previous,
                                                contactInfos));
@@ -195,7 +195,7 @@ public class IIOPPrimaryToContactInfoImpl
                     int position = contactInfos.indexOf(result);
                     if (position == -1) {
                         // It is possible that communication to the key
-                        // took place on SharedCDR, then a corbaloc to 
+                        // took place on SharedCDR, then a corbaloc to
                         // same location uses a SocketOrChannelContactInfo
                         // and vice versa.
                         if (debug) {
@@ -224,7 +224,7 @@ public class IIOPPrimaryToContactInfoImpl
                 _logger.log(Level.INFO, "IIOP failover to: " + result);
 
                 if (debug) {
-                    debugMsg = ".next<-: update map: " 
+                    debugMsg = ".next<-: update map: "
                         + " " + contactInfos.indexOf(previous)
                         + " " + contactInfos.size() + " ";
                 }
@@ -282,7 +282,7 @@ public class IIOPPrimaryToContactInfoImpl
             }
             while (i.hasNext()) {
                 Map.Entry entry = (Map.Entry) i.next();
-                result += 
+                result +=
                       "\n    key  : " + entry.getKey()
                     + "\n    value: " + entry.getValue()
                     + "\n";

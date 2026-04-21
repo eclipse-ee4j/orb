@@ -57,7 +57,7 @@ public interface Connection
 
     /**
      * Used to determine if the <code>Connection</code> should register
-     * with the 
+     * with the
      * CorbaTransportManager Selector
      * to handle read events.
      *
@@ -268,7 +268,7 @@ public interface Connection
     // NOTE: This method can throw a connection rebind SystemException.
     public void sendCancelRequestWithLock(GIOPVersion giopVersion,
                                           int requestId)
-        throws 
+        throws
             IOException;
 
     public ResponseWaitingRoom getResponseWaitingRoom();

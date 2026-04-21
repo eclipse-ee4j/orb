@@ -85,15 +85,15 @@ public class CorbaExtension extends StandardLogger {
     public static final int UtilGroup = 6 ;
 
     private static final Class<?>[] SYS_EX_CLASSES = {
-        UNKNOWN.class, BAD_PARAM.class, NO_MEMORY.class, 
+        UNKNOWN.class, BAD_PARAM.class, NO_MEMORY.class,
         IMP_LIMIT.class, COMM_FAILURE.class, INV_OBJREF.class,
         NO_PERMISSION.class, INTERNAL.class, MARSHAL.class,
         INITIALIZE.class, NO_IMPLEMENT.class, BAD_TYPECODE.class,
-        BAD_OPERATION.class, NO_RESOURCES.class, NO_RESPONSE.class, 
+        BAD_OPERATION.class, NO_RESOURCES.class, NO_RESPONSE.class,
         PERSIST_STORE.class, BAD_INV_ORDER.class, TRANSIENT.class,
         FREE_MEM.class, INV_IDENT.class, INV_FLAG.class,
         INTF_REPOS.class, BAD_CONTEXT.class, OBJ_ADAPTER.class,
-        DATA_CONVERSION.class, OBJECT_NOT_EXIST.class, TRANSACTION_REQUIRED.class, 
+        DATA_CONVERSION.class, OBJECT_NOT_EXIST.class, TRANSACTION_REQUIRED.class,
         TRANSACTION_ROLLEDBACK.class, INVALID_TRANSACTION.class, INV_POLICY.class,
         CODESET_INCOMPATIBLE.class, REBIND.class, TIMEOUT.class,
         TRANSACTION_UNAVAILABLE.class, BAD_QOS.class, INVALID_ACTIVITY.class,

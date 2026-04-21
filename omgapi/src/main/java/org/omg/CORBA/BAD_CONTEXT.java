@@ -20,7 +20,7 @@
 package org.omg.CORBA;
 
 /**
- * Exception thrown when an operation is invoked by a client but the passed 
+ * Exception thrown when an operation is invoked by a client but the passed
  * context does not contain the context values required by the operation.<P>
  * It contains a minor code, which gives more detailed information about
  * what caused the exception, and a completion status. It may also contain

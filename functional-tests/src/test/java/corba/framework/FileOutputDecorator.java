@@ -106,7 +106,7 @@ public class FileOutputDecorator implements Controller
     {
         delegate.start();
     }
-    
+
     public void stop()
     {
         try {
@@ -128,7 +128,7 @@ public class FileOutputDecorator implements Controller
             }
         }
     }
-    
+
     public void kill()
     {
         try {
@@ -143,7 +143,7 @@ public class FileOutputDecorator implements Controller
             }
         }
     }
-    
+
     public int waitFor() throws Exception
     {
         try {
@@ -158,7 +158,7 @@ public class FileOutputDecorator implements Controller
     public int waitFor(long timeout) throws Exception
     {
         try {
-            
+
             return delegate.waitFor(timeout);
 
         } finally {
@@ -170,7 +170,7 @@ public class FileOutputDecorator implements Controller
     {
         return delegate.exitValue();
     }
-    
+
     public boolean finished() throws IllegalThreadStateException
     {
         return delegate.finished();

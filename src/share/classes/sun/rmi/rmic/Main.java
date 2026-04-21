@@ -109,7 +109,7 @@ public class Main implements sun.rmi.rmic.Constants {
     public void usage() {
         error("rmic.usage", program);
     }
-    
+
     /**
      * Run the compiler
      */
@@ -334,7 +334,7 @@ public class Main implements sun.rmi.rmic.Constants {
                     // Got a match, add Generator and call parseArgs...
                     Generator gen = addGenerator(arg);
                     if (gen == null) {
-                        return false;    
+                        return false;
                     }
                     result = gen.parseArgs(argv,this);
                     break;
@@ -343,23 +343,23 @@ public class Main implements sun.rmi.rmic.Constants {
         }
         return result;
     }
-        
+
     /**
      * Instantiate and add a generator to the generators array.
      */
     protected Generator addGenerator(String arg) {
-                
+
         Generator gen;
-                
+
         // Create an instance of the generator and add it to
         // the array...
-                
+
         String className = getString("generator.class." + arg);
         if (className == null) {
             error("rmic.missing.property",arg);
             return null;
         }
-                
+
         try {
             gen = (Generator) Class.forName(className).newInstance();
         } catch (Exception e) {
@@ -368,30 +368,30 @@ public class Main implements sun.rmi.rmic.Constants {
         }
 
         generators.addElement(gen);
-                
+
         // Get the environment required by this generator...
-                
+
         Class envClass = BatchEnvironment.class;
-        String env = getString("generator.env." + arg);         
+        String env = getString("generator.env." + arg);
         if (env != null) {
             try {
                 envClass = Class.forName(env);
-                 
+
                 // Is the new class a subclass of the current one?
 
                 if (environmentClass.isAssignableFrom(envClass)) {
-                             
+
                     // Yes, so switch to the new one...
-                                
+
                     environmentClass = envClass;
-                            
+
                 } else {
-                                
+
                     // No. Is the current class a subclass of the
                     // new one?
-                                
+
                     if (!envClass.isAssignableFrom(environmentClass)) {
-                                    
+
                         // No, so it's a conflict...
 
                         error("rmic.cannot.use.both",environmentClass.getName(),envClass.getName());
@@ -403,16 +403,16 @@ public class Main implements sun.rmi.rmic.Constants {
                 return null;
             }
         }
-                
+
         // If this is the iiop stub generator, cache
         // that fact for the jrmp generator...
-                
+
         if (arg.equals("iiop")) {
             iiopGeneration = true;
         }
         return gen;
     }
-    
+
     /**
      * Grab a resource string and parse it into an array of strings. Assumes
      * comma separated list.
@@ -431,7 +431,7 @@ public class Main implements sun.rmi.rmic.Constants {
                 return new String[0];
             }
         }
-                
+
         StringTokenizer parser = new StringTokenizer(value,", \t\n\r", false);
         int count = parser.countTokens();
         result = new String[count];
@@ -441,7 +441,7 @@ public class Main implements sun.rmi.rmic.Constants {
 
         return result;
     }
-        
+
     /**
      * Get the correct type of BatchEnvironment
      */
@@ -464,7 +464,7 @@ public class Main implements sun.rmi.rmic.Constants {
         }
         return result;
     }
-        
+
 
     /**
      * Do the compile with the switches and files already supplied
@@ -478,7 +478,7 @@ public class Main implements sun.rmi.rmic.Constants {
         // Compat and 1.1 stubs must retain the old version number.
         env.majorVersion = 45;
         env.minorVersion = 3;
-        
+
         // Preload the "out of memory" error string just in case we run
         // out of memory during the compile.
         String noMemoryErrorString = getText("rmic.no.memory");
@@ -667,7 +667,7 @@ public class Main implements sun.rmi.rmic.Constants {
                 }
                 // fall through
             }
-                        
+
         case CS_PARSED:
             {
                 if (c.getClassDefinition().isInsideLocal()) {
@@ -815,7 +815,7 @@ public class Main implements sun.rmi.rmic.Constants {
         if (format == null) {
             format = "no text found: key = \"" + key + "\", " +
                 "arguments = " ;
-            
+
             for (int ctr=0; ctr<args.length; ctr++) {
                 if (ctr != 0)
                     format += ", " ;

@@ -54,7 +54,7 @@ public class SRIOrdered
     }
     public String name() { return name; }
 
-    public void destroy() 
+    public void destroy()
     {
         try {
             Common.up(order);

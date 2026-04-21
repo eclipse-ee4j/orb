@@ -28,25 +28,25 @@ public class StubSerializationTest extends CORBATest {
     {
         Options.addServerArg("-debug");
         Controller orbd = createORBD();
- 
+
         Properties serverProps = Options.getServerProperties();
- 
+
         Controller server = createServer(
             "corba.stubserialization.Server");
- 
+
         orbd.start();
- 
+
         server.start();
- 
+
         Controller client = createClient(
             "corba.stubserialization.Client");
- 
+
         client.start();
- 
+
         client.waitFor(120000);
- 
+
         client.stop();
- 
+
         server.stop();
 
         orbd.stop();

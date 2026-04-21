@@ -44,7 +44,7 @@ public class FileResolverImpl implements Resolver
         savedProps = new Properties() ;
     }
 
-    public org.omg.CORBA.Object resolve( String name ) 
+    public org.omg.CORBA.Object resolve( String name )
     {
         check() ;
         String stringifiedObject = savedProps.getProperty( name ) ;
@@ -73,7 +73,7 @@ public class FileResolverImpl implements Resolver
     * Checks the lastModified() timestamp of the file and optionally
     * re-reads the Properties object from the file if newer.
     */
-    private void check() 
+    private void check()
     {
         if (file == null) {
             return;

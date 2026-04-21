@@ -245,7 +245,7 @@ public class Compile
    * generated.  All elements of the Enumeration will be extensions of
    * SymtabEntry.  If any errors were encountered during parsing, null
    * will be returned.
-   * @return {@link Enumeration}&lt;{@link SymtabEntry}&gt; 
+   * @return {@link Enumeration}&lt;{@link SymtabEntry}&gt;
    *    or null if a non-IO error occured
    * @throws IOException if there was an error reading the file
    **/
@@ -430,7 +430,7 @@ public class Compile
 
     com.sun.tools.corba.ee.idl.PrimitiveGen primgen = genFactory.createPrimitiveGen ();
     com.sun.tools.corba.ee.idl.PrimitiveEntry.primitiveGen = primgen == null ? noop : primgen;
-    
+
     com.sun.tools.corba.ee.idl.SequenceGen seqgen = genFactory.createSequenceGen ();
     com.sun.tools.corba.ee.idl.SequenceEntry.sequenceGen = seqgen == null ? noop : seqgen;
 

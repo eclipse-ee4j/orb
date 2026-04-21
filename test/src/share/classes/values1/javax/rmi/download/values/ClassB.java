@@ -25,11 +25,11 @@ public class ClassB extends ClassA{
     private static final long serialVersionUID = 123556789L;
 
     private int a2;
-        
+
     public ClassB(){
         a2 = 73;
     }
-        
+
     public long getTotal(){
         return  super.getTotal() + a2;
     }

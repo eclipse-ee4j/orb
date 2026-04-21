@@ -21,11 +21,11 @@ package com.sun.corba.ee.spi.protocol;
 
 import com.sun.corba.ee.spi.resolver.Resolver ;
 
-/** InitialServerRequestDispatcher is a specialized version of a ServerRequestDispatcher 
- * that provides an initialization method.  This delegate is used 
+/** InitialServerRequestDispatcher is a specialized version of a ServerRequestDispatcher
+ * that provides an initialization method.  This delegate is used
  * to implement bootstrapping of initial object references.
  */
-public interface InitialServerRequestDispatcher 
+public interface InitialServerRequestDispatcher
     extends ServerRequestDispatcher
 {
     /** Plug in the resolver that this InitialServerRequestDispatcher should

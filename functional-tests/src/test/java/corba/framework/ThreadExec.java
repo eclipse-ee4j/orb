@@ -38,7 +38,7 @@ public class ThreadExec extends InternalExec
     public int waitFor() throws Exception
     {
         if (process == null)
-            throw new IllegalThreadStateException(processName 
+            throw new IllegalThreadStateException(processName
                                                   + " was never started");
 
         return process.waitFor();

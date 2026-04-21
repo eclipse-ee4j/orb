@@ -19,7 +19,7 @@
  */
 
 // PlanetView is really a wrapper for planet gifs that is used
-// by GalaxyView. 
+// by GalaxyView.
 
 
 package ibmspace.client;
@@ -42,7 +42,7 @@ public class PlanetViewUI
     private boolean         fHasSatelites = false;
 
 
-  
+
     public static void setUnknownPlanetImage (Image image)
     {
         fgUnknownPlanetImage = image;
@@ -79,7 +79,7 @@ public class PlanetViewUI
         } else {
             fIcon = fgBadPlanetImage;
         }
-    
+
         fSelection = fgSelectionImage;
     }
 

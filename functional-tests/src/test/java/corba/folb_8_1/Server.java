@@ -73,7 +73,7 @@ public class Server
                           SocketFactoryImpl.class.getName());
 
         //
-        // Register and IORInterceptor that will put port 
+        // Register and IORInterceptor that will put port
         // type/address info into IORs.
         // E.G.: X/<hostanme>:*, Y/<hostname>:4444, Z/<hostname>:5555
         //
@@ -86,8 +86,8 @@ public class Server
     {
         String result = "";
         for (int i = 0; i < Common.socketTypes.length; i++) {
-            result += Common.socketTypes[i] 
-                + ":" 
+            result += Common.socketTypes[i]
+                + ":"
                 + Integer.toString(Common.socketPorts[i]);
             if (i + 1 < Common.socketTypes.length) {
                 result += ",";
@@ -95,7 +95,7 @@ public class Server
         }
         return result;
     }
-  
+
     public static void main(String av[])
     {
         try {
@@ -108,15 +108,15 @@ public class Server
             POA poa = Common.createPOA("child", false, orb);
             ref = Common.createAndBind(Common.serverName1, orb, poa);
             Common.createAndBind(Common.serverName2, orb, poa);
-      
+
             System.out.println ("Server is ready.");
 
             synchronized (ColocatedCS.signal) {
                 ColocatedCS.signal.notifyAll();
             }
-            
+
             orb.run();
-            
+
         } catch (Throwable t) {
             System.out.println(baseMsg + t);
             t.printStackTrace(System.out);
@@ -145,7 +145,7 @@ class I2Servant extends I2POA
         System.out.flush();
         return result;
     }
-  
+
     public org.omg.CORBA.Object n(String x)
     {
         return Server.ref;
@@ -188,7 +188,7 @@ class IServant extends IPOA
 
     public boolean register(String socketType)
     {
-        return U.registerAcceptor(socketType, 
+        return U.registerAcceptor(socketType,
                           ((Integer) Common.socketTypeToPort.get(socketType))
                               .intValue(),
                           orb);

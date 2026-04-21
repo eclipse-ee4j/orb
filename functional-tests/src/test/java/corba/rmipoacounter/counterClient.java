@@ -31,7 +31,7 @@ public class counterClient implements InternalProcess
 {
     // Temporary hack to get this test to work and keep the output
     // directory clean
-    private static final String outputDirOffset 
+    private static final String outputDirOffset
         = "/corba/rmipoacounter/".replace('/', File.separatorChar);
 
     /**
@@ -59,7 +59,7 @@ public class counterClient implements InternalProcess
                 throw new Exception("Invalid counter2: "
                                     + value + " but should be " + counterValue);
         }
-        
+
     }
 
     public void run(Properties environment,
@@ -81,19 +81,19 @@ public class counterClient implements InternalProcess
             NameComponent nc = new NameComponent("Counter1", "");
             NameComponent[] path = {nc};
 
-            counterIF counterRef1 = 
+            counterIF counterRef1 =
                 (counterIF)PortableRemoteObject.narrow(ncRef.resolve(path),
                                                        counterIF.class);
 
             // Read IOR from file and destringify it
-            InputStream inf = 
+            InputStream inf =
                 new FileInputStream(environment.getProperty("output.dir")
                                     + outputDirOffset
                                     + "counterior2");
             DataInputStream in = new DataInputStream(inf);
             String ior = in.readLine() ;
             org.omg.CORBA.Object obj = orb.string_to_object(ior) ;
-            counterIF counterRef2 
+            counterIF counterRef2
                 = (counterIF)PortableRemoteObject.narrow(obj, counterIF.class);
 
             Controller server = (Controller)extra.get("server");

@@ -79,7 +79,7 @@ public abstract class PragmaHandler
     return preprocessor.getUntil (c);
   } // getUntil
 
-  /** 
+  /**
    * This method returns the next token String from the input file.
    * @return the next token String
    */

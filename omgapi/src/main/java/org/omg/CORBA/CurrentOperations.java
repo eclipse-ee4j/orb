@@ -21,7 +21,7 @@ package org.omg.CORBA;
 
 
 /**
-* The interface for <tt>Current</tt>.  For more information on 
+* The interface for <tt>Current</tt>.  For more information on
 * Operations interfaces, see <a href="doc-files/generatedfiles.html">
 * "Generated Files"</a>.
 *
@@ -31,6 +31,6 @@ package org.omg.CORBA;
 * Saturday, July 17, 1999 12:26:21 AM PDT.
 */
 
-public interface CurrentOperations 
+public interface CurrentOperations
 {
 } // interface CurrentOperations

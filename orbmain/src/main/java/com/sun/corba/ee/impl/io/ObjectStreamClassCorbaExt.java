@@ -98,8 +98,8 @@ class ObjectStreamClassCorbaExt {
      */
     static final boolean isAny(String typeString) {
         if (debugIsAny) {
-            ORBUtility.dprint( 
-                ObjectStreamClassCorbaExt.class.getName(), 
+            ORBUtility.dprint(
+                ObjectStreamClassCorbaExt.class.getName(),
                 "IsAny: typeString = " + typeString ) ;
         }
 
@@ -119,7 +119,7 @@ class ObjectStreamClassCorbaExt {
             // length as java.io.Serializable
             if (typeString.charAt(length-2) == 'e')
                 return serializableString.equals( typeString ) ;
-            else 
+            else
                 return false ;
         }
 

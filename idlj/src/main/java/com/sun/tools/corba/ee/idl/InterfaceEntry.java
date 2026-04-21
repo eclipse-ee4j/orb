@@ -60,22 +60,22 @@ public class InterfaceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry imple
       module (module () + "/" + name ());
   } // ctor
 
-  public boolean isAbstract() 
+  public boolean isAbstract()
   {
       return _interfaceType == ABSTRACT ;
   }
 
-  public boolean isLocal() 
+  public boolean isLocal()
   {
       return _interfaceType == LOCAL ;
   }
 
-  public boolean isLocalServant() 
+  public boolean isLocalServant()
   {
       return _interfaceType == LOCALSERVANT ;
   }
 
-  public boolean isLocalSignature() 
+  public boolean isLocalSignature()
   {
       return _interfaceType == LOCAL_SIGNATURE_ONLY ;
   }
@@ -119,7 +119,7 @@ public class InterfaceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry imple
 
   /** This method returns a vector of InterfaceEntry's.
    * @return a {@link Vector} of interfaces which this interface is derived from
-   * @see #addDerivedFromName(java.lang.String) 
+   * @see #addDerivedFromName(java.lang.String)
    */
   public Vector<SymtabEntry> derivedFrom ()
   {
@@ -135,7 +135,7 @@ public class InterfaceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry imple
   /** This method returns a vector of Strings, each of which is a fully
       qualified name of an interface. This vector corresponds to the
       derivedFrom vector.  The first element of this vector is the name
-      of the first element of the derivedFrom vector, etc. 
+      of the first element of the derivedFrom vector, etc.
     * @return {@link Vector} of {@link String}s
     */
   public Vector<String> derivedFromNames ()
@@ -170,7 +170,7 @@ public class InterfaceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry imple
 
   /** This is a vector of SymtabEntry's.  Valid entries in this vector are:
       AttributeEntry, ConstEntry, EnumEntry, ExceptionEntry, MethodEntry,
-      StructEntry, NativeEntry, TypedefEntry, UnionEntry.  
+      StructEntry, NativeEntry, TypedefEntry, UnionEntry.
       Note that the methods vector is a subset of this vector.
     * @return {@link Vector} of {@link SymtabEntry}
     * @see #methods()

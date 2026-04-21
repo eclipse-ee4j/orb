@@ -63,21 +63,21 @@ abstract public class StockHelper
           org.omg.CORBA.TypeCode _tcOf_members0 = null;
           // ValueMember instance for current
           _tcOf_members0 = org.omg.CORBA.ORB.init ().get_primitive_tc (org.omg.CORBA.TCKind.tk_float);
-          _members0[0] = new org.omg.CORBA.ValueMember ("current", 
-              "", 
-              _id, 
-              "", 
-              _tcOf_members0, 
-              null, 
+          _members0[0] = new org.omg.CORBA.ValueMember ("current",
+              "",
+              _id,
+              "",
+              _tcOf_members0,
+              null,
               org.omg.CORBA.PRIVATE_MEMBER.value);
           // ValueMember instance for symbol
           _tcOf_members0 = org.omg.CORBA.WStringValueHelper.type ();
-          _members0[1] = new org.omg.CORBA.ValueMember ("symbol", 
-              org.omg.CORBA.WStringValueHelper.id (), 
-              _id, 
-              "", 
-              _tcOf_members0, 
-              null, 
+          _members0[1] = new org.omg.CORBA.ValueMember ("symbol",
+              org.omg.CORBA.WStringValueHelper.id (),
+              _id,
+              "",
+              _tcOf_members0,
+              null,
               org.omg.CORBA.PRIVATE_MEMBER.value);
           __typeCode = org.omg.CORBA.ORB.init ().create_value_tc (_id, "Stock", org.omg.CORBA.VM_NONE.value, null, _members0);
           __active = false;

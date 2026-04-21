@@ -59,27 +59,27 @@ import org.omg.CORBA.portable.Streamable;
 public class AnyImpl extends Any {
     private static final long serialVersionUID = -8646067979785949029L;
 
-    private static final class AnyInputStream extends EncapsInputStream 
+    private static final class AnyInputStream extends EncapsInputStream
     {
         private static final long serialVersionUID = -1719923004953871705L;
-        public AnyInputStream(EncapsInputStream theStream ) 
+        public AnyInputStream(EncapsInputStream theStream )
         {
             super( theStream );
         }
     }
 
-    private static final class AnyOutputStream extends EncapsOutputStream 
+    private static final class AnyOutputStream extends EncapsOutputStream
     {
         private static final long serialVersionUID = 9105274185226938185L;
-        public AnyOutputStream(ORB orb) 
+        public AnyOutputStream(ORB orb)
         {
             super(orb);
         }
 
         @Override
-        public org.omg.CORBA.portable.InputStream create_input_stream() 
+        public org.omg.CORBA.portable.InputStream create_input_stream()
         {
-        	final org.omg.CORBA.portable.InputStream is = super
+            final org.omg.CORBA.portable.InputStream is = super
                     .create_input_stream();
             AnyInputStream aIS = AccessController
                     .doPrivileged(new PrivilegedAction<AnyInputStream>() {
@@ -100,10 +100,10 @@ public class AnyImpl extends Any {
     //
     private TypeCodeImpl typeCode;
 
-    @Copy( CopyType.IDENTITY ) 
+    @Copy( CopyType.IDENTITY )
     protected transient ORB orb;
 
-    @Copy( CopyType.IDENTITY ) 
+    @Copy( CopyType.IDENTITY )
     private static final ORBUtilSystemException wrapper =
         ORBUtilSystemException.self ;
 
@@ -115,7 +115,7 @@ public class AnyImpl extends Any {
     // stream type is an Any extension of CDR stream that is used to
     // detect an optimization in read_value().
     //
-    @Copy( CopyType.IDENTITY ) 
+    @Copy( CopyType.IDENTITY )
     private transient CDRInputObject stream;
 
     private long value;
@@ -185,7 +185,7 @@ public class AnyImpl extends Any {
     /**
      * A constructor that sets the Any to contain a null. It also marks
      * the value as being invalid so that extractions throw an exception
-     * until an insertion has been performed. 
+     * until an insertion has been performed.
      * @param orb ORB to use for this any
      */
     public AnyImpl(ORB orb)
@@ -499,22 +499,22 @@ public class AnyImpl extends Any {
     // accessors for marshaling/unmarshaling
 
     /**
-     * returns an output stream that an Any value can be marshaled into. 
+     * returns an output stream that an Any value can be marshaled into.
      *
      * @return          the OutputStream to marshal value of Any into
      */
     public org.omg.CORBA.portable.OutputStream create_output_stream()
     {
         //debug.log ("create_output_stream");
-    	final ORB finalOrb = this.orb;
-    	
+        final ORB finalOrb = this.orb;
+
         return AccessController.doPrivileged(new PrivilegedAction<org.omg.CORBA.portable.OutputStream>() {
 
-			@Override
-			public OutputStream run() {
-				return new AnyOutputStream(finalOrb);
-			}
-        	
+            @Override
+            public OutputStream run() {
+                return new AnyOutputStream(finalOrb);
+            }
+
         });
     }
 
@@ -547,7 +547,7 @@ public class AnyImpl extends Any {
     // since it is in our format and does not have alignment issues.
     //
     @DynamicType
-    public void read_value(org.omg.CORBA.portable.InputStream in, TypeCode tc) { 
+    public void read_value(org.omg.CORBA.portable.InputStream in, TypeCode tc) {
         // Assume that someone isn't going to think they can keep reading
         // from this stream after calling us. That would be likely for
         // an IIOPInputStream but if it is an AnyInputStream then they
@@ -616,7 +616,7 @@ public class AnyImpl extends Any {
         object = s;
         isInitialized = true;
     }
-     
+
     @Override
     public Streamable extract_Streamable()
     {
@@ -647,7 +647,7 @@ public class AnyImpl extends Any {
         }
     }
 
-    private void checkExtractBadOperation( int expected ) 
+    private void checkExtractBadOperation( int expected )
     {
         if (!isInitialized) {
             throw wrapper.extractNotInitialized();
@@ -939,8 +939,8 @@ public class AnyImpl extends Any {
         // Make sure type code information for bounded strings is not erased
         if (typeCode.kind() == TCKind.tk_string) {
             int length;
-            try { 
-                length = typeCode.length(); 
+            try {
+                length = typeCode.length();
             } catch (BadKind bad) {
                 throw wrapper.badkindCannotOccur() ;
             }
@@ -975,8 +975,8 @@ public class AnyImpl extends Any {
         // Make sure type code information for bounded strings is not erased
         if (typeCode.kind() == TCKind.tk_wstring) {
             int length;
-            try { 
-                length = typeCode.length(); 
+            try {
+                length = typeCode.length();
             } catch (BadKind bad) {
                 throw wrapper.badkindCannotOccur() ;
             }
@@ -1040,7 +1040,7 @@ public class AnyImpl extends Any {
                 throw wrapper.badInsertobjParam( o.getClass().getName() ) ;
             }
         }
-        
+
         object = o;
         isInitialized = true;
     }
@@ -1136,10 +1136,10 @@ public class AnyImpl extends Any {
      * we accept and will produce RMI repIds with the latest
      * calculations if given a non-IDLEntity Serializable.
      */
-    public Serializable extract_Value() 
+    public Serializable extract_Value()
     {
         //debug.log ("extract_Value");
-        checkExtractBadOperationList( new int[] { TCKind._tk_value, 
+        checkExtractBadOperationList( new int[] { TCKind._tk_value,
             TCKind._tk_value_box, TCKind._tk_abstract_interface } ) ;
         return (Serializable)object;
     }
@@ -1169,7 +1169,7 @@ public class AnyImpl extends Any {
         typeCode = TypeCodeImpl.convertToNative(orb, tc);
         isInitialized = true;
     }
-      
+
     public void insert_Value(Serializable v, org.omg.CORBA.TypeCode t)
     {
         //debug.log ("insert_Value2");
@@ -1231,7 +1231,7 @@ public class AnyImpl extends Any {
         //
         // See bug 4391648 for more info about the tcORB in this
         // case.
-        RepositoryIdStrings repStrs 
+        RepositoryIdStrings repStrs
             = RepositoryIdFactory.getRepIdStringsFactory();
 
 

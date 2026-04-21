@@ -24,7 +24,7 @@ import org.omg.CORBA.portable.OutputStream;
 import org.omg.CORBA.portable.Streamable;
 
 /**
- * The Holder for <tt>Int</tt>.  For more information on 
+ * The Holder for <tt>Int</tt>.  For more information on
  * Holder files, see <a href="doc-files/generatedfiles.html#holder">
  * "Generated Files: Holder Files"</a>.<P>
  * A Holder class for an <code>int</code>
@@ -75,7 +75,7 @@ public final class IntHolder implements Streamable {
      * Reads unmarshalled data from <code>input</code> and assigns it to
      * the <code>value</code> field in this <code>IntHolder</code> object.
      *
-     * @param input the <code>InputStream</code> object containing CDR 
+     * @param input the <code>InputStream</code> object containing CDR
      *              formatted data from the wire
      */
     public void _read(InputStream input) {
@@ -92,7 +92,7 @@ public final class IntHolder implements Streamable {
     public void _write(OutputStream output) {
         output.write_long(value);
     }
-    
+
     /**
      * Retrieves the <code>TypeCode</code> object that corresponds
      * to the value held in this <code>IntHolder</code> object's

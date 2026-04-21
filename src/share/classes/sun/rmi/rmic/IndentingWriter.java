@@ -127,7 +127,7 @@ public class IndentingWriter extends BufferedWriter {
      */
     protected void checkWrite() throws IOException {
         if (beginningOfLine) {
-            beginningOfLine = false;    
+            beginningOfLine = false;
             int i = currentIndent;
             while (i >= tabSize) {
                 super.write('\t');

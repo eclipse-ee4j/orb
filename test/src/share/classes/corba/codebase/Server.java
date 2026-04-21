@@ -35,7 +35,7 @@ public class Server extends PortableRemoteObject implements Tester
         System.out.println(message);
     }
 
-    public Object requestValue() 
+    public Object requestValue()
         throws ClassNotFoundException, InstantiationException, IllegalAccessException
     {
         Class valueClass = Class.forName("TestValue");

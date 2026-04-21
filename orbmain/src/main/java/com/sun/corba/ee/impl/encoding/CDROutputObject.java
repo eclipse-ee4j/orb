@@ -141,7 +141,7 @@ public class CDROutputObject extends org.omg.CORBA_2_3.portable.OutputStream
                 streamFormatVersion, messageMediator);
     }
 
-    // NOTE: 
+    // NOTE:
     // Used in SharedCDR (i.e., must be grow).
     // Used in msgtypes test.
     public CDROutputObject(ORB orb, MessageMediator messageMediator,
@@ -153,13 +153,13 @@ public class CDROutputObject extends org.omg.CORBA_2_3.portable.OutputStream
                 streamFormatVersion, messageMediator);
     }
 
-    // REVISIT 
+    // REVISIT
     // Used on sendCancelRequest.
     // Used for needs addressing mode.
     public CDROutputObject(ORB orb, MessageMediator mediator, GIOPVersion giopVersion,
                            Connection connection, Message header, byte streamFormatVersion) {
 
-        this( orb, giopVersion, header, 
+        this( orb, giopVersion, header,
               BufferManagerFactory.newBufferManagerWrite( giopVersion, header.getEncodingVersion(), orb),
               streamFormatVersion, mediator ) ;
         this.connection = connection ;
@@ -338,7 +338,7 @@ public class CDROutputObject extends org.omg.CORBA_2_3.portable.OutputStream
     // We can move this out somewhere later.  For now, it serves its purpose
     // to create a concrete CDR delegate based on the GIOP version.
     private static class OutputStreamFactory {
-        
+
         public static CDROutputStreamBase newOutputStream(GIOPVersion version) {
             switch(version.intValue()) {
                 case GIOPVersion.VERSION_1_0:
@@ -455,7 +455,7 @@ public class CDROutputObject extends org.omg.CORBA_2_3.portable.OutputStream
     public final void write(int b) throws java.io.IOException {
         impl.write(b);
     }
-    
+
     @Override
     public final void write_fixed(java.math.BigDecimal value) {
         impl.write_fixed(value);
@@ -536,7 +536,7 @@ public class CDROutputObject extends org.omg.CORBA_2_3.portable.OutputStream
     }
 
     public void writeTo(java.io.OutputStream s)
-        throws IOException 
+        throws IOException
     {
         impl.writeTo(s);
     }

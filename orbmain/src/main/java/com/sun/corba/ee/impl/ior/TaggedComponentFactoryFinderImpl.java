@@ -30,12 +30,12 @@ import org.omg.CORBA_2_3.portable.InputStream ;
 /**
  * @author Ken Cavanaugh
  */
-public class TaggedComponentFactoryFinderImpl 
-    extends IdentifiableFactoryFinderBase<TaggedComponent> 
+public class TaggedComponentFactoryFinderImpl
+    extends IdentifiableFactoryFinderBase<TaggedComponent>
     implements TaggedComponentFactoryFinder
 {
     public TaggedComponentFactoryFinderImpl( ORB orb )
-    { 
+    {
         super( orb ) ;
     }
 

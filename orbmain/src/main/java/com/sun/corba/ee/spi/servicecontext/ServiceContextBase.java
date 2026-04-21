@@ -33,12 +33,12 @@ import org.omg.CORBA_2_3.portable.OutputStream ;
 * There is a derived ServiceContext class for each service context that
 * the ORB supports.  Each subclass encapsulates the representation of
 * the service context and provides any needed methods for manipulating
-* the service context.  Each subclass must provide the following 
+* the service context.  Each subclass must provide the following
 * members:
 * <ul>
 * <li>a public static final int SERVICE_CONTEXT_ID that gives the OMG
 * (or other) defined id for the service context.  This is needed for the
-* registration mechanism defined in ServiceContexts. OMG defined 
+* registration mechanism defined in ServiceContexts. OMG defined
 * service context ids are taken from section 13.6.7 of ptc/98-12-04.</li>
 * <li>a public constructor that takes an InputStream as its argument.</li>
 * <li>Appropriate definitions of getId() and writeData().  getId() must
@@ -54,7 +54,7 @@ public abstract class ServiceContextBase {
     private static final ORBUtilSystemException wrapper =
         ORBUtilSystemException.self ;
 
-    /** Simple default constructor used when subclass is constructed 
+    /** Simple default constructor used when subclass is constructed
      * from its representation.
      */
     private byte[] data;
@@ -69,7 +69,7 @@ public abstract class ServiceContextBase {
      * stream before this object is constructed.
      * @param s stream to use to construct context
      */
-    protected ServiceContextBase(InputStream s) 
+    protected ServiceContextBase(InputStream s)
     {
         in = s;
     }
@@ -79,7 +79,7 @@ public abstract class ServiceContextBase {
      */
     public abstract int getId() ;
 
-    /** Write the service context to an output stream.  This method 
+    /** Write the service context to an output stream.  This method
      * must be used for writing the service context to a request or reply
      * header.
      * @param s stream to write to
@@ -88,7 +88,7 @@ public abstract class ServiceContextBase {
      */
     public synchronized void write(OutputStream s, GIOPVersion gv) throws SystemException {
         if (data == null) {
-            EncapsOutputStream os = OutputStreamFactory.newEncapsOutputStream((ORB)(s.orb()), gv);   
+            EncapsOutputStream os = OutputStreamFactory.newEncapsOutputStream((ORB)(s.orb()), gv);
             try {
                 os.putEndian();
                 writeData(os);
@@ -119,8 +119,8 @@ public abstract class ServiceContextBase {
     protected InputStream in = null ;
 
     @Override
-    public String toString() 
+    public String toString()
     {
         return "ServiceContext[ id=" + getId() + " ]" ;
-    } 
+    }
 }

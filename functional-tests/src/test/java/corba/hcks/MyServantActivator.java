@@ -69,7 +69,7 @@ public class MyServantActivator
             return new idlSAIServant(orb);
 
         } else if (soid.startsWith("rmii")) {
-            
+
             // RMII
 
             return makermiiIServant(orb, soid);
@@ -93,7 +93,7 @@ public class MyServantActivator
     {
         Servant servant = null;
         try {
-            servant = 
+            servant =
                 (Servant)javax.rmi.CORBA.Util.getTie(new rmiiIServantPOA(orb, name));
         } catch (Exception e) {
             U.sopUnexpectedException(baseMsg + ".makermiiIServant", e);

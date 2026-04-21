@@ -37,10 +37,10 @@ public class RequestId1Strategy
         throws ForwardRequest
     {
         super.receive_request_service_contexts( interceptor, ri );
-        
+
         try {
             this.requestId = ri.request_id();
-            log( "receive_request_service_contexts(): request_id = " + 
+            log( "receive_request_service_contexts(): request_id = " +
                 requestId );
         }
         catch( Exception ex ) {
@@ -74,7 +74,7 @@ public class RequestId1Strategy
 
 
     public void send_exception (
-        SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) 
+        SampleServerRequestInterceptor interceptor, ServerRequestInfo ri)
         throws ForwardRequest
     {
         super.send_exception( interceptor, ri );
@@ -87,11 +87,11 @@ public class RequestId1Strategy
     }
 
     public void send_other (
-        SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) 
+        SampleServerRequestInterceptor interceptor, ServerRequestInfo ri)
         throws ForwardRequest
     {
         super.send_other( interceptor, ri );
-        
+
         try {
             testId( "send_other", ri.request_id() );
         }

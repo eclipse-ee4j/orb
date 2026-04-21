@@ -52,7 +52,7 @@ public class ClientWaitTimeout extends ClientBase {
     @BeforeSuite
     public void clientSetup() throws Exception {
             Properties props = getDefaultProperties();
-            
+
             // Set retry timeout to 5 seconds.
             props.setProperty(ORBConstants.WAIT_FOR_RESPONSE_TIMEOUT, "5000");
             props.setProperty(ORBConstants.DEBUG_PROPERTY,
@@ -72,7 +72,7 @@ public class ClientWaitTimeout extends ClientBase {
             testRfmWithAddressesWithLabel.neverReturns();
             Assert.fail( "should not return, but did return" ) ;
         } catch (java.rmi.MarshalException e) {
-            SystemException cf = 
+            SystemException cf =
                 wrapper.communicationsTimeoutWaitingForResponse( -1);
             checkMarshalException("neverReturns", e, cf);
         }

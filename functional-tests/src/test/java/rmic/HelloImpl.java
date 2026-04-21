@@ -48,17 +48,17 @@ public class HelloImpl //extends javax.rmi.PortableRemoteObject
     }
 
     public String getCodeBase() throws java.rmi.RemoteException {
-        return RMIClassLoader.getClassAnnotation(getClass());  
+        return RMIClassLoader.getClassAnnotation(getClass());
     }
-    
+
     public void publishRemoteObject(String name) throws java.rmi.RemoteException {
         try {
             test.Util.singleServantContext.rebind(name,new RemoteObjectServer(192));
         } catch (javax.naming.NamingException e) {
-            throw new java.rmi.RemoteException("publishRemoteException caught: "+e); 
+            throw new java.rmi.RemoteException("publishRemoteException caught: "+e);
         }
     }
-        
+
     public String sayHello() throws java.rmi.RemoteException {
         return "hello";
     }
@@ -145,11 +145,11 @@ public class HelloImpl //extends javax.rmi.PortableRemoteObject
     public void throwError(Error it) throws java.rmi.RemoteException {
         throw it;
     }
-    
+
     public void throwRemoteException(java.rmi.RemoteException it) throws java.rmi.RemoteException {
         throw it;
     }
-    
+
     public void throwRuntimeException(RuntimeException it) throws java.rmi.RemoteException {
         throw it;
     }

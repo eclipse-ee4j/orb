@@ -41,7 +41,7 @@ public class TestObjectSuperSuper implements Serializable
     public boolean equals(Object obj) {
         try {
             TestObjectSuperSuper other = (TestObjectSuperSuper)obj;
-            
+
             if (other == null)
                 return false;
 

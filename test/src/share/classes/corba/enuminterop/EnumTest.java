@@ -30,23 +30,23 @@ public class EnumTest extends CORBATest {
     {
         Options.addServerArg("-debug");
         Controller orbd = createORBD();
- 
+
         Properties serverProps = Options.getServerProperties();
- 
+
         Controller server = createServer( Server.class.getName() ) ;
- 
+
         orbd.start();
- 
+
         server.start();
- 
+
         Controller client = createClient( Client.class.getName() ) ;
- 
+
         client.start();
- 
+
         client.waitFor(120000);
- 
+
         client.stop();
- 
+
         server.stop();
 
         orbd.stop();

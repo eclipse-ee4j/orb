@@ -43,7 +43,7 @@ public class PurgecallsTest
 
         Controller server =
             createServer(thisPackage + "." + "Server", "Server");
-        Controller client = 
+        Controller client =
             createClient(thisPackage + "." + "Client", "Client");
 
         server.start();

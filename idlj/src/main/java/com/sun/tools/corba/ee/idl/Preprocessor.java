@@ -639,7 +639,7 @@ public class Preprocessor
       prefixPragma ();
     else if (pragmaType.equals ("version"))
       versionPragma ();
-    
+
     // we are adding extensions to the Sun's idlj compiler to
     // handle correct code generation for local Objects, where
     // the OMG is taking a long time to formalize stuff.  Good

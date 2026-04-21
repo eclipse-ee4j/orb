@@ -27,8 +27,8 @@ package org.omg.CORBA;
 * @version 1.15 07/27/07
 */
 public interface BAD_POLICY_VALUE {
-    /** 
-    * The value used to represent a bad policy value error 
+    /**
+    * The value used to represent a bad policy value error
     * in a <code>PolicyError</code> exception.
     * @see org.omg.CORBA.PolicyError
     */

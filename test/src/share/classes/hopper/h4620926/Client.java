@@ -23,7 +23,7 @@ import org.omg.CORBA.*;
 import org.omg.CosNaming.*;
 import java.util.*;
 import test.*;
-        
+
 public class Client extends Thread {
     private static int numErrors = 0;
 
@@ -57,7 +57,7 @@ public class Client extends Thread {
     public void run() {
         for (int i = 0; i < 3; i++) {
             try {
-                System.out.println("Client - " + clientNo + " : " 
+                System.out.println("Client - " + clientNo + " : "
                                    + ref.sayHello());
                 Thread.sleep(2000);
             } catch (Exception e) {

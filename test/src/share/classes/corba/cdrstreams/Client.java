@@ -278,7 +278,7 @@ public class Client
         processor.process(start);
 
         // Now try something much harder
-        
+
         Node a1 = createNode(500, '1');
         Node a2 = createNode(500, '2');
         Node a3 = createNode(256, '3');
@@ -293,7 +293,7 @@ public class Client
         a3.links.add(a1);
         a4.links.add(a2);
         a1.links.add(a4);
-        
+
         Node start2 = a1;
         Node result2 = (Node)processor.verifyTransmission(start2);
 
@@ -315,7 +315,7 @@ public class Client
             throw new Exception("a5 did not equal xa5");
 
         System.out.println("Success!");
-    } 
+    }
 
     @Test
     public void testUserException() throws RemoteException, Exception
@@ -351,20 +351,20 @@ public class Client
         props.put(ORBConstants.GIOP_FRAGMENT_SIZE, "64");
 
         ORB orb = ORB.init(args, System.getProperties());
-        
-        org.omg.CORBA.Object objRef = 
+
+        org.omg.CORBA.Object objRef =
             orb.resolve_initial_references("NameService");
         NamingContext ncRef = NamingContextHelper.narrow(objRef);
-        
+
         NameComponent nc = new NameComponent("GraphProcessor", "");
         NameComponent path[] = {nc};
-        
+
         org.omg.CORBA.Object obj = ncRef.resolve(path);
-        
-        processor = 
-            (GraphProcessor) PortableRemoteObject.narrow(obj, 
+
+        processor =
+            (GraphProcessor) PortableRemoteObject.narrow(obj,
                                                          GraphProcessor.class);
-        
+
         MarkResetTester tester = new MarkResetTester(64);
 
         if (!processor.receiveObject(tester))
@@ -372,14 +372,14 @@ public class Client
 
         System.out.println("PASSED");
     }
-    
+
     private static String[] args ;
 
     @BeforeSuite
     public void setup() throws Exception {
         ORB orb = ORB.init(args, System.getProperties());
 
-        org.omg.CORBA.Object objRef = 
+        org.omg.CORBA.Object objRef =
             orb.resolve_initial_references("NameService");
         NamingContext ncRef = NamingContextHelper.narrow(objRef);
 
@@ -388,7 +388,7 @@ public class Client
 
         org.omg.CORBA.Object obj = ncRef.resolve(path);
 
-        processor = (GraphProcessor) PortableRemoteObject.narrow(obj, 
+        processor = (GraphProcessor) PortableRemoteObject.narrow(obj,
             GraphProcessor.class);
     }
 

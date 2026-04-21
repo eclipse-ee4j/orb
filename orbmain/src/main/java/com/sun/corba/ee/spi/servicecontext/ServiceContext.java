@@ -28,7 +28,7 @@ import org.omg.CORBA_2_3.portable.OutputStream ;
 * There is a derived ServiceContext class for each service context that
 * the ORB supports.  Each subclass encapsulates the representation of
 * the service context and provides any needed methods for manipulating
-* the service context. 
+* the service context.
 * <p>
 * The subclass can be constructed either directly from the service context
 * representation, or by reading the representation from an input stream.
@@ -40,7 +40,7 @@ public interface ServiceContext {
     public interface Factory {
         int getId() ;
 
-        ServiceContext create( InputStream s, GIOPVersion gv ) ;        
+        ServiceContext create( InputStream s, GIOPVersion gv ) ;
     }
 
     int getId() ;

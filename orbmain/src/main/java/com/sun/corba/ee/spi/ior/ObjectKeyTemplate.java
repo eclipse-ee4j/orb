@@ -46,7 +46,7 @@ public interface ObjectKeyTemplate extends Writeable
      * @return The subcontract ID
      */
     @ManagedAttribute
-    @Description( "The subcontract ID which identifies a particular type-independent " 
+    @Description( "The subcontract ID which identifies a particular type-independent "
         + " implementation of an IOR" )
     public int getSubcontractId();
 
@@ -82,6 +82,6 @@ public interface ObjectKeyTemplate extends Writeable
     public byte[] getAdapterId() ;
 
     public void write(ObjectId objectId, OutputStream os);
-    
+
     public ServerRequestDispatcher getServerRequestDispatcher( ObjectId id ) ;
 }

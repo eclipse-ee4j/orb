@@ -27,7 +27,7 @@ import com.sun.corba.ee.spi.orb.ORB;
 public class CDRTests extends CORBATest
 {
     protected void doTest() throws Throwable {
-        
+
         if (test.Test.useJavaSerialization()) {
             return;
         }

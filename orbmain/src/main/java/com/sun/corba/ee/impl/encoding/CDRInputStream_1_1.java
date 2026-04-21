@@ -91,7 +91,7 @@ public class CDRInputStream_1_1 extends CDRInputStream_1_0
         byteBuffer = bufferManagerRead.underflow(byteBuffer);
 
         if (bufferManagerRead.isFragmentOnUnderflow()) {
-            
+
             // By this point we should be guaranteed to have
             // a new fragment whose header has already been
             // unmarshalled.  bbwi.position() should point to the
@@ -122,11 +122,11 @@ public class CDRInputStream_1_1 extends CDRInputStream_1_0
     }
 
     @Override
-    public void restoreInternalState(java.lang.Object streamMemento) 
+    public void restoreInternalState(java.lang.Object streamMemento)
     {
         super.restoreInternalState(streamMemento);
 
-        fragmentOffset 
+        fragmentOffset
             = ((FragmentableStreamMemento)streamMemento).fragmentOffset_;
     }
 

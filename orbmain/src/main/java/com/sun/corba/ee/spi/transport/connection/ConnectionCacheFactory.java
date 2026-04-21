@@ -59,7 +59,7 @@ public final class ConnectionCacheFactory {
             highWaterMark, numberToReclaim, ttl ) ;
     }
 
-    public static <C extends Connection> InboundConnectionCache<C> 
+    public static <C extends Connection> InboundConnectionCache<C>
     makeNonBlockingInboundConnectionCache( String cacheType, int highWaterMark,
         int numberToReclaim, int ttl ) {
         return new InboundConnectionCacheImpl<C>( cacheType,

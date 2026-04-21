@@ -26,15 +26,15 @@ import javax.rmi.PortableRemoteObject;
 public class HelloClient {
 
     public static void main (String[] args) {
-        
+
         try {
             if (args.length > 0) {
                 for (int i = 0; i < args.length; i++) {
-                    
+
                     // Get the client and narrow to our type...
-                    
+
                     Hello ref = (Hello) PortableContext.lookup(args[i],Hello.class);
-                    
+
                     // Call it...
 
                     System.out.println(ref.sayHello(args[i]));

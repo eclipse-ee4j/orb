@@ -27,8 +27,8 @@ package corba.islocal;
 import corba.hcks.U;
 
 class idlIServantConnect
-    extends 
-        _idlIImplBase 
+    extends
+        _idlIImplBase
 {
     public static final String baseMsg = idlIServantConnect.class.getName();
 

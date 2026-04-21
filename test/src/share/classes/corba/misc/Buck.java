@@ -27,10 +27,10 @@ public class Buck implements java.io.Externalizable {
     String name = "";
 
     public Buck(){}
-     
+
     public Buck(String name) { this.name = name; }
 
-    public String toString() { return "Buck[" + name + "]" ; } 
+    public String toString() { return "Buck[" + name + "]" ; }
 
     public boolean equals( Object obj ) {
         if (!(obj instanceof Buck))
@@ -44,8 +44,8 @@ public class Buck implements java.io.Externalizable {
         return other.name.equals( name ) ;
     }
 
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException { 
-        name = (String) in.readObject(); 
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+        name = (String) in.readObject();
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {

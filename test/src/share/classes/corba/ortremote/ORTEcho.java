@@ -24,7 +24,7 @@ import java.rmi.RemoteException ;
 import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
 import org.omg.PortableInterceptor.ObjectReferenceFactory ;
 
-public interface ORTEcho extends Remote 
+public interface ORTEcho extends Remote
 {
     ObjectReferenceTemplate getORT() throws RemoteException ;
 

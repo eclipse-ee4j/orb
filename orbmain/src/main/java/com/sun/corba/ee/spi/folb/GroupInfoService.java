@@ -34,9 +34,9 @@ public interface GroupInfoService
     /**
      * Adds an observer that will receive a
      * <code>membershipChange</code>
-     * invocation whenever the cluster membership changes.  
+     * invocation whenever the cluster membership changes.
      *
-     * The 
+     * The
      * <code>membershipChange</code>
      * invocation tells the observer to call
      * <code>getClusterInstanceInfo</code>
@@ -49,7 +49,7 @@ public interface GroupInfoService
 
     /**
      * Causes the
-     * <code>membershipChange</code> 
+     * <code>membershipChange</code>
      * method to be called on each registered observer.
      */
     public void notifyObservers();
@@ -60,7 +60,7 @@ public interface GroupInfoService
      * so we can identifier the adapter.
      *
      * The adapter identification is used in testing.
-     * 
+     *
      * @param adapterName name of cluster
      * @return information about instances in the cluster
      */

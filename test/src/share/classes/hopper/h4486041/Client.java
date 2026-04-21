@@ -57,7 +57,7 @@ public class Client
 
             // --------------------------------------
 
-            System.getProperties().put(ORBSingletonClassKey, 
+            System.getProperties().put(ORBSingletonClassKey,
                                        "hopper.h4486041.TestORB");
             expectNormal("TestORB Singleton Good", null, null, true);
 
@@ -91,7 +91,7 @@ public class Client
     public static void expectException(String message,
                                        String[] av,
                                        Properties properties,
-                                       Class expectedException, 
+                                       Class expectedException,
                                        boolean isSetParameters,
                                        boolean isSingleton)
     {
@@ -124,13 +124,13 @@ public class Client
             } else {
                 System.out.println("\tOK");
             }
-            
+
         }
         System.out.println("End expectException: " + message);
         System.out.println("------------------------------------------------");
     }
 
-    public static void expectNormal(String message, 
+    public static void expectNormal(String message,
                                     String[] av,
                                     Properties properties,
                                     boolean isSingleton)
@@ -154,5 +154,5 @@ public class Client
         System.out.println("------------------------------------------------");
     }
 }
-                
+
 // End of file.

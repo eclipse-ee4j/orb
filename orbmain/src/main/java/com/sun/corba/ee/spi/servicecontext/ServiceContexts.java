@@ -24,7 +24,7 @@ import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 import org.omg.CORBA_2_3.portable.OutputStream ;
 
 /** The collection of ServiceContext instances used in a particular
- * request.  
+ * request.
  */
 public interface ServiceContexts {
     /** Write the service contexts to the output stream.
@@ -33,7 +33,7 @@ public interface ServiceContexts {
      * SendingContext service context.  This is required so that
      * the codebase is available to handle value types if
      * necessary.
-     * 
+     *
      * We should really do this as SendingContext goes first, so
      * that we can guarantee correct marshalling of non-standard
      * service contexts.
@@ -41,7 +41,7 @@ public interface ServiceContexts {
      * @param gv version to use
      */
     void write( OutputStream os, GIOPVersion gv ) ;
-    
+
     /** Add a service context. Silently replaces an existing
      * service context with the same id.
      * @param sc service context to use

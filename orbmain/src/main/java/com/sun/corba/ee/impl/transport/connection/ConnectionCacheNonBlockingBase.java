@@ -25,7 +25,7 @@ import com.sun.corba.ee.spi.transport.connection.Connection ;
 
 import java.util.concurrent.atomic.AtomicInteger ;
 
-abstract class ConnectionCacheNonBlockingBase<C extends Connection> 
+abstract class ConnectionCacheNonBlockingBase<C extends Connection>
     extends ConnectionCacheBase<C> {
 
     protected final AtomicInteger totalBusy ;   // Number of busy connections
@@ -39,7 +39,7 @@ abstract class ConnectionCacheNonBlockingBase<C extends Connection>
         this.totalBusy = new AtomicInteger() ;
         this.totalIdle = new AtomicInteger() ;
 
-        this.reclaimableConnections = 
+        this.reclaimableConnections =
             // XXX make this the non-blocking version once we write it.
             ConcurrentQueueFactory.<C>makeBlockingConcurrentQueue( ttl ) ;
     }
@@ -60,4 +60,4 @@ abstract class ConnectionCacheNonBlockingBase<C extends Connection>
         return reclaimableConnections.size() ;
     }
 }
- 
+

@@ -56,7 +56,7 @@ import org.glassfish.pfl.basic.func.NullaryFunction;
 import org.glassfish.pfl.test.JUnitReportHelper;
 import org.glassfish.pfl.test.ObjectUtility;
 
-public class Client 
+public class Client
 {
 
     private TestSession session ;
@@ -66,7 +66,7 @@ public class Client
         System.out.println( "Starting NewORB test" ) ;
         try{
             Properties props = new Properties( System.getProperties() ) ;
-            props.put( "org.omg.CORBA.ORBClass", 
+            props.put( "org.omg.CORBA.ORBClass",
                 "com.sun.corba.ee.impl.orb.ORBImpl" ) ;
             new Client( props, args, System.out ) ;
         } catch (Exception e) {
@@ -103,7 +103,7 @@ public class Client
         testORBData() ;
         testORBServerHostAndListenOnAllInterfaces();
 
-        // What about testing ORBConfigurator and ORBImpl?  Do we leave this to 
+        // What about testing ORBConfigurator and ORBImpl?  Do we leave this to
         // indirect testing?
         testUserConfigurator() ;
 
@@ -218,7 +218,7 @@ public class Client
         return y1 ;
     }
 
-    public void testUtility() 
+    public void testUtility()
     {
         session.start( "Utility" ) ;
 
@@ -266,26 +266,26 @@ public class Client
 
     private void expectError( final Object data, final Operation action, Class<?> expectedError )
     {
-        String msg = action + "(" + 
+        String msg = action + "(" +
             ObjectUtility.make( true, true ).objectToString(data) +
             ") should throw " + expectedError ;
 
-        session.testForException( msg, makeActionEvaluator( action, data ), 
+        session.testForException( msg, makeActionEvaluator( action, data ),
             expectedError )  ;
     }
 
-    private void expectResult( final Object data, final Operation action, 
-        final Object expectedResult ) 
+    private void expectResult( final Object data, final Operation action,
+        final Object expectedResult )
     {
-        String msg = action + "(" + 
-            ObjectUtility.make( true, true ).objectToString(data) + ") == " + 
+        String msg = action + "(" +
+            ObjectUtility.make( true, true ).objectToString(data) + ") == " +
             ObjectUtility.make( true, true ).objectToString(expectedResult) + "?" ;
 
-        session.testForPass( msg, makeActionEvaluator( action, data ), 
+        session.testForPass( msg, makeActionEvaluator( action, data ),
             expectedResult) ;
     }
 
-    private void testOperations() 
+    private void testOperations()
     {
         session.start( "Operations" ) ;
 
@@ -293,7 +293,7 @@ public class Client
         Operation indexAction = OperationFactory.indexAction( 3 ) ;
 
         Integer[] data1 = {0, 1} ;
-        expectError( data1, indexAction, 
+        expectError( data1, indexAction,
             java.lang.IndexOutOfBoundsException.class ) ;
 
         Integer[] data2 = {0, 1, 2, 3} ;
@@ -308,7 +308,7 @@ public class Client
         // test integerAction
         Operation integerAction = OperationFactory.integerAction() ;
         expectResult( "123", integerAction, 123) ;
-        expectError( "123ACE", integerAction, 
+        expectError( "123ACE", integerAction,
             java.lang.NumberFormatException.class ) ;
 
         // test stringAction
@@ -340,13 +340,13 @@ public class Client
         Operation integerRangeAction = OperationFactory.integerRangeAction(
             12, 24 ) ;
         expectResult( "13", integerRangeAction, 13) ;
-        expectError( "123ACE", integerRangeAction, 
+        expectError( "123ACE", integerRangeAction,
             java.lang.NumberFormatException.class ) ;
-        expectError( "2", integerRangeAction, 
+        expectError( "2", integerRangeAction,
             org.omg.CORBA.BAD_OPERATION.class ) ;
 
         // test listAction
-        Operation listAction = OperationFactory.listAction( ",", 
+        Operation listAction = OperationFactory.listAction( ",",
             integerAction ) ;
         String arg = "12,23,34,56,129" ;
         Object[] expectedResult = {12, 23, 34, 56, 129} ;
@@ -354,7 +354,7 @@ public class Client
         expectResult( arg, listAction, expectedResult ) ;
 
         // test sequenceAction
-        Operation[] actions = { integerAction, integerAction, stringAction, 
+        Operation[] actions = { integerAction, integerAction, stringAction,
             booleanAction } ;
         Operation sequenceAction = OperationFactory.sequenceAction( ",",
             actions ) ;
@@ -365,7 +365,7 @@ public class Client
         expectResult( arg2, sequenceAction, expectedResult2 ) ;
 
         // test compose
-        Operation composition = OperationFactory.compose( listAction, 
+        Operation composition = OperationFactory.compose( listAction,
             indexAction ) ;
         expectResult( arg, composition, 56) ;
 
@@ -384,12 +384,12 @@ public class Client
         parser.add( "foo.arg", OperationFactory.integerAction(), "arg" ) ;
         parser.add( "foo.flag", OperationFactory.booleanAction(), "flag" ) ;
         parser.add( "foo.str", OperationFactory.stringAction(), "str" ) ;
-        
-        parser.addPrefix( "foo.prefix", OperationFactory.identityAction(), 
+
+        parser.addPrefix( "foo.prefix", OperationFactory.identityAction(),
             "prefix", Object.class ) ;
 
         // Action to parser <str:num>, list into Object[][]
-        Operation[] inner = { OperationFactory.stringAction(), 
+        Operation[] inner = { OperationFactory.stringAction(),
             OperationFactory.integerAction() } ;
         Operation innerList = OperationFactory.sequenceAction( ":", inner ) ;
         Operation outerList = OperationFactory.listAction( ",", innerList ) ;
@@ -397,7 +397,7 @@ public class Client
         return parser ;
     }
 
-    private Properties makeTestProperties() 
+    private Properties makeTestProperties()
     {
         Properties props = new Properties() ;
         props.setProperty( "foo.arg", "273" ) ;
@@ -419,15 +419,15 @@ public class Client
 
         // This is the order the result comes in: the order is not
         // guaranteed in this case.
-        Pair[] list = { 
-            new Pair<String,String>( "part3", "third" ), 
-            new Pair<String,String>( "part2", "second" ), 
-            new Pair<String,String>( "part1", "first" ) 
+        Pair[] list = {
+            new Pair<String,String>( "part3", "third" ),
+            new Pair<String,String>( "part2", "second" ),
+            new Pair<String,String>( "part1", "first" )
         };
 
-        map.put( "prefix", list ) ; 
+        map.put( "prefix", list ) ;
 
-        Object[][] data = { 
+        Object[][] data = {
             { "red", Integer.valueOf( 0 ) },
             { "blue", Integer.valueOf( 1 ) },
             { "green", Integer.valueOf( 2 ) },
@@ -437,16 +437,16 @@ public class Client
         return map ;
     }
 
-    private void testParser() 
+    private void testParser()
     {
         session.start( "Parser" ) ;
-        
+
         final PropertyParser parser = makeParser() ;
         final Properties props = makeTestProperties() ;
         NullaryFunction<Object> closure  =
             new NullaryFunction<Object>() {
             public Map<String,Object> evaluate() {
-                return parser.parse( props )  ; 
+                return parser.parse( props )  ;
             }
         } ;
 
@@ -480,7 +480,7 @@ public class Client
             data = str ;
         }
 
-        public boolean equals( Object obj ) 
+        public boolean equals( Object obj )
         {
             if (this == obj)
                 return true ;
@@ -516,7 +516,7 @@ public class Client
     private PropertyParser makeDCParser()
     {
         PropertyParser parser = new PropertyParser() ;
-        parser.add( ORBConstants.INITIAL_HOST_PROPERTY, 
+        parser.add( ORBConstants.INITIAL_HOST_PROPERTY,
             OperationFactory.stringAction(), "initialHost" ) ;
         parser.add( ORBConstants.SERVER_HOST_PROPERTY,
             OperationFactory.stringAction(), "serverHost" ) ;
@@ -527,9 +527,9 @@ public class Client
         Operation[] ops = { OperationFactory.stringAction(), Foo.getOperation() } ;
         Operation prefixOp = OperationFactory.mapSequenceAction( ops ) ;
         parser.addPrefix( "foo.prefix", prefixOp, "fooPrefix", Object.class ) ;
-        parser.add( ORBConstants.CORBA_PREFIX + "poa.ORBmaxhold", 
+        parser.add( ORBConstants.CORBA_PREFIX + "poa.ORBmaxhold",
             OperationFactory.integerAction(), "poaMaxHold" ) ;
-        parser.addPrefix( ORBConstants.CORBA_PREFIX + "ORBmodule", 
+        parser.addPrefix( ORBConstants.CORBA_PREFIX + "ORBmodule",
             OperationFactory.stringAction(), "module", String.class ) ;
         parser.add( ORBConstants.SUN_PREFIX + "poa.ORBfoo", Foo.getOperation(),
             "poaFoo" ) ;
@@ -545,7 +545,7 @@ public class Client
         // Note that the -ORBModule flag should be ignored, as this is not
         // supported for prefixes.
         String[] result = { "-ORBmaxHold", "27",
-            "-ORBInitRef", "FooService=corbaloc::host.org/FooService", 
+            "-ORBInitRef", "FooService=corbaloc::host.org/FooService",
             "-ORBInitRef", "BarService=corbaloc::host.org/BarService",
             "-ORBmodule.doorTransport", "doorTransportImpl" } ;
         return result ;
@@ -556,8 +556,8 @@ public class Client
         private URL codeBase ;
         private URL documentBase ;
 
-        TestAppletStub(  Properties parameters, URL codeBase, 
-            URL documentBase ) 
+        TestAppletStub(  Properties parameters, URL codeBase,
+            URL documentBase )
         {
             this.parameters = parameters ;
             this.codeBase = codeBase ;
@@ -568,7 +568,7 @@ public class Client
         {
         }
 
-        public AppletContext getAppletContext() 
+        public AppletContext getAppletContext()
         {
             return null ;
         }
@@ -592,10 +592,10 @@ public class Client
         {
             return false ;
         }
-    }   
+    }
 
     // This applet needs to support getDocumentBase, getParameter, and getCodeBase
-    private Applet makeDCApplet( Properties parameters, URL codeBase, 
+    private Applet makeDCApplet( Properties parameters, URL codeBase,
         URL documentBase )
     {
         AppletStub stub = new TestAppletStub( parameters, codeBase, documentBase ) ;
@@ -609,12 +609,12 @@ public class Client
         Properties result = new Properties() ;
         result.setProperty( ORBConstants.INITIAL_HOST_PROPERTY, "thisHost" ) ;
         result.setProperty( ORBConstants.SERVER_HOST_PROPERTY, "thatHost" ) ;
-        result.setProperty( ORBConstants.ORB_INIT_REF_PROPERTY, 
+        result.setProperty( ORBConstants.ORB_INIT_REF_PROPERTY,
             "NameService=corbaloc::host.org/NameService" ) ;
         result.setProperty( "foo.ORBarg1", "MyFoo" ) ;
         result.setProperty( "foo.prefix.stuff1", "AnotherFoo" ) ;
         result.setProperty( "foo.prefix.somestuff", "More Foo" ) ;
-        result.setProperty( ORBConstants.CORBA_PREFIX + "ORBmodule.iiopTransport", 
+        result.setProperty( ORBConstants.CORBA_PREFIX + "ORBmodule.iiopTransport",
             "iiopTransportImpl" ) ;
         result.setProperty( ORBConstants.CORBA_PREFIX + "poa.ORBmaxhold", "351" ) ;
         result.setProperty( ORBConstants.SUN_PREFIX + "poa.ORBfoo", "ALittleFoo" ) ;
@@ -626,22 +626,22 @@ public class Client
     private Properties makeDCAppletProperties()
     {
         Properties result = new Properties() ;
-        result.setProperty( ORBConstants.ORB_INIT_REF_PROPERTY, 
+        result.setProperty( ORBConstants.ORB_INIT_REF_PROPERTY,
             "TraderService=corbaloc::host.org/TraderService" ) ;
         result.setProperty( "foo.prefix.stuff2", "2AnotherFoo" ) ;
         result.setProperty( ORBConstants.SUN_PREFIX + "pool.ORBsize", "4000" ) ;
         return result ;
     }
 
-    private OutputStream makeFileOutputStream( String fileName ) 
+    private OutputStream makeFileOutputStream( String fileName )
     {
         try {
             File file = new File( fileName ) ;
             FileOutputStream out = new FileOutputStream( file ) ;
             return out ;
         } catch (Exception exc) {
-            System.out.println( 
-                "Unexpected exception in makeFileOutputStream for " 
+            System.out.println(
+                "Unexpected exception in makeFileOutputStream for "
                 + fileName + ": " + exc ) ;
             return null ;
         }
@@ -651,18 +651,18 @@ public class Client
     {
         System.setProperty( "foo.prefix.still.more.stuff", "Too much Foo" ) ;
         System.setProperty( ORBConstants.SUN_PREFIX + "pool.ORBsize", "24000" ) ;
-        System.setProperty( ORBConstants.CORBA_PREFIX + "ORBmodule.soapTransport", 
+        System.setProperty( ORBConstants.CORBA_PREFIX + "ORBmodule.soapTransport",
             "soapTransportImpl" ) ;
     }
-        
+
     private void setDCUserORBFile()
     {
         Properties props = new Properties() ;
         props.setProperty( "foo.prefix.somestuff", "Too much Foo" ) ;
         props.setProperty( ORBConstants.SUN_PREFIX + "poa.ORBfoo", "tinyFoo" ) ;
-        props.setProperty( ORBConstants.CORBA_PREFIX + "ORBmodule.localTransport", 
+        props.setProperty( ORBConstants.CORBA_PREFIX + "ORBmodule.localTransport",
             "localTransportImpl" ) ;
-        OutputStream os = makeFileOutputStream( System.getProperty( "user.home" ) + 
+        OutputStream os = makeFileOutputStream( System.getProperty( "user.home" ) +
             File.separator + "orb.properties" ) ;
         try {
             props.store( os, "New ORB test properties" ) ;
@@ -676,9 +676,9 @@ public class Client
         Properties props = new Properties() ;
         props.setProperty( "foo.prefix.somestuff", "Even More Foo" ) ;
         props.setProperty( ORBConstants.CORBA_PREFIX + "poa.ORBmaxhold", "35144" ) ;
-        props.setProperty( ORBConstants.CORBA_PREFIX + "ORBmodule.localTransport", 
+        props.setProperty( ORBConstants.CORBA_PREFIX + "ORBmodule.localTransport",
             "localTransportStdImpl" ) ;
-        OutputStream os = makeFileOutputStream( System.getProperty( "java.home" ) + 
+        OutputStream os = makeFileOutputStream( System.getProperty( "java.home" ) +
             File.separator + "lib" + File.separator + "orb.properties" ) ;
         if (os != null) {
             try {
@@ -711,7 +711,7 @@ public class Client
     //      result iff they are available in data.
 
     private void testDataCollectorState( String name, PropertyParser parser,
-        final DataCollector dc, boolean expectedAppletResult, 
+        final DataCollector dc, boolean expectedAppletResult,
         Properties expectedProperties )
     {
         NullaryFunction<Object> isAppletNullaryFunction =
@@ -731,12 +731,12 @@ public class Client
             }
         } ;
 
-        session.testForException( name + "getProperties before setParser", 
+        session.testForException( name + "getProperties before setParser",
             getPropertiesNullaryFunction, IllegalStateException.class ) ;
 
         dc.setParser( parser ) ;
 
-        session.testForPass( name + "getProperties after setParser", 
+        session.testForPass( name + "getProperties after setParser",
             getPropertiesNullaryFunction, expectedProperties ) ;
     }
 
@@ -747,7 +747,7 @@ public class Client
         setDCSystemORBFile() ;
     }
 
-    private void testNormalDataCollector() 
+    private void testNormalDataCollector()
     {
         session.start( "Normal DataCollector" ) ;
 
@@ -774,67 +774,67 @@ public class Client
 // Expected results (in override order: later overrides earlier):
 // From setDCSystemProperties: (not in applet mode)
 //      "foo.prefix.still.more.stuff", "Too much Foo" (not allowed, since this is a std prefix!)
-//      ORBConstants.SUN_LC_PREFIX + "pool.ORBsize", "24000" 
+//      ORBConstants.SUN_LC_PREFIX + "pool.ORBsize", "24000"
 // From system file:
-//      "foo.prefix.somestuff", "Even More Foo" 
-//      ORBConstants.ORG_OMG_CORBA_PREFIX + "poa.ORBmaxhold", "35144" 
+//      "foo.prefix.somestuff", "Even More Foo"
+//      ORBConstants.ORG_OMG_CORBA_PREFIX + "poa.ORBmaxhold", "35144"
 // From user home dir file:
-//      "foo.prefix.somestuff", "Too much Foo" 
-//      ORBConstants.SUN_PREFIX + "poa.ORBfoo", "tinyFoo" 
+//      "foo.prefix.somestuff", "Too much Foo"
+//      ORBConstants.SUN_PREFIX + "poa.ORBfoo", "tinyFoo"
 // From makeDCProperties():
-//      ORBConstants.INITIAL_HOST_PROPERTY, "thisHost" 
-//      ORBConstants.SERVER_HOST_PROPERTY, "thatHost" 
-//      ORBConstants.ORB_INIT_REF_PROPERTY, "NameService=corbaloc::host.org/NameService" 
-//      "foo.ORBarg1", "MyFoo" 
-//      "foo.prefix.stuff1", "AnotherFoo" 
-//      "foo.prefix.somestuff", "More Foo" 
-//      ORBConstants.ORG_OMG_CORBA_PREFIX + "poa.ORBmaxhold", "351" 
-//      ORBConstants.SUN_PREFIX + "poa.ORBfoo", "ALittleFoo" 
-//      ORBConstants.SUN_LC_PREFIX + "pool.ORBsize", "25000" 
-//      ORBConstants.SUN_LC_VERSION_PREFIX + "bar.foo", "YetAnotherFoo" 
+//      ORBConstants.INITIAL_HOST_PROPERTY, "thisHost"
+//      ORBConstants.SERVER_HOST_PROPERTY, "thatHost"
+//      ORBConstants.ORB_INIT_REF_PROPERTY, "NameService=corbaloc::host.org/NameService"
+//      "foo.ORBarg1", "MyFoo"
+//      "foo.prefix.stuff1", "AnotherFoo"
+//      "foo.prefix.somestuff", "More Foo"
+//      ORBConstants.ORG_OMG_CORBA_PREFIX + "poa.ORBmaxhold", "351"
+//      ORBConstants.SUN_PREFIX + "poa.ORBfoo", "ALittleFoo"
+//      ORBConstants.SUN_LC_PREFIX + "pool.ORBsize", "25000"
+//      ORBConstants.SUN_LC_VERSION_PREFIX + "bar.foo", "YetAnotherFoo"
 // From makeDCApplet( makeDCAppletProperties(), new URL( "http://www.bar.com" ),
 //      new URL( "http://www.foo.com" ) ):
-//      ORBConstants.ORB_INIT_REF_PROPERTY, "TraderService=corbaloc::host.org/TraderService" 
-//      "foo.prefix.stuff2", "2AnotherFoo" 
+//      ORBConstants.ORB_INIT_REF_PROPERTY, "TraderService=corbaloc::host.org/TraderService"
+//      "foo.prefix.stuff2", "2AnotherFoo"
 //      ORBConstants.SUN_LC_PREFIX + "pool.ORBsize", "4000" ;
 // From args (normal case only):
 //      ORBConstants.ORG_OMG_CORBA_PREFIX + "poa.ORBmaxhold", "27"
-//      ORBConstants.ORB_INIT_REF_PROPERTY.FooService, "corbaloc::host.org/FooService" 
-//      ORBConstants.ORB_INIT_REF_PROPERTY.BarService, "corbaloc::host.org/BarService" 
-// 
+//      ORBConstants.ORB_INIT_REF_PROPERTY.FooService, "corbaloc::host.org/FooService"
+//      ORBConstants.ORB_INIT_REF_PROPERTY.BarService, "corbaloc::host.org/BarService"
+//
 // Expected result from the above (applet case):
-//      ORBConstants.ORB_INIT_REF_PROPERTY.TraderService, "corbaloc::host.org/TraderService" 
-//      "foo.prefix.stuff2", "2AnotherFoo" 
-//      ORBConstants.SUN_LC_PREFIX + "pool.ORBsize", "4000" 
-//      ORBConstants.ORB_INIT_REF_PROPERTY.NameService, "corbaloc::host.org/NameService" 
-//      "foo.ORBarg1", "MyFoo" 
-//      "foo.prefix.stuff1", "AnotherFoo" 
-//      "foo.prefix.somestuff", "More Foo" 
-//      ORBConstants.ORG_OMG_CORBA_PREFIX + "poa.ORBmaxhold", "351" 
-//      ORBConstants.SUN_PREFIX + "poa.ORBfoo", "ALittleFoo" 
-//      ORBConstants.SUN_LC_VERSION_PREFIX + "bar.foo", "YetAnotherFoo" 
-//      ORBConstants.INITIAL_HOST_PROPERTY, "thisHost" 
-//      ORBConstants.SERVER_HOST_PROPERTY, "thatHost" 
+//      ORBConstants.ORB_INIT_REF_PROPERTY.TraderService, "corbaloc::host.org/TraderService"
+//      "foo.prefix.stuff2", "2AnotherFoo"
+//      ORBConstants.SUN_LC_PREFIX + "pool.ORBsize", "4000"
+//      ORBConstants.ORB_INIT_REF_PROPERTY.NameService, "corbaloc::host.org/NameService"
+//      "foo.ORBarg1", "MyFoo"
+//      "foo.prefix.stuff1", "AnotherFoo"
+//      "foo.prefix.somestuff", "More Foo"
+//      ORBConstants.ORG_OMG_CORBA_PREFIX + "poa.ORBmaxhold", "351"
+//      ORBConstants.SUN_PREFIX + "poa.ORBfoo", "ALittleFoo"
+//      ORBConstants.SUN_LC_VERSION_PREFIX + "bar.foo", "YetAnotherFoo"
+//      ORBConstants.INITIAL_HOST_PROPERTY, "thisHost"
+//      ORBConstants.SERVER_HOST_PROPERTY, "thatHost"
 //
 // Expected result from the above (normal case):
 //      ORBConstants.ORG_OMG_CORBA_PREFIX + "poa.ORBmaxhold", "27"
-//      ORBConstants.ORB_INIT_REF_PROPERTY.FooService, "corbaloc::host.org/FooService" 
-//      ORBConstants.ORB_INIT_REF_PROPERTY.BarService, "corbaloc::host.org/BarService" 
-//      ORBConstants.SUN_LC_PREFIX + "pool.ORBsize", "25000" 
-//      ORBConstants.ORB_INIT_REF_PROPERTY.NameService, "corbaloc::host.org/NameService" 
-//      "foo.ORBarg1", "MyFoo" 
-//      "foo.prefix.stuff1", "AnotherFoo" 
-//      "foo.prefix.somestuff", "More Foo" 
-//      ORBConstants.ORG_OMG_CORBA_PREFIX + "poa.ORBmaxhold", "351" 
-//      ORBConstants.SUN_PREFIX + "poa.ORBfoo", "ALittleFoo" 
-//      ORBConstants.SUN_LC_VERSION_PREFIX + "bar.foo", "YetAnotherFoo" 
-//      ORBConstants.INITIAL_HOST_PROPERTY, "thisHost" 
-//      ORBConstants.SERVER_HOST_PROPERTY, "thatHost" 
+//      ORBConstants.ORB_INIT_REF_PROPERTY.FooService, "corbaloc::host.org/FooService"
+//      ORBConstants.ORB_INIT_REF_PROPERTY.BarService, "corbaloc::host.org/BarService"
+//      ORBConstants.SUN_LC_PREFIX + "pool.ORBsize", "25000"
+//      ORBConstants.ORB_INIT_REF_PROPERTY.NameService, "corbaloc::host.org/NameService"
+//      "foo.ORBarg1", "MyFoo"
+//      "foo.prefix.stuff1", "AnotherFoo"
+//      "foo.prefix.somestuff", "More Foo"
+//      ORBConstants.ORG_OMG_CORBA_PREFIX + "poa.ORBmaxhold", "351"
+//      ORBConstants.SUN_PREFIX + "poa.ORBfoo", "ALittleFoo"
+//      ORBConstants.SUN_LC_VERSION_PREFIX + "bar.foo", "YetAnotherFoo"
+//      ORBConstants.INITIAL_HOST_PROPERTY, "thisHost"
+//      ORBConstants.SERVER_HOST_PROPERTY, "thatHost"
 
     private Properties makeDCAppletResult()
     {
         Properties props = new Properties() ;
-        props.setProperty( "org.omg.CORBA.ORBInitRef.TraderService", 
+        props.setProperty( "org.omg.CORBA.ORBInitRef.TraderService",
             "corbaloc::host.org/TraderService" ) ;
         props.setProperty( ORBConstants.SUN_PREFIX + "pool.ORBsize", "4000" ) ;
         props.setProperty( "org.omg.CORBA.ORBInitRef.NameService", "corbaloc::host.org/NameService" ) ;
@@ -846,9 +846,9 @@ public class Client
         props.setProperty( "com.sun.corba.ee.bar.foo", "YetAnotherFoo" ) ;
         props.setProperty( "org.omg.CORBA.ORBInitialHost", "thisHost" ) ;
         props.setProperty( "com.sun.corba.ee.ORBServerHost", "thatHost" ) ;
-        props.setProperty( ORBConstants.CORBA_PREFIX + "ORBmodule.iiopTransport", 
+        props.setProperty( ORBConstants.CORBA_PREFIX + "ORBmodule.iiopTransport",
             "iiopTransportImpl" ) ;
-        props.setProperty( ORBConstants.CORBA_PREFIX + "ORBmodule.localTransport", 
+        props.setProperty( ORBConstants.CORBA_PREFIX + "ORBmodule.localTransport",
             "localTransportImpl" ) ;
         return props ;
     }
@@ -857,9 +857,9 @@ public class Client
     {
         Properties props = new Properties() ;
         props.setProperty( ORBConstants.CORBA_PREFIX + "poa.ORBmaxhold", "27" ) ;
-        props.setProperty( ORBConstants.ORB_INIT_REF_PROPERTY + ".FooService", 
+        props.setProperty( ORBConstants.ORB_INIT_REF_PROPERTY + ".FooService",
             "corbaloc::host.org/FooService" ) ;
-        props.setProperty( ORBConstants.ORB_INIT_REF_PROPERTY + ".BarService", 
+        props.setProperty( ORBConstants.ORB_INIT_REF_PROPERTY + ".BarService",
             "corbaloc::host.org/BarService" ) ;
         props.setProperty( "com.sun.corba.ee.pool.ORBsize", "25000" ) ;
         props.setProperty( "org.omg.CORBA.ORBInitRef.NameService", "corbaloc::host.org/NameService" ) ;
@@ -871,16 +871,16 @@ public class Client
         props.setProperty( "com.sun.corba.ee.bar.foo", "YetAnotherFoo" ) ;
         props.setProperty( "org.omg.CORBA.ORBInitialHost", "thisHost" ) ;
         props.setProperty( "com.sun.corba.ee.ORBServerHost", "thatHost" ) ;
-        props.setProperty( ORBConstants.CORBA_PREFIX + "ORBmodule.iiopTransport", 
+        props.setProperty( ORBConstants.CORBA_PREFIX + "ORBmodule.iiopTransport",
             "iiopTransportImpl" ) ;
-        props.setProperty( ORBConstants.CORBA_PREFIX + "ORBmodule.soapTransport", 
+        props.setProperty( ORBConstants.CORBA_PREFIX + "ORBmodule.soapTransport",
             "soapTransportImpl" ) ;
-        props.setProperty( ORBConstants.CORBA_PREFIX + "ORBmodule.localTransport", 
+        props.setProperty( ORBConstants.CORBA_PREFIX + "ORBmodule.localTransport",
             "localTransportImpl" ) ;
         return props ;
     }
 
-    private void testAppletDataCollector() 
+    private void testAppletDataCollector()
     {
         session.start( "Applet DataCollector" ) ;
 
@@ -894,7 +894,7 @@ public class Client
             throw new Error( "Unexpected Exception", exc ) ;
         }
 
-        Applet app = makeDCApplet( appProps, codeBase, documentBase ) ; 
+        Applet app = makeDCApplet( appProps, codeBase, documentBase ) ;
 
         DataCollector dc1 = DataCollectorFactory.create( app, null,
             "MyHost" ) ;
@@ -933,7 +933,7 @@ public class Client
         return result ;
     }
 
-    private boolean compareArraysAsSets( Object obj1, Object obj2 ) 
+    private boolean compareArraysAsSets( Object obj1, Object obj2 )
     {
         Set set1 = makeSetFromArray( obj1 ) ;
         Set set2 = makeSetFromArray( obj2 ) ;
@@ -941,16 +941,16 @@ public class Client
     }
 
     // Check that two objects with the same interface return equal results
-    // on all public methods that take no arguments.  If the result type 
+    // on all public methods that take no arguments.  If the result type
     // of an accessor method is an array, we compare as sets, rather than
     // assuming that the order must be the same.  Also, ignore all methods
     // inherited from java.lang.Object.
-    private boolean equalByAccessorMethods( Object obj1, Object obj2 ) 
+    private boolean equalByAccessorMethods( Object obj1, Object obj2 )
     {
         ObjectUtility objutil = ObjectUtility.make( false, true, 5, 4 ) ;
         boolean result = true ;
         if (obj1.getClass() != obj2.getClass())
-            throw new Error( 
+            throw new Error(
                 "equalByAccessorMethods can only be used for objects " +
                 "of the same class" ) ;
 
@@ -972,14 +972,14 @@ public class Client
                         comparison = ObjectUtility.equals( value1, value2 ) ;
 
                     if (!comparison) {
-                        System.out.println( 
+                        System.out.println(
                             "        Objects are not equal by accessor method " +
                                 name + ":" ) ;
-                        System.out.println( "            Value1 = \n" + 
+                        System.out.println( "            Value1 = \n" +
                             objutil.objectToString( value1 ) + "\n" ) ;
-                        System.out.println( "            Value2 = \n" + 
+                        System.out.println( "            Value2 = \n" +
                             objutil.objectToString( value2 ) + "\n" ) ;
-                        result = false ;        
+                        result = false ;
                     }
                 }
             }
@@ -990,19 +990,19 @@ public class Client
         return result ;
     }
 
-    private boolean compareORBDataByInterface( ORBData od1, ORBData od2 ) 
+    private boolean compareORBDataByInterface( ORBData od1, ORBData od2 )
     {
         return equalByAccessorMethods( od1, od2 ) &&
             (od1.getGIOPBuffMgrStrategy( GIOPVersion.V1_0 ) ==
-                od2.getGIOPBuffMgrStrategy( GIOPVersion.V1_0 )) && 
+                od2.getGIOPBuffMgrStrategy( GIOPVersion.V1_0 )) &&
             (od1.getGIOPBuffMgrStrategy( GIOPVersion.V1_1 ) ==
-                od2.getGIOPBuffMgrStrategy( GIOPVersion.V1_1 )) && 
+                od2.getGIOPBuffMgrStrategy( GIOPVersion.V1_1 )) &&
             (od1.getGIOPBuffMgrStrategy( GIOPVersion.V1_2 ) ==
-                od2.getGIOPBuffMgrStrategy( GIOPVersion.V1_2 )) ; 
+                od2.getGIOPBuffMgrStrategy( GIOPVersion.V1_2 )) ;
     }
 
     // Make properties for testing ORBData
-    private Properties makeORBDataProperties() 
+    private Properties makeORBDataProperties()
     {
         ParserData[] data = ParserTable.get(ORB.defaultClassNameResolver()).getParserData() ;
         Properties result = new Properties() ;
@@ -1015,7 +1015,7 @@ public class Client
     {
         private Properties props ;
 
-        public PropertyDataCollector( Properties props ) 
+        public PropertyDataCollector( Properties props )
         {
             this.props = props ;
         }
@@ -1029,27 +1029,27 @@ public class Client
         public Properties getProperties() { return props ; }
     }
 
-    private void testORBData() 
+    private void testORBData()
     {
         session.start( "ORBData" ) ;
 
         ORB orb = (ORB)ORB.init() ;
 
         Properties props = makeORBDataProperties() ;
-        final ORBDataParserImpl od1 = new ORBDataParserImpl( orb, 
+        final ORBDataParserImpl od1 = new ORBDataParserImpl( orb,
             new PropertyDataCollector( props ) ) ;
         od1.setTestValues() ;
 
-        // Print out the test values 
-        System.out.println( "od1 = " + 
+        // Print out the test values
+        System.out.println( "od1 = " +
             ObjectUtility.make( true, true ).objectToString( od1 ) ) ;
 
-        final ORBDataParserImpl od2 = new ORBDataParserImpl( orb, 
+        final ORBDataParserImpl od2 = new ORBDataParserImpl( orb,
             new PropertyDataCollector( props ) ) ;
 
         NullaryFunction<Object>  closure = new NullaryFunction<Object> () {
             public Object evaluate() {
-                if (compareORBDataByInterface( od1, od2)) 
+                if (compareORBDataByInterface( od1, od2))
                     return Boolean.TRUE ;
                 else {
                     System.out.println( "ORBData comparison failed." ) ;
@@ -1063,7 +1063,7 @@ public class Client
             }
         } ;
 
-        session.testForPass( "ORBData parsing test", closure, 
+        session.testForPass( "ORBData parsing test", closure,
             Boolean.TRUE ) ;
 
         session.end() ;
@@ -1074,7 +1074,7 @@ public class Client
         session.start( "UserConfigurator" ) ;
 
         Properties props = new Properties() ;
-        props.put( ORBConstants.SUN_PREFIX + "ORBUserConfigurators." + 
+        props.put( ORBConstants.SUN_PREFIX + "ORBUserConfigurators." +
             "corba.orbconfig.MyConfigurator", "1" ) ;
         String[] args = null ;
         ORB.init( args, props ) ;
@@ -1124,7 +1124,7 @@ public class Client
         if (!expected_ip.equals(od1.getORBServerHost()))
         {
             String msg = "testORBServerHostAndListenOnAllInterfaces FAILED" +
-                         " default ORBServerHost test, getORBServerHost() != " + 
+                         " default ORBServerHost test, getORBServerHost() != " +
                          expected_ip;
             throw new Error(msg);
         }
@@ -1147,7 +1147,7 @@ public class Client
         if (!expected_ip.equals(od1.getORBServerHost()))
         {
             String msg = "testORBServerHostAndListenOnAllInterfaces FAILED" +
-                         " ORBServerHost property = " + allHosts + 
+                         " ORBServerHost property = " + allHosts +
                          " test, getORBServerHost() != " + expected_ip;
             throw new Error(msg);
         }
@@ -1169,7 +1169,7 @@ public class Client
         if (!expectedHost.equals(od1.getORBServerHost()))
         {
             String msg = "testORBServerHostAndListenOnAllInterfaces FAILED" +
-                         " ORBServerHost property = " + expectedHost + 
+                         " ORBServerHost property = " + expectedHost +
                          " test, getORBServerHost() != " + expectedHost +
                          " getORBServerHost = " + od1.getORBServerHost();
             throw new Error(msg);

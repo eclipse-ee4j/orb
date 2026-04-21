@@ -58,7 +58,7 @@ public abstract class RemoteTest extends Test {
      * array if none.
      */
     protected String[] getRemoteInterfaceClasses () {
-        return new String[0];   
+        return new String[0];
     }
 
     /**
@@ -143,7 +143,7 @@ public abstract class RemoteTest extends Test {
                                     String[] additionalRMICArgs,
                                     boolean onlyOnce,
                                     boolean iiop,
-                                    boolean external) throws Exception 
+                                    boolean external) throws Exception
     {
         try {
             dprint( "RemoteTest.generateStubs called" ) ;
@@ -246,9 +246,9 @@ public abstract class RemoteTest extends Test {
                 String[] tieClasses = getRemoteServantClasses();
                 String[] servantManager = {ServantContext.SERVANT_MANAGER_CLASS};
                 tieClasses = append(tieClasses,servantManager);
-                
+
                 // Delete ties if we are doing jrmp...
-                if (!iiop) {                
+                if (!iiop) {
                     String dir = (String)getArgs().get(OUTPUT_DIRECTORY);
                     if (dir != null) {
                         File root = new File(dir);

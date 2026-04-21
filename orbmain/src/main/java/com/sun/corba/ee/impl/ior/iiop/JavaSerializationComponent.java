@@ -25,14 +25,14 @@ import com.sun.corba.ee.spi.misc.ORBConstants;
 import org.omg.CORBA_2_3.portable.OutputStream;
 
 /**
- * Tagged component that contains a value that indicates the Java 
+ * Tagged component that contains a value that indicates the Java
  * serialization version supported by the ORB.
  *
  * ORB Java serialization uses IIOP as the transport protocol, but uses
  * Java serialization mechanism and its accompanying encodings, instead
  * of IIOP CDR serialization mechanism. Java serialization is generally
  * observed to be faster than CDR.
- */ 
+ */
 public class JavaSerializationComponent extends TaggedComponentBase {
 
     private byte version;
@@ -59,7 +59,7 @@ public class JavaSerializationComponent extends TaggedComponentBase {
     public void writeContents(OutputStream os) {
         os.write_octet(version);
     }
-    
+
     public int getId() {
         return ORBConstants.TAG_JAVA_SERIALIZATION_ID;
     }

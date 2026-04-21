@@ -43,7 +43,7 @@ public class POAPolicyMediatorImpl_NR_USM extends POAPolicyMediatorBase {
     // XXX How do we protect locator from multi-threaded access?
     private ServantLocator locator ;
 
-    POAPolicyMediatorImpl_NR_USM( Policies policies, POAImpl poa ) 
+    POAPolicyMediatorImpl_NR_USM( Policies policies, POAImpl poa )
     {
         super( policies, poa ) ;
 
@@ -58,14 +58,14 @@ public class POAPolicyMediatorImpl_NR_USM extends POAPolicyMediatorBase {
 
         locator = null ;
     }
-    
-    protected java.lang.Object internalGetServant( byte[] id, 
+
+    protected java.lang.Object internalGetServant( byte[] id,
         String operation ) throws ForwardRequest
-    { 
+    {
         if (locator == null) {
             throw wrapper.poaNoServantManager();
         }
-    
+
         CookieHolder cookieHolder = orb.peekInvocationInfo().getCookieHolder() ;
 
         java.lang.Object servant = locator.preinvoke(id, poa, operation,
@@ -81,7 +81,7 @@ public class POAPolicyMediatorImpl_NR_USM extends POAPolicyMediatorBase {
         return servant;
     }
 
-    public void returnServant() 
+    public void returnServant()
     {
         OAInvocationInfo info = orb.peekInvocationInfo();
 
@@ -95,12 +95,12 @@ public class POAPolicyMediatorImpl_NR_USM extends POAPolicyMediatorBase {
             (Servant)(info.getServantContainer()) );
     }
 
-    public void etherealizeAll() 
-    {   
+    public void etherealizeAll()
+    {
         // NO-OP
     }
 
-    public void clearAOM() 
+    public void clearAOM()
     {
         // NO-OP
     }
@@ -123,7 +123,7 @@ public class POAPolicyMediatorImpl_NR_USM extends POAPolicyMediatorBase {
         }
     }
 
-    public Servant getDefaultServant() throws NoServant, WrongPolicy 
+    public Servant getDefaultServant() throws NoServant, WrongPolicy
     {
         throw new WrongPolicy();
     }
@@ -133,23 +133,23 @@ public class POAPolicyMediatorImpl_NR_USM extends POAPolicyMediatorBase {
         throw new WrongPolicy();
     }
 
-    public final void activateObject(byte[] id, Servant servant) 
+    public final void activateObject(byte[] id, Servant servant)
         throws WrongPolicy, ServantAlreadyActive, ObjectAlreadyActive
     {
         throw new WrongPolicy();
     }
 
-    public Servant deactivateObject( byte[] id ) throws ObjectNotActive, WrongPolicy 
+    public Servant deactivateObject( byte[] id ) throws ObjectNotActive, WrongPolicy
     {
         throw new WrongPolicy();
     }
 
     public byte[] servantToId( Servant servant ) throws ServantNotActive, WrongPolicy
-    {   
+    {
         throw new WrongPolicy();
     }
 
-    public Servant idToServant( byte[] id ) 
+    public Servant idToServant( byte[] id )
         throws WrongPolicy, ObjectNotActive
     {
         throw new WrongPolicy();

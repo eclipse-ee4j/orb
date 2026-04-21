@@ -46,8 +46,8 @@ is divided into following sections:
         </condition>
     </fail>
     <target depends="dist,javadoc" description="Build whole project." name="default"/>
-    <!-- 
-                INITIALIZATION SECTION 
+    <!--
+                INITIALIZATION SECTION
             -->
     <target name="-pre-init">
         <!-- Empty placeholder for easier customization. -->

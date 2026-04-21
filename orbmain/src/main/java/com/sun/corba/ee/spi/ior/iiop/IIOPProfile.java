@@ -28,7 +28,7 @@ import org.glassfish.gmbal.ManagedData ;
 
 /** IIOPProfile represents an IIOP tagged profile.
 * It is essentially composed of an object identifier and
-* a template.  The template contains all of the 
+* a template.  The template contains all of the
 * IIOP specific information in the profile.
 * Templates are frequently shared between many different profiles,
 * while the object identifiy is unique to each profile.
@@ -38,25 +38,25 @@ import org.glassfish.gmbal.ManagedData ;
 public interface IIOPProfile extends TaggedProfile
 {
     @ManagedAttribute
-    @Description( "The ORB version in use" ) 
+    @Description( "The ORB version in use" )
     ORBVersion getORBVersion() ;
 
-    /** Return the servant for this profile, if it is local 
-     * AND if the OA that implements this objref supports direct access to servants 
+    /** Return the servant for this profile, if it is local
+     * AND if the OA that implements this objref supports direct access to servants
      * outside of an invocation.
-     * 
+     *
      * @return the profile servant
      */
     java.lang.Object getServant() ;
 
     /** Return the GIOPVersion of this profile.  Caches the result.
-     * 
+     *
      * @return the GIOPVersion
      */
     GIOPVersion getGIOPVersion() ;
 
     /** Return the Codebase of this profile.  Caches the result.
-     * 
+     *
      * @return the profile codebase
      */
     String getCodebase() ;

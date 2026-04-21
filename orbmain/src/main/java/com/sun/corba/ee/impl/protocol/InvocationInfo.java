@@ -37,48 +37,48 @@ public class InvocationInfo implements ClientInvocationInfo
     private Iterator contactInfoListIterator;
     private ClientRequestDispatcher clientRequestDispatcher;
     private MessageMediator messageMediator;
-    
+
     public InvocationInfo()
     {
         isRetryInvocation = false;
         entryCount = 0;
     }
-    
-    public Iterator getContactInfoListIterator() 
+
+    public Iterator getContactInfoListIterator()
     {
         return contactInfoListIterator;
     }
-    
+
     public void setContactInfoListIterator(Iterator contactInfoListIterator)
     {
         this.contactInfoListIterator = contactInfoListIterator;
     }
-    
-    public boolean isRetryInvocation() 
+
+    public boolean isRetryInvocation()
     {
         return isRetryInvocation;
     }
-    
-    public void setIsRetryInvocation(boolean isRetryInvocation) 
+
+    public void setIsRetryInvocation(boolean isRetryInvocation)
     {
         this.isRetryInvocation = isRetryInvocation;
     }
-    
-    public int getEntryCount() 
+
+    public int getEntryCount()
     {
         return entryCount;
     }
-    
-    public void incrementEntryCount() 
+
+    public void incrementEntryCount()
     {
         entryCount++;
     }
-    
-    public void decrementEntryCount() 
+
+    public void decrementEntryCount()
     {
         entryCount--;
     }
-    
+
     public void setClientRequestDispatcher(ClientRequestDispatcher clientRequestDispatcher)
     {
         this.clientRequestDispatcher = clientRequestDispatcher;

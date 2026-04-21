@@ -27,7 +27,7 @@ import java.lang.annotation.Target ;
 import org.glassfish.pfl.tf.spi.annotation.MethodMonitorGroup;
 
 /** This annotation is applied to a class or interface to indicate
- * that its methods are classified as part of the CDR unmarshaling 
+ * that its methods are classified as part of the CDR unmarshaling
  * implementation in the ORB.
  */
 @MethodMonitorGroup

@@ -24,8 +24,8 @@
 
 package corba.hcks;
 
-public class idlValueTypeAImpl 
-    extends 
+public class idlValueTypeAImpl
+    extends
         idlValueTypeA
 {
     public static final String baseMsg = idlValueTypeAImpl.class.getName();
@@ -33,18 +33,18 @@ public class idlValueTypeAImpl
     public idlValueTypeAImpl () {}
 
     public idlValueTypeAImpl (short a)
-    { 
+    {
         this.a = a;
     }
 
-    public short getShortA () 
+    public short getShortA ()
     {
-        return this.a; 
+        return this.a;
     }
 
-    public void setShortA (short a) 
+    public void setShortA (short a)
     {
-        this.a = a; 
+        this.a = a;
     }
 
     public String toString ()

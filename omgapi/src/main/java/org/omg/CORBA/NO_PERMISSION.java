@@ -20,7 +20,7 @@
 package org.omg.CORBA;
 
 /**
- * Exception  thrown when an invocation failed because the caller 
+ * Exception  thrown when an invocation failed because the caller
  * has insufficient privileges.<P>
  * It contains a minor code, which gives more detailed information about
  * what caused the exception, and a completion status. It may also contain

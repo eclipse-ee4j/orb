@@ -102,7 +102,7 @@ class BatchEnvironment extends Environment implements ErrorConsumer {
         for (int i = 0; i < versionString.length(); i++)
             if (!isDigit(versionString.charAt(i)))
                 return Integer.parseInt(versionString.substring(0, i));
-        
+
         return Integer.parseInt(versionString);
     }
 
@@ -357,7 +357,7 @@ class BatchEnvironment extends Environment implements ErrorConsumer {
         ClassDeclaration c = classes.get(t);
         return (c != null) ? c.getName().equals(nm) : getPackage(nm.getQualifier()).classExists(nm.getName());
     }
-    
+
     /**
      * Get the package path for a package
      */

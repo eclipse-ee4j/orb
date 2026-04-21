@@ -24,7 +24,7 @@ import org.omg.CORBA_2_3.portable.OutputStream ;
 /** This interface represents an entity that can be written to an OutputStream.
  * @author Ken Cavanaugh
  */
-public interface Writeable 
+public interface Writeable
 {
     /** Write this object directly to the output stream.
      * @param arg0 stream to write to

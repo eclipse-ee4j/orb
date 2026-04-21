@@ -30,9 +30,9 @@ import org.omg.CosNaming.NamingContextHelper;
 
 public class policy2Client {
     private static final String msgPassed = "policy_2: **PASSED**";
-    
+
     private static final String msgFailed = "policy_2: **FAILED**";
-    
+
     public static void main( String args[] ) {
         JUnitReportHelper helper = new JUnitReportHelper( policy2Client.class.getName() ) ;
 

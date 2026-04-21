@@ -48,12 +48,12 @@ public class AServiceIORInterceptor
     // Interceptor operations
     //
 
-    public String name() 
+    public String name()
     {
         return "AServiceInterceptor";
     }
 
-    public void destroy() 
+    public void destroy()
     {
     }
 
@@ -68,7 +68,7 @@ public class AServiceIORInterceptor
         // this interceptor would check info.get_effective_policy(int)
         // to determine if a tagged component reflecting that policy
         // should be added to the IOR.  That is not shown in this example.
-        // 
+        //
 
         ASERVICE_COMPONENT aServiceComponent = new ASERVICE_COMPONENT(true);
         Any any = ORB.init().create_any();

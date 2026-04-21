@@ -106,7 +106,7 @@ public interface Exceptions {
     @Log( id = IIS_START + 12 )
     StreamCorruptedException streamCorrupted(Throwable t);
 
-    @Log( id= IIS_START + 13 ) 
+    @Log( id= IIS_START + 13 )
     @Message( "Could not unmarshal enum with cls {0}, value {1} using EnumDesc" )
     IOException couldNotUnmarshalEnum( String cls, String value ) ;
 

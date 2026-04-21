@@ -30,7 +30,7 @@ import org.omg.PortableInterceptor.Current;
 import org.omg.PortableInterceptor.CurrentHelper;
 import org.omg.PortableInterceptor.ORBInitInfo;
 
-public class LoggingServiceClientORBInitializer 
+public class LoggingServiceClientORBInitializer
     extends org.omg.CORBA.LocalObject
     implements org.omg.PortableInterceptor.ORBInitializer
 {
@@ -44,13 +44,13 @@ public class LoggingServiceClientORBInitializer
 
             // Get a reference to the LoggingService object.
 
-            NamingContext nameService = 
+            NamingContext nameService =
                 NamingContextHelper.narrow(
                     info.resolve_initial_references("NameService"));
 
             NameComponent path[] =
                 { new NameComponent("LoggingService", "") };
-            LoggingService loggingService = 
+            LoggingService loggingService =
                 LoggingServiceHelper.narrow(nameService.resolve(path));
 
             // Get a reference to TSC PICurrent.
@@ -69,7 +69,7 @@ public class LoggingServiceClientORBInitializer
             // side interceptor.
 
             LoggingServiceClientInterceptor interceptor =
-                new LoggingServiceClientInterceptor(loggingService, 
+                new LoggingServiceClientInterceptor(loggingService,
                                                     piCurrent,
                                                     outCallIndicatorSlotId);
 
@@ -79,5 +79,5 @@ public class LoggingServiceClientORBInitializer
         }
     }
 }
- 
+
 // End of file.

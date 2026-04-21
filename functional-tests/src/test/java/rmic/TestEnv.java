@@ -28,11 +28,11 @@ import java.io.OutputStream;
 public class TestEnv extends org.glassfish.rmic.iiop.BatchEnvironment {
 
     private boolean firstLine = true;
-    
+
     public TestEnv(ClassPath path, OutputStream out) {
         super(out,path,new Main(System.out, "rmic").getDestinationDir());
     }
-    
+
     public TestEnv(ClassPath path) {
         super(System.out,path,new Main(System.out, "rmic").getDestinationDir());
     }
@@ -43,7 +43,7 @@ public class TestEnv extends org.glassfish.rmic.iiop.BatchEnvironment {
         nwarnings = 0;
         super.reset();
     }
-    
+
     public void output(String msg) {
         if (firstLine) {
             System.out.println();

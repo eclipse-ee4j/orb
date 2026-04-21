@@ -26,7 +26,7 @@ import java.io.File ;
 import java.io.RandomAccessFile ;
 import org.omg.PortableServer.POA ;
 
-public class counterImpl extends PortableRemoteObject implements counterIF  
+public class counterImpl extends PortableRemoteObject implements counterIF
 {
     private int value ;
 
@@ -38,7 +38,7 @@ public class counterImpl extends PortableRemoteObject implements counterIF
     public synchronized long increment(long invalue) throws RemoteException
     {
         value += invalue;
-     
+
         return value;
     }
 }

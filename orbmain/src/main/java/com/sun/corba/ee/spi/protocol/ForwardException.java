@@ -46,7 +46,7 @@ public class ForwardException extends RuntimeException {
 
         // This check is done early so that no attempt
         // may be made to do a location forward to a local
-        // object.  Doing this lazily would allow 
+        // object.  Doing this lazily would allow
         // forwarding to locals in some restricted cases.
         if (obj instanceof org.omg.CORBA.LocalObject)
             throw new BAD_PARAM() ;
@@ -65,7 +65,7 @@ public class ForwardException extends RuntimeException {
         return obj ;
     }
 
-    public synchronized IOR getIOR() 
+    public synchronized IOR getIOR()
     {
         if (ior == null) {
             ior = orb.getIOR( obj, false ) ;

@@ -25,7 +25,7 @@ import org.omg.PortableInterceptor.*;
 /**
  * Strategy to test request_id.2
  * <p>
- * A recursive call will be made.  We will ensure the inner-most call has a 
+ * A recursive call will be made.  We will ensure the inner-most call has a
  * different requestId than the outer-most call.
  */
 public class RequestId2Strategy

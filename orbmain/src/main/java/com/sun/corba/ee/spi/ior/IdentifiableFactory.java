@@ -26,14 +26,14 @@ import org.omg.CORBA_2_3.portable.InputStream ;
 /** Factory interface for creating Identifiables.
  */
 public interface IdentifiableFactory<E extends Identifiable> {
-    /** Return the id of this factory, which is the id of the result 
+    /** Return the id of this factory, which is the id of the result
      * of any create call.
      * @return factory id
      */
     public int getId() ;
 
-    /** Construct the appropriate Identifiable object with the 
-     * given id from the InputStream is.  
+    /** Construct the appropriate Identifiable object with the
+     * given id from the InputStream is.
      * @param orb ORB to use for creation
      * @param in stream to construct object from
      * @return constructed Identifiable

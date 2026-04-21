@@ -29,42 +29,42 @@ package com.sun.corba.ee.spi.transport.concurrent ;
 public interface ConcurrentQueue<V> {
     /** A Handle provides the capability to delete an element of a ConcurrentQueue
      * very quickly.  Typically, the handle is stored in the element, so that an
-     * element located from another data structure can be quickly deleted from 
+     * element located from another data structure can be quickly deleted from
      * a ConcurrentQueue.
      */
     public interface Handle<V> {
         /** Return the value that corresponds to this handle.
-         * 
+         *
          * @return the value
          */
         V value() ;
 
-        /** Delete the element corresponding to this handle 
+        /** Delete the element corresponding to this handle
          * from the queue.  Takes constant time.  Returns
          * true if the removal succeeded, or false if it failed.
          * which can occur if another thread has already called
          * poll or remove on this element.
-         * 
+         *
          * @return if operation succeeded
          */
         boolean remove() ;
 
-        /** Time at which the element will expire 
-         * 
+        /** Time at which the element will expire
+         *
          * @return time in milliseconds since 1/1/70 when this item expires.
          */
         long expiration() ;
     }
 
     /** Return the number of elements in the queue.
-     * 
+     *
      * @return the number of elements
      */
     int size() ;
 
     /** Add a new element to the tail of the queue.
      * Returns a handle for the element in the queue.
-     * 
+     *
      * @param arg element to add
      * @return handle for element
      */
@@ -81,4 +81,4 @@ public interface ConcurrentQueue<V> {
      * @return handle for head of queue
      */
     Handle<V> peek() ;
-} 
+}

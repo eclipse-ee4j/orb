@@ -37,7 +37,7 @@ public interface EncapsHandler
      * Decode and display the given data (which represents
      * a tagged profile or tagged component).
      */
-    public void display(byte[] data, 
+    public void display(byte[] data,
                         TextOutputHandler out,
                         Utility util) throws DecodingException;
 }

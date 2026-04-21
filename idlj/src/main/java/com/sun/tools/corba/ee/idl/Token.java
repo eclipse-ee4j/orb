@@ -95,7 +95,7 @@ class Token
       ValueBase            =  45, // |          |
       Valuetype            =  46, // 2.3        2.4rtf
       Factory              =  47, //            2.4rtf only
-      
+
       // Keywords in CORBA 3.0
       Component            =  48,
       Consumes             =  49,
@@ -266,7 +266,7 @@ class Token
   private static final int
       First30Keyword    = Component,
       Last30Keyword     = Uses;
-      
+
   // Current valid CORBA levels:
   // 2.2 (or <2.3): the default: no OBV support
   // 2.3: add OBV with init
@@ -278,9 +278,9 @@ class Token
   private static final int CORBA_LEVEL_23 = 1 ;
   private static final int CORBA_LEVEL_24RTF = 2 ;
   private static final int CORBA_LEVEL_30 = 3 ;
-  
+
   // Do the conversion from a floating point CORBA level to an int
-  private static int getLevel( float cLevel ) 
+  private static int getLevel( float cLevel )
   {
     if (cLevel < 2.3f)
         return CORBA_LEVEL_22 ;
@@ -292,7 +292,7 @@ class Token
   }
 
   // Return the last keyword corresponding to a particular CORBA level
-  private static int getLastKeyword( int level ) 
+  private static int getLastKeyword( int level )
   {
     if (level == CORBA_LEVEL_22)
         return Last22Keyword ;
@@ -319,7 +319,7 @@ class Token
   * This is set by this method.
   * @returns Token The resulting Token corresponding to string.
   */
-  public static Token makeKeywordToken( 
+  public static Token makeKeywordToken(
     String string, float corbaLevel, boolean escapedOK, boolean[] collision )
   {
     int level = getLevel( corbaLevel ) ;
@@ -340,9 +340,9 @@ class Token
             if (i == Token.Init) {
                 if (level == CORBA_LEVEL_23)
                     deprecated = true ;
-                else 
+                else
                     break ;
-            } 
+            }
 
             if (i > lastKeyword) {
                 collision[0] |= escapedOK; // escapedOK true iff not preprocessing
@@ -474,7 +474,7 @@ class Token
     this (tokenType, tokenName);
     this.isWide = isWide;
   } // ctor
- 
+
 
   // <d62023>
   /**

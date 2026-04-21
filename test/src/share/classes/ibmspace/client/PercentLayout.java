@@ -55,7 +55,7 @@ public class PercentLayout implements LayoutManager2
     {
         // Not supported
     }
-  
+
     public void removeLayoutComponent (Component c)
     {
         for (int i=0; i<fComponents.size(); i++) {
@@ -148,7 +148,7 @@ public class PercentLayout implements LayoutManager2
 
         return size;
     }
-  
+
     public void layoutContainer (Container target)
     {
         Insets insets = target.getInsets();

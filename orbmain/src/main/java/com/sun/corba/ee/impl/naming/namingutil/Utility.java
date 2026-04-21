@@ -34,7 +34,7 @@ class Utility {
     private static NamingSystemException wrapper =
         NamingSystemException.self ;
 
-    /** 
+    /**
      * cleanEscapes removes URL escapes as per IETF 2386 RFP.
      */
     static String cleanEscapes( String stringToDecode ) {
@@ -57,9 +57,9 @@ class Utility {
         return theStringWithoutEscape.toString();
     }
 
-    /** 
+    /**
      *  Converts an Ascii Character into Hexadecimal digit
-     *  NOTE: THIS METHOD IS DUPLICATED TO DELIVER NAMING AS A SEPARATE 
+     *  NOTE: THIS METHOD IS DUPLICATED TO DELIVER NAMING AS A SEPARATE
      *  COMPONENT TO RI.
      **/
     static int hexOf( char x )

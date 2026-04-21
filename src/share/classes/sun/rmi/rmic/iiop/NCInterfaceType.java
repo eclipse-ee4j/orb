@@ -48,23 +48,23 @@ public class NCInterfaceType extends InterfaceType {
     public static NCInterfaceType forNCInterface( ClassDefinition classDef,
                                                   ContextStack stack) {
         if (stack.anyErrors()) return null;
-                                                    
+
         boolean doPop = false;
         try {
             // Do we already have it?
-                        
-            sun.tools.java.Type theType = classDef.getType();           
+
+            sun.tools.java.Type theType = classDef.getType();
             Type existing = getType(theType,stack);
-                        
+
             if (existing != null) {
-                                
+
                 if (!(existing instanceof NCInterfaceType)) return null; // False hit.
-                                
+
                                 // Yep, so return it...
-                                
+
                 return (NCInterfaceType) existing;
             }
-                        
+
             NCInterfaceType it = new NCInterfaceType(stack, classDef);
             putType(theType,it,stack);
             stack.push(it);
@@ -113,7 +113,7 @@ public class NCInterfaceType extends InterfaceType {
     private boolean initialize (ContextStack stack) {
 
         if (stack.getEnv().getParseNonConforming()) {
-                
+
             Vector directInterfaces = new Vector();
             Vector directMethods = new Vector();
             Vector directMembers = new Vector();
@@ -139,7 +139,7 @@ public class NCInterfaceType extends InterfaceType {
                     }
                 }
                 return true;
-                
+
             } catch (ClassNotFound e) {
                 classNotFound(stack,e);
             }

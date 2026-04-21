@@ -21,7 +21,7 @@ package com.sun.corba.ee.internal.io;
 
 
 public class IIOPOutputStream {
-    
+
     /* Create a pending exception.  This is needed to get around
      * the fact that the *Delegate methods do not explicitly
      * declare that they throw exceptions.

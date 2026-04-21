@@ -71,9 +71,9 @@ public abstract class Compiler
         CORBAUtil.mkdir(outputDirectory);
         CORBAUtil.mkdir(reportDirectory);
 
-        FileOutputDecorator exec 
+        FileOutputDecorator exec
             = new FileOutputDecorator(new ExternalExec(false));
-   
+
         Properties props = new Properties() ;
         int emmaPort = EmmaControl.setCoverageProperties( props ) ;
         exec.initialize(className,
@@ -85,7 +85,7 @@ public abstract class Compiler
                         reportDirectory + compilerName + ".err.txt",
                         null,
                         emmaPort ) ;
-    
+
         exec.start();
         int result = 1;
 
@@ -98,9 +98,9 @@ public abstract class Compiler
             throw e;
         }
 
-        if (result != Controller.SUCCESS) 
-            throw new Exception(compilerName 
-                                + " compile failed with result: " 
+        if (result != Controller.SUCCESS)
+            throw new Exception(compilerName
+                                + " compile failed with result: "
                                 + result);
 
         exec.stop();

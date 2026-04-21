@@ -42,5 +42,5 @@ public interface Constants extends Remote {
     public final static float     FLOAT2 = 60F;
     public final static double    DOUBLE2 = 70D;
     public final static String    STRING2 = "def";
-  
+
 }

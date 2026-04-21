@@ -23,7 +23,7 @@ package test;
 import java.rmi.Remote;
 
 public interface ServantManager extends Remote {
-    
+
     /**
      * Start a servant in the remote process.
      * @param servantClass The class of the servant object. Must have a default constructor.
@@ -39,7 +39,7 @@ public interface ServantManager extends Remote {
                                 String nameServerHost,
                                 int nameServerPort,
                                 boolean iiop) throws java.rmi.RemoteException;
-    
+
     /**
      * Unexport the specified servant. If the servant was published, will be unpublised.
      */
@@ -49,7 +49,7 @@ public interface ServantManager extends Remote {
      * Stop all servants in this context.
      */
     public void stopAllServants() throws java.rmi.RemoteException;
-    
+
     /**
      * @Return String the String "Pong"
      */

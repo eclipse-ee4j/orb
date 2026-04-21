@@ -43,10 +43,10 @@ public class idlI2ServantLocator
         System.out.println( "idlI2ServantLocator.preinvoke called for " +
             operation );
         System.out.flush( );
-        try { 
-            org.omg.CORBA.Object obj = 
+        try {
+            org.omg.CORBA.Object obj =
                 orb.resolve_initial_references( "NameService" );
-            org.omg.CosNaming.NamingContextExt nctx = 
+            org.omg.CosNaming.NamingContextExt nctx =
                 org.omg.CosNaming.NamingContextExtHelper.narrow( obj );
             obj = nctx.resolve_str( "idlI1" );
             idlI1 i1 = idlI1Helper.narrow( obj );

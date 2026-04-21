@@ -30,43 +30,43 @@ import com.sun.corba.ee.spi.orb.ORB ;
 
 import org.omg.CORBA_2_3.portable.InputStream ;
 
-public class GenericTaggedProfile extends GenericIdentifiable implements TaggedProfile 
+public class GenericTaggedProfile extends GenericIdentifiable implements TaggedProfile
 {
     private ORB orb ;
 
-    public GenericTaggedProfile( int id, InputStream is ) 
+    public GenericTaggedProfile( int id, InputStream is )
     {
         super( id, is ) ;
         this.orb = (ORB)(is.orb()) ;
     }
 
-    public GenericTaggedProfile( ORB orb, int id, byte[] data ) 
+    public GenericTaggedProfile( ORB orb, int id, byte[] data )
     {
         super( id, data ) ;
         this.orb = orb ;
     }
-    
-    public TaggedProfileTemplate getTaggedProfileTemplate() 
+
+    public TaggedProfileTemplate getTaggedProfileTemplate()
     {
         return null ;
     }
 
-    public ObjectId getObjectId() 
+    public ObjectId getObjectId()
     {
         return null ;
     }
 
-    public ObjectKeyTemplate getObjectKeyTemplate() 
+    public ObjectKeyTemplate getObjectKeyTemplate()
     {
         return null ;
     }
 
-    public ObjectKey getObjectKey() 
+    public ObjectKey getObjectKey()
     {
         return null ;
     }
 
-    public boolean isEquivalent( TaggedProfile prof ) 
+    public boolean isEquivalent( TaggedProfile prof )
     {
         return equals( prof ) ;
     }
@@ -76,12 +76,12 @@ public class GenericTaggedProfile extends GenericIdentifiable implements TaggedP
         // NO-OP
     }
 
-    public boolean isLocal() 
+    public boolean isLocal()
     {
         return false ;
     }
-    
-    public org.omg.IOP.TaggedProfile getIOPProfile() 
+
+    public org.omg.IOP.TaggedProfile getIOPProfile()
     {
         EncapsOutputStream os = OutputStreamFactory.newEncapsOutputStream( orb ) ;
         write( os ) ;

@@ -36,13 +36,13 @@ public abstract class _CodeBaseImplBase extends org.omg.CORBA.portable.ObjectImp
     {
     }
 
-    private static java.util.Map<String,Integer> _methods = 
+    private static java.util.Map<String,Integer> _methods =
         new java.util.HashMap<String,Integer> ();
 
     static
     {
         _methods.put ("get_ir", 0);
-        _methods.put ("implementation", 1 ) ; 
+        _methods.put ("implementation", 1 ) ;
         _methods.put ("implementations", 2 ) ;
         _methods.put ("meta", 3 ) ;
         _methods.put ("metas", 4 ) ;
@@ -130,7 +130,7 @@ public abstract class _CodeBaseImplBase extends org.omg.CORBA.portable.ObjectImp
 
     // Type-specific CORBA::Object operations
     private final static String[] __ids = {
-        "IDL:omg.org/SendingContext/CodeBase:1.0", 
+        "IDL:omg.org/SendingContext/CodeBase:1.0",
         "IDL:omg.org/SendingContext/RunTime:1.0"};
 
     public String[] _ids ()

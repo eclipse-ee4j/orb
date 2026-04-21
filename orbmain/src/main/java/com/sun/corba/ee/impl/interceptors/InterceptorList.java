@@ -30,9 +30,9 @@ import java.util.List;
 import org.omg.PortableInterceptor.Interceptor;
 import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
-/** 
+/**
  * Provides a repository of registered Portable Interceptors, organized
- * by type.  This list is designed to be accessed as efficiently as 
+ * by type.  This list is designed to be accessed as efficiently as
  * possible during runtime, with the expense of added complexity during
  * initialization and interceptor registration.  The class is designed
  * to easily allow for the addition of new interceptor types.
@@ -44,33 +44,33 @@ public class InterceptorList {
     // Interceptor type list.  If additional interceptors are needed,
     // add additional types in numerical order (do not skip numbers),
     // and update NUM_INTERCEPTOR_TYPES and classTypes accordingly.
-    // NUM_INTERCEPTOR_TYPES represents the number of interceptor 
+    // NUM_INTERCEPTOR_TYPES represents the number of interceptor
     // types, so we know how many lists to maintain.
     static final int INTERCEPTOR_TYPE_CLIENT            = 0;
     static final int INTERCEPTOR_TYPE_SERVER            = 1;
     static final int INTERCEPTOR_TYPE_IOR               = 2;
-    
+
     static final int NUM_INTERCEPTOR_TYPES              = 3;
-    
+
     // Array of class types for interceptors.  This is used to create the
-    // appropriate array type for each interceptor type.  These must 
+    // appropriate array type for each interceptor type.  These must
     // match the indices of the constants declared above.
     static final Class[] classTypes = {
         org.omg.PortableInterceptor.ClientRequestInterceptor.class,
         org.omg.PortableInterceptor.ServerRequestInterceptor.class,
         org.omg.PortableInterceptor.IORInterceptor.class
     };
-    
+
     // True if no further interceptors may be registered with this list.
     private boolean locked = false;
 
-    // List of interceptors currently registered.  There are 
+    // List of interceptors currently registered.  There are
     // NUM_INTERCEPTOR_TYPES lists of registered interceptors.
     // For example, interceptors[INTERCEPTOR_TYPE_CLIENT] contains an array
     // of objects of type ClientRequestInterceptor.
-    private Interceptor[][] interceptors = 
+    private Interceptor[][] interceptors =
         new Interceptor[NUM_INTERCEPTOR_TYPES][];
-   
+
     /**
      * Creates a new Interceptor List.  Constructor is package scope so
      * only the ORB can create it.
@@ -92,21 +92,21 @@ public class InterceptorList {
      * @exception DuplicateName Thrown if an interceptor of the given
      *     name already exists for the given type.
      */
-    void register_interceptor( Interceptor interceptor, int type ) 
+    void register_interceptor( Interceptor interceptor, int type )
         throws DuplicateName
     {
         // If locked, deny any further addition of interceptors.
         if( locked ) {
             throw wrapper.interceptorListLocked() ;
         }
-        
+
         // Cache interceptor name:
         String interceptorName = interceptor.name();
         boolean anonymous = interceptorName.equals( "" );
         boolean foundDuplicate = false;
         Interceptor[] interceptorList = interceptors[type];
 
-        // If this is not an anonymous interceptor, 
+        // If this is not an anonymous interceptor,
         // search for an interceptor of the same name in this category:
         if( !anonymous ) {
             int size = interceptorList.length;
@@ -139,7 +139,7 @@ public class InterceptorList {
     void lock() {
         locked = true;
     }
-    
+
     /**
      * Retrieves an array of interceptors of the given type.  For efficiency,
      * the type parameter is assumed to be valid.
@@ -155,7 +155,7 @@ public class InterceptorList {
     boolean hasInterceptorsOfType( int type ) {
         return interceptors[type].length > 0;
     }
-    
+
     /**
      * Initializes all interceptors arrays to zero-length arrays of the
      * correct type, based on the classTypes list.
@@ -163,13 +163,13 @@ public class InterceptorList {
     private void initInterceptorArrays() {
         for( int type = 0; type < NUM_INTERCEPTOR_TYPES; type++ ) {
             Class classType = classTypes[type];
-            
+
             // Create a zero-length array for each type:
-            interceptors[type] = 
+            interceptors[type] =
                 (Interceptor[])Array.newInstance( classType, 0 );
         }
     }
-    
+
     /**
      * Grows the given interceptor array by one:
      */
@@ -177,7 +177,7 @@ public class InterceptorList {
         Class classType = classTypes[type];
         int currentLength = interceptors[type].length;
         Interceptor[] replacementArray;
-        
+
         // Create new array to replace the old one.  The new array will be
         // one element larger but have the same type as the old one.
         replacementArray = (Interceptor[])

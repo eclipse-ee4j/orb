@@ -34,11 +34,11 @@ public interface ORBSocketFactory
 {
     public void setORB(ORB orb);
 
-    public ServerSocket createServerSocket(String type, 
+    public ServerSocket createServerSocket(String type,
                                            InetSocketAddress inetSocketAddress)
         throws IOException;
 
-    public Socket createSocket(String type, 
+    public Socket createSocket(String type,
                                InetSocketAddress inetSocketAddress)
         throws IOException;
 

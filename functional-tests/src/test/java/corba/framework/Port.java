@@ -44,8 +44,8 @@ public class Port
     public Port() {}
 
 
-    /** 
-     * Will use the provided port value when 
+    /**
+     * Will use the provided port value when
      * getValue or toString is called.
      */
     public Port(int value) {
@@ -88,10 +88,10 @@ public class Port
                 throw new PortException(ex.getMessage());
             }
         }
-        
+
         return port;
     }
-    
+
     /**
      * Determine if the provided port is unused.  Tries to
      * create a ServerSocket at the given port.

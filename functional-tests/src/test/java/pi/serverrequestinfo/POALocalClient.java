@@ -39,15 +39,15 @@ import ServerRequestInfo.*;
  * This client is launched from POALocalServer so they can share
  * a single orb.
  */
-public class POALocalClient 
+public class POALocalClient
     extends POAClient
 {
     public POALocalClient( com.sun.corba.ee.spi.orb.ORB orb ) {
         this.orb = orb;
     }
 
-    public void run( Properties environment, String args[], 
-                     PrintStream out, PrintStream err, Hashtable extra) 
+    public void run( Properties environment, String args[],
+                     PrintStream out, PrintStream err, Hashtable extra)
         throws Exception
     {
         out.println( "===============" );

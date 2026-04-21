@@ -27,11 +27,11 @@ public class SerializationTest extends test.Test {
     public void run() {
         JUnitReportHelper helper = new JUnitReportHelper( SerializationTest.class.getName() ) ;
 
-        try {        
+        try {
             helper.start( "test1" ) ;
             Properties props = new Properties() ;
             props.put( "org.omg.CORBA.ORBClass", "com.sun.corba.ee.impl.orb.ORBImpl" ) ;
-            org.omg.CORBA.ORB orb = 
+            org.omg.CORBA.ORB orb =
                 org.omg.CORBA.ORB.init(getArgsAsArgs(),props);
             org.omg.CORBA_2_3.portable.OutputStream sos =
                 (org.omg.CORBA_2_3.portable.OutputStream)orb.create_output_stream();
@@ -44,7 +44,7 @@ public class SerializationTest extends test.Test {
             /*********************** READ DATA BACK IN *********************/
             /***************************************************************/
 
-            org.omg.CORBA_2_3.portable.InputStream sis = 
+            org.omg.CORBA_2_3.portable.InputStream sis =
                 (org.omg.CORBA_2_3.portable.InputStream)sos.create_input_stream();
 
             ARectangle _rect = (ARectangle)sis.read_value();

@@ -29,7 +29,7 @@ import org.omg.PortableServer.*;
 import java.util.Properties;
 
 class SendRecursiveTypePOAServant
-    extends 
+    extends
         sendRecursiveTypePOA
 {
     public static final String baseMsg = SendRecursiveTypePOAServant.class.getName();

@@ -55,15 +55,15 @@ class LoggingServiceImpl
             if (orb == null) {
                 orb = ORB.init(av, null);
             }
-            
+
             POA rootPOA =  (POA) orb.resolve_initial_references("RootPOA");
             rootPOA.the_POAManager().activate();
-            
+
             byte[] objectId =
                 rootPOA.activate_object(new LoggingServiceImpl());
             org.omg.CORBA.Object ref = rootPOA.id_to_reference(objectId);
 
-            NamingContext nameService = 
+            NamingContext nameService =
                 NamingContextHelper.narrow(
                     orb.resolve_initial_references("NameService"));
             NameComponent path[] =

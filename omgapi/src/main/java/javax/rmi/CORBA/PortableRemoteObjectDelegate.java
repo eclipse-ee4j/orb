@@ -18,7 +18,7 @@
  * Classpath-exception-2.0
  */
 
-package javax.rmi.CORBA;        
+package javax.rmi.CORBA;
 
 import java.rmi.NoSuchObjectException;
 import java.rmi.Remote;
@@ -31,7 +31,7 @@ import java.rmi.RemoteException;
  * methods of <code>javax.rmi.PortableRemoteObject</code>.
  *
  * Delegates are enabled by providing the delegate's class name as the
- * value of the 
+ * value of the
  * <code>javax.rmi.CORBA.PortableRemoteObjectClass</code>
  * system property.
  *
@@ -53,7 +53,7 @@ public interface PortableRemoteObjectDelegate {
      * @return stub of the remote
      * @throws NoSuchObjectException if the object does not exist
      */
-    Remote toStub (Remote obj)   
+    Remote toStub (Remote obj)
         throws NoSuchObjectException;
 
     /**
@@ -61,7 +61,7 @@ public interface PortableRemoteObjectDelegate {
      * @param obj object to unremove
      * @throws NoSuchObjectException if the object does not exist
      */
-    void unexportObject(Remote obj) 
+    void unexportObject(Remote obj)
         throws NoSuchObjectException;
 
     /**
@@ -69,7 +69,7 @@ public interface PortableRemoteObjectDelegate {
      * @param narrowFrom object to narrow from
      * @param narrowTo target to narrow to
      * @return object of the desired type
-     * @throws ClassCastException if the object cannot be narrowed 
+     * @throws ClassCastException if the object cannot be narrowed
      */
     java.lang.Object narrow (java.lang.Object narrowFrom,
                                     java.lang.Class narrowTo)
@@ -84,4 +84,4 @@ public interface PortableRemoteObjectDelegate {
     void connect (Remote target, Remote source)
         throws RemoteException;
 
-}                                            
+}

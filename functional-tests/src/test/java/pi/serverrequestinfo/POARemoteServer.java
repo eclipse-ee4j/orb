@@ -35,7 +35,7 @@ import java.io.*;
 
 import ServerRequestInfo.*;
 
-public class POARemoteServer 
+public class POARemoteServer
     extends POAServer
 {
     public static void main(String args[]) {
@@ -50,7 +50,7 @@ public class POARemoteServer
     }
 
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         TestInitializer.out = out;

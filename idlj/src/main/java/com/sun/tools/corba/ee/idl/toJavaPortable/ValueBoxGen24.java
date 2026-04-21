@@ -54,12 +54,12 @@ public class ValueBoxGen24 extends ValueBoxGen
       stream.println (com.sun.tools.corba.ee.idl.toJavaPortable.Util.helperName(v, true) + ".id ()};");
       stream.println ();
       stream.println ("  public String[] _truncatable_ids() {");
-      stream.println ("    return _truncatable_ids;"); 
+      stream.println ("    return _truncatable_ids;");
       stream.println ("  }");
       stream.println ();
   } // writeTruncatable
 
- 
+
   @Override
   public void helperRead (String entryName, SymtabEntry entry, PrintWriter stream)
   {
@@ -105,7 +105,7 @@ public class ValueBoxGen24 extends ValueBoxGen
 
     // done with "write", now do "write_value with real marshalling code.
 
-    stream.println ("  public void write_value (org.omg.CORBA.portable.OutputStream ostream, java.io.Serializable value)"); 
+    stream.println ("  public void write_value (org.omg.CORBA.portable.OutputStream ostream, java.io.Serializable value)");
     stream.println ("  {");
 
     String entryName = com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaName(entry);

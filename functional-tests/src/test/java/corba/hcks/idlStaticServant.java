@@ -30,7 +30,7 @@ import org.omg.PortableServer.*;
 import java.util.Properties;
 
 class idlStaticServant
-    extends 
+    extends
         _idlIImplBase
 {
     public static final String baseMsg = idlStaticServant.class.getName();
@@ -95,8 +95,8 @@ class idlStaticServant
         return "";
     }
 
-    public idlValueTypeA sendValue (idlValueTypeA a, 
-                                    idlValueTypeB b, 
+    public idlValueTypeA sendValue (idlValueTypeA a,
+                                    idlValueTypeB b,
                                     idlValueTypeC c,
                                     idlValueTypeD d,
                                     idlValueTypeE e,

@@ -50,7 +50,7 @@ import org.omg.CORBA.ORBPackage.InvalidName ;
 import org.omg.CORBA_2_3.portable.OutputStream ;
 import org.omg.CORBA_2_3.portable.InputStream ;
 
-public class Client 
+public class Client
 {
     private PrintStream out ;
     private PrintStream err ;
@@ -87,7 +87,7 @@ public class Client
     {
         throw new RuntimeException( msg ) ;
     }
-    
+
     private void info( String msg )
     {
         out.println( msg ) ;
@@ -100,7 +100,7 @@ public class Client
     private void runTests()
     {
         String[] args = null ;
-        ORB orb = ORB.init( args, null ) ;      
+        ORB orb = ORB.init( args, null ) ;
         POA rpoa = null ;
         try {
             rpoa = (POA)(orb.resolve_initial_references( "RootPOA" )) ;
@@ -114,8 +114,8 @@ public class Client
         POA cpoa = null ;
 
         try {
-            cpoa = rpoa.create_POA( "Child1", rpoa.the_POAManager(), 
-                policies ) ;    
+            cpoa = rpoa.create_POA( "Child1", rpoa.the_POAManager(),
+                policies ) ;
         } catch (InvalidPolicy err) {
             error( err.toString() ) ;
         } catch (AdapterAlreadyExists err) {
@@ -123,15 +123,15 @@ public class Client
         }
 
         try {
-            cpoa = rpoa.create_POA( "Child2", rpoa.the_POAManager(), 
-                policies ) ;    
+            cpoa = rpoa.create_POA( "Child2", rpoa.the_POAManager(),
+                policies ) ;
         } catch (InvalidPolicy err) {
             error( err.toString() ) ;
         } catch (AdapterAlreadyExists err) {
             error( err.toString() ) ;
         }
 
-        // Without the fix for bug 4655388, this call fails with a 
+        // Without the fix for bug 4655388, this call fails with a
         // ClassCastException.
         POA[] children = rpoa.the_children() ;
 

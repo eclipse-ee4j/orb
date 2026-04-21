@@ -25,7 +25,7 @@ public final class IIOPAddressClosureImpl extends IIOPAddressBase
 {
     private NullaryFunction<String> host;
     private NullaryFunction<Integer> port;
-    
+
     public IIOPAddressClosureImpl( NullaryFunction<String> host,
         NullaryFunction<Integer> port ) {
         this.host = host ;

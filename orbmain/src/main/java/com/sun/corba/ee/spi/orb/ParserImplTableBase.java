@@ -28,7 +28,7 @@ import java.util.Set ;
 public abstract class ParserImplTableBase extends ParserImplBase {
     private final ParserData[] entries ;
 
-    public ParserImplTableBase( ParserData[] entries ) 
+    public ParserImplTableBase( ParserData[] entries )
     {
         this.entries = entries ;
         setDefaultValues() ;
@@ -64,7 +64,7 @@ public abstract class ParserImplTableBase extends ParserImplBase {
             return value ;
         }
 
-        public Object setValue( Object value ) 
+        public Object setValue( Object value )
         {
             Object result = this.value ;
             this.value = value ;
@@ -78,7 +78,7 @@ public abstract class ParserImplTableBase extends ParserImplBase {
 
             MapEntry other = (MapEntry)obj ;
 
-            return (key.equals( other.key )) && 
+            return (key.equals( other.key )) &&
                 (value.equals( other.value )) ;
         }
 
@@ -105,22 +105,22 @@ public abstract class ParserImplTableBase extends ParserImplBase {
             this.useDefault = useDefault ;
         }
 
-        public Set entrySet() 
+        public Set entrySet()
         {
-            return new AbstractSet() 
+            return new AbstractSet()
             {
-                public Iterator iterator() 
+                public Iterator iterator()
                 {
                     return new Iterator() {
                         // index of next element to return
                         int ctr = 0 ;
 
-                        public boolean hasNext() 
+                        public boolean hasNext()
                         {
                             return ctr < entries.length ;
                         }
 
-                        public Object next() 
+                        public Object next()
                         {
                             ParserData pd = entries[ctr++] ;
                             Map.Entry result = new MapEntry( pd.getFieldName() ) ;
@@ -138,7 +138,7 @@ public abstract class ParserImplTableBase extends ParserImplBase {
                     } ;
                 }
 
-                public int size() 
+                public int size()
                 {
                     return entries.length ;
                 }
@@ -149,12 +149,12 @@ public abstract class ParserImplTableBase extends ParserImplBase {
     protected void setDefaultValues()
     {
         Map map = new FieldMap( entries, true ) ;
-        setFields( map ) ;      
+        setFields( map ) ;
     }
 
     public void setTestValues()
     {
         Map map = new FieldMap( entries, false ) ;
-        setFields( map ) ;      
+        setFields( map ) ;
     }
 }

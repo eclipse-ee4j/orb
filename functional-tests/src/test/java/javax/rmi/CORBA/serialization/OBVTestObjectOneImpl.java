@@ -26,7 +26,7 @@ import java.io.*;
 public class OBVTestObjectOneImpl extends OBVTestObjectOne
 {
     static Random r = new Random();
-    
+
     OBVTestObjectOneImpl(int aInt, long aLong, float aFloat, double aDouble, String aString)
     {
         fInt = aInt;

@@ -70,8 +70,8 @@ public class StringGen implements com.sun.tools.corba.ee.idl.StringGen, JavaGene
     // entry.name() is necessary to determine whether it is a
     // string or wstring
 
-    stream.println (indent 
-                    + name 
+    stream.println (indent
+                    + name
                     + " = org.omg.CORBA.ORB.init ().create_"
                     + entry.name()
                     + "_tc ("

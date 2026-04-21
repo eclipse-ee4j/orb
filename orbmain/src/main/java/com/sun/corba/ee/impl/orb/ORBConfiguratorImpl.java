@@ -94,11 +94,11 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
         public PropertyParser makeParser()
         {
             PropertyParser parser = new PropertyParser() ;
-            Operation action = OperationFactory.compose( 
+            Operation action = OperationFactory.compose(
                 OperationFactory.suffixAction(),
                 OperationFactory.classAction( orb.classNameResolver() )
             ) ;
-            parser.addPrefix( ORBConstants.USER_CONFIGURATOR_PREFIX, action, 
+            parser.addPrefix( ORBConstants.USER_CONFIGURATOR_PREFIX, action,
                 "userConfigurators", Class.class ) ;
             return parser ;
         }
@@ -113,7 +113,7 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
         initObjectCopiers( theOrb ) ;
         initIORFinders( theOrb ) ;
 
-        theOrb.setClientDelegateFactory( 
+        theOrb.setClientDelegateFactory(
             // REVISIT: this should be ProtocolDefault.
             TransportDefault.makeClientDelegateFactory( theOrb )) ;
 
@@ -123,16 +123,16 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
         initServiceContextRegistry( theOrb ) ;
         initRequestDispatcherRegistry( theOrb ) ;
         registerInitialReferences( theOrb ) ;
-        
+
         // Set up the PIHandler now.  The user configurator call is the
         // earliest point at which an invocation on this ORB can occur due to
         // external code extending the ORB through a configurator.
         // persistentServerInitialization also needs to make invocations to ORBD.
         // ORB invocations can also occur during the execution of
-        // the ORBInitializers.  
+        // the ORBInitializers.
         theOrb.createPIHandler() ;
 
-        theOrb.setInvocationInterceptor( 
+        theOrb.setInvocationInterceptor(
             PresentationDefaults.getNullInvocationInterceptor() ) ;
 
         persistentServerInitialization( theOrb ) ;
@@ -140,11 +140,11 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
         runUserConfigurators( collector, theOrb ) ;
     }
 
-    private void runUserConfigurators( DataCollector collector, ORB orb ) 
+    private void runUserConfigurators( DataCollector collector, ORB orb )
     {
-        // Run any pluggable configurators.  This is a lot like 
+        // Run any pluggable configurators.  This is a lot like
         // ORBInitializers, only it uses the internal ORB and has
-        // access to all data for parsing.  
+        // access to all data for parsing.
         ConfigParser parser = new ConfigParser( orb )  ;
         parser.init( collector ) ;
         if (parser.userConfigurators != null) {
@@ -163,7 +163,7 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
 
     /**
      * This is made somewhat complex because we are currently supporting
-     * the ContactInfoList/Acceptor *AND* the legacy SocketFactory 
+     * the ContactInfoList/Acceptor *AND* the legacy SocketFactory
      * transport architecture.
      */
     private void initializeTransport(final ORB orb)
@@ -201,7 +201,7 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
                 new ContactInfoListFactory() {
                         public void setORB(ORB orb) { }
                         public ContactInfoList create( IOR ior ) {
-                            return new SocketFactoryContactInfoListImpl( 
+                            return new SocketFactoryContactInfoListImpl(
                                 orb, ior);
                         }
                     };
@@ -326,7 +326,7 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
     }
 
     private void initializeNaming( ORB orb )
-    { 
+    {
         LocalResolver localResolver = ResolverDefault.makeLocalResolver() ;
         orb.setLocalResolver( localResolver ) ;
 
@@ -340,34 +340,34 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
         Resolver irResolver = ResolverDefault.makeORBInitRefResolver( urlOperation,
             orb.getORBData().getORBInitialReferences() ) ;
 
-        Resolver dirResolver = ResolverDefault.makeORBDefaultInitRefResolver( 
+        Resolver dirResolver = ResolverDefault.makeORBDefaultInitRefResolver(
             urlOperation, orb.getORBData().getORBDefaultInitialReference() ) ;
 
-        Resolver resolver = 
+        Resolver resolver =
             ResolverDefault.makeCompositeResolver( localResolver,
                 ResolverDefault.makeCompositeResolver( irResolver,
-                    ResolverDefault.makeCompositeResolver( dirResolver, 
+                    ResolverDefault.makeCompositeResolver( dirResolver,
                         bootResolver ) ) ) ;
         orb.setResolver( resolver ) ;
     }
 
-    private void initServiceContextRegistry( ORB orb ) 
+    private void initServiceContextRegistry( ORB orb )
     {
         ServiceContextFactoryRegistry scr = orb.getServiceContextFactoryRegistry() ;
 
-        scr.register( 
+        scr.register(
             ServiceContextDefaults.makeUEInfoServiceContextFactory() ) ;
-        scr.register( 
+        scr.register(
             ServiceContextDefaults.makeCodeSetServiceContextFactory() ) ;
-        scr.register( 
+        scr.register(
             ServiceContextDefaults.makeSendingContextServiceContextFactory() ) ;
-        scr.register( 
+        scr.register(
             ServiceContextDefaults.makeORBVersionServiceContextFactory() ) ;
-        scr.register( 
+        scr.register(
             ServiceContextDefaults.makeMaxStreamFormatVersionServiceContextFactory() ) ;
     }
 
-    private void registerInitialReferences( final ORB orb ) 
+    private void registerInitialReferences( final ORB orb )
     {
         // Register the Dynamic Any factory
         NullaryFunction<org.omg.CORBA.Object> closure =
@@ -379,7 +379,7 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
 
         NullaryFunction<org.omg.CORBA.Object> future =
             NullaryFunction.Factory.makeFuture( closure ) ;
-        orb.getLocalResolver().register( ORBConstants.DYN_ANY_FACTORY_NAME, 
+        orb.getLocalResolver().register( ORBConstants.DYN_ANY_FACTORY_NAME,
             future ) ;
     }
 
@@ -388,7 +388,7 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
     private void initObjectCopiers( ORB orb )
     {
         // No optimization or policy selection here.
-        ObjectCopierFactory orbStream = 
+        ObjectCopierFactory orbStream =
             CopyobjectDefaults.makeORBStreamObjectCopierFactory( orb ) ;
 
         CopierManager cm = orb.getCopierManager() ;
@@ -397,30 +397,30 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
         cm.registerObjectCopierFactory( orbStream, ORB_STREAM ) ;
     }
 
-    private void initIORFinders( ORB orb ) 
+    private void initIORFinders( ORB orb )
     {
-        IdentifiableFactoryFinder profFinder = 
+        IdentifiableFactoryFinder profFinder =
             orb.getTaggedProfileFactoryFinder() ;
         profFinder.registerFactory( IIOPFactories.makeIIOPProfileFactory() ) ;
 
-        IdentifiableFactoryFinder profTempFinder = 
+        IdentifiableFactoryFinder profTempFinder =
             orb.getTaggedProfileTemplateFactoryFinder() ;
-        profTempFinder.registerFactory( 
+        profTempFinder.registerFactory(
             IIOPFactories.makeIIOPProfileTemplateFactory() ) ;
 
-        IdentifiableFactoryFinder compFinder = 
+        IdentifiableFactoryFinder compFinder =
             orb.getTaggedComponentFactoryFinder() ;
-        compFinder.registerFactory( 
+        compFinder.registerFactory(
             IIOPFactories.makeCodeSetsComponentFactory() ) ;
-        compFinder.registerFactory( 
+        compFinder.registerFactory(
             IIOPFactories.makeJavaCodebaseComponentFactory() ) ;
-        compFinder.registerFactory( 
+        compFinder.registerFactory(
             IIOPFactories.makeORBTypeComponentFactory() ) ;
-        compFinder.registerFactory( 
+        compFinder.registerFactory(
             IIOPFactories.makeMaxStreamFormatVersionComponentFactory() ) ;
-        compFinder.registerFactory( 
+        compFinder.registerFactory(
             IIOPFactories.makeAlternateIIOPAddressComponentFactory() ) ;
-        compFinder.registerFactory( 
+        compFinder.registerFactory(
             IIOPFactories.makeRequestPartitioningComponentFactory() ) ;
         compFinder.registerFactory(
             IIOPFactories.makeJavaSerializationComponentFactory());
@@ -436,99 +436,99 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
         orb.setObjectKeyFactory( IORFactories.makeObjectKeyFactory(orb) ) ;
     }
 
-    private void initRequestDispatcherRegistry( ORB orb ) 
+    private void initRequestDispatcherRegistry( ORB orb )
     {
         RequestDispatcherRegistry scr = orb.getRequestDispatcherRegistry() ;
 
         // register client subcontracts
         ClientRequestDispatcher csub =
             RequestDispatcherDefault.makeClientRequestDispatcher() ;
-        scr.registerClientRequestDispatcher( csub, 
+        scr.registerClientRequestDispatcher( csub,
             ORBConstants.TOA_SCID ) ;
-        scr.registerClientRequestDispatcher( csub, 
+        scr.registerClientRequestDispatcher( csub,
             ORBConstants.TRANSIENT_SCID ) ;
-        scr.registerClientRequestDispatcher( csub, 
+        scr.registerClientRequestDispatcher( csub,
             ORBConstants.PERSISTENT_SCID ) ;
-        scr.registerClientRequestDispatcher( csub, 
+        scr.registerClientRequestDispatcher( csub,
             ORBConstants.SC_TRANSIENT_SCID ) ;
-        scr.registerClientRequestDispatcher( csub, 
+        scr.registerClientRequestDispatcher( csub,
             ORBConstants.SC_PERSISTENT_SCID ) ;
-        scr.registerClientRequestDispatcher( csub,  
+        scr.registerClientRequestDispatcher( csub,
             ORBConstants.IISC_TRANSIENT_SCID ) ;
-        scr.registerClientRequestDispatcher( csub, 
+        scr.registerClientRequestDispatcher( csub,
             ORBConstants.IISC_PERSISTENT_SCID ) ;
-        scr.registerClientRequestDispatcher( csub, 
+        scr.registerClientRequestDispatcher( csub,
             ORBConstants.MINSC_TRANSIENT_SCID ) ;
-        scr.registerClientRequestDispatcher( csub, 
+        scr.registerClientRequestDispatcher( csub,
             ORBConstants.MINSC_PERSISTENT_SCID ) ;
-        
+
         // register server delegates
         ServerRequestDispatcher sd =
             RequestDispatcherDefault.makeServerRequestDispatcher( orb );
-        scr.registerServerRequestDispatcher( sd, 
+        scr.registerServerRequestDispatcher( sd,
             ORBConstants.TOA_SCID ) ;
-        scr.registerServerRequestDispatcher( sd, 
+        scr.registerServerRequestDispatcher( sd,
             ORBConstants.TRANSIENT_SCID ) ;
-        scr.registerServerRequestDispatcher( sd, 
+        scr.registerServerRequestDispatcher( sd,
             ORBConstants.PERSISTENT_SCID ) ;
-        scr.registerServerRequestDispatcher( sd, 
+        scr.registerServerRequestDispatcher( sd,
             ORBConstants.SC_TRANSIENT_SCID ) ;
-        scr.registerServerRequestDispatcher( sd, 
+        scr.registerServerRequestDispatcher( sd,
             ORBConstants.SC_PERSISTENT_SCID ) ;
-        scr.registerServerRequestDispatcher( sd, 
+        scr.registerServerRequestDispatcher( sd,
             ORBConstants.IISC_TRANSIENT_SCID ) ;
-        scr.registerServerRequestDispatcher( sd, 
+        scr.registerServerRequestDispatcher( sd,
             ORBConstants.IISC_PERSISTENT_SCID ) ;
-        scr.registerServerRequestDispatcher( sd, 
+        scr.registerServerRequestDispatcher( sd,
             ORBConstants.MINSC_TRANSIENT_SCID ) ;
-        scr.registerServerRequestDispatcher( sd, 
+        scr.registerServerRequestDispatcher( sd,
             ORBConstants.MINSC_PERSISTENT_SCID ) ;
-        
-        orb.setINSDelegate( 
+
+        orb.setINSDelegate(
             RequestDispatcherDefault.makeINSServerRequestDispatcher( orb ) ) ;
-            
+
         // register local client subcontracts
-        LocalClientRequestDispatcherFactory lcsf = 
-            RequestDispatcherDefault.makeJIDLLocalClientRequestDispatcherFactory( 
+        LocalClientRequestDispatcherFactory lcsf =
+            RequestDispatcherDefault.makeJIDLLocalClientRequestDispatcherFactory(
                 orb ) ;
-        scr.registerLocalClientRequestDispatcherFactory( lcsf, 
+        scr.registerLocalClientRequestDispatcherFactory( lcsf,
             ORBConstants.TOA_SCID ) ;
 
-        lcsf = 
-            RequestDispatcherDefault.makePOALocalClientRequestDispatcherFactory( 
+        lcsf =
+            RequestDispatcherDefault.makePOALocalClientRequestDispatcherFactory(
                 orb ) ;
-        scr.registerLocalClientRequestDispatcherFactory( lcsf, 
+        scr.registerLocalClientRequestDispatcherFactory( lcsf,
             ORBConstants.TRANSIENT_SCID ) ;
-        scr.registerLocalClientRequestDispatcherFactory( lcsf, 
+        scr.registerLocalClientRequestDispatcherFactory( lcsf,
             ORBConstants.PERSISTENT_SCID ) ;
 
         lcsf = RequestDispatcherDefault.
             makeFullServantCacheLocalClientRequestDispatcherFactory( orb ) ;
-        scr.registerLocalClientRequestDispatcherFactory( lcsf, 
+        scr.registerLocalClientRequestDispatcherFactory( lcsf,
             ORBConstants.SC_TRANSIENT_SCID ) ;
-        scr.registerLocalClientRequestDispatcherFactory( lcsf, 
+        scr.registerLocalClientRequestDispatcherFactory( lcsf,
             ORBConstants.SC_PERSISTENT_SCID ) ;
 
         lcsf = RequestDispatcherDefault.
             makeInfoOnlyServantCacheLocalClientRequestDispatcherFactory( orb ) ;
-        scr.registerLocalClientRequestDispatcherFactory( lcsf, 
+        scr.registerLocalClientRequestDispatcherFactory( lcsf,
             ORBConstants.IISC_TRANSIENT_SCID ) ;
-        scr.registerLocalClientRequestDispatcherFactory( lcsf, 
+        scr.registerLocalClientRequestDispatcherFactory( lcsf,
             ORBConstants.IISC_PERSISTENT_SCID ) ;
 
         lcsf = RequestDispatcherDefault.
             makeMinimalServantCacheLocalClientRequestDispatcherFactory( orb ) ;
-        scr.registerLocalClientRequestDispatcherFactory( lcsf, 
+        scr.registerLocalClientRequestDispatcherFactory( lcsf,
             ORBConstants.MINSC_TRANSIENT_SCID ) ;
-        scr.registerLocalClientRequestDispatcherFactory( lcsf, 
+        scr.registerLocalClientRequestDispatcherFactory( lcsf,
             ORBConstants.MINSC_PERSISTENT_SCID ) ;
 
         /* Register the server delegate that implements the ancient bootstrap
-         * naming protocol.  This takes an object key of either "INIT" or 
+         * naming protocol.  This takes an object key of either "INIT" or
          * "TINI" to allow for big or little endian implementations.
          */
         ServerRequestDispatcher bootsd =
-            RequestDispatcherDefault.makeBootstrapServerRequestDispatcher( 
+            RequestDispatcherDefault.makeBootstrapServerRequestDispatcher(
                 orb ) ;
         scr.registerServerRequestDispatcher( bootsd, "INIT" ) ;
         scr.registerServerRequestDispatcher( bootsd, "TINI" ) ;
@@ -546,7 +546,7 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
         scr.registerObjectAdapterFactory( oaf, ORBConstants.IISC_PERSISTENT_SCID ) ;
         scr.registerObjectAdapterFactory( oaf, ORBConstants.MINSC_TRANSIENT_SCID ) ;
         scr.registerObjectAdapterFactory( oaf, ORBConstants.MINSC_PERSISTENT_SCID ) ;
-    } 
+    }
 }
 
 // End of file.

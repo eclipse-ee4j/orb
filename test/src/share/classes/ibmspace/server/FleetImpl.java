@@ -81,7 +81,7 @@ public class FleetImpl implements Fleet, java.io.Serializable
         else
             return fFuelLevel;
     }
-  
+
     public boolean isOnJourney ()
     {
         return ( fJourney == null ? false : true );

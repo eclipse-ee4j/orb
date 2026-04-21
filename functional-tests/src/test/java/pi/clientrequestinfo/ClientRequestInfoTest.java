@@ -28,7 +28,7 @@ import java.util.*;
  * covered in this test.
  */
 public class ClientRequestInfoTest
-    extends CORBATest 
+    extends CORBATest
 {
     // Set to true if at least one test fails.
     private boolean failed = false;
@@ -39,8 +39,8 @@ public class ClientRequestInfoTest
         "pi.clientrequestinfo.helloRMIIIOP"
     };
 
-    protected void doTest() 
-        throws Throwable 
+    protected void doTest()
+        throws Throwable
     {
         startORBD();
         System.out.println();
@@ -78,14 +78,14 @@ public class ClientRequestInfoTest
         }
     }
 
-    private void testPOALocal() 
+    private void testPOALocal()
         throws Throwable
     {
         Controller client;
 
         try {
             // Start only a client - the client will create the server.
-            client = createClient( 
+            client = createClient(
                 "pi.clientrequestinfo.POALocalClient",
                 "poalocal" );
             client.start();
@@ -118,7 +118,7 @@ public class ClientRequestInfoTest
         }
     }
 
-    private void testPOADIILocal() 
+    private void testPOADIILocal()
         throws Throwable
     {
         Controller client;
@@ -262,7 +262,7 @@ public class ClientRequestInfoTest
     }
 
 
-    private void printEndTest( Controller client, Controller server ) 
+    private void printEndTest( Controller client, Controller server )
         throws Throwable
     {
         if( (server != null) && server.finished() ) {
@@ -270,7 +270,7 @@ public class ClientRequestInfoTest
             failed = true;
         }
         else if( client.exitValue() != Controller.SUCCESS ) {
-            System.out.print( "FAILED, Client exit value = " + 
+            System.out.print( "FAILED, Client exit value = " +
                 client.exitValue() );
             failed = true;
         }

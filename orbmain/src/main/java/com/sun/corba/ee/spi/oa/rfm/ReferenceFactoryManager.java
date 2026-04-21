@@ -26,7 +26,7 @@ import org.glassfish.pfl.basic.contain.Pair;
 import org.omg.CORBA.Policy ;
 import org.omg.PortableServer.ServantLocator ;
 
-/** ReferenceFactoryManager uses the ORB POA to create 
+/** ReferenceFactoryManager uses the ORB POA to create
  * a specialized reference factory.  This is done primarily
  * so that all POAs managed here can be restarted in order
  * to be updated when parts of the ORB configuration are
@@ -41,7 +41,7 @@ import org.omg.PortableServer.ServantLocator ;
  * property ORBConstants.USER_CONFIGURATOR_PREFIX +
  * "com.sun.corba.ee.impl.oa.rfm.ReferenceManagerConfigurator" set to a value
  * (usually we use "1" as the value, but that does not matter).
- * This will cause the configurator to set up the ORB so that the 
+ * This will cause the configurator to set up the ORB so that the
  * ReferenceFactoryManager is available, so long as the configurator class
  * is available.  Since this code is in the optional package, this just
  * means that the optional ORB package contents must be in the classpath.
@@ -55,7 +55,7 @@ import org.omg.PortableServer.ServantLocator ;
  * but disallows more complex ORB configuration changes.
  */
 public interface ReferenceFactoryManager extends org.omg.CORBA.Object,
-    org.omg.CORBA.portable.IDLEntity 
+    org.omg.CORBA.portable.IDLEntity
 {
     public enum RFMState { READY, SUSPENDED }
 
@@ -78,7 +78,7 @@ public interface ReferenceFactoryManager extends org.omg.CORBA.Object,
 
     /** Resume all CORBA request processing on all references created
      * by ReferenceFactory instances that were created by this
-     * ReferenceFactoryManager.  
+     * ReferenceFactoryManager.
      */
     public void resume() ;
 
@@ -122,14 +122,14 @@ public interface ReferenceFactoryManager extends org.omg.CORBA.Object,
      */
     public ReferenceFactory find( String name ) ;
 
-    /** Restart all ReferenceFactories.  
+    /** Restart all ReferenceFactories.
      * @param updates is a map giving the updated policies for
      * some or all of the ReferenceFactory instances in this ReferenceFactoryManager.
      * This parameter must not be null.
      */
     public void restartFactories( Map<String,Pair<ServantLocator,List<Policy>>> updates ) ;
 
-    /** Restart all ReferenceFactories. 
+    /** Restart all ReferenceFactories.
      * Equivalent to calling restartFactories( new Map() ).
      */
     public void restartFactories() ;

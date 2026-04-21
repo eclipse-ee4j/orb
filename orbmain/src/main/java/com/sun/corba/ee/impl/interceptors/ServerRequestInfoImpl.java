@@ -18,7 +18,7 @@
  */
 
 package com.sun.corba.ee.impl.interceptors;
-             
+
 import com.sun.corba.ee.impl.protocol.giopmsgheaders.ReplyMessage;
 import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
 import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
@@ -53,18 +53,18 @@ import org.omg.PortableServer.Servant;
  * Implementation of the ServerRequestInfo interface as specified in
  * orbos/99-12-02 section 5.4.3.
  */
-public final class ServerRequestInfoImpl 
-    extends RequestInfoImpl 
+public final class ServerRequestInfoImpl
+    extends RequestInfoImpl
     implements ServerRequestInfo, ServerRequestInfoExt
 {
     // The available constants for startingPointCall
     static final int CALL_RECEIVE_REQUEST_SERVICE_CONTEXT = 0;
-    
+
     // The available constants for intermediatePointCall.  The default (0)
     // is receive_request, but can be set to none on demand.
     static final int CALL_RECEIVE_REQUEST = 0;
     static final int CALL_INTERMEDIATE_NONE = 1;
-    
+
     // The available constants for endingPointCall
     static final int CALL_SEND_REPLY = 0;
     static final int CALL_SEND_EXCEPTION = 1;
@@ -75,7 +75,7 @@ public final class ServerRequestInfoImpl
     // NOTE: IF AN ATTRIBUTE IS ADDED, PLEASE UPDATE RESET();
     //
     //////////////////////////////////////////////////////////////////////
-    
+
     // Set to true if the server ending point raised ForwardRequest at some
     // point in the ending point.
     private boolean forwardRequestRaisedInEnding;
@@ -103,15 +103,15 @@ public final class ServerRequestInfoImpl
     // Cached information:
     private Parameter[] cachedArguments;
     private Any cachedSendingException;
-    private HashMap<Integer,org.omg.IOP.ServiceContext> cachedRequestServiceContexts; 
-    private HashMap<Integer,org.omg.IOP.ServiceContext> cachedReplyServiceContexts; 
-    
+    private HashMap<Integer,org.omg.IOP.ServiceContext> cachedRequestServiceContexts;
+    private HashMap<Integer,org.omg.IOP.ServiceContext> cachedReplyServiceContexts;
+
     //////////////////////////////////////////////////////////////////////
     //
     // NOTE: IF AN ATTRIBUTE IS ADDED, PLEASE UPDATE RESET();
     //
     //////////////////////////////////////////////////////////////////////
-    
+
 
     /**
      * Reset the info object so that it can be reused for a retry,
@@ -121,7 +121,7 @@ public final class ServerRequestInfoImpl
         super.reset();
 
         // Please keep these in the same order as declared above.
-        
+
         forwardRequestRaisedInEnding = false;
 
         request = null;
@@ -152,13 +152,13 @@ public final class ServerRequestInfoImpl
         intermediatePointCall = CALL_RECEIVE_REQUEST;
         endingPointCall = CALL_SEND_REPLY;
     }
-    
+
     /*
      **********************************************************************
      * Access protection
      **********************************************************************/
 
-    // Method IDs for all methods in ServerRequestInfo.  This allows for a 
+    // Method IDs for all methods in ServerRequestInfo.  This allows for a
     // convenient O(1) lookup for checkAccess().
     private static final int MID_SENDING_EXCEPTION             = MID_RI_LAST + 1;
     private static final int MID_OBJECT_ID                     = MID_RI_LAST + 2;
@@ -171,7 +171,7 @@ public final class ServerRequestInfoImpl
     private static final int MID_SERVER_ID                     = MID_RI_LAST + 9;
     private static final int MID_ORB_ID                        = MID_RI_LAST + 10;
     private static final int MID_ADAPTER_NAME                  = MID_RI_LAST + 11;
-    
+
     // ServerRequestInfo validity table (see ptc/00-08-06 table 21-2).
     // Note: These must be in the same order as specified in contants.
     private static final boolean validCall[][] = {
@@ -182,10 +182,10 @@ public final class ServerRequestInfoImpl
         // s_exc = send_exception
         // s_oth = send_other
         //
-        // A true value indicates call is valid at specified point.  
+        // A true value indicates call is valid at specified point.
         // A false value indicates the call is invalid.
         //
-        // NOTE: If the order or number of columns change, update 
+        // NOTE: If the order or number of columns change, update
         // checkAccess() accordingly.
         //
         //                              { r_rsc, r_req, s_rep, s_exc, s_oth }
@@ -218,25 +218,25 @@ public final class ServerRequestInfoImpl
         /*server_id*/                   { false, true , true , true , true  },
         /*adapter_name*/                { false, true , true , true , true  }
     };
-    
+
     /*
      **********************************************************************
      * Public interfaces
      **********************************************************************/
-    
+
     /**
      * Creates a new ServerRequestInfo implementation.
      * The constructor is package scope since no other package need create
      * an instance of this class.
      */
-    ServerRequestInfoImpl( ORB myORB ) { 
-        super( myORB ); 
+    ServerRequestInfoImpl( ORB myORB ) {
+        super( myORB );
         startingPointCall = CALL_RECEIVE_REQUEST_SERVICE_CONTEXT;
         intermediatePointCall = CALL_RECEIVE_REQUEST;
         endingPointCall = CALL_SEND_REPLY;
         serverRequestId = myORB.getPIHandler().allocateServerRequestId();
     }
-    
+
     /**
      * Any containing the exception to be returned to the client.
      */
@@ -261,7 +261,7 @@ public final class ServerRequestInfoImpl
 
         return cachedSendingException;
     }
-    
+
     /**
      * The opaque object_id describing the target of the operation invocation.
      */
@@ -269,7 +269,7 @@ public final class ServerRequestInfoImpl
         checkAccess( MID_OBJECT_ID );
 
         if( objectId == null ) {
-            // For some reason, we never set object id.  This could be 
+            // For some reason, we never set object id.  This could be
             // because a servant locator caused a location forward or
             // raised an exception.  As per ptc/00-08-06, section 21.3.14,
             // we throw NO_RESOURCES
@@ -293,7 +293,7 @@ public final class ServerRequestInfoImpl
             throw stdWrapper.piOperationNotSupported7() ;
         }
     }
-    
+
     public synchronized String server_id()
     {
         checkAccess( MID_SERVER_ID ) ;
@@ -306,7 +306,7 @@ public final class ServerRequestInfoImpl
         return Integer.toString( oktemp.getServerId() ) ;
     }
 
-    public String orb_id() 
+    public String orb_id()
     {
         checkAccess( MID_ORB_ID ) ;
 
@@ -330,7 +330,7 @@ public final class ServerRequestInfoImpl
     /**
      * The opaque identifier for the object adapter.
      */
-    synchronized public byte[] adapter_id () 
+    synchronized public byte[] adapter_id ()
     {
         checkAccess( MID_ADAPTER_ID );
 
@@ -341,7 +341,7 @@ public final class ServerRequestInfoImpl
 
         return adapterId.clone() ;
     }
-    
+
     /**
      * The RepositoryID for the most derived interface of the servant.
      */
@@ -349,9 +349,9 @@ public final class ServerRequestInfoImpl
         checkAccess( MID_TARGET_MOST_DERIVED_INTERFACE );
         return targetMostDerivedInterface;
     }
-    
+
     /**
-     * Returns the policy in effect for this operation for the given policy 
+     * Returns the policy in effect for this operation for the given policy
      * type.
      */
     public Policy get_server_policy (int type) {
@@ -369,22 +369,22 @@ public final class ServerRequestInfoImpl
 
         return result;
     }
-    
+
     /**
-     * Allows an Interceptor to set a slot in the Current that is in the scope 
-     * of the request.  If data already exists in that slot, it will be 
-     * overwritten.  If the ID does not define an allocated slot, InvalidSlot 
+     * Allows an Interceptor to set a slot in the Current that is in the scope
+     * of the request.  If data already exists in that slot, it will be
+     * overwritten.  If the ID does not define an allocated slot, InvalidSlot
      * is raised.
      */
     public void set_slot (int id, Any data) throws InvalidSlot {
         // access is currently valid for all states:
         //checkAccess( MID_SET_SLOT );
-   
+
         slotTable.set_slot( id, data );
     }
-    
+
     /**
-     * Returns true if the servant is the given RepositoryId, false if it is 
+     * Returns true if the servant is the given RepositoryId, false if it is
      * not.
      */
     public boolean target_is_a (String id) {
@@ -401,11 +401,11 @@ public final class ServerRequestInfoImpl
 
         return result;
     }
-    
+
     /**
      * Allows Interceptors to add service contexts to the request.
      */
-    public void add_reply_service_context ( ServiceContext service_context, 
+    public void add_reply_service_context ( ServiceContext service_context,
                                             boolean replace )
     {
         // access is currently valid for all states:
@@ -415,13 +415,13 @@ public final class ServerRequestInfoImpl
             ServiceContexts scs = replyMessage.getServiceContexts();
 
             if( cachedReplyServiceContexts == null ) {
-                cachedReplyServiceContexts = 
+                cachedReplyServiceContexts =
                     new HashMap<Integer,org.omg.IOP.ServiceContext>();
             }
 
             // This is during and ending point, so we now have enough
             // information to add the reply service context.
-            addServiceContext( cachedReplyServiceContexts, scs, 
+            addServiceContext( cachedReplyServiceContexts, scs,
                                service_context, replace );
         }
 
@@ -429,7 +429,7 @@ public final class ServerRequestInfoImpl
         //
         // If we are not in the ending point then we do not yet have a
         // pointer to the ServiceContexts object so we cannot access the
-        // service contexts until we get to the ending point. 
+        // service contexts until we get to the ending point.
         // So we enqueue this add reply service context request.
         // It is added when we do have a handle on the service contexts object.
         //
@@ -441,13 +441,13 @@ public final class ServerRequestInfoImpl
         // Therefore we always enqueue and never dequeue (per request) so
         // that all adds will be completed.
 
-        AddReplyServiceContextCommand addReply = 
+        AddReplyServiceContextCommand addReply =
             new AddReplyServiceContextCommand();
         addReply.service_context = service_context;
         addReply.replace = replace;
 
         if( addReplyServiceContextQueue == null ) {
-            addReplyServiceContextQueue = 
+            addReplyServiceContextQueue =
                 new ArrayList<AddReplyServiceContextCommand>();
         }
 
@@ -494,7 +494,7 @@ public final class ServerRequestInfoImpl
     }
 
     public String toString() {
-        return "ServerRequestInfoImpl[operation=" 
+        return "ServerRequestInfoImpl[operation="
             + operation() + "]" ;
     }
 
@@ -518,9 +518,9 @@ public final class ServerRequestInfoImpl
             cachedArguments = nvListToParameterArray( dsiArguments );
         }
 
-        // Good citizen: In the interest of efficiency, we assume 
-        // interceptors will be "good citizens" in that they will not 
-        // modify the contents of the Parameter[] array.  We also assume 
+        // Good citizen: In the interest of efficiency, we assume
+        // interceptors will be "good citizens" in that they will not
+        // modify the contents of the Parameter[] array.  We also assume
         // they will not change the values of the containing Anys.
 
         return cachedArguments.clone() ;
@@ -554,7 +554,7 @@ public final class ServerRequestInfoImpl
     public String[] operation_context (){
         checkAccess( MID_OPERATION_CONTEXT );
 
-        // We do not support this because our ORB does not send 
+        // We do not support this because our ORB does not send
         // operation_context.
 
         throw stdWrapper.piOperationNotSupported4() ;
@@ -612,11 +612,11 @@ public final class ServerRequestInfoImpl
         checkAccess( MID_GET_REQUEST_SERVICE_CONTEXT );
 
         if( cachedRequestServiceContexts == null ) {
-            cachedRequestServiceContexts = 
+            cachedRequestServiceContexts =
                 new HashMap<Integer,org.omg.IOP.ServiceContext>();
         }
 
-        return getServiceContext( cachedRequestServiceContexts, 
+        return getServiceContext( cachedRequestServiceContexts,
                                   request.getRequestServiceContexts(), id );
     }
 
@@ -624,10 +624,10 @@ public final class ServerRequestInfoImpl
      * See ServerRequestInfo for javadocs.
      */
     public org.omg.IOP.ServiceContext get_reply_service_context( int id ) {
-        checkAccess( MID_GET_REPLY_SERVICE_CONTEXT );       
+        checkAccess( MID_GET_REPLY_SERVICE_CONTEXT );
 
         if( cachedReplyServiceContexts == null ) {
-            cachedReplyServiceContexts = 
+            cachedReplyServiceContexts =
                 new HashMap<Integer,org.omg.IOP.ServiceContext>();
         }
 
@@ -654,7 +654,7 @@ public final class ServerRequestInfoImpl
 
     // Adds the given add reply service context command to the queue of
     // such commands.  If a command is detected to have the same id as
-    // the service context in this command, and replace is false, 
+    // the service context in this command, and replace is false,
     // BAD_INV_ORDER is thrown.  If replace is true, the original command
     // in the queue is replaced by this command.
     private void enqueue( AddReplyServiceContextCommand addReply ) {
@@ -662,17 +662,17 @@ public final class ServerRequestInfoImpl
         boolean found = false;
 
         for( int i = 0; i < size; i++ ) {
-            AddReplyServiceContextCommand cmd = 
+            AddReplyServiceContextCommand cmd =
                 addReplyServiceContextQueue.get( i );
 
-            if( cmd.service_context.context_id == 
-                addReply.service_context.context_id ) 
+            if( cmd.service_context.context_id ==
+                addReply.service_context.context_id )
             {
                 found = true;
                 if( addReply.replace ) {
                     addReplyServiceContextQueue.set( i, addReply );
                 } else {
-                    throw stdWrapper.serviceContextAddFailed( 
+                    throw stdWrapper.serviceContextAddFailed(
                                        cmd.service_context.context_id ) ;
                 }
                 break;
@@ -701,22 +701,22 @@ public final class ServerRequestInfoImpl
         // to the reply service contexts, so we can execute all queued
         // add reply service context requests.
         if( (executionPoint == EXECUTION_POINT_ENDING) &&
-            (addReplyServiceContextQueue != null) ) 
+            (addReplyServiceContextQueue != null) )
         {
             int size = addReplyServiceContextQueue.size();
             for( int i = 0; i < size; i++ ) {
-                AddReplyServiceContextCommand addReply = 
+                AddReplyServiceContextCommand addReply =
                     addReplyServiceContextQueue.get( i );
                 try {
-                    add_reply_service_context( addReply.service_context, 
+                    add_reply_service_context( addReply.service_context,
                                                addReply.replace );
                 }
                 catch( BAD_INV_ORDER e ) {
-                    // _REVISIT_  The only way this can happen is if during 
-                    // rrsc or rr, the interceptor tried to add with 
-                    // replace=false to a service context that is present in 
-                    // the reply message.  At that time there was no way for 
-                    // us to check for this, so the best we can do is ignore 
+                    // _REVISIT_  The only way this can happen is if during
+                    // rrsc or rr, the interceptor tried to add with
+                    // replace=false to a service context that is present in
+                    // the reply message.  At that time there was no way for
+                    // us to check for this, so the best we can do is ignore
                     // the original request.
                 }
             }
@@ -727,7 +727,7 @@ public final class ServerRequestInfoImpl
         }
     }
 
-    /** 
+    /**
      * Stores the various sources of information used for this info object.
      * @param request Request holder, included the Connection
      * @param oa Object Adapter
@@ -735,7 +735,7 @@ public final class ServerRequestInfoImpl
      * @param oktemp template for object
      */
     protected synchronized void setInfo( MessageMediator request, ObjectAdapter oa,
-        byte[] objectId, ObjectKeyTemplate oktemp ) 
+        byte[] objectId, ObjectKeyTemplate oktemp )
     {
         this.request = request;
         this.objectId = objectId;
@@ -782,7 +782,7 @@ public final class ServerRequestInfoImpl
         // Clear cached exception value:
         cachedSendingException = null;
     }
-    
+
     /**
      * Stores the various sources of information used for this info object.
      * @param servant Servant used
@@ -791,12 +791,12 @@ public final class ServerRequestInfoImpl
     protected void setInfo( java.lang.Object servant, String targetMostDerivedInterface ) {
         this.servant = servant;
         this.targetMostDerivedInterface = targetMostDerivedInterface;
-        this.isDynamic = 
-            (servant instanceof 
+        this.isDynamic =
+            (servant instanceof
             org.omg.PortableServer.DynamicImplementation) ||
             (servant instanceof org.omg.CORBA.DynamicImplementation);
     }
-    
+
     /**
      * Set reply message
      */
@@ -824,7 +824,7 @@ public final class ServerRequestInfoImpl
             break;
         }
     }
-    
+
     /**
      * Release the servant object so the user has control over its lifetime.
      * Called after receive_request is finished executing.
@@ -832,7 +832,7 @@ public final class ServerRequestInfoImpl
     void releaseServant() {
         this.servant = null;
     }
-    
+
     /**
      * Sets the forwardRequestRaisedInEnding flag to true, indicating that
      * a server ending point has raised location forward at some point.
@@ -859,7 +859,7 @@ public final class ServerRequestInfoImpl
     /**
      * See description for RequestInfoImpl.checkAccess
      */
-    protected void checkAccess( int methodID ) 
+    protected void checkAccess( int methodID )
     {
         // Make sure currentPoint matches the appropriate index in the
         // validCall table:
@@ -885,11 +885,11 @@ public final class ServerRequestInfoImpl
             }
             break;
         }
-        
+
         // Check the validCall table:
         if( !validCall[methodID][validCallIndex] ) {
             throw stdWrapper.invalidPiCall2() ;
         }
     }
-    
+
 }

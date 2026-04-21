@@ -24,7 +24,7 @@ import org.omg.CORBA.portable.OutputStream;
 import org.omg.CORBA.portable.Streamable;
 
 /**
- * The Holder for <tt>Short</tt>.  For more information on 
+ * The Holder for <tt>Short</tt>.  For more information on
  * Holder files, see <a href="doc-files/generatedfiles.html#holder">
  * "Generated Files: Holder Files"</a>.<P>
  * A Holder class for a <code>short</code>
@@ -72,7 +72,7 @@ public final class ShortHolder implements Streamable {
     }
 
     /**
-     * Reads from <code>input</code> and initalizes the value in 
+     * Reads from <code>input</code> and initalizes the value in
      * this <code>ShortHolder</code> object
      * with the unmarshalled data.
      *

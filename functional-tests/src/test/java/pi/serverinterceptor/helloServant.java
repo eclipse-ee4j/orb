@@ -28,7 +28,7 @@ import org.omg.PortableInterceptor.*;
 import ServerRequestInterceptor.*;
 
 /**
- * Servant implementation.  
+ * Servant implementation.
  */
 class helloServant extends helloPOA {
     // The object to delegate all calls to:
@@ -46,17 +46,17 @@ class helloServant extends helloPOA {
     public void sayOneway() {
         delegate.sayOneway();
     }
-    
+
     public void saySystemException() {
         delegate.saySystemException();
     }
 
-    public void sayUserException() 
+    public void sayUserException()
         throws ForwardRequest
     {
         delegate.sayUserException();
     }
-    
+
     public String syncWithServer( boolean exceptionRaised ) {
         return delegate.syncWithServer( exceptionRaised );
     }

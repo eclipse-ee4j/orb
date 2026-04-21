@@ -27,11 +27,11 @@ public interface LocalHello extends java.rmi.Remote {
     public Object echoObject(Object it) throws java.rmi.RemoteException;
     public int identityHash(Object it) throws java.rmi.RemoteException;
     public int[] identityHash(Object a, Object b, Object c) throws java.rmi.RemoteException;
-    
+
     public test.Hello echoHello (test.Hello in) throws java.rmi.RemoteException;
     public rmic.Hello echoHello (rmic.Hello in) throws java.rmi.RemoteException;
     public void argNamesClash(int in,
-                              int _in, 
+                              int _in,
                               int out,
                               int _out,
                               int so,
@@ -40,9 +40,9 @@ public interface LocalHello extends java.rmi.Remote {
                               int method,
                               int reply,
                               int ex) throws java.rmi.RemoteException;
-                            
-    public Base newServant() throws java.rmi.RemoteException;                           
-    
+
+    public Base newServant() throws java.rmi.RemoteException;
+
     public String testPrimTypes(String arg0,
                                 double arg1,
                                 float arg2,

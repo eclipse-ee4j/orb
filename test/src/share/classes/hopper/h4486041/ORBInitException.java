@@ -28,5 +28,5 @@ public class ORBInitException
         super(reason);
     }
 }
-                
+
 // End of file.

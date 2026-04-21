@@ -34,7 +34,7 @@ import org.omg.CORBA_2_3.portable.OutputStream ;
 /**
  * @author Ken Cavanaugh
  */
-public abstract class ObjectKeyTemplateBase implements ObjectKeyTemplate 
+public abstract class ObjectKeyTemplateBase implements ObjectKeyTemplate
 {
     protected static final IORSystemException wrapper =
         IORSystemException.self ;
@@ -95,7 +95,7 @@ public abstract class ObjectKeyTemplateBase implements ObjectKeyTemplate
         return buff.toArray() ;
     }
 
-    /** 
+    /**
      * This constructor reads a complete ObjectKey (template and Id)
      * from the stream.
      * @param orb  ORB to use
@@ -105,8 +105,8 @@ public abstract class ObjectKeyTemplateBase implements ObjectKeyTemplate
      * @param orbid orbid
      * @param oaid oaid
     */
-    public ObjectKeyTemplateBase( ORB orb, int magic, int scid, int serverid, 
-        String orbid, ObjectAdapterId oaid ) 
+    public ObjectKeyTemplateBase( ORB orb, int magic, int scid, int serverid,
+        String orbid, ObjectAdapterId oaid )
     {
         this.orb = orb ;
         this.magic = magic ;
@@ -129,7 +129,7 @@ public abstract class ObjectKeyTemplateBase implements ObjectKeyTemplate
             (serverid == other.serverid) && (version.equals( other.version ) &&
             orbid.equals( other.orbid ) && oaid.equals( other.oaid )) ;
     }
-   
+
     public int hashCode() {
         int result = 17 ;
         result = 37*result + magic ;
@@ -168,7 +168,7 @@ public abstract class ObjectKeyTemplateBase implements ObjectKeyTemplate
     }
 
     abstract protected void writeTemplate( OutputStream os ) ;
-   
+
     protected int getMagic() {
         return magic ;
     }

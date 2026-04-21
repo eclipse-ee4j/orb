@@ -27,7 +27,7 @@ public class TestObject extends TestObjectSuperSub implements Testable
 
     private transient String desc;
 
-    private static final ObjectStreamField[] serialPersistentFields = { 
+    private static final ObjectStreamField[] serialPersistentFields = {
         new ObjectStreamField("data0", Integer.class),
         new ObjectStreamField("data1", Long.TYPE),
         new ObjectStreamField("data2", String.class),
@@ -80,7 +80,7 @@ public class TestObject extends TestObjectSuperSub implements Testable
     }
 
     private void readObject(java.io.ObjectInputStream is)
-        throws IOException, ClassNotFoundException 
+        throws IOException, ClassNotFoundException
     {
         ObjectInputStream.GetField fields = is.readFields();
 
@@ -118,8 +118,8 @@ public class TestObject extends TestObjectSuperSub implements Testable
         fields.put("data1", new Long(data1));
         fields.put("data2", data2);
         fields.put("desc", desc);
-            
-        out.writeFields();        
+
+        out.writeFields();
 
         out.writeObject(optData0);
         out.writeObject(optData1);

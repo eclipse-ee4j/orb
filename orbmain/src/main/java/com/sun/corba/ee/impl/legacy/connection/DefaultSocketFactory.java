@@ -38,8 +38,8 @@ import java.nio.channels.SocketChannel;
 
 import org.omg.CORBA.ORB;
 
-public class DefaultSocketFactory 
-    implements 
+public class DefaultSocketFactory
+    implements
         ORBSocketFactory
 {
     private com.sun.corba.ee.spi.orb.ORB orb;
@@ -80,7 +80,7 @@ public class DefaultSocketFactory
                                         IOR ior,
                                         SocketInfo socketInfo)
     {
-        IIOPProfileTemplate temp = 
+        IIOPProfileTemplate temp =
             (IIOPProfileTemplate)ior.getProfile().getTaggedProfileTemplate() ;
         IIOPAddress primary = temp.getPrimaryAddress() ;
 
@@ -97,13 +97,13 @@ public class DefaultSocketFactory
         Socket socket;
 
         if (orb.getORBData().acceptorSocketType().equals(ORBConstants.SOCKETCHANNEL)) {
-            InetSocketAddress address = 
-                new InetSocketAddress(socketInfo.getHost(), 
+            InetSocketAddress address =
+                new InetSocketAddress(socketInfo.getHost(),
                                       socketInfo.getPort());
             SocketChannel socketChannel = ORBUtility.openSocketChannel(address);
             socket = socketChannel.socket();
         } else {
-            socket = new Socket(socketInfo.getHost(), 
+            socket = new Socket(socketInfo.getHost(),
                                 socketInfo.getPort());
         }
 

@@ -21,7 +21,7 @@ package org.omg.CORBA.DynAnyPackage;
 
 /**
  * Invalid is thrown by dynamic any operations when a bad
- * <code>DynAny</code> or <code>Any</code> is passed as a parameter. 
+ * <code>DynAny</code> or <code>Any</code> is passed as a parameter.
  */
 // @SuppressWarnings({"serial"})
 public final class Invalid

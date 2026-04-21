@@ -74,7 +74,7 @@ module IOP { // IDL
   const ComponentId TAG_MESSAGE_ROUTERS = 30;
   const ComponentId TAG_OTS_POLICY = 31;
   const ComponentId TAG_INV_POLICY = 32;
-  const ComponentId TAG_INET_SEC_TRANS = 123;  
+  const ComponentId TAG_INET_SEC_TRANS = 123;
 
   typedef unsigned long ServiceId;
   struct ServiceContext {

@@ -26,7 +26,7 @@ public interface MessageData {
     /** An array of GIOP messages.  The messages will
      * satisfy:
      * <OL>
-     * <LI>If there is more than one message, the first message is 
+     * <LI>If there is more than one message, the first message is
      * a request or a reply.</LI>
      * <LI>If there is more than one message, all messages after the first
      * will be fragment messages.</LI>
@@ -41,7 +41,7 @@ public interface MessageData {
 
      /** A fully initialized input stream for the message data, positioned
       * at the first element of the body.
-      * 
+      *
       * @return stream of data
       */
     CDRInputObject getStream() ;

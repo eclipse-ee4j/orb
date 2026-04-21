@@ -22,7 +22,7 @@ package javax.rmi.CORBA.serialization;
 
 public class IsSerializable
     extends NotSerializable implements java.io.Serializable {
-        
+
     String helloString;
 
     public IsSerializable(){}

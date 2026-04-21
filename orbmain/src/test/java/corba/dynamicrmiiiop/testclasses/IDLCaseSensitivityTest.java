@@ -23,11 +23,11 @@ public class IDLCaseSensitivityTest {
 
     //
     // Set of idl names corresponding to alphabetically sorted set of
-    // interface methods.  See TestIDLNameTranslator for sorting details.    
+    // interface methods.  See TestIDLNameTranslator for sorting details.
     //
-    public static final String[] IDL_NAMES = {   
+    public static final String[] IDL_NAMES = {
         "ABCDEFGHIJKLmNOPQRSTUVWXYzA_0_1_2_3_4_5_6_7_8_9_10_11_13_14_15_16_17_18_19_20_21_22_23_24_26",
-        "B_0", 
+        "B_0",
         "JACK_0_1_2_3",
         "JACKY",
         "Jack_0",
@@ -39,13 +39,13 @@ public class IDLCaseSensitivityTest {
         "jAcK_1_3",
         "jack_"
     };
-    
+
     public static String[] getIDLNames() {
         return IDL_NAMES;
     }
 
     public interface IDLCaseSensitivity extends java.rmi.Remote {
-        String ABCDEFGHIJKLmNOPQRSTUVWXYzA(int a) 
+        String ABCDEFGHIJKLmNOPQRSTUVWXYzA(int a)
             throws java.rmi.RemoteException;
 
         void B() throws java.rmi.RemoteException;
@@ -65,8 +65,8 @@ public class IDLCaseSensitivityTest {
 
 
         int jAcK() throws java.rmi.RemoteException;
-        void jack() throws java.rmi.RemoteException;        
-        
+        void jack() throws java.rmi.RemoteException;
+
     }
 
 }

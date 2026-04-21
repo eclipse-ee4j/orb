@@ -30,7 +30,7 @@ import org.omg.CosNaming.NamingContextPackage.*;
 
 import java.util.Properties;
 
-public class Client 
+public class Client
 {
     public static void main(String av[])
     {
@@ -50,7 +50,7 @@ public class Client
             // using interceptors.
             //
 
-            AService aService = 
+            AService aService =
                 AServiceHelper.narrow(
                     orb.resolve_initial_references("AService"));
 
@@ -59,7 +59,7 @@ public class Client
             // it will invoke.
             //
 
-            NamingContext nameService = 
+            NamingContext nameService =
                 NamingContextHelper.narrow(
                     orb.resolve_initial_references("NameService"));
             NameComponent arbitraryObjectPath[] =
@@ -73,7 +73,7 @@ public class Client
             //
 
             aService.begin();
-            
+
             arbitraryObject.arbitraryOperation1("one");
             arbitraryObject.arbitraryOperation2(2);
 

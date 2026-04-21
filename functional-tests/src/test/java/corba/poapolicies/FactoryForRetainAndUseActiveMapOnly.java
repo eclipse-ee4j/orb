@@ -48,7 +48,7 @@ public class FactoryForRetainAndUseActiveMapOnly implements POAFactory
 
 
         System.out.println("createPOA3");
-        
+
         POA x = parent.create_POA("RetainAndUseActiveMap",
                                  null,
                                  policies);

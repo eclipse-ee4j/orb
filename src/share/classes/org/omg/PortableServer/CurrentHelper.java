@@ -50,7 +50,7 @@ abstract public class CurrentHelper
 {
     private static String  _id = "IDL:omg.org/PortableServer/Current:2.3";
 
-    public static void insert (org.omg.CORBA.Any a, 
+    public static void insert (org.omg.CORBA.Any a,
         org.omg.PortableServer.Current that)
     {
         org.omg.CORBA.portable.OutputStream out = a.create_output_stream ();
@@ -86,7 +86,7 @@ abstract public class CurrentHelper
         throw new org.omg.CORBA.MARSHAL ();
     }
 
-    public static void write (org.omg.CORBA.portable.OutputStream ostream, 
+    public static void write (org.omg.CORBA.portable.OutputStream ostream,
         org.omg.PortableServer.Current value)
     {
         throw new org.omg.CORBA.MARSHAL ();

@@ -43,7 +43,7 @@ public final class FullValueDescription implements org.omg.CORBA.portable.IDLEnt
     // _CHANGED_
     //public com.sun.org.omg.CORBA.ValueMember members[] = null;
     public org.omg.CORBA.ValueMember members[] = null;
-  
+
     public com.sun.org.omg.CORBA.Initializer initializers[] = null;
     public String supported_interfaces[] = null;
     public String abstract_base_values[] = null;

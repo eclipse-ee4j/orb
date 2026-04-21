@@ -22,17 +22,17 @@ package com.sun.corba.ee.impl.activation;
 import java.util.*;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
-/** ProcessMonitorThread is started when ServerManager is instantiated. The 
+/** ProcessMonitorThread is started when ServerManager is instantiated. The
   * thread wakes up every minute (This can be changed by setting sleepTime) and
   * makes sure that all the processes (Servers) registered with the ServerTool
   * are healthy. If not the state in ServerTableEntry will be changed to
   * De-Activated.
-  * Note: This thread can be killed from the main thread by calling 
+  * Note: This thread can be killed from the main thread by calling
   *       interrupThread()
   */
 public class ProcessMonitorThread extends java.lang.Thread {
     private Map<Integer,ServerTableEntry> serverTable;
-    private int sleepTime; 
+    private int sleepTime;
     private static ProcessMonitorThread instance = null;
 
     private ProcessMonitorThread( Map<Integer,ServerTableEntry> ServerTable, int SleepTime ) {
@@ -66,22 +66,22 @@ public class ProcessMonitorThread extends java.lang.Thread {
         }
     }
 
-    static void start( Map<Integer,ServerTableEntry> serverTable ) { 
+    static void start( Map<Integer,ServerTableEntry> serverTable ) {
         int sleepTime = ORBConstants.DEFAULT_SERVER_POLLING_TIME;
 
-        String pollingTime = System.getProperties().getProperty( 
-            ORBConstants.SERVER_POLLING_TIME ); 
+        String pollingTime = System.getProperties().getProperty(
+            ORBConstants.SERVER_POLLING_TIME );
 
         if ( pollingTime != null ) {
             try {
-                sleepTime = Integer.parseInt( pollingTime ); 
+                sleepTime = Integer.parseInt( pollingTime );
             } catch (Exception e ) {
-                // Too late to complain, Just use the default 
+                // Too late to complain, Just use the default
                 // sleepTime
             }
         }
 
-        instance = new ProcessMonitorThread( serverTable, 
+        instance = new ProcessMonitorThread( serverTable,
             sleepTime );
         instance.setDaemon( true );
         instance.start();
@@ -91,4 +91,4 @@ public class ProcessMonitorThread extends java.lang.Thread {
         instance.interrupt();
     }
 }
- 
+

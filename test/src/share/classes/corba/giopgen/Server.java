@@ -62,7 +62,7 @@ public class Server
             Servant servant = (Servant)
                 javax.rmi.CORBA.Util.getTie(new TestServant());
 
-            createWithServantAndBind(Common.ReferenceName, servant, 
+            createWithServantAndBind(Common.ReferenceName, servant,
                                      rootPOA, orb);
 
             System.out.println("--------------------------------------------");
@@ -85,7 +85,7 @@ public class Server
         }
     }
 
-    public static org.omg.CORBA.Object 
+    public static org.omg.CORBA.Object
         createWithServantAndBind (String  name,
                                   Servant servant,
                                   POA     poa,
@@ -100,6 +100,6 @@ public class Server
         return ref;
     }
 
-} 
+}
 
 // End of file.

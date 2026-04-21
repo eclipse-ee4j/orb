@@ -40,13 +40,13 @@ public class PrintGenerator implements sun.rmi.rmic.Generator,
     private static final int JAVA = 0;
     private static final int IDL = 1;
     private static final int BOTH = 2;
-        
+
     private int whatToPrint; // Initialized in parseArgs.
     private boolean global = false;
     private boolean qualified = false;
     private boolean trace = false;
     private boolean valueMethods = false;
-        
+
     private IndentingWriter out;
 
     /**
@@ -78,7 +78,7 @@ public class PrintGenerator implements sun.rmi.rmic.Generator,
                             argv[++i] = null;
                             whatToPrint = BOTH;
                         }
-                    }                       
+                    }
                 } else if (arg.equals("-xglobal")) {
                     global = true;
                     argv[i] = null;
@@ -109,7 +109,7 @@ public class PrintGenerator implements sun.rmi.rmic.Generator,
      *                          for generated files. May be null.
      */
     public void generate(sun.rmi.rmic.BatchEnvironment env, ClassDefinition cdef, File destDir) {
-                
+
         BatchEnvironment ourEnv = (BatchEnvironment) env;
         ContextStack stack = new ContextStack(ourEnv);
         stack.setTrace(trace);
@@ -117,42 +117,42 @@ public class PrintGenerator implements sun.rmi.rmic.Generator,
         if (valueMethods) {
             ourEnv.setParseNonConforming(true);
         }
-                
+
         // Get our top level type...
-                
+
         CompoundType topType = CompoundType.forCompound(cdef,stack);
-        
+
         if (topType != null) {
-                        
+
             try {
-        
+
                                 // Collect up all the compound types...
-                                
+
                 Type[] theTypes = topType.collectMatching(TM_COMPOUND);
-                                
+
                 for (int i = 0; i < theTypes.length; i++) {
-        
+
                     out.pln("\n-----------------------------------------------------------\n");
-                
+
                     Type theType = theTypes[i];
 
                     switch (whatToPrint) {
                     case JAVA:  theType.println(out,qualified,false,false);
                         break;
-                                                                         
+
                     case IDL:   theType.println(out,qualified,true,global);
                         break;
-                                                                        
+
                     case BOTH:  theType.println(out,qualified,false,false);
                         theType.println(out,qualified,true,global);
                         break;
-                                                
+
                     default:    throw new CompilerError("Unknown type!");
                     }
                 }
-                                
+
                 out.flush();
-                                
+
             } catch (IOException e) {
                 throw new CompilerError("PrintGenerator caught " + e);
             }

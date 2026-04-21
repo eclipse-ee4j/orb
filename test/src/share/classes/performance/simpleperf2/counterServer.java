@@ -38,7 +38,7 @@ public class counterServer extends ThreadProcess {
         try{
             // create and initialize the ORB
             Properties p = new Properties();
-            p.put("org.omg.CORBA.ORBClass",  
+            p.put("org.omg.CORBA.ORBClass",
                 "com.sun.corba.ee.impl.orb.ORBImpl" ) ;
             p.put( ORBConstants.PERSISTENT_SERVER_PORT_PROPERTY, "9999");
             p.put( ORBConstants.ORB_SERVER_ID_PROPERTY, "9999");
@@ -71,7 +71,7 @@ public class counterServer extends ThreadProcess {
         tpolicy[1] = rootPOA.create_request_processing_policy(RequestProcessingPolicyValue.USE_SERVANT_MANAGER);
         tpolicy[2] = rootPOA.create_servant_retention_policy(ServantRetentionPolicyValue.NON_RETAIN) ;
         POA tpoa = rootPOA.create_POA("PersistentPOA", null, tpolicy);
- 
+
         counterImpl impl = new counterImpl();
         Servant servant = (Servant)(javax.rmi.CORBA.Util.getTie( impl ) ) ;
         CSLocator csl = new CSLocator(servant);
@@ -89,7 +89,7 @@ public class counterServer extends ThreadProcess {
 
         org.omg.CORBA.Object obj = tpoa.create_reference_with_id(id, intf);
 
-        counterIF counterRef 
+        counterIF counterRef
             = (counterIF)PortableRemoteObject.narrow(obj, counterIF.class );
 
         // put objref in NameService
@@ -112,14 +112,14 @@ class CSLocator extends org.omg.CORBA.LocalObject implements ServantLocator
         this.servant = servant;
     }
 
-    public Servant preinvoke(byte[] oid, POA adapter, String operation, 
+    public Servant preinvoke(byte[] oid, POA adapter, String operation,
                              CookieHolder the_cookie)
         throws org.omg.PortableServer.ForwardRequest
     {
         return servant ;
     }
 
-    public void postinvoke(byte[] oid, POA adapter, String operation, 
+    public void postinvoke(byte[] oid, POA adapter, String operation,
                            java.lang.Object cookie, Servant servant)
     {
         return;

@@ -61,7 +61,7 @@ public class Graph implements Serializable {
     public boolean equals(Graph o) {
         try{
             Graph g = (Graph)o;
-            return ((_list.equals(g._list)) && 
+            return ((_list.equals(g._list)) &&
                     (_next.equals(g._next)) &&
                     (_bitset.equals(g._bitset)));
         }
@@ -78,5 +78,5 @@ public class Graph implements Serializable {
         return result.append("}").toString();
     }
 
-        
+
 }

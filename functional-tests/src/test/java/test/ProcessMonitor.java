@@ -50,11 +50,11 @@ public class ProcessMonitor {
                            OutputStream err) {
 
         process = theProcess;
-        
+
         outReader = new StreamReader(out, theProcess.getInputStream());
         errReader = new StreamReader(err, theProcess.getErrorStream());
     }
-    
+
     /**
      * Constructor.
      * @param theProcess The process to monitor.

@@ -40,7 +40,7 @@ import org.omg.PortableInterceptor.NON_EXISTENT;
 import org.omg.PortableInterceptor.ObjectReferenceFactory ;
 import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
 
-abstract public class ObjectAdapterBase extends org.omg.CORBA.LocalObject 
+abstract public class ObjectAdapterBase extends org.omg.CORBA.LocalObject
     implements ObjectAdapter
 {
     protected static final POASystemException wrapper =
@@ -55,7 +55,7 @@ abstract public class ObjectAdapterBase extends org.omg.CORBA.LocalObject
     private ObjectReferenceTemplate adapterTemplate ;
     private ObjectReferenceFactory currentFactory ;
     private boolean isNameService = false ;
-   
+
     public ObjectAdapterBase( ORB orb ) {
         this.orb = orb ;
     }
@@ -82,7 +82,7 @@ abstract public class ObjectAdapterBase extends org.omg.CORBA.LocalObject
             iortemp, policies,
             codebase, objectAdapterManagerId, objectAdapterId);
 
-        adapterTemplate = IORFactories.makeObjectReferenceTemplate( orb, 
+        adapterTemplate = IORFactories.makeObjectReferenceTemplate( orb,
             iortemp ) ;
         currentFactory = adapterTemplate ;
 
@@ -104,26 +104,26 @@ abstract public class ObjectAdapterBase extends org.omg.CORBA.LocalObject
         return currentFactory.make_object( repId, oid ) ;
     }
 
-    final public byte[] getAdapterId() 
+    final public byte[] getAdapterId()
     {
         return adapterId ;
     }
 
-    final public ORB getORB() 
+    final public ORB getORB()
     {
         return orb ;
     }
 
     abstract public Policy getEffectivePolicy( int type ) ;
 
-    final public IORTemplate getIORTemplate() 
+    final public IORTemplate getIORTemplate()
     {
         return iortemp ;
     }
 
     abstract public int getManagerId() ;
 
-    abstract public short getState() ; 
+    abstract public short getState() ;
 
     @ManagedAttribute( id="State" )
     @Description( "The current Adapter state")
@@ -184,4 +184,4 @@ abstract public class ObjectAdapterBase extends org.omg.CORBA.LocalObject
     public void setNameService( boolean flag ) {
         isNameService = flag ;
     }
-} 
+}

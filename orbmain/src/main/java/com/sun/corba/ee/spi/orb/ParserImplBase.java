@@ -39,7 +39,7 @@ public abstract class ParserImplBase {
     /** Override this method if there is some needed initialization
     * that takes place after argument parsing.
     */
-    protected void complete() 
+    protected void complete()
     {
     }
 
@@ -96,9 +96,9 @@ public abstract class ParserImplBase {
             final Object value = entry.getValue() ;
 
             try {
-                AccessController.doPrivileged( 
+                AccessController.doPrivileged(
                     new PrivilegedExceptionAction() {
-                        public Object run() throws IllegalAccessException, 
+                        public Object run() throws IllegalAccessException,
                             IllegalArgumentException
                         {
                             Field field = getAnyField( name ) ;
@@ -106,7 +106,7 @@ public abstract class ParserImplBase {
                             field.set( ParserImplBase.this, value ) ;
                             return null ;
                         }
-                    } 
+                    }
                 ) ;
             } catch (PrivilegedActionException exc) {
                 // Since exc wraps the actual exception, use exc.getCause()

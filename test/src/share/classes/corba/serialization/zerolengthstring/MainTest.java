@@ -21,8 +21,8 @@
  * A Simple test to check copy created from Util.copyObject() preserves the
  * object structure correctly. This test was added to test the bug fix for
  * a P2 Bug (4728756), Util.copyObjects () use to fail when there were 2 fields
- * with different Zero length string instances and 2 other fields aliasing 
- * to those two Strings.  
+ * with different Zero length string instances and 2 other fields aliasing
+ * to those two Strings.
  */
 package corba.serialization.zerolengthstring;
 
@@ -35,7 +35,7 @@ public class MainTest {
     private static boolean runTest( String[] args ) {
         try {
             ORB orb = ORB.init( args, null );
-            ClassWithZeroLengthStrings object = 
+            ClassWithZeroLengthStrings object =
                 new ClassWithZeroLengthStrings();
             ClassWithZeroLengthStrings copiedObject =
                 (ClassWithZeroLengthStrings) Util.copyObject( object, orb );

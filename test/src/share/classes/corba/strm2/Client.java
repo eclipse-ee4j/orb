@@ -45,11 +45,11 @@ public class Client
 
     public static void main(String[] args) {
         try {
-            
+
             rootContext = new InitialContext();
 
             for (int i = 0; i < Versions.testableVersions.length; i++) {
-                
+
                 String version = Versions.testableVersions[i];
 
                 System.out.println("Client with Testable "
@@ -75,13 +75,13 @@ public class Client
                 System.out.println(t.toString());
 
                 Testable result = tester.verify(t);
-                
+
                 System.out.println("Received: ");
                 System.out.println(result.toString());
-                
+
                 // Note that equals has been written such that
                 // data set by the stream to defaults due to
-                // incompatibilities will be ignored.  
+                // incompatibilities will be ignored.
                 // Data set to incorrect values will be
                 // reported, though.
                 if (!t.equals(result))

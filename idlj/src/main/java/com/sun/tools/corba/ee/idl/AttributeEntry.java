@@ -75,8 +75,8 @@ public class AttributeEntry extends MethodEntry
     return attributeGen;
   } // generator
 
-  /** 
-   * If true, only a get method will be generated. 
+  /**
+   * If true, only a get method will be generated.
    * @return if the attribute is readonly
    */
   public boolean readOnly ()
@@ -84,7 +84,7 @@ public class AttributeEntry extends MethodEntry
     return _readOnly;
   } // readOnly
 
-  /** 
+  /**
    * Sets the readOnly parameter
    * @param readOnly If true, only a get method will be generated.
    */

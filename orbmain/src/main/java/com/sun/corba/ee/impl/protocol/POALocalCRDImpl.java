@@ -51,11 +51,11 @@ public class POALocalCRDImpl extends LocalClientRequestDispatcherBase {
             oa.returnServant();
         } finally {
             oa.exit() ;
-            orb.popInvocationInfo() ; 
+            orb.popInvocationInfo() ;
         }
     }
 
-    // Look up the servant for this request and return it in a 
+    // Look up the servant for this request and return it in a
     // ServantObject.  Note that servant_postinvoke is always called
     // by the stub UNLESS this method returns null.  However, in all
     // cases we must be sure that ObjectAdapter.getServant and
@@ -96,10 +96,10 @@ public class POALocalCRDImpl extends LocalClientRequestDispatcherBase {
     }
 
     public void servant_postinvoke(org.omg.CORBA.Object self,
-                                   ServantObject servantobj) 
+                                   ServantObject servantobj)
     {
-        ObjectAdapter oa = orb.peekInvocationInfo().oa() ; 
-        servantExit( oa ) ;     
+        ObjectAdapter oa = orb.peekInvocationInfo().oa() ;
+        servantExit( oa ) ;
     }
 }
 

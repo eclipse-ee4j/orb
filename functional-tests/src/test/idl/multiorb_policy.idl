@@ -18,7 +18,7 @@
  */
 
 module examples {
-        interface policy_2 
+        interface policy_2
         {
                 long increment();
         };

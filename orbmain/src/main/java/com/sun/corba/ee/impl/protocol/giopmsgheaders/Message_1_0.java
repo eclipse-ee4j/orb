@@ -48,7 +48,7 @@ public class Message_1_0
 
     Message_1_0() {
     }
-    
+
     Message_1_0(int _magic, boolean _byte_order, byte _message_type,
             int _message_size) {
         magic = _magic;
@@ -105,7 +105,7 @@ public class Message_1_0
     public FragmentMessage createFragmentMessage() {
         throw wrapper.fragmentationDisallowed() ;
     }
-        
+
     // IO methods
 
     // This should do nothing even if it is called. The Message Header already

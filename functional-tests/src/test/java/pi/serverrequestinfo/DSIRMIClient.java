@@ -41,7 +41,7 @@ import ServerRequestInfo.*;
 /**
  * Common base class for DSI RMI client test code
  */
-public abstract class DSIRMIClient 
+public abstract class DSIRMIClient
     extends ClientCommon
 {
     // The hello object to make invocations on.
@@ -55,7 +55,7 @@ public abstract class DSIRMIClient
 
     // to be invoked from subclasses after the ORB is created.
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         this.out = out;
@@ -88,8 +88,8 @@ public abstract class DSIRMIClient
     /**
      * Invoke the method with the given name on the object
      */
-    protected void invokeMethod( String methodName ) 
-        throws Exception 
+    protected void invokeMethod( String methodName )
+        throws Exception
     {
         if( methodName.equals( "sayHello" ) ) {
             helloRef.sayHello();
@@ -97,15 +97,15 @@ public abstract class DSIRMIClient
         else if( methodName.equals( "sayOneway" ) ) {
             helloRef.sayOneway();
         }
-        else if( methodName.equals( "saySystemException" ) ) { 
+        else if( methodName.equals( "saySystemException" ) ) {
             helloRef.saySystemException();
         }
-        else if( methodName.equals( "sayUserException" ) ) { 
+        else if( methodName.equals( "sayUserException" ) ) {
             try {
                 helloRef.sayUserException();
                 out.println( "    - Did not catch ForwardRequest user " +
                     "exception (error)" );
-                throw new RuntimeException( 
+                throw new RuntimeException(
                     "Did not catch ForwardRequest user exception " +
                     "on sayUserException" );
             }
@@ -121,7 +121,7 @@ public abstract class DSIRMIClient
             helloRef.sayInvokeAgain( INVOKE_SAY_SYSTEM_EXCEPTION.value );
         }
     }
-    
+
     /**
      * Resolves name using RMI
      */
@@ -133,7 +133,7 @@ public abstract class DSIRMIClient
 
         return helloRef;
     }
-    
+
 
 }
 

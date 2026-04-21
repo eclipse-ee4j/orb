@@ -24,8 +24,8 @@ import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher ;
 /** The full object key, which is contained in an IIOPProfile.
 * The object identifier corresponds to the information passed into
 * POA::create_reference_with_id and POA::create_reference
-* (in the POA case).  The template 
-* represents the information that is object adapter specific and 
+* (in the POA case).  The template
+* represents the information that is object adapter specific and
 * shared across multiple ObjectKey instances.
 */
 public interface ObjectKey extends Writeable
@@ -41,6 +41,6 @@ public interface ObjectKey extends Writeable
     ObjectKeyTemplate getTemplate()  ;
 
     byte[] getBytes( org.omg.CORBA.ORB orb ) ;
-    
+
     ServerRequestDispatcher getServerRequestDispatcher() ;
 }

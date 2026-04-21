@@ -21,8 +21,8 @@ package org.omg.CORBA;
 
 /**
  * Exception  thrown
- * when the request carried an invalid transaction context. 
- * For example, this exception could be raised if an error 
+ * when the request carried an invalid transaction context.
+ * For example, this exception could be raised if an error
  * occurred when trying to register a resource.<P>
  * It contains a minor code, which gives more detailed information about
  * what caused the exception, and a completion status. It may also contain

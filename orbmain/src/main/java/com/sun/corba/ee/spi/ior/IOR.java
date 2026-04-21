@@ -38,7 +38,7 @@ public interface IOR extends List<TaggedProfile>, Writeable, MakeImmutable
 {
     // This is used only for management
     @ManagedAttribute
-    @Description( "The list of profiles in this IOR" ) 
+    @Description( "The list of profiles in this IOR" )
     Iterator<TaggedProfile> getTaggedProfiles() ;
 
     ORB getORB() ;
@@ -47,9 +47,9 @@ public interface IOR extends List<TaggedProfile>, Writeable, MakeImmutable
      * @return type id string
     */
     @ManagedAttribute
-    @Description( "The repository ID of the IOR" ) 
+    @Description( "The repository ID of the IOR" )
     String getTypeId() ;
-   
+
     /** Return an iterator that iterates over tagged profiles with
     * identifier id.  It is not possible to modify the list through this
     * iterator.
@@ -62,7 +62,7 @@ public interface IOR extends List<TaggedProfile>, Writeable, MakeImmutable
      * format that begins with "IOR:".
      * This does not return the same as {@link Object#toString}
      * @return String representation
-     * @see java.lang.Object#toString() 
+     * @see java.lang.Object#toString()
      */
     String stringify() ;
 
@@ -85,7 +85,7 @@ public interface IOR extends List<TaggedProfile>, Writeable, MakeImmutable
      * @see #equals(java.lang.Object)
      */
     boolean isEquivalent(IOR ior) ;
-    
+
     /**
      * Return true if this IOR is equivalent to ior.  Here equivalent means
      * that the typeids and delegates are the same. It does not check if the profiles

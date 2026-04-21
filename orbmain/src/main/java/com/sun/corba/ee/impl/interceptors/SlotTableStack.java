@@ -36,7 +36,7 @@ public class SlotTableStack
 
     // Keeps track of number of PICurrents in the stack.
     private int currentIndex;
- 
+
     // The ORB associated with this slot table stack
     private ORB orb;
 
@@ -56,12 +56,12 @@ public class SlotTableStack
     }
 
     /**
-     * pushSlotTable  pushes a fresh Slot Table on to the stack by 
+     * pushSlotTable  pushes a fresh Slot Table on to the stack by
      * creating a new SlotTable and pushing that into the SlotTableStack.
      */
     void pushSlotTable( ) {
         SlotTable table = new SlotTable( orb, current.getTableSize() );
-        
+
         // NOTE: Very important not to always "add" - otherwise a memory leak.
         if (currentIndex == tableContainer.size()) {
             // Add will cause the table to grow.
@@ -81,7 +81,7 @@ public class SlotTableStack
      * 1: pops the top SlotTable in the SlotTableStack (if there is more than one)
      *
      * 2: resets the slots in the SlotTable which resets the slotvalues to
-     *    null if there are any previous sets. 
+     *    null if there are any previous sets.
      */
     void  popSlotTable( ) {
         if(currentIndex == 1) {

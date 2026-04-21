@@ -26,14 +26,14 @@ import java.util.Set;
 
 /**
  * This is a registry of all subcontract ID dependent objects.  This includes:
- * LocalClientRequestDispatcherFactory, ClientRequestDispatcher, ServerRequestDispatcher, and 
- * ObjectAdapterFactory. 
+ * LocalClientRequestDispatcherFactory, ClientRequestDispatcher, ServerRequestDispatcher, and
+ * ObjectAdapterFactory.
  */
 public interface RequestDispatcherRegistry {
 
     /** Register a ClientRequestDispatcher for a particular subcontract ID.
      * The subcontract ID appears in the ObjectKey of an object reference, and is used
-     * to control how a remote method invocation is processed by the ORB for a 
+     * to control how a remote method invocation is processed by the ORB for a
      * particular kind of object reference.
      * @param csc Dispatcher to register
      * @param scid ID to register with

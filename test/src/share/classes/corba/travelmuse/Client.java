@@ -70,7 +70,7 @@ public class Client {
         myOrb.destroy();
     }
 
-   
+
     @Test
     public void travelMuse() {
         try {

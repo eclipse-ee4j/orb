@@ -22,17 +22,17 @@
 
 #pragma prefix "omg.org"
 /**
- * All Mapping corresponds to the Chapter 11 of 
+ * All Mapping corresponds to the Chapter 11 of
  * CORBA V2.3.1 specified by OMG document formal/99-10-07.pdf.
- * The exception to this is the id attribute, which is added in ptc/00-08-06, 
+ * The exception to this is the id attribute, which is added in ptc/00-08-06,
  * section 11.3.8.26.
  */
-module PortableServer { 
+module PortableServer {
 
         #pragma version PortableServer 2.3
 
-        // forward reference 
-        interface POA; 
+        // forward reference
+        interface POA;
 
         /**
          * List of POAs
@@ -42,9 +42,9 @@ module PortableServer {
         /**
          * Values of type Servant support a language specific
          * programming interface that can be used by the ORB to
-         * obtain a default POA for that servant.  
-         * Some language mappings may allow Servant values to 
-         * be implicitly converted to object references under 
+         * obtain a default POA for that servant.
+         * Some language mappings may allow Servant values to
+         * be implicitly converted to object references under
          * appropriate conditions.
          */
         native Servant;
@@ -52,39 +52,39 @@ module PortableServer {
         /**
          * ObjectId value associated with the object reference.
          */
-        typedef sequence<octet> ObjectId; 
+        typedef sequence<octet> ObjectId;
 
         /**
-         * ForwardRequest to indicate to the ORB 
-         * that it is responsible for delivering 
-         * the current request and subsequent 
-         * requests to the object denoted in the 
+         * ForwardRequest to indicate to the ORB
+         * that it is responsible for delivering
+         * the current request and subsequent
+         * requests to the object denoted in the
          * forward_reference member of the exception.
          */
-        exception ForwardRequest { Object forward_reference; }; 
-        
-        // ********************************************** 
-        // 
-        // Policy interfaces 
-        // 
-        // ********************************************** 
+        exception ForwardRequest { Object forward_reference; };
+
+        // **********************************************
+        //
+        // Policy interfaces
+        //
+        // **********************************************
 
         /**
          * The value representing THREAD_POLICY_ID.
          */
-        const CORBA::PolicyType THREAD_POLICY_ID = 16; 
+        const CORBA::PolicyType THREAD_POLICY_ID = 16;
         /**
          * The value representing LIFESPAN_POLICY_ID.
          */
-        const CORBA::PolicyType LIFESPAN_POLICY_ID = 17; 
+        const CORBA::PolicyType LIFESPAN_POLICY_ID = 17;
         /**
          * The value representing ID_UNIQUENESS_POLICY_ID.
          */
-        const CORBA::PolicyType ID_UNIQUENESS_POLICY_ID = 18; 
+        const CORBA::PolicyType ID_UNIQUENESS_POLICY_ID = 18;
         /**
          * The value representing ID_ASSIGNMENT_POLICY_ID.
          */
-        const CORBA::PolicyType ID_ASSIGNMENT_POLICY_ID = 19; 
+        const CORBA::PolicyType ID_ASSIGNMENT_POLICY_ID = 19;
         /**
          * The value representing IMPLICIT_ACTIVATION_POLICY_ID.
          */
@@ -92,7 +92,7 @@ module PortableServer {
         /**
          * The value representing SERVANT_RETENTION_POLICY_ID.
          */
-        const CORBA::PolicyType SERVANT_RETENTION_POLICY_ID = 21; 
+        const CORBA::PolicyType SERVANT_RETENTION_POLICY_ID = 21;
         /**
          * The value representing REQUEST_PROCESSING_POLICY_ID.
          */
@@ -100,297 +100,297 @@ module PortableServer {
 
         /**
          * The ThreadPolicyValue can have the following values.
-         * ORB_CTRL_MODEL - The ORB is responsible for assigning 
-         * requests for an ORB- controlled POA to threads. 
-         * SINGLE_THREAD_MODEL - Requests for a single-threaded 
-         * POA are processed sequentially. 
+         * ORB_CTRL_MODEL - The ORB is responsible for assigning
+         * requests for an ORB- controlled POA to threads.
+         * SINGLE_THREAD_MODEL - Requests for a single-threaded
+         * POA are processed sequentially.
          */
-        enum ThreadPolicyValue { ORB_CTRL_MODEL, SINGLE_THREAD_MODEL }; 
+        enum ThreadPolicyValue { ORB_CTRL_MODEL, SINGLE_THREAD_MODEL };
 
         /**
-         * The ThreadPolicy specifies the threading model 
-         * used with the created POA. The default is 
+         * The ThreadPolicy specifies the threading model
+         * used with the created POA. The default is
          * ORB_CTRL_MODEL.
          */
-        interface ThreadPolicy : CORBA::Policy { 
+        interface ThreadPolicy : CORBA::Policy {
                 #pragma sun_local ThreadPolicy ""
         /**
          * specifies the policy value
          *
          * @return the policy value
          */
-         readonly attribute ThreadPolicyValue value; 
-        }; 
+         readonly attribute ThreadPolicyValue value;
+        };
 
         /**
          * The LifespanPolicyValue can have the following values.
-         * TRANSIENT - The objects implemented in the POA 
-         * cannot outlive the POA instance in which they are 
-         * first created. 
-         * PERSISTENT - The objects implemented in the POA can 
-         * outlive the process in which they are first created. 
+         * TRANSIENT - The objects implemented in the POA
+         * cannot outlive the POA instance in which they are
+         * first created.
+         * PERSISTENT - The objects implemented in the POA can
+         * outlive the process in which they are first created.
          */
-        enum LifespanPolicyValue { TRANSIENT, PERSISTENT }; 
+        enum LifespanPolicyValue { TRANSIENT, PERSISTENT };
 
         /**
-         * The LifespanPolicy specifies the lifespan of the 
-         * objects implemented in the created POA. The default 
+         * The LifespanPolicy specifies the lifespan of the
+         * objects implemented in the created POA. The default
          * is TRANSIENT.
          */
-        interface LifespanPolicy : CORBA::Policy { 
+        interface LifespanPolicy : CORBA::Policy {
                 #pragma sun_local LifespanPolicy ""
         /**
          * specifies the policy value
          *
          * @return the policy value
          */
-           readonly attribute LifespanPolicyValue value; 
-        }; 
+           readonly attribute LifespanPolicyValue value;
+        };
 
         /**
          * IdUniquenessPolicyValue can have the following values.
-         * UNIQUE_ID - Servants activated with that POA support 
-         * exactly one Object Id.  MULTIPLE_ID - a servant 
-         * activated with that POA may support one or more 
+         * UNIQUE_ID - Servants activated with that POA support
+         * exactly one Object Id.  MULTIPLE_ID - a servant
+         * activated with that POA may support one or more
          * Object Ids.
          */
-        enum IdUniquenessPolicyValue { UNIQUE_ID, MULTIPLE_ID }; 
+        enum IdUniquenessPolicyValue { UNIQUE_ID, MULTIPLE_ID };
 
         /**
-         * The IdUniquenessPolicy specifies whether the servants 
+         * The IdUniquenessPolicy specifies whether the servants
          * activated in the created POA must have unique object i
          * identities. The default is UNIQUE_ID.
          */
-        interface IdUniquenessPolicy : CORBA::Policy { 
+        interface IdUniquenessPolicy : CORBA::Policy {
                 #pragma sun_local IdUniquenessPolicy ""
         /**
          * specifies the policy value
          *
          * @return the polucy value
          */
-         readonly attribute IdUniquenessPolicyValue value; 
-        }; 
+         readonly attribute IdUniquenessPolicyValue value;
+        };
 
         /**
          * The IdAssignmentPolicyValue can have the following
-         * values. USER_ID - Objects created with that POA are 
-         * assigned Object Ids only by the application. 
-         *  SYSTEM_ID - Objects created with that POA are 
-         * assigned Object Ids only by the POA. If the POA also 
-         * has the PERSISTENT policy, assigned Object Ids must 
+         * values. USER_ID - Objects created with that POA are
+         * assigned Object Ids only by the application.
+         *  SYSTEM_ID - Objects created with that POA are
+         * assigned Object Ids only by the POA. If the POA also
+         * has the PERSISTENT policy, assigned Object Ids must
          * be unique across all instantiations of the same POA.
          */
-        enum IdAssignmentPolicyValue { USER_ID, SYSTEM_ID }; 
+        enum IdAssignmentPolicyValue { USER_ID, SYSTEM_ID };
 
         /**
-         * IdAssignmentPolicy specifies whether Object Ids in 
-         * the created POA are generated by the application or 
+         * IdAssignmentPolicy specifies whether Object Ids in
+         * the created POA are generated by the application or
          * by the ORB. The default is SYSTEM_ID.
          */
-        interface IdAssignmentPolicy : CORBA::Policy { 
+        interface IdAssignmentPolicy : CORBA::Policy {
                 #pragma sun_local IdAssignmentPolicy ""
         /**
          * specifies the policy value
          *
          * @return the policy value
          */
-          readonly attribute IdAssignmentPolicyValue value; 
-        }; 
+          readonly attribute IdAssignmentPolicyValue value;
+        };
 
         /**
          * ImplicitActivationPolicyValue has the following
          * semantics.
          * IMPLICIT_ACTIVATION to indicate implicit activation
-         * of servants.  This requires SYSTEM_ID and RETAIN 
+         * of servants.  This requires SYSTEM_ID and RETAIN
          * policies to be set.
-         * NO_IMPLICIT_ACTIVATION to indicate no implicit 
+         * NO_IMPLICIT_ACTIVATION to indicate no implicit
          * servant activation.
          */
-        enum ImplicitActivationPolicyValue { 
-                IMPLICIT_ACTIVATION, NO_IMPLICIT_ACTIVATION 
-        }; 
+        enum ImplicitActivationPolicyValue {
+                IMPLICIT_ACTIVATION, NO_IMPLICIT_ACTIVATION
+        };
 
         /**
-         * This policy specifies whether implicit activation 
+         * This policy specifies whether implicit activation
          * of servants is supported in the created POA.
          */
-        interface ImplicitActivationPolicy : CORBA::Policy { 
+        interface ImplicitActivationPolicy : CORBA::Policy {
                 #pragma sun_local ImplicitActivationPolicy ""
         /**
          * specifies the policy value
          *
          * @return the policy value
          */
-          readonly attribute ImplicitActivationPolicyValue value; 
-        }; 
+          readonly attribute ImplicitActivationPolicyValue value;
+        };
 
         /**
-         * ServantRetentionPolicyValue can have the following 
-         * values. RETAIN - to indicate that the POA will retain 
-         * active servants in its Active Object Map. 
-         * NON_RETAIN - to indicate Servants are not retained by 
-         * the POA. If no ServantRetentionPolicy is specified at 
+         * ServantRetentionPolicyValue can have the following
+         * values. RETAIN - to indicate that the POA will retain
+         * active servants in its Active Object Map.
+         * NON_RETAIN - to indicate Servants are not retained by
+         * the POA. If no ServantRetentionPolicy is specified at
          * POA creation, the default is RETAIN.
          */
-        enum ServantRetentionPolicyValue { RETAIN, NON_RETAIN }; 
+        enum ServantRetentionPolicyValue { RETAIN, NON_RETAIN };
 
         /**
-         * This policy specifies whether the created POA retains 
-         * active servants in an Active Object Map. 
+         * This policy specifies whether the created POA retains
+         * active servants in an Active Object Map.
          */
-        interface ServantRetentionPolicy : CORBA::Policy { 
+        interface ServantRetentionPolicy : CORBA::Policy {
                 #pragma sun_local ServantRetentionPolicy ""
         /**
          * specifies the policy value
          *
          * @return the policy value
          */
-          readonly attribute ServantRetentionPolicyValue value; 
-        }; 
+          readonly attribute ServantRetentionPolicyValue value;
+        };
 
         /**
          * The RequestProcessingPolicyValue can have the following
-         * values.  USE_ACTIVE_OBJECT_MAP_ONLY - If the Object Id 
-         * is not found in the Active Object Map, 
-         * an OBJECT_NOT_EXIST exception is returned to the 
+         * values.  USE_ACTIVE_OBJECT_MAP_ONLY - If the Object Id
+         * is not found in the Active Object Map,
+         * an OBJECT_NOT_EXIST exception is returned to the
          * client. The RETAIN policy is also required.
-         * USE_DEFAULT_SERVANT - If the Object Id is not found in 
-         * the Active Object Map or the NON_RETAIN policy is 
-         * present, and a default servant has been registered 
-         * with the POA using the set_servant operation, 
-         * the request is dispatched to the default servant. 
-         * USE_SERVANT_MANAGER - If the Object Id is not found 
-         * in the Active Object Map or the NON_RETAIN policy 
-         * is present, and a servant manager has been registered 
-         * with the POA using the set_servant_manager operation, 
-         * the servant manager is given the opportunity to 
-         * locate a servant or raise an exception. 
+         * USE_DEFAULT_SERVANT - If the Object Id is not found in
+         * the Active Object Map or the NON_RETAIN policy is
+         * present, and a default servant has been registered
+         * with the POA using the set_servant operation,
+         * the request is dispatched to the default servant.
+         * USE_SERVANT_MANAGER - If the Object Id is not found
+         * in the Active Object Map or the NON_RETAIN policy
+         * is present, and a servant manager has been registered
+         * with the POA using the set_servant_manager operation,
+         * the servant manager is given the opportunity to
+         * locate a servant or raise an exception.
          */
-        enum RequestProcessingPolicyValue { 
-        USE_ACTIVE_OBJECT_MAP_ONLY, USE_DEFAULT_SERVANT, USE_SERVANT_MANAGER 
-        }; 
+        enum RequestProcessingPolicyValue {
+        USE_ACTIVE_OBJECT_MAP_ONLY, USE_DEFAULT_SERVANT, USE_SERVANT_MANAGER
+        };
 
         /**
-         * This policy specifies how requests are processed by 
-         * the created POA.  The default is 
+         * This policy specifies how requests are processed by
+         * the created POA.  The default is
          * USE_ACTIVE_OBJECT_MAP_ONLY.
          */
-        interface RequestProcessingPolicy : CORBA::Policy { 
+        interface RequestProcessingPolicy : CORBA::Policy {
                 #pragma sun_local RequestProcessingPolicy ""
         /**
          * specifies the policy value
          *
          * @return the policy value
          */
-          readonly attribute RequestProcessingPolicyValue value; 
-        }; 
+          readonly attribute RequestProcessingPolicyValue value;
+        };
 
 
-        // ************************************************** 
-        // 
-        // POAManager interface 
-        // 
+        // **************************************************
+        //
+        // POAManager interface
+        //
         // **********************************
         /**
-         * Each POA object has an associated POAManager object. 
-         * A POA manager may be associated with one or more 
-         * POA objects. A POA manager encapsulates the processing 
+         * Each POA object has an associated POAManager object.
+         * A POA manager may be associated with one or more
+         * POA objects. A POA manager encapsulates the processing
          * state of the POAs it is associated with.
          */
-        interface POAManager { 
+        interface POAManager {
                 #pragma sun_local POAManager ""
-                exception AdapterInactive{ }; 
+                exception AdapterInactive{ };
         /**
          * Specifies the states for the POAManager
          */
                 enum State {HOLDING, ACTIVE, DISCARDING, INACTIVE};
 
         /**
-         * This operation changes the state of the POA manager 
+         * This operation changes the state of the POA manager
          * to active, causing associated POAs to start processing
          * requests.
          * @exception org.omg.PortableServer.POAManagerPackage.AdapterInactive is raised if the operation is
          *            invoked on the POAManager in inactive state.
          */
-                void activate() 
-                        raises(AdapterInactive); 
+                void activate()
+                        raises(AdapterInactive);
         /**
-         * This operation changes the state of the POA manager 
+         * This operation changes the state of the POA manager
          * to holding, causing associated POAs to queue incoming
          * requests.
-         * @param wait_for_completion if FALSE, the operation 
-         *            returns immediately after changing state.  
-         *            If TRUE, it waits for all active requests 
-         *            to complete. 
+         * @param wait_for_completion if FALSE, the operation
+         *            returns immediately after changing state.
+         *            If TRUE, it waits for all active requests
+         *            to complete.
          * @exception org.omg.PortableServer.POAManagerPackage.AdapterInactive is raised if the operation is
          *            invoked on the POAManager in inactive state.
          */
-                void hold_requests(in boolean wait_for_completion) 
-                        raises(AdapterInactive); 
+                void hold_requests(in boolean wait_for_completion)
+                        raises(AdapterInactive);
         /**
-         * This operation changes the state of the POA manager 
+         * This operation changes the state of the POA manager
          * to discarding. This causes associated POAs to discard
          * incoming requests.
-         * @param wait_for_completion if FALSE, the operation 
-         *            returns immediately after changing state.  
-         *            If TRUE, it waits for all active requests 
-         *            to complete. 
+         * @param wait_for_completion if FALSE, the operation
+         *            returns immediately after changing state.
+         *            If TRUE, it waits for all active requests
+         *            to complete.
          * @exception org.omg.PortableServer.POAManagerPackage.AdapterInactive is raised if the operation is
          *            invoked on the POAManager in inactive state.
          */
                 void discard_requests(in boolean wait_for_completion)
-                        raises(AdapterInactive); 
+                        raises(AdapterInactive);
 
         /**
-         * This operation changes the state of the POA manager 
+         * This operation changes the state of the POA manager
          * to inactive, causing associated POAs to reject the
          * requests that have not begun executing as well as
          * as any new requests.
          * @param etherealize_objects a flag to indicate whether
          *        to invoke the etherealize operation of the
-         *        associated servant manager for all active 
+         *        associated servant manager for all active
          *        objects.
-         * @param wait_for_completion if FALSE, the operation 
-         *            returns immediately after changing state.  
-         *            If TRUE, it waits for all active requests 
-         *            to complete. 
+         * @param wait_for_completion if FALSE, the operation
+         *            returns immediately after changing state.
+         *            If TRUE, it waits for all active requests
+         *            to complete.
          * @exception org.omg.PortableServer.POAManagerPackage.AdapterInactive is raised if the operation is
          *            invoked on the POAManager in inactive state.
          */
-                void deactivate(in boolean etherealize_objects, 
-                                in boolean wait_for_completion) 
-                        raises(AdapterInactive); 
+                void deactivate(in boolean etherealize_objects,
+                                in boolean wait_for_completion)
+                        raises(AdapterInactive);
         /**
          * This operation returns the state of the POA manager.
          *
          * @return the state of the manager
          */
           State get_state();
-        }; 
+        };
 
 
-        // ************************************************** 
-        // 
-        // AdapterActivator interface 
-        // 
+        // **************************************************
+        //
+        // AdapterActivator interface
+        //
         // ****************************
 
         /**
-         * An adapter activator supplies a POA with the ability 
-         * to create child POAs on demand, as a side-effect of 
-         * receiving a request that names the child POA 
-         * (or one of its children), or when find_POA is called 
+         * An adapter activator supplies a POA with the ability
+         * to create child POAs on demand, as a side-effect of
+         * receiving a request that names the child POA
+         * (or one of its children), or when find_POA is called
          * with an activate parameter value of TRUE.
          */
 
-        interface AdapterActivator { 
+        interface AdapterActivator {
                 #pragma sun_local AdapterActivator ""
                 #pragma version AdapterActivator 2.3
         /**
-         * This operation is invoked when the ORB receives 
-         * a request for an object reference that identifies 
-         * a target POA that does not exist. The ORB invokes 
-         * this operation once for each POA that must be 
+         * This operation is invoked when the ORB receives
+         * a request for an object reference that identifies
+         * a target POA that does not exist. The ORB invokes
+         * this operation once for each POA that must be
          * created in order for the target POA to exist.
          * @param parent indicates the parent POA for the POA
          *               that needs to be created.
@@ -399,70 +399,70 @@ module PortableServer {
          * @return returns TRUE if the POA was created or FALSE
          *         otherwise.
          */
-                boolean unknown_adapter(in POA parent, in string name); 
-        }; 
+                boolean unknown_adapter(in POA parent, in string name);
+        };
 
 
-        // ************************************************** 
-        // 
-        // ServantManager interface 
-        // 
+        // **************************************************
+        //
+        // ServantManager interface
+        //
         // ******************************
 
         /**
-         * A servant manager supplies a POA with the ability 
-         * to activate objects on demand when the POA receives 
-         * a request targeted at an inactive object. A servant 
-         * manager is registered with a POA as a callback object, 
+         * A servant manager supplies a POA with the ability
+         * to activate objects on demand when the POA receives
+         * a request targeted at an inactive object. A servant
+         * manager is registered with a POA as a callback object,
          * to be invoked by the POA when necessary.
          * ServantManagers can either be ServantActivators or
-         * ServantLocators. A ServantManager object must be 
-         * local to the process containing the POA objects 
+         * ServantLocators. A ServantManager object must be
+         * local to the process containing the POA objects
          * it is registered with.
          */
 
-        interface ServantManager 
-        { #pragma sun_local ServantManager "" }; 
+        interface ServantManager
+        { #pragma sun_local ServantManager "" };
 
 
         /**
-         * When the POA has the RETAIN policy it uses servant 
-         * managers that are ServantActivators. 
+         * When the POA has the RETAIN policy it uses servant
+         * managers that are ServantActivators.
          */
-        interface ServantActivator : ServantManager { 
+        interface ServantActivator : ServantManager {
                 #pragma version ServantActivator 2.3
                 #pragma sun_localservant ServantActivator ""
         /**
-         * This operation is invoked by the POA whenever the 
-         * POA receives a request for an object that is not 
-         * currently active, assuming the POA has the 
+         * This operation is invoked by the POA whenever the
+         * POA receives a request for an object that is not
+         * currently active, assuming the POA has the
          * USE_SERVANT_MANAGER and RETAIN policies.
-         * @param oid object Id associated with the object on 
+         * @param oid object Id associated with the object on
          *            the request was made.
          * @param adapter object reference for the POA in which
          *                the object is being activated.
-         * @return Servant corresponding to oid is created or 
+         * @return Servant corresponding to oid is created or
          *         located by the user supplied servant manager.
-         * @exception ForwardRequest to indicate to the ORB 
-         *            that it is responsible for delivering 
-         *            the current request and subsequent 
-         *            requests to the object denoted in the 
+         * @exception ForwardRequest to indicate to the ORB
+         *            that it is responsible for delivering
+         *            the current request and subsequent
+         *            requests to the object denoted in the
          *            forward_reference member of the exception.
          */
-                Servant incarnate ( in ObjectId oid, in POA adapter ) 
-                                raises (ForwardRequest); 
+                Servant incarnate ( in ObjectId oid, in POA adapter )
+                                raises (ForwardRequest);
         /**
-         * This operation is invoked whenever a servant for 
-         * an object is deactivated, assuming the POA has 
+         * This operation is invoked whenever a servant for
+         * an object is deactivated, assuming the POA has
          * the USE_SERVANT_MANAGER and RETAIN policies.
-         * @param oid object Id associated with the object 
+         * @param oid object Id associated with the object
          *            being deactivated.
          * @param adapter object reference for the POA in which
          *                the object was active.
          * @param serv contains reference to the servant
          *        associated with the object being deactivated.
          * @param cleanup_in_progress if TRUE indicates that
-         *        destroy or deactivate is called with 
+         *        destroy or deactivate is called with
          *        etherealize_objects param of TRUE.  FALSE
          *        indicates that etherealize was called due to
          *        other reasons.
@@ -472,33 +472,33 @@ module PortableServer {
          *        until all invocations in progress have
          *        completed.
          */
-                void etherealize ( in ObjectId oid, 
-                                   in POA adapter, 
-                                   in Servant serv, 
-                                   in boolean cleanup_in_progress, 
-                                   in boolean remaining_activations); 
-        }; 
+                void etherealize ( in ObjectId oid,
+                                   in POA adapter,
+                                   in Servant serv,
+                                   in boolean cleanup_in_progress,
+                                   in boolean remaining_activations);
+        };
 
 
         /**
-         * When the POA has the NON_RETAIN policy it uses servant 
-         * managers that are ServantLocators. Because the POA 
-         * knows that the servant returned by this servant 
-         * manager will be used only for a single request, 
-         * it can supply extra information to the servant 
-         * manager's operations and the servant manager's pair 
-         * of operations may be able to cooperate to do 
-         * something different than a ServantActivator. 
-         * When the POA uses the ServantLocator interface, 
-         * immediately after performing the operation invocation 
-         * on the servant returned by preinvoke, the POA will 
-         * invoke postinvoke on the servant manager, passing the 
-         * ObjectId value and the Servant value as parameters 
-         * (among others). This feature may be used to force 
-         * every request for objects associated with a POA to 
+         * When the POA has the NON_RETAIN policy it uses servant
+         * managers that are ServantLocators. Because the POA
+         * knows that the servant returned by this servant
+         * manager will be used only for a single request,
+         * it can supply extra information to the servant
+         * manager's operations and the servant manager's pair
+         * of operations may be able to cooperate to do
+         * something different than a ServantActivator.
+         * When the POA uses the ServantLocator interface,
+         * immediately after performing the operation invocation
+         * on the servant returned by preinvoke, the POA will
+         * invoke postinvoke on the servant manager, passing the
+         * ObjectId value and the Servant value as parameters
+         * (among others). This feature may be used to force
+         * every request for objects associated with a POA to
          * be mediated by the servant manager.
          */
-        interface ServantLocator : ServantManager { 
+        interface ServantLocator : ServantManager {
                 #pragma sun_localservant ServantLocator ""
         /**
          * Opaque data used to pass the information from
@@ -512,7 +512,7 @@ module PortableServer {
          * used to process the request that caused preinvoke to
          * be called.
          * @param oid the object id associated with object on
-         *            which the request was made. 
+         *            which the request was made.
          * @param adapter the reference for POA in which the
          *                object is being activated.
          * @param operation the operation name.
@@ -520,16 +520,16 @@ module PortableServer {
          *                    by the servant manager to be used
          *                    during postinvoke.
          * @return Servant used to process incoming request.
-         * @exception ForwardRequest to indicate to the ORB 
-         *            that it is responsible for delivering 
-         *            the current request and subsequent 
-         *            requests to the object denoted in the 
+         * @exception ForwardRequest to indicate to the ORB
+         *            that it is responsible for delivering
+         *            the current request and subsequent
+         *            requests to the object denoted in the
          *            forward_reference member of the exception.
          */
-                Servant preinvoke( in ObjectId oid, in POA adapter, 
-                                   in CORBA::Identifier operation, 
-                                   out Cookie the_cookie ) 
-                                raises (ForwardRequest); 
+                Servant preinvoke( in ObjectId oid, in POA adapter,
+                                   in CORBA::Identifier operation,
+                                   out Cookie the_cookie )
+                                raises (ForwardRequest);
         /**
          * This operation is invoked whenever a servant completes
          * a request.
@@ -543,137 +543,137 @@ module PortableServer {
          * @param the_servant reference to the servant that is
          *                    associated with the object.
          */
-                void postinvoke( in ObjectId oid, in POA adapter, 
-                                 in CORBA::Identifier operation, 
-                                 in Cookie the_cookie, 
-                                 in Servant the_servant); 
-        }; 
+                void postinvoke( in ObjectId oid, in POA adapter,
+                                 in CORBA::Identifier operation,
+                                 in Cookie the_cookie,
+                                 in Servant the_servant);
+        };
 
 
-        // ************************************************** 
-        // 
-        // POA interface 
-        // 
+        // **************************************************
+        //
+        // POA interface
+        //
         // *****************************************
 
         /**
-         * A POA object manages the implementation of a 
-         * collection of objects. The POA supports a name space 
-         * for the objects, which are identified by Object Ids. 
-         * A POA also provides a name space for POAs. A POA is 
-         * created as a child of an existing POA, which forms a 
-         * hierarchy starting with the root POA. A POA object 
-         * must not be exported to other processes, or 
+         * A POA object manages the implementation of a
+         * collection of objects. The POA supports a name space
+         * for the objects, which are identified by Object Ids.
+         * A POA also provides a name space for POAs. A POA is
+         * created as a child of an existing POA, which forms a
+         * hierarchy starting with the root POA. A POA object
+         * must not be exported to other processes, or
          * externalized with ORB::object_to_string.
          */
-        interface POA { 
+        interface POA {
                 #pragma sun_local POA ""
                 #pragma version POA 2.3
         /**
          * specifies that an child POA with the specified
          * name already exists.
          */
-                exception AdapterAlreadyExists { }; 
+                exception AdapterAlreadyExists { };
 
         /**
          * This is raised if the POA with a specified Name cannot
          * be found.
          */
-                exception AdapterNonExistent { }; 
+                exception AdapterNonExistent { };
 
         /**
          * This is raised if any of the policy objects are
          * not valid for the ORB
          */
-                exception InvalidPolicy { 
-                        unsigned short index; 
-                }; 
+                exception InvalidPolicy {
+                        unsigned short index;
+                };
 
         /**
          * This is raised if no default servant is associated
          * with the POA.
          */
-                exception NoServant { }; 
+                exception NoServant { };
 
         /**
          * specifies that an object is already active or
          * exists in the Active Object Map.
          */
-                exception ObjectAlreadyActive { }; 
+                exception ObjectAlreadyActive { };
         /**
          * specifies that the object is not active or its
          * mapping does not exist in the Active Object Map.
          */
 
-                exception ObjectNotActive { }; 
+                exception ObjectNotActive { };
 
         /**
          * This is raised when an attempt is made to activate
          * a servant that is already active or has a mapping in
          * the Active Object Map.
          */
-                exception ServantAlreadyActive { }; 
+                exception ServantAlreadyActive { };
 
         /**
          * This is raised when an attempt is made to access a
          * servant that is not active or is not registered in
          * the Active Object Map.
          */
-                exception ServantNotActive { }; 
+                exception ServantNotActive { };
 
         /**
-         * This is raised if the reference was not created by 
-         * the POA 
+         * This is raised if the reference was not created by
+         * the POA
          * specified in the reference.
          */
-                exception WrongAdapter { }; 
+                exception WrongAdapter { };
 
         /**
          * WrongPolicy is specified when the POA does not
          * specify the policy appropriate for its operations.
          */
-                exception WrongPolicy { }; 
+                exception WrongPolicy { };
 
-                
-                //---------------------------------------- 
-                // 
-                // POA creation and destruction 
-                // 
+
+                //----------------------------------------
+                //
+                // POA creation and destruction
+                //
                 //-------------------------------
 
         /**
-         * This operation creates a new POA as a child of the 
+         * This operation creates a new POA as a child of the
          * target POA.
-         * @param adapter_name identifies the new POA with 
+         * @param adapter_name identifies the new POA with
          *        respect to other POAs with the same parent POA.
          * @param a_POAManager specifies the POA Manager to be
          *        associated with the new POA.
-         * @param policies specifies policy objects to be 
+         * @param policies specifies policy objects to be
          *        associated with the POA to control its behavior.
          * @return the new POA
          * @exception org.omg.PortableServer.POAPackage.AdapterAlreadyExists specifies that the
-         *            target POA already has a child POA with 
+         *            target POA already has a child POA with
          *            the specified name.
          * @exception org.omg.PortableServer.POAPackage.InvalidPolicy is raised if any of the
          *            policy objects are not valid for the ORB,
-         *            or are in conflict, or require an 
+         *            or are in conflict, or require an
          *            administrative action that has not been
          *            performed.
          */
-                POA create_POA(in string adapter_name, 
-                               in POAManager a_POAManager, 
-                               in CORBA::PolicyList policies) 
-                        raises (AdapterAlreadyExists, InvalidPolicy); 
+                POA create_POA(in string adapter_name,
+                               in POAManager a_POAManager,
+                               in CORBA::PolicyList policies)
+                        raises (AdapterAlreadyExists, InvalidPolicy);
 
         /**
-         * If the target POA is the parent of a child POA with 
-         * the specified name (relative to the target POA), that 
-         * child POA is returned. 
+         * If the target POA is the parent of a child POA with
+         * the specified name (relative to the target POA), that
+         * child POA is returned.
          * @param adapter_name POA name to be found.
-         * @param activate_it  if a POA with the specified 
-         *        name does not exist and the value of 
-         *        the activate_it parameter is TRUE, the target 
-         *        POA's AdapterActivator, if one exists, 
+         * @param activate_it  if a POA with the specified
+         *        name does not exist and the value of
+         *        the activate_it parameter is TRUE, the target
+         *        POA's AdapterActivator, if one exists,
          *        is invoked.
          * @return org.omg.PortableServer.POAPackage.POA if one exists or is activated by the
          *         AdapterActivator.
@@ -681,15 +681,15 @@ module PortableServer {
          *         a specified name cannot be found or
          *         activated using AdapaterActivator.
          */
-                POA find_POA(in string adapter_name, 
-                             in boolean activate_it) 
-                        raises (AdapterNonExistent); 
+                POA find_POA(in string adapter_name,
+                             in boolean activate_it)
+                        raises (AdapterNonExistent);
 
         /**
-         * This operation destroys the POA and all descendant 
-         * POAs. All descendant POAs are destroyed (recursively) 
-         * before the destruction of the containing POA. The POA 
-         * so destroyed (that is, the POA with its name) may be 
+         * This operation destroys the POA and all descendant
+         * POAs. All descendant POAs are destroyed (recursively)
+         * before the destruction of the containing POA. The POA
+         * so destroyed (that is, the POA with its name) may be
          * re-created later in the same process.
          * @param etherealize_objects flag to indicate whether
          *        etherealize operation on servant manager needs
@@ -699,191 +699,191 @@ module PortableServer {
          *        requests and the etherealization to complete.
          *
          */
-                void destroy( in boolean etherealize_objects, 
-                              in boolean wait_for_completion); 
-                
-                // ************************************************** 
-                // 
-                // Factories for Policy objects 
-                // 
-                // ************ 
+                void destroy( in boolean etherealize_objects,
+                              in boolean wait_for_completion);
+
+                // **************************************************
+                //
+                // Factories for Policy objects
+                //
+                // ************
         /**
-         * These operations each return a reference to a policy 
+         * These operations each return a reference to a policy
          * object with the specified value.
          * @param value policy type
          * @return ThreadPolcy Object
          */
                 ThreadPolicy create_thread_policy(
-                                        in ThreadPolicyValue value); 
+                                        in ThreadPolicyValue value);
         /**
-         * These operations each return a reference to a policy 
+         * These operations each return a reference to a policy
          * object with the specified value.
          * @param value policy type
          * @return LifespanPolicy Object.
          */
                 LifespanPolicy create_lifespan_policy(
-                                        in LifespanPolicyValue value); 
+                                        in LifespanPolicyValue value);
         /**
-         * These operations each return a reference to a policy 
+         * These operations each return a reference to a policy
          * object with the specified value.
          * @param value policy type
          * @return IdUniquenessPolicy Object.
          */
                 IdUniquenessPolicy create_id_uniqueness_policy(
-                                        in IdUniquenessPolicyValue value); 
+                                        in IdUniquenessPolicyValue value);
         /**
-         * These operations each return a reference to a policy 
-         * object with the specified value. 
+         * These operations each return a reference to a policy
+         * object with the specified value.
          * @param value policy type
          * @return IdAssignmentPolicy Object.
          */
                 IdAssignmentPolicy create_id_assignment_policy(
-                                        in IdAssignmentPolicyValue value); 
+                                        in IdAssignmentPolicyValue value);
         /**
-         * These operations each return a reference to a policy 
-         * object with the specified value. 
+         * These operations each return a reference to a policy
+         * object with the specified value.
          * @param value policy type
          * @return ImplicitActivationPolicy Object.
          */
                 ImplicitActivationPolicy create_implicit_activation_policy(
                                         in ImplicitActivationPolicyValue value);
         /**
-         * These operations each return a reference to a policy 
+         * These operations each return a reference to a policy
          * object with the specified value.
          * @param value policy type
          * @return ServantRetentionPolicy Object.
          */
                 ServantRetentionPolicy create_servant_retention_policy(
-                                        in ServantRetentionPolicyValue value); 
+                                        in ServantRetentionPolicyValue value);
         /**
-         * These operations each return a reference to a policy 
-         * object with the specified value. 
+         * These operations each return a reference to a policy
+         * object with the specified value.
          * @param value policy type
          * @return RequestProcessingPolicy Object.
          */
 
                 RequestProcessingPolicy create_request_processing_policy(
-                                        in RequestProcessingPolicyValue value); 
-                
-                //-------------------------------------------------- 
-                // 
-                // POA attributes 
-                // 
+                                        in RequestProcessingPolicyValue value);
+
+                //--------------------------------------------------
+                //
+                // POA attributes
+                //
                 //-----------------------------------
         /**
-         * This attribute identifies the POA relative to its 
+         * This attribute identifies the POA relative to its
          * parent. This name is assigned when the POA is created.
          *
          * @return name of the POA
          */
-                readonly attribute string the_name; 
+                readonly attribute string the_name;
         /**
-         * This attribute identifies the parent of the POA. 
-         * The parent of the root POA is null. 
+         * This attribute identifies the parent of the POA.
+         * The parent of the root POA is null.
          *
          * @return the parent of the POA
          */
-                readonly attribute POA the_parent; 
+                readonly attribute POA the_parent;
         /**
-         * This attribute identifies the current set of all 
-         * child POAs of the POA. The set of child POAs 
-         * includes only the POA's immediate children, and 
+         * This attribute identifies the current set of all
+         * child POAs of the POA. The set of child POAs
+         * includes only the POA's immediate children, and
          * not their descendants.
          *
          * @return the children of the POA
          */
                 readonly attribute POAList the_children;
         /**
-         * This attribute identifies the POA manager 
+         * This attribute identifies the POA manager
          * associated with the POA.
          *
          * @return the POA manager
          */
-                readonly attribute POAManager the_POAManager; 
+                readonly attribute POAManager the_POAManager;
 
         /**
-         * This attribute identifies the adapter activator 
+         * This attribute identifies the adapter activator
          * associated with the POA.
          *
          */
-                attribute AdapterActivator the_activator; 
+                attribute AdapterActivator the_activator;
 
-                //-------------------------------------------------- 
-                // 
-                // Servant Manager registration: 
-                // 
-                //-------------------------------------------------- 
+                //--------------------------------------------------
+                //
+                // Servant Manager registration:
+                //
+                //--------------------------------------------------
         /**
          *
-         * If the ServantRetentionPolicy of the POA is RETAIN, 
-         * then the ServantManager argument (imgr) shall support 
+         * If the ServantRetentionPolicy of the POA is RETAIN,
+         * then the ServantManager argument (imgr) shall support
          * the ServantActivator interface. For a NON_RETAIN policy,
-         * the ServantManager shall support the ServantLocator 
-         * interface. If the argument is nil, or does not support 
-         * the required interface, then the OBJ_ADAPTER 
+         * the ServantManager shall support the ServantLocator
+         * interface. If the argument is nil, or does not support
+         * the required interface, then the OBJ_ADAPTER
          * exception is raised.
          * @return org.omg.PortableServer.POAPackage.ServantManager associated with a POA or null if
          *         none exists.
-         * @exception org.omg.PortableServer.POAPackage.WrongPolicy raised if the 
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy raised if the
          *            USE_SERVANT_MANAGER policy is not specified.
          */
-                ServantManager get_servant_manager() 
-                        raises (WrongPolicy); 
+                ServantManager get_servant_manager()
+                        raises (WrongPolicy);
         /**
          *
-         * This operation sets the default servant manager 
-         * associated with the POA. This operation may only be 
-         * invoked once after a POA has been created. Attempting 
-         * to set the servant manager after one has already 
-         * been set will result in the BAD_INV_ORDER exception 
+         * This operation sets the default servant manager
+         * associated with the POA. This operation may only be
+         * invoked once after a POA has been created. Attempting
+         * to set the servant manager after one has already
+         * been set will result in the BAD_INV_ORDER exception
          * being raised.
          * @param imgr servant manager to be used as a default.
-         * @exception org.omg.PortableServer.POAPackage.WrongPolicy raised if the 
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy raised if the
          *            USE_SERVANT_MANAGER policy is not specified.
          */
-                void set_servant_manager( in ServantManager imgr) 
-                        raises (WrongPolicy); 
-                
-                //-------------------------------------------------- 
-                // 
-                // operations for the USE_DEFAULT_SERVANT policy 
-                // 
-                //---------- 
+                void set_servant_manager( in ServantManager imgr)
+                        raises (WrongPolicy);
+
+                //--------------------------------------------------
+                //
+                // operations for the USE_DEFAULT_SERVANT policy
+                //
+                //----------
         /**
-         * This operation returns the default servant associated 
-         * with the POA. 
+         * This operation returns the default servant associated
+         * with the POA.
          * @return p_servant default servant associated with a POA.
          * @exception org.omg.PortableServer.POAPackage.NoServant raised if no default servant is
          *            associated with the POA.
-         * @exception org.omg.PortableServer.POAPackage.WrongPolicy raised if the 
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy raised if the
          *            USE_DEFAULT_SERVANT policy is not specified.
          */
-                Servant get_servant() 
+                Servant get_servant()
                         raises (NoServant, WrongPolicy);
 
         /**
          *
-         * This operation registers the specified servant with 
-         * the POA as the default servant. This servant will 
-         * be used for all requests for which no servant is 
+         * This operation registers the specified servant with
+         * the POA as the default servant. This servant will
+         * be used for all requests for which no servant is
          * found in the Active Object Map.
          * @param p_servant servant to be used as a default.
-         * @exception org.omg.PortableServer.POAPackage.WrongPolicy raised if the 
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy raised if the
          *            USE_DEFAULT_SERVANT policy is not specified.
          */
-                void set_servant(in Servant p_servant) 
-                        raises (WrongPolicy); 
-                
-                // ************************************************** 
-                // 
-                // object activation and deactivation 
-                // 
+                void set_servant(in Servant p_servant)
+                        raises (WrongPolicy);
+
+                // **************************************************
+                //
+                // object activation and deactivation
+                //
                 // ************
 
         /**
          *
-         * This operation generates an Object Id and enters 
-         * the Object Id and the specified servant in the 
+         * This operation generates an Object Id and enters
+         * the Object Id and the specified servant in the
          * Active Object Map.
          * @param p_servant servant to be associated with an
          *            object to be activated.
@@ -891,20 +891,20 @@ module PortableServer {
          * @exception org.omg.PortableServer.POAPackage.ServantAlreadyActive is raised if the
          *            POA has UNIQUE_ID policy and servant is
          *            is already in the Active Object Map.
-         * @exception org.omg.PortableServer.POAPackage.WrongPolicy raised if the SYSTEM_ID and 
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy raised if the SYSTEM_ID and
          *            RETAIN policies are not specified.
          */
-                ObjectId activate_object( in Servant p_servant ) 
-                        raises (ServantAlreadyActive, WrongPolicy); 
+                ObjectId activate_object( in Servant p_servant )
+                        raises (ServantAlreadyActive, WrongPolicy);
         /**
-         * This operation enters an association between the 
-         * specified Object Id and the specified servant in the 
+         * This operation enters an association between the
+         * specified Object Id and the specified servant in the
          * Active Object Map.
          * @param id object id for the object to be activated.
          * @param p_servant servant to be associated with the
          *                  object.
-         * @exception org.omg.PortableServer.POAPackage.ServantAlreadyActive raised if the POA 
-         *            has the UNIQUE_ID policy and the servant 
+         * @exception org.omg.PortableServer.POAPackage.ServantAlreadyActive raised if the POA
+         *            has the UNIQUE_ID policy and the servant
          *            is already in the Active Object Map.
          * @exception org.omg.PortableServer.POAPackage.ObjectAlreadyActive raised if the object is
          *            already active in the POA.
@@ -912,19 +912,19 @@ module PortableServer {
          *            is not specified.
          */
 
-                void activate_object_with_id( in ObjectId id, 
-                                              in Servant p_servant) 
+                void activate_object_with_id( in ObjectId id,
+                                              in Servant p_servant)
                         raises ( ServantAlreadyActive, ObjectAlreadyActive,
-                                     WrongPolicy); 
+                                     WrongPolicy);
         /**
          *
-         * This operation causes the ObjectId specified in the 
-         * oid parameter to be deactivated. An ObjectId which 
-         * has been deactivated continues to process requests 
-         * until there are no active requests for that ObjectId. 
-         * A deactivated ObjectId is removed from the Active 
-         * Object Map when all requests executing for that 
-         * ObjectId have completed. 
+         * This operation causes the ObjectId specified in the
+         * oid parameter to be deactivated. An ObjectId which
+         * has been deactivated continues to process requests
+         * until there are no active requests for that ObjectId.
+         * A deactivated ObjectId is removed from the Active
+         * Object Map when all requests executing for that
+         * ObjectId have completed.
          * @param oid Object Id for the object to be deactivated.
          * @exception org.omg.PortableServer.POAPackage.ObjectNotActive if the object with the
          *            specified oid is not in the Active Object
@@ -932,135 +932,135 @@ module PortableServer {
          * @exception org.omg.PortableServer.POAPackage.WrongPolicy raised if the RETAIN policy is
          *            is not specified.
          */
-                void deactivate_object(in ObjectId oid) 
-                        raises (ObjectNotActive, WrongPolicy); 
-                
-                // ************************************************** 
-                // 
-                // reference creation operations 
-                // 
+                void deactivate_object(in ObjectId oid)
+                        raises (ObjectNotActive, WrongPolicy);
+
+                // **************************************************
+                //
+                // reference creation operations
+                //
                 // *****************
         /**
-         * This operation creates an object reference that 
-         * encapsulates a POA-generated Object Id value and 
-         * the specified interface repository id. 
+         * This operation creates an object reference that
+         * encapsulates a POA-generated Object Id value and
+         * the specified interface repository id.
          *
          * @param intf rep id for creating an object reference.
          * @return object reference created using intf.
-         * @exception org.omg.PortableServer.POAPackage.WrongPolicy if SYSTEM_ID policy is not 
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy if SYSTEM_ID policy is not
          *            specified.
          */
-                Object create_reference ( in CORBA::RepositoryId intf ) 
-                        raises (WrongPolicy); 
+                Object create_reference ( in CORBA::RepositoryId intf )
+                        raises (WrongPolicy);
 
         /**
-         * This operation creates an object reference that 
-         * encapsulates the specified Object Id and interface 
-         * repository Id values. It does not cause an activation 
-         * to take place. The resulting reference may be passed 
-         * to clients, so that subsequent requests on those 
-         * references will cause the object to be activated 
-         * if necessary, or the default servant used, depending 
-         * on the applicable policies. 
+         * This operation creates an object reference that
+         * encapsulates the specified Object Id and interface
+         * repository Id values. It does not cause an activation
+         * to take place. The resulting reference may be passed
+         * to clients, so that subsequent requests on those
+         * references will cause the object to be activated
+         * if necessary, or the default servant used, depending
+         * on the applicable policies.
          * @param oid object id for creating an objref
          * @param intf rep id for creating an objref
          * @return object reference created using oid and intf
-         * @exception org.omg.CORBA.BAD_PARAM is raised if the POA has the 
-         *             SYSTEM_ID policy and it detects that the 
-         *             Object Id value was not generated by the 
+         * @exception org.omg.CORBA.BAD_PARAM is raised if the POA has the
+         *             SYSTEM_ID policy and it detects that the
+         *             Object Id value was not generated by the
          *             system or for this POA.
          */
-                Object create_reference_with_id ( in ObjectId oid, 
-                                                  in CORBA::RepositoryId intf ); 
+                Object create_reference_with_id ( in ObjectId oid,
+                                                  in CORBA::RepositoryId intf );
                 // not specified in 11.3.8.19 raises (WrongPolicy);
 
-                //-------------------------------------------------- 
-                // 
-                // Identity mapping operations: 
-                // 
-                //-------------------------------------------------- 
+                //--------------------------------------------------
+                //
+                // Identity mapping operations:
+                //
+                //--------------------------------------------------
         /**
-         * This operation has four possible behaviors. 
-         * 1. If the POA has the UNIQUE_ID policy and the 
-         * specified servant is active, the Object Id associated 
+         * This operation has four possible behaviors.
+         * 1. If the POA has the UNIQUE_ID policy and the
+         * specified servant is active, the Object Id associated
          * with that servant is returned.
-         * 2. If the POA has the IMPLICIT_ACTIVATION policy and 
-         * either the POA has the MULTIPLE_ID policy or the 
-         * specified servant is not active, the servant is 
-         * activated using a POA-generated Object Id and the 
-         * Interface Id associated with the servant, and that 
-         * Object Id is returned. 
-         * 3. If the POA has the USE_DEFAULT_SERVANT policy, 
-         * the servant specified is the default servant, and the 
-         * operation is being invoked in the context of executing 
-         * a request on the default servant, then the ObjectId 
-         * associated with the current invocation is returned. 
+         * 2. If the POA has the IMPLICIT_ACTIVATION policy and
+         * either the POA has the MULTIPLE_ID policy or the
+         * specified servant is not active, the servant is
+         * activated using a POA-generated Object Id and the
+         * Interface Id associated with the servant, and that
+         * Object Id is returned.
+         * 3. If the POA has the USE_DEFAULT_SERVANT policy,
+         * the servant specified is the default servant, and the
+         * operation is being invoked in the context of executing
+         * a request on the default servant, then the ObjectId
+         * associated with the current invocation is returned.
          * 4. Otherwise, the ServantNotActive exception is raised.
          *
          * @param p_servant servant for which the object disi returned.
          * @return object id associated with the servant.
          * @exception org.omg.PortableServer.POAPackage.ServantNotActive if the above rules and
-         *            policy combination is not met. 
+         *            policy combination is not met.
          * @exception org.omg.PortableServer.POAPackage.WrongPolicy if the USE_DEFAULT_SERVANT policy
-         *            or a combination of the RETAIN policy and 
-         *            either the UNIQUE_ID or IMPLICIT_ACTIVATION 
-         *            policies are not present. 
+         *            or a combination of the RETAIN policy and
+         *            either the UNIQUE_ID or IMPLICIT_ACTIVATION
+         *            policies are not present.
          */
-                ObjectId servant_to_id(in Servant p_servant) 
-                        raises (ServantNotActive, WrongPolicy); 
-        
+                ObjectId servant_to_id(in Servant p_servant)
+                        raises (ServantNotActive, WrongPolicy);
+
         /**
-         * This operation requires the RETAIN policy and either 
-         * the UNIQUE_ID or IMPLICIT_ACTIVATION policies if 
-         * invoked outside the context of an operation dispatched 
+         * This operation requires the RETAIN policy and either
+         * the UNIQUE_ID or IMPLICIT_ACTIVATION policies if
+         * invoked outside the context of an operation dispatched
          * by this POA. It has four possible behaviors.
-         * 1. If the POA has both the RETAIN and the 
-         * UNIQUE_ID policy and the specified servant is active, 
-         * an object reference encapsulating the information used 
-         * to activate the servant is returned. 
-         * 2. If the POA has both the RETAIN and the 
-         * IMPLICIT_ACTIVATION policy and either the POA has the 
-         * MULTIPLE_ID policy or the specified servant is not 
-         * active, the servant is activated using a POA-generated 
-         * Object Id and the Interface Id associated with the 
-         * servant, and a corresponding object reference is 
-         * returned. 
-         * 3. If the operation was invoked in the context of 
-         * executing a request on the specified servant, the 
-         * reference associated with the current invocation 
-         * is returned. 
+         * 1. If the POA has both the RETAIN and the
+         * UNIQUE_ID policy and the specified servant is active,
+         * an object reference encapsulating the information used
+         * to activate the servant is returned.
+         * 2. If the POA has both the RETAIN and the
+         * IMPLICIT_ACTIVATION policy and either the POA has the
+         * MULTIPLE_ID policy or the specified servant is not
+         * active, the servant is activated using a POA-generated
+         * Object Id and the Interface Id associated with the
+         * servant, and a corresponding object reference is
+         * returned.
+         * 3. If the operation was invoked in the context of
+         * executing a request on the specified servant, the
+         * reference associated with the current invocation
+         * is returned.
          * 4. Otherwise, the ServantNotActive exception is raised.
          *
          * @param p_servant servant for which the object reference
          *                  needs to be obtained.
          * @return object reference associated with the servant.
-         * @exception org.omg.PortableServer.POAPackage.WrongPolicy if the operation is not invoked 
-         *            in the context of executing a request on 
-         *            the specified servant and the required 
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy if the operation is not invoked
+         *            in the context of executing a request on
+         *            the specified servant and the required
          *            policies are not present.
          * @exception org.omg.PortableServer.POAPackage.ServantNotActive if the above specified
          *            policies and rules are not met.
          */
-                Object servant_to_reference(in Servant p_servant) 
-                        raises (ServantNotActive, WrongPolicy); 
+                Object servant_to_reference(in Servant p_servant)
+                        raises (ServantNotActive, WrongPolicy);
 
         /**
-         * If the POA has the RETAIN policy and the specified 
-         * object is present in the Active Object Map, this 
-         * operation returns the servant associated with that 
-         * object in the Active Object Map. Otherwise, if the 
-         * POA has the USE_DEFAULT_SERVANT policy and a default 
-         * servant has been registered with the POA, this 
-         * operation returns the default servant. If the object 
-         * reference was not created by this POA, 
+         * If the POA has the RETAIN policy and the specified
+         * object is present in the Active Object Map, this
+         * operation returns the servant associated with that
+         * object in the Active Object Map. Otherwise, if the
+         * POA has the USE_DEFAULT_SERVANT policy and a default
+         * servant has been registered with the POA, this
+         * operation returns the default servant. If the object
+         * reference was not created by this POA,
          * the WrongAdapter exception is raised. (OMG Issue
          * on inconsistency with the POA.IDL.
          *
          * @param reference object reference for which the
          *                  servant is returned.
          * @return servant associated with the reference.
-         * @exception org.omg.PortableServer.POAPackage.WrongPolicy if neither the RETAIN policy or 
-         *            the USE_DEFAULT_SERVANT policy is present. 
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy if neither the RETAIN policy or
+         *            the USE_DEFAULT_SERVANT policy is present.
          * @exception org.omg.PortableServer.POAPackage.ObjectNotActive if the servant is not
          *            present in the Active Object Map (for RETAIN)
          *            or no default servant is registered (for
@@ -1069,37 +1069,37 @@ module PortableServer {
          *            this POA instance.
          */
                 Servant reference_to_servant(in Object reference)
-                    raises (ObjectNotActive, WrongPolicy, WrongAdapter); 
+                    raises (ObjectNotActive, WrongPolicy, WrongAdapter);
 
         /**
-         * This operation returns the Object Id value 
-         * encapsulated by the specified reference. This 
-         * operation is valid only if the reference was created 
-         * by the POA on which the operation is being performed. 
-         * The object denoted by the reference does not have 
+         * This operation returns the Object Id value
+         * encapsulated by the specified reference. This
+         * operation is valid only if the reference was created
+         * by the POA on which the operation is being performed.
+         * The object denoted by the reference does not have
          * to be active for this operation to succeed.
          *
          * @param reference the object reference from which the
          *                  object id needs to be returned.
          * @return object id encapsulated in the reference.
-         * @exception org.omg.PortableServer.POAPackage.WrongAdapter if the reference was not 
-         *            created by the POA specified in the 
+         * @exception org.omg.PortableServer.POAPackage.WrongAdapter if the reference was not
+         *            created by the POA specified in the
          *            reference.
-         * @exception org.omg.PortableServer.POAPackage.WrongPolicy declared to allow future 
-         *            extensions. 
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy declared to allow future
+         *            extensions.
          *
          */
-                ObjectId reference_to_id(in Object reference) 
-                        raises (WrongAdapter, WrongPolicy); 
+                ObjectId reference_to_id(in Object reference)
+                        raises (WrongAdapter, WrongPolicy);
 
         /**
-         * If the POA has the RETAIN policy and the specified 
-         * ObjectId is in the Active Object Map, this operation 
-         * returns the servant associated with that object in 
-         * the Active Object Map. Otherwise, if the POA has 
-         * the USE_DEFAULT_SERVANT policy and a default servant 
-         * has been registered with the POA, this operation 
-         * returns the default servant. 
+         * If the POA has the RETAIN policy and the specified
+         * ObjectId is in the Active Object Map, this operation
+         * returns the servant associated with that object in
+         * the Active Object Map. Otherwise, if the POA has
+         * the USE_DEFAULT_SERVANT policy and a default servant
+         * has been registered with the POA, this operation
+         * returns the default servant.
          *
          * @param oid object id for the which the servant is
          *            returned.
@@ -1110,70 +1110,70 @@ module PortableServer {
          *            (for USE_DEFAULT_SERVANT policy).
          *
          * @exception org.omg.PortableServer.POAPackage.WrongPolicy is raised if the RETAIN policy
-         *                        or the USE_DEFAULT_SERVANT 
-         *                        policy is not present. 
+         *                        or the USE_DEFAULT_SERVANT
+         *                        policy is not present.
          */
-                Servant id_to_servant(in ObjectId oid) 
-                        raises (ObjectNotActive, WrongPolicy); 
+                Servant id_to_servant(in ObjectId oid)
+                        raises (ObjectNotActive, WrongPolicy);
 
         /**
-         * If an object with the specified Object Id value is 
-         * currently active, a reference encapsulating the 
-         * information used to activate the object is returned. 
+         * If an object with the specified Object Id value is
+         * currently active, a reference encapsulating the
+         * information used to activate the object is returned.
          *
          * @param oid id of the object for which the
          *                 reference is returned.
-         * @return the object reference 
+         * @return the object reference
          *
-         * @exception org.omg.PortableServer.POAPackage.ObjectNotActive if the Object Id value 
+         * @exception org.omg.PortableServer.POAPackage.ObjectNotActive if the Object Id value
          *             is not active in the POA.
-         * @exception org.omg.PortableServer.POAPackage.WrongPolicy if the RETAIN policy is not 
+         * @exception org.omg.PortableServer.POAPackage.WrongPolicy if the RETAIN policy is not
          *             present.
          */
-                Object id_to_reference(in ObjectId oid) 
-                        raises (ObjectNotActive, WrongPolicy); 
+                Object id_to_reference(in ObjectId oid)
+                        raises (ObjectNotActive, WrongPolicy);
 
         /**
-         * This returns the unique id of the POA in the process in which it 
+         * This returns the unique id of the POA in the process in which it
          * is created.  It is for use by portable interceptors.
          * <p>
          * This id is guaranteed unique for the life span of the POA in the
-         * process.  For persistent POAs, this means that if a POA is created 
-         * in the same path with the same name as another POA, these POAs 
-         * are identical and, therefore, have the same id.  For transient 
+         * process.  For persistent POAs, this means that if a POA is created
+         * in the same path with the same name as another POA, these POAs
+         * are identical and, therefore, have the same id.  For transient
          * POAs, each POA is unique.
          *
          * @return the unique id
          */
                 readonly attribute ::org::omg::CORBA::OctetSeq id;
 
-        }; 
+        };
 
         // *****************************************************
-        // 
-        // Current interface: 
-        // 
+        //
+        // Current interface:
+        //
         // *****************************************************
 
         /**
-         * The PortableServer::Current interface, derived from 
-         * CORBA::Current, provides method implementations with 
-         * access to the identity of the object on which the 
-         * method was invoked. The Current interface is provided 
-         * to support servants that implement multiple objects, 
-         * but can be used within the context of POA-dispatched 
-         * method invocations on any servant. To provide location 
-         * transparency, ORBs are required to support use of 
-         * Current in the context of both locally and remotely 
-         * invoked operations. An instance of Current can be 
-         * obtained by the application by issuing the 
-         * CORBA::ORB::resolve_initial_references("POACurrent") 
-         * operation. Thereafter, it can be used within the 
-         * context of a method dispatched by the POA to obtain 
-         * the POA and ObjectId that identify the object on 
+         * The PortableServer::Current interface, derived from
+         * CORBA::Current, provides method implementations with
+         * access to the identity of the object on which the
+         * method was invoked. The Current interface is provided
+         * to support servants that implement multiple objects,
+         * but can be used within the context of POA-dispatched
+         * method invocations on any servant. To provide location
+         * transparency, ORBs are required to support use of
+         * Current in the context of both locally and remotely
+         * invoked operations. An instance of Current can be
+         * obtained by the application by issuing the
+         * CORBA::ORB::resolve_initial_references("POACurrent")
+         * operation. Thereafter, it can be used within the
+         * context of a method dispatched by the POA to obtain
+         * the POA and ObjectId that identify the object on
          * which that operation was invoked.
          */
-        interface Current : CORBA::Current { 
+        interface Current : CORBA::Current {
                 #pragma sun_local Current ""
                 #pragma version Current 2.3
         /**
@@ -1182,33 +1182,33 @@ module PortableServer {
          * POA-dispatched operation.
          */
 
-                exception NoContext { }; 
-        
+                exception NoContext { };
+
         /**
-         * Returns reference to the POA implementing the 
-         * object in whose context it is called. 
+         * Returns reference to the POA implementing the
+         * object in whose context it is called.
          *
          * @return The poa implementing the object
-         * 
+         *
          * @exception org.omg.PortableServer.CurrentPackage.NoContext is raised when the operation is
-         *            outside the context of a POA-dispatched 
+         *            outside the context of a POA-dispatched
          *            operation
          */
-                POA get_POA() 
-                        raises (NoContext); 
+                POA get_POA()
+                        raises (NoContext);
 
-        /** 
-         * Returns the ObjectId identifying the object in 
-         * whose context it is called. 
+        /**
+         * Returns the ObjectId identifying the object in
+         * whose context it is called.
          *
          * @return the ObjectId of the object
          *
          * @exception org.omg.PortableServer.CurrentPackage.NoContext is raised when the operation
-         * is called outside the context of a POA-dispatched 
+         * is called outside the context of a POA-dispatched
          * operation.
          */
 
-                ObjectId get_object_id() 
-                        raises (NoContext); 
-        }; 
+                ObjectId get_object_id()
+                        raises (NoContext);
+        };
 };

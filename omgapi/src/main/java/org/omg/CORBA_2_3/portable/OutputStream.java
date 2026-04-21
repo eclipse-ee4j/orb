@@ -53,7 +53,7 @@ public abstract class OutputStream extends org.omg.CORBA.portable.OutputStream {
     /**
      * Marshals a value type to the output stream.
      * @param value is the acutal value to write
-     * @param repository_id identifies the type of the value type to 
+     * @param repository_id identifies the type of the value type to
      * be marshaled
      */
     public void write_value(java.io.Serializable value, String repository_id) {

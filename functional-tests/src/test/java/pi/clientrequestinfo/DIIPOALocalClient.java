@@ -35,13 +35,13 @@ import ClientRequestInfo.*;
 /**
  * Tests DII POA Local invocation (with a co-located orb)
  */
-public class DIIPOALocalClient 
+public class DIIPOALocalClient
     extends ClientCommon
-    implements InternalProcess 
+    implements InternalProcess
 {
     // Reference to hello object
     private helloDIIClientStub helloRef;
-    
+
     // Reference to hello object to be forwarded to:
     private helloDIIClientStub helloRefForward;
 
@@ -71,10 +71,10 @@ public class DIIPOALocalClient
             new Thread() {
                 public void run() {
                     try {
-                        (new POALocalServer()).run( 
+                        (new POALocalServer()).run(
                                                 client.orb, client.syncObject,
                                                 System.getProperties(),
-                                                arguments, System.out, 
+                                                arguments, System.out,
                                                 System.err, null );
                     }
                     catch( Exception e ) {
@@ -108,7 +108,7 @@ public class DIIPOALocalClient
     }
 
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         try {
@@ -122,7 +122,7 @@ public class DIIPOALocalClient
     /**
      * Clear invocation flags of helloRef and helloRefForward
      */
-    protected void clearInvoked() 
+    protected void clearInvoked()
         throws Exception
     {
         helloRef.clearInvoked();
@@ -132,7 +132,7 @@ public class DIIPOALocalClient
     /**
      * Invoke the method with the given name on the object
      */
-    protected void invokeMethod( String methodName ) 
+    protected void invokeMethod( String methodName )
         throws Exception
     {
         // Make an invocation:
@@ -156,8 +156,8 @@ public class DIIPOALocalClient
     /**
      * Return true if the method was invoked
      */
-    protected boolean wasInvoked() 
-        throws Exception 
+    protected boolean wasInvoked()
+        throws Exception
     {
         return helloRef.wasInvoked();
     }
@@ -165,8 +165,8 @@ public class DIIPOALocalClient
     /**
      * Return true if the method was forwarded
      */
-    protected boolean didForward() 
-        throws Exception 
+    protected boolean didForward()
+        throws Exception
     {
         return helloRefForward.wasInvoked();
     }
@@ -174,8 +174,8 @@ public class DIIPOALocalClient
     /**
      * Perform ClientRequestInfo tests
      */
-    protected void testClientRequestInfo () 
-        throws Exception 
+    protected void testClientRequestInfo ()
+        throws Exception
     {
         super.testClientRequestInfo();
 
@@ -187,8 +187,8 @@ public class DIIPOALocalClient
      * Re-resolves all references to eliminate any cached ForwardRequests
      * from the last invocation
      */
-    protected void resolveReferences() 
-        throws Exception 
+    protected void resolveReferences()
+        throws Exception
     {
         out.println( "    + resolving references..." );
         out.println( "      - disabling interceptors..." );
@@ -215,24 +215,24 @@ public class DIIPOALocalClient
         throws Exception
     {
         // Get the root naming context
-        org.omg.CORBA.Object objRef = 
+        org.omg.CORBA.Object objRef =
             orb.resolve_initial_references("NameService");
         NamingContext ncRef = NamingContextHelper.narrow(objRef);
-        
+
         // resolve the Object Reference in Naming
         NameComponent nc = new NameComponent(name, "");
         NameComponent path[] = {nc};
         org.omg.CORBA.Object helloRef = ncRef.resolve( path );
-        
+
         return new helloDIIClientStub( orb, helloRef );
     }
 
     /**
      * Test DII-specific features
      */
-    protected void testDynamic() 
+    protected void testDynamic()
         throws Exception
-    {                                                       
+    {
         out.println( "+ Testing DII ClientRequestInfo methods..." );
 
         InterceptorStrategy interceptorStrategy =
@@ -240,15 +240,15 @@ public class DIIPOALocalClient
         InvokeStrategy invokeStrategy = new InvokeDynamic();
         setParameters( interceptorStrategy, invokeStrategy );
         runTestCase( "dii_dynamic" );
-    }                           
+    }
 
     /**
      * When asked to run exception tests, run in DII mode.
      * This will skip any UserException-related tests.
      */
-    protected void testException() 
+    protected void testException()
         throws Exception
-    {                                                       
+    {
         out.println( "+ Testing received_exception[_id]() in DII mode..." );
 
         InterceptorStrategy interceptorStrategy =
@@ -256,7 +256,7 @@ public class DIIPOALocalClient
         InvokeStrategy invokeStrategy = new InvokeExceptions();
         setParameters( interceptorStrategy, invokeStrategy );
         runTestCase( "received_exception[_id]" );
-    }                                        
+    }
 }
 
 

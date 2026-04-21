@@ -53,7 +53,7 @@ public class ComplexTestObjectThree implements Serializable
                 ComplexTestObjectThree ctbo = (ComplexTestObjectThree)o;
                 return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) &&
                         (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat) && (ctbo.fDouble == fDouble)
-                        && (ctbo.fOne.equals(fOne)) 
+                        && (ctbo.fOne.equals(fOne))
                         && (ctbo.fTwo.equals(fTwo))
                         );
             }

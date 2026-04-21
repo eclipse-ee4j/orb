@@ -44,7 +44,7 @@ public class CRI
 
     public String name() { return baseMsg; }
 
-    public void destroy() 
+    public void destroy()
     {
         if (balance != 0) {
             throw new RuntimeException(baseMsg + ": Interceptors not balanced.");
@@ -61,7 +61,7 @@ public class CRI
         try {
             TaggedComponent taggedComponent =
                 cri.get_effective_component(Common.ListenPortsComponentID);
-            String componentData = 
+            String componentData =
                 new String(taggedComponent.component_data);
             System.out.println("    found ListenPortsComponentID: " +
                                componentData);

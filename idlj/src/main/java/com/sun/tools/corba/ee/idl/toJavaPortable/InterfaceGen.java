@@ -94,11 +94,11 @@ public class InterfaceGen implements com.sun.tools.corba.ee.idl.InterfaceGen, Ja
               // complete for the Hierarchy.
               com.sun.tools.corba.ee.idl.toJavaPortable.Arguments theArguments = (com.sun.tools.corba.ee.idl.toJavaPortable.Arguments) com.sun.tools.corba.ee.idl.toJavaPortable.Compile.compiler.arguments;
               if( (theArguments.TIEServer == true )
-                &&(theArguments.emit == theArguments.All ) ) 
+                &&(theArguments.emit == theArguments.All ) )
               {
                   theArguments.TIEServer = false;
-                  // Generate the ImplBase class 
-                  generateSkeleton (); 
+                  // Generate the ImplBase class
+                  generateSkeleton ();
                   // Revert in case file contains multiple interfaces
                   theArguments.TIEServer = true;
               }
@@ -282,7 +282,7 @@ public class InterfaceGen implements com.sun.tools.corba.ee.idl.InterfaceGen, Ja
     // it should extend both org.omg.CORBA.Object and IDLEntity.
     if (!hasNonAbstractParent) {
       stream.print (", org.omg.CORBA.Object, org.omg.CORBA.portable.IDLEntity ");
-    } 
+    }
     else {
     // <d62310-klr> - end
         // extends IDLEntity if there's only one default parent - CORBA.Object

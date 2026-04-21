@@ -36,11 +36,11 @@ public class SharedSecrets {
         if (javaCorbaAccess == null) {
             // Ensure ValueUtility is initialized; we know that that class
             // provides the shared secret
-        	try {
-				Class.forName(ValueUtility.class.getName(), true, ValueUtility.class.getClassLoader());
-			} catch (ClassNotFoundException e) {
-				throw new RuntimeException(e);
-			}
+            try {
+                Class.forName(ValueUtility.class.getName(), true, ValueUtility.class.getClassLoader());
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         return javaCorbaAccess;

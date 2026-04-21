@@ -30,19 +30,19 @@ import org.glassfish.gmbal.ManagedData ;
 * Root POA to get to a POA, but other implementations are possible.
 */
 @ManagedData
-@Description( "The identifier for a particular Object adapter in the ORB" ) 
+@Description( "The identifier for a particular Object adapter in the ORB" )
 public interface ObjectAdapterId extends Iterable<String>, Writeable {
     /** Return the number of elements in the adapter ID.
      * @return number of elements
     */
     int getNumLevels() ;
 
-    /** Return an iterator that iterates over the components 
+    /** Return an iterator that iterates over the components
     * of this adapter ID.  Each element is returned as a String.
     * @return iterator over components
     */
     @ManagedAttribute
-    @Description( "Sequence of strings in the ObjectAdapterId" ) 
+    @Description( "Sequence of strings in the ObjectAdapterId" )
     @Override
     Iterator<String> iterator();
 

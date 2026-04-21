@@ -38,8 +38,8 @@ import java.rmi.*;
 import javax.rmi.*;
 import javax.naming.*;
 
-public abstract class DSIRMIServer 
-    extends ServerCommon 
+public abstract class DSIRMIServer
+    extends ServerCommon
 {
     InitialContext initialNamingContext;
 
@@ -47,9 +47,9 @@ public abstract class DSIRMIServer
     private String hello2IOR;
 
     private TestServantLocator servantLocator;
-    
+
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         try {
@@ -62,12 +62,12 @@ public abstract class DSIRMIServer
 
             // Set up hello object:
             out.println( "+ Creating and binding Hello1 object..." );
-            TestInitializer.helloRef = createAndBind( "Hello1", 
+            TestInitializer.helloRef = createAndBind( "Hello1",
                                                       "[Hello1]" );
 
             out.println( "+ Creating and binding Hello1Forward object..." );
             TestInitializer.helloRefForward = createAndBind( "Hello1Forward",
-                                                             "[Hello1Forward]" ); 
+                                                             "[Hello1Forward]" );
 
             handshake();
 
@@ -89,45 +89,45 @@ public abstract class DSIRMIServer
     /**
      * Creates and binds a hello object using RMI
      */
-    public org.omg.CORBA.Object createAndBind ( String name, 
+    public org.omg.CORBA.Object createAndBind ( String name,
                                                 String symbol )
         throws Exception
     {
         // create and register it with RMI
-        helloDSIDeprecatedServant obj = new helloDSIDeprecatedServant( 
+        helloDSIDeprecatedServant obj = new helloDSIDeprecatedServant(
             orb, out, symbol );
         orb.connect( obj );
         initialNamingContext.rebind( name, obj );
 
         java.lang.Object o = initialNamingContext.lookup( name );
-        return (org.omg.CORBA.Object)PortableRemoteObject.narrow( o, 
+        return (org.omg.CORBA.Object)PortableRemoteObject.narrow( o,
             org.omg.CORBA.Object.class );
     }
 
-    /** 
+    /**
      * Overridden from ServerCommon.  Oneway calls are not supported in RMI.
      */
-    void testInvocation( String name, 
-                         int mode, 
+    void testInvocation( String name,
+                         int mode,
                          String correctOrder,
                          String methodName,
                          String correctMethodOrder,
                          boolean exceptionExpected )
-        throws Exception 
+        throws Exception
     {
         // Rebind each time so that location forward information is
-        // wiped out.  See CDRInputStream1_0 readObject.  This is necessary 
+        // wiped out.  See CDRInputStream1_0 readObject.  This is necessary
         // because the local case will always return the exact same object
         // on the client side otherwise.
 
         // Set up hello object:
         out.println( "+ Creating and binding Hello1 object..." );
-        TestInitializer.helloRef = createAndBind( "Hello1", 
+        TestInitializer.helloRef = createAndBind( "Hello1",
                                                   "[Hello1]" );
 
         out.println( "+ Creating and binding Hello1Forward object..." );
         TestInitializer.helloRefForward = createAndBind( "Hello1Forward",
-                                                         "[Hello1Forward]" ); 
+                                                         "[Hello1Forward]" );
 
 
         if( !methodName.equals( "sayOneway" ) ) {

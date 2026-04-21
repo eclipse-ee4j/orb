@@ -30,7 +30,7 @@ public class TestngRunnerTest extends CORBATest
     protected void doTest() throws Exception
     {
         String thisPackage = this.getClass().getPackage().getName() ;
-        
+
         Controller client = createClient(thisPackage+"."+"Client", "Client");
 
         client.start();

@@ -41,7 +41,7 @@ public class Client extends org.omg.CORBA.LocalObject
 
     public static final String baseMsg = Client.class.getName();
     public static final String main = baseMsg + ".main";
-    
+
     public static ORB orb;
     public static InitialContext initialContext;
 
@@ -77,15 +77,15 @@ public class Client extends org.omg.CORBA.LocalObject
     }
 
     ////////////////////////////////////////////////////
-    //    
+    //
     // ORBInitializer interface implementation.
     //
 
-    public void pre_init(ORBInitInfo info) 
+    public void pre_init(ORBInitInfo info)
     {
     }
 
-    public void post_init(ORBInitInfo info) 
+    public void post_init(ORBInitInfo info)
     {
         // register the interceptors.
         try {
@@ -101,32 +101,32 @@ public class Client extends org.omg.CORBA.LocalObject
     // implementation of the Interceptor interface.
     //
 
-    public String name() 
+    public String name()
     {
         return "ClientInterceptor";
     }
 
-    public void destroy() 
+    public void destroy()
     {
     }
 
     ////////////////////////////////////////////////////
-    //    
+    //
     // implementation of the ClientInterceptor interface.
     //
 
-    public void send_request(ClientRequestInfo ri) throws ForwardRequest 
+    public void send_request(ClientRequestInfo ri) throws ForwardRequest
     {
-        U.sop("send_request called : " + ri.operation());        
+        U.sop("send_request called : " + ri.operation());
     }
 
-    public void send_poll(ClientRequestInfo ri) 
+    public void send_poll(ClientRequestInfo ri)
     {
         U.sop("send_poll called : " + ri.operation());
     }
 
-    public void receive_reply(ClientRequestInfo ri) 
-    {    
+    public void receive_reply(ClientRequestInfo ri)
+    {
         String opName = ri.operation();
         U.sop("receive_reply.opName: " + opName);
 
@@ -140,8 +140,8 @@ public class Client extends org.omg.CORBA.LocalObject
             Field riMember = riClass.getDeclaredField("messageMediator");
             riMember.setAccessible(true);
             cri = (MessageMediatorImpl) riMember.get(ri);
-        } catch (Throwable e) { 
-            e.printStackTrace(System.out); 
+        } catch (Throwable e) {
+            e.printStackTrace(System.out);
             throw new RuntimeException("impl class instrospection failed", e);
         }
 
@@ -163,12 +163,12 @@ public class Client extends org.omg.CORBA.LocalObject
         }
     }
 
-    public void receive_exception(ClientRequestInfo ri) throws ForwardRequest 
+    public void receive_exception(ClientRequestInfo ri) throws ForwardRequest
     {
         U.sop("receive_exception called : " + ri.operation());
     }
 
-    public void receive_other(ClientRequestInfo ri) throws ForwardRequest 
+    public void receive_other(ClientRequestInfo ri) throws ForwardRequest
     {
         U.sop("receive_other called : " + ri.operation());
     }

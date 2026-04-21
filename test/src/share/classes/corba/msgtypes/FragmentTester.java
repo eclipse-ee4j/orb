@@ -26,7 +26,7 @@ public interface FragmentTester extends java.rmi.Remote
     public byte[] verifyTransmission(byte array[])
         throws RemoteException, BadArrayException;
     public boolean verifyOutcome() throws RemoteException;
-    public java.lang.Object testFragmentedReply(boolean isSerializable) 
+    public java.lang.Object testFragmentedReply(boolean isSerializable)
         throws RemoteException;
 
     // used for header padding test only. The following two method names differ

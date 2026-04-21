@@ -339,7 +339,7 @@ public class ValueType extends ClassType {
                 String id = arg.getQualifiedName();
                 if (returnType.isType(TYPE_VOID) &&
                         id.equals("java.io.ObjectOutputStream")) {
-                    
+
                     // Got one, so there's nothing to do...
 
                     return true;
@@ -363,11 +363,11 @@ public class ValueType extends ClassType {
                         elementType.getQualifiedName().equals(
                                 "java.io.ObjectStreamField")
                         ) {
-                    
+
                     if (member.isStatic() &&
                             member.isFinal() &&
                             member.isPrivate()) {
-                        
+
                         // We have the correct signature
 
                         spfDef = member.getMemberDefinition();

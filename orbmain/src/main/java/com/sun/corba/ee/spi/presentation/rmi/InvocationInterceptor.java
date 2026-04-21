@@ -19,9 +19,9 @@
 
 package com.sun.corba.ee.spi.presentation.rmi ;
 
-/** Represents an interceptor that is invoked around a 
+/** Represents an interceptor that is invoked around a
  * RMI-IIOP method invocation when dynamic RMI-IIOP is used.
- * This facility is not available either in IDL-based 
+ * This facility is not available either in IDL-based
  * calls, or in static RMI-IIOP.
  */
 public interface InvocationInterceptor {

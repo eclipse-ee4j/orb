@@ -21,7 +21,7 @@ package org.omg.CORBA;
 
 
 /**
-* The Helper for <tt>Current</tt>.  For more information on 
+* The Helper for <tt>Current</tt>.  For more information on
 * Helper files, see <a href="doc-files/generatedfiles.html#helper">
 * "Generated Files: Helper Files"</a>.<P>
 * org/omg/CORBA/CurrentHelper.java
@@ -75,7 +75,7 @@ abstract public class CurrentHelper
       return null;
     else if (obj instanceof org.omg.CORBA.Current)
       return (org.omg.CORBA.Current)obj;
-    else 
+    else
       throw new org.omg.CORBA.BAD_PARAM ();
   }
 

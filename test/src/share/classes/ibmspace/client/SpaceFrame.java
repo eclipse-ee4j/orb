@@ -115,7 +115,7 @@ public class SpaceFrame extends JFrame
         budgetScroller.getViewport().add(budgetUI, null);
         controlPanel.add(budgetScroller, new Float(.3f));
 
-    
+
         // Tech Spending Pane
 
         JComponent techSpendingUI = fGameUI.createTechSpendingUI ();
@@ -157,7 +157,7 @@ class SpaceFrame_miTakeTurn_actionAdapter implements java.awt.event.ActionListen
 {
     SpaceFrame adaptee;
 
-  
+
     SpaceFrame_miTakeTurn_actionAdapter(SpaceFrame adaptee)
     {
         this.adaptee = adaptee;

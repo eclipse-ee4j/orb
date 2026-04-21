@@ -61,10 +61,10 @@ public class EchoTestServant
         try {
             dprint(".neverReturns");
             Object o = new Object();
-            try { 
+            try {
                 synchronized (o) {
-                    o.wait(); 
-                } 
+                    o.wait();
+                }
             } catch (InterruptedException e) {
                 ;
             }

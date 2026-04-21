@@ -26,10 +26,10 @@ import com.sun.corba.ee.spi.misc.ORBConstants;
 import org.omg.CORBA.*;
 
 public class ORBInitErrorTest
-    extends 
+    extends
         CORBATest
 {
-    protected void doTest() 
+    protected void doTest()
         throws
             Throwable
     {
@@ -51,4 +51,4 @@ public class ORBInitErrorTest
 
 // End of file.
 
-    
+

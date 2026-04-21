@@ -25,7 +25,7 @@ import com.sun.corba.ee.spi.ior.iiop.JavaCodebaseComponent ;
 import org.omg.CORBA_2_3.portable.OutputStream ;
 import org.omg.IOP.TAG_JAVA_CODEBASE ;
 
-public class JavaCodebaseComponentImpl extends TaggedComponentBase 
+public class JavaCodebaseComponentImpl extends TaggedComponentBase
     implements JavaCodebaseComponent
 {
     private String URLs ;
@@ -53,22 +53,22 @@ public class JavaCodebaseComponentImpl extends TaggedComponentBase
         return "JavaCodebaseComponentImpl[URLs=" + URLs + "]" ;
     }
 
-    public String getURLs() 
+    public String getURLs()
     {
         return URLs ;
     }
 
-    public JavaCodebaseComponentImpl( String URLs ) 
+    public JavaCodebaseComponentImpl( String URLs )
     {
         this.URLs = URLs ;
     }
-    
-    public void writeContents(OutputStream os) 
+
+    public void writeContents(OutputStream os)
     {
         os.write_string( URLs ) ;
     }
-    
-    public int getId() 
+
+    public int getId()
     {
         return TAG_JAVA_CODEBASE.value ; // 25 in CORBA 2.3.1 13.6.3
     }

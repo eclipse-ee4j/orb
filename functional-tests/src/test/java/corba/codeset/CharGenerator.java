@@ -51,13 +51,13 @@ public class CharGenerator
     {
         public abstract boolean testThisCharacter(char ch);
     }
-    
+
     private static class LatinSelector extends CharSelector
     {
         public boolean testThisCharacter(char ch)
         {
             Character.UnicodeBlock blk = Character.UnicodeBlock.of(ch);
-            
+
             return (blk != null &&
                     blk == Character.UnicodeBlock.BASIC_LATIN);
         }
@@ -68,7 +68,7 @@ public class CharGenerator
         public boolean testThisCharacter(char ch)
         {
             Character.UnicodeBlock blk = Character.UnicodeBlock.of(ch);
-            return (blk != null && 
+            return (blk != null &&
                     (blk == Character.UnicodeBlock.KATAKANA ||
                      blk == Character.UnicodeBlock.HIRAGANA ||
                      blk == Character.UnicodeBlock.LATIN_1_SUPPLEMENT ||

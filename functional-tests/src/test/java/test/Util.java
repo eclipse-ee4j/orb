@@ -49,7 +49,7 @@ public class Util {
     }
 
     public static final String HANDSHAKE = "Ready.";
-    
+
     /*
      * Create an ORB.
      */
@@ -171,18 +171,18 @@ public class Util {
     }
 
     public static void setDefaultCodeBase(boolean iiop) {
-        
+
         // If we don't have a codebase set, set it to a
         // reasonable default (iiop only)...
-        
+
         if (iiop) {
             String codebaseKey = "java.rmi.server.codebase";
-            if (System.getProperty(codebaseKey) == null) {                 
+            if (System.getProperty(codebaseKey) == null) {
                 String codebase = "http://localhost:" + getHttpServerPort() + "/";
                 System.getProperties().put(codebaseKey,codebase);
                 JDKBridge.setCodebaseProperties();
             }
-        } else {            
+        } else {
             JDKBridge.setLocalCodebase(null);
         }
     }
@@ -201,7 +201,7 @@ public class Util {
      * Name server must be started prior to this call.
      */
     public static void main(String[] args) {
-                
+
         boolean error = false;
 
         if (args.length != 5) {
@@ -211,13 +211,13 @@ public class Util {
             if (args[4].equalsIgnoreCase("-iiop")) {
             } else if (args[4].equalsIgnoreCase("-jrmp")) {
                 iiop = false;
-                // Dynamic RMI-IIOP prevents the use of JRMP, so 
+                // Dynamic RMI-IIOP prevents the use of JRMP, so
                 // make sure it is disabled.
                 System.setProperty( "com.sun.corba.ee.ORBUseDynamicStub", "false" ) ;
             } else {
                 error = true;
             }
-                     
+
             if (!error) {
 
                 if (System.getSecurityManager() == null) {
@@ -250,8 +250,8 @@ public class Util {
      *
      * Name server must be started prior to this call.
      */
-    public static boolean startSingleServant(  
-                                             String servantClassName, String servantName, String nameServerHost, 
+    public static boolean startSingleServant(
+                                             String servantClassName, String servantName, String nameServerHost,
                                              int nameServerPort, boolean iiop, String orbDebugFlags ) {
         boolean result = true;
         trace( "Util.startSingleServant called." ) ;
@@ -290,11 +290,11 @@ public class Util {
      *
      * Name server must be started prior to this call.
      */
-    public static boolean startSingleServant(  Remote servant, String servantName, 
+    public static boolean startSingleServant(  Remote servant, String servantName,
         String nameServerHost, int nameServerPort, boolean iiop, String orbDebugFlags ) {
 
         boolean result = true;
-        
+
         trace( "Util.startSingleServant called" ) ;
 
         try {
@@ -372,7 +372,7 @@ public class Util {
         "emma.coverage.out.merge",
         "emma.rt.control",
         "junit.report.dir",
-        "net.sourceforge.cobertura.datafile", 
+        "net.sourceforge.cobertura.datafile",
 
         // Test configuration properties
         ORBConstants.ORB_SERVER_ID_PROPERTY,
@@ -396,7 +396,7 @@ public class Util {
             String key = PROCESS_PROPERTIES[j];
             String value = System.getProperty(key);
             if (value != null) {
-                command.insertElementAt("-D" + key + "=" + value, 1 );   
+                command.insertElementAt("-D" + key + "=" + value, 1 );
             }
         }
     }
@@ -406,8 +406,8 @@ public class Util {
         return startProcess( command, handShake, Test.forkDebugLevel ) ;
     }
 
-    public static Process startProcess( Vector command, 
-        String handShake, int debugLevel ) throws IOException 
+    public static Process startProcess( Vector command,
+        String handShake, int debugLevel ) throws IOException
     {
         inheritProperties( command ) ;
 
@@ -428,27 +428,27 @@ public class Util {
                 buff.append( (String)command.elementAt(ctr) ) ;
             }
             trace( buff.toString() ) ;
-            trace( "handShake = \"" + handShake + "\"" ) ;      
+            trace( "handShake = \"" + handShake + "\"" ) ;
         }
 
         return startProcess(arg,handShake,debugLevel);
     }
 
-    private static void displayCommand( String[] command ) 
+    private static void displayCommand( String[] command )
     {
-        System.out.println( 
+        System.out.println(
             "-----------------------------------------------------------------" ) ;
         System.out.println( "Current working directory: " +
             System.getProperty( "user.dir" ) ) ;
         System.out.println( "Command to exec:" ) ;
         for (String str : command)
             System.out.println( "\t" + str ) ;
-        System.out.println( 
+        System.out.println(
             "-----------------------------------------------------------------" ) ;
     }
 
-    private static Process startProcess( String[] command, 
-        String handShake, int debugLevel ) throws IOException 
+    private static Process startProcess( String[] command,
+        String handShake, int debugLevel ) throws IOException
     {
         Process theProcess = null;
         if (debugLevel >= Test.DISPLAY)
@@ -459,10 +459,10 @@ public class Util {
         ProcessMonitor monitor ;
 
         if (debugLevel >= Test.DISPLAY)
-            monitor = new ProcessMonitor( theProcess, 
+            monitor = new ProcessMonitor( theProcess,
                 System.out, System.err, handShake);
         else
-            monitor = new ProcessMonitor(theProcess, 
+            monitor = new ProcessMonitor(theProcess,
                 StreamReader.NULL_OUTPUT_STREAM, StreamReader.NULL_OUTPUT_STREAM, handShake);
 
         monitor.start();
@@ -554,15 +554,15 @@ public class Util {
 
             if (classes != null && classes.length > 0) {
                 int commandCount = classes.length+2;
-                if (debug) 
+                if (debug)
                     commandCount++;
-                if (generatorArg != null) 
+                if (generatorArg != null)
                     commandCount++;
-                if (additionalArgs != null) 
+                if (additionalArgs != null)
                     commandCount+=additionalArgs.length;
                 String[] args = new String[commandCount];
                 int index = 0;
-                if (generatorArg != null) 
+                if (generatorArg != null)
                     args[index++] = generatorArg;
                 if (additionalArgs != null) {
                     int count = additionalArgs.length;
@@ -574,7 +574,7 @@ public class Util {
                 args[index++] = System.getProperty("java.class.path");
                 if (debug)
                     args[index++] = "-verbose" ;
-            
+
                 int count = classes.length;
                 System.arraycopy(classes,0,args,index,count);
 
@@ -753,7 +753,7 @@ public class Util {
 
         // Add properties
         int index;
-        for (index = 0; index < properties.size(); index++) 
+        for (index = 0; index < properties.size(); index++)
             cmd.add(  (String)properties.elementAt(index) );
 
         // Add classpath and server class
@@ -767,11 +767,11 @@ public class Util {
     }
 
     // This version of startServer allows added paths to be appended to the classpath
-    public static Process startServer (String serverClass, Vector properties, 
-                                       String classpath) 
+    public static Process startServer (String serverClass, Vector properties,
+                                       String classpath)
         throws IOException {
 
-        // Fill out the command... 
+        // Fill out the command...
 
         Vector cmd = new Vector() ;
         cmd.add(  System.getProperty("java.home") + "/bin/java" );
@@ -783,14 +783,14 @@ public class Util {
 
         // Add properties
         int index;
-        for (index = 0; index < properties.size(); index++) 
+        for (index = 0; index < properties.size(); index++)
             cmd.add(  (String)properties.elementAt(index) );
 
         // Add classpath and server class
         cmd.add(  "-classpath" );
         cmd.add(  System.getProperty("java.class.path")+File.pathSeparator+classpath );
         cmd.add(  serverClass );
-                
+
         // Start her up...
         return startProcess(cmd,Util.HANDSHAKE,Test.forkDebugLevel);
     }

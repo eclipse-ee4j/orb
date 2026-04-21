@@ -45,7 +45,7 @@ module CORBA {
   /** Repository ID, represented as a String */
   typedef string RepositoryId;
 
-  /** 
+  /**
    * Encapsulates a reason a Policy may be invalid.
    *
    * @see PolicyError
@@ -54,10 +54,10 @@ module CORBA {
 
   /**
    * Thrown to indicate problems with parameter values passed to the
-   * <code>ORB.create_policy</code> operation.  
+   * <code>ORB.create_policy</code> operation.
    */
   exception PolicyError { PolicyErrorCode reason; };
 };
 
- 
+
 #endif // _CORBAX_IDL_

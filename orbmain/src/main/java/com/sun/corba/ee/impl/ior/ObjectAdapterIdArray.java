@@ -39,12 +39,12 @@ public class ObjectAdapterIdArray extends ObjectAdapterIdBase {
         this.objectAdapterId = (String[])objectAdapterId.clone() ;
     }
 
-    /** 
+    /**
      * Special constructor used for OA IDs of length 2.
      * @param name1 First name part
      * @param name2 Second name part
      */
-    public ObjectAdapterIdArray( String name1, String name2 ) 
+    public ObjectAdapterIdArray( String name1, String name2 )
     {
         objectAdapterId = new String[2] ;
         objectAdapterId[0] = name1 ;
@@ -65,7 +65,7 @@ public class ObjectAdapterIdArray extends ObjectAdapterIdBase {
 
     @Override
     public String[] getAdapterName()
-    {      
+    {
         return (String[])objectAdapterId.clone() ;
     }
 }

@@ -35,7 +35,7 @@ public class RequestIdImpl implements RequestId {
     final private int value;
     final private boolean defined;
     final static private String UNDEFINED = "?";
-    final static public 
+    final static public
             RequestId UNKNOWN_CORBA_REQUEST_ID = new RequestIdImpl();
 
     /** Creates a new instance of CorbaRequestIdImpl
@@ -75,7 +75,7 @@ public class RequestIdImpl implements RequestId {
         if (requestId == null || !(requestId instanceof RequestId)) {
             return false;
         }
-        
+
         if (this.isDefined()) {
             if (((RequestId)requestId).isDefined()) {
                 return this.value == ((RequestId)requestId).getValue();
@@ -94,7 +94,7 @@ public class RequestIdImpl implements RequestId {
     public int hashCode() {
         return this.value;
     }
-    
+
     /** String representing this CorbaRequestId */
     @Override
     public String toString() {

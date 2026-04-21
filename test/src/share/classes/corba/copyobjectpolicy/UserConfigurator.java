@@ -32,7 +32,7 @@ import corba.framework.TraceAccumulator ;
 import corba.framework.ProxyInterceptor ;
 import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopierFactory;
 
-public class UserConfigurator implements ORBConfigurator 
+public class UserConfigurator implements ORBConfigurator
 {
     // All of these statics are needed in the main test
     public static final int VALUE_INDEX = 1 ;
@@ -41,24 +41,24 @@ public class UserConfigurator implements ORBConfigurator
     public static final String VALUE_NAME = "ValueInterceptor" ;
     public static final String REFERENCE_NAME = "ReferenceInterceptor" ;
 
-    // The TraceAccumular connected to the ProxyInterceptors 
+    // The TraceAccumular connected to the ProxyInterceptors
     // used in this test.
     public static final TraceAccumulator traceAccum =
         new TraceAccumulator() ;
 
     public static final Method makeMethod ;
-    
+
     static {
         try {
             makeMethod = ObjectCopierFactory.class.
                 getDeclaredMethod( "make" ) ;
         } catch (Exception exc) {
-            throw new RuntimeException( 
+            throw new RuntimeException(
                 "Cannot find ObjectCopierFactory.make() method", exc ) ;
         }
-    } 
+    }
 
-    private ProxyInterceptor makePI( String name, ObjectCopierFactory factory ) 
+    private ProxyInterceptor makePI( String name, ObjectCopierFactory factory )
     {
         ProxyInterceptor result = ProxyInterceptor.make(
             name,  new Class[] { ObjectCopierFactory.class }, factory ) ;
@@ -71,7 +71,7 @@ public class UserConfigurator implements ORBConfigurator
     /** Set up two copiers: the value copier, and the reference
      * copier.  Make the value copier the default .
      */
-    public void configure( DataCollector dc, ORB orb ) 
+    public void configure( DataCollector dc, ORB orb )
     {
         CopierManager cm = orb.getCopierManager() ;
         cm.setDefaultId( VALUE_INDEX ) ;
@@ -80,16 +80,16 @@ public class UserConfigurator implements ORBConfigurator
             CopyobjectDefaults.makeORBStreamObjectCopierFactory( orb ) ;
         ProxyInterceptor valuePI = makePI( VALUE_NAME,
             value ) ;
-        cm.registerObjectCopierFactory( 
-            (ObjectCopierFactory)valuePI.getActual(), 
+        cm.registerObjectCopierFactory(
+            (ObjectCopierFactory)valuePI.getActual(),
             VALUE_INDEX ) ;
 
         ObjectCopierFactory reference =
             CopyobjectDefaults.getReferenceObjectCopierFactory( ) ;
         ProxyInterceptor referencePI = makePI( REFERENCE_NAME,
             reference ) ;
-        cm.registerObjectCopierFactory( 
-            (ObjectCopierFactory)referencePI.getActual(), 
+        cm.registerObjectCopierFactory(
+            (ObjectCopierFactory)referencePI.getActual(),
             REFERENCE_INDEX ) ;
     }
 }

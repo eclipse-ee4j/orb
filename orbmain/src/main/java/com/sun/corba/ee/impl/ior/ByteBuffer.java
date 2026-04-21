@@ -23,7 +23,7 @@ package com.sun.corba.ee.impl.ior ;
 public class ByteBuffer {
     /**
      * The array buffer into which the components of the ByteBuffer are
-     * stored. The capacity of the ByteBuffer is the length of this array buffer, 
+     * stored. The capacity of the ByteBuffer is the length of this array buffer,
      * and is at least large enough to contain all the ByteBuffer's elements.<p>
      *
      * Any array elements following the last element in the ByteBuffer are 0.
@@ -31,8 +31,8 @@ public class ByteBuffer {
     protected byte elementData[];
 
     /**
-     * The number of valid components in this <tt>ByteBuffer</tt> object. 
-     * Components <tt>elementData[0]</tt> through 
+     * The number of valid components in this <tt>ByteBuffer</tt> object.
+     * Components <tt>elementData[0]</tt> through
      * <tt>elementData[elementCount-1]</tt> are the actual items.
      *
      * @serial
@@ -40,8 +40,8 @@ public class ByteBuffer {
     protected int elementCount;
 
     /**
-     * The amount by which the capacity of the ByteBuffer is automatically 
-     * incremented when its size becomes greater than its capacity.  If 
+     * The amount by which the capacity of the ByteBuffer is automatically
+     * incremented when its size becomes greater than its capacity.  If
      * the capacity increment is less than or equal to zero, the capacity
      * of the ByteBuffer is doubled each time it needs to grow.
      *
@@ -51,7 +51,7 @@ public class ByteBuffer {
 
     /**
      * Constructs an empty ByteBuffer with the specified initial capacity and
-     * capacity increment. 
+     * capacity increment.
      *
      * @param   initialCapacity     the initial capacity of the ByteBuffer.
      * @param   capacityIncrement   the amount by which the capacity is
@@ -69,7 +69,7 @@ public class ByteBuffer {
     }
 
     /**
-     * Constructs an empty ByteBuffer with the specified initial capacity and 
+     * Constructs an empty ByteBuffer with the specified initial capacity and
      * with its capacity increment equal to zero.
      *
      * @param   initialCapacity   the initial capacity of the ByteBuffer.
@@ -81,21 +81,21 @@ public class ByteBuffer {
     }
 
     /**
-     * Constructs an empty ByteBuffer so that its internal data array 
-     * has size <tt>10</tt> and its standard capacity increment is 
-     * zero. 
+     * Constructs an empty ByteBuffer so that its internal data array
+     * has size <tt>10</tt> and its standard capacity increment is
+     * zero.
      */
     public ByteBuffer() {
         this(200);
     }
 
     /**
-     * Trims the capacity of this ByteBuffer to be the ByteBuffer's current 
-     * size. If the capacity of this cector is larger than its current 
-     * size, then the capacity is changed to equal the size by replacing 
-     * its internal data array, kept in the field <tt>elementData</tt>, 
-     * with a smaller one. An application can use this operation to 
-     * minimize the storage of a ByteBuffer. 
+     * Trims the capacity of this ByteBuffer to be the ByteBuffer's current
+     * size. If the capacity of this cector is larger than its current
+     * size, then the capacity is changed to equal the size by replacing
+     * its internal data array, kept in the field <tt>elementData</tt>,
+     * with a smaller one. An application can use this operation to
+     * minimize the storage of a ByteBuffer.
      */
     public void trimToSize() {
         int oldCapacity = elementData.length;
@@ -108,12 +108,12 @@ public class ByteBuffer {
 
     /**
      * This implements the unsynchronized semantics of ensureCapacity.
-     * Synchronized methods in this class can internally call this 
-     * method for ensuring capacity without incurring the cost of an 
+     * Synchronized methods in this class can internally call this
+     * method for ensuring capacity without incurring the cost of an
      * extra synchronization.
      *
      * @see java.util.ByteBuffer#ensureCapacity(int)
-     */ 
+     */
     private void ensureCapacityHelper(int minCapacity) {
         int oldCapacity = elementData.length;
         if (minCapacity > oldCapacity) {
@@ -131,8 +131,8 @@ public class ByteBuffer {
     /**
      * Returns the current capacity of this ByteBuffer.
      *
-     * @return  the current capacity (the length of its internal 
-     *          data arary, kept in the field <tt>elementData</tt> 
+     * @return  the current capacity (the length of its internal
+     *          data arary, kept in the field <tt>elementData</tt>
      *          of this ByteBuffer.
      */
     public int capacity() {
@@ -151,7 +151,7 @@ public class ByteBuffer {
     /**
      * Tests if this ByteBuffer has no components.
      *
-     * @return  <code>true</code> if and only if this ByteBuffer has 
+     * @return  <code>true</code> if and only if this ByteBuffer has
      *          no components, that is, its size is zero;
      *          <code>false</code> otherwise.
      */
@@ -159,13 +159,13 @@ public class ByteBuffer {
         return elementCount == 0;
     }
 
-    public void append(byte value) 
+    public void append(byte value)
     {
         ensureCapacityHelper(elementCount + 1);
         elementData[elementCount++] = value;
     }
 
-    public void append( int value ) 
+    public void append( int value )
     {
         ensureCapacityHelper(elementCount + 4);
         doAppend( value ) ;
@@ -181,7 +181,7 @@ public class ByteBuffer {
         elementCount += 4 ;
     }
 
-    public void append( String value ) 
+    public void append( String value )
     {
         byte[] data = value.getBytes() ;
         ensureCapacityHelper( elementCount + data.length + 4 ) ;

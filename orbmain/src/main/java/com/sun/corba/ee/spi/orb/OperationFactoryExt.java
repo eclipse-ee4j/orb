@@ -26,7 +26,7 @@ import java.lang.reflect.Constructor ;
 /** Provides an extension to the OperationFactory for convertAction( Class ),
  * which takes a Class with a constructor that takes a String as an argument.
  * It uses the constructor to create an instance of the Class from its argument.
- * <p> 
+ * <p>
  * This is split off here to avoid problems with the build depending on the
  * version of OperationFactory that is in Java SE 5.0.
  */
@@ -34,7 +34,7 @@ public class OperationFactoryExt {
     private static final ORBUtilSystemException wrapper =
         ORBUtilSystemException.self ;
 
-    private OperationFactoryExt() {} 
+    private OperationFactoryExt() {}
 
     private static class ConvertAction implements Operation {
         private Class<?> cls ;
@@ -65,7 +65,7 @@ public class OperationFactoryExt {
         }
 
         @Override
-        public boolean equals( Object obj ) 
+        public boolean equals( Object obj )
         {
             if (this==obj) {
                 return true;

@@ -77,35 +77,35 @@ public class ValueType extends ClassType {
         }
 
         // Is this java.lang.Class?
- 
+
         boolean javaLangClass = false;
-        
-        if (classDef.getClassDeclaration().getName() == idJavaLangClass) {   
-            
+
+        if (classDef.getClassDeclaration().getName() == idJavaLangClass) {
+
             // Yes, so replace classDef with one for
             // javax.rmi.CORBA.ClassDesc...
-            
+
             javaLangClass = true;
             BatchEnvironment env = stack.getEnv();
             ClassDeclaration decl = env.getClassDeclaration(idClassDesc);
             ClassDefinition def = null;
-                
+
             try {
                 def = decl.getClassDefinition(env);
             } catch (ClassNotFound ex) {
                 classNotFound(stack,ex);
                 return null;
             }
-            
+
             classDef = def;
         }
 
         // Could this be a value?
-        
+
         if (couldBeValue(stack,classDef)) {
-            
+
             // Yes, so check it...
-            
+
             ValueType it = new ValueType(classDef,stack,javaLangClass);
             putType(typeKey,it,stack);
             stack.push(it);
@@ -133,7 +133,7 @@ public class ValueType extends ClassType {
             result = "Custom " + result;
         }
         if (isIDLEntity) {
-            result = result + " [IDLEntity]"; 
+            result = result + " [IDLEntity]";
         }
         return result;
     }
@@ -164,12 +164,12 @@ public class ValueType extends ClassType {
                       boolean isMappedJavaLangClass) {
         super(stack,classDef,TYPE_VALUE | TM_CLASS | TM_COMPOUND);
         isCustom = false;
-        
+
         // If this is the mapped version of java.lang.Class,
         // set the non-IDL names back to java.lang.Class...
-        
+
         if (isMappedJavaLangClass) {
-            setNames(idJavaLangClass,IDL_CLASS_MODULE,IDL_CLASS);   
+            setNames(idJavaLangClass,IDL_CLASS_MODULE,IDL_CLASS);
         }
     }
 
@@ -182,11 +182,11 @@ public class ValueType extends ClassType {
      */
 
     private static boolean couldBeValue(ContextStack stack, ClassDefinition classDef) {
-        
+
         boolean result = false;
         ClassDeclaration classDecl = classDef.getClassDeclaration();
         BatchEnvironment env = stack.getEnv();
-        
+
         try {
             // Make sure it's not remote...
 
@@ -199,13 +199,13 @@ public class ValueType extends ClassType {
                 if (!env.defSerializable.implementedBy(env, classDecl)) {
                     failedConstraint(11,false,stack,classDef.getName());
                 } else {
-                    result = true;   
+                    result = true;
                 }
             }
         } catch (ClassNotFound e) {
             classNotFound(stack,e);
         }
-           
+
         return result;
     }
 
@@ -255,58 +255,58 @@ public class ValueType extends ClassType {
                         }
 
                         // Is this class Externalizable?
-                        
+
                         boolean externalizable = false;
                         if (!env.defExternalizable.implementedBy(env, ourDecl)) {
-                            
+
                             // No, so check to see if we have a serialPersistentField
                             // that will modify the members.
-                            
+
                             if (!checkPersistentFields(getClassInstance(),quiet)) {
                                 return false;
                             }
                         } else {
-                            
+
                             // Yes.
-                            
-                            externalizable = true;   
+
+                            externalizable = true;
                         }
-                        
+
                         // Should this class be considered "custom"? It is if
                         // it is Externalizable OR if it has a method with the
                         // following signature:
                         //
                         //  private void writeObject(java.io.ObjectOutputStream out);
-                        // 
-                        
+                        //
+
                         if (externalizable) {
-                            isCustom = true;   
+                            isCustom = true;
                         } else {
                             for (MemberDefinition member = ourDef.getFirstMember();
                                  member != null;
                                  member = member.getNextMember()) {
-                                    
+
                                 if (member.isMethod() &&
                                     !member.isInitializer() &&
                                     member.isPrivate() &&
                                     member.getName().toString().equals("writeObject")) {
 
                                     // Check return type, arguments and exceptions...
-                                    
+
                                     sun.tools.java.Type methodType = member.getType();
                                     sun.tools.java.Type rtnType = methodType.getReturnType();
 
                                     if (rtnType == sun.tools.java.Type.tVoid) {
-                                                
+
                                         // Return type is correct. How about arguments?
-                                                    
+
                                         sun.tools.java.Type[] args = methodType.getArgumentTypes();
                                         if (args.length == 1 &&
                                             args[0].getTypeSignature().equals("Ljava/io/ObjectOutputStream;")) {
-                                                    
+
                                             // Arguments are correct, so it is a custom
                                             // value type...
-                                                        
+
                                             isCustom = true;
                                         }
                                     }
@@ -314,7 +314,7 @@ public class ValueType extends ClassType {
                             }
                         }
                         }
-                        
+
                         return true;
                     }
                 }
@@ -328,123 +328,123 @@ public class ValueType extends ClassType {
 
 
     private boolean checkPersistentFields (Class clz, boolean quiet) {
-        
+
         // Do we have a writeObject method?
-        
+
         for (int i = 0; i < methods.length; i++) {
             if (methods[i].getName().equals("writeObject") &&
                 methods[i].getArguments().length == 1) {
-                
+
                 Type returnType = methods[i].getReturnType();
                 Type arg = methods[i].getArguments()[0];
                 String id = arg.getQualifiedName();
-                
-                if (returnType.isType(TYPE_VOID) && 
+
+                if (returnType.isType(TYPE_VOID) &&
                     id.equals("java.io.ObjectOutputStream")) {
-                    
+
                     // Got one, so there's nothing to do...
-                    
+
                     return true;
                 }
             }
         }
-            
+
         // Do we have a valid serialPersistentField array?
-        
+
         MemberDefinition spfDef = null;
-        
+
         for (int i = 0; i < members.length; i++) {
             if (members[i].getName().equals("serialPersistentFields")) {
-                
+
                 Member member = members[i];
                 Type type = member.getType();
                 Type elementType = type.getElementType();
-                    
+
                 // We have a member with the correct name. Make sure
                 // we have the correct signature...
-                    
+
                 if (elementType != null &&
                     elementType.getQualifiedName().equals(
                                                           "java.io.ObjectStreamField")
                     ) {
-                    
+
                     if (member.isStatic() &&
-                        member.isFinal() && 
+                        member.isFinal() &&
                         member.isPrivate()) {
-                            
+
                         // We have the correct signature
-                        
+
                         spfDef = member.getMemberDefinition();
 
                     } else {
-                            
+
                         // Bad signature...
-                            
+
                         failedConstraint(4,quiet,stack,getQualifiedName());
                         return false;
                     }
                 }
             }
         }
-        
+
         // If we do not have a serialPersistentField,
         // there's nothing to do, so return with no error...
-        
+
         if (spfDef == null) {
             return true;
         }
 
-        // Ok, now we must examine the contents of the array - 
+        // Ok, now we must examine the contents of the array -
         // then validate them...
 
-        Hashtable fields = getPersistentFields(clz);        
+        Hashtable fields = getPersistentFields(clz);
         boolean result = true;
-        
+
         for (int i = 0; i < members.length; i++) {
             String fieldName = members[i].getName();
             String fieldType = members[i].getType().getSignature();
-            
+
             // Is this field present in the array?
-            
+
             String type = (String) fields.get(fieldName);
-            
+
             if (type == null) {
-                
+
                 // No, so mark it transient...
-                
+
                 members[i].setTransient();
-                
+
             } else {
-                
+
                 // Yes, does the type match?
-                
+
                 if (type.equals(fieldType)) {
-                    
+
                     // Yes, so remove it from the fields table...
-                    
+
                     fields.remove(fieldName);
-                    
+
                 } else {
-                 
+
                     // No, so error...
-                    
+
                     result = false;
                     failedConstraint(2,quiet,stack,fieldName,getQualifiedName());
                 }
             }
         }
-        
+
         // Ok, we've checked all of our fields. Are there any left in the "array"?
         // If so, it's an error...
-        
+
         if (result && fields.size() > 0) {
-            
+
             result = false;
             failedConstraint(9,quiet,stack,getQualifiedName());
-        }   
-        
+        }
+
         // Return result...
-        
+
         return result;
     }
 

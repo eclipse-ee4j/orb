@@ -37,7 +37,7 @@ import org.omg.CORBA_2_3.portable.OutputStream ;
 /**
  * This class is a container of TaggedProfileTemplates.
  */
-public class IORTemplateImpl 
+public class IORTemplateImpl
     extends IdentifiableContainerBase<TaggedProfileTemplate>
     implements IORTemplate
 {
@@ -84,12 +84,12 @@ public class IORTemplateImpl
         this.oktemp = oktemp ;
     }
 
-    public IOR makeIOR( ORB orb, String typeid, ObjectId oid ) 
+    public IOR makeIOR( ORB orb, String typeid, ObjectId oid )
     {
         return new IORImpl( orb, typeid, this, oid ) ;
     }
 
-    public boolean isEquivalent( IORFactory other ) 
+    public boolean isEquivalent( IORFactory other )
     {
         if (!(other instanceof IORTemplate))
             return false ;
@@ -110,7 +110,7 @@ public class IORTemplateImpl
     }
 
     /** Ensure that this IORTemplate and all of its profiles can not be
-    * modified.  This overrides the method inherited from 
+    * modified.  This overrides the method inherited from
     * FreezableList through IdentifiableContainerBase.
     */
     @Override
@@ -120,16 +120,16 @@ public class IORTemplateImpl
         super.makeImmutable() ;
     }
 
-    public void write( OutputStream os ) 
+    public void write( OutputStream os )
     {
         oktemp.write( os ) ;
         EncapsulationUtility.writeIdentifiableSequence( this, os ) ;
     }
 
-    public IORTemplateImpl( InputStream is ) 
+    public IORTemplateImpl( InputStream is )
     {
         ORB orb = (ORB)(is.orb()) ;
-        IdentifiableFactoryFinder<TaggedProfileTemplate> finder = 
+        IdentifiableFactoryFinder<TaggedProfileTemplate> finder =
             orb.getTaggedProfileTemplateFactoryFinder() ;
 
         oktemp = orb.getObjectKeyFactory().createTemplate( is ) ;

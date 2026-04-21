@@ -56,7 +56,7 @@ public final class RequestDispatcherDefault {
         return new INSServerRequestDispatcher( orb ) ;
     }
 
-    public static LocalClientRequestDispatcherFactory makeMinimalServantCacheLocalClientRequestDispatcherFactory( final ORB orb ) 
+    public static LocalClientRequestDispatcherFactory makeMinimalServantCacheLocalClientRequestDispatcherFactory( final ORB orb )
     {
         return new LocalClientRequestDispatcherFactory() {
             public LocalClientRequestDispatcher create( int id, IOR ior ) {
@@ -65,7 +65,7 @@ public final class RequestDispatcherDefault {
         } ;
     }
 
-    public static LocalClientRequestDispatcherFactory makeInfoOnlyServantCacheLocalClientRequestDispatcherFactory( final ORB orb ) 
+    public static LocalClientRequestDispatcherFactory makeInfoOnlyServantCacheLocalClientRequestDispatcherFactory( final ORB orb )
     {
         return new LocalClientRequestDispatcherFactory() {
             public LocalClientRequestDispatcher create( int id, IOR ior ) {
@@ -74,7 +74,7 @@ public final class RequestDispatcherDefault {
         } ;
     }
 
-    public static LocalClientRequestDispatcherFactory makeFullServantCacheLocalClientRequestDispatcherFactory( final ORB orb ) 
+    public static LocalClientRequestDispatcherFactory makeFullServantCacheLocalClientRequestDispatcherFactory( final ORB orb )
     {
         return new LocalClientRequestDispatcherFactory() {
             public LocalClientRequestDispatcher create( int id, IOR ior ) {
@@ -83,7 +83,7 @@ public final class RequestDispatcherDefault {
         } ;
     }
 
-    public static LocalClientRequestDispatcherFactory makeJIDLLocalClientRequestDispatcherFactory( final ORB orb ) 
+    public static LocalClientRequestDispatcherFactory makeJIDLLocalClientRequestDispatcherFactory( final ORB orb )
     {
         return new LocalClientRequestDispatcherFactory() {
             public LocalClientRequestDispatcher create( int id, IOR ior ) {
@@ -92,7 +92,7 @@ public final class RequestDispatcherDefault {
         } ;
     }
 
-    public static LocalClientRequestDispatcherFactory makePOALocalClientRequestDispatcherFactory( final ORB orb ) 
+    public static LocalClientRequestDispatcherFactory makePOALocalClientRequestDispatcherFactory( final ORB orb )
     {
         return new LocalClientRequestDispatcherFactory() {
             public LocalClientRequestDispatcher create( int id, IOR ior ) {

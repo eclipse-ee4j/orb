@@ -27,7 +27,7 @@ import java.util.Set ;
 import org.omg.PortableServer.Servant ;
 import org.omg.PortableServer.POAPackage.WrongPolicy ;
 
-/**  The ActiveObjectMap maintains associations between servants and 
+/**  The ActiveObjectMap maintains associations between servants and
  * their keys.  There are two variants, to support whether or not
  * multiple IDs per servant are allowed.  This class supports bidirectional
  * traversal of the key-servant association.  Access to an instance of this
@@ -85,15 +85,15 @@ public abstract class ActiveObjectMap
             return h;
         }
     }
-   
+
     protected POAImpl poa ;
 
-    protected ActiveObjectMap( POAImpl poa ) 
+    protected ActiveObjectMap( POAImpl poa )
     {
         this.poa = poa ;
     }
 
-    public static ActiveObjectMap create( POAImpl poa, boolean multipleIDsAllowed ) 
+    public static ActiveObjectMap create( POAImpl poa, boolean multipleIDsAllowed )
     {
         if (multipleIDsAllowed) {
             return new MultipleObjectMap(poa);
@@ -109,12 +109,12 @@ public abstract class ActiveObjectMap
     private Map<Servant,AOMEntry> servantToEntry =
         new HashMap<Servant,AOMEntry>() ;
 
-    public final boolean contains(Servant value)  
+    public final boolean contains(Servant value)
     {
         return servantToEntry.containsKey( value ) ;
     }
 
-    public final boolean containsKey(Key key) 
+    public final boolean containsKey(Key key)
     {
         return keyToEntry.containsKey(key);
     }
@@ -122,7 +122,7 @@ public abstract class ActiveObjectMap
     /* get Returns the entry assigned to the key, or creates a new
     * entry in state INVALID if none is present.
     */
-    public final AOMEntry get(Key key) 
+    public final AOMEntry get(Key key)
     {
         AOMEntry result = keyToEntry.get(key);
         if (result == null) {
@@ -133,20 +133,20 @@ public abstract class ActiveObjectMap
         return result ;
     }
 
-    public final Servant getServant( AOMEntry entry ) 
+    public final Servant getServant( AOMEntry entry )
     {
         return entryToServant.get(entry) ;
     }
 
     public abstract Key getKey(AOMEntry value) throws WrongPolicy ;
 
-    public Key getKey(Servant value) throws WrongPolicy 
+    public Key getKey(Servant value) throws WrongPolicy
     {
         AOMEntry entry = servantToEntry.get(value) ;
         return getKey( entry ) ;
     }
 
-    protected void putEntry( Key key, AOMEntry value ) 
+    protected void putEntry( Key key, AOMEntry value )
     {
         keyToEntry.put( key, value ) ;
     }
@@ -159,7 +159,7 @@ public abstract class ActiveObjectMap
 
     protected abstract void removeEntry( AOMEntry entry, Key key ) ;
 
-    public final void remove( Key key ) 
+    public final void remove( Key key )
     {
         AOMEntry entry = keyToEntry.remove(key) ;
         Servant servant = entryToServant.remove(entry) ;
@@ -172,7 +172,7 @@ public abstract class ActiveObjectMap
 
     public abstract boolean hasMultipleIDs(AOMEntry value) ;
 
-    protected  void clear() 
+    protected  void clear()
     {
         keyToEntry.clear();
     }
@@ -198,33 +198,33 @@ class SingleObjectMap extends ActiveObjectMap
     }
 
     @Override
-    protected void putEntry(Key key, AOMEntry value) 
+    protected void putEntry(Key key, AOMEntry value)
     {
         super.putEntry( key, value);
 
         entryToKey.put( value, key ) ;
     }
 
-    public  boolean hasMultipleIDs(AOMEntry value) 
+    public  boolean hasMultipleIDs(AOMEntry value)
     {
         return false;
     }
 
     // This case does not need the key.
-    protected void removeEntry(AOMEntry entry, Key key) 
+    protected void removeEntry(AOMEntry entry, Key key)
     {
         entryToKey.remove( entry ) ;
     }
 
     @Override
-    public  void clear() 
+    public  void clear()
     {
         super.clear() ;
         entryToKey.clear() ;
     }
 }
 
-class MultipleObjectMap extends ActiveObjectMap 
+class MultipleObjectMap extends ActiveObjectMap
 {
     private Map<AOMEntry,Set<Key>> entryToKeys =
         new HashMap<AOMEntry,Set<Key>>() ;
@@ -240,7 +240,7 @@ class MultipleObjectMap extends ActiveObjectMap
     }
 
     @Override
-    protected void putEntry(Key key, AOMEntry value) 
+    protected void putEntry(Key key, AOMEntry value)
     {
         super.putEntry( key, value);
 
@@ -252,7 +252,7 @@ class MultipleObjectMap extends ActiveObjectMap
         set.add( key ) ;
     }
 
-    public  boolean hasMultipleIDs(AOMEntry value) 
+    public  boolean hasMultipleIDs(AOMEntry value)
     {
         Set<Key> set = entryToKeys.get( value ) ;
         if (set == null) {
@@ -261,7 +261,7 @@ class MultipleObjectMap extends ActiveObjectMap
         return set.size() > 1 ;
     }
 
-    protected void removeEntry(AOMEntry entry, Key key) 
+    protected void removeEntry(AOMEntry entry, Key key)
     {
         Set<Key> keys = entryToKeys.get( entry ) ;
         if (keys != null) {
@@ -273,7 +273,7 @@ class MultipleObjectMap extends ActiveObjectMap
     }
 
     @Override
-    public  void clear() 
+    public  void clear()
     {
         super.clear() ;
         entryToKeys.clear() ;

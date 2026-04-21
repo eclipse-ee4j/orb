@@ -25,7 +25,7 @@ import org.omg.CORBA.portable.Streamable;
 
 
 /**
- * The Holder for <tt>Boolean</tt>.  For more information on 
+ * The Holder for <tt>Boolean</tt>.  For more information on
  * Holder files, see <a href="doc-files/generatedfiles.html#holder">
  * "Generated Files: Holder Files"</a>.<P>
  * A Holder class for a <code>boolean</code>
@@ -93,10 +93,10 @@ public final class BooleanHolder implements Streamable {
     }
 
     /**
-     * Retrieves the <code>TypeCode</code> object that corresponds to the 
+     * Retrieves the <code>TypeCode</code> object that corresponds to the
      * value held in this <code>BooleanHolder</code> object.
      *
-     * @return    the <code>TypeCode</code> for the value held 
+     * @return    the <code>TypeCode</code> for the value held
      *            in this <code>BooleanHolder</code> object
      */
     public TypeCode _type() {

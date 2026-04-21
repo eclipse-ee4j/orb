@@ -30,7 +30,7 @@ import org.omg.PortableInterceptor.Current;
 import org.omg.PortableInterceptor.CurrentHelper;
 import org.omg.PortableInterceptor.ORBInitInfo;
 
-public class LoggingServiceServerORBInitializer 
+public class LoggingServiceServerORBInitializer
     extends org.omg.CORBA.LocalObject
     implements org.omg.PortableInterceptor.ORBInitializer
 {
@@ -49,7 +49,7 @@ public class LoggingServiceServerORBInitializer
             // a slot id which is will use to tell itself not to
             // log calls that the interceptor makes to the logging process.
 
-            NamingContext nameService = 
+            NamingContext nameService =
                 NamingContextHelper.narrow(
                     info.resolve_initial_references("NameService"));
 
@@ -71,5 +71,5 @@ public class LoggingServiceServerORBInitializer
         }
     }
 }
- 
+
 // End of file.

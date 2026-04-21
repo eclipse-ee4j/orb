@@ -25,10 +25,10 @@ import java.util.*;
 import java.io.*;
 import com.sun.corba.ee.spi.orb.ORB;
 
-public class Strm2Test extends CORBATest 
+public class Strm2Test extends CORBATest
 {
     public static String[] rmicClasses = { "corba.strm2.TesterImpl"};
-    
+
     protected void compileSpecialSubdirectory(String dirName) throws Exception {
         System.out.println("      Compiling classes under " + dirName + "...");
 
@@ -81,13 +81,13 @@ public class Strm2Test extends CORBATest
 
         Options.setRMICClasses(rmicClasses);
         Options.addRMICArgs("-nolocalstubs -iiop -keep -g");
-        
+
         compileRMICFiles();
         compileJavaFiles();
 
         Controller orbd = createORBD();
         orbd.start();
-        
+
         // This could be done in the overall makefile
         // if someone could figure it out!
         for (int i = 0; i < Versions.testableVersions.length; i++) {
@@ -120,7 +120,7 @@ public class Strm2Test extends CORBATest
             clients[i] = createClient("corba.strm2.Client",
                                       "client_" +
                                       Versions.testableVersions[i]);
-            
+
             servers[i].start();
         }
         Options.setClasspath(oldClasspath);
@@ -139,7 +139,7 @@ public class Strm2Test extends CORBATest
         }
 
         // Stop all the servers
-        
+
         for (int i = 0; i < servers.length; i++)
             servers[i].stop();
 

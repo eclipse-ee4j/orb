@@ -29,6 +29,6 @@ package com.sun.org.omg.SendingContext;
 
 // Edited to leave RunTime in org.omg.CORBA
 
-public interface CodeBase extends CodeBaseOperations, org.omg.SendingContext.RunTime, org.omg.CORBA.portable.IDLEntity 
+public interface CodeBase extends CodeBaseOperations, org.omg.SendingContext.RunTime, org.omg.CORBA.portable.IDLEntity
 {
 } // interface CodeBase

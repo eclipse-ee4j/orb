@@ -50,7 +50,7 @@ import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
  * </ul>
  */
 public class IORFactories {
-    private IORFactories() {} 
+    private IORFactories() {}
 
     /** Create an ObjectId for the given byte sequence.
      * @param id bytes to set as object id
@@ -77,7 +77,7 @@ public class IORFactories {
      * @param typeid id of type for IOR
      * @return created IOR
      */
-    public static IOR makeIOR( ORB orb, String typeid ) 
+    public static IOR makeIOR( ORB orb, String typeid )
     {
         return new IORImpl( orb, typeid ) ;
     }
@@ -86,7 +86,7 @@ public class IORFactories {
      * @param orb ORB to create IOR for
      * @return an empty IOR
      */
-    public static IOR makeIOR( ORB orb ) 
+    public static IOR makeIOR( ORB orb )
     {
         return new IORImpl( orb ) ;
     }
@@ -120,20 +120,20 @@ public class IORFactories {
         return new IORTemplateImpl( is ) ;
     }
 
-    public static IORTemplateList makeIORTemplateList() 
+    public static IORTemplateList makeIORTemplateList()
     {
         return new IORTemplateListImpl() ;
     }
 
-    public static IORTemplateList makeIORTemplateList( InputStream is ) 
+    public static IORTemplateList makeIORTemplateList( InputStream is )
     {
         return new IORTemplateListImpl( is ) ;
     }
 
-    public static IORFactory getIORFactory( ObjectReferenceTemplate ort ) 
+    public static IORFactory getIORFactory( ObjectReferenceTemplate ort )
     {
         if (ort instanceof ObjectReferenceTemplateImpl) {
-            ObjectReferenceTemplateImpl orti = 
+            ObjectReferenceTemplateImpl orti =
                 (ObjectReferenceTemplateImpl)ort ;
             return orti.getIORFactory() ;
         }
@@ -141,7 +141,7 @@ public class IORFactories {
         throw new BAD_PARAM() ;
     }
 
-    public static IORTemplateList getIORTemplateList( ObjectReferenceFactory orf ) 
+    public static IORTemplateList getIORTemplateList( ObjectReferenceFactory orf )
     {
         if (orf instanceof ObjectReferenceProducerBase) {
             ObjectReferenceProducerBase base =
@@ -152,24 +152,24 @@ public class IORFactories {
         throw new BAD_PARAM() ;
     }
 
-    public static ObjectReferenceTemplate makeObjectReferenceTemplate( ORB orb, 
-        IORTemplate iortemp ) 
+    public static ObjectReferenceTemplate makeObjectReferenceTemplate( ORB orb,
+        IORTemplate iortemp )
     {
         return new ObjectReferenceTemplateImpl( orb, iortemp ) ;
     }
 
-    public static ObjectReferenceFactory makeObjectReferenceFactory( ORB orb, 
+    public static ObjectReferenceFactory makeObjectReferenceFactory( ORB orb,
         IORTemplateList iortemps )
     {
         return new ObjectReferenceFactoryImpl( orb, iortemps ) ;
     }
 
-    public static ObjectKeyFactory makeObjectKeyFactory( ORB orb ) 
+    public static ObjectKeyFactory makeObjectKeyFactory( ORB orb )
     {
         return new ObjectKeyFactoryImpl( orb ) ;
     }
 
-    public static org.omg.CORBA.Object makeObjectReference( IOR ior ) 
+    public static org.omg.CORBA.Object makeObjectReference( IOR ior )
     {
         return ORBUtility.makeObjectReference( ior ) ;
     }
@@ -179,12 +179,12 @@ public class IORFactories {
      * value types.
      * @param orb ORB to register value factory against
      */
-    public static void registerValueFactories( ORB orb ) 
+    public static void registerValueFactories( ORB orb )
     {
         // Create and register the factory for the Object Reference Template
         // implementation.
         ValueFactory vf = new ValueFactory() {
-            public Serializable read_value( InputStream is ) 
+            public Serializable read_value( InputStream is )
             {
                 return new ObjectReferenceTemplateImpl( is ) ;
             }
@@ -195,7 +195,7 @@ public class IORFactories {
         // Create and register the factory for the Object Reference Factory
         // implementation.
         vf = new ValueFactory() {
-            public Serializable read_value( InputStream is ) 
+            public Serializable read_value( InputStream is )
             {
                 return new ObjectReferenceFactoryImpl( is ) ;
             }

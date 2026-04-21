@@ -38,7 +38,7 @@ public class HelloClient {
         System.out.println("Created object");
 
         Hello result = HelloHelper.narrow(obj);
-        
+
         System.out.println("narrowed it");
 
         return result;
@@ -53,9 +53,9 @@ public class HelloClient {
     static final void invoke(Hello h) {
         System.out.println(h.hi());
     }
-    
+
     public static void main(String[] args) {
-        
+
         try {
 
             System.out.println("Client starting");
@@ -64,7 +64,7 @@ public class HelloClient {
             ServantFactory f = u.readFactory();
 
             System.out.println("readFactory");
-            
+
 
             System.out.println("invoke 1");
 
@@ -110,7 +110,7 @@ public class HelloClient {
                 System.err.flush();
             } catch (Exception ex) {}
             System.exit(1);
-        } 
+        }
     }
 }
 

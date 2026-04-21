@@ -111,7 +111,7 @@ import org.testng.Assert ;
 
 import corba.framework.TestngRunner ;
 
-public class Client 
+public class Client
 {
     private PrintStream out = System.out ;
     private PrintStream err = System.err ;
@@ -129,7 +129,7 @@ public class Client
     public Client() {
         String[] args = null ;
         Properties props = new Properties( System.getProperties() ) ;
-        props.put( "org.omg.CORBA.ORBClass", 
+        props.put( "org.omg.CORBA.ORBClass",
             "com.sun.corba.ee.impl.orb.ORBImpl" ) ;
 
         this.orb = (ORB)ORB.init( args, props ) ;
@@ -143,17 +143,17 @@ public class Client
     {
         Assert.fail( msg ) ;
     }
-    
+
     private void info( String msg )
     {
         out.println( msg ) ;
     }
 
-    private boolean equal( byte[] arr1, byte[] arr2 ) 
+    private boolean equal( byte[] arr1, byte[] arr2 )
     {
-        if ((arr1 == null) || (arr2 == null))   
+        if ((arr1 == null) || (arr2 == null))
             return arr1==arr2 ;
-        
+
         int len = arr1.length ;
         if (len != arr2.length)
             return false ;
@@ -164,12 +164,12 @@ public class Client
 
         return true ;
     }
-    
-    private boolean equal( Object[] arr1, Object[] arr2 ) 
+
+    private boolean equal( Object[] arr1, Object[] arr2 )
     {
-        if ((arr1 == null) || (arr2 == null))   
+        if ((arr1 == null) || (arr2 == null))
             return arr1==arr2 ;
-        
+
         int len = arr1.length ;
         if (len != arr2.length)
             return false ;
@@ -180,13 +180,13 @@ public class Client
 
         return true ;
     }
-    
+
     private OutputStream newOutputStream()
     {
         return new EncapsOutputStream( orb ) ;
     }
 
-    private byte[] getBytes( OutputStream os ) 
+    private byte[] getBytes( OutputStream os )
     {
         CDROutputObject cos = (CDROutputObject)os ;
         byte[] bytes = cos.toByteArray() ;
@@ -213,7 +213,7 @@ public class Client
         private int id ;
 
         IdentifiableImpl( int id, int value )
-        { 
+        {
             this.id = id ;
             this.value = value ;
         }
@@ -239,19 +239,19 @@ public class Client
 
             IdentifiableImpl ii = (IdentifiableImpl)obj ;
 
-            return (ii.getId() == getId()) && 
+            return (ii.getId() == getId()) &&
                 (ii.getValue() == getValue()) ;
         }
     }
 
-    public void checkIdentifiableIterator( Iterator iter, 
-        IdentifiableImpl[] result, int index ) 
+    public void checkIdentifiableIterator( Iterator iter,
+        IdentifiableImpl[] result, int index )
     {
         int ctr = 0 ;
         while (iter.hasNext() ) {
             Object obj = iter.next() ;
             if (ctr >= result.length)
-                error( "Too many IdentifiableImpls returned by iterator" + 
+                error( "Too many IdentifiableImpls returned by iterator" +
                     index) ;
 
             if (!result[ctr].equals( obj ))
@@ -261,9 +261,9 @@ public class Client
         }
 
         if (ctr != result.length)
-            error( "Too few identifiableImpls returned by iterator" + 
+            error( "Too few identifiableImpls returned by iterator" +
                 index + " (ctr=" + ctr + " length=" + result.length +
-                ")" ) ; 
+                ")" ) ;
     }
 
     @Test
@@ -299,7 +299,7 @@ public class Client
         IOR ior1 = orb.getIOR(ref,false);
 
         addr = IIOPFactories.makeIIOPAddress( "pico", 4444);
-        IIOPProfileTemplate profileTemplate_1_2 = 
+        IIOPProfileTemplate profileTemplate_1_2 =
             IIOPFactories.makeIIOPProfileTemplate(orb, GIOPVersion.V1_2, addr);
 
         iortemp.add(profileTemplate_1_2);
@@ -311,7 +311,7 @@ public class Client
 
         if (!ior1.equals(ior2))
             error( "The 2 IORs are different for standard IOR" ) ;
- 
+
         // Now verify that the more convoluted/complex stuff works
 
         okey = orb.getObjectKeyFactory().create( fullKey ) ;
@@ -325,13 +325,13 @@ public class Client
                         "corbaloc:iiop:1.2@pico:4444,:1.1@femto:5555,:1.0@tera:6666,:2.9@mega:7777,:1.0@tera:6667,:1.2@pico:4445,:1.1@femto:5556,:1.2@pico:4446/NameService");
         IOR ior1 = IORFactories.getIOR(ref);
         */
-        
+
         ref = orb.string_to_object(
                         "corbaloc:iiop:1.2@pico:4444,:1.1@femto:5555,:1.0@tera:6666,:1.0@tera:6667,:1.2@pico:4445,:1.1@femto:5556,:1.2@pico:4446/NameService");
         ior1 = orb.getIOR(ref,false);
 
         addr = IIOPFactories.makeIIOPAddress( "pico", 4444);
-        profileTemplate_1_2 = 
+        profileTemplate_1_2 =
             IIOPFactories.makeIIOPProfileTemplate(orb, GIOPVersion.V1_2, addr);
         addr = IIOPFactories.makeIIOPAddress( "pico", 4445);
         iiopAddressComponent = IIOPFactories.makeAlternateIIOPAddressComponent(addr);
@@ -390,7 +390,7 @@ public class Client
             error( "ZeroPortPolicy test failed with exception " + inv ) ;
         }
 
-        Policy[] policies = { 
+        Policy[] policies = {
             rootpoa.create_id_assignment_policy( IdAssignmentPolicyValue.SYSTEM_ID ),
             ZeroPortPolicy.getPolicy() } ;
 
@@ -425,7 +425,7 @@ public class Client
     }
 
     @Test
-    public void testORBVersion() 
+    public void testORBVersion()
     {
         out.println( "Testing ORBVersion" ) ;
         if (ORBVersionFactory.getFOREIGN().getORBType() != ORBVersion.FOREIGN)
@@ -453,7 +453,7 @@ public class Client
     }
 
     @Test
-    public void testORBVersionFactory() 
+    public void testORBVersionFactory()
     {
         out.println( "Testing ORBVersionFactory" ) ;
         byte[] test = { 0x00 } ;
@@ -464,19 +464,19 @@ public class Client
         ORBVersion version = ORBVersionFactory.create( is ) ;
         if (!version.equals( ORBVersionFactory.getNEWER() ))
             error( "\tcreate bad version from array1" ) ;
-        
+
         test[pos] = ORBVersion.NEWER + 50 ;
         is = new EncapsInputStream( orb, test, test.length ) ;
         version = ORBVersionFactory.create( is ) ;
         if (version.getORBType() != ORBVersion.NEWER + 50)
             error( "\tcreate bad version from array2" ) ;
-        
+
         test[pos] = -1 ;
         is = new EncapsInputStream( orb, test, test.length ) ;
         version = ORBVersionFactory.create( is ) ;
         if (version.getORBType() != -1)
             error( "\tcreate bad version from array3" ) ;
-        
+
         OutputStream os = newOutputStream() ;
         os.write_octet( ORBVersion.PEORB ) ;
         is = makeInputStream( os ) ;
@@ -489,7 +489,7 @@ public class Client
     }
 
     @Test
-    public void testIdentifiableContainerBase1() 
+    public void testIdentifiableContainerBase1()
     {
         out.println( "Testing IdentifiableContainerBase" ) ;
 
@@ -500,7 +500,7 @@ public class Client
             new IdentifiableImpl( 0, 30 ) ,
             new IdentifiableImpl( 2, 31 ) ,
             new IdentifiableImpl( 0, 32 ) ,
-            new IdentifiableImpl( 2, 33 ) 
+            new IdentifiableImpl( 2, 33 )
         } ;
 
         IdentifiableContainerBase icb = new IdentifiableContainerBase() ;
@@ -517,15 +517,15 @@ public class Client
             { obj[0], obj[2], obj[3], obj[5] },
             { obj[1] },
             { obj[4], obj[6] },
-            { } 
+            { }
         } ;
-    
+
         for (int ctr=0; ctr<NUM_TESTS; ctr++ )
             checkIdentifiableIterator( iters[ctr], results[ctr], ctr ) ;
     }
 
     @Test
-    public void testIdentifiableContainerBase2() 
+    public void testIdentifiableContainerBase2()
     {
         // This also indirectly tests equals on GenericIdentifiable and all tagged components
         out.println( "Testing IdentifiableContainerBase and TaggedComponentFactoryFinder" ) ;
@@ -574,7 +574,7 @@ public class Client
 
             if (!comps[ctr].equals( obj ))
                 error( "Incorrect component read back for ctr = " + ctr ) ;
-            
+
             ctr++ ;
         }
 
@@ -583,7 +583,7 @@ public class Client
     }
 
     @Test
-    public void testGenericTaggedComponent() 
+    public void testGenericTaggedComponent()
     {
         out.println( "Testing GenericTaggedComponent" ) ;
 
@@ -610,7 +610,7 @@ public class Client
     }
 
     @Test
-    public void testIIOPAddress() 
+    public void testIIOPAddress()
     {
         out.println( "Testing IIOPAddress" ) ;
 
@@ -673,12 +673,12 @@ public class Client
             IIOPFactories.makeIIOPAddress( "FOO.SUN.COM", 23 ) ,
             IIOPFactories.makeIIOPAddress( "FOO.SUN.COM", 32768 ) ,
             IIOPFactories.makeIIOPAddress( "FOO.SUN.COM", 40151 ) ,
-            IIOPFactories.makeIIOPAddress( "FOO.SUN.COM", 65535 ) 
+            IIOPFactories.makeIIOPAddress( "FOO.SUN.COM", 65535 )
         } ;
 
         OutputStream os = newOutputStream() ;
 
-        for (int ctr=0; ctr<addrs.length; ctr++ ) 
+        for (int ctr=0; ctr<addrs.length; ctr++ )
             addrs[ctr].write( os ) ;
 
         InputStream is = makeInputStream( os ) ;
@@ -691,7 +691,7 @@ public class Client
     }
 
     @Test
-    public void testIIOPProfileTemplate() 
+    public void testIIOPProfileTemplate()
     {
         out.println( "Testing IIOPProfileTemplate and IIOPProfile" ) ;
 
@@ -703,24 +703,24 @@ public class Client
         byte[] id = { 0x00, 0x00, 0x33, 0x44, 0x21, 0x23, 0x00 } ;
         ObjectId oid = IORFactories.makeObjectId( id ) ;
 
-        POAObjectKeyTemplate temp = new POAObjectKeyTemplate( orb, scid, 
+        POAObjectKeyTemplate temp = new POAObjectKeyTemplate( orb, scid,
             serverid, orbid, poaid ) ;
 
         GIOPVersion gversion = GIOPVersion.V1_2 ;
         String host = "FOO" ;
         int port = 34567 ;
         IIOPAddress primary = IIOPFactories.makeIIOPAddress( host, port ) ;
-        
-        IIOPProfileTemplate ptemp = IIOPFactories.makeIIOPProfileTemplate( orb, 
+
+        IIOPProfileTemplate ptemp = IIOPFactories.makeIIOPProfileTemplate( orb,
             gversion, primary ) ;
 
-        if (ptemp.getId() != TAG_INTERNET_IOP.value ) 
+        if (ptemp.getId() != TAG_INTERNET_IOP.value )
             error( "IIOPProfileTemplate has bad id" ) ;
 
         if (!ptemp.getGIOPVersion().equals( gversion ) )
             error( "Bad major version returned from IIOPProfileTemplate" ) ;
 
-        if (!primary.equals( ptemp.getPrimaryAddress() )) 
+        if (!primary.equals( ptemp.getPrimaryAddress() ))
             error( "Bad address returned from IIOPProfileTemplate:" ) ;
 
         IIOPProfile prof = (IIOPProfile)(ptemp.create( temp, oid )) ;
@@ -731,7 +731,7 @@ public class Client
         if (!oid.equals(prof.getObjectId() ))
             error( "IIOPProfile created from template has bad object id" ) ;
 
-        ORBTypeComponent comp = IIOPFactories.makeORBTypeComponent( 
+        ORBTypeComponent comp = IIOPFactories.makeORBTypeComponent(
             0x34567ABF ) ;
 
         try {
@@ -774,12 +774,12 @@ public class Client
 
                 // Don't depend on iteration order
                 if (tc1 instanceof ORBTypeComponent) {
-                    if (!tc1.equals( comp )) 
+                    if (!tc1.equals( comp ))
                         error( "ORBTypeComponent in testProf does not match original" ) ;
-                    if (!(tc2 instanceof JavaCodebaseComponent)) 
+                    if (!(tc2 instanceof JavaCodebaseComponent))
                         error( "Other component is not JavaCodebaseComponent" ) ;
                 } else {
-                    if (!tc2.equals( comp )) 
+                    if (!tc2.equals( comp ))
                         error( "ORBTypeComponent in testProf does not match original" ) ;
                     if (!(tc1 instanceof JavaCodebaseComponent))
                         error( "Other component is not JavaCodebaseComponent" ) ;
@@ -793,9 +793,9 @@ public class Client
         }
 
         // test that 1.0 IIOPProfileTemplates do not support addition of components
-        IIOPProfileTemplate ptemp2 = IIOPFactories.makeIIOPProfileTemplate( orb, 
+        IIOPProfileTemplate ptemp2 = IIOPFactories.makeIIOPProfileTemplate( orb,
             GIOPVersion.V1_0, primary ) ;
-        
+
         boolean expectedException = false ;
         try {
             ptemp2.add( comp ) ;
@@ -815,7 +815,7 @@ public class Client
         String orbid = "AVeryLongORBIdName" ;
         int serverid = -123 ;
 
-        POAObjectKeyTemplate temp = new POAObjectKeyTemplate( orb, scid, 
+        POAObjectKeyTemplate temp = new POAObjectKeyTemplate( orb, scid,
             serverid, orbid, poaid ) ;
 
         return temp ;
@@ -825,7 +825,7 @@ public class Client
     {
         String host = "FOO" ;
         IIOPAddress primary = IIOPFactories.makeIIOPAddress( host, port ) ;
-        
+
         IIOPProfileTemplate ptemp = IIOPFactories.makeIIOPProfileTemplate( orb,
             GIOPVersion.V1_2, primary ) ;
 
@@ -833,7 +833,7 @@ public class Client
     }
 
     @Test
-    public void testIOR() 
+    public void testIOR()
     {
         out.println( "Testing IOR" ) ;
 
@@ -846,18 +846,18 @@ public class Client
         if (iter.hasNext())
             error( "IOR() should not have any profiles" ) ;
 
-        // Test IOR(String, IIOPPRofileTemplate, ObjectId ) 
+        // Test IOR(String, IIOPPRofileTemplate, ObjectId )
         String[] ss = { "foo", "bar" } ;
         ObjectAdapterId poaid = new ObjectAdapterIdArray( ss ) ;
         POAObjectKeyTemplate poktemp1 = makePOAObjectKeyTemplate( poaid ) ;
         IIOPProfileTemplate ptemp1 = makeIIOPProfileTemplate( 45671 ) ;
         String URL = "htp://foo.sun.com:9999" ;
-        JavaCodebaseComponent jcomp = 
+        JavaCodebaseComponent jcomp =
             IIOPFactories.makeJavaCodebaseComponent( URL ) ;
-        ORBTypeComponent comp1 = IIOPFactories.makeORBTypeComponent( 
+        ORBTypeComponent comp1 = IIOPFactories.makeORBTypeComponent(
             0x34567ABF ) ;
         IIOPAddress addr = IIOPFactories.makeIIOPAddress( "FOO", 32451 ) ;
-        AlternateIIOPAddressComponent comp2 = 
+        AlternateIIOPAddressComponent comp2 =
             IIOPFactories.makeAlternateIIOPAddressComponent( addr ) ;
 
         ptemp1.add( comp1) ;
@@ -877,7 +877,7 @@ public class Client
             error( "IOR(ORB,String,IORTemplate,ObjectId) has bad typeid" ) ;
 
         IIOPProfile iprof1 = (IIOPProfile)(ptemp1.create( poktemp1, oid )) ;
-        
+
         iter = ior3.iterator() ;
         if (!iter.hasNext())
             error( "ior3 has no profiles" ) ;
@@ -897,14 +897,14 @@ public class Client
         IIOPProfileTemplate ptemp2 = makeIIOPProfileTemplate( 36123 ) ;
         ptemp2.add( jcomp ) ;
         ptemp2.add( comp2 ) ;
-        
+
         IIOPProfile iprof2 = (IIOPProfile)(ptemp2.create( poktemp2, oid )) ;
 
         // Create a GenericTaggedProfile to use as a profile
         int gid = 234 ;
         byte[] data = { 2, 14, 56, 37, 31, 42, 1, 9, 116, 57 } ;
         GenericTaggedProfile gprof = new GenericTaggedProfile( orb, gid, data ) ;
-    
+
         // Create ior containing iprof1, iprof2, gprof
         IOR ior4 = IORFactories.makeIOR( orb, typeid ) ;
         ior4.add( iprof1 ) ;
@@ -958,14 +958,14 @@ public class Client
             error( "iterator.remove succeeded on frozen list" ) ;
     }
 
-    private IORTemplate makeIORTemplate( String[] oaid, int[] ports, 
+    private IORTemplate makeIORTemplate( String[] oaid, int[] ports,
         boolean addComponent )
     {
-        POAObjectKeyTemplate poktemp = 
+        POAObjectKeyTemplate poktemp =
             makePOAObjectKeyTemplate( new ObjectAdapterIdArray( oaid ) ) ;
 
         IORTemplate iort = IORFactories.makeIORTemplate( poktemp ) ;
-        
+
         for (int ctr=0; ctr<ports.length; ctr++) {
             TaggedProfileTemplate tptemp = makeIIOPProfileTemplate( ports[ctr] ) ;
 
@@ -976,14 +976,14 @@ public class Client
             }
 
             iort.add( tptemp ) ;
-        } 
+        }
 
         iort.makeImmutable() ;
         return iort ;
     }
 
-    private IORTemplateList makeIORTemplateList( String[][] oaids, 
-        int[][] ports, boolean addComponent ) 
+    private IORTemplateList makeIORTemplateList( String[][] oaids,
+        int[][] ports, boolean addComponent )
     {
         IORTemplateList result = IORFactories.makeIORTemplateList() ;
         for (int ctr=0; ctr<oaids.length; ctr++)
@@ -993,11 +993,11 @@ public class Client
     }
 
     @Test
-    public void testIORTemplateList() 
+    public void testIORTemplateList()
     {
         out.println( "Testing IORTemplateList" ) ;
 
-        String[][] oaids = 
+        String[][] oaids =
         {
             { "1", "2", "3", "4", "5", "6" },
             { "1", "3", "4", "6" },
@@ -1005,7 +1005,7 @@ public class Client
             { "1", "2", "3", "4", "5", "6", "7", "8" }
         } ;
 
-        int[][] ports1  = 
+        int[][] ports1  =
         {
             { 34567, 23416, 38491, 9321, 65001 },
             { 23416, 38491, 9321, 65001 },
@@ -1013,7 +1013,7 @@ public class Client
             { 34567, 65001 },
         } ;
 
-        int[][] ports2  = 
+        int[][] ports2  =
         {
             { 34567, 23416, 38491, 9321, 65001 },
             { 23416, 38491, 65001 },
@@ -1032,7 +1032,7 @@ public class Client
     }
 
     @Test
-    public void testIORTemplate() 
+    public void testIORTemplate()
     {
         out.println( "Testing IORTemplate" ) ;
 
@@ -1058,7 +1058,7 @@ public class Client
 
         if (!correct)
             error( "remove on Immutable IORTemplate succeeded incorrectly" ) ;
-    
+
         correct = false ;
         try {
             iter2.next() ;
@@ -1084,7 +1084,7 @@ public class Client
         testIORFactory( iort, iort4, false, false ) ;
     }
 
-    private void testIORFactory( 
+    private void testIORFactory(
         IORFactory iorfactory1, IORFactory iorfactory2,
         boolean equalResult, boolean equivalentResult )
     {
@@ -1138,7 +1138,7 @@ public class Client
     }
 
     @Test
-    public void testOldJIDLObjectKeyTemplate() 
+    public void testOldJIDLObjectKeyTemplate()
     {
         out.println( "Testing OldJIDLObjectKeyTemplate" ) ;
 
@@ -1157,7 +1157,7 @@ public class Client
 
         boolean failed = false ;
         try {
-            temp = new OldJIDLObjectKeyTemplate( orb, ObjectKeyFactoryImpl.JAVAMAGIC_NEWER, 
+            temp = new OldJIDLObjectKeyTemplate( orb, ObjectKeyFactoryImpl.JAVAMAGIC_NEWER,
                 scid, serverid ) ;
         } catch (INTERNAL ex) {
             failed = true ;
@@ -1167,7 +1167,7 @@ public class Client
 
         if (!failed)
             error( "OldJIDLObjectKeyTemplate succeeded with bad magic" ) ;
-    } 
+    }
 
     private void checkOldJIDLObjectKeyTemplate( OldJIDLObjectKeyTemplate temp,
         int scid, int serverid, ORBVersion version )
@@ -1177,13 +1177,13 @@ public class Client
 
         if (temp.getServerId() != serverid)
             error( "getServerId returns bad value" ) ;
-           
+
         if (!temp.getORBVersion().equals( version ))
             error( "getORBVersion returns bad value" ) ;
     }
 
     @Test
-    public void testJIDLObjectKeyTemplate() 
+    public void testJIDLObjectKeyTemplate()
     {
         out.println( "Testing JIDLObjectKeyTemplate" ) ;
 
@@ -1191,7 +1191,7 @@ public class Client
         int serverid = -123 ;
 
         // Simple check of accessor
-        JIDLObjectKeyTemplate temp = new JIDLObjectKeyTemplate( orb, scid, 
+        JIDLObjectKeyTemplate temp = new JIDLObjectKeyTemplate( orb, scid,
             serverid ) ;
 
         if (temp.getSubcontractId() != scid)
@@ -1199,13 +1199,13 @@ public class Client
 
         if (temp.getServerId() != serverid)
             error( "(1) getServerId returns bad value" ) ;
-           
+
         if (!temp.getORBVersion().equals( ORBVersionFactory.getPEORB() ))
             error( "(1) getORBVersion returns bad value" ) ;
 
         // test write key method
         JIDLKeyGenerator generator = new JIDLKeyGenerator() ;
-        byte[] fullKey = generator.makeKey( 
+        byte[] fullKey = generator.makeKey(
             ObjectKeyFactoryImpl.JAVAMAGIC_NEWER ) ;
         OctetSeqHolder osh = new OctetSeqHolder() ;
         CDRInputObject is = makeInputStream( fullKey ) ;
@@ -1226,13 +1226,13 @@ public class Client
         temp.write( os ) ;
 
         is = makeInputStream( os ) ;
-        ObjectKeyTemplate newTemplate = orb.getObjectKeyFactory().createTemplate( 
+        ObjectKeyTemplate newTemplate = orb.getObjectKeyFactory().createTemplate(
             is ) ;
         if (!newTemplate.equals( temp ))
             error( "Error in writing out object key template" ) ;
     }
 
-    private void checkIterator( String msg, Iterator iter, String values ) 
+    private void checkIterator( String msg, Iterator iter, String values )
     {
         StringTokenizer st = new StringTokenizer( values ) ;
         while (st.hasMoreTokens()) {
@@ -1257,7 +1257,7 @@ public class Client
     }
 
     @Test
-    public void testFreeezableList() 
+    public void testFreeezableList()
     {
         out.println( "Testing FreezableList" ) ;
 
@@ -1300,7 +1300,7 @@ public class Client
 
         // verify correct functioning of the iterator
         checkIterator( "iterator on frozen list", iter, "1 3 4 5" ) ;
-         
+
         // try to remove an element using the iterator
         iter = flist.iterator() ;
         iter.next() ;
@@ -1324,7 +1324,7 @@ public class Client
     }
 
     @Test
-    public void testObjectKey() 
+    public void testObjectKey()
     {
         out.println( "Testing ObjectKey" ) ;
 
@@ -1347,15 +1347,15 @@ public class Client
         os.write_octet_array( oid, 0, oid.length ) ;
         os.write_octet( (byte)(ORBVersion.PEORB) ) ;
         byte[] fullKey = getBytes( os ) ;
-    
-        POAObjectKeyTemplate temp = new POAObjectKeyTemplate( orb, scid, 
+
+        POAObjectKeyTemplate temp = new POAObjectKeyTemplate( orb, scid,
             serverid, orbid, poaid ) ;
 
         ObjectKey okey = IORFactories.makeObjectKey( temp, objid ) ;
 
         if (!equal( oid, okey.getId().getId() ))
             error( "Bad object id returned from object key" ) ;
-        
+
         // it would be better to check for equals rather than =,
         // but that would require defining equals on the ObjectKeyTemplate
         // classes, which is not currently supported.
@@ -1376,7 +1376,7 @@ public class Client
     }
 
     @Test
-    public void testObjectId() 
+    public void testObjectId()
     {
         out.println( "Testing ObjectId" ) ;
 
@@ -1424,7 +1424,7 @@ public class Client
     }
 
     @Test
-    public void testObjectKeyFactory() 
+    public void testObjectKeyFactory()
     {
         out.println( "Testing ObjectKeyFactory" ) ;
 
@@ -1432,8 +1432,8 @@ public class Client
         testObjectKeyFactory_POA() ;
         testObjectKeyFactory_Wire() ;
     }
-    
-    abstract class KeyGeneratorBase 
+
+    abstract class KeyGeneratorBase
     {
         protected int magic ;
 
@@ -1454,7 +1454,7 @@ public class Client
 
         public abstract byte[] getOID() ;
 
-        public final byte[] makeKey( int magic ) 
+        public final byte[] makeKey( int magic )
         {
             this.magic = magic ;
             OutputStream os = newOutputStream() ;
@@ -1475,12 +1475,12 @@ public class Client
 
         protected abstract void checkForNewClass( ObjectKeyTemplate temp ) ;
 
-        public void checkObjectKey( ObjectKey okey ) 
+        public void checkObjectKey( ObjectKey okey )
         {
             ObjectKeyTemplate oktemp = okey.getTemplate() ;
 
             switch (magic) {
-                case (ObjectKeyFactoryImpl.JAVAMAGIC_OLD): 
+                case (ObjectKeyFactoryImpl.JAVAMAGIC_OLD):
                     if (!(oldClass.isInstance(oktemp)))
                         error( "Factory constructed wrong kind of key" ) ;
 
@@ -1491,7 +1491,7 @@ public class Client
 
                     break ;
 
-                case (ObjectKeyFactoryImpl.JAVAMAGIC_NEW): 
+                case (ObjectKeyFactoryImpl.JAVAMAGIC_NEW):
                     if (!(oldClass.isInstance(oktemp)))
                         error( "Factory constructed wrong kind of key" ) ;
 
@@ -1502,7 +1502,7 @@ public class Client
 
                     break ;
 
-                case (ObjectKeyFactoryImpl.JAVAMAGIC_NEWER): 
+                case (ObjectKeyFactoryImpl.JAVAMAGIC_NEWER):
                     if (!(newClass.isInstance(oktemp)))
                         error( "Factory constructed wrong kind of key" ) ;
 
@@ -1519,7 +1519,7 @@ public class Client
 
             if (oktemp.getServerId() != getServerID())
                 error( "Bad server id" ) ;
-               
+
             if (!equal( getOID(), okey.getId().getId() ))
                 error( "Bad object id" ) ;
         }
@@ -1529,11 +1529,11 @@ public class Client
     {
         public JIDLKeyGenerator()
         {
-            super( OldJIDLObjectKeyTemplate.class, 
+            super( OldJIDLObjectKeyTemplate.class,
                 JIDLObjectKeyTemplate.class ) ;
         }
 
-        protected void writeKeyBody( OutputStream os ) 
+        protected void writeKeyBody( OutputStream os )
         {
             os.write_long( getServerID() ) ;
         }
@@ -1550,7 +1550,7 @@ public class Client
 
         public byte[] getOID()
         {
-            byte[] oid = { 0x00, 0x00, 0x33, 0x44, 0x21, 0x23, 
+            byte[] oid = { 0x00, 0x00, 0x33, 0x44, 0x21, 0x23,
                 0x00 } ;
             return oid ;
         }
@@ -1562,16 +1562,16 @@ public class Client
         protected void checkForNewClass( ObjectKeyTemplate oktemp )
         {
         }
-    } 
+    }
 
     @Test
-    public void testObjectKeyFactory_JIDL() 
+    public void testObjectKeyFactory_JIDL()
     {
         JIDLKeyGenerator generator = new JIDLKeyGenerator() ;
 
         out.println( "Testing ObjectKeyFactory_JIDL" ) ;
 
-        byte[] key = generator.makeKey( 
+        byte[] key = generator.makeKey(
             ObjectKeyFactoryImpl.JAVAMAGIC_OLD ) ;
         ObjectKey okey = orb.getObjectKeyFactory().create( key ) ;
         generator.checkObjectKey( okey ) ;
@@ -1596,11 +1596,11 @@ public class Client
 
         public POAKeyGenerator()
         {
-            super( OldPOAObjectKeyTemplate.class, 
+            super( OldPOAObjectKeyTemplate.class,
                 POAObjectKeyTemplate.class ) ;
         }
 
-        protected void writeKeyBody( OutputStream os ) 
+        protected void writeKeyBody( OutputStream os )
         {
             os.write_long( getServerID() ) ;
 
@@ -1625,7 +1625,7 @@ public class Client
 
         public byte[] getOID()
         {
-            byte[] oid = { 0x00, 0x00, 0x33, 0x44, 0x21, 0x23, 
+            byte[] oid = { 0x00, 0x00, 0x33, 0x44, 0x21, 0x23,
                 0x00 } ;
             return oid ;
         }
@@ -1636,7 +1636,7 @@ public class Client
 
             if (oldOrbid != Integer.parseInt( temp.getORBId() ) )
                 error( "Bad orb id" ) ;
-               
+
             ObjectAdapterId oaid = new ObjectAdapterIdNumber( oldPoaid ) ;
             if (!oaid.equals( temp.getObjectAdapterId() ) )
                 error( "POAObjectKeyTemplate.getObjectAdapterId returns bad value" ) ;
@@ -1648,20 +1648,20 @@ public class Client
 
             if (!orbid.equals( temp.getORBId() ))
                 error( "Bad orb id" ) ;
-               
+
             if (!poaid.equals( temp.getObjectAdapterId() ))
                 error( "POAObjectKeyTemplate.getObjectAdapterId returns bad value" ) ;
         }
-    } 
+    }
 
     @Test
-    public void testObjectKeyFactory_POA() 
+    public void testObjectKeyFactory_POA()
     {
         out.println( "Testing ObjectKeyFactory_POA" ) ;
 
         POAKeyGenerator generator = new POAKeyGenerator() ;
 
-        byte[] key = generator.makeKey( 
+        byte[] key = generator.makeKey(
             ObjectKeyFactoryImpl.JAVAMAGIC_OLD ) ;
         ObjectKey okey = orb.getObjectKeyFactory().create( key ) ;
         generator.checkObjectKey( okey ) ;
@@ -1676,7 +1676,7 @@ public class Client
     }
 
     @Test
-    public void testObjectKeyFactory_Wire() 
+    public void testObjectKeyFactory_Wire()
     {
         out.println( "Testing ObjectKeyFactory_Wire" ) ;
 
@@ -1697,7 +1697,7 @@ public class Client
     }
 
     @Test
-    public void testOldPOAObjectKeyTemplate() 
+    public void testOldPOAObjectKeyTemplate()
     {
         out.println( "Testing OldPOAObjectKeyTemplate" ) ;
 
@@ -1718,8 +1718,8 @@ public class Client
 
         boolean failed = false ;
         try {
-            temp = new OldPOAObjectKeyTemplate( orb, 
-                ObjectKeyFactoryImpl.JAVAMAGIC_NEWER, 
+            temp = new OldPOAObjectKeyTemplate( orb,
+                ObjectKeyFactoryImpl.JAVAMAGIC_NEWER,
                 scid, serverid, orbid, poaid ) ;
         } catch (INTERNAL ex) {
             failed = true ;
@@ -1729,7 +1729,7 @@ public class Client
 
         if (!failed)
             error( "OldPOAObjectKeyTemplate succeeded with bad magic" ) ;
-    } 
+    }
 
     private void checkOldPOAObjectKeyTemplate( OldPOAObjectKeyTemplate temp,
         int scid, int serverid, int orbid, int poaid, ORBVersion version )
@@ -1742,17 +1742,17 @@ public class Client
 
         if (orbid != Integer.parseInt( temp.getORBId() ) )
             error( "getORBId returns bad value" ) ;
-               
+
         ObjectAdapterId oaid = new ObjectAdapterIdNumber( poaid ) ;
         if (!oaid.equals( temp.getObjectAdapterId() ) )
             error( "getObjectAdapterId returns bad value" ) ;
-          
+
         if (!temp.getORBVersion().equals( version ))
             error( "getORBVersion returns bad value" ) ;
     }
 
     @Test
-    public void testPOAObjectKeyTemplate() 
+    public void testPOAObjectKeyTemplate()
     {
         out.println( "Testing POAObjectKeyTemplate" ) ;
 
@@ -1763,7 +1763,7 @@ public class Client
         ObjectAdapterId poaid = new ObjectAdapterIdArray( ss ) ;
 
         // Simple check of accessor
-        POAObjectKeyTemplate temp = new POAObjectKeyTemplate( orb, scid, 
+        POAObjectKeyTemplate temp = new POAObjectKeyTemplate( orb, scid,
             serverid, orbid, poaid ) ;
 
         if (temp.getSubcontractId() != scid)
@@ -1771,19 +1771,19 @@ public class Client
 
         if (temp.getServerId() != serverid)
             error( "(1) getServerId returns bad value" ) ;
-           
+
         if (!orbid.equals( temp.getORBId() ))
             error( "(1) getORBId returns bad value" ) ;
-           
+
         if (!poaid.equals( temp.getObjectAdapterId() ))
             error( "(1) getObjectAdapterId returns bad value" ) ;
-          
+
         if (!temp.getORBVersion().equals( ORBVersionFactory.getPEORB() ))
             error( "(1) getORBVersion returns bad value" ) ;
 
         // Check that object key is written correctly
         POAKeyGenerator generator = new POAKeyGenerator() ;
-        byte[] fullKey = generator.makeKey( 
+        byte[] fullKey = generator.makeKey(
             ObjectKeyFactoryImpl.JAVAMAGIC_NEWER ) ;
         OctetSeqHolder osh = new OctetSeqHolder() ;
         CDRInputObject is = makeInputStream( fullKey ) ;
@@ -1804,20 +1804,20 @@ public class Client
         temp.write( os ) ;
 
         is = makeInputStream( os ) ;
-        ObjectKeyTemplate newTemplate = orb.getObjectKeyFactory().createTemplate( 
+        ObjectKeyTemplate newTemplate = orb.getObjectKeyFactory().createTemplate(
             is ) ;
         if (!newTemplate.equals( temp ))
             error( "Error in writing out object key template" ) ;
     }
 
     @Test
-    public void testTaggedProfileFactoryFinder() 
+    public void testTaggedProfileFactoryFinder()
     {
         out.println( "Testing TaggedProfileFactoryFinder" ) ;
 
         IdentifiableFactoryFinder finder = new TaggedProfileFactoryFinderImpl(orb) ;
         finder.registerFactory( IIOPFactories.makeIIOPProfileFactory() ) ;
-        // Create a couple of tagged profiles and write them to a 
+        // Create a couple of tagged profiles and write them to a
         // IdentifiableContainerBase, read them back using finder,
         // and check results.
 
@@ -1830,23 +1830,23 @@ public class Client
         byte[] id = { 0x00, 0x00, 0x33, 0x44, 0x21, 0x23, 0x00 } ;
         ObjectId oid = IORFactories.makeObjectId( id ) ;
 
-        POAObjectKeyTemplate temp = new POAObjectKeyTemplate( orb, scid, 
+        POAObjectKeyTemplate temp = new POAObjectKeyTemplate( orb, scid,
             serverid, orbid, poaid ) ;
 
         String host = "FOO" ;
         int port = 34567 ;
         IIOPAddress primary = IIOPFactories.makeIIOPAddress( host, port ) ;
-        
+
         IIOPProfileTemplate ptemp = IIOPFactories.makeIIOPProfileTemplate( orb,
             GIOPVersion.V1_2, primary ) ;
 
         String URL = "htp://foo.sun.com:9999" ;
 
-        JavaCodebaseComponent jcomp = 
+        JavaCodebaseComponent jcomp =
             IIOPFactories.makeJavaCodebaseComponent( URL ) ;
         ptemp.add( jcomp ) ;
 
-        ORBTypeComponent comp = IIOPFactories.makeORBTypeComponent( 
+        ORBTypeComponent comp = IIOPFactories.makeORBTypeComponent(
             0x34567ABF ) ;
         ptemp.add( comp ) ;
 
@@ -1861,7 +1861,7 @@ public class Client
         List cb = new LinkedList() ;
         cb.add( iprof ) ;
         cb.add( gprof ) ;
-        
+
         OutputStream os = newOutputStream() ;
 
         EncapsulationUtility.writeIdentifiableSequence( cb, os ) ;
@@ -1886,7 +1886,7 @@ public class Client
     }
 
     @Test
-    public void testWireObjectTemplate() 
+    public void testWireObjectTemplate()
     {
         out.println( "Testing WireObjectTemplate" ) ;
 
@@ -1900,9 +1900,9 @@ public class Client
         if (temp.getServerId() != -1)
             error( "Bad server id" ) ;
 
-        if (!equal( okey, osh.value )) 
+        if (!equal( okey, osh.value ))
             error( "Did not fetch correct id from object key" ) ;
-        
+
         OutputStream os = newOutputStream() ;
         ObjectId objid = IORFactories.makeObjectId( okey ) ;
         temp.write( objid, os ) ;
@@ -1913,7 +1913,7 @@ public class Client
     }
 
     @Test
-    public void testTaggedComponents() 
+    public void testTaggedComponents()
     {
         out.println( "Testing TaggedComponents" ) ;
 
@@ -1925,12 +1925,12 @@ public class Client
     }
 
     @Test
-    public void testAlternateIIOPAddressComponent() 
+    public void testAlternateIIOPAddressComponent()
     {
         out.println( "\tAlternateIIOPAddressComponent" ) ;
 
         IIOPAddress addr = IIOPFactories.makeIIOPAddress( "FOO", 34 ) ;
-        AlternateIIOPAddressComponent comp = 
+        AlternateIIOPAddressComponent comp =
             IIOPFactories.makeAlternateIIOPAddressComponent( addr ) ;
         if (!addr.equals( comp.getAddress() ))
             error( "AlternateIIOPAddressComponent returns bad address" ) ;
@@ -1940,7 +1940,7 @@ public class Client
     }
 
     @Test
-    public void testCodeSetsComponent() 
+    public void testCodeSetsComponent()
     {
         out.println( "\tCodeSetsComponent" ) ;
 
@@ -1954,13 +1954,13 @@ public class Client
     }
 
     @Test
-    public void testJavaCodebaseComponent() 
+    public void testJavaCodebaseComponent()
     {
         out.println( "\tJavaCodebaseComponent" ) ;
 
         String URL = "htp://foo.sun.com:9999" ;
 
-        JavaCodebaseComponent comp = 
+        JavaCodebaseComponent comp =
             IIOPFactories.makeJavaCodebaseComponent( URL ) ;
 
         if (!URL.equals( comp.getURLs() ))
@@ -1971,12 +1971,12 @@ public class Client
     }
 
     @Test
-    public void testORBTypeComponent() 
+    public void testORBTypeComponent()
     {
         out.println( "\tORBTypeComponent" ) ;
 
         int orbtype = 0x45464743 ;
-        ORBTypeComponent comp = 
+        ORBTypeComponent comp =
             IIOPFactories.makeORBTypeComponent( orbtype ) ;
         if (comp.getORBType() != orbtype)
             error( "ORBTypeComponent returns bad ORBType" ) ;
@@ -1988,7 +1988,7 @@ public class Client
     public static final int TEST_COMP_ID = 0x2317 ;
     public static final byte[] TEST_COMP_DATA = { 12, 23, 31, 32, 53, 56, 1, 7, 9 } ;
 
-    private void testObjectAdapterIdIterator( String[] data, int count, ObjectAdapterId poaid ) 
+    private void testObjectAdapterIdIterator( String[] data, int count, ObjectAdapterId poaid )
     {
         int numLevels = poaid.getNumLevels() ;
         if (numLevels != count)
@@ -2022,7 +2022,7 @@ public class Client
         return result ;
     }
 
-    private void testObjectAdapterIdArray( String[] data, int count ) 
+    private void testObjectAdapterIdArray( String[] data, int count )
     {
         System.out.println( "Testing ObjectAdapterIdArray count = " + count ) ;
         ObjectAdapterId poaid = new ObjectAdapterIdArray( front( data, count ) ) ;
@@ -2034,7 +2034,7 @@ public class Client
     {
         OutputStream os = newOutputStream() ;
         poaid.write( os ) ;
-        
+
         InputStream is = makeInputStream( os ) ;
         int len = is.read_long() ;
         String[] data = new String[ len ] ;
@@ -2051,7 +2051,7 @@ public class Client
     public void testObjectAdapterId()
     {
         System.out.println( "Testing ObjectAdapterId" ) ;
-        String[] data = { "first", "second", "third", "fourth", "fifth", 
+        String[] data = { "first", "second", "third", "fourth", "fifth",
             "sixth" } ;
 
         // create ObjectAdapterIdArray, check iterator with 0,1,4 elements
@@ -2077,7 +2077,7 @@ public class Client
     public void testObjectReferenceTemplateImpl()
     {
         System.out.println( "Testing ObjectReferenceTemplateImpl" ) ;
-        
+
         // create IIOPProfileTemplate for testing
         int scid = ORBConstants.FIRST_POA_SCID ;
         String orbid = "ORB1" ;
@@ -2085,16 +2085,16 @@ public class Client
         ObjectAdapterId poaid = new ObjectAdapterIdArray( ss ) ;
         int serverid = -123 ;
 
-        POAObjectKeyTemplate temp = new POAObjectKeyTemplate( orb, scid, 
+        POAObjectKeyTemplate temp = new POAObjectKeyTemplate( orb, scid,
             serverid, orbid, poaid ) ;
 
         String host = "FOO" ;
         int port = 34567 ;
         IIOPAddress primary = IIOPFactories.makeIIOPAddress( host, port ) ;
-        
+
         IIOPProfileTemplate ptemp = IIOPFactories.makeIIOPProfileTemplate( orb,
             GIOPVersion.V1_2, primary ) ;
-    
+
         IORTemplate iortemp = IORFactories.makeIORTemplate( temp ) ;
         iortemp.add( ptemp ) ;
         iortemp.makeImmutable() ;
@@ -2102,8 +2102,8 @@ public class Client
         byte[] oid = { 0x23, 0x0, 0x0, 0x4, 0x43 } ;
 
         // construct ObjectReferenceTemplateImpl using IORTemplate
-        ObjectReferenceTemplateImpl orti = 
-            (ObjectReferenceTemplateImpl)IORFactories.makeObjectReferenceTemplate( 
+        ObjectReferenceTemplateImpl orti =
+            (ObjectReferenceTemplateImpl)IORFactories.makeObjectReferenceTemplate(
                 orb, iortemp ) ;
 
         // check server_id
@@ -2111,7 +2111,7 @@ public class Client
             error( "ObjectReferenceTemplate gave back wrong server_id" ) ;
 
         // check adapter_name
-        if (!equal(orti.adapter_name(), ss ))   
+        if (!equal(orti.adapter_name(), ss ))
             error( "ObjectReferenceTemplate gave back wrong adapter_name" ) ;
 
         // check orb_id
@@ -2134,7 +2134,7 @@ public class Client
         // Construct ObjectReferenceTemplate using default constructor
         ObjectKeyTemplate oktemp = new JIDLObjectKeyTemplate( orb, 2, -231 ) ;
         IORTemplate iortemp2 = IORFactories.makeIORTemplate( oktemp ) ;
-        ObjectReferenceTemplateImpl orti2 = 
+        ObjectReferenceTemplateImpl orti2 =
             (ObjectReferenceTemplateImpl)IORFactories.makeObjectReferenceTemplate(
                 orb, iortemp2 ) ;
 
@@ -2144,12 +2144,12 @@ public class Client
 
         if (orti2.equals( orti ))
             error( "equal failed (2)" ) ;
-            
+
         // call _read on the template that was written out
         InputStream is = makeInputStream( os ) ;
         orti2._read( is ) ;
 
-        // Check that it is now equal to orti 
+        // Check that it is now equal to orti
         if (!orti2.equals( orti ))
             error( "did not read back equal ObjectReferenceTemplate" ) ;
 
@@ -2158,7 +2158,7 @@ public class Client
             error( "ObjectReferenceTemplate gave back wrong server_id" ) ;
 
         // check adapter_name
-        if (!equal(orti2.adapter_name(), ss ))  
+        if (!equal(orti2.adapter_name(), ss ))
             error( "ObjectReferenceTemplate gave back wrong adapter_name" ) ;
 
         // check orb_id

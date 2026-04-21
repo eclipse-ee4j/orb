@@ -33,7 +33,7 @@ import java.util.Enumeration ;
 import java.io.PrintStream ;
 import java.net.URL ;
 
-public class Client 
+public class Client
 {
     private PrintStream out ;
     private PrintStream err ;
@@ -44,7 +44,7 @@ public class Client
         System.out.println( "Starting Permission test" ) ;
         try{
             Properties props = new Properties( System.getProperties() ) ;
-            props.put( "org.omg.CORBA.ORBClass", 
+            props.put( "org.omg.CORBA.ORBClass",
                 "com.sun.corba.ee.impl.orb.ORBImpl" ) ;
             new Client( props, args, System.out, System.err ) ;
         } catch (Exception e) {
@@ -73,7 +73,7 @@ public class Client
         RuntimeException exc = new RuntimeException( msg ) ;
         throw exc ;
     }
-    
+
     private void info( String msg )
     {
         out.println( msg ) ;
@@ -83,7 +83,7 @@ public class Client
 // *************************************************
 // ***************   TESTS   ***********************
 // *************************************************
-    private void dumpPermissions( PermissionCollection pc ) 
+    private void dumpPermissions( PermissionCollection pc )
     {
         Enumeration perms = pc.elements() ;
         while (perms.hasMoreElements()) {
@@ -92,7 +92,7 @@ public class Client
         }
     }
 
-    private void dumpProtectionDomain( String msg, ProtectionDomain pd ) 
+    private void dumpProtectionDomain( String msg, ProtectionDomain pd )
     {
         CodeSource cs = pd.getCodeSource() ;
         Policy policy = Policy.getPolicy() ;
@@ -106,7 +106,7 @@ public class Client
 
     private void dumpProtectionDomainForClass( Class cls )
     {
-        dumpProtectionDomain( "ProtectionDomain for " + cls, 
+        dumpProtectionDomain( "ProtectionDomain for " + cls,
             cls.getProtectionDomain() ) ;
     }
 
@@ -132,7 +132,7 @@ public class Client
         info( "" ) ;
     }
 
-    private Class getClass( String name ) 
+    private Class getClass( String name )
     {
         try {
             return Class.forName( name ) ;
@@ -141,9 +141,9 @@ public class Client
         }
     }
 
-    private void dumpProperty( String name ) 
+    private void dumpProperty( String name )
     {
-        info( "Property " + name + " has value " + 
+        info( "Property " + name + " has value " +
             System.getProperty( name ) ) ;
     }
 
@@ -156,7 +156,7 @@ public class Client
         dumpProperty( "java.security.debug" ) ;
         dumpProperty( "java.security.manager" ) ;
         info( "" ) ;
-        
+
         dumpProtectionDomainForPath(
             System.getProperty( "com.sun.corba.ee.ORBBase" ) + "/build" ) ;
         dumpProtectionDomainForPath(
@@ -164,17 +164,17 @@ public class Client
         dumpProtectionDomainForPath(
             System.getProperty( "com.sun.corba.ee.ORBBase" ) + "/test/build" ) ;
 
-        dumpProtectionDomainForClass( 
+        dumpProtectionDomainForClass(
             com.sun.corba.ee.spi.orb.ORB.class ) ;
-        dumpProtectionDomainForClass( 
+        dumpProtectionDomainForClass(
             com.sun.corba.ee.impl.orb.ORBImpl.class ) ;
-        dumpProtectionDomainForClass( 
+        dumpProtectionDomainForClass(
             org.omg.CORBA.ORB.class ) ;
         dumpProtectionDomainForClass(
             corba.security.Client.class ) ;
 
-        Class cls = getClass( 
-            "com.sun.corba.ee.spi.copyobject.OptimizedCopyobjectDefaults" ) ; 
+        Class cls = getClass(
+            "com.sun.corba.ee.spi.copyobject.OptimizedCopyobjectDefaults" ) ;
         if (cls != null)
             dumpProtectionDomainForClass( cls ) ;
 

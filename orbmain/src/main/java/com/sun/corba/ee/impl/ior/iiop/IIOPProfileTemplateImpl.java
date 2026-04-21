@@ -42,16 +42,16 @@ import org.omg.CORBA_2_3.portable.OutputStream ;
 import org.omg.IOP.TAG_INTERNET_IOP ;
 
 /**
- * @author 
+ * @author
  * If getMinorVersion==0, this does not contain any tagged components
  */
-public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase 
+public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase
     implements IIOPProfileTemplate, SocketInfo
 {
     private ORB orb ;
     private GIOPVersion giopVersion ;
     private IIOPAddress primary ;
-   
+
     public Iterator<TaggedComponent> getTaggedComponents() {
         return iterator() ;
     }
@@ -78,7 +78,7 @@ public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase
         return super.hashCode() ^ giopVersion.hashCode() ^ primary.hashCode() ;
     }
 
-    public TaggedProfile create( ObjectKeyTemplate oktemp, ObjectId id ) 
+    public TaggedProfile create( ObjectKeyTemplate oktemp, ObjectId id )
     {
         return IIOPFactories.makeIIOPProfile( orb, oktemp, id, this ) ;
     }
@@ -88,7 +88,7 @@ public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase
         return giopVersion ;
     }
 
-    public IIOPAddress getPrimaryAddress() 
+    public IIOPAddress getPrimaryAddress()
     {
         return primary ;
     }
@@ -140,14 +140,14 @@ public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase
         primary = new IIOPAddressImpl( istr ) ;
         orb = (ORB)(istr.orb()) ;
         // Handle any tagged components (if applicable)
-        if (minor > 0) 
-            EncapsulationUtility.readIdentifiableSequence(      
+        if (minor > 0)
+            EncapsulationUtility.readIdentifiableSequence(
                 this, orb.getTaggedComponentFactoryFinder(), istr ) ;
 
         makeImmutable() ;
     }
-    
-    public void write( ObjectKeyTemplate okeyTemplate, ObjectId id, OutputStream os) 
+
+    public void write( ObjectKeyTemplate okeyTemplate, ObjectId id, OutputStream os)
     {
         giopVersion.write( os ) ;
         primary.write( os ) ;
@@ -163,22 +163,22 @@ public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase
         okeyTemplate.write( id, encapsulatedOS ) ;
         EncapsulationUtility.writeOutputStream( encapsulatedOS, os ) ;
 
-        if (giopVersion.getMinor() > 0) 
+        if (giopVersion.getMinor() > 0)
             EncapsulationUtility.writeIdentifiableSequence( this, os ) ;
     }
-    
+
     /** Write out this IIOPProfileTemplateImpl only.
     */
-    public void writeContents( OutputStream os) 
+    public void writeContents( OutputStream os)
     {
         giopVersion.write( os ) ;
         primary.write( os ) ;
 
-        if (giopVersion.getMinor() > 0) 
+        if (giopVersion.getMinor() > 0)
             EncapsulationUtility.writeIdentifiableSequence( this, os ) ;
     }
-    
-    public int getId() 
+
+    public int getId()
     {
         return TAG_INTERNET_IOP.value ;
     }

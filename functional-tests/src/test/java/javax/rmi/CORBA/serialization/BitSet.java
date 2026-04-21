@@ -22,18 +22,18 @@ package javax.rmi.CORBA.serialization;
 import java.io.*;
 
 /**
- * This class implements a vector of bits that grows as needed. Each 
- * component of the bit set has a <code>boolean</code> value. The 
- * bits of a <code>BitSet</code> are indexed by nonnegative integers. 
- * Individual indexed bits can be examined, set, or cleared. One 
- * <code>BitSet</code> may be used to modify the contents of another 
- * <code>BitSet</code> through logical AND, logical inclusive OR, and 
+ * This class implements a vector of bits that grows as needed. Each
+ * component of the bit set has a <code>boolean</code> value. The
+ * bits of a <code>BitSet</code> are indexed by nonnegative integers.
+ * Individual indexed bits can be examined, set, or cleared. One
+ * <code>BitSet</code> may be used to modify the contents of another
+ * <code>BitSet</code> through logical AND, logical inclusive OR, and
  * logical exclusive OR operations.
  * <p>
- * By default, all bits in the set initially have the value 
- * <code>false</code>. 
+ * By default, all bits in the set initially have the value
+ * <code>false</code>.
  * <p>
- * Every bit set has a current size, which is the number of bits 
+ * Every bit set has a current size, which is the number of bits
  * of space currently in use by the bit set. Note that the size is
  * related to the implementation of a bit set, so it may change with
  * implementation. The length of a bit set relates to logical length
@@ -107,7 +107,7 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
     /**
      * Creates a bit set whose initial size is large enough to explicitly
      * represent bits with indices in the range <code>0</code> through
-     * <code>nbits-1</code>. All bits are initially <code>false</code>. 
+     * <code>nbits-1</code>. All bits are initially <code>false</code>.
      *
      * @param     nbits   the initial size of the bit set.
      * @exception NegativeArraySizeException if the specified initial size
@@ -175,7 +175,7 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
             unitsInUse = unitsRequired;
         } else {
             bits[unitIndex] |= bit(bitIndex);
-        }            
+        }
     }
 
     /**
@@ -217,9 +217,9 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
     }
 
     /**
-     * Returns the value of the bit with the specified index. The value 
-     * is <code>true</code> if the bit with the index <code>bitIndex</code> 
-     * is currently set in this <code>BitSet</code>; otherwise, the result 
+     * Returns the value of the bit with the specified index. The value
+     * is <code>true</code> if the bit with the index <code>bitIndex</code>
+     * is currently set in this <code>BitSet</code>; otherwise, the result
      * is <code>false</code>.
      *
      * @param     bitIndex   the bit index.
@@ -239,13 +239,13 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
     }
 
     /**
-     * Performs a logical <b>AND</b> of this target bit set with the 
-     * argument bit set. This bit set is modified so that each bit in it 
-     * has the value <code>true</code> if and only if it both initially 
-     * had the value <code>true</code> and the corresponding bit in the 
-     * bit set argument also had the value <code>true</code>. 
+     * Performs a logical <b>AND</b> of this target bit set with the
+     * argument bit set. This bit set is modified so that each bit in it
+     * has the value <code>true</code> if and only if it both initially
+     * had the value <code>true</code> and the corresponding bit in the
+     * bit set argument also had the value <code>true</code>.
      *
-     * @param   set   a bit set. 
+     * @param   set   a bit set.
      */
     public void and(BitSet set) {
         if (this == set)
@@ -264,10 +264,10 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
     }
 
     /**
-     * Performs a logical <b>OR</b> of this bit set with the bit set 
-     * argument. This bit set is modified so that a bit in it has the 
-     * value <code>true</code> if and only if it either already had the 
-     * value <code>true</code> or the corresponding bit in the bit set 
+     * Performs a logical <b>OR</b> of this bit set with the bit set
+     * argument. This bit set is modified so that a bit in it has the
+     * value <code>true</code> if and only if it either already had the
+     * value <code>true</code> or the corresponding bit in the bit set
      * argument has the value <code>true</code>.
      *
      * @param   set   a bit set.
@@ -293,15 +293,15 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
     }
 
     /**
-     * Performs a logical <b>XOR</b> of this bit set with the bit set 
-     * argument. This bit set is modified so that a bit in it has the 
-     * value <code>true</code> if and only if one of the following 
-     * statements holds: 
+     * Performs a logical <b>XOR</b> of this bit set with the bit set
+     * argument. This bit set is modified so that a bit in it has the
+     * value <code>true</code> if and only if one of the following
+     * statements holds:
      * <ul>
-     * <li>The bit initially has the value <code>true</code>, and the 
+     * <li>The bit initially has the value <code>true</code>, and the
      *     corresponding bit in the argument has the value <code>false</code>.
-     * <li>The bit initially has the value <code>false</code>, and the 
-     *     corresponding bit in the argument has the value <code>true</code>. 
+     * <li>The bit initially has the value <code>false</code>, and the
+     *     corresponding bit in the argument has the value <code>true</code>.
      * </ul>
      *
      * @param   set   a bit set.
@@ -332,17 +332,17 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
     }
 
     /**
-     * Returns a hash code value for this bit set. The has code 
-     * depends only on which bits have been set within this 
-     * <code>BitSet</code>. The algorithm used to compute it may 
+     * Returns a hash code value for this bit set. The has code
+     * depends only on which bits have been set within this
+     * <code>BitSet</code>. The algorithm used to compute it may
      * be described as follows.<p>
-     * Suppose the bits in the <code>BitSet</code> were to be stored 
-     * in an array of <code>long</code> integers called, say, 
-     * <code>bits</code>, in such a manner that bit <code>k</code> is 
-     * set in the <code>BitSet</code> (for nonnegative values of 
-     * <code>k</code>) if and only if the expression 
+     * Suppose the bits in the <code>BitSet</code> were to be stored
+     * in an array of <code>long</code> integers called, say,
+     * <code>bits</code>, in such a manner that bit <code>k</code> is
+     * set in the <code>BitSet</code> (for nonnegative values of
+     * <code>k</code>) if and only if the expression
      * <pre>((k&gt;&gt;6) &lt; bits.length) && ((bits[k&gt;&gt;6] & (1L &lt;&lt; (bit & 0x3F))) != 0)</pre>
-     * is true. Then the following definition of the <code>hashCode</code> 
+     * is true. Then the following definition of the <code>hashCode</code>
      * method would be a correct implementation of the actual algorithm:
      * <pre>
      * public synchronized int hashCode() {
@@ -364,10 +364,10 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
 
         return (int)((h >> 32) ^ h);
     }
-    
+
     /**
-     * Returns the number of bits of space actually in use by this 
-     * <code>BitSet</code> to represent bit values. 
+     * Returns the number of bits of space actually in use by this
+     * <code>BitSet</code> to represent bit values.
      * The maximum element in the set is the size - 1st element.
      *
      * @return  the number of bits currently in this bit set.
@@ -378,12 +378,12 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
 
     /**
      * Compares this object against the specified object.
-     * The result is <code>true</code> if and only if the argument is 
-     * not <code>null</code> and is a <code>Bitset</code> object that has 
-     * exactly the same set of bits set to <code>true</code> as this bit 
-     * set. That is, for every nonnegative <code>int</code> index <code>k</code>, 
+     * The result is <code>true</code> if and only if the argument is
+     * not <code>null</code> and is a <code>Bitset</code> object that has
+     * exactly the same set of bits set to <code>true</code> as this bit
+     * set. That is, for every nonnegative <code>int</code> index <code>k</code>,
      * <pre>((BitSet)obj).get(k) == this.get(k)</pre>
-     * must be true. The current sizes of the two bit sets are not compared. 
+     * must be true. The current sizes of the two bit sets are not compared.
      * <p>Overrides the <code>equals</code> method of <code>Object</code>.
      *
      * @param   obj   the object to compare with.
@@ -419,11 +419,11 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
     }
 
     /**
-     * Cloning this <code>BitSet</code> produces a new <code>BitSet</code> 
+     * Cloning this <code>BitSet</code> produces a new <code>BitSet</code>
      * that is equal to it.
-     * The clone of the bit set is another bit set that has exactly the 
-     * same bits set to <code>true</code> as this bit set and the same 
-     * current size. 
+     * The clone of the bit set is another bit set that has exactly the
+     * same bits set to <code>true</code> as this bit set and the same
+     * current size.
      * <p>Overrides the <code>clone</code> method of <code>Object</code>.
      *
      * @return  a clone of this bit set.
@@ -452,7 +452,7 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
      */
     private void readObject(java.io.ObjectInputStream in)
         throws IOException, ClassNotFoundException {
-        
+
         in.defaultReadObject();
         //assume maximum length then find real length
         //because recalculateUnitsInUse assumes maintenance
@@ -462,12 +462,12 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
     }
 
     /**
-     * Returns a string representation of this bit set. For every index 
-     * for which this <code>BitSet</code> contains a bit in the set 
-     * state, the decimal representation of that index is included in 
-     * the result. Such indeces aer listed in order from lowest to 
-     * highest, separated by ",$nbsp;" (a comma and a space) and 
-     * surrounded by braces, resulting in the usual mathematical 
+     * Returns a string representation of this bit set. For every index
+     * for which this <code>BitSet</code> contains a bit in the set
+     * state, the decimal representation of that index is included in
+     * the result. Such indeces aer listed in order from lowest to
+     * highest, separated by ",$nbsp;" (a comma and a space) and
+     * surrounded by braces, resulting in the usual mathematical
      * notation for a set of integers.<p>
      * Overrides the <code>toString</code> method of <code>Object</code>.
      * <p>Example:

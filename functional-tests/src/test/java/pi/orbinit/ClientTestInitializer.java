@@ -31,11 +31,11 @@ import ORBInitTest.*;
 
 /**
  * Test initializer on the client side.  Most of the testing is done in this
- * class, and the results are stored in static publicly accessible variables 
+ * class, and the results are stored in static publicly accessible variables
  * that are analyzed in Client.java.
  */
-public class ClientTestInitializer 
-    extends LocalObject 
+public class ClientTestInitializer
+    extends LocalObject
     implements ORBInitializer
 {
     // Output stream to send information to
@@ -102,14 +102,14 @@ public class ClientTestInitializer
 
         // Check to make sure info object is valid
         if( info == null ) {
-            out.println( 
+            out.println(
                 "ERROR: supplied ORBInitInfo object to pre_init() is null" );
             globalValid = false;
         }
         else {
             if( !testInfo( info, true ) ) {
-                out.println( 
-                    "ERROR: Supplied ORBInitInfo object to " + 
+                out.println(
+                    "ERROR: Supplied ORBInitInfo object to " +
                     "pre_init() is invalid" );
                 globalValid = false;
             }
@@ -144,13 +144,13 @@ public class ClientTestInitializer
 
         // Check to make sure info object is valid
         if( info == null ) {
-            out.println( 
+            out.println(
                 "ERROR: supplied ORBInitInfo object to post_init() is null" );
         }
         else {
             if( !testInfo( info, false ) ) {
-                out.println( 
-                    "ERROR: Supplied ORBInitInfo object to " + 
+                out.println(
+                    "ERROR: Supplied ORBInitInfo object to " +
                     "pre_init() is invalid" );
                 globalValid = false;
             }
@@ -169,7 +169,7 @@ public class ClientTestInitializer
     }
 
     /**
-     * Returns true to the Client.java test if we were initialized 
+     * Returns true to the Client.java test if we were initialized
      * appropriately.
      */
     public static boolean initializedAppropriately() {
@@ -189,7 +189,7 @@ public class ClientTestInitializer
 
         // Check method validity at different stages of init
         // (an x indicates valid to call, a dash indicates invalid):
-        // 
+        //
         // ORBInitInfo Method              pre_init        post_init
         // ------------------              --------        ---------
         // arguments                       x               x
@@ -221,11 +221,11 @@ public class ClientTestInitializer
                     }
                 }
                 if( abcdPresent && efghPresent ) {
-                    out.println( 
+                    out.println(
                         "    - arguments contains 'abcd' and 'efgh'(ok)");
                 }
                 else {
-                    out.println( 
+                    out.println(
                         "    - arguments 'abcd' and 'efgh' not found (error)");
                     infoValid = false;
                 }
@@ -251,7 +251,7 @@ public class ClientTestInitializer
         }
         catch( Exception e ) {
             infoValid = false;
-            out.println( 
+            out.println(
                 "    - Exception accessing attributes (error)" );
         }
 
@@ -267,13 +267,13 @@ public class ClientTestInitializer
 
             // Ensure register_initial_reference can be called
             try {
-                info.register_initial_reference( 
+                info.register_initial_reference(
                     REFERENCE_NAME, this );
             }
             catch( Exception e ) {
                 infoValid = false;
                 e.printStackTrace();
-                out.println( 
+                out.println(
                     "Could not call register_initial_references (error)" +
                     " Reason: " + e );
                 preInitFailed = true;
@@ -283,7 +283,7 @@ public class ClientTestInitializer
             try {
                 info.resolve_initial_references( REFERENCE_NAME );
                 infoValid = false;
-                out.println( 
+                out.println(
                     "Able to call resolve_initial_references (error)" );
                 preInitFailed = true;
             }
@@ -299,12 +299,12 @@ public class ClientTestInitializer
 
             // Ensure register_initial_reference can be called
             try {
-                info.register_initial_reference( 
+                info.register_initial_reference(
                     REFERENCE_NAME + "2", this );
             }
             catch( Exception e ) {
                 infoValid = false;
-                out.println( 
+                out.println(
                     "Could not call register_initial_references (error)" +
                     " Reason: " + e );
                 postInitFailed = true;
@@ -316,7 +316,7 @@ public class ClientTestInitializer
             }
             catch( Exception e ) {
                 infoValid = false;
-                out.println( 
+                out.println(
                     "Unable to call resolve_initial_references (error)" );
                 postInitFailed = true;
             }
@@ -376,18 +376,18 @@ public class ClientTestInitializer
      * future retrieval from the test harness
      */
     private void testResolveInitialReferences( ORBInitInfo info ) {
-        resolveInitialReferencesResults = 
+        resolveInitialReferencesResults =
             "Testing resolve_initial_references:\n";
 
         try {
-            resolveInitialReferencesResults += 
-                "    - Testing info.resolve_initial_references( " + 
+            resolveInitialReferencesResults +=
+                "    - Testing info.resolve_initial_references( " +
                 "\"CodecFactory\" )... ";
-            org.omg.CORBA.Object objRef = 
+            org.omg.CORBA.Object objRef =
                 info.resolve_initial_references( "CodecFactory" );
             CodecFactory codecFactory = CodecFactoryHelper.narrow( objRef );
             if( objRef != null ) {
-                // If we go this far, we know we can look up existing 
+                // If we go this far, we know we can look up existing
                 // references.
                 passResolveInitialReferences = true;
                 resolveInitialReferencesResults +=  "passed.\n";
@@ -405,40 +405,40 @@ public class ClientTestInitializer
         // Ensure resolve_initial_references throws InvalidName at the
         // appropiate times (the name to be resolved is invalid).
         try {
-            resolveInitialReferencesResults += 
-                "    - Testing info.resolve_initial_references( " + 
+            resolveInitialReferencesResults +=
+                "    - Testing info.resolve_initial_references( " +
                 "\"CodecFactory2\" )... ";
-            org.omg.CORBA.Object objRef = 
+            org.omg.CORBA.Object objRef =
                 info.resolve_initial_references( "CodecFactory2" );
             // If we got this far, the resolve did not throw an InvalidName
             // Exception as expected.
             passResolveInitialReferencesInvalid = false;
-            resolveInitialReferencesResults += 
+            resolveInitialReferencesResults +=
                 "failed.  InvalidName not raised.\n";
         }
-        catch( 
-            org.omg.PortableInterceptor.ORBInitInfoPackage.InvalidName e ) 
+        catch(
+            org.omg.PortableInterceptor.ORBInitInfoPackage.InvalidName e )
         {
             // This is the correct IDL version of InvalidName.
             passResolveInitialReferencesInvalid = true;
-            resolveInitialReferencesResults += 
+            resolveInitialReferencesResults +=
                 "InvalidName raised.  (passed)\n";
         }
         catch( Exception e ) {
             // This is the incorrect PIDL version of InvalidName.
             passResolveInitialReferencesInvalid = false;
-            resolveInitialReferencesResults += 
+            resolveInitialReferencesResults +=
                 "Incorrect Exception raised: " + e + " (failed).\n";
         }
 
     }
-    
+
     private void testInterceptorRegistration( ORBInitInfo info, String name ) {
-        SampleClientRequestInterceptor cReqInt = 
+        SampleClientRequestInterceptor cReqInt =
             new SampleClientRequestInterceptor( name );
-        SampleServerRequestInterceptor sReqInt = 
+        SampleServerRequestInterceptor sReqInt =
             new SampleServerRequestInterceptor( name );
-        SampleIORInterceptor iInt = 
+        SampleIORInterceptor iInt =
             new SampleIORInterceptor( name );
         String results = "";
         boolean resultOk = true;
@@ -486,7 +486,7 @@ public class ClientTestInitializer
             results += "No DuplicateName thrown (error)\n";
         }
         catch( DuplicateName e ) {
-            // Expected.  
+            // Expected.
             results += "DuplicateName raised. (ok)\n";
 
         }
@@ -497,9 +497,9 @@ public class ClientTestInitializer
         }
 
         // Try adding two anonymous interceptors in a row.
-        SampleClientRequestInterceptor cAnonymous1 = 
+        SampleClientRequestInterceptor cAnonymous1 =
             new SampleClientRequestInterceptor( "" );
-        SampleClientRequestInterceptor cAnonymous2 = 
+        SampleClientRequestInterceptor cAnonymous2 =
             new SampleClientRequestInterceptor( "" );
 
         // Try adding first anonymous interceptor
@@ -547,7 +547,7 @@ public class ClientTestInitializer
 
         results += "    - Testing PICurrent::get_slot access... ";
         try {
-            org.omg.PortableInterceptor.Current pic = 
+            org.omg.PortableInterceptor.Current pic =
                 (org.omg.PortableInterceptor.Current)
                 info.resolve_initial_references( "PICurrent" );
             pic.get_slot( 0 );
@@ -559,14 +559,14 @@ public class ClientTestInitializer
             results += "inaccessible.  (ok)\n";
         }
         catch( Exception e ) {
-            results += "inaccessible, but wrong Exception (" + e + 
+            results += "inaccessible, but wrong Exception (" + e +
                 " instead of BAD_INV_ORDER).  (error)\n";
             resultOk = false;
         }
 
         results += "    - Testing PICurrent::set_slot access... ";
         try {
-            org.omg.PortableInterceptor.Current pic = 
+            org.omg.PortableInterceptor.Current pic =
                 (org.omg.PortableInterceptor.Current)
                 info.resolve_initial_references( "PICurrent" );
             pic.set_slot( 0, null );
@@ -578,7 +578,7 @@ public class ClientTestInitializer
             results += "inaccessible.  (ok)\n";
         }
         catch( Exception e ) {
-            results += "inaccessible, but wrong Exception (" + e + 
+            results += "inaccessible, but wrong Exception (" + e +
                 " instead of BAD_INV_ORDER).  (error)\n";
             resultOk = false;
         }

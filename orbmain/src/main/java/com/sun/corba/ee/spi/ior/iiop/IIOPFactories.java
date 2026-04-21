@@ -62,12 +62,12 @@ public abstract class IIOPFactories {
             public Identifiable readContents(InputStream in)
             {
                 int threadPoolToUse = in.read_ulong();
-                Identifiable comp = 
+                Identifiable comp =
                     new RequestPartitioningComponentImpl(threadPoolToUse);
                 return comp;
             }
         };
-    } 
+    }
 
     public static RequestPartitioningComponent makeRequestPartitioningComponent(
             int threadPoolToUse)
@@ -81,12 +81,12 @@ public abstract class IIOPFactories {
             public Identifiable readContents(InputStream in)
             {
                 int loadBalancingValue = in.read_ulong();
-                Identifiable comp = 
+                Identifiable comp =
                     new LoadBalancingComponentImpl(loadBalancingValue);
                 return comp;
             }
         };
-    } 
+    }
 
     public static LoadBalancingComponent makeLoadBalancingComponent(
             int loadBalancingValue)
@@ -102,12 +102,12 @@ public abstract class IIOPFactories {
             public Identifiable readContents(InputStream in)
             {
                 final ClusterInstanceInfo cinfo = new ClusterInstanceInfo( in ) ;
-                Identifiable comp = 
+                Identifiable comp =
                     new ClusterInstanceInfoComponentImpl(cinfo);
                 return comp;
             }
         };
-    } 
+    }
 
     public static ClusterInstanceInfoComponent makeClusterInstanceInfoComponent(
         ClusterInstanceInfo cinfo)
@@ -118,15 +118,15 @@ public abstract class IIOPFactories {
     public static IdentifiableFactory makeAlternateIIOPAddressComponentFactory()
     {
         return new EncapsulationFactoryBase(TAG_ALTERNATE_IIOP_ADDRESS.value) {
-            public Identifiable readContents( InputStream in ) 
+            public Identifiable readContents( InputStream in )
             {
                 IIOPAddress addr = new IIOPAddressImpl( in ) ;
-                Identifiable comp = 
+                Identifiable comp =
                     new AlternateIIOPAddressComponentImpl( addr ) ;
                 return comp ;
             }
         } ;
-    } 
+    }
 
     public static AlternateIIOPAddressComponent makeAlternateIIOPAddressComponent(
         IIOPAddress addr )
@@ -137,22 +137,22 @@ public abstract class IIOPFactories {
     public static IdentifiableFactory makeCodeSetsComponentFactory()
     {
         return new EncapsulationFactoryBase(TAG_CODE_SETS.value) {
-            public Identifiable readContents( InputStream in ) 
+            public Identifiable readContents( InputStream in )
             {
                 return new CodeSetsComponentImpl( in ) ;
             }
         } ;
     }
-    
+
     public static CodeSetsComponent makeCodeSetsComponent( ORB orb )
     {
         return new CodeSetsComponentImpl( orb ) ;
     }
-        
+
     public static IdentifiableFactory makeJavaCodebaseComponentFactory()
     {
         return new EncapsulationFactoryBase(TAG_JAVA_CODEBASE.value) {
-            public Identifiable readContents( InputStream in ) 
+            public Identifiable readContents( InputStream in )
             {
                 String url = in.read_string() ;
                 Identifiable comp = new JavaCodebaseComponentImpl( url ) ;
@@ -161,8 +161,8 @@ public abstract class IIOPFactories {
         } ;
     }
 
-    public static JavaCodebaseComponent makeJavaCodebaseComponent( 
-        String codebase ) 
+    public static JavaCodebaseComponent makeJavaCodebaseComponent(
+        String codebase )
     {
         return new JavaCodebaseComponentImpl( codebase ) ;
     }
@@ -170,7 +170,7 @@ public abstract class IIOPFactories {
     public static IdentifiableFactory makeORBTypeComponentFactory()
     {
         return new EncapsulationFactoryBase(TAG_ORB_TYPE.value) {
-            public Identifiable readContents( InputStream in ) 
+            public Identifiable readContents( InputStream in )
             {
                 int type = in.read_ulong() ;
                 Identifiable comp = new ORBTypeComponentImpl( type ) ;
@@ -179,7 +179,7 @@ public abstract class IIOPFactories {
         } ;
     }
 
-    public static ORBTypeComponent makeORBTypeComponent( int type ) 
+    public static ORBTypeComponent makeORBTypeComponent( int type )
     {
         return new ORBTypeComponentImpl( type ) ;
     }
@@ -194,7 +194,7 @@ public abstract class IIOPFactories {
                 return comp ;
             }
         };
-    } 
+    }
 
     public static MaxStreamFormatVersionComponent makeMaxStreamFormatVersionComponent()
     {
@@ -219,7 +219,7 @@ public abstract class IIOPFactories {
     public static IdentifiableFactory makeIIOPProfileFactory()
     {
         return new EncapsulationFactoryBase(TAG_INTERNET_IOP.value) {
-            public Identifiable readContents( InputStream in ) 
+            public Identifiable readContents( InputStream in )
             {
                 Identifiable result = new IIOPProfileImpl( in ) ;
                 return result ;
@@ -233,7 +233,7 @@ public abstract class IIOPFactories {
         return new IIOPProfileImpl( orb, oktemp, oid, ptemp ) ;
     }
 
-    public static IIOPProfile makeIIOPProfile( ORB orb, 
+    public static IIOPProfile makeIIOPProfile( ORB orb,
         org.omg.IOP.TaggedProfile profile )
     {
         return new IIOPProfileImpl( orb, profile ) ;
@@ -242,7 +242,7 @@ public abstract class IIOPFactories {
     public static IdentifiableFactory makeIIOPProfileTemplateFactory()
     {
         return new EncapsulationFactoryBase(TAG_INTERNET_IOP.value) {
-            public Identifiable readContents( InputStream in ) 
+            public Identifiable readContents( InputStream in )
             {
                 Identifiable result = new IIOPProfileTemplateImpl( in ) ;
                 return result ;
@@ -250,18 +250,18 @@ public abstract class IIOPFactories {
         } ;
     }
 
-    public static IIOPProfileTemplate makeIIOPProfileTemplate( ORB orb, 
-        GIOPVersion version, IIOPAddress primary ) 
+    public static IIOPProfileTemplate makeIIOPProfileTemplate( ORB orb,
+        GIOPVersion version, IIOPAddress primary )
     {
         return new IIOPProfileTemplateImpl( orb, version, primary ) ;
     }
 
-    public static IIOPAddress makeIIOPAddress( String host, int port ) 
+    public static IIOPAddress makeIIOPAddress( String host, int port )
     {
         return new IIOPAddressImpl( host, port ) ;
     }
 
-    public static IIOPAddress makeIIOPAddress( InputStream is ) 
+    public static IIOPAddress makeIIOPAddress( InputStream is )
     {
         return new IIOPAddressImpl( is ) ;
     }

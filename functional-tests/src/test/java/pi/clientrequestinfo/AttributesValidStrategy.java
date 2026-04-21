@@ -47,11 +47,11 @@ public class AttributesValidStrategy
         try {
             super.send_request( interceptor, ri );
 
-            String validName = (count == 0) ?  
+            String validName = (count == 0) ?
                 "sayHello" : "saySystemException";
             this.operationName = ri.operation();
             log( "send_request(): Expected operation name = " + validName );
-            log( "send_request(): Actual operation name = " + 
+            log( "send_request(): Actual operation name = " +
                 this.operationName );
 
             if( !this.operationName.equals( validName ) ) {
@@ -60,7 +60,7 @@ public class AttributesValidStrategy
 
             checkSyncScope( "send_request", ri );
 
-            // Check that within send_request, reply_status 
+            // Check that within send_request, reply_status
             // throws BAD_INV_ORDER:
             try {
                 short replyStatus = ri.reply_status();
@@ -105,7 +105,7 @@ public class AttributesValidStrategy
 
 
     public void receive_exception (
-        SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) 
+        SampleClientRequestInterceptor interceptor, ClientRequestInfo ri)
         throws ForwardRequest
     {
         try {
@@ -113,7 +113,7 @@ public class AttributesValidStrategy
             checkOperation( "receive_exception", ri.operation() );
             checkSyncScope( "receive_exception", ri );
 
-            // Check that within receive_exception, reply_status is 
+            // Check that within receive_exception, reply_status is
             // SYSTEM_EXCEPTION or USER_EXCEPTION:
             boolean[] validValues = { false, true, true, false, false };
             checkReplyStatus( "receive_exception", ri, validValues );
@@ -124,7 +124,7 @@ public class AttributesValidStrategy
     }
 
     public void receive_other (
-        SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) 
+        SampleClientRequestInterceptor interceptor, ClientRequestInfo ri)
         throws ForwardRequest
     {
         try {
@@ -132,7 +132,7 @@ public class AttributesValidStrategy
             checkOperation( "receive_other", ri.operation() );
             checkSyncScope( "receive_other", ri );
 
-            // Check that within receive_other, reply_status is 
+            // Check that within receive_other, reply_status is
             // SUCCESSFUL, LOCATION_FORWARD, or TRANSPORT_RETRY.
             boolean[] validValues = { true, false, false, true, true };
             checkReplyStatus( "receive_other", ri, validValues );
@@ -145,7 +145,7 @@ public class AttributesValidStrategy
     private void checkOperation( String method, String opName ) {
         log( method + "(): Actual operation name = " + opName );
         if( !opName.equals( this.operationName ) ) {
-            fail( "Operation name in " + method + " not equal to " + 
+            fail( "Operation name in " + method + " not equal to " +
                   "operation name in send_request()" );
         }
     }

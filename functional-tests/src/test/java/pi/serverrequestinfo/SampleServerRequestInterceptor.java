@@ -32,8 +32,8 @@ import org.omg.PortableInterceptor.ServerRequestInterceptor;
  * performed on interceptor number 2 and only if the target() is not
  * helloRefForward.
  */
-public class SampleServerRequestInterceptor 
-    extends org.omg.CORBA.LocalObject 
+public class SampleServerRequestInterceptor
+    extends org.omg.CORBA.LocalObject
     implements ServerRequestInterceptor
 {
     // Valid message for exceptions
@@ -41,7 +41,7 @@ public class SampleServerRequestInterceptor
 
     // The dyanmic strategy that will be used for this round.
     public static InterceptorStrategy strategy = null;
-    
+
     // The name of this interceptor
     private String name;
 
@@ -51,7 +51,7 @@ public class SampleServerRequestInterceptor
     // test run.
     public static boolean intercepted = false;
 
-    // True if enabled, false if all interception points must 
+    // True if enabled, false if all interception points must
     // return immediately.
     public static boolean enabled = false;
 
@@ -77,7 +77,7 @@ public class SampleServerRequestInterceptor
     // _is_a invocations are recorded at most once.  This is useful for
     // when we actually want to record interception on the _is_a "special op".
     static boolean dontIgnoreIsA = false;
-    
+
 
     // Records the method invocation order
     public static String methodOrder = "";
@@ -96,15 +96,15 @@ public class SampleServerRequestInterceptor
     }
 
     public void receive_request_service_contexts( ServerRequestInfo ri )
-        throws ForwardRequest 
+        throws ForwardRequest
     {
         // Only execute if the interceptor is enabled, this interception
-        // point is enabled, we are the second interceptor, and we are 
+        // point is enabled, we are the second interceptor, and we are
         // executing on hello, not helloForward.
         if( ri.operation().equals( "syncWithServer" ) ) return;
         if( !dontIgnoreIsA && ri.operation().equals( "_is_a" ) ) {
             if( name.equals( "1" ) ) {
-                System.out.println( 
+                System.out.println(
                     "    - Interceptor: Ingoring _is_a call..." );
             }
             return;
@@ -117,11 +117,11 @@ public class SampleServerRequestInterceptor
         strategy.receive_request_service_contexts( this, ri );
     }
 
-    public void receive_request (ServerRequestInfo ri) 
+    public void receive_request (ServerRequestInfo ri)
         throws ForwardRequest
     {
         // Only execute if the interceptor is enabled, this interception
-        // point is enabled, we are the second interceptor, and we are 
+        // point is enabled, we are the second interceptor, and we are
         // executing on hello, not helloForward.
         if( ri.operation().equals( "syncWithServer" ) ) return;
         if( !dontIgnoreIsA && ri.operation().equals( "_is_a" ) ) return;
@@ -134,7 +134,7 @@ public class SampleServerRequestInterceptor
 
     public void send_reply (ServerRequestInfo ri) {
         // Only execute if the interceptor is enabled, this interception
-        // point is enabled, we are the second interceptor, and we are 
+        // point is enabled, we are the second interceptor, and we are
         // executing on hello, not helloForward.
         if( ri.operation().equals( "syncWithServer" ) ) return;
         if( !dontIgnoreIsA && ri.operation().equals( "_is_a" ) ) return;
@@ -145,11 +145,11 @@ public class SampleServerRequestInterceptor
         strategy.send_reply( this, ri );
     }
 
-    public void send_exception (ServerRequestInfo ri) 
+    public void send_exception (ServerRequestInfo ri)
         throws ForwardRequest
     {
         // Only execute if the interceptor is enabled, this interception
-        // point is enabled, we are the second interceptor, and we are 
+        // point is enabled, we are the second interceptor, and we are
         // executing on hello, not helloForward.
         if( ri.operation().equals( "syncWithServer" ) ) return;
         if( !dontIgnoreIsA && ri.operation().equals( "_is_a" ) ) return;
@@ -164,11 +164,11 @@ public class SampleServerRequestInterceptor
         strategy.send_exception( this, ri );
     }
 
-    public void send_other (ServerRequestInfo ri) 
-        throws ForwardRequest 
+    public void send_other (ServerRequestInfo ri)
+        throws ForwardRequest
     {
         // Only execute if the interceptor is enabled, this interception
-        // point is enabled, we are the second interceptor, and we are 
+        // point is enabled, we are the second interceptor, and we are
         // executing on hello, not helloForward.
         if( ri.operation().equals( "syncWithServer" ) ) return;
         if( !dontIgnoreIsA && ri.operation().equals( "_is_a" ) ) return;

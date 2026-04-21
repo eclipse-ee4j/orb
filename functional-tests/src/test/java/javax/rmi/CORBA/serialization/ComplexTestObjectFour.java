@@ -51,10 +51,10 @@ public class ComplexTestObjectFour implements Externalizable
         try
             {
                 ComplexTestObjectFour ctbo = (ComplexTestObjectFour)o;
-                return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) && 
-                        (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat) && 
+                return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) &&
+                        (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat) &&
                         (ctbo.fDouble == fDouble)
-                        && (ctbo.fOne.equals(fOne)) 
+                        && (ctbo.fOne.equals(fOne))
                         && (ctbo.fTwo.equals(fTwo))
                         );
             }

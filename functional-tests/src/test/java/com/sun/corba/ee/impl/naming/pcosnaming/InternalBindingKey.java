@@ -68,7 +68,7 @@ public class InternalBindingKey
                         return false;
                 }
                 // If id is set is must be equal
-                if (this.id.length() > 0 && this.id.equals(that.id) == false) 
+                if (this.id.length() > 0 && this.id.equals(that.id) == false)
                 {
                         return false;
                 }
@@ -90,7 +90,7 @@ public class InternalBindingKey
                         return false;
                 }
                 // If kind is set it must be equal
-                if (this.kind.length() > 0 && this.kind.equals(that.kind) == false) 
+                if (this.kind.length() > 0 && this.kind.equals(that.kind) == false)
                 {
                         return false;
                 }

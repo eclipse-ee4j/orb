@@ -33,10 +33,10 @@ public class HelloServer {
             FactoryImpl theFactory = new FactoryImpl(poa);
 
             byte[] id = rootPoa.activate_object(theFactory);
-            
+
             u.writeFactory(GenericFactoryHelper.narrow(
                 rootPoa.servant_to_reference(theFactory)));
-            
+
             poa.the_POAManager().activate();
 
             System.out.println("Server is ready.");

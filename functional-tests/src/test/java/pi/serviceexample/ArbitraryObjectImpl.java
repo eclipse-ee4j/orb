@@ -69,7 +69,7 @@ class ArbitraryObjectImpl
 
         if (aService == null) {
             try {
-                aService =      
+                aService =
                     AServiceHelper.narrow(
                         orb.resolve_initial_references("AService"));
             } catch (InvalidName e) {
@@ -96,17 +96,17 @@ class ArbitraryObjectImpl
                           "");
                 orb = ORB.init(av, props);
             }
-            
+
             POA rootPOA =  (POA) orb.resolve_initial_references("RootPOA");
             // Create a POA so the IOR interceptor executes.
             POA childPOA = rootPOA.create_POA("childPOA", null, null);
             childPOA.the_POAManager().activate();
-            
+
             byte[] objectId =
                 childPOA.activate_object(new ArbitraryObjectImpl());
             org.omg.CORBA.Object ref = childPOA.id_to_reference(objectId);
 
-            NamingContext nameService = 
+            NamingContext nameService =
                 NamingContextHelper.narrow(
                     orb.resolve_initial_references("NameService"));
             NameComponent path[] =

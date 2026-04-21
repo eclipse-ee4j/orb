@@ -74,7 +74,7 @@ public class ValueGen24 extends ValueGen
 
   protected void writeInitializers ()
   {
-        // override to do nothing 
+        // override to do nothing
   } // writeInitializers
 
   protected void writeTruncatable () // <d60929>
@@ -98,7 +98,7 @@ public class ValueGen24 extends ValueGen
       stream.println("  };");
       stream.println();
       stream.println ("  public String[] _truncatable_ids() {");
-      stream.println ("    return _truncatable_ids;"); 
+      stream.println ("    return _truncatable_ids;");
       stream.println ("  }");
       stream.println ();
     }
@@ -107,7 +107,7 @@ public class ValueGen24 extends ValueGen
   class ImplStreamWriter {
     private boolean isImplementsWritten = false ;
 
-    public void writeClassName( String name ) 
+    public void writeClassName( String name )
     {
         if (!isImplementsWritten) {
             stream.print( " implements " ) ;
@@ -160,7 +160,7 @@ public class ValueGen24 extends ValueGen
     }
 
     // Write out the supported interfaces
-    Enumeration<SymtabEntry> enumeration = v.supports().elements(); 
+    Enumeration<SymtabEntry> enumeration = v.supports().elements();
     while (enumeration.hasMoreElements())  {
         InterfaceEntry ie = (InterfaceEntry)(enumeration.nextElement()) ;
         String cname = com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaName(ie) ;
@@ -168,9 +168,9 @@ public class ValueGen24 extends ValueGen
             cname += "Operations" ;
         isw.writeClassName( cname ) ;
     }
-    
+
     // for when a custom valuetype inherits from a non-custom valuetype
-    if ( v.isCustom () && !cv) 
+    if ( v.isCustom () && !cv)
         isw.writeClassName( "org.omg.CORBA.portable.CustomValue" ) ;
 
     stream.println ();

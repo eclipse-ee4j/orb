@@ -26,20 +26,20 @@ import com.sun.corba.ee.spi.presentation.rmi.PresentationManager.StubFactory;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 
-public class StubFactoryFactoryProxyImpl extends StubFactoryFactoryDynamicBase 
+public class StubFactoryFactoryProxyImpl extends StubFactoryFactoryDynamicBase
 {
-    public PresentationManager.StubFactory makeDynamicStubFactory( 
-        PresentationManager pm, final PresentationManager.ClassData classData, 
-        final ClassLoader classLoader ) 
+    public PresentationManager.StubFactory makeDynamicStubFactory(
+        PresentationManager pm, final PresentationManager.ClassData classData,
+        final ClassLoader classLoader )
     {
         return AccessController.doPrivileged(
-        		new PrivilegedAction<PresentationManager.StubFactory>() {
+                new PrivilegedAction<PresentationManager.StubFactory>() {
 
-					@Override
-					public StubFactory run() {
-						return new StubFactoryProxyImpl( classData, classLoader ) ;
-					}
-        	
+                    @Override
+                    public StubFactory run() {
+                        return new StubFactoryProxyImpl( classData, classLoader ) ;
+                    }
+
         });
     }
 }

@@ -113,7 +113,7 @@ public class MsgTypesTest extends CORBATest {
         // runFragmentedReply();
 
         runHeaderPaddingTest();
-        
+
         System.out.print("      Test result : " );
 
         if (errors > 0)
@@ -346,14 +346,14 @@ public class MsgTypesTest extends CORBATest {
                         "com.sun.corba.ee.impl.orb.ORBImpl");
         clientProps.put("org.omg.PortableInterceptor.ORBInitializerClass." +
                   "corba.msgtypes.Client", "true");
-                  
+
         Properties serverProps = Options.getServerProperties();
         serverProps.put("org.omg.CORBA.ORBClass",
                         "com.sun.corba.ee.impl.orb.ORBImpl");
         serverProps.put("org.omg.PortableInterceptor.ORBInitializerClass." +
                   "corba.msgtypes.Server", "true");
         serverProps.put(ORBConstants.GIOP_TARGET_ADDRESSING,
-                  "" + ORBConstants.ADDR_DISP_OBJKEY);              
+                  "" + ORBConstants.ADDR_DISP_OBJKEY);
         Controller server = createServer("corba.msgtypes.Server", "runTargetAddressDisp" );
         Controller client = createClient("corba.msgtypes.Client", "runTargetAddressDisp" );
 
@@ -477,7 +477,7 @@ public class MsgTypesTest extends CORBATest {
         client.stop();
         server.stop();
     }
-    
+
     public void runFragmentedReply() throws Throwable {
         Options.getClientArgs().clear();
         Options.addClientArg("FragmentedReply");
@@ -510,7 +510,7 @@ public class MsgTypesTest extends CORBATest {
         client.stop();
         server.stop();
     }
-   
+
     private static final boolean NO_HEADER_PADDING_TEST = true ;
 
     // This test always passes, EXCEPT when run in the full test suite on hudson.
@@ -551,7 +551,7 @@ public class MsgTypesTest extends CORBATest {
 
         client.stop();
         server.stop();
-    }  
-    
+    }
+
 }
 

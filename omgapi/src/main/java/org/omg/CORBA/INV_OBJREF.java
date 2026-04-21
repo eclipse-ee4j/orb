@@ -20,12 +20,12 @@
 package org.omg.CORBA;
 
 /**
- * This exception indicates that an object reference is internally 
- * malformed. For example, the repository ID may have incorrect 
- * syntax or the addressing information may be invalid. This 
- * exception is raised by ORB::string_to_object if the passed 
- * string does not decode correctly. An ORB may choose to detect 
- * calls via nil references (but is not obliged to do detect them). 
+ * This exception indicates that an object reference is internally
+ * malformed. For example, the repository ID may have incorrect
+ * syntax or the addressing information may be invalid. This
+ * exception is raised by ORB::string_to_object if the passed
+ * string does not decode correctly. An ORB may choose to detect
+ * calls via nil references (but is not obliged to do detect them).
  * <tt>INV_OBJREF</tt> is used to indicate this.<P>
  * It contains a minor code, which gives more detailed information about
  * what caused the exception, and a completion status. It may also contain

@@ -73,7 +73,7 @@ public class Client
             ic = new InitialContext(env);
 
             System.out.println( "Getting test reference" ) ;
-            Test ref  = (Test)lookupAndNarrow(Common.ReferenceName, 
+            Test ref  = (Test)lookupAndNarrow(Common.ReferenceName,
                 Test.class, ic);
 
             for (int ctr=0; ctr<NUM_ITERATIONS; ctr++) {
@@ -110,7 +110,7 @@ public class Client
             System.out.println("--------------------------------------------");
 
             if (errorCount == 1) {
-                System.out.println("Client failed (" + errorCount + 
+                System.out.println("Client failed (" + errorCount +
                                    ") time(s) due to server restart");
                 errorCount = 0 ;
             }
@@ -128,7 +128,7 @@ public class Client
         }
     }
 
-    public static Object lookupAndNarrow(String name, 
+    public static Object lookupAndNarrow(String name,
                                          Class clazz,
                                          InitialContext ic )
         throws Exception

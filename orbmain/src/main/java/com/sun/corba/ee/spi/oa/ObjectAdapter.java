@@ -86,7 +86,7 @@ import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
 * </ol>
 * <p>
 * Each of these 3 cases is handled a bit differently.  On each request, assume as known
-* ObjectId and ObjectAdapterId, which can be obtained from the object key.  
+* ObjectId and ObjectAdapterId, which can be obtained from the object key.
 * The ObjectAdaptorFactory is available in the subcontract registry, where it is
 * registered under the subcontract ID.  The Subcontract ID is also available in the
 * object key.
@@ -95,7 +95,7 @@ import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
 *   <ol>
 *   <li>oa = oaf.find( oaid )</li>
 *   <li>oa.enter()</li>
-*   <li>info = oa.makeInvocationInfo( oid )</li> 
+*   <li>info = oa.makeInvocationInfo( oid )</li>
 *   <li>info.setOperation( operation )</li>
 *   <li>push info</li>
 *   <li>oa.getInvocationServant( info )</li>
@@ -110,11 +110,11 @@ import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
 * Note that getInvocationServant and returnServant may throw exceptions.  In such cases,
 * returnServant, exit, and pop must be called in the correct order.
 * </li></ul></li>
-* <li>The local pattern:  
+* <li>The local pattern:
 *   <ol>
 *   <li>oa = oaf.find( oaid )</li>
 *   <li>oa.enter()</li>
-*   <li>info = oa.makeInvocationInfo( oid )</li> 
+*   <li>info = oa.makeInvocationInfo( oid )</li>
 *   <li>info.setOperation( operation )</li>
 *   <li>push info</li>
 *   <li>oa.getInvocationServant( info )</li>
@@ -127,12 +127,12 @@ import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
 * This is the same as the remote case, except that setExecuteReturnServantInResponseConstructor
 * is not needed (or possible, since there is no server request).
 * </li></ul></li>
-* <li>The fast local pattern: When delegate is constructed, 
+* <li>The fast local pattern: When delegate is constructed,
 *    first extract ObjectKey from IOR in delegate,
 *    then get ObjectId, ObjectAdapterId, and ObjectAdapterFactory (oaf). Then:
 *    <ol>
 *    <li>oa = oaf.find( oaid )</li>
-*    <li>info = oa.makeInvocationInfo( oid ) (note: no operation!)</li> 
+*    <li>info = oa.makeInvocationInfo( oid ) (note: no operation!)</li>
 *    <li>push info (needed for the correct functioning of getInvocationServant)</li>
 *    <li>oa.getInvocationServant( info )</li>
 *    <li>pop info
@@ -145,7 +145,7 @@ import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
 *    <li>push newinfo</li>
 *    <li>oa.enter()</li>
 *    <li>dispatch to servant</li>
-*    <li>oa.returnServant()</li>  
+*    <li>oa.returnServant()</li>
 *    <li>oa.exit()</li>
 *    <li>pop info</li>
 *    </ol>
@@ -154,7 +154,7 @@ import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
 */
 @ManagedObject
 @Description( "ObjectAdapter used to dispatch requests and manage servants")
-public interface ObjectAdapter 
+public interface ObjectAdapter
 {
     ////////////////////////////////////////////////////////////////////////////
     // Basic methods for supporting interceptors
@@ -189,9 +189,9 @@ public interface ObjectAdapter
     @Description( "The identifier for the AdapterManager that manages this ObjectAdapter")
     int getManagerId() ;
 
-    /** Return the current state of this object adapter (see 
+    /** Return the current state of this object adapter (see
     * {@link org.omg.PortableInterceptor} for states).
-    * @return the current state of this object adapter 
+    * @return the current state of this object adapter
     * @see org.omg.PortableInterceptor
     */
     short getState() ;
@@ -216,8 +216,8 @@ public interface ObjectAdapter
 
     /** Get the servant corresponding to the given objectId, if this is supported.
      * This method is only used for models where the servant is an ObjectImpl,
-     * which allows the servant to be used directly as the stub.  This allows an object 
-     * reference to be replaced by its servant when it is unmarshalled locally.  
+     * which allows the servant to be used directly as the stub.  This allows an object
+     * reference to be replaced by its servant when it is unmarshalled locally.
      * Such objects are not ORB mediated.
      * @param objectId byte array representing the object ID
      * @return corresponding servant
@@ -226,16 +226,16 @@ public interface ObjectAdapter
 
     /** Get the servant for the request given by the parameters.
     * info must contain a valid objectId in this call.
-    * The servant is set in the InvocationInfo argument that is passed into 
-    * this call.  
+    * The servant is set in the InvocationInfo argument that is passed into
+    * this call.
     * @param info is the InvocationInfo object for the object reference
-    * @exception com.sun.corba.ee.spi.protocol.ForwardException (a runtime exception) is thrown if the request 
+    * @exception com.sun.corba.ee.spi.protocol.ForwardException (a runtime exception) is thrown if the request
     * is to be handled by a different object reference.
     */
     void getInvocationServant( OAInvocationInfo info ) ;
 
     /** enter must be called before each request is invoked on a servant.
-      * @exception OADestroyed is thrown when an OA has been destroyed, which 
+      * @exception OADestroyed is thrown when an OA has been destroyed, which
       * requires a retry in the case where an AdapterActivator is present.
       */
     void enter( ) throws OADestroyed ;
@@ -251,7 +251,7 @@ public interface ObjectAdapter
      */
     public void returnServant() ;
 
-    /** Create an instance of InvocationInfo that is appropriate for this 
+    /** Create an instance of InvocationInfo that is appropriate for this
     * Object adapter.
     * @param objectId ID of object to create
     * @return created instance
@@ -268,4 +268,4 @@ public interface ObjectAdapter
     public boolean isNameService();
 
     public void setNameService( boolean flag ) ;
-} 
+}

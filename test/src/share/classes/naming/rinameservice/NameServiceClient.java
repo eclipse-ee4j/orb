@@ -28,9 +28,9 @@ import com.sun.corba.ee.spi.misc.ORBConstants ;
 
 /**
  * NameServiceClient just tests that StandAlone Name Service that we
- * ship with RI. The test makes sure that 
+ * ship with RI. The test makes sure that
  * 1. Root NamingContext can be resolved using the -ORBInitRef property
- * 2. Basic operations of Bind and Resolve works fine 
+ * 2. Basic operations of Bind and Resolve works fine
  */
 public class NameServiceClient implements InternalProcess {
     public static void main( String args[] ) {
@@ -64,7 +64,7 @@ public class NameServiceClient implements InternalProcess {
             org.omg.CORBA.Object object = orb.resolve_initial_references(
                 "NameService" );
             System.out.println( "Resolved NameService" ) ;
-            
+
             org.omg.CosNaming.NamingContextExt namingContext =
                  org.omg.CosNaming.NamingContextExtHelper.narrow( object );
             System.out.println( "Narrowed NameService" ) ;

@@ -41,7 +41,7 @@ public class ExceptionDetailSCTest
         doTestType("Server", "Server",
                    "Client", "Client");
 
-        Controller colocatedClientServer = 
+        Controller colocatedClientServer =
             createClient(thisPackage + ".ColocatedClientServer",
                          "colocatedClientServer");
         colocatedClientServer.start();
@@ -52,7 +52,7 @@ public class ExceptionDetailSCTest
     }
 
     protected void doTestType(
-        String serverMainClass, String serverTestName, 
+        String serverMainClass, String serverTestName,
         String clientMainClass, String clientTestName) throws Throwable {
 
         Controller server = createServer(thisPackage + "." + serverMainClass,

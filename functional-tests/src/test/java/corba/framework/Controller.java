@@ -24,8 +24,8 @@ import java.util.Properties;
 import java.util.Hashtable;
 
 /**
- * Defines the interface for interacting with a process.  This is 
- * the base for swapping execution strategies in the framework, 
+ * Defines the interface for interacting with a process.  This is
+ * the base for swapping execution strategies in the framework,
  * which can ultimately be used for intricate debugging (with a
  * little work).
  * <P>
@@ -75,7 +75,7 @@ public interface Controller
                     OutputStream out,
                     OutputStream err,
                     Hashtable extra) throws Exception;
-  
+
     /** Time between calls to start() and either waitFor completes, or
      * the controller is terminated by a call to stop or kill.
      * @throws IllegalStateException if the process has not been started,
@@ -143,7 +143,7 @@ public interface Controller
      *@exception IllegalThreadStateException  Process was never started
      */
     boolean finished() throws IllegalThreadStateException;
-    
+
     /**
      * Return the reference to the OutputStream to which the process's
      * stdout is piped.
@@ -151,7 +151,7 @@ public interface Controller
      *@return   OutputStream where stdout is piped
      */
     OutputStream getOutputStream();
-    
+
     /**
      * Return the reference to the OutputStream to which the process's
      * stderr is piped.

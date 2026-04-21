@@ -27,7 +27,7 @@ import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 
 import javax.rmi.CORBA.Tie ;
 
-public abstract class StubFactoryFactoryDynamicBase extends 
+public abstract class StubFactoryFactoryDynamicBase extends
     StubFactoryFactoryBase
 {
     protected static final ORBUtilSystemException wrapper =
@@ -37,13 +37,13 @@ public abstract class StubFactoryFactoryDynamicBase extends
     }
 
     public PresentationManager.StubFactory createStubFactory(
-        String className, boolean isIDLStub, String remoteCodeBase, 
+        String className, boolean isIDLStub, String remoteCodeBase,
         Class expectedClass, ClassLoader classLoader)
     {
         Class cls = null ;
 
         try {
-            cls = Util.getInstance().loadClass( className, remoteCodeBase, 
+            cls = Util.getInstance().loadClass( className, remoteCodeBase,
                 classLoader ) ;
         } catch (ClassNotFoundException exc) {
             throw wrapper.classNotFound3( exc, className ) ;
@@ -62,8 +62,8 @@ public abstract class StubFactoryFactoryDynamicBase extends
         }
     }
 
-    public abstract PresentationManager.StubFactory makeDynamicStubFactory( 
-        PresentationManager pm, PresentationManager.ClassData classData, 
+    public abstract PresentationManager.StubFactory makeDynamicStubFactory(
+        PresentationManager pm, PresentationManager.ClassData classData,
         ClassLoader classLoader ) ;
 
     public Tie getTie( Class cls )
@@ -72,7 +72,7 @@ public abstract class StubFactoryFactoryDynamicBase extends
         return new ReflectiveTie( pm ) ;
     }
 
-    public boolean createsDynamicStubs() 
+    public boolean createsDynamicStubs()
     {
         return true ;
     }

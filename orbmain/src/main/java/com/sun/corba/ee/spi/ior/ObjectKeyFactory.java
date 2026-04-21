@@ -24,7 +24,7 @@ import org.omg.CORBA_2_3.portable.InputStream ;
 /** Construct ObjectKey and ObjectKeyTemplate instances from their
  * CDR-marshalled representation.
  */
-public interface ObjectKeyFactory 
+public interface ObjectKeyFactory
 {
     /** Create an ObjectKey from its octet sequence representation.
      * @param key representation of key

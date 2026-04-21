@@ -34,13 +34,13 @@ import java.io.*;
 import javax.naming.*;
 import javax.rmi.*;
 
-public class RMIClient 
+public class RMIClient
     extends ClientCommon
-    implements InternalProcess 
+    implements InternalProcess
 {
     // Reference to hello object
     private helloIF helloRef;
-    
+
     // Reference to hello object to be forwarded to:
     private helloIF helloRefForward;
 
@@ -63,7 +63,7 @@ public class RMIClient
     }
 
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         TestInitializer.out = out;
@@ -95,7 +95,7 @@ public class RMIClient
     /**
      * Clear invocation flags of helloRef and helloRefForward
      */
-    protected void clearInvoked() 
+    protected void clearInvoked()
         throws Exception
     {
         helloRef.clearInvoked();
@@ -128,8 +128,8 @@ public class RMIClient
     /**
      * Return true if the method was invoked
      */
-    protected boolean wasInvoked() 
-        throws Exception 
+    protected boolean wasInvoked()
+        throws Exception
     {
         return helloRef.wasInvoked();
     }
@@ -137,7 +137,7 @@ public class RMIClient
     /**
      * Return true if the method was forwarded
      */
-    protected boolean didForward() 
+    protected boolean didForward()
         throws Exception
     {
         return helloRefForward.wasInvoked();
@@ -146,8 +146,8 @@ public class RMIClient
     /**
      * Perform ClientRequestInterceptor tests
      */
-    protected void testClientInterceptor() 
-        throws Exception 
+    protected void testClientInterceptor()
+        throws Exception
     {
         super.testClientInterceptor();
     }
@@ -156,8 +156,8 @@ public class RMIClient
      * Re-resolves all references to eliminate any cached ForwardRequests
      * from the last invocation
      */
-    protected void resolveReferences() 
-        throws Exception 
+    protected void resolveReferences()
+        throws Exception
     {
         out.println( "    + resolving references..." );
         out.println( "      - disabling interceptors..." );
@@ -169,7 +169,7 @@ public class RMIClient
         helloRefForward = resolve( NAME2 );
         // The initializer will store the location the interceptors should
         // use during a forward request:
-        TestInitializer.helloRefForward = 
+        TestInitializer.helloRefForward =
             (org.omg.CORBA.Object)helloRefForward;
         out.println( "      - enabling interceptors..." );
         SampleClientRequestInterceptor.enabled = true;
@@ -182,22 +182,22 @@ public class RMIClient
         throws Exception
     {
         java.lang.Object obj = initialNamingContext.lookup( name );
-        helloIF helloRef = (helloIF)PortableRemoteObject.narrow( 
+        helloIF helloRef = (helloIF)PortableRemoteObject.narrow(
             obj, helloIF.class );
-        
+
         return helloRef;
     }
 
-    /** 
+    /**
      * Overridden from ClientCommon.  Oneway calls are not supported.
      */
-    protected void testInvocation( String name, int mode, 
+    protected void testInvocation( String name, int mode,
                                    String correctOrder,
                                    String methodName,
                                    boolean shouldInvokeTarget,
                                    boolean exceptionExpected,
-                                   boolean forwardExpected ) 
-        throws Exception 
+                                   boolean forwardExpected )
+        throws Exception
     {
         if( !methodName.equals( "sayOneway" ) ) {
             super.testInvocation( name, mode, correctOrder, methodName,

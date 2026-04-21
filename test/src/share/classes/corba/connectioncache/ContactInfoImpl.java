@@ -31,7 +31,7 @@ public class ContactInfoImpl implements ContactInfo<ConnectionImpl> {
 
     private static AtomicLong nextId =
         new AtomicLong() ;
-    private static AtomicBoolean simulateAddressUnreachable = 
+    private static AtomicBoolean simulateAddressUnreachable =
         new AtomicBoolean() ;
 
     private static ConcurrentMap<String,ContactInfoImpl> cinfoMap =
@@ -67,7 +67,7 @@ public class ContactInfoImpl implements ContactInfo<ConnectionImpl> {
 
     public ConnectionImpl createConnection() throws IOException {
         if (simulateAddressUnreachable.get()) {
-            throw new IOException( "Address " + address 
+            throw new IOException( "Address " + address
                 + " is currently unreachable" ) ;
         } else {
             long id = nextId.getAndIncrement() ;

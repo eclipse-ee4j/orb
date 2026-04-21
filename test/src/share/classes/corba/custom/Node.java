@@ -27,7 +27,7 @@ public class Node implements Serializable
     public String value;
     public Vector links;
 
-    public Node() 
+    public Node()
     {
         value = "";
         links = new Vector();

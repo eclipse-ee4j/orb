@@ -65,7 +65,7 @@ public class MyServantLocator
             // IDL.
 
             if (operation.equals(C.raiseForwardRequestInPreinvoke) &&
-                soid.equals(C.idlSLI1)) 
+                soid.equals(C.idlSLI1))
             {
 
                 throw new ForwardRequest(
@@ -116,7 +116,7 @@ public class MyServantLocator
     {
         String soid = new String(oid);
         U.sop(baseMsg + ".postinvoke " + soid);
-        if (operation.equals(C.raiseSystemExceptionInPostinvoke) || 
+        if (operation.equals(C.raiseSystemExceptionInPostinvoke) ||
             operation.equals(C.raiseUserInServantThenSystemInPOThenSE) ||
             operation.equals(C.raiseSystemInServantThenPOThenSE))
         {

@@ -32,9 +32,9 @@ import org.omg.PortableInterceptor.ObjectReferenceTemplate;
  * An IORInterceptor that throws a NullPointerException during its
  * establish_components.
  */
-public class NPEIORInterceptor 
-    extends LocalObject 
-    implements IORInterceptor 
+public class NPEIORInterceptor
+    extends LocalObject
+    implements IORInterceptor
 {
 
     // The name for this interceptor
@@ -76,7 +76,7 @@ public class NPEIORInterceptor
     {
     }
 
-    public void adapter_state_changed( ObjectReferenceTemplate[] templates, 
+    public void adapter_state_changed( ObjectReferenceTemplate[] templates,
         short state )
     {
     }

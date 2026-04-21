@@ -28,23 +28,23 @@ import org.omg.CORBA.ORB;
 import org.omg.IOP.CodecFactory;
 
 public abstract class ClientCommon
-    implements InternalProcess 
+    implements InternalProcess
 {
     JUnitReportHelper helper = new JUnitReportHelper( this.getClass().getName() ) ;
 
     // Set from run()
     private ORB orb;
-    
+
     // Set from run()
     private PrintStream out;
-    
+
     // Set from run()
     private PrintStream err;
-    
+
     private CodecFactory codecFactory;
 
     public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra) 
+                     PrintStream err, Hashtable extra)
         throws Exception
     {
         out.println( "Client" );
@@ -85,13 +85,13 @@ public abstract class ClientCommon
             // Ensure the test initializer was initialized appropriately.
             out.println( "Verifying testInitializer: " );
             if( !ClientTestInitializer.initializedAppropriately() ) {
-                throw new RuntimeException( 
+                throw new RuntimeException(
                     "ClientTestInitializer not initialized appropriately." );
             }
             out.println( "  - initialized appropriately. (ok)" );
 
             if( !ClientTestInitializer.post_post_init() ) {
-                throw new RuntimeException( 
+                throw new RuntimeException(
                     "ORBInitInfo allowed access after post_init." );
             }
             helper.pass() ;
@@ -108,7 +108,7 @@ public abstract class ClientCommon
         helper.start( "testORBInitInfo" ) ;
 
         try {
-            // Any tests on ORBInitInfo are actually done inside the 
+            // Any tests on ORBInitInfo are actually done inside the
             // ORBInitializer.  At this point, we just analyze the results of
             // tests that have already run.
 
@@ -119,11 +119,11 @@ public abstract class ClientCommon
             // Analyze resolve_initial_references results
             out.println( ClientTestInitializer.resolveInitialReferencesResults );
             if( !ClientTestInitializer.passResolveInitialReferences ) {
-                throw new RuntimeException( 
+                throw new RuntimeException(
                     "resolve_initial_references not functioning properly." );
             }
             else if( !ClientTestInitializer.passResolveInitialReferencesInvalid ) {
-                throw new RuntimeException( 
+                throw new RuntimeException(
                     "resolve_initial_references not raising InvalidName." );
             }
 
@@ -148,7 +148,7 @@ public abstract class ClientCommon
             if( !ClientTestInitializer.getSetSlotPass ) {
                 throw new RuntimeException( "get/set slot test failed." );
             }
- 
+
             helper.pass() ;
         } catch (RuntimeException exc) {
             helper.fail( exc ) ;
@@ -159,7 +159,7 @@ public abstract class ClientCommon
     /**
      * Test that destroy is called on all interceptors.
      */
-    private void testDestroy() 
+    private void testDestroy()
         throws Exception
     {
         helper.start( "testDestroy" ) ;
@@ -180,7 +180,7 @@ public abstract class ClientCommon
             out.println( "Calling ORB.destroy..." );
             orb.destroy();
 
-            out.println( 
+            out.println(
                 "Checking that interceptors' destroy methods were called." );
             clientCount = SampleClientRequestInterceptor.destroyCount;
             serverCount = SampleServerRequestInterceptor.destroyCount;
@@ -199,13 +199,13 @@ public abstract class ClientCommon
     /**
      * Checks that a single interceptor passed the destroy test
      */
-    private void checkDestroyCount( String name, int expected, int actual ) 
+    private void checkDestroyCount( String name, int expected, int actual )
         throws Exception
     {
-        out.println( "* " + name + " interceptor: Expected " + expected + 
+        out.println( "* " + name + " interceptor: Expected " + expected +
             " destroys.  Received " + actual + "." );
         if( expected != actual ) {
-            throw new RuntimeException( 
+            throw new RuntimeException(
                 "Incorrect number of destroys called." );
         }
     }

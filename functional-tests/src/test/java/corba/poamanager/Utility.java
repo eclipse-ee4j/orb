@@ -29,11 +29,11 @@ import org.omg.CORBA.ORB;
 
 public class Utility {
     private ORB orb;
-    
+
     public Utility(String args[]) {
         orb = createORB(args);
     }
-    
+
     private static ORB createORB(String args[]) {
         Properties props = new Properties();
         props.setProperty("org.omg.CORBA.ORBClass",
@@ -51,7 +51,7 @@ public class Utility {
     public void writeObjref(org.omg.CORBA.Object ref, String file) {
         String fil = System.getProperty("output.dir")+System.getProperty("file.separator")+file;
         try {
-            DataOutputStream out = new 
+            DataOutputStream out = new
                 DataOutputStream(new FileOutputStream(fil));
             out.writeBytes(orb.object_to_string(ref));
         } catch (java.io.IOException e) {

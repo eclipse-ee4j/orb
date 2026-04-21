@@ -43,7 +43,7 @@ import com.sun.tools.corba.ee.idl.ValueEntry;
 // -D60929   <klr> Update for RTF2.4 changes
 // -D61056   <klr> Use Util.helperName
 // -D62023   <klr> Use corbaLevel in read/write generation
-// -D59437   <daz> Modify read() to enit qualified name of value box helper. 
+// -D59437   <daz> Modify read() to enit qualified name of value box helper.
 
 import java.io.PrintWriter;
 import java.util.Enumeration;
@@ -78,7 +78,7 @@ public class StructGen implements com.sun.tools.corba.ee.idl.StructGen, com.sun.
     this.symbolTable = symbolTable;
     this.s           = s;
     //init ();
-    
+
     openStream ();
     if (stream == null)
       return;

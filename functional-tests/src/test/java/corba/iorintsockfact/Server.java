@@ -69,11 +69,11 @@ public class Server
             orb = ORB.init(av, props);
 
             createAndBind(Common.serverName1);
-      
+
             System.out.println ("Server is ready.");
 
             orb.run();
-            
+
         } catch (Exception e) {
             System.out.println(baseMsg + e);
             e.printStackTrace(System.out);

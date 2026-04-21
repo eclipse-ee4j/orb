@@ -57,11 +57,11 @@ public class helloServer {
 
             POA childpoa = rootpoa.create_POA("childPOA", null,null);
             childpoa.the_POAManager().activate();
-            
+
             // create servant and register it with the ORB
             helloServant helloRef = new helloServant();
             childpoa.activate_object(helloRef);
-            
+
             // get the root naming context
             org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
             NamingContext ncRef = NamingContextHelper.narrow(objRef);

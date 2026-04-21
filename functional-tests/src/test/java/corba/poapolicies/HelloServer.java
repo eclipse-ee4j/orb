@@ -40,7 +40,7 @@ class Waiter extends Thread {
     }
 }
 
-public class HelloServer 
+public class HelloServer
 {
     public static boolean debug = false;
 
@@ -63,7 +63,7 @@ public class HelloServer
             Utility u = new Utility(args);
 
             POA poa = (POA) u.getORB().resolve_initial_references("RootPOA");
-            
+
             if (poa == null)
                 System.out.println("POA is null :(");
 
@@ -80,11 +80,11 @@ public class HelloServer
 
 
             theFactory.setPOA(thePOA);
-            
+
             byte[] id = thePOA.activate_object(theFactory);
-            
+
             u.writeFactory(ServantFactoryHelper.narrow(thePOA.servant_to_reference(theFactory)));
-            
+
             thePOA.the_POAManager().activate();
 
             // What does this thing do???????
@@ -92,7 +92,7 @@ public class HelloServer
 
             System.out.println("Server is ready.");
             u.getORB().run();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);

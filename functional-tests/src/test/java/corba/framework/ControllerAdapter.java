@@ -37,7 +37,7 @@ public abstract class ControllerAdapter implements Controller
     protected OutputStream out;
     protected OutputStream err;
     protected Hashtable extra;
-    
+
     public void initialize(String className,
                            String processName,
                            Properties environment,
@@ -55,7 +55,7 @@ public abstract class ControllerAdapter implements Controller
         this.out = out;
         this.err = err;
         this.extra = extra;
-      
+
         // Make life a little easier
         if (this.environment == null)
             this.environment = new Properties();
@@ -64,12 +64,12 @@ public abstract class ControllerAdapter implements Controller
         if (this.programArgs == null)
             this.programArgs = new String[0];
     }
-   
+
     public OutputStream getOutputStream()
     {
         return out;
     }
-    
+
     public OutputStream getErrorStream()
     {
         return err;

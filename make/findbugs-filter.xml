@@ -30,7 +30,7 @@
     <Match>
         <!-- CachedData by design is supposed to acquire a lock in its
              get method and release the lock in the release method.
-             Users of this class should call CachedData.release in a 
+             Users of this class should call CachedData.release in a
              finally block. -->
         <Class name="com.sun.corba.ee.spi.orbutil.generic.CachedData"/>
         <Bug code="UL"/>
@@ -54,8 +54,8 @@
     </Match>
     <Match>
         <!-- Excluding this because TransientNameServer is not used in GF,
-             and this error is complaining about catching Exception, which 
-             also catches RuntimeException.  But this is the main method in 
+             and this error is complaining about catching Exception, which
+             also catches RuntimeException.  But this is the main method in
              the standalone tnameserver class, which should catch Exceptions
              and report the error, rather than just dumping a stack trace. -->
         <Class name="com.sun.corba.ee.impl.naming.cosnaming.TransientNameServer"/>
@@ -78,7 +78,7 @@
         <Bug code="UrF"/>
     </Match>
 
-    <!-- Exclude IDLJ generated code, IDLJ, third party code, tool code that is 
+    <!-- Exclude IDLJ generated code, IDLJ, third party code, tool code that is
          used only at build time,
          and code that is not part of the ORB as packaged for GlassFish. -->
     <Match>

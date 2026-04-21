@@ -39,7 +39,7 @@ import org.omg.PortableInterceptor.ORBInitializer;
 
 import javax.naming.InitialContext;
 
-public class Client extends org.omg.CORBA.LocalObject 
+public class Client extends org.omg.CORBA.LocalObject
     implements ORBInitializer, ClientRequestInterceptor {
 
     public static final String baseMsg = Client.class.getName();
@@ -47,14 +47,14 @@ public class Client extends org.omg.CORBA.LocalObject
 
     public static ORB orb;
     public static InitialContext initialContext;
-    
-    private static String excs[] = { 
+
+    private static String excs[] = {
         "org.omg.CORBA.ACTIVITY_COMPLETED", "org.omg.CORBA.ACTIVITY_REQUIRED",
         "org.omg.CORBA.BAD_QOS", "org.omg.CORBA.CODESET_INCOMPATIBLE",
         "org.omg.CORBA.INVALID_ACTIVITY", "org.omg.CORBA.REBIND",
         "org.omg.CORBA.TIMEOUT", "org.omg.CORBA.TRANSACTION_MODE",
         "org.omg.CORBA.TRANSACTION_UNAVAILABLE", "org.omg.CORBA.UNKNOWN" };
-        
+
     static int counter; // counter
 
     public static void main(String[] av) {
@@ -82,8 +82,8 @@ public class Client extends org.omg.CORBA.LocalObject
                     SystemException se = (SystemException) re.getCause();
                     String name = se.getClass().getName();
                     U.sop("name: " + name + ", minorCode: " + se.minor +
-                          ", completed: " + 
-                          ((se.completed.value() == 
+                          ", completed: " +
+                          ((se.completed.value() ==
                            CompletionStatus._COMPLETED_YES) ?
                            "true" : "false") + "\n");
                     if (!(name.equals(excs[i]))) {
@@ -102,8 +102,8 @@ public class Client extends org.omg.CORBA.LocalObject
                 } catch (org.omg.CORBA.SystemException se) {
                     String name = se.getClass().getName();
                     U.sop("name: " + name + ", minorCode: " + se.minor +
-                          ", completed: " + 
-                          ((se.completed.value() == 
+                          ", completed: " +
+                          ((se.completed.value() ==
                            CompletionStatus._COMPLETED_YES) ?
                            "true" : "false") + "\n");
                     if (!(name.equals(excs[i]))) {
@@ -123,15 +123,15 @@ public class Client extends org.omg.CORBA.LocalObject
     }
 
     ////////////////////////////////////////////////////
-    //    
+    //
     // ORBInitializer interface implementation.
     //
 
-    public void pre_init(ORBInitInfo info) 
+    public void pre_init(ORBInitInfo info)
     {
     }
 
-    public void post_init(ORBInitInfo info) 
+    public void post_init(ORBInitInfo info)
     {
         // register the interceptors.
         try {
@@ -147,33 +147,33 @@ public class Client extends org.omg.CORBA.LocalObject
     // implementation of the Interceptor interface.
     //
 
-    public String name() 
+    public String name()
     {
         return "ClientInterceptor";
     }
 
-    public void destroy() 
+    public void destroy()
     {
     }
 
     ////////////////////////////////////////////////////
-    //    
+    //
     // implementation of the ClientInterceptor interface.
     //
 
-    public void send_request(ClientRequestInfo ri) throws ForwardRequest 
+    public void send_request(ClientRequestInfo ri) throws ForwardRequest
     {
     }
 
-    public void send_poll(ClientRequestInfo ri) 
+    public void send_poll(ClientRequestInfo ri)
     {
     }
 
-    public void receive_reply(ClientRequestInfo ri) 
-    {    
+    public void receive_reply(ClientRequestInfo ri)
+    {
     }
 
-    public void receive_exception(ClientRequestInfo ri) throws ForwardRequest 
+    public void receive_exception(ClientRequestInfo ri) throws ForwardRequest
     {
         String repID = ri.received_exception_id();
         String className = ORBUtility.classNameOf(repID);
@@ -184,7 +184,7 @@ public class Client extends org.omg.CORBA.LocalObject
         }
     }
 
-    public void receive_other(ClientRequestInfo ri) throws ForwardRequest 
+    public void receive_other(ClientRequestInfo ri) throws ForwardRequest
     {
     }
 }

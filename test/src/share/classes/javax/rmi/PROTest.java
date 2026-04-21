@@ -70,7 +70,7 @@ public class PROTest extends RemoteTest {
      * empty array if none.
      */
     protected String[] getRemoteServantClasses () {
-        return compileEm;  
+        return compileEm;
     }
 
     /**
@@ -91,7 +91,7 @@ public class PROTest extends RemoteTest {
     private boolean first = true ;
 
     public PROTest() {
-        helper = new JUnitReportHelper( this.getClass().getName() 
+        helper = new JUnitReportHelper( this.getClass().getName()
             + ( iiop ? "_iiop" : "_jrmp" ) ) ;
     }
 
@@ -111,12 +111,12 @@ public class PROTest extends RemoteTest {
     public void doTest (ServantContext context) throws Throwable {
         try {
             dprint( "test starts" ) ;
-            boolean usesDynamicStubs = 
+            boolean usesDynamicStubs =
                 com.sun.corba.ee.spi.orb.ORB.getPresentationManager().
                     useDynamicStubs() ;
-            
+
             // Certain tests that depend on the absence of iiop stubs and ties
-            // cannot function correctly with dynamic RMI-IIOP, since 
+            // cannot function correctly with dynamic RMI-IIOP, since
             // dynamic RMI-IIOP can always create any needed stub or tie.
             // We assume that JRMP is only usable when we are not using
             // dynamic RMI-IIOP.  Since we test the JRMP case in static mode
@@ -126,23 +126,23 @@ public class PROTest extends RemoteTest {
 
             // First ensure that the caches are cleared out so
             // that we can switch between IIOP and JRMP...
-            
+
             Utility.clearCaches();
-            
+
             // Check toStub(). First try an unconnected servant...
 
             PROImpl localImpl = new PROImpl();
             Remote stub = PortableRemoteObject.toStub(localImpl);
             boolean fail = false;
-            
+
             newTest( "test_1" ) ;
             ORB defaultORB = context.getORB();
-            
+
             if (iiop) {
                 Tie tie = Util.getTie(localImpl);
                 tie.orb(defaultORB);
             }
-            
+
             stub = PortableRemoteObject.toStub(localImpl);
             if (stub == null) {
                 throw new Exception ("toStub() on connected servant failed.");
@@ -210,11 +210,11 @@ public class PROTest extends RemoteTest {
             } catch (NoSuchObjectException e) {
                 unexportFail = true;
             }
-            
+
             if (!unexportFail) {
                 throw new Exception("unexport of stub succeeded!");
             }
-        
+
             // Now get a round-trip timing...
             newTest( "test_10" ) ;
 
@@ -231,17 +231,17 @@ public class PROTest extends RemoteTest {
 
             newTest( "test_11" ) ;
             // Now check stub streaming and connect(stub,stub)...
-            
+
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             ObjectOutputStream os = new ObjectOutputStream(bos);
             os.writeObject(objref);
-            
+
             ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
             ObjectInputStream is = new ObjectInputStream(bis);
             PROHello newRef = (PROHello) is.readObject();
 
             if (newRef == null) {
-                throw new Exception("Stub streaming failed.");   
+                throw new Exception("Stub streaming failed.");
             }
 
             newTest( "test_12" ) ;
@@ -254,24 +254,24 @@ public class PROTest extends RemoteTest {
                 }
             }
             if (iiop && !fail) {
-                throw new Exception("sayHello on unconnected stub succeeded.");   
+                throw new Exception("sayHello on unconnected stub succeeded.");
             }
-            
+
             newTest( "test_13" ) ;
             // Now connect it up (stub,stub) and make sure we can call
             // methods on it...
-            
+
             PortableRemoteObject.connect(newRef,objref);
             if (!newRef.sayHello().equals(PROHello.HELLO)) {
                 throw new Exception("connect(stub,stub) failed");
             }
-            
+
             // Now make sure that they are equal...
-            
+
             if (newRef.hashCode() != objref.hashCode()) {
                 throw new Exception("newRef.hashCode() != objref.hashCode()");
             }
-            
+
             if (!newRef.equals(objref)) {
                 throw new Exception("newRef != objref");
             }
@@ -300,7 +300,7 @@ public class PROTest extends RemoteTest {
 
             newTest( "test_16" ) ;
             // Try connect(impl,stub)...
-            
+
             PROImpl localImpl3 = new PROImpl();
             PortableRemoteObject.connect(localImpl3,objref);
             try {
@@ -312,14 +312,14 @@ public class PROTest extends RemoteTest {
             newTest( "test_17" ) ;
             // Make sure that trying to connect an already connected object
             // succeeds when the ORBs are the same...
-            
+
             PortableRemoteObject.connect(objref,localImpl3);
             PortableRemoteObject.connect(localImpl3,objref);
 
             newTest( "test_18" ) ;
             // Make sure that trying to connect an already connected object fails
             // when the ORBs are different...
-            
+
             PROImpl newLocalImpl = new PROImpl();
             if (iiop) {
                 ORB newORB = ORB.init(new String[]{},null);
@@ -327,18 +327,18 @@ public class PROTest extends RemoteTest {
                 newTie.orb(newORB);
             }
             PROHello newObjRef = (PROHello) PortableRemoteObject.toStub(newLocalImpl);
-            
+
             boolean callFailed = false;
             try {
                 PortableRemoteObject.connect(objref,newLocalImpl);
             } catch (RemoteException e) {
-                callFailed = true;   
+                callFailed = true;
             }
             if (!callFailed) {
                 if (iiop) {
                     throw new Exception ("Second connect(stub,impl) succeeded");
-                } else {                
-                    // System.out.println("REMINDER: document connect and JRMP!");                
+                } else {
+                    // System.out.println("REMINDER: document connect and JRMP!");
                 }
             }
 
@@ -346,13 +346,13 @@ public class PROTest extends RemoteTest {
             try {
                 PortableRemoteObject.connect(localImpl3,newObjRef);
             } catch (RemoteException e) {
-                callFailed = true;   
+                callFailed = true;
             }
             if (!callFailed) {
                 if (iiop) {
                     throw new Exception ("Second connect(impl,stub) succeeded");
-                } else {                
-                    // System.out.println("REMINDER: document connect and JRMP!");                
+                } else {
+                    // System.out.println("REMINDER: document connect and JRMP!");
                 }
             }
 
@@ -364,7 +364,7 @@ public class PROTest extends RemoteTest {
 
                 PROImpl theImpl = new PROImpl();
                 Tie theTie = Util.getTie(theImpl);
-                org.omg.CORBA.Object theStub = 
+                org.omg.CORBA.Object theStub =
                     (org.omg.CORBA.Object)PortableRemoteObject.toStub(theImpl);
                 callFailed = false;
                 try {
@@ -397,18 +397,18 @@ public class PROTest extends RemoteTest {
                     throw new Exception("Utility.getAndForgetTie(theStub) != null");
                 }
             }
-     
+
             // Now repeat the same test, only this time use JNDI to do the
             // connect on the stub, to insure that our updated CNCtx code
             // with "auto-connect" works correctly...
 
             Context nameContext = context.getNameContext();
-            
+
             if (iiop) {
-                newTest( "test_20" ) ;    
+                newTest( "test_20" ) ;
                 PROImpl theImpl = new PROImpl();
                 Tie theTie = Util.getTie(theImpl);
-                org.omg.CORBA.Object theStub = 
+                org.omg.CORBA.Object theStub =
                     (org.omg.CORBA.Object)PortableRemoteObject.toStub(theImpl);
                 callFailed = false;
                 try {
@@ -430,7 +430,7 @@ public class PROTest extends RemoteTest {
                 }
 
                 nameContext.rebind("PROTest auto-connect",theStub); // Connect both!
-                
+
                 if (theTie.orb() != defaultORB) {
                     throw new Exception("(nameContext) theTie.orb() != defaultORB");
                 }
@@ -442,7 +442,7 @@ public class PROTest extends RemoteTest {
                     throw new Exception("(nameContext) Utility.getAndForgetTie(theStub) != null");
                 }
             }
-            
+
             // Now unexport remote object and make sure we can no longer invoke it...
             newTest( "test_21" ) ;
 
@@ -469,14 +469,14 @@ public class PROTest extends RemoteTest {
 
             // Make sure we cannot unexport an object which was never exported...
             newTest( "test_23" ) ;
-            
+
             fail = false;
             try {
                 PortableRemoteObject.unexportObject(new PROImpl2()  );
             } catch (NoSuchObjectException e) {
                 fail = true;
             }
-            
+
             if (!fail) {
                 if (iiop) {
                     throw new Exception ("unexportObject() on unconnected servant succeeded.");
@@ -484,7 +484,7 @@ public class PROTest extends RemoteTest {
                     // System.out.print("Warning: unexportObject() on unconnected servant succeeded on JRMP!");
                 }
             }
-            
+
             newTest( "test_24" ) ;
             // Now make sure that trying to publish an unexported impl
             // fails...
@@ -534,45 +534,45 @@ public class PROTest extends RemoteTest {
                     // System.out.print("Warning: toStub on unexported impl succeeded on JRMP!");
                 }
             }
-            
+
             newTest( "test_26" ) ;
             // Now fire up our servant which implements an inner interface and
             // make sure we can talk to it...
-     
+
             Remote inner = context.startServant("javax.rmi.ServantInner","inner",false,iiop);
-            SInner innerRef = (SInner) 
+            SInner innerRef = (SInner)
                 PortableRemoteObject.narrow(inner,SInner.class);
             if (!innerRef.echo(innerRef).equals(innerRef)) {
                 throw new Exception("innerRef.echo(innerRef) != innerRef");
             }
-           
+
             if (iiop) { // _REVISIT_ This does not work on JRMP - why not?
                 newTest( "test_27" ) ;
                 // Now fire up our servant which implements an outer interface and
                 // make sure we can talk to it...
-     
+
                 Remote outer = context.startServant("javax.rmi.ServantOuter$Inner","outer",false,iiop);
-                ServantOuter outerRef = (ServantOuter) 
+                ServantOuter outerRef = (ServantOuter)
                     PortableRemoteObject.narrow(outer,ServantOuter.class);
                 if (!outerRef.echo(outerRef).equals(outerRef)) {
                     throw new Exception("innerRef.echo(outerRef) != outerRef");
                 }
             }
-            
+
             newTest( "test_28" ) ;
             // Make sure we can pass an IDL reference across our RMI stub...
             CodeBase cb = innerRef.getCodeBase();
             if (cb == null) {
                 throw new Exception("innerRef.getCodeBase() == null");
             }
-            
+
             newTest( "test_29" ) ;
             // Make sure we can pass a servant which only implements Remote...
             Remote r = innerRef.getOnlyRemote();
             if (r == null) {
                 throw new Exception("innerRef.getOnlyRemote() == null");
             }
-            
+
             newTest( "test_30" ) ;
             // Make sure we can get a stub for a servant which only implements
             // Remote...
@@ -581,48 +581,48 @@ public class PROTest extends RemoteTest {
             if (onlyRemoteStub == null) {
                 throw new Exception("onlyRemoteStub == null");
             }
-            
+
             newTest( "test_31" ) ;
             // Hashcode regression test. Ensure that stubs for two distincts types
             // have different hashCodes. This code is (effectively) a copy of the
             // Sun East HashCodeTests.HashCode0002() method.
-            
+
             // This is really a bogus test, as it can always fail the hashcode
             // comparison, but not be equal...
-            
+
             nameContext.rebind("HashCode",new HashCodeImpl());
             nameContext.rebind("HashCodeA",new HashCodeAImpl());
             Object hashCodeObject = nameContext.lookup("HashCode");
             Object hashCodeAObject = nameContext.lookup("HashCodeA");
-            HashCode hashCodeStub = 
+            HashCode hashCodeStub =
                 (HashCode)PortableRemoteObject.narrow(hashCodeObject,HashCode.class);
-            HashCodeA hashCodeAStub = 
-                (HashCodeA)PortableRemoteObject.narrow(hashCodeAObject,HashCodeA.class);        
+            HashCodeA hashCodeAStub =
+                (HashCodeA)PortableRemoteObject.narrow(hashCodeAObject,HashCodeA.class);
             int hashCode = hashCodeStub.hashCode();
             int hashCodeA = hashCodeAStub.hashCode();
-            
+
             if (hashCode == hashCodeA) {
                 System.out.println("hashCode == hashCodeA ("+hashCode+")");
                 if (hashCodeStub.equals(hashCodeAStub)) {
                     throw new Exception("hashCodeStub.equals(hashCodeAStub)");
                 }
             }
-            
+
             // RegisterTarget regression test.  The Stub was being cached for
             // the tie, and it's delegate was not cleared. The stub is now
             // removed from the cache by the Util.unexportObject() method.
             if (iiop) {
                 newTest( "test_32" ) ;
                 // Create/get tie for impl...
-                
+
                 PROImpl obj = new PROImpl();
                 Tie tie = Util.getTie(obj);
-                
+
                 nameContext.rebind("RegisterTarget", obj);
                 PortableRemoteObject.unexportObject(obj);
                 Util.registerTarget(tie, obj);
                 nameContext.rebind("RegisterTarget", obj);
-                
+
                 // Lookup it up and make sure it is alive...
                 Object registerObject = nameContext.lookup("RegisterTarget");
                 PROHello registerRef = (PROHello)PortableRemoteObject.narrow(registerObject, PROHello.class);
@@ -630,7 +630,7 @@ public class PROTest extends RemoteTest {
                     throw new Exception("RegisterTarget failed");
                 }
             }
-      
+
             // Ensure that Utility.loadStub() manages cache correctly...
             if (iiop) {
                 newTest( "test_33" ) ;
@@ -640,7 +640,7 @@ public class PROTest extends RemoteTest {
                 tie.orb(defaultORB);
                 String interfaceName;
                 String stubRepoId;
-                
+
                 // Load A...
                 Utility.clearCaches();
                 interfaceName = "alpha.bravo.A";
@@ -668,7 +668,7 @@ public class PROTest extends RemoteTest {
                 interfaceName = "alpha.bravo.A";
                 stubRepoId = "RMI:alpha.bravo.Multi:0000000000000000" ;
                 testLoadStub( servant, tie, interfaceName, stubRepoId, false ) ;
-                
+
                 // Load A...
                 Utility.clearCaches();
                 interfaceName = "alpha.bravo.A";
@@ -689,15 +689,15 @@ public class PROTest extends RemoteTest {
             helper.done() ;
         }
     }
-    
-    private void testLoadStub( Multi servant, Tie tie, 
+
+    private void testLoadStub( Multi servant, Tie tie,
         String interfaceName, String repoId, boolean flag ) throws Exception
     {
-        PresentationManager.StubFactoryFactory sff = 
+        PresentationManager.StubFactoryFactory sff =
             com.sun.corba.ee.spi.orb.ORB.getStubFactoryFactory() ;
-        PresentationManager.StubFactory stubFactory = 
+        PresentationManager.StubFactory stubFactory =
             sff.createStubFactory( interfaceName, false, null, null, null ) ;
-        Remote stub = Utility.loadStub( tie, stubFactory, 
+        Remote stub = Utility.loadStub( tie, stubFactory,
             null, flag ) ;
         String actualRepoId = StubAdapter.getTypeIds( stub )[0] ;
 

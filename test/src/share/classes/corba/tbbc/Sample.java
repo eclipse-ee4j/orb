@@ -82,7 +82,7 @@ public class Sample {
 
         Class genClass = Sample.class ;
         Class cls = _generate( genClass, null ) ;
-        
+
         try {
             Method m = cls.getDeclaredMethod( "main", String[].class ) ;
             m.invoke( null, (Object[])args ) ;

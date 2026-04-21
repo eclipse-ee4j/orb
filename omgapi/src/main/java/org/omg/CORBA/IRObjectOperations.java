@@ -21,7 +21,7 @@ package org.omg.CORBA;
 
 
 /**
-* The interface for <tt>IRObject</tt>.  For more information on 
+* The interface for <tt>IRObject</tt>.  For more information on
 * Operations interfaces, see <a href="doc-files/generatedfiles.html#operations">
 * "Generated Files: Operations files"</a>.
 */
@@ -35,21 +35,21 @@ package org.omg.CORBA;
 
 /**
  * This is the Operations interface for the mapping from <tt>IRObject</tt>.
- * Several interfaces are used as base interfaces for objects in 
+ * Several interfaces are used as base interfaces for objects in
  * the Interface Repository (IR). These base interfaces are not instantiable.
- * A common set of operations is used to locate objects within the 
- * Interface Repository. Some of these operations are defined in 
- * the IRObject. All IR objects inherit from the IRObject interface, 
- * which provides an operation for identifying the actual type of 
- * the object. (The IDL base interface IRObject represents the most 
- * generic interface from which all other Interface Repository interfaces 
- * are derived, even the Repository itself.) All java implementations of 
+ * A common set of operations is used to locate objects within the
+ * Interface Repository. Some of these operations are defined in
+ * the IRObject. All IR objects inherit from the IRObject interface,
+ * which provides an operation for identifying the actual type of
+ * the object. (The IDL base interface IRObject represents the most
+ * generic interface from which all other Interface Repository interfaces
+ * are derived, even the Repository itself.) All java implementations of
  * IR objects must implement the IRObjectOperations interface.
  * @see IDLTypeOperations
  * @see IDLType
  * @see IRObject
  */
-public interface IRObjectOperations 
+public interface IRObjectOperations
 {
 
     // read interface

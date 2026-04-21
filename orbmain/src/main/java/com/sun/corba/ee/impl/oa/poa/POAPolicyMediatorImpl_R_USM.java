@@ -43,9 +43,9 @@ import org.omg.PortableServer.POAPackage.WrongPolicy ;
 public class POAPolicyMediatorImpl_R_USM extends POAPolicyMediatorBase_R {
     protected ServantActivator activator ;
 
-    POAPolicyMediatorImpl_R_USM( Policies policies, POAImpl poa ) 
+    POAPolicyMediatorImpl_R_USM( Policies policies, POAImpl poa )
     {
-        // assert policies.retainServants() 
+        // assert policies.retainServants()
         super( policies, poa ) ;
         activator = null ;
 
@@ -53,7 +53,7 @@ public class POAPolicyMediatorImpl_R_USM extends POAPolicyMediatorBase_R {
             throw wrapper.policyMediatorBadPolicyInFactory();
         }
     }
-   
+
     /* This handles a rather subtle bug (4939892).  The problem is that
      * enter will wait on the entry if it is being etherealized.  When the
      * deferred state transition completes, the entry is no longer in the
@@ -97,7 +97,7 @@ public class POAPolicyMediatorImpl_R_USM extends POAPolicyMediatorBase_R {
     private void servantAlreadyAssignedToID() { }
 
     @Poa
-    protected java.lang.Object internalGetServant( byte[] id, 
+    protected java.lang.Object internalGetServant( byte[] id,
         String operation ) throws ForwardRequest {
 
         poa.lock() ;
@@ -202,14 +202,14 @@ public class POAPolicyMediatorImpl_R_USM extends POAPolicyMediatorBase_R {
     }
 
     @Poa
-    public void etherealizeAll() {      
+    public void etherealizeAll() {
         if (activator != null)  {
             Set<ActiveObjectMap.Key> keySet = activeObjectMap.keySet() ;
 
             // Copy the elements in the set to an array to avoid
             // changes in the set due to concurrent modification
             @SuppressWarnings("unchecked")
-            ActiveObjectMap.Key[] keys = 
+            ActiveObjectMap.Key[] keys =
                 keySet.toArray(new ActiveObjectMap.Key[keySet.size()]) ;
 
             for (int ctr=0; ctr<keySet.size(); ctr++) {
@@ -217,13 +217,13 @@ public class POAPolicyMediatorImpl_R_USM extends POAPolicyMediatorBase_R {
                 AOMEntry entry = activeObjectMap.get( key ) ;
                 Servant servant = activeObjectMap.getServant( entry ) ;
                 if (servant != null) {
-                    boolean remainingActivations = 
+                    boolean remainingActivations =
                         activeObjectMap.hasMultipleIDs(entry) ;
 
-                    // Here we etherealize in the thread that called this 
-                    // method, rather than etherealizing in a new thread 
-                    // as in the deactivate case.  We still inform the 
-                    // entry state machine so that only one thread at a 
+                    // Here we etherealize in the thread that called this
+                    // method, rather than etherealizing in a new thread
+                    // as in the deactivate case.  We still inform the
+                    // entry state machine so that only one thread at a
                     // time can call the etherealize method.
                     entry.startEtherealize( null ) ;
                     try {
@@ -248,7 +248,7 @@ public class POAPolicyMediatorImpl_R_USM extends POAPolicyMediatorBase_R {
     }
 
     @Poa
-    public void setServantManager( 
+    public void setServantManager(
         ServantManager servantManager ) throws WrongPolicy {
 
         if (activator != null) {
@@ -262,7 +262,7 @@ public class POAPolicyMediatorImpl_R_USM extends POAPolicyMediatorBase_R {
         }
     }
 
-    public Servant getDefaultServant() throws NoServant, WrongPolicy 
+    public Servant getDefaultServant() throws NoServant, WrongPolicy
     {
         throw new WrongPolicy();
     }
@@ -279,7 +279,7 @@ public class POAPolicyMediatorImpl_R_USM extends POAPolicyMediatorBase_R {
         private AOMEntry entry ;
         private Servant servant ;
 
-        Etherealizer( POAPolicyMediatorImpl_R_USM mediator, 
+        Etherealizer( POAPolicyMediatorImpl_R_USM mediator,
             ActiveObjectMap.Key key, AOMEntry entry, Servant servant )
         {
             this.mediator = mediator ;
@@ -316,23 +316,23 @@ public class POAPolicyMediatorImpl_R_USM extends POAPolicyMediatorBase_R {
                 mediator.poa.unlock() ;
             }
         }
-    } 
+    }
 
     @Poa
     @Override
-    public void deactivateHelper( ActiveObjectMap.Key key, AOMEntry entry, 
-        Servant servant ) throws ObjectNotActive, WrongPolicy 
+    public void deactivateHelper( ActiveObjectMap.Key key, AOMEntry entry,
+        Servant servant ) throws ObjectNotActive, WrongPolicy
     {
         if (activator == null) {
             throw wrapper.poaNoServantManager();
         }
-            
+
         Etherealizer eth = new Etherealizer( this, key, entry, servant ) ;
         entry.startEtherealize( eth ) ;
     }
 
     @Poa
-    public Servant idToServant( byte[] id ) 
+    public Servant idToServant( byte[] id )
         throws WrongPolicy, ObjectNotActive
     {
         ActiveObjectMap.Key key = new ActiveObjectMap.Key( id ) ;

@@ -24,13 +24,13 @@
 
 package corba.hcks;
 
-import java.rmi.Remote; 
-import java.rmi.RemoteException; 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 public interface rmiiAttributesI
-    extends 
-        Remote 
-{ 
+    extends
+        Remote
+{
     // Test JavaBeans patterns -> IDL attributes.
     Integer getInteger()
         throws

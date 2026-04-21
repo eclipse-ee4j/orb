@@ -34,7 +34,7 @@ import java.io.*;
 /**
  * Client that passes in orb initializers as a properties object
  */
-public class PropsClient 
+public class PropsClient
     extends ClientCommon
 {
     public static void main(String args[]) {
@@ -66,11 +66,11 @@ public class PropsClient
 
         // create and initialize the ORB
         Properties props = new Properties() ;
-        props.put( "org.omg.CORBA.ORBClass", 
+        props.put( "org.omg.CORBA.ORBClass",
                    System.getProperty("org.omg.CORBA.ORBClass"));
-        props.put( ORBConstants.PI_ORB_INITIALIZER_CLASS_PREFIX + 
+        props.put( ORBConstants.PI_ORB_INITIALIZER_CLASS_PREFIX +
             invalidInitializer, "" );
-        props.put( ORBConstants.PI_ORB_INITIALIZER_CLASS_PREFIX + 
+        props.put( ORBConstants.PI_ORB_INITIALIZER_CLASS_PREFIX +
             testInitializer, "" );
 
         return ORB.init(newArgs, props);

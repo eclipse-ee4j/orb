@@ -26,7 +26,7 @@ import java.rmi.RemoteException ;
  * Simple interface to send an Object and get it as a reply.  (Sometimes
  * replies fail even when requests don't.)
  */
-public interface Verifier extends java.rmi.Remote 
+public interface Verifier extends java.rmi.Remote
 {
     public Object verifyTransmission(Object input)
         throws RemoteException;

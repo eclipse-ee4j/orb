@@ -37,7 +37,7 @@ import org.glassfish.gmbal.ManagedObject ;
  */
 @ManagedObject
 @Description( "The Transport Manager for the ORB" )
-@AMXMetadata( isSingleton=true ) 
+@AMXMetadata( isSingleton=true )
 public interface TransportManager {
 
     public ByteBufferPool getByteBufferPool(int id);
@@ -54,14 +54,14 @@ public interface TransportManager {
         "SocketOrChannelConnectionCache";
 
     @ManagedAttribute
-    @Description( "List of all Acceptors in this ORB" ) 
+    @Description( "List of all Acceptors in this ORB" )
     public Collection<Acceptor> getAcceptors() ;
 
     public Collection<Acceptor> getAcceptors(String objectAdapterManagerId,
                                    ObjectAdapterId objectAdapterId);
 
     // REVISIT - POA specific policies
-    public void addToIORTemplate(IORTemplate iorTemplate, 
+    public void addToIORTemplate(IORTemplate iorTemplate,
                                  Policies policies,
                                  String codebase,
                                  String objectAdapterManagerId,
@@ -72,7 +72,7 @@ public interface TransportManager {
     /** Return a MessageTraceManager for the current thread.
      * Each thread that calls getMessageTraceManager gets its own
      * independent copy.
-     * 
+     *
      * @return MessageTraceManager for the current thread
      */
     MessageTraceManager getMessageTraceManager() ;
@@ -96,5 +96,5 @@ public interface TransportManager {
     public void unregisterAcceptor(Acceptor acceptor);
 
 }
-    
+
 // End of file.

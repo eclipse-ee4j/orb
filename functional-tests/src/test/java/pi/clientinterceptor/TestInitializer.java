@@ -29,10 +29,10 @@ import org.omg.CORBA.*;
 import ClientRequestInterceptor.*; // hello interface
 
 /**
- * Registers the necessary Client Interceptors to test 
+ * Registers the necessary Client Interceptors to test
  * ClientRequestInterceptor.
  */
-public class TestInitializer 
+public class TestInitializer
     extends org.omg.CORBA.LocalObject
     implements ORBInitializer
 {
@@ -46,12 +46,12 @@ public class TestInitializer
 
     // Where to forward the caller on a ForwardRequest
     static org.omg.CORBA.Object helloRefForward;
-        
+
    /**
      * Creates a TestInitializer
      */
     public TestInitializer() {
-    } 
+    }
 
     /**
      * Called before all references are registered

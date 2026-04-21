@@ -37,7 +37,7 @@ public class SocketFactoryAcceptorImpl
     extends
         AcceptorImpl
 {
-    public SocketFactoryAcceptorImpl(ORB orb, int port, 
+    public SocketFactoryAcceptorImpl(ORB orb, int port,
                                      String name, String type)
     {
         super(orb, port, name, type);
@@ -70,7 +70,7 @@ public class SocketFactoryAcceptorImpl
     // not already present.
     @Override
     public void addToIORTemplate( IORTemplate iorTemplate,
-        Policies policies, String codebase ) 
+        Policies policies, String codebase )
     {
         Iterator iterator = iorTemplate.iteratorById(
             org.omg.IOP.TAG_INTERNET_IOP.value);

@@ -38,14 +38,14 @@ import corba.hcks.U;
 import com.sun.corba.ee.spi.transport.TransportManager;
 import com.sun.corba.ee.spi.orb.ORB;
 
-public class Server 
+public class Server
 {
     public static final String baseMsg = Server.class.getName();
     public static final String main = baseMsg + ".main";
-    public static final String thisPackage = 
+    public static final String thisPackage =
         Server.class.getPackage().getName();
 
-    public static final String rmiiIServantPOA_Tie = 
+    public static final String rmiiIServantPOA_Tie =
         thisPackage + "._rmiiIServantPOA_Tie";
 
     public static final String idlIConnect  = "idlIConnect";
@@ -89,7 +89,7 @@ public class Server
             // IDL references.
             //
 
-            U.createWithConnectAndBind(idlIConnect, 
+            U.createWithConnectAndBind(idlIConnect,
                                        new idlIServantConnect(), orb);
             U.createWithServantAndBind(idlIPOA,
                                        new idlIServantPOA(), rootPOA, orb);
@@ -107,7 +107,7 @@ public class Server
             // Create one in standard class loader.
 
             rmiiIServantConnectInstance = new rmiiIServantConnect();
-            classLoader = 
+            classLoader =
                 rmiiIServantConnectInstance.getClass().getClassLoader();
             System.out.println("rmiiIServantConnectInstance: " +
                                rmiiIServantConnectInstance);
@@ -124,7 +124,7 @@ public class Server
 
             /* REVISIT
             U.createWithServantAndBind(rmiiIPOA,
-                                       new rmiiIServantPOA(), rootPOA, 
+                                       new rmiiIServantPOA(), rootPOA,
                                        (org.omg.CORBA.ORB) orb);
             */
 
@@ -135,7 +135,7 @@ public class Server
             synchronized (ColocatedClientServer.signal) {
                 ColocatedClientServer.signal.notifyAll();
             }
-            
+
             orb.run();
 
         } catch (Exception e) {
@@ -155,7 +155,7 @@ public class Server
     {
         if (ColocatedClientServer.isColocated) {
             if (Client.clientThread == Thread.currentThread()) {
-                U.sop("NOTE: " 
+                U.sop("NOTE: "
                       + msg
                       + ": colocated call correctly running in server on client thread");
             } else {

@@ -49,7 +49,7 @@ public class ForwardValueGen implements com.sun.tools.corba.ee.idl.ForwardValueG
   {
     this.symbolTable = symbolTable;
     this.v = v;
-    
+
     openStream ();
     if (stream == null)
       return;

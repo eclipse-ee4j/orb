@@ -20,8 +20,8 @@
 package com.sun.corba.ee.impl.naming.namingutil;
 
 /**
- * INS URL is a generic interface for two different types of URL's specified 
- * in INS spec. 
+ * INS URL is a generic interface for two different types of URL's specified
+ * in INS spec.
  *
  * @author Hemanth
  */
@@ -37,11 +37,11 @@ public interface INSURL {
     public String getStringifiedName( );
 
     // This method will return true only in CorbanameURL, It is provided because
-    // corbaname: URL needs special handling. 
+    // corbaname: URL needs special handling.
     public boolean isCorbanameURL( );
 
     // A debug method, which is not required for normal operation
     public void dPrint( );
 }
 
-    
+

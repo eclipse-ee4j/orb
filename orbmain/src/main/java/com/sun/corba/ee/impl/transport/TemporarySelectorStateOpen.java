@@ -65,7 +65,7 @@ public class TemporarySelectorStateOpen implements TemporarySelectorState {
     }
 
     @Transport
-    public SelectionKey registerChannel(Selector theSelector, 
+    public SelectionKey registerChannel(Selector theSelector,
         SelectableChannel theSelectableChannel, int theOps) throws IOException {
 
         SelectionKey key;

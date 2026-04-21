@@ -88,7 +88,7 @@ import org.omg.CORBA_2_3.portable.InputStream;
 
 @CdrRead
 @PrimitiveRead
-public class CDRInputStream_1_0 extends CDRInputStreamBase 
+public class CDRInputStream_1_0 extends CDRInputStreamBase
     implements RestorableInputStream
 {
     protected static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
@@ -104,7 +104,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
 
     // Value cache
     private CacheTable<Object> valueCache = null;
-    
+
     // Repository ID cache
     private CacheTable<String> repositoryIdCache = null;
 
@@ -170,9 +170,9 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     final String newEmptyString() {
         return new String("");
     }
-    
+
     // Template method
-    public CDRInputStreamBase dup() 
+    public CDRInputStreamBase dup()
     {
         CDRInputStreamBase result = null ;
 
@@ -215,7 +215,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     public GIOPVersion getGIOPVersion() {
         return GIOPVersion.V1_0;
     }
-    
+
     // Called by Request and Reply message. Valid for GIOP versions >= 1.2 only.
     // Illegal for GIOP versions < 1.2.
     void setHeaderPadding(boolean headerPadding) {
@@ -527,7 +527,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         read_octet_array(pvalue,0,len);
 
         org.omg.CORBA.Principal p = new PrincipalImpl();
-        p.name(pvalue); 
+        p.name(pvalue);
         return p;
     }
 
@@ -537,7 +537,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         tc.read_value(parent);
         return tc ;
     }
-  
+
     @CdrRead
     public Any read_any() {
         Any any = null ;
@@ -569,7 +569,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     }
 
     @CdrRead
-    public org.omg.CORBA.Object read_Object() { 
+    public org.omg.CORBA.Object read_Object() {
         return read_Object(null);
     }
 
@@ -587,18 +587,18 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     // IDL to Java ptc-00-01-08 1.21.4.1
     //
     // The clz argument to read_Object can be either a stub
-    // Class or the "Class object for the RMI/IDL interface type 
+    // Class or the "Class object for the RMI/IDL interface type
     // that is statically expected."
     // This functions as follows:
     // 1. If clz==null, just use the repository ID from the stub
     // 2. If clz is a stub class, just use it as a static factory.
     //    clz is a stub class iff StubAdapter.isStubClass( clz ).
-    //    In addition, clz is a IDL stub class iff 
+    //    In addition, clz is a IDL stub class iff
     //    IDLEntity.class.isAssignableFrom( clz ).
     // 3. If clz is an interface, use it to create the appropriate
     //    stub factory.
     @CdrRead
-    public org.omg.CORBA.Object read_Object(Class clz) 
+    public org.omg.CORBA.Object read_Object(Class clz)
     {
         // In any case, we must first read the IOR.
         IOR ior = IORFactories.makeIOR( orb, (InputStream)parent) ;
@@ -637,7 +637,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
             // clz is an interface class
             boolean isIDL = ClassInfoCache.get( clz ).isAIDLEntity(clz) ;
 
-            stubFactory = sff.createStubFactory( clz.getName(), 
+            stubFactory = sff.createStubFactory( clz.getName(),
                 isIDL, codeBase, clz, clz.getClassLoader() ) ;
             stubFactory( stubFactory ) ;
         }
@@ -659,18 +659,18 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
             if (servant instanceof Tie) {
                 String codebase = ior.getProfile().getCodebase();
                 org.omg.CORBA.Object objref = (org.omg.CORBA.Object)
-                    Utility.loadStub( (Tie)servant, stubFactory, codebase, 
+                    Utility.loadStub( (Tie)servant, stubFactory, codebase,
                         false);
-                    
+
                 // If we managed to load a stub, return it, otherwise we
                 // must fail...
                 if (objref != null) {
-                    return objref;   
+                    return objref;
                 } else {
                     throw wrapper.readObjectException() ;
                 }
             } else if (servant instanceof org.omg.CORBA.Object) {
-                if (!(servant instanceof 
+                if (!(servant instanceof
                         org.omg.CORBA.portable.InvokeHandler)) {
                     return (org.omg.CORBA.Object)servant;
                 }
@@ -695,21 +695,21 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
                 }
 
                 // Return the "default" stub...
-                objref = new CORBAObjectImpl() ;            
+                objref = new CORBAObjectImpl() ;
             }
         }
-        
+
         StubAdapter.setDelegate( objref, del ) ;
         return objref;
     }
- 
+
     @CdrRead
-    public java.lang.Object read_abstract_interface() 
+    public java.lang.Object read_abstract_interface()
     {
         return read_abstract_interface(null);
     }
 
-    public java.lang.Object read_abstract_interface(java.lang.Class clz) 
+    public java.lang.Object read_abstract_interface(java.lang.Class clz)
     {
         boolean object = read_boolean();
 
@@ -721,7 +721,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     }
 
     @CdrRead
-    public Serializable read_value() 
+    public Serializable read_value()
     {
         return read_value((Class<?>)null);
     }
@@ -762,7 +762,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
      * are present on the wire.  If no repository ID information
      * is on the wire but the expectedType or expectedTypeRepId
      * is known, it will return one of those (favoring the
-     * expectedType's repId). Failing that, it uses the supplied 
+     * expectedType's repId). Failing that, it uses the supplied
      * BoxedValueHelper to obtain the repository ID, as a last resort.
      */
     private String readRepositoryIds(int valueTag,
@@ -786,7 +786,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
                 }
                 return repIdStrs.createForAnyType(expectedType,cinfo);
             case RepositoryIdUtility.SINGLE_REP_TYPE_INFO :
-                return read_repositoryId(); 
+                return read_repositoryId();
             case RepositoryIdUtility.PARTIAL_LIST_TYPE_INFO :
                 return read_repositoryIds();
             default:
@@ -795,7 +795,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     }
 
     @CdrRead
-    private Object readRMIIIOPValueType( int indirection, 
+    private Object readRMIIIOPValueType( int indirection,
         Class<?> valueClass, String repositoryIDString ) {
 
         try {
@@ -803,7 +803,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
                 valueHandler = ORBUtility.createValueHandler();
             }
 
-            return valueHandler.readValue(parent, indirection, valueClass, 
+            return valueHandler.readValue(parent, indirection, valueClass,
                 repositoryIDString, getCodeBase());
         } catch(SystemException sysEx) {
             // Just rethrow any CORBA system exceptions
@@ -817,7 +817,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     }
 
     @InfoMethod
-    private void repositoryIdString( String str ) { } 
+    private void repositoryIdString( String str ) { }
 
     @InfoMethod
     private void valueClass( Class cls ) { }
@@ -897,7 +897,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
                 }
 
                 if (cinfo.isEnum()) {
-                    final Class enumClass = ClassInfoCache.getEnumClass( cinfo, 
+                    final Class enumClass = ClassInfoCache.getEnumClass( cinfo,
                         valueClass ) ;
                     String enumValue = read_string() ;
                     value = Enum.valueOf( enumClass, enumValue ) ;
@@ -1026,7 +1026,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         } else if (vType == 0xffffffff) { // Indirection tag
             int indirection = read_long() + get_offset() - 4;
             if (valueCache != null && valueCache.containsVal(indirection)) {
-                Serializable cachedValue = 
+                Serializable cachedValue =
                        (Serializable)valueCache.getKey(indirection);
                 return cachedValue;
             } else {
@@ -1040,7 +1040,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
 
             java.lang.Object value = null;
 
-            String codebase_URL = null;                 
+            String codebase_URL = null;
             if (repIdUtil.isCodeBasePresent(vType)){
                 codebase_URL = read_codebase_URL();
             }
@@ -1059,7 +1059,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
             if (isChunked) {
                 chunkedValueNestingLevel--;
             }
-            
+
             if (factory instanceof com.sun.org.omg.CORBA.portable.ValueHelper) {
                 value = readIDLValueWithHelper(
                     (com.sun.org.omg.CORBA.portable.ValueHelper)factory, indirection);
@@ -1076,7 +1076,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
                 valueCache = new CacheTable<Object>("Input valueCache", orb, false);
             }
             valueCache.put(value, indirection);
-        
+
             // allow for possible continuation chunk
             isChunked = saveIsChunked;
             start_block();
@@ -1100,7 +1100,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         return false;
     }
 
-    // This method is actually called indirectly by 
+    // This method is actually called indirectly by
     // read_value(String repositoryId).
     // Therefore, it is not a truly independent read call that handles
     // header information itself.
@@ -1118,7 +1118,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         } else if (value instanceof CustomValue) {
             ((CustomValue) value).unmarshal(parent);
         }
-                        
+
         return value;
     }
 
@@ -1137,7 +1137,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
             int indirection = read_long() + get_offset() - 4;
             if (valueCache != null && valueCache.containsVal(indirection))
                 {
-                    java.io.Serializable cachedValue = 
+                    java.io.Serializable cachedValue =
                           (java.io.Serializable)valueCache.getKey(indirection);
                     return cachedValue;
                 }
@@ -1154,7 +1154,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
 
             java.lang.Object value = null;
 
-            String codebase_URL = null;                 
+            String codebase_URL = null;
             if (repIdUtil.isCodeBasePresent(vType)){
                 codebase_URL = read_codebase_URL();
             }
@@ -1163,7 +1163,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
             String repositoryIDString
                 = readRepositoryIds(vType, null, null, repositoryId);
 
-            ValueFactory factory = 
+            ValueFactory factory =
                Utility.getFactory(null, codebase_URL, orb, repositoryIDString);
 
             start_block();
@@ -1183,13 +1183,13 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
                 valueCache = new CacheTable<Object>("Input valueCache", orb, false);
             }
             valueCache.put(value, indirection);
-        
+
             // allow for possible continuation chunk
             isChunked = saveIsChunked;
             start_block();
 
             return (java.io.Serializable)value;
-        }               
+        }
     }
 
     @InfoMethod
@@ -1217,15 +1217,15 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
 
         Class<?> cl = null;
 
-        RepositoryIdInterface repositoryID 
+        RepositoryIdInterface repositoryID
             = repIdStrs.getFromString(classRepId);
-        
+
         try {
             cl = repositoryID.getClassFromType(codebases);
         } catch(ClassNotFoundException cnfe) {
             throw wrapper.cnfeReadClass( cnfe, repositoryID.getClassName() ) ;
         } catch(MalformedURLException me) {
-            throw wrapper.malformedUrl( 
+            throw wrapper.malformedUrl(
                 me, repositoryID.getClassName(), codebases ) ;
         }
 
@@ -1235,7 +1235,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     @SuppressWarnings({"deprecation"})
     @CdrRead
     private java.lang.Object readIDLValueWithHelper(
-        com.sun.org.omg.CORBA.portable.ValueHelper helper, int indirection) 
+        com.sun.org.omg.CORBA.portable.ValueHelper helper, int indirection)
     {
         // look for two-argument static read method
         Method readMethod;
@@ -1256,7 +1256,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         } catch(java.lang.InstantiationException ie) {
             throw wrapper.couldNotInstantiateHelper( ie,
                 helper.get_class() ) ;
-        } catch(IllegalAccessException iae){ 
+        } catch(IllegalAccessException iae){
             // Value's constructor is protected or private
             //
             // So, use the helper to read the value.
@@ -1303,7 +1303,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
                 clazzLoader, clazz, clazzLoader);
             final Class<?> helperClass = cls ;
 
-            // getDeclaredMethod requires RuntimePermission 
+            // getDeclaredMethod requires RuntimePermission
             // accessDeclaredMembers if a different class loader is used
             // (even though the javadoc says otherwise)
             Method readMethod = null;
@@ -1336,13 +1336,13 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
 
     @CdrRead
     @SuppressWarnings({"deprecation", "deprecation"})
-    private java.lang.Object readIDLValue(int indirection, String repId, 
+    private java.lang.Object readIDLValue(int indirection, String repId,
         Class<?> clazz, ClassInfoCache.ClassInfo cinfo, String codebase)
-    {                                   
+    {
         ValueFactory factory ;
 
         // Always try to find a ValueFactory first, as required by the spec.
-        // There are some complications here in the IDL 3.0 mapping 
+        // There are some complications here in the IDL 3.0 mapping
         // (see 1.13.8), but basically we must always be able to override the
         // DefaultFactory or Helper mappings that are also used.  This appears
         // to be the case even in the boxed value cases.  The original code
@@ -1357,11 +1357,11 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
             wrapper.marshalErrorInReadIDLValue( marshal ) ;
 
             // Could not get a factory, so try alternatives
-            if (!cinfo.isAStreamableValue(clazz) && 
+            if (!cinfo.isAStreamableValue(clazz) &&
                 !cinfo.isACustomValue(clazz) && cinfo.isAValueBase(clazz)) {
 
                 // use old-style OBV support (helper object)
-                BoxedValueHelper helper = Utility.getHelper(clazz, codebase, 
+                BoxedValueHelper helper = Utility.getHelper(clazz, codebase,
                     repId);
                 if (helper instanceof com.sun.org.omg.CORBA.portable.ValueHelper) {
                     return readIDLValueWithHelper(
@@ -1426,7 +1426,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
                 ORBVersionFactory.getNEWER().compareTo(orb.getORBVersion()) <= 0) {
 
                 // If the end tag we read was less than what we were expecting,
-                // then the sender must think it's sent more enclosing 
+                // then the sender must think it's sent more enclosing
                 // chunked valuetypes than we have.  Throw an exception.
                 if (anEndTag < chunkedValueNestingLevel) {
                     throw wrapper.unexpectedEnclosingValuetype( anEndTag, chunkedValueNestingLevel );
@@ -1578,7 +1578,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
             }
         }
     }
-    
+
     @CdrRead
     private int readValueTag(){
         // outerValueDone = false;
@@ -1586,7 +1586,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
     }
 
     public org.omg.CORBA.ORB orb() {
-        return orb;    
+        return orb;
     }
 
     // ------------ End RMI related methods --------------------------
@@ -1664,7 +1664,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
 
     @CdrRead
     private String read_repositoryIds() {
-                
+
         // Read # of repository ids
         int numRepIds = read_long();
         if (numRepIds == 0xffffffff) {
@@ -1676,7 +1676,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
             }
         } else {
             // read first array element and store it as an indirection to the whole array
-            int indirection = get_offset(); 
+            int indirection = get_offset();
             String repID = read_repositoryId();
             if (repositoryIdCache == null) {
                 repositoryIdCache = new CacheTable<String>("Input repositoryIdCache", orb, false);
@@ -1688,7 +1688,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
             for (int i = 1; i < numRepIds; i++) {
                 read_repositoryId();
             }
-                
+
             return repID;
         }
     }
@@ -2021,22 +2021,22 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
                 return repositoryID.getClassFromType(expectedType,
                                                      codebaseURL);
             } catch (ClassNotFoundException cnfeOuter) {
-                
+
                 try {
-                  
+
                     if (getCodeBase() == null) {
-                        return null; // class cannot be loaded remotely. 
+                        return null; // class cannot be loaded remotely.
                     }
-                    
+
                     // Get a URL from the remote CodeBase and retry
                     codebaseURL = getCodeBase().implementation(repositoryIDString);
-                    
+
                     // Don't bother trying to find it locally again if
                     // we got a null URL
                     if (codebaseURL == null) {
                         return null;
                     }
-                    
+
                     return repositoryID.getClassFromType(expectedType,
                                                          codebaseURL);
                 } catch (ClassNotFoundException cnfeInner) {
@@ -2067,15 +2067,15 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         } else {
             // Stretches across buffers.  Unless we provide an
             // incremental conversion interface, allocate and
-            // copy the bytes.            
+            // copy the bytes.
             byte[] bytes = new byte[numBytes];
 
-            // REVISIT - We should avoid getting the bytes into an array if 
+            // REVISIT - We should avoid getting the bytes into an array if
             //  possible.  Extend the logic used above for the if() case , send
-            //  the bytebuffer, as it is, for reading the strings. If any 
-            //  string is spread across multiple messages, the logic is going 
+            //  the bytebuffer, as it is, for reading the strings. If any
+            //  string is spread across multiple messages, the logic is going
             //  to be complex- which is, to decode strings in parts and then
-            //  concatenate them in order. 
+            //  concatenate them in order.
             read_octet_array(bytes, 0, bytes.length);
 
             return converter.getChars(bytes, 0, numBytes);
@@ -2086,7 +2086,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         if (charConverter == null) {
             charConverter = parent.createCharBTCConverter();
         }
-        
+
         return charConverter;
     }
 
@@ -2094,7 +2094,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         if (wcharConverter == null) {
             wcharConverter = parent.createWCharBTCConverter();
         }
-    
+
         return wcharConverter;
     }
 
@@ -2149,8 +2149,8 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         if (repIdUtil.isCodeBasePresent(vType)) {
             throw wrapper.customWrapperWithCodebase();
         }
-                        
-        if (repIdUtil.getTypeInfo(vType) 
+
+        if (repIdUtil.getTypeInfo(vType)
             != RepositoryIdUtility.SINGLE_REP_TYPE_INFO) {
             throw wrapper.customWrapperNotSingleRepid( );
         }
@@ -2163,7 +2163,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         // Note: isChunked should be true here.  Should have
         // been set to true in the containing value's read_value
         // method.
-        
+
         start_block();
         end_flag--;
         chunkedValueNestingLevel--;
@@ -2181,7 +2181,7 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase
         readEndTag();
 
         // Note that isChunked should still be true here.
-        // If the containing valuetype is the highest 
+        // If the containing valuetype is the highest
         // chunked value, it will get set to false
         // at the end of read_value.
 

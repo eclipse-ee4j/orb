@@ -30,7 +30,7 @@ import org.omg.PortableServer.*;
 import java.util.Properties;
 import com.sun.corba.ee.impl.misc.ORBUtility;
 
-class idlDynInvokeHelper 
+class idlDynInvokeHelper
 {
 
     public static boolean dprint = false;
@@ -43,7 +43,7 @@ class idlDynInvokeHelper
             if (r.op_name().equals(C.syncOK) ) {
 
                 // syncOK
-                
+
                 NVList nvlist = orb.create_list(0);
 
                 Any a1 = orb.create_any();
@@ -74,7 +74,7 @@ class idlDynInvokeHelper
 
                 byte[] data = idlJStringHelper.extract(a1);
                 U.sop(new String(data, C.UTF8));
-                
+
                 Any __return = orb.create_any();
                 __return.type(orb.get_primitive_tc(TCKind.tk_void));
                 r.set_result(__return);
@@ -129,7 +129,7 @@ class idlDynInvokeHelper
                 } catch (UnknownException e) {
                     ex = e;
                 }
-                        
+
                 Any any = orb.create_any();
                 ORBUtility.insertSystemException(ex, any);
                 r.set_exception(any);

@@ -20,11 +20,11 @@
 package org.omg.CORBA;
 
 /**
- * This exception indicates that even though the operation that 
- * was invoked exists (it has an IDL definition), no implementation 
- * for that operation exists. <tt>NO_IMPLEMENT</tt> can, for 
- * example, be raised by an ORB if a client asks for an object's 
- * type definition from the interface repository, but no interface 
+ * This exception indicates that even though the operation that
+ * was invoked exists (it has an IDL definition), no implementation
+ * for that operation exists. <tt>NO_IMPLEMENT</tt> can, for
+ * example, be raised by an ORB if a client asks for an object's
+ * type definition from the interface repository, but no interface
  * repository is provided by the ORB.<P>
  * It contains a minor code, which gives more detailed information about
  * what caused the exception, and a completion status. It may also contain

@@ -23,7 +23,7 @@ import java.rmi.*;
 import org.omg.CORBA.portable.IDLEntity;
 
 public interface Processor extends Remote {
-    
+
     // Fails since the import statement specifies
     // the original portable InputStream
     public IDLEntity testIDLEntity(IDLEntity input) throws RemoteException;

@@ -52,7 +52,7 @@ public class Client
         return makeInputStream( bytes ) ;
     }
 
-    private byte[] getBytes( OutputStream os ) 
+    private byte[] getBytes( OutputStream os )
     {
         CDROutputObject cos = (CDROutputObject)os ;
         byte[] bytes = cos.toByteArray() ;
@@ -73,7 +73,7 @@ public class Client
             NewFoo n1 = new NewFoo(1, new NewFoo[0]);
             NewFoo n2 = new NewFoo(2, new NewFoo[0]);
             NewFoo n3 = new NewFoo(3, new NewFoo[] {n1, n2});
-            
+
             // Use insert and extract and then test equality
             NewFooHelper.insert(any, n3);
             NewFoo o = NewFooHelper.extract(any);
@@ -105,19 +105,19 @@ public class Client
 
             Bar b1 = new Bar();
             b1.l_mem(12);
-            
+
             Bar b2 = new Bar();
             b2.l_mem(13);
-            
+
             Bar b3 = new Bar();
             b3.s_mem(new corba.fwddecl.BarPackage.Foo(5.0d, new Bar[]{b1}));
-            
+
             Bar b4 = new Bar();
             b4.s_mem(new corba.fwddecl.BarPackage.Foo(10.0d, new Bar[]{b3}));
-            
+
             Bar b5 = new Bar();
             b5.s_mem(new corba.fwddecl.BarPackage.Foo(15.0d, new Bar[]{b2,b4}));
-            
+
             // Use insert and extract and then test equality
             BarHelper.insert(any, b5);
             Bar o = BarHelper.extract(any);
@@ -158,7 +158,7 @@ public class Client
 
             MoreFoo n7 = new MoreFoo(8, null, new MoreFoo[]{n1, n2},
                                      new MoreFoo[][]{{n3, n4}, {n5, n6}});
-            
+
             // Use insert and extract and then test equality
             MoreFooHelper.insert(any, n7);
             MoreFoo o = MoreFooHelper.extract(any);
@@ -187,12 +187,12 @@ public class Client
 
     public Client() {
         Properties props = new Properties( System.getProperties() ) ;
-        props.put( "org.omg.CORBA.ORBClass", 
+        props.put( "org.omg.CORBA.ORBClass",
             "com.sun.corba.ee.impl.orb.ORBImpl" ) ;
         this.orb = (ORB)ORB.init( args, props ) ;
     }
 
-    public static void main(String args[]) {        
+    public static void main(String args[]) {
         Client.args = args ;
         TestngRunner runner = new TestngRunner() ;
         runner.registerClass( Client.class ) ;

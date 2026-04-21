@@ -70,7 +70,7 @@ public class HelloTest extends RemoteTest {
      * empty array if none.
      */
     protected String[] getRemoteServantClasses () {
-        return compileEm;  
+        return compileEm;
     }
 
     /**
@@ -104,17 +104,17 @@ public class HelloTest extends RemoteTest {
     protected boolean generateStubsExternally () {
         return false;
     }
-    
+
     /**
      * Perform the test.
      * @param context The context returned by getServantContext().
      */
     public void doTest (ServantContext context) throws Throwable {
         WebServer webServer = null;
-        
+
         final boolean useLocalServants ;
         useLocalServants = getArgs().get(LOCAL_SERVANTS_FLAG) != null ;
-        helper = new JUnitReportHelper( this.getClass().getName() 
+        helper = new JUnitReportHelper( this.getClass().getName()
             + ( useLocalServants ? "_local" : "" ) ) ;
 
         try {
@@ -129,21 +129,21 @@ public class HelloTest extends RemoteTest {
 
             File rootDir = new File(outputDirPath);
             File rmicDir = new File(rootDir,"rmic");
-            
+
             if (!usesDynamicStubs) {
                 nextTest( "setup" ) ;
                 // Rename _RemoteObject_Stub.class so can only be loaded by
                 // WebServer...
-      
+
                 String origName = "_RemoteObject_Stub.class";
                 String newName = "_RemoteObject_Stub.clz";
-                
+
                 File origFile = new File (rmicDir,origName);
                 File newFile = new File (rmicDir,newName);
                 if (origFile.exists() && newFile.exists()) {
                     newFile.delete();
                 }
-                
+
                 origFile.renameTo(newFile);
                 if (newFile.exists() && !origFile.exists()) {
                     //                System.out.println("Found newFile: " + newFile.getPath());
@@ -180,7 +180,7 @@ public class HelloTest extends RemoteTest {
                 stubKind = 0; // remote
                 mustBeRemote = true;
             }
-            
+
             // Start up our servant...
 
             Object initialRef = context.startServant(servantClass,servantName,true,iiop);
@@ -193,44 +193,44 @@ public class HelloTest extends RemoteTest {
                 (org.omg.CORBA.Object)objref,"method",
                 Hello.class);
             boolean isLocal = (so != null);
-            
+
             if (mustBeRemote && isLocal) {
-                throw new Exception("Supposed to be remote stub, but is local: " + 
+                throw new Exception("Supposed to be remote stub, but is local: " +
                     objref.getClass().getName());
             }
             if (!mustBeRemote && !isLocal) {
-                throw new Exception("Supposed to be local stub, but is remote:" + 
+                throw new Exception("Supposed to be local stub, but is remote:" +
                     objref.getClass().getName());
             }
-            
+
             // Make sure stub downloading works (if not local)...
-            
+
             if (stubKind != 2) {
-                nextTest( "testStubDownloading" ) ; 
+                nextTest( "testStubDownloading" ) ;
                 // Ask objref to publish an instance of RemoteObject...
-                
+
                 objref.publishRemoteObject("stubDownloadTest");
-                
+
                 // Look it up in the name server...
-                
+
                 Object lookupResult = context.getNameContext().lookup("stubDownloadTest");
-                
+
                 // Narrow to expected type...
-                
+
                 RemoteObject ro = (RemoteObject) PortableRemoteObject.narrow(lookupResult,
                     RemoteObject.class);
-                
+
                 // Check the codebase...
-                    
+
                 IOR ior = orb.getIOR( (org.omg.CORBA.Object)ro, false ) ;
                 String localCodeBase = ior.getProfile().getCodebase();
-                        
+
                 if (localCodeBase == null) {
                     throw new Exception("localCodeBase == null");
                 }
-                        
+
                 String remoteCodeBase = ro.getCodeBase();
-                        
+
                 if (remoteCodeBase == null) {
                     throw new Exception("localCodeBase == null");
                 }
@@ -239,22 +239,22 @@ public class HelloTest extends RemoteTest {
                     throw new Exception("localCodeBase (" + localCodeBase +
                         ") != remoteCodeBase (" + remoteCodeBase +")");
                 }
-                        
+
                 // Check the class loader, unless we are using dynamic stubs: dynamic stus
                 // are never downloaded.
                 if (!usesDynamicStubs) {
                     ClassLoader loader = ro.getClass().getClassLoader();
-                            
-                    if (loader != null) {       
+
+                    if (loader != null) {
                         String loaderName = loader.getClass().getName();
 
                         if (!loaderName.startsWith("sun.rmi.server.LoaderHandler")) {
                             throw new Exception (
-                                "Stub downloaded with wrong loader on 1.2: " + 
-                                loaderName);   
+                                "Stub downloaded with wrong loader on 1.2: " +
+                                loaderName);
                         }
                     } else {
-                        throw new Exception("Got null loader for "+ro.getClass().getName());   
+                        throw new Exception("Got null loader for "+ro.getClass().getName());
                     }
                 }
             }
@@ -305,11 +305,11 @@ public class HelloTest extends RemoteTest {
                 throw new Exception("HelloTest: remoteObject.getClass() failed: " + remoteClassName);
             }
 
-            nextTest( "testNullObjref" ) ; 
+            nextTest( "testNullObjref" ) ;
             if (objref.echoRemote(null) != null) {
                 throw new Exception("HelloTest: null object reference failed.");
             }
-            
+
             nextTest( "testNullAbstract" ) ;
             if (objref.echoAbstract(null) != null) {
                 throw new Exception("HelloTest: null abstract object failed.");
@@ -447,7 +447,7 @@ public class HelloTest extends RemoteTest {
                 if (e.getCount() == 17 && e.getMessage().startsWith("Seventeen")) {
                     caughtExpected = true;
                 } else {
-                    throw new Exception("HelloTest: throwHello got count = " + 
+                    throw new Exception("HelloTest: throwHello got count = " +
                         e.getCount() + ", message = " + e.getMessage());
                 }
             }
@@ -505,7 +505,7 @@ public class HelloTest extends RemoteTest {
 
             nextTest( "testRuntimeException" ) ;
             caughtExpected = false;
-            
+
             try {
                 remoteObject.throwRuntimeException(new RuntimeException("RuntimeException test"));
             } catch (java.rmi.ServerRuntimeException e) {

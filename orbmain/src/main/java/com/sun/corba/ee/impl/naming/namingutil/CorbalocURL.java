@@ -21,18 +21,18 @@ package com.sun.corba.ee.impl.naming.namingutil;
 
 import java.util.StringTokenizer;
 
-/** 
+/**
  *  The corbaloc: URL definitions from the -ORBInitDef and -ORBDefaultInitDef's
- *  will be parsed and converted to  this object. This object is capable of 
+ *  will be parsed and converted to  this object. This object is capable of
  *  storing multiple  Host profiles as defined in the CorbaLoc grammer.
- *  
+ *
  *  @author  Hemanth
  */
 public class CorbalocURL extends INSURLBase
 {
     /**
      * This constructor parses the URL and initializes all the variables. Once
-     * the URL Object is constructed it is immutable. URL parameter is a 
+     * the URL Object is constructed it is immutable. URL parameter is a
      * corbaloc: URL string with 'corbaloc:' prefix stripped.
      * @param aURL corbaloc URL as a String
      */
@@ -64,7 +64,7 @@ public class CorbalocURL extends INSURLBase
                 url.substring( 0, endIndex ), "," );
             // NOTE:
             // There should be atleast one token, because there are checks
-            // to make sure that there is host information before the 
+            // to make sure that there is host information before the
             // delimiter '/'. So no need to explicitly check for number of
             // tokens != 0
             while( endpoints.hasMoreTokens( ) ) {
@@ -124,14 +124,14 @@ public class CorbalocURL extends INSURLBase
          StringTokenizer tokenizer = new StringTokenizer( iiopInfo, "@" );
          IIOPEndpointInfo iiopEndpointInfo = new IIOPEndpointInfo( );
          int tokenCount = tokenizer.countTokens( );
-         // There can be 1 or 2 tokens with '@' as the delimiter 
-         //  - if there is only 1 token then there is no GIOP version 
+         // There can be 1 or 2 tokens with '@' as the delimiter
+         //  - if there is only 1 token then there is no GIOP version
          //    information.  A Default GIOP version of 1.2 is used.
          //  - if there are 2 tokens then there is GIOP version is specified
-         //  - if there are no tokens or more than 2 tokens, then that's an 
+         //  - if there are no tokens or more than 2 tokens, then that's an
          //    error
          if( ( tokenCount == 0 )
-           ||( tokenCount > 2 )) 
+           ||( tokenCount > 2 ))
          {
              badAddress( iiopInfo );
          }
@@ -257,7 +257,7 @@ public class CorbalocURL extends INSURLBase
 
     /**
      * Will be true only in CorbanameURL class.
-     */ 
+     */
     public boolean isCorbanameURL( ) {
         return false;
     }

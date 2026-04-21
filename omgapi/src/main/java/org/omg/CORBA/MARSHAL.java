@@ -20,14 +20,14 @@
 package org.omg.CORBA;
 
 /**
- * A request or reply from the network is structurally invalid. 
- * This error typically indicates a bug in either the client-side 
- * or server-side run time. For example, if a reply from the server 
- * indicates that the message contains 1000 bytes, but the actual 
- * message is shorter or longer than 1000 bytes, the ORB raises 
- * this exception. <tt>MARSHAL</tt> can also be caused by using 
- * the DII or DSI incorrectly, for example, if the type of the 
- * actual parameters sent does not agree with IDL signature of an 
+ * A request or reply from the network is structurally invalid.
+ * This error typically indicates a bug in either the client-side
+ * or server-side run time. For example, if a reply from the server
+ * indicates that the message contains 1000 bytes, but the actual
+ * message is shorter or longer than 1000 bytes, the ORB raises
+ * this exception. <tt>MARSHAL</tt> can also be caused by using
+ * the DII or DSI incorrectly, for example, if the type of the
+ * actual parameters sent does not agree with IDL signature of an
  * operation.<P>
  * It contains a minor code, which gives more detailed information about
  * what caused the exception, and a completion status. It may also contain

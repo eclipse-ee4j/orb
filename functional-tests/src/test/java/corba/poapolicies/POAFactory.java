@@ -28,4 +28,4 @@ public interface POAFactory {
     InvalidPolicy;
     public String getObjectFactoryName();
 }
-    
+

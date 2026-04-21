@@ -83,7 +83,7 @@ public final class ReplyMessage_1_0 extends Message_1_0
     public int getReplyStatus() {
         return this.reply_status;
     }
-    
+
     public short getAddrDisposition() {
         return KeyAddr.value;
     }
@@ -176,4 +176,4 @@ public final class ReplyMessage_1_0 extends Message_1_0
     {
         handler.handleInput(this);
     }
-} // 
+} //

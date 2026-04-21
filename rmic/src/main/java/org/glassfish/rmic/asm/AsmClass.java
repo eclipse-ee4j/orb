@@ -52,7 +52,7 @@ class AsmClass extends ClassDefinition {
     private boolean basicCheckDone = false;
     private boolean basicChecking = false;
 
-    // This code is copied from BinaryClass.java which ensures that inherited method 
+    // This code is copied from BinaryClass.java which ensures that inherited method
     // information is gathered. Consider promoting this to the super class.
     protected void basicCheck(Environment env) throws ClassNotFound {
         if (tracing) env.dtEnter("AsmClass.basicCheck: " + getName());

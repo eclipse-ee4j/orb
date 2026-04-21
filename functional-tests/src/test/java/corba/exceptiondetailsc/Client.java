@@ -34,7 +34,7 @@ import corba.framework.Controller;
 import corba.hcks.C;
 import corba.hcks.U;
 
-public class Client 
+public class Client
 {
     public static final String baseMsg = Client.class.getName();
     public static final String main = baseMsg + ".main";
@@ -46,7 +46,7 @@ public class Client
     public static final String SYSTEM         = "SYSTEM_EXCEPTION";
     public static final String USER           = "USER_EXCEPTION";
     public static final String RUNTIME        = "RuntimeException";
-    
+
     public static ORB orb;
     public static InitialContext initialContext;
 

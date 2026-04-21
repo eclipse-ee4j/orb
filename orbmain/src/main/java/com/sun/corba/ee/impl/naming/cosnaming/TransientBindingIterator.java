@@ -56,7 +56,7 @@ public class TransientBindingIterator extends BindingIteratorImpl
      * @param thePOA the POA to use.
      * @throws java.lang.Exception a Java exception.
    */
-    public TransientBindingIterator(ORB orb, 
+    public TransientBindingIterator(ORB orb,
         Map<InternalBindingKey,InternalBindingValue> aTable,
         POA thePOA )
         throws java.lang.Exception
@@ -91,7 +91,7 @@ public class TransientBindingIterator extends BindingIteratorImpl
 
     /**
      * Destroys this BindingIterator by disconnecting from the ORB
-     * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA 
+     * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA
      * system exceptions.
      */
     final public void destroyImpl()
@@ -102,7 +102,7 @@ public class TransientBindingIterator extends BindingIteratorImpl
             if( objectId != null ) {
                 nsPOA.deactivate_object( objectId );
             }
-        } 
+        }
         catch( Exception e ) {
             NamingUtils.errprint("BindingIterator.Destroy():caught exception:");
             NamingUtils.printException(e);
@@ -111,7 +111,7 @@ public class TransientBindingIterator extends BindingIteratorImpl
 
     /**
      * Returns the remaining number of elements in the iterator.
-     * @return the remaining number of elements in the iterator.   
+     * @return the remaining number of elements in the iterator.
      */
     public final int remainingElementsImpl() {
         return currentSize;

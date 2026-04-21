@@ -38,7 +38,7 @@ import org.glassfish.gmbal.ManagedObject ;
  */
 @Transport
 @ManagedObject
-@Description( "Cache of connections originated by the ORB" ) 
+@Description( "Cache of connections originated by the ORB" )
 @AMXMetadata( type="corba-outbound-connection-cache-mon", group="monitoring" )
 public class OutboundConnectionCacheImpl
     extends
@@ -65,7 +65,7 @@ public class OutboundConnectionCacheImpl
             return connectionCache.get(contactInfo);
         }
     }
-    
+
     @Transport
     public void put(ContactInfo contactInfo, Connection connection)
     {

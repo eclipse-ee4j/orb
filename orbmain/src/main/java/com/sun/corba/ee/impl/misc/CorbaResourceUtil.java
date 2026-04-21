@@ -52,7 +52,7 @@ public class CorbaResourceUtil {
                 "no text found: key = \"" ) ;
             sb.append( key ) ;
             sb.append( "\", arguments = " ) ;
-            
+
             for (int ctr=0; ctr<args.length; ctr++) {
                 if (ctr != 0) {
                     sb.append( ", " ) ;

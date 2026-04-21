@@ -39,7 +39,7 @@ public class TestObjectSuperSuper implements Serializable
     }
 
     public String toString() {
-        return 
+        return
             (super.getClass().equals(Object.class) ? "" : super.toString())
             + " [TestObjectSuperSuper dataxssup0=" + dataxssup0
             + ", dataxssup1" + dataxssup1
@@ -49,7 +49,7 @@ public class TestObjectSuperSuper implements Serializable
     public boolean equals(Object obj) {
         try {
             TestObjectSuperSuper other = (TestObjectSuperSuper)obj;
-            
+
             if (other == null)
                 return false;
 

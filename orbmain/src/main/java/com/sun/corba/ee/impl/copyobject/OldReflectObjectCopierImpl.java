@@ -65,12 +65,12 @@ import org.glassfish.pfl.dynamic.copyobject.spi.ReflectiveCopyException;
  * If for any reason copying cannot be done using reflection it uses
  * the original ORB serialization to implement the copying
  */
-public class OldReflectObjectCopierImpl implements ObjectCopier 
+public class OldReflectObjectCopierImpl implements ObjectCopier
 {
     private final IdentityHashMap objRefs;
     private final ORB orb;
 
-    public OldReflectObjectCopierImpl( org.omg.CORBA.ORB orb ) 
+    public OldReflectObjectCopierImpl( org.omg.CORBA.ORB orb )
     {
         objRefs = new IdentityHashMap();
         this.orb = (ORB)orb ;
@@ -104,7 +104,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
 
             isImmutable = false;
             isDate = false;
-            isSQLDate = false; 
+            isSQLDate = false;
             fields = null;
             constr = null;
             superClass = null;
@@ -121,7 +121,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
                     constr = getExternalizableConstructor(cls) ;
                 else if (Serializable.class.isAssignableFrom( cls ))
                     constr = getSerializableConstructor(cls) ;
-                if (constr != null) { constr.setAccessible(true); }    
+                if (constr != null) { constr.setAccessible(true); }
                 fields = cls.getDeclaredFields();
                 AccessibleObject.setAccessible(fields, true);
                 superClass = cls.getSuperclass();
@@ -129,17 +129,17 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
         }
     };
 
-    /** Bridge is used to access the reflection factory for 
+    /** Bridge is used to access the reflection factory for
      * obtaining serialization constructors.
      * This must be carefully protected!
      */
-    private static final Bridge bridge = 
+    private static final Bridge bridge =
         (Bridge)AccessController.doPrivileged(
             new PrivilegedAction() {
                 public Object run() {
                     return Bridge.get() ;
                 }
-            } 
+            }
         ) ;
 
     /**
@@ -251,8 +251,8 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
      * @return the copied object.
      * @exception RemoteException if any object could not be copied.
      */
-    private Object arrayCopy(Object obj, Class aClass) 
-        throws RemoteException, InstantiationException, 
+    private Object arrayCopy(Object obj, Class aClass)
+        throws RemoteException, InstantiationException,
         IllegalAccessException, InvocationTargetException
     {
         Object acopy = null;
@@ -304,7 +304,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
      * @param obj the object whose fields need to be copied
      * @exception RemoteException if any object could not be copied.
      */
-    private void copyFields(Class cls, Field[] fields, Object obj, 
+    private void copyFields(Class cls, Field[] fields, Object obj,
         Object copy) throws RemoteException, IllegalAccessException,
         InstantiationException, InvocationTargetException
     {
@@ -345,24 +345,24 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
     }
 
 
-    // Returns an empty instance of Class cls.  Useful for 
+    // Returns an empty instance of Class cls.  Useful for
     // cloning collection types.  Requires a no args constructor,
     // public for now (but could use non-public)
-    private Object makeInstanceOfClass (Class cls) 
+    private Object makeInstanceOfClass (Class cls)
         throws IllegalAccessException, InstantiationException
     {
         return cls.newInstance() ;
     }
 
     // Copy any object that is an instanceof Map.
-    private Object copyMap( Object obj ) 
+    private Object copyMap( Object obj )
         throws RemoteException, InstantiationException, IllegalAccessException,
         InvocationTargetException
     {
         Map src = (Map)obj ;
         Map result = (Map)makeInstanceOfClass( src.getClass() ) ;
         // Do this early, or self-references cause stack overflow!
-        objRefs.put( src, result ) ;  
+        objRefs.put( src, result ) ;
         Iterator iter = src.entrySet().iterator() ;
         while (iter.hasNext()) {
             Map.Entry entry = (Map.Entry)(iter.next());
@@ -378,8 +378,8 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
     }
 
     // Pass in attrs just to avoid looking them up again.
-    private Object copyAnyClass( ReflectAttrs attrs, Object obj ) 
-        throws RemoteException, InstantiationException, 
+    private Object copyAnyClass( ReflectAttrs attrs, Object obj )
+        throws RemoteException, InstantiationException,
         IllegalAccessException, InvocationTargetException
     {
         // regular object, so copy the fields over
@@ -398,7 +398,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
             attrs = getClassAttrs(cls);
             copyFields(cls, attrs.fields, obj, copy);
             cls = attrs.superClass;
-        } 
+        }
 
         return copy ;
     }
@@ -409,8 +409,8 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
      * @param obj the object to copy or connect.
      * @return the copied object.
      */
-    private Object reflectCopy(Object obj) 
-        throws RemoteException, InstantiationException, 
+    private Object reflectCopy(Object obj)
+        throws RemoteException, InstantiationException,
         IllegalAccessException, InvocationTargetException
     {
         // Always check for nulls here, so we don't need to check in other places.
@@ -432,7 +432,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
 
         copy = objRefs.get(obj);
         if (copy == null) {
-            // Handle instance of HashMap specially because Map.Entry contains 
+            // Handle instance of HashMap specially because Map.Entry contains
             // non-static finals.  HashTable is likewise handled here.
             if ( ( cls.getName().equals("java.util.HashMap") ) ||
                  ( cls.getName().equals("java.util.HashTable") ) ) {
@@ -460,7 +460,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
         return copy;
     }
 
-    // This is the public interface.  It must never be called from 
+    // This is the public interface.  It must never be called from
     // inside this class.  It is the single point at which all exceptions
     // are caught, wrapper, and rethrown as ReflectiveCopyExceptions.
     // This can trigger fallback behavior in IasUtilDelegate.
@@ -474,17 +474,17 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
         try {
             return AccessController.doPrivileged(
                 new PrivilegedExceptionAction() {
-                    public Object run() throws RemoteException, InstantiationException, 
+                    public Object run() throws RemoteException, InstantiationException,
                         IllegalAccessException, InvocationTargetException
                     {
                         return reflectCopy(obj);
                     }
-                } 
+                }
             ) ;
         } catch (ThreadDeath td) {
             throw td ;
         } catch (Throwable thr) {
-            throw new ReflectiveCopyException( "Could not copy object of class " + 
+            throw new ReflectiveCopyException( "Could not copy object of class " +
                 obj.getClass().getName(), thr ) ;
         }
     }

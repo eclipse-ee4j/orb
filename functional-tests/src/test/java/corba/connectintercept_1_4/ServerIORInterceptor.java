@@ -63,7 +63,7 @@ public class ServerIORInterceptor
     }
 
     public void adapter_state_changed( ObjectReferenceTemplate[] templates,
-        short state ) 
+        short state )
     {
         // NO-OP
     }

@@ -53,21 +53,21 @@ public abstract class BindingIteratorImpl extends BindingIteratorPOA
      * Create a binding iterator servant.
      * runs the super constructor.
      * @param orb an ORB object.
-     * @exception java.lang.Exception a Java exception.   
+     * @exception java.lang.Exception a Java exception.
      */
-    public BindingIteratorImpl(ORB orb) 
-        throws java.lang.Exception 
+    public BindingIteratorImpl(ORB orb)
+        throws java.lang.Exception
     {
         super();
         this.orb = orb ;
     }
-  
+
     /**
      * Return the next binding. It also returns true or false, indicating
      * whether there were more bindings.
      * @param b The Binding as an out parameter.
      * @return true if there were more bindings.
-     * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA 
+     * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA
      * system exceptions.
      * @see #nextOneImpl
      */
@@ -77,23 +77,23 @@ public abstract class BindingIteratorImpl extends BindingIteratorPOA
         // NextOne actually returns the next one
         return nextOneImpl(b);
     }
-  
+
     /**
      * Return the next n bindings. It also returns true or false, indicating
      * whether there were more bindings.
      * @param how_many The number of requested bindings in the BindingList.
      * @param blh The BindingList as an out parameter.
      * @return true if there were more bindings.
-     * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA 
+     * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA
      * system exceptions.
      */
-    public synchronized boolean next_n(int how_many, 
+    public synchronized boolean next_n(int how_many,
         org.omg.CosNaming.BindingListHolder blh)
     {
         if( how_many == 0 ) {
             throw new BAD_PARAM( " 'how_many' parameter is set to 0 which is" +
             " invalid" );
-        }  
+        }
         return list( how_many, blh );
     }
 
@@ -106,11 +106,11 @@ public abstract class BindingIteratorImpl extends BindingIteratorPOA
      * @param blh The BindingList as an out parameter.
      * @return true if there were more bindings.
      */
-    public boolean list( int how_many, org.omg.CosNaming.BindingListHolder blh) 
+    public boolean list( int how_many, org.omg.CosNaming.BindingListHolder blh)
     {
         // Take the smallest of what's left and what's being asked for
         int numberToGet = Math.min(remainingElementsImpl(),how_many);
-    
+
         // Create a resulting BindingList
         Binding[] bl = new Binding[numberToGet];
         BindingHolder bh = new BindingHolder();
@@ -129,7 +129,7 @@ public abstract class BindingIteratorImpl extends BindingIteratorPOA
 
         // Set into holder
         blh.value = bl;
-    
+
         return true;
     }
 
@@ -139,10 +139,10 @@ public abstract class BindingIteratorImpl extends BindingIteratorPOA
     /**
      * Destroy this BindingIterator object. The object corresponding to this
      * object reference is destroyed.
-     * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA 
+     * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA
      * system exceptions.
      * @see #destroyImpl
-     */ 
+     */
     @Override
     public synchronized void destroy()
     {
@@ -155,14 +155,14 @@ public abstract class BindingIteratorImpl extends BindingIteratorPOA
      * for which this BindingIterator was created.
      * @param b The Binding as an out parameter.
      * @return true if there were more bindings.
-     * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA 
+     * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA
      * system exceptions.
      */
     protected abstract boolean nextOneImpl(org.omg.CosNaming.BindingHolder b);
 
     /**
      * Abstract method for destroying this BindingIterator.
-     * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA 
+     * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA
      * system exceptions.
      */
     protected abstract void destroyImpl();

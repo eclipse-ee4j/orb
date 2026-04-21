@@ -79,7 +79,7 @@ import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.impl.misc.ORBUtility;
 
 class idlPOAServant
-    extends 
+    extends
         idlIPOA
 {
     public static final String baseMsg = idlPOAServant.class.getName();
@@ -141,8 +141,8 @@ class idlPOAServant
     {
     }
 
-    public idlValueTypeA sendValue (idlValueTypeA a, 
-                                    idlValueTypeB b, 
+    public idlValueTypeA sendValue (idlValueTypeA a,
+                                    idlValueTypeB b,
                                     idlValueTypeC c,
                                     idlValueTypeD d,
                                     idlValueTypeE e,
@@ -196,7 +196,7 @@ class idlPOAServant
         String orbid = "AVeryLongORBIdName" ;
         int serverid = -123 ;
 
-        POAObjectKeyTemplate temp = new POAObjectKeyTemplate( orb, scid, 
+        POAObjectKeyTemplate temp = new POAObjectKeyTemplate( orb, scid,
             serverid, orbid, poaid ) ;
 
         return temp ;
@@ -206,7 +206,7 @@ class idlPOAServant
     {
         String host = "FOO" ;
         IIOPAddress primary = IIOPFactories.makeIIOPAddress( host, port ) ;
-        
+
         IIOPProfileTemplate ptemp = IIOPFactories.makeIIOPProfileTemplate( orb,
             GIOPVersion.V1_2, primary ) ;
 

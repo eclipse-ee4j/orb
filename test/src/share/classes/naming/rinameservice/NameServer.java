@@ -26,7 +26,7 @@ import corba.framework.*;
 import java.util.*;
 import java.io.*;
 
-/** 
+/**
  * This is a simple test to demonstrate the NameService that we ship with RI
  * works. It
  * 1. Instantiates ORB by passing Persistent Port property so that there is
@@ -60,8 +60,8 @@ public class NameServer implements InternalProcess
                        "com.sun.corba.ee.impl.orb.ORBImpl" );
             orbProperties.setProperty( ORBConstants.DEBUG_PROPERTY, "subcontract,giop,transport" ) ;
             ORB orb = ORB.init( args, orbProperties );
-            TransientNameService standaloneNameService = 
-                new TransientNameService( 
+            TransientNameService standaloneNameService =
+                new TransientNameService(
                     (com.sun.corba.ee.spi.orb.ORB)orb );
             System.out.println( "Server is ready." ) ;
             orb.run( );

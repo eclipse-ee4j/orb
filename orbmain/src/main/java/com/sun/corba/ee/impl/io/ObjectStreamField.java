@@ -34,15 +34,15 @@ import org.glassfish.pfl.basic.reflection.Bridge;
  * a class.
  *
  */
-public class ObjectStreamField implements Comparable 
+public class ObjectStreamField implements Comparable
 {
-    private static final Bridge bridge = 
+    private static final Bridge bridge =
         AccessController.doPrivileged(
             new PrivilegedAction<Bridge>() {
                 public Bridge run() {
                     return Bridge.get() ;
                 }
-            } 
+            }
         ) ;
 
     // Create a named field with the specified type.
@@ -242,5 +242,5 @@ public class ObjectStreamField implements Comparable
     // essentially we can use the java.io.ObjectStreamField as such.
 
     private String signature;   // the signature of the field
-    private long fieldID = Bridge.INVALID_FIELD_OFFSET ; 
+    private long fieldID = Bridge.INVALID_FIELD_OFFSET ;
 }

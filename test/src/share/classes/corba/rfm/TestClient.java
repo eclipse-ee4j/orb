@@ -78,7 +78,7 @@ import org.glassfish.pfl.basic.contain.Pair;
  * Structure of this test:
  *
  * Two ORB instances:
- * - Server ORB, which has persistent server ID and port set, 
+ * - Server ORB, which has persistent server ID and port set,
  *   the user configurator for the ReferenceFactoryManager,
  *   initial host set to localhost, and initial port set to
  *   the persistent server port.  This ORB is also set up for
@@ -88,7 +88,7 @@ import org.glassfish.pfl.basic.contain.Pair;
  *   persistent server port.
  *
  * A simple remote interface that supports echo and delay operations.
- * Delay takes a parameter that tells the server how long to wait 
+ * Delay takes a parameter that tells the server how long to wait
  * until responding.
  *
  * A client thread that simply:
@@ -109,16 +109,16 @@ import org.glassfish.pfl.basic.contain.Pair;
  * length (0, 5, 21 msec)
  * These are named cache/0 cache/5 cache/21 nocache/0 nocache/5 and
  * nocache/21
- * 
+ *
  *
  * The ServantLocator does a couple of things:
  * - Delays for a configurable time before returning a fixed servant
  * - checks its state to make sure that it is supposed to be in use.
- *   
+ *
  * There is also a controller that starts and coordinates all testing
  * activity.
  * The controller basically starts up a number of different types of
- * client threads, then starts another thread that delays, then 
+ * client threads, then starts another thread that delays, then
  * does a restart in the ReferenceFactoryManager.  The restart will
  * introduce a new ServantLocator in all ReferenceFactory instances,
  * and set the state of the old ServantLocator to log errors if
@@ -128,7 +128,7 @@ import org.glassfish.pfl.basic.contain.Pair;
  * In addition, we need to test nested calls; that is, calls to co-located
  * objrefs on the server side.  This also include creating new objrefs
  * through the RFM.
- */ 
+ */
 public class TestClient {
     static {
         // This is needed to guarantee that this test will ALWAYS use dynamic
@@ -171,16 +171,16 @@ public class TestClient {
 
         private void log( int threadId, String msg ) {
             StringBuilder sbuff = new StringBuilder() ;
-            sbuff.append( "[" ) 
+            sbuff.append( "[" )
                 .append( threadId )
-                .append( "] " ) 
+                .append( "] " )
                 .append( msg ) ;
             System.out.println( sbuff.toString() ) ;
-        } 
+        }
 
         public void createAnObject( int threadId ) throws RemoteException {
             byte[] key = { (byte)1, (byte)2, (byte)3 } ;
-            
+
             log( threadId, "Creating a reference with cacheFactory" ) ;
             cacheFactory.createReference( key ) ;
         }
@@ -242,11 +242,11 @@ public class TestClient {
 
         private void logStart( ) {
             StringBuilder sbuff = new StringBuilder() ;
-            sbuff.append( "[" ) 
+            sbuff.append( "[" )
                 .append( threadId )
-                .append( ":" ) 
-                .append( value ) 
-                .append( "] " ) 
+                .append( ":" )
+                .append( value )
+                .append( "] " )
                 .append( "Call to " )
                 .append( useEcho ? "echo" : "delay" )
                 .append( " started" ) ;
@@ -255,11 +255,11 @@ public class TestClient {
 
         private void logComplete( int result ) {
             StringBuilder sbuff = new StringBuilder() ;
-            sbuff.append( "[" ) 
+            sbuff.append( "[" )
                 .append( threadId )
-                .append( ":" ) 
-                .append( value ) 
-                .append( "] " ) 
+                .append( ":" )
+                .append( value )
+                .append( "] " )
                 .append( "Call to " )
                 .append( useEcho ? "echo" : "delay" )
                 .append( " completed with result " )
@@ -331,7 +331,7 @@ public class TestClient {
     private static TestServantLocator locator ;
 
     private static void cleanUp() {
-        for (Client cl : clients) 
+        for (Client cl : clients)
             cl.halt() ;
 
         for (Client cl : clients) {
@@ -354,7 +354,7 @@ public class TestClient {
     }
 
     private static void initializeORBs( String[] args ) {
-        // The following must be set as system properties 
+        // The following must be set as system properties
         System.setProperty( "javax.rmi.CORBA.PortableRemoteObjectClass",
             "com.sun.corba.ee.impl.javax.rmi.PortableRemoteObject" ) ;
         System.setProperty( "javax.rmi.CORBA.StubClass",
@@ -380,7 +380,7 @@ public class TestClient {
         // For debugging only
         baseProps.setProperty( ORBConstants.DEBUG_PROPERTY,
             "poa" ) ;
-        
+
         Properties clientProps = new Properties( baseProps ) ;
         clientProps.setProperty( ORBConstants.ORB_ID_PROPERTY,
             "clientORB" ) ;
@@ -402,7 +402,7 @@ public class TestClient {
         String[] myArgs = {} ;
 
         serverORB = ORB.init( myArgs, serverProps ) ;
-        new TransientNameService( 
+        new TransientNameService(
             com.sun.corba.ee.spi.orb.ORB.class.cast(serverORB) ) ;
 
         clientORB = ORB.init( myArgs, clientProps ) ;
@@ -434,7 +434,7 @@ public class TestClient {
         }
 
         public synchronized Servant preinvoke( byte[] oid, POA adapter,
-            String operation, CookieHolder the_cookie 
+            String operation, CookieHolder the_cookie
         ) throws ForwardRequest {
             if (!isActive)
                 throw new BAD_OPERATION( "Attempt to use deactivated ServantLocator" ) ;
@@ -465,11 +465,11 @@ public class TestClient {
         { "nocache/0", 0, false },
         { "nocache/5", 5, false },
         { "nocache/23", 23, false }} ;
-   
+
     private static void initializeServer() {
         // Get the RFM and naming service
         try {
-            rfm = ReferenceFactoryManager.class.cast( 
+            rfm = ReferenceFactoryManager.class.cast(
                 serverORB.resolve_initial_references( "ReferenceFactoryManager" )) ;
             rfm.activate() ;
             serverNamingRoot = NamingContextExtHelper.narrow(
@@ -483,7 +483,7 @@ public class TestClient {
         // Create required ReferenceFactory instances
         locator = new TestServantLocator( serverORB, rfm ) ;
 
-        PresentationManager pm = 
+        PresentationManager pm =
             com.sun.corba.ee.spi.orb.ORB.getPresentationManager() ;
         String repositoryId ;
 
@@ -492,14 +492,14 @@ public class TestClient {
         } catch (Exception exc) {
             throw new RuntimeException( exc ) ;
         }
-        
+
         nocacheFactoryPolicies = null ;
         nocacheFactory = rfm.create( nocacheFactoryName,
             repositoryId, nocacheFactoryPolicies, locator ) ;
 
-        cacheFactoryPolicies = Arrays.asList( 
+        cacheFactoryPolicies = Arrays.asList(
             (Policy)ServantCachingPolicy.getPolicy() ) ;
-        cacheFactory = rfm.create( cacheFactoryName, 
+        cacheFactory = rfm.create( cacheFactoryName,
             repositoryId, cacheFactoryPolicies, locator ) ;
 
         // Use RMs to create objrefs and register them with naming
@@ -509,7 +509,7 @@ public class TestClient {
             boolean useCaching = Boolean.class.cast( data[2] ) ;
             ReferenceFactory factory = useCaching ? cacheFactory : nocacheFactory ;
             byte[] oid = new byte[] { (byte)delay } ;
-            org.omg.CORBA.Object objref = factory.createReference( oid ) ; 
+            org.omg.CORBA.Object objref = factory.createReference( oid ) ;
             try {
                 bindName( serverNamingRoot, sname, objref ) ;
             } catch (Exception exc) {
@@ -520,7 +520,7 @@ public class TestClient {
 
     private static void bindName( NamingContext ctx, String sname,
         org.omg.CORBA.Object objref )
-        throws NotFound, CannotProceed, AlreadyBound, InvalidName 
+        throws NotFound, CannotProceed, AlreadyBound, InvalidName
     {
         NameComponent[] name = serverNamingRoot.to_name( sname ) ;
         NamingContext current = ctx ;
@@ -533,19 +533,19 @@ public class TestClient {
                     if (ref._is_a(NamingContextHelper.id()))
                         current = NamingContextHelper.narrow( ref ) ;
                     else
-                        throw new BAD_OPERATION( 
+                        throw new BAD_OPERATION(
                             "Name is bound to a non-context object reference" ) ;
                 } catch (NotFound exc) {
                     current = current.bind_new_context( arr ) ;
                 }
             } else {
-                current.bind( arr, objref ) ; 
+                current.bind( arr, objref ) ;
             }
         }
     }
 
     // Info for creating clients:
-    // threadId, delay, refname, callDelay 
+    // threadId, delay, refname, callDelay
     private static Object[][] clientData = {
         { 1,   5, "cache/0", 5 },
         { 2,   9, "cache/0", 0 },
@@ -566,13 +566,13 @@ public class TestClient {
         { 17,  9, "nocache/23", 0 },
         { 18, 16, "nocache/23", 5 }} ;
 
-    // calls echo: Client( int threadId, int delay, Test testref ) 
-    // calls delay: Client( int threadId, int delay, Test testref, int callDelay ) 
-    private static void makeClient( int threadId, int delay, String name, 
+    // calls echo: Client( int threadId, int delay, Test testref )
+    // calls delay: Client( int threadId, int delay, Test testref, int callDelay )
+    private static void makeClient( int threadId, int delay, String name,
         NamingContextExt namingRoot, int callDelay ) {
         Test ref = null ;
         try {
-            ref = Test.class.cast( PortableRemoteObject.narrow( 
+            ref = Test.class.cast( PortableRemoteObject.narrow(
                 namingRoot.resolve_str( name ), Test.class )) ;
         } catch (Exception exc) {
             fatal( "Exception in makeClient: " + exc, exc ) ;
@@ -611,7 +611,7 @@ public class TestClient {
 
         // create a new ServantLocator
         locator = new TestServantLocator( serverORB, rfm ) ;
-        
+
         // update ReferenceFactoryManager with map giving new ServantLocators
         Map<String,Pair<ServantLocator,List<Policy>>> map = new
             HashMap<String,Pair<ServantLocator,List<Policy>>>() ;
@@ -625,11 +625,11 @@ public class TestClient {
             initializeORBs( args ) ;
             initializeServer() ;
             initializeClients() ;
-        
+
             //
             // At this point all clients are running and sending
             // requests.  Now the test begins.
-            
+
             for (int ctr=0; ctr<3; ctr++) {
                 sleep( RUN_TIME ) ;
                 log( "RFM>>>Suspend" ) ;

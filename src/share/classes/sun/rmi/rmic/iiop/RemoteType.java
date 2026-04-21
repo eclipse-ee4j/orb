@@ -39,7 +39,7 @@ public class RemoteType extends InterfaceType {
     //_____________________________________________________________________
     // Public Interfaces
     //_____________________________________________________________________
-   
+
     /**
      * Create an RemoteType for the given class.
      *
@@ -50,33 +50,33 @@ public class RemoteType extends InterfaceType {
     public static RemoteType forRemote(ClassDefinition classDef,
                                        ContextStack stack,
                                        boolean quiet) {
-                
+
         if (stack.anyErrors()) return null;
-        
+
         boolean doPop = false;
         RemoteType result = null;
-        
+
         try {
             // Do we already have it?
-                        
-            sun.tools.java.Type theType = classDef.getType();           
+
+            sun.tools.java.Type theType = classDef.getType();
             Type existing = getType(theType,stack);
-                        
+
             if (existing != null) {
-                                
+
                 if (!(existing instanceof RemoteType)) return null; // False hit.
-                                
+
                                 // Yep, so return it...
-                                
+
                 return (RemoteType) existing;
             }
-                        
+
             // Could this be a remote type?
-                        
+
             if (couldBeRemote(quiet,stack,classDef)) {
-                        
+
                 // Yes, so check it...
-                            
+
                 RemoteType it = new RemoteType(stack,classDef);
                 putType(theType,it,stack);
                 stack.push(it);
@@ -93,7 +93,7 @@ public class RemoteType extends InterfaceType {
         } catch (CompilerError e) {
             if (doPop) stack.pop(false);
         }
-        
+
         return result;
     }
 
@@ -107,7 +107,7 @@ public class RemoteType extends InterfaceType {
     //_____________________________________________________________________
     // Internal/Subclass Interfaces
     //_____________________________________________________________________
-   
+
     /**
      * Create a RemoteType instance for the given class.  The resulting
      * object is not yet completely initialized.
@@ -115,7 +115,7 @@ public class RemoteType extends InterfaceType {
     protected RemoteType(ContextStack stack, ClassDefinition classDef) {
         super(stack,classDef,TYPE_REMOTE | TM_INTERFACE | TM_COMPOUND);
     }
-   
+
     /**
      * Create a RemoteType instance for the given class.  The resulting
      * object is not yet completely initialized.
@@ -128,10 +128,10 @@ public class RemoteType extends InterfaceType {
     // Internal Interfaces
     //_____________________________________________________________________
 
-    
+
     private static boolean couldBeRemote (boolean quiet, ContextStack stack,
                                           ClassDefinition classDef) {
-        
+
         boolean result = false;
         BatchEnvironment env = stack.getEnv();
 
@@ -145,20 +145,20 @@ public class RemoteType extends InterfaceType {
         } catch (ClassNotFound e) {
             classNotFound(stack,e);
         }
-            
-        return result; 
+
+        return result;
     }
-    
-    
+
+
     /**
      * Initialize this instance.
      */
     private boolean initialize (boolean quiet,ContextStack stack) {
-       
+
         boolean result = false;
-        
+
         // Go check it out and gather up the info we need...
-        
+
         Vector directInterfaces = new Vector();
         Vector directMethods = new Vector();
         Vector directConstants = new Vector();
@@ -168,12 +168,12 @@ public class RemoteType extends InterfaceType {
                                         directConstants,
                                         quiet,
                                         stack)){
-                
+
             // We're ok, so pass 'em up...
-                        
+
             result = initialize(directInterfaces,directMethods,directConstants,stack,quiet);
         }
-            
+
         return result;
     }
 

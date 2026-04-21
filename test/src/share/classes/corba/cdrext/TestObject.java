@@ -30,7 +30,7 @@ public class TestObject implements Serializable
     private Map internalRep;
 
     static final long serialVersionUID = 6143829429461952693L;
-    
+
     static final String STRING_NAME = "stringData";
     static final String BYTE_ARRAY_NAME = "byteArray";
     static final String LONG_NAME = "longData";
@@ -38,7 +38,7 @@ public class TestObject implements Serializable
     static final String NEW_FIELD_NAME = "cello";
     static final Class NEW_FIELD_CLASS = Integer.class;
 
-    private static final ObjectStreamField[] serialPersistentFields = { 
+    private static final ObjectStreamField[] serialPersistentFields = {
         new ObjectStreamField(STRING_NAME, String.class),
         new ObjectStreamField(BYTE_ARRAY_NAME, byte[].class),
         new ObjectStreamField(LONG_NAME, Long.TYPE),
@@ -164,7 +164,7 @@ public class TestObject implements Serializable
         fields.put(BYTE_ARRAY_NAME, internalRep.get(BYTE_ARRAY_NAME));
         fields.put(LONG_NAME, ((Long)internalRep.get(LONG_NAME)).longValue());
         fields.put(CHAR_NAME, ((Character)internalRep.get(CHAR_NAME)).charValue());
-            
+
         s.writeFields();
     }
 }

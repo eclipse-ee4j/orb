@@ -149,9 +149,9 @@ public class DynFixedImpl extends DynAnyBasicImpl implements DynFixed
             currentDigits = integerPart.length() + currentScale;
         }
 
-        int integerPartLength = (integerPart == null) ? 0 
-            : integerPart.length() ;    
-        
+        int integerPartLength = (integerPart == null) ? 0
+            : integerPart.length() ;
+
         // Let's see if we have to drop some precision
         if (currentDigits > digits) {
             preservedPrecision = false;
@@ -164,7 +164,7 @@ public class DynFixedImpl extends DynAnyBasicImpl implements DynFixed
                 fractionPart = null;
             } else {
                 // integerPartLength > digits
-                // unable to truncate fraction part 
+                // unable to truncate fraction part
                 throw new InvalidValue();
             }
         }

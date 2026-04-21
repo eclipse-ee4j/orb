@@ -34,11 +34,11 @@ import corba.hcks.U;
 
 import com.sun.corba.ee.impl.legacy.connection.LegacyServerSocketManagerImpl;
 
-public class Client 
+public class Client
 {
     public static final String baseMsg = Client.class.getName();
     public static final String main = baseMsg + ".main";
-    
+
     public static ORB orb;
     public static InitialContext initialContext;
 

@@ -20,7 +20,7 @@
 
 package org.omg.CORBA_2_3.portable;
 
-/** 
+/**
  * Delegate class provides the ORB vendor specific implementation
  * of CORBA object.  It extends org.omg.CORBA.portable.Delegate and
  * provides new methods that were defined by CORBA 2.3.

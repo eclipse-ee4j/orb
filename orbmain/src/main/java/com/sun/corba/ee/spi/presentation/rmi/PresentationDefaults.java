@@ -47,32 +47,32 @@ public abstract class PresentationDefaults
         return staticImpl;
     }
 
-    public static PresentationManager.StubFactory makeStaticStubFactory( 
+    public static PresentationManager.StubFactory makeStaticStubFactory(
         final Class stubClass )
     {
         return new StubFactoryStaticImpl( stubClass ) ;
     }
 
-    private static InvocationInterceptor nullInvocationInterceptor = 
+    private static InvocationInterceptor nullInvocationInterceptor =
         new InvocationInterceptor() {
             public void preInvoke() {}
             public void postInvoke() {}
         } ;
 
-    public static InvocationInterceptor getNullInvocationInterceptor() 
+    public static InvocationInterceptor getNullInvocationInterceptor()
     {
         return nullInvocationInterceptor ;
     }
-    
+
     public static boolean inAppServer() {
-        final String thisClassRenamed = 
+        final String thisClassRenamed =
             "com.sun.corba.ee.spi.presentation.rmi.PresentationDefaults" ;
-        final boolean inAppServer = 
+        final boolean inAppServer =
             PresentationDefaults.class.getName().equals( thisClassRenamed ) ;
         return inAppServer ;
     }
 
-    private static boolean getBooleanPropertyValue( final String propName, 
+    private static boolean getBooleanPropertyValue( final String propName,
         final boolean def ) {
 
         final String defs = Boolean.toString( def ) ;
@@ -88,10 +88,10 @@ public abstract class PresentationDefaults
     }
 
     public static PresentationManagerImpl makeOrbPresentationManager() {
-        final boolean useDynamicStub = getBooleanPropertyValue( 
+        final boolean useDynamicStub = getBooleanPropertyValue(
             ORBConstants.USE_DYNAMIC_STUB_PROPERTY, inAppServer() ) ;
 
-        final boolean debug = getBooleanPropertyValue( 
+        final boolean debug = getBooleanPropertyValue(
             ORBConstants.DEBUG_DYNAMIC_STUB, false ) ;
 
         final PresentationManagerImpl result = new PresentationManagerImpl( useDynamicStub ) ;

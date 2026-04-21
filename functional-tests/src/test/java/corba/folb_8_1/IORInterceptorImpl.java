@@ -57,7 +57,7 @@ public class IORInterceptorImpl
     {
     }
 
-    public IORInterceptorImpl( ORB orb ) 
+    public IORInterceptorImpl( ORB orb )
     {
         this.orb = orb ;
     }
@@ -96,14 +96,14 @@ public class IORInterceptorImpl
 
             for (int i = 0; i < Common.socketTypes.length; i++) {
 
-                TaggedCustomSocketInfo socketInfo = 
+                TaggedCustomSocketInfo socketInfo =
                     new TaggedCustomSocketInfo(
-                        Common.socketTypes[i], 
+                        Common.socketTypes[i],
                         localAddress,
                         iorInfoExt.getServerPort(Common.socketTypes[i]));
 
                 if (orb.transportDebugFlag) {
-                    dprint(".establish_components:" 
+                    dprint(".establish_components:"
                            + " " + Common.socketTypes[i]
                            + " " + localAddress
                            + " " + iorInfoExt.getServerPort(Common.socketTypes[i]));
@@ -132,7 +132,7 @@ public class IORInterceptorImpl
     }
 
     public void adapter_state_changed( ObjectReferenceTemplate[] templates,
-        short state ) 
+        short state )
     {
     }
 

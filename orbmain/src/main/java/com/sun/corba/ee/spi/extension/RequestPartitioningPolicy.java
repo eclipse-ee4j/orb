@@ -36,7 +36,7 @@ public class RequestPartitioningPolicy extends LocalObject implements Policy
     public final static int DEFAULT_VALUE = 0;
     private final int value;
 
-    public RequestPartitioningPolicy( int value ) 
+    public RequestPartitioningPolicy( int value )
     {
         if (value < ORBConstants.REQUEST_PARTITIONING_MIN_THREAD_POOL_ID ||
             value > ORBConstants.REQUEST_PARTITIONING_MAX_THREAD_POOL_ID) {
@@ -69,7 +69,7 @@ public class RequestPartitioningPolicy extends LocalObject implements Policy
     }
 
     @Override
-    public String toString() 
+    public String toString()
     {
         return "RequestPartitioningPolicy[" + value + "]" ;
     }

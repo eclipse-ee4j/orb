@@ -23,7 +23,7 @@ public class IDLDefaultTest {
 
     //
     // Set of idl names corresponding to alphabetically sorted set of
-    // interface methods.  See TestIDLNameTranslator for sorting details.    
+    // interface methods.  See TestIDLNameTranslator for sorting details.
     //
     static final String[] IDL_NAMES = {
 
@@ -38,13 +38,13 @@ public class IDLDefaultTest {
         "DDD__org_omg_boxedRMI_corba_dynamicrmiiiop_testclasses_seq1_J_Default__org_omg_boxedRMI_corba_dynamicrmiiiop_testclasses_seq1_J_Default__Inner__org_omg_boxedRMI_corba_dynamicrmiiiop_testclasses_seq1_J_Default___Inner__org_omg_boxedRMI_corba_dynamicrmiiiop_testclasses_seq1_J_Default__Default"
 
     };
-    
+
     public static String[] getIDLNames() {
         return IDL_NAMES;
     }
 
     public interface IDLDefault extends java.rmi.Remote {
-        
+
         void AAA(Default d) throws java.rmi.RemoteException;
         void AAA(_Default d) throws java.rmi.RemoteException;
 
@@ -52,8 +52,8 @@ public class IDLDefaultTest {
                  Default._Default g) throws java.rmi.RemoteException;
         void BBB(_Default d, _Default.Inner e, _Default._Inner f,
                  _Default.Default g) throws java.rmi.RemoteException;
-       
- 
+
+
         void CCC(Default[] d) throws java.rmi.RemoteException;
         void CCC(_Default[] d) throws java.rmi.RemoteException;
 

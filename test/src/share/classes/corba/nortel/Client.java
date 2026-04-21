@@ -67,12 +67,12 @@ public class Client {
             BASE + "impl.javax.rmi.PortableRemoteObject" ) ;
 
         // We will only use dynamic RMI-IIOP for this test.
-        dprint( "Setting property " + ORBConstants.USE_DYNAMIC_STUB_PROPERTY 
+        dprint( "Setting property " + ORBConstants.USE_DYNAMIC_STUB_PROPERTY
             + " to true" ) ;
         System.setProperty( ORBConstants.USE_DYNAMIC_STUB_PROPERTY, "true" ) ;
 
         // Use the J2SE ic provider
-        System.setProperty( "java.naming.factory.initial", 
+        System.setProperty( "java.naming.factory.initial",
             JndiConstants.COSNAMING_CONTEXT_FACTORY ) ;
     }
 
@@ -92,7 +92,7 @@ public class Client {
             props.setProperty( ORBConstants.SERVER_HOST_PROPERTY, "localhost" ) ;
             props.setProperty( ORBConstants.ORB_SERVER_ID_PROPERTY, "300" ) ;
         } else {
-            props.setProperty( ORBConstants.SOCKET_FACTORY_CLASS_PROPERTY, 
+            props.setProperty( ORBConstants.SOCKET_FACTORY_CLASS_PROPERTY,
                 NortelSocketFactory.class.getName() ) ;
             props.setProperty( ORBConstants.ORB_ID_PROPERTY, "clientORB" ) ;
         }
@@ -100,7 +100,7 @@ public class Client {
         ORB orb = ORB.init( new String[0], props ) ;
 
         if (isServer) {
-            new TransientNameService( 
+            new TransientNameService(
                 com.sun.corba.ee.spi.orb.ORB.class.cast(orb) ) ;
         }
 
@@ -194,7 +194,7 @@ public class Client {
                 dprint( "Loop call to echo: " + ctr ) ;
                 ref.say( ref ) ;
             } catch (Exception exc) {
-                dprint( "Caught exception on loop call[" 
+                dprint( "Caught exception on loop call["
                     + ctr + "]: " + exc ) ;
                 exc.printStackTrace() ;
             }
@@ -210,7 +210,7 @@ public class Client {
         try {
             serverORB = makeORB( true ) ;
             clientORB = makeORB( false ) ;
-            
+
             serverORB.resolve_initial_references( "NameService" ) ;
 
             // Make sure that the FVD codebase IOR is not shared between
@@ -235,7 +235,7 @@ public class Client {
         doClient( clientORB ) ;
     }
 
-    @Test() 
+    @Test()
     public void Issue2207_3320() {
         try {
             Hashtable env = new Hashtable() ;
@@ -290,7 +290,7 @@ public class Client {
         tng.setOutputDirectory( "gen/corba/nortel/test-output" ) ;
 
         Class[] tngClasses = new Class[] {
-            Client.class 
+            Client.class
         } ;
 
         tng.setTestClasses( tngClasses ) ;

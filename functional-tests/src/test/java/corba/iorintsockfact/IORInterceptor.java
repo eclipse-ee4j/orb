@@ -55,7 +55,7 @@ public class IORInterceptor
 {
     private ORB orb ;
 
-    public IORInterceptor( ORB orb ) 
+    public IORInterceptor( ORB orb )
     {
         this.orb = orb ;
     }
@@ -80,13 +80,13 @@ public class IORInterceptor
             for (int i = 0; i < allAddresses.length; i++) {
                 String address = allAddresses[0].getHostAddress();
 
-                IIOPAddress iiopAddress = 
+                IIOPAddress iiopAddress =
                     IIOPFactories.makeIIOPAddress(address, port);
                 AlternateIIOPAddressComponent iiopAddressComponent =
                     IIOPFactories.makeAlternateIIOPAddressComponent(iiopAddress);
                 Iterator iterator = adapter.getIORTemplate().iteratorById(
                     org.omg.IOP.TAG_INTERNET_IOP.value);
-                
+
                 while (iterator.hasNext()) {
                     TaggedProfileTemplate taggedProfileTemplate =
                         (TaggedProfileTemplate) iterator.next();
@@ -109,7 +109,7 @@ public class IORInterceptor
     }
 
     public void adapter_state_changed( ObjectReferenceTemplate[] templates,
-        short state ) 
+        short state )
     {
     }
 }

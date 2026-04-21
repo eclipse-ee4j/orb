@@ -46,9 +46,9 @@ public interface MessageHandler
     void handleInput(RequestMessage_1_2 header) throws IOException;
 
     // Reply
-    void handleInput(ReplyMessage_1_0 header) throws IOException; 
+    void handleInput(ReplyMessage_1_0 header) throws IOException;
     void handleInput(ReplyMessage_1_1 header) throws IOException;
-    void handleInput(ReplyMessage_1_2 header) throws IOException; 
+    void handleInput(ReplyMessage_1_2 header) throws IOException;
 
     // LocateRequest
     void handleInput(LocateRequestMessage_1_0 header) throws IOException;

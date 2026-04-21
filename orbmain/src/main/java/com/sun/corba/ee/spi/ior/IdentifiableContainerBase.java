@@ -31,26 +31,26 @@ import java.util.Iterator;
  * for short lists.
  * @author  Ken Cavanaugh
  */
-public class IdentifiableContainerBase<E extends Identifiable> 
+public class IdentifiableContainerBase<E extends Identifiable>
     extends FreezableList<E>
 {
     /** Create this class with an empty list of identifiables.
      * The current implementation uses an ArrayList.
      */
-    public IdentifiableContainerBase() 
+    public IdentifiableContainerBase()
     {
         super( new ArrayList<E>() ) ;
     }
-    
+
     /** Return an iterator which iterates over all contained {@link Identifiable Identifiables}
      * with type given by id.
      * @param id id of type
      * @return Iterator of contained {@link Identifiable Identifiables}
      */
-    public Iterator<E> iteratorById( final int id) 
+    public Iterator<E> iteratorById( final int id)
     {
         return new Iterator<E>() {
-            Iterator<E> iter = 
+            Iterator<E> iter =
                 IdentifiableContainerBase.this.iterator() ;
             E current = advance() ;
 
@@ -66,7 +66,7 @@ public class IdentifiableContainerBase<E extends Identifiable>
             }
 
             @Override
-            public boolean hasNext() 
+            public boolean hasNext()
             {
                 return current != null ;
             }

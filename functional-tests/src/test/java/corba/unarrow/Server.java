@@ -50,40 +50,40 @@ public class Server
     public static void main(String args[])
     {
         try {
-      
+
             ORB orb = ORB.init(args, System.getProperties());
-      
+
             // Get rootPOA
             POA rootPOA = (POA)orb.resolve_initial_references("RootPOA");
             rootPOA.the_POAManager().activate();
-      
+
             // create servants and register it with the ORB
             HelloServant helloRef = new HelloServant();
             ByeServant byeRef = new ByeServant();
-      
+
             byte[] helloId = rootPOA.activate_object(helloRef);
-      
+
             // get the root naming context
-            org.omg.CORBA.Object objRef = 
+            org.omg.CORBA.Object objRef =
                 orb.resolve_initial_references("NameService");
             NamingContext ncRef = NamingContextHelper.narrow(objRef);
-      
+
             // bind the Object Reference in Naming
             NameComponent nc = new NameComponent("Hello", "");
             NameComponent path[] = {nc};
-      
+
             org.omg.CORBA.Object ref = rootPOA.id_to_reference(helloId);
-            
+
             ncRef.rebind(path, ref);
-            
+
             byte[] byeId = rootPOA.activate_object(byeRef);
 
             // bind the Object Reference in Naming
             nc = new NameComponent("Bye", "");
             path[0] = nc;
-      
+
             ref = rootPOA.id_to_reference(byeId);
-            
+
             ncRef.rebind(path, ref);
 
             // Emit the handshake the test framework expects
@@ -92,7 +92,7 @@ public class Server
 
             // Wait for clients
             orb.run();
-            
+
         } catch (Exception e) {
             System.err.println("ERROR: " + e);
             e.printStackTrace(System.out);

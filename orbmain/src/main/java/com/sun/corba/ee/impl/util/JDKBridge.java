@@ -53,7 +53,7 @@ public class JDKBridge {
     public static String getLocalCodebase () {
         return localCodebase;
     }
-  
+
     /**
      * Return true if the system property "java.rmi.server.useCodebaseOnly"
      * is set, false otherwise.
@@ -62,12 +62,12 @@ public class JDKBridge {
     public static boolean useCodebaseOnly () {
         return useCodebaseOnly;
     }
-    
+
     // Building caches for loadClass
     //
     // There are two cases:
     // 1. loader == null
-    //      In this case, we need Maps remoteCodeBase -> className -> SoftReference to Class 
+    //      In this case, we need Maps remoteCodeBase -> className -> SoftReference to Class
     // 2. loader != null,
     //      In this case, we need Maps (weak) loader -> className -> SoftReference to Class
     //
@@ -78,7 +78,7 @@ public class JDKBridge {
     // load it later! That is not always true, e.g. a new class file is added to a directory.
     // Best to avoid this!
     //
-    // We reclaim soft references using a ReferenceQueue.  
+    // We reclaim soft references using a ReferenceQueue.
 
     private static class LoadClassCache {
         private static Map<String,Map<String,Entry>> nullLoaderMap =
@@ -104,7 +104,7 @@ public class JDKBridge {
                 loader = null ;
             }
         }
- 
+
         private static void checkQueue() {
             while (true) {
                 Object obj = queue.poll() ;
@@ -128,16 +128,16 @@ public class JDKBridge {
                     }
                     entry.clear() ;
                 }
-            } 
+            }
         }
 
         /** Returns Class if it is still known to be the resolution of the parameters,
-         * throws ClassNotFoundException if it is still known that the class 
+         * throws ClassNotFoundException if it is still known that the class
          * can NOT be resolved, or return null if nothing is known.
          */
-        public static synchronized Class get( String className, String remoteCodebase, 
+        public static synchronized Class get( String className, String remoteCodebase,
             ClassLoader loader ) throws ClassNotFoundException {
-            
+
             checkQueue() ;
 
             Map<String,Entry> scm ;
@@ -157,9 +157,9 @@ public class JDKBridge {
             return cls ;
         }
 
-        public static synchronized void put( String className, String remoteCodebase, 
+        public static synchronized void put( String className, String remoteCodebase,
             ClassLoader loader, Class cls ) {
-            
+
             checkQueue() ;
 
             Map<String,Entry> scm ;
@@ -182,7 +182,7 @@ public class JDKBridge {
     }
 
     /**
-     * Returns a class instance for the specified class. 
+     * Returns a class instance for the specified class.
      * @param className the name of the class
      * @param remoteCodebase a space-separated array of urls at which
      * the class might be found. May be null.
@@ -195,12 +195,12 @@ public class JDKBridge {
                                    String remoteCodebase,
                                    ClassLoader loader)
         throws ClassNotFoundException {
-        
+
         // XXX GFv3 Disable use of the cache for now:
         //
         // it is caching different classes incorrectly that have
         // the same name, but different ClassLoaders.
-        Class cls = null ; 
+        Class cls = null ;
         // NOCACHE LoadClassCache.get( className, remoteCodebase, loader ) ;
         if (cls == null) {
             if (loader == null) {
@@ -222,9 +222,9 @@ public class JDKBridge {
 
         return cls ;
     }
-    
+
     /**
-     * Returns a class instance for the specified class. 
+     * Returns a class instance for the specified class.
      * @param className the name of the class
      * @param remoteCodebase a space-separated array of urls at which
      * the class might be found. May be null.
@@ -236,9 +236,9 @@ public class JDKBridge {
         throws ClassNotFoundException {
         return loadClass(className,remoteCodebase,null);
     }
-    
+
     /**
-     * Returns a class instance for the specified class. 
+     * Returns a class instance for the specified class.
      * @param className the name of the class
      * @return the <code>Class</code> object representing the loaded class.
      * @throws ClassNotFoundException if class cannot be loaded.
@@ -256,7 +256,7 @@ public class JDKBridge {
     static {
         setCodebaseProperties();
     }
- 
+
     /**
      * Set the codebase and useCodebaseOnly properties. This is public
      * only for test code.
@@ -283,10 +283,10 @@ public class JDKBridge {
      * @param codebase The local codebase
      */
     public static synchronized void setLocalCodebase(String codebase) {
-        localCodebase = codebase;    
+        localCodebase = codebase;
     }
- 
-    private static Class loadClassM (String className, String remoteCodebase, 
+
+    private static Class loadClassM (String className, String remoteCodebase,
         boolean useCodebaseOnly) throws ClassNotFoundException {
 
         try {

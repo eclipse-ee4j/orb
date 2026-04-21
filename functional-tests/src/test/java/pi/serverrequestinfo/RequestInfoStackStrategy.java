@@ -128,16 +128,16 @@ public class RequestInfoStackStrategy
         switch( count ) {
         case 1:
             if( !operationName.equals( "sayInvokeAgain" ) ) {
-                fail( method + "(): Incorrect operation name: " + 
+                fail( method + "(): Incorrect operation name: " +
                     operationName + " Count = 1" );
             }
             log( method + "(): sayInvokeAgain() invoked" );
             break;
         case 2:
-            String expected = (testNum == 1) ? 
+            String expected = (testNum == 1) ?
                 "sayHello" : "saySystemException";
             if( !operationName.equals( expected ) ) {
-                fail( method + "(): Incorrect operation name: " + 
+                fail( method + "(): Incorrect operation name: " +
                     operationName + " Count = 2" );
             }
             log( method + "(): " + expected + "() invoked" );

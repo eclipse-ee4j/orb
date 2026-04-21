@@ -31,20 +31,20 @@ import java.util.concurrent.atomic.AtomicInteger ;
 
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 
-/** Manage connections that are initiated from another VM. 
- * Connections are reclaimed when 
+/** Manage connections that are initiated from another VM.
+ * Connections are reclaimed when
  * they are no longer in use and there are too many connections open.
  * <P>
- * A connection basically represents some sort of communication channel, but 
- * few requirements are placed on the connection.  Basically the ability to 
+ * A connection basically represents some sort of communication channel, but
+ * few requirements are placed on the connection.  Basically the ability to
  * close a connection is required in order for reclamation to work.
- * <P> 
+ * <P>
  *
  * @author Ken Cavanaugh
  */
 @Transport
-public final class InboundConnectionCacheImpl<C extends Connection> 
-    extends ConnectionCacheNonBlockingBase<C> 
+public final class InboundConnectionCacheImpl<C extends Connection>
+    extends ConnectionCacheNonBlockingBase<C>
     implements InboundConnectionCache<C> {
 
     private final ConcurrentMap<C,ConnectionState<C>> connectionMap ;
@@ -54,20 +54,20 @@ public final class InboundConnectionCacheImpl<C extends Connection>
     }
 
     private static final class ConnectionState<C extends Connection> {
-        final C connection ;                            // Connection of the 
+        final C connection ;                            // Connection of the
                                                         // ConnectionState
-        final AtomicInteger busyCount ;                 // Number of calls to 
+        final AtomicInteger busyCount ;                 // Number of calls to
                                                         // get without release
-        final AtomicInteger expectedResponseCount ;     // Number of expected 
-                                                        // responses not yet 
+        final AtomicInteger expectedResponseCount ;     // Number of expected
+                                                        // responses not yet
                                                         // received
 
-        // At all times, a connection is either on the busy or idle queue in 
-        // its ConnectionEntry, and so only the corresponding handle is 
-        // non-null.  If idleHandle is non-null, reclaimableHandle may also 
-        // be non-null if the Connection is also on the 
+        // At all times, a connection is either on the busy or idle queue in
+        // its ConnectionEntry, and so only the corresponding handle is
+        // non-null.  If idleHandle is non-null, reclaimableHandle may also
+        // be non-null if the Connection is also on the
         // reclaimableConnections queue.
-        ConcurrentQueue.Handle reclaimableHandle ;  // non-null iff connection 
+        ConcurrentQueue.Handle reclaimableHandle ;  // non-null iff connection
                                                     // is not in use and has no
                                                     // outstanding requests
 
@@ -80,12 +80,12 @@ public final class InboundConnectionCacheImpl<C extends Connection>
         }
     }
 
-    public InboundConnectionCacheImpl( final String cacheType, 
+    public InboundConnectionCacheImpl( final String cacheType,
         final int highWaterMark, final int numberToReclaim, long ttl ) {
 
         super( cacheType, highWaterMark, numberToReclaim, ttl ) ;
 
-        this.connectionMap = 
+        this.connectionMap =
             new ConcurrentHashMap<C,ConnectionState<C>>() ;
     }
 
@@ -99,7 +99,7 @@ public final class InboundConnectionCacheImpl<C extends Connection>
             reclaim() ;
 
         ConcurrentQueue.Handle<C> reclaimHandle = cs.reclaimableHandle ;
-        if (reclaimHandle != null) 
+        if (reclaimHandle != null)
             reclaimHandle.remove() ;
 
         int count = cs.busyCount.getAndIncrement() ;
@@ -116,7 +116,7 @@ public final class InboundConnectionCacheImpl<C extends Connection>
     private void display( String m, Object value ) {}
 
     @Transport
-    public void requestProcessed( final C conn, 
+    public void requestProcessed( final C conn,
         final int numResponsesExpected ) {
 
         final ConnectionState<C> cs = connectionMap.get( conn ) ;
@@ -145,7 +145,7 @@ public final class InboundConnectionCacheImpl<C extends Connection>
         }
     }
 
-    /** Decrement the number of expected responses.  When a connection is idle 
+    /** Decrement the number of expected responses.  When a connection is idle
      * and has no expected responses, it can be reclaimed.
      */
     @Transport
@@ -179,7 +179,7 @@ public final class InboundConnectionCacheImpl<C extends Connection>
         }
     }
 
-    // Atomically either get the ConnectionState for conn OR 
+    // Atomically either get the ConnectionState for conn OR
     // create a new one AND put it in the cache
     private ConnectionState<C> getConnectionState( C conn ) {
         // This should be the only place a ConnectionState is constructed.

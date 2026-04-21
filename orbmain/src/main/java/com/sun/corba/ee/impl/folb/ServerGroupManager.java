@@ -77,7 +77,7 @@ import org.omg.PortableInterceptor.ServerRequestInterceptor;
 public class ServerGroupManager
     extends
         org.omg.CORBA.LocalObject
-    implements 
+    implements
         GroupInfoServiceObserver,
         IORInterceptor,
         ORBConfigurator,
@@ -166,7 +166,7 @@ public class ServerGroupManager
     //
 
     public String name() {
-        return baseMsg; 
+        return baseMsg;
     }
 
     public void destroy() {
@@ -207,7 +207,7 @@ public class ServerGroupManager
             initialize();
 
             // Only handle ReferenceFactory adapters.
-            String[] adapterName = 
+            String[] adapterName =
                 ((com.sun.corba.ee.impl.interceptors.IORInfoImpl)iorInfo)
                     .getObjectAdapter().getAdapterTemplate().adapter_name();
 
@@ -226,12 +226,12 @@ public class ServerGroupManager
             // Get all addressing information.
 
             // both CLEAR and SSL
-            List<ClusterInstanceInfo> info = 
+            List<ClusterInstanceInfo> info =
                 gis.getClusterInstanceInfo(adapterName);
 
             // Let security handle SSL infomation.
             if (csiv2SSLTaggedComponentHandler != null) {
-                TaggedComponent csiv2 = 
+                TaggedComponent csiv2 =
                     csiv2SSLTaggedComponentHandler.insert(iorInfo, info);
                 if (csiv2 != null) {
                     iorInfo.add_ior_component(csiv2);
@@ -243,7 +243,7 @@ public class ServerGroupManager
                 addingInstanceInfoFor( clusterInstanceInfo.name(),
                     clusterInstanceInfo.weight() ) ;
 
-                List<SocketInfo> listOfSocketInfo = 
+                List<SocketInfo> listOfSocketInfo =
                     new LinkedList<SocketInfo>();
 
                 for (SocketInfo sinfo : clusterInstanceInfo.endpoints()) {
@@ -262,8 +262,8 @@ public class ServerGroupManager
                     clusterInstanceInfo.weight(),
                     listOfSocketInfo ) ;
 
-                ClusterInstanceInfoComponent comp = 
-                    IIOPFactories.makeClusterInstanceInfoComponent( 
+                ClusterInstanceInfoComponent comp =
+                    IIOPFactories.makeClusterInstanceInfoComponent(
                         ninfo ) ;
 
                 iorInfo.add_ior_component( comp.getIOPComponent(orb) ) ;
@@ -344,7 +344,7 @@ public class ServerGroupManager
                     }
                 }
             } while (loop);
-            
+
         } catch (RuntimeException e) {
             wrapper.serverGroupManagerException(e);
 
@@ -415,27 +415,27 @@ public class ServerGroupManager
         // membershipChange.  This method calls restartFactories
         // that calls destory POA that calls isDuringDispatch.
         // isDuringDispatch uses a thread local to determine
-        // it is a  dispatch.  Using another thread fools 
+        // it is a  dispatch.  Using another thread fools
         // isDuringDispatch into letting this chain proceed.
         //
-        
+
         final ReferenceFactoryManager rfm = referenceFactoryManager;
 
         Thread worker = new WorkerThread() ;
-        
+
         worker.start();
-        
+
         // Make sure the worker terminates before we continue
         waitingForWorkerTermination();
         boolean tryAgain;
         do {
             tryAgain = false;
 
-            try { 
-                worker.join(); 
-            } catch (InterruptedException e) { 
-                Thread.interrupted() ; 
-                tryAgain = true; 
+            try {
+                worker.join();
+            } catch (InterruptedException e) {
+                Thread.interrupted() ;
+                tryAgain = true;
             }
         } while (tryAgain);
     }
@@ -448,7 +448,7 @@ public class ServerGroupManager
         UID uid = new UID();
         String hostAddress = null;
         try {
-            // REVISIT 
+            // REVISIT
             // name could match GroupInfoService's idea of instance id/name.
             // Not necessary but easier to debug.
             hostAddress = InetAddress.getLocalHost().getHostAddress();
@@ -497,15 +497,15 @@ public class ServerGroupManager
     @InfoMethod
     private void notManagedByReferenceFactory( String[] adapterName ) { }
 
-    @InfoMethod 
+    @InfoMethod
     private void membershipLabelsEqual() { }
-    
-    @InfoMethod 
+
+    @InfoMethod
     private void membershipLabelsNotEqual() { }
-    
-    @InfoMethod 
+
+    @InfoMethod
     private void membershipLabelsNotPresent() { }
-   
+
     @InfoMethod
     private void sendingUpdatedIOR( String[] adapterName ) { }
 
@@ -527,11 +527,11 @@ public class ServerGroupManager
                 return;
             }
 
-            ReferenceFactory referenceFactory = 
+            ReferenceFactory referenceFactory =
                 referenceFactoryManager.find(adapterName);
 
             // Only handle RefenceFactory adapters.
-            if (referenceFactory == null && 
+            if (referenceFactory == null &&
                     !((ServerRequestInfoExt)ri).isNameService()) {
                 notManagedByReferenceFactory( adapterName ) ;
                 return;
@@ -564,9 +564,9 @@ public class ServerGroupManager
             // or our ORB has sent a request without a label (e.g., bootstrap).
             // Therefore send an updated IOR.
             sendingUpdatedIOR( adapterName ) ;
-            
+
             byte[] objectId = ri.object_id();
-            org.omg.CORBA.Object ref = 
+            org.omg.CORBA.Object ref =
                 referenceFactory.createReference(objectId);
             Any any = orb.create_any();
             // ForwardRequest is used for convenience.
@@ -592,7 +592,7 @@ public class ServerGroupManager
     // ORBInitializer
     //
 
-    public void pre_init(ORBInitInfo info) 
+    public void pre_init(ORBInitInfo info)
     {
     }
 
@@ -612,7 +612,7 @@ public class ServerGroupManager
     //
 
     @Folb
-    public void configure(DataCollector collector, ORB orb) 
+    public void configure(DataCollector collector, ORB orb)
     {
         this.orb = orb;
 

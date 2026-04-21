@@ -60,7 +60,7 @@ public class CachedCodeBase extends _CodeBaseImplBase
     private volatile CodeBase delegate;
     private final Connection conn;
 
-    private static final Object iorMapLock = new Object() ; 
+    private static final Object iorMapLock = new Object() ;
     private static final Hashtable<IOR,CodeBase> iorMap = new Hashtable<>();
 
     public static synchronized void cleanCache( ORB orb ) {
@@ -81,7 +81,7 @@ public class CachedCodeBase extends _CodeBaseImplBase
     public com.sun.org.omg.CORBA.Repository get_ir () {
         return null;
     }
-        
+
     @Override
     public synchronized String implementation (String repId) {
         String urlResult = null;
@@ -132,7 +132,7 @@ public class CachedCodeBase extends _CodeBaseImplBase
 
     @Override
     public synchronized FullValueDescription[] metas (String[] repIds) {
-        FullValueDescription[] results 
+        FullValueDescription[] results
             = new FullValueDescription[repIds.length];
 
         for (int i = 0; i < results.length; i++)
@@ -187,10 +187,10 @@ public class CachedCodeBase extends _CodeBaseImplBase
             delegate = iorMap.get( conn.getCodeBaseIOR() );
             if (delegate != null)
                 return true;
-            
+
             // Connect the delegate and update the cache
             delegate = CodeBaseHelper.narrow( getObjectFromIOR() );
-            
+
             // Save it for the benefit of other connections
             iorMap.put( conn.getCodeBaseIOR(), delegate );
         }

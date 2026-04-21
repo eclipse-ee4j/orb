@@ -39,19 +39,19 @@ import java.util.Arrays;
  * and generics.
  * <p>
  * This class solves a simple problem: How do I write an argument parser
- * that parses arguments of the form 
+ * that parses arguments of the form
  * <p>
- * -xxx value 
+ * -xxx value
  * <p>
  * There are many ways of doing this: the ORB has probably at least 6
  * different ways of attacking this problem (and I wrote half of them).
- * The approach taken here is to start with an interface, annotate it 
+ * The approach taken here is to start with an interface, annotate it
  * to indicate some information (like default values) for parsing, and then
  * use reflection to produce an implementation of the interface that uses a
  * dynamic proxy.
  * <p>
  * The argument parsing is entirely specified in terms of an interface with
- * annotated methods.  The name of the method is the name used as a -xxx 
+ * annotated methods.  The name of the method is the name used as a -xxx
  * argument when parsing the data.  The type of data determines the valid
  * inputs for the argument.  All arguments must be in the -xxx yyy form,
  * where yyy is a valid input for the type of method xxx() in the interface.
@@ -75,20 +75,20 @@ import java.util.Arrays;
  * TODO:
  *
  * <ol>
- * <li>Support I18N for this (required before it could be used for public 
+ * <li>Support I18N for this (required before it could be used for public
  * parts of the ORB).
  * <li>Support Set&lt;Type&gt;  Similar to list, but all elements must be unique.
  * <li>Support Map&lt;Type,Type&gt;
  * <li>Do we want to support really complex types, like Map&lt;String,List&lt;Map&lt;String,Foo&gt;&gt;&gt;
  * How would we specify needed separators?
- * <li>Should we extend along the lines of the ORB arg parser, with an embedded 
+ * <li>Should we extend along the lines of the ORB arg parser, with an embedded
  * language to describe how to parse a String?
  * <li>Extend this to support property parsing as well (required for ORB.init parsing).
  * Probably just want to parse Properties as well as String[].  This requires some
  * way to handle the property prefix (as in -ORBInitHost and org.omg.CORBA.ORBInitHost).
- * <li>Extend to support abstract classes.  Only non-private abstract methods 
+ * <li>Extend to support abstract classes.  Only non-private abstract methods
  * that are read-only
- * beans and are annotated with @DefaultValue can be set by the parser.  Other 
+ * beans and are annotated with @DefaultValue can be set by the parser.  Other
  * methods are allowed, but not used by the parser.
  * <li>Support an @Complete annotation.  All such methods must be void(), and are
  * executed in some order after the parsing is complete.
@@ -105,7 +105,7 @@ import java.util.Arrays;
  * a new instance of it.
  * <li>Consider using apt for this.  This solves two problems:
  * <ol>
- * <li>We can generate a more efficient class than the current version that 
+ * <li>We can generate a more efficient class than the current version that
  * uses a dynamic proxy and a table lookup.  This becomes important when
  * we consider that ORBData may be referenced many times during an invocation.
  * <li>We can generate much of the required ORBConstants (say as ORBPropertyNames)
@@ -153,16 +153,16 @@ public class ArgParser {
     private final Map<String,ElementParser> parserData =
         new HashMap<String,ElementParser>() ;
 
-    /** Construct an ArgParser that parses an argument string into an instance of the 
+    /** Construct an ArgParser that parses an argument string into an instance of the
      * Class argument.
-     * cls must be an interface.  Each method in this interface must take no arguments. 
+     * cls must be an interface.  Each method in this interface must take no arguments.
      * Each method must be annotated with a DefaultValue annotation.
      * Each method must return one of the following types:
      * <ul>
      * <li>A primitive type
      * <li>A String type
      * <li>A type that has a public constructor that takes a single String argument
-     * <li>An Enum 
+     * <li>An Enum
      * <li>A List parameterized by one of the above types
      * <li>An array of one of the first four types
      * </ul>
@@ -217,96 +217,96 @@ public class ArgParser {
     }
 
     private String display( Object obj ) {
-	if (obj.getClass().isArray()) {
-	    StringBuilder sb = new StringBuilder() ;
-	    sb.append( "[" ) ;
-	    for (int ctr=0; ctr<Array.getLength( obj ); ctr++ ) {
-		Object element = Array.get( obj, ctr ) ;
-		if (ctr > 0) {
-		    sb.append( "," ) ;
-		}
-		sb.append( element.toString() ) ;
-	    }
-	    sb.append( "]" ) ;
-	    return sb.toString() ;
-	} else if (obj instanceof Collection) {
-	    StringBuilder sb = new StringBuilder() ;
-	    sb.append( "[" ) ;
-	    boolean first = true ;
-	    for (Object element : (Collection)obj) {
-		if (first) {
-		    first = false ;
-		} else {
-		    sb.append( "," ) ;
-		}
-		sb.append( element.toString() ) ;
-	    }
-	    sb.append( "]" ) ;
-	    return sb.toString() ;
-	} else {
-	    return obj.toString() ;
-	}
+    if (obj.getClass().isArray()) {
+        StringBuilder sb = new StringBuilder() ;
+        sb.append( "[" ) ;
+        for (int ctr=0; ctr<Array.getLength( obj ); ctr++ ) {
+        Object element = Array.get( obj, ctr ) ;
+        if (ctr > 0) {
+            sb.append( "," ) ;
+        }
+        sb.append( element.toString() ) ;
+        }
+        sb.append( "]" ) ;
+        return sb.toString() ;
+    } else if (obj instanceof Collection) {
+        StringBuilder sb = new StringBuilder() ;
+        sb.append( "[" ) ;
+        boolean first = true ;
+        for (Object element : (Collection)obj) {
+        if (first) {
+            first = false ;
+        } else {
+            sb.append( "," ) ;
+        }
+        sb.append( element.toString() ) ;
+        }
+        sb.append( "]" ) ;
+        return sb.toString() ;
+    } else {
+        return obj.toString() ;
+    }
     }
 
     /** Returns a formatted text string that describes the expected
      * arguments for this parser.
      */
     public String getHelpText() {
-	StringBuilder sb = new StringBuilder() ;
-	sb.append( "    Legal arguments are:\n" ) ;
-	Set<String> keys = parserData.keySet() ;
-	List<String> keyList = new ArrayList<String>( keys ) ;
-	Collections.sort( keyList ) ;
-	for (String keyword : keyList) {
-	    ElementParser ep = parserData.get( keyword ) ;
-	    sb.append("\t-").append(keyword).append( " <") ;
-	    boolean first = true ;
-	    for (String str : ep.describe() ) {
-		if (first) {
+    StringBuilder sb = new StringBuilder() ;
+    sb.append( "    Legal arguments are:\n" ) ;
+    Set<String> keys = parserData.keySet() ;
+    List<String> keyList = new ArrayList<String>( keys ) ;
+    Collections.sort( keyList ) ;
+    for (String keyword : keyList) {
+        ElementParser ep = parserData.get( keyword ) ;
+        sb.append("\t-").append(keyword).append( " <") ;
+        boolean first = true ;
+        for (String str : ep.describe() ) {
+        if (first) {
                     first = false;
                 }
-		else {
+        else {
                     sb.append("\n\t    ");
                 }
 
-		sb.append( str ) ;
-	    }
-	    sb.append( ">\n" ) ;
+        sb.append( str ) ;
+        }
+        sb.append( ">\n" ) ;
 
-	    String defaultValue = display(defaultValues.get(keyword)) ;
-	    sb.append("\t    " + "(default ").append(defaultValue)
+        String defaultValue = display(defaultValues.get(keyword)) ;
+        sb.append("\t    " + "(default ").append(defaultValue)
                 .append( ")\n") ;
 
-	    String help = helpText.get( keyword ) ;
-	    if (help != null) {
-		sb.append("\t    ").append(help).append( "\n") ;
-	    }
+        String help = helpText.get( keyword ) ;
+        if (help != null) {
+        sb.append("\t    ").append(help).append( "\n") ;
+        }
 
-	    sb.append( "\n" ) ;
-	}
+        sb.append( "\n" ) ;
+    }
 
-	return sb.toString() ;
+    return sb.toString() ;
     }
 
     /** Parse the argument string into an instance of type T.
      */
     public Object parse( String[] args ) {
-	Map<String,String> data = makeMap( args ) ;
-	Map<String,Object> pdata = new HashMap<String,Object>() ;
+    Map<String,String> data = makeMap( args ) ;
+    Map<String,Object> pdata = new HashMap<String,Object>() ;
         internalParse( data, pdata ) ;
-	Object result = makeProxy( pdata ) ;
-	return result ;
+    Object result = makeProxy( pdata ) ;
+    return result ;
     }
 
     private void error( String msg ) {
-	System.out.println( "Error in argument parser: " + msg ) ;
-	System.out.println( getHelpText() ) ;
-	throw new RuntimeException ( msg ) ;
+    System.out.println( "Error in argument parser: " + msg ) ;
+    System.out.println( getHelpText() ) ;
+    throw new RuntimeException ( msg ) ;
     }
 
-    // Check that method has no arguments 
+    // Check that method has no arguments
     private String checkMethod( Method m ) {
-	if (m.getParameterTypes().length == 0) {
+    if (m.getParameterTypes().length == 0) {
             String result = m.getName() ;
             if (parserData.containsKey(result )) {
                 error( "Keyword " + result + " is already defined.") ;
@@ -317,104 +317,104 @@ public class ArgParser {
             error("Method " + m.getName() + " must not have any parameters");
         }
 
-	return null ;
+    return null ;
     }
 
     private void internalParse( Map<String,String> data,
         Map<String,Object> result ) {
-	for (Map.Entry<String,String> entry : data.entrySet()) {
-	    String keyword = entry.getKey() ;
-	    ElementParser ep = parserData.get( keyword ) ;
-	    if (ep == null) {
+    for (Map.Entry<String,String> entry : data.entrySet()) {
+        String keyword = entry.getKey() ;
+        ElementParser ep = parserData.get( keyword ) ;
+        if (ep == null) {
                 error(keyword + " is not a valid keyword");
             }
-	    Object val = ep.evaluate( entry.getValue() ) ;
-	    result.put( keyword, val ) ;
-	}
+        Object val = ep.evaluate( entry.getValue() ) ;
+        result.put( keyword, val ) ;
+    }
     }
 
     private String getKeyword( String arg ) {
-	if (arg.charAt(0) == '-') {
+    if (arg.charAt(0) == '-') {
             return arg.substring(1);
         } else {
             error(arg + " is not a valid keyword");
         }
-	return null ; // not reachable
+    return null ; // not reachable
     }
 
     // Data must all be of the form (-keyword value)*
     private Map<String,String> makeMap( String[] args ) {
-	Map<String,String> result = new HashMap<String,String>() ;
-	String keyword = null ;
-	for (String arg : args) {
-	    if (keyword == null) {
+    Map<String,String> result = new HashMap<String,String>() ;
+    String keyword = null ;
+    for (String arg : args) {
+        if (keyword == null) {
                 keyword = getKeyword(arg);
             } else {
-		result.put( keyword, arg ) ;
-		keyword = null ;
-	    }
-	}
-	if (keyword != null) {
+        result.put( keyword, arg ) ;
+        keyword = null ;
+        }
+    }
+    if (keyword != null) {
             error("No argument supplied for keyword " + keyword);
         }
-	return result ;
+    return result ;
     }
 
     // Make a dynamic proxy of type T for the given data.
     // The keys in the data must be the same as the method names in
     // the type T.
     private Object makeProxy( final Map<String,Object> data ) {
-	final InvocationHandler ih = new InvocationHandler() {
-	    private Object getValue( final String keyword ) {
-		Object result = data.get( keyword ) ;
-		if (result == null) {
+    final InvocationHandler ih = new InvocationHandler() {
+        private Object getValue( final String keyword ) {
+        Object result = data.get( keyword ) ;
+        if (result == null) {
                     result = defaultValues.get(keyword);
                 }
-		return result ;
-	    }
+        return result ;
+        }
 
-	    private String getString( final Object obj ) {
-		final Class cls = obj.getClass() ;
-		if (cls.isArray()) {
-		    final StringBuilder sb = new StringBuilder() ;
-		    sb.append( "[" ) ;
-		    for (int ctr=0; ctr<Array.getLength( obj ); ctr++) {
-			if (ctr>0) {
-			    sb.append( "," ) ;
-			}
-			
-			Object element = Array.get( obj, ctr ) ;
-			sb.append( element.toString() ) ;
-		    }
+        private String getString( final Object obj ) {
+        final Class cls = obj.getClass() ;
+        if (cls.isArray()) {
+            final StringBuilder sb = new StringBuilder() ;
+            sb.append( "[" ) ;
+            for (int ctr=0; ctr<Array.getLength( obj ); ctr++) {
+            if (ctr>0) {
+                sb.append( "," ) ;
+            }
 
-		    sb.append( "]" ) ;
-		    return sb.toString() ;
-		} else {
-		    return obj.toString() ;
-		}
-	    }
+            Object element = Array.get( obj, ctr ) ;
+            sb.append( element.toString() ) ;
+            }
+
+            sb.append( "]" ) ;
+            return sb.toString() ;
+        } else {
+            return obj.toString() ;
+        }
+        }
 
             @Override
-	    public Object invoke( final Object proxy, final Method method, 
+        public Object invoke( final Object proxy, final Method method,
                 final Object[] args ) {
 
-		final String name = method.getName() ;
-		if (name.equals("toString")) {
-		    final StringBuilder sb = new StringBuilder() ;
-		    for (String keyword : parserData.keySet()) {
-			sb.append( keyword ) ;
-			sb.append( "=" ) ;
-			sb.append( getString( getValue( keyword ) ) ) ;
-			sb.append( "\n" ) ;
-		    }
-		    return sb.toString() ;
-		} else {
-		    return getValue( name ) ;
-		}
-	    }
-	} ;
+        final String name = method.getName() ;
+        if (name.equals("toString")) {
+            final StringBuilder sb = new StringBuilder() ;
+            for (String keyword : parserData.keySet()) {
+            sb.append( keyword ) ;
+            sb.append( "=" ) ;
+            sb.append( getString( getValue( keyword ) ) ) ;
+            sb.append( "\n" ) ;
+            }
+            return sb.toString() ;
+        } else {
+            return getValue( name ) ;
+        }
+        }
+    } ;
 
-	final Class<?>[] interfaces = interfaceClasses.toArray(
+    final Class<?>[] interfaces = interfaceClasses.toArray(
             new Class<?>[interfaceClasses.size()] ) ;
 
         ClassLoader cl = this.getClass().getClassLoader() ;
@@ -425,7 +425,7 @@ public class ArgParser {
             ClassLoader.getSystemClassLoader() ;
         }
 
-	return Proxy.newProxyInstance( cl, interfaces, ih ) ;
+    return Proxy.newProxyInstance( cl, interfaces, ih ) ;
     }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -437,46 +437,46 @@ public class ArgParser {
     private enum PrimaryColor { RED, GREEN, BLUE } ;
 
     public static class StringPair extends Pair<String,String> {
-	public StringPair( String data ) {
-	    super( null, null ) ;
-	    int index = data.indexOf( ':' ) ;
-	    if (index < 0) {
+    public StringPair( String data ) {
+        super( null, null ) ;
+        int index = data.indexOf( ':' ) ;
+        if (index < 0) {
                 throw new IllegalArgumentException(data
                     + " does not contain a :");
             }
-	    _first = data.substring( 0, index ) ;
-	    _second = data.substring( index + 1 ) ;
-	}
+        _first = data.substring( 0, index ) ;
+        _second = data.substring( index + 1 ) ;
+    }
     }
 
     private interface TestInterface1 {
-	@DefaultValue( "27" ) 
-	@Help( "An integer value" )
-	int value() ;
+    @DefaultValue( "27" )
+    @Help( "An integer value" )
+    int value() ;
 
-	@DefaultValue( "Michigan" ) 
-	@Help( "The name of a lake" )
-	String lake() ;
+    @DefaultValue( "Michigan" )
+    @Help( "The name of a lake" )
+    String lake() ;
 
-	@DefaultValue( "RED" ) 
-	@Help( "Pick a color" )
-	PrimaryColor color() ;
+    @DefaultValue( "RED" )
+    @Help( "Pick a color" )
+    PrimaryColor color() ;
     }
 
     private interface TestInterface2 {
-	@DefaultValue( "http://www.sun.com" ) 
-	@Help( "your favorite URL" ) 
-	URL url() ;
+    @DefaultValue( "http://www.sun.com" )
+    @Help( "your favorite URL" )
+    URL url() ;
 
-	@DefaultValue( "funny:thing,another:thing,something:else" ) 
-	@Help( "A list of pairs of the form xxx:yyy" )
-	@Separator( "," ) 
-	StringPair[] arrayData() ;
+    @DefaultValue( "funny:thing,another:thing,something:else" )
+    @Help( "A list of pairs of the form xxx:yyy" )
+    @Separator( "," )
+    StringPair[] arrayData() ;
 
-	@DefaultValue( "funny:thing,another:thing,something:else" ) 
-	@Help( "A list of pairs of the form xxx:yyy" )
-	@Separator( "," )
-	List<StringPair> listData() ;
+    @DefaultValue( "funny:thing,another:thing,something:else" )
+    @Help( "A list of pairs of the form xxx:yyy" )
+    @Separator( "," )
+    List<StringPair> listData() ;
 
         @DefaultValue( "" )
         @Help( "A list of strings")
@@ -485,14 +485,14 @@ public class ArgParser {
 
     public static void main( String[] args ) {
         Class<?>[] interfaces = { TestInterface1.class, TestInterface2.class } ;
-	ArgParser ap = new ArgParser( Arrays.asList( interfaces) ) ;
-	System.out.println( "Help text for this parser:\n" + ap.getHelpText() ) ;
-	Object result = ap.parse( args ) ;
+    ArgParser ap = new ArgParser( Arrays.asList( interfaces) ) ;
+    System.out.println( "Help text for this parser:\n" + ap.getHelpText() ) ;
+    Object result = ap.parse( args ) ;
         if (!(result instanceof TestInterface1)
             && !(result instanceof TestInterface2)) {
             System.out.println( "Error: result not an instance of both test interfaces" ) ;
         }
 
-	System.out.println( "Result is:\n" + result ) ;
+    System.out.println( "Result is:\n" + result ) ;
     }
 }

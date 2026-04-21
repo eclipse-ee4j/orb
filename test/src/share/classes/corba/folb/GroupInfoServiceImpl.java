@@ -52,7 +52,7 @@ public class GroupInfoServiceImpl
     private class GIS extends GroupInfoServiceBase
     {
         public List<ClusterInstanceInfo> internalClusterInstanceInfo(
-            List<String> endpoints ) { 
+            List<String> endpoints ) {
             throw new RuntimeException( "Should not be called" ) ;
         }
 
@@ -71,7 +71,7 @@ public class GroupInfoServiceImpl
 
             try {
                 if (debug) dprint(".getMemberAddresses->: " + adapter_name);
-                if (debug) dprint(".getMemberAddresses: " + adapter_name 
+                if (debug) dprint(".getMemberAddresses: " + adapter_name
                        + ": current members: " + currentInstances);
 
                 List<ClusterInstanceInfo> info =
@@ -83,7 +83,7 @@ public class GroupInfoServiceImpl
                 try {
                     hostName = InetAddress.getLocalHost().getHostAddress();
                 } catch (UnknownHostException e) {
-                    dprint(".getMemberAddresses: " + adapter_name 
+                    dprint(".getMemberAddresses: " + adapter_name
                            + ": exception: " + e);
                     e.printStackTrace(System.out);
                     System.exit(1);
@@ -92,14 +92,14 @@ public class GroupInfoServiceImpl
                 for (int i=0; i<corba.folb_8_1.Common.socketTypes.length; ++i){
 
                     if (! currentInstances.contains(corba.folb_8_1.Common.socketTypes[i])) {
-                        if (debug) dprint(".getMemberAddresses: " + adapter_name 
-                               + ": NOT in current members: " + 
+                        if (debug) dprint(".getMemberAddresses: " + adapter_name
+                               + ": NOT in current members: " +
                                corba.folb_8_1.Common.socketTypes[i]);
                         continue;
                     }
 
-                    if (debug) dprint(".getMemberAddresses: " + adapter_name 
-                           + ":IN current members: " + 
+                    if (debug) dprint(".getMemberAddresses: " + adapter_name
+                           + ":IN current members: " +
                            corba.folb_8_1.Common.socketTypes[i]);
 
                     //
@@ -114,7 +114,7 @@ public class GroupInfoServiceImpl
                     // A Good Address.
                     //
 
-                    SocketInfo si = 
+                    SocketInfo si =
                         new SocketInfo(corba.folb_8_1.Common.socketTypes[i],
                                        hostName,
                                        corba.folb_8_1.Common.socketPorts[i]);
@@ -125,7 +125,7 @@ public class GroupInfoServiceImpl
                     List<SocketInfo> socketInfos = new ArrayList<SocketInfo>() ;
                     socketInfos.add( siBad ) ;
                     socketInfos.add( si ) ;
-                    instanceInfo = 
+                    instanceInfo =
                         new ClusterInstanceInfo("instance-" + i, i + 1,
                                                 socketInfos);
                     info.add(instanceInfo);
@@ -146,7 +146,7 @@ public class GroupInfoServiceImpl
                 return info;
 
             } catch (RuntimeException e) {
-                dprint(".getMemberAddresses: " + adapter_name 
+                dprint(".getMemberAddresses: " + adapter_name
                        + ": exception: " + e);
                 e.printStackTrace(System.out);
                 System.exit(1);
@@ -196,7 +196,7 @@ public class GroupInfoServiceImpl
     // GroupInfoService
     //
 
-    public boolean addObserver(GroupInfoServiceObserver x) 
+    public boolean addObserver(GroupInfoServiceObserver x)
     {
         return gis.addObserver(x);
     }

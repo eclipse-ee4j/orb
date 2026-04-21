@@ -68,7 +68,7 @@ public class Helper implements AuxGen
     this.symbolTable = symbolTable;
     this.entry       = entry;
     init ();
-    
+
     openStream ();
     if (stream == null)
       return;
@@ -370,7 +370,7 @@ public class Helper implements AuxGen
   {
     writeRemoteNarrow ();
     stream.println ();
-  } 
+  }
 
   /**
    * Write the narrow() method for a remotable object.
@@ -383,7 +383,7 @@ public class Helper implements AuxGen
     if (ie.isLocal ()) {
         writeRemoteNarrowForLocal (false);
         return;
-    } 
+    }
 
     // narrow for Abstract interface
     if (ie.isAbstract ()) {
@@ -456,14 +456,14 @@ public class Helper implements AuxGen
     }
 
     // If hasAbstractParent is false, then THIS entry must be abstract.
-    // This method is also called in case THIS entry is not abstract, but 
+    // This method is also called in case THIS entry is not abstract, but
     // there is an abstract parent.  If this entry is not abstract,
     // it can never narrow to a CORBA object reference.
     if (!hasAbstractParent) { // <d58889>
       String stubNameofEntry = stubName ((InterfaceEntry)entry);
 
       stream.println ("    else if ((obj instanceof org.omg.CORBA.portable.ObjectImpl) &&");
-      stream.println ("             (((org.omg.CORBA.Object)obj)._is_a (id ()))) {"); 
+      stream.println ("             (((org.omg.CORBA.Object)obj)._is_a (id ()))) {");
       stream.println ("      org.omg.CORBA.portable.ObjectImpl impl = (org.omg.CORBA.portable.ObjectImpl)obj ;" ) ;
       stream.println ("      org.omg.CORBA.portable.Delegate delegate = impl._get_delegate() ;" ) ;
       stream.println ("      " + stubNameofEntry + " stub = new " + stubNameofEntry + " ();");
@@ -486,7 +486,7 @@ public class Helper implements AuxGen
   {
     writeUncheckedRemoteNarrow ();
     stream.println ();
-  } 
+  }
 
   /**
    * Write the unchecked narrow() method for a remotable object.
@@ -499,7 +499,7 @@ public class Helper implements AuxGen
     if (ie.isLocal ()) {
         writeRemoteUncheckedNarrowForLocal (false);
         return;
-    } 
+    }
 
     // unchecked narrow for Abstract interface
     if (ie.isAbstract ()) {

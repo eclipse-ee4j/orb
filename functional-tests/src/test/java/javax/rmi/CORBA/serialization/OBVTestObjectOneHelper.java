@@ -56,48 +56,48 @@ abstract public class OBVTestObjectOneHelper
           org.omg.CORBA.TypeCode _tcOf_members0 = null;
           // ValueMember instance for fInt
           _tcOf_members0 = org.omg.CORBA.ORB.init ().get_primitive_tc (org.omg.CORBA.TCKind.tk_long);
-          _members0[0] = new org.omg.CORBA.ValueMember ("fInt", 
-              "", 
-              _id, 
-              "", 
-              _tcOf_members0, 
-              null, 
+          _members0[0] = new org.omg.CORBA.ValueMember ("fInt",
+              "",
+              _id,
+              "",
+              _tcOf_members0,
+              null,
               org.omg.CORBA.PRIVATE_MEMBER.value);
           // ValueMember instance for fLong
           _tcOf_members0 = org.omg.CORBA.ORB.init ().get_primitive_tc (org.omg.CORBA.TCKind.tk_longlong);
-          _members0[1] = new org.omg.CORBA.ValueMember ("fLong", 
-              "", 
-              _id, 
-              "", 
-              _tcOf_members0, 
-              null, 
+          _members0[1] = new org.omg.CORBA.ValueMember ("fLong",
+              "",
+              _id,
+              "",
+              _tcOf_members0,
+              null,
               org.omg.CORBA.PRIVATE_MEMBER.value);
           // ValueMember instance for fFloat
           _tcOf_members0 = org.omg.CORBA.ORB.init ().get_primitive_tc (org.omg.CORBA.TCKind.tk_float);
-          _members0[2] = new org.omg.CORBA.ValueMember ("fFloat", 
-              "", 
-              _id, 
-              "", 
-              _tcOf_members0, 
-              null, 
+          _members0[2] = new org.omg.CORBA.ValueMember ("fFloat",
+              "",
+              _id,
+              "",
+              _tcOf_members0,
+              null,
               org.omg.CORBA.PRIVATE_MEMBER.value);
           // ValueMember instance for fDouble
           _tcOf_members0 = org.omg.CORBA.ORB.init ().get_primitive_tc (org.omg.CORBA.TCKind.tk_double);
-          _members0[3] = new org.omg.CORBA.ValueMember ("fDouble", 
-              "", 
-              _id, 
-              "", 
-              _tcOf_members0, 
-              null, 
+          _members0[3] = new org.omg.CORBA.ValueMember ("fDouble",
+              "",
+              _id,
+              "",
+              _tcOf_members0,
+              null,
               org.omg.CORBA.PRIVATE_MEMBER.value);
           // ValueMember instance for fString
           _tcOf_members0 = org.omg.CORBA.ORB.init ().create_string_tc (0);
-          _members0[4] = new org.omg.CORBA.ValueMember ("fString", 
-              "", 
-              _id, 
-              "", 
-              _tcOf_members0, 
-              null, 
+          _members0[4] = new org.omg.CORBA.ValueMember ("fString",
+              "",
+              _id,
+              "",
+              _tcOf_members0,
+              null,
               org.omg.CORBA.PRIVATE_MEMBER.value);
           __typeCode = org.omg.CORBA.ORB.init ().create_value_tc (_id, "OBVTestObjectOne", org.omg.CORBA.VM_NONE.value, null, _members0);
           __active = false;
@@ -106,7 +106,7 @@ abstract public class OBVTestObjectOneHelper
     }
     return __typeCode;
   }
-    
+
   public static String id ()
     {
     return _id;

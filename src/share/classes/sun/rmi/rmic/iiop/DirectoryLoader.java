@@ -32,7 +32,7 @@ import java.io.FileInputStream;
  */
 
 public class DirectoryLoader extends ClassLoader {
-    
+
     private Hashtable cache;
     private File root;
 
@@ -46,7 +46,7 @@ public class DirectoryLoader extends ClassLoader {
         }
         root = rootDir;
     }
-        
+
     private DirectoryLoader () {}
 
     /**
@@ -71,15 +71,15 @@ public class DirectoryLoader extends ClassLoader {
         result = (Class) cache.get(className);
 
         if (result == null) {
-            
+
             // Nope, can we get if from the system class loader?
 
             try {
-                    
+
                 result = super.findSystemClass(className);
-                    
+
             } catch (ClassNotFoundException e) {
-                    
+
                 // No, so try loading it...
 
                 classData = getClassFileData(className);
@@ -114,7 +114,7 @@ public class DirectoryLoader extends ClassLoader {
      * if an exception occurs.
      */
     private byte[] getClassFileData (String className) {
-        
+
         byte result[] = null;
         FileInputStream stream = null;
 

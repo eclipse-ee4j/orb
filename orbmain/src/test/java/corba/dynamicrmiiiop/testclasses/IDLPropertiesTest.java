@@ -23,11 +23,11 @@ public class IDLPropertiesTest {
 
     //
     // Set of idl names corresponding to alphabetically sorted set of
-    // interface methods.  See TestIDLNameTranslator for sorting details.    
+    // interface methods.  See TestIDLNameTranslator for sorting details.
     //
-    static final String[] IDL_NAMES = {   
+    static final String[] IDL_NAMES = {
         "a",
-        "get", 
+        "get",
         "_get_a__",
         "_get_ABc",
         "_get_b",
@@ -51,7 +51,7 @@ public class IDLPropertiesTest {
         "setEfg",
         "_set_zde"
     };
-    
+
     public static String[] getIDLNames() {
         return IDL_NAMES;
     }
@@ -63,16 +63,16 @@ public class IDLPropertiesTest {
 
         // not a property since there is no <name> portion
         int get() throws java.rmi.RemoteException;
-                
+
         // valid getter
         int getA() throws java.rmi.RemoteException;
-        
+
         // valid getter
         int getABc() throws java.rmi.RemoteException;
 
         // valid getter
         int getB() throws java.rmi.RemoteException;
-        
+
         // getter
         int getCDE() throws java.rmi.RemoteException;
 
@@ -100,7 +100,7 @@ public class IDLPropertiesTest {
 
         // not valid.  must be boolean primitive
         Boolean isBCD() throws java.rmi.RemoteException;
-        
+
         // valid boolean property
         boolean isC() throws java.rmi.RemoteException;
 
@@ -111,13 +111,13 @@ public class IDLPropertiesTest {
         boolean isCZ(int a) throws java.rmi.RemoteException;
 
         // valid boolean property
-        boolean isCf() throws java.rmi.RemoteException;        
-        
+        boolean isCf() throws java.rmi.RemoteException;
+
         // not a property since there is no <name> portion
         int set() throws java.rmi.RemoteException;
 
         void setA(int c) throws java.rmi.RemoteException;
-        
+
         // valid setter
         void setB(int b) throws java.rmi.RemoteException;
 
@@ -129,7 +129,7 @@ public class IDLPropertiesTest {
 
         // valid setter
         void setZde(boolean a) throws java.rmi.RemoteException;
-                
+
     }
 
 }

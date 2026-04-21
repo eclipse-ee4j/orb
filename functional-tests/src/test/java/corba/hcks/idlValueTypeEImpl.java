@@ -30,7 +30,7 @@ public class idlValueTypeEImpl
 {
     public static final String baseMsg = idlValueTypeEImpl.class.getName();
 
-    public idlValueTypeEImpl () 
+    public idlValueTypeEImpl ()
     {
         intSeq     = new int[10000];
         octetArray = new byte[10000];

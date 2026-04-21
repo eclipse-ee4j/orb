@@ -36,20 +36,20 @@ import corba.framework.InternalProcess;
 
 public class counterClient implements InternalProcess
 {
-    private counterIF createLocalObject( ORB orb ) 
+    private counterIF createLocalObject( ORB orb )
         throws java.rmi.RemoteException
     {
         counterImpl cimpl = new counterImpl() ;
-         
+
         return cimpl ;
     }
 
-    private counterIF createRemoteObject( ORB orb ) 
+    private counterIF createRemoteObject( ORB orb )
         throws java.rmi.RemoteException
     {
         counterImpl obj = new counterImpl() ;
 
-        counterIF counterRef 
+        counterIF counterRef
             = (counterIF)PortableRemoteObject.narrow(obj, counterIF.class );
 
         return counterRef ;
@@ -60,11 +60,11 @@ public class counterClient implements InternalProcess
     {
         counterImpl obj = new counterImpl() ;
 
-        counterIF counterRef 
+        counterIF counterRef
             = (counterIF)PortableRemoteObject.narrow(obj, counterIF.class );
 
         java.rmi.Remote stub = PortableRemoteObject.toStub( counterRef ) ;
-        
+
         String str = orb.object_to_string( (org.omg.CORBA.Object)stub ) ;
         org.omg.CORBA.Object obj2 = orb.string_to_object( str ) ;
 
@@ -74,7 +74,7 @@ public class counterClient implements InternalProcess
 
     private static final int COUNT = 10000 ;
 
-    private void performTest(PrintStream out, counterIF counterRef, 
+    private void performTest(PrintStream out, counterIF counterRef,
         String testType ) throws RemoteException
     {
         long time = System.currentTimeMillis() ;
@@ -83,10 +83,10 @@ public class counterClient implements InternalProcess
         for (int i = 0; i < COUNT; i++) {
             value += counterRef.increment(1);
         }
-        
+
         double elapsed = System.currentTimeMillis() - time ;
 
-        out.println( "Test " + testType + ": Elapsed time per invocation = " + 
+        out.println( "Test " + testType + ": Elapsed time per invocation = " +
             elapsed/COUNT + " milliseconds" ) ;
     }
 
@@ -143,14 +143,14 @@ class CounterServantLocator extends org.omg.CORBA.LocalObject implements Servant
         this.servant = servant;
     }
 
-    public Servant preinvoke(byte[] oid, POA adapter, String operation, 
+    public Servant preinvoke(byte[] oid, POA adapter, String operation,
                              CookieHolder the_cookie)
         throws org.omg.PortableServer.ForwardRequest
     {
         return servant ;
     }
 
-    public void postinvoke(byte[] oid, POA adapter, String operation, 
+    public void postinvoke(byte[] oid, POA adapter, String operation,
                            java.lang.Object cookie, Servant servant)
     {
         return;

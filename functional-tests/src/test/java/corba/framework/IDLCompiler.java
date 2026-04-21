@@ -37,7 +37,7 @@ public class IDLCompiler extends Compiler
      */
     protected static final String DEFAULT_IDL_COMPILER_CLASS
         = "com.sun.tools.corba.ee.idl.toJavaPortable.Compile";
-    
+
     /**
      * Returns the class name of the compiler.
      */
@@ -45,7 +45,7 @@ public class IDLCompiler extends Compiler
     {
         return DEFAULT_IDL_COMPILER_CLASS;
     }
-    
+
     /**
      * Compile the given IDL files.  Files are given as absolute paths.
      * The text output messages from the compile are placed in files
@@ -76,9 +76,9 @@ public class IDLCompiler extends Compiler
         // If there's only one file, use "idlcompiler" as the base of the
         // name for the stdout/stderr streams files.
         if (files.length == 1) {
-            compileHelper(files[0], 
-                          "idlcompiler", 
-                          arguments, 
+            compileHelper(files[0],
+                          "idlcompiler",
+                          arguments,
                           stubDirectory,
                           reportDirectory);
         } else {
@@ -94,7 +94,7 @@ public class IDLCompiler extends Compiler
                     File file = new File(files[i]);
                     String fileName = file.getName();
                     int dotIndex = fileName.indexOf(".idl");
-                    if (dotIndex > 0) 
+                    if (dotIndex > 0)
                         fileName = fileName.substring(0, dotIndex);
                     fn = fileName;
                 } catch (Throwable t) {

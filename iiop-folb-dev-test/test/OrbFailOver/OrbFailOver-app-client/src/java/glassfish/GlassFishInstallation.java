@@ -90,7 +90,7 @@ public class GlassFishInstallation {
 
     private void checkDestroyed() {
         if (isDestroyed) {
-            throw new RuntimeException( 
+            throw new RuntimeException(
                 "GlassFish installation has been destroyed") ;
         }
     }
@@ -127,7 +127,7 @@ public class GlassFishInstallation {
     }
 
     public static class Test extends Base {
-        private static final String installDir = 
+        private static final String installDir =
             "/volumes/work/GlassFish/v3/glassfishv3/glassfish" ;
         private static final String dasNodeName = "minas" ;
         private static final List<Pair<String,Integer>> availableNodes =
@@ -139,8 +139,8 @@ public class GlassFishInstallation {
             availableNodes.add( new Pair<String,Integer>( "apollo", 4 ) ) ;
         }
 
-        private GlassFishInstallation gfInst = 
-            new GlassFishInstallation( this, installDir, dasNodeName, 
+        private GlassFishInstallation gfInst =
+            new GlassFishInstallation( this, installDir, dasNodeName,
                 availableNodes, true, false ) ;
 
         @testtools.Test

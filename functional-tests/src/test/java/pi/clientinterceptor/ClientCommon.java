@@ -33,13 +33,13 @@ abstract public class ClientCommon
 {
     // Set from run()
     protected com.sun.corba.ee.spi.orb.ORB orb;
-    
+
     // Set from run()
     protected PrintStream out;
-    
+
     // Set from run()
     protected PrintStream err;
-   
+
     private JUnitReportHelper helper = new JUnitReportHelper( this.getClass().getName() ) ;
 
     /**
@@ -49,7 +49,7 @@ abstract public class ClientCommon
         // create and initialize the ORB with initializer
         String testInitializer = "pi.clientinterceptor.TestInitializer";
         Properties props = new Properties() ;
-        props.put( "org.omg.CORBA.ORBClass", 
+        props.put( "org.omg.CORBA.ORBClass",
                    System.getProperty("org.omg.CORBA.ORBClass"));
         props.put( ORBConstants.PI_ORB_INITIALIZER_CLASS_PREFIX +
                    testInitializer, "" );
@@ -77,22 +77,22 @@ abstract public class ClientCommon
             "sr1sr2sr3rr3rr2rr1", "sayHello", true, false, false );
 
         // SYSTEM_EXCEPTION thrown by server.  Should call send_request,
-        // saySystemException, and then receive_exception on all 3 
+        // saySystemException, and then receive_exception on all 3
         // interceptors in the correct order.
         out.println( "- Testing invocation resulting in SYSTEM_EXCEPTION..." );
         testInvocation( "systemExceptionResult",
             SampleClientRequestInterceptor.MODE_NORMAL,
             "sr1sr2sr3re3re2re1", "sayException", true, true, false );
-        
+
         // This is a one-way call, so receive_other will be invoked.
         // Should call send_request, sayOther, and then receive_other
         // on all 3 interceptors in the correct order.
-        out.println( 
+        out.println(
             "- Testing oneway invocation resulting in receive_other..." );
         testInvocation( "receiveOtherResult",
             SampleClientRequestInterceptor.MODE_NORMAL,
             "sr1sr2sr3ro3ro2ro1", "sayOneway", true, false, false );
-        
+
         // SYSTEM_EXCEPTION thrown in send_request for second interceptor.
         // Should result in send_request being called for 1 and 2, but
         // not 3, and receive_exception being called for 1 only.  The
@@ -103,9 +103,9 @@ abstract public class ClientCommon
         testInvocation( "interceptor2SystemException",
             SampleClientRequestInterceptor.MODE_SYSTEM_EXCEPTION,
             "sr1sr2re1", "sayHello", false, true, false );
-        
+
         // SYSTEM_EXCEPTION thrown in receive_reply for second interceptor.
-        // Should result in send_request being called for all, 
+        // Should result in send_request being called for all,
         // receive_reply called for 3, and 2, and receive_exception for
         // 1.
         out.println(
@@ -114,9 +114,9 @@ abstract public class ClientCommon
         testInvocation( "interceptor2SystemExceptionReceiveReply",
             SampleClientRequestInterceptor.MODE_RECEIVE_REPLY_EXCEPTION,
             "sr1sr2sr3rr3rr2re1", "sayHello", true, true, false );
-        
+
         // SYSTEM_EXCEPTION thrown in receive_reply for second interceptor.
-        // Should result in send_request being called for all, 
+        // Should result in send_request being called for all,
         // receive_other called for 3, and 2, and receive_exception for
         // 1.
         out.println(
@@ -136,9 +136,9 @@ abstract public class ClientCommon
         testInvocation( "interceptor2ForwardRequest",
             SampleClientRequestInterceptor.MODE_FORWARD_REQUEST,
             "sr1sr2ro1sr1sr2sr3rr3rr2rr1", "sayHello", true, false, true );
-        
+
         // ForwardRequest thrown in receive_exception for second interceptor.
-        // Should result in send_request being called for all, 
+        // Should result in send_request being called for all,
         // receive_exception called for 3, and 2, and receive_other for
         // 1.
         orb.setDebugFlag( "interceptor" ) ;
@@ -149,7 +149,7 @@ abstract public class ClientCommon
                 "throws ForwardRequest in receive_exception." );
             testInvocation( "intercepto2ForwardRequestReceiveException",
                 SampleClientRequestInterceptor.MODE_RECEIVE_EXCEPTION_FORWARD,
-                "sr1sr2sr3re3re2ro1sr1sr2sr3re3re2re1", "sayException", 
+                "sr1sr2sr3re3re2ro1sr1sr2sr3re3re2re1", "sayException",
                 true, true, true );
         } finally {
             orb.clearDebugFlag( "interceptor" ) ;
@@ -159,7 +159,7 @@ abstract public class ClientCommon
         // Check that call counter is zero (balanced starting points with
         // ending points)
         out.print(
-            "- Checking call counter: " + 
+            "- Checking call counter: " +
             SampleClientRequestInterceptor.callCounter + " " );
 
         if( SampleClientRequestInterceptor.callCounter == 0 ) {
@@ -203,7 +203,7 @@ abstract public class ClientCommon
             SampleClientRequestInterceptor.MODE_NORMAL,
             "sr1sr2sr3rr3rr2rr1", "_non_existent", false, false, false );
     }
-    
+
     /**
      * Clear invocation flags of helloRef and helloRefForward
      */
@@ -220,7 +220,7 @@ abstract public class ClientCommon
     abstract protected boolean wasInvoked() throws Exception;
 
     /**
-     * Return true if the method was forwarded 
+     * Return true if the method was forwarded
      */
     abstract protected boolean didForward() throws Exception;
 
@@ -230,36 +230,36 @@ abstract public class ClientCommon
      */
     abstract protected void resolveReferences() throws Exception;
 
-    /** 
+    /**
      * Tests a standard invocation by resolving a reference to helloServer
      * and making an invcation, recording the interceptor invocation ordering.
-     * @param mode - See SampleClientRequestIntreceptor.testMode for more 
-     *     details of mode parameter.  
+     * @param mode - See SampleClientRequestIntreceptor.testMode for more
+     *     details of mode parameter.
      * @param correctOrder - See SampleClientRequestInterceptor.
-     *     invocationOrder for more details on correctOrder.  
+     *     invocationOrder for more details on correctOrder.
      * @param methodName is either "sayHello", "sayException", or "sayOther"
      * @param shouldInvokeTarget - True if the method should have been invoked,
      *     or false if not.
      * @param exceptionExpected - True if it is expected that this call
-     *     should return an UNKNOWN exception with the message 
+     *     should return an UNKNOWN exception with the message
      *     "Valid Test Result" embedded within.
      * @param forwardExpected - True if it is expected that this call
      *     should result in a forward to another object and that that object
      *     should be invoked.
      */
-    protected void testInvocation( String testName, int mode, 
+    protected void testInvocation( String testName, int mode,
                                    String correctOrder,
                                    String methodName,
                                    boolean shouldInvokeTarget,
                                    boolean exceptionExpected,
-                                   boolean forwardExpected ) 
-        throws Exception 
+                                   boolean forwardExpected )
+        throws Exception
     {
         helper.start( testName ) ;
 
         try {
             // Tell interceptor to behave while clearing invocation flag:
-            SampleClientRequestInterceptor.testMode = 
+            SampleClientRequestInterceptor.testMode =
                 SampleClientRequestInterceptor.MODE_NORMAL;
 
             resolveReferences();
@@ -267,12 +267,12 @@ abstract public class ClientCommon
             // Clear invocation flags in helloRef and helloRefForward:
             clearInvoked();
             SampleClientRequestInterceptor.testMode = mode;
-            
+
             // Clear invocation order.  It is critical that this is done after
             // clearInvoked is called so that we do not record the interceptors
             // called during the clearInvoked() invocation itself.
             SampleClientRequestInterceptor.invocationOrder = "";
-            
+
             try {
                 // Invoke the method.
                 invokeMethod( methodName );
@@ -282,11 +282,11 @@ abstract public class ClientCommon
                     throw e;
                 }
             }
-            
+
             // Tell interceptor to behave while analyzing results:
-            SampleClientRequestInterceptor.testMode = 
+            SampleClientRequestInterceptor.testMode =
                 SampleClientRequestInterceptor.MODE_NORMAL;
-            
+
             // Examine invocation order to ensure everything was called in the
             // right order.
             //
@@ -298,12 +298,12 @@ abstract public class ClientCommon
             // we determine the initial invocation order of interceptors.
             String order = SampleClientRequestInterceptor.invocationOrder;
             checkOrder( correctOrder, order );
-            
+
             // Determine if the method was invoked when it was supposed to be
             // or not invoked when it was not supposed to be.
 
             // But first, if this was a oneway call, leave sufficient time for
-            // the call to get there. 
+            // the call to get there.
             if( methodName.equals( "sayOneway" ) ) {
                 try {
                     // 2 seconds *should* almost always be enough.
@@ -315,11 +315,11 @@ abstract public class ClientCommon
 
             boolean didInvoke = wasInvoked();
             boolean didForward = didForward();
-            
+
             out.println( "    + Should inovke method: " + shouldInvokeTarget );
             out.println( "    + Did invoke method: " + didInvoke );
             if( didInvoke != shouldInvokeTarget ) {
-                throw new RuntimeException( "Method should " + 
+                throw new RuntimeException( "Method should " +
                     (!shouldInvokeTarget ? "not" : "") + " have been invoked!" );
             }
             out.println( "    + Should forward and invoke: " + forwardExpected );
@@ -341,8 +341,8 @@ abstract public class ClientCommon
      * displays some debug output and throws an Exception if they do not
      * match.
      */
-    private void checkOrder( String correctOrder, String order ) 
-        throws Exception 
+    private void checkOrder( String correctOrder, String order )
+        throws Exception
     {
         out.println( "    + Expected invocation order: " + correctOrder );
         out.println( "    + Actual invocation order: " + order );
@@ -351,6 +351,6 @@ abstract public class ClientCommon
             throw new Exception( "Invocation order mismatch." );
         }
     }
-    
+
 }
 

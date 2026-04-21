@@ -66,11 +66,11 @@ public class SystemClient
 
         // create and initialize the ORB
         Properties props = new Properties() ;
-        props.put( "org.omg.CORBA.ORBClass", 
+        props.put( "org.omg.CORBA.ORBClass",
                    System.getProperty("org.omg.CORBA.ORBClass"));
-        System.setProperty( ORBConstants.PI_ORB_INITIALIZER_CLASS_PREFIX + 
+        System.setProperty( ORBConstants.PI_ORB_INITIALIZER_CLASS_PREFIX +
             invalidInitializer, "" );
-        System.setProperty( ORBConstants.PI_ORB_INITIALIZER_CLASS_PREFIX + 
+        System.setProperty( ORBConstants.PI_ORB_INITIALIZER_CLASS_PREFIX +
             testInitializer, "" );
 
         return ORB.init(newArgs, props);

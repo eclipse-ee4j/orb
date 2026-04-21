@@ -24,37 +24,37 @@ package javax.rmi.download.values;
 public class DownloadB implements java.io.Serializable {
     public class Inner {}
     public class Nested {}
-    
+
     public String toString() {
         String exMsg = "";
-        
+
         // First, make sure that using Class.forName() fails to load
         // our nested class...
-        
+
         try {
             Class.forName("javax.rmi.download.values.DownloadB$Nested");
-            
+
             // Succeeded, but should not have...
-            
-            return "DownloadB.toString(): loaded Nested when calling Class.forName()!"; 
+
+            return "DownloadB.toString(): loaded Nested when calling Class.forName()!";
         } catch (Exception e) {}
-        
+
         // Now make sure that using JDKClassLoader.loadClass() succeeds to
         // load our nested class...
-        
+
         try {
             //JDKClassLoader.loadClass(null,"javax.rmi.download.values.DownloadB$Nested",true);
-            
+
             // Success...
-            
+
             return "Loaded DownloadB.Nested";
-            
+
         } catch (Exception e) {
             exMsg = e.toString();
         }
 
         // Failed to load...
-        
+
         return "DownLoadB.toString() failed to load DownloadB.Nested. Caught: "+exMsg;
     }
 }

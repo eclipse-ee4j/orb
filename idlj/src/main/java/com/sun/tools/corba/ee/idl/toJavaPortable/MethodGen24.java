@@ -146,7 +146,7 @@ public class MethodGen24 extends MethodGen
     // Valuetype factory method, it has a null return type,
     if (m.type () == null)
     {
-        // if factory method, result type is container 
+        // if factory method, result type is container
         if (isValueInitializer ())
             stream.print (m.container ().name ());
         else

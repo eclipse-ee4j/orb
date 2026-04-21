@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.impl.interceptors;
 
-             
+
 import com.sun.corba.ee.impl.corba.RequestImpl;
 import com.sun.corba.ee.impl.protocol.giopmsgheaders.ReplyMessage;
 import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
@@ -36,13 +36,13 @@ import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
 import org.omg.PortableInterceptor.PolicyFactory;
 import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName ;
 
-/** 
+/**
  * This is No-Op implementation of PIHandler. It is used in ORBConfigurator
- * to initialize a piHandler before the Persistent Server Activation. This 
- * PIHandler implementation will be replaced by the real PIHandler in 
+ * to initialize a piHandler before the Persistent Server Activation. This
+ * PIHandler implementation will be replaced by the real PIHandler in
  * ORB.postInit( ) call.
  */
-public class PINoOpHandlerImpl implements PIHandler 
+public class PINoOpHandlerImpl implements PIHandler
 {
     public PINoOpHandlerImpl( ) {
     }
@@ -56,7 +56,7 @@ public class PINoOpHandlerImpl implements PIHandler
     public void destroyInterceptors() {
     }
 
-    public void objectAdapterCreated( ObjectAdapter oa ) 
+    public void objectAdapterCreated( ObjectAdapter oa )
     {
     }
 
@@ -65,7 +65,7 @@ public class PINoOpHandlerImpl implements PIHandler
     {
     }
 
-    public void adapterStateChanged( ObjectReferenceTemplate[] 
+    public void adapterStateChanged( ObjectReferenceTemplate[]
         templates, short newState )
     {
     }
@@ -73,15 +73,15 @@ public class PINoOpHandlerImpl implements PIHandler
 
     public void disableInterceptorsThisThread() {
     }
-    
+
     public void enableInterceptorsThisThread() {
     }
-    
-    public void invokeClientPIStartingPoint() 
+
+    public void invokeClientPIStartingPoint()
         throws RemarshalException
     {
     }
-    
+
     public Exception invokeClientPIEndingPoint(
         int replyStatus, Exception exception )
     {
@@ -93,10 +93,10 @@ public class PINoOpHandlerImpl implements PIHandler
     {
         return null;
     }
-    
+
     public void initiateClientPIRequest( boolean diiRequest ) {
     }
-    
+
     public void cleanupClientPIRequest() {
     }
 
@@ -104,27 +104,27 @@ public class PINoOpHandlerImpl implements PIHandler
     {
     }
 
-    public void setClientPIInfo( RequestImpl requestImpl ) 
-    {
-    }
-    
-    final public void sendCancelRequestIfFinalFragmentNotSent()
-    {
-    }
-    
-    
-    public void invokeServerPIStartingPoint() 
+    public void setClientPIInfo( RequestImpl requestImpl )
     {
     }
 
-    public void invokeServerPIIntermediatePoint() 
+    final public void sendCancelRequestIfFinalFragmentNotSent()
     {
     }
-    
-    public void invokeServerPIEndingPoint( ReplyMessage replyMessage ) 
+
+
+    public void invokeServerPIStartingPoint()
     {
     }
-    
+
+    public void invokeServerPIIntermediatePoint()
+    {
+    }
+
+    public void invokeServerPIEndingPoint( ReplyMessage replyMessage )
+    {
+    }
+
     public void setServerPIInfo( Exception exception ) {
     }
 
@@ -141,19 +141,19 @@ public class PINoOpHandlerImpl implements PIHandler
     }
 
     public void initializeServerPIInfo( MessageMediator request,
-        ObjectAdapter oa, byte[] objectId, ObjectKeyTemplate oktemp ) 
+        ObjectAdapter oa, byte[] objectId, ObjectKeyTemplate oktemp )
     {
     }
-    
-    public void setServerPIInfo( java.lang.Object servant, 
-                                          String targetMostDerivedInterface ) 
+
+    public void setServerPIInfo( java.lang.Object servant,
+                                          String targetMostDerivedInterface )
     {
     }
 
     public void cleanupServerPIRequest() {
     }
-    
-    public void register_interceptor( Interceptor interceptor, int type ) 
+
+    public void register_interceptor( Interceptor interceptor, int type )
         throws DuplicateName
     {
     }
@@ -170,7 +170,7 @@ public class PINoOpHandlerImpl implements PIHandler
 
     public void registerPolicyFactory( int type, PolicyFactory factory ) {
     }
-    
+
     public int allocateServerRequestId ()
     {
         return 0;

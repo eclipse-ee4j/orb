@@ -82,14 +82,14 @@ public abstract class RMICTest extends Test {
     protected boolean generateOnlyOnce () {
         return true;
     }
-   
+
     /**
      * Return the output stream to which rmic should write output.
      */
     protected OutputStream getOutputStream () {
         return System.out;
     }
- 
+
     /**
      * Generate rmic output for the supplied class.
      */
@@ -98,7 +98,7 @@ public abstract class RMICTest extends Test {
         list[0] = theClass;
         generate(list,out);
     }
-    
+
     /**
      * Generate rmic output for the supplied classes.
      */

@@ -59,7 +59,7 @@ public class TestObject implements Testable
     }
 
     public String toString() {
-        return 
+        return
             (super.getClass().equals(Object.class) ? "" : super.toString())
             + " [TestObject desc=" + desc
             + ", data0=" + data0
@@ -70,5 +70,5 @@ public class TestObject implements Testable
 }
 
 
-        
-        
+
+

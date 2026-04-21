@@ -35,22 +35,22 @@ import java.io.*;
 
 import ServerRequestInterceptor.*;
 
-public abstract class ClientCommon 
-    implements InternalProcess 
+public abstract class ClientCommon
+    implements InternalProcess
 {
 
     // Set in run()
     com.sun.corba.ee.spi.orb.ORB orb;
-    
+
     // Set in run()
     PrintStream out;
-    
+
     // Set in run()
     PrintStream err;
 
     // Set to true if the last invocation resulted in an exception.
     boolean exceptionRaised;
-    
+
     /**
      * Creates a com.sun.corba.ee.spi.orb.ORB and notifies the TestInitializer of its presence
      */
@@ -88,18 +88,18 @@ public abstract class ClientCommon
 
         String methodName;
         do {
-            // Re-resolve all references to eliminate any cached 
+            // Re-resolve all references to eliminate any cached
             // LOCATION_FORWARDs
             resolveReferences();
 
-            // Synchronize with the server and get the name of the 
+            // Synchronize with the server and get the name of the
             // method to invoke.:
-            out.println( "    - Syncing with server..." + 
+            out.println( "    - Syncing with server..." +
                 new Date().toString() );
             methodName = syncWithServer();
-            out.println( "    - Synced with server at " + 
+            out.println( "    - Synced with server at " +
                 new Date().toString() );
-            
+
             // Execute the appropriate method on the hello object:
             out.println( "    - Executing method " + methodName + "..." );
             exceptionRaised = false;
@@ -112,7 +112,7 @@ public abstract class ClientCommon
             }
 
         } while( !methodName.equals( ServerCommon.EXIT_METHOD ) );
-        
+
         out.println( "    - Exit detected.  No longer obeying server." );
     }
 
