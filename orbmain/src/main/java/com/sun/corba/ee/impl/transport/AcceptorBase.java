@@ -217,11 +217,9 @@ public abstract class AcceptorBase
 
     @Override
     public String toString() {
-        return toStringName() + "[" + port + " " + type + " " + shouldUseSelectThreadToWait() + " " + shouldUseWorkerThreadForEvent() + "]";
-    }
-
-    protected String toStringName() {
-        return "SocketOrChannelAcceptorImpl";
+        return getClass().getName() + "[orb=" + orb + ", host:port=" + getHost() + ":" + getPort()
+            + ", shouldUseSelectThreadToWait=" + shouldUseSelectThreadToWait()
+            + ", shouldUseWorkerThreadForEvent=" + shouldUseWorkerThreadForEvent() + "]";
     }
 
     public String getHost() {

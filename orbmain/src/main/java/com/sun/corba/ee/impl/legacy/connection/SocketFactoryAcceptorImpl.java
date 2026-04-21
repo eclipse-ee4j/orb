@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -58,17 +59,6 @@ public class SocketFactoryAcceptorImpl
         }
         initialized = true;
         return true;
-    }
-
-    ////////////////////////////////////////////////////
-    //
-    // Implementation.
-    //
-
-    @Override
-    protected String toStringName()
-    {
-        return "SocketFactoryAcceptorImpl";
     }
 
     // Fix for 6331566.

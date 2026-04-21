@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -61,6 +62,7 @@ import com.sun.corba.ee.spi.transport.ContactInfoListFactory;
 import com.sun.corba.ee.spi.transport.SocketInfo;
 import com.sun.corba.ee.spi.transport.TransportDefault ;
 
+import java.lang.System.Logger;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.AccessController ;
@@ -69,7 +71,10 @@ import java.security.PrivilegedExceptionAction ;
 import org.glassfish.pfl.basic.func.NullaryFunction;
 import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopierFactory;
 
+import static java.lang.System.Logger.Level.TRACE;
+
 public class ORBConfiguratorImpl implements ORBConfigurator {
+    private static final Logger LOG = System.getLogger(ORBConfiguratorImpl.class.getName());
     private static final ORBUtilSystemException wrapper =
         ORBUtilSystemException.self ;
 
@@ -99,8 +104,10 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
         }
     }
 
-    public void configure( DataCollector collector, ORB orb ) 
+    @Override
+    public void configure( DataCollector collector, ORB orb )
     {
+        LOG.log(TRACE, "configure(collector, orb)");
         ORB theOrb = orb ;
 
         initObjectCopiers( theOrb ) ;

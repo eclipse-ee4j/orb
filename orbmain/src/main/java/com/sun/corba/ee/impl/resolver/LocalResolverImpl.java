@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -21,6 +22,7 @@ package com.sun.corba.ee.impl.resolver ;
 
 import com.sun.corba.ee.spi.resolver.LocalResolver ;
 
+import java.lang.System.Logger;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
@@ -28,12 +30,18 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.glassfish.pfl.basic.func.NullaryFunction;
 
-public class LocalResolverImpl implements LocalResolver {
-    ConcurrentHashMap<String,NullaryFunction<org.omg.CORBA.Object>> nameToClosure =
-        new ConcurrentHashMap<String,NullaryFunction<org.omg.CORBA.Object>>() ;
-    final Lock lock = new ReentrantLock();
+import static java.lang.System.Logger.Level.DEBUG;
+import static java.lang.System.Logger.Level.TRACE;
 
+public class LocalResolverImpl implements LocalResolver {
+    private static final Logger LOG = System.getLogger(LocalResolverImpl.class.getName());
+
+    private final ConcurrentHashMap<String, NullaryFunction<org.omg.CORBA.Object>> nameToClosure = new ConcurrentHashMap<>();
+    private final Lock lock = new ReentrantLock();
+
+    @Override
     public org.omg.CORBA.Object resolve(String name) {
+        LOG.log(TRACE, "resolve(name={0})", name);
         do {
             try {
                 if (lock.tryLock(500, TimeUnit.MILLISECONDS)) {
@@ -42,25 +50,25 @@ public class LocalResolverImpl implements LocalResolver {
                         if (cl == null) {
                             return null;
                         }
-                        return (org.omg.CORBA.Object) (cl.evaluate());
+                        return cl.evaluate();
                     } finally {
                         lock.unlock();
                     }
-                } else {
-                    // continue, try again
                 }
             } catch (InterruptedException e) {
-                // do nothing
+                Thread.currentThread().interrupt();
             }
         } while (true);
     }
 
+    @Override
     public java.util.Set<String> list() {
         return nameToClosure.keySet() ;
     }
 
-    public void register( String name,
-        NullaryFunction<org.omg.CORBA.Object> closure ) {
-        nameToClosure.put( name, closure ) ;
+    @Override
+    public void register(String name, NullaryFunction<org.omg.CORBA.Object> closure) {
+        LOG.log(DEBUG, "register(name={0}, closure={1})", name, closure);
+        nameToClosure.put(name, closure);
     }
 }
