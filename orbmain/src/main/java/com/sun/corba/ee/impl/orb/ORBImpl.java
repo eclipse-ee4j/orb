@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -91,9 +92,11 @@ import com.sun.org.omg.SendingContext.CodeBase;
 
 import java.applet.Applet;
 import java.io.IOException ;
+import java.lang.System.Logger;
 import java.lang.reflect.Constructor;
 import java.net.InetAddress ;
 import java.util.ArrayList ;
+import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.HashMap ;
 import java.util.HashSet ;
@@ -107,8 +110,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock ;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.rmi.CORBA.ValueHandler;
 
@@ -133,14 +134,16 @@ import org.omg.CORBA.ORBPackage.InvalidName;
 import org.omg.CORBA.portable.ValueFactory;
 
 import static com.sun.corba.ee.spi.misc.ORBConstants.SKIP_GMBAL_INIT;
+import static java.lang.System.Logger.Level.TRACE;
+import static java.lang.System.Logger.Level.WARNING;
 
 /**
  * The JavaIDL ORB implementation.
  */
 @OrbLifeCycle
 @Subcontract
-public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB
-{
+public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB {
+    private static final Logger LOG = System.getLogger(ORBImpl.class.getName());
     private boolean set_parameters_called = false ;
 
     protected TransportManager transportManager;
@@ -468,13 +471,12 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB
             if (!disableORBD) {
                 // Note: this class is NOT included in the GF bundles!
                 // Try to load it if present.
-                String cname = 
-                    "com.sun.corba.ee.impl.activation.ORBConfiguratorPersistentImpl" ;
+                String cname = "com.sun.corba.ee.impl.activation.ORBConfiguratorPersistentImpl";
 
                 try {
                     configurator = Class.forName(cname);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(ORBImpl.class.getName()).log(Level.FINE, null, ex);
+                } catch (ClassNotFoundException e) {
+                    LOG.log(TRACE, "Failed to load alternative configurator class " + cname, e);
                 }
             }
         }
@@ -1707,20 +1709,26 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB
         return serviceContextsCache;
     }
 
-    // XXX All of the isLocalYYY checking needs to be revisited.
-    // First of all, all three of these methods are called from
-    // only one place in impl.ior.IORImpl.  Second, we have problems
-    // both with multi-homed hosts and with multi-profile IORs.
-    // A possible strategy: like the LocalClientRequestDispatcher, we need
-    // to determine this more abstractly at the ContactInfo level.
-    // This level should probably just get the CorbaContactInfoList from
-    // the IOR, then iterator over ContactInfo.  If any ContactInfo is
-    // local, the IOR is local, and we can pick one to create the 
-    // LocalClientRequestDispatcher as well.  Bottom line: this code needs to move.
-    public boolean isLocalHost( String hostName ) 
-    {
-        return hostName.equals( configData.getORBServerHost() ) ||
-            hostName.equals( getLocalHostName() ) ;
+    @Override
+    public boolean isLocalHost(String hostName) {
+        try {
+            return hostName.equals(configData.getORBServerHost())
+                || hostName.equals(getLocalHostName())
+                || isLocalHost(InetAddress.getByName(hostName));
+        } catch (UnknownHostException e) {
+            return false;
+        }
+    }
+
+    private boolean isLocalHost(InetAddress address) {
+        if (address.isLoopbackAddress()) {
+            return true;
+        }
+        String ip = address.getHostAddress();
+        if (ip == null) {
+            return false;
+        }
+        return ip.equals(configData.getORBServerHost()) || ip.equals(getLocalHostName());
     }
 
     @Subcontract
@@ -1753,41 +1761,32 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB
         }
     }
 
-    /*************************************************************************
-     *  The following public methods are for ORB shutdown.
-     *************************************************************************/
-
-    private String getHostName(String host) 
-        throws java.net.UnknownHostException 
-    {
-        return InetAddress.getByName( host ).getHostAddress();
-    }
-
-    /* keeping a copy of the getLocalHostName so that it can only be called 
+    /* keeping a copy of the getLocalHostName so that it can only be called
      * internally and the unauthorized clients cannot have access to the
-     * localHost information, originally, the above code was calling 
-     * getLocalHostName from Connection.java.  If the hostname is cached in 
+     * localHost information, originally, the above code was calling
+     * getLocalHostName from Connection.java.  If the hostname is cached in
      * Connection.java, then
      * it is a security hole, since any unauthorized client has access to
      * the host information.  With this change it is used internally so the
-     * security problem is resolved.  Also in Connection.java, the 
-     * getLocalHost() implementation has changed to always call the 
+     * security problem is resolved.  Also in Connection.java, the
+     * getLocalHost() implementation has changed to always call the
      * InetAddress.getLocalHost().getHostAddress()
      * The above mentioned method has been removed from the connection class
      */
 
-    private static String localHostString = null;
+    private static String localHostString;
 
-    private synchronized String getLocalHostName() 
-    {
+    private synchronized String getLocalHostName() {
         if (localHostString == null) {
             try {
-                localHostString = InetAddress.getLocalHost().getHostAddress();
-            } catch (Exception ex) {
-                throw wrapper.getLocalHostFailed( ex ) ;
+                localHostString = InetAddress.getLocalHost().getHostName();
+            } catch (Exception e) {
+                LOG.log(WARNING, "Failed to resolve local hostname, falling back to loopback. " +
+                    "isLocalHost() checks may be unreliable.", e);
+                localHostString = InetAddress.getLoopbackAddress().getHostName();
             }
         }
-        return localHostString ;
+        return localHostString;
     }
 
  /******************************************************************************
