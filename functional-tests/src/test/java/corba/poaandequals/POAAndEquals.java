@@ -19,10 +19,16 @@
 
 package corba.poaandequals;
 
-import test.Test;
-import corba.framework.*;
-import java.util.*;
-import org.omg.CORBA.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
+import corba.framework.InternalExec;
+import corba.framework.Options;
+import corba.framework.ThreadExec;
+
+import java.util.Hashtable;
+import java.util.Properties;
+
+import org.omg.CORBA.ORB;
 
 public class POAAndEquals extends CORBATest
 {

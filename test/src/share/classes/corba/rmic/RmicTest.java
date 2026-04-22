@@ -24,10 +24,8 @@
 
 package corba.rmic;
 
-import corba.framework.Controller;
 import corba.framework.CORBATest;
-
-import corba.framework.*;
+import corba.framework.Options;
 
 public class RmicTest extends CORBATest {
 

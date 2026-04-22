@@ -19,7 +19,8 @@
 
 package pi.ort;
 
-import IORInterceptorTest.*;    // for IDL
+// for IDL
+import IORInterceptorTest.delayPOA;
 
 /**
  * Servant implementation for delayPOA. This is a special servant created for

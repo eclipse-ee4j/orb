@@ -19,12 +19,15 @@
 
 package corba.custom;
 
-import javax.rmi.PortableRemoteObject;
-import org.omg.CosNaming.*;
-import org.omg.CORBA.*;
-import java.util.*;
 import java.rmi.RemoteException;
-import java.io.*;
+import java.util.Hashtable;
+
+import javax.rmi.PortableRemoteObject;
+
+import org.omg.CORBA.ORB;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
 
 public class Client
 {

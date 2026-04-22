@@ -24,23 +24,22 @@
 
 package corba.hcks;
 
+import com.sun.corba.ee.spi.misc.ORBConstants;
+
+import java.util.Hashtable;
+import java.util.Properties;
+
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+
 import org.omg.CORBA.Any;
 import org.omg.CORBA.CompletionStatus;
 import org.omg.CORBA.IMP_LIMIT;
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.UNKNOWN;
-
 import org.omg.CORBA.portable.UnknownException;
-
 import org.omg.PortableInterceptor.Current;
 import org.omg.PortableInterceptor.CurrentHelper;
-
-import com.sun.corba.ee.spi.misc.ORBConstants;
-
-import java.util.Hashtable;
-import java.util.Properties;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 
 public class C
 {

@@ -19,11 +19,9 @@
 
 package corba.serialization.proxy;
 
-import java.rmi.*;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.rmi.PortableRemoteObject;
-import javax.naming.*;
-
-import java.io.*;
 
 public class Client
 {

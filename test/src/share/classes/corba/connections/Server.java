@@ -24,16 +24,16 @@
 
 package corba.connections;
 
-import java.util.Properties;
-import javax.naming.InitialContext;
-
-import com.sun.corba.ee.spi.orb.ORB;
-
 import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB;
 
 import corba.framework.Options;
 import corba.hcks.C;
 import corba.hcks.U;
+
+import java.util.Properties;
+
+import javax.naming.InitialContext;
 
 public class Server
 {

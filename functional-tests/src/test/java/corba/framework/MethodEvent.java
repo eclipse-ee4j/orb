@@ -20,7 +20,6 @@
 package corba.framework ;
 
 import java.lang.reflect.Method;
-import java.util.EventObject;
 
 /** An event representing entering or exiting a particular method
  * on a particular thread, as recorded by an interceptor with a

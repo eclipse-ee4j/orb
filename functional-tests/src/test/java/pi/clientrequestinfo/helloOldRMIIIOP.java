@@ -19,15 +19,12 @@
 
 package pi.clientrequestinfo;
 
-import org.omg.CORBA.*;
+import java.io.PrintStream;
+import java.rmi.RemoteException;
 
-import java.io.*;
-import java.rmi.*;
-import javax.rmi.*;
-import javax.naming.*;
-import org.omg.CORBA.*;
-
-import ClientRequestInfo.*; // hello interface
+// hello interface
+import ClientRequestInfo.ExampleException;
+import ClientRequestInfo._helloImplBase;
 
 /**
  * ClientDelegate implementation with old stubs.

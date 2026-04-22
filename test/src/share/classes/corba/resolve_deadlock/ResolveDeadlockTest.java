@@ -19,9 +19,9 @@
 
 package corba.resolve_deadlock;
 
-import test.Test;
-import corba.framework.*;
-import java.util.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
+import corba.framework.Options;
 
 public class ResolveDeadlockTest extends CORBATest
 {

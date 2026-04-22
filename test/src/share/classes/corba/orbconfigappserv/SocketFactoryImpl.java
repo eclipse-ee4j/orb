@@ -24,19 +24,17 @@
 
 package corba.orbconfigappserv;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-
-import org.omg.CORBA.ORB;
-
+import com.sun.corba.ee.impl.legacy.connection.DefaultSocketFactory;
 import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.legacy.connection.GetEndPointInfoAgainException;
 import com.sun.corba.ee.spi.legacy.connection.ORBSocketFactory;
 import com.sun.corba.ee.spi.transport.SocketInfo;
 
-import com.sun.corba.ee.impl.legacy.connection.DefaultSocketFactory;
-import com.sun.corba.ee.impl.legacy.connection.EndPointInfoImpl;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+import org.omg.CORBA.ORB;
 
 public class SocketFactoryImpl
     implements

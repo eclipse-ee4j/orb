@@ -22,9 +22,6 @@ package com.sun.corba.ee.impl.transport;
 import com.sun.corba.ee.impl.encoding.CDRInputObject;
 import com.sun.corba.ee.impl.protocol.RequestIdImpl;
 import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
-import com.sun.corba.ee.impl.transport.TransportTestBase.BackgroundProcessor;
-import com.sun.corba.ee.impl.transport.TransportTestBase.RequestDispatcher;
-import com.sun.corba.ee.impl.transport.TransportTestBase.SocketChannelFake;
 import com.sun.corba.ee.spi.protocol.MessageMediator;
 import com.sun.corba.ee.spi.threadpool.Work;
 

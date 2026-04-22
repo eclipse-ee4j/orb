@@ -19,13 +19,9 @@
 
 package pi.orbinit;
 
-import org.omg.CORBA.LocalObject;
-
 import org.omg.PortableInterceptor.ForwardRequest;
 import org.omg.PortableInterceptor.ServerRequestInfo;
 import org.omg.PortableInterceptor.ServerRequestInterceptor;
-
-import ORBInitTest.*;
 
 /**
  * Sample ServerRequestInterceptor for use in testing

@@ -19,35 +19,38 @@
 
 package com.sun.corba.ee.impl.naming.pcosnaming;
 
-
-import org.omg.CORBA.Object;
-import org.omg.CORBA.SystemException;
-import org.omg.CORBA.BAD_PARAM;
-import org.omg.CORBA.CompletionStatus;
-import org.omg.CORBA.Policy;
-import org.omg.PortableServer.POA;
-import org.omg.PortableServer.LifespanPolicyValue;
-import org.omg.PortableServer.IdAssignmentPolicyValue;
-import org.omg.PortableServer.ServantRetentionPolicyValue;
-
-import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
-
+import com.sun.corba.ee.impl.naming.cosnaming.BindingIteratorImpl;
 import com.sun.corba.ee.impl.naming.cosnaming.NamingContextDataStore;
-import com.sun.corba.ee.impl.naming.cosnaming.NamingUtils;
-
 import com.sun.corba.ee.impl.naming.namingutil.INSURLHandler;
-
-import com.sun.corba.ee.spi.orb.ORB;
-
-import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.spi.logging.NamingSystemException;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.trace.Naming;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
-
 import java.io.Serializable;
 import java.util.Hashtable;
+
+import org.omg.CORBA.BAD_PARAM;
+import org.omg.CORBA.Object;
+import org.omg.CORBA.Policy;
+import org.omg.CORBA.SystemException;
+import org.omg.CosNaming.BindingIteratorHolder;
+import org.omg.CosNaming.BindingListHolder;
+import org.omg.CosNaming.BindingType;
+import org.omg.CosNaming.BindingTypeHolder;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextExtPOA;
+import org.omg.CosNaming.NamingContextHelper;
+import org.omg.CosNaming.NamingContextPackage.InvalidName;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
+import org.omg.CosNaming.NamingContextPackage.NotFoundReason;
+import org.omg.PortableServer.IdAssignmentPolicyValue;
+import org.omg.PortableServer.LifespanPolicyValue;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.ServantRetentionPolicyValue;
 
 /**
  * Class NamingContextImpl implements the org.omg.CosNaming::NamingContext and

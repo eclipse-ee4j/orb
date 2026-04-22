@@ -19,13 +19,15 @@
 
 package corba.ortremote ;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import org.omg.PortableInterceptor.ObjectReferenceTemplate;
-import org.omg.PortableInterceptor.ObjectReferenceFactory;
-import org.omg.PortableServer.POA;
 import com.sun.corba.ee.spi.oa.ObjectAdapter;
+
+import java.rmi.RemoteException;
+
 import javax.rmi.PortableRemoteObject;
+
+import org.omg.PortableInterceptor.ObjectReferenceFactory;
+import org.omg.PortableInterceptor.ObjectReferenceTemplate;
+import org.omg.PortableServer.POA;
 
 public class ORTEchoImpl extends PortableRemoteObject implements ORTEcho
 {

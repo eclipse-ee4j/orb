@@ -19,8 +19,6 @@
 
 package corba.framework ;
 
-import java.lang.reflect.Method;
-
 public class TraceElement
 {
     private boolean isEnter ;

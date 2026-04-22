@@ -24,19 +24,18 @@
 
 package corba.iorintsockfact;
 
+import com.sun.corba.ee.impl.legacy.connection.DefaultSocketFactory;
+import com.sun.corba.ee.impl.legacy.connection.EndPointInfoImpl;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.ior.iiop.AlternateIIOPAddressComponent;
+import com.sun.corba.ee.spi.ior.iiop.IIOPAddress;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
+import com.sun.corba.ee.spi.legacy.connection.ORBSocketFactory;
+import com.sun.corba.ee.spi.transport.SocketInfo;
+
 import java.util.Iterator;
 
 import org.omg.CORBA.ORB;
-
-import com.sun.corba.ee.spi.legacy.connection.ORBSocketFactory;
-import com.sun.corba.ee.spi.ior.IOR;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
-import com.sun.corba.ee.spi.ior.iiop.IIOPAddress;
-import com.sun.corba.ee.spi.ior.iiop.AlternateIIOPAddressComponent;
-import com.sun.corba.ee.spi.transport.SocketInfo;
-
-import com.sun.corba.ee.impl.legacy.connection.DefaultSocketFactory;
-import com.sun.corba.ee.impl.legacy.connection.EndPointInfoImpl;
 
 /**
  * @author Harold Carr

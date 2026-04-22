@@ -24,11 +24,15 @@
 
 package mantis.m4764130;
 
-import java.util.Properties;
-import org.omg.CORBA.ORB;
-import org.omg.CosNaming.*;
-import org.omg.PortableServer.POA;
 import com.sun.corba.ee.spi.misc.ORBConstants;
+
+import java.util.Properties;
+
+import org.omg.CORBA.ORB;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
+import org.omg.PortableServer.POA;
 
 class HelloImpl
     extends

@@ -20,17 +20,17 @@
 
 package test;
 
-import java.rmi.Remote;
-import java.util.Vector;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import org.omg.CORBA.ORB;
-import javax.naming.Context;
-import javax.naming.NamingException;
 import java.io.IOException;
-import javax.rmi.PortableRemoteObject;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.rmi.Remote;
+import java.util.Enumeration;
+import java.util.Hashtable;
+
+import javax.naming.Context;
+import javax.rmi.PortableRemoteObject;
+
+import org.omg.CORBA.ORB;
 
 public class ServantContext implements ServantManager {
 

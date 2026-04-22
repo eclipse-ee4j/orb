@@ -21,9 +21,9 @@
 
 package test;
 
+import java.rmi.RMISecurityManager;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.RMISecurityManager;
 
 public class StartRMIRegistry {
 

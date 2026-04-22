@@ -24,19 +24,16 @@
 
 package corba.islocal;
 
+import corba.hcks.U;
+
 import javax.rmi.CORBA.Tie;
 
-import org.omg.CORBA.IMP_LIMIT;
-import org.omg.CORBA.INTERNAL;
 import org.omg.CORBA.ORB;
-import org.omg.CORBA.OBJECT_NOT_EXIST;
 import org.omg.PortableServer.ForwardRequest;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.Servant;
 import org.omg.PortableServer.ServantLocator;
 import org.omg.PortableServer.ServantLocatorPackage.CookieHolder;
-
-import corba.hcks.U;
 
 public class MyServantLocator
     extends

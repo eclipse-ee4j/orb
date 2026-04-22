@@ -19,11 +19,13 @@
 
 package corba.codeset;
 
-import test.Test;
-import corba.framework.*;
-import java.util.*;
 import com.sun.corba.ee.spi.misc.ORBConstants;
-import org.omg.CORBA.*;
+
+import java.util.Properties;
+
+import corba.framework.CORBATest;
+import corba.framework.Controller;
+import corba.framework.Options;
 
 /**
  * Simple tests in GIOP 1.1 and 1.2 of chars and wstrings.

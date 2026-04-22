@@ -19,24 +19,17 @@
 
 package pi.serverrequestinfo;
 
-import org.omg.CORBA.*;
-import org.omg.CosNaming.*;
-import com.sun.corba.ee.impl.corba.AnyImpl;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.impl.interceptors.*;
-import org.omg.PortableInterceptor.*;
-import org.omg.IOP.*;
-import org.omg.IOP.CodecPackage.*;
-import org.omg.IOP.CodecFactoryPackage.*;
-import corba.framework.*;
+import java.io.PrintStream;
+import java.util.Hashtable;
+import java.util.Properties;
 
-import java.util.*;
-import java.io.*;
-import java.rmi.*;
-import javax.naming.*;
-import javax.rmi.*;
+import javax.naming.InitialContext;
 
-import ServerRequestInfo.*;
+import ServerRequestInfo.ExampleException;
+import ServerRequestInfo.INVOKE_SAY_HELLO;
+import ServerRequestInfo.INVOKE_SAY_SYSTEM_EXCEPTION;
+import ServerRequestInfo.hello;
+import ServerRequestInfo.helloHelper;
 
 /**
  * Common base class for DSI RMI client test code

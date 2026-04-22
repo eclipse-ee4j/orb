@@ -19,13 +19,11 @@
 
 package pi.serverinterceptor;
 
-import org.omg.CORBA.*;
+import java.io.PrintStream;
 
-import java.util.*;
-import java.io.*;
-import org.omg.PortableInterceptor.*;
+import org.omg.PortableInterceptor.ForwardRequest;
 
-import ServerRequestInterceptor.*;
+import ServerRequestInterceptor.helloPOA;
 
 /**
  * Servant implementation.

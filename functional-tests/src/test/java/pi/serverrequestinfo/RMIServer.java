@@ -19,24 +19,15 @@
 
 package pi.serverrequestinfo;
 
-import org.omg.CORBA.*;
-import org.omg.CORBA.ORBPackage.*;
-import org.omg.CosNaming.*;
-import org.omg.PortableServer.*;
-import org.omg.PortableServer.POAPackage.*;
-import org.omg.PortableServer.ServantLocatorPackage.*;
-import org.omg.PortableInterceptor.*;
-import com.sun.corba.ee.impl.interceptors.*;
-import corba.framework.*;
-import com.sun.corba.ee.spi.misc.ORBConstants;
+import java.io.PrintStream;
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import java.util.Properties;
 
-import java.util.*;
-import java.io.*;
+import javax.naming.InitialContext;
+import javax.rmi.PortableRemoteObject;
 
-import ServerRequestInfo.*;
-import java.rmi.*;
-import javax.rmi.*;
-import javax.naming.*;
+import org.omg.CORBA.SystemException;
 
 public abstract class RMIServer
     extends ServerCommon

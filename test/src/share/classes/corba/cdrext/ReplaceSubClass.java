@@ -20,8 +20,6 @@
 
 package corba.cdrext;
 
-import java.io.*;
-
 public class ReplaceSubClass extends ReplaceSuperClass
 {
     private long longValue;

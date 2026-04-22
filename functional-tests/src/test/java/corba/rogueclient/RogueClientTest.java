@@ -26,11 +26,13 @@
 
 package corba.rogueclient;
 
-import java.util.Properties;
 import com.sun.corba.ee.spi.misc.ORBConstants;
-import corba.framework.Controller;
+
 import corba.framework.CORBATest;
+import corba.framework.Controller;
 import corba.framework.Options;
+
+import java.util.Properties;
 
 public class RogueClientTest extends CORBATest {
 

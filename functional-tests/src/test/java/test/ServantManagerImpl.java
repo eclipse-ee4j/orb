@@ -21,13 +21,15 @@
 package test;
 
 import java.rmi.Remote;
-import java.util.Hashtable;
 import java.rmi.RemoteException;
-import org.omg.CORBA.ORB;
-import javax.naming.Context;
-import javax.rmi.CORBA.Tie;
-import javax.rmi.PortableRemoteObject;
 import java.util.Enumeration;
+import java.util.Hashtable;
+
+import javax.naming.Context;
+import javax.rmi.PortableRemoteObject;
+import javax.rmi.CORBA.Tie;
+
+import org.omg.CORBA.ORB;
 
 public class ServantManagerImpl implements ServantManager {
 

@@ -24,26 +24,24 @@
 
 package corba.lb;
 
-import java.util.Properties;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+
 import java.util.Hashtable;
+import java.util.Properties;
 
 import javax.naming.InitialContext;
-
 import javax.rmi.PortableRemoteObject;
 
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.Policy;
-
-import org.omg.PortableServer.POA;
-import org.omg.PortableServer.Servant;
-import org.omg.PortableServer.LifespanPolicyValue;
-import org.omg.PortableServer.IdUniquenessPolicyValue;
 import org.omg.PortableServer.IdAssignmentPolicyValue;
+import org.omg.PortableServer.IdUniquenessPolicyValue;
 import org.omg.PortableServer.ImplicitActivationPolicyValue;
-import org.omg.PortableServer.ServantRetentionPolicyValue;
+import org.omg.PortableServer.LifespanPolicyValue;
+import org.omg.PortableServer.POA;
 import org.omg.PortableServer.RequestProcessingPolicyValue;
-
-import com.sun.corba.ee.spi.misc.ORBConstants;
+import org.omg.PortableServer.Servant;
+import org.omg.PortableServer.ServantRetentionPolicyValue;
 
 /**
  * @author Harold Carr

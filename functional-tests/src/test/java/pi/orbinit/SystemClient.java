@@ -19,17 +19,11 @@
 
 package pi.orbinit;
 
-import org.omg.CORBA.*;
-import com.sun.corba.ee.impl.corba.AnyImpl;
 import com.sun.corba.ee.spi.misc.ORBConstants;
-import org.omg.PortableInterceptor.*;
-import org.omg.IOP.*;
-import org.omg.IOP.CodecPackage.*;
-import org.omg.IOP.CodecFactoryPackage.*;
-import corba.framework.*;
 
-import java.util.*;
-import java.io.*;
+import java.util.Properties;
+
+import org.omg.CORBA.ORB;
 
 /**
  * Client that passes in orb initializers as system properties.

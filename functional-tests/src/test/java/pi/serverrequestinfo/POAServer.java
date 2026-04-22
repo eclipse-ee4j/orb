@@ -19,21 +19,22 @@
 
 package pi.serverrequestinfo;
 
-import org.omg.CORBA.*;
-import org.omg.CORBA.ORBPackage.*;
-import org.omg.CosNaming.*;
-import org.omg.PortableServer.*;
-import org.omg.PortableServer.POAPackage.*;
-import org.omg.PortableServer.ServantLocatorPackage.*;
-import org.omg.PortableInterceptor.*;
-import com.sun.corba.ee.impl.interceptors.*;
-import corba.framework.*;
-import com.sun.corba.ee.spi.misc.ORBConstants;
+import java.io.PrintStream;
+import java.util.Hashtable;
+import java.util.Properties;
 
-import java.util.*;
-import java.io.*;
+import org.omg.CORBA.Any;
+import org.omg.CORBA.Policy;
+import org.omg.CORBA.SystemException;
+import org.omg.CORBA.ORBPackage.InvalidName;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
+import org.omg.PortableServer.IdUniquenessPolicyValue;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.Servant;
 
-import ServerRequestInfo.*;
+import ServerRequestInfo.hello;
 
 /**
  * Common base class for POA Server test files.

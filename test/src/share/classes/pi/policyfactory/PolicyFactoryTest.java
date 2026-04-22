@@ -19,9 +19,9 @@
 
 package pi.policyfactory;
 
-import test.Test;
-import corba.framework.*;
-import java.util.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
+import corba.framework.Options;
 
 /**
  * This is a test for module dynamic, which is part of Portable Interceptors/

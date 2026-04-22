@@ -19,7 +19,8 @@
 
 package naming.cosnaming;
 
-import corba.framework.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
 
 public class Test extends CORBATest
 {

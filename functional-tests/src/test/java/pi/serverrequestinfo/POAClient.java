@@ -19,21 +19,20 @@
 
 package pi.serverrequestinfo;
 
-import org.omg.CORBA.*;
-import org.omg.CosNaming.*;
-import com.sun.corba.ee.impl.corba.AnyImpl;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.impl.interceptors.*;
-import org.omg.PortableInterceptor.*;
-import org.omg.IOP.*;
-import org.omg.IOP.CodecPackage.*;
-import org.omg.IOP.CodecFactoryPackage.*;
-import corba.framework.*;
+import java.io.PrintStream;
+import java.util.Hashtable;
+import java.util.Properties;
 
-import java.util.*;
-import java.io.*;
+import org.omg.CORBA.ORB;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
 
-import ServerRequestInfo.*;
+import ServerRequestInfo.ExampleException;
+import ServerRequestInfo.INVOKE_SAY_HELLO;
+import ServerRequestInfo.INVOKE_SAY_SYSTEM_EXCEPTION;
+import ServerRequestInfo.hello;
+import ServerRequestInfo.helloHelper;
 
 public abstract class POAClient
     extends ClientCommon

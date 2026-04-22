@@ -19,14 +19,10 @@
 
 package pi.serverrequestinfo;
 
-import org.omg.CORBA.*;
-import org.omg.PortableInterceptor.*;
-import org.omg.PortableServer.*;
+import java.io.PrintStream;
 
-import java.util.*;
-import java.io.*;
-
-import ServerRequestInfo.*;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.ServerRequest;
 
 /**
  * Servant implementation.

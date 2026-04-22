@@ -24,14 +24,15 @@
 
 package corba.islocal;
 
-import javax.naming.InitialContext;
-import org.omg.CORBA.ORB;
+import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
 
 import corba.framework.Controller;
 import corba.hcks.C;
 import corba.hcks.U;
 
-import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
+import javax.naming.InitialContext;
+
+import org.omg.CORBA.ORB;
 
 public class Client
 {

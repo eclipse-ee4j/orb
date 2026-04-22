@@ -24,11 +24,11 @@
 
 package corba.connections;
 
-import java.rmi.RemoteException;
-import javax.rmi.PortableRemoteObject;
-import javax.rmi.CORBA.Util;
-
 import com.sun.corba.ee.spi.orb.ORB;
+
+import java.rmi.RemoteException;
+
+import javax.rmi.PortableRemoteObject;
 
 public class RemoteService
     extends

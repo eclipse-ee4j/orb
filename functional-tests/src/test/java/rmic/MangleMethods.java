@@ -20,11 +20,10 @@
 
 package rmic;
 
+import java.rmi.MarshalException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.rmi.MarshalException;
 import java.util.Hashtable;
-import java.io.IOException;
 
 public interface MangleMethods extends Remote {
 

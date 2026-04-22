@@ -19,11 +19,10 @@
 
 package corba.resolve_deadlock;
 
-import java.util.Properties;
-
+import com.sun.corba.ee.impl.naming.cosnaming.TransientNameService;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
-import com.sun.corba.ee.impl.naming.cosnaming.TransientNameService;
+import java.util.Properties;
 
 import org.omg.CORBA.ORB;
 

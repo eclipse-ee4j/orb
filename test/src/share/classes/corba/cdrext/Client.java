@@ -19,18 +19,22 @@
 
 package corba.cdrext;
 
-import java.rmi.*;
-import javax.rmi.PortableRemoteObject;
-import javax.naming.*;
-import java.io.*;
-import java.util.*;
-import javax.rmi.CORBA.*;
-
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeSuite;
-import org.testng.Assert;
-
 import corba.framework.TestngRunner;
+
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Vector;
+
+import javax.naming.InitialContext;
+import javax.rmi.PortableRemoteObject;
+
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
 
 public class Client {
     // Important: put the initialContext here so that is does NOT get GCed and finalized

@@ -25,12 +25,18 @@
 
 package corba.hcks;
 
+import com.sun.corba.ee.impl.oa.poa.POACurrent;
+import com.sun.corba.ee.impl.transport.AcceptorImpl;
+import com.sun.corba.ee.spi.transport.Acceptor;
+import com.sun.corba.ee.spi.transport.Connection;
+import com.sun.corba.ee.spi.transport.SocketInfo;
+import com.sun.corba.ee.spi.transport.TransportManager;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import java.util.List;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -38,34 +44,23 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.rmi.PortableRemoteObject;
 
-import com.sun.corba.ee.impl.oa.poa.POACurrent;
-
+import org.glassfish.pfl.test.JUnitReportHelper;
 import org.omg.CORBA.Any;
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.Policy;
 import org.omg.CORBA.TCKind;
 import org.omg.CORBA.TypeCode;
-
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
 import org.omg.PortableInterceptor.InvalidSlot;
 import org.omg.PortableInterceptor.RequestInfo;
 import org.omg.PortableInterceptor.ServerRequestInfo;
-
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.RequestProcessingPolicyValue;
 import org.omg.PortableServer.Servant;
 import org.omg.PortableServer.ServantManager;
 import org.omg.PortableServer.ServantRetentionPolicyValue;
-
-import com.sun.corba.ee.spi.transport.Acceptor;
-import com.sun.corba.ee.spi.transport.Connection;
-import com.sun.corba.ee.spi.transport.TransportManager;
-import com.sun.corba.ee.spi.transport.SocketInfo;
-
-import com.sun.corba.ee.impl.transport.AcceptorImpl;
-import org.glassfish.pfl.test.JUnitReportHelper;
-import org.omg.CosNaming.NameComponent;
-import org.omg.CosNaming.NamingContext;
-import org.omg.CosNaming.NamingContextHelper;
 
 public class U
 {

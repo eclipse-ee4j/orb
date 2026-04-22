@@ -20,22 +20,26 @@
 
 package rmic;
 
+import com.sun.corba.ee.impl.util.JDKBridge;
+import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
+
+import java.io.File;
+import java.rmi.MarshalException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import test.ServantContext;
-import test.RemoteTest;
+
+import javax.naming.Context;
 import javax.rmi.PortableRemoteObject;
 import javax.rmi.CORBA.Util;
-import javax.naming.Context;
-import org.omg.CORBA.ORB;
-import org.omg.CORBA.portable.ServantObject;
-import org.omg.CORBA.portable.Delegate;
-import org.omg.CORBA.BAD_OPERATION;
-import java.io.File;
-import com.sun.corba.ee.impl.util.JDKBridge;
-import java.rmi.MarshalException;
-import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
+
 import org.glassfish.pfl.test.JUnitReportHelper;
+import org.omg.CORBA.BAD_OPERATION;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.portable.Delegate;
+import org.omg.CORBA.portable.ServantObject;
+
+import test.RemoteTest;
+import test.ServantContext;
 
 /*
  * @test

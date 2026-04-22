@@ -19,9 +19,9 @@
 
 package corba.poapolicies;
 
-import org.omg.CORBA.*;
-import org.omg.PortableServer.*;
-import org.omg.PortableServer.POAPackage.*;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.POAPackage.AdapterAlreadyExists;
+import org.omg.PortableServer.POAPackage.InvalidPolicy;
 
 public interface POAFactory {
     public POA createPOA(POA parent) throws AdapterAlreadyExists,

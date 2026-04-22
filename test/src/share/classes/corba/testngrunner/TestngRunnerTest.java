@@ -19,10 +19,7 @@
 
 package corba.lb ;
 
-import java.util.Properties;
-
 import corba.framework.CORBATest;
-import corba.framework.Options;
 import corba.framework.Controller;
 
 public class TestngRunnerTest extends CORBATest

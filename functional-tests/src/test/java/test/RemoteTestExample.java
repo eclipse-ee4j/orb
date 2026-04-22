@@ -21,9 +21,7 @@
 package test;
 
 import java.rmi.Remote;
-import java.rmi.RemoteException;
-import test.ServantContext;
-import test.RemoteTest;
+
 import javax.rmi.PortableRemoteObject;
 
 // NOTE: This is a template for subclasses of RemoteTest. Copy it, then:
