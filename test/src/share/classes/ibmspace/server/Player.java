@@ -20,10 +20,12 @@
 
 package ibmspace.server;
 
-import ibmspace.common.*;
 import java.util.Vector;
-import ibmspace.common.Identifiable;
+
 import ibmspace.common.ID;
+import ibmspace.common.Identifiable;
+import ibmspace.common.Planet;
+import ibmspace.common.TechProfile;
 
 
 public class Player implements Identifiable, java.io.Serializable

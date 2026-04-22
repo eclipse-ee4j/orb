@@ -19,8 +19,8 @@
 
 package pi.orbinit;
 
-import corba.framework.*;
-import java.util.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
 
 /**
  * Tests ORBInitializer and ORBInitInfo as per Portable Interceptors spec

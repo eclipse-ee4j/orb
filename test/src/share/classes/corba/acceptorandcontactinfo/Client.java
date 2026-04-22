@@ -24,15 +24,13 @@
 
 package corba.acceptorandcontactinfo;
 
-import javax.naming.InitialContext;
-import javax.rmi.CORBA.Util;
-import org.omg.CORBA.ORB;
-
 import corba.framework.Controller;
 import corba.hcks.C;
 import corba.hcks.U;
 
-import com.sun.corba.ee.impl.legacy.connection.LegacyServerSocketManagerImpl;
+import javax.naming.InitialContext;
+
+import org.omg.CORBA.ORB;
 
 public class Client
 {

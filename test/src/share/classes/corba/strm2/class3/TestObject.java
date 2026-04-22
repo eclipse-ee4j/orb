@@ -18,7 +18,8 @@
  */
 
 import corba.strm2.Testable;
-import java.io.*;
+
+import java.io.IOException;
 
 public class TestObject extends TestObjectSuper implements Testable
 {

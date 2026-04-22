@@ -24,10 +24,8 @@
 
 package corba.repid;
 
-import corba.framework.Controller;
 import corba.framework.CORBATest;
-
-import corba.framework.*;
+import corba.framework.Controller;
 
 public class RepIdTest extends CORBATest {
     public static final String thisPackage =

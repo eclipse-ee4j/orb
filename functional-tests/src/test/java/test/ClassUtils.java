@@ -21,12 +21,12 @@
 
 package test;
 
-import org.glassfish.rmic.tools.java.ClassFile;
-import org.glassfish.rmic.tools.java.ClassPath;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.StringTokenizer;
+
+import org.glassfish.rmic.tools.java.ClassFile;
+import org.glassfish.rmic.tools.java.ClassPath;
 
 /**
  * ClassUtils provides miscellaneous static utility methods related to

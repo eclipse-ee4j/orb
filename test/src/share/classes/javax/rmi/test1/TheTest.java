@@ -21,15 +21,18 @@
 package javax.rmi.test1;
 
 import com.sun.corba.ee.spi.JndiConstants;
+
+import java.util.Hashtable;
+import java.util.Properties;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.rmi.PortableRemoteObject;
+
+import org.glassfish.pfl.test.JUnitReportHelper;
 import org.omg.CORBA.ORB;
 
-import java.util.Properties;
-import javax.rmi.PortableRemoteObject;
-import javax.naming.InitialContext;
-import javax.naming.Context;
 import test.Util;
-import java.util.Hashtable;
-import org.glassfish.pfl.test.JUnitReportHelper;
 
 public class TheTest extends test.Test {
     // This test runs the NameServer on port 1050.

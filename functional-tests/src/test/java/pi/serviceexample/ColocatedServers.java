@@ -24,8 +24,9 @@
 
 package pi.serviceexample;
 
-import org.omg.CORBA.ORB;
 import java.util.Properties;
+
+import org.omg.CORBA.ORB;
 
 public class ColocatedServers
 {

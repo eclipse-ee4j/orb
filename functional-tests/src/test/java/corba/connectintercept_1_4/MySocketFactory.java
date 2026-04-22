@@ -24,25 +24,26 @@
 
 package corba.connectintercept_1_4;
 
+import com.sun.corba.ee.impl.misc.ORBUtility;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.ior.iiop.IIOPAddress;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
+import com.sun.corba.ee.spi.legacy.connection.GetEndPointInfoAgainException;
+import com.sun.corba.ee.spi.legacy.connection.ORBSocketFactory;
+import com.sun.corba.ee.spi.transport.SocketInfo;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.util.*;
+import java.util.Hashtable;
+import java.util.StringTokenizer;
+import java.util.Vector;
 
 import org.omg.CORBA.ORB;
 import org.omg.IOP.TaggedComponent;
-
-import com.sun.corba.ee.spi.ior.IOR;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
-import com.sun.corba.ee.spi.ior.iiop.IIOPAddress;
-import com.sun.corba.ee.spi.legacy.connection.GetEndPointInfoAgainException;
-import com.sun.corba.ee.spi.legacy.connection.ORBSocketFactory;
-import com.sun.corba.ee.spi.transport.SocketInfo;
-
-import com.sun.corba.ee.impl.misc.ORBUtility;
 
 public class MySocketFactory
     implements

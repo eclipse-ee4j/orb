@@ -26,9 +26,9 @@
  */
 package corba.serialization.zerolengthstring;
 
-import java.util.Properties;
-import org.omg.CORBA.ORB;
 import javax.rmi.CORBA.Util;
+
+import org.omg.CORBA.ORB;
 
 public class MainTest {
 

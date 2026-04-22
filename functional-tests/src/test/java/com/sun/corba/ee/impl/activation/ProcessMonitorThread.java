@@ -19,8 +19,10 @@
 
 package com.sun.corba.ee.impl.activation;
 
-import java.util.*;
 import com.sun.corba.ee.spi.misc.ORBConstants;
+
+import java.util.Iterator;
+import java.util.Map;
 
 /** ProcessMonitorThread is started when ServerManager is instantiated. The
   * thread wakes up every minute (This can be changed by setting sleepTime) and

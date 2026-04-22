@@ -19,8 +19,8 @@
 
 package corba.framework;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.net.ServerSocket;
 
 /**
  * Simple port abstraction with the capability of

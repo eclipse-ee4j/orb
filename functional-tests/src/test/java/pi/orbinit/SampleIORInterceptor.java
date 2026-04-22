@@ -19,14 +19,9 @@
 
 package pi.orbinit;
 
-import org.omg.CORBA.LocalObject;
-
-import org.omg.PortableInterceptor.ForwardRequest;
 import org.omg.PortableInterceptor.IORInfo;
 import org.omg.PortableInterceptor.IORInterceptor;
 import org.omg.PortableInterceptor.ObjectReferenceTemplate;
-
-import ORBInitTest.*;
 
 /**
  * Sample IORInterceptor for use in testing

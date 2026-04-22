@@ -19,9 +19,9 @@
 
 package pi.serverrequestinfo;
 
-import java.util.*;
-import java.io.*;
-import org.omg.CORBA.*;
+import org.omg.CORBA.Any;
+import org.omg.CORBA.LocalObject;
+import org.omg.CORBA.Policy;
 
 /**
  * This is the Policy Factory to create PolicyHundred object.

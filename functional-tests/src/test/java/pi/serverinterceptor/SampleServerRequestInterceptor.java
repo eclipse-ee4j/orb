@@ -19,14 +19,11 @@
 
 package pi.serverinterceptor;
 
-import org.omg.CORBA.*;
-
+import org.omg.CORBA.IMP_LIMIT;
 import org.omg.PortableInterceptor.ForwardRequest;
 import org.omg.PortableInterceptor.RequestInfo;
 import org.omg.PortableInterceptor.ServerRequestInfo;
 import org.omg.PortableInterceptor.ServerRequestInterceptor;
-
-//import ORBInitTest.*;
 
 /**
  * Sample ServerRequestInterceptor for use in testing

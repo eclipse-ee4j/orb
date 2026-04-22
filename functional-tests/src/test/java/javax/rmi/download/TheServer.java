@@ -21,14 +21,16 @@
 package javax.rmi.download;
 
 import com.sun.corba.ee.spi.JndiConstants;
-import org.omg.CORBA.ORB;
+
+import java.util.Hashtable;
+import java.util.Properties;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
-import javax.rmi.CORBA.Tie;
 import javax.rmi.PortableRemoteObject;
-import java.util.Hashtable;
-import java.util.Properties;
+import javax.rmi.CORBA.Tie;
+
+import org.omg.CORBA.ORB;
 
 public class TheServer {
 

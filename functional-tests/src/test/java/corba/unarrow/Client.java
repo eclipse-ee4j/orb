@@ -19,12 +19,13 @@
 
 package corba.unarrow;
 
-import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
-import org.omg.CORBA.*;
-
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+
+import org.omg.CORBA.ORB;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
 
 public class Client
 {

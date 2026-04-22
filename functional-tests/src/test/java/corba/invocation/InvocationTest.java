@@ -19,9 +19,11 @@
 
 package corba.invocation;
 
-import test.Test;
-import corba.framework.*;
-import java.util.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
+import corba.framework.Options;
+
+import java.util.Properties;
 
 /**
  * This tests if invocation on non-existent targets results in COMM_FAILURE.

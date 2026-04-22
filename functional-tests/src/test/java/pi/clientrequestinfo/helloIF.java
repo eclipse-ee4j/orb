@@ -21,8 +21,8 @@ package pi.clientrequestinfo;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import org.omg.CORBA.*;
-import ClientRequestInfo.*;
+
+import ClientRequestInfo.ExampleException;
 
 /**
  * Hello interface for RMI-IIOP version of test

@@ -20,8 +20,6 @@
 
 package rmic;
 
-import java.lang.String;
-
 public class ObjectByValue implements java.io.Serializable {
 
     public static int foo = 1;

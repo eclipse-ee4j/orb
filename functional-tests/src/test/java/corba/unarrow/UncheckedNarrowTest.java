@@ -19,9 +19,8 @@
 
 package corba.unarrow;
 
-import test.Test;
-import corba.framework.*;
-import java.util.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
 
 /**
  * This is a POA version of the mthello test.  The

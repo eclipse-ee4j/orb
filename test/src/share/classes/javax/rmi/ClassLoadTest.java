@@ -20,13 +20,17 @@
 
 package javax.rmi;
 
+import com.sun.corba.ee.impl.util.JDKBridge;
+
+import java.io.File;
+import java.rmi.server.RMIClassLoader;
+
+import javax.rmi.CORBA.Util;
+
+import org.glassfish.pfl.test.JUnitReportHelper;
+
 import test.Test;
 import test.WebServer;
-import java.io.File;
-import com.sun.corba.ee.impl.util.JDKBridge;
-import javax.rmi.CORBA.Util;
-import java.rmi.server.RMIClassLoader;
-import org.glassfish.pfl.test.JUnitReportHelper;
 
 public class ClassLoadTest extends Test {
     private static int SUCCEED = 0;

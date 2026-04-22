@@ -20,14 +20,14 @@
 
 package rmic;
 
-import java.util.Vector;
-import java.io.OutputStream;
-import java.io.IOException;
 import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.HashSet;
-import test.Util;
+import java.util.Vector;
+
 import test.Test;
+import test.Util;
 
 /*
  * @test

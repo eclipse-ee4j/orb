@@ -20,8 +20,6 @@
 
 package test;
 
-import java.util.*;
-
 /**
  * AlarmHandler provides an interface which is called asynchronously by Alarm
  * at the scheduled wakeup time.

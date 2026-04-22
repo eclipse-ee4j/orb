@@ -21,9 +21,9 @@ package corba.poacallback;
 
 
 import org.omg.CORBA.ORB;
-import org.omg.PortableServer.ServantLocator;
-import org.omg.PortableServer.Servant;
 import org.omg.PortableServer.POA;
+import org.omg.PortableServer.Servant;
+import org.omg.PortableServer.ServantLocator;
 import org.omg.PortableServer.ServantLocatorPackage.CookieHolder;
 
 public class idlI1ServantLocator

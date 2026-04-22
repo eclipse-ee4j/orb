@@ -20,20 +20,10 @@
 
 package corba.testngrunner ;
 
-import java.util.Iterator;
-import java.util.Properties;
-import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
-
-import java.io.PrintWriter;
-
 import org.testng.Assert;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
-
-import corba.framework.TestngRunner;
 
 public class Second {
     private void msg( String str ) {

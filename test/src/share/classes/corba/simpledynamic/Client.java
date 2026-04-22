@@ -20,30 +20,27 @@
 
 package corba.simpledynamic;
 
-import java.util.Properties;
-import java.util.Hashtable;
-
-import java.rmi.RemoteException;
-
-import javax.rmi.CORBA.Util;
-import javax.rmi.CORBA.Tie;
-
-import javax.naming.InitialContext;
-
+import com.sun.corba.ee.impl.naming.cosnaming.TransientNameService;
 import com.sun.corba.ee.spi.JndiConstants;
-import org.omg.CORBA.ORB;
-
-import org.testng.TestNG;
-import org.testng.Assert;
-import org.testng.annotations.Test;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
-import com.sun.corba.ee.impl.naming.cosnaming.TransientNameService;
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import java.util.Properties;
 
-import static corba.framework.PRO.* ;
+import javax.naming.InitialContext;
+import javax.rmi.CORBA.Tie;
+import javax.rmi.CORBA.Util;
+
+import org.omg.CORBA.ORB;
+import org.testng.Assert;
+import org.testng.TestNG;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
+
+import static corba.framework.PRO.narrow;
+import static corba.framework.PRO.toStub;
 
 public class Client {
     private ORB clientORB ;

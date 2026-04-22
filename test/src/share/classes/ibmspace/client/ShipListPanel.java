@@ -20,11 +20,13 @@
 
 package ibmspace.client;
 
-import java.util.Vector;
 import java.lang.reflect.Array;
-import javax.swing.*;
-import javax.swing.event.*;
-import ibmspace.common.*;
+import java.util.Vector;
+
+import javax.swing.JList;
+import javax.swing.JScrollPane;
+
+import ibmspace.common.Fleet;
 
 public class ShipListPanel extends JScrollPane
 {

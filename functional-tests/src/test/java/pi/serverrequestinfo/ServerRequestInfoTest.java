@@ -19,8 +19,8 @@
 
 package pi.serverrequestinfo;
 
-import corba.framework.*;
-import java.util.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
 
 /**
  * Tests ServerRequestInfo as per Portable Interceptors spec

@@ -19,12 +19,10 @@
 
 package pi.clientinterceptor;
 
-import org.omg.CORBA.*;
+import java.io.PrintStream;
 
-import java.util.*;
-import java.io.*;
-
-import ClientRequestInterceptor.*; // hello interface
+// hello interface
+import ClientRequestInterceptor.helloPOA;
 
 /**
  * Servant implementation.

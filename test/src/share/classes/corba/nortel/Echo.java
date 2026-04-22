@@ -21,7 +21,6 @@ package corba.nortel;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-
 import java.util.Collection;
 
 public interface Echo extends Remote {

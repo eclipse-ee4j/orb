@@ -24,12 +24,11 @@
 
 package corba.systemexceptions;
 
-import java.util.Properties;
-
-import corba.framework.Controller;
 import corba.framework.CORBATest;
+import corba.framework.Controller;
+import corba.framework.Options;
 
-import corba.framework.*;
+import java.util.Properties;
 
 public class SystemExceptionsTest extends CORBATest {
     public static final String thisPackage =

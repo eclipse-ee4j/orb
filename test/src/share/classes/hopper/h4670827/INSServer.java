@@ -19,14 +19,15 @@
 
 package hopper.h4670827;
 
-import java.io.*;
-import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
-import org.omg.CORBA.*;
-import java.util.Properties;
-import java.util.Hashtable;
-import corba.framework.*;
 import com.sun.corba.ee.spi.misc.ORBConstants;
+
+import corba.framework.InternalProcess;
+
+import java.io.PrintStream;
+import java.util.Hashtable;
+import java.util.Properties;
+
+import org.omg.CORBA.ORB;
 
 public class INSServer implements InternalProcess
 {

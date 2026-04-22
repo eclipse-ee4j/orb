@@ -19,24 +19,9 @@
 
 package pi.serverrequestinfo;
 
-import org.omg.CORBA.*;
-import org.omg.CORBA.ORBPackage.*;
-import org.omg.CosNaming.*;
-import org.omg.PortableServer.*;
-import org.omg.PortableServer.POAPackage.*;
-import org.omg.PortableServer.ServantLocatorPackage.*;
-import org.omg.PortableInterceptor.*;
-import com.sun.corba.ee.impl.interceptors.*;
-import corba.framework.*;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-
-import java.util.*;
-import java.io.*;
-
-import ServerRequestInfo.*;
-import java.rmi.*;
-import javax.rmi.*;
-import javax.naming.*;
+import java.io.PrintStream;
+import java.util.Hashtable;
+import java.util.Properties;
 
 public class RMIRemoteServer
     extends RMIServer

@@ -18,8 +18,13 @@
  */
 
 import corba.strm2.Testable;
-import java.io.*;
-import java.math.*;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamField;
+import java.io.OptionalDataException;
+import java.math.BigInteger;
 
 public class TestObject extends TestObjectSuper implements Testable
 {

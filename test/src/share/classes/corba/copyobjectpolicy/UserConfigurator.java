@@ -19,17 +19,17 @@
 
 package corba.copyobjectpolicy;
 
-import java.lang.reflect.Method;
-
-import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.spi.orb.ORBConfigurator;
-import com.sun.corba.ee.spi.orb.DataCollector;
-
 import com.sun.corba.ee.spi.copyobject.CopierManager;
 import com.sun.corba.ee.spi.copyobject.CopyobjectDefaults;
+import com.sun.corba.ee.spi.orb.DataCollector;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ORBConfigurator;
 
-import corba.framework.TraceAccumulator;
 import corba.framework.ProxyInterceptor;
+import corba.framework.TraceAccumulator;
+
+import java.lang.reflect.Method;
+
 import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopierFactory;
 
 public class UserConfigurator implements ORBConfigurator

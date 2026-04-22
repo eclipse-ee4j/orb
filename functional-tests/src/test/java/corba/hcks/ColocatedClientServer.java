@@ -25,6 +25,7 @@
 package corba.hcks;
 
 import javax.naming.InitialContext;
+
 import org.omg.CORBA.ORB;
 
 public class ColocatedClientServer

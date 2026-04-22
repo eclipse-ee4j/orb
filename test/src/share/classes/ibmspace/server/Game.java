@@ -30,12 +30,10 @@
 
 package ibmspace.server;
 
-import ibmspace.common.GameProfile;
-import ibmspace.common.Planet;
-import ibmspace.common.Fleet;
-import ibmspace.common.Journey;
 import java.util.Vector;
+
 import ibmspace.common.ID;
+import ibmspace.common.Planet;
 
 public class Game implements java.io.Serializable
 {

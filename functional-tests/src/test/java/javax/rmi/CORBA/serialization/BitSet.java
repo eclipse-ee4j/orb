@@ -19,7 +19,7 @@
 
 package javax.rmi.CORBA.serialization;
 
-import java.io.*;
+import java.io.IOException;
 
 /**
  * This class implements a vector of bits that grows as needed. Each

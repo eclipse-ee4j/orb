@@ -19,7 +19,7 @@
 
 package pi.orbinit;
 
-import ORBInitTest.*;
+import ORBInitTest._SampleObjectImplBase;
 
 public class SampleObjectImpl
     extends _SampleObjectImplBase

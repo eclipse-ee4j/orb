@@ -19,24 +19,26 @@
 
 package corba.multiorb;
 
-import java.util.Properties;
-import org.omg.CosNaming.NamingContextHelper;
-import org.omg.PortableServer.IdAssignmentPolicyValue;
-import org.omg.PortableServer.ThreadPolicyValue;
-import org.omg.PortableServer.LifespanPolicyValue;
-import org.omg.PortableServer.IdUniquenessPolicyValue;
-import org.omg.PortableServer.ServantRetentionPolicyValue;
-import org.omg.PortableServer.RequestProcessingPolicyValue;
-import org.omg.PortableServer.ImplicitActivationPolicyValue;
-import org.omg.CORBA.Policy;
-import org.omg.PortableServer.Servant;
-
 import com.sun.corba.ee.spi.misc.ORBConstants;
-import examples.policy_2POA;
+
+import java.util.Properties;
+
 import org.omg.CORBA.ORB;
+import org.omg.CORBA.Policy;
 import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
+import org.omg.PortableServer.IdAssignmentPolicyValue;
+import org.omg.PortableServer.IdUniquenessPolicyValue;
+import org.omg.PortableServer.ImplicitActivationPolicyValue;
+import org.omg.PortableServer.LifespanPolicyValue;
 import org.omg.PortableServer.POA;
+import org.omg.PortableServer.RequestProcessingPolicyValue;
+import org.omg.PortableServer.Servant;
+import org.omg.PortableServer.ServantRetentionPolicyValue;
+import org.omg.PortableServer.ThreadPolicyValue;
+
+import examples.policy_2POA;
 
 class policy2_servantA extends policy_2POA
 {

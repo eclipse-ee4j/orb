@@ -24,30 +24,28 @@
 
 package corba.folb;
 
+import com.sun.corba.ee.impl.folb.ServerGroupManager;
+import com.sun.corba.ee.impl.misc.ORBUtility;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.oa.rfm.ReferenceFactory;
+import com.sun.corba.ee.spi.oa.rfm.ReferenceFactoryManager;
+import com.sun.corba.ee.spi.orb.DataCollector;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ORBConfigurator;
+
+import corba.framework.Options;
+import corba.hcks.U;
+
 import java.rmi.RemoteException;
 import java.util.Properties;
 
 import org.omg.CORBA.LocalObject;
 import org.omg.CORBA.ORBPackage.InvalidName;
-
 import org.omg.PortableServer.ForwardRequest;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.Servant;
 import org.omg.PortableServer.ServantLocator;
 import org.omg.PortableServer.ServantLocatorPackage.CookieHolder;
-
-import com.sun.corba.ee.spi.oa.rfm.ReferenceFactoryManager;
-import com.sun.corba.ee.spi.oa.rfm.ReferenceFactory;
-import com.sun.corba.ee.spi.orb.ORBConfigurator;
-import com.sun.corba.ee.spi.orb.DataCollector;
-import com.sun.corba.ee.spi.orb.ORB;
-
-import com.sun.corba.ee.impl.folb.ServerGroupManager;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.impl.misc.ORBUtility;
-
-import corba.framework.Options;
-import corba.hcks.U;
 
 /**
  * @author Harold Carr

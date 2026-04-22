@@ -17,8 +17,6 @@
  * Classpath-exception-2.0
  */
 
-import java.io.*;
-
 public class TestObjectSuperSub extends TestObjectSuper
 {
     public int dataxss0;

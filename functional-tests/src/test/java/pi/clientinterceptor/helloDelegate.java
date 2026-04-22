@@ -19,14 +19,10 @@
 
 package pi.clientinterceptor;
 
-import org.omg.CORBA.*;
+import java.io.PrintStream;
+import java.util.Observable;
 
-import java.io.*;
-import javax.rmi.*;
-import javax.naming.*;
-import java.util.*;
-
-import ClientRequestInterceptor.*; // hello interface
+import org.omg.CORBA.UNKNOWN;
 
 /**
  * Contains the actual implementations of hello operations.

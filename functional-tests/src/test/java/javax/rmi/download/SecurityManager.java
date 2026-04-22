@@ -20,10 +20,7 @@
 package javax.rmi.download;
 
 import java.io.FileDescriptor;
-import java.util.Hashtable;
 import java.net.InetAddress;
-import java.lang.reflect.Member;
-//import java.security.*;
 
 public class SecurityManager extends java.rmi.RMISecurityManager {
 

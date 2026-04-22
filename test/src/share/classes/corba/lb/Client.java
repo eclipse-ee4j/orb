@@ -24,18 +24,17 @@
 
 package corba.lb;
 
+import com.sun.corba.ee.spi.misc.ORBConstants;
+
+import java.rmi.RemoteException;
 import java.util.Hashtable;
 import java.util.Properties;
-import java.rmi.RemoteException;
+
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.rmi.PortableRemoteObject;
 
-import org.omg.CORBA.COMM_FAILURE;
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.SystemException;
-
-import com.sun.corba.ee.spi.misc.ORBConstants;
 
 /**
  * @Author Ken Cavanaugh

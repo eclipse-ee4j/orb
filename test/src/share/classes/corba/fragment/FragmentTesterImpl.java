@@ -20,6 +20,7 @@
 package corba.fragment;
 
 import java.rmi.RemoteException;
+
 import javax.rmi.PortableRemoteObject;
 
 public class FragmentTesterImpl extends PortableRemoteObject implements FragmentTester

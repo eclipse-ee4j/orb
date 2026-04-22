@@ -19,13 +19,12 @@
 
 package corba.nortel;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
-import javax.rmi.PortableRemoteObject;
-
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+
+import javax.rmi.PortableRemoteObject;
 
 public class EchoImpl extends PortableRemoteObject implements Echo {
     private String name ;

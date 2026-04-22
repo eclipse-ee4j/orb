@@ -24,20 +24,19 @@
 
 package corba.acceptorandcontactinfo;
 
-import javax.naming.InitialContext;
-
-import org.omg.CORBA.Policy;
-import org.omg.PortableServer.POA;
-import org.omg.PortableServer.ServantRetentionPolicyValue;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.transport.TransportManager;
 
 import corba.framework.Controller;
 import corba.framework.Options;
 import corba.hcks.C;
 import corba.hcks.U;
 
-import com.sun.corba.ee.spi.transport.TransportManager;
-import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.impl.legacy.connection.LegacyServerSocketManagerImpl;
+import javax.naming.InitialContext;
+
+import org.omg.CORBA.Policy;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.ServantRetentionPolicyValue;
 
 public class Server
 {

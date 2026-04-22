@@ -19,9 +19,9 @@
 
 package corba.misc ;
 
+import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.io.IOException;
 
 public class Buck implements java.io.Externalizable {
     String name = "";

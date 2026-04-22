@@ -19,9 +19,6 @@
 
 package pi.serverrequestinfo;
 
-import com.sun.corba.ee.impl.interceptors.*;
-import org.omg.PortableInterceptor.*;
-
 /**
  * Base class for all invocation strategies used in this test.  This allows
  * for dynamic behavior modifications between test cases of which objects

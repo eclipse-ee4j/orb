@@ -20,7 +20,6 @@
 package corba.framework;
 
 import org.omg.CORBA.ORB;
-import org.omg.CORBA.Object;
 import org.omg.CORBA.ORBPackage.InvalidName;
 
 public class ResolveNS {

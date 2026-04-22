@@ -19,10 +19,6 @@
 
 package pi.clientrequestinfo;
 
-import com.sun.corba.ee.impl.interceptors.*;
-import org.omg.PortableInterceptor.*;
-import org.omg.CORBA.*;
-
 /**
  * Invocation strategy in which a recursive call is made, causing
  * send_request and receive_reply to be invoked twice, as follows:

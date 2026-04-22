@@ -22,11 +22,6 @@ package com.sun.corba.ee.impl.presentation.rmi;
 
 import com.sun.corba.ee.spi.presentation.rmi.IDLNameTranslator;
 
-import java.lang.reflect.Method;
-import java.math.BigInteger;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
 import corba.dynamicrmiiiop.testclasses.ContainerClash1;
 import corba.dynamicrmiiiop.testclasses.ContainerClash2;
 import corba.dynamicrmiiiop.testclasses.IDLCaseSensitivityTest;
@@ -40,6 +35,12 @@ import corba.dynamicrmiiiop.testclasses.IDLPropertiesTest;
 import corba.dynamicrmiiiop.testclasses.InvalidRemotes;
 import corba.dynamicrmiiiop.testclasses._ContainerClash3;
 import corba.dynamicrmiiiop.testclasses._ContainerClash4;
+
+import java.lang.reflect.Method;
+import java.math.BigInteger;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import junit.framework.TestCase;
 
 public class TestIDLNameTranslator extends TestCase {

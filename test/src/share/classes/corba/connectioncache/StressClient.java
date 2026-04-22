@@ -19,29 +19,27 @@
 
 package corba.connectioncache ;
 
-import java.util.List;
-import java.util.ArrayList;
-
-import java.util.logging.Logger;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.StreamHandler;
-import java.util.logging.Formatter;
-import java.util.logging.LogRecord;
-
-import java.io.IOException;
-
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
 import com.sun.corba.ee.spi.transport.connection.ConnectionCache;
+import com.sun.corba.ee.spi.transport.connection.ConnectionCacheFactory;
 import com.sun.corba.ee.spi.transport.connection.ContactInfo;
 import com.sun.corba.ee.spi.transport.connection.InboundConnectionCache;
 import com.sun.corba.ee.spi.transport.connection.OutboundConnectionCache;
-import com.sun.corba.ee.spi.transport.connection.ConnectionCacheFactory;
 
 import corba.framework.TestngRunner;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import java.util.logging.Formatter;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+import java.util.logging.StreamHandler;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class StressClient {
     // Ignore all of the LogRecord information except the message.

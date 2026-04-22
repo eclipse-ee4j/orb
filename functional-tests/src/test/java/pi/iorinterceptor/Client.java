@@ -19,17 +19,14 @@
 
 package pi.iorinterceptor;
 
-import org.omg.CORBA.*;
-import com.sun.corba.ee.impl.corba.AnyImpl;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import org.omg.PortableInterceptor.*;
-import org.omg.IOP.*;
-import org.omg.IOP.CodecPackage.*;
-import org.omg.IOP.CodecFactoryPackage.*;
-import corba.framework.*;
+import corba.framework.InternalProcess;
 
-import java.util.*;
-import java.io.*;
+import java.io.PrintStream;
+import java.util.Hashtable;
+import java.util.Properties;
+
+import org.omg.CORBA.ORB;
+import org.omg.IOP.CodecFactory;
 
 public class Client
     implements InternalProcess

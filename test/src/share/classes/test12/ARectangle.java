@@ -20,8 +20,11 @@
 
 package test12;
 
-import java.io.*;
-import java.awt.*;
+import java.awt.Point;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamField;
 
 /**
  * NOTE : This code was taken from Sun's persistent fields example @

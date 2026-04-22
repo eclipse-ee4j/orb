@@ -24,17 +24,22 @@
 
 package corba.giopheaderpadding;
 
-import javax.naming.InitialContext;
-import org.omg.CORBA.ORB;
+import com.sun.corba.ee.impl.protocol.MessageMediatorImpl;
 
 import corba.framework.Controller;
 import corba.hcks.C;
 import corba.hcks.U;
 
-import com.sun.corba.ee.impl.protocol.MessageMediatorImpl;
+import java.lang.reflect.Field;
 
-import java.lang.reflect.*;
-import org.omg.PortableInterceptor.*;
+import javax.naming.InitialContext;
+
+import org.omg.CORBA.ORB;
+import org.omg.PortableInterceptor.ClientRequestInfo;
+import org.omg.PortableInterceptor.ClientRequestInterceptor;
+import org.omg.PortableInterceptor.ForwardRequest;
+import org.omg.PortableInterceptor.ORBInitInfo;
+import org.omg.PortableInterceptor.ORBInitializer;
 
 public class Client extends org.omg.CORBA.LocalObject
     implements ORBInitializer, ClientRequestInterceptor {

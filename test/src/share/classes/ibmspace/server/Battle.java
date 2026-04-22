@@ -20,8 +20,8 @@
 
 package ibmspace.server;
 
-import java.util.Vector;
 import java.io.Serializable;
+import java.util.Vector;
 
 public class Battle implements Serializable
 {

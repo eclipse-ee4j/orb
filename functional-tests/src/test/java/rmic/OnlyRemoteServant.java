@@ -21,6 +21,7 @@
 package rmic;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+
 import javax.rmi.PortableRemoteObject;
 
 public class OnlyRemoteServant extends PortableRemoteObject

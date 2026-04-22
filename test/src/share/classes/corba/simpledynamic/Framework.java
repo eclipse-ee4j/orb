@@ -20,29 +20,26 @@
 
 package corba.simpledynamic;
 
-import java.util.Properties;
-import java.util.Hashtable;
+import com.sun.corba.ee.impl.naming.cosnaming.TransientNameService;
+import com.sun.corba.ee.spi.JndiConstants;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB;
 
 import java.rmi.Remote;
-
-import javax.rmi.CORBA.Util;
-import javax.rmi.CORBA.Tie;
+import java.util.Hashtable;
+import java.util.Properties;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.rmi.CORBA.Tie;
+import javax.rmi.CORBA.Util;
 
-import com.sun.corba.ee.spi.JndiConstants;
 import org.testng.TestNG;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
-import com.sun.corba.ee.spi.orb.ORB;
-
-import com.sun.corba.ee.spi.misc.ORBConstants;
-
-import com.sun.corba.ee.impl.naming.cosnaming.TransientNameService;
-
-import static corba.framework.PRO.* ;
+import static corba.framework.PRO.narrow;
+import static corba.framework.PRO.toStub;
 
 public abstract class Framework {
     private ORB clientORB ;

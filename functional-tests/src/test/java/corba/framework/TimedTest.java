@@ -20,8 +20,8 @@
 package corba.framework ;
 
 import junit.extensions.RepeatedTest;
-import junit.framework.TestResult;
 import junit.framework.Test;
+import junit.framework.TestResult;
 
 public class TimedTest extends RepeatedTest
 {

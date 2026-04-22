@@ -24,8 +24,8 @@
 
 package corba.islocal;
 
-import corba.framework.Controller;
 import corba.framework.CORBATest;
+import corba.framework.Controller;
 
 public class IsLocalTest extends CORBATest {
     public static final String thisPackage =

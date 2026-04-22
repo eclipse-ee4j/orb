@@ -19,23 +19,21 @@
 
 package corba.fwddecl;
 
-import org.omg.CORBA.Any;
-import org.omg.CORBA_2_3.portable.OutputStream;
-import org.omg.CORBA_2_3.portable.InputStream;
-
-import java.util.Properties;
-
-import com.sun.corba.ee.spi.orb.ORB;
-
 import com.sun.corba.ee.impl.encoding.CDRInputObject;
 import com.sun.corba.ee.impl.encoding.CDROutputObject;
 import com.sun.corba.ee.impl.encoding.EncapsInputStream;
 import com.sun.corba.ee.impl.encoding.EncapsOutputStream;
-
-import org.testng.annotations.Test;
+import com.sun.corba.ee.spi.orb.ORB;
 
 import corba.framework.TestngRunner;
+
+import java.util.Properties;
+
 import org.glassfish.pfl.test.ObjectUtility;
+import org.omg.CORBA.Any;
+import org.omg.CORBA_2_3.portable.InputStream;
+import org.omg.CORBA_2_3.portable.OutputStream;
+import org.testng.annotations.Test;
 
 public class Client
 {

@@ -19,11 +19,12 @@
 
 package corba.strm2;
 
-import test.Test;
-import corba.framework.*;
-import java.util.*;
-import java.io.*;
-import com.sun.corba.ee.spi.orb.ORB;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
+import corba.framework.Options;
+
+import java.io.File;
+import java.util.ArrayList;
 
 public class Strm2Test extends CORBATest
 {

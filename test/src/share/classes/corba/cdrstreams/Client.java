@@ -19,18 +19,23 @@
 
 package corba.cdrstreams;
 
-import javax.rmi.PortableRemoteObject;
-import org.omg.CosNaming.*;
-import org.omg.CORBA.*;
-import java.util.* ;
-import java.rmi.RemoteException;
-import java.io.*;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeSuite;
-
 import corba.framework.TestngRunner;
+
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import java.util.Properties;
+import java.util.Vector;
+
+import javax.rmi.PortableRemoteObject;
+
+import org.omg.CORBA.ORB;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
 
 public class Client
 {

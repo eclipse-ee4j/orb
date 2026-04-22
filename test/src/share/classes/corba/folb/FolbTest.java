@@ -24,13 +24,8 @@
 
 package corba.folb;
 
-import java.util.Properties;
-
 import corba.framework.CORBATest;
 import corba.framework.Controller;
-import corba.framework.Options;
-
-import com.sun.corba.ee.spi.misc.ORBConstants;
 
 /**
  * @author Harold Carr

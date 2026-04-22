@@ -24,8 +24,8 @@
 
 package corba.hcks;
 
-import corba.framework.Controller;
 import corba.framework.CORBATest;
+import corba.framework.Controller;
 
 public class HcksTest
     extends

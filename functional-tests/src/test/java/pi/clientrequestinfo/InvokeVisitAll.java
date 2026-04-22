@@ -19,9 +19,7 @@
 
 package pi.clientrequestinfo;
 
-import com.sun.corba.ee.impl.interceptors.*;
-import org.omg.PortableInterceptor.*;
-import org.omg.CORBA.*;
+import org.omg.CORBA.UNKNOWN;
 
 /**
  * Invocation strategy in which each interception point is visited.

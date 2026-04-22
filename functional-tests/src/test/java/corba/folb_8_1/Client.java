@@ -24,20 +24,18 @@
 
 package corba.folb_8_1;
 
+import com.sun.corba.ee.spi.legacy.interceptor.RequestInfoExt;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.transport.Connection;
+import com.sun.corba.ee.spi.transport.SocketInfo;
+
 import java.util.Properties;
 
 import org.omg.CORBA.ORB;
-import org.omg.PortableInterceptor.ClientRequestInterceptor;
 import org.omg.PortableInterceptor.ClientRequestInfo;
-import org.omg.PortableInterceptor.ORBInitializer;
+import org.omg.PortableInterceptor.ClientRequestInterceptor;
 import org.omg.PortableInterceptor.ORBInitInfo;
-
-import com.sun.corba.ee.spi.transport.Connection;
-
-import com.sun.corba.ee.spi.legacy.interceptor.RequestInfoExt;
-import com.sun.corba.ee.spi.transport.SocketInfo;
-
-import com.sun.corba.ee.spi.misc.ORBConstants;
+import org.omg.PortableInterceptor.ORBInitializer;
 
 /**
  * @author Harold Carr

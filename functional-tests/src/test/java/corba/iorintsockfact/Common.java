@@ -24,12 +24,12 @@
 
 package corba.iorintsockfact;
 
-import org.omg.CORBA.CompletionStatus;
-import org.omg.CORBA.INTERNAL;
-import org.omg.CORBA.ORB;
-import org.omg.CosNaming.*;
-
 import com.sun.corba.ee.spi.misc.ORBConstants;
+
+import org.omg.CORBA.ORB;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
 
 /**
  * @author Harold Carr

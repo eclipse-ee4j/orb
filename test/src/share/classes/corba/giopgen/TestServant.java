@@ -24,16 +24,15 @@
 
 package corba.giopgen;
 
-import java.rmi.RemoteException;
-
-import java.util.Map;
-import java.util.HashMap;
+import com.sun.corba.ee.spi.logging.UtilSystemException;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.rmi.PortableRemoteObject;
 
-import com.sun.corba.ee.spi.logging.UtilSystemException;
 import org.glassfish.pfl.basic.contain.SPair;
 
 public class TestServant

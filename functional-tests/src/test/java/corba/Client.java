@@ -27,12 +27,10 @@ package corba.legacybootstrapserver;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Properties;
+
 import org.omg.CORBA.ORB;
-import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
+
 import corba.framework.Controller;
-import corba.framework.Options;
-import com.sun.corba.ee.spi.misc.ORBConstants;
 
 public class Client
 {

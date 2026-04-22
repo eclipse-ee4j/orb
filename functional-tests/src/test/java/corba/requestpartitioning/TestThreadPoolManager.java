@@ -19,16 +19,13 @@
 
 package corba.requestpartitioning;
 
+import com.sun.corba.ee.impl.threadpool.ThreadPoolImpl;
+import com.sun.corba.ee.spi.threadpool.NoSuchThreadPoolException;
 import com.sun.corba.ee.spi.threadpool.ThreadPoolChooser;
 import com.sun.corba.ee.spi.threadpool.ThreadPoolManager;
-import com.sun.corba.ee.spi.threadpool.ThreadPool;
-import com.sun.corba.ee.spi.threadpool.NoSuchThreadPoolException;
 
-import com.sun.corba.ee.impl.threadpool.ThreadPoolImpl;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-
-import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TestThreadPoolManager implements ThreadPoolManager {
 

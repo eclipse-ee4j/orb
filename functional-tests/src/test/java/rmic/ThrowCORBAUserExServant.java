@@ -19,9 +19,9 @@
  */
 
 package rmic;
-import org.omg.CORBA.UserException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
+
+import org.omg.CORBA.UserException;
 
 public class ThrowCORBAUserExServant implements ThrowCORBAUserException {
     public ThrowCORBAUserExServant() throws RemoteException {}

@@ -19,47 +19,51 @@
 
 package corba.msgtypes;
 
+import com.sun.corba.ee.impl.encoding.CDROutputObject;
+import com.sun.corba.ee.impl.ior.ObjectKeyFactoryImpl;
+import com.sun.corba.ee.impl.ior.ObjectKeyImpl;
+import com.sun.corba.ee.impl.ior.OldPOAObjectKeyTemplate;
+import com.sun.corba.ee.impl.ior.POAObjectKeyTemplate;
+import com.sun.corba.ee.impl.misc.ORBUtility;
+import com.sun.corba.ee.impl.protocol.ClientDelegateImpl;
+import com.sun.corba.ee.impl.protocol.giopmsgheaders.KeyAddr;
+import com.sun.corba.ee.impl.protocol.giopmsgheaders.LocateReplyMessage;
+import com.sun.corba.ee.impl.protocol.giopmsgheaders.LocateRequestMessage;
+import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
+import com.sun.corba.ee.impl.protocol.giopmsgheaders.MessageBase;
+import com.sun.corba.ee.impl.protocol.giopmsgheaders.RequestMessage;
+import com.sun.corba.ee.impl.transport.ContactInfoListImpl;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.ior.IORFactories;
+import com.sun.corba.ee.spi.ior.IORTemplate;
+import com.sun.corba.ee.spi.ior.ObjectAdapterId;
+import com.sun.corba.ee.spi.ior.ObjectKey;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+import com.sun.corba.ee.spi.ior.iiop.IIOPAddress;
+import com.sun.corba.ee.spi.ior.iiop.IIOPFactories;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
+import com.sun.corba.ee.spi.protocol.ClientDelegate;
+import com.sun.corba.ee.spi.protocol.MessageMediator;
+import com.sun.corba.ee.spi.servicecontext.ServiceContextDefaults;
+import com.sun.corba.ee.spi.transport.Connection;
+import com.sun.corba.ee.spi.transport.ConnectionCache;
+import com.sun.corba.ee.spi.transport.ContactInfo;
+import com.sun.corba.ee.spi.transport.ContactInfoList;
+
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.rmi.RemoteException;
+import java.util.Iterator;
+import java.util.Properties;
+
 import javax.rmi.PortableRemoteObject;
 
 import org.omg.CORBA.INTERNAL;
 import org.omg.CORBA.LocalObject;
-
-import com.sun.corba.ee.spi.transport.ConnectionCache;
-
-import com.sun.corba.ee.spi.ior.IOR;
-import com.sun.corba.ee.spi.ior.IORFactories;
-import com.sun.corba.ee.spi.ior.ObjectKey;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
-import com.sun.corba.ee.spi.ior.IORTemplate;
-import com.sun.corba.ee.spi.ior.ObjectAdapterId;
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-import com.sun.corba.ee.spi.ior.iiop.IIOPAddress;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
-import com.sun.corba.ee.spi.ior.iiop.IIOPFactories;
-import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.spi.protocol.MessageMediator;
-import com.sun.corba.ee.spi.protocol.ClientDelegate;
-import com.sun.corba.ee.spi.transport.Connection;
-import com.sun.corba.ee.spi.transport.ContactInfo;
-import com.sun.corba.ee.spi.transport.ContactInfoList;
-import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
-import com.sun.corba.ee.spi.servicecontext.ServiceContextDefaults;
-
-import com.sun.corba.ee.impl.encoding.CDROutputObject;
-import com.sun.corba.ee.impl.ior.ObjectKeyFactoryImpl;
-import com.sun.corba.ee.impl.ior.ObjectKeyImpl;
-import com.sun.corba.ee.impl.ior.POAObjectKeyTemplate;
-import com.sun.corba.ee.impl.ior.OldPOAObjectKeyTemplate;
-import com.sun.corba.ee.impl.misc.ORBUtility;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.impl.protocol.ClientDelegateImpl;
-import com.sun.corba.ee.impl.protocol.giopmsgheaders.*;
-import com.sun.corba.ee.impl.transport.ContactInfoListImpl;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.Properties;
 import org.omg.PortableInterceptor.ClientRequestInfo;
 import org.omg.PortableInterceptor.ClientRequestInterceptor;
 import org.omg.PortableInterceptor.ForwardRequest;

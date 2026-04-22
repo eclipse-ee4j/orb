@@ -18,7 +18,6 @@
  */
 
 import corba.strm2.Testable;
-import java.io.*;
 
 public class TestObject extends TestObjectSuper implements Testable
 {

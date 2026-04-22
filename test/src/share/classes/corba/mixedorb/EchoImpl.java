@@ -19,8 +19,8 @@
 
 package corba.mixedorb;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
+
 import javax.rmi.PortableRemoteObject;
 
 public class EchoImpl extends PortableRemoteObject implements Echo {
