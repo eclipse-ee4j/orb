@@ -19,9 +19,9 @@
 
 package corba.preinvokepostinvoke;
 
-import java.rmi.RemoteException ;
-import javax.rmi.PortableRemoteObject ;
-import org.omg.CORBA.ORB ;
+import java.rmi.RemoteException;
+import javax.rmi.PortableRemoteObject;
+import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
 

@@ -20,7 +20,7 @@
 
 package com.sun.corba.ee.impl.corba;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
 ///////////////////////////////////////////////////////////////////////////
 // helper class for deferred invocations

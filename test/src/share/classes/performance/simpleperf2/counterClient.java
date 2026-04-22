@@ -23,14 +23,14 @@ import java.io.PrintStream;
 import java.util.Hashtable;
 import java.util.Properties;
 
-import javax.rmi.PortableRemoteObject ;
-import java.rmi.RemoteException ;
+import javax.rmi.PortableRemoteObject;
+import java.rmi.RemoteException;
 
 import org.omg.CORBA.ORB;
 import org.omg.PortableServer.POA;
-import org.omg.PortableServer.Servant ;
+import org.omg.PortableServer.Servant;
 import org.omg.PortableServer.ServantLocator;
-import org.omg.PortableServer.ServantLocatorPackage.CookieHolder ;
+import org.omg.PortableServer.ServantLocatorPackage.CookieHolder;
 
 import corba.framework.InternalProcess;
 

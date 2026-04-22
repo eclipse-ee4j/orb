@@ -28,32 +28,32 @@ import java.util.Vector;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
-import java.util.Properties ;
+import java.util.Properties;
 
-import java.rmi.Remote ;
+import java.rmi.Remote;
 
-import java.lang.reflect.Field ;
+import java.lang.reflect.Field;
 
-import java.security.AccessController ;
-import java.security.PrivilegedAction ;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 
-import javax.rmi.PortableRemoteObject ;
+import javax.rmi.PortableRemoteObject;
 
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 
-import org.omg.PortableServer.POA ;
-import org.omg.PortableServer.Servant ;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.Servant;
 
-import org.omg.PortableInterceptor.ORBInitializer ;
+import org.omg.PortableInterceptor.ORBInitializer;
 
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.orb.ORBData ;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ORBData;
 
-import com.sun.corba.ee.impl.orb.ORBDataParserImpl ;
-import com.sun.corba.ee.impl.orb.ORBImpl ;
+import com.sun.corba.ee.impl.orb.ORBDataParserImpl;
+import com.sun.corba.ee.impl.orb.ORBImpl;
 
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
 public class Common
 {

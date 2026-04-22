@@ -27,7 +27,7 @@ import org.omg.CORBA.*;
 import java.util.Properties;
 import org.omg.PortableServer.*;
 
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
 public class Server
 {

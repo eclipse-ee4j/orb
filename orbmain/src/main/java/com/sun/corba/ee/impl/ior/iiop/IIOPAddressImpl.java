@@ -19,9 +19,9 @@
 
 package com.sun.corba.ee.impl.ior.iiop;
 
-import com.sun.corba.ee.spi.logging.IORSystemException ;
+import com.sun.corba.ee.spi.logging.IORSystemException;
 
-import org.omg.CORBA_2_3.portable.InputStream ;
+import org.omg.CORBA_2_3.portable.InputStream;
 
 /**
  * @author Ken Cavanaugh

@@ -19,7 +19,7 @@
 
 package corba.misc ;
 
-import java.util.Vector ;
+import java.util.Vector;
 
 public class BuckPasserV extends Vector {
 }

@@ -32,12 +32,12 @@ import com.sun.corba.ee.spi.activation.LocatorPackage.ServerLocationPerORB;
 
 import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.ior.IORTemplate;
-import com.sun.corba.ee.spi.ior.ObjectKey ;
-import com.sun.corba.ee.spi.ior.IORFactories ;
-import com.sun.corba.ee.spi.ior.ObjectKeyFactory ;
+import com.sun.corba.ee.spi.ior.ObjectKey;
+import com.sun.corba.ee.spi.ior.IORFactories;
+import com.sun.corba.ee.spi.ior.ObjectKeyFactory;
 
-import com.sun.corba.ee.spi.ior.iiop.IIOPFactories ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate ;
+import com.sun.corba.ee.spi.ior.iiop.IIOPFactories;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 
 import com.sun.corba.ee.spi.protocol.ForwardException;
@@ -48,7 +48,7 @@ import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.impl.misc.ORBUtility;
 
 import com.sun.corba.ee.impl.ior.IORImpl;
-import com.sun.corba.ee.impl.ior.POAObjectKeyTemplate ;
+import com.sun.corba.ee.impl.ior.POAObjectKeyTemplate;
 
 import com.sun.corba.ee.impl.oa.poa.BadServerIdHandler;
 

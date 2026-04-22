@@ -19,7 +19,7 @@
 
 package argparser ;
 
-import java.lang.reflect.Method ;
+import java.lang.reflect.Method;
 
 public interface ElementParser extends UnaryFunction<String,Object> {
     String[] describe() ;

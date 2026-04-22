@@ -19,36 +19,36 @@
 
 package hopper.h4647746;
 
-import java.io.PrintStream ;
+import java.io.PrintStream;
 
-import java.util.Properties ;
-import java.util.LinkedList ;
-import java.util.Iterator ;
-import java.util.StringTokenizer ;
-import java.util.Arrays ;
+import java.util.Properties;
+import java.util.LinkedList;
+import java.util.Iterator;
+import java.util.StringTokenizer;
+import java.util.Arrays;
 
-import org.omg.PortableServer.POA ;
-import org.omg.PortableServer.Servant ;
-import org.omg.PortableServer.RequestProcessingPolicyValue ;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.Servant;
+import org.omg.PortableServer.RequestProcessingPolicyValue;
 
-import org.omg.PortableServer.POAPackage.WrongPolicy ;
-import org.omg.PortableServer.POAPackage.InvalidPolicy ;
-import org.omg.PortableServer.POAPackage.AdapterAlreadyExists ;
+import org.omg.PortableServer.POAPackage.WrongPolicy;
+import org.omg.PortableServer.POAPackage.InvalidPolicy;
+import org.omg.PortableServer.POAPackage.AdapterAlreadyExists;
 
-import org.omg.PortableServer.portable.Delegate ;
+import org.omg.PortableServer.portable.Delegate;
 
-import org.omg.CORBA.portable.ObjectImpl ;
+import org.omg.CORBA.portable.ObjectImpl;
 
-import org.omg.CORBA.ORB ;
-import org.omg.CORBA.Policy ;
-import org.omg.CORBA.BAD_PARAM ;
-import org.omg.CORBA.INTERNAL ;
-import org.omg.CORBA.OctetSeqHolder ;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.Policy;
+import org.omg.CORBA.BAD_PARAM;
+import org.omg.CORBA.INTERNAL;
+import org.omg.CORBA.OctetSeqHolder;
 
-import org.omg.CORBA.ORBPackage.InvalidName ;
+import org.omg.CORBA.ORBPackage.InvalidName;
 
-import org.omg.CORBA_2_3.portable.OutputStream ;
-import org.omg.CORBA_2_3.portable.InputStream ;
+import org.omg.CORBA_2_3.portable.OutputStream;
+import org.omg.CORBA_2_3.portable.InputStream;
 
 public class Client
 {

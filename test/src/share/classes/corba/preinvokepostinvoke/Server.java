@@ -27,7 +27,7 @@ import org.omg.PortableServer.Servant;
 import org.omg.PortableServer.ServantManager;
 import org.omg.PortableServer.ServantRetentionPolicyValue;
 import org.omg.PortableServer.ServantLocator;
-import javax.rmi.PortableRemoteObject ;
+import javax.rmi.PortableRemoteObject;
 import com.sun.corba.ee.spi.extension.ServantCachingPolicy;
 
 public class Server {

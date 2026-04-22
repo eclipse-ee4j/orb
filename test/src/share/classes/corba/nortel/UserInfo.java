@@ -19,7 +19,7 @@
 
 package corba.nortel ;
 
-import java.io.Serializable ;
+import java.io.Serializable;
 
 public class UserInfo implements Serializable {
     private String firstName ;

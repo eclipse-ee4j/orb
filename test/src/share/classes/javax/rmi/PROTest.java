@@ -39,8 +39,8 @@ import javax.naming.Context;
 import com.sun.org.omg.SendingContext.CodeBase;
 import alpha.bravo.Multi;
 
-import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
-import com.sun.corba.ee.spi.presentation.rmi.PresentationManager ;
+import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
+import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 import org.glassfish.pfl.test.JUnitReportHelper;
 
 /*

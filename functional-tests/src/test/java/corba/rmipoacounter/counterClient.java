@@ -21,10 +21,10 @@ package corba.rmipoacounter;
 
 import java.util.*;
 import java.io.*;
-import java.io.DataInputStream ;
+import java.io.DataInputStream;
 import org.omg.CORBA.*;
 import org.omg.CosNaming.*;
-import javax.rmi.PortableRemoteObject ;
+import javax.rmi.PortableRemoteObject;
 import corba.framework.*;
 
 public class counterClient implements InternalProcess

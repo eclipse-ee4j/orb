@@ -19,13 +19,13 @@
 
 package com.sun.corba.ee.spi.presentation.rmi ;
 
-import java.lang.reflect.Method ;
-import java.rmi.RemoteException ;
+import java.lang.reflect.Method;
+import java.rmi.RemoteException;
 
-import org.omg.CORBA.ORB ;
-import org.omg.CORBA.portable.ApplicationException ;
-import org.omg.CORBA_2_3.portable.InputStream ;
-import org.omg.CORBA_2_3.portable.OutputStream ;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.portable.ApplicationException;
+import org.omg.CORBA_2_3.portable.InputStream;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 /** Used to read and write arguments and results for a particular method.
 *

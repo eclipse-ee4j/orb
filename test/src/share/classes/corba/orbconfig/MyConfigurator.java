@@ -19,9 +19,9 @@
 
 package corba.orbconfig ;
 
-import com.sun.corba.ee.spi.orb.DataCollector ;
-import com.sun.corba.ee.spi.orb.ORBConfigurator ;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.DataCollector;
+import com.sun.corba.ee.spi.orb.ORBConfigurator;
+import com.sun.corba.ee.spi.orb.ORB;
 
 public class MyConfigurator implements ORBConfigurator
 {

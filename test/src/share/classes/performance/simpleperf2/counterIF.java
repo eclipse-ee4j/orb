@@ -19,8 +19,8 @@
 
 package performance.simpleperf2;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 public interface counterIF extends java.rmi.Remote {
     public long increment( long invalue ) throws java.rmi.RemoteException ;

@@ -19,23 +19,23 @@
 
 package com.sun.corba.ee.impl.orb ;
 
-import com.sun.corba.ee.org.omg.CORBA.GetPropertyAction ;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-import com.sun.corba.ee.spi.orb.DataCollector ;
-import com.sun.corba.ee.spi.orb.PropertyParser ;
+import com.sun.corba.ee.org.omg.CORBA.GetPropertyAction;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.DataCollector;
+import com.sun.corba.ee.spi.orb.PropertyParser;
 
-import java.applet.Applet ;
-import java.io.File ;
-import java.io.FileInputStream ;
-import java.net.URL ;
-import java.security.AccessController ;
-import java.security.PrivilegedAction ;
-import java.util.Enumeration ;
-import java.util.HashSet ;
-import java.util.Iterator ;
-import java.util.Properties ;
-import java.util.Set ;
-import java.util.StringTokenizer ;
+import java.applet.Applet;
+import java.io.File;
+import java.io.FileInputStream;
+import java.net.URL;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 public abstract class DataCollectorBase implements DataCollector {
     private Set<String> propertyNames ;

@@ -19,9 +19,9 @@
 
 package com.sun.corba.ee.impl.resolver ;
 
-import com.sun.corba.ee.impl.misc.CorbaResourceUtil ;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.resolver.Resolver ;
+import com.sun.corba.ee.impl.misc.CorbaResourceUtil;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.resolver.Resolver;
 
 import java.io.File;
 import java.io.FileInputStream;

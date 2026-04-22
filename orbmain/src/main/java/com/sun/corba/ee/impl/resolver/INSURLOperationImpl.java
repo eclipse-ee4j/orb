@@ -34,25 +34,25 @@ import com.sun.corba.ee.spi.ior.ObjectKey;
 import com.sun.corba.ee.spi.ior.iiop.AlternateIIOPAddressComponent;
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 import com.sun.corba.ee.spi.ior.iiop.IIOPAddress;
-import com.sun.corba.ee.spi.ior.iiop.IIOPFactories ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate ;
-import com.sun.corba.ee.spi.logging.OMGSystemException ;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.ior.iiop.IIOPFactories;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
+import com.sun.corba.ee.spi.logging.OMGSystemException;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.orb.Operation;
 
-import java.util.ArrayList ;
-import java.util.Collections ;
-import java.util.Comparator ;
-import java.util.HashMap ;
-import java.util.Iterator ;
-import java.util.List ;
-import java.util.Map ;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-import org.omg.CORBA.ORBPackage.InvalidName ;
-import org.omg.CosNaming.NamingContextExt ;
-import org.omg.CosNaming.NamingContextExtHelper ;
+import org.omg.CORBA.ORBPackage.InvalidName;
+import org.omg.CosNaming.NamingContextExt;
+import org.omg.CosNaming.NamingContextExtHelper;
 
 /**
  * This class provides an Operation that converts from CORBA INS URL strings into

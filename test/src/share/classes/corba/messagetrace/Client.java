@@ -19,52 +19,52 @@
 
 package corba.messagetrace  ;
 
-import java.util.Properties ;
+import java.util.Properties;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
-import javax.rmi.PortableRemoteObject ;
-import javax.rmi.CORBA.Util ;
-import javax.rmi.CORBA.Tie ;
+import javax.rmi.PortableRemoteObject;
+import javax.rmi.CORBA.Util;
+import javax.rmi.CORBA.Tie;
 
-import java.nio.ByteBuffer ;
+import java.nio.ByteBuffer;
 
 import corba.util.TransportManagerUtil;
-import org.omg.CORBA.TypeCode ;
-import org.omg.CORBA.ValueMember ;
-import org.omg.CORBA.PUBLIC_MEMBER ;
-import org.omg.CORBA.PRIVATE_MEMBER ;
+import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.ValueMember;
+import org.omg.CORBA.PUBLIC_MEMBER;
+import org.omg.CORBA.PRIVATE_MEMBER;
 
 // I have removed some weblogic test code for bug 5034649.
 // We need to check to see if we can include this, because
 // the test case relies on code supplied by BEA.
-// import weblogic.management.WebLogicObjectName ;
-// import weblogic.management.internal.WebLogicAttribute ;
+// import weblogic.management.WebLogicObjectName;
+// import weblogic.management.internal.WebLogicAttribute;
 
-import javax.management.ObjectName ;
-import javax.management.Attribute ;
+import javax.management.ObjectName;
+import javax.management.Attribute;
 
-import junit.framework.TestCase ;
-import junit.framework.Test ;
-import junit.framework.TestResult ;
-import junit.framework.TestSuite ;
-import junit.extensions.TestSetup ;
+import junit.framework.TestCase;
+import junit.framework.Test;
+import junit.framework.TestResult;
+import junit.framework.TestSuite;
+import junit.extensions.TestSetup;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import com.sun.corba.ee.spi.transport.TransportManager ;
-import com.sun.corba.ee.spi.transport.MessageTraceManager ;
-import com.sun.corba.ee.spi.transport.MessageData ;
+import com.sun.corba.ee.spi.transport.TransportManager;
+import com.sun.corba.ee.spi.transport.MessageTraceManager;
+import com.sun.corba.ee.spi.transport.MessageData;
 
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion ;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 
-import com.sun.corba.ee.impl.misc.ORBUtility ;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.impl.misc.ORBUtility;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
-import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message ;
+import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
 
-import com.sun.corba.ee.impl.encoding.CDRInputObject ;
+import com.sun.corba.ee.impl.encoding.CDRInputObject;
 import org.glassfish.pfl.test.TestCaseTools;
 
 public class Client extends TestCase

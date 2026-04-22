@@ -34,10 +34,10 @@ import javax.rmi.PortableRemoteObject;
 import org.omg.CORBA.portable.ServantObject;
 import org.omg.CORBA.portable.Delegate;
 
-import com.sun.corba.ee.spi.ior.IOR ;
-import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.orb.ORBData ;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ORBData;
 import org.glassfish.pfl.test.JUnitReportHelper;
 
 /*

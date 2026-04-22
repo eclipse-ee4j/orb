@@ -25,7 +25,7 @@ import org.glassfish.rmic.iiop.Constants;
 import org.glassfish.rmic.tools.java.ClassPath;
 import java.lang.reflect.Method;
 
-import corba.framework.TestngRunner ;
+import corba.framework.TestngRunner;
 
 public class ParseTest extends test.Test implements Constants {
     public static ClassPath createClassPath() {

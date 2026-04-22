@@ -33,13 +33,13 @@ import org.glassfish.rmic.iiop.RemoteType;
 import org.glassfish.rmic.iiop.AbstractType;
 import org.glassfish.rmic.iiop.ContextStack;
 
-import org.testng.Assert ;
+import org.testng.Assert;
 
-import org.testng.annotations.Test ;
-import org.testng.annotations.AfterGroups ;
-import org.testng.annotations.BeforeGroups ;
-import org.testng.annotations.AfterSuite ;
-import org.testng.annotations.BeforeSuite ;
+import org.testng.annotations.Test;
+import org.testng.annotations.AfterGroups;
+import org.testng.annotations.BeforeGroups;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeSuite;
 
 public class TestExecutor {
     private ByteArrayOutputStream out = null;

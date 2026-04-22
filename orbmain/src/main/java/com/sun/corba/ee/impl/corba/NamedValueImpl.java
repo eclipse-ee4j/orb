@@ -20,7 +20,7 @@
 
 package com.sun.corba.ee.impl.corba;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
 import org.omg.CORBA.Any;
 import org.omg.CORBA.NamedValue;

@@ -19,11 +19,11 @@
 
 package com.sun.corba.ee.spi.orb ;
 
-import java.util.AbstractMap ;
-import java.util.AbstractSet ;
-import java.util.Iterator ;
-import java.util.Map ;
-import java.util.Set ;
+import java.util.AbstractMap;
+import java.util.AbstractSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 public abstract class ParserImplTableBase extends ParserImplBase {
     private final ParserData[] entries ;

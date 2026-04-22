@@ -79,7 +79,7 @@ import java.util.Random;
 import javax.rmi.CORBA.Tie;
 import javax.rmi.PortableRemoteObject;
 
-//import com.sun.corba.ee.impl.orbutil.newtimer.generated.TimingPoints ;
+//import com.sun.corba.ee.impl.orbutil.newtimer.generated.TimingPoints;
 
 public class Client extends TestCase
 {

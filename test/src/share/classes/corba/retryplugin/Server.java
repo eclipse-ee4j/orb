@@ -30,9 +30,9 @@ import org.omg.CORBA.ORB;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.Servant;
 
-import com.sun.corba.ee.impl.plugin.hwlb.RetryServerRequestInterceptor ;
+import com.sun.corba.ee.impl.plugin.hwlb.RetryServerRequestInterceptor;
 
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
 /**
  * @author Harold Carr

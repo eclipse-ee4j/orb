@@ -27,10 +27,10 @@ import java.rmi.RemoteException;
 import java.io.*;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
-import org.testng.annotations.Test ;
-import org.testng.annotations.BeforeSuite ;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeSuite;
 
-import corba.framework.TestngRunner ;
+import corba.framework.TestngRunner;
 
 public class Client
 {

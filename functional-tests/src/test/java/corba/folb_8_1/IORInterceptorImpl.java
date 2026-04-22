@@ -36,7 +36,7 @@ import org.omg.PortableInterceptor.ORBInitInfo;
 import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
 import com.sun.corba.ee.spi.legacy.interceptor.IORInfoExt;
-import com.sun.corba.ee.spi.legacy.interceptor.ORBInitInfoExt ;
+import com.sun.corba.ee.spi.legacy.interceptor.ORBInitInfoExt;
 import com.sun.corba.ee.spi.orb.ORB;
 
 import com.sun.corba.ee.impl.misc.ORBUtility;

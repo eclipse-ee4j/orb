@@ -19,25 +19,25 @@
  */
 
 package corba.fsm ;
-import java.util.Iterator ;
-import java.util.Properties ;
-import java.util.Map ;
-import java.util.List ;
-import java.util.ArrayList ;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
-import java.io.PrintWriter ;
+import java.io.PrintWriter;
 
-import org.testng.TestNG ;
-import org.testng.Assert ;
-import org.testng.annotations.Test ;
+import org.testng.TestNG;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
 
-import com.sun.corba.ee.impl.orbutil.newtimer.VersionedHashSet ;
-import com.sun.corba.ee.impl.orbutil.newtimer.TimingPoints ;
+import com.sun.corba.ee.impl.orbutil.newtimer.VersionedHashSet;
+import com.sun.corba.ee.impl.orbutil.newtimer.TimingPoints;
 
-import com.sun.corba.ee.impl.orbutil.ORBConstants ;
+import com.sun.corba.ee.impl.orbutil.ORBConstants;
 
 public class Client {
     private Foo extends NameBase {

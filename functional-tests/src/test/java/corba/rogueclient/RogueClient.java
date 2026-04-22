@@ -40,7 +40,7 @@ import java.rmi.RemoteException;
 import javax.naming.InitialContext;
 import javax.rmi.PortableRemoteObject;
 
-import java.util.concurrent.atomic.AtomicInteger ;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.glassfish.pfl.test.JUnitReportHelper;
 
 public class RogueClient implements Runnable

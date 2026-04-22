@@ -20,7 +20,7 @@
 package com.sun.corba.ee.impl.presentation.rmi.proxy;
 
 import com.sun.corba.ee.impl.presentation.rmi.StubFactoryFactoryDynamicBase;
-import com.sun.corba.ee.spi.presentation.rmi.PresentationManager ;
+import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 import com.sun.corba.ee.spi.presentation.rmi.PresentationManager.StubFactory;
 
 import java.security.AccessController;

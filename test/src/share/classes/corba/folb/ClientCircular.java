@@ -30,10 +30,10 @@ import org.omg.CORBA.SystemException;
 
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
-import org.testng.annotations.BeforeSuite ;
-import org.testng.annotations.Test ;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
 
-import org.testng.Assert ;
+import org.testng.Assert;
 
 /**
  * @author Harold Carr

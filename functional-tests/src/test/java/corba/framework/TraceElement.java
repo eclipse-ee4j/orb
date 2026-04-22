@@ -19,7 +19,7 @@
 
 package corba.framework ;
 
-import java.lang.reflect.Method ;
+import java.lang.reflect.Method;
 
 public class TraceElement
 {

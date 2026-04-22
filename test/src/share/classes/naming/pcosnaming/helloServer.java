@@ -19,7 +19,7 @@
 
 package naming.pcosnaming;
 
-import HelloApp._helloImplBase ;
+import HelloApp._helloImplBase;
 import corba.framework.Controller;
 import corba.framework.InternalProcess;
 import java.io.PrintStream;

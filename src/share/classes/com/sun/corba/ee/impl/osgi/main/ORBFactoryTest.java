@@ -19,22 +19,22 @@
 
 package com.sun.corba.ee.impl.osgi.main ;
 
-import org.osgi.framework.Bundle ;
-import org.osgi.framework.BundleActivator ;
-import org.osgi.framework.BundleEvent ;
-import org.osgi.framework.BundleContext ;
-import org.osgi.framework.SynchronousBundleListener ;
-import org.osgi.framework.ServiceReference ;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleEvent;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.SynchronousBundleListener;
+import org.osgi.framework.ServiceReference;
 
-import org.osgi.service.packageadmin.PackageAdmin ;
-import org.osgi.service.packageadmin.ExportedPackage ;
+import org.osgi.service.packageadmin.PackageAdmin;
+import org.osgi.service.packageadmin.ExportedPackage;
 
-import java.util.Properties ;
+import java.util.Properties;
 
-import com.sun.corba.ee.spi.osgi.ORBFactory ;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-import com.sun.corba.ee.spi.oa.rfm.ReferenceFactoryManager ;
+import com.sun.corba.ee.spi.osgi.ORBFactory;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.oa.rfm.ReferenceFactoryManager;
 
 public class ORBFactoryTest implements BundleActivator, SynchronousBundleListener {
     private static PackageAdmin pkgAdmin ;

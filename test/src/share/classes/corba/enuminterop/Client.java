@@ -21,7 +21,7 @@ package corba.enuminterop  ;
 
 import corba.framework.TestngRunner;
 import java.io.PrintStream;
-import java.rmi.RemoteException ;
+import java.rmi.RemoteException;
 
 import org.omg.CORBA.ORB;
 
@@ -31,8 +31,8 @@ import org.omg.CosNaming.NamingContext;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextHelper;
 
-import org.testng.Assert ;
-import org.testng.annotations.Test ;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 /**
  * This tests that enums can be correctly deserialized when sent from the JDK ORB (no EnumDesc support)

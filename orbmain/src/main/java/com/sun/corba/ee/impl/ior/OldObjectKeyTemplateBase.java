@@ -19,9 +19,9 @@
 
 package com.sun.corba.ee.impl.ior;
 
-import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.orb.ORBVersionFactory ;
+import com.sun.corba.ee.spi.ior.ObjectAdapterId;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ORBVersionFactory;
 
 /**
  * @author Ken Cavanaugh

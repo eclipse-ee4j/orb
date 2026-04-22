@@ -19,7 +19,7 @@
 
 package corba.poapolicies;
 
-import Util.CreationMethods ;
+import Util.CreationMethods;
 
 public class ObjectFactoryUsingServantManager extends BasicObjectFactoryImpl {
     private static int idNum = 0;

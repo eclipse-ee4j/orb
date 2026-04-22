@@ -19,21 +19,21 @@
 
 package corba.dynamicrmiiiop.testclasses ;
 
-import java.rmi.RemoteException ;
+import java.rmi.RemoteException;
 
-import java.util.Map ;
-import java.util.HashMap ;
+import java.util.Map;
+import java.util.HashMap;
 
-import javax.rmi.CORBA.Util ;
+import javax.rmi.CORBA.Util;
 
-import org.omg.CORBA.BAD_PARAM ;
-import org.omg.CORBA.BAD_OPERATION ;
-import org.omg.CORBA.CompletionStatus ;
-import org.omg.CORBA.SystemException ;
+import org.omg.CORBA.BAD_PARAM;
+import org.omg.CORBA.BAD_OPERATION;
+import org.omg.CORBA.CompletionStatus;
+import org.omg.CORBA.SystemException;
 
-import org.omg.CORBA.portable.UnknownException ;
+import org.omg.CORBA.portable.UnknownException;
 
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import org.glassfish.pfl.test.ObjectUtility;
 
 public class TieTestImpl implements TieTest

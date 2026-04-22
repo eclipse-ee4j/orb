@@ -19,17 +19,17 @@
 
 package corba.dynamicrmiiiop ;
 
-import org.omg.CORBA.portable.ApplicationException ;
-import org.omg.CORBA_2_3.portable.InputStream ;
-import org.omg.CORBA_2_3.portable.OutputStream ;
+import org.omg.CORBA.portable.ApplicationException;
+import org.omg.CORBA_2_3.portable.InputStream;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
-import com.sun.corba.ee.impl.encoding.CDROutputObject ;
-import com.sun.corba.ee.impl.encoding.EncapsInputStream ;
-import com.sun.corba.ee.impl.encoding.EncapsOutputStream ;
-import com.sun.corba.ee.impl.encoding.CDRInputObject ;
+import com.sun.corba.ee.impl.encoding.CDROutputObject;
+import com.sun.corba.ee.impl.encoding.EncapsInputStream;
+import com.sun.corba.ee.impl.encoding.EncapsOutputStream;
+import com.sun.corba.ee.impl.encoding.CDRInputObject;
 
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
 public class TestTransport {
     private ORB orb ;

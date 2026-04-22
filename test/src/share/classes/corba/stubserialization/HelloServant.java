@@ -22,11 +22,11 @@ package corba.stubserialization;
 import java.rmi.RemoteException;
 
 import javax.rmi.PortableRemoteObject;
-import java.io.FileInputStream ;
-import java.io.ObjectInputStream ;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 
-import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
+import com.sun.corba.ee.spi.orb.ORB;
 
 public class HelloServant extends PortableRemoteObject implements Hello
 {

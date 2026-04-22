@@ -22,7 +22,7 @@
  */
 package com.sun.corba.ee.impl.transport.concurrent ;
 
-import java.util.concurrent.atomic.AtomicReference ;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class LMSQueue<V> {
     static private class Node<V> {

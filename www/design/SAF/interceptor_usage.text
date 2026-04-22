@@ -56,12 +56,12 @@ ORBD Activator:
 
 package com.sun.corba.ee.internal.PortableActivation ;
 
-import com.sun.corba.ee.PortableActivation.ObjectTemplate ;
-import com.sun.corba.ee.PortableActivation.ObjectTemplateValueFactory ;
-import com.sun.corba.ee.PortableActivation.Activator ;
+import com.sun.corba.ee.PortableActivation.ObjectTemplate;
+import com.sun.corba.ee.PortableActivation.ObjectTemplateValueFactory;
+import com.sun.corba.ee.PortableActivation.Activator;
 import org.omg.CORBA_2_3.ORB  ;
-import org.omg.PortableServer.POA ;
-import org.omg.CORBA.Policy ;
+import org.omg.PortableServer.POA;
+import org.omg.CORBA.Policy;
 
 class ORBDActivator implements Activator {
     Activator( ORB orb ) {

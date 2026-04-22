@@ -19,8 +19,8 @@
 
 package com.sun.corba.ee.impl.io;
 
-import com.sun.corba.ee.impl.misc.ClassInfoCache ;
-import com.sun.corba.ee.impl.misc.ORBUtility ;
+import com.sun.corba.ee.impl.misc.ClassInfoCache;
+import com.sun.corba.ee.impl.misc.ORBUtility;
 
 import java.lang.reflect.Method;
 import java.security.AccessController;

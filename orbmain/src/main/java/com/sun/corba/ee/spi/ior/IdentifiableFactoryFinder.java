@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.spi.ior;
 
-import org.omg.CORBA_2_3.portable.InputStream ;
+import org.omg.CORBA_2_3.portable.InputStream;
 
 /** Interface used to manage a group of related IdentifiableFactory instances.
  * Factories can be registered, and invoked through a create method, which

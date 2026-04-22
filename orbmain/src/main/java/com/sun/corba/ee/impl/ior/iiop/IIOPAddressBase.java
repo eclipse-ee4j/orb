@@ -19,9 +19,9 @@
 
 package com.sun.corba.ee.impl.ior.iiop ;
 
-import com.sun.corba.ee.spi.ior.iiop.IIOPAddress ;
+import com.sun.corba.ee.spi.ior.iiop.IIOPAddress;
 
-import org.omg.CORBA_2_3.portable.OutputStream ;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 abstract class IIOPAddressBase implements IIOPAddress
 {

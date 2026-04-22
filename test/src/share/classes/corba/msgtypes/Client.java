@@ -22,8 +22,8 @@ package corba.msgtypes;
 import java.rmi.RemoteException;
 import javax.rmi.PortableRemoteObject;
 
-import org.omg.CORBA.INTERNAL ;
-import org.omg.CORBA.LocalObject ;
+import org.omg.CORBA.INTERNAL;
+import org.omg.CORBA.LocalObject;
 
 import com.sun.corba.ee.spi.transport.ConnectionCache;
 
@@ -41,10 +41,10 @@ import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.protocol.MessageMediator;
 import com.sun.corba.ee.spi.protocol.ClientDelegate;
 import com.sun.corba.ee.spi.transport.Connection;
-import com.sun.corba.ee.spi.transport.ContactInfo ;
-import com.sun.corba.ee.spi.transport.ContactInfoList ;
-import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
-import com.sun.corba.ee.spi.servicecontext.ServiceContextDefaults ;
+import com.sun.corba.ee.spi.transport.ContactInfo;
+import com.sun.corba.ee.spi.transport.ContactInfoList;
+import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
+import com.sun.corba.ee.spi.servicecontext.ServiceContextDefaults;
 
 import com.sun.corba.ee.impl.encoding.CDROutputObject;
 import com.sun.corba.ee.impl.ior.ObjectKeyFactoryImpl;

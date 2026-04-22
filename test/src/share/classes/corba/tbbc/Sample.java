@@ -22,7 +22,7 @@ package corba.tbbc ;
 
 import org.glassfish.pfl.dynamic.codegen.spi.Expression;
 import org.glassfish.pfl.dynamic.codegen.spi.Type;
-import java.lang.reflect.Method ;
+import java.lang.reflect.Method;
 
 import static java.lang.reflect.Modifier.* ;
 import static org.glassfish.pfl.dynamic.codegen.spi.Wrapper.* ;

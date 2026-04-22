@@ -19,52 +19,52 @@
 
 package corba.rfm ;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
-import java.util.Arrays ;
-import java.util.List ;
-import java.util.ArrayList ;
-import java.util.Map ;
-import java.util.HashMap ;
-import java.util.Properties ;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Properties;
 
-import javax.rmi.PortableRemoteObject ;
+import javax.rmi.PortableRemoteObject;
 
-import javax.rmi.CORBA.Tie ;
+import javax.rmi.CORBA.Tie;
 
-import org.omg.CORBA.ORB ;
-import org.omg.CORBA.Policy ;
-import org.omg.CORBA.BAD_OPERATION ;
-import org.omg.CORBA.LocalObject ;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.Policy;
+import org.omg.CORBA.BAD_OPERATION;
+import org.omg.CORBA.LocalObject;
 
-import org.omg.CosNaming.NamingContext ;
-import org.omg.CosNaming.NamingContextHelper ;
-import org.omg.CosNaming.NamingContextExt ;
-import org.omg.CosNaming.NamingContextExtHelper ;
-import org.omg.CosNaming.NameComponent ;
-import org.omg.CosNaming.NamingContextPackage.CannotProceed ;
-import org.omg.CosNaming.NamingContextPackage.InvalidName ;
-import org.omg.CosNaming.NamingContextPackage.AlreadyBound ;
-import org.omg.CosNaming.NamingContextPackage.NotFound ;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
+import org.omg.CosNaming.NamingContextExt;
+import org.omg.CosNaming.NamingContextExtHelper;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContextPackage.CannotProceed;
+import org.omg.CosNaming.NamingContextPackage.InvalidName;
+import org.omg.CosNaming.NamingContextPackage.AlreadyBound;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
 
-import org.omg.PortableServer.ForwardRequest ;
-import org.omg.PortableServer.POA ;
-import org.omg.PortableServer.Servant ;
-import org.omg.PortableServer.ServantLocator ;
+import org.omg.PortableServer.ForwardRequest;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.Servant;
+import org.omg.PortableServer.ServantLocator;
 
-import org.omg.PortableServer.ServantLocatorPackage.CookieHolder ;
+import org.omg.PortableServer.ServantLocatorPackage.CookieHolder;
 
-import com.sun.corba.ee.spi.oa.rfm.ReferenceFactory ;
-import com.sun.corba.ee.spi.oa.rfm.ReferenceFactoryManager ;
+import com.sun.corba.ee.spi.oa.rfm.ReferenceFactory;
+import com.sun.corba.ee.spi.oa.rfm.ReferenceFactoryManager;
 
-import com.sun.corba.ee.spi.extension.ServantCachingPolicy ;
+import com.sun.corba.ee.spi.extension.ServantCachingPolicy;
 
-import com.sun.corba.ee.spi.presentation.rmi.PresentationManager ;
+import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
-import com.sun.corba.ee.impl.naming.cosnaming.TransientNameService ;
+import com.sun.corba.ee.impl.naming.cosnaming.TransientNameService;
 import org.glassfish.pfl.basic.contain.Pair;
 
 /** This is a test for the ReferenceFactoryManager.

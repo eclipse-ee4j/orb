@@ -19,10 +19,10 @@
 
 package com.sun.corba.ee.impl.oa.poa ;
 
-import com.sun.corba.ee.spi.logging.POASystemException ;
+import com.sun.corba.ee.spi.logging.POASystemException;
 import com.sun.corba.ee.spi.trace.PoaFSM;
 
-import java.util.concurrent.locks.Condition ;
+import java.util.concurrent.locks.Condition;
 
 import org.glassfish.pfl.basic.fsm.Action;
 import org.glassfish.pfl.basic.fsm.FSM;
@@ -34,7 +34,7 @@ import org.glassfish.pfl.basic.fsm.Runner;
 import org.glassfish.pfl.basic.fsm.State;
 import org.glassfish.pfl.basic.fsm.StateEngine;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
-import org.omg.PortableServer.POAPackage.ObjectAlreadyActive ;
+import org.omg.PortableServer.POAPackage.ObjectAlreadyActive;
 
 import static org.glassfish.pfl.basic.fsm.Guard.Base.constant;
 import static org.glassfish.pfl.basic.fsm.Guard.Base.eq;

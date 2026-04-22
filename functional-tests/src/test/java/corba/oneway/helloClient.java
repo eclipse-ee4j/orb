@@ -21,7 +21,7 @@ package corba.oneway;
 
 import HelloApp.hello;
 import HelloApp.helloHelper;
-import java.util.Properties ;
+import java.util.Properties;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContext;

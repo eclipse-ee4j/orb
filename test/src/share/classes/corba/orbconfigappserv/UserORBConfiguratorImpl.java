@@ -25,7 +25,7 @@
 package corba.orbconfigappserv;
 
 import org.omg.CORBA.INITIALIZE;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.orb.ORBConfigurator;
 import com.sun.corba.ee.spi.orb.ParserImplBase;
 import com.sun.corba.ee.spi.orb.PropertyParser;

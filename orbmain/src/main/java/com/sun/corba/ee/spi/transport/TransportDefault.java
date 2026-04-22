@@ -20,15 +20,15 @@
 package com.sun.corba.ee.spi.transport ;
 
 // Internal imports, not used in the interface to this package
-import com.sun.corba.ee.impl.protocol.ClientDelegateImpl ;
+import com.sun.corba.ee.impl.protocol.ClientDelegateImpl;
 import com.sun.corba.ee.impl.transport.AcceptorAcceptOnlyImpl;
-import com.sun.corba.ee.impl.transport.AcceptorImpl ;
-import com.sun.corba.ee.impl.transport.AcceptorLazyImpl ;
+import com.sun.corba.ee.impl.transport.AcceptorImpl;
+import com.sun.corba.ee.impl.transport.AcceptorLazyImpl;
 import com.sun.corba.ee.impl.transport.ContactInfoListImpl;
-import com.sun.corba.ee.spi.ior.IOR ;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.protocol.ClientDelegate ;
-import com.sun.corba.ee.spi.protocol.ClientDelegateFactory ;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.protocol.ClientDelegate;
+import com.sun.corba.ee.spi.protocol.ClientDelegateFactory;
 
 import java.net.Socket;
 
