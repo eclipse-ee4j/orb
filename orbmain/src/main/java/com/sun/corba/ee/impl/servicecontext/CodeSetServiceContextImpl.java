@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.impl.servicecontext;
 
-import com.sun.corba.ee.impl.encoding.CodeSetComponentInfo  ;
+import com.sun.corba.ee.impl.encoding.CodeSetComponentInfo;
 import com.sun.corba.ee.impl.encoding.MarshalInputStream;
 import com.sun.corba.ee.impl.encoding.MarshalOutputStream;
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;

@@ -30,8 +30,8 @@ import com.sun.corba.ee.spi.orb.ORB;
 
 import com.sun.corba.ee.spi.logging.UtilSystemException;
 
-import corba.misc.BuckPasserAL  ;
-import corba.misc.BuckPasserV  ;
+import corba.misc.BuckPasserAL;
+import corba.misc.BuckPasserV;
 import org.glassfish.pfl.basic.contain.Pair;
 
 public class EchoImpl extends PortableRemoteObject implements Echo {
