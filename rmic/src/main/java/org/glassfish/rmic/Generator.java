@@ -51,7 +51,7 @@ public interface Generator {
      * @param main Report any errors using the main.error() methods.
      * @return true if no errors, false otherwise.
      */
-    public boolean parseArgs(String argv[], Main main);
+    boolean parseArgs(String argv[], Main main);
 
     /**
      * Generate output. Any source files created which need compilation should
@@ -62,5 +62,5 @@ public interface Generator {
      * @param cdef      The definition for the implementation class or interface from
  *              which to generate output
      */
-    public void generate(BatchEnvironment env, File destDir, ClassDefinition cdef);
+    void generate(BatchEnvironment env, File destDir, ClassDefinition cdef);
 }

@@ -72,29 +72,35 @@ public final class LocateReplyMessage_1_2 extends Message_1_2
 
     // Accessor methods
 
+    @Override
     public int getRequestId() {
         return this.request_id;
     }
 
+    @Override
     public int getReplyStatus() {
         return this.reply_status;
     }
 
+    @Override
     public short getAddrDisposition() {
         return this.addrDisposition;
     }
 
+    @Override
     public SystemException getSystemException(String message) {
         return MessageBase.getSystemException(
                 exClassName, minorCode, completionStatus, message, wrapper);
     }
 
+    @Override
     public IOR getIOR() {
         return this.ior;
     }
 
     // IO methods
 
+    @Override
     public void read(org.omg.CORBA.portable.InputStream istream) {
         super.read(istream);
         this.request_id = istream.read_ulong();
@@ -130,7 +136,7 @@ public final class LocateReplyMessage_1_2 extends Message_1_2
         } else if ((this.reply_status == OBJECT_FORWARD) ||
                 (this.reply_status == OBJECT_FORWARD_PERM)) {
             CDRInputObject cdr = (CDRInputObject) istream;
-            this.ior = IORFactories.makeIOR(orb, (InputStream) cdr);
+            this.ior = IORFactories.makeIOR(orb, cdr);
         } else if (this.reply_status == LOC_NEEDS_ADDRESSING_MODE) {
             // read GIOP::AddressingDisposition from body and resend the
             // original request using the requested addressing mode. The

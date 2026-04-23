@@ -34,6 +34,8 @@ package org.omg.CORBA;
 
 // @SuppressWarnings({"serial"})
 public final class WrongTransaction extends UserException {
+    private static final long serialVersionUID = -8293127222435220885L;
+
     /**
      * Constructs a WrongTransaction object with an empty detail message.
      */

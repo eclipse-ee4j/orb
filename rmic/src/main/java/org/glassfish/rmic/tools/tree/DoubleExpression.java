@@ -45,6 +45,7 @@ class DoubleExpression extends ConstantExpression {
     /**
      * Get the value
      */
+    @Override
     public Object getValue() {
         return new Double(value);
     }
@@ -52,6 +53,7 @@ class DoubleExpression extends ConstantExpression {
     /**
      * Check if the expression is equal to a value
      */
+    @Override
     public boolean equals(int i) {
         return value == i;
     }
@@ -59,6 +61,7 @@ class DoubleExpression extends ConstantExpression {
     /**
      * Check if the expression is equal to its default static value
      */
+    @Override
     public boolean equalsDefault() {
         // don't allow -0.0
         return (Double.doubleToLongBits(value) == 0);
@@ -74,6 +77,7 @@ class DoubleExpression extends ConstantExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print(value + "D");
     }

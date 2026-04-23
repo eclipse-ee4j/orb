@@ -66,6 +66,7 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
   /**
    *
    **/
+  @Override
   public void generate (Hashtable symbolTable, ValueEntry v, PrintWriter str)
   {
     this.symbolTable = symbolTable;
@@ -151,7 +152,7 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
       stream.print ("public class " + v.name ());
 
     // There should always be at least one parent: ValueBase
-    SymtabEntry parent = (SymtabEntry) v.derivedFrom ().elementAt (0);
+    SymtabEntry parent = v.derivedFrom ().elementAt (0);
 
     // If parent is ValueBase, it's mapped to java.io.Serializable
     String parentName = com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaName(parent);
@@ -168,7 +169,7 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
 
     // if inheriting from abstract values
     for (int i = 0; i < v.derivedFrom ().size (); i++) {
-      parent = (SymtabEntry) v.derivedFrom ().elementAt (i);
+      parent = v.derivedFrom ().elementAt (i);
       if ( ((ValueEntry)parent).isAbstract ())
       {
         if (!impl)
@@ -183,7 +184,7 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
     }
 // <d59092-klr> Valuetype supporting interface implement Operations interface
 // for supported IDL interface
-    if (((ValueEntry)v).supports ().size () > 0) {
+    if (v.supports ().size () > 0) {
       if (!impl)
       {
         stream.print (" implements ");
@@ -192,7 +193,7 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
       else
         stream.print (", ");
 
-      InterfaceEntry s =(InterfaceEntry)((ValueEntry)v).supports().elementAt(0);
+      InterfaceEntry s =(InterfaceEntry)v.supports().elementAt(0);
       // abstract supported classes don't have "Operations"
       if (s.isAbstract ())
          stream.print (com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaName(s));
@@ -201,7 +202,7 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
       }
 
 //  <d59418> Custom valuetypes implement org.omg.CORBA.CustomMarshal.
-    if ( ((ValueEntry)v).isCustom ()) {
+    if ( v.isCustom ()) {
       if (!impl)
       {
         stream.print (" implements ");
@@ -285,8 +286,8 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
 
     for (int i = 0; i < v.state ().size (); i ++)
     {
-      InterfaceState member = (InterfaceState) v.state ().elementAt (i);
-      SymtabEntry entry = (SymtabEntry) member.entry;
+      InterfaceState member = v.state ().elementAt (i);
+      SymtabEntry entry = member.entry;
       com.sun.tools.corba.ee.idl.toJavaPortable.Util.fillInfo(entry);
 
       if (entry.comment () != null)
@@ -492,6 +493,7 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
     return index;
   } // helperType
 
+  @Override
   public int type (int index, String indent, com.sun.tools.corba.ee.idl.toJavaPortable.TCOffsets tcoffsets, String name, SymtabEntry entry, PrintWriter stream) {
     stream.println (indent + name + " = " + com.sun.tools.corba.ee.idl.toJavaPortable.Util.helperName(entry, true) + ".type ();"); // <d61056>
     return index;
@@ -635,6 +637,7 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
     return index;
   } // read
 
+  @Override
   public void helperWrite (SymtabEntry entry, PrintWriter stream)
   {
     // <d59418 - KLR> per Simon, make "static" write call istream.write_value.
@@ -671,6 +674,7 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
     }
   } // helperWrite
 
+  @Override
   public int write (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     // First do the state members from concrete parent hierarchy
@@ -729,7 +733,7 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
            stream.print (" extends ");
         else
            stream.print (", ");
-        parent = (SymtabEntry) v.derivedFrom ().elementAt (i);
+        parent = v.derivedFrom ().elementAt (i);
         stream.print (com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaName(parent));
       }
     }
@@ -738,7 +742,7 @@ public class ValueGen implements com.sun.tools.corba.ee.idl.ValueGen, com.sun.to
     if (v.supports ().size () > 0)
     {
       stream.print (", ");
-      SymtabEntry intf = (SymtabEntry) v.supports ().elementAt (0);
+      SymtabEntry intf = v.supports ().elementAt (0);
       stream.print (com.sun.tools.corba.ee.idl.toJavaPortable.Util.javaName(intf));
     }
     stream.println ();

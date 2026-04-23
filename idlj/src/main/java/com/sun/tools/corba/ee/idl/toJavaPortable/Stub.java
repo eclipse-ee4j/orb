@@ -50,6 +50,7 @@ public class Stub implements AuxGen
   /**
    *
    **/
+  @Override
   public void generate (Hashtable symbolTable, SymtabEntry entry)
   {
     this.symbolTable = symbolTable;
@@ -299,7 +300,7 @@ public class Stub implements AuxGen
           } else {
               stream.println(", ");
           }
-          stream.print("    \"" + (String) e.nextElement() + '"');
+          stream.print("    \"" + e.nextElement() + '"');
       }
   } // writeIDs
 

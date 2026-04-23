@@ -90,6 +90,8 @@ import org.omg.CORBA.portable.Streamable;
  */
 abstract public class Any implements IDLEntity {
 
+    private static final long serialVersionUID = 1217179597823814463L;
+
     /**
      * Checks for equality between this <code>Any</code> object and the
      * given <code>Any</code> object.  Two <code>Any</code> objects are
@@ -604,7 +606,7 @@ abstract public class Any implements IDLEntity {
      *      comments for unimplemented features</a>
      * @deprecated Deprecated by CORBA 2.2.
      */
-    // @Deprecated
+    @Deprecated
     public Principal extract_Principal() throws BAD_OPERATION {
         throw new org.omg.CORBA.NO_IMPLEMENT() ;
     }
@@ -620,7 +622,7 @@ abstract public class Any implements IDLEntity {
      *      comments for unimplemented features</a>
      * @deprecated Deprecated by CORBA 2.2.
      */
-    // @Deprecated
+    @Deprecated
     public void    insert_Principal(Principal p) {
         throw new org.omg.CORBA.NO_IMPLEMENT() ;
     }

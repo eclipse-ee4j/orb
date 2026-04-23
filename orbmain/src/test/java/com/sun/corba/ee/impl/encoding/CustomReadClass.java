@@ -27,6 +27,7 @@ import java.io.Serializable;
  * A serializable class that implements readObject for custom marshalling but uses the standard write object.
  */
 public class CustomReadClass implements Serializable {
+  private static final long serialVersionUID = -2045545873343318551L;
   int aPositiveValue;
 
   private void readObject(ObjectInputStream anInputStream) throws IOException, ClassNotFoundException {

@@ -55,6 +55,7 @@ public class RequestIdImpl implements RequestId {
     }
 
     /** Return the value of this CorbaRequestId */
+    @Override
     public int getValue() {
         if (defined) {
             return this.value;
@@ -64,6 +65,7 @@ public class RequestIdImpl implements RequestId {
     }
 
     /** Is there a numeric identifier for this CorbaRequestId ? */
+    @Override
     public boolean isDefined() {
         return defined;
     }

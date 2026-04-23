@@ -49,7 +49,7 @@ public abstract class Stub extends ObjectImpl
     private static final String defaultStubImplName = "com.sun.corba.ee.impl.javax.rmi.CORBA.StubDelegateImpl";
 
     static {
-        Object stubDelegateInstance = (Object) createDelegateIfSpecified(StubClassKey, defaultStubImplName);
+        Object stubDelegateInstance = createDelegateIfSpecified(StubClassKey, defaultStubImplName);
         if (stubDelegateInstance != null)
             stubDelegateClass = stubDelegateInstance.getClass();
 
@@ -61,6 +61,7 @@ public abstract class Stub extends ObjectImpl
      * that represent the same remote object.
      * @return the hash code value.
      */
+    @Override
     public int hashCode() {
 
         if (stubDelegate == null) {
@@ -81,6 +82,7 @@ public abstract class Stub extends ObjectImpl
      * @return <code>true</code> if this object is the same as the <code>obj</code>
      *          argument; <code>false</code> otherwise.
      */
+    @Override
     public boolean equals(java.lang.Object obj) {
 
         if (stubDelegate == null) {
@@ -99,6 +101,7 @@ public abstract class Stub extends ObjectImpl
      * for all stubs that represent the same remote object.
      * @return a string representation of this stub.
      */
+    @Override
     public String toString() {
 
 

@@ -78,9 +78,8 @@ public abstract class BooleanSeqHelper
 
     public static boolean[] read (org.omg.CORBA.portable.InputStream istream)
     {
-        boolean value[] = null;
         int _len0 = istream.read_long ();
-        value = new boolean[_len0];
+        boolean value[] = new boolean[_len0];
         istream.read_boolean_array (value, 0, _len0);
         return value;
     }

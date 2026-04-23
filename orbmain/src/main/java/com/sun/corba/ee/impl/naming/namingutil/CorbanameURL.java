@@ -85,6 +85,7 @@ public class CorbanameURL extends INSURLBase
         theStringifiedName = url.getStringifiedName( );
     }
 
+    @Override
     public boolean isCorbanameURL( ) {
         return true;
     }

@@ -32,6 +32,6 @@ public interface OMGVMCID {
      * the high order 20 bits of the minor code to produce the minor value
      * in a system exception.
      */
-    static final int value = 0x4f4d0000;
+    int value = 0x4f4d0000;
 }
 

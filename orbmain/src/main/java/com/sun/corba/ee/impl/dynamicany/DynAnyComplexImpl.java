@@ -316,6 +316,7 @@ abstract class DynAnyComplexImpl extends DynAnyConstructedImpl
 
     // Initializes components, names, nameValuePairs and nameDynAnyPairs representation
     // from the Any representation
+    @Override
     protected boolean initializeComponentsFromAny() {
         // This typeCode is of kind tk_struct.
         TypeCode typeCode = any.type();
@@ -359,6 +360,7 @@ abstract class DynAnyComplexImpl extends DynAnyConstructedImpl
     // from the internal TypeCode information with default values
     // This is not done recursively, only one level.
     // More levels are initialized lazily, on demand.
+    @Override
     protected boolean initializeComponentsFromTypeCode() {
         // This typeCode is of kind tk_struct.
         TypeCode typeCode = any.type();

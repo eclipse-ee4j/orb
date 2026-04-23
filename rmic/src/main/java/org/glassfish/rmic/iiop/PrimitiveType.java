@@ -95,6 +95,7 @@ public class PrimitiveType extends Type {
      * Return signature for this type  (e.g. com.acme.Dynamite
      * would return "com.acme.Dynamite", byte = "B")
      */
+    @Override
     public String getSignature() {
         switch (getTypeCode()) {
         case TYPE_VOID:         return SIG_VOID;
@@ -113,6 +114,7 @@ public class PrimitiveType extends Type {
     /**
      * Return a string describing this type.
      */
+    @Override
     public String getTypeDescription () {
         return "Primitive";
     }
@@ -123,6 +125,7 @@ public class PrimitiveType extends Type {
      * return "com::acme::Dynamite").
      * @param global If true, prepends "::".
      */
+    @Override
     public String getQualifiedIDLName(boolean global) {
         return super.getQualifiedIDLName(false);
     }
@@ -134,6 +137,7 @@ public class PrimitiveType extends Type {
     /*
      * Load a Class instance. Return null if fail.
      */
+    @Override
     protected Class loadClass() {
         switch (getTypeCode()) {
         case TYPE_VOID:         return Null.class;

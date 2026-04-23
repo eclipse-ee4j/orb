@@ -133,16 +133,19 @@ public final class RepIdDelegator
 
     // RepositoryIdInterface methods
 
+    @Override
     public Class getClassFromType() throws ClassNotFoundException {
         return delegate.getClassFromType();
     }
 
+    @Override
     public Class getClassFromType(String codebaseURL)
         throws ClassNotFoundException, MalformedURLException
     {
         return delegate.getClassFromType(codebaseURL);
     }
 
+    @Override
     public Class getClassFromType(Class expectedType,
                                   String codebaseURL)
         throws ClassNotFoundException, MalformedURLException
@@ -150,6 +153,7 @@ public final class RepIdDelegator
         return delegate.getClassFromType(expectedType, codebaseURL);
     }
 
+    @Override
     public String getClassName() {
         return delegate.getClassName();
     }
@@ -165,6 +169,7 @@ public final class RepIdDelegator
 
     private RepositoryId delegate;
 
+    @Override
     public String toString() {
         if (delegate != null)
             return delegate.toString();
@@ -172,6 +177,7 @@ public final class RepIdDelegator
             return this.getClass().getName();
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (delegate != null)
             return delegate.equals(obj);
@@ -179,6 +185,7 @@ public final class RepIdDelegator
             return super.equals(obj);
     }
 
+    @Override
     public int hashCode() {
         return delegate.hashCode() ;
     }

@@ -54,6 +54,7 @@ public class IIOPOutputStream
     private static Bridge bridge =
         AccessController.doPrivileged(
             new PrivilegedAction<Bridge>() {
+                @Override
                 public Bridge run() {
                     return Bridge.get() ;
                 }
@@ -78,13 +79,13 @@ public class IIOPOutputStream
     public IIOPOutputStream()
         throws java.io.IOException
    {
-        super();
     }
 
     // If using RMI-IIOP stream format version 2, this tells
     // the ORB stream (which must be a ValueOutputStream) to
     // begin a new valuetype to contain the optional data
     // of the writeObject method.
+    @Override
     @ValueHandlerWrite
     protected void beginOptionalCustomData() {
         if (streamFormatVersion == 2) {
@@ -100,6 +101,7 @@ public class IIOPOutputStream
         orbStream = os;
     }
 
+    @Override
     final org.omg.CORBA_2_3.portable.OutputStream getOrbStream() {
         return orbStream;
     }
@@ -137,7 +139,7 @@ public class IIOPOutputStream
 
         writeObjectState.writeData(this);
 
-        Util.getInstance().writeAbstractObject((OutputStream)orbStream, obj);
+        Util.getInstance().writeAbstractObject(orbStream, obj);
     }
 
     /**
@@ -187,6 +189,7 @@ public class IIOPOutputStream
     }
 
     // Required by the superclass.
+    @Override
     ObjectStreamField[] getFieldsNoCopy() {
         return currentClassDesc.getFieldsNoCopy();
     }
@@ -635,6 +638,7 @@ public class IIOPOutputStream
     }
 
     // This is needed for the OutputStreamHook interface.
+    @Override
     @ValueHandlerWrite
     void writeField(ObjectStreamField field, Object value) throws IOException {
         switch (field.getTypeCode()) {
@@ -654,14 +658,14 @@ public class IIOPOutputStream
                 break;
             case 'F':
                 if (value == null) {
-                    orbStream.write_float((float) 0);
+                    orbStream.write_float(0);
                 } else {
                     orbStream.write_float(((Float) value).floatValue());
                 }
                 break;
             case 'D':
                 if (value == null) {
-                    orbStream.write_double((double) 0);
+                    orbStream.write_double(0);
                 } else {
                     orbStream.write_double(((Double) value).doubleValue());
                 }
@@ -675,7 +679,7 @@ public class IIOPOutputStream
                 break;
             case 'J':
                 if (value == null) {
-                    orbStream.write_longlong((long) 0);
+                    orbStream.write_longlong(0);
                 } else {
                     orbStream.write_longlong(((Long) value).longValue());
                 }

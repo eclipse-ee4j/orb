@@ -51,16 +51,19 @@ public class NamedValueImpl extends NamedValue
         _flags      = flags;
     }
 
+    @Override
     public String name()
     {
         return _name;
     }
 
+    @Override
     public Any value()
     {
         return _value;
     }
 
+    @Override
     public int flags()
     {
         return _flags;

@@ -506,6 +506,7 @@ class Token
    * Get the String representation of this Token.
    * @return a String containing representation of this Token.
    **/
+  @Override
   public String toString ()
   {
     if (type == Identifier)

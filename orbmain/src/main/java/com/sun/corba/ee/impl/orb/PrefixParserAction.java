@@ -49,6 +49,7 @@ public class PrefixParserAction extends ParserActionBase {
      * which forms the result of apply.  Returns null if there are no
      * matches.
      */
+    @Override
     public Object apply( Properties props )
     {
         String prefix = getPropertyName() ;

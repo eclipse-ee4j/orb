@@ -71,6 +71,7 @@ public final class ClientRequestInfoImpl
     implements ClientRequestInfo
 {
 
+    private static final long serialVersionUID = -4954697357276972873L;
     // The available constants for startingPointCall
     static final int CALL_SEND_REQUEST = 0;
     static final int CALL_SEND_POLL = 1;
@@ -254,13 +255,13 @@ public final class ClientRequestInfoImpl
     /**
      * The object which the client called to perform the operation.
      */
+    @Override
     @TraceInterceptor
     public org.omg.CORBA.Object target (){
         // access is currently valid for all states:
         //checkAccess( MID_TARGET );
         if (messageMediator != null && cachedTargetObject == null) {
-            ContactInfo corbaContactInfo = (ContactInfo)
-                messageMediator.getContactInfo();
+            ContactInfo corbaContactInfo = messageMediator.getContactInfo();
             cachedTargetObject =
                 iorToObject(corbaContactInfo.getTargetIOR());
         }
@@ -273,6 +274,7 @@ public final class ClientRequestInfoImpl
      * effective_target will contain the forwarded IOR while target will
      * remain unchanged.
      */
+    @Override
     @TraceInterceptor
     public org.omg.CORBA.Object effective_target() {
         // access is currently valid for all states:
@@ -297,6 +299,7 @@ public final class ClientRequestInfoImpl
      * profile change accordingly, then this profile will be that located
      * profile.
      */
+    @Override
     @TraceInterceptor
     public TaggedProfile effective_profile (){
         // access is currently valid for all states:
@@ -318,6 +321,7 @@ public final class ClientRequestInfoImpl
     /**
      * Contains the exception to be returned to the client.
      */
+    @Override
     @TraceInterceptor
     public Any received_exception (){
         checkAccess( MID_RECEIVED_EXCEPTION );
@@ -336,6 +340,7 @@ public final class ClientRequestInfoImpl
     /**
      * The CORBA::RepositoryId of the exception to be returned to the client.
      */
+    @Override
     @TraceInterceptor
     public String received_exception_id (){
         checkAccess( MID_RECEIVED_EXCEPTION_ID );
@@ -370,6 +375,7 @@ public final class ClientRequestInfoImpl
      * given component ID, it is undefined which component this operation
      * returns (get_effective_component should be called instead).
      */
+    @Override
     @TraceInterceptor
     public TaggedComponent get_effective_component (int id){
         checkAccess( MID_GET_EFFECTIVE_COMPONENT );
@@ -386,6 +392,7 @@ public final class ClientRequestInfoImpl
      * Returns all the tagged components with the given ID from the profile
      * selected for this request.
      */
+    @Override
     @TraceInterceptor
     public TaggedComponent[] get_effective_components (int id){
         checkAccess( MID_GET_EFFECTIVE_COMPONENTS );
@@ -440,6 +447,7 @@ public final class ClientRequestInfoImpl
     /**
      * Returns the given policy in effect for this operation.
      */
+    @Override
     @TraceInterceptor
     public Policy get_request_policy (int type){
         checkAccess( MID_GET_REQUEST_POLICY );
@@ -453,6 +461,7 @@ public final class ClientRequestInfoImpl
      * There is no declaration of the order of the service contexts.  They
      * may or may not appear in the order they are added.
      */
+    @Override
     @TraceInterceptor
     public void add_request_service_context (ServiceContext service_context,
                                              boolean replace) {
@@ -486,6 +495,7 @@ public final class ClientRequestInfoImpl
     /**
      * See RequestInfoImpl for javadoc.
      */
+    @Override
     public int request_id (){
         // access is currently valid for all states:
         //checkAccess( MID_REQUEST_ID );
@@ -500,6 +510,7 @@ public final class ClientRequestInfoImpl
     /**
      * See RequestInfoImpl for javadoc.
      */
+    @Override
     public String operation(){
         // access is currently valid for all states:
         //checkAccess( MID_OPERATION );
@@ -519,6 +530,7 @@ public final class ClientRequestInfoImpl
     /**
      * See RequestInfoImpl for javadoc.
      */
+    @Override
     @TraceInterceptor
     public Parameter[] arguments (){
         checkAccess( MID_ARGUMENTS );
@@ -544,6 +556,7 @@ public final class ClientRequestInfoImpl
     /**
      * See RequestInfoImpl for javadoc.
      */
+    @Override
     @TraceInterceptor
     public TypeCode[] exceptions (){
         checkAccess( MID_EXCEPTIONS );
@@ -580,6 +593,7 @@ public final class ClientRequestInfoImpl
     /**
      * See RequestInfoImpl for javadoc.
      */
+    @Override
     @TraceInterceptor
     public String[] contexts (){
         checkAccess( MID_CONTEXTS );
@@ -615,6 +629,7 @@ public final class ClientRequestInfoImpl
     /**
      * See RequestInfoImpl for javadoc.
      */
+    @Override
     @TraceInterceptor
     public String[] operation_context (){
         checkAccess( MID_OPERATION_CONTEXT );
@@ -645,7 +660,7 @@ public final class ClientRequestInfoImpl
                         nv = nvList.item( i );
                     }
                     catch (Exception e ) {
-                        return (String[]) null;
+                        return null;
                     }
                     context[index] = nv.name();
                     index++;
@@ -667,6 +682,7 @@ public final class ClientRequestInfoImpl
     /**
      * See RequestInfoImpl for javadoc.
      */
+    @Override
     @TraceInterceptor
     public Any result (){
         checkAccess( MID_RESULT );
@@ -695,6 +711,7 @@ public final class ClientRequestInfoImpl
     /**
      * See RequestInfoImpl for javadoc.
      */
+    @Override
     public boolean response_expected (){
         // access is currently valid for all states:
         //checkAccess( MID_RESPONSE_EXPECTED );
@@ -704,6 +721,7 @@ public final class ClientRequestInfoImpl
     /**
      * See RequestInfoImpl for javadoc.
      */
+    @Override
     @TraceInterceptor
     public Object forward_reference (){
         checkAccess( MID_FORWARD_REFERENCE );
@@ -747,6 +765,7 @@ public final class ClientRequestInfoImpl
     /**
      * See RequestInfoImpl for javadoc.
      */
+    @Override
     @TraceInterceptor
     public org.omg.IOP.ServiceContext get_request_service_context( int id ) {
         checkAccess( MID_GET_REQUEST_SERVICE_CONTEXT );
@@ -765,6 +784,7 @@ public final class ClientRequestInfoImpl
      * does not contain an etry for that ID, BAD_PARAM with a minor code of
      * TBD_BP is raised.
      */
+    @Override
     @TraceInterceptor
     public org.omg.IOP.ServiceContext get_reply_service_context( int id ) {
         checkAccess( MID_GET_REPLY_SERVICE_CONTEXT );
@@ -806,8 +826,7 @@ public final class ClientRequestInfoImpl
     @Override
     public com.sun.corba.ee.spi.legacy.connection.Connection connection()
     {
-        return (com.sun.corba.ee.spi.legacy.connection.Connection)
-            messageMediator.getConnection();
+        return messageMediator.getConnection();
     }
 
 
@@ -958,6 +977,7 @@ public final class ClientRequestInfoImpl
     /**
      * See description for RequestInfoImpl.checkAccess
      */
+    @Override
     protected void checkAccess( int methodID )
         throws BAD_INV_ORDER
     {

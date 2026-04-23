@@ -32,10 +32,11 @@ returns normally or raises some exception other than <code>RemarshalException</c
 */
 
 public final class RemarshalException extends Exception {
+    private static final long serialVersionUID = -7025491253080954918L;
+
     /**
      * Constructs a RemarshalException.
      */
     public RemarshalException() {
-        super();
     }
 }

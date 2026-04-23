@@ -1132,7 +1132,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         throws IOException {
         Enumeration<CompoundType> refEnum = refHash.elements();
         while ( refEnum.hasMoreElements() ) {
-            Type t = (Type)refEnum.nextElement();
+            Type t = refEnum.nextElement();
             if ( t.isCompound() ) {
                 CompoundType ct = (CompoundType)t;
                 if ( ct.isIDLEntity() )
@@ -1227,7 +1227,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
         throws IOException {
         Enumeration<CompoundType> refEnum = refHash.elements();
         while ( refEnum.hasMoreElements() ) {
-            Type t = (Type)refEnum.nextElement();
+            Type t = refEnum.nextElement();
             if ( t.isCompound() ) {
                 CompoundType ct = (CompoundType)t;
                 if ( ct.isIDLEntity() ) {                          //select IDLEntities
@@ -1775,7 +1775,6 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
     protected void writeInherits(Hashtable<String, CompoundType> inhHash, boolean forValuetype, IndentingWriter p) throws IOException {
 
         int itot = inhHash.size();
-        int iinh = 0;
         int isup = 0;
         if (itot < 1) {
             return;                         //any inheritance to write?
@@ -1793,7 +1792,7 @@ public class IDLGenerator extends org.glassfish.rmic.iiop.Generator {
             }
         }
 
-        iinh = itot - isup;
+        int iinh = itot - isup;
 
         if (iinh > 0) {
             p.p(": ");

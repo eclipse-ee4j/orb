@@ -27,9 +27,10 @@ package org.omg.CORBA.TSIdentificationPackage;
  */
 public final class AlreadyIdentified
     extends org.omg.CORBA.UserException {
+    private static final long serialVersionUID = 3933915408125341247L;
+
     //  constructor
     public AlreadyIdentified() {
-        super();
     }
 }
 

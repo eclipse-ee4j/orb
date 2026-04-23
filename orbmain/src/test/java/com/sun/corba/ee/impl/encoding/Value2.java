@@ -22,6 +22,7 @@ package com.sun.corba.ee.impl.encoding;
 import java.io.Serializable;
 
 class Value2 implements Serializable {
+    private static final long serialVersionUID = -2189825197494524095L;
     static final String REPID = "RMI:com.sun.corba.ee.impl.encoding.Value2:512583A866C00892:E19C2D95C723A741";
     long aLong;
     Value1 aValue;

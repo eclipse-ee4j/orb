@@ -46,20 +46,20 @@ public interface ServiceContexts {
      * service context with the same id.
      * @param sc service context to use
      */
-    public void put( ServiceContext sc ) ;
+    void put( ServiceContext sc ) ;
 
     /** Remove the service context with the id, if any.
      * @param scId service context id
      */
-    public void delete( int scId ) ;
+    void delete( int scId ) ;
 
     /** Return the service context with scId, or null if not
      * found.
      * @param scId service context id
      * @return ServiceContext with the specified ID
      */
-    public ServiceContext get( int scId) ;
+    ServiceContext get( int scId) ;
 
-    public ServiceContexts copy() ;
+    ServiceContexts copy() ;
 }
 

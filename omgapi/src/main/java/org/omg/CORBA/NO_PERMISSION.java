@@ -33,6 +33,8 @@ package org.omg.CORBA;
  */
 
 public final class NO_PERMISSION extends SystemException {
+    private static final long serialVersionUID = -1733848219707802666L;
+
     /**
      * Constructs a <code>NO_PERMISSION</code> exception with a default minor code
      * of 0 and a completion state of CompletionStatus.COMPLETED_NO,

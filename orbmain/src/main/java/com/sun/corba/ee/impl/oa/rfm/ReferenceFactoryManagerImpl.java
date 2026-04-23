@@ -106,6 +106,7 @@ public class ReferenceFactoryManagerImpl
     {
         private static final long serialVersionUID = 7922226881290146012L;
 
+        @Override
         @Poa
         public boolean unknown_adapter( POA parent, String name ) {
             Pair<ServantLocator,List<Policy>> data = null ;
@@ -147,7 +148,7 @@ public class ReferenceFactoryManagerImpl
                 }
             }
         }
-    } ;
+    }
 
     // Policy used to indicate that a POA may particpate in the reference manager.
     // If this policy is not present, and a create_POA call is made under base POA,
@@ -166,18 +167,22 @@ public class ReferenceFactoryManagerImpl
         private ReferenceManagerPolicy() {
         }
 
+        @Override
         public int policy_type() {
             return ORBConstants.REFERENCE_MANAGER_POLICY ;
         }
 
+        @Override
         public Policy copy() {
             return this ;
         }
 
+        @Override
         public void destroy() {
         }
     }
 
+    @Override
     public RFMState getState()
     {
         lock.lock() ;
@@ -188,6 +193,7 @@ public class ReferenceFactoryManagerImpl
         }
     }
 
+    @Override
     @Poa
     public void activate()
     {
@@ -236,6 +242,7 @@ public class ReferenceFactoryManagerImpl
     // It may also be better to get rid of separate suspend/resume calls, instead
     // passing an object to a method that does suspend/resume (as in
     // doPrivileged).  See GF issue 4560.
+    @Override
     @Poa
     public ReferenceFactory create( final String name,
                                     final String repositoryId,
@@ -273,6 +280,7 @@ public class ReferenceFactoryManagerImpl
         }
     }
 
+    @Override
     @Poa
     public ReferenceFactory find( String[] adapterName )
     {
@@ -304,6 +312,7 @@ public class ReferenceFactoryManagerImpl
         }
     }
 
+    @Override
     public ReferenceFactory find( String name ) {
         lock.lock() ;
         try {
@@ -339,6 +348,7 @@ public class ReferenceFactoryManagerImpl
     // XXX We may still want to switch to discard semantics,
     // but that would require significant testing.
 
+    @Override
     @Poa
     public void suspend()
     {
@@ -385,6 +395,7 @@ public class ReferenceFactoryManagerImpl
         }
     }
 
+    @Override
     @Poa
     public void resume()
     {
@@ -440,6 +451,7 @@ public class ReferenceFactoryManagerImpl
         }
     }
 
+    @Override
     @Poa
     public void restartFactories(
         Map<String,Pair<ServantLocator,List<Policy>>> updates )
@@ -477,6 +489,7 @@ public class ReferenceFactoryManagerImpl
         }
     }
 
+    @Override
     public void restartFactories() {
         restartFactories( new HashMap<String,Pair<ServantLocator,List<Policy>>>() ) ;
     }
@@ -489,6 +502,7 @@ public class ReferenceFactoryManagerImpl
      * some or all of the ReferenceFactory instances in this ReferenceFactoryManager.
      * This parameter must not be null.
      */
+    @Override
     @Poa
     public void restart( Map<String,Pair<ServantLocator,List<Policy>>> updates )
     {
@@ -505,6 +519,7 @@ public class ReferenceFactoryManagerImpl
      * complete correctly.  Restart does not return until all restart
      * activity completes.  Equivalent to calling restart( new Map() ).
      */
+    @Override
     public void restart() {
         restart( new HashMap<String,Pair<ServantLocator,List<Policy>>>() ) ;
     }
@@ -591,6 +606,7 @@ public class ReferenceFactoryManagerImpl
     }
 
     // locking not required
+    @Override
     @Poa
     public boolean isRfmName( String[] adapterName )
     {

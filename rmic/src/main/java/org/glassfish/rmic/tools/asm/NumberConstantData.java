@@ -45,6 +45,7 @@ class NumberConstantData extends ConstantPoolData {
     /**
      * Write the constant to the output stream
      */
+    @Override
     void write(Environment env, DataOutputStream out, ConstantPool tab) throws IOException {
         if (num instanceof Integer) {
             out.writeByte(CONSTANT_INTEGER);
@@ -63,6 +64,7 @@ class NumberConstantData extends ConstantPoolData {
     /**
      * Return the order of the constant
      */
+    @Override
     int order() {
         return (width() == 1) ? 0 : 3;
     }
@@ -70,6 +72,7 @@ class NumberConstantData extends ConstantPoolData {
     /**
      * Return the number of entries that it takes up in the constant pool
      */
+    @Override
     int width() {
         return ((num instanceof Double) || (num instanceof Long)) ? 2 : 1;
     }

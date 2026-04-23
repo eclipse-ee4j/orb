@@ -60,24 +60,34 @@ class SourceMember extends MemberDefinition implements Constants {
     /**
      * The argument names (if it is a method)
      */
+    @Deprecated
     Vector<MemberDefinition> args;
 
     // set to the MemberDefinition in the interface if we have this field because
     // it has been forced on us
+    @Deprecated
     MemberDefinition abstractSource;
 
     /**
      * The status of the field
      */
+    @Deprecated
     int status;
 
+    @Deprecated
     static final int PARSED     = 0;
+    @Deprecated
     static final int CHECKING   = 1;
+    @Deprecated
     static final int CHECKED    = 2;
+    @Deprecated
     static final int INLINING   = 3;
+    @Deprecated
     static final int INLINED    = 4;
+    @Deprecated
     static final int ERROR      = 5;
 
+    @Deprecated
     @Override
     public Vector<MemberDefinition> getArguments() {
         return args;
@@ -87,6 +97,7 @@ class SourceMember extends MemberDefinition implements Constants {
      * Constructor
      * @param argNames a vector of IdentifierToken
      */
+    @Deprecated
     public SourceMember(long where, ClassDefinition clazz,
                        String doc, int modifiers, Type type,
                        Identifier name, Vector<MemberDefinition> argNames,
@@ -101,6 +112,7 @@ class SourceMember extends MemberDefinition implements Constants {
         }
     }
 
+    @Deprecated
     void createArgumentFields(Vector<MemberDefinition> argNames) {
         // Create a list of arguments
         if (isMethod()) {
@@ -171,12 +183,14 @@ class SourceMember extends MemberDefinition implements Constants {
     // one should be able to tell the difference between these orders.
     // (bug number 4085633)
 
+    @Deprecated
     LocalMember outerThisArg = null;
 
     /**
      * Get outer instance link, or null if none.
      */
 
+    @Deprecated
     public LocalMember getOuterThisArg() {
         return outerThisArg;
     }
@@ -187,6 +201,7 @@ class SourceMember extends MemberDefinition implements Constants {
      * additional uplevel arguments get added later by addUplevelArguments().
      */
 
+    @Deprecated
     void addOuterThis() {
         UplevelReference refs = clazz.getReferences();
 
@@ -230,6 +245,7 @@ class SourceMember extends MemberDefinition implements Constants {
      * The code() methods tweaks the constructor calls, prepending
      * the proper values to the argument list.
      */
+    @Deprecated
     void addUplevelArguments() {
         UplevelReference refs = clazz.getReferences();
         clazz.getReferencesFrozen();
@@ -276,6 +292,7 @@ class SourceMember extends MemberDefinition implements Constants {
     /**
      * Constructor for an inner class.
      */
+    @Deprecated
     public SourceMember(ClassDefinition innerClass) {
         super(innerClass);
     }
@@ -321,6 +338,7 @@ class SourceMember extends MemberDefinition implements Constants {
     /**
      * Set array of name-resolved exceptions directly, e.g., for access methods.
      */
+    @Deprecated
     public void setExceptions(ClassDeclaration[] exp) {
         this.exp = exp;
     }
@@ -330,6 +348,7 @@ class SourceMember extends MemberDefinition implements Constants {
      * @see ClassDefinition.resolveTypeStructure
      */
 
+    @Deprecated
     public boolean resolved = false;
 
     @Override
@@ -385,6 +404,7 @@ class SourceMember extends MemberDefinition implements Constants {
     /**
      * Get the class declaration in which the field is actually defined
      */
+    @Deprecated
     @Override
     public ClassDeclaration getDefiningClassDeclaration() {
         if (abstractSource == null)
@@ -795,6 +815,8 @@ class SourceMember extends MemberDefinition implements Constants {
     /**
      * Get the initial value of the field
      */
+    @Deprecated
+    @Override
     public Object getInitialValue() {
         if (isMethod() || (getValue() == null) || (!isFinal()) || (status != INLINED)) {
             return null;
@@ -912,6 +934,8 @@ class SourceMember extends MemberDefinition implements Constants {
     /**
      * Print for debugging
      */
+    @Deprecated
+    @Override
     public void print(PrintStream out) {
         super.print(out);
         if (getValue() != null) {

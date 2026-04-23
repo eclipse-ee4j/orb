@@ -315,6 +315,7 @@ public class StructGen implements com.sun.tools.corba.ee.idl.StructGen, com.sun.
     return index;
   } // type
 
+  @Override
   public void helperRead (String entryName, SymtabEntry entry, PrintWriter stream)
   {
     stream.println ("    " + entryName + " value = new " + entryName + " ();");
@@ -322,6 +323,7 @@ public class StructGen implements com.sun.tools.corba.ee.idl.StructGen, com.sun.
     stream.println ("    return value;");
   } // helperRead
 
+  @Override
   public int read (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     if (thisIsReallyAnException)
@@ -386,11 +388,13 @@ public class StructGen implements com.sun.tools.corba.ee.idl.StructGen, com.sun.
     return index;
   } // read
 
+  @Override
   public void helperWrite (SymtabEntry entry, PrintWriter stream)
   {
     write (0, "    ", "value", entry, stream);
   } // helperWrite
 
+  @Override
   public int write (int index, String indent, String name, SymtabEntry entry, PrintWriter stream)
   {
     if (thisIsReallyAnException)

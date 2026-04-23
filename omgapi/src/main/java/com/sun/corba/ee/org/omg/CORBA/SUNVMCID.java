@@ -31,5 +31,5 @@ public interface SUNVMCID {
      * the high order 20 bits of the minor code to produce the minor value
      * in a system exception.
      */
-    static final int value = 0x53550000;
+    int value = 0x53550000;
 }

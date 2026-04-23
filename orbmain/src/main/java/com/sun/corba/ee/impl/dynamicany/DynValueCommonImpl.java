@@ -55,11 +55,13 @@ abstract class DynValueCommonImpl extends DynAnyComplexImpl implements DynValueC
     //
 
     // Returns TRUE if this object represents a null valuetype
+    @Override
     public boolean is_null() {
         return isNull;
     }
 
     // Changes the representation to a null valuetype.
+    @Override
     public void set_to_null() {
         isNull = true;
         clearData();
@@ -69,6 +71,7 @@ abstract class DynValueCommonImpl extends DynAnyComplexImpl implements DynValueC
     // replaces it with a newly constructed value with its components
     // initialized to default values as in DynAnyFactory::create_dyn_any_from_type_code.
     // If this object represents a non-null valuetype, then this operation has no effect.
+    @Override
     public void set_to_value() {
         if (isNull) {
             isNull = false;

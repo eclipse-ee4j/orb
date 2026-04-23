@@ -2046,6 +2046,7 @@ public abstract class ClassDefinition implements Constants {
     /**
      * Convert to String
      */
+    @Override
     public String toString() {
         return getClassDeclaration().toString();
     }

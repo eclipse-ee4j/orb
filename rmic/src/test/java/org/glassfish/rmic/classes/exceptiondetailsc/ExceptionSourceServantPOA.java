@@ -32,14 +32,17 @@ public class ExceptionSourceServantPOA extends PortableRemoteObject implements E
         // DO NOT CALL SUPER - that would connect the object.
     }
 
+    @Override
     public void raiseSystemException(String x) throws RemoteException {
         throw new FREE_MEM(x);
     }
 
+    @Override
     public void raiseUserException(String x) throws RemoteException, RmiIException {
         throw new RmiIException(x);
     }
 
+    @Override
     public void raiseRuntimeException(String x) throws RemoteException {
         throw new RuntimeException(x);
     }

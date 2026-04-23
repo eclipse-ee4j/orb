@@ -61,6 +61,7 @@ class IdentifierExpression extends Expression {
         this.field = field;
     }
 
+    @Override
     public Expression getImplementation() {
         if (implementation != null)
             return implementation;
@@ -70,6 +71,7 @@ class IdentifierExpression extends Expression {
     /**
      * Check if the expression is equal to a value
      */
+    @Override
     public boolean equals(Identifier id) {
         return this.id.equals(id);
     }
@@ -390,6 +392,7 @@ class IdentifierExpression extends Expression {
     /**
      * Check if constant:  Will it inline away?
      */
+    @Override
     public boolean isConstant() {
         if (implementation != null)
             return implementation.isConstant();
@@ -430,6 +433,7 @@ class IdentifierExpression extends Expression {
         return this;
     }
 
+    @Override
     public Expression copyInline(Context ctx) {
         if (implementation != null)
             return implementation.copyInline(ctx);
@@ -470,6 +474,7 @@ class IdentifierExpression extends Expression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print(id + "#" + ((field != null) ? field.hashCode() : 0));
         if (implementation != null) {

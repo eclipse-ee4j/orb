@@ -59,6 +59,7 @@ public class OutboundConnectionState<C extends Connection> {
                                                     // in use and has no
                                                     // outstanding requests
 
+    @Override
     public String toString() {
         return "OutboundConnectionState[csv=" + csv
             + ",cinfo=" + cinfo
@@ -176,7 +177,6 @@ public class OutboundConnectionState<C extends Connection> {
     // Returns true iff the connection is idle and reclaimable
     @Transport
     public synchronized boolean responseReceived() {
-        boolean result = false ;
         --expectedResponseCount ;
         display( "expectedResponseCount", expectedResponseCount ) ;
 
@@ -185,7 +185,7 @@ public class OutboundConnectionState<C extends Connection> {
             expectedResponseCount = 0 ;
         }
 
-        result = (expectedResponseCount == 0) && (busyCount == 0) ;
+        boolean result = (expectedResponseCount == 0) && (busyCount == 0) ;
 
         return result ;
     }

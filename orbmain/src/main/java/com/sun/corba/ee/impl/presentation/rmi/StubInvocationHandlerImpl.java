@@ -54,11 +54,13 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler
     private transient org.omg.CORBA.Object stub ;
     private transient Proxy self ;
 
+    @Override
     public void setProxy( Proxy self )
     {
         this.self = self ;
     }
 
+    @Override
     public Proxy getProxy()
     {
         return self ;
@@ -94,6 +96,7 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler
         return result ;
     }
 
+    @Override
     public Object invoke( Object proxy, final Method method,
         Object[] args ) throws Throwable {
 
@@ -199,6 +202,7 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler
                         // inaccessible package, as this reflective class must always
                         // be able to invoke a non-public method.
                         AccessController.doPrivileged(new PrivilegedAction() {
+                            @Override
                             public Object run() {
                                 method.setAccessible( true ) ;
                                 return null ;

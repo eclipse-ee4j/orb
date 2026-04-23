@@ -100,7 +100,7 @@ public abstract class FileLocator extends Object {
                     result = locateInZipFile (path, classFileName, true, true);
                     if (result == null)
                         continue;
-                    return (DataInputStream) result;
+                    return result;
 
                 } catch (ZipException zfe) {
                     continue;
@@ -130,13 +130,13 @@ public abstract class FileLocator extends Object {
             result = new NamedDataInputStream (new BufferedInputStream (
                new FileInputStream (simpleName + ".class")),
                    simpleName + ".class", false);
-            return (DataInputStream) result;
+            return result;
         }
 
         result = new NamedDataInputStream (new BufferedInputStream (
             new FileInputStream (cf)), path + File.separator + pathNameForm,
                 false);
-        return (DataInputStream) result;
+        return result;
 
     }
 
@@ -254,7 +254,7 @@ public abstract class FileLocator extends Object {
                     result = locateInZipFile (path, zipEntryName, false, false);
                     if (result == null)
                         continue;
-                    return (DataInputStream) result;
+                    return result;
 
                 } catch (ZipException zfe) {
                     continue;
@@ -283,13 +283,13 @@ public abstract class FileLocator extends Object {
 
             result = new NamedDataInputStream (new BufferedInputStream (
                new FileInputStream (simpleName)), simpleName, false);
-            return (DataInputStream) result;
+            return result;
         }
 
         result = new NamedDataInputStream (new BufferedInputStream (
             new FileInputStream (cf)), path + File.separator + localFileName,
                 false);
-        return (DataInputStream) result;
+        return result;
 
     }
 

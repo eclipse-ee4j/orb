@@ -181,7 +181,7 @@ public class PortableRemoteObject {
         }
 
         try {
-            return (Object) loadDelegateClass(className).newInstance();
+            return loadDelegateClass(className).newInstance();
         } catch (ClassNotFoundException ex) {
             INITIALIZE exc = new INITIALIZE( "Cannot instantiate " + className);
             exc.initCause( ex ) ;
@@ -231,6 +231,7 @@ class GetORBPropertiesFileAction implements PrivilegedAction {
         // class was loaded from rt.jar using the bootstrap classloader.
         String propValue = (String) AccessController.doPrivileged(
             new PrivilegedAction() {
+                @Override
                 public java.lang.Object run() {
                     return System.getProperty(name);
                 }
@@ -261,6 +262,7 @@ class GetORBPropertiesFileAction implements PrivilegedAction {
         }
     }
 
+    @Override
     public Object run()
     {
         Properties defaults = new Properties() ;

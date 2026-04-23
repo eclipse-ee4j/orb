@@ -48,11 +48,11 @@ public final class ReplyMessage_1_1 extends Message_1_1
 
     private ORB orb = null;
     private ServiceContexts service_contexts = null;
-    private int request_id = (int) 0;
-    private int reply_status = (int) 0;
+    private int request_id = 0;
+    private int reply_status = 0;
     private IOR ior = null;
     private String exClassName = null;
-    private int minorCode = (int) 0;
+    private int minorCode = 0;
     private CompletionStatus completionStatus = null;
 
     // Constructors
@@ -75,37 +75,45 @@ public final class ReplyMessage_1_1 extends Message_1_1
 
     // Accessor methods
 
+    @Override
     public int getRequestId() {
         return this.request_id;
     }
 
+    @Override
     public int getReplyStatus() {
         return this.reply_status;
     }
 
+    @Override
     public short getAddrDisposition() {
         return KeyAddr.value;
     }
 
+    @Override
     public ServiceContexts getServiceContexts() {
         return this.service_contexts;
     }
 
+    @Override
     public SystemException getSystemException(String message) {
         return MessageBase.getSystemException(
                 exClassName, minorCode, completionStatus, message, wrapper);
     }
 
+    @Override
     public IOR getIOR() {
         return this.ior;
     }
 
+    @Override
     public void setIOR(IOR ior) {
         this.ior = ior;
     }
 
     // IO methods
 
+    @Override
     public void read(org.omg.CORBA.portable.InputStream istream) {
         super.read(istream);
         this.service_contexts = ServiceContextDefaults.makeServiceContexts(
@@ -140,12 +148,13 @@ public final class ReplyMessage_1_1 extends Message_1_1
             // do nothing. The client stub will read the exception from body.
         } else if (this.reply_status == LOCATION_FORWARD) {
             CDRInputObject cdr = (CDRInputObject) istream;
-            this.ior = IORFactories.makeIOR(orb, (InputStream) cdr);
+            this.ior = IORFactories.makeIOR(orb, cdr);
         }
     }
 
     // Note, this writes only the header information. SystemException or
     // IOR may be written afterwards into the reply mesg body.
+    @Override
     public void write(org.omg.CORBA.portable.OutputStream ostream) {
         super.write(ostream);
         service_contexts.write(
@@ -169,6 +178,7 @@ public final class ReplyMessage_1_1 extends Message_1_1
         }
     }
 
+    @Override
     public void callback(MessageHandler handler)
             throws java.io.IOException {
         handler.handleInput(this);

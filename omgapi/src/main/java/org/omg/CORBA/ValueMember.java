@@ -35,6 +35,8 @@ public final class ValueMember implements org.omg.CORBA.portable.IDLEntity {
 
     //  instance variables
 
+    private static final long serialVersionUID = -2507594168537449114L;
+
     /**
      * The name of the <code>value</code> member described by this
      * <code>ValueMember</code> object.

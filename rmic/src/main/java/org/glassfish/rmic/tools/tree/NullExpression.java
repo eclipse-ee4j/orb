@@ -42,10 +42,12 @@ class NullExpression extends ConstantExpression {
     /**
      * Check if the expression is equal to a value
      */
+    @Override
     public boolean equals(int i) {
         return i == 0;
     }
 
+    @Override
     public boolean isNull() {
         return true;
     }
@@ -60,6 +62,7 @@ class NullExpression extends ConstantExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print("null");
     }

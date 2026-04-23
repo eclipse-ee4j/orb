@@ -39,14 +39,14 @@ import org.glassfish.pfl.basic.logex.WrapperGenerator;
  */
 @ExceptionWrapper( idPrefix="ORBIO" )
 public interface Exceptions {
-    public Exceptions self = WrapperGenerator.makeWrapper( Exceptions.class,
+    Exceptions self = WrapperGenerator.makeWrapper( Exceptions.class,
         StandardLogger.self );
 
     // Allow 100 exceptions per class
-    static final int EXCEPTIONS_PER_CLASS = 100 ;
+    int EXCEPTIONS_PER_CLASS = 100 ;
 
 // IIOPInputStream
-    static final int IIS_START = 1 ;
+    int IIS_START = 1 ;
 
     @Message( "No optional data exception constructor available" )
     @Log( id = IIS_START + 0 )

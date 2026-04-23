@@ -51,6 +51,7 @@ public class Skeleton implements AuxGen
   {
   }
 
+  @Override
   public void generate (Hashtable symbolTable, SymtabEntry entry)
   {
     // <d62739-begin>

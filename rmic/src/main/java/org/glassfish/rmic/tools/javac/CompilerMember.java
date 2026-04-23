@@ -33,13 +33,20 @@ import org.glassfish.rmic.tools.java.MemberDefinition;
 @Deprecated
 final
 class CompilerMember implements Comparable<Object> {
+    @Deprecated
     MemberDefinition field;
+    @Deprecated
     Assembler asm;
+    @Deprecated
     Object value;
+    @Deprecated
     String name;
+    @Deprecated
     String sig;
+    @Deprecated
     String key;
 
+    @Deprecated
     CompilerMember(MemberDefinition field, Assembler asm) {
         this.field = field;
         this.asm = asm;
@@ -47,11 +54,14 @@ class CompilerMember implements Comparable<Object> {
         sig = field.getType().getTypeSignature();
     }
 
+    @Deprecated
+    @Override
     public int compareTo(Object o) {
         CompilerMember cm = (CompilerMember) o;
         return getKey().compareTo(cm.getKey());
     }
 
+    @Deprecated
     String getKey() {
         if (key==null)
             key = name+sig;

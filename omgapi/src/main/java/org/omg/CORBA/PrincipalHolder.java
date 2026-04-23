@@ -46,18 +46,20 @@ import org.omg.CORBA.portable.Streamable;
  * @since       JDK1.2
  * @deprecated Deprecated by CORBA 2.2.
  */
-// @Deprecated
+@Deprecated
 public final class PrincipalHolder implements Streamable {
     /**
      * The <code>Principal</code> value held by this <code>PrincipalHolder</code>
      * object.
      */
+    @Deprecated
     public Principal value;
 
     /**
      * Constructs a new <code>PrincipalHolder</code> object with its
      * <code>value</code> field initialized to <code>null</code>.
      */
+    @Deprecated
     public PrincipalHolder() {
     }
 
@@ -70,18 +72,25 @@ public final class PrincipalHolder implements Streamable {
      *                <code>PrincipalHolder</code> object
      */
     // @SuppressWarnings({"deprecation"})
+    @Deprecated
     public PrincipalHolder(Principal initial) {
         value = initial;
     }
 
+    @Deprecated
+    @Override
     public void _read(InputStream input) {
         value = input.read_Principal();
     }
 
+    @Deprecated
+    @Override
     public void _write(OutputStream output) {
         output.write_Principal(value);
     }
 
+    @Deprecated
+    @Override
     public org.omg.CORBA.TypeCode _type() {
         return ORB.init().get_primitive_tc(TCKind.tk_Principal);
     }

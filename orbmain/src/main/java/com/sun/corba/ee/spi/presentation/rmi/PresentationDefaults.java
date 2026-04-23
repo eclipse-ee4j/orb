@@ -55,7 +55,9 @@ public abstract class PresentationDefaults
 
     private static InvocationInterceptor nullInvocationInterceptor =
         new InvocationInterceptor() {
+            @Override
             public void preInvoke() {}
+            @Override
             public void postInvoke() {}
         } ;
 
@@ -78,6 +80,7 @@ public abstract class PresentationDefaults
         final String defs = Boolean.toString( def ) ;
         final String value = AccessController.doPrivileged(
             new PrivilegedAction<String>() {
+                @Override
                 public String run() {
                     return System.getProperty( propName, defs ) ;
                 }

@@ -60,8 +60,7 @@ abstract public class IORAddressingInfoHelper
           }
           __active = true;
           org.omg.CORBA.StructMember[] _members0 = new org.omg.CORBA.StructMember [2];
-          org.omg.CORBA.TypeCode _tcOf_members0 = null;
-          _tcOf_members0 = org.omg.CORBA.ORB.init().get_primitive_tc (org.omg.CORBA.TCKind.tk_ulong);
+          org.omg.CORBA.TypeCode _tcOf_members0 = org.omg.CORBA.ORB.init().get_primitive_tc (org.omg.CORBA.TCKind.tk_ulong);
           _members0[0] = new org.omg.CORBA.StructMember (
             "selected_profile_index",
             _tcOf_members0,

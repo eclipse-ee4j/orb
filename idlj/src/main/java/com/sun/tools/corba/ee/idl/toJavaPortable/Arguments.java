@@ -46,7 +46,6 @@ public class Arguments extends com.sun.tools.corba.ee.idl.Arguments
    **/
   public Arguments ()
   {
-    super ();
     corbaLevel = 2.4f;
   } // ctor
 

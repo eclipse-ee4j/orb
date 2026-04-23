@@ -132,6 +132,7 @@ class ObjectStreamClassCorbaExt {
     private static final Method[] getDeclaredMethods(final Class clz) {
         return AccessController.doPrivileged(
             new PrivilegedAction<Method[]>() {
+                @Override
                 public Method[] run() {
                     return clz.getDeclaredMethods();
                 }

@@ -44,6 +44,7 @@ class NaryExpression extends UnaryExpression {
     /**
      * Create a copy of the expression for method inlining
      */
+    @Override
     public Expression copyInline(Context ctx) {
         NaryExpression e = (NaryExpression)clone();
         if (right != null) {
@@ -76,6 +77,7 @@ class NaryExpression extends UnaryExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print("(" + opNames[op] + "#" + hashCode());
         if (right != null) {

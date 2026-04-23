@@ -42,6 +42,7 @@ public class POAPolicyMediatorImpl_R_UDS extends POAPolicyMediatorBase_R {
             throw wrapper.policyMediatorBadPolicyInFactory();
         } }
 
+    @Override
     protected java.lang.Object internalGetServant( byte[] id,
         String operation ) throws ForwardRequest {
 
@@ -62,19 +63,23 @@ public class POAPolicyMediatorImpl_R_UDS extends POAPolicyMediatorBase_R {
         }
     }
 
+    @Override
     public void etherealizeAll() {
         // NO-OP
     }
 
+    @Override
     public ServantManager getServantManager() throws WrongPolicy {
         throw new WrongPolicy();
     }
 
+    @Override
     public void setServantManager(
         ServantManager servantManager ) throws WrongPolicy {
         throw new WrongPolicy();
     }
 
+    @Override
     public Servant getDefaultServant() throws NoServant, WrongPolicy {
         if (defaultServant == null) {
             throw new NoServant();
@@ -83,11 +88,13 @@ public class POAPolicyMediatorImpl_R_UDS extends POAPolicyMediatorBase_R {
         }
     }
 
+    @Override
     public void setDefaultServant( Servant servant ) throws WrongPolicy {
         defaultServant = servant;
         setDelegate(defaultServant, "DefaultServant".getBytes());
     }
 
+    @Override
     public Servant idToServant( byte[] id )
         throws WrongPolicy, ObjectNotActive {
 

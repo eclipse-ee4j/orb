@@ -51,6 +51,7 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
                                                 // connections we will open
                                                 // to the same endpoint
 
+    @Override
     @ManagedAttribute
     public int maxParallelConnections() { return maxParallelConnections ; }
 
@@ -68,6 +69,7 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
         return new HashMap<C,OutboundConnectionState<C>>( connectionMap ) ;
     }
 
+    @Override
     protected String thisClassName() {
         return "OutboundConnectionCacheBlockingImpl" ;
     }
@@ -91,6 +93,7 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
             ConcurrentQueueFactory.<C>makeConcurrentQueue( ttl ) ;
     }
 
+    @Override
     public boolean canCreateNewConnection( ContactInfo<C> cinfo ) {
         lock.lock() ;
         try {
@@ -118,6 +121,7 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
         }
     }
 
+    @Override
     public C get( final ContactInfo<C> cinfo) throws IOException {
         return get( cinfo, null ) ;
     }
@@ -128,6 +132,7 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
     @InfoMethod
     private void display( String m, Object value ) {}
 
+    @Override
     @Transport
     public C get( final ContactInfo<C> cinfo,
         final ConnectionFinder<C> finder ) throws IOException {
@@ -205,9 +210,9 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
     private OutboundCacheEntry<C> getEntry( final ContactInfo<C> cinfo
         ) throws IOException {
 
-        OutboundCacheEntry<C> result = null ;
+
         // This is the only place a OutboundCacheEntry is constructed.
-        result = entryMap.get( cinfo ) ;
+        OutboundCacheEntry<C> result = entryMap.get( cinfo ) ;
         if (result == null) {
             result = new OutboundCacheEntry<C>( lock ) ;
             display( "creating new OutboundCacheEntry", result ) ;
@@ -264,6 +269,7 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
         }
     }
 
+    @Override
     @Transport
     public void release( final C conn,
         final int numResponsesExpected ) {
@@ -304,6 +310,7 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
     /** Decrement the number of expected responses.  When a connection is idle
      * and has no expected responses, it can be reclaimed.
      */
+    @Override
     @Transport
     public void responseReceived( final C conn ) {
         lock.lock() ;
@@ -347,6 +354,7 @@ public final class OutboundConnectionCacheBlockingImpl<C extends Connection>
     /** Close a connection, regardless of whether the connection is busy
      * or not.
      */
+    @Override
     @Transport
     public void close( final C conn ) {
         lock.lock() ;

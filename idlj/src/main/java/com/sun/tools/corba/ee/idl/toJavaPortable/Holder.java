@@ -56,6 +56,7 @@ public class Holder implements AuxGen
    * 6.) Write class closing (close curly)
    * 7.) Close the print stream
    **/
+  @Override
   public void generate (java.util.Hashtable symbolTable, SymtabEntry entry)
   {
     this.symbolTable = symbolTable;

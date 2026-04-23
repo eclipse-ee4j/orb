@@ -172,6 +172,7 @@ public abstract class DataCollectorBase implements DataCollector {
         }
 
         PropertyCallback callback = new PropertyCallback() {
+            @Override
             public String get(String name) {
                 return app.getParameter(name);
             }
@@ -186,6 +187,7 @@ public abstract class DataCollectorBase implements DataCollector {
         // URLs can be kept relative which is sometimes useful for
         // managing the Document Root layout.
         PropertyCallback URLCallback = new PropertyCallback() {
+            @Override
             public String get( String name ) {
                 String value = resultProps.getProperty(name);
                 if (value == null) {
@@ -210,6 +212,7 @@ public abstract class DataCollectorBase implements DataCollector {
     private void doProperties( final Properties props )
     {
         PropertyCallback callback =  new PropertyCallback() {
+            @Override
             public String get(String name) {
                 return props.getProperty(name);
             }
@@ -253,6 +256,7 @@ public abstract class DataCollectorBase implements DataCollector {
         Set<String> prefixNames = getCORBAPrefixes( propertyPrefixes ) ;
 
         PropertyCallback callback = new PropertyCallback() {
+            @Override
             public String get(String name) {
                 return getSystemProperty(name);
             }
@@ -360,8 +364,11 @@ public abstract class DataCollectorBase implements DataCollector {
         final Enumeration<?> enumeration )
     {
         return new Iterator<String>() {
+            @Override
             public boolean hasNext() { return enumeration.hasMoreElements() ; }
+            @Override
             public String next() { return (String)enumeration.nextElement() ; }
+            @Override
             public void remove() { throw new UnsupportedOperationException() ; }
         } ;
     }
@@ -374,7 +381,8 @@ public abstract class DataCollectorBase implements DataCollector {
         Enumeration<String> enumeration =
             (Enumeration<String>)AccessController.doPrivileged(
                 new PrivilegedAction<Enumeration<?>>() {
-                      public Enumeration<?> run() {
+                      @Override
+                    public Enumeration<?> run() {
                           return System.getProperties().propertyNames();
                       }
                 }

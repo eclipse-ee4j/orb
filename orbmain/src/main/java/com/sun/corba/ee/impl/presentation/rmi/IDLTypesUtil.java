@@ -598,6 +598,7 @@ public final class IDLTypesUtil {
             fields = (Field[])
                 java.security.AccessController.doPrivileged
                 (new java.security.PrivilegedExceptionAction() {
+                        @Override
                         public java.lang.Object run() throws Exception {
                             return c.getFields();
                         }

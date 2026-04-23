@@ -33,7 +33,6 @@ public class PrimitiveEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
 {
   protected PrimitiveEntry ()
   {
-    super ();
     repositoryID (Util.emptyID);
   } // ctor
 
@@ -49,6 +48,7 @@ public class PrimitiveEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     super (that);
   } // ctor
 
+  @Override
   public Object clone ()
   {
     return new PrimitiveEntry (this);
@@ -60,6 +60,7 @@ public class PrimitiveEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
        a subclass of SymtabEntry.
       @param stream the stream to which the generator should sent its output.
       @see com.sun.tools.corba.ee.idl.SymtabEntry */
+  @Override
   public void generate (Hashtable symbolTable, PrintWriter stream)
   {
     primitiveGen.generate (symbolTable, this, stream);

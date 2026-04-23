@@ -34,7 +34,6 @@ public class EnumEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
 {
   protected EnumEntry ()
   {
-    super ();
   } // ctor
 
   protected EnumEntry (EnumEntry that)

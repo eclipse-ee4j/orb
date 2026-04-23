@@ -43,6 +43,7 @@ public class ExceptionGen extends StructGen implements com.sun.tools.corba.ee.id
   /**
    *
    **/
+  @Override
   public void generate (Hashtable symbolTable, ExceptionEntry entry, PrintWriter stream)
   {
     super.generate (symbolTable, entry, stream);

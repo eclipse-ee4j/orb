@@ -29,6 +29,7 @@ package com.sun.org.omg.CORBA;
 
 public final class AttributeDescription implements org.omg.CORBA.portable.IDLEntity
 {
+    private static final long serialVersionUID = -5840890156809002907L;
     public String name = null;
     public String id = null;
     public String defined_in = null;

@@ -236,5 +236,5 @@ public abstract class Context {
 
     abstract public NVList get_values(String start_scope, int op_flags,
                                       String pattern);
-};
+}
 

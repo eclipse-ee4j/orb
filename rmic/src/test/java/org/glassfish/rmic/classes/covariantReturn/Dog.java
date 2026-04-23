@@ -20,6 +20,7 @@
 package org.glassfish.rmic.classes.covariantReturn;
 
 public class Dog implements Animal {
+    private static final long serialVersionUID = -6748102458305309428L;
     private String name;
 
     public Dog(String name) {

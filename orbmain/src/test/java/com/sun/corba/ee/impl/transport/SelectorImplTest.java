@@ -304,6 +304,7 @@ public class SelectorImplTest extends TransportTestBase {
             this.selector = selector;
         }
 
+        @Override
         public SelectableChannel channel() {
             return channel;
         }

@@ -51,6 +51,7 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
 
     // Initializes components and anys representation
     // from the Any representation
+    @Override
     protected boolean initializeComponentsFromAny() {
         // This typeCode is of kind tk_sequence.
         int length;
@@ -81,6 +82,7 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
     }
 
     // Sets the current position to -1 and creates an empty sequence.
+    @Override
     protected boolean initializeComponentsFromTypeCode() {
         // already done in the type code constructor
         components = new DynAny[0];
@@ -112,6 +114,7 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
     //
 
     // Returns the current length of the sequence
+    @Override
     public int get_length() {
         if (status == STATUS_DESTROYED) {
             throw wrapper.dynAnyDestroyed() ;
@@ -141,6 +144,7 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
     // when the length is decreased, the current position remains unaffected.
     // ?f the current position indicates a valid element and that element is removed, the
     // current position is set to -1.
+    @Override
     public void set_length(int len)
         throws org.omg.DynamicAny.DynAnyPackage.InvalidValue
     {
@@ -226,6 +230,7 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
     // Utility methods
     //
 
+    @Override
     protected void checkValue(Object[] value)
         throws org.omg.DynamicAny.DynAnyPackage.InvalidValue
     {

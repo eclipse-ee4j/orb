@@ -174,6 +174,7 @@ class ArrayAccessExpression extends UnaryExpression {
     /**
      * Create a copy of the expression for method inlining
      */
+    @Override
     public Expression copyInline(Context ctx) {
         ArrayAccessExpression e = (ArrayAccessExpression)clone();
         e.right = right.copyInline(ctx);
@@ -253,6 +254,7 @@ class ArrayAccessExpression extends UnaryExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print("(" + opNames[op] + " ");
         right.print(out);

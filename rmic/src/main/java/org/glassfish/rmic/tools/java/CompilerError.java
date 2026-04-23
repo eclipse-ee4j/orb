@@ -29,6 +29,7 @@ package org.glassfish.rmic.tools.java;
 @SuppressWarnings("serial") // JDK implementation class
 public
 class CompilerError extends Error {
+    private static final long serialVersionUID = 2479954769339913995L;
     Throwable e;
 
     /**
@@ -47,6 +48,7 @@ class CompilerError extends Error {
         this.e = e;
     }
 
+    @Override
     public void printStackTrace() {
         if (e == this)
             super.printStackTrace();

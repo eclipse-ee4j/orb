@@ -59,6 +59,7 @@ public abstract class IIOPFactories {
     public static IdentifiableFactory makeRequestPartitioningComponentFactory()
     {
         return new EncapsulationFactoryBase(ORBConstants.TAG_REQUEST_PARTITIONING_ID) {
+            @Override
             public Identifiable readContents(InputStream in)
             {
                 int threadPoolToUse = in.read_ulong();
@@ -78,6 +79,7 @@ public abstract class IIOPFactories {
     public static IdentifiableFactory makeLoadBalancingComponentFactory()
     {
         return new EncapsulationFactoryBase(ORBConstants.TAG_LOAD_BALANCING_ID) {
+            @Override
             public Identifiable readContents(InputStream in)
             {
                 int loadBalancingValue = in.read_ulong();
@@ -99,6 +101,7 @@ public abstract class IIOPFactories {
         return new EncapsulationFactoryBase(
             ORBConstants.FOLB_MEMBER_ADDRESSES_TAGGED_COMPONENT_ID) {
 
+            @Override
             public Identifiable readContents(InputStream in)
             {
                 final ClusterInstanceInfo cinfo = new ClusterInstanceInfo( in ) ;
@@ -118,6 +121,7 @@ public abstract class IIOPFactories {
     public static IdentifiableFactory makeAlternateIIOPAddressComponentFactory()
     {
         return new EncapsulationFactoryBase(TAG_ALTERNATE_IIOP_ADDRESS.value) {
+            @Override
             public Identifiable readContents( InputStream in )
             {
                 IIOPAddress addr = new IIOPAddressImpl( in ) ;
@@ -137,6 +141,7 @@ public abstract class IIOPFactories {
     public static IdentifiableFactory makeCodeSetsComponentFactory()
     {
         return new EncapsulationFactoryBase(TAG_CODE_SETS.value) {
+            @Override
             public Identifiable readContents( InputStream in )
             {
                 return new CodeSetsComponentImpl( in ) ;
@@ -152,6 +157,7 @@ public abstract class IIOPFactories {
     public static IdentifiableFactory makeJavaCodebaseComponentFactory()
     {
         return new EncapsulationFactoryBase(TAG_JAVA_CODEBASE.value) {
+            @Override
             public Identifiable readContents( InputStream in )
             {
                 String url = in.read_string() ;
@@ -170,6 +176,7 @@ public abstract class IIOPFactories {
     public static IdentifiableFactory makeORBTypeComponentFactory()
     {
         return new EncapsulationFactoryBase(TAG_ORB_TYPE.value) {
+            @Override
             public Identifiable readContents( InputStream in )
             {
                 int type = in.read_ulong() ;
@@ -187,6 +194,7 @@ public abstract class IIOPFactories {
     public static IdentifiableFactory makeMaxStreamFormatVersionComponentFactory()
     {
         return new EncapsulationFactoryBase(TAG_RMI_CUSTOM_MAX_STREAM_FORMAT.value) {
+            @Override
             public Identifiable readContents(InputStream in)
             {
                 byte version = in.read_octet() ;
@@ -204,6 +212,7 @@ public abstract class IIOPFactories {
     public static IdentifiableFactory makeJavaSerializationComponentFactory() {
         return new EncapsulationFactoryBase(
                                 ORBConstants.TAG_JAVA_SERIALIZATION_ID) {
+            @Override
             public Identifiable readContents(InputStream in) {
                 byte version = in.read_octet();
                 Identifiable cmp = new JavaSerializationComponent(version);
@@ -219,6 +228,7 @@ public abstract class IIOPFactories {
     public static IdentifiableFactory makeIIOPProfileFactory()
     {
         return new EncapsulationFactoryBase(TAG_INTERNET_IOP.value) {
+            @Override
             public Identifiable readContents( InputStream in )
             {
                 Identifiable result = new IIOPProfileImpl( in ) ;
@@ -242,6 +252,7 @@ public abstract class IIOPFactories {
     public static IdentifiableFactory makeIIOPProfileTemplateFactory()
     {
         return new EncapsulationFactoryBase(TAG_INTERNET_IOP.value) {
+            @Override
             public Identifiable readContents( InputStream in )
             {
                 Identifiable result = new IIOPProfileTemplateImpl( in ) ;
