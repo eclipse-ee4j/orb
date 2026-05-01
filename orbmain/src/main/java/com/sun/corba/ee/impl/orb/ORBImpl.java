@@ -1764,24 +1764,24 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB implements AutoCloseab
 
     @Override
     @Subcontract
-    public boolean isLocalServerId( int subcontractId, int serverId )
-    {
+    public boolean isLocalServerId(int subcontractId, int serverId) {
+        final int psid;
         if (subcontractDebugFlag) {
-            int psid = -1;
             if (configData.getPersistentServerIdInitialized()) {
                 psid = configData.getPersistentServerId();
+            } else {
+                psid = -1;
             }
-
-            isLocalServerIdInfo( subcontractId, serverId,
-                 getTransientServerId(),
-                 ORBConstants.isTransient(subcontractId),
-                 configData.getPersistentServerIdInitialized(), psid ) ;
+            isLocalServerIdInfo(subcontractId, serverId, getTransientServerId(),
+                ORBConstants.isTransient(subcontractId), configData.getPersistentServerIdInitialized(), psid);
+        } else {
+            psid = -1;
         }
 
-        LOG.log(DEBUG, "isLocalServerId: params[subcontractId={0}, serverId={1}], mystate[transientServerId={2},"
-            + " persistentServerId={3}, persistentServerIdInitialized={4}]",
-            subcontractId, serverId, getTransientServerId(),
-            configData.getPersistentServerId(), configData.getPersistentServerIdInitialized());
+        LOG.log(TRACE,
+            () -> "isLocalServerId: params[subcontractId=" + subcontractId + ", serverId=" + serverId
+                + "], mystate[transientServerId=" + transientServerId + "," + " persistentServerId=" + psid
+                + ", persistentServerIdInitialized=" + configData.getPersistentServerIdInitialized() + "]");
 
         if (subcontractId < ORBConstants.FIRST_POA_SCID || subcontractId > ORBConstants.MAX_POA_SCID) {
             return serverId == getTransientServerId();
