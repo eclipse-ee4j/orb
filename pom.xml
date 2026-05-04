@@ -130,7 +130,7 @@
         <maven.compiler.release>11</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sonar.dynamicAnalysis>false</sonar.dynamicAnalysis>
-        <pfl-version>5.1.0</pfl-version>
+        <pfl-version>5.1.1</pfl-version>
         <gmbal-version>4.1.2</gmbal-version>
     </properties>
 
