@@ -33,7 +33,7 @@ pipeline {
   stages {
     stage('build') {
       steps {
-        sh 'mvn -Pstaging,all-tests,dash-licenses clean install'
+        sh 'mvn -Psnapshots,all-tests,dash-licenses clean install'
         junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
         archiveArtifacts artifacts: 'dash-summary.txt'
 
