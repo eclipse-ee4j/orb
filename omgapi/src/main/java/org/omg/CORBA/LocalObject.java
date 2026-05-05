@@ -18,13 +18,12 @@
  */
 
 package org.omg.CORBA;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import org.omg.CORBA.portable.ApplicationException;
+import org.omg.CORBA.portable.InputStream;
+import org.omg.CORBA.portable.OutputStream;
 import org.omg.CORBA.portable.RemarshalException;
 import org.omg.CORBA.portable.ServantObject;
-
 
 /**
  * <P>Used as a base class for implementation of a local IDL interface in the
@@ -521,10 +520,3 @@ public class LocalObject implements org.omg.CORBA.Object
         throw new org.omg.CORBA.NO_IMPLEMENT(reason);
     }
 }
-
-
-
-
-
-
-
