@@ -136,6 +136,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
     // that sets the xxxDebugFlags!
     public static final boolean orbInitDebug = AccessController.doPrivileged(
         new PrivilegedAction<Boolean>() {
+            @Override
             public Boolean run() {
                 return Boolean.getBoolean( ORBConstants.INIT_DEBUG_PROPERTY );
             }
@@ -464,11 +465,13 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
         }
     }
 
+    @Override
     public synchronized void setTypeCode(String id, TypeCodeImpl code)
     {
         typeCodeMap.put(id, code);
     }
 
+    @Override
     public synchronized TypeCodeImpl getTypeCode(String id)
     {
         return typeCodeMap.get(id);
@@ -873,6 +876,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
 
     private static final UnaryFunction<String,Class<?>> defaultClassNameResolver =
         new UnaryFunction<String,Class<?>>() {
+            @Override
             public Class<?> evaluate( String name ) {
                 try {
                     return ORBClassLoader.getClassLoader().loadClass( name ) ;
@@ -896,6 +900,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
         final UnaryFunction<String,Class<?>> second ) {
 
         return new UnaryFunction<String,Class<?>>() {
+            @Override
             public Class<?> evaluate( String className ) {
                 Class<?> result = first.evaluate( className ) ;
                 if (result == null) {

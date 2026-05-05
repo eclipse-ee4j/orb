@@ -53,7 +53,7 @@ public class NotEqual extends BinaryExpr
           value (Boolean.valueOf (l.doubleValue () != r.doubleValue ()));
         else
           //daz          value (Boolean.valueOf (l.longValue () != r.longValue ()));
-          value (Boolean.valueOf (!((BigInteger)l).equals ((BigInteger)r)));
+          value (Boolean.valueOf (!((BigInteger)l).equals (r)));
       }
     }
     catch (ClassCastException e)

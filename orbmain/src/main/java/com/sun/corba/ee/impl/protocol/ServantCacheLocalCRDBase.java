@@ -38,6 +38,7 @@ public abstract class ServantCacheLocalCRDBase
         super( orb, scid, ior ) ;
     }
 
+    @Override
     @Subcontract
     protected void cleanupAfterOADestroyed() {
         cachedInfo = null ;

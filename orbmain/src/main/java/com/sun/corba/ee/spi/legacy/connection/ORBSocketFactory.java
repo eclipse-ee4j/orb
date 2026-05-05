@@ -93,7 +93,8 @@ public interface ORBSocketFactory
      * </pre>
      * @deprecated
      */
-    public static final String IIOP_CLEAR_TEXT = "IIOP_CLEAR_TEXT";
+    @Deprecated
+    String IIOP_CLEAR_TEXT = "IIOP_CLEAR_TEXT";
 
 
     /**
@@ -274,7 +275,7 @@ public interface ORBSocketFactory
      * @deprecated
      */
     @Deprecated
-    public ServerSocket createServerSocket(String type, int port)
+    ServerSocket createServerSocket(String type, int port)
         throws
             IOException;
 
@@ -333,7 +334,7 @@ public interface ORBSocketFactory
      * @deprecated
      */
     @Deprecated
-    public SocketInfo getEndPointInfo(org.omg.CORBA.ORB orb,
+    SocketInfo getEndPointInfo(org.omg.CORBA.ORB orb,
                                         IOR ior,
                                         SocketInfo socketInfo);
 
@@ -359,7 +360,8 @@ public interface ORBSocketFactory
      * @return client socket
      * @deprecated
      */
-    public Socket createSocket(SocketInfo socketInfo)
+    @Deprecated
+    Socket createSocket(SocketInfo socketInfo)
         throws
             IOException,
             GetEndPointInfoAgainException;

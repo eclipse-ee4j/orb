@@ -53,6 +53,7 @@ public abstract class IdentifiableFactoryFinderBase<E extends Identifiable>
     public abstract E handleMissingFactory( int id,
         InputStream is ) ;
 
+    @Override
     public E create(int id, InputStream is)
     {
         IdentifiableFactory<E> factory = getFactory( id ) ;
@@ -64,6 +65,7 @@ public abstract class IdentifiableFactoryFinderBase<E extends Identifiable>
         }
     }
 
+    @Override
     public void registerFactory(IdentifiableFactory<E> factory)
     {
         map.put( factory.getId(), factory ) ;

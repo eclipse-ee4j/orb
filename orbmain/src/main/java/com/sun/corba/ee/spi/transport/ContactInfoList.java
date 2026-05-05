@@ -28,18 +28,19 @@ import java.util.Iterator ;
 /**
  * @author Harold Carr
  */
-public abstract interface ContactInfoList
+public interface ContactInfoList
 {
-    public Iterator<ContactInfo> iterator() ; // covariant override
-    public void setTargetIOR(IOR ior);
-    public IOR getTargetIOR();
+    Iterator<ContactInfo> iterator() ; // covariant override
+    void setTargetIOR(IOR ior);
+    IOR getTargetIOR();
 
-    public void setEffectiveTargetIOR(IOR locatedIor);
-    public IOR getEffectiveTargetIOR();
+    void setEffectiveTargetIOR(IOR locatedIor);
+    IOR getEffectiveTargetIOR();
 
-    public LocalClientRequestDispatcher getLocalClientRequestDispatcher();
+    LocalClientRequestDispatcher getLocalClientRequestDispatcher();
 
-    public int hashCode();
+    @Override
+    int hashCode();
 }
 
 // End of file.

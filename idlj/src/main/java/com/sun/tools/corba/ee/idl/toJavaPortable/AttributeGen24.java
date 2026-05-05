@@ -45,6 +45,7 @@ public class AttributeGen24 extends MethodGenClone24
   /**
    * (d62023-klr) Added for 2.4 RTF
    **/
+  @Override
   protected void abstractMethod (Hashtable symbolTable, MethodEntry m, PrintWriter stream)
   {
     AttributeEntry a = (AttributeEntry)m;
@@ -64,6 +65,7 @@ public class AttributeGen24 extends MethodGenClone24
   /**
    * (d62023-klr) Added for 2.4 RTF
    **/
+  @Override
   protected void interfaceMethod (Hashtable symbolTable, MethodEntry m, PrintWriter stream)
   {
     AttributeEntry a = (AttributeEntry)m;

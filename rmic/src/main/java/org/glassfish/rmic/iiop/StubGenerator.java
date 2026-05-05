@@ -1091,8 +1091,6 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
         }
         p.plnI("try {");
 
-        String argStream = "null";
-
         if (needNewWriteStreamClass) {
             p.plnI(idExtOutputStream + " "+out+" = ");
             p.pln("(" + idExtOutputStream + ")");
@@ -1106,7 +1104,7 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
             writeMarshalArguments(p, out, paramTypes, paramNames);
             p.pln();
         }
-        argStream = out;
+        String argStream = out;
 
         if (returnType.isType(TYPE_VOID)) {
             p.pln("_invoke(" + argStream + ");" );

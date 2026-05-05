@@ -73,6 +73,7 @@ public class AttributeGen extends MethodGen implements com.sun.tools.corba.ee.id
    * Method generate() is not used in MethodGen.  They are replaced by the
    * more granular interfaceMethod, stub, skeleton, dispatchSkeleton.
    **/
+  @Override
   public void generate (Hashtable symbolTable, AttributeEntry m, PrintWriter stream)
   {
   } // generate
@@ -97,6 +98,7 @@ public class AttributeGen extends MethodGen implements com.sun.tools.corba.ee.id
   /**
    *
    **/
+  @Override
   protected void stub (String className, boolean isAbstract, Hashtable symbolTable, MethodEntry m, PrintWriter stream, int index)
   {
     AttributeEntry a = (AttributeEntry)m;
@@ -116,6 +118,7 @@ public class AttributeGen extends MethodGen implements com.sun.tools.corba.ee.id
   /**
    *
    **/
+  @Override
   protected void skeleton (Hashtable symbolTable, MethodEntry m, PrintWriter stream, int index)
   {
     AttributeEntry a = (AttributeEntry)m;
@@ -135,6 +138,7 @@ public class AttributeGen extends MethodGen implements com.sun.tools.corba.ee.id
   /**
    *
    **/
+  @Override
   protected void dispatchSkeleton (Hashtable symbolTable, MethodEntry m, PrintWriter stream, int index)
   {
     AttributeEntry a = (AttributeEntry)m;

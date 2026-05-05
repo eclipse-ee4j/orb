@@ -35,17 +35,16 @@ public class _CodeBaseStub extends org.omg.CORBA.portable.ObjectImpl implements 
     //        is called.
     public _CodeBaseStub ()
     {
-        super ();
     }
 
     public _CodeBaseStub (org.omg.CORBA.portable.Delegate delegate)
     {
-        super ();
         _set_delegate (delegate);
     }
 
 
     // Operation to obtain the IR from the sending context
+    @Override
     public com.sun.org.omg.CORBA.Repository get_ir ()
     {
         org.omg.CORBA.portable.InputStream _in = null;
@@ -67,6 +66,7 @@ public class _CodeBaseStub extends org.omg.CORBA.portable.ObjectImpl implements 
 
 
     // Operations to obtain a URL to the implementation code
+    @Override
     public String implementation (String x)
     {
         org.omg.CORBA.portable.InputStream _in = null;
@@ -87,6 +87,7 @@ public class _CodeBaseStub extends org.omg.CORBA.portable.ObjectImpl implements 
         }
     } // implementation
 
+    @Override
     public String[] implementations (String[] x)
     {
         org.omg.CORBA.portable.InputStream _in = null;
@@ -109,6 +110,7 @@ public class _CodeBaseStub extends org.omg.CORBA.portable.ObjectImpl implements 
 
 
     // the same information
+    @Override
     public com.sun.org.omg.CORBA.ValueDefPackage.FullValueDescription meta (String x)
     {
         org.omg.CORBA.portable.InputStream _in = null;
@@ -129,6 +131,7 @@ public class _CodeBaseStub extends org.omg.CORBA.portable.ObjectImpl implements 
         }
     } // meta
 
+    @Override
     public com.sun.org.omg.CORBA.ValueDefPackage.FullValueDescription[] metas (String[] x)
     {
         org.omg.CORBA.portable.InputStream _in = null;
@@ -151,6 +154,7 @@ public class _CodeBaseStub extends org.omg.CORBA.portable.ObjectImpl implements 
 
 
     // information
+    @Override
     public String[] bases (String x)
     {
         org.omg.CORBA.portable.InputStream _in = null;
@@ -176,9 +180,10 @@ public class _CodeBaseStub extends org.omg.CORBA.portable.ObjectImpl implements 
         "IDL:omg.org/SendingContext/CodeBase:1.0",
         "IDL:omg.org/SendingContext/RunTime:1.0"};
 
+    @Override
     public String[] _ids ()
     {
-        return (String[])__ids.clone ();
+        return __ids.clone ();
     }
 
     private void readObject (java.io.ObjectInputStream s)

@@ -23,5 +23,5 @@ import java.io.EOFException;
 import java.rmi.Remote;
 
 public interface InterfaceWithNonPrimitiveConstant extends Remote {
-    public static final Exception TO_THROW = new EOFException();
+    Exception TO_THROW = new EOFException();
 }

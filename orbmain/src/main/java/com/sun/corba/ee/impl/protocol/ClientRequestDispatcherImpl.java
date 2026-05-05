@@ -160,6 +160,7 @@ public class ClientRequestDispatcherImpl
     @InfoMethod( tpName="requestAddServiceContexts", tpType=TimingPointType.EXIT )
     private void exit_requestAddServiceContexts() { }
 
+    @Override
     @Subcontract
     public CDROutputObject beginRequest(Object self, String opName,
         boolean isOneWay, ContactInfo contactInfo) {
@@ -332,6 +333,7 @@ public class ClientRequestDispatcherImpl
     @InfoMethod
     private void operationAndId( String op, int rid ) { }
 
+    @Override
     @Subcontract
     public CDRInputObject marshalingComplete(java.lang.Object self,
                                           CDROutputObject outputObject)
@@ -572,7 +574,7 @@ public class ClientRequestDispatcherImpl
 
                 if (messageMediator.isDIIRequest()) {
                     exception = messageMediator.unmarshalDIIUserException(
-                                    exceptionRepoId, (InputStream)inputObject);
+                                    exceptionRepoId, inputObject);
                     newException = orb.getPIHandler().invokeClientPIEndingPoint(
                                        ReplyMessage.USER_EXCEPTION, exception );
                     messageMediator.setDIIException(newException);
@@ -580,7 +582,7 @@ public class ClientRequestDispatcherImpl
                     receivedUserExceptionDII(exception, newException);
                 } else {
                     ApplicationException appException = new ApplicationException(
-                        exceptionRepoId, (org.omg.CORBA.portable.InputStream)inputObject);
+                        exceptionRepoId, inputObject);
 
                     exception = appException;
 
@@ -659,7 +661,7 @@ public class ClientRequestDispatcherImpl
                 getContactInfoListIterator(orb)
                     .reportSuccess(messageMediator.getContactInfo());
 
-                messageMediator.handleDIIReply((InputStream)inputObject);
+                messageMediator.handleDIIReply(inputObject);
 
                 // Invoke Portable Interceptors with receive_reply:
                 exception = orb.getPIHandler().invokeClientPIEndingPoint(
@@ -864,6 +866,7 @@ public class ClientRequestDispatcherImpl
         messageMediator.setReplyExceptionDetailMessage(msg);
     }
 
+    @Override
     @Subcontract
     public void endRequest(ORB orb, Object self, CDRInputObject inputObject)
     {

@@ -35,7 +35,6 @@ public class MethodEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
 {
   protected MethodEntry ()
   {
-    super ();
   } // ctor
 
   protected MethodEntry (MethodEntry that)

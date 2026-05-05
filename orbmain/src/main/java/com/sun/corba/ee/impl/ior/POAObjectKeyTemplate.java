@@ -32,9 +32,8 @@ public final class POAObjectKeyTemplate extends NewObjectKeyTemplateBase
     public static String[] readPOAName(
         org.omg.CORBA.portable.InputStream istream)
     {
-        String value[] = null;
         int _len0 = istream.read_long();
-        value = new String[_len0];
+        String value[] = new String[_len0];
         for (int _o1 = 0;_o1 < value.length; ++_o1) {
             value[_o1] = istream.read_string();
         }

@@ -32,6 +32,7 @@ import org.omg.CORBA_2_3.portable.OutputStream;
  * @author ken
  */
 public class ClusterInstanceInfo implements Serializable {
+    private static final long serialVersionUID = 6557511325570823454L;
     private final String name ;
     private final int weight ;
     private final List<SocketInfo> endpoints ;

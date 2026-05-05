@@ -45,6 +45,7 @@ class ExpressionStatement extends Statement {
     /**
      * Check statement
      */
+    @Override
     Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         checkLabel(env, ctx);
         return expr.check(env, ctx, reach(env, vset), exp);
@@ -53,6 +54,7 @@ class ExpressionStatement extends Statement {
     /**
      * Inline
      */
+    @Override
     public Statement inline(Environment env, Context ctx) {
         if (expr != null) {
             expr = expr.inline(env, ctx);
@@ -64,6 +66,7 @@ class ExpressionStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         ExpressionStatement s = (ExpressionStatement)clone();
         s.expr = expr.copyInline(ctx);
@@ -73,6 +76,7 @@ class ExpressionStatement extends Statement {
     /**
      * The cost of inlining this statement
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         return expr.costInline(thresh, env, ctx);
     }
@@ -80,6 +84,7 @@ class ExpressionStatement extends Statement {
     /**
      * Code
      */
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         expr.code(env, ctx, asm);
     }
@@ -87,6 +92,7 @@ class ExpressionStatement extends Statement {
     /**
      * Check if the first thing is a constructor invocation
      */
+    @Override
     public Expression firstConstructor() {
         return expr.firstConstructor();
     }
@@ -94,6 +100,7 @@ class ExpressionStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         if (expr != null) {

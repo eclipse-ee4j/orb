@@ -55,24 +55,30 @@ public abstract class INSURLBase implements INSURL {
         throw wrapper.soBadAddress( e, name ) ;
     }
 
+    @Override
     public boolean getRIRFlag( ) {
         return rirFlag;
     }
 
+    @Override
     public java.util.List getEndpointInfo( ) {
         return theEndpointInfo;
     }
 
+    @Override
     public String getKeyString( ) {
         return theKeyString;
     }
 
+    @Override
     public String getStringifiedName( ) {
         return theStringifiedName;
     }
 
+    @Override
     public abstract boolean isCorbanameURL( );
 
+    @Override
     public void dPrint( ) {
         System.out.println( "URL Dump..." );
         System.out.println( "Key String = " + getKeyString( ) );

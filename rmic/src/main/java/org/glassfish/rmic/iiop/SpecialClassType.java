@@ -94,6 +94,7 @@ public class SpecialClassType extends ClassType {
     /**
      * Return a string describing this type.
      */
+    @Override
     public String getTypeDescription () {
         return "Special class";
     }

@@ -31,6 +31,7 @@ package com.sun.org.omg.CORBA;
 
 public final class ParameterDescription implements org.omg.CORBA.portable.IDLEntity
 {
+    private static final long serialVersionUID = 3328856935838988329L;
     public String name = null;
     public org.omg.CORBA.TypeCode type = null;
     // _CHANGED_

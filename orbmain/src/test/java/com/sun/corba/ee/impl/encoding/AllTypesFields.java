@@ -27,6 +27,7 @@ import java.io.ObjectStreamField;
 import java.io.Serializable;
 
 class AllTypesFields implements Serializable {
+  private static final long serialVersionUID = 6611007479385192405L;
   private boolean aBooleanField;
   private byte aByteField;
   private char aCharField;

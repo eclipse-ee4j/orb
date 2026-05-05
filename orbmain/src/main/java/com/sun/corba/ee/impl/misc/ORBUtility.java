@@ -342,9 +342,7 @@ public final class ORBUtility {
      */
     public static int hexOf( char x )
     {
-        int val;
-
-        val = x - '0';
+        int val = x - '0';
         if (val >=0 && val <= 9) {
             return val;
         }
@@ -371,9 +369,7 @@ public final class ORBUtility {
      */
     public static void writeSystemException(SystemException ex, OutputStream strm)
     {
-        String s;
-
-        s = repositoryIdOf(ex.getClass().getName());
+        String s = repositoryIdOf(ex.getClass().getName());
         strm.write_string(s);
         strm.write_long(ex.minor);
         strm.write_long(ex.completed.value());
@@ -408,9 +404,7 @@ public final class ORBUtility {
      */
     public static String classNameOf(String repositoryId)
     {
-        String className=null;
-
-        className = (String) exceptionClassNames.get(repositoryId);
+        String className=exceptionClassNames.get(repositoryId);
         if (className == null) {
             className = "org.omg.CORBA.UNKNOWN";
         }
@@ -425,9 +419,7 @@ public final class ORBUtility {
      */
     public static boolean isSystemException(String repositoryId)
     {
-        String className=null;
-
-        className = (String) exceptionClassNames.get(repositoryId);
+        String className=exceptionClassNames.get(repositoryId);
         return className != null ;
     }
 
@@ -440,9 +432,7 @@ public final class ORBUtility {
      */
     public static String repositoryIdOf(String name)
     {
-        String id;
-
-        id = (String) exceptionRepositoryIds.get(name);
+        String id = (String) exceptionRepositoryIds.get(name);
         if (id == null) {
             id = "IDL:omg.org/CORBA/UNKNOWN:1.0";
         }
@@ -815,6 +805,7 @@ public final class ORBUtility {
         final Thread finalThread = thread;
         try {
             AccessController.doPrivileged(new PrivilegedAction() {
+                    @Override
                     public java.lang.Object run() {
                         finalThread.setDaemon(true);
                         return null;
@@ -1001,6 +992,7 @@ public final class ORBUtility {
 
         String result =
             (String)AccessController.doPrivileged(new PrivilegedAction() {
+                @Override
                 public java.lang.Object run() {
                     StringBuilder sb = new StringBuilder(500);
                     ProtectionDomain pd = cl.getProtectionDomain();

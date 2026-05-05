@@ -40,6 +40,7 @@ class ShortExpression extends IntegerExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print(value + "s");
     }

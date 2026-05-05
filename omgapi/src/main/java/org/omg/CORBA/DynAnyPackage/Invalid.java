@@ -27,11 +27,12 @@ package org.omg.CORBA.DynAnyPackage;
 public final class Invalid
     extends org.omg.CORBA.UserException {
 
+    private static final long serialVersionUID = -8258194490767575588L;
+
     /**
      * Constructs an <code>Invalid</code> object.
      */
     public Invalid() {
-        super();
     }
 
     /**

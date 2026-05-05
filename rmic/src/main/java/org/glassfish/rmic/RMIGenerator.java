@@ -38,6 +38,7 @@ public class RMIGenerator implements RMIConstants, Generator {
      * @param main Report any errors using the main.error() methods.
      * @return true if no errors, false otherwise.
      */
+    @Override
     public boolean parseArgs(String argv[], Main main) {
         main.error("rmic.jrmp.not.supported", main.program);
         return false;
@@ -51,6 +52,7 @@ public class RMIGenerator implements RMIConstants, Generator {
      * @param cdef      definition of remote implementation class
  *                  to generate stubs and/or skeletons for
      */
+    @Override
     public void generate(BatchEnvironment env, File destDir, ClassDefinition cdef) {
     }
 

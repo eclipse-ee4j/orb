@@ -65,6 +65,7 @@ class FieldExpression extends UnaryExpression {
         this.field = field;
     }
 
+    @Override
     public Expression getImplementation() {
         if (implementation != null)
             return implementation;
@@ -1101,6 +1102,7 @@ class FieldExpression extends UnaryExpression {
     /**
      * Check if constant:  Will it inline away?
      */
+    @Override
     public boolean isConstant() {
         if (implementation != null)
             return implementation.isConstant();
@@ -1191,6 +1193,7 @@ class FieldExpression extends UnaryExpression {
         return this;
     }
 
+    @Override
     public Expression copyInline(Context ctx) {
         if (implementation != null)
             return implementation.copyInline(ctx);
@@ -1270,6 +1273,7 @@ class FieldExpression extends UnaryExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print("(");
         if (right != null) {

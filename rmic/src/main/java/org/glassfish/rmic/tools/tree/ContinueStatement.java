@@ -100,6 +100,7 @@ class ContinueStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("continue");

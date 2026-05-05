@@ -161,6 +161,7 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
     /**
      * Release resources, if any.
      */
+    @Override
     public void shutdown() {
         generatedFiles = null;
         super.shutdown();
@@ -172,6 +173,7 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
      * being with "rmic.", look up the error message in rmic's resource
      * bundle; otherwise, defer to java's superclass method.
      */
+    @Override
     public String errorString(String err,
                               Object arg0, Object arg1, Object arg2)
     {
@@ -213,11 +215,14 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
                 this.emptyPathDefault = emptyPathDefault;
             }
             public PathIterator(String path) { this(path, null); }
+            @Override
             public Iterator<String> iterator() {
                 return new Iterator<String>() {
+                    @Override
                     public boolean hasNext() {
                         return pos <= path.length();
                     }
+                    @Override
                     public String next() {
                         int beg = pos;
                         int end = path.indexOf(File.pathSeparator, beg);
@@ -230,6 +235,7 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
                         else
                             return path.substring(beg, end);
                     }
+                    @Override
                     public void remove() {
                         throw new UnsupportedOperationException();
                     }
@@ -237,45 +243,59 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
             }
 
             // required for Collection.
+            @Override
             public int size() {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public boolean isEmpty() {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public boolean contains(Object o) {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public Object[] toArray() {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public <T> T[] toArray(T[] a) {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public boolean add(String o) {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public boolean remove(Object o) {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public boolean containsAll(Collection<?> c) {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public boolean addAll(Collection<? extends String> c) {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public boolean removeAll(Collection<?> c) {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public boolean retainAll(Collection<?> c) {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public void clear() {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public boolean equals(Object o) {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public int hashCode() {
                 throw new UnsupportedOperationException();
             }
@@ -301,7 +321,7 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
             return this;
         }
 
-        public Path() { super(); }
+        public Path() { }
 
         public Path addDirectories(String dirs, boolean warn) {
             if (dirs != null)

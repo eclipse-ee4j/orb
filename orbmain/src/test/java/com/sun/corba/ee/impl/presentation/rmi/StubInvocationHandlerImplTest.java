@@ -90,6 +90,8 @@ public class StubInvocationHandlerImplTest {
     }
 
     static class TestException extends RuntimeException {
+        private static final long serialVersionUID = -8291815785215788766L;
+
         public TestException(String message) {
             super(message);
         }

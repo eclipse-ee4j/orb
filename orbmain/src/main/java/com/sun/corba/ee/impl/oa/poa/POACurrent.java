@@ -33,6 +33,7 @@ import org.omg.PortableServer.ServantLocatorPackage.CookieHolder;
 public class POACurrent extends org.omg.CORBA.portable.ObjectImpl
     implements org.omg.PortableServer.Current
 {
+    private static final long serialVersionUID = 7094182130344826475L;
     private ORB orb;
     private static final POASystemException wrapper =
         POASystemException.self ;
@@ -42,6 +43,7 @@ public class POACurrent extends org.omg.CORBA.portable.ObjectImpl
         this.orb = orb;
     }
 
+    @Override
     public String[] _ids()
     {
         String[] ids = new String[1];
@@ -53,6 +55,7 @@ public class POACurrent extends org.omg.CORBA.portable.ObjectImpl
     // Standard OMG operations.
     //
 
+    @Override
     public POA get_POA()
         throws
             NoContext
@@ -62,6 +65,7 @@ public class POACurrent extends org.omg.CORBA.portable.ObjectImpl
         return poa;
     }
 
+    @Override
     public byte[] get_object_id()
         throws
             NoContext

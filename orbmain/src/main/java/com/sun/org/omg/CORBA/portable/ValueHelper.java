@@ -31,8 +31,11 @@ import org.omg.CORBA.portable.BoxedValueHelper;
  */
 @Deprecated
 public interface ValueHelper extends BoxedValueHelper {
+    @Deprecated
     Class get_class();
+    @Deprecated
     String[] get_truncatable_base_ids();
+    @Deprecated
     TypeCode get_type();
 }
 

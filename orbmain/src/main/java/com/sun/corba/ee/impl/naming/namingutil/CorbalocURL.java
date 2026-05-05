@@ -258,6 +258,7 @@ public class CorbalocURL extends INSURLBase
     /**
      * Will be true only in CorbanameURL class.
      */
+    @Override
     public boolean isCorbanameURL( ) {
         return false;
     }

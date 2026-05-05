@@ -35,7 +35,6 @@ public class TypedefEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
 {
   protected TypedefEntry ()
   {
-    super ();
   } // ctor
 
   protected TypedefEntry (TypedefEntry that)
@@ -68,6 +67,7 @@ public class TypedefEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     _arrayInfo.addElement (e);
   } // addArrayInfo
 
+  @Override
   public Object clone ()
   {
     return new TypedefEntry (this);
@@ -79,11 +79,13 @@ public class TypedefEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
        a subclass of SymtabEntry.
       @param stream the stream to which the generator should sent its output.
       @see com.sun.tools.corba.ee.idl.SymtabEntry */
+  @Override
   public void generate (Hashtable symbolTable, PrintWriter stream)
   {
     typedefGen.generate (symbolTable, this, stream);
   } // generate
 
+  @Override
   public boolean isReferencable()
   {
     // A typedef is referencable if its component
@@ -91,6 +93,7 @@ public class TypedefEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     return type().isReferencable() ;
   }
 
+  @Override
   public void isReferencable( boolean value )
   {
     // NO-OP: this cannot be set for a typedef.
@@ -99,6 +102,7 @@ public class TypedefEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   /** Access the typedef generator.
       @return an object which implements the TypedefGen interface.
       @see com.sun.tools.corba.ee.idl.TypedefGen */
+  @Override
   public com.sun.tools.corba.ee.idl.Generator generator ()
   {
     return typedefGen;

@@ -688,8 +688,9 @@ public final class TypeCodeImpl extends TypeCode {
     ///////////////////////////////////////////////////////////////////////////
     // TypeCode operations
 
+    @Override
     @DynamicType
-    public final boolean equal(TypeCode tc) {
+    public boolean equal(TypeCode tc) {
         if (tc == this) {
             return true;
         }
@@ -911,6 +912,7 @@ public final class TypeCodeImpl extends TypeCode {
     * The equivalent operation is used by the ORB when determining type equivalence
     * for values stored in an IDL any.
     */
+    @Override
     @DynamicType
     public boolean equivalent(TypeCode tc) {
         if (tc == this) {
@@ -1030,6 +1032,7 @@ public final class TypeCodeImpl extends TypeCode {
         return true;
     }
 
+    @Override
     public TypeCode get_compact_typecode() {
         // _REVISIT_ It isn't clear whether this method should operate on this or a copy.
         // For now just return this unmodified because the name and member_name fields
@@ -1037,6 +1040,7 @@ public final class TypeCodeImpl extends TypeCode {
         return this;
     }
 
+    @Override
     public TCKind kind()
     {
         if (_kind == tk_indirect) {
@@ -1052,6 +1056,7 @@ public final class TypeCodeImpl extends TypeCode {
         return (_kind == tk_indirect);
     }
 
+    @Override
     public String id()
         throws BadKind
     {
@@ -1077,6 +1082,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public String name()
         throws BadKind
     {
@@ -1099,6 +1105,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public int member_count()
         throws BadKind
     {
@@ -1116,6 +1123,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public String member_name(int index)
         throws BadKind, org.omg.CORBA.TypeCodePackage.Bounds
     {
@@ -1137,6 +1145,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public TypeCode member_type(int index)
         throws BadKind, org.omg.CORBA.TypeCodePackage.Bounds
     {
@@ -1157,6 +1166,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public Any member_label(int index)
         throws BadKind, org.omg.CORBA.TypeCodePackage.Bounds
     {
@@ -1175,6 +1185,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public TypeCode discriminator_type()
         throws BadKind
     {
@@ -1188,6 +1199,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public int default_index()
         throws BadKind
     {
@@ -1201,6 +1213,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public int length()
         throws BadKind
     {
@@ -1217,6 +1230,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public TypeCode content_type()
         throws BadKind
     {
@@ -1234,6 +1248,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public short fixed_digits() throws BadKind {
         switch (_kind) {
         case TCKind._tk_fixed:
@@ -1243,6 +1258,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public short fixed_scale() throws BadKind {
         switch (_kind) {
         case TCKind._tk_fixed:
@@ -1252,6 +1268,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public short member_visibility(int index) throws BadKind,
         org.omg.CORBA.TypeCodePackage.Bounds {
         switch (_kind) {
@@ -1268,6 +1285,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public short type_modifier() throws BadKind {
         switch (_kind) {
         case tk_indirect:
@@ -1279,6 +1297,7 @@ public final class TypeCodeImpl extends TypeCode {
         }
     }
 
+    @Override
     public TypeCode concrete_base_type() throws BadKind {
         switch (_kind) {
         case tk_indirect:
@@ -1576,9 +1595,8 @@ public final class TypeCodeImpl extends TypeCode {
                 break ;
 
             case COMPLEX:
-                TypeCodeInputStream _encap ;
-                _encap = TypeCodeInputStream.readEncapsulation(is,
-                    is.orb());
+                TypeCodeInputStream _encap = TypeCodeInputStream.readEncapsulation(is,
+                                    is.orb());
 
                 switch(_kind) {
                     case TCKind._tk_objref:

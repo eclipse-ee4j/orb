@@ -30,5 +30,5 @@ public interface BAD_POLICY {
     /**
      * The Error code in PolicyError exception.
      */
-    final short value = (short) (0L);
-};
+    short value = (short) (0L);
+}

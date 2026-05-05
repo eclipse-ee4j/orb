@@ -33,6 +33,7 @@ public class Xor extends BinaryExpr
     super ("^", leftOperand, rightOperand);
   } // ctor
 
+  @Override
   public Object evaluate () throws com.sun.tools.corba.ee.idl.constExpr.EvaluationException
   {
     try
@@ -52,8 +53,8 @@ public class Xor extends BinaryExpr
         //BigInteger uL = (BigInteger)toUnsigned((BigInteger)l);
         //BigInteger uR = (BigInteger)toUnsigned((BigInteger)r);
         //value (coerceToTarget(uL.xor (uR)));
-        BigInteger uL = (BigInteger)coerceToTarget((BigInteger)l);
-        BigInteger uR = (BigInteger)coerceToTarget((BigInteger)r);
+        BigInteger uL = (BigInteger)coerceToTarget(l);
+        BigInteger uR = (BigInteger)coerceToTarget(r);
         value (uL.xor (uR));
       }
     }

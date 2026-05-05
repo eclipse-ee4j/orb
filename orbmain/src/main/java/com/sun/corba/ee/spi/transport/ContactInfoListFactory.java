@@ -39,7 +39,7 @@ public interface ContactInfoListFactory {
      *
      * @param orb ORB to use in factory
      */
-    public void setORB(ORB orb);
+    void setORB(ORB orb);
 
-    public ContactInfoList create( IOR ior ) ;
+    ContactInfoList create( IOR ior ) ;
 }

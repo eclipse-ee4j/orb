@@ -65,6 +65,7 @@ class ThisExpression extends Expression {
         this.outerArg = outerArg;
     }
 
+    @Override
     public Expression getImplementation() {
         if (implementation != null)
             return implementation;
@@ -108,6 +109,7 @@ class ThisExpression extends Expression {
         return vset;
     }
 
+    @Override
     public boolean isNonNull() {
         return true;
     }
@@ -144,6 +146,7 @@ class ThisExpression extends Expression {
     /**
      * Create a copy of the expression for method inlining
      */
+    @Override
     public Expression copyInline(Context ctx) {
         if (implementation != null)
             return implementation.copyInline(ctx);
@@ -171,6 +174,7 @@ class ThisExpression extends Expression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         if (outerArg != null) {
             out.print("(outer=");

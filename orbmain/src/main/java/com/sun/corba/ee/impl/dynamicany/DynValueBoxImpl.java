@@ -52,6 +52,7 @@ public class DynValueBoxImpl extends DynValueCommonImpl implements DynValueBox
     // DynValueBox methods
     //
 
+    @Override
     public Any get_boxed_value()
         throws org.omg.DynamicAny.DynAnyPackage.InvalidValue
     {
@@ -62,6 +63,7 @@ public class DynValueBoxImpl extends DynValueCommonImpl implements DynValueBox
         return any;
     }
 
+    @Override
     public void set_boxed_value(org.omg.CORBA.Any boxed)
         throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch
     {
@@ -75,6 +77,7 @@ public class DynValueBoxImpl extends DynValueCommonImpl implements DynValueBox
         isNull = false;
     }
 
+    @Override
     public DynAny get_boxed_value_as_dyn_any()
         throws org.omg.DynamicAny.DynAnyPackage.InvalidValue
     {
@@ -85,6 +88,7 @@ public class DynValueBoxImpl extends DynValueCommonImpl implements DynValueBox
         return components[0];
     }
 
+    @Override
     public void set_boxed_value_as_dyn_any(DynAny boxed)
         throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch
     {

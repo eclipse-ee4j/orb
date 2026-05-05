@@ -38,7 +38,6 @@ public class ParameterEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
 
   protected ParameterEntry ()
   {
-    super ();
   } // ctor
 
   protected ParameterEntry (ParameterEntry that)
@@ -56,6 +55,7 @@ public class ParameterEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
       module (module () + "/" + name ());
   } // ctor
 
+  @Override
   public Object clone ()
   {
     return new ParameterEntry (this);
@@ -67,6 +67,7 @@ public class ParameterEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
        a subclass of SymtabEntry.
       @param stream the stream to which the generator should sent its output.
       @see com.sun.tools.corba.ee.idl.SymtabEntry */
+  @Override
   public void generate (Hashtable symbolTable, PrintWriter stream)
   {
     parameterGen.generate (symbolTable, this, stream);

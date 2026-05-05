@@ -31,6 +31,7 @@ package com.sun.org.omg.CORBA;
 
 public final class Initializer implements org.omg.CORBA.portable.IDLEntity
 {
+    private static final long serialVersionUID = 4681170012111291501L;
     // _CHANGED_
     //public com.sun.org.omg.CORBA.StructMember members[] = null;
     public org.omg.CORBA.StructMember members[] = null;

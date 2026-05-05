@@ -130,6 +130,7 @@ public abstract class OperationFactory {
             this.op = op ;
         }
 
+        @Override
         public Object operate( Object arg )
         {
             try {
@@ -160,6 +161,7 @@ public abstract class OperationFactory {
             this.index = index ;
         }
 
+        @Override
         public Object operate( Object value )
         {
             return getObjectArray( value )[ index ] ;
@@ -179,6 +181,7 @@ public abstract class OperationFactory {
 
     private static class SuffixAction extends OperationBase
     {
+        @Override
         public Object operate( Object value )
         {
             return getStringPair( value ).first() ;
@@ -192,6 +195,7 @@ public abstract class OperationFactory {
 
     private static class ValueAction extends OperationBase
     {
+        @Override
         public Object operate( Object value )
         {
             return getStringPair( value ).second() ;
@@ -205,6 +209,7 @@ public abstract class OperationFactory {
 
     private static class IdentityAction extends OperationBase
     {
+        @Override
         public Object operate( Object value )
         {
             return value ;
@@ -218,6 +223,7 @@ public abstract class OperationFactory {
 
     private static class BooleanAction extends OperationBase
     {
+        @Override
         public Object operate( Object value )
         {
             return Boolean.valueOf( getString( value ) ) ;
@@ -231,6 +237,7 @@ public abstract class OperationFactory {
 
     private static class IntegerAction extends OperationBase
     {
+        @Override
         public Object operate( Object value )
         {
             return Integer.valueOf( getString( value ) ) ;
@@ -244,6 +251,7 @@ public abstract class OperationFactory {
 
     private static class StringAction extends OperationBase
     {
+        @Override
         public Object operate( Object value )
         {
             return value ;
@@ -263,6 +271,7 @@ public abstract class OperationFactory {
             this.resolver = resolver ;
         }
 
+        @Override
         public Object operate( Object value )
         {
             String className = getString( value ) ;
@@ -281,6 +290,7 @@ public abstract class OperationFactory {
 
     private static class SetFlagAction extends OperationBase
     {
+        @Override
         public Object operate( Object value )
         {
             return Boolean.TRUE ;
@@ -294,6 +304,7 @@ public abstract class OperationFactory {
 
     private static class URLAction extends OperationBase
     {
+        @Override
         public Object operate( Object value )
         {
             String val = (String)value ;
@@ -367,6 +378,7 @@ public abstract class OperationFactory {
             this.max = max ;
         }
 
+        @Override
         public Object operate( Object value )
         {
             int result = Integer.parseInt( getString( value ) ) ;
@@ -402,6 +414,7 @@ public abstract class OperationFactory {
         // of the first result, rather than just using Object[], which is
         // not convertible into the correct type.  Also note that no tokens
         // results in a null result.
+        @Override
         public Object operate( Object value )
         {
             StringTokenizer st = new StringTokenizer( getString( value ),
@@ -445,6 +458,7 @@ public abstract class OperationFactory {
             this.actions = actions ;
         }
 
+        @Override
         public Object operate( Object value )
         {
             StringTokenizer st = new StringTokenizer( getString( value ),
@@ -492,6 +506,7 @@ public abstract class OperationFactory {
             this.op2 = op2 ;
         }
 
+        @Override
         public Object operate( Object value )
         {
             return op2.operate( op1.operate( value ) ) ;
@@ -517,6 +532,7 @@ public abstract class OperationFactory {
             this.op = op ;
         }
 
+        @Override
         public Object operate( Object value )
         {
             Object[] values = (Object[])value ;
@@ -547,6 +563,7 @@ public abstract class OperationFactory {
             this.op = op ;
         }
 
+        @Override
         public Object operate( Object value )
         {
             Object[] values = (Object[])value ;
@@ -571,12 +588,14 @@ public abstract class OperationFactory {
 
     private static class ConvertIntegerToShort extends OperationBase
     {
+        @Override
         public Object operate( Object value )
         {
             Integer val = (Integer)value ;
             return Short.valueOf( val.shortValue() ) ;
         }
 
+        @Override
         public String toString() {
             return "ConvertIntegerToShort" ;
         }

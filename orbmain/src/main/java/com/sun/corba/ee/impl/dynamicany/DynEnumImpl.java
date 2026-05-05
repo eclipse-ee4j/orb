@@ -132,6 +132,7 @@ public class DynEnumImpl extends DynAnyBasicImpl implements DynEnum
     //
 
     // Returns the value of the DynEnum as an IDL identifier.
+    @Override
     public String get_as_string () {
         if (status == STATUS_DESTROYED) {
             throw wrapper.dynAnyDestroyed() ;
@@ -143,6 +144,7 @@ public class DynEnumImpl extends DynAnyBasicImpl implements DynEnum
     // whose IDL identifier is passed in the value parameter.
     // If value contains a string that is not a valid IDL identifier
     // for the corresponding enumerated type, the operation raises InvalidValue.
+    @Override
     public void set_as_string (String value)
         throws org.omg.DynamicAny.DynAnyPackage.InvalidValue
     {
@@ -160,6 +162,7 @@ public class DynEnumImpl extends DynAnyBasicImpl implements DynEnum
     // Returns the value of the DynEnum as the enumerated values ordinal value.
     // Enumerators have ordinal values 0 to n-1,
     // as they appear from left to right in the corresponding IDL definition.
+    @Override
     public int get_as_ulong () {
         if (status == STATUS_DESTROYED) {
             throw wrapper.dynAnyDestroyed() ;
@@ -170,6 +173,7 @@ public class DynEnumImpl extends DynAnyBasicImpl implements DynEnum
     // Sets the value of the DynEnum as the enumerated values ordinal value.
     // If value contains a value that is outside the range of ordinal values
     // for the corresponding enumerated type, the operation raises InvalidValue.
+    @Override
     public void set_as_ulong (int value)
         throws org.omg.DynamicAny.DynAnyPackage.InvalidValue
     {

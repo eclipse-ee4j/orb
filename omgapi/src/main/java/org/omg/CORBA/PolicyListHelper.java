@@ -66,9 +66,8 @@ abstract public class PolicyListHelper
 
   public static org.omg.CORBA.Policy[] read (org.omg.CORBA.portable.InputStream istream)
   {
-    org.omg.CORBA.Policy value[] = null;
     int _len0 = istream.read_long ();
-    value = new org.omg.CORBA.Policy[_len0];
+    org.omg.CORBA.Policy value[] = new org.omg.CORBA.Policy[_len0];
     for (int _o1 = 0;_o1 < value.length; ++_o1)
       value[_o1] = org.omg.CORBA.PolicyHelper.read (istream);
     return value;

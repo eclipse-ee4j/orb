@@ -33,6 +33,7 @@ public class And extends BinaryExpr
     super ("&", leftOperand, rightOperand);
   } // ctor
 
+  @Override
   public Object evaluate () throws com.sun.tools.corba.ee.idl.constExpr.EvaluationException
   {
     try
@@ -49,8 +50,8 @@ public class And extends BinaryExpr
       {
         // Arithmetic and (&)
         //daz        value (new Long (l.longValue () & r.longValue ()));
-        BigInteger uL = (BigInteger)coerceToTarget ((BigInteger)l);
-        BigInteger uR = (BigInteger)coerceToTarget ((BigInteger)r);
+        BigInteger uL = (BigInteger)coerceToTarget (l);
+        BigInteger uR = (BigInteger)coerceToTarget (r);
         value (uL.and (uR));
       }
     }

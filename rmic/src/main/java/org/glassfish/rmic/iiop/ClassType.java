@@ -46,6 +46,7 @@ public abstract class ClassType extends CompoundType {
      * Return the parent class of this type. Returns null if this
      * type is an interface or if there is no parent.
      */
+    @Override
     public ClassType getSuperclass() {
         return parent;
     }
@@ -101,6 +102,7 @@ public abstract class ClassType extends CompoundType {
     // Subclass/Internal Interfaces
     //_____________________________________________________________________
 
+    @Override
     protected void destroy () {
         if (!destroyed) {
             super.destroy();
@@ -154,6 +156,7 @@ public abstract class ClassType extends CompoundType {
     /**
      * Convert all invalid types to valid ones.
      */
+    @Override
     protected void swapInvalidTypes () {
         super.swapInvalidTypes();
         if (parent != null && parent.getStatus() != STATUS_VALID) {

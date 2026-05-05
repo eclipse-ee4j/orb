@@ -47,6 +47,7 @@ class AssignAddExpression extends AssignOpExpression {
     /**
      * The cost of inlining this statement
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         return type.isType(TC_CLASS) ? 25 : super.costInline(thresh, env, ctx);
     }
@@ -54,6 +55,7 @@ class AssignAddExpression extends AssignOpExpression {
     /**
      * Code
      */
+    @Override
     void code(Environment env, Context ctx, Assembler asm, boolean valNeeded) {
         if (itype.isType(TC_CLASS)) {
             // Create code for     String += <value>
@@ -144,6 +146,7 @@ class AssignAddExpression extends AssignOpExpression {
     /**
      * Code
      */
+    @Override
     void codeOperation(Environment env, Context ctx, Assembler asm) {
         asm.add(where, opc_iadd + itype.getTypeCodeOffset());
     }

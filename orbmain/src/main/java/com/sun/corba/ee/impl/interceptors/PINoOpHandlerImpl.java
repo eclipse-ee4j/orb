@@ -47,63 +47,78 @@ public class PINoOpHandlerImpl implements PIHandler
     public PINoOpHandlerImpl( ) {
     }
 
+    @Override
     public void close() {
     }
 
+    @Override
     public void initialize() {
     }
 
+    @Override
     public void destroyInterceptors() {
     }
 
+    @Override
     public void objectAdapterCreated( ObjectAdapter oa )
     {
     }
 
+    @Override
     public void adapterManagerStateChanged( int managerId,
         short newState )
     {
     }
 
+    @Override
     public void adapterStateChanged( ObjectReferenceTemplate[]
         templates, short newState )
     {
     }
 
 
+    @Override
     public void disableInterceptorsThisThread() {
     }
 
+    @Override
     public void enableInterceptorsThisThread() {
     }
 
+    @Override
     public void invokeClientPIStartingPoint()
         throws RemarshalException
     {
     }
 
+    @Override
     public Exception invokeClientPIEndingPoint(
         int replyStatus, Exception exception )
     {
         return null;
     }
 
+    @Override
     public Exception makeCompletedClientRequest(
         int replyStatus, Exception exception )
     {
         return null;
     }
 
+    @Override
     public void initiateClientPIRequest( boolean diiRequest ) {
     }
 
+    @Override
     public void cleanupClientPIRequest() {
     }
 
+    @Override
     public void setClientPIInfo(MessageMediator messageMediator)
     {
     }
 
+    @Override
     public void setClientPIInfo( RequestImpl requestImpl )
     {
     }
@@ -113,64 +128,79 @@ public class PINoOpHandlerImpl implements PIHandler
     }
 
 
+    @Override
     public void invokeServerPIStartingPoint()
     {
     }
 
+    @Override
     public void invokeServerPIIntermediatePoint()
     {
     }
 
+    @Override
     public void invokeServerPIEndingPoint( ReplyMessage replyMessage )
     {
     }
 
+    @Override
     public void setServerPIInfo( Exception exception ) {
     }
 
+    @Override
     public void setServerPIInfo( NVList arguments )
     {
     }
 
+    @Override
     public void setServerPIExceptionInfo( Any exception )
     {
     }
 
+    @Override
     public void setServerPIInfo( Any result )
     {
     }
 
+    @Override
     public void initializeServerPIInfo( MessageMediator request,
         ObjectAdapter oa, byte[] objectId, ObjectKeyTemplate oktemp )
     {
     }
 
+    @Override
     public void setServerPIInfo( java.lang.Object servant,
                                           String targetMostDerivedInterface )
     {
     }
 
+    @Override
     public void cleanupServerPIRequest() {
     }
 
+    @Override
     public void register_interceptor( Interceptor interceptor, int type )
         throws DuplicateName
     {
     }
 
+    @Override
     public Current getPICurrent( ) {
         return null;
     }
 
+    @Override
     public org.omg.CORBA.Policy create_policy(int type, org.omg.CORBA.Any val)
         throws org.omg.CORBA.PolicyError
     {
         return null;
     }
 
+    @Override
     public void registerPolicyFactory( int type, PolicyFactory factory ) {
     }
 
+    @Override
     public int allocateServerRequestId ()
     {
         return 0;

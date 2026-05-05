@@ -278,73 +278,73 @@ public final class Policies {
     }
 
     /* Thread Policies */
-    public final boolean isOrbControlledThreads() {
+    public boolean isOrbControlledThreads() {
         return getPolicyValue( THREAD_POLICY_ID.value ) ==
             ThreadPolicyValue._ORB_CTRL_MODEL;
     }
-    public final boolean isSingleThreaded() {
+    public boolean isSingleThreaded() {
         return getPolicyValue( THREAD_POLICY_ID.value ) ==
             ThreadPolicyValue._SINGLE_THREAD_MODEL;
     }
 
     /* Lifespan */
-    public final boolean isTransient() {
+    public boolean isTransient() {
         return getPolicyValue( LIFESPAN_POLICY_ID.value ) ==
             LifespanPolicyValue._TRANSIENT;
     }
-    public final boolean isPersistent() {
+    public boolean isPersistent() {
         return getPolicyValue( LIFESPAN_POLICY_ID.value ) ==
             LifespanPolicyValue._PERSISTENT;
     }
 
     /* ID Uniqueness */
-    public final boolean isUniqueIds() {
+    public boolean isUniqueIds() {
         return getPolicyValue( ID_UNIQUENESS_POLICY_ID.value ) ==
             IdUniquenessPolicyValue._UNIQUE_ID;
     }
-    public final boolean isMultipleIds() {
+    public boolean isMultipleIds() {
         return getPolicyValue( ID_UNIQUENESS_POLICY_ID.value ) ==
             IdUniquenessPolicyValue._MULTIPLE_ID;
     }
 
     /* ID Assignment */
-    public final boolean isUserAssignedIds() {
+    public boolean isUserAssignedIds() {
         return getPolicyValue( ID_ASSIGNMENT_POLICY_ID.value ) ==
             IdAssignmentPolicyValue._USER_ID;
     }
-    public final boolean isSystemAssignedIds() {
+    public boolean isSystemAssignedIds() {
         return getPolicyValue( ID_ASSIGNMENT_POLICY_ID.value ) ==
             IdAssignmentPolicyValue._SYSTEM_ID;
     }
 
     /* Servant Rentention */
-    public final boolean retainServants() {
+    public boolean retainServants() {
         return getPolicyValue( SERVANT_RETENTION_POLICY_ID.value ) ==
             ServantRetentionPolicyValue._RETAIN;
     }
 
     /* Request Processing */
-    public final boolean useActiveMapOnly() {
+    public boolean useActiveMapOnly() {
         return getPolicyValue( REQUEST_PROCESSING_POLICY_ID.value ) ==
             RequestProcessingPolicyValue._USE_ACTIVE_OBJECT_MAP_ONLY;
     }
-    public final boolean useDefaultServant() {
+    public boolean useDefaultServant() {
         return getPolicyValue( REQUEST_PROCESSING_POLICY_ID.value ) ==
             RequestProcessingPolicyValue._USE_DEFAULT_SERVANT;
     }
-    public final boolean useServantManager() {
+    public boolean useServantManager() {
         return getPolicyValue( REQUEST_PROCESSING_POLICY_ID.value ) ==
             RequestProcessingPolicyValue._USE_SERVANT_MANAGER;
     }
 
     /* Implicit Activation */
-    public final boolean isImplicitlyActivated() {
+    public boolean isImplicitlyActivated() {
         return getPolicyValue( IMPLICIT_ACTIVATION_POLICY_ID.value ) ==
         ImplicitActivationPolicyValue._IMPLICIT_ACTIVATION;
     }
 
     /* proprietary servant caching policy */
-    public final int servantCachingLevel()
+    public int servantCachingLevel()
     {
         ServantCachingPolicy policy =
             ServantCachingPolicy.class.cast( policyMap.get(
@@ -356,7 +356,7 @@ public final class Policies {
             return policy.getType() ;
     }
 
-    public final boolean forceZeroPort()
+    public boolean forceZeroPort()
     {
         ZeroPortPolicy policy =
             ZeroPortPolicy.class.cast( policyMap.get(
@@ -368,7 +368,7 @@ public final class Policies {
             return policy.forceZeroPort() ;
     }
 
-    public final int getCopierId()
+    public int getCopierId()
     {
         CopyObjectPolicy policy =
             CopyObjectPolicy.class.cast( policyMap.get(

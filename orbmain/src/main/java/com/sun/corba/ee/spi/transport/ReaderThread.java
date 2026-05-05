@@ -23,8 +23,8 @@ package com.sun.corba.ee.spi.transport;
  * @author Harold Carr
  */
 public interface ReaderThread {
-    public Connection getConnection();
-    public void close();
+    Connection getConnection();
+    void close();
 }
 
 // End of file.

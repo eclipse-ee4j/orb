@@ -78,9 +78,8 @@ public abstract class FloatSeqHelper
 
     public static float[] read (org.omg.CORBA.portable.InputStream istream)
     {
-        float value[] = null;
         int _len0 = istream.read_long ();
-        value = new float[_len0];
+        float value[] = new float[_len0];
         istream.read_float_array (value, 0, _len0);
         return value;
     }

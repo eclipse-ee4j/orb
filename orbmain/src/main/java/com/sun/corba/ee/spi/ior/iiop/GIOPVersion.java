@@ -44,7 +44,7 @@ public class GIOPVersion {
     // Minor version 00 is unused.
     // Minor version [01-FF] specifies Java serialization encoding version.
     public static final GIOPVersion V13_XX =
-        new GIOPVersion((byte)13, (byte)ORBConstants.JAVA_ENC_VERSION);
+        new GIOPVersion((byte)13, ORBConstants.JAVA_ENC_VERSION);
 
     public static final GIOPVersion DEFAULT_VERSION = V1_2;
 
@@ -99,6 +99,7 @@ public class GIOPVersion {
         return gv.major == this.major && gv.minor == this.minor ;
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (obj != null && (obj instanceof GIOPVersion))
             return equals((GIOPVersion)obj);
@@ -106,6 +107,7 @@ public class GIOPVersion {
             return false;
     }
 
+    @Override
     public int hashCode()
     {
         return 37*major + minor ;
@@ -128,6 +130,7 @@ public class GIOPVersion {
         return (major << 8 | minor);
     }
 
+    @Override
     public String toString()
     {
         return major + "." + minor;

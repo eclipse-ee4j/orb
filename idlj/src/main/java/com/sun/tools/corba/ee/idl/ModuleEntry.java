@@ -34,7 +34,6 @@ public class ModuleEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
 {
   protected ModuleEntry ()
   {
-    super ();
   }  // ctor
 
   protected ModuleEntry (ModuleEntry that)
@@ -53,6 +52,7 @@ public class ModuleEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
       module (module () + "/" + name ());
   } // ctor
 
+  @Override
   public Object clone ()
   {
     return new ModuleEntry (this);

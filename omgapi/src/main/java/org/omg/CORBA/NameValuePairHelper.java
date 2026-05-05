@@ -62,8 +62,7 @@ abstract public class NameValuePairHelper
           }
           __active = true;
           org.omg.CORBA.StructMember[] _members0 = new org.omg.CORBA.StructMember [2];
-          org.omg.CORBA.TypeCode _tcOf_members0 = null;
-          _tcOf_members0 = org.omg.CORBA.ORB.init ().create_string_tc (0);
+          org.omg.CORBA.TypeCode _tcOf_members0 = org.omg.CORBA.ORB.init ().create_string_tc (0);
           _tcOf_members0 = org.omg.CORBA.ORB.init ().create_alias_tc (org.omg.CORBA.FieldNameHelper.id (), "FieldName", _tcOf_members0);
           _members0[0] = new org.omg.CORBA.StructMember (
             "id",

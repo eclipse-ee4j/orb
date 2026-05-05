@@ -28,6 +28,8 @@ import java.security.BasicPermission ;
  */
 public final class BridgePermission extends BasicPermission
 {
+    private static final long serialVersionUID = 2808879214882319977L;
+
     /**
      * Creates a new BridgePermission with the specified name.
      * The name is the symbolic name of the BridgePermission.

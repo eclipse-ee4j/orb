@@ -38,11 +38,13 @@ public class DefaultSocketFactoryImpl
 {
     private ORB orb;
 
+    @Override
     public void setORB(ORB orb)
     {
         this.orb = orb;
     }
 
+    @Override
     public ServerSocket createServerSocket(String type,
                                            InetSocketAddress inetSocketAddress)
         throws IOException
@@ -60,6 +62,7 @@ public class DefaultSocketFactoryImpl
         return serverSocket;
     }
 
+    @Override
     public Socket createSocket(String type,
                                InetSocketAddress inetSocketAddress)
         throws IOException
@@ -81,6 +84,7 @@ public class DefaultSocketFactoryImpl
         return socket;
     }
 
+    @Override
     public void setAcceptedSocketOptions(Acceptor acceptor,
                                          ServerSocket serverSocket,
                                          Socket socket)

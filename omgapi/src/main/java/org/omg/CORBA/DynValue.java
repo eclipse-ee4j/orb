@@ -24,6 +24,7 @@ package org.omg.CORBA;
  *  with an IDL value type.
  * @deprecated Use the new <a href="../DynamicAny/DynValue.html">DynValue</a> instead
  */
+@Deprecated
 public interface DynValue extends org.omg.CORBA.Object, org.omg.CORBA.DynAny {
 
     /**

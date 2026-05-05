@@ -30,6 +30,7 @@ package org.glassfish.rmic.tools.java;
 @SuppressWarnings("serial") // JDK implementation class
 public
 class ClassNotFound extends Exception {
+    private static final long serialVersionUID = -8910118866712959358L;
     /**
      * The class that was not found
      */

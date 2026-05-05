@@ -132,7 +132,7 @@ public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
         // Now that we have the service contexts processed and the
         // correct ORBVersion set, we must finish initializing the
         // stream.
-        ((MarshalInputStream)request.getInputObject())
+        request.getInputObject()
             .performORBVersionSpecificInit();
 
         ObjectKeyCacheEntry entry = request.getObjectKeyCacheEntry() ;
@@ -498,7 +498,7 @@ public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
                 OutputStream stream = null;
                 try {
                     stream = invhandle._invoke(operation,
-                        (org.omg.CORBA.portable.InputStream) req.getInputObject(),
+                        req.getInputObject(),
                         req);
                 } catch (BAD_OPERATION e) {
                     wrapper.badOperationFromInvoke(e, operation);
@@ -528,7 +528,7 @@ public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
 
             // Marshal out/inout/return parameters into the ReplyMessage
             response = sendingReply(req);
-            OutputStream os = (OutputStream) response.getOutputObject();
+            OutputStream os = response.getOutputObject();
             sreq.marshalReplyParams(os);
         }  else {
             generalMessage( "Handling error" ) ;
@@ -582,7 +582,7 @@ public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
 
             resp = req.getProtocolHandler()
                 .createUserExceptionResponse(req, scs);
-            OutputStream os = (OutputStream)resp.getOutputObject();
+            OutputStream os = resp.getOutputObject();
             excany.write_value(os);
         }
 
@@ -648,7 +648,7 @@ public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
                     // ISO8859-1 or ASCII.)
                     if (csctx.getCharCodeSet() !=
                         OSFCodeSetRegistry.ISO_8859_1.getNumber()) {
-                        ((MarshalInputStream)request.getInputObject())
+                        request.getInputObject()
                             .resetCodeSetConverters();
                     }
                 }

@@ -31,30 +31,30 @@ import java.nio.channels.SelectionKey;
  */
 public interface EventHandler
 {
-    public void setUseSelectThreadToWait(boolean x);
-    public boolean shouldUseSelectThreadToWait();
+    void setUseSelectThreadToWait(boolean x);
+    boolean shouldUseSelectThreadToWait();
 
-    public SelectableChannel getChannel();
+    SelectableChannel getChannel();
 
-    public int getInterestOps();
+    int getInterestOps();
 
-    public void setSelectionKey(SelectionKey selectionKey);
-    public SelectionKey getSelectionKey();
+    void setSelectionKey(SelectionKey selectionKey);
+    SelectionKey getSelectionKey();
 
-    public void handleEvent();
+    void handleEvent();
 
     // NOTE: if there is more than one interest op this does not
     // allow discrimination between different ops and how threading
     // is handled.
-    public void setUseWorkerThreadForEvent(boolean x);
-    public boolean shouldUseWorkerThreadForEvent();
+    void setUseWorkerThreadForEvent(boolean x);
+    boolean shouldUseWorkerThreadForEvent();
 
-    public void setWork(Work work);
-    public Work getWork();
+    void setWork(Work work);
+    Work getWork();
 
     // REVISIT: need base class with two derived.
-    public Acceptor getAcceptor();
-    public Connection getConnection();
+    Acceptor getAcceptor();
+    Connection getConnection();
 
 }
 

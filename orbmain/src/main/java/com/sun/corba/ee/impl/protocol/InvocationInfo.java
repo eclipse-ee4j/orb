@@ -44,56 +44,67 @@ public class InvocationInfo implements ClientInvocationInfo
         entryCount = 0;
     }
 
+    @Override
     public Iterator getContactInfoListIterator()
     {
         return contactInfoListIterator;
     }
 
+    @Override
     public void setContactInfoListIterator(Iterator contactInfoListIterator)
     {
         this.contactInfoListIterator = contactInfoListIterator;
     }
 
+    @Override
     public boolean isRetryInvocation()
     {
         return isRetryInvocation;
     }
 
+    @Override
     public void setIsRetryInvocation(boolean isRetryInvocation)
     {
         this.isRetryInvocation = isRetryInvocation;
     }
 
+    @Override
     public int getEntryCount()
     {
         return entryCount;
     }
 
+    @Override
     public void incrementEntryCount()
     {
         entryCount++;
     }
 
+    @Override
     public void decrementEntryCount()
     {
         entryCount--;
     }
 
+    @Override
     public void setClientRequestDispatcher(ClientRequestDispatcher clientRequestDispatcher)
     {
         this.clientRequestDispatcher = clientRequestDispatcher;
     }
 
+    @Override
     public ClientRequestDispatcher getClientRequestDispatcher()
     {
         return clientRequestDispatcher;
     }
 
+    @Override
     public void setMessageMediator(MessageMediator messageMediator)
     {
         this.messageMediator = messageMediator;
     }
 
+    @Override
     public MessageMediator getMessageMediator()
     {
         return messageMediator;

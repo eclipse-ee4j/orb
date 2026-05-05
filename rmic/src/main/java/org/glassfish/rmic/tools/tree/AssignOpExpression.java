@@ -177,6 +177,7 @@ class AssignOpExpression extends BinaryAssignExpression {
     /**
      * Create a copy of the expression for method inlining
      */
+    @Override
     public Expression copyInline(Context ctx) {
         AssignOpExpression e = (AssignOpExpression)clone();
         e.left = left.copyInline(ctx);

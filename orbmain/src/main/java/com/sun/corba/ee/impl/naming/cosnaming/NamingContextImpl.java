@@ -90,12 +90,12 @@ public abstract class NamingContextImpl
      * @exception java.lang.Exception a Java exception.
      */
     public NamingContextImpl(ORB orb, POA poa) throws java.lang.Exception {
-        super();
         this.orb = orb ;
         insImpl = new InterOperableNamingImpl( );
         this.nsPOA = poa;
     }
 
+    @Override
     public POA getNSPOA( ) {
         return nsPOA;
     }
@@ -124,6 +124,7 @@ public abstract class NamingContextImpl
      * system exceptions.
      * @see #doBind
      */
+    @Override
     @Naming
     public void bind(NameComponent[] n, org.omg.CORBA.Object obj)
         throws org.omg.CosNaming.NamingContextPackage.NotFound,
@@ -162,6 +163,7 @@ public abstract class NamingContextImpl
      * system exceptions.
      * @see #doBind
      */
+    @Override
     @Naming
     public void bind_context(NameComponent[] n, NamingContext nc)
         throws org.omg.CosNaming.NamingContextPackage.NotFound,
@@ -199,6 +201,7 @@ public abstract class NamingContextImpl
      * system exceptions.
      * @see #doBind
      */
+    @Override
     @Naming
     public  void rebind(NameComponent[] n, org.omg.CORBA.Object obj)
         throws       org.omg.CosNaming.NamingContextPackage.NotFound,
@@ -239,6 +242,7 @@ public abstract class NamingContextImpl
      * system exceptions.
      * @see #doBind
      */
+    @Override
     @Naming
     public  void rebind_context(NameComponent[] n, NamingContext nc)
         throws org.omg.CosNaming.NamingContextPackage.NotFound,
@@ -278,6 +282,7 @@ public abstract class NamingContextImpl
      * system exceptions.
      * @see #doResolve
      */
+    @Override
     @Naming
     public  org.omg.CORBA.Object resolve(NameComponent[] n)
         throws org.omg.CosNaming.NamingContextPackage.NotFound,
@@ -307,6 +312,7 @@ public abstract class NamingContextImpl
      * system exceptions.
      * @see #doUnbind
      */
+    @Override
     @Naming
     public  void unbind(NameComponent[] n)
         throws org.omg.CosNaming.NamingContextPackage.NotFound,
@@ -331,6 +337,7 @@ public abstract class NamingContextImpl
      * @see BindingListHolder
      * @see BindingIteratorImpl
      */
+    @Override
     @Naming
     public  void list(int how_many, BindingListHolder bl,
         BindingIteratorHolder bi)
@@ -349,6 +356,7 @@ public abstract class NamingContextImpl
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA
      * system exceptions.
      */
+    @Override
     @Naming
     public synchronized NamingContext new_context()
     {
@@ -380,6 +388,7 @@ public abstract class NamingContextImpl
      * @see #new_context
      * @see #bind_context
      */
+    @Override
     @Naming
     public  NamingContext bind_new_context(NameComponent[] n)
         throws org.omg.CosNaming.NamingContextPackage.NotFound,
@@ -416,6 +425,7 @@ public abstract class NamingContextImpl
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA
      * system exceptions.
      */
+    @Override
     @Naming
     public  void destroy()
         throws org.omg.CosNaming.NamingContextPackage.NotEmpty
@@ -721,6 +731,7 @@ public abstract class NamingContextImpl
     * Indicates the name does not identify a binding.
     *
     */
+    @Override
     @Naming
     public String to_string(org.omg.CosNaming.NameComponent[] n)
          throws org.omg.CosNaming.NamingContextPackage.InvalidName
@@ -785,6 +796,7 @@ public abstract class NamingContextImpl
     * @throws org.omg.CosNaming.NamingContextPackage.InvalidName if the provided Name is invalid
     *
     */
+    @Override
     @Naming
     public String to_url(String addr, String sn)
         throws org.omg.CosNaming.NamingContextExtPackage.InvalidAddress,
@@ -798,8 +810,7 @@ public abstract class NamingContextImpl
             throw new org.omg.CosNaming.NamingContextExtPackage.InvalidAddress();
         }
 
-        String urlBasedAddress;
-        urlBasedAddress = insImpl.createURLBasedAddress( addr, sn );
+        String urlBasedAddress = insImpl.createURLBasedAddress( addr, sn );
 
         try {
             INSURLHandler.getINSURLHandler( ).parseURL( urlBasedAddress );
@@ -822,6 +833,7 @@ public abstract class NamingContextImpl
      * @throws org.omg.CosNaming.NamingContextPackage.InvalidName if the provided Name was invalid
      *
      */
+    @Override
     @Naming
     public org.omg.CORBA.Object resolve_str(String sn)
         throws org.omg.CosNaming.NamingContextPackage.NotFound,

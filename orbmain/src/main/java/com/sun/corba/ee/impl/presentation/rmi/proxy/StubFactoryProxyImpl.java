@@ -36,6 +36,7 @@ public class StubFactoryProxyImpl extends StubFactoryDynamicBase
         super( classData, loader ) ;
     }
 
+    @Override
     public org.omg.CORBA.Object makeStub()
     {
         // Construct the dynamic proxy that implements this stub

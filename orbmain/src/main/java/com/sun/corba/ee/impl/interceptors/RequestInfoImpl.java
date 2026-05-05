@@ -67,6 +67,7 @@ import org.omg.PortableInterceptor.RequestInfo;
  */
 public abstract class RequestInfoImpl extends LocalObject implements RequestInfo, RequestInfoExt {
 
+    private static final long serialVersionUID = 675033986240002174L;
     protected static final InterceptorsSystemException wrapper = InterceptorsSystemException.self ;
     static final OMGSystemException stdWrapper = OMGSystemException.self ;
 
@@ -211,8 +212,6 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
      * @param myORB ORB to use
      */
     public RequestInfoImpl( ORB myORB ) {
-        super();
-
         this.myORB = myORB;
 
         // Capture the current TSC and make it the RSC of this request.
@@ -622,10 +621,10 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
         Map<Integer,org.omg.IOP.ServiceContext> cachedServiceContexts,
         ServiceContexts serviceContexts, int id )
     {
-        org.omg.IOP.ServiceContext result = null;
+
 
         // Search cache first:
-        result = cachedServiceContexts.get( id );
+        org.omg.IOP.ServiceContext result = cachedServiceContexts.get( id );
 
         // null could normally mean that either we cached the value null
         // or it's not in the cache.  However, there is no way for us to
@@ -687,21 +686,18 @@ public abstract class RequestInfoImpl extends LocalObject implements RequestInfo
         org.omg.IOP.ServiceContext service_context,
         boolean replace )
     {
-        int id = 0 ;
         // Convert IOP.service_context to core.ServiceContext:
         EncapsOutputStream outputStream = OutputStreamFactory.newEncapsOutputStream(
             myORB );
-        InputStream inputStream = null;
-        UnknownServiceContext coreServiceContext = null;
         ServiceContextHelper.write( outputStream, service_context );
-        inputStream = outputStream.create_input_stream();
+        InputStream inputStream = outputStream.create_input_stream();
 
         // Constructor expects id to already have been read from stream.
-        coreServiceContext = ServiceContextDefaults.makeUnknownServiceContext(
-            inputStream.read_long(),
-            (org.omg.CORBA_2_3.portable.InputStream)inputStream );
+        UnknownServiceContext coreServiceContext = ServiceContextDefaults.makeUnknownServiceContext(
+                    inputStream.read_long(),
+                    (org.omg.CORBA_2_3.portable.InputStream)inputStream );
 
-        id = coreServiceContext.getId();
+        int id = coreServiceContext.getId();
 
         if (serviceContexts.get(id) != null) {
             if (replace) {

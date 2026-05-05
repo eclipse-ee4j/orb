@@ -67,7 +67,7 @@ abstract public class PolicyTypeHelper
 
   public static int read (org.omg.CORBA.portable.InputStream istream)
   {
-    int value = (int)0;
+    int value = 0;
     value = istream.read_ulong ();
     return value;
   }

@@ -45,6 +45,7 @@ class LongExpression extends ConstantExpression {
     /**
      * Get the value
      */
+    @Override
     public Object getValue() {
         return value;
     }
@@ -52,6 +53,7 @@ class LongExpression extends ConstantExpression {
     /**
      * Check if the expression is equal to a value
      */
+    @Override
     public boolean equals(int i) {
         return value == i;
     }
@@ -59,6 +61,7 @@ class LongExpression extends ConstantExpression {
     /**
      * Check if the expression is equal to its default static value
      */
+    @Override
     public boolean equalsDefault() {
         return value == 0;
     }
@@ -66,6 +69,7 @@ class LongExpression extends ConstantExpression {
     /**
      * Code
      */
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         asm.add(where, opc_ldc2_w, value);
     }
@@ -73,6 +77,7 @@ class LongExpression extends ConstantExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print(value + "L");
     }

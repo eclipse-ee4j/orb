@@ -34,6 +34,7 @@ public class StubFactoryFactoryStaticImpl extends
     private static final ORBUtilSystemException wrapper =
         ORBUtilSystemException.self ;
 
+    @Override
     public PresentationManager.StubFactory createStubFactory(
         String className, boolean isIDLStub, String remoteCodeBase, Class
         expectedClass, ClassLoader classLoader)
@@ -103,6 +104,7 @@ public class StubFactoryFactoryStaticImpl extends
         return new StubFactoryStaticImpl( clz ) ;
     }
 
+    @Override
     public Tie getTie( Class cls )
     {
         Class<?> tieClass = null ;
@@ -128,6 +130,7 @@ public class StubFactoryFactoryStaticImpl extends
 
     }
 
+    @Override
     public boolean createsDynamicStubs()
     {
         return false ;
