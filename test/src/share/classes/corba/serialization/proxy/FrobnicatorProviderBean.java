@@ -19,9 +19,10 @@
 
 package corba.serialization.proxy;
 
+import java.lang.reflect.Proxy;
 import java.rmi.RemoteException;
+
 import javax.rmi.PortableRemoteObject;
-import java.lang.reflect.*;
 
 public class FrobnicatorProviderBean extends PortableRemoteObject implements
                                                         FrobnicatorProvider

@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.spi.oa;
 
-import javax.rmi.CORBA.Tie ;
+import javax.rmi.CORBA.Tie;
 
 import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopierFactory;
 import org.omg.CORBA.portable.ServantObject;

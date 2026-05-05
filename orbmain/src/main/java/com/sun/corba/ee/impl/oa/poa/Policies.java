@@ -20,14 +20,14 @@
 
 package com.sun.corba.ee.impl.oa.poa;
 
-import com.sun.corba.ee.spi.extension.CopyObjectPolicy ;
-import com.sun.corba.ee.spi.extension.ServantCachingPolicy ;
-import com.sun.corba.ee.spi.extension.ZeroPortPolicy ;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.extension.CopyObjectPolicy;
+import com.sun.corba.ee.spi.extension.ServantCachingPolicy;
+import com.sun.corba.ee.spi.extension.ZeroPortPolicy;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
-import java.util.BitSet ;
-import java.util.HashMap ;
-import java.util.Map ;
+import java.util.BitSet;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.glassfish.gmbal.Description;
 import org.glassfish.gmbal.ManagedAttribute;

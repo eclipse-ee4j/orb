@@ -20,8 +20,7 @@
 
 package javax.rmi.CORBA.serialization;
 
-import java.util.*;
-import java.io.*;
+import java.util.Random;
 
 public class TestOBV2 extends TestOBV implements java.io.Serializable {
     public int bar;

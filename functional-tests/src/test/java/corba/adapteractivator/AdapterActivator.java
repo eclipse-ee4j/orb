@@ -19,10 +19,9 @@
 
 package corba.adapteractivator;
 
-import test.Test;
-import corba.framework.*;
-import java.util.*;
-import org.omg.CORBA.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
+import corba.framework.Options;
 
 public class AdapterActivator extends CORBATest
 {

@@ -24,18 +24,18 @@
 
 package corba.giopgen;
 
-import java.util.Map;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Properties;
+
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.rmi.PortableRemoteObject;
 
-import org.omg.CORBA.COMM_FAILURE;
 import org.omg.CORBA.ORB;
-
-import com.sun.corba.ee.spi.misc.ORBConstants ;
 
 public class Client
 {

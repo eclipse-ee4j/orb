@@ -23,7 +23,7 @@ package com.sun.corba.ee.impl.util;
 
 import com.sun.corba.ee.impl.io.ObjectStreamClass;
 import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
-import com.sun.corba.ee.impl.misc.ClassInfoCache ;
+import com.sun.corba.ee.impl.misc.ClassInfoCache;
 
 import java.io.IOException;
 import java.lang.reflect.Method;

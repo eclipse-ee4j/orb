@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.spi.threadpool;
 
-import java.io.Closeable ;
+import java.io.Closeable;
 
 public interface ThreadPoolManager extends Closeable
 {

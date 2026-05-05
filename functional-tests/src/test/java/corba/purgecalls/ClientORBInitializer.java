@@ -25,7 +25,7 @@
 package corba.purgecalls;
 
 import corba.hcks.U;
-import org.omg.PortableInterceptor.ORBInitializer;
+
 import org.omg.PortableInterceptor.ORBInitInfo;
 
 public class ClientORBInitializer

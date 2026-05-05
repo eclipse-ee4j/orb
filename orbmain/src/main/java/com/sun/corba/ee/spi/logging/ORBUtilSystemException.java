@@ -24,8 +24,8 @@ import com.sun.corba.ee.impl.ior.iiop.JavaSerializationComponent;
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 import com.sun.corba.ee.spi.logex.corba.CS;
 import com.sun.corba.ee.spi.logex.corba.CSValue;
-import com.sun.corba.ee.spi.logex.corba.CorbaExtension ;
-import com.sun.corba.ee.spi.logex.corba.ORBException ;
+import com.sun.corba.ee.spi.logex.corba.CorbaExtension;
+import com.sun.corba.ee.spi.logex.corba.ORBException;
 import com.sun.corba.ee.spi.transport.Connection;
 import com.sun.corba.ee.spi.transport.EventHandler;
 

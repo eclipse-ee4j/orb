@@ -25,9 +25,6 @@
 package corba.orbconfigappserv;
 
 import org.omg.PortableInterceptor.ORBInitInfo;
-import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
-import org.omg.PortableInterceptor.Current;
-import org.omg.PortableInterceptor.CurrentHelper;
 
 public class ORBInitializerImpl
     extends

@@ -19,6 +19,20 @@
 
 package corba.orbconfig;
 
+import com.sun.corba.ee.impl.orb.DataCollectorFactory;
+import com.sun.corba.ee.impl.orb.ORBDataParserImpl;
+import com.sun.corba.ee.impl.orb.ParserTable;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.DataCollector;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ORBData;
+import com.sun.corba.ee.spi.orb.Operation;
+import com.sun.corba.ee.spi.orb.OperationFactory;
+import com.sun.corba.ee.spi.orb.ParserData;
+import com.sun.corba.ee.spi.orb.ParserImplBase;
+import com.sun.corba.ee.spi.orb.PropertyParser;
+
 import java.applet.Applet;
 import java.applet.AppletContext;
 import java.applet.AppletStub;
@@ -38,19 +52,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import com.sun.corba.ee.impl.orb.DataCollectorFactory;
-import com.sun.corba.ee.impl.orb.ORBDataParserImpl;
-import com.sun.corba.ee.impl.orb.ParserTable;
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.spi.orb.DataCollector;
-import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.spi.orb.ORBData;
-import com.sun.corba.ee.spi.orb.Operation;
-import com.sun.corba.ee.spi.orb.OperationFactory;
-import com.sun.corba.ee.spi.orb.ParserData;
-import com.sun.corba.ee.spi.orb.ParserImplBase;
-import com.sun.corba.ee.spi.orb.PropertyParser;
 import org.glassfish.pfl.basic.contain.Pair;
 import org.glassfish.pfl.basic.func.NullaryFunction;
 import org.glassfish.pfl.test.JUnitReportHelper;

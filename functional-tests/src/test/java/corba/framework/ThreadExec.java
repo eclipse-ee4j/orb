@@ -19,7 +19,7 @@
 
 package corba.framework;
 
-import java.io.*;
+import java.io.PrintStream;
 
 /**
  * Runs the class in a separate thread.  Currently, the class must extend the

@@ -21,11 +21,13 @@
 
 package rmic;
 
-import test.Test;
-import org.glassfish.rmic.iiop.StaticStringsHash;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+
 import org.glassfish.pfl.test.JUnitReportHelper;
+import org.glassfish.rmic.iiop.StaticStringsHash;
+
+import test.Test;
 
 /*
  * @test

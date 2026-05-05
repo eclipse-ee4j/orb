@@ -20,12 +20,12 @@
 
 package ibmspace.server;
 
-import ibmspace.common.*;
-import java.util.Vector;
-import java.lang.reflect.Array;
 import java.rmi.RemoteException;
-import java.rmi.Remote;
+import java.util.Vector;
+
 import javax.rmi.PortableRemoteObject;
+
+import ibmspace.common.RemoteGameView;
 
 public class GameViewServer extends GameViewImpl implements RemoteGameView
 {

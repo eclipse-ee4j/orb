@@ -24,19 +24,18 @@
 
 package corba.folb;
 
-import java.net.InetAddress ;
-import java.net.UnknownHostException;
-import java.util.LinkedList;
-import java.util.List;
-
+import com.sun.corba.ee.impl.folb.GroupInfoServiceBase;
+import com.sun.corba.ee.impl.misc.ORBUtility;
 import com.sun.corba.ee.spi.folb.ClusterInstanceInfo;
 import com.sun.corba.ee.spi.folb.GroupInfoService;
-import com.sun.corba.ee.impl.folb.GroupInfoServiceBase;
 import com.sun.corba.ee.spi.folb.GroupInfoServiceObserver;
 import com.sun.corba.ee.spi.folb.SocketInfo;
 
-import com.sun.corba.ee.impl.misc.ORBUtility;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Harold Carr

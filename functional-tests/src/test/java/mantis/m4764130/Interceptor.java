@@ -24,20 +24,17 @@
 
 package mantis.m4764130;
 
-import java.util.Properties;
+import com.sun.corba.ee.spi.servicecontext.SendingContextServiceContext;
+
 import org.omg.CORBA.BAD_PARAM;
-import org.omg.CORBA.ORB;
-import org.omg.CosNaming.*;
 import org.omg.IOP.ServiceContext;
-import org.omg.PortableInterceptor.ClientRequestInterceptor;
 import org.omg.PortableInterceptor.ClientRequestInfo;
+import org.omg.PortableInterceptor.ClientRequestInterceptor;
 import org.omg.PortableInterceptor.ForwardRequest;
 import org.omg.PortableInterceptor.ORBInitInfo;
 import org.omg.PortableInterceptor.ORBInitializer;
-import org.omg.PortableInterceptor.ServerRequestInterceptor;
 import org.omg.PortableInterceptor.ServerRequestInfo;
-import com.sun.corba.ee.spi.servicecontext.SendingContextServiceContext;
-import com.sun.corba.ee.spi.misc.ORBConstants;
+import org.omg.PortableInterceptor.ServerRequestInterceptor;
 
 public class Interceptor
     extends

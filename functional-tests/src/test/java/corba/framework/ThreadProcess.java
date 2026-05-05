@@ -20,8 +20,8 @@
 package corba.framework;
 
 import java.io.PrintStream;
-import java.util.Properties;
 import java.util.Hashtable;
+import java.util.Properties;
 
 /**
  * Class representing a process which will run a separate thread but

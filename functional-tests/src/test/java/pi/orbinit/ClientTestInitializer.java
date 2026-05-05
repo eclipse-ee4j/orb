@@ -19,15 +19,17 @@
 
 package pi.orbinit;
 
-import org.omg.PortableInterceptor.*;
-import org.omg.IOP.*;
-import org.omg.PortableInterceptor.ORBInitInfoPackage.*;
+import java.io.PrintStream;
 
-import java.util.*;
-import java.io.*;
-import org.omg.CORBA.*;
-
-import ORBInitTest.*;
+import org.omg.CORBA.BAD_INV_ORDER;
+import org.omg.CORBA.LocalObject;
+import org.omg.CORBA.OBJECT_NOT_EXIST;
+import org.omg.CORBA.ORB;
+import org.omg.IOP.CodecFactory;
+import org.omg.IOP.CodecFactoryHelper;
+import org.omg.PortableInterceptor.ORBInitInfo;
+import org.omg.PortableInterceptor.ORBInitializer;
+import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
 /**
  * Test initializer on the client side.  Most of the testing is done in this

@@ -19,11 +19,8 @@
 
 package hopper.h4515953;
 
-import test.Test;
-import corba.framework.*;
-import java.util.*;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import org.omg.CORBA.*;
+import corba.framework.CORBATest;
+import corba.framework.Options;
 
 /**
  * A very simple test to make sure that RMIC compilation works for Interfaces

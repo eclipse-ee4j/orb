@@ -19,10 +19,10 @@
 
 package corba.adapteractivator ;
 
-import org.omg.PortableServer.POA ;
-import org.omg.PortableServer.AdapterActivator ;
-import org.omg.PortableServer.LifespanPolicyValue ;
-import org.omg.PortableServer.IdAssignmentPolicyValue ;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.AdapterActivator;
+import org.omg.PortableServer.LifespanPolicyValue;
+import org.omg.PortableServer.IdAssignmentPolicyValue;
 
 import corba.framework.RTMConstants;
 import org.omg.CORBA.LocalObject;

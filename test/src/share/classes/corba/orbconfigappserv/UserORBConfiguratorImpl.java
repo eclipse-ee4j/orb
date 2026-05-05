@@ -24,13 +24,12 @@
 
 package corba.orbconfigappserv;
 
-import org.omg.CORBA.INITIALIZE;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.DataCollector;
+import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.orb.ORBConfigurator;
+import com.sun.corba.ee.spi.orb.OperationFactory;
 import com.sun.corba.ee.spi.orb.ParserImplBase;
 import com.sun.corba.ee.spi.orb.PropertyParser;
-import com.sun.corba.ee.spi.orb.DataCollector;
-import com.sun.corba.ee.spi.orb.OperationFactory;
 
 public class UserORBConfiguratorImpl
     implements

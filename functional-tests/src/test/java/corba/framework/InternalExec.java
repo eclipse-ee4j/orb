@@ -19,7 +19,7 @@
 
 package corba.framework;
 
-import java.io.*;
+import java.io.PrintStream;
 
 /**
  * Runs the class in the current process.  This assumes the class implements

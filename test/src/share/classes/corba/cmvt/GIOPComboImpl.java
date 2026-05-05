@@ -19,12 +19,9 @@
 
 package corba.cmvt;
 
-import java.io.*;
-import java.util.*;
-import org.omg.CORBA.*;
-import java.io.DataInputStream;
-import java.rmi.*;
-import javax.rmi.PortableRemoteObject ;
+import java.rmi.RemoteException;
+
+import javax.rmi.PortableRemoteObject;
 
 public class GIOPComboImpl extends PortableRemoteObject implements GIOPCombo
 {

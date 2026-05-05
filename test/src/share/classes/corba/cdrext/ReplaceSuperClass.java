@@ -20,7 +20,7 @@
 
 package corba.cdrext;
 
-import java.io.*;
+import java.io.Serializable;
 
 public class ReplaceSuperClass implements Serializable
 {

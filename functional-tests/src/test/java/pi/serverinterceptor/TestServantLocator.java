@@ -19,10 +19,13 @@
 
 package pi.serverinterceptor;
 
-import java.io.*;
-import org.omg.PortableServer.*;
-import org.omg.PortableServer.ServantLocatorPackage.*;
-import org.omg.CORBA.*;
+import java.io.PrintStream;
+
+import org.omg.CORBA.ORB;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.Servant;
+import org.omg.PortableServer.ServantLocator;
+import org.omg.PortableServer.ServantLocatorPackage.CookieHolder;
 
 /**
  * Test Servant locator that throws a ForwardRequest.

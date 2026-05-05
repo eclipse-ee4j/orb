@@ -24,14 +24,12 @@
 
 package corba.folb;
 
-import java.util.List;
-
-import java.rmi.RemoteException;
-import javax.rmi.PortableRemoteObject;
-
+import com.sun.corba.ee.impl.misc.ORBUtility;
 import com.sun.corba.ee.spi.orb.ORB;
 
-import com.sun.corba.ee.impl.misc.ORBUtility;
+import java.rmi.RemoteException;
+
+import javax.rmi.PortableRemoteObject;
 
 public class EchoTestServant
     extends PortableRemoteObject

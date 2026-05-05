@@ -19,7 +19,8 @@
 
 package corba.serialization.zerolengthstring;
 
-import corba.framework.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
 
 public class ZeroLengthStringTest extends CORBATest
 {

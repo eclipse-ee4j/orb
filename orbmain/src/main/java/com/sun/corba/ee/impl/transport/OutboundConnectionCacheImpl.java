@@ -29,9 +29,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.glassfish.gmbal.AMXMetadata ;
-import org.glassfish.gmbal.Description ;
-import org.glassfish.gmbal.ManagedObject ;
+import org.glassfish.gmbal.AMXMetadata;
+import org.glassfish.gmbal.Description;
+import org.glassfish.gmbal.ManagedObject;
 
 /**
  * @author Harold Carr

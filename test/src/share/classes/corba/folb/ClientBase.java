@@ -24,29 +24,25 @@
 
 package corba.folb;
 
-import java.util.Hashtable;
-import java.util.Properties;
-import javax.naming.InitialContext;
-
+import com.sun.corba.ee.impl.folb.ClientGroupManager;
+import com.sun.corba.ee.impl.misc.ORBUtility;
 import com.sun.corba.ee.spi.folb.GroupInfoService;
 import com.sun.corba.ee.spi.folb.GroupInfoServiceObserver;
-
-import com.sun.corba.ee.spi.orb.ORB;
-
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
-
-import com.sun.corba.ee.impl.folb.ClientGroupManager;
-
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.impl.misc.ORBUtility;
+import com.sun.corba.ee.spi.orb.ORB;
 
 import corba.folb_8_1.SocketFactoryImpl;
 import corba.framework.TestngRunner;
 import corba.hcks.U;
 
-import org.testng.Assert ;
+import java.util.Hashtable;
+import java.util.Properties;
 
-import org.omg.CORBA.SystemException ;
+import javax.naming.InitialContext;
+
+import org.omg.CORBA.SystemException;
+import org.testng.Assert;
 
 /**
  * @author Harold Carr

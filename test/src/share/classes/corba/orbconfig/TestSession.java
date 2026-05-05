@@ -19,10 +19,10 @@
 
 package corba.orbconfig;
 
-import java.io.PrintStream ;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.util.ArrayList ;
-import java.util.List ;
 import org.glassfish.pfl.basic.func.NullaryFunction;
 import org.glassfish.pfl.test.JUnitReportHelper;
 import org.glassfish.pfl.test.ObjectUtility;

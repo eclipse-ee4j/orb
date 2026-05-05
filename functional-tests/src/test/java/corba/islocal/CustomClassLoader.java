@@ -24,11 +24,10 @@
 
 package corba.islocal;
 
+import corba.framework.Loader;
+
 import java.util.Hashtable;
 import java.util.StringTokenizer;
-import java.util.Vector;
-
-import corba.framework.Loader;
 
 public class CustomClassLoader
     extends Loader

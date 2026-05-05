@@ -20,8 +20,9 @@
 
 package rmic;
 
-import javax.rmi.PortableRemoteObject;
 import java.rmi.server.RMIClassLoader;
+
+import javax.rmi.PortableRemoteObject;
 
 public class RemoteObjectServer extends PortableRemoteObject implements RemoteObject {
 

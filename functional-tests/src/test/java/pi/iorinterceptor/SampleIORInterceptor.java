@@ -19,18 +19,29 @@
 
 package pi.iorinterceptor;
 
-import java.io.*;
-
-import org.omg.CORBA.*;
-import org.omg.PortableServer.*;
-
-import org.omg.PortableInterceptor.*;
-import org.omg.IOP.*;
-import org.omg.IOP.CodecPackage.*;
-import org.omg.IOP.CodecFactoryPackage.*;
-import org.omg.IOP.TaggedComponent;
-import org.omg.IOP.TAG_INTERNET_IOP;
 import com.sun.corba.ee.spi.logging.OMGSystemException;
+
+import java.io.PrintStream;
+
+import org.omg.CORBA.Any;
+import org.omg.CORBA.BAD_PARAM;
+import org.omg.CORBA.INV_POLICY;
+import org.omg.CORBA.LocalObject;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.Policy;
+import org.omg.IOP.Codec;
+import org.omg.IOP.CodecFactory;
+import org.omg.IOP.CodecFactoryHelper;
+import org.omg.IOP.ENCODING_CDR_ENCAPS;
+import org.omg.IOP.Encoding;
+import org.omg.IOP.TAG_INTERNET_IOP;
+import org.omg.IOP.TaggedComponent;
+import org.omg.PortableInterceptor.IORInfo;
+import org.omg.PortableInterceptor.IORInterceptor;
+import org.omg.PortableInterceptor.ObjectReferenceTemplate;
+import org.omg.PortableServer.ID_UNIQUENESS_POLICY_ID;
+import org.omg.PortableServer.IdUniquenessPolicy;
+import org.omg.PortableServer.IdUniquenessPolicyValue;
 
 /**
  * Thoroughly tests IORInterceptor support.

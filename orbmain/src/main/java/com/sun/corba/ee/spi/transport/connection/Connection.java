@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.spi.transport.connection;
 
-import java.io.IOException ;
+import java.io.IOException;
 
 /** A Connection represents some kind of channel to a (possibly different) process.
  * Here we only need the capability of closing the connection.  Any connection

@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.impl.transport.concurrent ;
 
-import com.sun.corba.ee.spi.transport.concurrent.ConcurrentQueue ;
+import com.sun.corba.ee.spi.transport.concurrent.ConcurrentQueue;
 
 public class ConcurrentQueueImpl<V> implements ConcurrentQueue<V> {
     // This implementation of ConcurrentQueue is unsynchronized, for use in

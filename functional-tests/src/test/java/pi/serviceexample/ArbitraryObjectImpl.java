@@ -19,13 +19,14 @@
 
 package pi.serviceexample;
 
+import java.util.Properties;
+
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.ORBPackage.InvalidName;
-import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
 import org.omg.PortableServer.POA;
-
-import java.util.Properties;
 
 class ArbitraryObjectImpl
     extends ArbitraryObjectPOA

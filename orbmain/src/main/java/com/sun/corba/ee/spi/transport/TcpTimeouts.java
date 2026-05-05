@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.spi.transport;
 
-import com.sun.corba.ee.impl.transport.TcpTimeoutsImpl ;
+import com.sun.corba.ee.impl.transport.TcpTimeoutsImpl;
 
 /** This interface defines the ability to wait for a configurable time,
  * applying an exponential backoff to increase the time.  The maximum

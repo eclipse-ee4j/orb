@@ -19,9 +19,8 @@
 
 package corba.travelmuse;
 
-import test.Test;
-import corba.framework.*;
-import java.util.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
 
 public class TravelMuseTest extends CORBATest
 {

@@ -20,8 +20,8 @@
 
 package javax.rmi.CORBA.serialization;
 
-import java.util.*;
-import java.io.*;
+import java.io.Serializable;
+import java.util.Random;
 
 public class ComplexTestObjectOne implements Serializable
 {

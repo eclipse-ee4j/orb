@@ -19,19 +19,20 @@
 
 package corba.requestpartitioning;
 
-import java.util.Properties;
-import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.spi.extension.RequestPartitioningPolicy;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.threadpool.ThreadPoolManager;
 
 import corba.framework.Options;
 import corba.hcks.U;
 
+import java.util.Properties;
+
 import org.omg.CORBA.Policy;
+import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
-import org.omg.CosNaming.NameComponent;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAHelper;
 

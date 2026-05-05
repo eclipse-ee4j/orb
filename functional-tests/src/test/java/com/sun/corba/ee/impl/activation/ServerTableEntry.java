@@ -36,7 +36,7 @@ import com.sun.corba.ee.spi.activation.ServerHeldDown;
 import com.sun.corba.ee.spi.activation.RepositoryPackage.ServerDef;
 
 import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.spi.logging.ActivationSystemException ;
+import com.sun.corba.ee.spi.logging.ActivationSystemException;
 
 import java.util.HashMap;
 import java.util.Map;

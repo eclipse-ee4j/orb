@@ -24,8 +24,15 @@
 
 package ibmspace.client;
 
-import java.awt.*;
-import ibmspace.common.Planet;
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
+
 import ibmspace.common.PlanetView;
 
 public class PlanetViewUI

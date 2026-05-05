@@ -19,9 +19,9 @@
 
 package com.sun.corba.ee.impl.oa.rfm;
 
-import com.sun.corba.ee.spi.oa.rfm.ReferenceFactory ;
+import com.sun.corba.ee.spi.oa.rfm.ReferenceFactory;
 
-import org.omg.CORBA.LocalObject ;
+import org.omg.CORBA.LocalObject;
 
 public class ReferenceFactoryImpl extends LocalObject implements ReferenceFactory
 {

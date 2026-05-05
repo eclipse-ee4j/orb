@@ -19,8 +19,7 @@
 
 package corba.custom;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
+import java.rmi.RemoteException;
 
 /**
  * Simple interface to send an Object and get it as a reply.  (Sometimes

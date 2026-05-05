@@ -19,18 +19,16 @@
 
 package pi.clientinterceptor;
 
-import org.omg.CORBA.*;
-import org.omg.CosNaming.*;
-import com.sun.corba.ee.impl.corba.AnyImpl;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.impl.interceptors.*;
-import org.omg.PortableInterceptor.*;
-import corba.framework.*;
+import corba.framework.InternalProcess;
 
-import java.util.*;
-import java.io.*;
+import java.io.PrintStream;
+import java.util.Hashtable;
+import java.util.Properties;
 
-import ClientRequestInterceptor.*;
+import org.omg.CORBA.ORB;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
 
 /**
  * Tests DII RMI Local invocation

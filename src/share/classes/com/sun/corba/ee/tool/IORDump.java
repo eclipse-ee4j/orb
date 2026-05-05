@@ -19,19 +19,19 @@
 
 package com.sun.corba.ee.tool ;
 
-import org.omg.CORBA.portable.ObjectImpl ;
+import org.omg.CORBA.portable.ObjectImpl;
 
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.protocol.ClientDelegate ;
-import com.sun.corba.ee.spi.transport.ContactInfoList ;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.protocol.ClientDelegate;
+import com.sun.corba.ee.spi.transport.ContactInfoList;
 
-import com.sun.corba.ee.spi.ior.IOR ;
-import com.sun.corba.ee.impl.ior.GenericIdentifiable ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate ;
-import com.sun.corba.ee.spi.ior.TaggedProfileTemplate ;
-import com.sun.corba.ee.spi.ior.TaggedProfile ;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
-import com.sun.corba.ee.spi.ior.TaggedComponent ;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.impl.ior.GenericIdentifiable;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
+import com.sun.corba.ee.spi.ior.TaggedProfileTemplate;
+import com.sun.corba.ee.spi.ior.TaggedProfile;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
+import com.sun.corba.ee.spi.ior.TaggedComponent;
 import org.glassfish.pfl.basic.algorithm.Printer;
 
 public class IORDump {

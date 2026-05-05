@@ -20,7 +20,7 @@
 
 package com.sun.corba.ee.impl.resolver ;
 
-import com.sun.corba.ee.spi.resolver.LocalResolver ;
+import com.sun.corba.ee.spi.resolver.LocalResolver;
 
 import java.lang.System.Logger;
 import java.util.concurrent.ConcurrentHashMap;

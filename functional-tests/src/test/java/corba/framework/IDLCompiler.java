@@ -19,8 +19,8 @@
 
 package corba.framework;
 
-import java.util.Vector;
 import java.io.File;
+import java.util.Vector;
 
 /**
  * Wrapper around calling a real IDL compiler.

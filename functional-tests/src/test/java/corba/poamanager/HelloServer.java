@@ -19,8 +19,9 @@
 
 package corba.poamanager;
 
-import Util.GenericFactoryHelper;
 import org.omg.PortableServer.POA;
+
+import Util.GenericFactoryHelper;
 
 public class HelloServer {
     public static void main(String[] args) {

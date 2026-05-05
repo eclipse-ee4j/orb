@@ -19,9 +19,12 @@
 
 package naming.pcosnaming;
 
-import test.Test;
-import corba.framework.*;
-import java.util.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
+import corba.framework.InternalExec;
+import corba.framework.Options;
+
+import java.util.Hashtable;
 
 public class PCOSNamingTest extends CORBATest
 {

@@ -19,10 +19,10 @@
 
 package com.sun.corba.ee.impl.presentation.rmi ;
 
-import com.sun.corba.ee.impl.corba.CORBAObjectImpl ;
-import com.sun.corba.ee.impl.ior.StubIORImpl ;
+import com.sun.corba.ee.impl.corba.CORBAObjectImpl;
+import com.sun.corba.ee.impl.ior.StubIORImpl;
 import com.sun.corba.ee.impl.util.Utility;
-import com.sun.corba.ee.spi.logging.UtilSystemException ;
+import com.sun.corba.ee.spi.logging.UtilSystemException;
 import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
 
 import java.rmi.RemoteException;

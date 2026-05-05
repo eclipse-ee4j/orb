@@ -19,7 +19,8 @@
 
 package corba.custom;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * Simple data structure with a java.lang.Object array of links

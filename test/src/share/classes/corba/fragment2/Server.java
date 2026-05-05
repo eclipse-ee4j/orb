@@ -19,14 +19,10 @@
 
 package corba.fragment2;
 
-import org.omg.CORBA.portable.*;
-import javax.rmi.PortableRemoteObject;
-import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
-import org.omg.CORBA.*;
-import java.util.Properties;
-import org.omg.PortableServer.*;
-import java.io.*;
+import java.io.FileOutputStream;
+
+import org.omg.CORBA.ORB;
+import org.omg.PortableServer.POA;
 
 public class Server
 {

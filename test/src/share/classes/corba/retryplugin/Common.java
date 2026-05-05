@@ -24,12 +24,13 @@
 
 package corba.retryplugin;
 
-import java.util.Vector;
 import java.util.StringTokenizer;
+import java.util.Vector;
 
 import org.omg.CORBA.ORB;
-import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
 
 public class Common
 {

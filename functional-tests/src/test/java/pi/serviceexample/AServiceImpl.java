@@ -25,9 +25,9 @@
 package pi.serviceexample;
 
 import org.omg.CORBA.Any;
-import org.omg.CORBA.TCKind;
 import org.omg.CORBA.LocalObject;
 import org.omg.CORBA.ORB;
+import org.omg.CORBA.TCKind;
 import org.omg.PortableInterceptor.Current;
 import org.omg.PortableInterceptor.InvalidSlot;
 

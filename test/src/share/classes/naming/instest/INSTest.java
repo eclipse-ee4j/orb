@@ -20,9 +20,11 @@
 package naming.instest;
 
 import com.sun.corba.ee.spi.misc.ORBConstants;
+
 import corba.framework.CORBATest;
 import corba.framework.Controller;
 import corba.framework.Options;
+
 import java.util.Properties;
 
 /**

@@ -20,7 +20,6 @@
 
 package javax.rmi.CORBA.serialization;
 
-import java.lang.reflect.Array;
 import java.io.Serializable;
 
 public class BudgetSummary implements Serializable

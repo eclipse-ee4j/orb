@@ -20,11 +20,13 @@
 package pi.ort;
 
 import com.sun.corba.ee.spi.misc.ORBConstants;
-import IORInterceptorTest.*;    // for IDL
+
 import corba.framework.InternalProcess;
+
 import java.io.PrintStream;
 import java.util.Hashtable;
 import java.util.Properties;
+
 import org.glassfish.pfl.test.JUnitReportHelper;
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.Policy;
@@ -32,6 +34,10 @@ import org.omg.PortableInterceptor.NON_EXISTENT;
 import org.omg.PortableServer.IdUniquenessPolicyValue;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAManager;
+
+// for IDL
+import IORInterceptorTest.delay;
+import IORInterceptorTest.delayHelper;
 
 public class Server
     implements InternalProcess

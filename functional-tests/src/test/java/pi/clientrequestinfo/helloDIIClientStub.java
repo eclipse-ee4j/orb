@@ -19,11 +19,19 @@
 
 package pi.clientrequestinfo;
 
-import org.omg.CORBA.*;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
+import org.omg.CORBA.ARG_IN;
+import org.omg.CORBA.Any;
+import org.omg.CORBA.ContextList;
+import org.omg.CORBA.Environment;
+import org.omg.CORBA.ExceptionList;
+import org.omg.CORBA.NVList;
+import org.omg.CORBA.NamedValue;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.Request;
+import org.omg.CORBA.UnknownUserException;
 
-import ClientRequestInfo.*;
+import ClientRequestInfo.ExampleException;
+import ClientRequestInfo.ExampleExceptionHelper;
 
 /**
  * Utility class to encapsulate the logic to make DII calls on the

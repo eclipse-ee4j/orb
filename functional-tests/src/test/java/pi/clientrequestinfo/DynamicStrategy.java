@@ -19,13 +19,15 @@
 
 package pi.clientrequestinfo;
 
-import org.omg.CORBA.*;
-import com.sun.corba.ee.impl.interceptors.*;
-import org.omg.PortableInterceptor.*;
-import org.omg.Messaging.*;
-import org.omg.Dynamic.*;
+import org.omg.CORBA.Any;
+import org.omg.CORBA.BAD_INV_ORDER;
+import org.omg.CORBA.TCKind;
+import org.omg.CORBA.TypeCode;
+import org.omg.Dynamic.Parameter;
+import org.omg.PortableInterceptor.ClientRequestInfo;
+import org.omg.PortableInterceptor.ForwardRequest;
 
-import ClientRequestInfo.*;
+import ClientRequestInfo.ExampleExceptionHelper;
 
 /**
  * Strategy to test DII dynamic operations.  This was originally its own

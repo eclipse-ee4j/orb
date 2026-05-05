@@ -19,7 +19,7 @@
 
 package corba.dynamicrmiiiop.testclasses ;
 
-import java.rmi.Remote ;
+import java.rmi.Remote;
 
 public interface G extends Remote
 {

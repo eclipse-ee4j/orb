@@ -23,7 +23,7 @@ import HelloApp.*;
 import com.sun.corba.ee.impl.orbutil.ORBConstants;
 import org.omg.CosNaming.*;
 import org.omg.CORBA.*;
-import java.util.Properties ;
+import java.util.Properties;
 
 public class Client implements Runnable
 {

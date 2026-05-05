@@ -20,16 +20,16 @@
 
 package rmic;
 
-import java.util.Enumeration;
-import java.util.Vector;
-import java.util.Hashtable;
 import java.io.File;
 import java.io.IOException;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-import java.util.zip.ZipException;
-import java.util.Comparator;
 import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Vector;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
 
 /**
  * This class provides static methods to enumerate all classes in

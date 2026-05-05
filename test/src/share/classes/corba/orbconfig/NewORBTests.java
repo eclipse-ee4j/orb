@@ -19,8 +19,8 @@
 
 package corba.orbconfig;
 
-import test.Test;
-import corba.framework.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
 
 
 public class NewORBTests extends CORBATest

@@ -19,30 +19,33 @@
 
 package corba.ortremote ;
 
-import com.sun.corba.ee.spi.oa.ObjectAdapter ;
-import java.rmi.RemoteException ;
-import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
-import org.omg.PortableInterceptor.ObjectReferenceFactory ;
-import org.omg.PortableServer.ServantLocatorPackage.CookieHolder ;
-import java.util.Properties ;
-import org.omg.CORBA.ORB ;
-import org.omg.CORBA.Policy ;
-import javax.rmi.PortableRemoteObject ;
-import javax.rmi.CORBA.Util ;
+import com.sun.corba.ee.spi.oa.ObjectAdapter;
+
+import java.rmi.RemoteException;
+import java.util.Properties;
+
+import javax.rmi.PortableRemoteObject;
+import javax.rmi.CORBA.Util;
+
 import org.glassfish.pfl.basic.func.NullaryFunction;
-import org.omg.CORBA.LocalObject ;
+import org.omg.CORBA.LocalObject;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.Policy;
 import org.omg.CORBA.ORBPackage.InvalidName;
+import org.omg.PortableInterceptor.ObjectReferenceFactory;
+import org.omg.PortableInterceptor.ObjectReferenceTemplate;
 import org.omg.PortableServer.ForwardRequest;
 import org.omg.PortableServer.LifespanPolicyValue;
 import org.omg.PortableServer.POA;
-import org.omg.PortableServer.POAManagerPackage.AdapterInactive;
-import org.omg.PortableServer.POAPackage.AdapterAlreadyExists;
-import org.omg.PortableServer.POAPackage.InvalidPolicy;
-import org.omg.PortableServer.POAPackage.WrongPolicy;
 import org.omg.PortableServer.RequestProcessingPolicyValue;
 import org.omg.PortableServer.Servant;
 import org.omg.PortableServer.ServantLocator;
 import org.omg.PortableServer.ServantRetentionPolicyValue;
+import org.omg.PortableServer.POAManagerPackage.AdapterInactive;
+import org.omg.PortableServer.POAPackage.AdapterAlreadyExists;
+import org.omg.PortableServer.POAPackage.InvalidPolicy;
+import org.omg.PortableServer.POAPackage.WrongPolicy;
+import org.omg.PortableServer.ServantLocatorPackage.CookieHolder;
 
 public class Test
 {

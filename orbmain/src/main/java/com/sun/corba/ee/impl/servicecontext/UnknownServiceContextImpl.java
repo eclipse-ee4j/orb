@@ -20,8 +20,8 @@
 package com.sun.corba.ee.impl.servicecontext;
 
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-import com.sun.corba.ee.spi.servicecontext.ServiceContextBase ;
-import com.sun.corba.ee.spi.servicecontext.UnknownServiceContext ;
+import com.sun.corba.ee.spi.servicecontext.ServiceContextBase;
+import com.sun.corba.ee.spi.servicecontext.UnknownServiceContext;
 
 import org.omg.CORBA_2_3.portable.InputStream;
 import org.omg.CORBA_2_3.portable.OutputStream;

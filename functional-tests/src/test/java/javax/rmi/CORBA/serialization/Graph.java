@@ -21,9 +21,7 @@
 package javax.rmi.CORBA.serialization;
 
 // Class from Sun
-
-
-import java.io.*;
+import java.io.Serializable;
 
 public class Graph implements Serializable {
 

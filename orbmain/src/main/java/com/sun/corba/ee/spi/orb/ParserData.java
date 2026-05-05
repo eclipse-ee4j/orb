@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.spi.orb ;
 
-import java.util.Properties ;
+import java.util.Properties;
 
 public interface ParserData {
     public String  getPropertyName() ;

@@ -19,8 +19,8 @@
 
 package pi.clientinterceptor;
 
-import corba.framework.*;
-import java.util.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
 
 /**
  * Tests ClientInterceptor as per Portable Interceptors spec

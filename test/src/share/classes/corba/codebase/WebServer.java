@@ -19,9 +19,18 @@
 
 package corba.codebase;
 
-import java.io.*;
-import java.net.*;
-import java.util.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.Date;
+import java.util.Properties;
+import java.util.Vector;
 
 public class WebServer extends Thread implements HttpConstants {
 

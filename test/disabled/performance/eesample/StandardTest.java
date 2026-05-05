@@ -19,86 +19,86 @@
 
 package performance.eesample;
 
-import java.lang.reflect.Field ;
-import java.lang.reflect.Method ;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
-import java.lang.annotation.ElementType ;
-import java.lang.annotation.RetentionPolicy ;
-import java.lang.annotation.Target ;
-import java.lang.annotation.Retention ;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.lang.annotation.Retention;
 
-import java.util.Arrays ;
-import java.util.List ;
-import java.util.ArrayList ;
-import java.util.Map ;
-import java.util.Set ;
-import java.util.HashMap ;
-import java.util.Properties ;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
+import java.util.HashMap;
+import java.util.Properties;
 
-import java.rmi.RemoteException ;
-import java.rmi.Remote ;
+import java.rmi.RemoteException;
+import java.rmi.Remote;
 
-import javax.rmi.CORBA.Tie ;
-import javax.rmi.CORBA.Stub ;
+import javax.rmi.CORBA.Tie;
+import javax.rmi.CORBA.Stub;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.DatatypeConstants;
 
-import org.omg.CORBA.Policy ;
-import org.omg.CORBA.BAD_OPERATION ;
-import org.omg.CORBA.LocalObject ;
+import org.omg.CORBA.Policy;
+import org.omg.CORBA.BAD_OPERATION;
+import org.omg.CORBA.LocalObject;
 
-import org.omg.CosNaming.NamingContext ;
-import org.omg.CosNaming.NamingContextHelper ;
-import org.omg.CosNaming.NamingContextExt ;
-import org.omg.CosNaming.NamingContextExtHelper ;
-import org.omg.CosNaming.NameComponent ;
-import org.omg.CosNaming.NamingContextPackage.CannotProceed ;
-import org.omg.CosNaming.NamingContextPackage.InvalidName ;
-import org.omg.CosNaming.NamingContextPackage.AlreadyBound ;
-import org.omg.CosNaming.NamingContextPackage.NotFound ;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
+import org.omg.CosNaming.NamingContextExt;
+import org.omg.CosNaming.NamingContextExtHelper;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContextPackage.CannotProceed;
+import org.omg.CosNaming.NamingContextPackage.InvalidName;
+import org.omg.CosNaming.NamingContextPackage.AlreadyBound;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
 
-import org.omg.PortableServer.ForwardRequest ;
-import org.omg.PortableServer.POA ;
-import org.omg.PortableServer.Servant ;
-import org.omg.PortableServer.ServantLocator ;
+import org.omg.PortableServer.ForwardRequest;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.Servant;
+import org.omg.PortableServer.ServantLocator;
 
-import org.omg.PortableServer.ServantLocatorPackage.CookieHolder ;
+import org.omg.PortableServer.ServantLocatorPackage.CookieHolder;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import com.sun.corba.ee.spi.presentation.rmi.PresentationManager ;
+import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 
-import com.sun.corba.ee.spi.oa.rfm.ReferenceFactoryManager ;
-import com.sun.corba.ee.spi.oa.rfm.ReferenceFactory ;
+import com.sun.corba.ee.spi.oa.rfm.ReferenceFactoryManager;
+import com.sun.corba.ee.spi.oa.rfm.ReferenceFactory;
 
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
-import com.sun.corba.ee.impl.naming.cosnaming.TransientNameService ;
+import com.sun.corba.ee.impl.naming.cosnaming.TransientNameService;
 
-import com.sun.corba.ee.impl.javax.rmi.PortableRemoteObject ;
-import com.sun.corba.ee.impl.javax.rmi.CORBA.StubDelegateImpl ;
-import com.sun.corba.ee.impl.javax.rmi.CORBA.Util ;
+import com.sun.corba.ee.impl.javax.rmi.PortableRemoteObject;
+import com.sun.corba.ee.impl.javax.rmi.CORBA.StubDelegateImpl;
+import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
 
-import com.sun.corba.ee.spi.extension.ServantCachingPolicy ;
+import com.sun.corba.ee.spi.extension.ServantCachingPolicy;
 
-import performance.eesample.wspex.Address ;
-import performance.eesample.wspex.ArrayOfLineItem ;
-import performance.eesample.wspex.Customer ;
-import performance.eesample.wspex.EchoOrderRequest ;
-import performance.eesample.wspex.EchoOrderResponse ;
-import performance.eesample.wspex.Item ;
+import performance.eesample.wspex.Address;
+import performance.eesample.wspex.ArrayOfLineItem;
+import performance.eesample.wspex.Customer;
+import performance.eesample.wspex.EchoOrderRequest;
+import performance.eesample.wspex.EchoOrderResponse;
+import performance.eesample.wspex.Item;
 import performance.eesample.wspex.ItemArrayType;
-import performance.eesample.wspex.LineItem ;
-import performance.eesample.wspex.Location ;
-import performance.eesample.wspex.Order ;
-import performance.eesample.wspex.Struct ;
-import performance.eesample.wspex.Synthetic ;
+import performance.eesample.wspex.LineItem;
+import performance.eesample.wspex.Location;
+import performance.eesample.wspex.Order;
+import performance.eesample.wspex.Struct;
+import performance.eesample.wspex.Synthetic;
 import performance.eesample.wspex.components.OrderBL;
 
-import com.sun.japex.JapexDriverBase ;
-import com.sun.japex.TestCase ;
+import com.sun.japex.JapexDriverBase;
+import com.sun.japex.TestCase;
 import org.glassfish.pfl.basic.tools.argparser.ArgParser;
 import org.glassfish.pfl.basic.tools.argparser.DefaultValue;
 import org.glassfish.pfl.dynamic.codegen.spi.GenericClass;

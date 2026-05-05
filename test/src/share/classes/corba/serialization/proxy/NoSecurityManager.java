@@ -20,10 +20,8 @@
 package corba.serialization.proxy;
 
 import java.io.FileDescriptor;
-import java.util.Hashtable;
 import java.net.InetAddress;
-import java.lang.reflect.Member;
-import java.security.*;
+import java.security.Permission;
 
 /**
  * Allows everything.  The No Security Security Manager.

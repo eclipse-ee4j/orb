@@ -27,7 +27,7 @@ import java.io.Serializable;
 import java.rmi.Remote;
 
 import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopier;
-import org.omg.CORBA.ORB ;
+import org.omg.CORBA.ORB;
 import org.omg.CORBA_2_3.portable.InputStream;
 import org.omg.CORBA_2_3.portable.OutputStream;
 

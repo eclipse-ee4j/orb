@@ -24,20 +24,19 @@
 
 package corba.folb_8_1;
 
+import com.sun.corba.ee.impl.misc.ORBUtility;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.ior.TaggedComponent;
+import com.sun.corba.ee.spi.ior.iiop.IIOPAddress;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
+import com.sun.corba.ee.spi.transport.IORToSocketInfo;
+import com.sun.corba.ee.spi.transport.SocketInfo;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.omg.CORBA.Any;
-
-import com.sun.corba.ee.spi.ior.IOR;
-import com.sun.corba.ee.spi.ior.TaggedComponent;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPAddress ;
-import com.sun.corba.ee.spi.transport.IORToSocketInfo;
-import com.sun.corba.ee.spi.transport.SocketInfo;
-
-import com.sun.corba.ee.impl.misc.ORBUtility;
 
 public class IORToSocketInfoImpl
     implements IORToSocketInfo

@@ -21,6 +21,7 @@
 package ibmspace.server;
 
 import java.awt.Point;
+
 import ibmspace.common.ID;
 import ibmspace.common.PlanetView;
 

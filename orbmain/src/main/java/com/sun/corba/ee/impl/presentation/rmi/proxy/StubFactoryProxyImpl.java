@@ -20,10 +20,10 @@
 package com.sun.corba.ee.impl.presentation.rmi.proxy ;
 
 import com.sun.corba.ee.impl.presentation.rmi.StubFactoryDynamicBase;
-import com.sun.corba.ee.spi.presentation.rmi.DynamicStub ;
-import com.sun.corba.ee.spi.presentation.rmi.PresentationManager ;
+import com.sun.corba.ee.spi.presentation.rmi.DynamicStub;
+import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 
-import java.lang.reflect.Proxy ;
+import java.lang.reflect.Proxy;
 
 import org.glassfish.pfl.basic.proxy.InvocationHandlerFactory;
 import org.glassfish.pfl.basic.proxy.LinkedInvocationHandler;

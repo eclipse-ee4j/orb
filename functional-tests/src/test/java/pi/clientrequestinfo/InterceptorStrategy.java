@@ -19,8 +19,8 @@
 
 package pi.clientrequestinfo;
 
-import com.sun.corba.ee.impl.interceptors.*;
-import org.omg.PortableInterceptor.*;
+import org.omg.PortableInterceptor.ClientRequestInfo;
+import org.omg.PortableInterceptor.ForwardRequest;
 
 /**
  * Base class for all client request interceptor strategies used in this

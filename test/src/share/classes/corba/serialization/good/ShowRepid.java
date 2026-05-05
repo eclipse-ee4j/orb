@@ -38,8 +38,11 @@
  */
 package corba.serialization.good;
 
-import java.io.*;
 import com.sun.corba.ee.impl.util.RepositoryId;
+
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
 public class ShowRepid implements Serializable {
     static final long serialVersionUID = 0x1234;

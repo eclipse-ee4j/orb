@@ -31,16 +31,17 @@
 
 package ibmspace.server;
 
-import ibmspace.common.GameView;
-import ibmspace.common.Planet;
-import ibmspace.common.SpaceConquest;
-
-import javax.naming.InitialContext;
-import javax.rmi.PortableRemoteObject;
 import java.lang.reflect.Array;
 import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import java.util.Vector;
+
+import javax.naming.InitialContext;
+import javax.rmi.PortableRemoteObject;
+
+import ibmspace.common.GameView;
+import ibmspace.common.Planet;
+import ibmspace.common.SpaceConquest;
 
 public class SpaceConquestServer extends PortableRemoteObject implements SpaceConquest
 {

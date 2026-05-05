@@ -29,12 +29,9 @@
 
 package javax.rmi.CORBA.serialization;
 
-import javax.rmi.CORBA.serialization.*;
-import javax.rmi.CORBA.*;
-import rmic.ObjectByValue;
+import java.util.Properties;
 
-import java.io.*;
-import java.util.Properties ;
+import rmic.ObjectByValue;
 
 public class IIOPPerformance extends test.Test
 {

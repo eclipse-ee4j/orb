@@ -21,7 +21,6 @@
 package test;
 
 import javax.rmi.PortableContext;
-import javax.rmi.PortableRemoteObject;
 
 public class HelloClient {
 

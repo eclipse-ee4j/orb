@@ -19,9 +19,9 @@
 
 package com.sun.corba.ee.spi.ior;
 
-import com.sun.corba.ee.impl.ior.EncapsulationUtility ;
+import com.sun.corba.ee.impl.ior.EncapsulationUtility;
 
-import org.omg.CORBA_2_3.portable.OutputStream ;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 /** Provide support for properly reading and writing Identifiable objects
 * that are also encapsulations (tagged profiles and components).

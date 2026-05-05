@@ -20,8 +20,7 @@
 
 package javax.rmi.CORBA.serialization;
 
-import java.util.*;
-import java.io.*;
+import java.util.Random;
 
 public class OBVTestObjectCustomImpl extends OBVTestObjectCustom {
     private static Random r = new Random();

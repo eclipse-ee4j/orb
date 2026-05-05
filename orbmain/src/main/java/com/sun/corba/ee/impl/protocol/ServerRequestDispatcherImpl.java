@@ -23,13 +23,13 @@ package com.sun.corba.ee.impl.protocol;
 
 
 
-import com.sun.corba.ee.impl.corba.ServerRequestImpl ;
+import com.sun.corba.ee.impl.corba.ServerRequestImpl;
 import com.sun.corba.ee.impl.encoding.CDROutputObject;
 import com.sun.corba.ee.impl.encoding.CodeSetComponentInfo;
 import com.sun.corba.ee.impl.encoding.MarshalInputStream;
 import com.sun.corba.ee.impl.encoding.OSFCodeSetRegistry;
 import com.sun.corba.ee.impl.misc.ORBUtility;
-import com.sun.corba.ee.spi.ior.IOR ;
+import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.ior.ObjectAdapterId;
 import com.sun.corba.ee.spi.ior.ObjectKey;
 import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
@@ -44,7 +44,7 @@ import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.orb.ORBVersion;
 import com.sun.corba.ee.spi.orb.ORBVersionFactory;
 import com.sun.corba.ee.spi.orb.ObjectKeyCacheEntry;
-import com.sun.corba.ee.spi.protocol.ForwardException ;
+import com.sun.corba.ee.spi.protocol.ForwardException;
 import com.sun.corba.ee.spi.protocol.MessageMediator;
 import com.sun.corba.ee.spi.protocol.RequestDispatcherRegistry;
 import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher;

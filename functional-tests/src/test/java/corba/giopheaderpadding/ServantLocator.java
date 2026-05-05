@@ -24,14 +24,12 @@
 
 package corba.giopheaderpadding;
 
-import org.omg.CORBA.ORB;
-import org.omg.CORBA.OBJECT_NOT_EXIST;
+import corba.hcks.U;
+
 import org.omg.PortableServer.ForwardRequest;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.Servant;
 import org.omg.PortableServer.ServantLocatorPackage.CookieHolder;
-
-import corba.hcks.U;
 
 public class ServantLocator extends org.omg.CORBA.LocalObject
     implements org.omg.PortableServer.ServantLocator {

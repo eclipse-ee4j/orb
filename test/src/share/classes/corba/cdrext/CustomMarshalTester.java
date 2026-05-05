@@ -19,8 +19,12 @@
 
 package corba.cdrext;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 public class CustomMarshalTester extends MarshalTester implements Serializable
 {

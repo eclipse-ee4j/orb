@@ -19,9 +19,10 @@
 
 package corba.cdrext;
 
+import java.io.Externalizable;
+import java.io.Serializable;
 import java.rmi.Remote;
-import java.io.*;
-import java.util.*;
+import java.util.Arrays;
 
 /**
  * Class with all basic fields plus a recursive, Object,

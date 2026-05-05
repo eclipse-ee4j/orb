@@ -21,7 +21,7 @@ package com.sun.corba.ee.spi.protocol;
 
 import com.sun.corba.ee.impl.protocol.giopmsgheaders.LocateRequestMessage;
 import com.sun.corba.ee.impl.protocol.giopmsgheaders.RequestMessage;
-import com.sun.corba.ee.spi.ior.IOR ;
+import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.servicecontext.ServiceContexts;
 
 import org.omg.CORBA.CompletionStatus;

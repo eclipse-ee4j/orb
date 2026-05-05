@@ -19,10 +19,10 @@
 
 package naming.instest;
 
-import java.util.Properties;
-import java.util.Hashtable;
-import com.sun.corba.ee.spi.misc.ORBConstants;
 import java.io.PrintStream;
+import java.util.Hashtable;
+import java.util.Properties;
+
 import org.omg.CORBA.ORB;
 
 public class INSServer

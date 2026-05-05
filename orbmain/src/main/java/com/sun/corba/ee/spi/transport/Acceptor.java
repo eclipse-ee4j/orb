@@ -29,9 +29,9 @@ import com.sun.corba.ee.spi.protocol.MessageMediator;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import org.glassfish.gmbal.Description ;
-import org.glassfish.gmbal.ManagedAttribute ;
-import org.glassfish.gmbal.ManagedObject ;
+import org.glassfish.gmbal.Description;
+import org.glassfish.gmbal.ManagedAttribute;
+import org.glassfish.gmbal.ManagedObject;
 
 /**
  * @author Harold Carr

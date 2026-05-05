@@ -22,10 +22,10 @@ package ibmspace.server;
 
 import java.awt.Point;
 import java.util.Vector;
+
+import ibmspace.common.Fleet;
 import ibmspace.common.ID;
 import ibmspace.common.Planet;
-import ibmspace.common.Fleet;
-import java.lang.reflect.Array;
 
 public class PlanetImpl implements Planet, java.io.Serializable
 {

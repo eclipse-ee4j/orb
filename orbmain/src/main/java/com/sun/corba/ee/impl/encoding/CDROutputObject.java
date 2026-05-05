@@ -26,12 +26,12 @@ import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 import com.sun.corba.ee.spi.logging.OMGSystemException;
 import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.orb.ORB;
-import com.sun.corba.ee.spi.protocol.MessageMediator ;
-import com.sun.corba.ee.spi.trace.CdrWrite ;
+import com.sun.corba.ee.spi.protocol.MessageMediator;
+import com.sun.corba.ee.spi.trace.CdrWrite;
 import com.sun.corba.ee.spi.transport.Connection;
 import com.sun.corba.ee.spi.transport.TransportManager;
 
-import java.io.IOException ;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.lang.reflect.Field;
 import java.nio.ByteBuffer;

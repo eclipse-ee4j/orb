@@ -19,8 +19,8 @@
 
 package com.sun.corba.ee.impl.resolver ;
 
-import com.sun.corba.ee.spi.orb.Operation ;
-import com.sun.corba.ee.spi.resolver.Resolver ;
+import com.sun.corba.ee.spi.orb.Operation;
+import com.sun.corba.ee.spi.resolver.Resolver;
 
 import java.util.Set;
 

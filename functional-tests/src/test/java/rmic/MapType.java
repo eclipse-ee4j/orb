@@ -22,11 +22,11 @@
 package rmic;
 
 import org.glassfish.rmic.Names;
-import org.glassfish.rmic.iiop.Type;
 import org.glassfish.rmic.iiop.CompoundType;
 import org.glassfish.rmic.iiop.ContextStack;
-import org.glassfish.rmic.tools.java.ClassPath;
+import org.glassfish.rmic.iiop.Type;
 import org.glassfish.rmic.tools.java.ClassDeclaration;
+import org.glassfish.rmic.tools.java.ClassPath;
 import org.glassfish.rmic.tools.java.Identifier;
 
 public class MapType extends CompoundType {

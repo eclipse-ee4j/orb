@@ -19,19 +19,17 @@
 
 package corba.simpledynamic;
 
-import java.util.Map ;
-import java.util.HashMap ;
+import com.sun.corba.ee.spi.logging.UtilSystemException;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
-import javax.rmi.PortableRemoteObject ;
+import corba.misc.BuckPasserAL;
+import corba.misc.BuckPasserV;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import java.rmi.RemoteException;
+import java.util.HashMap;
+import java.util.Map;
 
-import com.sun.corba.ee.spi.logging.UtilSystemException ;
+import javax.rmi.PortableRemoteObject;
 
-import corba.misc.BuckPasserAL  ;
-import corba.misc.BuckPasserV  ;
 import org.glassfish.pfl.basic.contain.Pair;
 
 public class EchoImpl extends PortableRemoteObject implements Echo {

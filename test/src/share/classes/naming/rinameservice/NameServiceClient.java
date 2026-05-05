@@ -19,12 +19,16 @@
 
 package naming.rinameservice;
 
-import org.omg.CosNaming.*;
-import org.omg.CORBA.*;
-import corba.framework.*;
-import java.util.*;
-import java.io.*;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+
+import corba.framework.InternalProcess;
+
+import java.io.PrintStream;
+import java.util.Hashtable;
+import java.util.Properties;
+
+import org.omg.CORBA.ORB;
+import org.omg.CosNaming.NameComponent;
 
 /**
  * NameServiceClient just tests that StandAlone Name Service that we

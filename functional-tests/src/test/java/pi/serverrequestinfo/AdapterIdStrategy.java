@@ -19,14 +19,14 @@
 
 package pi.serverrequestinfo;
 
-import org.omg.CORBA.*;
-import com.sun.corba.ee.impl.interceptors.*;
-import org.omg.PortableInterceptor.*;
-import org.omg.Messaging.*;
 import com.sun.corba.ee.impl.misc.HexOutputStream;
 
-import java.util.*;
-import java.io.*;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.Arrays;
+
+import org.omg.PortableInterceptor.ForwardRequest;
+import org.omg.PortableInterceptor.ServerRequestInfo;
 
 /**
  * Strategy to further test adapter_id() (only executed for POA)

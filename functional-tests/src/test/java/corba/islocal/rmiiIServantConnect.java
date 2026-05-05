@@ -24,10 +24,11 @@
 
 package corba.islocal;
 
-import java.rmi.RemoteException;
-import javax.rmi.PortableRemoteObject;
-
 import corba.hcks.U;
+
+import java.rmi.RemoteException;
+
+import javax.rmi.PortableRemoteObject;
 
 public class rmiiIServantConnect
     extends

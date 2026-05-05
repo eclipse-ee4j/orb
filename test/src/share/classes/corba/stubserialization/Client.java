@@ -19,52 +19,28 @@
 
 package corba.stubserialization  ;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
-import java.rmi.UnexpectedException ;
+import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
 
-import java.io.Serializable ;
-import java.io.Externalizable ;
+import corba.framework.TestngRunner;
 
-import javax.rmi.CORBA.Tie ;
-
-import org.omg.CORBA.BAD_PARAM ;
-import org.omg.CORBA.BAD_OPERATION ;
-import org.omg.CORBA.SystemException ;
-import org.omg.CORBA.portable.ApplicationException ;
-import org.omg.CORBA.portable.ResponseHandler ;
-import org.omg.CORBA.portable.UnknownException ;
-import org.omg.CORBA.portable.Delegate ;
-import org.omg.CORBA_2_3.portable.InputStream ;
-import org.omg.CORBA_2_3.portable.OutputStream ;
-
-import org.omg.CosNaming.*;
-import org.omg.CORBA.ORB;
-
-import java.util.Map ;
-import java.util.Set ;
-import java.util.HashSet ;
-import java.util.Properties ;
-
-import java.lang.reflect.Proxy;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException ;
-
-import javax.naming.NamingException;
-import javax.naming.InitialContext;
-import javax.naming.Context;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintStream;
+import java.rmi.Remote;
 
 import javax.rmi.PortableRemoteObject;
+import javax.rmi.CORBA.Tie;
 import javax.rmi.CORBA.Util;
 
-import corba.framework.*;
-import java.util.*;
-import java.io.*;
-
-import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
-
-import org.testng.Assert ;
-import org.testng.annotations.Test ;
+import org.omg.CORBA.ORB;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextExt;
+import org.omg.CosNaming.NamingContextHelper;
+import org.testng.annotations.Test;
 
 /**
  * This tests that Stub serialization and deserialization to and from the

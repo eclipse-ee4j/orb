@@ -24,11 +24,12 @@
 
 package pi.serviceexample;
 
-import org.omg.CORBA.ORB;
-import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
-
 import java.util.Properties;
+
+import org.omg.CORBA.ORB;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
 
 public class Client
 {

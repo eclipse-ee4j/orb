@@ -28,7 +28,7 @@ package com.sun.corba.ee.impl.folb;
 import com.sun.corba.ee.spi.folb.ClusterInstanceInfo;
 import com.sun.corba.ee.spi.folb.GroupInfoService;
 import com.sun.corba.ee.spi.folb.GroupInfoServiceObserver;
-import com.sun.corba.ee.spi.trace.Folb ;
+import com.sun.corba.ee.spi.trace.Folb;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

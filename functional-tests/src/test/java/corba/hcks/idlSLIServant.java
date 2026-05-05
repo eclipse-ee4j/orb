@@ -24,8 +24,8 @@
 
 package corba.hcks;
 
-import org.omg.CORBA.ORB;
 import org.omg.CORBA.NO_MEMORY;
+import org.omg.CORBA.ORB;
 
 class idlSLIServant
     extends

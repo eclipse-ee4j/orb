@@ -19,14 +19,12 @@
 
 package pi.clientinterceptor;
 
-import org.omg.PortableInterceptor.*;
-import org.omg.PortableInterceptor.ORBInitInfoPackage.*;
+import java.io.PrintStream;
 
-import java.util.*;
-import java.io.*;
-import org.omg.CORBA.*;
-
-import ClientRequestInterceptor.*; // hello interface
+import org.omg.CORBA.ORB;
+import org.omg.PortableInterceptor.ClientRequestInterceptor;
+import org.omg.PortableInterceptor.ORBInitializer;
+import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
 /**
  * Registers the necessary Client Interceptors to test

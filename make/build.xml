@@ -21,7 +21,7 @@
 
 -->
 
-<project name="corba-main" default="all" basedir="..">
+<project name="corba-main" default="test" basedir="..">
     <description>
         This is the Ant file that builds the GlassFish ORB.
     </description>

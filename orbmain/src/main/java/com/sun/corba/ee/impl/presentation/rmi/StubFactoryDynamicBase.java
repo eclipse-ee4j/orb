@@ -19,8 +19,8 @@
 
 package com.sun.corba.ee.impl.presentation.rmi ;
 
-import com.sun.corba.ee.spi.misc.ORBClassLoader ;
-import com.sun.corba.ee.spi.presentation.rmi.PresentationManager ;
+import com.sun.corba.ee.spi.misc.ORBClassLoader;
+import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 
 import java.io.SerializablePermission;
 

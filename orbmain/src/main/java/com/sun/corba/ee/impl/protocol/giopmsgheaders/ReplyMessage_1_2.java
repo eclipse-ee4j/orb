@@ -23,13 +23,13 @@ import com.sun.corba.ee.impl.encoding.CDRInputObject;
 import com.sun.corba.ee.impl.encoding.CDROutputObject;
 import com.sun.corba.ee.impl.misc.ORBUtility;
 import com.sun.corba.ee.spi.ior.IOR;
-import com.sun.corba.ee.spi.ior.IORFactories ;
+import com.sun.corba.ee.spi.ior.IORFactories;
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.servicecontext.ServiceContextDefaults;
 import com.sun.corba.ee.spi.servicecontext.ServiceContexts;
-import com.sun.corba.ee.spi.trace.Transport ;
+import com.sun.corba.ee.spi.trace.Transport;
 
 import org.omg.CORBA.CompletionStatus;
 import org.omg.CORBA.SystemException;

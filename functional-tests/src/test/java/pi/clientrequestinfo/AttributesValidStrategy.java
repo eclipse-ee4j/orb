@@ -19,10 +19,10 @@
 
 package pi.clientrequestinfo;
 
-import org.omg.CORBA.*;
-import com.sun.corba.ee.impl.interceptors.*;
-import org.omg.PortableInterceptor.*;
-import org.omg.Messaging.*;
+import org.omg.CORBA.BAD_INV_ORDER;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
+import org.omg.PortableInterceptor.ClientRequestInfo;
+import org.omg.PortableInterceptor.ForwardRequest;
 
 /**
  * Strategy to test operations()

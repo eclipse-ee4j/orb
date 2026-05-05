@@ -19,6 +19,8 @@
 
 package corba.rogueclient;
 
+import com.sun.corba.ee.impl.misc.ORBUtility;
+import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
 import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 import com.sun.corba.ee.spi.ior.iiop.IIOPAddress;
@@ -27,9 +29,6 @@ import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
 import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
 import com.sun.corba.ee.spi.protocol.ClientDelegate;
 import com.sun.corba.ee.spi.transport.ContactInfoList;
-import com.sun.corba.ee.impl.misc.ORBUtility;
-import com.sun.corba.ee.impl.protocol.giopmsgheaders.Message;
-
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -37,10 +36,11 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.channels.SocketChannel;
 import java.rmi.RemoteException;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.naming.InitialContext;
 import javax.rmi.PortableRemoteObject;
 
-import java.util.concurrent.atomic.AtomicInteger ;
 import org.glassfish.pfl.test.JUnitReportHelper;
 
 public class RogueClient implements Runnable

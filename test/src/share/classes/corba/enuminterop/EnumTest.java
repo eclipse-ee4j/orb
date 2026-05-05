@@ -22,6 +22,7 @@ package corba.enuminterop;
 import corba.framework.CORBATest;
 import corba.framework.Controller;
 import corba.framework.Options;
+
 import java.util.Properties;
 
 public class EnumTest extends CORBATest {

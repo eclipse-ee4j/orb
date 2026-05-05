@@ -19,13 +19,13 @@
 
 package com.sun.corba.ee.spi.orbutil.fsm ;
 
-import com.sun.corba.ee.spi.orbutil.fsm.Input ;
-import com.sun.corba.ee.spi.orbutil.fsm.Action ;
-import com.sun.corba.ee.spi.orbutil.fsm.Guard ;
-import com.sun.corba.ee.spi.orbutil.fsm.StateEngine ;
-import com.sun.corba.ee.spi.orbutil.fsm.StateImpl ;
-import com.sun.corba.ee.spi.orbutil.fsm.StateEngineFactory ;
-import com.sun.corba.ee.spi.orbutil.fsm.FSM ;
+import com.sun.corba.ee.spi.orbutil.fsm.Input;
+import com.sun.corba.ee.spi.orbutil.fsm.Action;
+import com.sun.corba.ee.spi.orbutil.fsm.Guard;
+import com.sun.corba.ee.spi.orbutil.fsm.StateEngine;
+import com.sun.corba.ee.spi.orbutil.fsm.StateImpl;
+import com.sun.corba.ee.spi.orbutil.fsm.StateEngineFactory;
+import com.sun.corba.ee.spi.orbutil.fsm.FSM;
 
 
 import test.Test;

@@ -19,14 +19,16 @@
 
 package corba.multiorb;
 
-import examples.policy_2;
-import examples.policy_2Helper;
 import java.util.Properties;
+
 import org.glassfish.pfl.test.JUnitReportHelper;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContext;
 import org.omg.CosNaming.NamingContextHelper;
+
+import examples.policy_2;
+import examples.policy_2Helper;
 
 public class policy2Client {
     private static final String msgPassed = "policy_2: **PASSED**";

@@ -19,15 +19,13 @@
 
 package pi.clientrequestinfo;
 
-import org.omg.CORBA.*;
+import java.io.PrintStream;
+import java.rmi.RemoteException;
 
-import java.io.*;
-import java.rmi.*;
-import javax.rmi.*;
-import javax.naming.*;
-import org.omg.CORBA.*;
+import javax.rmi.PortableRemoteObject;
 
-import ClientRequestInfo.*; // hello interface
+// hello interface
+import ClientRequestInfo.ExampleException;
 
 /**
  * RMI/IIOP implementation.

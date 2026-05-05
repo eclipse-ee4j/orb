@@ -20,14 +20,14 @@
 
 package com.sun.corba.ee.impl.ior;
 
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.orb.ORBVersion ;
-import com.sun.corba.ee.spi.orb.ORBVersionFactory ;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ORBVersion;
+import com.sun.corba.ee.spi.orb.ORBVersionFactory;
 
-import org.omg.CORBA.INTERNAL ;
-import org.omg.CORBA.OctetSeqHolder ;
-import org.omg.CORBA_2_3.portable.InputStream ;
-import org.omg.CORBA_2_3.portable.OutputStream ;
+import org.omg.CORBA.INTERNAL;
+import org.omg.CORBA.OctetSeqHolder;
+import org.omg.CORBA_2_3.portable.InputStream;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 
 /**
