@@ -44,6 +44,7 @@ public class ModuleGen implements com.sun.tools.corba.ee.idl.ModuleGen
   /**
    * Generate Java code for all members of an IDL module.
    **/
+  @Override
   public void generate (Hashtable symbolTable, ModuleEntry entry, PrintWriter stream)
   {
     // Generate the package directory

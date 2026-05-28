@@ -31,6 +31,7 @@ package com.sun.org.omg.CORBA.ValueDefPackage;
 
 public final class FullValueDescription implements org.omg.CORBA.portable.IDLEntity
 {
+    private static final long serialVersionUID = -7949114118936779263L;
     public String name = null;
     public String id = null;
     public boolean is_abstract = false;

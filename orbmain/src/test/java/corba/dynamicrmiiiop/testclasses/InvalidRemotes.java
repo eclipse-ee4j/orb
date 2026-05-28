@@ -33,43 +33,49 @@ public class InvalidRemotes {
     // RMI/IDL Exceptions should not extend java.rmi.Remote, either directly
     // or indirectly
     public class InvalidException1 extends java.lang.Exception
-        implements java.rmi.Remote {}
+        implements java.rmi.Remote {
+
+        private static final long serialVersionUID = -3444330266790996979L;}
 
     // RMI/IDL Exceptions should not extend java.rmi.Remote, either directly
     // or indirectly
-    public class InvalidException2 extends InvalidException1 {}
+    public class InvalidException2 extends InvalidException1 {
+
+        private static final long serialVersionUID = -8592766989383920502L;}
 
     // contains method with invalid exception type
     public interface InvalidRemote3 extends java.rmi.Remote {
-        public void foo1() throws java.rmi.RemoteException, InvalidException1;
+        void foo1() throws java.rmi.RemoteException, InvalidException1;
     }
 
     // contains method with invalid exception type
     public interface InvalidRemote4 extends java.rmi.Remote {
-        public void foo1() throws java.rmi.RemoteException, InvalidException2;
+        void foo1() throws java.rmi.RemoteException, InvalidException2;
     }
 
     // Each remote method should throw java.rmi.RemoteException or one of its
     // super-class exception types.
     public interface InvalidRemote5 extends java.rmi.Remote {
-        public void foo1();
+        void foo1();
     }
 
     // contains method with invalid exception type
     public interface InvalidRemote6 extends java.rmi.Remote {
-        public void foo1() throws java.rmi.RemoteException, java.lang.Error;
+        void foo1() throws java.rmi.RemoteException, java.lang.Error;
     }
 
     // contains method with invalid exception type
     public interface InvalidRemote7 extends java.rmi.Remote {
-        public void foo1() throws java.rmi.RemoteException,
+        void foo1() throws java.rmi.RemoteException,
             java.lang.RuntimeException;
     }
 
-    private class InvalidException3 extends java.lang.RuntimeException {}
+    private class InvalidException3 extends java.lang.RuntimeException {
+
+        private static final long serialVersionUID = -9183650714946922817L;}
     // contains method with invalid exception type
     public interface InvalidRemote8 extends java.rmi.Remote {
-        public void foo1() throws java.rmi.RemoteException,
+        void foo1() throws java.rmi.RemoteException,
             InvalidException3;
     }
 
@@ -125,6 +131,7 @@ public class InvalidRemotes {
     // method with the same name.  doesn't matter if a method with the same
     // name is defined in the most derived interface
     public interface InvalidRemote15 extends G, java.rmi.Remote, H {
+        @Override
         void foo() throws java.rmi.RemoteException;
     }
 

@@ -41,113 +41,115 @@ import org.omg.CORBA_2_3.portable.InputStream;
 /**
  * @author Harold Carr
  */
-public abstract interface MessageMediator
+public interface MessageMediator
     extends
         ResponseHandler
 {
     RequestId getRequestIdFromRawBytes();
-    public void setReplyHeader(LocateReplyOrReplyMessage header);
-    public LocateReplyMessage getLocateReplyHeader();
-    public ReplyMessage getReplyHeader();
-    public void setReplyExceptionDetailMessage(String message);
-    public RequestMessage getRequestHeader();
-    public GIOPVersion getGIOPVersion();
-    public byte getEncodingVersion();
-    public int getRequestId();
-    public boolean isOneWay();
-    public String getOperationName();
-    public ServiceContexts getRequestServiceContexts();
-    public void setRequestServiceContexts(ServiceContexts sc);
-    public ServiceContexts getReplyServiceContexts();
-    public Message getDispatchHeader();
-    public int getThreadPoolToUse();
-    public boolean dispatch();
-    public byte getStreamFormatVersion(); // REVIST name ForRequest?
-    public byte getStreamFormatVersionForReply();
+    void setReplyHeader(LocateReplyOrReplyMessage header);
+    LocateReplyMessage getLocateReplyHeader();
+    ReplyMessage getReplyHeader();
+    void setReplyExceptionDetailMessage(String message);
+    RequestMessage getRequestHeader();
+    GIOPVersion getGIOPVersion();
+    byte getEncodingVersion();
+    int getRequestId();
+    boolean isOneWay();
+    String getOperationName();
+    ServiceContexts getRequestServiceContexts();
+    void setRequestServiceContexts(ServiceContexts sc);
+    ServiceContexts getReplyServiceContexts();
+    Message getDispatchHeader();
+    int getThreadPoolToUse();
+    boolean dispatch();
+    byte getStreamFormatVersion(); // REVIST name ForRequest?
+    byte getStreamFormatVersionForReply();
 
     // REVISIT - not sure if the final fragment and DII stuff should
     // go here.
 
-    public void sendCancelRequestIfFinalFragmentNotSent();
+    void sendCancelRequestIfFinalFragmentNotSent();
 
-    public void setDIIInfo(org.omg.CORBA.Request request);
-    public boolean isDIIRequest();
-    public Exception unmarshalDIIUserException(String repoId,
+    void setDIIInfo(org.omg.CORBA.Request request);
+    boolean isDIIRequest();
+    Exception unmarshalDIIUserException(String repoId,
                                                InputStream inputStream);
-    public void setDIIException(Exception exception);
-    public void handleDIIReply(InputStream inputStream);
+    void setDIIException(Exception exception);
+    void handleDIIReply(InputStream inputStream);
 
-    public boolean isSystemExceptionReply();
-    public boolean isUserExceptionReply();
-    public boolean isLocationForwardReply();
-    public boolean isDifferentAddrDispositionRequestedReply();
-    public short getAddrDispositionReply();
-    public IOR getForwardedIOR();
-    public SystemException getSystemExceptionReply();
-    public void cancelRequest();
+    boolean isSystemExceptionReply();
+    boolean isUserExceptionReply();
+    boolean isLocationForwardReply();
+    boolean isDifferentAddrDispositionRequestedReply();
+    short getAddrDispositionReply();
+    IOR getForwardedIOR();
+    SystemException getSystemExceptionReply();
+    void cancelRequest();
 
     ////////////////////////////////////////////////////
     //
     // Server side
     //
 
-    public ObjectKeyCacheEntry getObjectKeyCacheEntry();
-    public ProtocolHandler getProtocolHandler();
+    ObjectKeyCacheEntry getObjectKeyCacheEntry();
+    ProtocolHandler getProtocolHandler();
 
     ////////////////////////////////////////////////////
     //
     // ResponseHandler
     //
 
-    public org.omg.CORBA.portable.OutputStream createReply();
-    public org.omg.CORBA.portable.OutputStream createExceptionReply();
+    @Override
+    org.omg.CORBA.portable.OutputStream createReply();
+    @Override
+    org.omg.CORBA.portable.OutputStream createExceptionReply();
 
     ////////////////////////////////////////////////////
     //
     // from core.ServerRequest
     //
 
-    public boolean executeReturnServantInResponseConstructor();
+    boolean executeReturnServantInResponseConstructor();
 
-    public void setExecuteReturnServantInResponseConstructor(boolean b);
+    void setExecuteReturnServantInResponseConstructor(boolean b);
 
-    public boolean executeRemoveThreadInfoInResponseConstructor();
+    boolean executeRemoveThreadInfoInResponseConstructor();
 
-    public void setExecuteRemoveThreadInfoInResponseConstructor(boolean b);
+    void setExecuteRemoveThreadInfoInResponseConstructor(boolean b);
 
-    public boolean executePIInResponseConstructor();
+    boolean executePIInResponseConstructor();
 
-    public void setExecutePIInResponseConstructor( boolean b );
+    void setExecutePIInResponseConstructor( boolean b );
 
-    public ORB getBroker();
+    ORB getBroker();
 
-    public ContactInfo getContactInfo();
+    ContactInfo getContactInfo();
 
-    public Connection getConnection();
+    Connection getConnection();
 
     /**
      * Used to initialize message headers.
      *
      * Note: this should be moved to a <code>RequestDispatcher</code>.
      */
-    public void initializeMessage();
+    void initializeMessage();
 
     /**
      * Used to send the message (or its last fragment).
      *
      * Note: this should be moved to a <code>RequestDispatcher</code>.
      */
-    public void finishSendingRequest();
+    void finishSendingRequest();
 
-    public CDRInputObject waitForResponse();
+    CDRInputObject waitForResponse();
 
-    public void setOutputObject(CDROutputObject outputObject);
+    void setOutputObject(CDROutputObject outputObject);
 
-    public CDROutputObject getOutputObject();
+    CDROutputObject getOutputObject();
 
-    public void setInputObject(CDRInputObject inputObject);
+    void setInputObject(CDRInputObject inputObject);
 
-    public CDRInputObject getInputObject();
+    CDRInputObject getInputObject();
 }
 
 // End of file.

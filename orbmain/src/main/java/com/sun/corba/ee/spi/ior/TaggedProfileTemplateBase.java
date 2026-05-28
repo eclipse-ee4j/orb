@@ -30,11 +30,13 @@ public abstract class TaggedProfileTemplateBase
     extends IdentifiableContainerBase<TaggedComponent>
     implements TaggedProfileTemplate
 {
+    @Override
     public void write( OutputStream os )
     {
         EncapsulationUtility.writeEncapsulation( this, os ) ;
     }
 
+    @Override
     public org.omg.IOP.TaggedComponent[] getIOPComponents( ORB orb, int id )
     {
         int count = 0 ;
@@ -57,6 +59,7 @@ public abstract class TaggedProfileTemplateBase
         return result ;
     }
 
+    @Override
     public <T extends TaggedComponent> Iterator<T> iteratorById( int id,
         Class<T> cls ) {
 

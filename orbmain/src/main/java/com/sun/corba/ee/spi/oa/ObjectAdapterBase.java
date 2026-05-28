@@ -109,20 +109,25 @@ abstract public class ObjectAdapterBase extends org.omg.CORBA.LocalObject
         return adapterId ;
     }
 
+    @Override
     final public ORB getORB()
     {
         return orb ;
     }
 
+    @Override
     abstract public Policy getEffectivePolicy( int type ) ;
 
+    @Override
     final public IORTemplate getIORTemplate()
     {
         return iortemp ;
     }
 
+    @Override
     abstract public int getManagerId() ;
 
+    @Override
     abstract public short getState() ;
 
     @ManagedAttribute( id="State" )
@@ -139,35 +144,44 @@ abstract public class ObjectAdapterBase extends org.omg.CORBA.LocalObject
         }
     }
 
+    @Override
     final public ObjectReferenceTemplate getAdapterTemplate()
     {
         return adapterTemplate ;
     }
 
+    @Override
     final public ObjectReferenceFactory getCurrentFactory()
     {
         return currentFactory ;
     }
 
+    @Override
     final public void setCurrentFactory( ObjectReferenceFactory factory )
     {
         currentFactory = factory ;
     }
 
+    @Override
     abstract public org.omg.CORBA.Object getLocalServant( byte[] objectId ) ;
 
+    @Override
     abstract public void getInvocationServant( OAInvocationInfo info ) ;
 
+    @Override
     abstract public void returnServant() ;
 
+    @Override
     abstract public void enter() throws OADestroyed ;
 
+    @Override
     abstract public void exit() ;
 
     abstract protected ObjectCopierFactory getObjectCopierFactory() ;
 
     // Note that all current subclasses share the same implementation of this method,
     // but overriding it would make sense for OAs that use a different InvocationInfo.
+    @Override
     public OAInvocationInfo makeInvocationInfo( byte[] objectId )
     {
         OAInvocationInfo info = new OAInvocationInfo( this, objectId ) ;
@@ -175,12 +189,15 @@ abstract public class ObjectAdapterBase extends org.omg.CORBA.LocalObject
         return info ;
     }
 
+    @Override
     abstract public String[] getInterfaces( Object servant, byte[] objectId ) ;
 
+    @Override
     public boolean isNameService() {
         return isNameService ;
     }
 
+    @Override
     public void setNameService( boolean flag ) {
         isNameService = flag ;
     }

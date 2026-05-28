@@ -44,6 +44,7 @@ class CastExpression extends BinaryExpression {
     /**
      * Check the expression
      */
+    @Override
     public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         type = left.toType(env, ctx);
         vset = right.checkValue(env, ctx, vset, exp);
@@ -75,6 +76,7 @@ class CastExpression extends BinaryExpression {
     /**
      * Check if constant
      */
+    @Override
     public boolean isConstant() {
         if (type.inMask(TM_REFERENCE) && !type.equals(Type.tString)) {
             // must be a primitive type, or String
@@ -86,14 +88,17 @@ class CastExpression extends BinaryExpression {
     /**
      * Inline
      */
+    @Override
     public Expression inline(Environment env, Context ctx) {
         return right.inline(env, ctx);
     }
+    @Override
     public Expression inlineValue(Environment env, Context ctx) {
         return right.inlineValue(env, ctx);
     }
 
 
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         if (ctx == null) {
             return 1 + right.costInline(thresh, env, ctx);
@@ -117,6 +122,7 @@ class CastExpression extends BinaryExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print("(" + opNames[op] + " ");
         if (type.isType(TC_ERROR)) {

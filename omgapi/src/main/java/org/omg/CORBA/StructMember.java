@@ -40,6 +40,8 @@ public final class StructMember implements org.omg.CORBA.portable.IDLEntity {
 
     //  instance variables
 
+    private static final long serialVersionUID = 2762280796480753206L;
+
     /**
      * The name of the struct member described by
      * this <code>StructMember</code> object.

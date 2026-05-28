@@ -41,11 +41,13 @@ public class TestRMIIDLTypes extends TestCase {
         return new TestSuite(TestRMIIDLTypes.class);
     }
 
+    @Override
     protected void setUp()
     {
         idlTypesUtil = new IDLTypesUtil();
     }
 
+    @Override
     protected void tearDown()
     {
     }

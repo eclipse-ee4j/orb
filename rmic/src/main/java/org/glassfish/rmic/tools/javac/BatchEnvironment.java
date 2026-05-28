@@ -566,8 +566,7 @@ class BatchEnvironment extends Environment implements ErrorConsumer {
             if (tracing)
                 dtEvent("loadDefinition: STATUS IS UNDEFINED");
             Identifier nm = c.getName();
-            Package pkg;
-              pkg = getPackage(nm.getQualifier());
+            Package pkg = getPackage(nm.getQualifier());
               ClassFile binfile = pkg.getBinaryFile(nm.getName());
             if (binfile == null) {
                 // must be source, there is no binary
@@ -1049,6 +1048,7 @@ class BatchEnvironment extends Environment implements ErrorConsumer {
      * Flush outstanding errors
      */
 
+        @Override
         public void pushError(String errorFileName, int line, String message,
                                     String referenceText, String referenceTextPointer) {
                 int limit = errorLimit + nwarnings;

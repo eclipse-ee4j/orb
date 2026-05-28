@@ -181,10 +181,12 @@ public class CodeSetConversion
             alignment = alignmentForEncoding;
         }
 
+        @Override
         public final float getMaxBytesPerChar() {
             return ctb.maxBytesPerChar();
         }
 
+        @Override
         public void convert(char chToConvert) {
             if (chars == null)
                 chars = new char[1];
@@ -196,6 +198,7 @@ public class CodeSetConversion
             convertCharArray();
         }
 
+        @Override
         public void convert(String strToConvert) {
             // Try to save a memory allocation if possible.  Usual
             // space/time trade off.  If we could get the char[] out of
@@ -223,10 +226,12 @@ public class CodeSetConversion
             //validateCodesetCache(buffer, strToConvert);
         }
 
+        @Override
         public final int getNumBytes() {
             return numBytes;
         }
 
+        @Override
         public final int getAlignment() {
             return alignment;
         }
@@ -235,6 +240,7 @@ public class CodeSetConversion
             this.alignment = newAlignment;
         }
 
+        @Override
         public byte[] getBytes() {
             // Note that you can't use buffer.length since the buffer might
             // be larger than the actual number of converted bytes depending
@@ -311,10 +317,12 @@ public class CodeSetConversion
             decoder = this.getConverter(codeset.getName());
         }
 
+        @Override
         public final int getNumChars() {
             return resultingNumChars;
         }
 
+        @Override
         public char[] getChars(ByteBuffer byteBuffer, int offset, int numBytes) {
             try {
                 byteBuffer.limit(numBytes);
@@ -340,6 +348,7 @@ public class CodeSetConversion
             }
         }
 
+        @Override
         public char[] getChars(byte[] bytes, int offset, int numBytes) {
 
             // Possible optimization of reading directly from the CDR
@@ -443,6 +452,7 @@ public class CodeSetConversion
             this.defaultByteOrder = defaultByteOrder;
         }
 
+        @Override
         public char[] getChars(ByteBuffer byteBuffer, int offset, int numBytes) {
             byte [] marker = {byteBuffer.get(), byteBuffer.get()};
             byteBuffer.position(0);

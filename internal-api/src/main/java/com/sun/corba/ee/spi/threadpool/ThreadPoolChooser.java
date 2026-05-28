@@ -29,7 +29,7 @@ public interface ThreadPoolChooser
      * ThreadPools would be specified by passing the threadpool-ids
      * configured in the ORB element of the domain.xml of the appserver.
      */
-    public ThreadPool getThreadPool();
+    ThreadPool getThreadPool();
 
     /**
      * This method is used to return an instance of ThreadPool that is obtained
@@ -37,11 +37,11 @@ public interface ThreadPoolChooser
      * situations where the threadpool id is known to the caller e.g. by the
      * connection object or looking at the high order bits of the request id
      */
-    public ThreadPool getThreadPool(int id);
+    ThreadPool getThreadPool(int id);
 
     /**
      * This method is a convenience method to see what threadpool-ids are being
      * used by the ThreadPoolChooser
      */
-    public String[] getThreadPoolIds();
+    String[] getThreadPoolIds();
 }

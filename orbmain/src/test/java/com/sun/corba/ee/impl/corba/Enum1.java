@@ -20,6 +20,7 @@
 package com.sun.corba.ee.impl.corba;
 
 public final class Enum1 implements org.omg.CORBA.portable.IDLEntity {
+    private static final long serialVersionUID = 5956257117942457126L;
     public static final int _zeroth = 0,
         _first = 1,
         _second = 2,
@@ -31,7 +32,7 @@ public final class Enum1 implements org.omg.CORBA.portable.IDLEntity {
     public int value() {
         return _value;
     }
-    public static final Enum1 from_int(int i)  throws  org.omg.CORBA.BAD_PARAM {
+    public static Enum1 from_int(int i)  throws  org.omg.CORBA.BAD_PARAM {
         switch (i) {
         case _zeroth:
             return zeroth;

@@ -78,6 +78,7 @@ class NewArrayExpression extends NaryExpression {
         return vset;
     }
 
+    @Override
     public Expression copyInline(Context ctx) {
         NewArrayExpression e = (NewArrayExpression)super.copyInline(ctx);
         if (init != null) {

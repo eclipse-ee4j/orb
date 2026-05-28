@@ -167,6 +167,7 @@ public interface TcpTimeouts {
     }
 
     Factory factory = new Factory() {
+        @Override
         public TcpTimeouts create( int initial_time_to_wait,
             int max_time_to_wait, int backoff_value ) {
 
@@ -174,6 +175,7 @@ public interface TcpTimeouts {
                 max_time_to_wait, backoff_value ) ;
         }
 
+        @Override
         public TcpTimeouts create( int initial_time_to_wait,
             int max_time_to_wait, int backoff_value, int max_single_wait ) {
 
@@ -181,6 +183,7 @@ public interface TcpTimeouts {
                 max_time_to_wait, backoff_value, max_single_wait ) ;
         }
 
+        @Override
         public TcpTimeouts create( String args ) {
             return new TcpTimeoutsImpl( args ) ;
         }

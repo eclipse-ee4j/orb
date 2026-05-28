@@ -134,6 +134,7 @@ class IfStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         IfStatement s = (IfStatement)clone();
         s.cond = cond.copyInline(ctx);
@@ -185,6 +186,7 @@ class IfStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("if ");

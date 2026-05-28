@@ -57,15 +57,18 @@ public abstract class SpecialMethod {
 }
 
 class NonExistent extends SpecialMethod {
+    @Override
     public boolean isNonExistentMethod()
     {
         return true ;
     }
 
+    @Override
     public String getName() {           // _non_existent
         return "_non_existent";
     }
 
+    @Override
     public MessageMediator invoke(java.lang.Object servant,
                                        MessageMediator request,
                                        byte[] objectId,
@@ -74,7 +77,7 @@ class NonExistent extends SpecialMethod {
         boolean result = (servant == null) || (servant instanceof NullServant) ;
         MessageMediator response =
             request.getProtocolHandler().createResponse(request, null);
-        ((OutputStream)response.getOutputObject()).write_boolean(result);
+        response.getOutputObject().write_boolean(result);
         return response;
     }
 }
@@ -87,14 +90,17 @@ class NotExistent extends NonExistent {
 }
 
 class IsA extends SpecialMethod  {      // _is_a
+    @Override
     public boolean isNonExistentMethod()
     {
         return false ;
     }
 
+    @Override
     public String getName() {
         return "_is_a";
     }
+    @Override
     public MessageMediator invoke(java.lang.Object servant,
                                        MessageMediator request,
                                        byte[] objectId,
@@ -107,7 +113,7 @@ class IsA extends SpecialMethod  {      // _is_a
 
         String[] ids = objectAdapter.getInterfaces( servant, objectId );
         String clientId =
-            ((InputStream)request.getInputObject()).read_string();
+            request.getInputObject().read_string();
         boolean answer = false;
         for(int i = 0; i < ids.length; i++) {
             if (ids[i].equals(clientId)) {
@@ -118,20 +124,23 @@ class IsA extends SpecialMethod  {      // _is_a
 
         MessageMediator response =
             request.getProtocolHandler().createResponse(request, null);
-        ((OutputStream)response.getOutputObject()).write_boolean(answer);
+        response.getOutputObject().write_boolean(answer);
         return response;
     }
 }
 
 class GetInterface extends SpecialMethod  {     // _get_interface
+    @Override
     public boolean isNonExistentMethod()
     {
         return false ;
     }
 
+    @Override
     public String getName() {
         return "_interface";
     }
+    @Override
     public MessageMediator invoke(java.lang.Object servant,
                                        MessageMediator request,
                                        byte[] objectId,

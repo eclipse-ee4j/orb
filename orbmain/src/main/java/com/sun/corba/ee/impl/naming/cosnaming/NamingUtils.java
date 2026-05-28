@@ -28,7 +28,7 @@ import org.omg.CosNaming.NameComponent;
 
 public class NamingUtils {
     // Do not instantiate this class
-    private NamingUtils() {};
+    private NamingUtils() {}
 
     /**
      * Debug flag which must be true for debug streams to be created and

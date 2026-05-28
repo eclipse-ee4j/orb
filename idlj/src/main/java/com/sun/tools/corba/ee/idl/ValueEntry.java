@@ -36,7 +36,6 @@ public class ValueEntry extends com.sun.tools.corba.ee.idl.InterfaceEntry
 {
   protected ValueEntry ()
   {
-    super ();
   } // ctor
 
   protected ValueEntry (ValueEntry that)
@@ -54,6 +53,7 @@ public class ValueEntry extends com.sun.tools.corba.ee.idl.InterfaceEntry
     super (that, clone);
   } // ctor
 
+  @Override
   public Object clone ()
   {
     return new ValueEntry (this);
@@ -65,6 +65,7 @@ public class ValueEntry extends com.sun.tools.corba.ee.idl.InterfaceEntry
        a subclass of SymtabEntry.
       @param stream The stream to which the generator should sent its output.
       @see com.sun.tools.corba.ee.idl.SymtabEntry */
+  @Override
   public void generate (Hashtable symbolTable, PrintWriter stream)
   {
     valueGen.generate (symbolTable, this, stream);
@@ -154,6 +155,7 @@ public class ValueEntry extends com.sun.tools.corba.ee.idl.InterfaceEntry
     addParentType (e, scanner);
   } // derivedFromAddElement
 
+  @Override
   public boolean replaceForwardDecl (com.sun.tools.corba.ee.idl.ForwardEntry oldEntry, com.sun.tools.corba.ee.idl.InterfaceEntry newEntry)
   {
     if (super.replaceForwardDecl (oldEntry, newEntry))

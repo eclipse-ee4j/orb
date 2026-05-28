@@ -226,6 +226,7 @@ public class MessageMediatorImpl
         this.dispatchByteBuffer = byteBuffer;
     }
 
+    @Override
     public RequestId getRequestIdFromRawBytes() {
         return MessageBase.getRequestIdFromMessageBytes(getDispatchHeader(), dispatchByteBuffer);
     }
@@ -235,27 +236,33 @@ public class MessageMediatorImpl
     // MessageMediator
     //
 
+    @Override
     public ORB getBroker() {
         return orb;
     }
 
+    @Override
     public ContactInfo getContactInfo() {
         return contactInfo;
     }
 
+    @Override
     public Connection getConnection() {
         return connection;
     }
 
+    @Override
     public void initializeMessage() {
         getRequestHeader().write(outputObject);
     }
 
+    @Override
     public void finishSendingRequest() {
         // REVISIT: probably move logic in outputObject to here.
         outputObject.finishSendingMessage();
     }
 
+    @Override
     public CDRInputObject waitForResponse() {
         if (getRequestHeader().isResponseExpected()) {
             return connection.waitForResponse(this);
@@ -263,18 +270,22 @@ public class MessageMediatorImpl
         return null;
     }
 
+    @Override
     public void setOutputObject(CDROutputObject outputObject) {
         this.outputObject = outputObject;
     }
 
+    @Override
     public CDROutputObject getOutputObject() {
         return outputObject;
     }
 
+    @Override
     public void setInputObject(CDRInputObject inputObject) {
         this.inputObject = inputObject;
     }
 
+    @Override
     public CDRInputObject getInputObject() {
         return inputObject;
     }
@@ -282,27 +293,33 @@ public class MessageMediatorImpl
     ////////////////////////////////////////////////////
     // CorbaMessageMediator
 
+    @Override
     public void setReplyHeader(LocateReplyOrReplyMessage header) {
         this.replyHeader = header;
         this.replyIOR = header.getIOR();
     }
 
+    @Override
     public LocateReplyMessage getLocateReplyHeader() {
         return (LocateReplyMessage) replyHeader;
     }
 
+    @Override
     public ReplyMessage getReplyHeader() {
         return (ReplyMessage) replyHeader;
     }
 
+    @Override
     public void setReplyExceptionDetailMessage(String message) {
         replyExceptionDetailMessage = message;
     }
 
+    @Override
     public RequestMessage getRequestHeader() {
         return requestHeader;
     }
 
+    @Override
     public GIOPVersion getGIOPVersion() {
         if (messageHeader != null) {
             return messageHeader.getGIOPVersion() ;
@@ -315,6 +332,7 @@ public class MessageMediatorImpl
         return getRequestHeader().getGIOPVersion();
     }
 
+    @Override
     public byte getEncodingVersion() {
         if (messageHeader != null) {
             return messageHeader.getEncodingVersion() ;
@@ -327,6 +345,7 @@ public class MessageMediatorImpl
         return getRequestHeader().getEncodingVersion();
     }
 
+    @Override
     public int getRequestId() {
         if (getRequestHeader() == null) {
             return -1 ;
@@ -335,6 +354,7 @@ public class MessageMediatorImpl
         return getRequestHeader().getRequestId();
     }
 
+    @Override
     public boolean isOneWay() {
         if (getRequestHeader() == null) {
             return false ;
@@ -343,6 +363,7 @@ public class MessageMediatorImpl
         return ! getRequestHeader().isResponseExpected();
     }
 
+    @Override
     public String getOperationName() {
         if (getRequestHeader() == null) {
             return "UNKNOWN" ;
@@ -351,6 +372,7 @@ public class MessageMediatorImpl
         return getRequestHeader().getOperation();
     }
 
+    @Override
     public ServiceContexts getRequestServiceContexts() {
         if (getRequestHeader() == null) {
             return null ;
@@ -359,14 +381,17 @@ public class MessageMediatorImpl
         return getRequestHeader().getServiceContexts();
     }
 
+    @Override
     public void setRequestServiceContexts(ServiceContexts sc) {
         getRequestHeader().setServiceContexts(sc);
     }
 
+    @Override
     public ServiceContexts getReplyServiceContexts() {
         return getReplyHeader().getServiceContexts();
     }
 
+    @Override
     @Subcontract
     public void sendCancelRequestIfFinalFragmentNotSent() {
         if ((!sentFullMessage()) && sentFragment() &&
@@ -414,14 +439,17 @@ public class MessageMediatorImpl
         return false ;
     }
 
+    @Override
     public void setDIIInfo(org.omg.CORBA.Request diiRequest) {
         this.diiRequest = diiRequest;
     }
 
+    @Override
     public boolean isDIIRequest() {
         return diiRequest != null;
     }
 
+    @Override
     @Subcontract
     public Exception unmarshalDIIUserException(String repoId, InputStream is) {
         if (! isDIIRequest()) {
@@ -453,10 +481,12 @@ public class MessageMediatorImpl
         return wrapper.unknownCorbaExc() ;
     }
 
+    @Override
     public void setDIIException(Exception exception) {
         diiRequest.env().exception(exception);
     }
 
+    @Override
     public void handleDIIReply(InputStream inputStream) {
         if (! isDIIRequest()) {
             return;
@@ -464,10 +494,12 @@ public class MessageMediatorImpl
         ((RequestImpl)diiRequest).unmarshalReply(inputStream);
     }
 
+    @Override
     public Message getDispatchHeader() {
         return dispatchHeader;
     }
 
+    @Override
     public int getThreadPoolToUse() {
         int poolToUse = 0;
         Message msg = dispatchHeader;
@@ -491,6 +523,7 @@ public class MessageMediatorImpl
      * This call is the transition from the transport block to the protocol
      * block.
     */
+    @Override
     @Transport
     public boolean dispatch() {
         reportConnection( connection ) ;
@@ -520,6 +553,7 @@ public class MessageMediatorImpl
         return true;
     }
 
+    @Override
     public byte getStreamFormatVersion()
     {
         // REVISIT: ContactInfo/Acceptor output object factories
@@ -542,6 +576,7 @@ public class MessageMediatorImpl
      * This is only sent on requests.  Clients can find out the
      * server's maximum by looking for a tagged component in the IOR.
      */
+    @Override
     @Transport
     public byte getStreamFormatVersionForReply() {
 
@@ -567,32 +602,39 @@ public class MessageMediatorImpl
         }
     }
 
+    @Override
     public boolean isSystemExceptionReply() {
         return replyHeader.getReplyStatus() == ReplyMessage.SYSTEM_EXCEPTION;
     }
 
+    @Override
     public boolean isUserExceptionReply() {
         return replyHeader.getReplyStatus() == ReplyMessage.USER_EXCEPTION;
     }
 
+    @Override
     public boolean isLocationForwardReply() {
         return ( (replyHeader.getReplyStatus() == ReplyMessage.LOCATION_FORWARD) ||
                  (replyHeader.getReplyStatus() == ReplyMessage.LOCATION_FORWARD_PERM) );
         //return replyHeader.getReplyStatus() == ReplyMessage.LOCATION_FORWARD;
     }
 
+    @Override
     public boolean isDifferentAddrDispositionRequestedReply() {
         return replyHeader.getReplyStatus() == ReplyMessage.NEEDS_ADDRESSING_MODE;
     }
 
+    @Override
     public short getAddrDispositionReply() {
         return replyHeader.getAddrDisposition();
     }
 
+    @Override
     public IOR getForwardedIOR() {
         return replyHeader.getIOR();
     }
 
+    @Override
     public SystemException getSystemExceptionReply() {
         return replyHeader.getSystemException(replyExceptionDetailMessage);
     }
@@ -602,10 +644,12 @@ public class MessageMediatorImpl
     // Used by server side.
     //
 
+    @Override
     public ObjectKeyCacheEntry getObjectKeyCacheEntry() {
         return getRequestHeader().getObjectKeyCacheEntry() ;
     }
 
+    @Override
     public ProtocolHandler getProtocolHandler() {
         // REVISIT: should look up in orb registry.
         return this;
@@ -616,6 +660,7 @@ public class MessageMediatorImpl
     // ResponseHandler
     //
 
+    @Override
     public org.omg.CORBA.portable.OutputStream createReply() {
         // Note: relies on side-effect of setting mediator output field.
         // REVISIT - cast - need interface
@@ -623,6 +668,7 @@ public class MessageMediatorImpl
         return getOutputObject();
     }
 
+    @Override
     public org.omg.CORBA.portable.OutputStream createExceptionReply() {
         // Note: relies on side-effect of setting mediator output field.
         // REVISIT - cast - need interface
@@ -630,26 +676,32 @@ public class MessageMediatorImpl
         return getOutputObject();
     }
 
+    @Override
     public boolean executeReturnServantInResponseConstructor() {
         return _executeReturnServantInResponseConstructor;
     }
 
+    @Override
     public void setExecuteReturnServantInResponseConstructor(boolean b) {
         _executeReturnServantInResponseConstructor = b;
     }
 
+    @Override
     public boolean executeRemoveThreadInfoInResponseConstructor() {
         return _executeRemoveThreadInfoInResponseConstructor;
     }
 
+    @Override
     public void setExecuteRemoveThreadInfoInResponseConstructor(boolean b) {
         _executeRemoveThreadInfoInResponseConstructor = b;
     }
 
+    @Override
     public boolean executePIInResponseConstructor() {
         return _executePIInResponseConstructor;
     }
 
+    @Override
     public void setExecutePIInResponseConstructor( boolean b ) {
         _executePIInResponseConstructor = b;
     }
@@ -689,6 +741,7 @@ public class MessageMediatorImpl
 
     protected boolean isThreadDone = false;
 
+    @Override
     @Transport
     public boolean handleRequest(MessageMediator messageMediator) {
         try {
@@ -843,6 +896,7 @@ public class MessageMediatorImpl
     }
 
     // This handles message types for which we don't create classes.
+    @Override
     @Transport
     public void handleInput(Message header) throws IOException {
         messageHeader = header;
@@ -864,12 +918,13 @@ public class MessageMediatorImpl
         releaseByteBufferToPool();
     }
 
+    @Override
     @Transport
     public void handleInput(RequestMessage_1_0 header) throws IOException {
         generalMessage( "GIOP Request 1.0") ;
         try {
             try {
-                messageHeader = requestHeader = (RequestMessage) header;
+                messageHeader = requestHeader = header;
                 setInputObject();
             } finally {
                 setWorkThenPoolOrResumeOptimizedRead(header);
@@ -881,12 +936,13 @@ public class MessageMediatorImpl
         }
     }
 
+    @Override
     @Transport
     public void handleInput(RequestMessage_1_1 header) throws IOException {
         generalMessage( "GIOP Request 1.1") ;
         try {
             try {
-                messageHeader = requestHeader = (RequestMessage) header;
+                messageHeader = requestHeader = header;
                 setInputObject();
                 connection.serverRequest_1_1_Put(this);
             } finally {
@@ -903,6 +959,7 @@ public class MessageMediatorImpl
     private void requestIdInfo( int id ) { }
 
     // REVISIT: this is identical to 1_0 except for fragment part.
+    @Override
     @Transport
     public void handleInput(RequestMessage_1_2 header) throws IOException {
         generalMessage("GIOP Request 1.2") ;
@@ -943,12 +1000,13 @@ public class MessageMediatorImpl
         message.unmarshalRequestID(dispatchByteBuffer);
     }
 
+    @Override
     @Transport
     public void handleInput(ReplyMessage_1_0 header) throws IOException {
         generalMessage( "GIOP ReplyMessage 1.0") ;
         try {
             try {
-                messageHeader = replyHeader = (ReplyMessage) header;
+                messageHeader = replyHeader = header;
                 setInputObject();
 
                 // REVISIT: this should be done by waiting thread.
@@ -964,11 +1022,12 @@ public class MessageMediatorImpl
         }
     }
 
+    @Override
     @Transport
     public void handleInput(ReplyMessage_1_1 header) throws IOException {
         generalMessage( "GIOP ReplyMessage 1.1" ) ;
         try {
-            messageHeader = replyHeader = (ReplyMessage) header;
+            messageHeader = replyHeader = header;
             setInputObject();
 
             if (header.moreFragmentsToFollow()) {
@@ -1010,12 +1069,13 @@ public class MessageMediatorImpl
     @InfoMethod
     private void moreFragmentsInfo( boolean moreFragments ) { }
 
+    @Override
     @Transport
     public void handleInput(ReplyMessage_1_2 header) throws IOException {
         generalMessage( "GIOP ReplyMessage 1.2" ) ;
         try {
             try {
-                messageHeader = replyHeader = (ReplyMessage) header;
+                messageHeader = replyHeader = header;
 
                 // We know that the request ID is in the first fragment
                 unmarshalRequestID(header);
@@ -1032,6 +1092,7 @@ public class MessageMediatorImpl
         }
     }
 
+    @Override
     @Transport
     public void handleInput(LocateRequestMessage_1_0 header) throws IOException {
         generalMessage( "GIOP LocateRequestMessage 1.0" ) ;
@@ -1050,6 +1111,7 @@ public class MessageMediatorImpl
 
     }
 
+    @Override
     @Transport
     public void handleInput(LocateRequestMessage_1_1 header) throws IOException {
         generalMessage( "GIOP LocateRequestMessage 1.1" ) ;
@@ -1067,6 +1129,7 @@ public class MessageMediatorImpl
         }
     }
 
+    @Override
     @Transport
     public void handleInput(LocateRequestMessage_1_2 header) throws IOException {
         generalMessage( "GIOP LocateRequestMessage 1.2" ) ;
@@ -1093,6 +1156,7 @@ public class MessageMediatorImpl
         }
     }
 
+    @Override
     @Transport
     public void handleInput(LocateReplyMessage_1_0 header) throws IOException {
         generalMessage("GIOP LocateReplyMessage 1.0");
@@ -1111,6 +1175,7 @@ public class MessageMediatorImpl
         }
     }
 
+    @Override
     @Transport
     public void handleInput(LocateReplyMessage_1_1 header) throws IOException {
         generalMessage("GIOP LocateReplyMessage 1.1");
@@ -1130,6 +1195,7 @@ public class MessageMediatorImpl
         }
     }
 
+    @Override
     @Transport
     public void handleInput(LocateReplyMessage_1_2 header) throws IOException {
         generalMessage("GIOP LocateReplyMessage 1.2");
@@ -1153,6 +1219,7 @@ public class MessageMediatorImpl
         }
     }
 
+    @Override
     @Transport
     public void handleInput(FragmentMessage_1_1 header) throws IOException {
         generalMessage("GIOP FragmentMessage 1.1");
@@ -1210,6 +1277,7 @@ public class MessageMediatorImpl
         }
     }
 
+    @Override
     @Transport
     public void handleInput(FragmentMessage_1_2 header) throws IOException {
         generalMessage("GIOP FragmentMessage 1.1");
@@ -1278,6 +1346,7 @@ public class MessageMediatorImpl
     @InfoMethod
     private void reportGIOPVersion( GIOPVersion vers ) { }
 
+    @Override
     @Transport
     public void handleInput(CancelRequestMessage header) throws IOException {
         generalMessage("GIOP CancelRequestMessage");
@@ -1419,6 +1488,7 @@ public class MessageMediatorImpl
     // spi.protocol.CorbaProtocolHandler
     //
 
+    @Override
     @Transport
     public void handleRequest(RequestMessage msg,
                               MessageMediator messageMediator) {
@@ -1445,6 +1515,7 @@ public class MessageMediatorImpl
         }
     }
 
+    @Override
     @Transport
     public void handleRequest(LocateRequestMessage msg,
                               MessageMediator messageMediator) {
@@ -1659,6 +1730,7 @@ public class MessageMediatorImpl
         return outObj;
     }
 
+    @Override
     @Subcontract
     public void handleThrowableDuringServerDispatch(
         MessageMediator messageMediator,
@@ -1834,6 +1906,7 @@ public class MessageMediatorImpl
         }
     }
 
+    @Override
     @Subcontract
     public MessageMediator createResponse(
         MessageMediator messageMediator, ServiceContexts svc) {
@@ -1846,6 +1919,7 @@ public class MessageMediatorImpl
             getServiceContextsForReply(messageMediator, null));
     }
 
+    @Override
     @Subcontract
     public MessageMediator createUserExceptionResponse(
         MessageMediator messageMediator, ServiceContexts svc) {
@@ -1856,22 +1930,21 @@ public class MessageMediatorImpl
             true);
     }
 
+    @Override
     @Subcontract
     public MessageMediator createUnknownExceptionResponse(
         MessageMediator messageMediator, UnknownException ex) {
-        // NOTE: This service context container gets augmented in
-        // tail call.
-        ServiceContexts contexts = null;
         SystemException sys = new UNKNOWN( 0,
             CompletionStatus.COMPLETED_MAYBE);
-        contexts = ServiceContextDefaults.makeServiceContexts(
-            messageMediator.getBroker());
+        ServiceContexts contexts = ServiceContextDefaults.makeServiceContexts(
+                    messageMediator.getBroker());
         UEInfoServiceContext uei =
             ServiceContextDefaults.makeUEInfoServiceContext(sys);
         contexts.put( uei ) ;
         return createSystemExceptionResponse(messageMediator, sys, contexts);
     }
 
+    @Override
     @Subcontract
     public MessageMediator createSystemExceptionResponse(
         MessageMediator messageMediator,
@@ -1940,7 +2013,7 @@ public class MessageMediatorImpl
         // sent).
 
         ORBUtility.writeSystemException(
-            ex, (OutputStream)response.getOutputObject());
+            ex, response.getOutputObject());
 
         return response;
     }
@@ -1964,6 +2037,7 @@ public class MessageMediatorImpl
         serviceContexts.put(serviceContext);
     }
 
+    @Override
     @Subcontract
     public MessageMediator createLocationForward(
         MessageMediator messageMediator, IOR ior, ServiceContexts svc) {
@@ -2043,9 +2117,9 @@ public class MessageMediatorImpl
         messageMediator.setOutputObject(replyOutputObject);
         messageMediator.getOutputObject().setMessageMediator(messageMediator);
 
-        reply.write((OutputStream) messageMediator.getOutputObject());
+        reply.write(messageMediator.getOutputObject());
         if (reply.getIOR() != null) {
-            reply.getIOR().write((OutputStream) messageMediator.getOutputObject());
+            reply.getIOR().write(messageMediator.getOutputObject());
         }
         // REVISIT - not necessary?
         //messageMediator.this.replyIOR = reply.getIOR();
@@ -2198,6 +2272,7 @@ public class MessageMediatorImpl
         }
     }
 
+    @Override
     @Subcontract
     public void cancelRequest() {
         CDRInputObject inObj = getInputObject();
@@ -2219,6 +2294,7 @@ public class MessageMediatorImpl
      * (CorbaConnection), orb (ORB), dispatchHeader (Message) and
      * dispatchByteBuffer (ByteBuffer).
      */
+    @Override
     @Subcontract
     public void doWork() {
         try {
@@ -2228,14 +2304,17 @@ public class MessageMediatorImpl
         }
     }
 
+    @Override
     public void setEnqueueTime(long timeInMillis) {
         enqueueTime = timeInMillis;
     }
 
+    @Override
     public long getEnqueueTime() {
         return enqueueTime;
     }
 
+    @Override
     public String getName() {
         return toString();
     }

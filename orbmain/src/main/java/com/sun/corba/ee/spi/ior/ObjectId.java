@@ -34,5 +34,5 @@ public interface ObjectId extends Writeable
     @Description( "The actual bytes in the ObjectKey" )
     String getIdString() ;
 
-    public byte[] getId() ;
+    byte[] getId() ;
 }

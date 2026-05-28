@@ -39,6 +39,7 @@ class BinaryShiftExpression extends BinaryExpression {
     /**
      * Evaluate the expression
      */
+    @Override
     Expression eval() {
         // The eval code in BinaryExpression.java only works correctly
         // for arithmetic expressions.  For shift expressions, we get cases
@@ -57,6 +58,7 @@ class BinaryShiftExpression extends BinaryExpression {
     /**
      * Select the type
      */
+    @Override
     void selectType(Environment env, Context ctx, int tm) {
         if (left.type == Type.tLong) {
             type = Type.tLong;

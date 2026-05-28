@@ -30,16 +30,19 @@ public class EnvironmentImpl extends Environment {
     {
     }
 
+    @Override
     public Exception exception()
     {
         return _exc;
     }
 
+    @Override
     public void exception(Exception exc)
     {
         _exc = exc;
     }
 
+    @Override
     public void clear()
     {
         _exc = null;

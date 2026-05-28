@@ -55,28 +55,34 @@ public class ReferenceManagerConfigurator implements ORBConfigurator {
         extends LocalObject
         implements IORInterceptor_3_0
     {
+        private static final long serialVersionUID = -4216430013437495980L;
         private ReferenceFactoryManagerImpl rm ;
 
         public RMIORInterceptor( ReferenceFactoryManagerImpl rm ) {
             this.rm = rm ;
         }
 
+        @Override
         public String name() {
             return "##" + this.getClass().getName() + "##" ;
         }
 
+        @Override
         public void destroy() {
             // NO-OP
         }
 
+        @Override
         public void establish_components( IORInfo info ) {
             // NO-OP
         }
 
+        @Override
         public void adapter_manager_state_changed( int id, short state ) {
             // NO-OP
         }
 
+        @Override
         public void adapter_state_changed( ObjectReferenceTemplate[] templates, short state ) {
             // NO-OP
         }
@@ -85,6 +91,7 @@ public class ReferenceManagerConfigurator implements ORBConfigurator {
         // ignored.  All exceptions thrown in establish_components
         // are ignored.  The whole purpose of this interceptor is
         // to throw an exception if an error is detected.
+        @Override
         public void components_established( IORInfo info ) {
             IORInfoExt ext = IORInfoExt.class.cast( info ) ;
             ObjectAdapter oa = ext.getObjectAdapter() ;
@@ -100,16 +107,19 @@ public class ReferenceManagerConfigurator implements ORBConfigurator {
         extends LocalObject
         implements ORBInitializer
     {
+        private static final long serialVersionUID = 7706519649836464399L;
         private IORInterceptor_3_0 interceptor ;
 
         public RMORBInitializer( IORInterceptor_3_0 interceptor ) {
             this.interceptor = interceptor ;
         }
 
+        @Override
         public void pre_init( ORBInitInfo info ) {
             // NO-OP
         }
 
+        @Override
         public void post_init( ORBInitInfo info ) {
             try {
                 info.add_ior_interceptor( interceptor ) ;
@@ -119,6 +129,7 @@ public class ReferenceManagerConfigurator implements ORBConfigurator {
         }
     }
 
+    @Override
     public void configure( DataCollector collector, ORB orb )
     {
         try {

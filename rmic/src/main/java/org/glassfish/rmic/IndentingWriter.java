@@ -87,6 +87,7 @@ public class IndentingWriter extends BufferedWriter {
     /**
      * Write a single character.
      */
+    @Override
     public void write(int c) throws IOException {
         checkWrite();
         super.write(c);
@@ -95,6 +96,7 @@ public class IndentingWriter extends BufferedWriter {
     /**
      * Write a portion of an array of characters.
      */
+    @Override
     public void write(char[] cbuf, int off, int len) throws IOException {
         if (len > 0) {
             checkWrite();
@@ -105,6 +107,7 @@ public class IndentingWriter extends BufferedWriter {
     /**
      * Write a portion of a String.
      */
+    @Override
     public void write(String s, int off, int len) throws IOException {
         if (len > 0) {
             checkWrite();
@@ -116,6 +119,7 @@ public class IndentingWriter extends BufferedWriter {
      * Write a line separator.  The next character written will be
      * preceded by an indent.
      */
+    @Override
     public void newLine() throws IOException {
         super.newLine();
         beginningOfLine = true;

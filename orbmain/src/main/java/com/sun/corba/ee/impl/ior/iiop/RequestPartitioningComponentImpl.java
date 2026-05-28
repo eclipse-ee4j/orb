@@ -75,6 +75,7 @@ public class RequestPartitioningComponentImpl extends TaggedComponentBase
         partitionToUse = thePartitionToUse;
     }
 
+    @Override
     public int getRequestPartitioningId()
     {
         return partitionToUse;

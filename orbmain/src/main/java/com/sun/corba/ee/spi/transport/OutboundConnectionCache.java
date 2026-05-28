@@ -25,11 +25,11 @@ package com.sun.corba.ee.spi.transport;
  */
 public interface OutboundConnectionCache extends ConnectionCache
 {
-    public Connection get(ContactInfo contactInfo);
+    Connection get(ContactInfo contactInfo);
 
-    public void put(ContactInfo contactInfo, Connection connection);
+    void put(ContactInfo contactInfo, Connection connection);
 
-    public void remove( ContactInfo contactInfo ) ;
+    void remove( ContactInfo contactInfo ) ;
 }
 
 // End of file.

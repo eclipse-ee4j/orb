@@ -201,6 +201,7 @@ class MethodSet {
             Iterator<List<MemberDefinition>> hashIter = lookupMap.values().iterator();
             Iterator<MemberDefinition> listIter = Collections.emptyIterator();
 
+            @Override
             public boolean hasNext() {
                 if (listIter.hasNext()) {
                     return true;
@@ -222,10 +223,12 @@ class MethodSet {
                 return false;
             }
 
+            @Override
             public MemberDefinition next() {
                 return listIter.next();
             }
 
+            @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }
@@ -257,6 +260,7 @@ class MethodSet {
     /**
      * Returns a (big) string representation of this MethodSet
      */
+    @Override
     public String toString() {
         int len = size();
         StringBuilder sb = new StringBuilder();

@@ -246,8 +246,8 @@ length);
      * @return Principle for invocation
      * @deprecated Deprecated by CORBA 2.2.
      */
-    // @Deprecated
-    public  org.omg.CORBA.Principal     read_Principal() {
+    @Deprecated
+    public  org.omg.CORBA.Principal read_Principal() {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
 
@@ -256,6 +256,7 @@ length);
      * @see <a href="package-summary.html#unimpl"><code>portable</code>
      * package comments for unimplemented features</a>
      */
+    @Override
     public int read() throws java.io.IOException {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }

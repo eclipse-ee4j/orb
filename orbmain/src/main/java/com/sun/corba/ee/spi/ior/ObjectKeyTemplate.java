@@ -34,54 +34,63 @@ import org.omg.CORBA_2_3.portable.OutputStream ;
  */
 @ManagedData
 @Description( "The template used to represent all IORs created by the same Object adapter" )
-public interface ObjectKeyTemplate extends Writeable
-{
-    @ManagedAttribute
-    @Description( "The ORB version that created this template" )
-    public ORBVersion getORBVersion() ;
+public interface ObjectKeyTemplate extends Writeable {
 
-    /** An ID used to determine how to perform operations on this
-     * ObjectKeyTemplate.  This id determines how to process requests
+    @ManagedAttribute
+    @Description("The ORB version that created this template")
+    ORBVersion getORBVersion();
+
+    /**
+     * An ID used to determine how to perform operations on this
+     * ObjectKeyTemplate. This id determines how to process requests
      * on this object reference, and what object adapter type to use.
+     *
      * @return The subcontract ID
      */
     @ManagedAttribute
-    @Description( "The subcontract ID which identifies a particular type-independent "
-        + " implementation of an IOR" )
-    public int getSubcontractId();
+    @Description("The subcontract ID which identifies a particular type-independent " + " implementation of an IOR")
+    int getSubcontractId();
 
-    /** Return the server ID for this template.
-    * For CORBA 3.0, this should be a String, but it is currently
-    * an int in the object key template.
-    * @return The ID of the server that handles requests to this IOR"
-    */
+    /**
+     * Return the server ID for this template.
+     * For CORBA 3.0, this should be a String, but it is currently
+     * an int in the object key template.
+     *
+     * @return The ID of the server that handles requests to this IOR"
+     */
     @ManagedAttribute
-    @Description( "The ID of the server that handles requests to this IOR" )
-    public int getServerId() ;
+    @Description("The ID of the server that handles requests to this IOR")
+    int getServerId();
 
-    /** Return the ORB ID for this template.
+    /**
+     * Return the ORB ID for this template.
+     *
      * @return the ORB ID that created this IOR
-    */
+     */
     @ManagedAttribute
-    @Description( "the ORB ID that created this IOR" )
-    public String getORBId() ;
+    @Description("the ORB ID that created this IOR")
+    String getORBId();
 
-    /** Return the object adapter ID for this template.
+    /**
+     * Return the object adapter ID for this template.
+     *
      * @return The ObjectAdapterId that identifies the ObjectAdapter that created this IOR
-    */
+     */
     @ManagedAttribute
-    @Description( "The ObjectAdapterId that identifies the ObjectAdapter that created this IOR" )
-    public ObjectAdapterId getObjectAdapterId() ;
+    @Description("The ObjectAdapterId that identifies the ObjectAdapter that created this IOR")
+    ObjectAdapterId getObjectAdapterId();
 
-    /** Compute an adapter ID for this template than includes
-    * all of the template information.
-    * This value is cached to avoid the expense of recomputing
-    * it.
-    * @return adapter ID for this template
-    */
-    public byte[] getAdapterId() ;
+    /**
+     * Compute an adapter ID for this template than includes
+     * all of the template information.
+     * This value is cached to avoid the expense of recomputing
+     * it.
+     *
+     * @return adapter ID for this template
+     */
+    byte[] getAdapterId();
 
-    public void write(ObjectId objectId, OutputStream os);
+    void write(ObjectId objectId, OutputStream os);
 
-    public ServerRequestDispatcher getServerRequestDispatcher( ObjectId id ) ;
+    ServerRequestDispatcher getServerRequestDispatcher(ObjectId id);
 }

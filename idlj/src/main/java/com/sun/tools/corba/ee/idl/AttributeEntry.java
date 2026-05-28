@@ -34,7 +34,6 @@ public class AttributeEntry extends MethodEntry
 {
   protected AttributeEntry ()
   {
-    super ();
   } // ctor
 
   protected AttributeEntry (AttributeEntry that)

@@ -55,11 +55,13 @@ public class ListenerThreadImpl
     // ListenerThread methods.
     //
 
+    @Override
     public Acceptor getAcceptor()
     {
         return acceptor;
     }
 
+    @Override
     @Transport
     public synchronized void close()
     {
@@ -83,6 +85,7 @@ public class ListenerThreadImpl
     @InfoMethod
     private void display( String msg, Object value ) { }
 
+    @Override
     @Transport
     public void doWork()
     {
@@ -110,16 +113,19 @@ public class ListenerThreadImpl
         }
     }
 
+    @Override
     public void setEnqueueTime(long timeInMillis)
     {
         enqueueTime = timeInMillis;
     }
 
+    @Override
     public long getEnqueueTime()
     {
         return enqueueTime;
     }
 
+    @Override
     public String getName() { return "ListenerThread"; }
 
     ////////////////////////////////////////////////////

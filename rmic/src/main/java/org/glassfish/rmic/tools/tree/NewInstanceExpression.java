@@ -69,10 +69,12 @@ class NewInstanceExpression extends NaryExpression {
         return outerArg;
     }
 
+    @Override
     int precedence() {
         return 100;
     }
 
+    @Override
     public Expression order() {
         // act like a method or field reference expression:
         if (outerArg != null && opPrecedence[FIELD] > outerArg.precedence()) {
@@ -379,6 +381,7 @@ class NewInstanceExpression extends NaryExpression {
      */
     final int MAXINLINECOST = Statement.MAXINLINECOST;
 
+    @Override
     public Expression copyInline(Context ctx) {
         NewInstanceExpression e = (NewInstanceExpression)super.copyInline(ctx);
         if (outerArg != null) {

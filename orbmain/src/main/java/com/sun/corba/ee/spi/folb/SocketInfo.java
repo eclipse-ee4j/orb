@@ -29,6 +29,7 @@ import org.omg.CORBA_2_3.portable.OutputStream;
  * @author ken
  */
 public class SocketInfo implements Serializable {
+    private static final long serialVersionUID = -4452030870262893154L;
     private final String type ;
     private final String host ;
     private final int port ;

@@ -36,8 +36,9 @@ public abstract class IdentifiableBase implements Identifiable,
     * an encapsulation stream, then extract the data and write
     * it to os as an array of octets.
     */
+    @Override
     final public void write( OutputStream os )
     {
-        EncapsulationUtility.writeEncapsulation( (WriteContents)this, os ) ;
+        EncapsulationUtility.writeEncapsulation( this, os ) ;
     }
 }

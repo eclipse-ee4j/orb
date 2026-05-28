@@ -52,7 +52,7 @@ public interface CSIv2SSLTaggedComponentHandler
      * CSIv2SSL <code>org.omg.IOP.TaggedComponent</code> that will be
      * added to IORs.
      */
-    public TaggedComponent insert(IORInfo iorInfo,
+    TaggedComponent insert(IORInfo iorInfo,
                                   List<ClusterInstanceInfo> clusterInstanceInfo);
 
     /** Extract is called on each invocation of the IOR, so that the security code can
@@ -64,7 +64,7 @@ public interface CSIv2SSLTaggedComponentHandler
      * @param ior The target ior of the current invocation.
      * @return List of all SocketInfos found in the IOR.
      */
-    public List<SocketInfo> extract(IOR ior);
+    List<SocketInfo> extract(IOR ior);
 }
 
 // End of file.

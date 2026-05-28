@@ -34,6 +34,7 @@ public class CodeSetsComponentImpl extends TaggedComponentBase
 {
     CodeSetComponentInfo csci ;
 
+    @Override
     public boolean equals( Object obj )
     {
         if (!(obj instanceof CodeSetsComponentImpl))
@@ -44,11 +45,13 @@ public class CodeSetsComponentImpl extends TaggedComponentBase
         return csci.equals( other.csci ) ;
     }
 
+    @Override
     public int hashCode()
     {
         return csci.hashCode() ;
     }
 
+    @Override
     public String toString()
     {
         return "CodeSetsComponentImpl[csci=" + csci + "]" ;
@@ -74,16 +77,19 @@ public class CodeSetsComponentImpl extends TaggedComponentBase
             csci = orb.getORBData().getCodeSetComponentInfo();
     }
 
+    @Override
     public CodeSetComponentInfo getCodeSetComponentInfo()
     {
         return csci ;
     }
 
+    @Override
     public void writeContents(OutputStream os)
     {
         csci.write( (MarshalOutputStream)os ) ;
     }
 
+    @Override
     public int getId()
     {
         return TAG_CODE_SETS.value ; // 1 in CORBA 2.3.1 13.6.3

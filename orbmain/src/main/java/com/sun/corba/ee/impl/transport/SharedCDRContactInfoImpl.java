@@ -130,8 +130,7 @@ public class SharedCDRContactInfoImpl
 
     public CDROutputObject createOutputObject(MessageMediator messageMediator)
     {
-        MessageMediator corbaMessageMediator = (MessageMediator)
-            messageMediator;
+        MessageMediator corbaMessageMediator = messageMediator;
         // NOTE: GROW.
         CDROutputObject outputObject =
             OutputStreamFactory.newCDROutputObject(orb, messageMediator,

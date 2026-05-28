@@ -497,6 +497,7 @@ public class TransportTestBase {
             this.selector = selector;
         }
 
+        @Override
         public SelectorFake selector() {
             return selector;
         }
@@ -572,12 +573,15 @@ public class TransportTestBase {
         private InputStream inputStream = null;
         private OutputStream outputStream = null;
 
+        @Override
         public SocketChannel getChannel() {
             return socketChannel;
         }
+        @Override
         public InputStream getInputStream() throws IOException {
             return inputStream;
         }
+        @Override
         public OutputStream getOutputStream() throws IOException {
             return outputStream;
         }

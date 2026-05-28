@@ -387,7 +387,7 @@ public class InterOperableNamingImpl
             else {
                 // Add escape
                 theStringAfterEscape.write( '%' );
-                String hexString = Integer.toHexString( (int) c );
+                String hexString = Integer.toHexString( c );
                 theStringAfterEscape.write( hexString );
             }
         }

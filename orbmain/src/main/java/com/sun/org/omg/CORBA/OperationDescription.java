@@ -29,6 +29,7 @@ package com.sun.org.omg.CORBA;
 
 public final class OperationDescription implements org.omg.CORBA.portable.IDLEntity
 {
+    private static final long serialVersionUID = -7256564664388843816L;
     public String name = null;
     public String id = null;
     public String defined_in = null;

@@ -24,6 +24,7 @@ This class is used for reporting application level exceptions between ORBs and s
 */
 
 public class ApplicationException extends Exception {
+    private static final long serialVersionUID = -2088103024111528125L;
     /**
      * Constructs an ApplicationException from the CORBA repository ID of the exception
      * and an input stream from which the exception data can be read as its parameters.

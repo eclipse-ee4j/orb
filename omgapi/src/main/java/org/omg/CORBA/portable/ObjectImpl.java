@@ -98,6 +98,7 @@ abstract public class ObjectImpl implements org.omg.CORBA.Object
      * @return an <code>orb.omg.CORBA.Object</code> object that is
      *         a duplicate of this object
      */
+    @Override
     public org.omg.CORBA.Object _duplicate() {
         return _get_delegate().duplicate(this);
     }
@@ -105,6 +106,7 @@ abstract public class ObjectImpl implements org.omg.CORBA.Object
     /**
      * Releases the resources associated with this <code>ObjectImpl</code> object.
      */
+    @Override
     public void _release() {
         _get_delegate().release(this);
     }
@@ -119,6 +121,7 @@ abstract public class ObjectImpl implements org.omg.CORBA.Object
      *         repository id is an instance of <code>ObjectImpl</code>;
      *         <code>false</code> otherwise
      */
+    @Override
     public boolean _is_a(String repository_id) {
         return _get_delegate().is_a(this, repository_id);
     }
@@ -133,6 +136,7 @@ abstract public class ObjectImpl implements org.omg.CORBA.Object
      *         to this <code>ObjectImpl</code> object;
      *         <code>false</code> otherwise
      */
+    @Override
     public boolean _is_equivalent(org.omg.CORBA.Object that) {
         return _get_delegate().is_equivalent(this, that);
     }
@@ -144,6 +148,7 @@ abstract public class ObjectImpl implements org.omg.CORBA.Object
      * @return <code>true</code> if the ORB knows authoritatively that the
      *         server object does not exist; <code>false</code> otherwise
      */
+    @Override
     public boolean _non_existent() {
         return _get_delegate().non_existent(this);
     }
@@ -157,6 +162,7 @@ abstract public class ObjectImpl implements org.omg.CORBA.Object
      * @return an <code>int</code> representing the hash code for this
      *         <code>ObjectImpl</code> object
      */
+    @Override
     public int _hash(int maximum) {
         return _get_delegate().hash(this, maximum);
     }
@@ -170,6 +176,7 @@ abstract public class ObjectImpl implements org.omg.CORBA.Object
      * @return a new <code>Request</code> object initialized with the
      *         given method
      */
+    @Override
     public Request _request(String operation) {
         return _get_delegate().request(this, operation);
     }
@@ -189,6 +196,7 @@ abstract public class ObjectImpl implements org.omg.CORBA.Object
      *         given context, method, argument list, and container for the
      *         return value
      */
+    @Override
     public Request _create_request(Context ctx,
                                    String operation,
                                    NVList arg_list,
@@ -228,6 +236,7 @@ abstract public class ObjectImpl implements org.omg.CORBA.Object
      *         container for the result, exceptions, and list of property
      *         names to be used in resolving the context strings
      */
+    @Override
     public Request _create_request(Context ctx,
                                    String operation,
                                    NVList arg_list,
@@ -250,6 +259,7 @@ abstract public class ObjectImpl implements org.omg.CORBA.Object
      * @return the <code>org.omg.CORBA.Object</code> instance that is the
      *         interface definition for this <code>ObjectImpl</code> object
      */
+    @Override
     public org.omg.CORBA.Object _get_interface_def()
     {
         // First try to call the delegate implementation class's
@@ -317,6 +327,7 @@ abstract public class ObjectImpl implements org.omg.CORBA.Object
      *         and that applies to this <code>ObjectImpl</code> object
      * @see org.omg.CORBA.PolicyOperations#policy_type
      */
+    @Override
     public org.omg.CORBA.Policy _get_policy(int policy_type) {
         return _get_delegate().get_policy(this, policy_type);
     }
@@ -328,6 +339,7 @@ abstract public class ObjectImpl implements org.omg.CORBA.Object
      * @return an array containing the <code>DomainManager</code>
      *         objects for this instance of <code>ObjectImpl</code>
      */
+    @Override
     public org.omg.CORBA.DomainManager[] _get_domain_managers() {
         return _get_delegate().get_domain_managers(this);
     }
@@ -347,6 +359,7 @@ abstract public class ObjectImpl implements org.omg.CORBA.Object
      * @return an <code>Object</code> with the given policies replacing or
      *         added to its previous policies
      */
+    @Override
     public org.omg.CORBA.Object
         _set_policy_override(org.omg.CORBA.Policy[] policies,
                              org.omg.CORBA.SetOverrideType set_add) {
@@ -491,6 +504,7 @@ abstract public class ObjectImpl implements org.omg.CORBA.Object
      *
      * @return the <code>String</code> representation of this object
      */
+    @Override
     public String toString() {
         if ( __delegate != null )
            return __delegate.toString(this);
@@ -503,6 +517,7 @@ abstract public class ObjectImpl implements org.omg.CORBA.Object
      *
      * @return the hash code for this object
      */
+    @Override
     public int hashCode() {
         if ( __delegate != null )
            return __delegate.hashCode(this);
@@ -518,6 +533,7 @@ abstract public class ObjectImpl implements org.omg.CORBA.Object
      *@return <code>true</code> if the two objects are equal;
      *        <code>false</code> otherwise
      */
+    @Override
     public boolean equals(java.lang.Object obj) {
         if ( __delegate != null )
            return __delegate.equals(this, obj);

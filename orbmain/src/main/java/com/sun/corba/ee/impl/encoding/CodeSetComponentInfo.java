@@ -312,7 +312,7 @@ public final class CodeSetComponentInfo {
             conversionInts = new int[conversionList.size()];
 
             for (int i = 0; i < conversionInts.length; i++)
-                conversionInts[i] = ((Integer)conversionList.get(i)).intValue();
+                conversionInts[i] = conversionList.get(i).intValue();
 
         } catch (NumberFormatException nfe) {
             throw wrapper.invalidCodeSetNumber( nfe ) ;

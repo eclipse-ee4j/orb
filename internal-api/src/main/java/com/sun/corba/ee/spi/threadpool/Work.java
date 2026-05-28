@@ -25,24 +25,24 @@ public interface Work
     /**
      * This method denotes the actual work that is done by the work item.
      */
-    public void doWork();
+    void doWork();
 
     /**
      * This methods sets the time in millis in the work item, when this
      * work item was enqueued in the work queue.
      */
-    public void setEnqueueTime(long timeInMillis);
+    void setEnqueueTime(long timeInMillis);
 
     /**
      * This methods gets the time in millis in the work item, when this
      * work item was enqueued in the work queue.
      */
-    public long getEnqueueTime();
+    long getEnqueueTime();
 
     /**
     * This method will return the name of the work item.
     */
-    public String getName();
+    String getName();
 
 }
 

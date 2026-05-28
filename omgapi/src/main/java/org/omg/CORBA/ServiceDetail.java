@@ -31,6 +31,8 @@ package org.omg.CORBA;
 // @SuppressWarnings({"serial"})
 public final class ServiceDetail implements org.omg.CORBA.portable.IDLEntity
 {
+    private static final long serialVersionUID = 5157720847730180441L;
+
     /**
      * The type of the ORB service that this <code>ServiceDetail</code>
      * object represents.

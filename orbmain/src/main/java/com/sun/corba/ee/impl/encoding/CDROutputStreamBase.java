@@ -81,6 +81,7 @@ abstract class CDROutputStreamBase extends java.io.OutputStream
     public abstract void write_any(Any value);
     @SuppressWarnings({"deprecation"})
     public abstract void write_Principal(org.omg.CORBA.Principal value);
+    @Override
     public void write(int b) throws java.io.IOException {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }

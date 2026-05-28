@@ -416,7 +416,6 @@ public class Main implements org.glassfish.rmic.Constants {
      * false and resource does not exist, returns zero element array.
      */
     protected String[] getArray(String name, boolean mustExist) {
-        String[] result = null;
         String value = getString(name);
         if (value == null) {
             if (mustExist) {
@@ -429,7 +428,7 @@ public class Main implements org.glassfish.rmic.Constants {
 
         StringTokenizer parser = new StringTokenizer(value,", \t\n\r", false);
         int count = parser.countTokens();
-        result = new String[count];
+        String[] result = new String[count];
         for (int i = 0; i < count; i++) {
             result[i] = parser.nextToken();
         }

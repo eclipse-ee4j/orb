@@ -56,14 +56,17 @@ public class JavaSerializationComponent extends TaggedComponentBase {
         return this.version;
     }
 
+    @Override
     public void writeContents(OutputStream os) {
         os.write_octet(version);
     }
 
+    @Override
     public int getId() {
         return ORBConstants.TAG_JAVA_SERIALIZATION_ID;
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof JavaSerializationComponent)) {
             return false;
@@ -72,6 +75,7 @@ public class JavaSerializationComponent extends TaggedComponentBase {
         return this.version == other.version;
     }
 
+    @Override
     public int hashCode() {
         return this.version;
     }

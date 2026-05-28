@@ -528,6 +528,7 @@ public class ParserTable {
             return other instanceof TestBadServerIdHandler ;
         }
 
+        @Override
         public void handle( ObjectKey objectKey )
         {
         }
@@ -546,6 +547,7 @@ public class ParserTable {
         Operation op2 = OperationFactory.sequenceAction( ":", siop ) ;
 
         Operation uslop = new Operation() {
+            @Override
             public Object operate( Object value )
             {
                 Object[] values = (Object[])value ;
@@ -563,22 +565,26 @@ public class ParserTable {
     public static final class TestLegacyORBSocketFactory
         implements com.sun.corba.ee.spi.legacy.connection.ORBSocketFactory
     {
+        @Override
         public boolean equals( Object other )
         {
             return other instanceof TestLegacyORBSocketFactory ;
         }
 
+        @Override
         public ServerSocket createServerSocket( String type, int port )
         {
             return null ;
         }
 
+        @Override
         public SocketInfo getEndPointInfo( org.omg.CORBA.ORB orb,
             IOR ior, SocketInfo socketInfo )
         {
             return null ;
         }
 
+        @Override
         public Socket createSocket( SocketInfo socketInfo )
         {
             return null ;
@@ -588,25 +594,30 @@ public class ParserTable {
     public static final class TestORBSocketFactory
         implements com.sun.corba.ee.spi.transport.ORBSocketFactory
     {
+        @Override
         public boolean equals( Object other )
         {
             return other instanceof TestORBSocketFactory ;
         }
 
+        @Override
         public void setORB(ORB orb)
         {
         }
 
+        @Override
         public ServerSocket createServerSocket( String type, InetSocketAddress a )
         {
             return null ;
         }
 
+        @Override
         public Socket createSocket( String type, InetSocketAddress a )
         {
             return null ;
         }
 
+        @Override
         public void setAcceptedSocketOptions(Acceptor acceptor, ServerSocket serverSocket, Socket socket) throws SocketException {
             throw new UnsupportedOperationException("Not supported yet.");
         }
@@ -615,11 +626,13 @@ public class ParserTable {
     public static final class TestIORToSocketInfo
         implements IORToSocketInfo
     {
+        @Override
         public boolean equals( Object other )
         {
             return other instanceof TestIORToSocketInfo;
         }
 
+        @Override
         public List getSocketInfo(IOR ior, List previous)
         {
             return null;
@@ -629,10 +642,12 @@ public class ParserTable {
     public static final class TestIIOPPrimaryToContactInfo
         implements IIOPPrimaryToContactInfo
     {
+        @Override
         public void reset(ContactInfo primary)
         {
         }
 
+        @Override
         public boolean hasNext(ContactInfo primary,
                                ContactInfo previous,
                                List contactInfos)
@@ -640,6 +655,7 @@ public class ParserTable {
             return true;
         }
 
+        @Override
         public ContactInfo next(ContactInfo primary,
                                 ContactInfo previous,
                                 List contactInfos)
@@ -651,19 +667,23 @@ public class ParserTable {
     public static final class TestContactInfoListFactory
         implements ContactInfoListFactory
     {
+        @Override
         public boolean equals( Object other )
         {
             return other instanceof TestContactInfoListFactory;
         }
 
+        @Override
         public void setORB(ORB orb) { }
 
+        @Override
         public ContactInfoList create( IOR ior ) { return null; }
     }
 
     private Operation makeMapOperation( final Map map )
     {
         return new Operation() {
+            @Override
             public Object operate( Object value )
             {
                 return map.get( value ) ;
@@ -683,6 +703,7 @@ public class ParserTable {
     private Operation makeLegacySocketFactoryOperation()
     {
         Operation sfop = new Operation() {
+            @Override
             public Object operate( Object value )
             {
                 String param = (String)value ;
@@ -715,6 +736,7 @@ public class ParserTable {
     private Operation makeSocketFactoryOperation()
     {
         Operation sfop = new Operation() {
+            @Override
             public Object operate( Object value )
             {
                 String param = (String)value ;
@@ -746,6 +768,7 @@ public class ParserTable {
     private Operation makeIORToSocketInfoOperation()
     {
         Operation op = new Operation() {
+            @Override
             public Object operate( Object value )
             {
                 String param = (String)value ;
@@ -776,6 +799,7 @@ public class ParserTable {
     private Operation makeIIOPPrimaryToContactInfoOperation()
     {
         Operation op = new Operation() {
+            @Override
             public Object operate( Object value )
             {
                 String param = (String)value ;
@@ -808,6 +832,7 @@ public class ParserTable {
     private Operation makeContactInfoListFactoryOperation()
     {
         Operation op = new Operation() {
+            @Override
             public Object operate( Object value )
             {
                 String param = (String)value ;
@@ -840,6 +865,7 @@ public class ParserTable {
     private Operation makeCSOperation()
     {
         Operation csop = new Operation() {
+            @Override
             public Object operate( Object value )
             {
                 String val = (String)value ;
@@ -859,6 +885,7 @@ public class ParserTable {
                 Integer.valueOf( ReferenceAddr.value ),
                 Integer.valueOf( KeyAddr.value ) } ;
 
+            @Override
             public Object operate( Object value )
             {
                 int val = ((Integer)value).intValue() ;
@@ -875,6 +902,7 @@ public class ParserTable {
 
     private Operation makeFSOperation() {
         Operation fschecker = new Operation() {
+            @Override
             public Object operate( Object value )
             {
                 int giopFragmentSize = ((Integer)value).intValue() ;
@@ -900,6 +928,7 @@ public class ParserTable {
         Operation gvHelper = OperationFactory.listAction( ".",
             OperationFactory.integerAction() ) ;
         Operation gvMain = new Operation() {
+            @Override
             public Object operate( Object value )
             {
                 Object[] nums = (Object[])value ;
@@ -917,15 +946,20 @@ public class ParserTable {
     public static final class TestORBInitializer1 extends org.omg.CORBA.LocalObject
         implements ORBInitializer
     {
+        private static final long serialVersionUID = 4400102154229477101L;
+
+        @Override
         public boolean equals( Object other )
         {
             return other instanceof TestORBInitializer1 ;
         }
 
+        @Override
         public void pre_init( ORBInitInfo info )
         {
         }
 
+        @Override
         public void post_init( ORBInitInfo info )
         {
         }
@@ -934,15 +968,20 @@ public class ParserTable {
     public static final class TestORBInitializer2 extends org.omg.CORBA.LocalObject
         implements ORBInitializer
     {
+        private static final long serialVersionUID = 6505693616140593993L;
+
+        @Override
         public boolean equals( Object other )
         {
             return other instanceof TestORBInitializer2 ;
         }
 
+        @Override
         public void pre_init( ORBInitInfo info )
         {
         }
 
+        @Override
         public void post_init( ORBInitInfo info )
         {
         }
@@ -954,6 +993,7 @@ public class ParserTable {
         Operation mop = OperationFactory.maskErrorAction( op1 ) ;
 
         Operation mkinst = new Operation() {
+            @Override
             public Object operate( Object value )
             {
                 final Class initClass = (Class)value ;
@@ -972,6 +1012,7 @@ public class ParserTable {
                     try {
                         initializer = (ORBInitializer)AccessController.doPrivileged(
                             new PrivilegedExceptionAction() {
+                                @Override
                                 public Object run()
                                     throws InstantiationException, IllegalAccessException
                                 {
@@ -1002,37 +1043,53 @@ public class ParserTable {
     public static final class TestAcceptor1
         implements Acceptor
     {
+        @Override
         public boolean equals( Object other )
         {
             return other instanceof TestAcceptor1 ;
         }
+        @Override
         public boolean initialize() { return true; }
+        @Override
         public boolean initialized() { return true; }
+        @Override
         public String getConnectionCacheType() { return "FOO"; }
+        @Override
         public void setConnectionCache(InboundConnectionCache connectionCache){}
+        @Override
         public InboundConnectionCache getConnectionCache() { return null; }
+        @Override
         public boolean shouldRegisterAcceptEvent() { return true; }
         public void setUseSelectThreadForConnections(boolean x) { }
         public boolean shouldUseSelectThreadForConnections() { return true; }
         public void setUseWorkerThreadForConnections(boolean x) { }
         public boolean shouldUseWorkerThreadForConnections() { return true; }
+        @Override
         public Socket getAcceptedSocket() { return null ; }
+        @Override
         public void processSocket( Socket socket ) { }
+        @Override
         public void close() { }
+        @Override
         public EventHandler getEventHandler() { return null; }
 
+        @Override
         public CDROutputObject createOutputObject(
             ORB broker, MessageMediator messageMediator) { return null; }
         public String getObjectAdapterId() { return null ; }
         public String getObjectAdapterManagerId() { return null ; }
+        @Override
         public void addToIORTemplate(IORTemplate iorTemplate, Policies policies,
                                      String codebase) { }
+        @Override
         public String getMonitoringName() { return null ; }
 
+        @Override
         public ServerSocket getServerSocket() {
             return null ;
         }
 
+        @Override
         public int getPort() {
             return 0 ;
         }
@@ -1041,14 +1098,17 @@ public class ParserTable {
             return "" ;
         }
 
+        @Override
         public String getInterfaceName() {
             return "" ;
         }
 
+        @Override
         public String getType() {
             return "" ;
         }
 
+        @Override
         public boolean isLazy() {
             return false ;
         }
@@ -1057,36 +1117,52 @@ public class ParserTable {
     public static final class TestAcceptor2
         implements Acceptor
     {
+        @Override
         public boolean equals( Object other )
         {
             return other instanceof TestAcceptor2 ;
         }
+        @Override
         public boolean initialize() { return true; }
+        @Override
         public boolean initialized() { return true; }
+        @Override
         public String getConnectionCacheType() { return "FOO"; }
+        @Override
         public void setConnectionCache(InboundConnectionCache connectionCache){}
+        @Override
         public InboundConnectionCache getConnectionCache() { return null; }
+        @Override
         public boolean shouldRegisterAcceptEvent() { return true; }
         public void setUseSelectThreadForConnections(boolean x) { }
         public boolean shouldUseSelectThreadForConnections() { return true; }
         public void setUseWorkerThreadForConnections(boolean x) { }
         public boolean shouldUseWorkerThreadForConnections() { return true; }
+        @Override
         public Socket getAcceptedSocket() { return null ; }
+        @Override
         public void processSocket( Socket socket ) { }
+        @Override
         public void close() { }
+        @Override
         public EventHandler getEventHandler() { return null; }
 
+        @Override
         public CDROutputObject createOutputObject(
             ORB broker, MessageMediator messageMediator) { return null; }
         public String getObjectAdapterId() { return null ; }
         public String getObjectAdapterManagerId() { return null ; }
+        @Override
         public void addToIORTemplate(IORTemplate iorTemplate, Policies policies,
                                      String codebase) { }
+        @Override
         public String getMonitoringName() { return null ; }
+        @Override
         public ServerSocket getServerSocket() {
             return null ;
         }
 
+        @Override
         public int getPort() {
             return 0 ;
         }
@@ -1095,14 +1171,17 @@ public class ParserTable {
             return "" ;
         }
 
+        @Override
         public String getInterfaceName() {
             return "" ;
         }
 
+        @Override
         public String getType() {
             return "" ;
         }
 
+        @Override
         public boolean isLazy() {
             return false ;
         }
@@ -1115,6 +1194,7 @@ public class ParserTable {
         Operation mop = OperationFactory.maskErrorAction( op1 ) ;
 
         Operation mkinst = new Operation() {
+            @Override
             public Object operate( Object value )
             {
                 final Class initClass = (Class)value ;
@@ -1132,6 +1212,7 @@ public class ParserTable {
                     try {
                         acceptor = (Acceptor)AccessController.doPrivileged(
                             new PrivilegedExceptionAction() {
+                                @Override
                                 public Object run()
                                     throws InstantiationException, IllegalAccessException
                                 {
@@ -1161,6 +1242,7 @@ public class ParserTable {
 
     private Operation makeInitRefOperation() {
         return new Operation() {
+            @Override
             public Object operate( Object value )
             {
                 // Object is String[] of length 2.

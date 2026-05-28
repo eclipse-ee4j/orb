@@ -84,6 +84,7 @@ public class Noop implements
   {
   } // generate
 
+  @Override
   public void generate (Hashtable symbolTable, com.sun.tools.corba.ee.idl.PragmaEntry entry, PrintWriter stream)
   {
   } // generate
@@ -122,6 +123,7 @@ public class Noop implements
     return null;
   } // createAttributeGen
 
+  @Override
   public com.sun.tools.corba.ee.idl.ConstGen createConstGen ()
   {
     return null;
@@ -132,6 +134,7 @@ public class Noop implements
     return null;
   } // createEnumGen
 
+  @Override
   public com.sun.tools.corba.ee.idl.ExceptionGen createExceptionGen ()
   {
     return null;
@@ -142,6 +145,7 @@ public class Noop implements
     return null;
   } // createForwardGen
 
+  @Override
   public com.sun.tools.corba.ee.idl.ForwardValueGen createForwardValueGen ()
   {
     return null;
@@ -162,6 +166,7 @@ public class Noop implements
     return null;
   } // createValueGen
 
+  @Override
   public com.sun.tools.corba.ee.idl.ValueBoxGen createValueBoxGen ()
   {
     return null;
@@ -172,6 +177,7 @@ public class Noop implements
     return null;
   } // createMethodGen
 
+  @Override
   public com.sun.tools.corba.ee.idl.ModuleGen createModuleGen ()
   {
     return null;
@@ -187,6 +193,7 @@ public class Noop implements
     return null;
   } // createParameterGen
 
+  @Override
   public com.sun.tools.corba.ee.idl.PragmaGen createPragmaGen ()
   {
     return null;
@@ -212,11 +219,13 @@ public class Noop implements
     return null;
   } // createStructGen
 
+  @Override
   public com.sun.tools.corba.ee.idl.TypedefGen createTypedefGen ()
   {
     return null;
   } // createTypedefGen
 
+  @Override
   public com.sun.tools.corba.ee.idl.UnionGen createUnionGen ()
   {
     return null;

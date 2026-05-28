@@ -23,6 +23,8 @@ package com.sun.corba.ee.impl.util;
 import java.util.Hashtable;
 
 public class RepositoryIdCache extends Hashtable<String, RepositoryId> {
+    private static final long serialVersionUID = 4625536664220119086L;
+
     public final synchronized RepositoryId getId(String key) {
         RepositoryId repId = super.get(key);
 

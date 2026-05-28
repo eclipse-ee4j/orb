@@ -58,5 +58,6 @@ public abstract class StubFactoryDynamicBase extends StubFactoryBase
         this(checkPermission(), classData, loader);
     }
 
+    @Override
     public abstract org.omg.CORBA.Object makeStub() ;
 }

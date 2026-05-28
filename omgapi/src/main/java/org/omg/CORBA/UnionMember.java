@@ -33,6 +33,8 @@ package org.omg.CORBA;
 public final class UnionMember implements org.omg.CORBA.portable.IDLEntity {
     //  instance variables
 
+    private static final long serialVersionUID = 5506049694216071974L;
+
     /**
      * The name of the union member described by this
      * <code>UnionMember</code> object.

@@ -29,6 +29,8 @@ import java.io.IOException;
  */
 public class TemporarySelectorClosedException extends IOException {
 
+    private static final long serialVersionUID = 3089446347486064839L;
+
     /** Creates a new instance of TemporarySelectorClosedException
      * @param theMessage The details message
      */

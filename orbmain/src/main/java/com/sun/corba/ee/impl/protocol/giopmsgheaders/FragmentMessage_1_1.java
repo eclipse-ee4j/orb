@@ -44,10 +44,12 @@ public final class FragmentMessage_1_1 extends Message_1_1
 
     // Accessor methods
 
+    @Override
     public int getRequestId() {
         return -1; // 1.1 has no fragment header and so no request_id
     }
 
+    @Override
     public int getHeaderLength() {
         return GIOPMessageHeaderLength;
     }
@@ -58,15 +60,18 @@ public final class FragmentMessage_1_1 extends Message_1_1
      * request_id from an CDRInputStream. Instead we use the
      * readGIOP_1_1_requestId to read the requestId from a byte buffer.
      */
+    @Override
     public void read(org.omg.CORBA.portable.InputStream istream) {
         super.read(istream);
     }
 
     /* 1.1 has no request_id; so nothing to write */
+    @Override
     public void write(org.omg.CORBA.portable.OutputStream ostream) {
         super.write(ostream);
     }
 
+    @Override
     public void callback(MessageHandler handler)
             throws java.io.IOException {
         handler.handleInput(this);

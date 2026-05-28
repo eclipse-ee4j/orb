@@ -34,5 +34,5 @@ public interface ORBTypeComponent extends TaggedComponent
 {
     @ManagedAttribute
     @Description( "The ORB type" )
-    public int getORBType() ;
+    int getORBType() ;
 }

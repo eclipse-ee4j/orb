@@ -52,6 +52,7 @@ public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase
     private GIOPVersion giopVersion ;
     private IIOPAddress primary ;
 
+    @Override
     public Iterator<TaggedComponent> getTaggedComponents() {
         return iterator() ;
     }
@@ -62,6 +63,7 @@ public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase
               giopVersion.getMajor(), giopVersion.getMinor(), primary.getHost(), primary.getPort());
     }
 
+    @Override
     public boolean equals( Object obj )
     {
         if (!(obj instanceof IIOPProfileTemplateImpl))
@@ -73,21 +75,25 @@ public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase
             primary.equals( other.primary ) ;
     }
 
+    @Override
     public int hashCode()
     {
         return super.hashCode() ^ giopVersion.hashCode() ^ primary.hashCode() ;
     }
 
+    @Override
     public TaggedProfile create( ObjectKeyTemplate oktemp, ObjectId id )
     {
         return IIOPFactories.makeIIOPProfile( orb, oktemp, id, this ) ;
     }
 
+    @Override
     public GIOPVersion getGIOPVersion()
     {
         return giopVersion ;
     }
 
+    @Override
     public IIOPAddress getPrimaryAddress()
     {
         return primary ;
@@ -147,6 +153,7 @@ public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase
         makeImmutable() ;
     }
 
+    @Override
     public void write( ObjectKeyTemplate okeyTemplate, ObjectId id, OutputStream os)
     {
         giopVersion.write( os ) ;
@@ -169,6 +176,7 @@ public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase
 
     /** Write out this IIOPProfileTemplateImpl only.
     */
+    @Override
     public void writeContents( OutputStream os)
     {
         giopVersion.write( os ) ;
@@ -178,11 +186,13 @@ public class IIOPProfileTemplateImpl extends TaggedProfileTemplateBase
             EncapsulationUtility.writeIdentifiableSequence( this, os ) ;
     }
 
+    @Override
     public int getId()
     {
         return TAG_INTERNET_IOP.value ;
     }
 
+    @Override
     public boolean isEquivalent( TaggedProfileTemplate temp )
     {
         if (!(temp instanceof IIOPProfileTemplateImpl))

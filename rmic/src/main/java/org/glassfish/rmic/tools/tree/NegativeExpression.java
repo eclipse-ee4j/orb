@@ -56,15 +56,19 @@ class NegativeExpression extends UnaryExpression {
     /**
      * Evaluate
      */
+    @Override
     Expression eval(int a) {
         return new IntExpression(where, -a);
     }
+    @Override
     Expression eval(long a) {
         return new LongExpression(where, -a);
     }
+    @Override
     Expression eval(float a) {
         return new FloatExpression(where, -a);
     }
+    @Override
     Expression eval(double a) {
         return new DoubleExpression(where, -a);
     }
@@ -72,6 +76,7 @@ class NegativeExpression extends UnaryExpression {
     /**
      * Simplify
      */
+    @Override
     Expression simplify() {
         if (right.op == NEG) {
             return ((NegativeExpression)right).right;

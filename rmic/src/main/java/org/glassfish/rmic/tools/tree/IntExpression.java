@@ -40,6 +40,7 @@ class IntExpression extends IntegerExpression {
      * Equality, this is needed so that switch statements
      * can put IntExpressions in a hashtable
      */
+    @Override
     public boolean equals(Object obj) {
         if ((obj != null) && (obj instanceof IntExpression)) {
             return value == ((IntExpression)obj).value;
@@ -51,6 +52,7 @@ class IntExpression extends IntegerExpression {
      * Hashcode, this is needed so that switch statements
      * can put IntExpressions in a hashtable
      */
+    @Override
     public int hashCode() {
         return value;
     }
@@ -58,6 +60,7 @@ class IntExpression extends IntegerExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print(value);
     }

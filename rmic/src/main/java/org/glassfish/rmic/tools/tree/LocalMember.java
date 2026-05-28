@@ -111,6 +111,7 @@ class LocalMember extends MemberDefinition {
     /**
      * Special checks
      */
+    @Override
     public boolean isLocal() {
         return true;
     }
@@ -218,7 +219,7 @@ class LocalMember extends MemberDefinition {
      * Return value
      */
     public Node getValue(Environment env) {
-        return (Expression)getValue();
+        return getValue();
     }
 
     /**
