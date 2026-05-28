@@ -19,14 +19,15 @@
 
 package corba.poapolicies;
 
-import org.omg.CORBA.*;
-import org.omg.PortableServer.*;
-import org.omg.PortableServer.POAPackage.*;
-
-import java.io.*;
-import java.util.*;
-
-import Util.*;
+import org.omg.CORBA.Policy;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.RequestProcessingPolicyValue;
+import org.omg.PortableServer.ServantActivator;
+import org.omg.PortableServer.ServantActivatorHelper;
+import org.omg.PortableServer.ServantRetentionPolicyValue;
+import org.omg.PortableServer.POAPackage.AdapterAlreadyExists;
+import org.omg.PortableServer.POAPackage.InvalidPolicy;
+import org.omg.PortableServer.POAPackage.WrongPolicy;
 
 public class FactoryForRetainAndUseServantManager implements POAFactory {
 

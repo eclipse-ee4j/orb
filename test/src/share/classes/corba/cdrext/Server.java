@@ -19,17 +19,20 @@
 
 package corba.cdrext;
 
-import org.omg.CORBA.*;
-import org.omg.CORBA.portable.*;
-import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
-import org.omg.PortableServer.*;
+import java.rmi.RemoteException;
+import java.util.Arrays;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
-import java.rmi.*;
 import javax.rmi.PortableRemoteObject;
-import javax.naming.*;
-import java.io.*;
-import java.util.*;
+
+import org.omg.CORBA.ORB;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
+import org.omg.PortableServer.POA;
 
 public class Server extends PortableRemoteObject implements Tester
 {

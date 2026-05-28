@@ -20,10 +20,11 @@
 
 package corba.poapolicies;
 
-import Util.CreationMethods;
-import Util.ServantFactoryPOA;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.Servant;
+
+import Util.CreationMethods;
+import Util.ServantFactoryPOA;
 
 public class BasicObjectFactoryImpl extends ServantFactoryPOA
 {

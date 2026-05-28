@@ -24,17 +24,8 @@
 
 package corba.iorintsockfact;
 
-import java.net.InetAddress;
-import java.util.Iterator;
-
-import org.omg.CORBA.Any;
-import org.omg.IOP.Codec;
-import org.omg.IOP.Encoding;
-import org.omg.PortableInterceptor.IORInfo;
-// This one is only necessary when running in current development workspace.
-import org.omg.PortableInterceptor.ObjectReferenceTemplate;
-
 import com.sun.corba.ee.spi.ior.TaggedProfileTemplate;
+import com.sun.corba.ee.spi.ior.iiop.AlternateIIOPAddressComponent;
 import com.sun.corba.ee.spi.ior.iiop.IIOPAddress;
 import com.sun.corba.ee.spi.ior.iiop.IIOPFactories;
 import com.sun.corba.ee.spi.legacy.connection.ORBSocketFactory;
@@ -42,7 +33,12 @@ import com.sun.corba.ee.spi.legacy.interceptor.IORInfoExt;
 import com.sun.corba.ee.spi.oa.ObjectAdapter;
 import com.sun.corba.ee.spi.orb.ORB;
 
-import com.sun.corba.ee.spi.ior.iiop.AlternateIIOPAddressComponent;
+import java.net.InetAddress;
+import java.util.Iterator;
+
+import org.omg.PortableInterceptor.IORInfo;
+// This one is only necessary when running in current development workspace.
+import org.omg.PortableInterceptor.ObjectReferenceTemplate;
 
 /**
  * @author Harold Carr

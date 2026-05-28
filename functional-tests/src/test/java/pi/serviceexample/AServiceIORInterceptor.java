@@ -25,10 +25,9 @@
 package pi.serviceexample;
 
 import org.omg.CORBA.Any;
-import org.omg.CORBA.LocalObject;
 import org.omg.CORBA.ORB;
-import org.omg.IOP.TaggedComponent;
 import org.omg.IOP.Codec;
+import org.omg.IOP.TaggedComponent;
 import org.omg.IOP.CodecPackage.InvalidTypeForEncoding;
 import org.omg.PortableInterceptor.IORInfo;
 import org.omg.PortableInterceptor.IORInterceptor;

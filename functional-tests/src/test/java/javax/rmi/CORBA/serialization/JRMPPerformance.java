@@ -29,11 +29,12 @@
 
 package javax.rmi.CORBA.serialization;
 
-import javax.rmi.CORBA.serialization.*;
-import javax.rmi.CORBA.*;
-import rmic.ObjectByValue;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
-import java.io.*;
+import rmic.ObjectByValue;
 
 public class JRMPPerformance extends test.Test
 {

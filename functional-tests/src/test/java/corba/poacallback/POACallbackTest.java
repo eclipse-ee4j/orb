@@ -19,9 +19,8 @@
 
 package corba.poacallback;
 
-import corba.framework.Controller;
 import corba.framework.CORBATest;
-import corba.framework.Options;
+import corba.framework.Controller;
 
 public class POACallbackTest extends CORBATest
 {

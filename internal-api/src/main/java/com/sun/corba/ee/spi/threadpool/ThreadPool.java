@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.spi.threadpool;
 
-import java.io.Closeable ;
+import java.io.Closeable;
 
 /** This interface defines a thread pool execution service.  The ORB uses this
  * interface, which preceeds the JDK 5 ExecutorService.  Note that the close

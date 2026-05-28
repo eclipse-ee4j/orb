@@ -20,7 +20,7 @@
 
 package com.sun.corba.ee.impl.orb ;
 
-import java.util.Properties ;
+import java.util.Properties;
 
 public interface ParserAction {
     /** Return the property name or prefix for which this action

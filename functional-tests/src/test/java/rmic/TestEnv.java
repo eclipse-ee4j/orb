@@ -21,9 +21,10 @@
 
 package rmic;
 
+import java.io.OutputStream;
+
 import org.glassfish.rmic.Main;
 import org.glassfish.rmic.tools.java.ClassPath;
-import java.io.OutputStream;
 
 public class TestEnv extends org.glassfish.rmic.iiop.BatchEnvironment {
 

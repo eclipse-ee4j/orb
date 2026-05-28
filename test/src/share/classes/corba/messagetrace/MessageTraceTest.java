@@ -19,12 +19,8 @@
 
 package corba.messagetrace;
 
-import test.Test;
-import corba.framework.*;
-import java.util.*;
-import com.sun.corba.ee.spi.orb.ORB;
-
-import com.sun.corba.ee.spi.misc.ORBConstants;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
 
 public class MessageTraceTest extends CORBATest
 {

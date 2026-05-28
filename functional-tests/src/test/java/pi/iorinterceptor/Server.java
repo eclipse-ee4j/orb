@@ -19,23 +19,25 @@
 
 package pi.iorinterceptor;
 
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfile ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate ;
-import com.sun.corba.ee.spi.ior.IOR;
-import com.sun.corba.ee.spi.ior.IORFactories;
-
-import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.impl.encoding.EncapsInputStream;
 import com.sun.corba.ee.impl.encoding.EncapsOutputStream;
-import com.sun.corba.ee.impl.ior.GenericIdentifiable ;
+import com.sun.corba.ee.impl.ior.GenericIdentifiable;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.ior.IORFactories;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfile;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+
 import corba.framework.InternalProcess;
+
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Properties;
+
 import org.glassfish.pfl.test.JUnitReportHelper;
 import org.omg.CORBA.Any;
 import org.omg.CORBA.ORB;

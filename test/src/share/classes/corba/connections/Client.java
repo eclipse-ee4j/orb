@@ -24,17 +24,16 @@
 
 package corba.connections;
 
-import java.rmi.RemoteException;
-import javax.naming.InitialContext;
-
-import java.util.Properties ;
-
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
 
 import corba.hcks.C;
 import corba.hcks.U;
 
-import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
+import java.rmi.RemoteException;
+import java.util.Properties;
+
+import javax.naming.InitialContext;
 
 public class Client
 {

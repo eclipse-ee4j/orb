@@ -20,7 +20,7 @@
 
 package test;
 
-import java.util.*;
+import java.util.Vector;
 
 /**
  * Alarm provides a one-shot mechanism to schedule asynchronous calls

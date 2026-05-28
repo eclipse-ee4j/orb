@@ -19,12 +19,12 @@
 
 package com.sun.corba.ee.spi.oa.rfm ;
 
-import java.util.List ;
-import java.util.Map ;
+import java.util.List;
+import java.util.Map;
 
 import org.glassfish.pfl.basic.contain.Pair;
-import org.omg.CORBA.Policy ;
-import org.omg.PortableServer.ServantLocator ;
+import org.omg.CORBA.Policy;
+import org.omg.PortableServer.ServantLocator;
 
 /** ReferenceFactoryManager uses the ORB POA to create
  * a specialized reference factory.  This is done primarily

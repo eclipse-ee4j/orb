@@ -19,22 +19,22 @@
 
 package com.sun.corba.ee.spi.servicecontext;
 
-import com.sun.corba.ee.impl.encoding.CodeSetComponentInfo ;
-import com.sun.corba.ee.impl.servicecontext.CodeSetServiceContextImpl ;
-import com.sun.corba.ee.impl.servicecontext.MaxStreamFormatVersionServiceContextImpl ;
-import com.sun.corba.ee.impl.servicecontext.ORBVersionServiceContextImpl ;
-import com.sun.corba.ee.impl.servicecontext.SendingContextServiceContextImpl ;
-import com.sun.corba.ee.impl.servicecontext.ServiceContextFactoryRegistryImpl ;
-import com.sun.corba.ee.impl.servicecontext.ServiceContextsImpl ;
-import com.sun.corba.ee.impl.servicecontext.UEInfoServiceContextImpl ;
-import com.sun.corba.ee.impl.servicecontext.UnknownServiceContextImpl ;
-import com.sun.corba.ee.spi.ior.IOR ;
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion ;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.orb.ORBVersion ;
+import com.sun.corba.ee.impl.encoding.CodeSetComponentInfo;
+import com.sun.corba.ee.impl.servicecontext.CodeSetServiceContextImpl;
+import com.sun.corba.ee.impl.servicecontext.MaxStreamFormatVersionServiceContextImpl;
+import com.sun.corba.ee.impl.servicecontext.ORBVersionServiceContextImpl;
+import com.sun.corba.ee.impl.servicecontext.SendingContextServiceContextImpl;
+import com.sun.corba.ee.impl.servicecontext.ServiceContextFactoryRegistryImpl;
+import com.sun.corba.ee.impl.servicecontext.ServiceContextsImpl;
+import com.sun.corba.ee.impl.servicecontext.UEInfoServiceContextImpl;
+import com.sun.corba.ee.impl.servicecontext.UnknownServiceContextImpl;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ORBVersion;
 import com.sun.corba.ee.spi.orb.ORBVersionFactory;
 
-import org.omg.CORBA_2_3.portable.InputStream ;
+import org.omg.CORBA_2_3.portable.InputStream;
 
 
 public abstract class ServiceContextDefaults {

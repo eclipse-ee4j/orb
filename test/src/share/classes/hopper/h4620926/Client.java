@@ -19,10 +19,12 @@
 
 package hopper.h4620926;
 
-import org.omg.CORBA.*;
-import org.omg.CosNaming.*;
-import java.util.*;
-import test.*;
+import org.omg.CORBA.ORB;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
+
+import test.Hello;
 
 public class Client extends Thread {
     private static int numErrors = 0;

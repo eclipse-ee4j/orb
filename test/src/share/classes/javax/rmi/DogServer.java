@@ -20,9 +20,7 @@
 
 package javax.rmi;
 
-import java.lang.String;
 import java.rmi.RemoteException;
-import javax.rmi.PortableRemoteObject;
 
 public class DogServer extends DogImpl implements RemoteDog
 {

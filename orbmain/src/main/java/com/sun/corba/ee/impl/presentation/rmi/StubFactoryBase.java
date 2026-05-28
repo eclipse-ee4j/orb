@@ -19,8 +19,8 @@
 
 package com.sun.corba.ee.impl.presentation.rmi ;
 
-import com.sun.corba.ee.spi.presentation.rmi.PresentationManager ;
-import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
+import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
+import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
 
 public abstract class StubFactoryBase implements PresentationManager.StubFactory
 {

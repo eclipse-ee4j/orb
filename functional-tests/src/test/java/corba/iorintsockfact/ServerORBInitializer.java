@@ -24,18 +24,12 @@
 
 package corba.iorintsockfact;
 
-import org.omg.CosNaming.*;
-import org.omg.IOP.Codec;
-import org.omg.IOP.CodecFactory;
-import org.omg.IOP.CodecFactoryHelper;
-import org.omg.IOP.Encoding;
-import org.omg.PortableInterceptor.ORBInitializer;
-import org.omg.PortableInterceptor.ORBInitInfo;
-import org.omg.PortableInterceptor.ORBInitInfoPackage.InvalidName;
-import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
+import com.sun.corba.ee.spi.legacy.interceptor.ORBInitInfoExt;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.legacy.interceptor.ORBInitInfoExt ;
+import org.omg.PortableInterceptor.ORBInitInfo;
+import org.omg.PortableInterceptor.ORBInitializer;
+import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
 /**
  * @author Harold Carr

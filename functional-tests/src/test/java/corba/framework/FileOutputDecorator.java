@@ -19,8 +19,10 @@
 
 package corba.framework;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Hashtable;
+import java.util.Properties;
 
 /**
  * Decorator around a Controller, allowing the user to simply specify

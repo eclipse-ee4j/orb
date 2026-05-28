@@ -19,7 +19,9 @@
 
 package hopper.h4515953;
 
-import java.rmi.*;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
 import org.omg.CORBA.portable.IDLEntity;
 
 public interface Processor extends Remote {

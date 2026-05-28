@@ -20,7 +20,7 @@
 
 package com.sun.corba.ee.impl.io;
 
-import com.sun.corba.ee.impl.misc.ClassInfoCache ;
+import com.sun.corba.ee.impl.misc.ClassInfoCache;
 import com.sun.corba.ee.impl.util.RepositoryId;
 import com.sun.org.omg.CORBA.AttributeDescription;
 import com.sun.org.omg.CORBA.Initializer;

@@ -32,7 +32,7 @@ import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.protocol.ForwardException;
 import com.sun.corba.ee.spi.protocol.MessageMediator;
 import com.sun.corba.ee.spi.protocol.PIHandler;
-import com.sun.corba.ee.spi.protocol.RetryType ;
+import com.sun.corba.ee.spi.protocol.RetryType;
 import com.sun.corba.ee.spi.trace.TraceInterceptor;
 
 import java.util.HashMap;
@@ -54,7 +54,7 @@ import org.omg.PortableInterceptor.Current;
 import org.omg.PortableInterceptor.Interceptor;
 import org.omg.PortableInterceptor.LOCATION_FORWARD;
 import org.omg.PortableInterceptor.ORBInitializer;
-import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
+import org.omg.PortableInterceptor.ObjectReferenceTemplate;
 import org.omg.PortableInterceptor.PolicyFactory;
 import org.omg.PortableInterceptor.SUCCESSFUL;
 import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;

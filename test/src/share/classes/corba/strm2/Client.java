@@ -19,12 +19,8 @@
 
 package corba.strm2;
 
-import java.util.*;
-import java.rmi.*;
-import java.io.*;
+import javax.naming.InitialContext;
 import javax.rmi.PortableRemoteObject;
-import javax.naming.*;
-import javax.rmi.*;
 
 public class Client
 {

@@ -25,9 +25,13 @@
 package corba.systemexceptions;
 
 import com.sun.corba.ee.impl.misc.ORBUtility;
+
 import corba.framework.Controller;
 import corba.hcks.C;
 import corba.hcks.U;
+
+import javax.naming.InitialContext;
+
 import org.omg.CORBA.CompletionStatus;
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.SystemException;
@@ -36,8 +40,6 @@ import org.omg.PortableInterceptor.ClientRequestInterceptor;
 import org.omg.PortableInterceptor.ForwardRequest;
 import org.omg.PortableInterceptor.ORBInitInfo;
 import org.omg.PortableInterceptor.ORBInitializer;
-
-import javax.naming.InitialContext;
 
 public class Client extends org.omg.CORBA.LocalObject
     implements ORBInitializer, ClientRequestInterceptor {

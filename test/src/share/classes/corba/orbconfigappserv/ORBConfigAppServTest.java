@@ -24,8 +24,8 @@
 
 package corba.orbconfigappserv;
 
-import test.Test;
-import corba.framework.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
 
 public class ORBConfigAppServTest extends CORBATest
 {

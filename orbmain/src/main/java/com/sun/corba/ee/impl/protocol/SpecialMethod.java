@@ -21,7 +21,7 @@ package com.sun.corba.ee.impl.protocol ;
 
 
 import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
-import com.sun.corba.ee.spi.oa.NullServant ;
+import com.sun.corba.ee.spi.oa.NullServant;
 import com.sun.corba.ee.spi.oa.ObjectAdapter;
 import com.sun.corba.ee.spi.protocol.MessageMediator;
 

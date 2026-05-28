@@ -20,9 +20,8 @@
 
 package corba.framework;
 
-import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.spi.JndiConstants;
-import test.Util;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +29,8 @@ import java.util.Hashtable;
 import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.Vector;
+
+import test.Util;
 
 /** Static library class to provide access to test configuration data.
  * This thing need to be further re-written to a class that is instantiated,

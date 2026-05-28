@@ -32,9 +32,9 @@ import org.omg.CORBA.NVList;
 import org.omg.CORBA.portable.RemarshalException;
 import org.omg.PortableInterceptor.Current;
 import org.omg.PortableInterceptor.Interceptor;
-import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
+import org.omg.PortableInterceptor.ObjectReferenceTemplate;
 import org.omg.PortableInterceptor.PolicyFactory;
-import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName ;
+import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
 /**
  * This is No-Op implementation of PIHandler. It is used in ORBConfigurator

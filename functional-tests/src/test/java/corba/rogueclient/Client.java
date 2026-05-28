@@ -20,14 +20,15 @@
 
 package corba.rogueclient;
 
+import com.sun.corba.ee.spi.misc.ORBConstants;
+
+import corba.hcks.U;
+
 import java.rmi.RemoteException;
 import java.util.Properties;
 
-import javax.rmi.PortableRemoteObject;
 import javax.naming.InitialContext;
-
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import corba.hcks.U;
+import javax.rmi.PortableRemoteObject;
 
 public class Client extends Thread
 {

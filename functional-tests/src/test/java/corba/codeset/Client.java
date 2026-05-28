@@ -20,8 +20,8 @@
 
 package corba.codeset;
 
-import CodeSetTester.Verifier ;
-import CodeSetTester.VerifierHelper ;
+import CodeSetTester.Verifier;
+import CodeSetTester.VerifierHelper;
 import CodeSetTester.VerifierPackage.TestCharSeqHolder;
 import CodeSetTester.VerifierPackage.TestWCharSeqHolder;
 import java.util.Properties;

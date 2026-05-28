@@ -19,15 +19,12 @@
 
 package pi.serverinterceptor;
 
-import org.omg.CORBA.*;
+import java.io.PrintStream;
+import java.rmi.RemoteException;
 
-import java.io.*;
-import java.rmi.*;
-import javax.rmi.*;
-import javax.naming.*;
-import org.omg.PortableInterceptor.*;
+import javax.rmi.PortableRemoteObject;
 
-import ServerRequestInterceptor.*; // hello interface
+import org.omg.PortableInterceptor.ForwardRequest;
 
 /**
  * RMI/IIOP implementation.

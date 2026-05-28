@@ -19,7 +19,8 @@
 
 package pi.iorinterceptor;
 
-import IORInterceptorTest.*;    // for IDL
+// for IDL
+import IORInterceptorTest.simplePOA;
 
 /**
  * Servant implementation for simplePOA

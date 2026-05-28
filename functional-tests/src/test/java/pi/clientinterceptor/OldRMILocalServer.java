@@ -19,19 +19,13 @@
 
 package pi.clientinterceptor;
 
-import org.omg.CORBA.*;
-import org.omg.CosNaming.*;
-import org.omg.CORBA.ORBPackage.*;
-import org.omg.PortableServer.*;
-import org.omg.PortableServer.POAPackage.*;
-import org.omg.PortableInterceptor.*;
-import corba.framework.*;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.impl.interceptors.*;
+import java.io.PrintStream;
+import java.util.Hashtable;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Properties;
 
-import java.util.*;
-import java.io.*;
-import javax.naming.*;
+import javax.naming.InitialContext;
 
 /**
  * Server for RMI/IIOP version of test.  Uses old _*ImplBase skeletons.

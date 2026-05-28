@@ -22,14 +22,14 @@ package com.sun.corba.ee.impl.ior ;
 import com.sun.corba.ee.spi.ior.IORFactories;
 import com.sun.corba.ee.spi.ior.IORFactory;
 import com.sun.corba.ee.spi.ior.IORTemplateList;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
-import org.omg.CORBA.TypeCode ;
-import org.omg.CORBA.portable.InputStream ;
-import org.omg.CORBA.portable.OutputStream ;
-import org.omg.CORBA.portable.StreamableValue ;
-import org.omg.PortableInterceptor.ObjectReferenceFactory ;
-import org.omg.PortableInterceptor.ObjectReferenceFactoryHelper ;
+import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.portable.InputStream;
+import org.omg.CORBA.portable.OutputStream;
+import org.omg.CORBA.portable.StreamableValue;
+import org.omg.PortableInterceptor.ObjectReferenceFactory;
+import org.omg.PortableInterceptor.ObjectReferenceFactoryHelper;
 
 /** This is an implementation of the ObjectReferenceFactory abstract value
 * type defined by the portable interceptors IDL.

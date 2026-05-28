@@ -19,8 +19,8 @@
 
 package com.sun.corba.ee.impl.presentation.rmi ;
 
-import com.sun.corba.ee.spi.presentation.rmi.IDLNameTranslator ;
-import com.sun.corba.ee.spi.presentation.rmi.PresentationDefaults ;
+import com.sun.corba.ee.spi.presentation.rmi.IDLNameTranslator;
+import com.sun.corba.ee.spi.presentation.rmi.PresentationDefaults;
 
 import java.lang.reflect.Method;
 import java.security.AccessController;
@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import org.glassfish.pfl.basic.proxy.DynamicAccessPermission ;
+import org.glassfish.pfl.basic.proxy.DynamicAccessPermission;
 
 /**
  * Bidirectional translator between RMI-IIOP interface methods and

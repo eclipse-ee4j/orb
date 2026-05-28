@@ -19,15 +19,12 @@
 
 package corba.fragment;
 
-import javax.rmi.PortableRemoteObject;
-import org.omg.CosNaming.*;
-import org.omg.CORBA.*;
-import java.util.* ;
+import java.io.FileInputStream;
 import java.rmi.RemoteException;
-import java.io.*;
 
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+import javax.rmi.PortableRemoteObject;
+
+import org.omg.CORBA.ORB;
 
 public class Client
 {

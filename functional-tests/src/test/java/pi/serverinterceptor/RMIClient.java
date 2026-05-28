@@ -19,24 +19,15 @@
 
 package pi.serverinterceptor;
 
-import org.omg.CORBA.*;
-import org.omg.CosNaming.*;
-import com.sun.corba.ee.impl.corba.AnyImpl;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.impl.interceptors.*;
-import org.omg.PortableInterceptor.*;
-import org.omg.IOP.*;
-import org.omg.IOP.CodecPackage.*;
-import org.omg.IOP.CodecFactoryPackage.*;
-import corba.framework.*;
+import java.io.PrintStream;
+import java.rmi.RemoteException;
+import java.util.Hashtable;
+import java.util.Properties;
 
-import java.util.*;
-import java.io.*;
-import java.rmi.*;
-import javax.naming.*;
-import javax.rmi.*;
+import javax.naming.InitialContext;
+import javax.rmi.PortableRemoteObject;
 
-import ServerRequestInterceptor.*;
+import org.omg.PortableInterceptor.ForwardRequest;
 
 /**
  * Common base class for RMI client test code

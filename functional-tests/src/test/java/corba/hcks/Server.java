@@ -24,7 +24,11 @@
 
 package corba.hcks;
 
-import java.util.Properties;
+import corba.framework.Controller;
+import corba.framework.Options;
+
+//import java.rmi.Naming; // JRMP
+import javax.naming.InitialContext;    // IIOP
 
 //
 // IDL imports (and POA-based RMI-IIOP).
@@ -35,19 +39,6 @@ import org.omg.CORBA.Policy;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.RequestProcessingPolicyValue;
 import org.omg.PortableServer.ServantRetentionPolicyValue;
-
-import corba.framework.Controller;
-import corba.framework.Options;
-
-//
-// RMI-IIOP imports.
-//
-
-import java.rmi.RMISecurityManager;
-import javax.rmi.PortableRemoteObject;
-
-//import java.rmi.Naming; // JRMP
-import javax.naming.InitialContext;    // IIOP
 
 public class Server
 {

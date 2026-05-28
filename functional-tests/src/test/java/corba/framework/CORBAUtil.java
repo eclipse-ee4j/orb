@@ -19,9 +19,14 @@
 
 package corba.framework;
 
-import java.io.*;
-import java.util.*;
-import test.*;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.LineNumberReader;
+import java.io.OutputStream;
+import java.util.Vector;
 
 /**
  * Collection of utility methods used by CORBATest and its helpers.

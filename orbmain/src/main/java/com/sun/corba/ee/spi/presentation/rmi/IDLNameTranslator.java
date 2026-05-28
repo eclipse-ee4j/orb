@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.spi.presentation.rmi ;
 
-import java.lang.reflect.Method ;
+import java.lang.reflect.Method;
 
 /** Translates between methods on an interface and RMI-IIOP encodings
  * of those methods as names.

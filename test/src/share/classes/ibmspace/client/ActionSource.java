@@ -20,8 +20,9 @@
 
 package ibmspace.client;
 
-import java.util.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Vector;
 
 
 public class ActionSource

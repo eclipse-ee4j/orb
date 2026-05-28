@@ -20,12 +20,32 @@
 
 package corba.tbbc ;
 
+import java.lang.reflect.Method;
+
 import org.glassfish.pfl.dynamic.codegen.spi.Expression;
 import org.glassfish.pfl.dynamic.codegen.spi.Type;
-import java.lang.reflect.Method ;
 
-import static java.lang.reflect.Modifier.* ;
-import static org.glassfish.pfl.dynamic.codegen.spi.Wrapper.* ;
+import static java.lang.reflect.Modifier.PUBLIC;
+import static java.lang.reflect.Modifier.STATIC;
+import static org.glassfish.pfl.dynamic.codegen.spi.Wrapper._arg;
+import static org.glassfish.pfl.dynamic.codegen.spi.Wrapper._assign;
+import static org.glassfish.pfl.dynamic.codegen.spi.Wrapper._body;
+import static org.glassfish.pfl.dynamic.codegen.spi.Wrapper._call;
+import static org.glassfish.pfl.dynamic.codegen.spi.Wrapper._class;
+import static org.glassfish.pfl.dynamic.codegen.spi.Wrapper._const;
+import static org.glassfish.pfl.dynamic.codegen.spi.Wrapper._constructor;
+import static org.glassfish.pfl.dynamic.codegen.spi.Wrapper._data;
+import static org.glassfish.pfl.dynamic.codegen.spi.Wrapper._end;
+import static org.glassfish.pfl.dynamic.codegen.spi.Wrapper._field;
+import static org.glassfish.pfl.dynamic.codegen.spi.Wrapper._generate;
+import static org.glassfish.pfl.dynamic.codegen.spi.Wrapper._import;
+import static org.glassfish.pfl.dynamic.codegen.spi.Wrapper._index;
+import static org.glassfish.pfl.dynamic.codegen.spi.Wrapper._method;
+import static org.glassfish.pfl.dynamic.codegen.spi.Wrapper._new;
+import static org.glassfish.pfl.dynamic.codegen.spi.Wrapper._return;
+import static org.glassfish.pfl.dynamic.codegen.spi.Wrapper._super;
+import static org.glassfish.pfl.dynamic.codegen.spi.Wrapper._this;
+import static org.glassfish.pfl.dynamic.codegen.spi.Wrapper._thisClass;
 
 public class Sample {
 

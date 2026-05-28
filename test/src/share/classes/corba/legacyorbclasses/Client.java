@@ -24,12 +24,14 @@
 
 package corba.legacyorbclasses;
 
-import java.util.Properties;
-import corba.framework.Controller;
-import org.omg.CORBA.ORB;
-import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
 import com.sun.corba.ee.spi.misc.ORBConstants;
+
+import corba.framework.Controller;
+
+import org.omg.CORBA.ORB;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
 
 public class Client
 {

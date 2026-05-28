@@ -19,12 +19,15 @@
 
 package pi.clientrequestinfo;
 
-import com.sun.corba.ee.impl.interceptors.*;
-import org.omg.PortableInterceptor.*;
-import org.omg.IOP.*;
 import com.sun.corba.ee.spi.servicecontext.ORBVersionServiceContext;
-import org.omg.CORBA.*;
-import java.util.*;
+
+import java.util.Arrays;
+
+import org.omg.CORBA.BAD_INV_ORDER;
+import org.omg.CORBA.BAD_PARAM;
+import org.omg.IOP.ServiceContext;
+import org.omg.PortableInterceptor.ClientRequestInfo;
+import org.omg.PortableInterceptor.ForwardRequest;
 
 /**
  * Strategy to test get_request_service_context and get_reply_service_context.

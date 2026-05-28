@@ -19,18 +19,19 @@
 
 package pi.clientrequestinfo;
 
-import org.omg.CORBA.*;
-import org.omg.CosNaming.*;
-import com.sun.corba.ee.impl.corba.AnyImpl;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.impl.interceptors.*;
-import org.omg.PortableInterceptor.*;
-import corba.framework.*;
+import corba.framework.InternalProcess;
 
-import java.util.*;
-import java.io.*;
+import java.io.PrintStream;
+import java.util.Hashtable;
+import java.util.Properties;
 
-import ClientRequestInfo.*;
+import org.omg.CORBA.ORB;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
+
+import ClientRequestInfo.hello;
+import ClientRequestInfo.helloHelper;
 
 /**
  * Tests POA Local invocation (with a co-located orb)

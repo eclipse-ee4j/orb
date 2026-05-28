@@ -24,9 +24,8 @@
 
 package corba.hcks;
 
-import org.omg.CORBA.*;
-import org.omg.PortableServer.*;
-import java.util.Properties;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.ServerRequest;
 
 class idlDeprecatedDynamicServant
     extends

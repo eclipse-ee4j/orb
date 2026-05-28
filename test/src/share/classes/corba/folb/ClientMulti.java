@@ -24,21 +24,9 @@
 
 package corba.folb;
 
-import java.util.Hashtable;
-import java.util.Properties;
-import javax.naming.InitialContext;
-
-import org.omg.CORBA.ORB;
-
-import com.sun.corba.ee.impl.misc.ORBUtility;
-
-import corba.framework.Controller;
-import corba.hcks.U;
-
-import org.testng.annotations.BeforeSuite ;
-import org.testng.annotations.Test ;
-
-import org.testng.Assert ;
+import org.testng.Assert;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
 
 /**
  * @author Harold Carr

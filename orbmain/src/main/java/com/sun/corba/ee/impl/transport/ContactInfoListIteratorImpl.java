@@ -20,9 +20,9 @@
 package com.sun.corba.ee.impl.transport;
 
 import com.sun.corba.ee.impl.protocol.InvocationInfo;
-import com.sun.corba.ee.spi.ior.IOR ;
+import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.trace.Transport;
 import com.sun.corba.ee.spi.transport.ContactInfo;
 import com.sun.corba.ee.spi.transport.ContactInfoList;
@@ -30,10 +30,10 @@ import com.sun.corba.ee.spi.transport.ContactInfoListIterator;
 import com.sun.corba.ee.spi.transport.IIOPPrimaryToContactInfo;
 import com.sun.corba.ee.spi.transport.TcpTimeouts;
 
-import java.util.HashSet ;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set ;
+import java.util.Set;
 
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 import org.omg.CORBA.COMM_FAILURE;

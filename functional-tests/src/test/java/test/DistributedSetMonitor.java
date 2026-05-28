@@ -20,22 +20,20 @@
 
 package test;
 
-import java.rmi.Remote;
+import java.io.DataInputStream;
 import java.rmi.RemoteException;
+import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
-import java.util.Enumeration;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+
 import javax.naming.Context;
+import javax.naming.NameClassPair;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
-import javax.naming.NameClassPair;
+import javax.rmi.PortableRemoteObject;
 import javax.rmi.CORBA.Tie;
-import javax.rmi.PortableRemoteObject;
+
 import org.omg.CORBA.ORB;
-import java.io.DataInputStream;
-import javax.rmi.PortableRemoteObject;
 
 /**
  * DistributedSetMonitor implements the DistributedSet interface and

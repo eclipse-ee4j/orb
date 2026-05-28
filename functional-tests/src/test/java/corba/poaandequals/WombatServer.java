@@ -19,18 +19,21 @@
 
 package corba.poaandequals;
 
-import WombatStuff.WombatHelper;
 import corba.framework.Controller;
 import corba.framework.InternalProcess;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.Hashtable;
 import java.util.Properties;
+
 import org.glassfish.pfl.test.JUnitReportHelper;
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.ORBPackage.InvalidName;
 import org.omg.PortableServer.POA;
+
+import WombatStuff.WombatHelper;
 
 public class WombatServer implements InternalProcess
 {

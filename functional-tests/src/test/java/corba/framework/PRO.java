@@ -19,9 +19,9 @@
 
 package corba.framework ;
 
-import java.rmi.Remote ;
+import java.rmi.Remote;
 
-import javax.rmi.PortableRemoteObject ;
+import javax.rmi.PortableRemoteObject;
 
 public class PRO {
     private PRO() {}

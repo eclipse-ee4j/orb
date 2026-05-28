@@ -19,13 +19,11 @@
 
 package pi.clientrequestinfo;
 
-import org.omg.CORBA.*;
+import java.io.PrintStream;
 
-import java.util.*;
-import java.io.*;
-import org.omg.CORBA.*;
-
-import ClientRequestInfo.*; // hello interface
+// hello interface
+import ClientRequestInfo.ExampleException;
+import ClientRequestInfo.helloPOA;
 
 /**
  * Servant implementation.

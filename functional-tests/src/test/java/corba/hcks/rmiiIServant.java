@@ -25,10 +25,11 @@
 package corba.hcks;
 
 import java.rmi.RemoteException;
-import org.omg.CORBA.INTERNAL;
 
 //import java.rmi.server.UnicastRemoteObject; // JRMP
 import javax.rmi.PortableRemoteObject;        // IIOP
+
+import org.omg.CORBA.INTERNAL;
 
 public class rmiiIServant
     extends

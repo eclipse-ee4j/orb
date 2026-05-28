@@ -3089,7 +3089,7 @@ diff -r 4074e79c320a src/share/classes/com/sun/corba/ee/impl/interceptors/PIHand
  import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 @@ -71,7 +62,6 @@
  import org.omg.PortableInterceptor.PolicyFactory;
- import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
+ import org.omg.PortableInterceptor.ObjectReferenceTemplate;
  
 -import com.sun.corba.ee.pept.encoding.OutputObject;
  
@@ -3100,7 +3100,7 @@ diff -r 4074e79c320a src/share/classes/com/sun/corba/ee/impl/interceptors/PIHand
  import com.sun.corba.ee.spi.protocol.ForwardException;
  import com.sun.corba.ee.spi.protocol.PIHandler;
 -import com.sun.corba.ee.spi.orbutil.misc.StackImpl;
-+import com.sun.corba.ee.spi.protocol.RetryType ;
++import com.sun.corba.ee.spi.protocol.RetryType;
  
  import com.sun.corba.ee.impl.logging.InterceptorsSystemException;
  import com.sun.corba.ee.impl.logging.ORBUtilSystemException;
@@ -4807,10 +4807,10 @@ diff -r 4074e79c320a src/share/classes/com/sun/corba/ee/impl/interceptors/Reques
 --- a/src/share/classes/com/sun/corba/ee/impl/interceptors/RequestInfoImpl.java Fri May 15 17:40:34 2009 -0700
 +++ b/src/share/classes/com/sun/corba/ee/impl/interceptors/RequestInfoImpl.java Mon Jul 06 12:05:55 2009 -0700
 @@ -41,40 +41,26 @@
- import java.lang.reflect.InvocationTargetException ;
+ import java.lang.reflect.InvocationTargetException;
  
- import java.util.Map ;
--import java.util.HashMap ;
+ import java.util.Map;
+-import java.util.HashMap;
  
  import org.omg.PortableInterceptor.ForwardRequest;
  import org.omg.PortableInterceptor.InvalidSlot;

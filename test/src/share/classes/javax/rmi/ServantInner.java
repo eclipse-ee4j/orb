@@ -20,11 +20,14 @@
 
 package javax.rmi;
 
+import com.sun.org.omg.SendingContext.CodeBase;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+
 // import com.sun.corba.ee.impl.io.FVDCodeBaseImpl;
-import javax.rmi.CORBA.*;
-import com.sun.org.omg.SendingContext.CodeBase;
+import javax.rmi.CORBA.Util;
+
 import rmic.OnlyRemoteServant;
 
 public class ServantInner implements SInner {

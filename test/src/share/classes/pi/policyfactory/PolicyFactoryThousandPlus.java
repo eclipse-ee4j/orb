@@ -19,9 +19,9 @@
 
 package pi.policyfactory;
 
-import java.util.*;
-import java.io.*;
-import org.omg.CORBA.*;
+import org.omg.CORBA.Any;
+import org.omg.CORBA.LocalObject;
+import org.omg.CORBA.Policy;
 
 /** This the PolicyFactory to create PolicyThousandPlus policy object.
  */

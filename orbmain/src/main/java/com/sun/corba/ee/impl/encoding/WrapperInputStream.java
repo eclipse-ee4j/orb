@@ -29,8 +29,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.omg.CORBA.Any ;
-import org.omg.CORBA.TypeCode ;
+import org.omg.CORBA.Any;
+import org.omg.CORBA.TypeCode;
 import org.omg.CORBA_2_3.portable.InputStream;
 
 public class WrapperInputStream extends org.omg.CORBA_2_3.portable.InputStream implements TypeCodeReader

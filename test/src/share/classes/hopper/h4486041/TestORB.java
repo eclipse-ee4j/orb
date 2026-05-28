@@ -19,11 +19,24 @@
 
 package hopper.h4486041;
 
-import org.omg.CORBA.*;
-import org.omg.CORBA.portable.*;
-import org.omg.CORBA.ORBPackage.InvalidName;
-import java.util.Properties;
 import java.applet.Applet;
+import java.util.Properties;
+
+import org.omg.CORBA.Any;
+import org.omg.CORBA.Context;
+import org.omg.CORBA.ContextList;
+import org.omg.CORBA.Environment;
+import org.omg.CORBA.ExceptionList;
+import org.omg.CORBA.NVList;
+import org.omg.CORBA.NamedValue;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.Request;
+import org.omg.CORBA.StructMember;
+import org.omg.CORBA.TCKind;
+import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.UnionMember;
+import org.omg.CORBA.WrongTransaction;
+import org.omg.CORBA.ORBPackage.InvalidName;
 
 public class TestORB
     extends

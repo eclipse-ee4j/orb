@@ -26,16 +26,26 @@
 
 package ibmspace.client;
 
-import ibmspace.common.*;
-
-import javax.naming.InitialContext;
-import javax.rmi.PortableRemoteObject;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
 import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import java.util.Hashtable;
 import java.util.Vector;
+
+import javax.naming.InitialContext;
+import javax.rmi.PortableRemoteObject;
+
+import ibmspace.common.BudgetSummary;
+import ibmspace.common.Fleet;
+import ibmspace.common.GameView;
+import ibmspace.common.ID;
+import ibmspace.common.Journey;
+import ibmspace.common.Planet;
+import ibmspace.common.PlanetView;
+import ibmspace.common.ShipDesign;
+import ibmspace.common.SpaceConquest;
+import ibmspace.common.TechProfile;
 
 public class GameSurrogate
 {

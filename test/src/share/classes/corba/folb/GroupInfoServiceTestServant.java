@@ -25,18 +25,15 @@
 
 package corba.folb;
 
-import java.rmi.RemoteException;
-import javax.rmi.PortableRemoteObject;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
+import com.sun.corba.ee.impl.misc.ORBUtility;
 import com.sun.corba.ee.spi.orb.ORB;
 
-import com.sun.corba.ee.impl.misc.ORBUtility;
-
 import corba.hcks.U;
+
+import java.rmi.RemoteException;
+import java.util.Map;
+
+import javax.rmi.PortableRemoteObject;
 
 /**
  * @author Harold Carr

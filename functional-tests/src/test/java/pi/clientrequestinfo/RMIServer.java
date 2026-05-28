@@ -19,19 +19,15 @@
 
 package pi.clientrequestinfo;
 
-import org.omg.CORBA.*;
-import org.omg.CosNaming.*;
-import org.omg.CORBA.ORBPackage.*;
-import org.omg.PortableServer.*;
-import org.omg.PortableServer.POAPackage.*;
-import org.omg.PortableInterceptor.*;
-import corba.framework.*;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.impl.interceptors.*;
+import corba.framework.InternalProcess;
 
-import java.util.*;
-import java.io.*;
-import javax.naming.*;
+import java.io.PrintStream;
+import java.util.Hashtable;
+import java.util.Properties;
+
+import javax.naming.InitialContext;
+
+import org.omg.CORBA.ORB;
 
 /**
  * Server for RMI/IIOP version of test

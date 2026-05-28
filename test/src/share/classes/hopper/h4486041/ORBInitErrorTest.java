@@ -19,11 +19,8 @@
 
 package hopper.h4486041;
 
-import test.Test;
-import corba.framework.*;
-import java.util.*;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import org.omg.CORBA.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
 
 public class ORBInitErrorTest
     extends

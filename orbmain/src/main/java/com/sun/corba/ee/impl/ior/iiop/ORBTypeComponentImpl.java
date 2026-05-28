@@ -19,11 +19,11 @@
 
 package com.sun.corba.ee.impl.ior.iiop;
 
-import com.sun.corba.ee.spi.ior.TaggedComponentBase ;
-import com.sun.corba.ee.spi.ior.iiop.ORBTypeComponent ;
+import com.sun.corba.ee.spi.ior.TaggedComponentBase;
+import com.sun.corba.ee.spi.ior.iiop.ORBTypeComponent;
 
-import org.omg.CORBA_2_3.portable.OutputStream ;
-import org.omg.IOP.TAG_ORB_TYPE ;
+import org.omg.CORBA_2_3.portable.OutputStream;
+import org.omg.IOP.TAG_ORB_TYPE;
 
 /**
  * @author Ken Cavanaugh

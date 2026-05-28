@@ -19,12 +19,12 @@
 
 package pi.serverinterceptor;
 
-import org.omg.PortableInterceptor.*;
-import org.omg.PortableInterceptor.ORBInitInfoPackage.*;
+import java.io.PrintStream;
 
-import java.util.*;
-import java.io.*;
-import org.omg.CORBA.*;
+import org.omg.CORBA.ORB;
+import org.omg.PortableInterceptor.ORBInitializer;
+import org.omg.PortableInterceptor.ServerRequestInterceptor;
+import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
 /**
  * Registers the necessary Server Interceptors to test

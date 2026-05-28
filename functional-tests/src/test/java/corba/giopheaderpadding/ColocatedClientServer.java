@@ -24,11 +24,14 @@
 
 package corba.giopheaderpadding;
 
-import java.util.Properties;
-import javax.naming.InitialContext;
-import org.omg.CORBA.ORB;
 import corba.hcks.C;
 import corba.hcks.U;
+
+import java.util.Properties;
+
+import javax.naming.InitialContext;
+
+import org.omg.CORBA.ORB;
 
 public class ColocatedClientServer
 {

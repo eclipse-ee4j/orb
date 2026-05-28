@@ -19,9 +19,13 @@
 
 package corba.poapolicies;
 
-import java.util.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
+import corba.framework.Options;
+
+import java.util.Properties;
+
 import test.Test;
-import corba.framework.*;
 
 public class POAPoliciesTest extends CORBATest
 {

@@ -24,8 +24,8 @@
 
 package corba.acceptorandcontactinfo;
 
-import corba.framework.Controller;
 import corba.framework.CORBATest;
+import corba.framework.Controller;
 
 public class AcceptorAndContactInfoTest
     extends

@@ -19,13 +19,13 @@
 
 package corba.repid;
 
+import com.sun.corba.ee.spi.misc.ORBConstants;
+
 import java.util.Properties;
 
 import org.omg.CORBA.ORB;
 import org.omg.CORBA_2_3.portable.InputStream;
 import org.omg.CORBA_2_3.portable.OutputStream;
-
-import com.sun.corba.ee.spi.misc.ORBConstants ;
 
 public class Client {
 

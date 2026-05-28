@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.impl.orb ;
 
-import java.util.Properties ;
+import java.util.Properties;
 
 public class NormalDataCollector extends DataCollectorBase {
     private String[] args ;

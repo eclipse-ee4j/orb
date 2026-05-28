@@ -19,7 +19,8 @@
 
 package pi.ort;
 
-import org.omg.PortableInterceptor.*;
+import org.omg.PortableInterceptor.NON_EXISTENT;
+import org.omg.PortableInterceptor.ObjectReferenceTemplate;
 
 /**
  * ORTStateChangeEvaluator is a Singleton used for

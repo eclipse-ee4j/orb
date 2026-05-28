@@ -19,10 +19,13 @@
 
 package corba.cdrext;
 
-import java.rmi.*;
-import java.io.*;
-import java.util.*;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.sql.Date;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 public interface Tester extends Remote, AbsTester {
 

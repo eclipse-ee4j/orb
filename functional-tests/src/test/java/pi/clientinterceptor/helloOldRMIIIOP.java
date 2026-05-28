@@ -19,14 +19,11 @@
 
 package pi.clientinterceptor;
 
-import org.omg.CORBA.*;
+import java.io.PrintStream;
+import java.rmi.RemoteException;
 
-import java.io.*;
-import java.rmi.*;
-import javax.rmi.*;
-import javax.naming.*;
-
-import ClientRequestInterceptor.*; // hello interface
+// hello interface
+import ClientRequestInterceptor._helloImplBase;
 
 /**
  * ClientDelegate implementation with old stubs.

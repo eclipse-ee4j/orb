@@ -19,9 +19,9 @@
  */
 
 package rmic;
+import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.io.IOException;
 
 public interface Hi extends Remote {
     public String hi_0 () throws RemoteException, ClassNotFoundException;

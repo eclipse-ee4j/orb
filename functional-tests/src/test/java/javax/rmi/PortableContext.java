@@ -23,13 +23,7 @@ package javax.rmi;
 
 import com.sun.corba.ee.impl.util.Utility;
 import com.sun.corba.ee.spi.JndiConstants;
-import org.omg.CORBA.ORB;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.rmi.CORBA.Tie;
-import javax.rmi.CORBA.Util;
 import java.io.IOException;
 import java.rmi.RMISecurityManager;
 import java.rmi.Remote;
@@ -40,6 +34,14 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Vector;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.rmi.CORBA.Tie;
+import javax.rmi.CORBA.Util;
+
+import org.omg.CORBA.ORB;
 
 /**
  * PortableContext is a convenience class for rmi-iiop programs which simplifies

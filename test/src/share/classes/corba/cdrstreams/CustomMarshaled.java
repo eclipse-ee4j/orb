@@ -19,7 +19,8 @@
 
 package corba.cdrstreams;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.Serializable;
 
 public class CustomMarshaled implements Serializable
 {

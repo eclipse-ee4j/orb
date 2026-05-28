@@ -24,8 +24,8 @@
 
 package corba.iorintsockfact;
 
-import corba.framework.Controller;
 import corba.framework.CORBATest;
+import corba.framework.Controller;
 
 /**
  * @author Harold Carr

@@ -24,13 +24,15 @@
 
 package corba.connectintercept_1_4;
 
+import com.sun.corba.ee.spi.legacy.interceptor.IORInfoExt;
+import com.sun.corba.ee.spi.legacy.interceptor.UnknownType;
+
 import org.omg.CORBA.CompletionStatus;
 import org.omg.CORBA.INTERNAL;
 import org.omg.CORBA.ORB;
-import org.omg.CosNaming.*;
-
-import com.sun.corba.ee.spi.legacy.interceptor.IORInfoExt;
-import com.sun.corba.ee.spi.legacy.interceptor.UnknownType;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
 
 public abstract class Common
 {

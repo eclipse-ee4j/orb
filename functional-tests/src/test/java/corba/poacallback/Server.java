@@ -19,14 +19,12 @@
 
 package corba.poacallback;
 
-import org.omg.CORBA.Policy;
 import org.omg.CORBA.ORB;
+import org.omg.CORBA.Policy;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.RequestProcessingPolicyValue;
-import org.omg.PortableServer.Servant;
-import org.omg.PortableServer.ServantManager;
-import org.omg.PortableServer.ServantRetentionPolicyValue;
 import org.omg.PortableServer.ServantLocator;
+import org.omg.PortableServer.ServantRetentionPolicyValue;
 
 public class Server {
 

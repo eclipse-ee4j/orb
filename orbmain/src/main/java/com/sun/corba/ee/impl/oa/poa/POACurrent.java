@@ -19,10 +19,10 @@
 
 package com.sun.corba.ee.impl.oa.poa;
 
-import com.sun.corba.ee.spi.logging.POASystemException ;
-import com.sun.corba.ee.spi.oa.OAInvocationInfo ;
-import com.sun.corba.ee.spi.oa.ObjectAdapter ;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.logging.POASystemException;
+import com.sun.corba.ee.spi.oa.OAInvocationInfo;
+import com.sun.corba.ee.spi.oa.ObjectAdapter;
+import com.sun.corba.ee.spi.orb.ORB;
 
 import java.util.EmptyStackException;
 

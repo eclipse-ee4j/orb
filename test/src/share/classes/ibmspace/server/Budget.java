@@ -20,10 +20,11 @@
 
 package ibmspace.server;
 
-import java.util.Vector;
-import java.lang.reflect.Array;
-import ibmspace.common.BudgetSummary;
 import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.Vector;
+
+import ibmspace.common.BudgetSummary;
 
 public class Budget implements Investment, Serializable
 {

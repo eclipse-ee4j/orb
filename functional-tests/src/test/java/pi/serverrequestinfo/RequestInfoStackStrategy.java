@@ -19,12 +19,8 @@
 
 package pi.serverrequestinfo;
 
-import org.omg.CORBA.*;
-import com.sun.corba.ee.impl.interceptors.*;
-import org.omg.PortableInterceptor.*;
-import org.omg.Messaging.*;
-
-import java.util.*;
+import org.omg.PortableInterceptor.ForwardRequest;
+import org.omg.PortableInterceptor.ServerRequestInfo;
 
 /**
  * Strategy to test that the server-sides request info stack is functioning.

@@ -24,9 +24,6 @@
 
 package corba.folb;
 
-import org.omg.CORBA.ORB;
-import org.omg.CosNaming.*;
-
 /**
  * @author Harold Carr
  */

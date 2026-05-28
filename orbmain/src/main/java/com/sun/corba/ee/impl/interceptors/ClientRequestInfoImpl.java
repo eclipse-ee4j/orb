@@ -33,8 +33,8 @@ import com.sun.corba.ee.spi.transport.ContactInfo;
 import com.sun.corba.ee.spi.transport.ContactInfoList;
 import com.sun.corba.ee.spi.transport.ContactInfoListIterator;
 
-import java.util.HashMap ;
-import java.util.Map ;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 import org.omg.CORBA.Any;

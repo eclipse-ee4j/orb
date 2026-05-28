@@ -20,12 +20,10 @@
 
 package corba.framework;
 
+import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.Iterator;
-import java.util.Hashtable;
-
-import java.util.StringTokenizer;
 
 public class statusU {
 

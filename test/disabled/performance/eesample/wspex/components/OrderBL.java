@@ -19,12 +19,17 @@
 
 package performance.eesample.wspex.components;
 
-import performance.eesample.wspex.*;
+import java.util.List;
 
-import java.util.*;
 import javax.xml.datatype.DatatypeConstants;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+
+import performance.eesample.wspex.Address;
+import performance.eesample.wspex.ArrayOfLineItem;
+import performance.eesample.wspex.Customer;
+import performance.eesample.wspex.LineItem;
+import performance.eesample.wspex.Order;
 
 public class OrderBL {
 

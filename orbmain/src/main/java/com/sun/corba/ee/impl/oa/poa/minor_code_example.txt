@@ -19,8 +19,8 @@
 
 package @PKGNAME@ ;
 
-import org.omg.CORBA.OMGVMCID ;
-import org.omg.CORBA.CompletionStatus ;
+import org.omg.CORBA.OMGVMCID;
+import org.omg.CORBA.CompletionStatus;
 
 import org.omg.CORBA.@SYSEX@ ; 
 

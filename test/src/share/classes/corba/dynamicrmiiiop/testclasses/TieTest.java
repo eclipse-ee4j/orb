@@ -19,9 +19,9 @@
 
 package corba.dynamicrmiiiop.testclasses ;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
-import java.util.Map ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.util.Map;
 
 public interface TieTest extends Remote
 {

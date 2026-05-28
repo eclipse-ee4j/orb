@@ -19,9 +19,10 @@
 
 package performance.simpleperf2;
 
-import test.Test;
-import corba.framework.*;
-import java.util.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
+import corba.framework.InternalExec;
+import corba.framework.Options;
 
 public class SimplePerfTest extends CORBATest
 {

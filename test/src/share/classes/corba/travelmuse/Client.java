@@ -22,19 +22,20 @@ package corba.travelmuse;
 
 import com.sun.corba.ee.impl.misc.ORBUtility;
 import com.sun.corba.ee.spi.transport.MessageData;
+
+import corba.framework.TestngRunner;
+import corba.util.TransportManagerUtil;
+
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.nio.ByteBuffer;
 import java.util.Properties;
 
-import corba.util.TransportManagerUtil;
-import org.testng.annotations.Test ;
-import org.testng.annotations.AfterTest ;
-import org.testng.annotations.BeforeTest ;
-import org.testng.Assert ;
-
-import corba.framework.TestngRunner;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 /**
  *

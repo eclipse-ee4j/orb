@@ -19,14 +19,17 @@
 
 package corba.poaandequals;
 
-import WombatStuff.Wombat;
-import WombatStuff.WombatHelper;
 import corba.framework.Controller;
 import corba.framework.ThreadProcess;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+
 import org.omg.CORBA.ORB;
+
+import WombatStuff.Wombat;
+import WombatStuff.WombatHelper;
 
 public class WombatClient extends ThreadProcess
 {

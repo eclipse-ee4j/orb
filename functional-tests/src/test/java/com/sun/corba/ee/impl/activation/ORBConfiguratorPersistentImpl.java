@@ -19,28 +19,28 @@
 
 package com.sun.corba.ee.impl.activation ;
 
-import java.util.Collection ;
-import java.util.Iterator ;
+import java.util.Collection;
+import java.util.Iterator;
 
-import org.omg.CORBA.CompletionStatus ;
+import org.omg.CORBA.CompletionStatus;
 
-import com.sun.corba.ee.spi.activation.Locator ;
-import com.sun.corba.ee.spi.activation.Activator ;
-import com.sun.corba.ee.spi.activation.LocatorHelper ;
-import com.sun.corba.ee.spi.activation.ActivatorHelper ;
-import com.sun.corba.ee.spi.activation.EndPointInfo ;
+import com.sun.corba.ee.spi.activation.Locator;
+import com.sun.corba.ee.spi.activation.Activator;
+import com.sun.corba.ee.spi.activation.LocatorHelper;
+import com.sun.corba.ee.spi.activation.ActivatorHelper;
+import com.sun.corba.ee.spi.activation.EndPointInfo;
 
-import com.sun.corba.ee.spi.orb.ORBData ;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORBData;
+import com.sun.corba.ee.spi.orb.ORB;
 
 import com.sun.corba.ee.spi.transport.SocketInfo;
 
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 
 import com.sun.corba.ee.impl.orb.ORBConfiguratorImpl;
 import com.sun.corba.ee.spi.legacy.connection.LegacyServerSocketEndPointInfo;
 
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
 public class ORBConfiguratorPersistentImpl extends ORBConfiguratorImpl {
     private ORBUtilSystemException wrapper = ORBUtilSystemException.self ;

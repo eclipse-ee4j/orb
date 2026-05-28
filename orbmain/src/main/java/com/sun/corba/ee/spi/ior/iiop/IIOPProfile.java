@@ -19,12 +19,12 @@
 
 package com.sun.corba.ee.spi.ior.iiop;
 
-import com.sun.corba.ee.spi.ior.TaggedProfile ;
-import com.sun.corba.ee.spi.orb.ORBVersion ;
+import com.sun.corba.ee.spi.ior.TaggedProfile;
+import com.sun.corba.ee.spi.orb.ORBVersion;
 
-import org.glassfish.gmbal.Description ;
-import org.glassfish.gmbal.ManagedAttribute ;
-import org.glassfish.gmbal.ManagedData ;
+import org.glassfish.gmbal.Description;
+import org.glassfish.gmbal.ManagedAttribute;
+import org.glassfish.gmbal.ManagedData;
 
 /** IIOPProfile represents an IIOP tagged profile.
 * It is essentially composed of an object identifier and

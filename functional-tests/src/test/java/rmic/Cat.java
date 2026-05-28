@@ -21,7 +21,6 @@
 package rmic;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.io.IOException;
 
 public interface Cat extends Remote {
     String cat(String one, String two, String three, Object it) throws RemoteException;

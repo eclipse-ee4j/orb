@@ -19,7 +19,7 @@
 
 package corba.dynamicrmiiiop.testclasses;
 
-import java.rmi.RemoteException ;
+import java.rmi.RemoteException;
 
 public class IDLMultipleInterfaceTest {
 

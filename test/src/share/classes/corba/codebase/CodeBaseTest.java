@@ -19,11 +19,19 @@
 
 package corba.codebase;
 
+import corba.framework.CORBATest;
+import corba.framework.Controller;
+import corba.framework.DebugExec;
+import corba.framework.EmmaControl;
+import corba.framework.ExternalExec;
+import corba.framework.FileOutputDecorator;
+import corba.framework.Options;
+
+import java.io.File;
+import java.util.Hashtable;
+import java.util.Properties;
+
 import test.Test;
-import corba.framework.*;
-import java.util.*;
-import java.io.*;
-import com.sun.corba.ee.spi.orb.ORB;
 
 public class CodeBaseTest extends CORBATest
 {

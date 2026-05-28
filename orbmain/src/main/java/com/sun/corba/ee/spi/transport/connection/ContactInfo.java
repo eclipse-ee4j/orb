@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.spi.transport.connection;
 
-import java.io.IOException ;
+import java.io.IOException;
 
 /** The ContactInfo represents the information needed to establish a connection
  * to a (possibly different) process.  This is a subset of the PEPt 2.0 connection.

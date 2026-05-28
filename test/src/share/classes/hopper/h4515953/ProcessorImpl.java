@@ -19,8 +19,10 @@
 
 package hopper.h4515953;
 
-import java.rmi.*;
+import java.rmi.RemoteException;
+
 import javax.rmi.PortableRemoteObject;
+
 import org.omg.CORBA.portable.IDLEntity;
 
 public class ProcessorImpl extends PortableRemoteObject implements Processor {

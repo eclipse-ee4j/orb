@@ -20,8 +20,8 @@
 package corba.framework;
 
 import java.io.PrintStream;
-import java.util.Properties;
 import java.util.Hashtable;
+import java.util.Properties;
 
 /**
  * Interface representing a process which is run in the same

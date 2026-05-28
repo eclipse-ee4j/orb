@@ -19,7 +19,8 @@
 
 package corba.simpledynamic;
 
-import corba.framework.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
 
 public class NewAcceptor extends CORBATest
 {

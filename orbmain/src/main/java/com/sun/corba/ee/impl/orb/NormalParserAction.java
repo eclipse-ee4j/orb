@@ -19,9 +19,9 @@
 
 package com.sun.corba.ee.impl.orb ;
 
-import com.sun.corba.ee.spi.orb.Operation ;
+import com.sun.corba.ee.spi.orb.Operation;
 
-import java.util.Properties ;
+import java.util.Properties;
 
 public class NormalParserAction extends ParserActionBase {
     public NormalParserAction( String propertyName,

@@ -19,7 +19,8 @@
 
 package corba.connectioncache;
 
-import corba.framework.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
 
 public class ConnectionCacheTest extends CORBATest
 {

@@ -24,15 +24,13 @@
 
 package corba.giopheaderpadding;
 
-import corba.framework.Controller;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+
 import corba.framework.CORBATest;
+import corba.framework.Controller;
+import corba.framework.Options;
 
 import java.util.Properties;
-
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.spi.orb.ORB;
-
-import corba.framework.*;
 
 public class GIOPHeaderPaddingTest extends CORBATest {
 

@@ -19,9 +19,8 @@
 
 package pi.iorinterceptor;
 
-import org.omg.CORBA.*;
-import corba.framework.*;
-import java.util.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
 
 /**
  * Tests IORInterceptor and IORInfo as per Portable Interceptors spec

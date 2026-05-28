@@ -20,8 +20,11 @@
 
 package javax.rmi.CORBA.serialization;
 
-import java.util.*;
-import java.io.*;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.Random;
 
 public class ComplexTestObjectFour implements Externalizable
 {

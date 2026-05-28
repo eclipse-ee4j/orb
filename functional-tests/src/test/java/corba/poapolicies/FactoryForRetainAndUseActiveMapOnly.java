@@ -21,10 +21,10 @@ package corba.poapolicies;
 
 import org.omg.CORBA.Policy;
 import org.omg.PortableServer.POA;
-import org.omg.PortableServer.POAPackage.AdapterAlreadyExists;
-import org.omg.PortableServer.POAPackage.InvalidPolicy;
 import org.omg.PortableServer.RequestProcessingPolicyValue;
 import org.omg.PortableServer.ServantRetentionPolicyValue;
+import org.omg.PortableServer.POAPackage.AdapterAlreadyExists;
+import org.omg.PortableServer.POAPackage.InvalidPolicy;
 
 public class FactoryForRetainAndUseActiveMapOnly implements POAFactory
 {

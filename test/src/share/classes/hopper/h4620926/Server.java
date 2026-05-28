@@ -19,11 +19,22 @@
 
 package hopper.h4620926;
 
-import org.omg.CORBA.*;
-import org.omg.PortableServer.*;
-import org.omg.CosNaming.*;
-import test.*;
-import java.util.Properties ;
+import java.util.Properties;
+
+import org.omg.CORBA.LocalObject;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.Policy;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
+import org.omg.PortableServer.IdAssignmentPolicyValue;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.POAHelper;
+import org.omg.PortableServer.RequestProcessingPolicyValue;
+import org.omg.PortableServer.Servant;
+import org.omg.PortableServer.ServantActivator;
+
+import test.Hello;
 
 class HelloServant extends HelloPOA {
     public String sayHello() {

@@ -19,13 +19,9 @@
 
 package pi.policyfactory;
 
-import org.omg.PortableInterceptor.*;
+import org.omg.CORBA.LocalObject;
+import org.omg.PortableInterceptor.ORBInitializer;
 import org.omg.PortableInterceptor.PolicyFactory;
-import org.omg.PortableInterceptor.ORBInitInfoPackage.*;
-
-import java.util.*;
-import java.io.*;
-import org.omg.CORBA.*;
 
 public class TestORBInitializer extends LocalObject
     implements ORBInitializer

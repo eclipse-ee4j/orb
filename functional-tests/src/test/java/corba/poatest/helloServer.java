@@ -19,14 +19,17 @@
 
 package corba.poatest;
 
-import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
-import org.omg.CORBA.*;
-import org.omg.PortableServer.*;
-import org.omg.PortableServer.POA;
-import HelloA.*;
-
 import java.util.Properties;
+
+import org.omg.CORBA.ORB;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
+import org.omg.PortableServer.POA;
+
+import HelloA.hello;
+import HelloA.helloHelper;
+import HelloA.helloPOA;
 
 class helloServant extends helloPOA
 {

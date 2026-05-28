@@ -19,14 +19,14 @@
 
 package com.sun.corba.ee.impl.orb ;
 
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
-import com.sun.corba.ee.spi.orb.Operation ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.orb.Operation;
 
-import java.lang.reflect.Array ;
-import java.util.Iterator ;
-import java.util.LinkedList ;
-import java.util.List ;
-import java.util.Properties ;
+import java.lang.reflect.Array;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Properties;
 
 import org.glassfish.pfl.basic.contain.Pair;
 

@@ -24,36 +24,34 @@
 
 package corba.lbq;
 
-import java.util.Vector;
-import java.util.List;
+import com.sun.corba.ee.impl.orb.ORBDataParserImpl;
+import com.sun.corba.ee.impl.orb.ORBImpl;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ORBData;
+
+import java.lang.reflect.Field;
+import java.rmi.Remote;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 import java.util.StringTokenizer;
-import java.util.Properties ;
+import java.util.Vector;
 
-import java.rmi.Remote ;
+import javax.rmi.PortableRemoteObject;
 
-import java.lang.reflect.Field ;
-
-import java.security.AccessController ;
-import java.security.PrivilegedAction ;
-
-import javax.rmi.PortableRemoteObject ;
-
-import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
-
-import org.omg.PortableServer.POA ;
-import org.omg.PortableServer.Servant ;
-
-import org.omg.PortableInterceptor.ORBInitializer ;
-
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.orb.ORBData ;
-
-import com.sun.corba.ee.impl.orb.ORBDataParserImpl ;
-import com.sun.corba.ee.impl.orb.ORBImpl ;
-
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import org.omg.CosNaming.Binding;
+import org.omg.CosNaming.BindingIteratorHolder;
+import org.omg.CosNaming.BindingListHolder;
+import org.omg.CosNaming.BindingType;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
+import org.omg.PortableInterceptor.ORBInitializer;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.Servant;
 
 public class Common
 {

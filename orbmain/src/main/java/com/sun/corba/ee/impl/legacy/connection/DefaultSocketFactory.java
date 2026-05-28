@@ -21,8 +21,8 @@ package com.sun.corba.ee.impl.legacy.connection;
 
 import com.sun.corba.ee.impl.misc.ORBUtility;
 import com.sun.corba.ee.spi.ior.IOR;
-import com.sun.corba.ee.spi.ior.iiop.IIOPAddress ;
-import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate ;
+import com.sun.corba.ee.spi.ior.iiop.IIOPAddress;
+import com.sun.corba.ee.spi.ior.iiop.IIOPProfileTemplate;
 import com.sun.corba.ee.spi.legacy.connection.GetEndPointInfoAgainException;
 import com.sun.corba.ee.spi.legacy.connection.ORBSocketFactory;
 import com.sun.corba.ee.spi.logging.ORBUtilSystemException;

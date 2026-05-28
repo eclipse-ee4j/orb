@@ -19,8 +19,8 @@
 
 package com.sun.corba.ee.impl.orb ;
 
-import com.sun.corba.ee.spi.ior.ObjectKey ;
-import com.sun.corba.ee.spi.oa.ObjectAdapter ;
+import com.sun.corba.ee.spi.ior.ObjectKey;
+import com.sun.corba.ee.spi.oa.ObjectAdapter;
 
 public class ObjectKeyCacheEntryNoObjectAdapterImpl extends ObjectKeyCacheEntryBase {
     public ObjectKeyCacheEntryNoObjectAdapterImpl( ObjectKey okey ) {

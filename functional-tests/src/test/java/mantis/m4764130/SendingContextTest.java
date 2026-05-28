@@ -24,11 +24,8 @@
 
 package mantis.m4764130;
 
-import java.util.Properties;
-import corba.framework.Controller;
 import corba.framework.CORBATest;
-import corba.framework.Options;
-import com.sun.corba.ee.spi.misc.ORBConstants;
+import corba.framework.Controller;
 
 public class SendingContextTest extends CORBATest {
 

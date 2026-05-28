@@ -19,8 +19,7 @@
 
 package corba.dynamicrmiiiop.testclasses ;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
+import java.rmi.RemoteException;
 
 public interface DMMImplTestClasses
 {

@@ -42,8 +42,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.glassfish.external.probe.provider.PluginPoint ;
-import org.glassfish.external.probe.provider.StatsProviderManager ;
+import org.glassfish.external.probe.provider.PluginPoint;
+import org.glassfish.external.probe.provider.StatsProviderManager;
 import org.glassfish.gmbal.ManagedObjectManager;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 

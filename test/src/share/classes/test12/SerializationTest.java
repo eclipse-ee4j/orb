@@ -20,7 +20,8 @@
 
 package test12;
 
-import java.util.Properties ;
+import java.util.Properties;
+
 import org.glassfish.pfl.test.JUnitReportHelper;
 
 public class SerializationTest extends test.Test {

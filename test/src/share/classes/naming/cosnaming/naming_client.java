@@ -23,17 +23,13 @@
 //
 package naming.cosnaming;
 
-import java.lang.Thread;
-
-import java.io.OutputStream;
-import java.io.DataOutputStream;
-import java.io.FileOutputStream;
-import java.util.Properties;
 import java.util.Random;
 
-import org.omg.CORBA.*;
-import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
+import org.omg.CosNaming.BindingIteratorHolder;
+import org.omg.CosNaming.BindingListHolder;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
 
 
 public class naming_client

@@ -25,12 +25,29 @@
 
 package ibmspace.client;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Menu;
+import java.awt.MenuItem;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
-import javax.swing.*;
-import ibmspace.common.*;
 import java.util.Vector;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import ibmspace.common.BudgetSummary;
+import ibmspace.common.Fleet;
+import ibmspace.common.ID;
+import ibmspace.common.PlanetView;
+import ibmspace.common.ShipDesign;
+import ibmspace.common.TechProfile;
 
 public class GameUI implements ActionListener
 {

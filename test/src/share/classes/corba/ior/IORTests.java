@@ -19,11 +19,8 @@
 
 package corba.ior;
 
-import test.Test;
-import corba.framework.*;
-import java.util.*;
-
-import com.sun.corba.ee.impl.ior.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
 
 /**
  */

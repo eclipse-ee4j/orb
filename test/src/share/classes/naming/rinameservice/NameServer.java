@@ -21,10 +21,14 @@ package naming.rinameservice;
 
 import com.sun.corba.ee.impl.naming.cosnaming.TransientNameService;
 import com.sun.corba.ee.spi.misc.ORBConstants;
+
+import corba.framework.InternalProcess;
+
+import java.io.PrintStream;
+import java.util.Hashtable;
+import java.util.Properties;
+
 import org.omg.CORBA.ORB;
-import corba.framework.*;
-import java.util.*;
-import java.io.*;
 
 /**
  * This is a simple test to demonstrate the NameService that we ship with RI

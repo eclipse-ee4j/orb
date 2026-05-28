@@ -25,6 +25,7 @@
 package corba.folb_8_1;
 
 import java.util.Properties;
+
 import org.omg.CORBA.ORB;
 
 public class ColocatedCS

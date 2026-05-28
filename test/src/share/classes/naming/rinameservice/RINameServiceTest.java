@@ -19,9 +19,9 @@
 
 package naming.rinameservice;
 
-import test.Test;
-import corba.framework.*;
-import java.util.*;
+import corba.framework.CORBATest;
+import corba.framework.Controller;
+import corba.framework.Options;
 
 /**
  * RINameServiceTest compiles couple of JavaFiles (StandAlone NameServer and

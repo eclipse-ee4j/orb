@@ -20,7 +20,6 @@
 
 package javax.rmi;
 
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public class PROImpl2 implements PROHello {

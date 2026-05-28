@@ -19,8 +19,11 @@
 
 package corba.framework;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Vector;
 
 /**
  * Allows extra paths to be specified when searching for classes.  This

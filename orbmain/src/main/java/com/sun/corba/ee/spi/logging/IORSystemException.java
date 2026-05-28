@@ -20,8 +20,8 @@
 package com.sun.corba.ee.spi.logging ;
 
 import com.sun.corba.ee.spi.ior.ObjectAdapterId;
-import com.sun.corba.ee.spi.logex.corba.CorbaExtension ;
-import com.sun.corba.ee.spi.logex.corba.ORBException ;
+import com.sun.corba.ee.spi.logex.corba.CorbaExtension;
+import com.sun.corba.ee.spi.logex.corba.ORBException;
 
 import java.io.IOException;
 

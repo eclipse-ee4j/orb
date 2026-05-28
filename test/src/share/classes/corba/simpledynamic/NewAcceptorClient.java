@@ -19,18 +19,18 @@
 
 package corba.simpledynamic;
 
-import java.net.Socket;
-import java.util.Properties;
-import java.rmi.RemoteException ;
-
-import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.transport.Acceptor;
 import com.sun.corba.ee.spi.transport.TransportDefault;
-import org.glassfish.pfl.basic.func.UnaryVoidFunction;
 
-import org.testng.Assert ;
-import org.testng.annotations.Test ;
+import java.net.Socket;
+import java.rmi.RemoteException;
+import java.util.Properties;
+
+import org.glassfish.pfl.basic.func.UnaryVoidFunction;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class NewAcceptorClient extends Framework {
     private static final int SERVER_PORT = Integer.parseInt( PORT_NUM ) ;

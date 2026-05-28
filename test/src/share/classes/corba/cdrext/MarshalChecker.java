@@ -18,7 +18,3 @@
  */
 
 package corba.cdrext;
-
-import java.io.*;
-import java.util.*;
-

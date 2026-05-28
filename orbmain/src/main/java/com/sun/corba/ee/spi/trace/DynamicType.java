@@ -19,10 +19,10 @@
 
 package com.sun.corba.ee.spi.trace ;
 
-import java.lang.annotation.ElementType ;
-import java.lang.annotation.Retention ;
-import java.lang.annotation.RetentionPolicy ;
-import java.lang.annotation.Target ;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 import org.glassfish.pfl.tf.spi.annotation.MethodMonitorGroup;
 

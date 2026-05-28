@@ -21,7 +21,7 @@ package com.sun.corba.ee.spi.servicecontext;
 
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 
-import org.omg.CORBA_2_3.portable.OutputStream ;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 /** The collection of ServiceContext instances used in a particular
  * request.

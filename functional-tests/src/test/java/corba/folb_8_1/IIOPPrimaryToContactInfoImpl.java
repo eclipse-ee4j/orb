@@ -26,23 +26,22 @@
 
 package corba.folb_8_1;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
-import java.util.logging.Level;
+import com.sun.corba.ee.impl.misc.ORBUtility;
+import com.sun.corba.ee.spi.orb.ORB;
 
 //import com.sun.logging.LogDomains;
 
 // These are "ee" in the AS version:
 import com.sun.corba.ee.spi.transport.ContactInfo;
-import com.sun.corba.ee.spi.ior.IOR;
-import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.transport.ContactInfoList;
 import com.sun.corba.ee.spi.transport.IIOPPrimaryToContactInfo;
 import com.sun.corba.ee.spi.transport.SocketInfo;
-import com.sun.corba.ee.impl.misc.ORBUtility;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
 
 /**
  * This is the "sticky manager" - based on the 7.1 EE concept.

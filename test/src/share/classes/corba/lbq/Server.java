@@ -24,20 +24,19 @@
 
 package corba.lbq;
 
+import com.sun.corba.ee.spi.orb.ORB;
+
 import java.util.Properties;
 
-import org.omg.CORBA.Policy ;
-
-import org.omg.PortableServer.POA;
-import org.omg.PortableServer.Servant;
-import org.omg.PortableServer.LifespanPolicyValue;
-import org.omg.PortableServer.IdUniquenessPolicyValue;
+import org.omg.CORBA.Policy;
 import org.omg.PortableServer.IdAssignmentPolicyValue;
+import org.omg.PortableServer.IdUniquenessPolicyValue;
 import org.omg.PortableServer.ImplicitActivationPolicyValue;
-import org.omg.PortableServer.ServantRetentionPolicyValue;
+import org.omg.PortableServer.LifespanPolicyValue;
+import org.omg.PortableServer.POA;
 import org.omg.PortableServer.RequestProcessingPolicyValue;
-
-import com.sun.corba.ee.spi.orb.ORB ;
+import org.omg.PortableServer.Servant;
+import org.omg.PortableServer.ServantRetentionPolicyValue;
 
 /**
  * @author Harold Carr

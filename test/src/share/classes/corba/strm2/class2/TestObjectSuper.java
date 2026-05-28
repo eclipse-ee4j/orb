@@ -17,7 +17,8 @@
  * Classpath-exception-2.0
  */
 
-import java.io.*;
+import java.io.IOException;
+import java.io.Serializable;
 
 public class TestObjectSuper implements Serializable
 {

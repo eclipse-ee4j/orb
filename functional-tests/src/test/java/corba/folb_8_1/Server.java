@@ -25,14 +25,14 @@
 package corba.folb_8_1;
 
 
-import java.util.Properties ;
-
-import org.omg.CORBA.ORB;
-import org.omg.PortableServer.POA;
-
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
 import corba.hcks.U;
+
+import java.util.Properties;
+
+import org.omg.CORBA.ORB;
+import org.omg.PortableServer.POA;
 
 /**
  * @author Harold Carr

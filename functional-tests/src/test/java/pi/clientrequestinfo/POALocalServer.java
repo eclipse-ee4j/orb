@@ -19,20 +19,15 @@
 
 package pi.clientrequestinfo;
 
-import org.omg.CORBA.*;
-import org.omg.CosNaming.*;
-import org.omg.CORBA.ORBPackage.*;
-import org.omg.PortableServer.*;
-import org.omg.PortableServer.POAPackage.*;
-import org.omg.PortableInterceptor.*;
-import corba.framework.*;
-import com.sun.corba.ee.spi.misc.ORBConstants;
-import com.sun.corba.ee.impl.interceptors.*;
+import java.io.PrintStream;
+import java.util.Hashtable;
+import java.util.Properties;
 
-import java.util.*;
-import java.io.*;
-
-import ClientRequestInfo.*; // hello interface
+import org.omg.CORBA.ORBPackage.InvalidName;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
+import org.omg.PortableServer.POA;
 
 public class POALocalServer {
     // Set from run()

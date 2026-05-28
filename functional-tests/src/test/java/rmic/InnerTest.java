@@ -21,16 +21,18 @@
 
 package rmic;
 
-import test.Test;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.io.Serializable;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.io.Serializable;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
 import org.glassfish.pfl.test.JUnitReportHelper;
-import org.glassfish.rmic.iiop.Constants;
 import org.glassfish.rmic.iiop.CompoundType;
+import org.glassfish.rmic.iiop.Constants;
 import org.glassfish.rmic.iiop.ContextStack;
+
+import test.Test;
 
 public class InnerTest extends Test implements Constants {
 

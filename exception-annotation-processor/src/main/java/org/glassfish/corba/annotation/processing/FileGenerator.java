@@ -19,18 +19,19 @@
 
 package org.glassfish.corba.annotation.processing;
 
-import org.glassfish.pfl.basic.logex.ExceptionWrapper;
-import org.glassfish.pfl.basic.logex.Message;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.annotation.processing.Filer;
 import javax.lang.model.element.Element;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.List;
+
+import org.glassfish.pfl.basic.logex.ExceptionWrapper;
+import org.glassfish.pfl.basic.logex.Message;
 
 /**
 * This class generates properties files based on annotations.

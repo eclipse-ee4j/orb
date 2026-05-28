@@ -24,9 +24,14 @@
 
 package ibmspace.client;
 
-import java.awt.*;
-import javax.swing.*;
-import ibmspace.common.Planet;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+
+import javax.swing.JComponent;
+
 import ibmspace.common.PlanetView;
 
 public class PlanetStatsView extends JComponent

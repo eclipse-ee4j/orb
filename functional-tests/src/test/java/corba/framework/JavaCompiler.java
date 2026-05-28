@@ -19,8 +19,8 @@
 
 package corba.framework;
 
-import java.util.Vector;
 import java.util.StringTokenizer;
+import java.util.Vector;
 
 /**
  * Wrapper around calling javac.

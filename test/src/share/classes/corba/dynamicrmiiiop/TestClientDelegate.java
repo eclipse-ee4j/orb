@@ -19,34 +19,30 @@
 
 package corba.dynamicrmiiiop  ;
 
-import java.util.Iterator ;
+import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.protocol.ClientDelegate;
+import com.sun.corba.ee.spi.protocol.LocalClientRequestDispatcher;
+import com.sun.corba.ee.spi.transport.ContactInfoList;
 
-import javax.rmi.CORBA.Tie ;
+import corba.dynamicrmiiiop.testclasses.TieTestImpl;
 
-import org.omg.CORBA.portable.InputStream ;
-import org.omg.CORBA.portable.OutputStream ;
-import org.omg.CORBA.portable.ServantObject ;
-import org.omg.CORBA.portable.ApplicationException ;
-import org.omg.CORBA.portable.RemarshalException ;
-import org.omg.CORBA.portable.ResponseHandler ;
-import org.omg.CORBA.Request ;
+import java.util.Iterator;
 
-import org.omg.CORBA.Context ;
-import org.omg.CORBA.NVList ;
-import org.omg.CORBA.NamedValue ;
-import org.omg.CORBA.ExceptionList ;
-import org.omg.CORBA.ContextList ;
+import javax.rmi.CORBA.Tie;
 
-import org.omg.CORBA_2_3.portable.Delegate ;
-
-import com.sun.corba.ee.spi.transport.ContactInfoList ;
-
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.ior.IOR ;
-import com.sun.corba.ee.spi.protocol.LocalClientRequestDispatcher ;
-import com.sun.corba.ee.spi.protocol.ClientDelegate ;
-
-import corba.dynamicrmiiiop.testclasses.TieTestImpl ;
+import org.omg.CORBA.Context;
+import org.omg.CORBA.ContextList;
+import org.omg.CORBA.ExceptionList;
+import org.omg.CORBA.NVList;
+import org.omg.CORBA.NamedValue;
+import org.omg.CORBA.Request;
+import org.omg.CORBA.portable.ApplicationException;
+import org.omg.CORBA.portable.InputStream;
+import org.omg.CORBA.portable.OutputStream;
+import org.omg.CORBA.portable.RemarshalException;
+import org.omg.CORBA.portable.ResponseHandler;
+import org.omg.CORBA.portable.ServantObject;
 
 public class TestClientDelegate extends ClientDelegate
 {

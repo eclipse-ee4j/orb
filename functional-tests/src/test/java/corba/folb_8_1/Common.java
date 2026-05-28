@@ -24,23 +24,25 @@
 
 package corba.folb_8_1;
 
+import com.sun.corba.ee.spi.extension.ZeroPortPolicy;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.Policy;
-import org.omg.PortableServer.LifespanPolicyValue;
-import org.omg.PortableServer.POA;
-import org.omg.PortableServer.Servant;
-import org.omg.CosNaming.*;
+import org.omg.CosNaming.NameComponent;
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
 import org.omg.IOP.Codec;
 import org.omg.IOP.CodecFactory;
 import org.omg.IOP.CodecFactoryHelper;
-import org.omg.IOP.Encoding;
 import org.omg.IOP.ENCODING_CDR_ENCAPS;
-
-import com.sun.corba.ee.spi.extension.ZeroPortPolicy;
+import org.omg.IOP.Encoding;
+import org.omg.PortableServer.LifespanPolicyValue;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.Servant;
 
 /**
  * @author Harold Carr

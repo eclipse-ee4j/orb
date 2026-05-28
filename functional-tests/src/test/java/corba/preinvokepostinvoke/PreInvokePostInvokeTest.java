@@ -19,9 +19,8 @@
 
 package corba.preinvokepostinvoke;
 
-import corba.framework.Controller;
 import corba.framework.CORBATest;
-import corba.framework.Options;
+import corba.framework.Controller;
 
 public class PreInvokePostInvokeTest
     extends
