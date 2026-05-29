@@ -21,7 +21,6 @@
 package org.glassfish.corba.annotation.processing;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -46,7 +45,6 @@ import org.glassfish.pfl.basic.logex.Message;
 public class ExceptionWrapperProcessor extends AbstractProcessor {
 
     Map<Element,FileGenerator> annotatedClasses = new HashMap<Element, FileGenerator>();
-    Date creationDate = new Date();
 
     @Override
     public boolean process(Set<? extends TypeElement> typeElements, RoundEnvironment roundEnvironment) {
@@ -74,7 +72,7 @@ public class ExceptionWrapperProcessor extends AbstractProcessor {
 
     private void processClassElements(Set<? extends Element> classElements) {
         for (Element classElement : classElements) {
-            annotatedClasses.put(classElement,new FileGenerator(classElement, creationDate));
+            annotatedClasses.put(classElement,new FileGenerator(classElement));
         }
     }
 
