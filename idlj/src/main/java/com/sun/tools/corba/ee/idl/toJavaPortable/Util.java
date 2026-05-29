@@ -75,11 +75,8 @@ import com.sun.tools.corba.ee.idl.constExpr.Expression;
 import java.io.File;
 import java.io.PrintWriter;
 import java.math.BigInteger;
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Locale;
 import java.util.Vector;
 
 /**
@@ -1109,26 +1106,7 @@ public class Util extends com.sun.tools.corba.ee.idl.Util
     //stream.println ("* " + Util.getMessage ("toJavaProlog2", Compile.compiler.arguments.file));
     stream.println ("* " + Util.getMessage ("toJavaProlog2", com.sun.tools.corba.ee.idl.toJavaPortable.Compile.compiler.arguments.file.replace (File.separatorChar, '/')));
 
-    ///////////////
-    // This SHOULD work, but there's a bug in the JDK.
-    //    stream.println ("* " + DateFormat.getDateTimeInstance (DateFormat.FULL, DateFormat.FULL, Locale.getDefault ()).format (new Date ()));
-    // This gets around the bug:
-
-    DateFormat formatter = DateFormat.getDateTimeInstance (DateFormat.FULL, DateFormat.FULL, Locale.getDefault ());
-
-    // Japanese-specific workaround.  JDK bug 4069784 being repaired by JavaSoft.
-    // Keep this transient solution until bug fix is reported.cd .
-
-    if (Locale.getDefault () == Locale.JAPAN)
-      formatter.setTimeZone (java.util.TimeZone.getTimeZone ("JST"));
-    else
-      formatter.setTimeZone (java.util.TimeZone.getDefault ());
-
-    stream.println ("* " + formatter.format (new Date ()));
-
-    // <daz>
-    ///////////////
-
+    stream.println ("* ");
     stream.println ("*/");
     stream.println ();
   } // writeProlog

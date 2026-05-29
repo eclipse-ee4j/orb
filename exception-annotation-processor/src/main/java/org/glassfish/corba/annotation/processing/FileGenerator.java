@@ -28,7 +28,6 @@ import javax.tools.FileObject;
 import javax.tools.StandardLocation;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,12 +36,10 @@ import java.util.List;
 */
 class FileGenerator {
     private Element classElement;
-    private Date creationDate;
     private List<Element> methodElements = new ArrayList<Element>();
 
-    FileGenerator(Element classElement, Date creationDate) {
+    FileGenerator(Element classElement) {
         this.classElement = classElement;
-        this.creationDate = creationDate;
     }
 
     String getPrefix() {
@@ -71,8 +68,6 @@ class FileGenerator {
     }
 
     void writePropertyFileHeader(Writer writer) throws IOException {
-        writer.append("### Resource file generated on ").append(creationDate.toString()).append('\n');
-        writer.append("#\n");
         writer.append("# Resources for class ").append(classElement.toString()).append('\n');
         writer.append("#\n");
     }
