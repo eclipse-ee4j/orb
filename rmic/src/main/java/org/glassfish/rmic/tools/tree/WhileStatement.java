@@ -92,6 +92,7 @@ class WhileStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         WhileStatement s = (WhileStatement)clone();
         s.cond = cond.copyInline(ctx);
@@ -124,6 +125,7 @@ class WhileStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("while ");

@@ -27,6 +27,8 @@ import java.io.IOException;
 
 public class InvalidCharacter extends IOException
 {
+  private static final long serialVersionUID = -957973020484256487L;
+
   public InvalidCharacter (String filename, String line, int lineNumber, int pos, char ch)
   {
     String pointer = "^";
@@ -37,10 +39,11 @@ public class InvalidCharacter extends IOException
         bytes[i] = (byte)' ';  // <d62023>
       pointer = new String (bytes) + pointer;
     }
-    String[] parameters = {filename, Integer.toString (lineNumber), "" + ch, Integer.toString ((int)ch), line, pointer};
+    String[] parameters = {filename, Integer.toString (lineNumber), "" + ch, Integer.toString (ch), line, pointer};
     message = Util.getMessage("InvalidCharacter.1", parameters);
   }
 
+  @Override
   public String getMessage ()
   {
     return message;

@@ -32,7 +32,6 @@ public class PragmaEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
 {
   protected PragmaEntry ()
   {
-    super ();
     repositoryID (Util.emptyID);
   } // ctor
 
@@ -48,6 +47,7 @@ public class PragmaEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
     super (that);
   } // ctor
 
+  @Override
   public Object clone ()
   {
     return new PragmaEntry (this);
@@ -59,6 +59,7 @@ public class PragmaEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
        a subclass of SymtabEntry.
       @param stream the stream to which the generator should sent its output.
       @see com.sun.tools.corba.ee.idl.SymtabEntry */
+  @Override
   public void generate (Hashtable symbolTable, PrintWriter stream)
   {
     pragmaGen.generate (symbolTable, this, stream);

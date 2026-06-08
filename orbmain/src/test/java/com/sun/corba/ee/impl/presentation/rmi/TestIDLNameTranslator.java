@@ -71,8 +71,10 @@ public class TestIDLNameTranslator extends TestCase {
         InvalidRemotes.InvalidRemote19.class
     };
 
+    @Override
     protected void setUp() {}
 
+    @Override
     protected void tearDown() {}
 
     public void testMultipleInterfaces()
@@ -228,7 +230,7 @@ public class TestIDLNameTranslator extends TestCase {
         Method[] sortedMethods )
     {
         for(int i = 0; i < sortedMethods.length; i++) {
-            Method m = (Method) sortedMethods[i];
+            Method m = sortedMethods[i];
             String expected = expectedIdlNames[i];
             String translatedName = nameTranslator.getIDLName(m);
             String msg = "expected '" + expected + "'" +
@@ -303,6 +305,7 @@ public class TestIDLNameTranslator extends TestCase {
     //
     //
     private static class MethodComparator implements java.util.Comparator {
+        @Override
         public int compare(Object o1, Object o2) {
             String m1 = getMethodString((Method)o1);
             String m2 = getMethodString((Method)o2);

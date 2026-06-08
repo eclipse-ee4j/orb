@@ -58,7 +58,7 @@ public class ServerRequestImpl extends ServerRequest {
 
     public ServerRequestImpl (MessageMediator req, ORB orb) {
         _opName = req.getOperationName();
-        _ins    = (InputStream)req.getInputObject();
+        _ins    = req.getInputObject();
         _ctx    = null;         // if we support contexts, this would
                                 // presumably also  be available on
                                 // the server invocation
@@ -235,6 +235,7 @@ public class ServerRequestImpl extends ServerRequest {
         }
     }
 
+    @Override
     public Context ctx()
     {
         if ( !_paramsCalled || _resultSet || _exceptionSet )

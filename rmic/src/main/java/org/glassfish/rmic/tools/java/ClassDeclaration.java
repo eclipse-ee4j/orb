@@ -223,6 +223,7 @@ class ClassDeclaration implements Constants {
     /**
      * Equality
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof ClassDeclaration) {
             return type.equals(((ClassDeclaration)obj).type);
@@ -238,6 +239,7 @@ class ClassDeclaration implements Constants {
     /**
      * toString
      */
+    @Override
     public String toString() {
         String name = getName().toString();
         String type = "type ";

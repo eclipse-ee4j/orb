@@ -66,6 +66,7 @@ class InlineNewInstanceExpression extends Expression {
     /**
      * Create a copy of the expression for method inlining
      */
+    @Override
     public Expression copyInline(Context ctx) {
         InlineNewInstanceExpression e = (InlineNewInstanceExpression)clone();
         e.body = body.copyInline(ctx, true);
@@ -100,6 +101,7 @@ class InlineNewInstanceExpression extends Expression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         LocalMember v = (LocalMember)field.getArguments().elementAt(0);
         out.println("(" + opNames[op] + "#" + v.hashCode() + "=" + field.hashCode());

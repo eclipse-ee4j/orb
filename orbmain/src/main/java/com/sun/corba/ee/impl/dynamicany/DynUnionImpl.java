@@ -58,6 +58,7 @@ public class DynUnionImpl extends DynAnyConstructedImpl implements DynUnion
         super(orb, typeCode);
     }
 
+    @Override
     protected boolean initializeComponentsFromAny() {
         try {
             InputStream input = any.create_input_stream();
@@ -75,6 +76,7 @@ public class DynUnionImpl extends DynAnyConstructedImpl implements DynUnion
     // Sets the current position to zero.
     // The discriminator value is set to a value consistent with the first named member
     // of the union. That member is activated and (recursively) initialized to its default value.
+    @Override
     protected boolean initializeComponentsFromTypeCode() {
         //System.out.println(this + " initializeComponentsFromTypeCode");
         try {
@@ -189,6 +191,7 @@ public class DynUnionImpl extends DynAnyConstructedImpl implements DynUnion
     * Returns the current discriminator value.
      * @return current discriminator value.
      */
+    @Override
     public org.omg.DynamicAny.DynAny get_discriminator () {
         if (status == STATUS_DESTROYED) {
             throw wrapper.dynAnyDestroyed() ;
@@ -212,6 +215,7 @@ public class DynUnionImpl extends DynAnyConstructedImpl implements DynUnion
     // (has_no_active_member returns true in this case).
     // Otherwise the current position is set to 1 (has_no_active_member returns false and
     // component_count returns 2 in this case).
+    @Override
     public void set_discriminator (org.omg.DynamicAny.DynAny newDiscriminator)
         throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch
     {
@@ -249,6 +253,7 @@ public class DynUnionImpl extends DynAnyConstructedImpl implements DynUnion
     // zero and causes component_count to return 2.
     // Calling set_to_default_member on a union that does not have an explicit
     // default case raises TypeMismatch.
+    @Override
     public void set_to_default_member ()
         throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch
     {
@@ -278,6 +283,7 @@ public class DynUnionImpl extends DynAnyConstructedImpl implements DynUnion
     // Calling set_to_no_active_member on a union that has an explicit default case
     // or on a union that uses the entire range of discriminator values
     // for explicit case labels raises TypeMismatch.
+    @Override
     public void set_to_no_active_member ()
         throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch
     {
@@ -308,6 +314,7 @@ public class DynUnionImpl extends DynAnyConstructedImpl implements DynUnion
     // Calling this operation on a union that has a default case returns false.
     // Calling this operation on a union that uses the entire range of discriminator
     // values for explicit case labels returns false.
+    @Override
     public boolean has_no_active_member () {
         if (status == STATUS_DESTROYED) {
             throw wrapper.dynAnyDestroyed() ;
@@ -320,6 +327,7 @@ public class DynUnionImpl extends DynAnyConstructedImpl implements DynUnion
         return (checkInitComponents() ? (currentMemberIndex == NO_INDEX) : false);
     }
 
+    @Override
     public org.omg.CORBA.TCKind discriminator_kind () {
         if (status == STATUS_DESTROYED) {
             throw wrapper.dynAnyDestroyed() ;
@@ -333,6 +341,7 @@ public class DynUnionImpl extends DynAnyConstructedImpl implements DynUnion
     // as the currently active member does not change.
     // Using the returned reference beyond the life time
     // of the currently active member raises OBJECT_NOT_EXIST.
+    @Override
     public org.omg.DynamicAny.DynAny member ()
         throws org.omg.DynamicAny.DynAnyPackage.InvalidValue
     {
@@ -349,6 +358,7 @@ public class DynUnionImpl extends DynAnyConstructedImpl implements DynUnion
     // If the unions TypeCode does not contain a member name for the currently active member,
     // the operation returns an empty string.
     // Calling member_name on a union without an active member raises InvalidValue.
+    @Override
     public String member_name ()
         throws org.omg.DynamicAny.DynAnyPackage.InvalidValue
     {
@@ -364,6 +374,7 @@ public class DynUnionImpl extends DynAnyConstructedImpl implements DynUnion
 
     // Returns the TCKind value of the TypeCode of the currently active member.
     // If the union has no active member, the operation raises InvalidValue.
+    @Override
     public org.omg.CORBA.TCKind member_kind ()
         throws org.omg.DynamicAny.DynAnyPackage.InvalidValue
     {

@@ -487,10 +487,12 @@ class ImportEnvironment extends Environment {
         this.imports = imports;
     }
 
+    @Override
     public Identifier resolve(Identifier nm) throws ClassNotFound {
         return imports.resolve(this, nm);
     }
 
+    @Override
     public Imports getImports() {
         return imports;
     }

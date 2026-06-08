@@ -93,6 +93,7 @@ class BinaryMember extends MemberDefinition {
     /**
      * Get arguments
      */
+    @Override
     public Vector<MemberDefinition> getArguments() {
         if (isConstructor() && (getClassDefinition().getSuperClass() == null)) {
             Vector<MemberDefinition> v = new Vector<>();
@@ -134,6 +135,7 @@ class BinaryMember extends MemberDefinition {
     /**
      * Get documentation
      */
+    @Override
     public String getDocumentation() {
         if (documentation != null) {
             return documentation;
@@ -156,6 +158,7 @@ class BinaryMember extends MemberDefinition {
      */
     private boolean isConstantCache = false;
     private boolean isConstantCached = false;
+    @Override
     public boolean isConstant() {
         if (!isConstantCached) {
             isConstantCache = isFinal()
@@ -204,7 +207,7 @@ class BinaryMember extends MemberDefinition {
             return null;
         }
         if (getValue() != null) {
-            return (Expression)getValue();
+            return getValue();
         }
         byte data[] = getAttribute(idConstantValue);
         if (data == null) {
@@ -238,7 +241,7 @@ class BinaryMember extends MemberDefinition {
                 setValue(new StringExpression(0, (String)cpool.getValue(((Number)obj).intValue())));
                 break;
             }
-            return (Expression)getValue();
+            return getValue();
         } catch (IOException e) {
             throw new CompilerError(e);
         }

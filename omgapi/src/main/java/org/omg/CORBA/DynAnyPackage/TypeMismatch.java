@@ -28,11 +28,12 @@ package org.omg.CORBA.DynAnyPackage;
 public final class TypeMismatch
     extends org.omg.CORBA.UserException {
 
+    private static final long serialVersionUID = 2763424591181102501L;
+
     /**
      * Constructs a <code>TypeMismatch</code> object.
      */
     public TypeMismatch() {
-        super();
     }
 
     /**

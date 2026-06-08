@@ -24,22 +24,22 @@ import com.sun.corba.ee.spi.ior.IOR;
 
 import java.util.Iterator;
 
-public abstract interface ContactInfoListIterator
+public interface ContactInfoListIterator
     extends Iterator<ContactInfo> {
 
-    public void reportAddrDispositionRetry(ContactInfo contactInfo,
+    void reportAddrDispositionRetry(ContactInfo contactInfo,
                                            short disposition);
 
-    public void reportRedirect(ContactInfo contactInfo,
+    void reportRedirect(ContactInfo contactInfo,
                                IOR forwardedIOR);
 
-    public ContactInfoList getContactInfoList();
+    ContactInfoList getContactInfoList();
 
-    public void reportSuccess(ContactInfo contactInfo);
+    void reportSuccess(ContactInfo contactInfo);
 
-    public boolean reportException(ContactInfo contactInfo, RuntimeException exception);
+    boolean reportException(ContactInfo contactInfo, RuntimeException exception);
 
-    public RuntimeException getFailureException();
+    RuntimeException getFailureException();
 
 }
 

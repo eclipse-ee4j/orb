@@ -44,7 +44,7 @@ public interface IIOPPrimaryToContactInfo
     /**
      * @param primary - clear any state relating to primary.
      */
-    public void reset(ContactInfo primary);
+    void reset(ContactInfo primary);
 
     /**
      * @param primary the key.
@@ -55,7 +55,7 @@ public interface IIOPPrimaryToContactInfo
      * primary.
      * @return if there is another
      */
-    public boolean hasNext(ContactInfo primary,
+    boolean hasNext(ContactInfo primary,
                            ContactInfo previous,
                            List contactInfos);
 
@@ -72,7 +72,7 @@ public interface IIOPPrimaryToContactInfo
      * primary.
      * @return the next ContactInfo
      */
-    public ContactInfo next(ContactInfo primary,
+    ContactInfo next(ContactInfo primary,
                             ContactInfo previous,
                             List contactInfos);
 

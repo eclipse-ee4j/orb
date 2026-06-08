@@ -29,6 +29,7 @@ package com.sun.org.omg.CORBA;
 
 public final class ExceptionDescription implements org.omg.CORBA.portable.IDLEntity
 {
+    private static final long serialVersionUID = 1950548704996626228L;
     public String name = null;
     public String id = null;
     public String defined_in = null;

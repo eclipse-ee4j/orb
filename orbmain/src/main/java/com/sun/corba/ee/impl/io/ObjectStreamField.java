@@ -39,6 +39,7 @@ public class ObjectStreamField implements Comparable
     private static final Bridge bridge =
         AccessController.doPrivileged(
             new PrivilegedAction<Bridge>() {
+                @Override
                 public Bridge run() {
                     return Bridge.get() ;
                 }
@@ -211,6 +212,7 @@ public class ObjectStreamField implements Comparable
     /**
      * Return a string describing this field.
      */
+    @Override
     public String toString() {
         if (typeString != null)
             return typeString + " " + name;

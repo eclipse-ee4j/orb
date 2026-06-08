@@ -127,7 +127,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
                 superClass = cls.getSuperclass();
             }
         }
-    };
+    }
 
     /** Bridge is used to access the reflection factory for
      * obtaining serialization constructors.
@@ -136,6 +136,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
     private static final Bridge bridge =
         (Bridge)AccessController.doPrivileged(
             new PrivilegedAction() {
+                @Override
                 public Object run() {
                     return Bridge.get() ;
                 }
@@ -420,8 +421,6 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
         Class cls = obj.getClass() ;
         ReflectAttrs attrs = getClassAttrs( cls ) ;
 
-        Object copy = null;
-
         if (attrs.isImmutable || (obj instanceof org.omg.CORBA.Object)) {
             return obj;
         }
@@ -430,7 +429,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
             return Utility.autoConnect(obj, orb, true);
         }
 
-        copy = objRefs.get(obj);
+        Object copy = objRefs.get(obj);
         if (copy == null) {
             // Handle instance of HashMap specially because Map.Entry contains
             // non-static finals.  HashTable is likewise handled here.
@@ -474,6 +473,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier
         try {
             return AccessController.doPrivileged(
                 new PrivilegedExceptionAction() {
+                    @Override
                     public Object run() throws RemoteException, InstantiationException,
                         IllegalAccessException, InvocationTargetException
                     {

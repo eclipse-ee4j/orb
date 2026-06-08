@@ -62,11 +62,13 @@ public class FVDCodeBaseImpl extends _CodeBaseImplBase
     }
 
     // Operation to obtain the IR from the sending context
+    @Override
     public com.sun.org.omg.CORBA.Repository get_ir (){
         return null;
     }
 
     // Operations to obtain a URL to the implementation code
+    @Override
     public String implementation (String x){
         try{
             // Util.getCodebase may return null which would
@@ -83,6 +85,7 @@ public class FVDCodeBaseImpl extends _CodeBaseImplBase
         }
     }
 
+    @Override
     public String[] implementations (String[] x){
         String result[] = new String[x.length];
 
@@ -94,6 +97,7 @@ public class FVDCodeBaseImpl extends _CodeBaseImplBase
     }
 
     // the same information
+    @Override
     public FullValueDescription meta (String x){
         try{
             FullValueDescription result = fvds.get(x);
@@ -124,6 +128,7 @@ public class FVDCodeBaseImpl extends _CodeBaseImplBase
         }
     }
 
+    @Override
     public FullValueDescription[] metas (String[] x){
         FullValueDescription descriptions[] = new FullValueDescription[x.length];
 
@@ -135,6 +140,7 @@ public class FVDCodeBaseImpl extends _CodeBaseImplBase
     }
 
     // information
+    @Override
     public String[] bases (String x){
         try {
             Stack<String> repIds = new Stack<String>();

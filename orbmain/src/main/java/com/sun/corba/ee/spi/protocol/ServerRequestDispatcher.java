@@ -31,16 +31,16 @@ import com.sun.corba.ee.spi.ior.ObjectKey;
  * ObjectAdapter to Servant, although this may be short-circuited.
  * Instances of this class are registered in the subcontract Registry.
  */
-public abstract interface ServerRequestDispatcher
+public interface ServerRequestDispatcher
 {
     /**
      * Handle a locate request.
      * @param key key to object to locate
      * @return IOR for the request
      */
-    public IOR locate(ObjectKey key);
+    IOR locate(ObjectKey key);
 
-    public void dispatch(MessageMediator messageMediator);
+    void dispatch(MessageMediator messageMediator);
 }
 
 // End of file.

@@ -36,6 +36,7 @@ public class MaxStreamFormatVersionComponentImpl extends TaggedComponentBase
     public static final MaxStreamFormatVersionComponentImpl singleton
         = new MaxStreamFormatVersionComponentImpl();
 
+    @Override
     public boolean equals(Object obj)
     {
         if (!(obj instanceof MaxStreamFormatVersionComponentImpl))
@@ -47,11 +48,13 @@ public class MaxStreamFormatVersionComponentImpl extends TaggedComponentBase
         return version == other.version ;
     }
 
+    @Override
     public int hashCode()
     {
         return version ;
     }
 
+    @Override
     public String toString()
     {
         return "MaxStreamFormatVersionComponentImpl[version=" + version + "]" ;
@@ -66,16 +69,19 @@ public class MaxStreamFormatVersionComponentImpl extends TaggedComponentBase
         version = streamFormatVersion;
     }
 
+    @Override
     public byte getMaxStreamFormatVersion()
     {
         return version;
     }
 
+    @Override
     public void writeContents(OutputStream os)
     {
         os.write_octet(version);
     }
 
+    @Override
     public int getId()
     {
         return TAG_RMI_CUSTOM_MAX_STREAM_FORMAT.value;

@@ -37,6 +37,8 @@ public class RetryServerRequestInterceptor
     extends  org.omg.CORBA.LocalObject
     implements ORBInitializer, ServerRequestInterceptor
 {
+    private static final long serialVersionUID = 273473172584568871L;
+
     private static final String baseMsg =
         RetryServerRequestInterceptor.class.getName();
 
@@ -64,11 +66,13 @@ public class RetryServerRequestInterceptor
     // Interceptor operations
     //
 
+    @Override
     public String name()
     {
         return baseMsg;
     }
 
+    @Override
     public void destroy()
     {
     }
@@ -78,6 +82,7 @@ public class RetryServerRequestInterceptor
     // ServerRequestInterceptor
     //
 
+    @Override
     public void receive_request_service_contexts(ServerRequestInfo ri)
     {
         if (rejectingRequests) {
@@ -97,18 +102,22 @@ public class RetryServerRequestInterceptor
         }
     }
 
+    @Override
     public void receive_request(ServerRequestInfo ri)
     {
     }
 
+    @Override
     public void send_reply(ServerRequestInfo ri)
     {
     }
 
+    @Override
     public void send_exception(ServerRequestInfo ri)
     {
     }
 
+    @Override
     public void send_other(ServerRequestInfo ri)
     {
     }
@@ -118,10 +127,12 @@ public class RetryServerRequestInterceptor
     // ORBInitializer
     //
 
+    @Override
     public void pre_init(ORBInitInfo info)
     {
     }
 
+    @Override
     public void post_init(ORBInitInfo info)
     {
         try {

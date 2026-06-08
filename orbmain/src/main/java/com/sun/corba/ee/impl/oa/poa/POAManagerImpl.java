@@ -332,6 +332,7 @@ public class POAManagerImpl extends org.omg.CORBA.LocalObject implements
      * <code>activate</code>
      * <b>Spec: pages 3-14 thru 3-18</b>
      */
+    @Override
     @Poa
     @ManagedOperation
     @Description( "Make this POAManager active, so it can handle new requests" )
@@ -365,6 +366,7 @@ public class POAManagerImpl extends org.omg.CORBA.LocalObject implements
      * <code>hold_requests</code>
      * <b>Spec: pages 3-14 thru 3-18</b>
      */
+    @Override
     @Poa
     @ManagedOperation
     @Description( "Hold all requests to this POAManager" )
@@ -405,6 +407,7 @@ public class POAManagerImpl extends org.omg.CORBA.LocalObject implements
      * <code>discard_requests</code>
      * <b>Spec: pages 3-14 thru 3-18</b>
      */
+    @Override
     @Poa
     @ManagedOperation
     @ParameterNames( { "waitForCompletion" } )
@@ -453,6 +456,7 @@ public class POAManagerImpl extends org.omg.CORBA.LocalObject implements
      * Note: INACTIVE is a permanent state.
      */
 
+    @Override
     @Poa
     public void deactivate(boolean etherealize_objects, boolean wait_for_completion)
         throws org.omg.PortableServer.POAManagerPackage.AdapterInactive
@@ -512,6 +516,7 @@ public class POAManagerImpl extends org.omg.CORBA.LocalObject implements
             this.pmi = pmi ;
         }
 
+        @Override
         @Poa
         public void run()
         {
@@ -561,6 +566,7 @@ public class POAManagerImpl extends org.omg.CORBA.LocalObject implements
      * state of the POAManager
      */
 
+    @Override
     public org.omg.PortableServer.POAManagerPackage.State get_state () {
         return state;
     }

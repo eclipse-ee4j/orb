@@ -46,6 +46,7 @@ public class StubObject extends ObjectImpl {
         return infoList;
     }
 
+    @Override
     public String[] _ids() {
         return new String[0];
     }
@@ -57,6 +58,7 @@ public class StubObject extends ObjectImpl {
             this.contactInfoList = contactInfoList;
         }
 
+        @Override
         public ContactInfoList getContactInfoList() {
             return contactInfoList;
         }
@@ -65,10 +67,12 @@ public class StubObject extends ObjectImpl {
     abstract static class TestContactInfoList implements ContactInfoList {
         private IOR ior;
 
+        @Override
         public void setTargetIOR(IOR ior) {
             this.ior = ior;
         }
 
+        @Override
         public IOR getTargetIOR() {
             return ior;
         }

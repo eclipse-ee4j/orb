@@ -28,6 +28,7 @@ import java.io.Serializable;
  * A serializable class that implements both readObject and writeObject for custom marshalling.
  */
 class CustomMarshalledValue implements Serializable {
+  private static final long serialVersionUID = 8785518479276270702L;
   transient double customDouble;
   double aDouble;
   Value1 value1;

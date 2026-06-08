@@ -20,6 +20,8 @@
 package org.glassfish.rmic;
 
 public class BatchEnvironmentError extends Error {
+    private static final long serialVersionUID = 1953716199472424160L;
+
     public BatchEnvironmentError(String message) {
         super(message);
     }

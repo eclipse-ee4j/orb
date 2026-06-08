@@ -31,7 +31,7 @@ import java.nio.ByteOrder;
 
 public class Message_1_2 extends Message_1_1
 {
-    protected int request_id = (int) 0;
+    protected int request_id = 0;
 
     Message_1_2() {}
 

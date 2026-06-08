@@ -43,6 +43,8 @@ package org.omg.CORBA;
  */
 
 public final class OBJECT_NOT_EXIST extends SystemException {
+    private static final long serialVersionUID = -1763979706089561651L;
+
     /**
      * Constructs an <code>OBJECT_NOT_EXIST</code> exception with a default minor code
      * of 0, a completion state of CompletionStatus.COMPLETED_NO,

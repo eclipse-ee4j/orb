@@ -44,7 +44,7 @@ public interface ClientRequestDispatcher
      *
      * @return OutputObject
      */
-    public CDROutputObject beginRequest(Object self,
+    CDROutputObject beginRequest(Object self,
                                      String methodName,
                                      boolean isOneWay,
                                      ContactInfo contactInfo);
@@ -65,7 +65,7 @@ public interface ClientRequestDispatcher
      * @throws org.omg.CORBA.portable.RemarshalException RemarshalException
      * if the PEPt runtime would like the presentation block to start over.
      */
-    public CDRInputObject marshalingComplete(java.lang.Object self,
+    CDRInputObject marshalingComplete(java.lang.Object self,
                                           CDROutputObject outputObject)
     // REVISIT EXCEPTIONS
         throws
@@ -83,7 +83,7 @@ public interface ClientRequestDispatcher
      * @param self unused
      * @param inputObject unused
      */
-    public void endRequest(ORB broker,
+    void endRequest(ORB broker,
                            java.lang.Object self,
                            CDRInputObject inputObject);
 }

@@ -29,6 +29,7 @@ public class ServerInvokerServantPOA extends PortableRemoteObject implements Ser
         // DO NOT CALL SUPER - that would connect the object.
     }
 
+    @Override
     public void invoke(int excType) {
         Server.invoke(excType);
     }

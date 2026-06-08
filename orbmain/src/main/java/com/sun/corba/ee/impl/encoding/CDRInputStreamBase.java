@@ -80,6 +80,7 @@ abstract class CDRInputStreamBase extends java.io.InputStream
     public abstract Any read_any();
     @SuppressWarnings({"deprecation"})
     public abstract org.omg.CORBA.Principal read_Principal();
+    @Override
     public int read() throws java.io.IOException {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
@@ -132,8 +133,10 @@ abstract class CDRInputStreamBase extends java.io.InputStream
 //     public abstract long skip(long n) throws IOException;
 //     public abstract int available() throws IOException;
 //     public abstract void close() throws IOException;
+    @Override
     public abstract void mark(int readlimit);
 
+    @Override
     public abstract void reset();
 
     // This should return false so that outside users (people using the JDK)
@@ -146,6 +149,7 @@ abstract class CDRInputStreamBase extends java.io.InputStream
     // is.reset();
     // Object obj1b = is.readObject();
     //
+    @Override
     public boolean markSupported() { return false; }
 
     // Needed by AnyImpl and ServiceContexts

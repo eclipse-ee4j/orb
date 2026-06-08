@@ -34,6 +34,7 @@ public class NormalParserAction extends ParserActionBase {
      * match the propertyName prefix, pass this to op, and return the
      * result.
      */
+    @Override
     public Object apply( Properties props )
     {
         Object value = props.getProperty( getPropertyName() ) ;

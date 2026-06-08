@@ -52,6 +52,7 @@ class ConvertExpression extends UnaryExpression {
     /**
      * Simplify
      */
+    @Override
     Expression simplify() {
         switch (right.op) {
           case BYTEVAL:
@@ -65,8 +66,8 @@ class ConvertExpression extends UnaryExpression {
               case TC_SHORT:    return new ShortExpression(right.where, (short)value);
               case TC_INT:      return new IntExpression(right.where, value);
               case TC_LONG:     return new LongExpression(right.where, (long)value);
-              case TC_FLOAT:    return new FloatExpression(right.where, (float)value);
-              case TC_DOUBLE:   return new DoubleExpression(right.where, (double)value);
+              case TC_FLOAT:    return new FloatExpression(right.where, value);
+              case TC_DOUBLE:   return new DoubleExpression(right.where, value);
             }
             break;
           }
@@ -77,8 +78,8 @@ class ConvertExpression extends UnaryExpression {
               case TC_CHAR:     return new CharExpression(right.where, (char)value);
               case TC_SHORT:    return new ShortExpression(right.where, (short)value);
               case TC_INT:      return new IntExpression(right.where, (int)value);
-              case TC_FLOAT:    return new FloatExpression(right.where, (float)value);
-              case TC_DOUBLE:   return new DoubleExpression(right.where, (double)value);
+              case TC_FLOAT:    return new FloatExpression(right.where, value);
+              case TC_DOUBLE:   return new DoubleExpression(right.where, value);
             }
             break;
           }
@@ -90,7 +91,7 @@ class ConvertExpression extends UnaryExpression {
               case TC_SHORT:    return new ShortExpression(right.where, (short)value);
               case TC_INT:      return new IntExpression(right.where, (int)value);
               case TC_LONG:     return new LongExpression(right.where, (long)value);
-              case TC_DOUBLE:   return new DoubleExpression(right.where, (double)value);
+              case TC_DOUBLE:   return new DoubleExpression(right.where, value);
             }
             break;
           }
@@ -113,9 +114,11 @@ class ConvertExpression extends UnaryExpression {
     /**
      * Check if the expression is equal to a value
      */
+    @Override
     public boolean equals(int i) {
         return right.equals(i);
     }
+    @Override
     public boolean equals(boolean b) {
         return right.equals(b);
     }
@@ -148,6 +151,7 @@ class ConvertExpression extends UnaryExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print("(" + opNames[op] + " " + type.toString() + " ");
         right.print(out);

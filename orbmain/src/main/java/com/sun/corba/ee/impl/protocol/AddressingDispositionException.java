@@ -38,6 +38,7 @@ import com.sun.corba.ee.impl.protocol.giopmsgheaders.KeyAddr;
  */
 public class AddressingDispositionException extends RuntimeException {
 
+    private static final long serialVersionUID = 552415180528697837L;
     private short expectedAddrDisp = KeyAddr.value;
 
     public AddressingDispositionException(short expectedAddrDisp) {

@@ -27,6 +27,8 @@ package org.omg.CORBA;
 // @SuppressWarnings({"serial"})
 public final class NameValuePair implements org.omg.CORBA.portable.IDLEntity {
 
+    private static final long serialVersionUID = 7000741877654946223L;
+
     /**
      * The name to be associated with a value by this <code>NameValuePair</code> object.
      */

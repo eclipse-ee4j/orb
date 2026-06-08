@@ -36,7 +36,6 @@ public class SequenceEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
 {
   protected SequenceEntry ()
   {
-    super ();
     repositoryID (com.sun.tools.corba.ee.idl.Util.emptyID);
   } // ctor
 

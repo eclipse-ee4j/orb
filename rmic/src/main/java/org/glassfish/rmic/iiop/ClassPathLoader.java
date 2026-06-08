@@ -42,6 +42,7 @@ public class ClassPathLoader extends ClassLoader
     }
 
     // Called by the super class
+    @Override
     protected Class findClass(String name) throws ClassNotFoundException
     {
         byte[] b = loadClassData(name);

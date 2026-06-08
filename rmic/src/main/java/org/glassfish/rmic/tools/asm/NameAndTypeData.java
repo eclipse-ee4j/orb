@@ -42,6 +42,7 @@ class NameAndTypeData {
     /**
      * Hashcode
      */
+    @Override
     public int hashCode() {
         return field.getName().hashCode() * field.getType().hashCode();
     }
@@ -49,6 +50,7 @@ class NameAndTypeData {
     /**
      * Equality
      */
+    @Override
     public boolean equals(Object obj) {
         if ((obj != null) && (obj instanceof NameAndTypeData)) {
             NameAndTypeData nt = (NameAndTypeData)obj;
@@ -61,6 +63,7 @@ class NameAndTypeData {
     /**
      * Convert to string
      */
+    @Override
     public String toString() {
         return "%%" + field.toString() + "%%";
     }

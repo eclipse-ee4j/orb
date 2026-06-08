@@ -802,19 +802,23 @@ public abstract class MessageBase implements Message {
         return sysEx;
     }
 
+    @Override
     public void callback(MessageHandler handler)
             throws java.io.IOException {
         handler.handleInput(this);
     }
 
+    @Override
     public int getThreadPoolToUse() {
         return threadPoolToUse;
     }
 
+    @Override
     public byte getEncodingVersion() {
         return this.encodingVersion;
     }
 
+    @Override
     public void setEncodingVersion(byte version) {
         this.encodingVersion = version;
     }
@@ -824,6 +828,7 @@ public abstract class MessageBase implements Message {
      * NOTE: This method should be overridden for messages that support
      * a 4 byte request id following the 12 byte GIOP message header.
      */
+    @Override
     public RequestId getCorbaRequestId() {
         return RequestIdImpl.UNKNOWN_CORBA_REQUEST_ID;
     }
@@ -831,6 +836,7 @@ public abstract class MessageBase implements Message {
     /**
      * Returns true if this message could be followed by a fragment.
      */
+    @Override
     public boolean supportsFragments() {
         return false;
     }

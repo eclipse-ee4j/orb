@@ -98,6 +98,7 @@ public class Terminal extends Expression
   } // ctor
 
   ///// INSTANCE METHODS
+  @Override
   public Object evaluate () throws com.sun.tools.corba.ee.idl.constExpr.EvaluationException
   {
     if (value () instanceof ConstEntry)

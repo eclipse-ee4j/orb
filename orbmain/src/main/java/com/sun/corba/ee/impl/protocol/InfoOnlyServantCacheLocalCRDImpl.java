@@ -30,9 +30,10 @@ public class InfoOnlyServantCacheLocalCRDImpl extends ServantCacheLocalCRDBase
 {
     public InfoOnlyServantCacheLocalCRDImpl( ORB orb, int scid, IOR ior )
     {
-        super( (com.sun.corba.ee.spi.orb.ORB)orb, scid, ior ) ;
+        super( orb, scid, ior ) ;
     }
 
+    @Override
     public ServantObject internalPreinvoke( org.omg.CORBA.Object self,
         String operation, Class expectedType ) throws OADestroyed
     {
@@ -49,6 +50,7 @@ public class InfoOnlyServantCacheLocalCRDImpl extends ServantCacheLocalCRDBase
         return info ;
     }
 
+    @Override
     public void servant_postinvoke(org.omg.CORBA.Object self,
                                    ServantObject servantobj)
     {

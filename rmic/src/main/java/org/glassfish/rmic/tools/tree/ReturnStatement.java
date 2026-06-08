@@ -134,6 +134,7 @@ class ReturnStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         Expression e = (expr != null) ? expr.copyInline(ctx) : null;
         if ((!valNeeded) && (e != null)) {
@@ -163,6 +164,7 @@ class ReturnStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("return");

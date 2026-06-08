@@ -191,6 +191,7 @@ abstract public class ORB {
         // class was loaded from rt.jar using the bootstrap classloader.
         String propValue = AccessController.doPrivileged(
             new PrivilegedAction<String>() {
+                @Override
                 public String run() {
                     return System.getProperty(name);
                 }
@@ -211,8 +212,9 @@ abstract public class ORB {
                 private Properties getFileProperties( String fileName ) {
                     try {
                         File propFile = new File( fileName ) ;
-                        if (!propFile.exists())
+                        if (!propFile.exists()) {
                             return null ;
+                        }
 
                         Properties props = new Properties() ;
                         FileInputStream fis = new FileInputStream(propFile);
@@ -228,6 +230,7 @@ abstract public class ORB {
                     }
                 }
 
+                @Override
                 public java.lang.Object run() {
                     String userHome = System.getProperty("user.home");
                     String fileName = userHome + File.separator +
@@ -236,8 +239,9 @@ abstract public class ORB {
 
                     if (props != null) {
                         String value = props.getProperty( name ) ;
-                        if (value != null)
+                        if (value != null) {
                             return value ;
+                        }
                     }
 
                     String javaHome = System.getProperty("java.home");
@@ -245,10 +249,11 @@ abstract public class ORB {
                         + "lib" + File.separator + "orb.properties";
                     props = getFileProperties( fileName ) ;
 
-                    if (props == null)
+                    if (props == null) {
                         return null ;
-                    else
+                    } else {
                         return props.getProperty( name ) ;
+                    }
                 }
             }
         );
@@ -284,10 +289,12 @@ abstract public class ORB {
     public static synchronized ORB init() {
         if (singleton == null) {
             String className = getSystemProperty(ORBSingletonClassKey);
-            if (className == null)
+            if (className == null) {
                 className = getPropertyFromFile(ORBSingletonClassKey);
-            if (className == null)
+            }
+            if (className == null) {
                 className = defaultORBSingleton;
+            }
 
             singleton = create_impl(className);
         }
@@ -337,14 +344,18 @@ abstract public class ORB {
         String className = null;
         ORB orb;
 
-        if (props != null)
+        if (props != null) {
             className = props.getProperty(ORBClassKey);
-        if (className == null)
+        }
+        if (className == null) {
             className = getSystemProperty(ORBClassKey);
-        if (className == null)
+        }
+        if (className == null) {
             className = getPropertyFromFile(ORBClassKey);
-        if (className == null)
+        }
+        if (className == null) {
             className = defaultORB;
+        }
 
         orb = create_impl(className);
         orb.set_parameters(args, props);
@@ -365,14 +376,18 @@ abstract public class ORB {
         ORB orb;
 
         className = app.getParameter(ORBClassKey);
-        if (className == null && props != null)
+        if (className == null && props != null) {
             className = props.getProperty(ORBClassKey);
-        if (className == null)
+        }
+        if (className == null) {
             className = getSystemProperty(ORBClassKey);
-        if (className == null)
+        }
+        if (className == null) {
             className = getPropertyFromFile(ORBClassKey);
-        if (className == null)
+        }
+        if (className == null) {
             className = defaultORB;
+        }
 
         orb = create_impl(className);
         orb.set_parameters(app, props);
@@ -570,13 +585,12 @@ abstract public class ORB {
         try {
             // First try to load the OperationDef class
             String opDefClassName = "org.omg.CORBA.OperationDef";
-            Class opDefClass = null;
-
             ClassLoader cl = Thread.currentThread().getContextClassLoader();
-            if ( cl == null )
+            if ( cl == null ) {
                 cl = ClassLoader.getSystemClassLoader();
+            }
             // if this throws a ClassNotFoundException, it will be caught below.
-            opDefClass = Class.forName(opDefClassName, true, cl);
+            Class opDefClass = Class.forName(opDefClassName, true, cl);
 
             Class[] args = { opDefClass } ;
             java.lang.reflect.Method meth =
@@ -866,7 +880,7 @@ abstract public class ORB {
      * @see #create_recursive_tc(String) create_recursive_tc
      * @see #create_sequence_tc(int, TypeCode) create_sequence_tc
      */
-    // @Deprecated
+    @Deprecated
     abstract public TypeCode create_recursive_sequence_tc(int bound, int offset);
 
     /**
@@ -1037,7 +1051,7 @@ abstract public class ORB {
      * @return          a newly-created <code>Current</code> object
      * @deprecated      use <code>resolve_initial_references</code>.
      */
-    // @Deprecated
+    @Deprecated
     public org.omg.CORBA.Current get_current()
     {
         throw new org.omg.CORBA.NO_IMPLEMENT();
@@ -1163,7 +1177,7 @@ abstract public class ORB {
      *      comments for unimplemented features</a>
      * @deprecated Use the new <a href="../DynamicAny/DynAnyFactory.html">DynAnyFactory</a> API instead
      */
-    // @Deprecated
+    @Deprecated
     public org.omg.CORBA.DynAny create_dyn_any(org.omg.CORBA.Any value)
     {
         throw new org.omg.CORBA.NO_IMPLEMENT();
@@ -1183,7 +1197,7 @@ abstract public class ORB {
      *      comments for unimplemented features</a>
      * @deprecated Use the new <a href="../DynamicAny/DynAnyFactory.html">DynAnyFactory</a> API instead
      */
-    // @Deprecated
+    @Deprecated
     public org.omg.CORBA.DynAny create_basic_dyn_any(org.omg.CORBA.TypeCode type) throws org.omg.CORBA.ORBPackage.InconsistentTypeCode
     {
         throw new org.omg.CORBA.NO_IMPLEMENT();
@@ -1203,7 +1217,7 @@ abstract public class ORB {
      *      comments for unimplemented features</a>
      * @deprecated Use the new <a href="../DynamicAny/DynAnyFactory.html">DynAnyFactory</a> API instead
      */
-    // @Deprecated
+    @Deprecated
     public org.omg.CORBA.DynStruct create_dyn_struct(org.omg.CORBA.TypeCode type) throws org.omg.CORBA.ORBPackage.InconsistentTypeCode
     {
         throw new org.omg.CORBA.NO_IMPLEMENT();
@@ -1223,7 +1237,7 @@ abstract public class ORB {
      *      comments for unimplemented features</a>
      * @deprecated Use the new <a href="../DynamicAny/DynAnyFactory.html">DynAnyFactory</a> API instead
      */
-    // @Deprecated
+    @Deprecated
     public org.omg.CORBA.DynSequence create_dyn_sequence(org.omg.CORBA.TypeCode type) throws org.omg.CORBA.ORBPackage.InconsistentTypeCode
     {
         throw new org.omg.CORBA.NO_IMPLEMENT();
@@ -1244,7 +1258,7 @@ abstract public class ORB {
      *      comments for unimplemented features</a>
      * @deprecated Use the new <a href="../DynamicAny/DynAnyFactory.html">DynAnyFactory</a> API instead
      */
-    // @Deprecated
+    @Deprecated
     public org.omg.CORBA.DynArray create_dyn_array(org.omg.CORBA.TypeCode type) throws org.omg.CORBA.ORBPackage.InconsistentTypeCode
     {
         throw new org.omg.CORBA.NO_IMPLEMENT();
@@ -1264,7 +1278,7 @@ abstract public class ORB {
      *      comments for unimplemented features</a>
      * @deprecated Use the new <a href="../DynamicAny/DynAnyFactory.html">DynAnyFactory</a> API instead
      */
-    // @Deprecated
+    @Deprecated
     public org.omg.CORBA.DynUnion create_dyn_union(org.omg.CORBA.TypeCode type) throws org.omg.CORBA.ORBPackage.InconsistentTypeCode
     {
         throw new org.omg.CORBA.NO_IMPLEMENT();
@@ -1284,7 +1298,7 @@ abstract public class ORB {
      *      comments for unimplemented features</a>
      * @deprecated Use the new <a href="../DynamicAny/DynAnyFactory.html">DynAnyFactory</a> API instead
      */
-    // @Deprecated
+    @Deprecated
     public org.omg.CORBA.DynEnum create_dyn_enum(org.omg.CORBA.TypeCode type) throws org.omg.CORBA.ORBPackage.InconsistentTypeCode
     {
         throw new org.omg.CORBA.NO_IMPLEMENT();
@@ -1318,7 +1332,9 @@ abstract public class ORB {
 
     private final static void checkPackageAccess(String name) {
         SecurityManager s = System.getSecurityManager();
-        if (s == null) return;
+        if (s == null) {
+            return;
+        }
 
         String cname = name.replace('/', '.');
         if (cname.startsWith("[")) {

@@ -34,6 +34,7 @@ public class CompositeResolverImpl implements Resolver {
         this.second = second ;
     }
 
+    @Override
     public org.omg.CORBA.Object resolve( String name )
     {
         org.omg.CORBA.Object result = first.resolve( name ) ;
@@ -42,6 +43,7 @@ public class CompositeResolverImpl implements Resolver {
         return result ;
     }
 
+    @Override
     public Set<String> list()
     {
         Set<String> result = new HashSet() ;

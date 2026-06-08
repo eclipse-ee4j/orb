@@ -39,5 +39,5 @@ package org.omg.CORBA;
  * @version 1.20 07/27/07
  */
 public interface PUBLIC_MEMBER {
-    final short value = (short) (1L);
-};
+    short value = (short) (1L);
+}

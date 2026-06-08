@@ -64,8 +64,7 @@ abstract public class FieldNameHelper
 
   public static String read (org.omg.CORBA.portable.InputStream istream)
   {
-    String value = null;
-    value = istream.read_string ();
+    String value = istream.read_string ();
     return value;
   }
 

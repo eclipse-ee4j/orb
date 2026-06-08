@@ -33,7 +33,6 @@ public class StructEntry extends SymtabEntry
 {
   protected StructEntry ()
   {
-    super ();
   } // ctor
 
   protected StructEntry (StructEntry that)

@@ -27,6 +27,8 @@ package com.sun.tools.corba.ee.idl;
  **/
 public class InvalidArgument extends Exception
 {
+  private static final long serialVersionUID = 8813975442661104328L;
+
   /** @param arg the invalid argument. */
   public InvalidArgument (String arg)
   {
@@ -38,6 +40,7 @@ public class InvalidArgument extends Exception
     message = Util.getMessage("InvalidArgument.2") + "\n\n" + Util.getMessage("usage");
   } // ctor
 
+  @Override
   public String getMessage ()
   {
     return message;

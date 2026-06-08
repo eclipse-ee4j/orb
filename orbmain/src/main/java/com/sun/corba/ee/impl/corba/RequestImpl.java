@@ -125,41 +125,49 @@ public class RequestImpl
 
     }
 
+    @Override
     public synchronized org.omg.CORBA.Object target()
     {
         return _target;
     }
 
+    @Override
     public synchronized String operation()
     {
         return _opName;
     }
 
+    @Override
     public synchronized NVList arguments()
     {
         return _arguments;
     }
 
+    @Override
     public synchronized NamedValue result()
     {
         return _result;
     }
 
+    @Override
     public synchronized Environment env()
     {
         return _env;
     }
 
+    @Override
     public synchronized ExceptionList exceptions()
     {
         return _exceptions;
     }
 
+    @Override
     public synchronized ContextList contexts()
     {
         return _ctxList;
     }
 
+    @Override
     public synchronized Context ctx()
     {
         if (_ctx == null) {
@@ -168,41 +176,49 @@ public class RequestImpl
         return _ctx;
     }
 
+    @Override
     public synchronized void ctx(Context newCtx)
     {
         _ctx = newCtx;
     }
 
+    @Override
     public synchronized Any add_in_arg()
     {
         return _arguments.add(org.omg.CORBA.ARG_IN.value).value();
     }
 
+    @Override
     public synchronized Any add_named_in_arg(String name)
     {
         return _arguments.add_item(name, org.omg.CORBA.ARG_IN.value).value();
     }
 
+    @Override
     public synchronized Any add_inout_arg()
     {
         return _arguments.add(org.omg.CORBA.ARG_INOUT.value).value();
     }
 
+    @Override
     public synchronized Any add_named_inout_arg(String name)
     {
         return _arguments.add_item(name, org.omg.CORBA.ARG_INOUT.value).value();
     }
 
+    @Override
     public synchronized Any add_out_arg()
     {
         return _arguments.add(org.omg.CORBA.ARG_OUT.value).value();
     }
 
+    @Override
     public synchronized Any add_named_out_arg(String name)
     {
         return _arguments.add_item(name, org.omg.CORBA.ARG_OUT.value).value();
     }
 
+    @Override
     public synchronized void set_return_type(TypeCode tc)
     {
         if (_result == null) {
@@ -211,6 +227,7 @@ public class RequestImpl
         _result.value().type(tc);
     }
 
+    @Override
     public synchronized Any return_value()
     {
         if (_result == null) {
@@ -224,23 +241,27 @@ public class RequestImpl
         _exceptions.add(exceptionType);
     }
 
+    @Override
     public synchronized void invoke()
     {
         doInvocation();
     }
 
+    @Override
     public synchronized void send_oneway()
     {
         _isOneWay = true;
         doInvocation();
     }
 
+    @Override
     public synchronized void send_deferred()
     {
         AsynchInvoke invokeObject = new AsynchInvoke(_orb, this, false);
         new Thread(invokeObject).start();
     }
 
+    @Override
     public synchronized boolean poll_response()
     {
         // this method has to be synchronized even though it seems
@@ -251,6 +272,7 @@ public class RequestImpl
         return gotResponse;
     }
 
+    @Override
     public synchronized void get_response()
         throws org.omg.CORBA.WrongTransaction
     {

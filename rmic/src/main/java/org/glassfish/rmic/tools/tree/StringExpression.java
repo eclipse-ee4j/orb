@@ -42,9 +42,11 @@ class StringExpression extends ConstantExpression {
         this.value = value;
     }
 
+    @Override
     public boolean equals(String s) {
         return value.equals(s);
     }
+    @Override
     public boolean isNonNull() {
         return true;            // string literal is never null
     }
@@ -59,6 +61,7 @@ class StringExpression extends ConstantExpression {
     /**
      * Get the value
      */
+    @Override
     public Object getValue() {
         return value;
     }
@@ -66,6 +69,7 @@ class StringExpression extends ConstantExpression {
     /**
      * Hashcode
      */
+    @Override
     public int hashCode() {
         return value.hashCode() ^ 3213;
     }
@@ -73,6 +77,7 @@ class StringExpression extends ConstantExpression {
     /**
      * Equality
      */
+    @Override
     public boolean equals(Object obj) {
         if ((obj != null) && (obj instanceof StringExpression)) {
             return value.equals(((StringExpression)obj).value);
@@ -83,6 +88,7 @@ class StringExpression extends ConstantExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print("\"" + value + "\"");
     }

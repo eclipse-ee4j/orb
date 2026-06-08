@@ -25,6 +25,7 @@ import org.omg.CORBA.LocalObject ;
 
 public class ReferenceFactoryImpl extends LocalObject implements ReferenceFactory
 {
+    private static final long serialVersionUID = 567087954462959814L;
     private ReferenceFactoryManagerImpl manager ;
     private String name ;
     private String repositoryId ;
@@ -36,14 +37,17 @@ public class ReferenceFactoryImpl extends LocalObject implements ReferenceFactor
         this.repositoryId = repositoryId ;
     }
 
+    @Override
     public org.omg.CORBA.Object createReference( byte[] key ) {
         return manager.createReference( name, key, repositoryId ) ;
     }
 
+    @Override
     public void destroy() {
         manager.destroy( name ) ;
     }
 
+    @Override
     public String toString()
     {
         return "ReferenceFactoryImpl["

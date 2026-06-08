@@ -72,6 +72,7 @@ class MethodExpression extends NaryExpression {
         this.isSuper = forceSuper;
     }
 
+    @Override
     public Expression getImplementation() {
         if (implementation != null)
             return implementation;
@@ -772,6 +773,7 @@ class MethodExpression extends NaryExpression {
         }
     }
 
+    @Override
     public Expression copyInline(Context ctx) {
         if (implementation != null)
             return implementation.copyInline(ctx);
@@ -921,6 +923,7 @@ class MethodExpression extends NaryExpression {
     /**
      * Check if the first thing is a constructor invocation
      */
+    @Override
     public Expression firstConstructor() {
         return id.equals(idInit) ? this : null;
     }
@@ -928,6 +931,7 @@ class MethodExpression extends NaryExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print("(" + opNames[op]);
         if (right != null) {

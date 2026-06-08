@@ -39,15 +39,15 @@ public class ValidRemotes {
     public interface ValidRemote1 extends ValidRemote0 {}
 
     public interface ValidRemote2 extends java.rmi.Remote {
-        public void foo1() throws java.rmi.RemoteException,
+        void foo1() throws java.rmi.RemoteException,
             java.io.IOException, java.lang.Exception, java.lang.Throwable;
     }
 
     public interface ValidRemote3 extends java.rmi.Remote {
-        public void foo1() throws java.rmi.RemoteException;
-        public void foo2() throws java.io.IOException;
-        public void foo3() throws java.lang.Exception;
-        public void foo4() throws java.lang.Throwable;
+        void foo1() throws java.rmi.RemoteException;
+        void foo2() throws java.io.IOException;
+        void foo3() throws java.lang.Exception;
+        void foo4() throws java.lang.Throwable;
     }
 
     public interface ValidRemote4 extends ValidRemote3 {}
@@ -66,15 +66,17 @@ public class ValidRemotes {
     }
 
     public interface ValidRemote6 extends java.rmi.Remote {
-        public void foo1() throws java.rmi.RemoteException,
+        void foo1() throws java.rmi.RemoteException,
             java.lang.Exception;
 
-        public void foo2()
+        void foo2()
             throws java.rmi.RemoteException, Exception1;
 
     }
 
-    public static class Exception1 extends java.lang.Exception {}
+    public static class Exception1 extends java.lang.Exception {
+
+        private static final long serialVersionUID = -5498897992488044038L;}
 
     public interface ValidRemote7 extends java.rmi.Remote {
         void foo() throws java.rmi.RemoteException;
@@ -86,6 +88,7 @@ public class ValidRemotes {
         ValidRemote2, ValidRemote5, ValidRemote7 {}
 
     public interface ValidRemote9 extends ValidRemote8 {
+        @Override
         void foo(int a) throws java.rmi.RemoteException;
     }
 

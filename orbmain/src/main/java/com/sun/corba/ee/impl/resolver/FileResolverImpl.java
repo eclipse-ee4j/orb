@@ -44,6 +44,7 @@ public class FileResolverImpl implements Resolver
         savedProps = new Properties() ;
     }
 
+    @Override
     public org.omg.CORBA.Object resolve( String name )
     {
         check() ;
@@ -54,6 +55,7 @@ public class FileResolverImpl implements Resolver
         return orb.string_to_object( stringifiedObject ) ;
     }
 
+    @Override
     public Set<String> list()
     {
         check() ;

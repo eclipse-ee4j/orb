@@ -24,13 +24,13 @@ package com.sun.corba.ee.spi.legacy.connection;
  */
 public interface LegacyServerSocketManager
 {
-    public int legacyGetTransientServerPort(String type);
-    public int legacyGetPersistentServerPort(String socketType);
-    public int legacyGetTransientOrPersistentServerPort(String socketType);
+    int legacyGetTransientServerPort(String type);
+    int legacyGetPersistentServerPort(String socketType);
+    int legacyGetTransientOrPersistentServerPort(String socketType);
 
-    public LegacyServerSocketEndPointInfo legacyGetEndpoint(String name);
+    LegacyServerSocketEndPointInfo legacyGetEndpoint(String name);
 
-    public boolean legacyIsLocalServerPort(int port);
+    boolean legacyIsLocalServerPort(int port);
 }
 
 // End of file.

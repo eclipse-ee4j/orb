@@ -37,6 +37,7 @@ class GetORBPropertiesFileAction implements PrivilegedAction {
         // class was loaded from rt.jar using the bootstrap classloader.
         String propValue = (String) AccessController.doPrivileged(
             new PrivilegedAction() {
+                @Override
                 public java.lang.Object run() {
                     return System.getProperty(name);
                 }
@@ -67,6 +68,7 @@ class GetORBPropertiesFileAction implements PrivilegedAction {
         }
     }
 
+    @Override
     public Object run()
     {
         Properties defaults = new Properties() ;

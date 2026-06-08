@@ -29,11 +29,13 @@ public class FooServantPOA extends PortableRemoteObject implements Foo {
         // DO NOT CALL SUPER - that would connect the object.
     }
 
+    @Override
     public byte fooA(byte x) {
         System.out.println(x + "");
         return x;
     }
 
+    @Override
     public void fooB() {
     }
 }

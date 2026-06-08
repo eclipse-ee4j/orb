@@ -27,10 +27,8 @@ package org.glassfish.rmic.tools.javac;
  * they are subject to change or removal without notice.
  */
 @Deprecated
-public
-interface ErrorConsumer {
-        public void pushError(String errorFileName,
-                                                        int line,
-                                                        String message,
-                                                        String referenceText, String referenceTextPointer);
-};
+public interface ErrorConsumer {
+
+    @Deprecated
+    void pushError(String errorFileName, int line, String message, String referenceText, String referenceTextPointer);
+}

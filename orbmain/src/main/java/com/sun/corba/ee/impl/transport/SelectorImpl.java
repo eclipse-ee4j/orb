@@ -80,6 +80,7 @@ public class SelectorImpl
     }
 
     private static final Timer SYSTEM_TIMER = new Timer() {
+        @Override
         public long getCurrentTime() {
             return System.currentTimeMillis();
         }
@@ -102,11 +103,13 @@ public class SelectorImpl
         closed = false;
     }
 
+    @Override
     public void setTimeout(long timeout)
     {
         this.timeout = timeout;
     }
 
+    @Override
     @ManagedAttribute
     @Description( "The selector timeout" )
     public long getTimeout()
@@ -123,6 +126,7 @@ public class SelectorImpl
     @InfoMethod
     private void defaultCaseForEventHandler() { }
 
+    @Override
     @Transport
     public void registerInterestOps(EventHandler eventHandler) {
         SelectionKey selectionKey = eventHandler.getSelectionKey();
@@ -141,6 +145,7 @@ public class SelectorImpl
         }
     }
 
+    @Override
     @Transport
     public void registerForEvent(EventHandler eventHandler)
     {
@@ -172,6 +177,7 @@ public class SelectorImpl
         }
     }
 
+    @Override
     @Transport
     public void unregisterForEvent(EventHandler eventHandler) {
         if (isClosed()) {
@@ -203,6 +209,7 @@ public class SelectorImpl
         }
     }
 
+    @Override
     @Transport
     public void close() {
         if (isClosed()) {
@@ -262,6 +269,7 @@ public class SelectorImpl
     public void run() {
         java.security.AccessController.doPrivileged(
             new java.security.PrivilegedAction<Object>() {
+                @Override
                 public Object run() {
                     setName("SelectorThread");
                     return null;

@@ -22,6 +22,6 @@ package org.glassfish.rmic.classes.primitives;
 import java.rmi.Remote;
 
 public interface InterfaceWithConstantArray extends Remote {
-    public static final int[] VALUES = {1,2,3};
+    int[] VALUES = {1,2,3};
 
 }

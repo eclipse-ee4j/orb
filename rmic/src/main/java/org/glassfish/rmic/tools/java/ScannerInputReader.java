@@ -114,11 +114,13 @@ class ScannerInputReader extends FilterReader implements Constants {
 
     //------------------------------------------------------------
 
+    @Override
     public int read(char[] buffer, int off, int len) {
         throw new CompilerError(
                    "ScannerInputReader is not a fully implemented reader.");
     }
 
+    @Override
     public int read() throws IOException {
         pos = chpos;
         chpos += Scanner.OFFSETINC;

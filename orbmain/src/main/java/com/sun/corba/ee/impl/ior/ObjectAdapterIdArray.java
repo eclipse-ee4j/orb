@@ -36,7 +36,7 @@ public class ObjectAdapterIdArray extends ObjectAdapterIdBase {
 
     public ObjectAdapterIdArray( String[] objectAdapterId )
     {
-        this.objectAdapterId = (String[])objectAdapterId.clone() ;
+        this.objectAdapterId = objectAdapterId.clone() ;
     }
 
     /**
@@ -66,6 +66,6 @@ public class ObjectAdapterIdArray extends ObjectAdapterIdBase {
     @Override
     public String[] getAdapterName()
     {
-        return (String[])objectAdapterId.clone() ;
+        return objectAdapterId.clone() ;
     }
 }

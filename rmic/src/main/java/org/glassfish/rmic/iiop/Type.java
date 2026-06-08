@@ -555,6 +555,7 @@ public abstract class Type implements org.glassfish.rmic.iiop.Constants, Context
     /**
      * Return context element name.
      */
+    @Override
     public String getElementName() {
         return getQualifiedName();
     }

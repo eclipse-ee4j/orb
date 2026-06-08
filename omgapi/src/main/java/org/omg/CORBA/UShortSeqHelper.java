@@ -78,9 +78,8 @@ public abstract class UShortSeqHelper
 
     public static short[] read (org.omg.CORBA.portable.InputStream istream)
     {
-        short value[] = null;
         int _len0 = istream.read_long ();
-        value = new short[_len0];
+        short value[] = new short[_len0];
         istream.read_ushort_array (value, 0, _len0);
         return value;
     }

@@ -46,6 +46,7 @@ abstract class TestIOR implements IOR {
 
     private IIOPProfile profile;
 
+    @Override
     public IIOPProfile getProfile() {
         return profile;
     }
@@ -64,6 +65,7 @@ abstract class TestIOR implements IOR {
 
         private TaggedProfileTemplate profileTemplate;
 
+        @Override
         public TaggedProfileTemplate getTaggedProfileTemplate() {
             return profileTemplate;
         }
@@ -88,6 +90,7 @@ abstract class TestIOR implements IOR {
             getTaggedComponentList(id).add(new TestTaggedComponent(id,component));
         }
 
+        @Override
         public Iterator<TaggedComponent> iteratorById(int id) {
             return getTaggedComponentList(id).iterator();
         }
@@ -112,14 +115,17 @@ abstract class TestIOR implements IOR {
             this.iopComponent = iopComponent;
         }
 
+        @Override
         public org.omg.IOP.TaggedComponent getIOPComponent(ORB orb) {
             return iopComponent;
         }
 
+        @Override
         public int getId() {
             return id;
         }
 
+        @Override
         public void write(OutputStream outputStream) {
         }
     }

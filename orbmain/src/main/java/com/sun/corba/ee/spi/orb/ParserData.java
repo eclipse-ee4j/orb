@@ -22,18 +22,18 @@ package com.sun.corba.ee.spi.orb ;
 import java.util.Properties ;
 
 public interface ParserData {
-    public String  getPropertyName() ;
+    String  getPropertyName() ;
 
-    public Operation getOperation() ;
+    Operation getOperation() ;
 
-    public String getFieldName() ;
+    String getFieldName() ;
 
-    public Object getDefaultValue() ;
+    Object getDefaultValue() ;
 
-    public Object getTestValue() ;
+    Object getTestValue() ;
 
-    public void addToParser( PropertyParser parser ) ;
+    void addToParser( PropertyParser parser ) ;
 
-    public void addToProperties( Properties props ) ;
+    void addToProperties( Properties props ) ;
 }
 

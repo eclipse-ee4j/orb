@@ -45,6 +45,8 @@ public final class ORBInitInfoImpl
     extends org.omg.CORBA.LocalObject
     implements ORBInitInfo, ORBInitInfoExt
 {
+    private static final long serialVersionUID = -7267167289638419810L;
+
     // The ORB we are initializing
     private transient ORB orb;
 
@@ -97,6 +99,7 @@ public final class ORBInitInfoImpl
     /** Return the ORB behind this ORBInitInfo.  This is defined in the
      * ORBInitInfoExt interface.
      */
+    @Override
     public ORB getORB()
     {
         return orb ;
@@ -131,6 +134,7 @@ public final class ORBInitInfoImpl
      * This attribute contains the arguments passed to ORB_init.  They may
      * or may not contain the ORB's arguments
      */
+    @Override
     public String[] arguments () {
         checkStage();
         return args.clone() ;
@@ -139,6 +143,7 @@ public final class ORBInitInfoImpl
     /**
      * This attribute is the ID of the ORB being initialized
      */
+    @Override
     public String orb_id () {
         checkStage();
         return orbId;
@@ -151,6 +156,7 @@ public final class ORBInitInfoImpl
      * when processing service contexts, will require a Codec, a means of
      * obtaining a Codec is necessary during ORB intialization.
      */
+    @Override
     public CodecFactory codec_factory () {
         checkStage();
         return codecFactory;
@@ -165,6 +171,7 @@ public final class ORBInitInfoImpl
      * <p>
      * This method may not be called during post_init.
      */
+    @Override
     public void register_initial_reference( String id,
                                             org.omg.CORBA.Object obj )
         throws InvalidName
@@ -204,6 +211,7 @@ public final class ORBInitInfoImpl
      * <p>
      * This method may not be called during pre_init.
      */
+    @Override
     public org.omg.CORBA.Object resolve_initial_references (String id)
         throws InvalidName
     {
@@ -247,6 +255,7 @@ public final class ORBInitInfoImpl
      * If a client-side request Interceptor has already been registered
      * with this Interceptor's name, DuplicateName is raised.
      */
+    @Override
     public void add_client_request_interceptor (
         ClientRequestInterceptor interceptor)
         throws DuplicateName
@@ -273,6 +282,7 @@ public final class ORBInitInfoImpl
      * If a server-side request Interceptor has already been registered
      * with this Interceptor's name, DuplicateName is raised.
      */
+    @Override
     public void add_server_request_interceptor (
         ServerRequestInterceptor interceptor)
         throws DuplicateName
@@ -299,6 +309,7 @@ public final class ORBInitInfoImpl
      * If an IOR Interceptor has already been registered
      * with this Interceptor's name, DuplicateName is raised.
      */
+    @Override
     public void add_ior_interceptor (
         IORInterceptor interceptor )
         throws DuplicateName
@@ -316,6 +327,7 @@ public final class ORBInitInfoImpl
      *
      * @return The index to the slot which has been allocated.
      */
+    @Override
     public int allocate_slot_id () {
         checkStage();
 
@@ -329,6 +341,7 @@ public final class ORBInitInfoImpl
      * If a PolicyFactory already exists for the given PolicyType,
      * BAD_INV_ORDER is raised with a minor code of TBD_BIO+2.
      */
+    @Override
     public void register_policy_factory( int type,
                                          PolicyFactory policy_factory )
     {

@@ -56,6 +56,7 @@ abstract class Value1Helper implements ValueHelper {
 
 
 abstract class Value1Type extends TypeCode {
+    private static final long serialVersionUID = -8473508759086895650L;
     short modifier;
 
     @Override

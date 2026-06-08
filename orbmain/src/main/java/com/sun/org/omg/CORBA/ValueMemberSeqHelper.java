@@ -75,13 +75,10 @@ public final class ValueMemberSeqHelper
     //public static com.sun.org.omg.CORBA.ValueMember[] read (org.omg.CORBA.portable.InputStream istream)
     public static org.omg.CORBA.ValueMember[] read (org.omg.CORBA.portable.InputStream istream)
     {
-        // _CHANGED_
-        //com.sun.org.omg.CORBA.ValueMember value[] = null;
-        org.omg.CORBA.ValueMember value[] = null;
         int _len0 = istream.read_long ();
         // _CHANGED_
         //value = new com.sun.org.omg.CORBA.ValueMember[_len0];
-        value = new org.omg.CORBA.ValueMember[_len0];
+        org.omg.CORBA.ValueMember value[] = new org.omg.CORBA.ValueMember[_len0];
         for (int _o1 = 0;_o1 < value.length; ++_o1)
             value[_o1] = com.sun.org.omg.CORBA.ValueMemberHelper.read (istream);
         return value;

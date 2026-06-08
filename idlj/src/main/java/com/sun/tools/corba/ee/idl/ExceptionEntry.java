@@ -33,7 +33,6 @@ public class ExceptionEntry extends StructEntry
 {
   protected ExceptionEntry ()
   {
-    super ();
   } // ctor
 
   protected ExceptionEntry (ExceptionEntry that)
@@ -46,6 +45,7 @@ public class ExceptionEntry extends StructEntry
     super (that, clone);
    } // ctor
 
+  @Override
   public Object clone ()
   {
     return new ExceptionEntry (this);
@@ -57,6 +57,7 @@ public class ExceptionEntry extends StructEntry
        a subclass of SymtabEntry.
       @param stream the stream to which the generator should sent its output.
       @see com.sun.tools.corba.ee.idl.SymtabEntry */
+  @Override
   public void generate (Hashtable symbolTable, PrintWriter stream)
   {
     exceptionGen.generate (symbolTable, this, stream);
@@ -65,6 +66,7 @@ public class ExceptionEntry extends StructEntry
   /** Access the exception generator.
       @return an object which implements the ExceptionGen interface.
       @see com.sun.tools.corba.ee.idl.ExceptionGen */
+  @Override
   public com.sun.tools.corba.ee.idl.Generator generator ()
   {
     return exceptionGen;

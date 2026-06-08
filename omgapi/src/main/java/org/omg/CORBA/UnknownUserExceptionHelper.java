@@ -63,8 +63,7 @@ abstract public class UnknownUserExceptionHelper
           }
           __active = true;
           org.omg.CORBA.StructMember[] _members0 = new org.omg.CORBA.StructMember [1];
-          org.omg.CORBA.TypeCode _tcOf_members0 = null;
-          _tcOf_members0 = org.omg.CORBA.ORB.init ().get_primitive_tc (org.omg.CORBA.TCKind.tk_any);
+          org.omg.CORBA.TypeCode _tcOf_members0 = org.omg.CORBA.ORB.init ().get_primitive_tc (org.omg.CORBA.TCKind.tk_any);
           _members0[0] = new org.omg.CORBA.StructMember (
             "except",
             _tcOf_members0,

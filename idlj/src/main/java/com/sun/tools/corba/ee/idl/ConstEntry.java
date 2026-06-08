@@ -34,7 +34,6 @@ public class ConstEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
 {
   protected ConstEntry ()
   {
-    super ();
   } // ctor
 
   protected ConstEntry (ConstEntry that)
@@ -61,6 +60,7 @@ public class ConstEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   } // ctor
 
   /** This is a shallow copy clone. */
+  @Override
   public Object clone ()
   {
     return new ConstEntry (this);
@@ -72,6 +72,7 @@ public class ConstEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
        a subclass of SymtabEntry.
       @param stream the stream to which the generator should sent its output.
       @see com.sun.tools.corba.ee.idl.SymtabEntry */
+  @Override
   public void generate (Hashtable symbolTable, PrintWriter stream)
   {
     constGen.generate (symbolTable, this, stream);
@@ -80,6 +81,7 @@ public class ConstEntry extends com.sun.tools.corba.ee.idl.SymtabEntry
   /** Access the constant generator.
       @return an object which implements the ConstGen interface.
       @see com.sun.tools.corba.ee.idl.ConstGen */
+  @Override
   public com.sun.tools.corba.ee.idl.Generator generator ()
   {
     return constGen;

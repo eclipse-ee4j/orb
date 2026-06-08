@@ -41,18 +41,23 @@ class EqualExpression extends BinaryEqualityExpression {
     /**
      * Evaluate
      */
+    @Override
     Expression eval(int a, int b) {
         return new BooleanExpression(where, a == b);
     }
+    @Override
     Expression eval(long a, long b) {
         return new BooleanExpression(where, a == b);
     }
+    @Override
     Expression eval(float a, float b) {
         return new BooleanExpression(where, a == b);
     }
+    @Override
     Expression eval(double a, double b) {
         return new BooleanExpression(where, a == b);
     }
+    @Override
     Expression eval(boolean a, boolean b) {
         return new BooleanExpression(where, a == b);
     }
@@ -60,6 +65,7 @@ class EqualExpression extends BinaryEqualityExpression {
     /**
      * Simplify
      */
+    @Override
     Expression simplify() {
         if (left.isConstant() && !right.isConstant()) {
             return new EqualExpression(where, right, left);
@@ -70,6 +76,7 @@ class EqualExpression extends BinaryEqualityExpression {
     /**
      * Code
      */
+    @Override
     void codeBranch(Environment env, Context ctx, Assembler asm, Label lbl, boolean whenTrue) {
         left.codeValue(env, ctx, asm);
         switch (left.type.getTypeCode()) {

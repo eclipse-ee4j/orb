@@ -42,14 +42,14 @@ import org.glassfish.pfl.basic.logex.WrapperGenerator;
  */
 @ExceptionWrapper( idPrefix="ORBTPOOL" )
 public interface Exceptions {
-    static final Exceptions self = WrapperGenerator.makeWrapper(
+    Exceptions self = WrapperGenerator.makeWrapper(
         Exceptions.class, StandardLogger.self ) ;
 
     // Allow 100 exceptions per class
-    static final int EXCEPTIONS_PER_CLASS = 100 ;
+    int EXCEPTIONS_PER_CLASS = 100 ;
 
 // ThreadPoolImpl
-    static final int TP_START = 1 ;
+    int TP_START = 1 ;
 
     @Message( "Join was interrrupted on thread {0} while closing ThreadPool {1}" )
     @Log( id = TP_START + 0 )
@@ -111,7 +111,7 @@ public interface Exceptions {
         @Chain Throwable e, Thread aThis);
 
 // ThreadPoolManagerImpl
-    static final int TPM_START = TP_START + EXCEPTIONS_PER_CLASS ;
+    int TPM_START = TP_START + EXCEPTIONS_PER_CLASS ;
 
     @Message( "Error in closing ThreadPool" )
     @Log( id = TPM_START + 0 )
@@ -137,7 +137,7 @@ public interface Exceptions {
         ThreadGroup threadGroup);
 
 // ThreadStateValidator
-    static final int TSV_START = TPM_START + EXCEPTIONS_PER_CLASS ;
+    int TSV_START = TPM_START + EXCEPTIONS_PER_CLASS ;
 
     @Message( "Thread state validator threw an exception on validator {0}" )
     @Log( id = TSV_START + 0 )

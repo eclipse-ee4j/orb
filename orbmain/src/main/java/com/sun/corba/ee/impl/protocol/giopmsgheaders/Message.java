@@ -36,28 +36,28 @@ public interface Message {
 
     // Generic constants
 
-    static final int defaultBufferSize = 1024;
-    static final int GIOPBigMagic =    0x47494F50;
-    static final int GIOPMessageHeaderLength = 12;
+    int defaultBufferSize = 1024;
+    int GIOPBigMagic =    0x47494F50;
+    int GIOPMessageHeaderLength = 12;
 
     // Other useful constants
 
-    static final byte LITTLE_ENDIAN_BIT = 0x01;
-    static final byte MORE_FRAGMENTS_BIT = 0x02;
-    static final byte FLAG_NO_FRAG_BIG_ENDIAN = 0x00;
-    static final byte TRAILING_TWO_BIT_BYTE_MASK = 0x3;
-    static final byte THREAD_POOL_TO_USE_MASK = 0x3F;
+    byte LITTLE_ENDIAN_BIT = 0x01;
+    byte MORE_FRAGMENTS_BIT = 0x02;
+    byte FLAG_NO_FRAG_BIG_ENDIAN = 0x00;
+    byte TRAILING_TWO_BIT_BYTE_MASK = 0x3;
+    byte THREAD_POOL_TO_USE_MASK = 0x3F;
 
     // Message types
 
-    static final byte GIOPRequest = 0;
-    static final byte GIOPReply = 1;
-    static final byte GIOPCancelRequest = 2;
-    static final byte GIOPLocateRequest = 3;
-    static final byte GIOPLocateReply = 4;
-    static final byte GIOPCloseConnection = 5;
-    static final byte GIOPMessageError = 6;
-    static final byte GIOPFragment = 7; // 1.1 & 1.2:
+    byte GIOPRequest = 0;
+    byte GIOPReply = 1;
+    byte GIOPCancelRequest = 2;
+    byte GIOPLocateRequest = 3;
+    byte GIOPLocateReply = 4;
+    byte GIOPCloseConnection = 5;
+    byte GIOPMessageError = 6;
+    byte GIOPFragment = 7; // 1.1 & 1.2:
 
     /**
      * Returns whether the Message supports message fragmenting.

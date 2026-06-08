@@ -25,6 +25,8 @@ package com.sun.corba.ee.impl.presentation.rmi ;
  */
 public class IDLTypeException extends Exception {
 
+    private static final long serialVersionUID = -2564499462635913749L;
+
     public IDLTypeException() {}
 
     public IDLTypeException(String message) {

@@ -58,7 +58,6 @@ public abstract class BindingIteratorImpl extends BindingIteratorPOA
     public BindingIteratorImpl(ORB orb)
         throws java.lang.Exception
     {
-        super();
         this.orb = orb ;
     }
 
@@ -87,6 +86,7 @@ public abstract class BindingIteratorImpl extends BindingIteratorPOA
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA
      * system exceptions.
      */
+    @Override
     public synchronized boolean next_n(int how_many,
         org.omg.CosNaming.BindingListHolder blh)
     {
