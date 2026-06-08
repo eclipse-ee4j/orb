@@ -34,7 +34,6 @@ import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -80,7 +79,6 @@ public class ExceptionWrapperProcessorTestCase {
     private List<FileObject> files = new ArrayList<FileObject>();
     private Set<TypeElement> typeElements;
     private FileGenerator fileGenerator;
-    private Date creationDate = new Date();
     private TestElement annotatedClassElement;
     private Map<Class<? extends Annotation>,Set<Element>> annotations = new HashMap<Class<? extends Annotation>, Set<Element>>();
 
@@ -91,7 +89,7 @@ public class ExceptionWrapperProcessorTestCase {
         processor.init(new TestProcessingEnvironment());
         typeElements = new HashSet<TypeElement>();
         annotatedClassElement = createAnnotatedClass("org.glassfish.corba.AnException", "SF");
-        fileGenerator = new FileGenerator(annotatedClassElement, creationDate);
+        fileGenerator = new FileGenerator(annotatedClassElement);
     }
 
     @Test
@@ -213,9 +211,7 @@ public class ExceptionWrapperProcessorTestCase {
         fileGenerator.writePropertyFileHeader( writer );
         writer.close();
 
-        assertEquals("### Resource file generated on " + creationDate + "\n" +
-                     "#\n" +
-                     "# Resources for class org.glassfish.corba.AnException\n" +
+        assertEquals("# Resources for class org.glassfish.corba.AnException\n" +
                      "#\n",
                      writer.toString() );
     }
