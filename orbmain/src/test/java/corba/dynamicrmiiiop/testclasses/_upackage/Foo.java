@@ -19,4 +19,5 @@
 
 package corba.dynamicrmiiiop.testclasses._upackage;
 
-public class Foo {}
+public class Foo {
+}

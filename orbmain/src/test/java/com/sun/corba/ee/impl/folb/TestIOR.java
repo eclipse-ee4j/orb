@@ -85,7 +85,7 @@ abstract class TestIOR implements IOR {
         private Map<Integer, List<TaggedComponent>> taggedComponents = new HashMap<Integer, List<TaggedComponent>>();
 
         public void addTaggedComponent(int id, org.omg.IOP.TaggedComponent component) {
-            getTaggedComponentList(id).add(new TestTaggedComponent(id,component));
+            getTaggedComponentList(id).add(new TestTaggedComponent(id, component));
         }
 
         public Iterator<TaggedComponent> iteratorById(int id) {
@@ -124,5 +124,3 @@ abstract class TestIOR implements IOR {
         }
     }
 }
-
-

@@ -17,29 +17,28 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.oa.poa ;
+package com.sun.corba.ee.impl.oa.poa;
 
-import com.sun.corba.ee.impl.oa.NullServantImpl ;
+import com.sun.corba.ee.impl.oa.NullServantImpl;
 
-import org.omg.PortableServer.ForwardRequest ;
-import org.omg.PortableServer.Servant ;
-import org.omg.PortableServer.ServantManager ;
-import org.omg.PortableServer.POAPackage.NoServant ;
-import org.omg.PortableServer.POAPackage.ObjectNotActive ;
-import org.omg.PortableServer.POAPackage.WrongPolicy ;
+import org.omg.PortableServer.ForwardRequest;
+import org.omg.PortableServer.Servant;
+import org.omg.PortableServer.ServantManager;
+import org.omg.PortableServer.POAPackage.NoServant;
+import org.omg.PortableServer.POAPackage.ObjectNotActive;
+import org.omg.PortableServer.POAPackage.WrongPolicy;
 
-/** Implementation of POARequesHandler that provides policy specific
- * operations on the POA in the case:
+/**
+ * Implementation of POARequesHandler that provides policy specific operations on the POA in the case:
  * <ul>
  * <li>retain</li>
  * <li>useActiveObjectMapOnly</li>
  * </ul>
  */
 public class POAPolicyMediatorImpl_R_AOM extends POAPolicyMediatorBase_R {
-    POAPolicyMediatorImpl_R_AOM( Policies policies, POAImpl poa )
-    {
+    POAPolicyMediatorImpl_R_AOM(Policies policies, POAImpl poa) {
         // assert policies.retainServants()
-        super( policies, poa ) ;
+        super(policies, poa);
 
         // policies.useActiveObjectMapOnly()
         if (!policies.useActiveMapOnly()) {
@@ -47,18 +46,16 @@ public class POAPolicyMediatorImpl_R_AOM extends POAPolicyMediatorBase_R {
         }
     }
 
-    protected java.lang.Object internalGetServant( byte[] id,
-        String operation ) throws ForwardRequest
-    {
-        poa.lock() ;
+    protected java.lang.Object internalGetServant(byte[] id, String operation) throws ForwardRequest {
+        poa.lock();
         try {
-            java.lang.Object servant = internalIdToServant( id ) ;
+            java.lang.Object servant = internalIdToServant(id);
             if (servant == null) {
                 servant = new NullServantImpl(wrapper.nullServant());
             }
-            return servant ;
+            return servant;
         } finally {
-            poa.unlock() ;
+            poa.unlock();
         }
     }
 
@@ -70,8 +67,7 @@ public class POAPolicyMediatorImpl_R_AOM extends POAPolicyMediatorBase_R {
         throw new WrongPolicy();
     }
 
-    public void setServantManager( ServantManager servantManager )
-        throws WrongPolicy {
+    public void setServantManager(ServantManager servantManager) throws WrongPolicy {
         throw new WrongPolicy();
     }
 
@@ -79,13 +75,12 @@ public class POAPolicyMediatorImpl_R_AOM extends POAPolicyMediatorBase_R {
         throw new WrongPolicy();
     }
 
-    public void setDefaultServant( Servant servant ) throws WrongPolicy {
+    public void setDefaultServant(Servant servant) throws WrongPolicy {
         throw new WrongPolicy();
     }
 
-    public Servant idToServant( byte[] id )
-        throws WrongPolicy, ObjectNotActive {
-        Servant s = internalIdToServant( id ) ;
+    public Servant idToServant(byte[] id) throws WrongPolicy, ObjectNotActive {
+        Servant s = internalIdToServant(id);
 
         if (s == null) {
             throw new ObjectNotActive();

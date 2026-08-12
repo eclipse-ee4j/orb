@@ -26,11 +26,14 @@ import org.omg.CORBA.SystemException;
 public interface LocateReplyOrReplyMessage extends Message {
 
     int getRequestId();
+
     int getReplyStatus();
+
     SystemException getSystemException(String message);
+
     IOR getIOR();
+
     short getAddrDisposition();
 }
 
 // End of file.
-

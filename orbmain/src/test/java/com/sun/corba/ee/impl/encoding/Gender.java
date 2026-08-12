@@ -40,9 +40,7 @@ class Gender implements Serializable {
 
     @Override
     public String toString() {
-        return "Gender{" +
-                "name='" + name + '\'' +
-                '}';
+        return "Gender{" + "name='" + name + '\'' + '}';
     }
 
     private Object writeReplace() throws ObjectStreamException {

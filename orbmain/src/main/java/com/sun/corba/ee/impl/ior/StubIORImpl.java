@@ -26,51 +26,47 @@ import com.sun.corba.ee.spi.misc.ORBConstants;
 // Be very careful: com.sun.corba imports must not depend on
 // PEORB internal classes in ways that prevent portability to
 // other vendor's ORBs.
-import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
+import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
 
-import java.io.IOException ;
-import java.io.ObjectOutputStream ;
-import java.io.Serializable ;
-import java.util.Arrays ;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.Arrays;
 
-import org.omg.CORBA.ORB ;
-import org.omg.CORBA.portable.Delegate ;
-import org.omg.CORBA.portable.InputStream ;
-import org.omg.CORBA.portable.OutputStream ;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.portable.Delegate;
+import org.omg.CORBA.portable.InputStream;
+import org.omg.CORBA.portable.OutputStream;
 
 /**
- * This class implements a very simply IOR representation
- * which must be completely ORBImpl free so that this class
- * can be used in the implementation of a portable StubDelegateImpl.
+ * This class implements a very simply IOR representation which must be completely ORBImpl free so that this class can
+ * be used in the implementation of a portable StubDelegateImpl.
  */
-public class StubIORImpl implements Serializable
-{
+public class StubIORImpl implements Serializable {
     private static final long serialVersionUID = -6261452601247416282L;
     // cached hash code
-    transient private int hashCode = 0 ;
+    transient private int hashCode = 0;
 
     // IOR components
     private byte[] typeData;
     private int[] profileTags;
     private byte[][] profileData;
 
-    public StubIORImpl()
-    {
-        typeData = null ;
-        profileTags = null ;
-        profileData = null ;
+    public StubIORImpl() {
+        typeData = null;
+        profileTags = null;
+        profileData = null;
     }
 
-    public String getRepositoryId()
-    {
+    public String getRepositoryId() {
         if (typeData == null) {
-            return null ;
+            return null;
         }
 
-        return new String( typeData ) ;
+        return new String(typeData);
     }
 
-    public StubIORImpl( org.omg.CORBA.Object obj ) {
+    public StubIORImpl(org.omg.CORBA.Object obj) {
 
         // All externally visible IOR representations must be handled
         // using the standard CDR encoding, irrespective of encoding setting.
@@ -95,8 +91,7 @@ public class StubIORImpl implements Serializable
             for (int i = 0; i < numProfiles; i++) {
                 profileTags[i] = istr.read_long();
                 profileData[i] = new byte[istr.read_long()];
-                istr.read_octet_array(profileData[i], 0,
-                                      profileData[i].length);
+                istr.read_octet_array(profileData[i], 0, profileData[i].length);
             }
 
         } finally {
@@ -126,14 +121,13 @@ public class StubIORImpl implements Serializable
             for (int i = 0; i < profileTags.length; i++) {
                 ostr.write_long(profileTags[i]);
                 ostr.write_long(profileData[i].length);
-                ostr.write_octet_array(profileData[i], 0,
-                                       profileData[i].length);
+                ostr.write_octet_array(profileData[i], 0, profileData[i].length);
             }
-            InputStream istr = ostr.create_input_stream() ;
+            InputStream istr = ostr.create_input_stream();
 
             // read the IOR back from the stream
             org.omg.CORBA.Object obj = istr.read_Object();
-            return StubAdapter.getDelegate( obj ) ;
+            return StubAdapter.getDelegate(obj);
 
         } finally {
             if (encodingVersion != ORBConstants.CDR_ENC_VERSION) {
@@ -144,9 +138,7 @@ public class StubIORImpl implements Serializable
     }
 
     // DO NOT MODIFY THIS METHOD - implements OMG standard behavior.
-    public  void doRead( java.io.ObjectInputStream stream )
-        throws IOException, ClassNotFoundException
-    {
+    public void doRead(java.io.ObjectInputStream stream) throws IOException, ClassNotFoundException {
         // read the IOR from the ObjectInputStream
         int typeLength = stream.readInt();
         typeData = new byte[typeLength];
@@ -162,9 +154,7 @@ public class StubIORImpl implements Serializable
     }
 
     // DO NOT MODIFY THIS METHOD - implements OMG standard behavior.
-    public  void doWrite( ObjectOutputStream stream )
-        throws IOException
-    {
+    public void doWrite(ObjectOutputStream stream) throws IOException {
         // write the IOR to the ObjectOutputStream
         stream.writeInt(typeData.length);
         stream.write(typeData);
@@ -177,13 +167,12 @@ public class StubIORImpl implements Serializable
     }
 
     /**
-     * Returns a hash code value for the object which is the same for all stubs
-     * that represent the same remote object.
+     * Returns a hash code value for the object which is the same for all stubs that represent the same remote object.
+     * 
      * @return the hash code value.
      */
     @Override
-    public synchronized int hashCode()
-    {
+    public synchronized int hashCode() {
         if (hashCode == 0) {
 
             // compute the hash code
@@ -202,24 +191,22 @@ public class StubIORImpl implements Serializable
         return hashCode;
     }
 
-    private boolean equalArrays( byte[][] data1, byte[][] data2 )
-    {
+    private boolean equalArrays(byte[][] data1, byte[][] data2) {
         if (data1.length != data2.length) {
-            return false ;
+            return false;
         }
 
-        for (int ctr=0; ctr<data1.length; ctr++) {
-            if (!Arrays.equals( data1[ctr], data2[ctr] ))  {
-                return false ;
+        for (int ctr = 0; ctr < data1.length; ctr++) {
+            if (!Arrays.equals(data1[ctr], data2[ctr])) {
+                return false;
             }
         }
 
-        return true ;
+        return true;
     }
 
     @Override
-    public boolean equals(java.lang.Object obj)
-    {
+    public boolean equals(java.lang.Object obj) {
         if (this == obj) {
             return true;
         }
@@ -233,38 +220,36 @@ public class StubIORImpl implements Serializable
             return false;
         }
 
-        return Arrays.equals( typeData, other.typeData ) &&
-            Arrays.equals( profileTags, other.profileTags ) &&
-            equalArrays( profileData, other.profileData ) ;
+        return Arrays.equals(typeData, other.typeData) && Arrays.equals(profileTags, other.profileTags)
+                && equalArrays(profileData, other.profileData);
     }
 
-    private void appendByteArray(StringBuilder result, byte[] data ) {
-        for ( int ctr=0; ctr<data.length; ctr++ ) {
-            result.append( Integer.toHexString( data[ctr] ) ) ;
+    private void appendByteArray(StringBuilder result, byte[] data) {
+        for (int ctr = 0; ctr < data.length; ctr++) {
+            result.append(Integer.toHexString(data[ctr]));
         }
     }
 
     /**
-     * Returns a string representation of this stub. Returns the same string
-     * for all stubs that represent the same remote object.
-     * {@code "SimpleIORImpl[<typeName>,[<profileID>]data, ...]"}
+     * Returns a string representation of this stub. Returns the same string for all stubs that represent the same remote
+     * object. {@code "SimpleIORImpl[<typeName>,[<profileID>]data, ...]"}
+     * 
      * @return a string representation of this stub.
      */
     @Override
-    public String toString()
-    {
-        StringBuilder result = new StringBuilder() ;
-        result.append( "SimpleIORImpl[" ) ;
-        String repositoryId = new String( typeData ) ;
-        result.append( repositoryId ) ;
-        for (int ctr=0; ctr<profileTags.length; ctr++) {
-            result.append( ",(" ) ;
-            result.append( profileTags[ctr] ) ;
-            result.append( ")" ) ;
-            appendByteArray( result,  profileData[ctr] ) ;
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        result.append("SimpleIORImpl[");
+        String repositoryId = new String(typeData);
+        result.append(repositoryId);
+        for (int ctr = 0; ctr < profileTags.length; ctr++) {
+            result.append(",(");
+            result.append(profileTags[ctr]);
+            result.append(")");
+            appendByteArray(result, profileData[ctr]);
         }
 
-        result.append( "]" ) ;
-        return result.toString() ;
+        result.append("]");
+        return result.toString();
     }
 }

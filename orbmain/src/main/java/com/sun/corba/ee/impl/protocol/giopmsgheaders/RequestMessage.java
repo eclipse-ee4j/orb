@@ -34,17 +34,23 @@ public interface RequestMessage extends Message {
     byte RESPONSE_EXPECTED_BIT = 0x01;
 
     ServiceContexts getServiceContexts();
+
     void setServiceContexts(ServiceContexts sc);
+
     int getRequestId();
+
     boolean isResponseExpected();
+
     byte[] getReserved();
+
     ObjectKeyCacheEntry getObjectKeyCacheEntry();
+
     String getOperation();
-    @SuppressWarnings({"deprecation"})
+
+    @SuppressWarnings({ "deprecation" })
     org.omg.CORBA.Principal getPrincipal();
 
     // NOTE: This is a SUN PROPRIETARY EXTENSION
     void setThreadPoolToUse(int poolToUse);
-
 
 } // interface RequestMessage

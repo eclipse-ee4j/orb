@@ -27,11 +27,11 @@ import java.io.Serializable;
  * A serializable class that implements readObject for custom marshalling but uses the standard write object.
  */
 public class CustomReadClass implements Serializable {
-  int aPositiveValue;
+    int aPositiveValue;
 
-  private void readObject(ObjectInputStream anInputStream) throws IOException, ClassNotFoundException {
-    anInputStream.defaultReadObject();
-    aPositiveValue = Math.max(aPositiveValue, 1);
-  }
+    private void readObject(ObjectInputStream anInputStream) throws IOException, ClassNotFoundException {
+        anInputStream.defaultReadObject();
+        aPositiveValue = Math.max(aPositiveValue, 1);
+    }
 
 }

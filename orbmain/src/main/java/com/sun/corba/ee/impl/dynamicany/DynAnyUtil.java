@@ -20,8 +20,8 @@
 package com.sun.corba.ee.impl.dynamicany;
 
 import com.sun.corba.ee.impl.corba.AnyImpl;
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.orb.ORB;
 
 import java.math.BigDecimal;
 
@@ -33,36 +33,25 @@ import org.omg.DynamicAny.DynAny;
 import org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode;
 import org.omg.DynamicAny.DynAnyPackage.TypeMismatch;
 
-public class DynAnyUtil
-{
-    private static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+public class DynAnyUtil {
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
     static boolean isConsistentType(TypeCode typeCode) {
         int kind = typeCode.kind().value();
-        return (kind != TCKind._tk_Principal &&
-                kind != TCKind._tk_native &&
-                kind != TCKind._tk_abstract_interface);
+        return (kind != TCKind._tk_Principal && kind != TCKind._tk_native && kind != TCKind._tk_abstract_interface);
     }
 
     static boolean isConstructedDynAny(DynAny dynAny) {
         // DynFixed is constructed but not a subclass of DynAnyConstructedImpl
-        //return (dynAny instanceof DynAnyConstructedImpl);
+        // return (dynAny instanceof DynAnyConstructedImpl);
         int kind = dynAny.type().kind().value();
-        return (kind == TCKind._tk_sequence ||
-                kind == TCKind._tk_struct ||
-                kind == TCKind._tk_array ||
-                kind == TCKind._tk_union ||
-                kind == TCKind._tk_enum ||
-                kind == TCKind._tk_fixed ||
-                kind == TCKind._tk_value ||
-                kind == TCKind._tk_value_box);
+        return (kind == TCKind._tk_sequence || kind == TCKind._tk_struct || kind == TCKind._tk_array || kind == TCKind._tk_union
+                || kind == TCKind._tk_enum || kind == TCKind._tk_fixed || kind == TCKind._tk_value || kind == TCKind._tk_value_box);
     }
 
     static DynAny createMostDerivedDynAny(Any any, ORB orb, boolean copyValue)
-        throws org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode
-    {
-        if (any == null || ! DynAnyUtil.isConsistentType(any.type())) {
+            throws org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode {
+        if (any == null || !DynAnyUtil.isConsistentType(any.type())) {
             throw new org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode();
         }
 
@@ -88,10 +77,8 @@ public class DynAnyUtil
         }
     }
 
-    static DynAny createMostDerivedDynAny(TypeCode typeCode, ORB orb)
-        throws org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode
-    {
-        if (typeCode == null || ! DynAnyUtil.isConsistentType(typeCode)) {
+    static DynAny createMostDerivedDynAny(TypeCode typeCode, ORB orb) throws org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode {
+        if (typeCode == null || !DynAnyUtil.isConsistentType(typeCode)) {
             throw new org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode();
         }
 
@@ -135,7 +122,7 @@ public class DynAnyUtil
         // - nil for object references
         // - a type code with a TCKind value of tk_null for type codes
         // - for Any values, an Any containing a type code with a TCKind value of tk_null
-        //   type and no value
+        // type and no value
         switch (typeCode.kind().value()) {
             case TCKind._tk_boolean:
                 // false for boolean
@@ -143,11 +130,11 @@ public class DynAnyUtil
                 break;
             case TCKind._tk_short:
                 // zero for numeric types
-                returnValue.insert_short((short)0);
+                returnValue.insert_short((short) 0);
                 break;
             case TCKind._tk_ushort:
                 // zero for numeric types
-                returnValue.insert_ushort((short)0);
+                returnValue.insert_ushort((short) 0);
                 break;
             case TCKind._tk_long:
                 // zero for numeric types
@@ -159,15 +146,15 @@ public class DynAnyUtil
                 break;
             case TCKind._tk_longlong:
                 // zero for numeric types
-                returnValue.insert_longlong((long)0);
+                returnValue.insert_longlong((long) 0);
                 break;
             case TCKind._tk_ulonglong:
                 // zero for numeric types
-                returnValue.insert_ulonglong((long)0);
+                returnValue.insert_ulonglong((long) 0);
                 break;
             case TCKind._tk_float:
                 // zero for numeric types
-                returnValue.insert_float((float)0.0);
+                returnValue.insert_float((float) 0.0);
                 break;
             case TCKind._tk_double:
                 // zero for numeric types
@@ -175,15 +162,15 @@ public class DynAnyUtil
                 break;
             case TCKind._tk_octet:
                 // zero for types octet, char, and wchar
-                returnValue.insert_octet((byte)0);
+                returnValue.insert_octet((byte) 0);
                 break;
             case TCKind._tk_char:
                 // zero for types octet, char, and wchar
-                returnValue.insert_char((char)0);
+                returnValue.insert_char((char) 0);
                 break;
             case TCKind._tk_wchar:
                 // zero for types octet, char, and wchar
-                returnValue.insert_wchar((char)0);
+                returnValue.insert_wchar((char) 0);
                 break;
             case TCKind._tk_string:
                 // the empty string for string and wstring
@@ -245,35 +232,26 @@ public class DynAnyUtil
                 break;
             case TCKind._tk_longdouble:
                 // Unspecified for Java
-                throw wrapper.tkLongDoubleNotSupported() ;
+                throw wrapper.tkLongDoubleNotSupported();
             default:
-                throw wrapper.typecodeNotSupported() ;
+                throw wrapper.typecodeNotSupported();
         }
         return returnValue;
     }
-/*
-    static Any setTypeOfAny(TypeCode typeCode, Any value) {
-        if (value != null) {
-            value.read_value(value.create_input_stream(), typeCode);
-        }
-        return value;
-    }
-*/
+
+    /*
+     * static Any setTypeOfAny(TypeCode typeCode, Any value) { if (value != null) {
+     * value.read_value(value.create_input_stream(), typeCode); } return value; }
+     */
     static Any copy(Any inAny, ORB orb) {
         return new AnyImpl(orb, inAny);
     }
 
-/*
-    static Any copy(Any inAny, ORB orb) {
-        Any outAny = null;
-        if (inAny != null && orb != null) {
-            outAny = orb.create_any();
-            outAny.read_value(inAny.create_input_stream(), inAny.type());
-            // isInitialized is set to true
-        }
-        return outAny;
-    }
-*/
+    /*
+     * static Any copy(Any inAny, ORB orb) { Any outAny = null; if (inAny != null && orb != null) { outAny =
+     * orb.create_any(); outAny.read_value(inAny.create_input_stream(), inAny.type()); // isInitialized is set to true }
+     * return outAny; }
+     */
 
     static DynAny convertToNative(DynAny dynAny, ORB orb) {
         if (dynAny instanceof DynAnyImpl) {
@@ -293,7 +271,7 @@ public class DynAnyUtil
         // Returning simply the value of Any.isInitialized() is not enough.
         // The DynAny spec says that Anys containing null strings do not contain
         // a "legal value" (see ptc 99-10-07, 9.2.3.3)
-        boolean isInitialized = ((AnyImpl)any).isInitialized();
+        boolean isInitialized = ((AnyImpl) any).isInitialized();
         switch (any.type().kind().value()) {
             case TCKind._tk_string:
                 return (isInitialized && (any.extract_string() != null));
@@ -314,7 +292,8 @@ public class DynAnyUtil
                         return true;
                     }
                 } while (dynAny.next());
-            } catch (TypeMismatch tm) { /* impossible */ }
+            } catch (TypeMismatch tm) {
+                /* impossible */ }
         }
         return false;
     }

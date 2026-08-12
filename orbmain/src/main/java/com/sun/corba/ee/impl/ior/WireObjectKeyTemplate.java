@@ -20,18 +20,17 @@
 
 package com.sun.corba.ee.impl.ior;
 
+import com.sun.corba.ee.spi.ior.ObjectAdapterId;
+import com.sun.corba.ee.spi.ior.ObjectId;
+import com.sun.corba.ee.spi.ior.ObjectKeyTemplate;
+import com.sun.corba.ee.spi.logging.IORSystemException;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ORBVersion;
+import com.sun.corba.ee.spi.orb.ORBVersionFactory;
+import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher;
 
-import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
-import com.sun.corba.ee.spi.ior.ObjectId ;
-import com.sun.corba.ee.spi.ior.ObjectKeyTemplate ;
-import com.sun.corba.ee.spi.logging.IORSystemException ;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.orb.ORBVersion ;
-import com.sun.corba.ee.spi.orb.ORBVersionFactory ;
-import com.sun.corba.ee.spi.protocol.ServerRequestDispatcher ;
-
-import org.omg.CORBA_2_3.portable.OutputStream ;
+import org.omg.CORBA_2_3.portable.OutputStream;
 
 /**
  * @author Ken Cavanaugh
@@ -96,7 +95,6 @@ public class WireObjectKeyTemplate implements ObjectKeyTemplate {
         return NULL_OBJECT_ADAPTER_ID;
     }
 
-
     // Adapter ID is not available, since our
     // ORB did not implement the object carrying this key.
     @Override
@@ -104,12 +102,10 @@ public class WireObjectKeyTemplate implements ObjectKeyTemplate {
         throw WRAPPER.adapterIdNotAvailable();
     }
 
-
     @Override
     public ORBVersion getORBVersion() {
         return ORBVersionFactory.getFOREIGN();
     }
-
 
     @Override
     public ServerRequestDispatcher getServerRequestDispatcher(ObjectId id) {
@@ -120,10 +116,7 @@ public class WireObjectKeyTemplate implements ObjectKeyTemplate {
 
     @Override
     public String toString() {
-        return getClass().getSimpleName()
-            + "[subcontractId=" + getSubcontractId()
-            + " serverId=" + getServerId()
-            + " objectadapterId=" + getObjectAdapterId()
-            + "]";
+        return getClass().getSimpleName() + "[subcontractId=" + getSubcontractId() + " serverId=" + getServerId() + " objectadapterId="
+                + getObjectAdapterId() + "]";
     }
 }

@@ -40,11 +40,11 @@ import org.glassfish.pfl.basic.logex.Message;
  * This class creates properties files for annotated exception interfaces. Applicable interfaces are annotated with the
  * {@link ExceptionWrapper} annotation. An entry will be made for each method with a {@link Message} annotation.
  */
-@SupportedAnnotationTypes({"org.glassfish.pfl.basic.logex.ExceptionWrapper", "org.glassfish.pfl.basic.logex.Message"})
+@SupportedAnnotationTypes({ "org.glassfish.pfl.basic.logex.ExceptionWrapper", "org.glassfish.pfl.basic.logex.Message" })
 @SupportedSourceVersion(SourceVersion.RELEASE_11)
 public class ExceptionWrapperProcessor extends AbstractProcessor {
 
-    Map<Element,FileGenerator> annotatedClasses = new HashMap<Element, FileGenerator>();
+    Map<Element, FileGenerator> annotatedClasses = new HashMap<Element, FileGenerator>();
 
     @Override
     public boolean process(Set<? extends TypeElement> typeElements, RoundEnvironment roundEnvironment) {
@@ -72,7 +72,7 @@ public class ExceptionWrapperProcessor extends AbstractProcessor {
 
     private void processClassElements(Set<? extends Element> classElements) {
         for (Element classElement : classElements) {
-            annotatedClasses.put(classElement,new FileGenerator(classElement));
+            annotatedClasses.put(classElement, new FileGenerator(classElement));
         }
     }
 

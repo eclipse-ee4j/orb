@@ -24,7 +24,7 @@ public interface TypeCodeFactory {
 
     TypeCodeImpl getTypeCode(String id);
 
-    void setTypeCodeForClass( Class c, TypeCodeImpl tcimpl ) ;
+    void setTypeCodeForClass(Class c, TypeCodeImpl tcimpl);
 
-    TypeCodeImpl getTypeCodeForClass( Class c ) ;
+    TypeCodeImpl getTypeCodeForClass(Class c);
 }
