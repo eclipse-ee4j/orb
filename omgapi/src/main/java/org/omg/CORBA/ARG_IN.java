@@ -25,7 +25,7 @@ package org.omg.CORBA;
  * is being passed during an invocation performed using the Dynamic Invocation Interface (DII).
  * <P>
  * The code fragment below shows a typical usage:
- * 
+ *
  * <PRE>
  * ORB orb = ORB.init(args, null);
  * org.omg.CORBA.NamedValue nv = orb.create_named_value("IDLArgumentIdentifier", myAny, org.omg.CORBA.ARG_IN.value);

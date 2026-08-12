@@ -23,12 +23,12 @@ import com.sun.corba.ee.spi.orb.ORB;
 
 import org.omg.CORBA.Any;
 import org.omg.CORBA.BAD_OPERATION;
+import org.omg.CORBA.DynAny;
+import org.omg.CORBA.DynArray;
 import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.DynAnyPackage.InvalidValue;
+import org.omg.CORBA.ORBPackage.InconsistentTypeCode;
 import org.omg.CORBA.portable.InputStream;
-import org.omg.DynamicAny.DynAny;
-import org.omg.DynamicAny.DynArray;
-import org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode;
-import org.omg.DynamicAny.DynAnyPackage.InvalidValue;
 
 public class DynArrayImpl extends DynAnyCollectionImpl implements DynArray {
     private static final long serialVersionUID = -5898255222474271560L;
@@ -46,6 +46,7 @@ public class DynArrayImpl extends DynAnyCollectionImpl implements DynArray {
 
     // Initializes components and anys representation
     // from the Any representation
+    @Override
     protected boolean initializeComponentsFromAny() {
         int length = getBound();
         TypeCode contentType = getContentType();
@@ -77,6 +78,7 @@ public class DynArrayImpl extends DynAnyCollectionImpl implements DynArray {
     // from the internal TypeCode information with default values.
     // This is not done recursively, only one level.
     // More levels are initialized lazily, on demand.
+    @Override
     protected boolean initializeComponentsFromTypeCode() {
         int length = getBound();
         TypeCode contentType = getContentType();
@@ -109,6 +111,7 @@ public class DynArrayImpl extends DynAnyCollectionImpl implements DynArray {
     // Utility methods
     //
 
+    @Override
     protected void checkValue(Object[] value) throws org.omg.DynamicAny.DynAnyPackage.InvalidValue {
         if (value == null || value.length != getBound()) {
             throw new InvalidValue();

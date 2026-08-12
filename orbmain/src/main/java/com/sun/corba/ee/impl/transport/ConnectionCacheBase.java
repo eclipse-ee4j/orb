@@ -70,11 +70,13 @@ public abstract class ConnectionCacheBase implements ConnectionCache {
         dprintCreation();
     }
 
+    @Override
     @NameValue
     public String getCacheType() {
         return cacheType;
     }
 
+    @Override
     public synchronized void stampTime(Connection c) {
         // _REVISIT_ Need to worry about wrap around some day
         c.setTimeStamp(timestamp++);
@@ -87,6 +89,7 @@ public abstract class ConnectionCacheBase implements ConnectionCache {
         return result;
     }
 
+    @Override
     public void close() {
         synchronized (backingStore()) {
             for (Object obj : values()) {
@@ -101,6 +104,7 @@ public abstract class ConnectionCacheBase implements ConnectionCache {
         return makeCountStat(TOTAL_ID_STD, TOTAL_DESC, numberOfConnections());
     }
 
+    @Override
     public long numberOfConnections() {
         long count = 0;
         synchronized (backingStore()) {
@@ -116,6 +120,7 @@ public abstract class ConnectionCacheBase implements ConnectionCache {
         return makeCountStat(IDLE_ID_STD, IDLE_DESC, numberOfIdleConnections());
     }
 
+    @Override
     public long numberOfIdleConnections() {
         long count = 0;
         synchronized (backingStore()) {
@@ -136,6 +141,7 @@ public abstract class ConnectionCacheBase implements ConnectionCache {
         return makeCountStat(BUSY_ID_STD, BUSY_DESC, numberOfBusyConnections());
     }
 
+    @Override
     public long numberOfBusyConnections() {
         long count = 0;
         synchronized (backingStore()) {
@@ -211,6 +217,7 @@ public abstract class ConnectionCacheBase implements ConnectionCache {
         return true;
     }
 
+    @Override
     public String getMonitoringName() {
         return monitoringName;
     }

@@ -23,31 +23,32 @@ import com.sun.corba.ee.spi.ior.TaggedComponentBase;
 import com.sun.corba.ee.spi.ior.iiop.JavaCodebaseComponent;
 
 import org.omg.CORBA_2_3.portable.OutputStream;
-import org.omg.IOP.TAG_JAVA_CODEBASE;
 
 public class JavaCodebaseComponentImpl extends TaggedComponentBase implements JavaCodebaseComponent {
     private String URLs;
 
+    @Override
     public boolean equals(Object obj) {
-        if (obj == null)
+        if ((obj == null) || !(obj instanceof JavaCodebaseComponentImpl)) {
             return false;
-
-        if (!(obj instanceof JavaCodebaseComponentImpl))
-            return false;
+        }
 
         JavaCodebaseComponentImpl other = (JavaCodebaseComponentImpl) obj;
 
         return URLs.equals(other.getURLs());
     }
 
+    @Override
     public int hashCode() {
         return URLs.hashCode();
     }
 
+    @Override
     public String toString() {
         return "JavaCodebaseComponentImpl[URLs=" + URLs + "]";
     }
 
+    @Override
     public String getURLs() {
         return URLs;
     }
@@ -56,10 +57,12 @@ public class JavaCodebaseComponentImpl extends TaggedComponentBase implements Ja
         this.URLs = URLs;
     }
 
+    @Override
     public void writeContents(OutputStream os) {
         os.write_string(URLs);
     }
 
+    @Override
     public int getId() {
         return TAG_JAVA_CODEBASE.value; // 25 in CORBA 2.3.1 13.6.3
     }

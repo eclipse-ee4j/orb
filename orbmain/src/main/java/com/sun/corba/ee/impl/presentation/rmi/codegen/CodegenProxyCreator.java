@@ -122,7 +122,7 @@ public class CodegenProxyCreator {
      * <p>
      * Note that the generated methods ignore exceptions. It is assumed that the invoke method may throw any desired
      * exception.
-     * 
+     *
      * @param anchorClass a class in whose classloader the new class should be generated
      * @param debug if true, generate debug messages
      * @param ps a PrintStream to which the debug messages should be written

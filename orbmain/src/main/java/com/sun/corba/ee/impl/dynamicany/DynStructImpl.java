@@ -22,8 +22,8 @@ package com.sun.corba.ee.impl.dynamicany;
 import com.sun.corba.ee.spi.orb.ORB;
 
 import org.omg.CORBA.Any;
+import org.omg.CORBA.DynStruct;
 import org.omg.CORBA.TypeCode;
-import org.omg.DynamicAny.DynStruct;
 
 public class DynStructImpl extends DynAnyComplexImpl implements DynStruct {
     private static final long serialVersionUID = 2832306671453429704L;

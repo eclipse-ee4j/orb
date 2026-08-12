@@ -24,11 +24,11 @@ import com.sun.corba.ee.spi.orb.ORB;
 import java.math.BigDecimal;
 
 import org.omg.CORBA.Any;
+import org.omg.CORBA.DynFixed;
 import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.DynAnyPackage.InvalidValue;
+import org.omg.CORBA.DynAnyPackage.TypeMismatch;
 import org.omg.CORBA.TypeCodePackage.BadKind;
-import org.omg.DynamicAny.DynFixed;
-import org.omg.DynamicAny.DynAnyPackage.InvalidValue;
-import org.omg.DynamicAny.DynAnyPackage.TypeMismatch;
 
 public class DynFixedImpl extends DynAnyBasicImpl implements DynFixed {
     private static final long serialVersionUID = -426296363713464920L;

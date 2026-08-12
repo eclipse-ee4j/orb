@@ -23,8 +23,7 @@ import com.sun.corba.ee.spi.orb.ORB;
 
 import org.omg.CORBA.Any;
 import org.omg.CORBA.TypeCode;
-import org.omg.DynamicAny.DynValueCommon;
-import org.omg.DynamicAny.DynAnyPackage.InvalidValue;
+import org.omg.CORBA.DynAnyPackage.InvalidValue;
 
 abstract class DynValueCommonImpl extends DynAnyComplexImpl implements DynValueCommon {
     private static final long serialVersionUID = -6538058649606934141L;

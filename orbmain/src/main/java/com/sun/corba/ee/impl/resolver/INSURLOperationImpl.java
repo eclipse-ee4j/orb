@@ -51,8 +51,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.omg.CORBA.ORBPackage.InvalidName;
-import org.omg.CosNaming.NamingContextExt;
-import org.omg.CosNaming.NamingContextExtHelper;
 
 /**
  * This class provides an Operation that converts from CORBA INS URL strings into CORBA object references. It will
@@ -102,6 +100,7 @@ public class INSURLOperationImpl implements Operation {
         return s.read_Object();
     }
 
+    @Override
     public Object operate(Object arg) {
         if (arg instanceof String) {
             String str = (String) arg;
@@ -246,11 +245,12 @@ public class INSURLOperationImpl implements Operation {
 
         // Create a comparator that can sort in decending order (1.2, 1.1, ...)
         Comparator comp = new Comparator() {
+            @Override
             public int compare(Object o1, Object o2) {
                 GIOPVersion gv1 = (GIOPVersion) o1;
                 GIOPVersion gv2 = (GIOPVersion) o2;
                 return (gv1.lessThan(gv2) ? 1 : (gv1.equals(gv2) ? 0 : -1));
-            };
+            }
         };
 
         // Now sort using the above comparator

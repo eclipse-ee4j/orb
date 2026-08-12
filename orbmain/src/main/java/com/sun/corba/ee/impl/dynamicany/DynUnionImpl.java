@@ -22,15 +22,15 @@ package com.sun.corba.ee.impl.dynamicany;
 import com.sun.corba.ee.spi.orb.ORB;
 
 import org.omg.CORBA.Any;
+import org.omg.CORBA.DynAny;
+import org.omg.CORBA.DynUnion;
 import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.DynAnyPackage.InvalidValue;
+import org.omg.CORBA.DynAnyPackage.TypeMismatch;
+import org.omg.CORBA.ORBPackage.InconsistentTypeCode;
 import org.omg.CORBA.TypeCodePackage.BadKind;
 import org.omg.CORBA.TypeCodePackage.Bounds;
 import org.omg.CORBA.portable.InputStream;
-import org.omg.DynamicAny.DynAny;
-import org.omg.DynamicAny.DynUnion;
-import org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode;
-import org.omg.DynamicAny.DynAnyPackage.InvalidValue;
-import org.omg.DynamicAny.DynAnyPackage.TypeMismatch;
 
 public class DynUnionImpl extends DynAnyConstructedImpl implements DynUnion {
     private static final long serialVersionUID = 5712467966035057576L;
@@ -57,6 +57,7 @@ public class DynUnionImpl extends DynAnyConstructedImpl implements DynUnion {
         super(orb, typeCode);
     }
 
+    @Override
     protected boolean initializeComponentsFromAny() {
         try {
             InputStream input = any.create_input_stream();
@@ -74,6 +75,7 @@ public class DynUnionImpl extends DynAnyConstructedImpl implements DynUnion {
     // Sets the current position to zero.
     // The discriminator value is set to a value consistent with the first named member
     // of the union. That member is activated and (recursively) initialized to its default value.
+    @Override
     protected boolean initializeComponentsFromTypeCode() {
         // System.out.println(this + " initializeComponentsFromTypeCode");
         try {
@@ -186,7 +188,7 @@ public class DynUnionImpl extends DynAnyConstructedImpl implements DynUnion {
 
     /**
      * Returns the current discriminator value.
-     * 
+     *
      * @return current discriminator value.
      */
     public org.omg.DynamicAny.DynAny get_discriminator() {

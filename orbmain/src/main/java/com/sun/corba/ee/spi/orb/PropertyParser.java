@@ -34,7 +34,7 @@ public class PropertyParser {
 
     public PropertyParser( )
     {
-        actions = new LinkedList<ParserAction>() ;
+        actions = new LinkedList<>() ;
     }
 
     public PropertyParser add( String propName,
@@ -59,10 +59,8 @@ public class PropertyParser {
     */
     public Map<String,Object> parse( Properties props )
     {
-        Map<String,Object> map = new HashMap<String,Object>() ;
-        Iterator<ParserAction> iter = actions.iterator() ;
-        while (iter.hasNext()) {
-            ParserAction act = iter.next() ;
+        Map<String,Object> map = new HashMap<>() ;
+        for (ParserAction act : actions) {
             Object result = act.apply( props ) ;
 
             // A null result means that the property was not set for

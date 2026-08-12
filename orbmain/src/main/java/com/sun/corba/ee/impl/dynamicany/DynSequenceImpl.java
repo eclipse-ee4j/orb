@@ -23,13 +23,13 @@ import com.sun.corba.ee.spi.orb.ORB;
 
 import org.omg.CORBA.Any;
 import org.omg.CORBA.BAD_OPERATION;
+import org.omg.CORBA.DynAny;
+import org.omg.CORBA.DynSequence;
 import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.DynAnyPackage.InvalidValue;
+import org.omg.CORBA.ORBPackage.InconsistentTypeCode;
 import org.omg.CORBA.portable.InputStream;
 import org.omg.CORBA.portable.OutputStream;
-import org.omg.DynamicAny.DynAny;
-import org.omg.DynamicAny.DynSequence;
-import org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode;
-import org.omg.DynamicAny.DynAnyPackage.InvalidValue;
 
 // _REVIST_ Could make this a subclass of DynArrayImpl
 // But that would mean that an object that implements DynSequence also implements DynArray
@@ -51,6 +51,7 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
 
     // Initializes components and anys representation
     // from the Any representation
+    @Override
     protected boolean initializeComponentsFromAny() {
         // This typeCode is of kind tk_sequence.
         int length;
@@ -81,6 +82,7 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
     }
 
     // Sets the current position to -1 and creates an empty sequence.
+    @Override
     protected boolean initializeComponentsFromTypeCode() {
         // already done in the type code constructor
         components = new DynAny[0];
@@ -222,6 +224,7 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
     // Utility methods
     //
 
+    @Override
     protected void checkValue(Object[] value) throws org.omg.DynamicAny.DynAnyPackage.InvalidValue {
         if (value == null || value.length == 0) {
             clearData();

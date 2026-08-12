@@ -34,7 +34,7 @@ public final class CancelRequestMessage_1_2 extends Message_1_1 implements Cance
 
     // Instance variables
 
-    private int request_id = (int) 0;
+    private int request_id = 0;
 
     // Constructors
 
@@ -48,26 +48,31 @@ public final class CancelRequestMessage_1_2 extends Message_1_1 implements Cance
 
     // Accessor methods
 
+    @Override
     public int getRequestId() {
         return this.request_id;
     }
 
+    @Override
     public RequestId getCorbaRequestId() {
         return new RequestIdImpl(getRequestId());
     }
 
     // IO methods
 
+    @Override
     public void read(org.omg.CORBA.portable.InputStream istream) {
         super.read(istream);
         this.request_id = istream.read_ulong();
     }
 
+    @Override
     public void write(org.omg.CORBA.portable.OutputStream ostream) {
         super.write(ostream);
         ostream.write_ulong(this.request_id);
     }
 
+    @Override
     public void callback(MessageHandler handler) throws java.io.IOException {
         handler.handleInput(this);
     }

@@ -40,7 +40,7 @@ public final class ConnectionCacheFactory {
     makeBlockingOutboundConnectionCache( String cacheType, int highWaterMark,
         int numberToReclaim, int maxParallelConnections, int ttl ) {
 
-        return new OutboundConnectionCacheBlockingImpl<C>( cacheType, highWaterMark,
+        return new OutboundConnectionCacheBlockingImpl<>( cacheType, highWaterMark,
             numberToReclaim, maxParallelConnections, ttl ) ;
     }
 
@@ -48,21 +48,21 @@ public final class ConnectionCacheFactory {
     makeNonBlockingOutboundConnectionCache( String cacheType, int highWaterMark,
         int numberToReclaim, int maxParallelConnections, int ttl ) {
 
-        return new OutboundConnectionCacheImpl<C>( cacheType, highWaterMark,
+        return new OutboundConnectionCacheImpl<>( cacheType, highWaterMark,
             numberToReclaim, maxParallelConnections, ttl ) ;
     }
 
     public static <C extends Connection> InboundConnectionCache<C>
     makeBlockingInboundConnectionCache( String cacheType, int highWaterMark,
         int numberToReclaim, int ttl ) {
-        return new InboundConnectionCacheBlockingImpl<C>( cacheType,
+        return new InboundConnectionCacheBlockingImpl<>( cacheType,
             highWaterMark, numberToReclaim, ttl ) ;
     }
 
     public static <C extends Connection> InboundConnectionCache<C>
     makeNonBlockingInboundConnectionCache( String cacheType, int highWaterMark,
         int numberToReclaim, int ttl ) {
-        return new InboundConnectionCacheImpl<C>( cacheType,
+        return new InboundConnectionCacheImpl<>( cacheType,
             highWaterMark, numberToReclaim, ttl ) ;
     }
 }

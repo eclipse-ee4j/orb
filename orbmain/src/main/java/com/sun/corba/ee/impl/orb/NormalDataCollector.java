@@ -29,10 +29,12 @@ public class NormalDataCollector extends DataCollectorBase {
         this.args = args;
     }
 
+    @Override
     public boolean isApplet() {
         return false;
     }
 
+    @Override
     protected void collect() {
         checkPropertyDefaults();
 

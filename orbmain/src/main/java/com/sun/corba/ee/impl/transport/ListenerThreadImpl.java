@@ -48,10 +48,12 @@ public class ListenerThreadImpl implements ListenerThread, Work {
     // ListenerThread methods.
     //
 
+    @Override
     public Acceptor getAcceptor() {
         return acceptor;
     }
 
+    @Override
     @Transport
     public synchronized void close() {
         keepRunning = false;

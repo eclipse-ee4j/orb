@@ -36,8 +36,6 @@ import java.io.Serializable ;
 import org.omg.CORBA.BAD_PARAM ;
 import org.omg.CORBA.portable.ValueFactory ;
 import org.omg.CORBA_2_3.portable.InputStream ;
-import org.omg.PortableInterceptor.ObjectReferenceFactory ;
-import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
 
 /** This class provides a number of factory methods for creating
  * various IOR SPI classes which are not subclassed for specific protocols.
@@ -184,6 +182,7 @@ public class IORFactories {
         // Create and register the factory for the Object Reference Template
         // implementation.
         ValueFactory vf = new ValueFactory() {
+            @Override
             public Serializable read_value( InputStream is )
             {
                 return new ObjectReferenceTemplateImpl( is ) ;
@@ -195,6 +194,7 @@ public class IORFactories {
         // Create and register the factory for the Object Reference Factory
         // implementation.
         vf = new ValueFactory() {
+            @Override
             public Serializable read_value( InputStream is )
             {
                 return new ObjectReferenceFactoryImpl( is ) ;

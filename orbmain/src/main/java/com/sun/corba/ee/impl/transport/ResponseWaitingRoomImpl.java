@@ -66,6 +66,7 @@ public class ResponseWaitingRoomImpl implements ResponseWaitingRoom {
         this.out_calls = Collections.synchronizedMap(new HashMap<Integer, OutCallDesc>());
     }
 
+    @Override
     @Transport
     public void registerWaiter(MessageMediator messageMediator) {
         display("messageMediator request ID", messageMediator.getRequestId());
@@ -77,11 +78,12 @@ public class ResponseWaitingRoomImpl implements ResponseWaitingRoom {
         call.messageMediator = messageMediator;
         OutCallDesc exists = out_calls.put(requestId, call);
         if (exists != null) {
-            wrapper.duplicateRequestIdsInResponseWaitingRoom(ORBUtility.operationNameAndRequestId((MessageMediator) exists.messageMediator),
+            wrapper.duplicateRequestIdsInResponseWaitingRoom(ORBUtility.operationNameAndRequestId(exists.messageMediator),
                     ORBUtility.operationNameAndRequestId(messageMediator));
         }
     }
 
+    @Override
     @Transport
     public void unregisterWaiter(MessageMediator mediator) {
         MessageMediator messageMediator = mediator;
@@ -93,6 +95,7 @@ public class ResponseWaitingRoomImpl implements ResponseWaitingRoom {
         out_calls.remove(requestId);
     }
 
+    @Override
     @Transport
     public CDRInputObject waitForResponse(MessageMediator messageMediator) {
         CDRInputObject returnStream = null;
@@ -146,7 +149,6 @@ public class ResponseWaitingRoomImpl implements ResponseWaitingRoom {
                     }
                 } catch (InterruptedException ie) {
                 }
-                ;
             }
             if (call.exception != null) {
                 display("Exception from call", call.exception);
@@ -167,7 +169,7 @@ public class ResponseWaitingRoomImpl implements ResponseWaitingRoom {
             // If the header was already unmarshaled, this won't
             // do anything
             // REVISIT: cast - need interface method.
-            ((CDRInputObject) returnStream).unmarshalHeader();
+            returnStream.unmarshalHeader();
         }
 
         return returnStream;
@@ -185,9 +187,10 @@ public class ResponseWaitingRoomImpl implements ResponseWaitingRoom {
     private void display(String msg, Object value) {
     }
 
+    @Override
     @Transport
     public void responseReceived(CDRInputObject is) {
-        CDRInputObject inputObject = (CDRInputObject) is;
+        CDRInputObject inputObject = is;
         LocateReplyOrReplyMessage header = (LocateReplyOrReplyMessage) inputObject.getMessageHeader();
         display("requestId", header.getRequestId());
         display("header", header);
@@ -215,7 +218,7 @@ public class ResponseWaitingRoomImpl implements ResponseWaitingRoom {
 
         try {
             call.lock.lock();
-            MessageMediator messageMediator = (MessageMediator) call.messageMediator;
+            MessageMediator messageMediator = call.messageMediator;
 
             display("Notifying waiters");
             display("messageMediator request ID", messageMediator.getRequestId());
@@ -231,6 +234,7 @@ public class ResponseWaitingRoomImpl implements ResponseWaitingRoom {
         }
     }
 
+    @Override
     public int numberRegistered() {
         return out_calls.size();
     }
@@ -240,6 +244,7 @@ public class ResponseWaitingRoomImpl implements ResponseWaitingRoom {
     // CorbaResponseWaitingRoom
     //
 
+    @Override
     @Transport
     public void signalExceptionToAllWaiters(SystemException systemException) {
         OutCallDesc call;
@@ -249,7 +254,7 @@ public class ResponseWaitingRoomImpl implements ResponseWaitingRoom {
                 call = itr.next();
                 try {
                     call.lock.lock();
-                    ((MessageMediator) call.messageMediator).cancelRequest();
+                    call.messageMediator.cancelRequest();
                     call.inputObject = null;
                     call.exception = systemException;
                     call.condition.signal();
@@ -260,6 +265,7 @@ public class ResponseWaitingRoomImpl implements ResponseWaitingRoom {
         }
     }
 
+    @Override
     public MessageMediator getMessageMediator(int requestId) {
         OutCallDesc call = out_calls.get(requestId);
         if (call == null) {

@@ -24,10 +24,10 @@ import com.sun.corba.ee.spi.orb.ORB;
 import org.omg.CORBA.Any;
 import org.omg.CORBA.TCKind;
 import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.DynAnyPackage.InvalidValue;
+import org.omg.CORBA.DynAnyPackage.TypeMismatch;
+import org.omg.CORBA.ORBPackage.InconsistentTypeCode;
 import org.omg.CORBA.TypeCodePackage.BadKind;
-import org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode;
-import org.omg.DynamicAny.DynAnyPackage.InvalidValue;
-import org.omg.DynamicAny.DynAnyPackage.TypeMismatch;
 
 public class DynAnyBasicImpl extends DynAnyImpl {
     private static final long serialVersionUID = -6855799336532160409L;
@@ -75,6 +75,7 @@ public class DynAnyBasicImpl extends DynAnyImpl {
     }
 
     // Spec: Returns a copy of the internal Any
+    @Override
     public org.omg.CORBA.Any to_any() {
         if (status == STATUS_DESTROYED) {
             throw wrapper.dynAnyDestroyed();
@@ -98,6 +99,7 @@ public class DynAnyBasicImpl extends DynAnyImpl {
         return any.equal(getAny(dyn_any));
     }
 
+    @Override
     public void destroy() {
         if (status == STATUS_DESTROYED) {
             throw wrapper.dynAnyDestroyed();
@@ -107,6 +109,7 @@ public class DynAnyBasicImpl extends DynAnyImpl {
         }
     }
 
+    @Override
     public org.omg.DynamicAny.DynAny copy() {
         if (status == STATUS_DESTROYED) {
             throw wrapper.dynAnyDestroyed();

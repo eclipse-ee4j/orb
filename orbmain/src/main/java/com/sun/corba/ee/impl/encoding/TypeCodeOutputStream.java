@@ -59,10 +59,12 @@ public final class TypeCodeOutputStream extends EncapsOutputStream {
     }
 
     public TypeCodeOutputStream getTopLevelStream() {
-        if (enclosure == null)
+        if (enclosure == null) {
             return this;
-        if (enclosure instanceof TypeCodeOutputStream)
+        }
+        if (enclosure instanceof TypeCodeOutputStream) {
             return ((TypeCodeOutputStream) enclosure).getTopLevelStream();
+        }
         return this;
     }
 
@@ -81,14 +83,16 @@ public final class TypeCodeOutputStream extends EncapsOutputStream {
     }
 
     public void addIDAtPosition(String id, int position) {
-        if (typeMap == null)
-            typeMap = new HashMap<String, Integer>(16);
+        if (typeMap == null) {
+            typeMap = new HashMap<>(16);
+        }
         typeMap.put(id, position);
     }
 
     public int getPositionForID(String id) {
-        if (typeMap == null)
+        if (typeMap == null) {
             throw wrapper.refTypeIndirType();
+        }
         return typeMap.get(id);
     }
 

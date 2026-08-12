@@ -56,7 +56,7 @@ public class ServerRequestImpl extends ServerRequest {
 
     public ServerRequestImpl(MessageMediator req, ORB orb) {
         _opName = req.getOperationName();
-        _ins = (InputStream) req.getInputObject();
+        _ins = req.getInputObject();
         _ctx = null; // if we support contexts, this would
                      // presumably also be available on
                      // the server invocation
@@ -70,14 +70,17 @@ public class ServerRequestImpl extends ServerRequest {
 
     @Override
     public void arguments(NVList args) {
-        if (_paramsCalled)
+        if (_paramsCalled) {
             throw _wrapper.argumentsCalledMultiple();
+        }
 
-        if (_exceptionSet)
+        if (_exceptionSet) {
             throw _wrapper.argumentsCalledAfterException();
+        }
 
-        if (args == null)
+        if (args == null) {
             throw _wrapper.argumentsCalledNullArgs();
+        }
 
         _paramsCalled = true;
 
@@ -109,14 +112,18 @@ public class ServerRequestImpl extends ServerRequest {
     @Override
     public void set_result(Any res) {
         // check for invocation restrictions
-        if (!_paramsCalled)
+        if (!_paramsCalled) {
             throw _wrapper.argumentsNotCalled();
-        if (_resultSet)
+        }
+        if (_resultSet) {
             throw _wrapper.setResultCalledMultiple();
-        if (_exceptionSet)
+        }
+        if (_exceptionSet) {
             throw _wrapper.setResultAfterException();
-        if (res == null)
+        }
+        if (res == null) {
             throw _wrapper.setResultCalledNullArgs();
+        }
 
         _resultAny = res;
         _resultSet = true;
@@ -133,15 +140,17 @@ public class ServerRequestImpl extends ServerRequest {
     public void set_exception(Any exc) {
         // except can be called by the DIR at any time (CORBA 2.2 section 6.3).
 
-        if (exc == null)
+        if (exc == null) {
             throw _wrapper.setExceptionCalledNullArgs();
+        }
 
         // Ensure that the Any contains a SystemException or a
         // UserException. If the UserException is not a declared exception,
         // the client will get an UNKNOWN exception.
         TCKind kind = exc.type().kind();
-        if (kind != TCKind.tk_except)
+        if (kind != TCKind.tk_except) {
             throw _wrapper.setExceptionCalledBadType();
+        }
 
         _exception = exc;
 
@@ -168,7 +177,7 @@ public class ServerRequestImpl extends ServerRequest {
     /**
      * This is called from the ORB after the DynamicImplementation.invoke returns. Here we set the result if result() has
      * not already been called.
-     * 
+     *
      * @return the exception if there is one (then ORB will not call marshalReplyParams()) otherwise return null.
      */
     public Any checkResultCalled() {
@@ -180,9 +189,9 @@ public class ServerRequestImpl extends ServerRequest {
         // non-void result type, set_result() must be called exactly once
         // before the DIR returns.
 
-        if (_paramsCalled && _resultSet) // normal invocation return
-            return null;
-        else if (_paramsCalled && !_resultSet && !_exceptionSet) {
+        if (_paramsCalled && _resultSet) { // normal invocation return
+        	return null;
+        } else if (_paramsCalled && !_resultSet && !_exceptionSet) {
             try {
                 // Neither a result nor an exception has been set.
                 // Assume that the return type is void. If this is not so,
@@ -197,9 +206,9 @@ public class ServerRequestImpl extends ServerRequest {
             } catch (Exception ex) {
                 throw _wrapper.dsiResultException(ex);
             }
-        } else if (_exceptionSet)
+        } else if (_exceptionSet) {
             return _exception;
-        else {
+        } else {
             throw _wrapper.dsimethodNotcalled();
         }
     }
@@ -207,7 +216,7 @@ public class ServerRequestImpl extends ServerRequest {
     /**
      * This is called from the ORB after the DynamicImplementation.invoke returns. Here we marshal the return value and
      * inout/out params.
-     * 
+     *
      * @param os OutputStream into which to marshal the parameters
      */
     public void marshalReplyParams(OutputStream os) {
@@ -229,9 +238,11 @@ public class ServerRequestImpl extends ServerRequest {
         }
     }
 
+    @Override
     public Context ctx() {
-        if (!_paramsCalled || _resultSet || _exceptionSet)
+        if (!_paramsCalled || _resultSet || _exceptionSet) {
             throw _wrapper.contextCalledOutOfOrder();
+        }
 
         throw _wrapper.contextNotImplemented();
     }

@@ -36,6 +36,7 @@ class GetORBPropertiesFileAction implements PrivilegedAction {
         // This will not throw a SecurityException because this
         // class was loaded from rt.jar using the bootstrap classloader.
         String propValue = (String) AccessController.doPrivileged(new PrivilegedAction() {
+            @Override
             public java.lang.Object run() {
                 return System.getProperty(name);
             }
@@ -47,8 +48,9 @@ class GetORBPropertiesFileAction implements PrivilegedAction {
     private void getPropertiesFromFile(Properties props, String fileName) {
         try {
             File file = new File(fileName);
-            if (!file.exists())
+            if (!file.exists()) {
                 return;
+            }
 
             FileInputStream in = new FileInputStream(file);
 
@@ -58,11 +60,13 @@ class GetORBPropertiesFileAction implements PrivilegedAction {
                 in.close();
             }
         } catch (Exception exc) {
-            if (debug)
+            if (debug) {
                 System.out.println("ORB properties file " + fileName + " not found: " + exc);
+            }
         }
     }
 
+    @Override
     public Object run() {
         Properties defaults = new Properties();
 

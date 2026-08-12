@@ -46,14 +46,17 @@ public abstract class ConnectionCacheBase<C extends Connection> implements Conne
     // MUST be initialized in a subclass
     protected ConcurrentQueue<C> reclaimableConnections = null;
 
+    @Override
     public final String getCacheType() {
         return cacheType;
     }
 
+    @Override
     public final int numberToReclaim() {
         return numberToReclaim;
     }
 
+    @Override
     public final int highWaterMark() {
         return highWaterMark;
     }
@@ -65,14 +68,17 @@ public abstract class ConnectionCacheBase<C extends Connection> implements Conne
 
     ConnectionCacheBase(final String cacheType, final int highWaterMark, final int numberToReclaim) {
 
-        if (cacheType == null)
+        if (cacheType == null) {
             throw new IllegalArgumentException("cacheType must not be null");
+        }
 
-        if (highWaterMark < 0)
+        if (highWaterMark < 0) {
             throw new IllegalArgumentException("highWaterMark must be non-negative");
+        }
 
-        if (numberToReclaim < 1)
+        if (numberToReclaim < 1) {
             throw new IllegalArgumentException("numberToReclaim must be at least 1");
+        }
 
         this.cacheType = cacheType;
         this.highWaterMark = highWaterMark;
@@ -90,7 +96,7 @@ public abstract class ConnectionCacheBase<C extends Connection> implements Conne
 
     /**
      * Reclaim some idle cached connections. Will never close a connection that is busy.
-     * 
+     *
      * @return True if at least one connection was reclaimed
      */
     @Transport
@@ -98,10 +104,11 @@ public abstract class ConnectionCacheBase<C extends Connection> implements Conne
         int ctr = 0;
         while (ctr < numberToReclaim()) {
             Handle<C> candidate = reclaimableConnections.poll();
-            if (candidate == null)
+            if (candidate == null) {
                 // If we have closed all idle connections, we must stop
                 // reclaiming.
                 break;
+            }
 
             try {
                 display("closing connection", candidate);

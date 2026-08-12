@@ -136,6 +136,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
     // that sets the xxxDebugFlags!
     public static final boolean orbInitDebug = AccessController.doPrivileged(
         new PrivilegedAction<Boolean>() {
+            @Override
             public Boolean run() {
                 return Boolean.getBoolean( ORBConstants.INIT_DEBUG_PROPERTY );
             }
@@ -225,7 +226,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
     @ManagedAttribute
     @Description( "The current settings of the ORB debug flags" )
     private Map<String,Boolean> getDebugFlags() {
-        Map<String,Boolean> result = new HashMap<String,Boolean>() ;
+        Map<String,Boolean> result = new HashMap<>() ;
         for (Field fld : this.getClass().getFields()) {
             if (fld.getName().endsWith("DebugFlag")) {
                 Boolean value = false ;
@@ -411,7 +412,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
     protected ORB()
     {
 
-        typeCodeMap = new HashMap<String,TypeCodeImpl>();
+        typeCodeMap = new HashMap<>();
 
         wireObjectKeyTemplate = new WireObjectKeyTemplate(this);
     }
@@ -464,11 +465,13 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
         }
     }
 
+    @Override
     public synchronized void setTypeCode(String id, TypeCodeImpl code)
     {
         typeCodeMap.put(id, code);
     }
 
+    @Override
     public synchronized TypeCodeImpl getTypeCode(String id)
     {
         return typeCodeMap.get(id);
@@ -692,8 +695,9 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
     @Description( "The ByteBuffer pool used in the ORB" )
     public ByteBufferPool getByteBufferPool()
     {
-        if (byteBufferPool == null)
+        if (byteBufferPool == null) {
             byteBufferPool = new ByteBufferPoolImpl(this);
+        }
 
         return byteBufferPool;
     }
@@ -793,8 +797,9 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
     */
     protected IOR getIOR( org.omg.CORBA.Object obj )
     {
-        if (obj == null)
+        if (obj == null) {
             throw wrapper.nullObjectReference() ;
+        }
 
         IOR ior = null ;
         if (StubAdapter.isStub(obj)) {
@@ -805,8 +810,9 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
                 ClientDelegate cdel = (ClientDelegate)del ;
                 ContactInfoList ccil = cdel.getContactInfoList() ;
                 ior = ccil.getTargetIOR() ;
-                if (ior == null)
+                if (ior == null) {
                     throw wrapper.nullIor() ;
+                }
 
                 return ior ;
             }
@@ -832,8 +838,9 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
             } else {
                 throw wrapper.notAnObjectImpl() ;
             }
-        } else
+        } else {
             throw wrapper.localObjectNotAllowed() ;
+        }
     }
 
 
@@ -872,7 +879,8 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
     }
 
     private static final UnaryFunction<String,Class<?>> defaultClassNameResolver =
-        new UnaryFunction<String,Class<?>>() {
+        new UnaryFunction<>() {
+            @Override
             public Class<?> evaluate( String name ) {
                 try {
                     return ORBClassLoader.getClassLoader().loadClass( name ) ;
@@ -895,7 +903,8 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
         final UnaryFunction<String,Class<?>> first,
         final UnaryFunction<String,Class<?>> second ) {
 
-        return new UnaryFunction<String,Class<?>>() {
+        return new UnaryFunction<>() {
+            @Override
             public Class<?> evaluate( String className ) {
                 Class<?> result = first.evaluate( className ) ;
                 if (result == null) {

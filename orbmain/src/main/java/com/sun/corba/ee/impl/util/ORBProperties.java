@@ -36,8 +36,9 @@ public class ORBProperties {
             String javaHome = System.getProperty("java.home");
             File propFile = new File(javaHome + File.separator + "lib" + File.separator + "orb.properties");
 
-            if (propFile.exists())
+            if (propFile.exists()) {
                 return;
+            }
 
             // Write properties to orb.properties
             FileOutputStream out = new FileOutputStream(propFile);

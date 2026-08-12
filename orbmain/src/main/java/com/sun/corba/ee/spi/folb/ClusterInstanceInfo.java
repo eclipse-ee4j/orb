@@ -40,7 +40,7 @@ public class ClusterInstanceInfo implements Serializable {
         name = is.read_string() ;
         weight = is.read_long() ;
         int size = is.read_long() ;
-        List<SocketInfo> elist = new ArrayList<SocketInfo>( size ) ;
+        List<SocketInfo> elist = new ArrayList<>( size ) ;
         for (int ctr = 0; ctr<size; ctr++) {
             elist.add( new SocketInfo(is)) ;
         }
@@ -84,11 +84,7 @@ public class ClusterInstanceInfo implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-
-        if (getClass() != obj.getClass()) {
+        if ((obj == null) || (getClass() != obj.getClass())) {
             return false;
         }
 

@@ -35,7 +35,7 @@ public final class LocateRequestMessage_1_1 extends Message_1_1 implements Locat
     // Instance variables
 
     private ORB orb = null;
-    private int request_id = (int) 0;
+    private int request_id = 0;
     private byte[] object_key = null;
     private ObjectKeyCacheEntry entry = null;
 
@@ -54,10 +54,12 @@ public final class LocateRequestMessage_1_1 extends Message_1_1 implements Locat
 
     // Accessor methods (LocateRequestMessage interface)
 
+    @Override
     public int getRequestId() {
         return this.request_id;
     }
 
+    @Override
     public ObjectKeyCacheEntry getObjectKeyCacheEntry() {
         if (this.entry == null) {
             // this will raise a MARSHAL exception upon errors.
@@ -69,6 +71,7 @@ public final class LocateRequestMessage_1_1 extends Message_1_1 implements Locat
 
     // IO methods
 
+    @Override
     public void read(org.omg.CORBA.portable.InputStream istream) {
         super.read(istream);
         this.request_id = istream.read_ulong();
@@ -77,6 +80,7 @@ public final class LocateRequestMessage_1_1 extends Message_1_1 implements Locat
         istream.read_octet_array(this.object_key, 0, _len1);
     }
 
+    @Override
     public void write(org.omg.CORBA.portable.OutputStream ostream) {
         super.write(ostream);
         ostream.write_ulong(this.request_id);
@@ -85,6 +89,7 @@ public final class LocateRequestMessage_1_1 extends Message_1_1 implements Locat
         ostream.write_octet_array(this.object_key, 0, this.object_key.length);
     }
 
+    @Override
     public void callback(MessageHandler handler) throws java.io.IOException {
         handler.handleInput(this);
     }

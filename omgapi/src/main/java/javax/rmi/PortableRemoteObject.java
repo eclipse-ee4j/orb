@@ -58,7 +58,7 @@ public class PortableRemoteObject {
 
     /**
      * Initializes the object by calling <code>exportObject(this)</code>.
-     * 
+     *
      * @exception RemoteException if export fails.
      */
     protected PortableRemoteObject() throws RemoteException {
@@ -70,7 +70,7 @@ public class PortableRemoteObject {
     /**
      * Makes a server object ready to receive remote calls. Note that subclasses of PortableRemoteObject do not need to call
      * this method, as it is called by the constructor.
-     * 
+     *
      * @param obj the server object to export.
      * @exception RemoteException if export fails.
      */
@@ -84,7 +84,7 @@ public class PortableRemoteObject {
 
     /**
      * Returns a stub for the given server object.
-     * 
+     *
      * @param obj the server object for which a stub is required. Must either be a subclass of PortableRemoteObject or have
      * been previously the target of a call to {@link #exportObject}.
      * @return the most derived stub for the object.
@@ -100,7 +100,7 @@ public class PortableRemoteObject {
 
     /**
      * Deregisters a server object from the runtime, allowing the object to become available for garbage collection.
-     * 
+     *
      * @param obj the object to unexport.
      * @exception NoSuchObjectException if the remote object is not currently exported.
      */
@@ -114,7 +114,7 @@ public class PortableRemoteObject {
 
     /**
      * Checks to ensure that an object of a remote or abstract interface type can be cast to a desired type.
-     * 
+     *
      * @param narrowFrom the object to check.
      * @param narrowTo the desired type.
      * @return an object which can be cast to the desired type.
@@ -133,7 +133,7 @@ public class PortableRemoteObject {
      * Makes a Remote object ready for remote communication. This normally happens implicitly when the object is sent or
      * received as an argument on a remote method call, but in some circumstances it is useful to perform this action by
      * making an explicit call. See the {@link javax.rmi.CORBA.Stub#connect} method for more information.
-     * 
+     *
      * @param target the object to connect.
      * @param source a previously connected object.
      * @throws RemoteException if <code>source</code> is not connected or if <code>target</code> is already connected to a
@@ -164,7 +164,7 @@ public class PortableRemoteObject {
         }
 
         try {
-            return (Object) loadDelegateClass(className).newInstance();
+            return loadDelegateClass(className).newInstance();
         } catch (ClassNotFoundException ex) {
             INITIALIZE exc = new INITIALIZE("Cannot instantiate " + className);
             exc.initCause(ex);
@@ -212,6 +212,7 @@ class GetORBPropertiesFileAction implements PrivilegedAction {
         // This will not throw a SecurityException because this
         // class was loaded from rt.jar using the bootstrap classloader.
         String propValue = (String) AccessController.doPrivileged(new PrivilegedAction() {
+            @Override
             public java.lang.Object run() {
                 return System.getProperty(name);
             }
@@ -223,8 +224,9 @@ class GetORBPropertiesFileAction implements PrivilegedAction {
     private void getPropertiesFromFile(Properties props, String fileName) {
         try {
             File file = new File(fileName);
-            if (!file.exists())
+            if (!file.exists()) {
                 return;
+            }
 
             FileInputStream in = new FileInputStream(file);
 
@@ -234,11 +236,13 @@ class GetORBPropertiesFileAction implements PrivilegedAction {
                 in.close();
             }
         } catch (Exception exc) {
-            if (debug)
+            if (debug) {
                 System.out.println("ORB properties file " + fileName + " not found: " + exc);
+            }
         }
     }
 
+    @Override
     public Object run() {
         Properties defaults = new Properties();
 

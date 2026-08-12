@@ -55,8 +55,6 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 import org.omg.CORBA.SystemException;
 import org.omg.CORBA_2_3.portable.InputStream;
 import org.omg.CORBA_2_3.portable.OutputStream;
-import org.omg.IOP.TAG_INTERNET_IOP;
-import org.omg.IOP.TAG_JAVA_CODEBASE;
 
 @IsLocal
 public class IIOPProfileImpl extends IdentifiableBase implements IIOPProfile {
@@ -91,6 +89,7 @@ public class IIOPProfileImpl extends IdentifiableBase implements IIOPProfile {
 
     private GIOPVersion giopVersion = null;
 
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("IIOPProfileImpl[proftemp=");
@@ -118,14 +117,17 @@ public class IIOPProfileImpl extends IdentifiableBase implements IIOPProfile {
         return oid.hashCode() ^ proftemp.hashCode() ^ oktemp.hashCode();
     }
 
+    @Override
     public ObjectId getObjectId() {
         return oid;
     }
 
+    @Override
     public TaggedProfileTemplate getTaggedProfileTemplate() {
         return proftemp;
     }
 
+    @Override
     public ObjectKeyTemplate getObjectKeyTemplate() {
         return oktemp;
     }
@@ -198,14 +200,17 @@ public class IIOPProfileImpl extends IdentifiableBase implements IIOPProfile {
         }
     }
 
+    @Override
     public void writeContents(OutputStream os) {
         proftemp.write(oktemp, oid, os);
     }
 
+    @Override
     public int getId() {
         return proftemp.getId();
     }
 
+    @Override
     public boolean isEquivalent(TaggedProfile prof) {
         if (!(prof instanceof IIOPProfile)) {
             return false;
@@ -217,6 +222,7 @@ public class IIOPProfileImpl extends IdentifiableBase implements IIOPProfile {
                 && oktemp.equals(other.getObjectKeyTemplate());
     }
 
+    @Override
     public synchronized ObjectKey getObjectKey() {
         if (objectKey == null) {
             objectKey = IORFactories.makeObjectKey(oktemp, oid);
@@ -224,6 +230,7 @@ public class IIOPProfileImpl extends IdentifiableBase implements IIOPProfile {
         return objectKey;
     }
 
+    @Override
     public org.omg.IOP.TaggedProfile getIOPProfile() {
         EncapsOutputStream os = OutputStreamFactory.newEncapsOutputStream(orb);
         os.write_long(getId());
@@ -243,6 +250,7 @@ public class IIOPProfileImpl extends IdentifiableBase implements IIOPProfile {
         return null;
     }
 
+    @Override
     public synchronized String getCodebase() {
         if (!cachedCodebase) {
             cachedCodebase = true;
@@ -255,6 +263,7 @@ public class IIOPProfileImpl extends IdentifiableBase implements IIOPProfile {
     /**
      * @return the ORBVersion associated with the object key in the IOR.
      */
+    @Override
     public ORBVersion getORBVersion() {
         return oktemp.getORBVersion();
     }
@@ -267,12 +276,14 @@ public class IIOPProfileImpl extends IdentifiableBase implements IIOPProfile {
     private void isLocalResults(boolean isLocalHost, boolean isLocalServerId, boolean isLocalPort) {
     }
 
+    @Override
     @IsLocal
     public synchronized boolean isLocal() {
         if (!checkedIsLocal) {
             checkedIsLocal = true;
-            if (isForeignObject())
+            if (isForeignObject()) {
                 return false;
+            }
 
             final int port = proftemp.getPrimaryAddress().getPort();
             final String host = proftemp.getPrimaryAddress().getHost();
@@ -299,6 +310,7 @@ public class IIOPProfileImpl extends IdentifiableBase implements IIOPProfile {
      * Return the servant for this IOR, if it is local AND if the OA that implements this objref supports direct access to
      * servants outside of an invocation.
      */
+    @Override
     @IsLocal
     public java.lang.Object getServant() {
         if (!isLocal()) {
@@ -329,10 +341,12 @@ public class IIOPProfileImpl extends IdentifiableBase implements IIOPProfile {
     /**
      * Return GIOPVersion for this IOR. Requests created against this IOR will be of the return Version.
      */
+    @Override
     public synchronized GIOPVersion getGIOPVersion() {
         return proftemp.getGIOPVersion();
     }
 
+    @Override
     public void makeImmutable() {
         proftemp.makeImmutable();
     }

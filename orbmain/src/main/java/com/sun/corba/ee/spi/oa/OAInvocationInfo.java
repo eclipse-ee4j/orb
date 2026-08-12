@@ -77,8 +77,9 @@ public class OAInvocationInfo extends ServantObject {
     // thread, so no synchronization is needed.
     public CookieHolder     getCookieHolder()
     {
-        if (cookieHolder == null)
+        if (cookieHolder == null) {
             cookieHolder = new CookieHolder() ;
+        }
 
         return cookieHolder;
     }
@@ -93,9 +94,10 @@ public class OAInvocationInfo extends ServantObject {
     public void setServant(Object servant)
     {
         servantContainer = servant ;
-        if (servant instanceof Tie)
+        if (servant instanceof Tie) {
             this.servant = ((Tie)servant).getTarget() ;
-        else
+        } else {
             this.servant = servant;
+        }
     }
 }

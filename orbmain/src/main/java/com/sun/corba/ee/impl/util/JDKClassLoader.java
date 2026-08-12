@@ -36,6 +36,7 @@ class JDKClassLoader {
     private static final JDKClassLoaderCache classCache = new JDKClassLoaderCache();
 
     private static final Bridge bridge = (Bridge) AccessController.doPrivileged(new PrivilegedAction() {
+        @Override
         public Object run() {
             return Bridge.get();
         }
@@ -136,19 +137,23 @@ class JDKClassLoader {
 
             // Try to incorporate both class name and loader
             // into the hashcode
+            @Override
             public int hashCode() {
-                if (loader == null)
+                if (loader == null) {
                     return className.hashCode();
-                else
+                } else {
                     return className.hashCode() ^ loader.hashCode();
+                }
             }
 
+            @Override
             public boolean equals(Object obj) {
                 try {
 
                     // WeakHashMap may compare null keys
-                    if (obj == null)
+                    if (obj == null) {
                         return false;
+                    }
 
                     CacheKey other = (CacheKey) obj;
 

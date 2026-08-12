@@ -34,17 +34,20 @@ public class ExceptionListImpl extends ExceptionList {
     private List<TypeCode> _exceptions;
 
     public ExceptionListImpl() {
-        _exceptions = new ArrayList<TypeCode>(INITIAL_CAPACITY);
+        _exceptions = new ArrayList<>(INITIAL_CAPACITY);
     }
 
+    @Override
     public synchronized int count() {
         return _exceptions.size();
     }
 
+    @Override
     public synchronized void add(TypeCode tc) {
         _exceptions.add(tc);
     }
 
+    @Override
     public synchronized TypeCode item(int index) throws Bounds {
         try {
             return _exceptions.get(index);
@@ -53,6 +56,7 @@ public class ExceptionListImpl extends ExceptionList {
         }
     }
 
+    @Override
     public synchronized void remove(int index) throws Bounds {
         try {
             _exceptions.remove(index);

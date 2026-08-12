@@ -78,6 +78,7 @@ public final class OldJIDLObjectKeyTemplate extends OldObjectKeyTemplateBase {
         this(orb, magic, scid, is.read_long());
     }
 
+    @Override
     protected void writeTemplate(OutputStream os) {
         os.write_long(getMagic());
         os.write_long(getSubcontractId());

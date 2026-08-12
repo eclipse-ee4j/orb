@@ -101,7 +101,7 @@ public class CorbaExtension extends StandardLogger {
 
     @SuppressWarnings("unchecked")
     private static final List<Constructor<SystemException>> SYS_EX_CONSTRUCTORS =
-        new ArrayList<Constructor<SystemException>>(
+        new ArrayList<>(
             SYS_EX_CLASSES.length) ;
 
     static {

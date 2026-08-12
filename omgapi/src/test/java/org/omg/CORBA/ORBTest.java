@@ -81,8 +81,9 @@ public class ORBTest {
 
         @Override
         public Class<?> loadClass(String name) throws ClassNotFoundException {
-            if (orbClassKey.equals(name))
+            if (orbClassKey.equals(name)) {
                 loadedSingleton = true;
+            }
             return super.loadClass(name);
         }
     }

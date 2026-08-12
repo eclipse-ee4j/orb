@@ -22,17 +22,16 @@ package com.sun.corba.ee.impl.dynamicany;
 import com.sun.corba.ee.spi.orb.ORB;
 
 import org.omg.CORBA.Any;
+import org.omg.CORBA.DynAny;
+import org.omg.CORBA.NameValuePair;
 import org.omg.CORBA.TCKind;
 import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.DynAnyPackage.InvalidValue;
+import org.omg.CORBA.DynAnyPackage.TypeMismatch;
+import org.omg.CORBA.ORBPackage.InconsistentTypeCode;
 import org.omg.CORBA.TypeCodePackage.BadKind;
 import org.omg.CORBA.TypeCodePackage.Bounds;
 import org.omg.CORBA.portable.InputStream;
-import org.omg.DynamicAny.DynAny;
-import org.omg.DynamicAny.NameDynAnyPair;
-import org.omg.DynamicAny.NameValuePair;
-import org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode;
-import org.omg.DynamicAny.DynAnyPackage.InvalidValue;
-import org.omg.DynamicAny.DynAnyPackage.TypeMismatch;
 
 abstract class DynAnyComplexImpl extends DynAnyConstructedImpl {
     private static final long serialVersionUID = -6968157558291435722L;
@@ -298,6 +297,7 @@ abstract class DynAnyComplexImpl extends DynAnyConstructedImpl {
 
     // Initializes components, names, nameValuePairs and nameDynAnyPairs representation
     // from the Any representation
+    @Override
     protected boolean initializeComponentsFromAny() {
         // This typeCode is of kind tk_struct.
         TypeCode typeCode = any.type();
@@ -341,6 +341,7 @@ abstract class DynAnyComplexImpl extends DynAnyConstructedImpl {
     // from the internal TypeCode information with default values
     // This is not done recursively, only one level.
     // More levels are initialized lazily, on demand.
+    @Override
     protected boolean initializeComponentsFromTypeCode() {
         // This typeCode is of kind tk_struct.
         TypeCode typeCode = any.type();

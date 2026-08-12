@@ -93,6 +93,7 @@ public class ServantCachingPolicy extends LocalObject implements Policy
         }
     }
 
+    @Override
     public String toString()
     {
         return "ServantCachingPolicy[" + typeToName() + "]" ;
@@ -118,38 +119,44 @@ public class ServantCachingPolicy extends LocalObject implements Policy
 
     public synchronized static ServantCachingPolicy getFullPolicy()
     {
-        if (policy == null)
+        if (policy == null) {
             policy = new ServantCachingPolicy( FULL_SEMANTICS ) ;
+        }
 
         return policy ;
     }
 
     public synchronized static ServantCachingPolicy getInfoOnlyPolicy()
     {
-        if (infoOnlyPolicy == null)
+        if (infoOnlyPolicy == null) {
             infoOnlyPolicy = new ServantCachingPolicy( INFO_ONLY_SEMANTICS ) ;
+        }
 
         return infoOnlyPolicy ;
     }
 
     public synchronized static ServantCachingPolicy getMinimalPolicy()
     {
-        if (minimalPolicy == null)
+        if (minimalPolicy == null) {
             minimalPolicy = new ServantCachingPolicy( MINIMAL_SEMANTICS ) ;
+        }
 
         return minimalPolicy ;
     }
 
+    @Override
     public int policy_type ()
     {
         return ORBConstants.SERVANT_CACHING_POLICY ;
     }
 
+    @Override
     public org.omg.CORBA.Policy copy ()
     {
         return this ;
     }
 
+    @Override
     public void destroy ()
     {
         // NO-OP

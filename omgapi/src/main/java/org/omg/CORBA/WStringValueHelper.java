@@ -87,10 +87,11 @@ public class WStringValueHelper implements org.omg.CORBA.portable.BoxedValueHelp
         return (String) ((org.omg.CORBA_2_3.portable.InputStream) istream).read_value(_instance);
     }
 
+    @Override
     public java.io.Serializable read_value(org.omg.CORBA.portable.InputStream istream) {
         String tmp;
         tmp = istream.read_wstring();
-        return (java.io.Serializable) tmp;
+        return tmp;
     }
 
     public static void write(org.omg.CORBA.portable.OutputStream ostream, String value) {
@@ -100,6 +101,7 @@ public class WStringValueHelper implements org.omg.CORBA.portable.BoxedValueHelp
         ((org.omg.CORBA_2_3.portable.OutputStream) ostream).write_value(value, _instance);
     }
 
+    @Override
     public void write_value(org.omg.CORBA.portable.OutputStream ostream, java.io.Serializable value) {
         if (!(value instanceof String)) {
             throw new org.omg.CORBA.MARSHAL();
@@ -108,6 +110,7 @@ public class WStringValueHelper implements org.omg.CORBA.portable.BoxedValueHelp
         ostream.write_wstring(valueType);
     }
 
+    @Override
     public String get_id() {
         return _id;
     }

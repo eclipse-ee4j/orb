@@ -73,6 +73,7 @@ public class OSGIListener implements BundleActivator, SynchronousBundleListener 
             return bundle.getHeaders();
         } else {
             return AccessController.doPrivileged(new PrivilegedAction<Dictionary>() {
+                @Override
                 public Dictionary run() {
                     return bundle.getHeaders();
                 }
@@ -87,6 +88,7 @@ public class OSGIListener implements BundleActivator, SynchronousBundleListener 
         } else {
             try {
                 return AccessController.doPrivileged(new PrivilegedExceptionAction<Class<?>>() {
+                    @Override
                     public Class<?> run() throws ClassNotFoundException {
                         return bundle.loadClass(className);
                     }
@@ -99,11 +101,11 @@ public class OSGIListener implements BundleActivator, SynchronousBundleListener 
 
     // Map from class name to Bundle, which identifies all known
     // ORB-Class-Providers.
-    private static Map<String, Bundle> classNameMap = new ConcurrentHashMap<String, Bundle>();
+    private static Map<String, Bundle> classNameMap = new ConcurrentHashMap<>();
 
     // Map from package name to Bundle, which identifies all known
     // exported packages.
-    private static Map<String, Bundle> packageNameMap = new ConcurrentHashMap<String, Bundle>();
+    private static Map<String, Bundle> packageNameMap = new ConcurrentHashMap<>();
 
     private static String getBundleEventType(int type) {
         if (type == BundleEvent.INSTALLED) {
@@ -150,6 +152,7 @@ public class OSGIListener implements BundleActivator, SynchronousBundleListener 
         private void foundClassInBundle(String arg, String name) {
         }
 
+        @Override
         @Osgi
         public Class<?> evaluate(String arg) {
             Bundle bundle = getBundleForClass(arg);
@@ -192,13 +195,10 @@ public class OSGIListener implements BundleActivator, SynchronousBundleListener 
         private void foundClassInBundleVersion(Class<?> cls, String name, String version) {
         }
 
+        @Override
         @Osgi
         public String getCodeBase(Class<?> cls) {
-            if (cls == null) {
-                return null;
-            }
-
-            if (pkgAdmin == null) {
+            if ((cls == null) || (pkgAdmin == null)) {
                 return null;
             }
 
@@ -236,6 +236,7 @@ public class OSGIListener implements BundleActivator, SynchronousBundleListener 
         private void classNotFoundInBundleVersion(String cname, String bname, String version) {
         }
 
+        @Override
         @Osgi
         public Class<?> loadClass(String codebase, String className) {
             if (codebase == null) {
@@ -389,6 +390,7 @@ public class OSGIListener implements BundleActivator, SynchronousBundleListener 
     private void probeBundlesForProviders() {
     }
 
+    @Override
     @Osgi
     public void start(BundleContext context) {
         // Get a referece to the PackageAdmin service before we
@@ -409,6 +411,7 @@ public class OSGIListener implements BundleActivator, SynchronousBundleListener 
         }
     }
 
+    @Override
     @Osgi
     public void stop(BundleContext context) {
         final Bundle myBundle = context.getBundle();
@@ -419,6 +422,7 @@ public class OSGIListener implements BundleActivator, SynchronousBundleListener 
     private void receivedBundleEvent(String type, String name) {
     }
 
+    @Override
     @Osgi
     public void bundleChanged(BundleEvent event) {
         final int type = event.getType();

@@ -22,6 +22,7 @@ package com.sun.corba.ee.impl.presentation.rmi;
 import com.sun.corba.ee.spi.presentation.rmi.IDLNameTranslator;
 import com.sun.corba.ee.spi.presentation.rmi.PresentationDefaults;
 
+import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Method;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
@@ -82,7 +83,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
     private static Set<String> idlKeywords_;
 
     static {
-        idlKeywords_ = new HashSet<String>();
+        idlKeywords_ = new HashSet<>();
         for (String str : IDL_KEYWORDS) {
             idlKeywords_.add(str.toUpperCase());
         }
@@ -111,6 +112,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
      */
     public static IDLNameTranslator get(final Class interf) {
         return AccessController.doPrivileged(new PrivilegedAction<IDLNameTranslator>() {
+            @Override
             public IDLNameTranslator run() {
                 return new IDLNameTranslatorImpl(new Class[] { interf });
             }
@@ -126,6 +128,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
      */
     public static IDLNameTranslator get(final Class[] interfaces) {
         return AccessController.doPrivileged(new PrivilegedAction<IDLNameTranslator>() {
+            @Override
             public IDLNameTranslator run() {
                 return new IDLNameTranslatorImpl(interfaces);
             }
@@ -145,18 +148,22 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
         return itype.getExceptionName();
     }
 
+    @Override
     public Class[] getInterfaces() {
         return interf_;
     }
 
+    @Override
     public Method[] getMethods() {
         return methods_;
     }
 
+    @Override
     public Method getMethod(String idlName) {
         return IDLNameToMethodMap_.get(idlName);
     }
 
+    @Override
     public String getIDLName(Method method) {
         return methodToIDLNameMap_.get(method);
     }
@@ -176,8 +183,8 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
 
         try {
             IDLTypesUtil idlTypesUtil = new IDLTypesUtil();
-            for (int ctr = 0; ctr < interfaces.length; ctr++) {
-                idlTypesUtil.validateRemoteInterface(interfaces[ctr]);
+            for (Class<?> element : interfaces) {
+                idlTypesUtil.validateRemoteInterface(element);
             }
             interf_ = interfaces;
             buildNameTranslation();
@@ -189,15 +196,16 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
 
     private void buildNameTranslation() {
         // holds method info, keyed by method
-        Map<Method, IDLMethodInfo> allMethodInfo = new HashMap<Method, IDLMethodInfo>();
+        Map<Method, IDLMethodInfo> allMethodInfo = new HashMap<>();
 
         for (Class<?> interf : interf_) {
             IDLTypesUtil idlTypesUtil = new IDLTypesUtil();
             final Method[] methods = interf.getMethods();
             // Handle the case of a non-public interface!
-            AccessController.doPrivileged(new PrivilegedAction<Object>() {
+            AccessController.doPrivileged(new PrivilegedAction<>() {
+                @Override
                 public Object run() {
-                    Method.setAccessible(methods, true);
+                    AccessibleObject.setAccessible(methods, true);
                     return null;
                 }
             });
@@ -292,8 +300,8 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
         //
         // Populate name translation maps.
         //
-        methodToIDLNameMap_ = new HashMap<Method, String>();
-        IDLNameToMethodMap_ = new HashMap<String, Method>();
+        methodToIDLNameMap_ = new HashMap<>();
+        IDLNameToMethodMap_ = new HashMap<>();
         methods_ = allMethodInfo.keySet().toArray(new Method[0]);
 
         for (IDLMethodInfo next : allMethodInfo.values()) {
@@ -485,13 +493,13 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
      * "For Java identifiers that contain illegal OMG IDL identifier characters such as '$' or Unicode characters outside of
      * ISO Latin 1, any such illegal characters are replaced by "U" followed by the 4 hexadecimal characters(in upper case)
      * representing the Unicode value. So, the Java name a$b is mapped to aU0024b and x\u03bCy is mapped to xU03BCy."
-     * 
+     *
      * @param c character to convert
      * @return Unicode String
      */
     public static String charToUnicodeRepresentation(char c) {
 
-        int orig = (int) c;
+        int orig = c;
         StringBuilder hexString = new StringBuilder();
 
         int value = orig;

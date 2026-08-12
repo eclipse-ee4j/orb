@@ -37,14 +37,17 @@ public final class CharSeqHolder implements org.omg.CORBA.portable.Streamable {
         value = initialValue;
     }
 
+    @Override
     public void _read(org.omg.CORBA.portable.InputStream i) {
         value = org.omg.CORBA.CharSeqHelper.read(i);
     }
 
+    @Override
     public void _write(org.omg.CORBA.portable.OutputStream o) {
         org.omg.CORBA.CharSeqHelper.write(o, value);
     }
 
+    @Override
     public org.omg.CORBA.TypeCode _type() {
         return org.omg.CORBA.CharSeqHelper.type();
     }

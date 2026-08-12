@@ -39,38 +39,43 @@ public class NVListImpl extends NVList {
     public NVListImpl(ORB orb) {
         // Note: This orb could be an instanceof ORBSingleton or ORB
         this.orb = orb;
-        _namedValues = new ArrayList<NamedValue>(INITIAL_CAPACITY);
+        _namedValues = new ArrayList<>(INITIAL_CAPACITY);
     }
 
     public NVListImpl(ORB orb, int size) {
         this.orb = orb;
 
         // Note: the size arg is only a hint of the size of the NVList.
-        _namedValues = new ArrayList<NamedValue>(size);
+        _namedValues = new ArrayList<>(size);
     }
 
+    @Override
     public synchronized int count() {
         return _namedValues.size();
     }
 
+    @Override
     public synchronized NamedValue add(int flags) {
         NamedValue tmpVal = new NamedValueImpl(orb, "", new AnyImpl(orb), flags);
         _namedValues.add(tmpVal);
         return tmpVal;
     }
 
+    @Override
     public synchronized NamedValue add_item(String itemName, int flags) {
         NamedValue tmpVal = new NamedValueImpl(orb, itemName, new AnyImpl(orb), flags);
         _namedValues.add(tmpVal);
         return tmpVal;
     }
 
+    @Override
     public synchronized NamedValue add_value(String itemName, Any val, int flags) {
         NamedValue tmpVal = new NamedValueImpl(orb, itemName, val, flags);
         _namedValues.add(tmpVal);
         return tmpVal;
     }
 
+    @Override
     public synchronized NamedValue item(int index) throws Bounds {
         try {
             return _namedValues.get(index);
@@ -79,6 +84,7 @@ public class NVListImpl extends NVList {
         }
     }
 
+    @Override
     public synchronized void remove(int index) throws Bounds {
         try {
             _namedValues.remove(index);

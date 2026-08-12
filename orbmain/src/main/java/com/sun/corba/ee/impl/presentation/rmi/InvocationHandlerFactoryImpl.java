@@ -53,6 +53,7 @@ public class InvocationHandlerFactoryImpl implements InvocationHandlerFactory {
             implements LinkedInvocationHandler, Serializable {
         private transient DynamicStub stub;
 
+        @Override
         public void setProxy(Proxy proxy) {
             if (proxy instanceof DynamicStub) {
                 ((DynamicStubImpl) stub).setSelf((DynamicStub) proxy);
@@ -61,6 +62,7 @@ public class InvocationHandlerFactoryImpl implements InvocationHandlerFactory {
             }
         }
 
+        @Override
         public Proxy getProxy() {
             return (Proxy) ((DynamicStubImpl) stub).getSelf();
         }
@@ -79,6 +81,7 @@ public class InvocationHandlerFactoryImpl implements InvocationHandlerFactory {
         }
     }
 
+    @Override
     public InvocationHandler getInvocationHandler() {
         final DynamicStub stub = new DynamicStubImpl(classData.getTypeIds());
 
@@ -122,6 +125,7 @@ public class InvocationHandlerFactoryImpl implements InvocationHandlerFactory {
         return handler;
     }
 
+    @Override
     public Class[] getProxyInterfaces() {
         return proxyInterfaces;
     }

@@ -35,6 +35,7 @@ import org.glassfish.pfl.basic.reflection.Bridge;
  */
 public class ObjectStreamField implements Comparable {
     private static final Bridge bridge = AccessController.doPrivileged(new PrivilegedAction<Bridge>() {
+        @Override
         public Bridge run() {
             return Bridge.get();
         }
@@ -73,10 +74,11 @@ public class ObjectStreamField implements Comparable {
             typeString = ObjectStreamClass.getSignature(clazz);
         }
 
-        if (typeString != null)
+        if (typeString != null) {
             signature = typeString;
-        else
+        } else {
             signature = String.valueOf(type);
+        }
 
     }
 
@@ -87,7 +89,7 @@ public class ObjectStreamField implements Comparable {
 
     /**
      * Get the name of this field.
-     * 
+     *
      * @return The field name
      */
     public String getName() {
@@ -100,12 +102,13 @@ public class ObjectStreamField implements Comparable {
 
     /**
      * Get the type of the field.
-     * 
+     *
      * @return The type of the field
      */
     public Class getType() {
-        if (clazz != null)
+        if (clazz != null) {
             return clazz;
+        }
         switch (type) {
             case 'B':
                 clazz = Byte.TYPE;
@@ -159,7 +162,7 @@ public class ObjectStreamField implements Comparable {
 
     /**
      * test if this field is a primitive or not.
-     * 
+     *
      * @return if this field is primitive.
      */
     public boolean isPrimitive() {
@@ -185,17 +188,19 @@ public class ObjectStreamField implements Comparable {
     /**
      * Compare the types of two class descriptors. The match if they have the same primitive types. or if they are both
      * objects and the object types match.
-     * 
+     *
      * @param other type to compare with
      * @return if the two types are equivalent
      */
     public boolean typeEquals(ObjectStreamField other) {
-        if (other == null || type != other.type)
+        if (other == null || type != other.type) {
             return false;
+        }
 
         /* Return true if the primitive types matched */
-        if (typeString == null && other.typeString == null)
+        if (typeString == null && other.typeString == null) {
             return true;
+        }
 
         return ObjectStreamClass.compareClassNames(typeString, other.typeString, '/');
     }
@@ -213,11 +218,13 @@ public class ObjectStreamField implements Comparable {
     /**
      * Return a string describing this field.
      */
+    @Override
     public String toString() {
-        if (typeString != null)
+        if (typeString != null) {
             return typeString + " " + name;
-        else
+        } else {
             return type + " " + name;
+        }
     }
 
     public Class getClazz() {

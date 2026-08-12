@@ -70,16 +70,18 @@ public final class AttrDescriptionSeqHelper
         com.sun.org.omg.CORBA.AttributeDescription value[] = null;
         int _len0 = istream.read_long ();
         value = new com.sun.org.omg.CORBA.AttributeDescription[_len0];
-        for (int _o1 = 0;_o1 < value.length; ++_o1)
+        for (int _o1 = 0;_o1 < value.length; ++_o1) {
             value[_o1] = com.sun.org.omg.CORBA.AttributeDescriptionHelper.read (istream);
+        }
         return value;
     }
 
     public static void write (org.omg.CORBA.portable.OutputStream ostream, com.sun.org.omg.CORBA.AttributeDescription[] value)
     {
         ostream.write_long (value.length);
-        for (int _i0 = 0;_i0 < value.length; ++_i0)
-            com.sun.org.omg.CORBA.AttributeDescriptionHelper.write (ostream, value[_i0]);
+        for (AttributeDescription element : value) {
+            com.sun.org.omg.CORBA.AttributeDescriptionHelper.write (ostream, element);
+        }
     }
 
 }

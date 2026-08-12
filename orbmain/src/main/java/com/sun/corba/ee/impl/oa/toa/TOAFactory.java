@@ -58,9 +58,10 @@ public class TOAFactory implements ObjectAdapterFactory {
     @ManagedAttribute
     @Description("The map from Codebase to TOA")
     private synchronized Map<String, TOAImpl> getCodebaseMap() {
-        return new HashMap<String, TOAImpl>(codebaseToTOA);
+        return new HashMap<>(codebaseToTOA);
     }
 
+    @Override
     public ObjectAdapter find(ObjectAdapterId oaid) {
         if (oaid.equals(ObjectKeyTemplateBase.JIDL_OAID)) {
             return getTOA();
@@ -69,16 +70,18 @@ public class TOAFactory implements ObjectAdapterFactory {
         }
     }
 
+    @Override
     public void init(ORB orb) {
         this.orb = orb;
         tom = new TransientObjectManager(orb);
-        codebaseToTOA = new HashMap<String, TOAImpl>();
+        codebaseToTOA = new HashMap<>();
         ManagedObjectManager mom = orb.mom();
         if (mom != null) {
             mom.registerAtRoot(this);
         }
     }
 
+    @Override
     public void shutdown(boolean waitForCompletion) {
         if (Util.getInstance() != null) {
             Util.getInstance().unregisterTargetsForORB(orb);
@@ -107,7 +110,8 @@ public class TOAFactory implements ObjectAdapterFactory {
         return toa;
     }
 
+    @Override
     public ORB getORB() {
         return orb;
     }
-};
+}

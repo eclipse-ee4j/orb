@@ -33,7 +33,6 @@ import com.sun.corba.ee.spi.trace.Transport;
 
 import org.omg.CORBA.CompletionStatus;
 import org.omg.CORBA.SystemException;
-import org.omg.CORBA_2_3.portable.InputStream;
 
 /**
  * This implements the GIOP 1.2 Reply header.
@@ -79,35 +78,43 @@ public final class ReplyMessage_1_2 extends Message_1_2 implements ReplyMessage 
 
     // Accessor methods
 
+    @Override
     public int getRequestId() {
         return this.request_id;
     }
 
+    @Override
     public int getReplyStatus() {
         return this.reply_status;
     }
 
+    @Override
     public short getAddrDisposition() {
         return this.addrDisposition;
     }
 
+    @Override
     public ServiceContexts getServiceContexts() {
         return this.service_contexts;
     }
 
+    @Override
     public SystemException getSystemException(String message) {
         return MessageBase.getSystemException(exClassName, minorCode, completionStatus, message, wrapper);
     }
 
+    @Override
     public IOR getIOR() {
         return this.ior;
     }
 
+    @Override
     public void setIOR(IOR ior) {
         this.ior = ior;
     }
 
     // IO methods
+    @Override
     @Transport
     public void read(org.omg.CORBA.portable.InputStream istream) {
         super.read(istream);
@@ -151,7 +158,7 @@ public final class ReplyMessage_1_2 extends Message_1_2 implements ReplyMessage 
             // do nothing. The client stub will read the exception from body.
         } else if ((this.reply_status == LOCATION_FORWARD) || (this.reply_status == LOCATION_FORWARD_PERM)) {
             CDRInputObject cdr = (CDRInputObject) istream;
-            this.ior = IORFactories.makeIOR(orb, (InputStream) cdr);
+            this.ior = IORFactories.makeIOR(orb, cdr);
         } else if (this.reply_status == NEEDS_ADDRESSING_MODE) {
             // read GIOP::AddressingDisposition from body and resend the
             // original request using the requested addressing mode. The
@@ -163,6 +170,7 @@ public final class ReplyMessage_1_2 extends Message_1_2 implements ReplyMessage 
     // Note, this writes only the header information. SystemException or
     // IOR or GIOP::AddressingDisposition may be written afterwards into the
     // reply mesg body.
+    @Override
     @Transport
     public void write(org.omg.CORBA.portable.OutputStream ostream) {
         super.write(ostream);
@@ -193,6 +201,7 @@ public final class ReplyMessage_1_2 extends Message_1_2 implements ReplyMessage 
         }
     }
 
+    @Override
     public void callback(MessageHandler handler) throws java.io.IOException {
         handler.handleInput(this);
     }

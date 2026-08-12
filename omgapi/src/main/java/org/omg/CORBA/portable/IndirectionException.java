@@ -29,7 +29,7 @@ import org.omg.CORBA.SystemException;
  * itself. Because the top-level ValueHandler.read_value() call has not yet returned a value, the ORB input stream's
  * indirection table does not contain an entry for an object with the stream offset specified by the indirection tag.
  * The stream offset is returned in the exception's offset field.
- * 
+ *
  * @see org.omg.CORBA_2_3.portable.InputStream
  * @see org.omg.CORBA_2_3.portable.OutputStream
  */

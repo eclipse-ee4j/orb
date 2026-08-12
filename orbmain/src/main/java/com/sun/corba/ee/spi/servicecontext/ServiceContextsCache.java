@@ -29,14 +29,14 @@ public class ServiceContextsCache {
                     CLIENT_INITIAL,
                     CLIENT_SUBSEQUENT,
                     SERVER_INITIAL,
-                    SERVER_SUBSEQUENT};
+                    SERVER_SUBSEQUENT}
 
     private EnumMap<CASE, ServiceContexts> data;
     private ORB orb;
 
     public ServiceContextsCache (com.sun.corba.ee.spi.orb.ORB orb) {
 
-        data = new EnumMap<CASE, ServiceContexts>(CASE.class);
+        data = new EnumMap<>(CASE.class);
         this.orb = orb;
 
     }

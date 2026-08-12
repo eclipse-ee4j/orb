@@ -46,10 +46,10 @@ import org.omg.PortableServer.AdapterActivator;
 import org.omg.PortableServer.LifespanPolicyValue;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAManager;
+import org.omg.PortableServer.POAManagerPackage.AdapterInactive;
 import org.omg.PortableServer.RequestProcessingPolicyValue;
 import org.omg.PortableServer.ServantLocator;
 import org.omg.PortableServer.ServantRetentionPolicyValue;
-import org.omg.PortableServer.POAManagerPackage.AdapterInactive;
 
 @Poa
 @ManagedObject
@@ -88,7 +88,7 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
         state = RFMState.READY;
         this.orb = orb;
         poatable = new HashMap<String, Pair<ServantLocator, List<Policy>>>();
-        factories = new HashMap<String, ReferenceFactory>();
+        factories = new HashMap<>();
         managers = new HashSet<POAManager>();
         activator = new AdapterActivatorImpl();
         isActive = false;
@@ -111,7 +111,7 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
                 return false;
             } else {
                 try {
-                    List<Policy> policies = new ArrayList<Policy>();
+                    List<Policy> policies = new ArrayList<>();
                     // XXX What should we do if data.second() contains
                     // policies with the same ID as standard policies?
                     if (data.second() != null) {
@@ -139,7 +139,7 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
                 }
             }
         }
-    };
+    }
 
     // Policy used to indicate that a POA may particpate in the reference manager.
     // If this policy is not present, and a create_POA call is made under base POA,
@@ -155,18 +155,22 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
         private ReferenceManagerPolicy() {
         }
 
+        @Override
         public int policy_type() {
             return ORBConstants.REFERENCE_MANAGER_POLICY;
         }
 
+        @Override
         public Policy copy() {
             return this;
         }
 
+        @Override
         public void destroy() {
         }
     }
 
+    @Override
     public RFMState getState() {
         lock.lock();
         try {
@@ -176,6 +180,7 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
         }
     }
 
+    @Override
     @Poa
     public void activate() {
         lock.lock();
@@ -230,7 +235,7 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
 
             List<Policy> newPolicies = null;
             if (policies != null) {
-                newPolicies = new ArrayList<Policy>(policies);
+                newPolicies = new ArrayList<>(policies);
             }
 
             // Store an entry for the appropriate POA in the POA table,
@@ -247,6 +252,7 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
         }
     }
 
+    @Override
     @Poa
     public ReferenceFactory find(String[] adapterName) {
         lock.lock();
@@ -277,6 +283,7 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
         }
     }
 
+    @Override
     public ReferenceFactory find(String name) {
         lock.lock();
         try {
@@ -312,6 +319,7 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
     // XXX We may still want to switch to discard semantics,
     // but that would require significant testing.
 
+    @Override
     @Poa
     public void suspend() {
         lock.lock();
@@ -357,6 +365,7 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
         }
     }
 
+    @Override
     @Poa
     public void resume() {
         lock.lock();
@@ -446,6 +455,7 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
         }
     }
 
+    @Override
     public void restartFactories() {
         restartFactories(new HashMap<String, Pair<ServantLocator, List<Policy>>>());
     }
@@ -453,7 +463,7 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
     /**
      * Restart all ReferenceFactories. This is done safely, so that any request against object references created from these
      * factories complete correctly. Restart does not return until all restart activity completes.
-     * 
+     *
      * @param updates is a map giving the updated policies for some or all of the ReferenceFactory instances in this
      * ReferenceFactoryManager. This parameter must not be null.
      */
@@ -472,6 +482,7 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
      * factories complete correctly. Restart does not return until all restart activity completes. Equivalent to calling
      * restart( new Map() ).
      */
+    @Override
     public void restart() {
         restart(new HashMap<String, Pair<ServantLocator, List<Policy>>>());
     }
@@ -553,6 +564,7 @@ public class ReferenceFactoryManagerImpl extends org.omg.CORBA.LocalObject imple
     }
 
     // locking not required
+    @Override
     @Poa
     public boolean isRfmName(String[] adapterName) {
         if (!isActive) {

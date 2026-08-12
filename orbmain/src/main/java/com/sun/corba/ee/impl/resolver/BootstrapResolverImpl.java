@@ -109,6 +109,7 @@ public class BootstrapResolverImpl implements Resolver {
         return inStream;
     }
 
+    @Override
     public org.omg.CORBA.Object resolve(String identifier) {
         InputStream inStream = null;
         org.omg.CORBA.Object result = null;
@@ -127,6 +128,7 @@ public class BootstrapResolverImpl implements Resolver {
         return result;
     }
 
+    @Override
     public Set<String> list() {
         InputStream inStream = null;
         java.util.Set result = new java.util.HashSet();

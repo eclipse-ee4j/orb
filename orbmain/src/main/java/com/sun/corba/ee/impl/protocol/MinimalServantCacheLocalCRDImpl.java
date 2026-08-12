@@ -28,17 +28,20 @@ import org.omg.CORBA.portable.ServantObject;
 
 public class MinimalServantCacheLocalCRDImpl extends ServantCacheLocalCRDBase {
     public MinimalServantCacheLocalCRDImpl(ORB orb, int scid, IOR ior) {
-        super((com.sun.corba.ee.spi.orb.ORB) orb, scid, ior);
+        super(orb, scid, ior);
     }
 
+    @Override
     public ServantObject internalPreinvoke(org.omg.CORBA.Object self, String operation, Class expectedType) throws OADestroyed {
         OAInvocationInfo cachedInfo = getCachedInfo();
-        if (checkForCompatibleServant(cachedInfo, expectedType))
+        if (checkForCompatibleServant(cachedInfo, expectedType)) {
             return cachedInfo;
-        else
+        } else {
             return null;
+        }
     }
 
+    @Override
     public void servant_postinvoke(org.omg.CORBA.Object self, ServantObject servantobj) {
     }
 }

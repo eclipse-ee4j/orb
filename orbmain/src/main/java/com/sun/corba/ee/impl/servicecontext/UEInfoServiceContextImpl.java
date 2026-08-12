@@ -24,8 +24,6 @@ import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.servicecontext.ServiceContextBase;
 import com.sun.corba.ee.spi.servicecontext.UEInfoServiceContext;
 
-import java.io.Serializable;
-
 import org.omg.CORBA_2_3.portable.InputStream;
 import org.omg.CORBA_2_3.portable.OutputStream;
 
@@ -48,14 +46,17 @@ public class UEInfoServiceContextImpl extends ServiceContextBase implements UEIn
         }
     }
 
+    @Override
     public int getId() {
         return SERVICE_CONTEXT_ID;
     }
 
+    @Override
     public void writeData(OutputStream os) {
-        os.write_value((Serializable) unknown);
+        os.write_value(unknown);
     }
 
+    @Override
     public Throwable getUE() {
         return unknown;
     }

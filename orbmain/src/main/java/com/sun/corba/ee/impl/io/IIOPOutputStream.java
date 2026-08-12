@@ -35,8 +35,8 @@ import java.security.PrivilegedAction;
 import java.util.Stack;
 
 import org.glassfish.pfl.basic.reflection.Bridge;
+import org.glassfish.pfl.basic.reflection.BridgeBase;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
-import org.omg.CORBA.portable.OutputStream;
 
 /**
  * IIOPOutputStream is ...
@@ -49,6 +49,7 @@ import org.omg.CORBA.portable.OutputStream;
 @ValueHandlerWrite
 public class IIOPOutputStream extends com.sun.corba.ee.impl.io.OutputStreamHook {
     private static Bridge bridge = AccessController.doPrivileged(new PrivilegedAction<Bridge>() {
+        @Override
         public Bridge run() {
             return Bridge.get();
         }
@@ -66,7 +67,7 @@ public class IIOPOutputStream extends com.sun.corba.ee.impl.io.OutputStreamHook 
 
     private IOException abortIOException = null;
 
-    private Stack<ObjectStreamClass> classDescStack = new Stack<ObjectStreamClass>();
+    private Stack<ObjectStreamClass> classDescStack = new Stack<>();
 
     public IIOPOutputStream() throws java.io.IOException {
         super();
@@ -76,6 +77,7 @@ public class IIOPOutputStream extends com.sun.corba.ee.impl.io.OutputStreamHook 
     // the ORB stream (which must be a ValueOutputStream) to
     // begin a new valuetype to contain the optional data
     // of the writeObject method.
+    @Override
     @ValueHandlerWrite
     protected void beginOptionalCustomData() {
         if (streamFormatVersion == 2) {
@@ -90,6 +92,7 @@ public class IIOPOutputStream extends com.sun.corba.ee.impl.io.OutputStreamHook 
         orbStream = os;
     }
 
+    @Override
     final org.omg.CORBA_2_3.portable.OutputStream getOrbStream() {
         return orbStream;
     }
@@ -118,7 +121,7 @@ public class IIOPOutputStream extends com.sun.corba.ee.impl.io.OutputStreamHook 
 
     /**
      * Override the actions of the final method "writeObject()" in ObjectOutputStream.
-     * 
+     *
      * @since JDK1.1.6
      */
     @ValueHandlerWrite
@@ -127,12 +130,12 @@ public class IIOPOutputStream extends com.sun.corba.ee.impl.io.OutputStreamHook 
 
         writeObjectState.writeData(this);
 
-        Util.getInstance().writeAbstractObject((OutputStream) orbStream, obj);
+        Util.getInstance().writeAbstractObject(orbStream, obj);
     }
 
     /**
      * Override the actions of the final method "writeObject()" in ObjectOutputStream.
-     * 
+     *
      * @param obj Object to write
      * @param formatVersion Format version
      * @since JDK1.1.6
@@ -177,13 +180,14 @@ public class IIOPOutputStream extends com.sun.corba.ee.impl.io.OutputStreamHook 
     }
 
     // Required by the superclass.
+    @Override
     ObjectStreamField[] getFieldsNoCopy() {
         return currentClassDesc.getFieldsNoCopy();
     }
 
     /**
      * Override the actions of the final method "defaultWriteObject()" in ObjectOutputStream.
-     * 
+     *
      * @since JDK1.1.6
      */
     @ValueHandlerWrite
@@ -207,7 +211,7 @@ public class IIOPOutputStream extends com.sun.corba.ee.impl.io.OutputStreamHook 
 
     /**
      * Override the actions of the final method "enableReplaceObject()" in ObjectOutputStream.
-     * 
+     *
      * @param enable ignored
      * @return {@code false}
      * @since JDK1.1.6
@@ -255,7 +259,7 @@ public class IIOPOutputStream extends com.sun.corba.ee.impl.io.OutputStreamHook 
      * new ObjectOutputStream. The current point in the stream is marked as reset so the corresponding ObjectInputStream
      * will be reset at the same point. Objects previously written to the stream will not be refered to as already being in
      * the stream. They will be written to the stream again.
-     * 
+     *
      * @since JDK1.1
      */
     @ValueHandlerWrite
@@ -271,7 +275,7 @@ public class IIOPOutputStream extends com.sun.corba.ee.impl.io.OutputStreamHook 
             abortIOException = null;
 
             if (classDescStack == null) {
-                classDescStack = new Stack<ObjectStreamClass>();
+                classDescStack = new Stack<>();
             } else {
                 classDescStack.setSize(0);
             }
@@ -447,7 +451,7 @@ public class IIOPOutputStream extends com.sun.corba.ee.impl.io.OutputStreamHook 
     /**
      * Helper method for correcting the Kestrel bug 4367783 (dealing with larger than 8-bit chars). The old behavior was
      * preserved in orbutil.IIOPInputStream_1_3 in order to interoperate with our legacy ORBs.
-     * 
+     *
      * @param stream Stream to write to
      * @param data Data to write
      */
@@ -607,6 +611,7 @@ public class IIOPOutputStream extends com.sun.corba.ee.impl.io.OutputStreamHook 
     }
 
     // This is needed for the OutputStreamHook interface.
+    @Override
     @ValueHandlerWrite
     void writeField(ObjectStreamField field, Object value) throws IOException {
         switch (field.getTypeCode()) {
@@ -626,14 +631,14 @@ public class IIOPOutputStream extends com.sun.corba.ee.impl.io.OutputStreamHook 
                 break;
             case 'F':
                 if (value == null) {
-                    orbStream.write_float((float) 0);
+                    orbStream.write_float(0);
                 } else {
                     orbStream.write_float(((Float) value).floatValue());
                 }
                 break;
             case 'D':
                 if (value == null) {
-                    orbStream.write_double((double) 0);
+                    orbStream.write_double(0);
                 } else {
                     orbStream.write_double(((Double) value).doubleValue());
                 }
@@ -647,7 +652,7 @@ public class IIOPOutputStream extends com.sun.corba.ee.impl.io.OutputStreamHook 
                 break;
             case 'J':
                 if (value == null) {
-                    orbStream.write_longlong((long) 0);
+                    orbStream.write_longlong(0);
                 } else {
                     orbStream.write_longlong(((Long) value).longValue());
                 }
@@ -736,11 +741,10 @@ public class IIOPOutputStream extends com.sun.corba.ee.impl.io.OutputStreamHook 
         // Should we just put this into ObjectStreamClass?
         // Could also unroll and codegen this.
 
-        for (int i = 0; i < fields.length; i++) {
-            ObjectStreamField field = fields[i];
+        for (ObjectStreamField field : fields) {
             final long offset = field.getFieldID();
-            if (offset == Bridge.INVALID_FIELD_OFFSET) {
-                throw new InvalidClassException(cl.getName(), "Nonexistent field " + fields[i].getName());
+            if (offset == BridgeBase.INVALID_FIELD_OFFSET) {
+                throw new InvalidClassException(cl.getName(), "Nonexistent field " + field.getName());
             }
             switch (field.getTypeCode()) {
                 case 'B':
@@ -778,7 +782,7 @@ public class IIOPOutputStream extends com.sun.corba.ee.impl.io.OutputStreamHook 
                 case '[':
                 case 'L':
                     Object objectValue = bridge.getObject(o, offset);
-                    writeObjectField(fields[i], objectValue);
+                    writeObjectField(field, objectValue);
                     break;
                 default:
                     throw Exceptions.self.invalidClassForWrite(cl.getName());

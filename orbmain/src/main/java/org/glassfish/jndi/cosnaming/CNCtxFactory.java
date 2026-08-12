@@ -39,7 +39,8 @@ public class CNCtxFactory implements InitialContextFactory {
     * @param env Properties object
     */
 
-  public Context getInitialContext(Hashtable<?,?> env) throws NamingException {
+  @Override
+public Context getInitialContext(Hashtable<?,?> env) throws NamingException {
       return new CNCtx(env);
   }
 }

@@ -62,14 +62,14 @@ public final class PresentationManagerImpl implements PresentationManager {
     public PresentationManagerImpl(boolean useDynamicStubs) {
         this.useDynamicStubs = useDynamicStubs;
 
-        classToClassData = new WeakCache<Class<?>, ClassData>() {
+        classToClassData = new WeakCache<>() {
             @Override
             protected ClassData lookup(Class<?> key) {
                 return new ClassDataImpl(key);
             }
         };
 
-        methodToDMM = new WeakCache<Method, DynamicMethodMarshaller>() {
+        methodToDMM = new WeakCache<>() {
             @Override
             protected DynamicMethodMarshaller lookup(Method key) {
                 return new DynamicMethodMarshallerImpl(key);
@@ -81,6 +81,7 @@ public final class PresentationManagerImpl implements PresentationManager {
 // PresentationManager interface
 ////////////////////////////////////////////////////////////////////////////////
 
+    @Override
     public synchronized DynamicMethodMarshaller getDynamicMethodMarshaller(Method method) {
         if (method == null) {
             return null;
@@ -89,6 +90,7 @@ public final class PresentationManagerImpl implements PresentationManager {
         return methodToDMM.get(method);
     }
 
+    @Override
     public synchronized ClassData getClassData(Class<?> cls) {
         return classToClassData.get(cls);
     }
@@ -102,7 +104,7 @@ public final class PresentationManagerImpl implements PresentationManager {
 
         ClassDataImpl(Class<?> cls) {
             this.cls = cls;
-            Graph<NodeImpl> gr = new GraphImpl<NodeImpl>();
+            Graph<NodeImpl> gr = new GraphImpl<>();
             NodeImpl root = new NodeImpl(cls);
             Set<NodeImpl> rootSet = getRootSet(cls, root, gr);
 
@@ -114,30 +116,36 @@ public final class PresentationManagerImpl implements PresentationManager {
             nameTranslator = IDLNameTranslatorImpl.get(interfaces);
             typeIds = makeTypeIds(root, gr, rootSet);
             ihfactory = new InvocationHandlerFactoryImpl(PresentationManagerImpl.this, this);
-            dictionary = new HashMap<String, Object>();
+            dictionary = new HashMap<>();
         }
 
+        @Override
         public Class<?> getMyClass() {
             return cls;
         }
 
+        @Override
         public IDLNameTranslator getIDLNameTranslator() {
             return nameTranslator;
         }
 
+        @Override
         public String[] getTypeIds() {
             return typeIds.clone();
         }
 
+        @Override
         public InvocationHandlerFactory getInvocationHandlerFactory() {
             return ihfactory;
         }
 
+        @Override
         public Map<String, Object> getDictionary() {
             return dictionary;
         }
     }
 
+    @Override
     public PresentationManager.StubFactoryFactory getStubFactoryFactory(boolean isDynamic) {
         if (isDynamic) {
             return getDynamicStubFactoryFactory();
@@ -158,7 +166,7 @@ public final class PresentationManagerImpl implements PresentationManager {
 
     /**
      * Register the dynamic StubFactoryFactory. Note that a dynamic StubFactoryFactory is optional.
-     * 
+     *
      * @param sff Factory to register
      */
     public void setStaticStubFactoryFactory(StubFactoryFactory sff) {
@@ -167,17 +175,19 @@ public final class PresentationManagerImpl implements PresentationManager {
 
     /**
      * Register the static StubFactoryFactory. Note that a static StubFactoryFactory is always required for IDL.
-     * 
+     *
      * @param sff Factory to Register
      */
     public void setDynamicStubFactoryFactory(StubFactoryFactory sff) {
         dynamicStubFactoryFactory = sff;
     }
 
+    @Override
     public Tie getTie() {
         return dynamicStubFactoryFactory.getTie(null);
     }
 
+    @Override
     public String getRepositoryId(java.rmi.Remote impl) {
         // Get an empty reflective Tie.
         Tie tie = getTie();
@@ -189,21 +199,24 @@ public final class PresentationManagerImpl implements PresentationManager {
         return Servant.class.cast(tie)._all_interfaces((POA) null, (byte[]) null)[0];
     }
 
+    @Override
     public boolean useDynamicStubs() {
         return useDynamicStubs;
     }
 
+    @Override
     public void flushClass(final Class<?> cls) {
         classToClassData.remove(cls);
 
-        Method[] methods = (Method[]) AccessController.doPrivileged(new PrivilegedAction<Object>() {
+        Method[] methods = (Method[]) AccessController.doPrivileged(new PrivilegedAction<>() {
+            @Override
             public Object run() {
                 return cls.getMethods();
             }
         });
 
-        for (int ctr = 0; ctr < methods.length; ctr++) {
-            methodToDMM.remove(methods[ctr]);
+        for (Method method : methods) {
+            methodToDMM.remove(method);
         }
     }
 
@@ -220,7 +233,7 @@ public final class PresentationManagerImpl implements PresentationManager {
         } else {
             // Use this class and its superclasses (not Object) as initial roots
             Class<?> superclass = target;
-            Set<NodeImpl> initialRootSet = new HashSet<NodeImpl>();
+            Set<NodeImpl> initialRootSet = new HashSet<>();
             while ((superclass != null) && !superclass.equals(Object.class)) {
                 NodeImpl node = new NodeImpl(superclass);
                 gr.add(node);
@@ -251,7 +264,7 @@ public final class PresentationManagerImpl implements PresentationManager {
     }
 
     private String[] makeTypeIds(NodeImpl root, Graph<NodeImpl> gr, Set<NodeImpl> rootSet) {
-        Set<NodeImpl> nonRootSet = new HashSet<NodeImpl>(gr);
+        Set<NodeImpl> nonRootSet = new HashSet<>(gr);
         nonRootSet.removeAll(rootSet);
 
         // Handle the case of a remote reference that only implements
@@ -261,7 +274,7 @@ public final class PresentationManagerImpl implements PresentationManager {
         }
 
         // List<String> for the typeids
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
 
         if (rootSet.size() > 1) {
             // If the rootSet has more than one element, we must
@@ -299,11 +312,11 @@ public final class PresentationManagerImpl implements PresentationManager {
             // return "RMI:" + interf.getName() + ":0000000000000000" ;
         }
 
+        @Override
         public Set<NodeImpl> getChildren() {
-            Set<NodeImpl> result = new HashSet<NodeImpl>();
+            Set<NodeImpl> result = new HashSet<>();
             Class<?>[] interfaces = interf.getInterfaces();
-            for (int ctr = 0; ctr < interfaces.length; ctr++) {
-                Class<?> cls = interfaces[ctr];
+            for (Class<?> cls : interfaces) {
                 ClassInfoCache.ClassInfo cinfo = ClassInfoCache.get(cls);
                 if (cinfo.isARemote(cls) && !Remote.class.equals(cls)) {
                     result.add(new NodeImpl(cls));
@@ -341,7 +354,7 @@ public final class PresentationManagerImpl implements PresentationManager {
 
     /**
      * Turn on internal debugging flags, which dump information about stub code generation to the PrintStream.
-     * 
+     *
      * @param ps Output stream.
      */
     public void enableDebug(PrintStream ps) {
@@ -354,10 +367,12 @@ public final class PresentationManagerImpl implements PresentationManager {
         this.ps = null;
     }
 
+    @Override
     public boolean getDebug() {
         return debug;
     }
 
+    @Override
     public PrintStream getPrintStream() {
         return ps;
     }

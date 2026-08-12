@@ -52,10 +52,11 @@ class LegacyHookGetFields extends ObjectInputStream.GetField {
      */
     @Override
     public boolean get(String name, boolean defvalue) throws IOException, IllegalArgumentException {
-        if (defaulted(name))
+        if (defaulted(name)) {
             return defvalue;
-        else
+        } else {
             return ((Boolean) fields.get(name));
+        }
     }
 
     /**
@@ -63,10 +64,11 @@ class LegacyHookGetFields extends ObjectInputStream.GetField {
      */
     @Override
     public char get(String name, char defvalue) throws IOException, IllegalArgumentException {
-        if (defaulted(name))
+        if (defaulted(name)) {
             return defvalue;
-        else
+        } else {
             return ((Character) fields.get(name));
+        }
 
     }
 
@@ -75,10 +77,11 @@ class LegacyHookGetFields extends ObjectInputStream.GetField {
      */
     @Override
     public byte get(String name, byte defvalue) throws IOException, IllegalArgumentException {
-        if (defaulted(name))
+        if (defaulted(name)) {
             return defvalue;
-        else
+        } else {
             return ((Byte) fields.get(name));
+        }
 
     }
 
@@ -87,10 +90,11 @@ class LegacyHookGetFields extends ObjectInputStream.GetField {
      */
     @Override
     public short get(String name, short defvalue) throws IOException, IllegalArgumentException {
-        if (defaulted(name))
+        if (defaulted(name)) {
             return defvalue;
-        else
+        } else {
             return ((Short) fields.get(name));
+        }
 
     }
 
@@ -99,10 +103,11 @@ class LegacyHookGetFields extends ObjectInputStream.GetField {
      */
     @Override
     public int get(String name, int defvalue) throws IOException, IllegalArgumentException {
-        if (defaulted(name))
+        if (defaulted(name)) {
             return defvalue;
-        else
+        } else {
             return ((Integer) fields.get(name));
+        }
 
     }
 
@@ -111,10 +116,11 @@ class LegacyHookGetFields extends ObjectInputStream.GetField {
      */
     @Override
     public long get(String name, long defvalue) throws IOException, IllegalArgumentException {
-        if (defaulted(name))
+        if (defaulted(name)) {
             return defvalue;
-        else
+        } else {
             return ((Long) fields.get(name));
+        }
 
     }
 
@@ -123,10 +129,11 @@ class LegacyHookGetFields extends ObjectInputStream.GetField {
      */
     @Override
     public float get(String name, float defvalue) throws IOException, IllegalArgumentException {
-        if (defaulted(name))
+        if (defaulted(name)) {
             return defvalue;
-        else
+        } else {
             return ((Float) fields.get(name));
+        }
 
     }
 
@@ -135,10 +142,11 @@ class LegacyHookGetFields extends ObjectInputStream.GetField {
      */
     @Override
     public double get(String name, double defvalue) throws IOException, IllegalArgumentException {
-        if (defaulted(name))
+        if (defaulted(name)) {
             return defvalue;
-        else
+        } else {
             return ((Double) fields.get(name)).doubleValue();
+        }
 
     }
 
@@ -147,10 +155,11 @@ class LegacyHookGetFields extends ObjectInputStream.GetField {
      */
     @Override
     public Object get(String name, Object defvalue) throws IOException, IllegalArgumentException {
-        if (defaulted(name))
+        if (defaulted(name)) {
             return defvalue;
-        else
+        } else {
             return fields.get(name);
+        }
 
     }
 

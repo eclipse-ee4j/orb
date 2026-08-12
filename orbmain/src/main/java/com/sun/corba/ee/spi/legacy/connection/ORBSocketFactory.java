@@ -93,6 +93,8 @@ public interface ORBSocketFactory
      * </pre>
      * @deprecated
      */
+    @Deprecated
+    @Deprecated
     public static final String IIOP_CLEAR_TEXT = "IIOP_CLEAR_TEXT";
 
 
@@ -359,6 +361,8 @@ public interface ORBSocketFactory
      * @return client socket
      * @deprecated
      */
+    @Deprecated
+    @Deprecated
     public Socket createSocket(SocketInfo socketInfo)
         throws
             IOException,

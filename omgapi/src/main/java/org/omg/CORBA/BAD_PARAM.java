@@ -56,7 +56,7 @@ public final class BAD_PARAM extends SystemException {
 
     /**
      * Constructs a <code>BAD_PARAM</code> exception with the specified minor code and completion status.
-     * 
+     *
      * @param minor the minor code
      * @param completed the completion status
      */

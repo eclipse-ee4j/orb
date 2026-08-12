@@ -25,7 +25,7 @@ package org.omg.CORBA;
  * which a parameter is being passed during a dynamic invocation using the Dynamic Invocation Interface (DII).
  * <P>
  * The code fragment below shows a typical usage:
- * 
+ *
  * <PRE>
  * ORB orb = ORB.init(args, null);
  * org.omg.CORBA.NamedValue nv = orb.create_named_value("argumentIdentifier", myAny, org.omg.CORBA.ARG_OUT.value);

@@ -28,11 +28,6 @@ import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.orb.ORBConfigurator;
 
 import org.omg.CORBA.LocalObject;
-import org.omg.PortableInterceptor.IORInfo;
-import org.omg.PortableInterceptor.IORInterceptor_3_0;
-import org.omg.PortableInterceptor.ORBInitInfo;
-import org.omg.PortableInterceptor.ORBInitializer;
-import org.omg.PortableInterceptor.ObjectReferenceTemplate;
 import org.omg.PortableServer.POA;
 
 /**
@@ -108,6 +103,7 @@ public class ReferenceManagerConfigurator implements ORBConfigurator {
         }
     }
 
+    @Override
     public void configure(DataCollector collector, ORB orb) {
         try {
             ReferenceFactoryManagerImpl rm = new ReferenceFactoryManagerImpl(orb);

@@ -53,10 +53,12 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler 
     private transient org.omg.CORBA.Object stub;
     private transient Proxy self;
 
+    @Override
     public void setProxy(Proxy self) {
         this.self = self;
     }
 
+    @Override
     public Proxy getProxy() {
         return self;
     }
@@ -87,6 +89,7 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler 
         return result;
     }
 
+    @Override
     public Object invoke(Object proxy, final Method method, Object[] args) throws Throwable {
 
         Delegate delegate = null;
@@ -133,7 +136,7 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler 
 
     /**
      * Invoke the given method with the args and return the result. This may result in a remote invocation.
-     * 
+     *
      * @param proxy The proxy used for this class (null if not using java.lang.reflect.Proxy)
      */
     @IsLocal
@@ -187,6 +190,7 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler 
                         // inaccessible package, as this reflective class must always
                         // be able to invoke a non-public method.
                         AccessController.doPrivileged(new PrivilegedAction() {
+                            @Override
                             public Object run() {
                                 method.setAccessible(true);
                                 return null;
@@ -200,13 +204,15 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler 
                 } catch (InvocationTargetException ex) {
                     Throwable mex = ex.getCause();
                     // mex should never be null, as null cannot be thrown
-                    if (dmm.isDeclaredException(mex))
+                    if (dmm.isDeclaredException(mex)) {
                         throw mex;
-                    else
+                    } else {
                         throw Util.getInstance().wrapException(mex);
+                    }
                 } catch (Throwable thr) {
-                    if (thr instanceof ThreadDeath)
+                    if (thr instanceof ThreadDeath) {
                         throw thr;
+                    }
 
                     // This is not a user thrown exception from the
                     // method call, so don't copy it. This is either

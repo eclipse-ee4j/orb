@@ -32,6 +32,7 @@ public class TaggedProfileTemplateFactoryFinderImpl extends IdentifiableFactoryF
         super(orb);
     }
 
+    @Override
     public TaggedProfileTemplate handleMissingFactory(int id, InputStream is) {
         throw wrapper.taggedProfileTemplateFactoryNotFound(id);
     }

@@ -39,9 +39,6 @@ import org.omg.CORBA.LocalObject;
 
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.Policy;
-import org.omg.CosNaming.NameComponent;
-import org.omg.CosNaming.NamingContext;
-import org.omg.CosNaming.NamingContextHelper;
 import org.omg.PortableServer.ForwardRequest;
 import org.omg.PortableServer.LifespanPolicyValue;
 import org.omg.PortableServer.POA;
@@ -86,6 +83,7 @@ public class InitialGroupInfoService {
         private void exceptionReport(Exception exc) {
         }
 
+        @Override
         @Folb
         public List<ClusterInstanceInfo> getClusterInstanceInfo() throws RemoteException {
 
@@ -111,7 +109,8 @@ public class InitialGroupInfoService {
                 wrapper.couldNotInitializeInitialGIS(exc);
             }
 
-            Tie tie = com.sun.corba.ee.spi.orb.ORB.class.cast(orb).getPresentationManager().getTie();
+            com.sun.corba.ee.spi.orb.ORB.class.cast(orb);
+            Tie tie = com.sun.corba.ee.spi.orb.ORB.getPresentationManager().getTie();
             tie.setTarget(impl);
             servant = Servant.class.cast(tie);
         }

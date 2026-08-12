@@ -29,8 +29,6 @@ import javax.naming.Name;
 import javax.naming.NameParser;
 import javax.naming.NamingException;
 
-import org.omg.CosNaming.NameComponent;
-
 /**
   * Parsing routines for NameParser as well as COS Naming stringified names.
   * This is used by CNCtx to create a NameComponent[] object and vice versa.
@@ -51,7 +49,7 @@ final public class CNNameParser implements NameParser {
         mySyntax.put("jndi.syntax.direction", "left_to_right");
         mySyntax.put("jndi.syntax.separator", ""+compSeparator);
         mySyntax.put("jndi.syntax.escape", ""+escapeChar);
-    };
+    }
 
   /**
     * Constructs a new name parser for parsing names in INS syntax.
@@ -64,6 +62,7 @@ final public class CNNameParser implements NameParser {
     * @param name The non-null string representation of the name.
     * @return a non-null CompoundName
     */
+    @Override
     public Name parse(String name) throws NamingException {
         Vector<String> comps = insStringToStringifiedComps(name);
         return new CNCompoundName(comps.elements());
@@ -308,20 +307,24 @@ final public class CNNameParser implements NameParser {
             super(enum_, CNNameParser.mySyntax);
         }
 
+        @Override
         public Object clone() {
             return new CNCompoundName(getAll());
         }
 
+        @Override
         public Name getPrefix(int posn) {
             Enumeration<String> comps = super.getPrefix(posn).getAll();
             return new CNCompoundName(comps);
         }
 
+        @Override
         public Name getSuffix(int posn) {
             Enumeration<String> comps = super.getSuffix(posn).getAll();
             return new CNCompoundName(comps);
         }
 
+        @Override
         public String toString() {
             try {
                 // Convert Name to NameComponent[] then stringify

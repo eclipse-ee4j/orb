@@ -44,14 +44,17 @@ public class AcceptorLazyImpl extends AcceptorBase {
         return true;
     }
 
+    @Override
     public Socket getAcceptedSocket() {
         throw wrapper.notSupportedOnLazyAcceptor();
     }
 
+    @Override
     public SelectableChannel getChannel() {
         throw wrapper.notSupportedOnLazyAcceptor();
     }
 
+    @Override
     @Transport
     public synchronized boolean initialize() {
         if (initialized) {
@@ -65,10 +68,12 @@ public class AcceptorLazyImpl extends AcceptorBase {
         return true;
     }
 
+    @Override
     public void close() {
         // NO-OP in this case
     }
 
+    @Override
     public ServerSocket getServerSocket() {
         throw wrapper.notSupportedOnLazyAcceptor();
     }

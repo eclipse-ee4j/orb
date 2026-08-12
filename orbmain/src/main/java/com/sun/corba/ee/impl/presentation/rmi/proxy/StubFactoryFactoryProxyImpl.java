@@ -27,6 +27,7 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 
 public class StubFactoryFactoryProxyImpl extends StubFactoryFactoryDynamicBase {
+    @Override
     public PresentationManager.StubFactory makeDynamicStubFactory(PresentationManager pm, final PresentationManager.ClassData classData,
             final ClassLoader classLoader) {
         return AccessController.doPrivileged(new PrivilegedAction<PresentationManager.StubFactory>() {

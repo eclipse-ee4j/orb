@@ -24,11 +24,12 @@ package org.omg.CORBA;
  * <tt>DynAny</tt> object is associated with a data value which may correspond to a copy of the value inserted into an
  * <tt>Any</tt>. The <tt>DynAny</tt> APIs enable traversal of the data value associated with an Any at runtime and
  * extraction of the primitive constituents of the data value.
- * 
+ *
  * @deprecated Use the new <a href="../DynamicAny/DynAny.html">DynAny</a> instead
  */
 
 // @Deprecated
+@Deprecated
 public interface DynAny extends org.omg.CORBA.Object {
     /**
      * Returns the <code>TypeCode</code> of the object inserted into this <code>DynAny</code>.

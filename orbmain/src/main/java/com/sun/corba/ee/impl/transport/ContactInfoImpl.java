@@ -65,18 +65,22 @@ public class ContactInfoImpl extends ContactInfoBase implements SocketInfo {
         this.addressingDisposition = addressingDisposition;
     }
 
+    @Override
     public boolean isConnectionBased() {
         return true;
     }
 
+    @Override
     public boolean shouldCacheConnection() {
         return true;
     }
 
+    @Override
     public String getConnectionCacheType() {
         return TransportManager.SOCKET_OR_CHANNEL_CONNECTION_CACHE;
     }
 
+    @Override
     public Connection createConnection() {
         Connection connection = new ConnectionImpl(orb, this, socketType, hostname, port);
         return connection;
@@ -87,18 +91,22 @@ public class ContactInfoImpl extends ContactInfoBase implements SocketInfo {
     // spi.transport.CorbaContactInfo
     //
 
+    @Override
     public String getMonitoringName() {
         return "SocketConnections";
     }
 
+    @Override
     public String getType() {
         return socketType;
     }
 
+    @Override
     public String getHost() {
         return hostname;
     }
 
+    @Override
     public int getPort() {
         return port;
     }
@@ -135,10 +143,7 @@ public class ContactInfoImpl extends ContactInfoBase implements SocketInfo {
 
         ContactInfoImpl other = (ContactInfoImpl) obj;
 
-        if (port != other.port) {
-            return false;
-        }
-        if (!hostname.equals(other.hostname)) {
+        if ((port != other.port) || !hostname.equals(other.hostname)) {
             return false;
         }
         if (socketType == null) {
@@ -151,6 +156,7 @@ public class ContactInfoImpl extends ContactInfoBase implements SocketInfo {
         return true;
     }
 
+    @Override
     public String toString() {
         return "SocketOrChannelContactInfoImpl[" + socketType + " " + hostname + " " + port + "]";
     }

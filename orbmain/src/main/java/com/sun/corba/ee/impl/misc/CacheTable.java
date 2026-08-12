@@ -127,7 +127,7 @@ public class CacheTable<K> {
     /**
      * Store the (key,val) pair in the hash table, unless (key,val) is already present. Returns true if a new (key,val) pair
      * was added, else false. val must be non-negative, but this is not checked.
-     * 
+     *
      * @param key Key for table
      * @param val Non-negative value
      */
@@ -162,7 +162,7 @@ public class CacheTable<K> {
             }
         }
 
-        Entry<K> newEntry = new Entry<K>(key, val);
+        Entry<K> newEntry = new Entry<>(key, val);
         newEntry.next = map[index];
         map[index] = newEntry;
         if (!noReverseMap) {
@@ -180,7 +180,7 @@ public class CacheTable<K> {
 
     /**
      * Returns some int val where (key,val) is in this CacheTable.
-     * 
+     *
      * @param key Key to lookup
      * @return Value found
      */
@@ -201,7 +201,7 @@ public class CacheTable<K> {
 
     /**
      * Return the key where (key,val) is present in the map.
-     * 
+     *
      * @param val Value to lookup
      * @return Key for the value
      */

@@ -33,6 +33,7 @@ import org.omg.CORBA_2_3.portable.InputStream ;
 public abstract class TaggedComponentBase extends IdentifiableBase
     implements TaggedComponent
 {
+    @Override
     public org.omg.IOP.TaggedComponent getIOPComponent(
         org.omg.CORBA.ORB orb )
     {

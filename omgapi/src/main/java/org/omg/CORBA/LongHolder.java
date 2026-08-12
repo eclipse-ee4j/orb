@@ -55,7 +55,7 @@ public final class LongHolder implements Streamable {
     /**
      * Constructs a new <code>LongHolder</code> object with its <code>value</code> field initialized to the given
      * <code>long</code>.
-     * 
+     *
      * @param initial the <code>long</code> with which to initialize the <code>value</code> field of the newly-created
      * <code>LongHolder</code> object
      */
@@ -68,6 +68,7 @@ public final class LongHolder implements Streamable {
      *
      * @param input the InputStream containing CDR formatted data from the wire
      */
+    @Override
     public void _read(InputStream input) {
         value = input.read_longlong();
     }
@@ -77,6 +78,7 @@ public final class LongHolder implements Streamable {
      *
      * @param output the OutputStream which will contain the CDR formatted data
      */
+    @Override
     public void _write(OutputStream output) {
         output.write_longlong(value);
     }
@@ -86,6 +88,7 @@ public final class LongHolder implements Streamable {
      *
      * @return the TypeCode of the value held in the holder
      */
+    @Override
     public org.omg.CORBA.TypeCode _type() {
         return ORB.init().get_primitive_tc(TCKind.tk_longlong);
     }

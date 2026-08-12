@@ -34,7 +34,7 @@ public interface BufferManagerRead {
      *
      * As a model for implementation see IIOPInputStream's constructor of the same name. There are going to be some
      * variations.
-     * 
+     *
      * @param byteBuffer buffer to read from
      * @param header header of fragment
      */
@@ -52,7 +52,7 @@ public interface BufferManagerRead {
 
     /**
      * Invoked when we run out of data to read. Obtains more data from the stream.
-     * 
+     *
      * @param byteBuffer Current buffer, to return to pool
      * @return Buffer containing new data
      * @see #isFragmentOnUnderflow()
@@ -61,7 +61,7 @@ public interface BufferManagerRead {
 
     /**
      * Returns true if this buffer manager reads fragments when it underflows.
-     * 
+     *
      * @return if fragments will be read.
      * @see #underflow(ByteBuffer)
      */
@@ -69,28 +69,28 @@ public interface BufferManagerRead {
 
     /**
      * Called once after creating this buffer manager and before it begins processing.
-     * 
+     *
      * @param header message header
      */
     public void init(Message header);
 
     /**
      * Returns the mark/reset handler for this stream.
-     * 
+     *
      * @return The mark/reset handler for this stream.
      */
     public MarkAndResetHandler getMarkAndResetHandler();
 
     /**
      * Signals that the processing be cancelled.
-     * 
+     *
      * @param requestId ID of the request to cancel
      */
     public void cancelProcessing(int requestId);
 
     /**
      * Close BufferManagerRead and perform any outstanding cleanup.
-     * 
+     *
      * @param byteBuffer buffer to return to the pool
      */
     public void close(ByteBuffer byteBuffer);

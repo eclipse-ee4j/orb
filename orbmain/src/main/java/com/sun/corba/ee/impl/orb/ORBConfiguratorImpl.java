@@ -86,10 +86,11 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
 
         public ConfigParser(ORB orb) {
             this.orb = orb;
-        };
+        }
 
         public Class<?>[] userConfigurators = null;
 
+        @Override
         public PropertyParser makeParser() {
             PropertyParser parser = new PropertyParser();
             Operation action = OperationFactory.compose(OperationFactory.suffixAction(),
@@ -140,8 +141,7 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
         ConfigParser parser = new ConfigParser(orb);
         parser.init(collector);
         if (parser.userConfigurators != null) {
-            for (int ctr = 0; ctr < parser.userConfigurators.length; ctr++) {
-                Class cls = parser.userConfigurators[ctr];
+            for (Class<?> cls : parser.userConfigurators) {
                 try {
                     ORBConfigurator config = (ORBConfigurator) (cls.newInstance());
                     config.configure(collector, orb);
@@ -186,9 +186,11 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
             // Since the user specified a legacy socket factory we need to
             // use a ContactInfoList that will use the legacy socket factory.
             contactInfoListFactory = new ContactInfoListFactory() {
+                @Override
                 public void setORB(ORB orb) {
                 }
 
+                @Override
                 public ContactInfoList create(IOR ior) {
                     return new SocketFactoryContactInfoListImpl(orb, ior);
                 }
@@ -233,17 +235,17 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
             }
             // END Legacy
 
-            for (int i = 0; i < acceptors.length; i++) {
-                orb.getCorbaTransportManager().registerAcceptor(acceptors[i]);
+            for (Acceptor acceptor : acceptors) {
+                orb.getCorbaTransportManager().registerAcceptor(acceptor);
             }
 
             // BEGIN Legacy
             // Allocate user listeners.
             USLPort[] ports = od.getUserSpecifiedListenPorts();
             if (ports != null) {
-                for (int i = 0; i < ports.length; i++) {
-                    createAndRegisterAcceptor(orb, legacySocketFactory, ports[i].getPort(), LegacyServerSocketEndPointInfo.NO_NAME,
-                            ports[i].getType());
+                for (USLPort port2 : ports) {
+                    createAndRegisterAcceptor(orb, legacySocketFactory, port2.getPort(), LegacyServerSocketEndPointInfo.NO_NAME,
+                            port2.getType());
                 }
             }
             // END Legacy
@@ -275,7 +277,8 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
         // by reflection.
 
         try {
-            AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
+            AccessController.doPrivileged(new PrivilegedExceptionAction<>() {
+                @Override
                 public Object run() throws InstantiationException, IllegalAccessException {
                     try {
                         Method method = legacySocketFactory.getClass().getMethod("setORB", ORB.class);
@@ -328,7 +331,8 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
 
     private void registerInitialReferences(final ORB orb) {
         // Register the Dynamic Any factory
-        NullaryFunction<org.omg.CORBA.Object> closure = new NullaryFunction<org.omg.CORBA.Object>() {
+        NullaryFunction<org.omg.CORBA.Object> closure = new NullaryFunction<>() {
+            @Override
             public org.omg.CORBA.Object evaluate() {
                 return new DynAnyFactoryImpl(orb);
             }

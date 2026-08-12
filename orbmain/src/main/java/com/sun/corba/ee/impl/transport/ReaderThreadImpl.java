@@ -47,10 +47,12 @@ public class ReaderThreadImpl implements ReaderThread, Work {
     // ReaderThread methods.
     //
 
+    @Override
     public Connection getConnection() {
         return connection;
     }
 
+    @Override
     @Transport
     public synchronized void close() {
         keepRunning = false;

@@ -25,7 +25,7 @@ package org.omg.CORBA;
  * object or to the scope specified in the first parameter to <code>Context.get_values</code>.
  * <P>
  * Usage:
- * 
+ *
  * <PRE>
  * NVList props = myContext.get_values("_USER", CTX_RESTRICT_SCOPE.value, "id*");
  * </PRE>

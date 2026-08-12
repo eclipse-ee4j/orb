@@ -23,11 +23,11 @@ import com.sun.corba.ee.impl.corba.TypeCodeImpl; // needed for recursive type co
 import com.sun.corba.ee.spi.orb.ORB;
 
 import org.omg.CORBA.Any;
+import org.omg.CORBA.DynAny;
 import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.DynAnyPackage.TypeMismatch;
+import org.omg.CORBA.ORBPackage.InconsistentTypeCode;
 import org.omg.CORBA.portable.OutputStream;
-import org.omg.DynamicAny.DynAny;
-import org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode;
-import org.omg.DynamicAny.DynAnyPackage.TypeMismatch;
 
 abstract class DynAnyConstructedImpl extends DynAnyImpl {
     private static final long serialVersionUID = -5868871025693895861L;
@@ -122,7 +122,7 @@ abstract class DynAnyConstructedImpl extends DynAnyImpl {
         if (status == STATUS_DESTROYED) {
             throw wrapper.dynAnyDestroyed();
         }
-        if (checkInitComponents() == false) {
+        if (!checkInitComponents()) {
             return false;
         }
         index++;
@@ -142,7 +142,7 @@ abstract class DynAnyConstructedImpl extends DynAnyImpl {
             this.index = NO_INDEX;
             return false;
         }
-        if (checkInitComponents() == false) {
+        if (!checkInitComponents()) {
             return false;
         }
         if (newIndex < components.length) {
@@ -276,6 +276,7 @@ abstract class DynAnyConstructedImpl extends DynAnyImpl {
     }
 
     // Spec: Returns a copy of the internal Any
+    @Override
     public org.omg.CORBA.Any to_any() {
         // System.out.println(this + " to_any ");
         if (status == STATUS_DESTROYED) {
@@ -293,12 +294,9 @@ abstract class DynAnyConstructedImpl extends DynAnyImpl {
         if (dyn_any == this) {
             return true;
         }
-        if (!any.type().equal(dyn_any.type())) {
-            return false;
-        }
         // This changes the current position of dyn_any.
         // Make sure that our position isn't changed.
-        if (checkInitComponents() == false) {
+        if (!any.type().equal(dyn_any.type()) || !checkInitComponents()) {
             return false;
         }
         DynAny currentComponent = null;
@@ -306,7 +304,7 @@ abstract class DynAnyConstructedImpl extends DynAnyImpl {
             // Remember the current position to restore it later
             currentComponent = dyn_any.current_component();
             for (int i = 0; i < components.length; i++) {
-                if (dyn_any.seek(i) == false) {
+                if (!dyn_any.seek(i)) {
                     return false;
                 }
                 // System.out.println(this + " comparing component " + i + "=" + components[i] +
@@ -325,6 +323,7 @@ abstract class DynAnyConstructedImpl extends DynAnyImpl {
         return true;
     }
 
+    @Override
     public void destroy() {
         if (status == STATUS_DESTROYED) {
             throw wrapper.dynAnyDestroyed();
@@ -340,6 +339,7 @@ abstract class DynAnyConstructedImpl extends DynAnyImpl {
         }
     }
 
+    @Override
     public org.omg.DynamicAny.DynAny copy() {
         if (status == STATUS_DESTROYED) {
             throw wrapper.dynAnyDestroyed();

@@ -48,7 +48,7 @@ public final class DATA_CONVERSION extends SystemException {
 
     /**
      * Constructs a <code>DATA_CONVERSION</code> exception with the specified detail.
-     * 
+     *
      * @param s the String containing a detail message
      */
     public DATA_CONVERSION(String s) {
@@ -57,7 +57,7 @@ public final class DATA_CONVERSION extends SystemException {
 
     /**
      * Constructs a <code>DATA_CONVERSION</code> exception with the specified minor code and completion status.
-     * 
+     *
      * @param minor the minor code
      * @param completed the completion status
      */
@@ -68,7 +68,7 @@ public final class DATA_CONVERSION extends SystemException {
     /**
      * Constructs a <code>DATA_CONVERSION</code> exception with the specified detail message, minor code, and completion
      * status. A detail message is a String that describes this particular exception.
-     * 
+     *
      * @param s the String containing a detail message
      * @param minor the minor code
      * @param completed the completion status

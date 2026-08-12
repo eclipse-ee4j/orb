@@ -44,7 +44,7 @@ public final class TRANSACTION_ROLLEDBACK extends SystemException {
     /**
      * Constructs a <code>TRANSACTION_ROLLEDBACK</code> exception with the specified description message, a minor code of 0,
      * and a completion state of COMPLETED_NO.
-     * 
+     *
      * @param s the String containing a detail message
      */
     public TRANSACTION_ROLLEDBACK(String s) {
@@ -53,7 +53,7 @@ public final class TRANSACTION_ROLLEDBACK extends SystemException {
 
     /**
      * Constructs a <code>TRANSACTION_ROLLEDBACK</code> exception with the specified minor code and completion status.
-     * 
+     *
      * @param minor the minor code
      * @param completed the completion status
      */
@@ -64,7 +64,7 @@ public final class TRANSACTION_ROLLEDBACK extends SystemException {
     /**
      * Constructs a <code>TRANSACTION_ROLLEDBACK</code> exception with the specified description message, minor code, and
      * completion status.
-     * 
+     *
      * @param s the String containing a description message
      * @param minor the minor code
      * @param completed the completion status

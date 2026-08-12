@@ -30,4 +30,4 @@ public interface BAD_POLICY_TYPE {
      * The Error code in PolicyError exception.
      */
     final short value = (short) (2L);
-};
+}

@@ -28,13 +28,15 @@ import org.omg.CORBA.portable.ServantObject;
 
 public class InfoOnlyServantCacheLocalCRDImpl extends ServantCacheLocalCRDBase {
     public InfoOnlyServantCacheLocalCRDImpl(ORB orb, int scid, IOR ior) {
-        super((com.sun.corba.ee.spi.orb.ORB) orb, scid, ior);
+        super(orb, scid, ior);
     }
 
+    @Override
     public ServantObject internalPreinvoke(org.omg.CORBA.Object self, String operation, Class expectedType) throws OADestroyed {
         OAInvocationInfo cachedInfo = getCachedInfo();
-        if (!checkForCompatibleServant(cachedInfo, expectedType))
+        if (!checkForCompatibleServant(cachedInfo, expectedType)) {
             return null;
+        }
 
         // Note that info is shared across multiple threads
         // using the same subcontract, each of which may
@@ -45,6 +47,7 @@ public class InfoOnlyServantCacheLocalCRDImpl extends ServantCacheLocalCRDBase {
         return info;
     }
 
+    @Override
     public void servant_postinvoke(org.omg.CORBA.Object self, ServantObject servantobj) {
         orb.popInvocationInfo();
     }

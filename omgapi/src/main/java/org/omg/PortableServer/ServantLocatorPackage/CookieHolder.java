@@ -35,14 +35,17 @@ final public class CookieHolder implements org.omg.CORBA.portable.Streamable {
         value = initial;
     }
 
+    @Override
     public void _read(org.omg.CORBA.portable.InputStream is) {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
 
+    @Override
     public void _write(org.omg.CORBA.portable.OutputStream os) {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
 
+    @Override
     public org.omg.CORBA.TypeCode _type() {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }

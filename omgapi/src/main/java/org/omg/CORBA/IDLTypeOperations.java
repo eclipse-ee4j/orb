@@ -35,7 +35,7 @@ package org.omg.CORBA;
 /**
  * This interface must be implemented by all IDLType objects. The IDLType is inherited by all IR objects that represent
  * IDL types, including interfaces, typedefs, and anonymous types.
- * 
+ *
  * @see IDLType
  * @see IRObject
  * @see IRObjectOperations
@@ -44,7 +44,7 @@ package org.omg.CORBA;
 public interface IDLTypeOperations extends org.omg.CORBA.IRObjectOperations {
     /**
      * The type attribute describes the type defined by an object derived from <code>IDLType</code>.
-     * 
+     *
      * @return the <code>TypeCode</code> defined by this object.
      */
     org.omg.CORBA.TypeCode type();

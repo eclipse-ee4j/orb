@@ -35,7 +35,7 @@ public class UnknownException extends org.omg.CORBA.SystemException {
 
     /**
      * Constructs an UnknownException object.
-     * 
+     *
      * @param ex a Throwable object--to be wrapped in this exception.
      */
     public UnknownException(Throwable ex) {

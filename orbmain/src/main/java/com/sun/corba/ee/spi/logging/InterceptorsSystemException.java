@@ -40,7 +40,6 @@ import org.omg.CORBA.INTERNAL;
 import org.omg.CORBA.NO_IMPLEMENT;
 import org.omg.CORBA.OBJECT_NOT_EXIST;
 import org.omg.CORBA.UNKNOWN;
-import org.omg.PortableInterceptor.ObjectReferenceTemplate;
 
 @ExceptionWrapper( idPrefix="IOP" )
 @ORBException( omgException=false, group=CorbaExtension.InterceptorsGroup )

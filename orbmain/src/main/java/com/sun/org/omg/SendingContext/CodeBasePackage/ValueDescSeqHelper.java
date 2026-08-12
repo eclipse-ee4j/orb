@@ -19,6 +19,7 @@
 
 package com.sun.org.omg.SendingContext.CodeBasePackage;
 
+import com.sun.org.omg.CORBA.ValueDefPackage.FullValueDescription;
 
 /**
 * com/sun/org/omg/SendingContext/CodeBasePackage/ValueDescSeqHelper.java
@@ -70,16 +71,18 @@ public final class ValueDescSeqHelper
         com.sun.org.omg.CORBA.ValueDefPackage.FullValueDescription value[] = null;
         int _len0 = istream.read_long ();
         value = new com.sun.org.omg.CORBA.ValueDefPackage.FullValueDescription[_len0];
-        for (int _o1 = 0;_o1 < value.length; ++_o1)
+        for (int _o1 = 0;_o1 < value.length; ++_o1) {
             value[_o1] = com.sun.org.omg.CORBA.ValueDefPackage.FullValueDescriptionHelper.read (istream);
+        }
         return value;
     }
 
     public static void write (org.omg.CORBA.portable.OutputStream ostream, com.sun.org.omg.CORBA.ValueDefPackage.FullValueDescription[] value)
     {
         ostream.write_long (value.length);
-        for (int _i0 = 0;_i0 < value.length; ++_i0)
-            com.sun.org.omg.CORBA.ValueDefPackage.FullValueDescriptionHelper.write (ostream, value[_i0]);
+        for (FullValueDescription element : value) {
+            com.sun.org.omg.CORBA.ValueDefPackage.FullValueDescriptionHelper.write (ostream, element);
+        }
     }
 
 }

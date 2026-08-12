@@ -50,7 +50,7 @@ public final class FixedHolder implements Streamable {
 
     /**
      * Construct the FixedHolder and initialize it with the given value.
-     * 
+     *
      * @param initial the value used to initialize the FixedHolder
      */
     public FixedHolder(java.math.BigDecimal initial) {
@@ -62,6 +62,7 @@ public final class FixedHolder implements Streamable {
      *
      * @param input the <code>InputStream</code> to read from.
      */
+    @Override
     public void _read(InputStream input) {
         value = input.read_fixed();
     }
@@ -71,6 +72,7 @@ public final class FixedHolder implements Streamable {
      *
      * @param output the <code>OutputStream</code> to write into.
      */
+    @Override
     public void _write(OutputStream output) {
         output.write_fixed(value);
     }
@@ -80,6 +82,7 @@ public final class FixedHolder implements Streamable {
      *
      * @return the <code>TypeCode</code> object.
      */
+    @Override
     public org.omg.CORBA.TypeCode _type() {
         return ORB.init().get_primitive_tc(TCKind.tk_fixed);
     }

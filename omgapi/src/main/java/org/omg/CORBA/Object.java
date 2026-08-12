@@ -38,7 +38,7 @@ package org.omg.CORBA;
  * Default implementations of the methods in the interface <code>org.omg.CORBA.Object</code> are provided in the class
  * <code>org.omg.CORBA.portable.ObjectImpl</code>, which is the base class for stubs and object implementations.
  * </p>
- * 
+ *
  * @see org.omg.CORBA.portable.ObjectImpl
  */
 
@@ -58,7 +58,7 @@ public interface Object {
      * references are equivalent if they are identical. Two distinct object references which in fact refer to the same
      * object are also equivalent. However, ORBs are not required to attempt determination of whether two distinct object
      * references refer to the same object, since such determination could be impractically expensive.
-     * 
+     *
      * @param other the other object reference with which to check for equivalence
      * @return <code>true</code> if this object reference is known to be equivalent to the given object reference. Note that
      * <code>false</code> indicates only that the two object references are distinct, not necessarily that they reference
@@ -68,7 +68,7 @@ public interface Object {
 
     /**
      * Determines whether the server object for this object reference has been destroyed.
-     * 
+     *
      * @return <code>true</code> if the ORB knows authoritatively that the server object does not exist; <code>false</code>
      * otherwise
      */

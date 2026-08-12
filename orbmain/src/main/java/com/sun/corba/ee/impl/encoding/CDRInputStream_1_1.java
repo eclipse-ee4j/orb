@@ -141,8 +141,9 @@ public class CDRInputStream_1_1 extends CDRInputStream_1_0 {
         // character? This may come up as more unicode values are
         // assigned, and a single 16 bit Java char isn't enough.
         // Better to use strings for i18n purposes.
-        if (getWCharConverter().getNumChars() > 1)
+        if (getWCharConverter().getNumChars() > 1) {
             throw wrapper.btcResultMoreThanOneChar();
+        }
 
         return result[0];
     }
@@ -156,8 +157,9 @@ public class CDRInputStream_1_1 extends CDRInputStream_1_0 {
         // Workaround for ORBs which send string lengths of
         // zero to mean empty string.
         //
-        if (len == 0)
+        if (len == 0) {
             return newEmptyString();
+        }
 
         checkForNegativeLength(len);
 

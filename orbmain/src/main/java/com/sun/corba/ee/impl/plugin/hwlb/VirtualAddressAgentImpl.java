@@ -54,17 +54,10 @@ import com.sun.corba.ee.spi.trace.Subcontract;
 import java.lang.reflect.Field;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.util.Iterator;
 
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 import org.omg.CORBA.LocalObject;
 import org.omg.CORBA_2_3.portable.InputStream;
-import org.omg.IOP.TAG_INTERNET_IOP;
-import org.omg.PortableInterceptor.IORInfo;
-import org.omg.PortableInterceptor.IORInterceptor_3_0;
-import org.omg.PortableInterceptor.ORBInitInfo;
-import org.omg.PortableInterceptor.ORBInitializer;
-import org.omg.PortableInterceptor.ObjectReferenceTemplate;
 
 @Subcontract
 public class VirtualAddressAgentImpl extends LocalObject implements ORBConfigurator, ORBInitializer, IORInterceptor_3_0 {
@@ -85,6 +78,7 @@ public class VirtualAddressAgentImpl extends LocalObject implements ORBConfigura
         private String _host = null;
         private int _port = 0;
 
+        @Override
         public PropertyParser makeParser() {
             PropertyParser parser = new PropertyParser();
             parser.add(VAA_HOST_PROPERTY, OperationFactory.stringAction(), "_host");
@@ -104,11 +98,13 @@ public class VirtualAddressAgentImpl extends LocalObject implements ORBConfigura
     private void agentAddress(IIOPAddress addr) {
     }
 
+    @Override
     @Subcontract
     public void configure(DataCollector dc, final ORB orb) {
         this.orb = orb;
 
         orb.setBadServerIdHandler(new BadServerIdHandler() {
+            @Override
             public void handle(ObjectKey objectkey) {
                 // NO-OP
             }
@@ -127,6 +123,7 @@ public class VirtualAddressAgentImpl extends LocalObject implements ORBConfigura
         // back and gets unmarshalled.
         IdentifiableFactoryFinder finder = orb.getTaggedProfileFactoryFinder();
         finder.registerFactory(new EncapsulationFactoryBase(TAG_INTERNET_IOP.value) {
+            @Override
             public Identifiable readContents(InputStream in) {
                 Identifiable result = new SpecialIIOPProfileImpl(in);
                 return result;
@@ -143,13 +140,15 @@ public class VirtualAddressAgentImpl extends LocalObject implements ORBConfigura
         final ORBInitializer[] oldOrbInits = odata.getORBInitializers();
         final int newIndex = oldOrbInits.length;
         newOrbInits = new ORBInitializer[newIndex + 1];
-        for (int ctr = 0; ctr < newIndex; ctr++)
+        for (int ctr = 0; ctr < newIndex; ctr++) {
             newOrbInits[ctr] = oldOrbInits[ctr];
+        }
         newOrbInits[newIndex] = this;
 
         // Nasty hack: Use reflection to set the private field!
         // REVISIT: AS 9 has an ORB API for setting ORBInitializers.
         AccessController.doPrivileged(new PrivilegedAction() {
+            @Override
             public Object run() {
                 try {
                     final Field fld = ORBDataParserImpl.class.getDeclaredField("orbInitializers");
@@ -262,11 +261,10 @@ public class VirtualAddressAgentImpl extends LocalObject implements ORBConfigura
             // to use the subclass of IIOPProfileImpl.
             final IIOPProfileTemplate result = new SpecialIIOPProfileTemplateImpl(orb, oldTemplate.getGIOPVersion(), addr);
 
-            final Iterator iter = oldTemplate.iterator();
-            while (iter.hasNext()) {
-                TaggedComponent comp = (TaggedComponent) iter.next();
-                if (!(comp instanceof AlternateIIOPAddressComponent))
+            for (TaggedComponent comp : oldTemplate) {
+                if (!(comp instanceof AlternateIIOPAddressComponent)) {
                     result.add(comp);
+                }
             }
 
             return result;
@@ -289,12 +287,7 @@ public class VirtualAddressAgentImpl extends LocalObject implements ORBConfigura
         // Make a copy of the original IORTempalte
         final IORTemplate result = IORFactories.makeIORTemplate(iort.getObjectKeyTemplate());
 
-        // Clone iort, but remove all TAG_ALTERNATE_ADDRESS components,
-        // and change the primary address/port to be the host/port
-        // values in this class.
-        final Iterator iter = iort.iterator();
-        while (iter.hasNext()) {
-            TaggedProfileTemplate tpt = (TaggedProfileTemplate) iter.next();
+        for (TaggedProfileTemplate tpt : iort) {
             result.add(makeCopy(tpt));
         }
 

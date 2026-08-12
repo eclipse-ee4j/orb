@@ -36,35 +36,35 @@ public final class ValueMember implements org.omg.CORBA.portable.IDLEntity {
 
     /**
      * The name of the <code>value</code> member described by this <code>ValueMember</code> object.
-     * 
+     *
      * @serial
      */
     public String name;
 
     /**
      * The repository ID of the <code>value</code> member described by this <code>ValueMember</code> object;
-     * 
+     *
      * @serial
      */
     public String id;
 
     /**
      * The repository ID of the <code>value</code> in which this member is defined.
-     * 
+     *
      * @serial
      */
     public String defined_in;
 
     /**
      * The version of the <code>value</code> in which this member is defined.
-     * 
+     *
      * @serial
      */
     public String version;
 
     /**
      * The type of of this <code>value</code> member.
-     * 
+     *
      * @serial
      */
     public org.omg.CORBA.TypeCode type;
@@ -72,7 +72,7 @@ public final class ValueMember implements org.omg.CORBA.portable.IDLEntity {
     /**
      * The typedef that represents the IDL type of the <code>value</code> member described by this <code>ValueMember</code>
      * object.
-     * 
+     *
      * @serial
      */
     public org.omg.CORBA.IDLType type_def;
@@ -80,7 +80,7 @@ public final class ValueMember implements org.omg.CORBA.portable.IDLEntity {
     /**
      * The type of access (public, private) for the <code>value</code> member described by this <code>ValueMember</code>
      * object.
-     * 
+     *
      * @serial
      */
     public short access;

@@ -34,112 +34,112 @@ import org.omg.CORBA.TypeCode;
 public abstract class OutputStream extends java.io.OutputStream {
     /**
      * Returns an input stream with the same buffer.
-     * 
+     *
      * @return an input stream with the same buffer.
      */
     public abstract InputStream create_input_stream();
 
     /**
      * Writes a boolean value to this stream.
-     * 
+     *
      * @param value the value to be written.
      */
     public abstract void write_boolean(boolean value);
 
     /**
      * Writes a char value to this stream.
-     * 
+     *
      * @param value the value to be written.
      */
     public abstract void write_char(char value);
 
     /**
      * Writes a wide char value to this stream.
-     * 
+     *
      * @param value the value to be written.
      */
     public abstract void write_wchar(char value);
 
     /**
      * Writes a CORBA octet (i.e. byte) value to this stream.
-     * 
+     *
      * @param value the value to be written.
      */
     public abstract void write_octet(byte value);
 
     /**
      * Writes a short value to this stream.
-     * 
+     *
      * @param value the value to be written.
      */
     public abstract void write_short(short value);
 
     /**
      * Writes an unsigned short value to this stream.
-     * 
+     *
      * @param value the value to be written.
      */
     public abstract void write_ushort(short value);
 
     /**
      * Writes a CORBA long (i.e. Java int) value to this stream.
-     * 
+     *
      * @param value the value to be written.
      */
     public abstract void write_long(int value);
 
     /**
      * Writes an unsigned CORBA long (i.e. Java int) value to this stream.
-     * 
+     *
      * @param value the value to be written.
      */
     public abstract void write_ulong(int value);
 
     /**
      * Writes a CORBA longlong (i.e. Java long) value to this stream.
-     * 
+     *
      * @param value the value to be written.
      */
     public abstract void write_longlong(long value);
 
     /**
      * Writes an unsigned CORBA longlong (i.e. Java long) value to this stream.
-     * 
+     *
      * @param value the value to be written.
      */
     public abstract void write_ulonglong(long value);
 
     /**
      * Writes a float value to this stream.
-     * 
+     *
      * @param value the value to be written.
      */
     public abstract void write_float(float value);
 
     /**
      * Writes a double value to this stream.
-     * 
+     *
      * @param value the value to be written.
      */
     public abstract void write_double(double value);
 
     /**
      * Writes a string value to this stream.
-     * 
+     *
      * @param value the value to be written.
      */
     public abstract void write_string(String value);
 
     /**
      * Writes a wide string value to this stream.
-     * 
+     *
      * @param value the value to be written.
      */
     public abstract void write_wstring(String value);
 
     /**
      * Writes an array of booleans on this output stream.
-     * 
+     *
      * @param value the array to be written.
      * @param offset offset on the stream.
      * @param length length of buffer to write.
@@ -148,7 +148,7 @@ public abstract class OutputStream extends java.io.OutputStream {
 
     /**
      * Writes an array of chars on this output stream.
-     * 
+     *
      * @param value the array to be written.
      * @param offset offset on the stream.
      * @param length length of buffer to write.
@@ -157,7 +157,7 @@ public abstract class OutputStream extends java.io.OutputStream {
 
     /**
      * Writes an array of wide chars on this output stream.
-     * 
+     *
      * @param value the array to be written.
      * @param offset offset on the stream.
      * @param length length of buffer to write.
@@ -166,7 +166,7 @@ public abstract class OutputStream extends java.io.OutputStream {
 
     /**
      * Writes an array of CORBA octets (bytes) on this output stream.
-     * 
+     *
      * @param value the array to be written.
      * @param offset offset on the stream.
      * @param length length of buffer to write.
@@ -175,7 +175,7 @@ public abstract class OutputStream extends java.io.OutputStream {
 
     /**
      * Writes an array of shorts on this output stream.
-     * 
+     *
      * @param value the array to be written.
      * @param offset offset on the stream.
      * @param length length of buffer to write.
@@ -184,7 +184,7 @@ public abstract class OutputStream extends java.io.OutputStream {
 
     /**
      * Writes an array of unsigned shorts on this output stream.
-     * 
+     *
      * @param value the array to be written.
      * @param offset offset on the stream.
      * @param length length of buffer to write.
@@ -193,7 +193,7 @@ public abstract class OutputStream extends java.io.OutputStream {
 
     /**
      * Writes an array of CORBA longs (i.e. Java ints) on this output stream.
-     * 
+     *
      * @param value the array to be written.
      * @param offset offset on the stream.
      * @param length length of buffer to write.
@@ -202,7 +202,7 @@ public abstract class OutputStream extends java.io.OutputStream {
 
     /**
      * Writes an array of unsigned CORBA longs (i.e. Java ints) on this output stream.
-     * 
+     *
      * @param value the array to be written.
      * @param offset offset on the stream.
      * @param length length of buffer to write.
@@ -211,7 +211,7 @@ public abstract class OutputStream extends java.io.OutputStream {
 
     /**
      * Writes an array of CORBA longlongs (i.e. Java longs) on this output stream.
-     * 
+     *
      * @param value the array to be written.
      * @param offset offset on the stream.
      * @param length length of buffer to write.
@@ -220,7 +220,7 @@ public abstract class OutputStream extends java.io.OutputStream {
 
     /**
      * Writes an array of unsigned CORBA longlongs (i.e. Java ints) on this output stream.
-     * 
+     *
      * @param value the array to be written.
      * @param offset offset on the stream.
      * @param length length of buffer to write.
@@ -229,7 +229,7 @@ public abstract class OutputStream extends java.io.OutputStream {
 
     /**
      * Writes an array of floats on this output stream.
-     * 
+     *
      * @param value the array to be written.
      * @param offset offset on the stream.
      * @param length length of buffer to write.
@@ -238,7 +238,7 @@ public abstract class OutputStream extends java.io.OutputStream {
 
     /**
      * Writes an array of doubles on this output stream.
-     * 
+     *
      * @param value the array to be written.
      * @param offset offset on the stream.
      * @param length length of buffer to write.
@@ -247,50 +247,52 @@ public abstract class OutputStream extends java.io.OutputStream {
 
     /**
      * Writes a CORBA Object on this output stream.
-     * 
+     *
      * @param value the value to be written.
      */
     public abstract void write_Object(org.omg.CORBA.Object value);
 
     /**
      * Writes a TypeCode on this output stream.
-     * 
+     *
      * @param value the value to be written.
      */
     public abstract void write_TypeCode(TypeCode value);
 
     /**
      * Writes an Any on this output stream.
-     * 
+     *
      * @param value the value to be written.
      */
     public abstract void write_any(Any value);
 
     /**
      * Writes a Principle on this output stream.
-     * 
+     *
      * @param value the value to be written.
      * @deprecated Deprecated by CORBA 2.2.
      */
     // @Deprecated
+    @Deprecated
     public void write_Principal(org.omg.CORBA.Principal value) {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
 
     /**
      * Writes an integer (length of arrays) onto this stream.
-     * 
+     *
      * @param b the value to be written.
      * @throws java.io.IOException if there is an input/output error
      * @see <a href="package-summary.html#unimpl"><code>portable</code> package comments for unimplemented features</a>
      */
+    @Override
     public void write(int b) throws java.io.IOException {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
 
     /**
      * Writes a BigDecimal number.
-     * 
+     *
      * @param value a BidDecimal--value to be written.
      */
     public void write_fixed(java.math.BigDecimal value) {
@@ -300,7 +302,7 @@ public abstract class OutputStream extends java.io.OutputStream {
     /**
      * Writes a CORBA context on this stream. The Context is marshaled as a sequence of strings. Only those Context values
      * specified in the contexts parameter are actually written.
-     * 
+     *
      * @param ctx a CORBA context
      * @param contexts a <code>ContextList</code> object containing the list of contexts to be written
      * @see <a href="package-summary.html#unimpl"><code>portable</code> package comments for unimplemented features</a>
@@ -311,7 +313,7 @@ public abstract class OutputStream extends java.io.OutputStream {
 
     /**
      * Returns the ORB that created this OutputStream.
-     * 
+     *
      * @return the ORB that created this OutputStream
      * @see <a href="package-summary.html#unimpl"><code>portable</code> package comments for unimplemented features</a>
      */

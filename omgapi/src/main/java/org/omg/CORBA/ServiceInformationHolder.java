@@ -64,6 +64,7 @@ public final class ServiceInformationHolder implements org.omg.CORBA.portable.St
      *
      * @param out the <code>OutputStream</code> object that will contain the CDR formatted data
      */
+    @Override
     public void _write(org.omg.CORBA.portable.OutputStream out) {
         org.omg.CORBA.ServiceInformationHelper.write(out, value);
     }
@@ -74,6 +75,7 @@ public final class ServiceInformationHolder implements org.omg.CORBA.portable.St
      *
      * @param in the <code>InputStream</code> object containing CDR formatted data from the wire
      */
+    @Override
     public void _read(org.omg.CORBA.portable.InputStream in) {
         value = org.omg.CORBA.ServiceInformationHelper.read(in);
     }
@@ -84,6 +86,7 @@ public final class ServiceInformationHolder implements org.omg.CORBA.portable.St
      *
      * @return the type code for the value held in this <code>ServiceInformationHolder</code> object
      */
+    @Override
     public org.omg.CORBA.TypeCode _type() {
         return org.omg.CORBA.ServiceInformationHelper.type();
     }

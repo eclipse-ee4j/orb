@@ -89,7 +89,7 @@ public class ThreadPoolImpl implements ThreadPool {
 
     final Object workersLock = new Object();
 
-    List<WorkerThread> workers = new ArrayList<WorkerThread>();
+    List<WorkerThread> workers = new ArrayList<>();
 
     /**
      * Create an unbounded thread pool in the current thread group with the current context ClassLoader as the worker thread
@@ -152,11 +152,12 @@ public class ThreadPoolImpl implements ThreadPool {
     }
 
     // Note that this method should not return until AFTER all threads have died.
+    @Override
     public void close() throws IOException {
         // Copy to avoid concurrent modification problems.
         List<WorkerThread> copy = null;
         synchronized (workersLock) {
-            copy = new ArrayList<WorkerThread>(workers);
+            copy = new ArrayList<>(workers);
         }
 
         for (WorkerThread wt : copy) {
@@ -175,10 +176,11 @@ public class ThreadPoolImpl implements ThreadPool {
     }
 
     private static ClassLoader getDefaultClassLoader() {
-        if (System.getSecurityManager() == null)
+        if (System.getSecurityManager() == null) {
             return Thread.currentThread().getContextClassLoader();
-        else {
+        } else {
             final ClassLoader cl = AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
+                @Override
                 public ClassLoader run() {
                     return Thread.currentThread().getContextClassLoader();
                 }
@@ -188,13 +190,16 @@ public class ThreadPoolImpl implements ThreadPool {
         }
     }
 
+    @Override
     public WorkQueue getAnyWorkQueue() {
         return workQueue;
     }
 
+    @Override
     public WorkQueue getWorkQueue(int queueId) throws NoSuchWorkQueueException {
-        if (queueId != 0)
+        if (queueId != 0) {
             throw new NoSuchWorkQueueException();
+        }
         return workQueue;
     }
 
@@ -266,6 +271,7 @@ public class ThreadPoolImpl implements ThreadPool {
                 } else {
                     // If we get here, we need to create a thread.
                     AccessController.doPrivileged(new PrivilegedAction() {
+                        @Override
                         public Object run() {
                             return createWorkerThreadHelper(lname);
                         }
@@ -282,18 +288,22 @@ public class ThreadPoolImpl implements ThreadPool {
         }
     }
 
+    @Override
     public int minimumNumberOfThreads() {
         return minWorkerThreads;
     }
 
+    @Override
     public int maximumNumberOfThreads() {
         return maxWorkerThreads;
     }
 
+    @Override
     public long idleTimeoutForThreads() {
         return inactivityTimeout;
     }
 
+    @Override
     @ManagedAttribute
     @Description("The current number of threads")
     public int currentNumberOfThreads() {
@@ -314,6 +324,7 @@ public class ThreadPoolImpl implements ThreadPool {
         }
     }
 
+    @Override
     @ManagedAttribute
     @Description("The number of available threads in this ThreadPool")
     public int numberOfAvailableThreads() {
@@ -322,6 +333,7 @@ public class ThreadPoolImpl implements ThreadPool {
         }
     }
 
+    @Override
     @ManagedAttribute
     @Description("The number of threads busy processing work in this ThreadPool")
     public int numberOfBusyThreads() {
@@ -330,18 +342,21 @@ public class ThreadPoolImpl implements ThreadPool {
         }
     }
 
+    @Override
     @ManagedAttribute
     @Description("The average time needed to complete a work item")
     public long averageWorkCompletionTime() {
         return (totalTimeTaken.get() / processedCount.get());
     }
 
+    @Override
     @ManagedAttribute
     @Description("The number of work items processed")
     public long currentProcessedCount() {
         return processedCount.get();
     }
 
+    @Override
     @NameValue
     public String getName() {
         return name;
@@ -350,6 +365,7 @@ public class ThreadPoolImpl implements ThreadPool {
     /**
      * This method will return the number of WorkQueues serviced by the threadpool.
      */
+    @Override
     public int numberOfWorkQueues() {
         return 1;
     }
@@ -392,10 +408,11 @@ public class ThreadPoolImpl implements ThreadPool {
         }
 
         private void setClassLoader() {
-            if (System.getSecurityManager() == null)
+            if (System.getSecurityManager() == null) {
                 setClassLoaderHelper();
-            else {
+            } else {
                 AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
+                    @Override
                     public ClassLoader run() {
                         return WorkerThread.this.setClassLoaderHelper();
                     }
@@ -410,6 +427,7 @@ public class ThreadPoolImpl implements ThreadPool {
             return result;
         }
 
+        @Override
         public synchronized void close() {
             closeCalled = true;
             interrupt();
@@ -422,6 +440,7 @@ public class ThreadPoolImpl implements ThreadPool {
                     currentClassLoader = getContextClassLoader();
                 } else {
                     currentClassLoader = AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
+                        @Override
                         public ClassLoader run() {
                             return getContextClassLoader();
                         }
@@ -467,8 +486,9 @@ public class ThreadPoolImpl implements ThreadPool {
                 while (!closeCalled) {
                     try {
                         currentWork = ((WorkQueueImpl) workQueue).requestWork(inactivityTimeout);
-                        if (currentWork == null)
+                        if (currentWork == null) {
                             continue;
+                        }
                     } catch (WorkerThreadNotNeededException toe) {
                         Exceptions.self.workerThreadNotNeeded(this, currentNumberOfThreads(), minimumNumberOfThreads());
                         closeCalled = true;

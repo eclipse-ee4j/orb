@@ -75,6 +75,7 @@ public class StubFactoryCodegenImpl extends StubFactoryDynamicBase {
         return creator.create(classData.getMyClass(), pm.getDebug(), pm.getPrintStream());
     }
 
+    @Override
     public org.omg.CORBA.Object makeStub() {
         final Class<?> stubClass = getStubClass();
 

@@ -39,7 +39,7 @@ public class IdentifiableContainerBase<E extends Identifiable>
      */
     public IdentifiableContainerBase()
     {
-        super( new ArrayList<E>() ) ;
+        super( new ArrayList<>() ) ;
     }
 
     /** Return an iterator which iterates over all contained {@link Identifiable Identifiables}
@@ -49,7 +49,7 @@ public class IdentifiableContainerBase<E extends Identifiable>
      */
     public Iterator<E> iteratorById( final int id)
     {
-        return new Iterator<E>() {
+        return new Iterator<>() {
             Iterator<E> iter =
                 IdentifiableContainerBase.this.iterator() ;
             E current = advance() ;
@@ -58,8 +58,9 @@ public class IdentifiableContainerBase<E extends Identifiable>
             {
                 while (iter.hasNext()) {
                     E ide = iter.next() ;
-                    if (ide.getId() == id)
+                    if (ide.getId() == id) {
                         return ide ;
+                    }
                 }
 
                 return null ;

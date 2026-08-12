@@ -36,6 +36,7 @@ public class TaggedComponentFactoryFinderImpl extends IdentifiableFactoryFinderB
         super(orb);
     }
 
+    @Override
     public TaggedComponent handleMissingFactory(int id, InputStream is) {
         return new GenericTaggedComponent(id, is);
     }

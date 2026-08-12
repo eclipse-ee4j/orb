@@ -22,12 +22,11 @@ package com.sun.corba.ee.impl.dynamicany;
 import com.sun.corba.ee.spi.orb.ORB;
 
 import org.omg.CORBA.Any;
+import org.omg.CORBA.DynAny;
 import org.omg.CORBA.TypeCode;
-import org.omg.DynamicAny.DynAny;
-import org.omg.DynamicAny.DynValueBox;
-import org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode;
-import org.omg.DynamicAny.DynAnyPackage.InvalidValue;
-import org.omg.DynamicAny.DynAnyPackage.TypeMismatch;
+import org.omg.CORBA.DynAnyPackage.InvalidValue;
+import org.omg.CORBA.DynAnyPackage.TypeMismatch;
+import org.omg.CORBA.ORBPackage.InconsistentTypeCode;
 
 public class DynValueBoxImpl extends DynValueCommonImpl implements DynValueBox {
     private static final long serialVersionUID = 670401668768259219L;

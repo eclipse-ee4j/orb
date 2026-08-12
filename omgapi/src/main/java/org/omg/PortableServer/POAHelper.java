@@ -68,12 +68,13 @@ abstract public class POAHelper {
     }
 
     public static org.omg.PortableServer.POA narrow(org.omg.CORBA.Object obj) {
-        if (obj == null)
+        if (obj == null) {
             return null;
-        else if (obj instanceof org.omg.PortableServer.POA)
+        } else if (obj instanceof org.omg.PortableServer.POA) {
             return (org.omg.PortableServer.POA) obj;
-        else if (!obj._is_a(id()))
+        } else if (!obj._is_a(id())) {
             throw new org.omg.CORBA.BAD_PARAM();
+        }
         return null;
     }
 }

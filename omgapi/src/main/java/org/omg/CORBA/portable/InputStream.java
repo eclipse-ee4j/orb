@@ -132,7 +132,7 @@ public abstract class InputStream extends java.io.InputStream {
 
     /**
      * Reads an array of booleans from this input stream.
-     * 
+     *
      * @param value returned array of booleans.
      * @param offset offset on the stream.
      * @param length length of buffer to read
@@ -141,7 +141,7 @@ public abstract class InputStream extends java.io.InputStream {
 
     /**
      * Reads an array of chars from this input stream.
-     * 
+     *
      * @param value returned array of chars.
      * @param offset offset on the stream.
      * @param length length of buffer to read
@@ -150,7 +150,7 @@ public abstract class InputStream extends java.io.InputStream {
 
     /**
      * Reads an array of wide chars from this input stream.
-     * 
+     *
      * @param value returned array of wide chars.
      * @param offset offset on the stream.
      * @param length length of buffer to read
@@ -159,7 +159,7 @@ public abstract class InputStream extends java.io.InputStream {
 
     /**
      * Reads an array of octets (that is, bytes) from this input stream.
-     * 
+     *
      * @param value returned array of octets (that is, bytes).
      * @param offset offset on the stream.
      * @param length length of buffer to read
@@ -168,7 +168,7 @@ public abstract class InputStream extends java.io.InputStream {
 
     /**
      * Reads an array of shorts from this input stream.
-     * 
+     *
      * @param value returned array of shorts.
      * @param offset offset on the stream.
      * @param length length of buffer to read
@@ -177,7 +177,7 @@ public abstract class InputStream extends java.io.InputStream {
 
     /**
      * Reads an array of unsigned shorts from this input stream.
-     * 
+     *
      * @param value returned array of shorts.
      * @param offset offset on the stream.
      * @param length length of buffer to read
@@ -186,7 +186,7 @@ public abstract class InputStream extends java.io.InputStream {
 
     /**
      * Reads an array of CORBA longs (that is, Java ints) from this input stream.
-     * 
+     *
      * @param value returned array of CORBA longs (that is, Java ints).
      * @param offset offset on the stream.
      * @param length length of buffer to read
@@ -195,7 +195,7 @@ public abstract class InputStream extends java.io.InputStream {
 
     /**
      * Reads an array of unsigned CORBA longs (that is, Java ints) from this input stream.
-     * 
+     *
      * @param value returned array of CORBA longs (that is, Java ints).
      * @param offset offset on the stream.
      * @param length length of buffer to read
@@ -204,7 +204,7 @@ public abstract class InputStream extends java.io.InputStream {
 
     /**
      * Reads an array of CORBA longlongs (that is, Java longs) from this input stream.
-     * 
+     *
      * @param value returned array of CORBA longs (that is, Java longs).
      * @param offset offset on the stream.
      * @param length length of buffer to read
@@ -213,7 +213,7 @@ public abstract class InputStream extends java.io.InputStream {
 
     /**
      * Reads an array of unsigned CORBA longlongs (that is, Java longs) from this input stream.
-     * 
+     *
      * @param value returned array of CORBA longs (that is, Java longs).
      * @param offset offset on the stream.
      * @param length length of buffer to read
@@ -222,7 +222,7 @@ public abstract class InputStream extends java.io.InputStream {
 
     /**
      * Reads an array of floats from this input stream.
-     * 
+     *
      * @param value returned array of floats.
      * @param offset offset on the stream.
      * @param length length of buffer to read
@@ -231,7 +231,7 @@ public abstract class InputStream extends java.io.InputStream {
 
     /**
      * Reads an array of boubles from this input stream.
-     * 
+     *
      * @param value returned array of doubles.
      * @param offset offset on the stream.
      * @param length length of buffer to read
@@ -261,11 +261,12 @@ public abstract class InputStream extends java.io.InputStream {
 
     /**
      * Returns principle for invocation.
-     * 
+     *
      * @return Principle for invocation
      * @deprecated Deprecated by CORBA 2.2.
      */
     // @Deprecated
+    @Deprecated
     public org.omg.CORBA.Principal read_Principal() {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
@@ -273,13 +274,14 @@ public abstract class InputStream extends java.io.InputStream {
     /**
      * @see <a href="package-summary.html#unimpl"><code>portable</code> package comments for unimplemented features</a>
      */
+    @Override
     public int read() throws java.io.IOException {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
 
     /**
      * Reads a BigDecimal number.
-     * 
+     *
      * @return a java.math.BigDecimal number
      */
     public java.math.BigDecimal read_fixed() {
@@ -288,7 +290,7 @@ public abstract class InputStream extends java.io.InputStream {
 
     /**
      * Reads a CORBA context from the stream.
-     * 
+     *
      * @return a CORBA context
      * @see <a href="package-summary.html#unimpl"><code>portable</code> package comments for unimplemented features</a>
      */

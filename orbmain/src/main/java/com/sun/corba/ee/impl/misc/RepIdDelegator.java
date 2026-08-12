@@ -32,106 +32,131 @@ import java.net.MalformedURLException;
 public final class RepIdDelegator implements RepositoryIdStrings, RepositoryIdUtility, RepositoryIdInterface {
     // RepositoryIdFactory methods
 
+    @Override
     public String createForAnyType(Class type) {
         return RepositoryId.createForAnyType(type);
     }
 
+    @Override
     public String createForAnyType(Class type, ClassInfoCache.ClassInfo cinfo) {
         return RepositoryId.createForAnyType(type, cinfo);
     }
 
+    @Override
     public String createForJavaType(Serializable ser) throws TypeMismatchException {
         return RepositoryId.createForJavaType(ser);
     }
 
+    @Override
     public String createForJavaType(Class clz) throws TypeMismatchException {
         return RepositoryId.createForJavaType(clz);
     }
 
+    @Override
     public String createForJavaType(Class clz, ClassInfoCache.ClassInfo cinfo) throws TypeMismatchException {
         return RepositoryId.createForJavaType(clz, cinfo);
     }
 
+    @Override
     public String createSequenceRepID(java.lang.Object ser) {
         return RepositoryId.createSequenceRepID(ser);
     }
 
+    @Override
     public String createSequenceRepID(Class clazz) {
         return RepositoryId.createSequenceRepID(clazz);
     }
 
+    @Override
     public RepositoryIdInterface getFromString(String repIdString) {
         return new RepIdDelegator(RepositoryId.cache.getId(repIdString));
     }
 
     // RepositoryIdUtility methods
 
+    @Override
     public boolean isChunkedEncoding(int valueTag) {
         return RepositoryId.isChunkedEncoding(valueTag);
     }
 
+    @Override
     public boolean isCodeBasePresent(int valueTag) {
         return RepositoryId.isCodeBasePresent(valueTag);
     }
 
+    @Override
     public String getClassDescValueRepId() {
         return RepositoryId.kClassDescValueRepID;
     }
 
+    @Override
     public String getWStringValueRepId() {
         return RepositoryId.kWStringValueRepID;
     }
 
+    @Override
     public int getTypeInfo(int valueTag) {
         return RepositoryId.getTypeInfo(valueTag);
     }
 
+    @Override
     public int getStandardRMIChunkedNoRepStrId() {
         return RepositoryId.kPreComputed_StandardRMIChunked_NoRep;
     }
 
+    @Override
     public int getCodeBaseRMIChunkedNoRepStrId() {
         return RepositoryId.kPreComputed_CodeBaseRMIChunked_NoRep;
     }
 
+    @Override
     public int getStandardRMIChunkedId() {
         return RepositoryId.kPreComputed_StandardRMIChunked;
     }
 
+    @Override
     public int getCodeBaseRMIChunkedId() {
         return RepositoryId.kPreComputed_CodeBaseRMIChunked;
     }
 
+    @Override
     public int getStandardRMIUnchunkedId() {
         return RepositoryId.kPreComputed_StandardRMIUnchunked;
     }
 
+    @Override
     public int getCodeBaseRMIUnchunkedId() {
         return RepositoryId.kPreComputed_CodeBaseRMIUnchunked;
     }
 
+    @Override
     public int getStandardRMIUnchunkedNoRepStrId() {
         return RepositoryId.kPreComputed_StandardRMIUnchunked_NoRep;
     }
 
+    @Override
     public int getCodeBaseRMIUnchunkedNoRepStrId() {
         return RepositoryId.kPreComputed_CodeBaseRMIUnchunked_NoRep;
     }
 
     // RepositoryIdInterface methods
 
+    @Override
     public Class getClassFromType() throws ClassNotFoundException {
         return delegate.getClassFromType();
     }
 
+    @Override
     public Class getClassFromType(String codebaseURL) throws ClassNotFoundException, MalformedURLException {
         return delegate.getClassFromType(codebaseURL);
     }
 
+    @Override
     public Class getClassFromType(Class expectedType, String codebaseURL) throws ClassNotFoundException, MalformedURLException {
         return delegate.getClassFromType(expectedType, codebaseURL);
     }
 
+    @Override
     public String getClassName() {
         return delegate.getClassName();
     }
@@ -148,20 +173,25 @@ public final class RepIdDelegator implements RepositoryIdStrings, RepositoryIdUt
 
     private RepositoryId delegate;
 
+    @Override
     public String toString() {
-        if (delegate != null)
+        if (delegate != null) {
             return delegate.toString();
-        else
+        } else {
             return this.getClass().getName();
+        }
     }
 
+    @Override
     public boolean equals(Object obj) {
-        if (delegate != null)
+        if (delegate != null) {
             return delegate.equals(obj);
-        else
+        } else {
             return super.equals(obj);
+        }
     }
 
+    @Override
     public int hashCode() {
         return delegate.hashCode();
     }

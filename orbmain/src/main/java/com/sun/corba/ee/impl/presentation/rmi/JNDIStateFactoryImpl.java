@@ -133,8 +133,9 @@ public class JNDIStateFactoryImpl implements StateFactory {
 
     private Field getOrbField(Context ctx) {
         Field orbField = orbFields.get(ctx.getClass());
-        if (orbField != null)
+        if (orbField != null) {
             return orbField;
+        }
 
         orbField = AccessController.doPrivileged((PrivilegedAction<Field>) () -> getField(ctx.getClass(), "_orb"));
 
@@ -148,10 +149,11 @@ public class JNDIStateFactoryImpl implements StateFactory {
             field.setAccessible(true);
             return field;
         } catch (NoSuchFieldException e) {
-            if (aClass.getSuperclass() == null)
+            if (aClass.getSuperclass() == null) {
                 return null;
-            else
+            } else {
                 return getField(aClass.getSuperclass(), fieldName);
+            }
         }
     }
 }

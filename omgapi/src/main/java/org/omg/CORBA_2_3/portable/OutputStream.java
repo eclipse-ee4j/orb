@@ -34,7 +34,7 @@ public abstract class OutputStream extends org.omg.CORBA.portable.OutputStream {
 
     /**
      * Marshals a value type to the output stream.
-     * 
+     *
      * @param value is the acutal value to write
      */
     public void write_value(java.io.Serializable value) {
@@ -43,7 +43,7 @@ public abstract class OutputStream extends org.omg.CORBA.portable.OutputStream {
 
     /**
      * Marshals a value type to the output stream.
-     * 
+     *
      * @param value is the acutal value to write
      * @param clz is the declared type of the value to be marshaled
      */
@@ -53,7 +53,7 @@ public abstract class OutputStream extends org.omg.CORBA.portable.OutputStream {
 
     /**
      * Marshals a value type to the output stream.
-     * 
+     *
      * @param value is the acutal value to write
      * @param repository_id identifies the type of the value type to be marshaled
      */
@@ -63,7 +63,7 @@ public abstract class OutputStream extends org.omg.CORBA.portable.OutputStream {
 
     /**
      * Marshals a value type to the output stream.
-     * 
+     *
      * @param value is the acutal value to write
      * @param factory is the instance of the helper to be used for marshaling the boxed value
      */
@@ -73,7 +73,7 @@ public abstract class OutputStream extends org.omg.CORBA.portable.OutputStream {
 
     /**
      * Marshals a value object or a stub object.
-     * 
+     *
      * @param obj the actual value object to marshal or the stub to be marshalled
      */
     public void write_abstract_interface(java.lang.Object obj) {

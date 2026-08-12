@@ -38,7 +38,6 @@ import com.sun.corba.ee.spi.transport.TransportManager;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -62,9 +61,9 @@ public class TransportManagerImpl implements TransportManager {
 
     public TransportManagerImpl(ORB orb) {
         this.orb = orb;
-        acceptors = new ArrayList<Acceptor>();
-        outboundConnectionCaches = new HashMap<String, OutboundConnectionCache>();
-        inboundConnectionCaches = new HashMap<String, InboundConnectionCache>();
+        acceptors = new ArrayList<>();
+        outboundConnectionCaches = new HashMap<>();
+        inboundConnectionCaches = new HashMap<>();
         selector = new SelectorImpl(orb);
         ManagedObjectManager mom = orb.mom();
         if (mom != null) {
@@ -72,10 +71,12 @@ public class TransportManagerImpl implements TransportManager {
         }
     }
 
+    @Override
     public ByteBufferPool getByteBufferPool(int id) {
         throw new RuntimeException();
     }
 
+    @Override
     public OutboundConnectionCache getOutboundConnectionCache(ContactInfo contactInfo) {
         synchronized (contactInfo) {
             if (contactInfo.getConnectionCache() == null) {
@@ -104,14 +105,17 @@ public class TransportManagerImpl implements TransportManager {
         }
     }
 
+    @Override
     public Collection<OutboundConnectionCache> getOutboundConnectionCaches() {
         return outboundConnectionCaches.values();
     }
 
+    @Override
     public Collection<InboundConnectionCache> getInboundConnectionCaches() {
         return inboundConnectionCaches.values();
     }
 
+    @Override
     public InboundConnectionCache getInboundConnectionCache(Acceptor acceptor) {
         synchronized (acceptor) {
             if (acceptor.getConnectionCache() == null) {
@@ -137,24 +141,29 @@ public class TransportManagerImpl implements TransportManager {
         }
     }
 
+    @Override
     public Selector getSelector() {
         return selector;
     }
 
+    @Override
     public Selector getSelector(int id) {
         return selector;
     }
 
+    @Override
     @Transport
     public synchronized void registerAcceptor(Acceptor acceptor) {
         acceptors.add(acceptor);
     }
 
+    @Override
     @Transport
     public synchronized void unregisterAcceptor(Acceptor acceptor) {
         acceptors.remove(acceptor);
     }
 
+    @Override
     @Transport
     public void close() {
         for (OutboundConnectionCache cc : outboundConnectionCaches.values()) {
@@ -173,6 +182,7 @@ public class TransportManagerImpl implements TransportManager {
     // CorbaTransportManager
     //
 
+    @Override
     public Collection<Acceptor> getAcceptors() {
         return getAcceptors(null, null);
     }
@@ -181,6 +191,7 @@ public class TransportManagerImpl implements TransportManager {
     private void display(String msg) {
     }
 
+    @Override
     @Transport
     public Collection<Acceptor> getAcceptors(String objectAdapterManagerId, ObjectAdapterId objectAdapterId) {
         // REVISIT - need to filter based on arguments.
@@ -199,22 +210,23 @@ public class TransportManagerImpl implements TransportManager {
     }
 
     // REVISIT - POA specific policies
+    @Override
     @Transport
     public void addToIORTemplate(IORTemplate iorTemplate, Policies policies, String codebase, String objectAdapterManagerId,
             ObjectAdapterId objectAdapterId) {
-        Iterator iterator = getAcceptors(objectAdapterManagerId, objectAdapterId).iterator();
-        while (iterator.hasNext()) {
-            Acceptor acceptor = (Acceptor) iterator.next();
+        for (Acceptor acceptor : getAcceptors(objectAdapterManagerId, objectAdapterId)) {
             acceptor.addToIORTemplate(iorTemplate, policies, codebase);
         }
     }
 
     private ThreadLocal currentMessageTraceManager = new ThreadLocal() {
+        @Override
         public Object initialValue() {
             return new MessageTraceManagerImpl();
         }
     };
 
+    @Override
     public MessageTraceManager getMessageTraceManager() {
         return (MessageTraceManager) (currentMessageTraceManager.get());
     }

@@ -28,12 +28,6 @@ import com.sun.corba.ee.impl.misc.ORBUtility;
 import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 
 import org.omg.CORBA.SystemException;
-import org.omg.PortableInterceptor.ClientRequestInfo;
-import org.omg.PortableInterceptor.ClientRequestInterceptor;
-import org.omg.PortableInterceptor.ForwardRequest;
-import org.omg.PortableInterceptor.ORBInitInfo;
-import org.omg.PortableInterceptor.ORBInitializer;
-import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
 public class RetryClientRequestInterceptor extends org.omg.CORBA.LocalObject implements ORBInitializer, ClientRequestInterceptor {
     private static final String baseMsg = RetryClientRequestInterceptor.class.getName();
@@ -64,6 +58,7 @@ public class RetryClientRequestInterceptor extends org.omg.CORBA.LocalObject imp
 
     // NOTE: Cannot use slots since they are reset on retry.
     private ThreadLocal backoffAndStartTime = new ThreadLocal() {
+        @Override
         protected Object initialValue() {
             return new BackoffAndStartTime();
         }

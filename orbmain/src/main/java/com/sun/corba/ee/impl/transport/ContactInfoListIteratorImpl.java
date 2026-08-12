@@ -89,7 +89,7 @@ public class ContactInfoListIteratorImpl implements ContactInfoListIterator {
         this.failureException = null;
 
         this.waiter = tcpTimeouts.waiter();
-        this.failedEndpoints = new HashSet<ContactInfo>();
+        this.failedEndpoints = new HashSet<>();
 
         this.usePRLB = usePerRequestLoadBalancing;
 
@@ -118,6 +118,7 @@ public class ContactInfoListIteratorImpl implements ContactInfoListIterator {
     // java.util.Iterator
     //
 
+    @Override
     @Transport
     public boolean hasNext() {
         boolean result = false;
@@ -166,6 +167,7 @@ public class ContactInfoListIteratorImpl implements ContactInfoListIterator {
         return result;
     }
 
+    @Override
     @Transport
     public ContactInfo next() {
         if (retryWithPreviousContactInfo) {
@@ -184,7 +186,7 @@ public class ContactInfoListIteratorImpl implements ContactInfoListIterator {
         // We also hold onto it for the sticky manager.
 
         if (primaryToContactInfo != null) {
-            previousContactInfo = (ContactInfo) primaryToContactInfo.next(primaryContactInfo, previousContactInfo, listOfContactInfos);
+            previousContactInfo = primaryToContactInfo.next(primaryContactInfo, previousContactInfo, listOfContactInfos);
         } else {
             previousContactInfo = effectiveTargetIORIterator.next();
         }
@@ -201,14 +203,17 @@ public class ContactInfoListIteratorImpl implements ContactInfoListIterator {
         return previousContactInfo;
     }
 
+    @Override
     public void remove() {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public ContactInfoList getContactInfoList() {
         return contactInfoList;
     }
 
+    @Override
     @Transport
     public void reportSuccess(ContactInfo contactInfo) {
         display("contactInfo", contactInfo);
@@ -216,6 +221,7 @@ public class ContactInfoListIteratorImpl implements ContactInfoListIterator {
         waiter.reset(); // not strictly necessary
     }
 
+    @Override
     @Transport
     public boolean reportException(ContactInfo contactInfo, RuntimeException ex) {
         boolean result = false;
@@ -259,6 +265,7 @@ public class ContactInfoListIteratorImpl implements ContactInfoListIterator {
         return result;
     }
 
+    @Override
     public RuntimeException getFailureException() {
         if (failureException == null) {
             return wrapper.invalidContactInfoListIteratorFailureException();
@@ -272,6 +279,7 @@ public class ContactInfoListIteratorImpl implements ContactInfoListIterator {
     // spi.CorbaContactInfoListIterator
     //
 
+    @Override
     @Transport
     public void reportAddrDispositionRetry(ContactInfo contactInfo, short disposition) {
         previousContactInfo.setAddressingDisposition(disposition);
@@ -279,6 +287,7 @@ public class ContactInfoListIteratorImpl implements ContactInfoListIterator {
         waiter.reset(); // necessary
     }
 
+    @Override
     @Transport
     public void reportRedirect(ContactInfo contactInfo, IOR forwardedIOR) {
         updateEffectiveTargetIOR(forwardedIOR);

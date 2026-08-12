@@ -24,13 +24,12 @@ import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.spi.orb.ORB;
 
 import org.omg.CORBA.Any;
+import org.omg.CORBA.DynAny;
 import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.DynAnyPackage.InvalidValue;
+import org.omg.CORBA.DynAnyPackage.TypeMismatch;
 import org.omg.CORBA.ORBPackage.InvalidName;
 import org.omg.CORBA.portable.OutputStream;
-import org.omg.DynamicAny.DynAny;
-import org.omg.DynamicAny.DynAnyFactory;
-import org.omg.DynamicAny.DynAnyPackage.InvalidValue;
-import org.omg.DynamicAny.DynAnyPackage.TypeMismatch;
 
 abstract class DynAnyImpl extends org.omg.CORBA.LocalObject implements DynAny {
     protected static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;

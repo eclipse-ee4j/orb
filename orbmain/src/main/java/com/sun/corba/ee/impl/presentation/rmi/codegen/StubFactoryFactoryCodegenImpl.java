@@ -27,6 +27,7 @@ public class StubFactoryFactoryCodegenImpl extends StubFactoryFactoryDynamicBase
         super();
     }
 
+    @Override
     public PresentationManager.StubFactory makeDynamicStubFactory(PresentationManager pm, PresentationManager.ClassData classData,
             ClassLoader classLoader) {
         return new StubFactoryCodegenImpl(pm, classData, classLoader);

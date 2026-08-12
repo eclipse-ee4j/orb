@@ -35,17 +35,20 @@ public class ContextListImpl extends ContextList {
     public ContextListImpl(org.omg.CORBA.ORB orb) {
         // Note: This orb could be an instanceof ORBSingleton or ORB
         _orb = orb;
-        _contexts = new ArrayList<String>(INITIAL_CAPACITY);
+        _contexts = new ArrayList<>(INITIAL_CAPACITY);
     }
 
+    @Override
     public synchronized int count() {
         return _contexts.size();
     }
 
+    @Override
     public synchronized void add(String ctxt) {
         _contexts.add(ctxt);
     }
 
+    @Override
     public synchronized String item(int index) throws Bounds {
         try {
             return _contexts.get(index);
@@ -54,6 +57,7 @@ public class ContextListImpl extends ContextList {
         }
     }
 
+    @Override
     public synchronized void remove(int index) throws Bounds {
         try {
             _contexts.remove(index);

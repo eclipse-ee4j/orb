@@ -41,18 +41,22 @@ public class SendingContextServiceContextImpl extends ServiceContextBase impleme
         ior = IORFactories.makeIOR((ORB) is.orb(), is);
     }
 
+    @Override
     public int getId() {
         return SERVICE_CONTEXT_ID;
     }
 
+    @Override
     public void writeData(OutputStream os) {
         ior.write(os);
     }
 
+    @Override
     public IOR getIOR() {
         return ior;
     }
 
+    @Override
     public String toString() {
         return "SendingContexServiceContextImpl[ ior=" + ior + " ]";
     }

@@ -252,7 +252,7 @@ public class BufferManagerReadStream implements BufferManagerRead, MarkAndResetH
         }
 
         if (fragmentStack == null) {
-            fragmentStack = new LinkedList<ByteBuffer>();
+            fragmentStack = new LinkedList<>();
         }
 
         fragmentStack.addFirst(newFrament.duplicate());

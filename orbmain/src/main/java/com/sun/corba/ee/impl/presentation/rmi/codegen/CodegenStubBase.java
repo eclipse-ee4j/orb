@@ -81,6 +81,7 @@ public class CodegenStubBase extends Stub {
 
     private static StubDelegateImpl getStubDelegateImplField(final org.omg.CORBA.Object stub) {
         return (StubDelegateImpl) AccessController.doPrivileged(new PrivilegedAction() {
+            @Override
             public Object run() {
                 try {
                     Field fld = Stub.class.getDeclaredField("stubDelegate");
@@ -97,6 +98,7 @@ public class CodegenStubBase extends Stub {
 
     private static void setDefaultDelegate(final org.omg.CORBA.Object stub) {
         AccessController.doPrivileged(new PrivilegedAction() {
+            @Override
             public Object run() {
                 try {
                     if (setDefaultDelegateMethod == null) {
@@ -140,6 +142,7 @@ public class CodegenStubBase extends Stub {
         initialize(classData, handler);
     }
 
+    @Override
     public String[] _ids() {
         return typeIds.clone();
     }
@@ -149,7 +152,7 @@ public class CodegenStubBase extends Stub {
      * InvocationHandler and the Stub: the InvocationHandler needs the stub in order to get the delegate, and the Stub needs
      * the InvocationHandler to perform an invocation. We resolve this dependency by constructing the Stub first, using the
      * stub to construct the InvocationHandler, and then completing the initialization of the Stub by calling initialize.
-     * 
+     *
      * @param classData ClassData for codegen
      * @param handler InvocationHandler to use
      */

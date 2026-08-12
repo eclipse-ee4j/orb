@@ -28,8 +28,9 @@ import org.omg.CORBA_2_3.portable.OutputStream;
 abstract class ObjectAdapterIdBase implements ObjectAdapterId {
     @Override
     public boolean equals(Object other) {
-        if (!(other instanceof ObjectAdapterId))
+        if (!(other instanceof ObjectAdapterId)) {
             return false;
+        }
 
         ObjectAdapterId theOther = (ObjectAdapterId) other;
 
@@ -40,8 +41,9 @@ abstract class ObjectAdapterIdBase implements ObjectAdapterId {
             String str1 = iter1.next();
             String str2 = iter2.next();
 
-            if (!str1.equals(str2))
+            if (!str1.equals(str2)) {
                 return false;
+            }
         }
 
         return iter1.hasNext() == iter2.hasNext();
@@ -63,10 +65,11 @@ abstract class ObjectAdapterIdBase implements ObjectAdapterId {
 
         boolean first = true;
         for (String str : this) {
-            if (first)
+            if (first) {
                 first = false;
-            else
+            } else {
                 buff.append("/");
+            }
 
             buff.append(str);
         }
@@ -76,6 +79,7 @@ abstract class ObjectAdapterIdBase implements ObjectAdapterId {
         return buff.toString();
     }
 
+    @Override
     public void write(OutputStream os) {
         os.write_long(getNumLevels());
         for (String str : this) {

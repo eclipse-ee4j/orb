@@ -70,16 +70,18 @@ public final class InitializerSeqHelper
         com.sun.org.omg.CORBA.Initializer value[] = null;
         int _len0 = istream.read_long ();
         value = new com.sun.org.omg.CORBA.Initializer[_len0];
-        for (int _o1 = 0;_o1 < value.length; ++_o1)
+        for (int _o1 = 0;_o1 < value.length; ++_o1) {
             value[_o1] = com.sun.org.omg.CORBA.InitializerHelper.read (istream);
+        }
         return value;
     }
 
     public static void write (org.omg.CORBA.portable.OutputStream ostream, com.sun.org.omg.CORBA.Initializer[] value)
     {
         ostream.write_long (value.length);
-        for (int _i0 = 0;_i0 < value.length; ++_i0)
-            com.sun.org.omg.CORBA.InitializerHelper.write (ostream, value[_i0]);
+        for (Initializer element : value) {
+            com.sun.org.omg.CORBA.InitializerHelper.write (ostream, element);
+        }
     }
 
 }

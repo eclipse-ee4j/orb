@@ -26,12 +26,10 @@ package com.sun.corba.ee.impl.folb;
 
 import com.sun.corba.ee.spi.folb.ClusterInstanceInfo;
 import com.sun.corba.ee.spi.ior.IOR;
+import com.sun.corba.ee.spi.ior.TaggedComponent;
 import com.sun.corba.ee.spi.transport.SocketInfo;
 
 import java.util.List;
-
-import org.omg.IOP.TaggedComponent;
-import org.omg.PortableInterceptor.IORInfo;
 
 /**
  * An implementation of this interface <code>org.omg.CORBA.LocalObject</code>. An instance of this interface is plugged
@@ -54,7 +52,7 @@ public interface CSIv2SSLTaggedComponentHandler {
      * Extract is called on each invocation of the IOR, so that the security code can run properly. If the given IOR
      * contains CSIv2SSL host/port info that should be used for this invocation then extract should return a List of
      * SocketInfo. Otherwise it should return null.
-     * 
+     *
      * @param ior The target ior of the current invocation.
      * @return List of all SocketInfos found in the IOR.
      */

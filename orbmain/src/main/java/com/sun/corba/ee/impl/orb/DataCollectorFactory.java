@@ -35,8 +35,9 @@ public abstract class DataCollectorFactory {
         if (app != null) {
             URL appletCodeBase = app.getCodeBase();
 
-            if (appletCodeBase != null)
+            if (appletCodeBase != null) {
                 appletHost = appletCodeBase.getHost();
+            }
         }
 
         return new AppletDataCollector(app, props, localHostName, appletHost);

@@ -53,16 +53,19 @@ public class RequestPartitioningPolicy extends LocalObject implements Policy
         return value;
     }
 
+    @Override
     public int policy_type()
     {
         return ORBConstants.REQUEST_PARTITIONING_POLICY;
     }
 
+    @Override
     public org.omg.CORBA.Policy copy()
     {
         return this;
     }
 
+    @Override
     public void destroy()
     {
         // NO-OP

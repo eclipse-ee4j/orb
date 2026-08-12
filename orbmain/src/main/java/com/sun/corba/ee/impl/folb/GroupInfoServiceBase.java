@@ -41,8 +41,9 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
  */
 @Folb
 public abstract class GroupInfoServiceBase extends org.omg.CORBA.LocalObject implements GroupInfoService {
-    private List<GroupInfoServiceObserver> observers = new LinkedList<GroupInfoServiceObserver>();
+    private List<GroupInfoServiceObserver> observers = new LinkedList<>();
 
+    @Override
     @Folb
     public boolean addObserver(GroupInfoServiceObserver x) {
         return observers.add(x);
@@ -52,6 +53,7 @@ public abstract class GroupInfoServiceBase extends org.omg.CORBA.LocalObject imp
     private void observerInfo(GroupInfoServiceObserver obs) {
     }
 
+    @Override
     @Folb
     public void notifyObservers() {
         for (GroupInfoServiceObserver observer : observers) {
@@ -60,6 +62,7 @@ public abstract class GroupInfoServiceBase extends org.omg.CORBA.LocalObject imp
         }
     }
 
+    @Override
     @Folb
     public List<ClusterInstanceInfo> getClusterInstanceInfo(String[] adapterName) {
 
@@ -68,6 +71,7 @@ public abstract class GroupInfoServiceBase extends org.omg.CORBA.LocalObject imp
         return internalInfo == null ? new ArrayList<>() : new ArrayList<>(internalInfo);
     }
 
+    @Override
     public List<ClusterInstanceInfo> getClusterInstanceInfo(String[] adapterName, List<String> endpoints) {
 
         // Make a copy of the internal data
@@ -75,18 +79,20 @@ public abstract class GroupInfoServiceBase extends org.omg.CORBA.LocalObject imp
         return internalInfo == null ? new ArrayList<>() : new ArrayList<>(internalInfo);
     }
 
+    @Override
     @Folb
     public boolean shouldAddAddressesToNonReferenceFactory(String[] adapterName) {
         return false;
     }
 
+    @Override
     @Folb
     public boolean shouldAddMembershipLabel(String[] adapterName) {
         return true;
     }
 
     public List<ClusterInstanceInfo> internalClusterInstanceInfo() {
-        final List<String> endpoints = new ArrayList<String>();
+        final List<String> endpoints = new ArrayList<>();
         return internalClusterInstanceInfo(endpoints);
     }
 

@@ -51,31 +51,36 @@ public class RequestDispatcherRegistryImpl implements RequestDispatcherRegistry 
 
     public RequestDispatcherRegistryImpl(int defaultId) {
         this.defaultId = defaultId;
-        SDRegistry = new DenseIntMapImpl<ServerRequestDispatcher>();
-        CSRegistry = new DenseIntMapImpl<ClientRequestDispatcher>();
-        OAFRegistry = new DenseIntMapImpl<ObjectAdapterFactory>();
-        LCSFRegistry = new DenseIntMapImpl<LocalClientRequestDispatcherFactory>();
-        objectAdapterFactories = new HashSet<ObjectAdapterFactory>();
+        SDRegistry = new DenseIntMapImpl<>();
+        CSRegistry = new DenseIntMapImpl<>();
+        OAFRegistry = new DenseIntMapImpl<>();
+        LCSFRegistry = new DenseIntMapImpl<>();
+        objectAdapterFactories = new HashSet<>();
         objectAdapterFactoriesView = Collections.unmodifiableSet(objectAdapterFactories);
-        stringToServerSubcontract = new HashMap<String, ServerRequestDispatcher>();
+        stringToServerSubcontract = new HashMap<>();
     }
 
+    @Override
     public synchronized void registerClientRequestDispatcher(ClientRequestDispatcher csc, int scid) {
         CSRegistry.set(scid, csc);
     }
 
+    @Override
     public synchronized void registerLocalClientRequestDispatcherFactory(LocalClientRequestDispatcherFactory csc, int scid) {
         LCSFRegistry.set(scid, csc);
     }
 
+    @Override
     public synchronized void registerServerRequestDispatcher(ServerRequestDispatcher ssc, int scid) {
         SDRegistry.set(scid, ssc);
     }
 
+    @Override
     public synchronized void registerServerRequestDispatcher(ServerRequestDispatcher scc, String name) {
         stringToServerSubcontract.put(name, scc);
     }
 
+    @Override
     public synchronized void registerObjectAdapterFactory(ObjectAdapterFactory oaf, int scid) {
         objectAdapterFactories.add(oaf);
         OAFRegistry.set(scid, oaf);
@@ -93,23 +98,28 @@ public class RequestDispatcherRegistryImpl implements RequestDispatcherRegistry 
     // which must return a valid ServerRequestDispatcher. A bad subcontract ID
     // will similarly need to return the default ServerRequestDispatcher.
 
+    @Override
     public ServerRequestDispatcher getServerRequestDispatcher(int scid) {
         ServerRequestDispatcher sdel = SDRegistry.get(scid);
-        if (sdel == null)
+        if (sdel == null) {
             sdel = SDRegistry.get(defaultId);
+        }
 
         return sdel;
     }
 
+    @Override
     public ServerRequestDispatcher getServerRequestDispatcher(String name) {
         ServerRequestDispatcher sdel = stringToServerSubcontract.get(name);
 
-        if (sdel == null)
+        if (sdel == null) {
             sdel = SDRegistry.get(defaultId);
+        }
 
         return sdel;
     }
 
+    @Override
     public LocalClientRequestDispatcherFactory getLocalClientRequestDispatcherFactory(int scid) {
         LocalClientRequestDispatcherFactory factory = LCSFRegistry.get(scid);
         if (factory == null) {
@@ -119,6 +129,7 @@ public class RequestDispatcherRegistryImpl implements RequestDispatcherRegistry 
         return factory;
     }
 
+    @Override
     public ClientRequestDispatcher getClientRequestDispatcher(int scid) {
         ClientRequestDispatcher subcontract = CSRegistry.get(scid);
         if (subcontract == null) {
@@ -128,14 +139,17 @@ public class RequestDispatcherRegistryImpl implements RequestDispatcherRegistry 
         return subcontract;
     }
 
+    @Override
     public ObjectAdapterFactory getObjectAdapterFactory(int scid) {
         ObjectAdapterFactory oaf = OAFRegistry.get(scid);
-        if (oaf == null)
+        if (oaf == null) {
             oaf = OAFRegistry.get(defaultId);
+        }
 
         return oaf;
     }
 
+    @Override
     public Set<ObjectAdapterFactory> getObjectAdapterFactories() {
         return objectAdapterFactoriesView;
     }

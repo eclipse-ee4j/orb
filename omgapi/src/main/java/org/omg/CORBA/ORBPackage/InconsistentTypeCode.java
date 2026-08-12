@@ -34,7 +34,7 @@ public final class InconsistentTypeCode extends org.omg.CORBA.UserException {
 
     /**
      * Constructs an <code>InconsistentTypeCode</code> user exception with the specified reason message.
-     * 
+     *
      * @param reason The String containing a reason message
      */
     public InconsistentTypeCode(String reason) {

@@ -26,12 +26,12 @@ import com.sun.corba.ee.spi.orb.ORB;
 import java.math.BigDecimal;
 
 import org.omg.CORBA.Any;
+import org.omg.CORBA.DynAny;
 import org.omg.CORBA.TCKind;
 import org.omg.CORBA.TypeCode;
+import org.omg.CORBA.DynAnyPackage.TypeMismatch;
+import org.omg.CORBA.ORBPackage.InconsistentTypeCode;
 import org.omg.CORBA.portable.InputStream;
-import org.omg.DynamicAny.DynAny;
-import org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode;
-import org.omg.DynamicAny.DynAnyPackage.TypeMismatch;
 
 public class DynAnyUtil {
     private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
@@ -146,11 +146,11 @@ public class DynAnyUtil {
                 break;
             case TCKind._tk_longlong:
                 // zero for numeric types
-                returnValue.insert_longlong((long) 0);
+                returnValue.insert_longlong(0);
                 break;
             case TCKind._tk_ulonglong:
                 // zero for numeric types
-                returnValue.insert_ulonglong((long) 0);
+                returnValue.insert_ulonglong(0);
                 break;
             case TCKind._tk_float:
                 // zero for numeric types

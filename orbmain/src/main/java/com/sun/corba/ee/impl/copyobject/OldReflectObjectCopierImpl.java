@@ -110,10 +110,11 @@ public class OldReflectObjectCopierImpl implements ObjectCopier {
             } else if (name.equals("java.sql.Date")) {
                 isSQLDate = true;
             } else {
-                if (Externalizable.class.isAssignableFrom(cls))
+                if (Externalizable.class.isAssignableFrom(cls)) {
                     constr = getExternalizableConstructor(cls);
-                else if (Serializable.class.isAssignableFrom(cls))
+                } else if (Serializable.class.isAssignableFrom(cls)) {
                     constr = getSerializableConstructor(cls);
+                }
                 if (constr != null) {
                     constr.setAccessible(true);
                 }
@@ -122,13 +123,14 @@ public class OldReflectObjectCopierImpl implements ObjectCopier {
                 superClass = cls.getSuperclass();
             }
         }
-    };
+    }
 
     /**
      * Bridge is used to access the reflection factory for obtaining serialization constructors. This must be carefully
      * protected!
      */
     private static final Bridge bridge = (Bridge) AccessController.doPrivileged(new PrivilegedAction() {
+        @Override
         public Object run() {
             return Bridge.get();
         }
@@ -194,7 +196,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier {
     /**
      * Gets the reflection attributes for a class from the cache or if it is not in the cache yet, computes the attributes
      * and populates the cache
-     * 
+     *
      * @param cls the class whose attributes are needed
      * @return the attributes needed for reflection
      *
@@ -224,7 +226,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier {
 
     /**
      * Utility to copy array of primitive types or objects. Used by local stubs to copy objects
-     * 
+     *
      * @param obj the object to copy or connect.
      * @return the copied object.
      * @exception RemoteException if any object could not be copied.
@@ -275,7 +277,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier {
 
     /**
      * Utility to copy fields of an object. Used by local stub to copy objects
-     * 
+     *
      * @param obj the object whose fields need to be copied
      * @exception RemoteException if any object could not be copied.
      */
@@ -349,8 +351,9 @@ public class OldReflectObjectCopierImpl implements ObjectCopier {
             throws RemoteException, InstantiationException, IllegalAccessException, InvocationTargetException {
         // regular object, so copy the fields over
         Constructor cons = attrs.constr;
-        if (cons == null)
+        if (cons == null) {
             throw new IllegalArgumentException("Class " + attrs.thisClass + " is not Serializable");
+        }
 
         Object copy = cons.newInstance();
 
@@ -369,15 +372,16 @@ public class OldReflectObjectCopierImpl implements ObjectCopier {
 
     /**
      * Utility to copy objects using Java reflection. Used by the local stub to copy objects
-     * 
+     *
      * @param obj the object to copy or connect.
      * @return the copied object.
      */
     private Object reflectCopy(Object obj)
             throws RemoteException, InstantiationException, IllegalAccessException, InvocationTargetException {
         // Always check for nulls here, so we don't need to check in other places.
-        if (obj == null)
+        if (obj == null) {
             return null;
+        }
 
         Class cls = obj.getClass();
         ReflectAttrs attrs = getClassAttrs(cls);
@@ -433,6 +437,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier {
     public Object copy(final Object obj) throws ReflectiveCopyException {
         try {
             return AccessController.doPrivileged(new PrivilegedExceptionAction() {
+                @Override
                 public Object run() throws RemoteException, InstantiationException, IllegalAccessException, InvocationTargetException {
                     return reflectCopy(obj);
                 }

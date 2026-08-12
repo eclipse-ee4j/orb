@@ -62,10 +62,12 @@ public final class OutboundConnectionCacheImpl<C extends Connection> extends Con
     private final ConcurrentMap<ContactInfo<C>, CacheEntry<C>> entryMap;
     private final ConcurrentMap<C, ConnectionState<C>> connectionMap;
 
+    @Override
     public int maxParallelConnections() {
         return maxParallelConnections;
     }
 
+    @Override
     protected String thisClassName() {
         return "OutboundConnectionCacheImpl";
     }
@@ -130,25 +132,28 @@ public final class OutboundConnectionCacheImpl<C extends Connection> extends Con
         super(cacheType, highWaterMark, numberToReclaim, ttl);
         this.maxParallelConnections = maxParallelConnections;
 
-        this.entryMap = new ConcurrentHashMap<ContactInfo<C>, CacheEntry<C>>();
-        this.connectionMap = new ConcurrentHashMap<C, ConnectionState<C>>();
+        this.entryMap = new ConcurrentHashMap<>();
+        this.connectionMap = new ConcurrentHashMap<>();
         this.reclaimableConnections = ConcurrentQueueFactory.<C>makeBlockingConcurrentQueue(ttl);
     }
 
     // We do not need to define equals or hashCode for this class.
 
+    @Override
     public C get(final ContactInfo<C> cinfo, ConnectionFinder<C> finder) throws IOException {
 
         return get(cinfo);
     }
 
+    @Override
     public C get(final ContactInfo<C> cinfo) throws IOException {
         final CacheEntry<C> entry = getEntry(cinfo);
         C result = null;
 
         final int totalConnections = totalBusy.get() + totalIdle.get();
-        if (totalConnections >= highWaterMark())
+        if (totalConnections >= highWaterMark()) {
             reclaim();
+        }
 
         do {
             result = entry.idleConnections.poll().value();
@@ -159,7 +164,7 @@ public final class OutboundConnectionCacheImpl<C extends Connection> extends Con
                     // connection creation failure.
                     result = cinfo.createConnection();
 
-                    final ConnectionState<C> cs = new ConnectionState<C>(cinfo, entry, result);
+                    final ConnectionState<C> cs = new ConnectionState<>(cinfo, entry, result);
                     connectionMap.put(result, cs);
 
                     // Make sure this connection is busy: it is
@@ -203,6 +208,7 @@ public final class OutboundConnectionCacheImpl<C extends Connection> extends Con
         return result;
     }
 
+    @Override
     public void release(final C conn, final int numResponsesExpected) {
         try {
             final ConnectionState<C> cs = connectionMap.get(conn);
@@ -217,8 +223,9 @@ public final class OutboundConnectionCacheImpl<C extends Connection> extends Con
                     final ConcurrentQueue.Handle busyHandle = cs.busyHandle;
                     final CacheEntry<C> entry = cs.entry;
                     boolean wasOnBusy = false;
-                    if (busyHandle != null)
+                    if (busyHandle != null) {
                         wasOnBusy = busyHandle.remove();
+                    }
 
                     if (wasOnBusy) {
                         // At this point, it is possible that we have removed a
@@ -257,6 +264,7 @@ public final class OutboundConnectionCacheImpl<C extends Connection> extends Con
      * Decrement the number of expected responses. When a connection is idle and has no expected responses, it can be
      * reclaimed.
      */
+    @Override
     public void responseReceived(final C conn) {
         final ConnectionState<C> cs = connectionMap.get(conn);
         if (cs == null) {
@@ -268,17 +276,20 @@ public final class OutboundConnectionCacheImpl<C extends Connection> extends Con
         final int waitCount = cs.expectedResponseCount.decrementAndGet();
         if (waitCount == 0) {
             boolean wasOnIdle = false;
-            if (cs != null)
+            if (cs != null) {
                 wasOnIdle = cs.idleHandle.remove();
+            }
 
-            if (wasOnIdle)
+            if (wasOnIdle) {
                 cs.reclaimableHandle = reclaimableConnections.offer(conn);
+            }
         }
     }
 
     /**
      * Close a connection, regardless of whether the connection is busy or not.
      */
+    @Override
     public void close(final C conn) {
         final ConnectionState<C> cs = connectionMap.remove(conn);
         if (cs == null) {
@@ -288,16 +299,19 @@ public final class OutboundConnectionCacheImpl<C extends Connection> extends Con
         final CacheEntry<C> entry = entryMap.remove(cs.cinfo);
 
         final ConcurrentQueue.Handle rh = cs.reclaimableHandle;
-        if (rh != null)
+        if (rh != null) {
             rh.remove();
+        }
 
         final ConcurrentQueue.Handle bh = cs.busyHandle;
-        if (bh != null)
+        if (bh != null) {
             bh.remove();
+        }
 
         final ConcurrentQueue.Handle ih = cs.idleHandle;
-        if (ih != null)
+        if (ih != null) {
             ih.remove();
+        }
 
         try {
             conn.close();
@@ -312,10 +326,11 @@ public final class OutboundConnectionCacheImpl<C extends Connection> extends Con
         // This should be the only place a CacheEntry is constructed.
         CacheEntry<C> entry = new CacheEntry();
         CacheEntry<C> result = entryMap.putIfAbsent(cinfo, entry);
-        if (result != null)
+        if (result != null) {
             return result;
-        else
+        } else {
             return entry;
+        }
     }
 
     // Return true iff the configuration and the current entry support
@@ -328,10 +343,12 @@ public final class OutboundConnectionCacheImpl<C extends Connection> extends Con
                 || ((totalConnections < highWaterMark()) && (totalConnectionsInEntry < maxParallelConnections));
     }
 
+    @Override
     public boolean canCreateNewConnection(final ContactInfo<C> cinfo) {
         final CacheEntry<C> entry = entryMap.get(cinfo);
-        if (entry == null)
+        if (entry == null) {
             return true;
+        }
 
         return canCreateNewConnection(entry);
     }

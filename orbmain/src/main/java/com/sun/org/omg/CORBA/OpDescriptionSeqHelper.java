@@ -70,16 +70,18 @@ public final class OpDescriptionSeqHelper
         com.sun.org.omg.CORBA.OperationDescription value[] = null;
         int _len0 = istream.read_long ();
         value = new com.sun.org.omg.CORBA.OperationDescription[_len0];
-        for (int _o1 = 0;_o1 < value.length; ++_o1)
+        for (int _o1 = 0;_o1 < value.length; ++_o1) {
             value[_o1] = com.sun.org.omg.CORBA.OperationDescriptionHelper.read (istream);
+        }
         return value;
     }
 
     public static void write (org.omg.CORBA.portable.OutputStream ostream, com.sun.org.omg.CORBA.OperationDescription[] value)
     {
         ostream.write_long (value.length);
-        for (int _i0 = 0;_i0 < value.length; ++_i0)
+        for (int _i0 = 0;_i0 < value.length; ++_i0) {
             com.sun.org.omg.CORBA.OperationDescriptionHelper.write (ostream, value[_i0]);
+        }
     }
 
 }

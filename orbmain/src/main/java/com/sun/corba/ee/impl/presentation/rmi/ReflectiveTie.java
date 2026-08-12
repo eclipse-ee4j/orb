@@ -60,6 +60,7 @@ public final class ReflectiveTie extends Servant implements Tie {
         return classData.getTypeIds();
     }
 
+    @Override
     public void setTarget(Remote target) {
         this.target = target;
 
@@ -71,14 +72,17 @@ public final class ReflectiveTie extends Servant implements Tie {
         }
     }
 
+    @Override
     public Remote getTarget() {
         return target;
     }
 
+    @Override
     public org.omg.CORBA.Object thisObject() {
         return _this_object();
     }
 
+    @Override
     public void deactivate() {
         try {
             _poa().deactivate_object(_poa().servant_to_id(this));
@@ -91,10 +95,12 @@ public final class ReflectiveTie extends Servant implements Tie {
         }
     }
 
+    @Override
     public org.omg.CORBA.ORB orb() {
         return _orb();
     }
 
+    @Override
     public void orb(org.omg.CORBA.ORB orb) {
         try {
             ((org.omg.CORBA_2_3.ORB) orb).set_delegate(this);
@@ -114,6 +120,7 @@ public final class ReflectiveTie extends Servant implements Tie {
         }
     }
 
+    @Override
     public org.omg.CORBA.portable.OutputStream _invoke(String method, org.omg.CORBA.portable.InputStream _in, ResponseHandler reply) {
         Method javaMethod = null;
         DynamicMethodMarshaller dmm = null;
@@ -122,8 +129,9 @@ public final class ReflectiveTie extends Servant implements Tie {
             InputStream in = (InputStream) _in;
 
             javaMethod = classData.getIDLNameTranslator().getMethod(method);
-            if (javaMethod == null)
+            if (javaMethod == null) {
                 throw wrapper.methodNotFoundInTie(method, target.getClass().getName());
+            }
 
             dmm = pm.getDynamicMethodMarshaller(javaMethod);
 
@@ -141,14 +149,15 @@ public final class ReflectiveTie extends Servant implements Tie {
             // UnknownException or thrown if it is a system exception.
             // This is expected in the server dispatcher code.
             Throwable thr = ex.getCause();
-            if (thr instanceof SystemException)
+            if (thr instanceof SystemException) {
                 throw (SystemException) thr;
-            else if ((thr instanceof Exception) && dmm.isDeclaredException(thr)) {
+            } else if ((thr instanceof Exception) && dmm.isDeclaredException(thr)) {
                 OutputStream os = (OutputStream) reply.createExceptionReply();
                 dmm.writeException(os, (Exception) thr);
                 return os;
-            } else
+            } else {
                 throw new UnknownException(thr);
+            }
         }
     }
 }

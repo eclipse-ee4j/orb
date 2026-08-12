@@ -43,7 +43,7 @@ public final class INV_IDENT extends SystemException {
     /**
      * Constructs an <code>INV_IDENT</code> exception with the specified detail message, a minor code of 0, and a completion
      * state of COMPLETED_NO.
-     * 
+     *
      * @param s the String containing a detail message
      */
     public INV_IDENT(String s) {
@@ -52,7 +52,7 @@ public final class INV_IDENT extends SystemException {
 
     /**
      * Constructs an <code>INV_IDENT</code> exception with the specified minor code and completion status.
-     * 
+     *
      * @param minor the minor code
      * @param completed a <code>CompletionStatus</code> object indicating the completion status
      */
@@ -63,7 +63,7 @@ public final class INV_IDENT extends SystemException {
     /**
      * Constructs an <code>INV_IDENT</code> exception with the specified detail message, minor code, and completion status.
      * A detail message is a String that describes this particular exception.
-     * 
+     *
      * @param s the String containing a detail message
      * @param minor the minor code
      * @param completed a <code>CompletionStatus</code> object indicating the completion status

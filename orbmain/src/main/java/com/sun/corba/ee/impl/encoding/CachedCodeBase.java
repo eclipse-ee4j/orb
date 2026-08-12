@@ -77,16 +77,18 @@ public class CachedCodeBase extends _CodeBaseImplBase {
     public synchronized String implementation(String repId) {
         String urlResult = null;
 
-        if (implementations == null)
-            implementations = new Hashtable<String, String>();
-        else
+        if (implementations == null) {
+            implementations = new Hashtable<>();
+        } else {
             urlResult = implementations.get(repId);
+        }
 
         if (urlResult == null && connectedCodeBase()) {
             urlResult = delegate.implementation(repId);
 
-            if (urlResult != null)
+            if (urlResult != null) {
                 implementations.put(repId, urlResult);
+            }
         }
 
         return urlResult;
@@ -96,8 +98,9 @@ public class CachedCodeBase extends _CodeBaseImplBase {
     public synchronized String[] implementations(String[] repIds) {
         String[] urlResults = new String[repIds.length];
 
-        for (int i = 0; i < urlResults.length; i++)
+        for (int i = 0; i < urlResults.length; i++) {
             urlResults[i] = implementation(repIds[i]);
+        }
 
         return urlResults;
     }
@@ -106,16 +109,18 @@ public class CachedCodeBase extends _CodeBaseImplBase {
     public synchronized FullValueDescription meta(String repId) {
         FullValueDescription result = null;
 
-        if (fvds == null)
-            fvds = new Hashtable<String, FullValueDescription>();
-        else
+        if (fvds == null) {
+            fvds = new Hashtable<>();
+        } else {
             result = fvds.get(repId);
+        }
 
         if (result == null && connectedCodeBase()) {
             result = delegate.meta(repId);
 
-            if (result != null)
+            if (result != null) {
                 fvds.put(repId, result);
+            }
         }
 
         return result;
@@ -125,8 +130,9 @@ public class CachedCodeBase extends _CodeBaseImplBase {
     public synchronized FullValueDescription[] metas(String[] repIds) {
         FullValueDescription[] results = new FullValueDescription[repIds.length];
 
-        for (int i = 0; i < results.length; i++)
+        for (int i = 0; i < results.length; i++) {
             results[i] = meta(repIds[i]);
+        }
 
         return results;
     }
@@ -136,16 +142,18 @@ public class CachedCodeBase extends _CodeBaseImplBase {
 
         String[] results = null;
 
-        if (bases == null)
-            bases = new Hashtable<String, String[]>();
-        else
+        if (bases == null) {
+            bases = new Hashtable<>();
+        } else {
             results = bases.get(repId);
+        }
 
         if (results == null && connectedCodeBase()) {
             results = delegate.bases(repId);
 
-            if (results != null)
+            if (results != null) {
                 bases.put(repId, results);
+            }
         }
 
         return results;
@@ -155,8 +163,9 @@ public class CachedCodeBase extends _CodeBaseImplBase {
     // a valid CodeBase delegate. If this returns false, then
     // it is not valid to access the delegate.
     private synchronized boolean connectedCodeBase() {
-        if (delegate != null)
+        if (delegate != null) {
             return true;
+        }
 
         if (conn.getCodeBaseIOR() == null) {
             // The delegate was null, so see if the connection's
@@ -175,8 +184,9 @@ public class CachedCodeBase extends _CodeBaseImplBase {
         synchronized (iorMapLock) {
             // Do we have a reference initialized by another connection?
             delegate = iorMap.get(conn.getCodeBaseIOR());
-            if (delegate != null)
+            if (delegate != null) {
                 return true;
+            }
 
             // Connect the delegate and update the cache
             delegate = CodeBaseHelper.narrow(getObjectFromIOR());

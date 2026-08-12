@@ -34,6 +34,7 @@ public class ORBDefaultInitRefResolverImpl implements Resolver {
         this.orbDefaultInitRef = orbDefaultInitRef;
     }
 
+    @Override
     public org.omg.CORBA.Object resolve(String ident) {
         // If the ORBDefaultInitRef is not defined simply return null
         if (orbDefaultInitRef == null) {
@@ -54,6 +55,7 @@ public class ORBDefaultInitRefResolverImpl implements Resolver {
         return (org.omg.CORBA.Object) urlHandler.operate(urlString);
     }
 
+    @Override
     public Set<String> list() {
         return new java.util.HashSet();
     }

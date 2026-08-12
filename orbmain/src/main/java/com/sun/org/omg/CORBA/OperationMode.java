@@ -45,10 +45,11 @@ public class OperationMode implements org.omg.CORBA.portable.IDLEntity
 
     public static com.sun.org.omg.CORBA.OperationMode from_int (int value)
     {
-        if (value >= 0 && value < __size)
+        if (value >= 0 && value < __size) {
             return __array[value];
-        else
+        } else {
             throw new org.omg.CORBA.BAD_PARAM ();
+        }
     }
 
     protected OperationMode (int value)

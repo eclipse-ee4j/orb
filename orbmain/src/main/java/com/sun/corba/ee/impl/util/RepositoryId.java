@@ -293,23 +293,26 @@ public class RepositoryId {
             String repId = convertFromISOLatin1(aRepId);
 
             int firstIndex = repId.indexOf(':');
-            if (firstIndex == -1)
+            if (firstIndex == -1) {
                 throw new IllegalArgumentException("RepositoryId must have the form <type>:<body>");
+            }
             int secondIndex = repId.indexOf(':', firstIndex + 1);
 
-            if (secondIndex == -1)
+            if (secondIndex == -1) {
                 versionString = "";
-            else
+            } else {
                 versionString = repId.substring(secondIndex);
+            }
 
             if (repId.startsWith(kIDLPrefix)) {
                 typeString = repId.substring(kIDLPrefixLength, repId.indexOf(':', kIDLPrefixLength));
                 isIDLType = true;
 
-                if (typeString.startsWith(kIDLNamePrefix))
+                if (typeString.startsWith(kIDLNamePrefix)) {
                     completeClassName = kIDLClassnamePrefix + typeString.substring(kIDLNamePrefix.length()).replace('/', '.');
-                else
+                } else {
                     completeClassName = typeString.replace('/', '.');
+                }
 
             } else if (repId.startsWith(kValuePrefix)) {
                 typeString = repId.substring(kValuePrefixLength, repId.indexOf(':', kValuePrefixLength));
@@ -428,12 +431,13 @@ public class RepositoryId {
     // then the matching real classname is returned.
     public final String getClassName() {
 
-        if (isRMIValueType)
+        if (isRMIValueType) {
             return typeString;
-        else if (isIDLType)
+        } else if (isIDLType) {
             return completeClassName;
-        else
+        } else {
             return null;
+        }
     }
 
     // This method calls getClazzFromType() and falls back to the repStrToClass
@@ -444,18 +448,20 @@ public class RepositoryId {
             return getClassFromType();
         } catch (ClassNotFoundException cnfe) {
             Class<?> clz = repStrToClass.get(repId);
-            if (clz != null)
+            if (clz != null) {
                 return clz;
-            else
+            } else {
                 throw cnfe;
+            }
         }
     }
 
     public final Class<?> getClassFromType() throws ClassNotFoundException {
-        if (clazz != null)
+        if (clazz != null) {
             return clazz;
+        }
 
-        Class<?> specialCase = (Class) kSpecialCasesClasses.get(getClassName());
+        Class<?> specialCase = kSpecialCasesClasses.get(getClassName());
 
         if (specialCase != null) {
             clazz = specialCase;
@@ -478,10 +484,11 @@ public class RepositoryId {
     }
 
     public final Class<?> getClassFromType(Class<?> expectedType, String codebase) throws ClassNotFoundException {
-        if (clazz != null)
+        if (clazz != null) {
             return clazz;
+        }
 
-        Class<?> specialCase = (Class) kSpecialCasesClasses.get(getClassName());
+        Class<?> specialCase = kSpecialCasesClasses.get(getClassName());
 
         if (specialCase != null) {
             clazz = specialCase;
@@ -496,10 +503,11 @@ public class RepositoryId {
     public final Class<?> getClassFromType(String url) throws ClassNotFoundException, MalformedURLException {
 
         // 6793820: check special cases BEFORE going to ClassLoader.
-        if (clazz != null)
+        if (clazz != null) {
             return clazz;
+        }
 
-        Class<?> specialCase = (Class) kSpecialCasesClasses.get(getClassName());
+        Class<?> specialCase = kSpecialCasesClasses.get(getClassName());
 
         if (specialCase != null) {
             clazz = specialCase;
@@ -516,7 +524,7 @@ public class RepositoryId {
 
     /**
      * Checks to see if the FullValueDescription should be retrieved.
-     * 
+     *
      * @param clazz The type to get description for
      * @param repositoryID The repository ID
      * @return If full description should be retrieved
@@ -529,7 +537,7 @@ public class RepositoryId {
 
     /**
      * Checks to see if the FullValueDescription should be retrieved.
-     * 
+     *
      * @param clazz The type to get description for
      * @param cinfo The ClassInfo for the type.
      * @param repositoryID The repository ID
@@ -540,8 +548,9 @@ public class RepositoryId {
 
         String clazzRepIDStr = createForAnyType(clazz, cinfo);
 
-        if (clazzRepIDStr.equals(repositoryID))
+        if (clazzRepIDStr.equals(repositoryID)) {
             return false;
+        }
 
         RepositoryId targetRepid;
         RepositoryId clazzRepid;
@@ -573,29 +582,32 @@ public class RepositoryId {
     private static String createHashString(Class<?> clazz) {
 
         ClassInfoCache.ClassInfo cinfo = ClassInfoCache.get(clazz);
-        if (cinfo.isInterface() || !cinfo.isASerializable(clazz))
+        if (cinfo.isInterface() || !cinfo.isASerializable(clazz)) {
             return kInterfaceHashCode;
+        }
 
         long actualLong = ObjectStreamClass.getActualSerialVersionUID(clazz);
         String hash = null;
-        if (actualLong == 0)
+        if (actualLong == 0) {
             hash = kInterfaceOnlyHashStr;
-        else if (actualLong == 1)
+        } else if (actualLong == 1) {
             hash = kExternalizableHashStr;
-        else
+        } else {
             hash = Long.toHexString(actualLong).toUpperCase();
+        }
         while (hash.length() < 16) {
             hash = "0" + hash;
         }
 
         long declaredLong = ObjectStreamClass.getSerialVersionUID(clazz);
         String declared = null;
-        if (declaredLong == 0)
+        if (declaredLong == 0) {
             declared = kInterfaceOnlyHashStr;
-        else if (declaredLong == 1)
+        } else if (declaredLong == 1) {
             declared = kExternalizableHashStr;
-        else
+        } else {
             declared = Long.toHexString(declaredLong).toUpperCase();
+        }
         while (declared.length() < 16) {
             declared = "0" + declared;
         }
@@ -608,7 +620,7 @@ public class RepositoryId {
      * Creates a repository ID for a sequence. This is for expert users only as this method assumes the object passed is an
      * array. If passed an object that is not an array, it will produce a rep id for a sequence of zero length. This would
      * be an error.
-     * 
+     *
      * @param ser The Java object to create a repository ID for
      * @return Created repository ID
      **/
@@ -619,15 +631,16 @@ public class RepositoryId {
     /**
      * Creates a repository ID for a sequence. This is for expert users only as this method assumes the object passed is an
      * array. If passed an object that is not an array, it will produce a malformed rep id.
-     * 
+     *
      * @param clazz The Java class to create a repository ID for
      * @return Created repository ID
      **/
     public static String createSequenceRepID(Class<?> clazz) {
         synchronized (classSeqToRepStr) {
             String repid = classSeqToRepStr.get(clazz);
-            if (repid != null)
+            if (repid != null) {
                 return repid;
+            }
 
             Class<?> originalClazz = clazz;
 
@@ -666,12 +679,15 @@ public class RepositoryId {
         if (cinfo.isArray()) {
             return createSequenceRepID(clazz);
         } else {
-            if (clazz == String.class)
+            if (clazz == String.class) {
                 return kWStringValueRepID;
-            if (clazz == Class.class)
+            }
+            if (clazz == Class.class) {
                 return kClassDescValueRepID;
-            if (clazz == java.rmi.Remote.class)
+            }
+            if (clazz == java.rmi.Remote.class) {
                 return kRemoteValueRepID;
+            }
             return null;
         }
     }
@@ -687,7 +703,7 @@ public class RepositoryId {
 
     /**
      * Creates a repository ID for a normal Java Type.
-     * 
+     *
      * @param ser The Java object to create a repository ID for
      * @return Created repository ID
      * @exception com.sun.corba.ee.impl.io.TypeMismatchException if ser implements the org.omg.CORBA.portable.IDLEntity
@@ -696,13 +712,15 @@ public class RepositoryId {
     public static String createForJavaType(java.io.Serializable ser) throws com.sun.corba.ee.impl.io.TypeMismatchException {
         synchronized (classToRepStr) {
             String repid = createForSpecialCase(ser);
-            if (repid != null)
+            if (repid != null) {
                 return repid;
+            }
             Class<?> clazz = ser.getClass();
             repid = classToRepStr.get(clazz);
 
-            if (repid != null)
+            if (repid != null) {
                 return repid;
+            }
 
             repid = kValuePrefix + convertToISOLatin1(clazz.getName()) + createHashString(clazz);
 
@@ -718,7 +736,7 @@ public class RepositoryId {
 
     /**
      * Creates a repository ID for a normal Java Type.
-     * 
+     *
      * @param clz The Java class to create a repository ID for
      * @param cinfo ClassInfo; may be null
      * @return Created repository ID
@@ -729,12 +747,14 @@ public class RepositoryId {
             throws com.sun.corba.ee.impl.io.TypeMismatchException {
         synchronized (classToRepStr) {
             String repid = createForSpecialCase(clz, cinfo);
-            if (repid != null)
+            if (repid != null) {
                 return repid;
+            }
 
             repid = classToRepStr.get(clz);
-            if (repid != null)
+            if (repid != null) {
                 return repid;
+            }
 
             repid = kValuePrefix + convertToISOLatin1(clz.getName()) + createHashString(clz);
 
@@ -746,7 +766,7 @@ public class RepositoryId {
 
     /**
      * Creates a repository ID for an IDL Java Type.
-     * 
+     *
      * @param ser The IDL Value object to create a repository ID for
      * @param major The major version number
      * @param minor The minor version number
@@ -757,8 +777,9 @@ public class RepositoryId {
     public static String createForIDLType(Class<?> ser, int major, int minor) throws com.sun.corba.ee.impl.io.TypeMismatchException {
         synchronized (classIDLToRepStr) {
             String repid = classIDLToRepStr.get(ser);
-            if (repid != null)
+            if (repid != null) {
                 return repid;
+            }
 
             repid = kIDLPrefix + convertToISOLatin1(ser.getName()).replace('.', '/') + ":" + major + "." + minor;
             classIDLToRepStr.put(ser, repid);
@@ -784,7 +805,7 @@ public class RepositoryId {
 
     /**
      * Createa a repository ID for the type if it is either a java type or an IDL type.
-     * 
+     *
      * @param type The type to create rep. id for
      * @param cinfo The ClassInfo for the type (pre-computed elsewhere to save time)
      * @return The rep. id.
@@ -803,8 +824,9 @@ public class RepositoryId {
                     } catch (Throwable t) {
                         return createForIDLType(type, 1, 0);
                     }
-                } else
+                } else {
                     result = createForJavaType(type, cinfo);
+                }
 
                 cinfo.setRepositoryId(result);
             }
@@ -836,7 +858,7 @@ public class RepositoryId {
      * Convert strings with illegal IDL identifier characters.
      * <p>
      * Section 5.5.7 of OBV spec.
-     * 
+     *
      * @param name String to convert
      * @return Converted String
      */
@@ -929,13 +951,15 @@ public class RepositoryId {
 
         int value_tag = kInitialValueTag;
 
-        if (codeBasePresent)
+        if (codeBasePresent) {
             value_tag = value_tag | 0x00000001;
+        }
 
         value_tag = value_tag | typeInfo;
 
-        if (chunkedEncoding)
+        if (chunkedEncoding) {
             value_tag = value_tag | kChunkedMask;
+        }
 
         return value_tag;
     }

@@ -34,11 +34,11 @@ public abstract class ParserImplTableBase extends ParserImplBase {
         setDefaultValues() ;
     }
 
+    @Override
     protected PropertyParser makeParser()
     {
         PropertyParser result = new PropertyParser() ;
-        for (int ctr=0; ctr<entries.length; ctr++ ) {
-            ParserData entry = entries[ctr] ;
+        for (ParserData entry : entries) {
             entry.addToParser( result ) ;
         }
 
@@ -54,16 +54,19 @@ public abstract class ParserImplTableBase extends ParserImplBase {
             this.key = key ;
         }
 
+        @Override
         public Object getKey()
         {
             return key ;
         }
 
+        @Override
         public Object getValue()
         {
             return value ;
         }
 
+        @Override
         public Object setValue( Object value )
         {
             Object result = this.value ;
@@ -71,10 +74,12 @@ public abstract class ParserImplTableBase extends ParserImplBase {
             return result ;
         }
 
+        @Override
         public boolean equals( Object obj )
         {
-            if (!(obj instanceof MapEntry))
+            if (!(obj instanceof MapEntry)) {
                 return false ;
+            }
 
             MapEntry other = (MapEntry)obj ;
 
@@ -82,6 +87,7 @@ public abstract class ParserImplTableBase extends ParserImplBase {
                 (value.equals( other.value )) ;
         }
 
+        @Override
         public int hashCode()
         {
             return key.hashCode() ^ value.hashCode() ;
@@ -105,32 +111,38 @@ public abstract class ParserImplTableBase extends ParserImplBase {
             this.useDefault = useDefault ;
         }
 
+        @Override
         public Set entrySet()
         {
             return new AbstractSet()
             {
+                @Override
                 public Iterator iterator()
                 {
                     return new Iterator() {
                         // index of next element to return
                         int ctr = 0 ;
 
+                        @Override
                         public boolean hasNext()
                         {
                             return ctr < entries.length ;
                         }
 
+                        @Override
                         public Object next()
                         {
                             ParserData pd = entries[ctr++] ;
                             Map.Entry result = new MapEntry( pd.getFieldName() ) ;
-                            if (useDefault)
+                            if (useDefault) {
                                 result.setValue( pd.getDefaultValue() ) ;
-                            else
+                            } else {
                                 result.setValue( pd.getTestValue() ) ;
+                            }
                             return result ;
                         }
 
+                        @Override
                         public void remove()
                         {
                             throw new UnsupportedOperationException() ;
@@ -138,13 +150,14 @@ public abstract class ParserImplTableBase extends ParserImplBase {
                     } ;
                 }
 
+                @Override
                 public int size()
                 {
                     return entries.length ;
                 }
             } ;
         }
-    } ;
+    }
 
     protected void setDefaultValues()
     {

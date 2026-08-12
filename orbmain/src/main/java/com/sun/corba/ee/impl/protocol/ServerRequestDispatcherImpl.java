@@ -24,7 +24,6 @@ package com.sun.corba.ee.impl.protocol;
 import com.sun.corba.ee.impl.corba.ServerRequestImpl;
 import com.sun.corba.ee.impl.encoding.CDROutputObject;
 import com.sun.corba.ee.impl.encoding.CodeSetComponentInfo;
-import com.sun.corba.ee.impl.encoding.MarshalInputStream;
 import com.sun.corba.ee.impl.encoding.OSFCodeSetRegistry;
 import com.sun.corba.ee.impl.misc.ORBUtility;
 import com.sun.corba.ee.spi.ior.IOR;
@@ -89,7 +88,7 @@ public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
      * the object may be destroyed between a locate and a request. Note that this only checks that the appropriate
      * ObjectAdapter is available, not that the servant actually exists. Need to signal one of OBJECT_HERE, OBJECT_FORWARD,
      * OBJECT_NOT_EXIST.
-     * 
+     *
      * @return Result is null if object is (possibly) implemented here, otherwise an IOR indicating objref to forward the
      * request to.
      * @exception org.omg.CORBA.OBJECT_NOT_EXIST is thrown if we know the object does not exist here, and we are not
@@ -130,7 +129,7 @@ public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
         // Now that we have the service contexts processed and the
         // correct ORBVersion set, we must finish initializing the
         // stream.
-        ((MarshalInputStream) request.getInputObject()).performORBVersionSpecificInit();
+        request.getInputObject().performORBVersionSpecificInit();
 
         ObjectKeyCacheEntry entry = request.getObjectKeyCacheEntry();
         ObjectKey okey = entry.getObjectKey();
@@ -322,7 +321,7 @@ public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
      * Always throws OBJECT_NOT_EXIST if operation is not a special method. If operation is _non_existent or _not_existent,
      * this will just return without performing any action, so that _non_existent can return false. Always throws
      * OBJECT_NOT_EXIST for any other special method. Update for issue 4385.
-     * 
+     *
      * @param operation Name of method to get
      * @param nserv Servant throw associated {@link Exception} if not such method exists.
      */
@@ -470,7 +469,7 @@ public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
 
                 OutputStream stream = null;
                 try {
-                    stream = invhandle._invoke(operation, (org.omg.CORBA.portable.InputStream) req.getInputObject(), req);
+                    stream = invhandle._invoke(operation, req.getInputObject(), req);
                 } catch (BAD_OPERATION e) {
                     wrapper.badOperationFromInvoke(e, operation);
                     throw e;
@@ -498,7 +497,7 @@ public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
 
             // Marshal out/inout/return parameters into the ReplyMessage
             response = sendingReply(req);
-            OutputStream os = (OutputStream) response.getOutputObject();
+            OutputStream os = response.getOutputObject();
             sreq.marshalReplyParams(os);
         } else {
             generalMessage("Handling error");
@@ -518,7 +517,7 @@ public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
     /**
      * Must always be called, just after the servant's method returns. Creates the ReplyMessage header and puts in the
      * transaction context if necessary.
-     * 
+     *
      * @param req original request
      * @param excany {@link Any} that contains an exception
      * @return Response that contains the exception
@@ -551,7 +550,7 @@ public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
             generalMessage("Handling user exception");
 
             resp = req.getProtocolHandler().createUserExceptionResponse(req, scs);
-            OutputStream os = (OutputStream) resp.getOutputObject();
+            OutputStream os = resp.getOutputObject();
             excany.write_value(os);
         }
 
@@ -565,7 +564,7 @@ public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
     /**
      * Handles setting the connection's code sets if required. Returns true if the CodeSetContext was in the request, false
      * otherwise.
-     * 
+     *
      * @param request request to process
      * @param contexts context to check
      * @return if the CodeSetContext was in the request
@@ -577,14 +576,10 @@ public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
 
         if (sc != null) {
             // Somehow a code set service context showed up in the local case.
-            if (request.getConnection() == null) {
-                return true;
-            }
-
             // If it's GIOP 1.0, it shouldn't have this context at all. Our legacy
             // ORBs sent it and we need to know if it's here to make ORB versioning
             // decisions, but we don't use the contents.
-            if (request.getGIOPVersion().equals(GIOPVersion.V1_0)) {
+            if ((request.getConnection() == null) || request.getGIOPVersion().equals(GIOPVersion.V1_0)) {
                 return true;
             }
 
@@ -615,7 +610,7 @@ public class ServerRequestDispatcherImpl implements ServerRequestDispatcher {
                     // (However, the operation name is almost certainly
                     // ISO8859-1 or ASCII.)
                     if (csctx.getCharCodeSet() != OSFCodeSetRegistry.ISO_8859_1.getNumber()) {
-                        ((MarshalInputStream) request.getInputObject()).resetCodeSetConverters();
+                        request.getInputObject().resetCodeSetConverters();
                     }
                 }
             }

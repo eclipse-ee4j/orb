@@ -30,14 +30,7 @@ import javax.naming.RefAddr;
 import javax.naming.Reference;
 import javax.naming.spi.NamingManager;
 
-import org.omg.CosNaming.NameComponent;
-import org.omg.CosNaming.NamingContext;
-import org.omg.CosNaming.NamingContextPackage.AlreadyBound;
-import org.omg.CosNaming.NamingContextPackage.CannotProceed;
-import org.omg.CosNaming.NamingContextPackage.InvalidName;
-import org.omg.CosNaming.NamingContextPackage.NotEmpty;
-import org.omg.CosNaming.NamingContextPackage.NotFound;
-import org.omg.CosNaming.NamingContextPackage.NotFoundReason;
+import org.omg.CORBA.ORBPackage.InvalidName;
 
 /**
   * A convenience class to map the COS Naming exceptions to the JNDI exceptions.
@@ -125,7 +118,7 @@ public final class ExceptionMapper {
                 rest[0].kind != null &&
                 rest[0].kind.equals(lastIn.kind)) {
                 // Might be legit
-                ;
+
             } else {
                 // Due to 1.2/1.3 bug that always returns single-item 'rest'
                 NamingException ne = new NameNotFoundException();
@@ -186,6 +179,7 @@ public final class ExceptionMapper {
             // try getting its nns dynamically by constructing
             // a Reference containing obj.
             RefAddr addr = new RefAddr("nns") {
+                @Override
                 public java.lang.Object getContent() {
                     return resolvedObj;
                 }
@@ -231,6 +225,7 @@ public final class ExceptionMapper {
                 // Create nns reference
                 final java.lang.Object rf2 = resolvedObj2;
                 RefAddr addr = new RefAddr("nns") {
+                    @Override
                     public java.lang.Object getContent() {
                         return rf2;
                     }

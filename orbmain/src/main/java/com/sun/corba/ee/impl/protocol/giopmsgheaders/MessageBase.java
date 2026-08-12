@@ -26,6 +26,7 @@ import com.sun.corba.ee.impl.protocol.RequestIdImpl;
 import com.sun.corba.ee.impl.transport.MessageTraceManagerImpl;
 import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.ior.ObjectKey;
+import com.sun.corba.ee.spi.ior.TaggedProfile;
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 import com.sun.corba.ee.spi.ior.iiop.IIOPFactories;
 import com.sun.corba.ee.spi.ior.iiop.IIOPProfile;
@@ -49,7 +50,6 @@ import java.util.Iterator;
 import org.omg.CORBA.COMM_FAILURE;
 import org.omg.CORBA.CompletionStatus;
 import org.omg.CORBA.SystemException;
-import org.omg.IOP.TaggedProfile;
 
 /**
  * This class acts as the base class for the various GIOP message types. This also serves as a factory to create various
@@ -574,7 +574,7 @@ public abstract class MessageBase implements Message {
 
     /**
      * Set a flag in the given buffer (fragment bit, byte order bit, etc)
-     * 
+     *
      * @param byteBuffer buffer to set flag in
      * @param flag flag to set
      */
@@ -729,18 +729,22 @@ public abstract class MessageBase implements Message {
         return sysEx;
     }
 
+    @Override
     public void callback(MessageHandler handler) throws java.io.IOException {
         handler.handleInput(this);
     }
 
+    @Override
     public int getThreadPoolToUse() {
         return threadPoolToUse;
     }
 
+    @Override
     public byte getEncodingVersion() {
         return this.encodingVersion;
     }
 
+    @Override
     public void setEncodingVersion(byte version) {
         this.encodingVersion = version;
     }
@@ -749,6 +753,7 @@ public abstract class MessageBase implements Message {
      * Return a Message's CorbaRequestId. NOTE: This method should be overridden for messages that support a 4 byte request
      * id following the 12 byte GIOP message header.
      */
+    @Override
     public RequestId getCorbaRequestId() {
         return RequestIdImpl.UNKNOWN_CORBA_REQUEST_ID;
     }
@@ -756,6 +761,7 @@ public abstract class MessageBase implements Message {
     /**
      * Returns true if this message could be followed by a fragment.
      */
+    @Override
     public boolean supportsFragments() {
         return false;
     }
@@ -766,7 +772,7 @@ public abstract class MessageBase implements Message {
      * <p>
      * NOTE: Assumes Message already been filtered by MessageBase.messageSupportsFragments(Message)
      * </p>
-     * 
+     *
      * @param message message to set ID of
      * @param byteBuffer buffer containing the request ID
      * @return <code>CorbaRequestId</code>if <code>Message</code> supports a 12 + 4 byte GIOP header. Otherwise returns a

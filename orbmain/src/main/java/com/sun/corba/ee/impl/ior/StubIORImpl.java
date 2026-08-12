@@ -168,7 +168,7 @@ public class StubIORImpl implements Serializable {
 
     /**
      * Returns a hash code value for the object which is the same for all stubs that represent the same remote object.
-     * 
+     *
      * @return the hash code value.
      */
     @Override
@@ -176,8 +176,8 @@ public class StubIORImpl implements Serializable {
         if (hashCode == 0) {
 
             // compute the hash code
-            for (int i = 0; i < typeData.length; i++) {
-                hashCode = hashCode * 37 + typeData[i];
+            for (byte element : typeData) {
+                hashCode = hashCode * 37 + element;
             }
 
             for (int i = 0; i < profileTags.length; i++) {
@@ -225,15 +225,15 @@ public class StubIORImpl implements Serializable {
     }
 
     private void appendByteArray(StringBuilder result, byte[] data) {
-        for (int ctr = 0; ctr < data.length; ctr++) {
-            result.append(Integer.toHexString(data[ctr]));
+        for (byte element : data) {
+            result.append(Integer.toHexString(element));
         }
     }
 
     /**
      * Returns a string representation of this stub. Returns the same string for all stubs that represent the same remote
      * object. {@code "SimpleIORImpl[<typeName>,[<profileID>]data, ...]"}
-     * 
+     *
      * @return a string representation of this stub.
      */
     @Override

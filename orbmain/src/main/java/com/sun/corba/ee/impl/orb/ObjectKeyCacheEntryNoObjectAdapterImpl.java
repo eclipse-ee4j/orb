@@ -27,13 +27,16 @@ public class ObjectKeyCacheEntryNoObjectAdapterImpl extends ObjectKeyCacheEntryB
         super(okey);
     }
 
+    @Override
     public ObjectAdapter getObjectAdapter() {
         return null;
     }
 
+    @Override
     public void clearObjectAdapter() {
     }
 
+    @Override
     public void setObjectAdapter(ObjectAdapter oa) {
     }
 }

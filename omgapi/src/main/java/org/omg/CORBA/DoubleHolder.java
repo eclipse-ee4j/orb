@@ -55,7 +55,7 @@ public final class DoubleHolder implements Streamable {
 
     /**
      * Constructs a new <code>DoubleHolder</code> object for the given <code>double</code>.
-     * 
+     *
      * @param initial the <code>double</code> with which to initialize the <code>value</code> field of the new
      * <code>DoubleHolder</code> object
      */
@@ -68,6 +68,7 @@ public final class DoubleHolder implements Streamable {
      *
      * @param input the <code>InputStream</code> to read from.
      */
+    @Override
     public void _read(InputStream input) {
         value = input.read_double();
     }
@@ -77,6 +78,7 @@ public final class DoubleHolder implements Streamable {
      *
      * @param output the <code>OutputStream</code> to write into.
      */
+    @Override
     public void _write(OutputStream output) {
         output.write_double(value);
     }
@@ -86,6 +88,7 @@ public final class DoubleHolder implements Streamable {
      *
      * @return the <code>TypeCode</code> object.
      */
+    @Override
     public org.omg.CORBA.TypeCode _type() {
         return ORB.init().get_primitive_tc(TCKind.tk_double);
     }

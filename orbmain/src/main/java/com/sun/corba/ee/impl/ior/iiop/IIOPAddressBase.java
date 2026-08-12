@@ -31,36 +31,43 @@ abstract class IIOPAddressBase implements IIOPAddress {
     // scaling conversion. intToShort and shortToInt are provided
     // for this purpose.
     protected short intToShort(int value) {
-        if (value > 32767)
+        if (value > 32767) {
             return (short) (value - 65536);
+        }
         return (short) value;
     }
 
     protected int shortToInt(short value) {
-        if (value < 0)
+        if (value < 0) {
             return value + 65536;
+        }
         return value;
     }
 
+    @Override
     public void write(OutputStream os) {
         os.write_string(getHost());
         int port = getPort();
         os.write_short(intToShort(port));
     }
 
+    @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof IIOPAddress))
+        if (!(obj instanceof IIOPAddress)) {
             return false;
+        }
 
         IIOPAddress other = (IIOPAddress) obj;
 
         return getHost().equals(other.getHost()) && (getPort() == other.getPort());
     }
 
+    @Override
     public int hashCode() {
         return getHost().hashCode() ^ getPort();
     }
 
+    @Override
     public String toString() {
         return "IIOPAddress[" + getHost() + "," + getPort() + "]";
     }
