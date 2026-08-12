@@ -24,23 +24,18 @@ import com.sun.corba.ee.impl.io.TypeMismatchException;
 import java.io.Serializable;
 
 /**
- * Factory methods for creating various repository ID strings
- * and instances.
+ * Factory methods for creating various repository ID strings and instances.
  */
-public interface RepositoryIdStrings
-{
+public interface RepositoryIdStrings {
     String createForAnyType(Class type);
 
-    String createForAnyType(Class type, ClassInfoCache.ClassInfo cinfo );
+    String createForAnyType(Class type, ClassInfoCache.ClassInfo cinfo);
 
-    String createForJavaType(Serializable ser)
-        throws TypeMismatchException;
+    String createForJavaType(Serializable ser) throws TypeMismatchException;
 
-    String createForJavaType(Class clz)
-        throws TypeMismatchException;
+    String createForJavaType(Class clz) throws TypeMismatchException;
 
-    String createForJavaType(Class clz, ClassInfoCache.ClassInfo cinfo )
-        throws TypeMismatchException;
+    String createForJavaType(Class clz, ClassInfoCache.ClassInfo cinfo) throws TypeMismatchException;
 
     String createSequenceRepID(java.lang.Object ser);
 
@@ -49,5 +44,6 @@ public interface RepositoryIdStrings
     RepositoryIdInterface getFromString(String repIdString);
 
     String getClassDescValueRepId();
+
     String getWStringValueRepId();
 }

@@ -30,15 +30,12 @@ import org.omg.CORBA.portable.InputStream;
 import org.omg.CORBA.portable.OutputStream;
 
 /**
- * Supports delegation for method implementations in {@link Util}.  The
- * delegate is a singleton instance of a class that implements this
- * interface and provides a replacement implementation for all the
- * methods of <code>javax.rmi.CORBA.Util</code>.
+ * Supports delegation for method implementations in {@link Util}. The delegate is a singleton instance of a class that
+ * implements this interface and provides a replacement implementation for all the methods of
+ * <code>javax.rmi.CORBA.Util</code>.
  *
- * Delegation is enabled by providing the delegate's class name as the
- * value of the
- * <code>javax.rmi.CORBA.UtilClass</code>
- * system property.
+ * Delegation is enabled by providing the delegate's class name as the value of the
+ * <code>javax.rmi.CORBA.UtilClass</code> system property.
  *
  * @see Util
  */
@@ -46,6 +43,7 @@ public interface UtilDelegate {
 
     /**
      * Delegation call for {@link Util#mapSystemException}.
+     * 
      * @param ex the SystemException to map.
      * @return the mapped exception.
      */
@@ -53,6 +51,7 @@ public interface UtilDelegate {
 
     /**
      * Delegation call for {@link Util#writeAny}.
+     * 
      * @param out the stream in which to write the any.
      * @param obj the object to write as an any.
      */
@@ -60,6 +59,7 @@ public interface UtilDelegate {
 
     /**
      * Delegation call for {@link Util#readAny}.
+     * 
      * @param in the stream from which to read the any.
      * @return the object read from the stream.
      */
@@ -67,6 +67,7 @@ public interface UtilDelegate {
 
     /**
      * Delegation call for {@link Util#writeRemoteObject}.
+     * 
      * @param out the stream in which to write the object.
      * @param obj the object to write.
      */
@@ -74,6 +75,7 @@ public interface UtilDelegate {
 
     /**
      * Delegation call for {@link Util#writeAbstractObject}.
+     * 
      * @param out the stream in which to write the object.
      * @param obj the object to write.
      */
@@ -81,6 +83,7 @@ public interface UtilDelegate {
 
     /**
      * Delegation call for {@link Util#registerTarget}.
+     * 
      * @param tie tie to register
      * @param target target for the tie
      */
@@ -88,6 +91,7 @@ public interface UtilDelegate {
 
     /**
      * Delegation call for {@link Util#unexportObject}.
+     * 
      * @param target the object to unexport
      * @throws NoSuchObjectException if the target object does not exist
      */
@@ -95,6 +99,7 @@ public interface UtilDelegate {
 
     /**
      * Delegation call for {@link Util#getTie}.
+     * 
      * @param target the object to get the tie for
      * @return the tie or null if no tie is registered for the given target.
      */
@@ -102,12 +107,14 @@ public interface UtilDelegate {
 
     /**
      * Delegation call for {@link Util#createValueHandler}.
+     * 
      * @return a class which implements the ValueHandler interface.
      */
     ValueHandler createValueHandler();
 
     /**
      * Delegation call for {@link Util#getCodebase}.
+     * 
      * @param clz the class to get a codebase for.
      * @return a space-separated list of URLs, or null.
      */
@@ -115,31 +122,30 @@ public interface UtilDelegate {
 
     /**
      * Delegation call for {@link Util#loadClass}.
+     * 
      * @param className the name of the class.
-     * @param remoteCodebase a space-separated list of URLs at which
-     * the class might be found. May be null.
-     * @param loader a <tt>ClassLoader</tt> that may be used to
-     * load the class if all other methods fail.
+     * @param remoteCodebase a space-separated list of URLs at which the class might be found. May be null.
+     * @param loader a <tt>ClassLoader</tt> that may be used to load the class if all other methods fail.
      * @return the <code>Class</code> object representing the loaded class.
      * @exception ClassNotFoundException if class cannot be loaded.
      */
-    Class loadClass(String className, String remoteCodebase, ClassLoader loader)
-        throws ClassNotFoundException;
+    Class loadClass(String className, String remoteCodebase, ClassLoader loader) throws ClassNotFoundException;
 
     /**
      * Delegation call for {@link Util#isLocal}.
+     * 
      * @param stub the stub to test.
-     * @return The is_local() method returns true if the servant incarnating
-     * the object is located in the same process as the stub and they both
-     * share the same ORB instance. The is_local() method returns false
-     * otherwise. The default behaviour of is_local() is to return false.
-     * @throws RemoteException The Java to IDL specification does not
-     * specify the conditions that cause a <tt>RemoteException</tt> to be thrown.
+     * @return The is_local() method returns true if the servant incarnating the object is located in the same process as
+     * the stub and they both share the same ORB instance. The is_local() method returns false otherwise. The default
+     * behaviour of is_local() is to return false.
+     * @throws RemoteException The Java to IDL specification does not specify the conditions that cause a
+     * <tt>RemoteException</tt> to be thrown.
      */
     boolean isLocal(Stub stub) throws RemoteException;
 
     /**
      * Delegation call for {@link Util#wrapException}.
+     * 
      * @param obj the exception to wrap.
      * @return the wrapped exception.
      */
@@ -147,6 +153,7 @@ public interface UtilDelegate {
 
     /**
      * Delegation call for {@link Util#copyObject}.
+     * 
      * @param obj the object to copy or connect.
      * @param orb the ORB
      * @return the copied or connected object.
@@ -156,6 +163,7 @@ public interface UtilDelegate {
 
     /**
      * Delegation call for {@link Util#copyObjects}.
+     * 
      * @param obj the objects to copy or connect.
      * @param orb the ORB
      * @return the copied or connected objects.
@@ -164,4 +172,3 @@ public interface UtilDelegate {
     Object[] copyObjects(Object[] obj, ORB orb) throws RemoteException;
 
 }
-

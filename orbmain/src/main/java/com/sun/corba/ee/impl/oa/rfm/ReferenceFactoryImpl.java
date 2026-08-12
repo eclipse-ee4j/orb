@@ -19,37 +19,30 @@
 
 package com.sun.corba.ee.impl.oa.rfm;
 
-import com.sun.corba.ee.spi.oa.rfm.ReferenceFactory ;
+import com.sun.corba.ee.spi.oa.rfm.ReferenceFactory;
 
-import org.omg.CORBA.LocalObject ;
+import org.omg.CORBA.LocalObject;
 
-public class ReferenceFactoryImpl extends LocalObject implements ReferenceFactory
-{
-    private ReferenceFactoryManagerImpl manager ;
-    private String name ;
-    private String repositoryId ;
+public class ReferenceFactoryImpl extends LocalObject implements ReferenceFactory {
+    private ReferenceFactoryManagerImpl manager;
+    private String name;
+    private String repositoryId;
 
-    public ReferenceFactoryImpl( ReferenceFactoryManagerImpl manager,
-        String name, String repositoryId ) {
-        this.manager = manager ;
-        this.name = name ;
-        this.repositoryId = repositoryId ;
+    public ReferenceFactoryImpl(ReferenceFactoryManagerImpl manager, String name, String repositoryId) {
+        this.manager = manager;
+        this.name = name;
+        this.repositoryId = repositoryId;
     }
 
-    public org.omg.CORBA.Object createReference( byte[] key ) {
-        return manager.createReference( name, key, repositoryId ) ;
+    public org.omg.CORBA.Object createReference(byte[] key) {
+        return manager.createReference(name, key, repositoryId);
     }
 
     public void destroy() {
-        manager.destroy( name ) ;
+        manager.destroy(name);
     }
 
-    public String toString()
-    {
-        return "ReferenceFactoryImpl["
-            + name
-            + ", "
-            + repositoryId
-            + "]";
+    public String toString() {
+        return "ReferenceFactoryImpl[" + name + ", " + repositoryId + "]";
     }
 }

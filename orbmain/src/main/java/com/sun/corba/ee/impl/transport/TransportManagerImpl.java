@@ -42,8 +42,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.glassfish.external.probe.provider.PluginPoint ;
-import org.glassfish.external.probe.provider.StatsProviderManager ;
+import org.glassfish.external.probe.provider.PluginPoint;
+import org.glassfish.external.probe.provider.StatsProviderManager;
 import org.glassfish.gmbal.ManagedObjectManager;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 
@@ -53,22 +53,18 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 // Note that no ObjectKeyName attribute is needed, because there is only
 // one CorbaTransportManager per ORB.
 @Transport
-public class TransportManagerImpl
-    implements
-        TransportManager
-{
+public class TransportManagerImpl implements TransportManager {
     protected ORB orb;
     protected List<Acceptor> acceptors;
-    protected final Map<String,OutboundConnectionCache> outboundConnectionCaches;
-    protected final Map<String,InboundConnectionCache> inboundConnectionCaches;
+    protected final Map<String, OutboundConnectionCache> outboundConnectionCaches;
+    protected final Map<String, InboundConnectionCache> inboundConnectionCaches;
     protected Selector selector;
 
-    public TransportManagerImpl(ORB orb)
-    {
+    public TransportManagerImpl(ORB orb) {
         this.orb = orb;
         acceptors = new ArrayList<Acceptor>();
-        outboundConnectionCaches = new HashMap<String,OutboundConnectionCache>();
-        inboundConnectionCaches = new HashMap<String,InboundConnectionCache>();
+        outboundConnectionCaches = new HashMap<String, OutboundConnectionCache>();
+        inboundConnectionCaches = new HashMap<String, InboundConnectionCache>();
         selector = new SelectorImpl(orb);
         ManagedObjectManager mom = orb.mom();
         if (mom != null) {
@@ -76,26 +72,20 @@ public class TransportManagerImpl
         }
     }
 
-    public ByteBufferPool getByteBufferPool(int id)
-    {
+    public ByteBufferPool getByteBufferPool(int id) {
         throw new RuntimeException();
     }
 
-    public OutboundConnectionCache getOutboundConnectionCache(
-        ContactInfo contactInfo)
-    {
+    public OutboundConnectionCache getOutboundConnectionCache(ContactInfo contactInfo) {
         synchronized (contactInfo) {
             if (contactInfo.getConnectionCache() == null) {
                 OutboundConnectionCache connectionCache = null;
                 synchronized (outboundConnectionCaches) {
-                    connectionCache = outboundConnectionCaches.get(
-                        contactInfo.getConnectionCacheType());
+                    connectionCache = outboundConnectionCaches.get(contactInfo.getConnectionCacheType());
                     if (connectionCache == null) {
                         // REVISIT: Would like to be able to configure
                         // the connection cache type used.
-                        connectionCache =
-                            new OutboundConnectionCacheImpl(orb,
-                                                                 contactInfo);
+                        connectionCache = new OutboundConnectionCacheImpl(orb, contactInfo);
 
                         // We need to clean up the multi-cache support:
                         // this really only works with a single cache.
@@ -103,12 +93,9 @@ public class TransportManagerImpl
                         if (mom != null) {
                             mom.register(this, connectionCache);
                         }
-                        StatsProviderManager.register( "orb", PluginPoint.SERVER,
-                            "orb/transport/connectioncache/outbound", connectionCache ) ;
+                        StatsProviderManager.register("orb", PluginPoint.SERVER, "orb/transport/connectioncache/outbound", connectionCache);
 
-                        outboundConnectionCaches.put(
-                            contactInfo.getConnectionCacheType(),
-                            connectionCache);
+                        outboundConnectionCaches.put(contactInfo.getConnectionCacheType(), connectionCache);
                     }
                 }
                 contactInfo.setConnectionCache(connectionCache);
@@ -117,25 +104,20 @@ public class TransportManagerImpl
         }
     }
 
-    public Collection<OutboundConnectionCache> getOutboundConnectionCaches()
-    {
+    public Collection<OutboundConnectionCache> getOutboundConnectionCaches() {
         return outboundConnectionCaches.values();
     }
 
-    public Collection<InboundConnectionCache> getInboundConnectionCaches()
-    {
+    public Collection<InboundConnectionCache> getInboundConnectionCaches() {
         return inboundConnectionCaches.values();
     }
 
-    public InboundConnectionCache getInboundConnectionCache(
-        Acceptor acceptor)
-    {
+    public InboundConnectionCache getInboundConnectionCache(Acceptor acceptor) {
         synchronized (acceptor) {
             if (acceptor.getConnectionCache() == null) {
                 InboundConnectionCache connectionCache = null;
                 synchronized (inboundConnectionCaches) {
-                    connectionCache = inboundConnectionCaches.get(
-                            acceptor.getConnectionCacheType());
+                    connectionCache = inboundConnectionCaches.get(acceptor.getConnectionCacheType());
                     if (connectionCache == null) {
                         // REVISIT: Would like to be able to configure
                         // the connection cache type used.
@@ -144,12 +126,9 @@ public class TransportManagerImpl
                         if (mom != null) {
                             mom.register(this, connectionCache);
                         }
-                        StatsProviderManager.register( "orb", PluginPoint.SERVER,
-                            "orb/transport/connectioncache/inbound", connectionCache ) ;
+                        StatsProviderManager.register("orb", PluginPoint.SERVER, "orb/transport/connectioncache/inbound", connectionCache);
 
-                        inboundConnectionCaches.put(
-                            acceptor.getConnectionCacheType(),
-                            connectionCache);
+                        inboundConnectionCaches.put(acceptor.getConnectionCacheType(), connectionCache);
                     }
                 }
                 acceptor.setConnectionCache(connectionCache);
@@ -159,11 +138,10 @@ public class TransportManagerImpl
     }
 
     public Selector getSelector() {
-        return selector ;
+        return selector;
     }
 
-    public Selector getSelector(int id)
-    {
+    public Selector getSelector(int id) {
         return selector;
     }
 
@@ -178,15 +156,14 @@ public class TransportManagerImpl
     }
 
     @Transport
-    public void close()
-    {
+    public void close() {
         for (OutboundConnectionCache cc : outboundConnectionCaches.values()) {
-            StatsProviderManager.unregister( cc ) ;
-            cc.close() ;
+            StatsProviderManager.unregister(cc);
+            cc.close();
         }
         for (InboundConnectionCache cc : inboundConnectionCaches.values()) {
-            StatsProviderManager.unregister( cc ) ;
-            cc.close() ;
+            StatsProviderManager.unregister(cc);
+            cc.close();
         }
         getSelector(0).close();
     }
@@ -197,26 +174,24 @@ public class TransportManagerImpl
     //
 
     public Collection<Acceptor> getAcceptors() {
-        return getAcceptors( null, null ) ;
+        return getAcceptors(null, null);
     }
 
     @InfoMethod
-    private void display( String msg ) { }
+    private void display(String msg) {
+    }
 
     @Transport
-    public Collection<Acceptor> getAcceptors(String objectAdapterManagerId,
-                                   ObjectAdapterId objectAdapterId)
-    {
+    public Collection<Acceptor> getAcceptors(String objectAdapterManagerId, ObjectAdapterId objectAdapterId) {
         // REVISIT - need to filter based on arguments.
 
         // REVISIT - initialization will be moved to OA.
         // Lazy initialization of acceptors.
         for (Acceptor acc : acceptors) {
             if (acc.initialize()) {
-                display( "initializing acceptors" ) ;
+                display("initializing acceptors");
                 if (acc.shouldRegisterAcceptEvent()) {
-                    orb.getTransportManager().getSelector(0)
-                        .registerForEvent(acc.getEventHandler());
+                    orb.getTransportManager().getSelector(0).registerForEvent(acc.getEventHandler());
                 }
             }
         }
@@ -225,31 +200,23 @@ public class TransportManagerImpl
 
     // REVISIT - POA specific policies
     @Transport
-    public void addToIORTemplate(IORTemplate iorTemplate,
-                                 Policies policies,
-                                 String codebase,
-                                 String objectAdapterManagerId,
-                                 ObjectAdapterId objectAdapterId)
-    {
-        Iterator iterator =
-            getAcceptors(objectAdapterManagerId, objectAdapterId).iterator();
+    public void addToIORTemplate(IORTemplate iorTemplate, Policies policies, String codebase, String objectAdapterManagerId,
+            ObjectAdapterId objectAdapterId) {
+        Iterator iterator = getAcceptors(objectAdapterManagerId, objectAdapterId).iterator();
         while (iterator.hasNext()) {
             Acceptor acceptor = (Acceptor) iterator.next();
             acceptor.addToIORTemplate(iorTemplate, policies, codebase);
         }
     }
 
-    private ThreadLocal currentMessageTraceManager =
-        new ThreadLocal() {
-            public Object initialValue()
-            {
-                return new MessageTraceManagerImpl( ) ;
-            }
-        } ;
+    private ThreadLocal currentMessageTraceManager = new ThreadLocal() {
+        public Object initialValue() {
+            return new MessageTraceManagerImpl();
+        }
+    };
 
-    public MessageTraceManager getMessageTraceManager()
-    {
-        return (MessageTraceManager)(currentMessageTraceManager.get()) ;
+    public MessageTraceManager getMessageTraceManager() {
+        return (MessageTraceManager) (currentMessageTraceManager.get());
     }
 }
 

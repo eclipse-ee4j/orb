@@ -19,26 +19,23 @@
 
 package com.sun.corba.ee.impl.ior;
 
-import com.sun.corba.ee.spi.ior.ObjectAdapterId ;
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.orb.ORBVersionFactory ;
+import com.sun.corba.ee.spi.ior.ObjectAdapterId;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ORBVersionFactory;
 
 /**
  * @author Ken Cavanaugh
  */
-public abstract class OldObjectKeyTemplateBase extends ObjectKeyTemplateBase
-{
-    public OldObjectKeyTemplateBase( ORB orb, int magic, int scid, int serverid,
-        String orbid, ObjectAdapterId oaid )
-    {
-        super( orb, magic, scid, serverid, orbid, oaid ) ;
+public abstract class OldObjectKeyTemplateBase extends ObjectKeyTemplateBase {
+    public OldObjectKeyTemplateBase(ORB orb, int magic, int scid, int serverid, String orbid, ObjectAdapterId oaid) {
+        super(orb, magic, scid, serverid, orbid, oaid);
 
         // set version based on magic
         if (magic == ObjectKeyFactoryImpl.JAVAMAGIC_OLD)
-            setORBVersion( ORBVersionFactory.getOLD() ) ;
+            setORBVersion(ORBVersionFactory.getOLD());
         else if (magic == ObjectKeyFactoryImpl.JAVAMAGIC_NEW)
-            setORBVersion( ORBVersionFactory.getNEW() ) ;
+            setORBVersion(ORBVersionFactory.getNEW());
         else // any other magic should not be here
-            throw wrapper.badMagic( Integer.valueOf( magic ) ) ;
+            throw wrapper.badMagic(Integer.valueOf(magic));
     }
 }

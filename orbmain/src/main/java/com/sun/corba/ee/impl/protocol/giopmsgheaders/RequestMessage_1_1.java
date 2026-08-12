@@ -33,11 +33,9 @@ import com.sun.corba.ee.spi.servicecontext.ServiceContexts;
  * @version 1.0
  */
 
-public final class RequestMessage_1_1 extends Message_1_1
-        implements RequestMessage {
+public final class RequestMessage_1_1 extends Message_1_1 implements RequestMessage {
 
-    private static final ORBUtilSystemException wrapper =
-            ORBUtilSystemException.self;
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
     // Instance variables
 
@@ -48,7 +46,7 @@ public final class RequestMessage_1_1 extends Message_1_1
     private byte[] reserved = null; // Added in GIOP 1.1
     private byte[] object_key = null;
     private String operation = null;
-    @SuppressWarnings({"deprecation"})
+    @SuppressWarnings({ "deprecation" })
     private org.omg.CORBA.Principal requesting_principal = null;
     private ObjectKeyCacheEntry entry = null;
 
@@ -59,13 +57,10 @@ public final class RequestMessage_1_1 extends Message_1_1
         this.service_contexts = ServiceContextDefaults.makeServiceContexts(orb);
     }
 
-    @SuppressWarnings({"deprecation"})
-    RequestMessage_1_1(ORB orb, ServiceContexts _service_contexts,
-                       int _request_id, boolean _response_expected, byte[] _reserved,
-                       byte[] _object_key, String _operation,
-                       org.omg.CORBA.Principal _requesting_principal) {
-        super(Message.GIOPBigMagic, GIOPVersion.V1_1, FLAG_NO_FRAG_BIG_ENDIAN,
-                Message.GIOPRequest, 0);
+    @SuppressWarnings({ "deprecation" })
+    RequestMessage_1_1(ORB orb, ServiceContexts _service_contexts, int _request_id, boolean _response_expected, byte[] _reserved,
+            byte[] _object_key, String _operation, org.omg.CORBA.Principal _requesting_principal) {
+        super(Message.GIOPBigMagic, GIOPVersion.V1_1, FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPRequest, 0);
         this.orb = orb;
         service_contexts = _service_contexts;
         request_id = _request_id;
@@ -111,7 +106,7 @@ public final class RequestMessage_1_1 extends Message_1_1
         return this.operation;
     }
 
-    @SuppressWarnings({"deprecation"})
+    @SuppressWarnings({ "deprecation" })
     public org.omg.CORBA.Principal getPrincipal() {
         return this.requesting_principal;
     }
@@ -120,9 +115,7 @@ public final class RequestMessage_1_1 extends Message_1_1
 
     public void read(org.omg.CORBA.portable.InputStream istream) {
         super.read(istream);
-        this.service_contexts
-                = ServiceContextDefaults.makeServiceContexts(
-                (org.omg.CORBA_2_3.portable.InputStream) istream);
+        this.service_contexts = ServiceContextDefaults.makeServiceContexts((org.omg.CORBA_2_3.portable.InputStream) istream);
         this.request_id = istream.read_ulong();
         this.response_expected = istream.read_boolean();
         this.reserved = new byte[3];
@@ -138,9 +131,7 @@ public final class RequestMessage_1_1 extends Message_1_1
 
     public void write(org.omg.CORBA.portable.OutputStream ostream) {
         super.write(ostream);
-        service_contexts.write(
-                (org.omg.CORBA_2_3.portable.OutputStream) ostream,
-                GIOPVersion.V1_1);
+        service_contexts.write((org.omg.CORBA_2_3.portable.OutputStream) ostream, GIOPVersion.V1_1);
         ostream.write_ulong(this.request_id);
         ostream.write_boolean(this.response_expected);
         nullCheck(this.reserved);
@@ -161,8 +152,7 @@ public final class RequestMessage_1_1 extends Message_1_1
         }
     }
 
-    public void callback(MessageHandler handler)
-            throws java.io.IOException {
+    public void callback(MessageHandler handler) throws java.io.IOException {
         handler.handleInput(this);
     }
 

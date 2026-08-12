@@ -54,7 +54,6 @@ abstract class Value1Helper implements ValueHelper {
     }
 }
 
-
 abstract class Value1Type extends TypeCode {
     short modifier;
 

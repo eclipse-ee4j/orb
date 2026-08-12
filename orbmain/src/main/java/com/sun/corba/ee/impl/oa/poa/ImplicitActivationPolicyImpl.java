@@ -24,12 +24,9 @@ import org.omg.PortableServer.IMPLICIT_ACTIVATION_POLICY_ID;
 import org.omg.PortableServer.ImplicitActivationPolicy;
 import org.omg.PortableServer.ImplicitActivationPolicyValue;
 
-final class ImplicitActivationPolicyImpl
-    extends org.omg.CORBA.LocalObject implements ImplicitActivationPolicy {
+final class ImplicitActivationPolicyImpl extends org.omg.CORBA.LocalObject implements ImplicitActivationPolicy {
 
-    public
-        ImplicitActivationPolicyImpl(ImplicitActivationPolicyValue
-                                     value) {
+    public ImplicitActivationPolicyImpl(ImplicitActivationPolicyValue value) {
         this.value = value;
     }
 
@@ -37,9 +34,8 @@ final class ImplicitActivationPolicyImpl
         return value;
     }
 
-    public int policy_type()
-    {
-        return IMPLICIT_ACTIVATION_POLICY_ID.value ;
+    public int policy_type() {
+        return IMPLICIT_ACTIVATION_POLICY_ID.value;
     }
 
     public Policy copy() {
@@ -52,10 +48,8 @@ final class ImplicitActivationPolicyImpl
 
     private ImplicitActivationPolicyValue value;
 
-    public String toString()
-    {
-        return "ImplicitActivationPolicy[" +
-            ((value.value() == ImplicitActivationPolicyValue._IMPLICIT_ACTIVATION) ?
-                "IMPLICIT_ACTIVATION" : "NO_IMPLICIT_ACTIVATION" + "]") ;
+    public String toString() {
+        return "ImplicitActivationPolicy[" + ((value.value() == ImplicitActivationPolicyValue._IMPLICIT_ACTIVATION) ? "IMPLICIT_ACTIVATION"
+                : "NO_IMPLICIT_ACTIVATION" + "]");
     }
 }

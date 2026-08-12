@@ -17,23 +17,20 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.oa ;
+package com.sun.corba.ee.impl.oa;
 
-import com.sun.corba.ee.spi.oa.NullServant ;
+import com.sun.corba.ee.spi.oa.NullServant;
 
-import org.omg.CORBA.SystemException ;
+import org.omg.CORBA.SystemException;
 
-public class NullServantImpl implements NullServant
-{
-    private SystemException sysex ;
+public class NullServantImpl implements NullServant {
+    private SystemException sysex;
 
-    public NullServantImpl( SystemException ex )
-    {
-        this.sysex = ex ;
+    public NullServantImpl(SystemException ex) {
+        this.sysex = ex;
     }
 
-    public SystemException getException()
-    {
-        return sysex ;
+    public SystemException getException() {
+        return sysex;
     }
 }

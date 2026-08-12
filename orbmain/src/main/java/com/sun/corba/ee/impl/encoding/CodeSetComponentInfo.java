@@ -29,43 +29,39 @@ import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 public final class CodeSetComponentInfo {
-    private static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
     /**
-     * CodeSetComponent is part of an IOR multi-component profile.  Two
-     * instances constitute a CodeSetComponentInfo (one for char and one
-     * for wchar data)
+     * CodeSetComponent is part of an IOR multi-component profile. Two instances constitute a CodeSetComponentInfo (one for
+     * char and one for wchar data)
      */
     public static final class CodeSetComponent {
         int nativeCodeSet;
         int[] conversionCodeSets;
 
         @Override
-        public boolean equals( Object obj )
-        {
+        public boolean equals(Object obj) {
             if (this == obj)
-                return true ;
+                return true;
 
             if (!(obj instanceof CodeSetComponent))
-                return false ;
+                return false;
 
-            CodeSetComponent other = (CodeSetComponent)obj ;
+            CodeSetComponent other = (CodeSetComponent) obj;
 
-            return (nativeCodeSet == other.nativeCodeSet) &&
-                Arrays.equals( conversionCodeSets, other.conversionCodeSets ) ;
+            return (nativeCodeSet == other.nativeCodeSet) && Arrays.equals(conversionCodeSets, other.conversionCodeSets);
         }
 
         @Override
-        public int hashCode()
-        {
-            int result = nativeCodeSet ;
-            for (int ctr=0; ctr<conversionCodeSets.length; ctr++)
-                result = 37*result + conversionCodeSets[ctr] ;
-            return result ;
+        public int hashCode() {
+            int result = nativeCodeSet;
+            for (int ctr = 0; ctr < conversionCodeSets.length; ctr++)
+                result = 37 * result + conversionCodeSets[ctr];
+            return result;
         }
 
-        public CodeSetComponent() {}
+        public CodeSetComponent() {
+        }
 
         public CodeSetComponent(int nativeCodeSet, int[] conversionCodeSets) {
             this.nativeCodeSet = nativeCodeSet;
@@ -104,7 +100,7 @@ public final class CodeSetComponentInfo {
                     sbuf.append(' ');
                 }
             }
-            sbuf.append( ")" ) ;
+            sbuf.append(")");
 
             return sbuf.toString();
         }
@@ -114,23 +110,20 @@ public final class CodeSetComponentInfo {
     private CodeSetComponent forWCharData;
 
     @Override
-    public boolean equals( Object obj )
-    {
+    public boolean equals(Object obj) {
         if (this == obj)
-            return true ;
+            return true;
 
         if (!(obj instanceof CodeSetComponentInfo))
-            return false ;
+            return false;
 
-        CodeSetComponentInfo other = (CodeSetComponentInfo)obj ;
-        return forCharData.equals( other.forCharData ) &&
-            forWCharData.equals( other.forWCharData ) ;
+        CodeSetComponentInfo other = (CodeSetComponentInfo) obj;
+        return forCharData.equals(other.forCharData) && forWCharData.equals(other.forWCharData);
     }
 
     @Override
-    public int hashCode()
-    {
-        return forCharData.hashCode() ^ forWCharData.hashCode() ;
+    public int hashCode() {
+        return forCharData.hashCode() ^ forWCharData.hashCode();
     }
 
     @Override
@@ -151,8 +144,7 @@ public final class CodeSetComponentInfo {
         forWCharData = CodeSetComponentInfo.JAVASOFT_DEFAULT_CODESETS.forWCharData;
     }
 
-    public CodeSetComponentInfo(CodeSetComponent charData,
-                                CodeSetComponent wcharData) {
+    public CodeSetComponentInfo(CodeSetComponent charData, CodeSetComponent wcharData) {
         forCharData = charData;
         forWCharData = wcharData;
     }
@@ -184,7 +176,8 @@ public final class CodeSetComponentInfo {
         private int char_data;
         private int wchar_data;
 
-        public CodeSetContext() {}
+        public CodeSetContext() {
+        }
 
         public CodeSetContext(int charEncoding, int wcharEncoding) {
             char_data = charEncoding;
@@ -225,62 +218,47 @@ public final class CodeSetComponentInfo {
      *
      * char data:
      *
-     * Native code set:  ISO 8859-1 (8-bit)
-     * Conversion sets:  UTF-8, ISO 646 (7-bit)
+     * Native code set: ISO 8859-1 (8-bit) Conversion sets: UTF-8, ISO 646 (7-bit)
      *
      * wchar data:
      *
-     * Native code set:  UTF-16
-     * Conversion sets:  UCS-2
+     * Native code set: UTF-16 Conversion sets: UCS-2
      *
-     * Pre-Merlin/J2EE 1.3 JavaSoft ORBs listed ISO646 for char and
-     * UCS-2 for wchar, and provided no conversion sets.  They also
-     * didn't do correct negotiation or provide the fallback sets.
-     * UCS-2 is still in the conversion list for backwards compatibility.
+     * Pre-Merlin/J2EE 1.3 JavaSoft ORBs listed ISO646 for char and UCS-2 for wchar, and provided no conversion sets. They
+     * also didn't do correct negotiation or provide the fallback sets. UCS-2 is still in the conversion list for backwards
+     * compatibility.
      *
      * The fallbacks are UTF-8 for char and UTF-16 for wchar.
      *
-     * In GIOP 1.1, interoperability with wchar is limited to 2 byte fixed
-     * width encodings since its wchars aren't preceded by a length.
-     * Thus, I've chosen not to include UTF-8 in the conversion set
-     * for wchar data.
+     * In GIOP 1.1, interoperability with wchar is limited to 2 byte fixed width encodings since its wchars aren't preceded
+     * by a length. Thus, I've chosen not to include UTF-8 in the conversion set for wchar data.
      *
      */
     public static final CodeSetComponentInfo JAVASOFT_DEFAULT_CODESETS;
     static {
-        CodeSetComponent charData
-            = new CodeSetComponent(OSFCodeSetRegistry.ISO_8859_1.getNumber(),
-                                   new int[] {
-                                       OSFCodeSetRegistry.UTF_8.getNumber(),
-                                       OSFCodeSetRegistry.ISO_646.getNumber()
-                                   });
+        CodeSetComponent charData = new CodeSetComponent(OSFCodeSetRegistry.ISO_8859_1.getNumber(),
+                new int[] { OSFCodeSetRegistry.UTF_8.getNumber(), OSFCodeSetRegistry.ISO_646.getNumber() });
 
-        CodeSetComponent wcharData
-            = new CodeSetComponent(OSFCodeSetRegistry.UTF_16.getNumber(),
-                                   new int[]
-                                   {
-                                       OSFCodeSetRegistry.UCS_2.getNumber()
-                                   });
+        CodeSetComponent wcharData = new CodeSetComponent(OSFCodeSetRegistry.UTF_16.getNumber(),
+                new int[] { OSFCodeSetRegistry.UCS_2.getNumber() });
 
         JAVASOFT_DEFAULT_CODESETS = new CodeSetComponentInfo(charData, wcharData);
     }
 
     /**
-     * Creates a CodeSetComponent from a String which contains a comma
-     * delimited list of OSF Code Set Registry numbers.  An INITIALIZE
-     * exception is thrown if any of the numbers are not known by our
-     * registry.  Used by corba.ORB init.
+     * Creates a CodeSetComponent from a String which contains a comma delimited list of OSF Code Set Registry numbers. An
+     * INITIALIZE exception is thrown if any of the numbers are not known by our registry. Used by corba.ORB init.
      *
-     * The first number in the list is taken as the native code set,
-     * and the rest is the conversion code set list.
+     * The first number in the list is taken as the native code set, and the rest is the conversion code set list.
      *
      * The numbers can either be decimal or hex.
+     * 
      * @param str List of OSF Code Set registry numbers
      * @return Components
      */
     public static CodeSetComponent createFromString(String str) {
         if (str == null || str.length() == 0)
-            throw wrapper.badCodeSetString() ;
+            throw wrapper.badCodeSetString();
 
         StringTokenizer stok = new StringTokenizer(str, ", ", false);
         int nativeSet = 0;
@@ -292,7 +270,7 @@ public final class CodeSetComponentInfo {
             nativeSet = Integer.decode(stok.nextToken()).intValue();
 
             if (OSFCodeSetRegistry.lookupEntry(nativeSet) == null)
-                throw wrapper.unknownNativeCodeset( nativeSet ) ;
+                throw wrapper.unknownNativeCodeset(nativeSet);
 
             List<Integer> conversionList = new ArrayList<Integer>(10);
 
@@ -304,7 +282,7 @@ public final class CodeSetComponentInfo {
                 Integer value = Integer.decode(stok.nextToken());
 
                 if (OSFCodeSetRegistry.lookupEntry(value.intValue()) == null)
-                    throw wrapper.unknownConversionCodeSet( value ) ;
+                    throw wrapper.unknownConversionCodeSet(value);
 
                 conversionList.add(value);
             }
@@ -312,12 +290,12 @@ public final class CodeSetComponentInfo {
             conversionInts = new int[conversionList.size()];
 
             for (int i = 0; i < conversionInts.length; i++)
-                conversionInts[i] = ((Integer)conversionList.get(i)).intValue();
+                conversionInts[i] = ((Integer) conversionList.get(i)).intValue();
 
         } catch (NumberFormatException nfe) {
-            throw wrapper.invalidCodeSetNumber( nfe ) ;
+            throw wrapper.invalidCodeSetNumber(nfe);
         } catch (NoSuchElementException nsee) {
-            throw wrapper.invalidCodeSetString( nsee, str ) ;
+            throw wrapper.invalidCodeSetString(nsee, str);
         }
 
         // Otherwise return the CodeSetComponent representing
@@ -328,8 +306,6 @@ public final class CodeSetComponentInfo {
     /**
      * Code sets for local cases without a connection.
      */
-    public static final CodeSetContext LOCAL_CODE_SETS
-        = new CodeSetContext(OSFCodeSetRegistry.ISO_8859_1.getNumber(),
-                             OSFCodeSetRegistry.UTF_16.getNumber());
+    public static final CodeSetContext LOCAL_CODE_SETS = new CodeSetContext(OSFCodeSetRegistry.ISO_8859_1.getNumber(),
+            OSFCodeSetRegistry.UTF_16.getNumber());
 }
-

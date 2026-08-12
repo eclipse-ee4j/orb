@@ -26,8 +26,7 @@ package com.sun.corba.ee.impl.protocol.giopmsgheaders;
  * @version 1.0
  */
 
-public final class CancelRequestMessage_1_0 extends Message_1_0
-        implements CancelRequestMessage {
+public final class CancelRequestMessage_1_0 extends Message_1_0 implements CancelRequestMessage {
 
     // Instance variables
 
@@ -35,11 +34,11 @@ public final class CancelRequestMessage_1_0 extends Message_1_0
 
     // Constructors
 
-    CancelRequestMessage_1_0() {}
+    CancelRequestMessage_1_0() {
+    }
 
     CancelRequestMessage_1_0(int _request_id) {
-        super(Message.GIOPBigMagic, false, Message.GIOPCancelRequest,
-              CANCEL_REQ_MSG_SIZE);
+        super(Message.GIOPBigMagic, false, Message.GIOPCancelRequest, CANCEL_REQ_MSG_SIZE);
         request_id = _request_id;
     }
 
@@ -61,9 +60,7 @@ public final class CancelRequestMessage_1_0 extends Message_1_0
         ostream.write_ulong(this.request_id);
     }
 
-    public void callback(MessageHandler handler)
-        throws java.io.IOException
-    {
+    public void callback(MessageHandler handler) throws java.io.IOException {
         handler.handleInput(this);
     }
 } // class CancelRequestMessage_1_0

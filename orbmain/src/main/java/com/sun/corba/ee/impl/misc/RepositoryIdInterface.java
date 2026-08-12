@@ -22,19 +22,14 @@ package com.sun.corba.ee.impl.misc;
 import java.net.MalformedURLException;
 
 /**
- * Methods on specific instances of RepositoryId.  Hides
- * versioning of our RepositoryId class.
+ * Methods on specific instances of RepositoryId. Hides versioning of our RepositoryId class.
  */
-public interface RepositoryIdInterface
-{
+public interface RepositoryIdInterface {
     Class getClassFromType() throws ClassNotFoundException;
 
-    Class getClassFromType(String codebaseURL)
-        throws ClassNotFoundException, MalformedURLException;
+    Class getClassFromType(String codebaseURL) throws ClassNotFoundException, MalformedURLException;
 
-    Class getClassFromType(Class expectedType,
-                           String codebaseURL)
-        throws ClassNotFoundException, MalformedURLException;
+    Class getClassFromType(Class expectedType, String codebaseURL) throws ClassNotFoundException, MalformedURLException;
 
     String getClassName();
 }

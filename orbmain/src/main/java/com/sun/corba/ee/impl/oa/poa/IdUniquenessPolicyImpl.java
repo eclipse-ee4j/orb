@@ -24,8 +24,7 @@ import org.omg.PortableServer.ID_UNIQUENESS_POLICY_ID;
 import org.omg.PortableServer.IdUniquenessPolicy;
 import org.omg.PortableServer.IdUniquenessPolicyValue;
 
-final class IdUniquenessPolicyImpl
-    extends org.omg.CORBA.LocalObject implements IdUniquenessPolicy {
+final class IdUniquenessPolicyImpl extends org.omg.CORBA.LocalObject implements IdUniquenessPolicy {
 
     public IdUniquenessPolicyImpl(IdUniquenessPolicyValue value) {
         this.value = value;
@@ -35,9 +34,8 @@ final class IdUniquenessPolicyImpl
         return value;
     }
 
-    public int policy_type()
-    {
-        return ID_UNIQUENESS_POLICY_ID.value ;
+    public int policy_type() {
+        return ID_UNIQUENESS_POLICY_ID.value;
     }
 
     public Policy copy() {
@@ -50,10 +48,7 @@ final class IdUniquenessPolicyImpl
 
     private IdUniquenessPolicyValue value;
 
-    public String toString()
-    {
-        return "IdUniquenessPolicy[" +
-            ((value.value() == IdUniquenessPolicyValue._UNIQUE_ID) ?
-                "UNIQUE_ID" : "MULTIPLE_ID" + "]") ;
+    public String toString() {
+        return "IdUniquenessPolicy[" + ((value.value() == IdUniquenessPolicyValue._UNIQUE_ID) ? "UNIQUE_ID" : "MULTIPLE_ID" + "]");
     }
 }
