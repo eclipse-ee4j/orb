@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2026 Contributors to the Eclipse Foundation
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -65,8 +65,6 @@ import com.sun.corba.ee.spi.transport.TransportDefault;
 import java.lang.System.Logger;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.security.AccessController;
-import java.security.PrivilegedExceptionAction;
 
 import org.glassfish.pfl.basic.func.NullaryFunction;
 import org.glassfish.pfl.dynamic.copyobject.spi.ObjectCopierFactory;
@@ -275,22 +273,15 @@ public class ORBConfiguratorImpl implements ORBConfigurator {
         // by reflection.
 
         try {
-            AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
-                public Object run() throws InstantiationException, IllegalAccessException {
-                    try {
-                        Method method = legacySocketFactory.getClass().getMethod("setORB", ORB.class);
-                        method.invoke(legacySocketFactory, orb);
-                    } catch (NoSuchMethodException e) {
-                        // NOTE: If there is no method then it
-                        // is not ours - so ignore it.
-                    } catch (IllegalAccessException e) {
-                        throw new RuntimeException(e);
-                    } catch (InvocationTargetException e) {
-                        throw new RuntimeException(e);
-                    }
-                    return null;
-                }
-            });
+            try {
+                Method method = legacySocketFactory.getClass().getMethod("setORB", ORB.class);
+                method.invoke(legacySocketFactory, orb);
+            } catch (NoSuchMethodException e) {
+                // NOTE: If there is no method then it
+                // is not ours - so ignore it.
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
         } catch (Throwable t) {
             throw wrapper.unableToSetSocketFactoryOrb(t);
         }

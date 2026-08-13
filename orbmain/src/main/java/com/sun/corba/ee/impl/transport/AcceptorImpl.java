@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -31,8 +32,6 @@ import java.net.Socket;
 import java.nio.channels.SelectableChannel;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 
@@ -197,12 +196,7 @@ public class AcceptorImpl extends AcceptorBase {
     public void doWork() {
         try {
             if (selectionKey.isAcceptable()) {
-                AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                    public java.lang.Object run() {
-                        accept();
-                        return null;
-                    }
-                });
+                accept();
             } else {
                 selectionKeyNotAcceptable();
             }

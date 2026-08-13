@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  *
@@ -23,8 +24,6 @@ package com.sun.corba.ee.impl.io;
 import com.sun.corba.ee.impl.misc.ClassInfoCache;
 
 import java.lang.reflect.Field;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 import org.glassfish.pfl.basic.reflection.Bridge;
 
@@ -34,11 +33,7 @@ import org.glassfish.pfl.basic.reflection.Bridge;
  *
  */
 public class ObjectStreamField implements Comparable {
-    private static final Bridge bridge = AccessController.doPrivileged(new PrivilegedAction<Bridge>() {
-        public Bridge run() {
-            return Bridge.get();
-        }
-    });
+    private static final Bridge bridge = Bridge.get();
 
     // Create a named field with the specified type.
     public ObjectStreamField(String n, Class clazz) {

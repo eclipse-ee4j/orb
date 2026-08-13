@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -23,10 +24,6 @@ import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.orb.ClassCodeBaseHandler;
 import com.sun.corba.ee.spi.trace.Osgi;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.util.Dictionary;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -69,32 +66,11 @@ public class OSGIListener implements BundleActivator, SynchronousBundleListener 
     }
 
     private static Dictionary secureGetHeaders(final Bundle bundle) {
-        if (System.getSecurityManager() == null) {
-            return bundle.getHeaders();
-        } else {
-            return AccessController.doPrivileged(new PrivilegedAction<Dictionary>() {
-                public Dictionary run() {
-                    return bundle.getHeaders();
-                }
-            });
-        }
+        return bundle.getHeaders();
     }
 
     private static Class<?> secureLoadClass(final Bundle bundle, final String className) throws ClassNotFoundException {
-
-        if (System.getSecurityManager() == null) {
-            return bundle.loadClass(className);
-        } else {
-            try {
-                return AccessController.doPrivileged(new PrivilegedExceptionAction<Class<?>>() {
-                    public Class<?> run() throws ClassNotFoundException {
-                        return bundle.loadClass(className);
-                    }
-                });
-            } catch (PrivilegedActionException exc) {
-                throw (ClassNotFoundException) exc.getException();
-            }
-        }
+        return bundle.loadClass(className);
     }
 
     // Map from class name to Bundle, which identifies all known
@@ -150,6 +126,7 @@ public class OSGIListener implements BundleActivator, SynchronousBundleListener 
         private void foundClassInBundle(String arg, String name) {
         }
 
+        @Override
         @Osgi
         public Class<?> evaluate(String arg) {
             Bundle bundle = getBundleForClass(arg);
@@ -192,6 +169,7 @@ public class OSGIListener implements BundleActivator, SynchronousBundleListener 
         private void foundClassInBundleVersion(Class<?> cls, String name, String version) {
         }
 
+        @Override
         @Osgi
         public String getCodeBase(Class<?> cls) {
             if (cls == null) {
@@ -236,6 +214,7 @@ public class OSGIListener implements BundleActivator, SynchronousBundleListener 
         private void classNotFoundInBundleVersion(String cname, String bname, String version) {
         }
 
+        @Override
         @Osgi
         public Class<?> loadClass(String codebase, String className) {
             if (codebase == null) {
@@ -389,6 +368,7 @@ public class OSGIListener implements BundleActivator, SynchronousBundleListener 
     private void probeBundlesForProviders() {
     }
 
+    @Override
     @Osgi
     public void start(BundleContext context) {
         // Get a referece to the PackageAdmin service before we
@@ -409,6 +389,7 @@ public class OSGIListener implements BundleActivator, SynchronousBundleListener 
         }
     }
 
+    @Override
     @Osgi
     public void stop(BundleContext context) {
         final Bundle myBundle = context.getBundle();
@@ -419,6 +400,7 @@ public class OSGIListener implements BundleActivator, SynchronousBundleListener 
     private void receivedBundleEvent(String type, String name) {
     }
 
+    @Override
     @Osgi
     public void bundleChanged(BundleEvent event) {
         final int type = event.getType();

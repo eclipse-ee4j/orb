@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -22,9 +23,6 @@ package com.sun.corba.ee.spi.orb ;
 import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
 
 import java.lang.reflect.Field ;
-import java.security.AccessController ;
-import java.security.PrivilegedActionException ;
-import java.security.PrivilegedExceptionAction ;
 import java.util.Iterator ;
 import java.util.Map ;
 import java.util.Properties ;
@@ -96,22 +94,11 @@ public abstract class ParserImplBase {
             final Object value = entry.getValue() ;
 
             try {
-                AccessController.doPrivileged(
-                    new PrivilegedExceptionAction() {
-                        public Object run() throws IllegalAccessException,
-                            IllegalArgumentException
-                        {
-                            Field field = getAnyField( name ) ;
-                            field.setAccessible( true ) ;
-                            field.set( ParserImplBase.this, value ) ;
-                            return null ;
-                        }
-                    }
-                ) ;
-            } catch (PrivilegedActionException exc) {
-                // Since exc wraps the actual exception, use exc.getCause()
-                // instead of exc.
-                throw wrapper.errorSettingField( exc.getCause(), name, value ) ;
+                Field field = getAnyField( name ) ;
+                field.setAccessible( true ) ;
+                field.set( ParserImplBase.this, value ) ;
+            } catch (IllegalAccessException | IllegalArgumentException exc) {
+                throw wrapper.errorSettingField( exc, name, value ) ;
             }
         }
     }

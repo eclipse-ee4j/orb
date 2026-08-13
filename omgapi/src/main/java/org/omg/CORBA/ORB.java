@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -22,9 +23,8 @@ package org.omg.CORBA;
 import java.applet.Applet;
 import java.io.File;
 import java.io.FileInputStream;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Properties;
+import java.util.concurrent.Callable;
 
 import org.omg.CORBA.ORBPackage.InvalidName;
 
@@ -111,7 +111,7 @@ import org.omg.CORBA.ORBPackage.InvalidName;
  * The following code fragment creates an <code>ORB</code> object initialized with the default ORB Singleton. This ORB
  * has a restricted implementation to prevent malicious applets from doing anything beyond creating typecodes. It is
  * called a singleton because there is only one instance for an entire virtual machine.
- * 
+ *
  * <PRE>
  * ORB orb = ORB.init();
  * </PRE>
@@ -121,7 +121,7 @@ import org.omg.CORBA.ORBPackage.InvalidName;
  * class to be "SomeORBImplementation", the new ORB will be initialized with that ORB implementation. If p had been
  * null, and the arguments had not specified an ORB class, the new ORB would have been initialized with the default
  * Java&nbsp;IDL implementation.
- * 
+ *
  * <PRE>
  * Properties p = new Properties();
  * p.put("org.omg.CORBA.ORBClass", "SomeORBImplementation");
@@ -131,14 +131,14 @@ import org.omg.CORBA.ORBPackage.InvalidName;
  * The following code fragment creates an <code>ORB</code> object for the applet supplied as the first parameter. If the
  * given applet does not specify an ORB class, the new ORB will be initialized with the default Java&nbsp;IDL
  * implementation.
- * 
+ *
  * <PRE>
  * ORB orb = ORB.init(myApplet, null);
  * </PRE>
  * <P>
  * An application or applet can be initialized in one or more ORBs. ORB initialization is a bootstrap call into the
  * CORBA world.
- * 
+ *
  * @version 1.70, 09/09/97
  * @since JDK1.2
  */
@@ -173,24 +173,14 @@ abstract public class ORB {
 
     // Get System property
     private static String getSystemProperty(final String name) {
-        // This will not throw a SecurityException because this
-        // class was loaded from rt.jar using the bootstrap classloader.
-        String propValue = AccessController.doPrivileged(new PrivilegedAction<String>() {
-            public String run() {
-                return System.getProperty(name);
-            }
-        });
-
-        return propValue;
+        return System.getProperty(name);
     }
 
     // Get property from orb.properties in either <user.home> or <java-home>/lib
     // directories.
     private static String getPropertyFromFile(final String name) {
-        // This will not throw a SecurityException because this
-        // class was loaded from rt.jar using the bootstrap classloader.
 
-        String propValue = (String) AccessController.doPrivileged(new PrivilegedAction() {
+        String propValue = new Callable<String>() {
             private Properties getFileProperties(String fileName) {
                 try {
                     File propFile = new File(fileName);
@@ -211,7 +201,8 @@ abstract public class ORB {
                 }
             }
 
-            public java.lang.Object run() {
+            @Override
+            public String call() {
                 String userHome = System.getProperty("user.home");
                 String fileName = userHome + File.separator + "orb.properties";
                 Properties props = getFileProperties(fileName);
@@ -226,12 +217,13 @@ abstract public class ORB {
                 fileName = javaHome + File.separator + "lib" + File.separator + "orb.properties";
                 props = getFileProperties(fileName);
 
-                if (props == null)
+                if (props == null) {
                     return null;
-                else
-                    return props.getProperty(name);
+                }
+
+                return props.getProperty(name);
             }
-        });
+        }.call();
 
         return propValue;
     }
@@ -275,10 +267,11 @@ abstract public class ORB {
         }
 
         try {
-            checkPackageAccess(className);
             Class<org.omg.CORBA.ORB> orbBaseClass = org.omg.CORBA.ORB.class;
-            Class<?> orbClass = Class.forName(className, true, cl).asSubclass(orbBaseClass);
-            return (ORB) orbClass.newInstance();
+            return Class.forName(className, true, cl)
+                 .asSubclass(orbBaseClass)
+                 .getDeclaredConstructor()
+                 .newInstance();
         } catch (Throwable ex) {
             SystemException systemException = new INITIALIZE("can't instantiate default ORB implementation " + className);
             systemException.initCause(ex);
@@ -289,7 +282,7 @@ abstract public class ORB {
     /**
      * Creates a new <code>ORB</code> instance for a standalone application. This method may be called from applications
      * only and returns a new fully functional <code>ORB</code> object each time it is called.
-     * 
+     *
      * @param args command-line arguments for the application's <code>main</code> method; may be <code>null</code>
      * @param props application-specific properties; may be <code>null</code>
      * @return the newly-created ORB instance
@@ -324,7 +317,7 @@ abstract public class ORB {
     /**
      * Creates a new <code>ORB</code> instance for an applet. This method may be called from applets only and returns a new
      * fully-functional <code>ORB</code> object each time it is called.
-     * 
+     *
      * @param app the applet; may be <code>null</code>
      * @param props applet-specific properties; may be <code>null</code>
      * @return the newly-created ORB instance
@@ -592,7 +585,7 @@ abstract public class ORB {
     /**
      * Creates a new <code>org.omg.CORBA.portable.OutputStream</code> into which IDL method parameters can be marshalled
      * during method invocation.
-     * 
+     *
      * @return the newly-created <code>org.omg.CORBA.portable.OutputStream</code> object
      */
     abstract public org.omg.CORBA.portable.OutputStream create_output_stream();
@@ -614,7 +607,7 @@ abstract public class ORB {
 
     /**
      * Finds out if any of the deferred (asynchronous) invocations have a response yet.
-     * 
+     *
      * @return <code>true</code> if there is a response available; <code> false</code> otherwise
      */
     abstract public boolean poll_next_response();
@@ -741,7 +734,7 @@ abstract public class ORB {
      * <P>
      * For the IDL <code>struct</code> Node in following code fragment, the offset parameter for creating its sequence would
      * be 1:
-     * 
+     *
      * <PRE>
      *    Struct Node {
      *        long value;
@@ -757,6 +750,7 @@ abstract public class ORB {
      * @see #create_sequence_tc(int, TypeCode) create_sequence_tc
      */
     // @Deprecated
+    @Deprecated
     abstract public TypeCode create_recursive_sequence_tc(int bound, int offset);
 
     /**
@@ -830,7 +824,7 @@ abstract public class ORB {
      * <code>BAD_TYPECODE</code> exception.
      * <P>
      * For example, the following IDL type declaration contains recursion:
-     * 
+     *
      * <PRE>
      *    Struct Node {
      *        Sequence&lt;Node&gt; subnodes;
@@ -838,7 +832,7 @@ abstract public class ORB {
      * </PRE>
      * <P>
      * To create a TypeCode for struct Node, you would invoke the TypeCode creation operations as shown below:
-     * 
+     *
      * <PRE>
      * String nodeID = "IDL:Node:1.0";
      * TypeCode recursiveSeqTC = orb.create_sequence_tc(0, orb.create_recursive_tc(nodeID));
@@ -847,7 +841,7 @@ abstract public class ORB {
      * </PRE>
      * <P>
      * Also note that the following is an illegal IDL type declaration:
-     * 
+     *
      * <PRE>
      *    Struct Node {
      *        Node next;
@@ -857,7 +851,7 @@ abstract public class ORB {
      * Recursive types can only appear within sequences which can be empty. That way marshaling problems, when transmitting
      * the struct in an Any, are avoided.
      * <P>
-     * 
+     *
      * @param id the logical id of the referenced type
      * @return the requested TypeCode
      */
@@ -899,6 +893,7 @@ abstract public class ORB {
      * @deprecated use <code>resolve_initial_references</code>.
      */
     // @Deprecated
+    @Deprecated
     public org.omg.CORBA.Current get_current() {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
@@ -967,7 +962,7 @@ abstract public class ORB {
      * requested services type is available, the operation returns <tt>false</tt> (i.e., the service is not supported by
      * this ORB).
      * <P>
-     * 
+     *
      * @param service_type a <code>short</code> indicating the service type for which information is being requested
      * @param service_info a <code>ServiceInformationHolder</code> object that will hold the <code>ServiceInformation</code>
      * object produced by this method
@@ -984,13 +979,14 @@ abstract public class ORB {
     /**
      * Creates a new <code>DynAny</code> object from the given <code>Any</code> object.
      * <P>
-     * 
+     *
      * @param value the <code>Any</code> object from which to create a new <code>DynAny</code> object
      * @return the new <code>DynAny</code> object created from the given <code>Any</code> object
      * @see <a href="package-summary.html#unimpl"><code>CORBA</code> package comments for unimplemented features</a>
      * @deprecated Use the new <a href="../DynamicAny/DynAnyFactory.html">DynAnyFactory</a> API instead
      */
     // @Deprecated
+    @Deprecated
     public org.omg.CORBA.DynAny create_dyn_any(org.omg.CORBA.Any value) {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
@@ -998,7 +994,7 @@ abstract public class ORB {
     /**
      * Creates a basic <code>DynAny</code> object from the given <code>TypeCode</code> object.
      * <P>
-     * 
+     *
      * @param type the <code>TypeCode</code> object from which to create a new <code>DynAny</code> object
      * @return the new <code>DynAny</code> object created from the given <code>TypeCode</code> object
      * @throws org.omg.CORBA.ORBPackage.InconsistentTypeCode if the given <code>TypeCode</code> object is not consistent
@@ -1007,6 +1003,7 @@ abstract public class ORB {
      * @deprecated Use the new <a href="../DynamicAny/DynAnyFactory.html">DynAnyFactory</a> API instead
      */
     // @Deprecated
+    @Deprecated
     public org.omg.CORBA.DynAny create_basic_dyn_any(org.omg.CORBA.TypeCode type) throws org.omg.CORBA.ORBPackage.InconsistentTypeCode {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
@@ -1014,7 +1011,7 @@ abstract public class ORB {
     /**
      * Creates a new <code>DynStruct</code> object from the given <code>TypeCode</code> object.
      * <P>
-     * 
+     *
      * @param type the <code>TypeCode</code> object from which to create a new <code>DynStruct</code> object
      * @return the new <code>DynStruct</code> object created from the given <code>TypeCode</code> object
      * @throws org.omg.CORBA.ORBPackage.InconsistentTypeCode if the given <code>TypeCode</code> object is not consistent
@@ -1023,6 +1020,7 @@ abstract public class ORB {
      * @deprecated Use the new <a href="../DynamicAny/DynAnyFactory.html">DynAnyFactory</a> API instead
      */
     // @Deprecated
+    @Deprecated
     public org.omg.CORBA.DynStruct create_dyn_struct(org.omg.CORBA.TypeCode type) throws org.omg.CORBA.ORBPackage.InconsistentTypeCode {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
@@ -1030,7 +1028,7 @@ abstract public class ORB {
     /**
      * Creates a new <code>DynSequence</code> object from the given <code>TypeCode</code> object.
      * <P>
-     * 
+     *
      * @param type the <code>TypeCode</code> object from which to create a new <code>DynSequence</code> object
      * @return the new <code>DynSequence</code> object created from the given <code>TypeCode</code> object
      * @throws org.omg.CORBA.ORBPackage.InconsistentTypeCode if the given <code>TypeCode</code> object is not consistent
@@ -1039,6 +1037,7 @@ abstract public class ORB {
      * @deprecated Use the new <a href="../DynamicAny/DynAnyFactory.html">DynAnyFactory</a> API instead
      */
     // @Deprecated
+    @Deprecated
     public org.omg.CORBA.DynSequence create_dyn_sequence(org.omg.CORBA.TypeCode type) throws org.omg.CORBA.ORBPackage.InconsistentTypeCode {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
@@ -1046,7 +1045,7 @@ abstract public class ORB {
     /**
      * Creates a new <code>DynArray</code> object from the given <code>TypeCode</code> object.
      * <P>
-     * 
+     *
      * @param type the <code>TypeCode</code> object from which to create a new <code>DynArray</code> object
      * @return the new <code>DynArray</code> object created from the given <code>TypeCode</code> object
      * @throws org.omg.CORBA.ORBPackage.InconsistentTypeCode if the given <code>TypeCode</code> object is not consistent
@@ -1055,6 +1054,7 @@ abstract public class ORB {
      * @deprecated Use the new <a href="../DynamicAny/DynAnyFactory.html">DynAnyFactory</a> API instead
      */
     // @Deprecated
+    @Deprecated
     public org.omg.CORBA.DynArray create_dyn_array(org.omg.CORBA.TypeCode type) throws org.omg.CORBA.ORBPackage.InconsistentTypeCode {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
@@ -1062,7 +1062,7 @@ abstract public class ORB {
     /**
      * Creates a new <code>DynUnion</code> object from the given <code>TypeCode</code> object.
      * <P>
-     * 
+     *
      * @param type the <code>TypeCode</code> object from which to create a new <code>DynUnion</code> object
      * @return the new <code>DynUnion</code> object created from the given <code>TypeCode</code> object
      * @throws org.omg.CORBA.ORBPackage.InconsistentTypeCode if the given <code>TypeCode</code> object is not consistent
@@ -1071,6 +1071,7 @@ abstract public class ORB {
      * @deprecated Use the new <a href="../DynamicAny/DynAnyFactory.html">DynAnyFactory</a> API instead
      */
     // @Deprecated
+    @Deprecated
     public org.omg.CORBA.DynUnion create_dyn_union(org.omg.CORBA.TypeCode type) throws org.omg.CORBA.ORBPackage.InconsistentTypeCode {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
@@ -1078,7 +1079,7 @@ abstract public class ORB {
     /**
      * Creates a new <code>DynEnum</code> object from the given <code>TypeCode</code> object.
      * <P>
-     * 
+     *
      * @param type the <code>TypeCode</code> object from which to create a new <code>DynEnum</code> object
      * @return the new <code>DynEnum</code> object created from the given <code>TypeCode</code> object
      * @throws org.omg.CORBA.ORBPackage.InconsistentTypeCode if the given <code>TypeCode</code> object is not consistent
@@ -1087,6 +1088,7 @@ abstract public class ORB {
      * @deprecated Use the new <a href="../DynamicAny/DynAnyFactory.html">DynAnyFactory</a> API instead
      */
     // @Deprecated
+    @Deprecated
     public org.omg.CORBA.DynEnum create_dyn_enum(org.omg.CORBA.TypeCode type) throws org.omg.CORBA.ORBPackage.InconsistentTypeCode {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
@@ -1095,7 +1097,7 @@ abstract public class ORB {
      * Can be invoked to create new instances of policy objects of a specific type with specified initial state. If
      * <tt>create_policy</tt> fails to instantiate a new Policy object due to its inability to interpret the requested type
      * and content of the policy, it raises the <tt>PolicyError</tt> exception with the appropriate reason.
-     * 
+     *
      * @param type the <tt>PolicyType</tt> of the policy object to be created
      * @param val the value that will be used to set the initial state of the <tt>Policy</tt> object that is created
      * @return Reference to a newly created <tt>Policy</tt> object of type specified by the <tt>type</tt> parameter and
@@ -1108,21 +1110,4 @@ abstract public class ORB {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
 
-    private final static void checkPackageAccess(String name) {
-        SecurityManager s = System.getSecurityManager();
-        if (s == null)
-            return;
-
-        String cname = name.replace('/', '.');
-        if (cname.startsWith("[")) {
-            int b = cname.lastIndexOf('[') + 2;
-            if (b > 1 && b < cname.length()) {
-                cname = cname.substring(b);
-            }
-        }
-        int i = cname.lastIndexOf('.');
-        if (i != -1) {
-            s.checkPackageAccess(cname.substring(0, i));
-        }
-    }
 }

@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  *
@@ -27,8 +28,6 @@ import com.sun.corba.ee.spi.protocol.MessageMediator;
 import com.sun.corba.ee.spi.trace.Subcontract;
 
 import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 import org.omg.CORBA.portable.ApplicationException;
@@ -69,12 +68,7 @@ public class SharedCDRClientRequestDispatcherImpl extends ClientRequestDispatche
         // Create server-side input object.
         //
 
-        CDRInputObject cdrInputObject = AccessController.doPrivileged(new PrivilegedAction<CDRInputObject>() {
-            @Override
-            public CDRInputObject run() {
-                return fCDROutputObject.createInputObject(orb);
-            }
-        });
+        CDRInputObject cdrInputObject = fCDROutputObject.createInputObject(orb);
 
         messageMediator.setInputObject(cdrInputObject);
         cdrInputObject.setMessageMediator(messageMediator);
@@ -104,15 +98,7 @@ public class SharedCDRClientRequestDispatcherImpl extends ClientRequestDispatche
 
         cdrOutputObject = messageMediator.getOutputObject();
         final CDROutputObject fCDROutputObject2 = cdrOutputObject;
-        cdrInputObject = AccessController.doPrivileged(new PrivilegedAction<CDRInputObject>() {
-
-            @Override
-            public CDRInputObject run() {
-                // TODO Auto-generated method stub
-                return fCDROutputObject2.createInputObject(orb);
-            }
-
-        });
+        cdrInputObject = fCDROutputObject2.createInputObject(orb);
         messageMediator.setInputObject(cdrInputObject);
         cdrInputObject.setMessageMediator(messageMediator);
 

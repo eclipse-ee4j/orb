@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -23,8 +24,6 @@ import com.sun.corba.ee.impl.misc.ClassInfoCache;
 import com.sun.corba.ee.impl.misc.ORBUtility;
 
 import java.lang.reflect.Method;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 // This file contains some utility methods that
 // originally were in the OSC in the RMI-IIOP
@@ -121,11 +120,7 @@ class ObjectStreamClassCorbaExt {
     }
 
     private static final Method[] getDeclaredMethods(final Class clz) {
-        return AccessController.doPrivileged(new PrivilegedAction<Method[]>() {
-            public Method[] run() {
-                return clz.getDeclaredMethods();
-            }
-        });
+        return clz.getDeclaredMethods();
     }
 
 }

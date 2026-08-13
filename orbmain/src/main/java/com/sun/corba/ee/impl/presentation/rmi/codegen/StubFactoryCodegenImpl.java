@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -28,9 +29,6 @@ import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
 import java.util.Map;
 
 public class StubFactoryCodegenImpl extends StubFactoryDynamicBase {
@@ -66,24 +64,21 @@ public class StubFactoryCodegenImpl extends StubFactoryDynamicBase {
         // Create a StubGenerator that generates this stub class
         final CodegenProxyCreator creator = new CodegenProxyCreator(stubClassName, baseClass, interfaces, methods);
 
-        // Invoke creator in a doPrivileged block if there is a security manager installed.
-        return System.getSecurityManager() == null ? createStubClass(creator)
-                : AccessController.doPrivileged((PrivilegedAction<Class<?>>) () -> createStubClass(creator));
+        return createStubClass(creator);
     }
 
     private Class<?> createStubClass(CodegenProxyCreator creator) {
         return creator.create(classData.getMyClass(), pm.getDebug(), pm.getPrintStream());
     }
 
+    @Override
     public org.omg.CORBA.Object makeStub() {
         final Class<?> stubClass = getStubClass();
 
         CodegenStubBase stub = null;
 
         try {
-            // Added doPriv for issue 778
-            stub = AccessController
-                    .doPrivileged((PrivilegedExceptionAction<CodegenStubBase>) () -> (CodegenStubBase) stubClass.newInstance());
+            stub = (CodegenStubBase) stubClass.newInstance();
         } catch (Exception exc) {
             wrapper.couldNotInstantiateStubClass(exc, stubClass.getName());
         }

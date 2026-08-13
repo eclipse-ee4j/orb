@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  *
@@ -20,8 +21,6 @@
 
 package com.sun.corba.ee.impl.util;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Collections;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -35,11 +34,7 @@ class JDKClassLoader {
 
     private static final JDKClassLoaderCache classCache = new JDKClassLoaderCache();
 
-    private static final Bridge bridge = (Bridge) AccessController.doPrivileged(new PrivilegedAction() {
-        public Object run() {
-            return Bridge.get();
-        }
-    });
+    private static final Bridge bridge = (Bridge) Bridge.get();
 
     static Class loadClass(Class aClass, String className) throws ClassNotFoundException {
 

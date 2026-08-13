@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  *
@@ -60,9 +61,6 @@ import java.net.MalformedURLException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.rmi.server.RMIClassLoader;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.util.Arrays;
 import java.util.List;
 
@@ -1251,18 +1249,8 @@ public class CDRInputStream_1_0 extends CDRInputStreamBase implements Restorable
             // getDeclaredMethod requires RuntimePermission
             // accessDeclaredMembers if a different class loader is used
             // (even though the javadoc says otherwise)
-            Method readMethod = null;
-            try {
-                readMethod = AccessController.doPrivileged(new PrivilegedExceptionAction<Method>() {
-                    @SuppressWarnings("unchecked")
-                    public Method run() throws NoSuchMethodException {
-                        return helperClass.getDeclaredMethod(K_READ_METHOD, org.omg.CORBA.portable.InputStream.class);
-                    }
-                });
-            } catch (PrivilegedActionException pae) {
-                // this gets caught below
-                throw (NoSuchMethodException) pae.getException();
-            }
+            // NoSuchMethodException gets caught below
+            Method readMethod = helperClass.getDeclaredMethod(K_READ_METHOD, org.omg.CORBA.portable.InputStream.class);
 
             return readMethod.invoke(null, parent);
         } catch (ClassNotFoundException cnfe) {

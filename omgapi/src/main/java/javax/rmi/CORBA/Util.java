@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  *
@@ -22,12 +23,10 @@ package javax.rmi.CORBA;
 
 import com.sun.corba.ee.org.omg.CORBA.GetPropertyAction;
 
-import java.io.SerializablePermission;
 import java.net.MalformedURLException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.RMIClassLoader;
-import java.security.AccessController;
 import java.util.Properties;
 
 import org.omg.CORBA.INITIALIZE;
@@ -55,7 +54,7 @@ public class Util {
 
     /**
      * Maps a SystemException to a RemoteException.
-     * 
+     *
      * @param ex the SystemException to map.
      * @return the mapped exception.
      */
@@ -69,7 +68,7 @@ public class Util {
 
     /**
      * Writes any java.lang.Object as a CORBA any.
-     * 
+     *
      * @param out the stream in which to write the any.
      * @param obj the object to write as an any.
      */
@@ -82,7 +81,7 @@ public class Util {
 
     /**
      * Reads a java.lang.Object as a CORBA any.
-     * 
+     *
      * @param in the stream from which to read the any.
      * @return the object read from the stream.
      */
@@ -98,7 +97,7 @@ public class Util {
      * Writes a java.lang.Object as a CORBA Object. If <code>obj</code> is an exported RMI-IIOP server object, the tie is
      * found and wired to <code>obj</code>, then written to <code>out.write_Object(org.omg.CORBA.Object)</code>. If
      * <code>obj</code> is a CORBA Object, it is written to <code>out.write_Object(org.omg.CORBA.Object)</code>.
-     * 
+     *
      * @param out the stream in which to write the object.
      * @param obj the object to write.
      */
@@ -115,7 +114,7 @@ public class Util {
      * object, it is written to <code>out.write_abstract_interface(java.lang.Object)</code>. If <code>obj</code> is an
      * exported RMI-IIOP server object, the tie is found and wired to <code>obj</code>, then written to
      * <code>out.write_abstract_interface(java.lang.Object)</code>.
-     * 
+     *
      * @param out the stream in which to write the object.
      * @param obj the object to write.
      */
@@ -128,7 +127,7 @@ public class Util {
 
     /**
      * Registers a target for a tie. Adds the tie to an internal table and calls {@link Tie#setTarget} on the tie object.
-     * 
+     *
      * @param tie the tie to register.
      * @param target the target for the tie.
      */
@@ -142,7 +141,7 @@ public class Util {
 
     /**
      * Removes the associated tie from an internal table and calls {@link Tie#deactivate} to deactivate the object.
-     * 
+     *
      * @param target the object to unexport.
      * @throws java.rmi.NoSuchObjectException if the target object does not exist
      */
@@ -156,7 +155,7 @@ public class Util {
 
     /**
      * Returns the tie (if any) for a given target object.
-     * 
+     *
      * @param target the Remote to get the Tie for
      * @return the tie or null if no tie is registered for the given target.
      */
@@ -170,21 +169,20 @@ public class Util {
 
     /**
      * Returns a singleton instance of a class that implements the {@link ValueHandler} interface.
-     * 
+     *
      * @return a class which implements the ValueHandler interface.
      */
     public static ValueHandler createValueHandler() {
-        isCustomSerializationPermitted();
-
         if (utilDelegate != null) {
             return utilDelegate.createValueHandler();
         }
+
         return null;
     }
 
     /**
      * Returns the codebase, if any, for the given class.
-     * 
+     *
      * @param clz the class to get a codebase for.
      * @return a space-separated list of URLs, or null.
      */
@@ -213,7 +211,7 @@ public class Util {
      * <LI>If a class was successfully loaded by step 1, 2, 3, or 4, then return the loaded class, else throw
      * <tt>ClassNotFoundException</tt>.
      * </UL>
-     * 
+     *
      * @param className the name of the class.
      * @param remoteCodebase a space-separated list of URLs at which the class might be found. May be null.
      * @param loader a <tt>ClassLoader</tt> that may be used to load the class if all other methods fail.
@@ -254,7 +252,7 @@ public class Util {
 
     /**
      * Wraps an exception thrown by an implementation method. It returns the corresponding client-side exception.
-     * 
+     *
      * @param orig the exception to wrap.
      * @return the wrapped exception.
      */
@@ -270,7 +268,7 @@ public class Util {
     /**
      * Copies or connects an array of objects. Used by local stubs to copy any number of actual parameters, preserving
      * sharing across parameters as necessary to support RMI semantics.
-     * 
+     *
      * @param obj the objects to copy or connect.
      * @param orb the ORB.
      * @return the copied or connected objects.
@@ -287,17 +285,17 @@ public class Util {
 
     /**
      * Copies or connects an object. Used by local stubs to copy an actual parameter, result object, or exception.
-     * 
+     *
      * @param obj the object to copy.
      * @param orb the ORB.
      * @return the copy or connected object.
      * @exception RemoteException if the object could not be copied or connected.
      */
     public static Object copyObject(Object obj, ORB orb) throws RemoteException {
-
         if (utilDelegate != null) {
             return utilDelegate.copyObject(obj, orb);
         }
+
         return null;
     }
 
@@ -306,7 +304,7 @@ public class Util {
     // security reasons. If you know a better solution how to share this code
     // then remove it from PortableRemoteObject. Also in Stub.java
     private static Object createDelegateIfSpecified(String classKey, String defaultClassName) {
-        String className = (String) AccessController.doPrivileged(new GetPropertyAction(classKey));
+        String className = new GetPropertyAction(classKey).run();
         if (className == null) {
             Properties props = getORBPropertiesFile();
             if (props != null) {
@@ -352,17 +350,7 @@ public class Util {
      * Load the orb.properties file.
      */
     private static Properties getORBPropertiesFile() {
-        return (Properties) AccessController.doPrivileged(new GetORBPropertiesFileAction());
-    }
-
-    private static void isCustomSerializationPermitted() {
-        SecurityManager sm = System.getSecurityManager();
-        if (sm != null) {
-            // check that a serialization permission has been
-            // set to allow the loading of the Util delegate
-            // which provides access to custom ValueHandler
-            sm.checkPermission(new SerializablePermission("enableCustomValueHandler"));
-        }
+        return new GetORBPropertiesFileAction().run();
     }
 
 }

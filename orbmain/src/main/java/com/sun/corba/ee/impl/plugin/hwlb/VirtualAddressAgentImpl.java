@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -52,8 +53,6 @@ import com.sun.corba.ee.spi.orb.PropertyParser;
 import com.sun.corba.ee.spi.trace.Subcontract;
 
 import java.lang.reflect.Field;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Iterator;
 
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
@@ -149,18 +148,13 @@ public class VirtualAddressAgentImpl extends LocalObject implements ORBConfigura
 
         // Nasty hack: Use reflection to set the private field!
         // REVISIT: AS 9 has an ORB API for setting ORBInitializers.
-        AccessController.doPrivileged(new PrivilegedAction() {
-            public Object run() {
-                try {
-                    final Field fld = ORBDataParserImpl.class.getDeclaredField("orbInitializers");
-                    fld.setAccessible(true);
-                    fld.set(odata, newOrbInits);
-                    return null;
-                } catch (Exception exc) {
-                    throw wrapper.couldNotSetOrbInitializer(exc);
-                }
-            }
-        });
+        try {
+            final Field fld = ORBDataParserImpl.class.getDeclaredField("orbInitializers");
+            fld.setAccessible(true);
+            fld.set(odata, newOrbInits);
+        } catch (Exception exc) {
+            throw wrapper.couldNotSetOrbInitializer(exc);
+        }
     }
 
     @Subcontract

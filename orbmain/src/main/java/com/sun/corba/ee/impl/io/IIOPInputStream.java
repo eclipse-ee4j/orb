@@ -45,8 +45,6 @@ import java.io.OptionalDataException;
 import java.io.StreamCorruptedException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -77,11 +75,7 @@ import org.omg.CORBA.portable.ValueInputStream;
 
 @ValueHandlerRead
 public class IIOPInputStream extends com.sun.corba.ee.impl.io.InputStreamHook {
-    private static Bridge bridge = AccessController.doPrivileged(new PrivilegedAction<Bridge>() {
-        public Bridge run() {
-            return Bridge.get();
-        }
-    });
+    private static Bridge bridge = Bridge.get();
 
     // Necessary to pass the appropriate fields into the
     // defaultReadObjectDelegate method (which takes no

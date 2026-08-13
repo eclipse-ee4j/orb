@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -29,8 +30,6 @@ import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
 import java.rmi.Remote;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -196,11 +195,7 @@ public final class PresentationManagerImpl implements PresentationManager {
     public void flushClass(final Class<?> cls) {
         classToClassData.remove(cls);
 
-        Method[] methods = (Method[]) AccessController.doPrivileged(new PrivilegedAction<Object>() {
-            public Object run() {
-                return cls.getMethods();
-            }
-        });
+        Method[] methods = (Method[]) cls.getMethods();
 
         for (int ctr = 0; ctr < methods.length; ctr++) {
             methodToDMM.remove(methods[ctr]);

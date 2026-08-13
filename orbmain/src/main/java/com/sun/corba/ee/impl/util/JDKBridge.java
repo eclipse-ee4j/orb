@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  * Copyright (c) 2019 Payara Services Ltd.
@@ -28,7 +29,6 @@ import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 import java.net.MalformedURLException;
 import java.rmi.server.RMIClassLoader;
-import java.security.AccessController;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -44,7 +44,7 @@ public class JDKBridge {
 
     /**
      * Get local codebase System property (java.rmi.server.codebase). May be null or a space separated array of URLS.
-     * 
+     *
      * @return The value of the property
      */
     public static String getLocalCodebase() {
@@ -53,7 +53,7 @@ public class JDKBridge {
 
     /**
      * Return true if the system property "java.rmi.server.useCodebaseOnly" is set, false otherwise.
-     * 
+     *
      * @return If the property is set
      */
     public static boolean useCodebaseOnly() {
@@ -175,7 +175,7 @@ public class JDKBridge {
 
     /**
      * Returns a class instance for the specified class.
-     * 
+     *
      * @param className the name of the class
      * @param remoteCodebase a space-separated array of urls at which the class might be found. May be null.
      * @param loader a ClassLoader who may be used to load the class if all other methods fail.
@@ -213,7 +213,7 @@ public class JDKBridge {
 
     /**
      * Returns a class instance for the specified class.
-     * 
+     *
      * @param className the name of the class
      * @param remoteCodebase a space-separated array of urls at which the class might be found. May be null.
      * @return the <code>Class</code> object representing the loaded class.
@@ -225,7 +225,7 @@ public class JDKBridge {
 
     /**
      * Returns a class instance for the specified class.
-     * 
+     *
      * @param className the name of the class
      * @return the <code>Class</code> object representing the loaded class.
      * @throws ClassNotFoundException if class cannot be loaded.
@@ -247,14 +247,12 @@ public class JDKBridge {
      * Set the codebase and useCodebaseOnly properties. This is public only for test code.
      */
     public static synchronized void setCodebaseProperties() {
-        String prop = (String) AccessController.doPrivileged(new GetPropertyAction(LOCAL_CODEBASE_KEY));
-
+        String prop = new GetPropertyAction(LOCAL_CODEBASE_KEY).run();
         if (prop != null && prop.trim().length() > 0) {
             localCodebase = prop;
         }
 
-        prop = (String) AccessController.doPrivileged(new GetPropertyAction(USE_CODEBASE_ONLY_KEY));
-
+        prop = new GetPropertyAction(USE_CODEBASE_ONLY_KEY).run();
         if (prop != null && prop.trim().length() > 0) {
             useCodebaseOnly = Boolean.valueOf(prop).booleanValue();
         }
@@ -262,7 +260,7 @@ public class JDKBridge {
 
     /**
      * Set the default code base. This method is here only for test code.
-     * 
+     *
      * @param codebase The local codebase
      */
     public static synchronized void setLocalCodebase(String codebase) {
@@ -270,7 +268,6 @@ public class JDKBridge {
     }
 
     private static Class loadClassM(String className, String remoteCodebase, boolean useCodebaseOnly) throws ClassNotFoundException {
-
         try {
             return JDKClassLoader.loadClass(null, className);
         } catch (ClassNotFoundException e) {

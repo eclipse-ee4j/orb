@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -23,19 +24,10 @@ import com.sun.corba.ee.impl.presentation.rmi.StubFactoryFactoryDynamicBase;
 import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 import com.sun.corba.ee.spi.presentation.rmi.PresentationManager.StubFactory;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 public class StubFactoryFactoryProxyImpl extends StubFactoryFactoryDynamicBase {
     public PresentationManager.StubFactory makeDynamicStubFactory(PresentationManager pm, final PresentationManager.ClassData classData,
             final ClassLoader classLoader) {
-        return AccessController.doPrivileged(new PrivilegedAction<PresentationManager.StubFactory>() {
-
-            @Override
-            public StubFactory run() {
-                return new StubFactoryProxyImpl(classData, classLoader);
-            }
-
-        });
+        return new StubFactoryProxyImpl(classData, classLoader);
     }
 }

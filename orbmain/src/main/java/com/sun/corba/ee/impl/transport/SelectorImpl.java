@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -256,12 +257,7 @@ public class SelectorImpl extends Thread implements com.sun.corba.ee.spi.transpo
     @Transport
     @Override
     public void run() {
-        java.security.AccessController.doPrivileged(new java.security.PrivilegedAction<Object>() {
-            public Object run() {
-                setName("SelectorThread");
-                return null;
-            }
-        });
+        setName("SelectorThread");
 
         while (!closed) {
             try {

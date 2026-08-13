@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -27,8 +28,6 @@ import com.sun.corba.ee.spi.threadpool.WorkQueue;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -152,6 +151,7 @@ public class ThreadPoolImpl implements ThreadPool {
     }
 
     // Note that this method should not return until AFTER all threads have died.
+    @Override
     public void close() throws IOException {
         // Copy to avoid concurrent modification problems.
         List<WorkerThread> copy = null;
@@ -175,23 +175,15 @@ public class ThreadPoolImpl implements ThreadPool {
     }
 
     private static ClassLoader getDefaultClassLoader() {
-        if (System.getSecurityManager() == null)
-            return Thread.currentThread().getContextClassLoader();
-        else {
-            final ClassLoader cl = AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
-                public ClassLoader run() {
-                    return Thread.currentThread().getContextClassLoader();
-                }
-            });
-
-            return cl;
-        }
+        return Thread.currentThread().getContextClassLoader();
     }
 
+    @Override
     public WorkQueue getAnyWorkQueue() {
         return workQueue;
     }
 
+    @Override
     public WorkQueue getWorkQueue(int queueId) throws NoSuchWorkQueueException {
         if (queueId != 0)
             throw new NoSuchWorkQueueException();
@@ -199,42 +191,13 @@ public class ThreadPoolImpl implements ThreadPool {
     }
 
     private Thread createWorkerThreadHelper(String name) {
-        // Thread creation needs to be in a doPrivileged block
-        // if there is a non-null security manager for two reasons:
-        // 1. The creation of a thread in a specific ThreadGroup
-        // is a privileged operation. Lack of a doPrivileged
-        // block here causes an AccessControlException
-        // (see bug 6268145).
-        // 2. We want to make sure that the permissions associated
-        // with this thread do NOT include the permissions of
-        // the current thread that is calling this method.
-        // This leads to problems in the app server where
-        // some threads in the ThreadPool randomly get
-        // bad permissions, leading to unpredictable
-        // permission errors (see bug 6021011).
-        //
-        // A Java thread contains a stack of call frames,
-        // one for each method called that has not yet returned.
-        // Each method comes from a particular class. The class
-        // was loaded by a ClassLoader which has an associated
-        // CodeSource, and this determines the Permissions
-        // for all methods in that class. The current
-        // Permissions for the thread are the intersection of
-        // all Permissions for the methods on the stack.
-        // This is part of the Security Context of the thread.
-        //
-        // When a thread creates a new thread, the new thread
-        // inherits the security context of the old thread.
-        // This is bad in a ThreadPool, because different
-        // creators of threads may have different security contexts.
-        // This leads to occasional unpredictable errors when
-        // a thread is re-used in a different security context.
-        //
-        // Avoiding this problem is simple: just do the thread
-        // creation in a doPrivileged block. This sets the
-        // inherited security context to that of the code source
-        // for the ORB code itself, which contains all permissions
-        // in either Java SE or Java EE.
+        // This used to run inside a doPrivileged block, so that a thread created
+        // here inherited the ORB's security context rather than that of whichever
+        // caller happened to trigger the creation - pooled threads picking up an
+        // arbitrary caller's permissions caused unpredictable failures in the app
+        // server (see bugs 6268145 and 6021011). With the Security Manager
+        // permanently disabled there is no security context to inherit, so the
+        // thread is simply created directly.
         WorkerThread thread = new WorkerThread(threadGroup, name);
         synchronized (workersLock) {
             workers.add(thread);
@@ -244,8 +207,6 @@ public class ThreadPoolImpl implements ThreadPool {
         // VM can exit if the only threads left are PooledThreads
         // or other daemons. We don't want to rely on the
         // calling thread always being a daemon.
-        // Note that no exception is possible here since we
-        // are inside the doPrivileged block.
         thread.setDaemon(true);
 
         Exceptions.self.workerThreadCreated(thread, thread.getContextClassLoader());
@@ -261,16 +222,7 @@ public class ThreadPoolImpl implements ThreadPool {
         final String lname = getName();
         synchronized (workQueue) {
             try {
-                if (System.getSecurityManager() == null) {
-                    createWorkerThreadHelper(lname);
-                } else {
-                    // If we get here, we need to create a thread.
-                    AccessController.doPrivileged(new PrivilegedAction() {
-                        public Object run() {
-                            return createWorkerThreadHelper(lname);
-                        }
-                    });
-                }
+                createWorkerThreadHelper(lname);
             } catch (Throwable t) {
                 // Decrementing the count of current worker threads.
                 // But, it will be increased in the finally block.
@@ -282,18 +234,22 @@ public class ThreadPoolImpl implements ThreadPool {
         }
     }
 
+    @Override
     public int minimumNumberOfThreads() {
         return minWorkerThreads;
     }
 
+    @Override
     public int maximumNumberOfThreads() {
         return maxWorkerThreads;
     }
 
+    @Override
     public long idleTimeoutForThreads() {
         return inactivityTimeout;
     }
 
+    @Override
     @ManagedAttribute
     @Description("The current number of threads")
     public int currentNumberOfThreads() {
@@ -314,6 +270,7 @@ public class ThreadPoolImpl implements ThreadPool {
         }
     }
 
+    @Override
     @ManagedAttribute
     @Description("The number of available threads in this ThreadPool")
     public int numberOfAvailableThreads() {
@@ -322,6 +279,7 @@ public class ThreadPoolImpl implements ThreadPool {
         }
     }
 
+    @Override
     @ManagedAttribute
     @Description("The number of threads busy processing work in this ThreadPool")
     public int numberOfBusyThreads() {
@@ -330,18 +288,21 @@ public class ThreadPoolImpl implements ThreadPool {
         }
     }
 
+    @Override
     @ManagedAttribute
     @Description("The average time needed to complete a work item")
     public long averageWorkCompletionTime() {
         return (totalTimeTaken.get() / processedCount.get());
     }
 
+    @Override
     @ManagedAttribute
     @Description("The number of work items processed")
     public long currentProcessedCount() {
         return processedCount.get();
     }
 
+    @Override
     @NameValue
     public String getName() {
         return name;
@@ -350,6 +311,7 @@ public class ThreadPoolImpl implements ThreadPool {
     /**
      * This method will return the number of WorkQueues serviced by the threadpool.
      */
+    @Override
     public int numberOfWorkQueues() {
         return 1;
     }
@@ -392,44 +354,18 @@ public class ThreadPoolImpl implements ThreadPool {
         }
 
         private void setClassLoader() {
-            if (System.getSecurityManager() == null)
-                setClassLoaderHelper();
-            else {
-                AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
-                    public ClassLoader run() {
-                        return WorkerThread.this.setClassLoaderHelper();
-                    }
-                });
-            }
+            Thread.currentThread()
+                  .setContextClassLoader(workerThreadClassLoader);
         }
 
-        private ClassLoader setClassLoaderHelper() {
-            Thread thr = Thread.currentThread();
-            ClassLoader result = thr.getContextClassLoader();
-            thr.setContextClassLoader(workerThreadClassLoader);
-            return result;
-        }
-
+        @Override
         public synchronized void close() {
             closeCalled = true;
             interrupt();
         }
 
         private void resetClassLoader() {
-            ClassLoader currentClassLoader = null;
-            try {
-                if (System.getSecurityManager() == null) {
-                    currentClassLoader = getContextClassLoader();
-                } else {
-                    currentClassLoader = AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
-                        public ClassLoader run() {
-                            return getContextClassLoader();
-                        }
-                    });
-                }
-            } catch (SecurityException se) {
-                throw Exceptions.self.workerThreadGetContextClassloaderFailed(se, this);
-            }
+            ClassLoader currentClassLoader = getContextClassLoader();
 
             if (workerThreadClassLoader != currentClassLoader) {
                 Exceptions.self.workerThreadForgotClassloaderReset(this, currentClassLoader, workerThreadClassLoader);

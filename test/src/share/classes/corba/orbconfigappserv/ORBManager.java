@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
  *
@@ -275,21 +276,14 @@ public class ORBManager
 
     private static void checkDelegateProps()
     {
-        java.security.AccessController.doPrivileged(new java.security.PrivilegedAction() {
-            public java.lang.Object run() {
-
-                String utilDelegate = System.getProperty(ORB_UTIL_CLASS_PROPERTY);
-                if ( utilDelegate == null || utilDelegate.equals("") ) {
-                    // Set up system properties for RMI-IIOP delegates
-                    System.setProperty(RMIIIOP_STUB_DELEGATE_CLASS_PROPERTY,
-                            "com.sun.corba.ee.impl.javax.rmi.CORBA.StubDelegateImpl");
-                    System.setProperty(RMIIIOP_PRO_DELEGATE_CLASS_PROPERTY,
-                            "com.sun.corba.ee.impl.javax.rmi.PortableRemoteObject");
-                }
-
-                return null;
-            }
-        });
+        String utilDelegate = System.getProperty(ORB_UTIL_CLASS_PROPERTY);
+        if ( utilDelegate == null || utilDelegate.equals("") ) {
+            // Set up system properties for RMI-IIOP delegates
+            System.setProperty(RMIIIOP_STUB_DELEGATE_CLASS_PROPERTY,
+                    "com.sun.corba.ee.impl.javax.rmi.CORBA.StubDelegateImpl");
+            System.setProperty(RMIIIOP_PRO_DELEGATE_CLASS_PROPERTY,
+                    "com.sun.corba.ee.impl.javax.rmi.PortableRemoteObject");
+        }
     }
 }
 

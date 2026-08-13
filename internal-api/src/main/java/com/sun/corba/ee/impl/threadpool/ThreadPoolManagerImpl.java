@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -25,8 +26,6 @@ import com.sun.corba.ee.spi.threadpool.ThreadPoolChooser;
 import com.sun.corba.ee.spi.threadpool.ThreadPoolManager;
 
 import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ThreadPoolManagerImpl implements ThreadPoolManager {
@@ -63,21 +62,17 @@ public class ThreadPoolManagerImpl implements ThreadPoolManager {
             // parent-child hierarchy, as we can get to.
             // this will prevent an ORB thread created during applet-init from
             // being killed when an applet dies.
-            tg = AccessController.doPrivileged(new PrivilegedAction<ThreadGroup>() {
-                public ThreadGroup run() {
-                    ThreadGroup tg = Thread.currentThread().getThreadGroup();
-                    ThreadGroup ptg = tg;
-                    try {
-                        while (ptg != null) {
-                            tg = ptg;
-                            ptg = tg.getParent();
-                        }
-                    } catch (SecurityException se) {
-                        // Discontinue going higher on a security exception.
-                    }
-                    return new ThreadGroup(tg, "ORB ThreadGroup " + tgCount.getAndIncrement());
+            ThreadGroup tgx = Thread.currentThread().getThreadGroup();
+            ThreadGroup ptg = tgx;
+            try {
+                while (ptg != null) {
+                    tgx = ptg;
+                    ptg = tgx.getParent();
                 }
-            });
+            } catch (SecurityException se) {
+                // Discontinue going higher on a security exception.
+            }
+            tg = new ThreadGroup(tgx, "ORB ThreadGroup " + tgCount.getAndIncrement());
         } catch (SecurityException e) {
             // something wrong, we go back to the original code
             tg = Thread.currentThread().getThreadGroup();
@@ -86,6 +81,7 @@ public class ThreadPoolManagerImpl implements ThreadPoolManager {
         return tg;
     }
 
+    @Override
     public void close() {
         try {
             threadPool.close();
@@ -122,6 +118,7 @@ public class ThreadPoolManagerImpl implements ThreadPoolManager {
      *
      * @throws NoSuchThreadPoolException thrown when invalid threadpoolId is passed as a parameter
      */
+    @Override
     public ThreadPool getThreadPool(String threadpoolId) throws NoSuchThreadPoolException {
 
         return threadPool;
@@ -133,6 +130,7 @@ public class ThreadPoolManagerImpl implements ThreadPoolManager {
      *
      * @throws NoSuchThreadPoolException thrown when invalidnumericIdForThreadpool is passed as a parameter
      */
+    @Override
     public ThreadPool getThreadPool(int numericIdForThreadpool) throws NoSuchThreadPoolException {
 
         return threadPool;
@@ -143,6 +141,7 @@ public class ThreadPoolManagerImpl implements ThreadPoolManager {
      * interceptors to add the numeric threadpool Id, as a tagged component in the IOR. This is used to provide the
      * functionality of dedicated threadpool for EJB beans
      */
+    @Override
     public int getThreadPoolNumericId(String threadpoolId) {
         return 0;
     }
@@ -150,6 +149,7 @@ public class ThreadPoolManagerImpl implements ThreadPoolManager {
     /**
      * Return a String Id for a numericId of a threadpool managed by the threadpool manager
      */
+    @Override
     public String getThreadPoolStringId(int numericIdForThreadpool) {
         return "";
     }
@@ -157,6 +157,7 @@ public class ThreadPoolManagerImpl implements ThreadPoolManager {
     /**
      * Returns the first instance of ThreadPool in the ThreadPoolManager
      */
+    @Override
     public ThreadPool getDefaultThreadPool() {
         return threadPool;
     }
@@ -164,6 +165,7 @@ public class ThreadPoolManagerImpl implements ThreadPoolManager {
     /**
      * Return an instance of ThreadPoolChooser based on the componentId that was passed as argument
      */
+    @Override
     public ThreadPoolChooser getThreadPoolChooser(String componentId) {
         // FIXME: This method is not used, but should be fixed once
         // nio select starts working and we start using ThreadPoolChooser
@@ -174,6 +176,7 @@ public class ThreadPoolManagerImpl implements ThreadPoolManager {
      * Return an instance of ThreadPoolChooser based on the componentIndex that was passed as argument. This is added for
      * improved performance so that the caller does not have to pay the cost of computing hashcode for the componentId
      */
+    @Override
     public ThreadPoolChooser getThreadPoolChooser(int componentIndex) {
         // FIXME: This method is not used, but should be fixed once
         // nio select starts working and we start using ThreadPoolChooser
@@ -184,6 +187,7 @@ public class ThreadPoolManagerImpl implements ThreadPoolManager {
      * Sets a ThreadPoolChooser for a particular componentId in the ThreadPoolManager. This would enable any component to
      * add a ThreadPoolChooser for their specific use
      */
+    @Override
     public void setThreadPoolChooser(String componentId, ThreadPoolChooser aThreadPoolChooser) {
         // FIXME: This method is not used, but should be fixed once
         // nio select starts working and we start using ThreadPoolChooser
@@ -193,6 +197,7 @@ public class ThreadPoolManagerImpl implements ThreadPoolManager {
      * Gets the numeric index associated with the componentId specified for a ThreadPoolChooser. This method would help the
      * component call the more efficient implementation i.e. getThreadPoolChooser(int componentIndex)
      */
+    @Override
     public int getThreadPoolChooserNumericId(String componentId) {
         // FIXME: This method is not used, but should be fixed once
         // nio select starts working and we start using ThreadPoolChooser
