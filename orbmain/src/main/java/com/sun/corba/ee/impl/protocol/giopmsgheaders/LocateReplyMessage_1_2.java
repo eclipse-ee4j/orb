@@ -38,11 +38,9 @@ import org.omg.CORBA_2_3.portable.InputStream;
  * @version 1.0
  */
 
-public final class LocateReplyMessage_1_2 extends Message_1_2
-        implements LocateReplyMessage {
+public final class LocateReplyMessage_1_2 extends Message_1_2 implements LocateReplyMessage {
 
-    private static final ORBUtilSystemException wrapper =
-            ORBUtilSystemException.self;
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
     // Instance variables
 
@@ -60,10 +58,8 @@ public final class LocateReplyMessage_1_2 extends Message_1_2
         this.orb = orb;
     }
 
-    LocateReplyMessage_1_2(ORB orb, int _request_id,
-                           int _reply_status, IOR _ior) {
-        super(Message.GIOPBigMagic, GIOPVersion.V1_2, FLAG_NO_FRAG_BIG_ENDIAN,
-                Message.GIOPLocateReply, 0);
+    LocateReplyMessage_1_2(ORB orb, int _request_id, int _reply_status, IOR _ior) {
+        super(Message.GIOPBigMagic, GIOPVersion.V1_2, FLAG_NO_FRAG_BIG_ENDIAN, Message.GIOPLocateReply, 0);
         this.orb = orb;
         request_id = _request_id;
         reply_status = _reply_status;
@@ -85,8 +81,7 @@ public final class LocateReplyMessage_1_2 extends Message_1_2
     }
 
     public SystemException getSystemException(String message) {
-        return MessageBase.getSystemException(
-                exClassName, minorCode, completionStatus, message, wrapper);
+        return MessageBase.getSystemException(exClassName, minorCode, completionStatus, message, wrapper);
     }
 
     public IOR getIOR() {
@@ -127,8 +122,7 @@ public final class LocateReplyMessage_1_2 extends Message_1_2
                 default:
                     throw wrapper.badCompletionStatusInLocateReply(status);
             }
-        } else if ((this.reply_status == OBJECT_FORWARD) ||
-                (this.reply_status == OBJECT_FORWARD_PERM)) {
+        } else if ((this.reply_status == OBJECT_FORWARD) || (this.reply_status == OBJECT_FORWARD_PERM)) {
             CDRInputObject cdr = (CDRInputObject) istream;
             this.ior = IORFactories.makeIOR(orb, (InputStream) cdr);
         } else if (this.reply_status == LOC_NEEDS_ADDRESSING_MODE) {
@@ -147,7 +141,6 @@ public final class LocateReplyMessage_1_2 extends Message_1_2
         super.write(ostream);
         ostream.write_ulong(this.request_id);
         ostream.write_long(this.reply_status);
-
 
         // GIOP 1.2 LocateReply message bodies are not aligned on
         // 8 byte boundaries.
@@ -170,8 +163,7 @@ public final class LocateReplyMessage_1_2 extends Message_1_2
     }
 
     @Override
-    public void callback(MessageHandler handler)
-            throws java.io.IOException {
+    public void callback(MessageHandler handler) throws java.io.IOException {
         handler.handleInput(this);
     }
 

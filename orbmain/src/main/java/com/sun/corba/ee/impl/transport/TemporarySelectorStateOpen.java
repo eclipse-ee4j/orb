@@ -39,8 +39,7 @@ import java.nio.channels.Selector;
  */
 @Transport
 public class TemporarySelectorStateOpen implements TemporarySelectorState {
-    private static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
     /** Creates a new instance of TemporarySelectorStateOpen */
     public TemporarySelectorStateOpen() {
@@ -53,35 +52,29 @@ public class TemporarySelectorStateOpen implements TemporarySelectorState {
             if (theTimeout > 0) {
                 result = theSelector.select(theTimeout);
             } else {
-                throw wrapper.temporarySelectorSelectTimeoutLessThanOne(
-                    theSelector, theTimeout);
+                throw wrapper.temporarySelectorSelectTimeoutLessThanOne(theSelector, theTimeout);
             }
         } else {
-            throw new TemporarySelectorClosedException(
-                "Selector " + theSelector.toString() + " is closed.");
+            throw new TemporarySelectorClosedException("Selector " + theSelector.toString() + " is closed.");
         }
 
         return result;
     }
 
     @Transport
-    public SelectionKey registerChannel(Selector theSelector,
-        SelectableChannel theSelectableChannel, int theOps) throws IOException {
+    public SelectionKey registerChannel(Selector theSelector, SelectableChannel theSelectableChannel, int theOps) throws IOException {
 
         SelectionKey key;
         if (theSelector.isOpen()) {
             key = theSelectableChannel.register(theSelector, theOps);
         } else {
-            throw new TemporarySelectorClosedException("Selector " +
-                                                        theSelector.toString() +
-                                                       " is closed.");
+            throw new TemporarySelectorClosedException("Selector " + theSelector.toString() + " is closed.");
         }
         return key;
     }
 
     @Transport
-    public TemporarySelectorState cancelKeyAndFlushSelector(Selector theSelector,
-                              SelectionKey theSelectionKey) throws IOException {
+    public TemporarySelectorState cancelKeyAndFlushSelector(Selector theSelector, SelectionKey theSelectionKey) throws IOException {
 
         if (theSelectionKey != null) {
             theSelectionKey.cancel();
@@ -90,8 +83,8 @@ public class TemporarySelectorStateOpen implements TemporarySelectorState {
         if (theSelector.isOpen()) {
             theSelector.selectNow();
         } else {
-            throw new TemporarySelectorClosedException(
-                "Selector " + theSelector.toString() + " is closed."); }
+            throw new TemporarySelectorClosedException("Selector " + theSelector.toString() + " is closed.");
+        }
 
         return this;
     }
@@ -103,14 +96,11 @@ public class TemporarySelectorStateOpen implements TemporarySelectorState {
     }
 
     @Transport
-    public TemporarySelectorState removeSelectedKey(Selector theSelector,
-                              SelectionKey theSelectionKey) throws IOException {
+    public TemporarySelectorState removeSelectedKey(Selector theSelector, SelectionKey theSelectionKey) throws IOException {
         if (theSelector.isOpen()) {
             theSelector.selectedKeys().remove(theSelectionKey);
         } else {
-            throw new TemporarySelectorClosedException("Selector " +
-                                                        theSelector.toString() +
-                                                       " is closed.");
+            throw new TemporarySelectorClosedException("Selector " + theSelector.toString() + " is closed.");
         }
         return this;
     }

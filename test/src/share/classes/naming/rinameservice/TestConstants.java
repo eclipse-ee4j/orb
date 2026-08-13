@@ -20,5 +20,5 @@
 package naming.rinameservice;
 
 public class TestConstants {
-     public static final String RI_NAMESERVICE_PORT = "1050";
+     public static final String RI_NAMESERVICE_PORT = test.Util.RI_NAME_SERVICE_PORT;
 }

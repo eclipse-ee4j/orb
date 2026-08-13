@@ -38,8 +38,8 @@ import java.util.Vector;
  * @test
  */
 public class TheTest extends test.Test {
-    // This test runs the NameServer on port 1050.
-    private static  String[] myArgs = new String[]{"-ORBInitialPort" , "1050" };
+    // This test runs its own NameServer on Util.DOWNLOAD_NAME_SERVER_PORT.
+    private static  String[] myArgs = new String[]{"-ORBInitialPort" , Util.DOWNLOAD_NAME_SERVER_PORT };
 
     public  void run() {
         JUnitReportHelper helper = new JUnitReportHelper(
@@ -53,10 +53,6 @@ public class TheTest extends test.Test {
         WebServer webServer = null;
 
         try {
-            // The RMIClassLoader requires a security manager to be set
-            //  System.setSecurityManager(new javax.rmi.download.SecurityManager());
-            //System.setSecurityManager(new java.rmi.RMISecurityManager());
-
             // First Compile the classes to generate the Stub and Tie
             // files that are needed.  NOTE: This requires the latest
             // RMIC compiler that supports IIOP.
@@ -69,7 +65,7 @@ public class TheTest extends test.Test {
             // our test server. The test server will register
             // with the NameServer.
 
-            nameServer  = Util.startNameServer("1050",true);
+            nameServer  = Util.startNameServer(Util.DOWNLOAD_NAME_SERVER_PORT,true);
 
             // Start up the HTTP server
             int port = Util.getHttpServerPort();
@@ -157,14 +153,16 @@ public class TheTest extends test.Test {
                 testPassed = false;
                 helper.fail( ex ) ;
             }
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
+            // Throwable, not Exception: a failed handshake surfaces as an Error, which
+            // would otherwise escape uncaught and leave the processes below running.
             System.out.println(testName + " FAILED.");
             ex.printStackTrace();
             testPassed = false;
             helper.fail( ex ) ;
         } finally {
-            helper.done() ;
-
+            // Kill the processes before anything that can throw, so a name server is
+            // never left holding its port against the tests that run after this one.
             if (client != null) {
                 client.destroy();
             }
@@ -179,6 +177,8 @@ public class TheTest extends test.Test {
 
             if (webServer != null)
                 webServer.quit();
+
+            helper.done() ;
         }
 
         if ( testPassed == true ) {

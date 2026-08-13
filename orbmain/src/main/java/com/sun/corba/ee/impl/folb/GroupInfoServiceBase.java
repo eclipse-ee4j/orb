@@ -28,7 +28,7 @@ package com.sun.corba.ee.impl.folb;
 import com.sun.corba.ee.spi.folb.ClusterInstanceInfo;
 import com.sun.corba.ee.spi.folb.GroupInfoService;
 import com.sun.corba.ee.spi.folb.GroupInfoServiceObserver;
-import com.sun.corba.ee.spi.trace.Folb ;
+import com.sun.corba.ee.spi.trace.Folb;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -40,12 +40,8 @@ import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
  * @author Harold Carr
  */
 @Folb
-public abstract class GroupInfoServiceBase
-    extends org.omg.CORBA.LocalObject
-    implements GroupInfoService
-{
-    private List<GroupInfoServiceObserver> observers =
-        new LinkedList<GroupInfoServiceObserver>();
+public abstract class GroupInfoServiceBase extends org.omg.CORBA.LocalObject implements GroupInfoService {
+    private List<GroupInfoServiceObserver> observers = new LinkedList<GroupInfoServiceObserver>();
 
     @Folb
     public boolean addObserver(GroupInfoServiceObserver x) {
@@ -53,27 +49,26 @@ public abstract class GroupInfoServiceBase
     }
 
     @InfoMethod
-    private void observerInfo( GroupInfoServiceObserver obs ) { }
+    private void observerInfo(GroupInfoServiceObserver obs) {
+    }
 
     @Folb
     public void notifyObservers() {
         for (GroupInfoServiceObserver observer : observers) {
-            observerInfo( observer ) ;
+            observerInfo(observer);
             observer.membershipChange();
         }
     }
 
     @Folb
-    public List<ClusterInstanceInfo> getClusterInstanceInfo(
-        String[] adapterName) {
+    public List<ClusterInstanceInfo> getClusterInstanceInfo(String[] adapterName) {
 
         // Make a copy of the internal data
         List<ClusterInstanceInfo> internalInfo = internalClusterInstanceInfo();
         return internalInfo == null ? new ArrayList<>() : new ArrayList<>(internalInfo);
     }
 
-    public List<ClusterInstanceInfo> getClusterInstanceInfo(
-        String[] adapterName, List<String> endpoints ) {
+    public List<ClusterInstanceInfo> getClusterInstanceInfo(String[] adapterName, List<String> endpoints) {
 
         // Make a copy of the internal data
         List<ClusterInstanceInfo> internalInfo = internalClusterInstanceInfo(endpoints);
@@ -81,22 +76,21 @@ public abstract class GroupInfoServiceBase
     }
 
     @Folb
-    public boolean shouldAddAddressesToNonReferenceFactory(
-        String[] adapterName) {
-        return false ;
+    public boolean shouldAddAddressesToNonReferenceFactory(String[] adapterName) {
+        return false;
     }
 
     @Folb
-    public boolean shouldAddMembershipLabel (String[] adapterName) {
-        return true ;
+    public boolean shouldAddMembershipLabel(String[] adapterName) {
+        return true;
     }
 
     public List<ClusterInstanceInfo> internalClusterInstanceInfo() {
-        final List<String> endpoints = new ArrayList<String>() ;
-        return internalClusterInstanceInfo( endpoints ) ;
+        final List<String> endpoints = new ArrayList<String>();
+        return internalClusterInstanceInfo(endpoints);
     }
 
-    public abstract List<ClusterInstanceInfo> internalClusterInstanceInfo( List<String> endpoints ) ;
+    public abstract List<ClusterInstanceInfo> internalClusterInstanceInfo(List<String> endpoints);
 }
 
 // End of file.

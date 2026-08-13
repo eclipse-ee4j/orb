@@ -28,7 +28,6 @@ public class Server {
     public static void main(final String[] args) throws Exception {
         FrobnicatorProvider obj;
         try {
-            System.setSecurityManager(new NoSecurityManager());
             obj = new FrobnicatorProviderBean();
             Context initialNamingContext = new InitialContext();
             initialNamingContext.rebind("DynamicProxyBug1368", obj);

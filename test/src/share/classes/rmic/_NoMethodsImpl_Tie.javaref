@@ -17,9 +17,10 @@ import org.omg.CORBA.portable.ResponseHandler;
 import org.omg.CORBA.portable.UnknownException;
 import org.omg.CORBA_2_3.portable.ObjectImpl;
 
-public class _NoMethodsImpl_Tie extends ObjectImpl implements Tie {
 
-    private NoMethodsImpl target = null;
+public class _NoMethodsImpl_Tie extends ObjectImpl implements Tie {
+    
+    volatile private NoMethodsImpl target = null;
     
     private static final String[] _type_ids = {
         "RMI:rmic.NoMethods:0000000000000000"

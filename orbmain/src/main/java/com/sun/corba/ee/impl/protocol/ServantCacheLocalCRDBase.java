@@ -19,7 +19,7 @@
 
 package com.sun.corba.ee.impl.protocol;
 
-import com.sun.corba.ee.spi.ior.IOR ;
+import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.spi.oa.OADestroyed;
 import com.sun.corba.ee.spi.oa.OAInvocationInfo;
 import com.sun.corba.ee.spi.oa.ObjectAdapter;
@@ -28,55 +28,53 @@ import com.sun.corba.ee.spi.protocol.ForwardException;
 import com.sun.corba.ee.spi.trace.Subcontract;
 
 @Subcontract
-public abstract class ServantCacheLocalCRDBase
-    extends LocalClientRequestDispatcherBase {
+public abstract class ServantCacheLocalCRDBase extends LocalClientRequestDispatcherBase {
 
-    private OAInvocationInfo cachedInfo ;
+    private OAInvocationInfo cachedInfo;
 
-    protected ServantCacheLocalCRDBase( ORB orb, int scid, IOR ior )
-    {
-        super( orb, scid, ior ) ;
+    protected ServantCacheLocalCRDBase(ORB orb, int scid, IOR ior) {
+        super(orb, scid, ior);
     }
 
     @Subcontract
     protected void cleanupAfterOADestroyed() {
-        cachedInfo = null ;
+        cachedInfo = null;
     }
 
     @Subcontract
     protected synchronized OAInvocationInfo getCachedInfo() throws OADestroyed {
         if (!servantIsLocal) {
-            throw poaWrapper.servantMustBeLocal() ;
+            throw poaWrapper.servantMustBeLocal();
         }
 
         if (cachedInfo == null) {
-            updateCachedInfo() ;
+            updateCachedInfo();
         }
 
-        return cachedInfo ;
+        return cachedInfo;
     }
 
     @Subcontract
     private void updateCachedInfo() throws OADestroyed {
         // If find throws an exception, just let it propagate out
-        ObjectAdapter oa = oaf.find( oaid ) ;
-        cachedInfo = oa.makeInvocationInfo( objectId ) ;
-        oa.enter( );
+        ObjectAdapter oa = oaf.find(oaid);
+        cachedInfo = oa.makeInvocationInfo(objectId);
+        oa.enter();
 
         // InvocationInfo must be pushed before calling getInvocationServant
-        orb.pushInvocationInfo( cachedInfo ) ;
+        orb.pushInvocationInfo(cachedInfo);
 
         try {
-            oa.getInvocationServant( cachedInfo ) ;
+            oa.getInvocationServant(cachedInfo);
         } catch (ForwardException freq) {
-            throw poaWrapper.illegalForwardRequest( freq ) ;
+            throw poaWrapper.illegalForwardRequest(freq);
         } finally {
             oa.returnServant();
             oa.exit();
-            orb.popInvocationInfo() ;
+            orb.popInvocationInfo();
         }
 
-        return ;
+        return;
     }
 }
 

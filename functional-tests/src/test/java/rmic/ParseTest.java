@@ -23,7 +23,6 @@ package rmic;
 
 import org.glassfish.rmic.iiop.Constants;
 import org.glassfish.rmic.tools.java.ClassPath;
-import java.lang.reflect.Method;
 
 import corba.framework.TestngRunner ;
 
@@ -32,19 +31,17 @@ public class ParseTest extends test.Test implements Constants {
 
         String path = System.getProperty("java.class.path");
 
-        // Use reflection to call sun.rmi.rmic.BatchEnvironment.createClassPath(path)
-        // so that we can leave classes.zip at the front of the classpath for
-        // the build environment. Don't ask.
+        // Call BatchEnvironment directly. This used to go through reflection, back
+        // when the target was sun.rmi.rmic.BatchEnvironment and could not be named
+        // at compile time. It can be now, and reflection only hid the fact that the
+        // method had grown a second parameter: the lookup failed at runtime and the
+        // resulting Error was reported as something else entirely.
+        //
+        // Passing null for the system class path leaves BatchEnvironment to work it
+        // out for itself, which is what rmic's own Main does when -bootclasspath is
+        // not given.
 
-        try {
-            Class env = org.glassfish.rmic.BatchEnvironment.class;
-            Method method = env.getMethod("createClassPath",new Class[]{java.lang.String.class});
-            return (ClassPath) method.invoke(null,new Object[]{path});
-        } catch (Throwable e) {
-            if (e instanceof ThreadDeath)
-                throw (ThreadDeath)e;
-            throw new Error("ParseTest.createClassPath() caught "+e);
-        }
+        return org.glassfish.rmic.BatchEnvironment.createClassPath(path, null);
     }
 
     public void run( ) {

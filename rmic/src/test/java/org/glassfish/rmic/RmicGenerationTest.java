@@ -45,6 +45,7 @@ import org.glassfish.rmic.classes.hcks.RmiIIServant;
 import org.glassfish.rmic.classes.hcks.RmiIIServantPOA;
 import org.glassfish.rmic.classes.inneraccess.Rainbow;
 import org.glassfish.rmic.classes.islocal.MessageBuilderServantPOA;
+import org.glassfish.rmic.classes.nestedClasses.NestedRemoteImpl;
 import org.glassfish.rmic.classes.preinvokepostinvoke.MyServant;
 import org.glassfish.rmic.classes.primitives.InterfaceWithConstantArray;
 import org.glassfish.rmic.classes.primitives.InterfaceWithNonPrimitiveConstant;
@@ -53,6 +54,7 @@ import org.glassfish.rmic.classes.rmipoacounter.CounterImpl;
 import org.glassfish.rmic.classes.systemexceptions.ServerInvokerServantPOA;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -167,6 +169,37 @@ public class RmicGenerationTest {
     public void dontGenerateIiopStubsWithConstantException() throws Exception {
         GenerationControl generator = new GenerationControl(InterfaceWithNonPrimitiveConstant.class);
         generator.addArgs("-iiop","-always", "-keep");
+        generator.generate();
+    }
+
+    /**
+     * Reproduces a known rmic defect: generating IIOP stubs for a <em>nested</em> remote implementation blows up with
+     *
+     * <pre>
+     * org.glassfish.rmic.tools.java.CompilerError: getInnerClassField
+     *     at ClassDefinition.getInnerClassMember(ClassDefinition.java:330)
+     *     at ClassDefinition.canAccess(ClassDefinition.java:693)
+     *     at Environment.resolve → SourceMember.check → SourceClass.check
+     * </pre>
+     *
+     * rmic gets as far as emitting the tie and stub sources, then dies while compiling them: resolving the nested
+     * implementation calls canAccess, which for an inner class delegates to getInnerClassMember(). That looks for a
+     * member representing the nested class on its outer class, and throws when there is none. BinaryClass only
+     * registers such a member from initOuter() - reached when the <em>outer</em> class's InnerClasses attribute is
+     * processed - whereas initInner() sets outerClass on the nested class without adding the member. So the nested
+     * class can end up reporting isInnerClass() == true with no corresponding member, which is the throw.
+     * <p>
+     * The other inner-class tests here do not catch this because they use -idl, which never compiles generated Java.
+     * <p>
+     * This is why javax.rmi.PROTest is disabled in the functional test suite. Remove the {@code @Ignore} once the
+     * defect is fixed - the test is written to pass at that point, no other change needed.
+     */
+    @Ignore("Known rmic defect - IIOP stub generation for nested remote implementations, see javadoc")
+    @Test
+    public void generateIiopStubsForNestedRemoteImpl() throws Exception {
+        GenerationControl generator = new GenerationControl(NestedRemoteImpl.Impl.class);
+        generator.addArgs("-iiop", "-always", "-keep");
+
         generator.generate();
     }
 

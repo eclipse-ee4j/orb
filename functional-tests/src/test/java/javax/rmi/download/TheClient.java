@@ -33,7 +33,7 @@ import java.util.Properties;
 
 public class TheClient {
 
-    private static String[] myArgs = new String[]{"-ORBInitialPort" , "1050" };
+    private static String[] myArgs = new String[]{"-ORBInitialPort" , test.Util.DOWNLOAD_NAME_SERVER_PORT };
 
     private static void passed(){
         System.out.println(test.Util.HANDSHAKE);
@@ -51,7 +51,6 @@ public class TheClient {
 
     public static void main(String[] args) {
         try {
-            System.setSecurityManager(new javax.rmi.download.SecurityManager());
             // Lets setup some properties that we are using
             // for this test and then create the ORB Object...
 

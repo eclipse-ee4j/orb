@@ -152,6 +152,22 @@ public class Util {
         return context.lookup(servantName);
     }
 
+    /*
+     * Ports for the transient name servers that individual tests start for themselves.
+     *
+     * These must differ from each other. They all used to be 1050, so a name server left
+     * behind by a failing test made every later test on that port fail too, with a
+     * misleading "Terminated before reading handshake" that had nothing to do with the
+     * test itself. Keep clear of 1049, which the ORBD activation port defaults to.
+     *
+     * Tests that let the harness pick a port do not belong here; see the Port class,
+     * which binds to an OS-assigned free port instead.
+     */
+    public static final String FVD_NAME_SERVER_PORT = "1050";
+    public static final String DOWNLOAD_NAME_SERVER_PORT = "1051";
+    public static final String TEST1_NAME_SERVER_PORT = "1052";
+    public static final String RI_NAME_SERVICE_PORT = "1053";
+
     public static int getHttpServerPort() {
         String prop = System.getProperty("http.server.port");
         if (prop != null) {
@@ -219,11 +235,6 @@ public class Util {
             }
 
             if (!error) {
-
-                if (System.getSecurityManager() == null) {
-                    System.setSecurityManager(new javax.rmi.download.SecurityManager());
-                }
-
                 setDefaultCodeBase(iiop);
 
                 String host = args[2];
@@ -349,6 +360,13 @@ public class Util {
         // Standard ORB impl classes
         "org.omg.CORBA.ORBClass",
         "org.omg.CORBA.ORBSingletonClass",
+
+        // Gmbal
+        "org.glassfish.gmbal.no.multipleUpperBoundsException",
+
+        // JNDI: registers the state factory that converts RMI-IIOP objects to
+        // CORBA stubs when binding into CosNaming.
+        "java.naming.factory.state",
 
         // Security related
         "com.sun.corba.ee.ORBBase",

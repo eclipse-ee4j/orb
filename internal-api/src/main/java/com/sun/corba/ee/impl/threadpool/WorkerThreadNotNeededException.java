@@ -39,4 +39,3 @@ public class WorkerThreadNotNeededException extends Exception {
 }
 
 // End of file.
-

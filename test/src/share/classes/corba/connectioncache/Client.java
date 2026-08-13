@@ -500,6 +500,10 @@ public class Client {
             ConnectionImpl test = obcache.get( cinfo, cf3 ) ;
         } finally {
             checkStats( obcache, 0, 0, 0, 0 ) ;
+            // Reset as outboundTest5 does: the unreachable flag is static, so
+            // leaving it set makes every later createConnection() in this JVM
+            // fail with "Address ... is currently unreachable".
+            cinfo.setUnreachable( false ) ;
         }
     }
 

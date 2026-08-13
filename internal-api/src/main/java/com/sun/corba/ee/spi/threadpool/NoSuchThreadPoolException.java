@@ -19,9 +19,7 @@
 
 package com.sun.corba.ee.spi.threadpool;
 
-public class NoSuchThreadPoolException extends Exception
-{
+public class NoSuchThreadPoolException extends Exception {
 }
 
 // End of file.
-

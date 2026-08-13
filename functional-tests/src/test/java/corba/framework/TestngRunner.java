@@ -58,26 +58,48 @@ public class TestngRunner {
             helper.done() ;
         }
 
+        // Tracks whether helper.start() has been called for the result we are about
+        // to record. TestNG does not always pair a callback with onTestStart: skips
+        // never get one, and neither do failures raised outside the test method
+        // itself. Calling helper.pass()/fail() in that state throws "No current test
+        // set!", which used to escape the listener and kill the whole client process,
+        // taking the real failure with it. Assumes sequential execution, which is how
+        // this runner drives TestNG.
+        private boolean started = false ;
+
+        private void ensureStarted( ITestResult result ) {
+            if (!started) {
+                helper.start( result.getName() ) ;
+                started = true ;
+            }
+        }
+
         public void onTestStart( ITestResult result ) {
-            helper.start( result.getName() ) ;
+            ensureStarted( result ) ;
         }
 
         public void onTestSkipped( ITestResult result ) {
+            ensureStarted( result ) ;
             helper.fail( "Test was skipped" ) ;
+            started = false ;
         }
 
         public void onTestFailure( ITestResult result ) {
-            Throwable err = result.getThrowable() ;
-
-            helper.fail( err ) ;
+            ensureStarted( result ) ;
+            helper.fail( result.getThrowable() ) ;
+            started = false ;
         }
 
         public void onTestSuccess( ITestResult result ) {
+            ensureStarted( result ) ;
             helper.pass() ;
+            started = false ;
         }
 
         public void onTestFailedButWithinSuccessPercentage( ITestResult result ) {
+            ensureStarted( result ) ;
             helper.pass() ;
+            started = false ;
         }
     }
 

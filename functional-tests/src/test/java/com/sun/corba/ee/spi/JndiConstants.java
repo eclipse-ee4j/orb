@@ -24,8 +24,12 @@ package com.sun.corba.ee.spi;
  */
 public interface JndiConstants {
 
-    /** The name of the class used to create context factories for COSNaming. */
-    String COSNAMING_CONTEXT_FACTORY = "com.sun.jndi.cosnaming.CNCtxFactory";
+    /**
+     * The name of the class used to create context factories for COSNaming.
+     * The JDK's own com.sun.jndi.cosnaming provider was removed in JDK 11 (JEP 320),
+     * so this points at the replacement shipped by this project.
+     */
+    String COSNAMING_CONTEXT_FACTORY = "org.glassfish.jndi.cosnaming.CNCtxFactory";
 
     /** The JDK's registry context factory. */
     String REGISTRY_CONTEXT_FACTORY = "com.sun.jndi.rmi.registry.RegistryContextFactory";

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -17,26 +17,26 @@
  * Classpath-exception-2.0
  */
 
-package corba.dynamicrmiiiop.testclasses;
+package org.glassfish.rmic.classes.nestedClasses;
+
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 /**
- * Java class whose name clashes with an IDL keyword.
+ * A remote implementation that is a nested class, which is the shape that makes IIOP stub generation fail. Unlike
+ * {@link TwoLevelNested}, the nested class here implements a real remote interface, so rmic accepts it as a remote
+ * implementation and gets as far as generating - and then compiling - the tie.
  */
-public class Raises {
+public class NestedRemoteImpl {
 
-    // Inner class with name that clashes with an IDL keyword.
-    public static class Union {
+    public interface Svc extends Remote {
+        String ping() throws RemoteException;
     }
 
-    // Inner class whose name has a leading underscore.
-    public static class _Foo {
+    public static class Impl implements Svc {
+        @Override
+        public String ping() throws RemoteException {
+            return "pong";
+        }
     }
-
-    // Inner class with chars that need to be mangled.
-    // public static class Uni\u8001code {}
-
-    // Inner class with name that has leading underscore plus IDL keyword
-    public static class _Union {
-    }
-
 }

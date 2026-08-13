@@ -32,8 +32,8 @@ import java.util.Hashtable;
 import org.glassfish.pfl.test.JUnitReportHelper;
 
 public class TheTest extends test.Test {
-    // This test runs the NameServer on port 1050.
-    private static  String[] myArgs = new String[]{"-ORBInitialPort" , "1050" };
+    // This test runs its own NameServer on Util.TEST1_NAME_SERVER_PORT.
+    private static  String[] myArgs = new String[]{"-ORBInitialPort" , Util.TEST1_NAME_SERVER_PORT };
 
     public  void run() {
         JUnitReportHelper helper = new JUnitReportHelper(
@@ -55,7 +55,7 @@ public class TheTest extends test.Test {
             // our test server. The test server will register
             // with the NameServer.
 
-            nameServer  = Util.startNameServer("1050",true);
+            nameServer  = Util.startNameServer(Util.TEST1_NAME_SERVER_PORT,true);
             server      = Util.startServer("javax.rmi.test1.TheServer");
 
             // Lets setup some properties that we are using
@@ -146,7 +146,9 @@ public class TheTest extends test.Test {
                 testPassed = false;
             }
 
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
+            // Throwable, not Exception: a failed handshake surfaces as an Error, which
+            // would otherwise escape before the result below is ever recorded.
             System.out.println(testName + " FAILED.");
             ex.printStackTrace();
             testPassed = false;

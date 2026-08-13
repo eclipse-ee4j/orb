@@ -32,17 +32,12 @@ import java.util.Properties;
 
 public class TheServer {
 
-    // This test runs the NameServer on port 1050.
+    // This test runs its own NameServer on test.Util.DOWNLOAD_NAME_SERVER_PORT.
 
-    private static String[] myArgs = new String[]{"-ORBInitialPort" , "1050" };
+    private static String[] myArgs = new String[]{"-ORBInitialPort" , test.Util.DOWNLOAD_NAME_SERVER_PORT };
 
     public static void main(String[] args) {
         try {
-
-            // The RMIClassLoader requires a security manager to be set
-            System.setSecurityManager(new javax.rmi.download.SecurityManager());
-            //System.setSecurityManager(new java.rmi.RMISecurityManager());
-
             // Lets setup some properties that we are using
             // for this test and then create the ORB Object...
 

@@ -23,7 +23,7 @@ package com.sun.corba.ee.impl.encoding;
  * A derived class that can be serialized.
  */
 class DerivedValue extends Value1 {
-  boolean ready;
-  byte aByte;
-  short aShort;
+    boolean ready;
+    byte aByte;
+    short aShort;
 }

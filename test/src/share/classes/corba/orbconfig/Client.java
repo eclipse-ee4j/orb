@@ -32,6 +32,8 @@ import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -258,10 +260,12 @@ public class Client
     private NullaryFunction<Object> makeActionEvaluator( final Operation action,
         final Object data )
     {
-        return () -> {
-            action.operate( data )  ;
-            return true ;
-        };
+        // Return what the operation produced. This used to discard the result and
+        // hand back Boolean.TRUE, so every expectResult() comparison saw true
+        // instead of the real value - which passed only when the expected value
+        // happened to be true, and reported "Unexpected result returned" otherwise.
+        // expectError() ignores the value, so returning it is fine there too.
+        return () -> action.operate( data ) ;
     }
 
     private void expectError( final Object data, final Operation action, Class<?> expectedError )
@@ -417,12 +421,17 @@ public class Client
         map.put( "flag", Boolean.valueOf( true ) ) ;
         map.put( "str", "AValue" ) ;
 
-        // This is the order the result comes in: the order is not
-        // guaranteed in this case.
-        Pair[] list = {
-            new Pair<String,String>( "part3", "third" ),
+        // Object[], not Pair[]: makeParser registers this prefix with a component
+        // type of Object.class, so that is the array type the parser produces.
+        //
+        // The order used to be hardcoded to whatever the parser happened to emit,
+        // with a comment noting it was not guaranteed - and it did eventually
+        // change. sortByFirst() below makes the comparison order independent, so
+        // these can be listed in any order.
+        Object[] list = {
+            new Pair<String,String>( "part1", "first" ),
             new Pair<String,String>( "part2", "second" ),
-            new Pair<String,String>( "part1", "first" )
+            new Pair<String,String>( "part3", "third" )
         };
 
         map.put( "prefix", list ) ;
@@ -437,6 +446,25 @@ public class Client
         return map ;
     }
 
+    /**
+     * Sort the "prefix" entry of a parse result by the pair's first element.
+     * The prefix action collects matching properties by iterating a Properties,
+     * which is a Hashtable, so the order of the array it builds is unspecified and
+     * has changed between JDK releases. Sorting both sides makes the comparison
+     * depend on the contents rather than on iteration order.
+     */
+    private static Map<String,Object> sortPrefixEntry( Map<String,Object> map )
+    {
+        Object value = map.get( "prefix" ) ;
+        if (value instanceof Object[]) {
+            Object[] sorted = ((Object[])value).clone() ;
+            Arrays.sort( sorted, Comparator.comparing(
+                o -> String.valueOf( ((Pair<?,?>)o).first() ) ) ) ;
+            map.put( "prefix", sorted ) ;
+        }
+        return map ;
+    }
+
     private void testParser()
     {
         session.start( "Parser" ) ;
@@ -446,11 +474,11 @@ public class Client
         NullaryFunction<Object> closure  =
             new NullaryFunction<Object>() {
             public Map<String,Object> evaluate() {
-                return parser.parse( props )  ;
+                return sortPrefixEntry( parser.parse( props ) )  ;
             }
         } ;
 
-        Map<String,Object> expectedResult = makeResult() ;
+        Map<String,Object> expectedResult = sortPrefixEntry( makeResult() ) ;
 
         session.testForPass( "parser", closure, expectedResult ) ;
 

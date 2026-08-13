@@ -18,9 +18,9 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.impl.resolver ;
+package com.sun.corba.ee.impl.resolver;
 
-import com.sun.corba.ee.spi.resolver.LocalResolver ;
+import com.sun.corba.ee.spi.resolver.LocalResolver;
 
 import java.lang.System.Logger;
 import java.util.concurrent.ConcurrentHashMap;
@@ -63,7 +63,7 @@ public class LocalResolverImpl implements LocalResolver {
 
     @Override
     public java.util.Set<String> list() {
-        return nameToClosure.keySet() ;
+        return nameToClosure.keySet();
     }
 
     @Override

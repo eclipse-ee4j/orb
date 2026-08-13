@@ -23,22 +23,21 @@ import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 import com.sun.corba.ee.spi.protocol.RequestId;
 
 /**
- * Represents a protocol request id.  Currently used to ensure proper
- * sequencing of fragmented messages.
+ * Represents a protocol request id. Currently used to ensure proper sequencing of fragmented messages.
  *
  * @author Charlie Hunt
  */
 public class RequestIdImpl implements RequestId {
-    private static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
     final private int value;
     final private boolean defined;
     final static private String UNDEFINED = "?";
-    final static public
-            RequestId UNKNOWN_CORBA_REQUEST_ID = new RequestIdImpl();
+    final static public RequestId UNKNOWN_CORBA_REQUEST_ID = new RequestIdImpl();
 
-    /** Creates a new instance of CorbaRequestIdImpl
+    /**
+     * Creates a new instance of CorbaRequestIdImpl
+     * 
      * @param requestId value of the request ID
      */
     public RequestIdImpl(int requestId) {
@@ -77,15 +76,15 @@ public class RequestIdImpl implements RequestId {
         }
 
         if (this.isDefined()) {
-            if (((RequestId)requestId).isDefined()) {
-                return this.value == ((RequestId)requestId).getValue();
+            if (((RequestId) requestId).isDefined()) {
+                return this.value == ((RequestId) requestId).getValue();
             } else { // requestId is not defined and "this" is defined
                 return false;
             }
         } else {
             // "this" is not defined
             // simply return result of NOT requestId.isDefined()
-            return !((RequestId)requestId).isDefined();
+            return !((RequestId) requestId).isDefined();
         }
     }
 

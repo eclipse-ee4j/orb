@@ -168,12 +168,14 @@ public abstract class RemoteTest extends Test {
                 String[] compileEm = new String[classCount];
                 list.copyInto(compileEm);
 
-                String genArg = null;
-                if (iiop) {
-                    genArg = "-iiop";
-                } else {
-                    genArg = "-vcompat";
-                }
+                // For JRMP leave the generator unset so rmic uses its default
+                // generator (generator.class.default in rmic.properties). The old
+                // -vcompat flag selected the JRMP 1.1/1.2 compatibility stub
+                // protocol, but this rmic only registers iiop, idl and xprint in
+                // generator.args, so passing it just fails with "invalid option".
+                // Nothing is lost: JRMP has not needed generated stubs since 1.2,
+                // where the runtime uses dynamic proxies instead.
+                String genArg = iiop ? "-iiop" : null;
 
                 // Util.rmic(null,null,null,external); // _REVSISIT_ Remove! Bug in 1.2b4.1
                 Util.rmic(genArg,additionalRMICArgs,compileEm,external);

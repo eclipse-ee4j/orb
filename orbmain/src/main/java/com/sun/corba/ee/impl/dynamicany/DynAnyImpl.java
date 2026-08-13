@@ -19,9 +19,9 @@
 
 package com.sun.corba.ee.impl.dynamicany;
 
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.ORB;
 
 import org.omg.CORBA.Any;
 import org.omg.CORBA.TypeCode;
@@ -32,10 +32,8 @@ import org.omg.DynamicAny.DynAnyFactory;
 import org.omg.DynamicAny.DynAnyPackage.InvalidValue;
 import org.omg.DynamicAny.DynAnyPackage.TypeMismatch;
 
-abstract class DynAnyImpl extends org.omg.CORBA.LocalObject implements DynAny
-{
-    protected static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+abstract class DynAnyImpl extends org.omg.CORBA.LocalObject implements DynAny {
+    protected static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
     private static final long serialVersionUID = 7435214669604617358L;
 
@@ -89,8 +87,7 @@ abstract class DynAnyImpl extends org.omg.CORBA.LocalObject implements DynAny
 
     protected DynAnyFactory factory() {
         try {
-            return (DynAnyFactory)orb.resolve_initial_references(
-                ORBConstants.DYN_ANY_FACTORY_NAME );
+            return (DynAnyFactory) orb.resolve_initial_references(ORBConstants.DYN_ANY_FACTORY_NAME);
         } catch (InvalidName in) {
             throw new RuntimeException("Unable to find DynAnyFactory");
         }
@@ -104,14 +101,14 @@ abstract class DynAnyImpl extends org.omg.CORBA.LocalObject implements DynAny
     // which copies the Any.
     protected Any getAny(DynAny dynAny) {
         if (dynAny instanceof DynAnyImpl) {
-            return ((DynAnyImpl)dynAny).getAny();
+            return ((DynAnyImpl) dynAny).getAny();
         } else {
             return dynAny.to_any();
         }
     }
 
     protected void writeAny(OutputStream out) {
-        //System.out.println(this + " writeAny of type " + type().kind().value());
+        // System.out.println(this + " writeAny of type " + type().kind().value());
         any.write_value(out);
     }
 
@@ -130,33 +127,29 @@ abstract class DynAnyImpl extends org.omg.CORBA.LocalObject implements DynAny
 
     public org.omg.CORBA.TypeCode type() {
         if (status == STATUS_DESTROYED) {
-            throw wrapper.dynAnyDestroyed() ;
+            throw wrapper.dynAnyDestroyed();
         }
         return any.type();
     }
 
     // Makes a copy of the Any value inside the parameter
-    public void assign (org.omg.DynamicAny.DynAny dyn_any)
-        throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch
-    {
+    public void assign(org.omg.DynamicAny.DynAny dyn_any) throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch {
         if (status == STATUS_DESTROYED) {
-            throw wrapper.dynAnyDestroyed() ;
+            throw wrapper.dynAnyDestroyed();
         }
-        if ((any != null) && (! any.type().equal(dyn_any.type()))) {
+        if ((any != null) && (!any.type().equal(dyn_any.type()))) {
             throw new TypeMismatch();
         }
         any = dyn_any.to_any();
     }
 
     // Makes a copy of the Any parameter
-    public void from_any (org.omg.CORBA.Any value)
-        throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch,
-               org.omg.DynamicAny.DynAnyPackage.InvalidValue
-    {
+    public void from_any(org.omg.CORBA.Any value)
+            throws org.omg.DynamicAny.DynAnyPackage.TypeMismatch, org.omg.DynamicAny.DynAnyPackage.InvalidValue {
         if (status == STATUS_DESTROYED) {
-            throw wrapper.dynAnyDestroyed() ;
+            throw wrapper.dynAnyDestroyed();
         }
-        if ((any != null) && (! any.type().equal(value.type()))) {
+        if ((any != null) && (!any.type().equal(value.type()))) {
             throw new TypeMismatch();
         }
         // If the passed Any does not contain a legal value
@@ -167,15 +160,18 @@ abstract class DynAnyImpl extends org.omg.CORBA.LocalObject implements DynAny
         } catch (Exception e) {
             throw new InvalidValue();
         }
-        if ( ! DynAnyUtil.isInitialized(tempAny)) {
+        if (!DynAnyUtil.isInitialized(tempAny)) {
             throw new InvalidValue();
         }
         any = tempAny;
-   }
+    }
 
     public abstract org.omg.CORBA.Any to_any();
-    public abstract boolean equal (org.omg.DynamicAny.DynAny dyn_any);
+
+    public abstract boolean equal(org.omg.DynamicAny.DynAny dyn_any);
+
     public abstract void destroy();
+
     public abstract org.omg.DynamicAny.DynAny copy();
 
     // Needed for org.omg.CORBA.Object

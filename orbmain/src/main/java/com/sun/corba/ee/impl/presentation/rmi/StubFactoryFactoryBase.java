@@ -19,19 +19,16 @@
 
 package com.sun.corba.ee.impl.presentation.rmi;
 
-import com.sun.corba.ee.impl.util.Utility ;
+import com.sun.corba.ee.impl.util.Utility;
 import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 
-public abstract class StubFactoryFactoryBase implements
-    PresentationManager.StubFactoryFactory
-{
+public abstract class StubFactoryFactoryBase implements PresentationManager.StubFactoryFactory {
     /**
      * Returns the stub classname for the given interface name.
      *
      * @param fullName fully qualified name remote class
      */
-    public String getStubName(String fullName)
-    {
-        return Utility.stubName( fullName ) ;
+    public String getStubName(String fullName) {
+        return Utility.stubName(fullName);
     }
 }

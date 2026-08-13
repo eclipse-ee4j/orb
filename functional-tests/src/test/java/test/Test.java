@@ -94,11 +94,6 @@ public abstract class Test implements java.lang.Runnable
         }
     }
 
-    // Set this to true to turn on the use of a security manager
-    // that actually enforces security (and watch all of the tests
-    // fail due to access exceptions).
-    private static final boolean USE_REAL_SECURITY_MANAGER = false ;
-
     // Strings MUST be lower case.  The hash table is initialized
     // with the command line arguments converted to lower case.
     public static String OUTPUT_DIRECTORY               = "-output";
@@ -264,8 +259,7 @@ public abstract class Test implements java.lang.Runnable
         results = new Hashtable[num] ;
     }
 
-    public static void main(String args[])
-    {
+    public static void main(String args[]) {
         // checkSunTools() ;
 
         if (System.getProperty( "jcov" ) != null)
@@ -273,12 +267,6 @@ public abstract class Test implements java.lang.Runnable
                 new ShutdownHook() ) ;
 
         try {
-            if (USE_REAL_SECURITY_MANAGER)
-                System.setSecurityManager( new SecurityManager() ) ;
-            else
-                // This disables all security checks.
-                System.setSecurityManager(new javax.rmi.download.SecurityManager());
-
             // Initialize the port based properties with free ports...
 
             Properties sysProps = System.getProperties();

@@ -94,6 +94,10 @@ public class Client
         TestngRunner runner = new TestngRunner() ;
         runner.registerClass( Client.class ) ;
         runner.run() ;
+        // Required: the ORB this client creates keeps non-daemon threads running, so
+        // returning from main leaves the JVM alive and the harness waiting until it
+        // times out. Every other TestngRunner-based client ends the same way.
+        runner.systemExit() ;
     }
 
     public Client() throws Exception {
@@ -160,7 +164,10 @@ public class Client
         return file ;
     }
 
-    @Test
+    // Not a @Test: this is a helper called by testRemoteSerializedInvocation above.
+    // TestNG cannot supply its arguments and fails the run with "Cannot inject @Test
+    // annotated Method [serializeStub] with [class java.lang.String, interface
+    // java.rmi.Remote]".
     private void serializeStub( String fname, Remote stub )
     {
         FileOutputStream fos = null ;
@@ -192,7 +199,9 @@ public class Client
         }
     }
 
-    @Test
+    // Not a @Test either, and currently unused: the deserialize-and-invoke half of
+    // this test runs on the server, in HelloServant.sayHelloToStub. Same injection
+    // failure as serializeStub if TestNG is allowed to treat it as a test.
     private void deserializeStubandInvoke( String fname )
     {
         FileInputStream fis = null ;
