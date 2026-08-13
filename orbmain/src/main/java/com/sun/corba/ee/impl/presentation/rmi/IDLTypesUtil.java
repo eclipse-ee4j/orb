@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2019 Payara Services Ltd.
  *
@@ -528,14 +529,10 @@ public final class IDLTypesUtil {
         Field[] fields = null;
 
         try {
-            fields = (Field[]) java.security.AccessController.doPrivileged(new java.security.PrivilegedExceptionAction() {
-                public java.lang.Object run() throws Exception {
-                    return c.getFields();
-                }
-            });
-        } catch (java.security.PrivilegedActionException pae) {
+            fields = c.getFields();
+        } catch (Exception exc) {
             IDLTypeException ite = new IDLTypeException();
-            ite.initCause(pae);
+            ite.initCause(exc);
             throw ite;
         }
 

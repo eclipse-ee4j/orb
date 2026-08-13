@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  *
@@ -26,7 +27,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.RemoteException;
 import java.rmi.server.RMIClassLoader;
-import java.security.AccessController;
 import java.util.Properties;
 
 import org.omg.CORBA.INITIALIZE;
@@ -47,7 +47,7 @@ public abstract class Stub extends ObjectImpl implements java.io.Serializable {
     private static final String defaultStubImplName = "com.sun.corba.ee.impl.javax.rmi.CORBA.StubDelegateImpl";
 
     static {
-        Object stubDelegateInstance = (Object) createDelegateIfSpecified(StubClassKey, defaultStubImplName);
+        Object stubDelegateInstance = createDelegateIfSpecified(StubClassKey, defaultStubImplName);
         if (stubDelegateInstance != null)
             stubDelegateClass = stubDelegateInstance.getClass();
 
@@ -55,9 +55,10 @@ public abstract class Stub extends ObjectImpl implements java.io.Serializable {
 
     /**
      * Returns a hash code value for the object which is the same for all stubs that represent the same remote object.
-     * 
+     *
      * @return the hash code value.
      */
+    @Override
     public int hashCode() {
 
         if (stubDelegate == null) {
@@ -74,10 +75,11 @@ public abstract class Stub extends ObjectImpl implements java.io.Serializable {
     /**
      * Compares two stubs for equality. Returns <code>true</code> when used to compare stubs that represent the same remote
      * object, and <code>false</code> otherwise.
-     * 
+     *
      * @param obj the reference object with which to compare.
      * @return <code>true</code> if this object is the same as the <code>obj</code> argument; <code>false</code> otherwise.
      */
+    @Override
     public boolean equals(java.lang.Object obj) {
 
         if (stubDelegate == null) {
@@ -94,9 +96,10 @@ public abstract class Stub extends ObjectImpl implements java.io.Serializable {
     /**
      * Returns a string representation of this stub. Returns the same string for all stubs that represent the same remote
      * object.
-     * 
+     *
      * @return a string representation of this stub.
      */
+    @Override
     public String toString() {
 
         if (stubDelegate == null) {
@@ -120,7 +123,7 @@ public abstract class Stub extends ObjectImpl implements java.io.Serializable {
      * stream. If an unconnected stub is passed to an ORB stream for marshalling, it is implicitly connected to that ORB.
      * Application code should not call this method directly, but should call the portable wrapper method
      * {@link javax.rmi.PortableRemoteObject#connect}.
-     * 
+     *
      * @param orb the ORB to connect to.
      * @exception RemoteException if the stub is already connected to a different ORB, or if the stub does not represent an
      * exported remote or local object.
@@ -139,7 +142,7 @@ public abstract class Stub extends ObjectImpl implements java.io.Serializable {
 
     /**
      * Serialization method to restore the IOR state.
-     * 
+     *
      * @param stream stream to read object from
      * @throws IOException if there was an error reading from the strea
      * @throws ClassNotFoundException if the class that was represented by the steam cannot be found
@@ -158,7 +161,7 @@ public abstract class Stub extends ObjectImpl implements java.io.Serializable {
 
     /**
      * Serialization method to save the IOR state.
-     * 
+     *
      * @param stream The length of the IOR type ID (int), followed by the IOR type ID (byte array encoded using ISO8859-1),
      * followed by the number of IOR profiles (int), followed by the IOR profiles. Each IOR profile is written as a profile
      * tag (int), followed by the length of the profile data (int), followed by the profile data (byte array).
@@ -193,7 +196,7 @@ public abstract class Stub extends ObjectImpl implements java.io.Serializable {
     // then remove it from PortableRemoteObject. Also in Util.java
     private static Object createDelegateIfSpecified(String classKey, String defaultClassName) {
 
-        String className = (String) AccessController.doPrivileged(new GetPropertyAction(classKey));
+        String className = new GetPropertyAction(classKey).run();
         if (className == null) {
             Properties props = getORBPropertiesFile();
             if (props != null) {
@@ -221,8 +224,7 @@ public abstract class Stub extends ObjectImpl implements java.io.Serializable {
 
     private static Class loadDelegateClass(String className) throws ClassNotFoundException {
         try {
-            ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            return Class.forName(className, false, loader);
+            return Class.forName(className, false, Thread.currentThread().getContextClassLoader());
         } catch (ClassNotFoundException e) {
             // ignore, then try RMIClassLoader
         }
@@ -240,7 +242,7 @@ public abstract class Stub extends ObjectImpl implements java.io.Serializable {
      * Load the orb.properties file.
      */
     private static Properties getORBPropertiesFile() {
-        return (Properties) AccessController.doPrivileged(new GetORBPropertiesFileAction());
+        return new GetORBPropertiesFileAction().run();
     }
 
 }

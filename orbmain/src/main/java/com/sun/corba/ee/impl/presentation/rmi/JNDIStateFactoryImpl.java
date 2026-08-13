@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -24,8 +25,6 @@ import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
 
 import java.lang.reflect.Field;
 import java.rmi.Remote;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Hashtable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -136,7 +135,7 @@ public class JNDIStateFactoryImpl implements StateFactory {
         if (orbField != null)
             return orbField;
 
-        orbField = AccessController.doPrivileged((PrivilegedAction<Field>) () -> getField(ctx.getClass(), "_orb"));
+        orbField = getField(ctx.getClass(), "_orb");
 
         orbFields.put(ctx.getClass(), orbField);
         return orbField;

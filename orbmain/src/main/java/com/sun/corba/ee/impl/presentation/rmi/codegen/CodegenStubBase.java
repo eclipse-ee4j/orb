@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -35,8 +36,6 @@ import java.io.ObjectStreamException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 import javax.rmi.CORBA.Stub;
 
@@ -80,37 +79,28 @@ public class CodegenStubBase extends Stub {
     }
 
     private static StubDelegateImpl getStubDelegateImplField(final org.omg.CORBA.Object stub) {
-        return (StubDelegateImpl) AccessController.doPrivileged(new PrivilegedAction() {
-            public Object run() {
-                try {
-                    Field fld = Stub.class.getDeclaredField("stubDelegate");
-                    fld.setAccessible(true);
-                    return fld.get(stub);
-                } catch (Exception exc) {
-                    throw wrapper.couldNotAccessStubDelegate();
-                }
-            }
-        });
+        try {
+            Field fld = Stub.class.getDeclaredField("stubDelegate");
+            fld.setAccessible(true);
+            return (StubDelegateImpl) fld.get(stub);
+        } catch (Exception exc) {
+            throw wrapper.couldNotAccessStubDelegate();
+        }
     }
 
     private static Method setDefaultDelegateMethod = null;
 
     private static void setDefaultDelegate(final org.omg.CORBA.Object stub) {
-        AccessController.doPrivileged(new PrivilegedAction() {
-            public Object run() {
-                try {
-                    if (setDefaultDelegateMethod == null) {
-                        setDefaultDelegateMethod = Stub.class.getDeclaredMethod("setDefaultDelegate");
-                        setDefaultDelegateMethod.setAccessible(true);
-                    }
-
-                    setDefaultDelegateMethod.invoke(stub);
-                } catch (Exception exc) {
-                    throw wrapper.couldNotAccessStubDelegate(exc);
-                }
-                return null;
+        try {
+            if (setDefaultDelegateMethod == null) {
+                setDefaultDelegateMethod = Stub.class.getDeclaredMethod("setDefaultDelegate");
+                setDefaultDelegateMethod.setAccessible(true);
             }
-        });
+
+            setDefaultDelegateMethod.invoke(stub);
+        } catch (Exception exc) {
+            throw wrapper.couldNotAccessStubDelegate(exc);
+        }
     }
 
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {

@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -23,7 +24,6 @@ import com.sun.corba.ee.impl.javax.rmi.CORBA.Util;
 import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.presentation.rmi.DynamicMethodMarshaller;
 import com.sun.corba.ee.spi.presentation.rmi.InvocationInterceptor;
-import com.sun.corba.ee.spi.presentation.rmi.PresentationDefaults;
 import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
 import com.sun.corba.ee.spi.protocol.ClientDelegate;
@@ -34,10 +34,7 @@ import com.sun.corba.ee.spi.transport.ContactInfoList;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
-import org.glassfish.pfl.basic.proxy.DynamicAccessPermission;
 import org.glassfish.pfl.basic.proxy.LinkedInvocationHandler;
 import org.glassfish.pfl.tf.spi.annotation.InfoMethod;
 import org.omg.CORBA.SystemException;
@@ -53,22 +50,17 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler 
     private transient org.omg.CORBA.Object stub;
     private transient Proxy self;
 
+    @Override
     public void setProxy(Proxy self) {
         this.self = self;
     }
 
+    @Override
     public Proxy getProxy() {
         return self;
     }
 
     public StubInvocationHandlerImpl(PresentationManager pm, PresentationManager.ClassData classData, org.omg.CORBA.Object stub) {
-        if (!PresentationDefaults.inAppServer()) {
-            SecurityManager s = System.getSecurityManager();
-            if (s != null) {
-                s.checkPermission(new DynamicAccessPermission("access"));
-            }
-        }
-
         this.classData = classData;
         this.pm = pm;
         this.stub = stub;
@@ -87,6 +79,7 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler 
         return result;
     }
 
+    @Override
     public Object invoke(Object proxy, final Method method, Object[] args) throws Throwable {
 
         Delegate delegate = null;
@@ -133,7 +126,7 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler 
 
     /**
      * Invoke the given method with the args and return the result. This may result in a remote invocation.
-     * 
+     *
      * @param proxy The proxy used for this class (null if not using java.lang.reflect.Proxy)
      */
     @IsLocal
@@ -186,12 +179,7 @@ public final class StubInvocationHandlerImpl implements LinkedInvocationHandler 
                         // Make sure that we can invoke a method from a normally
                         // inaccessible package, as this reflective class must always
                         // be able to invoke a non-public method.
-                        AccessController.doPrivileged(new PrivilegedAction() {
-                            public Object run() {
-                                method.setAccessible(true);
-                                return null;
-                            }
-                        });
+                        method.setAccessible(true);
                     }
 
                     Object result = method.invoke(so.servant, copies);

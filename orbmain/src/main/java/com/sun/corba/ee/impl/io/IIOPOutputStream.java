@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  *
@@ -30,8 +31,6 @@ import java.io.Externalizable;
 import java.io.IOException;
 import java.io.InvalidClassException;
 import java.io.NotActiveException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Stack;
 
 import org.glassfish.pfl.basic.reflection.Bridge;
@@ -48,11 +47,7 @@ import org.omg.CORBA.portable.OutputStream;
 
 @ValueHandlerWrite
 public class IIOPOutputStream extends com.sun.corba.ee.impl.io.OutputStreamHook {
-    private static Bridge bridge = AccessController.doPrivileged(new PrivilegedAction<Bridge>() {
-        public Bridge run() {
-            return Bridge.get();
-        }
-    });
+    private static Bridge bridge = Bridge.get();
 
     private org.omg.CORBA_2_3.portable.OutputStream orbStream;
 

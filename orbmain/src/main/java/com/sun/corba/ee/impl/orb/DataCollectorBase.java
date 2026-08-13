@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -28,8 +29,6 @@ import java.applet.Applet;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -71,11 +70,13 @@ public abstract class DataCollectorBase implements DataCollector {
 // Public interface defined in DataCollector
 //////////////////////////////////////////////////////////
 
+    @Override
     public boolean initialHostIsLocal() {
         checkSetParserCalled();
         return localHostName.equals(resultProps.getProperty(ORBConstants.INITIAL_HOST_PROPERTY));
     }
 
+    @Override
     public void setParser(PropertyParser parser) {
         Iterator<ParserAction> iter = parser.iterator();
         while (iter.hasNext()) {
@@ -91,6 +92,7 @@ public abstract class DataCollectorBase implements DataCollector {
         setParserCalled = true;
     }
 
+    @Override
     public Properties getProperties() {
         checkSetParserCalled();
         return resultProps;
@@ -101,6 +103,7 @@ public abstract class DataCollectorBase implements DataCollector {
 // in subclasses
 //////////////////////////////////////////////////////////
 
+    @Override
     public abstract boolean isApplet();
 
 //////////////////////////////////////////////////////////
@@ -161,6 +164,7 @@ public abstract class DataCollectorBase implements DataCollector {
         }
 
         PropertyCallback callback = new PropertyCallback() {
+            @Override
             public String get(String name) {
                 return app.getParameter(name);
             }
@@ -175,6 +179,7 @@ public abstract class DataCollectorBase implements DataCollector {
         // URLs can be kept relative which is sometimes useful for
         // managing the Document Root layout.
         PropertyCallback URLCallback = new PropertyCallback() {
+            @Override
             public String get(String name) {
                 String value = resultProps.getProperty(name);
                 if (value == null) {
@@ -197,6 +202,7 @@ public abstract class DataCollectorBase implements DataCollector {
 
     private void doProperties(final Properties props) {
         PropertyCallback callback = new PropertyCallback() {
+            @Override
             public String get(String name) {
                 return props.getProperty(name);
             }
@@ -236,6 +242,7 @@ public abstract class DataCollectorBase implements DataCollector {
         Set<String> prefixNames = getCORBAPrefixes(propertyPrefixes);
 
         PropertyCallback callback = new PropertyCallback() {
+            @Override
             public String get(String name) {
                 return getSystemProperty(name);
             }
@@ -309,9 +316,8 @@ public abstract class DataCollectorBase implements DataCollector {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private static String getSystemProperty(final String name) {
-        return (String) AccessController.doPrivileged(new GetPropertyAction(name));
+        return new GetPropertyAction(name).run();
     }
 
     // Map command-line arguments to ORB properties.
@@ -330,14 +336,17 @@ public abstract class DataCollectorBase implements DataCollector {
 
     private static Iterator<String> makeIterator(final Enumeration<?> enumeration) {
         return new Iterator<String>() {
+            @Override
             public boolean hasNext() {
                 return enumeration.hasMoreElements();
             }
 
+            @Override
             public String next() {
                 return (String) enumeration.nextElement();
             }
 
+            @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }
@@ -348,11 +357,7 @@ public abstract class DataCollectorBase implements DataCollector {
         // This will not throw a SecurityException because this
         // class was loaded from rt.jar using the bootstrap classloader.
         @SuppressWarnings("unchecked")
-        Enumeration<String> enumeration = (Enumeration<String>) AccessController.doPrivileged(new PrivilegedAction<Enumeration<?>>() {
-            public Enumeration<?> run() {
-                return System.getProperties().propertyNames();
-            }
-        });
+        Enumeration<String> enumeration = (Enumeration<String>) System.getProperties().propertyNames();
 
         return makeIterator(enumeration);
     }

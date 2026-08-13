@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 2019 Payara Services Ltd.
  *
@@ -81,8 +82,6 @@ import com.sun.corba.ee.spi.transport.TransportManager;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -134,13 +133,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB
 
     // This is not one of the xxxDebugFlags because it is used to debug the mechanism
     // that sets the xxxDebugFlags!
-    public static final boolean orbInitDebug = AccessController.doPrivileged(
-        new PrivilegedAction<Boolean>() {
-            public Boolean run() {
-                return Boolean.getBoolean( ORBConstants.INIT_DEBUG_PROPERTY );
-            }
-        }
-    ) ;
+    public static final boolean orbInitDebug = Boolean.getBoolean( ORBConstants.INIT_DEBUG_PROPERTY ) ;
 
     // Currently defined debug flags.  Any additions must be called xxxDebugFlag.
     // All debug flags must be public boolean types.

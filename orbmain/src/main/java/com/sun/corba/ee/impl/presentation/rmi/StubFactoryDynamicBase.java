@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -22,21 +23,10 @@ package com.sun.corba.ee.impl.presentation.rmi;
 import com.sun.corba.ee.spi.misc.ORBClassLoader;
 import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 
-import java.io.SerializablePermission;
-
 public abstract class StubFactoryDynamicBase extends StubFactoryBase {
     protected final ClassLoader loader;
 
-    private static Void checkPermission() {
-        SecurityManager sm = System.getSecurityManager();
-        if (sm != null) {
-            sm.checkPermission(new SerializablePermission("enableSubclassImplementation"));
-        }
-
-        return null;
-    }
-
-    private StubFactoryDynamicBase(Void unused, PresentationManager.ClassData classData, ClassLoader loader) {
+    public StubFactoryDynamicBase(PresentationManager.ClassData classData, ClassLoader loader) {
         super(classData);
 
         // this.loader must not be null, or the newProxyInstance call
@@ -48,9 +38,6 @@ public abstract class StubFactoryDynamicBase extends StubFactoryBase {
         }
     }
 
-    public StubFactoryDynamicBase(PresentationManager.ClassData classData, ClassLoader loader) {
-        this(checkPermission(), classData, loader);
-    }
-
+    @Override
     public abstract org.omg.CORBA.Object makeStub();
 }

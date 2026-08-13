@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -25,8 +26,6 @@ import com.sun.corba.ee.impl.presentation.rmi.StubFactoryStaticImpl;
 import com.sun.corba.ee.impl.presentation.rmi.codegen.StubFactoryFactoryCodegenImpl;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 
 public abstract class PresentationDefaults
 {
@@ -76,13 +75,7 @@ public abstract class PresentationDefaults
         final boolean def ) {
 
         final String defs = Boolean.toString( def ) ;
-        final String value = AccessController.doPrivileged(
-            new PrivilegedAction<String>() {
-                public String run() {
-                    return System.getProperty( propName, defs ) ;
-                }
-            }
-        ) ;
+        final String value = System.getProperty( propName, defs ) ;
 
         return Boolean.valueOf( value ) ;
     }

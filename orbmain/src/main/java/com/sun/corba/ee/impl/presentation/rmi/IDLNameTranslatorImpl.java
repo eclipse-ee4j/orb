@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -20,18 +21,13 @@
 package com.sun.corba.ee.impl.presentation.rmi;
 
 import com.sun.corba.ee.spi.presentation.rmi.IDLNameTranslator;
-import com.sun.corba.ee.spi.presentation.rmi.PresentationDefaults;
 
 import java.lang.reflect.Method;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
-
-import org.glassfish.pfl.basic.proxy.DynamicAccessPermission;
 
 /**
  * Bidirectional translator between RMI-IIOP interface methods and and IDL Names.
@@ -110,11 +106,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
      * @throws IllegalStateException if given class is not a valid RMI/IIOP Remote Interface
      */
     public static IDLNameTranslator get(final Class interf) {
-        return AccessController.doPrivileged(new PrivilegedAction<IDLNameTranslator>() {
-            public IDLNameTranslator run() {
-                return new IDLNameTranslatorImpl(new Class[] { interf });
-            }
-        });
+        return new IDLNameTranslatorImpl(new Class[] { interf });
     }
 
     /**
@@ -125,11 +117,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
      * @throws IllegalStateException if given classes are not valid RMI/IIOP Remote Interfaces
      */
     public static IDLNameTranslator get(final Class[] interfaces) {
-        return AccessController.doPrivileged(new PrivilegedAction<IDLNameTranslator>() {
-            public IDLNameTranslator run() {
-                return new IDLNameTranslatorImpl(interfaces);
-            }
-        });
+        return new IDLNameTranslatorImpl(interfaces);
     }
 
     public static String getExceptionId(Class cls) {
@@ -145,18 +133,22 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
         return itype.getExceptionName();
     }
 
+    @Override
     public Class[] getInterfaces() {
         return interf_;
     }
 
+    @Override
     public Method[] getMethods() {
         return methods_;
     }
 
+    @Override
     public Method getMethod(String idlName) {
         return IDLNameToMethodMap_.get(idlName);
     }
 
+    @Override
     public String getIDLName(Method method) {
         return methodToIDLNameMap_.get(method);
     }
@@ -167,13 +159,6 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
      * @throws IllegalStateException if given class is not a valid RMI/IIOP Remote Interface
      */
     private IDLNameTranslatorImpl(Class<?>[] interfaces) {
-        if (!PresentationDefaults.inAppServer()) {
-            SecurityManager s = System.getSecurityManager();
-            if (s != null) {
-                s.checkPermission(new DynamicAccessPermission("access"));
-            }
-        }
-
         try {
             IDLTypesUtil idlTypesUtil = new IDLTypesUtil();
             for (int ctr = 0; ctr < interfaces.length; ctr++) {
@@ -182,8 +167,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
             interf_ = interfaces;
             buildNameTranslation();
         } catch (IDLTypeException ite) {
-            String msg = ite.getMessage();
-            throw new IllegalStateException(msg, ite);
+            throw new IllegalStateException(ite.getMessage(), ite);
         }
     }
 
@@ -195,12 +179,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
             IDLTypesUtil idlTypesUtil = new IDLTypesUtil();
             final Method[] methods = interf.getMethods();
             // Handle the case of a non-public interface!
-            AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                public Object run() {
-                    Method.setAccessible(methods, true);
-                    return null;
-                }
-            });
+            Method.setAccessible(methods, true);
 
             // Take an initial pass through all the methods and create some
             // information that will be used to track the IDL name
@@ -485,13 +464,13 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
      * "For Java identifiers that contain illegal OMG IDL identifier characters such as '$' or Unicode characters outside of
      * ISO Latin 1, any such illegal characters are replaced by "U" followed by the 4 hexadecimal characters(in upper case)
      * representing the Unicode value. So, the Java name a$b is mapped to aU0024b and x\u03bCy is mapped to xU03BCy."
-     * 
+     *
      * @param c character to convert
      * @return Unicode String
      */
     public static String charToUnicodeRepresentation(char c) {
 
-        int orig = (int) c;
+        int orig = c;
         StringBuilder hexString = new StringBuilder();
 
         int value = orig;

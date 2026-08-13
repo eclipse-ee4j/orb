@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  *
  * This program and the accompanying materials are made available under the
@@ -59,9 +60,6 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -716,14 +714,7 @@ public class ParserTable {
                     ORBInitializer initializer = null;
 
                     try {
-                        initializer = (ORBInitializer) AccessController.doPrivileged(new PrivilegedExceptionAction() {
-                            public Object run() throws InstantiationException, IllegalAccessException {
-                                return initClass.newInstance();
-                            }
-                        });
-                    } catch (PrivilegedActionException exc) {
-                        // Unwrap the exception, as we don't care exc here
-                        throw wrapper.orbInitializerFailure(exc.getException(), initClass.getName());
+                        initializer = (ORBInitializer) initClass.newInstance();
                     } catch (Exception exc) {
                         throw wrapper.orbInitializerFailure(exc, initClass.getName());
                     }
@@ -961,14 +952,9 @@ public class ParserTable {
                     Acceptor acceptor = null;
 
                     try {
-                        acceptor = (Acceptor) AccessController.doPrivileged(new PrivilegedExceptionAction() {
-                            public Object run() throws InstantiationException, IllegalAccessException {
-                                return initClass.newInstance();
-                            }
-                        });
-                    } catch (PrivilegedActionException exc) {
-                        // Unwrap the exception, as we don't care exc here
-                        throw wrapper.acceptorInstantiationFailure(exc.getException(), initClass.getName());
+                        acceptor = (Acceptor) initClass.newInstance();
+                    } catch (InstantiationException | IllegalAccessException exc) {
+                        throw wrapper.acceptorInstantiationFailure(exc, initClass.getName());
                     } catch (Exception exc) {
                         throw wrapper.acceptorInstantiationFailure(exc, initClass.getName());
                     }

@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  * Copyright (c) 2020 Payara Services Ltd.
@@ -47,9 +48,6 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.nio.ByteBuffer;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -1404,17 +1402,9 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
 
             // getDeclaredMethod requires RuntimePermission accessDeclaredMembers
             // if a different class loader is used (even though the javadoc says otherwise)
-            Method writeMethod;
-            try {
-                writeMethod = AccessController.doPrivileged(new PrivilegedExceptionAction<Method>() {
-                    public Method run() throws NoSuchMethodException {
-                        return helperClass.getDeclaredMethod(kWriteMethod, org.omg.CORBA.portable.OutputStream.class, clazz);
-                    }
-                });
-            } catch (PrivilegedActionException pae) {
-                // this gets caught below
-                throw (NoSuchMethodException) pae.getException();
-            }
+            // NoSuchMethodException gets caught below
+            Method writeMethod = helperClass.getDeclaredMethod(kWriteMethod, org.omg.CORBA.portable.OutputStream.class,
+                    clazz);
             writeMethod.invoke(null, parent, object);
         } catch (Exception exc) {
             throw wrapper.errorInvokingHelperWrite(exc);

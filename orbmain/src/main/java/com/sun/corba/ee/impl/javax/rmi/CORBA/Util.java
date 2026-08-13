@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  *
@@ -48,8 +49,6 @@ import java.rmi.ServerError;
 import java.rmi.ServerException;
 import java.rmi.UnexpectedException;
 import java.rmi.server.RMIClassLoader;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -435,11 +434,7 @@ public class Util implements javax.rmi.CORBA.UtilDelegate {
                 if (keepAlive == null) {
                     // Yes. Instantiate our keep-alive thread and start
                     // it up...
-                    keepAlive = (KeepAlive) AccessController.doPrivileged(new PrivilegedAction<Object>() {
-                        public java.lang.Object run() {
-                            return new KeepAlive();
-                        }
-                    });
+                    keepAlive = (KeepAlive) new KeepAlive();
                     keepAlive.start();
                 }
             }

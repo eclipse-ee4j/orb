@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2026 Contributors to the Eclipse Foundation
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 2019 Payara Services Ltd.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
@@ -46,10 +46,8 @@ import java.lang.System.Logger;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
-import java.security.AccessController;
 import java.security.PermissionCollection;
 import java.security.Policy;
-import java.security.PrivilegedAction;
 import java.security.ProtectionDomain;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -746,12 +744,7 @@ public final class ORBUtility {
         // in the Applet mode
         final Thread finalThread = thread;
         try {
-            AccessController.doPrivileged(new PrivilegedAction() {
-                public java.lang.Object run() {
-                    finalThread.setDaemon(true);
-                    return null;
-                }
-            });
+            finalThread.setDaemon(true);
         } catch (Exception e) {
             // REVISIT: Object to get static method. Ignore it.
             dprint(new Object(), "setDaemon: Exception: " + e);
@@ -930,21 +923,16 @@ public final class ORBUtility {
         // (java.io.FilePermission <<ALL FILES>> ...)
         // (java.io.FilePermission /var/tmp//- ...)
 
-        String result = (String) AccessController.doPrivileged(new PrivilegedAction() {
-            public java.lang.Object run() {
-                StringBuilder sb = new StringBuilder(500);
-                ProtectionDomain pd = cl.getProtectionDomain();
-                Policy policy = Policy.getPolicy();
-                PermissionCollection pc = policy.getPermissions(pd);
-                sb.append("\nPermissionCollection ");
-                sb.append(pc.toString());
-                // Don't need to add 'Protection Domain' string, it's
-                // in ProtectionDomain.toString() already.
-                sb.append(pd.toString());
-                return sb.toString();
-            }
-        });
-        return result;
+        StringBuilder sb = new StringBuilder(500);
+        ProtectionDomain pd = cl.getProtectionDomain();
+        Policy policy = Policy.getPolicy();
+        PermissionCollection pc = policy.getPermissions(pd);
+        sb.append("\nPermissionCollection ");
+        sb.append(pc.toString());
+        // Don't need to add 'Protection Domain' string, it's
+        // in ProtectionDomain.toString() already.
+        sb.append(pd.toString());
+        return sb.toString();
     }
 
     public static String formatStringArray(String[] a) {

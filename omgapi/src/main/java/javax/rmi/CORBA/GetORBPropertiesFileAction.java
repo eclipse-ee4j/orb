@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  * Copyright (c) 1993-1997 IBM Corp. All rights reserved.
  *
@@ -22,26 +23,16 @@ package javax.rmi.CORBA;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Properties;
 
-class GetORBPropertiesFileAction implements PrivilegedAction {
+class GetORBPropertiesFileAction {
     private boolean debug = false;
 
     public GetORBPropertiesFileAction() {
     }
 
     private String getSystemProperty(final String name) {
-        // This will not throw a SecurityException because this
-        // class was loaded from rt.jar using the bootstrap classloader.
-        String propValue = (String) AccessController.doPrivileged(new PrivilegedAction() {
-            public java.lang.Object run() {
-                return System.getProperty(name);
-            }
-        });
-
-        return propValue;
+        return System.getProperty(name);
     }
 
     private void getPropertiesFromFile(Properties props, String fileName) {
@@ -63,7 +54,7 @@ class GetORBPropertiesFileAction implements PrivilegedAction {
         }
     }
 
-    public Object run() {
+    public Properties run() {
         Properties defaults = new Properties();
 
         String javaHome = getSystemProperty("java.home");

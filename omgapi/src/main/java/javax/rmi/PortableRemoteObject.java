@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  * Copyright (c) 1998-1999 IBM Corp. All rights reserved.
  *
@@ -29,8 +30,6 @@ import java.rmi.NoSuchObjectException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.RMIClassLoader;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Properties;
 
 import org.omg.CORBA.INITIALIZE;
@@ -58,7 +57,7 @@ public class PortableRemoteObject {
 
     /**
      * Initializes the object by calling <code>exportObject(this)</code>.
-     * 
+     *
      * @exception RemoteException if export fails.
      */
     protected PortableRemoteObject() throws RemoteException {
@@ -70,7 +69,7 @@ public class PortableRemoteObject {
     /**
      * Makes a server object ready to receive remote calls. Note that subclasses of PortableRemoteObject do not need to call
      * this method, as it is called by the constructor.
-     * 
+     *
      * @param obj the server object to export.
      * @exception RemoteException if export fails.
      */
@@ -84,7 +83,7 @@ public class PortableRemoteObject {
 
     /**
      * Returns a stub for the given server object.
-     * 
+     *
      * @param obj the server object for which a stub is required. Must either be a subclass of PortableRemoteObject or have
      * been previously the target of a call to {@link #exportObject}.
      * @return the most derived stub for the object.
@@ -100,7 +99,7 @@ public class PortableRemoteObject {
 
     /**
      * Deregisters a server object from the runtime, allowing the object to become available for garbage collection.
-     * 
+     *
      * @param obj the object to unexport.
      * @exception NoSuchObjectException if the remote object is not currently exported.
      */
@@ -114,7 +113,7 @@ public class PortableRemoteObject {
 
     /**
      * Checks to ensure that an object of a remote or abstract interface type can be cast to a desired type.
-     * 
+     *
      * @param narrowFrom the object to check.
      * @param narrowTo the desired type.
      * @return an object which can be cast to the desired type.
@@ -133,7 +132,7 @@ public class PortableRemoteObject {
      * Makes a Remote object ready for remote communication. This normally happens implicitly when the object is sent or
      * received as an argument on a remote method call, but in some circumstances it is useful to perform this action by
      * making an explicit call. See the {@link javax.rmi.CORBA.Stub#connect} method for more information.
-     * 
+     *
      * @param target the object to connect.
      * @param source a previously connected object.
      * @throws RemoteException if <code>source</code> is not connected or if <code>target</code> is already connected to a
@@ -152,7 +151,7 @@ public class PortableRemoteObject {
     // security reasons. If you know a better solution how to share this code
     // then remove it from here.
     private static Object createDelegateIfSpecified(String classKey) {
-        String className = (String) AccessController.doPrivileged(new GetPropertyAction(classKey));
+        String className = new GetPropertyAction(classKey).run();
         if (className == null) {
             Properties props = getORBPropertiesFile();
             if (props != null) {
@@ -164,7 +163,7 @@ public class PortableRemoteObject {
         }
 
         try {
-            return (Object) loadDelegateClass(className).newInstance();
+            return loadDelegateClass(className).newInstance();
         } catch (ClassNotFoundException ex) {
             INITIALIZE exc = new INITIALIZE("Cannot instantiate " + className);
             exc.initCause(ex);
@@ -198,26 +197,18 @@ public class PortableRemoteObject {
      * Load the orb.properties file.
      */
     private static Properties getORBPropertiesFile() {
-        return (Properties) AccessController.doPrivileged(new GetORBPropertiesFileAction());
+        return new GetORBPropertiesFileAction().run();
     }
 }
 
-class GetORBPropertiesFileAction implements PrivilegedAction {
+class GetORBPropertiesFileAction {
     private boolean debug = false;
 
     public GetORBPropertiesFileAction() {
     }
 
     private String getSystemProperty(final String name) {
-        // This will not throw a SecurityException because this
-        // class was loaded from rt.jar using the bootstrap classloader.
-        String propValue = (String) AccessController.doPrivileged(new PrivilegedAction() {
-            public java.lang.Object run() {
-                return System.getProperty(name);
-            }
-        });
-
-        return propValue;
+        return System.getProperty(name);
     }
 
     private void getPropertiesFromFile(Properties props, String fileName) {
@@ -239,7 +230,7 @@ class GetORBPropertiesFileAction implements PrivilegedAction {
         }
     }
 
-    public Object run() {
+    public Properties run() {
         Properties defaults = new Properties();
 
         String javaHome = getSystemProperty("java.home");

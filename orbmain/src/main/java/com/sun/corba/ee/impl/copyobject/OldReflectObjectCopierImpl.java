@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
  * Copyright (c) 2021 Payara Services Ltd.
  *
@@ -45,9 +46,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
@@ -128,11 +126,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier {
      * Bridge is used to access the reflection factory for obtaining serialization constructors. This must be carefully
      * protected!
      */
-    private static final Bridge bridge = (Bridge) AccessController.doPrivileged(new PrivilegedAction() {
-        public Object run() {
-            return Bridge.get();
-        }
-    });
+    private static final Bridge bridge = Bridge.get();
 
     /**
      * Returns public no-arg constructor of given class, or null if none found. Access checks are disabled on the returned
@@ -194,7 +188,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier {
     /**
      * Gets the reflection attributes for a class from the cache or if it is not in the cache yet, computes the attributes
      * and populates the cache
-     * 
+     *
      * @param cls the class whose attributes are needed
      * @return the attributes needed for reflection
      *
@@ -224,7 +218,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier {
 
     /**
      * Utility to copy array of primitive types or objects. Used by local stubs to copy objects
-     * 
+     *
      * @param obj the object to copy or connect.
      * @return the copied object.
      * @exception RemoteException if any object could not be copied.
@@ -275,7 +269,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier {
 
     /**
      * Utility to copy fields of an object. Used by local stub to copy objects
-     * 
+     *
      * @param obj the object whose fields need to be copied
      * @exception RemoteException if any object could not be copied.
      */
@@ -369,7 +363,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier {
 
     /**
      * Utility to copy objects using Java reflection. Used by the local stub to copy objects
-     * 
+     *
      * @param obj the object to copy or connect.
      * @return the copied object.
      */
@@ -432,11 +426,7 @@ public class OldReflectObjectCopierImpl implements ObjectCopier {
     @Override
     public Object copy(final Object obj) throws ReflectiveCopyException {
         try {
-            return AccessController.doPrivileged(new PrivilegedExceptionAction() {
-                public Object run() throws RemoteException, InstantiationException, IllegalAccessException, InvocationTargetException {
-                    return reflectCopy(obj);
-                }
-            });
+            return reflectCopy(obj);
         } catch (ThreadDeath td) {
             throw td;
         } catch (Throwable thr) {
