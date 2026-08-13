@@ -84,8 +84,14 @@ public class PortableRemoteObject implements javax.rmi.CORBA.PortableRemoteObjec
 
             // No, so export to JRMP. If this is called twice for the
             // same object, it will throw an ExportException...
+            //
+            // Export on an anonymous port rather than with the deprecated
+            // no-port overload: that one uses the static stub protocol and so
+            // needs a generated <impl>_Stub on the classpath, which our rmic no
+            // longer emits (see rmic.jrmp.not.supported). Passing a port picks
+            // the dynamic proxy stub instead, which needs no generated class.
 
-            UnicastRemoteObject.exportObject(obj);
+            UnicastRemoteObject.exportObject(obj, 0);
         }
     }
 

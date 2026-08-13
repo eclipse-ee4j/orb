@@ -31,7 +31,6 @@ import javax.naming.NamingException;
 import javax.rmi.CORBA.Tie;
 import javax.rmi.CORBA.Util;
 import java.io.IOException;
-import java.rmi.RMISecurityManager;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -916,9 +915,6 @@ class RMIRegistry {
      * The port number can be specified on the command line.
      */
     public static void main(String args[]) {
-        // Create and install the security manager
-        System.setSecurityManager(new RMISecurityManager());
-
         try {
             int port = Registry.REGISTRY_PORT;
             if (args.length >= 1) {

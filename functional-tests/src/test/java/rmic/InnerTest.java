@@ -132,10 +132,17 @@ public class InnerTest extends Test implements Constants {
         } catch (ThreadDeath death) {
             throw death;
         } catch (Throwable e) {
-            helper.fail( e ) ;
+            // Record the real failure first. helper.fail() throws if the setup above
+            // blew up before the loop ever called helper.start(), and that would
+            // otherwise replace the exception we actually want to see.
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             e.printStackTrace(new PrintStream(out));
             status = new Error("Caught " + out.toString());
+            try {
+                helper.fail( e ) ;
+            } catch (RuntimeException noCurrentTest) {
+                // no test in progress to attribute the failure to; status has it
+            }
         } finally {
             helper.done() ;
         }

@@ -87,8 +87,6 @@ public class Server extends PortableRemoteObject implements Tester
 
     public static void main(String[] args) {
         try {
-            System.setSecurityManager(new NoSecurityManager());
-
             Server.tryLoadingClasses();
 
             rootContext = new InitialContext();

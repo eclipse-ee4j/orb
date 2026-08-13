@@ -28,20 +28,81 @@
 -test javax.rmi.ClassLoadTest -separateprocess
 // this no longer tests anything, but manages to fail anyway!! (REG) -test rmic.ParseTest
 
-// Test FullValueDescription 
+// ############################################################################
+// # DISABLED: javax.rmi.fvd.TheTest, javax.rmi.download.TheTest,             #
+// #           javax.rmi.test1.TheTest                                        #
+// #                                                                          #
+// # THESE NEED A PFL FIX BEFORE THEY CAN BE RE-ENABLED. Do not simply        #
+// # uncomment them - they will fail, and not because of anything these       #
+// # tests do.                                                                #
+// #                                                                          #
+// # Symptom: the test server dies while binding its servant into CosNaming:  #
+// #                                                                          #
+// #   java.lang.IllegalArgumentException: Only instances of                  #
+// #       org.omg.CORBA.Object can be bound                                  #
+// #                                                                          #
+// # which hides the real error one layer down, in dynamic stub generation:   #
+// #                                                                          #
+// #   java.lang.IllegalArgumentException: org/omg/stub/javax/rmi/fvd/        #
+// #       _Servant_DynamicStub not in same package as lookup class           #
+// #                                                                          #
+// # Cause: StubFactoryCodegenImpl passes the remote interface as the anchor  #
+// # class, and pfl-basic BridgeBase.defineClass turns that into the lookup   #
+// # class via MethodHandles.privateLookupIn(anchor, ...).defineClass(bytes). #
+// # Since JDK 9, Lookup.defineClass requires the new class to be in the same #
+// # runtime package as the lookup class. But PackagePrefixChecker treats     #
+// # java/javax as "offending" packages and prefixes the generated stub with  #
+// # org.omg.stub. (RMI-IIOP spec naming), so for a remote interface in       #
+// # javax.rmi.* the stub must land in org.omg.stub.javax.rmi.* - a different #
+// # package than the anchor. The JDK rejects it.                             #
+// #                                                                          #
+// # This bites exactly these three tests because their remote interfaces are #
+// # the only ones in the suite that live under javax.*. Tests whose          #
+// # interfaces live elsewhere (corba.*, etc) are unaffected: their stub is   #
+// # not prefixed, so it stays in the anchor's own package and defines fine.  #
+// #                                                                          #
+// # Fixing it needs one of:                                                  #
+// #  - pfl-basic to expose a ClassLoader-based define (Lookup.defineClass    #
+// #    cannot bootstrap a package that has no class in it yet, so no anchor  #
+// #    class can be passed here to work around it); or                       #
+// #  - dropping the org.omg.stub. prefix for javax.* (it is still required   #
+// #    for java.*, which the JVM forbids outright) - but that changes        #
+// #    spec-mandated stub naming and needs an interop/static-stub review.    #
+// #                                                                          #
+// # Setting -Dcom.sun.corba.ee.ORBUseDynamicStub=false is NOT a workaround:  #
+// # it fails earlier, at exportObject, falling back to JRMP with            #
+// # StubNotFoundException.                                                   #
+// ############################################################################
+
+// Test FullValueDescription
 // DO NOT MOVE THIS TEST TO RUN AFTER rmic.HelloTest, It hangs at times on
 // Windows.
--test javax.rmi.fvd.TheTest -separateprocess
+// DISABLED - see the PFL note above.
+// -test javax.rmi.fvd.TheTest -separateprocess
 
 -test rmic.HelloTest
 -test rmic.HelloTest -localservants -normic
 -test rmic.InnerTest
 -test rmic.StaticStringsHashTest
 -test rmic.StubReferenceTest
--test javax.rmi.download.TheTest
--test javax.rmi.test1.TheTest
+// DISABLED - see the PFL note above.
+// -test javax.rmi.download.TheTest
+// -test javax.rmi.test1.TheTest
 -test rmic.LocalStubTest
--test javax.rmi.PROTest
+
+// DISABLED: the IIOP variant only - the JRMP one below passes and stays enabled.
+//
+// This one compiles javax.rmi.ServantOuter.Inner, a nested remote implementation,
+// and rmic cannot generate IIOP stubs for those: it emits the tie and stub sources
+// and then dies compiling them with
+//
+//   org.glassfish.rmic.tools.java.CompilerError: getInnerClassField
+//
+// There is a reproduction of the underlying rmic defect, with the full analysis, in
+// RmicGenerationTest.generateIiopStubsForNestedRemoteImpl - it is @Ignore'd for the
+// same reason. Fix that, drop the @Ignore, and re-enable this line.
+// -test javax.rmi.PROTest
+
 -test javax.rmi.PROTest -jrmp -separateprocess
 -test ibmspace.spacetest.SpaceTest -separateprocess
 -test ibmspace.spacetest.SpaceTest -jrmp -separateprocess

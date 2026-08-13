@@ -23,7 +23,6 @@ package test;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.RMISecurityManager;
 
 public class StartRMIRegistry {
 
@@ -34,9 +33,6 @@ public class StartRMIRegistry {
      * The port number can be specified on the command line.
      */
     public static void main(String args[]) {
-        // Create and install the security manager
-        System.setSecurityManager(new RMISecurityManager());
-
         try {
             int port = Registry.REGISTRY_PORT;
             if (args.length >= 1) {

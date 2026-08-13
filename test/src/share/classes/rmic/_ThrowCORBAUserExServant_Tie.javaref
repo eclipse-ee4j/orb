@@ -18,9 +18,10 @@ import org.omg.CORBA.portable.ResponseHandler;
 import org.omg.CORBA.portable.UnknownException;
 import org.omg.CORBA_2_3.portable.ObjectImpl;
 
+
 public class _ThrowCORBAUserExServant_Tie extends ObjectImpl implements Tie {
     
-    private ThrowCORBAUserExServant target = null;
+    volatile private ThrowCORBAUserExServant target = null;
     
     private static final String[] _type_ids = {
         "RMI:rmic.ThrowCORBAUserException:0000000000000000"
@@ -56,8 +57,12 @@ public class _ThrowCORBAUserExServant_Tie extends ObjectImpl implements Tie {
         return (String[]) _type_ids.clone();
     }
     
-    public OutputStream _invoke(String method, InputStream _in, ResponseHandler reply) throws SystemException {
+    public OutputStream  _invoke(String method, InputStream _in, ResponseHandler reply) throws SystemException {
         try {
+            ThrowCORBAUserExServant target = this.target;
+            if (target == null) {
+                throw new java.io.IOException();
+            }
             org.omg.CORBA_2_3.portable.InputStream in = 
                 (org.omg.CORBA_2_3.portable.InputStream) _in;
             switch (method.charAt(0)) {

@@ -217,7 +217,6 @@
         <sequential>
             <echo message="Called run-test with args=@{args}"/>
             <java classname="test.Test" classpathref="test-classpath.master" fork="true" dir="${test.run.base}">
-                <jvmarg value="-Djava.security.manager"/>
                 <jvmarg value="-Djavax.rmi.CORBA.UtilClass=com.sun.corba.ee.impl.javax.rmi.CORBA.Util"/>
                 <jvmarg value="-Djavax.rmi.CORBA.StubClass=com.sun.corba.ee.impl.javax.rmi.CORBA.StubDelegateImpl"/>
                 <jvmarg value="-Djavax.rmi.CORBA.PortableRemoteObjectClass=com.sun.corba.ee.impl.javax.rmi.PortableRemoteObject"/>
@@ -233,9 +232,8 @@
                 <jvmarg value="-Dhttp.server.port=${http.server.port}"/>
                 <jvmarg value="-Djava.rmi.server.codebase=http://localhost:${http.server.port}/"/>
                 <jvmarg value="-Dhttp.server.root.directory=${test-build.dir}/values2/classes"/>
-                <jvmarg value="-Djava.security.policy=../src/share/classes/test.policy"/>
-                <jvmarg value="-Djava.security.debug=debug"/>
                 <jvmarg value="-Dorg.glassfish.gmbal.no.multipleUpperBoundsException=true"/>
+                <jvmarg value="-Djava.naming.factory.state=com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl"/>
                 <jvmarg value="-Dorg.omg.CORBA.ORBClass=com.sun.corba.ee.impl.orb.ORBImpl"/>
                 <jvmarg value="-Dorg.omg.CORBA.ORBSingletonClass=com.sun.corba.ee.impl.orb.ORBSingleton"/>
                 <jvmarg value="-Dcom.sun.corba.ee.POA.ORBServerId=1"/>
@@ -296,6 +294,7 @@
                 <sysproperty key="com.sun.corba.ee.ORBDebugForkedProcess" value="${debug.forked.process}"/>
                 <sysproperty key="com.sun.corba.ee.ORBDebugStubGeneration" value="false"/>
                 <sysproperty key="junit.report.dir" value="junitreports"/>
+                <sysproperty key="org.glassfish.gmbal.no.multipleUpperBoundsException" value="true"/>
                 <classpath>
                     <path refid="test-classpath.master"/>
                 </classpath>

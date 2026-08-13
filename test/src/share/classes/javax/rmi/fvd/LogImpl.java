@@ -30,7 +30,7 @@ import java.util.Hashtable;
 import java.util.Properties;
 
 public class LogImpl implements Log/*, java.awt.event.ActionListener*/ {
-    private static String[] myArgs = new String[]{"-ORBInitialPort" , "1050" };
+    private static String[] myArgs = new String[]{"-ORBInitialPort" , test.Util.FVD_NAME_SERVER_PORT };
     private static Log logServer = null;
     /*
       Frame f = null;

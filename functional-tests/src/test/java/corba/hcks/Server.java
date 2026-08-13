@@ -43,7 +43,6 @@ import corba.framework.Options;
 // RMI-IIOP imports.
 //
 
-import java.rmi.RMISecurityManager;
 import javax.rmi.PortableRemoteObject;
 
 //import java.rmi.Naming; // JRMP
@@ -81,12 +80,7 @@ public class Server
 
     public static idlControllerStaticServant ridlControllerStaticServant;
 
-    public static void main(String[] av)
-    {
-        // REVISIT - where did this come from?
-        if (System.getSecurityManager() == null) {
-            //System.setSecurityManager(new RMISecurityManager());
-        }
+    public static void main(String[] av) {
 
         try {
             U.sop(main + " starting");

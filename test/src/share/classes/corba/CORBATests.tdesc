@@ -91,9 +91,20 @@
 -test corba.repid.RepIdTest
 -test corba.invocation.InvocationTest
 -test corba.custom.CustomTest
--test corba.evolve.EvolveTest
 
-// Leave these last four at the end. 
+// DISABLED: corba.evolve.EvolveTest - the corba/evolve package no longer exists
+// anywhere in the tree, only this entry was left behind.
+//
+// This was not merely a dead line. test.Test treats an unresolvable -test class as a
+// usage error and calls System.exit(1), which killed the suite JVM here - so the four
+// tests below it never ran at all, in any build, and were silently absent from the
+// results rather than reported as failures.
+//
+// Use -ifpresent if you ever need a genuinely optional entry; that path skips cleanly.
+//
+// -test corba.evolve.EvolveTest
+
+// Leave these last four at the end.
 // They go through long combinations of fragments sizes or GIOP combinations.
 -test corba.cmvt.CMVTTest
 -test corba.fragment2.FragmentTest

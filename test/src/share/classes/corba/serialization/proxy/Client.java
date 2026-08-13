@@ -31,7 +31,6 @@ public class Client
     {
         FrobnicatorProvider test = null;
         try {
-            System.setSecurityManager(new NoSecurityManager());
             Context initialNamingContext = new InitialContext();
             Object myLook = initialNamingContext.lookup("DynamicProxyBug1368");
 

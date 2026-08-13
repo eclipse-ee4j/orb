@@ -1029,6 +1029,11 @@ public class Client extends TestCase
 
     public void testTypeCode() {
         System.out.println( "Test case testTypeCode" ) ;
+        // Local, like the other tests that make their own ORB. This used to assign
+        // to the shared static orb field and then destroy it in the finally block,
+        // which left every later test in this class talking to a destroyed ORB
+        // ("This ORB instance has been destroyed", or a null ORBData).
+        ORB lorb = null ;
         try {
             final String[] args = new String[0] ;
             final Properties props = new Properties() ;
@@ -1038,16 +1043,16 @@ public class Client extends TestCase
                 "300" ) ;
             props.setProperty( ORBConstants.PERSISTENT_SERVER_PORT_PROPERTY,
                 "3755" ) ;
-            orb = ORB.class.cast( ORB.init( args, props ) ) ;
+            lorb = ORB.class.cast( ORB.init( args, props ) ) ;
 
             // Just get some object referece for testing
-            final ServantLocator locator = new TestServantLocator( orb ) ;
+            final ServantLocator locator = new TestServantLocator( lorb ) ;
 
             ReferenceFactoryManager rfm = null ;
 
             try {
                 rfm = ReferenceFactoryManager.class.cast(
-                    orb.resolve_initial_references( "ReferenceFactoryManager" )) ;
+                    lorb.resolve_initial_references( "ReferenceFactoryManager" )) ;
                 } catch (Exception exc) {
                     // do nthing
                 }
@@ -1072,14 +1077,14 @@ public class Client extends TestCase
 
             final org.omg.CORBA.Object ref = rf.createReference( oid ) ;
 
-            final Any any = orb.create_any() ;
+            final Any any = lorb.create_any() ;
             final ForwardRequest fr = new ForwardRequest(ref) ;
 
             // The whole point of this test
             ForwardRequestHelper.insert(any, fr) ;
         } finally {
-            if (orb != null) {
-                orb.destroy() ;
+            if (lorb != null) {
+                lorb.destroy() ;
             }
         }
     }

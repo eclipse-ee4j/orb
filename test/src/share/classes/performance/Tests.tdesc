@@ -17,5 +17,24 @@
 //  Classpath-exception-2.0
 //
 
--test performance.simpleperf.SimplePerfTest
+// DISABLED: performance.simpleperf.SimplePerfTest
+//
+// Its client was moved to test/disabled/performance/simpleperf/counterClient.java,
+// but this entry and performance/simpleperf/SimplePerfTest.java were left behind, so
+// the test still ran and failed with
+//
+//   java.lang.ClassNotFoundException: performance.simpleperf.counterClient
+//
+// (SimplePerfTest names the client as a string, via createClient(...), which is why
+// nothing failed to compile.)
+//
+// It cannot simply be moved back. That client benchmarks the servant-caching POA
+// variants using the ORB's timer subsystem, and that subsystem is gone: there is no
+// com.sun.corba.ee.impl.orbutil.newtimer.generated.TimingPoints any more, and
+// makeTimerManager is commented out in both ORBImpl and ORBSingleton. Restoring it
+// means deleting the timing instrumentation that is the only reason it differs from
+// simpleperf2 below - which measures the same local/RMI-IIOP invocation cost and passes.
+//
+// -test performance.simpleperf.SimplePerfTest
+
 -test performance.simpleperf2.SimplePerfTest

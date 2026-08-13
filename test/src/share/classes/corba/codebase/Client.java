@@ -102,8 +102,6 @@ public class Client
     public static void main(String args[])
     {
         try {
-            System.setSecurityManager(new NoSecurityManager());
-
             Client.tryLoadingClasses();
 
             rootContext = new InitialContext();

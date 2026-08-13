@@ -76,14 +76,10 @@ public class JavaCompiler extends Compiler
         if (files == null || files.length == 0)
             return;
 
-        Vector args = new Vector(5 + (arguments == null ? 0 : arguments.size()) + files.length);
+        Vector args = new Vector(4 + (arguments == null ? 0 : arguments.size()) + files.length);
         args.add("-g");
         args.add("-d");
         args.add(outputDirectory);
-        // args.add("-bootclasspath");
-        // args.add(Options.getClasspath());
-        args.add( "-Xbootclasspath/p:" +
-            System.getProperty( "corba.test.orb.classpath" ) ) ;
 
         if (arguments != null)
             args.addAll(arguments);

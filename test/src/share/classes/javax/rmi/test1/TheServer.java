@@ -32,31 +32,24 @@ import java.util.Hashtable;
 
 public class TheServer {
 
-    // This test runs the NameServer on port 1050.
+    // This test runs its own NameServer on test.Util.TEST1_NAME_SERVER_PORT.
 
-    private static String[] myArgs = new String[]{"-ORBInitialPort" , "1050" };
+    private static String[] myArgs = new String[] { "-ORBInitialPort", test.Util.TEST1_NAME_SERVER_PORT };
 
     public static void main(String[] args) {
         try {
-            System.setSecurityManager(new javax.rmi.download.SecurityManager());
-
             // Lets setup some properties that we are using
             // for this test and then create the ORB Object...
 
             Properties props = System.getProperties();
 
-            props.put(  "java.naming.factory.initial",
-                        JndiConstants.COSNAMING_CONTEXT_FACTORY);
-
-            props.put(  "org.omg.CORBA.ORBClass",
-                        "com.sun.corba.ee.impl.orb.ORBImpl");
-
-            props.put("org.omg.CORBA.ORBSingletonClass",
-                        "com.sun.corba.ee.impl.orb.ORBSingleton");
+            props.put("java.naming.factory.initial", JndiConstants.COSNAMING_CONTEXT_FACTORY);
+            props.put("org.omg.CORBA.ORBClass", "com.sun.corba.ee.impl.orb.ORBImpl");
+            props.put("org.omg.CORBA.ORBSingletonClass", "com.sun.corba.ee.impl.orb.ORBSingleton");
 
             ORB orb = ORB.init(myArgs, props);
 
-            // create an RMI Servant.  The Servant will actually
+            // create an RMI Servant. The Servant will actually
             // handle the users request.
 
             ComboInterfaceImpl servant = new ComboInterfaceImpl();
@@ -67,25 +60,24 @@ public class TheServer {
             PortableRemoteObject.exportObject(servant);
 
             // Once the Object is exported we are going to link it to
-            // our ORB.  To do this we need to get the Tie associated
-            // with our Servant.  PortableRemoteObject.export(...)
-            // create a Tie for us.  All we have to do is to retrieve the
+            // our ORB. To do this we need to get the Tie associated
+            // with our Servant. PortableRemoteObject.export(...)
+            // create a Tie for us. All we have to do is to retrieve the
             // Tie from javax.rmi.CORBA.Util.getTie(...);
 
             Tie servantsTie = javax.rmi.CORBA.Util.getTie(servant);
 
-            // Now lets set the orb in the Tie object.  The Sun/IBM
-            // ORB will perform a orb.connect.  So at this point the
+            // Now lets set the orb in the Tie object. The Sun/IBM
+            // ORB will perform a orb.connect. So at this point the
             // Tie is connected to the ORB and ready for work.
             servantsTie.orb(orb);
 
-
             // We are using JNDI/CosNaming to export our object so we
-            // need to get the root naming context.  We use the properties
+            // need to get the root naming context. We use the properties
             // set above to initialize JNDI.
 
             Hashtable env = new Hashtable();
-            env.put(  "java.naming.corba.orb", orb);
+            env.put("java.naming.corba.orb", orb);
 
             Context ic = new InitialContext(env);
 
@@ -95,12 +87,10 @@ public class TheServer {
 
             // Self-Test
             // resolve the Object Reference using JNDI
-            ComboInterface combo = (ComboInterface)
-                PortableRemoteObject.narrow(ic.lookup("TheTestServer"),
-                                            ComboInterface.class);
+            ComboInterface combo = (ComboInterface) PortableRemoteObject.narrow(ic.lookup("TheTestServer"), ComboInterface.class);
 
             // If the self test works then we will give the "Handshake" to
-            // the client.  This means we are open for business.
+            // the client. This means we are open for business.
 
             if (combo.EchoSingleRemoteInterface().equals("EchoSingleRemoteInterface")) {
                 System.out.println(test.Util.HANDSHAKE);
@@ -112,10 +102,11 @@ public class TheServer {
 
             // wait for object invocation
             Object sync = new Object();
-            synchronized (sync) { sync.wait(); }
+            synchronized (sync) {
+                sync.wait();
+            }
 
         } catch (Exception ex) {
-
             ex.printStackTrace(System.out);
             System.out.println();
             System.out.flush();
