@@ -17,7 +17,7 @@
  * Classpath-exception-2.0
  */
 
-package corba.nortel ;
+package corba.nortel;
 
 import com.sun.corba.ee.impl.transport.DefaultSocketFactoryImpl;
 
@@ -30,24 +30,24 @@ import java.net.Socket;
 import java.lang.String;
 
 public class NortelSocketFactory extends DefaultSocketFactoryImpl {
-    private static Socket savedSocket = null ;
-    private static boolean transportDown = false ;
-    public static boolean useNio = true ;
-    public static boolean verbose = false ;
+    private static Socket savedSocket = null;
+    private static boolean transportDown = false;
+    public static boolean useNio = true;
+    public static boolean verbose = false;
 
-    private static void msg( String str ) {
+    private static void msg(String str) {
         if (verbose) {
-            System.out.println( "+++NortelSocketFactory: " + str ) ;
+            System.out.println("+++NortelSocketFactory: " + str);
         }
     }
 
     public ServerSocket createServerSocket(String type, InetSocketAddress in) throws IOException {
         if (transportDown) {
-            msg( "Simulating transport failure..." ) ;
-            throw new IOException( "Transport simulated down" ) ;
+            msg("Simulating transport failure...");
+            throw new IOException("Transport simulated down");
         }
 
-        msg("In method createServerSocket, type:" + type + ", InetSocketAddress:" + in );
+        msg("In method createServerSocket, type:" + type + ", InetSocketAddress:" + in);
         ServerSocket serverSocket = new ServerSocket();
         serverSocket.bind(in);
 
@@ -55,10 +55,10 @@ public class NortelSocketFactory extends DefaultSocketFactoryImpl {
     }
 
     public Socket createSocket(String type, InetSocketAddress in) throws IOException {
-        msg("In method createSocket, type:" + type + ", InetSocketAddress:" + in );
+        msg("In method createSocket, type:" + type + ", InetSocketAddress:" + in);
         if (transportDown) {
-            msg( "Simulating transport failure..." ) ;
-            throw new IOException( "Transport simulated down" ) ;
+            msg("Simulating transport failure...");
+            throw new IOException("Transport simulated down");
         }
 
         Socket socket = null;
@@ -73,9 +73,9 @@ public class NortelSocketFactory extends DefaultSocketFactoryImpl {
         return socket;
     }
 
-    public static void disconnectSocket(){
-        msg( "Disconnecting socket" ) ;
-        try  {
+    public static void disconnectSocket() {
+        msg("Disconnecting socket");
+        try {
             savedSocket.close();
         } catch (Exception e) {
 
@@ -85,11 +85,10 @@ public class NortelSocketFactory extends DefaultSocketFactoryImpl {
 
     // Simulate the failure of the destination: ensure that all connection attempts fail
     public static void simulateConnectionDown() {
-        transportDown = true ;
+        transportDown = true;
     }
 
     public static void simulateConnectionUp() {
-        transportDown = false ;
+        transportDown = false;
     }
 }
-

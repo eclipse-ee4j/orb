@@ -19,8 +19,7 @@
 
 import java.io.*;
 
-public class TestObjectSuperSub extends TestObjectSuper
-{
+public class TestObjectSuperSub extends TestObjectSuper {
     public int dataxss0;
     public Long dataxss1;
 
@@ -39,32 +38,21 @@ public class TestObjectSuperSub extends TestObjectSuper
     }
 
     public String toString() {
-        return
-            (super.getClass().equals(Object.class) ? "" : super.toString())
-            + " [TestObjectSuperSub dataxss0=" + dataxss0
-            + ", dataxss1" + dataxss1
-            + "]";
+        return (super.getClass().equals(Object.class) ? "" : super.toString()) + " [TestObjectSuperSub dataxss0=" + dataxss0 + ", dataxss1"
+                + dataxss1 + "]";
     }
 
     public boolean equals(Object obj) {
         try {
-            TestObjectSuperSub other = (TestObjectSuperSub)obj;
+            TestObjectSuperSub other = (TestObjectSuperSub) obj;
 
             if (other == null)
                 return false;
 
-            return (testObjectSuperSubHasStreamDefaults() ||
-                    other.testObjectSuperSubHasStreamDefaults() ||
-                    (dataxss0 == other.dataxss0 &&
-                     dataxss1.equals(other.dataxss1))) &&
-                super.equals(obj);
+            return (testObjectSuperSubHasStreamDefaults() || other.testObjectSuperSubHasStreamDefaults()
+                    || (dataxss0 == other.dataxss0 && dataxss1.equals(other.dataxss1))) && super.equals(obj);
         } catch (ClassCastException cce) {
             return false;
         }
     }
 }
-
-
-
-
-

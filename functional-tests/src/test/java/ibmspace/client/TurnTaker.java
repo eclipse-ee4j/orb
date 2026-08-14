@@ -33,19 +33,16 @@
 
 package ibmspace.client;
 
-public class TurnTaker extends Thread
-{
-    private GameUI       fUI;
+public class TurnTaker extends Thread {
+    private GameUI fUI;
 
-    public TurnTaker (GameUI ui)
-    {
+    public TurnTaker(GameUI ui) {
         fUI = ui;
     }
 
-    public void run ()
-    {
-        fUI.beginTurn ();
-        fUI.endTurn ();
+    public void run() {
+        fUI.beginTurn();
+        fUI.endTurn();
     }
 
 }

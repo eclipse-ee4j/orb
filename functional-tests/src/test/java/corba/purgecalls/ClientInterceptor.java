@@ -31,56 +31,44 @@ import org.omg.CORBA.SystemException;
 import org.omg.PortableInterceptor.ClientRequestInterceptor;
 import org.omg.PortableInterceptor.ClientRequestInfo;
 
-public class ClientInterceptor
-    extends
-        org.omg.CORBA.LocalObject
-    implements
-        ClientRequestInterceptor
-{
+public class ClientInterceptor extends org.omg.CORBA.LocalObject implements ClientRequestInterceptor {
     public static final String baseMsg = ClientInterceptor.class.getName();
 
     //
     // Interceptor operations
     //
 
-    public String name()
-    {
+    public String name() {
         return baseMsg;
     }
 
-    public void destroy()
-    {
+    public void destroy() {
     }
 
     //
     // ClientRequestInterceptor operations
     //
 
-    public void send_request(ClientRequestInfo ri)
-    {
+    public void send_request(ClientRequestInfo ri) {
         sopCR(baseMsg, "send_request", ri);
-        Client.requestConnection = ((RequestInfoExt)ri).connection();
+        Client.requestConnection = ((RequestInfoExt) ri).connection();
     }
 
-    public void send_poll(ClientRequestInfo ri)
-    {
+    public void send_poll(ClientRequestInfo ri) {
         sopCR(baseMsg, "send_poll", ri);
     }
 
-    public void receive_reply(ClientRequestInfo ri)
-    {
+    public void receive_reply(ClientRequestInfo ri) {
         sopCR(baseMsg, "receive_reply", ri);
         checkServiceContexts(ri);
     }
 
-    public void receive_exception(ClientRequestInfo ri)
-    {
+    public void receive_exception(ClientRequestInfo ri) {
         sopCR(baseMsg, "receive_exception", ri);
         checkServiceContexts(ri);
     }
 
-    public void receive_other(ClientRequestInfo ri)
-    {
+    public void receive_other(ClientRequestInfo ri) {
         sopCR(baseMsg, "receive_other", ri);
         checkServiceContexts(ri);
     }
@@ -89,8 +77,7 @@ public class ClientInterceptor
     // Utilities.
     //
 
-    public static void sopCR(String clazz, String point, ClientRequestInfo ri)
-    {
+    public static void sopCR(String clazz, String point, ClientRequestInfo ri) {
         try {
             U.sop(clazz + "." + point + " " + ri.operation());
         } catch (SystemException e) {
@@ -98,8 +85,7 @@ public class ClientInterceptor
         }
     }
 
-    public static void checkServiceContexts(ClientRequestInfo ri)
-    {
+    public static void checkServiceContexts(ClientRequestInfo ri) {
         // The number does not matter.
         // Just want to ensure no null pointer exception after purge calls.
         try {
@@ -111,4 +97,3 @@ public class ClientInterceptor
 }
 
 // End of file.
-

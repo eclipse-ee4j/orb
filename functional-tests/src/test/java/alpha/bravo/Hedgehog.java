@@ -20,20 +20,32 @@
 
 package alpha.bravo;
 
-public class Hedgehog extends Warthog
-    implements java.io.Serializable, Porcupine {
-    public final static short   MAX_WARTS = 12;
-    private    int      length;
-    protected  boolean  foobah;
-    public     Wallaby  wally;
-    public              Hedgehog(String name) {}
-    int      height;
-    public     int      size;
-    public              Hedgehog(int length) {}
-    public     Kangaroo roo;
-    public     int      getLength() { int i = 0; return i; }
-    public     int      getSize() { int i = 1; return i; }       //from Porcupine
+public class Hedgehog extends Warthog implements java.io.Serializable, Porcupine {
+    public final static short MAX_WARTS = 12;
+    private int length;
+    protected boolean foobah;
+    public Wallaby wally;
+
+    public Hedgehog(String name) {
+    }
+
+    int height;
+    public int size;
+
+    public Hedgehog(int length) {
+    }
+
+    public Kangaroo roo;
+
+    public int getLength() {
+        int i = 0;
+        return i;
+    }
+
+    public int getSize() {
+        int i = 1;
+        return i;
+    } // from Porcupine
 
     public transient int trans;
 }
-

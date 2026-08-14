@@ -27,14 +27,8 @@ package corba.islocal;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface rmiiI
-    extends
-        Remote
-{
-    String m(String x)
-        throws
-            RemoteException;
+public interface rmiiI extends Remote {
+    String m(String x) throws RemoteException;
 }
 
 // End of file.
-

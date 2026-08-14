@@ -23,22 +23,17 @@ package javax.rmi;
 import java.lang.String;
 import java.rmi.RemoteException;
 
-
-public class DogImpl implements Dog, java.io.Serializable
-{
+public class DogImpl implements Dog, java.io.Serializable {
     private String fBark = "Rrruf!";
 
-    public DogImpl (String bark)
-    {
+    public DogImpl(String bark) {
         fBark = bark;
     }
 
-    public String bark () throws RemoteException
-    {
+    public String bark() throws RemoteException {
         return fBark;
     }
 
-    public void die () throws RemoteException
-    {
+    public void die() throws RemoteException {
     }
 }

@@ -21,12 +21,10 @@ package corba.connectioncache;
 
 import corba.framework.*;
 
-public class ConnectionCacheTest extends CORBATest
-{
+public class ConnectionCacheTest extends CORBATest {
     @Override
-    protected void doTest() throws Throwable
-    {
-        Controller client = createClient( "corba.connectioncache.Client" ) ;
+    protected void doTest() throws Throwable {
+        Controller client = createClient("corba.connectioncache.Client");
 
         client.start();
 
@@ -38,4 +36,3 @@ public class ConnectionCacheTest extends CORBATest
         client.stop();
     }
 }
-

@@ -23,18 +23,14 @@ package javax.rmi.CORBA.serialization;
 import java.lang.reflect.Array;
 import java.io.Serializable;
 
-public class BudgetSummary implements Serializable
-{
-    //private String[][]  test = {{"One","Two"}};
-    private String[]    fNames;
-    private double[]    fPercentages;
+public class BudgetSummary implements Serializable {
+    // private String[][] test = {{"One","Two"}};
+    private String[] fNames;
+    private double[] fPercentages;
 
-
-    public BudgetSummary (int numItems, String[] names, double[] percentages)
-    {
+    public BudgetSummary(int numItems, String[] names, double[] percentages) {
         fNames = names;
         fPercentages = percentages;
     }
-
 
 }

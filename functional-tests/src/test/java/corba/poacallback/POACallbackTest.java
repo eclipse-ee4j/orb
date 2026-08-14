@@ -23,13 +23,11 @@ import corba.framework.Controller;
 import corba.framework.CORBATest;
 import corba.framework.Options;
 
-public class POACallbackTest extends CORBATest
-{
-    protected void doTest() throws Throwable
-    {
+public class POACallbackTest extends CORBATest {
+    protected void doTest() throws Throwable {
         Controller orbd = createORBD();
-        Controller server = createServer("corba.poacallback.Server" );
-        Controller client = createClient("corba.poacallback.Client" );
+        Controller server = createServer("corba.poacallback.Server");
+        Controller client = createClient("corba.poacallback.Client");
 
         orbd.start();
 
@@ -37,12 +35,12 @@ public class POACallbackTest extends CORBATest
 
         client.start();
 
-        client.waitFor( );
+        client.waitFor();
 
         client.stop();
 
         server.stop();
 
-        orbd.stop( );
+        orbd.stop();
     }
 }

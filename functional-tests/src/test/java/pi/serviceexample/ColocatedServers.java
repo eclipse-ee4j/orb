@@ -27,14 +27,12 @@ package pi.serviceexample;
 import org.omg.CORBA.ORB;
 import java.util.Properties;
 
-public class ColocatedServers
-{
+public class ColocatedServers {
     public static ORB orb;
 
     public static boolean colocatedBootstrapDone = false;
 
-    public static void main (String[] av)
-    {
+    public static void main(String[] av) {
         try {
 
             //
@@ -42,12 +40,8 @@ public class ColocatedServers
             //
 
             Properties props = new Properties();
-            props.put("org.omg.PortableInterceptor.ORBInitializerClass."
-                      + "pi.serviceexample.AServiceORBInitializer",
-                      "");
-            props.put("org.omg.PortableInterceptor.ORBInitializerClass."
-                      + "pi.serviceexample.LoggingServiceServerORBInitializer",
-                      "");
+            props.put("org.omg.PortableInterceptor.ORBInitializerClass." + "pi.serviceexample.AServiceORBInitializer", "");
+            props.put("org.omg.PortableInterceptor.ORBInitializerClass." + "pi.serviceexample.LoggingServiceServerORBInitializer", "");
             ORB orb = ORB.init(av, props);
             ArbitraryObjectImpl.orb = orb;
             LoggingServiceImpl.orb = orb;
@@ -66,15 +60,14 @@ public class ColocatedServers
     }
 }
 
-class ServerThread extends Thread
-{
+class ServerThread extends Thread {
     String[] av;
-    ServerThread (String[] av)
-    {
+
+    ServerThread(String[] av) {
         this.av = av;
     }
-    public void run ()
-    {
+
+    public void run() {
         LoggingServiceImpl.main(av);
     }
 }

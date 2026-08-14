@@ -19,29 +19,25 @@
 
 package corba.example;
 
-import java.util.Properties ;
+import java.util.Properties;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContext;
 import org.omg.CosNaming.NamingContextHelper;
 import org.omg.PortableServer.POA;
-import HelloApp.* ;
+import HelloApp.*;
 
 /**
  * Servant implementation
  */
-class helloServant extends helloPOA
-{
-    public String sayHello()
-    {
+class helloServant extends helloPOA {
+    public String sayHello() {
         return "Hello world!";
     }
 }
 
-public class Server
-{
-    public static void main(String args[])
-    {
+public class Server {
+    public static void main(String args[]) {
         try {
             Properties props = new Properties(System.getProperties());
 // Examples of how to set ORB debug properties and default fragment size
@@ -50,7 +46,7 @@ public class Server
             ORB orb = ORB.init(args, props);
 
             // Get rootPOA
-            POA rootPOA = (POA)orb.resolve_initial_references("RootPOA");
+            POA rootPOA = (POA) orb.resolve_initial_references("RootPOA");
             rootPOA.the_POAManager().activate();
 
             // create servant and register it with the ORB
@@ -59,13 +55,12 @@ public class Server
             byte[] id = rootPOA.activate_object(helloRef);
 
             // get the root naming context
-            org.omg.CORBA.Object objRef =
-                orb.resolve_initial_references("NameService");
+            org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
             NamingContext ncRef = NamingContextHelper.narrow(objRef);
 
             // bind the Object Reference in Naming
             NameComponent nc = new NameComponent("Hello", "");
-            NameComponent path[] = {nc};
+            NameComponent path[] = { nc };
 
             org.omg.CORBA.Object ref = rootPOA.id_to_reference(id);
 
@@ -73,7 +68,7 @@ public class Server
 
             // Emit the handshake the test framework expects
             // (can be changed in Options by the running test)
-            System.out.println ("Server is ready.");
+            System.out.println("Server is ready.");
 
             // Wait for clients
             orb.run();

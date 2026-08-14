@@ -26,10 +26,9 @@ import org.omg.CORBA.Any;
 import java.util.Properties;
 import org.glassfish.pfl.test.JUnitReportHelper;
 
-public class Client implements Runnable
-{
+public class Client implements Runnable {
 
-    static final java.lang.Object lock = new java.lang.Object ();
+    static final java.lang.Object lock = new java.lang.Object();
     static boolean errorOccured = false;
 
     static ORB orb;
@@ -38,9 +37,9 @@ public class Client implements Runnable
 
     private static boolean FAILURE = false;
 
-    private String msg = null ;
+    private String msg = null;
 
-    public void signalError () {
+    public void signalError() {
         synchronized (Client.lock) {
             errorOccured = true;
             System.exit(1);
@@ -51,134 +50,120 @@ public class Client implements Runnable
         new Client().run();
     }
 
-    public void run()
-    {
-        JUnitReportHelper helper = new JUnitReportHelper( this.getClass().getName() ) ;
+    public void run() {
+        JUnitReportHelper helper = new JUnitReportHelper(this.getClass().getName());
         try {
             // create and initialize the ORB
-            Properties props = new Properties() ;
-            props.put( "org.omg.CORBA.ORBClass",
-                       "com.sun.corba.ee.impl.orb.ORBImpl" );
-            props.put( ORBConstants.PI_ORB_INITIALIZER_CLASS_PREFIX +
-                       "pi.policyfactory.TestORBInitializer", "" );
-            orb = ORB.init( (String[]) null, props );
+            Properties props = new Properties();
+            props.put("org.omg.CORBA.ORBClass", "com.sun.corba.ee.impl.orb.ORBImpl");
+            props.put(ORBConstants.PI_ORB_INITIALIZER_CLASS_PREFIX + "pi.policyfactory.TestORBInitializer", "");
+            orb = ORB.init((String[]) null, props);
 
             boolean testStatus = SUCCESS;
             // Test ClientRequestInfo.arguments() method.
-            helper.start( "positiveTest" ) ;
+            helper.start("positiveTest");
             testStatus = positiveTest();
-            if( testStatus == SUCCESS ) {
-                System.out.println( "PolicyFactory positive tests Success" );
+            if (testStatus == SUCCESS) {
+                System.out.println("PolicyFactory positive tests Success");
                 System.out.flush();
-                helper.pass() ;
+                helper.pass();
             } else {
-                System.err.println( "PolicyFactory positive tests Failure" );
+                System.err.println("PolicyFactory positive tests Failure");
                 System.err.flush();
-                signalError ();
-                helper.fail( msg ) ;
+                signalError();
+                helper.fail(msg);
             }
 
-            helper.start( "negativeTest" ) ;
+            helper.start("negativeTest");
             testStatus = negativeTest();
-            if( testStatus == SUCCESS ) {
-                System.out.println( "PolicyFactory negative tests Success" );
+            if (testStatus == SUCCESS) {
+                System.out.println("PolicyFactory negative tests Success");
                 System.out.flush();
-                helper.pass() ;
+                helper.pass();
             } else {
-                System.err.println( "PolicyFactory negative tests Failure" );
+                System.err.println("PolicyFactory negative tests Failure");
                 System.err.flush();
-                signalError ();
-                helper.fail( msg ) ;
+                signalError();
+                helper.fail(msg);
             }
-        } catch( Exception e ) {
-            System.err.println( "PolicyFactory test Failed with exception" + e);
+        } catch (Exception e) {
+            System.err.println("PolicyFactory test Failed with exception" + e);
             System.err.flush();
-            signalError ();
+            signalError();
         } finally {
-            helper.done() ;
+            helper.done();
         }
     }
 
-    /** This method tests
-     *  1. To see whether the Policy created with type 100 is created from
-     *     PolicyFactoryHundred. This check is made by testing
-     *     whether policy.policy_type method returns 100.
-     *  2. To see whether the Policy created with type 10000 is created from
-     *     PolicyFactoryThousandPlus. This check is made by testing
-     *     whether policy.policy_type method returns 10000.
+    /**
+     * This method tests 1. To see whether the Policy created with type 100 is created from PolicyFactoryHundred. This check
+     * is made by testing whether policy.policy_type method returns 100. 2. To see whether the Policy created with type
+     * 10000 is created from PolicyFactoryThousandPlus. This check is made by testing whether policy.policy_type method
+     * returns 10000.
      */
-    private boolean positiveTest( ) {
+    private boolean positiveTest() {
         org.omg.CORBA.Policy policy = null;
-        Any any = orb.create_any() ;
+        Any any = orb.create_any();
         try {
-            policy = orb.create_policy( 100, any );
-        }
-        catch( Exception e) {
-            msg = "PolicyFactoryTest.positiveTest failed with " + " an Exception " + e ;
-            System.err.println( msg ) ;
-            System.err.flush( );
+            policy = orb.create_policy(100, any);
+        } catch (Exception e) {
+            msg = "PolicyFactoryTest.positiveTest failed with " + " an Exception " + e;
+            System.err.println(msg);
+            System.err.flush();
             e.printStackTrace();
             return FAILURE;
         }
-        if( policy == null ) {
-            msg = "PolicyFactoryTest.positiveTest failed because"+
-                " policy is not created as expected " ;
-            System.err.println( msg ) ;
-            System.err.flush( );
+        if (policy == null) {
+            msg = "PolicyFactoryTest.positiveTest failed because" + " policy is not created as expected ";
+            System.err.println(msg);
+            System.err.flush();
             return FAILURE;
         }
-        if( policy.policy_type() != 100 ) {
-            msg = "PolicyFactoryTest.positiveTest failed because"+
-                " policy.policy_type() != 100 " ;
-            System.err.println( msg ) ;
-            System.err.flush( );
+        if (policy.policy_type() != 100) {
+            msg = "PolicyFactoryTest.positiveTest failed because" + " policy.policy_type() != 100 ";
+            System.err.println(msg);
+            System.err.flush();
             return FAILURE;
         }
         try {
-            policy = orb.create_policy( 10000, any );
-        } catch( Exception e ) {
-            msg = "PolicyFactoryTest.positiveTest failed with " +
-                " an Exception " + e ;
-            System.err.println( msg ) ;
-            System.err.flush( );
+            policy = orb.create_policy(10000, any);
+        } catch (Exception e) {
+            msg = "PolicyFactoryTest.positiveTest failed with " + " an Exception " + e;
+            System.err.println(msg);
+            System.err.flush();
             e.printStackTrace();
             return FAILURE;
         }
-        if( policy == null ) {
-            msg = "PolicyFactoryTest.positiveTest failed because"+
-                " policy is not created as expected " ;
-            System.err.println( msg ) ;
-            System.err.flush( );
+        if (policy == null) {
+            msg = "PolicyFactoryTest.positiveTest failed because" + " policy is not created as expected ";
+            System.err.println(msg);
+            System.err.flush();
             return FAILURE;
         }
-        if( policy.policy_type() != 10000 ) {
-            msg = "PolicyFactoryTest.positiveTest failed because"+
-                " policy.policy_type() != 10000 " ;
-            System.err.println( msg ) ;
-            System.err.flush( );
+        if (policy.policy_type() != 10000) {
+            msg = "PolicyFactoryTest.positiveTest failed because" + " policy.policy_type() != 10000 ";
+            System.err.println(msg);
+            System.err.flush();
             return FAILURE;
         }
         return SUCCESS;
     }
 
-    /** This method tests to see whether the Policy could be created with
-     *  type 100000 for which there is no PolicyFactory registered.
-     *  Before invoking this methos the ORBInitializer (TestORBInitializer)
-     *  registers 3 policy factories with types 100, 1000 and 1000000. If the
-     *  call to create policy with type 100000 does not raise policy error
-     *  then it's an error.
+    /**
+     * This method tests to see whether the Policy could be created with type 100000 for which there is no PolicyFactory
+     * registered. Before invoking this methos the ORBInitializer (TestORBInitializer) registers 3 policy factories with
+     * types 100, 1000 and 1000000. If the call to create policy with type 100000 does not raise policy error then it's an
+     * error.
      */
-    private boolean negativeTest( ) {
+    private boolean negativeTest() {
         try {
-            Any any = orb.create_any() ;
-            org.omg.CORBA.Policy policy = orb.create_policy( 100000, any );
-        }
-        catch( org.omg.CORBA.PolicyError e ) {
-            msg = "Caught org.omg.CORBA.PolicyError in " +
-                "PolicyFactory.negativeTest() as expected..." ;
-            System.out.println( msg ) ;
-            System.out.flush( );
-            if( e.reason != BAD_POLICY.value ) {
+            Any any = orb.create_any();
+            org.omg.CORBA.Policy policy = orb.create_policy(100000, any);
+        } catch (org.omg.CORBA.PolicyError e) {
+            msg = "Caught org.omg.CORBA.PolicyError in " + "PolicyFactory.negativeTest() as expected...";
+            System.out.println(msg);
+            System.out.flush();
+            if (e.reason != BAD_POLICY.value) {
                 return FAILURE;
             }
             return SUCCESS;

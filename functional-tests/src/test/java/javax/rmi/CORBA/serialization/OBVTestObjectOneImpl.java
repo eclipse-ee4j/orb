@@ -23,12 +23,10 @@ package javax.rmi.CORBA.serialization;
 import java.util.*;
 import java.io.*;
 
-public class OBVTestObjectOneImpl extends OBVTestObjectOne
-{
+public class OBVTestObjectOneImpl extends OBVTestObjectOne {
     static Random r = new Random();
 
-    OBVTestObjectOneImpl(int aInt, long aLong, float aFloat, double aDouble, String aString)
-    {
+    OBVTestObjectOneImpl(int aInt, long aLong, float aFloat, double aDouble, String aString) {
         fInt = aInt;
         fLong = aLong;
         fFloat = aFloat;
@@ -36,38 +34,30 @@ public class OBVTestObjectOneImpl extends OBVTestObjectOne
         fString = aString;
     }
 
-    public OBVTestObjectOneImpl()
-    {
+    public OBVTestObjectOneImpl() {
         fInt = r.nextInt();
         fLong = r.nextLong();
         fFloat = r.nextFloat();
         fDouble = r.nextDouble();
-        fString = new String(fInt +""+ fLong +""+ fFloat +""+ fDouble);
+        fString = new String(fInt + "" + fLong + "" + fFloat + "" + fDouble);
     }
 
-    OBVTestObjectOneImpl(org.omg.CORBA.portable.InputStream is)
-    {
+    OBVTestObjectOneImpl(org.omg.CORBA.portable.InputStream is) {
         // for unmarshalling only, called by the factory
     }
 
-    public boolean equals(Object o)
-    {
-        try
-            {
-                OBVTestObjectOne ctbo = (OBVTestObjectOne)o;
-                return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) &&
-                        (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat) && (ctbo.fDouble == fDouble)
-                        );
-            }
-        catch(Exception e)
-            {
-                return false;
-            }
+    public boolean equals(Object o) {
+        try {
+            OBVTestObjectOne ctbo = (OBVTestObjectOne) o;
+            return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) && (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat)
+                    && (ctbo.fDouble == fDouble));
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    public String toString()
-    {
-        return new String("fInt="+fInt+"; fLong="+fLong+"; fFloat="+fFloat+"; fDouble="+fDouble+"; fString="+fString);
+    public String toString() {
+        return new String("fInt=" + fInt + "; fLong=" + fLong + "; fFloat=" + fFloat + "; fDouble=" + fDouble + "; fString=" + fString);
     }
 
 }

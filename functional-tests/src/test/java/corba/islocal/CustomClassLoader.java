@@ -30,31 +30,23 @@ import java.util.Vector;
 
 import corba.framework.Loader;
 
-public class CustomClassLoader
-    extends Loader
-{
+public class CustomClassLoader extends Loader {
     private int indent = 0;
     private Hashtable classes = new Hashtable();
     private boolean debug = false;
 
-    public CustomClassLoader()
-    {
+    public CustomClassLoader() {
         addPaths("java.class.path");
     }
 
-    private void addPaths(String propertyName)
-    {
-        StringTokenizer tokens =
-            new StringTokenizer(System.getProperty(propertyName),
-                                System.getProperty("path.separator"));
+    private void addPaths(String propertyName) {
+        StringTokenizer tokens = new StringTokenizer(System.getProperty(propertyName), System.getProperty("path.separator"));
         while (tokens.hasMoreTokens()) {
             addPath(tokens.nextToken());
         }
     }
 
-    protected synchronized Class loadClass(String name, boolean resolve)
-        throws ClassNotFoundException
-    {
+    protected synchronized Class loadClass(String name, boolean resolve) throws ClassNotFoundException {
         boolean errorFound = false;
         Class c = null;
         try {
@@ -82,7 +74,7 @@ public class CustomClassLoader
                 throw (ClassNotFoundException) t;
             }
         } finally {
-            if (! errorFound) {
+            if (!errorFound) {
                 printIndent(--indent, "<< " + name);
             }
         }
@@ -90,8 +82,7 @@ public class CustomClassLoader
         return c;
     }
 
-    private void printIndent(int amount, String msg)
-    {
+    private void printIndent(int amount, String msg) {
         if (debug) {
             for (int i = 0; i < amount; i++) {
                 System.out.print(" ");

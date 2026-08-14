@@ -19,42 +19,40 @@
 
 package corba.nortel;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
-import javax.rmi.PortableRemoteObject ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import javax.rmi.PortableRemoteObject;
 
-import java.util.List ;
-import java.util.ArrayList ;
-import java.util.Collection ;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class EchoImpl extends PortableRemoteObject implements Echo {
-    private String name ;
+    private String name;
 
-    public EchoImpl( String name ) throws RemoteException {
-        this.name = name ;
+    public EchoImpl(String name) throws RemoteException {
+        this.name = name;
     }
 
-    public Echo say( Echo echo ) {
-        return echo ;
+    public Echo say(Echo echo) {
+        return echo;
     }
 
     public String name() {
-        return name ;
+        return name;
     }
 
-    public Collection methodCollectionUserInfo( String str, UserInfo ui ) throws RemoteException {
-        List result = new ArrayList() ;
-        result.add( str ) ;
-        result.add( ui.toString() ) ;
-        return result ;
+    public Collection methodCollectionUserInfo(String str, UserInfo ui) throws RemoteException {
+        List result = new ArrayList();
+        result.add(str);
+        result.add(ui.toString());
+        return result;
     }
 
-    public Collection methodCollectionObject( String str, Object ui ) throws RemoteException {
-        List result = new ArrayList() ;
-        result.add( str ) ;
-        result.add( ui.toString() ) ;
-        return result ;
+    public Collection methodCollectionObject(String str, Object ui) throws RemoteException {
+        List result = new ArrayList();
+        result.add(str);
+        result.add(ui.toString());
+        return result;
     }
 }
-
-

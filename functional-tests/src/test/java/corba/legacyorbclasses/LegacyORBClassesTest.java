@@ -27,15 +27,11 @@ package corba.legacyorbclasses;
 import corba.framework.Controller;
 import corba.framework.CORBATest;
 
-public class LegacyORBClassesTest
-    extends
-        CORBATest
-{
-    public static final String thisPackage =
-        LegacyORBClassesTest.class.getPackage().getName();
+public class LegacyORBClassesTest extends CORBATest {
+    public static final String thisPackage = LegacyORBClassesTest.class.getPackage().getName();
 
     protected void doTest() throws Throwable {
-        Controller orbd   = createORBD();
+        Controller orbd = createORBD();
         orbd.start();
 
         Controller client = createClient(thisPackage + ".Client");
@@ -49,5 +45,3 @@ public class LegacyORBClassesTest
 }
 
 // End of file.
-
-

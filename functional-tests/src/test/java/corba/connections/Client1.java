@@ -24,14 +24,11 @@
 
 package corba.connections;
 
-public class Client1
-{
-    public static void main(String[] av)
-    {
+public class Client1 {
+    public static void main(String[] av) {
         String[] args = { "Client1" };
         Client.main(args);
     }
 }
 
 // End of file.
-

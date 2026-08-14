@@ -34,19 +34,12 @@ import corba.framework.CORBATest;
 import corba.framework.Options;
 import java.util.Properties;
 
-public class RequestPartitioningTest
-    extends
-        CORBATest
-{
-    public static final String thisPackage =
-        RequestPartitioningTest.class.getPackage().getName();
+public class RequestPartitioningTest extends CORBATest {
+    public static final String thisPackage = RequestPartitioningTest.class.getPackage().getName();
 
     private final static int CLIENT_TIMEOUT = 90000;
 
-    protected void doTest()
-        throws
-            Throwable
-    {
+    protected void doTest() throws Throwable {
         // Run test with DirectByteBuffers
         Controller orbd = createORBD();
         orbd.start();
@@ -54,7 +47,7 @@ public class RequestPartitioningTest
         Properties serverProps = Options.getServerProperties();
         serverProps.setProperty(ORBConstants.ALWAYS_ENTER_BLOCKING_READ_PROPERTY, "true");
 //        serverProps.setProperty(ORBConstants.DEBUG_PROPERTY,"transport,giop");
-        Controller server = createServer(thisPackage + ".Server","Server1");
+        Controller server = createServer(thisPackage + ".Server", "Server1");
         server.start();
 
         Properties clientProps = Options.getClientProperties();
@@ -70,7 +63,7 @@ public class RequestPartitioningTest
 
         serverProps.setProperty(ORBConstants.DISABLE_DIRECT_BYTE_BUFFER_USE_PROPERTY, "true");
         serverProps.setProperty(ORBConstants.ALWAYS_ENTER_BLOCKING_READ_PROPERTY, "false");
-        server = createServer(thisPackage + ".Server","Server2");
+        server = createServer(thisPackage + ".Server", "Server2");
         server.start();
 
         clientProps.setProperty(ORBConstants.DISABLE_DIRECT_BYTE_BUFFER_USE_PROPERTY, "true");

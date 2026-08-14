@@ -35,11 +35,8 @@ import org.omg.CORBA.*;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 
-
-public class naming_client
-{
-    public static void main(String args[])
-    {
+public class naming_client {
+    public static void main(String args[]) {
         try {
             int numberOfClients = 1;
             int numberOfObjects = 5;
@@ -54,46 +51,42 @@ public class naming_client
             java.util.Properties props = System.getProperties();
 
             // Parse arguments
-            for (int i=0;i<args.length;i++) {
-                if (args[i].equals("-t") || args[i].equals("-threads")
-                    && i<args.length-1) {
+            for (int i = 0; i < args.length; i++) {
+                if (args[i].equals("-t") || args[i].equals("-threads") && i < args.length - 1) {
                     try {
-                        numberOfClients = java.lang.Integer.parseInt(args[i+1]);
+                        numberOfClients = java.lang.Integer.parseInt(args[i + 1]);
                         message("setting number of simultaneous clients to " + numberOfClients);
                     } catch (java.lang.NumberFormatException e) {
-                        error_message("illegal argument " + args[i+1] + " to option: " + args[i]);
+                        error_message("illegal argument " + args[i + 1] + " to option: " + args[i]);
                         throw e;
                     }
-                } else if (args[i].equals("-o") || args[i].equals("-objects")
-                           && i<args.length-1) {
+                } else if (args[i].equals("-o") || args[i].equals("-objects") && i < args.length - 1) {
                     try {
-                        numberOfObjects = java.lang.Integer.parseInt(args[i+1]);
+                        numberOfObjects = java.lang.Integer.parseInt(args[i + 1]);
                         message("setting number of objects per client to " + numberOfObjects);
                     } catch (java.lang.NumberFormatException e) {
-                        error_message("illegal argument " + args[i+1] + " to option: " + args[i]);
+                        error_message("illegal argument " + args[i + 1] + " to option: " + args[i]);
                         throw e;
                     }
-                } else if (args[i].equals("-i") || args[i].equals("-ior")
-                           && i<args.length-1) {
+                } else if (args[i].equals("-i") || args[i].equals("-ior") && i < args.length - 1) {
                     // Use this IOR
-                    nsIOR = args[i+1];
+                    nsIOR = args[i + 1];
                     message("setting initial IOR to " + nsIOR);
-                } else if (args[i].equals("-k") || args[i].equals("-key")
-                           && i<args.length-1) {
+                } else if (args[i].equals("-k") || args[i].equals("-key") && i < args.length - 1) {
                     // Use this Key
-                    nsKey = args[i+1];
+                    nsKey = args[i + 1];
                     message("using " + nsKey + " as key for resolve_initial_references");
-                } else if (args[i].equals("-ORBInitialPort") && i<args.length-1) {
+                } else if (args[i].equals("-ORBInitialPort") && i < args.length - 1) {
                     // Stuff it into the properties
-                    props.put("org.omg.CORBA.ORBInitialPort",args[i+1]);
-                } else if (args[i].equals("-ORBInitialHost") && i<args.length-1) {
+                    props.put("org.omg.CORBA.ORBInitialPort", args[i + 1]);
+                } else if (args[i].equals("-ORBInitialHost") && i < args.length - 1) {
                     // Stuff it into the properties
-                    props.put("org.omg.CORBA.ORBInitialHost",args[i+1]);
+                    props.put("org.omg.CORBA.ORBInitialHost", args[i + 1]);
                 }
 
             }
 
-            org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init(args,props);
+            org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init(args, props);
 
             // Get the initial list of services
             String[] list = orb.list_initial_services();
@@ -102,7 +95,7 @@ public class naming_client
             if (list != null) {
                 message("orb.list_initial_services() returned:");
                 String s = new String();
-                for (int i=0;i<list.length;i++) {
+                for (int i = 0; i < list.length; i++) {
                     s = s + list[i] + ", ";
                 }
                 message(s);
@@ -112,9 +105,10 @@ public class naming_client
             }
 
             // Resolve each entry in the list
-            for (int i=0;i<list.length;i++) {
+            for (int i = 0; i < list.length; i++) {
                 try {
-                    if (list[i].equals("NamingService")) continue;
+                    if (list[i].equals("NamingService"))
+                        continue;
 
                     org.omg.CORBA.Object obj = orb.resolve_initial_references(list[i]);
                     if (obj != null) {
@@ -154,8 +148,7 @@ public class naming_client
                 try {
                     obj = orb.resolve_initial_references(nsKey);
                 } catch (org.omg.CORBA.ORBPackage.InvalidName e) {
-                    error_message("Could not resolve_initial_references on " + nsKey +
-                                  ": got InvalidName exception");
+                    error_message("Could not resolve_initial_references on " + nsKey + ": got InvalidName exception");
                     e.printStackTrace();
                     throw e;
                 }
@@ -180,7 +173,7 @@ public class naming_client
             if (numberOfClients < 2) {
                 message("running single client synchronously with " + numberOfObjects + " objects");
                 // create test
-                NamingTester test = new NamingTester(orb,0,numberOfObjects,initial);
+                NamingTester test = new NamingTester(orb, 0, numberOfObjects, initial);
                 // run it
                 test.run();
                 // collect errors
@@ -190,17 +183,17 @@ public class naming_client
                 message("creating " + numberOfClients + " individual test-threads with " + numberOfObjects + "objects");
                 Thread[] test_threads = new Thread[numberOfClients];
                 NamingTester[] tests = new NamingTester[numberOfClients];
-                for (int i=0;i<numberOfClients;i++) {
-                    tests[i] = new NamingTester(orb,i,numberOfObjects,initial);
+                for (int i = 0; i < numberOfClients; i++) {
+                    tests[i] = new NamingTester(orb, i, numberOfObjects, initial);
                     test_threads[i] = new Thread(tests[i]);
                 }
                 // Start them
                 message("starting " + numberOfClients + " test-threads");
-                for (int i=0;i<numberOfClients;i++)
+                for (int i = 0; i < numberOfClients; i++)
                     test_threads[i].start();
                 // Wait for them to finish
                 message("joining " + numberOfClients + " test-threads");
-                for (int i=0;i<numberOfClients;i++) {
+                for (int i = 0; i < numberOfClients; i++) {
                     try {
                         test_threads[i].join();
                     } catch (InterruptedException ex) {
@@ -210,33 +203,33 @@ public class naming_client
                 }
 
                 // Collect errors
-                for (int i=0;i<numberOfClients;i++)
+                for (int i = 0; i < numberOfClients; i++)
                     totalErrors += tests[i].getErrors();
             }
 
             message("total errors = " + totalErrors);
 
             if (totalErrors > 0)
-                System.exit (1);
+                System.exit(1);
 
         } catch (Throwable ex) {
             System.err.println("Caught exception: " + ex);
             ex.printStackTrace();
-            System.exit (1);
+            System.exit(1);
         }
     }
 
     public static void message(String msg) {
         System.out.println("naming_client: " + msg);
     }
+
     public static void error_message(String msg) {
         System.err.println("naming_client: error: " + msg);
     }
 
 }
 
-final class NamingTester implements Runnable
-{
+final class NamingTester implements Runnable {
     private NamingContext theRoot;
     private NamingContext playground;
     private int errors;
@@ -244,16 +237,14 @@ final class NamingTester implements Runnable
     private int numberOfObjects;
     private org.omg.CORBA.ORB theORB;
 
-    NamingTester(org.omg.CORBA.ORB orb,int id,int numObjs,NamingContext initNC)
-    {
+    NamingTester(org.omg.CORBA.ORB orb, int id, int numObjs, NamingContext initNC) {
         me = id;
         numberOfObjects = numObjs;
         theORB = orb;
         theRoot = initNC;
     }
 
-    public void run()
-    {
+    public void run() {
         Random random = new Random();
 
         try {
@@ -274,10 +265,9 @@ final class NamingTester implements Runnable
                         playground = theRoot.bind_new_context(playgroundName);
                     } else {
                         // Create first, then name
-                        message("new_context(); bind_context(): " +
-                                nameToString(playgroundName));
+                        message("new_context(); bind_context(): " + nameToString(playgroundName));
                         playground = theRoot.new_context();
-                        theRoot.bind_context(playgroundName,playground);
+                        theRoot.bind_context(playgroundName, playground);
                     }
                     // If we get here we got it bound
                     Unique = true;
@@ -286,13 +276,11 @@ final class NamingTester implements Runnable
                     errors++;
                     done = true;
                 } catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound ex) {
-                    error_message("caught already bound exception for: " +
-                                  nameToString(playgroundName) + ": should not happen!");
+                    error_message("caught already bound exception for: " + nameToString(playgroundName) + ": should not happen!");
 
                     errors++;
                     theRoot.unbind(playgroundName);
-                    message("Playground " + nameToString(playgroundName) +
-                            "seems to be occupied, attempting to create a different name");
+                    message("Playground " + nameToString(playgroundName) + "seems to be occupied, attempting to create a different name");
                     // Pick a different name: append a random int to the name
                     int ri = -1737356518; // random.nextInt();
                     playgroundName[0].id = playgroundName[0].id + "[" + ri + "]";
@@ -311,13 +299,11 @@ final class NamingTester implements Runnable
                 org.omg.CORBA.Object obj = theRoot.resolve(playgroundName);
                 if (obj == null) {
                     errors++;
-                    error_message("cannot resolve " + nameToString(playgroundName) +
-                                  " to playground.");
+                    error_message("cannot resolve " + nameToString(playgroundName) + " to playground.");
                 } else {
                     try {
                         NamingContext nc = NamingContextHelper.narrow(obj);
-                        message("resolve(" + nameToString(playgroundName) +
-                                ") -> " + nc);
+                        message("resolve(" + nameToString(playgroundName) + ") -> " + nc);
                     } catch (org.omg.CORBA.SystemException ex) {
                         errors++;
                         error_message("cannot narrow resolved playground to a naming context!");
@@ -327,7 +313,7 @@ final class NamingTester implements Runnable
 
             // Bind again
             try {
-                theRoot.bind_context(playgroundName,playground);
+                theRoot.bind_context(playgroundName, playground);
                 errors++;
                 error_message("bind_context() second time should throw alreadybound exception but doesn't!");
             } catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound ex) {
@@ -336,7 +322,7 @@ final class NamingTester implements Runnable
 
             // Rebind
             try {
-                theRoot.rebind_context(playgroundName,playground);
+                theRoot.rebind_context(playgroundName, playground);
                 message("rebind_context() second time works.");
             } catch (org.omg.CosNaming.NamingContextPackage.NotFound ex) {
                 errors++;
@@ -350,11 +336,10 @@ final class NamingTester implements Runnable
                 // Create an array of names, i.e. 2D array of namecomponents
                 NameComponent[][] names = new NameComponent[numberOfObjects][1];
 
-                message("creating names and object references for " + numberOfObjects +
-                        " objects");
+                message("creating names and object references for " + numberOfObjects + " objects");
 
                 // Fill out objectrefs and their names
-                for (int i=0;i<numberOfObjects;i++) {
+                for (int i = 0; i < numberOfObjects; i++) {
                     // Set object to playground object ref
                     objects[i] = playground;
                     // Create a name for each object
@@ -365,42 +350,39 @@ final class NamingTester implements Runnable
                 // Create an name guaranteed to be invalid
                 NameComponent[] invalid_name = new NameComponent[1];
                 invalid_name[0] = new NameComponent();
-                invalid_name[0].id = "(" + me + ":" + (numberOfObjects+1) + ")";
+                invalid_name[0].id = "(" + me + ":" + (numberOfObjects + 1) + ")";
                 invalid_name[0].kind = "(" + Thread.currentThread().getName() + ")";
 
                 // Bind all objects under the names
                 message("bind() " + numberOfObjects + " objects");
-                for (int i=0;i<numberOfObjects;i++) {
+                for (int i = 0; i < numberOfObjects; i++) {
                     try {
-                        playground.bind(names[i],objects[i]);
+                        playground.bind(names[i], objects[i]);
                     } catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound ex) {
-                        error_message("bind() caught already bound exception for " +
-                                      nameToString(names[i]) + "!");
+                        error_message("bind() caught already bound exception for " + nameToString(names[i]) + "!");
                     }
                 }
 
                 // Bind all objects under the names a second time (throws ex)
                 message("bind() " + numberOfObjects + " objects a second time");
-                for (int i=0;i<numberOfObjects;i++) {
+                for (int i = 0; i < numberOfObjects; i++) {
                     try {
-                        playground.bind(names[i],objects[i]);
+                        playground.bind(names[i], objects[i]);
                         errors++;
-                        error_message("2nd bind() didn't throw already bound exception for " +
-                                      nameToString(names[i]) + "!");
+                        error_message("2nd bind() didn't throw already bound exception for " + nameToString(names[i]) + "!");
                     } catch (org.omg.CosNaming.NamingContextPackage.AlreadyBound ex) {
-                        //message("2nd bind() throws already bound exception, that's fine");
+                        // message("2nd bind() throws already bound exception, that's fine");
                     }
                 }
 
                 // Rebind all objects under the names
                 message("rebind() " + numberOfObjects + " objects");
-                for (int i=0;i<numberOfObjects;i++) {
+                for (int i = 0; i < numberOfObjects; i++) {
                     try {
-                        playground.rebind(names[i],objects[i]);
+                        playground.rebind(names[i], objects[i]);
                     } catch (org.omg.CosNaming.NamingContextPackage.NotFound ex) {
                         errors++;
-                        error_message("rebind() caught not found exception for " +
-                                      nameToString(names[i]));
+                        error_message("rebind() caught not found exception for " + nameToString(names[i]));
                     }
                 }
 
@@ -412,7 +394,7 @@ final class NamingTester implements Runnable
                 fullObjectPath[1] = null;
 
                 message("resolve() " + numberOfObjects + " objects 5 times each, from playground and initial");
-                for (int i=0;i<numberOfObjects*5;i++) {
+                for (int i = 0; i < numberOfObjects * 5; i++) {
                     index = random.nextInt();
                     index %= numberOfObjects;
                     if (index < 0)
@@ -423,15 +405,11 @@ final class NamingTester implements Runnable
 
                         if (obj == null) {
                             errors++;
-                            error_message("playground.resolve() #" + i + " for " +
-                                          nameToString(names[index]) +
-                                          " returns null objref!");
+                            error_message("playground.resolve() #" + i + " for " + nameToString(names[index]) + " returns null objref!");
                         }
                     } catch (org.omg.CosNaming.NamingContextPackage.NotFound ex) {
                         errors++;
-                        error_message("playground.resolve() #" + i + " for " +
-                                      nameToString(names[index]) +
-                                      " throw exception!");
+                        error_message("playground.resolve() #" + i + " for " + nameToString(names[index]) + " throw exception!");
                     }
                     try {
                         // Try resolve from initial
@@ -439,15 +417,11 @@ final class NamingTester implements Runnable
                         obj = theRoot.resolve(fullObjectPath);
                         if (obj == null) {
                             errors++;
-                            error_message("theRoot.resolve() #" + i + " for " +
-                                          nameToString(fullObjectPath) +
-                                          " returns null objref!");
+                            error_message("theRoot.resolve() #" + i + " for " + nameToString(fullObjectPath) + " returns null objref!");
                         }
                     } catch (org.omg.CosNaming.NamingContextPackage.NotFound ex) {
                         errors++;
-                        error_message("theRoot.resolve() #" + i + " for " +
-                                      nameToString(fullObjectPath) +
-                                      " throw exception!");
+                        error_message("theRoot.resolve() #" + i + " for " + nameToString(fullObjectPath) + " throw exception!");
                     }
                 }
 
@@ -455,11 +429,9 @@ final class NamingTester implements Runnable
                 try {
                     playground.resolve(invalid_name);
                     errors++;
-                    error_message("playground.resolve(" + nameToString(invalid_name) +
-                                  ") succeded, which it shouldn't!");
+                    error_message("playground.resolve(" + nameToString(invalid_name) + ") succeded, which it shouldn't!");
                 } catch (org.omg.CosNaming.NamingContextPackage.NotFound ex) {
-                    message("playground.resolve(" + nameToString(invalid_name) +
-                            ") throws NotFound, which it should.");
+                    message("playground.resolve(" + nameToString(invalid_name) + ") throws NotFound, which it should.");
                 }
 
                 // List the names
@@ -467,35 +439,34 @@ final class NamingTester implements Runnable
                 boolean more = false;
                 int askFor = 5;
                 int totalSeen = 0;
-                int idx1,idx2;
+                int idx1, idx2;
 
                 message("list() in playground to find " + numberOfObjects + " objects");
                 BindingListHolder blh = new BindingListHolder();
                 BindingIteratorHolder bih = new BindingIteratorHolder();
-                playground.list(askFor,blh,bih);
+                playground.list(askFor, blh, bih);
                 do {
-                    for (int i=0;i<blh.value.length;i++) {
+                    for (int i = 0; i < blh.value.length; i++) {
                         totalSeen++;
                         // name id format: { int:int } (second int is our index)
                         String s = blh.value[i].binding_name[0].id;
                         idx1 = s.lastIndexOf(':') + 1;
                         idx2 = s.lastIndexOf(')');
-                        index = java.lang.Integer.parseInt(s.substring(idx1,idx2));
+                        index = java.lang.Integer.parseInt(s.substring(idx1, idx2));
                         seen[index] = true;
                     }
                     if (bih.value != null)
-                        more = bih.value.next_n(askFor,blh);
+                        more = bih.value.next_n(askFor, blh);
                 } while (more);
                 // Verify that all were seen
                 if (totalSeen < numberOfObjects) {
                     errors++;
-                    error_message("list() only reports " + totalSeen +
-                                  ", not " + numberOfObjects + "!");
+                    error_message("list() only reports " + totalSeen + ", not " + numberOfObjects + "!");
                 }
-                for (int i=0;i<numberOfObjects;i++) {
+                for (int i = 0; i < numberOfObjects; i++) {
                     if (!seen[i]) {
                         errors++;
-                        error_message("list() did not find object #" + i +"!");
+                        error_message("list() did not find object #" + i + "!");
                     }
                 }
                 // Remove iterator
@@ -504,21 +475,19 @@ final class NamingTester implements Runnable
 
                 // Unbind all names
                 message("unbind() " + numberOfObjects + " objects");
-                for (int i=0;i<numberOfObjects;i++) {
+                for (int i = 0; i < numberOfObjects; i++) {
                     try {
                         playground.unbind(names[i]);
                     } catch (org.omg.CosNaming.NamingContextPackage.NotFound ex) {
                         errors++;
-                        error_message("unbind() caught not found exception " +
-                                      nameToString(names[i]));
+                        error_message("unbind() caught not found exception " + nameToString(names[i]));
                     }
                 }
             }
 
             // Clean up
             try {
-                message("cleaning up by unbinding playground: " +
-                        nameToString(playgroundName));
+                message("cleaning up by unbinding playground: " + nameToString(playgroundName));
                 theRoot.unbind(playgroundName);
             } catch (org.omg.CosNaming.NamingContextPackage.NotFound ex) {
                 errors++;
@@ -549,14 +518,13 @@ final class NamingTester implements Runnable
         }
     }
 
-    public static String nameToString(NameComponent[] name)
-    {
+    public static String nameToString(NameComponent[] name) {
         String s = new String("{");
         if (name != null || name.length > 0) {
-            for (int i=0;i<name.length;i++) {
-                if (i>0)
+            for (int i = 0; i < name.length; i++) {
+                if (i > 0)
                     s = s + ",";
-                s = s +  "[" + name[i].id + "," + name[i].kind + "]";
+                s = s + "[" + name[i].id + "," + name[i].kind + "]";
             }
         }
         s = s + "}";
@@ -570,6 +538,7 @@ final class NamingTester implements Runnable
     public void message(String msg) {
         System.out.println("NamingTester[" + Thread.currentThread().getName() + "]: " + msg);
     }
+
     public void error_message(String msg) {
         System.err.println("NamingTester[" + Thread.currentThread().getName() + "]: Error: " + msg);
         errors++;

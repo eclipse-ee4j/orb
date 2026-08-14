@@ -23,23 +23,20 @@ import test.Test;
 import corba.framework.*;
 
 /**
- * A test to check that the IDL with module names starting with 'service' is
- * compiled correctly.
+ * A test to check that the IDL with module names starting with 'service' is compiled correctly.
  */
 
-public class ValidateIdlModules extends CORBATest
-{
+public class ValidateIdlModules extends CORBATest {
     public static final String[] idlFiles = { "service.idl" };
 
     public static final String[] javaFiles = { "pi/serviceexample/*.java" };
 
-    protected void doTest() throws Throwable
-    {
-        Options.addIDLCompilerArgs("-fall" );
-        Options.setIDLFiles( idlFiles );
-        Options.setJavaFiles( javaFiles );
+    protected void doTest() throws Throwable {
+        Options.addIDLCompilerArgs("-fall");
+        Options.setIDLFiles(idlFiles);
+        Options.setJavaFiles(javaFiles);
 
-        compileIDLFiles( );
-        compileJavaFiles( );
+        compileIDLFiles();
+        compileJavaFiles();
     }
 }

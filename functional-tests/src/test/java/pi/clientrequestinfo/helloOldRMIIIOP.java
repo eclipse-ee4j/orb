@@ -32,17 +32,13 @@ import ClientRequestInfo.*; // hello interface
 /**
  * ClientDelegate implementation with old stubs.
  */
-public class helloOldRMIIIOP
-    extends _helloImplBase
-{
+public class helloOldRMIIIOP extends _helloImplBase {
     // Contains the actual implementation of the hello interface.
     private helloDelegate delegate = null;
 
-    public helloOldRMIIIOP( PrintStream out )
-        throws RemoteException
-    {
+    public helloOldRMIIIOP(PrintStream out) throws RemoteException {
         super();
-        this.delegate = new helloDelegate( out );
+        this.delegate = new helloDelegate(out);
     }
 
     public helloDelegate getDelegate() {
@@ -57,9 +53,7 @@ public class helloOldRMIIIOP
         return delegate.saySystemException();
     }
 
-    public void sayUserException()
-        throws ExampleException
-    {
+    public void sayUserException() throws ExampleException {
         delegate.sayUserException();
     }
 
@@ -67,8 +61,8 @@ public class helloOldRMIIIOP
         delegate.sayOneway();
     }
 
-    public String sayArguments( String arg1, int arg2, boolean arg3 ) {
-        return delegate.sayArguments( arg1, arg2, arg3 );
+    public String sayArguments(String arg1, int arg2, boolean arg3) {
+        return delegate.sayArguments(arg1, arg2, arg3);
     }
 
     public void clearInvoked() {

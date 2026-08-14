@@ -19,6 +19,8 @@
  */
 
 package javax.rmi;
+
 public class HashCodeImpl extends PortableRemoteObject implements HashCode {
-    public HashCodeImpl() throws java.rmi.RemoteException {}
+    public HashCodeImpl() throws java.rmi.RemoteException {
+    }
 }

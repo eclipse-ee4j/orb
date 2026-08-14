@@ -24,52 +24,40 @@ import java.util.*;
 import org.omg.CORBA.*;
 import java.io.DataInputStream;
 import java.rmi.*;
-import javax.rmi.PortableRemoteObject ;
+import javax.rmi.PortableRemoteObject;
 
-public class GIOPComboImpl extends PortableRemoteObject implements GIOPCombo
-{
-    public GIOPComboImpl() throws RemoteException
-    {
+public class GIOPComboImpl extends PortableRemoteObject implements GIOPCombo {
+    public GIOPComboImpl() throws RemoteException {
     }
 
-    public int sayHello(int invalue)
-        throws RemoteException
-    {
+    public int sayHello(int invalue) throws RemoteException {
 
-        System.out.println("\nHello world !! invalue = "+invalue+"\n");
+        System.out.println("\nHello world !! invalue = " + invalue + "\n");
         return invalue;
     }
 
-    public void throwError( Error it ) throws java.rmi.RemoteException
-    {
-        System.out.println( "Throwing error " + it ) ;
-        throw it ;
+    public void throwError(Error it) throws java.rmi.RemoteException {
+        System.out.println("Throwing error " + it);
+        throw it;
     }
 
-    public String  echo( String string)
-        throws java.rmi.RemoteException
-    {
-        System.out.println( "echo String  " + string +".");
+    public String echo(String string) throws java.rmi.RemoteException {
+        System.out.println("echo String  " + string + ".");
         return string;
     }
-    public java.util.Hashtable echo( java.util.Hashtable ht)
-        throws java.rmi.RemoteException
-    {
-        System.out.println( "echo Hashtable of size " + ht.size()+".");
+
+    public java.util.Hashtable echo(java.util.Hashtable ht) throws java.rmi.RemoteException {
+        System.out.println("echo Hashtable of size " + ht.size() + ".");
         return ht;
     }
-    public java.util.Vector echo( java.util.Vector vector)
-        throws java.rmi.RemoteException
-    {
-        System.out.println( "echo Vector of size " + vector.size()+".");
+
+    public java.util.Vector echo(java.util.Vector vector) throws java.rmi.RemoteException {
+        System.out.println("echo Vector of size " + vector.size() + ".");
         return vector;
     }
-    public CustomMarshalledValueType echo(CustomMarshalledValueType cmvt)
-        throws java.rmi.RemoteException
-    {
-        System.out.println( "echo CustomMarshalledValueType with body of size " + cmvt.body.length);
+
+    public CustomMarshalledValueType echo(CustomMarshalledValueType cmvt) throws java.rmi.RemoteException {
+        System.out.println("echo CustomMarshalledValueType with body of size " + cmvt.body.length);
         return cmvt;
     }
 }
-
-

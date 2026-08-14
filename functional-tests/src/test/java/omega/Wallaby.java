@@ -28,19 +28,22 @@ package omega;
 
 public interface Wallaby extends java.rmi.Remote {
 
-    int     bar = 2;
-    void    bar()              throws java.rmi.RemoteException,
-    java.lang.RuntimeException;
-    void    eat()              throws Exception;
-    void    drink()            throws java.rmi.RemoteException,
-    java.rmi.NoSuchObjectException;
+    int bar = 2;
 
-    int     getFoo()           throws Exception;
-    void    setFoo(int x)      throws java.rmi.RemoteException,
-    java.rmi.NoSuchObjectException;
-    String  getURL()           throws java.rmi.RemoteException,
-    java.lang.RuntimeException;
-    boolean isBoo()            throws java.rmi.RemoteException;
-    void    setBoo(boolean b)  throws java.rmi.RemoteException;
+    void bar() throws java.rmi.RemoteException, java.lang.RuntimeException;
+
+    void eat() throws Exception;
+
+    void drink() throws java.rmi.RemoteException, java.rmi.NoSuchObjectException;
+
+    int getFoo() throws Exception;
+
+    void setFoo(int x) throws java.rmi.RemoteException, java.rmi.NoSuchObjectException;
+
+    String getURL() throws java.rmi.RemoteException, java.lang.RuntimeException;
+
+    boolean isBoo() throws java.rmi.RemoteException;
+
+    void setBoo(boolean b) throws java.rmi.RemoteException;
 
 }

@@ -27,15 +27,13 @@ import com.sun.corba.ee.spi.misc.ORBConstants;
 // Loops through all possible fragment sizes from 32 through user defined
 // max.  Currently [32, 512]
 //
-public class CustomTest extends CORBATest
-{
-    public static String[] rmicClasses = { "corba.custom.VerifierImpl"};
+public class CustomTest extends CORBATest {
+    public static String[] rmicClasses = { "corba.custom.VerifierImpl" };
 
-    protected void doTest() throws Throwable
-    {
+    protected void doTest() throws Throwable {
         Options.setRMICClasses(rmicClasses);
         Options.addRMICArgs("-poa -nolocalstubs -iiop -keep -g");
-        boolean failed = false ;
+        boolean failed = false;
 
         compileRMICFiles();
         compileJavaFiles();
@@ -45,7 +43,7 @@ public class CustomTest extends CORBATest
 
         System.out.println();
 
-        for (int fragmentSize = 32; fragmentSize <= 512; fragmentSize+=16) {
+        for (int fragmentSize = 32; fragmentSize <= 512; fragmentSize += 16) {
 
             System.out.print("  Fragment size " + fragmentSize + ": ");
 
@@ -53,35 +51,31 @@ public class CustomTest extends CORBATest
             Properties clientProps = Options.getClientProperties();
             Properties serverProps = Options.getServerProperties();
 
-            clientProps.setProperty(ORBConstants.GIOP_FRAGMENT_SIZE,
-                                    "" + fragmentSize);
-            serverProps.setProperty(ORBConstants.GIOP_FRAGMENT_SIZE,
-                                    "" + fragmentSize);
+            clientProps.setProperty(ORBConstants.GIOP_FRAGMENT_SIZE, "" + fragmentSize);
+            serverProps.setProperty(ORBConstants.GIOP_FRAGMENT_SIZE, "" + fragmentSize);
 
             // Give each client and server a different name so all
             // output files are separate
-            Controller server = createServer("corba.custom.Server",
-                                             "server" + fragmentSize);
-            Controller client = createClient("corba.custom.Client",
-                                             "client" + fragmentSize);
+            Controller server = createServer("corba.custom.Server", "server" + fragmentSize);
+            Controller client = createClient("corba.custom.Client", "client" + fragmentSize);
 
             // Go ahead and restart both server and client each time to
             // make sure we test all fragment sizes for replies, too.
             server.start();
-            client.start() ;
+            client.start();
 
             try {
                 if (client.waitFor(60000) == Controller.SUCCESS) {
                     System.out.println("PASSED");
                 } else {
-                    String msg = "FAILED (" + client.exitValue() + ")" ;
-                    System.out.println( msg ) ;
+                    String msg = "FAILED (" + client.exitValue() + ")";
+                    System.out.println(msg);
                     failed = true;
                 }
             } catch (Exception e) {
                 // Timed out waiting for the client
                 System.out.println("HUNG");
-                failed = true ;
+                failed = true;
             } finally {
                 client.stop();
                 server.stop();
@@ -93,6 +87,6 @@ public class CustomTest extends CORBATest
         System.out.println();
 
         if (failed)
-            throw new Error("Failures detected" );
+            throw new Error("Failures detected");
     }
 }

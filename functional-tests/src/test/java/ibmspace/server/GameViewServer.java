@@ -27,24 +27,21 @@ import java.rmi.RemoteException;
 import java.rmi.Remote;
 import javax.rmi.PortableRemoteObject;
 
-public class GameViewServer extends GameViewImpl implements RemoteGameView
-{
-    private Player      fPlayer;
-    private Game        fGame;
-    private Vector      fDesigns;
-    private String[]    fOwners;
-    private boolean     fQuit = false;
+public class GameViewServer extends GameViewImpl implements RemoteGameView {
+    private Player fPlayer;
+    private Game fGame;
+    private Vector fDesigns;
+    private String[] fOwners;
+    private boolean fQuit = false;
 
-    public GameViewServer(Game game, Player player) throws RemoteException
-    {
-        super (game, player);
-        PortableRemoteObject.exportObject (this);
+    public GameViewServer(Game game, Player player) throws RemoteException {
+        super(game, player);
+        PortableRemoteObject.exportObject(this);
     }
 
-    public void quit () throws RemoteException
-    {
-        super.quit ();
-        PortableRemoteObject.unexportObject (this);
+    public void quit() throws RemoteException {
+        super.quit();
+        PortableRemoteObject.unexportObject(this);
     }
 
 }

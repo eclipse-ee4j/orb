@@ -21,9 +21,8 @@ package naming.instest;
 
 public class HelloImpl extends _HelloImplBase {
 
-    public String sayHello( ) {
-        System.out.println( "Hello Called...." );
+    public String sayHello() {
+        System.out.println("Hello Called....");
         return TestConstants.returnString;
     }
 }
-

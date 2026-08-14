@@ -23,10 +23,8 @@ package com.sun.corba.ee.internal.iiop;
  * Deprecated class for backward compatibility.
  */
 public class ORB extends /* 1.4 value: com.sun.corba.ee.internal.corba.ORB */
-                           com.sun.corba.ee.impl.orb.ORBImpl
-{
-    public ORB()
-    {
+        com.sun.corba.ee.impl.orb.ORBImpl {
+    public ORB() {
         super();
     }
 } // Class ORB

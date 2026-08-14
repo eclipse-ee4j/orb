@@ -22,8 +22,7 @@ package corba.cdrext;
 
 import java.io.*;
 
-public class ReplaceSubClass extends ReplaceSuperClass
-{
+public class ReplaceSubClass extends ReplaceSuperClass {
     private long longValue;
 
     public ReplaceSubClass() {
@@ -34,8 +33,7 @@ public class ReplaceSubClass extends ReplaceSuperClass
         if (!(obj instanceof ReplaceSubClass))
             return false;
         else {
-            return super.equals(obj)
-                && longValue == ((ReplaceSubClass)obj).longValue;
+            return super.equals(obj) && longValue == ((ReplaceSubClass) obj).longValue;
         }
     }
 

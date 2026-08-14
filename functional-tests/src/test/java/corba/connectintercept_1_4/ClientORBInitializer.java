@@ -28,32 +28,23 @@ import org.omg.PortableInterceptor.ORBInitializer;
 import org.omg.PortableInterceptor.ORBInitInfo;
 import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
-public class ClientORBInitializer
-    extends
-        org.omg.CORBA.LocalObject
-    implements
-        ORBInitializer
-{
+public class ClientORBInitializer extends org.omg.CORBA.LocalObject implements ORBInitializer {
     public static final String baseMsg = ClientORBInitializer.class.getName();
 
-    public void pre_init(ORBInitInfo orbInitInfo) { }
+    public void pre_init(ORBInitInfo orbInitInfo) {
+    }
 
-    public void post_init(ORBInitInfo orbInitInfo)
-    {
+    public void post_init(ORBInitInfo orbInitInfo) {
         try {
             // These are intentionally random to test ordering.
 
-            orbInitInfo.add_client_request_interceptor(
-                new CRIOrdered("Three", 3));
+            orbInitInfo.add_client_request_interceptor(new CRIOrdered("Three", 3));
 
-            orbInitInfo.add_client_request_interceptor(
-                new CRIOrdered("One", 1));
+            orbInitInfo.add_client_request_interceptor(new CRIOrdered("One", 1));
 
-            orbInitInfo.add_client_request_interceptor(
-                new CRI());
+            orbInitInfo.add_client_request_interceptor(new CRI());
 
-            orbInitInfo.add_client_request_interceptor(
-                new CRIOrdered("Two", 2));
+            orbInitInfo.add_client_request_interceptor(new CRIOrdered("Two", 2));
 
             System.out.println(baseMsg + ".post_init: add_* completed.");
         } catch (DuplicateName ex) {

@@ -24,8 +24,7 @@
 
 package corba.hcks;
 
-public class NonSerializableObject
-{
+public class NonSerializableObject {
 }
 
 // End of file.

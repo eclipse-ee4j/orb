@@ -19,27 +19,23 @@
 
 package performance.simpleperf2;
 
-import java.rmi.RemoteException ;
-import javax.rmi.PortableRemoteObject ;
-import org.omg.CORBA.ORB ;
-import java.io.File ;
-import java.io.RandomAccessFile ;
-import org.omg.PortableServer.POA ;
+import java.rmi.RemoteException;
+import javax.rmi.PortableRemoteObject;
+import org.omg.CORBA.ORB;
+import java.io.File;
+import java.io.RandomAccessFile;
+import org.omg.PortableServer.POA;
 
-public class counterImpl extends PortableRemoteObject implements counterIF
-{
-    private int value ;
+public class counterImpl extends PortableRemoteObject implements counterIF {
+    private int value;
 
-    public counterImpl() throws RemoteException
-    {
-        value = 0 ;
+    public counterImpl() throws RemoteException {
+        value = 0;
     }
 
-    public synchronized long increment(long invalue) throws RemoteException
-    {
+    public synchronized long increment(long invalue) throws RemoteException {
         value += invalue;
 
         return value;
     }
 }
-

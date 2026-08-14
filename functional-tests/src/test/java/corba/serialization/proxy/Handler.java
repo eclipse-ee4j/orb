@@ -25,17 +25,14 @@ import java.lang.reflect.*;
 
 public final class Handler implements InvocationHandler, Serializable {
 
-  public Handler() {
-    super();
-  }
+    public Handler() {
+        super();
+    }
 
-  public final Object invoke(final Object proxy,
-                             final Method method,
-                             final Object[] args) throws Throwable {
-         //System.out.println("From DynamicProxy InvokeHandler ..");
-         //Doesn't matter what you return here
-         return null;
+    public final Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
+        // System.out.println("From DynamicProxy InvokeHandler ..");
+        // Doesn't matter what you return here
+        return null;
     }
 
 }
-

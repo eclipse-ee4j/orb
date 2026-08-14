@@ -19,26 +19,23 @@
 
 package pi.ort;
 
-import IORInterceptorTest.*;    // for IDL
+import IORInterceptorTest.*; // for IDL
 
 /**
- * Servant implementation for delayPOA. This is a special servant created for
- * ORT testing, it has one method that sleeps for the given time and notifies
- * ORTStateChangeEvaluator after completion with the notificationToken.
+ * Servant implementation for delayPOA. This is a special servant created for ORT testing, it has one method that sleeps
+ * for the given time and notifies ORTStateChangeEvaluator after completion with the notificationToken.
  */
 public class DelayServant extends delayPOA {
-    public void forInMillis( int timeInMillis, String notificationToken ) {
+    public void forInMillis(int timeInMillis, String notificationToken) {
         try {
-            System.out.println( "DelayServant.forInMillis() called with " +
-                timeInMillis );
-            System.out.flush( );
-            Thread.sleep( timeInMillis );
-            ORTStateChangeEvaluator.getInstance( ).notificationTokenFromDelayServant( notificationToken );
-        } catch( Exception e ) {
-            System.err.println( "The Thread.sleep() in DelayServant crashed " +
-                e );
-            e.printStackTrace( );
-            System.exit( 1 );
+            System.out.println("DelayServant.forInMillis() called with " + timeInMillis);
+            System.out.flush();
+            Thread.sleep(timeInMillis);
+            ORTStateChangeEvaluator.getInstance().notificationTokenFromDelayServant(notificationToken);
+        } catch (Exception e) {
+            System.err.println("The Thread.sleep() in DelayServant crashed " + e);
+            e.printStackTrace();
+            System.exit(1);
         }
     }
 }

@@ -26,7 +26,7 @@ public class SwapMember implements java.io.Serializable {
 }
 
 interface NotAbstract {
-    public void method1 (ShouldSwap foo);
+    public void method1(ShouldSwap foo);
 }
 
 class ShouldSwap implements java.io.Serializable {

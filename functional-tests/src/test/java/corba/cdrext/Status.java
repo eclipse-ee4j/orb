@@ -19,8 +19,7 @@
 
 package corba.cdrext;
 
-public class Status
-{
+public class Status {
     public static boolean writeReplaceCalled() {
         return writeReplaceCalled;
     }

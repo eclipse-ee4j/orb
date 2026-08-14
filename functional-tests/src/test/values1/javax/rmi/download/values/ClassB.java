@@ -20,21 +20,21 @@
 
 package javax.rmi.download.values;
 
-public class ClassB extends ClassA{
+public class ClassB extends ClassA {
 
     private static final long serialVersionUID = 123556789L;
 
     private int a2;
 
-    public ClassB(){
+    public ClassB() {
         a2 = 73;
     }
 
-    public long getTotal(){
-        return  super.getTotal() + a2;
+    public long getTotal() {
+        return super.getTotal() + a2;
     }
 
-    public long getOriginalTotal(){
+    public long getOriginalTotal() {
         return super.getOriginalTotal() + 73;
     }
 }

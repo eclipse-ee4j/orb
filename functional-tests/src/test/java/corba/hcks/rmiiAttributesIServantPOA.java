@@ -27,44 +27,35 @@ package corba.hcks;
 import java.rmi.RemoteException;
 import javax.rmi.PortableRemoteObject;
 
-public class rmiiAttributesIServantPOA
-    extends
-        PortableRemoteObject
-    implements
-        rmiiAttributesI
-{
-    public rmiiAttributesIServantPOA()
-        throws
-            RemoteException {}
+public class rmiiAttributesIServantPOA extends PortableRemoteObject implements rmiiAttributesI {
+    public rmiiAttributesIServantPOA() throws RemoteException {
+    }
 
-    public Integer getInteger()
-        throws
-            RemoteException { return null; }
+    public Integer getInteger() throws RemoteException {
+        return null;
+    }
 
-    public void    setInteger(Integer x)
-        throws
-            RemoteException { }
+    public void setInteger(Integer x) throws RemoteException {
+    }
 
-    public boolean isTrue()
-        throws
-            RemoteException { return true; }
+    public boolean isTrue() throws RemoteException {
+        return true;
+    }
 
-    public boolean getTrue()
-        throws
-            RemoteException { return true; }
+    public boolean getTrue() throws RemoteException {
+        return true;
+    }
 
-    public void    setTrue(boolean x)
-        throws
-            RemoteException { }
+    public void setTrue(boolean x) throws RemoteException {
+    }
 
     // Test that this is NOT a JavaBeans pattern.
-    public Integer get()
-        throws
-            RemoteException { return null; }
+    public Integer get() throws RemoteException {
+        return null;
+    }
 
-    public void set(Integer x)
-        throws
-            RemoteException { }
+    public void set(Integer x) throws RemoteException {
+    }
 
 }
 

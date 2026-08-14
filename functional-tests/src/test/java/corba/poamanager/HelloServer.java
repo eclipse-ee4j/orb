@@ -34,8 +34,7 @@ public class HelloServer {
 
             byte[] id = rootPoa.activate_object(theFactory);
 
-            u.writeFactory(GenericFactoryHelper.narrow(
-                rootPoa.servant_to_reference(theFactory)));
+            u.writeFactory(GenericFactoryHelper.narrow(rootPoa.servant_to_reference(theFactory)));
 
             poa.the_POAManager().activate();
 

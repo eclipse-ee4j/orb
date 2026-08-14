@@ -21,35 +21,30 @@ package corba.cdrstreams;
 
 import java.io.*;
 
-public class CustomMarshaled implements Serializable
-{
+public class CustomMarshaled implements Serializable {
     int value1;
     long value2;
 
     boolean good;
 
-    public CustomMarshaled(int value1, long value2, boolean good)
-    {
+    public CustomMarshaled(int value1, long value2, boolean good) {
         this.value1 = value1;
         this.value2 = value2;
         this.good = good;
     }
 
-    public boolean equals(Object obj)
-    {
-        CustomMarshaled gcm = (CustomMarshaled)obj;
+    public boolean equals(Object obj) {
+        CustomMarshaled gcm = (CustomMarshaled) obj;
 
         return (value1 == gcm.value1 && value2 == gcm.value2);
     }
 
-    private void writeObject(java.io.ObjectOutputStream out)
-        throws IOException
-    {
+    private void writeObject(java.io.ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
 
         byte[] buffer = new byte[1024];
         for (int i = 0; i < buffer.length; i++)
-            buffer[i] = (byte)(i % 255);
+            buffer[i] = (byte) (i % 255);
 
         out.write(buffer);
 
@@ -57,9 +52,7 @@ public class CustomMarshaled implements Serializable
 
     }
 
-    private void readObject(java.io.ObjectInputStream in)
-        throws IOException, ClassNotFoundException
-    {
+    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
 
         if (good) {
@@ -67,10 +60,10 @@ public class CustomMarshaled implements Serializable
             in.readFully(buffer);
 
             for (int i = 0; i < buffer.length; i++)
-                if (buffer[i] != (byte)(i % 255))
+                if (buffer[i] != (byte) (i % 255))
                     throw new IOException("Data buffer corrupted");
 
-            if (!((String)(in.readObject())).equals("CustomMarshaled 1.0"))
+            if (!((String) (in.readObject())).equals("CustomMarshaled 1.0"))
                 throw new IOException("Strings didn't match properly");
         }
 

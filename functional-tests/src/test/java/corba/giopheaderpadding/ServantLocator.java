@@ -33,33 +33,28 @@ import org.omg.PortableServer.ServantLocatorPackage.CookieHolder;
 
 import corba.hcks.U;
 
-public class ServantLocator extends org.omg.CORBA.LocalObject
-    implements org.omg.PortableServer.ServantLocator {
+public class ServantLocator extends org.omg.CORBA.LocalObject implements org.omg.PortableServer.ServantLocator {
 
     public static final String baseMsg = ServantLocator.class.getName();
 
-    public ServantLocator() {}
+    public ServantLocator() {
+    }
 
-    public Servant preinvoke(byte[] oid, POA poa, String operation,
-                             CookieHolder cookieHolder)
-        throws ForwardRequest {
+    public Servant preinvoke(byte[] oid, POA poa, String operation, CookieHolder cookieHolder) throws ForwardRequest {
 
         String soid = new String(oid);
         U.sop(baseMsg + ".preinvoke " + soid);
 
         Servant servant = null;
         try {
-            servant =
-                (Servant)javax.rmi.CORBA.Util.getTie(new rmiiIServantPOA());
+            servant = (Servant) javax.rmi.CORBA.Util.getTie(new rmiiIServantPOA());
         } catch (Exception e) {
             U.sopUnexpectedException(baseMsg, e);
         }
         return servant;
     }
 
-    public void postinvoke(byte[] oid, POA poa, String operation,
-                           java.lang.Object cookie, Servant servant)
-    {
+    public void postinvoke(byte[] oid, POA poa, String operation, java.lang.Object cookie, Servant servant) {
     }
 }
 

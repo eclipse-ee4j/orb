@@ -19,5 +19,6 @@
  */
 
 package rmic;
+
 public interface EmptyInterface {
 }

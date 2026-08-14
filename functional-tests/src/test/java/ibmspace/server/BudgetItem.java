@@ -22,60 +22,50 @@ package ibmspace.server;
 
 import java.io.Serializable;
 
+public class BudgetItem implements Serializable {
+    private Investment fInvestment;
+    private int fPercentage;
 
-public class BudgetItem implements Serializable
-{
-    private Investment  fInvestment;
-    private int         fPercentage;
-
-    public BudgetItem (Investment investment, int percentage)
-    {
+    public BudgetItem(Investment investment, int percentage) {
         fInvestment = investment;
         fPercentage = percentage;
     }
 
-    public BudgetItem (Investment investment)
-    {
+    public BudgetItem(Investment investment) {
         fInvestment = investment;
         fPercentage = 0;
     }
 
-    public Investment getInvestment ()
-    {
+    public Investment getInvestment() {
         return fInvestment;
     }
 
-    public int getPercentage ()
-    {
+    public int getPercentage() {
         return fPercentage;
     }
 
-    public void setInvestment (Investment investment)
-    {
+    public void setInvestment(Investment investment) {
         fInvestment = investment;
     }
 
-    public void setPercentage (int percentage)
-    {
+    public void setPercentage(int percentage) {
         fPercentage = percentage;
     }
 
-    public String getName ()
-    {
-        return fInvestment.getName ();
+    public String getName() {
+        return fInvestment.getName();
     }
 
-    public String toString ()
-    {
+    public String toString() {
         String s = getName() + "(";
         Object o = fInvestment;
-        if ( o.getClass().getName() == "Budget" ) {
-            Budget b = (Budget)fInvestment;
-            s += b.toString ();
+        if (o.getClass().getName() == "Budget") {
+            Budget b = (Budget) fInvestment;
+            s += b.toString();
         } else {
-            s += fInvestment.getName ();
+            s += fInvestment.getName();
         }
-        s += "," + String.valueOf (fPercentage) + ")";
+        s += "," + String.valueOf(fPercentage) + ")";
         return s;
     }
 

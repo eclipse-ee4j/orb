@@ -22,11 +22,9 @@ package corba.nortel;
 import corba.framework.*;
 import java.util.*;
 
-public class Test extends CORBATest
-{
-    protected void doTest() throws Throwable
-    {
-        Controller client = createClient( "corba.nortel.Client" ) ;
+public class Test extends CORBATest {
+    protected void doTest() throws Throwable {
+        Controller client = createClient("corba.nortel.Client");
 
         client.start();
 
@@ -38,4 +36,3 @@ public class Test extends CORBATest
         client.stop();
     }
 }
-

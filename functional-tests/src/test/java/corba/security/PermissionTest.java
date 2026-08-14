@@ -23,10 +23,8 @@ import test.Test;
 import corba.framework.*;
 import java.util.*;
 
-public class PermissionTest extends CORBATest
-{
-    protected void doTest() throws Throwable
-    {
+public class PermissionTest extends CORBATest {
+    protected void doTest() throws Throwable {
         Controller client = createClient("corba.security.Client");
 
         client.start();
@@ -36,4 +34,3 @@ public class PermissionTest extends CORBATest
         client.stop();
     }
 }
-

@@ -28,23 +28,14 @@ import java.rmi.RemoteException;
 import javax.rmi.PortableRemoteObject;
 import corba.hcks.U;
 
-public class rmiiIServantPOA
-    extends
-        PortableRemoteObject
-    implements
-        rmiiI
-{
+public class rmiiIServantPOA extends PortableRemoteObject implements rmiiI {
     public static final String baseMsg = rmiiIServantPOA.class.getName();
 
-    public rmiiIServantPOA ()
-        throws
-            RemoteException
-    {
+    public rmiiIServantPOA() throws RemoteException {
         // DO NOT CALL SUPER - that would connect the object.
     }
 
-    public String m(String x)
-    {
+    public String m(String x) {
         String result = x + " (echo from " + baseMsg + ")";
         U.sop(result);
         return result;

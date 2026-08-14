@@ -34,8 +34,7 @@ import org.omg.CORBA.UNKNOWN;
 /**
  * @author Harold Carr
  */
-public class ClientTwoRefs
-{
+public class ClientTwoRefs {
     public static final String baseMsg = ClientTwoRefs.class.getName();
 
     public static boolean foundErrors = false;
@@ -45,11 +44,10 @@ public class ClientTwoRefs
 
     public static ORB orb;
 
-    public static void main(String[] av)
-    {
+    public static void main(String[] av) {
         try {
 
-            if (! ColocatedCS.isColocated) {
+            if (!ColocatedCS.isColocated) {
                 Properties props = new Properties();
                 Client.withSticky = true;
                 Client.setProperties(props);
@@ -70,29 +68,21 @@ public class ClientTwoRefs
             System.out.println(baseMsg + ".main: FAILED");
             System.out.println(baseMsg + ".main: Test complete.");
             t.printStackTrace(System.out);
-            System.exit (1);
+            System.exit(1);
         }
     }
 
-    private static void runTest()
-        throws Exception
-    {
+    private static void runTest() throws Exception {
         System.out.println("================================================");
         System.out.println();
 
-        iRef =
-            IHelper.narrow(
-                Common.getNameService(orb)
-                    .resolve(Common.makeNameComponent(Common.serverName1)));
+        iRef = IHelper.narrow(Common.getNameService(orb).resolve(Common.makeNameComponent(Common.serverName1)));
 
-        i2Ref =
-            I2Helper.narrow(
-                Common.getNameService(orb)
-                    .resolve(Common.makeNameComponent(Common.serverName2)));
+        i2Ref = I2Helper.narrow(Common.getNameService(orb).resolve(Common.makeNameComponent(Common.serverName2)));
 
         //
         // Test to ensure we are only running sticky via host/port/type
-        // not the entire ContactInfo.  If returning an entire contactInfo
+        // not the entire ContactInfo. If returning an entire contactInfo
         // associated with a different object, then the Tie will get an
         // error - either wrong type or unknown method.
         //
@@ -105,12 +95,11 @@ public class ClientTwoRefs
         System.out.println(stringResult);
 
         // The following calls will go to the wrong reference if
-        // using the entire ContactInfo as a key.  Need to return
+        // using the entire ContactInfo as a key. Need to return
         // a specific SocketInfo instead.
 
-
         // This returns a String in the bad case but gets no
-        // error.  But the return value is the length of a string
+        // error. But the return value is the length of a string
         // rather than the string converted to an int.
         System.out.println();
         System.out.println("Test wrong return type:");
@@ -128,7 +117,7 @@ public class ClientTwoRefs
             System.out.println();
         }
 
-        // This returns a String in the bad case.  When the client-side
+        // This returns a String in the bad case. When the client-side
         // tries to unmarshal an Object it breaks.
         System.out.println();
         System.out.println("Test marshaling error");
@@ -168,7 +157,8 @@ public class ClientTwoRefs
         try {
             iRef.throwRuntimeException(0);
         } catch (UNKNOWN e) {
-            ;;
+            ;
+            ;
         }
 
         orb.shutdown(false);

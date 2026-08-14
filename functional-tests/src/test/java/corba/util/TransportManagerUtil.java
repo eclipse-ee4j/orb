@@ -34,19 +34,19 @@ import java.nio.ByteBuffer;
 public class TransportManagerUtil {
 
     public static MessageData getMessageData(byte[][] data, ORB orb) {
-        ConnectionImpl connection = new ConnectionImpl(orb) ;
+        ConnectionImpl connection = new ConnectionImpl(orb);
 
-        final Message[] messages = new Message[data.length] ;
-        Message firstMessage = null ;
-        CDRInputObject inobj = null ;
+        final Message[] messages = new Message[data.length];
+        Message firstMessage = null;
+        CDRInputObject inobj = null;
 
-        for (int ctr=0; ctr<data.length; ctr++) {
+        for (int ctr = 0; ctr < data.length; ctr++) {
             MessageParserImpl parser = new MessageParserImpl(orb, null);
             parser.offerBuffer(ByteBuffer.wrap(data[ctr]));
             Message message = parser.getMessageMediator().getDispatchHeader();
             ByteBuffer msgByteBuffer = parser.getMsgByteBuffer();
-            if (message.getGIOPVersion().equals( GIOPVersion.V1_2 )) {
-                ((Message_1_2) message).unmarshalRequestID(msgByteBuffer) ;
+            if (message.getGIOPVersion().equals(GIOPVersion.V1_2)) {
+                ((Message_1_2) message).unmarshalRequestID(msgByteBuffer);
             }
 
             messages[ctr] = message;
@@ -55,37 +55,42 @@ public class TransportManagerUtil {
 
             if (inobj == null) {
                 firstMessage = message;
-                inobj = new CDRInputObject(orb, connection, msgByteBuffer, message) ;
-                inobj.performORBVersionSpecificInit() ;
+                inobj = new CDRInputObject(orb, connection, msgByteBuffer, message);
+                inobj.performORBVersionSpecificInit();
             } else {
-                inobj.addFragment( (FragmentMessage) message, msgByteBuffer );
+                inobj.addFragment((FragmentMessage) message, msgByteBuffer);
             }
         }
 
-        // Unmarshal all the data in the first message.  This may
+        // Unmarshal all the data in the first message. This may
         // cause other fragments to be read.
-        firstMessage.read( inobj ) ;
+        firstMessage.read(inobj);
 
-        final CDRInputObject resultObj = inobj ;
+        final CDRInputObject resultObj = inobj;
 
         return new MessageData() {
-           public Message[] getMessages() { return messages ; }
-           public CDRInputObject getStream() { return resultObj ; }
-        } ;
+            public Message[] getMessages() {
+                return messages;
+            }
+
+            public CDRInputObject getStream() {
+                return resultObj;
+            }
+        };
     }
 
-    /** Analyze the header of a message.  This provides enough information to
-     * classify the message and group related messages together for use in
-     * the getMessageData method.  Also, if data is a GIOP 1.2 message,
-     * the result of this call will contain a valid request ID.
+    /**
+     * Analyze the header of a message. This provides enough information to classify the message and group related messages
+     * together for use in the getMessageData method. Also, if data is a GIOP 1.2 message, the result of this call will
+     * contain a valid request ID.
      */
     public static Message getMessage(byte[] data, ORB orb) {
         MessageParserImpl parser = new MessageParserImpl(orb, null);
         parser.offerBuffer(ByteBuffer.wrap(data));
         Message msg = parser.getMessageMediator().getDispatchHeader();
-        if (msg.getGIOPVersion().equals( GIOPVersion.V1_2 ))
-            ((Message_1_2)msg).unmarshalRequestID( parser.getMsgByteBuffer() ) ;
+        if (msg.getGIOPVersion().equals(GIOPVersion.V1_2))
+            ((Message_1_2) msg).unmarshalRequestID(parser.getMsgByteBuffer());
 
-        return msg ;
+        return msg;
     }
 }

@@ -21,7 +21,10 @@
 package rmic;
 
 public class IDLEntityValue implements org.omg.CORBA.portable.IDLEntity {
-    public int getFoo() {return 0;}
-    private IDLEntityValue(){}
-}
+    public int getFoo() {
+        return 0;
+    }
 
+    private IDLEntityValue() {
+    }
+}

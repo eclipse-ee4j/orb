@@ -26,11 +26,9 @@ import java.util.*;
 import java.rmi.RemoteException;
 import java.io.*;
 
-public class Client
-{
+public class Client {
     // Create a new string with size number of filler chars
-    private static String createLargeString(int size, char filler)
-    {
+    private static String createLargeString(int size, char filler) {
         char valueBuf[] = new char[size];
 
         for (int i = 0; i < size; i++)
@@ -40,16 +38,14 @@ public class Client
     }
 
     // Create a simple ArrayListNode (custom marshaled) with a large
-    // data value.  Make it's next array support two links, but don't
+    // data value. Make it's next array support two links, but don't
     // give them any values.
     //
-    // Fails at fragment size 160.  Seems to have something to do with
-    // reading the Any (Anys are used when marshaling arrays).  TypeCodes
+    // Fails at fragment size 160. Seems to have something to do with
+    // reading the Any (Anys are used when marshaling arrays). TypeCodes
     // may assume something about the CDR buffer that is no longer valid
     // now that we fragment.
-    public static void testArrayListNodeFailure1(Verifier verifier)
-        throws RemoteException, Exception
-    {
+    public static void testArrayListNodeFailure1(Verifier verifier) throws RemoteException, Exception {
         System.out.println("---- Testing ArrayListNode Failure 1 ----");
 
         ArrayListNode a = new ArrayListNode();
@@ -57,7 +53,7 @@ public class Client
         a.data = Client.createLargeString(1024, 'A');
         a.next = new java.lang.Object[2];
 
-        ArrayListNode result = (ArrayListNode)verifier.verifyTransmission(a);
+        ArrayListNode result = (ArrayListNode) verifier.verifyTransmission(a);
 
         if (!a.data.equals(result.data))
             throw new Exception("result.data isn't equal to a.data");
@@ -65,17 +61,15 @@ public class Client
         System.out.println("---- Successful ----");
     }
 
-    // This is just a little harder than test 1.  Create two ArrayListNodes
-    // with large data values.  Give the first a link to the second.
+    // This is just a little harder than test 1. Create two ArrayListNodes
+    // with large data values. Give the first a link to the second.
     //
     // Fails at fragment sizes 32, 64, and 160.
     //
     // These are really scary failures because the ORB level doesn't throw
-    // exceptions.  It delivers data, but it's not the same as what was
+    // exceptions. It delivers data, but it's not the same as what was
     // sent!
-    public static void testArrayListNodeFailure2(Verifier verifier)
-        throws RemoteException, Exception
-    {
+    public static void testArrayListNodeFailure2(Verifier verifier) throws RemoteException, Exception {
         System.out.println("---- Testing ArrayListNode Failure 2 ----");
 
         ArrayListNode a = new ArrayListNode();
@@ -88,20 +82,18 @@ public class Client
         b.next = null;
         a.next[0] = b;
 
-        ArrayListNode result = (ArrayListNode)verifier.verifyTransmission(a);
+        ArrayListNode result = (ArrayListNode) verifier.verifyTransmission(a);
 
         if (!a.data.equals(result.data))
             throw new Exception("result.data isn't equal to a.data");
 
-        if (!b.data.equals(((ArrayListNode)result.next[0]).data))
+        if (!b.data.equals(((ArrayListNode) result.next[0]).data))
             throw new Exception("result.next.data isn't equal to b.data");
 
         System.out.println("---- Successful ----");
     }
 
-    public static void testComplexHashtable(Verifier verifier)
-        throws RemoteException, Exception
-    {
+    public static void testComplexHashtable(Verifier verifier) throws RemoteException, Exception {
         System.out.println("---- Testing Complex Hashtable ----");
 
         Node a = Node.createNode(1024, 'A');
@@ -120,7 +112,7 @@ public class Client
         a.links.add(e);
 
         String aStr = "A";
-        //        String bStr = "B";
+        // String bStr = "B";
 
         String bStr = new String(CharGenerator.getSomeUnicodeChars());
 
@@ -136,16 +128,16 @@ public class Client
         complex.put(dStr, d);
         complex.put(eStr, e);
 
-        Hashtable result = (Hashtable)verifier.verifyTransmission(complex);
+        Hashtable result = (Hashtable) verifier.verifyTransmission(complex);
 
         if (result.size() != complex.size())
             throw new Exception("Result has fewer items: " + result.size());
 
-        Node resA = (Node)result.get(aStr);
-        Node resB = (Node)result.get(bStr);
-        Node resC = (Node)result.get(cStr);
-        Node resD = (Node)result.get(dStr);
-        Node resE = (Node)result.get(eStr);
+        Node resA = (Node) result.get(aStr);
+        Node resB = (Node) result.get(bStr);
+        Node resC = (Node) result.get(cStr);
+        Node resD = (Node) result.get(dStr);
+        Node resE = (Node) result.get(eStr);
 
         if (!a.equals(resA))
             throw new Exception("result a != a");
@@ -159,8 +151,7 @@ public class Client
             throw new Exception("result e != e");
     }
 
-    public static void main(String args[])
-    {
+    public static void main(String args[]) {
         try {
 
             String fragmentSize = System.getProperty(com.sun.corba.ee.spi.misc.ORBConstants.GIOP_FRAGMENT_SIZE);
@@ -170,18 +161,15 @@ public class Client
 
             ORB orb = ORB.init(args, System.getProperties());
 
-            org.omg.CORBA.Object objRef =
-                orb.resolve_initial_references("NameService");
+            org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
             NamingContext ncRef = NamingContextHelper.narrow(objRef);
 
             NameComponent nc = new NameComponent("Verifier", "");
-            NameComponent path[] = {nc};
+            NameComponent path[] = { nc };
 
             org.omg.CORBA.Object obj = ncRef.resolve(path);
 
-            Verifier verifier =
-                (Verifier) PortableRemoteObject.narrow(obj,
-                                                       Verifier.class);
+            Verifier verifier = (Verifier) PortableRemoteObject.narrow(obj, Verifier.class);
 
             Client.testArrayListNodeFailure1(verifier);
             Client.testArrayListNodeFailure2(verifier);
@@ -189,7 +177,7 @@ public class Client
 
         } catch (Throwable t) {
             t.printStackTrace(System.out);
-            System.exit (1);
+            System.exit(1);
         }
     }
 }

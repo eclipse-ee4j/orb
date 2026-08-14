@@ -31,17 +31,14 @@ import corba.framework.CORBATest;
  * @author Harold Carr
  */
 public class IorIntSockFactTest extends CORBATest {
-    public static final String thisPackage =
-        IorIntSockFactTest.class.getPackage().getName();
+    public static final String thisPackage = IorIntSockFactTest.class.getPackage().getName();
 
     protected void doTest() throws Throwable {
-        Controller orbd   = createORBD();
+        Controller orbd = createORBD();
         orbd.start();
 
-        Controller server = createServer(thisPackage + "." + "Server",
-                                         "Server");
-        Controller client = createClient(thisPackage + "." + "Client",
-                                         "Client");
+        Controller server = createServer(thisPackage + "." + "Server", "Server");
+        Controller client = createClient(thisPackage + "." + "Client", "Client");
         server.start();
         client.start();
         client.waitFor();
@@ -52,4 +49,3 @@ public class IorIntSockFactTest extends CORBATest {
 }
 
 // End of file.
-

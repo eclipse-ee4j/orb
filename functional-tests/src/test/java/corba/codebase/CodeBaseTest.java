@@ -25,14 +25,12 @@ import java.util.*;
 import java.io.*;
 import com.sun.corba.ee.spi.orb.ORB;
 
-public class CodeBaseTest extends CORBATest
-{
+public class CodeBaseTest extends CORBATest {
     public static final String VALUE_DIR = "values";
     public static final String STUBTIE_DIR = "stubtie";
-    public static final String[] VALUES
-        = new String[] { "TestValue.java" };
+    public static final String[] VALUES = new String[] { "TestValue.java" };
 
-        protected void doTest() throws Throwable {
+    protected void doTest() throws Throwable {
 
         if (test.Test.useJavaSerialization()) {
             return;
@@ -40,12 +38,8 @@ public class CodeBaseTest extends CORBATest
 
         // Generate stubs and ties in the STUBTIE_DIR off of
         // the main output directory.
-        String stubTieDir = (new File(Options.getOutputDirectory()
-                                      + STUBTIE_DIR
-                                      + File.separator)).getAbsolutePath();
-        String valueDir = (new File(Options.getOutputDirectory()
-                                    + VALUE_DIR
-                                    + File.separator)).getAbsolutePath();
+        String stubTieDir = (new File(Options.getOutputDirectory() + STUBTIE_DIR + File.separator)).getAbsolutePath();
+        String valueDir = (new File(Options.getOutputDirectory() + VALUE_DIR + File.separator)).getAbsolutePath();
 
         String oldOutputDir = Options.getOutputDirectory();
 
@@ -64,20 +58,14 @@ public class CodeBaseTest extends CORBATest
         Options.setOutputDirectory(oldOutputDir);
 
         String oldClasspath = Options.getClasspath();
-        String cpWithAllClasses =
-            stubTieDir
-            + File.pathSeparator
-            + valueDir
-            + File.pathSeparator
-            + Options.getClasspath();
+        String cpWithAllClasses = stubTieDir + File.pathSeparator + valueDir + File.pathSeparator + Options.getClasspath();
 
         Controller orbd = createORBD();
         orbd.start();
 
         int webServerPort = Options.getUnusedPort().getValue();
 
-        Controller webServer = createWebServer(oldOutputDir,
-                                               webServerPort);
+        Controller webServer = createWebServer(oldOutputDir, webServerPort);
         webServer.start();
         Options.setClasspath(oldClasspath);
 
@@ -87,42 +75,30 @@ public class CodeBaseTest extends CORBATest
         Properties serverProps = Options.getServerProperties();
         Properties clientProps = Options.getClientProperties();
 
-        String baseURL = "http://localhost:"
-            + webServerPort
-            + "/";
+        String baseURL = "http://localhost:" + webServerPort + "/";
 
-        String fullCodeBase
-            = baseURL + STUBTIE_DIR + "/ "
-            + baseURL + VALUE_DIR + "/";
+        String fullCodeBase = baseURL + STUBTIE_DIR + "/ " + baseURL + VALUE_DIR + "/";
 
         // First test code downloading where the client downloads the
         // stub and value classes
         serverProps.put("java.rmi.server.codebase", fullCodeBase);
-        testDownloading(cpWithAllClasses,
-                        oldClasspath,
-                        false);
+        testDownloading(cpWithAllClasses, oldClasspath, false);
 
         // Now test code downloading where the server downloads the
         // value classes
 
-        // Note:  Giving server only the codebase so it can download
-        // the Tie.  It will get the info for how to download the
+        // Note: Giving server only the codebase so it can download
+        // the Tie. It will get the info for how to download the
         // valuetype from the client.
-        serverProps.put("java.rmi.server.codebase",
-                        baseURL + STUBTIE_DIR + "/");
+        serverProps.put("java.rmi.server.codebase", baseURL + STUBTIE_DIR + "/");
         clientProps.put("java.rmi.server.codebase", fullCodeBase);
-        testDownloading(cpWithAllClasses,
-                        oldClasspath,
-                        true);
+        testDownloading(cpWithAllClasses, oldClasspath, true);
 
         orbd.stop();
         webServer.stop();
     }
 
-    void testDownloading(String fullClasspath,
-                         String shortClasspath,
-                         boolean serverDownloading) throws Exception
-    {
+    void testDownloading(String fullClasspath, String shortClasspath, boolean serverDownloading) throws Exception {
         Controller server, client;
 
         Properties clientProps = Options.getClientProperties();
@@ -140,12 +116,10 @@ public class CodeBaseTest extends CORBATest
             Options.setClasspath(fullClasspath);
         }
 
-
-        Test.dprint("Testing code downloading by the "
-                    + (serverDownloading ? "server" : "client"));
+        Test.dprint("Testing code downloading by the " + (serverDownloading ? "server" : "client"));
 
         server.start();
-        client.start( );
+        client.start();
 
         // Note that the test framework will handle reporting if the overall
         // test failed since it will check the exit codes of the client and
@@ -159,10 +133,7 @@ public class CodeBaseTest extends CORBATest
         server.stop();
     }
 
-    public Controller createWebServer(String webRootDirectory,
-                                      int webServerPort)
-        throws Exception
-    {
+    public Controller createWebServer(String webRootDirectory, int webServerPort) throws Exception {
         Test.dprint("Creating WebServer object...");
 
         Controller executionStrategy;
@@ -171,37 +142,23 @@ public class CodeBaseTest extends CORBATest
         else
             executionStrategy = new ExternalExec();
 
-        Properties props = Options.getServerProperties() ;
-        int emmaPort = EmmaControl.setCoverageProperties( props ) ;
+        Properties props = Options.getServerProperties();
+        int emmaPort = EmmaControl.setCoverageProperties(props);
 
-        String args[] = new String[] {
-                             "-port",
-                             "" + webServerPort,
-                             "-docroot",
-                             webRootDirectory
-                             };
+        String args[] = new String[] { "-port", "" + webServerPort, "-docroot", webRootDirectory };
 
-        FileOutputDecorator exec =
-            new FileOutputDecorator(executionStrategy);
+        FileOutputDecorator exec = new FileOutputDecorator(executionStrategy);
 
         Hashtable extra = new Hashtable(1);
 
         // Make sure that starting the web server controller waits until the web server is ready
         extra.put(ExternalExec.HANDSHAKE_KEY, "Ready.");
 
-        exec.initialize("corba.codebase.WebServer",
-                        "WebServer",
-                        props,
-                        null,
-                        args,
-                        Options.getReportDirectory() + "webserver.out.txt",
-                        Options.getReportDirectory() + "webserver.err.txt",
-                        extra,
-                        emmaPort ) ;
+        exec.initialize("corba.codebase.WebServer", "WebServer", props, null, args, Options.getReportDirectory() + "webserver.out.txt",
+                Options.getReportDirectory() + "webserver.err.txt", extra, emmaPort);
 
         controllers.add(exec);
 
         return exec;
     }
 }
-

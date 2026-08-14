@@ -29,25 +29,14 @@ import javax.rmi.PortableRemoteObject;
 
 import corba.hcks.U;
 
-public class rmiiIServantConnect
-    extends
-        PortableRemoteObject
-    implements
-        rmiiI
-{
+public class rmiiIServantConnect extends PortableRemoteObject implements rmiiI {
     public static final String baseMsg = rmiiIServantConnect.class.getName();
 
-    public rmiiIServantConnect ()
-        throws
-            RemoteException
-    {
+    public rmiiIServantConnect() throws RemoteException {
         super();
     }
 
-    public String m(String x)
-        throws
-            RemoteException
-    {
+    public String m(String x) throws RemoteException {
         Server.checkThread(baseMsg);
         String result = Server.filter(x, baseMsg);
         U.sop(result);
@@ -56,4 +45,3 @@ public class rmiiIServantConnect
 }
 
 // End of file.
-

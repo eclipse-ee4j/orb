@@ -25,5 +25,6 @@ import java.rmi.RemoteException;
 
 public interface MangleMethodsFail2 extends Remote {
     boolean getBar() throws RemoteException;
+
     boolean isBar() throws RemoteException;
 }

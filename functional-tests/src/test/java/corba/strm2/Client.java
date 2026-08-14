@@ -26,8 +26,7 @@ import javax.rmi.PortableRemoteObject;
 import javax.naming.*;
 import javax.rmi.*;
 
-public class Client
-{
+public class Client {
     public static String getDescription() {
         return createTestObject().getDescription();
     }
@@ -35,13 +34,13 @@ public class Client
     public static Testable createTestObject() {
         try {
             Class testObjectClass = Class.forName("TestObject");
-            return (Testable)testObjectClass.newInstance();
+            return (Testable) testObjectClass.newInstance();
         } catch (Exception ex) {
             throw new RuntimeException("Couldn't create TestObject", ex);
         }
     }
 
-    private static InitialContext rootContext ;
+    private static InitialContext rootContext;
 
     public static void main(String[] args) {
         try {
@@ -52,22 +51,15 @@ public class Client
 
                 String version = Versions.testableVersions[i];
 
-                System.out.println("Client with Testable "
-                                   + getDescription()
-                                   + " looking up server "
-                                   + version);
+                System.out.println("Client with Testable " + getDescription() + " looking up server " + version);
 
-                Tester tester = (Tester)PortableRemoteObject.narrow(rootContext.lookup(version),
-                                                                    Tester.class);
+                Tester tester = (Tester) PortableRemoteObject.narrow(rootContext.lookup(version), Tester.class);
 
                 if (!version.equals(tester.getDescription()))
-                    throw new Exception("Version in naming doesn't match Tester.  "
-                                        + version);
+                    throw new Exception("Version in naming doesn't match Tester.  " + version);
 
-                System.out.println("Client with Testable "
-                                   + getDescription()
-                                   + " verifying with server with Testable "
-                                   + tester.getDescription());
+                System.out.println(
+                        "Client with Testable " + getDescription() + " verifying with server with Testable " + tester.getDescription());
 
                 Testable t = createTestObject();
 
@@ -96,5 +88,3 @@ public class Client
         }
     }
 }
-
-

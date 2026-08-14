@@ -26,8 +26,8 @@ public class Platypus implements java.io.Serializable {
 
     public int typedef;
     public int _fred;
-    public int a$b;                                                 //$ is \U0024
-    public int x\u03bCy;                                    // \u03bc is Greek mu
+    public int a$b; // $ is \U0024
+    public int x\u03bCy; // \u03bc is Greek mu
 
     public java.lang.Object anObject;
     public java.lang.Class aClass;

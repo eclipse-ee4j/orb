@@ -22,16 +22,16 @@ package javax.rmi.download;
 
 public class ServantImpl implements Servant {
 
-    public String EchoSingleRemoteInterface() throws java.rmi.RemoteException{
+    public String EchoSingleRemoteInterface() throws java.rmi.RemoteException {
         return "EchoSingleRemoteInterface";
     }
 
-    public TheValue getValue() throws java.rmi.RemoteException{
-        try{
+    public TheValue getValue() throws java.rmi.RemoteException {
+        try {
             String url = System.getProperty("java.rmi.server.codebase");
-            return (TheValue)java.rmi.server.RMIClassLoader.loadClass(new java.net.URL(url),"javax.rmi.download.values.TheValueImpl").newInstance();
-        }
-        catch(Throwable t){
+            return (TheValue) java.rmi.server.RMIClassLoader.loadClass(new java.net.URL(url), "javax.rmi.download.values.TheValueImpl")
+                    .newInstance();
+        } catch (Throwable t) {
             java.io.CharArrayWriter cw = new java.io.CharArrayWriter();
             t.printStackTrace(new java.io.PrintWriter(cw));
 
@@ -52,11 +52,10 @@ public class ServantImpl implements Servant {
     }
 
     public String passClass(Class clz) throws java.rmi.RemoteException {
-        return "Name:"+clz.getName();
+        return "Name:" + clz.getName();
     }
 
-    public java.lang.Object testWriteReadObject(java.lang.Object o)
-        throws java.rmi.RemoteException {
+    public java.lang.Object testWriteReadObject(java.lang.Object o) throws java.rmi.RemoteException {
         return o;
     }
 

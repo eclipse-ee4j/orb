@@ -22,7 +22,8 @@ package alpha.bravo;
 
 public interface Mammal {
 
-    public int getSize( long arg );
+    public int getSize(long arg);
+
     int a = 2;
     public final static int b = 3;
 

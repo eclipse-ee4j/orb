@@ -23,8 +23,7 @@ package javax.rmi.CORBA.serialization;
 import java.util.*;
 import java.io.*;
 
-public class ComplexTestObjectTwo implements Serializable
-{
+public class ComplexTestObjectTwo implements Serializable {
     static Random r = new Random();
     transient public int fInt;
     transient public long fLong;
@@ -33,78 +32,60 @@ public class ComplexTestObjectTwo implements Serializable
     transient public String fString;
     transient public ComplexTestObjectOne fOne = null;
 
-    public ComplexTestObjectTwo()
-    {
+    public ComplexTestObjectTwo() {
         fInt = r.nextInt();
         fLong = r.nextLong();
         fFloat = r.nextFloat();
         fDouble = r.nextDouble();
-        fString = new String(fInt +""+ fLong +""+ fFloat +""+ fDouble);
+        fString = new String(fInt + "" + fLong + "" + fFloat + "" + fDouble);
         fOne = new ComplexTestObjectOne();
     }
 
-    public boolean equals(Object o)
-    {
-        try
-            {
-                ComplexTestObjectTwo ctbo = (ComplexTestObjectTwo)o;
-                return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) &&
-                        (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat) && (ctbo.fDouble == fDouble)
-                        && (ctbo.fOne.equals(fOne))
-                        );
-            }
-        catch(Exception e)
-            {
-                return false;
-            }
+    public boolean equals(Object o) {
+        try {
+            ComplexTestObjectTwo ctbo = (ComplexTestObjectTwo) o;
+            return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) && (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat)
+                    && (ctbo.fDouble == fDouble) && (ctbo.fOne.equals(fOne)));
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    public String toString()
-    {
-        return new String("fInt="+fInt+"; fLong="+fLong+"; fFloat="+fFloat+"; fDouble="+fDouble+"; fString="+fString);
+    public String toString() {
+        return new String("fInt=" + fInt + "; fLong=" + fLong + "; fFloat=" + fFloat + "; fDouble=" + fDouble + "; fString=" + fString);
     }
 
     /**
      * Serialize out to output stream.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException
-    {
-        try
-            {
-                s.writeInt(fInt);
-                s.writeLong(fLong);
-                s.writeFloat(fFloat);
-                s.writeDouble(fDouble);
-                s.writeObject(fString);
-                s.writeObject(fOne);
-            }
-        catch(IOException e)
-            {
-                throw e;
-            }
+    private void writeObject(ObjectOutputStream s) throws IOException {
+        try {
+            s.writeInt(fInt);
+            s.writeLong(fLong);
+            s.writeFloat(fFloat);
+            s.writeDouble(fDouble);
+            s.writeObject(fString);
+            s.writeObject(fOne);
+        } catch (IOException e) {
+            throw e;
+        }
     }
 
     /**
      * Serialize in from input stream.
      */
-    private void readObject(ObjectInputStream s) throws IOException,
-    ClassNotFoundException
-    {
-        try
-            {
-                fInt = s.readInt();
-                fLong = s.readLong();
-                fFloat = s.readFloat();
-                fDouble = s.readDouble();
-                fString = (String)s.readObject();
-                fOne = (ComplexTestObjectOne)s.readObject();
-            }
-        catch(IOException e)
-            {
-                throw e;
-            }
+    private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
+        try {
+            fInt = s.readInt();
+            fLong = s.readLong();
+            fFloat = s.readFloat();
+            fDouble = s.readDouble();
+            fString = (String) s.readObject();
+            fOne = (ComplexTestObjectOne) s.readObject();
+        } catch (IOException e) {
+            throw e;
+        }
 
     }
 
 }
-

@@ -25,61 +25,47 @@ import org.omg.PortableInterceptor.*;
 /**
  * Strategy to test response_expected()
  */
-public class OneWayStrategy
-    extends InterceptorStrategy
-{
+public class OneWayStrategy extends InterceptorStrategy {
 
-    public void receive_request_service_contexts (
-        SampleServerRequestInterceptor interceptor, ServerRequestInfo ri)
-        throws ForwardRequest
-    {
-        super.receive_request_service_contexts( interceptor, ri );
+    public void receive_request_service_contexts(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) throws ForwardRequest {
+        super.receive_request_service_contexts(interceptor, ri);
 
         try {
-            checkResponseExpected( "rrsc", ri );
-        }
-        catch( Exception e ) {
-            failException( "rrsc", e );
+            checkResponseExpected("rrsc", ri);
+        } catch (Exception e) {
+            failException("rrsc", e);
         }
     }
 
-    public void receive_request (
-        SampleServerRequestInterceptor interceptor, ServerRequestInfo ri)
-    {
-        super.receive_request( interceptor, ri );
+    public void receive_request(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) {
+        super.receive_request(interceptor, ri);
 
         try {
-            checkResponseExpected( "receive_request", ri );
-        }
-        catch( Exception e ) {
-            failException( "receive_request", e );
+            checkResponseExpected("receive_request", ri);
+        } catch (Exception e) {
+            failException("receive_request", e);
         }
     }
 
-    public void send_reply (
-        SampleServerRequestInterceptor interceptor, ServerRequestInfo ri)
-    {
-        super.send_reply( interceptor, ri );
+    public void send_reply(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) {
+        super.send_reply(interceptor, ri);
 
         try {
-            checkResponseExpected( "send_reply", ri );
-        }
-        catch( Exception e ) {
-            failException( "send_reply", e );
+            checkResponseExpected("send_reply", ri);
+        } catch (Exception e) {
+            failException("send_reply", e);
         }
     }
 
-
-    private void checkResponseExpected( String method, ServerRequestInfo ri ) {
+    private void checkResponseExpected(String method, ServerRequestInfo ri) {
         String operationName = ri.operation();
         boolean responseExpected = ri.response_expected();
-        boolean validExpected = !operationName.equals( "sayOneway" );
+        boolean validExpected = !operationName.equals("sayOneway");
 
-        log( method + "(): Operation " + operationName +
-             ", response expected = " + responseExpected );
+        log(method + "(): Operation " + operationName + ", response expected = " + responseExpected);
 
-        if( responseExpected != validExpected ) {
-            fail( "response_expected() invalid for this operation." );
+        if (responseExpected != validExpected) {
+            fail("response_expected() invalid for this operation.");
         }
     }
 

@@ -27,26 +27,16 @@ package corba.acceptorandcontactinfo;
 import corba.framework.Controller;
 import corba.framework.CORBATest;
 
-public class AcceptorAndContactInfoTest
-    extends
-        CORBATest
-{
-    public static final String thisPackage =
-        AcceptorAndContactInfoTest.class.getPackage().getName();
+public class AcceptorAndContactInfoTest extends CORBATest {
+    public static final String thisPackage = AcceptorAndContactInfoTest.class.getPackage().getName();
 
-    protected void doTest()
-        throws
-            Throwable
-    {
-        Controller orbd   = createORBD();
+    protected void doTest() throws Throwable {
+        Controller orbd = createORBD();
         orbd.start();
 
-        doTestType("Server", "Server",
-                   "Client", "Client");
+        doTestType("Server", "Server", "Client", "Client");
 
-        Controller colocatedClientServer =
-            createClient(thisPackage + ".ColocatedClientServer",
-                         "colocatedClientServer");
+        Controller colocatedClientServer = createClient(thisPackage + ".ColocatedClientServer", "colocatedClientServer");
         colocatedClientServer.start();
         colocatedClientServer.waitFor();
         colocatedClientServer.stop();
@@ -54,17 +44,12 @@ public class AcceptorAndContactInfoTest
         orbd.stop();
     }
 
-    protected void doTestType(String serverMainClass, String serverTestName,
-                              String clientMainClass, String clientTestName)
-        throws
-            Throwable
-    {
-        Controller server = createServer(thisPackage + "." + serverMainClass,
-                                         serverTestName);
+    protected void doTestType(String serverMainClass, String serverTestName, String clientMainClass, String clientTestName)
+            throws Throwable {
+        Controller server = createServer(thisPackage + "." + serverMainClass, serverTestName);
         server.start();
 
-        Controller client = createClient(thisPackage + "." + clientMainClass,
-                                         clientTestName);
+        Controller client = createClient(thisPackage + "." + clientMainClass, clientTestName);
         client.start();
         client.waitFor();
         client.stop();
@@ -74,4 +59,3 @@ public class AcceptorAndContactInfoTest
 }
 
 // End of file.
-

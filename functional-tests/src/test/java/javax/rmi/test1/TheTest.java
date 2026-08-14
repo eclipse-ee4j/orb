@@ -33,16 +33,15 @@ import org.glassfish.pfl.test.JUnitReportHelper;
 
 public class TheTest extends test.Test {
     // This test runs its own NameServer on Util.TEST1_NAME_SERVER_PORT.
-    private static  String[] myArgs = new String[]{"-ORBInitialPort" , Util.TEST1_NAME_SERVER_PORT };
+    private static String[] myArgs = new String[] { "-ORBInitialPort", Util.TEST1_NAME_SERVER_PORT };
 
-    public  void run() {
-        JUnitReportHelper helper = new JUnitReportHelper(
-            this.getClass().getName() ) ;
+    public void run() {
+        JUnitReportHelper helper = new JUnitReportHelper(this.getClass().getName());
 
-        String testName     = new TheTest().getClass().getName();
-        Process nameServer  = null;
-        Process server      = null;
-        boolean testPassed  = true;
+        String testName = new TheTest().getClass().getName();
+        Process nameServer = null;
+        Process server = null;
+        boolean testPassed = true;
 
         try {
             // First Compile the classes to generate the Stub and Tie
@@ -55,44 +54,40 @@ public class TheTest extends test.Test {
             // our test server. The test server will register
             // with the NameServer.
 
-            nameServer  = Util.startNameServer(Util.TEST1_NAME_SERVER_PORT,true);
-            server      = Util.startServer("javax.rmi.test1.TheServer");
+            nameServer = Util.startNameServer(Util.TEST1_NAME_SERVER_PORT, true);
+            server = Util.startServer("javax.rmi.test1.TheServer");
 
             // Lets setup some properties that we are using
             // for this test and then create the ORB Object...
 
             Properties props = System.getProperties();
 
-            props.put(  "java.naming.factory.initial",
-                        JndiConstants.COSNAMING_CONTEXT_FACTORY);
+            props.put("java.naming.factory.initial", JndiConstants.COSNAMING_CONTEXT_FACTORY);
 
-            props.put(  "org.omg.CORBA.ORBClass",
-                        "com.sun.corba.ee.impl.orb.ORBImpl");
+            props.put("org.omg.CORBA.ORBClass", "com.sun.corba.ee.impl.orb.ORBImpl");
 
-            props.put(  "org.omg.CORBA.ORBSingletonClass",
-                        "com.sun.corba.ee.impl.orb.ORBSingleton");
+            props.put("org.omg.CORBA.ORBSingletonClass", "com.sun.corba.ee.impl.orb.ORBSingleton");
 
             ORB orb = ORB.init(myArgs, props);
 
             // We are going to use JNDI/CosNaming so lets go ahead and
-            // create our root naming context.  NOTE:  We setup CosNaming
+            // create our root naming context. NOTE: We setup CosNaming
             // as our naming plug-in for JNDI by setting properties above.
             Hashtable env = new Hashtable();
-            env.put(  "java.naming.corba.orb", orb);
+            env.put("java.naming.corba.orb", orb);
 
             Context ic = new InitialContext(env);
 
             // Let the test begin...
-            helper.start( "test1" ) ;
+            helper.start("test1");
             // Resolve the Object Reference using JNDI/CosNaming
-            java.lang.Object objref  = ic.lookup("TheTestServer");
+            java.lang.Object objref = ic.lookup("TheTestServer");
 
             // This test is designed to verify PortableRemoteObject.narrow
 
             try {
                 RemoteInterface1 narrowTo = null;
-                if ( (narrowTo = (RemoteInterface1)
-                      PortableRemoteObject.narrow(objref,RemoteInterface1.class)) != null ) {
+                if ((narrowTo = (RemoteInterface1) PortableRemoteObject.narrow(objref, RemoteInterface1.class)) != null) {
                     if (!narrowTo.EchoRemoteInterface1().equals("EchoRemoteInterface1")) {
                         throw new Exception("javax.rmi.test1.TheTest: EchoRemoteInterface1() narrow failed");
                     }
@@ -103,11 +98,9 @@ public class TheTest extends test.Test {
                 testPassed = false;
             }
 
-
             try {
                 RemoteInterface2 narrowTo = null;
-                if ( (narrowTo = (RemoteInterface2)
-                      PortableRemoteObject.narrow(objref,RemoteInterface2.class)) != null ) {
+                if ((narrowTo = (RemoteInterface2) PortableRemoteObject.narrow(objref, RemoteInterface2.class)) != null) {
                     if (!narrowTo.EchoRemoteInterface2().equals("EchoRemoteInterface2")) {
                         throw new Exception("javax.rmi.test1.TheTest: EchoRemoteInterface2() narrow failed");
                     }
@@ -120,8 +113,7 @@ public class TheTest extends test.Test {
 
             try {
                 RemoteInterface3 narrowTo = null;
-                if ( (narrowTo = (RemoteInterface3)
-                      PortableRemoteObject.narrow(objref,RemoteInterface3.class)) != null ) {
+                if ((narrowTo = (RemoteInterface3) PortableRemoteObject.narrow(objref, RemoteInterface3.class)) != null) {
                     if (!narrowTo.EchoRemoteInterface3().equals("EchoRemoteInterface3")) {
                         throw new Exception("javax.rmi.test1.TheTest: EchoRemoteInterface3() narrow failed");
                     }
@@ -134,8 +126,7 @@ public class TheTest extends test.Test {
 
             try {
                 SingleRemoteInterface narrowTo = null;
-                if ( (narrowTo = (SingleRemoteInterface)
-                      PortableRemoteObject.narrow(objref,SingleRemoteInterface.class)) != null ) {
+                if ((narrowTo = (SingleRemoteInterface) PortableRemoteObject.narrow(objref, SingleRemoteInterface.class)) != null) {
                     if (!narrowTo.EchoSingleRemoteInterface().equals("EchoSingleRemoteInterface")) {
                         throw new Exception("javax.rmi.test1.TheTest: SingleRemoteInterface() narrow failed");
                     }
@@ -162,25 +153,24 @@ public class TheTest extends test.Test {
             }
         }
 
-        if ( testPassed == true ) {
-            helper.pass() ;
+        if (testPassed == true) {
+            helper.pass();
             status = null;
         } else {
-            helper.fail( "test failed" ) ;
+            helper.fail("test failed");
             status = new Error("PortableRemoteObject.narrow Test Failed");
         }
 
-        helper.done() ;
+        helper.done();
     }
 
     // Compiling ComboInterface cause the compiler to compile
     // all the other classes that need to be compiled.
 
-    private  void compileClasses () throws Exception
-    {
+    private void compileClasses() throws Exception {
         String arg = "-iiop";
         String[] additionalArgs = null;
-        String[] classes = {"javax.rmi.test1.ComboInterfaceImpl"};
+        String[] classes = { "javax.rmi.test1.ComboInterfaceImpl" };
 
         // Create the additional args array...
 
@@ -188,7 +178,7 @@ public class TheTest extends test.Test {
         int length = 3;
         Hashtable flags = getArgs();
         if (flags.containsKey(test.Test.OUTPUT_DIRECTORY)) {
-            outputDirectory = (String)flags.get(test.Test.OUTPUT_DIRECTORY);
+            outputDirectory = (String) flags.get(test.Test.OUTPUT_DIRECTORY);
             length += 2;
         }
         additionalArgs = new String[length];
@@ -204,6 +194,6 @@ public class TheTest extends test.Test {
 
         // Run rmic...
 
-        Util.rmic(arg,additionalArgs,classes,false);
+        Util.rmic(arg, additionalArgs, classes, false);
     }
 }

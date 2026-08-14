@@ -23,8 +23,7 @@ import org.omg.PortableServer.*;
 import org.omg.CORBA.*;
 import org.omg.CosNaming.*;
 
-public class Server extends TesterPOA
-{
+public class Server extends TesterPOA {
     public String process(String input) {
         return input;
     }
@@ -34,7 +33,7 @@ public class Server extends TesterPOA
             ORB orb = ORB.init(args, System.getProperties());
 
             // Get rootPOA
-            POA rootPOA = (POA)orb.resolve_initial_references("RootPOA");
+            POA rootPOA = (POA) orb.resolve_initial_references("RootPOA");
             rootPOA.the_POAManager().activate();
 
             // create servant and register it with the ORB
@@ -43,13 +42,12 @@ public class Server extends TesterPOA
             byte[] id = rootPOA.activate_object(server);
 
             // get the root naming context
-            org.omg.CORBA.Object objRef =
-                orb.resolve_initial_references("NameService");
+            org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
             NamingContext ncRef = NamingContextHelper.narrow(objRef);
 
             // bind the Object Reference in Naming
             NameComponent nc = new NameComponent("Tester", "");
-            NameComponent path[] = {nc};
+            NameComponent path[] = { nc };
 
             org.omg.CORBA.Object ref = rootPOA.id_to_reference(id);
 
@@ -57,7 +55,7 @@ public class Server extends TesterPOA
 
             // Emit the handshake the test framework expects
             // (can be changed in Options by the running test)
-            System.out.println ("Server is ready.");
+            System.out.println("Server is ready.");
 
             // Wait for clients
             orb.run();
@@ -68,4 +66,3 @@ public class Server extends TesterPOA
         }
     }
 }
-

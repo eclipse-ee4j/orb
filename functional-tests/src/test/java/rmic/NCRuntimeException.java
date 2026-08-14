@@ -19,6 +19,7 @@
  */
 
 package rmic;
+
 public class NCRuntimeException extends java.lang.RuntimeException {
     char J_foo;
     char _foo;

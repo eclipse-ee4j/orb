@@ -35,11 +35,7 @@ public class MsgTypesTest extends CORBATest {
 
     private int errors = 0; // keeps the error count
 
-    private void printBeginTest(int clientVersion,
-                                int clientStrategy,
-                                int serverVersion,
-                                int serverStrategy)
-    {
+    private void printBeginTest(int clientVersion, int clientStrategy, int serverVersion, int serverStrategy) {
         StringBuilder output = new StringBuilder(80);
 
         // Pleasing aesthetics
@@ -57,9 +53,7 @@ public class MsgTypesTest extends CORBATest {
         System.out.print(output.toString());
     }
 
-    private String testName( boolean isServer,
-        int clientVersion, int clientStrategy, int serverVersion, int serverStrategy)
-    {
+    private String testName(boolean isServer, int clientVersion, int clientStrategy, int serverVersion, int serverStrategy) {
         StringBuilder output = new StringBuilder(80);
 
         output.append(GIOP_version[clientVersion]);
@@ -70,16 +64,15 @@ public class MsgTypesTest extends CORBATest {
         output.append("_");
         output.append(GIOP_strategy[serverStrategy]);
         if (isServer) {
-            output.append( "_server" ) ;
+            output.append("_server");
         } else {
-            output.append( "_client" ) ;
+            output.append("_client");
         }
 
-        return output.toString() ;
+        return output.toString();
     }
 
-    private void printEndTest(String result)
-    {
+    private void printEndTest(String result) {
         System.out.println(result);
     }
 
@@ -91,8 +84,7 @@ public class MsgTypesTest extends CORBATest {
         System.out.println(output.toString());
     }
 
-    protected void doTest() throws Throwable
-    {
+    protected void doTest() throws Throwable {
         // Pleasing aesthetics
         System.out.println();
 
@@ -114,7 +106,7 @@ public class MsgTypesTest extends CORBATest {
 
         runHeaderPaddingTest();
 
-        System.out.print("      Test result : " );
+        System.out.print("      Test result : ");
 
         if (errors > 0)
             throw new Exception("Errors detected");
@@ -141,25 +133,31 @@ public class MsgTypesTest extends CORBATest {
                 runTest(client_strategy, i, server_strategy, j);
 
                 if (GIOP_version[j].equals("1.1") && server_strategy == GROW) {
-                    server_strategy = STREAM; j--;
+                    server_strategy = STREAM;
+                    j--;
                 } else if (GIOP_version[j].equals("1.2") && server_strategy == STREAM) {
-                    server_strategy = GROW; j--;
+                    server_strategy = GROW;
+                    j--;
                 }
             }
 
             if (GIOP_version[i].equals("1.1") && client_strategy == GROW) {
-                client_strategy = COLLECT; i--;
+                client_strategy = COLLECT;
+                i--;
             } else if (GIOP_version[i].equals("1.2") && client_strategy == COLLECT) {
-                client_strategy = STREAM; i--;
+                client_strategy = STREAM;
+                i--;
             } else if (GIOP_version[i].equals("1.2") && client_strategy == STREAM) {
-                client_strategy = GROW; i--;
+                client_strategy = GROW;
+                i--;
             }
         }
     }
 
     private void runTest(int client_strategy, int client_version, int server_strategy, int server_version) throws Exception {
         // skip non-longer support COLLECT strategy tests
-        if (client_strategy == COLLECT || server_strategy == COLLECT) return;
+        if (client_strategy == COLLECT || server_strategy == COLLECT)
+            return;
 
         printBeginTest(client_version, client_strategy, server_version, server_strategy);
 
@@ -170,9 +168,9 @@ public class MsgTypesTest extends CORBATest {
         // serverProps.put(ORBConstants.DEBUG_PROPERTY, "transport,subcontract" ) ;
 
         Controller server = createServer("corba.msgtypes.Server",
-            testName( true, client_version, client_strategy, server_version, server_strategy));
+                testName(true, client_version, client_strategy, server_version, server_strategy));
         Controller client = createClient("corba.msgtypes.Client",
-            testName( false, client_version, client_strategy, server_version, server_strategy));
+                testName(false, client_version, client_strategy, server_version, server_strategy));
 
         server.start();
         client.start();
@@ -181,8 +179,7 @@ public class MsgTypesTest extends CORBATest {
 
         if (client.exitValue() != Controller.SUCCESS) {
             errors++;
-            printEndTest("LocateMsgTest FAILED, Client exit value = " +
-                         client.exitValue());
+            printEndTest("LocateMsgTest FAILED, Client exit value = " + client.exitValue());
         } else {
             if (server.finished()) {
                 errors++;
@@ -203,8 +200,8 @@ public class MsgTypesTest extends CORBATest {
         Properties clientProps = Options.getClientProperties();
         clientProps.put(ORBConstants.GIOP_FRAGMENT_SIZE, "" + fragmentSize);
 
-        Controller server = createServer("corba.msgtypes.Server", "runEarlyReply" );
-        Controller client = createClient("corba.msgtypes.Client", "runEarlyReply" );
+        Controller server = createServer("corba.msgtypes.Server", "runEarlyReply");
+        Controller client = createClient("corba.msgtypes.Client", "runEarlyReply");
 
         server.start();
         client.start();
@@ -213,8 +210,7 @@ public class MsgTypesTest extends CORBATest {
 
         if (client.exitValue() != Controller.SUCCESS) {
             errors++;
-            printFinishedTest("EarlyReplyTest FAILED, Client exit value = " +
-                         client.exitValue());
+            printFinishedTest("EarlyReplyTest FAILED, Client exit value = " + client.exitValue());
         } else {
             if (server.finished()) {
                 errors++;
@@ -236,8 +232,8 @@ public class MsgTypesTest extends CORBATest {
         Properties clientProps = Options.getClientProperties();
         clientProps.put(ORBConstants.GIOP_FRAGMENT_SIZE, "" + fragmentSize);
 
-        Controller server = createServer("corba.msgtypes.Server", "runSimpleCancelRequest" );
-        Controller client = createClient("corba.msgtypes.Client", "runSimpleCancelRequest" );
+        Controller server = createServer("corba.msgtypes.Server", "runSimpleCancelRequest");
+        Controller client = createClient("corba.msgtypes.Client", "runSimpleCancelRequest");
 
         server.start();
         client.start();
@@ -246,8 +242,7 @@ public class MsgTypesTest extends CORBATest {
 
         if (client.exitValue() != Controller.SUCCESS) {
             errors++;
-            printFinishedTest("SimpleCancelRqstTest FAILED, Client exit value = " +
-                         client.exitValue());
+            printFinishedTest("SimpleCancelRqstTest FAILED, Client exit value = " + client.exitValue());
         } else {
             if (server.finished()) {
                 errors++;
@@ -269,8 +264,8 @@ public class MsgTypesTest extends CORBATest {
         Properties clientProps = Options.getClientProperties();
         clientProps.put(ORBConstants.GIOP_FRAGMENT_SIZE, "" + fragmentSize);
 
-        Controller server = createServer("corba.msgtypes.Server", "runAbortiveCancelRequest1" );
-        Controller client = createClient("corba.msgtypes.Client", "runAbortiveCancelRequest1" );
+        Controller server = createServer("corba.msgtypes.Server", "runAbortiveCancelRequest1");
+        Controller client = createClient("corba.msgtypes.Client", "runAbortiveCancelRequest1");
 
         server.start();
         client.start();
@@ -279,8 +274,7 @@ public class MsgTypesTest extends CORBATest {
 
         if (client.exitValue() != Controller.SUCCESS) {
             errors++;
-            printFinishedTest("AbortiveCancelRqTest1 FAILED, Client exit value = " +
-                         client.exitValue());
+            printFinishedTest("AbortiveCancelRqTest1 FAILED, Client exit value = " + client.exitValue());
         } else {
             if (server.finished()) {
                 errors++;
@@ -303,13 +297,11 @@ public class MsgTypesTest extends CORBATest {
         clientProps.put(ORBConstants.GIOP_FRAGMENT_SIZE, "" + fragmentSize);
 
         Properties serverProps = Options.getServerProperties();
-        serverProps.put("org.omg.CORBA.ORBClass",
-                        "com.sun.corba.ee.impl.orb.ORBImpl");
-        serverProps.put("org.omg.PortableInterceptor.ORBInitializerClass." +
-                  "corba.msgtypes.Server", "true");
+        serverProps.put("org.omg.CORBA.ORBClass", "com.sun.corba.ee.impl.orb.ORBImpl");
+        serverProps.put("org.omg.PortableInterceptor.ORBInitializerClass." + "corba.msgtypes.Server", "true");
 
-        Controller server = createServer("corba.msgtypes.Server", "runAbortiveCancelRequest2" );
-        Controller client = createClient("corba.msgtypes.Client", "runAbortiveCancelRequest2" );
+        Controller server = createServer("corba.msgtypes.Server", "runAbortiveCancelRequest2");
+        Controller client = createClient("corba.msgtypes.Client", "runAbortiveCancelRequest2");
 
         server.start();
         client.start();
@@ -318,8 +310,7 @@ public class MsgTypesTest extends CORBATest {
 
         if (client.exitValue() != Controller.SUCCESS) {
             errors++;
-            printFinishedTest("AbortiveCancelRqTest2 FAILED, Client exit value = " +
-                         client.exitValue());
+            printFinishedTest("AbortiveCancelRqTest2 FAILED, Client exit value = " + client.exitValue());
         } else {
             if (server.finished()) {
                 errors++;
@@ -340,22 +331,16 @@ public class MsgTypesTest extends CORBATest {
         int fragmentSize = 1024;
         Properties clientProps = Options.getClientProperties();
         clientProps.put(ORBConstants.GIOP_FRAGMENT_SIZE, "" + fragmentSize);
-        clientProps.put(ORBConstants.GIOP_TARGET_ADDRESSING,
-                  "" + ORBConstants.ADDR_DISP_IOR);
-        clientProps.put("org.omg.CORBA.ORBClass",
-                        "com.sun.corba.ee.impl.orb.ORBImpl");
-        clientProps.put("org.omg.PortableInterceptor.ORBInitializerClass." +
-                  "corba.msgtypes.Client", "true");
+        clientProps.put(ORBConstants.GIOP_TARGET_ADDRESSING, "" + ORBConstants.ADDR_DISP_IOR);
+        clientProps.put("org.omg.CORBA.ORBClass", "com.sun.corba.ee.impl.orb.ORBImpl");
+        clientProps.put("org.omg.PortableInterceptor.ORBInitializerClass." + "corba.msgtypes.Client", "true");
 
         Properties serverProps = Options.getServerProperties();
-        serverProps.put("org.omg.CORBA.ORBClass",
-                        "com.sun.corba.ee.impl.orb.ORBImpl");
-        serverProps.put("org.omg.PortableInterceptor.ORBInitializerClass." +
-                  "corba.msgtypes.Server", "true");
-        serverProps.put(ORBConstants.GIOP_TARGET_ADDRESSING,
-                  "" + ORBConstants.ADDR_DISP_OBJKEY);
-        Controller server = createServer("corba.msgtypes.Server", "runTargetAddressDisp" );
-        Controller client = createClient("corba.msgtypes.Client", "runTargetAddressDisp" );
+        serverProps.put("org.omg.CORBA.ORBClass", "com.sun.corba.ee.impl.orb.ORBImpl");
+        serverProps.put("org.omg.PortableInterceptor.ORBInitializerClass." + "corba.msgtypes.Server", "true");
+        serverProps.put(ORBConstants.GIOP_TARGET_ADDRESSING, "" + ORBConstants.ADDR_DISP_OBJKEY);
+        Controller server = createServer("corba.msgtypes.Server", "runTargetAddressDisp");
+        Controller client = createClient("corba.msgtypes.Client", "runTargetAddressDisp");
 
         server.start();
         client.start();
@@ -364,8 +349,7 @@ public class MsgTypesTest extends CORBATest {
 
         if (client.exitValue() != Controller.SUCCESS) {
             errors++;
-            printFinishedTest("TargetAddrDisposition FAILED, Client exit value = " +
-                         client.exitValue());
+            printFinishedTest("TargetAddrDisposition FAILED, Client exit value = " + client.exitValue());
         } else {
             if (server.finished()) {
                 errors++;
@@ -387,8 +371,8 @@ public class MsgTypesTest extends CORBATest {
         Properties clientProps = Options.getClientProperties();
         clientProps.put(ORBConstants.GIOP_FRAGMENT_SIZE, "" + fragmentSize);
 
-        Controller server = createServer("corba.msgtypes.Server", "runCloseConnection" );
-        Controller client = createClient("corba.msgtypes.Client", "runCloseConnection" );
+        Controller server = createServer("corba.msgtypes.Server", "runCloseConnection");
+        Controller client = createClient("corba.msgtypes.Client", "runCloseConnection");
 
         server.start();
         client.start();
@@ -397,8 +381,7 @@ public class MsgTypesTest extends CORBATest {
 
         if (client.exitValue() != Controller.SUCCESS) {
             errors++;
-            printFinishedTest("CloseConnectionTest FAILED, Client exit value = " +
-                         client.exitValue());
+            printFinishedTest("CloseConnectionTest FAILED, Client exit value = " + client.exitValue());
         } else {
             if (server.finished()) {
                 errors++;
@@ -420,8 +403,8 @@ public class MsgTypesTest extends CORBATest {
         Properties clientProps = Options.getClientProperties();
         clientProps.put(ORBConstants.GIOP_FRAGMENT_SIZE, "" + fragmentSize);
 
-        Controller server = createServer("corba.msgtypes.Server", "runMessageError" );
-        Controller client = createClient("corba.msgtypes.Client", "runMessageError" );
+        Controller server = createServer("corba.msgtypes.Server", "runMessageError");
+        Controller client = createClient("corba.msgtypes.Client", "runMessageError");
 
         server.start();
         client.start();
@@ -430,8 +413,7 @@ public class MsgTypesTest extends CORBATest {
 
         if (client.exitValue() != Controller.SUCCESS) {
             errors++;
-            printFinishedTest("MessageErrorTest FAILED, Client exit value = " +
-                         client.exitValue());
+            printFinishedTest("MessageErrorTest FAILED, Client exit value = " + client.exitValue());
         } else {
             if (server.finished()) {
                 errors++;
@@ -453,8 +435,8 @@ public class MsgTypesTest extends CORBATest {
         Properties clientProps = Options.getClientProperties();
         clientProps.put(ORBConstants.GIOP_FRAGMENT_SIZE, "" + fragmentSize);
 
-        Controller server = createServer("corba.msgtypes.Server", "runGIOPInterop" );
-        Controller client = createClient("corba.msgtypes.Client", "runGIOPInterop" );
+        Controller server = createServer("corba.msgtypes.Server", "runGIOPInterop");
+        Controller client = createClient("corba.msgtypes.Client", "runGIOPInterop");
 
         server.start();
         client.start();
@@ -463,8 +445,7 @@ public class MsgTypesTest extends CORBATest {
 
         if (client.exitValue() != Controller.SUCCESS) {
             errors++;
-            printFinishedTest("GIOPInteropTest FAILED, Client exit value = " +
-                         client.exitValue());
+            printFinishedTest("GIOPInteropTest FAILED, Client exit value = " + client.exitValue());
         } else {
             if (server.finished()) {
                 errors++;
@@ -486,8 +467,8 @@ public class MsgTypesTest extends CORBATest {
         Properties serverProps = Options.getServerProperties();
         serverProps.put(ORBConstants.GIOP_FRAGMENT_SIZE, "" + fragmentSize);
 
-        Controller server = createServer("corba.msgtypes.Server", "runFragmentedReply" );
-        Controller client = createClient("corba.msgtypes.Client", "runFragmentedReply" );
+        Controller server = createServer("corba.msgtypes.Server", "runFragmentedReply");
+        Controller client = createClient("corba.msgtypes.Client", "runFragmentedReply");
 
         server.start();
         client.start();
@@ -496,8 +477,7 @@ public class MsgTypesTest extends CORBATest {
 
         if (client.exitValue() != Controller.SUCCESS) {
             errors++;
-            printFinishedTest("FragmentedReplyTest FAILED, Client exit value = "
-                         + client.exitValue());
+            printFinishedTest("FragmentedReplyTest FAILED, Client exit value = " + client.exitValue());
         } else {
             if (server.finished()) {
                 errors++;
@@ -511,14 +491,14 @@ public class MsgTypesTest extends CORBATest {
         server.stop();
     }
 
-    private static final boolean NO_HEADER_PADDING_TEST = true ;
+    private static final boolean NO_HEADER_PADDING_TEST = true;
 
     // This test always passes, EXCEPT when run in the full test suite on hudson.
     // I am disabling the tests due to inability to reproduce the failure in a
     // debuggable context.
     public void runHeaderPaddingTest() throws Throwable {
         if (NO_HEADER_PADDING_TEST) {
-            return ;
+            return;
         }
 
         Options.getClientArgs().clear();
@@ -528,8 +508,8 @@ public class MsgTypesTest extends CORBATest {
         clientProps.put(ORBConstants.GIOP_VERSION, GIOP_version[2]);
         clientProps.put(ORBConstants.GIOP_12_BUFFMGR, "" + GROW);
 
-        Controller server = createServer("corba.msgtypes.Server", "runHeaderPaddingTest" );
-        Controller client = createClient("corba.msgtypes.Client", "runHeaderPaddingTest" );
+        Controller server = createServer("corba.msgtypes.Server", "runHeaderPaddingTest");
+        Controller client = createClient("corba.msgtypes.Client", "runHeaderPaddingTest");
 
         server.start();
         client.start();
@@ -538,8 +518,7 @@ public class MsgTypesTest extends CORBATest {
 
         if (client.exitValue() != Controller.SUCCESS) {
             errors++;
-            printFinishedTest("HeaderPaddingTest FAILED, Client exit value = "
-                         + client.exitValue());
+            printFinishedTest("HeaderPaddingTest FAILED, Client exit value = " + client.exitValue());
         } else {
             if (server.finished()) {
                 errors++;
@@ -554,4 +533,3 @@ public class MsgTypesTest extends CORBATest {
     }
 
 }
-

@@ -30,36 +30,28 @@ import org.omg.CosNaming.*;
 /**
  * @author Harold Carr
  */
-public abstract class Common
-{
+public abstract class Common {
     //
     // Object Adapter names.
     //
 
-    public static final String RFM_WITH_ADDRESSES_WITH_LABEL =
-        "TEST_RFM_WITH_ADDRESSES_WITH_LABEL";
+    public static final String RFM_WITH_ADDRESSES_WITH_LABEL = "TEST_RFM_WITH_ADDRESSES_WITH_LABEL";
 
-    public static final String RFM_WITH_ADDRESSES_WITHOUT_LABEL =
-        "#INTERNAL#RFM_WITH_ADDRESSES_WITHOUT_LABEL#INTERNAL#";
+    public static final String RFM_WITH_ADDRESSES_WITHOUT_LABEL = "#INTERNAL#RFM_WITH_ADDRESSES_WITHOUT_LABEL#INTERNAL#";
 
-    public static final String POA_WITH_ADDRESSES_WITH_LABEL =
-        "#INTERNAL#POA_WITH_ADDRESSES_WITH_LABEL#INTERNAL#";
+    public static final String POA_WITH_ADDRESSES_WITH_LABEL = "#INTERNAL#POA_WITH_ADDRESSES_WITH_LABEL#INTERNAL#";
 
     //
     // Names for bound references.
     //
 
-    public static final String TEST_RFM_WITH_ADDRESSES_WITH_LABEL =
-        "TEST_RFM_WITH_ADDRESSES_WITH_LABEL";
+    public static final String TEST_RFM_WITH_ADDRESSES_WITH_LABEL = "TEST_RFM_WITH_ADDRESSES_WITH_LABEL";
 
-    public static final String TEST_RFM_WITH_ADDRESSES_WITHOUT_LABEL =
-        "TEST_RFM_WITH_ADDRESSES_WITHOUT_LABEL";
+    public static final String TEST_RFM_WITH_ADDRESSES_WITHOUT_LABEL = "TEST_RFM_WITH_ADDRESSES_WITHOUT_LABEL";
 
-    public static final String GIS_POA_WITHOUT_ADDRESSES_WITHOUT_LABEL =
-        "GIS_POA_WITHOUT_ADDRESSES_WITHOUT_LABEL";
+    public static final String GIS_POA_WITHOUT_ADDRESSES_WITHOUT_LABEL = "GIS_POA_WITHOUT_ADDRESSES_WITHOUT_LABEL";
 
-    public static final String GIS_POA_WITH_ADDRESSES_WITH_LABEL =
-        "GIS_POA_WITH_ADDRESSES_WITH_LABEL";
+    public static final String GIS_POA_WITH_ADDRESSES_WITH_LABEL = "GIS_POA_WITH_ADDRESSES_WITH_LABEL";
 }
 
 // End of file.

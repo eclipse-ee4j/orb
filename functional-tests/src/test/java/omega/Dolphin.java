@@ -20,4 +20,5 @@
 
 package omega;
 
-public class Dolphin implements java.io.Serializable{}
+public class Dolphin implements java.io.Serializable {
+}

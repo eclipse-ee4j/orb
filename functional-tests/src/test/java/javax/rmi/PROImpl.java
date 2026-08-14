@@ -27,29 +27,29 @@ import java.rmi.RemoteException;
 
 public class PROImpl extends PortableRemoteObject implements PROHello {
 
-    public PROImpl () throws RemoteException {
+    public PROImpl() throws RemoteException {
         super();
     }
 
-    public String sayHello () throws RemoteException {
+    public String sayHello() throws RemoteException {
         return HELLO;
     }
 
-    public Dog getDogValue () throws RemoteException {
-        return new DogImpl ("Bow wow!");
+    public Dog getDogValue() throws RemoteException {
+        return new DogImpl("Bow wow!");
     }
 
-    public Dog getDogServer () throws RemoteException {
-        return new DogServer ("Yip Yip Yip!");
+    public Dog getDogServer() throws RemoteException {
+        return new DogServer("Yip Yip Yip!");
     }
 
-    public void unexport () throws RemoteException {
+    public void unexport() throws RemoteException {
         PortableRemoteObject.unexportObject(this);
     }
 
-    private static InitialContext context ;
+    private static InitialContext context;
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
 
         // args[0] == 'iiop' || 'jrmp'
         // args[1] == publishName
@@ -62,11 +62,11 @@ public class PROImpl extends PortableRemoteObject implements PROHello {
                 System.getProperties().put("java.naming.factory.initial", JndiConstants.REGISTRY_CONTEXT_FACTORY);
             }
 
-            context = new InitialContext ();
-            context.rebind (args[1], new PROImpl());
+            context = new InitialContext();
+            context.rebind(args[1], new PROImpl());
 
         } catch (Exception e) {
-            System.out.println ("Caught: " + e.getMessage());
+            System.out.println("Caught: " + e.getMessage());
         }
     }
 }

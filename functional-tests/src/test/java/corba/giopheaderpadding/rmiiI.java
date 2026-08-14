@@ -29,8 +29,8 @@ import java.rmi.RemoteException;
 
 public interface rmiiI extends Remote {
     byte fooA(byte x) throws RemoteException;
+
     void fooB() throws RemoteException;
 }
 
 // End of file.
-

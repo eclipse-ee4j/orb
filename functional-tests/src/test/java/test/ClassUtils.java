@@ -29,52 +29,54 @@ import java.io.IOException;
 import java.util.StringTokenizer;
 
 /**
- * ClassUtils provides miscellaneous static utility methods related to
- * classes and their packages.
+ * ClassUtils provides miscellaneous static utility methods related to classes and their packages.
+ * 
  * @author Bryan Atsatt
  */
 
 public class ClassUtils {
 
     /**
-     * Return the directory which contains a given class (either .java or .class).
-     * Uses the current system classpath.
+     * Return the directory which contains a given class (either .java or .class). Uses the current system classpath.
+     * 
      * @param className Fully qualified class name.
-     * @param requireFile True if .class or .java file must be found. False if
-     * ok to return a directory which does not contain file.
+     * @param requireFile True if .class or .java file must be found. False if ok to return a directory which does not
+     * contain file.
      * @return the directory or null if none found (or zipped).
      */
-    public static File packageDirectory (String className, boolean requireFile) {
+    public static File packageDirectory(String className, boolean requireFile) {
         ClassPath path = new ClassPath(System.getProperty("java.class.path"));
-        File result = packageDirectory(className,path,requireFile);
+        File result = packageDirectory(className, path, requireFile);
         try {
             path.close();
-        } catch (IOException e) {}
+        } catch (IOException e) {
+        }
 
         return result;
     }
 
     /**
      * Return the directory which contains a given class (either .java or .class).
+     * 
      * @param className Fully qualified class name.
      * @param path the class path.
-     * @param requireFile True if .class or .java file must be found. False if
-     * ok to return a directory which does not contain file.
+     * @param requireFile True if .class or .java file must be found. False if ok to return a directory which does not
+     * contain file.
      * @return the directory or null if none found (or zipped).
      */
-    public static File packageDirectory (String className, ClassPath path, boolean requireFile) {
+    public static File packageDirectory(String className, ClassPath path, boolean requireFile) {
 
         // Try binary first, then source, then directory...
 
-        File result = packageDirectory(className,path,".class");
+        File result = packageDirectory(className, path, ".class");
         if (result == null) {
-            result = packageDirectory(className,path,".java");
+            result = packageDirectory(className, path, ".java");
             if (result == null && !requireFile) {
                 int i = className.lastIndexOf('.');
                 if (i >= 0) {
-                    String packageName = className.substring(0,i);
-                    ClassFile cls = path.getDirectory(packageName.replace('.',File.separatorChar));
-                    if (cls != null && ! cls.isZipped()) {
+                    String packageName = className.substring(0, i);
+                    ClassFile cls = path.getDirectory(packageName.replace('.', File.separatorChar));
+                    if (cls != null && !cls.isZipped()) {
                         result = new File(cls.getPath());
                     }
                 }
@@ -87,11 +89,10 @@ public class ClassUtils {
         if (!dirPath.endsWith(File.separator)) {
             dirPath = dirPath + File.separator;
         }
-        StringTokenizer st = new StringTokenizer(path,"\t\n\r"+File.pathSeparator);
+        StringTokenizer st = new StringTokenizer(path, "\t\n\r" + File.pathSeparator);
         while (st.hasMoreTokens()) {
             String entry = st.nextToken();
-            if (!entry.endsWith(".zip") &&
-                !entry.endsWith(".jar")) {
+            if (!entry.endsWith(".zip") && !entry.endsWith(".jar")) {
 
                 if (entry.equals(".")) {
                     return true;
@@ -109,11 +110,11 @@ public class ClassUtils {
         return false;
     }
 
-    private static File packageDirectory (String className, ClassPath path, String fileExt) {
+    private static File packageDirectory(String className, ClassPath path, String fileExt) {
 
-        ClassFile cls = path.getFile(className.replace('.',File.separatorChar) + fileExt);
+        ClassFile cls = path.getFile(className.replace('.', File.separatorChar) + fileExt);
 
-        if (cls != null && ! cls.isZipped()) {
+        if (cls != null && !cls.isZipped()) {
             File file = new File(cls.getPath());
             File dir = new File(file.getParent());
             return dir;
@@ -122,4 +123,3 @@ public class ClassUtils {
         return null;
     }
 }
-

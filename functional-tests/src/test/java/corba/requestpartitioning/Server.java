@@ -40,25 +40,20 @@ import org.omg.PortableServer.POAHelper;
 // Last Modified: 2004 June 2, 2004 by Charlie Hunt
 //
 
-public class Server
-{
+public class Server {
     private static ORB orb = null;
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         Properties props = System.getProperties();
-        try
-        {
-            orb = (ORB)org.omg.CORBA.ORB.init(args, props);
+        try {
+            orb = (ORB) org.omg.CORBA.ORB.init(args, props);
 
             // set custom thread pool manager
-            ThreadPoolManager threadPoolManager =
-                          TestThreadPoolManager.getThreadPoolManager();
+            ThreadPoolManager threadPoolManager = TestThreadPoolManager.getThreadPoolManager();
             orb.setThreadPoolManager(threadPoolManager);
 
             // Get a reference to rootpoa
-            POA rootPOA = POAHelper.narrow(
-                   orb.resolve_initial_references(ORBConstants.ROOT_POA_NAME));
+            POA rootPOA = POAHelper.narrow(orb.resolve_initial_references(ORBConstants.ROOT_POA_NAME));
 
             // Create servant and register it with the ORB
             TesterImpl testerImpl = new TesterImpl();
@@ -68,8 +63,7 @@ public class Server
                 Policy policy[] = new Policy[1];
                 policy[0] = new RequestPartitioningPolicy(-1);
                 throw new Exception("new RequestPartitionPolicy(-1) was not rejected when it should have been!");
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 U.sop("Received expected exception...");
             }
             U.sop("Creating a request partitioning policy with 64...");
@@ -77,13 +71,11 @@ public class Server
                 Policy policy[] = new Policy[1];
                 policy[0] = new RequestPartitioningPolicy(64);
                 throw new Exception("new RequestPartitionPolicy(64) was not rejected when it should have been!");
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 U.sop("Received expected exception...");
             }
 
-            org.omg.CORBA.Object objRef =
-                             orb.resolve_initial_references("NameService");
+            org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
             NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
             NameComponent[] path = null;
 
@@ -96,8 +88,7 @@ public class Server
                 poa[i] = rootPOA.create_POA(poaName, null, policy);
                 poa[i].activate_object(testerImpl);
 
-                org.omg.CORBA.Object ref =
-                       poa[i].servant_to_reference(testerImpl);
+                org.omg.CORBA.Object ref = poa[i].servant_to_reference(testerImpl);
                 Tester testerRef = TesterHelper.narrow(ref);
 
                 String name = "Tester" + i;
@@ -111,8 +102,7 @@ public class Server
             String specialPoaName = "POA-Default-Tester";
             POA specialPoa = rootPOA.create_POA(specialPoaName, null, null);
             specialPoa.activate_object(testerImpl);
-            org.omg.CORBA.Object sref =
-                       specialPoa.servant_to_reference(testerImpl);
+            org.omg.CORBA.Object sref = specialPoa.servant_to_reference(testerImpl);
             Tester specialTesterRef = TesterHelper.narrow(sref);
             String sname = "DefaultTester";
             path = ncRef.to_name(sname);

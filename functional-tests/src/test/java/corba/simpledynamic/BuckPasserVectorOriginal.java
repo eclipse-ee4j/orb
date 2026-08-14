@@ -17,7 +17,7 @@
  * Classpath-exception-2.0
  */
 
-package corba.simpledynamic ;
+package corba.simpledynamic;
 
 public class BuckPasserVectorOriginal extends java.util.Vector {
 }

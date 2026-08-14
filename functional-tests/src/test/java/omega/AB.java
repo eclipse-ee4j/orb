@@ -22,8 +22,11 @@ package omega;
 
 public class AB implements A, B {
 
-    public void a() {}
-    public void b() {}
+    public void a() {
+    }
+
+    public void b() {
+    }
 
     // public void a() throws java.rmi.RemoteException {}
     // public void b() throws java.rmi.RemoteException {}

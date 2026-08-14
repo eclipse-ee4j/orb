@@ -29,4 +29,3 @@ public interface Tester extends Remote {
     Testable verify(Testable input) throws RemoteException;
 
 }
-

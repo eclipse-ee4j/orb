@@ -25,12 +25,17 @@ import org.omg.CORBA.portable.IDLEntity;
 
 public class ProcessorImpl extends PortableRemoteObject implements Processor {
 
-    public ProcessorImpl() throws RemoteException {}
+    public ProcessorImpl() throws RemoteException {
+    }
 
     // Fails since the import statement specifies
     // the original portable InputStream
-    public IDLEntity testIDLEntity(IDLEntity input) { return input; }
+    public IDLEntity testIDLEntity(IDLEntity input) {
+        return input;
+    }
 
     // Works since a local 2.3 InputStream is defined
-    public TestInterface testInterface(TestInterface input) { return input; }
+    public TestInterface testInterface(TestInterface input) {
+        return input;
+    }
 }

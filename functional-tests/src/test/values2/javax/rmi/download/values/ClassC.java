@@ -24,16 +24,16 @@ public class ClassC extends ClassA {
     private static final long serialVersionUID = 123156789L;
     private int e, f;
 
-    public ClassC(){
+    public ClassC() {
         e = 56;
         f = 1;
     }
 
-    public long getTotal(){
-        return  super.getTotal() + e + f;
+    public long getTotal() {
+        return super.getTotal() + e + f;
     }
 
-    public long getOriginalTotal(){
+    public long getOriginalTotal() {
         return super.getOriginalTotal() + 56 + 1;
     }
 }

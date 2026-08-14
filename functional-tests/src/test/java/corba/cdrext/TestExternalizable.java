@@ -21,19 +21,16 @@ package corba.cdrext;
 
 import java.io.*;
 
-public class TestExternalizable implements Externalizable
-{
+public class TestExternalizable implements Externalizable {
     private long data1;
     private String data2;
     private int data3;
     private char data4;
 
-    public TestExternalizable() {}
+    public TestExternalizable() {
+    }
 
-    public TestExternalizable(long data1,
-                              String data2,
-                              int data3,
-                              char data4) {
+    public TestExternalizable(long data1, String data2, int data3, char data4) {
         this.data1 = data1;
         this.data2 = data2;
         this.data3 = data3;
@@ -45,14 +42,9 @@ public class TestExternalizable implements Externalizable
             if (obj == null)
                 return false;
 
-            TestExternalizable other
-                = (TestExternalizable)obj;
+            TestExternalizable other = (TestExternalizable) obj;
 
-            return (data1 == other.data1 &&
-                    (data2 == null ||
-                     data2.equals(other.data2)) &&
-                    data3 == other.data3 &&
-                    data4 == other.data4);
+            return (data1 == other.data1 && (data2 == null || data2.equals(other.data2)) && data3 == other.data3 && data4 == other.data4);
         } catch (ClassCastException cce) {
             return false;
         }
@@ -71,18 +63,16 @@ public class TestExternalizable implements Externalizable
         out.writeChar(data4);
     }
 
-    public void readExternal(ObjectInput in)
-        throws IOException, ClassNotFoundException {
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 
         data1 = in.readLong();
 
-        String data2_obj = (String)in.readObject();
+        String data2_obj = (String) in.readObject();
         String data2_utf = in.readUTF();
 
         if (data2_obj == null && data2_obj != data2_utf)
             throw new IOException("data2_obj null mismatch");
-        else
-        if (data2_obj != null && !data2_obj.equals(data2_utf))
+        else if (data2_obj != null && !data2_obj.equals(data2_utf))
             throw new IOException("data2_obj data2_utf mismatch");
 
         data2 = data2_obj;

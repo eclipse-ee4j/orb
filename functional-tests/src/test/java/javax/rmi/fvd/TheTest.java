@@ -35,93 +35,87 @@ import org.glassfish.pfl.test.JUnitReportHelper;
 public class TheTest extends test.Test {
     // This test runs its own NameServer on Util.FVD_NAME_SERVER_PORT.
 
-    private static  String[] myArgs = new String[]{"-ORBInitialPort" , Util.FVD_NAME_SERVER_PORT };
-    static Process nameServer  = null;
-    static Process server      = null;
-    static Process client      = null;
+    private static String[] myArgs = new String[] { "-ORBInitialPort", Util.FVD_NAME_SERVER_PORT };
+    static Process nameServer = null;
+    static Process server = null;
+    static Process client = null;
 
     public void setup() {
         try {
-            nameServer  = Util.startNameServer(Util.FVD_NAME_SERVER_PORT,true);
+            nameServer = Util.startNameServer(Util.FVD_NAME_SERVER_PORT, true);
         } catch (IOException e) {
             System.out.println("Failed to start the name server: " + e);
         }
         try {
             // Now we need to start our test server. The test server will register with the NameServer.
             compileClasses();
-        } catch(Throwable t) {
-            System.out.println("Compiling classes failed : "+t.toString());
+        } catch (Throwable t) {
+            System.out.println("Compiling classes failed : " + t.toString());
         }
     }
 
-    public  void run() {
-        String testName     = TheTest.class.getName();
-        JUnitReportHelper helper = new JUnitReportHelper( testName ) ;
-        helper.start( "test1" ) ;
-        boolean testPassed  = true;
+    public void run() {
+        String testName = TheTest.class.getName();
+        JUnitReportHelper helper = new JUnitReportHelper(testName);
+        helper.start("test1");
+        boolean testPassed = true;
 
         try {
             // First Compile the classes to generate the Stub and Tie
-            // files that are needed.  NOTE: This requires the latest
+            // files that are needed. NOTE: This requires the latest
             // RMIC compiler that supports IIOP.
 
             // Create user.dir property (this is how the server knows
             // where the test value is but we (this client) does not).
             Vector properties = new Vector();
             String testPolicy = System.getProperty("java.security.policy");
-            if (testPolicy!=null)
-                properties.addElement("-Djava.security.policy="+testPolicy);
-
+            if (testPolicy != null)
+                properties.addElement("-Djava.security.policy=" + testPolicy);
 
             // Start it
             String valueClasses = getClassesDirectory("values");
-            server = Util.startServer("javax.rmi.fvd.TheServer",
-                                      properties, valueClasses);
+            server = Util.startServer("javax.rmi.fvd.TheServer", properties, valueClasses);
 
             // Lets setup some properties that we are using
             // for this test and then create the ORB Object...
             Properties props = System.getProperties();
 
-            props.put(  "java.naming.factory.initial",
-                        JndiConstants.COSNAMING_CONTEXT_FACTORY);
+            props.put("java.naming.factory.initial", JndiConstants.COSNAMING_CONTEXT_FACTORY);
 
-            props.put(  "org.omg.CORBA.ORBClass",
-                        "com.sun.corba.ee.impl.orb.ORBImpl");
+            props.put("org.omg.CORBA.ORBClass", "com.sun.corba.ee.impl.orb.ORBImpl");
 
-            props.put(  "org.omg.CORBA.ORBSingletonClass",
-                        "com.sun.corba.ee.impl.orb.ORBSingleton");
+            props.put("org.omg.CORBA.ORBSingletonClass", "com.sun.corba.ee.impl.orb.ORBSingleton");
 
             ORB orb = ORB.init(myArgs, props);
 
             // We are going to use JNDI/CosNaming so lets go ahead and
-            // create our root naming context.  NOTE:  We setup CosNaming
+            // create our root naming context. NOTE: We setup CosNaming
             // as our naming plug-in for JNDI by setting properties above.
             Hashtable env = new Hashtable();
-            env.put(  "java.naming.corba.orb", orb);
+            env.put("java.naming.corba.orb", orb);
             Context ic = new InitialContext(env);
 
             // Let the test begin...
             // Resolve the Object Reference using JNDI/CosNaming
-            java.lang.Object objref  = ic.lookup("TheFVDTestServer");
+            java.lang.Object objref = ic.lookup("TheFVDTestServer");
 
             // This test is designed to verify PortableRemoteObject.narrow
 
-            try{
+            try {
                 // Now try from separate client that has no codebase of its own
 
                 Vector properties2 = new Vector();
-                properties.addElement("-Djava.security.policy="+testPolicy);
+                properties.addElement("-Djava.security.policy=" + testPolicy);
 
                 // Start it
-                client = Util.startServer("javax.rmi.fvd.TheClient",
-                    properties, getClassesDirectory("values2"));
+                client = Util.startServer("javax.rmi.fvd.TheClient", properties, getClassesDirectory("values2"));
 
-                helper.pass() ;
+                helper.pass();
             } catch (Throwable ex) {
                 System.out.println(testName + " FAILED.");
                 ex.printStackTrace();
                 testPassed = false;
-                helper.fail( ex ) ;
+                helper.fail(ex);
             }
         } catch (Throwable ex) {
             // Throwable, not Exception: a failed handshake surfaces as an Error, which
@@ -129,7 +123,7 @@ public class TheTest extends test.Test {
             System.out.println(testName + " FAILED.");
             ex.printStackTrace();
             testPassed = false;
-            helper.fail( ex ) ;
+            helper.fail(ex);
         } finally {
             // Kill the processes before anything that can throw, so a name server is
             // never left holding its port against the tests that run after this one.
@@ -149,17 +143,17 @@ public class TheTest extends test.Test {
                 nameServer.destroy();
             }
 
-            helper.done() ;
+            helper.done();
         }
 
-        if ( testPassed == true ) {
+        if (testPassed == true) {
             status = null;
         } else {
             status = new Error("FullValueDescription Test Failed");
         }
     }
 
-    public static void shutdown(){
+    public static void shutdown() {
         if (client != null) {
             client.destroy();
             client = null;
@@ -178,10 +172,10 @@ public class TheTest extends test.Test {
 
     // Compiling ComboInterface causes the compiler to compile
     // all the other classes that need to be compiled.
-    private  void compileClasses () throws Exception {
+    private void compileClasses() throws Exception {
         String arg = "-iiop";
         String[] additionalArgs = null;
-        String[] classes = {"javax.rmi.fvd.ServantImpl", "javax.rmi.fvd.LogImpl"};
+        String[] classes = { "javax.rmi.fvd.ServantImpl", "javax.rmi.fvd.LogImpl" };
 
         // Create the additional args array...
 
@@ -189,7 +183,7 @@ public class TheTest extends test.Test {
         int length = 3;
         Hashtable flags = getArgs();
         if (flags.containsKey(test.Test.OUTPUT_DIRECTORY)) {
-            outputDirectory = (String)flags.get(test.Test.OUTPUT_DIRECTORY);
+            outputDirectory = (String) flags.get(test.Test.OUTPUT_DIRECTORY);
             length += 2;
         }
         additionalArgs = new String[length];
@@ -205,6 +199,6 @@ public class TheTest extends test.Test {
 
         // Run rmic...
 
-        Util.rmic(arg,additionalArgs,classes,false);
+        Util.rmic(arg, additionalArgs, classes, false);
     }
 }

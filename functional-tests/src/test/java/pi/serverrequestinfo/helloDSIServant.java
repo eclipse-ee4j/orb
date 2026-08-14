@@ -37,19 +37,16 @@ class helloDSIServant extends org.omg.PortableServer.DynamicImplementation {
 
     public static String[] __ids = { "IDL:ServerRequestInfo/hello:1.0" };
 
-    public String[] _all_interfaces( POA poa, byte[] oid ) {
+    public String[] _all_interfaces(POA poa, byte[] oid) {
         return __ids;
     }
 
-    public helloDSIServant( ORB orb, PrintStream out, String symbol,
-        helloDelegate.ClientCallback clientCallback )
-    {
-        impl = new DSIImpl( orb, out, symbol, clientCallback );
+    public helloDSIServant(ORB orb, PrintStream out, String symbol, helloDelegate.ClientCallback clientCallback) {
+        impl = new DSIImpl(orb, out, symbol, clientCallback);
     }
 
-    public void invoke( ServerRequest r ) {
-        impl.invoke( r );
+    public void invoke(ServerRequest r) {
+        impl.invoke(r);
     }
 
 }
-

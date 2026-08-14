@@ -38,9 +38,7 @@ import java.rmi.*;
 import javax.rmi.*;
 import javax.naming.*;
 
-public abstract class RMIServer
-    extends ServerCommon
-{
+public abstract class RMIServer extends ServerCommon {
     InitialContext initialNamingContext;
 
     private static final String hello2Id = "qwerty";
@@ -48,33 +46,28 @@ public abstract class RMIServer
 
     private TestServantLocator servantLocator;
 
-    public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra)
-        throws Exception
-    {
+    public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         try {
-            out.println( "+ Creating Initial naming context..." );
+            out.println("+ Creating Initial naming context...");
             // Inform the JNDI provider of the ORB to use and create
             // initial naming context:
             Hashtable env = new Hashtable();
-            env.put( "java.naming.corba.orb", orb );
-            initialNamingContext = new InitialContext( env );
+            env.put("java.naming.corba.orb", orb);
+            initialNamingContext = new InitialContext(env);
 
             // Set up hello object:
-            out.println( "+ Creating and binding Hello1 object..." );
-            TestInitializer.helloRef = createAndBind( "Hello1",
-                                                      "[Hello1]" );
+            out.println("+ Creating and binding Hello1 object...");
+            TestInitializer.helloRef = createAndBind("Hello1", "[Hello1]");
 
-            out.println( "+ Creating and binding Hello1Forward object..." );
-            TestInitializer.helloRefForward = createAndBind( "Hello1Forward",
-                                                             "[Hello1Forward]" );
+            out.println("+ Creating and binding Hello1Forward object...");
+            TestInitializer.helloRefForward = createAndBind("Hello1Forward", "[Hello1Forward]");
 
             handshake();
 
             // Test ServerInterceptor
             testServerInterceptor();
         } finally {
-            finish() ;
+            finish();
 
             // Notify client it's time to exit.
             exitClient();
@@ -90,50 +83,35 @@ public abstract class RMIServer
     /**
      * Creates and binds a hello object using RMI
      */
-    public org.omg.CORBA.Object createAndBind ( String name,
-                                                String symbol )
-        throws Exception
-    {
+    public org.omg.CORBA.Object createAndBind(String name, String symbol) throws Exception {
         // create and register it with RMI
-        helloRMIIIOP obj = new helloRMIIIOP( out, symbol );
-        initialNamingContext.rebind( name, obj );
+        helloRMIIIOP obj = new helloRMIIIOP(out, symbol);
+        initialNamingContext.rebind(name, obj);
 
-        java.lang.Object o = initialNamingContext.lookup( name );
-        helloIF helloRef = (helloIF)PortableRemoteObject.narrow( o,
-            helloIF.class );
-        return (org.omg.CORBA.Object)helloRef;
+        java.lang.Object o = initialNamingContext.lookup(name);
+        helloIF helloRef = (helloIF) PortableRemoteObject.narrow(o, helloIF.class);
+        return (org.omg.CORBA.Object) helloRef;
     }
 
     /**
-     * Overridden from ServerCommon.  Oneway calls are not supported in RMI.
+     * Overridden from ServerCommon. Oneway calls are not supported in RMI.
      */
-    void testInvocation( String name,
-                         int mode,
-                         String correctOrder,
-                         String methodName,
-                         String correctMethodOrder,
-                         boolean exceptionExpected )
-        throws Exception
-    {
+    void testInvocation(String name, int mode, String correctOrder, String methodName, String correctMethodOrder, boolean exceptionExpected)
+            throws Exception {
         // Rebind each time so that location forward information is
-        // wiped out.  See CDRInputStream1_0 readObject.  This is necessary
+        // wiped out. See CDRInputStream1_0 readObject. This is necessary
         // because the local case will always return the exact same object
         // on the client side otherwise.
 
         // Set up hello object:
-        out.println( "+ Creating and binding Hello1 object..." );
-        TestInitializer.helloRef = createAndBind( "Hello1",
-                                                  "[Hello1]" );
+        out.println("+ Creating and binding Hello1 object...");
+        TestInitializer.helloRef = createAndBind("Hello1", "[Hello1]");
 
-        out.println( "+ Creating and binding Hello1Forward object..." );
-        TestInitializer.helloRefForward = createAndBind( "Hello1Forward",
-                                                         "[Hello1Forward]" );
+        out.println("+ Creating and binding Hello1Forward object...");
+        TestInitializer.helloRefForward = createAndBind("Hello1Forward", "[Hello1Forward]");
 
-
-        if( !methodName.equals( "sayOneway" ) ) {
-            super.testInvocation( name, mode, correctOrder, methodName,
-                                  correctMethodOrder, exceptionExpected );
+        if (!methodName.equals("sayOneway")) {
+            super.testInvocation(name, mode, correctOrder, methodName, correctMethodOrder, exceptionExpected);
         }
     }
 }
-

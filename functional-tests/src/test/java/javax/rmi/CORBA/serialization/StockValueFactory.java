@@ -20,7 +20,6 @@
 
 package javax.rmi.CORBA.serialization;
 
-public interface StockValueFactory extends org.omg.CORBA.portable.ValueFactory
-{
-  Stock create (String arg0);
+public interface StockValueFactory extends org.omg.CORBA.portable.ValueFactory {
+    Stock create(String arg0);
 }

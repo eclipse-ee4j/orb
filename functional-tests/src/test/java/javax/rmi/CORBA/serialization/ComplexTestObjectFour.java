@@ -23,8 +23,7 @@ package javax.rmi.CORBA.serialization;
 import java.util.*;
 import java.io.*;
 
-public class ComplexTestObjectFour implements Externalizable
-{
+public class ComplexTestObjectFour implements Externalizable {
     static Random r = new Random();
     int fInt;
     long fLong;
@@ -35,42 +34,31 @@ public class ComplexTestObjectFour implements Externalizable
     ComplexTestObjectOne fOne = null;
     ComplexTestObjectTwo fTwo = null;
 
-    public ComplexTestObjectFour()
-    {
+    public ComplexTestObjectFour() {
         fInt = r.nextInt();
         fLong = r.nextLong();
         fFloat = r.nextFloat();
         fDouble = r.nextDouble();
-        fString = new String(fInt +""+ fLong +""+ fFloat +""+ fDouble);
+        fString = new String(fInt + "" + fLong + "" + fFloat + "" + fDouble);
         fOne = new ComplexTestObjectOne();
         fTwo = new ComplexTestObjectTwo();
     }
 
-    public boolean equals(Object o)
-    {
-        try
-            {
-                ComplexTestObjectFour ctbo = (ComplexTestObjectFour)o;
-                return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) &&
-                        (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat) &&
-                        (ctbo.fDouble == fDouble)
-                        && (ctbo.fOne.equals(fOne))
-                        && (ctbo.fTwo.equals(fTwo))
-                        );
-            }
-        catch(Exception e)
-            {
-                return false;
-            }
+    public boolean equals(Object o) {
+        try {
+            ComplexTestObjectFour ctbo = (ComplexTestObjectFour) o;
+            return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) && (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat)
+                    && (ctbo.fDouble == fDouble) && (ctbo.fOne.equals(fOne)) && (ctbo.fTwo.equals(fTwo)));
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    public String toString()
-    {
-        return new String("fInt="+fInt+"; fLong="+fLong+"; fFloat="+fFloat+"; fDouble="+fDouble/*+"; fString="+fString*/);
+    public String toString() {
+        return new String("fInt=" + fInt + "; fLong=" + fLong + "; fFloat=" + fFloat + "; fDouble=" + fDouble/* +"; fString="+fString */);
     }
 
-    public void writeExternal(ObjectOutput out)
-        throws IOException {
+    public void writeExternal(ObjectOutput out) throws IOException {
         out.writeInt(fInt);
         out.writeLong(fLong);
         out.writeFloat(fFloat);
@@ -80,15 +68,14 @@ public class ComplexTestObjectFour implements Externalizable
         out.writeObject(fTwo);
     }
 
-    public void readExternal(ObjectInput in)
-        throws IOException, ClassNotFoundException {
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         fInt = in.readInt();
         fLong = in.readLong();
         fFloat = in.readFloat();
         fDouble = in.readDouble();
-        fString = (String)in.readObject();
-        fOne = (ComplexTestObjectOne)in.readObject();
-        fTwo = (ComplexTestObjectTwo)in.readObject();
+        fString = (String) in.readObject();
+        fOne = (ComplexTestObjectOne) in.readObject();
+        fTwo = (ComplexTestObjectTwo) in.readObject();
 
     }
 

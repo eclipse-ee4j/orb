@@ -27,28 +27,17 @@ package corba.connections;
 import corba.framework.Controller;
 import corba.framework.CORBATest;
 
-public class ConnectionsTest
-    extends
-        CORBATest
-{
-    public static final String thisPackage =
-        ConnectionsTest.class.getPackage().getName();
+public class ConnectionsTest extends CORBATest {
+    public static final String thisPackage = ConnectionsTest.class.getPackage().getName();
 
-    protected void doTest()
-        throws
-            Throwable
-    {
-        Controller orbd   = createORBD();
+    protected void doTest() throws Throwable {
+        Controller orbd = createORBD();
         orbd.start();
 
-        Controller server1 = createServer(thisPackage + "." + "Server1",
-                                         "Server1");
-        Controller server2 = createServer(thisPackage + "." + "Server2",
-                                         "Server2");
-        Controller client1 = createClient(thisPackage + "." + "Client1",
-                                         "Client1");
-        Controller client2 = createClient(thisPackage + "." + "Client2",
-                                         "Client2");
+        Controller server1 = createServer(thisPackage + "." + "Server1", "Server1");
+        Controller server2 = createServer(thisPackage + "." + "Server2", "Server2");
+        Controller client1 = createClient(thisPackage + "." + "Client1", "Client1");
+        Controller client2 = createClient(thisPackage + "." + "Client2", "Client2");
 
         server1.start();
         server2.start();
@@ -68,4 +57,3 @@ public class ConnectionsTest
 }
 
 // End of file.
-

@@ -24,7 +24,7 @@
 
 package corba.connectintercept_1_4;
 
-import java.util.Properties ;
+import java.util.Properties;
 
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.Policy;
@@ -33,23 +33,19 @@ import org.omg.PortableServer.POA;
 
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
-class ExIServant extends ExIPOA
-{
+class ExIServant extends ExIPOA {
     public ORB orb;
 
-    public ExIServant(ORB orb)
-    {
+    public ExIServant(ORB orb) {
         this.orb = orb;
     }
 
-    public String sayHello()
-    {
+    public String sayHello() {
         return "Hello world!";
     }
 }
 
-public class ServerCommon
-{
+public class ServerCommon {
     public static final String baseMsg = ServerCommon.class.getName();
 
     public static ORB orb;
@@ -60,9 +56,7 @@ public class ServerCommon
     // persistent and transient servers.
     public static boolean isTransient;
 
-
-    public static void main(String av[])
-    {
+    public static void main(String av[]) {
         if (av[0].equals(Common.Transient)) {
             isTransient = true;
         } else if (av[0].equals(Common.Persistent)) {
@@ -78,29 +72,22 @@ public class ServerCommon
 
             props.setProperty(Common.ORBClassKey, MyPIORB.class.getName());
 
-            props.setProperty(ORBConstants.PI_ORB_INITIALIZER_CLASS_PREFIX +
-                              ServerORBInitializer.class.getName(),
-                              "dummy");
+            props.setProperty(ORBConstants.PI_ORB_INITIALIZER_CLASS_PREFIX + ServerORBInitializer.class.getName(), "dummy");
 
-            props.setProperty(ORBConstants.LEGACY_SOCKET_FACTORY_CLASS_PROPERTY,
-                              Common.CUSTOM_FACTORY_CLASS);
+            props.setProperty(ORBConstants.LEGACY_SOCKET_FACTORY_CLASS_PROPERTY, Common.CUSTOM_FACTORY_CLASS);
 
             String value;
             if (isTransient) {
                 // It makes sense to assign specific ports for
                 // transient servers.
-                value =
-                    Common.MyType1 + ":" + Common.MyType1TransientPort + "," +
-                    Common.MyType2 + ":" + Common.MyType2TransientPort + "," +
-                    Common.MyType3 + ":" + Common.MyType3TransientPort;
+                value = Common.MyType1 + ":" + Common.MyType1TransientPort + "," + Common.MyType2 + ":" + Common.MyType2TransientPort + ","
+                        + Common.MyType3 + ":" + Common.MyType3TransientPort;
             } else {
                 // It makes sense to assign emphemeral ports
                 // to persistent servers since the ORBD will most
                 // likely be assigned the fixed ports.
-                value =
-                    Common.MyType1 + ":" + Common.MyType1PersistentPort + "," +
-                    Common.MyType2 + ":" + Common.MyType2PersistentPort + "," +
-                    Common.MyType3 + ":" + Common.MyType3PersistentPort;
+                value = Common.MyType1 + ":" + Common.MyType1PersistentPort + "," + Common.MyType2 + ":" + Common.MyType2PersistentPort
+                        + "," + Common.MyType3 + ":" + Common.MyType3PersistentPort;
             }
             props.setProperty(ORBConstants.LISTEN_SOCKET_PROPERTY, value);
 
@@ -113,7 +100,7 @@ public class ServerCommon
             createAndBind(Common.serverName1);
             createAndBind(Common.serverName2);
 
-            System.out.println ("Server is ready.");
+            System.out.println("Server is ready.");
 
             orb.run();
 
@@ -124,14 +111,10 @@ public class ServerCommon
         }
     }
 
-    public static void createAndBind (String name)
-        throws
-            Exception
-    {
+    public static void createAndBind(String name) throws Exception {
         if (rootPoa == null) {
             // Get rootPOA
-            rootPoa =
-              (POA)orb.resolve_initial_references(ORBConstants.ROOT_POA_NAME);
+            rootPoa = (POA) orb.resolve_initial_references(ORBConstants.ROOT_POA_NAME);
             rootPoa.the_POAManager().activate();
 
             // Create POAs.
@@ -139,11 +122,9 @@ public class ServerCommon
             Policy[] policies = new Policy[1];
 
             // Create child POA
-            policies[0] =
-                isTransient ?
-                rootPoa.create_lifespan_policy(LifespanPolicyValue.TRANSIENT):
-                rootPoa.create_lifespan_policy(LifespanPolicyValue.PERSISTENT);
-            childPoa =rootPoa.create_POA("childPoa", null, policies);
+            policies[0] = isTransient ? rootPoa.create_lifespan_policy(LifespanPolicyValue.TRANSIENT)
+                    : rootPoa.create_lifespan_policy(LifespanPolicyValue.PERSISTENT);
+            childPoa = rootPoa.create_POA("childPoa", null, policies);
             childPoa.the_POAManager().activate();
         }
 

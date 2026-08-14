@@ -27,21 +27,14 @@ package corba.connections;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface RemoteInterface
-    extends
-        Remote
-{
-    public Struct[] method(Struct[] in)
-        throws RemoteException;
+public interface RemoteInterface extends Remote {
+    public Struct[] method(Struct[] in) throws RemoteException;
 
-    public void block()
-        throws RemoteException;
+    public void block() throws RemoteException;
 
-    public void resume()
-        throws RemoteException;
+    public void resume() throws RemoteException;
 
-    public String testMonitoring()
-        throws RemoteException;
+    public String testMonitoring() throws RemoteException;
 }
 
 // End of file.

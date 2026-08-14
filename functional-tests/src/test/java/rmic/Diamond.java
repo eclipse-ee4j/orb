@@ -19,8 +19,11 @@
  */
 
 package rmic;
+
 public interface Diamond extends Left, Right {
     void method() throws java.rmi.RemoteException, TestException;
+
     void left() throws java.rmi.RemoteException;
+
     void right() throws java.rmi.RemoteException;
 }

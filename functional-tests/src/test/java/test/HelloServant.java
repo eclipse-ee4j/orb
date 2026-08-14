@@ -22,8 +22,10 @@ package test;
 
 public class HelloServant extends javax.rmi.PortableRemoteObject implements Hello {
 
-    public HelloServant() throws java.rmi.RemoteException {}
-    public String sayHello (String to) throws java.rmi.RemoteException {
+    public HelloServant() throws java.rmi.RemoteException {
+    }
+
+    public String sayHello(String to) throws java.rmi.RemoteException {
         return "Hello " + to;
     }
 }

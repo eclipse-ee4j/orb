@@ -28,23 +28,21 @@ import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import java.util.Properties;
 
-class idlDeprecatedDynamicServant
-    extends
-        org.omg.CORBA.DynamicImplementation
-{
-    //private static String[] __ids = { "IDL:hcks/idlI:1.0" };
+class idlDeprecatedDynamicServant extends org.omg.CORBA.DynamicImplementation {
+    // private static String[] __ids = { "IDL:hcks/idlI:1.0" };
     private static String[] __ids = new _idlIStub()._ids();
-    public String[] _ids()  { return __ids; }
+
+    public String[] _ids() {
+        return __ids;
+    }
 
     private ORB orb;
 
-    public idlDeprecatedDynamicServant(ORB orb)
-    {
+    public idlDeprecatedDynamicServant(ORB orb) {
         this.orb = orb;
     }
 
-    public void invoke(ServerRequest r)
-    {
+    public void invoke(ServerRequest r) {
         idlDynInvokeHelper.invoke(orb, r);
     }
 }

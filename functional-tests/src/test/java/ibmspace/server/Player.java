@@ -25,151 +25,125 @@ import java.util.Vector;
 import ibmspace.common.Identifiable;
 import ibmspace.common.ID;
 
-
-public class Player implements Identifiable, java.io.Serializable
-{
-    private ID          fID;
-    private String      fName;
-    private double      fIdealTemp;
-    private double      fIdealGravity;
-    private PlanetImpl  fHome = null;
+public class Player implements Identifiable, java.io.Serializable {
+    private ID fID;
+    private String fName;
+    private double fIdealTemp;
+    private double fIdealGravity;
+    private PlanetImpl fHome = null;
 
     private ShipSavings fSavings = null;
     private ResearchLab fResearchLab = null;
-    private Budget      fBudget = null;
-    private long        fShipMetal;
+    private Budget fBudget = null;
+    private long fShipMetal;
 
-    private Vector      fMessages;
+    private Vector fMessages;
 
-    public Player(String name, double idealTemp, double idealGravity)
-    {
+    public Player(String name, double idealTemp, double idealGravity) {
         fName = name;
         fIdealTemp = idealTemp;
         fIdealGravity = idealGravity;
         fHome = null;
 
-        fSavings = new ShipSavings (40000);
+        fSavings = new ShipSavings(40000);
         fShipMetal = 40000;
 
-        fResearchLab = new ResearchLab (new TechProfile(6,2,2,2,1));
-        fBudget = new Budget ("Main Budget");
-        fBudget.addBudgetItem (new BudgetItem (fSavings,50));
-        fBudget.addBudgetItem (new BudgetItem (fResearchLab,50));
+        fResearchLab = new ResearchLab(new TechProfile(6, 2, 2, 2, 1));
+        fBudget = new Budget("Main Budget");
+        fBudget.addBudgetItem(new BudgetItem(fSavings, 50));
+        fBudget.addBudgetItem(new BudgetItem(fResearchLab, 50));
 
-        fMessages = new Vector ();
+        fMessages = new Vector();
     }
 
-    public void rememberPlanetOwner (Planet planet, String owner)
-    {
+    public void rememberPlanetOwner(Planet planet, String owner) {
     }
 
-    public ID getID ()
-    {
+    public ID getID() {
         return fID;
     }
 
-    public String getName ()
-    {
+    public String getName() {
         return fName;
     }
 
-    public void setHome (PlanetImpl home)
-    {
+    public void setHome(PlanetImpl home) {
         fHome = home;
     }
 
-    public PlanetImpl getHome ()
-    {
+    public PlanetImpl getHome() {
         return fHome;
     }
 
-    public Budget getBudget ()
-    {
+    public Budget getBudget() {
         return fBudget;
     }
 
-    public Budget getTechBudget ()
-    {
-        return fResearchLab.getTechnologyBudget ();
+    public Budget getTechBudget() {
+        return fResearchLab.getTechnologyBudget();
     }
 
-    public Budget getPlanetBudget (PlanetImpl planet)
-    {
-        BudgetItem item = fBudget.findBudgetItem (planet.getName());
-        if ( item != null ) {
-            return (Budget)item.getInvestment ();
+    public Budget getPlanetBudget(PlanetImpl planet) {
+        BudgetItem item = fBudget.findBudgetItem(planet.getName());
+        if (item != null) {
+            return (Budget) item.getInvestment();
         } else {
             return null;
         }
     }
 
-    public ShipSavings getShipSavings ()
-    {
+    public ShipSavings getShipSavings() {
         return fSavings;
     }
 
-    public long getShipMetal ()
-    {
+    public long getShipMetal() {
         return fShipMetal;
     }
 
-    public ResearchLab getResearchLab ()
-    {
+    public ResearchLab getResearchLab() {
         return fResearchLab;
     }
 
-    public void setShipMetal (int metal)
-    {
+    public void setShipMetal(int metal) {
         fShipMetal = metal;
     }
 
-    public void addShipMetal (long metal)
-    {
+    public void addShipMetal(long metal) {
         fShipMetal += metal;
     }
 
-    public void removeShipMetal (long metal)
-    {
+    public void removeShipMetal(long metal) {
         fShipMetal -= metal;
     }
 
-    public double getIdealTemp ()
-    {
+    public double getIdealTemp() {
         return fIdealTemp;
     }
 
-    public double getIdealGravity ()
-    {
+    public double getIdealGravity() {
         return fIdealGravity;
     }
 
-    public double getRelativeTempFor (double temp)
-    {
-        return temp/fIdealTemp * 72.0;
+    public double getRelativeTempFor(double temp) {
+        return temp / fIdealTemp * 72.0;
     }
 
-    public double getRelativeGravityFor (double gravity)
-    {
-        return gravity/fIdealGravity;
+    public double getRelativeGravityFor(double gravity) {
+        return gravity / fIdealGravity;
     }
 
-
-    public void clearMessages ()
-    {
-        fMessages.removeAllElements ();
+    public void clearMessages() {
+        fMessages.removeAllElements();
     }
 
-    public void addMessage (String message)
-    {
-        fMessages.addElement (message);
+    public void addMessage(String message) {
+        fMessages.addElement(message);
     }
 
-    public Vector getMessages ()
-    {
+    public Vector getMessages() {
         Vector m = fMessages;
-        fMessages = new Vector ();
+        fMessages = new Vector();
         return m;
     }
-
 
 }

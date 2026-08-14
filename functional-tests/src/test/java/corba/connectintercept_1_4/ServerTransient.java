@@ -24,14 +24,11 @@
 
 package corba.connectintercept_1_4;
 
-public class ServerTransient
-{
-    public static void main(String av[])
-    {
+public class ServerTransient {
+    public static void main(String av[]) {
         String[] args = { Common.Transient };
         ServerCommon.main(args);
     }
 }
 
 // End of file.
-

@@ -17,35 +17,30 @@
  * Classpath-exception-2.0
  */
 
-package corba.ortremote ;
+package corba.ortremote;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
-import org.omg.PortableInterceptor.ObjectReferenceTemplate ;
-import org.omg.PortableInterceptor.ObjectReferenceFactory ;
-import org.omg.PortableServer.POA ;
-import com.sun.corba.ee.spi.oa.ObjectAdapter ;
-import javax.rmi.PortableRemoteObject ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import org.omg.PortableInterceptor.ObjectReferenceTemplate;
+import org.omg.PortableInterceptor.ObjectReferenceFactory;
+import org.omg.PortableServer.POA;
+import com.sun.corba.ee.spi.oa.ObjectAdapter;
+import javax.rmi.PortableRemoteObject;
 
-public class ORTEchoImpl extends PortableRemoteObject implements ORTEcho
-{
-    private POA poa ;
+public class ORTEchoImpl extends PortableRemoteObject implements ORTEcho {
+    private POA poa;
 
-    public ORTEchoImpl( POA poa ) throws java.rmi.RemoteException
-    {
-        this.poa = poa ;
+    public ORTEchoImpl(POA poa) throws java.rmi.RemoteException {
+        this.poa = poa;
     }
 
-    public ObjectReferenceTemplate getORT() throws RemoteException
-    {
-        ObjectAdapter oa = (ObjectAdapter)poa ;
-        return oa.getAdapterTemplate() ;
+    public ObjectReferenceTemplate getORT() throws RemoteException {
+        ObjectAdapter oa = (ObjectAdapter) poa;
+        return oa.getAdapterTemplate();
     }
 
-    public ObjectReferenceFactory getORF() throws RemoteException
-    {
-        ObjectAdapter oa = (ObjectAdapter)poa ;
-        return oa.getCurrentFactory() ;
+    public ObjectReferenceFactory getORF() throws RemoteException {
+        ObjectAdapter oa = (ObjectAdapter) poa;
+        return oa.getCurrentFactory();
     }
 }
-

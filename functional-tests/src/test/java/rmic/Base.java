@@ -19,6 +19,7 @@
  */
 
 package rmic;
+
 public interface Base extends java.rmi.Remote {
     void method() throws java.rmi.RemoteException, TestException;
 }

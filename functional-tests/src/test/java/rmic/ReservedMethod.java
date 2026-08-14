@@ -19,7 +19,9 @@
  */
 
 package rmic;
+
 public interface ReservedMethod extends java.rmi.Remote {
-    Object object (Object it) throws java.rmi.RemoteException;
-    Exception exception (Exception it) throws java.rmi.RemoteException;
+    Object object(Object it) throws java.rmi.RemoteException;
+
+    Exception exception(Exception it) throws java.rmi.RemoteException;
 }

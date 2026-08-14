@@ -20,39 +20,32 @@
 
 package ibmspace.common;
 
+public class GameProfile implements Identifiable, java.io.Serializable {
+    private String fGalaxyName;
+    private int fNumberOfPlanets;
+    private int fNumberOfPlayers;
+    private ID fID;
 
-public class GameProfile implements Identifiable, java.io.Serializable
-{
-    private String        fGalaxyName;
-    private int           fNumberOfPlanets;
-    private int           fNumberOfPlayers;
-    private ID            fID;
-
-    public GameProfile (String galaxyName, int numPlanets, int numPlayers)
-    {
+    public GameProfile(String galaxyName, int numPlanets, int numPlayers) {
         String fGalaxyName = galaxyName;
         fNumberOfPlanets = numPlanets;
         fNumberOfPlayers = numPlayers;
-        fID = new ID ();
+        fID = new ID();
     }
 
-    public ID getID ()
-    {
+    public ID getID() {
         return fID;
     }
 
-    public String getGalaxyName ()
-    {
+    public String getGalaxyName() {
         return fGalaxyName;
     }
 
-    public int getNumberOfPlanets ()
-    {
+    public int getNumberOfPlanets() {
         return fNumberOfPlanets;
     }
 
-    public int getNumberOfPlayers ()
-    {
+    public int getNumberOfPlayers() {
         return fNumberOfPlayers;
     }
 

@@ -41,9 +41,7 @@ import ServerRequestInterceptor.*;
 /**
  * Common base class for RMI client test code
  */
-public abstract class DSIRMIClient
-    extends ClientCommon
-{
+public abstract class DSIRMIClient extends ClientCommon {
     // The hello object to make invocations on.
     hello helloRef;
 
@@ -54,64 +52,51 @@ public abstract class DSIRMIClient
     InitialContext initialNamingContext;
 
     // to be invoked from subclasses after the ORB is created.
-    public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra)
-        throws Exception
-    {
+    public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         this.out = out;
         this.err = err;
 
-        out.println( "+ Creating initial naming context..." + orb );
+        out.println("+ Creating initial naming context..." + orb);
         Hashtable env = new Hashtable();
-        env.put( "java.naming.corba.orb", orb );
-        initialNamingContext = new InitialContext( env );
+        env.put("java.naming.corba.orb", orb);
+        initialNamingContext = new InitialContext(env);
 
         // Obey the server's commands:
         obeyServer();
     }
 
     void resolveReferences() throws Exception {
-        out.println( "    - Resolving Hello1..." );
+        out.println("    - Resolving Hello1...");
         // Look up reference to hello object on server:
-        helloRef = resolve( "Hello1" );
-        out.println( "    - Resolved." );
+        helloRef = resolve("Hello1");
+        out.println("    - Resolved.");
 
-        out.println( "    - Resolving Hello1Forward..." );
-        helloRefForward = resolve( "Hello1Forward" );
-        out.println( "    - Resolved." );
+        out.println("    - Resolving Hello1Forward...");
+        helloRefForward = resolve("Hello1Forward");
+        out.println("    - Resolved.");
     }
 
     String syncWithServer() throws Exception {
-        return helloRef.syncWithServer( exceptionRaised );
+        return helloRef.syncWithServer(exceptionRaised);
     }
 
     /**
      * Invoke the method with the given name on the object
      */
-    protected void invokeMethod( String methodName )
-        throws Exception
-    {
-        if( methodName.equals( "sayHello" ) ) {
+    protected void invokeMethod(String methodName) throws Exception {
+        if (methodName.equals("sayHello")) {
             helloRef.sayHello();
-        }
-        else if( methodName.equals( "sayOneway" ) ) {
+        } else if (methodName.equals("sayOneway")) {
             helloRef.sayOneway();
-        }
-        else if( methodName.equals( "saySystemException" ) ) {
+        } else if (methodName.equals("saySystemException")) {
             helloRef.saySystemException();
-        }
-        else if( methodName.equals( "sayUserException" ) ) {
+        } else if (methodName.equals("sayUserException")) {
             try {
                 helloRef.sayUserException();
-                out.println( "    - Did not catch ForwardRequest user " +
-                    "exception (error)" );
-                throw new RuntimeException(
-                    "Did not catch ForwardRequest user exception " +
-                    "on sayUserException" );
-            }
-            catch( ForwardRequest e ) {
-                out.println( "    - Caught ForwardRequest user " +
-                    "exception (ok)" );
+                out.println("    - Did not catch ForwardRequest user " + "exception (error)");
+                throw new RuntimeException("Did not catch ForwardRequest user exception " + "on sayUserException");
+            } catch (ForwardRequest e) {
+                out.println("    - Caught ForwardRequest user " + "exception (ok)");
             }
         }
     }
@@ -119,16 +104,11 @@ public abstract class DSIRMIClient
     /**
      * Resolves name using RMI
      */
-    hello resolve(String name)
-        throws Exception
-    {
-        java.lang.Object obj = initialNamingContext.lookup( name );
-        hello helloRef = (hello)helloHelper.narrow( (org.omg.CORBA.Object)obj);
+    hello resolve(String name) throws Exception {
+        java.lang.Object obj = initialNamingContext.lookup(name);
+        hello helloRef = (hello) helloHelper.narrow((org.omg.CORBA.Object) obj);
 
         return helloRef;
     }
 
-
 }
-
-

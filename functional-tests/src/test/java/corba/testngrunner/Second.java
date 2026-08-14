@@ -18,68 +18,67 @@
  * Classpath-exception-2.0
  */
 
-package corba.testngrunner ;
+package corba.testngrunner;
 
-import java.util.Iterator ;
-import java.util.Properties ;
-import java.util.Map ;
-import java.util.List ;
-import java.util.ArrayList ;
+import java.util.Iterator;
+import java.util.Properties;
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
-import java.io.PrintWriter ;
+import java.io.PrintWriter;
 
-import org.testng.Assert ;
-import org.testng.annotations.BeforeSuite ;
-import org.testng.annotations.AfterSuite ;
-import org.testng.annotations.Test ;
+import org.testng.Assert;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.Test;
 
-import corba.framework.TestngRunner ;
+import corba.framework.TestngRunner;
 
 public class Second {
-    private void msg( String str ) {
-        System.out.println( "TestngRunner.Second: " + str ) ;
+    private void msg(String str) {
+        System.out.println("TestngRunner.Second: " + str);
     }
 
     @BeforeSuite
     public void setup() {
-        msg( "setup called" ) ;
+        msg("setup called");
     }
 
     @Test
     public void test1() {
-        msg( "test1 called" ) ;
+        msg("test1 called");
     }
 
     @Test
     public void test2() {
-        msg( "test2 called" ) ;
+        msg("test2 called");
     }
 
     @Test
     public void test3() {
-        msg( "test3 called" ) ;
-        throw new RuntimeException( "Exception in test3" ) ;
+        msg("test3 called");
+        throw new RuntimeException("Exception in test3");
     }
 
     @Test
     public void test4() {
-        msg( "test4 called" ) ;
+        msg("test4 called");
     }
 
     @Test
     public void test5() {
-        msg( "test5 called" ) ;
-        Assert.fail( "test5 failed" ) ;
+        msg("test5 called");
+        Assert.fail("test5 failed");
     }
 
     @Test
     public void anotherTest() {
-        msg( "anotherTest called" ) ;
+        msg("anotherTest called");
     }
 
     @AfterSuite
     public void shutdown() {
-        msg( "shutdown called" ) ;
+        msg("shutdown called");
     }
 }
-

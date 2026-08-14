@@ -33,18 +33,18 @@ import java.util.Properties;
 
 public class TheClient {
 
-    private static String[] myArgs = new String[]{"-ORBInitialPort" , test.Util.DOWNLOAD_NAME_SERVER_PORT };
+    private static String[] myArgs = new String[] { "-ORBInitialPort", test.Util.DOWNLOAD_NAME_SERVER_PORT };
 
-    private static void passed(){
+    private static void passed() {
         System.out.println(test.Util.HANDSHAKE);
         System.out.flush();
     }
 
-    private static void failed(Throwable t){
+    private static void failed(Throwable t) {
         StringWriter strWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter(strWriter);
         t.printStackTrace(printWriter);
-        System.out.println("Download test FAILED:\n"+strWriter.toString()+"\n <<< END STACK TRACE >>>");
+        System.out.println("Download test FAILED:\n" + strWriter.toString() + "\n <<< END STACK TRACE >>>");
         System.out.flush();
         System.exit(1);
     }
@@ -56,34 +56,30 @@ public class TheClient {
 
             Properties props = System.getProperties();
 
-            props.put(  "java.naming.factory.initial",
-                        JndiConstants.COSNAMING_CONTEXT_FACTORY);
+            props.put("java.naming.factory.initial", JndiConstants.COSNAMING_CONTEXT_FACTORY);
 
-            props.put(  "org.omg.CORBA.ORBClass",
-                        "com.sun.corba.ee.impl.orb.ORBImpl");
+            props.put("org.omg.CORBA.ORBClass", "com.sun.corba.ee.impl.orb.ORBImpl");
 
-            props.put(  "org.omg.CORBA.ORBSingletonClass",
-                        "com.sun.corba.ee.impl.orb.ORBSingleton");
+            props.put("org.omg.CORBA.ORBSingletonClass", "com.sun.corba.ee.impl.orb.ORBSingleton");
 
             ORB orb = ORB.init(myArgs, props);
 
             // We are going to use JNDI/CosNaming so lets go ahead and
-            // create our root naming context.  NOTE:  We setup CosNaming
+            // create our root naming context. NOTE: We setup CosNaming
             // as our naming plug-in for JNDI by setting properties above.
             Hashtable env = new Hashtable();
-            env.put(  "java.naming.corba.orb", orb);
+            env.put("java.naming.corba.orb", orb);
             Context ic = new InitialContext(env);
 
             // Let the test begin...
             // Resolve the Object Reference using JNDI/CosNaming
-            java.lang.Object objref  = ic.lookup("TheDownloadTestServer");
+            java.lang.Object objref = ic.lookup("TheDownloadTestServer");
 
             // This test is designed to verify PortableRemoteObject.narrow
 
-            try{
+            try {
                 Servant narrowTo = null;
-                if ( (narrowTo = (Servant)
-                      PortableRemoteObject.narrow(objref,Servant.class)) != null ) {
+                if ((narrowTo = (Servant) PortableRemoteObject.narrow(objref, Servant.class)) != null) {
                     Servant serv1 = narrowTo;
                     String mssg = narrowTo.getValue().sayHello();
                     if (!mssg.equals("Hello, world!")) {
@@ -93,7 +89,7 @@ public class TheClient {
 
                     IIOPTestSerializable ones = new IIOPTestSerializable();
                     ones.setRef(serv1);
-                    IIOPTestSerializable twos = (IIOPTestSerializable)serv1.testWriteReadObject(ones);
+                    IIOPTestSerializable twos = (IIOPTestSerializable) serv1.testWriteReadObject(ones);
                     Servant serv2 = twos.getRef();
                     String mssg2 = serv2.EchoSingleRemoteInterface();
                     if (!mssg2.equals("EchoSingleRemoteInterface")) {
@@ -102,7 +98,6 @@ public class TheClient {
                     }
 
                     passed();
-
 
                 }
             } catch (Throwable ex) {
@@ -117,4 +112,3 @@ public class TheClient {
         }
     }
 }
-

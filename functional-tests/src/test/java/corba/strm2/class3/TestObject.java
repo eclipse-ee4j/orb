@@ -20,8 +20,7 @@
 import corba.strm2.Testable;
 import java.io.*;
 
-public class TestObject extends TestObjectSuper implements Testable
-{
+public class TestObject extends TestObjectSuper implements Testable {
     private static final long serialVersionUID = 378730127323820502L;
     private String desc;
 
@@ -38,38 +37,26 @@ public class TestObject extends TestObjectSuper implements Testable
     }
 
     public String toString() {
-        return super.toString()
-            + " [TestObject desc=" + desc
-            + ", data0=" + data0
-            + ", data1=" + data1
-            + ", data2= " + data2
-            + "]";
+        return super.toString() + " [TestObject desc=" + desc + ", data0=" + data0 + ", data1=" + data1 + ", data2= " + data2 + "]";
     }
 
     public boolean equals(Object obj) {
         try {
-            TestObject other = (TestObject)obj;
+            TestObject other = (TestObject) obj;
             if (other == null)
                 return false;
 
-            return data0.equals(other.data0) &&
-                data1 == other.data1 &&
-                data2.equals(other.data2) &&
-                super.equals(other);
+            return data0.equals(other.data0) && data1 == other.data1 && data2.equals(other.data2) && super.equals(other);
         } catch (ClassCastException cce) {
             return false;
         }
     }
 
-    private void readObject(java.io.ObjectInputStream is)
-        throws IOException, ClassNotFoundException
-    {
+    private void readObject(java.io.ObjectInputStream is) throws IOException, ClassNotFoundException {
         is.defaultReadObject();
     }
 
-    private void writeObject(java.io.ObjectOutputStream out)
-        throws IOException
-    {
+    private void writeObject(java.io.ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
     }
 

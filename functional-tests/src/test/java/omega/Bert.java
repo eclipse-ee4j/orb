@@ -24,12 +24,17 @@ package omega;
 
 public class Bert implements java.io.Serializable {
 
-    class Fred {}
+    class Fred {
+    }
+
     Foxtrot aFoxtrot;
     Fred aFred;
 
-    private Bert( int arg ) {}
-    private void aMethod( int arg ) {}
+    private Bert(int arg) {
+    }
+
+    private void aMethod(int arg) {
+    }
 
     org.omg.CORBA.Object aCorbaObject;
     Golf aGolf;

@@ -27,38 +27,26 @@ import test.*;
 /**
  * Debugging execution strategy.
  * <P>
- * Defers control to the user when methods are called.  The user
- * is responsible for communicating with the framework and giving
- * the expected responses.  This allows someone to use jdb or
- * another debugger in place of running a class in a separate
- * process under the framework.
+ * Defers control to the user when methods are called. The user is responsible for communicating with the framework and
+ * giving the expected responses. This allows someone to use jdb or another debugger in place of running a class in a
+ * separate process under the framework.
  */
-public class DebugExec extends ExternalExec
-{
+public class DebugExec extends ExternalExec {
     /**
      * Was this process started?
      */
     private boolean started = false;
 
     /**
-     * File containing the command line for JDB (erased at the
-     * end of the test).
+     * File containing the command line for JDB (erased at the end of the test).
      */
     protected File jdbCmd = null;
 
     /**
-     * Creates the JDB command line from the normal execution
-     * command line.
+     * Creates the JDB command line from the normal execution command line.
      */
-    private String buildJDBCmdString(String[] command)
-    {
-        String jdb = System.getProperty("java.home")
-            + File.separator
-            + ".."
-            + File.separator
-            + "bin"
-            + File.separator
-            + "jdb";
+    private String buildJDBCmdString(String[] command) {
+        String jdb = System.getProperty("java.home") + File.separator + ".." + File.separator + "bin" + File.separator + "jdb";
 
         StringBuilder cmd = new StringBuilder(jdb);
 
@@ -70,23 +58,18 @@ public class DebugExec extends ExternalExec
     }
 
     /**
-     * Opens and truncates the JDB command line file and writes
-     * the command line to it.  This allows people to quickly run
-     * JDB for this process without copy and paste.  Unfortunately,
-     * they will have to set the execution permission on Solaris.
+     * Opens and truncates the JDB command line file and writes the command line to it. This allows people to quickly run
+     * JDB for this process without copy and paste. Unfortunately, they will have to set the execution permission on
+     * Solaris.
      */
-    private void writeJDBCmdFile(String cmd) throws IOException
-    {
+    private void writeJDBCmdFile(String cmd) throws IOException {
         // The user directory will be test/build/[OS]
-        String path = System.getProperty("user.dir")
-            + File.separator
-            + "jdb" + processName + ".bat";
+        String path = System.getProperty("user.dir") + File.separator + "jdb" + processName + ".bat";
 
         jdbCmd = new File(path);
         jdbCmd.delete();
 
-        PrintWriter out
-            = new PrintWriter(new OutputStreamWriter(new FileOutputStream(jdbCmd)));
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(new FileOutputStream(jdbCmd)));
 
         jdbCmd.deleteOnExit();
 
@@ -95,14 +78,10 @@ public class DebugExec extends ExternalExec
         out.close();
     }
 
-
-
     /**
-     * Ask the user to start the process, providing both the JDB command line
-     * and a file containing it, ready to execute.
+     * Ask the user to start the process, providing both the JDB command line and a file containing it, ready to execute.
      */
-    public void start()
-    {
+    public void start() {
         String[] command = buildCommand();
 
         System.out.println();
@@ -120,8 +99,7 @@ public class DebugExec extends ExternalExec
         try {
             writeJDBCmdFile(jdbStr);
 
-            System.out.println("The above command was written to: "
-                               + jdbCmd.getName());
+            System.out.println("The above command was written to: " + jdbCmd.getName());
             System.out.println("This file will be deleted when the test finishes");
 
         } catch (IOException ex) {
@@ -139,8 +117,7 @@ public class DebugExec extends ExternalExec
     /**
      * Ask the user to stop the process.
      */
-    public void stop()
-    {
+    public void stop() {
         if (jdbCmd != null) {
             jdbCmd.delete();
             jdbCmd = null;
@@ -151,8 +128,7 @@ public class DebugExec extends ExternalExec
 
         printDebugBreak();
 
-        System.out.println("The framework wants to stop the "
-                           + processName + " process");
+        System.out.println("The framework wants to stop the " + processName + " process");
 
         String result = promptUser("Did this process end on its own [default: No]? ");
 
@@ -165,47 +141,40 @@ public class DebugExec extends ExternalExec
     }
 
     /**
-     * Inform the user that the framework is waiting for this process, and
-     * ask for its exit value.
+     * Inform the user that the framework is waiting for this process, and ask for its exit value.
      */
-    public int waitFor()
-    {
+    public int waitFor() {
         if (started) {
             printDebugBreak();
 
-            System.out.println("The framework is waiting for the "
-                               + processName + " process");
+            System.out.println("The framework is waiting for the " + processName + " process");
         }
 
         return exitValue();
     }
 
     /**
-     * Inform the user that the framework is waiting for this process, and
-     * ask for its exit value.  The timeout is meaningless in this case.
+     * Inform the user that the framework is waiting for this process, and ask for its exit value. The timeout is
+     * meaningless in this case.
      */
-    public int waitFor(long timeout)
-    {
+    public int waitFor(long timeout) {
         return waitFor();
     }
 
     /**
      * Ask the user for the exit value for this process.
      *
-     *@return int Exit value
-     *@exception IllegalThreadStateException  The process hasn't started
+     * @return int Exit value
+     * @exception IllegalThreadStateException The process hasn't started
      */
-    public int exitValue() throws IllegalThreadStateException
-    {
+    public int exitValue() throws IllegalThreadStateException {
         if (!started)
-            throw new IllegalThreadStateException(processName
-                                                  + " was never started");
+            throw new IllegalThreadStateException(processName + " was never started");
 
         while (exitValue == INVALID_STATE) {
             printDebugBreak();
             try {
-                String result = promptUser("What was the exit value of the "
-                                           + processName + " process (< 1 means SUCCESS)? ");
+                String result = promptUser("What was the exit value of the " + processName + " process (< 1 means SUCCESS)? ");
                 if (result == null)
                     continue;
                 exitValue = Integer.parseInt(result);
@@ -220,13 +189,11 @@ public class DebugExec extends ExternalExec
     /**
      * Is this process still running?
      *
-     *@exception IllegalThreadStateException  The process hasn't started
+     * @exception IllegalThreadStateException The process hasn't started
      */
-    public boolean finished() throws IllegalThreadStateException
-    {
+    public boolean finished() throws IllegalThreadStateException {
         if (!started)
-            throw new IllegalThreadStateException(processName
-                                                  + " was never started");
+            throw new IllegalThreadStateException(processName + " was never started");
 
         return exitValue != INVALID_STATE;
     }

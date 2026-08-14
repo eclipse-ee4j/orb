@@ -33,47 +33,40 @@ import javax.rmi.PortableRemoteObject;
 import org.omg.CORBA.COMM_FAILURE;
 import org.omg.CORBA.ORB;
 
-import com.sun.corba.ee.impl.plugin.hwlb.RetryClientRequestInterceptor ;
+import com.sun.corba.ee.impl.plugin.hwlb.RetryClientRequestInterceptor;
 
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
 /**
  * @author Harold Carr
  */
-public class Client
-{
+public class Client {
     static {
         // This is needed to guarantee that this test will ALWAYS use dynamic
-        // RMI-IIOP.  Currently the default is dynamic when renamed to "ee",
+        // RMI-IIOP. Currently the default is dynamic when renamed to "ee",
         // but static in the default "se" packaging, and this test will
         // fail without dynamic RMI-IIOP.
-        System.setProperty( ORBConstants.USE_DYNAMIC_STUB_PROPERTY, "true" ) ;
+        System.setProperty(ORBConstants.USE_DYNAMIC_STUB_PROPERTY, "true");
     }
 
     private static final long CLIENT_RUN_LENGTH = 1000 * 30; // 30 seconds
 
-    public static void main(String[] av)
-    {
+    public static void main(String[] av) {
         try {
             Properties props = new Properties();
 
-            props.setProperty(
-                "org.omg.PortableInterceptor.ORBInitializerClass."
-                + RetryClientRequestInterceptor.class.getName(),
-                "dummy");
+            props.setProperty("org.omg.PortableInterceptor.ORBInitializerClass." + RetryClientRequestInterceptor.class.getName(), "dummy");
 
-            ORB orb = ORB.init((String[])null, props);
+            ORB orb = ORB.init((String[]) null, props);
             Hashtable env = new Hashtable();
             env.put("java.naming.corba.orb", orb);
             InitialContext initialContext = new InitialContext(env);
 
-            Test ref  = (Test)
-                lookupAndNarrow(Common.ReferenceName, Test.class,
-                                initialContext);
+            Test ref = (Test) lookupAndNarrow(Common.ReferenceName, Test.class, initialContext);
 
             long startTime = System.currentTimeMillis();
             int i = 0;
-            while (System.currentTimeMillis() - startTime < CLIENT_RUN_LENGTH){
+            while (System.currentTimeMillis() - startTime < CLIENT_RUN_LENGTH) {
                 int result = ref.echo(i);
                 if (result != i) {
                     throw new Exception("incorrect echo");
@@ -88,8 +81,7 @@ public class Client
 
             try {
                 System.out.println("This echo should timeout");
-                RetryClientRequestInterceptor
-                    .setTransientRetryTimeout(1000 * 5);
+                RetryClientRequestInterceptor.setTransientRetryTimeout(1000 * 5);
                 ref.echo(-1);
                 throw new Exception("timeout echo should not succeed");
             } catch (Exception e) {
@@ -105,7 +97,7 @@ public class Client
                 ref.echo(-1);
                 throw new Exception("shutdown echo should not succeed");
             } catch (java.rmi.MarshalException e) {
-                if (! e.detail.getClass().isInstance(new COMM_FAILURE())) {
+                if (!e.detail.getClass().isInstance(new COMM_FAILURE())) {
                     throw new Exception("!!! Did not receive correct failure");
                 }
             }
@@ -124,15 +116,9 @@ public class Client
         }
     }
 
-    public static Object lookupAndNarrow(String name,
-                                         Class clazz,
-                                         InitialContext initialContext)
-        throws
-            NamingException
-    {
+    public static Object lookupAndNarrow(String name, Class clazz, InitialContext initialContext) throws NamingException {
         return PortableRemoteObject.narrow(initialContext.lookup(name), clazz);
     }
 }
 
 // End of file.
-

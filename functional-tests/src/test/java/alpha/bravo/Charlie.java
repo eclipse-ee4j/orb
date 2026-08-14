@@ -35,12 +35,12 @@ public class Charlie implements java.io.Serializable {
 
     public java.lang.Object jobjectz[];
     public java.lang.String stringz[];
-    public java.lang.Class  classz[];
+    public java.lang.Class classz[];
     public java.io.Serializable serializablez[];
     public java.io.Serializable serializablezz[][];
     public java.lang.String stringzz[][];
     public java.io.Externalizable externalizablez[];
-    public java.rmi.Remote  remotez[];
+    public java.rmi.Remote remotez[];
     public org.omg.CORBA.Object cobjectz[];
     public org.omg.CORBA.portable.IDLEntity idlentityz[];
 

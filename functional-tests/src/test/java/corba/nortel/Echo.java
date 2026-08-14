@@ -19,19 +19,17 @@
 
 package corba.nortel;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
-import java.util.Collection ;
+import java.util.Collection;
 
 public interface Echo extends Remote {
-    Echo say( Echo obj ) throws RemoteException ;
+    Echo say(Echo obj) throws RemoteException;
 
-    String name() throws RemoteException ;
+    String name() throws RemoteException;
 
-    Collection methodCollectionUserInfo( String str, UserInfo ui ) throws RemoteException ;
+    Collection methodCollectionUserInfo(String str, UserInfo ui) throws RemoteException;
 
-    Collection methodCollectionObject( String str, Object ui ) throws RemoteException ;
+    Collection methodCollectionObject(String str, Object ui) throws RemoteException;
 }
-
-

@@ -28,58 +28,75 @@ import java.util.Vector;
 //        to throw an exception does not mean that a subclass WILL throw it
 //        and Java subclasses can remove exceptions but cannot add them.
 
-public interface GameView
-{
-    void              test () throws RemoteException;
+public interface GameView {
+    void test() throws RemoteException;
 
     //
     // Working with budgets
     //
 
-    BudgetSummary     getMainBudget () throws RemoteException;
-    BudgetSummary     getTechBudget () throws RemoteException;
-    BudgetSummary     getPlanetBudget (ID planet) throws RemoteException;
-    void              setMainBudget (BudgetSummary bs) throws RemoteException;
-    void              setTechBudget (BudgetSummary bs) throws RemoteException;
-    void              setPlanetBudget (ID planet, BudgetSummary bs) throws RemoteException;
+    BudgetSummary getMainBudget() throws RemoteException;
+
+    BudgetSummary getTechBudget() throws RemoteException;
+
+    BudgetSummary getPlanetBudget(ID planet) throws RemoteException;
+
+    void setMainBudget(BudgetSummary bs) throws RemoteException;
+
+    void setTechBudget(BudgetSummary bs) throws RemoteException;
+
+    void setPlanetBudget(ID planet, BudgetSummary bs) throws RemoteException;
 
     //
     // Working with assets
     //
 
-    long              getShipSavings () throws RemoteException;
-    long              getIncome () throws RemoteException;
-    long              getShipMetal () throws RemoteException;
-    TechProfile       getTechProfile () throws RemoteException;
+    long getShipSavings() throws RemoteException;
+
+    long getIncome() throws RemoteException;
+
+    long getShipMetal() throws RemoteException;
+
+    TechProfile getTechProfile() throws RemoteException;
 
     //
     // Working with ships
     //
 
-    ShipDesign        designShip (String name, int type, TechProfile tech) throws RemoteException;
-    ID /*fleet*/      buildFleet (ShipDesign design, int num, ID station) throws RemoteException;
-    void              scrapFleet (ID fleet) throws RemoteException;
-    ID /*journey*/    sendFleet (ID fleet, ID planet) throws RemoteException;
-    Fleet             getFleet (ID fleet) throws RemoteException;
-    ID[]              getFleetsAt (ID planet) throws RemoteException;
-    Journey           getJourney (ID journeyOrShip) throws RemoteException;
-    ID[]              getAllJournies () throws RemoteException;
+    ShipDesign designShip(String name, int type, TechProfile tech) throws RemoteException;
+
+    ID /* fleet */ buildFleet(ShipDesign design, int num, ID station) throws RemoteException;
+
+    void scrapFleet(ID fleet) throws RemoteException;
+
+    ID /* journey */ sendFleet(ID fleet, ID planet) throws RemoteException;
+
+    Fleet getFleet(ID fleet) throws RemoteException;
+
+    ID[] getFleetsAt(ID planet) throws RemoteException;
+
+    Journey getJourney(ID journeyOrShip) throws RemoteException;
+
+    ID[] getAllJournies() throws RemoteException;
 
     //
     // Working with planets
     //
 
-    ID                getHome () throws RemoteException;
-    PlanetView        getPlanet (ID planet) throws RemoteException;
-    void              abandonPlanet (ID planet) throws RemoteException;
+    ID getHome() throws RemoteException;
+
+    PlanetView getPlanet(ID planet) throws RemoteException;
+
+    void abandonPlanet(ID planet) throws RemoteException;
 
     //
     // Turn taking
     //
 
-    Vector            takeTurn () throws RemoteException;
-    void              quit () throws RemoteException;
+    Vector takeTurn() throws RemoteException;
 
-    long              getCalls () throws RemoteException;
+    void quit() throws RemoteException;
+
+    long getCalls() throws RemoteException;
 
 }

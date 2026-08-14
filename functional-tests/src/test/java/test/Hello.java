@@ -19,6 +19,7 @@
  */
 
 package test;
+
 public interface Hello extends java.rmi.Remote {
     public String sayHello(String to) throws java.rmi.RemoteException;
 }

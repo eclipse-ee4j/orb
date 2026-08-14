@@ -20,8 +20,7 @@
 
 package javax.rmi.fvd;
 
-public  interface Log
-    extends java.rmi.Remote {
+public interface Log extends java.rmi.Remote {
 
     public void log(String who, String what) throws java.rmi.RemoteException;
 

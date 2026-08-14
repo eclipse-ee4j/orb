@@ -19,7 +19,7 @@
 
 package naming.pcosnaming;
 
-import HelloApp._helloImplBase ;
+import HelloApp._helloImplBase;
 import corba.framework.Controller;
 import corba.framework.InternalProcess;
 import java.io.PrintStream;
@@ -31,10 +31,8 @@ import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContext;
 import org.omg.CosNaming.NamingContextHelper;
 
-class helloServant extends _helloImplBase
-{
-    public void sayHello()
-    {
+class helloServant extends _helloImplBase {
+    public void sayHello() {
         helloServer.output.println("Servant: In helloServant.sayHello()");
     }
 
@@ -43,21 +41,15 @@ class helloServant extends _helloImplBase
     }
 }
 
-public class helloServer implements InternalProcess
-{
+public class helloServer implements InternalProcess {
     public NamingContext ncRef;
     public helloServant helloRef;
     public static PrintStream output;
     public static PrintStream errors;
 
-    public void run(Properties environment,
-                    String args[],
-                    PrintStream out,
-                    PrintStream err,
-                    Hashtable extra) throws Exception
-    {
-        Controller orbd = (Controller)extra.get("orbd");
-        Controller client = (Controller)extra.get("client");
+    public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
+        Controller orbd = (Controller) extra.get("orbd");
+        Controller client = (Controller) extra.get("client");
 
         helloServer.output = out;
         helloServer.errors = err;
@@ -69,13 +61,12 @@ public class helloServer implements InternalProcess
         orb.connect(helloRef);
 
         // get the root naming context
-        org.omg.CORBA.Object objRef =
-            orb.resolve_initial_references("NameService");
+        org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
         ncRef = NamingContextHelper.narrow(objRef);
 
         // bind the Object Reference in Naming
         NameComponent nc1 = new NameComponent("HelloObj1", "");
-        NameComponent path1[] = {nc1};
+        NameComponent path1[] = { nc1 };
         ncRef.rebind(path1, helloRef);
 
         output.println("Killing and restarting ORBD...");
@@ -88,11 +79,11 @@ public class helloServer implements InternalProcess
         Thread.sleep(1000);
 
         NamingContext ncRef1 = ncRef.new_context();
-        output.println( "Persistent Reference was valid");
+        output.println("Persistent Reference was valid");
 
         NameComponent nc2 = new NameComponent("HelloContext1", "");
-        NameComponent path2[] = {nc2};
-        ncRef.rebind_context( path2, ncRef1 );
+        NameComponent path2[] = { nc2 };
+        ncRef.rebind_context(path2, ncRef1);
 
         output.println("Killing and restarting ORBD...");
         orbd.stop();
@@ -101,15 +92,15 @@ public class helloServer implements InternalProcess
 
         Thread.sleep(1000);
 
-        NamingContext ncRef2 = ncRef.new_context( );
+        NamingContext ncRef2 = ncRef.new_context();
         NameComponent nc3 = new NameComponent("HelloContext2", "");
-        NameComponent path3[] = {nc3};
-        ncRef1.rebind_context( path3, ncRef2 );
-        output.println(" Persistent Reference of NCREF1 was valid....... " );
+        NameComponent path3[] = { nc3 };
+        ncRef1.rebind_context(path3, ncRef2);
+        output.println(" Persistent Reference of NCREF1 was valid....... ");
 
-        NameComponent nc4 = new NameComponent( "HelloObj2", "");
-        NameComponent path4[] = {nc4};
-        ncRef1.rebind( path4, helloRef );
+        NameComponent nc4 = new NameComponent("HelloObj2", "");
+        NameComponent path4[] = { nc4 };
+        ncRef1.rebind(path4, helloRef);
 
         output.println("Killing and restarting ORBD...");
         orbd.stop();
@@ -118,11 +109,11 @@ public class helloServer implements InternalProcess
 
         Thread.sleep(1000);
 
-        NameComponent nc5 = new NameComponent( "HelloObj3","");
-        NameComponent path5[] = {nc5};
-        ncRef2.rebind( path5, helloRef );
+        NameComponent nc5 = new NameComponent("HelloObj3", "");
+        NameComponent path5[] = { nc5 };
+        ncRef2.rebind(path5, helloRef);
 
-        output.println( " Persistent Reference of NCREF2 was valid....... " );
+        output.println(" Persistent Reference of NCREF2 was valid....... ");
 
         output.println("Starting client...");
 

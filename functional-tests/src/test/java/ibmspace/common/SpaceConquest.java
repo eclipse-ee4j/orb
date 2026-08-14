@@ -35,18 +35,19 @@
 // games before joining.  You can even visually see the galaxy before
 // joining (and getGalaxyMap allows for this).
 
-
 package ibmspace.common;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface SpaceConquest extends Remote
-{
-    GameView      joinGame (String playerName) throws RemoteException;
-    void          quitGame (GameView gameView) throws RemoteException;
+public interface SpaceConquest extends Remote {
+    GameView joinGame(String playerName) throws RemoteException;
 
-    Planet[]      getGalaxyMap () throws RemoteException;
-    int           getNumberOfPlanets () throws RemoteException;
-    Planet        getPlanet (int index) throws RemoteException;
+    void quitGame(GameView gameView) throws RemoteException;
+
+    Planet[] getGalaxyMap() throws RemoteException;
+
+    int getNumberOfPlanets() throws RemoteException;
+
+    Planet getPlanet(int index) throws RemoteException;
 }

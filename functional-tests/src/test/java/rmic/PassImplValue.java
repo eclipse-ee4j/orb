@@ -19,6 +19,7 @@
  */
 
 package rmic;
+
 public class PassImplValue implements java.io.Serializable {
     private HelloImpl impl;
 }

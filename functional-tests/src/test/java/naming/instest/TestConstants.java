@@ -25,7 +25,7 @@ public class TestConstants {
 
     public static final String INSServiceName = "HelloService";
 
-    public static final String PERSISTENT_PORT   = "2050";
+    public static final String PERSISTENT_PORT = "2050";
 
     public static final String returnString = "HELLO";
 }

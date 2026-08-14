@@ -24,11 +24,11 @@ import java.util.Random;
 
 public abstract class ParentClass implements java.io.Serializable {
 
-    public long getTotal(){
+    public long getTotal() {
         return 0;
     }
 
-    public long getOriginalTotal(){
+    public long getOriginalTotal() {
         return 0;
     }
 }

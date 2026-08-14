@@ -17,128 +17,114 @@
  * Classpath-exception-2.0
  */
 
-package corba.ortremote ;
+package corba.ortremote;
 
-import java.io.PrintStream ;
+import java.io.PrintStream;
 import org.glassfish.pfl.basic.func.NullaryFunction;
 import org.glassfish.pfl.test.JUnitReportHelper;
 import org.glassfish.pfl.test.ObjectUtility;
 
-/** TestSession manages running of tests and checking results within
-* a test session.  If the session fails any test, the whole session
-* fails with an Error, which can be used to trigger failure in the
-* CORBA test framework.  This allows complete testing on a major subsystem
-* to report a series of failures, while better containing failures by
-* not testing related subsystems.
-*/
-public class TestSession
-{
-    private PrintStream out ;
-    private boolean errorFlag ;
-    private String sessionName ;
-    private JUnitReportHelper helper ;
+/**
+ * TestSession manages running of tests and checking results within a test session. If the session fails any test, the
+ * whole session fails with an Error, which can be used to trigger failure in the CORBA test framework. This allows
+ * complete testing on a major subsystem to report a series of failures, while better containing failures by not testing
+ * related subsystems.
+ */
+public class TestSession {
+    private PrintStream out;
+    private boolean errorFlag;
+    private String sessionName;
+    private JUnitReportHelper helper;
 
 /////////////////////////////////////////////////////////////////////////////////////
 // Public interface
 /////////////////////////////////////////////////////////////////////////////////////
 
-    public TestSession( PrintStream out, Class cls )
-    {
-        this.out = System.out ;
-        helper = new JUnitReportHelper( cls.getName() ) ;
+    public TestSession(PrintStream out, Class cls) {
+        this.out = System.out;
+        helper = new JUnitReportHelper(cls.getName());
     }
 
-    /** Print a message indicating the start of the session.
-    * Also clears the error flag.
-    */
-    public void start( String sessionName )
-    {
-        this.sessionName = sessionName ;
-        this.errorFlag = false ;
-        out.println( "Test Session " + sessionName ) ;
+    /**
+     * Print a message indicating the start of the session. Also clears the error flag.
+     */
+    public void start(String sessionName) {
+        this.sessionName = sessionName;
+        this.errorFlag = false;
+        out.println("Test Session " + sessionName);
     }
 
-    /** Check for errors at the end of the session.
-    */
-    public void end()
-    {
-        helper.done() ;
+    /**
+     * Check for errors at the end of the session.
+     */
+    public void end() {
+        helper.done();
         if (errorFlag)
-            throw new Error( "Test session " + sessionName + " failed" ) ;
+            throw new Error("Test session " + sessionName + " failed");
     }
 
-    public void testForPass( String name, NullaryFunction<Object> closure, Object expectedResult )
-    {
+    public void testForPass(String name, NullaryFunction<Object> closure, Object expectedResult) {
         try {
-            testStart( name ) ;
-            Object result = closure.evaluate() ;
+            testStart(name);
+            Object result = closure.evaluate();
 
-            if (ObjectUtility.equals( result, expectedResult))
-                testPass() ;
+            if (ObjectUtility.equals(result, expectedResult))
+                testPass();
             else {
-                testFail( "Unexpected result returned" ) ;
-                out.println( "\t\t\tExpected Result=" +
-                    ObjectUtility.defaultObjectToString( expectedResult ) ) ;
-                out.println( "\t\t\tActual   Result=" +
-                    ObjectUtility.defaultObjectToString( result ) ) ;
+                testFail("Unexpected result returned");
+                out.println("\t\t\tExpected Result=" + ObjectUtility.defaultObjectToString(expectedResult));
+                out.println("\t\t\tActual   Result=" + ObjectUtility.defaultObjectToString(result));
             }
         } catch (Throwable thr) {
-            testFail( "Unexpected exception " + thr ) ;
-            thr.printStackTrace() ;
+            testFail("Unexpected exception " + thr);
+            thr.printStackTrace();
         }
     }
 
-    public void testForException( String name, NullaryFunction<Object> closure,
-        Class expectedExceptionClass )
-    {
+    public void testForException(String name, NullaryFunction<Object> closure, Class expectedExceptionClass) {
         try {
-            testStart( name ) ;
+            testStart(name);
             closure.evaluate();
-            testFail( "Closure did not throw expected exception" ) ;
+            testFail("Closure did not throw expected exception");
         } catch (Throwable thr) {
-            if (expectedExceptionClass.isAssignableFrom( thr.getClass() ))
-                testPass( "with exception " + thr ) ;
+            if (expectedExceptionClass.isAssignableFrom(thr.getClass()))
+                testPass("with exception " + thr);
             else
-                testFail( "Unexpected exception" + thr ) ;
+                testFail("Unexpected exception" + thr);
         }
     }
 
-    public void testAbort( String msg, Throwable thr )
-    {
-        out.println( "\t" + msg + ": Test aborted due to unexpected exception " + thr ) ;
-        thr.printStackTrace() ;
-        helper.done() ;
-        System.exit( 1 ) ;
+    public void testAbort(String msg, Throwable thr) {
+        out.println("\t" + msg + ": Test aborted due to unexpected exception " + thr);
+        thr.printStackTrace();
+        helper.done();
+        System.exit(1);
     }
 
 /////////////////////////////////////////////////////////////////////////////////////
 // Internal implementation
 /////////////////////////////////////////////////////////////////////////////////////
 
-    private void testStart( String name )
-    {
-        out.println( "\tTest " + name + "..." ) ;
-        helper.start( name ) ;
+    private void testStart(String name) {
+        out.println("\tTest " + name + "...");
+        helper.start(name);
     }
 
-    private void testFail( String msg )
-    {
-        out.println( "\t\tFAILED: " + msg ) ;
-        errorFlag = true ;
-        helper.fail( msg ) ;
+    private void testFail(String msg) {
+        out.println("\t\tFAILED: " + msg);
+        errorFlag = true;
+        helper.fail(msg);
     }
 
-    private void testPass()
-    {
-        testPass( null ) ;
+    private void testPass() {
+        testPass(null);
     }
 
-    private void testPass( String msg )
-    {
-        out.print( "\t\tPASSED" ) ;
+    private void testPass(String msg) {
+        out.print("\t\tPASSED");
         if ((msg != null) && (msg != ""))
-            out.print( ": " + msg ) ;
-        out.println() ;
-        helper.pass() ;
+            out.print(": " + msg);
+        out.println();
+        helper.pass();
     }
 }

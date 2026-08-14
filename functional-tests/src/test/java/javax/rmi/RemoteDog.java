@@ -20,8 +20,7 @@
 
 package javax.rmi;
 
-public interface RemoteDog extends Dog, java.rmi.Remote
-{
-    // No new methods.  Just mixes these two interfaces
+public interface RemoteDog extends Dog, java.rmi.Remote {
+    // No new methods. Just mixes these two interfaces
     // into a new interface that RMIC will need
 }

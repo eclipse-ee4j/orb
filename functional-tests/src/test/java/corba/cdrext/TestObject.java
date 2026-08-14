@@ -25,8 +25,7 @@ import java.io.*;
 /**
  * Uses PutField/GetField
  */
-public class TestObject implements Serializable
-{
+public class TestObject implements Serializable {
     private Map internalRep;
 
     static final long serialVersionUID = 6143829429461952693L;
@@ -38,13 +37,9 @@ public class TestObject implements Serializable
     static final String NEW_FIELD_NAME = "cello";
     static final Class NEW_FIELD_CLASS = Integer.class;
 
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField(STRING_NAME, String.class),
-        new ObjectStreamField(BYTE_ARRAY_NAME, byte[].class),
-        new ObjectStreamField(LONG_NAME, Long.TYPE),
-        new ObjectStreamField(CHAR_NAME, Character.TYPE),
-        new ObjectStreamField(NEW_FIELD_NAME, NEW_FIELD_CLASS)
-    };
+    private static final ObjectStreamField[] serialPersistentFields = { new ObjectStreamField(STRING_NAME, String.class),
+            new ObjectStreamField(BYTE_ARRAY_NAME, byte[].class), new ObjectStreamField(LONG_NAME, Long.TYPE),
+            new ObjectStreamField(CHAR_NAME, Character.TYPE), new ObjectStreamField(NEW_FIELD_NAME, NEW_FIELD_CLASS) };
 
     public TestObject() {
         internalRep = new HashMap();
@@ -53,7 +48,7 @@ public class TestObject implements Serializable
 
         byte[] data = new byte[24];
         for (int i = 0; i < data.length; i++)
-            data[i] = (byte)i;
+            data[i] = (byte) i;
         internalRep.put(BYTE_ARRAY_NAME, data);
 
         internalRep.put(LONG_NAME, new Long(43));
@@ -63,11 +58,7 @@ public class TestObject implements Serializable
         internalRep.put(CHAR_NAME, new Character('\u6D77'));
     }
 
-    public TestObject(String str,
-                      byte[] data,
-                      long lg,
-                      char ch,
-                      Integer newField) {
+    public TestObject(String str, byte[] data, long lg, char ch, Integer newField) {
 
         this();
 
@@ -84,7 +75,7 @@ public class TestObject implements Serializable
 
     public boolean equals(Object obj) {
         try {
-            TestObject to = (TestObject)obj;
+            TestObject to = (TestObject) obj;
 
             if (!internalRep.get(STRING_NAME).equals(to.internalRep.get(STRING_NAME)))
                 return false;
@@ -95,8 +86,8 @@ public class TestObject implements Serializable
             if (!internalRep.get(CHAR_NAME).equals(to.internalRep.get(CHAR_NAME)))
                 return false;
 
-            byte[] thisArray = (byte[])internalRep.get(BYTE_ARRAY_NAME);
-            byte[] otherArray = (byte[])to.internalRep.get(BYTE_ARRAY_NAME);
+            byte[] thisArray = (byte[]) internalRep.get(BYTE_ARRAY_NAME);
+            byte[] otherArray = (byte[]) to.internalRep.get(BYTE_ARRAY_NAME);
 
             return Arrays.equals(thisArray, otherArray);
 
@@ -105,24 +96,22 @@ public class TestObject implements Serializable
         }
     }
 
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
+    private void readObject(java.io.ObjectInputStream s) throws java.io.IOException, ClassNotFoundException {
 
         ObjectInputStream.GetField fields = s.readFields();
 
         System.out.println("Got: " + fields.getClass().getName());
 
-        String strData = (String)fields.get(STRING_NAME, null);
-        byte[] byteData = (byte[])fields.get(BYTE_ARRAY_NAME, null);
-        long lgData = (long)fields.get(LONG_NAME, (long)0);
-        char chData = (char)fields.get(CHAR_NAME, (char)'0');
-        Integer newField = (Integer)fields.get(NEW_FIELD_NAME,
-                                               new Integer(0));
+        String strData = (String) fields.get(STRING_NAME, null);
+        byte[] byteData = (byte[]) fields.get(BYTE_ARRAY_NAME, null);
+        long lgData = (long) fields.get(LONG_NAME, (long) 0);
+        char chData = (char) fields.get(CHAR_NAME, (char) '0');
+        Integer newField = (Integer) fields.get(NEW_FIELD_NAME, new Integer(0));
 
         if (chData == '0')
             System.out.println("chData defaulted");
         else
-            System.out.println("chData not defaulted -- " + (int)chData);
+            System.out.println("chData not defaulted -- " + (int) chData);
 
         if (strData == null)
             System.out.println("String data defaulted");
@@ -162,8 +151,8 @@ public class TestObject implements Serializable
         fields.put(NEW_FIELD_NAME, internalRep.get(NEW_FIELD_NAME));
         fields.put(STRING_NAME, internalRep.get(STRING_NAME));
         fields.put(BYTE_ARRAY_NAME, internalRep.get(BYTE_ARRAY_NAME));
-        fields.put(LONG_NAME, ((Long)internalRep.get(LONG_NAME)).longValue());
-        fields.put(CHAR_NAME, ((Character)internalRep.get(CHAR_NAME)).charValue());
+        fields.put(LONG_NAME, ((Long) internalRep.get(LONG_NAME)).longValue());
+        fields.put(CHAR_NAME, ((Character) internalRep.get(CHAR_NAME)).charValue());
 
         s.writeFields();
     }

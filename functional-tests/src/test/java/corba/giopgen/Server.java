@@ -30,40 +30,36 @@ import org.omg.CORBA.ORB;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.Servant;
 
-import com.sun.corba.ee.spi.misc.ORBConstants ;
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
 /**
  * @author Harold Carr
  */
-public class Server
-{
+public class Server {
     static {
         // This is needed to guarantee that this test will ALWAYS use dynamic
-        // RMI-IIOP.  Currently the default is dynamic when renamed to "ee",
+        // RMI-IIOP. Currently the default is dynamic when renamed to "ee",
         // but static in the default "se" packaging, and this test will
         // fail without dynamic RMI-IIOP.
-        System.setProperty( ORBConstants.USE_DYNAMIC_STUB_PROPERTY, "true" ) ;
+        System.setProperty(ORBConstants.USE_DYNAMIC_STUB_PROPERTY, "true");
     }
 
     private static final String baseMsg = Server.class.getName();
     private static final String RootPOA = "RootPOA";
     private static final long SERVER_RUN_LENGTH = 1000 * 60; // 1 minute
 
-    public static void main(String[] av)
-    {
+    public static void main(String[] av) {
         try {
             Properties props = new Properties();
-            props.setProperty( ORBConstants.DEBUG_PROPERTY, "giop" ) ;
+            props.setProperty(ORBConstants.DEBUG_PROPERTY, "giop");
             ORB orb = ORB.init(av, props);
 
             POA rootPOA = (POA) orb.resolve_initial_references("RootPOA");
             rootPOA.the_POAManager().activate();
 
-            Servant servant = (Servant)
-                javax.rmi.CORBA.Util.getTie(new TestServant());
+            Servant servant = (Servant) javax.rmi.CORBA.Util.getTie(new TestServant());
 
-            createWithServantAndBind(Common.ReferenceName, servant,
-                                     rootPOA, orb);
+            createWithServantAndBind(Common.ReferenceName, servant, rootPOA, orb);
 
             System.out.println("--------------------------------------------");
             System.out.println("Server is ready.");
@@ -85,14 +81,7 @@ public class Server
         }
     }
 
-    public static org.omg.CORBA.Object
-        createWithServantAndBind (String  name,
-                                  Servant servant,
-                                  POA     poa,
-                                  ORB     orb)
-        throws
-            Exception
-    {
+    public static org.omg.CORBA.Object createWithServantAndBind(String name, Servant servant, POA poa, ORB orb) throws Exception {
         byte[] id = name.getBytes();
         poa.activate_object_with_id(id, servant);
         org.omg.CORBA.Object ref = poa.id_to_reference(id);

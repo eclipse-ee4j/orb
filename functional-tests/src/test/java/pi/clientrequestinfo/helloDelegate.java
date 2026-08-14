@@ -31,47 +31,42 @@ import ClientRequestInfo.*; // hello interface
 /**
  * Contains the actual implementations of hello operations.
  */
-public class helloDelegate
-    extends Observable
-    implements helloIF
-{
+public class helloDelegate extends Observable implements helloIF {
     private boolean invoked = false;
     private PrintStream out = null;
 
-    public helloDelegate( PrintStream out ) {
+    public helloDelegate(PrintStream out) {
         super();
         this.out = out;
     }
 
     public String sayHello() {
-        out.println( "helloServant: sayHello() invoked" );
+        out.println("helloServant: sayHello() invoked");
         invoked = true;
         return "Hello, world!";
     }
 
     public String saySystemException() {
-        out.println( "helloServant: saySystemException() invoked" );
+        out.println("helloServant: saySystemException() invoked");
         invoked = true;
-        throw new UNKNOWN( "Valid Test Result" );
+        throw new UNKNOWN("Valid Test Result");
     }
 
-    public void sayUserException()
-        throws ExampleException
-    {
-        out.println( "helloServant: sayUserException() invoked" );
+    public void sayUserException() throws ExampleException {
+        out.println("helloServant: sayUserException() invoked");
         invoked = true;
-        throw new ExampleException( "valid" );
+        throw new ExampleException("valid");
     }
 
     // This will cause a receive_reply to be invoked since this
     // is a one-way method.
     public void sayOneway() {
-        out.println( "helloServant: sayOneway() invoked" );
+        out.println("helloServant: sayOneway() invoked");
         invoked = true;
     }
 
-    public String sayArguments( String arg1, int arg2, boolean arg3 ) {
-        out.println( "helloServant: sayArguments() invoked" );
+    public String sayArguments(String arg1, int arg2, boolean arg3) {
+        out.println("helloServant: sayArguments() invoked");
         invoked = true;
 
         return "return value";

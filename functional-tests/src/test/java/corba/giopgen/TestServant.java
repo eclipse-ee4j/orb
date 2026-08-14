@@ -26,84 +26,76 @@ package corba.giopgen;
 
 import java.rmi.RemoteException;
 
-import java.util.Map ;
-import java.util.HashMap ;
+import java.util.Map;
+import java.util.HashMap;
 
-import java.io.Serializable ;
+import java.io.Serializable;
 
-import javax.rmi.PortableRemoteObject ;
+import javax.rmi.PortableRemoteObject;
 
-import com.sun.corba.ee.spi.logging.UtilSystemException ;
+import com.sun.corba.ee.spi.logging.UtilSystemException;
 import org.glassfish.pfl.basic.contain.SPair;
 
-public class TestServant
-    extends PortableRemoteObject
-    implements Test
-{
+public class TestServant extends PortableRemoteObject implements Test {
     public static final String baseMsg = TestServant.class.getName();
 
-    public TestServant()
-        throws RemoteException
-    {
+    public TestServant() throws RemoteException {
     }
 
-    public int echo(int x, float y, short[] z, String str, Map m )
-        throws RemoteException
-    {
+    public int echo(int x, float y, short[] z, String str, Map m) throws RemoteException {
         System.out.println(baseMsg + ".echo: " + x);
         return x;
     }
 
-    private static UtilSystemException wrapper =
-        UtilSystemException.self ;
+    private static UtilSystemException wrapper = UtilSystemException.self;
 
     private static class ThrowsSysEx implements Serializable {
-        private void readObject( java.io.ObjectInputStream is ) {
-            throw wrapper.testException( 42 ) ;
+        private void readObject(java.io.ObjectInputStream is) {
+            throw wrapper.testException(42);
         }
     }
 
     private static class ThrowsSimpleSysEx implements Serializable {
-        private void readObject( java.io.ObjectInputStream is ) {
-            throw wrapper.simpleTestException( new Exception() ) ;
+        private void readObject(java.io.ObjectInputStream is) {
+            throw wrapper.simpleTestException(new Exception());
         }
     }
 
     private static class Foo implements Serializable {
-        private Map m ;
+        private Map m;
 
-        public Foo( Object... args ) {
-            m = new HashMap() ;
-            boolean atKey = true ;
-            Object key = null ;
-            Object value = null ;
+        public Foo(Object... args) {
+            m = new HashMap();
+            boolean atKey = true;
+            Object key = null;
+            Object value = null;
             for (Object obj : args) {
                 if (atKey) {
-                    key = obj ;
+                    key = obj;
                 } else {
-                    value = obj ;
-                    m.put( key, value ) ;
+                    value = obj;
+                    m.put(key, value);
                 }
 
-                atKey = !atKey ;
+                atKey = !atKey;
             }
         }
     }
 
     public Object testExceptionContext() throws RemoteException {
-        Object d1 = new SPair<String,String>( "foo", "bar" ) ;
-        Object d2 = new SPair<String,ThrowsSysEx>( "baz", new ThrowsSysEx() ) ;
-        Foo f1 = new Foo( "d1", d1, "d2", d2 ) ;
-        SPair<String,Foo> result = new SPair<String,Foo>( "f1", f1 ) ;
-        return result ;
+        Object d1 = new SPair<String, String>("foo", "bar");
+        Object d2 = new SPair<String, ThrowsSysEx>("baz", new ThrowsSysEx());
+        Foo f1 = new Foo("d1", d1, "d2", d2);
+        SPair<String, Foo> result = new SPair<String, Foo>("f1", f1);
+        return result;
     }
 
     public Object testSimpleExceptionContext() throws RemoteException {
-        Object d1 = new SPair<String,String>( "foo", "bar" ) ;
-        Object d2 = new SPair<String,ThrowsSimpleSysEx>( "baz", new ThrowsSimpleSysEx() ) ;
-        Foo f1 = new Foo( "d1", d1, "d2", d2 ) ;
-        SPair<String,Foo> result = new SPair<String,Foo>( "f1", f1 ) ;
-        return result ;
+        Object d1 = new SPair<String, String>("foo", "bar");
+        Object d2 = new SPair<String, ThrowsSimpleSysEx>("baz", new ThrowsSimpleSysEx());
+        Foo f1 = new Foo("d1", d1, "d2", d2);
+        SPair<String, Foo> result = new SPair<String, Foo>("f1", f1);
+        return result;
     }
 }
 

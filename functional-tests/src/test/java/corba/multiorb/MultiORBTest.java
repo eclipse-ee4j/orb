@@ -22,10 +22,8 @@ package corba.multiorb;
 import corba.framework.*;
 import java.util.*;
 
-public class MultiORBTest extends CORBATest
-{
-    protected void doTest() throws Throwable
-    {
+public class MultiORBTest extends CORBATest {
+    protected void doTest() throws Throwable {
         Controller orbd = createORBD();
         orbd.start();
 
@@ -41,4 +39,3 @@ public class MultiORBTest extends CORBATest
         orbd.stop();
     }
 }
-

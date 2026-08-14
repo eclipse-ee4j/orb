@@ -25,8 +25,8 @@ import Util.CreationMethods;
 import Util.GenericFactory;
 import org.omg.PortableServer.POAManagerPackage.AdapterInactive;
 
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
-import com.sun.corba.ee.spi.logging.POASystemException ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
+import com.sun.corba.ee.spi.logging.POASystemException;
 import org.omg.CORBA.COMM_FAILURE;
 import org.omg.CORBA.OBJ_ADAPTER;
 import org.omg.CORBA.SystemException;
@@ -35,13 +35,10 @@ import org.omg.CORBA.SystemException;
 
 public class HelloClient {
     private static final int N_LOOPS = 10;
-    private static final ORBUtilSystemException orbutilWrapper =
-        ORBUtilSystemException.self ;
-    private static final POASystemException poaWrapper =
-        POASystemException.self ;
+    private static final ORBUtilSystemException orbutilWrapper = ORBUtilSystemException.self;
+    private static final POASystemException poaWrapper = POASystemException.self;
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         try {
             Utility u = new Utility(args);
 
@@ -74,12 +71,12 @@ public class HelloClient {
 
             // Create lots of threads, then call holdRequests. This
             // tests the wait_for_completion code on the server.
-            WorkerThread[] threads = new WorkerThread[N_LOOPS*4];
-            for ( int i=0; i<N_LOOPS; i++ ) {
-                threads[i*4] = invokeOnThread(h1);
-                threads[i*4+1] = invokeOnThread(h2);
-                threads[i*4+2] = invokeOnThread(h3);
-                threads[i*4+3] = invokeOnThread(h4);
+            WorkerThread[] threads = new WorkerThread[N_LOOPS * 4];
+            for (int i = 0; i < N_LOOPS; i++) {
+                threads[i * 4] = invokeOnThread(h1);
+                threads[i * 4 + 1] = invokeOnThread(h2);
+                threads[i * 4 + 2] = invokeOnThread(h3);
+                threads[i * 4 + 3] = invokeOnThread(h4);
             }
 
             Thread.sleep(500); // sleep to allow some invocations to happen
@@ -108,7 +105,7 @@ public class HelloClient {
 
             // wait for all the threads to finish
             int errors = 0;
-            for ( int i=0; i<N_LOOPS*4; i++ ) {
+            for (int i = 0; i < N_LOOPS * 4; i++) {
                 threads[i].join();
                 if (threads[i].errorOccured())
                     errors++;
@@ -134,25 +131,25 @@ public class HelloClient {
             try {
                 invoke(h1);
                 throw new Exception("Didn't throw COMM_FAILURE on invoke(h1)");
-            } catch ( COMM_FAILURE ex ) {
+            } catch (COMM_FAILURE ex) {
                 checkTransient("h1", ex);
             }
             try {
                 invoke(h2);
                 throw new Exception("Didn't throw COMM_FAILURE on invoke(h2)");
-            } catch ( COMM_FAILURE ex ) {
+            } catch (COMM_FAILURE ex) {
                 checkTransient("h2", ex);
             }
             try {
                 invoke(h3);
                 throw new Exception("Didn't throw COMM_FAILURE on invoke(h3)");
-            } catch ( COMM_FAILURE ex ) {
+            } catch (COMM_FAILURE ex) {
                 checkTransient("h3", ex);
             }
             try {
                 invoke(h4);
                 throw new Exception("Didn't throw COMM_FAILURE on invoke(h4)");
-            } catch ( COMM_FAILURE ex ) {
+            } catch (COMM_FAILURE ex) {
                 checkTransient("h4", ex);
             }
 
@@ -165,7 +162,7 @@ public class HelloClient {
             try {
                 invoke(h1);
                 throw new Exception("Didn't throw OBJ_ADAPTER on invoke(h1)");
-            } catch ( OBJ_ADAPTER ex ) {
+            } catch (OBJ_ADAPTER ex) {
                 System.out.println("----------------------------------------");
                 System.out.println("Correct behavior - OBJ_ADAPTER/h1");
                 System.out.println("----------------------------------------");
@@ -173,7 +170,7 @@ public class HelloClient {
             try {
                 invoke(h2);
                 throw new Exception("Didn't throw OBJ_ADAPTER on invoke(h2)");
-            } catch ( OBJ_ADAPTER ex ) {
+            } catch (OBJ_ADAPTER ex) {
                 System.out.println("----------------------------------------");
                 System.out.println("Correct behavior - OBJ_ADAPTER/h2");
                 System.out.println("----------------------------------------");
@@ -181,7 +178,7 @@ public class HelloClient {
             try {
                 invoke(h3);
                 throw new Exception("Didn't throw OBJ_ADAPTER on invoke(h3)");
-            } catch ( OBJ_ADAPTER ex ) {
+            } catch (OBJ_ADAPTER ex) {
                 System.out.println("----------------------------------------");
                 System.out.println("Correct behavior - OBJ_ADAPTER/h3");
                 System.out.println("----------------------------------------");
@@ -189,7 +186,7 @@ public class HelloClient {
             try {
                 invoke(h4);
                 throw new Exception("Didn't throw OBJ_ADAPTER on invoke(h4)");
-            } catch ( OBJ_ADAPTER ex ) {
+            } catch (OBJ_ADAPTER ex) {
                 System.out.println("----------------------------------------");
                 System.out.println("Correct behavior - OBJ_ADAPTER/h4");
                 System.out.println("----------------------------------------");
@@ -217,39 +214,27 @@ public class HelloClient {
         System.out.println("----------------------------------------");
     }
 
-    public static Hello createHello(CreationMethods c, GenericFactory f)
-    {
-        return HelloHelper.narrow(f.create(HelloHelper.id(),
-                                           "corba.poamanager.HelloImpl",
-                                           c));
+    public static Hello createHello(CreationMethods c, GenericFactory f) {
+        return HelloHelper.narrow(f.create(HelloHelper.id(), "corba.poamanager.HelloImpl", c));
     }
 
-    static final void invoke(Hello h)
-    {
+    static final void invoke(Hello h) {
         System.out.println(h.hi());
     }
 
-    static final WorkerThread invokeOnThread(Hello h)
-    {
+    static final WorkerThread invokeOnThread(Hello h) {
         WorkerThread th = new WorkerThread(h);
         th.start();
         return th;
     }
 
-    public static void checkTransient(String msg, COMM_FAILURE e)
-    {
-        SystemException expected =
-            orbutilWrapper.communicationsRetryTimeout( new RuntimeException(),
-                -1);
+    public static void checkTransient(String msg, COMM_FAILURE e) {
+        SystemException expected = orbutilWrapper.communicationsRetryTimeout(new RuntimeException(), -1);
         SystemException expectedCause = poaWrapper.poaDiscarding();
-        if (e.getClass().isInstance(expected)
-            && ((SystemException)e).minor == expected.minor
-            && ((SystemException)e).completed == expected.completed
-            && e.getCause() != null
-            && e.getCause().getClass().isInstance(expectedCause)
-            && ((SystemException)e.getCause()).minor == expectedCause.minor
-            && ((SystemException)e.getCause()).completed == expectedCause.completed)
-        {
+        if (e.getClass().isInstance(expected) && ((SystemException) e).minor == expected.minor
+                && ((SystemException) e).completed == expected.completed && e.getCause() != null
+                && e.getCause().getClass().isInstance(expectedCause) && ((SystemException) e.getCause()).minor == expectedCause.minor
+                && ((SystemException) e.getCause()).completed == expectedCause.completed) {
             System.out.println("----------------------------------------");
             System.out.println(msg + " TRANSIENT timeout SUCCESS");
             System.out.println("----------------------------------------");
@@ -263,20 +248,16 @@ public class HelloClient {
     }
 }
 
-
-class WorkerThread extends Thread
-{
+class WorkerThread extends Thread {
     Hello h;
     private boolean errorOccured;
 
-    WorkerThread(Hello h)
-    {
+    WorkerThread(Hello h) {
         this.h = h;
         errorOccured = false;
     }
 
-    public void run()
-    {
+    public void run() {
         try {
             System.out.println(h.hi());
         } catch (Exception e) {
@@ -285,10 +266,7 @@ class WorkerThread extends Thread
         }
     }
 
-    public boolean errorOccured()
-    {
+    public boolean errorOccured() {
         return errorOccured;
     }
 }
-
-

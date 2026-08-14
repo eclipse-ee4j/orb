@@ -24,14 +24,11 @@
 
 package corba.connectintercept_1_4;
 
-public class ServerPersistent
-{
-    public static void main(String av[])
-    {
+public class ServerPersistent {
+    public static void main(String av[]) {
         String[] args = { Common.Persistent };
         ServerCommon.main(args);
     }
 }
 
 // End of file.
-

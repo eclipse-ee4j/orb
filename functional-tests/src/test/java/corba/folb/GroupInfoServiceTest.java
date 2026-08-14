@@ -32,23 +32,16 @@ import java.rmi.RemoteException;
 /**
  * @author Harold Carr
  */
-public interface GroupInfoServiceTest
-    extends Remote
-{
-    public boolean addInstance(String x)
-        throws RemoteException;
+public interface GroupInfoServiceTest extends Remote {
+    public boolean addInstance(String x) throws RemoteException;
 
-    public boolean removeInstance(String x)
-        throws RemoteException;
+    public boolean removeInstance(String x) throws RemoteException;
 
-    public boolean addAcceptor(String x)
-        throws RemoteException;
+    public boolean addAcceptor(String x) throws RemoteException;
 
-    public boolean removeAcceptorAndConnections(String x)
-        throws RemoteException;
+    public boolean removeAcceptorAndConnections(String x) throws RemoteException;
 
-    public void doThreadDump()
-        throws RemoteException;
+    public void doThreadDump() throws RemoteException;
 }
 
 // End of file.

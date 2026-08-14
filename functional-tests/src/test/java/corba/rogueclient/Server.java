@@ -36,23 +36,19 @@ import org.omg.PortableServer.POA;
 // Last Modified: 2004 May 3, 2004 by Charlie Hunt
 //
 
-public class Server
-{
+public class Server {
     private static ORB orb = null;
     private static InitialContext initialContext = null;
     private static boolean dprint = false;
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         Properties props = System.getProperties();
-        if (dprint)
-        {
+        if (dprint) {
             props.put(ORBConstants.DEBUG_PROPERTY, "transport,giop");
         }
 
-        try
-        {
-            orb = (ORB)org.omg.CORBA.ORB.init(args, props);
+        try {
+            orb = (ORB) org.omg.CORBA.ORB.init(args, props);
 
             Tester testerImpl = new TesterImpl();
 
@@ -70,4 +66,3 @@ public class Server
         U.sop("Ending successfully...");
     }
 }
-

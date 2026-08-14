@@ -28,7 +28,6 @@
 // have.  This allows me to resize other bars in the group when
 // on is resized by the user.
 
-
 package ibmspace.client;
 
 import java.util.*;
@@ -36,57 +35,49 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
 
-public class BarGroup extends JPanel implements ActionListener
-{
+public class BarGroup extends JPanel implements ActionListener {
     private Vector fBars;
     private Vector fColors;
 
-    public BarGroup()
-    {
-        fBars = new Vector ();
-        fColors = new Vector ();
+    public BarGroup() {
+        fBars = new Vector();
+        fColors = new Vector();
     }
 
-    public void addBar (LabeledBarControl bar)
-    {
-        super.add (bar, null);
-        fBars.addElement (bar);
-        fColors.addElement (bar.getBarColor());
-        bar.addActionListener (this);
-        adjustBarColor (bar.getBarControl());
+    public void addBar(LabeledBarControl bar) {
+        super.add(bar, null);
+        fBars.addElement(bar);
+        fColors.addElement(bar.getBarColor());
+        bar.addActionListener(this);
+        adjustBarColor(bar.getBarControl());
     }
 
-    public void removeAll ()
-    {
-        super.removeAll ();
-        fBars.removeAllElements ();
-        fColors.removeAllElements ();
+    public void removeAll() {
+        super.removeAll();
+        fBars.removeAllElements();
+        fColors.removeAllElements();
     }
 
-    public LabeledBarControl[] getBars ()
-    {
-        LabeledBarControl[] bars = new LabeledBarControl [fBars.size()];
-        for (int i=0; i<fBars.size(); i++) {
-            bars[i] = (LabeledBarControl)fBars.elementAt (i);
+    public LabeledBarControl[] getBars() {
+        LabeledBarControl[] bars = new LabeledBarControl[fBars.size()];
+        for (int i = 0; i < fBars.size(); i++) {
+            bars[i] = (LabeledBarControl) fBars.elementAt(i);
         }
         return bars;
     }
 
-
-    public void actionPerformed (ActionEvent event)
-    {
-        if ( event.getActionCommand () == "User Changed" ) {
-            handleUserChanged ((BarControl)event.getSource ());
+    public void actionPerformed(ActionEvent event) {
+        if (event.getActionCommand() == "User Changed") {
+            handleUserChanged((BarControl) event.getSource());
         }
 
-        if ( event.getActionCommand () == "Percentage Changed" ) {
-            handleBarPercentageChanged ((BarControl)event.getSource ());
+        if (event.getActionCommand() == "Percentage Changed") {
+            handleBarPercentageChanged((BarControl) event.getSource());
         }
 
     }
 
-    protected void handleUserChanged (BarControl bar)
-    {
+    protected void handleUserChanged(BarControl bar) {
         int numBars = fBars.size();
 
         // Compute total percentage
@@ -94,63 +85,55 @@ public class BarGroup extends JPanel implements ActionListener
         double totalPercentage = 0.0;
         int barsToChange = 0;
 
-        for (int i=0; i<numBars; i++) {
-            LabeledBarControl lbc = (LabeledBarControl)fBars.elementAt (i);
-            BarControl bc = lbc.getBarControl ();
+        for (int i = 0; i < numBars; i++) {
+            LabeledBarControl lbc = (LabeledBarControl) fBars.elementAt(i);
+            BarControl bc = lbc.getBarControl();
 
-            double p = bc.getPercentage ();
+            double p = bc.getPercentage();
 
-            if ( bc != bar && p > 0.001 )
+            if (bc != bar && p > 0.001)
                 barsToChange++;
 
-            totalPercentage += bc.getPercentage ();
+            totalPercentage += bc.getPercentage();
         }
 
         // Level total percentage to 1.0
 
         double perBarExcessPercentage = (totalPercentage - 1.0) / barsToChange;
 
-        for (int i=0; i<fBars.size(); i++) {
-            LabeledBarControl lbc = (LabeledBarControl)fBars.elementAt (i);
-            BarControl bc = lbc.getBarControl ();
-            double p = bc.getPercentage ();
+        for (int i = 0; i < fBars.size(); i++) {
+            LabeledBarControl lbc = (LabeledBarControl) fBars.elementAt(i);
+            BarControl bc = lbc.getBarControl();
+            double p = bc.getPercentage();
 
             if (bc != bar && p > 0.001) {
-                bc.setPercentage (p-perBarExcessPercentage);
+                bc.setPercentage(p - perBarExcessPercentage);
             }
 
         }
 
     }
 
-
-    private Color getBarBaseColor (BarControl bar)
-    {
-        for (int i=0; i<fBars.size(); i++) {
-            LabeledBarControl b = (LabeledBarControl)fBars.elementAt (i);
-            if ( b.getBarControl() == bar ) {
-                return (Color)fColors.elementAt (i);
+    private Color getBarBaseColor(BarControl bar) {
+        for (int i = 0; i < fBars.size(); i++) {
+            LabeledBarControl b = (LabeledBarControl) fBars.elementAt(i);
+            if (b.getBarControl() == bar) {
+                return (Color) fColors.elementAt(i);
             }
         }
-        return new Color (0,0,0);
+        return new Color(0, 0, 0);
     }
 
-
-    private void adjustBarColor (BarControl bar)
-    {
-        double p = bar.getPercentage ();
+    private void adjustBarColor(BarControl bar) {
+        double p = bar.getPercentage();
         Color c = getBarBaseColor(bar);
-        float[] hsbc = Color.RGBtoHSB(c.getRed(),c.getGreen(),c.getBlue(),null);
-        hsbc[2] = (float)Math.sqrt(Math.sqrt(p));
-        bar.setColor (Color.getHSBColor(hsbc[0],hsbc[2],hsbc[2]));
+        float[] hsbc = Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), null);
+        hsbc[2] = (float) Math.sqrt(Math.sqrt(p));
+        bar.setColor(Color.getHSBColor(hsbc[0], hsbc[2], hsbc[2]));
     }
 
-
-    protected void handleBarPercentageChanged (BarControl bar)
-    {
-        adjustBarColor (bar);
+    protected void handleBarPercentageChanged(BarControl bar) {
+        adjustBarColor(bar);
     }
-
-
 
 }

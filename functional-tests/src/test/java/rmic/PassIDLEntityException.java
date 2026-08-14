@@ -19,6 +19,7 @@
  */
 
 package rmic;
+
 public interface PassIDLEntityException extends java.rmi.Remote {
     void method(IDLEntityException arg) throws java.rmi.RemoteException;
 }

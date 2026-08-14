@@ -31,9 +31,7 @@ import ServerRequestInfo.*;
 /**
  * Servant implementation.
  */
-class helloDSIDeprecatedServant
-    extends org.omg.CORBA.DynamicImplementation
-{
+class helloDSIDeprecatedServant extends org.omg.CORBA.DynamicImplementation {
     // The object to delegate to
     DSIImpl impl;
 
@@ -43,15 +41,12 @@ class helloDSIDeprecatedServant
         return __ids;
     }
 
-    public helloDSIDeprecatedServant( ORB orb, PrintStream out, String symbol,
-        helloDelegate.ClientCallback clientCallback )
-    {
-        impl = new DSIImpl( orb, out, symbol, clientCallback );
+    public helloDSIDeprecatedServant(ORB orb, PrintStream out, String symbol, helloDelegate.ClientCallback clientCallback) {
+        impl = new DSIImpl(orb, out, symbol, clientCallback);
     }
 
-    public void invoke( ServerRequest r ) {
-        impl.invoke( r );
+    public void invoke(ServerRequest r) {
+        impl.invoke(r);
     }
 
 }
-

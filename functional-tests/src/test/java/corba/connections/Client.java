@@ -27,17 +27,16 @@ package corba.connections;
 import java.rmi.RemoteException;
 import javax.naming.InitialContext;
 
-import java.util.Properties ;
+import java.util.Properties;
 
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 
 import corba.hcks.C;
 import corba.hcks.U;
 
-import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
+import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
 
-public class Client
-{
+public class Client {
     public static boolean showInbound = true;
     public static int NUM_THREADS = 100;
     public static boolean inParallel = false;
@@ -56,8 +55,7 @@ public class Client
 
     public static ConnectionStatistics stats;
 
-    public static void main(String[] av)
-    {
+    public static void main(String[] av) {
         instance = Struct.getSampleInstance();
 
         try {
@@ -65,10 +63,10 @@ public class Client
 
             U.sop(name + " ORB.init ...");
 
-            Properties props = new Properties() ;
-            props.setProperty( "com.sun.corba.ee.ORBDebug", "subcontract" ) ;
-            orb = (com.sun.corba.ee.spi.orb.ORB)ORB.init(av, props);
-            stats = new ConnectionStatistics( orb ) ;
+            Properties props = new Properties();
+            props.setProperty("com.sun.corba.ee.ORBDebug", "subcontract");
+            orb = (com.sun.corba.ee.spi.orb.ORB) ORB.init(av, props);
+            stats = new ConnectionStatistics(orb);
 
             U.sop(name + " InitialContext ...");
 
@@ -102,10 +100,9 @@ public class Client
             callResume(c1s21, "c1s21 RESUME");
 
             for (int i = 0; i < NUM_THREADS; i++) {
-                //boolean exitAndPrintResult = (i % 10 == 0) ? true : false;
+                // boolean exitAndPrintResult = (i % 10 == 0) ? true : false;
                 boolean exitAndPrintResult = true;
-                CallThread callThread =
-                    new CallThread(i, exitAndPrintResult, exitAndPrintResult);
+                CallThread callThread = new CallThread(i, exitAndPrintResult, exitAndPrintResult);
                 if (inParallel) {
                     callThread.start();
                 } else {
@@ -122,45 +119,28 @@ public class Client
         }
     }
 
-    public static RemoteInterface lookup(int i, String rn,
-                                         InitialContext initialContext)
-        throws
-            Exception
-    {
-        RemoteInterface result = (RemoteInterface)
-            U.lookupAndNarrow(rn, RemoteInterface.class, initialContext);
+    public static RemoteInterface lookup(int i, String rn, InitialContext initialContext) throws Exception {
+        RemoteInterface result = (RemoteInterface) U.lookupAndNarrow(rn, RemoteInterface.class, initialContext);
 
         if (false) {
-            com.sun.corba.ee.spi.ior.IOR ior =
-                ((com.sun.corba.ee.spi.transport.ContactInfoList)
-                 ((com.sun.corba.ee.spi.protocol.ClientDelegate)
-                  StubAdapter.getDelegate( result )).
-                  getContactInfoList()).getTargetIOR();
+            com.sun.corba.ee.spi.ior.IOR ior = ((com.sun.corba.ee.spi.transport.ContactInfoList) ((com.sun.corba.ee.spi.protocol.ClientDelegate) StubAdapter
+                    .getDelegate(result)).getContactInfoList()).getTargetIOR();
 
-            ORB thisOrb = (ORB)StubAdapter.getORB( result ) ;
+            ORB thisOrb = (ORB) StubAdapter.getORB(result);
 
-            U.sop(i + ": lookup: " + rn
-                  + " orbIdentity: " + System.identityHashCode(thisOrb)
-                  + " stubIdentity: " + System.identityHashCode(result)
-                  + " iorIdentity: " + System.identityHashCode(ior)
-                  + " iorHash: " + ior.hashCode());
+            U.sop(i + ": lookup: " + rn + " orbIdentity: " + System.identityHashCode(thisOrb) + " stubIdentity: "
+                    + System.identityHashCode(result) + " iorIdentity: " + System.identityHashCode(ior) + " iorHash: " + ior.hashCode());
         }
         return result;
     }
 
-    public static void call(RemoteInterface r, String msg)
-        throws
-            Exception
-    {
+    public static void call(RemoteInterface r, String msg) throws Exception {
         returnInstance = r.method(instance);
         pstats(msg);
         U.sop(r.testMonitoring());
     }
 
-    public static void callBlock(RemoteInterface r, String msg)
-        throws
-            Exception
-    {
+    public static void callBlock(RemoteInterface r, String msg) throws Exception {
         BlockThread blockThread = new BlockThread(r);
         blockThread.start();
         Thread.sleep(2000);
@@ -168,48 +148,37 @@ public class Client
         U.sop(r.testMonitoring());
     }
 
-    public static void callResume(RemoteInterface r, String msg)
-        throws
-            Exception
-    {
+    public static void callResume(RemoteInterface r, String msg) throws Exception {
         r.resume();
         Thread.sleep(2000);
         pstats(msg);
         U.sop(r.testMonitoring());
     }
 
-    public static void pstats(String msg)
-    {
+    public static void pstats(String msg) {
         outbound(msg);
         inbound(msg);
     }
 
-    public static void outbound(String msg)
-    {
-        stats.outbound(name + " " + msg, (com.sun.corba.ee.spi.orb.ORB)orb);
+    public static void outbound(String msg) {
+        stats.outbound(name + " " + msg, (com.sun.corba.ee.spi.orb.ORB) orb);
     }
 
-    public static void inbound(String msg)
-    {
+    public static void inbound(String msg) {
         if (showInbound) {
-            stats.inbound(name + " " + msg, (com.sun.corba.ee.spi.orb.ORB)orb);
+            stats.inbound(name + " " + msg, (com.sun.corba.ee.spi.orb.ORB) orb);
         }
     }
 }
 
-class BlockThread
-    extends
-        Thread
-{
+class BlockThread extends Thread {
     RemoteInterface r;
 
-    BlockThread(RemoteInterface r)
-    {
+    BlockThread(RemoteInterface r) {
         this.r = r;
     }
 
-    public void run()
-    {
+    public void run() {
         try {
             r.block();
         } catch (RemoteException e) {
@@ -220,38 +189,30 @@ class BlockThread
     }
 }
 
-class CallThread
-    extends
-        Thread
-{
+class CallThread extends Thread {
     int i;
     boolean exit;
     boolean printResult;
 
-    CallThread(int i, boolean exit, boolean printResult)
-    {
+    CallThread(int i, boolean exit, boolean printResult) {
         this.i = i;
         this.exit = exit;
         this.printResult = printResult;
     }
 
-    public void run()
-    {
+    public void run() {
         doWork();
     }
 
-    public void doWork()
-    {
+    public void doWork() {
         try {
             U.sop(i + ": CallThread ORB.init:");
-            ORB orb = (ORB)ORB.init((String[])null, null);
+            ORB orb = (ORB) ORB.init((String[]) null, null);
             U.sop(i + ": CallThread InitialContext:");
             InitialContext initialContext = C.createInitialContext(orb);
             U.sop(i + ": CallThread lookup:");
-            RemoteInterface s11 =
-                Client.lookup(i, Server.service11, initialContext);
-            RemoteInterface s21 =
-                Client.lookup(i, Server.service21, initialContext);
+            RemoteInterface s11 = Client.lookup(i, Server.service11, initialContext);
+            RemoteInterface s21 = Client.lookup(i, Server.service21, initialContext);
             U.sop(i + ": CallThread call:");
             String s11Result = s11.testMonitoring();
             String s21Result = s21.testMonitoring();
@@ -261,7 +222,7 @@ class CallThread
                 U.sop(s11Result);
                 U.sop(s21Result);
             }
-            if (! exit) {
+            if (!exit) {
                 orb.run();
             }
             U.sop(i + ": exiting");

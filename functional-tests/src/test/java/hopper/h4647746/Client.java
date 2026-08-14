@@ -19,158 +19,142 @@
 
 package hopper.h4647746;
 
-import java.io.PrintStream ;
+import java.io.PrintStream;
 
-import java.util.Properties ;
-import java.util.LinkedList ;
-import java.util.Iterator ;
-import java.util.StringTokenizer ;
-import java.util.Arrays ;
+import java.util.Properties;
+import java.util.LinkedList;
+import java.util.Iterator;
+import java.util.StringTokenizer;
+import java.util.Arrays;
 
-import org.omg.PortableServer.POA ;
-import org.omg.PortableServer.Servant ;
-import org.omg.PortableServer.RequestProcessingPolicyValue ;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.Servant;
+import org.omg.PortableServer.RequestProcessingPolicyValue;
 
-import org.omg.PortableServer.POAPackage.WrongPolicy ;
-import org.omg.PortableServer.POAPackage.InvalidPolicy ;
-import org.omg.PortableServer.POAPackage.AdapterAlreadyExists ;
+import org.omg.PortableServer.POAPackage.WrongPolicy;
+import org.omg.PortableServer.POAPackage.InvalidPolicy;
+import org.omg.PortableServer.POAPackage.AdapterAlreadyExists;
 
-import org.omg.PortableServer.portable.Delegate ;
+import org.omg.PortableServer.portable.Delegate;
 
-import org.omg.CORBA.portable.ObjectImpl ;
+import org.omg.CORBA.portable.ObjectImpl;
 
-import org.omg.CORBA.ORB ;
-import org.omg.CORBA.Policy ;
-import org.omg.CORBA.BAD_PARAM ;
-import org.omg.CORBA.INTERNAL ;
-import org.omg.CORBA.OctetSeqHolder ;
+import org.omg.CORBA.ORB;
+import org.omg.CORBA.Policy;
+import org.omg.CORBA.BAD_PARAM;
+import org.omg.CORBA.INTERNAL;
+import org.omg.CORBA.OctetSeqHolder;
 
-import org.omg.CORBA.ORBPackage.InvalidName ;
+import org.omg.CORBA.ORBPackage.InvalidName;
 
-import org.omg.CORBA_2_3.portable.OutputStream ;
-import org.omg.CORBA_2_3.portable.InputStream ;
+import org.omg.CORBA_2_3.portable.OutputStream;
+import org.omg.CORBA_2_3.portable.InputStream;
 
-public class Client
-{
-    private PrintStream out ;
-    private PrintStream err ;
-    private ORB orb ;
+public class Client {
+    private PrintStream out;
+    private PrintStream err;
+    private ORB orb;
 
-    public static void main(String args[])
-    {
-        System.out.println( "Starting POA Applet initialization test" ) ;
-        try{
-            Properties props = System.getProperties() ;
-            new Client( props, args, System.out, System.err ) ;
+    public static void main(String args[]) {
+        System.out.println("Starting POA Applet initialization test");
+        try {
+            Properties props = System.getProperties();
+            new Client(props, args, System.out, System.err);
         } catch (Exception e) {
-            System.out.println("ERROR : " + e) ;
+            System.out.println("ERROR : " + e);
             e.printStackTrace(System.out);
-            System.exit (1);
+            System.exit(1);
         }
     }
 
-    public Client( Properties props, String args[], PrintStream out,
-        PrintStream err )
-    {
-        this.orb = ORB.init( args, props ) ;
-        this.out = System.out ;
-        this.err = System.err ;
+    public Client(Properties props, String args[], PrintStream out, PrintStream err) {
+        this.orb = ORB.init(args, props);
+        this.out = System.out;
+        this.err = System.err;
 
-        runTests() ;
+        runTests();
     }
 
 // *************************************************
 // ***************   Utilities   *******************
 // *************************************************
 
-    private void error( String msg )
-    {
-        throw new RuntimeException( msg ) ;
+    private void error(String msg) {
+        throw new RuntimeException(msg);
     }
 
-    private void info( String msg )
-    {
-        out.println( msg ) ;
+    private void info(String msg) {
+        out.println(msg);
     }
 
- // *************************************************
+    // *************************************************
 // ***************   TESTS   ***********************
 // *************************************************
 
-    private void runTests()
-    {
-        java.applet.Applet applet = new java.applet.Applet() ;
+    private void runTests() {
+        java.applet.Applet applet = new java.applet.Applet();
         java.applet.AppletStub dummy = new java.applet.AppletStub() {
-            public void appletResize( int width, int height )
-            {
+            public void appletResize(int width, int height) {
             }
 
-            public java.applet.AppletContext getAppletContext()
-            {
-                return null ;
+            public java.applet.AppletContext getAppletContext() {
+                return null;
             }
 
-            public java.net.URL getCodeBase()
-            {
-                return null ;
+            public java.net.URL getCodeBase() {
+                return null;
             }
 
-            public java.net.URL getDocumentBase()
-            {
-                return null ;
+            public java.net.URL getDocumentBase() {
+                return null;
             }
 
-            public String getParameter( String name )
-            {
-                return null ;
+            public String getParameter(String name) {
+                return null;
             }
 
-            public boolean isActive()
-            {
-                return false ;
+            public boolean isActive() {
+                return false;
             }
-        } ;
-        applet.setStub( dummy ) ;
+        };
+        applet.setStub(dummy);
 
-        ORB orb = ORB.init( applet, null ) ;
-        POA rpoa = null ;
+        ORB orb = ORB.init(applet, null);
+        POA rpoa = null;
         try {
-            rpoa = (POA)(orb.resolve_initial_references( "RootPOA" )) ;
+            rpoa = (POA) (orb.resolve_initial_references("RootPOA"));
         } catch (InvalidName err) {
-            error( err.toString() ) ;
+            error(err.toString());
         }
 
-        Policy[] policies = { rpoa.create_request_processing_policy(
-            RequestProcessingPolicyValue.USE_DEFAULT_SERVANT ) } ;
+        Policy[] policies = { rpoa.create_request_processing_policy(RequestProcessingPolicyValue.USE_DEFAULT_SERVANT) };
 
-        POA cpoa = null ;
+        POA cpoa = null;
 
         try {
-            cpoa = rpoa.create_POA( "Child", rpoa.the_POAManager(),
-                policies ) ;
+            cpoa = rpoa.create_POA("Child", rpoa.the_POAManager(), policies);
         } catch (InvalidPolicy err) {
-            error( err.toString() ) ;
+            error(err.toString());
         } catch (AdapterAlreadyExists err) {
-            error( err.toString() ) ;
+            error(err.toString());
         }
 
         Servant servant = new Servant() {
-            public String[] _all_interfaces( POA poa, byte[] objectId )
-            {
-                return null ;
+            public String[] _all_interfaces(POA poa, byte[] objectId) {
+                return null;
             }
-        } ;
+        };
 
         // This should set the delegate on servant
         try {
-            cpoa.set_servant( servant ) ;
+            cpoa.set_servant(servant);
         } catch (WrongPolicy err) {
-            error( err.toString() ) ;
+            error(err.toString());
         }
 
         // Without the fix for bug 4647746, this fails because
         // the delegate was not initialized in ORB.init in Applet
         // mode.
-        Delegate delegate = servant._get_delegate() ;
+        Delegate delegate = servant._get_delegate();
     }
 }

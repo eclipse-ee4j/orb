@@ -28,23 +28,21 @@ import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import java.util.Properties;
 
-class idlDynamicServant
-    extends
-        org.omg.PortableServer.DynamicImplementation
-{
-    //private static String[] __ids = { "IDL:hcks/idlI:1.0" };
+class idlDynamicServant extends org.omg.PortableServer.DynamicImplementation {
+    // private static String[] __ids = { "IDL:hcks/idlI:1.0" };
     private static String[] __ids = new _idlIStub()._ids();
-    public String[] _all_interfaces(POA poa, byte[] oid) { return __ids; }
+
+    public String[] _all_interfaces(POA poa, byte[] oid) {
+        return __ids;
+    }
 
     private ORB orb;
 
-    public idlDynamicServant(ORB orb)
-    {
+    public idlDynamicServant(ORB orb) {
         this.orb = orb;
     }
 
-    public void invoke(ServerRequest r)
-    {
+    public void invoke(ServerRequest r) {
         idlDynInvokeHelper.invoke(orb, r);
     }
 }

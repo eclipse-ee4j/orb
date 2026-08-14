@@ -25,14 +25,16 @@ import java.rmi.RemoteException;
 /**
  * Hello interface for RMI-IIOP version of test
  */
-public interface helloIF
-    extends Remote
-{
-  String sayHello () throws RemoteException;
-  String saySystemException () throws RemoteException;
-  void sayOneway () throws RemoteException;
-  void clearInvoked () throws RemoteException;
-  boolean wasInvoked () throws RemoteException;
-  void resetServant () throws RemoteException;
-}
+public interface helloIF extends Remote {
+    String sayHello() throws RemoteException;
 
+    String saySystemException() throws RemoteException;
+
+    void sayOneway() throws RemoteException;
+
+    void clearInvoked() throws RemoteException;
+
+    boolean wasInvoked() throws RemoteException;
+
+    void resetServant() throws RemoteException;
+}

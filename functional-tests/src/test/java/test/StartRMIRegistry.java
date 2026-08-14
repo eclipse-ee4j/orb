@@ -41,7 +41,6 @@ public class StartRMIRegistry {
             registry = LocateRegistry.createRegistry(port);
             System.out.println(Util.HANDSHAKE);
 
-
             // prevent registry from exiting
             while (true) {
                 try {
@@ -55,8 +54,7 @@ public class StartRMIRegistry {
         } catch (NumberFormatException e) {
             System.out.println("Port is not a number.");
         } catch (Exception e) {
-            System.out.println("RegistryImpl.main: an exception occurred: " +
-                               e.getMessage());
+            System.out.println("RegistryImpl.main: an exception occurred: " + e.getMessage());
             e.printStackTrace();
         }
         System.exit(1);

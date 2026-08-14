@@ -21,8 +21,7 @@ package corba.cdrext;
 
 import java.io.*;
 
-public class TestClass implements Serializable
-{
+public class TestClass implements Serializable {
     private NestedInnerClass instance;
 
     public TestClass() {
@@ -34,7 +33,7 @@ public class TestClass implements Serializable
             return false;
 
         try {
-            return instance.equals(((TestClass)obj).instance);
+            return instance.equals(((TestClass) obj).instance);
         } catch (ClassCastException cce) {
             return false;
         }
@@ -48,14 +47,12 @@ public class TestClass implements Serializable
 
         private long data;
 
-        public void readExternal(ObjectInput decoder)
-            throws IOException, ClassNotFoundException {
+        public void readExternal(ObjectInput decoder) throws IOException, ClassNotFoundException {
 
             data = decoder.readLong();
         }
 
-        public void writeExternal(ObjectOutput encoder)
-            throws IOException {
+        public void writeExternal(ObjectOutput encoder) throws IOException {
 
             encoder.writeLong(data);
         }
@@ -65,12 +62,10 @@ public class TestClass implements Serializable
                 return false;
 
             try {
-                return data == ((NestedInnerClass)obj).data;
+                return data == ((NestedInnerClass) obj).data;
             } catch (ClassCastException cce) {
                 return false;
             }
         }
     }
 }
-
-

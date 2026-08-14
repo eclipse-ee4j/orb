@@ -32,16 +32,11 @@ import org.omg.PortableInterceptor.Current;
 import org.omg.PortableInterceptor.CurrentHelper;
 import org.omg.PortableInterceptor.ORBInitInfo;
 
-
-public class AServiceORBInitializer
-    extends org.omg.CORBA.LocalObject
-    implements org.omg.PortableInterceptor.ORBInitializer
-{
+public class AServiceORBInitializer extends org.omg.CORBA.LocalObject implements org.omg.PortableInterceptor.ORBInitializer {
     private AServiceImpl aServiceImpl;
     private AServiceInterceptor aServiceInterceptor;
 
-    public void pre_init(ORBInitInfo info)
-    {
+    public void pre_init(ORBInitInfo info) {
         try {
             int id = info.allocate_slot_id();
 
@@ -62,24 +57,18 @@ public class AServiceORBInitializer
         }
     }
 
-    public void post_init(ORBInitInfo info)
-    {
+    public void post_init(ORBInitInfo info) {
         try {
 
-            Current piCurrent =
-                CurrentHelper.narrow(
-                    info.resolve_initial_references("PICurrent"));
+            Current piCurrent = CurrentHelper.narrow(info.resolve_initial_references("PICurrent"));
             aServiceImpl.setPICurrent(piCurrent);
 
-            CodecFactory codecFactory =
-                CodecFactoryHelper.narrow(
-                    info.resolve_initial_references("CodecFactory"));
-            Encoding encoding = new Encoding((short)0, (byte)1, (byte)2);
+            CodecFactory codecFactory = CodecFactoryHelper.narrow(info.resolve_initial_references("CodecFactory"));
+            Encoding encoding = new Encoding((short) 0, (byte) 1, (byte) 2);
             Codec codec = codecFactory.create_codec(encoding);
             aServiceInterceptor.setCodec(codec);
 
-            AServiceIORInterceptor aServiceIORInterceptor =
-                new AServiceIORInterceptor(codec);
+            AServiceIORInterceptor aServiceIORInterceptor = new AServiceIORInterceptor(codec);
             info.add_ior_interceptor(aServiceIORInterceptor);
 
         } catch (Throwable t) {

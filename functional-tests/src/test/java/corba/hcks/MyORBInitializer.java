@@ -32,16 +32,10 @@ import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 import org.omg.PortableInterceptor.Current;
 import org.omg.PortableInterceptor.CurrentHelper;
 
-public class MyORBInitializer
-    extends
-        org.omg.CORBA.LocalObject
-    implements
-        org.omg.PortableInterceptor.ORBInitializer
-{
+public class MyORBInitializer extends org.omg.CORBA.LocalObject implements org.omg.PortableInterceptor.ORBInitializer {
     public static final String baseMsg = MyORBInitializer.class.getName();
 
-    public void pre_init(ORBInitInfo info)
-    {
+    public void pre_init(ORBInitInfo info) {
         try {
             MyInterceptor interceptor = new MyInterceptor();
             info.add_client_request_interceptor(interceptor);
@@ -52,41 +46,24 @@ public class MyORBInitializer
         }
     }
 
-    public void post_init(ORBInitInfo info)
-    {
+    public void post_init(ORBInitInfo info) {
         try {
-            Current piCurrent =
-                CurrentHelper.narrow(
-                    info.resolve_initial_references(U.PICurrent));
-            NamingContext nameService =
-                NamingContextHelper.narrow(
-                   info.resolve_initial_references(U.NameService));;
+            Current piCurrent = CurrentHelper.narrow(info.resolve_initial_references(U.PICurrent));
+            NamingContext nameService = NamingContextHelper.narrow(info.resolve_initial_references(U.NameService));
+            ;
 
             SsPicInterceptor.sPic1ASlotId = info.allocate_slot_id();
             SsPicInterceptor.sPic1BSlotId = info.allocate_slot_id();
             int sPic2ASlotId = info.allocate_slot_id();
             int sPic2BSlotId = info.allocate_slot_id();
 
-            SsPicInterceptor sPicAInt =
-                new SsPicInterceptor(SsPicInterceptor.sPic1AServiceContextId,
-                                     SsPicInterceptor.sPic2AServiceContextId,
-                                     SsPicInterceptor.sPic1ASlotId,
-                                     sPic2ASlotId,
-                                     piCurrent,
-                                     nameService,
-                                     "sPicA");
+            SsPicInterceptor sPicAInt = new SsPicInterceptor(SsPicInterceptor.sPic1AServiceContextId,
+                    SsPicInterceptor.sPic2AServiceContextId, SsPicInterceptor.sPic1ASlotId, sPic2ASlotId, piCurrent, nameService, "sPicA");
             info.add_client_request_interceptor(sPicAInt);
             info.add_server_request_interceptor(sPicAInt);
 
-
-            SsPicInterceptor sPicBInt =
-                new SsPicInterceptor(SsPicInterceptor.sPic1BServiceContextId,
-                                     SsPicInterceptor.sPic2BServiceContextId,
-                                     SsPicInterceptor.sPic1BSlotId,
-                                     sPic2BSlotId,
-                                     piCurrent,
-                                     nameService,
-                                     "sPicB");
+            SsPicInterceptor sPicBInt = new SsPicInterceptor(SsPicInterceptor.sPic1BServiceContextId,
+                    SsPicInterceptor.sPic2BServiceContextId, SsPicInterceptor.sPic1BSlotId, sPic2BSlotId, piCurrent, nameService, "sPicB");
             info.add_client_request_interceptor(sPicBInt);
             info.add_server_request_interceptor(sPicBInt);
             U.sop(baseMsg + ".post_init");

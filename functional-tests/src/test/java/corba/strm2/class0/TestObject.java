@@ -22,8 +22,7 @@ import corba.strm2.Testable;
 /**
  * Initial class for start of evolution.
  */
-public class TestObject implements Testable
-{
+public class TestObject implements Testable {
     private static final long serialVersionUID = 378730127323820502L;
 
     private String desc;
@@ -42,13 +41,11 @@ public class TestObject implements Testable
 
     public boolean equals(Object obj) {
         try {
-            TestObject other = (TestObject)obj;
+            TestObject other = (TestObject) obj;
             if (other == null)
                 return false;
 
-            return data0.equals(other.data0) &&
-                data1 == other.data1 &&
-                data2.equals(other.data2);
+            return data0.equals(other.data0) && data1 == other.data1 && data2.equals(other.data2);
         } catch (ClassCastException cce) {
             return false;
         }
@@ -59,16 +56,7 @@ public class TestObject implements Testable
     }
 
     public String toString() {
-        return
-            (super.getClass().equals(Object.class) ? "" : super.toString())
-            + " [TestObject desc=" + desc
-            + ", data0=" + data0
-            + ", data1=" + data1
-            + ", data2= " + data2
-            + "]";
+        return (super.getClass().equals(Object.class) ? "" : super.toString()) + " [TestObject desc=" + desc + ", data0=" + data0
+                + ", data1=" + data1 + ", data2= " + data2 + "]";
     }
 }
-
-
-
-

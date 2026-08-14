@@ -19,22 +19,17 @@
  */
 
 package test12;
+
 import java.io.ObjectStreamField;
 
 public class SerialPersistent implements java.io.Serializable {
 
-    private static final ObjectStreamField[] serialPersistentFields = {
-        new ObjectStreamField("member1",Object.class),
-        new ObjectStreamField("member2",java.util.Hashtable.class),
-        new ObjectStreamField("member3",byte.class),
-        new ObjectStreamField("member4",char.class),
-        new ObjectStreamField("member5",short.class),
-        new ObjectStreamField("member6",int.class),
-        new ObjectStreamField("member7",long[][][].class),
-        //        new ObjectStreamField("member8",float.class),
-        new ObjectStreamField("member9",double.class),
-        new ObjectStreamField("member10",boolean[].class),
-    };
+    private static final ObjectStreamField[] serialPersistentFields = { new ObjectStreamField("member1", Object.class),
+            new ObjectStreamField("member2", java.util.Hashtable.class), new ObjectStreamField("member3", byte.class),
+            new ObjectStreamField("member4", char.class), new ObjectStreamField("member5", short.class),
+            new ObjectStreamField("member6", int.class), new ObjectStreamField("member7", long[][][].class),
+            // new ObjectStreamField("member8",float.class),
+            new ObjectStreamField("member9", double.class), new ObjectStreamField("member10", boolean[].class), };
 
     java.lang.Object member1;
     java.util.Hashtable member2;

@@ -22,48 +22,40 @@ package ibmspace.common;
 
 import java.lang.reflect.Array;
 
+public class BudgetSummary implements java.io.Serializable {
+    private String[] fNames;
+    private double[] fPercentages;
 
-public class BudgetSummary implements java.io.Serializable
-{
-    private String[]    fNames;
-    private double[]    fPercentages;
-
-
-    public BudgetSummary (int numItems, String[] names, double[] percentages)
-    {
+    public BudgetSummary(int numItems, String[] names, double[] percentages) {
         fNames = names;
         fPercentages = percentages;
     }
 
-    public String[] getNames ()
-    {
+    public String[] getNames() {
         return fNames;
     }
 
-    public double getPercentage (String name)
-    {
-        for (int i=0; i<Array.getLength(fNames); i++) {
-            if ( fNames[i].equals (name) ) {
+    public double getPercentage(String name) {
+        for (int i = 0; i < Array.getLength(fNames); i++) {
+            if (fNames[i].equals(name)) {
                 return fPercentages[i];
             }
         }
         return 0;
     }
 
-    public void setPercentage (String name, double percentage)
-    {
-        for (int i=0; i<Array.getLength(fNames); i++) {
-            if ( fNames[i].equals (name) ) {
+    public void setPercentage(String name, double percentage) {
+        for (int i = 0; i < Array.getLength(fNames); i++) {
+            if (fNames[i].equals(name)) {
                 fPercentages[i] = percentage;
             }
         }
     }
 
-    public String toString ()
-    {
+    public String toString() {
         String s = "(";
-        int num = Array.getLength (fNames);
-        for (int i=0; i<num; i++) {
+        int num = Array.getLength(fNames);
+        for (int i = 0; i < num; i++) {
             s += "(" + fNames[i] + "," + String.valueOf(fPercentages[i]) + ")" + ",";
         }
         s += ")";
@@ -71,6 +63,3 @@ public class BudgetSummary implements java.io.Serializable
     }
 
 }
-
-
-

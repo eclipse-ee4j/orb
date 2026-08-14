@@ -28,35 +28,28 @@ import org.omg.CORBA_2_3.portable.OutputStream;
 
 import com.sun.corba.ee.spi.ior.TaggedComponentBase;
 
-public class ORBDListenPortsComponent
-    extends
-        TaggedComponentBase
-{
+public class ORBDListenPortsComponent extends TaggedComponentBase {
     private String listenPorts;
 
-    public ORBDListenPortsComponent(String listenPorts)
-    {
+    public ORBDListenPortsComponent(String listenPorts) {
         this.listenPorts = listenPorts;
     }
 
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (o == null) {
             return false;
         }
         if (!(o instanceof ORBDListenPortsComponent)) {
             return false;
         }
-        return listenPorts.equals(((ORBDListenPortsComponent)o).listenPorts);
+        return listenPorts.equals(((ORBDListenPortsComponent) o).listenPorts);
     }
 
-    public void writeContents(OutputStream os)
-    {
+    public void writeContents(OutputStream os) {
         os.write_string(listenPorts);
     }
 
-    public int getId()
-    {
+    public int getId() {
         return Common.ListenPortsComponentID;
     }
 }

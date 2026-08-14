@@ -27,22 +27,17 @@ package corba.giopgen;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import java.util.Map ;
+import java.util.Map;
 
 /**
  * @author Harold Carr
  */
-public interface Test
-    extends Remote
-{
-    public int echo(int x, float y, short[] z, String str, Map m )
-        throws RemoteException;
+public interface Test extends Remote {
+    public int echo(int x, float y, short[] z, String str, Map m) throws RemoteException;
 
-    public Object testExceptionContext() throws RemoteException ;
+    public Object testExceptionContext() throws RemoteException;
 
-    public Object testSimpleExceptionContext() throws RemoteException ;
+    public Object testSimpleExceptionContext() throws RemoteException;
 }
 
 // End of file.
-
-

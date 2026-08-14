@@ -20,8 +20,8 @@
 
 package alpha.bravo;
 
-public abstract class AB extends javax.rmi.PortableRemoteObject
-    implements A, B, DuckBill {
-    public AB() throws java.rmi.RemoteException {}
+public abstract class AB extends javax.rmi.PortableRemoteObject implements A, B, DuckBill {
+    public AB() throws java.rmi.RemoteException {
+    }
 
 }

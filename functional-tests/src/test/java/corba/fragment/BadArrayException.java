@@ -19,9 +19,10 @@
 
 package corba.fragment;
 
-public class BadArrayException extends java.lang.Exception
-{
-    public BadArrayException() {}
+public class BadArrayException extends java.lang.Exception {
+    public BadArrayException() {
+    }
+
     public BadArrayException(String msg) {
         super(msg);
     }

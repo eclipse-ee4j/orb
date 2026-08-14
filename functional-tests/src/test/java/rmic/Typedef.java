@@ -19,10 +19,12 @@
  */
 
 package rmic;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface Typedef extends Remote {
-    char union (char a) throws RemoteException;
-    char union (long a, Object b) throws RemoteException;
+    char union(char a) throws RemoteException;
+
+    char union(long a, Object b) throws RemoteException;
 }

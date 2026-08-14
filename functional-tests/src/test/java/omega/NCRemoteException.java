@@ -19,10 +19,13 @@
  */
 
 package omega;
+
 public class NCRemoteException extends java.rmi.RemoteException {
     public static final char J_bar = 1;
 
-    public String getHelp() {return "HELP!";}
+    public String getHelp() {
+        return "HELP!";
+    }
 
     char J_foo;
     char _foo;

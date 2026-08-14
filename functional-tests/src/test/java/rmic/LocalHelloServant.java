@@ -19,6 +19,7 @@
  */
 
 package rmic;
+
 import com.sun.corba.ee.impl.util.JDKBridge;
 import javax.rmi.CORBA.Stub;
 import org.omg.CORBA.BAD_OPERATION;
@@ -31,7 +32,7 @@ public class LocalHelloServant extends javax.rmi.PortableRemoteObject implements
         JDKBridge.setLocalCodebase(null);
     }
 
-    public String sayHello (String to) throws java.rmi.RemoteException {
+    public String sayHello(String to) throws java.rmi.RemoteException {
         return "Hello " + to;
     }
 
@@ -55,52 +56,39 @@ public class LocalHelloServant extends javax.rmi.PortableRemoteObject implements
         return result;
     }
 
-    public test.Hello echoHello (test.Hello in) throws java.rmi.RemoteException {
+    public test.Hello echoHello(test.Hello in) throws java.rmi.RemoteException {
         return in;
     }
 
-    public rmic.Hello echoHello (rmic.Hello in) throws java.rmi.RemoteException {
+    public rmic.Hello echoHello(rmic.Hello in) throws java.rmi.RemoteException {
         return in;
     }
 
-    public void argNamesClash(int in,
-                              int _in,
-                              int out,
-                              int _out,
-                              int so,
-                              int exCopy,
-                              int copies,
-                              int method,
-                              int reply,
-                              int ex) throws java.rmi.RemoteException {
+    public void argNamesClash(int in, int _in, int out, int _out, int so, int exCopy, int copies, int method, int reply, int ex)
+            throws java.rmi.RemoteException {
 
     }
 
     public Base newServant() throws java.rmi.RemoteException {
         String codebase = JDKBridge.getLocalCodebase();
         if (codebase != null) {
-            throw new java.rmi.RemoteException("localCodebase = "+codebase);
+            throw new java.rmi.RemoteException("localCodebase = " + codebase);
         }
 
         return new BaseImpl();
     }
 
-    public String testPrimTypes(String arg0,
-                                double arg1,
-                                float arg2,
-                                String arg3,
-                                boolean arg4,
-                                Object arg5,
-                                String arg6) throws java.rmi.RemoteException {
+    public String testPrimTypes(String arg0, double arg1, float arg2, String arg3, boolean arg4, Object arg5, String arg6)
+            throws java.rmi.RemoteException {
         return "help";
     }
 
     public Object echoString(Object value1, String str, Object value2) throws java.rmi.RemoteException {
         if (!(value1 instanceof RemoteException)) {
-            throw new RemoteException("value1 not RemoteException. Is "+value1.getClass());
+            throw new RemoteException("value1 not RemoteException. Is " + value1.getClass());
         }
         if (!(value2 instanceof MarshalException)) {
-            throw new RemoteException("value2 not MarshalException. Is "+value2.getClass());
+            throw new RemoteException("value2 not MarshalException. Is " + value2.getClass());
         }
 
         return str;

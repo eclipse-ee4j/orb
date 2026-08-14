@@ -17,9 +17,7 @@
  * Classpath-exception-2.0
  */
 
-package corba.dynamicrmiiiop.testclasses ;
+package corba.dynamicrmiiiop.testclasses;
 
-public class C4 extends C3 implements A
-{
+public class C4 extends C3 implements A {
 }
-

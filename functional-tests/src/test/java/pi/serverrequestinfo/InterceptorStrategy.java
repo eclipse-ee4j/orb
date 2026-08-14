@@ -23,9 +23,8 @@ import com.sun.corba.ee.impl.interceptors.*;
 import org.omg.PortableInterceptor.*;
 
 /**
- * Base class for all server request interceptor strategies used in this
- * test.  This allows for dyanmic behavior modifications between test cases.
- * Default method implementations do nothing.
+ * Base class for all server request interceptor strategies used in this test. This allows for dyanmic behavior
+ * modifications between test cases. Default method implementations do nothing.
  */
 abstract public class InterceptorStrategy {
 
@@ -38,58 +37,43 @@ abstract public class InterceptorStrategy {
     /**
      * Logs the given message as test output.
      */
-    protected void log( String message ) {
-        ServerCommon.server.out.println( "    + " + message );
+    protected void log(String message) {
+        ServerCommon.server.out.println("    + " + message);
     }
 
     /**
      * Reports the given message as a test failure for the given reason.
      */
-    protected void fail( String reason ) {
-        ServerCommon.server.out.println( "    + ERROR: " + reason );
+    protected void fail(String reason) {
+        ServerCommon.server.out.println("    + ERROR: " + reason);
         failReason = reason;
         failed = true;
     }
 
     /**
-     * Reports a test failure, using the exception object as a reason.
-     * The origin of failure is given in the origin string.
+     * Reports a test failure, using the exception object as a reason. The origin of failure is given in the origin string.
      */
-    protected void failException( String origin, Exception ex ) {
-        String failReason = "Exception " +
-            ex.getClass().getName() + "( " + ex.getMessage() + " )" +
-            " in " + this.getClass().getName() + "." + origin + ".";
-        ServerCommon.server.out.println( "    + ERROR: " + failReason );
+    protected void failException(String origin, Exception ex) {
+        String failReason = "Exception " + ex.getClass().getName() + "( " + ex.getMessage() + " )" + " in " + this.getClass().getName()
+                + "." + origin + ".";
+        ServerCommon.server.out.println("    + ERROR: " + failReason);
         ex.printStackTrace();
         failed = true;
     }
 
-    public void receive_request_service_contexts (
-        SampleServerRequestInterceptor interceptor, ServerRequestInfo ri)
-        throws ForwardRequest
-    {
+    public void receive_request_service_contexts(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) throws ForwardRequest {
     }
 
-    public void receive_request (
-        SampleServerRequestInterceptor interceptor, ServerRequestInfo ri)
-    {
+    public void receive_request(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) {
     }
 
-    public void send_reply (
-        SampleServerRequestInterceptor interceptor, ServerRequestInfo ri)
-    {
+    public void send_reply(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) {
     }
 
-    public void send_exception (
-        SampleServerRequestInterceptor interceptor, ServerRequestInfo ri)
-        throws ForwardRequest
-    {
+    public void send_exception(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) throws ForwardRequest {
     }
 
-    public void send_other (
-        SampleServerRequestInterceptor interceptor, ServerRequestInfo ri)
-        throws ForwardRequest
-    {
+    public void send_other(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) throws ForwardRequest {
     }
 
 }

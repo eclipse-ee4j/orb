@@ -22,11 +22,10 @@ package corba.stubserialization;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface Hello extends Remote
-{
-    String sayHello( ) throws RemoteException;
+public interface Hello extends Remote {
+    String sayHello() throws RemoteException;
 
-    String sayHelloToStub( String fileName ) throws RemoteException ;
+    String sayHelloToStub(String fileName) throws RemoteException;
 
     // TestAppReturnValue getTARV() throws RemoteException ;
 }

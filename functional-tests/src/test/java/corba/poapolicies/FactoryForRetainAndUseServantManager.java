@@ -36,18 +36,12 @@ public class FactoryForRetainAndUseServantManager implements POAFactory {
 //        Orb = orb;
 //    }
 
-    public POA createPOA(POA parent)
-        throws AdapterAlreadyExists, InvalidPolicy
-    {
+    public POA createPOA(POA parent) throws AdapterAlreadyExists, InvalidPolicy {
         Policy[] policies = new Policy[2];
-        policies[0] =
-            parent.create_servant_retention_policy(ServantRetentionPolicyValue.RETAIN);
-        policies[1] =
-            parent.create_request_processing_policy(RequestProcessingPolicyValue.USE_SERVANT_MANAGER);
+        policies[0] = parent.create_servant_retention_policy(ServantRetentionPolicyValue.RETAIN);
+        policies[1] = parent.create_request_processing_policy(RequestProcessingPolicyValue.USE_SERVANT_MANAGER);
 
-        POA p = parent.create_POA("RetainAndUseServantManager",
-                                  null,
-                                  policies);
+        POA p = parent.create_POA("RetainAndUseServantManager", null, policies);
         try {
             ServantActivatorImpl smi = new ServantActivatorImpl();
             p.activate_object(smi);

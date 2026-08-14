@@ -32,15 +32,14 @@ import java.util.Comparator;
 import java.util.Arrays;
 
 /**
- * This class provides static methods to enumerate all classes in
- * a specified class path.
+ * This class provides static methods to enumerate all classes in a specified class path.
  */
 public class ClassEnumerator {
 
     /**
      * Get classes using the specified path string.
      */
-    public static Vector getClasses (String pathstr, boolean sort) {
+    public static Vector getClasses(String pathstr, boolean sort) {
         Vector list = new Vector(4096);
         Hashtable roots = new Hashtable(20);
         Object nullValue = new Object();
@@ -48,15 +47,15 @@ public class ClassEnumerator {
 
         try {
             path = parsePath(pathstr);
-            for (int i = path.length; --i >= 0; ) {
+            for (int i = path.length; --i >= 0;) {
                 if (path[i].zip != null) {
                     Enumeration e = path[i].zip.entries();
                     while (e.hasMoreElements()) {
-                        ZipEntry entry = (ZipEntry)e.nextElement();
+                        ZipEntry entry = (ZipEntry) e.nextElement();
                         String name = entry.getName();
                         int index = name.indexOf(".class");
-                        if (index >=0) {
-                            name = name.replace('/','.').substring(0,index);
+                        if (index >= 0) {
+                            name = name.replace('/', '.').substring(0, index);
                             list.addElement(name);
                         }
                     }
@@ -70,24 +69,24 @@ public class ClassEnumerator {
                     }
 
                     // _REVISIT_ Forcing lower case here could cause us to skip a
-                    //           real root (if actually different case); however,
-                    //           if we don't do this, the "user.dir" property can
-                    //           screw us up by being in different case!
+                    // real root (if actually different case); however,
+                    // if we don't do this, the "user.dir" property can
+                    // screw us up by being in different case!
 
                     String pathName = rootDir.getPath().toLowerCase();
 
                     if (!roots.containsKey(pathName)) {
-                        roots.put(pathName,rootDir);
+                        roots.put(pathName, rootDir);
                     }
                 }
             }
 
             // Process the root directories...
 
-            for (Enumeration e = roots.keys(); e.hasMoreElements() ;) {
+            for (Enumeration e = roots.keys(); e.hasMoreElements();) {
                 File rootDir = (File) roots.get(e.nextElement());
                 int rootLen = rootDir.getPath().length() + 1;
-                addClasses(rootLen,rootDir,list,roots);
+                addClasses(rootLen, rootDir, list, roots);
             }
 
             // Release resources...
@@ -95,11 +94,12 @@ public class ClassEnumerator {
         } finally {
 
             if (path != null) {
-                for (int i = path.length; --i >= 0; ) {
+                for (int i = path.length; --i >= 0;) {
                     if (path[i].zip != null) {
                         try {
                             path[i].zip.close();
-                        } catch (IOException e) {}
+                        } catch (IOException e) {
+                        }
                     }
                 }
             }
@@ -111,7 +111,7 @@ public class ClassEnumerator {
             int size = list.size();
             String[] temp = new String[size];
             list.copyInto(temp);
-            Arrays.sort(temp,new StringComparator());
+            Arrays.sort(temp, new StringComparator());
             list = new Vector(size);
             for (int i = 0; i < size; i++) {
                 list.addElement(temp[i]);
@@ -124,22 +124,23 @@ public class ClassEnumerator {
     /**
      * Get classes using the class path returned by <code>getFullClassPath()</code>.
      */
-    public static Vector getClasses (boolean sort) {
+    public static Vector getClasses(boolean sort) {
         String cp = getFullClassPath();
-        return getClasses(cp,sort);
+        return getClasses(cp, sort);
     }
 
     /**
-     * Return a class path constructed by concatenating the System
-     * Property values for:
+     * Return a class path constructed by concatenating the System Property values for:
+     * 
      * <pre>
      *    java.sys.class.path
      *    java.class.path
      *    env.class.path
      * </pre>
+     * 
      * in that order.
      */
-    public static String getFullClassPath () {
+    public static String getFullClassPath() {
         String syscp = System.getProperty("java.sys.class.path");
         String appcp = System.getProperty("java.class.path");
         String envcp = System.getProperty("env.class.path");
@@ -172,7 +173,7 @@ public class ClassEnumerator {
         return cp;
     }
 
-    private static ClassPathEntry[] parsePath (String pathstr) {
+    private static ClassPathEntry[] parsePath(String pathstr) {
 
         char dirSeparator = File.pathSeparatorChar;
         int i, j, n;
@@ -185,10 +186,11 @@ public class ClassEnumerator {
         // Count the number of path separators
         i = n = 0;
         while ((i = pathstr.indexOf(dirSeparator, i)) != -1) {
-            n++; i++;
+            n++;
+            i++;
         }
         // Build the class path
-        path = new ClassPathEntry[n+1];
+        path = new ClassPathEntry[n + 1];
         int len = pathstr.length();
         for (i = n = 0; i < len; i = j + 1) {
             if ((j = pathstr.indexOf(dirSeparator, i)) == -1) {
@@ -207,7 +209,7 @@ public class ClassEnumerator {
                             path[n++].zip = zip;
                         } catch (ZipException e) {
                         } catch (IOException e) {
-                                // Ignore exceptions, at least for now...
+                            // Ignore exceptions, at least for now...
                         }
                     } else {
                         path[n] = new ClassPathEntry();
@@ -218,14 +220,14 @@ public class ClassEnumerator {
         }
         // Trim class path to exact size
         ClassPathEntry[] result = new ClassPathEntry[n];
-        System.arraycopy((Object)path, 0, (Object)result, 0, n);
+        System.arraycopy((Object) path, 0, (Object) result, 0, n);
         return result;
     }
 
     private static void addClasses(int rootLen, File dir, Vector list, Hashtable roots) {
         String[] files = dir.list();
         for (int i = 0; i < files.length; i++) {
-            File file = new File(dir,files[i]);
+            File file = new File(dir, files[i]);
             if (file.isDirectory()) {
 
                 // Does our list of roots contain this directory? Must
@@ -236,13 +238,13 @@ public class ClassEnumerator {
 
                     // No, so add it...
 
-                    addClasses(rootLen,file,list,roots);
+                    addClasses(rootLen, file, list, roots);
                 }
             } else {
                 String name = file.getPath();
                 int index = name.lastIndexOf(".class");
                 if (index >= 0) {
-                    name = name.replace(File.separatorChar,'.').substring(rootLen,index);
+                    name = name.replace(File.separatorChar, '.').substring(rootLen, index);
                     list.addElement(name);
                 }
             }

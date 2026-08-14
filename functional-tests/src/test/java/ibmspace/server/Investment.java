@@ -20,8 +20,8 @@
 
 package ibmspace.server;
 
-public interface Investment
-{
-    void    invest (long dollars);
-    String  getName ();
+public interface Investment {
+    void invest(long dollars);
+
+    String getName();
 }

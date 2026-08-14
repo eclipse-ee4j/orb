@@ -20,4 +20,5 @@
 
 package alpha.bravo;
 
-public interface B extends java.rmi.Remote {}
+public interface B extends java.rmi.Remote {
+}

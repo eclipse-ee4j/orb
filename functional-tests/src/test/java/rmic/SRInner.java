@@ -23,5 +23,5 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 interface SRInner extends Remote {
-        public String hello () throws RemoteException;
+    public String hello() throws RemoteException;
 }

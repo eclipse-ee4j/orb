@@ -28,7 +28,9 @@ import com.sun.org.omg.SendingContext.CodeBase;
 import rmic.OnlyRemoteServant;
 
 public interface SInner extends Remote {
-    public SInner echo (SInner in) throws RemoteException;
-    public CodeBase getCodeBase () throws RemoteException;
-    public Remote getOnlyRemote () throws RemoteException;
+    public SInner echo(SInner in) throws RemoteException;
+
+    public CodeBase getCodeBase() throws RemoteException;
+
+    public Remote getOnlyRemote() throws RemoteException;
 }

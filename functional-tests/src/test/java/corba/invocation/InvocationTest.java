@@ -32,9 +32,7 @@ public class InvocationTest extends CORBATest {
     protected void doTest() throws Throwable {
 
         Properties clientProps = Options.getClientProperties();
-        clientProps.setProperty(URL_PROPERTY,
-                                "corbaloc:iiop:1.2@localhost:" + 3050 + '/' +
-                                "HelloService");
+        clientProps.setProperty(URL_PROPERTY, "corbaloc:iiop:1.2@localhost:" + 3050 + '/' + "HelloService");
         Controller client = createClient("corba.invocation.Client");
         client.start();
 

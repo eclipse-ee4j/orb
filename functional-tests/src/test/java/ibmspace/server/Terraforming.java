@@ -20,47 +20,42 @@
 
 package ibmspace.server;
 
-
-public class Terraforming implements Investment, java.io.Serializable
-{
+public class Terraforming implements Investment, java.io.Serializable {
     // Cost in dollars to move temp 10% towards ideal
     public static double TERRAFORMING_COST = 1000.0;
 
-    PlanetImpl    fPlanet;
-    double        fIdealTemp;
+    PlanetImpl fPlanet;
+    double fIdealTemp;
 
-    public Terraforming (PlanetImpl planet, double idealTemp)
-    {
+    public Terraforming(PlanetImpl planet, double idealTemp) {
         fPlanet = planet;
         fIdealTemp = idealTemp;
     }
 
-    public String getName ()
-    {
+    public String getName() {
         return "Terraforming";
     }
 
-    public void invest (long dollars)
-    {
-        if ( dollars > 0 ) {
+    public void invest(long dollars) {
+        if (dollars > 0) {
             double d = dollars;
-            double temp = fPlanet.getTemp ();
-            int diff = (int)(temp - fIdealTemp);
-            int absdiff = Math.abs (diff);
-            //int sign = diff/absdiff;
+            double temp = fPlanet.getTemp();
+            int diff = (int) (temp - fIdealTemp);
+            int absdiff = Math.abs(diff);
+            // int sign = diff/absdiff;
 
-            if ( absdiff == 0 ) {
-                fPlanet.setTemp (fIdealTemp);
+            if (absdiff == 0) {
+                fPlanet.setTemp(fIdealTemp);
             } else {
-                double efficiency = 1.0/absdiff;
-                double percentChange = d/1000.0 * 0.1 * efficiency;
+                double efficiency = 1.0 / absdiff;
+                double percentChange = d / 1000.0 * 0.1 * efficiency;
 
-                if ( percentChange > 1 ) {
+                if (percentChange > 1) {
                     percentChange = 1;
                 }
 
-                double newTemp = temp*(1-percentChange) + fIdealTemp*percentChange;
-                fPlanet.setTemp (newTemp);
+                double newTemp = temp * (1 - percentChange) + fIdealTemp * percentChange;
+                fPlanet.setTemp(newTemp);
             }
         }
     }

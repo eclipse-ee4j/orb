@@ -22,18 +22,14 @@ package hopper.h4486041;
 import org.omg.CORBA.ORB;
 import java.util.Properties;
 
-public class Client
-{
-    public static final String ORBClassKey =
-        "org.omg.CORBA.ORBClass";
+public class Client {
+    public static final String ORBClassKey = "org.omg.CORBA.ORBClass";
 
-    public static final String ORBSingletonClassKey =
-        "org.omg.CORBA.ORBSingletonClass";
+    public static final String ORBSingletonClassKey = "org.omg.CORBA.ORBSingletonClass";
 
     public static int numberOfErrors = 0;
 
-    public static void main(String[] av)
-    {
+    public static void main(String[] av) {
         try {
 
             Properties properties = new Properties();
@@ -41,8 +37,7 @@ public class Client
             // --------------------------------------
 
             properties.put(ORBClassKey, "NotFound");
-            expectException("NotFound", av, properties,
-                            ClassNotFoundException.class, false, false);
+            expectException("NotFound", av, properties, ClassNotFoundException.class, false, false);
 
             // --------------------------------------
 
@@ -52,24 +47,20 @@ public class Client
             // --------------------------------------
 
             properties.put(TestORB.ThrowError, "dummy");
-            expectException("TestORB ORBInitException", av, properties,
-                            ORBInitException.class, true, false);
+            expectException("TestORB ORBInitException", av, properties, ORBInitException.class, true, false);
 
             // --------------------------------------
 
-            System.getProperties().put(ORBSingletonClassKey,
-                                       "hopper.h4486041.TestORB");
+            System.getProperties().put(ORBSingletonClassKey, "hopper.h4486041.TestORB");
             expectNormal("TestORB Singleton Good", null, null, true);
 
             // --------------------------------------
 
-            /* NOTE:
-             * set_parameters is not called for singletons so
-             * this test will not work.
-            System.getProperties().put(TestORB.ThrowError, "dummy");
-            expectException("TestORB Singleton ORBInitException", null, null,
-                            ORBInitException.class, true, true);
-            */
+            /*
+             * NOTE: set_parameters is not called for singletons so this test will not work.
+             * System.getProperties().put(TestORB.ThrowError, "dummy"); expectException("TestORB Singleton ORBInitException", null,
+             * null, ORBInitException.class, true, true);
+             */
 
             // --------------------------------------
 
@@ -88,13 +79,8 @@ public class Client
     // then the exception is not in INITIALIZE from create_impl.
     // It is directly from set_parameters.
     //
-    public static void expectException(String message,
-                                       String[] av,
-                                       Properties properties,
-                                       Class expectedException,
-                                       boolean isSetParameters,
-                                       boolean isSingleton)
-    {
+    public static void expectException(String message, String[] av, Properties properties, Class expectedException, boolean isSetParameters,
+            boolean isSingleton) {
         System.out.println();
         System.out.println("------------------------------------------------");
         System.out.println("Begin expectException: " + message);
@@ -116,9 +102,7 @@ public class Client
             }
             System.out.println("\tExpected cause: " + expectedException);
             System.out.println("\tCause: " + cause);
-            if (cause == null ||
-                (! cause.getClass().equals(expectedException)))
-            {
+            if (cause == null || (!cause.getClass().equals(expectedException))) {
                 numberOfErrors++;
                 System.out.println("\tERROR: Wrong cause.");
             } else {
@@ -130,11 +114,7 @@ public class Client
         System.out.println("------------------------------------------------");
     }
 
-    public static void expectNormal(String message,
-                                    String[] av,
-                                    Properties properties,
-                                    boolean isSingleton)
-    {
+    public static void expectNormal(String message, String[] av, Properties properties, boolean isSingleton) {
         System.out.println();
         System.out.println("------------------------------------------------");
         System.out.println("Begin expectNormal: " + message);
@@ -148,7 +128,7 @@ public class Client
         } catch (Throwable t) {
             numberOfErrors++;
             System.out.println("\tERROR: Should not see this");
-            System.out.println("\t\tUnexpected exception: "+ t);
+            System.out.println("\t\tUnexpected exception: " + t);
         }
         System.out.println("End expectNormal: " + message);
         System.out.println("------------------------------------------------");

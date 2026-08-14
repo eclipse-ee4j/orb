@@ -21,6 +21,9 @@
 package rmic;
 
 public class DefaultPackageImpl implements DefaultPackage {
-    public DefaultPackageImpl () throws java.rmi.RemoteException {}
-    public void doSomething () throws java.rmi.RemoteException {}
+    public DefaultPackageImpl() throws java.rmi.RemoteException {
+    }
+
+    public void doSomething() throws java.rmi.RemoteException {
+    }
 }

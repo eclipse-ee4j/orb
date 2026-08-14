@@ -38,31 +38,24 @@ import javax.rmi.*;
 
 import ServerRequestInfo.*;
 
-public class DSIRMIRemoteClient
-    extends DSIRMIClient
-{
+public class DSIRMIRemoteClient extends DSIRMIClient {
     public static void main(String args[]) {
         try {
-            (new DSIRMIRemoteClient()).run( System.getProperties(),
-                                         args, System.out, System.err, null );
-        }
-        catch( Exception e ) {
-            e.printStackTrace( System.err );
-            System.exit( 1 );
+            (new DSIRMIRemoteClient()).run(System.getProperties(), args, System.out, System.err, null);
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            System.exit(1);
         }
     }
 
-    public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra)
-        throws Exception
-    {
-        out.println( "================================================" );
-        out.println( "Instantiating Client ORB for DSI RMI Remote test" );
-        out.println( "================================================" );
+    public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
+        out.println("================================================");
+        out.println("Instantiating Client ORB for DSI RMI Remote test");
+        out.println("================================================");
 
-        out.println( "+ Creating ORB..." );
-        createORB( args );
+        out.println("+ Creating ORB...");
+        createORB(args);
 
-        super.run( environment, args, out, err, extra );
+        super.run(environment, args, out, err, extra);
     }
 }

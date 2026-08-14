@@ -17,23 +17,23 @@
  * Classpath-exception-2.0
  */
 
-package corba.lbq ;
+package corba.lbq;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
-/** Interface for a remote object used to control the software
- * load balancer.
+/**
+ * Interface for a remote object used to control the software load balancer.
  */
 public interface LBControl extends Remote {
-    /** After accepting numConnections, add port to the pool.
-     * Each call to add or remove is added to a queue of commands.
+    /**
+     * After accepting numConnections, add port to the pool. Each call to add or remove is added to a queue of commands.
      */
-    void add( int numConnections, int port ) throws RemoteException ;
+    void add(int numConnections, int port) throws RemoteException;
 
-    /** After accepting numConnections, remove port from the pool.
-     * Each call to add or remove is added to a queue of commands.
+    /**
+     * After accepting numConnections, remove port from the pool. Each call to add or remove is added to a queue of
+     * commands.
      */
-    void remove( int numConnections, int port ) throws RemoteException ;
+    void remove(int numConnections, int port) throws RemoteException;
 }
-

@@ -34,25 +34,20 @@ import org.omg.PortableInterceptor.ORBInitInfo;
 import org.omg.PortableInterceptor.ORBInitInfoPackage.InvalidName;
 import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
-import com.sun.corba.ee.spi.orb.ORB ;
-import com.sun.corba.ee.spi.legacy.interceptor.ORBInitInfoExt ;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.legacy.interceptor.ORBInitInfoExt;
 
 /**
  * @author Harold Carr
  */
-public class ServerORBInitializer
-    extends
-        org.omg.CORBA.LocalObject
-    implements
-        ORBInitializer
-{
+public class ServerORBInitializer extends org.omg.CORBA.LocalObject implements ORBInitializer {
     public static final String baseMsg = ServerORBInitializer.class.getName();
 
-    public void pre_init(ORBInitInfo info) { }
+    public void pre_init(ORBInitInfo info) {
+    }
 
-    public void post_init(ORBInitInfo info)
-    {
-        ORB orb = ((ORBInitInfoExt)info).getORB() ;
+    public void post_init(ORBInitInfo info) {
+        ORB orb = ((ORBInitInfoExt) info).getORB();
         try {
             info.add_ior_interceptor(new IORInterceptor(orb));
         } catch (DuplicateName ex) {

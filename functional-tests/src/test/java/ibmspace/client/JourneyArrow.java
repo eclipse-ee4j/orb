@@ -32,69 +32,58 @@ package ibmspace.client;
 
 import java.awt.*;
 
-public class JourneyArrow extends Arrow
-{
-    private int       fAvailableRange = 0;
-    private Color     fAcceptedColor = Color.cyan;
-    private Color     fRejectedColor = Color.red;
-    private boolean   fShowDistance = false;
-    private int       fDistance;
-    private String    fDistanceString;
+public class JourneyArrow extends Arrow {
+    private int fAvailableRange = 0;
+    private Color fAcceptedColor = Color.cyan;
+    private Color fRejectedColor = Color.red;
+    private boolean fShowDistance = false;
+    private int fDistance;
+    private String fDistanceString;
 
-    public JourneyArrow ()
-    {
+    public JourneyArrow() {
     }
 
-    public void setAvailableRange (int range)
-    {
+    public void setAvailableRange(int range) {
         fAvailableRange = range;
     }
 
-    public void setAcceptedColor (Color color)
-    {
+    public void setAcceptedColor(Color color) {
         fAcceptedColor = color;
     }
 
-    public void setRejectedColor (Color color)
-    {
+    public void setRejectedColor(Color color) {
         fRejectedColor = color;
     }
 
-    public void setShowDistance (boolean show)
-    {
+    public void setShowDistance(boolean show) {
         fShowDistance = show;
     }
 
-    public int getDistance ()
-    {
-        if ( fCacheBlown ) {
-            fDistance = (int)(getLength() / 50 + 0.5);
+    public int getDistance() {
+        if (fCacheBlown) {
+            fDistance = (int) (getLength() / 50 + 0.5);
         }
 
         return fDistance;
     }
 
-    public void draw (Graphics g)
-    {
-        int distance = getDistance ();
+    public void draw(Graphics g) {
+        int distance = getDistance();
 
-        if ( fShowDistance ) {
-            fDistanceString = String.valueOf (distance);
-            setLabel (fDistanceString);
+        if (fShowDistance) {
+            fDistanceString = String.valueOf(distance);
+            setLabel(fDistanceString);
         } else {
-            setLabel (null);
+            setLabel(null);
         }
 
-        if ( distance <= fAvailableRange ) {
-            g.setColor (fAcceptedColor);
+        if (distance <= fAvailableRange) {
+            g.setColor(fAcceptedColor);
         } else {
-            g.setColor (fRejectedColor);
+            g.setColor(fRejectedColor);
         }
 
-        super.draw (g);
+        super.draw(g);
     }
-
-
-
 
 }

@@ -35,10 +35,9 @@ import corba.framework.Options;
 import corba.hcks.C;
 import corba.hcks.U;
 
-public class Server
-{
-    public static String server1   = "server1";
-    public static String server2   = "server2";
+public class Server {
+    public static String server1 = "server1";
+    public static String server2 = "server2";
     public static String service11 = "service11";
     public static String service12 = "service12";
     public static String service21 = "service21";
@@ -51,10 +50,9 @@ public class Server
     public static String name2;
 
     public static boolean setWaterMarks = true;
-    public static boolean dprint        = false;
+    public static boolean dprint = false;
 
-    public static void main(String[] av)
-    {
+    public static void main(String[] av) {
         serverName = av[0];
         name1 = av[1];
         name2 = av[2];
@@ -70,13 +68,13 @@ public class Server
             if (dprint) {
                 props.put(ORBConstants.DEBUG_PROPERTY, "transport");
             }
-            orb = (ORB) org.omg.CORBA.ORB.init((String[])null, props);
+            orb = (ORB) org.omg.CORBA.ORB.init((String[]) null, props);
             ConnectionStatistics stats = new ConnectionStatistics(orb);
 
-            /* Cannot do these here because there is no "Connections" root
-            stats.inbound(serverName + ": after ORB.init", orb);
-            stats.outbound(serverName + ": after ORB.init", orb);
-            */
+            /*
+             * Cannot do these here because there is no "Connections" root stats.inbound(serverName + ": after ORB.init", orb);
+             * stats.outbound(serverName + ": after ORB.init", orb);
+             */
 
             initialContext = C.createInitialContext(orb);
             stats.outbound(serverName + ": after InitialContext", orb);
@@ -103,4 +101,3 @@ public class Server
 }
 
 // End of file.
-

@@ -25,32 +25,29 @@ import ibmspace.common.Journey;
 import ibmspace.common.Fleet;
 import ibmspace.common.Planet;
 
-
-public class JourneyImpl implements Journey, java.io.Serializable
-{
+public class JourneyImpl implements Journey, java.io.Serializable {
     //
     // Private Data Members
     //
 
-    private ID          fID;
-    private PlanetImpl  fOrigin;
-    private PlanetImpl  fDestination;
-    private FleetImpl   fFleet;
-    private int         fTotalDistance;
-    private int         fDistanceTraveled;
-    private boolean     fIsComplete;
+    private ID fID;
+    private PlanetImpl fOrigin;
+    private PlanetImpl fDestination;
+    private FleetImpl fFleet;
+    private int fTotalDistance;
+    private int fDistanceTraveled;
+    private boolean fIsComplete;
 
-  //
-  // Constructor
-  //
+    //
+    // Constructor
+    //
 
-    public JourneyImpl (FleetImpl fleet, PlanetImpl origin, PlanetImpl destination)
-    {
-        fID = new ID ();
+    public JourneyImpl(FleetImpl fleet, PlanetImpl origin, PlanetImpl destination) {
+        fID = new ID();
         fFleet = fleet;
         fOrigin = origin;
         fDestination = destination;
-        fTotalDistance = fOrigin.distanceTo (fDestination);
+        fTotalDistance = fOrigin.distanceTo(fDestination);
         fDistanceTraveled = 0;
         fIsComplete = false;
     }
@@ -59,52 +56,43 @@ public class JourneyImpl implements Journey, java.io.Serializable
     // Journey Interface Methods
     //
 
-    public ID getID ()
-    {
+    public ID getID() {
         return fID;
     }
 
-    public Planet getOrigin ()
-    {
+    public Planet getOrigin() {
         return fOrigin;
     }
 
-    public Planet getDestination ()
-    {
+    public Planet getDestination() {
         return fDestination;
     }
 
-    public double getPercentComplete ()
-    {
-        return (double)fDistanceTraveled/(double)fTotalDistance;
+    public double getPercentComplete() {
+        return (double) fDistanceTraveled / (double) fTotalDistance;
     }
 
     //
     // JourneyImpl Methods
     //
 
-    public FleetImpl getFleet ()
-    {
+    public FleetImpl getFleet() {
         return fFleet;
     }
 
-    public int getTotalDistance ()
-    {
+    public int getTotalDistance() {
         return fTotalDistance;
     }
 
-    public int getDistanceTraveled ()
-    {
+    public int getDistanceTraveled() {
         return fDistanceTraveled;
     }
 
-    public int getRemainingDistance ()
-    {
+    public int getRemainingDistance() {
         return fTotalDistance = fDistanceTraveled;
     }
 
-    public boolean isComplete ()
-    {
+    public boolean isComplete() {
         return fIsComplete;
     }
 
@@ -112,21 +100,20 @@ public class JourneyImpl implements Journey, java.io.Serializable
     // Turn Taking
     //
 
-    public void moveFleet ()
-    {
-        if ( fDistanceTraveled == 0 ) {
-            fOrigin.removeFleet (fFleet);
-            fFleet.setStation (null);
-            fFleet.setJourney (this);
+    public void moveFleet() {
+        if (fDistanceTraveled == 0) {
+            fOrigin.removeFleet(fFleet);
+            fFleet.setStation(null);
+            fFleet.setJourney(this);
         }
 
-        fDistanceTraveled += fFleet.getSpeed ();
-        fFleet.move (fDistanceTraveled);
+        fDistanceTraveled += fFleet.getSpeed();
+        fFleet.move(fDistanceTraveled);
 
-        if ( fDistanceTraveled >= fTotalDistance ) {
+        if (fDistanceTraveled >= fTotalDistance) {
             fIsComplete = true;
-            fDestination.acceptOrbit (fFleet);
-            fFleet.setJourney (null);
+            fDestination.acceptOrbit(fFleet);
+            fFleet.setJourney(null);
         }
     }
 

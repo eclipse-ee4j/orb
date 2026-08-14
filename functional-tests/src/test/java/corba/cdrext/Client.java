@@ -26,49 +26,41 @@ import java.io.*;
 import java.util.*;
 import javax.rmi.CORBA.*;
 
-import org.testng.annotations.Test ;
-import org.testng.annotations.BeforeSuite ;
-import org.testng.Assert ;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeSuite;
+import org.testng.Assert;
 
-import corba.framework.TestngRunner ;
+import corba.framework.TestngRunner;
 
 public class Client {
     // Important: put the initialContext here so that is does NOT get GCed and finalized
     // while the test is running!
-    private InitialContext rootContext ;
-    private Tester tester ;
+    private InitialContext rootContext;
+    private Tester tester;
 
-    /* Using a byte array in front and behind the main
-     * payload parameter, this should allow us to break
-     * the MarshalTester's data across just about all
-     * possible fragment points.  This exercises code for
-     * handling primitives, etc, across fragment
-     * boundaries.  A CustomMarshalTester can be used to
-     * add the further complicating factor of chunking.
+    /*
+     * Using a byte array in front and behind the main payload parameter, this should allow us to break the MarshalTester's
+     * data across just about all possible fragment points. This exercises code for handling primitives, etc, across
+     * fragment boundaries. A CustomMarshalTester can be used to add the further complicating factor of chunking.
      *
-     * Note that this probably doesn't do much with indirections
-     * across boundaries, or indirections interacting with
-     * chunks.
+     * Note that this probably doesn't do much with indirections across boundaries, or indirections interacting with chunks.
      */
-    private void testFragmentation(Tester tester,
-        MarshalTester payload) throws Exception {
+    private void testFragmentation(Tester tester, MarshalTester payload) throws Exception {
 
-        System.out.println("Testing fragmentation with a " + payload.getClass().getName()
-            + "...");
+        System.out.println("Testing fragmentation with a " + payload.getClass().getName() + "...");
 
         for (int i = 0; i < 2048; i++) {
             byte[] predata = new byte[i];
             byte[] postdata = new byte[i];
 
             for (int y = 0; y < i; y++) {
-                predata[y] = postdata[y] = (byte)(y % 128);
+                predata[y] = postdata[y] = (byte) (y % 128);
             }
 
             MarshalTester result = tester.verify(predata, payload, postdata);
 
             if (!payload.equals(result))
-                throw new Exception("Payloads not equal at predata size "
-                                    + predata.length);
+                throw new Exception("Payloads not equal at predata size " + predata.length);
         }
 
         System.out.println("PASSED");
@@ -113,10 +105,8 @@ public class Client {
     }
 
     /**
-     * Very that Remote exceptions work.  We had a compatibility
-     * problem between 1.3.x and 1.4.0 with Remote and unchecked
-     * exceptions.  Unfortunately, unless used in multi-JVM
-     * scenarios, this test still can't catch it.
+     * Very that Remote exceptions work. We had a compatibility problem between 1.3.x and 1.4.0 with Remote and unchecked
+     * exceptions. Unfortunately, unless used in multi-JVM scenarios, this test still can't catch it.
      */
     @Test
     public void testRemoteException() throws Exception {
@@ -151,14 +141,11 @@ public class Client {
     }
 
     /**
-     * Even though AbsTester isn't Remote or Serializable,
-     * this should work since the Server's getAbsTester
-     * method returns a Tester (subinterface of AbsTester).
+     * Even though AbsTester isn't Remote or Serializable, this should work since the Server's getAbsTester method returns a
+     * Tester (subinterface of AbsTester).
      */
     @Test
-    public void testAbstractInterface()
-        throws RemoteException, DataCorruptedException
-    {
+    public void testAbstractInterface() throws RemoteException, DataCorruptedException {
         System.out.println("Testing abstract interface...");
 
         AbsTester absTester = tester.getAbsTester();
@@ -175,14 +162,11 @@ public class Client {
     }
 
     /**
-     * This will result in an Any on the wire and
-     * a wchar type code at some point.  We don't actually
-     * use our type codes to unmarshal, so this won't
-     * be a real test unless in an interop scenario.
+     * This will result in an Any on the wire and a wchar type code at some point. We don't actually use our type codes to
+     * unmarshal, so this won't be a real test unless in an interop scenario.
      */
     @Test
-    public void testIncorrectCharTC()
-        throws DataCorruptedException, RemoteException {
+    public void testIncorrectCharTC() throws DataCorruptedException, RemoteException {
 
         System.out.println("Testing for incorrect char TC...");
 
@@ -197,8 +181,7 @@ public class Client {
      * Simply passes an object which uses PutField/GetField.
      */
     @Test
-    public void testPutFieldsGetFields()
-        throws DataCorruptedException, RemoteException {
+    public void testPutFieldsGetFields() throws DataCorruptedException, RemoteException {
 
         System.out.println("Testing PutFields/GetFields...");
 
@@ -214,8 +197,7 @@ public class Client {
      * Makes sure that superclass data is unmarshaled properly.
      */
     @Test
-    public void testSuperClasses()
-        throws DataCorruptedException, RemoteException {
+    public void testSuperClasses() throws DataCorruptedException, RemoteException {
 
         System.out.println("Testing superclass constructor call with RMI-IIOP...");
 
@@ -223,7 +205,7 @@ public class Client {
 
         System.out.println("Sending: " + sc);
 
-        SubClass result = (SubClass)tester.verify(sc);
+        SubClass result = (SubClass) tester.verify(sc);
 
         System.out.println("Received: " + result);
 
@@ -234,19 +216,14 @@ public class Client {
     }
 
     /**
-     * Makes sure that a class containing a static nested
-     * inner class is marshaled properly.
+     * Makes sure that a class containing a static nested inner class is marshaled properly.
      *
-     * NOTE: this class CANNOT be marshalled properly,
-     * because the nest inner class is not in a static context,
-     * which means that it does not have a no-args constructor,
-     * even if no constructor is declared.  This means that
-     * the nested inner class is not properly externalizable,
-     * and this test is invalid.  Note that it used to work
-     * with the previous native implementation.
+     * NOTE: this class CANNOT be marshalled properly, because the nest inner class is not in a static context, which means
+     * that it does not have a no-args constructor, even if no constructor is declared. This means that the nested inner
+     * class is not properly externalizable, and this test is invalid. Note that it used to work with the previous native
+     * implementation.
      */
-    public void testStaticNestedInner()
-        throws DataCorruptedException, RemoteException {
+    public void testStaticNestedInner() throws DataCorruptedException, RemoteException {
 
         TestClass data = new TestClass();
 
@@ -264,37 +241,33 @@ public class Client {
     }
 
     /**
-     * Makes sure that recursive references in custom marshaled
-     * values works.  This was more important as an interop
-     * test in the Connectathon.
+     * Makes sure that recursive references in custom marshaled values works. This was more important as an interop test in
+     * the Connectathon.
      */
     @Test
-    public void testRecursiveReferences()
-        throws DataCorruptedException, RemoteException {
+    public void testRecursiveReferences() throws DataCorruptedException, RemoteException {
 
         System.out.println("Testing recursive references...");
 
         // Vector is not custom marshaled before JDK 1.4
         Vector nonCustom = new Vector();
         nonCustom.add(nonCustom);
-        Vector vectorResult = (Vector)tester.verify(nonCustom);
+        Vector vectorResult = (Vector) tester.verify(nonCustom);
         if (vectorResult == null)
             throw new DataCorruptedException("Result Vector was null");
         if (vectorResult.size() != nonCustom.size())
-            throw new DataCorruptedException("Result Vector's size is "
-                                             + vectorResult.size());
+            throw new DataCorruptedException("Result Vector's size is " + vectorResult.size());
         if (vectorResult.elementAt(0) != vectorResult)
             throw new DataCorruptedException("Vector graph not preserved");
 
         Hashtable custom = new Hashtable();
         String customKey = "Test";
         custom.put(customKey, custom);
-        Hashtable hashResult = (Hashtable)tester.verify((Map)custom);
+        Hashtable hashResult = (Hashtable) tester.verify((Map) custom);
         if (hashResult == null)
             throw new DataCorruptedException("Result Hashtable was null");
         if (hashResult.size() != custom.size())
-            throw new DataCorruptedException("Result Hashtable size is "
-                                             + hashResult.size());
+            throw new DataCorruptedException("Result Hashtable size is " + hashResult.size());
         Object hashObj = hashResult.get(customKey);
 
         // Should preserve self reference
@@ -304,10 +277,8 @@ public class Client {
         Hashtable table2 = new Hashtable();
         table2.put("three", table2);
 
-        Hashtable table2Result = (Hashtable)tester.verify(table2);
-        if (table2Result == null ||
-            table2Result.size() != table2.size() ||
-            table2Result.get("three") != table2Result) {
+        Hashtable table2Result = (Hashtable) tester.verify(table2);
+        if (table2Result == null || table2Result.size() != table2.size() || table2Result.get("three") != table2Result) {
             throw new DataCorruptedException("Bad resulting Hashtable");
         }
 
@@ -315,21 +286,17 @@ public class Client {
     }
 
     /**
-     * If we start to actually use our TypeCodes to marshal/unmarshal
-     * the Anys (produced when RMI-IIOP sends something as a
-     * java.lang.Object, Serializable, or Externalizable), this
-     * will test all the basic type codes.
+     * If we start to actually use our TypeCodes to marshal/unmarshal the Anys (produced when RMI-IIOP sends something as a
+     * java.lang.Object, Serializable, or Externalizable), this will test all the basic type codes.
      */
     @Test
-    public void testTypeCodeCompatibility()
-        throws DataCorruptedException, RemoteException
-    {
+    public void testTypeCodeCompatibility() throws DataCorruptedException, RemoteException {
         System.out.println("Testing TypeCode compatibility...");
 
         MarshalTester mt = new MarshalTester();
         mt.init(tester);
 
-        MarshalTester result = (MarshalTester)tester.verify((java.lang.Object)mt);
+        MarshalTester result = (MarshalTester) tester.verify((java.lang.Object) mt);
 
         if (!mt.equals(result))
             throw new DataCorruptedException("MarshalTesters not equal!");
@@ -338,13 +305,10 @@ public class Client {
     }
 
     /**
-     * Occassionally people have filed bugs saying that SQL Date
-     * is broken in RMI-IIOP, but the problem usually clears up.
+     * Occassionally people have filed bugs saying that SQL Date is broken in RMI-IIOP, but the problem usually clears up.
      */
     @Test
-    public void testSQLDate()
-        throws DataCorruptedException, RemoteException
-    {
+    public void testSQLDate() throws DataCorruptedException, RemoteException {
         System.out.println("Testing SQL Date...");
 
         for (int i = 0; i < 100; i++) {
@@ -358,21 +322,17 @@ public class Client {
     }
 
     /**
-     * Occassionally people have filed bugs saying that Properties
-     * is broken in RMI-IIOP, but the problem usually clears up.
+     * Occassionally people have filed bugs saying that Properties is broken in RMI-IIOP, but the problem usually clears up.
      */
     @Test
-    public void testProperties()
-        throws RemoteException,
-               DataCorruptedException
-    {
+    public void testProperties() throws RemoteException, DataCorruptedException {
         System.out.println("Testing Properties objects...");
 
         Properties props = System.getProperties();
 
         if (!props.equals(tester.verify(props)))
             throw new DataCorruptedException("Test 1 failed");
-        if (!props.equals(tester.verify((Object)props)))
+        if (!props.equals(tester.verify((Object) props)))
             throw new DataCorruptedException("Test 2 failed");
 
         Properties defaults = new Properties();
@@ -383,22 +343,18 @@ public class Client {
 
         if (!props2.equals(tester.verify(props2)))
             throw new DataCorruptedException("Test 3 failed");
-        if (!props2.equals(tester.verify((Object)props2)))
+        if (!props2.equals(tester.verify((Object) props2)))
             throw new DataCorruptedException("Test 4 failed");
 
         System.out.println("PASSED");
     }
 
     /**
-     * Indirections to Remotes in custom marshaled valuetypes
-     * (like ArrayList) used to break often, but we seem to
-     * have it fixed, now.
+     * Indirections to Remotes in custom marshaled valuetypes (like ArrayList) used to break often, but we seem to have it
+     * fixed, now.
      */
     @Test
-    public void testArrayList()
-        throws RemoteException,
-               DataCorruptedException
-    {
+    public void testArrayList() throws RemoteException, DataCorruptedException {
         System.out.println("Testing ArrayList of Remotes...");
 
         ArrayList list = new ArrayList(255);
@@ -423,22 +379,17 @@ public class Client {
     }
 
     /**
-     * Calendar does some interesting RMI-IIOP tricks in
-     * its readObject/writeObject.  When talking to an
-     * older 1.3.x Calendar, it will read more data than
-     * was sent.  *** This is broken in RMI-IIOP.  However,
-     * that will only occur when 1.4.x is talking to 1.3.x,
-     * which we currently can't test within the framework.
+     * Calendar does some interesting RMI-IIOP tricks in its readObject/writeObject. When talking to an older 1.3.x
+     * Calendar, it will read more data than was sent. *** This is broken in RMI-IIOP. However, that will only occur when
+     * 1.4.x is talking to 1.3.x, which we currently can't test within the framework.
      */
     @Test
-    public void testCalendar()
-        throws RemoteException, DataCorruptedException
-    {
+    public void testCalendar() throws RemoteException, DataCorruptedException {
         System.out.println("Testing Calendar...");
 
         Calendar c1 = Calendar.getInstance();
 
-        Calendar c2 = (Calendar)tester.verify(c1);
+        Calendar c2 = (Calendar) tester.verify(c1);
 
         if (!c1.equals(c2))
             throw new DataCorruptedException("Calendars not equal");
@@ -447,12 +398,10 @@ public class Client {
     }
 
     /**
-     * Makes sure that the protected superclass writeReplace/
-     * readResolve methods are called.
+     * Makes sure that the protected superclass writeReplace/ readResolve methods are called.
      */
     @Test
-    public void testWriteReplaceReadResolve()
-        throws DataCorruptedException, RemoteException {
+    public void testWriteReplaceReadResolve() throws DataCorruptedException, RemoteException {
 
         System.out.println("Testing writeReplace/readResolve...");
 
@@ -462,15 +411,14 @@ public class Client {
 
         System.out.println("Sending: " + rsc);
 
-        ReplaceSubClass result = (ReplaceSubClass)tester.verify(rsc);
+        ReplaceSubClass result = (ReplaceSubClass) tester.verify(rsc);
 
         System.out.println("Received: " + result);
 
         if (!rsc.equals(result))
             throw new DataCorruptedException("Bad result!");
 
-        if (!Status.writeReplaceCalled() ||
-            !Status.readResolveCalled())
+        if (!Status.writeReplaceCalled() || !Status.readResolveCalled())
             throw new DataCorruptedException("Didn't call writeReplace and readResolve");
 
         System.out.println("PASSED");
@@ -485,15 +433,13 @@ public class Client {
         java.lang.Object tst = rootContext.lookup("Tester");
 
         System.out.println("Narrowing...");
-        tester = (Tester)PortableRemoteObject.narrow(tst,
-            Tester.class);
+        tester = (Tester) PortableRemoteObject.narrow(tst, Tester.class);
     }
 
     public static void main(String args[]) {
-        TestngRunner runner = new TestngRunner() ;
-        runner.registerClass( Client.class ) ;
-        runner.run() ;
-        runner.systemExit() ;
+        TestngRunner runner = new TestngRunner();
+        runner.registerClass(Client.class);
+        runner.run();
+        runner.systemExit();
     }
 }
-

@@ -25,19 +25,15 @@ import javax.naming.*;
 
 import java.io.*;
 
-public class Client
-{
+public class Client {
     // Tests stub/tie downloading
-    public static void testDownloading(Tester tester) throws Exception
-    {
+    public static void testDownloading(Tester tester) throws Exception {
         tester.printMessage("Simple message test with downloading");
 
         System.out.println("PASSED");
     }
 
-    public static void testServerValueDownloading(Tester tester)
-        throws Exception
-    {
+    public static void testServerValueDownloading(Tester tester) throws Exception {
         System.out.println("Testing server value downloading");
 
         Class testValueClass = Class.forName("TestValue");
@@ -45,32 +41,26 @@ public class Client
         String result = tester.processValue(testValueClass.newInstance());
 
         if (!testValueClass.getName().equals(result))
-            throw new Exception("Server didn't receive the right value class.  Got: "
-                                + result);
+            throw new Exception("Server didn't receive the right value class.  Got: " + result);
 
         System.out.println("PASSED");
     }
 
-    public static void testClientValueDownloading(Tester tester)
-        throws Exception
-    {
+    public static void testClientValueDownloading(Tester tester) throws Exception {
         System.out.println("Testing client value downloading");
 
         Object res = tester.requestValue();
 
         if (!res.getClass().getName().equals("TestValue"))
-            throw new Exception("Client didn't receive a TestValue, got: "
-                                + res.getClass().getName());
+            throw new Exception("Client didn't receive a TestValue, got: " + res.getClass().getName());
 
         System.out.println("PASSED");
     }
 
     // This is just helpful for debugging to see whether or not the
     // client has access to these files.
-    public static void tryLoadingClasses()
-    {
-        System.out.println("java.rmi.server.codebase = "
-                           + System.getProperty("java.rmi.server.codebase"));
+    public static void tryLoadingClasses() {
+        System.out.println("java.rmi.server.codebase = " + System.getProperty("java.rmi.server.codebase"));
 
         try {
             System.out.println("Trying to load the stub class");
@@ -97,28 +87,25 @@ public class Client
         }
     }
 
-    private static InitialContext rootContext ;
+    private static InitialContext rootContext;
 
-    public static void main(String args[])
-    {
+    public static void main(String args[]) {
         try {
             Client.tryLoadingClasses();
 
             rootContext = new InitialContext();
-            Tester tester
-                = (Tester)PortableRemoteObject.narrow(rootContext.lookup("Tester"), Tester.class);
+            Tester tester = (Tester) PortableRemoteObject.narrow(rootContext.lookup("Tester"), Tester.class);
 
-            System.out.println("Testing downloading.  Server downloading? "
-                               + System.getProperty(Tester.SERVER_DOWNLOADING_FLAG));
+            System.out.println("Testing downloading.  Server downloading? " + System.getProperty(Tester.SERVER_DOWNLOADING_FLAG));
 
             Client.testDownloading(tester);
 
             if (System.getProperty(Tester.SERVER_DOWNLOADING_FLAG) != null) {
-                // The server is downloading code.  Try to send a TestValue
+                // The server is downloading code. Try to send a TestValue
                 // instance.
                 Client.testServerValueDownloading(tester);
             } else {
-                // The client is downloading code.  Try to receive a TestValue
+                // The client is downloading code. Try to receive a TestValue
                 // instance.
                 Client.testClientValueDownloading(tester);
             }

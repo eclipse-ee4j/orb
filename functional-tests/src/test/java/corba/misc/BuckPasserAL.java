@@ -17,9 +17,9 @@
  * Classpath-exception-2.0
  */
 
-package corba.misc ;
+package corba.misc;
 
-import java.util.ArrayList ;
+import java.util.ArrayList;
 
 public class BuckPasserAL extends ArrayList {
 }

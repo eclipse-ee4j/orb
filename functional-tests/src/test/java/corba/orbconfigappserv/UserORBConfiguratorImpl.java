@@ -25,42 +25,35 @@
 package corba.orbconfigappserv;
 
 import org.omg.CORBA.INITIALIZE;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.orb.ORBConfigurator;
 import com.sun.corba.ee.spi.orb.ParserImplBase;
 import com.sun.corba.ee.spi.orb.PropertyParser;
 import com.sun.corba.ee.spi.orb.DataCollector;
 import com.sun.corba.ee.spi.orb.OperationFactory;
 
-public class UserORBConfiguratorImpl
-    implements
-        ORBConfigurator
-{
+public class UserORBConfiguratorImpl implements ORBConfigurator {
     public static String propertyName = "userConfigProperty";
 
     private static class ConfigParser extends ParserImplBase {
-        private ORB orb ;
+        private ORB orb;
 
-        public ConfigParser( ORB orb ) {
-            this.orb = orb ;
+        public ConfigParser(ORB orb) {
+            this.orb = orb;
         }
 
-        public Class testclass =
-            corba.orbconfigappserv.UserORBConfiguratorImpl.class;
+        public Class testclass = corba.orbconfigappserv.UserORBConfiguratorImpl.class;
 
-        public PropertyParser makeParser()
-        {
-            PropertyParser parser = new PropertyParser() ;
-            parser.add( propertyName,
-                        OperationFactory.classAction(orb.classNameResolver()),
-                        "testclass" ) ;
-            return parser ;
+        public PropertyParser makeParser() {
+            PropertyParser parser = new PropertyParser();
+            parser.add(propertyName, OperationFactory.classAction(orb.classNameResolver()), "testclass");
+            return parser;
         }
     }
 
-    public void configure( DataCollector dc, ORB orb ) {
-        ConfigParser parser = new ConfigParser( orb );
-        parser.init( dc );
+    public void configure(DataCollector dc, ORB orb) {
+        ConfigParser parser = new ConfigParser(orb);
+        parser.init(dc);
         Class theTestclass = parser.testclass;
 
         if (theTestclass != null) {

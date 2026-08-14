@@ -30,16 +30,11 @@ import org.omg.PortableInterceptor.Current;
 import org.omg.PortableInterceptor.CurrentHelper;
 import org.omg.PortableInterceptor.ORBInitInfo;
 
-public class LoggingServiceServerORBInitializer
-    extends org.omg.CORBA.LocalObject
-    implements org.omg.PortableInterceptor.ORBInitializer
-{
-    public void pre_init(ORBInitInfo info)
-    {
+public class LoggingServiceServerORBInitializer extends org.omg.CORBA.LocalObject implements org.omg.PortableInterceptor.ORBInitializer {
+    public void pre_init(ORBInitInfo info) {
     }
 
-    public void post_init(ORBInitInfo info)
-    {
+    public void post_init(ORBInitInfo info) {
         try {
 
             // Create and register the logging service interceptor.
@@ -49,20 +44,14 @@ public class LoggingServiceServerORBInitializer
             // a slot id which is will use to tell itself not to
             // log calls that the interceptor makes to the logging process.
 
-            NamingContext nameService =
-                NamingContextHelper.narrow(
-                    info.resolve_initial_references("NameService"));
+            NamingContext nameService = NamingContextHelper.narrow(info.resolve_initial_references("NameService"));
 
-            Current piCurrent =
-                CurrentHelper.narrow(
-                    info.resolve_initial_references("PICurrent"));
+            Current piCurrent = CurrentHelper.narrow(info.resolve_initial_references("PICurrent"));
 
             int outCallIndicatorSlotId = info.allocate_slot_id();
 
-            LoggingServiceServerInterceptor interceptor =
-                new LoggingServiceServerInterceptor(nameService,
-                                                    piCurrent,
-                                                    outCallIndicatorSlotId);
+            LoggingServiceServerInterceptor interceptor = new LoggingServiceServerInterceptor(nameService, piCurrent,
+                    outCallIndicatorSlotId);
 
             info.add_client_request_interceptor(interceptor);
             info.add_server_request_interceptor(interceptor);

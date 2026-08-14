@@ -21,11 +21,9 @@
 //
 // Remote GameView servers would implement this interface.
 
-
 package ibmspace.common;
 
-public interface RemoteGameView extends GameView, java.rmi.Remote
-{
-    // No new methods.  Just mixes these two interfaces
+public interface RemoteGameView extends GameView, java.rmi.Remote {
+    // No new methods. Just mixes these two interfaces
     // into a new interface that RMIC will need
 }

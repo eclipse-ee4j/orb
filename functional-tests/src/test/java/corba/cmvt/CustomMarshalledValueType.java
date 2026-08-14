@@ -19,44 +19,43 @@
 
 package corba.cmvt;
 
-public class CustomMarshalledValueType implements java.io.Serializable{
+public class CustomMarshalledValueType implements java.io.Serializable {
     public byte[] body;
-    public CustomMarshalledValueType(int len, byte rep){
-        body = new byte[len*10];
-        for(int i=0; i<body.length; i++){
-            body[i]=(byte)(i);
+
+    public CustomMarshalledValueType(int len, byte rep) {
+        body = new byte[len * 10];
+        for (int i = 0; i < body.length; i++) {
+            body[i] = (byte) (i);
         }
     }
-    public boolean equals(Object o){
-        if(o instanceof CustomMarshalledValueType){
-            byte[] oBody = ((CustomMarshalledValueType)o).body;
-            if(oBody.length!=this.body.length) {
+
+    public boolean equals(Object o) {
+        if (o instanceof CustomMarshalledValueType) {
+            byte[] oBody = ((CustomMarshalledValueType) o).body;
+            if (oBody.length != this.body.length) {
                 System.out.println("Different body length");
                 return false;
-            }
-            else{
+            } else {
                 boolean e = true;
-                for(int i=0; i<oBody.length; i++) e = e && (oBody[i]==this.body[i]);
+                for (int i = 0; i < oBody.length; i++)
+                    e = e && (oBody[i] == this.body[i]);
                 System.out.println("Compared all body elements");
                 return e;
             }
 
-        }
-        else return false ;
+        } else
+            return false;
     }
-    private void writeObject(java.io.ObjectOutputStream stream)
-               throws java.io.IOException
-    {
+
+    private void writeObject(java.io.ObjectOutputStream stream) throws java.io.IOException {
         stream.defaultWriteObject();
         stream.writeBoolean(true);
 
     }
-    private void readObject(java.io.ObjectInputStream stream)
-               throws java.io.IOException, ClassNotFoundException
-    {
+
+    private void readObject(java.io.ObjectInputStream stream) throws java.io.IOException, ClassNotFoundException {
         stream.defaultReadObject();
         stream.readBoolean();
     }
-
 
 }

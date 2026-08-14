@@ -26,8 +26,10 @@ package omega;
 
 public interface Dromedary extends java.rmi.Remote {
 
-    void foo()        throws java.rmi.RemoteException;
-    void foo( int i ) throws java.rmi.RemoteException;
-    void foo__long()  throws java.rmi.RemoteException;
+    void foo() throws java.rmi.RemoteException;
+
+    void foo(int i) throws java.rmi.RemoteException;
+
+    void foo__long() throws java.rmi.RemoteException;
 
 }

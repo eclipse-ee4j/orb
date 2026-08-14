@@ -24,7 +24,7 @@ public class MissingClass implements java.io.Serializable {
 
     private int a;
 
-    public MissingClass(){
+    public MissingClass() {
         a = 3;
     }
 

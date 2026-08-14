@@ -27,10 +27,8 @@ package corba.folb_8_1;
 /**
  * @author Harold Carr
  */
-public class ClientForTiming_Fs_NoF_C
-{
-    public static void main(String[] av)
-    {
+public class ClientForTiming_Fs_NoF_C {
+    public static void main(String[] av) {
         String[] args = { Common.FAILOVER_SUPPORT, Common.CACHE };
         ClientForTiming.main(Common.concat(av, args));
     }

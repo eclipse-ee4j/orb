@@ -45,8 +45,8 @@ public class GIOPGenTest extends CORBATest {
 
         orbd.start();
 
-        server = createServer(thisPackage+"."+"Server", "Server");
-        client = createClient(thisPackage+"."+"Client", "Client");
+        server = createServer(thisPackage + "." + "Server", "Server");
+        client = createClient(thisPackage + "." + "Client", "Client");
 
         server.start();
         client.start();

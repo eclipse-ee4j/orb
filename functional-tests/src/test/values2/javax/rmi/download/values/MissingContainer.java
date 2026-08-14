@@ -26,15 +26,15 @@ public class MissingContainer extends javax.rmi.fvd.ParentClass {
     private int a;
     private MissingClass bclass = new MissingClass();
 
-    public MissingContainer(){
+    public MissingContainer() {
         a = 5;
     }
 
-    public long getTotal(){
+    public long getTotal() {
         return super.getTotal() + a;
     }
 
-    public long getOriginalTotal(){
-        return super.getOriginalTotal() +  5;
+    public long getOriginalTotal() {
+        return super.getOriginalTotal() + 5;
     }
 }

@@ -17,18 +17,16 @@
  * Classpath-exception-2.0
  */
 
-package corba.orbconfig ;
+package corba.orbconfig;
 
-import com.sun.corba.ee.spi.orb.DataCollector ;
-import com.sun.corba.ee.spi.orb.ORBConfigurator ;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.orb.DataCollector;
+import com.sun.corba.ee.spi.orb.ORBConfigurator;
+import com.sun.corba.ee.spi.orb.ORB;
 
-public class MyConfigurator implements ORBConfigurator
-{
-    public static boolean wasCalled = false ;
+public class MyConfigurator implements ORBConfigurator {
+    public static boolean wasCalled = false;
 
-    public void configure( DataCollector dc, ORB orb )
-    {
-        wasCalled = true ;
+    public void configure(DataCollector dc, ORB orb) {
+        wasCalled = true;
     }
 }

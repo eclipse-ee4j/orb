@@ -22,19 +22,16 @@ package corba.fragment;
 import javax.rmi.PortableRemoteObject;
 import org.omg.CosNaming.*;
 import org.omg.CORBA.*;
-import java.util.* ;
+import java.util.*;
 import java.rmi.RemoteException;
 import java.io.*;
 
 import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
 
-public class Client
-{
+public class Client {
     // size must be divisible by four
-    public static void testByteArray(FragmentTester tester, int size)
-        throws RemoteException, BadArrayException
-    {
+    public static void testByteArray(FragmentTester tester, int size) throws RemoteException, BadArrayException {
         System.out.println("Sending array of length " + size);
 
         byte array[] = new byte[size];
@@ -67,52 +64,41 @@ public class Client
     }
 
     public static org.omg.CORBA.Object readObjref(String file, org.omg.CORBA.ORB orb) {
-        String fil = System.getProperty("output.dir")+System.getProperty("file.separator")+file;
+        String fil = System.getProperty("output.dir") + System.getProperty("file.separator") + file;
         try {
-            java.io.DataInputStream in =
-                new java.io.DataInputStream(new FileInputStream(fil));
+            java.io.DataInputStream in = new java.io.DataInputStream(new FileInputStream(fil));
             String ior = in.readLine();
-            System.out.println("IOR: "+ior);
+            System.out.println("IOR: " + ior);
             return orb.string_to_object(ior);
         } catch (java.io.IOException e) {
-            System.err.println("Unable to open file "+fil);
+            System.err.println("Unable to open file " + fil);
             System.exit(1);
         }
         return null;
     }
 
-    public static void main(String args[])
-    {
-        try{
+    public static void main(String args[]) {
+        try {
 
             ORB orb = ORB.init(args, System.getProperties());
 
-            com.sun.corba.ee.spi.orb.ORB ourORB
-                = (com.sun.corba.ee.spi.orb.ORB)orb;
+            com.sun.corba.ee.spi.orb.ORB ourORB = (com.sun.corba.ee.spi.orb.ORB) orb;
 
-            System.out.println("==== Client GIOP version "
-                               + ourORB.getORBData().getGIOPVersion()
-                               + " with strategy "
-                               + ourORB.getORBData().getGIOPBuffMgrStrategy(
-                                    ourORB.getORBData().getGIOPVersion())
-                               + "====");
+            System.out.println("==== Client GIOP version " + ourORB.getORBData().getGIOPVersion() + " with strategy "
+                    + ourORB.getORBData().getGIOPBuffMgrStrategy(ourORB.getORBData().getGIOPVersion()) + "====");
 
             /*
-            org.omg.CORBA.Object objRef =
-                orb.resolve_initial_references("NameService");
-            NamingContext ncRef = NamingContextHelper.narrow(objRef);
-
-            NameComponent nc = new NameComponent("FragmentTester", "");
-            NameComponent path[] = {nc};
-
-            org.omg.CORBA.Object obj = ncRef.resolve(path);
-            */
+             * org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService"); NamingContext ncRef =
+             * NamingContextHelper.narrow(objRef);
+             * 
+             * NameComponent nc = new NameComponent("FragmentTester", ""); NameComponent path[] = {nc};
+             * 
+             * org.omg.CORBA.Object obj = ncRef.resolve(path);
+             */
 
             org.omg.CORBA.Object obj = readObjref("IOR", orb);
 
-            FragmentTester tester =
-                (FragmentTester) PortableRemoteObject.narrow(obj,
-                                                            FragmentTester.class);
+            FragmentTester tester = (FragmentTester) PortableRemoteObject.narrow(obj, FragmentTester.class);
 
             // Do the crazy work here
 
@@ -121,9 +107,9 @@ public class Client
             testByteArray(tester, arrayLen);
 
         } catch (Exception e) {
-            System.out.println("ERROR : " + e) ;
+            System.out.println("ERROR : " + e);
             e.printStackTrace(System.out);
-            System.exit (1);
+            System.exit(1);
         }
     }
 }

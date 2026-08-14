@@ -20,12 +20,18 @@
 
 package alpha.bravo;
 
-public class Kangaroo extends Wallaby
-    implements java.io.Serializable,
-               java.lang.Cloneable {
-    private int  length;
+public class Kangaroo extends Wallaby implements java.io.Serializable, java.lang.Cloneable {
+    private int length;
     public java.util.Hashtable aHashtable;
-    public       Kangaroo( int length ) { }
-    private void writeObject( java.io.ObjectOutputStream s ) { }
-    public int   getLength() { int i = 0; return i; }
+
+    public Kangaroo(int length) {
+    }
+
+    private void writeObject(java.io.ObjectOutputStream s) {
+    }
+
+    public int getLength() {
+        int i = 0;
+        return i;
+    }
 }

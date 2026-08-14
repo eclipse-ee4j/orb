@@ -33,23 +33,17 @@ import org.omg.PortableServer.POA;
 import org.omg.PortableServer.Servant;
 import org.omg.PortableServer.ServantActivator;
 
-public class MyServantActivator
-    extends
-        org.omg.CORBA.LocalObject
-    implements
-        ServantActivator
-{
+public class MyServantActivator extends org.omg.CORBA.LocalObject implements ServantActivator {
 
     public static final String baseMsg = MyServantActivator.class.getName();
 
     public ORB orb;
 
-    public MyServantActivator(ORB orb) { this.orb = orb; }
+    public MyServantActivator(ORB orb) {
+        this.orb = orb;
+    }
 
-    public Servant incarnate(byte[] oid, POA poa)
-        throws
-            ForwardRequest
-    {
+    public Servant incarnate(byte[] oid, POA poa) throws ForwardRequest {
         String soid = new String(oid);
         U.sop(baseMsg + ".incarnate " + soid);
 
@@ -58,12 +52,10 @@ public class MyServantActivator
             // IDL.
 
             if (soid.equals(C.idlSAI1)) {
-                throw new ForwardRequest(
-                    poa.create_reference_with_id(C.idlSAI2.getBytes(),
-                                                 idlSAIHelper.id()));
+                throw new ForwardRequest(poa.create_reference_with_id(C.idlSAI2.getBytes(), idlSAIHelper.id()));
             } else if (soid.equals(C.idlSAIRaiseObjectNotExistInIncarnate)) {
                 throw new OBJECT_NOT_EXIST();
-            } else if (soid.equals(C.idlSAIRaiseSystemExceptionInIncarnate)){
+            } else if (soid.equals(C.idlSAIRaiseSystemExceptionInIncarnate)) {
                 throw new IMP_LIMIT();
             }
             return new idlSAIServant(orb);
@@ -81,20 +73,15 @@ public class MyServantActivator
         }
     }
 
-    public void  etherealize(byte[] oid, POA poa, Servant servant,
-                             boolean cleanupInProgress,
-                             boolean remainingActivations)
-    {
+    public void etherealize(byte[] oid, POA poa, Servant servant, boolean cleanupInProgress, boolean remainingActivations) {
         String soid = new String(oid);
         U.sop(baseMsg + ".etherealize " + soid);
     }
 
-    static Servant makermiiIServant(ORB orb, String name)
-    {
+    static Servant makermiiIServant(ORB orb, String name) {
         Servant servant = null;
         try {
-            servant =
-                (Servant)javax.rmi.CORBA.Util.getTie(new rmiiIServantPOA(orb, name));
+            servant = (Servant) javax.rmi.CORBA.Util.getTie(new rmiiIServantPOA(orb, name));
         } catch (Exception e) {
             U.sopUnexpectedException(baseMsg + ".makermiiIServant", e);
         }

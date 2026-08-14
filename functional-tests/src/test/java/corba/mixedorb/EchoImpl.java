@@ -19,24 +19,22 @@
 
 package corba.mixedorb;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
-import javax.rmi.PortableRemoteObject ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import javax.rmi.PortableRemoteObject;
 
 public class EchoImpl extends PortableRemoteObject implements Echo {
-    private String name ;
+    private String name;
 
-    public EchoImpl( String name ) throws RemoteException {
-        this.name = name ;
+    public EchoImpl(String name) throws RemoteException {
+        this.name = name;
     }
 
-    public Echo say( Echo echo ) {
-        return echo ;
+    public Echo say(Echo echo) {
+        return echo;
     }
 
     public String name() {
-        return name ;
+        return name;
     }
 }
-
-

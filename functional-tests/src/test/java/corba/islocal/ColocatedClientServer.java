@@ -30,8 +30,7 @@ import org.omg.CORBA.ORB;
 import corba.hcks.C;
 import corba.hcks.U;
 
-public class ColocatedClientServer
-{
+public class ColocatedClientServer {
     public static final String baseMsg = ColocatedClientServer.class.getName();
     public static final String main = baseMsg + ".main";
 
@@ -40,15 +39,14 @@ public class ColocatedClientServer
     // Necessary so calls not going through locals do not hang
     // until I implement the reader thread/work split.
     public static int fragmentSize = -1;
-    //public static int fragmentSize = C.DEFAULT_FRAGMENT_SIZE;
+    // public static int fragmentSize = C.DEFAULT_FRAGMENT_SIZE;
 
     public static ORB orb;
     public static InitialContext initialContext;
     public static boolean isColocated = false;
     public static java.lang.Object signal = new java.lang.Object();
 
-    public static void main (String[] av)
-    {
+    public static void main(String[] av) {
         isColocated = true; // Used by Client and Server.
 
         try {
@@ -56,8 +54,7 @@ public class ColocatedClientServer
             // So ClientDelegate.isLocal currently succeeds.
 
             Properties props = new Properties();
-            props.setProperty("com.sun.corba.ee.ORBAllowLocalOptimization",
-                              "true");
+            props.setProperty("com.sun.corba.ee.ORBAllowLocalOptimization", "true");
             orb = ORB.init(av, props);
             U.sop(main + " : creating ORB.");
             Server.orb = (com.sun.corba.ee.spi.orb.ORB) orb;
@@ -92,15 +89,14 @@ public class ColocatedClientServer
     }
 }
 
-class ServerThread extends Thread
-{
+class ServerThread extends Thread {
     String[] args;
-    ServerThread (String[] args)
-    {
+
+    ServerThread(String[] args) {
         this.args = args;
     }
-    public void run ()
-    {
+
+    public void run() {
         Server.main(args);
     }
 }

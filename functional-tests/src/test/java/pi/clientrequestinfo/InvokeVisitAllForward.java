@@ -24,17 +24,11 @@ import org.omg.PortableInterceptor.*;
 import org.omg.CORBA.*;
 
 /**
- * Invocation strategy in which each interception point is visited.
- * Interceptors are also called for the forwarded object.
- * The following order is used:
- *    send_request, receive_reply
- *    send_request, receive_exception
- *    send_request, receive_other
- *    send_request, receive_reply
+ * Invocation strategy in which each interception point is visited. Interceptors are also called for the forwarded
+ * object. The following order is used: send_request, receive_reply send_request, receive_exception send_request,
+ * receive_other send_request, receive_reply
  */
-public class InvokeVisitAllForward
-    extends InvokeStrategy
-{
+public class InvokeVisitAllForward extends InvokeStrategy {
     public InvokeVisitAllForward() {
     }
 
@@ -44,22 +38,20 @@ public class InvokeVisitAllForward
         SampleClientRequestInterceptor.invokeOnForwardedObject = true;
 
         // Invoke send_request then receive_reply
-        invokeMethod( "sayHello" );
+        invokeMethod("sayHello");
 
         // Invoke send_request then receive_exception:
         try {
-            invokeMethod( "saySystemException" );
-        }
-        catch( UNKNOWN e ) {
+            invokeMethod("saySystemException");
+        } catch (UNKNOWN e) {
             // We expect this, but no other exception.
         }
 
         // Invoke send_request then receive_other:
         SampleClientRequestInterceptor.exceptionRedirectToOther = true;
         try {
-            invokeMethod( "saySystemException" );
-        }
-        catch( UNKNOWN e ) {
+            invokeMethod("saySystemException");
+        } catch (UNKNOWN e) {
             // We expect this, but no other exception.
         }
     }

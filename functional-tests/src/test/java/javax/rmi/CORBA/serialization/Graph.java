@@ -22,7 +22,6 @@ package javax.rmi.CORBA.serialization;
 
 // Class from Sun
 
-
 import java.io.*;
 
 public class Graph implements Serializable {
@@ -40,9 +39,12 @@ public class Graph implements Serializable {
     public Graph(String data, Graph next) {
         this._list = data;
         this._bitset = new BitSet(64);
-        this._bitset.set(10);this._bitset.set(20);
-        this._bitset.set(30);this._bitset.set(40);
-        this._bitset.set(50);this._bitset.set(60);
+        this._bitset.set(10);
+        this._bitset.set(20);
+        this._bitset.set(30);
+        this._bitset.set(40);
+        this._bitset.set(50);
+        this._bitset.set(60);
         this._next = next;
     }
 
@@ -59,24 +61,20 @@ public class Graph implements Serializable {
     }
 
     public boolean equals(Graph o) {
-        try{
-            Graph g = (Graph)o;
-            return ((_list.equals(g._list)) &&
-                    (_next.equals(g._next)) &&
-                    (_bitset.equals(g._bitset)));
-        }
-        catch(Throwable t){
+        try {
+            Graph g = (Graph) o;
+            return ((_list.equals(g._list)) && (_next.equals(g._next)) && (_bitset.equals(g._bitset)));
+        } catch (Throwable t) {
             return false;
         }
     }
 
     public String toString() {
         StringBuffer result = new StringBuffer("{ ");
-        for(Graph list = this; list != null; list = list.next()) {
+        for (Graph list = this; list != null; list = list.next()) {
             result.append(list.data()).append(" ");
         }
         return result.append("}").toString();
     }
-
 
 }

@@ -23,14 +23,10 @@ import corba.framework.Controller;
 import corba.framework.CORBATest;
 import corba.framework.Options;
 
-public class PreInvokePostInvokeTest
-    extends
-        CORBATest
-{
-    protected void doTest() throws Throwable
-    {
+public class PreInvokePostInvokeTest extends CORBATest {
+    protected void doTest() throws Throwable {
         Controller orbd = createORBD();
-        Controller server = createServer("corba.preinvokepostinvoke.Server" );
+        Controller server = createServer("corba.preinvokepostinvoke.Server");
 
         orbd.start();
 
@@ -38,6 +34,6 @@ public class PreInvokePostInvokeTest
 
         server.stop();
 
-        orbd.stop( );
+        orbd.stop();
     }
 }

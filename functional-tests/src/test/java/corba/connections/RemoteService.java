@@ -30,36 +30,25 @@ import javax.rmi.CORBA.Util;
 
 import com.sun.corba.ee.spi.orb.ORB;
 
-public class RemoteService
-    extends
-        PortableRemoteObject
-    implements
-        RemoteInterface
-{
+public class RemoteService extends PortableRemoteObject implements RemoteInterface {
     ORB orb;
     String serverName;
     Object blocker;
     ConnectionStatistics stats;
 
-    public RemoteService (ORB orb, String serverName)
-        throws RemoteException
-    {
+    public RemoteService(ORB orb, String serverName) throws RemoteException {
         super();
         this.orb = orb;
         this.serverName = serverName;
         this.blocker = new Object();
-        this.stats = new ConnectionStatistics( orb );
+        this.stats = new ConnectionStatistics(orb);
     }
 
-    public Struct[] method(Struct[] in)
-        throws RemoteException
-    {
+    public Struct[] method(Struct[] in) throws RemoteException {
         return in;
     }
 
-    public void block()
-        throws RemoteException
-    {
+    public void block() throws RemoteException {
         synchronized (blocker) {
             try {
                 blocker.wait();
@@ -68,23 +57,15 @@ public class RemoteService
         }
     }
 
-    public void resume()
-        throws RemoteException
-    {
+    public void resume() throws RemoteException {
         synchronized (blocker) {
             blocker.notifyAll();
         }
     }
 
-    public String testMonitoring ()
-        throws RemoteException
-    {
-        return
-            stats.outbound(serverName, orb)
-            +
-            stats.inbound(serverName, orb);
+    public String testMonitoring() throws RemoteException {
+        return stats.outbound(serverName, orb) + stats.inbound(serverName, orb);
     }
 }
 
 // End of file.
-

@@ -24,7 +24,7 @@
 
 package corba.folb;
 
-import java.net.InetAddress ;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,93 +41,74 @@ import java.util.ArrayList;
 /**
  * @author Harold Carr
  */
-public class GroupInfoServiceImpl
-    extends org.omg.CORBA.LocalObject
-    implements GroupInfoService
-{
+public class GroupInfoServiceImpl extends org.omg.CORBA.LocalObject implements GroupInfoService {
     private List<String> currentInstances;
     private GIS gis;
     private boolean debug = true; // REVISIT - get from ORB
 
-    private class GIS extends GroupInfoServiceBase
-    {
-        public List<ClusterInstanceInfo> internalClusterInstanceInfo(
-            List<String> endpoints ) {
-            throw new RuntimeException( "Should not be called" ) ;
+    private class GIS extends GroupInfoServiceBase {
+        public List<ClusterInstanceInfo> internalClusterInstanceInfo(List<String> endpoints) {
+            throw new RuntimeException("Should not be called");
         }
 
         @Override
-        public List<ClusterInstanceInfo> getClusterInstanceInfo(
-            String[] adapterName, List<String> endpoints )
-        {
-            return getClusterInstanceInfo( adapterName ) ;
+        public List<ClusterInstanceInfo> getClusterInstanceInfo(String[] adapterName, List<String> endpoints) {
+            return getClusterInstanceInfo(adapterName);
         }
 
         @Override
-        public List<ClusterInstanceInfo> getClusterInstanceInfo(
-            String[] adapterName)
-        {
+        public List<ClusterInstanceInfo> getClusterInstanceInfo(String[] adapterName) {
             String adapter_name = ORBUtility.formatStringArray(adapterName);
 
             try {
-                if (debug) dprint(".getMemberAddresses->: " + adapter_name);
-                if (debug) dprint(".getMemberAddresses: " + adapter_name
-                       + ": current members: " + currentInstances);
+                if (debug)
+                    dprint(".getMemberAddresses->: " + adapter_name);
+                if (debug)
+                    dprint(".getMemberAddresses: " + adapter_name + ": current members: " + currentInstances);
 
-                List<ClusterInstanceInfo> info =
-                    new LinkedList<ClusterInstanceInfo>();
+                List<ClusterInstanceInfo> info = new LinkedList<ClusterInstanceInfo>();
                 ClusterInstanceInfo instanceInfo;
-
 
                 String hostName = "";
                 try {
                     hostName = InetAddress.getLocalHost().getHostAddress();
                 } catch (UnknownHostException e) {
-                    dprint(".getMemberAddresses: " + adapter_name
-                           + ": exception: " + e);
+                    dprint(".getMemberAddresses: " + adapter_name + ": exception: " + e);
                     e.printStackTrace(System.out);
                     System.exit(1);
                 }
 
-                for (int i=0; i<corba.folb_8_1.Common.socketTypes.length; ++i){
+                for (int i = 0; i < corba.folb_8_1.Common.socketTypes.length; ++i) {
 
-                    if (! currentInstances.contains(corba.folb_8_1.Common.socketTypes[i])) {
-                        if (debug) dprint(".getMemberAddresses: " + adapter_name
-                               + ": NOT in current members: " +
-                               corba.folb_8_1.Common.socketTypes[i]);
+                    if (!currentInstances.contains(corba.folb_8_1.Common.socketTypes[i])) {
+                        if (debug)
+                            dprint(".getMemberAddresses: " + adapter_name + ": NOT in current members: "
+                                    + corba.folb_8_1.Common.socketTypes[i]);
                         continue;
                     }
 
-                    if (debug) dprint(".getMemberAddresses: " + adapter_name
-                           + ":IN current members: " +
-                           corba.folb_8_1.Common.socketTypes[i]);
+                    if (debug)
+                        dprint(".getMemberAddresses: " + adapter_name + ":IN current members: " + corba.folb_8_1.Common.socketTypes[i]);
 
                     //
                     // A BAD Address.
                     //
 
-                    SocketInfo siBad =
-                        new SocketInfo("t" + i, "bad" + i, i + 1);
-
+                    SocketInfo siBad = new SocketInfo("t" + i, "bad" + i, i + 1);
 
                     //
                     // A Good Address.
                     //
 
-                    SocketInfo si =
-                        new SocketInfo(corba.folb_8_1.Common.socketTypes[i],
-                                       hostName,
-                                       corba.folb_8_1.Common.socketPorts[i]);
+                    SocketInfo si = new SocketInfo(corba.folb_8_1.Common.socketTypes[i], hostName, corba.folb_8_1.Common.socketPorts[i]);
 
                     //
                     // One fake instance.
                     //
-                    List<SocketInfo> socketInfos = new ArrayList<SocketInfo>() ;
-                    socketInfos.add( siBad ) ;
-                    socketInfos.add( si ) ;
-                    instanceInfo =
-                        new ClusterInstanceInfo("instance-" + i, i + 1,
-                                                socketInfos);
+                    List<SocketInfo> socketInfos = new ArrayList<SocketInfo>();
+                    socketInfos.add(siBad);
+                    socketInfos.add(si);
+                    instanceInfo = new ClusterInstanceInfo("instance-" + i, i + 1, socketInfos);
                     info.add(instanceInfo);
 
                     //
@@ -137,8 +118,8 @@ public class GroupInfoServiceImpl
                     //
 
                     if (isNoLabelName(adapterName)) {
-                        if (debug) dprint(".getMemberAddresses: " + adapter_name
-                               + ": no label ReferenceFactory - only added one good address");
+                        if (debug)
+                            dprint(".getMemberAddresses: " + adapter_name + ": no label ReferenceFactory - only added one good address");
                         break;
                     }
                 }
@@ -146,28 +127,24 @@ public class GroupInfoServiceImpl
                 return info;
 
             } catch (RuntimeException e) {
-                dprint(".getMemberAddresses: " + adapter_name
-                       + ": exception: " + e);
+                dprint(".getMemberAddresses: " + adapter_name + ": exception: " + e);
                 e.printStackTrace(System.out);
                 System.exit(1);
                 throw e;
             } finally {
-                if (debug) dprint(".getMemberAddresses<-: " + adapter_name);
+                if (debug)
+                    dprint(".getMemberAddresses<-: " + adapter_name);
             }
         }
 
         @Override
-        public boolean shouldAddAddressesToNonReferenceFactory(
-            String[] adapterName)
-        {
-            return Common.POA_WITH_ADDRESSES_WITH_LABEL.equals(
-                adapterName[adapterName.length-1]);
+        public boolean shouldAddAddressesToNonReferenceFactory(String[] adapterName) {
+            return Common.POA_WITH_ADDRESSES_WITH_LABEL.equals(adapterName[adapterName.length - 1]);
         }
 
         @Override
-        public boolean shouldAddMembershipLabel (String[] adapterName)
-        {
-            return ! isNoLabelName(adapterName);
+        public boolean shouldAddMembershipLabel(String[] adapterName) {
+            return !isNoLabelName(adapterName);
         }
 
         ////////////////////////////////////////////////////
@@ -175,18 +152,15 @@ public class GroupInfoServiceImpl
         // Implementation
         //
 
-        private boolean isNoLabelName(String[] adapterName)
-        {
-            return Common.RFM_WITH_ADDRESSES_WITHOUT_LABEL.equals(
-                adapterName[adapterName.length-1]);
+        private boolean isNoLabelName(String[] adapterName) {
+            return Common.RFM_WITH_ADDRESSES_WITHOUT_LABEL.equals(adapterName[adapterName.length - 1]);
         }
     }
 
-    public GroupInfoServiceImpl()
-    {
+    public GroupInfoServiceImpl() {
         gis = new GIS();
         currentInstances = new LinkedList<String>();
-        for (int i = 0; i < corba.folb_8_1.Common.socketTypes.length; ++i){
+        for (int i = 0; i < corba.folb_8_1.Common.socketTypes.length; ++i) {
             currentInstances.add(corba.folb_8_1.Common.socketTypes[i]);
         }
     }
@@ -196,37 +170,28 @@ public class GroupInfoServiceImpl
     // GroupInfoService
     //
 
-    public boolean addObserver(GroupInfoServiceObserver x)
-    {
+    public boolean addObserver(GroupInfoServiceObserver x) {
         return gis.addObserver(x);
     }
 
-    public void notifyObservers()
-    {
+    public void notifyObservers() {
         gis.notifyObservers();
     }
 
     @Override
-    public List<ClusterInstanceInfo> getClusterInstanceInfo(
-        String[] adapterName, List<String> endpoints )
-    {
-        return gis.getClusterInstanceInfo(adapterName,endpoints);
+    public List<ClusterInstanceInfo> getClusterInstanceInfo(String[] adapterName, List<String> endpoints) {
+        return gis.getClusterInstanceInfo(adapterName, endpoints);
     }
 
-    public List<ClusterInstanceInfo> getClusterInstanceInfo(
-        String[] adapterName)
-    {
+    public List<ClusterInstanceInfo> getClusterInstanceInfo(String[] adapterName) {
         return gis.getClusterInstanceInfo(adapterName);
     }
 
-    public boolean shouldAddAddressesToNonReferenceFactory(
-        String[] adapterName)
-    {
+    public boolean shouldAddAddressesToNonReferenceFactory(String[] adapterName) {
         return gis.shouldAddAddressesToNonReferenceFactory(adapterName);
     }
 
-    public boolean shouldAddMembershipLabel (String[] adapterName)
-    {
+    public boolean shouldAddMembershipLabel(String[] adapterName) {
         return gis.shouldAddMembershipLabel(adapterName);
     }
 
@@ -235,31 +200,35 @@ public class GroupInfoServiceImpl
     // Implementation used by GroupInfoServiceTestServant
     //
 
-    public boolean add(String x)
-    {
-        if (debug) dprint(".add->: " + x);
-        if (debug) dprint(".add: current members before: " + currentInstances);
+    public boolean add(String x) {
+        if (debug)
+            dprint(".add->: " + x);
+        if (debug)
+            dprint(".add: current members before: " + currentInstances);
         boolean result = currentInstances.add(x);
-        if (debug) dprint(".add: current members after : " + currentInstances);
+        if (debug)
+            dprint(".add: current members after : " + currentInstances);
         notifyObservers();
-        if (debug) dprint(".add<-: " + x + " " + result);
+        if (debug)
+            dprint(".add<-: " + x + " " + result);
         return result;
     }
 
-
-    public boolean remove(String x)
-    {
-        if (debug) dprint(".remove->: " + x);
-        if (debug) dprint(".remove: current members before: " + currentInstances);
+    public boolean remove(String x) {
+        if (debug)
+            dprint(".remove->: " + x);
+        if (debug)
+            dprint(".remove: current members before: " + currentInstances);
         boolean result = currentInstances.remove(x);
-        if (debug) dprint(".remove: current members after : " + currentInstances);
+        if (debug)
+            dprint(".remove: current members after : " + currentInstances);
         notifyObservers();
-        if (debug) dprint(".remove<-: " + x + " " + result);
+        if (debug)
+            dprint(".remove<-: " + x + " " + result);
         return result;
     }
 
-    private static void dprint(String msg)
-    {
+    private static void dprint(String msg) {
         ORBUtility.dprint("GroupInfoServiceImpl", msg);
     }
 }

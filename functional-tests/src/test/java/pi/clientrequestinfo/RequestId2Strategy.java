@@ -25,12 +25,9 @@ import org.omg.PortableInterceptor.*;
 /**
  * Strategy to test request_id.2
  * <p>
- * A recursive call will be made.  We will ensure the inner-most call has a
- * different requestId than the outer-most call.
+ * A recursive call will be made. We will ensure the inner-most call has a different requestId than the outer-most call.
  */
-public class RequestId2Strategy
-    extends InterceptorStrategy
-{
+public class RequestId2Strategy extends InterceptorStrategy {
 
     // The request id for the outer-most call:
     private int outerId = -1;
@@ -41,61 +38,50 @@ public class RequestId2Strategy
     // The request id count:
     private int count = 0;
 
-    public void send_request (
-        SampleClientRequestInterceptor interceptor, ClientRequestInfo ri)
-        throws ForwardRequest
-    {
-        super.send_request( interceptor, ri );
+    public void send_request(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) throws ForwardRequest {
+        super.send_request(interceptor, ri);
 
         try {
-            if( count == 0 ) {
+            if (count == 0) {
                 outerId = ri.request_id();
-                log( "send_request(): outer-most id is " + outerId );
+                log("send_request(): outer-most id is " + outerId);
                 count++;
-            }
-            else if( count == 1 ) {
+            } else if (count == 1) {
                 innerId = ri.request_id();
-                log( "send_request(): inner-most id is " + innerId );
+                log("send_request(): inner-most id is " + innerId);
                 count++;
 
-                if( innerId == outerId ) {
-                    fail( "outer and inner requests ids are the same." );
+                if (innerId == outerId) {
+                    fail("outer and inner requests ids are the same.");
                 }
             }
-        }
-        catch( Exception e ) {
-            failException( "send_request", e );
+        } catch (Exception e) {
+            failException("send_request", e);
         }
     }
 
-    public void receive_reply(
-        SampleClientRequestInterceptor interceptor, ClientRequestInfo ri)
-    {
-        super.receive_reply( interceptor, ri );
+    public void receive_reply(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) {
+        super.receive_reply(interceptor, ri);
 
         try {
             // check to make sure inner ids match.
             count--;
 
-            if( count == 1 ) {
+            if (count == 1) {
                 int id = ri.request_id();
-                log( "receive_reply(): inner-most id is " + id );
-                if( id != innerId ) {
-                    fail( "inner id is not the same in receive_reply() as " +
-                          "it was in send_request()" );
+                log("receive_reply(): inner-most id is " + id);
+                if (id != innerId) {
+                    fail("inner id is not the same in receive_reply() as " + "it was in send_request()");
+                }
+            } else if (count == 0) {
+                int id = ri.request_id();
+                log("receive_reply(): outer-most id is " + id);
+                if (id != outerId) {
+                    fail("outer id is not the same in receive_reply() as " + "it was in send_request()");
                 }
             }
-            else if( count == 0 ) {
-                int id = ri.request_id();
-                log( "receive_reply(): outer-most id is " + id );
-                if( id != outerId ) {
-                    fail( "outer id is not the same in receive_reply() as " +
-                          "it was in send_request()" );
-                }
-            }
-        }
-        catch( Exception e ) {
-            failException( "receive_reply", e );
+        } catch (Exception e) {
+            failException("receive_reply", e);
         }
     }
 

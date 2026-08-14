@@ -22,13 +22,12 @@ package ibmspace.common;
 
 import java.awt.Point;
 
+public interface Planet extends Identifiable {
+    ID getID();
 
-public interface Planet extends Identifiable
-{
-    ID        getID ();
-    String    getName ();
-    Point     getCoordinates ();
-    boolean   hasSatelites ();
+    String getName();
+
+    Point getCoordinates();
+
+    boolean hasSatelites();
 }
-
-

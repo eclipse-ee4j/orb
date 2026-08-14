@@ -26,14 +26,14 @@ package corba.hcks;
 
 import org.omg.CORBA.ORB;
 
-class idlHEADERIServant
-    extends
-        idlHEADERIPOA
-{
+class idlHEADERIServant extends idlHEADERIPOA {
     private ORB orb;
-    public idlHEADERIServant ( ORB orb ) { this.orb = orb; }
-    public void HEADER ( String message )
-    {
+
+    public idlHEADERIServant(ORB orb) {
+        this.orb = orb;
+    }
+
+    public void HEADER(String message) {
         U.HEADER(message);
     }
 }

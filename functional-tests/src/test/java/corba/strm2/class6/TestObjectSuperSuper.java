@@ -19,8 +19,7 @@
 
 import java.io.*;
 
-public class TestObjectSuperSuper implements Serializable
-{
+public class TestObjectSuperSuper implements Serializable {
     public int dataxssup0;
     public Integer dataxssup1;
 
@@ -39,24 +38,19 @@ public class TestObjectSuperSuper implements Serializable
     }
 
     public String toString() {
-        return
-            (super.getClass().equals(Object.class) ? "" : super.toString())
-            + " [TestObjectSuperSuper dataxssup0=" + dataxssup0
-            + ", dataxssup1" + dataxssup1
-            + "]";
+        return (super.getClass().equals(Object.class) ? "" : super.toString()) + " [TestObjectSuperSuper dataxssup0=" + dataxssup0
+                + ", dataxssup1" + dataxssup1 + "]";
     }
 
     public boolean equals(Object obj) {
         try {
-            TestObjectSuperSuper other = (TestObjectSuperSuper)obj;
+            TestObjectSuperSuper other = (TestObjectSuperSuper) obj;
 
             if (other == null)
                 return false;
 
-            return (testObjectSuperSuperHasStreamDefaults() ||
-                    other.testObjectSuperSuperHasStreamDefaults() ||
-                    (dataxssup0 == other.dataxssup0 &&
-                     dataxssup1.equals(other.dataxssup1)));
+            return (testObjectSuperSuperHasStreamDefaults() || other.testObjectSuperSuperHasStreamDefaults()
+                    || (dataxssup0 == other.dataxssup0 && dataxssup1.equals(other.dataxssup1)));
         } catch (ClassCastException cce) {
             return false;
         }

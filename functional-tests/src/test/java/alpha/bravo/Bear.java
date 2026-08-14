@@ -22,7 +22,8 @@ package alpha.bravo;
 
 public interface Bear {
     public int getSize() throws java.rmi.RemoteException;
-    void       eat()     throws Exception;
-    void       drink()   throws java.rmi.RemoteException,
-    java.rmi.NoSuchObjectException;
+
+    void eat() throws Exception;
+
+    void drink() throws java.rmi.RemoteException, java.rmi.NoSuchObjectException;
 }

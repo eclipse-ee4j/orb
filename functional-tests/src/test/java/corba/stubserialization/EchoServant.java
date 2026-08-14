@@ -23,15 +23,12 @@ import java.rmi.RemoteException;
 
 import javax.rmi.PortableRemoteObject;
 
-public class EchoServant extends PortableRemoteObject implements Echo
-{
-    public EchoServant() throws RemoteException
-    {
-        super() ;
+public class EchoServant extends PortableRemoteObject implements Echo {
+    public EchoServant() throws RemoteException {
+        super();
     }
 
-    public String echo( String arg )
-    {
-        return arg ;
+    public String echo(String arg) {
+        return arg;
     }
 }

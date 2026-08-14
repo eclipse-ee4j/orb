@@ -17,34 +17,32 @@
  * Classpath-exception-2.0
  */
 
-package corba.dynamicrmiiiop.testclasses ;
+package corba.dynamicrmiiiop.testclasses;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
-import java.util.Map ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.util.Map;
 
-public interface TieTest extends Remote
-{
-    void hasAByteArray( byte[] arg ) throws RemoteException ;
+public interface TieTest extends Remote {
+    void hasAByteArray(byte[] arg) throws RemoteException;
 
-    int throwsException( int arg ) throws Exception, RemoteException ;
+    int throwsException(int arg) throws Exception, RemoteException;
 
-    int throwsDeclaredException( int arg ) throws MyApplicationExceptionBase,
-        RemoteException ;
+    int throwsDeclaredException(int arg) throws MyApplicationExceptionBase, RemoteException;
 
-    int throwsSystemException( int arg ) throws RemoteException ;
+    int throwsSystemException(int arg) throws RemoteException;
 
-    int throwsJavaException( int arg ) throws RemoteException ;
+    int throwsJavaException(int arg) throws RemoteException;
 
-    String m0() throws RemoteException ;
+    String m0() throws RemoteException;
 
-    String m1( String another ) throws RemoteException ;
+    String m1(String another) throws RemoteException;
 
-    String m2( Map map, String key ) throws RemoteException ;
+    String m2(Map map, String key) throws RemoteException;
 
-    void vm0() throws RemoteException ;
+    void vm0() throws RemoteException;
 
-    void vm1( String another ) throws RemoteException ;
+    void vm1(String another) throws RemoteException;
 
-    void vm2( Map map, String key ) throws RemoteException ;
+    void vm2(Map map, String key) throws RemoteException;
 }

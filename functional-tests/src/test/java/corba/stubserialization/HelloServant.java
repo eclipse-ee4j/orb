@@ -22,56 +22,48 @@ package corba.stubserialization;
 import java.rmi.RemoteException;
 
 import javax.rmi.PortableRemoteObject;
-import java.io.FileInputStream ;
-import java.io.ObjectInputStream ;
+import java.io.FileInputStream;
+import java.io.ObjectInputStream;
 
-import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
-import com.sun.corba.ee.spi.orb.ORB ;
+import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
+import com.sun.corba.ee.spi.orb.ORB;
 
-public class HelloServant extends PortableRemoteObject implements Hello
-{
-    ORB orb ;
+public class HelloServant extends PortableRemoteObject implements Hello {
+    ORB orb;
 
-    public HelloServant( ORB orb ) throws RemoteException
-    {
+    public HelloServant(ORB orb) throws RemoteException {
         super();
-        this.orb = orb ;
+        this.orb = orb;
     }
 
-    public String sayHello( ) throws RemoteException
-    {
+    public String sayHello() throws RemoteException {
         return Constants.HELLO;
     }
 
-    public String sayHelloToStub( String fileName ) throws RemoteException
-    {
-       FileInputStream fis = null ;
-       ObjectInputStream ois = null ;
+    public String sayHelloToStub(String fileName) throws RemoteException {
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
 
-       try {
-           System.out.println(
-               "Deserializing the Stub from a FileStream: Start");
-           fis = new FileInputStream( Client.getFile( fileName ) ) ;
-           ois = new ObjectInputStream(fis);
-           Object obj = ois.readObject();
-           StubAdapter.connect( obj, orb ) ;
-           System.out.println(
-               "Deserializing the Stub from a FileStream: Complete");
-           Echo echo = (Echo) obj;
-           System.out.println(
-               "Invoking after Serialization and Deserialization" );
-           String msg = echo.echo( Constants.HELLO ) ;
-           System.out.println(
-               "Invoking after Serialization and Deserialization Complete" );
-           return msg ;
+        try {
+            System.out.println("Deserializing the Stub from a FileStream: Start");
+            fis = new FileInputStream(Client.getFile(fileName));
+            ois = new ObjectInputStream(fis);
+            Object obj = ois.readObject();
+            StubAdapter.connect(obj, orb);
+            System.out.println("Deserializing the Stub from a FileStream: Complete");
+            Echo echo = (Echo) obj;
+            System.out.println("Invoking after Serialization and Deserialization");
+            String msg = echo.echo(Constants.HELLO);
+            System.out.println("Invoking after Serialization and Deserialization Complete");
+            return msg;
         } catch (Exception exc) {
-            throw new RemoteException( "Error in sayHelloToStub", exc ) ;
+            throw new RemoteException("Error in sayHelloToStub", exc);
         } finally {
             try {
                 if (ois != null)
-                    ois.close() ;
+                    ois.close();
                 if (fis != null)
-                    fis.close() ;
+                    fis.close();
             } catch (Exception exc) {
                 // Nothing to do if close throws an IOException.
             }
@@ -80,9 +72,6 @@ public class HelloServant extends PortableRemoteObject implements Hello
     }
 
     /*
-    public TestAppReturnValue getTARV() throws RemoteException
-    {
-        return new TestAppReturnValue() ;
-    }
-    */
+     * public TestAppReturnValue getTARV() throws RemoteException { return new TestAppReturnValue() ; }
+     */
 }

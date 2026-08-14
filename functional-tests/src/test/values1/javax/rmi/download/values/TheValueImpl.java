@@ -25,9 +25,10 @@ import javax.rmi.download.TheValue;
 public class TheValueImpl implements TheValue, java.io.Serializable {
     public String message = "Hello, world!";
 
-    public TheValueImpl(){}
+    public TheValueImpl() {
+    }
 
-    public String sayHello(){
+    public String sayHello() {
         return message;
     }
 }

@@ -24,44 +24,36 @@ import corba.framework.*;
 import java.util.*;
 import org.omg.CORBA.*;
 
-public class POAAndEquals extends CORBATest
-{
-    protected Controller newServerController()
-    {
+public class POAAndEquals extends CORBATest {
+    protected Controller newServerController() {
         return new InternalExec();
     }
 
-    protected Controller newClientController()
-    {
+    protected Controller newClientController() {
         return new ThreadExec();
     }
 
     private ORB createORB() {
         Properties props = new Properties();
-        props.put("org.omg.CORBA.ORBClass",
-                  Options.getORBClass());
-        String args[] = new String[] { "-ORBInitialPort",
-                                       Options.getORBInitialPort() };
+        props.put("org.omg.CORBA.ORBClass", Options.getORBClass());
+        String args[] = new String[] { "-ORBInitialPort", Options.getORBInitialPort() };
 
         return ORB.init(args, props);
     }
 
-    protected void doTest() throws Throwable
-    {
+    protected void doTest() throws Throwable {
         ORB orb = createORB();
 
         Hashtable clientExtra = Options.getClientExtra();
         clientExtra.put("orb", orb);
 
-        Controller client
-            = createClient("corba.poaandequals.WombatClient");
+        Controller client = createClient("corba.poaandequals.WombatClient");
 
         Hashtable serverExtra = Options.getServerExtra();
         serverExtra.put("orb", orb);
         serverExtra.put("client", client);
 
-        Controller server
-            = createServer("corba.poaandequals.WombatServer");
+        Controller server = createServer("corba.poaandequals.WombatServer");
 
         server.start();
         server.waitFor();
@@ -73,4 +65,3 @@ public class POAAndEquals extends CORBATest
         // orb.shutdown(true);
     }
 }
-

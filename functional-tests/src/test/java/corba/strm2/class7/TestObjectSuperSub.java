@@ -20,8 +20,7 @@
 import java.io.*;
 import java.math.*;
 
-public class TestObjectSuperSub extends TestObjectSuper
-{
+public class TestObjectSuperSub extends TestObjectSuper {
     public int dataxss0;
     public Long dataxss1;
 
@@ -47,37 +46,31 @@ public class TestObjectSuperSub extends TestObjectSuper
 
     public boolean equals(Object obj) {
         try {
-            TestObjectSuperSub other = (TestObjectSuperSub)obj;
+            TestObjectSuperSub other = (TestObjectSuperSub) obj;
 
             if (other == null)
                 return false;
 
-            return (testObjectSuperSubHasStreamDefaults() ||
-                    other.testObjectSuperSubHasStreamDefaults() ||
-                    (dataxss0 == other.dataxss0 &&
-                     dataxss1.equals(other.dataxss1))) &&
-                (other.optData == null || optData.equals(INITIAL_BIGINT)) &&
-                super.equals(obj);
+            return (testObjectSuperSubHasStreamDefaults() || other.testObjectSuperSubHasStreamDefaults()
+                    || (dataxss0 == other.dataxss0 && dataxss1.equals(other.dataxss1)))
+                    && (other.optData == null || optData.equals(INITIAL_BIGINT)) && super.equals(obj);
         } catch (ClassCastException cce) {
             return false;
         }
     }
 
-    private void writeObject(java.io.ObjectOutputStream out)
-        throws IOException
-    {
+    private void writeObject(java.io.ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
 
         out.writeObject(optData);
     }
 
-    private void readObject(java.io.ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
+    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
 
         in.defaultReadObject();
 
         try {
-            optData = (BigInteger)in.readObject();
+            optData = (BigInteger) in.readObject();
         } catch (OptionalDataException ode) {
             optData = null;
         }

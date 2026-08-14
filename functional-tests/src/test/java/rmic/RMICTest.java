@@ -38,35 +38,33 @@ public abstract class RMICTest extends Test {
     private static HashSet files = new HashSet();
 
     /**
-     * Return an array of fully qualified class names for which generation
-     * should occur. Return empty array if none.
+     * Return an array of fully qualified class names for which generation should occur. Return empty array if none.
      */
-    protected abstract String[] getGenerationClasses () throws Throwable;
+    protected abstract String[] getGenerationClasses() throws Throwable;
 
     /**
      * Perform the test.
      */
-    protected abstract void doTest () throws Throwable;
+    protected abstract void doTest() throws Throwable;
 
     /**
      * Return the primary generator argument (e.g. "-iiop" or "-idl").
      */
-    protected abstract String getGeneratorArg ();
+    protected abstract String getGeneratorArg();
 
     /**
-     * Append additional (i.e. after -idl and before classes) rmic arguments
-     * to 'currentArgs'. This implementation will set the output directory if
-     * the OUTPUT_DIRECTORY flag was passed on the command line.
+     * Append additional (i.e. after -idl and before classes) rmic arguments to 'currentArgs'. This implementation will set
+     * the output directory if the OUTPUT_DIRECTORY flag was passed on the command line.
      */
-    protected String[] getAdditionalRMICArgs (String[] currentArgs) {
+    protected String[] getAdditionalRMICArgs(String[] currentArgs) {
 
         String[] result = currentArgs;
-        String dir = (String)getArgs().get(OUTPUT_DIRECTORY);
+        String dir = (String) getArgs().get(OUTPUT_DIRECTORY);
 
         if (dir != null) {
 
             result = new String[currentArgs.length + 2];
-            System.arraycopy(currentArgs,0,result,0,currentArgs.length);
+            System.arraycopy(currentArgs, 0, result, 0, currentArgs.length);
             result[currentArgs.length] = "-d";
             result[currentArgs.length + 1] = dir;
         }
@@ -75,52 +73,51 @@ public abstract class RMICTest extends Test {
     }
 
     /**
-     * Return true if generation shuold occur once per process, false
-     * if they should be generated prior to each call to doTest(). Default
-     * is true.
+     * Return true if generation shuold occur once per process, false if they should be generated prior to each call to
+     * doTest(). Default is true.
      */
-    protected boolean generateOnlyOnce () {
+    protected boolean generateOnlyOnce() {
         return true;
     }
 
     /**
      * Return the output stream to which rmic should write output.
      */
-    protected OutputStream getOutputStream () {
+    protected OutputStream getOutputStream() {
         return System.out;
     }
 
     /**
      * Generate rmic output for the supplied class.
      */
-    protected void generate (String theClass, OutputStream out) throws Exception {
+    protected void generate(String theClass, OutputStream out) throws Exception {
         String[] list = new String[1];
         list[0] = theClass;
-        generate(list,out);
+        generate(list, out);
     }
 
     /**
      * Generate rmic output for the supplied classes.
      */
-    protected void generate (String[] classes,OutputStream out) throws Exception {
+    protected void generate(String[] classes, OutputStream out) throws Exception {
         String[] additionalArgs = new String[0];
         String generatorArg = getGeneratorArg();
         additionalArgs = getAdditionalRMICArgs(additionalArgs);
         boolean onlyOnce = generateOnlyOnce();
-        generate(classes,generatorArg,additionalArgs,onlyOnce,out);
+        generate(classes, generatorArg, additionalArgs, onlyOnce, out);
     }
 
     /**
      * Run the test.
      */
-    public void run () {
+    public void run() {
         try {
 
             if (!getArgs().containsKey(SKIP_RMIC_FLAG)) {
 
                 // Do generation...
 
-                generate(getGenerationClasses(),getOutputStream());
+                generate(getGenerationClasses(), getOutputStream());
             }
 
             // Do the test...
@@ -138,18 +135,15 @@ public abstract class RMICTest extends Test {
 
     /**
      * Generate.
+     * 
      * @param classes An array of fully qualified class names.
      * @param generatorArg The primary generator argument.
-     * @param additionalRMICArgs An array of additional arguments  (e.g. after -idl and
-     * before classes) to rmic.
+     * @param additionalRMICArgs An array of additional arguments (e.g. after -idl and before classes) to rmic.
      * @param onlyOnce Return true if stubs should only be generated once per process.
      * @param out Where to write output.
      */
-    public static synchronized void generate (  String[] classes,
-                                                String generatorArg,
-                                                String[] additionalRMICArgs,
-                                                boolean onlyOnce,
-                                                OutputStream out) throws Exception {
+    public static synchronized void generate(String[] classes, String generatorArg, String[] additionalRMICArgs, boolean onlyOnce,
+            OutputStream out) throws Exception {
 
         // Create a list of classes to compile...
 
@@ -181,7 +175,7 @@ public abstract class RMICTest extends Test {
 
             // Do the compile...
 
-            Util.rmic(generatorArg,additionalRMICArgs,compileEm,false,out);
+            Util.rmic(generatorArg, additionalRMICArgs, compileEm, false, out);
 
             // Are we supposed to compile these guys only once?
 

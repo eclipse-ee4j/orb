@@ -34,9 +34,7 @@ import java.io.*;
 
 import ClientRequestInterceptor.*; // hello interface
 
-public class POAServer
-    implements InternalProcess
-{
+public class POAServer implements InternalProcess {
     // Set from run()
     private PrintStream out;
 
@@ -48,48 +46,41 @@ public class POAServer
 
     public static void main(String args[]) {
         try {
-            (new POAServer()).run( System.getProperties(),
-                                args, System.out, System.err, null );
-        }
-        catch( Exception e ) {
-            e.printStackTrace( System.err );
-            System.exit( 1 );
+            (new POAServer()).run(System.getProperties(), args, System.out, System.err, null);
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            System.exit(1);
         }
     }
 
-    public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra)
-        throws Exception
-    {
+    public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         this.out = out;
 
-        out.println( "Invoking ORB" );
-        out.println( "============" );
+        out.println("Invoking ORB");
+        out.println("============");
 
         // create and initialize the ORB
-        Properties props = new Properties() ;
-        props.put( "org.omg.CORBA.ORBClass",
-                   System.getProperty("org.omg.CORBA.ORBClass"));
+        Properties props = new Properties();
+        props.put("org.omg.CORBA.ORBClass", System.getProperty("org.omg.CORBA.ORBClass"));
         ORB orb = ORB.init(args, props);
-        this.orb = (com.sun.corba.ee.spi.orb.ORB)orb;
+        this.orb = (com.sun.corba.ee.spi.orb.ORB) orb;
 
         // Get the root POA:
         rootPOA = null;
-        out.println( "Obtaining handle to root POA and activating..." );
+        out.println("Obtaining handle to root POA and activating...");
         try {
-            rootPOA = (POA)orb.resolve_initial_references( ROOT_POA );
-        }
-        catch( InvalidName e ) {
-            err.println( ROOT_POA + " is an invalid name." );
+            rootPOA = (POA) orb.resolve_initial_references(ROOT_POA);
+        } catch (InvalidName e) {
+            err.println(ROOT_POA + " is an invalid name.");
             throw e;
         }
         rootPOA.the_POAManager().activate();
 
         // Set up hello object and helloForward object for POA remote case:
-        createAndBind( "Hello1" );
-        createAndBind( "Hello1Forward" );
+        createAndBind("Hello1");
+        createAndBind("Hello1Forward");
 
-        //handshake:
+        // handshake:
         out.println("Server is ready.");
         out.flush();
 
@@ -104,23 +95,20 @@ public class POAServer
     /**
      * Implementation borrowed from corba.socket.HelloServer test
      */
-    public void createAndBind (String name)
-        throws Exception
-    {
+    public void createAndBind(String name) throws Exception {
         // create servant and register it with the ORB
-        helloServant helloRef = new helloServant( out );
+        helloServant helloRef = new helloServant(out);
 
         byte[] id = rootPOA.activate_object(helloRef);
         org.omg.CORBA.Object ref = rootPOA.id_to_reference(id);
 
         // get the root naming context
-        org.omg.CORBA.Object objRef =
-            orb.resolve_initial_references("NameService");
+        org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
         NamingContext ncRef = NamingContextHelper.narrow(objRef);
 
         // bind the Object Reference in Naming
         NameComponent nc = new NameComponent(name, "");
-        NameComponent path[] = {nc};
+        NameComponent path[] = { nc };
 
         ncRef.rebind(path, ref);
     }

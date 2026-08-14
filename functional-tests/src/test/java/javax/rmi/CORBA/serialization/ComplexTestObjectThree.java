@@ -23,8 +23,7 @@ package javax.rmi.CORBA.serialization;
 import java.util.*;
 import java.io.*;
 
-public class ComplexTestObjectThree implements Serializable
-{
+public class ComplexTestObjectThree implements Serializable {
     static Random r = new Random();
     int fInt;
     long fLong;
@@ -35,36 +34,27 @@ public class ComplexTestObjectThree implements Serializable
     ComplexTestObjectOne fOne = null;
     ComplexTestObjectTwo fTwo = null;
 
-    public ComplexTestObjectThree()
-    {
+    public ComplexTestObjectThree() {
         fInt = r.nextInt();
         fLong = r.nextLong();
         fFloat = r.nextFloat();
         fDouble = r.nextDouble();
-        fString = new String(fInt +""+ fLong +""+ fFloat +""+ fDouble);
+        fString = new String(fInt + "" + fLong + "" + fFloat + "" + fDouble);
         fOne = new ComplexTestObjectOne();
         fTwo = new ComplexTestObjectTwo();
     }
 
-    public boolean equals(Object o)
-    {
-        try
-            {
-                ComplexTestObjectThree ctbo = (ComplexTestObjectThree)o;
-                return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) &&
-                        (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat) && (ctbo.fDouble == fDouble)
-                        && (ctbo.fOne.equals(fOne))
-                        && (ctbo.fTwo.equals(fTwo))
-                        );
-            }
-        catch(Exception e)
-            {
-                return false;
-            }
+    public boolean equals(Object o) {
+        try {
+            ComplexTestObjectThree ctbo = (ComplexTestObjectThree) o;
+            return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) && (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat)
+                    && (ctbo.fDouble == fDouble) && (ctbo.fOne.equals(fOne)) && (ctbo.fTwo.equals(fTwo)));
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    public String toString()
-    {
-        return new String("fInt="+fInt+"; fLong="+fLong+"; fFloat="+fFloat+"; fDouble="+fDouble+"; fString="+fString);
+    public String toString() {
+        return new String("fInt=" + fInt + "; fLong=" + fLong + "; fFloat=" + fFloat + "; fDouble=" + fDouble + "; fString=" + fString);
     }
 }

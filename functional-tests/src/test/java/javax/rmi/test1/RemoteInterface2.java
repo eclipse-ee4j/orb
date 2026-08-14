@@ -20,7 +20,6 @@
 
 package javax.rmi.test1;
 
-public  interface RemoteInterface2
-    extends java.rmi.Remote, RemoteInterface1   {
+public interface RemoteInterface2 extends java.rmi.Remote, RemoteInterface1 {
     public String EchoRemoteInterface2() throws java.rmi.RemoteException;
 }

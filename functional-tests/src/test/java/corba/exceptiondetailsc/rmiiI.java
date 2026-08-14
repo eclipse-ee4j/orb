@@ -27,23 +27,12 @@ package corba.exceptiondetailsc;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface rmiiI
-    extends
-        Remote
-{
-    public void raiseSystemException(String x)
-        throws
-            RemoteException;
+public interface rmiiI extends Remote {
+    public void raiseSystemException(String x) throws RemoteException;
 
-    public void raiseUserException(String x)
-        throws
-            RemoteException,
-            rmiiException;
+    public void raiseUserException(String x) throws RemoteException, rmiiException;
 
-    public void raiseRuntimeException(String x)
-        throws
-            RemoteException;
+    public void raiseRuntimeException(String x) throws RemoteException;
 }
 
 // End of file.
-

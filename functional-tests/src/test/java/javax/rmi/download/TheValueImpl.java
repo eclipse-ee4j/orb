@@ -24,15 +24,15 @@
 // package should be javax.rmi.download.value.
 //
 
-
 package javax.rmi.download.values;
 
 import javax.rmi.download.TheValue;
 
 public class TheValueImpl implements TheValue {
-    public TheValueImpl(){}
+    public TheValueImpl() {
+    }
 
-    public String sayHello(){
+    public String sayHello() {
         return "Hello, world!";
     }
 }

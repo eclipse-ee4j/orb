@@ -31,18 +31,18 @@ import corba.framework.Options;
 public class LegacyBootstrapServerTest extends CORBATest {
 
     protected void doTest() throws Throwable {
-        //        Options.setOutputDirectory((String)getArgs().get(test.Test.OUTPUT_DIRECTORY));
+        // Options.setOutputDirectory((String)getArgs().get(test.Test.OUTPUT_DIRECTORY));
 
         // The ORBD is NOT used.
         // However, when it wasn't here then createServer below complained
         // Caught java.io.FileNotFoundException: gen/corba/legacybootstrapserver/server.out.txt (No such file or directory)
 
-        Controller orbd   = createORBD();
+        Controller orbd = createORBD();
 
         Controller server = createServer(Server.class.getName());
         Controller client = createClient(Client.class.getName());
 
-        orbd.start() ;
+        orbd.start();
         server.start();
         client.start();
         client.waitFor(60000);

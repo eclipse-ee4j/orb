@@ -35,10 +35,10 @@ import com.sun.corba.ee.impl.misc.ORBUtility;
 import corba.framework.Controller;
 import corba.hcks.U;
 
-import org.testng.annotations.BeforeSuite ;
-import org.testng.annotations.Test ;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
 
-import org.testng.Assert ;
+import org.testng.Assert;
 
 /**
  * @author Harold Carr
@@ -47,61 +47,52 @@ public class ClientMulti extends ClientBase {
 
     @BeforeSuite
     public void clientSetup() {
-        setup( getDefaultProperties() ) ;
+        setup(getDefaultProperties());
     }
 
     @Test
-    public void test() throws Exception
-    {
-        CallThread a =
-            new CallThread(1000, testRfmWithAddressesWithLabel);
-        CallThread b =
-            new CallThread(1000, testRfmWithAddressesWithLabel);
-        CallThread c =
-            new CallThread(1000, testRfmWithAddressesWithLabel);
+    public void test() throws Exception {
+        CallThread a = new CallThread(1000, testRfmWithAddressesWithLabel);
+        CallThread b = new CallThread(1000, testRfmWithAddressesWithLabel);
+        CallThread c = new CallThread(1000, testRfmWithAddressesWithLabel);
         a.start();
         b.start();
         c.start();
 
         do {
-            gisPoaWithAddressesWithLabels.removeInstance(
-                corba.folb_8_1.Common.Z);
+            gisPoaWithAddressesWithLabels.removeInstance(corba.folb_8_1.Common.Z);
             Thread.sleep(1000);
-            gisPoaWithAddressesWithLabels.addInstance(
-                corba.folb_8_1.Common.Z);
+            gisPoaWithAddressesWithLabels.addInstance(corba.folb_8_1.Common.Z);
             Thread.sleep(1000);
         } while (!a.done || !b.done || !c.done);
 
-        Assert.assertTrue( (a.failures + b.failures + c.failures) == 0 ) ;
+        Assert.assertTrue((a.failures + b.failures + c.failures) == 0);
     }
 
     public static void main(String[] av) {
-        doMain( ClientCircular.class ) ;
+        doMain(ClientCircular.class);
     }
 }
 
-class CallThread extends Thread
-{
+class CallThread extends Thread {
     int iterations;
     int failures;
     EchoTest ref;
     boolean done;
 
-    CallThread(int iterations, EchoTest ref)
-    {
-        this.failures = 0 ;
+    CallThread(int iterations, EchoTest ref) {
+        this.failures = 0;
         this.iterations = iterations;
         this.ref = ref;
         done = false;
     }
 
-    public void run()
-    {
+    public void run() {
         for (int i = 0; i < iterations; ++i) {
             try {
                 ref.echo("FOO");
             } catch (java.rmi.RemoteException e) {
-                failures++ ;
+                failures++;
                 System.out.println("CallThread.run FAILURE !!!!!");
                 e.printStackTrace(System.out);
             }

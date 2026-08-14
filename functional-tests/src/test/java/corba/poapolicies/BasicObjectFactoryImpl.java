@@ -25,8 +25,7 @@ import Util.ServantFactoryPOA;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.Servant;
 
-public class BasicObjectFactoryImpl extends ServantFactoryPOA
-{
+public class BasicObjectFactoryImpl extends ServantFactoryPOA {
     final boolean useServantToReference = true;
 
     final String idString = new String("Blue Skies, Black Death");
@@ -45,8 +44,7 @@ public class BasicObjectFactoryImpl extends ServantFactoryPOA
         }
     }
 
-    public org.omg.CORBA.Object create(String intfName,
-                                       String implName, CreationMethods how) {
+    public org.omg.CORBA.Object create(String intfName, String implName, CreationMethods how) {
         try {
 
             System.err.println("Creating: " + implName);
@@ -55,8 +53,7 @@ public class BasicObjectFactoryImpl extends ServantFactoryPOA
 
             Servant s;
             try {
-            s = (Servant)
-                Class.forName(implName).newInstance();
+                s = (Servant) Class.forName(implName).newInstance();
             } catch (Exception ex) {
                 System.err.println("Problems finding: " + implName);
                 ex.printStackTrace();
@@ -67,17 +64,15 @@ public class BasicObjectFactoryImpl extends ServantFactoryPOA
             org.omg.CORBA.Object ref = null;
 
             switch (how.value()) {
-            case Util.CreationMethods._EXPLICIT_ACTIVATION_WITH_POA_ASSIGNED_OIDS:
-                {
+                case Util.CreationMethods._EXPLICIT_ACTIVATION_WITH_POA_ASSIGNED_OIDS: {
                     byte[] id = poa.activate_object(s);
                     if (useServantToReference)
                         ref = poa.servant_to_reference(s);
                     else
                         ref = poa.id_to_reference(id);
                 }
-                break;
-            case Util.CreationMethods._EXPLICIT_ACTIVATION_WITH_USER_ASSIGNED_OIDS:
-                {
+                    break;
+                case Util.CreationMethods._EXPLICIT_ACTIVATION_WITH_USER_ASSIGNED_OIDS: {
                     byte[] id = idString.getBytes();
                     poa.activate_object_with_id(id, s);
                     if (useServantToReference)
@@ -85,23 +80,20 @@ public class BasicObjectFactoryImpl extends ServantFactoryPOA
                     else
                         ref = poa.id_to_reference(id);
                 }
-                break;
-            case Util.CreationMethods._CREATE_REFERENCE_BEFORE_ACTIVATION_WITH_POA_ASSIGNED_OIDS:
-                {
+                    break;
+                case Util.CreationMethods._CREATE_REFERENCE_BEFORE_ACTIVATION_WITH_POA_ASSIGNED_OIDS: {
                     ref = poa.create_reference(intfName);
                     byte[] id = poa.reference_to_id(ref);
                     poa.activate_object_with_id(id, s);
                 }
-                break;
-            case Util.CreationMethods._CREATE_REFERENCE_BEFORE_ACTIVATION_WITH_USER_ASSIGNED_OIDS:
-                {
+                    break;
+                case Util.CreationMethods._CREATE_REFERENCE_BEFORE_ACTIVATION_WITH_USER_ASSIGNED_OIDS: {
                     String newIdString = "ABCD";
                     byte[] id = newIdString.getBytes();
-                    ref =
-                        poa.create_reference_with_id(id, intfName);
+                    ref = poa.create_reference_with_id(id, intfName);
                     poa.activate_object_with_id(id, s);
                 }
-                break;
+                    break;
             }
             return ref;
         } catch (Exception e) {
@@ -112,5 +104,3 @@ public class BasicObjectFactoryImpl extends ServantFactoryPOA
         return null;
     }
 }
-
-

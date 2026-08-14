@@ -23,22 +23,19 @@ import java.util.*;
 import java.io.*;
 import org.omg.CORBA.*;
 
-/** This Policy object's type is 10000.
+/**
+ * This Policy object's type is 10000.
  */
-public class PolicyTenThousand extends LocalObject
-    implements Policy
-{
-    public int policy_type( ) {
+public class PolicyTenThousand extends LocalObject implements Policy {
+    public int policy_type() {
         return 10000;
     }
 
-
-    public org.omg.CORBA.Policy copy( ) {
+    public org.omg.CORBA.Policy copy() {
         return this;
     }
 
-    public void destroy ( ) {
+    public void destroy() {
         // Do Nothing
     }
 }
-

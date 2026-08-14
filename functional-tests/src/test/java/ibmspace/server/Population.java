@@ -20,20 +20,17 @@
 
 package ibmspace.server;
 
+public class Population implements java.io.Serializable {
+    private PlanetImpl fPlanet;
+    private long fChildren;
+    private long fAdults;
+    private long fSeniors;
+    private long fWillDie;
 
-public class Population implements java.io.Serializable
-{
-    private PlanetImpl  fPlanet;
-    private long        fChildren;
-    private long        fAdults;
-    private long        fSeniors;
-    private long        fWillDie;
-
-    public Population (PlanetImpl planet, long initialSize)
-    {
+    public Population(PlanetImpl planet, long initialSize) {
         fPlanet = planet;
 
-        if ( initialSize <= 40 ) {
+        if (initialSize <= 40) {
             fChildren = 0;
             fAdults = initialSize;
             fSeniors = 0;
@@ -46,28 +43,24 @@ public class Population implements java.io.Serializable
         }
     }
 
-    public long size ()
-    {
+    public long size() {
         return (fChildren + fAdults + fSeniors + fWillDie);
     }
 
-    public long getIdealIncome ()
-    {
-        return (long)((fAdults+fSeniors)/8);
+    public long getIdealIncome() {
+        return (long) ((fAdults + fSeniors) / 8);
     }
 
+    public void grow(double suitability) {
+        long s = size();
+        double offspring = Math.min(Math.max(1.0 + (double) (50000 * suitability / size()), 1.01), 1.6);
 
-    public void  grow (double suitability)
-    {
-        long s = size ();
-        double offspring = Math.min(Math.max(1.0+(double)(50000*suitability /size()),1.01),1.6);
+        fChildren = (long) (fAdults * offspring);
+        fSeniors = (long) (fAdults * suitability);
+        fAdults = (long) (fChildren * suitability);
+        fWillDie = (long) (fSeniors * suitability);
 
-        fChildren = (long)(fAdults * offspring);
-        fSeniors = (long)(fAdults * suitability);
-        fAdults = (long)(fChildren * suitability);
-        fWillDie = (long)(fSeniors * suitability);
-
-        if ( size() < 10 ) {
+        if (size() < 10) {
             fChildren = 0;
             fAdults = 10;
             fSeniors = 0;

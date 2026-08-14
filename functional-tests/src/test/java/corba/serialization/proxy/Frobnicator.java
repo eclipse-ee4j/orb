@@ -21,6 +21,6 @@ package corba.serialization.proxy;
 
 public interface Frobnicator {
 
-  public void frobnicate();
+    public void frobnicate();
 
 }

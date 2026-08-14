@@ -34,22 +34,19 @@ import org.omg.IOP.TAG_INTERNET_IOP;
 /**
  * Thoroughly tests IORInterceptor support.
  */
-public class SampleIORInterceptor
-    extends LocalObject
-    implements IORInterceptor_3_0
-{
+public class SampleIORInterceptor extends LocalObject implements IORInterceptor_3_0 {
 
     // The name for this interceptor
     private String name;
 
-    // Destination for all output.  This is set in the constructor, which
+    // Destination for all output. This is set in the constructor, which
     // is called by ServerTestInitializer.
     private PrintStream out;
 
-    public SampleIORInterceptor( String name, PrintStream out ) {
+    public SampleIORInterceptor(String name, PrintStream out) {
         this.name = name;
         this.out = out;
-        out.println( "    - IORInterceptor " + name + " created." );
+        out.println("    - IORInterceptor " + name + " created.");
     }
 
     public String name() {
@@ -59,43 +56,31 @@ public class SampleIORInterceptor
     public void destroy() {
     }
 
-    public void establish_components (IORInfo info) {
+    public void establish_components(IORInfo info) {
     }
 
     /**
      * Check ORBId and ORBServerId are propogated correctly.
      */
-    public void components_established( IORInfo info )
-    {
-        com.sun.corba.ee.impl.interceptors.IORInfoImpl iorInfoImpl =
-            (com.sun.corba.ee.impl.interceptors.IORInfoImpl) info;
+    public void components_established(IORInfo info) {
+        com.sun.corba.ee.impl.interceptors.IORInfoImpl iorInfoImpl = (com.sun.corba.ee.impl.interceptors.IORInfoImpl) info;
         ObjectReferenceTemplate ort = iorInfoImpl.adapter_template();
-        if( !ort.orb_id().equals( Constants.ORB_ID )  &&
-            !ort.orb_id().equals(com.sun.corba.ee.impl.ior.ObjectKeyTemplateBase.JIDL_ORB_ID)) {
-            System.err.println(
-                "ORBId is not passed to components_established correctly..");
-            System.exit( -1 );
+        if (!ort.orb_id().equals(Constants.ORB_ID) && !ort.orb_id().equals(com.sun.corba.ee.impl.ior.ObjectKeyTemplateBase.JIDL_ORB_ID)) {
+            System.err.println("ORBId is not passed to components_established correctly..");
+            System.exit(-1);
         }
 
-        if( !ort.server_id().equals( Constants.ORB_SERVER_ID ) ) {
-            System.err.println(
-                "ORBServerId is not passed to components_established correctly..");
-            System.exit( -1 );
+        if (!ort.server_id().equals(Constants.ORB_SERVER_ID)) {
+            System.err.println("ORBServerId is not passed to components_established correctly..");
+            System.exit(-1);
         }
     }
 
-    public void adapter_state_changed( ObjectReferenceTemplate[] templates,
-        short state )
-    {
-        ORTStateChangeEvaluator.getInstance( ).registerAdapterStateChange(
-            templates, state );
+    public void adapter_state_changed(ObjectReferenceTemplate[] templates, short state) {
+        ORTStateChangeEvaluator.getInstance().registerAdapterStateChange(templates, state);
     }
 
-    public void adapter_manager_state_changed( int managedId, short state )
-    {
-        ORTStateChangeEvaluator.getInstance().registerAdapterManagerStateChange(
-            managedId, state );
+    public void adapter_manager_state_changed(int managedId, short state) {
+        ORTStateChangeEvaluator.getInstance().registerAdapterManagerStateChange(managedId, state);
     }
 }
-
-

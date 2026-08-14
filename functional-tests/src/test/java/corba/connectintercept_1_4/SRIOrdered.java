@@ -27,24 +27,18 @@ package corba.connectintercept_1_4;
 import org.omg.CORBA.INTERNAL;
 import org.omg.PortableInterceptor.ServerRequestInfo;
 
-public class SRIOrdered
-    extends
-        org.omg.CORBA.LocalObject
-    implements
-        org.omg.PortableInterceptor.ServerRequestInterceptor,
-        Comparable
-{
+public class SRIOrdered extends org.omg.CORBA.LocalObject implements org.omg.PortableInterceptor.ServerRequestInterceptor, Comparable {
     public static final String baseMsg = SRIOrdered.class.getName();
     public String name;
     public int order;
-    public SRIOrdered(String name, int order)
-    {
+
+    public SRIOrdered(String name, int order) {
         this.name = name;
         this.order = order;
     }
-    public int compareTo(Object o)
-    {
-        int otherOrder = ((SRIOrdered)o).order;
+
+    public int compareTo(Object o) {
+        int otherOrder = ((SRIOrdered) o).order;
         if (order < otherOrder) {
             return -1;
         } else if (order == otherOrder) {
@@ -52,10 +46,12 @@ public class SRIOrdered
         }
         return 1;
     }
-    public String name() { return name; }
 
-    public void destroy()
-    {
+    public String name() {
+        return name;
+    }
+
+    public void destroy() {
         try {
             Common.up(order);
         } catch (INTERNAL e) {
@@ -66,13 +62,11 @@ public class SRIOrdered
         }
     }
 
-    public void receive_request_service_contexts(ServerRequestInfo sri)
-    {
+    public void receive_request_service_contexts(ServerRequestInfo sri) {
         Common.up(order);
     }
 
-    public void receive_request(ServerRequestInfo sri)
-    {
+    public void receive_request(ServerRequestInfo sri) {
         // Note: Do NOT put Common.up here because all 3 ordered
         // interceptors run in RRSC so when we get here current will
         // be 3 but the first ordered interceptor will have value 1
@@ -80,27 +74,17 @@ public class SRIOrdered
         // Bottom line: only count up in one point.
     }
 
-    public void send_reply(ServerRequestInfo sri)
-    {
+    public void send_reply(ServerRequestInfo sri) {
         Common.down(order);
     }
 
-    public void send_exception(ServerRequestInfo sri)
-    {
+    public void send_exception(ServerRequestInfo sri) {
         Common.down(order);
     }
 
-    public void send_other(ServerRequestInfo sri)
-    {
+    public void send_other(ServerRequestInfo sri) {
         Common.down(order);
     }
 }
 
 // End of file.
-
-
-
-
-
-
-

@@ -25,28 +25,21 @@ import java.util.*;
 import java.io.*;
 import com.sun.corba.ee.spi.orb.ORB;
 
-public class Strm2Test extends CORBATest
-{
-    public static String[] rmicClasses = { "corba.strm2.TesterImpl"};
+public class Strm2Test extends CORBATest {
+    public static String[] rmicClasses = { "corba.strm2.TesterImpl" };
 
     protected void compileSpecialSubdirectory(String dirName) throws Exception {
         System.out.println("      Compiling classes under " + dirName + "...");
 
-        File outputDir = new File(Options.getOutputDirectory()
-                                  + File.separator
-                                  + dirName);
+        File outputDir = new File(Options.getOutputDirectory() + File.separator + dirName);
 
         if (!outputDir.mkdir())
-            throw new Exception("Error making directory: "
-                                + outputDir.getAbsolutePath());
+            throw new Exception("Error making directory: " + outputDir.getAbsolutePath());
 
-        File testDir = new File(Options.getTestDirectory()
-                                + File.separator
-                                + dirName);
+        File testDir = new File(Options.getTestDirectory() + File.separator + dirName);
 
         if (!testDir.exists())
-            throw new Exception("Can't find directory: "
-                                + testDir.getAbsolutePath());
+            throw new Exception("Can't find directory: " + testDir.getAbsolutePath());
 
         // First look in the directory for all the
         // .java files and get their absolute paths
@@ -54,24 +47,20 @@ public class Strm2Test extends CORBATest
         ArrayList filesToCompile = new ArrayList(filesInDir.length);
 
         for (int i = 0; i < filesInDir.length; i++) {
-            if (filesInDir[i].isFile() &&
-                filesInDir[i].toString().endsWith(".java"))
+            if (filesInDir[i].isFile() && filesInDir[i].toString().endsWith(".java"))
                 filesToCompile.add(filesInDir[i]);
         }
 
         String[] filePathsToCompile = new String[filesToCompile.size()];
 
         for (int i = 0; i < filePathsToCompile.length; i++) {
-            File file = (File)filesToCompile.get(i);
+            File file = (File) filesToCompile.get(i);
 
             filePathsToCompile[i] = file.getAbsolutePath();
         }
 
         // Now compile them to the output directory
-        javac.compile(filePathsToCompile,
-                      null,
-                      outputDir.getAbsolutePath(),
-                      Options.getReportDirectory());
+        javac.compile(filePathsToCompile, null, outputDir.getAbsolutePath(), Options.getReportDirectory());
     }
 
     protected void doTest() throws Throwable {
@@ -106,20 +95,13 @@ public class Strm2Test extends CORBATest
 
         String oldClasspath = Options.getClasspath();
         for (int i = 0; i < Versions.testableVersions.length; i++) {
-            String newClasspath = oldClasspath
-                + File.pathSeparator
-                + Options.getOutputDirectory()
-                + Versions.testableVersions[i];
+            String newClasspath = oldClasspath + File.pathSeparator + Options.getOutputDirectory() + Versions.testableVersions[i];
 
             Options.setClasspath(newClasspath);
 
-            servers[i] = createServer("corba.strm2.Server",
-                                      "server_" +
-                                      Versions.testableVersions[i]);
+            servers[i] = createServer("corba.strm2.Server", "server_" + Versions.testableVersions[i]);
 
-            clients[i] = createClient("corba.strm2.Client",
-                                      "client_" +
-                                      Versions.testableVersions[i]);
+            clients[i] = createClient("corba.strm2.Client", "client_" + Versions.testableVersions[i]);
 
             servers[i].start();
         }
@@ -128,8 +110,8 @@ public class Strm2Test extends CORBATest
         // Run through the clients
 
         for (int i = 0; i < clients.length; i++) {
-            String version = Versions.testableVersions[i] ;
-            System.out.println("      Running client version " + version ) ;
+            String version = Versions.testableVersions[i];
+            System.out.println("      Running client version " + version);
 
             clients[i].start();
 

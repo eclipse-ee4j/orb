@@ -29,15 +29,13 @@ import ClientRequestInterceptor.*; // hello interface
 /**
  * Servant implementation.
  */
-public class helloServant
-        extends helloPOA
-{
+public class helloServant extends helloPOA {
     // contains implementations of methods.
     private helloDelegate delegate;
 
-    public helloServant( PrintStream out ) {
+    public helloServant(PrintStream out) {
         super();
-        delegate = new helloDelegate( out );
+        delegate = new helloDelegate(out);
     }
 
     public String sayHello() {

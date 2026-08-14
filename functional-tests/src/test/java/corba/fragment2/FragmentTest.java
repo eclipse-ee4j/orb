@@ -24,10 +24,8 @@ import corba.framework.*;
 import java.util.*;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
-public class FragmentTest extends CORBATest
-{
-    protected void doTest() throws Throwable
-    {
+public class FragmentTest extends CORBATest {
+    protected void doTest() throws Throwable {
         Properties clientProps = Options.getClientProperties();
 
         int fragmentSize = 1024;
@@ -40,11 +38,11 @@ public class FragmentTest extends CORBATest
         Properties serverProps = Options.getServerProperties();
         serverProps.put(ORBConstants.GIOP_VERSION, "1.2");
 
-        //Controller orbd = createORBD();
+        // Controller orbd = createORBD();
         Controller server = createServer("corba.fragment.Server");
         Controller client = createClient("corba.fragment.Client");
 
-        //        orbd.start();
+        // orbd.start();
         server.start();
         client.start();
 
@@ -52,7 +50,6 @@ public class FragmentTest extends CORBATest
 
         client.stop();
         server.stop();
-        //orbd.stop();
+        // orbd.stop();
     }
 }
-

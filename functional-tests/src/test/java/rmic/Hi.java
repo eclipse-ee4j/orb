@@ -19,14 +19,19 @@
  */
 
 package rmic;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.io.IOException;
 
 public interface Hi extends Remote {
-    public String hi_0 () throws RemoteException, ClassNotFoundException;
-    public String hi_1 () throws RemoteException, ClassNotFoundException;
-    public String hi_2 () throws Exception;
-    public String hi_3 () throws IOException,ClassNotFoundException;
-    public String hi_4 (String input) throws IOException,ClassNotFoundException,HelloException;
+    public String hi_0() throws RemoteException, ClassNotFoundException;
+
+    public String hi_1() throws RemoteException, ClassNotFoundException;
+
+    public String hi_2() throws Exception;
+
+    public String hi_3() throws IOException, ClassNotFoundException;
+
+    public String hi_4(String input) throws IOException, ClassNotFoundException, HelloException;
 }

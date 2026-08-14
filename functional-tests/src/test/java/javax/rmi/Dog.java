@@ -20,11 +20,10 @@
 
 package javax.rmi;
 
-
 import java.rmi.RemoteException;
 
-public interface Dog
-{
-    String  bark () throws RemoteException;
-    void    die () throws RemoteException;
+public interface Dog {
+    String bark() throws RemoteException;
+
+    void die() throws RemoteException;
 }

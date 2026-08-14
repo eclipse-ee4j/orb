@@ -19,108 +19,85 @@
  */
 
 package rmic;
+
 public class MethodOverload1 {
-    public void foo(){}
-    public void foo(int i){}
-    public void foo(java.rmi.RemoteException e){}
+    public void foo() {
+    }
 
-    public static final String[] IDL_NAMES = {
-        "create",
-        "foo__",
-        "foo__long",
-        "foo__java_rmi_RemoteException",
-    };
+    public void foo(int i) {
+    }
 
-    public static final boolean[] CONSTRUCTOR = {
-        true,
-        false,
-        false,
-        false,
-    };
+    public void foo(java.rmi.RemoteException e) {
+    }
+
+    public static final String[] IDL_NAMES = { "create", "foo__", "foo__long", "foo__java_rmi_RemoteException", };
+
+    public static final boolean[] CONSTRUCTOR = { true, false, false, false, };
 }
 
 class MethodOverload2 {
-    public void create(){}
+    public void create() {
+    }
 
-    public static final String[] IDL_NAMES = {
-        "create__",
-        "create",
-    };
-    public static final boolean[] CONSTRUCTOR = {
-        true,
-        false,
-    };
+    public static final String[] IDL_NAMES = { "create__", "create", };
+    public static final boolean[] CONSTRUCTOR = { true, false, };
 }
 
 class MethodOverload3 {
-    public void create(){}
-    public void create(boolean e){}
+    public void create() {
+    }
 
-    public static final String[] IDL_NAMES = {
-        "create",
-        "create__",
-        "create__boolean",
-    };
-    public static final boolean[] CONSTRUCTOR = {
-        true,
-        false,
-        false,
-    };
+    public void create(boolean e) {
+    }
+
+    public static final String[] IDL_NAMES = { "create", "create__", "create__boolean", };
+    public static final boolean[] CONSTRUCTOR = { true, false, false, };
 }
 
 class MethodOverload4 {
 
-    public MethodOverload4() {}
-    public MethodOverload4(char i) {}
+    public MethodOverload4() {
+    }
 
-    public static final String[] IDL_NAMES = {
-        "create__",
-        "create__wchar",
-    };
+    public MethodOverload4(char i) {
+    }
 
-    public static final boolean[] CONSTRUCTOR = {
-        true,
-        true,
-    };
+    public static final String[] IDL_NAMES = { "create__", "create__wchar", };
+
+    public static final boolean[] CONSTRUCTOR = { true, true, };
 }
 
 class MethodOverload5 {
 
-    public MethodOverload5() {}
-    public MethodOverload5(char i) {}
-    public void create(){}
+    public MethodOverload5() {
+    }
 
-    public static final String[] IDL_NAMES = {
-        "create__",
-        "create__wchar",
-        "create",
-    };
+    public MethodOverload5(char i) {
+    }
 
-    public static final boolean[] CONSTRUCTOR = {
-        true,
-        true,
-        false,
-    };
+    public void create() {
+    }
+
+    public static final String[] IDL_NAMES = { "create__", "create__wchar", "create", };
+
+    public static final boolean[] CONSTRUCTOR = { true, true, false, };
 }
 
 class MethodOverload6 {
 
-    public MethodOverload6() {}
-    public MethodOverload6(char i) {}
-    public void create(){}
-    public void create(char i){}
+    public MethodOverload6() {
+    }
 
-    public static final String[] IDL_NAMES = {
-        "create____",
-        "create__wchar__",
-        "create__",
-        "create__wchar",
-    };
+    public MethodOverload6(char i) {
+    }
 
-    public static final boolean[] CONSTRUCTOR = {
-        true,
-        true,
-        false,
-        false,
-    };
+    public void create() {
+    }
+
+    public void create(char i) {
+    }
+
+    public static final String[] IDL_NAMES = { "create____", "create__wchar__", "create__", "create__wchar", };
+
+    public static final boolean[] CONSTRUCTOR = { true, true, false, false, };
 }

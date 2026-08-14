@@ -38,24 +38,17 @@ import javax.rmi.*;
 
 import ServerRequestInterceptor.*;
 
-public class RMILocalClient
-    extends RMIClient
-{
-    public RMILocalClient( com.sun.corba.ee.spi.orb.ORB orb ) {
+public class RMILocalClient extends RMIClient {
+    public RMILocalClient(com.sun.corba.ee.spi.orb.ORB orb) {
         this.orb = orb;
     }
 
-    public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra)
-        throws Exception
-    {
-        out.println( "===========================================" );
-        out.println( "Instantiating Client ORB for RMI Local test" );
-        out.println( "===========================================" );
+    public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
+        out.println("===========================================");
+        out.println("Instantiating Client ORB for RMI Local test");
+        out.println("===========================================");
 
-        super.run( environment, args, out, err, extra );
+        super.run(environment, args, out, err, extra);
     }
 
 }
-
-

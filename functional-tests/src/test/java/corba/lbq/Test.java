@@ -30,13 +30,8 @@ import java.rmi.RemoteException;
 /**
  * @author Harold Carr
  */
-public interface Test
-    extends Remote
-{
-    public int echo(int x)
-        throws RemoteException;
+public interface Test extends Remote {
+    public int echo(int x) throws RemoteException;
 }
 
 // End of file.
-
-

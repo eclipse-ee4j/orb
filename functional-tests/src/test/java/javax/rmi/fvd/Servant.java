@@ -20,8 +20,7 @@
 
 package javax.rmi.fvd;
 
-public  interface Servant
-    extends java.rmi.Remote {
+public interface Servant extends java.rmi.Remote {
 
     public String ping(String s) throws java.rmi.RemoteException;
 

@@ -24,10 +24,8 @@
 
 package corba.hcks;
 
-public class ServerGrow
-{
-    public static void main (String av[])
-    {
+public class ServerGrow {
+    public static void main(String av[]) {
         Server.giopVersion = C.GIOP_VERSION_1_2;
         Server.buffMgrStategy = C.BUFFMGR_STRATEGY_GROW;
         Server.fragmentSize = -1;

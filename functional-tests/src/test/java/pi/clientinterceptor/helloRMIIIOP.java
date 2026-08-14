@@ -31,18 +31,13 @@ import ClientRequestInterceptor.*; // hello interface
 /**
  * RMI/IIOP implementation.
  */
-public class helloRMIIIOP
-    extends PortableRemoteObject
-    implements helloIF
-{
+public class helloRMIIIOP extends PortableRemoteObject implements helloIF {
     // Contains the actual implementation of the hello interface.
     private helloDelegate delegate = null;
 
-    public helloRMIIIOP( PrintStream out )
-        throws RemoteException
-    {
+    public helloRMIIIOP(PrintStream out) throws RemoteException {
         super();
-        this.delegate = new helloDelegate( out );
+        this.delegate = new helloDelegate(out);
     }
 
     public helloDelegate getDelegate() {

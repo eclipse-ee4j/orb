@@ -17,18 +17,18 @@
  * Classpath-exception-2.0
  */
 
-package corba.lbq ;
+package corba.lbq;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
-/** Interface for remote object used to control the Client behavior.
+/**
+ * Interface for remote object used to control the Client behavior.
  */
 public interface ClientControl extends Remote {
-    /** Tell the Client to send the given number of requests.
-     * The client sends the requests as fast as possible after
-     * this method returns.
+    /**
+     * Tell the Client to send the given number of requests. The client sends the requests as fast as possible after this
+     * method returns.
      */
-    void startSendingRequests( int numRequests ) throws RemoteException ;
+    void startSendingRequests(int numRequests) throws RemoteException;
 }
-

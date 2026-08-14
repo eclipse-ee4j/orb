@@ -20,42 +20,37 @@
 
 package ibmspace.server;
 
+public class Mining implements Investment, java.io.Serializable {
+    public static double MINING_COST = 0.1;
 
-public class Mining implements Investment, java.io.Serializable
-{
-    public static double    MINING_COST = 0.1;
+    private Player fPlayer;
+    private PlanetImpl fPlanet;
 
-    private Player          fPlayer;
-    private PlanetImpl      fPlanet;
-
-    public Mining (PlanetImpl planet, Player player)
-    {
+    public Mining(PlanetImpl planet, Player player) {
         fPlayer = player;
         fPlanet = planet;
     }
 
-    public String getName ()
-    {
+    public String getName() {
         return "Mining";
     }
 
-    public void invest (long dollars)
-    {
+    public void invest(long dollars) {
         long metal = 0;
 
-        if ( dollars > 0 ) {
-            long total = fPlanet.getMetal ();
-            if ( total > 0 ) {
+        if (dollars > 0) {
+            long total = fPlanet.getMetal();
+            if (total > 0) {
                 double d = dollars;
                 double efficiency = total / 10000.0;
-                metal = (long)(d / MINING_COST * efficiency);
+                metal = (long) (d / MINING_COST * efficiency);
 
-                if ( metal > total ) {
+                if (metal > total) {
                     metal = total;
                 }
 
-                fPlanet.removeMetal (metal);
-                fPlayer.addShipMetal (metal);
+                fPlanet.removeMetal(metal);
+                fPlayer.addShipMetal(metal);
             }
         }
     }

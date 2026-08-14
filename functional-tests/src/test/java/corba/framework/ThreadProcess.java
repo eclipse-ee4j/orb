@@ -24,20 +24,16 @@ import java.util.Properties;
 import java.util.Hashtable;
 
 /**
- * Class representing a process which will run a separate thread but
- * the same process as the test framework.  A subclass can extend this
- * and be used with the ThreadExec strategy.
+ * Class representing a process which will run a separate thread but the same process as the test framework. A subclass
+ * can extend this and be used with the ThreadExec strategy.
  * <P>
- * Subclasses should construct their run() method such that they
- * exit gracefully when stopped() returns true.
+ * Subclasses should construct their run() method such that they exit gracefully when stopped() returns true.
  * <P>
- * A subclass must call setExitValue and then setFinished at the
- * end of execution.
+ * A subclass must call setExitValue and then setFinished at the end of execution.
  * <P>
  * Could probably transfer most of this to ThreadExec.
  */
-public abstract class ThreadProcess implements InternalProcess, Runnable
-{
+public abstract class ThreadProcess implements InternalProcess, Runnable {
     protected Properties environment;
     protected String args[];
     protected PrintStream out;
@@ -53,15 +49,9 @@ public abstract class ThreadProcess implements InternalProcess, Runnable
     private Object lockObj = new Object();
 
     /**
-     * Saves the parameters, and starts in its own thread
-     * (so override the Runnable run() method).
+     * Saves the parameters, and starts in its own thread (so override the Runnable run() method).
      */
-    public void run(Properties environment,
-                    String args[],
-                    PrintStream out,
-                    PrintStream err,
-                    Hashtable extra)
-    {
+    public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) {
         this.environment = environment;
         this.args = args;
         this.out = out;
@@ -71,22 +61,19 @@ public abstract class ThreadProcess implements InternalProcess, Runnable
         (new Thread(this)).start();
     }
 
-    public void stop()
-    {
+    public void stop() {
         /*
-          If not finished:
-          Set the exit value to STOPPED, and set the stopped flag to true
-          Wait until the executing thread calls setFinished (it knows to
-          do so because now stopped() returns true).
-        */
+         * If not finished: Set the exit value to STOPPED, and set the stopped flag to true Wait until the executing thread
+         * calls setFinished (it knows to do so because now stopped() returns true).
+         */
 
-        synchronized(lockObj) {
+        synchronized (lockObj) {
 
             if (!finished()) {
                 exitValue = Controller.STOPPED;
 
                 // The thread should eventually call setFinished and
-                // exit which will wake up any waiters.  (It knows
+                // exit which will wake up any waiters. (It knows
                 // it must leave because now stopped() returns true.)
                 stopped = true;
 
@@ -101,52 +88,44 @@ public abstract class ThreadProcess implements InternalProcess, Runnable
     }
 
     /**
-     * Used by subclasses to determine if they have been stopped,
-     * and should exit run().
+     * Used by subclasses to determine if they have been stopped, and should exit run().
      */
-    protected boolean stopped()
-    {
-        synchronized(lockObj) {
+    protected boolean stopped() {
+        synchronized (lockObj) {
             return stopped;
         }
     }
 
-    public boolean finished()
-    {
-        synchronized(lockObj) {
+    public boolean finished() {
+        synchronized (lockObj) {
             return finished;
         }
     }
 
     /**
-     * Used by subclasses to declare that they are done, and wake up
-     * any threads that are in waitFor.
+     * Used by subclasses to declare that they are done, and wake up any threads that are in waitFor.
      */
-    protected void setFinished()
-    {
-        synchronized(lockObj) {
+    protected void setFinished() {
+        synchronized (lockObj) {
             finished = true;
             lockObj.notifyAll();
         }
     }
 
-    public int waitFor() throws Exception
-    {
+    public int waitFor() throws Exception {
         return waitFor(0);
     }
 
-    public int waitFor(long timeout) throws Exception
-    {
-        synchronized(lockObj) {
+    public int waitFor(long timeout) throws Exception {
+        synchronized (lockObj) {
             if (!finished())
                 lockObj.wait(timeout);
             return exitValue;
         }
     }
 
-    public int exitValue() throws IllegalThreadStateException
-    {
-        synchronized(lockObj) {
+    public int exitValue() throws IllegalThreadStateException {
+        synchronized (lockObj) {
             if (exitValue == ExternalExec.INVALID_STATE)
                 throw new IllegalThreadStateException("exit value wasn't set");
 
@@ -155,18 +134,13 @@ public abstract class ThreadProcess implements InternalProcess, Runnable
     }
 
     /**
-     * Used by a subclass to set its exit value.  This should be
-     * called before setFinished().  If another thread called
-     * stop(),  this won't change the exit value.
+     * Used by a subclass to set its exit value. This should be called before setFinished(). If another thread called
+     * stop(), this won't change the exit value.
      */
-    protected void setExitValue(int value)
-    {
-        synchronized(lockObj) {
+    protected void setExitValue(int value) {
+        synchronized (lockObj) {
             if (!stopped())
                 exitValue = value;
         }
     }
 }
-
-
-

@@ -23,44 +23,41 @@ import javax.naming.InitialContext;
 import javax.naming.Context;
 import java.util.Properties;
 
-import javax.rmi.PortableRemoteObject ;
-import javax.rmi.CORBA.Tie ;
+import javax.rmi.PortableRemoteObject;
+import javax.rmi.CORBA.Tie;
 
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.*;
 
 import org.omg.PortableServer.*;
 
-import com.sun.corba.ee.spi.presentation.rmi.PresentationManager ;
+import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 
-import com.sun.corba.ee.spi.misc.ORBConstants ;
-
+import com.sun.corba.ee.spi.misc.ORBConstants;
 
 /**
- * This is a Server that uses Dynamic RMI IIOP Tie model. A Simple Server
- * with 1 Servant that is associated with the RootPOA.
+ * This is a Server that uses Dynamic RMI IIOP Tie model. A Simple Server with 1 Servant that is associated with the
+ * RootPOA.
  */
 public class Server {
 
-    public static void main(String[] args ) {
+    public static void main(String[] args) {
         try {
 
-            ORB orb = ORB.init( args, null );
+            ORB orb = ORB.init(args, null);
 
-            org.omg.CORBA.Object objRef =
-                orb.resolve_initial_references("NameService");
+            org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
 
             NamingContext ncRef = NamingContextHelper.narrow(objRef);
             NameComponent nc = new NameComponent(Constants.HELLO_SERVICE, "");
-            NameComponent path[] = {nc};
+            NameComponent path[] = { nc };
 
-            POA rootPOA = (POA)orb.resolve_initial_references( "RootPOA" );
+            POA rootPOA = (POA) orb.resolve_initial_references("RootPOA");
             rootPOA.the_POAManager().activate();
 
             byte[] id = Constants.HELLO_SERVICE.getBytes();
-            rootPOA.activate_object_with_id(id,
-                (Servant)makeHelloServant((com.sun.corba.ee.spi.orb.ORB)orb));
-            org.omg.CORBA.Object obj = rootPOA.id_to_reference( id );
+            rootPOA.activate_object_with_id(id, (Servant) makeHelloServant((com.sun.corba.ee.spi.orb.ORB) orb));
+            org.omg.CORBA.Object obj = rootPOA.id_to_reference(id);
 
             ncRef.rebind(path, obj);
 
@@ -69,27 +66,28 @@ public class Server {
             System.out.flush();
 
             java.lang.Object sync = new java.lang.Object();
-            synchronized (sync) { sync.wait(); }
-        } catch( Exception e ) {
-            System.err.println( e );
-            e.printStackTrace( );
+            synchronized (sync) {
+                sync.wait();
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+            e.printStackTrace();
         }
     }
 
-    static Tie makeHelloServant( com.sun.corba.ee.spi.orb.ORB orb ) {
+    static Tie makeHelloServant(com.sun.corba.ee.spi.orb.ORB orb) {
         try {
-            HelloServant servant = new HelloServant( orb );
+            HelloServant servant = new HelloServant(orb);
 
             Tie tie = orb.getPresentationManager().getTie();
-            tie.orb( orb ) ;
-            tie.setTarget( (java.rmi.Remote)servant );
+            tie.orb(orb);
+            tie.setTarget((java.rmi.Remote) servant);
             return tie;
-        } catch( Exception e ) {
-            e.printStackTrace( );
-            System.exit( -1 );
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(-1);
         }
         return null;
     }
 
 }
-

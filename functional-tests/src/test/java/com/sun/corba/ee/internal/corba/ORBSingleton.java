@@ -23,13 +23,10 @@ package com.sun.corba.ee.internal.corba;
  *
  * Deprecated class for backward compatibility.
  */
-public class ORBSingleton extends com.sun.corba.ee.impl.orb.ORBSingleton
-{
-    public ORBSingleton()
-    {
+public class ORBSingleton extends com.sun.corba.ee.impl.orb.ORBSingleton {
+    public ORBSingleton() {
         super();
     }
 }
 
 // End of file.
-

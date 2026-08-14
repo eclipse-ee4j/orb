@@ -19,17 +19,14 @@
 
 package corba.copyobjectpolicy;
 
-import java.rmi.RemoteException ;
-import javax.rmi.PortableRemoteObject ;
+import java.rmi.RemoteException;
+import javax.rmi.PortableRemoteObject;
 
-public class EchoImpl extends PortableRemoteObject implements Echo
-{
-    public EchoImpl() throws RemoteException
-    {
+public class EchoImpl extends PortableRemoteObject implements Echo {
+    public EchoImpl() throws RemoteException {
     }
 
-    public Object echo( Object invalue) throws RemoteException
-    {
+    public Object echo(Object invalue) throws RemoteException {
         return invalue;
     }
 }

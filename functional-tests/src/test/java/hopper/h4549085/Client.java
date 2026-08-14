@@ -24,11 +24,8 @@ import org.omg.CosNaming.*;
 import org.omg.CORBA.*;
 import java.util.*;
 
-public class Client
-{
-    public static void testMultibyteString(Tester tester)
-        throws Exception
-    {
+public class Client {
+    public static void testMultibyteString(Tester tester) throws Exception {
         System.out.println("Testing multibyte string...");
 
         String multibyte = "\u3044Test of multibyte \u3044 string.\u3044";
@@ -41,19 +38,17 @@ public class Client
         System.out.println("PASSED");
     }
 
-    public static void main(String args[])
-    {
+    public static void main(String args[]) {
         try {
             ORB orb = ORB.init(args, System.getProperties());
 
             // get the root naming context
-            org.omg.CORBA.Object objRef =
-                orb.resolve_initial_references("NameService");
+            org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
             NamingContext ncRef = NamingContextHelper.narrow(objRef);
 
             // resolve the Object Reference in Naming
             NameComponent nc = new NameComponent("Tester", "");
-            NameComponent path[] = {nc};
+            NameComponent path[] = { nc };
             Tester tester = TesterHelper.narrow(ncRef.resolve(path));
 
             Client.testMultibyteString(tester);
@@ -62,7 +57,7 @@ public class Client
 
         } catch (Throwable t) {
             t.printStackTrace();
-            System.exit (1);
+            System.exit(1);
         }
     }
 }

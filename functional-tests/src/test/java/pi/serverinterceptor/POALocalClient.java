@@ -36,27 +36,19 @@ import java.io.*;
 import ServerRequestInterceptor.*;
 
 /**
- * This client is launched from POALocalServer so they can share
- * a single orb.
+ * This client is launched from POALocalServer so they can share a single orb.
  */
-public class POALocalClient
-    extends POAClient
-{
-    public POALocalClient( com.sun.corba.ee.spi.orb.ORB orb ) {
+public class POALocalClient extends POAClient {
+    public POALocalClient(com.sun.corba.ee.spi.orb.ORB orb) {
         this.orb = orb;
     }
 
-    public void run( Properties environment, String args[],
-                     PrintStream out, PrintStream err, Hashtable extra)
-        throws Exception
-    {
-        out.println( "===============" );
-        out.println( "Starting Client" );
-        out.println( "===============" );
+    public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
+        out.println("===============");
+        out.println("Starting Client");
+        out.println("===============");
 
-        super.run( environment, args, out, err, extra );
+        super.run(environment, args, out, err, extra);
     }
 
-
 }
-

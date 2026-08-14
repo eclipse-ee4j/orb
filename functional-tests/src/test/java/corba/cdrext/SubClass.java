@@ -22,8 +22,7 @@ package corba.cdrext;
 
 import java.io.*;
 
-public class SubClass extends SuperClass implements Serializable
-{
+public class SubClass extends SuperClass implements Serializable {
     private long longValue;
 
     public SubClass() {
@@ -34,8 +33,7 @@ public class SubClass extends SuperClass implements Serializable
         if (!(obj instanceof SubClass))
             return false;
         else {
-            return super.equals(obj)
-                && longValue == ((SubClass)obj).longValue;
+            return super.equals(obj) && longValue == ((SubClass) obj).longValue;
         }
     }
 

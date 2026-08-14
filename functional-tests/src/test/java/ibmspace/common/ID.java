@@ -22,28 +22,24 @@ package ibmspace.common;
 
 import java.io.Serializable;
 
-public class ID implements Serializable
-{
-    private static int    fgNextId = 0;
-    private int           fId;
+public class ID implements Serializable {
+    private static int fgNextId = 0;
+    private int fId;
 
-    public ID ()
-    {
+    public ID() {
         fId = fgNextId++;
     }
 
-    public boolean identifies (Identifiable obj)
-    {
-        if ( this.equals (obj.getID()) ) {
+    public boolean identifies(Identifiable obj) {
+        if (this.equals(obj.getID())) {
             return true;
         } else {
             return false;
         }
     }
 
-    public boolean equals (ID other)
-    {
-        if ( fId == other.fId )
+    public boolean equals(ID other) {
+        if (fId == other.fId)
             return true;
         else
             return false;

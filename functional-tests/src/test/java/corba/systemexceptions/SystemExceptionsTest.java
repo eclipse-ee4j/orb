@@ -32,23 +32,18 @@ import corba.framework.CORBATest;
 import corba.framework.*;
 
 public class SystemExceptionsTest extends CORBATest {
-    public static final String thisPackage =
-        SystemExceptionsTest.class.getPackage().getName();
+    public static final String thisPackage = SystemExceptionsTest.class.getPackage().getName();
 
     protected void doTest() throws Throwable {
         Controller orbd = createORBD();
         orbd.start();
 
         Properties clientProps = Options.getClientProperties();
-        clientProps.put("org.omg.PortableInterceptor.ORBInitializerClass." +
-                        "corba.systemexceptions.Client", "true");
+        clientProps.put("org.omg.PortableInterceptor.ORBInitializerClass." + "corba.systemexceptions.Client", "true");
 
-        doTestType("Server", "Server",
-                   "Client", "Client");
+        doTestType("Server", "Server", "Client", "Client");
 
-        Controller colocatedClientServer =
-            createClient(thisPackage + ".ColocatedClientServer",
-                         "colocatedClientServer");
+        Controller colocatedClientServer = createClient(thisPackage + ".ColocatedClientServer", "colocatedClientServer");
         colocatedClientServer.start();
         colocatedClientServer.waitFor();
         colocatedClientServer.stop();
@@ -56,16 +51,13 @@ public class SystemExceptionsTest extends CORBATest {
         orbd.stop();
     }
 
-    protected void doTestType(String serverMainClass, String serverTestName,
-                              String clientMainClass, String clientTestName)
-        throws Throwable {
+    protected void doTestType(String serverMainClass, String serverTestName, String clientMainClass, String clientTestName)
+            throws Throwable {
 
-        Controller server = createServer(thisPackage + "." + serverMainClass,
-                                         serverTestName);
+        Controller server = createServer(thisPackage + "." + serverMainClass, serverTestName);
         server.start();
 
-        Controller client = createClient(thisPackage + "." + clientMainClass,
-                                         clientTestName);
+        Controller client = createClient(thisPackage + "." + clientMainClass, clientTestName);
         client.start();
         client.waitFor();
         client.stop();
@@ -75,4 +67,3 @@ public class SystemExceptionsTest extends CORBATest {
 }
 
 // End of file.
-

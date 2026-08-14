@@ -26,6 +26,7 @@ public interface ServantManager extends Remote {
 
     /**
      * Start a servant in the remote process.
+     * 
      * @param servantClass The class of the servant object. Must have a default constructor.
      * @param servantName The name by which this servant should be known.
      * @param publishName True if the name should be published in the name server.
@@ -33,12 +34,8 @@ public interface ServantManager extends Remote {
      * @param nameServerPort The name server port.
      * @param iiop True if iiop.
      */
-    public Remote startServant( String servantClass,
-                                String servantName,
-                                boolean publishName,
-                                String nameServerHost,
-                                int nameServerPort,
-                                boolean iiop) throws java.rmi.RemoteException;
+    public Remote startServant(String servantClass, String servantName, boolean publishName, String nameServerHost, int nameServerPort,
+            boolean iiop) throws java.rmi.RemoteException;
 
     /**
      * Unexport the specified servant. If the servant was published, will be unpublised.

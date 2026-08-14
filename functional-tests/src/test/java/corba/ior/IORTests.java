@@ -27,12 +27,10 @@ import com.sun.corba.ee.impl.ior.*;
 
 /**
  */
-public class IORTests extends CORBATest
-{
-    protected void doTest() throws Throwable
-    {
+public class IORTests extends CORBATest {
+    protected void doTest() throws Throwable {
         // Create client controller using the given
-        // class.  You can also specify names for these (for instance,
+        // class. You can also specify names for these (for instance,
         // you may want to distinguish between many clients) by using
         // the equivalent methods that take two Strings.
         Controller client = createClient("corba.ior.Client");

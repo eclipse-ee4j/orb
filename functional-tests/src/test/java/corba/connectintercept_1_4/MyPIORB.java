@@ -27,15 +27,10 @@ package corba.connectintercept_1_4;
 import com.sun.corba.ee.spi.ior.IOR;
 import com.sun.corba.ee.impl.orb.ORBImpl;
 
-public class MyPIORB
-    extends
-        ORBImpl
-{
-    public static final String baseMsg =
-        MyPIORB.class.getName() + ".objectReferenceCreated: ";
+public class MyPIORB extends ORBImpl {
+    public static final String baseMsg = MyPIORB.class.getName() + ".objectReferenceCreated: ";
 
-    protected IOR objectReferenceCreated (IOR ior)
-    {
+    protected IOR objectReferenceCreated(IOR ior) {
         String componentData = Common.createComponentData(baseMsg, this);
 
         // This test puts the information in the IOR via
@@ -44,9 +39,8 @@ public class MyPIORB
         // You would put that info in the given IOR similar to
         // the ServerIORInterceptor code then return the augmented
         // ior.
-        return ior ;
+        return ior;
     }
 }
 
 // End of file.
-

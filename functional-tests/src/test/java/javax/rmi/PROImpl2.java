@@ -25,23 +25,23 @@ import java.rmi.RemoteException;
 
 public class PROImpl2 implements PROHello {
 
-    public PROImpl2 () throws RemoteException {
+    public PROImpl2() throws RemoteException {
         super();
     }
 
-    public String sayHello () throws RemoteException {
+    public String sayHello() throws RemoteException {
         return HELLO;
     }
 
-    public Dog getDogValue () throws RemoteException {
-        return new DogImpl ("Bow wow!");
+    public Dog getDogValue() throws RemoteException {
+        return new DogImpl("Bow wow!");
     }
 
-    public Dog getDogServer () throws RemoteException {
-        return new DogServer ("Yip Yip Yip!");
+    public Dog getDogServer() throws RemoteException {
+        return new DogServer("Yip Yip Yip!");
     }
 
-    public void unexport () throws RemoteException {
+    public void unexport() throws RemoteException {
         PortableRemoteObject.unexportObject(this);
     }
 }

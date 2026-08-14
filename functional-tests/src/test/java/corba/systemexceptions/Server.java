@@ -68,11 +68,9 @@ public class Server extends org.omg.CORBA.LocalObject {
 
     public static final String baseMsg = Server.class.getName();
     public static final String main = baseMsg + ".main";
-    public static final String thisPackage =
-        Server.class.getPackage().getName();
+    public static final String thisPackage = Server.class.getPackage().getName();
 
-    public static final String rmiiIServantPOA_Tie =
-        thisPackage + "._rmiiIServantPOA_Tie";
+    public static final String rmiiIServantPOA_Tie = thisPackage + "._rmiiIServantPOA_Tie";
 
     public static final String rmiiIPOA = "rmiiIPOA";
     public static final String idlIPOA = "idlIPOA";
@@ -84,44 +82,36 @@ public class Server extends org.omg.CORBA.LocalObject {
 
         switch (excType) {
 
-        case 0:
-            U.sop("ACTIVITY_COMPLETED");
-            throw new ACTIVITY_COMPLETED("ACTIVITY_COMPLETED",
-                                         100, CompletionStatus.COMPLETED_YES);
-        case 1:
-            U.sop("ACTIVITY_REQUIRED");
-            throw new ACTIVITY_REQUIRED("ACTIVITY_REQUIRED",
-                                        101, CompletionStatus.COMPLETED_YES);
-        case 2:
-            U.sop("BAD_QOS");
-            throw new BAD_QOS("BAD_QOS", 102, CompletionStatus.COMPLETED_YES);
-        case 3:
-            U.sop("CODESET_INCOMPATIBLE");
-            throw new CODESET_INCOMPATIBLE("CODESET_INCOMPATIBLE",
-                                           103,
-                                           CompletionStatus.COMPLETED_YES);
-        case 4:
-            U.sop("INVALID_ACTIVITY");
-            throw new INVALID_ACTIVITY("INVALID_ACTIVITY",
-                                       104, CompletionStatus.COMPLETED_YES);
-        case 5:
-            U.sop("REBIND");
-            throw new REBIND("REBIND", 105, CompletionStatus.COMPLETED_YES);
-        case 6:
-            U.sop("TIMEOUT");
-            throw new TIMEOUT("TIMEOUT", 106, CompletionStatus.COMPLETED_YES);
-        case 7:
-            U.sop("TRANSACTION_MODE");
-            throw new TRANSACTION_MODE("TRANSACTION_MODE",
-                                       107, CompletionStatus.COMPLETED_YES);
-        case 8:
-            U.sop("TRANSACTION_UNAVAILABLE");
-            throw new TRANSACTION_UNAVAILABLE("TRANSACTION_UNAVAILABLE",
-                                              108,
-                                              CompletionStatus.COMPLETED_YES);
-        default:
-            U.sop("UNKNOWN");
-            throw new UNKNOWN("UNKNOWN", 109, CompletionStatus.COMPLETED_YES);
+            case 0:
+                U.sop("ACTIVITY_COMPLETED");
+                throw new ACTIVITY_COMPLETED("ACTIVITY_COMPLETED", 100, CompletionStatus.COMPLETED_YES);
+            case 1:
+                U.sop("ACTIVITY_REQUIRED");
+                throw new ACTIVITY_REQUIRED("ACTIVITY_REQUIRED", 101, CompletionStatus.COMPLETED_YES);
+            case 2:
+                U.sop("BAD_QOS");
+                throw new BAD_QOS("BAD_QOS", 102, CompletionStatus.COMPLETED_YES);
+            case 3:
+                U.sop("CODESET_INCOMPATIBLE");
+                throw new CODESET_INCOMPATIBLE("CODESET_INCOMPATIBLE", 103, CompletionStatus.COMPLETED_YES);
+            case 4:
+                U.sop("INVALID_ACTIVITY");
+                throw new INVALID_ACTIVITY("INVALID_ACTIVITY", 104, CompletionStatus.COMPLETED_YES);
+            case 5:
+                U.sop("REBIND");
+                throw new REBIND("REBIND", 105, CompletionStatus.COMPLETED_YES);
+            case 6:
+                U.sop("TIMEOUT");
+                throw new TIMEOUT("TIMEOUT", 106, CompletionStatus.COMPLETED_YES);
+            case 7:
+                U.sop("TRANSACTION_MODE");
+                throw new TRANSACTION_MODE("TRANSACTION_MODE", 107, CompletionStatus.COMPLETED_YES);
+            case 8:
+                U.sop("TRANSACTION_UNAVAILABLE");
+                throw new TRANSACTION_UNAVAILABLE("TRANSACTION_UNAVAILABLE", 108, CompletionStatus.COMPLETED_YES);
+            default:
+                U.sop("UNKNOWN");
+                throw new UNKNOWN("UNKNOWN", 109, CompletionStatus.COMPLETED_YES);
         }
     }
 
@@ -130,7 +120,7 @@ public class Server extends org.omg.CORBA.LocalObject {
         try {
             U.sop(main + " starting");
 
-            if (! ColocatedClientServer.isColocated) {
+            if (!ColocatedClientServer.isColocated) {
                 U.sop(main + " : creating ORB.");
                 orb = (ORB) ORB.init(av, null);
                 U.sop(main + " : creating InitialContext.");
@@ -142,14 +132,12 @@ public class Server extends org.omg.CORBA.LocalObject {
 
             // RMI-IIOP references.
             U.sop("Creating/binding RMI-IIOP references.");
-            Servant servant = (Servant)
-                javax.rmi.CORBA.Util.getTie(new rmiiIServantPOA());
+            Servant servant = (Servant) javax.rmi.CORBA.Util.getTie(new rmiiIServantPOA());
             U.createWithServantAndBind(rmiiIPOA, servant, rootPOA, orb);
 
             // IDL references.
             U.sop("Creating/binding IDL references.");
-            U.createWithServantAndBind(idlIPOA,
-                                       new idlIServantPOA(), rootPOA, orb);
+            U.createWithServantAndBind(idlIPOA, new idlIServantPOA(), rootPOA, orb);
 
             U.sop(main + " ready");
             U.sop(Options.defServerHandshake);
@@ -171,5 +159,3 @@ public class Server extends org.omg.CORBA.LocalObject {
 }
 
 // End of file.
-
-

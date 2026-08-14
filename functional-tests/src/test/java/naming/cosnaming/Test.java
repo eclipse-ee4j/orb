@@ -21,10 +21,8 @@ package naming.cosnaming;
 
 import corba.framework.*;
 
-public class Test extends CORBATest
-{
-    protected void doTest () throws Throwable
-    {
+public class Test extends CORBATest {
+    protected void doTest() throws Throwable {
         // Turn on debugging flags
         // Options.addORBDArgs( "-ORBDebug transport,subcontract,giop,orbd" ) ;
         // Options.addClientArgs( "-ORBDebug transport,subcontract,giop" ) ;

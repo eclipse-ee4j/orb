@@ -19,9 +19,9 @@
 
 package corba.shutdown;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 public interface Test extends Remote {
-    int echo( int arg ) throws RemoteException ;
+    int echo(int arg) throws RemoteException;
 }

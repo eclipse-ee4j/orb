@@ -17,7 +17,7 @@
  * Classpath-exception-2.0
  */
 
-package corba.connectioncache ;
+package corba.connectioncache;
 
 import com.sun.corba.ee.spi.transport.connection.ContactInfo;
 import java.io.IOException;
@@ -27,58 +27,53 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class ContactInfoImpl implements ContactInfo<ConnectionImpl> {
-    private String address ;
+    private String address;
 
-    private static AtomicLong nextId =
-        new AtomicLong() ;
-    private static AtomicBoolean simulateAddressUnreachable =
-        new AtomicBoolean() ;
+    private static AtomicLong nextId = new AtomicLong();
+    private static AtomicBoolean simulateAddressUnreachable = new AtomicBoolean();
 
-    private static ConcurrentMap<String,ContactInfoImpl> cinfoMap =
-        new ConcurrentHashMap<String,ContactInfoImpl>() ;
+    private static ConcurrentMap<String, ContactInfoImpl> cinfoMap = new ConcurrentHashMap<String, ContactInfoImpl>();
 
-    private RandomDelay rdel ;
+    private RandomDelay rdel;
 
-    private ContactInfoImpl( String address, int minDelay, int maxDelay ) {
-        this.address = address ;
-        rdel = new RandomDelay( minDelay, maxDelay ) ;
+    private ContactInfoImpl(String address, int minDelay, int maxDelay) {
+        this.address = address;
+        rdel = new RandomDelay(minDelay, maxDelay);
     }
 
-    public static ContactInfoImpl get( String address ) {
-        return get( address, 0, 0 ) ;
+    public static ContactInfoImpl get(String address) {
+        return get(address, 0, 0);
     }
 
-    public static ContactInfoImpl get( String address, int minDelay, int maxDelay ) {
-        ContactInfoImpl result = new ContactInfoImpl( address, minDelay, maxDelay ) ;
-        ContactInfoImpl entry = cinfoMap.putIfAbsent( address, result ) ;
+    public static ContactInfoImpl get(String address, int minDelay, int maxDelay) {
+        ContactInfoImpl result = new ContactInfoImpl(address, minDelay, maxDelay);
+        ContactInfoImpl entry = cinfoMap.putIfAbsent(address, result);
         if (entry == null)
-            return result ;
+            return result;
         else
-            return entry ;
+            return entry;
     }
 
-    public void remove( String address ) {
-        cinfoMap.remove( address ) ;
+    public void remove(String address) {
+        cinfoMap.remove(address);
     }
 
-    public void setUnreachable( boolean arg ) {
-        simulateAddressUnreachable.set( arg ) ;
+    public void setUnreachable(boolean arg) {
+        simulateAddressUnreachable.set(arg);
     }
 
     public ConnectionImpl createConnection() throws IOException {
         if (simulateAddressUnreachable.get()) {
-            throw new IOException( "Address " + address
-                + " is currently unreachable" ) ;
+            throw new IOException("Address " + address + " is currently unreachable");
         } else {
-            long id = nextId.getAndIncrement() ;
-            ConnectionImpl result = new ConnectionImpl( address, id, this ) ;
-            return result ;
+            long id = nextId.getAndIncrement();
+            ConnectionImpl result = new ConnectionImpl(address, id, this);
+            return result;
         }
     }
 
     @Override
     public String toString() {
-        return "ContactInfoImpl[" + address + "]" ;
+        return "ContactInfoImpl[" + address + "]";
     }
 }
-

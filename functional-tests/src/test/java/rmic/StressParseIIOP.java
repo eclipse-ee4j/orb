@@ -30,27 +30,26 @@ import java.io.OutputStream;
 import java.io.IOException;
 
 /**
- * StressParseIIOP walks all classes in a classpath and has CompoundType.makeType()
- * parse them. The output is sent to standard out.
+ * StressParseIIOP walks all classes in a classpath and has CompoundType.makeType() parse them. The output is sent to
+ * standard out.
  *
- * @author      Bryan Atsatt
+ * @author Bryan Atsatt
  */
 public class StressParseIIOP {
 
     private static final int MAX_FILES = 400;
-    private static final String kPathArg                = "-classpath";
-    private static final String kBatchSizeArg       = "-batchsize";
-    private static final String kSoloArg                = "-solo";
+    private static final String kPathArg = "-classpath";
+    private static final String kBatchSizeArg = "-batchsize";
+    private static final String kSoloArg = "-solo";
     private String classPath;
     private int batchSize;
     private boolean solo;
     private int totalCount;
 
-
     /**
      * Constructor
      */
-    public StressParseIIOP (String classPath, int batchSize, boolean solo) {
+    public StressParseIIOP(String classPath, int batchSize, boolean solo) {
 
         this.classPath = classPath;
         this.batchSize = batchSize;
@@ -58,18 +57,18 @@ public class StressParseIIOP {
         totalCount = 0;
     }
 
-    public int parse () {
+    public int parse() {
 
         int result = 0;
 
         // Collect all classes...
 
-        Vector allClasses = ClassEnumerator.getClasses(classPath,true);
+        Vector allClasses = ClassEnumerator.getClasses(classPath, true);
         System.out.println("Processing " + allClasses.size() + " classes:\n");
 
         // Split the list if needed...
 
-        Vector[] classes = split(allClasses,batchSize);
+        Vector[] classes = split(allClasses, batchSize);
 
         // Parse them...
 
@@ -83,13 +82,14 @@ public class StressParseIIOP {
         return result;
     }
 
-    protected static Vector[] split (Vector all, int maxSize) {
+    protected static Vector[] split(Vector all, int maxSize) {
         int chunks = 1;
         int count = all.size();
         if (count > maxSize) {
-            float temp = ((float)count)/((float)maxSize);
+            float temp = ((float) count) / ((float) maxSize);
             chunks = (int) temp;
-            if (temp > chunks) chunks++;
+            if (temp > chunks)
+                chunks++;
         }
 
         Vector[] result = new Vector[chunks];
@@ -126,7 +126,7 @@ public class StressParseIIOP {
         return result;
     }
 
-    protected int parse (Vector list) {
+    protected int parse(Vector list) {
 
         // Create args array...
 
@@ -150,7 +150,6 @@ public class StressParseIIOP {
         return execAndWaitFor(args);
     }
 
-
     /**
      * Process the arguments, construct an instance and tell it to process the files...
      */
@@ -171,10 +170,14 @@ public class StressParseIIOP {
 
                 String arg = args[i].toLowerCase();
 
-                if (arg.equals(kPathArg)) classPath = args[++i];
-                else if (arg.equals(kBatchSizeArg)) batchSize = Integer.parseInt(args[++i]);
-                else if (arg.equals(kSoloArg)) solo = true;
-                else usage();
+                if (arg.equals(kPathArg))
+                    classPath = args[++i];
+                else if (arg.equals(kBatchSizeArg))
+                    batchSize = Integer.parseInt(args[++i]);
+                else if (arg.equals(kSoloArg))
+                    solo = true;
+                else
+                    usage();
             }
         }
 
@@ -185,7 +188,7 @@ public class StressParseIIOP {
         }
         // Construct our object...
 
-        StressParseIIOP parser = new StressParseIIOP(classPath,batchSize,solo);
+        StressParseIIOP parser = new StressParseIIOP(classPath, batchSize, solo);
 
         // Tell it to do it's thing...
 
@@ -216,7 +219,7 @@ public class StressParseIIOP {
     /**
      * Print usage.
      */
-    public static void usage () {
+    public static void usage() {
         PrintStream out = System.out;
 
         out.println();
@@ -225,22 +228,22 @@ public class StressParseIIOP {
     }
 
     /**
-     * execAndWaitFor will create a new Process and wait for the
-     * process to complete before returning
+     * execAndWaitFor will create a new Process and wait for the process to complete before returning
+     * 
      * @param command command line arguments to pass to exec.
      * @return int the result of Process.exitValue() or -1;
-     * @throws Error if an unexpected exception occurs an Error is
-     * thrown with the message string from the original exception.
+     * @throws Error if an unexpected exception occurs an Error is thrown with the message string from the original
+     * exception.
      */
     public static int execAndWaitFor(String[] command) {
 
         try {
 
-            Runtime runtime     = Runtime.getRuntime();
-            Process theProcess  = runtime.exec(command);
-            ProcessMonitor monitor = new ProcessMonitor(theProcess,System.out,System.err,0);
+            Runtime runtime = Runtime.getRuntime();
+            Process theProcess = runtime.exec(command);
+            ProcessMonitor monitor = new ProcessMonitor(theProcess, System.out, System.err, 0);
             monitor.start();
-            int result = waitForCompletion(theProcess,2000);
+            int result = waitForCompletion(theProcess, 2000);
             monitor.stop();
             return result;
         } catch (Throwable error) {
@@ -249,36 +252,30 @@ public class StressParseIIOP {
         }
     }
 
-
-    private static int waitForCompletion( Process theProcess, int sleepTime)
-        throws java.lang.InterruptedException
-    {
+    private static int waitForCompletion(Process theProcess, int sleepTime) throws java.lang.InterruptedException {
         int result = -1;
 
         try {
             theProcess.waitFor();
             result = theProcess.exitValue();
-        }
-        catch (java.lang.IllegalThreadStateException notDone) {
+        } catch (java.lang.IllegalThreadStateException notDone) {
             // We assume that waitFor() does not work and exitValue()
             // failed because the Process is not done. Lets Sleep
             // for a while then check for completion again.
-            Thread.sleep(sleepTime,0);
-            result = waitForCompletion(theProcess,sleepTime+1500);
+            Thread.sleep(sleepTime, 0);
+            result = waitForCompletion(theProcess, sleepTime + 1500);
         }
 
         return result;
     }
 }
 
-
-
 /**
- * ProcessMonitor provides a thread which will consume output from a
- * java.lang.Process and write it to the specified local streams.
+ * ProcessMonitor provides a thread which will consume output from a java.lang.Process and write it to the specified
+ * local streams.
  *
- * @version     1.0, 6/11/98
- * @author      Bryan Atsatt
+ * @version 1.0, 6/11/98
+ * @author Bryan Atsatt
  */
 class ProcessMonitor extends Thread {
     Process process;
@@ -289,46 +286,39 @@ class ProcessMonitor extends Thread {
 
     /**
      * Constructor.
+     * 
      * @param theProcess The process to monitor.
      * @param out The stream to which to copy Process.getInputStream() data.
      * @param err The stream to which to copy Process.getErrorStream() data.
-     * @param delay How long to wait between checking the streams for data.
-     * May be zero.
+     * @param delay How long to wait between checking the streams for data. May be zero.
      */
-    ProcessMonitor (    Process theProcess,
-                        OutputStream out,
-                        OutputStream err,
-                        long delay) {
+    ProcessMonitor(Process theProcess, OutputStream out, OutputStream err, long delay) {
         process = theProcess;
         this.delay = delay;
-        localOut = new PrintWriter(out,true);
-        localErr = new PrintWriter(err,true);
+        localOut = new PrintWriter(out, true);
+        localErr = new PrintWriter(err, true);
         setDaemon(true);
     }
 
     /**
      * Constructor.
+     * 
      * @param theProcess The process to monitor.
      * @param out The stream to which to copy Process.getInputStream() data.
      * @param err The stream to which to copy Process.getErrorStream() data.
-     * @param delay How long to wait between checking the streams for data.
-     * May be zero.
+     * @param delay How long to wait between checking the streams for data. May be zero.
      * @param prefix String to prepend to all copied output lines.
      */
-    ProcessMonitor (    Process theProcess,
-                        OutputStream out,
-                        OutputStream err,
-                        long delay,
-                        String prefix) {
+    ProcessMonitor(Process theProcess, OutputStream out, OutputStream err, long delay, String prefix) {
         process = theProcess;
         this.delay = delay;
-        localOut = new PrintWriter(out,true);
-        localErr = new PrintWriter(err,true);
+        localOut = new PrintWriter(out, true);
+        localErr = new PrintWriter(err, true);
         setDaemon(true);
         this.prefix = prefix;
     }
 
-    public void run () {
+    public void run() {
 
         BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
         BufferedReader err = new BufferedReader(new InputStreamReader(process.getErrorStream()));
@@ -344,7 +334,8 @@ class ProcessMonitor extends Thread {
                 }
 
             }
-        } catch (IOException e) {}
+        } catch (IOException e) {
+        }
 
         try {
             while ((eolTest = err.readLine()) != null) {
@@ -355,14 +346,16 @@ class ProcessMonitor extends Thread {
                 }
             }
 
-        } catch (IOException e) {}
+        } catch (IOException e) {
+        }
 
         if (delay > 0) {
             synchronized (this) {
 
                 try {
                     wait(delay);
-                } catch (InterruptedException e){}
+                } catch (InterruptedException e) {
+                }
             }
         }
     }

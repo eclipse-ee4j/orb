@@ -26,20 +26,19 @@ import java.util.Properties;
 
 public class EnumTest extends CORBATest {
     @Override
-    protected void doTest() throws Throwable
-    {
+    protected void doTest() throws Throwable {
         Options.addServerArg("-debug");
         Controller orbd = createORBD();
 
         Properties serverProps = Options.getServerProperties();
 
-        Controller server = createServer( Server.class.getName() ) ;
+        Controller server = createServer(Server.class.getName());
 
         orbd.start();
 
         server.start();
 
-        Controller client = createClient( Client.class.getName() ) ;
+        Controller client = createClient(Client.class.getName());
 
         client.start();
 

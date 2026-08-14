@@ -31,10 +31,7 @@ import org.omg.CORBA.ORB;
 import org.omg.PortableInterceptor.Current;
 import org.omg.PortableInterceptor.InvalidSlot;
 
-class AServiceImpl
-    extends LocalObject
-    implements AService
-{
+class AServiceImpl extends LocalObject implements AService {
     private int slotId;
 
     private int currentServiceId = 0;
@@ -43,33 +40,28 @@ class AServiceImpl
 
     private Any NOT_IN_EFFECT;
 
-    public AServiceImpl(int slotId)
-    {
+    public AServiceImpl(int slotId) {
         this.slotId = slotId;
         NOT_IN_EFFECT = ORB.init().create_any();
     }
 
     // Package protected so the AService ORBInitializer can access this
     // non-IDL defined method.
-    void setPICurrent(Current piCurrent)
-    {
+    void setPICurrent(Current piCurrent) {
         this.piCurrent = piCurrent;
     }
 
-    public void begin()
-    {
+    public void begin() {
         Any any = ORB.init().create_any();
         any.insert_long(++currentServiceId);
         setSlot(any);
     }
 
-    public void end()
-    {
+    public void end() {
         setSlot(NOT_IN_EFFECT);
     }
 
-    public void verify()
-    {
+    public void verify() {
         try {
             Any any = piCurrent.get_slot(slotId);
             if (any.type().kind().equals(TCKind.tk_long)) {
@@ -84,8 +76,7 @@ class AServiceImpl
 
     // Synchronized because two threads in the same ORB could be
     // sharing this object.
-    synchronized private void setSlot(Any any)
-    {
+    synchronized private void setSlot(Any any) {
         try {
             piCurrent.set_slot(slotId, any);
         } catch (InvalidSlot e) {
@@ -95,4 +86,3 @@ class AServiceImpl
 }
 
 // End of file.
-

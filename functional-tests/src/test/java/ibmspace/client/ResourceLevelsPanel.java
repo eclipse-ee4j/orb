@@ -26,24 +26,21 @@ package ibmspace.client;
 import java.awt.*;
 import javax.swing.*;
 
-public class ResourceLevelsPanel extends JComponent
-{
-    private String      fSavings = "";
-    private String      fMetal = "";
-    private String      fIncome = "";
-    private String      fIIOP = "";
+public class ResourceLevelsPanel extends JComponent {
+    private String fSavings = "";
+    private String fMetal = "";
+    private String fIncome = "";
+    private String fIIOP = "";
 
-    public ResourceLevelsPanel ()
-    {
+    public ResourceLevelsPanel() {
     }
 
-    public String valueOf (long value)
-    {
+    public String valueOf(long value) {
         String units = "";
 
-        if ( value > 1000000 ) {
+        if (value > 1000000) {
             value = value / 1000;
-            if ( value > 1000000 ) {
+            if (value > 1000000) {
                 value = value / 1000;
                 units = "M";
             } else {
@@ -53,36 +50,28 @@ public class ResourceLevelsPanel extends JComponent
         return String.valueOf(value) + units;
     }
 
-
-    public void setShipSavings (long savings)
-    {
+    public void setShipSavings(long savings) {
         fSavings = valueOf(savings);
     }
 
-    public void setShipMetal (long metal)
-    {
+    public void setShipMetal(long metal) {
         fMetal = valueOf(metal);
     }
 
-    public void setIncome (long income)
-    {
+    public void setIncome(long income) {
         fIncome = valueOf(income);
     }
 
-    public void setIIOPCalls (long calls)
-    {
+    public void setIIOPCalls(long calls) {
         fIIOP = valueOf(calls);
     }
 
-
-    public void paint (Graphics g)
-    {
-        update (g);
+    public void paint(Graphics g) {
+        update(g);
     }
 
-    public void update (Graphics g)
-    {
-        Rectangle bounds = getBounds ();
+    public void update(Graphics g) {
+        Rectangle bounds = getBounds();
 
         int bx = bounds.x;
         int by = bounds.y;
@@ -94,21 +83,21 @@ public class ResourceLevelsPanel extends JComponent
         //
 
         int maxHeight = bh / 3;
-        int maxWidth  = bw / 2;
+        int maxWidth = bw / 2;
         int pointSize = 1;
         int padding = 0;
 
-        for ( int pt = 1; pt < 72; pt ++ ) {
-            Font f = new Font ("SansSerif",Font.PLAIN,pt);
-            g.setFont (f);
-            FontMetrics fm = g.getFontMetrics ();
-            int height = fm.getHeight () + fm.getLeading ();
-            int width = fm.stringWidth ("Savings: " + fSavings);
-            width = Math.max(width,fm.stringWidth ("Metal: " + fMetal));
-            width = Math.max(width,fm.stringWidth ("Income: " + fIncome));
-            width = Math.max(width,fm.stringWidth ("IIOP: " + fIIOP));
+        for (int pt = 1; pt < 72; pt++) {
+            Font f = new Font("SansSerif", Font.PLAIN, pt);
+            g.setFont(f);
+            FontMetrics fm = g.getFontMetrics();
+            int height = fm.getHeight() + fm.getLeading();
+            int width = fm.stringWidth("Savings: " + fSavings);
+            width = Math.max(width, fm.stringWidth("Metal: " + fMetal));
+            width = Math.max(width, fm.stringWidth("Income: " + fIncome));
+            width = Math.max(width, fm.stringWidth("IIOP: " + fIIOP));
 
-            if ( height > maxHeight || width > maxWidth )
+            if (height > maxHeight || width > maxWidth)
                 break;
 
             padding = (maxWidth - width) / 4;
@@ -120,36 +109,34 @@ public class ResourceLevelsPanel extends JComponent
         //
 
         int x, y;
-        FontMetrics fm = g.getFontMetrics ();
-        g.setColor (Color.black);
+        FontMetrics fm = g.getFontMetrics();
+        g.setColor(Color.black);
 
-        int indent = fm.stringWidth ("Savings: ");
+        int indent = fm.stringWidth("Savings: ");
 
         x = padding;
-        y = (int)(1.5 * (double)maxHeight);
-        g.drawString ("Savings: ", x, y);
+        y = (int) (1.5 * (double) maxHeight);
+        g.drawString("Savings: ", x, y);
         x += indent;
-        g.drawString (fSavings, x, y);
+        g.drawString(fSavings, x, y);
 
         x = maxWidth + padding;
-        g.drawString ("Income: ", x, y);
+        g.drawString("Income: ", x, y);
         x += indent;
-        g.drawString (fIncome, x, y);
+        g.drawString(fIncome, x, y);
 
         x = padding;
         y += maxHeight;
-        g.drawString ("Metal: ", x, y);
+        g.drawString("Metal: ", x, y);
         x += indent;
-        g.drawString (fMetal, x, y);
+        g.drawString(fMetal, x, y);
 
         x = maxWidth + padding;
-        g.setColor (Color.red);
-        g.drawString ("IIOP: ", x, y);
+        g.setColor(Color.red);
+        g.drawString("IIOP: ", x, y);
         x += indent;
-        g.drawString (fIIOP, x, y);
+        g.drawString(fIIOP, x, y);
 
     }
-
-
 
 }

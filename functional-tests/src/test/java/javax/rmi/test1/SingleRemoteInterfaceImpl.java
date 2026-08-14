@@ -20,7 +20,7 @@
 
 package javax.rmi.test1;
 
-public  class SingleRemoteInterfaceImpl implements SingleRemoteInterface {
+public class SingleRemoteInterfaceImpl implements SingleRemoteInterface {
 
     public String EchoSingleRemoteInterface() throws java.rmi.RemoteException {
         return "EchoSingleRemoteInterface";

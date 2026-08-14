@@ -24,25 +24,20 @@ import corba.framework.*;
 import java.util.*;
 
 /**
- * Tests IORInterceptor and IORInfo as per Portable Interceptors spec
- * orbos/99-12-02, Chapter 7.  See pi/assertions.html for Assertions
- * covered in this test.
+ * Tests IORInterceptor and IORInfo as per Portable Interceptors spec orbos/99-12-02, Chapter 7. See pi/assertions.html
+ * for Assertions covered in this test.
  */
-public class IORInterceptorTest
-    extends CORBATest
-{
-    protected void doTest()
-        throws Throwable
-    {
+public class IORInterceptorTest extends CORBATest {
+    protected void doTest() throws Throwable {
         Controller orbd = createORBD();
 
         orbd.start();
 
-        Controller server = createServer( "pi.iorinterceptor.Server" );
+        Controller server = createServer("pi.iorinterceptor.Server");
 
         server.start();
 
-        Controller client = createClient( "pi.iorinterceptor.Client" );
+        Controller client = createClient("pi.iorinterceptor.Client");
 
         client.start();
 
@@ -55,4 +50,3 @@ public class IORInterceptorTest
         orbd.stop();
     }
 }
-

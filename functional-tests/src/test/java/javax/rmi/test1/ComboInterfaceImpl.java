@@ -20,18 +20,21 @@
 
 package javax.rmi.test1;
 
-public  class ComboInterfaceImpl implements ComboInterface {
+public class ComboInterfaceImpl implements ComboInterface {
 
     public String EchoRemoteInterface1() throws java.rmi.RemoteException {
         return "EchoRemoteInterface1";
     }
-    public String EchoRemoteInterface2() throws java.rmi.RemoteException{
+
+    public String EchoRemoteInterface2() throws java.rmi.RemoteException {
         return "EchoRemoteInterface2";
     }
-    public String EchoRemoteInterface3() throws java.rmi.RemoteException{
+
+    public String EchoRemoteInterface3() throws java.rmi.RemoteException {
         return "EchoRemoteInterface3";
     }
-    public String EchoSingleRemoteInterface() throws java.rmi.RemoteException{
+
+    public String EchoSingleRemoteInterface() throws java.rmi.RemoteException {
         return "EchoSingleRemoteInterface";
     }
 }

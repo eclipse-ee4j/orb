@@ -23,13 +23,10 @@ import org.omg.CosNaming.BindingType;
 import java.io.Serializable;
 
 /**
- * Class InternalBindingKey acts as a container for two objects, namely
- * a org.omg.CosNaming::Binding and an CORBA object reference, which are the two
- * components associated with the binding.
+ * Class InternalBindingKey acts as a container for two objects, namely a org.omg.CosNaming::Binding and an CORBA object
+ * reference, which are the two components associated with the binding.
  */
-public class InternalBindingValue
-                implements Serializable
-{
+public class InternalBindingValue implements Serializable {
     private static final long serialVersionUID = -2545360261776178726L;
 
     public BindingType theBindingType;
@@ -51,13 +48,11 @@ public class InternalBindingValue
         strObjectRef = o;
     }
 
-    public org.omg.CORBA.Object getObjectRef( )
-    {
+    public org.omg.CORBA.Object getObjectRef() {
         return theObjectRef;
     }
 
-    public void setObjectRef( org.omg.CORBA.Object ObjectRef )
-    {
+    public void setObjectRef(org.omg.CORBA.Object ObjectRef) {
         theObjectRef = ObjectRef;
     }
 

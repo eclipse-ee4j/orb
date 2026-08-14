@@ -35,33 +35,25 @@ import java.io.*;
 
 import ServerRequestInterceptor.*;
 
-public class POARemoteClient
-    extends POAClient
-{
+public class POARemoteClient extends POAClient {
     public static void main(String args[]) {
         try {
-            (new POARemoteClient()).run( System.getProperties(),
-                                         args, System.out, System.err, null );
-        }
-        catch( Exception e ) {
-            e.printStackTrace( System.err );
-            System.exit( 1 );
+            (new POARemoteClient()).run(System.getProperties(), args, System.out, System.err, null);
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            System.exit(1);
         }
     }
 
-    public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra)
-        throws Exception
-    {
-        out.println( "============================================" );
-        out.println( "Instantiating Client ORB for POA Remote test" );
-        out.println( "============================================" );
+    public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
+        out.println("============================================");
+        out.println("Instantiating Client ORB for POA Remote test");
+        out.println("============================================");
 
-        out.println( "+ Creating ORB..." );
-        createORB( args );
+        out.println("+ Creating ORB...");
+        createORB(args);
 
-        super.run( environment, args, out, err, extra );
+        super.run(environment, args, out, err, extra);
     }
 
 }
-

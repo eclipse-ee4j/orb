@@ -20,48 +20,42 @@
 
 package ibmspace.server;
 
-public class GalaxyProfile implements java.io.Serializable
-{
+public class GalaxyProfile implements java.io.Serializable {
     // Types
-    public static final int   GRID = 0;
-    public static final int   RANDOM = 1;
-    public static final int   CIRCLE = 2;
-    public static final int   RING = 3;
-    public static final int   SPIRAL = 4;
+    public static final int GRID = 0;
+    public static final int RANDOM = 1;
+    public static final int CIRCLE = 2;
+    public static final int RING = 3;
+    public static final int SPIRAL = 4;
 
-  // Sizes
-    public static final int   SMALL = 0;
-    public static final int   MEDIUM = 1;
-    public static final int   LARGE = 2;
+    // Sizes
+    public static final int SMALL = 0;
+    public static final int MEDIUM = 1;
+    public static final int LARGE = 2;
 
     // Density
-    public static final int   DENSE = 0;
-    public static final int   SPARSE = 1;
+    public static final int DENSE = 0;
+    public static final int SPARSE = 1;
 
     private int fType;
     private int fSize;
     private int fDensity;
 
-
-    public GalaxyProfile (int type, int size, int density)
-    {
+    public GalaxyProfile(int type, int size, int density) {
         fType = type;
         fSize = size;
         fDensity = density;
     }
 
-    public int getType ()
-    {
+    public int getType() {
         return fType;
     }
 
-    public int getSize ()
-    {
+    public int getSize() {
         return fSize;
     }
 
-    public int getDensity ()
-    {
+    public int getDensity() {
         return fDensity;
     }
 

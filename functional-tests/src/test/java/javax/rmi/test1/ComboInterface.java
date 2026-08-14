@@ -20,7 +20,6 @@
 
 package javax.rmi.test1;
 
-public  interface ComboInterface
-    extends java.rmi.Remote, RemoteInterface3, SingleRemoteInterface {
+public interface ComboInterface extends java.rmi.Remote, RemoteInterface3, SingleRemoteInterface {
 
 }

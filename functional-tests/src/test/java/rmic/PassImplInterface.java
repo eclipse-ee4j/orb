@@ -19,7 +19,7 @@
  */
 
 package rmic;
+
 public interface PassImplInterface extends java.rmi.Remote {
     void method(BaseImpl arg) throws java.rmi.RemoteException;
 }
-

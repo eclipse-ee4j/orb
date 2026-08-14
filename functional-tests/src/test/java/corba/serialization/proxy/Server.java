@@ -35,11 +35,12 @@ public class Server {
             System.out.println("Server is ready.");
             System.out.flush();
             java.lang.Object sync = new java.lang.Object();
-            synchronized (sync) { sync.wait(); }
+            synchronized (sync) {
+                sync.wait();
+            }
         } catch (final Exception ex) {
             ex.printStackTrace();
             System.exit(1);
         }
     }
 }
-

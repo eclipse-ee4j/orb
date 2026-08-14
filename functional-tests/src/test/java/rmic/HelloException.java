@@ -24,10 +24,12 @@ public class HelloException extends java.lang.Exception {
 
     private int count;
 
-    public HelloException (int count, String message) {
+    public HelloException(int count, String message) {
         super(message);
         this.count = count;
     }
 
-    public int getCount () {return count;}
+    public int getCount() {
+        return count;
+    }
 }

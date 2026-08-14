@@ -30,17 +30,15 @@ import org.omg.PortableServer.*;
 import java.util.Properties;
 import com.sun.corba.ee.impl.misc.ORBUtility;
 
-class idlDynInvokeHelper
-{
+class idlDynInvokeHelper {
 
     public static boolean dprint = false;
 
     public static boolean throwSystemException = true;
 
-    static void invoke(ORB orb, ServerRequest r)
-    {
+    static void invoke(ORB orb, ServerRequest r) {
         try {
-            if (r.op_name().equals(C.syncOK) ) {
+            if (r.op_name().equals(C.syncOK)) {
 
                 // syncOK
 
@@ -60,7 +58,7 @@ class idlDynInvokeHelper
                 __result.insert_string(U.DSI(arg1));
                 r.set_result(__result);
 
-            } else if (r.op_name().equals(C.asyncOK) ) {
+            } else if (r.op_name().equals(C.asyncOK)) {
 
                 // asyncOK
 
@@ -79,7 +77,7 @@ class idlDynInvokeHelper
                 __return.type(orb.get_primitive_tc(TCKind.tk_void));
                 r.set_result(__return);
 
-            } else if (r.op_name().equals(C.throwUserException) ) {
+            } else if (r.op_name().equals(C.throwUserException)) {
 
                 // throwUserException
 
@@ -96,7 +94,7 @@ class idlDynInvokeHelper
                 r.set_exception(any);
                 return;
 
-            } else if (r.op_name().equals(C.throwSystemException) ) {
+            } else if (r.op_name().equals(C.throwSystemException)) {
 
                 // throwSystemException
 
@@ -134,7 +132,6 @@ class idlDynInvokeHelper
                 ORBUtility.insertSystemException(ex, any);
                 r.set_exception(any);
                 return;
-
 
             } else if (r.op_name().equals(C.throwUNKNOWN)) {
 

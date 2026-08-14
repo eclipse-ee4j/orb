@@ -25,26 +25,22 @@ import javax.naming.*;
 
 import java.io.*;
 
-public class Client
-{
-    public static void main(String args[])
-    {
+public class Client {
+    public static void main(String args[]) {
         FrobnicatorProvider test = null;
         try {
             Context initialNamingContext = new InitialContext();
             Object myLook = initialNamingContext.lookup("DynamicProxyBug1368");
 
-            //System.out.println("Lookup = " + initialNamingContext );
-            //System.out.println("LookObjType = " + myLook.getClass().getName() );
+            // System.out.println("Lookup = " + initialNamingContext );
+            // System.out.println("LookObjType = " + myLook.getClass().getName() );
 
-            //Obtain a stub for the remote object.
-            test = (FrobnicatorProvider)PortableRemoteObject.narrow(
-                             myLook ,
-                             FrobnicatorProvider.class);
+            // Obtain a stub for the remote object.
+            test = (FrobnicatorProvider) PortableRemoteObject.narrow(myLook, FrobnicatorProvider.class);
             Frobnicator frobnicator = test.getFrobnicator();
-            //toString operation will cause proxy invocation
-            //System.out.println("My frob= " + frobnicator);
-            //System.out.println("remoting..");
+            // toString operation will cause proxy invocation
+            // System.out.println("My frob= " + frobnicator);
+            // System.out.println("remoting..");
             frobnicator.frobnicate();
         } catch (Throwable t) {
             t.printStackTrace();

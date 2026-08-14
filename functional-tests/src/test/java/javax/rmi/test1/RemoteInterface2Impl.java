@@ -20,7 +20,7 @@
 
 package javax.rmi.test1;
 
-public  class RemoteInterface2Impl implements RemoteInterface2 {
+public class RemoteInterface2Impl implements RemoteInterface2 {
 
     public String EchoRemoteInterface1() throws java.rmi.RemoteException {
         return "EchoRemoteInterface1";

@@ -21,8 +21,7 @@ package corba.strm2;
 
 import java.io.Serializable;
 
-public interface Testable extends Serializable
-{
+public interface Testable extends Serializable {
     public String getDescription();
 
     public boolean equals(Object obj);

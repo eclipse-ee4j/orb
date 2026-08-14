@@ -19,29 +19,31 @@
 
 package corba.simpledynamic;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
-import corba.misc.BuckPasserAL  ;
-import corba.misc.BuckPasserV  ;
+import corba.misc.BuckPasserAL;
+import corba.misc.BuckPasserV;
 
 public interface Echo extends Remote {
-    String sayHello( Object obj ) throws RemoteException ;
+    String sayHello(Object obj) throws RemoteException;
 
-    Echo say( Echo obj ) throws RemoteException ;
+    Echo say(Echo obj) throws RemoteException;
 
-    String name() throws RemoteException ;
+    String name() throws RemoteException;
 
-    Object testExceptionContext() throws RemoteException ;
-    /** Can send enough data to force fragmentation
+    Object testExceptionContext() throws RemoteException;
+
+    /**
+     * Can send enough data to force fragmentation
      */
-    int[] echo( int[] arg ) throws RemoteException ;
+    int[] echo(int[] arg) throws RemoteException;
 
-    Object echo( Object obj ) throws RemoteException ;
+    Object echo(Object obj) throws RemoteException;
 
-    BuckPasserAL echo( BuckPasserAL arg ) throws RemoteException ;
-    BuckPasserV echo( BuckPasserV arg ) throws RemoteException ;
-    BuckPasserVectorOriginal echo( BuckPasserVectorOriginal arg ) throws RemoteException ;
+    BuckPasserAL echo(BuckPasserAL arg) throws RemoteException;
+
+    BuckPasserV echo(BuckPasserV arg) throws RemoteException;
+
+    BuckPasserVectorOriginal echo(BuckPasserVectorOriginal arg) throws RemoteException;
 }
-
-

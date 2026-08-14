@@ -20,18 +20,33 @@
 
 package alpha.bravo;
 
-public class PolarBear /*extends Warthog*/ {
+public class PolarBear /* extends Warthog */ {
 
     private int length;
     public int weight;
 
-    private PolarBear() {}
-    public PolarBear( int arg ) {}
-    public PolarBear(int length, int weight) {}
-    public int getSize() { return 0; }
-    private void test( int arg ) {}
-    public  void test( long arg ) {}
-    public int getWeight() { return 0; }
+    private PolarBear() {
+    }
+
+    public PolarBear(int arg) {
+    }
+
+    public PolarBear(int length, int weight) {
+    }
+
+    public int getSize() {
+        return 0;
+    }
+
+    private void test(int arg) {
+    }
+
+    public void test(long arg) {
+    }
+
+    public int getWeight() {
+        return 0;
+    }
 
     int a = 2;
     public final static int b = 3;

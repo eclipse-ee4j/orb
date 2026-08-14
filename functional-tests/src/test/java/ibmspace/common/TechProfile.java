@@ -20,17 +20,14 @@
 
 package ibmspace.common;
 
+public class TechProfile implements java.io.Serializable {
+    private int fRange;
+    private int fSpeed;
+    private int fWeapons;
+    private int fShields;
+    private int fMini;
 
-public class TechProfile implements java.io.Serializable
-{
-    private int     fRange;
-    private int     fSpeed;
-    private int     fWeapons;
-    private int     fShields;
-    private int     fMini;
-
-    public TechProfile (int r, int sp, int w, int sh, int m)
-    {
+    public TechProfile(int r, int sp, int w, int sh, int m) {
         fRange = r;
         fSpeed = sp;
         fWeapons = w;
@@ -38,39 +35,33 @@ public class TechProfile implements java.io.Serializable
         fMini = m;
     }
 
-    public int getRange ()
-    {
+    public int getRange() {
         return fRange;
     }
 
-    public int getSpeed ()
-    {
+    public int getSpeed() {
         return fSpeed;
     }
 
-    public int getWeapons ()
-    {
+    public int getWeapons() {
         return fWeapons;
     }
 
-    public int getShields ()
-    {
+    public int getShields() {
         return fShields;
     }
 
-    public int getMini ()
-    {
+    public int getMini() {
         return fMini;
     }
 
-    public String toString ()
-    {
+    public String toString() {
         String s = "(";
-        s += String.valueOf (fRange) + ",";
-        s += String.valueOf (fSpeed) + ",";
-        s += String.valueOf (fWeapons) + ",";
-        s += String.valueOf (fShields) + ",";
-        s += String.valueOf (fMini) + ",";
+        s += String.valueOf(fRange) + ",";
+        s += String.valueOf(fSpeed) + ",";
+        s += String.valueOf(fWeapons) + ",";
+        s += String.valueOf(fShields) + ",";
+        s += String.valueOf(fMini) + ",";
         s += ")";
         return s;
     }

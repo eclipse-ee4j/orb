@@ -25,8 +25,7 @@ import java.util.*;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 import com.sun.corba.ee.spi.orb.ORB;
 
-public class ORTRemoteTest extends CORBATest
-{
+public class ORTRemoteTest extends CORBATest {
     protected void doTest() throws Throwable {
 
         if (test.Test.useJavaSerialization()) {
@@ -34,14 +33,13 @@ public class ORTRemoteTest extends CORBATest
         }
 
         // try this one. the report dir was already set to gen/corba/rmipoacounter
-        Options.setOutputDirectory((String)getArgs().get(test.Test.OUTPUT_DIRECTORY));
+        Options.setOutputDirectory((String) getArgs().get(test.Test.OUTPUT_DIRECTORY));
         Options.addServerArg("-debug");
 
         Controller client = createClient("corba.ortremote.Test");
 
         client.start();
-        client.waitFor(120000) ;
+        client.waitFor(120000);
         client.stop();
     }
 }
-

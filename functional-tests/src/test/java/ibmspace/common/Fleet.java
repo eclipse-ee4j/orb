@@ -20,16 +20,18 @@
 
 package ibmspace.common;
 
+public interface Fleet extends Identifiable {
+    ID getID();
 
-public interface Fleet extends Identifiable
-{
-    ID          getID ();
-    ShipDesign  getDesign ();
-    int         getNumberInFleet ();
-    int         getMaximumRange ();
-    int         getCurrentRange ();
-    boolean     isOnJourney ();
-    String      toString ();
+    ShipDesign getDesign();
+
+    int getNumberInFleet();
+
+    int getMaximumRange();
+
+    int getCurrentRange();
+
+    boolean isOnJourney();
+
+    String toString();
 }
-
-

@@ -41,4 +41,3 @@ public class RmicTest extends CORBATest {
 }
 
 // End of file.
-

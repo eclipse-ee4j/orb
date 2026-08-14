@@ -35,9 +35,7 @@ import java.io.*;
 
 import ServerRequestInfo.*;
 
-public abstract class POAClient
-    extends ClientCommon
-{
+public abstract class POAClient extends ClientCommon {
     // The hello object to make invocations on.
     hello helloRef;
 
@@ -51,10 +49,7 @@ public abstract class POAClient
     hello helloChild2;
 
     // To be invoked after the orb is created by subclasses.
-    public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra)
-        throws Exception
-    {
+    public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         this.out = out;
         this.err = err;
 
@@ -63,100 +58,77 @@ public abstract class POAClient
     }
 
     void resolveReferences() throws Exception {
-        out.println( "    - Resolving Hello1..." );
+        out.println("    - Resolving Hello1...");
         // Look up reference to hello object on server:
-        helloRef = resolve( orb, "Hello1" );
-        out.println( "    - Resolved." );
+        helloRef = resolve(orb, "Hello1");
+        out.println("    - Resolved.");
 
-        out.println( "    - Resolving Hello1Forward..." );
-        helloRefForward = resolve( orb, "Hello1Forward" );
-        out.println( "    - Resolved." );
+        out.println("    - Resolving Hello1Forward...");
+        helloRefForward = resolve(orb, "Hello1Forward");
+        out.println("    - Resolved.");
 
-        out.println( "    - Resolving HelloChild1..." );
-        helloChild1 = resolve( orb, "HelloChild1" );
-        out.println( "    - Resolved." );
+        out.println("    - Resolving HelloChild1...");
+        helloChild1 = resolve(orb, "HelloChild1");
+        out.println("    - Resolved.");
 
-        out.println( "    - Resolving HelloChild2..." );
-        helloChild2 = resolve( orb, "HelloChild2" );
-        out.println( "    - Resolved." );
+        out.println("    - Resolving HelloChild2...");
+        helloChild2 = resolve(orb, "HelloChild2");
+        out.println("    - Resolved.");
     }
 
     String syncWithServer() throws Exception {
-        return helloRef.syncWithServer( exceptionRaised );
+        return helloRef.syncWithServer(exceptionRaised);
     }
 
     /**
      * Invoke the method with the given name on the object
      */
-    protected void invokeMethod( String methodName )
-        throws Exception
-    {
-        if( methodName.equals( "sayHello" ) ) {
+    protected void invokeMethod(String methodName) throws Exception {
+        if (methodName.equals("sayHello")) {
             helloRef.sayHello();
-        }
-        else if( methodName.equals( "child1.sayHello" ) ) {
+        } else if (methodName.equals("child1.sayHello")) {
             helloChild1.sayHello();
-        }
-        else if( methodName.equals( "child2.sayHello" ) ) {
+        } else if (methodName.equals("child2.sayHello")) {
             helloChild2.sayHello();
-        }
-        else if( methodName.equals( "sayOneway" ) ) {
+        } else if (methodName.equals("sayOneway")) {
             helloRef.sayOneway();
-        }
-        else if( methodName.equals( "saySystemException" ) ) {
+        } else if (methodName.equals("saySystemException")) {
             helloRef.saySystemException();
-        }
-        else if( methodName.equals( "child1.saySystemException" ) ) {
+        } else if (methodName.equals("child1.saySystemException")) {
             helloChild1.saySystemException();
-        }
-        else if( methodName.equals( "child2.saySystemException" ) ) {
+        } else if (methodName.equals("child2.saySystemException")) {
             helloChild2.saySystemException();
-        }
-        else if( methodName.equals( "sayUserException" ) ) {
+        } else if (methodName.equals("sayUserException")) {
             try {
                 helloRef.sayUserException();
-                out.println( "    - Did not catch ForwardRequest user " +
-                    "exception (error)" );
-                throw new RuntimeException(
-                    "Did not catch ForwardRequest user exception " +
-                    "on sayUserException" );
+                out.println("    - Did not catch ForwardRequest user " + "exception (error)");
+                throw new RuntimeException("Did not catch ForwardRequest user exception " + "on sayUserException");
+            } catch (ExampleException e) {
+                out.println("    - Caught ExampleException user " + "exception (ok)");
             }
-            catch( ExampleException e ) {
-                out.println( "    - Caught ExampleException user " +
-                    "exception (ok)" );
-            }
-        }
-        else if( methodName.equals( "sayInvokeAgain.sayHello" ) ) {
-            helloRef.sayInvokeAgain( INVOKE_SAY_HELLO.value );
-        }
-        else if( methodName.equals( "sayInvokeAgain.saySystemException" ) ) {
-            helloRef.sayInvokeAgain( INVOKE_SAY_SYSTEM_EXCEPTION.value );
-        }
-        else {
-            throw new RuntimeException( "Unknown method: '" +
-                methodName + "'" );
+        } else if (methodName.equals("sayInvokeAgain.sayHello")) {
+            helloRef.sayInvokeAgain(INVOKE_SAY_HELLO.value);
+        } else if (methodName.equals("sayInvokeAgain.saySystemException")) {
+            helloRef.sayInvokeAgain(INVOKE_SAY_SYSTEM_EXCEPTION.value);
+        } else {
+            throw new RuntimeException("Unknown method: '" + methodName + "'");
         }
     }
 
     /**
      * Implementation borrwed from corba.socket.HelloClient.java test
      */
-    static hello resolve(ORB orb, String name)
-        throws Exception
-    {
+    static hello resolve(ORB orb, String name) throws Exception {
         // Get the root naming context
-        org.omg.CORBA.Object objRef =
-            orb.resolve_initial_references("NameService");
+        org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
         NamingContext ncRef = NamingContextHelper.narrow(objRef);
 
         // resolve the Object Reference in Naming
         NameComponent nc = new NameComponent(name, "");
-        NameComponent path[] = {nc};
+        NameComponent path[] = { nc };
         hello helloRef = helloHelper.narrow(ncRef.resolve(path));
 
         return helloRef;
     }
 
-
 }
-

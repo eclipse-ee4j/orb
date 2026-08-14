@@ -19,4 +19,5 @@
 
 package hopper.h4515953;
 
-public interface TestInterface extends java.io.Serializable {}
+public interface TestInterface extends java.io.Serializable {
+}

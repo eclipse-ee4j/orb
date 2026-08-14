@@ -21,12 +21,9 @@ package corba.serialization.zerolengthstring;
 
 import corba.framework.*;
 
-public class ZeroLengthStringTest extends CORBATest
-{
-    protected void doTest() throws Throwable
-    {
-        Controller server = createServer(
-            "corba.serialization.zerolengthstring.MainTest");
+public class ZeroLengthStringTest extends CORBATest {
+    protected void doTest() throws Throwable {
+        Controller server = createServer("corba.serialization.zerolengthstring.MainTest");
 
         server.start();
 

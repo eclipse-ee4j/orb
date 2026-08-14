@@ -26,16 +26,13 @@ package corba.purgecalls;
 
 import corba.hcks.U;
 
-class ServerSideServant
-    extends
-        ServerSidePOA
-{
+class ServerSideServant extends ServerSidePOA {
     public static final String baseMsg = ServerSideServant.class.getName();
 
-    public ServerSideServant ( ) { }
+    public ServerSideServant() {
+    }
 
-    public void neverReturns ( )
-    {
+    public void neverReturns() {
         U.sop(baseMsg + ".neverReturns");
         try {
             Thread.sleep(Integer.MAX_VALUE);

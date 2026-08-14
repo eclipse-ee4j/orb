@@ -20,45 +20,39 @@
 
 package ibmspace.server;
 
+public class Technology implements Investment, java.io.Serializable {
+    private String fName;
+    private int fLevel;
+    private long fInvestment;
+    private long fRequiredInvestment;
 
-public class Technology implements Investment, java.io.Serializable
-{
-    private String      fName;
-    private int         fLevel;
-    private long        fInvestment;
-    private long        fRequiredInvestment;
+    static private int UNIT_INVESTMENT = 1000;
 
-    static private int  UNIT_INVESTMENT = 1000;
-
-    public Technology (String name, int initialLevel)
-    {
+    public Technology(String name, int initialLevel) {
         fName = name;
         fLevel = initialLevel;
         fInvestment = 0;
-        fRequiredInvestment = (fLevel+1) * UNIT_INVESTMENT;
+        fRequiredInvestment = (fLevel + 1) * UNIT_INVESTMENT;
     }
 
-    public String getName ()
-    {
+    public String getName() {
         return fName;
     }
 
-    public void invest (long investment)
-    {
-        // formula:  1. each level requires level* UNIT_INVESTMENT to reach
-        //           2. investments are dampened by a random percentage
+    public void invest(long investment) {
+        // formula: 1. each level requires level* UNIT_INVESTMENT to reach
+        // 2. investments are dampened by a random percentage
 
-        fInvestment += investment * Math.random () * 1.25;
-        if ( fInvestment >= fRequiredInvestment ) {
-            fLevel ++;
+        fInvestment += investment * Math.random() * 1.25;
+        if (fInvestment >= fRequiredInvestment) {
+            fLevel++;
             fInvestment -= fRequiredInvestment;
-            fRequiredInvestment = (fLevel+1) * UNIT_INVESTMENT;
+            fRequiredInvestment = (fLevel + 1) * UNIT_INVESTMENT;
         }
 
     }
 
-    public int getLevel ()
-    {
+    public int getLevel() {
         return fLevel;
     }
 

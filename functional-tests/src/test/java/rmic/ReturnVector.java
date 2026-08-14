@@ -19,6 +19,7 @@
  */
 
 package rmic;
+
 public interface ReturnVector extends java.rmi.Remote {
-    java.util.Vector getVector () throws java.rmi.RemoteException;
+    java.util.Vector getVector() throws java.rmi.RemoteException;
 }

@@ -17,9 +17,7 @@
  * Classpath-exception-2.0
  */
 
-package corba.dynamicrmiiiop.testclasses ;
+package corba.dynamicrmiiiop.testclasses;
 
-public class C6 extends C5 implements H
-{
+public class C6 extends C5 implements H {
 }
-

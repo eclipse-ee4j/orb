@@ -20,7 +20,6 @@
 
 package ibmspace.common;
 
-public interface Identifiable
-{
-    ID getID ();
+public interface Identifiable {
+    ID getID();
 }

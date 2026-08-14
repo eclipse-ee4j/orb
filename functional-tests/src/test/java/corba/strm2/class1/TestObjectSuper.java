@@ -19,8 +19,7 @@
 
 import java.io.*;
 
-public class TestObjectSuper implements Serializable
-{
+public class TestObjectSuper implements Serializable {
     private static final long serialVersionUID = 6234419445336614908L;
 
     private int dataS1;
@@ -35,30 +34,23 @@ public class TestObjectSuper implements Serializable
 
     public boolean equals(Object obj) {
         try {
-            TestObjectSuper other = (TestObjectSuper)obj;
+            TestObjectSuper other = (TestObjectSuper) obj;
             if (other == null)
                 return false;
 
-            return (defaultedValues() || other.defaultedValues()) ||
-                (dataS1 == other.dataS1 &&
-                 dataS2 == other.dataS2 &&
-                 dataS3.equals(other.dataS3));
+            return (defaultedValues() || other.defaultedValues())
+                    || (dataS1 == other.dataS1 && dataS2 == other.dataS2 && dataS3.equals(other.dataS3));
         } catch (ClassCastException cce) {
             return false;
         }
     }
 
     private boolean defaultedValues() {
-        return dataS1 == 0 && (int)dataS2 == 0 && dataS3 == null;
+        return dataS1 == 0 && (int) dataS2 == 0 && dataS3 == null;
     }
 
     public String toString() {
-        return
-            (super.getClass().equals(Object.class) ? "" : super.toString())
-            + " [TestObjectSuper dataS1=" + dataS1
-            + ", dataS2=" + (int)dataS2
-            + ", dataS3=" + dataS3
-            + "]";
+        return (super.getClass().equals(Object.class) ? "" : super.toString()) + " [TestObjectSuper dataS1=" + dataS1 + ", dataS2="
+                + (int) dataS2 + ", dataS3=" + dataS3 + "]";
     }
 }
-

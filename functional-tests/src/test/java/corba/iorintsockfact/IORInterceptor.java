@@ -47,49 +47,41 @@ import com.sun.corba.ee.spi.ior.iiop.AlternateIIOPAddressComponent;
 /**
  * @author Harold Carr
  */
-public class IORInterceptor
-    extends
-        org.omg.CORBA.LocalObject
-    implements
-        org.omg.PortableInterceptor.IORInterceptor
-{
-    private ORB orb ;
+public class IORInterceptor extends org.omg.CORBA.LocalObject implements org.omg.PortableInterceptor.IORInterceptor {
+    private ORB orb;
 
-    public IORInterceptor( ORB orb )
-    {
-        this.orb = orb ;
+    public IORInterceptor(ORB orb) {
+        this.orb = orb;
     }
 
     public final String baseMsg = IORInterceptor.class.getName();
-    public String name()    { return baseMsg; }
-    public void   destroy() { }
 
-    public void   establish_components(IORInfo iorInfo)
-    {
+    public String name() {
+        return baseMsg;
+    }
+
+    public void destroy() {
+    }
+
+    public void establish_components(IORInfo iorInfo) {
         try {
             IORInfoExt iorInfoExt = (IORInfoExt) iorInfo;
             ObjectAdapter adapter = iorInfoExt.getObjectAdapter();
 
             String localAddress = InetAddress.getLocalHost().getHostAddress();
-            int port =
-                iorInfoExt.getServerPort(ORBSocketFactory.IIOP_CLEAR_TEXT);
+            int port = iorInfoExt.getServerPort(ORBSocketFactory.IIOP_CLEAR_TEXT);
 
-            InetAddress[] allAddresses =
-                InetAddress.getAllByName(localAddress);
+            InetAddress[] allAddresses = InetAddress.getAllByName(localAddress);
 
             for (int i = 0; i < allAddresses.length; i++) {
                 String address = allAddresses[0].getHostAddress();
 
-                IIOPAddress iiopAddress =
-                    IIOPFactories.makeIIOPAddress(address, port);
-                AlternateIIOPAddressComponent iiopAddressComponent =
-                    IIOPFactories.makeAlternateIIOPAddressComponent(iiopAddress);
-                Iterator iterator = adapter.getIORTemplate().iteratorById(
-                    org.omg.IOP.TAG_INTERNET_IOP.value);
+                IIOPAddress iiopAddress = IIOPFactories.makeIIOPAddress(address, port);
+                AlternateIIOPAddressComponent iiopAddressComponent = IIOPFactories.makeAlternateIIOPAddressComponent(iiopAddress);
+                Iterator iterator = adapter.getIORTemplate().iteratorById(org.omg.IOP.TAG_INTERNET_IOP.value);
 
                 while (iterator.hasNext()) {
-                    TaggedProfileTemplate taggedProfileTemplate =
-                        (TaggedProfileTemplate) iterator.next();
+                    TaggedProfileTemplate taggedProfileTemplate = (TaggedProfileTemplate) iterator.next();
                     taggedProfileTemplate.add(iiopAddressComponent);
                 }
             }
@@ -100,17 +92,13 @@ public class IORInterceptor
     }
 
     // Thses are only necessary when running in current development workspace.
-    public void components_established( IORInfo iorInfo )
-    {
+    public void components_established(IORInfo iorInfo) {
     }
 
-    public void adapter_manager_state_changed( int managerId, short state )
-    {
+    public void adapter_manager_state_changed(int managerId, short state) {
     }
 
-    public void adapter_state_changed( ObjectReferenceTemplate[] templates,
-        short state )
-    {
+    public void adapter_state_changed(ObjectReferenceTemplate[] templates, short state) {
     }
 }
 

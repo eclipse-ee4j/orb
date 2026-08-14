@@ -33,11 +33,9 @@ import java.rmi.RemoteException;
  * @author Harold Carr
  */
 public interface EchoTest extends Remote {
-    public String echo(String x)
-        throws RemoteException;
+    public String echo(String x) throws RemoteException;
 
-    public void neverReturns()
-        throws RemoteException;
+    public void neverReturns() throws RemoteException;
 }
 
 // End of file.

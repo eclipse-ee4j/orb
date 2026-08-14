@@ -19,6 +19,7 @@
  */
 
 package rmic;
+
 public class NCIOException extends java.io.IOException {
     char J_foo;
     char _foo;

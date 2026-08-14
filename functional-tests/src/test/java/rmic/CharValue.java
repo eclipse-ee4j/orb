@@ -24,19 +24,19 @@ public class CharValue implements java.io.Serializable {
 
     char value;
 
-    public CharValue (char value) {
+    public CharValue(char value) {
         this.value = value;
     }
 
-    public char getValue () throws java.rmi.RemoteException {
+    public char getValue() throws java.rmi.RemoteException {
         return value;
     }
 
-    public int hashCode () {
+    public int hashCode() {
         return value;
     }
 
-    public boolean equals (Object it) {
+    public boolean equals(Object it) {
         boolean result = false;
         if (this == it) {
             result = true;
@@ -49,4 +49,3 @@ public class CharValue implements java.io.Serializable {
         return result;
     }
 }
-

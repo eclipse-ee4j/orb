@@ -23,19 +23,17 @@ import test.Test;
 import corba.framework.*;
 import java.util.*;
 
-public class ResolveDeadlockTest extends CORBATest
-{
+public class ResolveDeadlockTest extends CORBATest {
     private static String[] javaFiles = { "ResolveDeadlock.java" };
 
-    // This is the main method defining the test.  All tests
+    // This is the main method defining the test. All tests
     // should have this.
-    protected void doTest() throws Throwable
-    {
-        Options.setJavaFiles( javaFiles ) ;
+    protected void doTest() throws Throwable {
+        Options.setJavaFiles(javaFiles);
 
         compileJavaFiles();
 
-        Controller client = createClient( "corba.resolve_deadlock.ResolveDeadlock" ) ;
+        Controller client = createClient("corba.resolve_deadlock.ResolveDeadlock");
 
         client.start();
 
@@ -47,4 +45,3 @@ public class ResolveDeadlockTest extends CORBATest
         client.stop();
     }
 }
-

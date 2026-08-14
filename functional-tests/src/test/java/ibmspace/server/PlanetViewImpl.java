@@ -24,16 +24,11 @@ import java.awt.Point;
 import ibmspace.common.ID;
 import ibmspace.common.PlanetView;
 
+public class PlanetViewImpl implements PlanetView, java.io.Serializable {
+    private Player fPlayer;
+    private PlanetImpl fPlanet;
 
-
-public class PlanetViewImpl implements PlanetView, java.io.Serializable
-{
-    private Player        fPlayer;
-    private PlanetImpl    fPlanet;
-
-
-    public PlanetViewImpl (Player player, PlanetImpl planet)
-    {
+    public PlanetViewImpl(Player player, PlanetImpl planet) {
         fPlayer = player;
         fPlanet = planet;
     }
@@ -42,47 +37,39 @@ public class PlanetViewImpl implements PlanetView, java.io.Serializable
     // Planet Interface Methods
     //
 
-    public ID getID ()
-    {
-        return fPlanet.getID ();
+    public ID getID() {
+        return fPlanet.getID();
     }
 
-    public String getName ()
-    {
-        return fPlanet.getName ();
+    public String getName() {
+        return fPlanet.getName();
     }
 
-    public Point getCoordinates ()
-    {
-        return fPlanet.getCoordinates ();
+    public Point getCoordinates() {
+        return fPlanet.getCoordinates();
     }
 
-    public boolean hasSatelites ()
-    {
-        return fPlanet.hasSatelites ();
+    public boolean hasSatelites() {
+        return fPlanet.hasSatelites();
     }
-
 
     //
     // PlanetView Methods
     //
 
-    public boolean isOwned ()
-    {
-        return ( fPlayer == fPlanet.getOwner() );
+    public boolean isOwned() {
+        return (fPlayer == fPlanet.getOwner());
     }
 
-    public long getMetal ()
-    {
-        return fPlanet.getMetal ();
+    public long getMetal() {
+        return fPlanet.getMetal();
     }
 
-    public long getPopulation ()
-    {
-        if ( isOwned() ) {
-            Settlement settlement = fPlanet.getSettlement ();
-            if ( settlement != null ) {
-                return settlement.getPopulation().size ();
+    public long getPopulation() {
+        if (isOwned()) {
+            Settlement settlement = fPlanet.getSettlement();
+            if (settlement != null) {
+                return settlement.getPopulation().size();
             } else {
                 return 0;
             }
@@ -91,12 +78,11 @@ public class PlanetViewImpl implements PlanetView, java.io.Serializable
         }
     }
 
-    public long getIncome ()
-    {
-        if ( isOwned() ) {
-            Settlement settlement = fPlanet.getSettlement ();
-            if ( settlement != null ) {
-                return settlement.getIncome ();
+    public long getIncome() {
+        if (isOwned()) {
+            Settlement settlement = fPlanet.getSettlement();
+            if (settlement != null) {
+                return settlement.getIncome();
             } else {
                 return 0;
             }
@@ -105,32 +91,28 @@ public class PlanetViewImpl implements PlanetView, java.io.Serializable
         }
     }
 
-    public double getTemp ()
-    {
-        if ( isOwned() ) {
-            return fPlayer.getRelativeTempFor (fPlanet.getTemp());
+    public double getTemp() {
+        if (isOwned()) {
+            return fPlayer.getRelativeTempFor(fPlanet.getTemp());
         } else {
             return -1;
         }
     }
 
-    public double getGravity ()
-    {
-        if ( isOwned() ) {
-            return fPlayer.getRelativeGravityFor (fPlanet.getGravity());
+    public double getGravity() {
+        if (isOwned()) {
+            return fPlayer.getRelativeGravityFor(fPlanet.getGravity());
         } else {
             return -1;
         }
     }
 
-    public double getSuitability ()
-    {
-        if ( isOwned() ) {
-            return fPlanet.getSuitabilityFor (fPlayer);
+    public double getSuitability() {
+        if (isOwned()) {
+            return fPlanet.getSuitabilityFor(fPlayer);
         } else {
             return -1;
         }
     }
 
 }
-

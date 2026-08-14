@@ -32,22 +32,29 @@
 
 package alpha.bravo;
 
-public interface Wombat extends java.rmi.Remote,
-                                omega.Wallaby {
-    String  BLEAT_CONSTANT = "bleat";
-    int     BLINT_CONSTANT = 1;
-    void    chirp(int x)       throws java.rmi.RemoteException;
-    void    buzz()             throws java.rmi.RemoteException,
-    omega.MammalOverload;
-    int     getFoo()           throws java.rmi.RemoteException;
-    void    setFoo(int x)      throws java.rmi.RemoteException;
-    String  getURL()           throws java.rmi.RemoteException;
-    boolean isBoo()            throws java.rmi.RemoteException;
-    void    setBoo(boolean b)  throws java.rmi.RemoteException;
-    void    passRemote()       throws java.rmi.RemoteException;
-    java.rmi.Remote
-        passRemote( java.rmi.Remote r )
-        throws java.rmi.RemoteException;
-    int     getChirp()         throws java.rmi.RemoteException;
+public interface Wombat extends java.rmi.Remote, omega.Wallaby {
+    String BLEAT_CONSTANT = "bleat";
+    int BLINT_CONSTANT = 1;
+
+    void chirp(int x) throws java.rmi.RemoteException;
+
+    void buzz() throws java.rmi.RemoteException, omega.MammalOverload;
+
+    int getFoo() throws java.rmi.RemoteException;
+
+    void setFoo(int x) throws java.rmi.RemoteException;
+
+    String getURL() throws java.rmi.RemoteException;
+
+    boolean isBoo() throws java.rmi.RemoteException;
+
+    void setBoo(boolean b) throws java.rmi.RemoteException;
+
+    void passRemote() throws java.rmi.RemoteException;
+
+    java.rmi.Remote passRemote(java.rmi.Remote r) throws java.rmi.RemoteException;
+
+    int getChirp() throws java.rmi.RemoteException;
+
     boolean isBLINT_CONSTANT() throws java.rmi.RemoteException;
 }

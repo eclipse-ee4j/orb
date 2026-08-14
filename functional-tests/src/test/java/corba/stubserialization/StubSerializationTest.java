@@ -24,22 +24,19 @@ import corba.framework.*;
 import java.util.Properties;
 
 public class StubSerializationTest extends CORBATest {
-    protected void doTest() throws Throwable
-    {
+    protected void doTest() throws Throwable {
         Options.addServerArg("-debug");
         Controller orbd = createORBD();
 
         Properties serverProps = Options.getServerProperties();
 
-        Controller server = createServer(
-            "corba.stubserialization.Server");
+        Controller server = createServer("corba.stubserialization.Server");
 
         orbd.start();
 
         server.start();
 
-        Controller client = createClient(
-            "corba.stubserialization.Client");
+        Controller client = createClient("corba.stubserialization.Client");
 
         client.start();
 

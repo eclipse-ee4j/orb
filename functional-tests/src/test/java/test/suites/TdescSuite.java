@@ -42,14 +42,13 @@ import static org.junit.Assert.assertEquals;
 /**
  * Reports each entry of a .tdesc suite as its own JUnit test case.
  *
- * This is an accounting layer only. Running an entry still goes through {@code test.Test}, which
- * still forks the ORBD/server/client JVMs and synchronises with them over stdout handshakes
- * exactly as before -- what changes is that a result is now attributed to a named case instead of
- * being folded into one exit code for a whole suite.
+ * This is an accounting layer only. Running an entry still goes through {@code test.Test}, which still forks the
+ * ORBD/server/client JVMs and synchronises with them over stdout handshakes exactly as before -- what changes is that a
+ * result is now attributed to a named case instead of being folded into one exit code for a whole suite.
  *
- * Isolation matches the old harness. Surefire is configured with forkCount=1/reuseForks=false, so
- * each concrete subclass -- that is, each .tdesc file -- gets a fresh JVM, while the entries
- * within one file share it, which is what running {@code java test.Test -file <x>.tdesc} did.
+ * Isolation matches the old harness. Surefire is configured with forkCount=1/reuseForks=false, so each concrete
+ * subclass -- that is, each .tdesc file -- gets a fresh JVM, while the entries within one file share it, which is what
+ * running {@code java test.Test -file <x>.tdesc} did.
  *
  * Subclasses supply their .tdesc as a classpath resource:
  *
@@ -66,9 +65,9 @@ import static org.junit.Assert.assertEquals;
 public abstract class TdescSuite {
 
     /**
-     * The entry as written in the .tdesc, e.g. "corba.ior.IORTests" or
-     * "rmic.HelloTest -localservants -normic". Carried as its own parameter, and used as the
-     * JUnit case name, so results stay comparable to the historical harness output by name.
+     * The entry as written in the .tdesc, e.g. "corba.ior.IORTests" or "rmic.HelloTest -localservants -normic". Carried as
+     * its own parameter, and used as the JUnit case name, so results stay comparable to the historical harness output by
+     * name.
      */
     @Parameter(0)
     public String name;
@@ -86,9 +85,8 @@ public abstract class TdescSuite {
     }
 
     /**
-     * Parse a .tdesc into JUnit parameters. Only reads and tokenizes: no ORB is created and no
-     * process is launched here, so a failure during parameter discovery cannot leave servants
-     * behind for the {@link #cleanup()} below to miss.
+     * Parse a .tdesc into JUnit parameters. Only reads and tokenizes: no ORB is created and no process is launched here, so
+     * a failure during parameter discovery cannot leave servants behind for the {@link #cleanup()} below to miss.
      */
     protected static Collection<Object[]> entries(String resource) throws IOException {
         InputStream in = TdescSuite.class.getResourceAsStream(resource);
@@ -97,8 +95,7 @@ public abstract class TdescSuite {
         }
 
         List<Object[]> params = new ArrayList<Object[]>();
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(in, StandardCharsets.UTF_8));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
         try {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -131,9 +128,9 @@ public abstract class TdescSuite {
     }
 
     /**
-     * Create the output directories the harness expects, and fill in the runtime properties it
-     * needs. Ant's test-init target used to do the former and test.Test.main the latter; neither
-     * runs now, and JUnitReportHelper throws from its constructor if junit.report.dir is missing.
+     * Create the output directories the harness expects, and fill in the runtime properties it needs. Ant's test-init
+     * target used to do the former and test.Test.main the latter; neither runs now, and JUnitReportHelper throws from its
+     * constructor if junit.report.dir is missing.
      */
     @BeforeClass
     public static void prepareRuntime() throws IOException {
@@ -152,8 +149,9 @@ public abstract class TdescSuite {
 
     /**
      * Runs once after all entries of a suite, not once per entry: JUnit executes an inherited
-     * @AfterClass after the subclass's tests complete. This reproduces the cleanup that
-     * test.Test.main did in its finally block, without the System.exit that came with it.
+     * 
+     * @AfterClass after the subclass's tests complete. This reproduces the cleanup that test.Test.main did in its finally
+     * block, without the System.exit that came with it.
      */
     @AfterClass
     public static void cleanup() {

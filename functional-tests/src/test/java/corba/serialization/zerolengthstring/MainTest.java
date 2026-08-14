@@ -32,30 +32,28 @@ import javax.rmi.CORBA.Util;
 
 public class MainTest {
 
-    private static boolean runTest( String[] args ) {
+    private static boolean runTest(String[] args) {
         try {
-            ORB orb = ORB.init( args, null );
-            ClassWithZeroLengthStrings object =
-                new ClassWithZeroLengthStrings();
-            ClassWithZeroLengthStrings copiedObject =
-                (ClassWithZeroLengthStrings) Util.copyObject( object, orb );
+            ORB orb = ORB.init(args, null);
+            ClassWithZeroLengthStrings object = new ClassWithZeroLengthStrings();
+            ClassWithZeroLengthStrings copiedObject = (ClassWithZeroLengthStrings) Util.copyObject(object, orb);
             // After copying the object successfully, check to see if
             // the structure is the same as expected.
-            return copiedObject.validateObject( );
-        } catch ( Exception e ) {
-            System.err.println( "Exception " + e + " caught in runTest() " );
-            e.printStackTrace( );
+            return copiedObject.validateObject();
+        } catch (Exception e) {
+            System.err.println("Exception " + e + " caught in runTest() ");
+            e.printStackTrace();
             return false;
         }
     }
 
     public static void main(String[] args) {
         System.out.println("Server is ready.");
-        if ( runTest( args ) )
+        if (runTest(args))
             System.out.println("Test PASSED");
         else {
             System.out.println("Test FAILED");
-            System.exit(1) ;
+            System.exit(1);
         }
     }
 }

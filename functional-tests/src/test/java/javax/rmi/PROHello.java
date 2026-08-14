@@ -25,8 +25,12 @@ import java.rmi.RemoteException;
 
 public interface PROHello extends Remote {
     public static final String HELLO = "Hi!";
-    public String sayHello () throws RemoteException;
-    public Dog getDogValue () throws RemoteException;
-    public Dog getDogServer () throws RemoteException;
-    public void unexport () throws RemoteException;
+
+    public String sayHello() throws RemoteException;
+
+    public Dog getDogValue() throws RemoteException;
+
+    public Dog getDogServer() throws RemoteException;
+
+    public void unexport() throws RemoteException;
 }

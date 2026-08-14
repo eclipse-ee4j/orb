@@ -29,30 +29,25 @@ import org.omg.CORBA.ORB;
 import corba.framework.Controller;
 import corba.framework.Options;
 
-public class Server
-{
+public class Server {
     public static final String baseMsg = Server.class.getName();
     public static final String main = baseMsg + ".main";
 
-    public static void main(String[] av)
-    {
+    public static void main(String[] av) {
         try {
             System.out.println(main + " starting");
             System.out.println(main + " " + getBootstrapFilePathAndName());
 
             // Initialize the file.
             Properties props = new Properties();
-            ORB orb = ORB.init((String[])null, (Properties) null);
+            ORB orb = ORB.init((String[]) null, (Properties) null);
             org.omg.CORBA.Object o = new IServantConnect();
             orb.connect(o);
             props.put(Client.initialEntryName, orb.object_to_string(o));
             Client.writeProperties(props, getBootstrapFilePathAndName());
 
             // Set up args.
-            String[] args = { "-InitialServicesFile",
-                              getBootstrapFilePathAndName(),
-                              "-ORBInitialPort",
-                              Client.getORBInitialPort() };
+            String[] args = { "-InitialServicesFile", getBootstrapFilePathAndName(), "-ORBInitialPort", Client.getORBInitialPort() };
 
             ServerThread serverThread = new ServerThread(args);
             serverThread.start();
@@ -74,26 +69,21 @@ public class Server
         System.exit(Controller.SUCCESS);
     }
 
-    public static String getBootstrapFilePathAndName()
-    {
+    public static String getBootstrapFilePathAndName() {
         return
-            //Options.getOutputDirectory()
-            System.getProperty("output.dir")
-            + System.getProperty("file.separator")
-            + Client.bootstrapFilename;
+        // Options.getOutputDirectory()
+        System.getProperty("output.dir") + System.getProperty("file.separator") + Client.bootstrapFilename;
     }
 }
 
-class ServerThread extends Thread
-{
+class ServerThread extends Thread {
     String[] av;
-    ServerThread (String[] av)
-    {
+
+    ServerThread(String[] av) {
         this.av = av;
     }
 
-    public void run ()
-    {
+    public void run() {
         try {
             // Start server.
             com.sun.corba.ee.internal.CosNaming.BootstrapServer.main(av);
@@ -105,12 +95,9 @@ class ServerThread extends Thread
     }
 }
 
-class IServantConnect
-    extends
-        _IImplBase
-{
-    public void dummy(){}
+class IServantConnect extends _IImplBase {
+    public void dummy() {
+    }
 }
 
 // End of file.
-

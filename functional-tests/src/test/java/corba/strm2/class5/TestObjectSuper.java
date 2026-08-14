@@ -21,8 +21,7 @@ import java.io.*;
 import java.util.*;
 import java.math.*;
 
-public class TestObjectSuper implements Serializable
-{
+public class TestObjectSuper implements Serializable {
     private static final long serialVersionUID = 6234419445336614908L;
 
     private int dataS1;
@@ -38,7 +37,7 @@ public class TestObjectSuper implements Serializable
         dataS1 = 23910;
         dataS2 = '\u6A5F';
         dataS3 = new Long(999211L);
-        optDataS1 = new Double((double)24124.23121);
+        optDataS1 = new Double((double) 24124.23121);
         optDataS2 = 2412;
         optDataS3 = new BigInteger("982749812479812481242148998391", 10);
 
@@ -47,45 +46,31 @@ public class TestObjectSuper implements Serializable
     }
 
     public String toString() {
-        return
-            (super.getClass().equals(Object.class) ? "" : super.toString())
-            + " [TestObjectSuper dataS1=" + dataS1
-            + ", dataS2=" + (int)dataS2
-            + ", dataS3=" + dataS3
-            + ", optDataS1=" + optDataS1
-            + ", optDataS2=" + optDataS2
-            + ", optDataS3=" + optDataS3
-            + ", optDataS4=" + optDataS4
-            + "]";
+        return (super.getClass().equals(Object.class) ? "" : super.toString()) + " [TestObjectSuper dataS1=" + dataS1 + ", dataS2="
+                + (int) dataS2 + ", dataS3=" + dataS3 + ", optDataS1=" + optDataS1 + ", optDataS2=" + optDataS2 + ", optDataS3=" + optDataS3
+                + ", optDataS4=" + optDataS4 + "]";
     }
 
     private boolean defaultedValues() {
-        return dataS1 == 0 && (int)dataS2 == 0 && dataS3 == null;
+        return dataS1 == 0 && (int) dataS2 == 0 && dataS3 == null;
     }
 
     public boolean equals(Object obj) {
         try {
-            TestObjectSuper other = (TestObjectSuper)obj;
+            TestObjectSuper other = (TestObjectSuper) obj;
             if (other == null)
                 return false;
 
-            return (defaultedValues() || other.defaultedValues()) ||
-                (dataS1 == other.dataS1 &&
-                 dataS2 == other.dataS2 &&
-                 dataS3.equals(other.dataS3) &&
-                 optDataS1.equals(other.optDataS1) &&
-                 optDataS2 == other.optDataS2 &&
-                 optDataS3.equals(other.optDataS3) &&
-                 optDataS4.equals(other.optDataS4));
+            return (defaultedValues() || other.defaultedValues())
+                    || (dataS1 == other.dataS1 && dataS2 == other.dataS2 && dataS3.equals(other.dataS3) && optDataS1.equals(other.optDataS1)
+                            && optDataS2 == other.optDataS2 && optDataS3.equals(other.optDataS3) && optDataS4.equals(other.optDataS4));
 
         } catch (ClassCastException cce) {
             return false;
         }
     }
 
-    private void writeObject(java.io.ObjectOutputStream out)
-        throws IOException
-    {
+    private void writeObject(java.io.ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
 
         try {
@@ -103,9 +88,7 @@ public class TestObjectSuper implements Serializable
         out.writeObject(optDataS4);
     }
 
-    private void readObject(java.io.ObjectInputStream is)
-        throws IOException, ClassNotFoundException
-    {
+    private void readObject(java.io.ObjectInputStream is) throws IOException, ClassNotFoundException {
         System.out.println("TestObjectSuper readObject begin");
 
         is.defaultReadObject();
@@ -133,17 +116,15 @@ public class TestObjectSuper implements Serializable
             // Should throw this
         }
 
-
         System.out.println("Reading optional Double");
 
         try {
-            optDataS1 = (Double)is.readObject();
+            optDataS1 = (Double) is.readObject();
         } catch (OptionalDataException ode) {
             System.out.println("Defaulting");
             // Optional object data not present
-            optDataS1 = new Double((double)24124.23121);
+            optDataS1 = new Double((double) 24124.23121);
         }
-
 
         System.out.println("Reading optional int");
 
@@ -158,7 +139,7 @@ public class TestObjectSuper implements Serializable
         System.out.println("Reading optional BigInteger");
 
         try {
-            optDataS3 = (BigInteger)is.readObject();
+            optDataS3 = (BigInteger) is.readObject();
         } catch (OptionalDataException ode) {
             System.out.println("Defaulting");
             optDataS3 = new BigInteger("982749812479812481242148998391", 10);
@@ -167,7 +148,7 @@ public class TestObjectSuper implements Serializable
         System.out.println("Reading optional list");
 
         try {
-            optDataS4 = (List)is.readObject();
+            optDataS4 = (List) is.readObject();
         } catch (RuntimeException re) {
             re.printStackTrace();
             throw re;
@@ -188,4 +169,3 @@ public class TestObjectSuper implements Serializable
         System.out.println("TestObjectSuper readObject end");
     }
 }
-

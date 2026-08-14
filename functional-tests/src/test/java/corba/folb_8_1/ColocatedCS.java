@@ -27,8 +27,7 @@ package corba.folb_8_1;
 import java.util.Properties;
 import org.omg.CORBA.ORB;
 
-public class ColocatedCS
-{
+public class ColocatedCS {
     public static final String baseMsg = ColocatedCS.class.getName();
     public static final String main = baseMsg + ".main";
 
@@ -37,8 +36,7 @@ public class ColocatedCS
     public static boolean clientTwoRefs = false;
     public static java.lang.Object signal = new java.lang.Object();
 
-    public static void main (String[] av)
-    {
+    public static void main(String[] av) {
         isColocated = true; // Used by Client and Server.
 
         try {
@@ -46,8 +44,7 @@ public class ColocatedCS
             // So ClientDelegate.isLocal currently succeeds.
 
             Properties props = new Properties();
-            props.setProperty("com.sun.corba.ee.ORBAllowLocalOptimization",
-                              "true");
+            props.setProperty("com.sun.corba.ee.ORBAllowLocalOptimization", "true");
             Client.setProperties(props);
             Server.setProperties(props, Common.socketPorts);
             System.out.println(main + " : creating ORB.");
@@ -86,15 +83,14 @@ public class ColocatedCS
     }
 }
 
-class ServerThread extends Thread
-{
+class ServerThread extends Thread {
     String[] args;
-    ServerThread (String[] args)
-    {
+
+    ServerThread(String[] args) {
         this.args = args;
     }
-    public void run ()
-    {
+
+    public void run() {
         Server.main(args);
     }
 }

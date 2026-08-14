@@ -23,15 +23,12 @@ import test.Test;
 import corba.framework.*;
 import java.util.*;
 
-public class PCOSNamingTest extends CORBATest
-{
+public class PCOSNamingTest extends CORBATest {
     public static String[] idlFiles = { "hello.idl" };
 
-    public static String[] javaFiles = { "helloClient.java",
-                                         "helloServer.java" };
+    public static String[] javaFiles = { "helloClient.java", "helloServer.java" };
 
-    protected Controller newServerController()
-    {
+    protected Controller newServerController() {
         return new InternalExec();
     }
 
@@ -39,11 +36,10 @@ public class PCOSNamingTest extends CORBATest
     // controlled by the server (to test persistent references).
     //
     // To do this, the server is executed in the main test thread, not in a
-    // separate process.  It is passed the Controller objects for ORBD and
+    // separate process. It is passed the Controller objects for ORBD and
     // the client, so it can start them and stop them at the appropriate
     // times.
-    protected void doTest() throws Throwable
-    {
+    protected void doTest() throws Throwable {
         Options.addIDLCompilerArg("-fall");
         Options.addIDLCompilerArg("-oldImplBase");
         Options.setIDLFiles(idlFiles);
@@ -53,8 +49,7 @@ public class PCOSNamingTest extends CORBATest
         compileJavaFiles();
 
         Controller orbd = createORBD();
-        Controller client
-            = createClient("naming.pcosnaming.helloClient");
+        Controller client = createClient("naming.pcosnaming.helloClient");
 
         Object serverExtras[] = new Object[3];
 
@@ -62,8 +57,7 @@ public class PCOSNamingTest extends CORBATest
         serverExtra.put("orbd", orbd);
         serverExtra.put("client", client);
 
-        Controller server
-            = createServer("naming.pcosnaming.helloServer");
+        Controller server = createServer("naming.pcosnaming.helloServer");
 
         orbd.start();
 
@@ -83,4 +77,3 @@ public class PCOSNamingTest extends CORBATest
         orbd.stop();
     }
 }
-

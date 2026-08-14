@@ -19,6 +19,8 @@
  */
 
 package javax.rmi.download.values;
+
 public class DownloadA implements java.io.Serializable {
-    public class Inner {}
+    public class Inner {
+    }
 }

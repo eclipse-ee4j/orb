@@ -23,16 +23,13 @@ import test.Test;
 import corba.framework.*;
 import java.util.*;
 
-public class SimplePerfTest extends CORBATest
-{
-    protected Controller newClientController()
-    {
+public class SimplePerfTest extends CORBATest {
+    protected Controller newClientController() {
         return new InternalExec();
     }
 
-    protected void doTest() throws Throwable
-    {
-        Options.setOutputDirectory((String)getArgs().get(test.Test.OUTPUT_DIRECTORY));
+    protected void doTest() throws Throwable {
+        Options.setOutputDirectory((String) getArgs().get(test.Test.OUTPUT_DIRECTORY));
         Options.addServerArg("-debug");
 
         // Controller orbd = createORBD();
@@ -48,4 +45,3 @@ public class SimplePerfTest extends CORBATest
         // orbd.stop();
     }
 }
-

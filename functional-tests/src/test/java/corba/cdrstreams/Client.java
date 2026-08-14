@@ -22,23 +22,21 @@ package corba.cdrstreams;
 import javax.rmi.PortableRemoteObject;
 import org.omg.CosNaming.*;
 import org.omg.CORBA.*;
-import java.util.* ;
+import java.util.*;
 import java.rmi.RemoteException;
 import java.io.*;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
-import org.testng.annotations.Test ;
-import org.testng.annotations.BeforeSuite ;
+import org.testng.annotations.Test;
+import org.testng.annotations.BeforeSuite;
 
-import corba.framework.TestngRunner ;
+import corba.framework.TestngRunner;
 
-public class Client
-{
-    GraphProcessor processor ;
+public class Client {
+    GraphProcessor processor;
 
     @Test
-    public void testIndirection1() throws RemoteException, InvalidGraphException
-    {
+    public void testIndirection1() throws RemoteException, InvalidGraphException {
         System.out.println("---- testIndirection1 ----");
 
         Node start = new Node("start", new Vector());
@@ -55,18 +53,15 @@ public class Client
         processor.process(start);
     }
 
-    private void testObjectArray( java.lang.Object array[]) throws RemoteException, Exception
-    {
+    private void testObjectArray(java.lang.Object array[]) throws RemoteException, Exception {
         for (int i = 0; i < array.length; i++) {
             if (!array[i].equals(processor.verifyTransmission(array[i])))
-                throw new Exception("Object of type " + array[i].getClass().getName()
-                                    + "at index " + i + " failed verifyTransmission");
+                throw new Exception("Object of type " + array[i].getClass().getName() + "at index " + i + " failed verifyTransmission");
         }
     }
 
     @Test
-    public void testComplexHashtableTest() throws RemoteException, Exception
-    {
+    public void testComplexHashtableTest() throws RemoteException, Exception {
         System.out.println("---- complex Hashtable Test ----");
 
         Node a = createNode(1024, 'A');
@@ -98,16 +93,16 @@ public class Client
         complex.put(dStr, d);
         complex.put(eStr, e);
 
-        Hashtable result = (Hashtable)processor.verifyTransmission(complex);
+        Hashtable result = (Hashtable) processor.verifyTransmission(complex);
 
         if (result.size() != complex.size())
             throw new Exception("Result has fewer items: " + result.size());
 
-        Node resA = (Node)result.get(aStr);
-        Node resB = (Node)result.get(bStr);
-        Node resC = (Node)result.get(cStr);
-        Node resD = (Node)result.get(dStr);
-        Node resE = (Node)result.get(eStr);
+        Node resA = (Node) result.get(aStr);
+        Node resB = (Node) result.get(bStr);
+        Node resC = (Node) result.get(cStr);
+        Node resD = (Node) result.get(dStr);
+        Node resE = (Node) result.get(eStr);
 
         if (!a.equals(resA))
             throw new Exception("result a != a");
@@ -123,9 +118,7 @@ public class Client
         System.out.println("PASSED");
     }
 
-    public void simpleHashtableTest()
-        throws RemoteException, Exception
-    {
+    public void simpleHashtableTest() throws RemoteException, Exception {
         System.out.println("---- simple Hashtable Test ----");
 
         Hashtable simple = new Hashtable();
@@ -134,8 +127,8 @@ public class Client
         byte strBytes2[] = new byte[1024];
 
         for (int i = 0; i < 1024; i++) {
-            strBytes1[i] = (byte)'A';
-            strBytes2[i] = (byte)'B';
+            strBytes1[i] = (byte) 'A';
+            strBytes2[i] = (byte) 'B';
         }
 
         String one = new String(strBytes1);
@@ -146,15 +139,15 @@ public class Client
         simple.put(oneKey, one);
         simple.put(twoKey, two);
 
-        Hashtable result = (Hashtable)processor.verifyTransmission(simple);
+        Hashtable result = (Hashtable) processor.verifyTransmission(simple);
 
-        String oneTest = (String)result.get(oneKey);
+        String oneTest = (String) result.get(oneKey);
         if (oneTest == null)
             throw new Exception("String one not in result Hashtable");
         if (!one.equals(oneTest))
             throw new Exception("String one doesn't equal result string one");
 
-        String twoTest = (String)result.get(twoKey);
+        String twoTest = (String) result.get(twoKey);
         if (twoTest == null)
             throw new Exception("String two not in result Hashtable");
         if (!two.equals(twoTest))
@@ -164,8 +157,7 @@ public class Client
     }
 
     @Test
-    public void testCustomMarshalers() throws RemoteException, Exception
-    {
+    public void testCustomMarshalers() throws RemoteException, Exception {
         System.out.println("---- testCustomMarshalers ----");
 
         // First test a value with a good custom marshaler (one that
@@ -205,17 +197,12 @@ public class Client
         }
     }
 
-    private static class OverReader implements java.io.Serializable
-    {
-        private void writeObject(java.io.ObjectOutputStream out)
-            throws java.io.IOException
-        {
+    private static class OverReader implements java.io.Serializable {
+        private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
             out.defaultWriteObject();
         }
 
-        private void readObject(java.io.ObjectInputStream in)
-            throws java.io.IOException, ClassNotFoundException
-        {
+        private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
             in.defaultReadObject();
 
             // Try to read too much
@@ -224,9 +211,7 @@ public class Client
     }
 
     @Test
-    public void testLargeArray()
-        throws RemoteException, Exception
-    {
+    public void testLargeArray() throws RemoteException, Exception {
         System.out.println("---- testLargeArray ----");
 
         long bigArray[] = new long[32000];
@@ -236,19 +221,16 @@ public class Client
 
         java.lang.Object resultObj = processor.verifyTransmission(bigArray);
 
-        long testArray[] = (long[])resultObj;
+        long testArray[] = (long[]) resultObj;
 
         for (int i = 0; i < bigArray.length; i++)
             if (bigArray[i] != testArray[i])
-                throw new Exception("Array differed at index " + i
-                                    + " with values " + bigArray[i]
-                                    + " != " + testArray[i]);
+                throw new Exception("Array differed at index " + i + " with values " + bigArray[i] + " != " + testArray[i]);
 
         System.out.println("PASSED");
     }
 
-    public Node createNode(int valueSize, char filler)
-    {
+    public Node createNode(int valueSize, char filler) {
         char valueBuf[] = new char[valueSize];
 
         for (int i = 0; i < valueSize; i++)
@@ -258,9 +240,7 @@ public class Client
     }
 
     @Test
-    public void testIndirectionAndOffset()
-        throws RemoteException, InvalidGraphException, Exception
-    {
+    public void testIndirectionAndOffset() throws RemoteException, InvalidGraphException, Exception {
         System.out.println("---- testIndirectionAndOffset ----");
 
         Node start = createNode(500, 'A');
@@ -295,15 +275,15 @@ public class Client
         a1.links.add(a4);
 
         Node start2 = a1;
-        Node result2 = (Node)processor.verifyTransmission(start2);
+        Node result2 = (Node) processor.verifyTransmission(start2);
 
         if (!start2.equals(result2))
             throw new Exception("start2 did not equal result2");
 
-        Node xa2 = (Node)result2.links.get(0);
-        Node xa3 = (Node)xa2.links.get(0);
-        Node xa4 = (Node)xa3.links.get(0);
-        Node xa5 = (Node)xa4.links.get(0);
+        Node xa2 = (Node) result2.links.get(0);
+        Node xa3 = (Node) xa2.links.get(0);
+        Node xa4 = (Node) xa3.links.get(0);
+        Node xa5 = (Node) xa4.links.get(0);
 
         if (!a2.equals(xa2))
             throw new Exception("a2 did not equal xa2");
@@ -318,8 +298,7 @@ public class Client
     }
 
     @Test
-    public void testUserException() throws RemoteException, Exception
-    {
+    public void testUserException() throws RemoteException, Exception {
         System.out.println("---- testExceptionsAndReset ----");
 
         // User exceptions use mark/reset to peek the exception ID
@@ -332,17 +311,14 @@ public class Client
             throw new Exception("Didn't get InvalidGraphException!");
 
         } catch (InvalidGraphException ex) {
-            System.out.println("Successfully caught exception: "
-                               + ex);
+            System.out.println("Successfully caught exception: " + ex);
         }
 
         System.out.println("PASSED");
     }
 
-
     @Test
-    public void testMarkReset() throws RemoteException, Exception
-    {
+    public void testMarkReset() throws RemoteException, Exception {
         System.out.println("---- Testing mark and reset ----");
 
         Properties props = System.getProperties();
@@ -352,18 +328,15 @@ public class Client
 
         ORB orb = ORB.init(args, System.getProperties());
 
-        org.omg.CORBA.Object objRef =
-            orb.resolve_initial_references("NameService");
+        org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
         NamingContext ncRef = NamingContextHelper.narrow(objRef);
 
         NameComponent nc = new NameComponent("GraphProcessor", "");
-        NameComponent path[] = {nc};
+        NameComponent path[] = { nc };
 
         org.omg.CORBA.Object obj = ncRef.resolve(path);
 
-        processor =
-            (GraphProcessor) PortableRemoteObject.narrow(obj,
-                                                         GraphProcessor.class);
+        processor = (GraphProcessor) PortableRemoteObject.narrow(obj, GraphProcessor.class);
 
         MarkResetTester tester = new MarkResetTester(64);
 
@@ -373,31 +346,28 @@ public class Client
         System.out.println("PASSED");
     }
 
-    private static String[] args ;
+    private static String[] args;
 
     @BeforeSuite
     public void setup() throws Exception {
         ORB orb = ORB.init(args, System.getProperties());
 
-        org.omg.CORBA.Object objRef =
-            orb.resolve_initial_references("NameService");
+        org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
         NamingContext ncRef = NamingContextHelper.narrow(objRef);
 
         NameComponent nc = new NameComponent("GraphProcessor", "");
-        NameComponent path[] = {nc};
+        NameComponent path[] = { nc };
 
         org.omg.CORBA.Object obj = ncRef.resolve(path);
 
-        processor = (GraphProcessor) PortableRemoteObject.narrow(obj,
-            GraphProcessor.class);
+        processor = (GraphProcessor) PortableRemoteObject.narrow(obj, GraphProcessor.class);
     }
 
-    public static void main(String args[])
-    {
-        Client.args = args ;
-        TestngRunner runner = new TestngRunner() ;
-        runner.registerClass( Client.class ) ;
-        runner.run() ;
-        runner.systemExit() ;
+    public static void main(String args[]) {
+        Client.args = args;
+        TestngRunner runner = new TestngRunner();
+        runner.registerClass(Client.class);
+        runner.run();
+        runner.systemExit();
     }
 }

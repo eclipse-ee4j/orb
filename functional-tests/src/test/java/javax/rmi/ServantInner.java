@@ -28,10 +28,10 @@ import com.sun.org.omg.SendingContext.CodeBase;
 import rmic.OnlyRemoteServant;
 
 public class ServantInner implements SInner {
-    public ServantInner () throws RemoteException {
+    public ServantInner() throws RemoteException {
     }
 
-    public SInner echo (SInner in) throws RemoteException {
+    public SInner echo(SInner in) throws RemoteException {
         return in;
     }
 

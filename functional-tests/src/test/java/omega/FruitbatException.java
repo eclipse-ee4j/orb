@@ -22,8 +22,13 @@ package omega;
 
 public class FruitbatException extends MammalException {
 
-    public FruitbatException( String message, int count ) {}
-    public int getCount() { return 0; }
+    public FruitbatException(String message, int count) {
+    }
+
+    public int getCount() {
+        return 0;
+    }
+
     private int count;
 
 }

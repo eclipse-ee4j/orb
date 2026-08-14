@@ -31,51 +31,42 @@ public class Client implements Runnable {
         this.args = args;
     }
 
-    public void signalError () {
+    public void signalError() {
         System.exit(1);
     }
-
 
     public static void main(String args[]) {
         new Client(args).run();
     }
 
-    public void run()
-    {
+    public void run() {
         try {
-            Properties props = new Properties() ;
-            //props.setProperty( "com.sun.corba.ee.ORBDebug",
-                //"subcontract,transport,naming,serviceContext,transientObjectManager" ) ;
-            ORB orb = ORB.init( args, props );
+            Properties props = new Properties();
+            // props.setProperty( "com.sun.corba.ee.ORBDebug",
+            // "subcontract,transport,naming,serviceContext,transientObjectManager" ) ;
+            ORB orb = ORB.init(args, props);
 
-            String corbalocURL
-                = System.getProperty(TestConstants.URL_PROPERTY);
+            String corbalocURL = System.getProperty(TestConstants.URL_PROPERTY);
 
-            Object obj
-                = orb.string_to_object(corbalocURL);
+            Object obj = orb.string_to_object(corbalocURL);
 
-            if( obj == null ) {
-                System.err.println( "string_to_object(" +
-                    corbalocURL + ") failed.." );
+            if (obj == null) {
+                System.err.println("string_to_object(" + corbalocURL + ") failed..");
                 System.err.flush();
-                signalError ();
+                signalError();
             }
-            Hello helloRef = HelloHelper.narrow( obj );
-            String returnString = helloRef.sayHello( );
-            if( !returnString.equals( TestConstants.returnString ) ) {
-                System.err.println( " hello.sayHello() did not return.." +
-                    TestConstants.returnString );
-                System.err.flush( );
-                signalError( );
+            Hello helloRef = HelloHelper.narrow(obj);
+            String returnString = helloRef.sayHello();
+            if (!returnString.equals(TestConstants.returnString)) {
+                System.err.println(" hello.sayHello() did not return.." + TestConstants.returnString);
+                System.err.flush();
+                signalError();
             }
-            System.out.println( "INS Test Passed.." );
-        } catch (Exception e ) {
-             e.printStackTrace( System.err );
-             signalError( );
+            System.out.println("INS Test Passed..");
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            signalError();
         }
-        System.out.println("Thread "+ Thread.currentThread()+" done.");
+        System.out.println("Thread " + Thread.currentThread() + " done.");
     }
 }
-
-
-

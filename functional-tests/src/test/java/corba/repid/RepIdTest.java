@@ -30,8 +30,7 @@ import corba.framework.CORBATest;
 import corba.framework.*;
 
 public class RepIdTest extends CORBATest {
-    public static final String thisPackage =
-        RepIdTest.class.getPackage().getName();
+    public static final String thisPackage = RepIdTest.class.getPackage().getName();
 
     protected void doTest() throws Throwable {
         Controller client = createClient("corba.repid.Client");
@@ -45,4 +44,3 @@ public class RepIdTest extends CORBATest {
 }
 
 // End of file.
-

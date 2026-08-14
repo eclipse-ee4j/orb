@@ -24,9 +24,8 @@ import javax.rmi.PortableRemoteObject;
 import javax.naming.*;
 import java.util.*;
 
-public class Server
-{
-    private static InitialContext rootContext ;
+public class Server {
+    private static InitialContext rootContext;
 
     public static void main(String[] args) {
         try {
@@ -34,15 +33,14 @@ public class Server
             rootContext = new InitialContext();
 
             TesterImpl testerImpl = new TesterImpl();
-            rootContext.rebind(testerImpl.getDescription(),
-                               testerImpl);
+            rootContext.rebind(testerImpl.getDescription(), testerImpl);
 
             System.out.println("Server is ready.");
 
             // Stay alive so nothing strange happens to
             // the System streams
             Object synchObj = new Object();
-            synchronized(synchObj) {
+            synchronized (synchObj) {
                 synchObj.wait();
             }
 
@@ -52,4 +50,3 @@ public class Server
         }
     }
 }
-

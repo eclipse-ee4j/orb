@@ -19,9 +19,10 @@
 
 package corba.cdrstreams;
 
-public class InvalidGraphException extends java.lang.Exception
-{
-    public InvalidGraphException() {}
+public class InvalidGraphException extends java.lang.Exception {
+    public InvalidGraphException() {
+    }
+
     public InvalidGraphException(String msg) {
         super(msg);
     }

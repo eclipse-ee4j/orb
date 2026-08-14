@@ -17,12 +17,10 @@
  * Classpath-exception-2.0
  */
 
-package corba.dynamicrmiiiop.testclasses.exception ;
+package corba.dynamicrmiiiop.testclasses.exception;
 
-public class TestException extends Exception
-{
-    TestException( String msg )
-    {
-        super( msg ) ;
+public class TestException extends Exception {
+    TestException(String msg) {
+        super(msg);
     }
 }

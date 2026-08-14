@@ -25,21 +25,14 @@ import java.util.*;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 import org.omg.CORBA.*;
 
-public class ORBInitErrorTest
-    extends
-        CORBATest
-{
-    protected void doTest()
-        throws
-            Throwable
-    {
-        // The test does not use the ORBD.  However, when I did not
+public class ORBInitErrorTest extends CORBATest {
+    protected void doTest() throws Throwable {
+        // The test does not use the ORBD. However, when I did not
         // create and start it then the generated output test directory
         // was not created so the client failed when the framework was
         // creating its output files.
         Controller orbd = createORBD();
         orbd.start();
-
 
         Controller client = createClient("hopper.h4486041.Client");
         client.start();
@@ -50,5 +43,3 @@ public class ORBInitErrorTest
 }
 
 // End of file.
-
-

@@ -23,43 +23,35 @@ package javax.rmi.fvd;
 public class ServantImpl implements Servant {
 
     public String ping(String s) throws java.rmi.RemoteException {
-        return "ServantImpl:"+s;
+        return "ServantImpl:" + s;
     }
-
 
     public long send(ParentClass value) throws java.rmi.RemoteException {
         return value.getTotal();
     }
 
-    public ParentClass receiveMismatch(ParentClass value)
-        throws java.rmi.RemoteException {
-        try{
-            return (ParentClass)Class.forName("javax.rmi.download.values.ClientA").newInstance();
-        }
-        catch(Throwable t){
+    public ParentClass receiveMismatch(ParentClass value) throws java.rmi.RemoteException {
+        try {
+            return (ParentClass) Class.forName("javax.rmi.download.values.ClientA").newInstance();
+        } catch (Throwable t) {
             return null;
         }
     }
 
-    public ParentClass receiveABC(ParentClass value)
-        throws java.rmi.RemoteException {
-        try{
-            return (ParentClass)Class.forName("javax.rmi.download.values.ClassC").newInstance();
-        }
-        catch(Throwable t){
+    public ParentClass receiveABC(ParentClass value) throws java.rmi.RemoteException {
+        try {
+            return (ParentClass) Class.forName("javax.rmi.download.values.ClassC").newInstance();
+        } catch (Throwable t) {
             return null;
         }
     }
 
-    public ParentClass receiveAE(ParentClass value)
-        throws java.rmi.RemoteException {
-        try{
-            return (ParentClass)Class.forName("javax.rmi.download.values.ClassE").newInstance();
-        }
-        catch(Throwable t){
+    public ParentClass receiveAE(ParentClass value) throws java.rmi.RemoteException {
+        try {
+            return (ParentClass) Class.forName("javax.rmi.download.values.ClassE").newInstance();
+        } catch (Throwable t) {
             return null;
         }
     }
-
 
 }

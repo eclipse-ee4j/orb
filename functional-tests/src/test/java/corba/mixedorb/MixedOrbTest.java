@@ -23,23 +23,20 @@ import test.Test;
 import corba.framework.*;
 import java.util.*;
 
-public class MixedOrbTest extends CORBATest
-{
-    private static final String[] javaFiles = { "Client.java", "Echo.java",
-        "EchoImpl.java" }  ;
+public class MixedOrbTest extends CORBATest {
+    private static final String[] javaFiles = { "Client.java", "Echo.java", "EchoImpl.java" };
 
-    private static final String[] rmicClasses = { "corba.mixedorb.EchoImpl" } ;
+    private static final String[] rmicClasses = { "corba.mixedorb.EchoImpl" };
 
-    protected void doTest() throws Throwable
-    {
-        Options.setRMICClasses(rmicClasses) ;
-        Options.addRMICArgs( "-iiop -keep -g -poa" ) ;
-        Options.setJavaFiles( javaFiles ) ;
+    protected void doTest() throws Throwable {
+        Options.setRMICClasses(rmicClasses);
+        Options.addRMICArgs("-iiop -keep -g -poa");
+        Options.setJavaFiles(javaFiles);
 
         compileRMICFiles();
         compileJavaFiles();
 
-        Controller client = createClient( "corba.mixedorb.Client" ) ;
+        Controller client = createClient("corba.mixedorb.Client");
 
         client.start();
 
@@ -51,4 +48,3 @@ public class MixedOrbTest extends CORBATest
         client.stop();
     }
 }
-

@@ -17,18 +17,17 @@
  * Classpath-exception-2.0
  */
 
-package corba.lbq ;
+package corba.lbq;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
-/** One of these is implemented by Orchestrator for each server instance and
- * registered with the server.
+/**
+ * One of these is implemented by Orchestrator for each server instance and registered with the server.
  */
 public interface ServerReporter extends Remote {
-    /** Report that the server is about to responds to a request
-     * with the given requestNumber as its argument.
+    /**
+     * Report that the server is about to responds to a request with the given requestNumber as its argument.
      */
-    void requestReceived( int requestNumber ) throws RemoteException ;
+    void requestReceived(int requestNumber) throws RemoteException;
 }
-

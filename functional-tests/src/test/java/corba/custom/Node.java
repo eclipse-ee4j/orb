@@ -22,30 +22,25 @@ package corba.custom;
 import java.io.Serializable;
 import java.util.*;
 
-public class Node implements Serializable
-{
+public class Node implements Serializable {
     public String value;
     public Vector links;
 
-    public Node()
-    {
+    public Node() {
         value = "";
         links = new Vector();
     }
 
-    public Node(String value, Vector links)
-    {
+    public Node(String value, Vector links) {
         this.value = value;
         this.links = links;
     }
 
-    private boolean valueCompare(Node node1, Node node2)
-    {
+    private boolean valueCompare(Node node1, Node node2) {
         return node1.value.equals(node2.value);
     }
 
-    public static Node createNode(int valueSize, char filler)
-    {
+    public static Node createNode(int valueSize, char filler) {
         char valueBuf[] = new char[valueSize];
         Arrays.fill(valueBuf, filler);
 
@@ -53,15 +48,14 @@ public class Node implements Serializable
     }
 
     // Light equals method
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (obj == null)
             return false;
 
         if (!(obj instanceof Node))
             return false;
 
-        Node rt = (Node)obj;
+        Node rt = (Node) obj;
 
         if (!valueCompare(this, rt))
             return false;
@@ -70,8 +64,8 @@ public class Node implements Serializable
             return false;
 
         for (int i = 0; i < links.size(); i++) {
-            Node linkl = (Node)this.links.get(i);
-            Node linkr = (Node)rt.links.get(i);
+            Node linkl = (Node) this.links.get(i);
+            Node linkr = (Node) rt.links.get(i);
 
             if (!valueCompare(linkl, linkr))
                 return false;
@@ -82,4 +76,3 @@ public class Node implements Serializable
         return true;
     }
 }
-

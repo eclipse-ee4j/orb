@@ -24,25 +24,20 @@ import corba.framework.*;
 import java.util.*;
 
 /**
- * Tests IORInterceptor and IORInfo as per Portable Interceptors spec
- * orbos/99-12-02, Chapter 7.  See pi/assertions.html for Assertions
- * covered in this test.
+ * Tests IORInterceptor and IORInfo as per Portable Interceptors spec orbos/99-12-02, Chapter 7. See pi/assertions.html
+ * for Assertions covered in this test.
  */
-public class ORTTest extends CORBATest
-{
-    protected void doTest()
-        throws Throwable
-    {
-        Controller server = createServer( "pi.ort.Server" );
+public class ORTTest extends CORBATest {
+    protected void doTest() throws Throwable {
+        Controller server = createServer("pi.ort.Server");
 
         server.start();
 
         // NOTE: This sleep is required, there are some more tests that is
         // still running even after recievig "Server is Ready" handshake.
-        Thread.sleep( 80000 );
+        Thread.sleep(80000);
 
         server.stop();
 
     }
 }
-

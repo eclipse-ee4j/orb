@@ -31,45 +31,42 @@ import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.transport.Acceptor;
 import com.sun.corba.ee.spi.transport.TransportManager;
 import com.sun.corba.ee.spi.transport.ConnectionCache;
-import com.sun.corba.ee.spi.presentation.rmi.StubAdapter ;
+import com.sun.corba.ee.spi.presentation.rmi.StubAdapter;
 
 import corba.hcks.U;
 
-import org.glassfish.gmbal.GmbalException ;
-import org.glassfish.gmbal.AMXClient ;
-import org.glassfish.gmbal.ManagedObjectManager ;
+import org.glassfish.gmbal.GmbalException;
+import org.glassfish.gmbal.AMXClient;
+import org.glassfish.gmbal.ManagedObjectManager;
 
-public class ConnectionStatistics
-{
-    private final ORB orb ;
-    private final TransportManager ctm ;
+public class ConnectionStatistics {
+    private final ORB orb;
+    private final TransportManager ctm;
 
-    public ConnectionStatistics( ORB orb ) {
-        this.orb = orb ;
-        this.ctm = orb.getCorbaTransportManager() ;
+    public ConnectionStatistics(ORB orb) {
+        this.orb = orb;
+        this.ctm = orb.getCorbaTransportManager();
     }
 
-    private void handleAttribute( StringBuffer result, AMXClient amxc,
-        String attributeName ) {
+    private void handleAttribute(StringBuffer result, AMXClient amxc, String attributeName) {
 
         try {
-            Object value = amxc.getAttribute( attributeName ) ;
+            Object value = amxc.getAttribute(attributeName);
 
-            pac(result, attributeName + " " + value );
+            pac(result, attributeName + " " + value);
         } catch (GmbalException exc) {
             pac(result, "--------------------------------------------------");
-            pac(result, "ERROR: Missing: " + attributeName ) ;
+            pac(result, "ERROR: Missing: " + attributeName);
             pac(result, "--------------------------------------------------");
             System.exit(1);
         }
     }
 
-    private void handleConnectionCache( StringBuffer result,
-        ConnectionCache connectionCache ) {
+    private void handleConnectionCache(StringBuffer result, ConnectionCache connectionCache) {
 
         pac(result, connectionCache.getMonitoringName());
 
-        AMXClient amxc = orb.mom().getAMXClient( connectionCache ) ;
+        AMXClient amxc = orb.mom().getAMXClient(connectionCache);
         if (amxc == null) {
             pac(result, "--------------------------------------------------");
             pac(result, "ERROR: Missing: " + connectionCache.getMonitoringName());
@@ -77,34 +74,34 @@ public class ConnectionStatistics
             System.exit(1);
         }
 
-        handleAttribute( result, amxc, "totalconnections" ) ;
-        handleAttribute( result, amxc, "connectionsidle" ) ;
-        handleAttribute( result, amxc, "connectionsbusy" ) ;
+        handleAttribute(result, amxc, "totalconnections");
+        handleAttribute(result, amxc, "connectionsidle");
+        handleAttribute(result, amxc, "connectionsbusy");
     }
 
     public String outbound(String msg, ORB orb) {
-        ManagedObjectManager mom = orb.mom() ;
+        ManagedObjectManager mom = orb.mom();
 
         StringBuffer result = new StringBuffer("");
         pac(result, "==================================================");
         pac(result, msg + " OUTBOUND:");
 
-        for (ConnectionCache cache : ctm.getOutboundConnectionCaches() ) {
-            handleConnectionCache( result, cache ) ;
+        for (ConnectionCache cache : ctm.getOutboundConnectionCaches()) {
+            handleConnectionCache(result, cache);
         }
 
         return result.toString();
     }
 
     public String inbound(String msg, ORB orb) {
-        ManagedObjectManager mom = orb.mom() ;
+        ManagedObjectManager mom = orb.mom();
 
         StringBuffer result = new StringBuffer("");
         pac(result, "==================================================");
         pac(result, msg + " INBOUND:");
 
-        for (ConnectionCache cache : ctm.getInboundConnectionCaches() ) {
-            handleConnectionCache( result, cache ) ;
+        for (ConnectionCache cache : ctm.getInboundConnectionCaches()) {
+            handleConnectionCache(result, cache);
         }
 
         return result.toString();

@@ -22,14 +22,20 @@ package alpha.bravo;
 
 public interface DuckBill extends java.rmi.Remote {
 
-    public void hello()                  throws java.rmi.RemoteException;
-    public void hello( int x,B y,int z ) throws java.rmi.RemoteException;
-    public void hello( int z[] )         throws java.rmi.RemoteException;
-    public void hello( int z )           throws java.rmi.RemoteException;
-    public void hello( long z )          throws java.rmi.RemoteException;
+    public void hello() throws java.rmi.RemoteException;
+
+    public void hello(int x, B y, int z) throws java.rmi.RemoteException;
+
+    public void hello(int z[]) throws java.rmi.RemoteException;
+
+    public void hello(int z) throws java.rmi.RemoteException;
+
+    public void hello(long z) throws java.rmi.RemoteException;
 
     public void jack() throws java.rmi.RemoteException;
+
     public void Jack() throws java.rmi.RemoteException;
+
     public void jAcK() throws java.rmi.RemoteException;
 
 }

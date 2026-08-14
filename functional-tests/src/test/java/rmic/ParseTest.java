@@ -24,7 +24,7 @@ package rmic;
 import org.glassfish.rmic.iiop.Constants;
 import org.glassfish.rmic.tools.java.ClassPath;
 
-import corba.framework.TestngRunner ;
+import corba.framework.TestngRunner;
 
 public class ParseTest extends test.Test implements Constants {
     public static ClassPath createClassPath() {
@@ -44,11 +44,11 @@ public class ParseTest extends test.Test implements Constants {
         return org.glassfish.rmic.BatchEnvironment.createClassPath(path, null);
     }
 
-    public void run( ) {
-        TestngRunner runner = new TestngRunner() ;
-        runner.registerClass( TestExecutor.class ) ;
-        runner.run() ;
+    public void run() {
+        TestngRunner runner = new TestngRunner();
+        runner.registerClass(TestExecutor.class);
+        runner.run();
         if (runner.hasFailure())
-            status = new Error( "test failed" ) ;
+            status = new Error("test failed");
     }
 }

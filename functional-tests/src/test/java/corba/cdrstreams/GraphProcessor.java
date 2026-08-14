@@ -19,17 +19,13 @@
 
 package corba.cdrstreams;
 
-import java.rmi.Remote ;
-import java.rmi.RemoteException ;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
-public interface GraphProcessor extends java.rmi.Remote
-{
-    public void process(Node graphStart)
-        throws RemoteException, InvalidGraphException;
+public interface GraphProcessor extends java.rmi.Remote {
+    public void process(Node graphStart) throws RemoteException, InvalidGraphException;
 
-    public Object verifyTransmission(Object input)
-        throws RemoteException;
+    public Object verifyTransmission(Object input) throws RemoteException;
 
-    public boolean receiveObject(Object input)
-        throws RemoteException;
+    public boolean receiveObject(Object input) throws RemoteException;
 }

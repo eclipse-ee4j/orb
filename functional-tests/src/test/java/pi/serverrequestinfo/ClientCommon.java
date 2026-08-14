@@ -35,9 +35,7 @@ import java.io.*;
 
 import ServerRequestInfo.*;
 
-public abstract class ClientCommon
-    implements InternalProcess
-{
+public abstract class ClientCommon implements InternalProcess {
 
     // Set in run()
     com.sun.corba.ee.spi.orb.ORB orb;
@@ -54,17 +52,15 @@ public abstract class ClientCommon
     /**
      * Creates a com.sun.corba.ee.spi.orb.ORB and notifies the TestInitializer of its presence
      */
-    void createORB( String[] args ) {
+    void createORB(String[] args) {
         // create the ORB without an initializer
-        Properties props = new Properties() ;
-        props.put( "org.omg.CORBA.ORBClass",
-                   System.getProperty("org.omg.CORBA.ORBClass"));
-        this.orb = (com.sun.corba.ee.spi.orb.ORB)ORB.init(args, props);
+        Properties props = new Properties();
+        props.put("org.omg.CORBA.ORBClass", System.getProperty("org.omg.CORBA.ORBClass"));
+        this.orb = (com.sun.corba.ee.spi.orb.ORB) ORB.init(args, props);
     }
 
     /**
-     * Re-resolves all references to eliminate any cached ForwardRequests
-     * from the last invocation.
+     * Re-resolves all references to eliminate any cached ForwardRequests from the last invocation.
      */
     abstract void resolveReferences() throws Exception;
 
@@ -76,15 +72,14 @@ public abstract class ClientCommon
     /**
      * Invoke the method with the given name on the object
      */
-    abstract protected void invokeMethod( String methodName ) throws Exception;
+    abstract protected void invokeMethod(String methodName) throws Exception;
 
     /**
-     * Wait for server to give us the name of a method to execute, and then
-     * execute that method.  Repeat the process until the server tells us
-     * to execute a method called "exit."
+     * Wait for server to give us the name of a method to execute, and then execute that method. Repeat the process until
+     * the server tells us to execute a method called "exit."
      */
     void obeyServer() throws Exception {
-        out.println( "+ Obeying commands from server." );
+        out.println("+ Obeying commands from server.");
 
         String methodName;
         do {
@@ -94,28 +89,25 @@ public abstract class ClientCommon
 
             // Synchronize with the server and get the name of the
             // method to invoke.:
-            out.println( "    - Syncing with server..." +
-                new Date().toString() );
+            out.println("    - Syncing with server..." + new Date().toString());
             methodName = syncWithServer();
-            out.println( "    - Synced with server at " +
-                new Date().toString() );
+            out.println("    - Synced with server at " + new Date().toString());
 
             // Execute the appropriate method on the hello object:
-            out.println( "    - Executing method " + methodName + "..." );
+            out.println("    - Executing method " + methodName + "...");
             exceptionRaised = false;
-            if( !methodName.equals( ServerCommon.EXIT_METHOD ) ) {
+            if (!methodName.equals(ServerCommon.EXIT_METHOD)) {
                 try {
-                    invokeMethod( methodName );
-                }
-                catch( IMP_LIMIT e ) {
+                    invokeMethod(methodName);
+                } catch (IMP_LIMIT e) {
                     exceptionRaised = true;
-                    out.println( "      + Received IMP_LIMIT exception" );
+                    out.println("      + Received IMP_LIMIT exception");
                 }
             }
 
-        } while( !methodName.equals( ServerCommon.EXIT_METHOD ) );
+        } while (!methodName.equals(ServerCommon.EXIT_METHOD));
 
-        out.println( "    - Exit detected.  No longer obeying server." );
+        out.println("    - Exit detected.  No longer obeying server.");
     }
 
 }

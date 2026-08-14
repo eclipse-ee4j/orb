@@ -26,193 +26,168 @@ import ibmspace.common.Fleet;
 import ibmspace.common.Planet;
 import ibmspace.common.Journey;
 
-
-public class FleetImpl implements Fleet, java.io.Serializable
-{
-    private ID          fID;
-    private ShipDesign  fDesign;
-    private int         fId;
-    private int         fShipsInFleet;
-    private Player      fOwner;
-    private int         fDamageLevel;
-    private int         fFuelLevel;
-    private PlanetImpl  fStation;
+public class FleetImpl implements Fleet, java.io.Serializable {
+    private ID fID;
+    private ShipDesign fDesign;
+    private int fId;
+    private int fShipsInFleet;
+    private Player fOwner;
+    private int fDamageLevel;
+    private int fFuelLevel;
+    private PlanetImpl fStation;
     private JourneyImpl fJourney;
 
-    public FleetImpl (ShipDesign design, int shipsInFleet, Player owner)
-    {
-        fID = new ID ();
+    public FleetImpl(ShipDesign design, int shipsInFleet, Player owner) {
+        fID = new ID();
         fDesign = design;
         fShipsInFleet = shipsInFleet;
         fOwner = owner;
         fStation = null;
         fJourney = null;
-        replentishFuel ();
+        replentishFuel();
     }
 
     //
     // Fleet Interface Methods
     //
 
-    public ID getID ()
-    {
+    public ID getID() {
         return fID;
     }
 
-    public ShipDesign getDesign ()
-    {
+    public ShipDesign getDesign() {
         return fDesign;
     }
 
-    public int getNumberInFleet ()
-    {
+    public int getNumberInFleet() {
         return fShipsInFleet;
     }
 
-    public int getMaximumRange ()
-    {
-        return fDesign.getTechProfile().getRange ();
+    public int getMaximumRange() {
+        return fDesign.getTechProfile().getRange();
     }
 
-    public int getCurrentRange ()
-    {
-        if ( isSatelite() )
+    public int getCurrentRange() {
+        if (isSatelite())
             return 0;
         else
             return fFuelLevel;
     }
 
-    public boolean isOnJourney ()
-    {
-        return ( fJourney == null ? false : true );
+    public boolean isOnJourney() {
+        return (fJourney == null ? false : true);
     }
 
-    public String toString ()
-    {
-        String s = String.valueOf (fShipsInFleet);
-        s += " " + fDesign.getName ();
+    public String toString() {
+        String s = String.valueOf(fShipsInFleet);
+        s += " " + fDesign.getName();
 
-        switch ( fDesign.getType () ) {
-        case ShipDesign.COLONY_SHIP:
-            s += " Colony Ship ";
-            break;
-        case ShipDesign.SCOUT:
-            s += " Scout ";
-            break;
-        case ShipDesign.FIGHTER:
-            s += " Fighter ";
-            break;
-        case ShipDesign.SATELITE:
-            s += " Satelite ";
-            break;
+        switch (fDesign.getType()) {
+            case ShipDesign.COLONY_SHIP:
+                s += " Colony Ship ";
+                break;
+            case ShipDesign.SCOUT:
+                s += " Scout ";
+                break;
+            case ShipDesign.FIGHTER:
+                s += " Fighter ";
+                break;
+            case ShipDesign.SATELITE:
+                s += " Satelite ";
+                break;
         }
 
         s += fDesign.getTechProfile().toString();
-        s += " " + String.valueOf (getCurrentRange());
+        s += " " + String.valueOf(getCurrentRange());
 
-        if ( isOnJourney() ) {
+        if (isOnJourney()) {
             s += " *";
         }
 
         return s;
     }
 
-
     //
     // FleetImpl Methods
     //
 
-    public Player getOwner ()
-    {
+    public Player getOwner() {
         return fOwner;
     }
 
-    public PlanetImpl getStation ()
-    {
+    public PlanetImpl getStation() {
         return fStation;
     }
 
-    public JourneyImpl getJourney ()
-    {
+    public JourneyImpl getJourney() {
         return fJourney;
     }
 
-    public void setStation (PlanetImpl station)
-    {
+    public void setStation(PlanetImpl station) {
         fStation = station;
     }
 
-    public void setJourney (JourneyImpl journey)
-    {
+    public void setJourney(JourneyImpl journey) {
         fJourney = journey;
     }
 
-    public int getShipsInFleet ()
-    {
+    public int getShipsInFleet() {
         return fShipsInFleet;
     }
 
-    public int getSpeed ()
-    {
-        return fDesign.getTechProfile().getSpeed ();
+    public int getSpeed() {
+        return fDesign.getTechProfile().getSpeed();
     }
 
-    public boolean isColonyShip ()
-    {
-        if ( fDesign.getType() == ShipDesign.COLONY_SHIP )
+    public boolean isColonyShip() {
+        if (fDesign.getType() == ShipDesign.COLONY_SHIP)
             return true;
         else
             return false;
     }
 
-    public boolean isFighter ()
-    {
-        if ( fDesign.getType() == ShipDesign.FIGHTER )
+    public boolean isFighter() {
+        if (fDesign.getType() == ShipDesign.FIGHTER)
             return true;
         else
             return false;
     }
 
-    public boolean isSatelite ()
-    {
-        if ( fDesign.getType() == ShipDesign.SATELITE )
+    public boolean isSatelite() {
+        if (fDesign.getType() == ShipDesign.SATELITE)
             return true;
         else
             return false;
     }
 
-    public void move (int distance)
-    {
+    public void move(int distance) {
         fFuelLevel -= distance;
-        fFuelLevel = Math.max (fFuelLevel, 0);
+        fFuelLevel = Math.max(fFuelLevel, 0);
     }
 
-    public void replentishFuel ()
-    {
-        fFuelLevel = getMaximumRange ();
+    public void replentishFuel() {
+        fFuelLevel = getMaximumRange();
     }
 
-    public long getScrapMetal ()
-    {
+    public long getScrapMetal() {
         return fDesign.getScrapMetalPerShip() * fShipsInFleet;
     }
 
-    public int getStrenth ()
-    {
+    public int getStrenth() {
         int s = fDesign.getTechProfile().getWeapons() * fShipsInFleet;
-        if ( isFighter() ) s = (int)(s * 1.5);
+        if (isFighter())
+            s = (int) (s * 1.5);
         return s;
     }
 
-    public int getResistance ()
-    {
+    public int getResistance() {
         int r = fDesign.getTechProfile().getShields() * fShipsInFleet;
-        if ( isSatelite() ) r = (int)(r * 1.5);
+        if (isSatelite())
+            r = (int) (r * 1.5);
         return r;
     }
 
-    public int getDamageLevel ()
-    {
+    public int getDamageLevel() {
         return fDamageLevel;
     }
 

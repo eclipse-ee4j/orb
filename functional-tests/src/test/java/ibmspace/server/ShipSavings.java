@@ -20,60 +20,47 @@
 
 package ibmspace.server;
 
+public class ShipSavings implements Investment, java.io.Serializable {
+    private long fSavings;
+    private double fInterestRate;
 
-public class ShipSavings implements Investment, java.io.Serializable
-{
-    private long    fSavings;
-    private double  fInterestRate;
-
-    public ShipSavings (long initial)
-    {
+    public ShipSavings(long initial) {
         fSavings = initial;
         fInterestRate = 0.07;
     }
 
-    public ShipSavings ()
-    {
+    public ShipSavings() {
         fSavings = 0;
         fInterestRate = 0.07;
     }
 
-    public String getName ()
-    {
+    public String getName() {
         return "Ship Savings";
     }
 
-    public void setInterestRate (double rate)
-    {
+    public void setInterestRate(double rate) {
         fInterestRate = rate;
     }
 
-    public double getInterestRate ()
-    {
+    public double getInterestRate() {
         return fInterestRate;
     }
 
-    public long computeInterest ()
-    {
-        return (long)(fSavings * fInterestRate);
+    public long computeInterest() {
+        return (long) (fSavings * fInterestRate);
     }
 
-    public void invest (long investment)
-    {
-        fSavings += computeInterest ();
+    public void invest(long investment) {
+        fSavings += computeInterest();
         fSavings += investment;
     }
 
-    public long getSavings ()
-    {
+    public long getSavings() {
         return fSavings;
     }
 
-    public void withdraw (long amount)
-    {
+    public void withdraw(long amount) {
         fSavings -= amount;
     }
-
-
 
 }

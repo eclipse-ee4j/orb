@@ -17,147 +17,150 @@
  * Classpath-exception-2.0
  */
 
-package corba.lbq ;
+package corba.lbq;
 
 import org.glassfish.pfl.basic.func.UnaryFunction;
 
 public class CommandQueue {
-    private Command end ; // always points to sink
-    private Command head ; // points to last command before sink
-    private Command tail ; // points to first command to evaluate
+    private Command end; // always points to sink
+    private Command head; // points to last command before sink
+    private Command tail; // points to first command to evaluate
 
-    public interface Event { }
+    public interface Event {
+    }
 
     public interface Command extends UnaryFunction<Event, Command> {
-        void setNext( Command next ) ;
+        void setNext(Command next);
     }
 
     public static abstract class CommandBase implements Command {
-        protected Command next = null ;
+        protected Command next = null;
 
-        public void setNext( Command next ) {
-            this.next = next ;
+        public void setNext(Command next) {
+            this.next = next;
         }
 
-        public Command evaluate( Event ev ) {
-            action( ev ) ;
-            return next ;
+        public Command evaluate(Event ev) {
+            action(ev);
+            return next;
         }
 
-        protected void action( Event ev ) {
+        protected void action(Event ev) {
         }
     }
 
     private static class Sink extends CommandBase {
         public Sink() {
-            setNext( this ) ;
+            setNext(this);
         }
     }
 
     public class Delay extends CommandBase {
-        private int count ;
+        private int count;
 
-        /** Do nothing the first numEvents calls.
+        /**
+         * Do nothing the first numEvents calls.
          */
-        public Delay( int numEvents ) {
-            this.count = numEvents ;
+        public Delay(int numEvents) {
+            this.count = numEvents;
         }
 
-        public Command evaluate( Event ev ) {
-            count-- ;
+        public Command evaluate(Event ev) {
+            count--;
             if (count == 0)
-                return next ;
-            return this ;
+                return next;
+            return this;
         }
     }
 
     public CommandQueue() {
-        end = new Sink() ;
-        tail = end ;
-        head = end ;
+        end = new Sink();
+        tail = end;
+        head = end;
     }
 
-    private void doAdd( Command cmd ) {
+    private void doAdd(Command cmd) {
         if (tail == end) {
-            head = cmd ;
+            head = cmd;
         } else {
-            tail.setNext( cmd ) ;
+            tail.setNext(cmd);
         }
 
-        tail = cmd ;
-        cmd.setNext( end ) ;
+        tail = cmd;
+        cmd.setNext(end);
     }
 
-    /** Add this command to the queue.  This command must be
-     * triggered (by event()) count times before it calls cmd.
-     * If count == 0, the first event() will execute cmd.
+    /**
+     * Add this command to the queue. This command must be triggered (by event()) count times before it calls cmd. If count
+     * == 0, the first event() will execute cmd.
      */
-    public void add( int count, Command cmd ) {
+    public void add(int count, Command cmd) {
         if (count > 0)
-            doAdd( new Delay( count ) ) ;
-        doAdd( cmd ) ;
+            doAdd(new Delay(count));
+        doAdd(cmd);
     }
 
-    public void event( Event ev ) {
-        head = head.evaluate( ev ) ;
+    public void event(Event ev) {
+        head = head.evaluate(ev);
         if (head == end)
-            tail = end ;
+            tail = end;
     }
 
-    private static void p( String msg ) {
-        System.out.println( msg ) ;
+    private static void p(String msg) {
+        System.out.println(msg);
     }
 
     private static class Display extends CommandBase {
-        String msg ;
+        String msg;
 
-        public Display( String msg ) {
-            this.msg = msg ;
+        public Display(String msg) {
+            this.msg = msg;
         }
 
-        public void action( Event ev ) {
-            p( msg ) ;
+        public void action(Event ev) {
+            p(msg);
         }
     }
 
-    public static void main( String[] args ) {
-        p( "Testing CommandQueue" ) ;
-        CommandQueue cq = new CommandQueue() ;
-        Event ev = new Event() {} ;
-        cq.event( ev ) ; // should do nothing
-        cq.event( ev ) ; // should do nothing
+    public static void main(String[] args) {
+        p("Testing CommandQueue");
+        CommandQueue cq = new CommandQueue();
+        Event ev = new Event() {
+        };
+        cq.event(ev); // should do nothing
+        cq.event(ev); // should do nothing
 
-        Command d1 = new Display( "Display 1" ) ;
-        Command d2 = new Display( "Display 2" ) ;
-        Command d3 = new Display( "Display 3" ) ;
-        Command d4 = new Display( "Display 4" ) ;
+        Command d1 = new Display("Display 1");
+        Command d2 = new Display("Display 2");
+        Command d3 = new Display("Display 3");
+        Command d4 = new Display("Display 4");
 
-        cq.add( 0, d1 ) ;
-        cq.add( 5, d2 ) ;
-        cq.add( 8, d3 ) ;
-        cq.add( 3, d4 ) ;
+        cq.add(0, d1);
+        cq.add(5, d2);
+        cq.add(8, d3);
+        cq.add(3, d4);
 
-        for (int ctr=0; ctr<25; ctr++) {
-            p( "Event " + ctr ) ;
-            cq.event( ev ) ;
+        for (int ctr = 0; ctr < 25; ctr++) {
+            p("Event " + ctr);
+            cq.event(ev);
         }
 
-        p( "Add to queue while running" ) ;
+        p("Add to queue while running");
 
-        cq.add( 0, d1 ) ;
-        cq.add( 5, d2 ) ;
-        cq.add( 8, d3 ) ;
+        cq.add(0, d1);
+        cq.add(5, d2);
+        cq.add(8, d3);
 
-        for (int ctr=0; ctr<11; ctr++) {
-            p( "Event " + ctr ) ;
-            cq.event( ev ) ;
+        for (int ctr = 0; ctr < 11; ctr++) {
+            p("Event " + ctr);
+            cq.event(ev);
         }
 
-        cq.add( 3, d4 ) ;
+        cq.add(3, d4);
 
-        for (int ctr=11; ctr<25; ctr++) {
-            p( "Event " + ctr ) ;
-            cq.event( ev ) ;
+        for (int ctr = 11; ctr < 25; ctr++) {
+            p("Event " + ctr);
+            cq.event(ev);
         }
 
     }

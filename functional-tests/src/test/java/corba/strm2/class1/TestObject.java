@@ -20,10 +20,9 @@
 import corba.strm2.Testable;
 
 /**
- * Second stage in evolution.  Added a superclass.
+ * Second stage in evolution. Added a superclass.
  */
-public class TestObject extends TestObjectSuper implements Testable
-{
+public class TestObject extends TestObjectSuper implements Testable {
     private static final long serialVersionUID = 378730127323820502L;
 
     private String desc;
@@ -42,14 +41,11 @@ public class TestObject extends TestObjectSuper implements Testable
 
     public boolean equals(Object obj) {
         try {
-            TestObject other = (TestObject)obj;
+            TestObject other = (TestObject) obj;
             if (other == null)
                 return false;
 
-            return data0.equals(other.data0) &&
-                data1 == other.data1 &&
-                data2.equals(other.data2) &&
-                super.equals(other);
+            return data0.equals(other.data0) && data1 == other.data1 && data2.equals(other.data2) && super.equals(other);
         } catch (ClassCastException cce) {
             return false;
         }
@@ -60,12 +56,7 @@ public class TestObject extends TestObjectSuper implements Testable
     }
 
     public String toString() {
-        return
-            (super.getClass().equals(Object.class) ? "" : super.toString())
-            + " [TestObject desc=" + desc
-            + ", data0=" + data0
-            + ", data1=" + data1
-            + ", data2= " + data2
-            + "]";
+        return (super.getClass().equals(Object.class) ? "" : super.toString()) + " [TestObject desc=" + desc + ", data0=" + data0
+                + ", data1=" + data1 + ", data2= " + data2 + "]";
     }
 }

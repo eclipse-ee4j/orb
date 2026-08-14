@@ -34,18 +34,17 @@ import corba.framework.Controller;
 import corba.hcks.C;
 import corba.hcks.U;
 
-public class Client
-{
+public class Client {
     public static final String baseMsg = Client.class.getName();
     public static final String main = baseMsg + ".main";
 
-    public static final String IDLConnect     = "IDL/Connect";
-    public static final String IDLPOA         = "IDL/POA";
+    public static final String IDLConnect = "IDL/Connect";
+    public static final String IDLPOA = "IDL/POA";
     public static final String RMIIIOPConnect = "RMI-IIOP/Connect";
-    public static final String RMIIIOPPOA     = "RMI-IIOP/POA";
-    public static final String SYSTEM         = "SYSTEM_EXCEPTION";
-    public static final String USER           = "USER_EXCEPTION";
-    public static final String RUNTIME        = "RuntimeException";
+    public static final String RMIIIOPPOA = "RMI-IIOP/POA";
+    public static final String SYSTEM = "SYSTEM_EXCEPTION";
+    public static final String USER = "USER_EXCEPTION";
+    public static final String RUNTIME = "RuntimeException";
 
     public static ORB orb;
     public static InitialContext initialContext;
@@ -55,22 +54,21 @@ public class Client
     public static rmiiI rmiiIConnect;
     public static rmiiI rmiiIPOA;
 
-    public static String idlIConnectArg  = Server.idlIConnect;
-    public static String idlIPOAArg      = Server.idlIPOA;
+    public static String idlIConnectArg = Server.idlIConnect;
+    public static String idlIPOAArg = Server.idlIPOA;
     public static String rmiiIConnectArg = Server.rmiiIConnect;
-    public static String rmiiIPOAArg     = Server.rmiiIPOA;
+    public static String rmiiIPOAArg = Server.rmiiIPOA;
 
     public static boolean isColocated = false;
     public static boolean debug = false;
 
     public static int numErrors = 0;
 
-    public static void main(String[] av)
-    {
+    public static void main(String[] av) {
         try {
             U.sop(main + " starting");
 
-            if (! ColocatedClientServer.isColocated) {
+            if (!ColocatedClientServer.isColocated) {
                 U.sop(main + " : creating ORB.");
                 orb = ORB.init(av, null);
                 U.sop(main + " : creating InitialContext.");
@@ -81,22 +79,18 @@ public class Client
             U.sop("+++++++++++++++++++++++++Looking up IDL references.");
             U.lf();
 
-            idlIConnect = idlIHelper.narrow(U.resolve(Server.idlIConnect,orb));
-            idlIPOA     = idlIHelper.narrow(U.resolve(Server.idlIPOA,    orb));
+            idlIConnect = idlIHelper.narrow(U.resolve(Server.idlIConnect, orb));
+            idlIPOA = idlIHelper.narrow(U.resolve(Server.idlIPOA, orb));
 
             U.lf();
             U.sop("+++++++++++++++++++++++++Looking up RMI references.");
             U.lf();
-            rmiiIConnect = (rmiiI)
-                U.lookupAndNarrow(Server.rmiiIConnect,
-                                  rmiiI.class, initialContext);
-            rmiiIPOA = (rmiiI)
-                U.lookupAndNarrow(Server.rmiiIPOA, rmiiI.class,initialContext);
+            rmiiIConnect = (rmiiI) U.lookupAndNarrow(Server.rmiiIConnect, rmiiI.class, initialContext);
+            rmiiIPOA = (rmiiI) U.lookupAndNarrow(Server.rmiiIPOA, rmiiI.class, initialContext);
 
-            /* REVISIT: investigate hang
-            rmiiIPOA = (rmiiI)
-                U.lookupAndNarrow(C.rmiiSL, rmiiI.class, initialContext);
-            */
+            /*
+             * REVISIT: investigate hang rmiiIPOA = (rmiiI) U.lookupAndNarrow(C.rmiiSL, rmiiI.class, initialContext);
+             */
 
             U.lf();
             U.sop("+++++++++++++++++++++++++Making IDL/Connect calls.");
@@ -104,22 +98,17 @@ public class Client
             try {
                 idlIConnect.raise_system_exception(idlIConnectArg);
             } catch (Throwable t) {
-                processThrowable(IDLConnect, SYSTEM, t,
-                                 new FREE_MEM(),
-                                 "idlIServantConnect.raise_system_exception");
+                processThrowable(IDLConnect, SYSTEM, t, new FREE_MEM(), "idlIServantConnect.raise_system_exception");
             }
             try {
                 idlIConnect.raise_user_exception(idlIConnectArg);
             } catch (Throwable t) {
-                processThrowable(IDLConnect, USER, t,
-                                 new idlException());
+                processThrowable(IDLConnect, USER, t, new idlException());
             }
             try {
                 idlIConnect.raise_runtime_exception(idlIConnectArg);
             } catch (Throwable t) {
-                processThrowable(IDLConnect, RUNTIME, t,
-                                 new UNKNOWN(),
-                                 "idlIServantConnect.raise_runtime_exception");
+                processThrowable(IDLConnect, RUNTIME, t, new UNKNOWN(), "idlIServantConnect.raise_runtime_exception");
             }
 
             U.lf();
@@ -128,23 +117,18 @@ public class Client
             try {
                 idlIPOA.raise_system_exception(idlIPOAArg);
             } catch (Throwable t) {
-                processThrowable(IDLPOA, SYSTEM, t,
-                                 new FREE_MEM(),
-                                 "idlIServantPOA.raise_system_exception");
+                processThrowable(IDLPOA, SYSTEM, t, new FREE_MEM(), "idlIServantPOA.raise_system_exception");
             }
             try {
                 idlIPOA.raise_user_exception(idlIPOAArg);
             } catch (Throwable t) {
-                processThrowable(IDLPOA, USER, t,
-                                 new idlException());
+                processThrowable(IDLPOA, USER, t, new idlException());
             }
 
             try {
                 idlIPOA.raise_runtime_exception(idlIPOAArg);
             } catch (Throwable t) {
-                processThrowable(IDLPOA, RUNTIME, t,
-                                 new UNKNOWN(),
-                                 "idlIServantPOA.raise_runtime_exception");
+                processThrowable(IDLPOA, RUNTIME, t, new UNKNOWN(), "idlIServantPOA.raise_runtime_exception");
             }
 
             U.lf();
@@ -159,23 +143,18 @@ public class Client
                 } else {
                     message = "rmiiIServantConnect.raiseSystemException";
                 }
-                processThrowable(RMIIIOPConnect, SYSTEM, t,
-                                 new RemoteException(), // wraps FREE_MEM
-                                 message);
+                processThrowable(RMIIIOPConnect, SYSTEM, t, new RemoteException(), // wraps FREE_MEM
+                        message);
             }
             try {
                 rmiiIConnect.raiseUserException(rmiiIConnectArg);
             } catch (Throwable t) {
-                processThrowable(RMIIIOPConnect, USER, t,
-                                 new rmiiException("dummy"),
-                                 rmiiIConnectArg);
+                processThrowable(RMIIIOPConnect, USER, t, new rmiiException("dummy"), rmiiIConnectArg);
             }
             try {
                 rmiiIConnect.raiseRuntimeException(rmiiIConnectArg);
             } catch (Throwable t) {
-                processThrowable(RMIIIOPConnect, RUNTIME, t,
-                                 new RuntimeException(),
-                                 rmiiIConnectArg);
+                processThrowable(RMIIIOPConnect, RUNTIME, t, new RuntimeException(), rmiiIConnectArg);
             }
 
             U.lf();
@@ -190,25 +169,20 @@ public class Client
                 } else {
                     message = "rmiiIServantPOA.raiseSystemException";
                 }
-                processThrowable(RMIIIOPPOA, SYSTEM, t,
-                                 new RemoteException(),
-                                 message);
+                processThrowable(RMIIIOPPOA, SYSTEM, t, new RemoteException(), message);
             }
             try {
                 rmiiIPOA.raiseUserException(rmiiIPOAArg);
             } catch (Throwable t) {
-                processThrowable(RMIIIOPPOA, USER, t,
-                                 new rmiiException("dummy"),
+                processThrowable(RMIIIOPPOA, USER, t, new rmiiException("dummy"),
 
-                                 rmiiIPOAArg);
+                        rmiiIPOAArg);
             }
 
             try {
                 rmiiIPOA.raiseRuntimeException(rmiiIPOAArg);
             } catch (Throwable t) {
-                processThrowable(RMIIIOPPOA, RUNTIME, t,
-                                 new RuntimeException(),
-                                 rmiiIPOAArg);
+                processThrowable(RMIIIOPPOA, RUNTIME, t, new RuntimeException(), rmiiIPOAArg);
             }
 
             if (numErrors == 0) {
@@ -233,20 +207,12 @@ public class Client
         System.exit(Controller.SUCCESS);
     }
 
-    public static void processThrowable(String servantType,
-                                        String exceptionCategory,
-                                        Throwable got,
-                                        Throwable expected)
-    {
+    public static void processThrowable(String servantType, String exceptionCategory, Throwable got, Throwable expected) {
         processThrowable(servantType, exceptionCategory, got, expected, null);
     }
 
-    public static void processThrowable(String servantType,
-                                        String exceptionCategory,
-                                        Throwable got,
-                                        Throwable expected,
-                                        String messageSubstring)
-    {
+    public static void processThrowable(String servantType, String exceptionCategory, Throwable got, Throwable expected,
+            String messageSubstring) {
         boolean failType = false;
         boolean failMessage = false;
 
@@ -292,4 +258,3 @@ public class Client
 }
 
 // End of file.
-

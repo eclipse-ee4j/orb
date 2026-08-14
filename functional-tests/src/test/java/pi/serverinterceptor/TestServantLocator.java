@@ -27,10 +27,7 @@ import org.omg.CORBA.*;
 /**
  * Test Servant locator that throws a ForwardRequest.
  */
-public class TestServantLocator
-    extends org.omg.CORBA.LocalObject
-    implements ServantLocator
-{
+public class TestServantLocator extends org.omg.CORBA.LocalObject implements ServantLocator {
     // The PrintStream to pass to the ServerRequestInterceptor for output
     // This is set from Server.java, statically.
     PrintStream out;
@@ -47,33 +44,27 @@ public class TestServantLocator
     /**
      * Creates the servant locator.
      */
-    public TestServantLocator( PrintStream out, ORB orb,
-                               org.omg.CORBA.Object helloRefForward )
-    {
+    public TestServantLocator(PrintStream out, ORB orb, org.omg.CORBA.Object helloRefForward) {
         this.out = out;
         this.orb = orb;
         this.helloRefForward = helloRefForward;
         this.firstTime = true;
     }
 
-    public Servant preinvoke(byte[] oid, POA adapter, String operation,
-                             CookieHolder the_cookie)
-        throws org.omg.PortableServer.ForwardRequest
-    {
-        out.println( "    - TestServantLocator.preinvoke called." );
-        if( firstTime ) {
+    public Servant preinvoke(byte[] oid, POA adapter, String operation, CookieHolder the_cookie)
+            throws org.omg.PortableServer.ForwardRequest {
+        out.println("    - TestServantLocator.preinvoke called.");
+        if (firstTime) {
             firstTime = false;
-            out.println( "    - First time - raising ForwardRequest." );
-            throw new org.omg.PortableServer.ForwardRequest( helloRefForward );
+            out.println("    - First time - raising ForwardRequest.");
+            throw new org.omg.PortableServer.ForwardRequest(helloRefForward);
         }
 
-        return new helloServant( out, "[Hello2]" );
+        return new helloServant(out, "[Hello2]");
     }
 
-    public void postinvoke(byte[] oid, POA adapter, String operation,
-                           java.lang.Object cookie, Servant servant)
-    {
-        out.println( "    - TestServantLocator.postinvoke called." );
+    public void postinvoke(byte[] oid, POA adapter, String operation, java.lang.Object cookie, Servant servant) {
+        out.println("    - TestServantLocator.postinvoke called.");
     }
 
     void resetFirstTime() {

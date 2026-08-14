@@ -24,25 +24,21 @@ import corba.framework.*;
 import java.util.*;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
-public class RMIPOACounterTest extends CORBATest
-{
-    protected Controller newClientController()
-    {
+public class RMIPOACounterTest extends CORBATest {
+    protected Controller newClientController() {
         return new InternalExec();
     }
 
-    protected void doTest() throws Throwable
-    {
+    protected void doTest() throws Throwable {
         // try this one. the report dir was already set to gen/corba/rmipoacounter
-        Options.setOutputDirectory((String)getArgs().get(test.Test.OUTPUT_DIRECTORY));
+        Options.setOutputDirectory((String) getArgs().get(test.Test.OUTPUT_DIRECTORY));
         Options.addServerArg("-debug");
 
         Controller orbd = createORBD();
 
         Properties serverProps = Options.getServerProperties();
 
-        serverProps.setProperty(ORBConstants.PERSISTENT_SERVER_PORT_PROPERTY,
-                                Options.getUnusedPort().toString());
+        serverProps.setProperty(ORBConstants.PERSISTENT_SERVER_PORT_PROPERTY, Options.getUnusedPort().toString());
 
         Controller server = createServer("corba.rmipoacounter.counterServer");
 
@@ -50,16 +46,15 @@ public class RMIPOACounterTest extends CORBATest
         server.start();
 
         // In this test, the client will kill and restart the server, so it
-        // needs the reference.  Thus, the client can only be an InternalProcess
+        // needs the reference. Thus, the client can only be an InternalProcess
         // or a ThreadProcess.
         Hashtable clientExtra = Options.getClientExtra();
         clientExtra.put("server", server);
 
         /*
-          This is basically a test of persistent servers.  The server
-          maintains a counter in a file, and can be restarted without
-          losing it.  Plus, the reference in ORBD stays the same.
-        */
+         * This is basically a test of persistent servers. The server maintains a counter in a file, and can be restarted
+         * without losing it. Plus, the reference in ORBD stays the same.
+         */
 
         Controller client = createClient("corba.rmipoacounter.counterClient");
 
@@ -74,4 +69,3 @@ public class RMIPOACounterTest extends CORBATest
         orbd.stop();
     }
 }
-

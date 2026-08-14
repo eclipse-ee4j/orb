@@ -22,51 +22,42 @@ package ibmspace.common;
 
 import java.io.Serializable;
 
-public class ShipDesign implements Serializable
-{
-    public static final int   COLONY_SHIP = 0;
-    public static final int   SCOUT = 1;
-    public static final int   FIGHTER = 2;
-    public static final int   SATELITE = 3;
+public class ShipDesign implements Serializable {
+    public static final int COLONY_SHIP = 0;
+    public static final int SCOUT = 1;
+    public static final int FIGHTER = 2;
+    public static final int SATELITE = 3;
 
-    private String            fName;
-    private int               fType;
-    private TechProfile       fTechProfile;
+    private String fName;
+    private int fType;
+    private TechProfile fTechProfile;
 
-
-    public ShipDesign (String name, int type, TechProfile techProfile)
-    {
+    public ShipDesign(String name, int type, TechProfile techProfile) {
         fName = name;
         fType = type;
         fTechProfile = techProfile;
     }
 
-    public String getName ()
-    {
+    public String getName() {
         return fName;
     }
 
-    public int getType ()
-    {
+    public int getType() {
         return fType;
     }
 
-    public TechProfile getTechProfile ()
-    {
+    public TechProfile getTechProfile() {
         return fTechProfile;
     }
 
-    public long getDesignCost ()
-    {
+    public long getDesignCost() {
         return 2000;
     }
 
-    public long getCostPerShip ()
-    {
+    public long getCostPerShip() {
         long cost = 0;
 
-        switch ( fType )
-            {
+        switch (fType) {
             case COLONY_SHIP:
                 cost = 10000;
                 break;
@@ -79,17 +70,15 @@ public class ShipDesign implements Serializable
             case SATELITE:
                 cost = 1000;
                 break;
-            }
+        }
 
         return cost;
     }
 
-    public long getMetalPerShip ()
-    {
+    public long getMetalPerShip() {
         long metal = 0;
 
-        switch ( fType )
-            {
+        switch (fType) {
             case COLONY_SHIP:
                 metal = 20000;
                 break;
@@ -102,14 +91,13 @@ public class ShipDesign implements Serializable
             case SATELITE:
                 metal = 200;
                 break;
-            }
+        }
 
-        return metal / getTechProfile().getMini ();
+        return metal / getTechProfile().getMini();
     }
 
-    public long getScrapMetalPerShip ()
-    {
-        return (long)(0.7 * (double)getMetalPerShip ());
+    public long getScrapMetalPerShip() {
+        return (long) (0.7 * (double) getMetalPerShip());
     }
 
 }

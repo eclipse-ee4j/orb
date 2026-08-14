@@ -23,36 +23,29 @@ package ibmspace.client;
 import java.util.*;
 import java.awt.event.*;
 
+public class ActionSource {
+    protected Vector fActionListeners;
 
-public class ActionSource
-{
-    protected Vector  fActionListeners;
-
-    public ActionSource()
-    {
-        fActionListeners = new Vector ();
+    public ActionSource() {
+        fActionListeners = new Vector();
     }
 
-    public void addActionListener (ActionListener listener)
-    {
-        if (!fActionListeners.contains (listener))
-            fActionListeners.addElement (listener);
+    public void addActionListener(ActionListener listener) {
+        if (!fActionListeners.contains(listener))
+            fActionListeners.addElement(listener);
     }
 
-    public void removeActionListener (ActionListener listener)
-    {
-        fActionListeners.removeElement (listener);
+    public void removeActionListener(ActionListener listener) {
+        fActionListeners.removeElement(listener);
     }
 
-    public void notifyListeners (Object source, String command)
-    {
-        ActionEvent event = new ActionEvent (source, ActionEvent.ACTION_PERFORMED, command);
+    public void notifyListeners(Object source, String command) {
+        ActionEvent event = new ActionEvent(source, ActionEvent.ACTION_PERFORMED, command);
 
-        for (int i=0; i<fActionListeners.size(); i++)
-            {
-                ActionListener listener = (ActionListener)fActionListeners.elementAt (i);
-                listener.actionPerformed (event);
-            }
+        for (int i = 0; i < fActionListeners.size(); i++) {
+            ActionListener listener = (ActionListener) fActionListeners.elementAt(i);
+            listener.actionPerformed(event);
+        }
 
     }
 
