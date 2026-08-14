@@ -34,20 +34,11 @@ pipeline {
     stage('build') {
       steps {
         sh 'mvn -Psnapshots,all-tests,dash-licenses clean install'
-        junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
+        // The functional suite now reports through Surefire like every other module, so this
+        // glob picks it up too. allowEmptyResults stays false deliberately: finding no reports
+        // means the suite did not run, which is a failure, not a pass.
+        junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: false
         archiveArtifacts artifacts: 'dash-summary.txt'
-
-        sh '''
-          for testClass in \
-            rmic.StaticStringsHashTest \
-            javax.rmi.CORBA.serialization.SerializationTest
-          do
-            mvn \
-              -f functional-tests \
-              antrun:run@run-tests \
-              -Dtest.args="-test ${testClass} -verbose"
-          done
-           '''
       }
     }
   }
