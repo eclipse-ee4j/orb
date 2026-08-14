@@ -770,9 +770,69 @@ public class Client
 
     private void setupDCEnvironment()
     {
+        useTemporaryHomeDirectories() ;
         setDCSystemProperties() ;
         setDCUserORBFile() ;
         setDCSystemORBFile() ;
+    }
+
+    /**
+     * Point java.home and user.home at throwaway directories, so that the orb.properties files
+     * written below land somewhere this test owns.
+     *
+     * Without this the test writes into the real ${java.home}/lib/orb.properties and
+     * ${user.home}/orb.properties and never removes them, which permanently alters the JDK
+     * installation and the user's home directory: ${java.home}/lib/orb.properties is read by
+     * every JVM using that JDK, so leftover test values leak into unrelated applications. It also
+     * makes the suite order-dependent, since com.sun.corba.ee.impl.util.ORBProperties skips its
+     * work when that file already exists.
+     *
+     * Deleting the files afterwards would not be safe -- a user may have a legitimate
+     * orb.properties that we would have overwritten and then destroyed. Redirecting the lookup
+     * roots instead means the test genuinely owns the files it creates, so removing them is
+     * correct. The production lookup code is untouched: it still resolves both paths from
+     * java.home and user.home exactly as before.
+     *
+     * Safe here because corba.orbconfig.Client runs in its own JVM (CORBATest.createClient uses
+     * ExternalExec) and never needs the real java.home for anything else -- in particular it
+     * forks no further processes.
+     */
+    private void useTemporaryHomeDirectories()
+    {
+        try {
+            final File root = java.nio.file.Files.createTempDirectory(
+                "orbconfig-homes-" ).toFile() ;
+            File javaHome = new File( root, "java" ) ;
+            File userHome = new File( root, "user" ) ;
+
+            if (!new File( javaHome, "lib" ).mkdirs() || !userHome.mkdirs()) {
+                throw new java.io.IOException(
+                    "could not create temporary home directories under " + root ) ;
+            }
+
+            System.setProperty( "java.home", javaHome.getAbsolutePath() ) ;
+            System.setProperty( "user.home", userHome.getAbsolutePath() ) ;
+
+            Runtime.getRuntime().addShutdownHook( new Thread() {
+                @Override
+                public void run() {
+                    deleteRecursively( root ) ;
+                }
+            } ) ;
+        } catch (java.io.IOException exc) {
+            throw new Error( "Could not redirect home directories for this test", exc ) ;
+        }
+    }
+
+    private static void deleteRecursively( File file )
+    {
+        File[] children = file.listFiles() ;
+        if (children != null) {
+            for (File child : children) {
+                deleteRecursively( child ) ;
+            }
+        }
+        file.delete() ;
     }
 
     private void testNormalDataCollector()

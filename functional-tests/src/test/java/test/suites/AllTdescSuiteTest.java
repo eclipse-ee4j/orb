@@ -22,25 +22,23 @@ package test.suites;
 import java.io.IOException;
 import java.util.Collection;
 
-import org.junit.BeforeClass;
 import org.junit.runners.Parameterized.Parameters;
 
-/** RMI-IIOP suite (test/AllTests.tdesc). */
+/**
+ * RMI-IIOP suite (test/AllTests.tdesc).
+ *
+ * The Ant test-rmi-iiop target ran com.sun.corba.ee.impl.util.ORBProperties immediately before
+ * this suite; that is deliberately not carried over. ORBProperties writes the ORB class defaults
+ * into ${java.home}/lib/orb.properties when that file is absent -- permanently altering the JDK
+ * installation, and swallowing every exception on the way -- yet nothing here needs it: every JVM
+ * the harness starts is given org.omg.CORBA.ORBClass and ORBSingletonClass explicitly, and system
+ * properties take precedence over orb.properties in the ORB's lookup order.
+ *
+ * Verified rather than assumed, by running the whole suite twice from a pristine machine, with
+ * and without the call: 230 Surefire cases green in both, per-entry results identical by name,
+ * and without the call ${java.home}/lib/orb.properties is never created.
+ */
 public class AllTdescSuiteTest extends TdescSuite {
-
-    /**
-     * The Ant test-rmi-iiop target ran com.sun.corba.ee.impl.util.ORBProperties immediately
-     * before this suite, so it is preserved here rather than quietly dropped.
-     *
-     * Be aware of what it does: if ${java.home}/lib/orb.properties is absent it writes the ORB
-     * class defaults there -- permanently modifying the JDK installation -- and swallows every
-     * exception. It is a no-op whenever that file already exists. Whether it is still needed at
-     * all is being investigated separately; it is kept for now purely to preserve behaviour.
-     */
-    @BeforeClass
-    public static void writeOrbPropertiesIfAbsent() {
-        com.sun.corba.ee.impl.util.ORBProperties.main(new String[0]);
-    }
 
     @Parameters(name = "{0}")
     public static Collection<Object[]> data() throws IOException {

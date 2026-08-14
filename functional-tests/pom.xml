@@ -42,8 +42,11 @@
              workingDirectory and it must exist before the fork starts; run output lands in
              target/gen, so mvn clean still removes it. -->
         <functional.tests.rundir>${project.build.directory}</functional.tests.rundir>
-        <!-- 4a: report failures by name without breaking the build; flipped to false in 4b -->
-        <functional.tests.failureIgnore>true</functional.tests.failureIgnore>
+        <!-- Functional test failures fail the build. This was the second defect motivating the
+             migration: the Ant <java> that ran the suite set neither failonerror nor
+             resultproperty, so a failing suite still produced a green build. Override on the
+             command line with -Dfunctional.tests.failureIgnore=true when iterating locally. -->
+        <functional.tests.failureIgnore>false</functional.tests.failureIgnore>
     </properties>
 
     <dependencies>
