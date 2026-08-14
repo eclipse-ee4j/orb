@@ -376,6 +376,10 @@ public class Util {
 
         // Test setup
         "corba.test.orb.classpath",
+        // Where tests find their own sources to compile at run time. Must be inherited:
+        // Options.initializeDefaults reads this same list, so without it only the top-level
+        // JVM would know the source root and spawned client/server processes would not.
+        corba.framework.Options.TEST_SRCDIR_PROPERTY,
         "corba.test.controller.name",
         "http.server.port",
         "name.server.port",

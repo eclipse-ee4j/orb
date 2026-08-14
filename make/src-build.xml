@@ -26,7 +26,6 @@
     </description>
 
     <property name="root.dir"                   value="${basedir}"/>
-    <property file="make/build.properties"/>
 
     <target name="init">
         <property name="repo.url"
@@ -61,8 +60,6 @@
         <mkdir dir="${lib.dir}"/>
         <mkdir dir="${gensrc.dir}"/>
         <mkdir dir="${classes.dir}"/>
-        <mkdir dir="${releaselib.dir}"/>
-        <mkdir dir="${releaselib.dir}/bundles"/>
 
         <!-- properties needed for updating and validating copyright headers -->
         <property name="copyright.file"

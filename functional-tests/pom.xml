@@ -34,6 +34,10 @@
 
     <properties>
         <debug.args>-Ddebug=ignored</debug.args>
+        <!-- The pre-Maven test tree. Still compiled in place rather than moved, because tests
+             locate their own sources relative to it at run time (corba.test.srcdir), and the
+             .tdesc files reference it by relative path. -->
+        <legacy.test.src.dir>${project.basedir}/../test/src/share/classes</legacy.test.src.dir>
     </properties>
 
     <dependencies>
@@ -113,6 +117,20 @@
     </dependencies>
 
     <build>
+        <testResources>
+            <testResource>
+                <directory>${project.basedir}/src/test/resources</directory>
+            </testResource>
+            <!-- data files the harness loads via Class.getResource (.tdesc, .javaref,
+                 .classlist, test.policy); the .java alongside them is compiled by the
+                 test-compile-legacy execution instead -->
+            <testResource>
+                <directory>${legacy.test.src.dir}</directory>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </testResource>
+        </testResources>
         <plugins>
             <!-- generate test idl -->
             <plugin>
@@ -204,34 +222,120 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <!--
+                    Test compilation happens in two strata separated by code generation, not in
+                    one pass. The order below is required, not incidental:
+
+                      test-compile          compiler:testCompile   ordinary Maven test tree
+                      process-test-classes  rmic:test-rmic         generate RMI-IIOP stubs/ties
+                                            compiler:testCompile   legacy tree
+                                            compiler:testCompile   values1
+                                            compiler:testCompile   values2
+
+                    The legacy tree must compile after rmic because two of its sources reference
+                    generated ties (corba/preinvokepostinvoke/Server -> _Interface_Stub,
+                    corba/rmipoacounter/counterServer -> _counterImpl_Tie). The old Ant build got
+                    this ordering by accident, by compiling that tree at integration-time.
+
+                    Maven runs goals bound to the same phase in POM declaration order, and the
+                    rmic plugin is declared above this one, so the sequence holds. Do NOT move
+                    test-compile-legacy to the test-compile phase, and do not fold the legacy
+                    tree into the default execution via build-helper:add-test-source: either
+                    puts it before rmic and the build fails with "cannot find symbol".
+                -->
                 <executions>
                     <execution>
+                        <id>default-testCompile</id>
                         <goals>
                             <goal>testCompile</goal>
                         </goals>
                     </execution>
+
+                    <!-- The pre-Maven test tree, compiled into the same output directory so
+                         there is a single set of test classes. It must run AFTER rmic: two of
+                         its sources (corba/preinvokepostinvoke/Server, corba/rmipoacounter/
+                         counterServer) reference rmic-generated ties. This mirrors the ordering
+                         the Ant build had, where it compiled at integration-time. -->
+                    <execution>
+                        <id>test-compile-legacy</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                        <configuration>
+                            <compileSourceRoots>
+                                <compileSourceRoot>${legacy.test.src.dir}</compileSourceRoot>
+                            </compileSourceRoots>
+                            <!-- Copied verbatim from the Ant compile-tests-main-nongen target.
+                                 These are compiled by the tests themselves at run time, or are
+                                 deliberately broken/duplicate variants. Kept exactly as-is
+                                 (wildcards included) so this move changes no semantics. -->
+                            <testExcludes>
+                                <testExclude>values1/**</testExclude>
+                                <testExclude>values2/**</testExclude>
+                                <testExclude>corba/strm2/class*/**</testExclude>
+                                <testExclude>corba/example/Client.java</testExclude>
+                                <testExclude>corba/example/Server.java</testExclude>
+                                <testExclude>hopper/h4549085/Server.java</testExclude>
+                                <testExclude>hopper/h4549085/Client.java</testExclude>
+                                <testExclude>hopper/h4620926/Server.java</testExclude>
+                                <testExclude>hopper/h4620926/Client.java</testExclude>
+                                <testExclude>hopper/h4670827/HelloImpl.java</testExclude>
+                                <testExclude>hopper/h4670827/Client.java</testExclude>
+                                <testExclude>hopper/h4670827/INSServer.java</testExclude>
+                                <testExclude>hopper/h4670827/TestConstants.java</testExclude>
+                                <testExclude>naming/pcosnaming/hello*</testExclude>
+                                <testExclude>naming/instest/Client.java*</testExclude>
+                                <testExclude>naming/instest/INSServer.java</testExclude>
+                                <testExclude>naming/instest/HelloImpl.java</testExclude>
+                            </testExcludes>
+                        </configuration>
+                    </execution>
+
+                    <!-- values1 and values2 declare the SAME fully qualified classes with
+                         different bodies, to exercise class evolution. They cannot share an
+                         output directory with each other or with the main tree. values1 goes on
+                         the runtime classpath; values2 is served over HTTP as the RMI codebase.
+                         Bound after test-compile because values1 imports from the main tree. -->
+                    <execution>
+                        <id>test-compile-values1</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                        <configuration>
+                            <compileSourceRoots>
+                                <compileSourceRoot>${legacy.test.src.dir}/values1</compileSourceRoot>
+                            </compileSourceRoots>
+                            <outputDirectory>${project.build.directory}/test/values1/classes</outputDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>test-compile-values2</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                        <configuration>
+                            <compileSourceRoots>
+                                <compileSourceRoot>${legacy.test.src.dir}/values2</compileSourceRoot>
+                            </compileSourceRoots>
+                            <outputDirectory>${project.build.directory}/test/values2/classes</outputDirectory>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
 
-            <!-- build and run ant-based tests -->
+            <!-- packaging=pom binds no resource handling, but the legacy tree carries data files
+                 the tests load from the classpath (.tdesc, .javaref, .classlist, test.policy). -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-antrun-plugin</artifactId>
+                <artifactId>maven-resources-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>run-tests</id>
-                        <phase>integration-test</phase>
-                        <configuration>
-                            <target>
-                                <ant antfile="../make/build.xml" target="build-tests">
-                                    <property name="test-build.dir" value="${project.build.directory}/test" />
-                                    <property name="root.dir" value=".." />
-                                    <property name="maven.test.classpath" refid="maven.test.classpath" />
-                                </ant>
-                            </target>
-                        </configuration>
+                        <id>test-resources</id>
+                        <phase>process-test-resources</phase>
                         <goals>
-                            <goal>run</goal>
+                            <goal>testResources</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -254,11 +358,6 @@
                                 <phase>integration-test</phase>
                                 <configuration>
                                     <target>
-                                        <ant antfile="../make/build.xml" target="build-tests">
-                                            <property name="test-build.dir" value="${project.build.directory}/test" />
-                                            <property name="root.dir" value=".." />
-                                            <property name="maven.test.classpath" refid="maven.test.classpath" />
-                                        </ant>
                                         <ant antfile="../make/build.xml" target="test-all">
                                             <property name="test-build.dir" value="${project.build.directory}/test" />
                                             <property name="root.dir" value=".." />

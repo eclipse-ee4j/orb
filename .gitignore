@@ -8,3 +8,6 @@ target/
 .settings
 .classpath
 .project
+
+# legacy Ant functional-test output
+test/run/

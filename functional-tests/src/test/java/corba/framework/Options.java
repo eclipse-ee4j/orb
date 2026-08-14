@@ -121,7 +121,20 @@ public class Options {
         return pkg ;
     }
 
+    /**
+     * Names the directory holding a test's own IDL/java sources, which some tests compile at
+     * run time. The historical answer is derived from the process working directory, which only
+     * works while the harness is launched from test/run by Ant. Setting corba.test.srcdir names
+     * the legacy source tree directly, so the working directory is free to move.
+     */
+    public static final String TEST_SRCDIR_PROPERTY = "corba.test.srcdir" ;
+
     private static String getTestDirectory( CORBATest parent ) {
+        String srcDir = System.getProperty( TEST_SRCDIR_PROPERTY ) ;
+        if (srcDir != null) {
+            return srcDir + File.separator + getPackageAsDir( parent ) + File.separator ;
+        }
+
         String testBase = (String)(parent.getArgs().get( "-testbase" )) ;
         String testRoot = "" ;
 

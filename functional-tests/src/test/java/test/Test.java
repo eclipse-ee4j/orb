@@ -259,6 +259,42 @@ public abstract class Test implements java.lang.Runnable
         results = new Hashtable[num] ;
     }
 
+    /**
+     * Fill in the runtime properties the harness needs but that no caller supplies: free ports
+     * for the HTTP and name servers, the RMI codebase derived from the HTTP port, and the ORB
+     * class. Each is only set if absent, so an explicitly supplied value always wins.
+     *
+     * Called from main, and required by any other entry point into the harness -- notably tests
+     * driven by a runner rather than by main.
+     */
+    public static void initRuntimeProperties() throws java.io.IOException {
+        Properties sysProps = System.getProperties();
+        int[] ports = getFreePorts(2);
+
+        if (sysProps.get("http.server.port") == null) {
+            sysProps.put("http.server.port",Integer.toString(ports[0]));
+        }
+
+        if (sysProps.get("name.server.port") == null) {
+            sysProps.put("name.server.port",Integer.toString(ports[1]));
+        }
+
+        if (sysProps.get("java.rmi.server.codebase") == null) {
+            String codebase = "http://localhost:"+Integer.toString(ports[0])+"/";
+            sysProps.put("java.rmi.server.codebase",codebase);
+        }
+
+        // Initialize the ORB class property...
+        if (sysProps.get(ORB_CLASS_KEY) == null) {
+            sysProps.put(ORB_CLASS_KEY, ORB_CLASS);
+        }
+    }
+
+    /** Cumulative result across everything run so far: 0 if all passed. */
+    public static int getMainResult() {
+        return mainResult;
+    }
+
     public static void main(String args[]) {
         // checkSunTools() ;
 
@@ -267,31 +303,7 @@ public abstract class Test implements java.lang.Runnable
                 new ShutdownHook() ) ;
 
         try {
-            // Initialize the port based properties with free ports...
-
-            Properties sysProps = System.getProperties();
-            int[] ports = getFreePorts(2);
-
-            if (sysProps.get("http.server.port") == null) {
-                // System.out.println("Setting http.server.port = "+ports[0]);
-                sysProps.put("http.server.port",Integer.toString(ports[0]));
-            }
-
-            if (sysProps.get("name.server.port") == null) {
-                // System.out.println("Setting name.server.port = "+ports[1]);
-                sysProps.put("name.server.port",Integer.toString(ports[1]));
-            }
-
-            if (sysProps.get("java.rmi.server.codebase") == null) {
-                String codebase = "http://localhost:"+Integer.toString(ports[0])+"/";
-                // System.out.println("Setting java.rmi.server.codebase = "+codebase);
-                sysProps.put("java.rmi.server.codebase",codebase);
-            }
-
-            // Initialize the ORB class property...
-            if (sysProps.get(ORB_CLASS_KEY) == null) {
-                sysProps.put(ORB_CLASS_KEY, ORB_CLASS);
-            }
+            initRuntimeProperties();
 
             // Run the test...
 
@@ -930,17 +942,54 @@ public abstract class Test implements java.lang.Runnable
             int testCount = lines.size();
             for (int i = 0; i < testCount; i++) {
                 line = lines.elementAt(i);
+                runTestLine( args, parseTestLine( line ) ) ;
+            }
+        } catch (IOException e1) {
+            try {
+                if (stream != null) stream.close();
+            } catch (IOException e2) {
+                // ignore exception
+            }
+        }
+    }
 
-                // Parse the line -- format is same as for main...
-                StringTokenizer parser = new StringTokenizer(line,
-                                                             ", \t\n\r", false);
+    /**
+     * Split one .tdesc line into arguments. This is the single definition of .tdesc line
+     * syntax -- callers outside this class must use it rather than tokenizing themselves.
+     */
+    public static String[] parseTestLine( String line ) {
+        StringTokenizer parser = new StringTokenizer(line, ", \t\n\r", false);
 
-                int count = parser.countTokens();
-                String[] testArgs = new String[count];
-                for (int j = 0; j < count; j++) {
-                    testArgs[j] = parser.nextToken();
-                }
+        int count = parser.countTokens();
+        String[] testArgs = new String[count];
+        for (int j = 0; j < count; j++) {
+            testArgs[j] = parser.nextToken();
+        }
+        return testArgs;
+    }
 
+    /**
+     * Run a single .tdesc entry and return its result: 0 for success, non-zero for failure.
+     *
+     * This is the body of the loop in runTestFile, unchanged, including the -separateprocess
+     * branch that forks a fresh test.Test JVM. The one difference is bookkeeping: mainResult is
+     * cumulative across a whole suite, so it is saved, cleared, and restored around the call,
+     * letting a caller attribute a result to this entry alone. Suite-level behaviour is
+     * unaffected -- runTestFile still ORs each result back into mainResult.
+     */
+    public static int runTestLine( String[] args, String[] testArgs ) {
+        int outerResult = mainResult;
+        mainResult = 0;
+        try {
+            runTestLineInternal( args, testArgs ) ;
+            return mainResult;
+        } finally {
+            // restore, folding this entry's result into the running total
+            mainResult = (mainResult != 0) ? mainResult : outerResult;
+        }
+    }
+
+    private static void runTestLineInternal( String[] args, String[] testArgs ) {
                 // Concatenate the two sets of args...
                 String[] theArgs = new String[args.length + testArgs.length];
                 System.arraycopy(args,0,theArgs,0,args.length);
@@ -1006,14 +1055,6 @@ public abstract class Test implements java.lang.Runnable
                 } else {
                     run(theArgs);
                 }
-            }
-        } catch (IOException e1) {
-            try {
-                if (stream != null) stream.close();
-            } catch (IOException e2) {
-                // ignore exception
-            }
-        }
     }
 
     private static int getInt( String str ) {
