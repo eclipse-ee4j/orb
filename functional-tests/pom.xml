@@ -1,7 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 
+    Copyright (c) 2022, 2026 Contributors to the Eclipse Foundation. All rights reserved.
     Copyright (c) 2018, 2020 Oracle and/or its affiliates. All rights reserved.
-    Copyright (c) 2022 Contributors to the Eclipse Foundation. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0 which is available at
@@ -22,6 +23,7 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>org.glassfish.corba</groupId>
         <artifactId>glassfish-corba</artifactId>
@@ -29,19 +31,18 @@
     </parent>
 
     <artifactId>glassfish-corba-tests</artifactId>
+    <packaging>jar</packaging>
+
     <name>Functional Tests</name>
-    <packaging>pom</packaging>
 
     <properties>
         <debug.args>-Ddebug=ignored</debug.args>
-        <!-- The pre-Maven test tree. Still compiled in place rather than moved, because tests
-             locate their own sources relative to it at run time (corba.test.srcdir), and the
-             .tdesc files reference it by relative path. -->
-        <legacy.test.src.dir>${project.basedir}/../test/src/share/classes</legacy.test.src.dir>
+        
         <!-- working directory for the suite. target/ itself, because Surefire does not create
              workingDirectory and it must exist before the fork starts; run output lands in
              target/gen, so mvn clean still removes it. -->
         <functional.tests.rundir>${project.build.directory}</functional.tests.rundir>
+        
         <!-- Functional test failures fail the build. This was the second defect motivating the
              migration: the Ant <java> that ran the suite set neither failonerror nor
              resultproperty, so a failing suite still produced a green build. Override on the
@@ -126,20 +127,6 @@
     </dependencies>
 
     <build>
-        <testResources>
-            <testResource>
-                <directory>${project.basedir}/src/test/resources</directory>
-            </testResource>
-            <!-- data files the harness loads via Class.getResource (.tdesc, .javaref,
-                 .classlist, test.policy); the .java alongside them is compiled by the
-                 test-compile-legacy execution instead -->
-            <testResource>
-                <directory>${legacy.test.src.dir}</directory>
-                <excludes>
-                    <exclude>**/*.java</exclude>
-                </excludes>
-            </testResource>
-        </testResources>
         <plugins>
             <!-- generate test idl -->
             <plugin>
@@ -192,7 +179,40 @@
                 </configuration>
             </plugin>
 
-            <!-- generate rmic stubs -->
+            <!--
+                Re-declare the IDL output as a test source root, purely for the IDE's benefit.
+
+                idlj:generate-test already registers target/generated-test-sources/idl with Maven
+                itself, so the command-line build does not need this - MavenProject de-duplicates
+                the path and the compiled output is unchanged. Eclipse, however, has no m2e
+                connector for idlj-maven-plugin: it never runs the goal, so it never learns about
+                the root, and all 713 generated sources are invisible to it. Every test that
+                imports an IDL-generated type (WombatStuff, CodeSetTester, HelloStuff, ...) then
+                shows unresolved imports even though the Maven build is clean.
+
+                build-helper IS understood by m2e, so declaring the same root through it puts the
+                generated sources on the IDE build path.
+            -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-generated-idl-test-source</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-test-sources/idl</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Generate rmic stubs -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>rmic-maven-plugin</artifactId>
@@ -208,6 +228,17 @@
                                 <include>**/corba/preinvokepostinvoke/MyServant.class</include>
                                 <include>**/corba/rmipoacounter/counterImpl.class</include>
                             </includes>
+                            <!-- corba.acceptorandcontactinfo also has an rmiiIServantPOA, but has
+                                 never had a statically generated tie: its sources used to compile
+                                 after rmic, so the class simply did not exist yet when rmic ran.
+                                 Its Server names the tie as a string and lets the ORB generate one
+                                 dynamically (ORBUseDynamicStub=true). Merging the trees made the
+                                 class visible to rmic for the first time; excluding it keeps
+                                 rmic's input set - and that test's runtime behaviour - unchanged.
+                                 Remove this only as a deliberate, separately verified change. -->
+                            <excludes>
+                                <exclude>**/corba/acceptorandcontactinfo/**</exclude>
+                            </excludes>
                         </source>
                         <source>
                             <keep>true</keep>
@@ -227,7 +258,7 @@
                 </dependencies>
             </plugin>
 
-            <!-- compile tests -->
+            <!-- Compile tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -235,22 +266,18 @@
                     Test compilation happens in two strata separated by code generation, not in
                     one pass. The order below is required, not incidental:
 
-                      test-compile          compiler:testCompile   ordinary Maven test tree
+                      test-compile          compiler:testCompile   src/test/java
                       process-test-classes  rmic:test-rmic         generate RMI-IIOP stubs/ties
-                                            compiler:testCompile   legacy tree
+                                            compiler:testCompile   the two rmic consumers
                                             compiler:testCompile   values1
                                             compiler:testCompile   values2
 
-                    The legacy tree must compile after rmic because two of its sources reference
-                    generated ties (corba/preinvokepostinvoke/Server -> _Interface_Stub,
-                    corba/rmipoacounter/counterServer -> _counterImpl_Tie). The old Ant build got
-                    this ordering by accident, by compiling that tree at integration-time.
-
-                    Maven runs goals bound to the same phase in POM declaration order, and the
-                    rmic plugin is declared above this one, so the sequence holds. Do NOT move
-                    test-compile-legacy to the test-compile phase, and do not fold the legacy
-                    tree into the default execution via build-helper:add-test-source: either
-                    puts it before rmic and the build fails with "cannot find symbol".
+                    DO NOT move test-compile-post-rmic above the rmic plugin. Both run in
+                    process-test-classes, Maven executes same-phase goals in POM declaration
+                    order, and those two sources have compile-time references to classes rmic
+                    generates. Equally, do not fold them back into default-testCompile, or add
+                    them via build-helper:add-test-source: either puts them before rmic and the
+                    build fails with "cannot find symbol".
                 -->
                 <executions>
                     <execution>
@@ -258,30 +285,15 @@
                         <goals>
                             <goal>testCompile</goal>
                         </goals>
-                    </execution>
-
-                    <!-- The pre-Maven test tree, compiled into the same output directory so
-                         there is a single set of test classes. It must run AFTER rmic: two of
-                         its sources (corba/preinvokepostinvoke/Server, corba/rmipoacounter/
-                         counterServer) reference rmic-generated ties. This mirrors the ordering
-                         the Ant build had, where it compiled at integration-time. -->
-                    <execution>
-                        <id>test-compile-legacy</id>
-                        <phase>process-test-classes</phase>
-                        <goals>
-                            <goal>testCompile</goal>
-                        </goals>
                         <configuration>
-                            <compileSourceRoots>
-                                <compileSourceRoot>${legacy.test.src.dir}</compileSourceRoot>
-                            </compileSourceRoots>
-                            <!-- Copied verbatim from the Ant compile-tests-main-nongen target.
+                            <!-- Carried over verbatim from the Ant compile-tests-main-nongen
+                                 target when the pre-Maven tree was merged into src/test/java.
                                  These are compiled by the tests themselves at run time, or are
                                  deliberately broken/duplicate variants. Kept exactly as-is
-                                 (wildcards included) so this move changes no semantics. -->
+                                 (wildcards included) so the move changed no semantics; they
+                                 match nothing outside the merged-in tree. The last two are the
+                                 rmic consumers, compiled by test-compile-post-rmic below. -->
                             <testExcludes>
-                                <testExclude>values1/**</testExclude>
-                                <testExclude>values2/**</testExclude>
                                 <testExclude>corba/strm2/class*/**</testExclude>
                                 <testExclude>corba/example/Client.java</testExclude>
                                 <testExclude>corba/example/Server.java</testExclude>
@@ -297,15 +309,38 @@
                                 <testExclude>naming/instest/Client.java*</testExclude>
                                 <testExclude>naming/instest/INSServer.java</testExclude>
                                 <testExclude>naming/instest/HelloImpl.java</testExclude>
+                                <testExclude>corba/preinvokepostinvoke/Server.java</testExclude>
+                                <testExclude>corba/rmipoacounter/counterServer.java</testExclude>
                             </testExcludes>
+                        </configuration>
+                    </execution>
+
+                    <!-- The only two test sources with a compile-time dependency on rmic output:
+                         corba/preinvokepostinvoke/Server -> new _Interface_Stub()
+                         corba/rmipoacounter/counterServer -> new _counterImpl_Tie()
+                         They use the ordinary src/test/java root - target/test-classes is already
+                         on the classpath here, so the generated ties resolve. -->
+                    <execution>
+                        <id>test-compile-post-rmic</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                        <configuration>
+                            <testIncludes>
+                                <testInclude>corba/preinvokepostinvoke/Server.java</testInclude>
+                                <testInclude>corba/rmipoacounter/counterServer.java</testInclude>
+                            </testIncludes>
                         </configuration>
                     </execution>
 
                     <!-- values1 and values2 declare the SAME fully qualified classes with
                          different bodies, to exercise class evolution. They cannot share an
-                         output directory with each other or with the main tree. values1 goes on
-                         the runtime classpath; values2 is served over HTTP as the RMI codebase.
-                         Bound after test-compile because values1 imports from the main tree. -->
+                         output directory with each other or with the main tree, which is why
+                         they sit outside src/test/java rather than merely being excluded from
+                         it. values1 goes on the runtime classpath; values2 is served over HTTP
+                         as the RMI codebase. Bound after test-compile because values1 imports
+                         from the main tree. -->
                     <execution>
                         <id>test-compile-values1</id>
                         <phase>process-test-classes</phase>
@@ -314,7 +349,7 @@
                         </goals>
                         <configuration>
                             <compileSourceRoots>
-                                <compileSourceRoot>${legacy.test.src.dir}/values1</compileSourceRoot>
+                                <compileSourceRoot>${project.basedir}/src/test/values1</compileSourceRoot>
                             </compileSourceRoots>
                             <outputDirectory>${project.build.directory}/test/values1/classes</outputDirectory>
                         </configuration>
@@ -327,7 +362,7 @@
                         </goals>
                         <configuration>
                             <compileSourceRoots>
-                                <compileSourceRoot>${legacy.test.src.dir}/values2</compileSourceRoot>
+                                <compileSourceRoot>${project.basedir}/src/test/values2</compileSourceRoot>
                             </compileSourceRoots>
                             <outputDirectory>${project.build.directory}/test/values2/classes</outputDirectory>
                         </configuration>
@@ -335,19 +370,101 @@
                 </executions>
             </plugin>
 
-            <!-- packaging=pom binds no resource handling, but the legacy tree carries data files
-                 the tests load from the classpath (.tdesc, .javaref, .classlist, test.policy). -->
+            <!--
+                The test sources have non-Java companions sitting beside them in src/test/java -
+                .tdesc suite descriptors, .javaref/.idlref/.classlist expected-output files,
+                test.policy - and the harness reads them TWO different ways: some from the
+                classpath (Test.getResource -> getResourceAsStream), others from the filesystem
+                via corba.test.srcdir (the .idl/.sjava it compiles at run time). Copying satisfies
+                the first while the originals stay in place for the second.
+
+                Deliberately copy-resources rather than declaring src/test/java as a
+                <testResource>: a testResource would give one directory two identities in the
+                Maven project model, source root AND resource root, and m2e stamps excluding="**"
+                on resource directories - which would undo the very thing this layout exists to
+                achieve. copy-resources takes its resource list from plugin configuration instead
+                of project.build.testResources, so the model keeps src/test/java as a test source
+                root and nothing else.
+            -->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>test-resources</id>
+                        <id>copy-test-source-companions</id>
                         <phase>process-test-resources</phase>
                         <goals>
-                            <goal>testResources</goal>
+                            <goal>copy-resources</goal>
                         </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/src/test/java</directory>
+                                    <excludes>
+                                        <exclude>**/*.java</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>
+                        </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <!--
+                This module builds test classes only - it has no src/main and publishes nothing.
+                packaging is jar rather than pom purely so IDEs give it a Java nature and treat
+                src/test/java as a real source folder (m2e adds org.eclipse.jdt.core.javanature
+                only for jar-ish packaging; under pom the module shows up as a plain folder with
+                no classpath, no dependencies and no compile errors).
+
+                That means the jar lifecycle's default bindings have to be switched back off,
+                otherwise packaging=jar would change behaviour as a side effect of an IDE fix.
+            -->
+
+            <!-- Unbind default-test. The suite runs from the all-tests profile below; leaving
+                 this bound would run tests during a plain `mvn install`, and it resolves its
+                 provider independently - it picks surefire-testng, because TestNG is on the test
+                 classpath for the harness's own use. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-test</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Build no artifact and install nothing. There is no src/main to package, and this
+                 module has never been published; jar packaging would otherwise add a new
+                 published artifact to every release. The parent's maven-jar-plugin also points
+                 <manifestFile> at output generated by maven-bundle-plugin, which this module
+                 does not run. install must be skipped together with the unbinding above: without
+                 a packaged file, install fails. -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
             </plugin>
 
         </plugins>
@@ -359,10 +476,11 @@
             <build>
                 <plugins>
                     <!--
-                        Surefire runs the functional suite. packaging=pom provides no surefire
-                        binding of its own, so the executions below are bound explicitly, and they
-                        live in this profile so that a plain `mvn install` still only compiles -
-                        the same split the Ant build had.
+                        Surefire runs the functional suite. These executions are bound explicitly
+                        rather than configuring the lifecycle's default-test (which is unbound in
+                        the base build), because the two kinds of test need different environments
+                        and default-test is a single execution. They live in this profile so that a
+                        plain `mvn install` still only compiles - the same split the Ant build had.
 
                         Two executions, because the two kinds of test need different environments:
                           tdesc-suites       - go through test.Test, which allocates its own ports
@@ -437,9 +555,9 @@
                                         <com.sun.corba.ee.ORBDebugStubGeneration>false</com.sun.corba.ee.ORBDebugStubGeneration>
                                         <!-- lets the harness find each test's own sources without
                                              depending on the process working directory -->
-                                        <corba.test.srcdir>${legacy.test.src.dir}</corba.test.srcdir>
+                                        <corba.test.srcdir>${project.basedir}/src/test/java</corba.test.srcdir>
                                         <http.server.root.directory>${project.build.directory}/test/values2/classes</http.server.root.directory>
-                                        <java.security.policy>${legacy.test.src.dir}/test.policy</java.security.policy>
+                                        <java.security.policy>${project.basedir}/src/test/java/test.policy</java.security.policy>
                                         <junit.report.dir>${project.build.directory}/junitreports</junit.report.dir>
                                     </systemPropertyVariables>
                                 </configuration>
@@ -479,11 +597,11 @@
                                         <com.sun.corba.ee.ORBUseCodegenReflectiveCopyobject>false</com.sun.corba.ee.ORBUseCodegenReflectiveCopyobject>
                                         <com.sun.corba.ee.encoding.ORBEnableJavaSerialization>false</com.sun.corba.ee.encoding.ORBEnableJavaSerialization>
                                         <com.sun.corba.ee.ORBDebugStubGeneration>false</com.sun.corba.ee.ORBDebugStubGeneration>
-                                        <corba.test.srcdir>${legacy.test.src.dir}</corba.test.srcdir>
+                                        <corba.test.srcdir>${project.basedir}/src/test/java</corba.test.srcdir>
                                         <http.server.port>9090</http.server.port>
                                         <java.rmi.server.codebase>http://localhost:9090/</java.rmi.server.codebase>
                                         <http.server.root.directory>${project.build.directory}/test/values2/classes</http.server.root.directory>
-                                        <java.security.policy>${legacy.test.src.dir}/test.policy</java.security.policy>
+                                        <java.security.policy>${project.basedir}/src/test/java/test.policy</java.security.policy>
                                         <java.security.debug>debug</java.security.debug>
                                         <junit.report.dir>${project.build.directory}/junitreports</junit.report.dir>
                                     </systemPropertyVariables>
@@ -495,7 +613,6 @@
                 </plugins>
             </build>
         </profile>
-
 
         <profile>
             <id>add-debug-args</id>

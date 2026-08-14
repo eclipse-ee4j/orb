@@ -123,31 +123,26 @@ public class Options {
 
     /**
      * Names the directory holding a test's own IDL/java sources, which some tests compile at
-     * run time. The historical answer is derived from the process working directory, which only
-     * works while the harness is launched from test/run by Ant. Setting corba.test.srcdir names
-     * the legacy source tree directly, so the working directory is free to move.
+     * run time. Required: it is set by both Surefire executions and listed in
+     * test.Util.PROCESS_PROPERTIES, so every process the harness forks inherits it.
+     *
+     * This used to be optional, falling back to a path derived from the process working
+     * directory. That fallback only ever worked while Ant launched the harness from test/run,
+     * and it named a source tree that no longer exists; rather than replace it with a fresh
+     * working-directory assumption that nothing exercises, the property is now the single way
+     * to locate the sources.
      */
     public static final String TEST_SRCDIR_PROPERTY = "corba.test.srcdir" ;
 
     private static String getTestDirectory( CORBATest parent ) {
         String srcDir = System.getProperty( TEST_SRCDIR_PROPERTY ) ;
-        if (srcDir != null) {
-            return srcDir + File.separator + getPackageAsDir( parent ) + File.separator ;
+        if (srcDir == null) {
+            throw new IllegalStateException( "Required system property " +
+                TEST_SRCDIR_PROPERTY + " is not set; it must name the test source root " +
+                "(functional-tests/src/test/java)" ) ;
         }
 
-        String testBase = (String)(parent.getArgs().get( "-testbase" )) ;
-        String testRoot = "" ;
-
-        if (testBase == null) {
-            testRoot = "/../src/share/classes/";
-            testBase = System.getProperty( "user.dir" ) ;
-        } else {
-            testRoot = "/src/share/classes/";
-        }
-
-        String result = testBase + testRoot.replace('/', File.separatorChar) +
-            getPackageAsDir( parent )  + File.separator;
-        return result ;
+        return srcDir + File.separator + getPackageAsDir( parent ) + File.separator ;
     }
 
     /**
@@ -309,10 +304,10 @@ public class Options {
     }
 
     /**
-     * Return the test's home directory (where it's source
-     * files are located.  Defaults to
-     * ../src/share/classes/{package}/ since the current
-     * directory is assumed to be ../test/make).
+     * Return the test's home directory, where its own source files live:
+     * ${corba.test.srcdir}/{package}/.
+     *
+     * @see #TEST_SRCDIR_PROPERTY
      */
     public static String getTestDirectory() {
         return testDirectory;
