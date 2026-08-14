@@ -38,6 +38,12 @@
              locate their own sources relative to it at run time (corba.test.srcdir), and the
              .tdesc files reference it by relative path. -->
         <legacy.test.src.dir>${project.basedir}/../test/src/share/classes</legacy.test.src.dir>
+        <!-- working directory for the suite. target/ itself, because Surefire does not create
+             workingDirectory and it must exist before the fork starts; run output lands in
+             target/gen, so mvn clean still removes it. -->
+        <functional.tests.rundir>${project.build.directory}</functional.tests.rundir>
+        <!-- 4a: report failures by name without breaking the build; flipped to false in 4b -->
+        <functional.tests.failureIgnore>true</functional.tests.failureIgnore>
     </properties>
 
     <dependencies>
@@ -349,25 +355,136 @@
             <id>all-tests</id>
             <build>
                 <plugins>
+                    <!--
+                        Surefire runs the functional suite. packaging=pom provides no surefire
+                        binding of its own, so the executions below are bound explicitly, and they
+                        live in this profile so that a plain `mvn install` still only compiles -
+                        the same split the Ant build had.
+
+                        Two executions, because the two kinds of test need different environments:
+                          tdesc-suites       - go through test.Test, which allocates its own ports
+                          direct-junit-tests - do not, so they keep the properties Ant handed them
+                    -->
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-antrun-plugin</artifactId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <!--
+                            Pin the JUnit 4 provider. TestNG is on this module's test classpath
+                            because the legacy harness drives TestNG from inside its forked client
+                            processes, and Surefire's auto-detection picks the TestNG provider on
+                            that basis - which would run these JUnit 4 classes under the wrong
+                            runner. The tests Surefire itself discovers here are all JUnit 4.
+                        -->
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.apache.maven.surefire</groupId>
+                                <artifactId>surefire-junit47</artifactId>
+                                <version>${maven-surefire-plugin.version}</version>
+                            </dependency>
+                        </dependencies>
+                        <configuration>
+                            <!-- One fresh JVM per test class, sequentially. For the adapters that
+                                 means one JVM per .tdesc, matching `java test.Test -file x.tdesc`;
+                                 entries within a file share it, as they always did. The harness
+                                 keeps static state in corba.framework.Options and uses fixed
+                                 ports, so this must not be parallelised. -->
+                            <forkCount>1</forkCount>
+                            <reuseForks>false</reuseForks>
+                            <parallel>none</parallel>
+                            <!-- the defect this migration exists to fix: never pass silently
+                                 because nothing ran -->
+                            <failIfNoTests>true</failIfNoTests>
+                            <!-- the harness passes System.getProperty("java.class.path") to the
+                                 ORBD/server/client JVMs it forks; Surefire's default manifest-only
+                                 launcher jar would give them a classpath of one jar -->
+                            <useManifestOnlyJar>false</useManifestOnlyJar>
+                            <workingDirectory>${functional.tests.rundir}</workingDirectory>
+                            <argLine>-Xmx200m ${debug.args}</argLine>
+                            <testFailureIgnore>${functional.tests.failureIgnore}</testFailureIgnore>
+                        </configuration>
                         <executions>
                             <execution>
-                                <id>run-tests</id>
-                                <phase>integration-test</phase>
-                                <configuration>
-                                    <target>
-                                        <ant antfile="../make/build.xml" target="test-all">
-                                            <property name="test-build.dir" value="${project.build.directory}/test" />
-                                            <property name="root.dir" value=".." />
-                                            <property name="maven.test.classpath" refid="maven.test.classpath" />
-                                        </ant>
-                                    </target>
-                                </configuration>
+                                <id>tdesc-suites</id>
+                                <phase>test</phase>
                                 <goals>
-                                    <goal>run</goal>
+                                    <goal>test</goal>
                                 </goals>
+                                <configuration>
+                                    <includes>
+                                        <include>test/suites/*TdescSuiteTest.java</include>
+                                    </includes>
+                                    <additionalClasspathElements>
+                                        <additionalClasspathElement>${project.build.directory}/test/values1/classes</additionalClasspathElement>
+                                        <additionalClasspathElement>${functional.tests.rundir}/gen</additionalClasspathElement>
+                                    </additionalClasspathElements>
+                                    <systemPropertyVariables>
+                                        <javax.rmi.CORBA.UtilClass>com.sun.corba.ee.impl.javax.rmi.CORBA.Util</javax.rmi.CORBA.UtilClass>
+                                        <javax.rmi.CORBA.StubClass>com.sun.corba.ee.impl.javax.rmi.CORBA.StubDelegateImpl</javax.rmi.CORBA.StubClass>
+                                        <javax.rmi.CORBA.PortableRemoteObjectClass>com.sun.corba.ee.impl.javax.rmi.PortableRemoteObject</javax.rmi.CORBA.PortableRemoteObjectClass>
+                                        <org.omg.CORBA.ORBClass>com.sun.corba.ee.impl.orb.ORBImpl</org.omg.CORBA.ORBClass>
+                                        <org.omg.CORBA.ORBSingletonClass>com.sun.corba.ee.impl.orb.ORBSingleton</org.omg.CORBA.ORBSingletonClass>
+                                        <java.naming.factory.state>com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl</java.naming.factory.state>
+                                        <org.glassfish.gmbal.no.multipleUpperBoundsException>true</org.glassfish.gmbal.no.multipleUpperBoundsException>
+                                        <com.sun.corba.ee.POA.ORBServerId>1</com.sun.corba.ee.POA.ORBServerId>
+                                        <com.sun.corba.ee.ORBBase>${project.basedir}</com.sun.corba.ee.ORBBase>
+                                        <com.sun.corba.ee.ORBUseDynamicStub>true</com.sun.corba.ee.ORBUseDynamicStub>
+                                        <com.sun.corba.ee.ORBUseCodegenReflectiveCopyobject>false</com.sun.corba.ee.ORBUseCodegenReflectiveCopyobject>
+                                        <com.sun.corba.ee.encoding.ORBEnableJavaSerialization>false</com.sun.corba.ee.encoding.ORBEnableJavaSerialization>
+                                        <com.sun.corba.ee.ORBDebugForkedProcess>false</com.sun.corba.ee.ORBDebugForkedProcess>
+                                        <com.sun.corba.ee.ORBDebugStubGeneration>false</com.sun.corba.ee.ORBDebugStubGeneration>
+                                        <!-- lets the harness find each test's own sources without
+                                             depending on the process working directory -->
+                                        <corba.test.srcdir>${legacy.test.src.dir}</corba.test.srcdir>
+                                        <http.server.root.directory>${project.build.directory}/test/values2/classes</http.server.root.directory>
+                                        <java.security.policy>${legacy.test.src.dir}/test.policy</java.security.policy>
+                                        <junit.report.dir>${project.build.directory}/junitreports</junit.report.dir>
+                                    </systemPropertyVariables>
+                                </configuration>
+                            </execution>
+
+                            <!-- These two are plain JUnit classes that Ant ran through its <junit>
+                                 task, not through test.Test. They therefore never get
+                                 Test.initRuntimeProperties, so they keep the explicit port and
+                                 policy properties Ant gave them. Paths are absolute because the
+                                 working directory is no longer test/run. -->
+                            <execution>
+                                <id>direct-junit-tests</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>test</goal>
+                                </goals>
+                                <configuration>
+                                    <includes>
+                                        <include>corba/misc/Client.java</include>
+                                        <include>corba/dynamicrmiiiop/Client.java</include>
+                                    </includes>
+                                    <additionalClasspathElements>
+                                        <additionalClasspathElement>${project.build.directory}/test/values1/classes</additionalClasspathElement>
+                                        <additionalClasspathElement>${functional.tests.rundir}/gen</additionalClasspathElement>
+                                    </additionalClasspathElements>
+                                    <systemPropertyVariables>
+                                        <javax.rmi.CORBA.UtilClass>com.sun.corba.ee.impl.javax.rmi.CORBA.Util</javax.rmi.CORBA.UtilClass>
+                                        <javax.rmi.CORBA.StubClass>com.sun.corba.ee.impl.javax.rmi.CORBA.StubDelegateImpl</javax.rmi.CORBA.StubClass>
+                                        <javax.rmi.CORBA.PortableRemoteObjectClass>com.sun.corba.ee.impl.javax.rmi.PortableRemoteObject</javax.rmi.CORBA.PortableRemoteObjectClass>
+                                        <org.omg.CORBA.ORBClass>com.sun.corba.ee.impl.orb.ORBImpl</org.omg.CORBA.ORBClass>
+                                        <org.omg.CORBA.ORBSingletonClass>com.sun.corba.ee.impl.orb.ORBSingleton</org.omg.CORBA.ORBSingletonClass>
+                                        <java.naming.factory.state>com.sun.corba.ee.impl.presentation.rmi.JNDIStateFactoryImpl</java.naming.factory.state>
+                                        <org.glassfish.gmbal.no.multipleUpperBoundsException>true</org.glassfish.gmbal.no.multipleUpperBoundsException>
+                                        <com.sun.corba.ee.POA.ORBServerId>1</com.sun.corba.ee.POA.ORBServerId>
+                                        <com.sun.corba.ee.ORBBase>${project.basedir}</com.sun.corba.ee.ORBBase>
+                                        <com.sun.corba.ee.ORBUseDynamicStub>true</com.sun.corba.ee.ORBUseDynamicStub>
+                                        <com.sun.corba.ee.ORBUseCodegenReflectiveCopyobject>false</com.sun.corba.ee.ORBUseCodegenReflectiveCopyobject>
+                                        <com.sun.corba.ee.encoding.ORBEnableJavaSerialization>false</com.sun.corba.ee.encoding.ORBEnableJavaSerialization>
+                                        <com.sun.corba.ee.ORBDebugStubGeneration>false</com.sun.corba.ee.ORBDebugStubGeneration>
+                                        <corba.test.srcdir>${legacy.test.src.dir}</corba.test.srcdir>
+                                        <http.server.port>9090</http.server.port>
+                                        <java.rmi.server.codebase>http://localhost:9090/</java.rmi.server.codebase>
+                                        <http.server.root.directory>${project.build.directory}/test/values2/classes</http.server.root.directory>
+                                        <java.security.policy>${legacy.test.src.dir}/test.policy</java.security.policy>
+                                        <java.security.debug>debug</java.security.debug>
+                                        <junit.report.dir>${project.build.directory}/junitreports</junit.report.dir>
+                                    </systemPropertyVariables>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
