@@ -136,7 +136,7 @@ public abstract class Test implements java.lang.Runnable {
             System.out.println("TEST: " + msg);
     }
 
-    public static void UsageAndExit() {
+    public static void usage() {
         System.out.println();
         System.out.println("Usage: java test.Test <class args> | <file args>\n");
         System.out.println("      <class args>: -test <test class> [-iterate <#>] [-verbose] [<test args>]");
@@ -144,6 +144,19 @@ public abstract class Test implements java.lang.Runnable {
         System.out.println("      <test class>: fully qualified test class name\n");
         System.out.println("  <test file path>: @<path relative to test.Test dir> | <absolutePath>");
         System.out.println("       <test file>: [<class args> | <file args> \\n]...[<class args> | <file args> \\n]");
+    }
+
+    /**
+     * Print usage and terminate the JVM.
+     *
+     * Only correct for command-line argument errors, where this process exists solely to run what the arguments name.
+     * It must NOT be used for a problem with an individual test entry: under Surefire that kills the whole fork, taking
+     * every remaining case in the suite with it and surfacing as "The forked VM terminated without properly saying
+     * goodbye" rather than as a failure anyone can attribute. That is exactly how corba.evolve.EvolveTest hid the four
+     * entries that followed it. Per-entry problems throw instead -- see {@link #runTestClass}.
+     */
+    public static void UsageAndExit() {
+        usage();
         System.exit(1);
     }
 
@@ -894,7 +907,15 @@ public abstract class Test implements java.lang.Runnable {
             int testCount = lines.size();
             for (int i = 0; i < testCount; i++) {
                 line = lines.elementAt(i);
-                runTestLine(args, parseTestLine(line));
+                try {
+                    runTestLine(args, parseTestLine(line));
+                } catch (TestSkippedException exc) {
+                    // An optional test that is not present. Historically this printed and carried on with the file's
+                    // exit status unaffected; keep that. Only the JUnit adapter turns it into a reported skip -- here
+                    // there is nowhere to report it to, and letting it escape would reach main's catch-all and fail
+                    // the whole file.
+                    System.out.println("    " + exc.getMessage() + " - skipping execution");
+                }
             }
         } catch (IOException e1) {
             try {
@@ -941,11 +962,45 @@ public abstract class Test implements java.lang.Runnable {
         }
     }
 
+    /**
+     * For an entry marked {@code -ifpresent}, raise {@link TestSkippedException} when its test class is absent.
+     *
+     * This has to happen here, before the {@code -separateprocess} decision, rather than where the class is actually
+     * loaded. That branch forks another test.Test JVM and observes only an exit code, and the child's main() turns any
+     * escaping Throwable into exit status 1 -- so a skip raised inside the child would reach the parent as a failure.
+     * The child is launched with this process's literal java.class.path, so resolving the name here answers exactly the
+     * same question. Resolution is deliberately without initialisation: presence is the question, and running a static
+     * initialiser would be a side effect of merely asking.
+     */
+    private static void checkPresenceForOptionalTest(String[] testArgs) {
+        String testClassName = null;
+        boolean ifPresent = false;
+        for (int i = 0; i < testArgs.length; i++) {
+            if (TEST_CLASS_NAME_FLAG.equals(testArgs[i]) && i + 1 < testArgs.length) {
+                testClassName = testArgs[i + 1];
+            } else if (IF_PRESENT_FLAG.equalsIgnoreCase(testArgs[i])) {
+                ifPresent = true;
+            }
+        }
+
+        if (!ifPresent || testClassName == null) {
+            return;
+        }
+
+        try {
+            Class.forName(testClassName, false, Test.class.getClassLoader());
+        } catch (ClassNotFoundException exc) {
+            throw new TestSkippedException(testClassName + " is not present (-ifpresent)");
+        }
+    }
+
     private static void runTestLineInternal(String[] args, String[] testArgs) {
         // Concatenate the two sets of args...
         String[] theArgs = new String[args.length + testArgs.length];
         System.arraycopy(args, 0, theArgs, 0, args.length);
         System.arraycopy(testArgs, 0, theArgs, args.length, testArgs.length);
+
+        checkPresenceForOptionalTest(testArgs);
 
         // See if we have -separateprocess flag...
         boolean ownProcess = false;
@@ -1017,8 +1072,10 @@ public abstract class Test implements java.lang.Runnable {
     public static void runTestClass(String testClassName, Hashtable<String, String> flags, String args[]) {
         dprint("Running test " + testClassName);
 
+        // These throw rather than exit: a bad entry must fail its own case, not terminate the JVM and with it every
+        // remaining entry in the suite. See UsageAndExit.
         if (testClassName == null)
-            UsageAndExit();
+            throw new IllegalArgumentException("no test class name given (-test)");
 
         Test testObj = null;
 
@@ -1027,16 +1084,20 @@ public abstract class Test implements java.lang.Runnable {
         } catch (ClassNotFoundException cnfe) {
             System.out.print("    " + testClassName + ": not found - ");
             if (flags.containsKey(IF_PRESENT_FLAG)) {
+                // Retained for direct CLI use -- `java test.Test -test Foo -ifpresent` reaches here via run() without
+                // passing through runTestLineInternal, and has always exited 0 in this case. The paths Maven drives
+                // are pre-flighted in runTestLineInternal, which reports a skip instead.
                 System.out.println("skipping execution");
                 return;
             } else {
                 System.out.println(cnfe);
-                cnfe.printStackTrace();
-                UsageAndExit();
+                throw new IllegalArgumentException("test class not found: " + testClassName, cnfe);
             }
+        } catch (ThreadDeath | VirtualMachineError e) {
+            // Not something to normalise into a test-entry result.
+            throw e;
         } catch (Throwable e) {
-            e.printStackTrace();
-            UsageAndExit();
+            throw new IllegalArgumentException("could not instantiate test class " + testClassName, e);
         }
 
         testObj.sArgs = args;

@@ -26,7 +26,7 @@
 // This has to be run in a separate process because it
 // clobbers environment variables like java.rmi.server.codebase
 -test javax.rmi.ClassLoadTest -separateprocess
-// this no longer tests anything, but manages to fail anyway!! (REG) -test rmic.ParseTest
+// @disabled(no longer tests anything, but manages to fail anyway - REG) -test rmic.ParseTest
 
 // ############################################################################
 // # DISABLED: javax.rmi.fvd.TheTest, javax.rmi.download.TheTest,             #
@@ -78,7 +78,7 @@
 // DO NOT MOVE THIS TEST TO RUN AFTER rmic.HelloTest, It hangs at times on
 // Windows.
 // DISABLED - see the PFL note above.
-// -test javax.rmi.fvd.TheTest -separateprocess
+// @disabled(needs a PFL fix - see the note above) -test javax.rmi.fvd.TheTest -separateprocess
 
 -test rmic.HelloTest
 -test rmic.HelloTest -localservants -normic
@@ -86,8 +86,8 @@
 -test rmic.StaticStringsHashTest
 -test rmic.StubReferenceTest
 // DISABLED - see the PFL note above.
-// -test javax.rmi.download.TheTest
-// -test javax.rmi.test1.TheTest
+// @disabled(needs a PFL fix - see the note above) -test javax.rmi.download.TheTest
+// @disabled(needs a PFL fix - see the note above) -test javax.rmi.test1.TheTest
 -test rmic.LocalStubTest
 
 // DISABLED: the IIOP variant only - the JRMP one below passes and stays enabled.
@@ -101,7 +101,7 @@
 // There is a reproduction of the underlying rmic defect, with the full analysis, in
 // RmicGenerationTest.generateIiopStubsForNestedRemoteImpl - it is @Ignore'd for the
 // same reason. Fix that, drop the @Ignore, and re-enable this line.
-// -test javax.rmi.PROTest
+// @disabled(rmic cannot generate IIOP stubs for nested remote impls - see the note above) -test javax.rmi.PROTest
 
 -test javax.rmi.PROTest -jrmp -separateprocess
 -test ibmspace.spacetest.SpaceTest -separateprocess

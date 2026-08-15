@@ -21,13 +21,13 @@
 //
 // Format:
 //
-// -test <class name> <options>
+// Format: -test <class name> <options>
 //
 
 // Fixed 4670827: INS does not recognize IPV6 URLs
 // Warning: This test can only be run on Jano. The address is hard coded, will
 // be made general test when time permits. This is only for SQE to test.
-// -test hopper.h4670827.INSTest
+// @disabled(only runnable on Jano - the address is hard coded) -test hopper.h4670827.INSTest
 
 // Fixed 4486041: ORB.init() could provide better failure diagnostics
 -test hopper.h4486041.ORBInitErrorTest
@@ -38,9 +38,9 @@
 // return values or parameters
 // Commented out temporarily. For now, run the stand alone test case attached
 // in the bug traq
-//-test hopper.h4515953.RMICIDLEntityTest
+// @disabled(temporarily disabled in favour of the standalone bug traq test case) -test hopper.h4515953.RMICIDLEntityTest
 // Not required to be run as part of Hopper, it is a fix for the package rename.
-//-test hopper.h4645953.ValidateIdlModules
+// @disabled(not required for Hopper - it tested the package rename) -test hopper.h4645953.ValidateIdlModules
 
 // Fixed 4647746: POA does not work when ORB.init is called for an Applet
 -test hopper.h4647746.POAAppletTest

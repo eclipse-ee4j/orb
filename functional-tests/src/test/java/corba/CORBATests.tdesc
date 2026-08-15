@@ -34,12 +34,12 @@
 // MixedOrbTest passes when run outside of the framework,
 // but fails in the framework.  It is commented out
 // until that problem is fixed.
-// -test corba.mixedorb.MixedOrbTest
+// @disabled(passes outside the framework, fails inside it) -test corba.mixedorb.MixedOrbTest
 -test corba.resolve_deadlock.ResolveDeadlockTest
 -test corba.lb.LBTest -ifpresent
 
 // I don't think this is needed, and it takes 4.5 minutes to run, so comment it out for now
-// -test corba.retryplugin.RetryPluginTest -ifpresent
+// @disabled(judged unnecessary, and takes about 4.5 minutes) -test corba.retryplugin.RetryPluginTest -ifpresent
 
 -test corba.giopgen.GIOPGenTest
 -test corba.rfm.TestRFM
@@ -92,17 +92,15 @@
 -test corba.invocation.InvocationTest
 -test corba.custom.CustomTest
 
-// DISABLED: corba.evolve.EvolveTest - the corba/evolve package no longer exists
-// anywhere in the tree, only this entry was left behind.
+// corba.evolve.EvolveTest was removed from here: the corba/evolve package exists nowhere in the
+// tree, so there is nothing to skip or re-enable.
 //
-// This was not merely a dead line. test.Test treats an unresolvable -test class as a
-// usage error and calls System.exit(1), which killed the suite JVM here - so the four
-// tests below it never ran at all, in any build, and were silently absent from the
-// results rather than reported as failures.
-//
-// Use -ifpresent if you ever need a genuinely optional entry; that path skips cleanly.
-//
-// -test corba.evolve.EvolveTest
+// Worth remembering why it mattered. It was not merely a dead line: test.Test treated an
+// unresolvable -test class as a usage error and called System.exit(1), which killed the suite JVM
+// at this point - so the four tests below it never ran, in any build, and were absent from the
+// results rather than reported as failures. Both halves of that are now fixed: a bad entry throws
+// and fails only its own case, and a disabled entry must be written // @disabled(reason) -test ...
+// so it is reported as skipped instead of vanishing.
 
 // Leave these last four at the end.
 // They go through long combinations of fragments sizes or GIOP combinations.

@@ -29,6 +29,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.junit.AfterClass;
+import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,6 +37,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameter;
 
 import test.ServantContext;
+import test.TestSkippedException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -76,6 +78,13 @@ public abstract class TdescSuite {
     @Parameter(1)
     public String[] args;
 
+    /**
+     * Why this entry is disabled, or null when it is live. Non-null turns the case into a JUnit skip carrying this text,
+     * so a disabled test is reported rather than absent.
+     */
+    @Parameter(2)
+    public String skipReason;
+
     /** Relative to the working directory Surefire sets, so this resolves to target/gen. */
     private static final String OUTPUT_DIR = "gen";
 
@@ -85,8 +94,30 @@ public abstract class TdescSuite {
     }
 
     /**
+     * A disabled entry: {@code // @disabled(reason) -test some.Test [options]}. The reason is greedy so it may itself
+     * contain parentheses -- the closing one is pinned by the {@code -test} that has to follow.
+     */
+    private static final java.util.regex.Pattern DISABLED = java.util.regex.Pattern
+            .compile("^//\\s*@disabled\\((.+)\\)\\s+(-test(?:\\s.*)?)$");
+
+    /** Anything else that looks like a commented-out entry. Rejected outright; see {@link #entries}. */
+    private static final java.util.regex.Pattern MALFORMED_DISABLED = java.util.regex.Pattern.compile("^//\\s*@disabled\\b.*");
+    private static final java.util.regex.Pattern BARE_COMMENTED_TEST = java.util.regex.Pattern.compile("^//\\s*-test\\b.*");
+
+    /**
      * Parse a .tdesc into JUnit parameters. Only reads and tokenizes: no ORB is created and no process is launched here, so
      * a failure during parameter discovery cannot leave servants behind for the {@link #cleanup()} below to miss.
+     *
+     * A disabled test must be written as {@code // @disabled(reason) -test ...}, which becomes a skipped case carrying
+     * that reason. Commenting an entry out any other way is rejected here rather than ignored: that is the whole point.
+     * A bare {@code // -test Foo} used to vanish from the results entirely -- which is precisely how
+     * corba.evolve.EvolveTest hid four tests from every build in this repository's history -- so the format no longer
+     * permits it. Rejection happens during parameter discovery, so a malformed descriptor fails the suite before any
+     * case runs, reported as an initialisation error; malformed suite metadata is configuration corruption, not a
+     * failing test.
+     *
+     * Note the {@code trim()} below must stay ahead of the matching: every pattern is anchored at {@code ^//}, so
+     * matching an untrimmed line would let an indented {@code // -test Foo} slip through as an ordinary comment.
      */
     protected static Collection<Object[]> entries(String resource) throws IOException {
         InputStream in = TdescSuite.class.getResourceAsStream(resource);
@@ -100,13 +131,38 @@ public abstract class TdescSuite {
             String line;
             while ((line = reader.readLine()) != null) {
                 line = line.trim();
+                if (line.isEmpty()) {
+                    continue;
+                }
+
+                java.util.regex.Matcher disabled = DISABLED.matcher(line);
+                if (disabled.matches()) {
+                    String reason = disabled.group(1).trim();
+                    if (reason.isEmpty()) {
+                        throw new IllegalArgumentException(
+                                "@disabled needs a reason, in " + resource + ": " + line);
+                    }
+                    String[] args = test.Test.parseTestLine(disabled.group(2));
+                    params.add(new Object[] { describe(args), args, reason });
+                    continue;
+                }
+                if (MALFORMED_DISABLED.matcher(line).matches()) {
+                    throw new IllegalArgumentException(
+                            "malformed @disabled entry, expected // @disabled(reason) -test ... , in "
+                                    + resource + ": " + line);
+                }
+                if (BARE_COMMENTED_TEST.matcher(line).matches()) {
+                    throw new IllegalArgumentException(
+                            "a disabled test must be written // @disabled(reason) -test ... so it is reported as "
+                                    + "skipped rather than silently dropped, in " + resource + ": " + line);
+                }
                 // same filter as test.Test.runTestFile
-                if (line.startsWith("//") || line.isEmpty()) {
+                if (line.startsWith("//")) {
                     continue;
                 }
                 // reuse the harness's tokenizer rather than reinterpreting .tdesc syntax here
                 String[] args = test.Test.parseTestLine(line);
-                params.add(new Object[] { describe(args), args });
+                params.add(new Object[] { describe(args), args, null });
             }
         } finally {
             reader.close();
@@ -144,7 +200,16 @@ public abstract class TdescSuite {
 
     @Test
     public void runTdescEntry() {
-        assertEquals("exit code for " + name, 0, test.Test.runTestLine(baseArgs(), args));
+        // A disabled entry is reported as skipped, carrying its reason, under the same case name it would have if
+        // enabled -- so re-enabling it later renames nothing.
+        Assume.assumeTrue(skipReason, skipReason == null);
+        try {
+            assertEquals("exit code for " + name, 0, test.Test.runTestLine(baseArgs(), args));
+        } catch (TestSkippedException exc) {
+            // -ifpresent on an absent class: skipped, not passed. test.Test stays free of any JUnit dependency and
+            // signals with its own exception; translating it is this adapter's job.
+            Assume.assumeTrue(exc.getMessage(), false);
+        }
     }
 
     /**

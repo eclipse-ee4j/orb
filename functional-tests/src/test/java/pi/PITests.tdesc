@@ -26,7 +26,7 @@
 
 // This is an important test, but it does not
 // currently run: it seems to be missing the ArbitraryObjectServiceImpl class.
-// -test pi.serviceexample.ServiceExampleTest
+// @disabled(important test, but ArbitraryObjectServiceImpl appears to be missing) -test pi.serviceexample.ServiceExampleTest
 
 -test pi.ort.ORTTest
 -test pi.iorinterceptor.IORInterceptorTest

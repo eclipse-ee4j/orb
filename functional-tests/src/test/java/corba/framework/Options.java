@@ -208,8 +208,13 @@ public class Options {
         classpath = newPath.toString();
     }
 
+    /**
+     * How long to wait for a spawned process's handshake. Delegates to {@link Util#getHandshakeTimeout()} so this and
+     * Util's own wait share one setting, overridable with -Dcorba.test.timeout; they were separately hardcoded to two
+     * minutes before, so raising one left the other unchanged.
+     */
     public static long getMaximumTimeout() {
-        return 120000;
+        return Util.getHandshakeTimeout();
     }
 
     /**

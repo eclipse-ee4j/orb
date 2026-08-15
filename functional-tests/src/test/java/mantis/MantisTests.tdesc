@@ -22,7 +22,7 @@
 //
 // Format:
 //
-// -test <class name> <options>
+// Format: -test <class name> <options>
 //
 
 // Fixed 4764130: ClientDelegate.addServiceContexts() records connections prematurely

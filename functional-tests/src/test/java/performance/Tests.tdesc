@@ -35,6 +35,6 @@
 // means deleting the timing instrumentation that is the only reason it differs from
 // simpleperf2 below - which measures the same local/RMI-IIOP invocation cost and passes.
 //
-// -test performance.simpleperf.SimplePerfTest
+// @disabled(its counterClient was moved to test/disabled - see the note above) -test performance.simpleperf.SimplePerfTest
 
 -test performance.simpleperf2.SimplePerfTest

@@ -321,6 +321,32 @@ public class Util {
         return result;
     }
 
+    /**
+     * How long to wait for a spawned process to announce itself, in milliseconds. Defaults to two minutes, which is
+     * what both wait sites hardcoded before; raise it on a slow or loaded machine with
+     * {@code -Dcorba.test.timeout=...}.
+     */
+    public static final String HANDSHAKE_TIMEOUT_PROPERTY = "corba.test.timeout";
+
+    private static final long DEFAULT_HANDSHAKE_TIMEOUT = 120000;
+
+    /**
+     * The single source of the handshake timeout. It lives here rather than in corba.framework.Options because Options
+     * already depends on this class, and Options.getMaximumTimeout delegates to it -- one knob, both wait sites.
+     */
+    public static long getHandshakeTimeout() {
+        String value = System.getProperty(HANDSHAKE_TIMEOUT_PROPERTY);
+        if (value == null) {
+            return DEFAULT_HANDSHAKE_TIMEOUT;
+        }
+        try {
+            return Long.parseLong(value.trim());
+        } catch (NumberFormatException exc) {
+            throw new IllegalArgumentException(
+                    HANDSHAKE_TIMEOUT_PROPERTY + " must be a number of milliseconds, got: " + value, exc);
+        }
+    }
+
     // List of properties that must be inherited by any process
     // the test framework starts by Runtime.exec. Used both in
     // the IBM tests (based on test.Test) and the CORBA test framework
@@ -347,7 +373,10 @@ public class Util {
             // Where tests find their own sources to compile at run time. Must be inherited:
             // Options.initializeDefaults reads this same list, so without it only the top-level
             // JVM would know the source root and spawned client/server processes would not.
-            corba.framework.Options.TEST_SRCDIR_PROPERTY, "corba.test.controller.name", "http.server.port", "name.server.port",
+            corba.framework.Options.TEST_SRCDIR_PROPERTY,
+            // How long to wait for a spawned process's handshake. Inherited for the same reason: a nested
+            // test.Test would otherwise silently fall back to the default while its parent used the override.
+            HANDSHAKE_TIMEOUT_PROPERTY, "corba.test.controller.name", "http.server.port", "name.server.port",
             "java.rmi.server.codebase", "java.compiler", "java.rmi.server.codebase", "http.server.root.directory",
             "com.sun.corba.ee.JavaIDLHome",
 
@@ -428,7 +457,7 @@ public class Util {
         monitor.start();
 
         try {
-            monitor.waitForHandshake(120000);
+            monitor.waitForHandshake(getHandshakeTimeout());
         } catch (Exception e) {
             theProcess.destroy();
             theProcess = null;
