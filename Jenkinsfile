@@ -34,12 +34,31 @@ pipeline {
     stage('build') {
       steps {
         sh 'mvn -Psnapshots,all-tests,dash-licenses clean install'
-        // The functional suite now reports through Surefire like every other module, so this
-        // glob picks it up too. allowEmptyResults stays false deliberately: finding no reports
-        // means the suite did not run, which is a failure, not a pass.
-        junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: false
-        archiveArtifacts artifacts: 'dash-summary.txt'
       }
+    }
+  }
+  post {
+    always {
+      // Reporting and diagnostics live in post, not in the stage above. A failing mvn aborts the
+      // stage, so any step written after the sh is skipped - which meant a failed build published
+      // neither test results nor artifacts, precisely when they are most needed.
+
+      // The functional suite reports through Surefire like every other module, so this glob picks
+      // it up too. allowEmptyResults stays false deliberately: finding no reports means the suite
+      // did not run, which is a failure, not a pass.
+      junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: false
+
+      // Per-process output from the functional harness. It forks ORBD/server/client JVMs and
+      // writes each one's stdout and stderr under functional-tests/target/gen/<package>/ as
+      // client.out.txt, client.err.txt, server.err.txt, ORBD.out.txt and so on. When an entry
+      // fails, the console shows only "Bad exit value(s): client[1]" - the reason is in these
+      // files, and without them a CI-only failure cannot be diagnosed off the console log.
+      // Small: a few hundred KB for a full run.
+      archiveArtifacts artifacts: 'functional-tests/target/gen/**/*.txt', allowEmptyArchive: true
+
+      // Written by the dash-licenses profile; legitimately absent if the build failed earlier,
+      // hence allowEmptyArchive here rather than failing the build a second time over it.
+      archiveArtifacts artifacts: 'dash-summary.txt', allowEmptyArchive: true
     }
   }
 }

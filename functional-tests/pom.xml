@@ -407,6 +407,37 @@
                             </resources>
                         </configuration>
                     </execution>
+
+                    <!--
+                        Create target/gen before Surefire forks. It is where tests write the stubs and classes they
+                        generate at run time, and it is on the fork's classpath below - but Surefire drops an
+                        additionalClasspathElement that does not exist when the fork is launched, and the directory is
+                        otherwise created inside the first fork, too late for that fork to load anything from it.
+
+                        The symptom is remote: rmic.StubReferenceTest fails with ClassNotFoundException for the stub it
+                        just generated. Whether it bites depends on which suite runs first, which depends on the
+                        filesystem order Surefire scans in - so it passed on macOS, where AllTdescSuiteTest sorts last,
+                        and failed on Linux CI, where it sorts first. Verified by pre-creating the directory: same
+                        command, same order, and the test passes.
+                    -->
+                    <execution>
+                        <id>create-run-output-dir</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${functional.tests.rundir}/gen</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/src/test/java</directory>
+                                    <includes>
+                                        <include>this-matches-nothing-the-point-is-the-directory</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
 

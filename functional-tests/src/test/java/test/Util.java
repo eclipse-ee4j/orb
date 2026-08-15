@@ -368,6 +368,11 @@ public class Util {
             // Security related
             "com.sun.corba.ee.ORBBase", "java.security.policy", "java.security.debug", "java.security.manager",
 
+            // Whether a display is available. Inherited so that -Djava.awt.headless=true reaches the client and
+            // server processes, which is where it matters: a headless CI agent is why hopper.h4647746.POAAppletTest
+            // fails there and passes on a desktop. Setting it locally reproduces that difference.
+            "java.awt.headless",
+
             // Test setup
             "corba.test.orb.classpath",
             // Where tests find their own sources to compile at run time. Must be inherited:
