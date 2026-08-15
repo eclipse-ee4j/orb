@@ -39,36 +39,24 @@ import org.omg.PortableInterceptor.ServerRequestInfo;
 import com.sun.corba.ee.spi.servicecontext.SendingContextServiceContext;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
-public class Interceptor
-    extends
-        org.omg.CORBA.LocalObject
-    implements
-        ClientRequestInterceptor,
-        ServerRequestInterceptor,
-        ORBInitializer
-{
+public class Interceptor extends org.omg.CORBA.LocalObject implements ClientRequestInterceptor, ServerRequestInterceptor, ORBInitializer {
     public int numberOfClientHelloInvocations = 0;
     //
     // Interceptor operations
     //
 
-    public String name()
-    {
+    public String name() {
         return this.getClass().getName();
     }
 
-    public void destroy()
-    {
+    public void destroy() {
     }
 
     //
     // ClientRequestInterceptor operations
     //
 
-    public void send_request(ClientRequestInfo ri)
-        throws
-            ForwardRequest
-    {
+    public void send_request(ClientRequestInfo ri) throws ForwardRequest {
         System.out.println(ri.operation());
         if (ri.operation().equals("hello")) {
             numberOfClientHelloInvocations++;
@@ -78,32 +66,26 @@ public class Interceptor
         }
     }
 
-    public void send_poll(ClientRequestInfo ri)
-    {
+    public void send_poll(ClientRequestInfo ri) {
     }
 
-    public void receive_reply(ClientRequestInfo ri)
-    {
+    public void receive_reply(ClientRequestInfo ri) {
     }
 
-    public void receive_exception(ClientRequestInfo ri)
-    {
+    public void receive_exception(ClientRequestInfo ri) {
     }
 
-    public void receive_other(ClientRequestInfo ri)
-    {
+    public void receive_other(ClientRequestInfo ri) {
     }
 
     //
     // ServerRequestInterceptor operations
     //
 
-    public void receive_request_service_contexts(ServerRequestInfo ri)
-    {
+    public void receive_request_service_contexts(ServerRequestInfo ri) {
         System.out.println(ri.operation());
         try {
-            ServiceContext serviceContext =
-                ri.get_request_service_context(SendingContextServiceContext.SERVICE_CONTEXT_ID);
+            ServiceContext serviceContext = ri.get_request_service_context(SendingContextServiceContext.SERVICE_CONTEXT_ID);
         } catch (BAD_PARAM e) {
             // Not present.
             System.out.println("SendingContextServiceContext not present");
@@ -111,28 +93,23 @@ public class Interceptor
         }
     }
 
-    public void receive_request(ServerRequestInfo ri)
-    {
+    public void receive_request(ServerRequestInfo ri) {
     }
 
-    public void send_reply(ServerRequestInfo ri)
-    {
+    public void send_reply(ServerRequestInfo ri) {
     }
 
-    public void send_exception(ServerRequestInfo ri)
-    {
+    public void send_exception(ServerRequestInfo ri) {
     }
 
-    public void send_other(ServerRequestInfo ri)
-    {
+    public void send_other(ServerRequestInfo ri) {
     }
 
     //
     // Initializer operations.
     //
 
-    public void pre_init(ORBInitInfo info)
-    {
+    public void pre_init(ORBInitInfo info) {
         System.out.println(this.getClass().getName() + " .pre_init");
         try {
             // NOTE: The client only needs the client side points.
@@ -145,7 +122,8 @@ public class Interceptor
         }
     }
 
-    public void post_init(ORBInitInfo info) {}
+    public void post_init(ORBInitInfo info) {
+    }
 }
 
 // End of file.

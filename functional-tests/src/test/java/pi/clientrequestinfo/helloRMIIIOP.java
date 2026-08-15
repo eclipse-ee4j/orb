@@ -32,18 +32,13 @@ import ClientRequestInfo.*; // hello interface
 /**
  * RMI/IIOP implementation.
  */
-public class helloRMIIIOP
-    extends PortableRemoteObject
-    implements helloIF
-{
+public class helloRMIIIOP extends PortableRemoteObject implements helloIF {
     // Contains the actual implementation of the hello interface.
     private helloDelegate delegate = null;
 
-    public helloRMIIIOP( PrintStream out )
-        throws RemoteException
-    {
+    public helloRMIIIOP(PrintStream out) throws RemoteException {
         super();
-        this.delegate = new helloDelegate( out );
+        this.delegate = new helloDelegate(out);
     }
 
     public helloDelegate getDelegate() {
@@ -58,9 +53,7 @@ public class helloRMIIIOP
         return delegate.saySystemException();
     }
 
-    public void sayUserException()
-        throws ExampleException
-    {
+    public void sayUserException() throws ExampleException {
         delegate.sayUserException();
     }
 
@@ -68,8 +61,8 @@ public class helloRMIIIOP
         delegate.sayOneway();
     }
 
-    public String sayArguments( String arg1, int arg2, boolean arg3 ) {
-        return delegate.sayArguments( arg1, arg2, arg3 );
+    public String sayArguments(String arg1, int arg2, boolean arg3) {
+        return delegate.sayArguments(arg1, arg2, arg3);
     }
 
     public void clearInvoked() {

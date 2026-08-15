@@ -38,8 +38,13 @@ public class statusU {
             this.desc = desc;
         }
 
-        int getStatus() { return status; }
-        String getDesc() { return desc; }
+        int getStatus() {
+            return status;
+        }
+
+        String getDesc() {
+            return desc;
+        }
 
         @Override
         public String toString() {
@@ -63,12 +68,9 @@ public class statusU {
     private final String FAIL = new String("FAILED");
 
     /**
-     * TreeMap is used becuase it ensures that unique key-value pairs are
-     * stored in data structure. It stores the keys in an ascending order
-     * and thus using an iterator would give all the keys in a natural order
-     * of keys, in our case testnames.
-     * If the need be, we can provide a Comparator afterwards and change
-     * the order of the keys.
+     * TreeMap is used becuase it ensures that unique key-value pairs are stored in data structure. It stores the keys in an
+     * ascending order and thus using an iterator would give all the keys in a natural order of keys, in our case testnames.
+     * If the need be, we can provide a Comparator afterwards and change the order of the keys.
      */
     TreeMap treeMap = null;
 
@@ -81,14 +83,11 @@ public class statusU {
             treeMap = new TreeMap();
             hash = new Hashtable();
             /*
-            BufferedReader file = new BufferedReader(new FileReader("config.txt"));
-            String line;
-
-            while ((line = file.readLine()) != null) {
-            StringTokenizer tokens = new StringTokenizer(line, ":");
-            hash.put((String)tokens.nextElement(), (String)tokens.nextElement());
-            }
-            */
+             * BufferedReader file = new BufferedReader(new FileReader("config.txt")); String line;
+             * 
+             * while ((line = file.readLine()) != null) { StringTokenizer tokens = new StringTokenizer(line, ":");
+             * hash.put((String)tokens.nextElement(), (String)tokens.nextElement()); }
+             */
 
             hash.put("api_javaidl", "JavaIDL API Tests");
             hash.put("api_javax", "RMI-IIOP API Tests");
@@ -99,25 +98,16 @@ public class statusU {
             hash.put("api_ior", "IOR API Tests");
             hash.put("api_giop", "GIOP API Tests");
             hash.put("api_ci", "Connection Interceptor API Tests");
-            hash.put("api_InterfaceRepository",
-                     "InterfaceRepository API Tests");
-            hash.put("interoperability_evolution",
-                     "Classes Evolution Interoperability Tests");
-            hash.put("interoperability_strm2",
-                     "Stream2 Evolution Interoperability Tests");
-            hash.put("interoperability_serialization",
-                     "Object Serialization Interoperability Tests");
-            hash.put("interoperability_rmiiiop",
-                     "RMI-IIOP Interoperability Tests");
-            hash.put("performance_simpleperf",
-                     "Local Optimization Performance Tests");
-            hash.put("performance_interceptors",
-                     "ClientInterceptor Performance Tests");
+            hash.put("api_InterfaceRepository", "InterfaceRepository API Tests");
+            hash.put("interoperability_evolution", "Classes Evolution Interoperability Tests");
+            hash.put("interoperability_strm2", "Stream2 Evolution Interoperability Tests");
+            hash.put("interoperability_serialization", "Object Serialization Interoperability Tests");
+            hash.put("interoperability_rmiiiop", "RMI-IIOP Interoperability Tests");
+            hash.put("performance_simpleperf", "Local Optimization Performance Tests");
+            hash.put("performance_interceptors", "ClientInterceptor Performance Tests");
             hash.put("scalability_poa", "POA Scalability Tests");
-            hash.put("scalability_activation",
-                     "ORB Activation Deactivation Tests");
-            hash.put("scalability_naming",
-                     "NameService Scalability Tests");
+            hash.put("scalability_activation", "ORB Activation Deactivation Tests");
+            hash.put("scalability_naming", "NameService Scalability Tests");
             hash.put("endToend_pi", "EndToEnd PI Tests");
             hash.put("endToend_poa", "EndToEnd POA Tests");
             hash.put("Reliability", "Reliability Test");
@@ -170,8 +160,9 @@ public class statusU {
         }
 
         if (treeMap.containsKey(testName)) {
-            TestData d = (TestData)treeMap.get(testName);
-            TestData d2 = new TestData(logicalOp(d.getStatus(), status, andOr) == RTMConstants.PASS ? RTMConstants.PASS : RTMConstants.FAIL, d.getDesc() + "\n" + desc);
+            TestData d = (TestData) treeMap.get(testName);
+            TestData d2 = new TestData(logicalOp(d.getStatus(), status, andOr) == RTMConstants.PASS ? RTMConstants.PASS : RTMConstants.FAIL,
+                    d.getDesc() + "\n" + desc);
             treeMap.put(testName, d2);
         } else {
             addStatus(testName, status, desc);
@@ -202,11 +193,9 @@ public class statusU {
         while (i.hasNext()) {
             data += "<TEST-CASE>\n";
 
-            String str = (String)i.next();
-            TestData d = (TestData)treeMap.get(str);
-            data += "<TEST-CASE-ID STATUS=\"" +
-                ((d.getStatus() == RTMConstants.PASS) ? PASS : FAIL) +
-                "\">" + str + "</TEST-CASE-ID>\n";
+            String str = (String) i.next();
+            TestData d = (TestData) treeMap.get(str);
+            data += "<TEST-CASE-ID STATUS=\"" + ((d.getStatus() == RTMConstants.PASS) ? PASS : FAIL) + "\">" + str + "</TEST-CASE-ID>\n";
 
             if (!d.getDesc().equals(""))
                 data += "<TEST-CASE-DESC>" + d.getDesc() + "</TEST-CASE-DESC>\n";
@@ -244,12 +233,12 @@ public class statusU {
         if (index == -1) {
             index = testName.length();
         } else {
-            index = testName.indexOf("_", index+1);
+            index = testName.indexOf("_", index + 1);
             if (index == -1) {
                 index = testName.length();
             }
         }
-        suiteName = (String)hash.get(testName.substring(0, index));
+        suiteName = (String) hash.get(testName.substring(0, index));
 
         data += "<TEST SUITE-NAME=\"" + suiteName + "\" CATEGORY=\"" + category + "\">\n";
         data += "<TEST-NAME>" + testName + "</TEST-NAME>\n";
@@ -294,7 +283,6 @@ public class statusU {
         System.out.println(generateSummary(testName, desc));
     }
 
-
     synchronized public int totalPass() {
         int pass = 0;
 
@@ -302,15 +290,14 @@ public class statusU {
         Iterator i = s.iterator();
 
         while (i.hasNext()) {
-            String str = (String)i.next();
-            TestData d = (TestData)treeMap.get(str);
+            String str = (String) i.next();
+            TestData d = (TestData) treeMap.get(str);
             if (d.getStatus() == RTMConstants.PASS)
                 pass++;
         }
 
         return pass;
     }
-
 
     synchronized public int totalFail() {
         int fail = 0;
@@ -319,8 +306,8 @@ public class statusU {
         Iterator i = s.iterator();
 
         while (i.hasNext()) {
-            String str = (String)i.next();
-            TestData d = (TestData)treeMap.get(str);
+            String str = (String) i.next();
+            TestData d = (TestData) treeMap.get(str);
             if (d.getStatus() == RTMConstants.FAIL)
                 fail++;
         }
@@ -329,5 +316,3 @@ public class statusU {
     }
 
 } // end class statusU
-
-

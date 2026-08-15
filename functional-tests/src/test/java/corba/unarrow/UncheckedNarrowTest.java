@@ -24,14 +24,11 @@ import corba.framework.*;
 import java.util.*;
 
 /**
- * This is a POA version of the mthello test.  The
- * client creates multiple threads that invoke a simple sayHello
- * method on the remote servant.
+ * This is a POA version of the mthello test. The client creates multiple threads that invoke a simple sayHello method
+ * on the remote servant.
  */
-public class UncheckedNarrowTest extends CORBATest
-{
-    protected void doTest() throws Throwable
-    {
+public class UncheckedNarrowTest extends CORBATest {
+    protected void doTest() throws Throwable {
         Controller orbd = createORBD();
         Controller server = createServer("corba.unarrow.Server");
         Controller client = createClient("corba.unarrow.Client");
@@ -47,4 +44,3 @@ public class UncheckedNarrowTest extends CORBATest
         orbd.stop();
     }
 }
-

@@ -30,24 +30,17 @@ import corba.framework.CORBATest;
 /**
  * @author Harold Carr
  */
-public class FolbTest
-    extends
-        CORBATest
-{
-    public static final String thisPackage =
-        FolbTest.class.getPackage().getName();
+public class FolbTest extends CORBATest {
+    public static final String thisPackage = FolbTest.class.getPackage().getName();
 
-    protected void doTest()
-        throws
-            Throwable
-    {
+    protected void doTest() throws Throwable {
         Controller orbd;
         Controller server;
         Controller client;
-        Controller colocated ;
+        Controller colocated;
         ////////////////////////////////////////////////////
 
-        orbd   = createORBD();
+        orbd = createORBD();
         orbd.start();
 
         ////////////////////////////////////////////////////
@@ -61,10 +54,8 @@ public class FolbTest
 
         ////////////////////////////////////////////////////
 
-        server = createServer(thisPackage + "." + "Server",
-                              "ServerForSticky");
-        client = createClient(thisPackage + "." + "ClientWithSticky",
-                              "ClientWithSticky");
+        server = createServer(thisPackage + "." + "Server", "ServerForSticky");
+        client = createClient(thisPackage + "." + "ClientWithSticky", "ClientWithSticky");
         server.start();
         client.start();
         client.waitFor();
@@ -73,26 +64,22 @@ public class FolbTest
 
         ////////////////////////////////////////////////////
 
-        colocated = createClient(thisPackage + "." + "ColocatedCS",
-                                            "ColocatedCS");
+        colocated = createClient(thisPackage + "." + "ColocatedCS", "ColocatedCS");
         colocated.start();
         colocated.waitFor();
         colocated.stop();
 
         ////////////////////////////////////////////////////
 
-        colocated = createClient(thisPackage + "." + "ColocatedCSWithSticky",
-                                 "ColocatedCSWithSticky");
+        colocated = createClient(thisPackage + "." + "ColocatedCSWithSticky", "ColocatedCSWithSticky");
         colocated.start();
         colocated.waitFor();
         colocated.stop();
 
         ////////////////////////////////////////////////////
 
-        server = createServer(thisPackage + "." + "Server",
-                              "ServerForSticky");
-        client = createClient(thisPackage + "." + "ClientTwoRefs",
-                              "ClientTwoRefs");
+        server = createServer(thisPackage + "." + "Server", "ServerForSticky");
+        client = createClient(thisPackage + "." + "ClientTwoRefs", "ClientTwoRefs");
         server.start();
         client.start();
         client.waitFor();
@@ -101,74 +88,42 @@ public class FolbTest
 
         ////////////////////////////////////////////////////
 
-        colocated = createClient(thisPackage + "." + "ColocatedClientTwoRefs",
-                                 "ColocatedClientTwoRefs");
+        colocated = createClient(thisPackage + "." + "ColocatedClientTwoRefs", "ColocatedClientTwoRefs");
         colocated.start();
         colocated.waitFor();
         colocated.stop();
 
         ////////////////////////////////////////////////////
-        /** TODO: Issue # GLASSFISH_CORBA-7. Fix and Uncomment following failing tests.
+        /**
+         * TODO: Issue # GLASSFISH_CORBA-7. Fix and Uncomment following failing tests.
          *
-        server = createServer(thisPackage + "." + "Server",
-                              "ServerForTiming1");
-        server.start();
-        client = createClient(thisPackage + "." + "ClientForTiming_NoFs_NoF_NoC",
-                              "ClientForTiming_NoFs_NoF_NoC");
-        client.start();
-        client.waitFor();
-        client.stop();
-        server.stop();
-
-        //-------------------------
-
-        server = createServer(thisPackage + "." + "Server",
-                              "ServerForTiming2");
-        server.start();
-        client = createClient(thisPackage + "." + "ClientForTiming_Fs_NoF_NoC",
-                              "ClientForTiming_Fs_NoF_NoC");
-        client.start();
-        client.waitFor();
-        client.stop();
-        server.stop();
-
-        //-------------------------
-
-        server = createServer(thisPackage + "." + "Server",
-                              "ServerForTiming3");
-        server.start();
-        client = createClient(thisPackage + "." + "ClientForTiming_Fs_NoF_C",
-                              "ClientForTiming_Fs_NoF_C");
-        client.start();
-        client.waitFor();
-        client.stop();
-        server.stop();
-
-        //-------------------------
-
-
-        server = createServer(thisPackage + "." + "Server",
-                              "ServerForTiming4");
-        server.start();
-        client = createClient(thisPackage + "." + "ClientForTiming_Fs_F_NoC",
-                              "ClientForTiming_Fs_F_NoC");
-        client.start();
-        client.waitFor();
-        client.stop();
-        server.stop();
-
-        //-------------------------
-        server = createServer(thisPackage + "." + "Server",
-                              "ServerForTiming");
-        server.start();
-        client = createClient(thisPackage + "." + "ClientForTiming_Fs_F_C",
-                              "ClientForTiming_Fs_F_C");
-        client.start();
-        client.waitFor();
-        client.stop();
-        server.stop();
-        *** End Issue # GLASSFISH_CORBA-7.
-        ***/
+         * server = createServer(thisPackage + "." + "Server", "ServerForTiming1"); server.start(); client =
+         * createClient(thisPackage + "." + "ClientForTiming_NoFs_NoF_NoC", "ClientForTiming_NoFs_NoF_NoC"); client.start();
+         * client.waitFor(); client.stop(); server.stop();
+         * 
+         * //-------------------------
+         * 
+         * server = createServer(thisPackage + "." + "Server", "ServerForTiming2"); server.start(); client =
+         * createClient(thisPackage + "." + "ClientForTiming_Fs_NoF_NoC", "ClientForTiming_Fs_NoF_NoC"); client.start();
+         * client.waitFor(); client.stop(); server.stop();
+         * 
+         * //-------------------------
+         * 
+         * server = createServer(thisPackage + "." + "Server", "ServerForTiming3"); server.start(); client =
+         * createClient(thisPackage + "." + "ClientForTiming_Fs_NoF_C", "ClientForTiming_Fs_NoF_C"); client.start();
+         * client.waitFor(); client.stop(); server.stop();
+         * 
+         * //-------------------------
+         * 
+         * 
+         * server = createServer(thisPackage + "." + "Server", "ServerForTiming4"); server.start(); client =
+         * createClient(thisPackage + "." + "ClientForTiming_Fs_F_NoC", "ClientForTiming_Fs_F_NoC"); client.start();
+         * client.waitFor(); client.stop(); server.stop();
+         * 
+         * //------------------------- server = createServer(thisPackage + "." + "Server", "ServerForTiming"); server.start();
+         * client = createClient(thisPackage + "." + "ClientForTiming_Fs_F_C", "ClientForTiming_Fs_F_C"); client.start();
+         * client.waitFor(); client.stop(); server.stop(); End Issue # GLASSFISH_CORBA-7.
+         ***/
         ////////////////////////////////////////////////////
 
         orbd.stop();
@@ -176,4 +131,3 @@ public class FolbTest
 }
 
 // End of file.
-

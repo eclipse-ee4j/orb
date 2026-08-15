@@ -26,40 +26,32 @@ import org.omg.CORBA.*;
 import ClientRequestInfo.*;
 
 /**
- * Invocation strategy in which each interception point is visited, similar
- * to InvokeVisitAll, but sayArguments is called instead of sayHello.
+ * Invocation strategy in which each interception point is visited, similar to InvokeVisitAll, but sayArguments is
+ * called instead of sayHello.
  *
- * The following order is used:
- *    send_request, receive_reply
- *    send_request, receive_exception
- *    send_request, receive_other
+ * The following order is used: send_request, receive_reply send_request, receive_exception send_request, receive_other
  */
-public class InvokeDynamic
-    extends InvokeStrategy
-{
+public class InvokeDynamic extends InvokeStrategy {
     public void invoke() throws Exception {
         super.invoke();
 
         // Invoke send_request then receive_reply
-        invokeMethod( "sayArguments" );
+        invokeMethod("sayArguments");
 
         // Invoke send_request then receive_exception:
         try {
-            invokeMethod( "sayUserException" );
-        }
-        catch( ExampleException e ) {
+            invokeMethod("sayUserException");
+        } catch (ExampleException e) {
             // We expect this, but no other exception.
-        }
-        catch( UnknownUserException e ) {
+        } catch (UnknownUserException e) {
             // We expect this, but no other exception.
         }
 
         // Invoke send_request then receive_other:
         SampleClientRequestInterceptor.exceptionRedirectToOther = true;
         try {
-            invokeMethod( "saySystemException" );
-        }
-        catch( UNKNOWN e ) {
+            invokeMethod("saySystemException");
+        } catch (UNKNOWN e) {
             // We expect this, but no other exception.
         }
     }

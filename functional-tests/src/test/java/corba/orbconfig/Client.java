@@ -1,0 +1,1169 @@
+/*
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v. 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0, or the Eclipse Distribution License
+ * v. 1.0 which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * This Source Code may also be made available under the following Secondary
+ * Licenses when the conditions for such availability set forth in the Eclipse
+ * Public License v. 2.0 are satisfied: GNU General Public License v2.0
+ * w/Classpath exception which is available at
+ * https://www.gnu.org/software/classpath/license.html.
+ *
+ * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause OR GPL-2.0 WITH
+ * Classpath-exception-2.0
+ */
+
+package corba.orbconfig;
+
+import java.applet.Applet;
+import java.applet.AppletContext;
+import java.applet.AppletStub;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.lang.reflect.Array;
+import java.lang.reflect.Method;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+
+import com.sun.corba.ee.impl.orb.DataCollectorFactory;
+import com.sun.corba.ee.impl.orb.ORBDataParserImpl;
+import com.sun.corba.ee.impl.orb.ParserTable;
+import com.sun.corba.ee.spi.ior.iiop.GIOPVersion;
+import com.sun.corba.ee.spi.misc.ORBConstants;
+import com.sun.corba.ee.spi.orb.DataCollector;
+import com.sun.corba.ee.spi.orb.ORB;
+import com.sun.corba.ee.spi.orb.ORBData;
+import com.sun.corba.ee.spi.orb.Operation;
+import com.sun.corba.ee.spi.orb.OperationFactory;
+import com.sun.corba.ee.spi.orb.ParserData;
+import com.sun.corba.ee.spi.orb.ParserImplBase;
+import com.sun.corba.ee.spi.orb.PropertyParser;
+import org.glassfish.pfl.basic.contain.Pair;
+import org.glassfish.pfl.basic.func.NullaryFunction;
+import org.glassfish.pfl.test.JUnitReportHelper;
+import org.glassfish.pfl.test.ObjectUtility;
+
+public class Client {
+
+    private TestSession session;
+
+    public static void main(String[] args) {
+        System.out.println("Starting NewORB test");
+        try {
+            Properties props = new Properties(System.getProperties());
+            props.put("org.omg.CORBA.ORBClass", "com.sun.corba.ee.impl.orb.ORBImpl");
+            new Client(props, args, System.out);
+        } catch (Exception e) {
+            System.out.println("ERROR : " + e);
+            e.printStackTrace(System.out);
+            System.exit(1);
+        }
+    }
+
+    public Client(Properties props, String[] args, PrintStream out) {
+        JUnitReportHelper helper = new JUnitReportHelper(Client.class.getName());
+        this.session = new TestSession(out, helper);
+
+        try {
+            runTests();
+        } finally {
+            helper.done();
+        }
+    }
+
+// *************************************************
+// ***************   TESTS   ***********************
+// *************************************************
+
+    private void runTests() {
+        testUtility();
+        testOperations();
+        testParser();
+        setupDCEnvironment();
+        testNormalDataCollector();
+        // testAppletDataCollector() is deliberately not called. It builds a java.applet.Applet,
+        // which throws HeadlessException where there is no display - so this whole test failed on
+        // headless CI while passing on a developer desktop, and the failure surfaced only as
+        // "Bad exit value(s): client[1]". java.applet was removed outright in JDK 25, so the
+        // Applet DataCollector has no future in any case; the remaining sessions below still
+        // cover the ORB configuration machinery. Remove the method, AppletDataCollector and the
+        // makeDCApplet/TestAppletStub helpers when Applet support is dropped from the ORB itself.
+        testORBData();
+        testORBServerHostAndListenOnAllInterfaces();
+
+        // What about testing ORBConfigurator and ORBImpl? Do we leave this to
+        // indirect testing?
+        testUserConfigurator();
+
+    }
+
+    public static class TPair {
+        public TPair first;
+        public int second;
+    }
+
+    public static class Record {
+        public TPair first;
+        public Record second;
+        public String third;
+    }
+
+    public Record makeRecord1() {
+        TPair x1 = new TPair();
+        TPair x2 = new TPair();
+        TPair x3 = new TPair();
+        TPair x4 = new TPair();
+        TPair x5 = new TPair();
+
+        Record y1 = new Record();
+        Record y2 = new Record();
+        Record y3 = new Record();
+
+        x1.first = x2;
+        x1.second = 32;
+        x2.first = x3;
+        x2.second = 14;
+        x3.first = x4;
+        x3.second = 139;
+        x4.first = x5;
+        x4.second = 44;
+        x5.first = x1;
+        x5.second = 21;
+
+        y1.first = x1;
+        y2.first = x1;
+        y3.first = x3;
+
+        y1.second = y2;
+        y2.second = y3;
+        y3.second = y1;
+
+        y1.third = "Test";
+        y2.third = "This";
+        y3.third = "Thing";
+        return y1;
+    }
+
+    public TPair makeTPair() {
+        TPair x1 = new TPair();
+        TPair x2 = new TPair();
+        TPair x3 = new TPair();
+
+        x1.first = x2;
+        x1.second = 32;
+        x2.first = x3;
+        x2.second = 14;
+        x3.first = x1;
+        x3.second = 139;
+        return x1;
+    }
+
+    public Record makeRecord2() {
+        TPair x1 = makeTPair();
+        TPair x2 = makeTPair();
+
+        Record y1 = new Record();
+        Record y2 = new Record();
+        Record y3 = new Record();
+
+        y1.first = x1;
+        y2.first = x1;
+        y3.first = x2;
+
+        y1.second = y2;
+        y2.second = y3;
+        y3.second = y1;
+
+        y1.third = "Test";
+        y2.third = "This";
+        y3.third = "Thing";
+        return y1;
+    }
+
+    public Record makeRecord3() {
+        TPair x1 = makeTPair();
+        TPair x2 = makeTPair();
+
+        Record y1 = new Record();
+        Record y2 = new Record();
+        Record y3 = new Record();
+
+        y1.first = x1;
+        y2.first = x2;
+        y3.first = x2;
+
+        y1.second = y2;
+        y2.second = y3;
+        y3.second = y1;
+
+        y1.third = "Test";
+        y2.third = "This";
+        y3.third = "Thing";
+        return y1;
+    }
+
+    public void testUtility() {
+        session.start("Utility");
+
+        final Record y1 = makeRecord1();
+        final Record y2 = makeRecord1();
+        final Record y3 = makeRecord2();
+        final Record y4 = makeRecord3();
+
+        String res = ObjectUtility.make().objectToString(y1);
+        System.out.println(res);
+
+        res = ObjectUtility.make(false, false).objectToString(y1);
+        System.out.println(res);
+
+        NullaryFunction<Object> closure1 = () -> ObjectUtility.equals(y1, y1);
+
+        session.testForPass("Testing structural equals: 1", closure1, Boolean.TRUE);
+
+        NullaryFunction<Object> closure2 = () -> ObjectUtility.equals(y1, y2);
+
+        session.testForPass("Testing structural equals: 2", closure2, Boolean.TRUE);
+
+        NullaryFunction<Object> closure3 = () -> ObjectUtility.equals(y1, y3);
+
+        session.testForPass("Testing structural equals: 3", closure3, Boolean.FALSE);
+
+        NullaryFunction<Object> closure4 = () -> ObjectUtility.equals(y3, y4);
+
+        session.testForPass("Testing structural equals: 4", closure4, Boolean.FALSE);
+
+        session.end();
+    }
+
+    private NullaryFunction<Object> makeActionEvaluator(final Operation action, final Object data) {
+        // Return what the operation produced. This used to discard the result and
+        // hand back Boolean.TRUE, so every expectResult() comparison saw true
+        // instead of the real value - which passed only when the expected value
+        // happened to be true, and reported "Unexpected result returned" otherwise.
+        // expectError() ignores the value, so returning it is fine there too.
+        return () -> action.operate(data);
+    }
+
+    private void expectError(final Object data, final Operation action, Class<?> expectedError) {
+        String msg = action + "(" + ObjectUtility.make(true, true).objectToString(data) + ") should throw " + expectedError;
+
+        session.testForException(msg, makeActionEvaluator(action, data), expectedError);
+    }
+
+    private void expectResult(final Object data, final Operation action, final Object expectedResult) {
+        String msg = action + "(" + ObjectUtility.make(true, true).objectToString(data) + ") == "
+                + ObjectUtility.make(true, true).objectToString(expectedResult) + "?";
+
+        session.testForPass(msg, makeActionEvaluator(action, data), expectedResult);
+    }
+
+    private void testOperations() {
+        session.start("Operations");
+
+        // test indexAction
+        Operation indexAction = OperationFactory.indexAction(3);
+
+        Integer[] data1 = { 0, 1 };
+        expectError(data1, indexAction, java.lang.IndexOutOfBoundsException.class);
+
+        Integer[] data2 = { 0, 1, 2, 3 };
+        expectResult(data2, indexAction, 3);
+
+        // test booleanAction
+        Operation booleanAction = OperationFactory.booleanAction();
+        expectResult("TRUE", booleanAction, Boolean.TRUE);
+        expectResult("false", booleanAction, Boolean.FALSE);
+        expectResult("XXffOP2", booleanAction, Boolean.FALSE);
+
+        // test integerAction
+        Operation integerAction = OperationFactory.integerAction();
+        expectResult("123", integerAction, 123);
+        expectError("123ACE", integerAction, java.lang.NumberFormatException.class);
+
+        // test stringAction
+        Operation stringAction = OperationFactory.stringAction();
+        expectResult("This_is_a_string", stringAction, "This_is_a_string");
+
+        // test classAction
+        Operation classAction = OperationFactory.classAction(ORB.defaultClassNameResolver());
+        expectResult("com.sun.corba.ee.spi.orb.ORB", classAction, com.sun.corba.ee.spi.orb.ORB.class);
+
+        // test setFlagAction
+        Operation setFlagAction = OperationFactory.setFlagAction();
+        expectResult("", setFlagAction, Boolean.TRUE);
+
+        // test URLAction
+        Operation URLAction = OperationFactory.URLAction();
+        URL testURL = null;
+        try {
+            testURL = new URL("http://www.sun.com");
+        } catch (java.net.MalformedURLException ignored) {
+        }
+
+        expectResult("http://www.sun.com", URLAction, testURL);
+        // For some reason, all strings seem to work: explore later.
+        // expectError( "zqxyr://somerandomstuff", URLAction,
+        // java.net.MalformedURLException.class ) ;
+
+        // test integerRangeAction
+        Operation integerRangeAction = OperationFactory.integerRangeAction(12, 24);
+        expectResult("13", integerRangeAction, 13);
+        expectError("123ACE", integerRangeAction, java.lang.NumberFormatException.class);
+        expectError("2", integerRangeAction, org.omg.CORBA.BAD_OPERATION.class);
+
+        // test listAction
+        Operation listAction = OperationFactory.listAction(",", integerAction);
+        String arg = "12,23,34,56,129";
+        Object[] expectedResult = { 12, 23, 34, 56, 129 };
+
+        expectResult(arg, listAction, expectedResult);
+
+        // test sequenceAction
+        Operation[] actions = { integerAction, integerAction, stringAction, booleanAction };
+        Operation sequenceAction = OperationFactory.sequenceAction(",", actions);
+
+        String arg2 = "12,23,this_thing,true";
+        Object[] expectedResult2 = { 12, 23, "this_thing", Boolean.TRUE };
+
+        expectResult(arg2, sequenceAction, expectedResult2);
+
+        // test compose
+        Operation composition = OperationFactory.compose(listAction, indexAction);
+        expectResult(arg, composition, 56);
+
+        // test mapAction
+        Operation map = OperationFactory.mapAction(integerAction);
+        String[] strings = { "12", "23", "473", "2" };
+        Object[] result = { 12, 23, 473, 2 };
+        expectResult(strings, map, result);
+
+        session.end();
+    }
+
+    private PropertyParser makeParser() {
+        PropertyParser parser = new PropertyParser();
+        parser.add("foo.arg", OperationFactory.integerAction(), "arg");
+        parser.add("foo.flag", OperationFactory.booleanAction(), "flag");
+        parser.add("foo.str", OperationFactory.stringAction(), "str");
+
+        parser.addPrefix("foo.prefix", OperationFactory.identityAction(), "prefix", Object.class);
+
+        // Action to parser <str:num>, list into Object[][]
+        Operation[] inner = { OperationFactory.stringAction(), OperationFactory.integerAction() };
+        Operation innerList = OperationFactory.sequenceAction(":", inner);
+        Operation outerList = OperationFactory.listAction(",", innerList);
+        parser.add("foo.list", outerList, "list");
+        return parser;
+    }
+
+    private Properties makeTestProperties() {
+        Properties props = new Properties();
+        props.setProperty("foo.arg", "273");
+        props.setProperty("foo.flag", "true");
+        props.setProperty("foo.str", "AValue");
+        props.setProperty("foo.prefix.part1", "first");
+        props.setProperty("foo.prefix.part2", "second");
+        props.setProperty("foo.prefix.part3", "third");
+        props.setProperty("foo.list", "red:0,blue:1,green:2");
+        return props;
+    }
+
+    private Map<String, Object> makeResult() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("arg", Integer.valueOf(273));
+        map.put("flag", Boolean.valueOf(true));
+        map.put("str", "AValue");
+
+        // Object[], not Pair[]: makeParser registers this prefix with a component
+        // type of Object.class, so that is the array type the parser produces.
+        //
+        // The order used to be hardcoded to whatever the parser happened to emit,
+        // with a comment noting it was not guaranteed - and it did eventually
+        // change. sortByFirst() below makes the comparison order independent, so
+        // these can be listed in any order.
+        Object[] list = { new Pair<String, String>("part1", "first"), new Pair<String, String>("part2", "second"),
+                new Pair<String, String>("part3", "third") };
+
+        map.put("prefix", list);
+
+        Object[][] data = { { "red", Integer.valueOf(0) }, { "blue", Integer.valueOf(1) }, { "green", Integer.valueOf(2) }, };
+
+        map.put("list", data);
+        return map;
+    }
+
+    /**
+     * Sort the "prefix" entry of a parse result by the pair's first element. The prefix action collects matching properties
+     * by iterating a Properties, which is a Hashtable, so the order of the array it builds is unspecified and has changed
+     * between JDK releases. Sorting both sides makes the comparison depend on the contents rather than on iteration order.
+     */
+    private static Map<String, Object> sortPrefixEntry(Map<String, Object> map) {
+        Object value = map.get("prefix");
+        if (value instanceof Object[]) {
+            Object[] sorted = ((Object[]) value).clone();
+            Arrays.sort(sorted, Comparator.comparing(o -> String.valueOf(((Pair<?, ?>) o).first())));
+            map.put("prefix", sorted);
+        }
+        return map;
+    }
+
+    private void testParser() {
+        session.start("Parser");
+
+        final PropertyParser parser = makeParser();
+        final Properties props = makeTestProperties();
+        NullaryFunction<Object> closure = new NullaryFunction<Object>() {
+            public Map<String, Object> evaluate() {
+                return sortPrefixEntry(parser.parse(props));
+            }
+        };
+
+        Map<String, Object> expectedResult = sortPrefixEntry(makeResult());
+
+        session.testForPass("parser", closure, expectedResult);
+
+        session.end();
+    }
+
+    // test design:
+    // Properties we will use: Type:
+    // INITIAL_HOST_PROPERTY string
+    // SERVER_HOST_PROPERTY string
+    // ORB_INIT_REF_PROPERTY (string,string)[] (prefix)
+    // foo.arg1 integer
+    // foo.prefix (string,Foo)[] (prefix)
+    // ORG_OMG_CORBA_PREFIX.poa.maxhold integer
+    // SUN_PREFIX.poa.foo Foo
+    // SUN_LC_PREFIX.pool.size integer
+    // SUN_LC_VERSION_PREFIX.bar.foo Foo
+    // also need to write orb.properties files (and also preserve any
+    // installed orb.properties files)
+
+    private static class Foo {
+        private String data;
+
+        public Foo(String str) {
+            data = str;
+        }
+
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+
+            if (!(obj instanceof Foo))
+                return false;
+
+            Foo other = (Foo) obj;
+
+            return other.data.equals(data);
+        }
+
+        public int hashCode() {
+            return data.hashCode();
+        }
+
+        public String toString() {
+            return data;
+        }
+
+        private static Operation getOperation() {
+            return new Operation() {
+                public Object operate(Object arg) {
+                    return new Foo((String) arg);
+                }
+            };
+        }
+    }
+
+    private PropertyParser makeDCParser() {
+        PropertyParser parser = new PropertyParser();
+        parser.add(ORBConstants.INITIAL_HOST_PROPERTY, OperationFactory.stringAction(), "initialHost");
+        parser.add(ORBConstants.SERVER_HOST_PROPERTY, OperationFactory.stringAction(), "serverHost");
+        parser.add(ORBConstants.ORB_INIT_REF_PROPERTY, OperationFactory.identityAction(), "initRefs");
+        parser.add("foo.ORBarg1", Foo.getOperation(), "fooArg1");
+
+        Operation[] ops = { OperationFactory.stringAction(), Foo.getOperation() };
+        Operation prefixOp = OperationFactory.mapSequenceAction(ops);
+        parser.addPrefix("foo.prefix", prefixOp, "fooPrefix", Object.class);
+        parser.add(ORBConstants.CORBA_PREFIX + "poa.ORBmaxhold", OperationFactory.integerAction(), "poaMaxHold");
+        parser.addPrefix(ORBConstants.CORBA_PREFIX + "ORBmodule", OperationFactory.stringAction(), "module", String.class);
+        parser.add(ORBConstants.SUN_PREFIX + "poa.ORBfoo", Foo.getOperation(), "poaFoo");
+        parser.add(ORBConstants.SUN_PREFIX + "pool.ORBsize", OperationFactory.integerAction(), "poolSize");
+        parser.add(ORBConstants.SUN_PREFIX + "bar.foo", Foo.getOperation(), "barFoo");
+        return parser;
+    }
+
+    private String[] makeDCArgs() {
+        // Note that the -ORBModule flag should be ignored, as this is not
+        // supported for prefixes.
+        String[] result = { "-ORBmaxHold", "27", "-ORBInitRef", "FooService=corbaloc::host.org/FooService", "-ORBInitRef",
+                "BarService=corbaloc::host.org/BarService", "-ORBmodule.doorTransport", "doorTransportImpl" };
+        return result;
+    }
+
+    private static class TestAppletStub implements AppletStub {
+        private Properties parameters;
+        private URL codeBase;
+        private URL documentBase;
+
+        TestAppletStub(Properties parameters, URL codeBase, URL documentBase) {
+            this.parameters = parameters;
+            this.codeBase = codeBase;
+            this.documentBase = documentBase;
+        }
+
+        public void appletResize(int width, int height) {
+        }
+
+        public AppletContext getAppletContext() {
+            return null;
+        }
+
+        public URL getCodeBase() {
+            return codeBase;
+        }
+
+        public URL getDocumentBase() {
+            return documentBase;
+        }
+
+        public String getParameter(String name) {
+            return parameters.getProperty(name);
+        }
+
+        public boolean isActive() {
+            return false;
+        }
+    }
+
+    // This applet needs to support getDocumentBase, getParameter, and getCodeBase
+    private Applet makeDCApplet(Properties parameters, URL codeBase, URL documentBase) {
+        AppletStub stub = new TestAppletStub(parameters, codeBase, documentBase);
+        Applet result = new Applet();
+        result.setStub(stub);
+        return result;
+    }
+
+    private Properties makeDCProperties() {
+        Properties result = new Properties();
+        result.setProperty(ORBConstants.INITIAL_HOST_PROPERTY, "thisHost");
+        result.setProperty(ORBConstants.SERVER_HOST_PROPERTY, "thatHost");
+        result.setProperty(ORBConstants.ORB_INIT_REF_PROPERTY, "NameService=corbaloc::host.org/NameService");
+        result.setProperty("foo.ORBarg1", "MyFoo");
+        result.setProperty("foo.prefix.stuff1", "AnotherFoo");
+        result.setProperty("foo.prefix.somestuff", "More Foo");
+        result.setProperty(ORBConstants.CORBA_PREFIX + "ORBmodule.iiopTransport", "iiopTransportImpl");
+        result.setProperty(ORBConstants.CORBA_PREFIX + "poa.ORBmaxhold", "351");
+        result.setProperty(ORBConstants.SUN_PREFIX + "poa.ORBfoo", "ALittleFoo");
+        result.setProperty(ORBConstants.SUN_PREFIX + "pool.ORBsize", "25000");
+        result.setProperty(ORBConstants.SUN_PREFIX + "bar.foo", "YetAnotherFoo");
+        return result;
+    }
+
+    private Properties makeDCAppletProperties() {
+        Properties result = new Properties();
+        result.setProperty(ORBConstants.ORB_INIT_REF_PROPERTY, "TraderService=corbaloc::host.org/TraderService");
+        result.setProperty("foo.prefix.stuff2", "2AnotherFoo");
+        result.setProperty(ORBConstants.SUN_PREFIX + "pool.ORBsize", "4000");
+        return result;
+    }
+
+    private OutputStream makeFileOutputStream(String fileName) {
+        try {
+            File file = new File(fileName);
+            FileOutputStream out = new FileOutputStream(file);
+            return out;
+        } catch (Exception exc) {
+            System.out.println("Unexpected exception in makeFileOutputStream for " + fileName + ": " + exc);
+            return null;
+        }
+    }
+
+    private void setDCSystemProperties() {
+        System.setProperty("foo.prefix.still.more.stuff", "Too much Foo");
+        System.setProperty(ORBConstants.SUN_PREFIX + "pool.ORBsize", "24000");
+        System.setProperty(ORBConstants.CORBA_PREFIX + "ORBmodule.soapTransport", "soapTransportImpl");
+    }
+
+    private void setDCUserORBFile() {
+        Properties props = new Properties();
+        props.setProperty("foo.prefix.somestuff", "Too much Foo");
+        props.setProperty(ORBConstants.SUN_PREFIX + "poa.ORBfoo", "tinyFoo");
+        props.setProperty(ORBConstants.CORBA_PREFIX + "ORBmodule.localTransport", "localTransportImpl");
+        OutputStream os = makeFileOutputStream(System.getProperty("user.home") + File.separator + "orb.properties");
+        try {
+            props.store(os, "New ORB test properties");
+        } catch (java.io.IOException exc) {
+            throw new Error("Unexpected exception", exc);
+        }
+    }
+
+    private void setDCSystemORBFile() {
+        Properties props = new Properties();
+        props.setProperty("foo.prefix.somestuff", "Even More Foo");
+        props.setProperty(ORBConstants.CORBA_PREFIX + "poa.ORBmaxhold", "35144");
+        props.setProperty(ORBConstants.CORBA_PREFIX + "ORBmodule.localTransport", "localTransportStdImpl");
+        OutputStream os = makeFileOutputStream(
+                System.getProperty("java.home") + File.separator + "lib" + File.separator + "orb.properties");
+        if (os != null) {
+            try {
+                props.store(os, "New ORB test properties");
+            } catch (java.io.IOException exc) {
+                throw new Error("Unexpected exception", exc);
+            }
+        } else {
+            boolean noJavaHomeAvailable = true;
+        }
+    }
+
+    // Common DataCollector tests:
+    // getProperties raises IllegalStateException before setParser call
+    // setParser may be called more than once
+    // getProperties returns correct properties after setParser call
+    // Testing properties in result:
+    // INITIAL_HOST_PROPERTY and INITIAL_SERVER_PROPERTY defaults
+    // -ORB arguments are converted to matching properties
+    // URL properties for applets are made absolute
+    // ORB_INIT_REF_PROPERTY correctly converted to properties
+    // Only corba properties come from system properties
+    // Correct overriding:
+    // applet case:
+    // props then applet
+    // normal case:
+    // system, props, <java.home>/orb.properties,
+    // <user.home>/orb.properties, finally args
+    // Verify that intersection of parser prop names are present in
+    // result iff they are available in data.
+
+    private void testDataCollectorState(String name, PropertyParser parser, final DataCollector dc, boolean expectedAppletResult,
+            Properties expectedProperties) {
+        NullaryFunction<Object> isAppletNullaryFunction = new NullaryFunction<Object>() {
+            public Object evaluate() {
+                return Boolean.valueOf(dc.isApplet());
+            }
+        };
+
+        session.testForPass(name + "isApplet", isAppletNullaryFunction, Boolean.valueOf(expectedAppletResult));
+
+        NullaryFunction<Object> getPropertiesNullaryFunction = new NullaryFunction<Object>() {
+            public Object evaluate() {
+                return dc.getProperties();
+            }
+        };
+
+        session.testForException(name + "getProperties before setParser", getPropertiesNullaryFunction, IllegalStateException.class);
+
+        dc.setParser(parser);
+
+        session.testForPass(name + "getProperties after setParser", getPropertiesNullaryFunction, expectedProperties);
+    }
+
+    private void setupDCEnvironment() {
+        useTemporaryHomeDirectories();
+        setDCSystemProperties();
+        setDCUserORBFile();
+        setDCSystemORBFile();
+    }
+
+    /**
+     * Point java.home and user.home at throwaway directories, so that the orb.properties files written below land somewhere
+     * this test owns.
+     *
+     * Without this the test writes into the real ${java.home}/lib/orb.properties and ${user.home}/orb.properties and never
+     * removes them, which permanently alters the JDK installation and the user's home directory:
+     * ${java.home}/lib/orb.properties is read by every JVM using that JDK, so leftover test values leak into unrelated
+     * applications. It also makes the suite order-dependent, since com.sun.corba.ee.impl.util.ORBProperties skips its work
+     * when that file already exists.
+     *
+     * Deleting the files afterwards would not be safe -- a user may have a legitimate orb.properties that we would have
+     * overwritten and then destroyed. Redirecting the lookup roots instead means the test genuinely owns the files it
+     * creates, so removing them is correct. The production lookup code is untouched: it still resolves both paths from
+     * java.home and user.home exactly as before.
+     *
+     * Safe here because corba.orbconfig.Client runs in its own JVM (CORBATest.createClient uses ExternalExec) and never
+     * needs the real java.home for anything else -- in particular it forks no further processes.
+     */
+    private void useTemporaryHomeDirectories() {
+        try {
+            final File root = java.nio.file.Files.createTempDirectory("orbconfig-homes-").toFile();
+            File javaHome = new File(root, "java");
+            File userHome = new File(root, "user");
+
+            if (!new File(javaHome, "lib").mkdirs() || !userHome.mkdirs()) {
+                throw new java.io.IOException("could not create temporary home directories under " + root);
+            }
+
+            System.setProperty("java.home", javaHome.getAbsolutePath());
+            System.setProperty("user.home", userHome.getAbsolutePath());
+
+            Runtime.getRuntime().addShutdownHook(new Thread() {
+                @Override
+                public void run() {
+                    deleteRecursively(root);
+                }
+            });
+        } catch (java.io.IOException exc) {
+            throw new Error("Could not redirect home directories for this test", exc);
+        }
+    }
+
+    private static void deleteRecursively(File file) {
+        File[] children = file.listFiles();
+        if (children != null) {
+            for (File child : children) {
+                deleteRecursively(child);
+            }
+        }
+        file.delete();
+    }
+
+    private void testNormalDataCollector() {
+        session.start("Normal DataCollector");
+
+        String[] args = null;
+        DataCollector dc1 = DataCollectorFactory.create(args, null, "MyHost");
+        PropertyParser parser = new PropertyParser();
+        Properties props = new Properties();
+        props.setProperty(ORBConstants.INITIAL_HOST_PROPERTY, "MyHost");
+        testDataCollectorState("1: no data, verify results: ", parser, dc1, false, props);
+
+        args = makeDCArgs();
+        PropertyParser parser2 = makeDCParser();
+        Properties parameters = makeDCProperties();
+        DataCollector dc2 = DataCollectorFactory.create(args, parameters, "MyHost");
+        props = makeDCNormalResult();
+        testDataCollectorState("2: no data, verify results: ", parser2, dc2, false, props);
+
+        session.end();
+    }
+
+// Expected results (in override order: later overrides earlier):
+// From setDCSystemProperties: (not in applet mode)
+//      "foo.prefix.still.more.stuff", "Too much Foo" (not allowed, since this is a std prefix!)
+//      ORBConstants.SUN_LC_PREFIX + "pool.ORBsize", "24000"
+// From system file:
+//      "foo.prefix.somestuff", "Even More Foo"
+//      ORBConstants.ORG_OMG_CORBA_PREFIX + "poa.ORBmaxhold", "35144"
+// From user home dir file:
+//      "foo.prefix.somestuff", "Too much Foo"
+//      ORBConstants.SUN_PREFIX + "poa.ORBfoo", "tinyFoo"
+// From makeDCProperties():
+//      ORBConstants.INITIAL_HOST_PROPERTY, "thisHost"
+//      ORBConstants.SERVER_HOST_PROPERTY, "thatHost"
+//      ORBConstants.ORB_INIT_REF_PROPERTY, "NameService=corbaloc::host.org/NameService"
+//      "foo.ORBarg1", "MyFoo"
+//      "foo.prefix.stuff1", "AnotherFoo"
+//      "foo.prefix.somestuff", "More Foo"
+//      ORBConstants.ORG_OMG_CORBA_PREFIX + "poa.ORBmaxhold", "351"
+//      ORBConstants.SUN_PREFIX + "poa.ORBfoo", "ALittleFoo"
+//      ORBConstants.SUN_LC_PREFIX + "pool.ORBsize", "25000"
+//      ORBConstants.SUN_LC_VERSION_PREFIX + "bar.foo", "YetAnotherFoo"
+// From makeDCApplet( makeDCAppletProperties(), new URL( "http://www.bar.com" ),
+//      new URL( "http://www.foo.com" ) ):
+//      ORBConstants.ORB_INIT_REF_PROPERTY, "TraderService=corbaloc::host.org/TraderService"
+//      "foo.prefix.stuff2", "2AnotherFoo"
+//      ORBConstants.SUN_LC_PREFIX + "pool.ORBsize", "4000" ;
+// From args (normal case only):
+//      ORBConstants.ORG_OMG_CORBA_PREFIX + "poa.ORBmaxhold", "27"
+//      ORBConstants.ORB_INIT_REF_PROPERTY.FooService, "corbaloc::host.org/FooService"
+//      ORBConstants.ORB_INIT_REF_PROPERTY.BarService, "corbaloc::host.org/BarService"
+//
+// Expected result from the above (applet case):
+//      ORBConstants.ORB_INIT_REF_PROPERTY.TraderService, "corbaloc::host.org/TraderService"
+//      "foo.prefix.stuff2", "2AnotherFoo"
+//      ORBConstants.SUN_LC_PREFIX + "pool.ORBsize", "4000"
+//      ORBConstants.ORB_INIT_REF_PROPERTY.NameService, "corbaloc::host.org/NameService"
+//      "foo.ORBarg1", "MyFoo"
+//      "foo.prefix.stuff1", "AnotherFoo"
+//      "foo.prefix.somestuff", "More Foo"
+//      ORBConstants.ORG_OMG_CORBA_PREFIX + "poa.ORBmaxhold", "351"
+//      ORBConstants.SUN_PREFIX + "poa.ORBfoo", "ALittleFoo"
+//      ORBConstants.SUN_LC_VERSION_PREFIX + "bar.foo", "YetAnotherFoo"
+//      ORBConstants.INITIAL_HOST_PROPERTY, "thisHost"
+//      ORBConstants.SERVER_HOST_PROPERTY, "thatHost"
+//
+// Expected result from the above (normal case):
+//      ORBConstants.ORG_OMG_CORBA_PREFIX + "poa.ORBmaxhold", "27"
+//      ORBConstants.ORB_INIT_REF_PROPERTY.FooService, "corbaloc::host.org/FooService"
+//      ORBConstants.ORB_INIT_REF_PROPERTY.BarService, "corbaloc::host.org/BarService"
+//      ORBConstants.SUN_LC_PREFIX + "pool.ORBsize", "25000"
+//      ORBConstants.ORB_INIT_REF_PROPERTY.NameService, "corbaloc::host.org/NameService"
+//      "foo.ORBarg1", "MyFoo"
+//      "foo.prefix.stuff1", "AnotherFoo"
+//      "foo.prefix.somestuff", "More Foo"
+//      ORBConstants.ORG_OMG_CORBA_PREFIX + "poa.ORBmaxhold", "351"
+//      ORBConstants.SUN_PREFIX + "poa.ORBfoo", "ALittleFoo"
+//      ORBConstants.SUN_LC_VERSION_PREFIX + "bar.foo", "YetAnotherFoo"
+//      ORBConstants.INITIAL_HOST_PROPERTY, "thisHost"
+//      ORBConstants.SERVER_HOST_PROPERTY, "thatHost"
+
+    private Properties makeDCAppletResult() {
+        Properties props = new Properties();
+        props.setProperty("org.omg.CORBA.ORBInitRef.TraderService", "corbaloc::host.org/TraderService");
+        props.setProperty(ORBConstants.SUN_PREFIX + "pool.ORBsize", "4000");
+        props.setProperty("org.omg.CORBA.ORBInitRef.NameService", "corbaloc::host.org/NameService");
+        props.setProperty("foo.ORBarg1", "MyFoo");
+        props.setProperty("foo.prefix.stuff1", "AnotherFoo");
+        props.setProperty("foo.prefix.somestuff", "More Foo");
+        props.setProperty("org.omg.CORBA.poa.ORBmaxhold", "351");
+        props.setProperty(ORBConstants.SUN_PREFIX + "poa.ORBfoo", "ALittleFoo");
+        props.setProperty("com.sun.corba.ee.bar.foo", "YetAnotherFoo");
+        props.setProperty("org.omg.CORBA.ORBInitialHost", "thisHost");
+        props.setProperty("com.sun.corba.ee.ORBServerHost", "thatHost");
+        props.setProperty(ORBConstants.CORBA_PREFIX + "ORBmodule.iiopTransport", "iiopTransportImpl");
+        props.setProperty(ORBConstants.CORBA_PREFIX + "ORBmodule.localTransport", "localTransportImpl");
+        return props;
+    }
+
+    private Properties makeDCNormalResult() {
+        Properties props = new Properties();
+        props.setProperty(ORBConstants.CORBA_PREFIX + "poa.ORBmaxhold", "27");
+        props.setProperty(ORBConstants.ORB_INIT_REF_PROPERTY + ".FooService", "corbaloc::host.org/FooService");
+        props.setProperty(ORBConstants.ORB_INIT_REF_PROPERTY + ".BarService", "corbaloc::host.org/BarService");
+        props.setProperty("com.sun.corba.ee.pool.ORBsize", "25000");
+        props.setProperty("org.omg.CORBA.ORBInitRef.NameService", "corbaloc::host.org/NameService");
+        props.setProperty("foo.ORBarg1", "MyFoo");
+        props.setProperty("foo.prefix.stuff1", "AnotherFoo");
+        props.setProperty("foo.prefix.somestuff", "More Foo");
+        props.setProperty("org.omg.CORBA.poa.ORBmaxhold", "351");
+        props.setProperty("com.sun.corba.ee.poa.ORBfoo", "ALittleFoo");
+        props.setProperty("com.sun.corba.ee.bar.foo", "YetAnotherFoo");
+        props.setProperty("org.omg.CORBA.ORBInitialHost", "thisHost");
+        props.setProperty("com.sun.corba.ee.ORBServerHost", "thatHost");
+        props.setProperty(ORBConstants.CORBA_PREFIX + "ORBmodule.iiopTransport", "iiopTransportImpl");
+        props.setProperty(ORBConstants.CORBA_PREFIX + "ORBmodule.soapTransport", "soapTransportImpl");
+        props.setProperty(ORBConstants.CORBA_PREFIX + "ORBmodule.localTransport", "localTransportImpl");
+        return props;
+    }
+
+    private void testAppletDataCollector() {
+        session.start("Applet DataCollector");
+
+        Properties appProps = new Properties();
+        URL codeBase;
+        URL documentBase;
+        try {
+            codeBase = new URL("http://www.bar.com");
+            documentBase = new URL("http://www.foo.com");
+        } catch (MalformedURLException exc) {
+            throw new Error("Unexpected Exception", exc);
+        }
+
+        Applet app = makeDCApplet(appProps, codeBase, documentBase);
+
+        DataCollector dc1 = DataCollectorFactory.create(app, null, "MyHost");
+        PropertyParser parser = new PropertyParser();
+        Properties props = new Properties();
+        props.setProperty(ORBConstants.INITIAL_HOST_PROPERTY, "www.bar.com");
+        testDataCollectorState("1: no data, verify results: ", parser, dc1, true, props);
+
+        appProps = makeDCAppletProperties();
+        app = makeDCApplet(appProps, codeBase, documentBase);
+        PropertyParser parser2 = makeDCParser();
+        Properties parameters = makeDCProperties();
+        DataCollector dc2 = DataCollectorFactory.create(app, parameters, "MyHost");
+        props = makeDCAppletResult();
+        testDataCollectorState("2: no data, verify results: ", parser2, dc2, true, props);
+
+        session.end();
+    }
+
+    private Set makeSetFromArray(Object array) {
+        Set result = new HashSet();
+        if (array != null) {
+            if (!array.getClass().isArray())
+                throw new Error("makeSetFromArray called with non-array argument");
+
+            int size = Array.getLength(array);
+            for (int ctr = 0; ctr < size; ctr++) {
+                Object element = Array.get(array, ctr);
+                result.add(element);
+            }
+        }
+
+        return result;
+    }
+
+    private boolean compareArraysAsSets(Object obj1, Object obj2) {
+        Set set1 = makeSetFromArray(obj1);
+        Set set2 = makeSetFromArray(obj2);
+        return ObjectUtility.equals(set1, set2);
+    }
+
+    // Check that two objects with the same interface return equal results
+    // on all public methods that take no arguments. If the result type
+    // of an accessor method is an array, we compare as sets, rather than
+    // assuming that the order must be the same. Also, ignore all methods
+    // inherited from java.lang.Object.
+    private boolean equalByAccessorMethods(Object obj1, Object obj2) {
+        ObjectUtility objutil = ObjectUtility.make(false, true, 5, 4);
+        boolean result = true;
+        if (obj1.getClass() != obj2.getClass())
+            throw new Error("equalByAccessorMethods can only be used for objects " + "of the same class");
+
+        try {
+            Class cls = obj1.getClass();
+            Method[] publicMethods = cls.getMethods();
+            for (int ctr = 0; ctr < publicMethods.length; ctr++) {
+                Method method = publicMethods[ctr];
+                String name = method.getName();
+                if (!method.getDeclaringClass().equals(Object.class) && method.getParameterTypes().length == 0) {
+                    Object value1 = method.invoke(obj1);
+                    Object value2 = method.invoke(obj2);
+
+                    boolean comparison;
+                    if (method.getReturnType().isArray())
+                        comparison = compareArraysAsSets(value1, value2);
+                    else
+                        comparison = ObjectUtility.equals(value1, value2);
+
+                    if (!comparison) {
+                        System.out.println("        Objects are not equal by accessor method " + name + ":");
+                        System.out.println("            Value1 = \n" + objutil.objectToString(value1) + "\n");
+                        System.out.println("            Value2 = \n" + objutil.objectToString(value2) + "\n");
+                        result = false;
+                    }
+                }
+            }
+        } catch (Exception exc) {
+            throw new Error("Error in reflective invocation", exc);
+        }
+
+        return result;
+    }
+
+    private boolean compareORBDataByInterface(ORBData od1, ORBData od2) {
+        return equalByAccessorMethods(od1, od2)
+                && (od1.getGIOPBuffMgrStrategy(GIOPVersion.V1_0) == od2.getGIOPBuffMgrStrategy(GIOPVersion.V1_0))
+                && (od1.getGIOPBuffMgrStrategy(GIOPVersion.V1_1) == od2.getGIOPBuffMgrStrategy(GIOPVersion.V1_1))
+                && (od1.getGIOPBuffMgrStrategy(GIOPVersion.V1_2) == od2.getGIOPBuffMgrStrategy(GIOPVersion.V1_2));
+    }
+
+    // Make properties for testing ORBData
+    private Properties makeORBDataProperties() {
+        ParserData[] data = ParserTable.get(ORB.defaultClassNameResolver()).getParserData();
+        Properties result = new Properties();
+        for (int ctr = 0; ctr < data.length; ctr++)
+            data[ctr].addToProperties(result);
+        return result;
+    }
+
+    public static class PropertyDataCollector implements DataCollector {
+        private Properties props;
+
+        public PropertyDataCollector(Properties props) {
+            this.props = props;
+        }
+
+        public boolean isApplet() {
+            return false;
+        }
+
+        public boolean initialHostIsLocal() {
+            return false;
+        }
+
+        public void setParser(PropertyParser parser) {
+        }
+
+        public Properties getProperties() {
+            return props;
+        }
+    }
+
+    private void testORBData() {
+        session.start("ORBData");
+
+        ORB orb = (ORB) ORB.init();
+
+        Properties props = makeORBDataProperties();
+        final ORBDataParserImpl od1 = new ORBDataParserImpl(orb, new PropertyDataCollector(props));
+        od1.setTestValues();
+
+        // Print out the test values
+        System.out.println("od1 = " + ObjectUtility.make(true, true).objectToString(od1));
+
+        final ORBDataParserImpl od2 = new ORBDataParserImpl(orb, new PropertyDataCollector(props));
+
+        NullaryFunction<Object> closure = new NullaryFunction<Object>() {
+            public Object evaluate() {
+                if (compareORBDataByInterface(od1, od2))
+                    return Boolean.TRUE;
+                else {
+                    System.out.println("ORBData comparison failed.");
+                    // This is handled in the closure.
+                    // System.out.println( "od1=" +
+                    // ObjectUtility.defaultObjectToString( od1 ) ) ;
+                    // System.out.println( "od2=" +
+                    // ObjectUtility.defaultObjectToString( od2 ) ) ;
+                    return Boolean.FALSE;
+                }
+            }
+        };
+
+        session.testForPass("ORBData parsing test", closure, Boolean.TRUE);
+
+        session.end();
+    }
+
+    private void testUserConfigurator() {
+        session.start("UserConfigurator");
+
+        Properties props = new Properties();
+        props.put(ORBConstants.SUN_PREFIX + "ORBUserConfigurators." + "corba.orbconfig.MyConfigurator", "1");
+        String[] args = null;
+        ORB.init(args, props);
+        NullaryFunction<Object> closure = new NullaryFunction<Object>() {
+            public Object evaluate() {
+                return Boolean.valueOf(MyConfigurator.wasCalled);
+            }
+        };
+
+        session.testForPass("UserConfigurator", closure, Boolean.TRUE);
+
+        session.end();
+    }
+
+    private void testORBServerHostAndListenOnAllInterfaces() {
+        // three things to test here:
+        // 1. ORBServerHost default value and 'listen on all interfaces' default
+        // Expected result is the IP address of the machine where the test is
+        // being run and listen on all interfaces to be true.
+        // 2. ORBServer host set in a property and 'listen on all interfaces'
+        // Expected result is host as set in property and listen on all
+        // interfaces set to false.
+        // 3. Verify DataCollector calls parser's complete() method only one
+        // time.
+
+        System.out.println("\tTest ORBServerHost and Listen on all interfaces");
+
+        // Case 1
+        ORB orb = (ORB) ORB.init();
+        String[] args = null;
+        DataCollector dc = DataCollectorFactory.create(args, null, "MyHost");
+        ORBDataParserImpl od1 = new ORBDataParserImpl(orb, dc);
+        String expected_ip;
+        try {
+            expected_ip = InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException uhe) {
+            String msg = "testORBServerHostAndListenOnAllInterfaces FAILED" + " default ORBServerHost test, failed to get IP address: "
+                    + uhe.toString();
+            throw new Error(msg);
+        }
+
+        if (!expected_ip.equals(od1.getORBServerHost())) {
+            String msg = "testORBServerHostAndListenOnAllInterfaces FAILED" + " default ORBServerHost test, getORBServerHost() != "
+                    + expected_ip;
+            throw new Error(msg);
+        }
+        if (!od1.getListenOnAllInterfaces()) {
+            String msg = "testORBServerHostAndListenOnAllInterfaces FAILED" + " default getListenOnAllInterfaces test";
+            throw new Error(msg);
+        }
+
+        // Case 2
+
+        // if ORBServerHost is set to "0.0.0.0", then listen on all interfaces
+        // should be true
+        Properties props = new Properties();
+        String allHosts = "0.0.0.0";
+        props.setProperty(ORBConstants.SERVER_HOST_PROPERTY, allHosts);
+        dc = DataCollectorFactory.create(args, props, "MyHost");
+        od1 = new ORBDataParserImpl(orb, dc);
+        if (!expected_ip.equals(od1.getORBServerHost())) {
+            String msg = "testORBServerHostAndListenOnAllInterfaces FAILED" + " ORBServerHost property = " + allHosts
+                    + " test, getORBServerHost() != " + expected_ip;
+            throw new Error(msg);
+        }
+        if (!od1.getListenOnAllInterfaces()) {
+            String msg = "testORBServerHostAndListenOnAllInterfaces FAILED" + " ORBServerHost property = " + allHosts
+                    + " test, listenOnAllInterfaces should be true";
+            throw new Error(msg);
+        }
+
+        // if ORBServerHost is set to a specific host, then listen on all
+        // interfaces should be false
+        props = new Properties();
+        String expectedHost = "thatHost";
+        props.setProperty(ORBConstants.SERVER_HOST_PROPERTY, expectedHost);
+        dc = DataCollectorFactory.create(args, props, "MyHost");
+        od1 = new ORBDataParserImpl(orb, dc);
+        if (!expectedHost.equals(od1.getORBServerHost())) {
+            String msg = "testORBServerHostAndListenOnAllInterfaces FAILED" + " ORBServerHost property = " + expectedHost
+                    + " test, getORBServerHost() != " + expectedHost + " getORBServerHost = " + od1.getORBServerHost();
+            throw new Error(msg);
+        }
+        if (od1.getListenOnAllInterfaces()) {
+            String msg = "testORBServerHostAndListenOnAllInterfaces FAILED" + " ORBServerHost property = " + expectedHost
+                    + " test, listenOnAllInterfaces should be false";
+            throw new Error(msg);
+        }
+
+        // case 3
+        // Verify DataCollector calls parser's complete() only once.
+        SimpleParser simpleParser = new SimpleParser(dc);
+        try {
+            simpleParser = new SimpleParser(dc);
+        } catch (IllegalStateException ise) {
+            String msg = "testORBServerHostAndListenOnAllInterfaces FAILED" + ise.toString();
+            throw new Error(msg);
+        }
+
+        if (!simpleParser.errorIfCalledTooManyTimes()) {
+            String msg = "testORBServerHostAndListenOnAllInterfaces FAILED" + " SimpleParser.complete() called too many times";
+            throw new Error(msg);
+        }
+
+        System.out.println("\t\tPASSED");
+    }
+
+    // A simple parser that ensures the parser framework will
+    // call the overriden complete() method at most one time.
+    private static class SimpleParser extends ParserImplBase {
+        private int numberOfCompleteMethodInvokes;
+        private DataCollector itsDataCollector;
+
+        public SimpleParser(DataCollector dataCollector) {
+            numberOfCompleteMethodInvokes = 0;
+            // this will force a call to this.complete()
+            init(dataCollector);
+        }
+
+        public PropertyParser makeParser() {
+            PropertyParser parser = new PropertyParser();
+            return parser;
+        }
+
+        public void complete() {
+            if (++numberOfCompleteMethodInvokes > 1) {
+                throw new IllegalStateException("complete() called too many times" + numberOfCompleteMethodInvokes);
+            }
+        }
+
+        public boolean errorIfCalledTooManyTimes() {
+            boolean result = false;
+            try {
+                this.complete();
+            } catch (IllegalStateException ise) {
+                System.out.println("\t\tIllegalStateException thrown as expected...");
+                result = true;
+            }
+            return result;
+        }
+    }
+}

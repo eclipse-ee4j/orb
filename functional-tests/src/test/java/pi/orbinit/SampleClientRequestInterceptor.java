@@ -30,17 +30,14 @@ import ORBInitTest.*;
 /**
  * Sample ClientRequestInterceptor for use in testing
  */
-public class SampleClientRequestInterceptor
-    extends org.omg.CORBA.LocalObject
-    implements ClientRequestInterceptor
-{
+public class SampleClientRequestInterceptor extends org.omg.CORBA.LocalObject implements ClientRequestInterceptor {
 
     private String name;
 
     // Number of times destroy was called for interceptors of this type.
     static int destroyCount = 0;
 
-    public SampleClientRequestInterceptor( String name ) {
+    public SampleClientRequestInterceptor(String name) {
         this.name = name;
     }
 
@@ -52,27 +49,19 @@ public class SampleClientRequestInterceptor
         destroyCount++;
     }
 
-    public void send_request (ClientRequestInfo ri)
-        throws ForwardRequest
-    {
+    public void send_request(ClientRequestInfo ri) throws ForwardRequest {
     }
 
-    public void send_poll (ClientRequestInfo ri) {
+    public void send_poll(ClientRequestInfo ri) {
     }
 
-    public void receive_reply (ClientRequestInfo ri) {
+    public void receive_reply(ClientRequestInfo ri) {
     }
 
-    public void receive_exception (ClientRequestInfo ri)
-        throws ForwardRequest
-    {
+    public void receive_exception(ClientRequestInfo ri) throws ForwardRequest {
     }
 
-    public void receive_other (ClientRequestInfo ri)
-        throws ForwardRequest
-    {
+    public void receive_other(ClientRequestInfo ri) throws ForwardRequest {
     }
 
 }
-
-

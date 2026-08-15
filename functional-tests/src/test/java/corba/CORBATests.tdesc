@@ -1,0 +1,110 @@
+//
+//  Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+//
+//  This program and the accompanying materials are made available under the
+//  terms of the Eclipse Public License v. 2.0 which is available at
+//  http://www.eclipse.org/legal/epl-2.0, or the Eclipse Distribution License
+//  v. 1.0 which is available at
+//  http://www.eclipse.org/org/documents/edl-v10.php.
+//
+//  This Source Code may also be made available under the following Secondary
+//  Licenses when the conditions for such availability set forth in the Eclipse
+//  Public License v. 2.0 are satisfied: GNU General Public License v2.0
+//  w/Classpath exception which is available at
+//  https://www.gnu.org/software/classpath/license.html.
+//
+//  SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause OR GPL-2.0 WITH
+//  Classpath-exception-2.0
+//
+
+// Batch tests
+// Run 'java test.Test' for syntax
+//
+// These are the CORBA Technologies tests found under
+// test/src/share/classes/corba
+//
+// POAAndEquals and PCOSNamingTest seem to conflict when run
+// in the test process.  As a safety measure, any test which
+// clients or servers within the test process will be run
+// with the -separateprocess flag. 
+
+-test corba.simpledynamic.NewAcceptor
+-test corba.copyobjectpolicy.CopyObjectPolicyTest
+-test corba.connectioncache.ConnectionCacheTest
+// MixedOrbTest passes when run outside of the framework,
+// but fails in the framework.  It is commented out
+// until that problem is fixed.
+// @disabled(passes outside the framework, fails inside it) -test corba.mixedorb.MixedOrbTest
+-test corba.resolve_deadlock.ResolveDeadlockTest
+-test corba.lb.LBTest -ifpresent
+
+// I don't think this is needed, and it takes 4.5 minutes to run, so comment it out for now
+// @disabled(judged unnecessary, and takes about 4.5 minutes) -test corba.retryplugin.RetryPluginTest -ifpresent
+
+-test corba.giopgen.GIOPGenTest
+-test corba.rfm.TestRFM
+// now run directly from ant junit task: -test corba.messagetrace.MessageTraceTest
+// now run directly from ant junit task: -test corba.misc.MiscTest
+// now run directly from ant junit task: -test corba.dynamicrmiiiop.DynamicRmiIIOPTest
+-test corba.requestpartitioning.RequestPartitioningTest
+-test corba.rogueclient.RogueClientTest
+-test corba.folb.FolbTest -ifpresent
+-test corba.folb_8_1.FolbTest
+-test corba.fwddecl.ForwardDeclTest
+-test corba.security.PermissionTest
+-test corba.unarrow.UncheckedNarrowTest
+-test corba.legacyorbclasses.LegacyORBClassesTest
+-test corba.legacybootstrapserver.LegacyBootstrapServerTest
+-test corba.stubserialization.StubSerializationTest
+-test corba.adapteractivator.AdapterActivator
+-test corba.exceptiondetailsc.ExceptionDetailSCTest
+-test corba.preinvokepostinvoke.PreInvokePostInvokeTest
+-test corba.poacallback.POACallbackTest
+-test corba.islocal.IsLocalTest
+-test corba.strm2.Strm2Test
+-test corba.orbconfig.NewORBTests
+-test corba.orbconfigappserv.ORBConfigAppServTest
+-test corba.iorintsockfact.IorIntSockFactTest
+-test corba.connectintercept_1_4.ConnectIntercept_1_4Test
+-test corba.connections.ConnectionsTest
+-test corba.cdrext.CDRExtTest
+-test corba.serialization.zerolengthstring.ZeroLengthStringTest
+-test corba.purgecalls.PurgecallsTest
+-test corba.codeset.CodeSetTest
+-test corba.codebase.CodeBaseTest
+-test corba.hcks.HcksTest
+-test corba.ior.IORTests
+-test corba.ortremote.ORTRemoteTest
+-test corba.poamanager.POAManagerTest
+-test corba.example.Example
+-test corba.oneway.OneWayTest
+-test corba.poatest.OneWayTest
+-test corba.rmipoacounter.RMIPOACounterTest -separateprocess
+-test corba.poapolicies.POAPoliciesTest
+-test corba.poaandequals.POAAndEquals -separateprocess
+-test corba.multiorb.MultiORBTest
+-test corba.serialization.good.GoodRepIdTest
+-test corba.cdrstreams.CDRTests
+-test corba.giopheaderpadding.GIOPHeaderPaddingTest
+-test corba.systemexceptions.SystemExceptionsTest
+-test corba.rmic.RmicTest
+-test corba.repid.RepIdTest
+-test corba.invocation.InvocationTest
+-test corba.custom.CustomTest
+
+// corba.evolve.EvolveTest was removed from here: the corba/evolve package exists nowhere in the
+// tree, so there is nothing to skip or re-enable.
+//
+// Worth remembering why it mattered. It was not merely a dead line: test.Test treated an
+// unresolvable -test class as a usage error and called System.exit(1), which killed the suite JVM
+// at this point - so the four tests below it never ran, in any build, and were absent from the
+// results rather than reported as failures. Both halves of that are now fixed: a bad entry throws
+// and fails only its own case, and a disabled entry must be written // @disabled(reason) -test ...
+// so it is reported as skipped instead of vanishing.
+
+// Leave these last four at the end.
+// They go through long combinations of fragments sizes or GIOP combinations.
+-test corba.cmvt.CMVTTest
+-test corba.fragment2.FragmentTest
+-test corba.fragment.FragmentTest 
+-test corba.msgtypes.MsgTypesTest 

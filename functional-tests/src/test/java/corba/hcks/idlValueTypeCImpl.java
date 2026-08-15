@@ -24,34 +24,27 @@
 
 package corba.hcks;
 
-public class idlValueTypeCImpl
-    extends
-        idlValueTypeC
-{
+public class idlValueTypeCImpl extends idlValueTypeC {
     public static final String baseMsg = idlValueTypeCImpl.class.getName();
 
-    public idlValueTypeCImpl () {}
+    public idlValueTypeCImpl() {
+    }
 
-    public idlValueTypeCImpl (short a, short b, short c)
-    {
+    public idlValueTypeCImpl(short a, short b, short c) {
         this.a = a;
         this.b = b;
         this.c = c;
     }
 
-    public String toString ()
-    {
+    public String toString() {
         return baseMsg + " " + a + " " + b + " " + c;
     }
 
-    public void marshal(org.omg.CORBA.DataOutputStream out)
-    {
+    public void marshal(org.omg.CORBA.DataOutputStream out) {
     }
 
-    public void unmarshal(org.omg.CORBA.DataInputStream in)
-    {
+    public void unmarshal(org.omg.CORBA.DataInputStream in) {
     }
 }
 
 // End of file.
-

@@ -34,11 +34,9 @@ import java.io.*;
 import javax.naming.*;
 
 /**
- * Server for RMI/IIOP version of test.  Uses old _*ImplBase skeletons.
+ * Server for RMI/IIOP version of test. Uses old _*ImplBase skeletons.
  */
-public class OldRMILocalServer
-    implements Observer
-{
+public class OldRMILocalServer implements Observer {
     // Set from run()
     private PrintStream out;
 
@@ -46,30 +44,27 @@ public class OldRMILocalServer
 
     InitialContext initialNamingContext;
 
-    public void run( com.sun.corba.ee.spi.orb.ORB orb, java.lang.Object syncObject,
-                     Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra)
-        throws Exception
-    {
+    public void run(com.sun.corba.ee.spi.orb.ORB orb, java.lang.Object syncObject, Properties environment, String args[], PrintStream out,
+            PrintStream err, Hashtable extra) throws Exception {
         this.out = out;
-        this.orb = (com.sun.corba.ee.spi.orb.ORB)orb;
+        this.orb = (com.sun.corba.ee.spi.orb.ORB) orb;
 
-        out.println( "+ Creating Initial naming context..." );
+        out.println("+ Creating Initial naming context...");
         // Inform the JNDI provider of the ORB to use and create intial
         // naming context:
         Hashtable env = new Hashtable();
-        env.put( "java.naming.corba.orb", orb );
-        initialNamingContext = new InitialContext( env );
+        env.put("java.naming.corba.orb", orb);
+        initialNamingContext = new InitialContext(env);
 
-        out.println( "+ Creating and binding hello objects..." );
+        out.println("+ Creating and binding hello objects...");
         rebindObjects();
 
         // no handshake required here:
-        //out.println("Server is ready.");
-        //out.flush();
+        // out.println("Server is ready.");
+        // out.flush();
 
         // Notify client to wake up:
-        synchronized( syncObject ) {
+        synchronized (syncObject) {
             syncObject.notifyAll();
         }
 
@@ -84,32 +79,27 @@ public class OldRMILocalServer
     /**
      * Creates and binds a hello object using RMI
      */
-    public void createAndBind (String name)
-        throws Exception
-    {
-        helloOldRMIIIOP obj = new helloOldRMIIIOP( out );
-        initialNamingContext.rebind( name, obj );
+    public void createAndBind(String name) throws Exception {
+        helloOldRMIIIOP obj = new helloOldRMIIIOP(out);
+        initialNamingContext.rebind(name, obj);
 
         // Add this server as an observer so that when resetServant is called
         // we can rebind.
         helloDelegate delegate = obj.getDelegate();
-        delegate.addObserver( this );
+        delegate.addObserver(this);
     }
 
-    private void rebindObjects()
-        throws Exception
-    {
-        createAndBind( "Hello1" );
-        createAndBind( "Hello1Forward" );
+    private void rebindObjects() throws Exception {
+        createAndBind("Hello1");
+        createAndBind("Hello1Forward");
     }
 
-    public void update( Observable o, java.lang.Object arg ) {
+    public void update(Observable o, java.lang.Object arg) {
         try {
             rebindObjects();
-        }
-        catch( Exception e ) {
-            System.err.println( "rebindObjects() failed! " + e );
-            throw new RuntimeException( "rebindObjects failed!" );
+        } catch (Exception e) {
+            System.err.println("rebindObjects() failed! " + e);
+            throw new RuntimeException("rebindObjects failed!");
         }
     }
 

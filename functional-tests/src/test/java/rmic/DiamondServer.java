@@ -19,8 +19,14 @@
  */
 
 package rmic;
+
 public class DiamondServer implements Diamond {
-    public void method() throws java.rmi.RemoteException, TestException {}
-    public void left() throws java.rmi.RemoteException {}
-    public void right() throws java.rmi.RemoteException {}
+    public void method() throws java.rmi.RemoteException, TestException {
+    }
+
+    public void left() throws java.rmi.RemoteException {
+    }
+
+    public void right() throws java.rmi.RemoteException {
+    }
 }

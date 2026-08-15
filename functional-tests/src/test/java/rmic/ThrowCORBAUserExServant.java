@@ -19,20 +19,42 @@
  */
 
 package rmic;
+
 import org.omg.CORBA.UserException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public class ThrowCORBAUserExServant implements ThrowCORBAUserException {
-    public ThrowCORBAUserExServant() throws RemoteException {}
-    public void a () throws RemoteException {}
-    public void b () throws RemoteException, CORBAUserException {}
-    public void c () throws RemoteException, CORBAUserException, TestException {}
-    public void d () throws RemoteException, CORBAUserException, UserException, TestException {}
-    public void e () throws RemoteException, CORBAUserException, CORBAUserException2, UserException, TestException {}
-    public void f () throws RemoteException, TestException, CORBAUserException, CORBAUserException2, UserException {}
-    public void g () throws RemoteException, UserException, CORBAUserException, TestException, CORBAUserException2 {}
-    public void h () throws RemoteException, TestException, CORBAUserException, CORBAUserException2 {}
-    public void i () throws RemoteException, CORBAUserException, TestException, CORBAUserException2 {}
-    public void j () throws RemoteException, CORBAUserException, CORBAUserException2,TestException {}
+    public ThrowCORBAUserExServant() throws RemoteException {
+    }
+
+    public void a() throws RemoteException {
+    }
+
+    public void b() throws RemoteException, CORBAUserException {
+    }
+
+    public void c() throws RemoteException, CORBAUserException, TestException {
+    }
+
+    public void d() throws RemoteException, CORBAUserException, UserException, TestException {
+    }
+
+    public void e() throws RemoteException, CORBAUserException, CORBAUserException2, UserException, TestException {
+    }
+
+    public void f() throws RemoteException, TestException, CORBAUserException, CORBAUserException2, UserException {
+    }
+
+    public void g() throws RemoteException, UserException, CORBAUserException, TestException, CORBAUserException2 {
+    }
+
+    public void h() throws RemoteException, TestException, CORBAUserException, CORBAUserException2 {
+    }
+
+    public void i() throws RemoteException, CORBAUserException, TestException, CORBAUserException2 {
+    }
+
+    public void j() throws RemoteException, CORBAUserException, CORBAUserException2, TestException {
+    }
 }

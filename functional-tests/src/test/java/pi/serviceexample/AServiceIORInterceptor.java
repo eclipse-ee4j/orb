@@ -33,14 +33,10 @@ import org.omg.IOP.CodecPackage.InvalidTypeForEncoding;
 import org.omg.PortableInterceptor.IORInfo;
 import org.omg.PortableInterceptor.IORInterceptor;
 
-public class AServiceIORInterceptor
-    extends org.omg.CORBA.LocalObject
-    implements IORInterceptor
-{
+public class AServiceIORInterceptor extends org.omg.CORBA.LocalObject implements IORInterceptor {
     private Codec codec;
 
-    public AServiceIORInterceptor(Codec codec)
-    {
+    public AServiceIORInterceptor(Codec codec) {
         this.codec = codec;
     }
 
@@ -48,26 +44,23 @@ public class AServiceIORInterceptor
     // Interceptor operations
     //
 
-    public String name()
-    {
+    public String name() {
         return "AServiceInterceptor";
     }
 
-    public void destroy()
-    {
+    public void destroy() {
     }
 
     //
     // IOR Interceptor operations
     //
 
-    public void establish_components(IORInfo info)
-    {
+    public void establish_components(IORInfo info) {
         //
         // Note: typically, rather than just inserting a tagged component
         // this interceptor would check info.get_effective_policy(int)
         // to determine if a tagged component reflecting that policy
-        // should be added to the IOR.  That is not shown in this example.
+        // should be added to the IOR. That is not shown in this example.
         //
 
         ASERVICE_COMPONENT aServiceComponent = new ASERVICE_COMPONENT(true);
@@ -79,12 +72,10 @@ public class AServiceIORInterceptor
         } catch (InvalidTypeForEncoding e) {
             System.out.println("Exception handling not shown.");
         }
-        TaggedComponent taggedComponent =
-            new TaggedComponent(TAG_ASERVICE_COMPONENT.value, value);
+        TaggedComponent taggedComponent = new TaggedComponent(TAG_ASERVICE_COMPONENT.value, value);
         info.add_ior_component(taggedComponent);
     }
 
 }
 
 // End of file.
-

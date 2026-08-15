@@ -19,6 +19,7 @@
  */
 
 package rmic;
+
 public interface Left extends Base {
     void left() throws java.rmi.RemoteException;
 }

@@ -24,8 +24,7 @@ import java.util.Enumeration;
 import test.Test;
 
 public class ReflectiveExec extends ExternalExec {
-    protected String[] buildCommand()
-    {
+    protected String[] buildCommand() {
         // Command line array:
 
         // [java executable]
@@ -36,33 +35,30 @@ public class ReflectiveExec extends ExternalExec {
         // [class name]
         // [arguments to the program]
 
-        String[] debugArgs = getDebugVMArgs() ;
+        String[] debugArgs = getDebugVMArgs();
 
-        int size = 2 + debugArgs.length + VMArgs.length +
-            environment.size() + programArgs.length + 1;
+        int size = 2 + debugArgs.length + VMArgs.length + environment.size() + programArgs.length + 1;
 
-        String cmd [] = new String [size];
+        String cmd[] = new String[size];
 
         int idx = 0;
         // Java executable
         cmd[idx++] = Options.getJavaExec();
 
         // Arguments to the java executable
-        for(int i = 0; i < VMArgs.length; i++)
+        for (int i = 0; i < VMArgs.length; i++)
             cmd[idx++] = VMArgs[i];
 
         // -D environment variables
         Enumeration names = environment.propertyNames();
-        while(names.hasMoreElements()) {
-            String name =(String) names.nextElement();
-            cmd[idx++] = "-D" + name + "="
-                + environment.getProperty(name);
+        while (names.hasMoreElements()) {
+            String name = (String) names.nextElement();
+            cmd[idx++] = "-D" + name + "=" + environment.getProperty(name);
         }
 
         // Debugging arguments, if any
-        for(int i = 0; i < debugArgs.length; i++ )
+        for (int i = 0; i < debugArgs.length; i++)
             cmd[idx++] = debugArgs[i];
-
 
         cmd[idx++] = "corba.framework.ReflectiveWrapper";
 
@@ -70,11 +66,11 @@ public class ReflectiveExec extends ExternalExec {
         cmd[idx++] = className;
 
         // Arguments to the program
-        for(int i = 0; i < programArgs.length; i++)
+        for (int i = 0; i < programArgs.length; i++)
             cmd[idx++] = programArgs[i];
 
         Test.dprint("--------");
-        for(int i = 0; i < cmd.length; i++)
+        for (int i = 0; i < cmd.length; i++)
             Test.dprint("" + i + ": " + cmd[i]);
         Test.dprint("--------");
 

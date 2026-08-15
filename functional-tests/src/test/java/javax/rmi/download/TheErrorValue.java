@@ -23,11 +23,11 @@ package javax.rmi.download;
 public class TheErrorValue extends java.rmi.RemoteException implements TheValue {
     String mssg = null;
 
-    public TheErrorValue(String mssg){
+    public TheErrorValue(String mssg) {
         this.mssg = mssg;
     }
 
-    public String sayHello(){
-        return "Error : Could not load TheValueImpl so this was loaded instead :"+mssg;
+    public String sayHello() {
+        return "Error : Could not load TheValueImpl so this was loaded instead :" + mssg;
     }
 }

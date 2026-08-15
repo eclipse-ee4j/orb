@@ -30,41 +30,34 @@ import org.omg.PortableInterceptor.IORInfo;
 import org.omg.PortableInterceptor.ObjectReferenceTemplate;
 import com.sun.corba.ee.spi.legacy.interceptor.IORInfoExt;
 
-public class ServerIORInterceptor
-    extends
-        org.omg.CORBA.LocalObject
-    implements
-        IORInterceptor
-{
+public class ServerIORInterceptor extends org.omg.CORBA.LocalObject implements IORInterceptor {
     public final String baseMsg = ServerIORInterceptor.class.getName();
-    public final String estMsg  = baseMsg + ".establish_components";
+    public final String estMsg = baseMsg + ".establish_components";
 
-    public String name()    { return baseMsg; }
-    public void   destroy() { }
-    public void   establish_components(IORInfo iorInfo)
-    {
+    public String name() {
+        return baseMsg;
+    }
+
+    public void destroy() {
+    }
+
+    public void establish_components(IORInfo iorInfo) {
         IORInfoExt iorInfoExt = (IORInfoExt) iorInfo;
         String componentData = Common.createComponentData(estMsg, iorInfoExt);
-        TaggedComponent taggedComponent =
-            new TaggedComponent(Common.ListenPortsComponentID,
-                                componentData.getBytes());
+        TaggedComponent taggedComponent = new TaggedComponent(Common.ListenPortsComponentID, componentData.getBytes());
         iorInfo.add_ior_component(taggedComponent);
         System.out.println(estMsg + ": add_ior_component completed");
     }
 
-    public void components_established( IORInfo iorInfo )
-    {
+    public void components_established(IORInfo iorInfo) {
         // NO-OP
     }
 
-    public void adapter_manager_state_changed( int managerId, short state )
-    {
+    public void adapter_manager_state_changed(int managerId, short state) {
         // NO-OP
     }
 
-    public void adapter_state_changed( ObjectReferenceTemplate[] templates,
-        short state )
-    {
+    public void adapter_state_changed(ObjectReferenceTemplate[] templates, short state) {
         // NO-OP
     }
 }

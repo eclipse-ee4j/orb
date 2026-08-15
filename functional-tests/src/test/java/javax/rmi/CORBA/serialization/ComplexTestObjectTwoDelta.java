@@ -23,8 +23,7 @@ package javax.rmi.CORBA.serialization;
 import java.util.*;
 import java.io.*;
 
-public class ComplexTestObjectTwoDelta implements Serializable
-{
+public class ComplexTestObjectTwoDelta implements Serializable {
     static Random r = new Random();
     public int fInt;
     public long fLong;
@@ -33,51 +32,38 @@ public class ComplexTestObjectTwoDelta implements Serializable
     public String fString;
     public ComplexTestObjectOne fOne = null;
 
-    public ComplexTestObjectTwoDelta()
-    {
+    public ComplexTestObjectTwoDelta() {
         fInt = r.nextInt();
         fLong = r.nextLong();
         fFloat = r.nextFloat();
         fDouble = r.nextDouble();
-        fString = new String(fInt +""+ fLong +""+ fFloat +""+ fDouble);
+        fString = new String(fInt + "" + fLong + "" + fFloat + "" + fDouble);
         fOne = new ComplexTestObjectOne();
     }
 
-    public boolean equals(Object o)
-    {
-        try
-            {
-                ComplexTestObjectTwoDelta ctbo = (ComplexTestObjectTwoDelta)o;
-                return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) &&
-                        (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat) && (ctbo.fDouble == fDouble)
-                        && (ctbo.fOne.equals(fOne))
-                        );
-            }
-        catch(Exception e)
-            {
-                return false;
-            }
+    public boolean equals(Object o) {
+        try {
+            ComplexTestObjectTwoDelta ctbo = (ComplexTestObjectTwoDelta) o;
+            return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) && (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat)
+                    && (ctbo.fDouble == fDouble) && (ctbo.fOne.equals(fOne)));
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    public String toString()
-    {
-        return new String("fInt="+fInt+"; fLong="+fLong+"; fFloat="+fFloat+"; fDouble="+fDouble+"; fString="+fString);
+    public String toString() {
+        return new String("fInt=" + fInt + "; fLong=" + fLong + "; fFloat=" + fFloat + "; fDouble=" + fDouble + "; fString=" + fString);
     }
 
     /**
      * Serialize out to output stream.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException
-    {
-        try
-            {
-                s.defaultWriteObject();
-            }
-        catch(IOException e)
-            {
-                throw e;
-            }
+    private void writeObject(ObjectOutputStream s) throws IOException {
+        try {
+            s.defaultWriteObject();
+        } catch (IOException e) {
+            throw e;
+        }
     }
 
 }
-

@@ -19,7 +19,9 @@
  */
 
 package rmic;
+
 public interface ThrowNCException extends java.rmi.Remote {
-    void a () throws java.rmi.RemoteException, rmic.NCRemoteException;
-    void b () throws java.rmi.RemoteException, rmic.NCRuntimeException;
+    void a() throws java.rmi.RemoteException, rmic.NCRemoteException;
+
+    void b() throws java.rmi.RemoteException, rmic.NCRuntimeException;
 }

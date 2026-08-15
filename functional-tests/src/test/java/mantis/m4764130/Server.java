@@ -30,45 +30,34 @@ import org.omg.CosNaming.*;
 import org.omg.PortableServer.POA;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
-class HelloImpl
-    extends
-        HelloPOA
-{
-    public HelloImpl()
-    {
+class HelloImpl extends HelloPOA {
+    public HelloImpl() {
     }
 
-    public String hello(String x)
-    {
+    public String hello(String x) {
         return x;
     }
 }
 
-public class Server
-{
-    public static void main(String[] args)
-    {
-        try{
+public class Server {
+    public static void main(String[] args) {
+        try {
             Properties props = new Properties();
-            props.setProperty(ORBConstants.PI_ORB_INITIALIZER_CLASS_PREFIX +
-                              Interceptor.class.getName(),
-                              "dummy");
+            props.setProperty(ORBConstants.PI_ORB_INITIALIZER_CLASS_PREFIX + Interceptor.class.getName(), "dummy");
             ORB orb = ORB.init(args, props);
 
             // Get rootPOA
-            POA rootPOA = (POA)orb.resolve_initial_references("RootPOA");
+            POA rootPOA = (POA) orb.resolve_initial_references("RootPOA");
             rootPOA.the_POAManager().activate();
 
             HelloImpl hello = new HelloImpl();
             byte[] id = rootPOA.activate_object(hello);
             org.omg.CORBA.Object ref = rootPOA.id_to_reference(id);
 
-            NamingContext namingContext =
-                NamingContextHelper.narrow(orb.resolve_initial_references(
-                    "NameService"));
+            NamingContext namingContext = NamingContextHelper.narrow(orb.resolve_initial_references("NameService"));
             NameComponent nc = new NameComponent("Server", "");
             NameComponent path[] = { nc };
-            namingContext.rebind( path , ref );
+            namingContext.rebind(path, ref);
 
             System.out.println("Server is ready.");
 

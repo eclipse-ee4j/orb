@@ -27,17 +27,20 @@ import ClientRequestInfo.*;
 /**
  * Hello interface for RMI-IIOP version of test
  */
-public interface helloIF
-    extends Remote
-{
-  String sayHello () throws RemoteException;
-  String saySystemException () throws RemoteException;
-  void sayUserException () throws ExampleException, RemoteException;
-  void sayOneway () throws RemoteException;
-  String sayArguments( String arg1, int arg2, boolean arg3 )
-      throws RemoteException;
-  void clearInvoked () throws RemoteException;
-  boolean wasInvoked () throws RemoteException;
-  void resetServant () throws RemoteException;
-}
+public interface helloIF extends Remote {
+    String sayHello() throws RemoteException;
 
+    String saySystemException() throws RemoteException;
+
+    void sayUserException() throws ExampleException, RemoteException;
+
+    void sayOneway() throws RemoteException;
+
+    String sayArguments(String arg1, int arg2, boolean arg3) throws RemoteException;
+
+    void clearInvoked() throws RemoteException;
+
+    boolean wasInvoked() throws RemoteException;
+
+    void resetServant() throws RemoteException;
+}

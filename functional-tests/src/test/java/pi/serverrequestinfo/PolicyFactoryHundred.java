@@ -28,13 +28,10 @@ import org.omg.CORBA.*;
  *
  * COPIED FROM iorinterceptor test.
  */
-public class PolicyFactoryHundred extends LocalObject
-    implements org.omg.PortableInterceptor.PolicyFactory
-{
-    public Policy  create_policy( int type, Any val ) {
-        System.out.println( "PolicyFactoryHundred.create_policy called..." );
+public class PolicyFactoryHundred extends LocalObject implements org.omg.PortableInterceptor.PolicyFactory {
+    public Policy create_policy(int type, Any val) {
+        System.out.println("PolicyFactoryHundred.create_policy called...");
         System.out.flush();
-        return new PolicyHundred( val.extract_long() );
+        return new PolicyHundred(val.extract_long());
     }
 }
-

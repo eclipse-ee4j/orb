@@ -21,8 +21,9 @@
 package rmic;
 
 public interface AbstractObject {
-    public boolean isValue () throws java.rmi.RemoteException;
-    public int getValue () throws java.rmi.RemoteException;
+    public boolean isValue() throws java.rmi.RemoteException;
+
+    public int getValue() throws java.rmi.RemoteException;
+
     public String getCodeBase() throws java.rmi.RemoteException;
 }
-

@@ -31,17 +31,17 @@ public class InstallTest extends HelloTest {
     private static boolean TIME_IT = true;
     long startTime;
 
-    public String getName () {
-        if (TIME_IT) startTime = System.currentTimeMillis();
-        return Version.asString() +
-            "\n    Running on JDK " + System.getProperty("java.version") + "\n" +
-            "\n    Verifying installation (requires < 2 minutes to complete)";
+    public String getName() {
+        if (TIME_IT)
+            startTime = System.currentTimeMillis();
+        return Version.asString() + "\n    Running on JDK " + System.getProperty("java.version") + "\n"
+                + "\n    Verifying installation (requires < 2 minutes to complete)";
     }
 
-    public String getPassed () {
+    public String getPassed() {
         if (TIME_IT) {
             long duration = System.currentTimeMillis() - startTime;
-            return "completed successfully in " + duration/1000 + " seconds.";
+            return "completed successfully in " + duration / 1000 + " seconds.";
         } else {
             return "successful.";
         }

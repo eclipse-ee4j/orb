@@ -38,27 +38,25 @@ import javax.rmi.PortableRemoteObject;
  */
 public class RemoteTestExample extends RemoteTest {
 
-    private static final String publishName     = "HelloServer";
-    private static final String servantClass    = "test.HelloServant";
-    private static final String[] compileEm     = {servantClass};
+    private static final String publishName = "HelloServer";
+    private static final String servantClass = "test.HelloServant";
+    private static final String[] compileEm = { servantClass };
 
     /**
-     * Return an array of fully qualified remote servant class
-     * names for which ties/skels need to be generated. Return
-     * empty array if none.
+     * Return an array of fully qualified remote servant class names for which ties/skels need to be generated. Return empty
+     * array if none.
      */
-    protected String[] getRemoteServantClasses () {
+    protected String[] getRemoteServantClasses() {
         return compileEm;
     }
 
     /**
-     * Append additional (i.e. after -iiop and before classes) rmic arguments
-     * to 'currentArgs'. This implementation will set the output directory if
-     * the OUTPUT_DIRECTORY flag was passed on the command line.
+     * Append additional (i.e. after -iiop and before classes) rmic arguments to 'currentArgs'. This implementation will set
+     * the output directory if the OUTPUT_DIRECTORY flag was passed on the command line.
      */
-    protected String[] getAdditionalRMICArgs (String[] currentArgs) {
+    protected String[] getAdditionalRMICArgs(String[] currentArgs) {
         if (iiop) {
-            String[] ourArgs = {"-alwaysGenerate"};
+            String[] ourArgs = { "-alwaysGenerate" };
             return super.getAdditionalRMICArgs(ourArgs);
         } else {
             return super.getAdditionalRMICArgs(currentArgs);
@@ -67,22 +65,23 @@ public class RemoteTestExample extends RemoteTest {
 
     /**
      * Perform the test.
+     * 
      * @param context The context returned by getServantContext().
      */
-    public void doTest (ServantContext context) throws Throwable {
+    public void doTest(ServantContext context) throws Throwable {
 
         // Start up our servant. (The 'iiop' flag is set to true by RemoteTest
         // unless the -jrmp flag was used).
 
-        Remote remote = context.startServant(servantClass,publishName,true,iiop);
+        Remote remote = context.startServant(servantClass, publishName, true, iiop);
 
         if (remote == null) {
-            throw new Exception ("Could not start servant: " + servantClass);
+            throw new Exception("Could not start servant: " + servantClass);
         }
 
         // Narrow to our expected interface...
 
-        test.Hello objref = (test.Hello) PortableRemoteObject.narrow(remote,test.Hello.class);
+        test.Hello objref = (test.Hello) PortableRemoteObject.narrow(remote, test.Hello.class);
 
         // TEST CODE HERE...
 

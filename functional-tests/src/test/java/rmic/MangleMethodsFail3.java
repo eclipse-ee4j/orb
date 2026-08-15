@@ -25,6 +25,8 @@ import java.rmi.RemoteException;
 
 public interface MangleMethodsFail3 extends Remote {
     void foo() throws RemoteException;
+
     void foo(int a) throws RemoteException;
+
     void foo__long() throws RemoteException;
 }

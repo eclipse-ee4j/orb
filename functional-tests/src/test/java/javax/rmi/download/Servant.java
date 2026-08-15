@@ -20,8 +20,7 @@
 
 package javax.rmi.download;
 
-public  interface Servant
-    extends java.rmi.Remote {
+public interface Servant extends java.rmi.Remote {
     public String EchoSingleRemoteInterface() throws java.rmi.RemoteException;
 
     public TheValue getValue() throws java.rmi.RemoteException;

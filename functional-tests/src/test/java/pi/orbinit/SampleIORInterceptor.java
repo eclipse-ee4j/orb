@@ -31,17 +31,14 @@ import ORBInitTest.*;
 /**
  * Sample IORInterceptor for use in testing
  */
-public class SampleIORInterceptor
-    extends org.omg.CORBA.LocalObject
-    implements IORInterceptor
-{
+public class SampleIORInterceptor extends org.omg.CORBA.LocalObject implements IORInterceptor {
 
     private String name;
 
     // Number of times destroy was called on this type of interceptor.
     static int destroyCount = 0;
 
-    public SampleIORInterceptor( String name ) {
+    public SampleIORInterceptor(String name) {
         this.name = name;
     }
 
@@ -53,21 +50,15 @@ public class SampleIORInterceptor
         destroyCount++;
     }
 
-    public void establish_components (IORInfo info) {
+    public void establish_components(IORInfo info) {
     }
 
-    public void components_established( IORInfo info )
-    {
+    public void components_established(IORInfo info) {
     }
 
-    public void adapter_state_changed( ObjectReferenceTemplate[] templates,
-        short state )
-    {
+    public void adapter_state_changed(ObjectReferenceTemplate[] templates, short state) {
     }
 
-    public void adapter_manager_state_changed( int managedId, short state )
-    {
+    public void adapter_manager_state_changed(int managedId, short state) {
     }
 }
-
-

@@ -30,11 +30,9 @@ import java.util.Properties;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
 
-public class Client
-{
+public class Client {
     protected final static int stringSize = 10000;
-    protected final static String stringOf36 =
-           "abcdefghijklmnopqrstuvwxyz0123456789";
+    protected final static String stringOf36 = "abcdefghijklmnopqrstuvwxyz0123456789";
     protected String reallyReallyBigString = null;
     protected Tester itsTester = null;
     protected ORB itsOrb = null;
@@ -43,7 +41,7 @@ public class Client
 
         Properties props = System.getProperties();
 
-        itsOrb = (ORB)org.omg.CORBA.ORB.init(args, props);
+        itsOrb = (ORB) org.omg.CORBA.ORB.init(args, props);
 
         initializeReallyBigString();
     }
@@ -59,9 +57,8 @@ public class Client
         reallyReallyBigString = sb.toString();
     }
 
-    protected void printError(int myPoolId, int remotePoolId)
-            throws Exception {
-        StringBuilder error =  new StringBuilder(80);
+    protected void printError(int myPoolId, int remotePoolId) throws Exception {
+        StringBuilder error = new StringBuilder(80);
         error.append("FAILED: client requested thread pool id (");
         error.append(myPoolId);
         error.append(") not executed on expected server thread pool id (");
@@ -73,15 +70,13 @@ public class Client
     protected void runTest() throws RemoteException, Exception {
 
         U.sop("Getting name service...");
-        org.omg.CORBA.Object objRef =
-            itsOrb.resolve_initial_references("NameService");
+        org.omg.CORBA.Object objRef = itsOrb.resolve_initial_references("NameService");
         NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
         U.sop("Got name service.");
 
         int expectedPoolId;
         int returnedPoolId;
-        for (int i = 0; i < TestThreadPoolManager.NUMBER_OF_THREAD_POOLS_TO_CREATE; i++)
-        {
+        for (int i = 0; i < TestThreadPoolManager.NUMBER_OF_THREAD_POOLS_TO_CREATE; i++) {
             String name = "Tester" + i;
             U.sop("Finding, looking up & narrowing " + name + " ...");
             itsTester = TesterHelper.narrow(ncRef.resolve_str(name));
@@ -89,8 +84,7 @@ public class Client
 
             U.sop("Testing thread pool id (" + i + ") usage...");
             expectedPoolId = i;
-            returnedPoolId =
-                itsTester.getThreadPoolIdForThisRequest(reallyReallyBigString);
+            returnedPoolId = itsTester.getThreadPoolIdForThisRequest(reallyReallyBigString);
             if (expectedPoolId != returnedPoolId) {
                 printError(expectedPoolId, returnedPoolId);
             }
@@ -104,8 +98,7 @@ public class Client
 
         U.sop("Testing DEFAULT thread pool usage...");
         expectedPoolId = 0;
-        returnedPoolId =
-            itsTester.getThreadPoolIdForThisRequest(reallyReallyBigString);
+        returnedPoolId = itsTester.getThreadPoolIdForThisRequest(reallyReallyBigString);
         if (expectedPoolId != returnedPoolId) {
             printError(expectedPoolId, returnedPoolId);
         }
@@ -131,4 +124,3 @@ public class Client
         }
     }
 }
-

@@ -37,9 +37,7 @@ import java.rmi.*;
 import javax.rmi.*;
 import javax.naming.*;
 
-public class RMILocalServer
-    extends RMIServer
-{
+public class RMILocalServer extends RMIServer {
     // Object to syncrhornize on to wait for server to start:
     private java.lang.Object syncObject;
 
@@ -52,66 +50,56 @@ public class RMILocalServer
             server.out = System.out;
             server.err = System.err;
 
-            System.out.println( "===============================" );
-            System.out.println( "Creating ORB for RMI Local test" );
-            System.out.println( "===============================" );
+            System.out.println("===============================");
+            System.out.println("Creating ORB for RMI Local test");
+            System.out.println("===============================");
 
             // For this test, start botht he client and the server using
             // the same ORB.
-            System.out.println( "+ Creating ORB for client and server..." );
-            server.createORB( args, new Properties() );
+            System.out.println("+ Creating ORB for client and server...");
+            server.createORB(args, new Properties());
 
-            System.out.println( "+ Starting Server..." );
+            System.out.println("+ Starting Server...");
             server.syncObject = new java.lang.Object();
 
             new Thread() {
                 public void run() {
                     try {
-                        server.run(
-                            System.getProperties(),
-                            arguments, System.out,
-                            System.err, null );
-                    }
-                    catch( Exception e ) {
-                        System.err.println( "SERVER CRASHED:" );
-                        e.printStackTrace( System.err );
-                        System.exit( 1 );
+                        server.run(System.getProperties(), arguments, System.out, System.err, null);
+                    } catch (Exception e) {
+                        System.err.println("SERVER CRASHED:");
+                        e.printStackTrace(System.err);
+                        System.exit(1);
                     }
                 }
             }.start();
 
             // Wait for server to start...
-            synchronized( server.syncObject ) {
+            synchronized (server.syncObject) {
                 try {
                     server.syncObject.wait();
-                }
-                catch( InterruptedException e ) {
+                } catch (InterruptedException e) {
                     // ignore.
                 }
             }
 
             // Start client:
-            System.out.println( "+ Starting client..." );
-            RMILocalClient client = new RMILocalClient( server.orb );
-            client.run( System.getProperties(),
-                        args, System.out, System.err, null );
-            System.exit( 0 );
-        }
-        catch( Exception e ) {
-            e.printStackTrace( System.err );
-            System.exit( 1 );
+            System.out.println("+ Starting client...");
+            RMILocalClient client = new RMILocalClient(server.orb);
+            client.run(System.getProperties(), args, System.out, System.err, null);
+            System.exit(0);
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            System.exit(1);
         }
     }
 
-    public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra)
-        throws Exception
-    {
-        super.run( environment, args, out, err, extra );
+    public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
+        super.run(environment, args, out, err, extra);
     }
 
     void handshake() {
-        synchronized( syncObject ) {
+        synchronized (syncObject) {
             syncObject.notifyAll();
         }
     }
@@ -119,4 +107,3 @@ public class RMILocalServer
     void waitForClients() {
     }
 }
-

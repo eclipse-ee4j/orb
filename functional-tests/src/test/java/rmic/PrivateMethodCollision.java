@@ -21,10 +21,17 @@
 package rmic;
 
 public class PrivateMethodCollision implements java.io.Serializable {
-    public PrivateMethodCollision () {}
-    private PrivateMethodCollision (int i) {}
-    public void foo () {}
-    private void foo (int i) {}
+    public PrivateMethodCollision() {
+    }
+
+    private PrivateMethodCollision(int i) {
+    }
+
+    public void foo() {
+    }
+
+    private void foo(int i) {
+    }
+
     private boolean foo;
 }
-

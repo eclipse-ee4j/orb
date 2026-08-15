@@ -27,32 +27,23 @@ package corba.exceptiondetailsc;
 import org.omg.CORBA.FREE_MEM;
 import corba.hcks.U;
 
-class idlIServantConnect
-    extends
-        _idlIImplBase
-{
+class idlIServantConnect extends _idlIImplBase {
     public static final String baseMsg = idlIServantConnect.class.getName();
 
-    public idlIServantConnect()
-    {
+    public idlIServantConnect() {
     }
 
-    public void raise_system_exception(String arg1)
-    {
+    public void raise_system_exception(String arg1) {
         throw new FREE_MEM(arg1);
     }
 
-    public void raise_user_exception(String arg1)
-        throws idlException
-    {
+    public void raise_user_exception(String arg1) throws idlException {
         throw new idlException(arg1);
     }
 
-    public void raise_runtime_exception(String arg1)
-    {
+    public void raise_runtime_exception(String arg1) {
         throw new RuntimeException(arg1);
     }
 }
 
 // End of file.
-

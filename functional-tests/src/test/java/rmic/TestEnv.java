@@ -30,11 +30,11 @@ public class TestEnv extends org.glassfish.rmic.iiop.BatchEnvironment {
     private boolean firstLine = true;
 
     public TestEnv(ClassPath path, OutputStream out) {
-        super(out,path,new Main(System.out, "rmic").getDestinationDir());
+        super(out, path, new Main(System.out, "rmic").getDestinationDir());
     }
 
     public TestEnv(ClassPath path) {
-        super(System.out,path,new Main(System.out, "rmic").getDestinationDir());
+        super(System.out, path, new Main(System.out, "rmic").getDestinationDir());
     }
 
     public void reset() {
@@ -52,4 +52,3 @@ public class TestEnv extends org.glassfish.rmic.iiop.BatchEnvironment {
         System.out.println("          " + msg);
     }
 }
-

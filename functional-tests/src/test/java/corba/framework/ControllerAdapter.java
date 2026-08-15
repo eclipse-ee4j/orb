@@ -24,11 +24,9 @@ import java.util.*;
 import test.*;
 
 /**
- * Adapter class providing some convenient default implementations for
- * the Controller interface.
+ * Adapter class providing some convenient default implementations for the Controller interface.
  */
-public abstract class ControllerAdapter implements Controller
-{
+public abstract class ControllerAdapter implements Controller {
     protected String className;
     protected String processName;
     protected Properties environment;
@@ -38,15 +36,8 @@ public abstract class ControllerAdapter implements Controller
     protected OutputStream err;
     protected Hashtable extra;
 
-    public void initialize(String className,
-                           String processName,
-                           Properties environment,
-                           String VMArgs[],
-                           String programArgs[],
-                           OutputStream out,
-                           OutputStream err,
-                           Hashtable extra) throws Exception
-    {
+    public void initialize(String className, String processName, Properties environment, String VMArgs[], String programArgs[],
+            OutputStream out, OutputStream err, Hashtable extra) throws Exception {
         this.className = className;
         this.processName = processName;
         this.environment = environment;
@@ -65,23 +56,19 @@ public abstract class ControllerAdapter implements Controller
             this.programArgs = new String[0];
     }
 
-    public OutputStream getOutputStream()
-    {
+    public OutputStream getOutputStream() {
         return out;
     }
 
-    public OutputStream getErrorStream()
-    {
+    public OutputStream getErrorStream() {
         return err;
     }
 
-    public String getProcessName()
-    {
+    public String getProcessName() {
         return processName;
     }
 
-    public String getClassName()
-    {
+    public String getClassName() {
         return className;
     }
 }

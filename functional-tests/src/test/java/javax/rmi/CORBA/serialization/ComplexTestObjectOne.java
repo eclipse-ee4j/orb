@@ -23,8 +23,7 @@ package javax.rmi.CORBA.serialization;
 import java.util.*;
 import java.io.*;
 
-public class ComplexTestObjectOne implements Serializable
-{
+public class ComplexTestObjectOne implements Serializable {
     static Random r = new Random();
     public int fInt;
     public long fLong;
@@ -33,33 +32,26 @@ public class ComplexTestObjectOne implements Serializable
     public String fString;
     public java.lang.Object fMarshalAsAny;
 
-    public ComplexTestObjectOne()
-    {
-        fInt = 1;//r.nextInt();
-        fLong = 2;//r.nextLong();
-        fFloat = 3;//r.nextFloat();
-        fDouble = 4;//r.nextDouble();
-        fString = new String(fInt +""+ fLong +""+ fFloat +""+ fDouble);
-        fMarshalAsAny = (Object)new Character('S');
+    public ComplexTestObjectOne() {
+        fInt = 1;// r.nextInt();
+        fLong = 2;// r.nextLong();
+        fFloat = 3;// r.nextFloat();
+        fDouble = 4;// r.nextDouble();
+        fString = new String(fInt + "" + fLong + "" + fFloat + "" + fDouble);
+        fMarshalAsAny = (Object) new Character('S');
     }
 
-    public boolean equals(Object o)
-    {
-        try
-            {
-                ComplexTestObjectOne ctbo = (ComplexTestObjectOne)o;
-                return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) &&
-                        (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat) &&
-                        (ctbo.fDouble == fDouble) && (ctbo.fMarshalAsAny.equals(fMarshalAsAny)));
-            }
-        catch(Exception e)
-            {
-                return false;
-            }
+    public boolean equals(Object o) {
+        try {
+            ComplexTestObjectOne ctbo = (ComplexTestObjectOne) o;
+            return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) && (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat)
+                    && (ctbo.fDouble == fDouble) && (ctbo.fMarshalAsAny.equals(fMarshalAsAny)));
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    public String toString()
-    {
-        return new String("fInt="+fInt+"; fLong="+fLong+"; fFloat="+fFloat+"; fDouble="+fDouble+"; fString="+fString);
+    public String toString() {
+        return new String("fInt=" + fInt + "; fLong=" + fLong + "; fFloat=" + fFloat + "; fDouble=" + fDouble + "; fString=" + fString);
     }
 }

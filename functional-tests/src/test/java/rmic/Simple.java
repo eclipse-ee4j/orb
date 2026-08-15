@@ -19,10 +19,12 @@
  */
 
 package rmic;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface Simple extends Remote {
-    void method1 () throws RemoteException;
-    void method2 () throws RemoteException, TestException;
+    void method1() throws RemoteException;
+
+    void method2() throws RemoteException, TestException;
 }

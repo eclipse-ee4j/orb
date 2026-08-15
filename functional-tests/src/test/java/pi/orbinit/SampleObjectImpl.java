@@ -21,28 +21,24 @@ package pi.orbinit;
 
 import ORBInitTest.*;
 
-public class SampleObjectImpl
-    extends _SampleObjectImplBase
-{
+public class SampleObjectImpl extends _SampleObjectImplBase {
     private short _x;
     private short _y;
 
-    public short x () {
+    public short x() {
         return _x;
     }
 
-    public void x (short newX) {
+    public void x(short newX) {
         this._x = newX;
     }
 
-    public short y () {
+    public short y() {
         return _y;
     }
 
-    public void y (short newY) {
+    public void y(short newY) {
         this._y = newY;
     }
 
 }
-
-

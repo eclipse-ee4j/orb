@@ -26,20 +26,19 @@ package rmic;
 public abstract class IDLTest extends RMICTest {
 
     /**
-     * Return an array of fully qualified class names for which generation
-     * should occur. Return empty array if none.
+     * Return an array of fully qualified class names for which generation should occur. Return empty array if none.
      */
-    protected abstract String[] getGenerationClasses () throws Throwable;
+    protected abstract String[] getGenerationClasses() throws Throwable;
 
     /**
      * Return the primary generator argument (e.g. "-iiop" or "-idl").
      */
-    protected String getGeneratorArg () {
+    protected String getGeneratorArg() {
         return "-idl";
     }
 
     /**
      * Perform the test.
      */
-    protected abstract void doTest () throws Throwable;
+    protected abstract void doTest() throws Throwable;
 }

@@ -24,23 +24,17 @@
 
 package corba.hcks;
 
-public class idlValueTypeEImpl
-    extends
-        idlValueTypeE
-{
+public class idlValueTypeEImpl extends idlValueTypeE {
     public static final String baseMsg = idlValueTypeEImpl.class.getName();
 
-    public idlValueTypeEImpl ()
-    {
-        intSeq     = new int[10000];
+    public idlValueTypeEImpl() {
+        intSeq = new int[10000];
         octetArray = new byte[10000];
     }
 
-    public String toString ()
-    {
+    public String toString() {
         return baseMsg + " ";
     }
 }
 
 // End of file.
-

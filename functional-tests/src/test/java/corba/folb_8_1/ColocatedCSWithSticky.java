@@ -24,10 +24,8 @@
 
 package corba.folb_8_1;
 
-public class ColocatedCSWithSticky
-{
-    public static void main(String[] av)
-    {
+public class ColocatedCSWithSticky {
+    public static void main(String[] av) {
         Client.withSticky = true;
         ColocatedCS.main(av);
     }

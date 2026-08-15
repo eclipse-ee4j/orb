@@ -31,17 +31,13 @@ import ClientRequestInterceptor.*; // hello interface
 /**
  * ClientDelegate implementation with old stubs.
  */
-public class helloOldRMIIIOP
-    extends _helloImplBase
-{
+public class helloOldRMIIIOP extends _helloImplBase {
     // Contains the actual implementation of the hello interface.
     private helloDelegate delegate = null;
 
-    public helloOldRMIIIOP( PrintStream out )
-        throws RemoteException
-    {
+    public helloOldRMIIIOP(PrintStream out) throws RemoteException {
         super();
-        this.delegate = new helloDelegate( out );
+        this.delegate = new helloDelegate(out);
     }
 
     public helloDelegate getDelegate() {

@@ -19,6 +19,7 @@
  */
 
 package rmic;
+
 public interface ThrowNCIOException extends java.rmi.Remote {
-    void a () throws java.rmi.RemoteException, rmic.NCIOException;
+    void a() throws java.rmi.RemoteException, rmic.NCIOException;
 }

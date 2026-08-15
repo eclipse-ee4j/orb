@@ -19,7 +19,7 @@
  */
 
 package rmic;
+
 public interface ReturnImplInterface extends java.rmi.Remote {
     HiServant method() throws java.rmi.RemoteException;
 }
-

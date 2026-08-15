@@ -34,9 +34,9 @@ class helloServant extends helloPOA {
     // The object to delegate all calls to:
     helloDelegate delegate;
 
-    public helloServant( PrintStream out, String symbol ) {
+    public helloServant(PrintStream out, String symbol) {
         super();
-        this.delegate = new helloDelegate( out, symbol );
+        this.delegate = new helloDelegate(out, symbol);
     }
 
     public String sayHello() {
@@ -51,14 +51,12 @@ class helloServant extends helloPOA {
         delegate.saySystemException();
     }
 
-    public void sayUserException()
-        throws ForwardRequest
-    {
+    public void sayUserException() throws ForwardRequest {
         delegate.sayUserException();
     }
 
-    public String syncWithServer( boolean exceptionRaised ) {
-        return delegate.syncWithServer( exceptionRaised );
+    public String syncWithServer(boolean exceptionRaised) {
+        return delegate.syncWithServer(exceptionRaised);
     }
 
 }

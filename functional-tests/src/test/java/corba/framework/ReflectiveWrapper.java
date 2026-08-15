@@ -30,7 +30,7 @@ public class ReflectiveWrapper {
             System.out.println("** Executing ReflectiveWrapper **");
             Runtime.getRuntime().addShutdownHook(new ShutdownHook());
             String[] array = new String[args.length - 1];
-            System.arraycopy(args, 1, array, 0, args.length -1);
+            System.arraycopy(args, 1, array, 0, args.length - 1);
 
             Class cls = Class.forName(args[0]);
             Class[] params = { args.getClass() };

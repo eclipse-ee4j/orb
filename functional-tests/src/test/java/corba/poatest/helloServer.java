@@ -28,34 +28,30 @@ import HelloA.*;
 
 import java.util.Properties;
 
-class helloServant extends helloPOA
-{
-    public void shutdown()
-    {
+class helloServant extends helloPOA {
+    public void shutdown() {
         System.err.println("In helloServant.shutdown, exiting..");
         System.exit(0);
     }
 
-    public void sayHello()
-    {
-                System.out.println("\nHello world !!\n");
+    public void sayHello() {
+        System.out.println("\nHello world !!\n");
 
     }
 }
 
 public class helloServer {
 
-    public static void main(String args[])
-    {
-        try{
+    public static void main(String args[]) {
+        try {
             // create and initialize the ORB
-                Properties props = new Properties();
+            Properties props = new Properties();
             ORB orb = ORB.init(args, System.getProperties());
 
-            POA rootpoa = (POA)orb.resolve_initial_references("RootPOA");
+            POA rootpoa = (POA) orb.resolve_initial_references("RootPOA");
             rootpoa.the_POAManager().activate();
 
-            POA childpoa = rootpoa.create_POA("childPOA", null,null);
+            POA childpoa = rootpoa.create_POA("childPOA", null, null);
             childpoa.the_POAManager().activate();
 
             // create servant and register it with the ORB
@@ -71,7 +67,7 @@ public class helloServer {
 
             // bind the Object Reference in Naming
             NameComponent nc = new NameComponent("Hello", "");
-            NameComponent path[] = {nc};
+            NameComponent path[] = { nc };
             ncRef.rebind(path, href);
 
             System.out.println("Server is ready.");
@@ -80,7 +76,7 @@ public class helloServer {
             java.lang.Object sync = new java.lang.Object();
             synchronized (sync) {
                 sync.wait();
-                                System.out.println("helloServant contacted");
+                System.out.println("helloServant contacted");
             }
 
         } catch (Exception e) {
@@ -90,4 +86,3 @@ public class helloServer {
         }
     }
 }
-

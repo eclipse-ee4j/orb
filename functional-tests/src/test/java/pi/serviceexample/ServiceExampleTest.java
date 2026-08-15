@@ -27,34 +27,22 @@ package pi.serviceexample;
 import corba.framework.Controller;
 import corba.framework.CORBATest;
 
-public class ServiceExampleTest
-    extends
-        CORBATest
-{
-    public static final String thisPackage =
-        ServiceExampleTest.class.getPackage().getName();
+public class ServiceExampleTest extends CORBATest {
+    public static final String thisPackage = ServiceExampleTest.class.getPackage().getName();
 
-    protected void doTest()
-        throws
-            Throwable
-    {
-        Controller orbd   = createORBD();
+    protected void doTest() throws Throwable {
+        Controller orbd = createORBD();
         orbd.start();
 
         // Remote.
 
-        Controller loggingServer =
-            createServer(thisPackage + ".LoggingServiceImpl",
-                         "loggingServer") ;
+        Controller loggingServer = createServer(thisPackage + ".LoggingServiceImpl", "loggingServer");
         loggingServer.start();
 
-        Controller arbitraryObjectServer =
-            createServer(thisPackage + ".ArbitraryObjectServiceImpl",
-                         "arbitraryObjectServer") ;
+        Controller arbitraryObjectServer = createServer(thisPackage + ".ArbitraryObjectServiceImpl", "arbitraryObjectServer");
         arbitraryObjectServer.start();
 
-        Controller client = createClient(thisPackage + ".Client",
-                                         "client");
+        Controller client = createClient(thisPackage + ".Client", "client");
 
         client.start();
         client.waitFor();
@@ -64,9 +52,7 @@ public class ServiceExampleTest
 
         // Colocated.
 
-        Controller colocatedServers =
-            createServer(thisPackage + ".ColocatedServers",
-                         "colocatedClientServer");
+        Controller colocatedServers = createServer(thisPackage + ".ColocatedServers", "colocatedClientServer");
         colocatedServers.start();
         client.start();
         client.waitFor();
@@ -78,4 +64,3 @@ public class ServiceExampleTest
 }
 
 // End of file.
-

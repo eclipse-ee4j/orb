@@ -19,6 +19,7 @@
  */
 
 package rmic;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.io.IOException;

@@ -27,10 +27,8 @@ package corba.folb_8_1;
 /**
  * @author Harold Carr
  */
-public class ClientForTiming_NoFs_NoF_NoC
-{
-    public static void main(String[] av)
-    {
+public class ClientForTiming_NoFs_NoF_NoC {
+    public static void main(String[] av) {
         ClientForTiming.main(av);
     }
 }

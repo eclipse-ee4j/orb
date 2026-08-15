@@ -24,11 +24,9 @@
 
 package corba.hcks;
 
-public class Client_1_1
-{
-    public static void main (String av[])
-    {
-        Client.testName = Client_1_1.class.getName() ;
+public class Client_1_1 {
+    public static void main(String av[]) {
+        Client.testName = Client_1_1.class.getName();
         Client.giopVersion = C.GIOP_VERSION_1_1;
         Client.buffMgrStategy = C.BUFFMGR_STRATEGY_GROW;
         Client.main(av);

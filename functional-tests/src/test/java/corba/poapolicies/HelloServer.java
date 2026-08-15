@@ -26,22 +26,24 @@ import org.omg.PortableServer.POA;
 class Waiter extends Thread {
     BasicObjectFactoryImpl f;
     POA p;
+
     public Waiter(POA p, BasicObjectFactoryImpl f) {
         this.f = f;
         this.p = p;
     }
+
     public void run() {
         try {
             synchronized (f.doneCV) {
                 f.doneCV.wait();
                 p.destroy(true, true);
             }
-        } catch (InterruptedException ex) { }
+        } catch (InterruptedException ex) {
+        }
     }
 }
 
-public class HelloServer
-{
+public class HelloServer {
     public static boolean debug = false;
 
     public static void main(String[] args) {
@@ -55,7 +57,6 @@ public class HelloServer
             System.out.println("Server will use factory:" + factory);
 
             System.out.println("Class path: " + System.getProperty("java.class.path"));
-
 
             if (factory != null && !factory.equals(""))
                 f = (POAFactory) Class.forName(factory).newInstance();
@@ -73,11 +74,9 @@ public class HelloServer
             if (f == null)
                 theFactory = new BasicObjectFactoryImpl();
             else
-                theFactory = (BasicObjectFactoryImpl)
-                    Class.forName(f.getObjectFactoryName()).newInstance();
+                theFactory = (BasicObjectFactoryImpl) Class.forName(f.getObjectFactoryName()).newInstance();
 
             System.out.println("Got the basic object factory");
-
 
             theFactory.setPOA(thePOA);
 

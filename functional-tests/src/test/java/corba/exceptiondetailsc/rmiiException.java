@@ -24,15 +24,10 @@
 
 package corba.exceptiondetailsc;
 
-public class rmiiException
-    extends
-        Exception
-{
-    public rmiiException(String x)
-    {
+public class rmiiException extends Exception {
+    public rmiiException(String x) {
         super(x);
     }
 }
 
 // End of file.
-

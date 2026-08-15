@@ -1,0 +1,63 @@
+//
+//  Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+//
+//  This program and the accompanying materials are made available under the
+//  terms of the Eclipse Public License v. 2.0 which is available at
+//  http://www.eclipse.org/legal/epl-2.0, or the Eclipse Distribution License
+//  v. 1.0 which is available at
+//  http://www.eclipse.org/org/documents/edl-v10.php.
+//
+//  This Source Code may also be made available under the following Secondary
+//  Licenses when the conditions for such availability set forth in the Eclipse
+//  Public License v. 2.0 are satisfied: GNU General Public License v2.0
+//  w/Classpath exception which is available at
+//  https://www.gnu.org/software/classpath/license.html.
+//
+//  SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause OR GPL-2.0 WITH
+//  Classpath-exception-2.0
+//
+//
+// These are for verifying bugs fixed in Hopper.
+//
+// Format:
+//
+// Format: -test <class name> <options>
+//
+
+// Fixed 4670827: INS does not recognize IPV6 URLs
+// Warning: This test can only be run on Jano. The address is hard coded, will
+// be made general test when time permits. This is only for SQE to test.
+// @disabled(only runnable on Jano - the address is hard coded) -test hopper.h4670827.INSTest
+
+// Fixed 4486041: ORB.init() could provide better failure diagnostics
+-test hopper.h4486041.ORBInitErrorTest
+
+// Fixed 4549085: ORB locked into Latin-1 char set for request messages
+-test hopper.h4549085.LockedCodeSetTest
+// Fixed 4515953: RMIC doesn't compile Interfaces whose method has IDLEntity as
+// return values or parameters
+// Commented out temporarily. For now, run the stand alone test case attached
+// in the bug traq
+// @disabled(temporarily disabled in favour of the standalone bug traq test case) -test hopper.h4515953.RMICIDLEntityTest
+// Not required to be run as part of Hopper, it is a fix for the package rename.
+// @disabled(not required for Hopper - it tested the package rename) -test hopper.h4645953.ValidateIdlModules
+
+// Fixed 4647746: POA does not work when ORB.init is called for an Applet
+//
+// Its client does `new java.applet.Applet()`, which throws HeadlessException when there is no
+// display - so this passes on a developer desktop and fails on headless CI with client[1]. Set
+// -Djava.awt.headless=true to reproduce locally; that property is inherited by the processes the
+// harness forks. Note java.applet was removed altogether in JDK 25, so this test has no future in
+// its present form; it needs rewriting without Applet rather than a headless workaround.
+// @disabled(client needs a display - new java.applet.Applet() throws HeadlessException on headless CI) -test hopper.h4647746.POAAppletTest
+
+// Fixed 4655388: POA.the_children() method throws ClassCastException
+-test hopper.h4655388.POAHierarchyTest
+
+// Fixed 4620926: ServantActivator.incarnate() being invoked more than once
+-test hopper.h4620926.ConcurrentServantActivatorTest
+
+// Fixed 4661596: Bad TypeCode from org.omg.CORBA.WStringValueHelper
+-test hopper.h4661596.WStringValueHelperTest
+
+// End of file.

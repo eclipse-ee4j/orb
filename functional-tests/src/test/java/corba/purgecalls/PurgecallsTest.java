@@ -27,24 +27,15 @@ package corba.purgecalls;
 import corba.framework.Controller;
 import corba.framework.CORBATest;
 
-public class PurgecallsTest
-    extends
-        CORBATest
-{
-    public static final String thisPackage =
-        PurgecallsTest.class.getPackage().getName();
+public class PurgecallsTest extends CORBATest {
+    public static final String thisPackage = PurgecallsTest.class.getPackage().getName();
 
-    protected void doTest()
-        throws
-            Throwable
-    {
-        Controller orbd   = createORBD();
+    protected void doTest() throws Throwable {
+        Controller orbd = createORBD();
         orbd.start();
 
-        Controller server =
-            createServer(thisPackage + "." + "Server", "Server");
-        Controller client =
-            createClient(thisPackage + "." + "Client", "Client");
+        Controller server = createServer(thisPackage + "." + "Server", "Server");
+        Controller client = createClient(thisPackage + "." + "Client", "Client");
 
         server.start();
         client.start();
@@ -58,5 +49,3 @@ public class PurgecallsTest
 }
 
 // End of file.
-
-

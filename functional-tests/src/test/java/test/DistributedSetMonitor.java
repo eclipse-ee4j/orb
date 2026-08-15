@@ -38,15 +38,13 @@ import java.io.DataInputStream;
 import javax.rmi.PortableRemoteObject;
 
 /**
- * DistributedSetMonitor implements the DistributedSet interface and
- * supports the addition of notifiers which enable monitoring events
- * in the set.
+ * DistributedSetMonitor implements the DistributedSet interface and supports the addition of notifiers which enable
+ * monitoring events in the set.
  *
- * @version     1.0, 5/13/98
- * @author      Bryan Atsatt
+ * @version 1.0, 5/13/98
+ * @author Bryan Atsatt
  */
-public class DistributedSetMonitor  extends PortableRemoteObject
-    implements DistributedSet, AlarmHandler {
+public class DistributedSetMonitor extends PortableRemoteObject implements DistributedSet, AlarmHandler {
 
     private Hashtable sets = new Hashtable();
     private Vector notifiers = new Vector();
@@ -56,18 +54,17 @@ public class DistributedSetMonitor  extends PortableRemoteObject
     private Context context = null;
     private long autoRefreshDelay = 0;
 
-    //_____________________________________________________________________
+    // _____________________________________________________________________
     // DistributedSet Methods
-    //_____________________________________________________________________
+    // _____________________________________________________________________
 
     /*
      * See if this set is still active. Returns PING_RESPONSE.
      */
-    public synchronized String ping (String fromSetName) throws RemoteException {
+    public synchronized String ping(String fromSetName) throws RemoteException {
         int count = notifiers.size();
         for (int i = 0; i < count; i++) {
-            DistributedSetNotifier notifier =
-                (DistributedSetNotifier) notifiers.elementAt(i);
+            DistributedSetNotifier notifier = (DistributedSetNotifier) notifiers.elementAt(i);
             notifier.pinged(fromSetName);
         }
         return PING_RESPONSE;
@@ -76,91 +73,86 @@ public class DistributedSetMonitor  extends PortableRemoteObject
     /*
      * Get this set's name.
      */
-    public String getName () throws RemoteException {
+    public String getName() throws RemoteException {
         return name;
     }
 
     /*
-     * Notify this set that the specified set is joining. If the set
-     * already is 'known' by this instance, this call performs no
-     * action.
+     * Notify this set that the specified set is joining. If the set already is 'known' by this instance, this call performs
+     * no action.
      */
-    public synchronized void join (String setName, DistributedSet set) throws RemoteException {
+    public synchronized void join(String setName, DistributedSet set) throws RemoteException {
 
         // Do an add, and do _not_ call set.join()...
 
-        add(setName,set,false);
+        add(setName, set, false);
     }
-
 
     /*
      * Notify this set that the specified set is leaving.
      */
-    public synchronized void leave (String setName) throws RemoteException {
-        doLeave(setName,false);
+    public synchronized void leave(String setName) throws RemoteException {
+        doLeave(setName, false);
     }
 
     /*
      * Broadcast a message to all sets.
      */
-    public synchronized void broadcastMessage (String message) throws RemoteException {
+    public synchronized void broadcastMessage(String message) throws RemoteException {
 
         // Send the message to all sets...
 
         Enumeration e = sets.elements();
         while (e.hasMoreElements()) {
             DistributedSet set = (DistributedSet) e.nextElement();
-            set.receiveMessage(message,name);
+            set.receiveMessage(message, name);
         }
 
         // Now send it to ourself...
 
-        //receiveMessage(message,name);
+        // receiveMessage(message,name);
     }
 
     /*
      * Send a message to specified set.
      */
-    public synchronized void sendMessage (DistributedSet toSet, String message) throws RemoteException {
-        toSet.receiveMessage(message,name);
+    public synchronized void sendMessage(DistributedSet toSet, String message) throws RemoteException {
+        toSet.receiveMessage(message, name);
     }
 
     /*
-     * Receive a message from another set. Messages are forwarded to all
-     * registered notifiers.
+     * Receive a message from another set. Messages are forwarded to all registered notifiers.
      */
-    public synchronized void receiveMessage (String message, String fromSetName) throws RemoteException {
-        doReceiveMessage(message,fromSetName);
+    public synchronized void receiveMessage(String message, String fromSetName) throws RemoteException {
+        doReceiveMessage(message, fromSetName);
     }
 
     /*
-     * Return the number of currently active sets, _excluding_
-     * this instance.
+     * Return the number of currently active sets, _excluding_ this instance.
      */
-    public synchronized int countSets () throws RemoteException {
+    public synchronized int countSets() throws RemoteException {
         return sets.size();
     }
 
     /*
-     * List the names of all the active sets, _excluding_ this
-     * instance.
+     * List the names of all the active sets, _excluding_ this instance.
      */
-    public String[] listSetNames () throws RemoteException {
+    public String[] listSetNames() throws RemoteException {
         return doListSetNames();
     }
 
     /*
      * Get a set instance by name. Returns null if not found.
      */
-    public synchronized DistributedSet getSet (String setName) throws RemoteException {
+    public synchronized DistributedSet getSet(String setName) throws RemoteException {
         return doGetSet(setName);
     }
 
-    //_____________________________________________________________________
+    // _____________________________________________________________________
     // AlarmHandler Methods
-    //_____________________________________________________________________
+    // _____________________________________________________________________
 
-    public void wakeup (Alarm theAlarm, long nextAlarmWakeupTime) {
+    public void wakeup(Alarm theAlarm, long nextAlarmWakeupTime) {
 
         // Do the refresh...
 
@@ -169,36 +161,35 @@ public class DistributedSetMonitor  extends PortableRemoteObject
         } catch (ThreadDeath death) {
             System.out.println("wakeup caught ThreadDeath!");
             throw death;
-        } catch (Error e) {}
+        } catch (Error e) {
+        }
 
         // Reschedule alarm if we need to...
 
         if (autoRefreshDelay > 0) {
-            Alarm.scheduleWakeupFromNow(theAlarm,autoRefreshDelay);
+            Alarm.scheduleWakeupFromNow(theAlarm, autoRefreshDelay);
         }
     }
 
-    //_____________________________________________________________________
+    // _____________________________________________________________________
     // Local Methods
-    //_____________________________________________________________________
-
+    // _____________________________________________________________________
 
     /*
      * Constructor.
+     * 
      * @param orb The ORB to connect to.
+     * 
      * @param context The naming context to use.
+     * 
      * @param name The name for this instance.
-     * @param type The type for all instances that should be part of this
-     * set. May not contain '$' character.
-     * @param autoRefreshDelay The number of seconds between refresh calls.
-     * If zero, no auto-refresh will be performed.
+     * 
+     * @param type The type for all instances that should be part of this set. May not contain '$' character.
+     * 
+     * @param autoRefreshDelay The number of seconds between refresh calls. If zero, no auto-refresh will be performed.
      */
-    public DistributedSetMonitor (  ORB orb,
-                                    Context context,
-                                    String name,
-                                    String type,
-                                    int autoRefreshDelay)
-        throws RemoteException, NamingException {
+    public DistributedSetMonitor(ORB orb, Context context, String name, String type, int autoRefreshDelay)
+            throws RemoteException, NamingException {
         this.context = context;
         this.name = name;
         this.type = type;
@@ -275,15 +266,14 @@ public class DistributedSetMonitor  extends PortableRemoteObject
 
             // Yep, so set an alarm...
 
-            Alarm.scheduleWakeupFromNow(this,autoRefreshDelay);
+            Alarm.scheduleWakeupFromNow(this, autoRefreshDelay);
         }
     }
 
     /*
-     * List the names of all the active sets, _excluding_ this
-     * instance.
+     * List the names of all the active sets, _excluding_ this instance.
      */
-    public synchronized String[] doListSetNames () {
+    public synchronized String[] doListSetNames() {
         int count = sets.size();
         String[] result = new String[count];
         int index = 0;
@@ -297,7 +287,7 @@ public class DistributedSetMonitor  extends PortableRemoteObject
     /*
      * Get a set instance by name. Returns null if not found.
      */
-    public synchronized DistributedSet doGetSet (String setName) {
+    public synchronized DistributedSet doGetSet(String setName) {
 
         // Do we have it?
 
@@ -314,19 +304,19 @@ public class DistributedSetMonitor  extends PortableRemoteObject
                 // It does, so add it...
 
                 try {
-                    add(setName,result,true);
-                } catch (RemoteException re) {}
+                    add(setName, result, true);
+                } catch (RemoteException re) {
+                }
             }
         }
 
         return result;
     }
 
-
     /*
      * Destroy this instance. Must be called!
      */
-    public void destroy () {
+    public void destroy() {
 
         // Turn off alarms...
 
@@ -336,7 +326,8 @@ public class DistributedSetMonitor  extends PortableRemoteObject
 
         try {
             context.unbind(publishName);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         // Tell all sets that we are leaving...
 
@@ -346,17 +337,16 @@ public class DistributedSetMonitor  extends PortableRemoteObject
 
             try {
                 set.leave(name);
-            } catch (RemoteException e1){}
+            } catch (RemoteException e1) {
+            }
         }
     }
 
     /*
-     * Refresh the list of active sets. Just checks to ensure that
-     * each registered set is still alive, and removes any that are
-     * not. Unfortunately, this method must perform some copying
-     * and therefore creates garbage.
+     * Refresh the list of active sets. Just checks to ensure that each registered set is still alive, and removes any that
+     * are not. Unfortunately, this method must perform some copying and therefore creates garbage.
      */
-    public void refresh () {
+    public void refresh() {
 
         String setName = null;
 
@@ -369,7 +359,7 @@ public class DistributedSetMonitor  extends PortableRemoteObject
         int count;
 
         synchronized (this) {
-            count =  sets.size();
+            count = sets.size();
             if (count > 0) {
                 allNames = new String[count];
                 allSets = new DistributedSet[count];
@@ -387,30 +377,30 @@ public class DistributedSetMonitor  extends PortableRemoteObject
         // each...
 
         for (int i = 0; i < count; i++) {
-            isAlive(allNames[i],null,allSets[i]);
+            isAlive(allNames[i], null, allSets[i]);
         }
     }
 
-    public void checkNameServer () {
+    public void checkNameServer() {
 
         String setName = null;
 
         try {
             // Get the currently registered sets from the name server...
 
-            // REMIND:  Is there a way to limit this to names of the correct
-            //          type, so we don't have to see if the name starts with
-            //          a known string?? Surely there must be! Looks like
-            //          using InitialDirContext instead of InitialContext allows
-            //          for associating attributes with objects and doing searches
-            //          with them, but I don't think the CosNaming provider supports
-            //          this.
+            // REMIND: Is there a way to limit this to names of the correct
+            // type, so we don't have to see if the name starts with
+            // a known string?? Surely there must be! Looks like
+            // using InitialDirContext instead of InitialContext allows
+            // for associating attributes with objects and doing searches
+            // with them, but I don't think the CosNaming provider supports
+            // this.
 
             NamingEnumeration names = context.list("");
 
             // Are there any we don't know about?
 
-            while(names.hasMore()) {
+            while (names.hasMore()) {
 
                 NameClassPair pair = (NameClassPair) names.next();
                 String publishName = pair.getName();
@@ -422,12 +412,11 @@ public class DistributedSetMonitor  extends PortableRemoteObject
 
                     // Yes, extract the name...
 
-                    setName = publishName.substring(index+1);
+                    setName = publishName.substring(index + 1);
 
                     // Is this one that we don't know about?
 
-                    if (!setName.equals(this.name) &&
-                        !sets.containsKey(setName)) {
+                    if (!setName.equals(this.name) && !sets.containsKey(setName)) {
 
                         // Yes, so we must do a join...
 
@@ -436,33 +425,35 @@ public class DistributedSetMonitor  extends PortableRemoteObject
                         if (set == null) {
                             try {
                                 context.unbind(publishName);
-                            } catch (Exception ex3) {}
+                            } catch (Exception ex3) {
+                            }
                         }
 
-                        if (set != null && isAlive(setName,publishName,set)) {
+                        if (set != null && isAlive(setName, publishName, set)) {
 
                             try {
-                                add(setName,set,true);
-                            } catch (RemoteException re) {}
+                                add(setName, set, true);
+                            } catch (RemoteException re) {
+                            }
                         }
                     }
                 }
             }
         } catch (NamingException e) {
-            doReceiveMessage("checkNameServer caught " + e.toString(),setName);
+            doReceiveMessage("checkNameServer caught " + e.toString(), setName);
         }
     }
 
     /*
      * Add a notifier.
      */
-    public synchronized void addNotifier (DistributedSetNotifier notifier) {
+    public synchronized void addNotifier(DistributedSetNotifier notifier) {
         notifiers.addElement(notifier);
     }
 
-    //_____________________________________________________________________
+    // _____________________________________________________________________
     // This main is intended only as an test/example of using a this class.
-    //_____________________________________________________________________
+    // _____________________________________________________________________
 
     /*
      * Start up a set. arg[0] == nameServerHost, arg[1] == nameServerPort
@@ -496,18 +487,18 @@ public class DistributedSetMonitor  extends PortableRemoteObject
 
             // Create the orb and initial context...
 
-            ORB orb = Util.createORB(host,port,null);
+            ORB orb = Util.createORB(host, port, null);
             Context context = null;
 
             try {
-                context = Util.getInitialContext(iiop,host,port,orb);
+                context = Util.getInitialContext(iiop, host, port, orb);
             } catch (Exception e) {
 
                 if (host == null) {
                     System.out.println("Starting name server. Don't forget to kill it later!");
 
                     try {
-                        Util.startNameServer(port,iiop);
+                        Util.startNameServer(port, iiop);
                     } catch (Exception e1) {
                         System.out.println("Failed. Caught " + e1.toString());
                         System.exit(1);
@@ -515,8 +506,8 @@ public class DistributedSetMonitor  extends PortableRemoteObject
 
                     // REMIND: We have to recreate the orb at this point! Why?
 
-                    orb = Util.createORB(host,port,null);
-                    context = Util.getInitialContext(iiop,host,port,orb);
+                    orb = Util.createORB(host, port, null);
+                    context = Util.getInitialContext(iiop, host, port, orb);
 
                 } else {
 
@@ -527,7 +518,7 @@ public class DistributedSetMonitor  extends PortableRemoteObject
 
             // Create a monitor...
 
-            DistributedSetMonitor monitor = new DistributedSetMonitor(orb,context,name,"main",5);
+            DistributedSetMonitor monitor = new DistributedSetMonitor(orb, context, name, "main", 5);
 
             // Add our notifier...
 
@@ -580,11 +571,11 @@ public class DistributedSetMonitor  extends PortableRemoteObject
         System.exit(0);
     }
 
-    //_____________________________________________________________________
+    // _____________________________________________________________________
     // Internal Methods
-    //_____________________________________________________________________
+    // _____________________________________________________________________
 
-    private DistributedSet lookup (String publishName) {
+    private DistributedSet lookup(String publishName) {
 
         DistributedSet result = null;
 
@@ -592,18 +583,18 @@ public class DistributedSetMonitor  extends PortableRemoteObject
             Object it = context.lookup(publishName);
 
             if (it != null) {
-                result = (DistributedSet) PortableRemoteObject.narrow(it,DistributedSet.class);
+                result = (DistributedSet) PortableRemoteObject.narrow(it, DistributedSet.class);
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         return result;
     }
 
-
     /*
      * Must be called with lock RELEASED!
      */
-    private boolean isAlive (String name, String publishName, DistributedSet set) {
+    private boolean isAlive(String name, String publishName, DistributedSet set) {
 
         boolean result = true;
 
@@ -617,7 +608,7 @@ public class DistributedSetMonitor  extends PortableRemoteObject
 
                 // Dead set. First remove it from our list.
 
-                doLeave(name,true);
+                doLeave(name, true);
             }
 
             // Now make sure it is removed from the name server...
@@ -628,16 +619,14 @@ public class DistributedSetMonitor  extends PortableRemoteObject
 
             try {
                 context.unbind(publishName);
-            } catch (NamingException ex3) {}
+            } catch (NamingException ex3) {
+            }
         }
 
         return result;
     }
 
-
-    private void add ( String setName,
-                       DistributedSet set,
-                       boolean doJoin) throws RemoteException {
+    private void add(String setName, DistributedSet set, boolean doJoin) throws RemoteException {
 
         boolean added = false;
 
@@ -649,11 +638,11 @@ public class DistributedSetMonitor  extends PortableRemoteObject
 
                 // No, so add it...
 
-                sets.put(setName,set);
+                sets.put(setName, set);
 
                 // Notify about the change...
 
-                notifyChanged(true,setName,false);
+                notifyChanged(true, setName, false);
 
                 added = true;
             }
@@ -663,34 +652,32 @@ public class DistributedSetMonitor  extends PortableRemoteObject
         // we need to...
 
         if (added && doJoin) {
-            set.join(name,this);
+            set.join(name, this);
         }
     }
 
-    private void doLeave (String setName, boolean died) {
+    private void doLeave(String setName, boolean died) {
         sets.remove(setName);
-        notifyChanged(false,setName,died);
+        notifyChanged(false, setName, died);
     }
 
-    private void doReceiveMessage (String message, String fromSetName) {
+    private void doReceiveMessage(String message, String fromSetName) {
         int count = notifiers.size();
         for (int i = 0; i < count; i++) {
-            DistributedSetNotifier notifier =
-                (DistributedSetNotifier) notifiers.elementAt(i);
-            notifier.messageReceived(message,fromSetName);
+            DistributedSetNotifier notifier = (DistributedSetNotifier) notifiers.elementAt(i);
+            notifier.messageReceived(message, fromSetName);
         }
     }
 
-    private void notifyChanged (boolean added, String setName, boolean died) {
+    private void notifyChanged(boolean added, String setName, boolean died) {
         int count = notifiers.size();
         for (int i = 0; i < count; i++) {
-            DistributedSetNotifier notifier =
-                (DistributedSetNotifier) notifiers.elementAt(i);
+            DistributedSetNotifier notifier = (DistributedSetNotifier) notifiers.elementAt(i);
 
             if (added) {
                 notifier.setAdded(setName);
             } else {
-                notifier.setRemoved(setName,died);
+                notifier.setRemoved(setName, died);
             }
         }
     }
@@ -708,20 +695,20 @@ class Notifier implements DistributedSetNotifier {
         this.set = set;
     }
 
-    public void pinged (String fromSetName) {
+    public void pinged(String fromSetName) {
         // System.out.println("\nPinged by " + fromSetName);
     }
 
-    public void setAdded (String setName) {
+    public void setAdded(String setName) {
         dumpCurrent(setName + " joined. ");
     }
 
-    public void setRemoved (String setName,boolean died) {
+    public void setRemoved(String setName, boolean died) {
         String reason = died ? " died! " : " left. ";
         dumpCurrent(setName + reason);
     }
 
-    public void messageReceived (String message, String fromSetName) {
+    public void messageReceived(String message, String fromSetName) {
         System.out.println("<" + fromSetName + " said> " + message);
         System.out.flush();
     }

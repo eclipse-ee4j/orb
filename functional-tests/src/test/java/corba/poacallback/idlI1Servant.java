@@ -19,27 +19,19 @@
 
 package corba.poacallback;
 
-
-class idlI1Servant
-    extends
-        idlI1POA
-{
-    public idlI1Servant()
-    {
+class idlI1Servant extends idlI1POA {
+    public idlI1Servant() {
     }
 
-    public String o1(String arg)
-    {
-        System.out.println( "idlI1.o1 with " + arg );
-        System.out.flush( );
+    public String o1(String arg) {
+        System.out.println("idlI1.o1 with " + arg);
+        System.out.flush();
         return "return value for o1";
     }
 
-    public String o2(String arg)
-    {
-        System.out.println( "idlI1.o2 with " + arg );
-        System.out.flush( );
+    public String o2(String arg) {
+        System.out.println("idlI1.o2 with " + arg);
+        System.out.flush();
         return "return value for o2";
     }
 }
-

@@ -38,7 +38,7 @@ public class SendingContextTest extends CORBATest {
             return;
         }
 
-        Controller orbd   = createORBD();
+        Controller orbd = createORBD();
         orbd.start();
 
         Controller server = createServer("mantis.m4764130.Server");

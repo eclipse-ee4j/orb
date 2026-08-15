@@ -26,10 +26,7 @@ package corba.hcks;
 
 import java.io.Serializable;
 
-public class SerializableObject
-    implements
-        Serializable
-{
+public class SerializableObject implements Serializable {
 }
 
 // End of file.

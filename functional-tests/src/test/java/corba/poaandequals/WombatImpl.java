@@ -21,8 +21,7 @@ package corba.poaandequals;
 
 import WombatStuff.WombatPOA;
 
-public class WombatImpl extends WombatPOA
-{
+public class WombatImpl extends WombatPOA {
     String name;
 
     public WombatImpl(String name) {

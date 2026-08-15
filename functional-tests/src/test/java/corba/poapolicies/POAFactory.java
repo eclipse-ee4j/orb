@@ -24,8 +24,7 @@ import org.omg.PortableServer.*;
 import org.omg.PortableServer.POAPackage.*;
 
 public interface POAFactory {
-    public POA createPOA(POA parent) throws AdapterAlreadyExists,
-    InvalidPolicy;
+    public POA createPOA(POA parent) throws AdapterAlreadyExists, InvalidPolicy;
+
     public String getObjectFactoryName();
 }
-

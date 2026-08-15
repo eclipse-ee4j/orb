@@ -27,23 +27,16 @@ package corba.exceptiondetailsc;
 import corba.framework.Controller;
 import corba.framework.CORBATest;
 
-public class ExceptionDetailSCTest
-    extends
-        CORBATest
-{
-    public static final String thisPackage =
-        ExceptionDetailSCTest.class.getPackage().getName();
+public class ExceptionDetailSCTest extends CORBATest {
+    public static final String thisPackage = ExceptionDetailSCTest.class.getPackage().getName();
 
     protected void doTest() throws Throwable {
-        Controller orbd   = createORBD();
+        Controller orbd = createORBD();
         orbd.start();
 
-        doTestType("Server", "Server",
-                   "Client", "Client");
+        doTestType("Server", "Server", "Client", "Client");
 
-        Controller colocatedClientServer =
-            createClient(thisPackage + ".ColocatedClientServer",
-                         "colocatedClientServer");
+        Controller colocatedClientServer = createClient(thisPackage + ".ColocatedClientServer", "colocatedClientServer");
         colocatedClientServer.start();
         colocatedClientServer.waitFor();
         colocatedClientServer.stop();
@@ -51,16 +44,13 @@ public class ExceptionDetailSCTest
         orbd.stop();
     }
 
-    protected void doTestType(
-        String serverMainClass, String serverTestName,
-        String clientMainClass, String clientTestName) throws Throwable {
+    protected void doTestType(String serverMainClass, String serverTestName, String clientMainClass, String clientTestName)
+            throws Throwable {
 
-        Controller server = createServer(thisPackage + "." + serverMainClass,
-                                         serverTestName);
+        Controller server = createServer(thisPackage + "." + serverMainClass, serverTestName);
         server.start();
 
-        Controller client = createClient(thisPackage + "." + clientMainClass,
-                                         clientTestName);
+        Controller client = createClient(thisPackage + "." + clientMainClass, clientTestName);
         client.start();
         client.waitFor();
         client.stop();
@@ -70,4 +60,3 @@ public class ExceptionDetailSCTest
 }
 
 // End of file.
-

@@ -36,7 +36,7 @@ import org.omg.PortableInterceptor.ORBInitInfo;
 import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 
 import com.sun.corba.ee.spi.legacy.interceptor.IORInfoExt;
-import com.sun.corba.ee.spi.legacy.interceptor.ORBInitInfoExt ;
+import com.sun.corba.ee.spi.legacy.interceptor.ORBInitInfoExt;
 import com.sun.corba.ee.spi.orb.ORB;
 
 import com.sun.corba.ee.impl.misc.ORBUtility;
@@ -44,37 +44,34 @@ import com.sun.corba.ee.impl.misc.ORBUtility;
 /**
  * @author Harold Carr
  */
-public class IORInterceptorImpl
-    extends
-        org.omg.CORBA.LocalObject
-    implements
-        ORBInitializer,
-        org.omg.PortableInterceptor.IORInterceptor
-{
-    private ORB orb ;
+public class IORInterceptorImpl extends org.omg.CORBA.LocalObject implements ORBInitializer, org.omg.PortableInterceptor.IORInterceptor {
+    private ORB orb;
 
-    public IORInterceptorImpl()
-    {
+    public IORInterceptorImpl() {
     }
 
-    public IORInterceptorImpl( ORB orb )
-    {
-        this.orb = orb ;
+    public IORInterceptorImpl(ORB orb) {
+        this.orb = orb;
     }
 
     public final String baseMsg = IORInterceptorImpl.class.getName();
-    public String name()    { return baseMsg; }
-    public void   destroy() { }
+
+    public String name() {
+        return baseMsg;
+    }
+
+    public void destroy() {
+    }
 
     //
     // ORBInitializer
     //
 
-    public void pre_init(ORBInitInfo info) { }
+    public void pre_init(ORBInitInfo info) {
+    }
 
-    public void post_init(ORBInitInfo info)
-    {
-        orb = ((ORBInitInfoExt)info).getORB() ;
+    public void post_init(ORBInitInfo info) {
+        orb = ((ORBInitInfoExt) info).getORB();
         try {
             info.add_ior_interceptor(new IORInterceptorImpl(orb));
         } catch (DuplicateName ex) {
@@ -87,8 +84,7 @@ public class IORInterceptorImpl
     // IORInterceptor
     //
 
-    public void   establish_components(IORInfo iorInfo)
-    {
+    public void establish_components(IORInfo iorInfo) {
         try {
             IORInfoExt iorInfoExt = (IORInfoExt) iorInfo;
 
@@ -96,25 +92,18 @@ public class IORInterceptorImpl
 
             for (int i = 0; i < Common.socketTypes.length; i++) {
 
-                TaggedCustomSocketInfo socketInfo =
-                    new TaggedCustomSocketInfo(
-                        Common.socketTypes[i],
-                        localAddress,
+                TaggedCustomSocketInfo socketInfo = new TaggedCustomSocketInfo(Common.socketTypes[i], localAddress,
                         iorInfoExt.getServerPort(Common.socketTypes[i]));
 
                 if (orb.transportDebugFlag) {
-                    dprint(".establish_components:"
-                           + " " + Common.socketTypes[i]
-                           + " " + localAddress
-                           + " " + iorInfoExt.getServerPort(Common.socketTypes[i]));
+                    dprint(".establish_components:" + " " + Common.socketTypes[i] + " " + localAddress + " "
+                            + iorInfoExt.getServerPort(Common.socketTypes[i]));
                 }
 
                 Any any = orb.create_any();
                 TaggedCustomSocketInfoHelper.insert(any, socketInfo);
                 byte[] data = Common.getCodec(orb).encode(any);
-                TaggedComponent tc =
-                    new TaggedComponent(TAG_TAGGED_CUSTOM_SOCKET_INFO.value,
-                                        data);
+                TaggedComponent tc = new TaggedComponent(TAG_TAGGED_CUSTOM_SOCKET_INFO.value, data);
                 iorInfo.add_ior_component(tc);
             }
         } catch (Exception e) {
@@ -123,21 +112,16 @@ public class IORInterceptorImpl
         }
     }
 
-    public void components_established( IORInfo iorInfo )
-    {
+    public void components_established(IORInfo iorInfo) {
     }
 
-    public void adapter_manager_state_changed( int managerId, short state )
-    {
+    public void adapter_manager_state_changed(int managerId, short state) {
     }
 
-    public void adapter_state_changed( ObjectReferenceTemplate[] templates,
-        short state )
-    {
+    public void adapter_state_changed(ObjectReferenceTemplate[] templates, short state) {
     }
 
-    private void dprint(String msg)
-    {
+    private void dprint(String msg) {
         ORBUtility.dprint("IORInterceptor", msg);
     }
 }

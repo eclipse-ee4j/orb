@@ -34,20 +34,18 @@ public class MapType extends CompoundType {
     public static boolean resetTypesForEach = false;
 
     private MapType() {
-        super(null,0,null);
+        super(null, 0, null);
     }
 
-    public String getTypeDescription () {
+    public String getTypeDescription() {
         return null;
     }
 
-
-    public int getCount () {
+    public int getCount() {
         return countTypes();
     }
 
-    public static Type getType (String className,
-                                ContextStack stack) {
+    public static Type getType(String className, ContextStack stack) {
 
         if (MapType.resetTypesForEach) {
             stack.getEnv().reset();
@@ -60,7 +58,7 @@ public class MapType extends CompoundType {
         return makeType(decl.getType(), null, stack);
     }
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
 
         int status = 0;
         try {
@@ -69,19 +67,23 @@ public class MapType extends CompoundType {
             TestEnv env = new TestEnv(new ClassPath(args[2]));
             ContextStack stack = new ContextStack(env);
 
-            for (int i = 3; i < args.length; i++)  {
+            for (int i = 3; i < args.length; i++) {
                 String className = args[i];
                 try {
                     env.reset();
                     int line = offset + i - 2;
                     String num = Integer.toString(line);
-                    if (line < 10) num = "    " + num;
-                    else if (line < 100) num = "   " + num;
-                    else if (line < 1000) num = "  " + num;
-                    else if (line < 10000) num = " " + num;
+                    if (line < 10)
+                        num = "    " + num;
+                    else if (line < 100)
+                        num = "   " + num;
+                    else if (line < 1000)
+                        num = "  " + num;
+                    else if (line < 10000)
+                        num = " " + num;
                     System.out.print(num + " - " + className);
 
-                    Type result = getType(className,stack);
+                    Type result = getType(className, stack);
 
                     if (result != null) {
                         if (env.nerrors > 0) {
@@ -92,7 +94,8 @@ public class MapType extends CompoundType {
                         }
                     }
                 } catch (Throwable e) {
-                    if (e instanceof ThreadDeath) throw (ThreadDeath) e;
+                    if (e instanceof ThreadDeath)
+                        throw (ThreadDeath) e;
                     status = 1;
                     System.out.println("!!!Exception: " + className + " caught " + e);
                 }

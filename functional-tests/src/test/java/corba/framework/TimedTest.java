@@ -17,38 +17,32 @@
  * Classpath-exception-2.0
  */
 
-package corba.framework ;
+package corba.framework;
 
-import junit.extensions.RepeatedTest ;
-import junit.framework.TestResult ;
-import junit.framework.Test ;
+import junit.extensions.RepeatedTest;
+import junit.framework.TestResult;
+import junit.framework.Test;
 
-public class TimedTest extends RepeatedTest
-{
+public class TimedTest extends RepeatedTest {
     // Duration in nanoseconds
-    private long duration ;
+    private long duration;
 
-    public TimedTest( Test test, int reps )
-    {
-        super( test, reps ) ;
+    public TimedTest(Test test, int reps) {
+        super(test, reps);
     }
 
-    public void run( TestResult result )
-    {
-        long startTime = System.nanoTime() ;
-        long stopTime = 0 ;
+    public void run(TestResult result) {
+        long startTime = System.nanoTime();
+        long stopTime = 0;
         try {
-            super.run( result ) ;
+            super.run(result);
         } finally {
-            stopTime = System.nanoTime() ;
+            stopTime = System.nanoTime();
         }
-        duration = stopTime - startTime ;
+        duration = stopTime - startTime;
     }
 
-    public long getDuration()
-    {
-        return duration ;
+    public long getDuration() {
+        return duration;
     }
 }
-
-

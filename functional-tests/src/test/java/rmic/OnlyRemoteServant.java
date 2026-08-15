@@ -19,16 +19,16 @@
  */
 
 package rmic;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import javax.rmi.PortableRemoteObject;
 
-public class OnlyRemoteServant extends PortableRemoteObject
-    implements Remote {
-    public OnlyRemoteServant () throws RemoteException {
+public class OnlyRemoteServant extends PortableRemoteObject implements Remote {
+    public OnlyRemoteServant() throws RemoteException {
     }
 
-    public String message (){
+    public String message() {
         return "Hello World!";
     }
 }

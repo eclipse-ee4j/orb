@@ -24,21 +24,18 @@
 
 package corba.iorintsockfact;
 
-import java.util.Properties ;
+import java.util.Properties;
 
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.Policy;
 import org.omg.PortableServer.LifespanPolicyValue;
 import org.omg.PortableServer.POA;
 
-class IServant extends IPOA
-{
-    public IServant()
-    {
+class IServant extends IPOA {
+    public IServant() {
     }
 
-    public String m(String x)
-    {
+    public String m(String x) {
         return "Server echoes: " + x;
     }
 }
@@ -46,31 +43,27 @@ class IServant extends IPOA
 /**
  * @author Harold Carr
  */
-public class Server
-{
+public class Server {
     public static final String baseMsg = Common.class.getName();
 
     public static ORB orb;
     public static POA rootPoa;
     public static POA childPoa;
 
-    public static void main(String av[])
-    {
+    public static void main(String av[]) {
         try {
 
             Properties props = System.getProperties();
 
-            props.setProperty("org.omg.PortableInterceptor.ORBInitializerClass." + ServerORBInitializer.class.getName(),
-                              "dummy");
+            props.setProperty("org.omg.PortableInterceptor.ORBInitializerClass." + ServerORBInitializer.class.getName(), "dummy");
 
-            props.put(Common.SOCKET_FACTORY_CLASS_PROPERTY,
-                      Common.CUSTOM_FACTORY_CLASS);
+            props.put(Common.SOCKET_FACTORY_CLASS_PROPERTY, Common.CUSTOM_FACTORY_CLASS);
 
             orb = ORB.init(av, props);
 
             createAndBind(Common.serverName1);
 
-            System.out.println ("Server is ready.");
+            System.out.println("Server is ready.");
 
             orb.run();
 
@@ -81,16 +74,12 @@ public class Server
         }
     }
 
-    public static void createAndBind (String name)
-        throws
-            Exception
-    {
+    public static void createAndBind(String name) throws Exception {
         if (rootPoa == null) {
 
             // Get rootPOA
 
-            rootPoa = (POA)
-                orb.resolve_initial_references("RootPOA");
+            rootPoa = (POA) orb.resolve_initial_references("RootPOA");
             rootPoa.the_POAManager().activate();
 
             // Create child POAs.
@@ -98,8 +87,7 @@ public class Server
             Policy[] policies = new Policy[1];
 
             // Create child POA
-            policies[0] =
-                rootPoa.create_lifespan_policy(LifespanPolicyValue.TRANSIENT);
+            policies[0] = rootPoa.create_lifespan_policy(LifespanPolicyValue.TRANSIENT);
             childPoa = rootPoa.create_POA("childPoa", null, policies);
             childPoa.the_POAManager().activate();
         }

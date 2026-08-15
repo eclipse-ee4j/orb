@@ -45,6 +45,7 @@ public class ServantManagerImpl implements ServantManager {
 
     /**
      * Start a servant in the remote process.
+     * 
      * @param servantClass The class of the servant object. Must have a default constructor.
      * @param servantName The name by which this servant should be known.
      * @param publishName True if the name should be published in the name server.
@@ -52,10 +53,8 @@ public class ServantManagerImpl implements ServantManager {
      * @param nameServerPort The name server port.
      * @param iiop True if iiop.
      */
-    public synchronized Remote startServant(
-                                            String servantClass, String servantName, boolean publishName,
-                                            String nameServerHost, int nameServerPort,
-                                            boolean iiop ) throws java.rmi.RemoteException {
+    public synchronized Remote startServant(String servantClass, String servantName, boolean publishName, String nameServerHost,
+            int nameServerPort, boolean iiop) throws java.rmi.RemoteException {
         try {
             if (nameServerHost != null && nameServerHost.equals("")) {
                 nameServerHost = null;
@@ -77,8 +76,7 @@ public class ServantManagerImpl implements ServantManager {
                         if (tie != null) {
                             orb = tie.orb();
                         } else {
-                            orb = Util.createORB(nameServerHost,nameServerPort,
-                                                 null );
+                            orb = Util.createORB(nameServerHost, nameServerPort, null);
                         }
                     }
                 }
@@ -86,7 +84,7 @@ public class ServantManagerImpl implements ServantManager {
                 // Make sure we have our name context...
 
                 if (context == null) {
-                    context = Util.getInitialContext(iiop,nameServerHost,nameServerPort,orb);
+                    context = Util.getInitialContext(iiop, nameServerHost, nameServerPort, orb);
                 }
 
                 // Ok, create an instance and export it (if we need to)...
@@ -114,7 +112,7 @@ public class ServantManagerImpl implements ServantManager {
                     // doing this lookup, we ensure that the IOR
                     // we know this guy by is correct.
 
-                    result = (Remote)context.lookup(servantName);
+                    result = (Remote) context.lookup(servantName);
 
                 } else {
 
@@ -134,7 +132,7 @@ public class ServantManagerImpl implements ServantManager {
                 state = new State();
                 state.remote = result;
                 state.published = publishName;
-                table.put(servantName,state);
+                table.put(servantName, state);
 
             } else {
 
@@ -146,8 +144,8 @@ public class ServantManagerImpl implements ServantManager {
             return result;
 
         } catch (Exception e) {
-            RemoteException rexc = new RemoteException (e.toString(), e );
-            throw rexc ;
+            RemoteException rexc = new RemoteException(e.toString(), e);
+            throw rexc;
         }
     }
 
@@ -175,9 +173,9 @@ public class ServantManagerImpl implements ServantManager {
                 }
             }
         } catch (Exception e) {
-            RemoteException rexc = new RemoteException (e.toString());
-            rexc.initCause(e) ;
-            throw rexc ;
+            RemoteException rexc = new RemoteException(e.toString());
+            rexc.initCause(e);
+            throw rexc;
         }
     }
 
@@ -185,10 +183,11 @@ public class ServantManagerImpl implements ServantManager {
      * Stop all servants in this context.
      */
     public synchronized void stopAllServants() throws java.rmi.RemoteException {
-        for (Enumeration e = table.keys() ; e.hasMoreElements() ;) {
+        for (Enumeration e = table.keys(); e.hasMoreElements();) {
             try {
                 stopServant((String) e.nextElement());
-            } catch (Exception e1) {}
+            } catch (Exception e1) {
+            }
         }
     }
 
@@ -214,11 +213,8 @@ public class ServantManagerImpl implements ServantManager {
             }
         }
 
-        if (Util.startSingleServant(ServantContext.SERVANT_MANAGER_CLASS,
-                                    ServantContext.SERVANT_MANAGER_NAME,
-                                    host,
-                                    port,
-                                    true, null ) == false) {
+        if (Util.startSingleServant(ServantContext.SERVANT_MANAGER_CLASS, ServantContext.SERVANT_MANAGER_NAME, host, port, true,
+                null) == false) {
             System.exit(1);
         }
     }

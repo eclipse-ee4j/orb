@@ -24,34 +24,32 @@ package javax.rmi.CORBA.serialization;
 import java.util.Random;
 //nk
 
-public class StockImpl extends Stock
-{
-    //nk
+public class StockImpl extends Stock {
+    // nk
     private static Random random = new Random();
     private final static float MAX_VALUE = 67;
-    //nk
+    // nk
 
-    public StockImpl (String arg0)
-    {
-        //nk
+    public StockImpl(String arg0) {
+        // nk
         symbol = arg0;
         if (symbol.equals("Sun")) {
             current = 30.0f;
         } else {
             // generate random stock price between 20 and 60
-            current = (float)(random.nextInt(40) + 20);
+            current = (float) (random.nextInt(40) + 20);
         }
-        //nk
+        // nk
     }
 
-    StockImpl() {}
+    StockImpl() {
+    }
 
-    public float update()
-    {
-        //nk
-        float change = ((float)(random.nextGaussian() * 1.0));
+    public float update() {
+        // nk
+        float change = ((float) (random.nextGaussian() * 1.0));
         if (symbol.equals("Sun") && current < MAX_VALUE - 5)
-            change = Math.abs(change);      // what did you expect?
+            change = Math.abs(change); // what did you expect?
 
         float newCurrent = current + change;
 
@@ -62,7 +60,7 @@ public class StockImpl extends Stock
         current += change;
 
         return change;
-        //nk
+        // nk
     }
 
 }

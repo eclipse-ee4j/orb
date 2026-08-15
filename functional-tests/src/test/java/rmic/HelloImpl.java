@@ -29,8 +29,8 @@ import org.omg.CORBA.CompletionStatus;
 import java.io.Serializable;
 import java.rmi.server.RMIClassLoader;
 
-public class HelloImpl //extends javax.rmi.PortableRemoteObject
-    implements Hello {
+public class HelloImpl // extends javax.rmi.PortableRemoteObject
+        implements Hello {
 
     ObjectByValue obv = null;
     AbstractObject[] remotes = null;
@@ -53,9 +53,9 @@ public class HelloImpl //extends javax.rmi.PortableRemoteObject
 
     public void publishRemoteObject(String name) throws java.rmi.RemoteException {
         try {
-            test.Util.singleServantContext.rebind(name,new RemoteObjectServer(192));
+            test.Util.singleServantContext.rebind(name, new RemoteObjectServer(192));
         } catch (javax.naming.NamingException e) {
-            throw new java.rmi.RemoteException("publishRemoteException caught: "+e);
+            throw new java.rmi.RemoteException("publishRemoteException caught: " + e);
         }
     }
 
@@ -68,47 +68,44 @@ public class HelloImpl //extends javax.rmi.PortableRemoteObject
     }
 
     public String concatenate(String str1, String str2) throws java.rmi.RemoteException {
-        return str1+str2;
+        return str1 + str2;
     }
 
     public String checkOBV(ObjectByValue obv) throws java.rmi.RemoteException {
         this.obv = obv;
 
-        return "The Results are: "  +
-            (obv.getValue1() + obv.getValue2()) +
-            obv.getString1()    +
-            obv.getString2();
+        return "The Results are: " + (obv.getValue1() + obv.getValue2()) + obv.getString1() + obv.getString2();
     }
 
     public ObjectByValue getOBV() throws java.rmi.RemoteException {
         return obv;
     }
 
-    public Hello getHello () throws java.rmi.RemoteException {
+    public Hello getHello() throws java.rmi.RemoteException {
         return (Hello) PortableRemoteObject.toStub(this);
     }
 
-    public int[] echoArray (int[] array) throws java.rmi.RemoteException {
+    public int[] echoArray(int[] array) throws java.rmi.RemoteException {
         return array;
     }
 
-    public long[][] echoArray (long[][] array) throws java.rmi.RemoteException {
+    public long[][] echoArray(long[][] array) throws java.rmi.RemoteException {
         return array;
     }
 
-    public short[][][] echoArray (short[][][] array) throws java.rmi.RemoteException {
+    public short[][][] echoArray(short[][][] array) throws java.rmi.RemoteException {
         return array;
     }
 
-    public ObjectByValue[] echoArray (ObjectByValue[] array) throws java.rmi.RemoteException {
+    public ObjectByValue[] echoArray(ObjectByValue[] array) throws java.rmi.RemoteException {
         return array;
     }
 
-    public ObjectByValue[][] echoArray (ObjectByValue[][] array) throws java.rmi.RemoteException {
+    public ObjectByValue[][] echoArray(ObjectByValue[][] array) throws java.rmi.RemoteException {
         return array;
     }
 
-    public AbstractObject echoAbstract (AbstractObject absObj) throws java.rmi.RemoteException {
+    public AbstractObject echoAbstract(AbstractObject absObj) throws java.rmi.RemoteException {
         return absObj;
     }
 
@@ -117,28 +114,27 @@ public class HelloImpl //extends javax.rmi.PortableRemoteObject
         return remotes;
     }
 
-
-    public void shutDown () throws java.rmi.RemoteException {
+    public void shutDown() throws java.rmi.RemoteException {
         System.exit(0);
     }
 
-    public void throwHello (int count, String message) throws java.rmi.RemoteException, HelloException {
-        throw new HelloException(count,message);
+    public void throwHello(int count, String message) throws java.rmi.RemoteException, HelloException {
+        throw new HelloException(count, message);
     }
 
-    public void throw_NO_PERMISSION (String s, int minor) throws java.rmi.RemoteException {
-        throw new NO_PERMISSION(s,minor,CompletionStatus.COMPLETED_YES);
+    public void throw_NO_PERMISSION(String s, int minor) throws java.rmi.RemoteException {
+        throw new NO_PERMISSION(s, minor, CompletionStatus.COMPLETED_YES);
     }
 
-    public CharValue echoCharValue (CharValue value) throws java.rmi.RemoteException {
+    public CharValue echoCharValue(CharValue value) throws java.rmi.RemoteException {
         return value;
     }
 
-    public Object echoObject (Object it) throws java.rmi.RemoteException {
+    public Object echoObject(Object it) throws java.rmi.RemoteException {
         return it;
     }
 
-    public Serializable echoSerializable (Serializable it) throws java.rmi.RemoteException {
+    public Serializable echoSerializable(Serializable it) throws java.rmi.RemoteException {
         return it;
     }
 
@@ -154,7 +150,7 @@ public class HelloImpl //extends javax.rmi.PortableRemoteObject
         throw it;
     }
 
-    public Hello echoRemote (Hello stub) throws java.rmi.RemoteException {
+    public Hello echoRemote(Hello stub) throws java.rmi.RemoteException {
         return stub;
     }
 }

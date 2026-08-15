@@ -22,10 +22,8 @@ package javax.rmi.download;
 
 public interface TheValue extends java.io.Serializable {
     public class Helper {
-        public static TheValue newValue()
-            throws ClassNotFoundException, InstantiationException,
-                   IllegalAccessException {
-            return (javax.rmi.download.TheValue)Class.forName("javax.rmi.download.values.TheValueImpl").newInstance();
+        public static TheValue newValue() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+            return (javax.rmi.download.TheValue) Class.forName("javax.rmi.download.values.TheValueImpl").newInstance();
         }
     };
 

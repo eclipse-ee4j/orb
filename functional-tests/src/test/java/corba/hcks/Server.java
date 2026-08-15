@@ -46,15 +46,13 @@ import corba.framework.Options;
 import javax.rmi.PortableRemoteObject;
 
 //import java.rmi.Naming; // JRMP
-import javax.naming.InitialContext;    // IIOP
+import javax.naming.InitialContext; // IIOP
 
-public class Server
-{
+public class Server {
     public static final String baseMsg = Server.class.getName();
     public static final String main = baseMsg + ".main";
 
-    public static final String rmiiIServantPOA_Tie =
-        Server.class.getPackage().getName() + "._rmiiIServantPOA_Tie";
+    public static final String rmiiIServantPOA_Tie = Server.class.getPackage().getName() + "._rmiiIServantPOA_Tie";
 
     public static String giopVersion = C.GIOP_VERSION_1_2;
     public static String buffMgrStategy = C.BUFFMGR_STRATEGY_STREAM;
@@ -89,8 +87,7 @@ public class Server
                 isColocated = true;
             } else {
                 isColocated = false;
-                orb = C.createORB(av, giopVersion,
-                                  buffMgrStategy, fragmentSize);
+                orb = C.createORB(av, giopVersion, buffMgrStategy, fragmentSize);
                 // Use the same ORB which has interceptor properties set.
                 initialContext = C.createInitialContext(orb);
             }
@@ -104,33 +101,22 @@ public class Server
 
             Policy[] policies;
 
-            policies = U.createUseServantManagerPolicies(
-                           rRootPOA,
-                           ServantRetentionPolicyValue.RETAIN);
-            rSAPOA =
-                U.createPOAWithServantManager(rRootPOA, SAPOA, policies,
-                                              new MyServantActivator(orb));
+            policies = U.createUseServantManagerPolicies(rRootPOA, ServantRetentionPolicyValue.RETAIN);
+            rSAPOA = U.createPOAWithServantManager(rRootPOA, SAPOA, policies, new MyServantActivator(orb));
 
             //
             // Create a POA which uses a ServantLocator.
             //
 
-            policies = U.createUseServantManagerPolicies(
-                           rRootPOA,
-                           ServantRetentionPolicyValue.NON_RETAIN);
-            rSLPOA =
-                U.createPOAWithServantManager(rRootPOA, SLPOA, policies,
-                                              new MyServantLocator(orb));
+            policies = U.createUseServantManagerPolicies(rRootPOA, ServantRetentionPolicyValue.NON_RETAIN);
+            rSLPOA = U.createPOAWithServantManager(rRootPOA, SLPOA, policies, new MyServantLocator(orb));
 
             //
             // Create a POA which retains and uses default servant.
             //
 
-            policies[0] = rRootPOA.create_servant_retention_policy(
-                              ServantRetentionPolicyValue.NON_RETAIN);
-            policies[1] = rRootPOA.create_request_processing_policy(
-                             RequestProcessingPolicyValue.USE_DEFAULT_SERVANT);
-
+            policies[0] = rRootPOA.create_servant_retention_policy(ServantRetentionPolicyValue.NON_RETAIN);
+            policies[1] = rRootPOA.create_request_processing_policy(RequestProcessingPolicyValue.USE_DEFAULT_SERVANT);
 
             rDSPOA = rRootPOA.create_POA(DSPOA, null, policies);
             rDSPOA.the_POAManager().activate();
@@ -140,38 +126,28 @@ public class Server
             //
 
             rrmiiIServant = new rmiiIServant();
-            //Naming.rebind(rmiiI1, rrmiiIServant);              // JRMP
-            initialContext.rebind(C.rmiiI1, rrmiiIServant);      // IIOP
+            // Naming.rebind(rmiiI1, rrmiiIServant); // JRMP
+            initialContext.rebind(C.rmiiI1, rrmiiIServant); // IIOP
             initialContext.rebind(C.rmiiI2, new rmiiIServant());
 
             //
             // poa-based rmi-iiop references.
             //
 
-            U.createRMIIPOABindAndCall(C.rmiiSA, rmiiIServantPOA_Tie,
-                                       rSAPOA, orb, initialContext);
-            U.createRMIIPOABindAndCall(C.rmiiSL, rmiiIServantPOA_Tie,
-                                       rSLPOA, orb, initialContext);
+            U.createRMIIPOABindAndCall(C.rmiiSA, rmiiIServantPOA_Tie, rSAPOA, orb, initialContext);
+            U.createRMIIPOABindAndCall(C.rmiiSL, rmiiIServantPOA_Tie, rSLPOA, orb, initialContext);
 
             //
             // references managed by RootPOA
             //
 
-            U.createWithServantAndBind(C.idlHEADERI,
-                                       new idlHEADERIServant(orb),
-                                       rRootPOA, orb);
+            U.createWithServantAndBind(C.idlHEADERI, new idlHEADERIServant(orb), rRootPOA, orb);
 
-            ridlStaticPoa =
-                idlIHelper.narrow(U.createWithServantAndBind(
-                    C.idlStaticPOA, new idlPOAServant(orb), rRootPOA, orb));
+            ridlStaticPoa = idlIHelper.narrow(U.createWithServantAndBind(C.idlStaticPOA, new idlPOAServant(orb), rRootPOA, orb));
 
+            U.createWithServantAndBind(C.idlDynamicPOA, new idlDynamicServant(orb), rRootPOA, orb);
 
-            U.createWithServantAndBind(
-                C.idlDynamicPOA, new idlDynamicServant(orb), rRootPOA, orb);
-
-            U.createWithServantAndBind(
-                C.sendRecursiveType, new SendRecursiveTypePOAServant(orb),
-                rRootPOA, orb);
+            U.createWithServantAndBind(C.sendRecursiveType, new SendRecursiveTypePOAServant(orb), rRootPOA, orb);
 
             //
             // references managed by a POA with a ServantActivator
@@ -180,21 +156,17 @@ public class Server
             U.createWithIdAndBind(C.idlSAI1, idlSAIHelper.id(), rSAPOA, orb);
             U.createWithIdAndBind(C.idlSAI2, idlSAIHelper.id(), rSAPOA, orb);
 
-            U.createWithIdAndBind(C.idlSAIRaiseObjectNotExistInIncarnate,
-                                  idlSAIHelper.id(), rSAPOA, orb);
+            U.createWithIdAndBind(C.idlSAIRaiseObjectNotExistInIncarnate, idlSAIHelper.id(), rSAPOA, orb);
 
-            U.createWithIdAndBind(C.idlSAIRaiseSystemExceptionInIncarnate,
-                                  idlSAIHelper.id(), rSAPOA, orb);
+            U.createWithIdAndBind(C.idlSAIRaiseSystemExceptionInIncarnate, idlSAIHelper.id(), rSAPOA, orb);
 
             //
             // references managed by a POA with a ServantLocator
             //
 
             U.createWithIdAndBind(C.idlSLI1, idlSLIHelper.id(), rSLPOA, orb);
-            U.createWithIdAndBind(C.idlAlwaysForward,
-                                             idlSLIHelper.id(), rSLPOA, orb);
-            U.createWithIdAndBind(C.idlAlwaysForwardedToo,
-                                             idlSLIHelper.id(), rSLPOA, orb);
+            U.createWithIdAndBind(C.idlAlwaysForward, idlSLIHelper.id(), rSLPOA, orb);
+            U.createWithIdAndBind(C.idlAlwaysForwardedToo, idlSLIHelper.id(), rSLPOA, orb);
 
             //
             // references manager by a POA with a default servant
@@ -202,41 +174,26 @@ public class Server
             //
 
             // Note the type, SAI, is not important.
-            U.createWithIdAndBind(C.idlNonExistentDefaultServant,
-                                  idlSAIHelper.id(), rDSPOA, orb);
+            U.createWithIdAndBind(C.idlNonExistentDefaultServant, idlSAIHelper.id(), rDSPOA, orb);
 
             //
             // deprecated APIs - also used by RMI-IIOP
             //
 
-            ridlStatic = (idlI)
-                U.createWithConnectAndBind(C.idlStatic,
-                                           new idlStaticServant(orb),
-                                           orb);
-            ridlStaticForDisconnect = (idlI)
-                U.createWithConnectAndBind(C.idlStaticForDisconnect,
-                                           new idlStaticServant(orb),
-                                           orb);
+            ridlStatic = (idlI) U.createWithConnectAndBind(C.idlStatic, new idlStaticServant(orb), orb);
+            ridlStaticForDisconnect = (idlI) U.createWithConnectAndBind(C.idlStaticForDisconnect, new idlStaticServant(orb), orb);
 
-            U.createWithConnectAndBind(C.idlStaticTie,
-                                       new idlI_Tie(ridlStatic),
-                                       orb);
+            U.createWithConnectAndBind(C.idlStaticTie, new idlI_Tie(ridlStatic), orb);
 
-            U.createWithConnectAndBind(C.idlDynamic,
-                                       new idlDeprecatedDynamicServant(orb),
-                                       orb);
+            U.createWithConnectAndBind(C.idlDynamic, new idlDeprecatedDynamicServant(orb), orb);
 
             //
             // The controller.
             //
 
-
             ridlControllerStaticServant = new idlControllerStaticServant();
-            U.createWithConnectAndBind(C.idlControllerStatic,
-                                       ridlControllerStaticServant,
-                                       orb);
+            U.createWithConnectAndBind(C.idlControllerStatic, ridlControllerStaticServant, orb);
             ridlControllerStaticServant.setRidlStaticORB(orb);
-
 
             // Do an invocation on the reference to see how it works
             // directly in the server.
@@ -265,4 +222,3 @@ public class Server
 }
 
 // End of file.
-

@@ -19,6 +19,7 @@
  */
 
 package rmic;
+
 public class InvalidNC {
     public static final char J_bar = 1;
     public static final char _bar = 2;

@@ -23,23 +23,21 @@ import com.sun.corba.ee.impl.interceptors.*;
 import org.omg.PortableInterceptor.*;
 
 /**
- * Base class for all invocation strategies used in this test.  This allows
- * for dynamic behavior modifications between test cases of which objects
- * are invoked.  Default method implementations do nothing.
+ * Base class for all invocation strategies used in this test. This allows for dynamic behavior modifications between
+ * test cases of which objects are invoked. Default method implementations do nothing.
  */
 abstract public class InvokeStrategy {
     /**
      * Invokes the method with the given name
      */
-    protected void invokeMethod( String name ) throws Exception {
-        ServerCommon.server.invokeMethod( name );
+    protected void invokeMethod(String name) throws Exception {
+        ServerCommon.server.invokeMethod(name);
     }
 
     public void invoke() throws Exception {
         // Reset the request interceptor to prepare for test:
         SampleServerRequestInterceptor.enabled = true;
-        SampleServerRequestInterceptor.receiveRequestServiceContextsEnabled =
-            true;
+        SampleServerRequestInterceptor.receiveRequestServiceContextsEnabled = true;
         SampleServerRequestInterceptor.receiveRequestEnabled = true;
         SampleServerRequestInterceptor.sendReplyEnabled = true;
         SampleServerRequestInterceptor.sendExceptionEnabled = true;

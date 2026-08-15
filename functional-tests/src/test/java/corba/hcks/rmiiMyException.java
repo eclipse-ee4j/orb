@@ -24,11 +24,7 @@
 
 package corba.hcks;
 
-public class rmiiMyException
-    extends
-        Exception
-{
+public class rmiiMyException extends Exception {
 }
 
 // End of file.
-

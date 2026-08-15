@@ -27,39 +27,22 @@ package corba.hcks;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface rmiiAttributesI
-    extends
-        Remote
-{
+public interface rmiiAttributesI extends Remote {
     // Test JavaBeans patterns -> IDL attributes.
-    Integer getInteger()
-        throws
-            RemoteException;
+    Integer getInteger() throws RemoteException;
 
-    void    setInteger(Integer x)
-        throws
-            RemoteException;
+    void setInteger(Integer x) throws RemoteException;
 
-    boolean isTrue()
-        throws
-            RemoteException;
+    boolean isTrue() throws RemoteException;
 
-    boolean getTrue()
-        throws
-            RemoteException;
+    boolean getTrue() throws RemoteException;
 
-    void    setTrue(boolean x)
-        throws
-            RemoteException;
+    void setTrue(boolean x) throws RemoteException;
 
     // Test that this is NOT a JavaBeans pattern.
-    Integer get()
-        throws
-            RemoteException;
+    Integer get() throws RemoteException;
 
-    void set(Integer x)
-        throws
-            RemoteException;
+    void set(Integer x) throws RemoteException;
 }
 
 // End of file.

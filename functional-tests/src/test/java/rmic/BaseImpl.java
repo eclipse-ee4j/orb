@@ -19,6 +19,7 @@
  */
 
 package rmic;
+
 public class BaseImpl extends javax.rmi.PortableRemoteObject implements Base {
     public BaseImpl() throws java.rmi.RemoteException {
         super();

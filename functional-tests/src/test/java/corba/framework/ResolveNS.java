@@ -39,15 +39,15 @@ public class ResolveNS {
             ORB orb = ORB.init(args, System.getProperties());
             try {
                 nameService = orb.resolve_initial_references("NameService");
-            } catch (InvalidName in) { }
+            } catch (InvalidName in) {
+            }
 
             try {
-                tnameService =
-                    orb.resolve_initial_references("TNameService");
-            } catch (InvalidName in) { }
+                tnameService = orb.resolve_initial_references("TNameService");
+            } catch (InvalidName in) {
+            }
 
-            if ((nameService == null) || (orbd && (tnameService == null))
-                || (!orbd && (tnameService != null))) {
+            if ((nameService == null) || (orbd && (tnameService == null)) || (!orbd && (tnameService != null))) {
                 System.exit(1);
             }
             System.exit(0);

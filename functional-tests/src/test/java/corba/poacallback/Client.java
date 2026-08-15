@@ -22,28 +22,26 @@ package corba.poacallback;
 public class Client {
     private static org.omg.CORBA.ORB orb;
 
-    public static void main( String[] args ) {
+    public static void main(String[] args) {
         try {
-            orb = org.omg.CORBA.ORB.init( args, null );
+            orb = org.omg.CORBA.ORB.init(args, null);
 
-            org.omg.CORBA.Object obj =
-                orb.resolve_initial_references( "NameService");
-            org.omg.CosNaming.NamingContextExt nctx =
-                org.omg.CosNaming.NamingContextExtHelper.narrow( obj );
+            org.omg.CORBA.Object obj = orb.resolve_initial_references("NameService");
+            org.omg.CosNaming.NamingContextExt nctx = org.omg.CosNaming.NamingContextExtHelper.narrow(obj);
 
-            obj = nctx.resolve_str( "idlI1" );
+            obj = nctx.resolve_str("idlI1");
 
-            System.out.println( "Before Calling i1.narrow() ");
+            System.out.println("Before Calling i1.narrow() ");
             System.out.flush();
-            idlI1 i1 = idlI1Helper.narrow( obj );
+            idlI1 i1 = idlI1Helper.narrow(obj);
 
-            System.out.println( "invoking i1.o1() ");
+            System.out.println("invoking i1.o1() ");
             System.out.flush();
-            i1.o1( "Involing from the Client..." );
-            System.exit( 0 ) ;
-        } catch( Exception e ) {
-            e.printStackTrace( );
-            System.exit(1) ;
+            i1.o1("Involing from the Client...");
+            System.exit(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
         }
     }
 }

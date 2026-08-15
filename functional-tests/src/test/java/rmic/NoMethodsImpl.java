@@ -19,6 +19,8 @@
  */
 
 package rmic;
+
 public class NoMethodsImpl implements NoMethods {
-    public NoMethodsImpl () throws java.rmi.RemoteException {}
+    public NoMethodsImpl() throws java.rmi.RemoteException {
+    }
 }

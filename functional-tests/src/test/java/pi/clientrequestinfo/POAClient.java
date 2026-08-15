@@ -35,10 +35,7 @@ import ClientRequestInfo.*;
 /**
  * Tests POA Remote invocation
  */
-public class POAClient
-    extends ClientCommon
-    implements InternalProcess
-{
+public class POAClient extends ClientCommon implements InternalProcess {
     // Reference to hello object
     private hello helloRef;
 
@@ -47,44 +44,37 @@ public class POAClient
 
     public static void main(String args[]) {
         try {
-            (new POAClient()).run( System.getProperties(),
-                                args, System.out, System.err, null );
-        }
-        catch( Exception e ) {
-            e.printStackTrace( System.err );
-            System.exit( 1 );
+            (new POAClient()).run(System.getProperties(), args, System.out, System.err, null);
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            System.exit(1);
         }
     }
 
-    public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra)
-        throws Exception
-    {
+    public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         TestInitializer.out = out;
         this.out = out;
         this.err = err;
 
-        out.println( "================================" );
-        out.println( "Creating ORB for POA Remote test" );
-        out.println( "================================" );
+        out.println("================================");
+        out.println("Creating ORB for POA Remote test");
+        out.println("================================");
 
-        out.println( "+ Creating ORB..." );
-        createORB( args );
+        out.println("+ Creating ORB...");
+        createORB(args);
 
         try {
             // Test ClientInterceptor
             testClientRequestInfo();
         } finally {
-            finish() ;
+            finish();
         }
     }
 
     /**
      * Clear invocation flags of helloRef and helloRefForward
      */
-    protected void clearInvoked()
-        throws Exception
-    {
+    protected void clearInvoked() throws Exception {
         helloRef.clearInvoked();
         helloRefForward.clearInvoked();
     }
@@ -92,99 +82,78 @@ public class POAClient
     /**
      * Invoke the method with the given name on the object
      */
-    protected void invokeMethod( String methodName )
-        throws Exception
-    {
+    protected void invokeMethod(String methodName) throws Exception {
         // Make an invocation:
-        if( methodName.equals( "sayHello" ) ) {
+        if (methodName.equals("sayHello")) {
             helloRef.sayHello();
-        }
-        else if( methodName.equals( "saySystemException" ) ) {
+        } else if (methodName.equals("saySystemException")) {
             helloRef.saySystemException();
-        }
-        else if( methodName.equals( "sayUserException" ) ) {
+        } else if (methodName.equals("sayUserException")) {
             helloRef.sayUserException();
-        }
-        else if( methodName.equals( "sayOneway" ) ) {
+        } else if (methodName.equals("sayOneway")) {
             helloRef.sayOneway();
-        }
-        else if( methodName.equals( "sayArguments" ) ) {
-            helloRef.sayArguments( "one", 2, true );
+        } else if (methodName.equals("sayArguments")) {
+            helloRef.sayArguments("one", 2, true);
         }
     }
 
     /**
      * Return true if the method was invoked
      */
-    protected boolean wasInvoked()
-        throws Exception
-    {
+    protected boolean wasInvoked() throws Exception {
         return helloRef.wasInvoked();
     }
 
     /**
      * Return true if the method was forwarded
      */
-    protected boolean didForward()
-        throws Exception
-    {
+    protected boolean didForward() throws Exception {
         return helloRefForward.wasInvoked();
     }
 
     /**
      * Perform ClientRequestRequestInfo tests
      */
-    protected void testClientRequestInfo()
-        throws Exception
-    {
+    protected void testClientRequestInfo() throws Exception {
         super.testClientRequestInfo();
     }
 
     /**
-     * Re-resolves all references to eliminate any cached ForwardRequests
-     * from the last invocation
+     * Re-resolves all references to eliminate any cached ForwardRequests from the last invocation
      */
-    protected void resolveReferences()
-        throws Exception
-    {
-        out.println( "    + resolving references..." );
-        out.println( "      - disabling interceptors..." );
+    protected void resolveReferences() throws Exception {
+        out.println("    + resolving references...");
+        out.println("      - disabling interceptors...");
         SampleClientRequestInterceptor.enabled = false;
         // Resolve the hello object.
-        out.println( "      - Hello1" );
-        helloRef = resolve( orb, "Hello1" );
+        out.println("      - Hello1");
+        helloRef = resolve(orb, "Hello1");
         // The initializer will store the location the interceptors should
         // use during a normal request:
         TestInitializer.helloRef = helloRef;
-        out.println( "      - Hello1Forward" );
-        helloRefForward = resolve( orb, "Hello1Forward" );
+        out.println("      - Hello1Forward");
+        helloRefForward = resolve(orb, "Hello1Forward");
         // The initializer will store the location the interceptors should
         // use during a forward request:
         TestInitializer.helloRefForward = helloRefForward;
-        out.println( "      - enabling interceptors..." );
+        out.println("      - enabling interceptors...");
         SampleClientRequestInterceptor.enabled = true;
     }
 
     /**
      * Implementation borrwed from corba.socket.HelloClient.java test
      */
-    private hello resolve(ORB orb, String name)
-        throws Exception
-    {
+    private hello resolve(ORB orb, String name) throws Exception {
         // Get the root naming context
-        org.omg.CORBA.Object objRef =
-            orb.resolve_initial_references("NameService");
+        org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
         NamingContext ncRef = NamingContextHelper.narrow(objRef);
 
         // resolve the Object Reference in Naming
         NameComponent nc = new NameComponent(name, "");
-        NameComponent path[] = {nc};
+        NameComponent path[] = { nc };
         hello helloRef = helloHelper.narrow(ncRef.resolve(path));
 
         return helloRef;
     }
 
 }
-
-
-

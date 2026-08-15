@@ -51,21 +51,21 @@ public class WebServer extends Thread implements HttpConstants {
         for (int i = 0; i < a.length; i++) {
             String arg = a[i];
             if (arg.equals("-port")) {
-                port = Integer.parseInt(a[i+1]);
+                port = Integer.parseInt(a[i + 1]);
                 i++;
             } else if (arg.equals("-docroot")) {
-                rootPath = a[i+1];
+                rootPath = a[i + 1];
                 i++;
             } else if (arg.equals("-threads")) {
-                threads = Integer.parseInt(a[i+1]);
+                threads = Integer.parseInt(a[i + 1]);
                 i++;
             } else if (arg.equals("-alias")) {
-                String alias = a[i+1];
+                String alias = a[i + 1];
                 int index = alias.indexOf('=');
-                if (index >=0) {
-                    String key = alias.substring(0,index);
-                    String value = alias.substring(index+1);
-                    aliases.put(key,value);
+                if (index >= 0) {
+                    String key = alias.substring(0, index);
+                    String value = alias.substring(index + 1);
+                    aliases.put(key, value);
                 } else {
                     System.out.println(alias + " is an invalid alias. Use x=y form.");
                     error = true;
@@ -83,7 +83,7 @@ public class WebServer extends Thread implements HttpConstants {
         }
 
         if (!error) {
-            WebServer server = new WebServer(port,root,threads,aliases,null);
+            WebServer server = new WebServer(port, root, threads, aliases, null);
             server.start();
             System.out.println("Ready.");
         } else {
@@ -91,12 +91,11 @@ public class WebServer extends Thread implements HttpConstants {
         }
     }
 
-    public WebServer (int port, File root, int threads) throws Exception {
-        this(port,root,threads,null,null);
+    public WebServer(int port, File root, int threads) throws Exception {
+        this(port, root, threads, null, null);
     }
 
-    public WebServer (int port, File root, int threads,
-                      Properties aliases, PrintStream log) throws Exception {
+    public WebServer(int port, File root, int threads, Properties aliases, PrintStream log) throws Exception {
         this.root = root;
         this.port = port;
         this.workers = threads;
@@ -104,7 +103,7 @@ public class WebServer extends Thread implements HttpConstants {
         run = true;
         this.aliases = aliases;
         if (this.log == null) {
-            this.log = new PrintStream(new FileOutputStream(new File(root,"WebServer.log")));
+            this.log = new PrintStream(new FileOutputStream(new File(root, "WebServer.log")));
         }
         if (aliases != null) {
             if (aliases.size() > 0) {
@@ -129,11 +128,12 @@ public class WebServer extends Thread implements HttpConstants {
         if (!Thread.currentThread().isAlive()) {
             return false; // Died.
         }
-        synchronized(this) {
+        synchronized (this) {
             while (!started) {
                 try {
                     wait();
-                } catch (InterruptedException e) {}
+                } catch (InterruptedException e) {
+                }
             }
         }
         return true;
@@ -142,24 +142,25 @@ public class WebServer extends Thread implements HttpConstants {
     public void quit() {
         try {
             ss.close();
-        } catch (Exception e){}
+        } catch (Exception e) {
+        }
 
         run = false;
     }
 
-    public void run () {
+    public void run() {
 
         try {
             /* start worker threads */
             for (int i = 0; i < workers; ++i) {
                 Worker w = new Worker(this);
-                (new Thread(w, "worker #"+i)).start();
+                (new Thread(w, "worker #" + i)).start();
                 threads.addElement(w);
             }
 
             ss = new ServerSocket(port);
 
-            synchronized(this) {
+            synchronized (this) {
                 started = true;
                 notifyAll();
             }
@@ -179,10 +180,9 @@ public class WebServer extends Thread implements HttpConstants {
                             w.setSocket(s);
                         }
                     }
-                } catch (IOException e) {}
+                } catch (IOException e) {
+                }
             }
-
-
 
         } catch (Exception e) {
             log.println("WebServer died. Caught " + e);
@@ -190,11 +190,10 @@ public class WebServer extends Thread implements HttpConstants {
     }
 }
 
-
 class Worker implements HttpConstants, Runnable {
     final static int BUF_SIZE = 2048;
 
-    static final byte[] EOL = {(byte)'\r', (byte)'\n' };
+    static final byte[] EOL = { (byte) '\r', (byte) '\n' };
 
     /* buffer to use for requests */
     byte[] buf;
@@ -214,7 +213,7 @@ class Worker implements HttpConstants, Runnable {
     }
 
     public synchronized void run() {
-        while(server.run) {
+        while (server.run) {
             if (s == null) {
                 /* nothing to do */
                 try {
@@ -229,8 +228,8 @@ class Worker implements HttpConstants, Runnable {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            /* go back in wait queue if there's fewer
-             * than numHandler connections.
+            /*
+             * go back in wait queue if there's fewer than numHandler connections.
              */
             s = null;
             Vector pool = server.threads;
@@ -248,9 +247,9 @@ class Worker implements HttpConstants, Runnable {
     void handleClient() throws IOException {
         InputStream is = new BufferedInputStream(s.getInputStream());
         PrintStream ps = new PrintStream(s.getOutputStream());
-        /* we will only block in read for this many milliseconds
-         * before we fail with java.io.InterruptedIOException,
-         * at which point we will abandon the connection.
+        /*
+         * we will only block in read for this many milliseconds before we fail with java.io.InterruptedIOException, at which
+         * point we will abandon the connection.
          */
         s.setSoTimeout(server.timeout);
         s.setTcpNoDelay(true);
@@ -259,15 +258,13 @@ class Worker implements HttpConstants, Runnable {
             buf[i] = 0;
         }
         try {
-            /* We only support HTTP GET/HEAD, and don't
-             * support any fancy HTTP options,
-             * so we're only interested really in
-             * the first line.
+            /*
+             * We only support HTTP GET/HEAD, and don't support any fancy HTTP options, so we're only interested really in the first
+             * line.
              */
             int nread = 0, r = 0;
 
-        outerloop:
-            while (nread < BUF_SIZE) {
+            outerloop: while (nread < BUF_SIZE) {
                 r = is.read(buf, nread, BUF_SIZE - nread);
                 if (r == -1) {
                     /* EOF */
@@ -276,7 +273,7 @@ class Worker implements HttpConstants, Runnable {
                 int i = nread;
                 nread += r;
                 for (; i < nread; i++) {
-                    if (buf[i] == (byte)'\n' || buf[i] == (byte)'\r') {
+                    if (buf[i] == (byte) '\n' || buf[i] == (byte) '\r') {
                         /* read one line */
                         break outerloop;
                     }
@@ -287,23 +284,16 @@ class Worker implements HttpConstants, Runnable {
             boolean doingGet;
             /* beginning of file name */
             int index;
-            if (buf[0] == (byte)'G' &&
-                buf[1] == (byte)'E' &&
-                buf[2] == (byte)'T' &&
-                buf[3] == (byte)' ') {
+            if (buf[0] == (byte) 'G' && buf[1] == (byte) 'E' && buf[2] == (byte) 'T' && buf[3] == (byte) ' ') {
                 doingGet = true;
                 index = 4;
-            } else if (buf[0] == (byte)'H' &&
-                       buf[1] == (byte)'E' &&
-                       buf[2] == (byte)'A' &&
-                       buf[3] == (byte)'D' &&
-                       buf[4] == (byte)' ') {
+            } else if (buf[0] == (byte) 'H' && buf[1] == (byte) 'E' && buf[2] == (byte) 'A' && buf[3] == (byte) 'D'
+                    && buf[4] == (byte) ' ') {
                 doingGet = false;
                 index = 5;
             } else {
                 /* we don't support this method */
-                ps.print("HTTP/1.0 " + HTTP_BAD_METHOD +
-                         " unsupported method type: ");
+                ps.print("HTTP/1.0 " + HTTP_BAD_METHOD + " unsupported method type: ");
                 ps.write(buf, 0, 5);
                 ps.write(EOL);
                 ps.flush();
@@ -312,16 +302,15 @@ class Worker implements HttpConstants, Runnable {
             }
 
             int i = 0;
-            /* find the file name, from:
-             * GET /foo/bar.html HTTP/1.0
-             * extract "/foo/bar.html"
+            /*
+             * find the file name, from: GET /foo/bar.html HTTP/1.0 extract "/foo/bar.html"
              */
             for (i = index; i < nread; i++) {
-                if (buf[i] == (byte)' ') {
+                if (buf[i] == (byte) ' ') {
                     break;
                 }
             }
-            String fname = new String(buf, 0, index,i-index);
+            String fname = new String(buf, 0, index, i - index);
             fname = checkAliases(fname).replace('/', File.separatorChar);
             if (fname.startsWith(File.separator)) {
                 fname = fname.substring(1);
@@ -338,14 +327,14 @@ class Worker implements HttpConstants, Runnable {
             boolean OK = printHeaders(targ, ps);
             if (doingGet) {
                 if (OK) {
-                    server.log("GET "+targ+". OK");
+                    server.log("GET " + targ + ". OK");
                     sendFile(targ, ps);
                 } else {
-                    server.log("GET "+targ+". NOT FOUND");
+                    server.log("GET " + targ + ". NOT FOUND");
                     send404(targ, ps);
                 }
             } else {
-                server.log("HEAD "+targ+" OK");
+                server.log("HEAD " + targ + " OK");
             }
         } finally {
             ps.flush();
@@ -354,7 +343,7 @@ class Worker implements HttpConstants, Runnable {
         }
     }
 
-    String checkAliases (String name) {
+    String checkAliases(String name) {
         String result = name;
         if (server.aliases != null) {
             String temp = (String) server.aliases.get(name);
@@ -374,24 +363,22 @@ class Worker implements HttpConstants, Runnable {
             ps.print("HTTP/1.0 " + HTTP_NOT_FOUND + " not found");
             ps.write(EOL);
             ret = false;
-        }  else {
+        } else {
             rCode = HTTP_OK;
-            ps.print("HTTP/1.0 " + HTTP_OK+" OK");
+            ps.print("HTTP/1.0 " + HTTP_OK + " OK");
             ps.write(EOL);
             ret = true;
         }
-        server.log("From " +s.getInetAddress().getHostAddress()+": GET " +
-                   targ.getAbsolutePath()+"-->"+rCode);
+        server.log("From " + s.getInetAddress().getHostAddress() + ": GET " + targ.getAbsolutePath() + "-->" + rCode);
         ps.print("Server: Simple java");
         ps.write(EOL);
         ps.print("Date: " + (new Date()));
         ps.write(EOL);
         if (ret) {
             if (!targ.isDirectory()) {
-                ps.print("Content-length: "+targ.length());
+                ps.print("Content-length: " + targ.length());
                 ps.write(EOL);
-                ps.print("Last Modified: " + (new
-                                              Date(targ.lastModified())));
+                ps.print("Last Modified: " + (new Date(targ.lastModified())));
                 ps.write(EOL);
                 String name = targ.getName();
                 int ind = name.lastIndexOf('.');
@@ -408,80 +395,80 @@ class Worker implements HttpConstants, Runnable {
                 ps.print("Content-type: text/html");
                 ps.write(EOL);
             }
-            ps.write(EOL);  // Bryan
+            ps.write(EOL); // Bryan
         }
         return ret;
     }
 
-void send404(File targ, PrintStream ps) throws IOException {
-    ps.write(EOL);
-    ps.write(EOL);
-    ps.println("Not Found\n\n"+
-               "The requested resource was not found.\n");
-}
-
-void sendFile(File targ, PrintStream ps) throws IOException {
-    InputStream is = null;
-    if (targ.isDirectory()) {
-        listDirectory(targ, ps);
-        return;
-    } else {
-        server.log.print("sendFile: " + targ.getAbsolutePath() + ", length = " + targ.length());
-        is = new FileInputStream(targ.getAbsolutePath());
+    void send404(File targ, PrintStream ps) throws IOException {
+        ps.write(EOL);
+        ps.write(EOL);
+        ps.println("Not Found\n\n" + "The requested resource was not found.\n");
     }
-    int sent = 0;
-    try {
-        int n;
-        while ((n = is.read(buf)) > 0) {
-            ps.write(buf, 0, n);
-            sent += n;
+
+    void sendFile(File targ, PrintStream ps) throws IOException {
+        InputStream is = null;
+        if (targ.isDirectory()) {
+            listDirectory(targ, ps);
+            return;
+        } else {
+            server.log.print("sendFile: " + targ.getAbsolutePath() + ", length = " + targ.length());
+            is = new FileInputStream(targ.getAbsolutePath());
         }
-        server.log.println(", sent = " + sent);
-    } catch (Exception e) {
-        server.log.println(", CAUGHT = " + e);
-    } finally {
-        //            ps.flush();
-        is.close();
+        int sent = 0;
+        try {
+            int n;
+            while ((n = is.read(buf)) > 0) {
+                ps.write(buf, 0, n);
+                sent += n;
+            }
+            server.log.println(", sent = " + sent);
+        } catch (Exception e) {
+            server.log.println(", CAUGHT = " + e);
+        } finally {
+            // ps.flush();
+            is.close();
+        }
     }
-}
 
-/* mapping of file extensions to content-types */
-static java.util.Hashtable map = new java.util.Hashtable();
+    /* mapping of file extensions to content-types */
+    static java.util.Hashtable map = new java.util.Hashtable();
 
-static {
-    fillMap();
-}
-static void setSuffix(String k, String v) {
-    map.put(k, v);
-}
+    static {
+        fillMap();
+    }
 
-static void fillMap() {
-    setSuffix("", "content/unknown");
-    setSuffix(".uu", "application/octet-stream");
-    setSuffix(".exe", "application/octet-stream");
-    setSuffix(".ps", "application/postscript");
-    setSuffix(".zip", "application/zip");
-    setSuffix(".sh", "application/x-shar");
-    setSuffix(".tar", "application/x-tar");
-    setSuffix(".snd", "audio/basic");
-    setSuffix(".au", "audio/basic");
-    setSuffix(".wav", "audio/x-wav");
-    setSuffix(".gif", "image/gif");
-    setSuffix(".jpg", "image/jpeg");
-    setSuffix(".jpeg", "image/jpeg");
-    setSuffix(".htm", "text/html");
-    setSuffix(".html", "text/html");
-    setSuffix(".text", "text/plain");
-    setSuffix(".c", "text/plain");
-    setSuffix(".cc", "text/plain");
-    setSuffix(".c++", "text/plain");
-    setSuffix(".h", "text/plain");
-    setSuffix(".pl", "text/plain");
-    setSuffix(".txt", "text/plain");
-    setSuffix(".java", "text/plain");
-    setSuffix(".class", "application/java");
-    setSuffix(".clz", "application/java");
-}
+    static void setSuffix(String k, String v) {
+        map.put(k, v);
+    }
+
+    static void fillMap() {
+        setSuffix("", "content/unknown");
+        setSuffix(".uu", "application/octet-stream");
+        setSuffix(".exe", "application/octet-stream");
+        setSuffix(".ps", "application/postscript");
+        setSuffix(".zip", "application/zip");
+        setSuffix(".sh", "application/x-shar");
+        setSuffix(".tar", "application/x-tar");
+        setSuffix(".snd", "audio/basic");
+        setSuffix(".au", "audio/basic");
+        setSuffix(".wav", "audio/x-wav");
+        setSuffix(".gif", "image/gif");
+        setSuffix(".jpg", "image/jpeg");
+        setSuffix(".jpeg", "image/jpeg");
+        setSuffix(".htm", "text/html");
+        setSuffix(".html", "text/html");
+        setSuffix(".text", "text/plain");
+        setSuffix(".c", "text/plain");
+        setSuffix(".cc", "text/plain");
+        setSuffix(".c++", "text/plain");
+        setSuffix(".h", "text/plain");
+        setSuffix(".pl", "text/plain");
+        setSuffix(".txt", "text/plain");
+        setSuffix(".java", "text/plain");
+        setSuffix(".class", "application/java");
+        setSuffix(".clz", "application/java");
+    }
 
     void listDirectory(File dir, PrintStream ps) throws IOException {
         ps.println("<TITLE>Directory listing</TITLE><P>\n");
@@ -490,9 +477,9 @@ static void fillMap() {
         for (int i = 0; list != null && i < list.length; i++) {
             File f = new File(dir, list[i]);
             if (f.isDirectory()) {
-                ps.println("<A HREF=\""+list[i]+"/\">"+list[i]+"/</A><BR>");
+                ps.println("<A HREF=\"" + list[i] + "/\">" + list[i] + "/</A><BR>");
             } else {
-                ps.println("<A HREF=\""+list[i]+"\">"+list[i]+"</A><BR");
+                ps.println("<A HREF=\"" + list[i] + "\">" + list[i] + "</A><BR");
             }
         }
         ps.println("<P><HR><BR><I>" + (new Date()) + "</I>");
@@ -544,6 +531,3 @@ interface HttpConstants {
     public static final int HTTP_GATEWAY_TIMEOUT = 504;
     public static final int HTTP_VERSION = 505;
 }
-
-
-

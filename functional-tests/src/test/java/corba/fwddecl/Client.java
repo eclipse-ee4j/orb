@@ -20,48 +20,43 @@
 package corba.fwddecl;
 
 import org.omg.CORBA.Any;
-import org.omg.CORBA_2_3.portable.OutputStream ;
-import org.omg.CORBA_2_3.portable.InputStream ;
+import org.omg.CORBA_2_3.portable.OutputStream;
+import org.omg.CORBA_2_3.portable.InputStream;
 
-import java.util.Properties ;
+import java.util.Properties;
 
 import com.sun.corba.ee.spi.orb.ORB;
 
-import com.sun.corba.ee.impl.encoding.CDRInputObject ;
-import com.sun.corba.ee.impl.encoding.CDROutputObject ;
-import com.sun.corba.ee.impl.encoding.EncapsInputStream ;
-import com.sun.corba.ee.impl.encoding.EncapsOutputStream ;
+import com.sun.corba.ee.impl.encoding.CDRInputObject;
+import com.sun.corba.ee.impl.encoding.CDROutputObject;
+import com.sun.corba.ee.impl.encoding.EncapsInputStream;
+import com.sun.corba.ee.impl.encoding.EncapsOutputStream;
 
-import org.testng.annotations.Test ;
+import org.testng.annotations.Test;
 
-import corba.framework.TestngRunner ;
+import corba.framework.TestngRunner;
 import org.glassfish.pfl.test.ObjectUtility;
 
-public class Client
-{
+public class Client {
     private ORB orb;
 
-    private OutputStream newOutputStream()
-    {
-        return new EncapsOutputStream( orb ) ;
+    private OutputStream newOutputStream() {
+        return new EncapsOutputStream(orb);
     }
 
-    private CDRInputObject makeInputStream( OutputStream os )
-    {
-        byte[] bytes = getBytes( os ) ;
-        return makeInputStream( bytes ) ;
+    private CDRInputObject makeInputStream(OutputStream os) {
+        byte[] bytes = getBytes(os);
+        return makeInputStream(bytes);
     }
 
-    private byte[] getBytes( OutputStream os )
-    {
-        CDROutputObject cos = (CDROutputObject)os ;
-        byte[] bytes = cos.toByteArray() ;
-        return bytes ;
+    private byte[] getBytes(OutputStream os) {
+        CDROutputObject cos = (CDROutputObject) os;
+        byte[] bytes = cos.toByteArray();
+        return bytes;
     }
 
-    private CDRInputObject makeInputStream( byte[] data )
-    {
-        return new EncapsInputStream( orb, data, data.length ) ;
+    private CDRInputObject makeInputStream(byte[] data) {
+        return new EncapsInputStream(orb, data, data.length);
     }
 
     @Test
@@ -72,7 +67,7 @@ public class Client
 
             NewFoo n1 = new NewFoo(1, new NewFoo[0]);
             NewFoo n2 = new NewFoo(2, new NewFoo[0]);
-            NewFoo n3 = new NewFoo(3, new NewFoo[] {n1, n2});
+            NewFoo n3 = new NewFoo(3, new NewFoo[] { n1, n2 });
 
             // Use insert and extract and then test equality
             NewFooHelper.insert(any, n3);
@@ -92,7 +87,7 @@ public class Client
 
             System.out.println("The test for NewFoo passed !!!");
         } catch (Exception e) {
-            System.out.println("ERROR : " + e) ;
+            System.out.println("ERROR : " + e);
             e.printStackTrace(System.out);
             System.exit(1);
         }
@@ -110,13 +105,13 @@ public class Client
             b2.l_mem(13);
 
             Bar b3 = new Bar();
-            b3.s_mem(new corba.fwddecl.BarPackage.Foo(5.0d, new Bar[]{b1}));
+            b3.s_mem(new corba.fwddecl.BarPackage.Foo(5.0d, new Bar[] { b1 }));
 
             Bar b4 = new Bar();
-            b4.s_mem(new corba.fwddecl.BarPackage.Foo(10.0d, new Bar[]{b3}));
+            b4.s_mem(new corba.fwddecl.BarPackage.Foo(10.0d, new Bar[] { b3 }));
 
             Bar b5 = new Bar();
-            b5.s_mem(new corba.fwddecl.BarPackage.Foo(15.0d, new Bar[]{b2,b4}));
+            b5.s_mem(new corba.fwddecl.BarPackage.Foo(15.0d, new Bar[] { b2, b4 }));
 
             // Use insert and extract and then test equality
             BarHelper.insert(any, b5);
@@ -136,7 +131,7 @@ public class Client
 
             System.out.println("The test for Bar passed !!!");
         } catch (Exception e) {
-            System.out.println("ERROR : " + e) ;
+            System.out.println("ERROR : " + e);
             e.printStackTrace(System.out);
             System.exit(1);
         }
@@ -156,8 +151,7 @@ public class Client
             MoreFoo n5 = new MoreFoo(6, null, new MoreFoo[0], new MoreFoo[0][0]);
             MoreFoo n6 = new MoreFoo(7, null, new MoreFoo[0], new MoreFoo[0][0]);
 
-            MoreFoo n7 = new MoreFoo(8, null, new MoreFoo[]{n1, n2},
-                                     new MoreFoo[][]{{n3, n4}, {n5, n6}});
+            MoreFoo n7 = new MoreFoo(8, null, new MoreFoo[] { n1, n2 }, new MoreFoo[][] { { n3, n4 }, { n5, n6 } });
 
             // Use insert and extract and then test equality
             MoreFooHelper.insert(any, n7);
@@ -177,26 +171,25 @@ public class Client
 
             System.out.println("The test for MoreFoo passed !!!");
         } catch (Exception e) {
-            System.out.println("ERROR : " + e) ;
+            System.out.println("ERROR : " + e);
             e.printStackTrace(System.out);
             System.exit(1);
         }
     }
 
-    private static String[] args ;
+    private static String[] args;
 
     public Client() {
-        Properties props = new Properties( System.getProperties() ) ;
-        props.put( "org.omg.CORBA.ORBClass",
-            "com.sun.corba.ee.impl.orb.ORBImpl" ) ;
-        this.orb = (ORB)ORB.init( args, props ) ;
+        Properties props = new Properties(System.getProperties());
+        props.put("org.omg.CORBA.ORBClass", "com.sun.corba.ee.impl.orb.ORBImpl");
+        this.orb = (ORB) ORB.init(args, props);
     }
 
     public static void main(String args[]) {
-        Client.args = args ;
-        TestngRunner runner = new TestngRunner() ;
-        runner.registerClass( Client.class ) ;
-        runner.run() ;
-        runner.systemExit() ;
+        Client.args = args;
+        TestngRunner runner = new TestngRunner();
+        runner.registerClass(Client.class);
+        runner.run();
+        runner.systemExit();
     }
 }

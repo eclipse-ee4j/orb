@@ -41,9 +41,7 @@ import ServerRequestInfo.*;
 /**
  * Common base class for RMI client test code
  */
-public abstract class RMIClient
-    extends ClientCommon
-{
+public abstract class RMIClient extends ClientCommon {
     // The hello object to make invocations on.
     helloIF helloRef;
 
@@ -54,94 +52,71 @@ public abstract class RMIClient
     InitialContext initialNamingContext;
 
     // to be invoked from subclasses after the ORB is created.
-    public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra)
-        throws Exception
-    {
+    public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         this.out = out;
         this.err = err;
 
-        out.println( "+ Creating initial naming context..." );
+        out.println("+ Creating initial naming context...");
         Hashtable env = new Hashtable();
-        env.put( "java.naming.corba.orb", orb );
-        initialNamingContext = new InitialContext( env );
+        env.put("java.naming.corba.orb", orb);
+        initialNamingContext = new InitialContext(env);
 
         // Obey the server's commands:
         obeyServer();
     }
 
     void resolveReferences() throws Exception {
-        out.println( "    - Resolving Hello1..." );
+        out.println("    - Resolving Hello1...");
         // Look up reference to hello object on server:
-        helloRef = resolve( "Hello1" );
-        out.println( "    - Resolved." );
+        helloRef = resolve("Hello1");
+        out.println("    - Resolved.");
 
-        out.println( "    - Resolving Hello1Forward..." );
-        helloRefForward = resolve( "Hello1Forward" );
-        out.println( "    - Resolved." );
+        out.println("    - Resolving Hello1Forward...");
+        helloRefForward = resolve("Hello1Forward");
+        out.println("    - Resolved.");
     }
 
     String syncWithServer() throws Exception {
-        return helloRef.syncWithServer( exceptionRaised );
+        return helloRef.syncWithServer(exceptionRaised);
     }
 
     /**
      * Invoke the method with the given name on the object
      */
-    protected void invokeMethod( String methodName )
-        throws Exception
-    {
+    protected void invokeMethod(String methodName) throws Exception {
         try {
-            if( methodName.equals( "sayHello" ) ) {
+            if (methodName.equals("sayHello")) {
                 helloRef.sayHello();
-            }
-            else if( methodName.equals( "sayOneway" ) ) {
+            } else if (methodName.equals("sayOneway")) {
                 helloRef.sayOneway();
-            }
-            else if( methodName.equals( "saySystemException" ) ) {
+            } else if (methodName.equals("saySystemException")) {
                 helloRef.saySystemException();
-            }
-            else if( methodName.equals( "sayUserException" ) ) {
+            } else if (methodName.equals("sayUserException")) {
                 try {
                     helloRef.sayUserException();
-                    out.println( "    - Did not catch ForwardRequest user " +
-                        "exception (error)" );
-                    throw new RuntimeException(
-                        "Did not catch ForwardRequest user exception " +
-                        "on sayUserException" );
+                    out.println("    - Did not catch ForwardRequest user " + "exception (error)");
+                    throw new RuntimeException("Did not catch ForwardRequest user exception " + "on sayUserException");
+                } catch (ExampleException e) {
+                    out.println("    - Caught ExampleException user " + "exception (ok)");
                 }
-                catch( ExampleException e ) {
-                    out.println( "    - Caught ExampleException user " +
-                        "exception (ok)" );
-                }
+            } else if (methodName.equals("sayInvokeAgain.sayHello")) {
+                helloRef.sayInvokeAgain(INVOKE_SAY_HELLO.value);
+            } else if (methodName.equals("sayInvokeAgain.saySystemException")) {
+                helloRef.sayInvokeAgain(INVOKE_SAY_SYSTEM_EXCEPTION.value);
             }
-            else if( methodName.equals( "sayInvokeAgain.sayHello" ) ) {
-                helloRef.sayInvokeAgain( INVOKE_SAY_HELLO.value );
-            }
-            else if( methodName.equals( "sayInvokeAgain.saySystemException" ) )
-            {
-                helloRef.sayInvokeAgain( INVOKE_SAY_SYSTEM_EXCEPTION.value );
-            }
-        }
-        catch( RemoteException e ) {
-            throw (Exception)e.detail;
+        } catch (RemoteException e) {
+            throw (Exception) e.detail;
         }
     }
 
     /**
      * Resolves name using RMI
      */
-    helloIF resolve(String name)
-        throws Exception
-    {
-        java.lang.Object obj = initialNamingContext.lookup( name );
-        helloIF helloRef = (helloIF)PortableRemoteObject.narrow(
-            obj, helloIF.class );
+    helloIF resolve(String name) throws Exception {
+        java.lang.Object obj = initialNamingContext.lookup(name);
+        helloIF helloRef = (helloIF) PortableRemoteObject.narrow(obj, helloIF.class);
 
         return helloRef;
     }
 
-
 }
-
-

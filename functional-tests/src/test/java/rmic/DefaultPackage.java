@@ -21,5 +21,5 @@
 package rmic;
 
 public interface DefaultPackage extends java.rmi.Remote {
-    public void doSomething () throws java.rmi.RemoteException;
+    public void doSomething() throws java.rmi.RemoteException;
 }

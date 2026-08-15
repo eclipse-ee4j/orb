@@ -28,16 +28,10 @@ import corba.hcks.U;
 import org.omg.PortableInterceptor.ORBInitializer;
 import org.omg.PortableInterceptor.ORBInitInfo;
 
-public class ClientORBInitializer
-    extends
-        org.omg.CORBA.LocalObject
-    implements
-        org.omg.PortableInterceptor.ORBInitializer
-{
+public class ClientORBInitializer extends org.omg.CORBA.LocalObject implements org.omg.PortableInterceptor.ORBInitializer {
     public static final String baseMsg = ClientORBInitializer.class.getName();
 
-    public void pre_init(ORBInitInfo info)
-    {
+    public void pre_init(ORBInitInfo info) {
         try {
             ClientInterceptor interceptor = new ClientInterceptor();
             info.add_client_request_interceptor(interceptor);
@@ -47,8 +41,7 @@ public class ClientORBInitializer
         }
     }
 
-    public void post_init(ORBInitInfo info)
-    {
+    public void post_init(ORBInitInfo info) {
     }
 
 }

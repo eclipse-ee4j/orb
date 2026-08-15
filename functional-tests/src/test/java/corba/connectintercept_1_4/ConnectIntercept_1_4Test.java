@@ -27,24 +27,15 @@ package corba.connectintercept_1_4;
 import corba.framework.Controller;
 import corba.framework.CORBATest;
 
-public class ConnectIntercept_1_4Test
-    extends
-        CORBATest
-{
-    public static final String thisPackage =
-        ConnectIntercept_1_4Test.class.getPackage().getName();
+public class ConnectIntercept_1_4Test extends CORBATest {
+    public static final String thisPackage = ConnectIntercept_1_4Test.class.getPackage().getName();
 
-    protected void doTest()
-        throws
-            Throwable
-    {
-        Controller orbd   = createORBD();
+    protected void doTest() throws Throwable {
+        Controller orbd = createORBD();
         orbd.start();
 
-        Controller server = createServer(thisPackage + "." + "ServerTransient",
-                                         "ServerTransient");
-        Controller client = createClient(thisPackage + "." + "Client",
-                                         "ClientTransient");
+        Controller server = createServer(thisPackage + "." + "ServerTransient", "ServerTransient");
+        Controller client = createClient(thisPackage + "." + "Client", "ClientTransient");
         server.start();
         client.start();
         client.waitFor(120000);
@@ -58,4 +49,3 @@ public class ConnectIntercept_1_4Test
 }
 
 // End of file.
-

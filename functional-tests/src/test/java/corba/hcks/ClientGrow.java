@@ -24,11 +24,9 @@
 
 package corba.hcks;
 
-public class ClientGrow
-{
-    public static void main (String av[])
-    {
-        Client.testName = ClientGrow.class.getName() ;
+public class ClientGrow {
+    public static void main(String av[]) {
+        Client.testName = ClientGrow.class.getName();
         Client.giopVersion = C.GIOP_VERSION_1_2;
         Client.buffMgrStategy = C.BUFFMGR_STRATEGY_GROW;
         Client.fragmentSize = -1;

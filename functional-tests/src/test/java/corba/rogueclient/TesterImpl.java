@@ -23,8 +23,7 @@ package corba.rogueclient;
 import javax.rmi.PortableRemoteObject;
 import java.rmi.RemoteException;
 
-public class TesterImpl extends PortableRemoteObject implements Tester
-{
+public class TesterImpl extends PortableRemoteObject implements Tester {
     public TesterImpl() throws RemoteException {
         super();
     }
@@ -45,4 +44,3 @@ public class TesterImpl extends PortableRemoteObject implements Tester
         return result;
     }
 }
-

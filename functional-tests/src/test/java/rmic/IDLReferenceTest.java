@@ -25,46 +25,43 @@ package rmic;
  */
 public class IDLReferenceTest extends IDLTest {
 
-    public static final String[] ADDITIONAL_ARGS = {"-alwaysGenerate",
-                                                    "-noValueMethods"};
+    public static final String[] ADDITIONAL_ARGS = { "-alwaysGenerate", "-noValueMethods" };
 
     public static final String CLASS_LIST_FILE = ".classlist";
-    public static final String IDL_FILE =  ".idl";
-    public static final String IDL_REF_FILE =  ".idlref";
-    public static final String[] IGNORE_PREFIX =  {"/*", " *", "*",};
+    public static final String IDL_FILE = ".idl";
+    public static final String IDL_REF_FILE = ".idlref";
+    public static final String[] IGNORE_PREFIX = { "/*", " *", "*", };
 
     private String[] classes = null;
 
     /**
-     * Return an array of fully qualified class names for which generation
-     * should occur. Return empty array if none.
+     * Return an array of fully qualified class names for which generation should occur. Return empty array if none.
      */
-    protected String[] getGenerationClasses () throws Throwable {
+    protected String[] getGenerationClasses() throws Throwable {
         return getClasses();
     }
 
     /**
      * Perform the test.
      */
-    protected void doTest () throws Throwable {
+    protected void doTest() throws Throwable {
         getClasses();
         for (int i = 0; i < classes.length; i++) {
-            compareUnorderedResources(classes[i],IDL_FILE,IDL_REF_FILE,IGNORE_PREFIX);
+            compareUnorderedResources(classes[i], IDL_FILE, IDL_REF_FILE, IGNORE_PREFIX);
         }
     }
 
     /**
-     * Append additional (i.e. after -idl and before classes) rmic arguments
-     * to 'currentArgs'. This implementation will set the output directory if
-     * the OUTPUT_DIRECTORY flag was passed on the command line.
+     * Append additional (i.e. after -idl and before classes) rmic arguments to 'currentArgs'. This implementation will set
+     * the output directory if the OUTPUT_DIRECTORY flag was passed on the command line.
      */
-    protected String[] getAdditionalRMICArgs (String[] currentArgs) {
+    protected String[] getAdditionalRMICArgs(String[] currentArgs) {
         return super.getAdditionalRMICArgs(ADDITIONAL_ARGS);
     }
 
-    private synchronized String[] getClasses () throws Throwable {
+    private synchronized String[] getClasses() throws Throwable {
         if (classes == null) {
-            classes = getResourceAsArray(getClass().getName(),CLASS_LIST_FILE,"#");
+            classes = getResourceAsArray(getClass().getName(), CLASS_LIST_FILE, "#");
         }
         return classes;
     }

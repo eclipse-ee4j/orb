@@ -38,28 +38,22 @@ import org.omg.PortableInterceptor.InvalidSlot;
 import org.omg.PortableInterceptor.ServerRequestInterceptor;
 import org.omg.PortableInterceptor.ServerRequestInfo;
 
-public class LoggingServiceServerInterceptor
-    extends org.omg.CORBA.LocalObject
-    implements ClientRequestInterceptor,
-               ServerRequestInterceptor
-{
+public class LoggingServiceServerInterceptor extends org.omg.CORBA.LocalObject
+        implements ClientRequestInterceptor, ServerRequestInterceptor {
     private NamingContext nameService;
     private LoggingService loggingService;
     private Current piCurrent;
     private int outCallIndicatorSlotId;
     private static final int serviceContextId = 100001;
-    private static final byte[] serviceContextData = {1};
+    private static final byte[] serviceContextData = { 1 };
 
     // Returns a reference to the logging process.
 
-    private LoggingService loggingService()
-    {
+    private LoggingService loggingService() {
         if (loggingService == null) {
-            NameComponent path[] =
-                { new NameComponent("LoggingService", "") };
+            NameComponent path[] = { new NameComponent("LoggingService", "") };
             try {
-                loggingService =
-                    LoggingServiceHelper.narrow(nameService.resolve(path));
+                loggingService = LoggingServiceHelper.narrow(nameService.resolve(path));
             } catch (Throwable t) {
                 System.out.println("Exception handling not shown.");
             }
@@ -67,10 +61,7 @@ public class LoggingServiceServerInterceptor
         return loggingService;
     }
 
-    public LoggingServiceServerInterceptor(NamingContext nameService,
-                                           Current piCurrent,
-                                           int outCallIndicatorSlotId)
-    {
+    public LoggingServiceServerInterceptor(NamingContext nameService, Current piCurrent, int outCallIndicatorSlotId) {
         this.nameService = nameService;
         this.piCurrent = piCurrent;
         this.outCallIndicatorSlotId = outCallIndicatorSlotId;
@@ -80,21 +71,18 @@ public class LoggingServiceServerInterceptor
     // Interceptor operations
     //
 
-    public String name()
-    {
+    public String name() {
         return "LoggingServiceServerInterceptor";
     }
 
-    public void destroy()
-    {
+    public void destroy() {
     }
 
     //
     // ClientRequestInterceptor operations
     //
 
-    public void send_request(ClientRequestInfo ri)
-    {
+    public void send_request(ClientRequestInfo ri) {
 
         // If the server interceptor sets the recursion slot then
         // put in the service context so the server doesn't make
@@ -104,8 +92,7 @@ public class LoggingServiceServerInterceptor
         try {
             Any indicator = ri.get_slot(outCallIndicatorSlotId);
             if (indicator.type().kind().equals(TCKind.tk_boolean)) {
-                ServiceContext serviceContext =
-                    new ServiceContext(serviceContextId, serviceContextData);
+                ServiceContext serviceContext = new ServiceContext(serviceContextId, serviceContextData);
                 ri.add_request_service_context(serviceContext, false);
             }
         } catch (InvalidSlot e) {
@@ -113,48 +100,39 @@ public class LoggingServiceServerInterceptor
         }
     }
 
-    public void send_poll(ClientRequestInfo ri)
-    {
+    public void send_poll(ClientRequestInfo ri) {
     }
 
-    public void receive_reply(ClientRequestInfo ri)
-    {
+    public void receive_reply(ClientRequestInfo ri) {
     }
 
-    public void receive_exception(ClientRequestInfo ri)
-    {
+    public void receive_exception(ClientRequestInfo ri) {
     }
 
-    public void receive_other(ClientRequestInfo ri)
-    {
+    public void receive_other(ClientRequestInfo ri) {
     }
 
     //
     // ServerRequestInterceptor operations
     //
 
-    public void receive_request_service_contexts(ServerRequestInfo ri)
-    {
+    public void receive_request_service_contexts(ServerRequestInfo ri) {
         log(ri, "receive_request_service_contexts");
     }
 
-    public void receive_request(ServerRequestInfo ri)
-    {
+    public void receive_request(ServerRequestInfo ri) {
         log(ri, "receive_request");
     }
 
-    public void send_reply(ServerRequestInfo ri)
-    {
+    public void send_reply(ServerRequestInfo ri) {
         log(ri, "send_reply");
     }
 
-    public void send_exception(ServerRequestInfo ri)
-    {
+    public void send_exception(ServerRequestInfo ri) {
         log(ri, "send_exception");
     }
 
-    public void send_other(ServerRequestInfo ri)
-    {
+    public void send_other(ServerRequestInfo ri) {
         log(ri, "send_other");
     }
 
@@ -162,20 +140,19 @@ public class LoggingServiceServerInterceptor
     // Utilities.
     //
 
-    public void log(ServerRequestInfo ri, String point)
-    {
+    public void log(ServerRequestInfo ri, String point) {
         // This is only relevant for the colocated example.
         // Do not attempt to log until the logging service object
-        // has been bound in naming.  Otherwise the attempt to call
+        // has been bound in naming. Otherwise the attempt to call
         // rebind on naming will call log which will fail.
-        if (! ColocatedServers.colocatedBootstrapDone) {
+        if (!ColocatedServers.colocatedBootstrapDone) {
             return;
         }
 
         // IMPORTANT:
         // The conditional logging of the invocation is only necessary
         // if there is a chance that the object being invoked is colocated
-        // in the same ORB as this interceptor.  Otherwise the outcall to
+        // in the same ORB as this interceptor. Otherwise the outcall to
         // the logging service can be made unconditionally.
 
         // Always set the recursion slot.
@@ -204,4 +181,3 @@ public class LoggingServiceServerInterceptor
 }
 
 // End of file.
-

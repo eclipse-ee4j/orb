@@ -27,45 +27,22 @@ package corba.hcks;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface rmiiI
-    extends
-        Remote
-{
-    String sayHello ()
-        throws
-            RemoteException;
+public interface rmiiI extends Remote {
+    String sayHello() throws RemoteException;
 
-    int    sendBytes (byte[] x)
-        throws
-            RemoteException;
+    int sendBytes(byte[] x) throws RemoteException;
 
-    Object sendOneObject (Object x)
-        throws
-            RemoteException,
-            rmiiMyException;
+    Object sendOneObject(Object x) throws RemoteException, rmiiMyException;
 
-    Object sendTwoObjects (Object x, Object y)
-        throws
-            RemoteException;
+    Object sendTwoObjects(Object x, Object y) throws RemoteException;
 
-    String makeColocatedCallFromServant ()
-        throws
-            RemoteException;
+    String makeColocatedCallFromServant() throws RemoteException;
 
-    String colocatedCallFromServant (String a)
-        throws
-            RemoteException,
-            Exception;
+    String colocatedCallFromServant(String a) throws RemoteException, Exception;
 
-    String throwThreadDeathInServant (String a)
-        throws
-            RemoteException,
-            ThreadDeath;
+    String throwThreadDeathInServant(String a) throws RemoteException, ThreadDeath;
 
-    Object returnObjectFromServer (boolean isSerializable)
-        throws
-            RemoteException;
+    Object returnObjectFromServer(boolean isSerializable) throws RemoteException;
 }
 
 // End of file.
-

@@ -30,7 +30,7 @@ public class TestOBV2 extends TestOBV implements java.io.Serializable {
     public static final int FOO = 3;
     public TestOBV2 arrayOfThis[];
 
-    public TestOBV2(){
+    public TestOBV2() {
         super();
         self = this;
         bar = new Random().nextInt();
@@ -40,23 +40,14 @@ public class TestOBV2 extends TestOBV implements java.io.Serializable {
         arrayOfThis[2] = null;
     }
 
-    public boolean equals (Object o){
-        try
-            {
-                TestOBV2 target = (TestOBV2)o;
-                return ((target != null) &&
-                        (target.self == target) &&
-                        (target.arrayOfThis != null) &&
-                        (target.arrayOfThis[0] == null) &&
-                        (target.arrayOfThis[1] == target) &&
-                        (target.arrayOfThis[0] == null) &&
-                        (target.bar == bar) &&
-                        (target.foo == foo) &&
-                        (target.FOO == FOO));
-            }
-        catch(Throwable t)
-            {
-                return false;
-            }
+    public boolean equals(Object o) {
+        try {
+            TestOBV2 target = (TestOBV2) o;
+            return ((target != null) && (target.self == target) && (target.arrayOfThis != null) && (target.arrayOfThis[0] == null)
+                    && (target.arrayOfThis[1] == target) && (target.arrayOfThis[0] == null) && (target.bar == bar) && (target.foo == foo)
+                    && (target.FOO == FOO));
+        } catch (Throwable t) {
+            return false;
+        }
     }
 }

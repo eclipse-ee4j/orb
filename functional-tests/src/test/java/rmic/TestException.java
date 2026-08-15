@@ -19,5 +19,6 @@
  */
 
 package rmic;
+
 public class TestException extends java.lang.Exception {
 }

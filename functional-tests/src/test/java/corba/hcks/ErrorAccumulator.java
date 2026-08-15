@@ -30,51 +30,45 @@ import java.util.Collection;
 import java.util.Iterator;
 import org.glassfish.pfl.basic.contain.Pair;
 
-public class ErrorAccumulator
-{
+public class ErrorAccumulator {
     public int numberOfErrors;
     public ArrayList<MessageAndException> errors;
 
-    private int numberOfErrorsInTest ;
-    public ArrayList<MessageAndException> errorsInTest ;
+    private int numberOfErrorsInTest;
+    public ArrayList<MessageAndException> errorsInTest;
 
     public void startTest() {
-        numberOfErrorsInTest = 0 ;
-        errorsInTest = new ArrayList<MessageAndException>() ;
+        numberOfErrorsInTest = 0;
+        errorsInTest = new ArrayList<MessageAndException>();
     }
 
     public List<MessageAndException> getTestErrors() {
-        return errorsInTest ;
+        return errorsInTest;
     }
 
-    public ErrorAccumulator()
-    {
+    public ErrorAccumulator() {
         numberOfErrors = 0;
         errors = new ArrayList<MessageAndException>();
-        startTest() ;
+        startTest();
     }
 
-    public void add(String errorMessage, Throwable t)
-    {
+    public void add(String errorMessage, Throwable t) {
         MessageAndException mae = new MessageAndException(errorMessage, t);
         numberOfErrors++;
-        errors.add( mae );
-        numberOfErrorsInTest++ ;
-        errorsInTest.add( mae ) ;
+        errors.add(mae);
+        numberOfErrorsInTest++;
+        errorsInTest.add(mae);
     }
 
-    public int getNumberOfErrors()
-    {
+    public int getNumberOfErrors() {
         return numberOfErrors;
     }
 
-    public Collection getErrors()
-    {
+    public Collection getErrors() {
         return errors;
     }
 
-    public void reportErrors(boolean printErrors, boolean printStackTrace)
-    {
+    public void reportErrors(boolean printErrors, boolean printStackTrace) {
         U.lf();
         U.sop("==================================================");
         U.sop("Number of errors: " + numberOfErrors);
@@ -84,26 +78,23 @@ public class ErrorAccumulator
         if (printErrors) {
             Iterator iterator = errors.iterator();
             while (iterator.hasNext()) {
-                MessageAndException messageAndException =
-                    (MessageAndException) iterator.next();
-                U.reportError(printStackTrace,
-                              messageAndException.getMessage(),
-                              messageAndException.getException());
+                MessageAndException messageAndException = (MessageAndException) iterator.next();
+                U.reportError(printStackTrace, messageAndException.getMessage(), messageAndException.getException());
             }
         }
     }
 
-    public class MessageAndException extends Pair<String,Throwable> {
+    public class MessageAndException extends Pair<String, Throwable> {
         public MessageAndException(String message, Throwable exception) {
-            super( message, exception ) ;
+            super(message, exception);
         }
 
         public String getMessage() {
-            return first() ;
+            return first();
         }
 
         public Throwable getException() {
-            return second() ;
+            return second();
         }
     }
 }

@@ -19,6 +19,6 @@
  */
 
 package rmic;
-public class IDLEntityException extends java.rmi.RemoteException
-    implements org.omg.CORBA.portable.IDLEntity {
+
+public class IDLEntityException extends java.rmi.RemoteException implements org.omg.CORBA.portable.IDLEntity {
 }

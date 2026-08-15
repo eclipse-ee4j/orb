@@ -19,19 +19,29 @@
  */
 
 package rmic;
+
 import org.omg.CORBA.UserException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface ThrowCORBAUserException extends Remote {
-    void a () throws RemoteException;
-    void b () throws RemoteException, CORBAUserException;
-    void c () throws RemoteException, CORBAUserException, TestException;
-    void d () throws RemoteException, CORBAUserException, UserException, TestException;
-    void e () throws RemoteException, CORBAUserException, CORBAUserException2, UserException, TestException;
-    void f () throws RemoteException, TestException, CORBAUserException, CORBAUserException2, UserException;
-    void g () throws RemoteException, UserException, CORBAUserException, TestException, CORBAUserException2;
-    void h () throws RemoteException, TestException, CORBAUserException, CORBAUserException2;
-    void i () throws RemoteException, CORBAUserException, TestException, CORBAUserException2;
-    void j () throws RemoteException, CORBAUserException, CORBAUserException2,TestException;
+    void a() throws RemoteException;
+
+    void b() throws RemoteException, CORBAUserException;
+
+    void c() throws RemoteException, CORBAUserException, TestException;
+
+    void d() throws RemoteException, CORBAUserException, UserException, TestException;
+
+    void e() throws RemoteException, CORBAUserException, CORBAUserException2, UserException, TestException;
+
+    void f() throws RemoteException, TestException, CORBAUserException, CORBAUserException2, UserException;
+
+    void g() throws RemoteException, UserException, CORBAUserException, TestException, CORBAUserException2;
+
+    void h() throws RemoteException, TestException, CORBAUserException, CORBAUserException2;
+
+    void i() throws RemoteException, CORBAUserException, TestException, CORBAUserException2;
+
+    void j() throws RemoteException, CORBAUserException, CORBAUserException2, TestException;
 }

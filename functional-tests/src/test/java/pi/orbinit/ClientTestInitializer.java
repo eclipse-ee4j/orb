@@ -30,14 +30,10 @@ import org.omg.CORBA.*;
 import ORBInitTest.*;
 
 /**
- * Test initializer on the client side.  Most of the testing is done in this
- * class, and the results are stored in static publicly accessible variables
- * that are analyzed in Client.java.
+ * Test initializer on the client side. Most of the testing is done in this class, and the results are stored in static
+ * publicly accessible variables that are analyzed in Client.java.
  */
-public class ClientTestInitializer
-    extends LocalObject
-    implements ORBInitializer
-{
+public class ClientTestInitializer extends LocalObject implements ORBInitializer {
     // Output stream to send information to
     public static PrintStream out = null;
     public static ORB orb = null;
@@ -74,49 +70,45 @@ public class ClientTestInitializer
      * Creates a ClientTestInitializer
      */
     public ClientTestInitializer() {
-        out.println( "  - ClientTestInitializer constructed." );
+        out.println("  - ClientTestInitializer constructed.");
     }
 
     /**
      * Called before all references are registered
      */
-    public void pre_init (org.omg.PortableInterceptor.ORBInitInfo info) {
-        if( firstInit ) {
+    public void pre_init(org.omg.PortableInterceptor.ORBInitInfo info) {
+        if (firstInit) {
             firstInit = false;
             globalValid = true;
         }
 
-        out.println( "  - ClientTestInitializer.pre_init called" );
+        out.println("  - ClientTestInitializer.pre_init called");
 
-        if( initializedPre ) {
+        if (initializedPre) {
             // pre was already called!
-            out.println( "ERROR: pre_init() was already called!" );
+            out.println("ERROR: pre_init() was already called!");
             globalValid = false;
         }
 
-        if( initializedPost ) {
+        if (initializedPost) {
             // post was already called!
-            out.println( "ERROR: post_init() was already called!" );
+            out.println("ERROR: post_init() was already called!");
             globalValid = false;
         }
 
         // Check to make sure info object is valid
-        if( info == null ) {
-            out.println(
-                "ERROR: supplied ORBInitInfo object to pre_init() is null" );
+        if (info == null) {
+            out.println("ERROR: supplied ORBInitInfo object to pre_init() is null");
             globalValid = false;
-        }
-        else {
-            if( !testInfo( info, true ) ) {
-                out.println(
-                    "ERROR: Supplied ORBInitInfo object to " +
-                    "pre_init() is invalid" );
+        } else {
+            if (!testInfo(info, true)) {
+                out.println("ERROR: Supplied ORBInitInfo object to " + "pre_init() is invalid");
                 globalValid = false;
             }
         }
 
         // Test interceptor registration
-        testInterceptorRegistration( info, "preinit" );
+        testInterceptorRegistration(info, "preinit");
 
         initializedPre = true;
     }
@@ -124,53 +116,48 @@ public class ClientTestInitializer
     /**
      * Called after all references are registered
      */
-    public void post_init (org.omg.PortableInterceptor.ORBInitInfo info) {
-        out.println( "  - ClientTestInitializer.post_init called" );
+    public void post_init(org.omg.PortableInterceptor.ORBInitInfo info) {
+        out.println("  - ClientTestInitializer.post_init called");
 
         // Hold on to ORBInitInfo for a later stage of the test.
         cachedInfo = info;
 
-        if( !initializedPre ) {
+        if (!initializedPre) {
             // pre was never called!
-            out.println( "ERROR: pre_init() was never called!" );
+            out.println("ERROR: pre_init() was never called!");
             globalValid = false;
         }
 
-        if( initializedPost ) {
+        if (initializedPost) {
             // post was already called!
-            out.println( "ERROR: post_init() was already called!" );
+            out.println("ERROR: post_init() was already called!");
             globalValid = false;
         }
 
         // Check to make sure info object is valid
-        if( info == null ) {
-            out.println(
-                "ERROR: supplied ORBInitInfo object to post_init() is null" );
-        }
-        else {
-            if( !testInfo( info, false ) ) {
-                out.println(
-                    "ERROR: Supplied ORBInitInfo object to " +
-                    "pre_init() is invalid" );
+        if (info == null) {
+            out.println("ERROR: supplied ORBInitInfo object to post_init() is null");
+        } else {
+            if (!testInfo(info, false)) {
+                out.println("ERROR: Supplied ORBInitInfo object to " + "pre_init() is invalid");
                 globalValid = false;
             }
         }
 
         // We can do this only in post_init()
-        testResolveInitialReferences( info );
+        testResolveInitialReferences(info);
 
         // Test interceptor registration
-        testInterceptorRegistration( info, "postinit" );
+        testInterceptorRegistration(info, "postinit");
 
         // Test that get_slot and set_slot cannot be called in PICurrent.
-        testGetSetSlot( info );
+        testGetSetSlot(info);
 
         initializedPost = true;
     }
 
     /**
-     * Returns true to the Client.java test if we were initialized
-     * appropriately.
+     * Returns true to the Client.java test if we were initialized appropriately.
      */
     public static boolean initializedAppropriately() {
         return globalValid;
@@ -181,20 +168,20 @@ public class ClientTestInitializer
      *
      * @param preInit true if this was a preInit call, false if post.
      */
-    private boolean testInfo( ORBInitInfo info, boolean preInit ) {
+    private boolean testInfo(ORBInitInfo info, boolean preInit) {
         // Innocent until proven guilty:
         boolean infoValid = true;
 
-        out.println( "  - Testing provided initInfo..." );
+        out.println("  - Testing provided initInfo...");
 
         // Check method validity at different stages of init
         // (an x indicates valid to call, a dash indicates invalid):
         //
-        // ORBInitInfo Method              pre_init        post_init
-        // ------------------              --------        ---------
-        // arguments                       x               x
-        // orb_id                          x               x
-        // codec_factory                   x               x
+        // ORBInitInfo Method pre_init post_init
+        // ------------------ -------- ---------
+        // arguments x x
+        // orb_id x x
+        // codec_factory x x
         //
 
         // Check that all attributes return valid values.
@@ -203,30 +190,25 @@ public class ClientTestInitializer
             String id = info.orb_id();
             CodecFactory codecFactory = info.codec_factory();
 
-            if( args == null ) {
-                out.println(
-                    "    - arguments is null (error)" );
+            if (args == null) {
+                out.println("    - arguments is null (error)");
                 infoValid = false;
-            }
-            else {
+            } else {
                 // We know the arguments "abcd" and "efgh" must be present.
                 boolean abcdPresent = false;
                 boolean efghPresent = false;
-                for( int i = 0; i < args.length; i++ ) {
-                    if( args[i].equals( "abcd" ) ) {
+                for (int i = 0; i < args.length; i++) {
+                    if (args[i].equals("abcd")) {
                         abcdPresent = true;
                     }
-                    if( args[i].equals( "efgh" ) ) {
+                    if (args[i].equals("efgh")) {
                         efghPresent = true;
                     }
                 }
-                if( abcdPresent && efghPresent ) {
-                    out.println(
-                        "    - arguments contains 'abcd' and 'efgh'(ok)");
-                }
-                else {
-                    out.println(
-                        "    - arguments 'abcd' and 'efgh' not found (error)");
+                if (abcdPresent && efghPresent) {
+                    out.println("    - arguments contains 'abcd' and 'efgh'(ok)");
+                } else {
+                    out.println("    - arguments 'abcd' and 'efgh' not found (error)");
                     infoValid = false;
                 }
             }
@@ -234,222 +216,181 @@ public class ClientTestInitializer
             // We do not care if orb_id is null - just that we can call it
 
             // CodecFactory must be valid:
-            if( id == null ) {
-                out.println( "    - orb id is null (error)" );
+            if (id == null) {
+                out.println("    - orb id is null (error)");
                 infoValid = false;
+            } else {
+                out.println("    - orb id: " + id + " [non-null] (ok)");
             }
-            else {
-                out.println( "    - orb id: " + id + " [non-null] (ok)" );
-            }
-            if( codecFactory == null ) {
-                out.println( "    - codecFactory is null (error)" );
+            if (codecFactory == null) {
+                out.println("    - codecFactory is null (error)");
                 infoValid = false;
+            } else {
+                out.println("    - codecFactory: valid");
             }
-            else {
-                out.println( "    - codecFactory: valid" );
-            }
-        }
-        catch( Exception e ) {
+        } catch (Exception e) {
             infoValid = false;
-            out.println(
-                "    - Exception accessing attributes (error)" );
+            out.println("    - Exception accessing attributes (error)");
         }
 
+        // ORBInitInfo Method pre_init post_init
+        // ------------------ -------- ---------
+        // register_initial_reference x -
+        // resolve_initial_reference - x
 
-        // ORBInitInfo Method              pre_init        post_init
-        // ------------------              --------        ---------
-        // register_initial_reference      x               -
-        // resolve_initial_reference       -               x
-
-        if( preInit ) {
-            out.print( "    - Checking preInit validity: " );
+        if (preInit) {
+            out.print("    - Checking preInit validity: ");
             boolean preInitFailed = false;
 
             // Ensure register_initial_reference can be called
             try {
-                info.register_initial_reference(
-                    REFERENCE_NAME, this );
-            }
-            catch( Exception e ) {
+                info.register_initial_reference(REFERENCE_NAME, this);
+            } catch (Exception e) {
                 infoValid = false;
                 e.printStackTrace();
-                out.println(
-                    "Could not call register_initial_references (error)" +
-                    " Reason: " + e );
+                out.println("Could not call register_initial_references (error)" + " Reason: " + e);
                 preInitFailed = true;
             }
 
             // Ensure resolve_initial_references cannot be called
             try {
-                info.resolve_initial_references( REFERENCE_NAME );
+                info.resolve_initial_references(REFERENCE_NAME);
                 infoValid = false;
-                out.println(
-                    "Able to call resolve_initial_references (error)" );
+                out.println("Able to call resolve_initial_references (error)");
                 preInitFailed = true;
-            }
-            catch( Exception e ) {
+            } catch (Exception e) {
                 // expected (ok).
             }
 
-            if( !preInitFailed ) out.println( "ok" );
-        }
-        else {
-            out.print( "    - Checking postInit validity: " );
+            if (!preInitFailed)
+                out.println("ok");
+        } else {
+            out.print("    - Checking postInit validity: ");
             boolean postInitFailed = false;
 
             // Ensure register_initial_reference can be called
             try {
-                info.register_initial_reference(
-                    REFERENCE_NAME + "2", this );
-            }
-            catch( Exception e ) {
+                info.register_initial_reference(REFERENCE_NAME + "2", this);
+            } catch (Exception e) {
                 infoValid = false;
-                out.println(
-                    "Could not call register_initial_references (error)" +
-                    " Reason: " + e );
+                out.println("Could not call register_initial_references (error)" + " Reason: " + e);
                 postInitFailed = true;
             }
 
             // Ensure resolve_initial_references can be called
             try {
-                info.resolve_initial_references( "CodecFactory" );
-            }
-            catch( Exception e ) {
+                info.resolve_initial_references("CodecFactory");
+            } catch (Exception e) {
                 infoValid = false;
-                out.println(
-                    "Unable to call resolve_initial_references (error)" );
+                out.println("Unable to call resolve_initial_references (error)");
                 postInitFailed = true;
             }
 
-            if( !postInitFailed ) out.println( "ok" );
+            if (!postInitFailed)
+                out.println("ok");
         }
 
         // These are trickier to test and require actually doing something
-        // useful.  They will be hit later in the test.
+        // useful. They will be hit later in the test.
         //
-        // ORBInitInfo Method              pre_init        post_init
-        // ------------------              --------        ---------
-        // add_client_request_interceptor  x               x
-        // add_server_request_interceptor  x               x
-        // add_ior_interceptor             x               x
-        // allocate_slot_id                x               x
-        // register_policy_factory         x               x
-
+        // ORBInitInfo Method pre_init post_init
+        // ------------------ -------- ---------
+        // add_client_request_interceptor x x
+        // add_server_request_interceptor x x
+        // add_ior_interceptor x x
+        // allocate_slot_id x x
+        // register_policy_factory x x
 
         return infoValid;
     }
 
     /**
-     * Called after post_init to make sure we cannot still access
-     * ORBInitInfo.  Returns false if we were able to access the
-     * ORBInitInfo object here, or true if not or if we did not get
-     * an OBJECT_NOT_EXIST exception.  (true is pass, false is fail)
+     * Called after post_init to make sure we cannot still access ORBInitInfo. Returns false if we were able to access the
+     * ORBInitInfo object here, or true if not or if we did not get an OBJECT_NOT_EXIST exception. (true is pass, false is
+     * fail)
      */
-    public static boolean post_post_init () {
+    public static boolean post_post_init() {
         boolean result = true;
 
-        out.println( "  - Testing post_post_init access to initInfo..." );
+        out.println("  - Testing post_post_init access to initInfo...");
 
         try {
             CodecFactory codecFactory = cachedInfo.codec_factory();
 
             // We should not get to this point.
             result = false;
-            out.println( "    - able to access (error)" );
-        }
-        catch( OBJECT_NOT_EXIST e ) {
+            out.println("    - able to access (error)");
+        } catch (OBJECT_NOT_EXIST e) {
             // Correct exception was thrown
             result = true;
-            out.println( "    - OBJECT_NOT_EXIST thrown (ok)" );
-        }
-        catch( Exception e ) {
+            out.println("    - OBJECT_NOT_EXIST thrown (ok)");
+        } catch (Exception e) {
             // We should not get to this point.
             result = false;
-            out.println( "    - " + e + " thrown (error)" );
+            out.println("    - " + e + " thrown (error)");
         }
 
         return result;
     }
 
     /**
-     * Test the resolve_initial_references call, and record results for
-     * future retrieval from the test harness
+     * Test the resolve_initial_references call, and record results for future retrieval from the test harness
      */
-    private void testResolveInitialReferences( ORBInitInfo info ) {
-        resolveInitialReferencesResults =
-            "Testing resolve_initial_references:\n";
+    private void testResolveInitialReferences(ORBInitInfo info) {
+        resolveInitialReferencesResults = "Testing resolve_initial_references:\n";
 
         try {
-            resolveInitialReferencesResults +=
-                "    - Testing info.resolve_initial_references( " +
-                "\"CodecFactory\" )... ";
-            org.omg.CORBA.Object objRef =
-                info.resolve_initial_references( "CodecFactory" );
-            CodecFactory codecFactory = CodecFactoryHelper.narrow( objRef );
-            if( objRef != null ) {
+            resolveInitialReferencesResults += "    - Testing info.resolve_initial_references( " + "\"CodecFactory\" )... ";
+            org.omg.CORBA.Object objRef = info.resolve_initial_references("CodecFactory");
+            CodecFactory codecFactory = CodecFactoryHelper.narrow(objRef);
+            if (objRef != null) {
                 // If we go this far, we know we can look up existing
                 // references.
                 passResolveInitialReferences = true;
-                resolveInitialReferencesResults +=  "passed.\n";
-            }
-            else {
+                resolveInitialReferencesResults += "passed.\n";
+            } else {
                 passResolveInitialReferences = false;
-                resolveInitialReferencesResults +=  "failed. null received.\n";
+                resolveInitialReferencesResults += "failed. null received.\n";
             }
-        }
-        catch( Exception e ) {
+        } catch (Exception e) {
             passResolveInitialReferences = false;
-            resolveInitialReferencesResults +=  "failed: " + e + "\n";
+            resolveInitialReferencesResults += "failed: " + e + "\n";
         }
 
         // Ensure resolve_initial_references throws InvalidName at the
         // appropiate times (the name to be resolved is invalid).
         try {
-            resolveInitialReferencesResults +=
-                "    - Testing info.resolve_initial_references( " +
-                "\"CodecFactory2\" )... ";
-            org.omg.CORBA.Object objRef =
-                info.resolve_initial_references( "CodecFactory2" );
+            resolveInitialReferencesResults += "    - Testing info.resolve_initial_references( " + "\"CodecFactory2\" )... ";
+            org.omg.CORBA.Object objRef = info.resolve_initial_references("CodecFactory2");
             // If we got this far, the resolve did not throw an InvalidName
             // Exception as expected.
             passResolveInitialReferencesInvalid = false;
-            resolveInitialReferencesResults +=
-                "failed.  InvalidName not raised.\n";
-        }
-        catch(
-            org.omg.PortableInterceptor.ORBInitInfoPackage.InvalidName e )
-        {
+            resolveInitialReferencesResults += "failed.  InvalidName not raised.\n";
+        } catch (org.omg.PortableInterceptor.ORBInitInfoPackage.InvalidName e) {
             // This is the correct IDL version of InvalidName.
             passResolveInitialReferencesInvalid = true;
-            resolveInitialReferencesResults +=
-                "InvalidName raised.  (passed)\n";
-        }
-        catch( Exception e ) {
+            resolveInitialReferencesResults += "InvalidName raised.  (passed)\n";
+        } catch (Exception e) {
             // This is the incorrect PIDL version of InvalidName.
             passResolveInitialReferencesInvalid = false;
-            resolveInitialReferencesResults +=
-                "Incorrect Exception raised: " + e + " (failed).\n";
+            resolveInitialReferencesResults += "Incorrect Exception raised: " + e + " (failed).\n";
         }
 
     }
 
-    private void testInterceptorRegistration( ORBInitInfo info, String name ) {
-        SampleClientRequestInterceptor cReqInt =
-            new SampleClientRequestInterceptor( name );
-        SampleServerRequestInterceptor sReqInt =
-            new SampleServerRequestInterceptor( name );
-        SampleIORInterceptor iInt =
-            new SampleIORInterceptor( name );
+    private void testInterceptorRegistration(ORBInitInfo info, String name) {
+        SampleClientRequestInterceptor cReqInt = new SampleClientRequestInterceptor(name);
+        SampleServerRequestInterceptor sReqInt = new SampleServerRequestInterceptor(name);
+        SampleIORInterceptor iInt = new SampleIORInterceptor(name);
         String results = "";
         boolean resultOk = true;
 
         // Try adding a client request interceptor
         results += "    - Adding Client Request Interceptor... ";
         try {
-            info.add_client_request_interceptor( cReqInt );
+            info.add_client_request_interceptor(cReqInt);
             results += "(ok)\n";
-        }
-        catch( Exception e ) {
+        } catch (Exception e) {
             results += e + " (error)\n";
             resultOk = false;
         }
@@ -457,10 +398,9 @@ public class ClientTestInitializer
         // Try adding a server request interceptor
         results += "    - Adding Server Request Interceptor... ";
         try {
-            info.add_server_request_interceptor( sReqInt );
+            info.add_server_request_interceptor(sReqInt);
             results += "(ok)\n";
-        }
-        catch( Exception e ) {
+        } catch (Exception e) {
             results += e + " (error)\n";
             resultOk = false;
         }
@@ -468,10 +408,9 @@ public class ClientTestInitializer
         // Try adding an IOR interceptor
         results += "    - Adding IOR Interceptor... ";
         try {
-            info.add_ior_interceptor( iInt );
+            info.add_ior_interceptor(iInt);
             results += "(ok)\n";
-        }
-        catch( Exception e ) {
+        } catch (Exception e) {
             results += e + " (error)\n";
             resultOk = false;
         }
@@ -479,37 +418,32 @@ public class ClientTestInitializer
         // Try adding a client request interceptor with a duplicate name:
         results += "    - Testing Duplicate Interceptor... ";
         try {
-            info.add_client_request_interceptor( cReqInt );
+            info.add_client_request_interceptor(cReqInt);
 
             // If we get to here, it allowed us to add a duplicate name.
             resultOk = false;
             results += "No DuplicateName thrown (error)\n";
-        }
-        catch( DuplicateName e ) {
+        } catch (DuplicateName e) {
             // Expected.
             results += "DuplicateName raised. (ok)\n";
 
-        }
-        catch( Exception e ) {
-            // Some other exception.  Not expected.
+        } catch (Exception e) {
+            // Some other exception. Not expected.
             results += e + " (error)\n";
             resultOk = false;
         }
 
         // Try adding two anonymous interceptors in a row.
-        SampleClientRequestInterceptor cAnonymous1 =
-            new SampleClientRequestInterceptor( "" );
-        SampleClientRequestInterceptor cAnonymous2 =
-            new SampleClientRequestInterceptor( "" );
+        SampleClientRequestInterceptor cAnonymous1 = new SampleClientRequestInterceptor("");
+        SampleClientRequestInterceptor cAnonymous2 = new SampleClientRequestInterceptor("");
 
         // Try adding first anonymous interceptor
         results += "    - Testing First Anonymous Interceptor... ";
         try {
-            info.add_client_request_interceptor( cAnonymous1 );
+            info.add_client_request_interceptor(cAnonymous1);
 
             results += "allowed (ok)\n";
-        }
-        catch( Exception e ) {
+        } catch (Exception e) {
             // Not expected.
             results += e + " (error)\n";
             resultOk = false;
@@ -518,23 +452,21 @@ public class ClientTestInitializer
         // Try adding second anonymous interceptor
         results += "    - Testing Second Anonymous Interceptor... ";
         try {
-            info.add_client_request_interceptor( cAnonymous2 );
+            info.add_client_request_interceptor(cAnonymous2);
 
             results += "allowed (ok)\n";
-        }
-        catch( Exception e ) {
+        } catch (Exception e) {
             // Not expected.
             results += e + " (error)\n";
             resultOk = false;
         }
 
-        // This should be the end of this test.  If we get to this point,
+        // This should be the end of this test. If we get to this point,
         // we know all other calls were successful.
-        if( name.equals( "preinit" ) ) {
+        if (name.equals("preinit")) {
             preAddInterceptorPass = resultOk;
             preAddInterceptorResult = results;
-        }
-        else if( name.equals( "postinit" ) ) {
+        } else if (name.equals("postinit")) {
             postAddInterceptorPass = resultOk;
             postAddInterceptorResult = results;
         }
@@ -547,39 +479,29 @@ public class ClientTestInitializer
 
         results += "    - Testing PICurrent::get_slot access... ";
         try {
-            org.omg.PortableInterceptor.Current pic =
-                (org.omg.PortableInterceptor.Current)
-                info.resolve_initial_references( "PICurrent" );
-            pic.get_slot( 0 );
+            org.omg.PortableInterceptor.Current pic = (org.omg.PortableInterceptor.Current) info.resolve_initial_references("PICurrent");
+            pic.get_slot(0);
 
             results += "accessible.  (error)\n";
             resultOk = false;
-        }
-        catch( BAD_INV_ORDER e ) {
+        } catch (BAD_INV_ORDER e) {
             results += "inaccessible.  (ok)\n";
-        }
-        catch( Exception e ) {
-            results += "inaccessible, but wrong Exception (" + e +
-                " instead of BAD_INV_ORDER).  (error)\n";
+        } catch (Exception e) {
+            results += "inaccessible, but wrong Exception (" + e + " instead of BAD_INV_ORDER).  (error)\n";
             resultOk = false;
         }
 
         results += "    - Testing PICurrent::set_slot access... ";
         try {
-            org.omg.PortableInterceptor.Current pic =
-                (org.omg.PortableInterceptor.Current)
-                info.resolve_initial_references( "PICurrent" );
-            pic.set_slot( 0, null );
+            org.omg.PortableInterceptor.Current pic = (org.omg.PortableInterceptor.Current) info.resolve_initial_references("PICurrent");
+            pic.set_slot(0, null);
 
             results += "accessible.  (error)\n";
             resultOk = false;
-        }
-        catch( BAD_INV_ORDER e ) {
+        } catch (BAD_INV_ORDER e) {
             results += "inaccessible.  (ok)\n";
-        }
-        catch( Exception e ) {
-            results += "inaccessible, but wrong Exception (" + e +
-                " instead of BAD_INV_ORDER).  (error)\n";
+        } catch (Exception e) {
+            results += "inaccessible, but wrong Exception (" + e + " instead of BAD_INV_ORDER).  (error)\n";
             resultOk = false;
         }
 

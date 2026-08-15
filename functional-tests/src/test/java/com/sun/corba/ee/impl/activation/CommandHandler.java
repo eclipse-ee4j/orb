@@ -24,17 +24,16 @@ import org.omg.CORBA.ORB;
 import java.io.PrintStream;
 
 /**
- * @version     1.19, 07/08/30
- * @author      Rohit Garg
- * @since       JDK1.2
+ * @version 1.19, 07/08/30
+ * @author Rohit Garg
+ * @since JDK1.2
  */
 
-public interface CommandHandler
-{
+public interface CommandHandler {
     String getCommandName();
 
     public final static boolean shortHelp = true;
-    public final static boolean longHelp  = false;
+    public final static boolean longHelp = false;
 
     void printCommandHelp(PrintStream out, boolean helpType);
 

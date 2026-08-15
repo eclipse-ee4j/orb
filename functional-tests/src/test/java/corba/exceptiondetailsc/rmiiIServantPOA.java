@@ -29,40 +29,22 @@ import javax.rmi.PortableRemoteObject;
 import org.omg.CORBA.FREE_MEM;
 import corba.hcks.U;
 
-public class rmiiIServantPOA
-    extends
-        PortableRemoteObject
-    implements
-        rmiiI
-{
+public class rmiiIServantPOA extends PortableRemoteObject implements rmiiI {
     public static final String baseMsg = rmiiIServantPOA.class.getName();
 
-    public rmiiIServantPOA ()
-        throws
-            RemoteException
-    {
+    public rmiiIServantPOA() throws RemoteException {
         // DO NOT CALL SUPER - that would connect the object.
     }
 
-    public void raiseSystemException(String x)
-        throws
-            RemoteException
-    {
+    public void raiseSystemException(String x) throws RemoteException {
         throw new FREE_MEM(x);
     }
 
-    public void raiseUserException(String x)
-        throws
-            RemoteException,
-            rmiiException
-    {
+    public void raiseUserException(String x) throws RemoteException, rmiiException {
         throw new rmiiException(x);
     }
 
-    public void raiseRuntimeException(String x)
-        throws
-            RemoteException
-    {
+    public void raiseRuntimeException(String x) throws RemoteException {
         throw new RuntimeException(x);
     }
 }

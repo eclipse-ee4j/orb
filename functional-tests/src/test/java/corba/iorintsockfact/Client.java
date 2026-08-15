@@ -31,30 +31,24 @@ import org.omg.CORBA.ORB;
 /**
  * @author Harold Carr
  */
-public class Client
-{
+public class Client {
     public static final String baseMsg = Client.class.getName();
 
     public static boolean foundAlternateIIOPAddressComponent = false;
 
-    public static void main(String args[])
-    {
+    public static void main(String args[]) {
         try {
             Properties props = new Properties();
 
-            props.put(Common.SOCKET_FACTORY_CLASS_PROPERTY,
-                      Common.CUSTOM_FACTORY_CLASS);
+            props.put(Common.SOCKET_FACTORY_CLASS_PROPERTY, Common.CUSTOM_FACTORY_CLASS);
 
             ORB orb = ORB.init(args, props);
 
-            I iRef =
-                IHelper.narrow(
-                    Common.getNameService(orb)
-                    .resolve(Common.makeNameComponent(Common.serverName1)));
+            I iRef = IHelper.narrow(Common.getNameService(orb).resolve(Common.makeNameComponent(Common.serverName1)));
 
             System.out.println(iRef.m("Hello"));
 
-            if (! foundAlternateIIOPAddressComponent) {
+            if (!foundAlternateIIOPAddressComponent) {
                 System.out.println("DID NOT FIND AlternateIIOPAddressComponent");
                 System.exit(1);
             }
@@ -66,9 +60,9 @@ public class Client
             System.out.println(baseMsg + ".main: Test complete.");
 
         } catch (Exception e) {
-            System.out.println(baseMsg + e) ;
+            System.out.println(baseMsg + e);
             e.printStackTrace(System.out);
-            System.exit (1);
+            System.exit(1);
         }
     }
 }

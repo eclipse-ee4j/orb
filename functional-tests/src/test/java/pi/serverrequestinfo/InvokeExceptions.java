@@ -25,34 +25,27 @@ import org.omg.CORBA.*;
 import ServerRequestInfo.*;
 
 /**
- * Invocation strategy in which four calls are made.
- * 1. No exception raised
- * 2. SystemException raised
- * 3. UserException raised
- * 4. No exception raised, receive_other is called.
+ * Invocation strategy in which four calls are made. 1. No exception raised 2. SystemException raised 3. UserException
+ * raised 4. No exception raised, receive_other is called.
  */
-public class InvokeExceptions
-    extends InvokeStrategy
-{
+public class InvokeExceptions extends InvokeStrategy {
     public void invoke() throws Exception {
         super.invoke();
 
         // Invoke rrsc, rr, then sr
-        invokeMethod( "sayHello" );
+        invokeMethod("sayHello");
 
         // Invoke rrsc, rr, then se
         try {
-            invokeMethod( "saySystemException" );
-        }
-        catch( IMP_LIMIT e ) {
+            invokeMethod("saySystemException");
+        } catch (IMP_LIMIT e) {
             // We expect this, but no other exception.
         }
 
         // Invoke rrsc, rr, then se (user exception)
         try {
-            invokeMethod( "sayUserException" );
-        }
-        catch( ExampleException e ) {
+            invokeMethod("sayUserException");
+        } catch (ExampleException e) {
             // We expect this, but no other exception.
         }
 
@@ -60,9 +53,8 @@ public class InvokeExceptions
         SampleServerRequestInterceptor.exceptionRedirectToOther = true;
         SampleServerRequestInterceptor.invokeOnForwardedObject = false;
         try {
-            invokeMethod( "saySystemException" );
-        }
-        catch( IMP_LIMIT e ) {
+            invokeMethod("saySystemException");
+        } catch (IMP_LIMIT e) {
             // We expect this, but no other exception.
         }
     }

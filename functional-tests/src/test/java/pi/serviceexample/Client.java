@@ -30,18 +30,12 @@ import org.omg.CosNaming.NamingContextPackage.*;
 
 import java.util.Properties;
 
-public class Client
-{
-    public static void main(String av[])
-    {
+public class Client {
+    public static void main(String av[]) {
         try {
             Properties props = new Properties();
-            props.put("org.omg.PortableInterceptor.ORBInitializerClass."
-                      + "pi.serviceexample.AServiceORBInitializer",
-                      "");
-            props.put("org.omg.PortableInterceptor.ORBInitializerClass."
-                      + "pi.serviceexample.LoggingServiceClientORBInitializer",
-                      "");
+            props.put("org.omg.PortableInterceptor.ORBInitializerClass." + "pi.serviceexample.AServiceORBInitializer", "");
+            props.put("org.omg.PortableInterceptor.ORBInitializerClass." + "pi.serviceexample.LoggingServiceClientORBInitializer", "");
             ORB orb = ORB.init(av, props);
 
             //
@@ -50,22 +44,16 @@ public class Client
             // using interceptors.
             //
 
-            AService aService =
-                AServiceHelper.narrow(
-                    orb.resolve_initial_references("AService"));
+            AService aService = AServiceHelper.narrow(orb.resolve_initial_references("AService"));
 
             //
             // The client obtains a reference to some object that
             // it will invoke.
             //
 
-            NamingContext nameService =
-                NamingContextHelper.narrow(
-                    orb.resolve_initial_references("NameService"));
-            NameComponent arbitraryObjectPath[] =
-                { new NameComponent("ArbitraryObject", "") };
-            ArbitraryObject arbitraryObject =
-                ArbitraryObjectHelper.narrow(nameService.resolve(arbitraryObjectPath));
+            NamingContext nameService = NamingContextHelper.narrow(orb.resolve_initial_references("NameService"));
+            NameComponent arbitraryObjectPath[] = { new NameComponent("ArbitraryObject", "") };
+            ArbitraryObject arbitraryObject = ArbitraryObjectHelper.narrow(nameService.resolve(arbitraryObjectPath));
 
             //
             // The client begins the service so that invocations of
@@ -88,7 +76,6 @@ public class Client
             // it is outside the begin/end.
             arbitraryObject.arbitraryOperation3("just return");
 
-
             aService.begin();
             try {
                 arbitraryObject.arbitraryOperation3("throw exception");
@@ -108,4 +95,3 @@ public class Client
 }
 
 // End of file.
-

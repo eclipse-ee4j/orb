@@ -67,57 +67,56 @@ import org.omg.CosNaming.NameComponent;
 import org.omg.CosNaming.NamingContext;
 import org.omg.CosNaming.NamingContextHelper;
 
-public class U
-{
-    private static JUnitReportHelper helper = null ;
-    private static ErrorAccumulator ea ;
-    private static String testName ;
-    private static boolean hasError = false ;
+public class U {
+    private static JUnitReportHelper helper = null;
+    private static ErrorAccumulator ea;
+    private static String testName;
+    private static boolean hasError = false;
 
     public static boolean hasError() {
-        return hasError ;
+        return hasError;
     }
 
     // KMC: initialize the helper and ErrorAccumulator
-    public static void initialize( String name ) {
-        helper = new JUnitReportHelper( name ) ;
-        ea = new ErrorAccumulator() ;
-        testName = null ;
+    public static void initialize(String name) {
+        helper = new JUnitReportHelper(name);
+        ea = new ErrorAccumulator();
+        testName = null;
     }
 
     // KMC: all done
     public static void done() {
         if (testName != null)
-            testComplete() ;
+            testComplete();
 
-        helper.done() ;
+        helper.done();
     }
 
     // KMC: helper support
     private static void testComplete() {
-        List<ErrorAccumulator.MessageAndException> errors = ea.getTestErrors() ;
+        List<ErrorAccumulator.MessageAndException> errors = ea.getTestErrors();
         if (errors.isEmpty()) {
-            helper.pass() ;
-        }  else {
-            StringBuilder sb = new StringBuilder() ;
-            sb.append( "Errors in test:\n" ) ;
+            helper.pass();
+        } else {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Errors in test:\n");
             for (ErrorAccumulator.MessageAndException mea : errors) {
-                sb.append( "    " ) ;
-                sb.append( mea.toString() ) ;
-                sb.append( "\n" ) ;
+                sb.append("    ");
+                sb.append(mea.toString());
+                sb.append("\n");
             }
 
-            helper.fail( sb.toString() ) ;
+            helper.fail(sb.toString());
         }
     }
 
     // KMC: helper support
-    private static void testStart( Object x ) {
+    private static void testStart(Object x) {
         if (testName != null)
-            testComplete() ;
-        testName = x.toString() ;
-        helper.start( testName ) ;
-        ea.startTest() ;
+            testComplete();
+        testName = x.toString();
+        helper.start(testName);
+        ea.startTest();
     }
 
     //
@@ -125,15 +124,14 @@ public class U
     //
 
     public static String NameService = "NameService";
-    public static String PICurrent   = "PICurrent";
-    public static String POACurrent  = "POACurrent";
-    public static String RootPOA     = "RootPOA";
-    public static String ORBClass    = "org.omg.CORBA.ORBClass";
-    public static String ORBInitializerClass =
-        "org.omg.PortableInterceptor.ORBInitializerClass";
+    public static String PICurrent = "PICurrent";
+    public static String POACurrent = "POACurrent";
+    public static String RootPOA = "RootPOA";
+    public static String ORBClass = "org.omg.CORBA.ORBClass";
+    public static String ORBInitializerClass = "org.omg.PortableInterceptor.ORBInitializerClass";
 
-    public static int    OMGVMCID = org.omg.CORBA.OMGVMCID.value;
-    public static int    SUNVMCID = 0x53550000;
+    public static int OMGVMCID = org.omg.CORBA.OMGVMCID.value;
+    public static int SUNVMCID = 0x53550000;
 
     //
     // Java Standard Constants.
@@ -145,112 +143,70 @@ public class U
     // Messages.
     //
 
-    public static String SHOULD_NOT_SEE_THIS  = "SHOULD NOT SEE THIS";
-    public static String OK                   = "OK";
+    public static String SHOULD_NOT_SEE_THIS = "SHOULD NOT SEE THIS";
+    public static String OK = "OK";
     public static String unexpected_exception = "unexpected exception";
-    public static String _DII                 = "DII";
-    public static String _DSI                 = "DSI";
-    public static String from_a_idlDynamic_servant =
-        "from a idlDynamic servant";
-    public static String _servant             = "servant";
+    public static String _DII = "DII";
+    public static String _DSI = "DSI";
+    public static String from_a_idlDynamic_servant = "from a idlDynamic servant";
+    public static String _servant = "servant";
 
     //
     // POA.
     //
 
-
-    public static POA getRootPOA(ORB orb)
-        throws
-            Exception
-    {
-        return (POA)orb.resolve_initial_references(RootPOA);
+    public static POA getRootPOA(ORB orb) throws Exception {
+        return (POA) orb.resolve_initial_references(RootPOA);
     }
 
     //
     // POACurrent.
     //
 
-    public static org.omg.PortableServer.Current getPOACurrent(ORB orb)
-        throws
-            Exception
-    {
+    public static org.omg.PortableServer.Current getPOACurrent(ORB orb) throws Exception {
         return (org.omg.PortableServer.Current)
-            // REVISIT - need PortableServer.CurrentHelper.narrow
-            org.omg.CORBA.CurrentHelper.narrow(orb.resolve_initial_references(
-                POACurrent));
+        // REVISIT - need PortableServer.CurrentHelper.narrow
+        org.omg.CORBA.CurrentHelper.narrow(orb.resolve_initial_references(POACurrent));
     }
 
-    public static byte[] getPOACurrentObjectId(ORB orb)
-        throws
-            Exception
-    {
+    public static byte[] getPOACurrentObjectId(ORB orb) throws Exception {
         return getPOACurrent(orb).get_object_id();
     }
 
-    public static String getPOACurrentOperation(ORB orb)
-        throws
-            Exception
-    {
-        return ((POACurrent)getPOACurrent(orb)).getOperation();
+    public static String getPOACurrentOperation(ORB orb) throws Exception {
+        return ((POACurrent) getPOACurrent(orb)).getOperation();
     }
 
-    public static String getPOACurrentInfo(ORB orb)
-        throws
-            Exception
-    {
+    public static String getPOACurrentInfo(ORB orb) throws Exception {
         String op = new String(getPOACurrentOperation(orb));
         String name = new String(getPOACurrentObjectId(orb));
         return op + " " + name;
     }
 
-    public static Policy[] createUseServantManagerPolicies(
-                               POA poa,
-                               ServantRetentionPolicyValue isRetain)
-        throws
-            Exception
-    {
+    public static Policy[] createUseServantManagerPolicies(POA poa, ServantRetentionPolicyValue isRetain) throws Exception {
         Policy[] policies = new Policy[2];
         policies[0] = poa.create_servant_retention_policy(isRetain);
-        policies[1] = poa.create_request_processing_policy(
-                          RequestProcessingPolicyValue.USE_SERVANT_MANAGER);
+        policies[1] = poa.create_request_processing_policy(RequestProcessingPolicyValue.USE_SERVANT_MANAGER);
 
         return policies;
     }
 
-    public static POA createPOAWithServantManager(
-                                POA parent,
-                                String name,
-                                Policy[] policies,
-                                ServantManager servantManager)
-        throws
-            Exception
-    {
+    public static POA createPOAWithServantManager(POA parent, String name, Policy[] policies, ServantManager servantManager)
+            throws Exception {
         POA child = parent.create_POA(name, null, policies);
         child.the_POAManager().activate();
         child.set_servant_manager(servantManager);
         return child;
     }
 
-    // This one is really not POA.  It is the deprecated connect API.
-    public static Object createWithConnectAndBind(String               name,
-                                                  org.omg.CORBA.Object servant,
-                                                  ORB                  orb)
-        throws
-            Exception
-    {
+    // This one is really not POA. It is the deprecated connect API.
+    public static Object createWithConnectAndBind(String name, org.omg.CORBA.Object servant, ORB orb) throws Exception {
         orb.connect(servant);
         U.rebind(name, servant, orb);
         return servant;
     }
 
-    public static org.omg.CORBA.Object
-        createWithServantAndBind (String  name,
-                                  Servant servant,
-                                  POA     poa,
-                                  ORB     orb)
-        throws
-            Exception
-    {
+    public static org.omg.CORBA.Object createWithServantAndBind(String name, Servant servant, POA poa, ORB orb) throws Exception {
         byte[] id = name.getBytes();
         poa.activate_object_with_id(id, servant);
         org.omg.CORBA.Object ref = poa.id_to_reference(id);
@@ -258,58 +214,35 @@ public class U
         return ref;
     }
 
-    public static org.omg.CORBA.Object createWithIdAndBind(String id,
-                                                           String repoId,
-                                                           POA    poa,
-                                                           ORB    orb)
-        throws
-            Exception
-    {
-        org.omg.CORBA.Object ref =
-            poa.create_reference_with_id(id.getBytes(), repoId);
+    public static org.omg.CORBA.Object createWithIdAndBind(String id, String repoId, POA poa, ORB orb) throws Exception {
+        org.omg.CORBA.Object ref = poa.create_reference_with_id(id.getBytes(), repoId);
         U.rebind(id, ref, orb);
         return ref;
     }
 
-    public static rmiiI createRMIIPOABindAndCall(String name,
-                                                 String tieClassName,
-                                                 POA poa,
-                                                 ORB orb,
-                                                 InitialContext initialContext)
-        throws
-            Exception
-    {
-        org.omg.CORBA.Object ref =
-            createRMIPOABind(name, tieClassName, poa, orb, initialContext);
+    public static rmiiI createRMIIPOABindAndCall(String name, String tieClassName, POA poa, ORB orb, InitialContext initialContext)
+            throws Exception {
+        org.omg.CORBA.Object ref = createRMIPOABind(name, tieClassName, poa, orb, initialContext);
 
         // Do a colocated invocation.
 
-        rmiiI rrmiiI = (rmiiI)PortableRemoteObject.narrow(ref, rmiiI.class);
+        rmiiI rrmiiI = (rmiiI) PortableRemoteObject.narrow(ref, rmiiI.class);
         U.sop(rrmiiI.sayHello());
 
         return rrmiiI;
     }
 
-    public static org.omg.CORBA.Object
-        createRMIPOABind(String name,
-                         String tieClassName,
-                         POA poa,
-                         ORB orb,
-                         InitialContext initialContext)
-        throws
-            Exception
-    {
+    public static org.omg.CORBA.Object createRMIPOABind(String name, String tieClassName, POA poa, ORB orb, InitialContext initialContext)
+            throws Exception {
         // Class.forName is used so there is no compile time reference
-        // to the Tie class.  This makes it possible to first compile
+        // to the Tie class. This makes it possible to first compile
         // the *.java files with javac then run rmic on the servant classes
         // to generate the Ties.
 
         byte[] oid = name.getBytes();
-        Servant servant =
-            (Servant) Class.forName(tieClassName).newInstance();
+        Servant servant = (Servant) Class.forName(tieClassName).newInstance();
         String repositoryId = servant._all_interfaces(poa, oid)[0];
-        org.omg.CORBA.Object ref =
-            poa.create_reference_with_id(oid, repositoryId);
+        org.omg.CORBA.Object ref = poa.create_reference_with_id(oid, repositoryId);
 
         initialContext.rebind(name, ref);
         return ref;
@@ -321,37 +254,22 @@ public class U
 
     // RMI-IIOP Naming.
 
-    public static Object lookupAndNarrow(String name,
-                                         Class clazz,
-                                         InitialContext initialContext)
-        throws
-            NamingException
-    {
+    public static Object lookupAndNarrow(String name, Class clazz, InitialContext initialContext) throws NamingException {
         return PortableRemoteObject.narrow(initialContext.lookup(name), clazz);
     }
 
     // IDL Naming.
 
-    public static org.omg.CORBA.Object resolve(String name, ORB orb)
-        throws
-            Exception
-    {
+    public static org.omg.CORBA.Object resolve(String name, ORB orb) throws Exception {
         return getNameService(orb).resolve(makeNameComponent(name));
     }
 
-
-    public static org.omg.CORBA.Object rebind(String name,
-                                              org.omg.CORBA.Object ref,
-                                              ORB orb)
-        throws
-            Exception
-    {
+    public static org.omg.CORBA.Object rebind(String name, org.omg.CORBA.Object ref, ORB orb) throws Exception {
         getNameService(orb).rebind(makeNameComponent(name), ref);
         return ref;
     }
 
-    public static NameComponent[] makeNameComponent(String name)
-    {
+    public static NameComponent[] makeNameComponent(String name) {
         Vector result = new Vector();
         StringTokenizer tokens = new StringTokenizer(name, "/");
         while (tokens.hasMoreTokens()) {
@@ -359,39 +277,30 @@ public class U
         }
         NameComponent path[] = new NameComponent[result.size()];
         for (int i = 0; i < result.size(); ++i) {
-            path[i] = new NameComponent((String)result.elementAt(i), "");
+            path[i] = new NameComponent((String) result.elementAt(i), "");
         }
         return path;
     }
 
-    public static NamingContext getNameService(ORB orb)
-        throws
-            Exception
-    {
-        return NamingContextHelper.narrow(
-            orb.resolve_initial_references(NameService));
+    public static NamingContext getNameService(ORB orb) throws Exception {
+        return NamingContextHelper.narrow(orb.resolve_initial_references(NameService));
     }
-
 
     //
     // Interceptors.
     //
 
-    public static org.omg.PortableInterceptor.Current getPICurrent(ORB orb)
-    {
+    public static org.omg.PortableInterceptor.Current getPICurrent(ORB orb) {
         org.omg.PortableInterceptor.Current current = null;
         try {
-            current = org.omg.PortableInterceptor.CurrentHelper.narrow(
-                orb.resolve_initial_references(PICurrent));
+            current = org.omg.PortableInterceptor.CurrentHelper.narrow(orb.resolve_initial_references(PICurrent));
         } catch (org.omg.CORBA.ORBPackage.InvalidName e) {
             sopUnexpectedException("getPICurrent", e);
         }
         return current;
     }
 
-    public static Any getSlot(org.omg.PortableInterceptor.Current pic,
-                              int slotId)
-    {
+    public static Any getSlot(org.omg.PortableInterceptor.Current pic, int slotId) {
         try {
             return pic.get_slot(slotId);
         } catch (InvalidSlot e) {
@@ -399,9 +308,7 @@ public class U
         }
     }
 
-    public static void setSlot(org.omg.PortableInterceptor.Current pic,
-                               int slotId, Any value)
-    {
+    public static void setSlot(org.omg.PortableInterceptor.Current pic, int slotId, Any value) {
         try {
             pic.set_slot(slotId, value);
         } catch (InvalidSlot e) {
@@ -409,8 +316,7 @@ public class U
         }
     }
 
-    public static Any getSlot(RequestInfo ri, int slotId)
-    {
+    public static Any getSlot(RequestInfo ri, int slotId) {
         try {
             return ri.get_slot(slotId);
         } catch (InvalidSlot e) {
@@ -418,8 +324,7 @@ public class U
         }
     }
 
-    public static void setSlot(ServerRequestInfo ri, int slotId, Any value)
-    {
+    public static void setSlot(ServerRequestInfo ri, int slotId, Any value) {
         try {
             ri.set_slot(slotId, value);
         } catch (InvalidSlot e) {
@@ -431,23 +336,19 @@ public class U
     // Dynamic type support.
     //
 
-    public static boolean isTkBoolean(Any any)
-    {
+    public static boolean isTkBoolean(Any any) {
         return isTk(TCKind.tk_boolean, any);
     }
 
-    public static boolean isTkLong(Any any)
-    {
+    public static boolean isTkLong(Any any) {
         return isTk(TCKind.tk_long, any);
     }
 
-    public static boolean isTkNull(Any any)
-    {
+    public static boolean isTkNull(Any any) {
         return isTk(TCKind.tk_null, any);
     }
 
-    public static boolean isTk(TCKind tk, Any any)
-    {
+    public static boolean isTk(TCKind tk, Any any) {
         TypeCode typeCode = any.type();
         TCKind tcKind = typeCode.kind();
         return tcKind.equals(tk);
@@ -457,95 +358,79 @@ public class U
     // I/O.
     //
 
-    public static void lf()
-    {
+    public static void lf() {
         System.out.println();
     }
 
-    public static void sop(java.lang.Object x)
-    {
+    public static void sop(java.lang.Object x) {
         System.out.println(x);
         System.out.flush();
     }
 
-    public static void sop(boolean msg)
-    {
+    public static void sop(boolean msg) {
         System.out.println(msg);
         System.out.flush();
     }
 
     // KMC: called before the start of a test case
-    public static void HEADER(java.lang.Object x)
-    {
+    public static void HEADER(java.lang.Object x) {
         lf();
         sop("--------------------------------------------------");
-        testStart( x ) ;
+        testStart(x);
         sop(x);
         lf();
     }
 
-    public static void normalExit(String msg)
-    {
+    public static void normalExit(String msg) {
         U.sop(msg + ": normal exit.");
     }
 
-    public static String unexpectedException(String msg, Throwable t)
-    {
+    public static String unexpectedException(String msg, Throwable t) {
         return msg + " " + U.unexpected_exception + " " + t;
     }
 
-    public static void sopUnexpectedException(String msg, Throwable t)
-    {
+    public static void sopUnexpectedException(String msg, Throwable t) {
         sop(unexpectedException(msg, t));
         t.printStackTrace(System.out);
-        hasError = true ;
+        hasError = true;
     }
 
-    public static String OK(String msg)
-    {
+    public static String OK(String msg) {
         return msg + " " + U.OK;
     }
 
-    public static void sopOK(String msg)
-    {
+    public static void sopOK(String msg) {
         sop(OK(msg));
     }
 
-    public static void sopShouldNotSeeThis()
-    {
+    public static void sopShouldNotSeeThis() {
         sop(SHOULD_NOT_SEE_THIS);
-        ea.add( SHOULD_NOT_SEE_THIS, new RuntimeException() ) ;
-        hasError = true ;
+        ea.add(SHOULD_NOT_SEE_THIS, new RuntimeException());
+        hasError = true;
         throw new RuntimeException(SHOULD_NOT_SEE_THIS);
     }
 
-    public static void sopShouldNotSeeThis(String msg)
-    {
+    public static void sopShouldNotSeeThis(String msg) {
         sop(msg + " " + SHOULD_NOT_SEE_THIS);
-        ea.add( msg, new RuntimeException( SHOULD_NOT_SEE_THIS ) ) ;
-        hasError = true ;
+        ea.add(msg, new RuntimeException(SHOULD_NOT_SEE_THIS));
+        hasError = true;
         throw new RuntimeException(msg + " " + SHOULD_NOT_SEE_THIS);
     }
 
-    public static String DII(String name)
-    {
+    public static String DII(String name) {
         return _DII + " " + name;
     }
 
-    public static String DSI(String name)
-    {
+    public static String DSI(String name) {
         return _DSI + " " + name;
     }
 
-    public static String servant(String name)
-    {
+    public static String servant(String name) {
         return _servant + " " + name;
     }
 
-    public static boolean unregisterAcceptorAndCloseConnections(
-        String socketType, com.sun.corba.ee.spi.orb.ORB orb)
-    {
-        TransportManager transportManager =orb.getCorbaTransportManager();
+    public static boolean unregisterAcceptorAndCloseConnections(String socketType, com.sun.corba.ee.spi.orb.ORB orb) {
+        TransportManager transportManager = orb.getCorbaTransportManager();
         Collection acceptors = transportManager.getAcceptors();
         Iterator i = acceptors.iterator();
         while (i.hasNext()) {
@@ -560,8 +445,8 @@ public class U
                     acceptor.close();
 
                     // Close the connection
-                    Collection connections =
-                        ((com.sun.corba.ee.impl.transport.ConnectionCacheBase)transportManager.getInboundConnectionCache(acceptor)).values();
+                    Collection connections = ((com.sun.corba.ee.impl.transport.ConnectionCacheBase) transportManager
+                            .getInboundConnectionCache(acceptor)).values();
                     i = connections.iterator();
                     while (i.hasNext()) {
                         Connection connection = (Connection) i.next();
@@ -575,22 +460,13 @@ public class U
         return false;
     }
 
-    public static boolean registerAcceptor(String socketType,
-                                           int port,
-                                           com.sun.corba.ee.spi.orb.ORB orb)
-    {
-        Acceptor acceptor =
-            new AcceptorImpl(
-                orb,
-                port,
-                "Test",
-                socketType);
+    public static boolean registerAcceptor(String socketType, int port, com.sun.corba.ee.spi.orb.ORB orb) {
+        Acceptor acceptor = new AcceptorImpl(orb, port, "Test", socketType);
         orb.getCorbaTransportManager().registerAcceptor(acceptor);
         // This initializes it and registers it with the transport manager.
         orb.getCorbaTransportManager().getAcceptors();
         return true;
     }
-
 
     ////////////////////////////////////////////////////
     //
@@ -605,43 +481,21 @@ public class U
     public static final String _result = "result";
     public static final String _exception = "exception";
 
-    public static void expect( int kind,
-                              Object expected,
-                              Object ref,
-                              String methodName)
-    {
+    public static void expect(int kind, Object expected, Object ref, String methodName) {
         expect(kind, expected, ref, methodName, noArgs);
     }
 
-    public static void expect( int kind,
-                              Object expected,
-                              Object ref,
-                              String methodName,
-                              Object arg1)
-    {
+    public static void expect(int kind, Object expected, Object ref, String methodName, Object arg1) {
         Object[] args = { arg1 };
         expect(kind, expected, ref, methodName, args);
     }
 
-    public static void expect( int kind,
-                              Object expected,
-                              Object ref,
-                              String methodName,
-                              Object arg1,
-                              Object arg2)
-    {
+    public static void expect(int kind, Object expected, Object ref, String methodName, Object arg1, Object arg2) {
         Object[] args = { arg1, arg2 };
         expect(kind, expected, ref, methodName, args);
     }
 
-
-    public static void expect(
-                              int kind,
-                              Object expected,
-                              Object ref,
-                              String methodName,
-                              Object[] args)
-    {
+    public static void expect(int kind, Object expected, Object ref, String methodName, Object[] args) {
         String baseMsg = "U.expect";
 
         Class clazz = ref.getClass();
@@ -653,8 +507,7 @@ public class U
         try {
             method = clazz.getMethod(methodName, parameterTypes);
         } catch (NoSuchMethodException e) {
-            throw new RuntimeException(baseMsg + " NoSuchMethodException "
-                                       + methodName);
+            throw new RuntimeException(baseMsg + " NoSuchMethodException " + methodName);
         } catch (SecurityException e) {
             throw new RuntimeException(baseMsg + " SecurityException");
         }
@@ -674,62 +527,43 @@ public class U
         }
 
         switch (kind) {
-        case U.result :
-            if (! gotResult) {
-                reportError(result,
-                            result, expected, ref, methodName, args,
-                            _result, _exception);
-            } else if (result == null) {
-                if (expected != null) {
-                    // This handles oneways (and voids?).
-                    reportError(null,
-                                result, expected, ref, methodName, args,
-                                _result, _result);
+            case U.result:
+                if (!gotResult) {
+                    reportError(result, result, expected, ref, methodName, args, _result, _exception);
+                } else if (result == null) {
+                    if (expected != null) {
+                        // This handles oneways (and voids?).
+                        reportError(null, result, expected, ref, methodName, args, _result, _result);
+                    }
+                } else if (!result.equals(expected)) {
+                    reportError(null, result, expected, ref, methodName, args, _result, _result);
                 }
-            } else if (! result.equals(expected)) {
-                reportError(null,
-                            result, expected, ref, methodName, args,
-                            _result, _result);
-            }
-            break;
-        case exceptionEquals :
-        case exception :
-            if (gotResult) {
-                reportError(null,
-                            result, expected, ref, methodName, args,
-                            _exception, _result);
-            } else if (! result.getClass().isInstance(expected)) {
-                reportError(result,
-                            result, expected, ref, methodName,args,
-                            _exception, _exception);
-            } else if (kind == exceptionEquals) {
+                break;
+            case exceptionEquals:
+            case exception:
+                if (gotResult) {
+                    reportError(null, result, expected, ref, methodName, args, _exception, _result);
+                } else if (!result.getClass().isInstance(expected)) {
+                    reportError(result, result, expected, ref, methodName, args, _exception, _exception);
+                } else if (kind == exceptionEquals) {
 
-                // Caveat: only use exceptionEquals if the exceptions
-                // to be compared have defined a reasonable equals.
-                // Otherwise it probably defaults to Object.equals
-                // which is just a reference compare.
+                    // Caveat: only use exceptionEquals if the exceptions
+                    // to be compared have defined a reasonable equals.
+                    // Otherwise it probably defaults to Object.equals
+                    // which is just a reference compare.
 
-                if (! result.equals(expected)) {
-                    reportError(result,
-                                result, expected, ref, methodName, args,
-                                _exception, _exception);
+                    if (!result.equals(expected)) {
+                        reportError(result, result, expected, ref, methodName, args, _exception, _exception);
+                    }
                 }
-            }
-            break;
-        default :
-            throw new RuntimeException(baseMsg + " switch default");
+                break;
+            default:
+                throw new RuntimeException(baseMsg + " switch default");
         }
     }
 
-    public static void reportError( Object exception, // null if none.
-                                   Object result,
-                                   Object expected,
-                                   Object ref,
-                                   String methodName,
-                                   Object[] args,
-                                   String expectedType,
-                                   String resultType)
-    {
+    public static void reportError(Object exception, // null if none.
+            Object result, Object expected, Object ref, String methodName, Object[] args, String expectedType, String resultType) {
         StringBuffer sb = formatCall(ref, methodName, args);
         sb.append(newlineTab);
         sb.append("expected ").append(expectedType).append(": ");
@@ -737,13 +571,10 @@ public class U
         sb.append(newlineTab);
         sb.append("but got ").append(resultType).append(": ");
         sb.append(result);
-        reportError(sb.toString(), (Throwable)exception);
+        reportError(sb.toString(), (Throwable) exception);
     }
 
-    public static StringBuffer formatCall(Object ref,
-                                          String methodName,
-                                          Object[] args)
-    {
+    public static StringBuffer formatCall(Object ref, String methodName, Object[] args) {
         StringBuffer result = new StringBuffer(ref + "." + methodName + "(");
         for (int i = 0; i < args.length; i++) {
             result.append(args[i]);
@@ -759,33 +590,26 @@ public class U
     public static boolean displayErrorsWhenTheyHappen = true;
     public static boolean printStackTrace = true;
 
-    public static void setDisplayErrorsWhenTheyHappen(boolean b)
-    {
+    public static void setDisplayErrorsWhenTheyHappen(boolean b) {
         displayErrorsWhenTheyHappen = b;
     }
 
-    public static void setPrintStackTrace(boolean b)
-    {
+    public static void setPrintStackTrace(boolean b) {
         printStackTrace = b;
     }
 
-    public static void reportError( String msg,
-                                   Throwable t)
-    {
+    public static void reportError(String msg, Throwable t) {
         ea.add(msg, t);
-        hasError = true ;
+        hasError = true;
 
         if (displayErrorsWhenTheyHappen) {
             reportError(printStackTrace, msg, t);
         }
     }
 
-    public static void reportError(boolean printStackTrace,
-                                   String msg,
-                                   Throwable t)
-    {
-        ea.add( msg, t ) ;
-        hasError = true ;
+    public static void reportError(boolean printStackTrace, String msg, Throwable t) {
+        ea.add(msg, t);
+        hasError = true;
 
         sop("--------------------------------------------------");
         sop(msg);
@@ -797,15 +621,14 @@ public class U
     }
 }
 
-class CloseThread extends Thread
-{
+class CloseThread extends Thread {
     Connection connection;
-    CloseThread(Connection connection)
-    {
+
+    CloseThread(Connection connection) {
         this.connection = connection;
     }
-    public void run()
-    {
+
+    public void run() {
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -819,4 +642,3 @@ class CloseThread extends Thread
 }
 
 // End of file.
-

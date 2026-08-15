@@ -22,39 +22,32 @@ package corba.unarrow;
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
-import java.util.Properties ;
+import java.util.Properties;
 import org.omg.PortableServer.*;
 
 /**
  * Servant implementation
  */
-class HelloServant extends HelloPOA
-{
-    public String sayHello()
-    {
+class HelloServant extends HelloPOA {
+    public String sayHello() {
         return "Hello world!";
     }
 }
 
-class ByeServant extends ByePOA
-{
-    public String sayBye()
-    {
+class ByeServant extends ByePOA {
+    public String sayBye() {
         return "Bye world!";
     }
 }
 
-
-public class Server
-{
-    public static void main(String args[])
-    {
+public class Server {
+    public static void main(String args[]) {
         try {
 
             ORB orb = ORB.init(args, System.getProperties());
 
             // Get rootPOA
-            POA rootPOA = (POA)orb.resolve_initial_references("RootPOA");
+            POA rootPOA = (POA) orb.resolve_initial_references("RootPOA");
             rootPOA.the_POAManager().activate();
 
             // create servants and register it with the ORB
@@ -64,13 +57,12 @@ public class Server
             byte[] helloId = rootPOA.activate_object(helloRef);
 
             // get the root naming context
-            org.omg.CORBA.Object objRef =
-                orb.resolve_initial_references("NameService");
+            org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
             NamingContext ncRef = NamingContextHelper.narrow(objRef);
 
             // bind the Object Reference in Naming
             NameComponent nc = new NameComponent("Hello", "");
-            NameComponent path[] = {nc};
+            NameComponent path[] = { nc };
 
             org.omg.CORBA.Object ref = rootPOA.id_to_reference(helloId);
 
@@ -88,7 +80,7 @@ public class Server
 
             // Emit the handshake the test framework expects
             // (can be changed in Options by the running test)
-            System.out.println ("Server is ready.");
+            System.out.println("Server is ready.");
 
             // Wait for clients
             orb.run();

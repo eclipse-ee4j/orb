@@ -23,13 +23,10 @@ package javax.rmi.CORBA.serialization;
 import java.util.*;
 import java.io.*;
 
-public class ComplexTestObjectTwoSubclass extends ComplexTestObjectTwo
-{
+public class ComplexTestObjectTwoSubclass extends ComplexTestObjectTwo {
 
-    public ComplexTestObjectTwoSubclass()
-    {
+    public ComplexTestObjectTwoSubclass() {
         super();
     }
-
 
 }

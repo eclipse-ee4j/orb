@@ -32,8 +32,7 @@ import java.util.Properties;
 import org.omg.CORBA.COMM_FAILURE;
 import org.omg.CORBA.ORB;
 
-public class Client
-{
+public class Client {
     public static final String baseMsg = Client.class.getName();
     public static final String main = baseMsg + ".main";
 
@@ -45,16 +44,13 @@ public class Client
 
     public static Throwable noExceptionExpected;
 
-    public static void main(String av[])
-    {
+    public static void main(String av[]) {
         try {
             Properties props = new Properties();
             props.put(U.ORBInitializerClass + "." + "corba.purgecalls.ClientORBInitializer", "ignored");
             orb = ORB.init(av, props);
 
-
-            rServerSide =
-                ServerSideHelper.narrow(U.resolve(Server.ServerSide, orb));
+            rServerSide = ServerSideHelper.narrow(U.resolve(Server.ServerSide, orb));
 
             runTests();
 
@@ -76,17 +72,14 @@ public class Client
             U.normalExit(main);
             // Do not explicitly exit to test that no non-daemon threads
             // are hanging.
-            //System.exit(Controller.SUCCESS);
+            // System.exit(Controller.SUCCESS);
         } else {
             U.sopUnexpectedException(main + " : ", noExceptionExpected);
             System.exit(1);
         }
     }
 
-    public static void runTests()
-        throws
-            Exception
-    {
+    public static void runTests() throws Exception {
         CallThread CallThread = new CallThread();
         CallThread.start();
 
@@ -101,13 +94,11 @@ public class Client
     }
 }
 
-class CallThread extends Thread
-{
-    CallThread ()
-    {
+class CallThread extends Thread {
+    CallThread() {
     }
-    public void run ()
-    {
+
+    public void run() {
         try {
             Client.rServerSide.neverReturns();
         } catch (COMM_FAILURE e) {

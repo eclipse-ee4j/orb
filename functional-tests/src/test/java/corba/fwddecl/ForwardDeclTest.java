@@ -23,20 +23,16 @@ import test.Test;
 import corba.framework.*;
 import java.util.*;
 
-
 /**
- * This is a POA version of the mthello test.  The
- * client creates multiple threads that invoke a simple sayHello
- * method on the remote servant.
+ * This is a POA version of the mthello test. The client creates multiple threads that invoke a simple sayHello method
+ * on the remote servant.
  */
-public class ForwardDeclTest extends CORBATest
-{
-    // This is the main method defining the test.  All tests
+public class ForwardDeclTest extends CORBATest {
+    // This is the main method defining the test. All tests
     // should have this.
-    protected void doTest() throws Throwable
-    {
+    protected void doTest() throws Throwable {
         // Create client controller using the given
-        // class.  You can also specify names for these (for instance,
+        // class. You can also specify names for these (for instance,
         // you may want to distinguish between many clients) by using
         // the equivalent methods that take two Strings.
         Controller client = createClient("corba.fwddecl.Client");
@@ -51,4 +47,3 @@ public class ForwardDeclTest extends CORBATest
         client.stop();
     }
 }
-

@@ -28,29 +28,22 @@ import org.omg.CORBA.*;
 import org.omg.PortableServer.*;
 import java.util.Properties;
 
-class SendRecursiveTypePOAServant
-    extends
-        sendRecursiveTypePOA
-{
+class SendRecursiveTypePOAServant extends sendRecursiveTypePOA {
     public static final String baseMsg = SendRecursiveTypePOAServant.class.getName();
 
     public ORB orb;
 
-    public SendRecursiveTypePOAServant(ORB orb)
-    {
+    public SendRecursiveTypePOAServant(ORB orb) {
         this.orb = orb;
     }
 
-    public Any sendAsAny (Any x)
-    {
+    public Any sendAsAny(Any x) {
         return x;
     }
 
-    public recursiveType sendAsType(recursiveType x)
-    {
+    public recursiveType sendAsType(recursiveType x) {
         return x;
     }
 }
 
 // End of file.
-

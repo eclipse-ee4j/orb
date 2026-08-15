@@ -23,8 +23,7 @@ package javax.rmi.CORBA.serialization;
 import java.util.*;
 import java.io.*;
 
-public class IDLValue implements org.omg.CORBA.portable.IDLEntity
-{
+public class IDLValue implements org.omg.CORBA.portable.IDLEntity {
     static Random r = new Random();
     public int fInt;
     public long fLong;
@@ -32,32 +31,25 @@ public class IDLValue implements org.omg.CORBA.portable.IDLEntity
     public double fDouble;
     public String fString;
 
-    public IDLValue()
-    {
+    public IDLValue() {
         fInt = r.nextInt();
         fLong = r.nextLong();
         fFloat = r.nextFloat();
         fDouble = r.nextDouble();
-        fString = new String(fInt +""+ fLong +""+ fFloat +""+ fDouble);
+        fString = new String(fInt + "" + fLong + "" + fFloat + "" + fDouble);
     }
 
-    public boolean equals(Object o)
-    {
-        try
-            {
-                IDLValue ctbo = (IDLValue)o;
-                return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) &&
-                        (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat) &&
-                        (ctbo.fDouble == fDouble));
-            }
-        catch(Exception e)
-            {
-                return false;
-            }
+    public boolean equals(Object o) {
+        try {
+            IDLValue ctbo = (IDLValue) o;
+            return ((ctbo.fString.equals(fString)) && (ctbo.fInt == fInt) && (ctbo.fLong == fLong) && (ctbo.fFloat == fFloat)
+                    && (ctbo.fDouble == fDouble));
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    public String toString()
-    {
-        return new String("fInt="+fInt+"; fLong="+fLong+"; fFloat="+fFloat+"; fDouble="+fDouble+"; fString="+fString);
+    public String toString() {
+        return new String("fInt=" + fInt + "; fLong=" + fLong + "; fFloat=" + fFloat + "; fDouble=" + fDouble + "; fString=" + fString);
     }
 }

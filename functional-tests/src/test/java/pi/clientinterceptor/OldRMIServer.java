@@ -34,11 +34,9 @@ import java.io.*;
 import javax.naming.*;
 
 /**
- * Server for RMI/IIOP version of test.  Uses old _*ImplBase skeletons.
+ * Server for RMI/IIOP version of test. Uses old _*ImplBase skeletons.
  */
-public class OldRMIServer
-    implements InternalProcess
-{
+public class OldRMIServer implements InternalProcess {
     // Set from run()
     private PrintStream out;
 
@@ -48,45 +46,38 @@ public class OldRMIServer
 
     public static void main(String args[]) {
         try {
-            (new OldRMIServer()).run( System.getProperties(),
-                                      args, System.out, System.err, null );
-        }
-        catch( Exception e ) {
-            e.printStackTrace( System.err );
-            System.exit( 1 );
+            (new OldRMIServer()).run(System.getProperties(), args, System.out, System.err, null);
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+            System.exit(1);
         }
     }
 
-    public void run( Properties environment, String args[], PrintStream out,
-                     PrintStream err, Hashtable extra)
-        throws Exception
-    {
+    public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         this.out = out;
 
-        out.println( "Instantiating ORB" );
-        out.println( "=================" );
+        out.println("Instantiating ORB");
+        out.println("=================");
 
         // create and initialize the ORB
-        Properties props = new Properties() ;
-        props.put( "org.omg.CORBA.ORBClass",
-                   System.getProperty("org.omg.CORBA.ORBClass"));
+        Properties props = new Properties();
+        props.put("org.omg.CORBA.ORBClass", System.getProperty("org.omg.CORBA.ORBClass"));
         ORB orb = ORB.init(args, props);
-        this.orb = (com.sun.corba.ee.spi.orb.ORB)orb;
+        this.orb = (com.sun.corba.ee.spi.orb.ORB) orb;
 
-
-        out.println( "+ Creating Initial naming context..." );
+        out.println("+ Creating Initial naming context...");
         // Inform the JNDI provider of the ORB to use and create intial
         // naming context:
-        out.println( "+ Creating initial naming context..." );
+        out.println("+ Creating initial naming context...");
         Hashtable env = new Hashtable();
-        env.put( "java.naming.corba.orb", orb );
-        initialNamingContext = new InitialContext( env );
+        env.put("java.naming.corba.orb", orb);
+        initialNamingContext = new InitialContext(env);
 
-        out.println( "+ Creating and binding hello objects..." );
-        createAndBind( "Hello1" );
-        createAndBind( "Hello1Forward" );
+        out.println("+ Creating and binding hello objects...");
+        createAndBind("Hello1");
+        createAndBind("Hello1Forward");
 
-        //handshake:
+        // handshake:
         out.println("Server is ready.");
         out.flush();
 
@@ -101,11 +92,9 @@ public class OldRMIServer
     /**
      * Creates and binds a hello object using RMI
      */
-    public void createAndBind (String name)
-        throws Exception
-    {
-        helloOldRMIIIOP obj = new helloOldRMIIIOP( out );
-        initialNamingContext.rebind( name, obj );
+    public void createAndBind(String name) throws Exception {
+        helloOldRMIIIOP obj = new helloOldRMIIIOP(out);
+        initialNamingContext.rebind(name, obj);
     }
 
 }

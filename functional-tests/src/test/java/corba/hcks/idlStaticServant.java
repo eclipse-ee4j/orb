@@ -29,27 +29,21 @@ import org.omg.CORBA.portable.UnknownException;
 import org.omg.PortableServer.*;
 import java.util.Properties;
 
-class idlStaticServant
-    extends
-        _idlIImplBase
-{
+class idlStaticServant extends _idlIImplBase {
     public static final String baseMsg = idlStaticServant.class.getName();
     public static final String from_idlStaticServant = "from idlStaticServant";
 
     public ORB orb;
 
-    public idlStaticServant(ORB orb)
-    {
+    public idlStaticServant(ORB orb) {
         this.orb = orb;
     }
 
-    public String syncOK(String arg1)
-    {
+    public String syncOK(String arg1) {
         return baseMsg + " " + arg1;
     }
 
-    public synchronized void asyncOK(byte[] data)
-    {
+    public synchronized void asyncOK(byte[] data) {
         try {
             U.sop(new String(data, C.UTF8));
         } catch (Exception e) {
@@ -57,66 +51,47 @@ class idlStaticServant
         }
     }
 
-    public void throwUserException()
-        throws idlExampleException
-    {
+    public void throwUserException() throws idlExampleException {
         C.throwUserException(from_idlStaticServant);
     }
 
-    public void throwSystemException()
-    {
+    public void throwSystemException() {
         C.throwSystemException(from_idlStaticServant);
     }
 
-    public void throwUnknownException()
-    {
+    public void throwUnknownException() {
         C.throwUnknownException(from_idlStaticServant);
     }
 
-    public void throwUNKNOWN()
-    {
+    public void throwUNKNOWN() {
         C.throwUNKNOWN(from_idlStaticServant);
     }
 
-    public void raiseSystemExceptionInSendReply()
-    {
+    public void raiseSystemExceptionInSendReply() {
     }
 
-    public void testEffectiveTarget1()
-    {
+    public void testEffectiveTarget1() {
     }
 
-    public void testEffectiveTarget2()
-    {
+    public void testEffectiveTarget2() {
     }
 
-    public String testMonitoring ()
-    {
+    public String testMonitoring() {
         return "";
     }
 
-    public idlValueTypeA sendValue (idlValueTypeA a,
-                                    idlValueTypeB b,
-                                    idlValueTypeC c,
-                                    idlValueTypeD d,
-                                    idlValueTypeE e,
-                                    int[]         f,
-                                    byte[]        g)
-    {
+    public idlValueTypeA sendValue(idlValueTypeA a, idlValueTypeB b, idlValueTypeC c, idlValueTypeD d, idlValueTypeE e, int[] f, byte[] g) {
         U.sop(d);
         return b;
     }
 
-    public org.omg.CORBA.Object getAndSaveUnknownORBVersionIOR()
-    {
+    public org.omg.CORBA.Object getAndSaveUnknownORBVersionIOR() {
         throw new RuntimeException("Not implemented");
     }
 
-    public boolean isIdenticalWithSavedIOR(org.omg.CORBA.Object o)
-    {
+    public boolean isIdenticalWithSavedIOR(org.omg.CORBA.Object o) {
         throw new RuntimeException("Not implemented");
     }
 }
 
 // End of file.
-

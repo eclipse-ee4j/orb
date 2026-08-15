@@ -44,10 +44,8 @@ public class HelloClient {
         return result;
 
         /*
-        return HelloHelper.narrow(f.create(HelloHelper.id(),
-                                           "HelloImpl",
-                                           c));
-        */
+         * return HelloHelper.narrow(f.create(HelloHelper.id(), "HelloImpl", c));
+         */
     }
 
     static final void invoke(Hello h) {
@@ -65,12 +63,9 @@ public class HelloClient {
 
             System.out.println("readFactory");
 
-
             System.out.println("invoke 1");
 
-            Hello h1 =
-                createHello(CreationMethods.EXPLICIT_ACTIVATION_WITH_POA_ASSIGNED_OIDS,
-                            f);
+            Hello h1 = createHello(CreationMethods.EXPLICIT_ACTIVATION_WITH_POA_ASSIGNED_OIDS, f);
 
             System.out.println("created 1, now invoking");
 
@@ -78,23 +73,17 @@ public class HelloClient {
 
             System.out.println("invoke 2");
 
-            Hello h2 =
-                createHello(CreationMethods.EXPLICIT_ACTIVATION_WITH_USER_ASSIGNED_OIDS,
-                            f);
+            Hello h2 = createHello(CreationMethods.EXPLICIT_ACTIVATION_WITH_USER_ASSIGNED_OIDS, f);
             invoke(h2);
 
             System.out.println("invoke 3");
 
-            Hello h3 =
-                createHello(CreationMethods.CREATE_REFERENCE_BEFORE_ACTIVATION_WITH_POA_ASSIGNED_OIDS,
-                            f);
+            Hello h3 = createHello(CreationMethods.CREATE_REFERENCE_BEFORE_ACTIVATION_WITH_POA_ASSIGNED_OIDS, f);
             invoke(h3);
 
             System.out.println("invoke 4");
 
-            Hello h4 =
-                createHello(CreationMethods.CREATE_REFERENCE_BEFORE_ACTIVATION_WITH_USER_ASSIGNED_OIDS,
-                            f);
+            Hello h4 = createHello(CreationMethods.CREATE_REFERENCE_BEFORE_ACTIVATION_WITH_USER_ASSIGNED_OIDS, f);
             invoke(h4);
 
             System.out.println("Calling overAndOut");
@@ -108,9 +97,9 @@ public class HelloClient {
             e.printStackTrace();
             try {
                 System.err.flush();
-            } catch (Exception ex) {}
+            } catch (Exception ex) {
+            }
             System.exit(1);
         }
     }
 }
-

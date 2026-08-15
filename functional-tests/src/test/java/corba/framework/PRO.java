@@ -17,26 +17,25 @@
  * Classpath-exception-2.0
  */
 
-package corba.framework ;
+package corba.framework;
 
-import java.rmi.Remote ;
+import java.rmi.Remote;
 
-import javax.rmi.PortableRemoteObject ;
+import javax.rmi.PortableRemoteObject;
 
 public class PRO {
-    private PRO() {}
-
-    public static <T> T narrow( Object obj, Class<T> cls ) {
-        return cls.cast( PortableRemoteObject.narrow(
-            obj, cls ) ) ;
+    private PRO() {
     }
 
-    public static <T> T toStub( Remote obj, Class<T> cls ) {
+    public static <T> T narrow(Object obj, Class<T> cls) {
+        return cls.cast(PortableRemoteObject.narrow(obj, cls));
+    }
+
+    public static <T> T toStub(Remote obj, Class<T> cls) {
         try {
-            return cls.cast( PortableRemoteObject.toStub(
-                obj ) ) ;
+            return cls.cast(PortableRemoteObject.toStub(obj));
         } catch (Exception exc) {
-            throw new RuntimeException( exc ) ;
+            throw new RuntimeException(exc);
         }
     }
 }

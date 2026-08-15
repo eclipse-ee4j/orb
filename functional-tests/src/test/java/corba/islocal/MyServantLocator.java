@@ -38,49 +38,35 @@ import org.omg.PortableServer.ServantLocatorPackage.CookieHolder;
 
 import corba.hcks.U;
 
-public class MyServantLocator
-    extends
-        org.omg.CORBA.LocalObject
-    implements
-        ServantLocator
-{
+public class MyServantLocator extends org.omg.CORBA.LocalObject implements ServantLocator {
     public static final String baseMsg = MyServantLocator.class.getName();
-    public static final String thisPackage =
-        MyServantLocator.class.getPackage().getName();
-
+    public static final String thisPackage = MyServantLocator.class.getPackage().getName();
 
     public ORB orb;
 
-    public MyServantLocator(ORB orb) { this.orb = orb; }
+    public MyServantLocator(ORB orb) {
+        this.orb = orb;
+    }
 
-    public Servant preinvoke(byte[] oid, POA poa, String operation,
-                             CookieHolder cookieHolder)
-        throws
-            ForwardRequest
-    {
-        ClassLoader classLoader      = null;
-        Class rmiiIServantPOAClass   = null;
+    public Servant preinvoke(byte[] oid, POA poa, String operation, CookieHolder cookieHolder) throws ForwardRequest {
+        ClassLoader classLoader = null;
+        Class rmiiIServantPOAClass = null;
         Object rmiiIServantPOAObject = null;
-        Tie tie                      = null;
+        Tie tie = null;
         try {
             classLoader = new CustomClassLoader();
-            rmiiIServantPOAClass =
-                classLoader.loadClass(thisPackage + ".rmiiIServantPOA");
+            rmiiIServantPOAClass = classLoader.loadClass(thisPackage + ".rmiiIServantPOA");
             rmiiIServantPOAObject = rmiiIServantPOAClass.newInstance();
             classLoader = rmiiIServantPOAObject.getClass().getClassLoader();
-            System.out.println("rmiiIServantPOAClass: "
-                               + rmiiIServantPOAClass);
-            System.out.println("rmiiIServantPOAObject classLoader: " +
-                               classLoader);
-            System.out.println("rmiiIServantPOAObject: " +
-                               rmiiIServantPOAObject);
-            //tie = javax.rmi.CORBA.Util.getTie(rmiiIServantPOAObject);
-            tie = (Tie) Class.forName(thisPackage + "._rmiiIServantPOA_Tie")
-                .newInstance();
+            System.out.println("rmiiIServantPOAClass: " + rmiiIServantPOAClass);
+            System.out.println("rmiiIServantPOAObject classLoader: " + classLoader);
+            System.out.println("rmiiIServantPOAObject: " + rmiiIServantPOAObject);
+            // tie = javax.rmi.CORBA.Util.getTie(rmiiIServantPOAObject);
+            tie = (Tie) Class.forName(thisPackage + "._rmiiIServantPOA_Tie").newInstance();
             reflect(tie.getClass());
             reflect(java.rmi.Remote.class);
             reflect(rmiiIServantPOAObject.getClass());
-            tie.setTarget((java.rmi.Remote)rmiiIServantPOAObject);
+            tie.setTarget((java.rmi.Remote) rmiiIServantPOAObject);
             return (Servant) tie;
         } catch (Throwable t) {
             U.sopUnexpectedException("preinvoke", t);
@@ -89,18 +75,14 @@ public class MyServantLocator
         return null;
     }
 
-    public void postinvoke(byte[] oid, POA poa, String operation,
-                           java.lang.Object cookie, Servant servant)
-    {
+    public void postinvoke(byte[] oid, POA poa, String operation, java.lang.Object cookie, Servant servant) {
     }
 
-    private void reflect(Class c)
-    {
+    private void reflect(Class c) {
         reflect(c, 0);
     }
 
-    private void reflect(Class c, int indent)
-    {
+    private void reflect(Class c, int indent) {
         for (int i = 0; i < indent; i++) {
             System.out.print(" ");
         }
@@ -117,4 +99,3 @@ public class MyServantLocator
 }
 
 // End of file.
-

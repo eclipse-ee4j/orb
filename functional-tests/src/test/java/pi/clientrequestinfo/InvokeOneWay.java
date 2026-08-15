@@ -24,19 +24,16 @@ import org.omg.PortableInterceptor.*;
 import org.omg.CORBA.*;
 
 /**
- * Invocation strategy in which two requests are sent, one that is not oneway
- * and one that is oneway, in that order.
+ * Invocation strategy in which two requests are sent, one that is not oneway and one that is oneway, in that order.
  */
-public class InvokeOneWay
-    extends InvokeStrategy
-{
+public class InvokeOneWay extends InvokeStrategy {
     public void invoke() throws Exception {
         super.invoke();
 
         // Invoke normal call
-        invokeMethod( "sayHello" );
+        invokeMethod("sayHello");
 
         // Invoke oneway call
-        invokeMethod( "sayOneway" );
+        invokeMethod("sayOneway");
     }
 }

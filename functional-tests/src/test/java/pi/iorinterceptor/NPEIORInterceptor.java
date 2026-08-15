@@ -29,13 +29,9 @@ import org.omg.PortableInterceptor.IORInterceptor;
 import org.omg.PortableInterceptor.ObjectReferenceTemplate;
 
 /**
- * An IORInterceptor that throws a NullPointerException during its
- * establish_components.
+ * An IORInterceptor that throws a NullPointerException during its establish_components.
  */
-public class NPEIORInterceptor
-    extends LocalObject
-    implements IORInterceptor
-{
+public class NPEIORInterceptor extends LocalObject implements IORInterceptor {
 
     // The name for this interceptor
     private String name;
@@ -52,10 +48,10 @@ public class NPEIORInterceptor
     // or false if not
     public static boolean establishComponentsCalled = false;
 
-    public NPEIORInterceptor( String name, PrintStream out ) {
+    public NPEIORInterceptor(String name, PrintStream out) {
         this.name = name;
         this.out = out;
-        out.println( "    - NPEIORInterceptor " + name + " created." );
+        out.println("    - NPEIORInterceptor " + name + " created.");
         registered = true;
     }
 
@@ -66,24 +62,18 @@ public class NPEIORInterceptor
     public void destroy() {
     }
 
-    public void establish_components (IORInfo info) {
-        out.println( "    - NPEIORInterceptor: establish_components called." );
+    public void establish_components(IORInfo info) {
+        out.println("    - NPEIORInterceptor: establish_components called.");
         establishComponentsCalled = true;
         throw new NullPointerException();
     }
 
-    public void components_established( IORInfo info )
-    {
+    public void components_established(IORInfo info) {
     }
 
-    public void adapter_state_changed( ObjectReferenceTemplate[] templates,
-        short state )
-    {
+    public void adapter_state_changed(ObjectReferenceTemplate[] templates, short state) {
     }
 
-    public void adapter_manager_state_changed( int managerId, short state )
-    {
+    public void adapter_manager_state_changed(int managerId, short state) {
     }
 }
-
-

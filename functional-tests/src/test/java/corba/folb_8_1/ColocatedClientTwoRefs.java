@@ -24,10 +24,8 @@
 
 package corba.folb_8_1;
 
-public class ColocatedClientTwoRefs
-{
-    public static void main(String[] av)
-    {
+public class ColocatedClientTwoRefs {
+    public static void main(String[] av) {
         Client.withSticky = true;
         ColocatedCS.clientTwoRefs = true;
         ColocatedCS.main(av);

@@ -19,7 +19,7 @@
 
 package pi.iorinterceptor;
 
-import IORInterceptorTest.*;    // for IDL
+import IORInterceptorTest.*; // for IDL
 
 /**
  * Servant implementation for simplePOA
@@ -31,7 +31,7 @@ public class SimpleServant extends simplePOA {
         return x;
     }
 
-    public void x( short newX ) {
+    public void x(short newX) {
         this.x = newX;
     }
 }

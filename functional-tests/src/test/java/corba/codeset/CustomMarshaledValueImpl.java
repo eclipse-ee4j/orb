@@ -30,19 +30,13 @@ import org.omg.CORBA.WCharSeqHelper;
 
 // Custom marshaled valuetype with all the data types we're interested in.
 
-public class CustomMarshaledValueImpl extends CustomMarshaledValue
-{
+public class CustomMarshaledValueImpl extends CustomMarshaledValue {
     public CustomMarshaledValueImpl() {
         str = "";
         wstr = "";
     }
 
-    public CustomMarshaledValueImpl(char ch,
-                                    char wch,
-                                    String str,
-                                    String wstr,
-                                    char[] chSeq,
-                                    char[] wchSeq) {
+    public CustomMarshaledValueImpl(char ch, char wch, String str, String wstr, char[] chSeq, char[] wchSeq) {
         this.ch = ch;
         this.wch = wch;
         if (str == null)
@@ -62,9 +56,9 @@ public class CustomMarshaledValueImpl extends CustomMarshaledValue
         StringBuilder sbuf = new StringBuilder();
 
         sbuf.append("ch: ");
-        sbuf.append((int)ch);
+        sbuf.append((int) ch);
         sbuf.append(" wch: ");
-        sbuf.append((int)wch);
+        sbuf.append((int) wch);
         sbuf.append(" str: ");
         if (str == null)
             sbuf.append("null");
@@ -81,7 +75,7 @@ public class CustomMarshaledValueImpl extends CustomMarshaledValue
             sbuf.append("null");
         else {
             for (int i = 0; i < chSeq.length; i++) {
-                sbuf.append((int)chSeq[i]);
+                sbuf.append((int) chSeq[i]);
                 sbuf.append(' ');
             }
         }
@@ -91,7 +85,7 @@ public class CustomMarshaledValueImpl extends CustomMarshaledValue
             sbuf.append("null");
         else {
             for (int i = 0; i < wchSeq.length; i++) {
-                sbuf.append((int)wchSeq[i]);
+                sbuf.append((int) wchSeq[i]);
                 sbuf.append(' ');
             }
         }
@@ -101,16 +95,11 @@ public class CustomMarshaledValueImpl extends CustomMarshaledValue
 
     public boolean equals(Object obj) {
         try {
-            CustomMarshaledValue cmv = (CustomMarshaledValue)obj;
+            CustomMarshaledValue cmv = (CustomMarshaledValue) obj;
 
-            return (ch == cmv.ch &&
-                    wch == cmv.wch &&
-                    ((str == null && cmv.str == null) ||
-                     (str.equals(cmv.str))) &&
-                    ((wstr == null && cmv.wstr == null) ||
-                     (wstr.equals(cmv.wstr))) &&
-                    Arrays.equals(chSeq, cmv.chSeq) &&
-                    Arrays.equals(wchSeq, cmv.wchSeq));
+            return (ch == cmv.ch && wch == cmv.wch && ((str == null && cmv.str == null) || (str.equals(cmv.str)))
+                    && ((wstr == null && cmv.wstr == null) || (wstr.equals(cmv.wstr))) && Arrays.equals(chSeq, cmv.chSeq)
+                    && Arrays.equals(wchSeq, cmv.wchSeq));
 
         } catch (ClassCastException cce) {
             return false;
@@ -124,8 +113,8 @@ public class CustomMarshaledValueImpl extends CustomMarshaledValue
         str = is.read_string();
         wstr = is.read_wstring();
 
-        chSeq = CharSeqHelper.read((InputStream)is);
-        wchSeq = WCharSeqHelper.read((InputStream)is);
+        chSeq = CharSeqHelper.read((InputStream) is);
+        wchSeq = WCharSeqHelper.read((InputStream) is);
 
         System.out.println("Done");
     }
@@ -140,12 +129,12 @@ public class CustomMarshaledValueImpl extends CustomMarshaledValue
         if (chSeq == null)
             os.write_long(0);
         else
-            CharSeqHelper.write((OutputStream)os, chSeq);
+            CharSeqHelper.write((OutputStream) os, chSeq);
 
         if (wchSeq == null)
             os.write_long(0);
         else
-            WCharSeqHelper.write((OutputStream)os, wchSeq);
+            WCharSeqHelper.write((OutputStream) os, wchSeq);
 
         System.out.println("Done");
     }

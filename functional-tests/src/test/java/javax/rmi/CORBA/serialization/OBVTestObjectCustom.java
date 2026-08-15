@@ -20,14 +20,11 @@
 
 package javax.rmi.CORBA.serialization;
 
-public abstract class OBVTestObjectCustom implements org.omg.CORBA.portable.CustomValue
-{
-  private static String[] _truncatable_ids = {
-    OBVTestObjectCustomHelper.id ()
-  };
+public abstract class OBVTestObjectCustom implements org.omg.CORBA.portable.CustomValue {
+    private static String[] _truncatable_ids = { OBVTestObjectCustomHelper.id() };
 
-  public String[] _truncatable_ids() {
-    return _truncatable_ids;
-  }
+    public String[] _truncatable_ids() {
+        return _truncatable_ids;
+    }
 
 }

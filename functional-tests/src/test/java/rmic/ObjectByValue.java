@@ -35,38 +35,43 @@ public class ObjectByValue implements java.io.Serializable {
     private static PrivateValue2 staticPrivate = new PrivateValue2();
     private static final PrivateValue3 constantPrivate = new PrivateValue3();
 
-    //private PrivateValue4 memberPrivate; // Should not be allowed by rmic.
+    // private PrivateValue4 memberPrivate; // Should not be allowed by rmic.
 
-
-    public ObjectByValue(int val1, int val2, String str1, String str2 )
-    {
+    public ObjectByValue(int val1, int val2, String str1, String str2) {
         this.value1 = val1;
         this.value2 = val2;
         this.str1 = str1;
         this.str2 = str2;
     }
 
-    public String toString () {
+    public String toString() {
         return "{" + value1 + ", " + value2 + ", " + str1 + ", " + str2 + "}";
     }
 
-    public boolean equals (Object right) {
+    public boolean equals(Object right) {
         if (right instanceof ObjectByValue) {
-            ObjectByValue other = (ObjectByValue)right;
-            return  value1 == other.value1 &&
-                value2 == other.value2 &&
-                str1.equals(other.str1) &&
-                str2.equals(other.str2);
+            ObjectByValue other = (ObjectByValue) right;
+            return value1 == other.value1 && value2 == other.value2 && str1.equals(other.str1) && str2.equals(other.str2);
         } else {
             return false;
         }
     }
 
-    public int getValue1() { return value1; }
-    public int getValue2() { return value2; }
+    public int getValue1() {
+        return value1;
+    }
 
-    public String getString1() { return str1; }
-    public String getString2() { return str2; }
+    public int getValue2() {
+        return value2;
+    }
+
+    public String getString1() {
+        return str1;
+    }
+
+    public String getString2() {
+        return str2;
+    }
 
     public synchronized void checkPrivate(PrivateValue1 it) {
     }
