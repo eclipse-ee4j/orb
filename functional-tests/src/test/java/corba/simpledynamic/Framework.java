@@ -42,6 +42,8 @@ import com.sun.corba.ee.spi.misc.ORBConstants;
 
 import com.sun.corba.ee.impl.naming.cosnaming.TransientNameService;
 
+import corba.framework.Port;
+
 import static corba.framework.PRO.*;
 
 public abstract class Framework {
@@ -50,7 +52,20 @@ public abstract class Framework {
     private InitialContext clientIC;
     private InitialContext serverIC;
 
-    protected static final String PORT_NUM = "46132";
+    /**
+     * A free port, found at run time rather than hardcoded.
+     *
+     * This used to be the literal "46132", which meant the test failed whenever anything else on
+     * the machine already held that port - reported only as "Unable to create IIOP listener on the
+     * specified host all interfaces and port 46,132", and so it passed on a developer machine and
+     * failed on a shared CI agent. corba.framework.Port asks the OS for an unused port
+     * (new ServerSocket(0)), which is what the rest of the harness already relies on.
+     *
+     * Safe to allocate per-process here: the tests in this package that use it run in a single
+     * client JVM - corba.simpledynamic.NewAcceptor calls only createClient - so no other process
+     * needs to agree on the number.
+     */
+    protected static final String PORT_NUM = new Port().toString();
 
     private String BASE = "com.sun.corba.ee.";
 
