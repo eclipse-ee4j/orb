@@ -45,8 +45,21 @@ public class NewAcceptorClient extends Framework {
 
     // Can be overridden if necessary to allow the ORB to be further
     // configured before it is used.
+    //
+    // Only the server ORB gets these acceptors. They listen on SERVER_PORT, so creating them on the
+    // client ORB too - which this method used to do, ignoring isServer - meant both ORBs tried to
+    // listen on one port. That failed on Linux but not on macOS: makeORB sets ORBServerHost only
+    // when isServer, so the server bound localhost:SERVER_PORT while the client bound
+    // *:SERVER_PORT, and BSD allows a specific address and the wildcard to share a port where Linux
+    // refuses. The symptom was "Unable to create IIOP listener on the specified host all interfaces
+    // and port N" from the client, i.e. from Framework.setUp's second makeORB call.
     @Override
     protected void updateORB(ORB orb, boolean isServer) {
+        if (!isServer) {
+            // The client only makes calls; it keeps the ORB's default acceptor on its own port.
+            return;
+        }
+
         final Acceptor listener = TransportDefault.makeLazyCorbaAcceptor(orb, SERVER_PORT, "localhost", "IIOP_CLEAR_TEXT");
 
         UnaryVoidFunction<Socket> func = new UnaryVoidFunction<Socket>() {
