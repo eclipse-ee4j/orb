@@ -25,6 +25,7 @@ import java.util.*;
 
 public class TravelMuseTest extends CORBATest {
 
+    @Override
     protected void doTest() throws Throwable {
         Controller client = createClient("corba.travelmuse.Client");
 

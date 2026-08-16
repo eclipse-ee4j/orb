@@ -78,13 +78,14 @@ public class EmmaControl {
         /*
          * if (DEBUG) { System.out.print( "Executing emma ctl command with args:" ) ; for (String arg : args) System.out.print(
          * " " + arg ) ; System.out.println() ; }
-         * 
+         *
          * ctlCommand cmd = new ctlCommand( "ctl", args ) ; cmd.run() ;
          */
 
         String command = "java emma ctl";
-        for (String arg : args)
+        for (String arg : args) {
             command += " " + arg;
+        }
         try {
             Runtime.getRuntime().exec(command);
         } catch (Exception exc) {

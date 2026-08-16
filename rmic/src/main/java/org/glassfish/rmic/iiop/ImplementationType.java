@@ -52,7 +52,9 @@ public class ImplementationType extends ClassType {
     public static ImplementationType forImplementation(ClassDefinition classDef,
                                                        ContextStack stack,
                                                        boolean quiet) {
-        if (stack.anyErrors()) return null;
+        if (stack.anyErrors()) {
+            return null;
+        }
 
         boolean doPop = false;
         ImplementationType result = null;
@@ -65,7 +67,9 @@ public class ImplementationType extends ClassType {
 
             if (existing != null) {
 
-                if (!(existing instanceof ImplementationType)) return null; // False hit.
+                if (!(existing instanceof ImplementationType)) {
+                    return null; // False hit.
+                }
 
                                 // Yep, so return it...
 
@@ -93,7 +97,9 @@ public class ImplementationType extends ClassType {
                 }
             }
         } catch (CompilerError e) {
-            if (doPop) stack.pop(false);
+            if (doPop) {
+                stack.pop(false);
+            }
         }
 
         return result;
@@ -102,6 +108,7 @@ public class ImplementationType extends ClassType {
     /**
      * Return a string describing this type.
      */
+    @Override
     public String getTypeDescription () {
         return "Implementation";
     }
@@ -130,7 +137,9 @@ public class ImplementationType extends ClassType {
                 failedConstraint(17,quiet,stack,classDef.getName());
             } else {
                 result = env.defRemote.implementedBy(env, classDef.getClassDeclaration());
-                if (!result) failedConstraint(8,quiet,stack,classDef.getName());
+                if (!result) {
+                    failedConstraint(8,quiet,stack,classDef.getName());
+                }
             }
         } catch (ClassNotFound e) {
             classNotFound(stack,e);
@@ -207,9 +216,7 @@ public class ImplementationType extends ClassType {
 
             Method[] allMethods = type.getMethods();
 
-            for (int i = 0; i < allMethods.length; i++) {
-                Method theMethod = allMethods[i];
-
+            for (Method theMethod : allMethods) {
                 if (!list.contains(theMethod)) {
                     list.addElement(theMethod);
                 }
@@ -219,8 +226,8 @@ public class ImplementationType extends ClassType {
 
             InterfaceType[] allInterfaces = type.getInterfaces();
 
-            for (int i = 0; i < allInterfaces.length; i++) {
-                copyRemoteMethods(allInterfaces[i],list);
+            for (InterfaceType element : allInterfaces) {
+                copyRemoteMethods(element,list);
             }
         }
     }

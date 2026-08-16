@@ -40,6 +40,7 @@ public class ServantLocator extends org.omg.CORBA.LocalObject implements org.omg
     public ServantLocator() {
     }
 
+    @Override
     public Servant preinvoke(byte[] oid, POA poa, String operation, CookieHolder cookieHolder) throws ForwardRequest {
 
         String soid = new String(oid);
@@ -54,6 +55,7 @@ public class ServantLocator extends org.omg.CORBA.LocalObject implements org.omg
         return servant;
     }
 
+    @Override
     public void postinvoke(byte[] oid, POA poa, String operation, java.lang.Object cookie, Servant servant) {
     }
 }

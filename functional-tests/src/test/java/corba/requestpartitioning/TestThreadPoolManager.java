@@ -81,6 +81,7 @@ public class TestThreadPoolManager implements ThreadPoolManager {
      *
      * @throws NoSuchThreadPoolException thrown when invalid threadpoolId is passed as a parameter
      */
+    @Override
     public com.sun.corba.ee.spi.threadpool.ThreadPool getThreadPool(String id) throws NoSuchThreadPoolException {
 
         Integer i = (Integer) idToIndexTable.get(id);
@@ -102,6 +103,7 @@ public class TestThreadPoolManager implements ThreadPoolManager {
      *
      * @throws NoSuchThreadPoolException thrown when invalidnumericIdForThreadpool is passed as a parameter
      */
+    @Override
     public com.sun.corba.ee.spi.threadpool.ThreadPool getThreadPool(int numericIdForThreadpool) throws NoSuchThreadPoolException {
 
         try {
@@ -118,6 +120,7 @@ public class TestThreadPoolManager implements ThreadPoolManager {
      * interceptors to add the numeric threadpool Id, as a tagged component in the IOR. This is used to provide the
      * functionality of dedicated threadpool.
      */
+    @Override
     public int getThreadPoolNumericId(String id) {
         Integer i = (Integer) idToIndexTable.get(id);
         return ((i == null) ? 0 : i.intValue());
@@ -126,6 +129,7 @@ public class TestThreadPoolManager implements ThreadPoolManager {
     /**
      * Return a String Id for a numericId of a threadpool managed by the threadpool manager
      */
+    @Override
     public String getThreadPoolStringId(int numericIdForThreadpool) {
         String id = (String) indexToIdTable.get(new Integer(numericIdForThreadpool));
         return ((id == null) ? defaultID : id);
@@ -134,6 +138,7 @@ public class TestThreadPoolManager implements ThreadPoolManager {
     /**
      * Returns the first instance of ThreadPool in the ThreadPoolManager
      */
+    @Override
     public com.sun.corba.ee.spi.threadpool.ThreadPool getDefaultThreadPool() {
         try {
             return getThreadPool(0);
@@ -144,25 +149,30 @@ public class TestThreadPoolManager implements ThreadPoolManager {
         return null;
     }
 
+    @Override
     public ThreadPoolChooser getThreadPoolChooser(String componentId) {
         // not used
         return null;
     }
 
+    @Override
     public ThreadPoolChooser getThreadPoolChooser(int componentIndex) {
         // not used
         return null;
     }
 
+    @Override
     public void setThreadPoolChooser(String componentId, ThreadPoolChooser aThreadPoolChooser) {
         // not used
     }
 
+    @Override
     public int getThreadPoolChooserNumericId(String componentId) {
         // not used
         return 0;
     }
 
+    @Override
     public void close() throws java.io.IOException {
     }
 }

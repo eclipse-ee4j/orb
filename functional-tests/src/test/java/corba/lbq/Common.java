@@ -93,8 +93,9 @@ public class Common {
         final ORBInitializer[] oldOrbInits = odata.getORBInitializers();
         final int newIndex = oldOrbInits.length;
         final ORBInitializer[] newOrbInits = new ORBInitializer[newIndex + 1];
-        for (int ctr = 0; ctr < newIndex; ctr++)
+        for (int ctr = 0; ctr < newIndex; ctr++) {
             newOrbInits[ctr] = oldOrbInits[ctr];
+        }
         newOrbInits[newIndex] = init;
 
         // Nasty hack: Use reflection to set the private field!
@@ -126,7 +127,7 @@ public class Common {
 
     /**
      * Create an object reference for the given servant and register it with the given name.
-     * 
+     *
      * @param orb The ORB to use for this object reference.
      * @param impl The object implementation to use.
      * @param remoteClass The class type of the servant.
@@ -166,7 +167,7 @@ public class Common {
             BindingListHolder blh = new BindingListHolder();
             BindingIteratorHolder bih = new BindingIteratorHolder();
             nc.list(1000, blh, bih);
-            List<T> result = new ArrayList<T>();
+            List<T> result = new ArrayList<>();
             for (Binding bind : blh.value) {
                 try {
                     if (bind.binding_type.value() == BindingType._nobject) {

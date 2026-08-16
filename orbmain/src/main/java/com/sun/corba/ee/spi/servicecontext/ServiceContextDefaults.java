@@ -62,10 +62,12 @@ public abstract class ServiceContextDefaults {
 
     public static ServiceContext.Factory makeCodeSetServiceContextFactory() {
         return new ServiceContext.Factory() {
+            @Override
             public int getId() {
                 return CodeSetServiceContext.SERVICE_CONTEXT_ID;
             }
 
+            @Override
             public ServiceContext create(InputStream s, GIOPVersion gv) {
                 return new CodeSetServiceContextImpl(s, gv);
             }
@@ -74,10 +76,12 @@ public abstract class ServiceContextDefaults {
 
     public static ServiceContext.Factory makeMaxStreamFormatVersionServiceContextFactory() {
         return new ServiceContext.Factory() {
+            @Override
             public int getId() {
                 return MaxStreamFormatVersionServiceContext.SERVICE_CONTEXT_ID;
             }
 
+            @Override
             public ServiceContext create(InputStream s, GIOPVersion gv) {
                 return new MaxStreamFormatVersionServiceContextImpl(s, gv);
             }
@@ -94,10 +98,12 @@ public abstract class ServiceContextDefaults {
 
     public static ServiceContext.Factory makeORBVersionServiceContextFactory() {
         return new ServiceContext.Factory() {
+            @Override
             public int getId() {
                 return ORBVersionServiceContext.SERVICE_CONTEXT_ID;
             }
 
+            @Override
             public ServiceContext create(InputStream s, GIOPVersion gv) {
                 return new ORBVersionServiceContextImpl(s, gv);
             }
@@ -114,10 +120,12 @@ public abstract class ServiceContextDefaults {
 
     public static ServiceContext.Factory makeSendingContextServiceContextFactory() {
         return new ServiceContext.Factory() {
+            @Override
             public int getId() {
                 return SendingContextServiceContext.SERVICE_CONTEXT_ID;
             }
 
+            @Override
             public ServiceContext create(InputStream s, GIOPVersion gv) {
                 return new SendingContextServiceContextImpl(s, gv);
             }
@@ -130,10 +138,12 @@ public abstract class ServiceContextDefaults {
 
     public static ServiceContext.Factory makeUEInfoServiceContextFactory() {
         return new ServiceContext.Factory() {
+            @Override
             public int getId() {
                 return UEInfoServiceContext.SERVICE_CONTEXT_ID;
             }
 
+            @Override
             public ServiceContext create(InputStream s, GIOPVersion gv) {
                 return new UEInfoServiceContextImpl(s, gv);
             }

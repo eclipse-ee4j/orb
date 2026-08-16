@@ -111,6 +111,7 @@ class LocalMember extends MemberDefinition {
     /**
      * Special checks
      */
+    @Override
     public boolean isLocal() {
         return true;
     }
@@ -187,6 +188,7 @@ class LocalMember extends MemberDefinition {
      * substituted for occurrences of the variable itself?
      * (This decision is made by VarDeclarationStatement.inline().)
      */
+    @Override
     public boolean isInlineable(Environment env, boolean fromFinal) {
         return (getModifiers() & M_INLINEABLE) != 0;
     }
@@ -217,8 +219,9 @@ class LocalMember extends MemberDefinition {
     /**
      * Return value
      */
+    @Override
     public Node getValue(Environment env) {
-        return (Expression)getValue();
+        return getValue();
     }
 
     /**

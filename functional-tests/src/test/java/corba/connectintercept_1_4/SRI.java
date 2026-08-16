@@ -34,37 +34,44 @@ public class SRI extends org.omg.CORBA.LocalObject implements ServerRequestInter
 
     public int balance = 0;
 
+    @Override
     public String name() {
         return baseMsg;
     }
 
+    @Override
     public void destroy() {
         if (balance != 0) {
             throw new RuntimeException(baseMsg + ": Interceptors not balanced.");
         }
     }
 
+    @Override
     public void receive_request_service_contexts(ServerRequestInfo sri) {
         balance++;
         System.out.println(baseMsg + ".receive_request_service_contexts " + sri.operation());
         System.out.println("    request on connection: " + ((RequestInfoExt) sri).connection());
     }
 
+    @Override
     public void receive_request(ServerRequestInfo sri) {
         // balance++; // DO NOT DO THIS IN AN INTERMEDIATE POINT!
         System.out.println(baseMsg + ".receive_request " + sri.operation());
     }
 
+    @Override
     public void send_reply(ServerRequestInfo sri) {
         balance--;
         System.out.println(baseMsg + ".send_reply " + sri.operation());
     }
 
+    @Override
     public void send_exception(ServerRequestInfo sri) {
         balance--;
         System.out.println(baseMsg + ".send_exception " + sri.operation());
     }
 
+    @Override
     public void send_other(ServerRequestInfo sri) {
         balance--;
         System.out.println(baseMsg + ".send_other " + sri.operation());

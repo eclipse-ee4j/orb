@@ -60,24 +60,34 @@ class SourceMember extends MemberDefinition implements Constants {
     /**
      * The argument names (if it is a method)
      */
+    @Deprecated
     Vector<MemberDefinition> args;
 
     // set to the MemberDefinition in the interface if we have this field because
     // it has been forced on us
+    @Deprecated
     MemberDefinition abstractSource;
 
     /**
      * The status of the field
      */
+    @Deprecated
     int status;
 
+    @Deprecated
     static final int PARSED     = 0;
+    @Deprecated
     static final int CHECKING   = 1;
+    @Deprecated
     static final int CHECKED    = 2;
+    @Deprecated
     static final int INLINING   = 3;
+    @Deprecated
     static final int INLINED    = 4;
+    @Deprecated
     static final int ERROR      = 5;
 
+    @Deprecated
     @Override
     public Vector<MemberDefinition> getArguments() {
         return args;
@@ -87,6 +97,7 @@ class SourceMember extends MemberDefinition implements Constants {
      * Constructor
      * @param argNames a vector of IdentifierToken
      */
+    @Deprecated
     public SourceMember(long where, ClassDefinition clazz,
                        String doc, int modifiers, Type type,
                        Identifier name, Vector<MemberDefinition> argNames,
@@ -101,6 +112,7 @@ class SourceMember extends MemberDefinition implements Constants {
         }
     }
 
+    @Deprecated
     void createArgumentFields(Vector<MemberDefinition> argNames) {
         // Create a list of arguments
         if (isMethod()) {
@@ -171,12 +183,14 @@ class SourceMember extends MemberDefinition implements Constants {
     // one should be able to tell the difference between these orders.
     // (bug number 4085633)
 
+    @Deprecated
     LocalMember outerThisArg = null;
 
     /**
      * Get outer instance link, or null if none.
      */
 
+    @Deprecated
     public LocalMember getOuterThisArg() {
         return outerThisArg;
     }
@@ -187,6 +201,7 @@ class SourceMember extends MemberDefinition implements Constants {
      * additional uplevel arguments get added later by addUplevelArguments().
      */
 
+    @Deprecated
     void addOuterThis() {
         UplevelReference refs = clazz.getReferences();
 
@@ -230,6 +245,7 @@ class SourceMember extends MemberDefinition implements Constants {
      * The code() methods tweaks the constructor calls, prepending
      * the proper values to the argument list.
      */
+    @Deprecated
     void addUplevelArguments() {
         UplevelReference refs = clazz.getReferences();
         clazz.getReferencesFrozen();
@@ -276,6 +292,7 @@ class SourceMember extends MemberDefinition implements Constants {
     /**
      * Constructor for an inner class.
      */
+    @Deprecated
     public SourceMember(ClassDefinition innerClass) {
         super(innerClass);
     }
@@ -285,6 +302,7 @@ class SourceMember extends MemberDefinition implements Constants {
      * Used only to generate an abstract copy of a method that a class
      * inherits from an interface
      */
+    @Deprecated
     public SourceMember(MemberDefinition f, ClassDefinition c, Environment env) {
         this(f.getWhere(), c, f.getDocumentation(),
              f.getModifiers() | M_ABSTRACT, f.getType(), f.getName(), null,
@@ -297,6 +315,7 @@ class SourceMember extends MemberDefinition implements Constants {
     /**
      * Get exceptions
      */
+    @Deprecated
     @Override
     public ClassDeclaration[] getExceptions(Environment env) {
         if ((!isMethod()) || (exp != null)) {
@@ -321,6 +340,7 @@ class SourceMember extends MemberDefinition implements Constants {
     /**
      * Set array of name-resolved exceptions directly, e.g., for access methods.
      */
+    @Deprecated
     public void setExceptions(ClassDeclaration[] exp) {
         this.exp = exp;
     }
@@ -330,25 +350,33 @@ class SourceMember extends MemberDefinition implements Constants {
      * @see ClassDefinition.resolveTypeStructure
      */
 
+    @Deprecated
     public boolean resolved = false;
 
+    @Deprecated
     @Override
     public void resolveTypeStructure(Environment env) {
-        if (tracing) env.dtEnter("SourceMember.resolveTypeStructure: " + this);
+        if (tracing) {
+            env.dtEnter("SourceMember.resolveTypeStructure: " + this);
+        }
 
         // A member should only be resolved once.  For a constructor, it is imperative
         // that 'addOuterThis' be called only once, else the outer instance argument may
         // be inserted into the argument list multiple times.
 
         if (resolved) {
-            if (tracing) env.dtEvent("SourceMember.resolveTypeStructure: OK " + this);
+            if (tracing) {
+                env.dtEvent("SourceMember.resolveTypeStructure: OK " + this);
+            }
             // This case shouldn't be happening.  It is the responsibility
             // of our callers to avoid attempting multiple resolutions of a member.
             // *** REMOVE FOR SHIPMENT? ***
             throw new CompilerError("multiple member type resolution");
             //return;
         } else {
-            if (tracing) env.dtEvent("SourceMember.resolveTypeStructure: RESOLVING " + this);
+            if (tracing) {
+                env.dtEvent("SourceMember.resolveTypeStructure: RESOLVING " + this);
+            }
             resolved = true;
         }
 
@@ -379,18 +407,22 @@ class SourceMember extends MemberDefinition implements Constants {
                 }
             }
         }
-        if (tracing) env.dtExit("SourceMember.resolveTypeStructure: " + this);
+        if (tracing) {
+            env.dtExit("SourceMember.resolveTypeStructure: " + this);
+        }
     }
 
     /**
      * Get the class declaration in which the field is actually defined
      */
+    @Deprecated
     @Override
     public ClassDeclaration getDefiningClassDeclaration() {
-        if (abstractSource == null)
+        if (abstractSource == null) {
             return super.getDefiningClassDeclaration();
-        else
+        } else {
             return abstractSource.getDefiningClassDeclaration();
+        }
     }
 
     /**
@@ -398,6 +430,7 @@ class SourceMember extends MemberDefinition implements Constants {
      * allows access to deprecated features that are being compiled
      * in the same job.
      */
+    @Deprecated
     @Override
     public boolean reportDeprecated(Environment env) {
         return false;
@@ -410,33 +443,42 @@ class SourceMember extends MemberDefinition implements Constants {
      * The real work is done by
      * {@code Vset check(Environment, Context, Vset)}.
      */
+    @Deprecated
     @Override
     public void check(Environment env) throws ClassNotFound {
-        if (tracing) env.dtEnter("SourceMember.check: " +
-                                 getName() + ", status = " + status);
+        if (tracing) {
+            env.dtEnter("SourceMember.check: " +
+                                     getName() + ", status = " + status);
+        }
         // rely on the class to check all fields in the proper order
         if (status == PARSED) {
             if (isSynthetic() && getValue() == null) {
                 // break a big cycle for small synthetic variables
                 status = CHECKED;
-                if (tracing)
+                if (tracing) {
                     env.dtExit("SourceMember.check: BREAKING CYCLE");
+                }
                 return;
             }
-            if (tracing) env.dtEvent("SourceMember.check: CHECKING CLASS");
+            if (tracing) {
+                env.dtEvent("SourceMember.check: CHECKING CLASS");
+            }
             clazz.check(env);
             if (status == PARSED) {
                 if (getClassDefinition().getError()) {
                     status = ERROR;
                 } else {
-                    if (tracing)
+                    if (tracing) {
                         env.dtExit("SourceMember.check: CHECK FAILED");
+                    }
                     throw new CompilerError("check failed");
                 }
             }
         }
-        if (tracing) env.dtExit("SourceMember.check: DONE " +
-                                getName() + ", status = " + status);
+        if (tracing) {
+            env.dtExit("SourceMember.check: DONE " +
+                                    getName() + ", status = " + status);
+        }
     }
 
     /**
@@ -445,9 +487,13 @@ class SourceMember extends MemberDefinition implements Constants {
      * The vset is also used to track the initialization of blank finals
      * by whichever fields which are relevant to them.
      */
+    @Deprecated
+    @Override
     public Vset check(Environment env, Context ctx, Vset vset) throws ClassNotFound {
-        if (tracing) env.dtEvent("SourceMember.check: MEMBER " +
-                                 getName() + ", status = " + status);
+        if (tracing) {
+            env.dtEvent("SourceMember.check: MEMBER " +
+                                     getName() + ", status = " + status);
+        }
         if (status == PARSED) {
             if (isInnerClass()) {
                 // some classes are checked separately
@@ -583,8 +629,8 @@ class SourceMember extends MemberDefinition implements Constants {
 
                         boolean ok = false;
                         if (!isInitializer()) {
-                            for (int i = 0 ; i < exp.length ; i++) {
-                                if (def.subClassOf(env, exp[i])) {
+                            for (ClassDeclaration element : exp) {
+                                if (def.subClassOf(env, element)) {
                                     ok = true;
                                 }
                             }
@@ -704,6 +750,7 @@ class SourceMember extends MemberDefinition implements Constants {
     /**
      * Inline the field
      */
+    @Deprecated
     void inline(Environment env) throws ClassNotFound {
         switch (status) {
           case PARSED:
@@ -772,6 +819,8 @@ class SourceMember extends MemberDefinition implements Constants {
     /**
      * Get the value of the field (or null if the value can't be determined)
      */
+    @Deprecated
+    @Override
     public Node getValue(Environment env) throws ClassNotFound {
         Node value = getValue();
         if (value != null && status != INLINED) {
@@ -783,6 +832,8 @@ class SourceMember extends MemberDefinition implements Constants {
         return value;
     }
 
+    @Deprecated
+    @Override
     public boolean isInlineable(Environment env, boolean fromFinal) throws ClassNotFound {
         if (super.isInlineable(env, fromFinal)) {
             getValue(env);
@@ -795,6 +846,8 @@ class SourceMember extends MemberDefinition implements Constants {
     /**
      * Get the initial value of the field
      */
+    @Deprecated
+    @Override
     public Object getInitialValue() {
         if (isMethod() || (getValue() == null) || (!isFinal()) || (status != INLINED)) {
             return null;
@@ -805,6 +858,8 @@ class SourceMember extends MemberDefinition implements Constants {
     /**
      * Generate code
      */
+    @Deprecated
+    @Override
     public void code(Environment env, Assembler asm) throws ClassNotFound {
         switch (status) {
           case PARSED:
@@ -862,6 +917,8 @@ class SourceMember extends MemberDefinition implements Constants {
         }
     }
 
+    @Deprecated
+    @Override
     public void codeInit(Environment env, Context ctx, Assembler asm) throws ClassNotFound {
         if (isMethod()) {
             return;
@@ -912,6 +969,8 @@ class SourceMember extends MemberDefinition implements Constants {
     /**
      * Print for debugging
      */
+    @Deprecated
+    @Override
     public void print(PrintStream out) {
         super.print(out);
         if (getValue() != null) {

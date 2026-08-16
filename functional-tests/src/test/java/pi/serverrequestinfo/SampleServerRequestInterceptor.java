@@ -82,108 +82,109 @@ public class SampleServerRequestInterceptor extends org.omg.CORBA.LocalObject im
         this.name = name;
     }
 
+    @Override
     public String name() {
         return name;
     }
 
+    @Override
     public void destroy() {
     }
 
+    @Override
     public void receive_request_service_contexts(ServerRequestInfo ri) throws ForwardRequest {
         // Only execute if the interceptor is enabled, this interception
         // point is enabled, we are the second interceptor, and we are
         // executing on hello, not helloForward.
-        if (ri.operation().equals("syncWithServer"))
+        if (ri.operation().equals("syncWithServer")) {
             return;
+        }
         if (!dontIgnoreIsA && ri.operation().equals("_is_a")) {
             if (name.equals("1")) {
                 System.out.println("    - Interceptor: Ingoring _is_a call...");
             }
             return;
         }
-        if (!enabled)
+        if (!enabled || !receiveRequestServiceContextsEnabled || !name.equals("2")) {
             return;
-        if (!receiveRequestServiceContextsEnabled)
-            return;
-        if (!name.equals("2"))
-            return;
+        }
 
         intercepted = true;
         strategy.receive_request_service_contexts(this, ri);
     }
 
+    @Override
     public void receive_request(ServerRequestInfo ri) throws ForwardRequest {
         // Only execute if the interceptor is enabled, this interception
         // point is enabled, we are the second interceptor, and we are
         // executing on hello, not helloForward.
-        if (ri.operation().equals("syncWithServer"))
+        if (ri.operation().equals("syncWithServer") || (!dontIgnoreIsA && ri.operation().equals("_is_a")) || !enabled) {
             return;
-        if (!dontIgnoreIsA && ri.operation().equals("_is_a"))
+        }
+        if (!receiveRequestEnabled) {
             return;
-        if (!enabled)
+        }
+        if (!name.equals("2")) {
             return;
-        if (!receiveRequestEnabled)
-            return;
-        if (!name.equals("2"))
-            return;
+        }
 
         strategy.receive_request(this, ri);
     }
 
+    @Override
     public void send_reply(ServerRequestInfo ri) {
         // Only execute if the interceptor is enabled, this interception
         // point is enabled, we are the second interceptor, and we are
         // executing on hello, not helloForward.
-        if (ri.operation().equals("syncWithServer"))
+        if (ri.operation().equals("syncWithServer") || (!dontIgnoreIsA && ri.operation().equals("_is_a")) || !enabled) {
             return;
-        if (!dontIgnoreIsA && ri.operation().equals("_is_a"))
+        }
+        if (!sendReplyEnabled) {
             return;
-        if (!enabled)
+        }
+        if (!name.equals("2")) {
             return;
-        if (!sendReplyEnabled)
-            return;
-        if (!name.equals("2"))
-            return;
+        }
 
         strategy.send_reply(this, ri);
     }
 
+    @Override
     public void send_exception(ServerRequestInfo ri) throws ForwardRequest {
         // Only execute if the interceptor is enabled, this interception
         // point is enabled, we are the second interceptor, and we are
         // executing on hello, not helloForward.
-        if (ri.operation().equals("syncWithServer"))
+        if (ri.operation().equals("syncWithServer") || (!dontIgnoreIsA && ri.operation().equals("_is_a")) || !enabled) {
             return;
-        if (!dontIgnoreIsA && ri.operation().equals("_is_a"))
+        }
+        if (!sendExceptionEnabled) {
             return;
-        if (!enabled)
-            return;
-        if (!sendExceptionEnabled)
-            return;
+        }
         if (exceptionRedirectToOther && name.equals("3")) {
             exceptionRedirectToOther = false;
             throw new ForwardRequest(TestInitializer.helloRefForward);
         }
-        if (!name.equals("2"))
+        if (!name.equals("2")) {
             return;
+        }
 
         strategy.send_exception(this, ri);
     }
 
+    @Override
     public void send_other(ServerRequestInfo ri) throws ForwardRequest {
         // Only execute if the interceptor is enabled, this interception
         // point is enabled, we are the second interceptor, and we are
         // executing on hello, not helloForward.
-        if (ri.operation().equals("syncWithServer"))
+        if (ri.operation().equals("syncWithServer") || (!dontIgnoreIsA && ri.operation().equals("_is_a")) || !enabled) {
             return;
-        if (!dontIgnoreIsA && ri.operation().equals("_is_a"))
+        }
+        if (!sendOtherEnabled) {
             return;
-        if (!enabled)
+        }
+        if (!name.equals("2")) {
             return;
-        if (!sendOtherEnabled)
-            return;
-        if (!name.equals("2"))
-            return;
+        }
 
         strategy.send_other(this, ri);
 

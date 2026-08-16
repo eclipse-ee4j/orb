@@ -27,6 +27,7 @@ import com.sun.corba.ee.spi.orb.ORB;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
 public class MessageTraceTest extends CORBATest {
+    @Override
     protected void doTest() throws Throwable {
 
         if (test.Test.useJavaSerialization()) {

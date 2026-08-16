@@ -36,7 +36,7 @@ abstract public class Servant {
 
     /**
      * Gets the ORB vendor-specific implementation of <code>PortableServer::Servant</code>.
-     * 
+     *
      * @return <code>_delegate</code> the ORB vendor-specific implementation of <code>PortableServer::Servant</code>.
      */
     final public Delegate _get_delegate() {
@@ -49,7 +49,7 @@ abstract public class Servant {
     /**
      * Supports the Java ORB portability interfaces by providing a method for classes that support ORB portability through
      * delegation to set their delegate.
-     * 
+     *
      * @param delegate ORB vendor-specific implementation of the <code>PortableServer::Servant</code>.
      */
     final public void _set_delegate(Delegate delegate) {
@@ -58,7 +58,7 @@ abstract public class Servant {
 
     /**
      * Allows the servant to obtain the object reference for the target CORBA object it is incarnating for that request.
-     * 
+     *
      * @return <code>this_object</code> <code>Object</code> reference associated with the request.
      */
     final public org.omg.CORBA.Object _this_object() {
@@ -67,7 +67,7 @@ abstract public class Servant {
 
     /**
      * Allows the servant to obtain the object reference for the target CORBA Object it is incarnating for that request.
-     * 
+     *
      * @param orb ORB with which the servant is associated.
      * @return <code>_this_object</code> reference associated with the request.
      */
@@ -82,7 +82,7 @@ abstract public class Servant {
 
     /**
      * Returns the instance of the ORB currently associated with the <code>Servant</code> (convenience method).
-     * 
+     *
      * @return <code>orb</code> the instance of the ORB currently associated with the <code>Servant</code>.
      */
     final public ORB _orb() {
@@ -91,7 +91,7 @@ abstract public class Servant {
 
     /**
      * Allows easy execution of common methods, equivalent to <code>PortableServer::Current:get_POA</code>.
-     * 
+     *
      * @return <code>poa</code> POA associated with the servant.
      */
     final public POA _poa() {
@@ -100,7 +100,7 @@ abstract public class Servant {
 
     /**
      * Allows easy execution of common methods, equivalent to calling <code>PortableServer::Current::get_object_id</code>.
-     * 
+     *
      * @return <code>object_id</code> the <code>Object</code> ID associated with this servant.
      */
     final public byte[] _object_id() {
@@ -110,7 +110,7 @@ abstract public class Servant {
     /**
      * Returns the root POA from the ORB instance associated with the servant. Subclasses may override this method to return
      * a different POA.
-     * 
+     *
      * @return <code>default_POA</code> the POA associated with the <code>Servant</code>.
      */
     public POA _default_POA() {
@@ -120,7 +120,7 @@ abstract public class Servant {
     /**
      * Checks to see if the specified <code>repository_id</code> is present on the list returned by
      * <code>_all_interfaces()</code> or is the <code>repository_id</code> for the generic CORBA Object.
-     * 
+     *
      * @param repository_id the <code>repository_id</code> to be checked in the repository list or against the id of generic
      * CORBA objects.
      * @return <code>is_a</code> boolean indicating whether the specified <code>repository_id</code> is in the repository
@@ -133,7 +133,7 @@ abstract public class Servant {
     /**
      * Checks for the existence of an <code>Object</code>. The <code>Servant</code> provides a default implementation of
      * <code>_non_existent()</code> that can be overridden by derived servants.
-     * 
+     *
      * @return <code>non_existent</code> <code>true</code> if that object does not exist, <code>false</code> otherwise.
      */
     public boolean _non_existent() {
@@ -147,7 +147,7 @@ abstract public class Servant {
      * Returns an object in the Interface Repository which provides type information that may be useful to a program.
      * <code>Servant</code> provides a default implementation of <code>_get_interface()</code> that can be overridden by
      * derived servants if the default behavior is not adequate.
-     * 
+     *
      * @return <code>get_interface</code> type information that corresponds to this servant.
      */
     /*
@@ -166,7 +166,7 @@ abstract public class Servant {
      * <code>_get_interface_def()</code> is to use the most derived interface of a static servant or the most derived
      * interface retrieved from a dynamic servant to obtain the <code>InterfaceDef</code>. This behavior must be supported
      * by the <code>Delegate</code> that implements the <code>Servant</code>.
-     * 
+     *
      * @return <code>get_interface_def</code> an <code>InterfaceDef</code> object as a <code>CORBA::Object</code> that
      * defines the runtime type of the <code>CORBA::Object</code> implemented by the <code>Servant</code>.
      */
@@ -214,7 +214,7 @@ abstract public class Servant {
     // implementation
     /**
      * Used by the ORB to obtain complete type information from the servant.
-     * 
+     *
      * @param poa POA with which the servant is associated.
      * @param objectId is the id corresponding to the object associated with this servant.
      * @return list of type information for the object.

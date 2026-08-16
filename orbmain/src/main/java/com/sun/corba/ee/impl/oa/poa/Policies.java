@@ -69,12 +69,12 @@ public final class Policies {
 
     int defaultObjectCopierFactoryId;
 
-    private Map<Integer, Policy> policyMap = new HashMap<Integer, Policy>();
+    private Map<Integer, Policy> policyMap = new HashMap<>();
 
     @ManagedAttribute
     @Description("The policies")
     Map<Integer, Policy> getPolicies() {
-        return new HashMap<Integer, Policy>(policyMap);
+        return new HashMap<>(policyMap);
     }
 
     public static final Policies defaultPolicies = new Policies();
@@ -110,10 +110,11 @@ public final class Policies {
         buffer.append("Policies[");
         boolean first = true;
         for (Policy p : policyMap.values()) {
-            if (first)
+            if (first) {
                 first = false;
-            else
+            } else {
                 buffer.append(",");
+            }
 
             buffer.append(p.toString());
         }
@@ -139,17 +140,20 @@ public final class Policies {
             return ((RequestProcessingPolicy) policy).value().value();
         } else if (policy instanceof ImplicitActivationPolicy) {
             return ((ImplicitActivationPolicy) policy).value().value();
-        } else
+        } else {
             return -1;
+        }
     }
 
     /**
      * If any errors were found, throw INVALID_POLICY with the smallest index of any offending policy.
      */
     private void checkForPolicyError(BitSet errorSet) throws InvalidPolicy {
-        for (short ctr = 0; ctr < errorSet.length(); ctr++)
-            if (errorSet.get(ctr))
+        for (short ctr = 0; ctr < errorSet.length(); ctr++) {
+            if (errorSet.get(ctr)) {
                 throw new InvalidPolicy(ctr);
+            }
+        }
     }
 
     /**
@@ -157,11 +161,12 @@ public final class Policies {
      * (it may not be).
      */
     private void addToErrorSet(Policy[] policies, int policyId, BitSet errorSet) {
-        for (int ctr = 0; ctr < policies.length; ctr++)
+        for (int ctr = 0; ctr < policies.length; ctr++) {
             if (policies[ctr].policy_type() == policyId) {
                 errorSet.set(ctr);
                 return;
             }
+        }
     }
 
     /**
@@ -173,8 +178,9 @@ public final class Policies {
 
         defaultObjectCopierFactoryId = id;
 
-        if (policies == null)
+        if (policies == null) {
             return;
+        }
 
         // Set to record all indices in policies for which errors
         // were observed.
@@ -189,8 +195,9 @@ public final class Policies {
             // in policyMap.
             int key = policy.policy_type();
             Policy prev = policyMap.get(key);
-            if (prev == null)
+            if (prev == null) {
                 policyMap.put(key, policy);
+            }
 
             if (POAPolicyValue >= 0) {
                 setPolicyValue(key, POAPolicyValue);
@@ -198,8 +205,9 @@ public final class Policies {
                 // if the value of this POA policy was previously set to a
                 // different value than the current value given in
                 // POAPolicyValue, record an error.
-                if ((prev != null) && (getPOAPolicyValue(prev) != POAPolicyValue))
+                if ((prev != null) && (getPOAPolicyValue(prev) != POAPolicyValue)) {
                     errorSet.set(i);
+                }
             }
         }
 
@@ -294,27 +302,30 @@ public final class Policies {
     public final int servantCachingLevel() {
         ServantCachingPolicy policy = ServantCachingPolicy.class.cast(policyMap.get(ORBConstants.SERVANT_CACHING_POLICY));
 
-        if (policy == null)
+        if (policy == null) {
             return ServantCachingPolicy.NO_SERVANT_CACHING;
-        else
+        } else {
             return policy.getType();
+        }
     }
 
     public final boolean forceZeroPort() {
         ZeroPortPolicy policy = ZeroPortPolicy.class.cast(policyMap.get(ORBConstants.ZERO_PORT_POLICY));
 
-        if (policy == null)
+        if (policy == null) {
             return false;
-        else
+        } else {
             return policy.forceZeroPort();
+        }
     }
 
     public final int getCopierId() {
         CopyObjectPolicy policy = CopyObjectPolicy.class.cast(policyMap.get(ORBConstants.COPY_OBJECT_POLICY));
 
-        if (policy != null)
+        if (policy != null) {
             return policy.getValue();
-        else
+        } else {
             return defaultObjectCopierFactoryId;
+        }
     }
 }

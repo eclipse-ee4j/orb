@@ -49,6 +49,7 @@ class DoStatement extends Statement {
     /**
      * Check statement
      */
+    @Override
     Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         checkLabel(env,ctx);
         CheckContext newctx = new CheckContext(ctx, this);
@@ -71,6 +72,7 @@ class DoStatement extends Statement {
     /**
      * Inline
      */
+    @Override
     public Statement inline(Environment env, Context ctx) {
         ctx = new Context(ctx, this);
         if (body != null) {
@@ -83,6 +85,7 @@ class DoStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         DoStatement s = (DoStatement)clone();
         s.cond = cond.copyInline(ctx);
@@ -95,6 +98,7 @@ class DoStatement extends Statement {
     /**
      * The cost of inlining this statement
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         return 1 + cond.costInline(thresh, env, ctx)
                 + ((body != null) ? body.costInline(thresh, env, ctx) : 0);
@@ -103,6 +107,7 @@ class DoStatement extends Statement {
     /**
      * Code
      */
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         Label l1 = new Label();
         asm.add(l1);
@@ -120,6 +125,7 @@ class DoStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("do ");

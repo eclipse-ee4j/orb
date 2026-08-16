@@ -42,14 +42,17 @@ public class SampleIORInterceptor extends org.omg.CORBA.LocalObject implements I
         this.name = name;
     }
 
+    @Override
     public String name() {
         return name;
     }
 
+    @Override
     public void destroy() {
         destroyCount++;
     }
 
+    @Override
     public void establish_components(IORInfo info) {
     }
 

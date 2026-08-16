@@ -78,8 +78,9 @@ public class AdapterActivatorClient {
         } finally {
             helper.done();
             status.printSummary(GetID.generateID(this, ""), testDesc);
-            if (status.totalFail() > 0)
+            if (status.totalFail() > 0) {
                 System.exit(1);
+            }
         }
     }
 

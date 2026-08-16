@@ -124,7 +124,7 @@ public abstract class TdescSuite {
             throw new IOException("test descriptor not on the classpath: " + resource);
         }
 
-        List<Object[]> params = new ArrayList<Object[]>();
+        List<Object[]> params = new ArrayList<>();
         BufferedReader reader = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8));
         try {
             String line;
@@ -211,7 +211,7 @@ public abstract class TdescSuite {
 
     /**
      * Runs once after all entries of a suite, not once per entry: JUnit executes an inherited
-     * 
+     *
      * @AfterClass after the subclass's tests complete. This reproduces the cleanup that test.Test.main did in its finally
      * block, without the System.exit that came with it.
      */

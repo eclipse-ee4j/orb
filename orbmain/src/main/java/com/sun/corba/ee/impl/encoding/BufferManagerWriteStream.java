@@ -44,6 +44,7 @@ public class BufferManagerWriteStream extends BufferManagerWrite {
         super(orb);
     }
 
+    @Override
     public boolean sentFragment() {
         return fragmentCount > 0;
     }
@@ -51,10 +52,12 @@ public class BufferManagerWriteStream extends BufferManagerWrite {
     /**
      * Returns the correct buffer size for this type of buffer manager as set in the ORB.
      */
+    @Override
     public int getBufferSize() {
         return orb.getORBData().getGIOPFragmentSize();
     }
 
+    @Override
     protected ByteBuffer overflow(ByteBuffer byteBuffer, int numBytesNeeded) {
         // Set the fragment's moreFragments field to true
         MessageBase.setFlag(byteBuffer, Message.MORE_FRAGMENTS_BIT);
@@ -131,6 +134,7 @@ public class BufferManagerWriteStream extends BufferManagerWrite {
     }
 
     // Sends the last fragment
+    @Override
     public void sendMessage() {
         sendFragment(true);
 
@@ -142,14 +146,15 @@ public class BufferManagerWriteStream extends BufferManagerWrite {
      *
      * No work to do for a BufferManagerWriteStream
      */
+    @Override
     public void close() {
-    };
+    }
 
     /**
      * Get CorbaContactInfoListIterator
      *
      * NOTE: Requires this.orb
-     * 
+     *
      * @return the ContactInfoListIterator
      */
     protected ContactInfoListIterator getContactInfoListIterator() {

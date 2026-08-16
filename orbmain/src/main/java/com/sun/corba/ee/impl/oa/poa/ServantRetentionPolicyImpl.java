@@ -32,18 +32,22 @@ final class ServantRetentionPolicyImpl extends org.omg.CORBA.LocalObject impleme
         this.value = value;
     }
 
+    @Override
     public ServantRetentionPolicyValue value() {
         return value;
     }
 
+    @Override
     public int policy_type() {
         return SERVANT_RETENTION_POLICY_ID.value;
     }
 
+    @Override
     public Policy copy() {
         return new ServantRetentionPolicyImpl(value);
     }
 
+    @Override
     public void destroy() {
         value = null;
     }

@@ -22,10 +22,12 @@ package javax.rmi.download;
 
 public class ServantImpl implements Servant {
 
+    @Override
     public String EchoSingleRemoteInterface() throws java.rmi.RemoteException {
         return "EchoSingleRemoteInterface";
     }
 
+    @Override
     public TheValue getValue() throws java.rmi.RemoteException {
         try {
             String url = System.getProperty("java.rmi.server.codebase");
@@ -39,22 +41,27 @@ public class ServantImpl implements Servant {
         }
     }
 
+    @Override
     public void forceNotSerializableException(java.io.Serializable val) throws java.rmi.RemoteException {
         // no op
     }
 
+    @Override
     public java.io.Serializable forceNotSerializableException() throws java.rmi.RemoteException {
         return new ContainerOfBadVal();
     }
 
+    @Override
     public void throwRemoteExceptionWithNonSerializableValue() throws java.rmi.RemoteException {
         throw new TheBadException();
     }
 
+    @Override
     public String passClass(Class clz) throws java.rmi.RemoteException {
         return "Name:" + clz.getName();
     }
 
+    @Override
     public java.lang.Object testWriteReadObject(java.lang.Object o) throws java.rmi.RemoteException {
         return o;
     }

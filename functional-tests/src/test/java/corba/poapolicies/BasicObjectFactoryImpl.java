@@ -38,12 +38,14 @@ public class BasicObjectFactoryImpl extends ServantFactoryPOA {
         poa = p;
     }
 
+    @Override
     public void overAndOut() {
         synchronized (doneCV) {
             doneCV.notifyAll();
         }
     }
 
+    @Override
     public org.omg.CORBA.Object create(String intfName, String implName, CreationMethods how) {
         try {
 
@@ -66,19 +68,21 @@ public class BasicObjectFactoryImpl extends ServantFactoryPOA {
             switch (how.value()) {
                 case Util.CreationMethods._EXPLICIT_ACTIVATION_WITH_POA_ASSIGNED_OIDS: {
                     byte[] id = poa.activate_object(s);
-                    if (useServantToReference)
+                    if (useServantToReference) {
                         ref = poa.servant_to_reference(s);
-                    else
+                    } else {
                         ref = poa.id_to_reference(id);
+                    }
                 }
                     break;
                 case Util.CreationMethods._EXPLICIT_ACTIVATION_WITH_USER_ASSIGNED_OIDS: {
                     byte[] id = idString.getBytes();
                     poa.activate_object_with_id(id, s);
-                    if (useServantToReference)
+                    if (useServantToReference) {
                         ref = poa.servant_to_reference(s);
-                    else
+                    } else {
                         ref = poa.id_to_reference(id);
+                    }
                 }
                     break;
                 case Util.CreationMethods._CREATE_REFERENCE_BEFORE_ACTIVATION_WITH_POA_ASSIGNED_OIDS: {

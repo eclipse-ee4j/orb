@@ -28,6 +28,7 @@ public class TesterImpl extends PortableRemoteObject implements Tester {
         super();
     }
 
+    @Override
     public String getDescription() throws RemoteException {
         return "Tester supports a remote method, String passString(String)";
     }

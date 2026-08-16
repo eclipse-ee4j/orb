@@ -59,8 +59,9 @@ public class TestSession {
      */
     public void end() {
         helper.done();
-        if (errorFlag)
+        if (errorFlag) {
             throw new Error("Test session " + sessionName + " failed");
+        }
     }
 
     public void testForPass(String name, NullaryFunction<Object> closure, Object expectedResult) {
@@ -68,9 +69,9 @@ public class TestSession {
             testStart(name);
             Object result = closure.evaluate();
 
-            if (ObjectUtility.equals(result, expectedResult))
+            if (ObjectUtility.equals(result, expectedResult)) {
                 testPass();
-            else {
+            } else {
                 testFail("Unexpected result returned");
                 out.println("\t\t\tExpected Result=" + ObjectUtility.defaultObjectToString(expectedResult));
                 out.println("\t\t\tActual   Result=" + ObjectUtility.defaultObjectToString(result));
@@ -87,10 +88,11 @@ public class TestSession {
             closure.evaluate();
             testFail("Closure did not throw expected exception");
         } catch (Throwable thr) {
-            if (expectedExceptionClass.isAssignableFrom(thr.getClass()))
+            if (expectedExceptionClass.isAssignableFrom(thr.getClass())) {
                 testPass("with exception " + thr);
-            else
+            } else {
                 testFail("Unexpected exception" + thr);
+            }
         }
     }
 
@@ -122,8 +124,9 @@ public class TestSession {
 
     private void testPass(String msg) {
         out.print("\t\tPASSED");
-        if ((msg != null) && (msg != ""))
+        if ((msg != null) && (msg != "")) {
             out.print(": " + msg);
+        }
         out.println();
         helper.pass();
     }

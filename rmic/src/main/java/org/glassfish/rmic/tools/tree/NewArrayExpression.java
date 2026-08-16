@@ -51,6 +51,7 @@ class NewArrayExpression extends NaryExpression {
     /**
      * Check
      */
+    @Override
     public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         type = right.toType(env, ctx);
 
@@ -78,6 +79,7 @@ class NewArrayExpression extends NaryExpression {
         return vset;
     }
 
+    @Override
     public Expression copyInline(Context ctx) {
         NewArrayExpression e = (NewArrayExpression)super.copyInline(ctx);
         if (init != null) {
@@ -89,20 +91,24 @@ class NewArrayExpression extends NaryExpression {
     /**
      * Inline
      */
+    @Override
     public Expression inline(Environment env, Context ctx) {
         Expression e = null;
-        for (int i = 0 ; i < args.length ; i++) {
-            if (args[i] != null) {
-                e = (e != null) ? new CommaExpression(where, e, args[i]) : args[i];
+        for (Expression arg : args) {
+            if (arg != null) {
+                e = (e != null) ? new CommaExpression(where, e, arg) : arg;
             }
         }
-        if (init != null)
+        if (init != null) {
             e = (e != null) ? new CommaExpression(where, e, init) : init;
+        }
         return (e != null) ? e.inline(env, ctx) : null;
     }
+    @Override
     public Expression inlineValue(Environment env, Context ctx) {
-        if (init != null)
+        if (init != null) {
             return init.inlineValue(env, ctx); // args are all null
+        }
         for (int i = 0 ; i < args.length ; i++) {
             if (args[i] != null) {
                 args[i] = args[i].inlineValue(env, ctx);
@@ -114,11 +120,12 @@ class NewArrayExpression extends NaryExpression {
     /**
      * Code
      */
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         int t = 0;
-        for (int i = 0 ; i < args.length ; i++) {
-            if (args[i] != null) {
-                args[i].codeValue(env, ctx, asm);
+        for (Expression arg : args) {
+            if (arg != null) {
+                arg.codeValue(env, ctx, asm);
                 t++;
             }
         }

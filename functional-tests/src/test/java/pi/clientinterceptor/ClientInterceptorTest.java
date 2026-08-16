@@ -37,6 +37,7 @@ public class ClientInterceptorTest extends CORBATest {
 
     Controller orbd;
 
+    @Override
     protected void doTest() throws Throwable {
         System.out.println();
         System.out.println("      \t\t\t\tLocal\t\tRemote");

@@ -42,14 +42,15 @@ public class LMSQueue<V> {
     private AtomicReference<Node<V>> head;
     private AtomicReference<Node<V>> tail;
 
-    public final Node<V> dummyNode = new Node<V>(null);
+    public final Node<V> dummyNode = new Node<>(null);
 
     public void enqueue(V val) {
-        if (val == null)
+        if (val == null) {
             throw new IllegalArgumentException("Cannot enqueue null value");
+        }
 
         Node<V> tl;
-        Node<V> nd = new Node<V>(val);
+        Node<V> nd = new Node<>(val);
         while (true) {
             tl = tail.get();
             nd.next = tl;
@@ -80,7 +81,7 @@ public class LMSQueue<V> {
                             continue; // D14
                         } // D15
                     } else { // D16,D17
-                        ndDummy = new Node<V>(null); // D18,D19
+                        ndDummy = new Node<>(null); // D18,D19
                         ndDummy.next = tl; // D20
                         if (tail.compareAndSet(tl, ndDummy)) { // D21
                             hd.prev = ndDummy; // D22

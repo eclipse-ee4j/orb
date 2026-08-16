@@ -53,7 +53,7 @@ public interface InvokeHandler {
      * <p>
      * 6. Return OutputStream to ORB.
      * <p>
-     * 
+     *
      * @param method The method name.
      * @param input The <code>InputStream</code> containing the marshalled arguments.
      * @param handler The <code>ResponseHandler</code> which the servant uses to construct a proper reply

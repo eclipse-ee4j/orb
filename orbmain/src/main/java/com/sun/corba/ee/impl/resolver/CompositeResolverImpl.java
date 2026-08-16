@@ -33,13 +33,16 @@ public class CompositeResolverImpl implements Resolver {
         this.second = second;
     }
 
+    @Override
     public org.omg.CORBA.Object resolve(String name) {
         org.omg.CORBA.Object result = first.resolve(name);
-        if (result == null)
+        if (result == null) {
             result = second.resolve(name);
+        }
         return result;
     }
 
+    @Override
     public Set<String> list() {
         Set<String> result = new HashSet();
         result.addAll(first.list());

@@ -60,7 +60,9 @@ public class ValueType extends ClassType {
                                      ContextStack stack,
                                      boolean quiet) {
 
-        if (stack.anyErrors()) return null;
+        if (stack.anyErrors()) {
+            return null;
+        }
 
         // Do we already have it?
 
@@ -70,7 +72,9 @@ public class ValueType extends ClassType {
 
         if (existing != null) {
 
-            if (!(existing instanceof ValueType)) return null; // False hit.
+            if (!(existing instanceof ValueType)) {
+                return null; // False hit.
+            }
 
             // Yep, so return it...
 

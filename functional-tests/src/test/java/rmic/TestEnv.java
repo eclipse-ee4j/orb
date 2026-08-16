@@ -37,6 +37,7 @@ public class TestEnv extends org.glassfish.rmic.iiop.BatchEnvironment {
         super(System.out, path, new Main(System.out, "rmic").getDestinationDir());
     }
 
+    @Override
     public void reset() {
         firstLine = true;
         nerrors = 0;
@@ -44,6 +45,7 @@ public class TestEnv extends org.glassfish.rmic.iiop.BatchEnvironment {
         super.reset();
     }
 
+    @Override
     public void output(String msg) {
         if (firstLine) {
             System.out.println();

@@ -148,6 +148,7 @@ public class WebServer extends Thread implements HttpConstants {
         run = false;
     }
 
+    @Override
     public void run() {
 
         try {
@@ -212,6 +213,7 @@ class Worker implements HttpConstants, Runnable {
         notify();
     }
 
+    @Override
     public synchronized void run() {
         while (server.run) {
             if (s == null) {

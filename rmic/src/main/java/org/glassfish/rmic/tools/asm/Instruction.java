@@ -388,17 +388,17 @@ class Instruction implements Constants {
             return;
 
           case opc_try:
-            for (Enumeration<CatchData> e = ((TryData)value).catches.elements() ; e.hasMoreElements() ;) {
-                CatchData cd = e.nextElement();
-                if (cd.getType() != null) {
-                    tab.put(cd.getType());
+                for (CatchData cd : ((TryData) value).catches) {
+                    if (cd.getType() != null) {
+                        tab.put(cd.getType());
+                    }
                 }
-            }
             return;
 
           case opc_nop:
-            if ((value != null) && (value instanceof ClassDeclaration))
+            if ((value != null) && (value instanceof ClassDeclaration)) {
                 tab.put(value);
+            }
                 return;
         }
     }
@@ -615,22 +615,27 @@ class Instruction implements Constants {
           case opc_tableswitch: {
             SwitchData sw = (SwitchData)value;
             int n = 1;
-            for(; ((pc + n) % 4) != 0 ; n++);
+            for(; ((pc + n) % 4) != 0 ; n++) {
+                
+            }
             return n + 16 + (sw.maxValue - sw.minValue) * 4;
           }
 
           case opc_lookupswitch: {
             SwitchData sw = (SwitchData)value;
             int n = 1;
-            for(; ((pc + n) % 4) != 0 ; n++);
+            for(; ((pc + n) % 4) != 0 ; n++) {
+                
+            }
             return n + 8 + sw.tab.size() * 8;
           }
 
           case opc_nop:
-            if ((value != null) && !(value instanceof Integer))
+            if ((value != null) && !(value instanceof Integer)) {
                 return 2;
-            else
+            } else {
                 return 1;
+            }
         }
 
         // most opcodes are only 1 byte long
@@ -780,10 +785,11 @@ class Instruction implements Constants {
 
           case opc_nop:
             if (value != null) {
-                if (value instanceof Integer)
+                if (value instanceof Integer) {
                     out.writeByte(((Integer)value).intValue());
-                else
+                } else {
                     out.writeShort(tab.index(value));
+                }
                 return;
             }
             // fall through
@@ -797,6 +803,7 @@ class Instruction implements Constants {
     /**
      * toString
      */
+    @Override
     public String toString() {
         String prefix = (where >> WHEREOFFSETBITS) + ":\t";
         switch (opc) {

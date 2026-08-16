@@ -60,8 +60,9 @@ public class JNDIStateFactoryImplTest {
 
     @After
     public void tearDown() throws Exception {
-        for (Memento memento : mementos)
+        for (Memento memento : mementos) {
             memento.revert();
+        }
     }
 
     @Before

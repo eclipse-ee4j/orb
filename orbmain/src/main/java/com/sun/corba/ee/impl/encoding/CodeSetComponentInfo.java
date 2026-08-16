@@ -41,11 +41,13 @@ public final class CodeSetComponentInfo {
 
         @Override
         public boolean equals(Object obj) {
-            if (this == obj)
+            if (this == obj) {
                 return true;
+            }
 
-            if (!(obj instanceof CodeSetComponent))
+            if (!(obj instanceof CodeSetComponent)) {
                 return false;
+            }
 
             CodeSetComponent other = (CodeSetComponent) obj;
 
@@ -55,8 +57,9 @@ public final class CodeSetComponentInfo {
         @Override
         public int hashCode() {
             int result = nativeCodeSet;
-            for (int ctr = 0; ctr < conversionCodeSets.length; ctr++)
-                result = 37 * result + conversionCodeSets[ctr];
+            for (int conversionCodeSet : conversionCodeSets) {
+                result = 37 * result + conversionCodeSet;
+            }
             return result;
         }
 
@@ -65,10 +68,11 @@ public final class CodeSetComponentInfo {
 
         public CodeSetComponent(int nativeCodeSet, int[] conversionCodeSets) {
             this.nativeCodeSet = nativeCodeSet;
-            if (conversionCodeSets == null)
+            if (conversionCodeSets == null) {
                 this.conversionCodeSets = new int[0];
-            else
+            } else {
                 this.conversionCodeSets = conversionCodeSets.clone();
+            }
         }
 
         public void read(MarshalInputStream in) {
@@ -92,11 +96,11 @@ public final class CodeSetComponentInfo {
             sbuf.append("native:");
             sbuf.append(Integer.toHexString(nativeCodeSet));
             sbuf.append(" conversion:");
-            if (conversionCodeSets == null)
+            if (conversionCodeSets == null) {
                 sbuf.append("null");
-            else {
-                for (int i = 0; i < conversionCodeSets.length; i++) {
-                    sbuf.append(Integer.toHexString(conversionCodeSets[i]));
+            } else {
+                for (int conversionCodeSet : conversionCodeSets) {
+                    sbuf.append(Integer.toHexString(conversionCodeSet));
                     sbuf.append(' ');
                 }
             }
@@ -111,11 +115,13 @@ public final class CodeSetComponentInfo {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
+        }
 
-        if (!(obj instanceof CodeSetComponentInfo))
+        if (!(obj instanceof CodeSetComponentInfo)) {
             return false;
+        }
 
         CodeSetComponentInfo other = (CodeSetComponentInfo) obj;
         return forCharData.equals(other.forCharData) && forWCharData.equals(other.forWCharData);
@@ -252,13 +258,14 @@ public final class CodeSetComponentInfo {
      * The first number in the list is taken as the native code set, and the rest is the conversion code set list.
      *
      * The numbers can either be decimal or hex.
-     * 
+     *
      * @param str List of OSF Code Set registry numbers
      * @return Components
      */
     public static CodeSetComponent createFromString(String str) {
-        if (str == null || str.length() == 0)
+        if (str == null || str.length() == 0) {
             throw wrapper.badCodeSetString();
+        }
 
         StringTokenizer stok = new StringTokenizer(str, ", ", false);
         int nativeSet = 0;
@@ -269,10 +276,11 @@ public final class CodeSetComponentInfo {
             // The first value is the native code set
             nativeSet = Integer.decode(stok.nextToken()).intValue();
 
-            if (OSFCodeSetRegistry.lookupEntry(nativeSet) == null)
+            if (OSFCodeSetRegistry.lookupEntry(nativeSet) == null) {
                 throw wrapper.unknownNativeCodeset(nativeSet);
+            }
 
-            List<Integer> conversionList = new ArrayList<Integer>(10);
+            List<Integer> conversionList = new ArrayList<>(10);
 
             // Now process the other values as part of the
             // conversion code set list.
@@ -281,16 +289,18 @@ public final class CodeSetComponentInfo {
                 // decode allows us to specify hex, decimal, etc
                 Integer value = Integer.decode(stok.nextToken());
 
-                if (OSFCodeSetRegistry.lookupEntry(value.intValue()) == null)
+                if (OSFCodeSetRegistry.lookupEntry(value.intValue()) == null) {
                     throw wrapper.unknownConversionCodeSet(value);
+                }
 
                 conversionList.add(value);
             }
 
             conversionInts = new int[conversionList.size()];
 
-            for (int i = 0; i < conversionInts.length; i++)
-                conversionInts[i] = ((Integer) conversionList.get(i)).intValue();
+            for (int i = 0; i < conversionInts.length; i++) {
+                conversionInts[i] = conversionList.get(i).intValue();
+            }
 
         } catch (NumberFormatException nfe) {
             throw wrapper.invalidCodeSetNumber(nfe);

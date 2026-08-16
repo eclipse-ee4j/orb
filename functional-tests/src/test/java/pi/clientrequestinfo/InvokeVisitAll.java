@@ -28,6 +28,7 @@ import org.omg.CORBA.*;
  * receive_reply send_request, receive_exception send_request, receive_other
  */
 public class InvokeVisitAll extends InvokeStrategy {
+    @Override
     public void invoke() throws Exception {
         super.invoke();
 

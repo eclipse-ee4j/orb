@@ -31,10 +31,12 @@ public class Mining implements Investment, java.io.Serializable {
         fPlanet = planet;
     }
 
+    @Override
     public String getName() {
         return "Mining";
     }
 
+    @Override
     public void invest(long dollars) {
         long metal = 0;
 

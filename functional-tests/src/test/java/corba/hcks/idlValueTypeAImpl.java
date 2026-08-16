@@ -42,6 +42,7 @@ public class idlValueTypeAImpl extends idlValueTypeA {
         this.a = a;
     }
 
+    @Override
     public String toString() {
         return baseMsg + " " + a;
     }

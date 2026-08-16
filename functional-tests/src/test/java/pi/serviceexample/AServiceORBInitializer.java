@@ -36,6 +36,7 @@ public class AServiceORBInitializer extends org.omg.CORBA.LocalObject implements
     private AServiceImpl aServiceImpl;
     private AServiceInterceptor aServiceInterceptor;
 
+    @Override
     public void pre_init(ORBInitInfo info) {
         try {
             int id = info.allocate_slot_id();
@@ -57,6 +58,7 @@ public class AServiceORBInitializer extends org.omg.CORBA.LocalObject implements
         }
     }
 
+    @Override
     public void post_init(ORBInitInfo info) {
         try {
 

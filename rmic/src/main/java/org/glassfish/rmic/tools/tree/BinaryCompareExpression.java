@@ -39,6 +39,7 @@ class BinaryCompareExpression extends BinaryExpression {
     /**
      * Select the type
      */
+    @Override
     void selectType(Environment env, Context ctx, int tm) {
         Type t = Type.tInt;
         if ((tm & TM_DOUBLE) != 0) {

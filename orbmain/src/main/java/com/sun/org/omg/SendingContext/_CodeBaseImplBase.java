@@ -31,7 +31,7 @@ public abstract class _CodeBaseImplBase extends org.omg.CORBA.portable.ObjectImp
     public _CodeBaseImplBase() {
     }
 
-    private static java.util.Map<String, Integer> _methods = new java.util.HashMap<String, Integer>();
+    private static java.util.Map<String, Integer> _methods = new java.util.HashMap<>();
 
     static {
         _methods.put("get_ir", 0);
@@ -42,12 +42,14 @@ public abstract class _CodeBaseImplBase extends org.omg.CORBA.portable.ObjectImp
         _methods.put("bases", 5);
     }
 
+    @Override
     public org.omg.CORBA.portable.OutputStream _invoke(String method, org.omg.CORBA.portable.InputStream in,
             org.omg.CORBA.portable.ResponseHandler rh) {
         org.omg.CORBA.portable.OutputStream out = rh.createReply();
         java.lang.Integer __method = _methods.get(method);
-        if (__method == null)
+        if (__method == null) {
             throw new org.omg.CORBA.BAD_OPERATION(0, org.omg.CORBA.CompletionStatus.COMPLETED_MAYBE);
+        }
 
         switch (__method.intValue()) {
 
@@ -118,6 +120,7 @@ public abstract class _CodeBaseImplBase extends org.omg.CORBA.portable.ObjectImp
     // Type-specific CORBA::Object operations
     private final static String[] __ids = { "IDL:omg.org/SendingContext/CodeBase:1.0", "IDL:omg.org/SendingContext/RunTime:1.0" };
 
+    @Override
     public String[] _ids() {
         return __ids.clone();
     }

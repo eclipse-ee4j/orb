@@ -79,22 +79,27 @@ public class TcpTimeoutsImpl implements TcpTimeouts {
         }
     }
 
+    @Override
     public int get_initial_time_to_wait() {
         return initial_time_to_wait;
     }
 
+    @Override
     public int get_max_time_to_wait() {
         return max_time_to_wait;
     }
 
+    @Override
     public int get_backoff_factor() {
         return backoff_factor;
     }
 
+    @Override
     public int get_max_single_wait_time() {
         return max_single_wait_time;
     }
 
+    @Override
     public Waiter waiter() {
         return new Waiter() {
             // Use long so that arithmetic works correctly if
@@ -102,6 +107,7 @@ public class TcpTimeoutsImpl implements TcpTimeouts {
             private long current_wait = initial_time_to_wait;
             private long total_time = 0;
 
+            @Override
             public void advance() {
                 if (current_wait != max_single_wait_time) {
                     current_wait = (current_wait * backoff_factor) / 100;
@@ -111,14 +117,17 @@ public class TcpTimeoutsImpl implements TcpTimeouts {
                 }
             }
 
+            @Override
             public void reset() {
                 current_wait = initial_time_to_wait;
             }
 
+            @Override
             public int getTime() {
                 return (int) current_wait;
             }
 
+            @Override
             public int getTimeForSleep() {
                 int result = (int) current_wait;
                 if (total_time < max_time_to_wait) {
@@ -127,10 +136,12 @@ public class TcpTimeoutsImpl implements TcpTimeouts {
                 return result;
             }
 
+            @Override
             public int timeWaiting() {
                 return (int) total_time;
             }
 
+            @Override
             public boolean sleepTime() {
                 if (isExpired()) {
                     return false;
@@ -149,6 +160,7 @@ public class TcpTimeoutsImpl implements TcpTimeouts {
                 return false;
             }
 
+            @Override
             public boolean isExpired() {
                 return total_time >= max_time_to_wait;
             }

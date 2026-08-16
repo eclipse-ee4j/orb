@@ -35,6 +35,7 @@ public class rmiiIServantPOA extends PortableRemoteObject implements rmiiI {
         // DO NOT CALL SUPER - that would connect the object.
     }
 
+    @Override
     public String m(String x) {
         String result = x + " (echo from " + baseMsg + ")";
         U.sop(result);

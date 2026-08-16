@@ -23,6 +23,7 @@ import corba.framework.*;
 import java.util.*;
 
 public class Test extends CORBATest {
+    @Override
     protected void doTest() throws Throwable {
         Controller client = createClient("corba.nortel.Client");
 

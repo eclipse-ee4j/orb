@@ -133,7 +133,7 @@ public class Server implements ORBConfigurator {
             dprint("--------------------------------------------------");
             dprint("ORB.init");
             dprint("--------------------------------------------------");
-            ORB orb = (ORB) ORB.init(av, props);
+            ORB orb = (ORB) org.omg.CORBA.ORB.init(av, props);
 
             dprint("--------------------------------------------------");
             dprint("resolve ReferenceFactoryManager");
@@ -255,6 +255,7 @@ public class Server implements ORBConfigurator {
     // ORBConfigurator
     //
 
+    @Override
     public void configure(DataCollector collector, ORB orb) {
         dprint(".configure->:");
 
@@ -288,6 +289,7 @@ public class Server implements ORBConfigurator {
         public synchronized void deactivate() {
         }
 
+        @Override
         public synchronized Servant preinvoke(byte[] oid, POA adapter, String operation, CookieHolder the_cookie) throws ForwardRequest {
             try {
                 return (Servant) javax.rmi.CORBA.Util.getTie(new EchoTestServant(orb));
@@ -297,6 +299,7 @@ public class Server implements ORBConfigurator {
             return null;
         }
 
+        @Override
         public void postinvoke(byte[] oid, POA adapter, String operation, Object the_cookie, Servant the_servant) {
         }
     }

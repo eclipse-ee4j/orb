@@ -46,32 +46,38 @@ class BatchParser extends Parser {
     /**
      * The current package
      */
+    @Deprecated
     protected Identifier pkg;
 
     /**
      * The current imports
      */
+    @Deprecated
     protected Imports imports;
 
     /**
      * The classes defined in this file
      */
+    @Deprecated
     protected Vector<SourceClass> classes;
 
 
     /**
      * The current class
      */
+    @Deprecated
     protected SourceClass sourceClass;
 
     /**
      * The toplevel environment
      */
+    @Deprecated
     protected Environment toplevelEnv;
 
     /**
      * Create a batch file parser
      */
+    @Deprecated
     public BatchParser(Environment env, InputStream in) throws IOException {
         super(env, in);
 
@@ -83,6 +89,8 @@ class BatchParser extends Parser {
     /**
      * Package declaration
      */
+    @Deprecated
+    @Override
     public void packageDeclaration(long where, IdentifierToken t) {
         Identifier nm = t.getName();
         //System.out.println("package " + nm);
@@ -100,6 +108,8 @@ class BatchParser extends Parser {
     /**
      * Import class
      */
+    @Deprecated
+    @Override
     public void importClass(long pos, IdentifierToken t) {
         //System.out.println("import class " + t);
         imports.addClass(t);
@@ -108,6 +118,8 @@ class BatchParser extends Parser {
     /**
      * Import package
      */
+    @Deprecated
+    @Override
     public void importPackage(long pos, IdentifierToken t) {
         //System.out.println("import package " + t);
         imports.addPackage(t);
@@ -116,6 +128,8 @@ class BatchParser extends Parser {
     /**
      * Define class
      */
+    @Deprecated
+    @Override
     public ClassDefinition beginClass(long where, String doc, int mod,
                                       IdentifierToken t,
                                       IdentifierToken sup,
@@ -132,7 +146,9 @@ class BatchParser extends Parser {
         // masked off while writing the class file, but are preserved in
         // the InnerClasses attributes.
 
-        if (tracing) toplevelEnv.dtEnter("beginClass: " + sourceClass);
+        if (tracing) {
+            toplevelEnv.dtEnter("beginClass: " + sourceClass);
+        }
 
         SourceClass outerClass = sourceClass;
 
@@ -177,8 +193,9 @@ class BatchParser extends Parser {
             // cases in order to avoid interfering with error detection
             // and reporting.  This is patched up, after reporting an
             // error, by 'SourceClass.addMember'.
-            if ((mod & (M_PRIVATE | M_PROTECTED)) == 0)
+            if ((mod & (M_PRIVATE | M_PROTECTED)) == 0) {
                 mod |= M_PUBLIC;
+            }
             // Rule 3b.
             mod |= M_STATIC;
         }
@@ -201,17 +218,23 @@ class BatchParser extends Parser {
         sourceClass.getClassDeclaration().setDefinition(sourceClass, CS_PARSED);
         env = new Environment(toplevelEnv, sourceClass);
 
-        if (tracing) toplevelEnv.dtEvent("beginClass: SETTING UP DEPENDENCIES");
+        if (tracing) {
+            toplevelEnv.dtEvent("beginClass: SETTING UP DEPENDENCIES");
+        }
 
         // The code which adds artificial dependencies between
         // classes in the same source file has been moved to
         // BatchEnvironment#parseFile().
 
-        if (tracing) toplevelEnv.dtEvent("beginClass: ADDING TO CLASS LIST");
+        if (tracing) {
+            toplevelEnv.dtEvent("beginClass: ADDING TO CLASS LIST");
+        }
 
         classes.addElement(sourceClass);
 
-        if (tracing) toplevelEnv.dtExit("beginClass: " + sourceClass);
+        if (tracing) {
+            toplevelEnv.dtExit("beginClass: " + sourceClass);
+        }
 
         return sourceClass;
     }
@@ -219,6 +242,8 @@ class BatchParser extends Parser {
     /**
      * Report the current class under construction.
      */
+    @Deprecated
+    @Override
     public ClassDefinition getCurrentClass() {
         return sourceClass;
     }
@@ -226,24 +251,33 @@ class BatchParser extends Parser {
     /**
      * End class
      */
+    @Deprecated
+    @Override
     public void endClass(long where, ClassDefinition c) {
 
-        if (tracing) toplevelEnv.dtEnter("endClass: " + sourceClass);
+        if (tracing) {
+            toplevelEnv.dtEnter("endClass: " + sourceClass);
+        }
 
         // c == sourceClass; don't bother to check
         sourceClass.setEndPosition(where);
         SourceClass outerClass = (SourceClass) sourceClass.getOuterClass();
         sourceClass = outerClass;
         env = toplevelEnv;
-        if (sourceClass != null)
+        if (sourceClass != null) {
             env = new Environment(env, sourceClass);
+        }
 
-        if (tracing) toplevelEnv.dtExit("endClass: " + sourceClass);
+        if (tracing) {
+            toplevelEnv.dtExit("endClass: " + sourceClass);
+        }
     }
 
     /**
      * Define a method
      */
+    @Deprecated
+    @Override
     public void defineField(long where, ClassDefinition c,
                             String doc, int mod, Type t,
                             IdentifierToken name, IdentifierToken args[],
@@ -254,12 +288,13 @@ class BatchParser extends Parser {
         // so these transformations do not apply to them.  See 'beginClass' above.
         if (sourceClass.isInterface()) {
             // Members of interfaces are implicitly public.
-            if ((mod & (M_PRIVATE | M_PROTECTED)) == 0)
+            if ((mod & (M_PRIVATE | M_PROTECTED)) == 0) {
                 // For interface members, neither 'private' nor 'protected'
                 // are legal modifiers.  Avoid setting M_PUBLIC in some cases
                 // to avoid interfering with later error detection.  This will
                 // be fixed up after the error is reported.
                 mod |= M_PUBLIC;
+            }
             // Methods of interfaces are implicitly abstract.
             // Fields of interfaces are implicitly static and final.
             if (t.isType(TC_METHOD)) {

@@ -55,6 +55,7 @@ public class Server implements InternalProcess {
         }
     }
 
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         try {
             this.out = out;
@@ -212,6 +213,7 @@ public class Server implements InternalProcess {
                 org.omg.CORBA.Object object = createDelayServant(poaList[2]);
                 final delay aDelay = delayHelper.narrow(object);
                 new Thread() {
+                    @Override
                     public void run() {
                         try {
                             aDelay.forInMillis(30000, NOTIFICATION_TOKEN);
@@ -268,6 +270,7 @@ public class Server implements InternalProcess {
                 org.omg.CORBA.Object object = createDelayServant(poaList[1]);
                 final delay aDelay = delayHelper.narrow(object);
                 new Thread() {
+                    @Override
                     public void run() {
                         try {
                             aDelay.forInMillis(30000, NOTIFICATION_TOKEN);

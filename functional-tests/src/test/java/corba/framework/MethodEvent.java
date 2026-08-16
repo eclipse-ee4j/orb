@@ -53,19 +53,23 @@ public class MethodEvent {
         return method;
     }
 
+    @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof MethodEvent))
+        if (!(obj instanceof MethodEvent)) {
             return false;
+        }
 
         MethodEvent other = (MethodEvent) obj;
 
         return (id.equals(other.id) && method.equals(other.method));
     }
 
+    @Override
     public int hashCode() {
         return id.hashCode() ^ method.hashCode();
     }
 
+    @Override
     public String toString() {
         return "MethodEvent[threadId=" + threadId + " id=" + id + " method=" + method + "]";
     }

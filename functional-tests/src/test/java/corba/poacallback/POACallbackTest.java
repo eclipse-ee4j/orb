@@ -24,6 +24,7 @@ import corba.framework.CORBATest;
 import corba.framework.Options;
 
 public class POACallbackTest extends CORBATest {
+    @Override
     protected void doTest() throws Throwable {
         Controller orbd = createORBD();
         Controller server = createServer("corba.poacallback.Server");

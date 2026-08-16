@@ -75,13 +75,16 @@ public class SampleIORInterceptor extends LocalObject implements IORInterceptor 
         registered = true;
     }
 
+    @Override
     public String name() {
         return name;
     }
 
+    @Override
     public void destroy() {
     }
 
+    @Override
     public void establish_components(IORInfo info) {
         out.println("    - establish_components called.");
         establishComponentsCalled = true;
@@ -94,7 +97,7 @@ public class SampleIORInterceptor extends LocalObject implements IORInterceptor 
             ORB initORB = ServerTestInitializer.orb;
             org.omg.CORBA.Object objRef = initORB.resolve_initial_references("CodecFactory");
             CodecFactory codecFactory = CodecFactoryHelper.narrow(objRef);
-            Codec codec = codecFactory.create_codec(new Encoding((short) ENCODING_CDR_ENCAPS.value, (byte) 1, (byte) 2));
+            Codec codec = codecFactory.create_codec(new Encoding(ENCODING_CDR_ENCAPS.value, (byte) 1, (byte) 2));
             Any any = initORB.create_any();
             any.insert_float((float) 3.45);
 
@@ -128,7 +131,7 @@ public class SampleIORInterceptor extends LocalObject implements IORInterceptor 
                 establishComponentsPassed = false;
             } catch (BAD_PARAM e) {
                 out.println("      + Correct exception thrown");
-                if (e.minor != wrapper.INVALID_PROFILE_ID) {
+                if (e.minor != OMGSystemException.INVALID_PROFILE_ID) {
                     out.println("      + Incorrect minor code ( " + e.minor + ") detected.");
                     establishComponentsPassed = false;
                 } else {

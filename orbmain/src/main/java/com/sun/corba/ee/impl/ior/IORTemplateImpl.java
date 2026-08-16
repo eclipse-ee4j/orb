@@ -53,11 +53,9 @@ public class IORTemplateImpl extends IdentifiableContainerBase<TaggedProfileTemp
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null)
+        if ((obj == null) || !(obj instanceof IORTemplateImpl)) {
             return false;
-
-        if (!(obj instanceof IORTemplateImpl))
-            return false;
+        }
 
         IORTemplateImpl other = (IORTemplateImpl) obj;
 
@@ -69,6 +67,7 @@ public class IORTemplateImpl extends IdentifiableContainerBase<TaggedProfileTemp
         return super.hashCode() ^ oktemp.hashCode();
     }
 
+    @Override
     public ObjectKeyTemplate getObjectKeyTemplate() {
         return oktemp;
     }
@@ -77,13 +76,16 @@ public class IORTemplateImpl extends IdentifiableContainerBase<TaggedProfileTemp
         this.oktemp = oktemp;
     }
 
+    @Override
     public IOR makeIOR(ORB orb, String typeid, ObjectId oid) {
         return new IORImpl(orb, typeid, this, oid);
     }
 
+    @Override
     public boolean isEquivalent(IORFactory other) {
-        if (!(other instanceof IORTemplate))
+        if (!(other instanceof IORTemplate)) {
             return false;
+        }
 
         IORTemplate list = (IORTemplate) other;
 
@@ -92,8 +94,9 @@ public class IORTemplateImpl extends IdentifiableContainerBase<TaggedProfileTemp
         while (thisIterator.hasNext() && listIterator.hasNext()) {
             TaggedProfileTemplate thisTemplate = thisIterator.next();
             TaggedProfileTemplate listTemplate = listIterator.next();
-            if (!thisTemplate.isEquivalent(listTemplate))
+            if (!thisTemplate.isEquivalent(listTemplate)) {
                 return false;
+            }
         }
 
         return (thisIterator.hasNext() == listIterator.hasNext()) && getObjectKeyTemplate().equals(list.getObjectKeyTemplate());
@@ -109,6 +112,7 @@ public class IORTemplateImpl extends IdentifiableContainerBase<TaggedProfileTemp
         super.makeImmutable();
     }
 
+    @Override
     public void write(OutputStream os) {
         oktemp.write(os);
         EncapsulationUtility.writeIdentifiableSequence(this, os);

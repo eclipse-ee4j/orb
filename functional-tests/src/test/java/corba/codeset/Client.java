@@ -42,13 +42,15 @@ public class Client {
 
         System.out.println("Testing char...");
         char res = ver.verifyChar(Client.TEST_CHAR);
-        if (res != Client.TEST_CHAR)
+        if (res != Client.TEST_CHAR) {
             throw new Exception("Invalid char result: " + res);
+        }
 
         System.out.println("Testing wchar...");
         res = ver.verifyWChar(Client.TEST_WCHAR);
-        if (res != Client.TEST_WCHAR)
+        if (res != Client.TEST_WCHAR) {
             throw new Exception("Invalid wchar result: (int)" + (int) res);
+        }
 
         System.out.println("Testing string...");
         String sending = new String(latin1);
@@ -86,26 +88,34 @@ public class Client {
         System.arraycopy(latin1, 0, inputCopy, 0, latin1.length);
         TestCharSeqHolder chHolder = new TestCharSeqHolder(inputCopy);
         ver.verifyCharSeq(chHolder);
-        if (chHolder.value == null)
+        if (chHolder.value == null) {
             throw new Exception("Got null char sequence");
-        if (chHolder.value.length != latin1.length)
+        }
+        if (chHolder.value.length != latin1.length) {
             throw new Exception("Result char sequence of different length: " + chHolder.value.length);
-        for (int i = 0; i < latin1.length; i++)
-            if (chHolder.value[i] != latin1[i])
+        }
+        for (int i = 0; i < latin1.length; i++) {
+            if (chHolder.value[i] != latin1[i]) {
                 throw new Exception("Unequal char at idx " + i);
+            }
+        }
 
         System.out.println("Testing wchar sequence...");
         inputCopy = new char[someUnicode.length];
         System.arraycopy(someUnicode, 0, inputCopy, 0, someUnicode.length);
         TestWCharSeqHolder wchHolder = new TestWCharSeqHolder(inputCopy);
         ver.verifyWCharSeq(wchHolder);
-        if (wchHolder.value == null)
+        if (wchHolder.value == null) {
             throw new Exception("Got null wchar sequence");
-        if (wchHolder.value.length != someUnicode.length)
+        }
+        if (wchHolder.value.length != someUnicode.length) {
             throw new Exception("Result wchar sequence of different length: " + wchHolder.value.length);
-        for (int i = 0; i < someUnicode.length; i++)
-            if (wchHolder.value[i] != someUnicode[i])
+        }
+        for (int i = 0; i < someUnicode.length; i++) {
+            if (wchHolder.value[i] != someUnicode[i]) {
                 throw new Exception("Unequal wchar at idx " + i);
+            }
+        }
 
         if (testValueTypes) {
 

@@ -73,26 +73,32 @@ public final class RequestMessage_1_1 extends Message_1_1 implements RequestMess
 
     // Accessor methods (RequestMessage interface)
 
+    @Override
     public ServiceContexts getServiceContexts() {
         return this.service_contexts;
     }
 
+    @Override
     public void setServiceContexts(ServiceContexts sc) {
         this.service_contexts = sc;
     }
 
+    @Override
     public int getRequestId() {
         return this.request_id;
     }
 
+    @Override
     public boolean isResponseExpected() {
         return this.response_expected;
     }
 
+    @Override
     public byte[] getReserved() {
         return this.reserved;
     }
 
+    @Override
     public ObjectKeyCacheEntry getObjectKeyCacheEntry() {
         if (this.entry == null) {
             // this will raise a MARSHAL exception upon errors.
@@ -102,10 +108,12 @@ public final class RequestMessage_1_1 extends Message_1_1 implements RequestMess
         return this.entry;
     }
 
+    @Override
     public String getOperation() {
         return this.operation;
     }
 
+    @Override
     @SuppressWarnings({ "deprecation" })
     public org.omg.CORBA.Principal getPrincipal() {
         return this.requesting_principal;
@@ -113,6 +121,7 @@ public final class RequestMessage_1_1 extends Message_1_1 implements RequestMess
 
     // IO methods
 
+    @Override
     public void read(org.omg.CORBA.portable.InputStream istream) {
         super.read(istream);
         this.service_contexts = ServiceContextDefaults.makeServiceContexts((org.omg.CORBA_2_3.portable.InputStream) istream);
@@ -129,6 +138,7 @@ public final class RequestMessage_1_1 extends Message_1_1 implements RequestMess
         this.requesting_principal = istream.read_Principal();
     }
 
+    @Override
     public void write(org.omg.CORBA.portable.OutputStream ostream) {
         super.write(ostream);
         service_contexts.write((org.omg.CORBA_2_3.portable.OutputStream) ostream, GIOPVersion.V1_1);
@@ -152,6 +162,7 @@ public final class RequestMessage_1_1 extends Message_1_1 implements RequestMess
         }
     }
 
+    @Override
     public void callback(MessageHandler handler) throws java.io.IOException {
         handler.handleInput(this);
     }

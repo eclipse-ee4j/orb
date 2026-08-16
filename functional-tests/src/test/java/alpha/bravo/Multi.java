@@ -23,27 +23,35 @@ public class Multi extends javax.rmi.PortableRemoteObject implements A, B, DuckB
     public Multi() throws java.rmi.RemoteException {
     }
 
+    @Override
     public void hello() throws java.rmi.RemoteException {
     }
 
+    @Override
     public void hello(int x, B y, int z) throws java.rmi.RemoteException {
     }
 
+    @Override
     public void hello(int z[]) throws java.rmi.RemoteException {
     }
 
+    @Override
     public void hello(int z) throws java.rmi.RemoteException {
     }
 
+    @Override
     public void hello(long z) throws java.rmi.RemoteException {
     }
 
+    @Override
     public void jack() throws java.rmi.RemoteException {
     }
 
+    @Override
     public void Jack() throws java.rmi.RemoteException {
     }
 
+    @Override
     public void jAcK() throws java.rmi.RemoteException {
     }
 

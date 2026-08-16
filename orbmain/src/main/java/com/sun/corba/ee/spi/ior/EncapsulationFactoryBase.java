@@ -28,6 +28,7 @@ public abstract class EncapsulationFactoryBase<E extends Identifiable> implement
 
     private int id;
 
+    @Override
     public int getId() {
         return id;
     }
@@ -36,6 +37,7 @@ public abstract class EncapsulationFactoryBase<E extends Identifiable> implement
         this.id = id;
     }
 
+    @Override
     public final E create(ORB orb, InputStream in) {
         InputStream is = EncapsulationUtility.getEncapsulationStream(orb, in);
         return readContents(is);

@@ -29,7 +29,7 @@ public interface IORFactory extends Writeable, MakeImmutable {
     /**
      * Construct an IOR containing the given ORB, typeid, and ObjectId. The same ObjectId will be used for all
      * TaggedProfileTemplates in the IORFactory.
-     * 
+     *
      * @param orb ORB to use
      * @param typeid typeid of IOR
      * @param oid objectId IOR
@@ -40,7 +40,7 @@ public interface IORFactory extends Writeable, MakeImmutable {
     /**
      * Return true iff this.makeIOR(orb,typeid,oid).isEquivalent( other.makeIOR(orb,typeid,oid) for all orb, typeid, and
      * oid.
-     * 
+     *
      * @param other factory to compare with
      * @return true if they are equivalent
      */

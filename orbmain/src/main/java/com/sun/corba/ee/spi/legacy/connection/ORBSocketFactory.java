@@ -47,7 +47,7 @@ import java.net.Socket;
  * <p>
  *
  * Example:
- * 
+ *
  * <pre>
  *   -Dcom.sun.corba.ee.connection.ORBSocketFactoryClass=MySocketFactory
  * </pre>
@@ -94,9 +94,10 @@ public interface ORBSocketFactory {
      * <pre>
      * new java.net.Socket(socketInfo.getHost(), socketInfo.getPort())
      * </pre>
-     * 
+     *
      * @deprecated
      */
+    @Deprecated
     public static final String IIOP_CLEAR_TEXT = "IIOP_CLEAR_TEXT";
 
     /**
@@ -345,13 +346,14 @@ public interface ORBSocketFactory {
      *
      * If this method throws GetEndPointInfoAgainException then the ORB calls <code>getEndPointInfo</code> again, passing it
      * the <code>SocketInfo</code> object contained in the exception.
-     * 
+     *
      * @param socketInfo socket information
      * @throws IOException if an occurred creating the socket
      * @throws GetEndPointInfoAgainException if endpoint info must be retrieved again
      * @return client socket
      * @deprecated
      */
+    @Deprecated
     public Socket createSocket(SocketInfo socketInfo) throws IOException, GetEndPointInfoAgainException;
 }
 

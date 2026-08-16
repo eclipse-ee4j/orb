@@ -48,18 +48,22 @@ public class MaxStreamFormatVersionServiceContextImpl extends ServiceContextBase
         maxStreamFormatVersion = is.read_octet();
     }
 
+    @Override
     public int getId() {
         return SERVICE_CONTEXT_ID;
     }
 
+    @Override
     public void writeData(OutputStream os) {
         os.write_octet(maxStreamFormatVersion);
     }
 
+    @Override
     public byte getMaximumStreamFormatVersion() {
         return maxStreamFormatVersion;
     }
 
+    @Override
     public String toString() {
         return "MaxStreamFormatVersionServiceContextImpl[" + maxStreamFormatVersion + "]";
     }

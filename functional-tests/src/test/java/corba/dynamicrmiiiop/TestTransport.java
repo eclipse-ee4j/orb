@@ -68,8 +68,9 @@ public class TestTransport {
 
     public String readRequestHeader(InputStream is) {
         int header = is.read_long();
-        if (header != REQUEST_HEADER)
+        if (header != REQUEST_HEADER) {
             throw new RuntimeException("InputStream does not begin with REQUEST_HEADER");
+        }
         return is.read_string();
     }
 

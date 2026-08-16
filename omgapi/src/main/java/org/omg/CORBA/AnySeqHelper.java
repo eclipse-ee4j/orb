@@ -69,15 +69,17 @@ public abstract class AnySeqHelper {
         org.omg.CORBA.Any value[] = null;
         int _len0 = istream.read_long();
         value = new org.omg.CORBA.Any[_len0];
-        for (int _o1 = 0; _o1 < value.length; ++_o1)
+        for (int _o1 = 0; _o1 < value.length; ++_o1) {
             value[_o1] = istream.read_any();
+        }
         return value;
     }
 
     public static void write(org.omg.CORBA.portable.OutputStream ostream, org.omg.CORBA.Any[] value) {
         ostream.write_long(value.length);
-        for (int _i0 = 0; _i0 < value.length; ++_i0)
-            ostream.write_any(value[_i0]);
+        for (Any element : value) {
+            ostream.write_any(element);
+        }
     }
 
 }

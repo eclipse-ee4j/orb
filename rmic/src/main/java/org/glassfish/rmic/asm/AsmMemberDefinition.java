@@ -66,11 +66,14 @@ public class AsmMemberDefinition extends MemberDefinition {
     }
 
     private ClassDeclaration[] toClassDeclarations(String[] classNames) {
-        if (classNames == null) return new ClassDeclaration[0];
+        if (classNames == null) {
+            return new ClassDeclaration[0];
+        }
 
         ClassDeclaration[] result = new ClassDeclaration[classNames.length];
-        for (int i = 0; i < classNames.length; i++)
+        for (int i = 0; i < classNames.length; i++) {
             result[i] = new ClassDeclaration(Identifier.lookup(classNames[i].replace('/','.')));
+        }
         return result;
 
     }

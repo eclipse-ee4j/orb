@@ -61,7 +61,7 @@ public class Server {
 
             if (!ColocatedClientServer.isColocated) {
                 U.sop(main + " : creating ORB.");
-                orb = (ORB) ORB.init(av, null);
+                orb = (ORB) org.omg.CORBA.ORB.init(av, null);
                 U.sop(main + " : creating InitialContext.");
                 initialContext = C.createInitialContext(orb);
             }

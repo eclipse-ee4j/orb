@@ -51,6 +51,7 @@ public class TestServantLocator extends org.omg.CORBA.LocalObject implements Ser
         this.firstTime = true;
     }
 
+    @Override
     public Servant preinvoke(byte[] oid, POA adapter, String operation, CookieHolder the_cookie)
             throws org.omg.PortableServer.ForwardRequest {
         out.println("    - TestServantLocator.preinvoke called.");
@@ -63,6 +64,7 @@ public class TestServantLocator extends org.omg.CORBA.LocalObject implements Ser
         return new helloServant(out, "[Hello2]");
     }
 
+    @Override
     public void postinvoke(byte[] oid, POA adapter, String operation, java.lang.Object cookie, Servant servant) {
         out.println("    - TestServantLocator.postinvoke called.");
     }

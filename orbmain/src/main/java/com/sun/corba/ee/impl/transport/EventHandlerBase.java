@@ -47,18 +47,22 @@ public abstract class EventHandlerBase implements EventHandler {
     // EventHandler methods
     //
 
+    @Override
     public void setUseSelectThreadToWait(boolean x) {
         useSelectThreadToWait = x;
     }
 
+    @Override
     public boolean shouldUseSelectThreadToWait() {
         return useSelectThreadToWait;
     }
 
+    @Override
     public void setSelectionKey(SelectionKey selectionKey) {
         this.selectionKey = selectionKey;
     }
 
+    @Override
     public SelectionKey getSelectionKey() {
         return selectionKey;
     }
@@ -75,6 +79,7 @@ public abstract class EventHandlerBase implements EventHandler {
      * NOTE: This is not thread-safe by design. Only one thread should call it - a reader/listener/select thread. Not
      * stateless: interest ops, registration.
      */
+    @Override
     @Transport
     public void handleEvent() {
         getSelectionKey().interestOps(getSelectionKey().interestOps() & (~getInterestOps()));
@@ -99,18 +104,22 @@ public abstract class EventHandlerBase implements EventHandler {
         }
     }
 
+    @Override
     public boolean shouldUseWorkerThreadForEvent() {
         return useWorkerThreadForEvent;
     }
 
+    @Override
     public void setUseWorkerThreadForEvent(boolean x) {
         useWorkerThreadForEvent = x;
     }
 
+    @Override
     public void setWork(Work work) {
         this.work = work;
     }
 
+    @Override
     public Work getWork() {
         return work;
     }

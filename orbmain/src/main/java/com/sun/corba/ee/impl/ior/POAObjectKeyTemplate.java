@@ -40,7 +40,7 @@ public final class POAObjectKeyTemplate extends NewObjectKeyTemplateBase {
 
     /**
      * This constructor reads the template ONLY from the stream.
-     * 
+     *
      * @param orb ORB to use
      * @param magic Magic number
      * @param scid ID of template
@@ -54,7 +54,7 @@ public final class POAObjectKeyTemplate extends NewObjectKeyTemplateBase {
 
     /**
      * This constructor reads a complete ObjectKey (template and Id) from the stream.
-     * 
+     *
      * @param orb ORB to use
      * @param magic Magic number
      * @param scid ID of the Object

@@ -68,14 +68,15 @@ public class ContactInfoListImpl implements ContactInfoList {
 
     private int startCount = 0;
 
-    private UnaryPredicate<ContactInfo> testPred = new UnaryPredicate<ContactInfo>() {
+    private UnaryPredicate<ContactInfo> testPred = new UnaryPredicate<>() {
+        @Override
         public boolean evaluate(ContactInfo arg) {
             return !arg.getType().equals(SocketInfo.IIOP_CLEAR_TEXT);
         }
     };
 
     private <T> List<T> filter(List<T> arg, UnaryPredicate<T> pred) {
-        List<T> result = new ArrayList<T>();
+        List<T> result = new ArrayList<>();
         for (T elem : arg) {
             if (pred.evaluate(elem)) {
                 result.add(elem);
@@ -85,7 +86,7 @@ public class ContactInfoListImpl implements ContactInfoList {
         return result;
     }
 
-    private static ThreadLocal<Boolean> skipRotate = new ThreadLocal<Boolean>() {
+    private static ThreadLocal<Boolean> skipRotate = new ThreadLocal<>() {
         @Override
         protected Boolean initialValue() {
             return false;
@@ -127,7 +128,7 @@ public class ContactInfoListImpl implements ContactInfoList {
             // The GIS will return types like "iiop-listener-1", but we also get
             // IIOP_CLEAR_TEXT for some, for both SSL and non-SSL ports. Invoking
             // clear on an SSL port leads to bad failures that are not retryable.
-            tempList = new LinkedList<ContactInfo>(filter(arg, testPred));
+            tempList = new LinkedList<>(filter(arg, testPred));
 
             // Really should just be this:
             // tempList = new LinkedList<CorbaContactInfo>( arg ) ;
@@ -159,6 +160,7 @@ public class ContactInfoListImpl implements ContactInfoList {
         setTargetIOR(targetIOR);
     }
 
+    @Override
     public synchronized Iterator<ContactInfo> iterator() {
         createContactInfoList();
         Iterator<ContactInfo> result = new ContactInfoListIteratorImpl(orb, this, primaryContactInfo,
@@ -183,11 +185,13 @@ public class ContactInfoListImpl implements ContactInfoList {
     // spi.transport.CorbaContactInfoList
     //
 
+    @Override
     public synchronized void setTargetIOR(IOR targetIOR) {
         this.targetIOR = targetIOR;
         setEffectiveTargetIOR(targetIOR);
     }
 
+    @Override
     public synchronized IOR getTargetIOR() {
         return targetIOR;
     }
@@ -210,6 +214,7 @@ public class ContactInfoListImpl implements ContactInfoList {
     private void changingEffectiveAddress(IIOPAddress oldAddr, IIOPAddress newAddr) {
     }
 
+    @Override
     @Transport
     public synchronized void setEffectiveTargetIOR(IOR newIOR) {
         if (targetIOR != null) {
@@ -251,10 +256,12 @@ public class ContactInfoListImpl implements ContactInfoList {
         }
     }
 
+    @Override
     public synchronized IOR getEffectiveTargetIOR() {
         return effectiveTargetIOR;
     }
 
+    @Override
     public synchronized LocalClientRequestDispatcher getLocalClientRequestDispatcher() {
         lcrdLock.readLock().lock();
         try {
@@ -283,10 +290,7 @@ public class ContactInfoListImpl implements ContactInfoList {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if ((obj == null) || (getClass() != obj.getClass())) {
             return false;
         }
         final ContactInfoListImpl other = (ContactInfoListImpl) obj;

@@ -46,6 +46,7 @@ public class RemoteTestExample extends RemoteTest {
      * Return an array of fully qualified remote servant class names for which ties/skels need to be generated. Return empty
      * array if none.
      */
+    @Override
     protected String[] getRemoteServantClasses() {
         return compileEm;
     }
@@ -54,6 +55,7 @@ public class RemoteTestExample extends RemoteTest {
      * Append additional (i.e. after -iiop and before classes) rmic arguments to 'currentArgs'. This implementation will set
      * the output directory if the OUTPUT_DIRECTORY flag was passed on the command line.
      */
+    @Override
     protected String[] getAdditionalRMICArgs(String[] currentArgs) {
         if (iiop) {
             String[] ourArgs = { "-alwaysGenerate" };
@@ -65,9 +67,10 @@ public class RemoteTestExample extends RemoteTest {
 
     /**
      * Perform the test.
-     * 
+     *
      * @param context The context returned by getServantContext().
      */
+    @Override
     public void doTest(ServantContext context) throws Throwable {
 
         // Start up our servant. (The 'iiop' flag is set to true by RemoteTest

@@ -43,6 +43,7 @@ public abstract class DSIPOAServer extends ServerCommon {
     POA rootPOA;
 
     // To be invoked by subclass after orb is created.
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         try {
             // Get the root POA:

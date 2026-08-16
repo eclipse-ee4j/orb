@@ -47,9 +47,11 @@ class InlineNewInstanceExpression extends Expression {
     /**
      * Inline
      */
+    @Override
     public Expression inline(Environment env, Context ctx) {
         return inlineValue(env, ctx);
     }
+    @Override
     public Expression inlineValue(Environment env, Context ctx) {
         if (body != null) {
             LocalMember v = (LocalMember)field.getArguments().elementAt(0);
@@ -66,6 +68,7 @@ class InlineNewInstanceExpression extends Expression {
     /**
      * Create a copy of the expression for method inlining
      */
+    @Override
     public Expression copyInline(Context ctx) {
         InlineNewInstanceExpression e = (InlineNewInstanceExpression)clone();
         e.body = body.copyInline(ctx, true);
@@ -75,9 +78,11 @@ class InlineNewInstanceExpression extends Expression {
     /**
      * Code
      */
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         codeCommon(env, ctx, asm, false);
     }
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         codeCommon(env, ctx, asm, true);
     }
@@ -100,6 +105,7 @@ class InlineNewInstanceExpression extends Expression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         LocalMember v = (LocalMember)field.getArguments().elementAt(0);
         out.println("(" + opNames[op] + "#" + v.hashCode() + "=" + field.hashCode());

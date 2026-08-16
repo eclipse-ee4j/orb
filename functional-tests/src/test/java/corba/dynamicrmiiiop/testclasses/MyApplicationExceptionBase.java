@@ -24,17 +24,21 @@ public class MyApplicationExceptionBase extends Exception {
         super(msg);
     }
 
+    @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
+        }
 
-        if (!obj.getClass().equals(getClass()))
+        if (!obj.getClass().equals(getClass())) {
             return false;
+        }
 
         MyApplicationExceptionBase other = (MyApplicationExceptionBase) obj;
 
-        if (getMessage() == null)
+        if (getMessage() == null) {
             return other.getMessage() == null;
+        }
 
         return getMessage().equals(other.getMessage());
     }

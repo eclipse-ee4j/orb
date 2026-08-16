@@ -34,10 +34,12 @@ public class Budget implements Investment, Serializable {
         fBudgetItems = new Vector();
     }
 
+    @Override
     public String getName() {
         return fName;
     }
 
+    @Override
     public void invest(long dollars) {
         balance();
 
@@ -86,8 +88,9 @@ public class Budget implements Investment, Serializable {
                 difference += change;
 
                 i++;
-                if (i == numberOfBudgetItems())
+                if (i == numberOfBudgetItems()) {
                     i = 0;
+                }
             }
         }
 
@@ -129,7 +132,7 @@ public class Budget implements Investment, Serializable {
         for (int i = 0; i < numItems; i++) {
             BudgetItem item = (BudgetItem) fBudgetItems.elementAt(i);
             names[i] = item.getName();
-            percentages[i] = ((double) item.getPercentage()) / 100.0;
+            percentages[i] = (item.getPercentage()) / 100.0;
         }
 
         return new BudgetSummary(numItems, names, percentages);
@@ -147,6 +150,7 @@ public class Budget implements Investment, Serializable {
 
     }
 
+    @Override
     public String toString() {
         String s = getName() + " (";
         for (int i = 0; i < fBudgetItems.size(); i++) {

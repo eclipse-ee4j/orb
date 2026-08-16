@@ -29,13 +29,17 @@ package org.glassfish.rmic.tools.javac;
 @Deprecated
 final
 class ErrorMessage {
+    @Deprecated
     long where;
+    @Deprecated
     String message;
+    @Deprecated
     ErrorMessage next;
 
     /**
      * Constructor
      */
+    @Deprecated
     ErrorMessage(long where, String message) {
         this.where = where;
         this.message = message;

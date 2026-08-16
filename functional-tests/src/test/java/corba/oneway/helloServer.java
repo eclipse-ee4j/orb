@@ -27,11 +27,13 @@ import org.omg.CosNaming.NamingContext;
 import org.omg.CosNaming.NamingContextHelper;
 
 class helloServant extends _helloImplBase {
+    @Override
     public void shutdown() {
         System.err.println("In helloServant.shutdown, exiting..");
         System.exit(0);
     }
 
+    @Override
     public void sayHello() {
         System.err.println("In helloServant.sayHello(), waiting forever..");
         // Wait forever

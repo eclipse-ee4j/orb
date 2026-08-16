@@ -65,7 +65,7 @@ public class Client {
 
             Properties props = new Properties();
             props.setProperty("com.sun.corba.ee.ORBDebug", "subcontract");
-            orb = (com.sun.corba.ee.spi.orb.ORB) ORB.init(av, props);
+            orb = (com.sun.corba.ee.spi.orb.ORB) org.omg.CORBA.ORB.init(av, props);
             stats = new ConnectionStatistics(orb);
 
             U.sop(name + " InitialContext ...");
@@ -123,8 +123,8 @@ public class Client {
         RemoteInterface result = (RemoteInterface) U.lookupAndNarrow(rn, RemoteInterface.class, initialContext);
 
         if (false) {
-            com.sun.corba.ee.spi.ior.IOR ior = ((com.sun.corba.ee.spi.transport.ContactInfoList) ((com.sun.corba.ee.spi.protocol.ClientDelegate) StubAdapter
-                    .getDelegate(result)).getContactInfoList()).getTargetIOR();
+            com.sun.corba.ee.spi.ior.IOR ior = ((com.sun.corba.ee.spi.protocol.ClientDelegate) StubAdapter
+                    .getDelegate(result)).getContactInfoList().getTargetIOR();
 
             ORB thisOrb = (ORB) StubAdapter.getORB(result);
 
@@ -161,12 +161,12 @@ public class Client {
     }
 
     public static void outbound(String msg) {
-        stats.outbound(name + " " + msg, (com.sun.corba.ee.spi.orb.ORB) orb);
+        stats.outbound(name + " " + msg, orb);
     }
 
     public static void inbound(String msg) {
         if (showInbound) {
-            stats.inbound(name + " " + msg, (com.sun.corba.ee.spi.orb.ORB) orb);
+            stats.inbound(name + " " + msg, orb);
         }
     }
 }
@@ -178,6 +178,7 @@ class BlockThread extends Thread {
         this.r = r;
     }
 
+    @Override
     public void run() {
         try {
             r.block();
@@ -200,6 +201,7 @@ class CallThread extends Thread {
         this.printResult = printResult;
     }
 
+    @Override
     public void run() {
         doWork();
     }
@@ -207,7 +209,7 @@ class CallThread extends Thread {
     public void doWork() {
         try {
             U.sop(i + ": CallThread ORB.init:");
-            ORB orb = (ORB) ORB.init((String[]) null, null);
+            ORB orb = (ORB) org.omg.CORBA.ORB.init((String[]) null, null);
             U.sop(i + ": CallThread InitialContext:");
             InitialContext initialContext = C.createInitialContext(orb);
             U.sop(i + ": CallThread lookup:");

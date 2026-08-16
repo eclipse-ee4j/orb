@@ -29,7 +29,7 @@ import java.util.Iterator;
  * Convenience class for defining objects that contain lists of Identifiables. Mainly implements iteratorById. Also note
  * that the constructor creates the list, which here is always an ArrayList, as this is much more efficient overall for
  * short lists.
- * 
+ *
  * @author Ken Cavanaugh
  */
 public class IdentifiableContainerBase<E extends Identifiable> extends FreezableList<E> {
@@ -37,25 +37,26 @@ public class IdentifiableContainerBase<E extends Identifiable> extends Freezable
      * Create this class with an empty list of identifiables. The current implementation uses an ArrayList.
      */
     public IdentifiableContainerBase() {
-        super(new ArrayList<E>());
+        super(new ArrayList<>());
     }
 
     /**
      * Return an iterator which iterates over all contained {@link Identifiable Identifiables} with type given by id.
-     * 
+     *
      * @param id id of type
      * @return Iterator of contained {@link Identifiable Identifiables}
      */
     public Iterator<E> iteratorById(final int id) {
-        return new Iterator<E>() {
+        return new Iterator<>() {
             Iterator<E> iter = IdentifiableContainerBase.this.iterator();
             E current = advance();
 
             private E advance() {
                 while (iter.hasNext()) {
                     E ide = iter.next();
-                    if (ide.getId() == id)
+                    if (ide.getId() == id) {
                         return ide;
+                    }
                 }
 
                 return null;

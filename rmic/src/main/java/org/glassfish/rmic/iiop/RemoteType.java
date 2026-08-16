@@ -52,7 +52,9 @@ public class RemoteType extends InterfaceType {
                                        ContextStack stack,
                                        boolean quiet) {
 
-        if (stack.anyErrors()) return null;
+        if (stack.anyErrors()) {
+            return null;
+        }
 
         boolean doPop = false;
         RemoteType result = null;
@@ -65,7 +67,9 @@ public class RemoteType extends InterfaceType {
 
             if (existing != null) {
 
-                if (!(existing instanceof RemoteType)) return null; // False hit.
+                if (!(existing instanceof RemoteType)) {
+                    return null; // False hit.
+                }
 
                                 // Yep, so return it...
 
@@ -92,7 +96,9 @@ public class RemoteType extends InterfaceType {
                 }
             }
         } catch (CompilerError e) {
-            if (doPop) stack.pop(false);
+            if (doPop) {
+                stack.pop(false);
+            }
         }
 
         return result;
@@ -142,7 +148,9 @@ public class RemoteType extends InterfaceType {
                 failedConstraint(16,quiet,stack,classDef.getName());
             } else {
                 result = env.defRemote.implementedBy(env,classDef.getClassDeclaration());
-                if (!result) failedConstraint(1,quiet,stack,classDef.getName());
+                if (!result) {
+                    failedConstraint(1,quiet,stack,classDef.getName());
+                }
             }
         } catch (ClassNotFound e) {
             classNotFound(stack,e);
@@ -204,19 +212,15 @@ public class RemoteType extends InterfaceType {
 
             // Get all remote interfaces...
 
-            if (addRemoteInterfaces(directInterfaces,false,stack) == null ) {
-                return false;
-            }
+            
 
             // Make sure all constants are conforming...
 
-            if (!addAllMembers(directConstants,true,quiet,stack)) {
-                return false;
-            }
+            
 
             // Now, collect up all methods...
 
-            if (addAllMethods(theInterface,directMethods,true,quiet,stack) == null) {
+            if ((addRemoteInterfaces(directInterfaces,false,stack) == null) || !addAllMembers(directConstants,true,quiet,stack) || (addAllMethods(theInterface,directMethods,true,quiet,stack) == null)) {
                 // Failed a constraint check...
                 return false;
             }

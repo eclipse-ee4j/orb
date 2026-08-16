@@ -29,6 +29,7 @@ public class CustomMarshalledValueType implements java.io.Serializable {
         }
     }
 
+    @Override
     public boolean equals(Object o) {
         if (o instanceof CustomMarshalledValueType) {
             byte[] oBody = ((CustomMarshalledValueType) o).body;
@@ -37,14 +38,16 @@ public class CustomMarshalledValueType implements java.io.Serializable {
                 return false;
             } else {
                 boolean e = true;
-                for (int i = 0; i < oBody.length; i++)
+                for (int i = 0; i < oBody.length; i++) {
                     e = e && (oBody[i] == this.body[i]);
+                }
                 System.out.println("Compared all body elements");
                 return e;
             }
 
-        } else
+        } else {
             return false;
+        }
     }
 
     private void writeObject(java.io.ObjectOutputStream stream) throws java.io.IOException {

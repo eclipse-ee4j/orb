@@ -86,6 +86,7 @@ public abstract interface ContactInfo extends SocketInfo {
      *
      * @return the hash value.
      */
+    @Override
     public int hashCode();
 }
 

@@ -50,10 +50,12 @@ public class GroupInfoServiceTestServant extends PortableRemoteObject implements
         this.gis = gis;
     }
 
+    @Override
     public boolean addInstance(final String x) throws RemoteException {
         dprint(".add->: " + x);
         // Must be done on a different thread so requests can drain.
         new Thread() {
+            @Override
             public void run() {
                 gis.add(x);
             }
@@ -62,10 +64,12 @@ public class GroupInfoServiceTestServant extends PortableRemoteObject implements
         return true;
     }
 
+    @Override
     public boolean removeInstance(final String x) throws RemoteException {
         dprint(".remove->: " + x);
         // Must be done on a different thread so requests can drain.
         new Thread() {
+            @Override
             public void run() {
                 gis.remove(x);
             }
@@ -74,6 +78,7 @@ public class GroupInfoServiceTestServant extends PortableRemoteObject implements
         return true;
     }
 
+    @Override
     public boolean addAcceptor(String x) throws RemoteException {
         dprint(".add->: " + x);
         boolean result = U.registerAcceptor(x, ((Integer) corba.folb_8_1.Common.socketTypeToPort.get(x)).intValue(), orb);
@@ -81,6 +86,7 @@ public class GroupInfoServiceTestServant extends PortableRemoteObject implements
         return result;
     }
 
+    @Override
     public boolean removeAcceptorAndConnections(String x) throws RemoteException {
         dprint(".remove->: " + x);
         boolean result = U.unregisterAcceptorAndCloseConnections(x, orb);
@@ -88,6 +94,7 @@ public class GroupInfoServiceTestServant extends PortableRemoteObject implements
         return result;
     }
 
+    @Override
     public void doThreadDump() throws RemoteException {
         try {
             dprint(".doThreadDump->:\n");

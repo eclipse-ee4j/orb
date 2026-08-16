@@ -41,8 +41,9 @@ public class WStringValueHelperTest extends CORBATest {
 
         TypeCode tc = WStringValueHelper.type();
 
-        while (tc.kind().equals(TCKind.tk_alias))
+        while (tc.kind().equals(TCKind.tk_alias)) {
             tc = tc.content_type();
+        }
 
         if (!tc.kind().equals(TCKind.tk_value_box) || !tc.content_type().kind().equals(TCKind.tk_wstring)) {
             Exception exc = new Exception("Bad TypeCode from WStringValueHelper: " + " kind: " + tc.content_type().kind().value());
@@ -69,22 +70,27 @@ public class WStringValueHelperTest extends CORBATest {
             StringTokenizer stok = new StringTokenizer(version, ". -_b", false);
 
             int major = Integer.parseInt(stok.nextToken());
-            if (major > 1)
+            if (major > 1) {
                 return true;
+            }
 
-            if (!stok.hasMoreTokens())
+            if (!stok.hasMoreTokens()) {
                 return false;
+            }
 
             int dot1 = Integer.parseInt(stok.nextToken());
-            if (dot1 > 4)
+            if (dot1 > 4) {
                 return true;
+            }
 
-            if (!stok.hasMoreTokens())
+            if (!stok.hasMoreTokens()) {
                 return false;
+            }
 
             int dot2 = Integer.parseInt(stok.nextToken());
-            if (dot2 == 0)
+            if (dot2 == 0) {
                 return false;
+            }
 
             return true;
 
@@ -95,6 +101,7 @@ public class WStringValueHelperTest extends CORBATest {
         }
     }
 
+    @Override
     protected void doTest() throws Throwable {
         System.out.println();
 

@@ -32,7 +32,7 @@ public class ORBInitRefResolverImpl implements Resolver {
 
     /**
      * Creates a new Resolver
-     * 
+     *
      * @param urlHandler operation to get reference from URL
      * @param initRefs an array of Pairs of &lt;name of CORBA object, URL to get reference with&gt;
      */
@@ -40,8 +40,7 @@ public class ORBInitRefResolverImpl implements Resolver {
         this.urlHandler = urlHandler;
         orbInitRefTable = new java.util.HashMap();
 
-        for (int i = 0; i < initRefs.length; i++) {
-            Pair<String, String> sp = initRefs[i];
+        for (Pair<String, String> sp : initRefs) {
             orbInitRefTable.put(sp.first(), sp.second());
         }
     }
@@ -49,8 +48,9 @@ public class ORBInitRefResolverImpl implements Resolver {
     @Override
     public org.omg.CORBA.Object resolve(String ident) {
         String url = (String) orbInitRefTable.get(ident);
-        if (url == null)
+        if (url == null) {
             return null;
+        }
 
         org.omg.CORBA.Object result = (org.omg.CORBA.Object) urlHandler.operate(url);
         return result;

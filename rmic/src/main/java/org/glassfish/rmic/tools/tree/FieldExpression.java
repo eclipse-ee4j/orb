@@ -65,9 +65,11 @@ class FieldExpression extends UnaryExpression {
         this.field = field;
     }
 
+    @Override
     public Expression getImplementation() {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation;
+        }
         return this;
     }
 
@@ -179,6 +181,7 @@ class FieldExpression extends UnaryExpression {
      * Convert an '.' expression to a type
      */
 
+    @Override
     // This is a rewrite to treat qualified names in a
     // context in which a type name is expected in the
     // same way that they are handled for an ambiguous
@@ -222,6 +225,7 @@ class FieldExpression extends UnaryExpression {
      * Check if the present name is part of a scoping prefix.
      */
 
+    @Override
     public Vset checkAmbigName(Environment env, Context ctx,
                                Vset vset, Hashtable<Object, Object> exp,
                                UnaryExpression loc) {
@@ -235,6 +239,7 @@ class FieldExpression extends UnaryExpression {
      * Check the expression
      */
 
+    @Override
     public Vset checkValue(Environment env, Context ctx,
                            Vset vset, Hashtable<Object, Object> exp) {
         vset = checkCommon(env, ctx, vset, exp, null, false);
@@ -261,8 +266,9 @@ class FieldExpression extends UnaryExpression {
                                           boolean mustBeType) {
         // Find the leftmost component, and put the blame on it.
         Expression idp = right;
-        while (idp instanceof UnaryExpression)
+        while (idp instanceof UnaryExpression) {
             idp = ((UnaryExpression)idp).right;
+        }
         IdentifierExpression ie = (IdentifierExpression)idp;
 
         // It may be that 'ie' refers to an ambiguous class.  Check this
@@ -631,9 +637,10 @@ class FieldExpression extends UnaryExpression {
                 // outer class, which is necessarily accessible.
 
                 /*** Temporary assertion check ***/
-                if (ctx.field.isSynthetic())
+                if (ctx.field.isSynthetic()) {
                     throw new CompilerError("synthetic qualified this");
                 /*********************************/
+                }
 
                 // A.this means we're inside an A and we want its self ptr.
                 // C.this is always the same as this when C is innermost.
@@ -799,6 +806,7 @@ class FieldExpression extends UnaryExpression {
      */
 
 
+    @Override
     public FieldUpdater getAssigner(Environment env, Context ctx) {
         if (field == null) {
             // Field can legitimately be null if the field name was
@@ -830,6 +838,7 @@ class FieldExpression extends UnaryExpression {
      * Must be called after 'checkValue', else 'right' will be invalid.
      */
 
+    @Override
     public FieldUpdater getUpdater(Environment env, Context ctx) {
         if (field == null) {
             // Field can legitimately be null if the field name was
@@ -896,9 +905,10 @@ class FieldExpression extends UnaryExpression {
         }
 
         ctxClass.addDependency(field.getClassDeclaration());
-        if (loc == null)
+        if (loc == null) {
             // Complain about a free-floating type name.
             return te.checkValue(env, ctx, vset, exp);
+        }
         loc.right = te;
         return vset;
     }
@@ -906,6 +916,7 @@ class FieldExpression extends UnaryExpression {
     /**
      * Check the expression if it appears on the LHS of an assignment
      */
+    @Override
     public Vset checkLHS(Environment env, Context ctx,
                          Vset vset, Hashtable<Object, Object> exp) {
         boolean hadField = (field != null);
@@ -948,6 +959,7 @@ class FieldExpression extends UnaryExpression {
     /**
      * Check the expression if it appears on the LHS of an op= expression
      */
+    @Override
     public Vset checkAssignOp(Environment env, Context ctx,
                               Vset vset, Hashtable<Object, Object> exp, Expression outside) {
 
@@ -1101,9 +1113,11 @@ class FieldExpression extends UnaryExpression {
     /**
      * Check if constant:  Will it inline away?
      */
+    @Override
     public boolean isConstant() {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.isConstant();
+        }
         if ((field != null)
             && (right == null || right instanceof TypeExpression
                 || (right.op == THIS && right.where == where))) {
@@ -1115,9 +1129,11 @@ class FieldExpression extends UnaryExpression {
     /**
      * Inline
      */
+    @Override
     public Expression inline(Environment env, Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.inline(env, ctx);
+        }
         // A field expression may have the side effect of causing
         // a NullPointerException, so evaluate it even though
         // the value is not needed.  Similarly, static field dereferences
@@ -1130,18 +1146,21 @@ class FieldExpression extends UnaryExpression {
         Expression e = inlineValue(env, ctx);
         if (e instanceof FieldExpression) {
             FieldExpression fe = (FieldExpression) e;
-            if ((fe.right != null) && (fe.right.op==THIS))
+            if ((fe.right != null) && (fe.right.op==THIS)) {
                 return null;
             // It should be possible to split this into two checks: one using
             // isNonNull() for non-statics and a different check for statics.
             // That would make the inlining slightly less conservative by
             // allowing, for example, dotting into String constants.
             }
+            }
         return e;
     }
+    @Override
     public Expression inlineValue(Environment env, Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.inlineValue(env, ctx);
+        }
         try {
             if (field == null) {
                 return this;
@@ -1174,9 +1193,11 @@ class FieldExpression extends UnaryExpression {
             throw new CompilerError(e);
         }
     }
+    @Override
     public Expression inlineLHS(Environment env, Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.inlineLHS(env, ctx);
+        }
         if (right != null) {
             if (field.isStatic()) {
                 Expression e = right.inline(env, ctx);
@@ -1191,18 +1212,22 @@ class FieldExpression extends UnaryExpression {
         return this;
     }
 
+    @Override
     public Expression copyInline(Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.copyInline(ctx);
+        }
         return super.copyInline(ctx);
     }
 
     /**
      * The cost of inlining this expression
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.costInline(thresh, env, ctx);
+        }
         if (ctx == null) {
             return 3 + ((right == null) ? 0
                                         : right.costInline(thresh, env, ctx));
@@ -1231,9 +1256,11 @@ class FieldExpression extends UnaryExpression {
     /**
      * Code
      */
+    @Override
     int codeLValue(Environment env, Context ctx, Assembler asm) {
-        if (implementation != null)
+        if (implementation != null) {
             throw new CompilerError("codeLValue");
+        }
         if (field.isStatic()) {
             if (right != null) {
                 right.code(env, ctx, asm);
@@ -1244,6 +1271,7 @@ class FieldExpression extends UnaryExpression {
         right.codeValue(env, ctx, asm);
         return 1;
     }
+    @Override
     void codeLoad(Environment env, Context ctx, Assembler asm) {
         if (field == null) {
             throw new CompilerError("should not be null");
@@ -1254,6 +1282,7 @@ class FieldExpression extends UnaryExpression {
             asm.add(where, opc_getfield, field);
         }
     }
+    @Override
     void codeStore(Environment env, Context ctx, Assembler asm) {
         if (field.isStatic()) {
             asm.add(where, opc_putstatic, field);
@@ -1262,6 +1291,7 @@ class FieldExpression extends UnaryExpression {
         }
     }
 
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         codeLValue(env, ctx, asm);
         codeLoad(env, ctx, asm);
@@ -1270,6 +1300,7 @@ class FieldExpression extends UnaryExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print("(");
         if (right != null) {

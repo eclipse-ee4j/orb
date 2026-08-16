@@ -43,7 +43,7 @@ public class GIOPVersion {
     // Major version 13 is used to denote special encodings.
     // Minor version 00 is unused.
     // Minor version [01-FF] specifies Java serialization encoding version.
-    public static final GIOPVersion V13_XX = new GIOPVersion((byte) 13, (byte) ORBConstants.JAVA_ENC_VERSION);
+    public static final GIOPVersion V13_XX = new GIOPVersion((byte) 13, ORBConstants.JAVA_ENC_VERSION);
 
     public static final GIOPVersion DEFAULT_VERSION = V1_2;
 
@@ -97,13 +97,16 @@ public class GIOPVersion {
         return gv.major == this.major && gv.minor == this.minor;
     }
 
+    @Override
     public boolean equals(Object obj) {
-        if (obj != null && (obj instanceof GIOPVersion))
+        if (obj != null && (obj instanceof GIOPVersion)) {
             return equals((GIOPVersion) obj);
-        else
+        } else {
             return false;
+        }
     }
 
+    @Override
     public int hashCode() {
         return 37 * major + minor;
     }
@@ -124,6 +127,7 @@ public class GIOPVersion {
         return (major << 8 | minor);
     }
 
+    @Override
     public String toString() {
         return major + "." + minor;
     }
@@ -148,8 +152,9 @@ public class GIOPVersion {
     public static GIOPVersion parseVersion(String s) {
         int dotIdx = s.indexOf('.');
 
-        if (dotIdx < 1 || dotIdx == s.length() - 1)
+        if (dotIdx < 1 || dotIdx == s.length() - 1) {
             throw new NumberFormatException("GIOP major, minor, and decimal point required: " + s);
+        }
 
         int major = Integer.parseInt(s.substring(0, dotIdx));
         int minor = Integer.parseInt(s.substring(dotIdx + 1, s.length()));

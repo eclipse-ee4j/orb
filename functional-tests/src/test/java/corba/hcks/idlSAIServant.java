@@ -34,22 +34,27 @@ class idlSAIServant extends idlSAIPOA {
         this.orb = orb;
     }
 
+    @Override
     public String raiseForwardRequestInIncarnate(String a) {
         return a;
     }
 
+    @Override
     public String raiseObjectNotExistInIncarnate(String a) {
         return a;
     }
 
+    @Override
     public String raiseSystemExceptionInIncarnate(String a) {
         return a;
     }
 
+    @Override
     public String makeColocatedCallFromServant() {
         return C.makeColocatedCallFromServant(C.idlSAI2, orb, clazz);
     }
 
+    @Override
     public String colocatedCallFromServant(String a) {
         return C.colocatedCallFromServant(a, orb, clazz);
     }

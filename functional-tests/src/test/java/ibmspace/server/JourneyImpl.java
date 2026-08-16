@@ -56,18 +56,22 @@ public class JourneyImpl implements Journey, java.io.Serializable {
     // Journey Interface Methods
     //
 
+    @Override
     public ID getID() {
         return fID;
     }
 
+    @Override
     public Planet getOrigin() {
         return fOrigin;
     }
 
+    @Override
     public Planet getDestination() {
         return fDestination;
     }
 
+    @Override
     public double getPercentComplete() {
         return (double) fDistanceTraveled / (double) fTotalDistance;
     }

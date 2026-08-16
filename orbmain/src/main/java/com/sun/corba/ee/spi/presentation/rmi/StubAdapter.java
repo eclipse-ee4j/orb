@@ -176,7 +176,7 @@ public abstract class StubAdapter {
 
     public static void connect(Object stub, ORB orb) throws java.rmi.RemoteException {
         if (stub instanceof DynamicStub) {
-            ((DynamicStub) stub).connect((com.sun.corba.ee.spi.orb.ORB) orb);
+            ((DynamicStub) stub).connect(orb);
         } else if (stub instanceof javax.rmi.CORBA.Stub) {
             ((javax.rmi.CORBA.Stub) stub).connect(orb);
         } else if (stub instanceof ObjectImpl) {

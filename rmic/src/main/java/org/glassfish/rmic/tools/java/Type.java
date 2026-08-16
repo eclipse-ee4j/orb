@@ -144,8 +144,9 @@ class Type implements Constants {
         }
         // If this is an array, find out what its element type is.
         Type type = this;
-        while (type.isType(TC_ARRAY))
+        while (type.isType(TC_ARRAY)) {
             type = type.getElementType();
+        }
 
         return type.isType(TC_VOID);
     }
@@ -193,10 +194,11 @@ class Type implements Constants {
     public static synchronized Type tClass(Identifier className) {
         if (className.isInner()) {
             Type t = tClass(mangleInnerType(className));
-            if (t.getClassName() != className)
+            if (t.getClassName() != className) {
                 // Somebody got here first with a mangled name.
                 // (Perhaps it came from a binary.)
                 changeClassName(t.getClassName(), className);
+            }
             return t;
         }
         // see if we've cached the object in the Identifier
@@ -233,11 +235,15 @@ class Type implements Constants {
 
     public static Identifier mangleInnerType(Identifier className) {
         // Map "pkg.Foo. Bar" to "pkg.Foo$Bar".
-        if (!className.isInner())  return className;
+        if (!className.isInner()) {
+            return className;
+        }
         Identifier mname = Identifier.lookup(
                                 className.getFlatName().toString().
                                 replace('.', SIGC_INNERCLASS) );
-        if (mname.isInner())  throw new CompilerError("mangle "+mname);
+        if (mname.isInner()) {
+            throw new CompilerError("mangle "+mname);
+        }
         return Identifier.lookup(className.getQualifier(), mname);
     }
 
@@ -321,9 +327,13 @@ class Type implements Constants {
             int i, j;
 
             for (i = 1 ; sig.charAt(i) != SIGC_ENDMETHOD ; i = j) {
-                for (j = i ; sig.charAt(j) == SIGC_ARRAY ; j++);
+                for (j = i ; sig.charAt(j) == SIGC_ARRAY ; j++) {
+                    
+                }
                 if (sig.charAt(j++) == SIGC_CLASS) {
-                    while (sig.charAt(j++) != SIGC_ENDCLASS);
+                    while (sig.charAt(j++) != SIGC_ENDCLASS) {
+                        
+                    }
                 }
                 if (argc == argv.length) {
                     Type newargv[] = new Type[argc * 2];
@@ -425,7 +435,9 @@ class Type implements Constants {
           case TC_FLOAT:        s = "float";   break;
           case TC_DOUBLE:       s = "double";  break;
           case TC_ERROR:        s = "<error>";
-                                if (this==tPackage) s = "<package>";
+                                if (this==tPackage) {
+                                    s = "<package>";
+                                }
                                 break;
           default:              s = "unknown";
           }
@@ -443,6 +455,7 @@ class Type implements Constants {
     /**
      * Convert to a String
      */
+    @Override
     public String toString() {
         return typeString("", false, true);
     }

@@ -46,6 +46,7 @@ public class POAPolicyMediatorImpl_R_AOM extends POAPolicyMediatorBase_R {
         }
     }
 
+    @Override
     protected java.lang.Object internalGetServant(byte[] id, String operation) throws ForwardRequest {
         poa.lock();
         try {
@@ -59,26 +60,32 @@ public class POAPolicyMediatorImpl_R_AOM extends POAPolicyMediatorBase_R {
         }
     }
 
+    @Override
     public void etherealizeAll() {
         // NO-OP
     }
 
+    @Override
     public ServantManager getServantManager() throws WrongPolicy {
         throw new WrongPolicy();
     }
 
+    @Override
     public void setServantManager(ServantManager servantManager) throws WrongPolicy {
         throw new WrongPolicy();
     }
 
+    @Override
     public Servant getDefaultServant() throws NoServant, WrongPolicy {
         throw new WrongPolicy();
     }
 
+    @Override
     public void setDefaultServant(Servant servant) throws WrongPolicy {
         throw new WrongPolicy();
     }
 
+    @Override
     public Servant idToServant(byte[] id) throws WrongPolicy, ObjectNotActive {
         Servant s = internalIdToServant(id);
 

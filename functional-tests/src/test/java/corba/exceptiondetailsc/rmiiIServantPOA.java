@@ -36,14 +36,17 @@ public class rmiiIServantPOA extends PortableRemoteObject implements rmiiI {
         // DO NOT CALL SUPER - that would connect the object.
     }
 
+    @Override
     public void raiseSystemException(String x) throws RemoteException {
         throw new FREE_MEM(x);
     }
 
+    @Override
     public void raiseUserException(String x) throws RemoteException, rmiiException {
         throw new rmiiException(x);
     }
 
+    @Override
     public void raiseRuntimeException(String x) throws RemoteException {
         throw new RuntimeException(x);
     }

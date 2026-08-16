@@ -30,12 +30,12 @@ public class ORBConstants {
     /*
      * TAGS tag-request@omg.org FAQ on tags and tag allocation: http://doc.omg.org/ptc/99-02-01.
      * http://doc.omg.org/standard-tags http://doc.omg.org/vendor-tags
-     * 
+     *
      * Last update: 19th August 2003 (ptc/03-08-14)
-     * 
+     *
      * // Legacy 1 profile tag 0x4f4e4300 ("ONC\x00") 1 profile tag 0x4e454f00 ("NEO\x00") 1 profile tag 0x434f4f4c ("COOL")
      * 16 service tags 0x4e454f00 - 0x4e454f0f ("NEO\x00" - "NEO\x0f")
-     * 
+     *
      * // Current 16 VMCID 0x5355xxxx ("SU\x00\x00" - "SU\xff\xff") 16 profile tags 0x53554e00 - 0x53554e0f ("SUN\x00" -
      * "SUN\x0f") 16 ORB Type IDs 0x53554e00 - 0x53554e0f ("SUN\x00" - "SUN\x0f") 64 service tags 0x53554e00 - 0x53554e3f
      * ("SUN\x00" - "SUN\x3f") 64 component tags 0x53554e00 - 0x53554e3f ("SUN\x00" - "SUN\x3f")

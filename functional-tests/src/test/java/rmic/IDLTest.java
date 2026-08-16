@@ -28,11 +28,13 @@ public abstract class IDLTest extends RMICTest {
     /**
      * Return an array of fully qualified class names for which generation should occur. Return empty array if none.
      */
+    @Override
     protected abstract String[] getGenerationClasses() throws Throwable;
 
     /**
      * Return the primary generator argument (e.g. "-iiop" or "-idl").
      */
+    @Override
     protected String getGeneratorArg() {
         return "-idl";
     }
@@ -40,5 +42,6 @@ public abstract class IDLTest extends RMICTest {
     /**
      * Perform the test.
      */
+    @Override
     protected abstract void doTest() throws Throwable;
 }

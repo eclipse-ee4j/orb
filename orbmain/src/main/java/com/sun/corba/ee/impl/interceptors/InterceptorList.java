@@ -102,7 +102,7 @@ public class InterceptorList {
             // An O(n) search will suffice because register_interceptor is not
             // likely to be called often.
             for (int i = 0; i < size; i++) {
-                Interceptor in = (Interceptor) interceptorList[i];
+                Interceptor in = interceptorList[i];
                 if (in.name().equals(interceptorName)) {
                     foundDuplicate = true;
                     break;
@@ -194,8 +194,8 @@ public class InterceptorList {
             int numInterceptors = interceptors[i].length;
             if (numInterceptors > 0) {
                 // Get fresh sorting bins for each non empty type.
-                sorted = new ArrayList<Interceptor>(); // not synchronized like we want.
-                unsorted = new ArrayList<Interceptor>();
+                sorted = new ArrayList<>(); // not synchronized like we want.
+                unsorted = new ArrayList<>();
             }
             for (int j = 0; j < numInterceptors; j++) {
                 Interceptor interceptor = interceptors[i][j];

@@ -49,8 +49,9 @@ public class GetID {
         String ID = packageName.replace('.', '_');
 
         // Append the non-empty user id
-        if (!id.equals(""))
+        if (!id.equals("")) {
             ID = ID + "_" + id;
+        }
         return ID;
     }
 

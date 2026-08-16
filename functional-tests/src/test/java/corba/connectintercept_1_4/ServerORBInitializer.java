@@ -31,9 +31,11 @@ import org.omg.PortableInterceptor.ORBInitInfoPackage.DuplicateName;
 public class ServerORBInitializer extends org.omg.CORBA.LocalObject implements ORBInitializer {
     public static final String baseMsg = ServerORBInitializer.class.getName();
 
+    @Override
     public void pre_init(ORBInitInfo orbInitInfo) {
     }
 
+    @Override
     public void post_init(ORBInitInfo orbInitInfo) {
         try {
             // These are intentionally random to test ordering.

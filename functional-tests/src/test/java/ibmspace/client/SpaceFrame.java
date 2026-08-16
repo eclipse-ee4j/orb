@@ -142,6 +142,7 @@ class SpaceFrame_miTakeTurn_actionAdapter implements java.awt.event.ActionListen
         this.adaptee = adaptee;
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         adaptee.miTakeTurn_actionPerformed(e);
     }

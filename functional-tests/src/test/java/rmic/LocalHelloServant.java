@@ -32,22 +32,27 @@ public class LocalHelloServant extends javax.rmi.PortableRemoteObject implements
         JDKBridge.setLocalCodebase(null);
     }
 
+    @Override
     public String sayHello(String to) throws java.rmi.RemoteException {
         return "Hello " + to;
     }
 
+    @Override
     public String echoString(String it) throws java.rmi.RemoteException {
         return it;
     }
 
+    @Override
     public Object echoObject(Object it) throws java.rmi.RemoteException {
         return it;
     }
 
+    @Override
     public int identityHash(Object it) throws java.rmi.RemoteException {
         return System.identityHashCode(it);
     }
 
+    @Override
     public int[] identityHash(Object a, Object b, Object c) throws java.rmi.RemoteException {
         int[] result = new int[3];
         result[0] = System.identityHashCode(a);
@@ -56,19 +61,23 @@ public class LocalHelloServant extends javax.rmi.PortableRemoteObject implements
         return result;
     }
 
+    @Override
     public test.Hello echoHello(test.Hello in) throws java.rmi.RemoteException {
         return in;
     }
 
+    @Override
     public rmic.Hello echoHello(rmic.Hello in) throws java.rmi.RemoteException {
         return in;
     }
 
+    @Override
     public void argNamesClash(int in, int _in, int out, int _out, int so, int exCopy, int copies, int method, int reply, int ex)
             throws java.rmi.RemoteException {
 
     }
 
+    @Override
     public Base newServant() throws java.rmi.RemoteException {
         String codebase = JDKBridge.getLocalCodebase();
         if (codebase != null) {
@@ -78,11 +87,13 @@ public class LocalHelloServant extends javax.rmi.PortableRemoteObject implements
         return new BaseImpl();
     }
 
+    @Override
     public String testPrimTypes(String arg0, double arg1, float arg2, String arg3, boolean arg4, Object arg5, String arg6)
             throws java.rmi.RemoteException {
         return "help";
     }
 
+    @Override
     public Object echoString(Object value1, String str, Object value2) throws java.rmi.RemoteException {
         if (!(value1 instanceof RemoteException)) {
             throw new RemoteException("value1 not RemoteException. Is " + value1.getClass());
@@ -94,6 +105,7 @@ public class LocalHelloServant extends javax.rmi.PortableRemoteObject implements
         return str;
     }
 
+    @Override
     public Object echoArg1(int arg0, Object arg1) throws java.rmi.RemoteException {
         return arg1;
     }

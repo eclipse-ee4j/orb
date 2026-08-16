@@ -45,6 +45,7 @@ class ReturnStatement extends Statement {
     /**
      * Check statement
      */
+    @Override
     Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         checkLabel(env, ctx);
         vset = reach(env, vset);
@@ -117,6 +118,7 @@ class ReturnStatement extends Statement {
     /**
      * Inline
      */
+    @Override
     public Statement inline(Environment env, Context ctx) {
         if (expr != null) {
             expr = expr.inlineValue(env, ctx);
@@ -127,6 +129,7 @@ class ReturnStatement extends Statement {
     /**
      * The cost of inlining this statement
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         return 1 + ((expr != null) ? expr.costInline(thresh, env, ctx) : 0);
     }
@@ -134,6 +137,7 @@ class ReturnStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         Expression e = (expr != null) ? expr.copyInline(ctx) : null;
         if ((!valNeeded) && (e != null)) {
@@ -149,6 +153,7 @@ class ReturnStatement extends Statement {
     /**
      * Code
      */
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         if (expr == null) {
             codeFinally(env, ctx, asm, null, null);
@@ -163,6 +168,7 @@ class ReturnStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("return");

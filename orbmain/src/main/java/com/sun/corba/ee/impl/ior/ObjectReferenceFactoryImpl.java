@@ -54,8 +54,9 @@ public class ObjectReferenceFactoryImpl extends ObjectReferenceProducerBase impl
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof ObjectReferenceFactoryImpl))
+        if (!(obj instanceof ObjectReferenceFactoryImpl)) {
             return false;
+        }
 
         ObjectReferenceFactoryImpl other = (ObjectReferenceFactoryImpl) obj;
 
@@ -74,10 +75,12 @@ public class ObjectReferenceFactoryImpl extends ObjectReferenceProducerBase impl
     // of the abstract valuetype, should that become necessary.
     public static final String repositoryId = "IDL:com/sun/corba/ee/impl/ior/ObjectReferenceFactoryImpl:1.0";
 
+    @Override
     public String[] _truncatable_ids() {
         return new String[] { repositoryId };
     }
 
+    @Override
     public TypeCode _type() {
         return ObjectReferenceFactoryHelper.type();
     }
@@ -85,6 +88,7 @@ public class ObjectReferenceFactoryImpl extends ObjectReferenceProducerBase impl
     /**
      * Read the data into a (presumably) empty ObjectReferenceFactoryImpl. This sets the orb to the ORB of the InputStream.
      */
+    @Override
     public void _read(InputStream is) {
         org.omg.CORBA_2_3.portable.InputStream istr = (org.omg.CORBA_2_3.portable.InputStream) is;
 
@@ -94,16 +98,19 @@ public class ObjectReferenceFactoryImpl extends ObjectReferenceProducerBase impl
     /**
      * Write the state to the OutputStream.
      */
+    @Override
     public void _write(OutputStream os) {
         org.omg.CORBA_2_3.portable.OutputStream ostr = (org.omg.CORBA_2_3.portable.OutputStream) os;
 
         iorTemplates.write(ostr);
     }
 
+    @Override
     public IORFactory getIORFactory() {
         return iorTemplates;
     }
 
+    @Override
     public IORTemplateList getIORTemplateList() {
         return iorTemplates;
     }

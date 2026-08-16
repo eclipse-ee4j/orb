@@ -52,7 +52,7 @@ public interface PresentationManager {
         /**
          * Create a stub factory for stubs for the interface whose type is given by className. className may identify either an
          * IDL interface or an RMI-IIOP interface.
-         * 
+         *
          * @param className The name of the remote interface as a Java class name.
          * @param isIDLStub True if className identifies an IDL stub, else false.
          * @param remoteCodeBase The CodeBase to use for loading Stub classes, if necessary (may be null or unused).
@@ -143,7 +143,7 @@ public interface PresentationManager {
      * IDLNameTranslator handles all Remote interfaces implemented by the class. If the class implements more than one
      * remote interface, and not all of the remote interfaces are related by inheritance, then the type IDs have the
      * implementation class as element 0.
-     * 
+     *
      * @param cls iClass fro which we need ClassData.
      * @return The ClassData.
      */
@@ -151,7 +151,7 @@ public interface PresentationManager {
 
     /**
      * Given a particular method, return a DynamicMethodMarshaller for that method. This is used for dynamic stubs and ties.
-     * 
+     *
      * @param method Method for which we need a DynamicMethodMarshaller.
      * @return The DynamicMethodMarshaller.
      */
@@ -159,23 +159,24 @@ public interface PresentationManager {
 
     /**
      * Return the registered StubFactoryFactory.
-     * 
+     *
      * @param isDynamic true iff we want the dynamic stub factory
      * @return static or dynamic stub factory.
      * @deprecated use {@link #getDynamicStubFactoryFactory()} or {@link #getStaticStubFactoryFactory()}
      */
+    @Deprecated
     StubFactoryFactory getStubFactoryFactory(boolean isDynamic);
 
     /**
      * Return the registered static StubFactoryFactory.
-     * 
+     *
      * @return static stub factory.
      */
     StubFactoryFactory getStaticStubFactoryFactory();
 
     /**
      * Return the registered dynamic StubFactoryFactory.
-     * 
+     *
      * @return dynamic stub factory.
      */
     StubFactoryFactory getDynamicStubFactoryFactory();
@@ -183,7 +184,7 @@ public interface PresentationManager {
     /**
      * Equivalent to getStubFactoryFactory( true ).getTie( null ). Provided for compatibility with earlier versions of
      * PresentationManager as used in the app server. The class argument is ignored in the dynamic case, so this is safe.
-     * 
+     *
      * @return The static tie.
      */
     Tie getTie();
@@ -191,7 +192,7 @@ public interface PresentationManager {
     /**
      * Get the correct repository ID for the given implementation instance. This is useful when using dynamic RMI with the
      * POA.
-     * 
+     *
      * @param impl implementation
      * @return repository ID string
      */
@@ -199,7 +200,7 @@ public interface PresentationManager {
 
     /**
      * Returns the value of the com.sun.corba.ee.ORBUseDynamicStub property.
-     * 
+     *
      * @return whether to use dynamic stubs.
      */
     boolean useDynamicStubs();
@@ -207,7 +208,7 @@ public interface PresentationManager {
     /**
      * Remove all internal references to Class cls from the PresentationManager. This allows ClassLoaders to be garbage
      * collected when they are no longer needed.
-     * 
+     *
      * @param cls Class to flush
      */
     void flushClass(Class<?> cls);

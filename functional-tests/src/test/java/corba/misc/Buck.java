@@ -33,26 +33,32 @@ public class Buck implements java.io.Externalizable {
         this.name = name;
     }
 
+    @Override
     public String toString() {
         return "Buck[" + name + "]";
     }
 
+    @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof Buck))
+        if (!(obj instanceof Buck)) {
             return false;
+        }
 
-        if (obj == this)
+        if (obj == this) {
             return true;
+        }
 
         Buck other = (Buck) obj;
 
         return other.name.equals(name);
     }
 
+    @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         name = (String) in.readObject();
     }
 
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeObject(name);
     }

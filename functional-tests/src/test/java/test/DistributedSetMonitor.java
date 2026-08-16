@@ -61,6 +61,7 @@ public class DistributedSetMonitor extends PortableRemoteObject implements Distr
     /*
      * See if this set is still active. Returns PING_RESPONSE.
      */
+    @Override
     public synchronized String ping(String fromSetName) throws RemoteException {
         int count = notifiers.size();
         for (int i = 0; i < count; i++) {
@@ -73,6 +74,7 @@ public class DistributedSetMonitor extends PortableRemoteObject implements Distr
     /*
      * Get this set's name.
      */
+    @Override
     public String getName() throws RemoteException {
         return name;
     }
@@ -81,6 +83,7 @@ public class DistributedSetMonitor extends PortableRemoteObject implements Distr
      * Notify this set that the specified set is joining. If the set already is 'known' by this instance, this call performs
      * no action.
      */
+    @Override
     public synchronized void join(String setName, DistributedSet set) throws RemoteException {
 
         // Do an add, and do _not_ call set.join()...
@@ -91,6 +94,7 @@ public class DistributedSetMonitor extends PortableRemoteObject implements Distr
     /*
      * Notify this set that the specified set is leaving.
      */
+    @Override
     public synchronized void leave(String setName) throws RemoteException {
         doLeave(setName, false);
     }
@@ -98,6 +102,7 @@ public class DistributedSetMonitor extends PortableRemoteObject implements Distr
     /*
      * Broadcast a message to all sets.
      */
+    @Override
     public synchronized void broadcastMessage(String message) throws RemoteException {
 
         // Send the message to all sets...
@@ -116,6 +121,7 @@ public class DistributedSetMonitor extends PortableRemoteObject implements Distr
     /*
      * Send a message to specified set.
      */
+    @Override
     public synchronized void sendMessage(DistributedSet toSet, String message) throws RemoteException {
         toSet.receiveMessage(message, name);
     }
@@ -123,6 +129,7 @@ public class DistributedSetMonitor extends PortableRemoteObject implements Distr
     /*
      * Receive a message from another set. Messages are forwarded to all registered notifiers.
      */
+    @Override
     public synchronized void receiveMessage(String message, String fromSetName) throws RemoteException {
         doReceiveMessage(message, fromSetName);
     }
@@ -130,6 +137,7 @@ public class DistributedSetMonitor extends PortableRemoteObject implements Distr
     /*
      * Return the number of currently active sets, _excluding_ this instance.
      */
+    @Override
     public synchronized int countSets() throws RemoteException {
         return sets.size();
     }
@@ -137,6 +145,7 @@ public class DistributedSetMonitor extends PortableRemoteObject implements Distr
     /*
      * List the names of all the active sets, _excluding_ this instance.
      */
+    @Override
     public String[] listSetNames() throws RemoteException {
         return doListSetNames();
     }
@@ -144,6 +153,7 @@ public class DistributedSetMonitor extends PortableRemoteObject implements Distr
     /*
      * Get a set instance by name. Returns null if not found.
      */
+    @Override
     public synchronized DistributedSet getSet(String setName) throws RemoteException {
         return doGetSet(setName);
     }
@@ -152,6 +162,7 @@ public class DistributedSetMonitor extends PortableRemoteObject implements Distr
     // AlarmHandler Methods
     // _____________________________________________________________________
 
+    @Override
     public void wakeup(Alarm theAlarm, long nextAlarmWakeupTime) {
 
         // Do the refresh...
@@ -177,15 +188,15 @@ public class DistributedSetMonitor extends PortableRemoteObject implements Distr
 
     /*
      * Constructor.
-     * 
+     *
      * @param orb The ORB to connect to.
-     * 
+     *
      * @param context The naming context to use.
-     * 
+     *
      * @param name The name for this instance.
-     * 
+     *
      * @param type The type for all instances that should be part of this set. May not contain '$' character.
-     * 
+     *
      * @param autoRefreshDelay The number of seconds between refresh calls. If zero, no auto-refresh will be performed.
      */
     public DistributedSetMonitor(ORB orb, Context context, String name, String type, int autoRefreshDelay)
@@ -695,19 +706,23 @@ class Notifier implements DistributedSetNotifier {
         this.set = set;
     }
 
+    @Override
     public void pinged(String fromSetName) {
         // System.out.println("\nPinged by " + fromSetName);
     }
 
+    @Override
     public void setAdded(String setName) {
         dumpCurrent(setName + " joined. ");
     }
 
+    @Override
     public void setRemoved(String setName, boolean died) {
         String reason = died ? " died! " : " left. ";
         dumpCurrent(setName + reason);
     }
 
+    @Override
     public void messageReceived(String message, String fromSetName) {
         System.out.println("<" + fromSetName + " said> " + message);
         System.out.flush();

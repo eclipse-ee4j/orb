@@ -74,7 +74,7 @@ public class MessageParserImpl implements MessageParser {
 
     /**
      * Creates a new instance of MessageParserImpl
-     * 
+     *
      * @param orb the ORB
      */
     public MessageParserImpl(ORB orb) {
@@ -82,7 +82,7 @@ public class MessageParserImpl implements MessageParser {
         this.expectingMoreData = false;
         this.moreBytesToParse = false;
         this.nextMsgStartPos = 0;
-        this.fragmentList = new LinkedList<RequestId>();
+        this.fragmentList = new LinkedList<>();
         this.sizeNeeded = orb.getORBData().getReadByteBufferSize();
     }
 
@@ -91,6 +91,7 @@ public class MessageParserImpl implements MessageParser {
         this.connection = connection;
     }
 
+    @Override
     @Transport
     public ByteBuffer getNewBufferAndCopyOld(ByteBuffer byteBuffer) {
         ByteBuffer newByteBuffer = null;
@@ -104,10 +105,11 @@ public class MessageParserImpl implements MessageParser {
 
     /**
      * Is this MessageParser expecting more data ?
-     * 
+     *
      * @return - True if more bytes are needed to construct at least one GIOP protocol data unit. False, if no additional
      * bytes are remain to be parsed into a GIOP protocol data unit.
      */
+    @Override
     public boolean isExpectingMoreData() {
         return expectingMoreData;
     }
@@ -126,12 +128,13 @@ public class MessageParserImpl implements MessageParser {
     public void offerBuffer(ByteBuffer buffer) {
         msgByteBuffer = null;
         messageMediator = null;
-        if (buffer == null)
+        if (buffer == null) {
             return;
+        }
 
-        if (!containsFullHeader(buffer) || !containsFullMessage(buffer))
+        if (!containsFullHeader(buffer) || !containsFullMessage(buffer)) {
             remainderBuffer = buffer;
-        else {
+        } else {
             remainderBuffer = splitAndReturnRemainder(buffer, getTotalMessageLength(buffer));
             MessageBase message = MessageBase.parseGiopHeader(orb, connection, buffer, 0);
             messageMediator = new MessageMediatorImpl(orb, connection, message, buffer);
@@ -148,9 +151,9 @@ public class MessageParserImpl implements MessageParser {
     private ByteBuffer splitAndReturnRemainder(ByteBuffer buffer, int splitPosition) {
         assert splitPosition <= buffer.limit();
 
-        if (buffer.limit() == splitPosition)
+        if (buffer.limit() == splitPosition) {
             return null;
-        else {
+        } else {
             final int oldPosition = buffer.position();
             buffer.position(splitPosition);
             ByteBuffer remainderBuffer = buffer.slice();
@@ -193,8 +196,9 @@ public class MessageParserImpl implements MessageParser {
 
     @Override
     public void checkTimeout(long timeSinceLastInput) {
-        if (isMidMessage() && timeLimitExceeded(timeSinceLastInput))
+        if (isMidMessage() && timeLimitExceeded(timeSinceLastInput)) {
             throw new COMM_FAILURE();
+        }
     }
 
     private boolean timeLimitExceeded(long timeSinceLastInput) {
@@ -205,6 +209,7 @@ public class MessageParserImpl implements MessageParser {
         return expectingFragments || (remainderBuffer != null && !containsFullMessage(remainderBuffer));
     }
 
+    @Override
     @Transport
     public Message parseBytes(ByteBuffer byteBuffer, Connection connection) {
         expectingMoreData = false;
@@ -237,8 +242,9 @@ public class MessageParserImpl implements MessageParser {
                 }
 
                 moreBytesToParse = byteBuffer.hasRemaining();
-                if (!moreBytesToParse)
+                if (!moreBytesToParse) {
                     byteBuffer.limit(byteBuffer.capacity());
+                }
                 sizeNeeded = orb.getORBData().getReadByteBufferSize();
             } else {
                 // set state for next parseBytes invocation
@@ -266,7 +272,7 @@ public class MessageParserImpl implements MessageParser {
     }
 
     private boolean isEndOfFragmentList(Message message) {
-        return message.getType() == MessageBase.GIOPFragment || message.getType() == MessageBase.GIOPCancelRequest;
+        return message.getType() == Message.GIOPFragment || message.getType() == Message.GIOPCancelRequest;
     }
 
     private void removeRequestIdFromFragmentList(Message message, ByteBuffer byteBuffer) {
@@ -293,6 +299,7 @@ public class MessageParserImpl implements MessageParser {
      *
      * @return <code>true</code> if there are more bytes to be parsed. Otherwise <code>false</code>.
      */
+    @Override
     public boolean hasMoreBytesToParse() {
         return moreBytesToParse;
     }
@@ -301,6 +308,7 @@ public class MessageParserImpl implements MessageParser {
      * Set the starting position where the next message in the <code>ByteBuffer</code> given to <code>parseBytes()</code>
      * begins.
      */
+    @Override
     public void setNextMessageStartPosition(int position) {
         this.nextMsgStartPos = position;
     }
@@ -309,6 +317,7 @@ public class MessageParserImpl implements MessageParser {
      * Get the starting position where the next message in the <code>ByteBuffer</code> given to <code>parseBytes()</code>
      * begins.
      */
+    @Override
     public int getNextMessageStartPosition() {
         return this.nextMsgStartPos;
     }
@@ -333,6 +342,7 @@ public class MessageParserImpl implements MessageParser {
     /**
      * Return the suggested number of bytes needed to hold the next message to be parsed.
      */
+    @Override
     public int getSizeNeeded() {
         return sizeNeeded;
     }

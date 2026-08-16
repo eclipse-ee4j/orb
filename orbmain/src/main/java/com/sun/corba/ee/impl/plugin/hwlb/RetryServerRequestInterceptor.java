@@ -58,10 +58,12 @@ public class RetryServerRequestInterceptor extends org.omg.CORBA.LocalObject imp
     // Interceptor operations
     //
 
+    @Override
     public String name() {
         return baseMsg;
     }
 
+    @Override
     public void destroy() {
     }
 
@@ -70,6 +72,7 @@ public class RetryServerRequestInterceptor extends org.omg.CORBA.LocalObject imp
     // ServerRequestInterceptor
     //
 
+    @Override
     public void receive_request_service_contexts(ServerRequestInfo ri) {
         if (rejectingRequests) {
             if (debug) {
@@ -82,15 +85,19 @@ public class RetryServerRequestInterceptor extends org.omg.CORBA.LocalObject imp
         }
     }
 
+    @Override
     public void receive_request(ServerRequestInfo ri) {
     }
 
+    @Override
     public void send_reply(ServerRequestInfo ri) {
     }
 
+    @Override
     public void send_exception(ServerRequestInfo ri) {
     }
 
+    @Override
     public void send_other(ServerRequestInfo ri) {
     }
 
@@ -99,9 +106,11 @@ public class RetryServerRequestInterceptor extends org.omg.CORBA.LocalObject imp
     // ORBInitializer
     //
 
+    @Override
     public void pre_init(ORBInitInfo info) {
     }
 
+    @Override
     public void post_init(ORBInitInfo info) {
         try {
             if (debug) {

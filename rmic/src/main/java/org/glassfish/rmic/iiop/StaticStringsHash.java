@@ -196,7 +196,7 @@ public class StaticStringsHash {
                 }
             }
         }
-        while (didSwap == true);
+        while (didSwap);
 
         // Allocate our buckets array. Fill the string
         // index slot with an unused key so we can
@@ -330,8 +330,8 @@ public class StaticStringsHash {
 
     private int getKeys(int methodKind) {
         resetKeys(methodKind);
-        for(int i = 0; i < strings.length; i++) {
-            addKey(getKey(strings[i]));
+        for (String string : strings) {
+            addKey(getKey(string));
         }
         return maxDepth;
     }

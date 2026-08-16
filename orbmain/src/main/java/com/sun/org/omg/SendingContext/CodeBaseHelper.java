@@ -59,17 +59,17 @@ public final class CodeBaseHelper {
     }
 
     public static void write(org.omg.CORBA.portable.OutputStream ostream, com.sun.org.omg.SendingContext.CodeBase value) {
-        ostream.write_Object((org.omg.CORBA.Object) value);
+        ostream.write_Object(value);
     }
 
     public static com.sun.org.omg.SendingContext.CodeBase narrow(org.omg.CORBA.Object obj) {
-        if (obj == null)
+        if (obj == null) {
             return null;
-        else if (obj instanceof com.sun.org.omg.SendingContext.CodeBase)
+        } else if (obj instanceof com.sun.org.omg.SendingContext.CodeBase) {
             return (com.sun.org.omg.SendingContext.CodeBase) obj;
-        else if (!obj._is_a(id()))
+        } else if (!obj._is_a(id())) {
             throw new org.omg.CORBA.BAD_PARAM();
-        else {
+        } else {
             org.omg.CORBA.portable.Delegate delegate = ((org.omg.CORBA.portable.ObjectImpl) obj)._get_delegate();
             return new com.sun.org.omg.SendingContext._CodeBaseStub(delegate);
         }

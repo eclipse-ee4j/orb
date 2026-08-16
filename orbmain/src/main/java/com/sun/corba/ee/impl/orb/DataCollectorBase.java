@@ -47,17 +47,17 @@ public abstract class DataCollectorBase implements DataCollector {
     private Properties resultProps;
 
     public DataCollectorBase(Properties props, String localHostName, String configurationHostName) {
-        URLPropertyNames = new HashSet<String>();
+        URLPropertyNames = new HashSet<>();
         URLPropertyNames.add(ORBConstants.INITIAL_SERVICES_PROPERTY);
 
-        propertyNames = new HashSet<String>();
+        propertyNames = new HashSet<>();
 
         // Make sure that we are ready to handle -ORBInitRef. This is special
         // due to the need to handle multiple -ORBInitRef args as prefix
         // parsing.
         propertyNames.add(ORBConstants.ORB_INIT_REF_PROPERTY);
 
-        propertyPrefixes = new HashSet<String>();
+        propertyPrefixes = new HashSet<>();
 
         this.originalProps = props;
         this.localHostName = localHostName;
@@ -289,9 +289,7 @@ public abstract class DataCollectorBase implements DataCollector {
     private void findPropertiesByPrefix(Set<String> prefixes, Iterator<String> propertyNames, PropertyCallback getProperty) {
         while (propertyNames.hasNext()) {
             String name = propertyNames.next();
-            Iterator<String> iter = prefixes.iterator();
-            while (iter.hasNext()) {
-                String prefix = iter.next();
+            for (String prefix : prefixes) {
                 if (name.startsWith(prefix)) {
                     String value = getProperty.get(name);
 
@@ -323,9 +321,7 @@ public abstract class DataCollectorBase implements DataCollector {
     // Map command-line arguments to ORB properties.
     //
     private String findMatchingPropertyName(Set<String> names, String suffix) {
-        Iterator<String> iter = names.iterator();
-        while (iter.hasNext()) {
-            String name = iter.next();
+        for (String name : names) {
             if (name.endsWith(suffix)) {
                 return name;
             }
@@ -335,7 +331,7 @@ public abstract class DataCollectorBase implements DataCollector {
     }
 
     private static Iterator<String> makeIterator(final Enumeration<?> enumeration) {
-        return new Iterator<String>() {
+        return new Iterator<>() {
             @Override
             public boolean hasNext() {
                 return enumeration.hasMoreElements();
@@ -407,10 +403,8 @@ public abstract class DataCollectorBase implements DataCollector {
     // Return only those element of prefixes for which hasCORBAPrefix
     // is true.
     private Set<String> getCORBAPrefixes(final Set<String> prefixes) {
-        Set<String> result = new HashSet<String>();
-        Iterator<String> iter = prefixes.iterator();
-        while (iter.hasNext()) {
-            String element = iter.next();
+        Set<String> result = new HashSet<>();
+        for (String element : prefixes) {
             if (hasCORBAPrefix(element)) {
                 result.add(element);
             }

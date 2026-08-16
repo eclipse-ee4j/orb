@@ -120,8 +120,9 @@ public class Server {
             for (int ctr = 0; ctr < 10; ctr++) {
                 System.out.println("Local invocation with argument " + ctr);
                 int result = test.echo(ctr);
-                if (result != ctr)
+                if (result != ctr) {
                     throw new Exception("Result does not match argument");
+                }
             }
         } catch (Exception exc) {
             throw new RuntimeException(exc);

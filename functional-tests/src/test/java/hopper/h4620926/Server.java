@@ -78,6 +78,7 @@ public class Server {
 
 class MyServantActivator extends LocalObject implements ServantActivator {
 
+    @Override
     public Servant incarnate(byte[] oid, POA adapter) {
 
         System.out.println("Incarnating Object - " + new String(oid) + " in POA - " + adapter.the_name());
@@ -89,6 +90,7 @@ class MyServantActivator extends LocalObject implements ServantActivator {
         return new HelloServant();
     }
 
+    @Override
     public void etherealize(byte[] oid, POA adapter, Servant servant, boolean cleanUpInProgress, boolean remaingActivations) {
         System.out.println("Etherealizing Object ");
     }

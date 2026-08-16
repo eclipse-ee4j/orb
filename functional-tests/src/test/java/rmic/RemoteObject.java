@@ -21,9 +21,12 @@
 package rmic;
 
 public interface RemoteObject extends java.rmi.Remote, AbstractObject {
+    @Override
     public boolean isValue() throws java.rmi.RemoteException;
 
+    @Override
     public int getValue() throws java.rmi.RemoteException;
 
+    @Override
     public String getCodeBase() throws java.rmi.RemoteException;
 }

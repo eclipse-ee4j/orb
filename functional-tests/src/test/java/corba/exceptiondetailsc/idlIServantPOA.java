@@ -33,14 +33,17 @@ class idlIServantPOA extends idlIPOA {
     public idlIServantPOA() {
     }
 
+    @Override
     public void raise_system_exception(String arg1) {
         throw new FREE_MEM(arg1);
     }
 
+    @Override
     public void raise_user_exception(String arg1) throws idlException {
         throw new idlException(arg1);
     }
 
+    @Override
     public void raise_runtime_exception(String arg1) {
         throw new RuntimeException(arg1);
     }

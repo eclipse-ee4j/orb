@@ -31,7 +31,7 @@ public interface MessageData {
      * <LI>If there is more than one message, all messages will share the same request ID (for GIOP 1.2).</LI>
      * <LI>The more fragments bit will be set on all messages except the last message.</LI>
      * </OL>
-     * 
+     *
      * @return GIOP messages
      */
     Message[] getMessages();

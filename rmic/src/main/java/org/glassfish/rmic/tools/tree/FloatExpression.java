@@ -45,6 +45,7 @@ class FloatExpression extends ConstantExpression {
     /**
      * Get the value
      */
+    @Override
     public Object getValue() {
         return new Float(value);
     }
@@ -52,6 +53,7 @@ class FloatExpression extends ConstantExpression {
     /**
      * Check if the expression is equal to a value
      */
+    @Override
     public boolean equals(int i) {
         return value == i;
     }
@@ -59,6 +61,7 @@ class FloatExpression extends ConstantExpression {
     /**
      * Check if the expression is equal to its default static value
      */
+    @Override
     public boolean equalsDefault() {
         // don't allow -0.0
         return (Float.floatToIntBits(value) == 0);
@@ -67,6 +70,7 @@ class FloatExpression extends ConstantExpression {
     /**
      * Code
      */
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         asm.add(where, opc_ldc, new Float(value));
     }
@@ -74,6 +78,7 @@ class FloatExpression extends ConstantExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print(value +"F");
     }

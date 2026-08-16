@@ -41,14 +41,14 @@ public class InnerTest extends Test implements Constants {
     /*
      * Outer Inner Name --------------------- --------------------- ---- Remote interface Remote interface RR Remote
      * interface interface RI Remote interface Value RV Remote interface Servant RS Remote interface Abstract interface RA
-     * 
+     *
      * interface Remote interface IR interface interface II interface Value IV interface Servant IS interface Abstract
      * interface IA
-     * 
+     *
      * Value Remote interface VR Value interface VI Value Value VV Value Servant VS Value Abstract interface VA
-     * 
+     *
      * Servant Remote interface SR Servant interface SI Servant Value SV Servant Servant SS Servant Abstract interface SA
-     * 
+     *
      * Abstract interface Remote interface AR Abstract interface interface AI Abstract interface Value AV Abstract interface
      * Servant AS Abstract interface Abstract interface AA
      */
@@ -89,6 +89,7 @@ public class InnerTest extends Test implements Constants {
     /**
      * Run the test.
      */
+    @Override
     public void run() {
         JUnitReportHelper helper = new JUnitReportHelper(this.getClass().getName());
 
@@ -99,12 +100,12 @@ public class InnerTest extends Test implements Constants {
             stack = new ContextStack(env);
 
             // Do the tests...
-            for (int i = 0; i < CASES.length; i++) {
-                helper.start("test_" + CASES[i]);
-                String outerClass = "rmic." + CASES[i];
-                checkType(outerClass, CASES[i].charAt(0));
-                checkType(outerClass + ".Inner", CASES[i].charAt(1));
-                checkType(outerClass + ".Inner", CASES[i].charAt(1));
+            for (String element : CASES) {
+                helper.start("test_" + element);
+                String outerClass = "rmic." + element;
+                checkType(outerClass, element.charAt(0));
+                checkType(outerClass + ".Inner", element.charAt(1));
+                checkType(outerClass + ".Inner", element.charAt(1));
                 helper.pass();
             }
 
@@ -175,6 +176,7 @@ interface RS extends Remote {
         public Inner() throws RemoteException {
         }
 
+        @Override
         public String hello() throws RemoteException {
             return "Hello";
         }
@@ -184,6 +186,7 @@ interface RS extends Remote {
         public Nested() throws RemoteException {
         }
 
+        @Override
         public String hello() throws RemoteException {
             return "Hello";
         }
@@ -247,6 +250,7 @@ interface IS {
         public Inner() throws RemoteException {
         }
 
+        @Override
         public String hello() throws RemoteException {
             return "Hello";
         }
@@ -256,6 +260,7 @@ interface IS {
         public Nested() throws RemoteException {
         }
 
+        @Override
         public String hello() throws RemoteException {
             return "Hello";
         }
@@ -319,6 +324,7 @@ class VS implements Serializable {
         public Inner() throws RemoteException {
         }
 
+        @Override
         public String hello() throws RemoteException {
             return "Hello";
         }
@@ -328,6 +334,7 @@ class VS implements Serializable {
         public Nested() throws RemoteException {
         }
 
+        @Override
         public String hello() throws RemoteException {
             return "Hello";
         }
@@ -352,6 +359,7 @@ class SR implements SRInner {
     public SR() throws RemoteException {
     }
 
+    @Override
     public String hello() throws RemoteException {
         return "Hello";
     }
@@ -365,6 +373,7 @@ class SI implements RR {
     public SI() throws RemoteException {
     }
 
+    @Override
     public String hello() throws RemoteException {
         return "Hello";
     }
@@ -382,6 +391,7 @@ class SV implements RR {
     public SV() throws RemoteException {
     }
 
+    @Override
     public String hello() throws RemoteException {
         return "Hello";
     }
@@ -402,6 +412,7 @@ class SS implements RR {
     public SS() throws RemoteException {
     }
 
+    @Override
     public String hello() throws RemoteException {
         return "Hello";
     }
@@ -410,6 +421,7 @@ class SS implements RR {
         public Inner() throws RemoteException {
         }
 
+        @Override
         public String hello() throws RemoteException {
             return "Hello";
         }
@@ -419,6 +431,7 @@ class SS implements RR {
         public Nested() throws RemoteException {
         }
 
+        @Override
         public String hello() throws RemoteException {
             return "Hello";
         }
@@ -429,6 +442,7 @@ class SA implements RR {
     public SA() throws RemoteException {
     }
 
+    @Override
     public String hello() throws RemoteException {
         return "Hello";
     }
@@ -487,6 +501,7 @@ interface AS {
         public Inner() throws RemoteException {
         }
 
+        @Override
         public String hello() throws RemoteException {
             return "Hello";
         }
@@ -496,6 +511,7 @@ interface AS {
         public Nested() throws RemoteException {
         }
 
+        @Override
         public String hello() throws RemoteException {
             return "Hello";
         }

@@ -46,6 +46,7 @@ public class USLPort {
         return port;
     }
 
+    @Override
     public String toString() {
         return type + ":" + port;
     }

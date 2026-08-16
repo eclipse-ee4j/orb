@@ -50,6 +50,7 @@ class policy2_servantA extends policy_2POA {
      * Implementation of the servant object. The funtion intakes no parameter and returns an int value incremented by one.
      */
 
+    @Override
     public int increment() {
         return ++countValue;
     }
@@ -67,6 +68,7 @@ class policy2_servantB extends policy_2POA {
      * Implementation of the servant object. The funtion intakes no parameter and returns an int value incremented by one.
      */
 
+    @Override
     public int increment() {
         return ++countValue;
     }
@@ -144,13 +146,13 @@ public class policy2Server {
         // create the child poa and activate it
         childpoa = rootPoa.create_POA("policy_2", null, policy);
         childpoa.the_POAManager().activate();
-        childpoa.activate_object((Servant) servantObj);
+        childpoa.activate_object(servantObj);
 
         // Binding to NamingService
         System.out.println("Binding to NamingService");
         NameComponent nc = new NameComponent(Name, "");
         NameComponent path[] = { nc };
-        org.omg.CORBA.Object obj1 = childpoa.servant_to_reference((Servant) servantObj);
+        org.omg.CORBA.Object obj1 = childpoa.servant_to_reference(servantObj);
         rootContext.rebind(path, obj1);
 
     }

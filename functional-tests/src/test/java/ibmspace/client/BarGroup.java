@@ -52,6 +52,7 @@ public class BarGroup extends JPanel implements ActionListener {
         adjustBarColor(bar.getBarControl());
     }
 
+    @Override
     public void removeAll() {
         super.removeAll();
         fBars.removeAllElements();
@@ -66,6 +67,7 @@ public class BarGroup extends JPanel implements ActionListener {
         return bars;
     }
 
+    @Override
     public void actionPerformed(ActionEvent event) {
         if (event.getActionCommand() == "User Changed") {
             handleUserChanged((BarControl) event.getSource());
@@ -91,8 +93,9 @@ public class BarGroup extends JPanel implements ActionListener {
 
             double p = bc.getPercentage();
 
-            if (bc != bar && p > 0.001)
+            if (bc != bar && p > 0.001) {
                 barsToChange++;
+            }
 
             totalPercentage += bc.getPercentage();
         }

@@ -51,9 +51,11 @@ public class TestngRunner {
             System.out.println(str);
         }
 
+        @Override
         public void onStart(ITestContext context) {
         }
 
+        @Override
         public void onFinish(ITestContext context) {
             helper.done();
         }
@@ -74,28 +76,33 @@ public class TestngRunner {
             }
         }
 
+        @Override
         public void onTestStart(ITestResult result) {
             ensureStarted(result);
         }
 
+        @Override
         public void onTestSkipped(ITestResult result) {
             ensureStarted(result);
             helper.fail("Test was skipped");
             started = false;
         }
 
+        @Override
         public void onTestFailure(ITestResult result) {
             ensureStarted(result);
             helper.fail(result.getThrowable());
             started = false;
         }
 
+        @Override
         public void onTestSuccess(ITestResult result) {
             ensureStarted(result);
             helper.pass();
             started = false;
         }
 
+        @Override
         public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
             ensureStarted(result);
             helper.pass();
@@ -105,7 +112,7 @@ public class TestngRunner {
 
     /**
      * Create a new TestngRunner.
-     * 
+     *
      * @param outdir The directory in which the test reports should be placed.
      */
     public TestngRunner() {
@@ -118,18 +125,20 @@ public class TestngRunner {
         }
 
         File outdir = new File(reportDir);
-        if (!outdir.exists())
+        if (!outdir.exists()) {
             throw new RuntimeException(outdir + " does not exist");
+        }
 
-        if (!outdir.isDirectory())
+        if (!outdir.isDirectory()) {
             throw new RuntimeException(outdir + " is not a directory");
+        }
 
         outdirName = reportDir + File.separatorChar + System.getProperty("corba.test.controller.name", "default");
 
         File destDir = new File(outdirName);
         destDir.mkdir();
 
-        suiteClasses = new HashSet<Class<?>>();
+        suiteClasses = new HashSet<>();
         hasFailure = false;
     }
 
@@ -153,8 +162,9 @@ public class TestngRunner {
             testng.setDefaultTestName(cls.getName());
             testng.addListener(new JUnitReportTestListener(cls.getName()));
             testng.run();
-            if (testng.hasFailure())
+            if (testng.hasFailure()) {
                 hasFailure = true;
+            }
         }
     }
 
@@ -163,9 +173,10 @@ public class TestngRunner {
     }
 
     public void systemExit() {
-        if (hasFailure)
+        if (hasFailure) {
             System.exit(1);
-        else
+        } else {
             System.exit(0);
+        }
     }
 }

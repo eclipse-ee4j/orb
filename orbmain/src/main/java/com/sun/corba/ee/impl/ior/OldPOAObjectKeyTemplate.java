@@ -35,7 +35,7 @@ import org.omg.CORBA_2_3.portable.OutputStream;
 public final class OldPOAObjectKeyTemplate extends OldObjectKeyTemplateBase {
     /**
      * This constructor reads the template ONLY from the stream
-     * 
+     *
      * @param orb ORB to use
      * @param magic Magic number
      * @param scid ID of template
@@ -47,7 +47,7 @@ public final class OldPOAObjectKeyTemplate extends OldObjectKeyTemplateBase {
 
     /**
      * This constructor reads a complete ObjectKey (template and Id) from the stream.
-     * 
+     *
      * @param orb ORB to use
      * @param magic Magic number
      * @param scid ID of the Object

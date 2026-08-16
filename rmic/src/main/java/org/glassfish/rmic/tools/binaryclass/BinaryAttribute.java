@@ -80,8 +80,9 @@ class BinaryAttribute implements Constants {
                       BinaryConstantPool cpool, Environment env) throws IOException {
         // count the number of attributes
         int attributeCount = 0;
-        for (BinaryAttribute att = attributes; att != null; att = att.next)
+        for (BinaryAttribute att = attributes; att != null; att = att.next) {
             attributeCount++;
+        }
         out.writeShort(attributeCount);
 
         // write out each attribute

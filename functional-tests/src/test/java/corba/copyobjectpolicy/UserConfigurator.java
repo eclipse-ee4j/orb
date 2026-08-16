@@ -65,6 +65,7 @@ public class UserConfigurator implements ORBConfigurator {
     /**
      * Set up two copiers: the value copier, and the reference copier. Make the value copier the default .
      */
+    @Override
     public void configure(DataCollector dc, ORB orb) {
         CopierManager cm = orb.getCopierManager();
         cm.setDefaultId(VALUE_INDEX);

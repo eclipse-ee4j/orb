@@ -46,6 +46,7 @@ public class CustomClassLoader extends Loader {
         }
     }
 
+    @Override
     protected synchronized Class loadClass(String name, boolean resolve) throws ClassNotFoundException {
         boolean errorFound = false;
         Class c = null;

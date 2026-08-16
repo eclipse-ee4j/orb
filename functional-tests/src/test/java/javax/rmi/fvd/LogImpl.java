@@ -36,19 +36,20 @@ public class LogImpl implements Log/* , java.awt.event.ActionListener */ {
 
     /*
      * Frame f = null; TextArea ta = null;
-     * 
+     *
      * public void actionPerformed(ActionEvent e){ try{ logMssg("LogImpl","Shutting down"); TheTest.shutdown();
      * logMssg("LogImpl","Shutdown completed"); System.exit(1); } catch(Throwable t){ logMssg("LogImpl",t.getMessage());
-     * 
+     *
      * }
-     * 
+     *
      * } private void setup(){
-     * 
+     *
      * f = new Frame("Log Window"); Button b = new Button("Shutdown test"); f.setLayout(new BorderLayout()); f.add("South",
      * b); b.addActionListener(this); ta = new TextArea(); f.add("Center", ta); f.show(); f.reshape(100,20,350,350);
-     * 
+     *
      * }
      */
+    @Override
     public void log(String who, String what) throws java.rmi.RemoteException {
         /*
          * if (f == null) setup(); String text = ta.getText(); text = text + "\n" + who + ":"+what; ta.setText(text);
@@ -57,8 +58,9 @@ public class LogImpl implements Log/* , java.awt.event.ActionListener */ {
 
     public static void logMssg(String who, String what) {
         try {
-            if (logServer == null)
+            if (logServer == null) {
                 connect();
+            }
             logServer.log(who, what);
         } catch (Throwable t) {
         }

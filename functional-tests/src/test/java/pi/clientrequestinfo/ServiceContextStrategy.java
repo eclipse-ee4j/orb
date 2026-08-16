@@ -44,6 +44,7 @@ public class ServiceContextStrategy extends InterceptorStrategy {
     private final static byte[] FAKEDATA2 = { (byte) 5, (byte) 6, (byte) 7 };
     private final static byte[] FAKEDATA3 = { (byte) 8 };
 
+    @Override
     public void send_request(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) throws ForwardRequest {
         super.send_request(interceptor, ri);
 
@@ -56,11 +57,13 @@ public class ServiceContextStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void send_poll(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) {
         super.send_poll(interceptor, ri);
         // Never called in our ORB.
     }
 
+    @Override
     public void receive_reply(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) {
         super.receive_reply(interceptor, ri);
 
@@ -73,6 +76,7 @@ public class ServiceContextStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void receive_exception(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) throws ForwardRequest {
         super.receive_exception(interceptor, ri);
 
@@ -85,6 +89,7 @@ public class ServiceContextStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void receive_other(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) throws ForwardRequest {
         super.receive_other(interceptor, ri);
 
@@ -154,10 +159,10 @@ public class ServiceContextStrategy extends InterceptorStrategy {
             // Commenting out copy test due to "good citizen" assumption.
             /*
              * // Ensure this is a copy and not the real thing: byte altered = ++sc.context_data[0];
-             * 
+             *
              * if( reqOrRep.equals( "request" ) ) { sc = ri.get_request_service_context( id ); } else { sc =
              * ri.get_reply_service_context( id ); }
-             * 
+             *
              * if( sc.context_data[0] == altered ) { fail( header + "( " + id + " ) is not a copy.  " + "It is the original!" ); }
              * else { log( header + "( " + id + " ) is a copy, " + "not the original (ok)" ); }
              */

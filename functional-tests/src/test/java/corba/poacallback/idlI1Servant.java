@@ -23,12 +23,14 @@ class idlI1Servant extends idlI1POA {
     public idlI1Servant() {
     }
 
+    @Override
     public String o1(String arg) {
         System.out.println("idlI1.o1 with " + arg);
         System.out.flush();
         return "return value for o1";
     }
 
+    @Override
     public String o2(String arg) {
         System.out.println("idlI1.o2 with " + arg);
         System.out.flush();

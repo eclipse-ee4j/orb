@@ -157,7 +157,7 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB implements AutoCloseab
     private IOR codeBaseIOR;
 
     // List holding deferred Requests
-    private final List<Request> dynamicRequests = new ArrayList<Request>();
+    private final List<Request> dynamicRequests = new ArrayList<>();
     private final SynchVariable svResponseReceived = new SynchVariable();
 
     private final Object runObj = new Object();
@@ -174,7 +174,7 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB implements AutoCloseab
 
     // thread local variable to store a boolean to detect deadlock in
     // ORB.shutdown(true).
-    private ThreadLocal<Boolean> isProcessingInvocation = new ThreadLocal<Boolean>() {
+    private ThreadLocal<Boolean> isProcessingInvocation = new ThreadLocal<>() {
 
         @Override
         protected Boolean initialValue() {
@@ -187,7 +187,7 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB implements AutoCloseab
     private Map<Class<?>, TypeCodeImpl> typeCodeForClassMap;
 
     // Cache to hold ValueFactories (Helper classes) keyed on repository ids
-    private Map<String, ValueFactory> valueFactoryCache = new HashMap<String, ValueFactory>();
+    private Map<String, ValueFactory> valueFactoryCache = new HashMap<>();
 
     // thread local variable to store the current ORB version.
     // default ORB version is the version of ORB with correct Rep-id
@@ -205,7 +205,7 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB implements AutoCloseab
     private ServiceContextsCache serviceContextsCache;
 
     // Needed here to implement connect/disconnect
-    private ResourceFactory<TOAFactory> toaFactory = new ResourceFactory<TOAFactory>(new NullaryFunction<TOAFactory>() {
+    private ResourceFactory<TOAFactory> toaFactory = new ResourceFactory<>(new NullaryFunction<TOAFactory>() {
         @Override
         public TOAFactory evaluate() {
             return (TOAFactory) requestDispatcherRegistry.getObjectAdapterFactory(ORBConstants.TOA_SCID);
@@ -213,7 +213,7 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB implements AutoCloseab
     });
 
     // Needed here for set_delegate
-    private ResourceFactory<POAFactory> poaFactory = new ResourceFactory<POAFactory>(new NullaryFunction<POAFactory>() {
+    private ResourceFactory<POAFactory> poaFactory = new ResourceFactory<>(new NullaryFunction<POAFactory>() {
         @Override
         public POAFactory evaluate() {
             return (POAFactory) requestDispatcherRegistry.getObjectAdapterFactory(ORBConstants.TRANSIENT_SCID);
@@ -271,7 +271,7 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB implements AutoCloseab
     private ThreadPoolManager threadpoolMgr;
     private InvocationInterceptor invocationInterceptor;
 
-    private WeakCache<ByteArrayWrapper, ObjectKeyCacheEntry> objectKeyCache = new WeakCache<ByteArrayWrapper, ObjectKeyCacheEntry>() {
+    private WeakCache<ByteArrayWrapper, ObjectKeyCacheEntry> objectKeyCache = new WeakCache<>() {
         @Override
         protected ObjectKeyCacheEntry lookup(ByteArrayWrapper key) {
             ObjectKey okey = ORBImpl.this.getObjectKeyFactory().create(key.getObjKey());
@@ -362,19 +362,19 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB implements AutoCloseab
         taggedProfileFactoryFinder = new TaggedProfileFactoryFinderImpl(this);
         taggedProfileTemplateFactoryFinder = new TaggedProfileTemplateFactoryFinderImpl(this);
 
-        OAInvocationInfoStack = new ThreadLocal<StackImpl<OAInvocationInfo>>() {
+        OAInvocationInfoStack = new ThreadLocal<>() {
 
             @Override
             protected StackImpl<OAInvocationInfo> initialValue() {
-                return new StackImpl<OAInvocationInfo>();
+                return new StackImpl<>();
             }
         };
 
-        clientInvocationInfoStack = new ThreadLocal<StackImpl<ClientInvocationInfo>>() {
+        clientInvocationInfoStack = new ThreadLocal<>() {
 
             @Override
             protected StackImpl<ClientInvocationInfo> initialValue() {
-                return new StackImpl<ClientInvocationInfo>();
+                return new StackImpl<>();
             }
         };
 
@@ -452,7 +452,7 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB implements AutoCloseab
 
     // Map String to Integer to count number of ORBs with the
     // same ORBId.
-    private static final Map<String, Integer> idcount = new HashMap<String, Integer>();
+    private static final Map<String, Integer> idcount = new HashMap<>();
     private String rootName = null;
 
     @Override
@@ -656,7 +656,7 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB implements AutoCloseab
          * _REVISIT_ The implementation of get_current is not clear. How would ORB know whether the caller wants a Current for
          * transactions or security ?? Or is it assumed that there is just one implementation for both ? If Current is
          * thread-specific, then it should not be instantiated; so where does the ORB get a Current ?
-         * 
+         *
          * This should probably be deprecated.
          */
 
@@ -844,7 +844,7 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB implements AutoCloseab
 
     /**
      * Convert an object ref to a string.
-     * 
+     *
      * @param obj The object to stringify.
      * @return A stringified object reference.
      */
@@ -876,7 +876,7 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB implements AutoCloseab
 
     /**
      * Convert a stringified object reference to the object it represents.
-     * 
+     *
      * @param str The stringified object reference.
      * @return The unstringified object reference.
      */
@@ -1103,7 +1103,7 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB implements AutoCloseab
     @Override
     public synchronized void setTypeCodeForClass(Class c, TypeCodeImpl tci) {
         if (typeCodeForClassMap == null) {
-            typeCodeForClassMap = new WeakHashMap<Class<?>, TypeCodeImpl>(64);
+            typeCodeForClassMap = new WeakHashMap<>(64);
         }
 
         // Store only one TypeCode per class.
@@ -1292,7 +1292,7 @@ public class ORBImpl extends com.sun.corba.ee.spi.orb.ORB implements AutoCloseab
     protected void shutdownServants(boolean wait_for_completion) {
         Set<ObjectAdapterFactory> oaset;
         synchronized (this) {
-            oaset = new HashSet<ObjectAdapterFactory>(requestDispatcherRegistry.getObjectAdapterFactories());
+            oaset = new HashSet<>(requestDispatcherRegistry.getObjectAdapterFactories());
         }
 
         for (ObjectAdapterFactory oaf : oaset) {

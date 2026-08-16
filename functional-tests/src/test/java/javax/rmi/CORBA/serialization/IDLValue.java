@@ -39,6 +39,7 @@ public class IDLValue implements org.omg.CORBA.portable.IDLEntity {
         fString = new String(fInt + "" + fLong + "" + fFloat + "" + fDouble);
     }
 
+    @Override
     public boolean equals(Object o) {
         try {
             IDLValue ctbo = (IDLValue) o;
@@ -49,6 +50,7 @@ public class IDLValue implements org.omg.CORBA.portable.IDLEntity {
         }
     }
 
+    @Override
     public String toString() {
         return new String("fInt=" + fInt + "; fLong=" + fLong + "; fFloat=" + fFloat + "; fDouble=" + fDouble + "; fString=" + fString);
     }

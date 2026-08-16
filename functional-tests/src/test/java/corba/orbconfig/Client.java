@@ -384,7 +384,7 @@ public class Client {
     }
 
     private Map<String, Object> makeResult() {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<>();
         map.put("arg", Integer.valueOf(273));
         map.put("flag", Boolean.valueOf(true));
         map.put("str", "AValue");
@@ -396,8 +396,8 @@ public class Client {
         // with a comment noting it was not guaranteed - and it did eventually
         // change. sortByFirst() below makes the comparison order independent, so
         // these can be listed in any order.
-        Object[] list = { new Pair<String, String>("part1", "first"), new Pair<String, String>("part2", "second"),
-                new Pair<String, String>("part3", "third") };
+        Object[] list = { new Pair<>("part1", "first"), new Pair<>("part2", "second"),
+                new Pair<>("part3", "third") };
 
         map.put("prefix", list);
 
@@ -427,7 +427,8 @@ public class Client {
 
         final PropertyParser parser = makeParser();
         final Properties props = makeTestProperties();
-        NullaryFunction<Object> closure = new NullaryFunction<Object>() {
+        NullaryFunction<Object> closure = new NullaryFunction<>() {
+            @Override
             public Map<String, Object> evaluate() {
                 return sortPrefixEntry(parser.parse(props));
             }
@@ -461,28 +462,34 @@ public class Client {
             data = str;
         }
 
+        @Override
         public boolean equals(Object obj) {
-            if (this == obj)
+            if (this == obj) {
                 return true;
+            }
 
-            if (!(obj instanceof Foo))
+            if (!(obj instanceof Foo)) {
                 return false;
+            }
 
             Foo other = (Foo) obj;
 
             return other.data.equals(data);
         }
 
+        @Override
         public int hashCode() {
             return data.hashCode();
         }
 
+        @Override
         public String toString() {
             return data;
         }
 
         private static Operation getOperation() {
             return new Operation() {
+                @Override
                 public Object operate(Object arg) {
                     return new Foo((String) arg);
                 }
@@ -527,25 +534,31 @@ public class Client {
             this.documentBase = documentBase;
         }
 
+        @Override
         public void appletResize(int width, int height) {
         }
 
+        @Override
         public AppletContext getAppletContext() {
             return null;
         }
 
+        @Override
         public URL getCodeBase() {
             return codeBase;
         }
 
+        @Override
         public URL getDocumentBase() {
             return documentBase;
         }
 
+        @Override
         public String getParameter(String name) {
             return parameters.getProperty(name);
         }
 
+        @Override
         public boolean isActive() {
             return false;
         }
@@ -652,7 +665,8 @@ public class Client {
 
     private void testDataCollectorState(String name, PropertyParser parser, final DataCollector dc, boolean expectedAppletResult,
             Properties expectedProperties) {
-        NullaryFunction<Object> isAppletNullaryFunction = new NullaryFunction<Object>() {
+        NullaryFunction<Object> isAppletNullaryFunction = new NullaryFunction<>() {
+            @Override
             public Object evaluate() {
                 return Boolean.valueOf(dc.isApplet());
             }
@@ -660,7 +674,8 @@ public class Client {
 
         session.testForPass(name + "isApplet", isAppletNullaryFunction, Boolean.valueOf(expectedAppletResult));
 
-        NullaryFunction<Object> getPropertiesNullaryFunction = new NullaryFunction<Object>() {
+        NullaryFunction<Object> getPropertiesNullaryFunction = new NullaryFunction<>() {
+            @Override
             public Object evaluate() {
                 return dc.getProperties();
             }
@@ -886,8 +901,9 @@ public class Client {
     private Set makeSetFromArray(Object array) {
         Set result = new HashSet();
         if (array != null) {
-            if (!array.getClass().isArray())
+            if (!array.getClass().isArray()) {
                 throw new Error("makeSetFromArray called with non-array argument");
+            }
 
             int size = Array.getLength(array);
             for (int ctr = 0; ctr < size; ctr++) {
@@ -913,24 +929,25 @@ public class Client {
     private boolean equalByAccessorMethods(Object obj1, Object obj2) {
         ObjectUtility objutil = ObjectUtility.make(false, true, 5, 4);
         boolean result = true;
-        if (obj1.getClass() != obj2.getClass())
+        if (obj1.getClass() != obj2.getClass()) {
             throw new Error("equalByAccessorMethods can only be used for objects " + "of the same class");
+        }
 
         try {
             Class cls = obj1.getClass();
             Method[] publicMethods = cls.getMethods();
-            for (int ctr = 0; ctr < publicMethods.length; ctr++) {
-                Method method = publicMethods[ctr];
+            for (Method method : publicMethods) {
                 String name = method.getName();
                 if (!method.getDeclaringClass().equals(Object.class) && method.getParameterTypes().length == 0) {
                     Object value1 = method.invoke(obj1);
                     Object value2 = method.invoke(obj2);
 
                     boolean comparison;
-                    if (method.getReturnType().isArray())
+                    if (method.getReturnType().isArray()) {
                         comparison = compareArraysAsSets(value1, value2);
-                    else
+                    } else {
                         comparison = ObjectUtility.equals(value1, value2);
+                    }
 
                     if (!comparison) {
                         System.out.println("        Objects are not equal by accessor method " + name + ":");
@@ -958,8 +975,9 @@ public class Client {
     private Properties makeORBDataProperties() {
         ParserData[] data = ParserTable.get(ORB.defaultClassNameResolver()).getParserData();
         Properties result = new Properties();
-        for (int ctr = 0; ctr < data.length; ctr++)
-            data[ctr].addToProperties(result);
+        for (ParserData element : data) {
+            element.addToProperties(result);
+        }
         return result;
     }
 
@@ -970,17 +988,21 @@ public class Client {
             this.props = props;
         }
 
+        @Override
         public boolean isApplet() {
             return false;
         }
 
+        @Override
         public boolean initialHostIsLocal() {
             return false;
         }
 
+        @Override
         public void setParser(PropertyParser parser) {
         }
 
+        @Override
         public Properties getProperties() {
             return props;
         }
@@ -989,7 +1011,7 @@ public class Client {
     private void testORBData() {
         session.start("ORBData");
 
-        ORB orb = (ORB) ORB.init();
+        ORB orb = (ORB) org.omg.CORBA.ORB.init();
 
         Properties props = makeORBDataProperties();
         final ORBDataParserImpl od1 = new ORBDataParserImpl(orb, new PropertyDataCollector(props));
@@ -1000,11 +1022,12 @@ public class Client {
 
         final ORBDataParserImpl od2 = new ORBDataParserImpl(orb, new PropertyDataCollector(props));
 
-        NullaryFunction<Object> closure = new NullaryFunction<Object>() {
+        NullaryFunction<Object> closure = new NullaryFunction<>() {
+            @Override
             public Object evaluate() {
-                if (compareORBDataByInterface(od1, od2))
+                if (compareORBDataByInterface(od1, od2)) {
                     return Boolean.TRUE;
-                else {
+                } else {
                     System.out.println("ORBData comparison failed.");
                     // This is handled in the closure.
                     // System.out.println( "od1=" +
@@ -1027,8 +1050,9 @@ public class Client {
         Properties props = new Properties();
         props.put(ORBConstants.SUN_PREFIX + "ORBUserConfigurators." + "corba.orbconfig.MyConfigurator", "1");
         String[] args = null;
-        ORB.init(args, props);
-        NullaryFunction<Object> closure = new NullaryFunction<Object>() {
+        org.omg.CORBA.ORB.init(args, props);
+        NullaryFunction<Object> closure = new NullaryFunction<>() {
+            @Override
             public Object evaluate() {
                 return Boolean.valueOf(MyConfigurator.wasCalled);
             }
@@ -1053,7 +1077,7 @@ public class Client {
         System.out.println("\tTest ORBServerHost and Listen on all interfaces");
 
         // Case 1
-        ORB orb = (ORB) ORB.init();
+        ORB orb = (ORB) org.omg.CORBA.ORB.init();
         String[] args = null;
         DataCollector dc = DataCollectorFactory.create(args, null, "MyHost");
         ORBDataParserImpl od1 = new ORBDataParserImpl(orb, dc);
@@ -1144,11 +1168,13 @@ public class Client {
             init(dataCollector);
         }
 
+        @Override
         public PropertyParser makeParser() {
             PropertyParser parser = new PropertyParser();
             return parser;
         }
 
+        @Override
         public void complete() {
             if (++numberOfCompleteMethodInvokes > 1) {
                 throw new IllegalStateException("complete() called too many times" + numberOfCompleteMethodInvokes);

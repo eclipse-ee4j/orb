@@ -89,21 +89,25 @@ public class SampleClientRequestInterceptor extends org.omg.CORBA.LocalObject im
         this.name = name;
     }
 
+    @Override
     public String name() {
         return name;
     }
 
+    @Override
     public void destroy() {
     }
 
+    @Override
     public void send_request(ClientRequestInfo ri) throws ForwardRequest {
         // Count all calls (and print entry), not just test ones,
         // to make sure all ORB internal calls are balanced.
         callCounter++; // Starting point - add
         printPointEntry("send_request", ri);
 
-        if (!enabled)
+        if (!enabled) {
             return;
+        }
 
         // Log that we did a send_request on this interceptor so we can
         // verify invocation order was correct in test.
@@ -134,25 +138,29 @@ public class SampleClientRequestInterceptor extends org.omg.CORBA.LocalObject im
         }
     }
 
+    @Override
     public void send_poll(ClientRequestInfo ri) {
         callCounter++; // Starting point - add
         printPointEntry("send_poll", ri);
 
-        if (!enabled)
+        if (!enabled) {
             return;
+        }
 
         // Log that we did a send_poll on this interceptor so we can
         // verify invocation order was correct in test.
         invocationOrder += "sp" + name;
     }
 
+    @Override
     public void receive_reply(ClientRequestInfo ri) {
         // Ending points have the print/call statements reverse intentionally.
         printPointEntry("receive_reply", ri);
         callCounter--; // Ending point - subtracm
 
-        if (!enabled)
+        if (!enabled) {
             return;
+        }
 
         // Log that we did a receive_reply on this interceptor so we can
         // verify invocation order was correct in test.
@@ -169,12 +177,14 @@ public class SampleClientRequestInterceptor extends org.omg.CORBA.LocalObject im
         }
     }
 
+    @Override
     public void receive_exception(ClientRequestInfo ri) throws ForwardRequest {
         printPointEntry("receive_exception", ri);
         callCounter--; // Ending point - subtract
 
-        if (!enabled)
+        if (!enabled) {
             return;
+        }
 
         // Log that we did a receive_exception on this interceptor so we can
         // verify invocation order was correct in test.
@@ -192,12 +202,14 @@ public class SampleClientRequestInterceptor extends org.omg.CORBA.LocalObject im
         }
     }
 
+    @Override
     public void receive_other(ClientRequestInfo ri) throws ForwardRequest {
         printPointEntry("receive_other", ri);
         callCounter--; // Ending point - subtract
 
-        if (!enabled)
+        if (!enabled) {
             return;
+        }
 
         // Log that we did a receive_other on this interceptor so we can
         // verify invocation order was correct in test.

@@ -34,13 +34,16 @@ public class ServerIORInterceptor extends org.omg.CORBA.LocalObject implements I
     public final String baseMsg = ServerIORInterceptor.class.getName();
     public final String estMsg = baseMsg + ".establish_components";
 
+    @Override
     public String name() {
         return baseMsg;
     }
 
+    @Override
     public void destroy() {
     }
 
+    @Override
     public void establish_components(IORInfo iorInfo) {
         IORInfoExt iorInfoExt = (IORInfoExt) iorInfo;
         String componentData = Common.createComponentData(estMsg, iorInfoExt);

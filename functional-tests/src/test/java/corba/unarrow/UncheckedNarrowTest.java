@@ -28,6 +28,7 @@ import java.util.*;
  * on the remote servant.
  */
 public class UncheckedNarrowTest extends CORBATest {
+    @Override
     protected void doTest() throws Throwable {
         Controller orbd = createORBD();
         Controller server = createServer("corba.unarrow.Server");

@@ -41,7 +41,7 @@ public abstract class StubConnectImpl {
 
     /**
      * Connect the stub to the orb if necessary.
-     * 
+     *
      * @param ior The StubIORImpl for this stub (may be null)
      * @param proxy The externally visible stub seen by the user (may be the same as stub)
      * @param stub The stub implementation that extends ObjectImpl
@@ -57,14 +57,16 @@ public abstract class StubConnectImpl {
             try {
                 del = StubAdapter.getDelegate(stub);
 
-                if (del.orb(stub) != orb)
+                if (del.orb(stub) != orb) {
                     throw wrapper.connectWrongOrb();
+                }
             } catch (org.omg.CORBA.BAD_OPERATION err) {
                 if (ior == null) {
                     // No IOR, can we get a Tie for this stub?
-                    Tie tie = (javax.rmi.CORBA.Tie) Utility.getAndForgetTie(proxy);
-                    if (tie == null)
+                    Tie tie = Utility.getAndForgetTie(proxy);
+                    if (tie == null) {
                         throw wrapper.connectNoTie();
+                    }
 
                     // Is the tie already connected? If it is, check that it's
                     // connected to the same ORB, otherwise connect it.
@@ -79,8 +81,9 @@ public abstract class StubConnectImpl {
                         tie.orb(orb);
                     }
 
-                    if (existingOrb != orb)
+                    if (existingOrb != orb) {
                         throw wrapper.connectTieWrongOrb();
+                    }
 
                     // Get the delegate for the stub from the tie.
                     del = StubAdapter.getDelegate(tie);

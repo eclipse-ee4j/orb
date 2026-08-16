@@ -32,6 +32,7 @@ class ServerSideServant extends ServerSidePOA {
     public ServerSideServant() {
     }
 
+    @Override
     public void neverReturns() {
         U.sop(baseMsg + ".neverReturns");
         try {

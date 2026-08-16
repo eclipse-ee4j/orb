@@ -48,6 +48,7 @@ public class MyServantLocator extends org.omg.CORBA.LocalObject implements Serva
         this.orb = orb;
     }
 
+    @Override
     public Servant preinvoke(byte[] oid, POA poa, String operation, CookieHolder cookieHolder) throws ForwardRequest {
         ClassLoader classLoader = null;
         Class rmiiIServantPOAClass = null;
@@ -75,6 +76,7 @@ public class MyServantLocator extends org.omg.CORBA.LocalObject implements Serva
         return null;
     }
 
+    @Override
     public void postinvoke(byte[] oid, POA poa, String operation, java.lang.Object cookie, Servant servant) {
     }
 
@@ -89,8 +91,8 @@ public class MyServantLocator extends org.omg.CORBA.LocalObject implements Serva
         System.out.println(c + " " + c.getClassLoader());
 
         Class[] interfaces = c.getInterfaces();
-        for (int j = 0; j < interfaces.length; j++) {
-            reflect(interfaces[j], indent + 2);
+        for (Class element : interfaces) {
+            reflect(element, indent + 2);
         }
         if (c.getSuperclass() != null) {
             reflect(c.getSuperclass(), indent + 2);

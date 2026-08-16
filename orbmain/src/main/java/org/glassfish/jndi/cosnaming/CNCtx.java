@@ -78,7 +78,7 @@ public class CNCtx implements javax.naming.Context {
 
     private synchronized static ORB getDefaultOrb() {
         if (_defaultOrb == null) {
-            _defaultOrb = CorbaUtils.getOrb(null, -1, new Hashtable<String, java.lang.Object>());
+            _defaultOrb = CorbaUtils.getOrb(null, -1, new Hashtable<>());
         }
         return _defaultOrb;
     }
@@ -99,7 +99,7 @@ public class CNCtx implements javax.naming.Context {
     /**
      * Create a CNCtx object. Gets the initial naming reference for the COS Naming Service from the ORB. The ORB can be
      * passed in via the java.naming.corba.orb property or be created using properties in the environment properties.
-     * 
+     *
      * @param env Environment properties for initializing name service.
      * @exception NamingException Cannot initialize ORB or naming context.
      */
@@ -139,7 +139,7 @@ public class CNCtx implements javax.naming.Context {
 
     /**
      * Creates a CNCtx object which supports the javax.naming apis given a COS Naming Context object.
-     * 
+     *
      * @param orb The ORB used by this context
      * @param tracker The ORB reuse tracker for tracking references to the orb object
      * @param nctx The COS NamingContext object associated with this context
@@ -148,8 +148,9 @@ public class CNCtx implements javax.naming.Context {
 
     CNCtx(ORB orb, OrbReuseTracker tracker, NamingContext nctx, Hashtable<String, java.lang.Object> env, NameComponent[] name)
             throws NamingException {
-        if (orb == null || nctx == null)
+        if (orb == null || nctx == null) {
             throw new ConfigurationException("Must supply ORB or NamingContext");
+        }
         if (orb != null) {
             _orb = orb;
         } else {
@@ -175,6 +176,7 @@ public class CNCtx implements javax.naming.Context {
         return answer;
     }
 
+    @Override
     public String getNameInNamespace() throws NamingException {
         if (_name == null || _name.length == 0) {
             return "";
@@ -216,8 +218,9 @@ public class CNCtx implements javax.naming.Context {
             inOrb = (org.omg.CORBA.ORB) env.get("java.naming.corba.orb");
         }
 
-        if (inOrb == null)
+        if (inOrb == null) {
             inOrb = getDefaultOrb(); // will create a default ORB if none exists
+        }
 
         // Extract PROVIDER_URL from environment
         String provUrl = null;
@@ -272,8 +275,9 @@ public class CNCtx implements javax.naming.Context {
      */
     private String initUsingIiopUrl(ORB defOrb, String url, Hashtable<?, ?> env) throws NamingException {
 
-        if (defOrb == null)
+        if (defOrb == null) {
             defOrb = getDefaultOrb();
+        }
 
         try {
             IiopUrl parsedUrl = new IiopUrl(url);
@@ -322,8 +326,9 @@ public class CNCtx implements javax.naming.Context {
      */
     private String initUsingCorbanameUrl(ORB orb, String url, Hashtable<?, ?> env) throws NamingException {
 
-        if (orb == null)
+        if (orb == null) {
             orb = getDefaultOrb();
+        }
 
         try {
             CorbanameUrl parsedUrl = new CorbanameUrl(url);
@@ -434,7 +439,7 @@ public class CNCtx implements javax.naming.Context {
     /**
      * Does the job of calling the COS Naming API, resolve, and performs the exception mapping. If the resolved object is a
      * COS Naming Context (sub-context), then this function returns a new JNDI naming context object.
-     * 
+     *
      * @param path the NameComponent[] object.
      * @exception NotFound No objects under the name.
      * @exception CannotProceed Unable to obtain a continuation context
@@ -462,11 +467,12 @@ public class CNCtx implements javax.naming.Context {
     /**
      * Converts the "String" name into a CompositeName returns the object resolved by the COS Naming api, resolve. Returns
      * the current context if the name is empty. Returns either an org.omg.CORBA.Object or javax.naming.Context object.
-     * 
+     *
      * @param name string used to resolve the object.
      * @exception NamingException See callResolve.
      * @return the resolved object
      */
+    @Override
     public java.lang.Object lookup(String name) throws NamingException {
         if (debug) {
             System.out.println("Looking up: " + name);
@@ -478,16 +484,19 @@ public class CNCtx implements javax.naming.Context {
      * Converts the "Name" name into a NameComponent[] object and returns the object resolved by the COS Naming api,
      * resolve. Returns the current context if the name is empty. Returns either an org.omg.CORBA.Object or
      * javax.naming.Context object.
-     * 
+     *
      * @param name JNDI Name used to resolve the object.
      * @exception NamingException See callResolve.
      * @return the resolved object
      */
+    @Override
     public java.lang.Object lookup(Name name) throws NamingException {
-        if (_nc == null)
+        if (_nc == null) {
             throw new ConfigurationException("Context does not have a corresponding NamingContext");
-        if (name.size() == 0)
+        }
+        if (name.size() == 0) {
             return this; // %%% should clone() so that env can be changed
+        }
         NameComponent[] path = CNNameParser.nameToCosName(name);
 
         try {
@@ -514,7 +523,7 @@ public class CNCtx implements javax.naming.Context {
      * objects (such as Remote) into these acceptable forms.
      *
      * Uses the COS Naming apis bind/rebind or bind_context/rebind_context.
-     * 
+     *
      * @param pth NameComponent[] object
      * @param obj Object to be bound.
      * @param rebind perform rebind ? if true performs a rebind.
@@ -523,8 +532,9 @@ public class CNCtx implements javax.naming.Context {
      * @exception AlreadyBound An object is already bound to this name.
      */
     private void callBindOrRebind(NameComponent[] pth, Name name, java.lang.Object obj, boolean rebind) throws NamingException {
-        if (_nc == null)
+        if (_nc == null) {
             throw new ConfigurationException("Context does not have a corresponding NamingContext");
+        }
         try {
             // Call state factories to convert
             obj = NamingManager.getStateToBind(obj, name, this, _env);
@@ -536,18 +546,21 @@ public class CNCtx implements javax.naming.Context {
 
             if (obj instanceof org.omg.CosNaming.NamingContext) {
                 NamingContext nobj = NamingContextHelper.narrow((org.omg.CORBA.Object) obj);
-                if (rebind)
+                if (rebind) {
                     _nc.rebind_context(pth, nobj);
-                else
+                } else {
                     _nc.bind_context(pth, nobj);
+                }
 
             } else if (obj instanceof org.omg.CORBA.Object) {
-                if (rebind)
+                if (rebind) {
                     _nc.rebind(pth, (org.omg.CORBA.Object) obj);
-                else
+                } else {
                     _nc.bind(pth, (org.omg.CORBA.Object) obj);
-            } else
+                }
+            } else {
                 throw new IllegalArgumentException("Only instances of org.omg.CORBA.Object can be bound");
+            }
         } catch (BAD_PARAM e) {
             // probably narrow() failed?
             NamingException ne = new NotContextException(name.toString());
@@ -562,11 +575,12 @@ public class CNCtx implements javax.naming.Context {
      * Converts the "Name" name into a NameComponent[] object and performs the bind operation. Uses callBindOrRebind. Throws
      * an invalid name exception if the name is empty. We need a name to bind the object even when we work within the
      * current context.
-     * 
+     *
      * @param name JNDI Name object
      * @param obj Object to be bound.
      * @exception NamingException See callBindOrRebind
      */
+    @Override
     public void bind(Name name, java.lang.Object obj) throws NamingException {
         if (name.size() == 0) {
             throw new InvalidNameException("Name is empty");
@@ -607,11 +621,12 @@ public class CNCtx implements javax.naming.Context {
     /**
      * Converts the "String" name into a CompositeName object and performs the bind operation. Uses callBindOrRebind. Throws
      * an invalid name exception if the name is empty.
-     * 
+     *
      * @param name string
      * @param obj Object to be bound.
      * @exception NamingException See callBindOrRebind
      */
+    @Override
     public void bind(String name, java.lang.Object obj) throws NamingException {
         bind(new CompositeName(name), obj);
     }
@@ -620,11 +635,12 @@ public class CNCtx implements javax.naming.Context {
      * Converts the "Name" name into a NameComponent[] object and performs the rebind operation. Uses callBindOrRebind.
      * Throws an invalid name exception if the name is empty. We must have a name to rebind the object to even if we are
      * working within the current context.
-     * 
+     *
      * @param name string
      * @param obj Object to be bound.
      * @exception NamingException See callBindOrRebind
      */
+    @Override
     public void rebind(Name name, java.lang.Object obj) throws NamingException {
         if (name.size() == 0) {
             throw new InvalidNameException("Name is empty");
@@ -641,26 +657,28 @@ public class CNCtx implements javax.naming.Context {
     /**
      * Converts the "String" name into a CompositeName object and performs the rebind operation. Uses callBindOrRebind.
      * Throws an invalid name exception if the name is an empty string.
-     * 
+     *
      * @param name string
      * @param obj Object to be bound.
      * @exception NamingException See callBindOrRebind
      */
+    @Override
     public void rebind(String name, java.lang.Object obj) throws NamingException {
         rebind(new CompositeName(name), obj);
     }
 
     /**
      * Calls the unbind api of COS Naming and uses the exception mapper class to map the exceptions
-     * 
+     *
      * @param path NameComponent[] object
      * @exception NotFound No objects under the name. If leaf is not found, that's OK according to the JNDI spec
      * @exception CannotProceed Unable to obtain a continuation context
      * @exception InvalidName Name not understood.
      */
     private void callUnbind(NameComponent[] path) throws NamingException {
-        if (_nc == null)
+        if (_nc == null) {
             throw new ConfigurationException("Context does not have a corresponding NamingContext");
+        }
         try {
             _nc.unbind(path);
         } catch (NotFound e) {
@@ -693,10 +711,11 @@ public class CNCtx implements javax.naming.Context {
      * Converts the "String" name into a CompositeName object and performs the unbind operation. Uses callUnbind. If the
      * name is empty, throws an invalid name exception. Do we unbind the current context (JNDI spec says work with the
      * current context if the name is empty) ?
-     * 
+     *
      * @param name string
      * @exception NamingException See callUnbind
      */
+    @Override
     public void unbind(String name) throws NamingException {
         unbind(new CompositeName(name));
     }
@@ -704,13 +723,15 @@ public class CNCtx implements javax.naming.Context {
     /**
      * Converts the "Name" name into a NameComponent[] object and performs the unbind operation. Uses callUnbind. Throws an
      * invalid name exception if the name is empty.
-     * 
+     *
      * @param name string
      * @exception NamingException See callUnbind
      */
+    @Override
     public void unbind(Name name) throws NamingException {
-        if (name.size() == 0)
+        if (name.size() == 0) {
             throw new InvalidNameException("Name is empty");
+        }
         NameComponent[] path = CNNameParser.nameToCosName(name);
         try {
             callUnbind(path);
@@ -723,11 +744,12 @@ public class CNCtx implements javax.naming.Context {
     /**
      * Renames an object. Since COS Naming does not support a rename api, this method unbinds the object with the "oldName"
      * and creates a new binding.
-     * 
+     *
      * @param oldName string, existing name for the binding.
      * @param newName string, name used to replace.
      * @exception NamingException See bind
      */
+    @Override
     public void rename(String oldName, String newName) throws NamingException {
         rename(new CompositeName(oldName), new CompositeName(newName));
     }
@@ -735,16 +757,19 @@ public class CNCtx implements javax.naming.Context {
     /**
      * Renames an object. Since COS Naming does not support a rename api, this method unbinds the object with the "oldName"
      * and creates a new binding.
-     * 
+     *
      * @param oldName JNDI Name, existing name for the binding.
      * @param newName JNDI Name, name used to replace.
      * @exception NamingException See bind
      */
+    @Override
     public void rename(Name oldName, Name newName) throws NamingException {
-        if (_nc == null)
+        if (_nc == null) {
             throw new ConfigurationException("Context does not have a corresponding NamingContext");
-        if (oldName.size() == 0 || newName.size() == 0)
+        }
+        if (oldName.size() == 0 || newName.size() == 0) {
             throw new InvalidNameException("One or both names empty");
+        }
         java.lang.Object obj = lookup(oldName);
         bind(newName, obj);
         unbind(oldName);
@@ -753,11 +778,12 @@ public class CNCtx implements javax.naming.Context {
     /**
      * Returns a NameClassEnumeration object which has a list of name class pairs. Lists the current context if the name is
      * empty.
-     * 
+     *
      * @param name string
      * @exception NamingException All exceptions thrown by lookup with a non-null argument
      * @return a list of name-class objects as a NameClassEnumeration.
      */
+    @Override
     public NamingEnumeration<NameClassPair> list(String name) throws NamingException {
         return list(new CompositeName(name));
     }
@@ -765,11 +791,12 @@ public class CNCtx implements javax.naming.Context {
     /**
      * Returns a NameClassEnumeration object which has a list of name class pairs. Lists the current context if the name is
      * empty.
-     * 
+     *
      * @param name JNDI Name
      * @exception NamingException All exceptions thrown by lookup
      * @return a list of name-class objects as a NameClassEnumeration.
      */
+    @Override
     @SuppressWarnings("unchecked")
     public NamingEnumeration<NameClassPair> list(Name name) throws NamingException {
         return (NamingEnumeration) listBindings(name);
@@ -778,11 +805,12 @@ public class CNCtx implements javax.naming.Context {
     /**
      * Returns a BindingEnumeration object which has a list of name object pairs. Lists the current context if the name is
      * empty.
-     * 
+     *
      * @param name string
      * @exception NamingException all exceptions returned by lookup
      * @return a list of bindings as a BindingEnumeration.
      */
+    @Override
     public NamingEnumeration<javax.naming.Binding> listBindings(String name) throws NamingException {
         return listBindings(new CompositeName(name));
     }
@@ -790,14 +818,16 @@ public class CNCtx implements javax.naming.Context {
     /**
      * Returns a BindingEnumeration object which has a list of name class pairs. Lists the current context if the name is
      * empty.
-     * 
+     *
      * @param name JNDI Name
      * @exception NamingException all exceptions returned by lookup.
      * @return a list of bindings as a BindingEnumeration.
      */
+    @Override
     public NamingEnumeration<javax.naming.Binding> listBindings(Name name) throws NamingException {
-        if (_nc == null)
+        if (_nc == null) {
             throw new ConfigurationException("Context does not have a corresponding NamingContext");
+        }
         if (name.size() > 0) {
             try {
                 java.lang.Object obj = lookup(name);
@@ -819,13 +849,14 @@ public class CNCtx implements javax.naming.Context {
 
     /**
      * Calls the destroy on the COS Naming Server
-     * 
+     *
      * @param nc The NamingContext object to use.
      * @exception NotEmpty when the context is not empty and cannot be destroyed.
      */
     private void callDestroy(NamingContext nc) throws NamingException {
-        if (_nc == null)
+        if (_nc == null) {
             throw new ConfigurationException("Context does not have a corresponding NamingContext");
+        }
         try {
             nc.destroy();
         } catch (Exception e) {
@@ -835,23 +866,26 @@ public class CNCtx implements javax.naming.Context {
 
     /**
      * Uses the callDestroy function to destroy the context. If name is empty destroys the current context.
-     * 
+     *
      * @param name string
      * @exception OperationNotSupportedException when list is invoked with a non-null argument
      */
+    @Override
     public void destroySubcontext(String name) throws NamingException {
         destroySubcontext(new CompositeName(name));
     }
 
     /**
      * Uses the callDestroy function to destroy the context. Destroys the current context if name is empty.
-     * 
+     *
      * @param name JNDI Name
      * @exception OperationNotSupportedException when list is invoked with a non-null argument
      */
+    @Override
     public void destroySubcontext(Name name) throws NamingException {
-        if (_nc == null)
+        if (_nc == null) {
             throw new ConfigurationException("Context does not have a corresponding NamingContext");
+        }
         NamingContext the_nc = _nc;
         NameComponent[] path = CNNameParser.nameToCosName(name);
         if (name.size() > 0) {
@@ -884,7 +918,7 @@ public class CNCtx implements javax.naming.Context {
 
     /**
      * Calls the bind_new_context COS naming api to create a new subcontext.
-     * 
+     *
      * @param path NameComponent[] object
      * @exception NotFound No objects under the name.
      * @exception CannotProceed Unable to obtain a continuation context
@@ -893,8 +927,9 @@ public class CNCtx implements javax.naming.Context {
      * @return the new context object.
      */
     private javax.naming.Context callBindNewContext(NameComponent[] path) throws NamingException {
-        if (_nc == null)
+        if (_nc == null) {
             throw new ConfigurationException("Context does not have a corresponding NamingContext");
+        }
         try {
             NamingContext nctx = _nc.bind_new_context(path);
             return new CNCtx(_orb, orbTracker, nctx, _env, makeFullName(path));
@@ -906,11 +941,12 @@ public class CNCtx implements javax.naming.Context {
     /**
      * Uses the callBindNewContext convenience function to create a new context. Throws an invalid name exception if the
      * name is empty.
-     * 
+     *
      * @param name string
      * @exception NamingException See callBindNewContext
      * @return the new context object.
      */
+    @Override
     public javax.naming.Context createSubcontext(String name) throws NamingException {
         return createSubcontext(new CompositeName(name));
     }
@@ -918,14 +954,16 @@ public class CNCtx implements javax.naming.Context {
     /**
      * Uses the callBindNewContext convenience function to create a new context. Throws an invalid name exception if the
      * name is empty.
-     * 
+     *
      * @param name string
      * @exception NamingException See callBindNewContext
      * @return the new context object.
      */
+    @Override
     public javax.naming.Context createSubcontext(Name name) throws NamingException {
-        if (name.size() == 0)
+        if (name.size() == 0) {
             throw new InvalidNameException("Name is empty");
+        }
         NameComponent[] path = CNNameParser.nameToCosName(name);
         try {
             return callBindNewContext(path);
@@ -937,53 +975,58 @@ public class CNCtx implements javax.naming.Context {
 
     /**
      * Is mapped to resolve in the COS Naming api.
-     * 
+     *
      * @param name string
      * @exception NamingException See lookup.
      * @return the resolved object.
      */
+    @Override
     public java.lang.Object lookupLink(String name) throws NamingException {
         return lookupLink(new CompositeName(name));
     }
 
     /**
      * Is mapped to resolve in the COS Naming api.
-     * 
+     *
      * @param name string
      * @exception NamingException See lookup.
      * @return the resolved object.
      */
+    @Override
     public java.lang.Object lookupLink(Name name) throws NamingException {
         return lookup(name);
     }
 
     /**
      * Allow access to the name parser object.
-     * 
+     *
      * @param name JNDI name, is ignored since there is only one Name Parser object.
      * @exception NamingException --
      * @return NameParser object
      */
+    @Override
     public NameParser getNameParser(String name) throws NamingException {
         return parser;
     }
 
     /**
      * Allow access to the name parser object.
-     * 
+     *
      * @param name JNDI name, is ignored since there is only one Name Parser object.
      * @exception NamingException --
      * @return NameParser object
      */
+    @Override
     public NameParser getNameParser(Name name) throws NamingException {
         return parser;
     }
 
     /**
      * Returns the current environment.
-     * 
+     *
      * @return Environment.
      */
+    @Override
     @SuppressWarnings("unchecked")
     public Hashtable<String, java.lang.Object> getEnvironment() throws NamingException {
         if (_env == null) {
@@ -993,10 +1036,12 @@ public class CNCtx implements javax.naming.Context {
         }
     }
 
+    @Override
     public String composeName(String name, String prefix) throws NamingException {
         return composeName(new CompositeName(name), new CompositeName(prefix)).toString();
     }
 
+    @Override
     public Name composeName(Name name, Name prefix) throws NamingException {
         Name result = (Name) prefix.clone();
         return result.addAll(name);
@@ -1009,6 +1054,7 @@ public class CNCtx implements javax.naming.Context {
      * @param propValue The ORB.
      * @return the previous value of this property if any.
      */
+    @Override
     @SuppressWarnings("unchecked")
     public java.lang.Object addToEnvironment(String propName, java.lang.Object propValue) throws NamingException {
         if (_env == null) {
@@ -1022,6 +1068,7 @@ public class CNCtx implements javax.naming.Context {
     }
 
     // Record change but do not reinitialize ORB
+    @Override
     @SuppressWarnings("unchecked")
     public java.lang.Object removeFromEnvironment(String propName) throws NamingException {
         if (_env != null && _env.get(propName) != null) {
@@ -1049,6 +1096,7 @@ public class CNCtx implements javax.naming.Context {
         }
     }
 
+    @Override
     synchronized public void close() throws NamingException {
 
         if (enumCount > 0) {
@@ -1061,6 +1109,7 @@ public class CNCtx implements javax.naming.Context {
         // from elsewhere, so that orb is somebody else's responsibility.
     }
 
+    @Override
     protected void finalize() {
         try {
             close();

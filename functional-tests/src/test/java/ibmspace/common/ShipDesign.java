@@ -97,7 +97,7 @@ public class ShipDesign implements Serializable {
     }
 
     public long getScrapMetalPerShip() {
-        return (long) (0.7 * (double) getMetalPerShip());
+        return (long) (0.7 * getMetalPerShip());
     }
 
 }

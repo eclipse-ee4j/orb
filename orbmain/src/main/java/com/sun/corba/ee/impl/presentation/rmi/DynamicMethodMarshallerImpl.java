@@ -73,8 +73,7 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
 
         // Check that all methods (other than those declared in java.lang.Object)
         // throw an exception that is a subclass of RemoteException.
-        for (int ctr = 0; ctr < methods.length; ctr++) {
-            Method method = methods[ctr];
+        for (Method method : methods) {
             if (method.getDeclaringClass() != Object.class) {
                 if (!throwsRemote(method)) {
                     return false;
@@ -89,8 +88,7 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
         Class[] exceptionTypes = method.getExceptionTypes();
 
         // Check that some exceptionType is a subclass of RemoteException
-        for (int ctr = 0; ctr < exceptionTypes.length; ctr++) {
-            Class exceptionType = exceptionTypes[ctr];
+        for (Class exceptionType : exceptionTypes) {
             if (ClassInfoCache.get(exceptionType).isARemoteException(exceptionType)) {
                 return true;
             }
@@ -119,11 +117,13 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
     }
 
     private static ReaderWriter booleanRW = new ReaderWriterBase("boolean") {
+        @Override
         public Object read(InputStream is) {
             boolean value = is.read_boolean();
             return Boolean.valueOf(value);
         }
 
+        @Override
         public void write(OutputStream os, Object value) {
             Boolean val = (Boolean) value;
             os.write_boolean(val.booleanValue());
@@ -131,11 +131,13 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
     };
 
     private static ReaderWriter byteRW = new ReaderWriterBase("byte") {
+        @Override
         public Object read(InputStream is) {
             byte value = is.read_octet();
             return Byte.valueOf(value);
         }
 
+        @Override
         public void write(OutputStream os, Object value) {
             Byte val = (Byte) value;
             os.write_octet(val.byteValue());
@@ -143,11 +145,13 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
     };
 
     private static ReaderWriter charRW = new ReaderWriterBase("char") {
+        @Override
         public Object read(InputStream is) {
             char value = is.read_wchar();
             return Character.valueOf(value);
         }
 
+        @Override
         public void write(OutputStream os, Object value) {
             Character val = (Character) value;
             os.write_wchar(val.charValue());
@@ -155,11 +159,13 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
     };
 
     private static ReaderWriter shortRW = new ReaderWriterBase("short") {
+        @Override
         public Object read(InputStream is) {
             short value = is.read_short();
             return Short.valueOf(value);
         }
 
+        @Override
         public void write(OutputStream os, Object value) {
             Short val = (Short) value;
             os.write_short(val.shortValue());
@@ -167,11 +173,13 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
     };
 
     private static ReaderWriter intRW = new ReaderWriterBase("int") {
+        @Override
         public Object read(InputStream is) {
             int value = is.read_long();
             return Integer.valueOf(value);
         }
 
+        @Override
         public void write(OutputStream os, Object value) {
             Integer val = (Integer) value;
             os.write_long(val.intValue());
@@ -179,11 +187,13 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
     };
 
     private static ReaderWriter longRW = new ReaderWriterBase("long") {
+        @Override
         public Object read(InputStream is) {
             long value = is.read_longlong();
             return Long.valueOf(value);
         }
 
+        @Override
         public void write(OutputStream os, Object value) {
             Long val = (Long) value;
             os.write_longlong(val.longValue());
@@ -191,11 +201,13 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
     };
 
     private static ReaderWriter floatRW = new ReaderWriterBase("float") {
+        @Override
         public Object read(InputStream is) {
             float value = is.read_float();
             return Float.valueOf(value);
         }
 
+        @Override
         public void write(OutputStream os, Object value) {
             Float val = (Float) value;
             os.write_float(val.floatValue());
@@ -203,11 +215,13 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
     };
 
     private static ReaderWriter doubleRW = new ReaderWriterBase("double") {
+        @Override
         public Object read(InputStream is) {
             double value = is.read_double();
             return Double.valueOf(value);
         }
 
+        @Override
         public void write(OutputStream os, Object value) {
             Double val = (Double) value;
             os.write_double(val.doubleValue());
@@ -215,16 +229,19 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
     };
 
     private static ReaderWriter corbaObjectRW = new ReaderWriterBase("org.omg.CORBA.Object") {
+        @Override
         public Object read(InputStream is) {
             return is.read_Object();
         }
 
+        @Override
         public void write(OutputStream os, Object value) {
             os.write_Object((org.omg.CORBA.Object) value);
         }
     };
 
     private static ReaderWriter anyRW = new ReaderWriterBase("any") {
+        @Override
         public Object read(InputStream is) {
             try {
                 return Util.getInstance().readAny(is);
@@ -233,12 +250,14 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
             }
         }
 
+        @Override
         public void write(OutputStream os, Object value) {
             Util.getInstance().writeAny(os, value);
         }
     };
 
     private static ReaderWriter abstractInterfaceRW = new ReaderWriterBase("abstract_interface") {
+        @Override
         public Object read(InputStream is) {
             try {
                 return is.read_abstract_interface();
@@ -247,6 +266,7 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
             }
         }
 
+        @Override
         public void write(OutputStream os, Object value) {
             Util.getInstance().writeAbstractObject(os, value);
         }
@@ -273,10 +293,12 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
         } else if (cinfo.isARemote(cls)) {
             return new ReaderWriterBase("remote(" + cls.getName() + ")") {
 
+                @Override
                 public Object read(InputStream is) {
                     return PortableRemoteObject.narrow(is.read_Object(), cls);
                 }
 
+                @Override
                 public void write(OutputStream os, Object value) {
                     Util.getInstance().writeRemoteObject(os, value);
                 }
@@ -286,10 +308,12 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
         } else if (cinfo.isACORBAObject(cls)) {
             return new ReaderWriterBase("org.omg.CORBA.Object(" + cls.getName() + ")") {
 
+                @Override
                 public Object read(InputStream is) {
                     return is.read_Object(cls);
                 }
 
+                @Override
                 public void write(OutputStream os, Object value) {
                     os.write_Object((org.omg.CORBA.Object) value);
                 }
@@ -302,6 +326,7 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
 
         // For anything else, just read it as a value type.
         return new ReaderWriterBase("value(" + cls.getName() + ")") {
+            @Override
             public Object read(InputStream is) {
                 try {
                     return is.read_value(cls);
@@ -310,6 +335,7 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
                 }
             }
 
+            @Override
             public void write(OutputStream os, Object value) {
                 if (value == null) {
                     os.write_value(null, cls);
@@ -351,10 +377,12 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
         }
     }
 
+    @Override
     public Method getMethod() {
         return method;
     }
 
+    @Override
     public Object[] copyArguments(Object[] args, ORB orb) throws RemoteException {
         if (needsArgumentCopy) {
             return Util.getInstance().copyObjects(args, orb);
@@ -363,6 +391,7 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
         }
     }
 
+    @Override
     public Object[] readArguments(InputStream is) {
         Object[] result = null;
 
@@ -376,6 +405,7 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
         return result;
     }
 
+    @Override
     public void writeArguments(OutputStream os, Object[] args) {
         if (hasArguments) {
             if (args.length != argRWs.length) {
@@ -388,6 +418,7 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
         }
     }
 
+    @Override
     public Object copyResult(Object result, ORB orb) throws RemoteException {
         if (needsResultCopy) {
             return Util.getInstance().copyObject(result, orb);
@@ -396,6 +427,7 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
         }
     }
 
+    @Override
     public Object readResult(InputStream is) {
         if (hasVoidResult) {
             return null;
@@ -404,20 +436,24 @@ public class DynamicMethodMarshallerImpl implements DynamicMethodMarshaller {
         }
     }
 
+    @Override
     public void writeResult(OutputStream os, Object result) {
         if (!hasVoidResult) {
             resultRW.write(os, result);
         }
     }
 
+    @Override
     public boolean isDeclaredException(Throwable thr) {
         return ehandler.isDeclaredException(thr.getClass());
     }
 
+    @Override
     public void writeException(OutputStream os, Exception ex) {
         ehandler.writeException(os, ex);
     }
 
+    @Override
     public Exception readException(ApplicationException ae) {
         return ehandler.readException(ae);
     }

@@ -53,8 +53,8 @@ class ObjectStreamClassCorbaExt {
         }
 
         Method[] methods = cl.getMethods();
-        for (int i = 0; i < methods.length; i++) {
-            Class exceptions[] = methods[i].getExceptionTypes();
+        for (Method method : methods) {
+            Class exceptions[] = method.getExceptionTypes();
             boolean exceptionMatch = false;
             for (int j = 0; (j < exceptions.length) && !exceptionMatch; j++) {
                 if ((java.rmi.RemoteException.class == exceptions[j]) || (java.lang.Throwable.class == exceptions[j])
@@ -98,23 +98,26 @@ class ObjectStreamClassCorbaExt {
         if (length == objectLength) {
             // Note that java.lang.String occurs a lot, and has the
             // same length as java.lang.Object!
-            if (typeString.charAt(length - 2) == 't')
+            if (typeString.charAt(length - 2) == 't') {
                 return objectString.equals(typeString);
-            else
+            } else {
                 return false;
+            }
         }
 
         if (length == serializableLength) {
             // java.math.BigInteger and java.math.BigDecimal have the same
             // length as java.io.Serializable
-            if (typeString.charAt(length - 2) == 'e')
+            if (typeString.charAt(length - 2) == 'e') {
                 return serializableString.equals(typeString);
-            else
+            } else {
                 return false;
+            }
         }
 
-        if (length == externalizableLength)
+        if (length == externalizableLength) {
             return externalizableString.equals(typeString);
+        }
 
         return false;
     }

@@ -24,10 +24,12 @@ import corba.framework.*;
 import java.util.*;
 
 public class CopyObjectPolicyTest extends CORBATest {
+    @Override
     protected Controller newClientController() {
         return new InternalExec();
     }
 
+    @Override
     protected void doTest() throws Throwable {
         Options.addServerArg("-debug");
 

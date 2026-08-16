@@ -54,7 +54,7 @@ final class CNBindingEnumeration implements NamingEnumeration<javax.naming.Bindi
 
     /**
      * Creates a CNBindingEnumeration object.
-     * 
+     *
      * @param ctx Context to enumerate
      */
     CNBindingEnumeration(CNCtx ctx, boolean isLookedUpCtx, Hashtable<?, ?> env) {
@@ -91,10 +91,11 @@ final class CNBindingEnumeration implements NamingEnumeration<javax.naming.Bindi
 
     /**
      * Returns the next binding in the list.
-     * 
+     *
      * @exception NamingException any naming exception.
      */
 
+    @Override
     public javax.naming.Binding next() throws NamingException {
         if (more && counter >= _bindingList.value.length) {
             getMore();
@@ -110,10 +111,11 @@ final class CNBindingEnumeration implements NamingEnumeration<javax.naming.Bindi
 
     /**
      * Returns true or false depending on whether there are more bindings.
-     * 
+     *
      * @return boolean value
      */
 
+    @Override
     public boolean hasMore() throws NamingException {
         // If there's more, check whether current bindingList has been exhausted,
         // and if so, try to get more.
@@ -124,10 +126,11 @@ final class CNBindingEnumeration implements NamingEnumeration<javax.naming.Bindi
     /**
      * Returns true or false depending on whether there are more bindings. Need to define this to satisfy the Enumeration
      * api requirement.
-     * 
+     *
      * @return boolean value
      */
 
+    @Override
     public boolean hasMoreElements() {
         try {
             return hasMore();
@@ -138,10 +141,11 @@ final class CNBindingEnumeration implements NamingEnumeration<javax.naming.Bindi
 
     /**
      * Returns the next binding in the list.
-     * 
+     *
      * @exception NoSuchElementException Thrown when the end of the list is reached.
      */
 
+    @Override
     public javax.naming.Binding nextElement() {
         try {
             return next();
@@ -150,6 +154,7 @@ final class CNBindingEnumeration implements NamingEnumeration<javax.naming.Bindi
         }
     }
 
+    @Override
     public void close() throws NamingException {
         more = false;
         if (_bindingIter != null) {
@@ -170,6 +175,7 @@ final class CNBindingEnumeration implements NamingEnumeration<javax.naming.Bindi
         }
     }
 
+    @Override
     protected void finalize() {
         try {
             close();
@@ -196,7 +202,7 @@ final class CNBindingEnumeration implements NamingEnumeration<javax.naming.Bindi
 
     /**
      * Constructs a JNDI Binding object from the COS Naming binding object.
-     * 
+     *
      * @exception NameNotFound No objects under the name.
      * @exception CannotProceed Unable to obtain a continuation context
      * @exception InvalidName Name not understood.

@@ -28,6 +28,7 @@ public abstract class StubFactoryFactoryBase implements PresentationManager.Stub
      *
      * @param fullName fully qualified name remote class
      */
+    @Override
     public String getStubName(String fullName) {
         return Utility.stubName(fullName);
     }

@@ -113,7 +113,7 @@ public class ServerTableEntry {
         this.serverDef = serverDef;
         this.debug = debug;
 
-        orbAndPortInfo = new HashMap<String, List<EndPointInfo>>();
+        orbAndPortInfo = new HashMap<>();
 
         activateRetryCount = 0;
         state = ACTIVATING;
@@ -139,7 +139,7 @@ public class ServerTableEntry {
                         (verify ? "-D" + ORBConstants.SERVER_DEF_VERIFY_PROPERTY + "=true " : "") +
 
                         // add classpath to the server
-                        "-classpath " + classPath + (serverDef.serverClassPath.equals("") == true ? "" : pathSep)
+                        "-classpath " + classPath + (serverDef.serverClassPath.equals("") ? "" : pathSep)
                         + serverDef.serverClassPath +
 
                         // add server class name and arguments
@@ -148,8 +148,9 @@ public class ServerTableEntry {
                         // Add the debug flag, if any
                         + (debug ? " -debug" : "");
 
-        if (debug)
+        if (debug) {
             System.out.println("ServerTableEntry constructed with activation command " + activationCmd);
+        }
     }
 
     /**
@@ -158,17 +159,20 @@ public class ServerTableEntry {
     public int verify() {
         try {
 
-            if (debug)
+            if (debug) {
                 System.out.println("Server being verified w/" + activationCmd);
+            }
 
             process = Runtime.getRuntime().exec(activationCmd);
             int result = process.waitFor();
-            if (debug)
+            if (debug) {
                 printDebug("verify", "returns " + ServerMain.printResult(result));
+            }
             return result;
         } catch (Exception e) {
-            if (debug)
+            if (debug) {
                 printDebug("verify", "returns unknown error because of exception " + e);
+            }
             return ServerMain.UNKNOWN_ERROR;
         }
     }
@@ -185,13 +189,15 @@ public class ServerTableEntry {
         state = ACTIVATED;
 
         try {
-            if (debug)
+            if (debug) {
                 printDebug("activate", "activating server");
+            }
             process = Runtime.getRuntime().exec(activationCmd);
         } catch (Exception e) {
             deActivate();
-            if (debug)
+            if (debug) {
                 printDebug("activate", "throwing premature process exit");
+            }
             throw wrapper.unableToStartProcess();
         }
     }
@@ -204,13 +210,15 @@ public class ServerTableEntry {
             // state = RUNNING;
             // notifyAll();
 
-            if (debug)
+            if (debug) {
                 printDebug("register", "process registered back");
+            }
 
         } else {
 
-            if (debug)
+            if (debug) {
                 printDebug("register", "throwing premature process exit");
+            }
             throw wrapper.serverNotExpectedToRegister();
         }
     }
@@ -223,12 +231,13 @@ public class ServerTableEntry {
         }
 
         // store all listener ports and their types
-        List<EndPointInfo> serverListenerPorts = new ArrayList<EndPointInfo>();
-        for (int i = 0; i < endpointList.length; i++) {
-            serverListenerPorts.add(new EndPointInfo(endpointList[i].endpointType, endpointList[i].port));
+        List<EndPointInfo> serverListenerPorts = new ArrayList<>();
+        for (EndPointInfo element : endpointList) {
+            serverListenerPorts.add(new EndPointInfo(element.endpointType, element.port));
 
-            if (debug)
-                System.out.println("registering type: " + endpointList[i].endpointType + "  port  " + endpointList[i].port);
+            if (debug) {
+                System.out.println("registering type: " + element.endpointType + "  port  " + element.port);
+            }
         }
 
         // put this set of listener ports in the HashMap associated
@@ -241,15 +250,17 @@ public class ServerTableEntry {
         // _REVISIT_, If the state is not equal to ACTIVATED then it is a bug
         // need to log that error, once the Logging framework is in place
         // for rip-int.
-        if (debug)
+        if (debug) {
             printDebug("registerPorts", "process registered Ports");
+        }
     }
 
     synchronized void install() {
-        if (state == RUNNING)
+        if (state == RUNNING) {
             serverObj.install();
-        else
+        } else {
             throw wrapper.serverNotRunning();
+        }
     }
 
     synchronized void uninstall() {
@@ -277,8 +288,9 @@ public class ServerTableEntry {
     synchronized void holdDown() {
         state = HELD_DOWN;
 
-        if (debug)
+        if (debug) {
             printDebug("holdDown", "server held down");
+        }
 
         notifyAll();
     }
@@ -286,8 +298,9 @@ public class ServerTableEntry {
     synchronized void deActivate() {
         state = DE_ACTIVATED;
 
-        if (debug)
+        if (debug) {
             printDebug("deActivate", "server deactivated");
+        }
 
         notifyAll();
     }
@@ -314,8 +327,9 @@ public class ServerTableEntry {
 
     synchronized boolean isValid() {
         if ((state == ACTIVATING) || (state == HELD_DOWN)) {
-            if (debug)
+            if (debug) {
                 printDebug("isValid", "returns true");
+            }
 
             return true;
         }
@@ -328,15 +342,17 @@ public class ServerTableEntry {
 
         if (state == ACTIVATED) {
             if (activateRetryCount < ActivationRetryMax) {
-                if (debug)
+                if (debug) {
                     printDebug("isValid", "reactivating server");
+                }
                 activateRetryCount++;
                 activate();
                 return true;
             }
 
-            if (debug)
+            if (debug) {
                 printDebug("isValid", "holding server down");
+            }
 
             holdDown();
             return true;
@@ -350,8 +366,9 @@ public class ServerTableEntry {
         while ((state == ACTIVATING) || (state == ACTIVATED)) {
             try {
                 wait(waitTime);
-                if (!isValid())
+                if (!isValid()) {
                     break;
+                }
             } catch (Exception e) {
             }
         }
@@ -371,9 +388,10 @@ public class ServerTableEntry {
                     port = -1;
                     // return the port corresponding to the endpointType
                     for (EndPointInfo ep : serverListenerPorts) {
-                        if (debug)
+                        if (debug) {
                             System.out
                                     .println("lookup num-ports " + serverListenerPorts.size() + "   " + ep.endpointType + "   " + ep.port);
+                        }
                         if (ep.endpointType.equals(endpointType)) {
                             port = ep.port;
                             break;
@@ -388,8 +406,9 @@ public class ServerTableEntry {
             return orbAndPortList;
         }
 
-        if (debug)
+        if (debug) {
             printDebug("lookup", "throwing server held down error");
+        }
 
         throw new ServerHeldDown(serverId);
     }
@@ -398,8 +417,9 @@ public class ServerTableEntry {
         while ((state == ACTIVATING) || (state == ACTIVATED)) {
             try {
                 wait(waitTime);
-                if (!isValid())
+                if (!isValid()) {
                     break;
+                }
             } catch (Exception e) {
             }
         }
@@ -414,8 +434,9 @@ public class ServerTableEntry {
                 // return the port corresponding to the endpointType
                 int i = 0;
                 for (EndPointInfo ep : serverListenerPorts) {
-                    if (debug)
+                    if (debug) {
                         System.out.println("lookup num-ports " + serverListenerPorts.size() + "   " + ep.endpointType + "   " + ep.port);
+                    }
                     portList[i] = new EndPointInfo(ep.endpointType, ep.port);
                 }
             } catch (NoSuchElementException e) {
@@ -426,8 +447,9 @@ public class ServerTableEntry {
             return portList;
         }
 
-        if (debug)
+        if (debug) {
             printDebug("lookup", "throwing server held down error");
+        }
 
         throw new ServerHeldDown(serverId);
     }
@@ -459,26 +481,32 @@ public class ServerTableEntry {
         deActivate();
 
         try {
-            if (serverObj != null)
+            if (serverObj != null) {
                 serverObj.shutdown();
+            }
 
-            if (debug)
+            if (debug) {
                 printDebug("destroy", "server shutdown successfully");
+            }
         } catch (Exception ex) {
-            if (debug)
+            if (debug) {
                 printDebug("destroy", "server shutdown threw exception" + ex);
             // ex.printStackTrace();
+            }
         }
 
         try {
-            if (process != null)
+            if (process != null) {
                 process.destroy();
+            }
 
-            if (debug)
+            if (debug) {
                 printDebug("destroy", "process destroyed successfully");
+            }
         } catch (Exception ex) {
-            if (debug)
+            if (debug) {
                 printDebug("destroy", "process destroy threw exception" + ex);
+            }
 
             // ex.printStackTrace();
         }

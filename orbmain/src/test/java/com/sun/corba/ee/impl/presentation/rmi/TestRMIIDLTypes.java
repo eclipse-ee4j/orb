@@ -40,10 +40,12 @@ public class TestRMIIDLTypes extends TestCase {
         return new TestSuite(TestRMIIDLTypes.class);
     }
 
+    @Override
     protected void setUp() {
         idlTypesUtil = new IDLTypesUtil();
     }
 
+    @Override
     protected void tearDown() {
     }
 
@@ -51,8 +53,7 @@ public class TestRMIIDLTypes extends TestCase {
         Class[] primitives = { Void.TYPE, Boolean.TYPE, Byte.TYPE, Character.TYPE, Short.TYPE, Integer.TYPE, Long.TYPE, Float.TYPE,
                 Double.TYPE };
 
-        for (int i = 0; i < primitives.length; i++) {
-            Class primitive = primitives[i];
+        for (Class primitive : primitives) {
             String msg = primitive.getName();
             assertTrue(msg, idlTypesUtil.isPrimitive(primitive));
             assertFalse(msg, idlTypesUtil.isRemoteInterface(primitive));
@@ -66,8 +67,7 @@ public class TestRMIIDLTypes extends TestCase {
         Class[] nonPrimitives = { Byte.class, Short.class, Integer.class, Long.class, Float.class, Double.class, String.class,
                 java.util.Date.class, Object.class };
 
-        for (int i = 0; i < nonPrimitives.length; i++) {
-            Class nonPrimitive = nonPrimitives[i];
+        for (Class nonPrimitive : nonPrimitives) {
             String msg = nonPrimitive.getName();
             assertFalse(msg, idlTypesUtil.isPrimitive(nonPrimitive));
         }
@@ -78,8 +78,7 @@ public class TestRMIIDLTypes extends TestCase {
 
         Class[] remoteInterfaces = ValidRemotes.CLASSES;
 
-        for (int i = 0; i < remoteInterfaces.length; i++) {
-            Class remoteIntf = remoteInterfaces[i];
+        for (Class remoteIntf : remoteInterfaces) {
             String msg = remoteIntf.getName();
 
             assertTrue(msg, idlTypesUtil.isRemoteInterface(remoteIntf));
@@ -99,8 +98,7 @@ public class TestRMIIDLTypes extends TestCase {
 
         Class[] values = ValidValues.CLASSES;
 
-        for (int i = 0; i < values.length; i++) {
-            Class value = values[i];
+        for (Class value : values) {
             String msg = value.getName();
 
             assertTrue(msg, idlTypesUtil.isValue(value));
@@ -115,8 +113,7 @@ public class TestRMIIDLTypes extends TestCase {
 
         Class[] nonValues = InvalidValues.CLASSES;
 
-        for (int i = 0; i < nonValues.length; i++) {
-            Class nonValue = nonValues[i];
+        for (Class nonValue : nonValues) {
             String msg = nonValue.getName();
             assertFalse(msg, idlTypesUtil.isValue(nonValue));
         }
@@ -127,8 +124,7 @@ public class TestRMIIDLTypes extends TestCase {
 
         Class[] exceptions = ValidExceptions.CLASSES;
 
-        for (int i = 0; i < exceptions.length; i++) {
-            Class excep = exceptions[i];
+        for (Class excep : exceptions) {
             String msg = excep.getName();
 
             assertTrue(msg, idlTypesUtil.isException(excep));
@@ -144,8 +140,7 @@ public class TestRMIIDLTypes extends TestCase {
 
         Class[] nonExceptions = InvalidExceptions.CLASSES;
 
-        for (int i = 0; i < nonExceptions.length; i++) {
-            Class nonException = nonExceptions[i];
+        for (Class nonException : nonExceptions) {
             String msg = nonException.getName();
             assertFalse(msg, idlTypesUtil.isException(nonException));
         }
@@ -155,8 +150,7 @@ public class TestRMIIDLTypes extends TestCase {
 
         Class[] objRefs = ValidObjRefs.CLASSES;
 
-        for (int i = 0; i < objRefs.length; i++) {
-            Class objRef = objRefs[i];
+        for (Class objRef : objRefs) {
             String msg = objRef.getName();
 
             assertTrue(msg, idlTypesUtil.isObjectReference(objRef));
@@ -171,8 +165,7 @@ public class TestRMIIDLTypes extends TestCase {
 
         Class[] nonObjRefs = InvalidObjRefs.CLASSES;
 
-        for (int i = 0; i < nonObjRefs.length; i++) {
-            Class nonObjRef = nonObjRefs[i];
+        for (Class nonObjRef : nonObjRefs) {
             String msg = nonObjRef.getName();
             assertFalse(msg, idlTypesUtil.isObjectReference(nonObjRef));
         }
@@ -183,8 +176,7 @@ public class TestRMIIDLTypes extends TestCase {
 
         Class[] entities = ValidEntities.CLASSES;
 
-        for (int i = 0; i < entities.length; i++) {
-            Class entity = entities[i];
+        for (Class entity : entities) {
             String msg = entity.getName();
 
             assertTrue(msg, idlTypesUtil.isEntity(entity));
@@ -201,8 +193,7 @@ public class TestRMIIDLTypes extends TestCase {
 
         Class[] nonEntities = InvalidEntities.CLASSES;
 
-        for (int i = 0; i < nonEntities.length; i++) {
-            Class nonEntity = nonEntities[i];
+        for (Class nonEntity : nonEntities) {
             String msg = nonEntity.getName();
             assertFalse(msg, idlTypesUtil.isEntity(nonEntity));
         }

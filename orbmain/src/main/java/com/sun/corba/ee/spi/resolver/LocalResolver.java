@@ -27,7 +27,7 @@ import org.glassfish.pfl.basic.func.NullaryFunction;
 public interface LocalResolver extends Resolver {
     /**
      * Register the Closure with the given name.
-     * 
+     *
      * @param name name of Closure to register
      * @param closure supplier of CORBA object
      */

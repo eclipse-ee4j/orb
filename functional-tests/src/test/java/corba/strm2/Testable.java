@@ -24,5 +24,6 @@ import java.io.Serializable;
 public interface Testable extends Serializable {
     public String getDescription();
 
+    @Override
     public boolean equals(Object obj);
 }

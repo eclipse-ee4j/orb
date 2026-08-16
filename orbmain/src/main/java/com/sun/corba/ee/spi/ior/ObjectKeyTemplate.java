@@ -41,7 +41,7 @@ public interface ObjectKeyTemplate extends Writeable {
     /**
      * An ID used to determine how to perform operations on this ObjectKeyTemplate. This id determines how to process
      * requests on this object reference, and what object adapter type to use.
-     * 
+     *
      * @return The subcontract ID
      */
     @ManagedAttribute
@@ -51,7 +51,7 @@ public interface ObjectKeyTemplate extends Writeable {
     /**
      * Return the server ID for this template. For CORBA 3.0, this should be a String, but it is currently an int in the
      * object key template.
-     * 
+     *
      * @return The ID of the server that handles requests to this IOR"
      */
     @ManagedAttribute
@@ -60,7 +60,7 @@ public interface ObjectKeyTemplate extends Writeable {
 
     /**
      * Return the ORB ID for this template.
-     * 
+     *
      * @return the ORB ID that created this IOR
      */
     @ManagedAttribute
@@ -69,7 +69,7 @@ public interface ObjectKeyTemplate extends Writeable {
 
     /**
      * Return the object adapter ID for this template.
-     * 
+     *
      * @return The ObjectAdapterId that identifies the ObjectAdapter that created this IOR
      */
     @ManagedAttribute
@@ -79,7 +79,7 @@ public interface ObjectKeyTemplate extends Writeable {
     /**
      * Compute an adapter ID for this template than includes all of the template information. This value is cached to avoid
      * the expense of recomputing it.
-     * 
+     *
      * @return adapter ID for this template
      */
     public byte[] getAdapterId();

@@ -138,7 +138,7 @@ public class Debug {
     private static final String LOG_EXT = ".txt";
     private static File rootDir = null;
     private static String lastName = null;
-    private static String eol = (String) System.getProperty("line.separator");
+    private static String eol = System.getProperty("line.separator");
     public static final byte ASCII_HEX[] = { (byte) '0', (byte) '1', (byte) '2', (byte) '3', (byte) '4', (byte) '5', (byte) '6', (byte) '7',
             (byte) '8', (byte) '9', (byte) 'A', (byte) 'B', (byte) 'C', (byte) 'D', (byte) 'E', (byte) 'F', };
 

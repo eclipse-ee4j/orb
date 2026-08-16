@@ -37,18 +37,22 @@ public class PlanetViewImpl implements PlanetView, java.io.Serializable {
     // Planet Interface Methods
     //
 
+    @Override
     public ID getID() {
         return fPlanet.getID();
     }
 
+    @Override
     public String getName() {
         return fPlanet.getName();
     }
 
+    @Override
     public Point getCoordinates() {
         return fPlanet.getCoordinates();
     }
 
+    @Override
     public boolean hasSatelites() {
         return fPlanet.hasSatelites();
     }
@@ -57,14 +61,17 @@ public class PlanetViewImpl implements PlanetView, java.io.Serializable {
     // PlanetView Methods
     //
 
+    @Override
     public boolean isOwned() {
         return (fPlayer == fPlanet.getOwner());
     }
 
+    @Override
     public long getMetal() {
         return fPlanet.getMetal();
     }
 
+    @Override
     public long getPopulation() {
         if (isOwned()) {
             Settlement settlement = fPlanet.getSettlement();
@@ -78,6 +85,7 @@ public class PlanetViewImpl implements PlanetView, java.io.Serializable {
         }
     }
 
+    @Override
     public long getIncome() {
         if (isOwned()) {
             Settlement settlement = fPlanet.getSettlement();
@@ -91,6 +99,7 @@ public class PlanetViewImpl implements PlanetView, java.io.Serializable {
         }
     }
 
+    @Override
     public double getTemp() {
         if (isOwned()) {
             return fPlayer.getRelativeTempFor(fPlanet.getTemp());
@@ -99,6 +108,7 @@ public class PlanetViewImpl implements PlanetView, java.io.Serializable {
         }
     }
 
+    @Override
     public double getGravity() {
         if (isOwned()) {
             return fPlayer.getRelativeGravityFor(fPlanet.getGravity());
@@ -107,6 +117,7 @@ public class PlanetViewImpl implements PlanetView, java.io.Serializable {
         }
     }
 
+    @Override
     public double getSuitability() {
         if (isOwned()) {
             return fPlanet.getSuitabilityFor(fPlayer);

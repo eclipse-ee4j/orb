@@ -214,8 +214,9 @@ class GetORBPropertiesFileAction {
     private void getPropertiesFromFile(Properties props, String fileName) {
         try {
             File file = new File(fileName);
-            if (!file.exists())
+            if (!file.exists()) {
                 return;
+            }
 
             FileInputStream in = new FileInputStream(file);
 
@@ -225,8 +226,9 @@ class GetORBPropertiesFileAction {
                 in.close();
             }
         } catch (Exception exc) {
-            if (debug)
+            if (debug) {
                 System.out.println("ORB properties file " + fileName + " not found: " + exc);
+            }
         }
     }
 

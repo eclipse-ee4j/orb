@@ -33,6 +33,7 @@ import corba.framework.ThreadProcess;
 
 public class counterServer extends ThreadProcess {
 
+    @Override
     public void run() {
         try {
             // create and initialize the ORB
@@ -102,11 +103,13 @@ class CSLocator extends org.omg.CORBA.LocalObject implements ServantLocator {
         this.servant = servant;
     }
 
+    @Override
     public Servant preinvoke(byte[] oid, POA adapter, String operation, CookieHolder the_cookie)
             throws org.omg.PortableServer.ForwardRequest {
         return servant;
     }
 
+    @Override
     public void postinvoke(byte[] oid, POA adapter, String operation, java.lang.Object cookie, Servant servant) {
         return;
     }

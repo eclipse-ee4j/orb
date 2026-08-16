@@ -195,8 +195,9 @@ public class FrameworkClient extends Framework {
 
     private int[] makeIntArray(int size) {
         int[] result = new int[size];
-        for (int ctr = 0; ctr < size; ctr++)
+        for (int ctr = 0; ctr < size; ctr++) {
             result[ctr] = ctr;
+        }
         return result;
     }
 
@@ -309,22 +310,22 @@ public class FrameworkClient extends Framework {
     /*
      * private static class CDRTimerContext { private LogEventHandler clientLEH ; private LogEventHandler serverLEH ;
      * private TimerGroup clientCDR ; private TimerGroup serverCDR ;
-     * 
+     *
      * public CDRTimerContext( ORB clientORB, ORB serverORB ) { final TimerManager<TimingPoints> clientTM =
      * clientORB.makeTimerManager( TimingPoints.class) ; clientLEH = clientTM.factory().makeLogEventHandler(
      * "Client_CDR_LEH" ) ; clientTM.controller().register( clientLEH ) ; clientCDR = clientTM.points().Cdr() ;
-     * 
+     *
      * final TimerManager<TimingPoints> serverTM = serverORB.makeTimerManager( TimingPoints.class ) ; serverLEH =
      * serverTM.factory().makeLogEventHandler( "Server_CDR_LEH" ) ; serverTM.controller().register( serverLEH ) ; serverCDR
      * = serverTM.points().Cdr() ; }
-     * 
+     *
      * public void enable() { clientCDR.enable() ; serverCDR.enable() ; }
-     * 
+     *
      * public void disable() { clientCDR.disable() ; serverCDR.disable() ; }
-     * 
+     *
      * public void display( String msg ) { System.out.println( "Displaying CDR events for: " + msg ) ; clientLEH.display(
      * System.out, "Client-side events" ) ; serverLEH.display( System.out, "Server-side events" ) ; }
-     * 
+     *
      * public void clear() { clientLEH.clear() ; serverLEH.clear() ; } }
      */
 
@@ -352,17 +353,17 @@ public class FrameworkClient extends Framework {
         }
     }
     /*
-     * 
+     *
      * @BeforeGroups( { GROUP_5161 } ) public void init5161() { // Make sure that echo is implemented in server, but the
      * reference // is bound in client for the test: we want this to test marshaling, // not local optimization copying.
      * final Echo servant = makeServant( "echotest" ) ; bindServant( servant, Echo.class, "BuckPasser" ) ; clientRef5161 =
      * findStub( Echo.class, "BuckPasser" ) ;
-     * 
+     *
      * if (DEBUG_5161) // Prepare timing for client and server ORBs timerContext = new CDRTimerContext( getClientORB(),
      * getServerORB() ) ; }
-     * 
+     *
      * // btrace hooks private void stop() {} private void start() {}
-     * 
+     *
      * @Test( groups = { GROUP_5161 } ) public void test5161VectorOriginal() { doOperation( "Testing VectorOriginal", new
      * NullaryFunction() { public Object evaluate() { try { BuckPasserVectorOriginal bpvo = new BuckPasserVectorOriginal() ;
      * bpvo.add( new Buck( "The Buck" ) ) ; start() ; BuckPasserVectorOriginal bpvo2 = null ; try { bpvo2 =
@@ -377,15 +378,15 @@ public class FrameworkClient extends Framework {
         /*
          * This does not reproduce the problem final BuckPasserAL bpal = new BuckPasserAL() ; bpal.add( new Buck( "The Buck" ) )
          * ;
-         * 
+         *
          * final BuckPasserV bpv = new BuckPasserV() ; bpv.add( new Buck( "The Buck" ) ) ;
-         * 
+         *
          * OutputStream out = (OutputStream)orb.create_output_stream();
-         * 
+         *
          * out.write_value(bpal) ; out.write_value(bpv) ;
-         * 
+         *
          * InputStream in = (InputStream)out.create_input_stream();
-         * 
+         *
          * BuckPasserAL bpal2 = (BuckPasserAL)in.read_value() ; BuckPasserV bpv2 = (BuckPasserV)in.read_value() ;
          */
 

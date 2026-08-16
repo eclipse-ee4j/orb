@@ -59,6 +59,7 @@ public class Player implements Identifiable, java.io.Serializable {
     public void rememberPlanetOwner(Planet planet, String owner) {
     }
 
+    @Override
     public ID getID() {
         return fID;
     }

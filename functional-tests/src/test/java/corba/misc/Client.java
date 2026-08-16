@@ -111,13 +111,13 @@ public class Client extends TestCase {
             Properties props = new Properties();
             props.setProperty("org.omg.CORBA.ORBClass", "com.sun.corba.ee.impl.orb.ORBImpl");
             props.setProperty("org.omg.CORBA.ORBId", id);
-            return (ORB) ORB.init(new String[0], props);
+            return (ORB) org.omg.CORBA.ORB.init(new String[0], props);
         }
 
         @Override
         public void tearDown() {
-            for (int ctr = 0; ctr < orbs.length; ctr++) {
-                orbs[ctr].destroy();
+            for (ORB orb2 : orbs) {
+                orb2.destroy();
             }
             // System.out.println( "TimerFactories after ORB destruction:" ) ;
             // displayTimerFactories() ;
@@ -172,20 +172,20 @@ public class Client extends TestCase {
     /*
      * // Test for bug 6177606: incorrect error handling for string_to_object. public static class NamingTestSuite extends
      * TestCase { public NamingTestSuite() { super() ; }
-     * 
+     *
      * public NamingTestSuite( String name ) { super( name ) ; }
-     * 
+     *
      * // Check that expected BAD_PARAM exception is thrown. private void expectException( String url, int mc ) { try {
      * orb.string_to_object( url ) ; fail( "Expected BAD_PARAM exception but instead did not throw exception" ) ; } catch
      * (BAD_PARAM bp) { assertEquals( bp.minor, mc ) ; } catch (Exception exc) { fail(
      * "Expected BAD_PARAM exception but got " + exc ) ; } }
-     * 
+     *
      * public void testSoBadSchemeName() { expectException( "foo:a_very_bad_url", OMGSystemException.SO_BAD_SCHEME_NAME ) ;
      * }
-     * 
+     *
      * public void testSoBadAddress() { expectException( "corbaloc:/another_bad_url", OMGSystemException.SO_BAD_ADDRESS ) ;
      * }
-     * 
+     *
      * public void testSoBadSchemaSpecific() { expectException( "corbaname:iiop:1.2@localhost:49832#ABadCosName",
      * OMGSystemException.SO_BAD_SCHEMA_SPECIFIC ) ; } }
      */
@@ -288,6 +288,7 @@ public class Client extends TestCase {
 
             // Activate an object with id1 (don't need a real servant for this)
             Servant servant = new Servant() {
+                @Override
                 public String[] _all_interfaces(POA poa, byte[] objectId) {
                     return new String[0];
                 }
@@ -328,34 +329,34 @@ public class Client extends TestCase {
      * // This test is intended to look for ORB shutdown problems // related to POAManager activation. However, it does not
      * perform // the intended test, because the syncronization window in ORB.shutdown // is too small to test reliably.
      * Some major changes in ORB // synchronization are required to fix the problem (see bug 6191561).
-     * 
+     *
      * // Test the following sequence of events: // set up POA with POAManager // Leave POAManager in holding state // Start
      * a thread that blocks on POAManager.enter // Call orb.shutdown. Does it hang? public void
      * testPOAManagerAndORBShutdown() { try { Properties props = new Properties() ; props.setProperty(
      * "org.omg.CORBA.ORBClass", "com.sun.corba.ee.impl.orb.ORBImpl" ) ; props.setProperty( "org.omg.CORBA.ORBId",
      * "25678891" ) ; ORB lorb = (ORB)ORB.init( new String[0], props ) ;
-     * 
+     *
      * Properties props = new Properties() ; props.setProperty( "org.omg.CORBA.ORBClass",
      * "com.sun.corba.ee.impl.orb.ORBImpl" ) ; props.setProperty( "org.omg.CORBA.ORBId", "25678891" ) ; ORB lorb =
      * (ORB)ORB.init( new String[0], props ) ;
-     * 
+     *
      * POA rootPOA = (POA)lorb.resolve_initial_references( "RootPOA" ) ;
-     * 
+     *
      * // Create POA in RETAIN USE_AOM USER_ID mode Policy[] policies = new Policy[] {
      * rootPOA.create_servant_retention_policy( ServantRetentionPolicyValue.RETAIN ),
      * rootPOA.create_request_processing_policy( RequestProcessingPolicyValue.USE_ACTIVE_OBJECT_MAP_ONLY ),
      * rootPOA.create_id_assignment_policy( IdAssignmentPolicyValue.USER_ID ), rootPOA.create_implicit_activation_policy(
      * ImplicitActivationPolicyValue.NO_IMPLICIT_ACTIVATION ), rootPOA.create_lifespan_policy( LifespanPolicyValue.TRANSIENT
      * ), rootPOA.create_id_uniqueness_policy( IdUniquenessPolicyValue.UNIQUE_ID ) } ;
-     * 
+     *
      * final POAImpl myPOA = (POAImpl)(rootPOA.create_POA( "ShutdownTestPOA", null, policies )) ; new Thread( new Runnable()
      * { public void run() { try { myPOA.enter() ; } catch (OADestroyed oad) { System.out.println( "Caught OADestroyed!" ) ;
      * return ; } System.out.println( "Did not catch OADestroyed!" ) ; } } ).start() ;
-     * 
+     *
      * System.out.println( "ORB shutdown starts..." ) ;
-     * 
+     *
      * lorb.shutdown( true ) ;
-     * 
+     *
      * System.out.println( "ORB shutdown completed" ) ; } catch (Exception exc) { exc.printStackTrace() ; fail(
      * "Failed with exception: " + exc ) ; } }
      */
@@ -382,7 +383,7 @@ public class Client extends TestCase {
 
     public enum Color {
         RED, BLUE, GREEN
-    };
+    }
 
     public enum Coin {
         QUARTER(25), DIME(10), NICKEL(5), PENNY(1);
@@ -398,7 +399,7 @@ public class Client extends TestCase {
         }
     }
 
-    private static final List<Class<? extends Annotation>> ioannos = new ArrayList<Class<? extends Annotation>>();
+    private static final List<Class<? extends Annotation>> ioannos = new ArrayList<>();
 
     static {
         ioannos.add(CdrRead.class);
@@ -450,6 +451,7 @@ public class Client extends TestCase {
             }
         }
 
+        @Override
         public int hashCode() {
             return value;
         }
@@ -484,7 +486,7 @@ public class Client extends TestCase {
         try {
             String[] args = new String[0];
             Properties props = new Properties();
-            orb = ORB.class.cast(ORB.init(args, props));
+            orb = ORB.class.cast(org.omg.CORBA.ORB.init(args, props));
 
             OutputStream os = OutputStream.class.cast(orb.create_output_stream());
             os.write_value(data);
@@ -526,35 +528,35 @@ public class Client extends TestCase {
     /*
      * void validateLogEvents( final ORB orb, final LogEventHandler leh, final int initialTimeout, final int maxWait, final
      * int backoff ) {
-     * 
+     *
      * final TimerManager<TimingPoints> tm = orb.makeTimerManager( TimingPoints.class ) ; final TimingPoints tp =
      * tm.points() ; final Timer nextTime = tp.ContactInfoListIteratorImpl__next() ;
-     * 
+     *
      * // per-event data (all events) boolean firstEvent = true ; long startTime = 0 ;
-     * 
+     *
      * // per-next event data (only nextTime events) boolean firstNextEvent = true ; long currentWait = initialTimeout ; //
      * each wait after first must be in [c,1.1*c] long currentTime = 0 ; // duration of current nextTime event in
      * milliseconds
-     * 
+     *
      * for (TimerEvent te : leh) { if (firstEvent) { startTime = te.time() ; firstEvent = false ; }
-     * 
+     *
      * if (te.timer() == nextTime) { if (te.type() == TimerEvent.TimerEventType.ENTER) { currentTime = te.time() ; } else {
      * // EXIT final long duration = (te.time()-currentTime)/1000000 ;
-     * 
+     *
      * if (firstNextEvent) { assertTrue( duration <= 1 ) ; // assume first wait is <= 1 msec.
-     * 
+     *
      * firstNextEvent = false ; } else { assertTrue( "Expected duration " + duration + " to be at least " + currentWait,
      * duration >= currentWait ) ;
-     * 
+     *
      * final long upperBound = (currentWait * 150)/100 ; assertTrue( "Expected duration " + duration + " to be less than " +
      * upperBound, duration < upperBound ) ;
-     * 
+     *
      * currentWait = (backoff * currentWait)/100 ; } } }
-     * 
+     *
      * currentTime = te.time() ; // keep track of last time for overall duration }
-     * 
+     *
      * // Check that overall duration is within range. final long totalTime = (currentTime - startTime)/1000000 ;
-     * 
+     *
      * assertTrue( totalTime > maxWait ) ; assertTrue( totalTime < ((backoff*maxWait)/100 + initialTimeout) ) ; }
      */
 
@@ -564,23 +566,23 @@ public class Client extends TestCase {
     /*
      * public void testConnectionFailure( boolean useSticky ) { final String url =
      * "corbaloc:iiop:1.2@ThisHostDoesNotExist:5555/NameService" ;
-     * 
+     *
      * final Properties props = new Properties() ; props.setProperty( "org.omg.CORBA.ORBClass",
      * "com.sun.corba.ee.impl.orb.ORBImpl" ) ;
-     * 
+     *
      * if (useSticky) { props.setProperty( ORBConstants.IIOP_PRIMARY_TO_CONTACT_INFO_CLASS_PROPERTY,
      * IIOPPrimaryToContactInfoImpl.class.getName() ) ; }
-     * 
+     *
      * final int expectedInitialTimeout = 50 ; final int expectedMaxWait = 2000 ; final int expectedBackoff = 100 ; final
      * String timeoutString = expectedInitialTimeout + ":" + expectedMaxWait + ":" + expectedBackoff ;
-     * 
+     *
      * props.setProperty( ORBConstants.TRANSPORT_TCP_CONNECT_TIMEOUTS_PROPERTY, timeoutString ) ; props.setProperty(
      * ORBConstants.TIMING_POINTS_ENABLED, "true" ) ; final ORB orb = (ORB)ORB.init( new String[0], props ) ;
-     * 
+     *
      * final TcpTimeouts timeouts = orb.getORBData().getTransportTcpConnectTimeouts() ; assertEquals(
      * timeouts.get_initial_time_to_wait(), expectedInitialTimeout ) ; assertEquals( timeouts.get_max_time_to_wait(),
      * expectedMaxWait ) ; assertEquals( timeouts.get_backoff_factor(), expectedBackoff + 100 ) ;
-     * 
+     *
      * TimerManager<TimingPoints> tm = orb.makeTimerManager( TimingPoints.class ) ; LogEventHandler leh =
      * tm.factory().makeLogEventHandler( "ContactInfoListIterator" ) ; tm.controller().register( leh ) ; TimingPoints tp =
      * tm.points() ; TimerGroup cili = tm.factory().makeTimerGroup( "cili", "TimerGroup for ContactInfoListIteratorImpl" ) ;
@@ -588,17 +590,17 @@ public class Client extends TestCase {
      * cili.add( tp.ContactInfoListIteratorImpl__reportException() ) ; cili.add(
      * tp.ContactInfoListIteratorImpl__reportAddrDispositionRetry() ) ; cili.add(
      * tp.ContactInfoListIteratorImpl__reportRedirect() ) ; cili.add( tp.ContactInfoListIteratorImpl__reportSuccess() ) ;
-     * 
+     *
      * try { cili.enable() ; org.omg.CORBA.Object obj = orb.string_to_object( url ) ; NamingContextExt nc =
      * NamingContextExtHelper.narrow( obj ) ; nc.resolve_str( "this/does/not/exist" ) ; cili.disable() ;
-     * 
+     *
      * } catch (Exception exc) { if (debug) { System.out.println( "Received exception: " ) ; exc.printStackTrace() ; } }
      * finally { if (debug) { leh.display( System.out, "Connection timer log contents" ) ; validateLogEvents( orb, leh,
      * expectedInitialTimeout, expectedMaxWait, expectedBackoff+100 ) ; orb.destroy() ; } } }
-     * 
-     * 
+     *
+     *
      * public void DONTRUNtestConnectionFailureWithStickyManager() { testConnectionFailure( true ) ; }
-     * 
+     *
      * public void DONTRUNtestConnectionFailureWithoutStickyManager() { testConnectionFailure( false ) ; }
      */
 
@@ -623,12 +625,12 @@ public class Client extends TestCase {
      * TODO rewrite this test so it doesn't need the enhance functionality. - REG public void testORBInit() { final String
      * orbId = "OrbOne" ; Properties props = new Properties() ; props.setProperty( "org.omg.CORBA.ORBClass",
      * "com.sun.corba.ee.impl.orb.ORBImpl" ) ; props.setProperty( "org.omg.CORBA.ORBId", orbId ) ; ORB lorb = null ;
-     * 
+     *
      * for (int ctr=0; ctr<2; ctr++) { lorb = (ORB)ORB.init( new String[0], props ) ; // If we don't create a TimerManager,
      * there won't be a // TimerFactory. TimerManager<TimingPoints> tm = lorb.makeTimerManager( TimingPoints.class ) ;
-     * 
+     *
      * // displayTimerFactories() ; assertTrue( findTimerFactoryForORB(orbId) != null ) ;
-     * 
+     *
      * lorb.destroy() ; // displayTimerFactories() ; tm.destroy() ; // ORB.destroy won't clean this up! assertTrue(
      * findTimerFactoryForORB(orbId) == null ) ; } }
      */
@@ -809,6 +811,7 @@ public class Client extends TestCase {
             super();
         }
 
+        @Override
         public int echo(int arg) {
             return arg;
         }
@@ -827,15 +830,17 @@ public class Client extends TestCase {
             } catch (Exception exc) {
                 // do nothing
             }
-            Tie tie = orb.getPresentationManager().getTie();
+            Tie tie = ORB.getPresentationManager().getTie();
             tie.setTarget(impl);
             servant = Servant.class.cast(tie);
         }
 
+        @Override
         public synchronized Servant preinvoke(byte[] oid, POA adapter, String operation, CookieHolder the_cookie) throws ForwardRequest {
             return servant;
         }
 
+        @Override
         public void postinvoke(byte[] oid, POA adapter, String operation, Object the_cookie, Servant the_servant) {
         }
     }
@@ -854,7 +859,7 @@ public class Client extends TestCase {
             props.setProperty(ORBConstants.USE_DYNAMIC_STUB_PROPERTY, "true");
             props.setProperty(ORBConstants.ORB_SERVER_ID_PROPERTY, "300");
             props.setProperty(ORBConstants.PERSISTENT_SERVER_PORT_PROPERTY, "3755");
-            lorb = ORB.class.cast(ORB.init(args, props));
+            lorb = ORB.class.cast(org.omg.CORBA.ORB.init(args, props));
 
             // Just get some object referece for testing
             final ServantLocator locator = new TestServantLocator(lorb);
@@ -877,7 +882,7 @@ public class Client extends TestCase {
                 throw new RuntimeException(exc);
             }
 
-            final List<Policy> policies = new ArrayList<Policy>();
+            final List<Policy> policies = new ArrayList<>();
             final ReferenceFactory rf = rfm.create("factory", repositoryId, policies, locator);
 
             // arbitrary

@@ -37,6 +37,7 @@ public class SRIOrdered extends org.omg.CORBA.LocalObject implements org.omg.Por
         this.order = order;
     }
 
+    @Override
     public int compareTo(Object o) {
         int otherOrder = ((SRIOrdered) o).order;
         if (order < otherOrder) {
@@ -47,10 +48,12 @@ public class SRIOrdered extends org.omg.CORBA.LocalObject implements org.omg.Por
         return 1;
     }
 
+    @Override
     public String name() {
         return name;
     }
 
+    @Override
     public void destroy() {
         try {
             Common.up(order);
@@ -62,10 +65,12 @@ public class SRIOrdered extends org.omg.CORBA.LocalObject implements org.omg.Por
         }
     }
 
+    @Override
     public void receive_request_service_contexts(ServerRequestInfo sri) {
         Common.up(order);
     }
 
+    @Override
     public void receive_request(ServerRequestInfo sri) {
         // Note: Do NOT put Common.up here because all 3 ordered
         // interceptors run in RRSC so when we get here current will
@@ -74,14 +79,17 @@ public class SRIOrdered extends org.omg.CORBA.LocalObject implements org.omg.Por
         // Bottom line: only count up in one point.
     }
 
+    @Override
     public void send_reply(ServerRequestInfo sri) {
         Common.down(order);
     }
 
+    @Override
     public void send_exception(ServerRequestInfo sri) {
         Common.down(order);
     }
 
+    @Override
     public void send_other(ServerRequestInfo sri) {
         Common.down(order);
     }

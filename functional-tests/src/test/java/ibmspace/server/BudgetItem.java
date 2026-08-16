@@ -56,6 +56,7 @@ public class BudgetItem implements Serializable {
         return fInvestment.getName();
     }
 
+    @Override
     public String toString() {
         String s = getName() + "(";
         Object o = fInvestment;

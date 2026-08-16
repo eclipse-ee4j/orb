@@ -33,7 +33,8 @@ public abstract class IdentifiableBase implements Identifiable, WriteContents {
      * data types must be written out as encapsulations, which means that we need to first write the data out to an
      * encapsulation stream, then extract the data and write it to os as an array of octets.
      */
+    @Override
     final public void write(OutputStream os) {
-        EncapsulationUtility.writeEncapsulation((WriteContents) this, os);
+        EncapsulationUtility.writeEncapsulation(this, os);
     }
 }

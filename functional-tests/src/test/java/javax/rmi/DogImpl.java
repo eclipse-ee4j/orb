@@ -30,10 +30,12 @@ public class DogImpl implements Dog, java.io.Serializable {
         fBark = bark;
     }
 
+    @Override
     public String bark() throws RemoteException {
         return fBark;
     }
 
+    @Override
     public void die() throws RemoteException {
     }
 }

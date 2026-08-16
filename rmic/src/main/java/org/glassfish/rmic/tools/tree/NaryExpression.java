@@ -44,6 +44,7 @@ class NaryExpression extends UnaryExpression {
     /**
      * Create a copy of the expression for method inlining
      */
+    @Override
     public Expression copyInline(Context ctx) {
         NaryExpression e = (NaryExpression)clone();
         if (right != null) {
@@ -61,10 +62,12 @@ class NaryExpression extends UnaryExpression {
     /**
      * The cost of inlining this expression
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         int cost = 3;
-        if (right != null)
+        if (right != null) {
             cost += right.costInline(thresh, env, ctx);
+        }
         for (int i = 0 ; (i < args.length) && (cost < thresh) ; i++) {
             if (args[i] != null) {
                 cost += args[i].costInline(thresh, env, ctx);
@@ -76,16 +79,17 @@ class NaryExpression extends UnaryExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print("(" + opNames[op] + "#" + hashCode());
         if (right != null) {
             out.print(" ");
             right.print(out);
         }
-        for (int i = 0 ; i < args.length ; i++) {
+        for (Expression arg : args) {
             out.print(" ");
-            if (args[i] != null) {
-                args[i].print(out);
+            if (arg != null) {
+                arg.print(out);
             } else {
                 out.print("<null>");
             }

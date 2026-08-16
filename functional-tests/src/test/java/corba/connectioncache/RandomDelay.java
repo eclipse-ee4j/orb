@@ -28,10 +28,12 @@ public class RandomDelay {
     private final int maxDelay;
 
     public RandomDelay(int minDelay, int maxDelay) {
-        if (minDelay < 0)
+        if (minDelay < 0) {
             throw new RuntimeException("minDelay must be >= 0");
-        if (maxDelay < minDelay)
+        }
+        if (maxDelay < minDelay) {
             throw new RuntimeException("maxDelay must be >= minDelay");
+        }
 
         this.minDelay = minDelay;
         this.maxDelay = maxDelay;

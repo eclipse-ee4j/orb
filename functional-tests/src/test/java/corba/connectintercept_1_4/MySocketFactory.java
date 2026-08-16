@@ -62,6 +62,7 @@ public class MySocketFactory implements ORBSocketFactory {
     // Server side.
     //
 
+    @Override
     public ServerSocket createServerSocket(String type, int port) throws IOException {
         System.out.println("createServerSocket(" + type + ", " + port + ")");
         createSocketMessage("ServerSocket", type, "localhost", port);
@@ -80,6 +81,7 @@ public class MySocketFactory implements ORBSocketFactory {
     // Client side.
     //
 
+    @Override
     public SocketInfo getEndPointInfo(ORB orb, IOR ior, SocketInfo socketInfo) {
         numCallsGetEndPointInfo++;
 
@@ -153,6 +155,7 @@ public class MySocketFactory implements ORBSocketFactory {
         System.out.println("getEndPointInfo(" + host + ", " + port + ")" + " = " + socketInfo);
     }
 
+    @Override
     public Socket createSocket(SocketInfo socketInfo) throws IOException, GetEndPointInfoAgainException {
         numCallsCreateSocket++;
 

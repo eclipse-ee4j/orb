@@ -91,44 +91,49 @@ public class RepositoryImpl extends _RepositoryImplBase implements Serializable 
             int serverId;
             for (DBServerDef server : db.serverTable.values()) {
                 if (serverDef.applicationName.equals(server.applicationName)) {
-                    if (debug)
+                    if (debug) {
                         System.out.println("RepositoryImpl: registerServer called " + "to register ServerDef " + printServerDef(serverDef)
                                 + " with " + ((theServerId == illegalServerId) ? "a new server Id" : ("server Id " + theServerId))
                                 + " FAILED because it is already registered.");
+                    }
 
                     throw new ServerAlreadyRegistered(server.id);
                 }
             }
 
             // generate a new server id
-            if (theServerId == illegalServerId)
+            if (theServerId == illegalServerId) {
                 serverId = db.incrementServerIdCounter();
-            else
+            } else {
                 serverId = theServerId;
+            }
 
             // add server def to the database
             DBServerDef server = new DBServerDef(serverDef, serverId);
             db.serverTable.put(serverId, server);
             db.flush();
 
-            if (debug)
-                if (theServerId == illegalServerId)
+            if (debug) {
+                if (theServerId == illegalServerId) {
                     System.out.println("RepositoryImpl: registerServer called " + "to register ServerDef " + printServerDef(serverDef)
                             + " with new serverId " + serverId);
-                else
+                } else {
                     System.out.println("RepositoryImpl: registerServer called " + "to register ServerDef " + printServerDef(serverDef)
                             + " with assigned serverId " + serverId);
+                }
+            }
 
             return serverId;
         }
     }
 
+    @Override
     public int registerServer(ServerDef serverDef) throws ServerAlreadyRegistered, BadServerDefinition {
         // verify that the entry is valid
         LegacyServerSocketEndPointInfo endpoint = orb.getLegacyServerSocketManager()
                 .legacyGetEndpoint(LegacyServerSocketEndPointInfo.BOOT_NAMING);
         int initSvcPort = ((Acceptor) endpoint).getServerSocket().getLocalPort();
-        ServerTableEntry entry = new ServerTableEntry(wrapper, illegalServerId, serverDef, (int) initSvcPort, "", true, debug);
+        ServerTableEntry entry = new ServerTableEntry(wrapper, illegalServerId, serverDef, initSvcPort, "", true, debug);
 
         switch (entry.verify()) {
             case ServerMain.OK:
@@ -146,6 +151,7 @@ public class RepositoryImpl extends _RepositoryImplBase implements Serializable 
         return registerServer(serverDef, illegalServerId);
     }
 
+    @Override
     public void unregisterServer(int serverId) throws ServerNotRegistered {
 
         DBServerDef server = null;
@@ -154,8 +160,9 @@ public class RepositoryImpl extends _RepositoryImplBase implements Serializable 
             // check to see if the server is registered
             server = db.serverTable.get(serverId);
             if (server == null) {
-                if (debug)
+                if (debug) {
                     System.out.println("RepositoryImpl: unregisterServer for serverId " + serverId + " called: server not registered");
+                }
 
                 throw (new ServerNotRegistered());
             }
@@ -165,57 +172,65 @@ public class RepositoryImpl extends _RepositoryImplBase implements Serializable 
             db.flush();
         }
 
-        if (debug)
+        if (debug) {
             System.out.println("RepositoryImpl: unregisterServer for serverId " + serverId + " called");
+        }
     }
 
     private DBServerDef getDBServerDef(int serverId) throws ServerNotRegistered {
         DBServerDef server = db.serverTable.get(serverId);
 
-        if (server == null)
+        if (server == null) {
             throw new ServerNotRegistered(serverId);
+        }
 
         return server;
     }
 
+    @Override
     public ServerDef getServer(int serverId) throws ServerNotRegistered {
         DBServerDef server = getDBServerDef(serverId);
 
         ServerDef serverDef = new ServerDef(server.applicationName, server.name, server.classPath, server.args, server.vmArgs);
 
-        if (debug)
+        if (debug) {
             System.out.println("RepositoryImpl: getServer for serverId " + serverId + " returns " + printServerDef(serverDef));
+        }
 
         return serverDef;
     }
 
+    @Override
     public boolean isInstalled(int serverId) throws ServerNotRegistered {
         DBServerDef server = getDBServerDef(serverId);
         return server.isInstalled;
     }
 
+    @Override
     public void install(int serverId) throws ServerNotRegistered, ServerAlreadyInstalled {
         DBServerDef server = getDBServerDef(serverId);
 
-        if (server.isInstalled)
+        if (server.isInstalled) {
             throw new ServerAlreadyInstalled(serverId);
-        else {
+        } else {
             server.isInstalled = true;
             db.flush();
         }
     }
 
+    @Override
     public void uninstall(int serverId) throws ServerNotRegistered, ServerAlreadyUninstalled {
         DBServerDef server = getDBServerDef(serverId);
 
-        if (!server.isInstalled)
+        if (!server.isInstalled) {
             throw new ServerAlreadyUninstalled(serverId);
-        else {
+        } else {
             server.isInstalled = false;
             db.flush();
         }
     }
 
+    @Override
     public int[] listRegisteredServers() {
         synchronized (db) {
             int i = 0;
@@ -226,9 +241,9 @@ public class RepositoryImpl extends _RepositoryImplBase implements Serializable 
 
             if (debug) {
                 StringBuilder sb = new StringBuilder();
-                for (int ctr = 0; ctr < servers.length; ctr++) {
+                for (int server : servers) {
                     sb.append(' ');
-                    sb.append(servers[ctr]);
+                    sb.append(server);
                 }
 
                 System.out.println("RepositoryImpl: listRegisteredServers returns" + sb.toString());
@@ -238,6 +253,7 @@ public class RepositoryImpl extends _RepositoryImplBase implements Serializable 
         }
     }
 
+    @Override
     public int getServerID(String applicationName) throws ServerNotRegistered {
         synchronized (db) {
             int result = -1;
@@ -249,8 +265,9 @@ public class RepositoryImpl extends _RepositoryImplBase implements Serializable 
                 }
             }
 
-            if (debug)
+            if (debug) {
                 System.out.println("RepositoryImpl: getServerID for " + applicationName + " is " + result);
+            }
 
             if (result == -1) {
                 throw (new ServerNotRegistered());
@@ -260,21 +277,23 @@ public class RepositoryImpl extends _RepositoryImplBase implements Serializable 
         }
     }
 
+    @Override
     public String[] getApplicationNames() {
         synchronized (db) {
-            List<String> result = new ArrayList<String>();
+            List<String> result = new ArrayList<>();
             for (Map.Entry<Integer, DBServerDef> entry : db.serverTable.entrySet()) {
-                if (!entry.getValue().applicationName.equals(""))
+                if (!entry.getValue().applicationName.equals("")) {
                     result.add(entry.getValue().applicationName);
+                }
             }
 
             String[] apps = result.toArray(new String[result.size()]);
 
             if (debug) {
                 StringBuilder sb = new StringBuilder();
-                for (int ctr = 0; ctr < apps.length; ctr++) {
+                for (String app : apps) {
                     sb.append(' ');
-                    sb.append(apps[ctr]);
+                    sb.append(app);
                 }
 
                 System.out.println("RepositoryImpl: getApplicationNames returns " + sb.toString());
@@ -289,16 +308,18 @@ public class RepositoryImpl extends _RepositoryImplBase implements Serializable 
      */
     public static void main(String args[]) {
         boolean debug = false;
-        for (int ctr = 0; ctr < args.length; ctr++)
-            if (args[ctr].equals("-debug"))
+        for (String arg : args) {
+            if (arg.equals("-debug")) {
                 debug = true;
+            }
+        }
 
         try {
             // See Bug 4396928 for more information about why we are
             // initializing the ORBClass to PIORB (now ORBImpl, but see the bug).
             Properties props = new Properties();
             props.put("org.omg.CORBA.ORBClass", "com.sun.corba.ee.impl.orb.ORBImpl");
-            ORB orb = (ORB) ORB.init(args, props);
+            ORB orb = (ORB) org.omg.CORBA.ORB.init(args, props);
 
             // create the repository object
             String db = System.getProperty(ORBConstants.DB_PROPERTY, ORBConstants.DEFAULT_DB_NAME);
@@ -332,7 +353,7 @@ public class RepositoryImpl extends _RepositoryImplBase implements Serializable 
 
             // initialize the Server Id counter and hashtable.
             // the lower id range is reserved for system servers
-            serverTable = new HashMap<Integer, DBServerDef>(255);
+            serverTable = new HashMap<>(255);
             serverIdCounter = Integer.valueOf(256);
         }
 
@@ -358,6 +379,7 @@ public class RepositoryImpl extends _RepositoryImplBase implements Serializable 
     }
 
     class DBServerDef implements Serializable {
+        @Override
         public String toString() {
             return "DBServerDef(applicationName=" + applicationName + ", name=" + name + ", classPath=" + classPath + ", args=" + args
                     + ", vmArgs=" + vmArgs + ", id=" + id + ", isInstalled=" + isInstalled + ")";

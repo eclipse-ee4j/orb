@@ -41,6 +41,7 @@ class BinaryLogicalExpression extends BinaryExpression {
     /**
      * Check a binary expression
      */
+    @Override
     public Vset checkValue(Environment env, Context ctx,
                            Vset vset, Hashtable<Object, Object> exp) {
         ConditionVars cvars = new ConditionVars();
@@ -55,6 +56,7 @@ class BinaryLogicalExpression extends BinaryExpression {
      * Every subclass of this class must define a genuine implementation
      * of this method.  It cannot inherit the method of Expression.
      */
+    @Override
     abstract
     public void checkCondition(Environment env, Context ctx, Vset vset,
                                Hashtable<Object, Object> exp, ConditionVars cvars);
@@ -63,6 +65,7 @@ class BinaryLogicalExpression extends BinaryExpression {
     /**
      * Inline
      */
+    @Override
     public Expression inline(Environment env, Context ctx) {
         left = left.inlineValue(env, ctx);
         right = right.inlineValue(env, ctx);

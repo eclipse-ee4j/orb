@@ -44,7 +44,7 @@ public interface IOR extends List<TaggedProfile>, Writeable, MakeImmutable {
 
     /**
      * Return the type id string from the IOR.
-     * 
+     *
      * @return type id string
      */
     @ManagedAttribute
@@ -54,7 +54,7 @@ public interface IOR extends List<TaggedProfile>, Writeable, MakeImmutable {
     /**
      * Return an iterator that iterates over tagged profiles with identifier id. It is not possible to modify the list
      * through this iterator.
-     * 
+     *
      * @param id identifier id
      * @return Iterator over relevant tagged profiles
      */
@@ -63,7 +63,7 @@ public interface IOR extends List<TaggedProfile>, Writeable, MakeImmutable {
     /**
      * Return a representation of this IOR in the standard GIOP stringified format that begins with "IOR:". This does not
      * return the same as {@link Object#toString}
-     * 
+     *
      * @return String representation
      * @see java.lang.Object#toString()
      */
@@ -71,14 +71,14 @@ public interface IOR extends List<TaggedProfile>, Writeable, MakeImmutable {
 
     /**
      * Return a representation of this IOR in the standard GIOP marshalled form.
-     * 
+     *
      * @return a representation of this IOR
      */
     org.omg.IOP.IOR getIOPIOR();
 
     /**
      * Return true if this IOR has no profiles.
-     * 
+     *
      * @return true if there aren't any profiles, false otherwise
      */
     boolean isNil();
@@ -86,7 +86,7 @@ public interface IOR extends List<TaggedProfile>, Writeable, MakeImmutable {
     /**
      * Return true if this IOR is equivalent to ior. Here equivalent means that the typeids are the same, they have the same
      * number of profiles, and each profile is equivalent to the corresponding profile.
-     * 
+     *
      * @param ior IOR to compare to
      * @return true if they are equivalent
      * @see #equals(java.lang.Object)
@@ -96,7 +96,7 @@ public interface IOR extends List<TaggedProfile>, Writeable, MakeImmutable {
     /**
      * Return true if this IOR is equivalent to ior. Here equivalent means that the typeids and delegates are the same. It
      * does not check if the profiles are the same or of the same number.
-     * 
+     *
      * @param other object to compare to
      * @return true if they are equivalent
      * @see #isEquivalent(IOR)
@@ -107,14 +107,14 @@ public interface IOR extends List<TaggedProfile>, Writeable, MakeImmutable {
     /**
      * Return the IORTemplate for this IOR. This is simply a list of all TaggedProfileTemplates derived from the
      * TaggedProfiles of the IOR.
-     * 
+     *
      * @return the IORTemplate for this IOR
      */
     IORTemplateList getIORTemplates();
 
     /**
      * Return the first IIOPProfile in this IOR.
-     * 
+     *
      * @return the first IIOPProfile
      */
     IIOPProfile getProfile();

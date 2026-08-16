@@ -45,6 +45,7 @@ public class SpaceTest extends RemoteTest {
      * array if none.
      */
 
+    @Override
     protected String[] getRemoteServantClasses() {
         return compileEm;
     }
@@ -54,6 +55,7 @@ public class SpaceTest extends RemoteTest {
      * the output directory if the OUTPUT_DIRECTORY flag was passed on the command line.
      */
 
+    @Override
     protected String[] getAdditionalRMICArgs(String[] currentArgs) {
         if (iiop) {
             String[] ourArgs = { "-always", "-keep" };
@@ -65,10 +67,11 @@ public class SpaceTest extends RemoteTest {
 
     /**
      * Perform the test.
-     * 
+     *
      * @param context The context returned by getServantContext().
      */
 
+    @Override
     public void doTest(ServantContext context) throws Throwable {
         JUnitReportHelper helper = new JUnitReportHelper(this.getClass().getName() + (iiop ? "_iiop" : "_jrmp"));
 

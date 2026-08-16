@@ -83,8 +83,9 @@ public class ServantContext implements ServantManager {
                         throw new IOException("ServantContext: could not start name server");
                     }
                 } catch (Error e) {
-                    if (Test.debug)
+                    if (Test.debug) {
                         e.printStackTrace();
+                    }
 
                     if (e.getMessage().indexOf("bootstrap service on port " + nameServerPort) < 0) {
                         throw e;
@@ -172,7 +173,7 @@ public class ServantContext implements ServantManager {
 
     /**
      * Start a servant in the remote process.
-     * 
+     *
      * @param servantClass The class of the servant object. Must have a default constructor.
      * @param servantName The name by which this servant should be known.
      * @param publishName True if the name should be published in the name server.
@@ -186,7 +187,7 @@ public class ServantContext implements ServantManager {
 
     /**
      * Start a servant in the remote process.
-     * 
+     *
      * @param servantClass The class of the servant object. Must have a default constructor.
      * @param servantName The name by which this servant should be known.
      * @param publishName True if the name should be published in the name server.
@@ -194,6 +195,7 @@ public class ServantContext implements ServantManager {
      * @param nameServerPort The name server port.
      * @param iiop True if iiop.
      */
+    @Override
     public Remote startServant(String servantClass, String servantName, boolean publishName, String nameServerHost, int nameServerPort,
             boolean iiop) throws java.rmi.RemoteException {
 
@@ -203,6 +205,7 @@ public class ServantContext implements ServantManager {
     /**
      * Unexport the specified servant. If the servant was published, will be unpublised.
      */
+    @Override
     public void stopServant(String servantName) throws java.rmi.RemoteException {
         servantManager.stopServant(servantName);
     }
@@ -210,6 +213,7 @@ public class ServantContext implements ServantManager {
     /**
      * Stop all servants in this context.
      */
+    @Override
     public void stopAllServants() throws java.rmi.RemoteException {
         servantManager.stopAllServants();
     }
@@ -217,6 +221,7 @@ public class ServantContext implements ServantManager {
     /**
      * @Return String the String "Pong"
      */
+    @Override
     public String ping() throws java.rmi.RemoteException {
         return servantManager.ping();
     }
@@ -276,7 +281,7 @@ public class ServantContext implements ServantManager {
 
     /**
      * Get or create a ServantContext.
-     * 
+     *
      * @param nameServerHost The host on which the name server should run. If not null, the name server will be started if
      * needed.
      * @param nameServerPort The port on which the name server should run.

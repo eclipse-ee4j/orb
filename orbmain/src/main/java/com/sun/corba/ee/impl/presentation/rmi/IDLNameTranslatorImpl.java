@@ -22,6 +22,7 @@ package com.sun.corba.ee.impl.presentation.rmi;
 
 import com.sun.corba.ee.spi.presentation.rmi.IDLNameTranslator;
 
+import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -78,7 +79,7 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
     private static Set<String> idlKeywords_;
 
     static {
-        idlKeywords_ = new HashSet<String>();
+        idlKeywords_ = new HashSet<>();
         for (String str : IDL_KEYWORDS) {
             idlKeywords_.add(str.toUpperCase());
         }
@@ -161,8 +162,8 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
     private IDLNameTranslatorImpl(Class<?>[] interfaces) {
         try {
             IDLTypesUtil idlTypesUtil = new IDLTypesUtil();
-            for (int ctr = 0; ctr < interfaces.length; ctr++) {
-                idlTypesUtil.validateRemoteInterface(interfaces[ctr]);
+            for (Class<?> element : interfaces) {
+                idlTypesUtil.validateRemoteInterface(element);
             }
             interf_ = interfaces;
             buildNameTranslation();
@@ -173,13 +174,13 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
 
     private void buildNameTranslation() {
         // holds method info, keyed by method
-        Map<Method, IDLMethodInfo> allMethodInfo = new HashMap<Method, IDLMethodInfo>();
+        Map<Method, IDLMethodInfo> allMethodInfo = new HashMap<>();
 
         for (Class<?> interf : interf_) {
             IDLTypesUtil idlTypesUtil = new IDLTypesUtil();
             final Method[] methods = interf.getMethods();
             // Handle the case of a non-public interface!
-            Method.setAccessible(methods, true);
+            AccessibleObject.setAccessible(methods, true);
 
             // Take an initial pass through all the methods and create some
             // information that will be used to track the IDL name
@@ -271,8 +272,8 @@ public class IDLNameTranslatorImpl implements IDLNameTranslator {
         //
         // Populate name translation maps.
         //
-        methodToIDLNameMap_ = new HashMap<Method, String>();
-        IDLNameToMethodMap_ = new HashMap<String, Method>();
+        methodToIDLNameMap_ = new HashMap<>();
+        IDLNameToMethodMap_ = new HashMap<>();
         methods_ = allMethodInfo.keySet().toArray(new Method[0]);
 
         for (IDLMethodInfo next : allMethodInfo.values()) {

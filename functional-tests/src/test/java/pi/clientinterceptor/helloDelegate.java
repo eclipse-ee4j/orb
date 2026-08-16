@@ -40,12 +40,14 @@ public class helloDelegate extends Observable implements helloIF {
         this.out = out;
     }
 
+    @Override
     public String sayHello() {
         out.println("helloServant: sayHello() invoked");
         invoked = true;
         return "Hello, world!";
     }
 
+    @Override
     public String saySystemException() {
         out.println("helloServant: saySystemException() invoked");
         invoked = true;
@@ -54,19 +56,23 @@ public class helloDelegate extends Observable implements helloIF {
 
     // This will cause a receive_reply to be invoked since this
     // is a one-way method.
+    @Override
     public void sayOneway() {
         out.println("helloServant: sayOneway() invoked");
         invoked = true;
     }
 
+    @Override
     public void clearInvoked() {
         invoked = false;
     }
 
+    @Override
     public boolean wasInvoked() {
         return invoked;
     }
 
+    @Override
     public void resetServant() {
         setChanged();
         notifyObservers();

@@ -363,7 +363,9 @@ class Vset implements Constants {
             while (i < otherLength) {
                 x[i] |= otherX[i];
                 i++;
-                if (i == otherLength) break;
+                if (i == otherLength) {
+                    break;
+                }
                 x[i] = ((x[i] & otherX[i]) & ~otherX[i-1]);
                 i++;
             }
@@ -460,7 +462,9 @@ class Vset implements Constants {
         int result;
     scan: {
             for (int i = (x.length / 2) * 2; i >= 0; i -= 2) {
-                if (i == x.length)  continue; // oops
+                if (i == x.length) {
+                    continue; // oops
+                }
                 vset = x[i];
                 if (i+1 < x.length) {
                     vset |= x[i+1]; // check the "uset" also
@@ -486,9 +490,11 @@ class Vset implements Constants {
         return result;
     }
 
+    @Override
     public String toString() {
-        if (this == DEAD_END)
+        if (this == DEAD_END) {
             return "{DEAD_END}";
+        }
         StringBuilder sb = new StringBuilder("{");
         int maxVar = VBITS * (1 + (x.length+1)/2);
         for (int i = 0; i < maxVar; i++) {

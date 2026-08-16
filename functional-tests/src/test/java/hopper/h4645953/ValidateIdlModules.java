@@ -31,6 +31,7 @@ public class ValidateIdlModules extends CORBATest {
 
     public static final String[] javaFiles = { "pi/serviceexample/*.java" };
 
+    @Override
     protected void doTest() throws Throwable {
         Options.addIDLCompilerArgs("-fall");
         Options.setIDLFiles(idlFiles);

@@ -110,10 +110,12 @@ public class SsPicInterceptor extends org.omg.CORBA.LocalObject implements Clien
     // Interceptor operations
     //
 
+    @Override
     public String name() {
         return name;
     }
 
+    @Override
     public void destroy() {
     }
 
@@ -121,6 +123,7 @@ public class SsPicInterceptor extends org.omg.CORBA.LocalObject implements Clien
     // ClientRequestInterceptor operations
     //
 
+    @Override
     public void send_request(ClientRequestInfo ri) {
         checkPicMemory(ri);
 
@@ -146,9 +149,11 @@ public class SsPicInterceptor extends org.omg.CORBA.LocalObject implements Clien
 
     }
 
+    @Override
     public void send_poll(ClientRequestInfo ri) {
     }
 
+    @Override
     public void receive_reply(ClientRequestInfo ri) {
         checkPicMemory(ri);
 
@@ -176,9 +181,11 @@ public class SsPicInterceptor extends org.omg.CORBA.LocalObject implements Clien
         }
     }
 
+    @Override
     public void receive_exception(ClientRequestInfo ri) {
     }
 
+    @Override
     public void receive_other(ClientRequestInfo ri) {
     }
 
@@ -186,6 +193,7 @@ public class SsPicInterceptor extends org.omg.CORBA.LocalObject implements Clien
     // ServerRequestInterceptor operations
     //
 
+    @Override
     public void receive_request_service_contexts(ServerRequestInfo ri) {
         checkPicMemory(ri);
 
@@ -199,7 +207,7 @@ public class SsPicInterceptor extends org.omg.CORBA.LocalObject implements Clien
             U.setSlot(ri, sPic1SlotId, any);
         } catch (BAD_PARAM e) {
             // Do nothing when the context is absent.
-            ;
+            
         }
 
         // We only want to test this server side recursion when testing
@@ -231,6 +239,7 @@ public class SsPicInterceptor extends org.omg.CORBA.LocalObject implements Clien
         }
     }
 
+    @Override
     public void receive_request(ServerRequestInfo ri) {
         checkPicMemory(ri);
 
@@ -238,6 +247,7 @@ public class SsPicInterceptor extends org.omg.CORBA.LocalObject implements Clien
         C.testAndIncrementPICSlot(ensure, "receive_request", sPic1SlotId, 2, piCurrent);
     }
 
+    @Override
     public void send_reply(ServerRequestInfo ri) {
         checkPicMemory(ri);
 
@@ -251,9 +261,11 @@ public class SsPicInterceptor extends org.omg.CORBA.LocalObject implements Clien
         }
     }
 
+    @Override
     public void send_exception(ServerRequestInfo ri) {
     }
 
+    @Override
     public void send_other(ServerRequestInfo ri) {
     }
 

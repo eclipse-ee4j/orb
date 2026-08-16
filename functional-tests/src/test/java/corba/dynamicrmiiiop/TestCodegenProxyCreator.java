@@ -113,87 +113,109 @@ public class TestCodegenProxyCreator extends TestCase {
     public static class TestInterfaceImpl implements TestInterface {
         private boolean sideEffectCalledFlag = false;
 
+        @Override
         public boolean sideEffectCalled() {
             return sideEffectCalledFlag;
         }
 
+        @Override
         public boolean echo(boolean arg) {
             return arg;
         }
 
+        @Override
         public char echo(char arg) {
             return arg;
         }
 
+        @Override
         public byte echo(byte arg) {
             return arg;
         }
 
+        @Override
         public short echo(short arg) {
             return arg;
         }
 
+        @Override
         public int echo(int arg) {
             return arg;
         }
 
+        @Override
         public long echo(long arg) {
             return arg;
         }
 
+        @Override
         public float echo(float arg) {
             return arg;
         }
 
+        @Override
         public double echo(double arg) {
             return arg;
         }
 
+        @Override
         public Object echo(Object arg) {
             return arg;
         }
 
+        @Override
         public Integer echo(Integer arg) {
             return arg;
         }
 
+        @Override
         public void throwIf42(int arg) throws TestException {
-            if (arg == 42)
+            if (arg == 42) {
                 throw new TestException();
+            }
         }
 
+        @Override
         public int return42() {
             return 42;
         }
 
+        @Override
         public void alwaysThrow() throws TestException {
             throw new TestException();
         }
 
+        @Override
         public void sideEffect() {
             sideEffectCalledFlag = true;
         }
 
+        @Override
         public int sum(int arg1, int arg2) {
             return arg1 + arg2;
         }
 
+        @Override
         public String concat(String arg1, String arg2) {
             return arg1 + arg2;
         }
 
+        @Override
         public String concat(int arg1, String arg2) {
             return arg1 + arg2;
         }
 
+        @Override
         public String concat(String arg1, int arg2) {
             return arg1 + arg2;
         }
 
+        @Override
         public String concat(String arg1, int arg2, String arg3) {
             return arg1 + arg2 + arg3;
         }
 
+        @Override
         public String concat(int arg1, String arg2, int arg3) {
             return arg1 + arg2 + arg3;
         }
@@ -330,6 +352,7 @@ public class TestCodegenProxyCreator extends TestCase {
             object = new TestInterfaceImpl();
         }
 
+        @Override
         public TestInterface getTestInterface() {
             return object;
         }
@@ -401,6 +424,7 @@ public class TestCodegenProxyCreator extends TestCase {
             }
         }
 
+        @Override
         public TestInterface getTestInterface() {
             return object;
         }

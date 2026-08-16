@@ -40,6 +40,7 @@ class ExIServant extends ExIPOA {
         this.orb = orb;
     }
 
+    @Override
     public String sayHello() {
         return "Hello world!";
     }

@@ -32,7 +32,7 @@ public class ContactInfoImpl implements ContactInfo<ConnectionImpl> {
     private static AtomicLong nextId = new AtomicLong();
     private static AtomicBoolean simulateAddressUnreachable = new AtomicBoolean();
 
-    private static ConcurrentMap<String, ContactInfoImpl> cinfoMap = new ConcurrentHashMap<String, ContactInfoImpl>();
+    private static ConcurrentMap<String, ContactInfoImpl> cinfoMap = new ConcurrentHashMap<>();
 
     private RandomDelay rdel;
 
@@ -48,10 +48,11 @@ public class ContactInfoImpl implements ContactInfo<ConnectionImpl> {
     public static ContactInfoImpl get(String address, int minDelay, int maxDelay) {
         ContactInfoImpl result = new ContactInfoImpl(address, minDelay, maxDelay);
         ContactInfoImpl entry = cinfoMap.putIfAbsent(address, result);
-        if (entry == null)
+        if (entry == null) {
             return result;
-        else
+        } else {
             return entry;
+        }
     }
 
     public void remove(String address) {
@@ -62,6 +63,7 @@ public class ContactInfoImpl implements ContactInfo<ConnectionImpl> {
         simulateAddressUnreachable.set(arg);
     }
 
+    @Override
     public ConnectionImpl createConnection() throws IOException {
         if (simulateAddressUnreachable.get()) {
             throw new IOException("Address " + address + " is currently unreachable");

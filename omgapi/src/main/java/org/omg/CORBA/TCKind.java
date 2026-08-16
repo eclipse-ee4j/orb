@@ -34,22 +34,22 @@ package org.omg.CORBA;
  * instance
  * <P>
  * Example:
- * 
+ *
  * <PRE>
  * org.omg.CORBA.TCKind k = org.omg.CORBA.TCKind.from_int(org.omg.CORBA.TCKind._tk_string);
  * </PRE>
- * 
+ *
  * The variable <code>k</code> represents the <code>TCKind</code> instance for the IDL type <code>string</code>, which
  * is <code>tk_string</code>.
  *
  * <LI>the method <code>value</code> for accessing the <code>_value</code> field of a <code>TCKind</code> constant
  * <P>
  * Example:
- * 
+ *
  * <PRE>
  * int i = org.omg.CORBA.TCKind.tk_char.value();
  * </PRE>
- * 
+ *
  * The variable <code>i</code> represents 9, the value for the IDL data type <code>char</code>.
  * </UL>
  * <P>
@@ -490,7 +490,7 @@ public class TCKind {
 
     /**
      * Creates a new <code>TCKind</code> instance initialized with the given <code>int</code>.
-     * 
+     *
      * @deprecated Do not use this constructor as this method should be private according to the OMG specification. Use
      * {@link #from_int(int)} instead.
      *
@@ -498,6 +498,7 @@ public class TCKind {
      * <code>TCKind</code>.
      */
     // @Deprecated
+    @Deprecated
     protected TCKind(int _value) {
         this._value = _value;
     }

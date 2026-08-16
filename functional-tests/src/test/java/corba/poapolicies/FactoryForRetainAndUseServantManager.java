@@ -36,6 +36,7 @@ public class FactoryForRetainAndUseServantManager implements POAFactory {
 //        Orb = orb;
 //    }
 
+    @Override
     public POA createPOA(POA parent) throws AdapterAlreadyExists, InvalidPolicy {
         Policy[] policies = new Policy[2];
         policies[0] = parent.create_servant_retention_policy(ServantRetentionPolicyValue.RETAIN);
@@ -56,6 +57,7 @@ public class FactoryForRetainAndUseServantManager implements POAFactory {
         return p;
     }
 
+    @Override
     public String getObjectFactoryName() {
         return "corba.poapolicies.ObjectFactoryUsingServantManager";
     }

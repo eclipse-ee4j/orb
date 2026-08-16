@@ -22,10 +22,12 @@ package javax.rmi.CORBA.serialization;
 
 public class StockDefaultFactory implements StockValueFactory {
 
+    @Override
     public Stock create(String arg0) {
         return new StockImpl(arg0);
     }
 
+    @Override
     public java.io.Serializable read_value(org.omg.CORBA_2_3.portable.InputStream is) {
         return is.read_value(new StockImpl());
     }

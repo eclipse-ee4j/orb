@@ -643,7 +643,7 @@ public class AnyImpl extends Any {
             }
         }
 
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         for (int anExpected : expected) {
             list.add(getTCKindName(anExpected));
         }

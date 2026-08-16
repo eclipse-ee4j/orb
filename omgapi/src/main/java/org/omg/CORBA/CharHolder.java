@@ -54,7 +54,7 @@ public final class CharHolder implements Streamable {
 
     /**
      * Constructs a new <code>CharHolder</code> object for the given <code>char</code>.
-     * 
+     *
      * @param initial the <code>char</code> with which to initialize the <code>value</code> field of the new
      * <code>CharHolder</code> object
      */
@@ -68,6 +68,7 @@ public final class CharHolder implements Streamable {
      *
      * @param input the InputStream containing CDR formatted data from the wire
      */
+    @Override
     public void _read(InputStream input) {
         value = input.read_char();
     }
@@ -77,6 +78,7 @@ public final class CharHolder implements Streamable {
      *
      * @param output the OutputStream which will contain the CDR formatted data
      */
+    @Override
     public void _write(OutputStream output) {
         output.write_char(value);
     }
@@ -86,6 +88,7 @@ public final class CharHolder implements Streamable {
      *
      * @return the TypeCode of the value held in this <code>CharHolder</code> object
      */
+    @Override
     public org.omg.CORBA.TypeCode _type() {
         return ORB.init().get_primitive_tc(TCKind.tk_char);
     }

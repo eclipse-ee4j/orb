@@ -37,6 +37,7 @@ public class IDLReferenceTest extends IDLTest {
     /**
      * Return an array of fully qualified class names for which generation should occur. Return empty array if none.
      */
+    @Override
     protected String[] getGenerationClasses() throws Throwable {
         return getClasses();
     }
@@ -44,10 +45,11 @@ public class IDLReferenceTest extends IDLTest {
     /**
      * Perform the test.
      */
+    @Override
     protected void doTest() throws Throwable {
         getClasses();
-        for (int i = 0; i < classes.length; i++) {
-            compareUnorderedResources(classes[i], IDL_FILE, IDL_REF_FILE, IGNORE_PREFIX);
+        for (String class1 : classes) {
+            compareUnorderedResources(class1, IDL_FILE, IDL_REF_FILE, IGNORE_PREFIX);
         }
     }
 
@@ -55,6 +57,7 @@ public class IDLReferenceTest extends IDLTest {
      * Append additional (i.e. after -idl and before classes) rmic arguments to 'currentArgs'. This implementation will set
      * the output directory if the OUTPUT_DIRECTORY flag was passed on the command line.
      */
+    @Override
     protected String[] getAdditionalRMICArgs(String[] currentArgs) {
         return super.getAdditionalRMICArgs(ADDITIONAL_ARGS);
     }

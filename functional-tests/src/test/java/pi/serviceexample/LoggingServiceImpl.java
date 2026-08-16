@@ -38,6 +38,7 @@ class LoggingServiceImpl extends LoggingServicePOA {
     // The IDL operations.
     //
 
+    @Override
     public void log(String a1) {
         System.out.println(a1);
     }

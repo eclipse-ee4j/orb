@@ -69,10 +69,12 @@ class NewInstanceExpression extends NaryExpression {
         return outerArg;
     }
 
+    @Override
     int precedence() {
         return 100;
     }
 
+    @Override
     public Expression order() {
         // act like a method or field reference expression:
         if (outerArg != null && opPrecedence[FIELD] > outerArg.precedence()) {
@@ -87,6 +89,7 @@ class NewInstanceExpression extends NaryExpression {
     /**
      * Check expression type
      */
+    @Override
     public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         // What type?
         ClassDefinition def = null;
@@ -138,8 +141,9 @@ class NewInstanceExpression extends NaryExpression {
                 right = new TypeExpression(right.where, right.toType(env, ctx));
             }
 
-            if (right.type.isType(TC_CLASS))
+            if (right.type.isType(TC_CLASS)) {
                 def = env.getClassDefinition(right.type);
+            }
         } catch (AmbiguousClass ee) {
             env.error(where, "ambig.class", ee.name1, ee.name2);
         } catch (ClassNotFound ee) {
@@ -169,11 +173,12 @@ class NewInstanceExpression extends NaryExpression {
         Expression args[] = this.args;
         args = NewInstanceExpression.
                 insertOuterLink(env, ctx, where, def, outerArg, args);
-        if (args.length > this.args.length)
+        if (args.length > this.args.length) {
             outerArg = args[0]; // recopy the checked arg
-        else if (outerArg != null)
+        } else if (outerArg != null) {
             // else set it to void (maybe it has a side-effect)
             outerArg = new CommaExpression(outerArg.where, outerArg, null);
+        }
 
         // Compose a list of argument types
         Type argTypes[] = new Type[args.length];
@@ -231,10 +236,11 @@ class NewInstanceExpression extends NaryExpression {
                     // the expression types were passed in.  This could
                     // lead to trouble when one of the argument types was
                     // the special internal type tNull.  (bug 4054689).
-                    if (tracing)
+                    if (tracing) {
                         env.dtEvent(
                               "NewInstanceExpression.checkValue: ANON CLASS " +
                               body + " SUPER " + def);
+                    }
                     vset = body.checkLocalClass(env, ctx, vset,
                                                 def, args,
                                                 constructor.getType()
@@ -268,8 +274,9 @@ class NewInstanceExpression extends NaryExpression {
                 MemberDefinition anyInit = def.findAnyMethod(env, idInit);
                 if (anyInit != null &&
                     new MethodExpression(where, right, anyInit, args)
-                        .diagnoseMismatch(env, args, argTypes))
+                        .diagnoseMismatch(env, args, argTypes)) {
                     return vset;
+                }
                 String sig = c.getName().getName().toString();
                 sig = Type.tMethod(Type.tError, argTypes).typeString(sig, false, false);
                 env.error(where, "unmatched.constr", sig, c);
@@ -329,9 +336,9 @@ class NewInstanceExpression extends NaryExpression {
 
         // Throw the declared exceptions.
         ClassDeclaration exceptions[] = field.getExceptions(env);
-        for (int i = 0 ; i < exceptions.length ; i++) {
-            if (exp.get(exceptions[i]) == null) {
-                exp.put(exceptions[i], this);
+        for (ClassDeclaration exception : exceptions) {
+            if (exp.get(exception) == null) {
+                exp.put(exception, this);
             }
         }
 
@@ -355,9 +362,10 @@ class NewInstanceExpression extends NaryExpression {
             Expression args2[] = new Expression[1+args.length];
             System.arraycopy(args, 0, args2, 1, args.length);
             try {
-                if (outerArg == null)
+                if (outerArg == null) {
                     outerArg = ctx.findOuterLink(env, where,
                                                  def.findAnyMethod(env, idInit));
+                }
             } catch (ClassNotFound e) {
                 // die somewhere else
             }
@@ -370,6 +378,7 @@ class NewInstanceExpression extends NaryExpression {
     /**
      * Check void expression
      */
+    @Override
     public Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         return checkValue(env, ctx, vset, exp);
     }
@@ -379,6 +388,7 @@ class NewInstanceExpression extends NaryExpression {
      */
     final int MAXINLINECOST = Statement.MAXINLINECOST;
 
+    @Override
     public Expression copyInline(Context ctx) {
         NewInstanceExpression e = (NewInstanceExpression)super.copyInline(ctx);
         if (outerArg != null) {
@@ -413,9 +423,11 @@ class NewInstanceExpression extends NaryExpression {
         return new InlineNewInstanceExpression(where, type, field, new CompoundStatement(where, body)).inline(env, ctx);
     }
 
+    @Override
     public Expression inline(Environment env, Context ctx) {
         return inlineValue(env, ctx);
     }
+    @Override
     public Expression inlineValue(Environment env, Context ctx) {
         if (body != null) {
             body.inlineLocalClass(env);
@@ -429,10 +441,11 @@ class NewInstanceExpression extends NaryExpression {
 
         try {
             if (outerArg != null) {
-                if (outerArg.type.isType(TC_VOID))
+                if (outerArg.type.isType(TC_VOID)) {
                     outerArg = outerArg.inline(env, ctx);
-                else
+                } else {
                     outerArg = outerArg.inlineValue(env, ctx);
+                }
             }
             for (int i = 0 ; i < args.length ; i++) {
                 args[i] = args[i].inlineValue(env, ctx);
@@ -460,6 +473,7 @@ class NewInstanceExpression extends NaryExpression {
         return this;
     }
 
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         if (body != null) {
             return thresh;      // don't copy classes...
@@ -485,9 +499,11 @@ class NewInstanceExpression extends NaryExpression {
     /**
      * Code
      */
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         codeCommon(env, ctx, asm, false);
     }
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         codeCommon(env, ctx, asm, true);
     }
@@ -541,8 +557,8 @@ class NewInstanceExpression extends NaryExpression {
             asm.add(where, opc_aconst_null);
         }
 
-        for (int i = 0 ; i < args.length ; i++) {
-            args[i].codeValue(env, ctx, asm);
+        for (Expression arg : args) {
+            arg.codeValue(env, ctx, asm);
         }
         asm.add(where, opc_invokespecial,
                 ((implMethod != null) ? implMethod : field));

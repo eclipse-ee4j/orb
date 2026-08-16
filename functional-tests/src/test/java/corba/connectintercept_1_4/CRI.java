@@ -36,16 +36,19 @@ public class CRI extends org.omg.CORBA.LocalObject implements ClientRequestInter
 
     public int balance = 0;
 
+    @Override
     public String name() {
         return baseMsg;
     }
 
+    @Override
     public void destroy() {
         if (balance != 0) {
             throw new RuntimeException(baseMsg + ": Interceptors not balanced.");
         }
     }
 
+    @Override
     public void send_request(ClientRequestInfo cri) {
         balance++;
         System.out.println(baseMsg + ".send_request " + cri.operation());
@@ -61,21 +64,25 @@ public class CRI extends org.omg.CORBA.LocalObject implements ClientRequestInter
         }
     }
 
+    @Override
     public void send_poll(ClientRequestInfo cri) {
         balance++;
         System.out.println(baseMsg + ".send_poll " + cri.operation());
     }
 
+    @Override
     public void receive_reply(ClientRequestInfo cri) {
         balance--;
         System.out.println(baseMsg + ".receive_reply " + cri.operation());
     }
 
+    @Override
     public void receive_exception(ClientRequestInfo cri) {
         balance--;
         System.out.println(baseMsg + ".receive_exception " + cri.operation());
     }
 
+    @Override
     public void receive_other(ClientRequestInfo cri) {
         balance--;
         System.out.println(baseMsg + ".receive_other " + cri.operation());

@@ -40,8 +40,9 @@ public class Client {
 
         String result = tester.processValue(testValueClass.newInstance());
 
-        if (!testValueClass.getName().equals(result))
+        if (!testValueClass.getName().equals(result)) {
             throw new Exception("Server didn't receive the right value class.  Got: " + result);
+        }
 
         System.out.println("PASSED");
     }
@@ -51,8 +52,9 @@ public class Client {
 
         Object res = tester.requestValue();
 
-        if (!res.getClass().getName().equals("TestValue"))
+        if (!res.getClass().getName().equals("TestValue")) {
             throw new Exception("Client didn't receive a TestValue, got: " + res.getClass().getName());
+        }
 
         System.out.println("PASSED");
     }

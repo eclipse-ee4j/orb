@@ -48,6 +48,7 @@ class ConditionalExpression extends BinaryExpression {
     /**
      * Order the expression based on precedence
      */
+    @Override
     public Expression order() {
         if (precedence() > cond.precedence()) {
             UnaryExpression e = (UnaryExpression)cond;
@@ -61,6 +62,7 @@ class ConditionalExpression extends BinaryExpression {
     /**
      * Check the expression
      */
+    @Override
     public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         ConditionVars cvars = cond.checkCondition(env, ctx, vset, exp);
         vset = left.checkValue(env, ctx, cvars.vsTrue, exp).join(
@@ -104,6 +106,7 @@ class ConditionalExpression extends BinaryExpression {
         return vset;
     }
 
+    @Override
     public Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         vset = cond.checkValue(env, ctx, vset, exp);
         cond = convert(env, ctx, Type.tBoolean, cond);
@@ -113,6 +116,7 @@ class ConditionalExpression extends BinaryExpression {
     /**
      * Check if constant
      */
+    @Override
     public boolean isConstant() {
         return cond.isConstant() && left.isConstant() && right.isConstant();
     }
@@ -120,6 +124,7 @@ class ConditionalExpression extends BinaryExpression {
     /**
      * Simplify
      */
+    @Override
     Expression simplify() {
         if (cond.equals(true)) {
             return left;
@@ -133,6 +138,7 @@ class ConditionalExpression extends BinaryExpression {
     /**
      * Inline
      */
+    @Override
     public Expression inline(Environment env, Context ctx) {
         left = left.inline(env, ctx);
         right = right.inline(env, ctx);
@@ -148,6 +154,7 @@ class ConditionalExpression extends BinaryExpression {
         return simplify();
     }
 
+    @Override
     public Expression inlineValue(Environment env, Context ctx) {
         cond = cond.inlineValue(env, ctx);
         left = left.inlineValue(env, ctx);
@@ -158,6 +165,7 @@ class ConditionalExpression extends BinaryExpression {
     /**
      * The cost of inlining this expression
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         // We need to check if right is null in case costInline()
         // is called after this expression has been inlined.
@@ -172,6 +180,7 @@ class ConditionalExpression extends BinaryExpression {
     /**
      * Create a copy of the expression for method inlining
      */
+    @Override
     public Expression copyInline(Context ctx) {
         ConditionalExpression e = (ConditionalExpression)clone();
         e.cond = cond.copyInline(ctx);
@@ -187,6 +196,7 @@ class ConditionalExpression extends BinaryExpression {
     /**
      * Code
      */
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         Label l1 = new Label();
         Label l2 = new Label();
@@ -198,6 +208,7 @@ class ConditionalExpression extends BinaryExpression {
         right.codeValue(env, ctx, asm);
         asm.add(l2);
     }
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         Label l1 = new Label();
         cond.codeBranch(env, ctx, asm, l1, false);
@@ -216,6 +227,7 @@ class ConditionalExpression extends BinaryExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print("(" + opNames[op] + " ");
         cond.print(out);

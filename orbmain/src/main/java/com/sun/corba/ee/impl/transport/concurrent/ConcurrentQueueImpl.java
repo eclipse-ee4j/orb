@@ -28,7 +28,7 @@ public class ConcurrentQueueImpl<V> implements ConcurrentQueue<V> {
     // Structure: Head points to a node containing a null value, which is a special marker.
     // head.next is the first element, head.prev is the last. The queue is empty if
     // head.next == head.prev == head.
-    final Entry<V> head = new Entry<V>(null, 0);
+    final Entry<V> head = new Entry<>(null, 0);
     int count = 0;
     private long ttl;
 
@@ -45,7 +45,7 @@ public class ConcurrentQueueImpl<V> implements ConcurrentQueue<V> {
         private long expiration;
 
         Entry(V value, long expiration) {
-            handle = new HandleImpl<V>(this, value, expiration);
+            handle = new HandleImpl<>(this, value, expiration);
             this.expiration = expiration;
         }
 
@@ -71,6 +71,7 @@ public class ConcurrentQueueImpl<V> implements ConcurrentQueue<V> {
             return entry;
         }
 
+        @Override
         public V value() {
             return value;
         }
@@ -78,6 +79,7 @@ public class ConcurrentQueueImpl<V> implements ConcurrentQueue<V> {
         /**
          * Delete the element corresponding to this handle from the queue. Takes constant time.
          */
+        @Override
         public boolean remove() {
             if (!valid) {
                 return false;
@@ -97,11 +99,13 @@ public class ConcurrentQueueImpl<V> implements ConcurrentQueue<V> {
             return true;
         }
 
+        @Override
         public long expiration() {
             return expiration;
         }
     }
 
+    @Override
     public int size() {
         return count;
     }
@@ -109,11 +113,13 @@ public class ConcurrentQueueImpl<V> implements ConcurrentQueue<V> {
     /**
      * Add a new element to the tail of the queue. Returns a handle for the element in the queue.
      */
+    @Override
     public Handle<V> offer(V arg) {
-        if (arg == null)
+        if (arg == null) {
             throw new IllegalArgumentException("Argument cannot be null");
+        }
 
-        Entry<V> entry = new Entry<V>(arg, System.currentTimeMillis() + ttl);
+        Entry<V> entry = new Entry<>(arg, System.currentTimeMillis() + ttl);
 
         entry.next = head;
         entry.prev = head.prev;
@@ -127,6 +133,7 @@ public class ConcurrentQueueImpl<V> implements ConcurrentQueue<V> {
     /**
      * Return an element from the head of the queue. The element is removed from the queue.
      */
+    @Override
     public Handle<V> poll() {
         Entry<V> first = null;
 
@@ -140,11 +147,13 @@ public class ConcurrentQueueImpl<V> implements ConcurrentQueue<V> {
         return result;
     }
 
+    @Override
     public Handle<V> peek() {
         Entry<V> first = head.next;
-        if (first == head)
+        if (first == head) {
             return null;
-        else
+        } else {
             return first.handle();
+        }
     }
 }

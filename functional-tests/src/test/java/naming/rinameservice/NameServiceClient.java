@@ -40,6 +40,7 @@ public class NameServiceClient implements InternalProcess {
         }
     }
 
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         try {
             System.out.println("Start of NameService test");

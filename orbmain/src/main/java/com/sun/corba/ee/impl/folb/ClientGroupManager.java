@@ -145,6 +145,7 @@ public class ClientGroupManager extends org.omg.CORBA.LocalObject
     private void returningPreviousSocketInfo(List lst) {
     }
 
+    @Override
     @Folb
     public List getSocketInfo(IOR ior, List previous) {
         initialize();
@@ -221,24 +222,24 @@ public class ClientGroupManager extends org.omg.CORBA.LocalObject
     @Folb
     private SocketInfo createSocketInfo(final String msg, final String type, final String host, final int port) {
         return new SocketInfo() {
+            @Override
             public String getType() {
                 return type;
             }
 
+            @Override
             public String getHost() {
                 return host;
             }
 
+            @Override
             public int getPort() {
                 return port;
             }
 
             @Override
             public boolean equals(Object o) {
-                if (o == null) {
-                    return false;
-                }
-                if (!(o instanceof SocketInfo)) {
+                if ((o == null) || !(o instanceof SocketInfo)) {
                     return false;
                 }
                 SocketInfo other = (SocketInfo) o;
@@ -273,6 +274,7 @@ public class ClientGroupManager extends org.omg.CORBA.LocalObject
 
     private Map map = new HashMap();
 
+    @Override
     @Folb
     public synchronized void reset(ContactInfo primary) {
         initialize();
@@ -287,6 +289,7 @@ public class ClientGroupManager extends org.omg.CORBA.LocalObject
     private void hasNextInfo(int previousIndex, int contactInfoSize) {
     }
 
+    @Override
     @Folb
     public synchronized boolean hasNext(ContactInfo primary, ContactInfo previous, List contactInfos) {
         initialize();
@@ -346,6 +349,7 @@ public class ClientGroupManager extends org.omg.CORBA.LocalObject
     private void mappedResultWithUpdate(Object obj, int prevIndex, int size) {
     }
 
+    @Override
     @Folb
     public synchronized ContactInfo next(ContactInfo primary, ContactInfo previous, List contactInfos) {
         initialize();
@@ -403,7 +407,7 @@ public class ClientGroupManager extends org.omg.CORBA.LocalObject
 
     @Folb
     private Object getKey(ContactInfo contactInfo) {
-        if (((SocketInfo) contactInfo).getPort() == 0) {
+        if (contactInfo.getPort() == 0) {
             // When CSIv2 is used the primary will have a zero port.
             // Therefore type/host/port will NOT be unique.
             // So use the entire IOR for the key in that case.
@@ -454,6 +458,7 @@ public class ClientGroupManager extends org.omg.CORBA.LocalObject
     }
 
     private class GIS extends GroupInfoServiceBase {
+        @Override
         public List<ClusterInstanceInfo> internalClusterInstanceInfo(List<String> endpoints) {
             if (lastIOR == null) {
                 return getInitialClusterInstanceInfo(orb, endpoints);
@@ -466,7 +471,7 @@ public class ClientGroupManager extends org.omg.CORBA.LocalObject
             Iterator<ClusterInstanceInfoComponent> iterator = iiopProfileTemplate
                     .iteratorById(ORBConstants.FOLB_MEMBER_ADDRESSES_TAGGED_COMPONENT_ID, ClusterInstanceInfoComponent.class);
 
-            LinkedList<ClusterInstanceInfo> results = new LinkedList<ClusterInstanceInfo>();
+            LinkedList<ClusterInstanceInfo> results = new LinkedList<>();
 
             while (iterator.hasNext()) {
                 ClusterInstanceInfo clusterInstanceInfo = iterator.next().getClusterInstanceInfo();
@@ -487,26 +492,32 @@ public class ClientGroupManager extends org.omg.CORBA.LocalObject
         }
     }
 
+    @Override
     public boolean addObserver(GroupInfoServiceObserver x) {
         return gis.addObserver(x);
     }
 
+    @Override
     public void notifyObservers() {
         gis.notifyObservers();
     }
 
+    @Override
     public List<ClusterInstanceInfo> getClusterInstanceInfo(String[] adapterName) {
         return gis.getClusterInstanceInfo(adapterName);
     }
 
+    @Override
     public List<ClusterInstanceInfo> getClusterInstanceInfo(String[] adapterName, List<String> endpoints) {
         return gis.getClusterInstanceInfo(adapterName, endpoints);
     }
 
+    @Override
     public boolean shouldAddAddressesToNonReferenceFactory(String[] x) {
         return gis.shouldAddAddressesToNonReferenceFactory(x);
     }
 
+    @Override
     public boolean shouldAddMembershipLabel(String[] adapterName) {
         return gis.shouldAddMembershipLabel(adapterName);
     }
@@ -516,10 +527,12 @@ public class ClientGroupManager extends org.omg.CORBA.LocalObject
     // Interceptor operations
     //
 
+    @Override
     public String name() {
         return baseMsg;
     }
 
+    @Override
     public void destroy() {
     }
 
@@ -536,6 +549,7 @@ public class ClientGroupManager extends org.omg.CORBA.LocalObject
     private void sendRequestNoMembershipLabel() {
     }
 
+    @Override
     @Folb
     public void send_request(ClientRequestInfo ri) {
         try {
@@ -563,17 +577,21 @@ public class ClientGroupManager extends org.omg.CORBA.LocalObject
         }
     }
 
+    @Override
     public void send_poll(ClientRequestInfo ri) {
     }
 
+    @Override
     public void receive_reply(ClientRequestInfo ri) {
         receive_star(".receive_reply", ri);
     }
 
+    @Override
     public void receive_exception(ClientRequestInfo ri) {
         receive_star(".receive_exception", ri);
     }
 
+    @Override
     public void receive_other(ClientRequestInfo ri) {
         receive_star(".receive_other", ri);
     }
@@ -645,9 +663,11 @@ public class ClientGroupManager extends org.omg.CORBA.LocalObject
     // ORBInitializer
     //
 
+    @Override
     public void pre_init(ORBInitInfo info) {
     }
 
+    @Override
     @Folb
     public void post_init(ORBInitInfo info) {
         try {
@@ -662,6 +682,7 @@ public class ClientGroupManager extends org.omg.CORBA.LocalObject
     // ORBConfigurator
     //
 
+    @Override
     @Folb
     public void configure(DataCollector collector, ORB orb) {
         this.orb = orb;

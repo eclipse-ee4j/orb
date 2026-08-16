@@ -69,10 +69,12 @@ public class TransportManagerUtil {
         final CDRInputObject resultObj = inobj;
 
         return new MessageData() {
+            @Override
             public Message[] getMessages() {
                 return messages;
             }
 
+            @Override
             public CDRInputObject getStream() {
                 return resultObj;
             }
@@ -88,8 +90,9 @@ public class TransportManagerUtil {
         MessageParserImpl parser = new MessageParserImpl(orb, null);
         parser.offerBuffer(ByteBuffer.wrap(data));
         Message msg = parser.getMessageMediator().getDispatchHeader();
-        if (msg.getGIOPVersion().equals(GIOPVersion.V1_2))
+        if (msg.getGIOPVersion().equals(GIOPVersion.V1_2)) {
             ((Message_1_2) msg).unmarshalRequestID(parser.getMsgByteBuffer());
+        }
 
         return msg;
     }

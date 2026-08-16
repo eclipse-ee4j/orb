@@ -37,12 +37,14 @@ public class TestObjectSuperSuper implements Serializable {
         return dataxssup0 == 0 && dataxssup1 == null;
     }
 
+    @Override
     public boolean equals(Object obj) {
         try {
             TestObjectSuperSuper other = (TestObjectSuperSuper) obj;
 
-            if (other == null)
+            if (other == null) {
                 return false;
+            }
 
             return (testObjectSuperSuperHasStreamDefaults() || other.testObjectSuperSuperHasStreamDefaults()
                     || (dataxssup0 == other.dataxssup0 && dataxssup1.equals(other.dataxssup1))) && super.equals(obj);

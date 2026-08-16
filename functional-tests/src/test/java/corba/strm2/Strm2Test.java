@@ -33,22 +33,25 @@ public class Strm2Test extends CORBATest {
 
         File outputDir = new File(Options.getOutputDirectory() + File.separator + dirName);
 
-        if (!outputDir.mkdir())
+        if (!outputDir.mkdir()) {
             throw new Exception("Error making directory: " + outputDir.getAbsolutePath());
+        }
 
         File testDir = new File(Options.getTestDirectory() + File.separator + dirName);
 
-        if (!testDir.exists())
+        if (!testDir.exists()) {
             throw new Exception("Can't find directory: " + testDir.getAbsolutePath());
+        }
 
         // First look in the directory for all the
         // .java files and get their absolute paths
         File[] filesInDir = testDir.listFiles();
         ArrayList filesToCompile = new ArrayList(filesInDir.length);
 
-        for (int i = 0; i < filesInDir.length; i++) {
-            if (filesInDir[i].isFile() && filesInDir[i].toString().endsWith(".java"))
-                filesToCompile.add(filesInDir[i]);
+        for (File element : filesInDir) {
+            if (element.isFile() && element.toString().endsWith(".java")) {
+                filesToCompile.add(element);
+            }
         }
 
         String[] filePathsToCompile = new String[filesToCompile.size()];
@@ -63,6 +66,7 @@ public class Strm2Test extends CORBATest {
         javac.compile(filePathsToCompile, null, outputDir.getAbsolutePath(), Options.getReportDirectory());
     }
 
+    @Override
     protected void doTest() throws Throwable {
         if (test.Test.useJavaSerialization()) {
             return;
@@ -79,8 +83,8 @@ public class Strm2Test extends CORBATest {
 
         // This could be done in the overall makefile
         // if someone could figure it out!
-        for (int i = 0; i < Versions.testableVersions.length; i++) {
-            compileSpecialSubdirectory(Versions.testableVersions[i]);
+        for (String testableVersion : Versions.testableVersions) {
+            compileSpecialSubdirectory(testableVersion);
         }
 
         Controller servers[] = new Controller[Versions.testableVersions.length];
@@ -122,8 +126,9 @@ public class Strm2Test extends CORBATest {
 
         // Stop all the servers
 
-        for (int i = 0; i < servers.length; i++)
-            servers[i].stop();
+        for (Controller server : servers) {
+            server.stop();
+        }
 
         // Finally, stop ORBD
         orbd.stop();

@@ -60,6 +60,7 @@ public class SerializationTest extends test.Test {
         helper.start(name);
     }
 
+    @Override
     public void run() {
 
         try {
@@ -363,25 +364,28 @@ public class SerializationTest extends test.Test {
             org.omg.CORBA_2_3.portable.InputStream sis = (org.omg.CORBA_2_3.portable.InputStream) sos.create_input_stream();
 
             test("readDate");
-            javax.rmi.CORBA.serialization.Date _date = (javax.rmi.CORBA.serialization.Date) DateHelper.read(sis);
+            javax.rmi.CORBA.serialization.Date _date = DateHelper.read(sis);
 
             test("readStocks");
-            Stock _stocks[] = (Stock[]) seq1_StockHelper.read(sis);
+            Stock _stocks[] = seq1_StockHelper.read(sis);
 
             test("readSystemException");
             SystemException _sex = (SystemException) sis.read_value();
-            if (!(_sex.getMessage().equals(sex.getMessage())) || _sex.minor != sex.minor || _sex.completed != sex.completed)
+            if (!(_sex.getMessage().equals(sex.getMessage())) || _sex.minor != sex.minor || _sex.completed != sex.completed) {
                 throw new Error("Hello String failed!");
+            }
 
             test("readHelloString");
-            String _helloString = (String) WStringValueHelper.read(sis);
-            if (!helloString.equals(_helloString))
+            String _helloString = WStringValueHelper.read(sis);
+            if (!helloString.equals(_helloString)) {
                 throw new Error("Hello String failed!");
+            }
 
             test("readIdlValue");
             IDLValue _idlv = (IDLValue) sis.read_value();
-            if (!idlv.equals(_idlv))
+            if (!idlv.equals(_idlv)) {
                 throw new Error("IDLValue test failed!");
+            }
 
             test("readGraph");
             Graph _graph = (Graph) sis.read_value();
@@ -401,28 +405,33 @@ public class SerializationTest extends test.Test {
 
             test("readSharedVector");
             Vector _sharedVector1 = (Vector) sis.read_value();
-            if (_vector1 != _sharedVector1)
+            if (_vector1 != _sharedVector1) {
                 throw new Error("Shared vectors failed! (vectors not shared!)");
+            }
 
             test("readUnsharedVector");
             Vector _vector2 = (Vector) sis.read_value();
-            if (_vector1 == _vector2)
+            if (_vector1 == _vector2) {
                 throw new Error("Unshared vectors failed! (vectors are shared!)");
+            }
 
             test("readNotSerializableChild");
             NotSerializableChild _notser = (NotSerializableChild) sis.read_value();
-            if (!notser.equals(_notser))
+            if (!notser.equals(_notser)) {
                 throw new Error("NotSerializableChild test failed!");
+            }
 
             test("readIsSerializable");
             IsSerializable _isser = (IsSerializable) sis.read_value();
-            if (!isser.equals(_isser))
+            if (!isser.equals(_isser)) {
                 throw new Error("IsSerializable test failed!");
+            }
 
             test("readClass");
             Class _clazz = (Class) sis.read_value();
-            if (!clazz.equals(_clazz))
+            if (!clazz.equals(_clazz)) {
                 throw new Error("Test Clazz failed!");
+            }
 
             test("readValue1");
             sis.read_value();
@@ -438,126 +447,149 @@ public class SerializationTest extends test.Test {
 
             test("readValue4");
             TestOBV2 _tobv2 = (TestOBV2) sis.read_value();
-            if (!tobv2.equals(_tobv2))
+            if (!tobv2.equals(_tobv2)) {
                 throw new Error("TestOBV2 failed!");
+            }
 
             test("readBudgetSummary");
             BudgetSummary _summary = (BudgetSummary) sis.read_value();
 
             test("readOctet");
             byte _b = sis.read_octet();
-            if (b != _b)
+            if (b != _b) {
                 throw new Error("Test byte failed!");
+            }
 
             test("readLong");
             long l = sis.read_long();
-            if (l != 45)
+            if (l != 45) {
                 throw new Error("Test 1 failed!");
+            }
 
             test("readIdlString");
             String _idlString = sis.read_wstring();
-            if (!idlString.equals(_idlString))
+            if (!idlString.equals(_idlString)) {
                 throw new Error("Test idlString failed!");
+            }
 
             test("readStringAsValue");
             String _str1 = (String) sis.read_value();
-            if (!str1.equals(_str1))
+            if (!str1.equals(_str1)) {
                 throw new Error("Test str1 failed! : " + _str1);
+            }
 
             test("readNullString");
             String nullString = (String) sis.read_value();
-            if (nullString != null)
+            if (nullString != null) {
                 throw new Error("Test nullString failed! : ");
+            }
 
             test("readException");
             Exception _exception = (Exception) sis.read_value();
-            if (!_exception.getMessage().equals("Test Exception"))
+            if (!_exception.getMessage().equals("Test Exception")) {
                 throw new Error("Test Exception failed!");
+            }
 
             test("readString5");
             String _str2 = (String) sis.read_value();
-            if (!str2.equals(_str2))
+            if (!str2.equals(_str2)) {
                 throw new Error("Test str2 failed!");
+            }
 
             test("readString6");
             String _str3 = (String) sis.read_value();
-            if (_str3 != _str2)
+            if (_str3 != _str2) {
                 throw new Error("Test str3 failed!");
+            }
 
             test("readObjectCustom");
             OBVTestObjectCustom _obvc = OBVTestObjectCustomHelper.read(sis);
-            if (!obvc.equals(_obvc))
+            if (!obvc.equals(_obvc)) {
                 throw new Error("Test Custom OBV failed!");
+            }
 
             test("readObjectCustom2");
             OBVTestObjectCustom _obvcshared2 = (OBVTestObjectCustom) sis.read_value(OBVTestObjectCustom.class);
-            if (_obvc != _obvcshared2)
+            if (_obvc != _obvcshared2) {
                 throw new Error("Test Custom OBV2 shared 2 failed!");
+            }
 
             test("readObjectCustom3");
             OBVTestObjectCustom _obvcshared1 = (OBVTestObjectCustom) sis.read_value();
-            if (_obvc != _obvcshared1)
+            if (_obvc != _obvcshared1) {
                 throw new Error("Test Custom OBV2 shared 1 failed!");
+            }
 
             test("readObjectCustom4");
             OBVTestObjectCustom _obvc2 = OBVTestObjectCustomHelper.read(sis);
-            if (!obvc2.equals(_obvc2))
+            if (!obvc2.equals(_obvc2)) {
                 throw new Error("Test Custom OBV2 failed!");
+            }
             test("readObjectOne");
             OBVTestObjectOne _obv1 = (OBVTestObjectOne) sis.read_value();
-            if (!obv1.equals(_obv1))
+            if (!obv1.equals(_obv1)) {
                 throw new Error("Test OBV1 failed!");
+            }
 
             test("readMultipleStreams");
             // Test multiple streams open at once
             org.omg.CORBA_2_3.portable.InputStream sis2 = (org.omg.CORBA_2_3.portable.InputStream) sos2.create_input_stream();
             String _str1_sis2 = (String) sis2.read_value();
-            if (!str1.equals(_str1_sis2))
+            if (!str1.equals(_str1_sis2)) {
                 throw new Error("Test _str1_sis2 idlString failed!");
+            }
 
             test("readObjectOne2");
             OBVTestObjectOne _obv1_sis2 = (OBVTestObjectOne) sis2.read_value(OBVTestObjectOne.class);
-            if (!obv1.equals(_obv1_sis2))
+            if (!obv1.equals(_obv1_sis2)) {
                 throw new Error("Test sis2 OBV1 failed!");
+            }
 
             test("readObjectOne3");
             OBVTestObjectOne _obv1Shared = OBVTestObjectOneHelper.read(sis);
-            if (_obv1 != _obv1Shared)
+            if (_obv1 != _obv1Shared) {
                 throw new Error("Test Shared References OBV1 failed!");
+            }
 
             test("readObjectOne4");
             OBVTestObjectOne _obv2 = (OBVTestObjectOne) sis.read_value();
-            if (!obv2.equals(_obv2))
+            if (!obv2.equals(_obv2)) {
                 throw new Error("Test OBV2 failed!");
+            }
 
             test("readFloat");
             Float _f = (Float) sis.read_value();
-            if (!f.equals(_f))
+            if (!f.equals(_f)) {
                 throw new Error("Test Float failed!");
+            }
 
             test("readComplexObjectOne");
             javax.rmi.CORBA.serialization.ComplexTestObjectOne _test1 = (javax.rmi.CORBA.serialization.ComplexTestObjectOne) sis
                     .read_value();
-            if (!test1.equals(_test1))
+            if (!test1.equals(_test1)) {
                 throw new Error("FAILURE!  Test1 Failed:" + _test1);
+            }
 
             test("readComplexObjectTwo");
             javax.rmi.CORBA.serialization.ComplexTestObjectTwo _test2 = (javax.rmi.CORBA.serialization.ComplexTestObjectTwo) sis
                     .read_value();
-            if (!test2.equals(_test2))
+            if (!test2.equals(_test2)) {
                 throw new Error("FAILURE!  Test2 Failed");
+            }
 
             test("readComplexObjectTwoSubclass");
             javax.rmi.CORBA.serialization.ComplexTestObjectTwoSubclass _test2subclass = (javax.rmi.CORBA.serialization.ComplexTestObjectTwoSubclass) sis
                     .read_value();
-            if (!test2subclass.equals(_test2subclass))
+            if (!test2subclass.equals(_test2subclass)) {
                 throw new Error("FAILURE!  Test2subclass Failed");
+            }
 
             test("readComplexObjectTwoDefaults");
             javax.rmi.CORBA.serialization.ComplexTestObjectTwoSubclassDefaults _test2subclassDefaults = (javax.rmi.CORBA.serialization.ComplexTestObjectTwoSubclassDefaults) sis
                     .read_value();
-            if (!test2subclassDefaults.equals(_test2subclassDefaults))
+            if (!test2subclassDefaults.equals(_test2subclassDefaults)) {
                 throw new Error("FAILURE!  Test2subclassDefaults Failed");
+            }
 
             test("readComplexObjectTwoDelta");
             ComplexTestObjectTwoDelta _delta2 = (ComplexTestObjectTwoDelta) sis.read_value();
@@ -569,51 +601,60 @@ public class SerializationTest extends test.Test {
 
             test("readEmptyObject");
             javax.rmi.CORBA.serialization.EmptyTestObject _testEmptyA = (javax.rmi.CORBA.serialization.EmptyTestObject) sis.read_value();
-            if (!testEmptyA.equals(_testEmptyA))
+            if (!testEmptyA.equals(_testEmptyA)) {
                 throw new Error("FAILURE!  TestEmptyA Failed");
+            }
 
             test("readEmptyObject2");
             javax.rmi.CORBA.serialization.EmptyTestObject _testEmptyB = (javax.rmi.CORBA.serialization.EmptyTestObject) sis.read_value();
-            if (!testEmptyB.equals(_testEmptyB))
+            if (!testEmptyB.equals(_testEmptyB)) {
                 throw new Error("FAILURE!  TestEmptyB Failed");
+            }
 
             test("readComplexTestObjectOneAgain");
             javax.rmi.CORBA.serialization.ComplexTestObjectOne _test1b = (javax.rmi.CORBA.serialization.ComplexTestObjectOne) sis
                     .read_value();
-            if (!test1b.equals(_test1b))
+            if (!test1b.equals(_test1b)) {
                 throw new Error("FAILURE!  Test1b Failed");
+            }
 
             test("readDouble");
             Double _d = (Double) sis.read_value();
-            if (!d.equals(_d))
+            if (!d.equals(_d)) {
                 throw new Error("FAILURE!  d Failed");
+            }
 
             test("readComplexObjectThree");
             javax.rmi.CORBA.serialization.ComplexTestObjectThree _test3 = (javax.rmi.CORBA.serialization.ComplexTestObjectThree) sis
                     .read_value();
-            if (!test3.equals(_test3))
+            if (!test3.equals(_test3)) {
                 throw new Error("FAILURE!  Test3 Failed");
+            }
 
             test("readComplexObjectFour");
             javax.rmi.CORBA.serialization.ComplexTestObjectFour _test4 = (javax.rmi.CORBA.serialization.ComplexTestObjectFour) sis
                     .read_value();
-            if (!test4.equals(_test4))
+            if (!test4.equals(_test4)) {
                 throw new Error("FAILURE!  Test4 Failed");
+            }
 
             test("readProperties");
             java.util.Properties _props = (java.util.Properties) sis.read_value();
-            if (!_props.toString().equals(props.toString()))
+            if (!_props.toString().equals(props.toString())) {
                 throw new Error("FAILURE!  props Failed");
+            }
 
             test("readIntArray");
             int _anIntArray[] = (int[]) sis.read_value();
-            if ((_anIntArray[0] != anIntArray[0]) || (_anIntArray[1] != anIntArray[1]) || (_anIntArray[2] != anIntArray[2]))
+            if ((_anIntArray[0] != anIntArray[0]) || (_anIntArray[1] != anIntArray[1]) || (_anIntArray[2] != anIntArray[2])) {
                 throw new Error("FAILURE!  anIntArray Failed");
+            }
 
             test("readObjectArray");
             Object _aSharedRefsArray[] = (Object[]) sis.read_value();
-            if ((_aSharedRefsArray[0] != _testEmptyA) || (_aSharedRefsArray[1] != _test1b) || (_aSharedRefsArray[2] != _anIntArray))
+            if ((_aSharedRefsArray[0] != _testEmptyA) || (_aSharedRefsArray[1] != _test1b) || (_aSharedRefsArray[2] != _anIntArray)) {
                 throw new Error("FAILURE!  aSharedRefsArray[] == Failed");
+            }
 
             test("readIntArray2");
             int[] array1Echo = (int[]) sis.read_value();
@@ -637,15 +678,16 @@ public class SerializationTest extends test.Test {
             // Recursive array references
             Object recursiveArrayEcho[] = (Object[]) sis.read_value();
             if ((recursiveArrayEcho[0] != recursiveArrayEcho) || (recursiveArrayEcho[2] != recursiveArrayEcho)
-                    || (recursiveArrayEcho[3] != recursiveArrayEcho) || (!((String) recursiveArrayEcho[1]).equals("Hello")))
+                    || (recursiveArrayEcho[3] != recursiveArrayEcho) || (!((String) recursiveArrayEcho[1]).equals("Hello"))) {
                 throw new Exception("RecursiveArray test failed!");
+            }
 
             test("readShortArrayArrayArray");
             short[][][] dim3Echo = (short[][][]) sis.read_value();
-            for (int i = 0; i < dim3.length; i++) {
-                for (int j = 0; j < dim3[i].length; j++) {
-                    for (int k = 0; k < dim3[i][j].length; k++) {
-                        if (dim3[i][j][k] != dim3[i][j][k]) {
+            for (short[][] element : dim3) {
+                for (int j = 0; j < element.length; j++) {
+                    for (int k = 0; k < element[j].length; k++) {
+                        if (element[j][k] != element[j][k]) {
                             throw new Exception("HelloTest: echoArray (short[][][]) failed");
                         }
                     }
@@ -673,30 +715,35 @@ public class SerializationTest extends test.Test {
             // Anys
             test("readAny");
             ComplexTestObjectXXX _xxx = (ComplexTestObjectXXX) sis.read_value();
-            if (!_xxx.equals(xxx))
+            if (!_xxx.equals(xxx)) {
                 throw new Error("Any test using xxx failed!");
+            }
 
             test("readRandom");
             Random _random = (Random) sis.read_value();
-            if (_random == null)
+            if (_random == null) {
                 throw new Error("Random test using random failed!");
+            }
 
             test("readHashMap");
             HashMap _hmap = (HashMap) sis.read_value();
-            if (!_hmap.equals(hmap))
+            if (!_hmap.equals(hmap)) {
                 throw new Error("HashMap test using hmap failed!");
+            }
 
             test("readConcurrentHashMap");
             ConcurrentHashMap _chmap = (ConcurrentHashMap) sis.read_value();
-            if (!_chmap.equals(chmap))
+            if (!_chmap.equals(chmap)) {
                 throw new Error("ConcurrentHashMap test using chmap failed!");
+            }
         } catch (Throwable e) {
             helper.fail(e);
             status = new Error(e.getMessage());
             e.printStackTrace();
         } finally {
-            if (!first)
+            if (!first) {
                 helper.pass();
+            }
 
             helper.done();
         }

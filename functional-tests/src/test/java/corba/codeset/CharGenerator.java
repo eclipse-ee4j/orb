@@ -35,8 +35,9 @@ public class CharGenerator {
     public static char[] getChars(CharSelector selector) {
         StringBuilder sbuf = new StringBuilder();
         for (char ch = Character.MIN_VALUE; ch < Character.MAX_VALUE; ch++) {
-            if (selector.testThisCharacter(ch))
+            if (selector.testThisCharacter(ch)) {
                 sbuf.append(ch);
+            }
         }
 
         char[] result = new char[sbuf.length()];
@@ -51,6 +52,7 @@ public class CharGenerator {
     }
 
     private static class LatinSelector extends CharSelector {
+        @Override
         public boolean testThisCharacter(char ch) {
             Character.UnicodeBlock blk = Character.UnicodeBlock.of(ch);
 
@@ -59,6 +61,7 @@ public class CharGenerator {
     }
 
     private static class WideSelector extends LatinSelector {
+        @Override
         public boolean testThisCharacter(char ch) {
             Character.UnicodeBlock blk = Character.UnicodeBlock.of(ch);
             return (blk != null && (blk == Character.UnicodeBlock.KATAKANA || blk == Character.UnicodeBlock.HIRAGANA

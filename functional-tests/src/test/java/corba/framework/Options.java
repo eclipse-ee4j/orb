@@ -92,22 +92,25 @@ public class Options {
         // Initialize default properties from the system properties.
         for (String key : Util.PROCESS_PROPERTIES) {
             String value = System.getProperty(key);
-            if (value != null)
+            if (value != null) {
                 props.setProperty(key, value);
+            }
         }
 
         String prop = props.getProperty(ORBConstants.INITIAL_PORT_PROPERTY);
-        if (prop == null)
+        if (prop == null) {
             orbInitialPort = new Port();
-        else
+        } else {
             orbInitialPort = new Port(Integer.parseInt(prop));
+        }
         props.setProperty(ORBConstants.INITIAL_PORT_PROPERTY, orbInitialPort.toString());
 
         prop = props.getProperty(ORBConstants.ORBD_PORT_PROPERTY);
-        if (prop == null)
+        if (prop == null) {
             activationPort = new Port();
-        else
+        } else {
             activationPort = new Port(Integer.parseInt(prop));
+        }
 
         emmaFile = props.getProperty("emma.coverage.out.file", "");
         orbClass = props.getProperty("org.omg.CORBA.ORBClass", "com.sun.corba.ee.impl.orb.ORBImpl");

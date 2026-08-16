@@ -55,7 +55,7 @@ public final class IntHolder implements Streamable {
     /**
      * Constructs a new <code>IntHolder</code> object with its <code>value</code> field initialized to the given
      * <code>int</code>.
-     * 
+     *
      * @param initial the <code>int</code> with which to initialize the <code>value</code> field of the newly-created
      * <code>IntHolder</code> object
      */
@@ -69,6 +69,7 @@ public final class IntHolder implements Streamable {
      *
      * @param input the <code>InputStream</code> object containing CDR formatted data from the wire
      */
+    @Override
     public void _read(InputStream input) {
         value = input.read_long();
     }
@@ -79,6 +80,7 @@ public final class IntHolder implements Streamable {
      *
      * @param output the <code>OutputStream</code> object that will contain the CDR formatted data
      */
+    @Override
     public void _write(OutputStream output) {
         output.write_long(value);
     }
@@ -89,6 +91,7 @@ public final class IntHolder implements Streamable {
      *
      * @return the type code for the value held in this <code>IntHolder</code> object
      */
+    @Override
     public org.omg.CORBA.TypeCode _type() {
         return ORB.init().get_primitive_tc(TCKind.tk_long);
     }

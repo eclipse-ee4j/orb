@@ -43,8 +43,9 @@ public class Util {
     static private boolean debug = false;
 
     static public void trace(String msg) {
-        if (debug)
+        if (debug) {
             System.out.println(msg);
+        }
     }
 
     public static final String HANDSHAKE = "Ready.";
@@ -74,8 +75,9 @@ public class Util {
         props.put("org.omg.CORBA.ORBClass", "com.sun.corba.ee.impl.orb.ORBImpl");
         props.put("org.omg.CORBA.ORBSingletonClass", "com.sun.corba.ee.impl.orb.ORBSingleton");
 
-        if (orbDebugFlags != null)
+        if (orbDebugFlags != null) {
             props.put(ORBConstants.DEBUG_PROPERTY, orbDebugFlags);
+        }
 
         // Create and return the ORB...
         return ORB.init(nameServerArgs, props);
@@ -219,8 +221,9 @@ public class Util {
                 setDefaultCodeBase(iiop);
 
                 String host = args[2];
-                if (host.equals("-nullHost"))
+                if (host.equals("-nullHost")) {
                     host = null;
+                }
 
                 if (!startSingleServant(args[0], args[1], host, Integer.parseInt(args[3]), iiop, null)) {
                     System.exit(1);
@@ -394,8 +397,7 @@ public class Util {
             ORBConstants.ORBD_PORT_PROPERTY };
 
     public static void inheritProperties(Vector command) {
-        for (int j = 0; j < PROCESS_PROPERTIES.length; j++) {
-            String key = PROCESS_PROPERTIES[j];
+        for (String key : PROCESS_PROPERTIES) {
             String value = System.getProperty(key);
             if (value != null) {
                 command.insertElementAt("-D" + key + "=" + value, 1);
@@ -437,24 +439,27 @@ public class Util {
         System.out.println("-----------------------------------------------------------------");
         System.out.println("Current working directory: " + System.getProperty("user.dir"));
         System.out.println("Command to exec:");
-        for (String str : command)
+        for (String str : command) {
             System.out.println("\t" + str);
+        }
         System.out.println("-----------------------------------------------------------------");
     }
 
     private static Process startProcess(String[] command, String handShake, int debugLevel) throws IOException {
         Process theProcess = null;
-        if (debugLevel >= Test.DISPLAY)
+        if (debugLevel >= Test.DISPLAY) {
             displayCommand(command);
+        }
 
         theProcess = Runtime.getRuntime().exec(command);
 
         ProcessMonitor monitor;
 
-        if (debugLevel >= Test.DISPLAY)
+        if (debugLevel >= Test.DISPLAY) {
             monitor = new ProcessMonitor(theProcess, System.out, System.err, handShake);
-        else
+        } else {
             monitor = new ProcessMonitor(theProcess, StreamReader.NULL_OUTPUT_STREAM, StreamReader.NULL_OUTPUT_STREAM, handShake);
+        }
 
         monitor.start();
 
@@ -480,7 +485,7 @@ public class Util {
 
     /**
      * Run the rmic compiler.
-     * 
+     *
      * @param generatorArg The generator argument (e.g. "-iiop" or "-idl"). May be null.
      * @param additionalArgs Additional arguments. May be null.
      * @param classes Classes to compile. If null or empty, this method does nothing.
@@ -494,7 +499,7 @@ public class Util {
 
     /**
      * Run the rmic compiler.
-     * 
+     *
      * @param generatorArg The generator argument (e.g. "-iiop" or "-idl"). May be null.
      * @param additionalArgs Additional arguments. May be null.
      * @param classes Classes to compile. If null or empty, this method does nothing.
@@ -515,7 +520,7 @@ public class Util {
 
     /**
      * Runs the rmic compiler in the current process.
-     * 
+     *
      * @param generatorArg The generator argument (e.g. "-iiop" or "-idl"). May be null.
      * @param additionalArgs Additional arguments. May be null.
      * @param classes Classes to compile. If null or empty, this method does nothing.
@@ -532,16 +537,20 @@ public class Util {
 
             if (classes != null && classes.length > 0) {
                 int commandCount = classes.length + 2;
-                if (debug)
+                if (debug) {
                     commandCount++;
-                if (generatorArg != null)
+                }
+                if (generatorArg != null) {
                     commandCount++;
-                if (additionalArgs != null)
+                }
+                if (additionalArgs != null) {
                     commandCount += additionalArgs.length;
+                }
                 String[] args = new String[commandCount];
                 int index = 0;
-                if (generatorArg != null)
+                if (generatorArg != null) {
                     args[index++] = generatorArg;
+                }
                 if (additionalArgs != null) {
                     int count = additionalArgs.length;
                     System.arraycopy(additionalArgs, 0, args, index, count);
@@ -550,8 +559,9 @@ public class Util {
 
                 args[index++] = "-classpath";
                 args[index++] = System.getProperty("java.class.path");
-                if (debug)
+                if (debug) {
                     args[index++] = "-verbose";
+                }
 
                 int count = classes.length;
                 System.arraycopy(classes, 0, args, index, count);
@@ -577,7 +587,7 @@ public class Util {
 
     /**
      * Runs the rmic compiler in a separate process.
-     * 
+     *
      * @param generatorArg The generator argument (e.g. "-iiop" or "-idl"). May be null.
      * @param additionalArgs Additional arguments. May be null.
      * @throws Exception if compile fails.
@@ -598,8 +608,9 @@ public class Util {
             temp.addElement("sun.rmi.rmic.Main");
             temp.addElement("-classpath");
             temp.addElement(classPath);
-            if (debug)
+            if (debug) {
                 temp.addElement("-verbose");
+            }
             if (generatorArg != null) {
                 temp.addElement(generatorArg);
             }
@@ -692,8 +703,9 @@ public class Util {
         cmd.add(System.getProperty("java.home") + "/bin/java");
 
         String policy = System.getProperty("java.security.policy");
-        if (policy != null)
+        if (policy != null) {
             cmd.addElement("-Djava.security.policy=" + policy);
+        }
 
         cmd.add("-Dorg.omg.CORBA.ORBClass=com.sun.corba.ee.impl.orb.ORBImpl");
         cmd.add("-Dorg.omg.CORBA.ORBSingletonClass=com.sun.corba.ee.impl.orb.ORBSingleton");
@@ -724,8 +736,9 @@ public class Util {
 
         // Add properties
         int index;
-        for (index = 0; index < properties.size(); index++)
-            cmd.add((String) properties.elementAt(index));
+        for (index = 0; index < properties.size(); index++) {
+            cmd.add(properties.elementAt(index));
+        }
 
         // Add classpath and server class
         cmd.add("-classpath");
@@ -752,8 +765,9 @@ public class Util {
 
         // Add properties
         int index;
-        for (index = 0; index < properties.size(); index++)
-            cmd.add((String) properties.elementAt(index));
+        for (index = 0; index < properties.size(); index++) {
+            cmd.add(properties.elementAt(index));
+        }
 
         // Add classpath and server class
         cmd.add("-classpath");
@@ -819,7 +833,7 @@ public class Util {
 
     /**
      * execAndWaitFor will create a new Process and wait for the process to complete before returning
-     * 
+     *
      * @param command command line arguments to pass to exec.
      * @return int the result of Process.exitValue() or -1;
      * @throws Error if an unexpected exception occurs an Error is thrown with the message string from the original
@@ -831,7 +845,7 @@ public class Util {
 
     /**
      * execAndWaitFor will create a new Process and wait for the process to complete before returning
-     * 
+     *
      * @param command command line arguments to pass to exec.
      * @param out Where to copy output.
      * @param err Where to copy error output.
@@ -842,8 +856,9 @@ public class Util {
     public static int execAndWaitFor(String[] command, OutputStream out, OutputStream err) {
 
         try {
-            if (Test.forkDebugLevel >= Test.DISPLAY)
+            if (Test.forkDebugLevel >= Test.DISPLAY) {
                 displayCommand(command);
+            }
 
             Process theProcess = Runtime.getRuntime().exec(command);
 

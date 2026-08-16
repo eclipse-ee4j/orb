@@ -195,7 +195,7 @@ public interface ORBData {
 
     /**
      * Get the preferred code sets for connections. Should the client send the code set service context on every request?
-     * 
+     *
      * @return code sets for connections
      */
     @ManagedAttribute
@@ -209,7 +209,7 @@ public interface ORBData {
     /**
      * Added to allow user configurators to add ORBInitializers for PI. This makes it possible to add interceptors from an
      * ORBConfigurator. XXX Should this be an operation, or a set only attribute? Should it even be exposed in the MBean?
-     * 
+     *
      * @param init used to initialize resolve_initial_references
      */
     // @ManagedAttribute

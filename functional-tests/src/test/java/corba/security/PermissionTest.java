@@ -24,6 +24,7 @@ import corba.framework.*;
 import java.util.*;
 
 public class PermissionTest extends CORBATest {
+    @Override
     protected void doTest() throws Throwable {
         Controller client = createClient("corba.security.Client");
 

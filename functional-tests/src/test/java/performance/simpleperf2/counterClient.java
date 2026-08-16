@@ -77,6 +77,7 @@ public class counterClient implements InternalProcess {
         out.println("Test " + testType + ": Elapsed time per invocation = " + elapsed / COUNT + " milliseconds");
     }
 
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         environment.list(out);
 
@@ -118,11 +119,13 @@ class CounterServantLocator extends org.omg.CORBA.LocalObject implements Servant
         this.servant = servant;
     }
 
+    @Override
     public Servant preinvoke(byte[] oid, POA adapter, String operation, CookieHolder the_cookie)
             throws org.omg.PortableServer.ForwardRequest {
         return servant;
     }
 
+    @Override
     public void postinvoke(byte[] oid, POA adapter, String operation, java.lang.Object cookie, Servant servant) {
         return;
     }

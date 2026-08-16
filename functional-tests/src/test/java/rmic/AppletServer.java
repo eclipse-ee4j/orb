@@ -21,6 +21,7 @@
 package rmic;
 
 public class AppletServer extends java.applet.Applet implements Base {
+    @Override
     public void method() throws java.rmi.RemoteException, TestException {
     }
 }

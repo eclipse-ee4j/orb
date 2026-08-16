@@ -48,6 +48,7 @@ class StringExpressionConstantData extends ConstantPoolData {
     /**
      * Write the constant to the output stream
      */
+    @Override
     void write(Environment env, DataOutputStream out, ConstantPool tab) throws IOException {
         out.writeByte(CONSTANT_STRING);
         out.writeShort(tab.index(str.getValue()));
@@ -56,6 +57,7 @@ class StringExpressionConstantData extends ConstantPoolData {
     /**
      * Return the order of the constant
      */
+    @Override
     int order() {
         return 0;
     }
@@ -63,6 +65,7 @@ class StringExpressionConstantData extends ConstantPoolData {
     /**
      * toString
      */
+    @Override
     public String toString() {
         return "StringExpressionConstantData[" + str.getValue() + "]=" + str.getValue().hashCode();
     }

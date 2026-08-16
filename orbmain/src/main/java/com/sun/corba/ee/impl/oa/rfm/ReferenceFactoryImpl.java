@@ -34,14 +34,17 @@ public class ReferenceFactoryImpl extends LocalObject implements ReferenceFactor
         this.repositoryId = repositoryId;
     }
 
+    @Override
     public org.omg.CORBA.Object createReference(byte[] key) {
         return manager.createReference(name, key, repositoryId);
     }
 
+    @Override
     public void destroy() {
         manager.destroy(name);
     }
 
+    @Override
     public String toString() {
         return "ReferenceFactoryImpl[" + name + ", " + repositoryId + "]";
     }

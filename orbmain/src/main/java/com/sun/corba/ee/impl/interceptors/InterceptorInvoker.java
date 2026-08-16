@@ -228,7 +228,7 @@ public class InterceptorInvoker {
                 // Client's TSC is now RSC via RequestInfo.
                 current.pushSlotTable();
                 info.setPICurrentPushed(true);
-                info.setCurrentExecutionPoint(ClientRequestInfoImpl.EXECUTION_POINT_STARTING);
+                info.setCurrentExecutionPoint(RequestInfoImpl.EXECUTION_POINT_STARTING);
 
                 // Get all ClientRequestInterceptors:
                 ClientRequestInterceptor[] clientInterceptors = (ClientRequestInterceptor[]) interceptorList
@@ -336,7 +336,7 @@ public class InterceptorInvoker {
                 // NOTE: It is assumed someplace else prepared a
                 // fresh TSC slot table.
 
-                info.setCurrentExecutionPoint(ClientRequestInfoImpl.EXECUTION_POINT_ENDING);
+                info.setCurrentExecutionPoint(RequestInfoImpl.EXECUTION_POINT_ENDING);
 
                 // Get all ClientRequestInterceptors:
                 ClientRequestInterceptor[] clientInterceptors = (ClientRequestInterceptor[]) interceptorList
@@ -446,7 +446,7 @@ public class InterceptorInvoker {
                 // interceptors need to make out calls.
                 current.pushSlotTable();
 
-                info.setCurrentExecutionPoint(ServerRequestInfoImpl.EXECUTION_POINT_STARTING);
+                info.setCurrentExecutionPoint(RequestInfoImpl.EXECUTION_POINT_STARTING);
 
                 // Get all ServerRequestInterceptors:
                 ServerRequestInterceptor[] serverInterceptors = (ServerRequestInterceptor[]) interceptorList
@@ -543,7 +543,7 @@ public class InterceptorInvoker {
             // NOTE: do not touch the slotStack. The RSC and TSC are
             // equivalent at this point.
 
-            info.setCurrentExecutionPoint(ServerRequestInfoImpl.EXECUTION_POINT_INTERMEDIATE);
+            info.setCurrentExecutionPoint(RequestInfoImpl.EXECUTION_POINT_INTERMEDIATE);
 
             // Get all ServerRequestInterceptors:
             ServerRequestInterceptor[] serverInterceptors = (ServerRequestInterceptor[]) interceptorList

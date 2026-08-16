@@ -216,7 +216,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
     @ManagedAttribute
     @Description("The current settings of the ORB debug flags")
     private Map<String, Boolean> getDebugFlags() {
-        Map<String, Boolean> result = new HashMap<String, Boolean>();
+        Map<String, Boolean> result = new HashMap<>();
         for (Field fld : this.getClass().getFields()) {
             if (fld.getName().endsWith("DebugFlag")) {
                 Boolean value = false;
@@ -354,7 +354,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
     /**
      * Returns the Presentation Manager for the current thread group, using the ThreadGroup-specific AppContext to hold it.
      * Creates and records one if needed.
-     * 
+     *
      * @return The PresentationManager.
      */
     @ManagedAttribute
@@ -366,7 +366,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
          * / AppContext ac = AppContext.getAppContext(); PresentationManager pm = (PresentationManager)
          * ac.get(PresentationManager.class); if (pm == null) { pm = PresentationDefaults.makeOrbPresentationManager() ;
          * ac.put(PresentationManager.class, pm); }
-         * 
+         *
          * return pm; /
          **/
     }
@@ -374,7 +374,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
     /**
      * Get the appropriate StubFactoryFactory. This will be dynamic or static depending on whether
      * com.sun.corba.ee.ORBUseDynamicStub is true or false.
-     * 
+     *
      * @return The stub factory factory.
      */
     public static PresentationManager.StubFactoryFactory getStubFactoryFactory() {
@@ -385,7 +385,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
 
     /**
      * Obtain the InvocationInterceptor for this ORB instance. By default this does nothing.
-     * 
+     *
      * @return The InvocationInterceptor.
      */
     public abstract InvocationInterceptor getInvocationInterceptor();
@@ -393,14 +393,14 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
     /**
      * Set the InvocationInterceptor for this ORB instance. This will be used around all dynamic RMI-IIOP calls that are
      * mediated by this ORB instance.
-     * 
+     *
      * @param interceptor The InvocationInterceptor to add.
      */
     public abstract void setInvocationInterceptor(InvocationInterceptor interceptor);
 
     protected ORB() {
 
-        typeCodeMap = new HashMap<String, TypeCodeImpl>();
+        typeCodeMap = new HashMap<>();
 
         wireObjectKeyTemplate = new WireObjectKeyTemplate(this);
     }
@@ -436,10 +436,12 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
         }
     }
 
+    @Override
     public synchronized void setTypeCode(String id, TypeCodeImpl code) {
         typeCodeMap.put(id, code);
     }
 
+    @Override
     public synchronized TypeCodeImpl getTypeCode(String id) {
         return typeCodeMap.get(id);
     }
@@ -459,7 +461,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
     // ORB versioning
     /**
      * Returns the implementation version of the ORB
-     * 
+     *
      * @return the ORB version.
      */
     @ManagedAttribute
@@ -470,7 +472,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
 
     /**
      * Returns the IOR used for the Full Value Description
-     * 
+     *
      * @return The IOR used for the Full Value Description
      */
     @ManagedAttribute
@@ -480,7 +482,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
     /**
      * Handle a bad server id for the given object key. This should always through an exception: either a ForwardException
      * to allow another server to handle the request, or else an error indication.
-     * 
+     *
      * @param okey The ObjectKey to check for a valid server id.
      */
     public abstract void handleBadServerId(ObjectKey okey);
@@ -507,7 +509,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
 
     /**
      * Return this ORB's transient server ID. This is needed for initializing object adapters.
-     * 
+     *
      * @return The transient server id.
      */
     @ManagedAttribute
@@ -516,7 +518,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
 
     /**
      * Returns the registry for all ServerContext factories of this server.
-     * 
+     *
      * @return the registry.
      */
     @ManagedAttribute
@@ -525,7 +527,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
 
     /**
      * Returns the cache used to optimise marshaling of ServiceContexts
-     * 
+     *
      * @return the cache used
      */
     @ManagedAttribute
@@ -534,7 +536,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
 
     /**
      * The RequestDispatcher registry, which contains the request handling code
-     * 
+     *
      * @return The RequestDispatcher registry
      */
     @ManagedAttribute
@@ -543,7 +545,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
 
     /**
      * The ORB configuration data
-     * 
+     *
      * @return Config data
      */
     @ManagedAttribute
@@ -554,7 +556,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
 
     /**
      * Returns the ClientDelegateFactory, which is used to create the ClientDelegate that represents an IOR
-     * 
+     *
      * @return The ClientDelegateFactory
      */
     @ManagedAttribute
@@ -566,7 +568,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
     /**
      * Returns the CorbaContactInfoListFactory, which creates the contact info list that represents possible endpoints in an
      * IOR.
-     * 
+     *
      * @return CorbaContactInfoListFactory used
      */
     @ManagedAttribute
@@ -641,7 +643,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
 
     /**
      * Factory finders for the various parts of the IOR: tagged profiles
-     * 
+     *
      * @return Finder of Factories for TaggedProfiles of IORs
      */
     @ManagedAttribute
@@ -650,7 +652,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
 
     /**
      * Factory finders for the various parts of the IOR: tagged profile templates
-     * 
+     *
      * @return Finder of Factories for TaggedProfileTemplates of IORs
      */
     @ManagedAttribute
@@ -676,8 +678,9 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
     @ManagedAttribute
     @Description("The ByteBuffer pool used in the ORB")
     public ByteBufferPool getByteBufferPool() {
-        if (byteBufferPool == null)
+        if (byteBufferPool == null) {
             byteBufferPool = new ByteBufferPoolImpl(this);
+        }
 
         return byteBufferPool;
     }
@@ -763,7 +766,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
 
     /**
      * This method obtains an IOR from a CORBA object reference. The result is never null.
-     * 
+     *
      * @param obj CORBA object reference
      * @return obtained IOR
      * @throws org.omg.CORBA.BAD_OPERATION (from oi._get_delegate) if obj is a normal objref, but does not have a delegate
@@ -771,8 +774,9 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
      * @throws org.omg.CORBA.BAD_PARAM if obj is a local object
      */
     protected IOR getIOR(org.omg.CORBA.Object obj) {
-        if (obj == null)
+        if (obj == null) {
             throw wrapper.nullObjectReference();
+        }
 
         IOR ior = null;
         if (StubAdapter.isStub(obj)) {
@@ -782,8 +786,9 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
                 ClientDelegate cdel = (ClientDelegate) del;
                 ContactInfoList ccil = cdel.getContactInfoList();
                 ior = ccil.getTargetIOR();
-                if (ior == null)
+                if (ior == null) {
                     throw wrapper.nullIor();
+                }
 
                 return ior;
             }
@@ -808,8 +813,9 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
             } else {
                 throw wrapper.notAnObjectImpl();
             }
-        } else
+        } else {
             throw wrapper.localObjectNotAllowed();
+        }
     }
 
     /**
@@ -831,7 +837,7 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
 
     /**
      * The singleton ORB does not need the cache, so just return null here.
-     * 
+     *
      * @param objKey ignored
      * @return null
      */
@@ -841,14 +847,15 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
 
     /**
      * Return whether or not the ORB is shutdown. A shutdown ORB cannot process incoming requests.
-     * 
+     *
      * @return true
      */
     public boolean orbIsShutdown() {
         return true;
     }
 
-    private static final UnaryFunction<String, Class<?>> defaultClassNameResolver = new UnaryFunction<String, Class<?>>() {
+    private static final UnaryFunction<String, Class<?>> defaultClassNameResolver = new UnaryFunction<>() {
+        @Override
         public Class<?> evaluate(String name) {
             try {
                 return ORBClassLoader.getClassLoader().loadClass(name);
@@ -870,7 +877,8 @@ public abstract class ORB extends com.sun.corba.ee.org.omg.CORBA.ORB implements 
     public UnaryFunction<String, Class<?>> makeCompositeClassNameResolver(final UnaryFunction<String, Class<?>> first,
             final UnaryFunction<String, Class<?>> second) {
 
-        return new UnaryFunction<String, Class<?>>() {
+        return new UnaryFunction<>() {
+            @Override
             public Class<?> evaluate(String className) {
                 Class<?> result = first.evaluate(className);
                 if (result == null) {

@@ -35,6 +35,7 @@ class idlControllerStaticServant extends _idlControllerIImplBase {
         this.ridlStaticORB = ridlStaticORB;
     }
 
+    @Override
     public String action(String action) {
         if (action.equals(C.disconnectRidlStaticServant)) {
 

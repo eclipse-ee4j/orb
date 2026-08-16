@@ -39,10 +39,12 @@ class idlStaticServant extends _idlIImplBase {
         this.orb = orb;
     }
 
+    @Override
     public String syncOK(String arg1) {
         return baseMsg + " " + arg1;
     }
 
+    @Override
     public synchronized void asyncOK(byte[] data) {
         try {
             U.sop(new String(data, C.UTF8));
@@ -51,28 +53,35 @@ class idlStaticServant extends _idlIImplBase {
         }
     }
 
+    @Override
     public void throwUserException() throws idlExampleException {
         C.throwUserException(from_idlStaticServant);
     }
 
+    @Override
     public void throwSystemException() {
         C.throwSystemException(from_idlStaticServant);
     }
 
+    @Override
     public void throwUnknownException() {
         C.throwUnknownException(from_idlStaticServant);
     }
 
+    @Override
     public void throwUNKNOWN() {
         C.throwUNKNOWN(from_idlStaticServant);
     }
 
+    @Override
     public void raiseSystemExceptionInSendReply() {
     }
 
+    @Override
     public void testEffectiveTarget1() {
     }
 
+    @Override
     public void testEffectiveTarget2() {
     }
 
@@ -80,15 +89,18 @@ class idlStaticServant extends _idlIImplBase {
         return "";
     }
 
+    @Override
     public idlValueTypeA sendValue(idlValueTypeA a, idlValueTypeB b, idlValueTypeC c, idlValueTypeD d, idlValueTypeE e, int[] f, byte[] g) {
         U.sop(d);
         return b;
     }
 
+    @Override
     public org.omg.CORBA.Object getAndSaveUnknownORBVersionIOR() {
         throw new RuntimeException("Not implemented");
     }
 
+    @Override
     public boolean isIdenticalWithSavedIOR(org.omg.CORBA.Object o) {
         throw new RuntimeException("Not implemented");
     }

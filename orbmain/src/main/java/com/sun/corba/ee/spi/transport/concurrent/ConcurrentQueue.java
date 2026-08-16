@@ -73,14 +73,14 @@ public interface ConcurrentQueue<V> {
 
     /**
      * Return the handle for the head of the queue. The element is removed from the queue.
-     * 
+     *
      * @return handle for head of queue
      */
     Handle<V> poll();
 
     /**
      * Return the handle for the head of the queue. The element is not removed from the queue.
-     * 
+     *
      * @return handle for head of queue
      */
     Handle<V> peek();

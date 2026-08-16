@@ -139,8 +139,9 @@ public class ServerMain {
             logTerminal(exc.getMessage(), NO_MAIN_METHOD);
         }
 
-        if (!isPublicStaticVoid(method))
+        if (!isPublicStaticVoid(method)) {
             logTerminal("", NO_MAIN_METHOD);
+        }
 
         return method;
     }
@@ -176,8 +177,9 @@ public class ServerMain {
             return null;
         }
 
-        if (!isPublicStaticVoid(method))
+        if (!isPublicStaticVoid(method)) {
             return null;
+        }
 
         return method;
     }
@@ -199,8 +201,9 @@ public class ServerMain {
                 serverClass = Class.forName(serverClassName, true, ORBClassLoader.getClassLoader());
             }
 
-            if (debug)
+            if (debug) {
                 System.out.println("class " + serverClassName + " found");
+            }
 
             // get the main method
             Method mainMethod = getMainMethod(serverClass);
@@ -212,11 +215,12 @@ public class ServerMain {
 
             boolean serverVerifyFlag = Boolean.getBoolean(ORBConstants.SERVER_DEF_VERIFY_PROPERTY);
             if (serverVerifyFlag) {
-                if (mainMethod == null)
+                if (mainMethod == null) {
                     logTerminal("", NO_MAIN_METHOD);
-                else {
-                    if (debug)
+                } else {
+                    if (debug) {
                         System.out.println("Valid Server");
+                    }
                     logTerminal("", OK);
                 }
             }
@@ -240,8 +244,9 @@ public class ServerMain {
     private int getServerId() {
         Integer serverId = Integer.getInteger(ORBConstants.ORB_SERVER_ID_PROPERTY);
 
-        if (serverId == null)
+        if (serverId == null) {
             logTerminal("", NO_SERVER_ID);
+        }
 
         return serverId.intValue();
     }
@@ -288,15 +293,17 @@ class ServerCallback extends com.sun.corba.ee.spi.activation._ServerImplBase {
     }
 
     private void invokeMethod(Method method) {
-        if (method != null)
+        if (method != null) {
             try {
                 method.invoke(null, orb);
             } catch (Exception exc) {
                 ServerMain.logError("could not invoke " + method.getName() + " method: " + exc.getMessage());
             }
+        }
     }
 
     // shutdown the ORB and wait for completion
+    @Override
     public void shutdown() {
         ServerMain.logInformation("Shutdown starting");
 
@@ -307,6 +314,7 @@ class ServerCallback extends com.sun.corba.ee.spi.activation._ServerImplBase {
         ServerMain.logTerminal("Shutdown completed", ServerMain.OK);
     }
 
+    @Override
     public void install() {
         ServerMain.logInformation("Install starting");
 
@@ -315,6 +323,7 @@ class ServerCallback extends com.sun.corba.ee.spi.activation._ServerImplBase {
         ServerMain.logInformation("Install completed");
     }
 
+    @Override
     public void uninstall() {
         ServerMain.logInformation("uninstall starting");
 

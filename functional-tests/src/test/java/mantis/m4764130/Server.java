@@ -34,6 +34,7 @@ class HelloImpl extends HelloPOA {
     public HelloImpl() {
     }
 
+    @Override
     public String hello(String x) {
         return x;
     }

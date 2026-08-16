@@ -26,7 +26,7 @@ package omega;
  */
 
 public final class Climax extends org.omg.CORBA.UserException implements org.omg.CORBA.portable.IDLEntity {
-    public int quickstep = (int) 0;
+    public int quickstep = 0;
 
     public Climax() {
     } // ctor

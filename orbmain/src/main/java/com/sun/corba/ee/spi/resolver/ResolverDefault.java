@@ -40,7 +40,7 @@ import org.glassfish.pfl.basic.contain.Pair;
 public class ResolverDefault {
     /**
      * Return a local resolver that simply stores bindings in a map.
-     * 
+     *
      * @return a new LocalResolverImpl
      */
     public static LocalResolver makeLocalResolver() {
@@ -49,7 +49,7 @@ public class ResolverDefault {
 
     /**
      * Return a resolver that relies on configured values of ORBInitRef for data.
-     * 
+     *
      * @param urlOperation operation to get reference from URL
      * @param initRefs an array of Pairs oaf &lt;name of CORBA object, URL to get reference with&gt;
      * @return a new ORBInitRefResolver
@@ -65,7 +65,7 @@ public class ResolverDefault {
     /**
      * Return a resolver that uses the proprietary bootstrap protocol to implement a resolver. Obtains the necessary host
      * and port information from the ORB.
-     * 
+     *
      * @param orb ORB to use as resolver
      * @param host host of IOR
      * @param port port of IOR
@@ -79,7 +79,7 @@ public class ResolverDefault {
      * Return a resolver composed of the two given resolvers. result.list() is the union of first.list() and second.list().
      * result.resolve( name ) returns first.resolve( name ) if that is not null, otherwise returns the result of
      * second.resolve( name ).
-     * 
+     *
      * @param first first Resolver to try
      * @param second seconds Resolver to try
      * @return a new CompositeResolver

@@ -23,18 +23,20 @@ package javax.rmi.CORBA.serialization;
 public abstract class OBVTestObjectOne implements org.omg.CORBA.portable.StreamableValue {
     // We mark these as transients just so we can make sure during the test
     // that only by using the Streamable interface could this class be serialized.
-    protected transient int fInt = (int) 0;
-    protected transient long fLong = (long) 0;
-    protected transient float fFloat = (float) 0;
-    protected transient double fDouble = (double) 0;
+    protected transient int fInt = 0;
+    protected transient long fLong = 0;
+    protected transient float fFloat = 0;
+    protected transient double fDouble = 0;
     protected transient String fString = null;
 
     private static String[] _truncatable_ids = { OBVTestObjectOneHelper.id() };
 
+    @Override
     public String[] _truncatable_ids() {
         return _truncatable_ids;
     }
 
+    @Override
     public void _read(org.omg.CORBA.portable.InputStream istream) {
         this.fInt = istream.read_long();
         this.fLong = istream.read_longlong();
@@ -43,6 +45,7 @@ public abstract class OBVTestObjectOne implements org.omg.CORBA.portable.Streama
         this.fString = istream.read_string();
     }
 
+    @Override
     public void _write(org.omg.CORBA.portable.OutputStream ostream) {
         ostream.write_long(this.fInt);
         ostream.write_longlong(this.fLong);
@@ -51,6 +54,7 @@ public abstract class OBVTestObjectOne implements org.omg.CORBA.portable.Streama
         ostream.write_string(this.fString);
     }
 
+    @Override
     public org.omg.CORBA.TypeCode _type() {
         return OBVTestObjectOneHelper.type();
     }

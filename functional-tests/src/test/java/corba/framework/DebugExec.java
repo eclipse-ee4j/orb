@@ -81,6 +81,7 @@ public class DebugExec extends ExternalExec {
     /**
      * Ask the user to start the process, providing both the JDB command line and a file containing it, ready to execute.
      */
+    @Override
     public void start() {
         String[] command = buildCommand();
 
@@ -117,14 +118,16 @@ public class DebugExec extends ExternalExec {
     /**
      * Ask the user to stop the process.
      */
+    @Override
     public void stop() {
         if (jdbCmd != null) {
             jdbCmd.delete();
             jdbCmd = null;
         }
 
-        if (!started || exitValue != INVALID_STATE)
+        if (!started || exitValue != INVALID_STATE) {
             return;
+        }
 
         printDebugBreak();
 
@@ -143,6 +146,7 @@ public class DebugExec extends ExternalExec {
     /**
      * Inform the user that the framework is waiting for this process, and ask for its exit value.
      */
+    @Override
     public int waitFor() {
         if (started) {
             printDebugBreak();
@@ -157,6 +161,7 @@ public class DebugExec extends ExternalExec {
      * Inform the user that the framework is waiting for this process, and ask for its exit value. The timeout is
      * meaningless in this case.
      */
+    @Override
     public int waitFor(long timeout) {
         return waitFor();
     }
@@ -167,16 +172,19 @@ public class DebugExec extends ExternalExec {
      * @return int Exit value
      * @exception IllegalThreadStateException The process hasn't started
      */
+    @Override
     public int exitValue() throws IllegalThreadStateException {
-        if (!started)
+        if (!started) {
             throw new IllegalThreadStateException(processName + " was never started");
+        }
 
         while (exitValue == INVALID_STATE) {
             printDebugBreak();
             try {
                 String result = promptUser("What was the exit value of the " + processName + " process (< 1 means SUCCESS)? ");
-                if (result == null)
+                if (result == null) {
                     continue;
+                }
                 exitValue = Integer.parseInt(result);
             } catch (NumberFormatException ex) {
                 System.out.println("That is not a valid integer.  Please try again.");
@@ -191,9 +199,11 @@ public class DebugExec extends ExternalExec {
      *
      * @exception IllegalThreadStateException The process hasn't started
      */
+    @Override
     public boolean finished() throws IllegalThreadStateException {
-        if (!started)
+        if (!started) {
             throw new IllegalThreadStateException(processName + " was never started");
+        }
 
         return exitValue != INVALID_STATE;
     }

@@ -44,9 +44,11 @@ public class Server extends LocalObject implements ORBInitializer {
 
     // ORBInitializer interface implementation.
 
+    @Override
     public void pre_init(ORBInitInfo info) {
     }
 
+    @Override
     public void post_init(ORBInitInfo info) {
         // register the interceptors.
         try {
@@ -73,6 +75,7 @@ public class Server extends LocalObject implements ORBInitializer {
          * This implements the BadServerIdHandler interface. This will be called by the ORB if the process is setup to be a ORBD
          * or when the ORB gets a locate request.
          */
+        @Override
         public void handle(ObjectKey objectKey) {
 
             System.out.println("ServerRequestHandler received a request");
@@ -92,15 +95,18 @@ public class Server extends LocalObject implements ORBInitializer {
 
         // implementation of the Interceptor interface.
 
+        @Override
         public String name() {
             return InterceptorImpl.name;
         }
 
+        @Override
         public void destroy() {
         }
 
         // implementation of the ServerInterceptor interface.
 
+        @Override
         public void receive_request_service_contexts(ServerRequestInfo ri) throws ForwardRequest {
             if (ri.operation().equals("verifyTransmission")) {
                 this.balanced = false;
@@ -108,6 +114,7 @@ public class Server extends LocalObject implements ORBInitializer {
             System.out.println("receive_request_service_contexts called : " + ri.operation());
         }
 
+        @Override
         public void receive_request(ServerRequestInfo ri) throws ForwardRequest {
             if (ri.operation().equals("verifyTransmission")) {
                 this.balanced = false;
@@ -115,6 +122,7 @@ public class Server extends LocalObject implements ORBInitializer {
             System.out.println("receive_request called : " + ri.operation());
         }
 
+        @Override
         public void send_reply(ServerRequestInfo ri) {
             if (ri.operation().equals("verifyTransmission")) {
                 this.balanced = true;
@@ -122,6 +130,7 @@ public class Server extends LocalObject implements ORBInitializer {
             System.out.println("send_reply called : " + ri.operation());
         }
 
+        @Override
         public void send_exception(ServerRequestInfo ri) throws ForwardRequest {
             if (ri.operation().equals("verifyTransmission")) {
                 this.balanced = true;
@@ -129,6 +138,7 @@ public class Server extends LocalObject implements ORBInitializer {
             System.out.println("send_exception called : " + ri.operation());
         }
 
+        @Override
         public void send_other(ServerRequestInfo ri) throws ForwardRequest {
             if (ri.operation().equals("verifyTransmission")) {
                 this.balanced = true;

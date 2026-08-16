@@ -75,7 +75,7 @@ public class ORBD {
         // the ORBClass to PIORB (now ORBImpl, but should check the bugid).
         props.put("org.omg.CORBA.ORBClass", "com.sun.corba.ee.impl.orb.ORBImpl");
 
-        return (ORB) ORB.init(args, props);
+        return (ORB) org.omg.CORBA.ORB.init(args, props);
     }
 
     private void run(String[] args) {
@@ -86,15 +86,17 @@ public class ORBD {
 
             ORB orb = createORB(args);
 
-            if (orb.orbdDebugFlag)
+            if (orb.orbdDebugFlag) {
                 System.out.println("ORBD begins initialization.");
+            }
 
             boolean firstRun = createSystemDirs(ORBConstants.DEFAULT_DB_DIR);
 
             startActivationObjects(orb);
 
-            if (firstRun) // orbd is being run the first time
-                installOrbServers(getRepository(), getActivator());
+            if (firstRun) { // orbd is being run the first time
+            	installOrbServers(getRepository(), getActivator());
+            }
 
             if (orb.orbdDebugFlag) {
                 System.out.println("ORBD is ready.");
@@ -192,8 +194,9 @@ public class ORBD {
         }
 
         File logDir = new File(dbDir, ORBConstants.SERVER_LOG_DIR);
-        if (!logDir.exists())
+        if (!logDir.exists()) {
             logDir.mkdir();
+        }
 
         return dirCreated;
     }

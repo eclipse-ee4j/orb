@@ -23,6 +23,7 @@ import org.omg.CORBA.ORB;
 
 public class HelloImpl extends HelloPOA {
 
+    @Override
     public String sayHello() {
         System.out.println("Hello : inside sayHello()");
         return "Hello";
@@ -38,6 +39,7 @@ class CloseImpl extends ClosePOA {
         this.orb = orb;
     }
 
+    @Override
     public void shutdown() {
         System.out.println("PoaOperation : shutDown called");
         orb.shutdown(false);

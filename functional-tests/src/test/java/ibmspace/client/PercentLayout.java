@@ -43,14 +43,17 @@ public class PercentLayout implements LayoutManager2 {
         fComponents = new Vector();
     }
 
+    @Override
     public void addLayoutComponent(Component c, Object constraints) {
         fComponents.addElement(new ComponentInfo(c, (Float) constraints));
     }
 
+    @Override
     public void addLayoutComponent(String name, Component c) {
         // Not supported
     }
 
+    @Override
     public void removeLayoutComponent(Component c) {
         for (int i = 0; i < fComponents.size(); i++) {
             ComponentInfo ci = (ComponentInfo) fComponents.elementAt(i);
@@ -60,17 +63,21 @@ public class PercentLayout implements LayoutManager2 {
         }
     }
 
+    @Override
     public float getLayoutAlignmentX(Container target) {
         return target.getAlignmentX();
     }
 
+    @Override
     public float getLayoutAlignmentY(Container target) {
         return target.getAlignmentY();
     }
 
+    @Override
     public void invalidateLayout(Container target) {
     }
 
+    @Override
     public Dimension preferredLayoutSize(Container target) {
         Dimension size = new Dimension(0, 0);
 
@@ -93,6 +100,7 @@ public class PercentLayout implements LayoutManager2 {
         return size;
     }
 
+    @Override
     public Dimension minimumLayoutSize(Container target) {
         Dimension size = new Dimension(0, 0);
 
@@ -115,6 +123,7 @@ public class PercentLayout implements LayoutManager2 {
         return size;
     }
 
+    @Override
     public Dimension maximumLayoutSize(Container target) {
         Dimension size = new Dimension(0, 0);
 
@@ -137,6 +146,7 @@ public class PercentLayout implements LayoutManager2 {
         return size;
     }
 
+    @Override
     public void layoutContainer(Container target) {
         Insets insets = target.getInsets();
         int x = insets.left;

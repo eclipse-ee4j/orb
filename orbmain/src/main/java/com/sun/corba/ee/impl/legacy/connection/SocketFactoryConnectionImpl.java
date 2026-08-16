@@ -59,6 +59,7 @@ public class SocketFactoryConnectionImpl extends ConnectionImpl {
         setState(OPENING);
     }
 
+    @Override
     public String toString() {
         synchronized (stateEvent) {
             return "SocketFactoryConnectionImpl[" + " " + (socketChannel == null ? socket.toString() : socketChannel.toString()) + " "

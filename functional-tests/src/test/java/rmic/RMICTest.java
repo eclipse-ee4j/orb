@@ -110,6 +110,7 @@ public abstract class RMICTest extends Test {
     /**
      * Run the test.
      */
+    @Override
     public void run() {
         try {
 
@@ -135,7 +136,7 @@ public abstract class RMICTest extends Test {
 
     /**
      * Generate.
-     * 
+     *
      * @param classes An array of fully qualified class names.
      * @param generatorArg The primary generator argument.
      * @param additionalRMICArgs An array of additional arguments (e.g. after -idl and before classes) to rmic.
@@ -148,9 +149,9 @@ public abstract class RMICTest extends Test {
         // Create a list of classes to compile...
 
         Vector list = new Vector(classes.length);
-        for (int i = 0; i < classes.length; i++) {
+        for (String theClass : classes) {
 
-            String theClass = classes[i];
+
 
             // Do we need to compile this class?
 

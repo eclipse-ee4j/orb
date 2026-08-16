@@ -35,20 +35,20 @@ public class ORBDListenPortsComponent extends TaggedComponentBase {
         this.listenPorts = listenPorts;
     }
 
+    @Override
     public boolean equals(Object o) {
-        if (o == null) {
-            return false;
-        }
-        if (!(o instanceof ORBDListenPortsComponent)) {
+        if ((o == null) || !(o instanceof ORBDListenPortsComponent)) {
             return false;
         }
         return listenPorts.equals(((ORBDListenPortsComponent) o).listenPorts);
     }
 
+    @Override
     public void writeContents(OutputStream os) {
         os.write_string(listenPorts);
     }
 
+    @Override
     public int getId() {
         return Common.ListenPortsComponentID;
     }

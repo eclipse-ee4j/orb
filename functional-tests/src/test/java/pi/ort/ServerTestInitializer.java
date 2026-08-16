@@ -47,12 +47,14 @@ public class ServerTestInitializer extends org.omg.CORBA.LocalObject implements 
     /**
      * Called before all references are registered
      */
+    @Override
     public void pre_init(org.omg.PortableInterceptor.ORBInitInfo info) {
     }
 
     /**
      * Called after all references are registered
      */
+    @Override
     public void post_init(org.omg.PortableInterceptor.ORBInitInfo info) {
         IORInterceptor iorInterceptor = new SampleIORInterceptor("test", out);
         try {

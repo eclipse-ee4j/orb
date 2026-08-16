@@ -47,6 +47,7 @@ public class GroupInfoServiceImpl extends org.omg.CORBA.LocalObject implements G
     private boolean debug = true; // REVISIT - get from ORB
 
     private class GIS extends GroupInfoServiceBase {
+        @Override
         public List<ClusterInstanceInfo> internalClusterInstanceInfo(List<String> endpoints) {
             throw new RuntimeException("Should not be called");
         }
@@ -61,12 +62,14 @@ public class GroupInfoServiceImpl extends org.omg.CORBA.LocalObject implements G
             String adapter_name = ORBUtility.formatStringArray(adapterName);
 
             try {
-                if (debug)
+                if (debug) {
                     dprint(".getMemberAddresses->: " + adapter_name);
-                if (debug)
+                }
+                if (debug) {
                     dprint(".getMemberAddresses: " + adapter_name + ": current members: " + currentInstances);
+                }
 
-                List<ClusterInstanceInfo> info = new LinkedList<ClusterInstanceInfo>();
+                List<ClusterInstanceInfo> info = new LinkedList<>();
                 ClusterInstanceInfo instanceInfo;
 
                 String hostName = "";
@@ -81,14 +84,16 @@ public class GroupInfoServiceImpl extends org.omg.CORBA.LocalObject implements G
                 for (int i = 0; i < corba.folb_8_1.Common.socketTypes.length; ++i) {
 
                     if (!currentInstances.contains(corba.folb_8_1.Common.socketTypes[i])) {
-                        if (debug)
+                        if (debug) {
                             dprint(".getMemberAddresses: " + adapter_name + ": NOT in current members: "
                                     + corba.folb_8_1.Common.socketTypes[i]);
+                        }
                         continue;
                     }
 
-                    if (debug)
+                    if (debug) {
                         dprint(".getMemberAddresses: " + adapter_name + ":IN current members: " + corba.folb_8_1.Common.socketTypes[i]);
+                    }
 
                     //
                     // A BAD Address.
@@ -105,7 +110,7 @@ public class GroupInfoServiceImpl extends org.omg.CORBA.LocalObject implements G
                     //
                     // One fake instance.
                     //
-                    List<SocketInfo> socketInfos = new ArrayList<SocketInfo>();
+                    List<SocketInfo> socketInfos = new ArrayList<>();
                     socketInfos.add(siBad);
                     socketInfos.add(si);
                     instanceInfo = new ClusterInstanceInfo("instance-" + i, i + 1, socketInfos);
@@ -118,8 +123,9 @@ public class GroupInfoServiceImpl extends org.omg.CORBA.LocalObject implements G
                     //
 
                     if (isNoLabelName(adapterName)) {
-                        if (debug)
+                        if (debug) {
                             dprint(".getMemberAddresses: " + adapter_name + ": no label ReferenceFactory - only added one good address");
+                        }
                         break;
                     }
                 }
@@ -132,8 +138,9 @@ public class GroupInfoServiceImpl extends org.omg.CORBA.LocalObject implements G
                 System.exit(1);
                 throw e;
             } finally {
-                if (debug)
+                if (debug) {
                     dprint(".getMemberAddresses<-: " + adapter_name);
+                }
             }
         }
 
@@ -159,9 +166,9 @@ public class GroupInfoServiceImpl extends org.omg.CORBA.LocalObject implements G
 
     public GroupInfoServiceImpl() {
         gis = new GIS();
-        currentInstances = new LinkedList<String>();
-        for (int i = 0; i < corba.folb_8_1.Common.socketTypes.length; ++i) {
-            currentInstances.add(corba.folb_8_1.Common.socketTypes[i]);
+        currentInstances = new LinkedList<>();
+        for (String socketType : corba.folb_8_1.Common.socketTypes) {
+            currentInstances.add(socketType);
         }
     }
 
@@ -170,10 +177,12 @@ public class GroupInfoServiceImpl extends org.omg.CORBA.LocalObject implements G
     // GroupInfoService
     //
 
+    @Override
     public boolean addObserver(GroupInfoServiceObserver x) {
         return gis.addObserver(x);
     }
 
+    @Override
     public void notifyObservers() {
         gis.notifyObservers();
     }
@@ -183,14 +192,17 @@ public class GroupInfoServiceImpl extends org.omg.CORBA.LocalObject implements G
         return gis.getClusterInstanceInfo(adapterName, endpoints);
     }
 
+    @Override
     public List<ClusterInstanceInfo> getClusterInstanceInfo(String[] adapterName) {
         return gis.getClusterInstanceInfo(adapterName);
     }
 
+    @Override
     public boolean shouldAddAddressesToNonReferenceFactory(String[] adapterName) {
         return gis.shouldAddAddressesToNonReferenceFactory(adapterName);
     }
 
+    @Override
     public boolean shouldAddMembershipLabel(String[] adapterName) {
         return gis.shouldAddMembershipLabel(adapterName);
     }
@@ -201,30 +213,38 @@ public class GroupInfoServiceImpl extends org.omg.CORBA.LocalObject implements G
     //
 
     public boolean add(String x) {
-        if (debug)
+        if (debug) {
             dprint(".add->: " + x);
-        if (debug)
+        }
+        if (debug) {
             dprint(".add: current members before: " + currentInstances);
+        }
         boolean result = currentInstances.add(x);
-        if (debug)
+        if (debug) {
             dprint(".add: current members after : " + currentInstances);
+        }
         notifyObservers();
-        if (debug)
+        if (debug) {
             dprint(".add<-: " + x + " " + result);
+        }
         return result;
     }
 
     public boolean remove(String x) {
-        if (debug)
+        if (debug) {
             dprint(".remove->: " + x);
-        if (debug)
+        }
+        if (debug) {
             dprint(".remove: current members before: " + currentInstances);
+        }
         boolean result = currentInstances.remove(x);
-        if (debug)
+        if (debug) {
             dprint(".remove: current members after : " + currentInstances);
+        }
         notifyObservers();
-        if (debug)
+        if (debug) {
             dprint(".remove<-: " + x + " " + result);
+        }
         return result;
     }
 

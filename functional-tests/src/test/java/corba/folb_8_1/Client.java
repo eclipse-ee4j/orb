@@ -132,15 +132,15 @@ public class Client extends org.omg.CORBA.LocalObject implements ClientRequestIn
 
         /*
          * REVISIT - move to a separate test ////////////////////////////////////////////////// // ZeroPortTest
-         * 
+         *
          * BEGIN("ZeroPortTest");
-         * 
+         *
          * zero1 = I2Helper.narrow( Common.getNameService(orb) .resolve(Common.makeNameComponent(Common.zero1)));
-         * 
+         *
          * zero2 = I2Helper.narrow( Common.getNameService(orb) .resolve(Common.makeNameComponent(Common.zero2)));
-         * 
+         *
          * zero1.m("10"); zero2.m("11"); zero1.m("12"); zero2.m("13");
-         * 
+         *
          * END("ZeroPortTest");
          */
 
@@ -251,10 +251,12 @@ public class Client extends org.omg.CORBA.LocalObject implements ClientRequestIn
     // Interceptor operations
     //
 
+    @Override
     public String name() {
         return baseMsg;
     }
 
+    @Override
     public void destroy() {
     }
 
@@ -262,22 +264,27 @@ public class Client extends org.omg.CORBA.LocalObject implements ClientRequestIn
     // ClientRequestInterceptor operations
     //
 
+    @Override
     public void send_request(ClientRequestInfo ri) {
         sopCR(baseMsg, "send_request", ri);
     }
 
+    @Override
     public void send_poll(ClientRequestInfo ri) {
         sopCR(baseMsg, "send_poll", ri);
     }
 
+    @Override
     public void receive_reply(ClientRequestInfo ri) {
         sopCR(baseMsg, "receive_reply", ri);
     }
 
+    @Override
     public void receive_exception(ClientRequestInfo ri) {
         sopCR(baseMsg, "receive_exception", ri);
     }
 
+    @Override
     public void receive_other(ClientRequestInfo ri) {
         sopCR(baseMsg, "receive_other", ri);
     }
@@ -317,6 +324,7 @@ public class Client extends org.omg.CORBA.LocalObject implements ClientRequestIn
         }
     }
 
+    @Override
     public void pre_init(ORBInitInfo info) {
         try {
             Client interceptor = new Client();
@@ -329,6 +337,7 @@ public class Client extends org.omg.CORBA.LocalObject implements ClientRequestIn
         }
     }
 
+    @Override
     public void post_init(ORBInitInfo info) {
     }
 

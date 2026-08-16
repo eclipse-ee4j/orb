@@ -27,6 +27,7 @@ public class TestImpl extends PortableRemoteObject implements Test {
         super();
     }
 
+    @Override
     public int echo(int arg) throws RemoteException {
         return arg;
     }

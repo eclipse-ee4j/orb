@@ -36,6 +36,7 @@ public class ZeroPortPolicy extends LocalObject implements Policy {
         this.flag = type;
     }
 
+    @Override
     public String toString() {
         return "ZeroPortPolicy[" + flag + "]";
     }
@@ -48,14 +49,17 @@ public class ZeroPortPolicy extends LocalObject implements Policy {
         return policy;
     }
 
+    @Override
     public int policy_type() {
         return ORBConstants.ZERO_PORT_POLICY;
     }
 
+    @Override
     public org.omg.CORBA.Policy copy() {
         return this;
     }
 
+    @Override
     public void destroy() {
         // NO-OP
     }

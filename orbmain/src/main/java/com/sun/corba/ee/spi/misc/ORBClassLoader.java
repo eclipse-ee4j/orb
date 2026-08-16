@@ -32,9 +32,10 @@ public class ORBClassLoader {
 
     public static ClassLoader getClassLoader() {
         ClassLoader ccl = Thread.currentThread().getContextClassLoader();
-        if (ccl != null)
+        if (ccl != null) {
             return ccl;
-        else
+        } else {
             return ClassLoader.getSystemClassLoader();
+        }
     }
 }

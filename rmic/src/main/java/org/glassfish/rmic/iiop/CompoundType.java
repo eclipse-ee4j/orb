@@ -274,22 +274,28 @@ public abstract class CompoundType extends Type {
             super.destroy();
 
             if (methods != null) {
-                for (int i = 0; i < methods.length; i++) {
-                    if (methods[i] != null) methods[i].destroy();
+                for (Method method2 : methods) {
+                    if (method2 != null) {
+                        method2.destroy();
+                    }
                 }
                 methods = null;
             }
 
             if (interfaces != null) {
-                for (int i = 0; i < interfaces.length; i++) {
-                    if (interfaces[i] != null) interfaces[i].destroy();
+                for (InterfaceType element : interfaces) {
+                    if (element != null) {
+                        element.destroy();
+                    }
                 }
                 interfaces = null;
             }
 
             if (members != null) {
-                for (int i = 0; i < members.length; i++) {
-                    if (members[i] != null) members[i].destroy();
+                for (Member member : members) {
+                    if (member != null) {
+                        member.destroy();
+                    }
                 }
                 members = null;
             }
@@ -767,7 +773,9 @@ public abstract class CompoundType extends Type {
                                     ClassDefinition classDef,
                                     ContextStack stack) {
 
-        if (stack.anyErrors()) return null;
+        if (stack.anyErrors()) {
+            return null;
+        }
 
         // See if we can find this type in the cache.  If so, return it...
 
@@ -1189,7 +1197,9 @@ public abstract class CompoundType extends Type {
             ClassDefinition parentDef = parentDecl.getClassDefinition(env);
             Identifier currentID = parentDecl.getName();
 
-            if ( currentID == idJavaLangObject ) break;
+            if ( currentID == idJavaLangObject ) {
+                break;
+            }
 
             // Walk all members of this class and update any that
             // already exist in currentMethods...
@@ -1222,8 +1232,9 @@ public abstract class CompoundType extends Type {
 
                         Method currentMethod = currentMethods.elementAt(index);
                         currentMethod.setDeclaredBy(currentID);
+                    } else {
+                        currentMethods.addElement(method);
                     }
-                    else currentMethods.addElement(method);
                 }
             }
 
@@ -1349,21 +1360,24 @@ public abstract class CompoundType extends Type {
     // This should really be a method on ClassDefinition, but it takes too long to change the shared source.
     // Works for both, classes and interfaces.
     protected boolean inheritsFrom(ContextStack stack, ClassDefinition def, ClassDefinition otherDef) throws ClassNotFound {
-        if (def == otherDef)
+        if (def == otherDef) {
             return true;
+        }
 
         ClassDefinition superDef;
         if (def.getSuperClass() != null) {
             superDef = def.getSuperClass().getClassDefinition(stack.getEnv());
-            if (inheritsFrom(stack, superDef, otherDef))
+            if (inheritsFrom(stack, superDef, otherDef)) {
                 return true;
+            }
         }
 
         ClassDeclaration[] interfaces = def.getInterfaces();
-        for (int i=0; i<interfaces.length; i++) {
-            superDef = interfaces[i].getClassDefinition(stack.getEnv());
-            if (inheritsFrom(stack, superDef, otherDef))
+        for (ClassDeclaration element : interfaces) {
+            superDef = element.getClassDefinition(stack.getEnv());
+            if (inheritsFrom(stack, superDef, otherDef)) {
                 return true;
+            }
         }
         return false;
     }
@@ -1383,19 +1397,19 @@ public abstract class CompoundType extends Type {
 
         stack.setNewContextCode(ContextStack.IMPLEMENTS);
 
-        for (int i = 0; i < interfaces.length; i++) {
+        for (ClassDeclaration element : interfaces) {
 
-            ClassDefinition def = interfaces[i].getClassDefinition(env);
+            ClassDefinition def = element.getClassDefinition(env);
 
             // Is it a SpecialInterfaceType...
 
-            InterfaceType it = SpecialInterfaceType.forSpecial(def,stack);;
+            InterfaceType it = SpecialInterfaceType.forSpecial(def,stack);
 
             if (it == null) {
 
                 // No, is it Remote?
 
-                if (env.defRemote.implementedBy(env, interfaces[i])) {
+                if (env.defRemote.implementedBy(env, element)) {
 
                     // Yes, so it must be a RemoteType.
 
@@ -1439,9 +1453,9 @@ public abstract class CompoundType extends Type {
 
         stack.setNewContextCode(ContextStack.IMPLEMENTS);
 
-        for (int i = 0; i < interfaces.length; i++) {
+        for (ClassDeclaration element : interfaces) {
 
-            ClassDefinition def = interfaces[i].getClassDefinition(env);
+            ClassDefinition def = element.getClassDefinition(env);
 
             // First try SpecialInterfaceType...
 
@@ -1642,9 +1656,9 @@ public abstract class CompoundType extends Type {
         if (dupCount > 0) {
             int offset = 0;
             ValueType[] temp = new ValueType[exceptions.length - dupCount];
-            for (int i = 0; i < exceptions.length; i++) {
-                if (exceptions[i] != null) {
-                    temp[offset++] = exceptions[i];
+            for (ValueType exception : exceptions) {
+                if (exception != null) {
+                    temp[offset++] = exception;
                 }
             }
             exceptions = temp;
@@ -2019,9 +2033,9 @@ public abstract class CompoundType extends Type {
             if (newSize < list.length) {
                 ValueType[] temp = new ValueType[newSize];
                 int offset = 0;
-                for (int i = 0; i < list.length; i++) {
-                    if (list[i] != null) {
-                        temp[offset++] = list[i];
+                for (ValueType element : list) {
+                    if (element != null) {
+                        temp[offset++] = element;
                     }
                 }
                 list = temp;
@@ -2068,9 +2082,9 @@ public abstract class CompoundType extends Type {
             if (newSize < list.length) {
                 ValueType[] temp = new ValueType[newSize];
                 int offset = 0;
-                for (int i = 0; i < list.length; i++) {
-                    if (list[i] != null) {
-                        temp[offset++] = list[i];
+                for (ValueType element : list) {
+                    if (element != null) {
+                        temp[offset++] = element;
                     }
                 }
                 list = temp;
@@ -2215,7 +2229,9 @@ public abstract class CompoundType extends Type {
                 enclosing = null;
                 if (exceptions != null) {
                     for (int i = 0; i < exceptions.length; i++) {
-                        if (exceptions[i] != null) exceptions[i].destroy();
+                        if (exceptions[i] != null) {
+                            exceptions[i].destroy();
+                        }
                         exceptions[i] = null;
                     }
                     exceptions = null;
@@ -2223,18 +2239,24 @@ public abstract class CompoundType extends Type {
 
                 if (implExceptions != null) {
                     for (int i = 0; i < implExceptions.length; i++) {
-                        if (implExceptions[i] != null) implExceptions[i].destroy();
+                        if (implExceptions[i] != null) {
+                            implExceptions[i].destroy();
+                        }
                         implExceptions[i] = null;
                     }
                     implExceptions = null;
                 }
 
-                if (returnType != null) returnType.destroy();
+                if (returnType != null) {
+                    returnType.destroy();
+                }
                 returnType = null;
 
                 if (arguments != null) {
                     for (int i = 0; i < arguments.length; i++) {
-                        if (arguments[i] != null) arguments[i].destroy();
+                        if (arguments[i] != null) {
+                            arguments[i].destroy();
+                        }
                         arguments[i] = null;
                     }
                     arguments = null;
@@ -2451,7 +2473,9 @@ public abstract class CompoundType extends Type {
         }
 
         public boolean isTransient() {
-            if (forceTransient) return true;
+            if (forceTransient) {
+                return true;
+            }
             return member.isTransient();
         }
 

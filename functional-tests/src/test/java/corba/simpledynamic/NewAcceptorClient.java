@@ -62,7 +62,8 @@ public class NewAcceptorClient extends Framework {
 
         final Acceptor listener = TransportDefault.makeLazyCorbaAcceptor(orb, SERVER_PORT, "localhost", "IIOP_CLEAR_TEXT");
 
-        UnaryVoidFunction<Socket> func = new UnaryVoidFunction<Socket>() {
+        UnaryVoidFunction<Socket> func = new UnaryVoidFunction<>() {
+            @Override
             public void evaluate(Socket sock) {
                 msg("Processing message on socket " + sock);
                 listener.processSocket(sock);

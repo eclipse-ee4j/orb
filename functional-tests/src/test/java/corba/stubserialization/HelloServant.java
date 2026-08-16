@@ -36,10 +36,12 @@ public class HelloServant extends PortableRemoteObject implements Hello {
         this.orb = orb;
     }
 
+    @Override
     public String sayHello() throws RemoteException {
         return Constants.HELLO;
     }
 
+    @Override
     public String sayHelloToStub(String fileName) throws RemoteException {
         FileInputStream fis = null;
         ObjectInputStream ois = null;
@@ -60,10 +62,12 @@ public class HelloServant extends PortableRemoteObject implements Hello {
             throw new RemoteException("Error in sayHelloToStub", exc);
         } finally {
             try {
-                if (ois != null)
+                if (ois != null) {
                     ois.close();
-                if (fis != null)
+                }
+                if (fis != null) {
                     fis.close();
+                }
             } catch (Exception exc) {
                 // Nothing to do if close throws an IOException.
             }

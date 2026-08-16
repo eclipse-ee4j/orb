@@ -37,7 +37,7 @@ public class ValueTestBase extends EncodingTestBase {
     private static final int BASE_VALUE_TAG = 0x7fffff00;
 
     private DataByteOutputStream out = new DataByteOutputStream();
-    private final Stack<DataByteOutputStream> chunkStack = new Stack<DataByteOutputStream>();
+    private final Stack<DataByteOutputStream> chunkStack = new Stack<>();
 
     protected void writeValueTag(int flags) throws IOException {
         writeInt(BASE_VALUE_TAG | flags);
@@ -138,8 +138,9 @@ public class ValueTestBase extends EncodingTestBase {
 
     protected void writeString(String string) throws IOException {
         writeInt(string.length() + 1);
-        for (char aChar : string.toCharArray())
+        for (char aChar : string.toCharArray()) {
             out.write(aChar);
+        }
         out.write(0);
     }
 
@@ -169,8 +170,9 @@ public class ValueTestBase extends EncodingTestBase {
     }
 
     private void align(int size) throws IOException {
-        while ((out.pos() % size) != 0)
+        while ((out.pos() % size) != 0) {
             out.write(0);
+        }
     }
 
     protected void writeIndirectionTo(int location) throws IOException {

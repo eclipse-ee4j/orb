@@ -37,10 +37,12 @@ public class TestExternalizable implements Externalizable {
         this.data4 = data4;
     }
 
+    @Override
     public boolean equals(Object obj) {
         try {
-            if (obj == null)
+            if (obj == null) {
                 return false;
+            }
 
             TestExternalizable other = (TestExternalizable) obj;
 
@@ -50,6 +52,7 @@ public class TestExternalizable implements Externalizable {
         }
     }
 
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeLong(data1);
 
@@ -63,6 +66,7 @@ public class TestExternalizable implements Externalizable {
         out.writeChar(data4);
     }
 
+    @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 
         data1 = in.readLong();
@@ -70,10 +74,11 @@ public class TestExternalizable implements Externalizable {
         String data2_obj = (String) in.readObject();
         String data2_utf = in.readUTF();
 
-        if (data2_obj == null && data2_obj != data2_utf)
+        if (data2_obj == null && data2_obj != data2_utf) {
             throw new IOException("data2_obj null mismatch");
-        else if (data2_obj != null && !data2_obj.equals(data2_utf))
+        } else if (data2_obj != null && !data2_obj.equals(data2_utf)) {
             throw new IOException("data2_obj data2_utf mismatch");
+        }
 
         data2 = data2_obj;
 

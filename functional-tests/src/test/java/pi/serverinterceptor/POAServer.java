@@ -50,6 +50,7 @@ public abstract class POAServer extends ServerCommon {
     TestServantLocator servantLocator;
 
     // To be invoked by subclass after orb is created.
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         try {
             // Get the root POA:

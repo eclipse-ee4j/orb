@@ -36,10 +36,12 @@ public class TaggedComponentFactoryFinderImpl extends IdentifiableFactoryFinderB
         super(orb);
     }
 
+    @Override
     public TaggedComponent handleMissingFactory(int id, InputStream is) {
         return new GenericTaggedComponent(id, is);
     }
 
+    @Override
     public TaggedComponent create(org.omg.CORBA.ORB orb, org.omg.IOP.TaggedComponent comp) {
         EncapsOutputStream os = OutputStreamFactory.newEncapsOutputStream((ORB) orb);
         org.omg.IOP.TaggedComponentHelper.write(os, comp);
@@ -47,6 +49,6 @@ public class TaggedComponentFactoryFinderImpl extends IdentifiableFactoryFinderB
         // Skip the component ID: we just wrote it out above
         is.read_ulong();
 
-        return (TaggedComponent) create(comp.tag, is);
+        return create(comp.tag, is);
     }
 }

@@ -49,6 +49,7 @@ class NameAndTypeConstantData extends ConstantPoolData {
     /**
      * Write the constant to the output stream
      */
+    @Override
     void write(Environment env, DataOutputStream out, ConstantPool tab) throws IOException {
         out.writeByte(CONSTANT_NAMEANDTYPE);
         out.writeShort(tab.index(name));
@@ -58,6 +59,7 @@ class NameAndTypeConstantData extends ConstantPoolData {
     /**
      * Return the order of the constant
      */
+    @Override
     int order() {
         return 3;
     }

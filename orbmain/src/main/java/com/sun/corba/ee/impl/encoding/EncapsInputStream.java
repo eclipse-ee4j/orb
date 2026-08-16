@@ -76,7 +76,7 @@ public class EncapsInputStream extends CDRInputObject {
     /**
      * Full constructor with a CodeBase parameter useful for unmarshaling RMI-IIOP valuetypes (technically against the
      * intention of an encapsulation, but necessary due to OMG issue 4795. Used by ServiceContexts.
-     * 
+     *
      * @param orb the ORB
      * @param data data to read in
      * @param size size of data
@@ -106,13 +106,15 @@ public class EncapsInputStream extends CDRInputObject {
     @Override
     protected CodeSetConversion.BTCConverter createWCharBTCConverter() {
         // Wide characters don't exist in GIOP 1.0
-        if (getGIOPVersion().equals(GIOPVersion.V1_0))
+        if (getGIOPVersion().equals(GIOPVersion.V1_0)) {
             throw wrapper.wcharDataInGiop10();
+        }
 
         // In GIOP 1.1, we shouldn't have byte order markers. Take the order
         // of the stream if we don't see them.
-        if (getGIOPVersion().equals(GIOPVersion.V1_1))
+        if (getGIOPVersion().equals(GIOPVersion.V1_1)) {
             return CodeSetConversion.impl().getBTCConverter(OSFCodeSetRegistry.UTF_16, getByteOrder());
+        }
 
         // Assume anything else adheres to GIOP 1.2 requirements.
         //

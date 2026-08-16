@@ -27,10 +27,12 @@ import java.util.Iterator;
 import org.omg.CORBA_2_3.portable.OutputStream;
 
 public abstract class TaggedProfileTemplateBase extends IdentifiableContainerBase<TaggedComponent> implements TaggedProfileTemplate {
+    @Override
     public void write(OutputStream os) {
         EncapsulationUtility.writeEncapsulation(this, os);
     }
 
+    @Override
     public org.omg.IOP.TaggedComponent[] getIOPComponents(ORB orb, int id) {
         int count = 0;
         Iterator<TaggedComponent> iter = iteratorById(id);
@@ -51,6 +53,7 @@ public abstract class TaggedProfileTemplateBase extends IdentifiableContainerBas
         return result;
     }
 
+    @Override
     public <T extends TaggedComponent> Iterator<T> iteratorById(int id, Class<T> cls) {
 
         return (Iterator<T>) iteratorById(id);

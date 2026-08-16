@@ -32,6 +32,7 @@ class idlDeprecatedDynamicServant extends org.omg.CORBA.DynamicImplementation {
     // private static String[] __ids = { "IDL:hcks/idlI:1.0" };
     private static String[] __ids = new _idlIStub()._ids();
 
+    @Override
     public String[] _ids() {
         return __ids;
     }
@@ -42,6 +43,7 @@ class idlDeprecatedDynamicServant extends org.omg.CORBA.DynamicImplementation {
         this.orb = orb;
     }
 
+    @Override
     public void invoke(ServerRequest r) {
         idlDynInvokeHelper.invoke(orb, r);
     }

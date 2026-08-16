@@ -31,6 +31,7 @@ public class InternalExec extends ControllerAdapter {
     private long startTime;
     private long duration;
 
+    @Override
     public void start() throws Exception {
         startTime = System.currentTimeMillis();
 
@@ -46,34 +47,42 @@ public class InternalExec extends ControllerAdapter {
         }
     }
 
+    @Override
     public long duration() {
         return duration;
     }
 
+    @Override
     public void stop() {
         // Can't be stopped
     }
 
+    @Override
     public void kill() {
         // Can't be killed
     }
 
+    @Override
     public int waitFor() throws Exception {
         return exitValue;
     }
 
+    @Override
     public int waitFor(long timeout) throws Exception {
         return exitValue;
     }
 
+    @Override
     public int exitValue() throws IllegalThreadStateException {
         // Just in case a subclass wants to change finished
-        if (!finished())
+        if (!finished()) {
             throw new IllegalThreadStateException("not finished");
+        }
 
         return exitValue;
     }
 
+    @Override
     public boolean finished() throws IllegalThreadStateException {
         return true;
     }

@@ -23,6 +23,7 @@ package ibmspace.common;
 import java.awt.Point;
 
 public interface Planet extends Identifiable {
+    @Override
     ID getID();
 
     String getName();

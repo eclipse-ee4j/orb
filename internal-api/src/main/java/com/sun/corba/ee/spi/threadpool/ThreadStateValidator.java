@@ -35,7 +35,7 @@ import java.util.List;
 public class ThreadStateValidator {
     private static final Exceptions wrapper = Exceptions.self;
 
-    private static final List<Runnable> validators = new ArrayList<Runnable>();
+    private static final List<Runnable> validators = new ArrayList<>();
 
     private ThreadStateValidator() {
     }

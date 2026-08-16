@@ -57,7 +57,7 @@ public class ColocatedClientServer {
             props.setProperty("com.sun.corba.ee.ORBAllowLocalOptimization", "true");
             orb = ORB.init(av, props);
             U.sop(main + " : creating ORB.");
-            Server.orb = (com.sun.corba.ee.spi.orb.ORB) orb;
+            Server.orb = orb;
             Client.orb = orb;
 
             // Share a naming context between client and server
@@ -77,7 +77,7 @@ public class ColocatedClientServer {
                 try {
                     signal.wait();
                 } catch (InterruptedException e) {
-                    ;
+                    
                 }
             }
             Client.main(av);
@@ -95,6 +95,7 @@ class ServerThread extends Thread {
         this.args = args;
     }
 
+    @Override
     public void run() {
         Server.main(args);
     }

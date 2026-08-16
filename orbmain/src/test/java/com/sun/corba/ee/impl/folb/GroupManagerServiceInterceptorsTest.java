@@ -71,6 +71,7 @@ public class GroupManagerServiceInterceptorsTest implements GroupInfoServiceObse
     private int numMembershipChanges;
     private IOR locatedIOR;
 
+    @Override
     public void membershipChange() {
         numMembershipChanges++;
     }
@@ -88,13 +89,15 @@ public class GroupManagerServiceInterceptorsTest implements GroupInfoServiceObse
     }
 
     private void preInitInitializers() {
-        for (ORBInitializer initializer : orbData.getORBInitializers())
+        for (ORBInitializer initializer : orbData.getORBInitializers()) {
             initializer.pre_init(orbInitInfo);
+        }
     }
 
     private void postInitInitializers() {
-        for (ORBInitializer initializer : orbData.getORBInitializers())
+        for (ORBInitializer initializer : orbData.getORBInitializers()) {
             initializer.post_init(orbInitInfo);
+        }
     }
 
     @Test
@@ -168,8 +171,9 @@ public class GroupManagerServiceInterceptorsTest implements GroupInfoServiceObse
     }
 
     private void assertEqualData(byte[] expected, byte[] actual) {
-        if (!Arrays.equals(expected, actual))
+        if (!Arrays.equals(expected, actual)) {
             fail("expected " + Arrays.toString(expected) + " but was " + Arrays.toString(actual));
+        }
     }
 
     private ServiceContext getFolbMembershipServiceContext() {
@@ -177,18 +181,21 @@ public class GroupManagerServiceInterceptorsTest implements GroupInfoServiceObse
     }
 
     private void sendRequest() throws ForwardRequest {
-        for (ClientRequestInterceptor interceptor : orbInitInfo.clientRequestInterceptors)
+        for (ClientRequestInterceptor interceptor : orbInitInfo.clientRequestInterceptors) {
             interceptor.send_request(clientRequestInfo);
+        }
     }
 
     private void receiveReply() throws ForwardRequest {
-        for (ClientRequestInterceptor interceptor : orbInitInfo.clientRequestInterceptors)
+        for (ClientRequestInterceptor interceptor : orbInitInfo.clientRequestInterceptors) {
             interceptor.receive_reply(clientRequestInfo);
+        }
     }
 
     private void receiveException() throws ForwardRequest {
-        for (ClientRequestInterceptor interceptor : orbInitInfo.clientRequestInterceptors)
+        for (ClientRequestInterceptor interceptor : orbInitInfo.clientRequestInterceptors) {
             interceptor.receive_exception(clientRequestInfo);
+        }
     }
 
     private void defineOperation(String operationName) {
@@ -206,15 +213,17 @@ public class GroupManagerServiceInterceptorsTest implements GroupInfoServiceObse
 
     private static TestIOR createIORWithFolbMembershipTaggedComponents(byte[]... componentData) {
         TaggedComponent[] taggedComponents = new TaggedComponent[componentData.length];
-        for (int i = 0; i < taggedComponents.length; i++)
+        for (int i = 0; i < taggedComponents.length; i++) {
             taggedComponents[i] = new TaggedComponent(ORBConstants.FOLB_MEMBERSHIP_LABEL_TAGGED_COMPONENT_ID, componentData[i]);
+        }
 
         return TestIOR.createIORWithTaggedComponents(ORBConstants.FOLB_MEMBERSHIP_LABEL_TAGGED_COMPONENT_ID, taggedComponents);
     }
 
     abstract static class TestORBInitInfo extends StubCorbaObject implements ORBInitInfo {
-        List<ClientRequestInterceptor> clientRequestInterceptors = new ArrayList<ClientRequestInterceptor>();
+        List<ClientRequestInterceptor> clientRequestInterceptors = new ArrayList<>();
 
+        @Override
         public void add_client_request_interceptor(ClientRequestInterceptor interceptor) throws DuplicateName {
             clientRequestInterceptors.add(interceptor);
         }
@@ -246,28 +255,34 @@ public class GroupManagerServiceInterceptorsTest implements GroupInfoServiceObse
     abstract static class TestORBData implements ORBData {
         private IORToSocketInfo IORToSocketInfo;
         private IIOPPrimaryToContactInfo IIOPPrimaryToContactInfo;
-        private List<ORBInitializer> orbInitializers = new ArrayList<ORBInitializer>();
+        private List<ORBInitializer> orbInitializers = new ArrayList<>();
 
+        @Override
         public IORToSocketInfo getIORToSocketInfo() {
             return IORToSocketInfo;
         }
 
+        @Override
         public void setIORToSocketInfo(IORToSocketInfo IORToSocketInfo) {
             this.IORToSocketInfo = IORToSocketInfo;
         }
 
+        @Override
         public ORBInitializer[] getORBInitializers() {
             return orbInitializers.toArray(new ORBInitializer[orbInitializers.size()]);
         }
 
+        @Override
         public void addORBInitializer(ORBInitializer orbInitializer) {
             orbInitializers.add(orbInitializer);
         }
 
+        @Override
         public IIOPPrimaryToContactInfo getIIOPPrimaryToContactInfo() {
             return IIOPPrimaryToContactInfo;
         }
 
+        @Override
         public void setIIOPPrimaryToContactInfo(IIOPPrimaryToContactInfo IIOPPrimaryToContactInfo) {
             this.IIOPPrimaryToContactInfo = IIOPPrimaryToContactInfo;
         }
@@ -275,20 +290,23 @@ public class GroupManagerServiceInterceptorsTest implements GroupInfoServiceObse
 
     abstract static class TestORB extends ORB {
         private ORBData ORBData;
-        private Map<String, Object> initialReferences = new HashMap<String, Object>();
+        private Map<String, Object> initialReferences = new HashMap<>();
 
         public void setORBData(ORBData orbData) {
             this.ORBData = orbData;
         }
 
+        @Override
         public ORBData getORBData() {
             return ORBData;
         }
 
+        @Override
         public void register_initial_reference(String id, Object obj) throws org.omg.CORBA.ORBPackage.InvalidName {
             initialReferences.put(id, obj);
         }
 
+        @Override
         public Object resolve_initial_references(String id) throws InvalidName {
             return initialReferences.get(id);
         }
@@ -297,21 +315,25 @@ public class GroupManagerServiceInterceptorsTest implements GroupInfoServiceObse
     abstract static public class TestClientRequestInfo implements ClientRequestInfo {
         private Object effectiveTarget;
         private String operation = "";
-        private Map<Integer, ServiceContext> requestServiceContexts = new HashMap<Integer, ServiceContext>();
-        private Map<Integer, ServiceContext> replyServiceContexts = new HashMap<Integer, ServiceContext>();
+        private Map<Integer, ServiceContext> requestServiceContexts = new HashMap<>();
+        private Map<Integer, ServiceContext> replyServiceContexts = new HashMap<>();
 
+        @Override
         public Object effective_target() {
             return effectiveTarget;
         }
 
+        @Override
         public String operation() {
             return operation;
         }
 
+        @Override
         public void add_request_service_context(ServiceContext serviceContext, boolean replace) {
             requestServiceContexts.put(serviceContext.context_id, serviceContext);
         }
 
+        @Override
         public ServiceContext get_reply_service_context(int id) {
             return replyServiceContexts.get(id);
         }
@@ -334,6 +356,7 @@ public class GroupManagerServiceInterceptorsTest implements GroupInfoServiceObse
     }
 
     abstract static class TestContactInfo implements ContactInfo {
+        @Override
         public int getPort() {
             return 1000;
         }

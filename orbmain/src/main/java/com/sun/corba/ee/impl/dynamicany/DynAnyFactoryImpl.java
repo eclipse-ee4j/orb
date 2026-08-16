@@ -54,12 +54,14 @@ public class DynAnyFactoryImpl extends org.omg.CORBA.LocalObject implements org.
     //
 
     // Returns the most derived DynAny type based on the Anys TypeCode.
+    @Override
     public org.omg.DynamicAny.DynAny create_dyn_any(org.omg.CORBA.Any any)
             throws org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode {
         return DynAnyUtil.createMostDerivedDynAny(any, orb, true);
     }
 
     // Returns the most derived DynAny type based on the TypeCode.
+    @Override
     public org.omg.DynamicAny.DynAny create_dyn_any_from_type_code(org.omg.CORBA.TypeCode type)
             throws org.omg.DynamicAny.DynAnyFactoryPackage.InconsistentTypeCode {
         return DynAnyUtil.createMostDerivedDynAny(type, orb);

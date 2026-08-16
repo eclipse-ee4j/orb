@@ -43,9 +43,11 @@ import com.sun.corba.ee.spi.legacy.interceptor.ORBInitInfoExt;
 public class ServerORBInitializer extends org.omg.CORBA.LocalObject implements ORBInitializer {
     public static final String baseMsg = ServerORBInitializer.class.getName();
 
+    @Override
     public void pre_init(ORBInitInfo info) {
     }
 
+    @Override
     public void post_init(ORBInitInfo info) {
         ORB orb = ((ORBInitInfoExt) info).getORB();
         try {

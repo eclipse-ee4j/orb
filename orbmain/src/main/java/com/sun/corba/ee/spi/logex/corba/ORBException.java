@@ -39,14 +39,14 @@ import java.lang.annotation.Target;
 public @interface ORBException {
     /**
      * Return true if this is an OMG exception with the OMG VMCID, false if it is using the old SUN VMCID.
-     * 
+     *
      * @return {@code false} by default
      */
     boolean omgException() default false;
 
     /**
      * Return the group ID to be used in computing the message ID.
-     * 
+     *
      * @return The group ID
      */
     int group();

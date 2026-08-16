@@ -293,14 +293,14 @@ public class Main implements org.glassfish.rmic.Constants {
         // Now that all generators have had a chance at the args,
         // scan what's left for classes and illegal args...
 
-        for (int i = 0; i < argv.length; i++) {
-            if (argv[i] != null) {
-                if (argv[i].startsWith("-")) {
-                    error("rmic.no.such.option", argv[i]);
+        for (String element : argv) {
+            if (element != null) {
+                if (element.startsWith("-")) {
+                    error("rmic.no.such.option", element);
                     usage();
                     return false;
                 } else {
-                    classes.addElement(argv[i]);
+                    classes.addElement(element);
                 }
             }
         }
@@ -324,8 +324,8 @@ public class Main implements org.glassfish.rmic.Constants {
         boolean result = true;
         if (argv[currentIndex].startsWith("-")) {
             String arg = argv[currentIndex].substring(1).toLowerCase(); // Remove '-'
-            for (int i = 0; i < generatorArgs.length; i++) {
-                if (arg.equalsIgnoreCase(generatorArgs[i])) {
+            for (String generatorArg : generatorArgs) {
+                if (arg.equalsIgnoreCase(generatorArg)) {
                     // Got a match, add Generator and call parseArgs...
                     Generator gen = addGenerator(arg);
                     if (gen == null) {
@@ -549,15 +549,17 @@ public class Main implements org.glassfish.rmic.Constants {
     }
 
     private void generateClasses(BatchEnvironment env) {
-        for (String className : classes)
+        for (String className : classes) {
             generateClass(env, getClassIdentifier(env, className));
+        }
     }
 
     void generateClass(BatchEnvironment env, Identifier implClassName) {
         ClassDeclaration decl = env.getClassDeclaration(implClassName);
         try {
-            for (Generator gen : generators)
+            for (Generator gen : generators) {
                 gen.generate(env, destDir, decl.getClassDefinition(env));
+            }
         } catch (ClassNotFound ex) {
             env.error(0, "rmic.class.not.found", implClassName);
         }
@@ -566,9 +568,15 @@ public class Main implements org.glassfish.rmic.Constants {
     boolean displayErrors(BatchEnvironment env) {
         List<String> summary = new ArrayList<>();
 
-        if (env.nerrors > 0) summary.add(getErrorSummary(env));
-        if (env.nwarnings > 0) summary.add(getWarningSummary(env));
-        if (!summary.isEmpty()) output(String.join(", ", summary));
+        if (env.nerrors > 0) {
+            summary.add(getErrorSummary(env));
+        }
+        if (env.nwarnings > 0) {
+            summary.add(getWarningSummary(env));
+        }
+        if (!summary.isEmpty()) {
+            output(String.join(", ", summary));
+        }
 
         return env.nerrors == 0;
     }

@@ -47,16 +47,15 @@ public class Client {
 
             rootContext = new InitialContext();
 
-            for (int i = 0; i < Versions.testableVersions.length; i++) {
-
-                String version = Versions.testableVersions[i];
+            for (String version : Versions.testableVersions) {
 
                 System.out.println("Client with Testable " + getDescription() + " looking up server " + version);
 
                 Tester tester = (Tester) PortableRemoteObject.narrow(rootContext.lookup(version), Tester.class);
 
-                if (!version.equals(tester.getDescription()))
+                if (!version.equals(tester.getDescription())) {
                     throw new Exception("Version in naming doesn't match Tester.  " + version);
+                }
 
                 System.out.println(
                         "Client with Testable " + getDescription() + " verifying with server with Testable " + tester.getDescription());
@@ -76,10 +75,11 @@ public class Client {
                 // incompatibilities will be ignored.
                 // Data set to incorrect values will be
                 // reported, though.
-                if (!t.equals(result))
+                if (!t.equals(result)) {
                     throw new Exception("Result not equal");
-                else
+                } else {
                     System.out.println("PASSED");
+                }
             }
 
         } catch (Throwable t) {

@@ -28,6 +28,7 @@ import org.omg.CORBA.*;
  * follows: send_request send_request receive_reply receive_reply
  */
 public class InvokeRecursive extends InvokeStrategy {
+    @Override
     public void invoke() throws Exception {
         super.invoke();
 

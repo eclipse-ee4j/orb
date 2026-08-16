@@ -29,14 +29,16 @@ public class SubClass extends SuperClass implements Serializable {
         longValue = 92431;
     }
 
+    @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof SubClass))
+        if (!(obj instanceof SubClass)) {
             return false;
-        else {
+        } else {
             return super.equals(obj) && longValue == ((SubClass) obj).longValue;
         }
     }
 
+    @Override
     public String toString() {
         StringBuilder sbuf = new StringBuilder();
         sbuf.append("SubClass [longValue=");

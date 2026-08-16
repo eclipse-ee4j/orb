@@ -34,6 +34,7 @@ public class RMICIDLEntityTest extends CORBATest {
 
     public static final String[] rmiClasses = { "hopper/h4515953/Processor.class" };
 
+    @Override
     protected void doTest() throws Throwable {
         Options.setJavaFiles(javaFiles);
         compileJavaFiles();

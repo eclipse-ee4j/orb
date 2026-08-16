@@ -46,6 +46,7 @@ abstract class TestIOR implements IOR {
 
     private IIOPProfile profile;
 
+    @Override
     public IIOPProfile getProfile() {
         return profile;
     }
@@ -64,6 +65,7 @@ abstract class TestIOR implements IOR {
 
         private TaggedProfileTemplate profileTemplate;
 
+        @Override
         public TaggedProfileTemplate getTaggedProfileTemplate() {
             return profileTemplate;
         }
@@ -76,18 +78,20 @@ abstract class TestIOR implements IOR {
 
     static TestIIOPProfileTemplate createIIOPProfileTemplateWithTaggedComponents(int id, org.omg.IOP.TaggedComponent... components) {
         TestIIOPProfileTemplate template = createStrictStub(TestIIOPProfileTemplate.class);
-        for (org.omg.IOP.TaggedComponent component : components)
+        for (org.omg.IOP.TaggedComponent component : components) {
             template.addTaggedComponent(id, component);
+        }
         return template;
     }
 
     abstract static class TestIIOPProfileTemplate implements IIOPProfileTemplate {
-        private Map<Integer, List<TaggedComponent>> taggedComponents = new HashMap<Integer, List<TaggedComponent>>();
+        private Map<Integer, List<TaggedComponent>> taggedComponents = new HashMap<>();
 
         public void addTaggedComponent(int id, org.omg.IOP.TaggedComponent component) {
             getTaggedComponentList(id).add(new TestTaggedComponent(id, component));
         }
 
+        @Override
         public Iterator<TaggedComponent> iteratorById(int id) {
             return getTaggedComponentList(id).iterator();
         }
@@ -95,7 +99,7 @@ abstract class TestIOR implements IOR {
         private List<TaggedComponent> getTaggedComponentList(int id) {
             List<TaggedComponent> componentList = taggedComponents.get(id);
             if (componentList == null) {
-                componentList = new ArrayList<TaggedComponent>();
+                componentList = new ArrayList<>();
                 taggedComponents.put(id, componentList);
             }
             return componentList;
@@ -112,14 +116,17 @@ abstract class TestIOR implements IOR {
             this.iopComponent = iopComponent;
         }
 
+        @Override
         public org.omg.IOP.TaggedComponent getIOPComponent(ORB orb) {
             return iopComponent;
         }
 
+        @Override
         public int getId() {
             return id;
         }
 
+        @Override
         public void write(OutputStream outputStream) {
         }
     }

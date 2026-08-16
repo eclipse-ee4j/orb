@@ -24,11 +24,11 @@ import java.util.*;
 
 /**
  * Alarm provides a one-shot mechanism to schedule asynchronous calls to an AlarmHandler. Typical usage:
- * 
+ *
  * <pre>
  * Alarm.scheduleWakeupFromNow(myAlarmHandler, 1000); // Wait 1 second.
  * </pre>
- * 
+ *
  * @author Bryan Atsatt
  */
 public class Alarm implements Runnable {
@@ -41,7 +41,7 @@ public class Alarm implements Runnable {
 
     /**
      * Constructor.
-     * 
+     *
      * @param handler the alarm handler to invoke at wake up.
      * @param wakeupTime the time to wake up.
      */
@@ -88,7 +88,7 @@ public class Alarm implements Runnable {
     /**
      * Schedule a wake up call relative to now. Alarms are one-shot and therefore must be rescheduled after wakeup if
      * another wakeup is desired.
-     * 
+     *
      * @param handler the alarm handler to invoke at wake up.
      * @param wakeupDeltaMillis the number of milliseconds from now at which to wake up.
      * @return the scheduled alarm.
@@ -100,7 +100,7 @@ public class Alarm implements Runnable {
     /**
      * Schedule a wake up call relative to now. Alarms are one-shot and therefore must be rescheduled after wakeup if
      * another wakeup is desired.
-     * 
+     *
      * @param theAlarm the alarm to schedule.
      * @param wakeupDeltaMillis the number of milliseconds from now at which to wake up.
      * @return the scheduled alarm.
@@ -112,7 +112,7 @@ public class Alarm implements Runnable {
 
     /**
      * Schedule an alarm. Alarms are one-shot and therefore must be rescheduled after wakeup if another wakeup is desired.
-     * 
+     *
      * @param handler the alarm handler to invoke at wake up.
      * @param wakeupDelta the number of milliseconds from now at which to wake up.
      * @return the scheduled alarm.
@@ -121,7 +121,7 @@ public class Alarm implements Runnable {
         synchronized (fgAlarms) {
             // Start our thread if needed...
 
-            if (fgStarted == false) {
+            if (!fgStarted) {
                 fgStarted = true;
                 fgThread.start();
             }
@@ -170,7 +170,7 @@ public class Alarm implements Runnable {
 
     /**
      * Cancel a scheduled an alarm. Cancellation may fail if the alarm has already been fired.
-     * 
+     *
      * @param theAlarm the alarm to cancel.
      * @return true if canceled, false otherwise.
      */
@@ -209,9 +209,10 @@ public class Alarm implements Runnable {
     /**
      * The method that is executed when a Runnable object is activated. The run() method is the "soul" of a Thread. It is in
      * this method that all of the action of a Thread takes place.
-     * 
+     *
      * @see Thread#run
      */
+    @Override
     public void run() {
         while (true) {
             synchronized (fgAlarms) {
@@ -230,8 +231,9 @@ public class Alarm implements Runnable {
 
             while (true) {
                 synchronized (fgAlarms) {
-                    if (fgAlarms.isEmpty())
+                    if (fgAlarms.isEmpty()) {
                         break; // Can happen if canceled.
+                    }
 
                     Alarm theAlarm = (Alarm) fgAlarms.firstElement();
 
@@ -254,7 +256,7 @@ public class Alarm implements Runnable {
 
                             long nextWakeup = 0;
 
-                            if (fgAlarms.isEmpty() == false) {
+                            if (!fgAlarms.isEmpty()) {
                                 nextWakeup = ((Alarm) fgAlarms.firstElement()).getWakeupTime();
                             }
 

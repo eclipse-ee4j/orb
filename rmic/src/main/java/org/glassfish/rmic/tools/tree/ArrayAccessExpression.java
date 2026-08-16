@@ -58,6 +58,7 @@ class ArrayAccessExpression extends UnaryExpression {
     /**
      * Check expression type
      */
+    @Override
     public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         vset = right.checkValue(env, ctx, vset, exp);
         if (index == null) {
@@ -78,6 +79,7 @@ class ArrayAccessExpression extends UnaryExpression {
         return vset;
     }
 
+    @Override
     public Vset checkAmbigName(Environment env, Context ctx,
                                Vset vset, Hashtable<Object, Object> exp,
                                UnaryExpression loc) {
@@ -104,6 +106,7 @@ class ArrayAccessExpression extends UnaryExpression {
     /*
      * Check the array if it appears on the LHS of an assignment
      */
+    @Override
     public Vset checkLHS(Environment env, Context ctx,
                          Vset vset, Hashtable<Object, Object> exp) {
         return checkValue(env, ctx, vset, exp);
@@ -112,6 +115,7 @@ class ArrayAccessExpression extends UnaryExpression {
     /*
      * Check the array if it appears on the LHS of an op= expression
      */
+    @Override
     public Vset checkAssignOp(Environment env, Context ctx,
                               Vset vset, Hashtable<Object, Object> exp, Expression outside) {
         return checkValue(env, ctx, vset, exp);
@@ -122,6 +126,7 @@ class ArrayAccessExpression extends UnaryExpression {
      * an assignment to an array element, though an access method may be required to
      * fetch the array object itself.
      */
+    @Override
     public FieldUpdater getAssigner(Environment env, Context ctx) {
         return null;
     }
@@ -129,6 +134,7 @@ class ArrayAccessExpression extends UnaryExpression {
     /**
      * An array access expression never requires a field updater.
      */
+    @Override
     public FieldUpdater getUpdater(Environment env, Context ctx) {
         return null;
     }
@@ -136,6 +142,7 @@ class ArrayAccessExpression extends UnaryExpression {
     /**
      * Convert to a type
      */
+    @Override
     Type toType(Environment env, Context ctx) {
         return toType(env, right.toType(env, ctx));
     }
@@ -149,6 +156,7 @@ class ArrayAccessExpression extends UnaryExpression {
     /**
      * Inline
      */
+    @Override
     public Expression inline(Environment env, Context ctx) {
         // It isn't possible to simply replace an array access
         // with a CommaExpression as happens with many binary
@@ -158,6 +166,7 @@ class ArrayAccessExpression extends UnaryExpression {
         index = index.inlineValue(env, ctx);
         return this;
     }
+    @Override
     public Expression inlineValue(Environment env, Context ctx) {
         // inlineValue() should not end up being called when the index is
         // null.  If it is null, we let this method fail with a
@@ -167,6 +176,7 @@ class ArrayAccessExpression extends UnaryExpression {
         index = index.inlineValue(env, ctx);
         return this;
     }
+    @Override
     public Expression inlineLHS(Environment env, Context ctx) {
         return inlineValue(env, ctx);
     }
@@ -174,6 +184,7 @@ class ArrayAccessExpression extends UnaryExpression {
     /**
      * Create a copy of the expression for method inlining
      */
+    @Override
     public Expression copyInline(Context ctx) {
         ArrayAccessExpression e = (ArrayAccessExpression)clone();
         e.right = right.copyInline(ctx);
@@ -191,6 +202,7 @@ class ArrayAccessExpression extends UnaryExpression {
     /**
      * The cost of inlining this expression
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         // costInline() should not end up being called when the index is
         // null.  If it is null, we let this method fail with a
@@ -203,6 +215,7 @@ class ArrayAccessExpression extends UnaryExpression {
     /**
      * Code
      */
+    @Override
     int codeLValue(Environment env, Context ctx, Assembler asm) {
         // codeLValue() should not end up being called when the index is
         // null.  If it is null, we let this method fail with a
@@ -212,6 +225,7 @@ class ArrayAccessExpression extends UnaryExpression {
         index.codeValue(env, ctx, asm);
         return 2;
     }
+    @Override
     void codeLoad(Environment env, Context ctx, Assembler asm) {
         switch (type.getTypeCode()) {
           case TC_BOOLEAN:
@@ -228,6 +242,7 @@ class ArrayAccessExpression extends UnaryExpression {
             asm.add(where, opc_iaload + type.getTypeCodeOffset());
         }
     }
+    @Override
     void codeStore(Environment env, Context ctx, Assembler asm) {
         switch (type.getTypeCode()) {
           case TC_BOOLEAN:
@@ -244,6 +259,7 @@ class ArrayAccessExpression extends UnaryExpression {
             asm.add(where, opc_iastore + type.getTypeCodeOffset());
         }
     }
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         codeLValue(env, ctx, asm);
         codeLoad(env, ctx, asm);
@@ -253,6 +269,7 @@ class ArrayAccessExpression extends UnaryExpression {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out) {
         out.print("(" + opNames[op] + " ");
         right.print(out);

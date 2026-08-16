@@ -45,7 +45,7 @@ public class ServantManagerImpl implements ServantManager {
 
     /**
      * Start a servant in the remote process.
-     * 
+     *
      * @param servantClass The class of the servant object. Must have a default constructor.
      * @param servantName The name by which this servant should be known.
      * @param publishName True if the name should be published in the name server.
@@ -53,6 +53,7 @@ public class ServantManagerImpl implements ServantManager {
      * @param nameServerPort The name server port.
      * @param iiop True if iiop.
      */
+    @Override
     public synchronized Remote startServant(String servantClass, String servantName, boolean publishName, String nameServerHost,
             int nameServerPort, boolean iiop) throws java.rmi.RemoteException {
         try {
@@ -152,6 +153,7 @@ public class ServantManagerImpl implements ServantManager {
     /**
      * Unexport the specified servant. If the servant was published, will be unpublised.
      */
+    @Override
     public synchronized void stopServant(String servantName) throws java.rmi.RemoteException {
 
         try {
@@ -182,6 +184,7 @@ public class ServantManagerImpl implements ServantManager {
     /**
      * Stop all servants in this context.
      */
+    @Override
     public synchronized void stopAllServants() throws java.rmi.RemoteException {
         for (Enumeration e = table.keys(); e.hasMoreElements();) {
             try {
@@ -194,6 +197,7 @@ public class ServantManagerImpl implements ServantManager {
     /**
      * @Return String the String "Pong"
      */
+    @Override
     public String ping() throws java.rmi.RemoteException {
         return "Pong";
     }
@@ -213,8 +217,8 @@ public class ServantManagerImpl implements ServantManager {
             }
         }
 
-        if (Util.startSingleServant(ServantContext.SERVANT_MANAGER_CLASS, ServantContext.SERVANT_MANAGER_NAME, host, port, true,
-                null) == false) {
+        if (!Util.startSingleServant(ServantContext.SERVANT_MANAGER_CLASS, ServantContext.SERVANT_MANAGER_NAME, host, port, true,
+                null)) {
             System.exit(1);
         }
     }

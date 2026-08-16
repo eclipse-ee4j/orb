@@ -32,11 +32,13 @@ public class GraphProcessorImpl extends PortableRemoteObject implements GraphPro
         super();
     }
 
+    @Override
     public void process(Node graphStart) throws InvalidGraphException {
         Vector links = graphStart.links;
 
-        if (links == null)
+        if (links == null) {
             throw new InvalidGraphException("Links vector cannot be null");
+        }
 
         System.out.println("Received: " + graphStart.value);
 
@@ -53,10 +55,12 @@ public class GraphProcessorImpl extends PortableRemoteObject implements GraphPro
         }
     }
 
+    @Override
     public Object verifyTransmission(Object input) {
         return input;
     }
 
+    @Override
     public boolean receiveObject(Object input) {
         return input != null;
     }

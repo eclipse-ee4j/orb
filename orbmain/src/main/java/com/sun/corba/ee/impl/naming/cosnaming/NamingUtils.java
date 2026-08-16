@@ -28,7 +28,7 @@ import org.omg.CosNaming.NameComponent;
 public class NamingUtils {
     // Do not instantiate this class
     private NamingUtils() {
-    };
+    }
 
     /**
      * Debug flag which must be true for debug streams to be created and dprint output to be generated.
@@ -37,41 +37,44 @@ public class NamingUtils {
 
     /**
      * Prints the message to the debug stream if debugging is enabled.
-     * 
+     *
      * @param msg the debug message to print.
      */
     public static void dprint(String msg) {
-        if (debug && debugStream != null)
+        if (debug && debugStream != null) {
             debugStream.println(msg);
+        }
     }
 
     /**
      * Prints the message to the error stream (System.err is default).
-     * 
+     *
      * @param msg the error message to print.
      */
     public static void errprint(String msg) {
-        if (errStream != null)
+        if (errStream != null) {
             errStream.println(msg);
-        else
+        } else {
             System.err.println(msg);
+        }
     }
 
     /**
      * Prints the stacktrace of the supplied exception to the error stream.
-     * 
+     *
      * @param e any Java exception.
      */
     public static void printException(java.lang.Exception e) {
-        if (errStream != null)
+        if (errStream != null) {
             e.printStackTrace(errStream);
-        else
+        } else {
             e.printStackTrace();
+        }
     }
 
     /**
      * Create a debug print stream to the supplied log file.
-     * 
+     *
      * @param logFile the file to which debug output will go.
      * @exception IOException thrown if the file cannot be opened for output.
      */
@@ -87,7 +90,7 @@ public class NamingUtils {
 
     /**
      * Create a error print stream to the supplied file.
-     * 
+     *
      * @param errFile the file to which error messages will go.
      * @exception IOException thrown if the file cannot be opened for output.
      */

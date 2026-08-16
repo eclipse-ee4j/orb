@@ -99,7 +99,7 @@ public abstract class Framework {
             props.setProperty(ORBConstants.ORB_ID_PROPERTY, "clientORB");
         }
 
-        ORB orb = (ORB) ORB.init(new String[0], props);
+        ORB orb = (ORB) org.omg.CORBA.ORB.init(new String[0], props);
 
         updateORB(orb, isServer);
 

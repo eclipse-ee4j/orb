@@ -39,6 +39,7 @@ public class ForwardReferenceStrategy extends InterceptorStrategy {
     public ForwardReferenceStrategy() {
     }
 
+    @Override
     public void send_request(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) throws ForwardRequest {
         super.send_request(interceptor, ri);
 
@@ -84,6 +85,7 @@ public class ForwardReferenceStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void receive_reply(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) {
         super.receive_reply(interceptor, ri);
 
@@ -116,6 +118,7 @@ public class ForwardReferenceStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void receive_exception(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) throws ForwardRequest {
         super.receive_exception(interceptor, ri);
 
@@ -158,6 +161,7 @@ public class ForwardReferenceStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void receive_other(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) throws ForwardRequest {
         super.receive_other(interceptor, ri);
 

@@ -52,7 +52,7 @@ public interface ReferenceFactoryManager extends org.omg.CORBA.Object, org.omg.C
 
     /**
      * The state of the ReferenceFactoryManager.
-     * 
+     *
      * @return whether the manager is READY or SUSPENDED
      */
     public RFMState getState();
@@ -86,7 +86,7 @@ public interface ReferenceFactoryManager extends org.omg.CORBA.Object, org.omg.C
      * These policies are required because all are essential to the correct functioning of this class in handling restarts.
      * It is an error for the policies list to contain any value of the above 3 policies. All other policies must be given
      * explicitly in the list.
-     * 
+     *
      * @param name is the name of this ReferenceFactory. This is a simple flat name, not a hierarchical name.
      * @param repositoryId is the repoid to be used when this reference factory creates a new CORBA Object reference.
      * @param policies are the policies to be used to create the underlying POA.
@@ -98,7 +98,7 @@ public interface ReferenceFactoryManager extends org.omg.CORBA.Object, org.omg.C
     /**
      * Get the ReferenceFactory name from a String[] adapterName, if adapterName is the name of a ReferenceFactory. If not,
      * return null.
-     * 
+     *
      * @param adapterName of factory
      * @return found ReferenceFactory, null otherwise
      */
@@ -106,7 +106,7 @@ public interface ReferenceFactoryManager extends org.omg.CORBA.Object, org.omg.C
 
     /**
      * Find the ReferenceFactory with the given name. If no such ReferenceFactory exists, return null.
-     * 
+     *
      * @param name of factory
      * @return found ReferenceFactory, null otherwise
      */
@@ -114,7 +114,7 @@ public interface ReferenceFactoryManager extends org.omg.CORBA.Object, org.omg.C
 
     /**
      * Restart all ReferenceFactories.
-     * 
+     *
      * @param updates is a map giving the updated policies for some or all of the ReferenceFactory instances in this
      * ReferenceFactoryManager. This parameter must not be null.
      */
@@ -129,7 +129,7 @@ public interface ReferenceFactoryManager extends org.omg.CORBA.Object, org.omg.C
      * Restart all ReferenceFactories. This is done safely, so that any request against object references created from these
      * factories complete correctly. Restart does not return until all restart activity completes. This method is equivalent
      * to:
-     * 
+     *
      * <pre>
      * suspend();
      * try {
@@ -138,7 +138,7 @@ public interface ReferenceFactoryManager extends org.omg.CORBA.Object, org.omg.C
      *     resume();
      * }
      * </pre>
-     * 
+     *
      * @param updates is a map giving the updated policies for some or all of the ReferenceFactory instances in this
      * ReferenceFactoryManager. This parameter must not be null.
      */

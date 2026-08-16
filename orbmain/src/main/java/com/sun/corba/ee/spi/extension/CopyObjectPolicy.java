@@ -38,18 +38,22 @@ public class CopyObjectPolicy extends LocalObject implements Policy {
         return value;
     }
 
+    @Override
     public int policy_type() {
         return ORBConstants.COPY_OBJECT_POLICY;
     }
 
+    @Override
     public org.omg.CORBA.Policy copy() {
         return this;
     }
 
+    @Override
     public void destroy() {
         // NO-OP
     }
 
+    @Override
     public String toString() {
         return "CopyObjectPolicy[" + value + "]";
     }

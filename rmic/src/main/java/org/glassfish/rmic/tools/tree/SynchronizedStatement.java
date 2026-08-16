@@ -53,6 +53,7 @@ class SynchronizedStatement extends Statement {
     /**
      * Check statement
      */
+    @Override
     Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         checkLabel(env, ctx);
         CheckContext newctx = new CheckContext(ctx, this);
@@ -69,6 +70,7 @@ class SynchronizedStatement extends Statement {
     /**
      * Inline
      */
+    @Override
     public Statement inline(Environment env, Context ctx) {
         if (body != null) {
             body = body.inline(env, ctx);
@@ -80,6 +82,7 @@ class SynchronizedStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         SynchronizedStatement s = (SynchronizedStatement)clone();
         s.expr = expr.copyInline(ctx);
@@ -92,11 +95,14 @@ class SynchronizedStatement extends Statement {
     /**
      * Compute cost of inlining this statement
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx){
         int cost = 1;
         if (expr != null) {
             cost += expr.costInline(thresh, env,ctx);
-            if (cost >= thresh) return cost;
+            if (cost >= thresh) {
+                return cost;
+            }
         }
         if (body != null) {
             cost += body.costInline(thresh, env,ctx);
@@ -107,6 +113,7 @@ class SynchronizedStatement extends Statement {
     /**
      * Code
      */
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         ClassDefinition clazz = ctx.field.getClassDefinition();
         expr.codeValue(env, ctx, asm);
@@ -171,6 +178,7 @@ class SynchronizedStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("synchronized ");

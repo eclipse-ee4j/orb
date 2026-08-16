@@ -66,12 +66,14 @@ public class CounterImpl extends PortableRemoteObject implements CounterIF
         }
     }
 
+    @Override
     public synchronized long increment(long invalue) throws RemoteException
     {
-        if ( debug )
+        if ( debug ) {
             System.out.println( "\nIn counterServant " + myid +
                                 " increment(), invalue = " + invalue + " Server thread is " +
                                 Thread.currentThread());
+        }
 
         try {
             // Test Current operations
@@ -81,8 +83,9 @@ public class CounterImpl extends PortableRemoteObject implements CounterIF
             POA poa = current.get_POA();
             byte[] oid = current.get_object_id();
 
-            if ( debug )
+            if ( debug ) {
                 System.out.println( "POA = " + poa.the_name() + " objectid = " + oid);
+            }
 
             // Increment counter and save state
             RandomAccessFile file = new RandomAccessFile(new File(name), "rw");

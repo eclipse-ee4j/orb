@@ -70,8 +70,9 @@ public class CORBAUtil {
      * @return Array of Strings copied from the Vector
      */
     public static String[] toArray(Vector v) {
-        if (v == null)
+        if (v == null) {
             return null;
+        }
 
         String[] result = new String[v.size()];
 
@@ -94,8 +95,9 @@ public class CORBAUtil {
         int lastPeriod = name.lastIndexOf('.');
 
         // Note: returns empty string rather than null
-        if (lastPeriod == -1)
+        if (lastPeriod == -1) {
             return "";
+        }
 
         return name.substring(0, lastPeriod);
     }
@@ -109,10 +111,11 @@ public class CORBAUtil {
      * @return Array with all the elements of the previous two
      */
     public static String[] combine(String[] array1, String[] array2) {
-        if (array1 == null || array1.length == 0)
+        if (array1 == null || array1.length == 0) {
             return array2;
-        else if (array2 == null || array2.length == 0)
+        } else if (array2 == null || array2.length == 0) {
             return array1;
+        }
 
         String[] result = new String[array1.length + array2.length];
 
@@ -152,23 +155,26 @@ public class CORBAUtil {
         filename = filename.replace('/', File.separatorChar);
         String result = null;
 
-        for (int i = 0; i < dirs.length; i++) {
-            File file = new File(dirs[i] + File.separator + filename);
+        for (String dir : dirs) {
+            File file = new File(dir + File.separator + filename);
 
-            if (file.exists())
+            if (file.exists()) {
                 result = file.getAbsolutePath();
+            }
         }
 
         // Check the current directory
         if (result == null) {
             File file = new File(filename);
 
-            if (file.exists())
+            if (file.exists()) {
                 result = file.getAbsolutePath();
+            }
         }
 
-        if (result == null)
+        if (result == null) {
             throw new FileNotFoundException(filename);
+        }
 
         return result;
     }
@@ -185,8 +191,9 @@ public class CORBAUtil {
      */
     public static void toAbsolutePaths(String[] files, String[] dirs) throws FileNotFoundException {
         // No null check
-        for (int i = 0; i < files.length; i++)
+        for (int i = 0; i < files.length; i++) {
             files[i] = CORBAUtil.toAbsolutePath(files[i], dirs);
+        }
     }
 
     /**
@@ -201,11 +208,13 @@ public class CORBAUtil {
         FileReader fr1 = null, fr2 = null;
 
         File f1 = new File(filePath1);
-        if (!f1.exists())
+        if (!f1.exists()) {
             throw new Exception(f1.getAbsolutePath() + " does not exist!");
+        }
         File f2 = new File(filePath2);
-        if (!f2.exists())
+        if (!f2.exists()) {
             throw new Exception(f2.getAbsolutePath() + " does not exist!");
+        }
 
         try {
 
@@ -222,25 +231,31 @@ public class CORBAUtil {
                 file1line = file1.readLine();
                 file2line = file2.readLine();
 
-                if (file1line == null && file2line == null)
+                if (file1line == null && file2line == null) {
                     continue;
+                }
 
-                if (file1line == null && file2line != null)
+                if (file1line == null && file2line != null) {
                     throw new Exception(filePath1 + " is shorter than " + filePath2);
+                }
 
-                if (file2line == null)
+                if (file2line == null) {
                     throw new Exception(filePath2 + " is shorter than " + filePath1);
+                }
 
-                if (!file1line.equals(file2line))
+                if (!file1line.equals(file2line)) {
                     throw new Exception(filePath1 + " and " + filePath2 + " differ on at least line: " + file1.getLineNumber());
+                }
 
             } while (file1line != null && file2line != null);
 
         } finally {
-            if (fr1 != null)
+            if (fr1 != null) {
                 fr1.close();
-            if (fr2 != null)
+            }
+            if (fr2 != null) {
                 fr2.close();
+            }
         }
     }
 }

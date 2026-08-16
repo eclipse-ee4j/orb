@@ -30,6 +30,7 @@ public class ORBInitTest extends CORBATest {
     // Set to true if at least one test fails.
     private boolean failed = false;
 
+    @Override
     protected void doTest() throws Throwable {
         System.out.println();
 
@@ -47,7 +48,7 @@ public class ORBInitTest extends CORBATest {
         /*
          * Second time around is invalid unless flags in ClientTestInitializer are cleared; so how did this ever work correctly?
          * Also note that system vs. props test is not needed here, as the ORB initialization test already covers that.
-         * 
+         *
          * printBeginTest( "[System Properties] " ); orbd = createORBD(); orbd.start(); client = createClient(
          * "pi.orbinit.SystemClient" ); client.start(); client.waitFor(); printEndTest( client, null ); client.stop();
          * orbd.stop();

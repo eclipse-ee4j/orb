@@ -34,14 +34,17 @@ public class idlValueTypeDImpl extends idlValueTypeD {
         this.d = d;
     }
 
+    @Override
     public String toString() {
         return baseMsg + " " + d;
     }
 
+    @Override
     public void marshal(org.omg.CORBA.DataOutputStream out) {
         out.write_short(d);
     }
 
+    @Override
     public void unmarshal(org.omg.CORBA.DataInputStream in) {
         d = in.read_short();
     }

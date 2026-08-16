@@ -31,7 +31,7 @@ public class CorbalocURL extends INSURLBase {
     /**
      * This constructor parses the URL and initializes all the variables. Once the URL Object is constructed it is
      * immutable. URL parameter is a corbaloc: URL string with 'corbaloc:' prefix stripped.
-     * 
+     *
      * @param aURL corbaloc URL as a String
      */
     public CorbalocURL(String aURL) {
@@ -80,7 +80,7 @@ public class CorbalocURL extends INSURLBase {
                     // that the URL is malformed
                     badAddress(aURL);
                 }
-                if (rirFlag == false) {
+                if (!rirFlag) {
                     // Add the Host information if RIR flag is set,
                     // If RIR is set then it means use the internal Boot
                     // Strap protocol for Key String resolution
@@ -240,6 +240,7 @@ public class CorbalocURL extends INSURLBase {
     /**
      * Will be true only in CorbanameURL class.
      */
+    @Override
     public boolean isCorbanameURL() {
         return false;
     }

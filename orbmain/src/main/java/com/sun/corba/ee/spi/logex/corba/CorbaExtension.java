@@ -94,7 +94,7 @@ public class CorbaExtension extends StandardLogger {
             ACTIVITY_COMPLETED.class, ACTIVITY_REQUIRED.class };
 
     @SuppressWarnings("unchecked")
-    private static final List<Constructor<SystemException>> SYS_EX_CONSTRUCTORS = new ArrayList<Constructor<SystemException>>(
+    private static final List<Constructor<SystemException>> SYS_EX_CONSTRUCTORS = new ArrayList<>(
             SYS_EX_CLASSES.length);
 
     static {

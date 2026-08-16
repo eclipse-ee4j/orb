@@ -41,24 +41,30 @@ public class rmiiIServantPOA extends PortableRemoteObject implements rmiiI {
         this.name = name;
     }
 
+    @Override
     public String sayHello() {
         return C.helloWorld;
     }
 
+    @Override
     public int sendBytes(byte[] x) {
-        if (x == null)
+        if (x == null) {
             return -1;
+        }
         return x.length;
     }
 
+    @Override
     public Object sendOneObject(Object x) throws rmiiMyException {
         return x;
     }
 
+    @Override
     public Object sendTwoObjects(Object x, Object y) {
         return x;
     }
 
+    @Override
     public String makeColocatedCallFromServant() throws RemoteException {
         rmiiI rrmiiI = null;
         String result = "";
@@ -68,7 +74,7 @@ public class rmiiIServantPOA extends PortableRemoteObject implements rmiiI {
             // Colocated via narrow.
 
             rrmiiI = null;
-            rrmiiI = (rmiiI) this.narrow(this, rmiiI.class);
+            rrmiiI = (rmiiI) PortableRemoteObject.narrow(this, rmiiI.class);
             result = doCall(rrmiiI, result);
 
             // Colocated via PortableRemoteObject.narrow
@@ -98,16 +104,19 @@ public class rmiiIServantPOA extends PortableRemoteObject implements rmiiI {
         return op + " " + result;
     }
 
+    @Override
     public String colocatedCallFromServant(String a) throws RemoteException, Exception {
         String op = new String(U.getPOACurrentOperation(orb));
         return op + " " + a;
     }
 
+    @Override
     public String throwThreadDeathInServant(String a) throws RemoteException, ThreadDeath {
         U.sop(U.servant(a));
         throw new ThreadDeath();
     }
 
+    @Override
     public Object returnObjectFromServer(boolean isSerializable) throws RemoteException {
         if (isSerializable) {
             return new SerializableObject();

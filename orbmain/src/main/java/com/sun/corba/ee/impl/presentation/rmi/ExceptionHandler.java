@@ -27,7 +27,7 @@ public interface ExceptionHandler {
     /**
      * Return true iff cls is an exception class that is assignment compatible with an exception declared on the method used
      * to create this ExceptionHandler.
-     * 
+     *
      * @param cls Class to check
      * @return If class is a declared exception
      */
@@ -36,7 +36,7 @@ public interface ExceptionHandler {
     /**
      * Write the exception ex to os. ex must be assignment compatible with an exception declared on the method used to
      * create this ExceptionHandler.
-     * 
+     *
      * @param os Stream to write to.
      * @param ex Exception to write.
      */
@@ -46,7 +46,7 @@ public interface ExceptionHandler {
      * Read the exception contained in the InputStream in the ApplicationException. If ae represents an exception that is
      * assignment compatible with an exception on the method used to create this exception handler, return the exception,
      * otherwise return an UnexpectedException wrapping the exception in ae.
-     * 
+     *
      * @param ae Exception to get input stream to read exception from.
      * @return Exception from from stream.
      */

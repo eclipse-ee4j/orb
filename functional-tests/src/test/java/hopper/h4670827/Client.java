@@ -32,6 +32,7 @@ public class Client implements Runnable {
 
     private ORB orb;
 
+    @Override
     public void run() {
         helper = new JUnitReportHelper(Client.class.getName());
         orb = ORB.init((String[]) null, null);
@@ -57,8 +58,9 @@ public class Client implements Runnable {
         }
 
         System.out.println("Thread " + Thread.currentThread() + " done.");
-        if (failed)
+        if (failed) {
             System.exit(1);
+        }
     }
 
     private boolean testURL(String url, boolean shouldPass) {

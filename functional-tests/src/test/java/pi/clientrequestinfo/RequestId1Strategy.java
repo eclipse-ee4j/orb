@@ -30,6 +30,7 @@ public class RequestId1Strategy extends InterceptorStrategy {
     // The id received in send_request:
     private int requestId;
 
+    @Override
     public void send_request(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) throws ForwardRequest {
         super.send_request(interceptor, ri);
 
@@ -41,11 +42,13 @@ public class RequestId1Strategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void send_poll(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) {
         super.send_poll(interceptor, ri);
         // never executed in our orb.
     }
 
+    @Override
     public void receive_reply(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) {
         super.receive_reply(interceptor, ri);
         try {
@@ -55,6 +58,7 @@ public class RequestId1Strategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void receive_exception(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) throws ForwardRequest {
         super.receive_exception(interceptor, ri);
         try {
@@ -64,6 +68,7 @@ public class RequestId1Strategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void receive_other(SampleClientRequestInterceptor interceptor, ClientRequestInfo ri) throws ForwardRequest {
         super.receive_other(interceptor, ri);
 

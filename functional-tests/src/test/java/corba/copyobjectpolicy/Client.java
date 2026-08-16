@@ -115,8 +115,9 @@ public class Client implements InternalProcess {
         expected.add(new TraceElement(true, mev));
         expected.add(new TraceElement(false, mev));
         boolean ok = UserConfigurator.traceAccum.validate(expected);
-        if (!ok)
+        if (!ok) {
             throw new RuntimeException("Test failed for " + name);
+        }
     }
 
     private void performTest(PrintStream out, Echo echoRef, String interceptorName) throws RemoteException {
@@ -128,6 +129,7 @@ public class Client implements InternalProcess {
         checkResult(interceptorName);
     }
 
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         environment.list(out);
 
@@ -185,11 +187,13 @@ class EchoServantLocator extends org.omg.CORBA.LocalObject implements ServantLoc
         this.servant = servant;
     }
 
+    @Override
     public Servant preinvoke(byte[] oid, POA adapter, String operation, CookieHolder the_cookie)
             throws org.omg.PortableServer.ForwardRequest {
         return servant;
     }
 
+    @Override
     public void postinvoke(byte[] oid, POA adapter, String operation, java.lang.Object cookie, Servant servant) {
         return;
     }

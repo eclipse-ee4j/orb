@@ -40,6 +40,7 @@ public class TheTest extends test.Test {
     static Process server = null;
     static Process client = null;
 
+    @Override
     public void setup() {
         try {
             nameServer = Util.startNameServer(Util.FVD_NAME_SERVER_PORT, true);
@@ -54,6 +55,7 @@ public class TheTest extends test.Test {
         }
     }
 
+    @Override
     public void run() {
         String testName = TheTest.class.getName();
         JUnitReportHelper helper = new JUnitReportHelper(testName);
@@ -69,8 +71,9 @@ public class TheTest extends test.Test {
             // where the test value is but we (this client) does not).
             Vector properties = new Vector();
             String testPolicy = System.getProperty("java.security.policy");
-            if (testPolicy != null)
+            if (testPolicy != null) {
                 properties.addElement("-Djava.security.policy=" + testPolicy);
+            }
 
             // Start it
             String valueClasses = getClassesDirectory("values");
@@ -146,7 +149,7 @@ public class TheTest extends test.Test {
             helper.done();
         }
 
-        if (testPassed == true) {
+        if (testPassed) {
             status = null;
         } else {
             status = new Error("FullValueDescription Test Failed");

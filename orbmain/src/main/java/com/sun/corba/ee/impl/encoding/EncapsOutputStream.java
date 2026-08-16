@@ -94,14 +94,16 @@ public class EncapsOutputStream extends CDROutputObject {
 
     @Override
     protected CodeSetConversion.CTBConverter createWCharCTBConverter() {
-        if (getGIOPVersion().equals(GIOPVersion.V1_0))
+        if (getGIOPVersion().equals(GIOPVersion.V1_0)) {
             throw wrapper.wcharDataInGiop10();
+        }
 
         // In the case of GIOP 1.1, we take the byte order of the stream
         // and don't use byte order markers since we're limited to a 2 byte
         // fixed width encoding.
-        if (getGIOPVersion().equals(GIOPVersion.V1_1))
+        if (getGIOPVersion().equals(GIOPVersion.V1_1)) {
             return CodeSetConversion.impl().getCTBConverter(OSFCodeSetRegistry.UTF_16, false, false);
+        }
 
         // Assume anything else meets GIOP 1.2 requirements
         //

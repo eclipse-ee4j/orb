@@ -30,24 +30,29 @@ final class IdUniquenessPolicyImpl extends org.omg.CORBA.LocalObject implements 
         this.value = value;
     }
 
+    @Override
     public IdUniquenessPolicyValue value() {
         return value;
     }
 
+    @Override
     public int policy_type() {
         return ID_UNIQUENESS_POLICY_ID.value;
     }
 
+    @Override
     public Policy copy() {
         return new IdUniquenessPolicyImpl(value);
     }
 
+    @Override
     public void destroy() {
         value = null;
     }
 
     private IdUniquenessPolicyValue value;
 
+    @Override
     public String toString() {
         return "IdUniquenessPolicy[" + ((value.value() == IdUniquenessPolicyValue._UNIQUE_ID) ? "UNIQUE_ID" : "MULTIPLE_ID" + "]");
     }

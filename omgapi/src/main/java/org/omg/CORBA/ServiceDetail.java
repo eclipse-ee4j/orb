@@ -23,7 +23,7 @@ package org.omg.CORBA;
  * An object that represents an ORB service: its <code>service_detail_type</code> field contains the type of the ORB
  * service, and its <code>service_detail</code> field contains a description of the ORB service.
  *
- * 
+ *
  * @author RIP Team
  * @version 1.11 11/15/00
  */

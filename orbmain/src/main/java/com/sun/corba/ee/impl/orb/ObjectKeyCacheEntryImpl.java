@@ -30,14 +30,17 @@ public class ObjectKeyCacheEntryImpl extends ObjectKeyCacheEntryBase {
         oa = null;
     }
 
+    @Override
     public ObjectAdapter getObjectAdapter() {
         return oa;
     }
 
+    @Override
     public void clearObjectAdapter() {
         oa = null;
     }
 
+    @Override
     public void setObjectAdapter(ObjectAdapter oa) {
         this.oa = oa;
     }

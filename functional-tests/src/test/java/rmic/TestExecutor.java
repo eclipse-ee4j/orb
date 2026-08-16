@@ -29,6 +29,8 @@ import org.glassfish.rmic.iiop.Type;
 import org.glassfish.rmic.iiop.ValueType;
 import org.glassfish.rmic.iiop.Constants;
 import org.glassfish.rmic.iiop.CompoundType;
+import org.glassfish.rmic.iiop.CompoundType.Member;
+import org.glassfish.rmic.iiop.CompoundType.Method;
 import org.glassfish.rmic.iiop.RemoteType;
 import org.glassfish.rmic.iiop.AbstractType;
 import org.glassfish.rmic.iiop.ContextStack;
@@ -76,9 +78,9 @@ public class TestExecutor {
     public void testPrivateMethodCollision() throws Throwable {
         CompoundType type = (CompoundType) MapType.getType("rmic.PrivateMethodCollision", stack);
         CompoundType.Method[] methods = type.getMethods();
-        for (int i = 0; i < methods.length; i++) {
-            if (!methods[i].isConstructor()) {
-                myAssert(methods[i].getIDLName().equals("foo"), "rmic.PrivateMethodCollision method name != foo.");
+        for (Method method : methods) {
+            if (!method.isConstructor()) {
+                myAssert(method.getIDLName().equals("foo"), "rmic.PrivateMethodCollision method name != foo.");
                 break;
             }
         }
@@ -144,9 +146,9 @@ public class TestExecutor {
     public void testSerialPersistent() throws Throwable {
         CompoundType type = (CompoundType) MapType.getType("test12.SerialPersistent", stack);
         CompoundType.Member[] members = type.getMembers();
-        for (int i = 0; i < members.length; i++) {
-            if (members[i].getName().equals("member8")) {
-                myAssert(members[i].isTransient(), "test12.SerialPersistent member8 not marked transient.");
+        for (Member member : members) {
+            if (member.getName().equals("member8")) {
+                myAssert(member.isTransient(), "test12.SerialPersistent member8 not marked transient.");
                 break;
             }
         }
@@ -161,8 +163,8 @@ public class TestExecutor {
         CompoundType.Member[] members = type.getMembers();
         Hashtable table = new Hashtable();
 
-        for (int i = 0; i < members.length; i++) {
-            Type t = members[i].getType();
+        for (Member member : members) {
+            Type t = member.getType();
             String name = t.getQualifiedIDLName(false);
             table.put(name, "");
         }
@@ -180,8 +182,8 @@ public class TestExecutor {
                 "org::omg::boxedRMI::java::io::seq1_Serializable", "org::omg::boxedRMI::java::io::seq2_Serializable",
                 "org::omg::boxedRMI::CORBA::seq1_WStringValue", "org::omg::boxedRMI::CORBA::seq2_WStringValue", };
 
-        for (int i = 0; i < names.length; i++) {
-            myAssert(table.containsKey(names[i]), "Did not find " + names[i]);
+        for (String name : names) {
+            myAssert(table.containsKey(name), "Did not find " + name);
         }
     }
 
@@ -190,9 +192,9 @@ public class TestExecutor {
         CompoundType type = (CompoundType) MapType.getType(typeName, stack);
         CompoundType.Method[] methods = type.getMethods();
         Hashtable table = new Hashtable();
-        for (int i = 0; i < methods.length; i++) {
-            String name = methods[i].getIDLName();
-            table.put(name, new Boolean(methods[i].isConstructor()));
+        for (Method method : methods) {
+            String name = method.getIDLName();
+            table.put(name, new Boolean(method.isConstructor()));
         }
 
         for (int i = 0; i < names.length; i++) {
@@ -223,10 +225,11 @@ public class TestExecutor {
         myAssert(members.length == 2, "SwapMember found " + members.length + " members");
         CompoundType shouldSwap = null;
         int index = 0;
-        if (members[1].getName().equals("ss"))
+        if (members[1].getName().equals("ss")) {
             index = 1;
-        else
+        } else {
             myAssert(members[0].getName().equals("ss"), "SwapMember 'ss' not found");
+        }
         shouldSwap = (CompoundType) members[index].getType();
         members = shouldSwap.getMembers();
         myAssert(members.length == 1, "ShouldSwap found " + members.length + " members");
@@ -244,8 +247,8 @@ public class TestExecutor {
         CompoundType type = (CompoundType) MapType.getType("rmic.Typedef", stack);
         CompoundType.Method[] methods = type.getMethods();
         int found = 0;
-        for (int i = 0; i < methods.length; i++) {
-            String name = methods[i].getIDLName();
+        for (Method method : methods) {
+            String name = method.getIDLName();
             if (name.equals("union__wchar")) {
                 found++;
             } else if (name.equals("union__long_long__java_lang_Object")) {
@@ -377,8 +380,8 @@ public class TestExecutor {
         String error = out.toString();
         if (!failed || error.indexOf(errString1) <= 0 || error.indexOf(errString2) <= 0) {
             String names = "";
-            for (int i = 0; i < classes.length; i++) {
-                names += (classes[i] + " ");
+            for (String class1 : classes) {
+                names += (class1 + " ");
             }
 
             String msg = names + "did not fail as expected. Got: " + error;
@@ -402,8 +405,9 @@ public class TestExecutor {
             CompoundType.Method method = methods[i];
             MemberDefinition def = method.getMemberDefinition();
 
-            if (method.isConstructor())
+            if (method.isConstructor()) {
                 continue;
+            }
 
             String[] asserts = MangleMethods.Asserts.getAsserts(def.toString());
 
@@ -446,18 +450,24 @@ public class TestExecutor {
 
     private int getAttributeKind(String assertKind) {
 
-        if (assertKind.equalsIgnoreCase("NONE"))
+        if (assertKind.equalsIgnoreCase("NONE")) {
             return Constants.ATTRIBUTE_NONE;
-        if (assertKind.equalsIgnoreCase("IS"))
+        }
+        if (assertKind.equalsIgnoreCase("IS")) {
             return Constants.ATTRIBUTE_IS;
-        if (assertKind.equalsIgnoreCase("GET"))
+        }
+        if (assertKind.equalsIgnoreCase("GET")) {
             return Constants.ATTRIBUTE_GET;
-        if (assertKind.equalsIgnoreCase("IS_RW"))
+        }
+        if (assertKind.equalsIgnoreCase("IS_RW")) {
             return Constants.ATTRIBUTE_IS_RW;
-        if (assertKind.equalsIgnoreCase("GET_RW"))
+        }
+        if (assertKind.equalsIgnoreCase("GET_RW")) {
             return Constants.ATTRIBUTE_GET_RW;
-        if (assertKind.equalsIgnoreCase("SET"))
+        }
+        if (assertKind.equalsIgnoreCase("SET")) {
             return Constants.ATTRIBUTE_SET;
+        }
         throw new Error("Invalid assertKind: " + assertKind);
     }
 

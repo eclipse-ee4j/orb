@@ -53,10 +53,11 @@ public class HelloTest extends RemoteTest {
     private boolean firstTest = true;
 
     private void nextTest(String name) {
-        if (firstTest)
+        if (firstTest) {
             firstTest = false;
-        else
+        } else {
             helper.pass();
+        }
 
         helper.start(name);
     }
@@ -65,6 +66,7 @@ public class HelloTest extends RemoteTest {
      * Return an array of fully qualified remote servant class names for which ties/skels need to be generated. Return empty
      * array if none.
      */
+    @Override
     protected String[] getRemoteServantClasses() {
         return compileEm;
     }
@@ -101,9 +103,10 @@ public class HelloTest extends RemoteTest {
 
     /**
      * Perform the test.
-     * 
+     *
      * @param context The context returned by getServantContext().
      */
+    @Override
     public void doTest(ServantContext context) throws Throwable {
         WebServer webServer = null;
 
@@ -114,7 +117,7 @@ public class HelloTest extends RemoteTest {
         try {
             ORB orb = (ORB) (context.getORB());
             ORBData odata = orb.getORBData();
-            boolean usesDynamicStubs = ((ORB) context.getORB()).getPresentationManager().useDynamicStubs();
+            boolean usesDynamicStubs = ORB.getPresentationManager().useDynamicStubs();
 
             String outputDirPath = (String) getArgs().get(test.Test.OUTPUT_DIRECTORY);
             if (outputDirPath == null) {
@@ -164,8 +167,9 @@ public class HelloTest extends RemoteTest {
                     stubKind = 1; // localremote (i.e. non-optimized)
                     mustBeRemote = true;
                     Util.setDefaultCodeBase(true);
-                    if (verbose)
+                    if (verbose) {
                         System.out.println("(No local stubs) ");
+                    }
                 } else {
                     stubKind = 2; // local
                     mustBeRemote = false;
@@ -285,8 +289,9 @@ public class HelloTest extends RemoteTest {
             nextTest("testRemoteClassName");
             String remoteClassName = remoteObject.getClass().getName();
             String matchName = "rmic._Hello_Stub";
-            if (stubKind == 2)
+            if (stubKind == 2) {
                 matchName = "rmic._Hello_Stub";
+            }
 
             // We cannot assume that we know the stub class name if we are using dynamic stubs.
             if (!usesDynamicStubs && !remoteClassName.equals(matchName)) {
@@ -332,10 +337,10 @@ public class HelloTest extends RemoteTest {
 
             short[][][] dim3Echo = remoteObject.echoArray(dim3);
 
-            for (int i = 0; i < dim3.length; i++) {
-                for (int j = 0; j < dim3[i].length; j++) {
-                    for (int k = 0; k < dim3[i][j].length; k++) {
-                        if (dim3[i][j][k] != dim3[i][j][k]) {
+            for (short[][] element : dim3) {
+                for (int j = 0; j < element.length; j++) {
+                    for (int k = 0; k < element[j].length; k++) {
+                        if (element[j][k] != element[j][k]) {
                             throw new Exception("HelloTest: echoArray (short[][][]) failed");
                         }
                     }
@@ -373,14 +378,14 @@ public class HelloTest extends RemoteTest {
             AbstractObject[] array5 = { new ValueObject(111), remotes[0], new ValueObject(222), remotes[1], new ValueObject(333),
                     new ValueObject(444), remotes[2], };
 
-            for (int i = 0; i < array5.length; i++) {
-                AbstractObject abs = remoteObject.echoAbstract(array5[i]);
+            for (AbstractObject element : array5) {
+                AbstractObject abs = remoteObject.echoAbstract(element);
 
-                if (array5[i].getValue() != abs.getValue()) {
+                if (element.getValue() != abs.getValue()) {
                     throw new Exception("HelloTest: echoAbstract (AbstractObject) failed (getValue)");
                 }
 
-                if (array5[i].isValue() != abs.isValue()) {
+                if (element.isValue() != abs.isValue()) {
                     throw new Exception("HelloTest: echoAbstract (AbstractObject) failed (isValue)");
                 }
             }
@@ -512,8 +517,9 @@ public class HelloTest extends RemoteTest {
                 throw new Exception("HelloTest: echoSerializable failed.");
             }
 
-            if (!firstTest)
+            if (!firstTest) {
                 helper.pass();
+            }
         } catch (Exception exc) {
             System.out.println("Test failed with exception " + exc);
             exc.printStackTrace();

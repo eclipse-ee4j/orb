@@ -49,6 +49,7 @@ class OrExpression extends BinaryLogicalExpression {
      *    cvars.vsFalse indicates variables with a known value if
      *        both the left or right hand side are false
      */
+    @Override
     public void checkCondition(Environment env, Context ctx, Vset vset,
                                Hashtable<Object, Object> exp, ConditionVars cvars) {
         // Find out when the left side is true/false
@@ -70,6 +71,7 @@ class OrExpression extends BinaryLogicalExpression {
     /**
      * Evaluate
      */
+    @Override
     Expression eval(boolean a, boolean b) {
         return new BooleanExpression(where, a || b);
     }
@@ -77,11 +79,9 @@ class OrExpression extends BinaryLogicalExpression {
     /**
      * Simplify
      */
+    @Override
     Expression simplify() {
-        if (right.equals(false)) {
-            return left;
-        }
-        if (left.equals(true)) {
+        if (right.equals(false) || left.equals(true)) {
             return left;
         }
         if (left.equals(false)) {
@@ -97,6 +97,7 @@ class OrExpression extends BinaryLogicalExpression {
     /**
      * Code
      */
+    @Override
     void codeBranch(Environment env, Context ctx, Assembler asm, Label lbl, boolean whenTrue) {
         if (whenTrue) {
             left.codeBranch(env, ctx, asm, lbl, true);

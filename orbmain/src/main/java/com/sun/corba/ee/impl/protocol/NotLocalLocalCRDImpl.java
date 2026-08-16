@@ -28,14 +28,17 @@ import org.omg.CORBA.portable.ServantObject;
  */
 
 public class NotLocalLocalCRDImpl implements LocalClientRequestDispatcher {
+    @Override
     public boolean useLocalInvocation(org.omg.CORBA.Object self) {
         return false;
     }
 
+    @Override
     public boolean is_local(org.omg.CORBA.Object self) {
         return false;
     }
 
+    @Override
     public ServantObject servant_preinvoke(org.omg.CORBA.Object self, String operation, Class expectedType) {
         // REVISIT: Rewrite rmic.HelloTest and rmic.LocalStubTest
         // (which directly call servant_preinvoke)
@@ -44,6 +47,7 @@ public class NotLocalLocalCRDImpl implements LocalClientRequestDispatcher {
         // throw new INTERNAL();
     }
 
+    @Override
     public void servant_postinvoke(org.omg.CORBA.Object self, ServantObject servant) {
         // throw new INTERNAL();
     }

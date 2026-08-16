@@ -51,17 +51,16 @@ public class InternalBindingKey implements Serializable {
     }
 
     // Compare the keys by comparing name's id and kind
+    @Override
     public boolean equals(java.lang.Object o) {
-        if (o == null)
+        if (o == null) {
             return false;
+        }
         if (o instanceof InternalBindingKey) {
             InternalBindingKey that = (InternalBindingKey) o;
             if (this.id != null && that.id != null) {
-                if (this.id.length() != that.id.length()) {
-                    return false;
-                }
                 // If id is set is must be equal
-                if (this.id.length() > 0 && this.id.equals(that.id) == false) {
+                if ((this.id.length() != that.id.length()) || (this.id.length() > 0 && !this.id.equals(that.id))) {
                     return false;
                 }
             } else {
@@ -72,11 +71,8 @@ public class InternalBindingKey implements Serializable {
                 }
             }
             if (this.kind != null && that.kind != null) {
-                if (this.kind.length() != that.kind.length()) {
-                    return false;
-                }
                 // If kind is set it must be equal
-                if (this.kind.length() > 0 && this.kind.equals(that.kind) == false) {
+                if ((this.kind.length() != that.kind.length()) || (this.kind.length() > 0 && !this.kind.equals(that.kind))) {
                     return false;
                 }
             } else {
@@ -94,6 +90,7 @@ public class InternalBindingKey implements Serializable {
     }
 
     // Return precomputed value
+    @Override
     public int hashCode() {
         int hashVal = 0;
         if (this.id.length() > 0) {

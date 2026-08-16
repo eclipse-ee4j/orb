@@ -75,6 +75,7 @@ public class Loader extends ClassLoader {
      * @exception ClassNotFoundException couldn't find the class
      * @return loaded Class instance
      */
+    @Override
     protected Class findClass(String name) throws ClassNotFoundException {
         byte[] b = loadClassData(name);
         return defineClass(name, b, 0, b.length);
@@ -101,8 +102,9 @@ public class Loader extends ClassLoader {
 
             File file = new File((String) paths.nextElement() + File.separator + filename);
 
-            if (!file.exists())
+            if (!file.exists()) {
                 continue;
+            }
 
             try {
 
@@ -110,14 +112,16 @@ public class Loader extends ClassLoader {
                 FileInputStream in = new FileInputStream(file);
 
                 // Protect against data loss (shouldn't happen)
-                if (file.length() > Integer.MAX_VALUE)
+                if (file.length() > Integer.MAX_VALUE) {
                     throw new IOException(className + " exceeds max length");
+                }
 
                 data = new byte[(int) file.length()];
 
                 // Read in the file contents
-                if (in.read(data) != data.length)
+                if (in.read(data) != data.length) {
                     throw new IOException("Lost data when loading " + className);
+                }
 
                 in.close();
 
@@ -126,8 +130,9 @@ public class Loader extends ClassLoader {
             }
         }
 
-        if (data == null)
+        if (data == null) {
             throw new ClassNotFoundException(className);
+        }
 
         return data;
     }

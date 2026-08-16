@@ -34,6 +34,7 @@ public class ClientRequestInfoTest extends CORBATest {
 
     public static String[] rmicClasses = { "pi.clientrequestinfo.helloRMIIIOP" };
 
+    @Override
     protected void doTest() throws Throwable {
         startORBD();
         System.out.println();

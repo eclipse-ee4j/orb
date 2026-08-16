@@ -125,8 +125,10 @@ public abstract interface MessageMediator extends ResponseHandler {
     // ResponseHandler
     //
 
+    @Override
     public org.omg.CORBA.portable.OutputStream createReply();
 
+    @Override
     public org.omg.CORBA.portable.OutputStream createExceptionReply();
 
     ////////////////////////////////////////////////////

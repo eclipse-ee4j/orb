@@ -49,6 +49,7 @@ public class AcceptorImpl extends AcceptorBase {
         super(orb, port, name, type);
     }
 
+    @Override
     @Transport
     public synchronized boolean initialize() {
         if (initialized) {
@@ -109,6 +110,7 @@ public class AcceptorImpl extends AcceptorBase {
     private void usingServerSocketChannel(ServerSocketChannel ssc) {
     }
 
+    @Override
     @Transport
     public Socket getAcceptedSocket() {
         SocketChannel socketChannel = null;
@@ -159,6 +161,7 @@ public class AcceptorImpl extends AcceptorBase {
     private void closeException(IOException exc) {
     }
 
+    @Override
     @Transport
     public void close() {
         try {
@@ -179,6 +182,7 @@ public class AcceptorImpl extends AcceptorBase {
     // EventHandler methods
     //
 
+    @Override
     public SelectableChannel getChannel() {
         return serverSocketChannel;
     }
@@ -192,6 +196,7 @@ public class AcceptorImpl extends AcceptorBase {
         processSocket(getAcceptedSocket());
     }
 
+    @Override
     @Transport
     public void doWork() {
         try {
@@ -236,6 +241,7 @@ public class AcceptorImpl extends AcceptorBase {
     // SocketOrChannelAcceptor
     //
 
+    @Override
     public ServerSocket getServerSocket() {
         return serverSocket;
     }

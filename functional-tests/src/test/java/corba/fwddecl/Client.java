@@ -182,7 +182,7 @@ public class Client {
     public Client() {
         Properties props = new Properties(System.getProperties());
         props.put("org.omg.CORBA.ORBClass", "com.sun.corba.ee.impl.orb.ORBImpl");
-        this.orb = (ORB) ORB.init(args, props);
+        this.orb = (ORB) org.omg.CORBA.ORB.init(args, props);
     }
 
     public static void main(String args[]) {

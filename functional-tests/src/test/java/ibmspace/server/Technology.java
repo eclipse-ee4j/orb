@@ -35,10 +35,12 @@ public class Technology implements Investment, java.io.Serializable {
         fRequiredInvestment = (fLevel + 1) * UNIT_INVESTMENT;
     }
 
+    @Override
     public String getName() {
         return fName;
     }
 
+    @Override
     public void invest(long investment) {
         // formula: 1. each level requires level* UNIT_INVESTMENT to reach
         // 2. investments are dampened by a random percentage

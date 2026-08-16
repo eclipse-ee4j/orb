@@ -28,9 +28,11 @@ public class SimpleServant extends PortableRemoteObject implements Simple {
     public SimpleServant() throws RemoteException {
     }
 
+    @Override
     public void method1() {
     }
 
+    @Override
     public void method2() {
     }
 }

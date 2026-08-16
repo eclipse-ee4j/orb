@@ -55,8 +55,9 @@ public class counterServer {
     public static void main(String args[]) {
         try {
             // set debug flag
-            if (args.length > 0 && args[0].equals("-debug"))
+            if (args.length > 0 && args[0].equals("-debug")) {
                 debug = true;
+            }
 
             if (debug) {
                 System.out.println("ENTER: counterServer");
@@ -172,11 +173,13 @@ public class counterServer {
         ncRef.rebind(path, obj);
 
         // invoke on the local objref to test local invocations
-        if (counterServer.debug)
+        if (counterServer.debug) {
             System.out.println("\nTesting local invocation: Client thread is " + Thread.currentThread());
+        }
         long value = counterRef.increment(1);
-        if (counterServer.debug)
+        if (counterServer.debug) {
             System.out.println(value);
+        }
     }
 
     static POA createNonRetainPOA(ORB orb, POA rootPOA) throws Exception {
@@ -221,16 +224,19 @@ class MyAdapterActivator extends org.omg.CORBA.LocalObject implements AdapterAct
         this.orb = orb;
     }
 
+    @Override
     public boolean unknown_adapter(POA parent, String name) {
-        if (counterServer.debug)
+        if (counterServer.debug) {
             System.out.println("\nIn MyAdapterActivator.unknown_adapter, parent = " + parent.the_name() + " child = " + name);
+        }
         try {
-            if (name.equals("PersistentPOA"))
+            if (name.equals("PersistentPOA")) {
                 counterServer.createPersistentPOA(orb, parent);
-            else if (name.equals("NonRetainPOA"))
+            } else if (name.equals("NonRetainPOA")) {
                 counterServer.createNonRetainPOA(orb, parent);
-            else
+            } else {
                 return false;
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;
@@ -247,19 +253,23 @@ class CounterServantActivator extends org.omg.CORBA.LocalObject implements Serva
         this.orb = orb;
     }
 
+    @Override
     public Servant incarnate(byte[] oid, POA adapter) throws org.omg.PortableServer.ForwardRequest {
         Servant servant = counterServer.makeCounterServant(orb);
 
-        if (counterServer.debug)
+        if (counterServer.debug) {
             System.out.println(
                     "\nIn CounterServantActivator.incarnate,   oid = " + oid + " poa = " + adapter.the_name() + " servant = " + servant);
+        }
         return servant;
     }
 
+    @Override
     public void etherealize(byte[] oid, POA adapter, Servant servant, boolean cleanup_in_progress, boolean remaining_activations) {
-        if (counterServer.debug)
+        if (counterServer.debug) {
             System.out.println("\nIn CounterServantActivator.etherealize, oid = " + oid + " poa = " + adapter.the_name() + " servant = "
                     + servant + " cleanup_in_progress = " + cleanup_in_progress + " remaining_activations = " + remaining_activations);
+        }
         return;
     }
 }
@@ -271,6 +281,7 @@ class CounterServantLocator extends org.omg.CORBA.LocalObject implements Servant
         this.orb = orb;
     }
 
+    @Override
     public Servant preinvoke(byte[] oid, POA adapter, String operation, CookieHolder the_cookie)
             throws org.omg.PortableServer.ForwardRequest {
         String sid = new String(oid);
@@ -295,24 +306,28 @@ class CounterServantLocator extends org.omg.CORBA.LocalObject implements Servant
         }
 
         String oidStr = new String(oid);
-        if (!newidStr.equals(oidStr))
+        if (!newidStr.equals(oidStr)) {
             System.err.println("\tERROR !!!: preinvoke got wrong id:" + oidStr);
+        }
 
         MyCookie cookie = new MyCookie();
         Servant servant = counterServer.makeCounterServant(orb);
 
-        if (counterServer.debug)
+        if (counterServer.debug) {
             System.out.println("\nIn CounterServantLocator.preinvoke,  oid = " + oidStr + " poa = " + adapter.the_name() + " operation = "
                     + operation + " cookie = " + cookie + " servant = " + servant);
+        }
 
         the_cookie.value = cookie;
         return servant;
     }
 
+    @Override
     public void postinvoke(byte[] oid, POA adapter, String operation, java.lang.Object cookie, Servant servant) {
-        if (counterServer.debug)
+        if (counterServer.debug) {
             System.out.println("\nIn CounterServantLocator.postinvoke, oid = " + new String(oid) + " poa = " + adapter.the_name()
                     + " operation = " + operation + " cookie = " + cookie + " servant = " + servant);
+        }
         return;
     }
 }

@@ -60,22 +60,27 @@ public class Message_1_1 extends com.sun.corba.ee.impl.protocol.giopmsgheaders.M
 
     // Accessor methods
 
+    @Override
     public GIOPVersion getGIOPVersion() {
         return this.GIOP_version;
     }
 
+    @Override
     public int getType() {
         return this.message_type;
     }
 
+    @Override
     public int getSize() {
         return this.message_size;
     }
 
+    @Override
     public boolean isLittleEndian() {
         return ((this.flags & LITTLE_ENDIAN_BIT) == LITTLE_ENDIAN_BIT);
     }
 
+    @Override
     public boolean moreFragmentsToFollow() {
         return ((this.flags & MORE_FRAGMENTS_BIT) == MORE_FRAGMENTS_BIT);
     }
@@ -96,6 +101,7 @@ public class Message_1_1 extends com.sun.corba.ee.impl.protocol.giopmsgheaders.M
         flags = (byte) tmpFlags;
     }
 
+    @Override
     public void setSize(ByteBuffer byteBuffer, int size) {
 
         this.message_size = size;
@@ -121,6 +127,7 @@ public class Message_1_1 extends com.sun.corba.ee.impl.protocol.giopmsgheaders.M
     /**
      * Allows us to create a fragment message from any message type.
      */
+    @Override
     public FragmentMessage createFragmentMessage() {
 
         // check for message type validity
@@ -158,6 +165,7 @@ public class Message_1_1 extends com.sun.corba.ee.impl.protocol.giopmsgheaders.M
     // off a java.io.InputStream (not a CDRInputStream) by IIOPConnection
     // in order to choose the correct CDR Version , msg_type, and msg_size.
     // So, we would never need to read the Message Header off a CDRInputStream.
+    @Override
     public void read(org.omg.CORBA.portable.InputStream istream) {
         /*
          * this.magic = istream.read_long(); this.GIOP_version = (new GIOPVersion()).read(istream); this.flags =
@@ -165,6 +173,7 @@ public class Message_1_1 extends com.sun.corba.ee.impl.protocol.giopmsgheaders.M
          */
     }
 
+    @Override
     public void write(org.omg.CORBA.portable.OutputStream ostream) {
         ostream.write_long(this.magic);
         nullCheck(this.GIOP_version);

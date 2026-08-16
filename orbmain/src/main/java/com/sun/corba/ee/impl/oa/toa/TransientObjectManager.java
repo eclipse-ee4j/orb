@@ -48,15 +48,17 @@ public final class TransientObjectManager {
 
         elementArray = new Element[maxSize];
         elementArray[maxSize - 1] = new Element(maxSize - 1, null);
-        for (int i = maxSize - 2; i >= 0; i--)
+        for (int i = maxSize - 2; i >= 0; i--) {
             elementArray[i] = new Element(i, elementArray[i + 1]);
+        }
         freeList = elementArray[0];
     }
 
     @com.sun.corba.ee.spi.trace.TransientObjectManager
     public synchronized byte[] storeServant(java.lang.Object servant, java.lang.Object servantData) {
-        if (freeList == null)
+        if (freeList == null) {
             doubleSize();
+        }
 
         Element elem = freeList;
         freeList = (Element) freeList.servant;
@@ -105,9 +107,11 @@ public final class TransientObjectManager {
     }
 
     public synchronized byte[] getKey(java.lang.Object servant) {
-        for (int i = 0; i < maxSize; i++)
-            if (elementArray[i].valid && elementArray[i].servant == servant)
+        for (int i = 0; i < maxSize; i++) {
+            if (elementArray[i].valid && elementArray[i].servant == servant) {
                 return elementArray[i].toBytes();
+            }
+        }
 
         // if we come here Object does not exist
         return null;
@@ -121,12 +125,14 @@ public final class TransientObjectManager {
         maxSize *= 2;
         elementArray = new Element[maxSize];
 
-        for (int i = 0; i < oldSize; i++)
+        for (int i = 0; i < oldSize; i++) {
             elementArray[i] = old[i];
+        }
 
         elementArray[maxSize - 1] = new Element(maxSize - 1, null);
-        for (int i = maxSize - 2; i >= oldSize; i--)
+        for (int i = maxSize - 2; i >= oldSize; i--) {
             elementArray[i] = new Element(i, elementArray[i + 1]);
+        }
         freeList = elementArray[oldSize];
     }
 }
@@ -189,8 +195,9 @@ final class Element {
     }
 
     void delete(Element freeList) {
-        if (!valid) // prevent double deletion
-            return;
+        if (!valid) { // prevent double deletion
+        	return;
+        }
         counter++;
         servantData = null;
         valid = false;

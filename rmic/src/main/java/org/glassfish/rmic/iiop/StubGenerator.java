@@ -538,8 +538,9 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
 
                 // unless you want to be able to import things from the right place :--)
 
-                if (nameToUse.endsWith("_Stub"))
+                if (nameToUse.endsWith("_Stub")) {
                     nameToUse = Util.packagePrefix() + qualifiedName;
+                }
 
             } else if (currentPackage != null && packageName.equals(currentPackage)) {
 
@@ -771,8 +772,8 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
 
         if (!result) {
             InterfaceType[] interfaces = theType.getInterfaces();
-            for (int i = 0; i < interfaces.length; i++) {
-                result = implementsRemote(interfaces[i]);
+            for (InterfaceType element : interfaces) {
+                result = implementsRemote(element);
                 if (result) {
                     break;
                 }
@@ -800,8 +801,9 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
         String objName = testUtil(getName(returnType), returnType);
         p.p("public " + objName + " " + methodName + "(");
         for (int i = 0; i < paramTypes.length; i++) {
-            if (i > 0)
+            if (i > 0) {
                 p.p(", ");
+            }
             p.p(getName(paramTypes[i]) + " " + paramNames[i]);
         }
 
@@ -851,8 +853,9 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
         }
         p.p(methodName + "(");
         for (int i = 0; i < paramNames.length; i++) {
-            if (i > 0)
+            if (i > 0) {
                 p.p(", ");
+            }
             p.p(paramNames[i]);
         }
         p.pln(");");
@@ -885,8 +888,9 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
         p.p("((" + objName + ")" + so + ".servant)." + methodName + "(");
 
         for (int i = 0; i < argNames.length; i++) {
-            if (i > 0)
+            if (i > 0) {
                 p.p(", ");
+            }
             p.p(argNames[i]);
         }
 
@@ -1323,9 +1327,9 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
                     // If we get here, we know that there is only one
                     // direct remote interface, so just find it...
 
-                    for (int i = 0; i < interfaces.length; i++) {
-                        if (interfaces[i].isType(TYPE_REMOTE)) {
-                            mostDerived = interfaces[i].getRepositoryID();
+                    for (InterfaceType element : interfaces) {
+                        if (element.isType(TYPE_REMOTE)) {
+                            mostDerived = element.getRepositoryID();
                             break;
                         }
                     }
@@ -1410,10 +1414,10 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
             }
 
             InterfaceType[] interfaces = theType.getInterfaces();
-            for (int i = 0; i < interfaces.length; i++) {
+            for (InterfaceType element : interfaces) {
 
-                if (interfaces[i].isType(TYPE_REMOTE)) {
-                    addRemoteInterfaces(list, interfaces[i]);
+                if (element.isType(TYPE_REMOTE)) {
+                    addRemoteInterfaces(list, element);
                 }
             }
 
@@ -1477,8 +1481,8 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
 
     int countRemote(Type[] list, boolean includeAbstract) {
         int remoteCount = 0;
-        for (int i = 0; i < list.length; i++) {
-            if (list[i].isType(TYPE_REMOTE) && (includeAbstract || !list[i].isType(TYPE_ABSTRACT))) {
+        for (Type element : list) {
+            if (element.isType(TYPE_REMOTE) && (includeAbstract || !element.isType(TYPE_ABSTRACT))) {
                 remoteCount++;
             }
         }
@@ -1505,8 +1509,9 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
 
         if (ids.length > 0) {
             for (int i = 0; i < ids.length; i++) {
-                if (i > 0)
+                if (i > 0) {
                     p.pln(", ");
+                }
                 p.p("\"" + ids[i] + "\"");
             }
         } else {
@@ -1802,12 +1807,9 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
     }
 
     static boolean needNewReadStreamClass(Type type) {
-        if (type.isType(TYPE_ABSTRACT)) {
-            return true;
-        }
         // Handle late-breaking special case for
         // abstract IDL entities...
-        if ((type instanceof CompoundType) && ((CompoundType) type).isAbstractBase()) {
+        if (type.isType(TYPE_ABSTRACT) || ((type instanceof CompoundType) && ((CompoundType) type).isAbstractBase())) {
             return true;
         }
         return needNewWriteStreamClass(type);
@@ -2067,8 +2069,9 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
             p.pln(objName + " result;");
         }
 
-        if (handleExceptions)
+        if (handleExceptions) {
             p.plnI("try {");
+        }
 
         if (doReturn) {
             if (handleExceptions) {
@@ -2080,8 +2083,9 @@ public class StubGenerator extends org.glassfish.rmic.iiop.Generator {
 
         p.p("target." + methodName + "(");
         for (int i = 0; i < paramNames.length; i++) {
-            if (i > 0)
+            if (i > 0) {
                 p.p(", ");
+            }
             p.p(paramNames[i]);
         }
         p.pln(");");

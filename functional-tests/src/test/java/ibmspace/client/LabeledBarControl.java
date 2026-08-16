@@ -78,7 +78,7 @@ public class LabeledBarControl extends JPanel {
                 fLabel.setMinimumSize(new Dimension(40, 20));
                 fLabel.setMaximumSize(new Dimension(40, 20));
                 fBar.setBorder(new EmptyBorder(2, 12, 2, 12));
-                fLabel.setHorizontalAlignment(JLabel.CENTER);
+                fLabel.setHorizontalAlignment(SwingConstants.CENTER);
                 fBar.setSize(new Dimension(20, 80));
                 fBar.setMaximumSize(new Dimension(20, 100));
                 fBar.setMinimumSize(new Dimension(20, 50));

@@ -32,10 +32,12 @@ public class Terraforming implements Investment, java.io.Serializable {
         fIdealTemp = idealTemp;
     }
 
+    @Override
     public String getName() {
         return "Terraforming";
     }
 
+    @Override
     public void invest(long dollars) {
         if (dollars > 0) {
             double d = dollars;

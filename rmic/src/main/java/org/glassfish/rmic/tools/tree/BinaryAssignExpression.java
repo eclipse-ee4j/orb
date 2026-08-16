@@ -39,15 +39,18 @@ class BinaryAssignExpression extends BinaryExpression {
         super(op, where, left.type, left, right);
     }
 
+    @Override
     public Expression getImplementation() {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation;
+        }
         return this;
     }
 
     /**
      * Order the expression based on precedence
      */
+    @Override
     public Expression order() {
         if (precedence() >= left.precedence()) {
             UnaryExpression e = (UnaryExpression)left;
@@ -61,6 +64,7 @@ class BinaryAssignExpression extends BinaryExpression {
     /**
      * Check void expression
      */
+    @Override
     public Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object,Object> exp) {
         return checkValue(env, ctx, vset, exp);
     }
@@ -68,28 +72,36 @@ class BinaryAssignExpression extends BinaryExpression {
     /**
      * Inline
      */
+    @Override
     public Expression inline(Environment env, Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.inline(env, ctx);
+        }
         return inlineValue(env, ctx);
     }
+    @Override
     public Expression inlineValue(Environment env, Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.inlineValue(env, ctx);
+        }
         left = left.inlineLHS(env, ctx);
         right = right.inlineValue(env, ctx);
         return this;
     }
 
+    @Override
     public Expression copyInline(Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.copyInline(ctx);
+        }
         return super.copyInline(ctx);
     }
 
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.costInline(thresh, env, ctx);
+        }
         return super.costInline(thresh, env, ctx);
     }
 }

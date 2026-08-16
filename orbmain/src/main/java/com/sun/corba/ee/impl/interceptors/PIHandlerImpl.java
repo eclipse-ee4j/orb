@@ -135,21 +135,22 @@ public class PIHandlerImpl implements PIHandler {
 
     // ThreadLocal containing a stack to store client request info objects
     // and a disable count.
-    private ThreadLocal<RequestInfoStack<ClientRequestInfoImpl>> threadLocalClientRequestInfoStack = new ThreadLocal<RequestInfoStack<ClientRequestInfoImpl>>() {
+    private ThreadLocal<RequestInfoStack<ClientRequestInfoImpl>> threadLocalClientRequestInfoStack = new ThreadLocal<>() {
         @Override
         protected RequestInfoStack<ClientRequestInfoImpl> initialValue() {
-            return new RequestInfoStack<ClientRequestInfoImpl>();
+            return new RequestInfoStack<>();
         }
     };
 
     // ThreadLocal containing the current server request info object.
-    private ThreadLocal<RequestInfoStack<ServerRequestInfoImpl>> threadLocalServerRequestInfoStack = new ThreadLocal<RequestInfoStack<ServerRequestInfoImpl>>() {
+    private ThreadLocal<RequestInfoStack<ServerRequestInfoImpl>> threadLocalServerRequestInfoStack = new ThreadLocal<>() {
         @Override
         protected RequestInfoStack<ServerRequestInfoImpl> initialValue() {
-            return new RequestInfoStack<ServerRequestInfoImpl>();
+            return new RequestInfoStack<>();
         }
     };
 
+    @Override
     @TraceInterceptor
     public void close() {
         orb = null;
@@ -219,6 +220,7 @@ public class PIHandlerImpl implements PIHandler {
         hasServerInterceptors = true; // same as hasClientInterceptors.
     }
 
+    @Override
     @TraceInterceptor
     public void initialize() {
         // If we have any orb initializers, make use of them:
@@ -275,33 +277,40 @@ public class PIHandlerImpl implements PIHandler {
      * This must be called at the end of ORB.destroy. Note that this is not part of the PIHandler interface, since ORBImpl
      * implements the ORB interface.
      */
+    @Override
     @TraceInterceptor
     public void destroyInterceptors() {
         interceptorList.destroyAll();
     }
 
+    @Override
     @TraceInterceptor
     public void objectAdapterCreated(ObjectAdapter oa) {
-        if (!hasIORInterceptors)
+        if (!hasIORInterceptors) {
             return;
+        }
 
         interceptorInvoker.objectAdapterCreated(oa);
     }
 
+    @Override
     @TraceInterceptor
     public void adapterManagerStateChanged(int managerId, short newState) {
 
-        if (!hasIORInterceptors)
+        if (!hasIORInterceptors) {
             return;
+        }
 
         interceptorInvoker.adapterManagerStateChanged(managerId, newState);
     }
 
+    @Override
     @TraceInterceptor
     public void adapterStateChanged(ObjectReferenceTemplate[] templates, short newState) {
 
-        if (!hasIORInterceptors)
+        if (!hasIORInterceptors) {
             return;
+        }
 
         interceptorInvoker.adapterStateChanged(templates, newState);
     }
@@ -311,31 +320,35 @@ public class PIHandlerImpl implements PIHandler {
      * Client PI hooks
      *****************/
 
+    @Override
     @TraceInterceptor
     public void disableInterceptorsThisThread() {
-        if (!hasClientInterceptors)
+        if (!hasClientInterceptors) {
             return;
+        }
 
         RequestInfoStack<ClientRequestInfoImpl> infoStack = threadLocalClientRequestInfoStack.get();
         infoStack.disableCount++;
     }
 
+    @Override
     @TraceInterceptor
     public void enableInterceptorsThisThread() {
-        if (!hasClientInterceptors)
+        if (!hasClientInterceptors) {
             return;
+        }
 
         RequestInfoStack<ClientRequestInfoImpl> infoStack = threadLocalClientRequestInfoStack.get();
         infoStack.disableCount--;
     }
 
+    @Override
     @TraceInterceptor
     public void invokeClientPIStartingPoint() throws RemarshalException {
 
-        if (!hasClientInterceptors)
+        if (!hasClientInterceptors || !isClientPIEnabledForThisThread()) {
             return;
-        if (!isClientPIEnabledForThisThread())
-            return;
+        }
 
         // Invoke the starting interception points and record exception
         // and reply status info in the info object:
@@ -365,19 +378,21 @@ public class PIHandlerImpl implements PIHandler {
                 // RemarshalException in the throws clause.
                 throw wrapper.exceptionInvalid();
             }
-        } else if (replyStatus != ClientRequestInfoImpl.UNINITIALIZED) {
+        } else if (replyStatus != RequestInfoImpl.UNINITIALIZED) {
             throw wrapper.replyStatusNotInit();
         }
     }
 
     // Needed when an error forces a retry AFTER initiateClientPIRequest
     // but BEFORE invokeClientPIStartingPoint.
+    @Override
     public Exception makeCompletedClientRequest(int replyStatus, Exception exception) {
 
         // 6763340
         return handleClientPIEndingPoint(replyStatus, exception, false);
     }
 
+    @Override
     public Exception invokeClientPIEndingPoint(int replyStatus, Exception exception) {
 
         // 6763340
@@ -386,10 +401,9 @@ public class PIHandlerImpl implements PIHandler {
 
     @TraceInterceptor
     public Exception handleClientPIEndingPoint(int replyStatus, Exception exception, boolean invokeEndingPoint) {
-        if (!hasClientInterceptors)
+        if (!hasClientInterceptors || !isClientPIEnabledForThisThread()) {
             return exception;
-        if (!isClientPIEnabledForThisThread())
-            return exception;
+        }
 
         // Translate ReplyMessage.replyStatus into PI replyStatus:
         // Note: this is also an assertion to make sure a valid replyStatus
@@ -443,12 +457,12 @@ public class PIHandlerImpl implements PIHandler {
     private void clientInfoStackWasPushed() {
     }
 
+    @Override
     @TraceInterceptor
     public void initiateClientPIRequest(boolean diiRequest) {
-        if (!hasClientInterceptors)
+        if (!hasClientInterceptors || !isClientPIEnabledForThisThread()) {
             return;
-        if (!isClientPIEnabledForThisThread())
-            return;
+        }
 
         // Get the most recent info object from the thread local
         // ClientRequestInfoImpl stack:
@@ -500,12 +514,12 @@ public class PIHandlerImpl implements PIHandler {
     private void clientInfoStackWasPopped() {
     }
 
+    @Override
     @TraceInterceptor
     public void cleanupClientPIRequest() {
-        if (!hasClientInterceptors)
+        if (!hasClientInterceptors || !isClientPIEnabledForThisThread()) {
             return;
-        if (!isClientPIEnabledForThisThread())
-            return;
+        }
 
         ClientRequestInfoImpl info = peekClientRequestInfoImplStack();
         RetryType rt = info.getRetryRequest();
@@ -521,7 +535,7 @@ public class PIHandlerImpl implements PIHandler {
             // to gracefully handle this in any of the calling code.
             // This is a rare corner case, so we will ignore this for now.
             short replyStatus = info.getReplyStatus();
-            if (replyStatus == ClientRequestInfoImpl.UNINITIALIZED) {
+            if (replyStatus == RequestInfoImpl.UNINITIALIZED) {
                 invokeClientPIEndingPoint(ReplyMessage.SYSTEM_EXCEPTION, wrapper.unknownRequestInvoke());
             }
         }
@@ -537,22 +551,22 @@ public class PIHandlerImpl implements PIHandler {
         }
     }
 
+    @Override
     @TraceInterceptor
     public void setClientPIInfo(MessageMediator messageMediator) {
-        if (!hasClientInterceptors)
+        if (!hasClientInterceptors || !isClientPIEnabledForThisThread()) {
             return;
-        if (!isClientPIEnabledForThisThread())
-            return;
+        }
 
         peekClientRequestInfoImplStack().setInfo(messageMediator);
     }
 
+    @Override
     @TraceInterceptor
     public void setClientPIInfo(RequestImpl requestImpl) {
-        if (!hasClientInterceptors)
+        if (!hasClientInterceptors || !isClientPIEnabledForThisThread()) {
             return;
-        if (!isClientPIEnabledForThisThread())
-            return;
+        }
 
         peekClientRequestInfoImplStack().setDIIRequest(requestImpl);
     }
@@ -562,10 +576,12 @@ public class PIHandlerImpl implements PIHandler {
      * Server PI hooks
      *****************/
 
+    @Override
     @TraceInterceptor
     public void invokeServerPIStartingPoint() {
-        if (!hasServerInterceptors)
+        if (!hasServerInterceptors) {
             return;
+        }
 
         ServerRequestInfoImpl info = peekServerRequestInfoImplStack();
         interceptorInvoker.invokeServerInterceptorStartingPoint(info);
@@ -574,10 +590,12 @@ public class PIHandlerImpl implements PIHandler {
         serverPIHandleExceptions(info);
     }
 
+    @Override
     @TraceInterceptor
     public void invokeServerPIIntermediatePoint() {
-        if (!hasServerInterceptors)
+        if (!hasServerInterceptors) {
             return;
+        }
 
         ServerRequestInfoImpl info = peekServerRequestInfoImplStack();
         interceptorInvoker.invokeServerInterceptorIntermediatePoint(info);
@@ -590,10 +608,12 @@ public class PIHandlerImpl implements PIHandler {
         serverPIHandleExceptions(info);
     }
 
+    @Override
     @TraceInterceptor
     public void invokeServerPIEndingPoint(ReplyMessage replyMessage) {
-        if (!hasServerInterceptors)
+        if (!hasServerInterceptors) {
             return;
+        }
         ServerRequestInfoImpl info = peekServerRequestInfoImplStack();
 
         // REVISIT: This needs to be done "early" for the following workaround.
@@ -601,7 +621,7 @@ public class PIHandlerImpl implements PIHandler {
 
         // REVISIT: This was done inside of invokeServerInterceptorEndingPoint
         // but needs to be here for now. See comment in that method for why.
-        info.setCurrentExecutionPoint(ServerRequestInfoImpl.EXECUTION_POINT_ENDING);
+        info.setCurrentExecutionPoint(RequestInfoImpl.EXECUTION_POINT_ENDING);
 
         // It is possible we might have entered this method more than
         // once (e.g. if an ending point threw a SystemException, then
@@ -661,37 +681,45 @@ public class PIHandlerImpl implements PIHandler {
         }
     }
 
+    @Override
     @TraceInterceptor
     public void setServerPIInfo(Exception exception) {
-        if (!hasServerInterceptors)
+        if (!hasServerInterceptors) {
             return;
+        }
 
         ServerRequestInfoImpl info = peekServerRequestInfoImplStack();
         info.setException(exception);
     }
 
+    @Override
     @TraceInterceptor
     public void setServerPIInfo(NVList arguments) {
-        if (!hasServerInterceptors)
+        if (!hasServerInterceptors) {
             return;
+        }
 
         ServerRequestInfoImpl info = peekServerRequestInfoImplStack();
         info.setDSIArguments(arguments);
     }
 
+    @Override
     @TraceInterceptor
     public void setServerPIExceptionInfo(Any exception) {
-        if (!hasServerInterceptors)
+        if (!hasServerInterceptors) {
             return;
+        }
 
         ServerRequestInfoImpl info = peekServerRequestInfoImplStack();
         info.setDSIException(exception);
     }
 
+    @Override
     @TraceInterceptor
     public void setServerPIInfo(Any result) {
-        if (!hasServerInterceptors)
+        if (!hasServerInterceptors) {
             return;
+        }
 
         ServerRequestInfoImpl info = peekServerRequestInfoImplStack();
         info.setDSIResult(result);
@@ -705,11 +733,13 @@ public class PIHandlerImpl implements PIHandler {
     private void serverInfoStackWasPopped() {
     }
 
+    @Override
     @TraceInterceptor
     public void initializeServerPIInfo(MessageMediator request, ObjectAdapter oa, byte[] objectId, ObjectKeyTemplate oktemp) {
 
-        if (!hasServerInterceptors)
+        if (!hasServerInterceptors) {
             return;
+        }
 
         RequestInfoStack<ServerRequestInfoImpl> infoStack = threadLocalServerRequestInfoStack.get();
         ServerRequestInfoImpl info = new ServerRequestInfoImpl(orb);
@@ -723,19 +753,23 @@ public class PIHandlerImpl implements PIHandler {
         info.setInfo(request, oa, objectId, oktemp);
     }
 
+    @Override
     @TraceInterceptor
     public void setServerPIInfo(java.lang.Object servant, String targetMostDerivedInterface) {
-        if (!hasServerInterceptors)
+        if (!hasServerInterceptors) {
             return;
+        }
 
         ServerRequestInfoImpl info = peekServerRequestInfoImplStack();
         info.setInfo(servant, targetMostDerivedInterface);
     }
 
+    @Override
     @TraceInterceptor
     public void cleanupServerPIRequest() {
-        if (!hasServerInterceptors)
+        if (!hasServerInterceptors) {
             return;
+        }
 
         RequestInfoStack<ServerRequestInfoImpl> infoStack = threadLocalServerRequestInfoStack.get();
         infoStack.pop();
@@ -904,6 +938,7 @@ public class PIHandlerImpl implements PIHandler {
      *
      * @exception DuplicateName Thrown if an interceptor of the given name already exists for the given type.
      */
+    @Override
     @TraceInterceptor
     public void register_interceptor(Interceptor interceptor, int type) throws DuplicateName {
         // We will assume interceptor is not null, since it is called
@@ -922,6 +957,7 @@ public class PIHandlerImpl implements PIHandler {
         interceptorList.register_interceptor(interceptor, type);
     }
 
+    @Override
     public Current getPICurrent() {
         return current;
     }
@@ -939,6 +975,7 @@ public class PIHandlerImpl implements PIHandler {
      * If the PolicyFactory for the given type is not registered. _REVISIT_, Once Policy Framework work is completed,
      * Reorganize this method to com.sun.corba.ee.spi.orb.ORB.
      */
+    @Override
     @TraceInterceptor
     public org.omg.CORBA.Policy create_policy(int type, org.omg.CORBA.Any val) throws org.omg.CORBA.PolicyError {
         if (val == null) {
@@ -962,10 +999,11 @@ public class PIHandlerImpl implements PIHandler {
      * This method registers the Policy Factory in the policyFactoryTable, which is a HashMap. This method is made package
      * private, because it is used internally by the Interceptors.
      */
+    @Override
     @TraceInterceptor
     public void registerPolicyFactory(int type, PolicyFactory factory) {
         if (policyFactoryTable == null) {
-            policyFactoryTable = new HashMap<Integer, PolicyFactory>();
+            policyFactoryTable = new HashMap<>();
         }
         Integer key = Integer.valueOf(type);
         PolicyFactory val = policyFactoryTable.get(key);
@@ -976,6 +1014,7 @@ public class PIHandlerImpl implements PIHandler {
         }
     }
 
+    @Override
     public synchronized int allocateServerRequestId() {
         return serverRequestIdCounter++;
     }

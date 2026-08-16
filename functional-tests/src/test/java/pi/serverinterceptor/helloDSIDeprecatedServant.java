@@ -37,6 +37,7 @@ class helloDSIDeprecatedServant extends org.omg.CORBA.DynamicImplementation {
 
     public static String[] __ids = { "IDL:ServerRequestInterceptor/hello:1.0" };
 
+    @Override
     public String[] _ids() {
         return __ids;
     }
@@ -45,6 +46,7 @@ class helloDSIDeprecatedServant extends org.omg.CORBA.DynamicImplementation {
         impl = new DSIImpl(orb, out, symbol);
     }
 
+    @Override
     public void invoke(ServerRequest r) {
         impl.invoke(r);
     }

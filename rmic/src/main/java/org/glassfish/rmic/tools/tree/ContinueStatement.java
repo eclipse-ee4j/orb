@@ -47,6 +47,7 @@ class ContinueStatement extends Statement {
      * Check statement
      */
 
+    @Override
     Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         checkLabel(env, ctx);
         reach(env, vset);
@@ -84,6 +85,7 @@ class ContinueStatement extends Statement {
     /**
      * The cost of inlining this statement
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         return 1;
     }
@@ -91,6 +93,7 @@ class ContinueStatement extends Statement {
     /**
      * Code
      */
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         CodeContext destctx = (CodeContext)ctx.getContinueContext(lbl);
         codeFinally(env, ctx, asm, destctx, null);
@@ -100,6 +103,7 @@ class ContinueStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("continue");

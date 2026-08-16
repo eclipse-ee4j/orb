@@ -47,7 +47,9 @@ public class NCInterfaceType extends InterfaceType {
      */
     public static NCInterfaceType forNCInterface( ClassDefinition classDef,
                                                   ContextStack stack) {
-        if (stack.anyErrors()) return null;
+        if (stack.anyErrors()) {
+            return null;
+        }
 
         boolean doPop = false;
         try {
@@ -58,7 +60,9 @@ public class NCInterfaceType extends InterfaceType {
 
             if (existing != null) {
 
-                if (!(existing instanceof NCInterfaceType)) return null; // False hit.
+                if (!(existing instanceof NCInterfaceType)) {
+                    return null; // False hit.
+                }
 
                                 // Yep, so return it...
 
@@ -79,7 +83,9 @@ public class NCInterfaceType extends InterfaceType {
                 return null;
             }
         } catch (CompilerError e) {
-            if (doPop) stack.pop(false);
+            if (doPop) {
+                stack.pop(false);
+            }
             return null;
         }
     }
@@ -87,6 +93,7 @@ public class NCInterfaceType extends InterfaceType {
     /**
      * Return a string describing this type.
      */
+    @Override
     public String getTypeDescription () {
         return "Non-conforming interface";
     }

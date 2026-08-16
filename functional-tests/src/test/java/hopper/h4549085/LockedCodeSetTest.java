@@ -33,6 +33,7 @@ public class LockedCodeSetTest extends CORBATest {
 
     public static final String[] javaFiles = { "Server.java", "Client.java" };
 
+    @Override
     protected void doTest() throws Throwable {
         Options.addIDLCompilerArgs("-fall");
         Options.setIDLFiles(idlFiles);

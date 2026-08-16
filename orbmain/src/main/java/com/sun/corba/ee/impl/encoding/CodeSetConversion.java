@@ -142,7 +142,7 @@ public class CodeSetConversion {
         // before writing the array to the stream.
         private ByteBuffer buffer;
 
-        WeakHashMap<String, ByteBuffer> cacheEncoder = new WeakHashMap<String, ByteBuffer>();
+        WeakHashMap<String, ByteBuffer> cacheEncoder = new WeakHashMap<>();
 
         public JavaCTBConverter(OSFCodeSetRegistry.Entry codeset, int alignmentForEncoding) {
 
@@ -168,13 +168,16 @@ public class CodeSetConversion {
             alignment = alignmentForEncoding;
         }
 
+        @Override
         public final float getMaxBytesPerChar() {
             return ctb.maxBytesPerChar();
         }
 
+        @Override
         public void convert(char chToConvert) {
-            if (chars == null)
+            if (chars == null) {
                 chars = new char[1];
+            }
 
             // The CharToByteConverter only takes a char[]
             chars[0] = chToConvert;
@@ -183,13 +186,15 @@ public class CodeSetConversion {
             convertCharArray();
         }
 
+        @Override
         public void convert(String strToConvert) {
             // Try to save a memory allocation if possible. Usual
             // space/time trade off. If we could get the char[] out of
             // the String without copying, that would be great, but
             // it's forbidden since String is immutable.
-            if (chars == null || chars.length < strToConvert.length())
+            if (chars == null || chars.length < strToConvert.length()) {
                 chars = new char[strToConvert.length()];
+            }
 
             numChars = strToConvert.length();
 
@@ -209,10 +214,12 @@ public class CodeSetConversion {
             // validateCodesetCache(buffer, strToConvert);
         }
 
+        @Override
         public final int getNumBytes() {
             return numBytes;
         }
 
+        @Override
         public final int getAlignment() {
             return alignment;
         }
@@ -221,6 +228,7 @@ public class CodeSetConversion {
             this.alignment = newAlignment;
         }
 
+        @Override
         public byte[] getBytes() {
             // Note that you can't use buffer.length since the buffer might
             // be larger than the actual number of converted bytes depending
@@ -294,10 +302,12 @@ public class CodeSetConversion {
             decoder = this.getConverter(codeset.getName());
         }
 
+        @Override
         public final int getNumChars() {
             return resultingNumChars;
         }
 
+        @Override
         public char[] getChars(ByteBuffer byteBuffer, int offset, int numBytes) {
             try {
                 byteBuffer.limit(numBytes);
@@ -323,6 +333,7 @@ public class CodeSetConversion {
             }
         }
 
+        @Override
         public char[] getChars(byte[] bytes, int offset, int numBytes) {
 
             // Possible optimization of reading directly from the CDR
@@ -422,22 +433,25 @@ public class CodeSetConversion {
             this.defaultByteOrder = defaultByteOrder;
         }
 
+        @Override
         public char[] getChars(ByteBuffer byteBuffer, int offset, int numBytes) {
             byte[] marker = { byteBuffer.get(), byteBuffer.get() };
             byteBuffer.position(0);
 
             if (hasUTF16ByteOrderMarker(marker, 0, numBytes)) {
-                if (!converterUsesBOM)
+                if (!converterUsesBOM) {
                     switchToConverter(OSFCodeSetRegistry.UTF_16);
+                }
 
                 converterUsesBOM = true;
                 return super.getChars(byteBuffer, offset, numBytes);
             } else {
                 if (converterUsesBOM) {
-                    if (defaultByteOrder == ByteOrder.LITTLE_ENDIAN)
+                    if (defaultByteOrder == ByteOrder.LITTLE_ENDIAN) {
                         switchToConverter(OSFCodeSetRegistry.UTF_16LE);
-                    else
+                    } else {
                         switchToConverter(OSFCodeSetRegistry.UTF_16BE);
+                    }
 
                     converterUsesBOM = false;
                 }
@@ -449,18 +463,20 @@ public class CodeSetConversion {
         public char[] getChars(byte[] bytes, int offset, int numBytes) {
 
             if (hasUTF16ByteOrderMarker(bytes, offset, numBytes)) {
-                if (!converterUsesBOM)
+                if (!converterUsesBOM) {
                     switchToConverter(OSFCodeSetRegistry.UTF_16);
+                }
 
                 converterUsesBOM = true;
 
                 return super.getChars(bytes, offset, numBytes);
             } else {
                 if (converterUsesBOM) {
-                    if (defaultByteOrder == ByteOrder.LITTLE_ENDIAN)
+                    if (defaultByteOrder == ByteOrder.LITTLE_ENDIAN) {
                         switchToConverter(OSFCodeSetRegistry.UTF_16LE);
-                    else
+                    } else {
                         switchToConverter(OSFCodeSetRegistry.UTF_16BE);
+                    }
 
                     converterUsesBOM = false;
                 }
@@ -483,8 +499,9 @@ public class CodeSetConversion {
                 char marker = (char) ((b1 << 8) | (b2));
 
                 return (marker == UTF16_BE_MARKER || marker == UTF16_LE_MARKER);
-            } else
+            } else {
                 return false;
+            }
         }
 
         /**
@@ -500,7 +517,7 @@ public class CodeSetConversion {
 
     /**
      * CTB converter factory for single byte or variable length encodings.
-     * 
+     *
      * @param codeset Codeset to get converter for
      * @return Char-to-Byte Converter for codeset
      */
@@ -526,15 +543,17 @@ public class CodeSetConversion {
         // as UTF-16 since UCS2 isn't available in all Java platforms.
         // They should be identical with only minor differences in
         // negative cases.
-        if (codeset == OSFCodeSetRegistry.UCS_2)
+        if (codeset == OSFCodeSetRegistry.UCS_2) {
             return new UTF16CTBConverter(littleEndian);
+        }
 
         // We can write UTF-16 with or without a byte order marker.
         if (codeset == OSFCodeSetRegistry.UTF_16) {
-            if (useByteOrderMarkers)
+            if (useByteOrderMarkers) {
                 return new UTF16CTBConverter();
-            else
+            } else {
                 return new UTF16CTBConverter(littleEndian);
+            }
         }
 
         // Everything else uses the generic JavaCTBConverter.
@@ -564,7 +583,7 @@ public class CodeSetConversion {
 
     /**
      * BTCConverter factory for single byte or variable width encodings.
-     * 
+     *
      * @param codeset Codeset to get converter for
      * @return new Byte-to-Char Converter
      */
@@ -574,7 +593,7 @@ public class CodeSetConversion {
 
     /**
      * BTCConverter factory for fixed width multibyte encodings.
-     * 
+     *
      * @param codeset Codeset to get converter for
      * @param defaultByteOrder Order of bytes in the codeset
      * @return Converter for a codeset
@@ -609,10 +628,11 @@ public class CodeSetConversion {
         int serverNative = server.nativeCodeSet;
 
         if (serverNative == 0) {
-            if (server.conversionCodeSets.length > 0)
+            if (server.conversionCodeSets.length > 0) {
                 serverNative = server.conversionCodeSets[0];
-            else
+            } else {
                 return CodeSetConversion.FALLBACK_CODESET;
+            }
         }
 
         if (client.nativeCodeSet == serverNative) {
@@ -622,8 +642,8 @@ public class CodeSetConversion {
 
         // Is this client capable of converting to the server's
         // native code set?
-        for (int i = 0; i < client.conversionCodeSets.length; i++) {
-            if (serverNative == client.conversionCodeSets[i]) {
+        for (int conversionCodeSet : client.conversionCodeSets) {
+            if (serverNative == conversionCodeSet) {
                 // The client will convert to the server's
                 // native code set.
                 return serverNative;
@@ -632,8 +652,8 @@ public class CodeSetConversion {
 
         // Is the server capable of converting to the client's
         // native code set?
-        for (int i = 0; i < server.conversionCodeSets.length; i++) {
-            if (client.nativeCodeSet == server.conversionCodeSets[i]) {
+        for (int conversionCodeSet : server.conversionCodeSets) {
+            if (client.nativeCodeSet == conversionCodeSet) {
                 // The server will convert to the client's
                 // native code set.
                 return client.nativeCodeSet;
@@ -643,10 +663,10 @@ public class CodeSetConversion {
         // See if there are any code sets that both the server and client
         // support (giving preference to the server). The order
         // of conversion sets is from most to least desired.
-        for (int i = 0; i < server.conversionCodeSets.length; i++) {
-            for (int y = 0; y < client.conversionCodeSets.length; y++) {
-                if (server.conversionCodeSets[i] == client.conversionCodeSets[y]) {
-                    return server.conversionCodeSets[i];
+        for (int conversionCodeSet : server.conversionCodeSets) {
+            for (int conversionCodeSet2 : client.conversionCodeSets) {
+                if (conversionCodeSet == conversionCodeSet2) {
+                    return conversionCodeSet;
                 }
             }
         }
@@ -664,7 +684,7 @@ public class CodeSetConversion {
 
     /**
      * Perform the code set negotiation algorithm and come up with the two encodings to use.
-     * 
+     *
      * @param client Info from the client
      * @param server Info from the server
      * @return Resulted negotiated encoding context
@@ -697,7 +717,7 @@ public class CodeSetConversion {
 
     /**
      * CodeSetConversion is a singleton, and this is the access point.
-     * 
+     *
      * @return A holder for {@link CodeSetConversion}
      */
     public static CodeSetConversion impl() {
@@ -720,13 +740,13 @@ public class CodeSetConversion {
     private ThreadLocal<HashMap<OSFCodeSetRegistry.Entry, BTCConverter>> cacheBTCC = new ThreadLocal() {
         @Override
         public HashMap<OSFCodeSetRegistry.Entry, BTCConverter> initialValue() {
-            return new HashMap<OSFCodeSetRegistry.Entry, BTCConverter>();
+            return new HashMap<>();
         }
     };
     private ThreadLocal<HashMap<OSFCodeSetRegistry.Entry, CTBConverter>> cacheCTBC = new ThreadLocal() {
         @Override
         public HashMap<OSFCodeSetRegistry.Entry, CTBConverter> initialValue() {
-            return new HashMap<OSFCodeSetRegistry.Entry, CTBConverter>();
+            return new HashMap<>();
         }
     };
 }

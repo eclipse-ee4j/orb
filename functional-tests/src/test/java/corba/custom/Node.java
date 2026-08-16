@@ -48,29 +48,32 @@ public class Node implements Serializable {
     }
 
     // Light equals method
+    @Override
     public boolean equals(Object obj) {
-        if (obj == null)
+        if ((obj == null) || !(obj instanceof Node)) {
             return false;
-
-        if (!(obj instanceof Node))
-            return false;
+        }
 
         Node rt = (Node) obj;
 
-        if (!valueCompare(this, rt))
+        if (!valueCompare(this, rt)) {
             return false;
+        }
 
-        if (this.links.size() != rt.links.size())
+        if (this.links.size() != rt.links.size()) {
             return false;
+        }
 
         for (int i = 0; i < links.size(); i++) {
             Node linkl = (Node) this.links.get(i);
             Node linkr = (Node) rt.links.get(i);
 
-            if (!valueCompare(linkl, linkr))
+            if (!valueCompare(linkl, linkr)) {
                 return false;
-            if (linkl.links.size() != linkr.links.size())
+            }
+            if (linkl.links.size() != linkr.links.size()) {
                 return false;
+            }
         }
 
         return true;

@@ -26,5 +26,5 @@ package omega;
  */
 
 public interface Golf extends GolfOperations, org.omg.CORBA.Object, org.omg.CORBA.portable.IDLEntity {
-    public static final int uniform = (int) (2);
+    public static final int uniform = (2);
 } // interface Golf

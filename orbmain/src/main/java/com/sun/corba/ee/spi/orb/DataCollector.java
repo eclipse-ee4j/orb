@@ -54,7 +54,7 @@ public interface DataCollector {
      * handled specially: all -ORBInitRef name=value arguments are converted into ( org.omg.CORBA.ORBInitRef.name, value )
      * mappings in the resulting properties. Also, -ORBInitialServices is handled specially in applet mode: they are
      * converted from relative to absolute URLs.
-     * 
+     *
      * @return consolidated property information
      * @throws IllegalStateException if setPropertyNames has not been called.
      */

@@ -36,14 +36,17 @@ public class rmiiIServantConnect extends PortableRemoteObject implements rmiiI {
         super();
     }
 
+    @Override
     public void raiseSystemException(String x) throws RemoteException {
         throw new FREE_MEM(x);
     }
 
+    @Override
     public void raiseUserException(String x) throws RemoteException, rmiiException {
         throw new rmiiException(x);
     }
 
+    @Override
     public void raiseRuntimeException(String x) throws RemoteException {
         throw new RuntimeException(x);
     }

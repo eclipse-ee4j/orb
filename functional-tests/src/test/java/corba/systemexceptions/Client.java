@@ -116,9 +116,11 @@ public class Client extends org.omg.CORBA.LocalObject implements ORBInitializer,
     // ORBInitializer interface implementation.
     //
 
+    @Override
     public void pre_init(ORBInitInfo info) {
     }
 
+    @Override
     public void post_init(ORBInitInfo info) {
         // register the interceptors.
         try {
@@ -134,10 +136,12 @@ public class Client extends org.omg.CORBA.LocalObject implements ORBInitializer,
     // implementation of the Interceptor interface.
     //
 
+    @Override
     public String name() {
         return "ClientInterceptor";
     }
 
+    @Override
     public void destroy() {
     }
 
@@ -146,15 +150,19 @@ public class Client extends org.omg.CORBA.LocalObject implements ORBInitializer,
     // implementation of the ClientInterceptor interface.
     //
 
+    @Override
     public void send_request(ClientRequestInfo ri) throws ForwardRequest {
     }
 
+    @Override
     public void send_poll(ClientRequestInfo ri) {
     }
 
+    @Override
     public void receive_reply(ClientRequestInfo ri) {
     }
 
+    @Override
     public void receive_exception(ClientRequestInfo ri) throws ForwardRequest {
         String repID = ri.received_exception_id();
         String className = ORBUtility.classNameOf(repID);
@@ -165,6 +173,7 @@ public class Client extends org.omg.CORBA.LocalObject implements ORBInitializer,
         }
     }
 
+    @Override
     public void receive_other(ClientRequestInfo ri) throws ForwardRequest {
     }
 }

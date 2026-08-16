@@ -44,6 +44,7 @@ class AssignExpression extends BinaryAssignExpression {
     /**
      * Check an assignment expression
      */
+    @Override
     public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         if (left instanceof IdentifierExpression) {
             // we don't want to mark an identifier as having a value
@@ -67,9 +68,11 @@ class AssignExpression extends BinaryAssignExpression {
     /**
      * Inline
      */
+    @Override
     public Expression inlineValue(Environment env, Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.inlineValue(env, ctx);
+        }
         // Must be 'inlineLHS' here.  But compare with similar case in
         // 'AssignOpExpression' and 'IncDecExpression', which needs 'inlineValue'.
         left = left.inlineLHS(env, ctx);
@@ -83,9 +86,11 @@ class AssignExpression extends BinaryAssignExpression {
     /**
      * Create a copy of the expression for method inlining
      */
+    @Override
     public Expression copyInline(Context ctx) {
-        if (implementation != null)
+        if (implementation != null) {
             return implementation.copyInline(ctx);
+        }
         AssignExpression e = (AssignExpression)clone();
         e.left = left.copyInline(ctx);
         e.right = right.copyInline(ctx);
@@ -98,6 +103,7 @@ class AssignExpression extends BinaryAssignExpression {
     /**
      * The cost of inlining this expression
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         /*----------*
         return 2 + super.costInline(thresh, env, ctx);
@@ -116,6 +122,7 @@ class AssignExpression extends BinaryAssignExpression {
     /**
      * Code
      */
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         if (updater == null) {
             // Field is directly accessible.
@@ -133,6 +140,7 @@ class AssignExpression extends BinaryAssignExpression {
         }
     }
 
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         if (updater == null) {
             // Field is directly accessible.

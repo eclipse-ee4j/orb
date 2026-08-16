@@ -47,8 +47,9 @@ public class TestObject implements Serializable {
         internalRep.put(STRING_NAME, "Wookwookwook");
 
         byte[] data = new byte[24];
-        for (int i = 0; i < data.length; i++)
+        for (int i = 0; i < data.length; i++) {
             data[i] = (byte) i;
+        }
         internalRep.put(BYTE_ARRAY_NAME, data);
 
         internalRep.put(LONG_NAME, new Long(43));
@@ -73,18 +74,14 @@ public class TestObject implements Serializable {
         internalRep.put(NEW_FIELD_NAME, newField);
     }
 
+    @Override
     public boolean equals(Object obj) {
         try {
             TestObject to = (TestObject) obj;
 
-            if (!internalRep.get(STRING_NAME).equals(to.internalRep.get(STRING_NAME)))
+            if (!internalRep.get(STRING_NAME).equals(to.internalRep.get(STRING_NAME)) || !internalRep.get(LONG_NAME).equals(to.internalRep.get(LONG_NAME)) || !internalRep.get(CHAR_NAME).equals(to.internalRep.get(CHAR_NAME))) {
                 return false;
-
-            if (!internalRep.get(LONG_NAME).equals(to.internalRep.get(LONG_NAME)))
-                return false;
-
-            if (!internalRep.get(CHAR_NAME).equals(to.internalRep.get(CHAR_NAME)))
-                return false;
+            }
 
             byte[] thisArray = (byte[]) internalRep.get(BYTE_ARRAY_NAME);
             byte[] otherArray = (byte[]) to.internalRep.get(BYTE_ARRAY_NAME);
@@ -104,17 +101,19 @@ public class TestObject implements Serializable {
 
         String strData = (String) fields.get(STRING_NAME, null);
         byte[] byteData = (byte[]) fields.get(BYTE_ARRAY_NAME, null);
-        long lgData = (long) fields.get(LONG_NAME, (long) 0);
-        char chData = (char) fields.get(CHAR_NAME, (char) '0');
+        long lgData = fields.get(LONG_NAME, (long) 0);
+        char chData = fields.get(CHAR_NAME, '0');
         Integer newField = (Integer) fields.get(NEW_FIELD_NAME, new Integer(0));
 
-        if (chData == '0')
+        if (chData == '0') {
             System.out.println("chData defaulted");
-        else
+        } else {
             System.out.println("chData not defaulted -- " + (int) chData);
+        }
 
-        if (strData == null)
+        if (strData == null) {
             System.out.println("String data defaulted");
+        }
 
         if (newField.equals(new Integer(0))) {
             System.out.println("The new field was defaulted");
@@ -137,16 +136,21 @@ public class TestObject implements Serializable {
 
         System.out.println("Got: " + fields.getClass().getName());
 
-        if (internalRep.get(STRING_NAME) == null)
+        if (internalRep.get(STRING_NAME) == null) {
             System.out.println("--- String is null");
-        if (internalRep.get(BYTE_ARRAY_NAME) == null)
+        }
+        if (internalRep.get(BYTE_ARRAY_NAME) == null) {
             System.out.println("--- byte array is null");
-        if (internalRep.get(LONG_NAME) == null)
+        }
+        if (internalRep.get(LONG_NAME) == null) {
             System.out.println("--- Long is null");
-        if (internalRep.get(CHAR_NAME) == null)
+        }
+        if (internalRep.get(CHAR_NAME) == null) {
             System.out.println("--- Char is null");
-        if (internalRep.get(NEW_FIELD_NAME) == null)
+        }
+        if (internalRep.get(NEW_FIELD_NAME) == null) {
             System.out.println("--- " + NEW_FIELD_NAME + " is null");
+        }
 
         fields.put(NEW_FIELD_NAME, internalRep.get(NEW_FIELD_NAME));
         fields.put(STRING_NAME, internalRep.get(STRING_NAME));

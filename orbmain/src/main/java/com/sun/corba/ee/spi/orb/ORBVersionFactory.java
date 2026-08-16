@@ -25,7 +25,7 @@ import org.omg.CORBA.portable.InputStream;
 
 public class ORBVersionFactory {
     private ORBVersionFactory() {
-    };
+    }
 
     public static ORBVersion getFOREIGN() {
         return ORBVersionImpl.FOREIGN;
@@ -53,7 +53,7 @@ public class ORBVersionFactory {
 
     /**
      * Return the current version of this ORB
-     * 
+     *
      * @return ORB version
      */
     public static ORBVersion getORBVersion() {

@@ -33,7 +33,7 @@ public class PropertyParser {
     private List<ParserAction> actions;
 
     public PropertyParser() {
-        actions = new LinkedList<ParserAction>();
+        actions = new LinkedList<>();
     }
 
     public PropertyParser add(String propName, Operation action, String fieldName) {
@@ -48,15 +48,13 @@ public class PropertyParser {
 
     /**
      * Return a map from field name to value.
-     * 
+     *
      * @param props properties to convert
      * @return unsynchonized Map
      */
     public Map<String, Object> parse(Properties props) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        Iterator<ParserAction> iter = actions.iterator();
-        while (iter.hasNext()) {
-            ParserAction act = iter.next();
+        Map<String, Object> map = new HashMap<>();
+        for (ParserAction act : actions) {
             Object result = act.apply(props);
 
             // A null result means that the property was not set for

@@ -38,19 +38,23 @@ public class TraceElement {
         return event;
     }
 
+    @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof TraceElement))
+        if (!(obj instanceof TraceElement)) {
             return false;
+        }
 
         TraceElement other = (TraceElement) obj;
 
         return (event.equals(other.event) && isEnter == other.isEnter);
     }
 
+    @Override
     public int hashCode() {
         return event.hashCode() + (isEnter ? 1711 : 0);
     }
 
+    @Override
     public String toString() {
         return "TraceElement[isEnter=" + isEnter + " event=" + event + "]";
     }

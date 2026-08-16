@@ -31,11 +31,12 @@ public abstract class OldObjectKeyTemplateBase extends ObjectKeyTemplateBase {
         super(orb, magic, scid, serverid, orbid, oaid);
 
         // set version based on magic
-        if (magic == ObjectKeyFactoryImpl.JAVAMAGIC_OLD)
+        if (magic == ObjectKeyFactoryImpl.JAVAMAGIC_OLD) {
             setORBVersion(ORBVersionFactory.getOLD());
-        else if (magic == ObjectKeyFactoryImpl.JAVAMAGIC_NEW)
+        } else if (magic == ObjectKeyFactoryImpl.JAVAMAGIC_NEW) {
             setORBVersion(ORBVersionFactory.getNEW());
-        else // any other magic should not be here
-            throw wrapper.badMagic(Integer.valueOf(magic));
+        } else { // any other magic should not be here
+        	throw wrapper.badMagic(Integer.valueOf(magic));
+        }
     }
 }

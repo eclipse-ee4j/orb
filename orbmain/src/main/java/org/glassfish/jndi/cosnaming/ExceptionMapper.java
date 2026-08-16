@@ -120,7 +120,7 @@ public final class ExceptionMapper {
             NameComponent lastIn = inputName[inputName.length - 1];
             if (rest[0].id.equals(lastIn.id) && rest[0].kind != null && rest[0].kind.equals(lastIn.kind)) {
                 // Might be legit
-                ;
+                
             } else {
                 // Due to 1.2/1.3 bug that always returns single-item 'rest'
                 NamingException ne = new NameNotFoundException();
@@ -180,6 +180,7 @@ public final class ExceptionMapper {
             // try getting its nns dynamically by constructing
             // a Reference containing obj.
             RefAddr addr = new RefAddr("nns") {
+                @Override
                 public java.lang.Object getContent() {
                     return resolvedObj;
                 }
@@ -223,6 +224,7 @@ public final class ExceptionMapper {
                 // Create nns reference
                 final java.lang.Object rf2 = resolvedObj2;
                 RefAddr addr = new RefAddr("nns") {
+                    @Override
                     public java.lang.Object getContent() {
                         return rf2;
                     }

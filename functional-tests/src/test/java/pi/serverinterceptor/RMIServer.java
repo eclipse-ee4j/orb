@@ -46,6 +46,7 @@ public abstract class RMIServer extends ServerCommon {
 
     private TestServantLocator servantLocator;
 
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         try {
             out.println("+ Creating Initial naming context...");
@@ -96,6 +97,7 @@ public abstract class RMIServer extends ServerCommon {
     /**
      * Overridden from ServerCommon. Oneway calls are not supported in RMI.
      */
+    @Override
     void testInvocation(String name, int mode, String correctOrder, String methodName, String correctMethodOrder, boolean exceptionExpected)
             throws Exception {
         // Rebind each time so that location forward information is

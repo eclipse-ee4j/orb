@@ -55,7 +55,7 @@ public class IORFactories {
 
     /**
      * Create an ObjectId for the given byte sequence.
-     * 
+     *
      * @param id bytes to set as object id
      * @return created ObjectId
      */
@@ -65,7 +65,7 @@ public class IORFactories {
 
     /**
      * Create an ObjectKey for the given ObjectKeyTemplate and ObjectId.
-     * 
+     *
      * @param oktemp Template of object
      * @param oid id of object
      * @return created ObjectKey
@@ -76,7 +76,7 @@ public class IORFactories {
 
     /**
      * Create an empty IOR for the given orb and typeid. The result is mutable.
-     * 
+     *
      * @param orb orb to create IOR from
      * @param typeid id of type for IOR
      * @return created IOR
@@ -87,7 +87,7 @@ public class IORFactories {
 
     /**
      * Create an empty IOR for the given orb with a null typeid. The result is mutable.
-     * 
+     *
      * @param orb ORB to create IOR for
      * @return an empty IOR
      */
@@ -97,7 +97,7 @@ public class IORFactories {
 
     /**
      * Read an IOR from an InputStream. ObjectKeys are not shared.
-     * 
+     *
      * @param orb ORB to use as factory
      * @param is stream to read from
      * @return IOR read from stream
@@ -108,7 +108,7 @@ public class IORFactories {
 
     /**
      * Create an IORTemplate with the given ObjectKeyTemplate. The result is mutable.
-     * 
+     *
      * @param oktemp template to use
      * @return created IORTemplate
      */
@@ -118,7 +118,7 @@ public class IORFactories {
 
     /**
      * Read an IORTemplate from an InputStream.
-     * 
+     *
      * @param is stream to read from
      * @return template read from stream
      */
@@ -171,13 +171,14 @@ public class IORFactories {
     /**
      * This method must be called in order to register the value factories for the ObjectReferenceTemplate and
      * ObjectReferenceFactory value types.
-     * 
+     *
      * @param orb ORB to register value factory against
      */
     public static void registerValueFactories(ORB orb) {
         // Create and register the factory for the Object Reference Template
         // implementation.
         ValueFactory vf = new ValueFactory() {
+            @Override
             public Serializable read_value(InputStream is) {
                 return new ObjectReferenceTemplateImpl(is);
             }
@@ -188,6 +189,7 @@ public class IORFactories {
         // Create and register the factory for the Object Reference Factory
         // implementation.
         vf = new ValueFactory() {
+            @Override
             public Serializable read_value(InputStream is) {
                 return new ObjectReferenceFactoryImpl(is);
             }

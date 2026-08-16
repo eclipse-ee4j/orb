@@ -87,8 +87,9 @@ public class SocketChannelReaderTest extends TransportTestBase {
     }
 
     private void assertEqualData(byte[] expected, byte[] actual) {
-        if (!Arrays.equals(expected, actual))
+        if (!Arrays.equals(expected, actual)) {
             fail("expected " + Arrays.toString(expected) + " but was " + Arrays.toString(actual));
+        }
     }
 
     @Test

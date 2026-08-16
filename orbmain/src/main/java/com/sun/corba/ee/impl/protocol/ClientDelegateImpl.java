@@ -84,10 +84,12 @@ public class ClientDelegateImpl extends ClientDelegate {
     // framework.subcontract.Delegate
     //
 
+    @Override
     public ORB getBroker() {
         return orb;
     }
 
+    @Override
     public ContactInfoList getContactInfoList() {
         return contactInfoList;
     }
@@ -225,7 +227,7 @@ public class ClientDelegateImpl extends ClientDelegate {
 
         ClientRequestDispatcher subcontract = getClientRequestDispatcher();
         try {
-            return (InputStream) subcontract.marshalingComplete((Object) self, (CDROutputObject) output);
+            return subcontract.marshalingComplete((Object) self, (CDROutputObject) output);
         } finally {
             // Enable operation tracing for result unmarshaling
             if (orb.operationTraceDebugFlag) {
@@ -260,6 +262,7 @@ public class ClientDelegateImpl extends ClientDelegate {
         return ((InvocationInfo) orb.getInvocationInfo()).getClientRequestDispatcher();
     }
 
+    @Override
     public org.omg.CORBA.Object get_interface_def(org.omg.CORBA.Object obj) {
         InputStream is = null;
         // instantiate the stub
@@ -316,6 +319,7 @@ public class ClientDelegateImpl extends ClientDelegate {
     private void retryingRequest() {
     }
 
+    @Override
     @Subcontract
     public boolean is_a(org.omg.CORBA.Object obj, String dest) {
         while (true) {
@@ -330,8 +334,8 @@ public class ClientDelegateImpl extends ClientDelegate {
                 return true;
             }
 
-            for (int i = 0; i < repositoryIds.length; i++) {
-                if (dest.equals(repositoryIds[i])) {
+            for (String repositoryId : repositoryIds) {
+                if (dest.equals(repositoryId)) {
                     foundIdInRepostioryId();
                     return true;
                 }
@@ -369,6 +373,7 @@ public class ClientDelegateImpl extends ClientDelegate {
         }
     }
 
+    @Override
     public boolean non_existent(org.omg.CORBA.Object obj) {
         InputStream is = null;
         try {
@@ -387,10 +392,12 @@ public class ClientDelegateImpl extends ClientDelegate {
         }
     }
 
+    @Override
     public org.omg.CORBA.Object duplicate(org.omg.CORBA.Object obj) {
         return obj;
     }
 
+    @Override
     public void release(org.omg.CORBA.Object obj) {
         // DO NOT clear out internal variables to release memory
         // This delegate may be pointed-to by other objrefs.
@@ -398,13 +405,10 @@ public class ClientDelegateImpl extends ClientDelegate {
 
     // obj._get_delegate() == this due to the argument passing conventions in
     // portable.ObjectImpl, so we just ignore obj here.
+    @Override
     public boolean is_equivalent(org.omg.CORBA.Object obj, org.omg.CORBA.Object ref) {
-        if (ref == null) {
-            return false;
-        }
-
         // If ref is a local object, it is not a Stub!
-        if (!StubAdapter.isStub(ref)) {
+        if ((ref == null) || !StubAdapter.isStub(ref)) {
             return false;
         }
 
@@ -434,11 +438,7 @@ public class ClientDelegateImpl extends ClientDelegate {
      */
     @Override
     public boolean equals(org.omg.CORBA.Object self, java.lang.Object other) {
-        if (other == null) {
-            return false;
-        }
-
-        if (!StubAdapter.isStub(other)) {
+        if ((other == null) || !StubAdapter.isStub(other)) {
             return false;
         }
 
@@ -462,6 +462,7 @@ public class ClientDelegateImpl extends ClientDelegate {
         return this.hashCode();
     }
 
+    @Override
     public int hash(org.omg.CORBA.Object obj, int maximum) {
         int h = this.hashCode();
         if (h > maximum) {
@@ -470,14 +471,17 @@ public class ClientDelegateImpl extends ClientDelegate {
         return h;
     }
 
+    @Override
     public Request request(org.omg.CORBA.Object obj, String operation) {
         return new RequestImpl(orb, obj, null, operation, null, null, null, null);
     }
 
+    @Override
     public Request create_request(org.omg.CORBA.Object obj, Context ctx, String operation, NVList arg_list, NamedValue result) {
         return new RequestImpl(orb, obj, ctx, operation, arg_list, result, null, null);
     }
 
+    @Override
     public Request create_request(org.omg.CORBA.Object obj, Context ctx, String operation, NVList arg_list, NamedValue result,
             ExceptionList exclist, ContextList ctxlist) {
         return new RequestImpl(orb, obj, ctx, operation, arg_list, result, exclist, ctxlist);
@@ -515,9 +519,9 @@ public class ClientDelegateImpl extends ClientDelegate {
 
     /*
      * Returns the codebase for object reference provided.
-     * 
+     *
      * @param self the object reference whose codebase needs to be returned.
-     * 
+     *
      * @return the codebase as a space delimited list of url strings or null if none.
      */
     @Override

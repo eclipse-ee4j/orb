@@ -30,6 +30,7 @@ import com.sun.corba.ee.spi.misc.ORBConstants;
 public class CustomTest extends CORBATest {
     public static String[] rmicClasses = { "corba.custom.VerifierImpl" };
 
+    @Override
     protected void doTest() throws Throwable {
         Options.setRMICClasses(rmicClasses);
         Options.addRMICArgs("-poa -nolocalstubs -iiop -keep -g");
@@ -86,7 +87,8 @@ public class CustomTest extends CORBATest {
 
         System.out.println();
 
-        if (failed)
+        if (failed) {
             throw new Error("Failures detected");
+        }
     }
 }

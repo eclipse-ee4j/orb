@@ -65,14 +65,17 @@ public class RequestPartitioningComponentImpl extends TaggedComponentBase implem
         partitionToUse = thePartitionToUse;
     }
 
+    @Override
     public int getRequestPartitioningId() {
         return partitionToUse;
     }
 
+    @Override
     public void writeContents(OutputStream os) {
         os.write_ulong(partitionToUse);
     }
 
+    @Override
     public int getId() {
         return ORBConstants.TAG_REQUEST_PARTITIONING_ID;
     }

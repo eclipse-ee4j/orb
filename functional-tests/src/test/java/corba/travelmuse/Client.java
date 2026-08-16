@@ -32,6 +32,7 @@ import corba.util.TransportManagerUtil;
 import org.testng.annotations.Test;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
+import org.omg.CORBA.ORB;
 import org.testng.Assert;
 
 import corba.framework.TestngRunner;
@@ -58,7 +59,7 @@ public class Client {
         msg("Configuring ORB");
         p.put("org.omg.CORBA.ORBClass", "com.sun.corba.ee.impl.orb.ORBImpl");
         p.put("com.sun.corba.ee.ORBDebug", "cdr,streamFormatVersion,valueHandler");
-        orb = com.sun.corba.ee.spi.orb.ORB.init(new String[0], p);
+        orb = ORB.init(new String[0], p);
         myOrb = (com.sun.corba.ee.spi.orb.ORB) orb;
         myOrb.setDebugFlags("cdr", "streamFormatVersion", "valueHandler");
     }

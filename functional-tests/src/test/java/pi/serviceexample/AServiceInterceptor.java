@@ -57,10 +57,12 @@ public class AServiceInterceptor extends org.omg.CORBA.LocalObject implements Cl
     // Interceptor operations
     //
 
+    @Override
     public String name() {
         return "AServiceInterceptor";
     }
 
+    @Override
     public void destroy() {
     }
 
@@ -68,6 +70,7 @@ public class AServiceInterceptor extends org.omg.CORBA.LocalObject implements Cl
     // ClientRequestInterceptor operations
     //
 
+    @Override
     public void send_request(ClientRequestInfo ri) {
         //
         // See if the target object contains an ASERVICE_COMPONENT.
@@ -109,19 +112,23 @@ public class AServiceInterceptor extends org.omg.CORBA.LocalObject implements Cl
             }
         } catch (BAD_PARAM e) {
             // If it is not present, do nothing.
-            ;
+            
         }
     }
 
+    @Override
     public void send_poll(ClientRequestInfo ri) {
     }
 
+    @Override
     public void receive_reply(ClientRequestInfo ri) {
     }
 
+    @Override
     public void receive_exception(ClientRequestInfo ri) {
     }
 
+    @Override
     public void receive_other(ClientRequestInfo ri) {
     }
 
@@ -129,6 +136,7 @@ public class AServiceInterceptor extends org.omg.CORBA.LocalObject implements Cl
     // ServerRequestInterceptor operations
     //
 
+    @Override
     public void receive_request_service_contexts(ServerRequestInfo ri) {
         try {
             ServiceContext serviceContext = ri.get_request_service_context(serviceContextId);
@@ -145,21 +153,25 @@ public class AServiceInterceptor extends org.omg.CORBA.LocalObject implements Cl
         } catch (BAD_PARAM e) {
             // Not present means service is not in effect.
             // Do nothing.
-            ;
+            
         } catch (InvalidSlot e) {
             System.out.println("Exception handling not shown.");
         }
     }
 
+    @Override
     public void receive_request(ServerRequestInfo ri) {
     }
 
+    @Override
     public void send_reply(ServerRequestInfo ri) {
     }
 
+    @Override
     public void send_exception(ServerRequestInfo ri) {
     }
 
+    @Override
     public void send_other(ServerRequestInfo ri) {
     }
 }

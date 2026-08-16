@@ -111,6 +111,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
     /**
      * Reset the info object so that it can be reused for a retry, for example.
      */
+    @Override
     synchronized void reset() {
         super.reset();
 
@@ -221,6 +222,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
     /**
      * Any containing the exception to be returned to the client.
      */
+    @Override
     public Any sending_exception() {
         checkAccess(MID_SENDING_EXCEPTION);
 
@@ -246,6 +248,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
     /**
      * The opaque object_id describing the target of the operation invocation.
      */
+    @Override
     public byte[] object_id() {
         checkAccess(MID_OBJECT_ID);
 
@@ -274,6 +277,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
         }
     }
 
+    @Override
     public synchronized String server_id() {
         checkAccess(MID_SERVER_ID);
         checkForNullTemplate();
@@ -285,12 +289,14 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
         return Integer.toString(oktemp.getServerId());
     }
 
+    @Override
     public String orb_id() {
         checkAccess(MID_ORB_ID);
 
         return myORB.getORBData().getORBId();
     }
 
+    @Override
     synchronized public String[] adapter_name() {
         checkAccess(MID_ADAPTER_NAME);
 
@@ -307,6 +313,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
     /**
      * The opaque identifier for the object adapter.
      */
+    @Override
     synchronized public byte[] adapter_id() {
         checkAccess(MID_ADAPTER_ID);
 
@@ -321,6 +328,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
     /**
      * The RepositoryID for the most derived interface of the servant.
      */
+    @Override
     public String target_most_derived_interface() {
         checkAccess(MID_TARGET_MOST_DERIVED_INTERFACE);
         return targetMostDerivedInterface;
@@ -329,6 +337,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
     /**
      * Returns the policy in effect for this operation for the given policy type.
      */
+    @Override
     public Policy get_server_policy(int type) {
         // access is currently valid for all states:
         // checkAccess( MID_GET_SERVER_POLICY );
@@ -349,6 +358,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
      * Allows an Interceptor to set a slot in the Current that is in the scope of the request. If data already exists in
      * that slot, it will be overwritten. If the ID does not define an allocated slot, InvalidSlot is raised.
      */
+    @Override
     public void set_slot(int id, Any data) throws InvalidSlot {
         // access is currently valid for all states:
         // checkAccess( MID_SET_SLOT );
@@ -359,6 +369,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
     /**
      * Returns true if the servant is the given RepositoryId, false if it is not.
      */
+    @Override
     public boolean target_is_a(String id) {
         checkAccess(MID_TARGET_IS_A);
 
@@ -377,6 +388,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
     /**
      * Allows Interceptors to add service contexts to the request.
      */
+    @Override
     public void add_reply_service_context(ServiceContext service_context, boolean replace) {
         // access is currently valid for all states:
         // checkAccess( MID_ADD_REPLY_SERVICE_CONTEXT );
@@ -385,7 +397,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
             ServiceContexts scs = replyMessage.getServiceContexts();
 
             if (cachedReplyServiceContexts == null) {
-                cachedReplyServiceContexts = new HashMap<Integer, org.omg.IOP.ServiceContext>();
+                cachedReplyServiceContexts = new HashMap<>();
             }
 
             // This is during and ending point, so we now have enough
@@ -414,7 +426,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
         addReply.replace = replace;
 
         if (addReplyServiceContextQueue == null) {
-            addReplyServiceContextQueue = new ArrayList<AddReplyServiceContextCommand>();
+            addReplyServiceContextQueue = new ArrayList<>();
         }
 
         // REVISIT: this does not add to the cache.
@@ -437,6 +449,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
     /**
      * See ServerRequestInfo for javadocs.
      */
+    @Override
     public int request_id() {
         // access is currently valid for all states:
         // checkAccess( MID_REQUEST_ID );
@@ -451,12 +464,14 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
     /**
      * See ServerRequestInfo for javadocs.
      */
+    @Override
     public String operation() {
         // access is currently valid for all states:
         // checkAccess( MID_OPERATION );
         return request.getOperationName();
     }
 
+    @Override
     public String toString() {
         return "ServerRequestInfoImpl[operation=" + operation() + "]";
     }
@@ -464,6 +479,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
     /**
      * See ServerRequestInfo for javadocs.
      */
+    @Override
     public Parameter[] arguments() {
         checkAccess(MID_ARGUMENTS);
 
@@ -492,6 +508,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
     /**
      * See ServerRequestInfo for javadocs.
      */
+    @Override
     public TypeCode[] exceptions() {
         checkAccess(MID_EXCEPTIONS);
 
@@ -503,6 +520,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
     /**
      * See ServerRequestInfo for javadocs.
      */
+    @Override
     public String[] contexts() {
         checkAccess(MID_CONTEXTS);
 
@@ -514,6 +532,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
     /**
      * See ServerRequestInfo for javadocs.
      */
+    @Override
     public String[] operation_context() {
         checkAccess(MID_OPERATION_CONTEXT);
 
@@ -526,6 +545,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
     /**
      * See ServerRequestInfo for javadocs.
      */
+    @Override
     public Any result() {
         checkAccess(MID_RESULT);
 
@@ -547,6 +567,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
     /**
      * See ServerRequestInfo for javadocs.
      */
+    @Override
     public boolean response_expected() {
         // access is currently valid for all states:
         // checkAccess( MID_RESPONSE_EXPECTED );
@@ -556,6 +577,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
     /**
      * See ServerRequestInfo for javadocs.
      */
+    @Override
     public Object forward_reference() {
         checkAccess(MID_FORWARD_REFERENCE);
         // Check to make sure we are in LOCATION_FORWARD
@@ -571,11 +593,12 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
     /**
      * See ServerRequestInfo for javadocs.
      */
+    @Override
     public org.omg.IOP.ServiceContext get_request_service_context(int id) {
         checkAccess(MID_GET_REQUEST_SERVICE_CONTEXT);
 
         if (cachedRequestServiceContexts == null) {
-            cachedRequestServiceContexts = new HashMap<Integer, org.omg.IOP.ServiceContext>();
+            cachedRequestServiceContexts = new HashMap<>();
         }
 
         return getServiceContext(cachedRequestServiceContexts, request.getRequestServiceContexts(), id);
@@ -584,16 +607,18 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
     /**
      * See ServerRequestInfo for javadocs.
      */
+    @Override
     public org.omg.IOP.ServiceContext get_reply_service_context(int id) {
         checkAccess(MID_GET_REPLY_SERVICE_CONTEXT);
 
         if (cachedReplyServiceContexts == null) {
-            cachedReplyServiceContexts = new HashMap<Integer, org.omg.IOP.ServiceContext>();
+            cachedReplyServiceContexts = new HashMap<>();
         }
 
         return getServiceContext(cachedReplyServiceContexts, replyMessage.getServiceContexts(), id);
     }
 
+    @Override
     public boolean isNameService() {
         return objectAdapter.isNameService();
     }
@@ -648,6 +673,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
      * Overridden from RequestInfoImpl. This version calls the super and then, if we are changing to ending points, executes
      * all enqueued AddReplyServiceContextCommands.
      */
+    @Override
     protected void setCurrentExecutionPoint(int executionPoint) {
         super.setCurrentExecutionPoint(executionPoint);
 
@@ -678,7 +704,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
 
     /**
      * Stores the various sources of information used for this info object.
-     * 
+     *
      * @param request Request holder, included the Connection
      * @param oa Object Adapter
      * @param objectId id of object
@@ -689,12 +715,12 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
         this.objectId = objectId;
         this.oktemp = oktemp;
         this.objectAdapter = oa;
-        this.connection = (com.sun.corba.ee.spi.legacy.connection.Connection) request.getConnection();
+        this.connection = request.getConnection();
     }
 
     /**
      * Stores the various sources of information used for this info object.
-     * 
+     *
      * @param arguments Arguments for the operation
      */
     protected void setDSIArguments(NVList arguments) {
@@ -703,7 +729,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
 
     /**
      * Stores the various sources of information used for this info object.
-     * 
+     *
      * @param exception {@link Any} holding exception that occurred during operation
      */
     protected void setDSIException(Any exception) {
@@ -715,7 +741,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
 
     /**
      * Stores the various sources of information used for this info object.
-     * 
+     *
      * @param result {@link Any} holding result of operation
      */
     protected void setDSIResult(Any result) {
@@ -735,7 +761,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
 
     /**
      * Stores the various sources of information used for this info object.
-     * 
+     *
      * @param servant Servant used
      * @param targetMostDerivedInterface derived interface
      */
@@ -757,6 +783,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
      * Overridden from RequestInfoImpl. Calls the super class, then sets the ending point call depending on the reply
      * status.
      */
+    @Override
     protected void setReplyStatus(short replyStatus) {
         super.setReplyStatus(replyStatus);
         switch (replyStatus) {
@@ -807,6 +834,7 @@ public final class ServerRequestInfoImpl extends RequestInfoImpl implements Serv
     /**
      * See description for RequestInfoImpl.checkAccess
      */
+    @Override
     protected void checkAccess(int methodID) {
         // Make sure currentPoint matches the appropriate index in the
         // validCall table:

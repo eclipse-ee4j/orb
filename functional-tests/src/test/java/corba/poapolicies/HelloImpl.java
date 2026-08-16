@@ -32,10 +32,12 @@ public class HelloImpl extends HelloPOA {
         id = oid;
     }
 
+    @Override
     public String hi() {
-        if (id == null)
+        if (id == null) {
             return "Welcome, POA";
-        else
+        } else {
             return "Welcome, POA (oid = " + new String(id) + ")";
+        }
     }
 }

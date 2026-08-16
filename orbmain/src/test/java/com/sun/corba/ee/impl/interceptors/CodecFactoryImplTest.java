@@ -248,8 +248,9 @@ public class CodecFactoryImplTest extends EncodingTestBase {
 
         @Override
         protected boolean matchesSafely(TestStruct testStruct, Description description) {
-            if (testStruct.x == expected.x && testStruct.y == expected.y)
+            if (testStruct.x == expected.x && testStruct.y == expected.y) {
                 return true;
+            }
             description.appendText(toString(testStruct));
             return false;
         }
@@ -290,15 +291,17 @@ public class CodecFactoryImplTest extends EncodingTestBase {
 
         @Override
         protected boolean matchesSafely(TestUnion TestUnion, Description description) {
-            if (equals(TestUnion, expected))
+            if (equals(TestUnion, expected)) {
                 return true;
+            }
             description.appendText(toString(TestUnion));
             return false;
         }
 
         private boolean equals(TestUnion first, TestUnion second) {
-            if (first.discriminator() != second.discriminator())
+            if (first.discriminator() != second.discriminator()) {
                 return false;
+            }
 
             switch (first.discriminator()) {
                 case 1:

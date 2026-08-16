@@ -83,14 +83,16 @@ public class EncodingTestBase {
     private CDROutputObject outputObject;
     private byte formatVersion = ORBConstants.STREAM_FORMAT_VERSION_1;
 
-    private List<byte[]> fragments = new ArrayList<byte[]>();
+    private List<byte[]> fragments = new ArrayList<>();
 
     static byte flags(Endian endian, Fragments fragments) {
         byte result = 0;
-        if (endian == little_endian)
+        if (endian == little_endian) {
             result |= 0x01;
-        if (fragments == more_fragments)
+        }
+        if (fragments == more_fragments) {
             result |= 0x02;
+        }
         return result;
     }
 
@@ -151,8 +153,9 @@ public class EncodingTestBase {
 
     protected final EncapsInputStream createEncapsulatedInputStream(int... contents) {
         byte[] bytes = new byte[contents.length];
-        for (int i = 0; i < contents.length; i++)
+        for (int i = 0; i < contents.length; i++) {
             bytes[i] = (byte) contents[i];
+        }
         return new EncapsInputStream(orb, bytes, bytes.length, getByteOrder(), message.giopVersion);
     }
 
@@ -161,8 +164,9 @@ public class EncodingTestBase {
     }
 
     protected final CDRInputObject getInputObject() {
-        if (inputObject == null)
+        if (inputObject == null) {
             inputObject = createInputObject();
+        }
         return inputObject;
     }
 
@@ -198,8 +202,9 @@ public class EncodingTestBase {
 
     protected final void addFragment(int... values) {
         fragment.body = new byte[values.length];
-        for (int i = 0; i < values.length; i++)
+        for (int i = 0; i < values.length; i++) {
             fragment.body[i] = (byte) (values[i]);
+        }
         getInputObject().addFragment(fragment, ByteBuffer.wrap(fragment.getMessageData()));
     }
 
@@ -220,8 +225,9 @@ public class EncodingTestBase {
 
     protected final void setMessageBody(int... values) {
         message.body = new byte[values.length];
-        for (int i = 0; i < values.length; i++)
+        for (int i = 0; i < values.length; i++) {
             message.body[i] = (byte) values[i];
+        }
     }
 
     protected final void setMessageBody(byte[] values) {
@@ -236,8 +242,9 @@ public class EncodingTestBase {
     // positioned after the header, so the comparison must skip that.
 
     protected final CDROutputObject getOutputObject() {
-        if (outputObject == null)
+        if (outputObject == null) {
             outputObject = createOutputObject();
+        }
         return outputObject;
     }
 
@@ -274,8 +281,9 @@ public class EncodingTestBase {
     protected final void expectByteArrays(byte[]... expected) {
         getOutputObject().getBufferManager().sendMessage();
         assertEquals(expected.length, fragments.size());
-        for (int i = 0; i < expected.length; i++)
+        for (int i = 0; i < expected.length; i++) {
             expectFragment(i, expected[i]);
+        }
     }
 
     private byte[] subBuffer(byte[] input, int start) {
@@ -286,8 +294,9 @@ public class EncodingTestBase {
 
     protected final void expectByteArray(int... expected) {
         byte[] bytes = new byte[expected.length];
-        for (int i = 0; i < expected.length; i++)
+        for (int i = 0; i < expected.length; i++) {
             bytes[i] = (byte) (expected[i]);
+        }
         expectByteArray(bytes);
     }
 
@@ -373,7 +382,7 @@ public class EncodingTestBase {
     // ----------------------------------- fake implementation of a ByteBufferPool --------------------------------------
 
     static abstract class ByteBufferPoolFake implements ByteBufferPool {
-        private List<ByteBuffer> buffers = new ArrayList<ByteBuffer>();
+        private List<ByteBuffer> buffers = new ArrayList<>();
 
         protected int getNumBuffersReleased() {
             return buffers.size();
@@ -406,6 +415,7 @@ public class EncodingTestBase {
             this.orbData = orbData;
         }
 
+        @Override
         public void setORBVersion(ORBVersion version) {
             this.version = version;
         }
@@ -476,8 +486,9 @@ public class EncodingTestBase {
 
         @Override
         public CodeSetComponentInfo.CodeSetContext getCodeSetContext() {
-            if (codeSets == null)
+            if (codeSets == null) {
                 codeSets = new CodeSetComponentInfo.CodeSetContext(char_encoding, wchar_encoding);
+            }
             return codeSets;
         }
 
@@ -504,8 +515,9 @@ public class EncodingTestBase {
         @Override
         public void sendWithoutLock(CDROutputObject outputObject) {
             try {
-                if (!locked)
+                if (!locked) {
                     fail("sendWithoutLock called while connection is not locked");
+                }
                 outputObject.writeTo(this);
             } catch (IOException e) {
                 fail("Connection reported: " + e);
@@ -573,11 +585,13 @@ public class EncodingTestBase {
         private boolean startedNewMessage;
 
         byte[] getMessageData() {
-            if (data != null)
+            if (data != null) {
                 return data;
+            }
 
-            if (body == null)
+            if (body == null) {
                 throw new RuntimeException("No message body defined");
+            }
             data = new byte[body.length + getHeaderLength()];
             System.arraycopy(body, 0, data, getHeaderLength(), body.length);
             copyToHeader((byte) 'G', (byte) 'I', (byte) 'O', (byte) 'P');
@@ -600,6 +614,7 @@ public class EncodingTestBase {
             }
         }
 
+        @Override
         public int getHeaderLength() {
             return Message.GIOPMessageHeaderLength;
         }
@@ -646,8 +661,9 @@ public class EncodingTestBase {
         @Override
         public void write(OutputStream ostream) {
             startedNewMessage = true;
-            for (int i = 0; i < GIOPMessageHeaderLength; i++)
+            for (int i = 0; i < GIOPMessageHeaderLength; i++) {
                 ostream.write_octet((byte) 0);
+            }
         }
     }
 }

@@ -26,7 +26,7 @@ package com.sun.corba.ee.spi.resolver;
 public interface Resolver {
     /**
      * Look up the name using this resolver and return the CORBA object reference bound to this name, if any.
-     * 
+     *
      * @param name name of CORBA object to look up
      * @return {@code null} if no object is bound to the name.
      */
@@ -36,7 +36,7 @@ public interface Resolver {
      * Return the entire collection of names that are currently bound by this resolver. Resulting collection contains only
      * strings for which resolve does not return null. Some resolvers may not support this method, in which case they return
      * an empty set.
-     * 
+     *
      * @return All currently bound names
      */
     java.util.Set<String> list();

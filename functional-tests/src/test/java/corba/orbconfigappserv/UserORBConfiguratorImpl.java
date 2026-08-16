@@ -44,6 +44,7 @@ public class UserORBConfiguratorImpl implements ORBConfigurator {
 
         public Class testclass = corba.orbconfigappserv.UserORBConfiguratorImpl.class;
 
+        @Override
         public PropertyParser makeParser() {
             PropertyParser parser = new PropertyParser();
             parser.add(propertyName, OperationFactory.classAction(orb.classNameResolver()), "testclass");
@@ -51,6 +52,7 @@ public class UserORBConfiguratorImpl implements ORBConfigurator {
         }
     }
 
+    @Override
     public void configure(DataCollector dc, ORB orb) {
         ConfigParser parser = new ConfigParser(orb);
         parser.init(dc);

@@ -30,24 +30,29 @@ public class RequestProcessingPolicyImpl extends org.omg.CORBA.LocalObject imple
         this.value = value;
     }
 
+    @Override
     public RequestProcessingPolicyValue value() {
         return value;
     }
 
+    @Override
     public int policy_type() {
         return REQUEST_PROCESSING_POLICY_ID.value;
     }
 
+    @Override
     public Policy copy() {
         return new RequestProcessingPolicyImpl(value);
     }
 
+    @Override
     public void destroy() {
         value = null;
     }
 
     private RequestProcessingPolicyValue value;
 
+    @Override
     public String toString() {
         String type = null;
         switch (value.value()) {

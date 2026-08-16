@@ -63,8 +63,9 @@ public class Client {
 
             for (int ctr = 0; ctr < NUM_CALLS; ctr++) {
                 short[] arr = new short[100 * ctr + 1];
-                for (int ctr2 = 0; ctr2 < arr.length; ctr2++)
+                for (int ctr2 = 0; ctr2 < arr.length; ctr2++) {
                     arr[ctr2] = (short) ctr2;
+                }
                 Map map = new HashMap();
                 map.put(test, test);
                 map.put("alias1", test);

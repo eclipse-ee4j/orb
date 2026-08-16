@@ -51,6 +51,7 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
 
     // Initializes components and anys representation
     // from the Any representation
+    @Override
     protected boolean initializeComponentsFromAny() {
         // This typeCode is of kind tk_sequence.
         int length;
@@ -81,6 +82,7 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
     }
 
     // Sets the current position to -1 and creates an empty sequence.
+    @Override
     protected boolean initializeComponentsFromTypeCode() {
         // already done in the type code constructor
         components = new DynAny[0];
@@ -94,12 +96,12 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
         OutputStream out = any.create_output_stream();
         // Writing the length first is the only difference to supers implementation
         out.write_long(components.length);
-        for (int i = 0; i < components.length; i++) {
-            if (components[i] instanceof DynAnyImpl) {
-                ((DynAnyImpl) components[i]).writeAny(out);
+        for (DynAny component : components) {
+            if (component instanceof DynAnyImpl) {
+                ((DynAnyImpl) component).writeAny(out);
             } else {
                 // Not our implementation. Nothing we can do to prevent copying.
-                components[i].to_any().write_value(out);
+                component.to_any().write_value(out);
             }
         }
         any.read_value(out.create_input_stream(), any.type());
@@ -111,6 +113,7 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
     //
 
     // Returns the current length of the sequence
+    @Override
     public int get_length() {
         if (status == STATUS_DESTROYED) {
             throw wrapper.dynAnyDestroyed();
@@ -140,6 +143,7 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
     // when the length is decreased, the current position remains unaffected.
     // ?f the current position indicates a valid element and that element is removed, the
     // current position is set to -1.
+    @Override
     public void set_length(int len) throws org.omg.DynamicAny.DynAnyPackage.InvalidValue {
         if (status == STATUS_DESTROYED) {
             throw wrapper.dynAnyDestroyed();
@@ -222,6 +226,7 @@ public class DynSequenceImpl extends DynAnyCollectionImpl implements DynSequence
     // Utility methods
     //
 
+    @Override
     protected void checkValue(Object[] value) throws org.omg.DynamicAny.DynAnyPackage.InvalidValue {
         if (value == null || value.length == 0) {
             clearData();

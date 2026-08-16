@@ -62,13 +62,14 @@ public class Graph implements Serializable {
 
     public boolean equals(Graph o) {
         try {
-            Graph g = (Graph) o;
+            Graph g = o;
             return ((_list.equals(g._list)) && (_next.equals(g._next)) && (_bitset.equals(g._bitset)));
         } catch (Throwable t) {
             return false;
         }
     }
 
+    @Override
     public String toString() {
         StringBuffer result = new StringBuffer("{ ");
         for (Graph list = this; list != null; list = list.next()) {

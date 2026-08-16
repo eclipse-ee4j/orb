@@ -28,6 +28,7 @@ public class WombatImpl extends WombatPOA {
         this.name = name;
     }
 
+    @Override
     public String squawk() {
         return name;
     }

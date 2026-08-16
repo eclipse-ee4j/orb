@@ -27,6 +27,7 @@ import org.omg.PortableInterceptor.*;
  */
 public class OneWayStrategy extends InterceptorStrategy {
 
+    @Override
     public void receive_request_service_contexts(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) throws ForwardRequest {
         super.receive_request_service_contexts(interceptor, ri);
 
@@ -37,6 +38,7 @@ public class OneWayStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void receive_request(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) {
         super.receive_request(interceptor, ri);
 
@@ -47,6 +49,7 @@ public class OneWayStrategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void send_reply(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) {
         super.send_reply(interceptor, ri);
 

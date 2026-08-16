@@ -43,6 +43,7 @@ public class MyServantActivator extends org.omg.CORBA.LocalObject implements Ser
         this.orb = orb;
     }
 
+    @Override
     public Servant incarnate(byte[] oid, POA poa) throws ForwardRequest {
         String soid = new String(oid);
         U.sop(baseMsg + ".incarnate " + soid);
@@ -73,6 +74,7 @@ public class MyServantActivator extends org.omg.CORBA.LocalObject implements Ser
         }
     }
 
+    @Override
     public void etherealize(byte[] oid, POA poa, Servant servant, boolean cleanupInProgress, boolean remainingActivations) {
         String soid = new String(oid);
         U.sop(baseMsg + ".etherealize " + soid);

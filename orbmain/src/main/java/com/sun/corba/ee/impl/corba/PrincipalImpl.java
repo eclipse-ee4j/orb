@@ -24,10 +24,12 @@ package com.sun.corba.ee.impl.corba;
 public class PrincipalImpl extends org.omg.CORBA.Principal {
     private byte[] value;
 
+    @Override
     public void name(byte[] value) {
         this.value = value.clone();
     }
 
+    @Override
     public byte[] name() {
         return value.clone();
     }

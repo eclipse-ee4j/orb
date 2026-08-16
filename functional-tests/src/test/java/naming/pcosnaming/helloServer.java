@@ -32,10 +32,12 @@ import org.omg.CosNaming.NamingContext;
 import org.omg.CosNaming.NamingContextHelper;
 
 class helloServant extends _helloImplBase {
+    @Override
     public void sayHello() {
         helloServer.output.println("Servant: In helloServant.sayHello()");
     }
 
+    @Override
     public void shutdown() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -47,6 +49,7 @@ public class helloServer implements InternalProcess {
     public static PrintStream output;
     public static PrintStream errors;
 
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         Controller orbd = (Controller) extra.get("orbd");
         Controller client = (Controller) extra.get("client");

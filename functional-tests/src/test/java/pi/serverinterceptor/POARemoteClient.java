@@ -45,6 +45,7 @@ public class POARemoteClient extends POAClient {
         }
     }
 
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         out.println("============================================");
         out.println("Instantiating Client ORB for POA Remote test");

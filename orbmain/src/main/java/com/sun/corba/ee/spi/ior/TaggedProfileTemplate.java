@@ -47,7 +47,7 @@ public interface TaggedProfileTemplate extends List<TaggedComponent>, Identifiab
     /**
      * Return an iterator that iterates over tagged components with identifier id. It is not possible to modify the list
      * through this iterator.
-     * 
+     *
      * @param id id to look up
      * @return Iterator over tagged components
      */
@@ -57,7 +57,7 @@ public interface TaggedProfileTemplate extends List<TaggedComponent>, Identifiab
 
     /**
      * Create a TaggedProfile from this template.
-     * 
+     *
      * @param oktemp template to create from
      * @param id id of object
      * @return created TaggedProfile
@@ -66,7 +66,7 @@ public interface TaggedProfileTemplate extends List<TaggedComponent>, Identifiab
 
     /**
      * Write the profile create( oktemp, id ) to the OutputStream os.
-     * 
+     *
      * @param oktemp template to create from
      * @param id id of object
      * @param os stream to write to
@@ -78,7 +78,7 @@ public interface TaggedProfileTemplate extends List<TaggedComponent>, Identifiab
      * Return true if temp is equivalent to this template. Equivalence means that in some sense an invocation on a profile
      * created by this template has the same results as an invocation on a profile created from temp. Equivalence may be
      * weaker than equality.
-     * 
+     *
      * @param temp template to compare with
      * @return true if they are equivalent
      */
@@ -88,7 +88,7 @@ public interface TaggedProfileTemplate extends List<TaggedComponent>, Identifiab
      * Return the tagged components in this profile (if any) in the GIOP marshalled form, which is required for Portable
      * Interceptors. Returns null if either the profile has no components, or if this type of profile can never contain
      * components.
-     * 
+     *
      * @param orb ORB to get components from
      * @param id ID of components to look up
      * @return tagged components in this profile

@@ -30,6 +30,7 @@ import corba.framework.CORBATest;
 public class ConnectionsTest extends CORBATest {
     public static final String thisPackage = ConnectionsTest.class.getPackage().getName();
 
+    @Override
     protected void doTest() throws Throwable {
         Controller orbd = createORBD();
         orbd.start();

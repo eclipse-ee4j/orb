@@ -48,8 +48,9 @@ public abstract class Stub extends ObjectImpl implements java.io.Serializable {
 
     static {
         Object stubDelegateInstance = createDelegateIfSpecified(StubClassKey, defaultStubImplName);
-        if (stubDelegateInstance != null)
+        if (stubDelegateInstance != null) {
             stubDelegateClass = stubDelegateInstance.getClass();
+        }
 
     }
 

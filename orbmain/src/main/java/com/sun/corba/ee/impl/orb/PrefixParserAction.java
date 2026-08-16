@@ -44,6 +44,7 @@ public class PrefixParserAction extends ParserActionBase {
      * For each String s that matches the prefix given by getPropertyName(), apply getOperation() to { suffix( s ), value }
      * and add the result to an Object[] which forms the result of apply. Returns null if there are no matches.
      */
+    @Override
     public Object apply(Properties props) {
         String prefix = getPropertyName();
         int prefixLength = prefix.length();
@@ -61,7 +62,7 @@ public class PrefixParserAction extends ParserActionBase {
             if (key.startsWith(prefix)) {
                 String suffix = key.substring(prefixLength);
                 String value = props.getProperty(key);
-                Pair<String, String> data = new Pair<String, String>(suffix, value);
+                Pair<String, String> data = new Pair<>(suffix, value);
                 Object result = getOperation().operate(data);
                 matches.add(result);
             }

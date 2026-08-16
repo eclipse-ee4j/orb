@@ -129,8 +129,7 @@ class Imports implements Constants {
         // }
 
         Vector<IdentifierToken> resolvedPackages = new Vector<>();
-        for (Enumeration<IdentifierToken> e = packages.elements() ; e.hasMoreElements() ;) {
-            IdentifierToken t = e.nextElement();
+        for (IdentifierToken t : packages) {
             Identifier nm = t.getName();
             long where = t.getWhere();
 
@@ -153,8 +152,9 @@ class Imports implements Constants {
                                   rnm.getTopName());
                     }
                     // Pass an "inner" name to the imports.
-                    if (!rnm.isInner())
+                    if (!rnm.isInner()) {
                         rnm = Identifier.lookupInner(rnm, idNull);
+                    }
                     nm = rnm;
                 } else if (!env.getPackage(nm).exists()) {
                     env.error(where, "package.not.found", nm, "import");
@@ -169,8 +169,7 @@ class Imports implements Constants {
         }
         packages = resolvedPackages;
 
-        for (Enumeration<IdentifierToken> e = singles.elements() ; e.hasMoreElements() ;) {
-            IdentifierToken t = e.nextElement();
+        for (IdentifierToken t : singles) {
             Identifier nm = t.getName();
             long where = t.getWhere();
             Identifier pkg = nm.getQualifier();
@@ -252,7 +251,9 @@ class Imports implements Constants {
      * and packages.
      */
     public synchronized Identifier resolve(Environment env, Identifier nm) throws ClassNotFound {
-        if (tracing) env.dtEnter("Imports.resolve: " + nm);
+        if (tracing) {
+            env.dtEnter("Imports.resolve: " + nm);
+        }
 
         // If the class has the special ambiguous prefix, then we will
         // get the original AmbiguousClass exception by removing the
@@ -264,7 +265,9 @@ class Imports implements Constants {
 
         if (nm.isQualified()) {
             // Don't bother it is already qualified
-            if (tracing) env.dtExit("Imports.resolve: QUALIFIED " + nm);
+            if (tracing) {
+                env.dtExit("Imports.resolve: QUALIFIED " + nm);
+            }
             return nm;
         }
 
@@ -276,7 +279,9 @@ class Imports implements Constants {
         // Check if it was imported before
         Identifier className = classes.get(nm);
         if (className != null) {
-            if (tracing) env.dtExit("Imports.resolve: PREVIOUSLY IMPORTED " + nm);
+            if (tracing) {
+                env.dtExit("Imports.resolve: PREVIOUSLY IMPORTED " + nm);
+            }
             return className;
         }
 
@@ -309,8 +314,9 @@ class Imports implements Constants {
                         // looking for an ambiguity.
                         className = id;
                     } else {
-                        if (tracing)
+                        if (tracing) {
                             env.dtExit("Imports.resolve: AMBIGUOUS " + nm);
+                        }
 
                         // We've found an ambiguity.
                         throw new AmbiguousClass(className, id);
@@ -321,13 +327,17 @@ class Imports implements Constants {
 
         // Make sure a class was found
         if (className == null) {
-            if (tracing) env.dtExit("Imports.resolve: NOT FOUND " + nm);
+            if (tracing) {
+                env.dtExit("Imports.resolve: NOT FOUND " + nm);
+            }
             throw new ClassNotFound(nm);
         }
 
         // Remember the binding
         classes.put(nm, className);
-        if (tracing) env.dtExit("Imports.resolve: FIRST IMPORT " + nm);
+        if (tracing) {
+            env.dtExit("Imports.resolve: FIRST IMPORT " + nm);
+        }
         return className;
     }
 
@@ -377,8 +387,9 @@ class Imports implements Constants {
      * This decision is recorded for future reference.
      */
     public synchronized Identifier forceResolve(Environment env, Identifier nm) {
-        if (nm.isQualified())
+        if (nm.isQualified()) {
             return nm;
+        }
 
         Identifier className = classes.get(nm);
         if (className != null) {
@@ -487,10 +498,12 @@ class ImportEnvironment extends Environment {
         this.imports = imports;
     }
 
+    @Override
     public Identifier resolve(Identifier nm) throws ClassNotFound {
         return imports.resolve(this, nm);
     }
 
+    @Override
     public Imports getImports() {
         return imports;
     }

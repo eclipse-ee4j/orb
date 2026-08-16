@@ -414,83 +414,83 @@ public class CDROutputTest extends EncodingTestBase {
     }
 
     /*
-     * 
+     *
      * @Test(expected = MARSHAL.class) public void whenUsingV1_0_throwExceptionOnUnexpectedEndOfData() { useV1_0();
      * setMessageBody(0, 0); getInputObject().read_long(); }
-     * 
+     *
      * @Test public void whenUsingV1_2_headerPaddingForces8ByteAlignmentOnce() { useV1_2(); setMessageBody(pad(), pad(),
      * pad(), pad(), 0, 0, 1, 0, FF, FF, FF, FF);
-     * 
+     *
      * getInputObject().setHeaderPadding(true); assertEquals(256, getInputObject().read_long()); assertEquals(-1,
      * getInputObject().read_long()); }
-     * 
+     *
      * @Test public void whenMarkIsSetInV1_0_restoreAllowsReread() { useV1_0(); setMessageBody(0, 0, 1, 23, 'x');
      * getInputObject().mark(0); assertEquals(0, getInputObject().read_short()); getInputObject().reset(); assertEquals(279,
      * getInputObject().read_long()); }
-     * 
+     *
      * @Test public void whenMarkIsSetInV1_2_restoreAllowsReread() { useV1_2(); setMessageBody(0, 0, 1, 23, 'x');
      * getInputObject().mark(0); assertEquals(0, getInputObject().read_short()); getInputObject().reset(); assertEquals(279,
      * getInputObject().read_long()); }
-     * 
+     *
      * @Test public void whenUsingV1_2_continueReadingOnToFragment() { useV1_2(); setMessageBody(0, 0, 1, 23);
      * addFragment(0, 7); getInputObject().read_long(); assertEquals(7, getInputObject().read_short()); }
-     * 
+     *
      * @Test public void whenUsingV1_2_skipPaddingBeforeReadingNextFragment() { useV1_2(); setMessageBody(0, 23, pad(),
      * pad()); addFragment(0, 0, 0, 7); getInputObject().read_short(); assertEquals(7, getInputObject().read_long()); }
-     * 
+     *
      * @Test public void whenUsingV1_1_skipOptionalPaddingBeforeReadingNextFragment() { useV1_1(); setMessageBody(0, 23,
      * pad(), pad()); addFragment(0, 0, 0, 7); getInputObject().read_short(); assertEquals(7, getInputObject().read_long());
      * }
-     * 
+     *
      * @Test public void whenUsingV1_1_alignToStartOfNextFragment() { useV1_1(); setMessageBody(0, 23); addFragment(0, 0, 0,
      * 7); getInputObject().read_short(); assertEquals(7, getInputObject().read_long()); }
-     * 
+     *
      * @Test(expected = RequestCanceledException.class) public void whenUsingV1_2_throwExceptionIfCanceled() { useV1_2();
      * setMessageBody(0, 23, pad(), pad()); getInputObject().read_short(); getInputObject().cancelProcessing(0);
      * getInputObject().read_long(); }
-     * 
+     *
      * @Test(expected = MARSHAL.class) public void whenUsingV1_2_throwExceptionOnReadPastEnd() { useV1_2();
      * setMessageBody(0, 23, pad(), pad()); getInputObject().read_short(); getInputObject().read_long(); }
-     * 
+     *
      * @Test(expected = COMM_FAILURE.class) public void whenUsingV1_2_throwExceptionOnTimeout() { useV1_2();
      * expectMoreFragments(); setMessageBody(0, 23, pad(), pad()); getInputObject().read_short();
      * getInputObject().read_long(); }
-     * 
+     *
      * @Test(expected = RequestCanceledException.class) public void whenUsingV1_2_throwExceptionWhenCanceledDuringWait() {
      * useV1_2(); setMessageBody(0, 23, pad(), pad()); expectMoreFragments();
-     * 
+     *
      * whileWaitingForFragmentsDo(new AsynchronousAction() { public void exec() { addFragment(0, 0, 0, 7);
      * getInputObject().cancelProcessing(0); } }); getInputObject().read_short(); getInputObject().read_long(); }
-     * 
+     *
      * @Test public void whenValueIsZero_returnNull() { setMessageBody(0, 0, 0, 0);
      * assertNull(getInputObject().read_value()); }
-     * 
+     *
      * @Test public void whenCloneEncapsInputStream_readFromClone() { setMessageBody(); EncapsInputStream inputStream1 =
      * createEncapsulatedInputStream(0, 0, 1, 5); EncapsInputStream inputStream2 = new EncapsInputStream(inputStream1);
      * assertEquals(261, inputStream2.read_long()); }
-     * 
+     *
      * @Test public void canWriteLittleEndianUTF16CharIn_1_0WithLegacyORB() throws IOException { useV1_0();
      * useLittleEndian(); setOrbVersion(ORBVersionFactory.getOLD()); setWCharEncoding(UTF_16);
-     * 
+     *
      * getOutputObject().write_wchar('\u5634'); expectByteArray(0x34, 0x56); }
-     * 
+     *
      * @Test public void can_read_little_endian_integers() { setMessageBody(0x04, pad(), 0xf2, FF,// short 0x03, 0x00,//
      * ushort pad(), pad(),// for long 0x83, 2, 1, 0,// long 0x71, 0xfd, FF, FF,// ulong pad(), pad(), pad(), pad(),// for
      * long_long 7, 1, 0x80, 0, 0, 1, 0, 0);// long long useLittleEndian();
-     * 
+     *
      * assertEquals("Octet value", 4, getInputObject().read_octet()); assertEquals("Signed short value", -14,
      * getInputObject().read_short()); assertEquals("Standard unsigned short value", 3, getInputObject().read_ushort());
      * assertEquals("Unsigned long value", 66179, getInputObject().read_ulong()); assertEquals("Long value", -655,
      * getInputObject().read_long()); assertEquals("Long long value", 1099520016647L, getInputObject().read_longlong()); }
-     * 
+     *
      * @Test public void canReadStringFromOldOrbAcrossFragment() { useV1_1(); setOrbVersion(ORBVersionFactory.getOLD());
      * setMessageBody(0, 0, 0, 9, 'a', 'b', 'c', 'd'); addFragment('e', 'f', 'g', 'h', 0); assertEquals("abcdefgh",
      * getInputObject().read_string()); }
-     * 
+     *
      * @Test public void can_read_octet_array_acrossFragments() throws Exception { useV1_2(); final int[] data = {0, 1, 2,
      * 3}; final byte[] expected = {0, 1, 2, 3, -1, -1}; setMessageBody(data); addFragment(-1, -1);
      * readAndVerifyOctetArray(expected); }
-     * 
+     *
      * /
      **/
 }

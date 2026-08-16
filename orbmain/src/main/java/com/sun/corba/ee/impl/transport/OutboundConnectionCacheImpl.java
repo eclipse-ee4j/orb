@@ -45,10 +45,11 @@ public class OutboundConnectionCacheImpl extends ConnectionCacheBase implements 
     private OutboundConnectionCacheProbeProvider pp = new OutboundConnectionCacheProbeProvider();
 
     public OutboundConnectionCacheImpl(ORB orb, ContactInfo contactInfo) {
-        super(orb, contactInfo.getConnectionCacheType(), ((ContactInfo) contactInfo).getMonitoringName());
-        this.connectionCache = new HashMap<ContactInfo, Connection>();
+        super(orb, contactInfo.getConnectionCacheType(), contactInfo.getMonitoringName());
+        this.connectionCache = new HashMap<>();
     }
 
+    @Override
     @Transport
     public Connection get(ContactInfo contactInfo) {
         synchronized (backingStore()) {
@@ -57,6 +58,7 @@ public class OutboundConnectionCacheImpl extends ConnectionCacheBase implements 
         }
     }
 
+    @Override
     @Transport
     public void put(ContactInfo contactInfo, Connection connection) {
         synchronized (backingStore()) {
@@ -67,6 +69,7 @@ public class OutboundConnectionCacheImpl extends ConnectionCacheBase implements 
         }
     }
 
+    @Override
     @Transport
     public void remove(ContactInfo contactInfo) {
         synchronized (backingStore()) {
@@ -83,10 +86,12 @@ public class OutboundConnectionCacheImpl extends ConnectionCacheBase implements 
     // Implementation
     //
 
+    @Override
     public Collection values() {
         return connectionCache.values();
     }
 
+    @Override
     protected Object backingStore() {
         return connectionCache;
     }

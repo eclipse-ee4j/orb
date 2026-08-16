@@ -31,15 +31,18 @@ public class ServantInner implements SInner {
     public ServantInner() throws RemoteException {
     }
 
+    @Override
     public SInner echo(SInner in) throws RemoteException {
         return in;
     }
 
+    @Override
     public CodeBase getCodeBase() throws RemoteException {
         javax.rmi.CORBA.ValueHandler vh = Util.createValueHandler();
         return (CodeBase) vh.getRunTimeCodeBase();
     }
 
+    @Override
     public Remote getOnlyRemote() throws RemoteException {
         return new OnlyRemoteServant();
     }

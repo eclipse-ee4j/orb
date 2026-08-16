@@ -30,6 +30,7 @@ public class CodeBaseTest extends CORBATest {
     public static final String STUBTIE_DIR = "stubtie";
     public static final String[] VALUES = new String[] { "TestValue.java" };
 
+    @Override
     protected void doTest() throws Throwable {
 
         if (test.Test.useJavaSerialization()) {
@@ -124,10 +125,11 @@ public class CodeBaseTest extends CORBATest {
         // Note that the test framework will handle reporting if the overall
         // test failed since it will check the exit codes of the client and
         // server controllers during cleanup
-        if (client.waitFor(120000) == Controller.SUCCESS)
+        if (client.waitFor(120000) == Controller.SUCCESS) {
             Test.dprint("PASSED");
-        else
+        } else {
             Test.dprint("FAILED");
+        }
 
         client.stop();
         server.stop();
@@ -137,10 +139,11 @@ public class CodeBaseTest extends CORBATest {
         Test.dprint("Creating WebServer object...");
 
         Controller executionStrategy;
-        if (debugProcessNames.contains("WebServer"))
+        if (debugProcessNames.contains("WebServer")) {
             executionStrategy = new DebugExec();
-        else
+        } else {
             executionStrategy = new ExternalExec();
+        }
 
         Properties props = Options.getServerProperties();
         int emmaPort = EmmaControl.setCoverageProperties(props);

@@ -29,15 +29,18 @@ public class Server extends PortableRemoteObject implements Tester {
     public Server() throws java.rmi.RemoteException {
     }
 
+    @Override
     public void printMessage(String message) {
         System.out.println(message);
     }
 
+    @Override
     public Object requestValue() throws ClassNotFoundException, InstantiationException, IllegalAccessException {
         Class valueClass = Class.forName("TestValue");
         return valueClass.newInstance();
     }
 
+    @Override
     public String processValue(Object value) {
         Class valueClass = value.getClass();
 

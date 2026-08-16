@@ -55,8 +55,9 @@ public class Client {
 
     private void testObjectArray(java.lang.Object array[]) throws RemoteException, Exception {
         for (int i = 0; i < array.length; i++) {
-            if (!array[i].equals(processor.verifyTransmission(array[i])))
+            if (!array[i].equals(processor.verifyTransmission(array[i]))) {
                 throw new Exception("Object of type " + array[i].getClass().getName() + "at index " + i + " failed verifyTransmission");
+            }
         }
     }
 
@@ -95,8 +96,9 @@ public class Client {
 
         Hashtable result = (Hashtable) processor.verifyTransmission(complex);
 
-        if (result.size() != complex.size())
+        if (result.size() != complex.size()) {
             throw new Exception("Result has fewer items: " + result.size());
+        }
 
         Node resA = (Node) result.get(aStr);
         Node resB = (Node) result.get(bStr);
@@ -104,16 +106,21 @@ public class Client {
         Node resD = (Node) result.get(dStr);
         Node resE = (Node) result.get(eStr);
 
-        if (!a.equals(resA))
+        if (!a.equals(resA)) {
             throw new Exception("result a != a");
-        if (!b.equals(resB))
+        }
+        if (!b.equals(resB)) {
             throw new Exception("result b != b");
-        if (!c.equals(resC))
+        }
+        if (!c.equals(resC)) {
             throw new Exception("result c != c");
-        if (!d.equals(resD))
+        }
+        if (!d.equals(resD)) {
             throw new Exception("result d != d");
-        if (!e.equals(resE))
+        }
+        if (!e.equals(resE)) {
             throw new Exception("result e != e");
+        }
 
         System.out.println("PASSED");
     }
@@ -142,16 +149,20 @@ public class Client {
         Hashtable result = (Hashtable) processor.verifyTransmission(simple);
 
         String oneTest = (String) result.get(oneKey);
-        if (oneTest == null)
+        if (oneTest == null) {
             throw new Exception("String one not in result Hashtable");
-        if (!one.equals(oneTest))
+        }
+        if (!one.equals(oneTest)) {
             throw new Exception("String one doesn't equal result string one");
+        }
 
         String twoTest = (String) result.get(twoKey);
-        if (twoTest == null)
+        if (twoTest == null) {
             throw new Exception("String two not in result Hashtable");
-        if (!two.equals(twoTest))
+        }
+        if (!two.equals(twoTest)) {
             throw new Exception("String two doesn't equal result string two");
+        }
 
         System.out.println("PASSED");
     }
@@ -166,8 +177,9 @@ public class Client {
         System.out.println("Testing good custom marshalers...");
 
         java.lang.Object good[] = new java.lang.Object[100];
-        for (int i = 0; i < good.length; i++)
+        for (int i = 0; i < good.length; i++) {
             good[i] = new CustomMarshaled(i, i + 100, true);
+        }
         testObjectArray(good);
 
         System.out.println("Testing buggy ones that leave bytes when reading...");
@@ -176,10 +188,11 @@ public class Client {
         // the custom marshaler
         java.lang.Object buggy[] = new java.lang.Object[100];
         for (int i = 0; i < buggy.length; i++) {
-            if (i % 7 == 0)
+            if (i % 7 == 0) {
                 buggy[i] = new CustomMarshaled(i, i + 100, false);
-            else
+            } else {
                 buggy[i] = new CustomMarshaled(i, i + 100, true);
+            }
         }
 
         testObjectArray(buggy);
@@ -216,16 +229,19 @@ public class Client {
 
         long bigArray[] = new long[32000];
 
-        for (int i = 0; i < bigArray.length; i++)
+        for (int i = 0; i < bigArray.length; i++) {
             bigArray[i] = i;
+        }
 
         java.lang.Object resultObj = processor.verifyTransmission(bigArray);
 
         long testArray[] = (long[]) resultObj;
 
-        for (int i = 0; i < bigArray.length; i++)
-            if (bigArray[i] != testArray[i])
+        for (int i = 0; i < bigArray.length; i++) {
+            if (bigArray[i] != testArray[i]) {
                 throw new Exception("Array differed at index " + i + " with values " + bigArray[i] + " != " + testArray[i]);
+            }
+        }
 
         System.out.println("PASSED");
     }
@@ -233,8 +249,9 @@ public class Client {
     public Node createNode(int valueSize, char filler) {
         char valueBuf[] = new char[valueSize];
 
-        for (int i = 0; i < valueSize; i++)
+        for (int i = 0; i < valueSize; i++) {
             valueBuf[i] = filler;
+        }
 
         return new Node(new String(valueBuf), new Vector());
     }
@@ -277,22 +294,27 @@ public class Client {
         Node start2 = a1;
         Node result2 = (Node) processor.verifyTransmission(start2);
 
-        if (!start2.equals(result2))
+        if (!start2.equals(result2)) {
             throw new Exception("start2 did not equal result2");
+        }
 
         Node xa2 = (Node) result2.links.get(0);
         Node xa3 = (Node) xa2.links.get(0);
         Node xa4 = (Node) xa3.links.get(0);
         Node xa5 = (Node) xa4.links.get(0);
 
-        if (!a2.equals(xa2))
+        if (!a2.equals(xa2)) {
             throw new Exception("a2 did not equal xa2");
-        if (!a3.equals(xa3))
+        }
+        if (!a3.equals(xa3)) {
             throw new Exception("a3 did not equal xa3");
-        if (!a4.equals(xa4))
+        }
+        if (!a4.equals(xa4)) {
             throw new Exception("a4 did not equal xa4");
-        if (!a5.equals(xa5))
+        }
+        if (!a5.equals(xa5)) {
             throw new Exception("a5 did not equal xa5");
+        }
 
         System.out.println("Success!");
     }
@@ -340,8 +362,9 @@ public class Client {
 
         MarkResetTester tester = new MarkResetTester(64);
 
-        if (!processor.receiveObject(tester))
+        if (!processor.receiveObject(tester)) {
             throw new Exception("Server received a null object!");
+        }
 
         System.out.println("PASSED");
     }

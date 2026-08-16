@@ -65,7 +65,7 @@ import org.omg.CORBA.portable.Streamable;
  * <P>
  * The class <code>Any</code> also has methods for getting and setting the type code, for testing two <code>Any</code>
  * objects for equality, and for reading an <code>Any</code> object from a stream or writing it to a stream. <BR>
- * 
+ *
  * @version 1.12, 09/09/97
  * @since JDK1.2
  */
@@ -476,6 +476,7 @@ abstract public class Any implements IDLEntity {
      * @deprecated Deprecated by CORBA 2.2.
      */
     // @Deprecated
+    @Deprecated
     public Principal extract_Principal() throws BAD_OPERATION {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }
@@ -489,6 +490,7 @@ abstract public class Any implements IDLEntity {
      * @deprecated Deprecated by CORBA 2.2.
      */
     // @Deprecated
+    @Deprecated
     public void insert_Principal(Principal p) {
         throw new org.omg.CORBA.NO_IMPLEMENT();
     }

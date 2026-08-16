@@ -32,7 +32,7 @@ public interface TSIdentification {
     /**
      * Called by the OTS during initialization in order to register its Sender callback interface with the ORB. This method
      * may throw an <code>AlreadyIdentified</code> exception if the registration has already been done previously.
-     * 
+     *
      * @param senderOTS the <code>Sender</code> object to be registered
      * @throws org.omg.CORBA.TSIdentificationPackage.NotAvailable if the ORB is unavailable to register the given
      * <code>Sender</code> object
@@ -47,7 +47,7 @@ public interface TSIdentification {
      * Called by the OTS during initialization to register its <code>Receiver</code> callback interface with the ORB. This
      * operation may throw an <code> AlreadyIdentified</code> exception if the registration has already been done
      * previously.
-     * 
+     *
      * @param receiverOTS the <code>Receiver</code> object to register with the ORB
      * @throws org.omg.CORBA.TSIdentificationPackage.NotAvailable if the ORB is unavailable to register the given
      * <code>Receiver</code> object

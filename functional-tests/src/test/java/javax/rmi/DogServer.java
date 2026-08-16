@@ -30,6 +30,7 @@ public class DogServer extends DogImpl implements RemoteDog {
         PortableRemoteObject.exportObject(this);
     }
 
+    @Override
     public void die() throws RemoteException {
         super.die();
         PortableRemoteObject.unexportObject(this);

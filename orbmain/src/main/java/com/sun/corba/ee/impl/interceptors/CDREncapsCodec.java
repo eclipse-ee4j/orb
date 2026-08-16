@@ -71,27 +71,33 @@ public final class CDREncapsCodec extends org.omg.CORBA.LocalObject implements C
     /**
      * Convert the given any into a CDR encapsulated octet sequence
      */
+    @Override
     public byte[] encode(Any data) throws InvalidTypeForEncoding {
-        if (data == null)
+        if (data == null) {
             throw wrapper.nullParamNoComplete();
+        }
         return encodeImpl(data, true);
     }
 
     /**
      * Decode the given octet sequence into an any based on a CDR encapsulated octet sequence.
      */
+    @Override
     public Any decode(byte[] data) throws FormatMismatch {
-        if (data == null)
+        if (data == null) {
             throw wrapper.nullParamNoComplete();
+        }
         return decodeImpl(data, null);
     }
 
     /**
      * Convert the given any into a CDR encapsulated octet sequence. Only the data is stored. The type code is not.
      */
+    @Override
     public byte[] encode_value(Any data) throws InvalidTypeForEncoding {
-        if (data == null)
+        if (data == null) {
             throw wrapper.nullParamNoComplete();
+        }
         return encodeImpl(data, false);
     }
 
@@ -99,11 +105,11 @@ public final class CDREncapsCodec extends org.omg.CORBA.LocalObject implements C
      * Decode the given octet sequence into an any based on a CDR encapsulated octet sequence. The type code is expected not
      * to appear in the octet sequence, and the given type code is used instead.
      */
+    @Override
     public Any decode_value(byte[] data, TypeCode tc) throws FormatMismatch, TypeMismatch {
-        if (data == null)
+        if ((data == null) || (tc == null)) {
             throw wrapper.nullParamNoComplete();
-        if (tc == null)
-            throw wrapper.nullParamNoComplete();
+        }
         return decodeImpl(data, tc);
     }
 
@@ -113,8 +119,9 @@ public final class CDREncapsCodec extends org.omg.CORBA.LocalObject implements C
      * as the first part of the message.
      */
     private byte[] encodeImpl(Any data, boolean sendTypeCode) throws InvalidTypeForEncoding {
-        if (data == null)
+        if (data == null) {
             throw wrapper.nullParamNoComplete();
+        }
 
         // _REVISIT_ Note that InvalidTypeForEncoding is never thrown in
         // the body of this method. This is due to the fact that CDR*Stream
@@ -170,8 +177,9 @@ public final class CDREncapsCodec extends org.omg.CORBA.LocalObject implements C
      * is expected to appear in the octet sequence. Otherwise, the given type code is used.
      */
     private Any decodeImpl(byte[] data, TypeCode tc) throws FormatMismatch {
-        if (data == null)
+        if (data == null) {
             throw wrapper.nullParamNoComplete();
+        }
 
         AnyImpl any = null; // return value
 

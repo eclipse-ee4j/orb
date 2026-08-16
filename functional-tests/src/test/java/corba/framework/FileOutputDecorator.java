@@ -35,6 +35,7 @@ public class FileOutputDecorator implements Controller {
         this.delegate = delegate;
     }
 
+    @Override
     public long duration() {
         return delegate.duration();
     }
@@ -62,6 +63,7 @@ public class FileOutputDecorator implements Controller {
         delegate.initialize(className, processName, environment, VMArgs, programArgs, outstr, errstr, extra);
     }
 
+    @Override
     public void initialize(String className, String processName, Properties environment, String VMArgs[], String programArgs[],
             OutputStream out, OutputStream err, Hashtable extra) throws Exception {
         // There is no reason to call this (it defeats the
@@ -69,10 +71,12 @@ public class FileOutputDecorator implements Controller {
         delegate.initialize(className, processName, environment, VMArgs, programArgs, out, err, extra);
     }
 
+    @Override
     public void start() throws Exception {
         delegate.start();
     }
 
+    @Override
     public void stop() {
         try {
             EmmaControl.writeCoverageData(emmaPort, Options.getEmmaFile());
@@ -94,6 +98,7 @@ public class FileOutputDecorator implements Controller {
         }
     }
 
+    @Override
     public void kill() {
         try {
 
@@ -108,6 +113,7 @@ public class FileOutputDecorator implements Controller {
         }
     }
 
+    @Override
     public int waitFor() throws Exception {
         try {
 
@@ -118,6 +124,7 @@ public class FileOutputDecorator implements Controller {
         }
     }
 
+    @Override
     public int waitFor(long timeout) throws Exception {
         try {
 
@@ -128,18 +135,22 @@ public class FileOutputDecorator implements Controller {
         }
     }
 
+    @Override
     public int exitValue() throws IllegalThreadStateException {
         return delegate.exitValue();
     }
 
+    @Override
     public boolean finished() throws IllegalThreadStateException {
         return delegate.finished();
     }
 
+    @Override
     public OutputStream getOutputStream() {
         return delegate.getOutputStream();
     }
 
+    @Override
     public OutputStream getErrorStream() {
         return delegate.getErrorStream();
     }
@@ -160,8 +171,9 @@ public class FileOutputDecorator implements Controller {
             // copying of output from a java.lang.Process now
             // closes the streams on its on when the process ends.
             // Closing them here could lead to problems.
-            if (delegate instanceof corba.framework.ExternalExec)
+            if (delegate instanceof corba.framework.ExternalExec) {
                 return;
+            }
 
             OutputStream out = delegate.getOutputStream();
             OutputStream err = delegate.getErrorStream();
@@ -170,18 +182,22 @@ public class FileOutputDecorator implements Controller {
                 out.flush();
                 err.flush();
             } finally {
-                if (out != System.out)
+                if (out != System.out) {
                     out.close();
-                if (err != System.err)
+                }
+                if (err != System.err) {
                     err.close();
+                }
             }
         }
     }
 
+    @Override
     public String getProcessName() {
         return delegate.getProcessName();
     }
 
+    @Override
     public String getClassName() {
         return delegate.getClassName();
     }

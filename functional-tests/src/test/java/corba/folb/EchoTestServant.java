@@ -42,12 +42,14 @@ public class EchoTestServant extends PortableRemoteObject implements EchoTest {
         this.orb = orb;
     }
 
+    @Override
     public String echo(String x) throws RemoteException {
         String result = "TestServant echoes: " + x;
         dprint(".echo: " + result);
         return result;
     }
 
+    @Override
     public void neverReturns() throws RemoteException {
         try {
             dprint(".neverReturns");
@@ -57,7 +59,7 @@ public class EchoTestServant extends PortableRemoteObject implements EchoTest {
                     o.wait();
                 }
             } catch (InterruptedException e) {
-                ;
+                
             }
         } catch (Exception e) {
             dprint(".neverReturns: !!! Unexpected Exception");

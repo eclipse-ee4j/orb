@@ -72,9 +72,11 @@ public class InterceptorTester extends LocalObject implements ORBInitializer, Cl
         errors++;
     }
 
+    @Override
     public void pre_init(ORBInitInfo info) {
     }
 
+    @Override
     public void post_init(ORBInitInfo info) {
         try {
             info.add_client_request_interceptor(this);
@@ -85,21 +87,26 @@ public class InterceptorTester extends LocalObject implements ORBInitializer, Cl
         }
     }
 
+    @Override
     public String name() {
         return "ClientInterceptor";
     }
 
+    @Override
     public void destroy() {
     }
 
+    @Override
     public void send_request(ClientRequestInfo ri) throws ForwardRequest {
         msg("send_request called");
     }
 
+    @Override
     public void send_poll(ClientRequestInfo ri) {
         error("send_poll should not be called");
     }
 
+    @Override
     public void receive_reply(ClientRequestInfo ri) {
         if (exceptionExpected) {
             error("normal completion when exception expected!");
@@ -108,6 +115,7 @@ public class InterceptorTester extends LocalObject implements ORBInitializer, Cl
         }
     }
 
+    @Override
     public void receive_exception(ClientRequestInfo ri) throws ForwardRequest {
         if (!exceptionExpected) {
             error("exception when normal completion expected!");
@@ -127,6 +135,7 @@ public class InterceptorTester extends LocalObject implements ORBInitializer, Cl
         sysex.printStackTrace();
     }
 
+    @Override
     public void receive_other(ClientRequestInfo ri) throws ForwardRequest {
         error("receive_other should not be called");
     }

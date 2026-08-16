@@ -86,6 +86,7 @@ public final class HotelHelper implements com.sun.org.omg.CORBA.portable.ValueHe
         return (omega.Hotel) ((org.omg.CORBA_2_3.portable.InputStream) istream).read_value(get_instance());
     }
 
+    @Override
     public java.io.Serializable read_value(org.omg.CORBA.portable.InputStream istream) {
         omega.Hotel value = new omega.Hotel();
         value.tango = istream.read_long();
@@ -102,16 +103,19 @@ public final class HotelHelper implements com.sun.org.omg.CORBA.portable.ValueHe
         ((org.omg.CORBA_2_3.portable.OutputStream) ostream).write_value(value, get_instance());
     }
 
+    @Override
     public void write_value(org.omg.CORBA.portable.OutputStream ostream, java.io.Serializable obj) {
         omega.Hotel value = (omega.Hotel) obj;
         ostream.write_long(value.tango);
         ostream.write_long(value.quickstep);
     }
 
+    @Override
     public String get_id() {
         return _id;
     }
 
+    @Override
     public org.omg.CORBA.TypeCode get_type() {
         return type();
     }
@@ -120,10 +124,12 @@ public final class HotelHelper implements com.sun.org.omg.CORBA.portable.ValueHe
         return helper;
     }
 
+    @Override
     public Class get_class() {
         return omega.Hotel.class;
     }
 
+    @Override
     public String[] get_truncatable_base_ids() {
         return _truncatable_ids;
     }

@@ -78,7 +78,7 @@ public final class ORBUtility {
 
     /**
      * Utility method for working around leak in SocketChannel.open( SocketAddress ) method.
-     * 
+     *
      * @param sa address to connect to
      * @return The opened channel
      * @throws java.io.IOException If an I/O error occurs
@@ -100,7 +100,7 @@ public final class ORBUtility {
         }
     }
 
-    private static final ThreadLocal<LinkedList<Byte>> encVersionThreadLocal = new ThreadLocal<LinkedList<Byte>>() {
+    private static final ThreadLocal<LinkedList<Byte>> encVersionThreadLocal = new ThreadLocal<>() {
         @Override
         protected LinkedList<Byte> initialValue() {
             return new LinkedList<>();
@@ -224,7 +224,7 @@ public final class ORBUtility {
 
     /**
      * Static method for writing a CORBA standard exception to an Any.
-     * 
+     *
      * @param ex Exception to write
      * @param any The Any to write the SystemException into.
      */
@@ -252,7 +252,7 @@ public final class ORBUtility {
 
     /**
      * Gets the ValueHandler from Util.createValueHandler.
-     * 
+     *
      * @return gets the ValueHandler
      */
     public static ValueHandler createValueHandler() {
@@ -261,7 +261,7 @@ public final class ORBUtility {
 
     /**
      * Creates the correct ValueHandler. The parameter is ignored
-     * 
+     *
      * @param orb ignored
      * @return The correct ValueHandler
      * @see #createValueHandler()
@@ -273,7 +273,7 @@ public final class ORBUtility {
     /**
      * Returns true if it was accurately determined that the remote ORB is a foreign (non-JavaSoft) ORB. Note: If passed the
      * ORBSingleton, this will return false.
-     * 
+     *
      * @param orb ORB to test
      * @return If the ORB is foreign
      */
@@ -292,7 +292,7 @@ public final class ORBUtility {
     /**
      * Unmarshal a byte array to an integer. Assume the bytes are in BIGENDIAN order. i.e. array[offset] is the
      * most-significant-byte and array[offset+3] is the least-significant-byte.
-     * 
+     *
      * @param array The array of bytes.
      * @param offset The offset from which to start unmarshalling.
      * @return Unmarshalled integer
@@ -311,7 +311,7 @@ public final class ORBUtility {
     /**
      * Marshal an integer to a byte array. The bytes are in BIGENDIAN order. i.e. array[offset] is the most-significant-byte
      * and array[offset+3] is the least-significant-byte.
-     * 
+     *
      * @param value Integer to marshal
      * @param array The array of bytes.
      * @param offset The offset from which to start marshalling.
@@ -325,7 +325,7 @@ public final class ORBUtility {
 
     /**
      * Converts an Ascii Character into Hexadecimal digit
-     * 
+     *
      * @param x ASCII character to convert
      * @return Hexadecimal digit
      */
@@ -354,7 +354,7 @@ public final class ORBUtility {
 
     /**
      * Static method for writing a CORBA standard exception to a stream.
-     * 
+     *
      * @param ex Exception to write to stream
      * @param strm The OutputStream to use for marshaling.
      */
@@ -369,7 +369,7 @@ public final class ORBUtility {
 
     /**
      * Static method for reading a CORBA standard exception from a stream.
-     * 
+     *
      * @param strm The InputStream to use for unmarshalling.
      * @return Exception in stream
      */
@@ -388,14 +388,14 @@ public final class ORBUtility {
     /**
      * Get the class name corresponding to a particular repository Id. This is used by the system to unmarshal (instantiate)
      * the appropriate exception class for an marshaled as the value of its repository Id.
-     * 
+     *
      * @param repositoryId The repository Id for which we want a class name.
      * @return Corresponding class name
      */
     public static String classNameOf(String repositoryId) {
         String className = null;
 
-        className = (String) exceptionClassNames.get(repositoryId);
+        className = exceptionClassNames.get(repositoryId);
         if (className == null) {
             className = "org.omg.CORBA.UNKNOWN";
         }
@@ -405,21 +405,21 @@ public final class ORBUtility {
 
     /**
      * Return true if this repositoryId is a SystemException.
-     * 
+     *
      * @param repositoryId The repository Id to check.
      * @return if ID is a SystemException
      */
     public static boolean isSystemException(String repositoryId) {
         String className = null;
 
-        className = (String) exceptionClassNames.get(repositoryId);
+        className = exceptionClassNames.get(repositoryId);
         return className != null;
     }
 
     /**
      * Get the repository id corresponding to a particular class. This is used by the system to write the appropriate
      * repository id for a system exception.
-     * 
+     *
      * @param name The class name of the system exception.
      * @return Repository ID
      */
@@ -512,7 +512,7 @@ public final class ORBUtility {
     /**
      * Parse a version string such as "1.1.6" or "jdk1.2fcs" into a version array of integers {1, 1, 6} or {1, 2}. A string
      * of "n." or "n..m" is equivalent to "n.0" or "n.0.m" respectively.
-     * 
+     *
      * @param version Java version
      * @return Array of version parts
      */
@@ -556,7 +556,7 @@ public final class ORBUtility {
 
     /**
      * Compare two version arrays. Return 1, 0 or -1 if v1 is greater than, equal to, or less than v2.
-     * 
+     *
      * @param v1 first version
      * @param v2 second version
      * @return 1, 0 or -1 if v1 is greater than, equal to, or less than v2.
@@ -581,7 +581,7 @@ public final class ORBUtility {
 
     /**
      * Compare two version strings. Return 1, 0 or -1 if v1 is greater than, equal to, or less than v2.
-     * 
+     *
      * @param v1 first version string
      * @param v2 second version string
      * @return 1, 0 or -1 if v1 is greater than, equal to, or less than v2.
@@ -696,7 +696,7 @@ public final class ORBUtility {
      * in the pure ORB build running on JDK 1.3.x.
      *
      * 2) We need to pick up the correct minor code from OMGSystemException.
-     * 
+     *
      * @param className Class that is not {@link Serializable}
      */
     public static void throwNotSerializableForCorba(String className) {
@@ -705,7 +705,7 @@ public final class ORBUtility {
 
     /**
      * Returns the maximum stream format version supported by our ValueHandler.
-     * 
+     *
      * @return he maximum stream format version
      */
     public static byte getMaxStreamFormatVersion() {
@@ -727,7 +727,7 @@ public final class ORBUtility {
 
     /**
      * This method is used to create untyped object references.
-     * 
+     *
      * @param ior object to make reference of
      * @return Object pointing to the IOR
      */
@@ -756,11 +756,7 @@ public final class ORBUtility {
     }
 
     public static boolean isPrintable(char c) {
-        if (Character.isJavaIdentifierStart(c)) {
-            // Letters and $ _
-            return true;
-        }
-        if (Character.isDigit(c)) {
+        if (Character.isJavaIdentifierStart(c) || Character.isDigit(c)) {
             return true;
         }
         switch (Character.getType(c)) {
@@ -789,7 +785,7 @@ public final class ORBUtility {
      * <LI>Only whitespace and 0-9a-fA-F may occur before a "#" in any line.
      * <LI>Each data line must contain an even number of non-whitespace characters.
      * </OL>
-     * 
+     *
      * @param data data to extract
      * @return byte array containing the data
      */
@@ -887,7 +883,7 @@ public final class ORBUtility {
 
     /**
      * Print the contents of the buffer out to the PrintStream in hex and ASCII.
-     * 
+     *
      * @param msg The message to use as the header for this display
      * @param buffer The ByteBuffer containing the data. The contents from 0 to buffer.position() are printed out. Remember
      * to set position!
@@ -942,8 +938,8 @@ public final class ORBUtility {
 
         StringBuilder result = new StringBuilder();
         result.append("[");
-        for (int i = 0; i < a.length; ++i) {
-            result.append(a[i]);
+        for (String element : a) {
+            result.append(element);
             result.append(" ");
         }
         result.append("]");

@@ -39,6 +39,7 @@ class BinaryArithmeticExpression extends BinaryExpression {
     /**
      * Select the type
      */
+    @Override
     void selectType(Environment env, Context ctx, int tm) {
         if ((tm & TM_DOUBLE) != 0) {
             type = Type.tDouble;

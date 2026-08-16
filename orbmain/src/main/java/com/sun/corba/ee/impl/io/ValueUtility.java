@@ -122,13 +122,15 @@ public class ValueUtility {
 
         // Set FVD name
         result.name = vhandler.getUnqualifiedName(repId);
-        if (result.name == null)
+        if (result.name == null) {
             result.name = "";
+        }
 
         // Set FVD id _REVISIT_ : Manglings
         result.id = vhandler.getRMIRepositoryID(className);
-        if (result.id == null)
+        if (result.id == null) {
             result.id = "";
+        }
 
         // Set FVD is_abstract
         result.is_abstract = ObjectStreamClassCorbaExt.isAbstractInterface(className);
@@ -138,13 +140,15 @@ public class ValueUtility {
 
         // Set FVD defined_in _REVISIT_ : Manglings
         result.defined_in = vhandler.getDefinedInId(repId);
-        if (result.defined_in == null)
+        if (result.defined_in == null) {
             result.defined_in = "";
+        }
 
         // Set FVD version
         result.version = vhandler.getSerialVersionUID(repId);
-        if (result.version == null)
+        if (result.version == null) {
             result.version = "";
+        }
 
         // Skip FVD operations - N/A
         result.operations = new OperationDescription[0];
@@ -172,16 +176,18 @@ public class ValueUtility {
             result.supported_interfaces[interfaceIndex] = vhandler.createForAnyType(interfaces[interfaceIndex]);
 
             ClassInfoCache.ClassInfo cinfo = ClassInfoCache.get(interfaces[interfaceIndex]);
-            if (!cinfo.isARemote(interfaces[interfaceIndex]) || (!Modifier.isPublic(interfaces[interfaceIndex].getModifiers())))
+            if (!cinfo.isARemote(interfaces[interfaceIndex]) || (!Modifier.isPublic(interfaces[interfaceIndex].getModifiers()))) {
                 abstractCount++;
+            }
         }
 
         // Skip FVD abstract_base_values - N/A
         result.abstract_base_values = new String[abstractCount];
         for (int interfaceIndex = 0; interfaceIndex < interfaces.length; interfaceIndex++) {
             ClassInfoCache.ClassInfo cinfo = ClassInfoCache.get(interfaces[interfaceIndex]);
-            if (!cinfo.isARemote(interfaces[interfaceIndex]) || (!Modifier.isPublic(interfaces[interfaceIndex].getModifiers())))
+            if (!cinfo.isARemote(interfaces[interfaceIndex]) || (!Modifier.isPublic(interfaces[interfaceIndex].getModifiers()))) {
                 result.abstract_base_values[interfaceIndex] = vhandler.createForAnyType(interfaces[interfaceIndex]);
+            }
 
         }
 
@@ -189,10 +195,11 @@ public class ValueUtility {
 
         // Set FVD base_value
         Class superClass = osc.forClass().getSuperclass();
-        if (ClassInfoCache.get(superClass).isASerializable(superClass))
+        if (ClassInfoCache.get(superClass).isASerializable(superClass)) {
             result.base_value = vhandler.getRMIRepositoryID(superClass);
-        else
+        } else {
             result.base_value = "";
+        }
 
         // Set FVD type
         // result.type = createTypeCodeForClass(orb, osc.forClass());
@@ -234,10 +241,11 @@ public class ValueUtility {
                 members[i].access = PRIVATE_MEMBER;
             } else {
                 int m = fields[i].getField().getModifiers();
-                if (Modifier.isPublic(m))
+                if (Modifier.isPublic(m)) {
                     members[i].access = PUBLIC_MEMBER;
-                else
+                } else {
                     members[i].access = PRIVATE_MEMBER;
+                }
             }
 
             switch (fields[i].getTypeCode()) {
@@ -281,9 +289,11 @@ public class ValueUtility {
     }
 
     private static boolean exists(String str, String strs[]) {
-        for (int i = 0; i < strs.length; i++)
-            if (str.equals(strs[i]))
+        for (String str2 : strs) {
+            if (str.equals(str2)) {
                 return true;
+            }
+        }
 
         return false;
     }
@@ -291,11 +301,9 @@ public class ValueUtility {
     public static boolean isAssignableFrom(String clzRepositoryId, FullValueDescription type,
             com.sun.org.omg.SendingContext.CodeBase sender) {
 
-        if (exists(clzRepositoryId, type.supported_interfaces))
+        if (exists(clzRepositoryId, type.supported_interfaces) || clzRepositoryId.equals(type.id)) {
             return true;
-
-        if (clzRepositoryId.equals(type.id))
-            return true;
+        }
 
         if ((type.base_value != null) && (!type.base_value.equals(""))) {
             FullValueDescription parent = sender.meta(type.base_value);
@@ -327,8 +335,9 @@ public class ValueUtility {
             return orb.create_recursive_tc(id);
         } else {
             id = vh.getRMIRepositoryID(c);
-            if (id == null)
+            if (id == null) {
                 id = "";
+            }
             // cache the rep id BEFORE creating a new typecode.
             // so that recursive tc can look up the rep id.
             createdIDs.push(c, id);
@@ -358,9 +367,9 @@ public class ValueUtility {
 
         void push(Class key, String value) {
             if (pairs == null) {
-                pairs = new Stack<Pair<Class<?>, String>>();
+                pairs = new Stack<>();
             }
-            pairs.push(new Pair<Class<?>, String>(key, value));
+            pairs.push(new Pair<>(key, value));
         }
 
         void pop() {

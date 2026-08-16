@@ -38,7 +38,7 @@ public interface PortableRemoteObjectDelegate {
 
     /**
      * Delegation call for {@link javax.rmi.PortableRemoteObject#exportObject}.
-     * 
+     *
      * @param obj object to export
      * @throws RemoteException if the object cannot be exported
      */
@@ -46,7 +46,7 @@ public interface PortableRemoteObjectDelegate {
 
     /**
      * Delegation call for {@link javax.rmi.PortableRemoteObject#toStub}.
-     * 
+     *
      * @param obj remote to convert to stub
      * @return stub of the remote
      * @throws NoSuchObjectException if the object does not exist
@@ -55,7 +55,7 @@ public interface PortableRemoteObjectDelegate {
 
     /**
      * Delegation call for {@link javax.rmi.PortableRemoteObject#unexportObject}.
-     * 
+     *
      * @param obj object to unremove
      * @throws NoSuchObjectException if the object does not exist
      */
@@ -63,7 +63,7 @@ public interface PortableRemoteObjectDelegate {
 
     /**
      * Delegation call for {@link javax.rmi.PortableRemoteObject#narrow}.
-     * 
+     *
      * @param narrowFrom object to narrow from
      * @param narrowTo target to narrow to
      * @return object of the desired type
@@ -73,7 +73,7 @@ public interface PortableRemoteObjectDelegate {
 
     /**
      * Delegation call for {@link javax.rmi.PortableRemoteObject#connect}.
-     * 
+     *
      * @param target remote object to connect
      * @param source starting object
      * @throws RemoteException if an error occurred connecting

@@ -47,10 +47,12 @@ public class ReaderThreadImpl implements ReaderThread, Work {
     // ReaderThread methods.
     //
 
+    @Override
     public Connection getConnection() {
         return connection;
     }
 
+    @Override
     @Transport
     public synchronized void close() {
         keepRunning = false;
@@ -80,6 +82,7 @@ public class ReaderThreadImpl implements ReaderThread, Work {
     }
 
     // REVISIT - this needs alot more from previous ReaderThread.
+    @Override
     @Transport
     public void doWork() {
         while (isRunning()) {
@@ -109,14 +112,17 @@ public class ReaderThreadImpl implements ReaderThread, Work {
         }
     }
 
+    @Override
     public void setEnqueueTime(long timeInMillis) {
         enqueueTime = timeInMillis;
     }
 
+    @Override
     public long getEnqueueTime() {
         return enqueueTime;
     }
 
+    @Override
     public String getName() {
         return "ReaderThread";
     }

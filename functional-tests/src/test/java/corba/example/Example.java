@@ -38,6 +38,7 @@ public class Example extends CORBATest {
 
     // This is the main method defining the test. All tests
     // should have this.
+    @Override
     protected void doTest() throws Throwable {
         // Add some command line arguments for the IDL compiler.
         Options.addIDLCompilerArgs("-fall");

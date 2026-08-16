@@ -34,6 +34,7 @@ public interface TypeCodeReader extends MarshalInputStream {
 
     public int getTopLevelPosition();
 
+    @Override
     public int getPosition();
 
     public void printTypeMap();

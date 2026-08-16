@@ -27,7 +27,7 @@ import org.omg.CORBA_2_3.portable.InputStream;
 public interface ObjectKeyFactory {
     /**
      * Create an ObjectKey from its octet sequence representation.
-     * 
+     *
      * @param key representation of key
      * @return created ObjectKey
      */
@@ -35,7 +35,7 @@ public interface ObjectKeyFactory {
 
     /**
      * Create an ObjectKeyTemplate from its representation in an InputStream.
-     * 
+     *
      * @param is stream to create template from
      * @return create template
      */

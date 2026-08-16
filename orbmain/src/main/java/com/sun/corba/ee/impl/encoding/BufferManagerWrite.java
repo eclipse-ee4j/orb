@@ -39,14 +39,14 @@ public abstract class BufferManagerWrite {
 
     /**
      * Has the stream sent out any fragments so far?
-     * 
+     *
      * @return If any fragments have been sent
      */
     public abstract boolean sentFragment();
 
     /**
      * Has the entire message been sent? (Has sendMessage been called?)
-     * 
+     *
      * @return If {@link #sendMessage()} has been called
      */
     public boolean sentFullMessage() {
@@ -55,7 +55,7 @@ public abstract class BufferManagerWrite {
 
     /**
      * Returns the correct buffer size for this type of buffer manager as set in the ORB.
-     * 
+     *
      * @return buffer size
      */
     public abstract int getBufferSize();
@@ -67,7 +67,7 @@ public abstract class BufferManagerWrite {
 
     /**
      * Returns true if this buffer manager fragments when an overflow occurs.
-     * 
+     *
      * @return If this buffer manager fragments
      */
     public abstract boolean isFragmentOnOverflow();
@@ -91,7 +91,7 @@ public abstract class BufferManagerWrite {
 
     /**
      * A reference to the connection level stream will be required when sending fragments.
-     * 
+     *
      * @param outputObject GIOPObject to use.
      */
     public void setOutputObject(Object outputObject) {

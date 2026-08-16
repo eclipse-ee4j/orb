@@ -86,6 +86,7 @@ public class ValidRemotes {
     }
 
     public interface ValidRemote9 extends ValidRemote8 {
+        @Override
         void foo(int a) throws java.rmi.RemoteException;
     }
 

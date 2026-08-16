@@ -48,7 +48,7 @@ public abstract class ActiveObjectMap {
         public String toString() {
             StringBuilder buffer = new StringBuilder();
             for (int i = 0; i < id.length; i++) {
-                buffer.append(Integer.toString((int) id[i], 16));
+                buffer.append(Integer.toString(id[i], 16));
                 if (i != id.length - 1) {
                     buffer.append(":");
                 }
@@ -77,8 +77,8 @@ public abstract class ActiveObjectMap {
         @Override
         public int hashCode() {
             int h = 0;
-            for (int i = 0; i < id.length; i++) {
-                h = 31 * h + id[i];
+            for (byte element : id) {
+                h = 31 * h + element;
             }
             return h;
         }
@@ -98,9 +98,9 @@ public abstract class ActiveObjectMap {
         }
     }
 
-    private Map<Key, AOMEntry> keyToEntry = new HashMap<Key, AOMEntry>();
-    private Map<AOMEntry, Servant> entryToServant = new HashMap<AOMEntry, Servant>();
-    private Map<Servant, AOMEntry> servantToEntry = new HashMap<Servant, AOMEntry>();
+    private Map<Key, AOMEntry> keyToEntry = new HashMap<>();
+    private Map<AOMEntry, Servant> entryToServant = new HashMap<>();
+    private Map<Servant, AOMEntry> servantToEntry = new HashMap<>();
 
     public final boolean contains(Servant value) {
         return servantToEntry.containsKey(value);
@@ -167,12 +167,13 @@ public abstract class ActiveObjectMap {
 }
 
 class SingleObjectMap extends ActiveObjectMap {
-    private Map<AOMEntry, Key> entryToKey = new HashMap<AOMEntry, Key>();
+    private Map<AOMEntry, Key> entryToKey = new HashMap<>();
 
     SingleObjectMap(POAImpl poa) {
         super(poa);
     }
 
+    @Override
     public Key getKey(AOMEntry value) throws WrongPolicy {
         return entryToKey.get(value);
     }
@@ -184,11 +185,13 @@ class SingleObjectMap extends ActiveObjectMap {
         entryToKey.put(value, key);
     }
 
+    @Override
     public boolean hasMultipleIDs(AOMEntry value) {
         return false;
     }
 
     // This case does not need the key.
+    @Override
     protected void removeEntry(AOMEntry entry, Key key) {
         entryToKey.remove(entry);
     }
@@ -201,12 +204,13 @@ class SingleObjectMap extends ActiveObjectMap {
 }
 
 class MultipleObjectMap extends ActiveObjectMap {
-    private Map<AOMEntry, Set<Key>> entryToKeys = new HashMap<AOMEntry, Set<Key>>();
+    private Map<AOMEntry, Set<Key>> entryToKeys = new HashMap<>();
 
     MultipleObjectMap(POAImpl poa) {
         super(poa);
     }
 
+    @Override
     public Key getKey(AOMEntry value) throws WrongPolicy {
         throw new WrongPolicy();
     }
@@ -217,12 +221,13 @@ class MultipleObjectMap extends ActiveObjectMap {
 
         Set<Key> set = entryToKeys.get(value);
         if (set == null) {
-            set = new HashSet<Key>();
+            set = new HashSet<>();
             entryToKeys.put(value, set);
         }
         set.add(key);
     }
 
+    @Override
     public boolean hasMultipleIDs(AOMEntry value) {
         Set<Key> set = entryToKeys.get(value);
         if (set == null) {
@@ -231,6 +236,7 @@ class MultipleObjectMap extends ActiveObjectMap {
         return set.size() > 1;
     }
 
+    @Override
     protected void removeEntry(AOMEntry entry, Key key) {
         Set<Key> keys = entryToKeys.get(entry);
         if (keys != null) {

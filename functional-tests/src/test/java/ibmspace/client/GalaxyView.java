@@ -81,7 +81,7 @@ public class GalaxyView extends JPanel implements MouseListener, MouseMotionList
 
         fDragging = false;
 
-        initStarField(700, (int) (100 * 700 / 500));
+        initStarField(700, 100 * 700 / 500);
 
         addMouseListener(this);
         addMouseMotionListener(this);
@@ -135,10 +135,12 @@ public class GalaxyView extends JPanel implements MouseListener, MouseMotionList
     // Painting
     //
 
+    @Override
     public void paint(Graphics g) {
         update(g);
     }
 
+    @Override
     public void update(Graphics g) {
         /*
          * if ( fBackBuffer2 == null ) { fBackBuffer2 = createImage (700,700); prepareImage (fBackBuffer2, this); }
@@ -152,8 +154,9 @@ public class GalaxyView extends JPanel implements MouseListener, MouseMotionList
     }
 
     private void drawBackground(Graphics g) {
-        if (fBackBuffer == null)
+        if (fBackBuffer == null) {
             createBackBuffer();
+        }
         g.drawImage(fBackBuffer, 0, 0, null);
     }
 
@@ -167,10 +170,11 @@ public class GalaxyView extends JPanel implements MouseListener, MouseMotionList
         for (int i = 0; i < fGame.getNumberOfPlanets(); i++) {
             PlanetView planet = fGame.getPlanet(i);
             PlanetViewUI planetUI = new PlanetViewUI(planet);
-            if (fSelection.identifies(planet))
+            if (fSelection.identifies(planet)) {
                 planetUI.draw(g, true, true, true);
-            else
+            } else {
                 planetUI.draw(g, false, false, false);
+            }
         }
     }
 
@@ -196,10 +200,11 @@ public class GalaxyView extends JPanel implements MouseListener, MouseMotionList
             PlanetView planet = fGame.getPlanet(i);
             PlanetViewUI planetUI = new PlanetViewUI(planet);
 
-            if (fSelection.identifies(planet))
+            if (fSelection.identifies(planet)) {
                 planetUI.draw(g, true, true, true);
-            else
+            } else {
                 planetUI.draw(g, true, true, false);
+            }
         }
 
         g.dispose();
@@ -240,8 +245,8 @@ public class GalaxyView extends JPanel implements MouseListener, MouseMotionList
         fNumStars = numStars;
 
         for (int i = 0; i < numStars; i++) {
-            int x = (int) (Math.random() * (double) size);
-            int y = (int) (Math.random() * (double) size);
+            int x = (int) (Math.random() * size);
+            int y = (int) (Math.random() * size);
             fStarField[i] = new Point(x, y);
         }
     }
@@ -252,12 +257,14 @@ public class GalaxyView extends JPanel implements MouseListener, MouseMotionList
 
     private int hitPlanet(Point p) {
         for (int i = 0; i < fNumberOfPlanets; i++) {
-            if (i != fSelectionIndex && fPlanetBounds[i].contains(p))
+            if (i != fSelectionIndex && fPlanetBounds[i].contains(p)) {
                 return i;
+            }
         }
         return -1;
     }
 
+    @Override
     public void mousePressed(MouseEvent e) {
 
         Point p = e.getPoint();
@@ -285,6 +292,7 @@ public class GalaxyView extends JPanel implements MouseListener, MouseMotionList
         }
     }
 
+    @Override
     public void mouseReleased(MouseEvent e) {
         if (fDragging = true) {
 
@@ -327,6 +335,7 @@ public class GalaxyView extends JPanel implements MouseListener, MouseMotionList
         }
     }
 
+    @Override
     public void mouseDragged(MouseEvent e) {
         if (fBackBuffer2 == null) {
             fBackBuffer2 = createImage(700, 700);
@@ -365,15 +374,19 @@ public class GalaxyView extends JPanel implements MouseListener, MouseMotionList
 
     }
 
+    @Override
     public void mouseClicked(MouseEvent e) {
     }
 
+    @Override
     public void mouseEntered(MouseEvent e) {
     }
 
+    @Override
     public void mouseExited(MouseEvent e) {
     }
 
+    @Override
     public void mouseMoved(MouseEvent e) {
     }
 

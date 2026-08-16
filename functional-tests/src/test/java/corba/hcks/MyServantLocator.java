@@ -43,6 +43,7 @@ public class MyServantLocator extends org.omg.CORBA.LocalObject implements Serva
         this.orb = orb;
     }
 
+    @Override
     public Servant preinvoke(byte[] oid, POA poa, String operation, CookieHolder cookieHolder) throws ForwardRequest {
         String soid = new String(oid);
         U.sop(baseMsg + ".preinvoke " + soid);
@@ -96,6 +97,7 @@ public class MyServantLocator extends org.omg.CORBA.LocalObject implements Serva
         }
     }
 
+    @Override
     public void postinvoke(byte[] oid, POA poa, String operation, java.lang.Object cookie, Servant servant) {
         String soid = new String(oid);
         U.sop(baseMsg + ".postinvoke " + soid);

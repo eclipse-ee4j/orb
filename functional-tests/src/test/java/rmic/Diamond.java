@@ -21,9 +21,12 @@
 package rmic;
 
 public interface Diamond extends Left, Right {
+    @Override
     void method() throws java.rmi.RemoteException, TestException;
 
+    @Override
     void left() throws java.rmi.RemoteException;
 
+    @Override
     void right() throws java.rmi.RemoteException;
 }

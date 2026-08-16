@@ -40,6 +40,7 @@ public class MessageTraceManagerImpl implements MessageTraceManager {
         enabled = false;
     }
 
+    @Override
     public void clear() {
         init();
     }
@@ -50,18 +51,22 @@ public class MessageTraceManagerImpl implements MessageTraceManager {
         initHeaderRecorder();
     }
 
+    @Override
     public boolean isEnabled() {
         return enabled;
     }
 
+    @Override
     public void enable(boolean flag) {
         enabled = flag;
     }
 
+    @Override
     public byte[][] getDataSent() {
         return (byte[][]) dataSent.toArray(new byte[dataSent.size()][]);
     }
 
+    @Override
     public byte[][] getDataReceived() {
         return (byte[][]) dataReceived.toArray(new byte[dataReceived.size()][]);
     }
@@ -76,7 +81,7 @@ public class MessageTraceManagerImpl implements MessageTraceManager {
     /**
      * Return the contents of the byte buffer. The ByteBuffer is not modified. The result is written starting at index
      * offset in the byte[].
-     * 
+     *
      * @param bb Buffer to read from
      * @param offset Offset to start from, must be non-negative
      * @return Contents of the buffer
@@ -109,11 +114,12 @@ public class MessageTraceManagerImpl implements MessageTraceManager {
     }
 
     public void recordBodyReceived(ByteBuffer message) {
-        if (!RHRCalled)
+        if (!RHRCalled) {
             // This string is 12 characters long, so the ASCII
             // representation should have the same length as a
             // GIOP header.
             header = "NO HEADER!!!".getBytes();
+        }
 
         byte[] buffer = getBytes(message, header.length);
         System.arraycopy(header, 0, buffer, header.length, message.remaining());

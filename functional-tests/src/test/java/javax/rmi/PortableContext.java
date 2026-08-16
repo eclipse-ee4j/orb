@@ -57,17 +57,17 @@ import java.util.Vector;
  * </ul>
  * <a name="_mainexample_"></a> For example, to startup and publish 'HelloServant' under the name "myHello" with the
  * name server running on the local host and port:
- * 
+ *
  * <pre>
  *    java javax.rmi.PortableContext myHello=HelloServant
  * </pre>
- * 
+ *
  * To launch the name server if it is not running, add the -startNameServer option:
- * 
+ *
  * <pre>
  *    java javax.rmi.PortableContext myHello=HelloServant -startNameServer
  * </pre>
- * 
+ *
  * Client-side features include:
  * <ul>
  * <li>{@link #lookup(java.lang.String,java.lang.Class) lookup methods} to retrieve published objects.
@@ -77,7 +77,7 @@ import java.util.Vector;
  * {@link #lookup(java.lang.String,java.lang.Class) lookup} or {@link #lookupClient(java.lang.String,java.lang.Class)
  * lookupClient} methods. For example, to lookup a servant which implements the 'Hello' interface, is running on IIOP,
  * and has been published as 'myHello' with default host and port:
- * 
+ *
  * <pre>
  * Hello ref = (Hello) PortableContext.lookup("iiop://myHello", Hello.class);
  * </pre>
@@ -97,7 +97,7 @@ import java.util.Vector;
  * the applet/application, rather than be a static. It's not as convenient, but does solve both problems.</td>
  * </tr>
  * </table>
- * 
+ *
  * @version 1.0, 6/23/98
  * @author Bryan Atsatt
  */
@@ -124,27 +124,27 @@ public class PortableContext {
 
     /**
      * Lookup a remote object. The clientURL structure is:
-     * 
+     *
      * <pre>
      *   rmi|iiop://[host][:port]/publishedName
      * </pre>
-     * 
+     *
      * So, for example, here are various ways to specify 'bob':
-     * 
+     *
      * <pre>
      *   rmi://bob             (RMIRegistry, this host, default port)
      *   rmi://myHost/bob      (RMIRegistry, myHost, default port)
      *   iiop://myHost:197/bob (TransientNameServer, myHost, port 197)
      *   iiop://:1099/bob      (TransientNameServer, this host, port 1099)
      * </pre>
-     * 
+     *
      * Assuming a servant implements the 'Hello' interface, is running on IIOP, and has been published as 'bob' with default
      * host and port:
-     * 
+     *
      * <pre>
      *    Hello ref = (Hello) PortableContext.lookup("iiop://bob",Hello.class)
      * </pre>
-     * 
+     *
      * @param clientURL A url naming the client.
      * @param narrowTo The Class of the interface to which to narrow the remote object.
      * @exception NamingException Thrown if lookup fails.
@@ -158,7 +158,7 @@ public class PortableContext {
     /**
      * Lookup a remote object. Same as {@link #lookup(java.lang.String,java.lang.Class) lookup} except that it returns a
      * Client instance.
-     * 
+     *
      * @param clientURL A url naming the client.
      * @param narrowTo The Class of the interface to which to narrow the remote object.
      * @exception NamingException Thrown if lookup fails.
@@ -172,20 +172,20 @@ public class PortableContext {
 
     /**
      * Start up one or more servants. Supported arguments:
-     * 
+     *
      * <pre>
      *     [options] servantSpec [servantSpec...]
      * </pre>
-     * 
+     *
      * <a name="servantSpec"></a> The servantSpec can be either of two forms:
-     * 
+     *
      * <pre>
      *   Simple form:   [publishname=]class
      *   URL form:      servant://[host][:port]/class[?name=publishname]
      * </pre>
-     * 
+     *
      * So, for example, here are various servantSpecs for the acme.Dynamite servant:
-     * 
+     *
      * <pre>
      *   acme.Dynamite
      *   bob=acme.Dynamite
@@ -198,7 +198,7 @@ public class PortableContext {
      *   servant://myHost:45/acme.Dynamite
      *   servant://:45/acme.Dynamite
      * </pre>
-     * 
+     *
      * If 'publishname' is not specified, the servant is not published to the name server.
      * <p>
      * <table border=0>
@@ -207,25 +207,25 @@ public class PortableContext {
      * <td>The JNDI Context.rebind() method is used to publish servants. If bind semantics are required, this main cannot be
      * used. Instead, write a main which uses {@link #startServant(java.lang.String, boolean) startServant} directly, and
      * pass servantSpecs which do <em>not</em> specify a name, and do the bind in your code:
-     * 
+     *
      * <pre>
      * Servant it = PortableContext.startServant(spec, false);
      * Context nameContext = it.getContext().getNameContext();
      * nameContext.bind(name, it.servant);
      * </pre>
-     * 
+     *
      * </td>
      * </tr>
      * </table>
      * The supported options are:
-     * 
+     *
      * <pre>
      *   -host nameServerHost    The host name to use if not specified in servantSpec.
      *   -port nameServerPort    The port to use if not specified in servantSpec.
      *   -startNameServer        Start the name server if needed. Not allowed with -host option.
      *   -verbose                Print message describing each started servant.
      * </pre>
-     * 
+     *
      * @param args See description above.
      * @see #startServant
      */
@@ -283,8 +283,9 @@ public class PortableContext {
                     if (args[i] != null) {
 
                         Servant servant = startServant(args[i], hostOption, portOption, startNameServer);
-                        if (servant.getContext().getRuntime() == RMI_RUNTIME)
+                        if (servant.getContext().getRuntime() == RMI_RUNTIME) {
                             haveJRMP = true; // _REVISIT_ REMOVE
+                        }
 
                         if (verbose) {
                             String env = servant.getContext().getRuntime() == IIOP_RUNTIME ? "IIOP" : "RMI";
@@ -319,7 +320,7 @@ public class PortableContext {
 
     /**
      * Startup a servant, using a name server running on the local host with default port.
-     * 
+     *
      * @param servantSpec The <a href="#servantSpec">servant specification</a>.
      * @param startNameServer True if the name server should be started if needed.
      * @exception ClassNotFoundException If servant class cannot be found.
@@ -335,7 +336,7 @@ public class PortableContext {
 
     /**
      * Startup a servant.
-     * 
+     *
      * @param servantSpec The <a href="#servantSpec">servant specification</a>.
      * @param defaultHost The name server host to use if not specified in servantSpec. May be null (local host).
      * @param defaultPort The name server port to use if not specified in servantSpec. May be null (use default for
@@ -400,10 +401,12 @@ public class PortableContext {
 
         // Do some cleanup...
 
-        if (host != null && host.length() == 0)
+        if (host != null && host.length() == 0) {
             host = null;
-        if (port != null && port.length() == 0)
+        }
+        if (port != null && port.length() == 0) {
             port = null;
+        }
 
         // Instantiate the servant...
 
@@ -560,10 +563,12 @@ public class PortableContext {
 
         // Do some cleanup...
 
-        if (host != null && host.length() == 0)
+        if (host != null && host.length() == 0) {
             host = null;
-        if (port != null && port.length() == 0)
+        }
+        if (port != null && port.length() == 0) {
             port = null;
+        }
 
         // Make sure we have a valid port number for the name service...
 
@@ -763,8 +768,9 @@ public class PortableContext {
             }
         } catch (Throwable e) {
 
-            if (e instanceof ThreadDeath)
+            if (e instanceof ThreadDeath) {
                 throw (ThreadDeath) e;
+            }
 
             String server = runtime == IIOP_RUNTIME ? "TransientNameServer" : "RMIRegistry";
 

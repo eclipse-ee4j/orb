@@ -52,6 +52,7 @@ public abstract class RMIClient extends ClientCommon {
     InitialContext initialNamingContext;
 
     // to be invoked from subclasses after the ORB is created.
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         this.out = out;
         this.err = err;
@@ -65,6 +66,7 @@ public abstract class RMIClient extends ClientCommon {
         obeyServer();
     }
 
+    @Override
     void resolveReferences() throws Exception {
         out.println("    - Resolving Hello1...");
         // Look up reference to hello object on server:
@@ -76,6 +78,7 @@ public abstract class RMIClient extends ClientCommon {
         out.println("    - Resolved.");
     }
 
+    @Override
     String syncWithServer() throws Exception {
         return helloRef.syncWithServer(exceptionRaised);
     }
@@ -83,6 +86,7 @@ public abstract class RMIClient extends ClientCommon {
     /**
      * Invoke the method with the given name on the object
      */
+    @Override
     protected void invokeMethod(String methodName) throws Exception {
         try {
             if (methodName.equals("sayHello")) {

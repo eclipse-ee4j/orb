@@ -67,6 +67,7 @@ public class JourneyArrow extends Arrow {
         return fDistance;
     }
 
+    @Override
     public void draw(Graphics g) {
         int distance = getDistance();
 

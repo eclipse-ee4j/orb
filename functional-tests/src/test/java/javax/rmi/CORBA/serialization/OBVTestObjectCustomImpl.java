@@ -54,6 +54,7 @@ public class OBVTestObjectCustomImpl extends OBVTestObjectCustom {
         // for unmarshalling only, called by the factory
     }
 
+    @Override
     public boolean equals(Object o) {
         try {
             OBVTestObjectCustomImpl ctbo = (OBVTestObjectCustomImpl) o;
@@ -64,10 +65,12 @@ public class OBVTestObjectCustomImpl extends OBVTestObjectCustom {
         }
     }
 
+    @Override
     public String toString() {
         return new String("fInt=" + fInt + "; fLong=" + fLong + "; fFloat=" + fFloat + "; fDouble=" + fDouble + "; fString=" + fString);
     }
 
+    @Override
     public void marshal(org.omg.CORBA.DataOutputStream os) {
         os.write_long(fInt);
         os.write_longlong(fLong);
@@ -76,6 +79,7 @@ public class OBVTestObjectCustomImpl extends OBVTestObjectCustom {
         os.write_string(fString);
     }
 
+    @Override
     public void unmarshal(org.omg.CORBA.DataInputStream is) {
         fInt = is.read_long();
         fLong = is.read_longlong();

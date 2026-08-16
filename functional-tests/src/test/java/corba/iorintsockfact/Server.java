@@ -35,6 +35,7 @@ class IServant extends IPOA {
     public IServant() {
     }
 
+    @Override
     public String m(String x) {
         return "Server echoes: " + x;
     }

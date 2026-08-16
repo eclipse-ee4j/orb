@@ -48,8 +48,9 @@ public class ForwardException extends RuntimeException {
         // may be made to do a location forward to a local
         // object. Doing this lazily would allow
         // forwarding to locals in some restricted cases.
-        if (obj instanceof org.omg.CORBA.LocalObject)
+        if (obj instanceof org.omg.CORBA.LocalObject) {
             throw new BAD_PARAM();
+        }
 
         this.orb = orb;
         this.obj = obj;

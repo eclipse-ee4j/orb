@@ -42,6 +42,7 @@ class LengthExpression extends UnaryExpression {
     /**
      * Select the type of the expression
      */
+    @Override
     public Vset checkValue(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         vset = right.checkValue(env, ctx, vset, exp);
         if (!right.type.isType(TC_ARRAY)) {
@@ -53,6 +54,7 @@ class LengthExpression extends UnaryExpression {
     /**
      * Code
      */
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         right.codeValue(env, ctx, asm);
         asm.add(where, opc_arraylength);

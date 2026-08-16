@@ -24,6 +24,7 @@ import corba.framework.*;
 import java.util.*;
 
 public class DynamicRmiIIOPTest extends CORBATest {
+    @Override
     protected void doTest() throws Throwable {
         Controller client = createClient("corba.dynamicrmiiiop.Client");
 

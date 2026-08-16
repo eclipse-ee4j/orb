@@ -45,6 +45,7 @@ class CaseStatement extends Statement {
     /**
      * Check statement
      */
+    @Override
     Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         if (expr != null) {
             expr.checkValue(env, ctx, vset, exp);
@@ -57,6 +58,7 @@ class CaseStatement extends Statement {
     /**
      * The cost of inlining this statement
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         return 6;
     }
@@ -64,6 +66,7 @@ class CaseStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         if (expr == null) {

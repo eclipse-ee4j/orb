@@ -48,6 +48,7 @@ public class _IDLTypeStub extends org.omg.CORBA.portable.ObjectImpl implements o
         _set_delegate(delegate);
     }
 
+    @Override
     public org.omg.CORBA.TypeCode type() {
         org.omg.CORBA.portable.InputStream _in = null;
         try {
@@ -67,6 +68,7 @@ public class _IDLTypeStub extends org.omg.CORBA.portable.ObjectImpl implements o
     } // type
 
     // read interface
+    @Override
     public org.omg.CORBA.DefinitionKind def_kind() {
         org.omg.CORBA.portable.InputStream _in = null;
         try {
@@ -86,6 +88,7 @@ public class _IDLTypeStub extends org.omg.CORBA.portable.ObjectImpl implements o
     } // def_kind
 
     // write interface
+    @Override
     public void destroy() {
         org.omg.CORBA.portable.InputStream _in = null;
         try {
@@ -105,8 +108,9 @@ public class _IDLTypeStub extends org.omg.CORBA.portable.ObjectImpl implements o
     // Type-specific CORBA::Object operations
     private static String[] __ids = { "IDL:omg.org/CORBA/IDLType:1.0", "IDL:omg.org/CORBA/IRObject:1.0" };
 
+    @Override
     public String[] _ids() {
-        return (String[]) __ids.clone();
+        return __ids.clone();
     }
 
     private void readObject(java.io.ObjectInputStream s) {

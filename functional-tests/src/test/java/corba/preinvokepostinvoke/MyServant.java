@@ -32,6 +32,7 @@ class MyServant extends PortableRemoteObject implements Interface {
         this.orb = orb;
     }
 
+    @Override
     public String o1(String arg) {
         System.out.println("Interface.o1 called with " + arg);
         System.out.flush();
@@ -49,6 +50,7 @@ class MyServant extends PortableRemoteObject implements Interface {
         return "return value for interface.o1";
     }
 
+    @Override
     public String o2(String arg) {
         System.out.println("Interface.o2 called with " + arg);
         System.out.flush();

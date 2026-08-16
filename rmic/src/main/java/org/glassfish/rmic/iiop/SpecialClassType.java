@@ -52,7 +52,9 @@ public class SpecialClassType extends ClassType {
      */
     public static SpecialClassType forSpecial (ClassDefinition theClass,
                                                ContextStack stack) {
-        if (stack.anyErrors()) return null;
+        if (stack.anyErrors()) {
+            return null;
+        }
 
         org.glassfish.rmic.tools.java.Type type = theClass.getType();
 
@@ -64,7 +66,9 @@ public class SpecialClassType extends ClassType {
 
         if (existing != null) {
 
-            if (!(existing instanceof SpecialClassType)) return null; // False hit.
+            if (!(existing instanceof SpecialClassType)) {
+                return null; // False hit.
+            }
 
             // Yep, so return it...
 
@@ -94,6 +98,7 @@ public class SpecialClassType extends ClassType {
     /**
      * Return a string describing this type.
      */
+    @Override
     public String getTypeDescription () {
         return "Special class";
     }
@@ -150,8 +155,12 @@ public class SpecialClassType extends ClassType {
     private static int getTypeCode(org.glassfish.rmic.tools.java.Type type, ClassDefinition theClass, ContextStack stack) {
         if (type.isType(TC_CLASS)) {
             Identifier id = type.getClassName();
-            if (id == idJavaLangString) return TYPE_STRING;
-            if (id == idJavaLangObject) return TYPE_ANY;
+            if (id == idJavaLangString) {
+                return TYPE_STRING;
+            }
+            if (id == idJavaLangObject) {
+                return TYPE_ANY;
+            }
         }
         return TYPE_NONE;
     }

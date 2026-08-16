@@ -40,6 +40,7 @@ public abstract interface ContactInfoList {
 
     public LocalClientRequestDispatcher getLocalClientRequestDispatcher();
 
+    @Override
     public int hashCode();
 }
 

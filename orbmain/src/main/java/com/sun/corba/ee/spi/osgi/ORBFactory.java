@@ -46,7 +46,7 @@ public class ORBFactory {
 
     /**
      * Create but do not initialize an ORB instance.
-     * 
+     *
      * @return The newly created uninitialized ORB.
      */
     public static ORB create() {
@@ -57,7 +57,7 @@ public class ORBFactory {
     /**
      * Complete the initialization of the ORB. useOSGi if true will cause an ORB initialization suitable for use in
      * GlassFish v3.
-     * 
+     *
      * @param orb The orb to initialize.
      * @param args Usual args passed to an ORB.init() call.
      * @param props Usual props passed to an ORB.init() call.
@@ -72,7 +72,7 @@ public class ORBFactory {
         props.setProperty(ORBConstants.DISABLE_ORBD_INIT_PROPERTY, "true");
 
         if (useOSGi) {
-            orb.classNameResolver(orb.makeCompositeClassNameResolver(OSGIListener.classNameResolver(), orb.defaultClassNameResolver()));
+            orb.classNameResolver(orb.makeCompositeClassNameResolver(OSGIListener.classNameResolver(), ORB.defaultClassNameResolver()));
 
             ClassCodeBaseHandler ccbh = OSGIListener.classCodeBaseHandler();
             orb.classCodeBaseHandler(ccbh);

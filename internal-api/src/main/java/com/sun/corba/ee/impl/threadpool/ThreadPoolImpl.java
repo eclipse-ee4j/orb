@@ -88,7 +88,7 @@ public class ThreadPoolImpl implements ThreadPool {
 
     final Object workersLock = new Object();
 
-    List<WorkerThread> workers = new ArrayList<WorkerThread>();
+    List<WorkerThread> workers = new ArrayList<>();
 
     /**
      * Create an unbounded thread pool in the current thread group with the current context ClassLoader as the worker thread
@@ -156,7 +156,7 @@ public class ThreadPoolImpl implements ThreadPool {
         // Copy to avoid concurrent modification problems.
         List<WorkerThread> copy = null;
         synchronized (workersLock) {
-            copy = new ArrayList<WorkerThread>(workers);
+            copy = new ArrayList<>(workers);
         }
 
         for (WorkerThread wt : copy) {
@@ -185,8 +185,9 @@ public class ThreadPoolImpl implements ThreadPool {
 
     @Override
     public WorkQueue getWorkQueue(int queueId) throws NoSuchWorkQueueException {
-        if (queueId != 0)
+        if (queueId != 0) {
             throw new NoSuchWorkQueueException();
+        }
         return workQueue;
     }
 
@@ -402,8 +403,9 @@ public class ThreadPoolImpl implements ThreadPool {
                 while (!closeCalled) {
                     try {
                         currentWork = ((WorkQueueImpl) workQueue).requestWork(inactivityTimeout);
-                        if (currentWork == null)
+                        if (currentWork == null) {
                             continue;
+                        }
                     } catch (WorkerThreadNotNeededException toe) {
                         Exceptions.self.workerThreadNotNeeded(this, currentNumberOfThreads(), minimumNumberOfThreads());
                         closeCalled = true;

@@ -39,15 +39,19 @@ class MultiplyExpression extends BinaryArithmeticExpression {
     /**
      * Evaluate
      */
+    @Override
     Expression eval(int a, int b) {
         return new IntExpression(where, a * b);
     }
+    @Override
     Expression eval(long a, long b) {
         return new LongExpression(where, a * b);
     }
+    @Override
     Expression eval(float a, float b) {
         return new FloatExpression(where, a * b);
     }
+    @Override
     Expression eval(double a, double b) {
         return new DoubleExpression(where, a * b);
     }
@@ -55,6 +59,7 @@ class MultiplyExpression extends BinaryArithmeticExpression {
     /**
      * Simplify
      */
+    @Override
     Expression simplify() {
         if (left.equals(1)) {
             return right;
@@ -68,6 +73,7 @@ class MultiplyExpression extends BinaryArithmeticExpression {
     /**
      * Code
      */
+    @Override
     void codeOperation(Environment env, Context ctx, Assembler asm) {
         asm.add(where, opc_imul + type.getTypeCodeOffset());
     }

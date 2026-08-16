@@ -27,7 +27,7 @@ package corba.hcks;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
+
 import org.glassfish.pfl.basic.contain.Pair;
 
 public class ErrorAccumulator {
@@ -39,7 +39,7 @@ public class ErrorAccumulator {
 
     public void startTest() {
         numberOfErrorsInTest = 0;
-        errorsInTest = new ArrayList<MessageAndException>();
+        errorsInTest = new ArrayList<>();
     }
 
     public List<MessageAndException> getTestErrors() {
@@ -48,7 +48,7 @@ public class ErrorAccumulator {
 
     public ErrorAccumulator() {
         numberOfErrors = 0;
-        errors = new ArrayList<MessageAndException>();
+        errors = new ArrayList<>();
         startTest();
     }
 
@@ -76,9 +76,7 @@ public class ErrorAccumulator {
         U.lf();
 
         if (printErrors) {
-            Iterator iterator = errors.iterator();
-            while (iterator.hasNext()) {
-                MessageAndException messageAndException = (MessageAndException) iterator.next();
+            for (MessageAndException messageAndException : errors) {
                 U.reportError(printStackTrace, messageAndException.getMessage(), messageAndException.getException());
             }
         }

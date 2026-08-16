@@ -51,33 +51,41 @@ public class FleetImpl implements Fleet, java.io.Serializable {
     // Fleet Interface Methods
     //
 
+    @Override
     public ID getID() {
         return fID;
     }
 
+    @Override
     public ShipDesign getDesign() {
         return fDesign;
     }
 
+    @Override
     public int getNumberInFleet() {
         return fShipsInFleet;
     }
 
+    @Override
     public int getMaximumRange() {
         return fDesign.getTechProfile().getRange();
     }
 
+    @Override
     public int getCurrentRange() {
-        if (isSatelite())
+        if (isSatelite()) {
             return 0;
-        else
+        } else {
             return fFuelLevel;
+        }
     }
 
+    @Override
     public boolean isOnJourney() {
         return (fJourney == null ? false : true);
     }
 
+    @Override
     public String toString() {
         String s = String.valueOf(fShipsInFleet);
         s += " " + fDesign.getName();
@@ -140,24 +148,27 @@ public class FleetImpl implements Fleet, java.io.Serializable {
     }
 
     public boolean isColonyShip() {
-        if (fDesign.getType() == ShipDesign.COLONY_SHIP)
+        if (fDesign.getType() == ShipDesign.COLONY_SHIP) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     public boolean isFighter() {
-        if (fDesign.getType() == ShipDesign.FIGHTER)
+        if (fDesign.getType() == ShipDesign.FIGHTER) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     public boolean isSatelite() {
-        if (fDesign.getType() == ShipDesign.SATELITE)
+        if (fDesign.getType() == ShipDesign.SATELITE) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     public void move(int distance) {
@@ -175,15 +186,17 @@ public class FleetImpl implements Fleet, java.io.Serializable {
 
     public int getStrenth() {
         int s = fDesign.getTechProfile().getWeapons() * fShipsInFleet;
-        if (isFighter())
+        if (isFighter()) {
             s = (int) (s * 1.5);
+        }
         return s;
     }
 
     public int getResistance() {
         int r = fDesign.getTechProfile().getShields() * fShipsInFleet;
-        if (isSatelite())
+        if (isSatelite()) {
             r = (int) (r * 1.5);
+        }
         return r;
     }
 

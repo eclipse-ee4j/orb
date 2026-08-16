@@ -29,6 +29,7 @@ import ServerRequestInfo.*;
  * raised 4. No exception raised, receive_other is called.
  */
 public class InvokeExceptions extends InvokeStrategy {
+    @Override
     public void invoke() throws Exception {
         super.invoke();
 

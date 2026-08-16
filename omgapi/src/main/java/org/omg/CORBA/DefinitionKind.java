@@ -340,7 +340,7 @@ public class DefinitionKind implements org.omg.CORBA.portable.IDLEntity {
 
     /**
      * Returns the <code>int</code> constant identifying the type of an IR object.
-     * 
+     *
      * @return the <code>int</code> constant from the class <code>DefinitionKind</code> that is the value of this
      * <code>DefinitionKind</code> instance
      */
@@ -351,7 +351,7 @@ public class DefinitionKind implements org.omg.CORBA.portable.IDLEntity {
 
     /**
      * Creates a <code>DefinitionKind</code> instance corresponding to the given code .
-     * 
+     *
      * @param i one of the <code>int</code> constants from the class <code>DefinitionKind</code>
      * @return the <code>DefinitionKind</code> instance corresponding to the given code
      * @throws org.omg.CORBA.BAD_PARAM if the given parameter is not one of the <code>int</code> constants from the class
@@ -415,7 +415,7 @@ public class DefinitionKind implements org.omg.CORBA.portable.IDLEntity {
 
     /**
      * Constructs a <code>DefinitionKind</code> object with its <code>_value</code> field initialized with the given value.
-     * 
+     *
      * @param _value one of the <code>int</code> constants defined in the class <code>DefinitionKind</code>
      */
 
@@ -425,7 +425,7 @@ public class DefinitionKind implements org.omg.CORBA.portable.IDLEntity {
 
     /**
      * The field that holds a value for a <code>DefinitionKind</code> object.
-     * 
+     *
      * @serial
      */
 

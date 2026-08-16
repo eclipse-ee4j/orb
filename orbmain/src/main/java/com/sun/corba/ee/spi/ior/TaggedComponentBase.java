@@ -28,10 +28,11 @@ import org.omg.CORBA_2_3.portable.InputStream;
 /**
  * Base class to use for implementing TaggedComponents. It implements the getIOPComponent method using the
  * TaggedComponent.write() method.
- * 
+ *
  * @author Ken Cavanaugh
  */
 public abstract class TaggedComponentBase extends IdentifiableBase implements TaggedComponent {
+    @Override
     public org.omg.IOP.TaggedComponent getIOPComponent(org.omg.CORBA.ORB orb) {
         EncapsOutputStream os = OutputStreamFactory.newEncapsOutputStream((ORB) orb);
         os.write_ulong(getId()); // Fix for 6158378

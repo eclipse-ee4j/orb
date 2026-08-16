@@ -51,6 +51,7 @@ public class RemoteToCorba implements StateFactory {
      * if RMI-IIOP not available.
      * @exception NamingException If some other problem prevented a CORBA object from being obtained from the Remote object.
      */
+    @Override
     public Object getStateToBind(Object orig, Name name, Context ctx, Hashtable<?, ?> env) throws NamingException {
         try {
             if (orig instanceof org.omg.CORBA.Object) {
@@ -68,7 +69,6 @@ public class RemoteToCorba implements StateFactory {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        ;
         return null; // pass and let next state factory try
     }
 }

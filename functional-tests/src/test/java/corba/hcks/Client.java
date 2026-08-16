@@ -964,7 +964,7 @@ public class Client {
         idlValueTypeA = ridlStaticPOA.sendValue(idlValueTypeB, idlValueTypeB, idlValueTypeC, idlValueTypeD, idlValueTypeE, intSeq,
                 octetArray);
         U.sop(idlValueTypeA);
-        U.sop(idlValueTypeA.equals((idlValueTypeA) idlValueTypeB));
+        U.sop(idlValueTypeA.equals(idlValueTypeB));
 
         /*
          * idlValueTypeA = ridlDynamicPOA.sendValue(idlValueTypeB, idlValueTypeB, idlValueTypeC, idlValueTypeD, idlValueTypeE,
@@ -974,18 +974,18 @@ public class Client {
         idlValueTypeA = ridlStatic.sendValue(idlValueTypeB, idlValueTypeB, idlValueTypeC, idlValueTypeD, idlValueTypeE, intSeq, octetArray);
 
         U.sop(idlValueTypeA);
-        U.sop(idlValueTypeA.equals((idlValueTypeA) idlValueTypeB));
+        U.sop(idlValueTypeA.equals(idlValueTypeB));
 
         idlValueTypeA = ridlStaticTie.sendValue(idlValueTypeB, idlValueTypeB, idlValueTypeC, idlValueTypeD, idlValueTypeE, intSeq,
                 octetArray);
 
         U.sop(idlValueTypeA);
-        U.sop(idlValueTypeA.equals((idlValueTypeA) idlValueTypeB));
+        U.sop(idlValueTypeA.equals(idlValueTypeB));
 
         /*
          * idlValueTypeA = ridlDynamic.sendValue(idlValueTypeB, idlValueTypeB, idlValueTypeC, idlValueTypeD, idlValueTypeE,
          * intSeq, octetArray);
-         * 
+         *
          * U.sop(idlValueTypeA); U.sop(idlValueTypeA.equals((idlValueTypeA)idlValueTypeB));
          */
 
@@ -1091,7 +1091,7 @@ public class Client {
 
                     /*
                      * REVISIT - need to better understand how UnknownException is used.
-                     * 
+                     *
                      * U.expect(U.exception, new UnknownException(new Throwable()), ref, C.throwUnknownException);
                      */
 
@@ -1103,7 +1103,7 @@ public class Client {
 
                     /*
                      * REVISIT - need to better understand how UNKNOWN is used.
-                     * 
+                     *
                      * U.expect(U.exception, new UNKNOWN(), ref, C.throwUnknownException);
                      */
 

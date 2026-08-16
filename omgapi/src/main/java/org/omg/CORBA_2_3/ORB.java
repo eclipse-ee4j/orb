@@ -27,7 +27,7 @@ public abstract class ORB extends org.omg.CORBA.ORB {
 
     /**
      * Unimplemented method
-     * 
+     *
      * @param id the repository ID.
      * @param factory the factory.
      * @return the previously registered factory for the given repository ID, or null if no such factory was previously
@@ -40,7 +40,7 @@ public abstract class ORB extends org.omg.CORBA.ORB {
 
     /**
      * Unimplemented method
-     * 
+     *
      * @param id the repository id
      * @see <a href="package-summary.html#unimpl"><code>CORBA_2_3</code> package comments for unimplemented features</a>
      */
@@ -59,7 +59,7 @@ public abstract class ORB extends org.omg.CORBA.ORB {
 
     /**
      * Unimplemented method
-     * 
+     *
      * @param repid repository id
      * @return a ValueDef
      * @exception org.omg.CORBA.NO_IMPLEMENT if repid does not represent a valuetype
@@ -73,7 +73,7 @@ public abstract class ORB extends org.omg.CORBA.ORB {
 
     /**
      * Unimplemented method
-     * 
+     *
      * @param wrapper unused
      * @see <a href="package-summary.html#unimpl"><code>CORBA_2_3</code> package comments for unimplemented features</a>
      */

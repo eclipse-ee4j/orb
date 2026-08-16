@@ -30,6 +30,7 @@ import corba.framework.CORBATest;
 public class ConnectIntercept_1_4Test extends CORBATest {
     public static final String thisPackage = ConnectIntercept_1_4Test.class.getPackage().getName();
 
+    @Override
     protected void doTest() throws Throwable {
         Controller orbd = createORBD();
         orbd.start();

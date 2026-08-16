@@ -94,14 +94,14 @@ public abstract interface Acceptor {
 
     /**
      * Blocks until a new Socket is available on the acceptor's port.
-     * 
+     *
      * @return the new socket
      */
     Socket getAcceptedSocket();
 
     /**
      * Handle a newly accepted Socket.
-     * 
+     *
      * @param channel socket to handle
      */
     void processSocket(Socket channel);

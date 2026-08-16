@@ -38,6 +38,7 @@ public class GIOPHeaderPaddingTest extends CORBATest {
 
     public static final String thisPackage = GIOPHeaderPaddingTest.class.getPackage().getName();
 
+    @Override
     protected void doTest() throws Throwable {
         if (test.Test.useJavaSerialization()) {
             return;

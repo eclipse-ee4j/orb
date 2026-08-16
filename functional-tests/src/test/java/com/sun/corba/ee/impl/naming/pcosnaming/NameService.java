@@ -44,7 +44,7 @@ public class NameService {
 
     /**
      * Create NameService which starts the Root Naming Context in Persistent CosNaming
-     * 
+     *
      * @param orb an ORB object.
      * @param logDir a File
      * @exception java.lang.Exception a Java exception.
@@ -84,7 +84,7 @@ public class NameService {
         contextMgr = new ServantManagerImpl(orb, logDir, this);
 
         // The RootObject key will be NC0
-        String rootKey = contextMgr.getRootObjectKey();
+        String rootKey = ServantManagerImpl.getRootObjectKey();
         // initialize the root Naming Context
         NamingContextImpl nc = new NamingContextImpl(orb, rootKey, this, contextMgr);
         nc = contextMgr.addContext(rootKey, nc);
@@ -98,7 +98,7 @@ public class NameService {
 
     /**
      * This method returns the Root Naming Context
-     * 
+     *
      * @return root naming context
      */
     public NamingContext initialNamingContext() {
@@ -115,7 +115,7 @@ public class NameService {
     /**
      * This method creates a NewContext, This will be internally invoked from NamingContextImpl. It is not a public API.
      * NewContext is in this class because a persitent reference has to be created with Persistent NameService POA.
-     * 
+     *
      * @return new naming context
      */
     public NamingContext newContext() {
@@ -149,7 +149,7 @@ public class NameService {
 
     /**
      * getObjectReferenceFromKey returns the Object reference from the objectkey using POA.create_reference_with_id method.
-     * 
+     *
      * @param Object Key as String
      * @returns reference an CORBA.Object.
      */
@@ -166,7 +166,7 @@ public class NameService {
 
     /**
      * getObjectKey gets the Object Key from the reference using POA.reference_to_id method
-     * 
+     *
      * @param reference an CORBA.Object.
      * @returns Object Key as String
      */

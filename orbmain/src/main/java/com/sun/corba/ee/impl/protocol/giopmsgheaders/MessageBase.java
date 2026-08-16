@@ -574,7 +574,7 @@ public abstract class MessageBase implements Message {
 
     /**
      * Set a flag in the given buffer (fragment bit, byte order bit, etc)
-     * 
+     *
      * @param byteBuffer buffer to set flag in
      * @param flag flag to set
      */
@@ -729,18 +729,22 @@ public abstract class MessageBase implements Message {
         return sysEx;
     }
 
+    @Override
     public void callback(MessageHandler handler) throws java.io.IOException {
         handler.handleInput(this);
     }
 
+    @Override
     public int getThreadPoolToUse() {
         return threadPoolToUse;
     }
 
+    @Override
     public byte getEncodingVersion() {
         return this.encodingVersion;
     }
 
+    @Override
     public void setEncodingVersion(byte version) {
         this.encodingVersion = version;
     }
@@ -749,6 +753,7 @@ public abstract class MessageBase implements Message {
      * Return a Message's CorbaRequestId. NOTE: This method should be overridden for messages that support a 4 byte request
      * id following the 12 byte GIOP message header.
      */
+    @Override
     public RequestId getCorbaRequestId() {
         return RequestIdImpl.UNKNOWN_CORBA_REQUEST_ID;
     }
@@ -756,6 +761,7 @@ public abstract class MessageBase implements Message {
     /**
      * Returns true if this message could be followed by a fragment.
      */
+    @Override
     public boolean supportsFragments() {
         return false;
     }
@@ -766,7 +772,7 @@ public abstract class MessageBase implements Message {
      * <p>
      * NOTE: Assumes Message already been filtered by MessageBase.messageSupportsFragments(Message)
      * </p>
-     * 
+     *
      * @param message message to set ID of
      * @param byteBuffer buffer containing the request ID
      * @return <code>CorbaRequestId</code>if <code>Message</code> supports a 12 + 4 byte GIOP header. Otherwise returns a

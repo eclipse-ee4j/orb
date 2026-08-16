@@ -25,12 +25,14 @@ public class RTMUtilities {
 
     private static boolean isOnTheList(String current, String list) {
         if (current != null && list != null) {
-            if (list.indexOf(current) == -1)
+            if (list.indexOf(current) == -1) {
                 return false; // Not on the list
-            else
+            } else {
                 return true; // on the list
-        } else
+            }
+        } else {
             return false; // either property isn't provided
+        }
     }
 
     // Return "true" if "current" argument is NOT in the "notRunOnList" argument

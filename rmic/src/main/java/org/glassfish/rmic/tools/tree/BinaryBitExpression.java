@@ -40,6 +40,7 @@ class BinaryBitExpression extends BinaryExpression {
     /**
      * Select the type
      */
+    @Override
     void selectType(Environment env, Context ctx, int tm) {
         if ((tm & TM_BOOLEAN) != 0) {
             type = Type.tBoolean;
@@ -55,6 +56,7 @@ class BinaryBitExpression extends BinaryExpression {
     /**
      * Code
      */
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         left.codeValue(env, ctx, asm);
         right.codeValue(env, ctx, asm);

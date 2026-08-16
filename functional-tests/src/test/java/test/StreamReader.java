@@ -75,12 +75,14 @@ public class StreamReader extends Thread {
     }
 
     private final void output(String msg) {
-        if (prefix == null)
+        if (prefix == null) {
             out.println(msg);
-        else
+        } else {
             out.println(prefix + msg);
+        }
     }
 
+    @Override
     public void run() {
 
         try {
@@ -101,13 +103,15 @@ public class StreamReader extends Thread {
 
                 try {
                     input = in.readLine();
-                    if (Test.debug)
+                    if (Test.debug) {
                         System.out.println("Streamreader.read: " + input);
+                    }
 
                     // readLine should return null at the end of the
                     // stream
-                    if (input == null)
+                    if (input == null) {
                         break;
+                    }
                     if (++inputReceivedThreshold > 10000) {
                         inputReceived.clear();
                     }
@@ -132,29 +136,33 @@ public class StreamReader extends Thread {
             }
 
             // Process/input stream ended before the handshake
-            if (handshake != null && handshakeStatus == WAITING)
+            if (handshake != null && handshakeStatus == WAITING) {
                 signalBadHandshake();
+            }
 
         } finally {
             synchronized (selfReferences) {
                 selfReferences.remove(this);
             }
             out.flush();
-            if (originalStream != System.out && originalStream != System.err)
+            if (originalStream != System.out && originalStream != System.err) {
                 out.close();
+            }
         }
     }
 
     private synchronized void signalBadHandshake() {
-        if (Test.debug)
+        if (Test.debug) {
             System.out.println("Streamreader.signalBadHandshake called");
+        }
         handshakeStatus = ERROR;
         this.notifyAll();
     }
 
     private synchronized void signalHandshakeReceived() {
-        if (Test.debug)
+        if (Test.debug) {
             System.out.println("Streamreader.signalHandshakeReceived called");
+        }
         handshakeStatus = RECEIVED;
         this.notifyAll();
     }
@@ -167,14 +175,17 @@ public class StreamReader extends Thread {
     public synchronized void waitForHandshake(long timeout) throws InterruptedException, Exception {
 
         if (handshake != null) {
-            if (handshakeStatus == WAITING)
+            if (handshakeStatus == WAITING) {
                 this.wait(timeout);
+            }
 
-            if (handshakeStatus == ERROR)
+            if (handshakeStatus == ERROR) {
                 throw new Exception("Terminated before reading handshake (" + handshake + ')' + '\n' + formatInputReceived());
+            }
 
-            if (handshakeStatus != RECEIVED)
+            if (handshakeStatus != RECEIVED) {
                 throw new Exception("Timed out waiting for handshake (" + handshake + ")" + "\n" + formatInputReceived());
+            }
         }
     }
 
@@ -194,18 +205,23 @@ public class StreamReader extends Thread {
     }
 
     private static final class NullOutputStream extends java.io.OutputStream {
+        @Override
         public final void close() {
         }
 
+        @Override
         public final void flush() {
         }
 
+        @Override
         public final void write(byte[] b) {
         }
 
+        @Override
         public final void write(byte[] b, int offset, int len) {
         }
 
+        @Override
         public final void write(int b) {
         }
     }

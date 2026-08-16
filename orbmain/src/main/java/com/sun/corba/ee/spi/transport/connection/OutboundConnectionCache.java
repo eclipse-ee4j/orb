@@ -45,7 +45,7 @@ import java.io.IOException;
 public interface OutboundConnectionCache<C extends Connection> extends ConnectionCache<C> {
     /**
      * Configured maximum number of connections supported per ContactInfo.
-     * 
+     *
      * @return maximum number of connections
      */
     int maxParallelConnections();
@@ -86,7 +86,7 @@ public interface OutboundConnectionCache<C extends Connection> extends Connectio
      * have iterators that return connections in LRU order, with the least recently used connection first. This is done to
      * aid a finder that wishes to consider load balancing in its determination of an appropriate connection.
      * <P>
-     * 
+     *
      * @param cinfo info on Connection to get
      * @param finder Finder to use to search for Connection
      * @throws IOException if an error occurred
@@ -97,7 +97,7 @@ public interface OutboundConnectionCache<C extends Connection> extends Connectio
     /**
      * Behaves the same as {@link #get(ContactInfo, ConnectionFinder)} except that no connection finder is provided, so that
      * step is ignored.
-     * 
+     *
      * @param cinfo info on Connection to get
      * @throws IOException if an error occurred
      * @return {@link Connection} corresponding to the ContactInfo

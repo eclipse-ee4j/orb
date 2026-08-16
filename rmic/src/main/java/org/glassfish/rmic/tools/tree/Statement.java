@@ -220,8 +220,9 @@ class Statement extends Node {
         boolean haveNonLocalFinally = false; // some finally doesn't return;
 
         for (Context c = ctx; (c != null) && (c != stopctx); c = c.prev) {
-            if (c.node == null)
+            if (c.node == null) {
                 continue;
+            }
             if (c.node.op == SYNCHRONIZED) {
                 haveCleanup = true;
             } else if (c.node.op == FINALLY
@@ -264,8 +265,9 @@ class Statement extends Node {
         }
         // Call each of the cleanup functions, as necessary.
         for (Context c = ctx ; (c != null)  && (c != stopctx) ; c = c.prev) {
-            if (c.node == null)
+            if (c.node == null) {
                 continue;
+            }
             if (c.node.op == SYNCHRONIZED) {
                 asm.add(where, opc_jsr, ((CodeContext)c).contLabel);
             } else if (c.node.op == FINALLY
@@ -331,10 +333,12 @@ class Statement extends Node {
     }
     public void print(PrintStream out, int indent) {
         if (labels != null) {
-            for (int i = labels.length; --i >= 0; )
+            for (int i = labels.length; --i >= 0; ) {
                 out.print(labels[i] + ": ");
+            }
         }
     }
+    @Override
     public void print(PrintStream out) {
         print(out, 0);
     }

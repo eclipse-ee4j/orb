@@ -99,23 +99,28 @@ public class PlanetImpl implements Planet, java.io.Serializable {
         return fFleetsOnSurface;
     }
 
+    @Override
     public ID getID() {
         return fID;
     }
 
+    @Override
     public String getName() {
         return fName;
     }
 
+    @Override
     public Point getCoordinates() {
         return fCoordinates;
     }
 
+    @Override
     public boolean hasSatelites() {
         for (int i = 0; i < fFleetsOnSurface.size(); i++) {
             FleetImpl fleet = (FleetImpl) fFleetsOnSurface.elementAt(i);
-            if (fleet.isSatelite())
+            if (fleet.isSatelite()) {
                 return true;
+            }
         }
         return false;
     }
@@ -182,13 +187,14 @@ public class PlanetImpl implements Planet, java.io.Serializable {
 
     public void removeMetal(long metal) {
         fMetal -= metal;
-        if (fMetal < 0)
+        if (fMetal < 0) {
             fMetal = 0;
+        }
     }
 
     public int distanceTo(PlanetImpl other) {
-        double xx = Math.pow((double) (fCoordinates.x - other.fCoordinates.x), 2);
-        double yy = Math.pow((double) (fCoordinates.y - other.fCoordinates.y), 2);
+        double xx = Math.pow(fCoordinates.x - other.fCoordinates.x, 2);
+        double yy = Math.pow(fCoordinates.y - other.fCoordinates.y, 2);
         double rawDist = Math.sqrt(xx + yy);
         return (int) (rawDist / pixelsForDistance(1));
     }
@@ -240,8 +246,9 @@ public class PlanetImpl implements Planet, java.io.Serializable {
         if (fSettlement != null) {
             for (int i = 0; i < fFleetsOnSurface.size(); i++) {
                 FleetImpl fleet = (FleetImpl) fFleetsOnSurface.elementAt(i);
-                if (fleet.getOwner() == fOwner)
+                if (fleet.getOwner() == fOwner) {
                     fleet.replentishFuel();
+                }
             }
         }
     }

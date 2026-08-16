@@ -31,6 +31,7 @@ import javax.rmi.CORBA.Tie;
 public class StubFactoryFactoryStaticImpl extends StubFactoryFactoryBase {
     private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
+    @Override
     public PresentationManager.StubFactory createStubFactory(String className, boolean isIDLStub, String remoteCodeBase,
             Class expectedClass, ClassLoader classLoader) {
         String stubName = null;
@@ -89,6 +90,7 @@ public class StubFactoryFactoryStaticImpl extends StubFactoryFactoryBase {
         return new StubFactoryStaticImpl(clz);
     }
 
+    @Override
     public Tie getTie(Class cls) {
         Class<?> tieClass = null;
         String className = Utility.tieName(cls.getName());
@@ -111,6 +113,7 @@ public class StubFactoryFactoryStaticImpl extends StubFactoryFactoryBase {
 
     }
 
+    @Override
     public boolean createsDynamicStubs() {
         return false;
     }

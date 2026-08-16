@@ -34,8 +34,9 @@ public final class ObjectIdImpl implements ObjectId {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof ObjectIdImpl))
+        if (!(obj instanceof ObjectIdImpl)) {
             return false;
+        }
 
         ObjectIdImpl other = (ObjectIdImpl) obj;
 
@@ -45,8 +46,9 @@ public final class ObjectIdImpl implements ObjectId {
     @Override
     public int hashCode() {
         int result = 17;
-        for (int ctr = 0; ctr < id.length; ctr++)
-            result = 37 * result + id[ctr];
+        for (byte element : id) {
+            result = 37 * result + element;
+        }
         return result;
     }
 
@@ -54,22 +56,26 @@ public final class ObjectIdImpl implements ObjectId {
         if (id == null) {
             this.id = null;
         } else {
-            this.id = (byte[]) id.clone();
+            this.id = id.clone();
         }
     }
 
+    @Override
     public String getIdString() {
         return ORBUtility.dumpBinary(id);
     }
 
+    @Override
     public String toString() {
         return "ObjectIdImpl[" + getIdString() + "]";
     }
 
+    @Override
     public byte[] getId() {
-        return (byte[]) id.clone();
+        return id.clone();
     }
 
+    @Override
     public void write(OutputStream os) {
         os.write_long(id.length);
         os.write_octet_array(id, 0, id.length);

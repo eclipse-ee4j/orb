@@ -25,10 +25,12 @@ import java.util.*;
 import org.omg.CORBA.*;
 
 public class POAAndEquals extends CORBATest {
+    @Override
     protected Controller newServerController() {
         return new InternalExec();
     }
 
+    @Override
     protected Controller newClientController() {
         return new ThreadExec();
     }
@@ -41,6 +43,7 @@ public class POAAndEquals extends CORBATest {
         return ORB.init(args, props);
     }
 
+    @Override
     protected void doTest() throws Throwable {
         ORB orb = createORB();
 

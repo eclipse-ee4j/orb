@@ -186,8 +186,7 @@ class Assembler implements Constants {
               case opc_try: {
                 TryData td = (TryData)inst.value;
                 td.getEndLabel().pc = NEEDED;
-                for (Enumeration<CatchData> e = td.catches.elements() ; e.hasMoreElements();) {
-                    CatchData cd = e.nextElement();
+                for (CatchData cd : td.catches) {
                     optimize(env, cd.getLabel());
                 }
                 break;
@@ -240,8 +239,7 @@ class Assembler implements Constants {
             @SuppressWarnings("unchecked")
             Vector<MemberDefinition> v = field.getArguments();
             if (v != null) {
-                for (Enumeration<MemberDefinition> e = v.elements() ; e.hasMoreElements() ;) {
-                    MemberDefinition f = e.nextElement();
+                for (MemberDefinition f : v) {
                     tab.put(f.getName().toString());
                     tab.put(f.getType().getTypeSignature());
                 }
@@ -329,8 +327,9 @@ class Assembler implements Constants {
                 int v = ((inst.value instanceof Number)
                             ? ((Number)inst.value).intValue()
                             : ((LocalVariable)inst.value).slot) + 1;
-                if (v > maxvar)
+                if (v > maxvar) {
                     maxvar = v;
+                }
                 break;
               }
 
@@ -341,15 +340,17 @@ class Assembler implements Constants {
                 int v = ((inst.value instanceof Number)
                             ? ((Number)inst.value).intValue()
                             : ((LocalVariable)inst.value).slot) + 2;
-                if (v  > maxvar)
+                if (v  > maxvar) {
                     maxvar = v;
+                }
                 break;
               }
 
               case opc_iinc: {
                   int v = ((int[])inst.value)[0] + 1;
-                  if (v  > maxvar)
-                      maxvar = v + 1;
+                  if (v  > maxvar) {
+                    maxvar = v + 1;
+                  }
                   break;
               }
 
@@ -365,8 +366,7 @@ class Assembler implements Constants {
 
               case opc_try: {
                 TryData td = (TryData)inst.value;
-                for (Enumeration<CatchData> e = td.catches.elements() ; e.hasMoreElements();) {
-                    CatchData cd = e.nextElement();
+                for (CatchData cd : td.catches) {
                     balance(cd.getLabel(), depth + 1);
                 }
                 break;
@@ -387,8 +387,7 @@ class Assembler implements Constants {
               int sum = 0;
               @SuppressWarnings("unchecked")
               Vector<MemberDefinition> v = field.getArguments();
-              for (Enumeration<MemberDefinition> e = v.elements(); e.hasMoreElements(); ) {
-                  MemberDefinition f = e.nextElement();
+              for (MemberDefinition f : v) {
                   sum += f.getType().stackSize();
               }
               maxvar = sum;
@@ -444,8 +443,7 @@ class Assembler implements Constants {
             if (inst.opc == opc_try) {
                 TryData td = (TryData)inst.value;
                 writeExceptions(env, out, tab, inst.next, td.getEndLabel());
-                for (Enumeration<CatchData> e = td.catches.elements() ; e.hasMoreElements();) {
-                    CatchData cd = e.nextElement();
+                for (CatchData cd : td.catches) {
                     //System.out.println("EXCEPTION: " + env.getSource() + ", pc=" + inst.pc + ", end=" + td.getEndLabel().pc + ", hdl=" + cd.getLabel().pc + ", tp=" + cd.getType());
                     out.writeShort(inst.pc);
                     out.writeShort(td.getEndLabel().pc);
@@ -470,7 +468,7 @@ class Assembler implements Constants {
         boolean begseg = false;
         boolean begmeth = false;
         @SuppressWarnings("deprecation")
-        long whereClass = ((SourceClass)c).getWhere();
+        long whereClass = c.getWhere();
         Vector<Long> whereTry = new Vector<>();
         int numberTry = 0;
         int count = 0;
@@ -479,10 +477,11 @@ class Assembler implements Constants {
             long n = (inst.where >> WHEREOFFSETBITS);
             if (n > 0 && inst.opc != opc_label) {
                 if (!begmeth) {
-                  if ( whereClass == inst.where)
-                        TableLot.addElement(new Cover(CT_FIKT_METHOD, whereField, inst.pc));
-                  else
-                        TableLot.addElement(new Cover(CT_METHOD, whereField, inst.pc));
+                  if ( whereClass == inst.where) {
+                    TableLot.addElement(new Cover(CT_FIKT_METHOD, whereField, inst.pc));
+                  } else {
+                    TableLot.addElement(new Cover(CT_METHOD, whereField, inst.pc));
+                  }
                   count++;
                   begmeth = true;
                 }
@@ -706,8 +705,9 @@ public void GenJCov(Environment env) {
                                  }
                              }
                       }
-                      if (first)        // re-write old class
-                          TmpCovTable.addElement(CurrLine);
+                      if (first) { // re-write old class
+	                      TmpCovTable.addElement(CurrLine);
+                      }
                    }
            }
            JCovd.close();
@@ -835,8 +835,7 @@ public void GenJCov(Environment env) {
 
               case opc_try: {
                 Vector<CatchData> catches = ((TryData)inst.value).catches;
-                for (Enumeration<CatchData> e = catches.elements(); e.hasMoreElements();) {
-                    CatchData cd = e.nextElement();
+                for (CatchData cd : catches) {
                     flowFields(env, cd.getLabel(), locals);
                 }
                 break;
@@ -859,8 +858,7 @@ public void GenJCov(Environment env) {
             int reg = 0;
             @SuppressWarnings("unchecked")
             Vector<MemberDefinition> v = field.getArguments();
-            for (Enumeration<MemberDefinition> e = v.elements(); e.hasMoreElements(); ) {
-                MemberDefinition f = e.nextElement();
+            for (MemberDefinition f : v) {
                 locals[reg] = f;
                 reg += f.getType().stackSize();
             }
@@ -870,14 +868,14 @@ public void GenJCov(Environment env) {
         LocalVariableTable lvtab = new LocalVariableTable();
 
         // Initialize arguments again
-        for (i = 0; i < maxvar; i++)
+        for (i = 0; i < maxvar; i++) {
             locals[i] = null;
+        }
         if ((field != null) && (field.getArguments() != null)) {
             int reg = 0;
             @SuppressWarnings("unchecked")
             Vector<MemberDefinition> v = field.getArguments();
-            for (Enumeration<MemberDefinition> e = v.elements(); e.hasMoreElements(); ) {
-                MemberDefinition f = e.nextElement();
+            for (MemberDefinition f : v) {
                 locals[reg] = f;
                 lvtab.define(f, reg, 0, maxpc);
                 reg += f.getType().stackSize();
@@ -920,8 +918,9 @@ public void GenJCov(Environment env) {
                 int pc = inst.pc;
                 MemberDefinition[] labelLocals = ((Label)inst).locals;
                 if (labelLocals == null) { // unreachable code??
-                    for (i = 0; i < maxvar; i++)
+                    for (i = 0; i < maxvar; i++) {
                         locals[i] = null;
+                    }
                 } else {
                     System.arraycopy(labelLocals, 0, locals, 0, maxvar);
                 }

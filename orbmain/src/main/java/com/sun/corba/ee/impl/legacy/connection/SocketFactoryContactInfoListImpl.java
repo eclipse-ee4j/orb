@@ -38,6 +38,7 @@ public class SocketFactoryContactInfoListImpl extends ContactInfoListImpl {
         super(orb, targetIOR);
     }
 
+    @Override
     public Iterator iterator() {
         return new SocketFactoryContactInfoListIteratorImpl(orb, this);
     }

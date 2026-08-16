@@ -51,6 +51,7 @@ public class WombatClient extends ThreadProcess {
         return orb.string_to_object(ior);
     }
 
+    @Override
     public void run() {
 
         try {

@@ -66,6 +66,7 @@ public class ORBDBadServerIdHandler implements BadServerIdHandler {
         this.orb = (com.sun.corba.ee.spi.orb.ORB) orb;
     }
 
+    @Override
     public void handle(ObjectKey okey) {
         Locator locator = null;
         try {
@@ -102,16 +103,16 @@ public class ORBDBadServerIdHandler implements BadServerIdHandler {
              * IIOPProfile. 6. Construct IOR from ORB and repid. 7. Add IIOPProfile to IOR. 8. Make IOR immutable.
              */
 
-            IIOPProfileTemplate sipt = IIOPFactories.makeIIOPProfileTemplate((com.sun.corba.ee.spi.orb.ORB) orb, GIOPVersion.V1_2,
+            IIOPProfileTemplate sipt = IIOPFactories.makeIIOPProfileTemplate(orb, GIOPVersion.V1_2,
                     IIOPFactories.makeIIOPAddress(location.hostname, clearPort));
             sipt.add(new ORBDListenPortsComponent(componentData));
             IORTemplate iortemp = IORFactories.makeIORTemplate(poktemp);
             iortemp.add(sipt);
-            newIOR = iortemp.makeIOR((com.sun.corba.ee.spi.orb.ORB) orb, "IDL:org/omg/CORBA/Object:1.0", okey.getId());
+            newIOR = iortemp.makeIOR(orb, "IDL:org/omg/CORBA/Object:1.0", okey.getId());
 
             /*
              * // REVISIT - add component data.
-             * 
+             *
              * newIOR = new IOR((com.sun.corba.ee.spi.orb.ORB)orb, "IDL:org/omg/CORBA/Object:1.0", location.hostname, myType2Port,
              * // REVISIT - clearPort objectKey);
              */
@@ -120,7 +121,7 @@ public class ORBDBadServerIdHandler implements BadServerIdHandler {
             throw new OBJECT_NOT_EXIST();
         }
 
-        throw new ForwardException((com.sun.corba.ee.spi.orb.ORB) orb, newIOR);
+        throw new ForwardException(orb, newIOR);
     }
 }
 

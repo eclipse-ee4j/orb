@@ -25,7 +25,7 @@ package org.omg.CORBA;
  * of a custom value type shall provide an implementation of the <tt>CustomMarshal</tt> operations. The manner in which
  * this is done is specified in the IDL to Java language mapping. Each custom marshaled value type shall have its own
  * implementation.
- * 
+ *
  * @see DataOutputStream
  * @see DataInputStream
  */

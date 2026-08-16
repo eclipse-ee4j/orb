@@ -49,14 +49,16 @@ public class ConnectionImplTest extends TransportTestBase {
 
     @After
     public void tearDown() {
-        if (getConnection() != null)
+        if (getConnection() != null) {
             assertNull(getConnection().getDiscardedThrowable());
+        }
     }
 
     @Test
     public void whenRequest1_0_receivedFromSocket_dispatchRequest() throws IOException { // REG
-        final List<Short> params = new ArrayList<Short>();
+        final List<Short> params = new ArrayList<>();
         defineRequestDispatcher(new RequestDispatcher() {
+            @Override
             public void readParameters(CDRInputObject input) {
                 params.add(input.read_short());
             }
@@ -76,8 +78,9 @@ public class ConnectionImplTest extends TransportTestBase {
 
     @Test
     public void whenRequest1_0_receivedFromNio_dispatchRequest() throws IOException {
-        final List<Short> params = new ArrayList<Short>();
+        final List<Short> params = new ArrayList<>();
         defineRequestDispatcher(new RequestDispatcher() {
+            @Override
             public void readParameters(CDRInputObject input) {
                 params.add(input.read_short());
             }
@@ -99,8 +102,9 @@ public class ConnectionImplTest extends TransportTestBase {
 
     @Test
     public void whenRequest1_1_receivedFromNio_dispatchRequest() throws IOException {
-        final List<Short> params = new ArrayList<Short>();
+        final List<Short> params = new ArrayList<>();
         defineRequestDispatcher(new RequestDispatcher() {
+            @Override
             public void readParameters(CDRInputObject input) {
                 params.add(input.read_short());
             }
@@ -122,8 +126,9 @@ public class ConnectionImplTest extends TransportTestBase {
 
     @Test
     public void whenLittleEndianRequest1_2_receivedFromNio_dispatchRequest() throws IOException {
-        final List<Short> params = new ArrayList<Short>();
+        final List<Short> params = new ArrayList<>();
         defineRequestDispatcher(new RequestDispatcher() {
+            @Override
             public void readParameters(CDRInputObject input) {
                 params.add(input.read_short());
             }
@@ -145,8 +150,9 @@ public class ConnectionImplTest extends TransportTestBase {
 
     @Test
     public void whenRequest1_1_receivedFromSocketWithFragments_dispatchRequest() throws IOException, InterruptedException { // REG
-        final List<Short> params = new ArrayList<Short>();
+        final List<Short> params = new ArrayList<>();
         defineRequestDispatcher(new RequestDispatcher() {
+            @Override
             public void readParameters(CDRInputObject input) {
                 params.add(input.read_short());
             }
@@ -176,8 +182,9 @@ public class ConnectionImplTest extends TransportTestBase {
 
     @Test
     public void whenRequest1_1ReceivedFromNioWithFragments_dispatchRequest() throws IOException, InterruptedException {
-        final List<Short> params = new ArrayList<Short>();
+        final List<Short> params = new ArrayList<>();
         defineRequestDispatcher(new RequestDispatcher() {
+            @Override
             public void readParameters(CDRInputObject input) {
                 params.add(input.read_short());
             }
@@ -201,8 +208,9 @@ public class ConnectionImplTest extends TransportTestBase {
 
     @Test
     public void whenRequest1_2ReceivedFromNioWithFragments_dispatchRequest() throws IOException, InterruptedException {
-        final List<Short> params = new ArrayList<Short>();
+        final List<Short> params = new ArrayList<>();
         defineRequestDispatcher(new RequestDispatcher() {
+            @Override
             public void readParameters(CDRInputObject input) {
                 params.add(input.read_short());
             }

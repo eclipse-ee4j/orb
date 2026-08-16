@@ -30,10 +30,12 @@ public final class IIOPAddressClosureImpl extends IIOPAddressBase {
         this.port = port;
     }
 
+    @Override
     public String getHost() {
         return host.evaluate();
     }
 
+    @Override
     public int getPort() {
         return port.evaluate();
     }

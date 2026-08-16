@@ -29,7 +29,7 @@ import org.glassfish.jndi.toolkit.corba.CorbaUtils;
  * Extract components of a "corbaname" URL.
  *
  * The format of an corbaname URL is defined in INS 99-12-03 as follows.
- * 
+ *
  * <pre>{@code
  * corbaname url = "corbaname:" <corbaloc_obj> ["#" <string_name>]
  * corbaloc_obj  = <obj_addr_list> ["/" <key_string>]
@@ -37,14 +37,14 @@ import org.glassfish.jndi.toolkit.corba.CorbaUtils;
  * key_string    = as defined in a corbaloc URL
  * string_name   = stringified COS name | empty_string
  * }</pre>
- * 
+ *
  * Characters in {@code <string_name>} are escaped as follows. US-ASCII alphanumeric characters are not escaped. Any
  * characters outside of this range are escaped except for the following:
- * 
+ *
  * <pre>{@code
  *        ; / : ? @ & = + $ , - _ . ! ~ * ; ( )
  * }</pre>
- * 
+ *
  * Escaped characters is escaped by using a % followed by its 2 hexadecimal numbers representing the octet.
  * <p>
  * The corbaname URL is parsed into two parts: a corbaloc URL and a COS name. The corbaloc URL is constructed by
@@ -55,11 +55,11 @@ import org.glassfish.jndi.toolkit.corba.CorbaUtils;
  * <ol>
  * <li>Construct a corbaloc URL by concatenating {@code "corbaloc:"} and {@code <corbaloc_obj>}.
  * <li>Resolve the corbaloc URL to a NamingContext by using
- * 
+ *
  * <pre>{@code
  * nctx = ORB.string_to_object(corbalocUrl);
  * }</pre>
- * 
+ *
  * <li>Resolve {@code <string_name>} in the NamingContext.
  * </ol>
  *
@@ -113,7 +113,7 @@ public final class CorbanameUrl {
     }
     /*
      * // for testing only public static void main(String[] args) { try { CorbanameUrl url = new CorbanameUrl(args[0]);
-     * 
+     *
      * System.out.println("location: " + url.getLocation()); System.out.println("string name: " + url.getStringName()); }
      * catch (MalformedURLException e) { e.printStackTrace(); } }
      */

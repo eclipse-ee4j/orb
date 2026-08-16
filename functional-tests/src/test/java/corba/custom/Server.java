@@ -34,8 +34,9 @@ public class Server {
 
             String fragmentSize = System.getProperty(com.sun.corba.ee.spi.misc.ORBConstants.GIOP_FRAGMENT_SIZE);
 
-            if (fragmentSize != null)
+            if (fragmentSize != null) {
                 System.out.println("---- Fragment size: " + fragmentSize);
+            }
 
             ORB orb = ORB.init(args, System.getProperties());
 

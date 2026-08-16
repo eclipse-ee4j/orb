@@ -51,6 +51,7 @@ class IfStatement extends Statement {
     /**
      * Check statement
      */
+    @Override
     Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         checkLabel(env, ctx);
         CheckContext newctx = new CheckContext(ctx, this);
@@ -83,8 +84,9 @@ class IfStatement extends Statement {
         Vset vsTrue  = cvars.vsTrue.clearDeadEnd();
         Vset vsFalse = cvars.vsFalse.clearDeadEnd();
         vsTrue = ifTrue.check(env, newctx, vsTrue, exp);
-        if (ifFalse != null)
+        if (ifFalse != null) {
             vsFalse = ifFalse.check(env, newctx, vsFalse, exp);
+        }
         vset = vsTrue.join(vsFalse.join(newctx.vsBreak));
         return ctx.removeAdditionalVars(vset);
     }
@@ -92,6 +94,7 @@ class IfStatement extends Statement {
     /**
      * Inline
      */
+    @Override
     public Statement inline(Environment env, Context ctx) {
         ctx = new Context(ctx, this);
         cond = cond.inlineValue(env, ctx);
@@ -134,6 +137,7 @@ class IfStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         IfStatement s = (IfStatement)clone();
         s.cond = cond.copyInline(ctx);
@@ -149,6 +153,7 @@ class IfStatement extends Statement {
     /**
      * The cost of inlining this statement
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         int cost = 1 + cond.costInline(thresh, env, ctx);
         if (ifTrue != null) {
@@ -163,6 +168,7 @@ class IfStatement extends Statement {
     /**
      * Code
      */
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         CodeContext newctx = new CodeContext(ctx, this);
 
@@ -185,6 +191,7 @@ class IfStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("if ");

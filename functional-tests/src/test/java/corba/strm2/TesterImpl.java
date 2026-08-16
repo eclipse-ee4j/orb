@@ -30,6 +30,7 @@ public class TesterImpl extends PortableRemoteObject implements Tester {
         super();
     }
 
+    @Override
     public String getDescription() {
         return createTestObject().getDescription();
     }
@@ -43,6 +44,7 @@ public class TesterImpl extends PortableRemoteObject implements Tester {
         }
     }
 
+    @Override
     public Testable verify(Testable input) throws RemoteException {
 
         try {

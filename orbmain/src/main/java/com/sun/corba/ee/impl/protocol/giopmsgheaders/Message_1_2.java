@@ -29,7 +29,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 public class Message_1_2 extends Message_1_1 {
-    protected int request_id = (int) 0;
+    protected int request_id = 0;
 
     Message_1_2() {
     }
@@ -42,7 +42,7 @@ public class Message_1_2 extends Message_1_1 {
     /**
      * The byteBuffer is presumed to have contents of the message already read in. It must have 12 bytes of space at the
      * beginning for the GIOP header, but the header doesn't have to be copied in.
-     * 
+     *
      * @param byteBuffer buffer to get request ID of
      */
     public void unmarshalRequestID(ByteBuffer byteBuffer) {

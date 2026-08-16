@@ -54,8 +54,8 @@ public interface DMMImplTestClasses {
     }
 
     public final class IDLStruct implements org.omg.CORBA.portable.IDLEntity {
-        public int arg1 = (int) 0;
-        public int arg2 = (int) 0;
+        public int arg1 = 0;
+        public int arg2 = 0;
 
         public IDLStruct() {
         }

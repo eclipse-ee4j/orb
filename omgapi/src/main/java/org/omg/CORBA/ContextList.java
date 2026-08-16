@@ -29,12 +29,12 @@ package org.omg.CORBA;
  * given string.
  * <P>
  * A <code>ContextList</code> object is created by the ORB, as illustrated here:
- * 
+ *
  * <PRE>
  * ORB orb = ORB.init(args, null);
  * org.omg.CORBA.ContextList ctxList = orb.create_context_list();
  * </PRE>
- * 
+ *
  * The variable <code>ctxList</code> represents an empty <code>ContextList</code> object. Strings are added to the list
  * with the method <code>add</code>, accessed with the method <code>item</code>, and removed with the method
  * <code>remove</code>.

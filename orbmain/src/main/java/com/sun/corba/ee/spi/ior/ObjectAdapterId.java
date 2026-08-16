@@ -34,14 +34,14 @@ import org.glassfish.gmbal.ManagedData;
 public interface ObjectAdapterId extends Iterable<String>, Writeable {
     /**
      * Return the number of elements in the adapter ID.
-     * 
+     *
      * @return number of elements
      */
     int getNumLevels();
 
     /**
      * Return an iterator that iterates over the components of this adapter ID. Each element is returned as a String.
-     * 
+     *
      * @return iterator over components
      */
     @ManagedAttribute
@@ -51,7 +51,7 @@ public interface ObjectAdapterId extends Iterable<String>, Writeable {
 
     /**
      * Get the adapter name simply as an array of strings.
-     * 
+     *
      * @return adapter name
      */
     String[] getAdapterName();

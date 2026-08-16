@@ -31,18 +31,22 @@ public class PROImpl extends PortableRemoteObject implements PROHello {
         super();
     }
 
+    @Override
     public String sayHello() throws RemoteException {
         return HELLO;
     }
 
+    @Override
     public Dog getDogValue() throws RemoteException {
         return new DogImpl("Bow wow!");
     }
 
+    @Override
     public Dog getDogServer() throws RemoteException {
         return new DogServer("Yip Yip Yip!");
     }
 
+    @Override
     public void unexport() throws RemoteException {
         PortableRemoteObject.unexportObject(this);
     }

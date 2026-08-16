@@ -36,7 +36,7 @@ import corba.framework.MethodEventListener;
  * <p>
  * For example, suppose that we want to trace all calls to Resolver.list and Resolver.resolve. This could be done as
  * follows, inside a user defined ORB Configurator:
- * 
+ *
  * <pre>
  * // Create the proxy resolver, and plug it into the ORB.
  * Resolver resolver = orb.getResolver();
@@ -93,6 +93,7 @@ public class ProxyInterceptor {
             }
         }
 
+        @Override
         public synchronized Object invoke(Object proxy, Method method, Object[] args) {
             if (methods.contains(method)) {
                 MethodEvent mev = MethodEvent.make(id, method);
@@ -102,8 +103,9 @@ public class ProxyInterceptor {
                 } finally {
                     broadcastExit(mev);
                 }
-            } else
+            } else {
                 return invokeMethod(method, target, args);
+            }
         }
     }
 

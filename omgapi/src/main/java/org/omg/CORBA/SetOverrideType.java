@@ -90,7 +90,7 @@ public class SetOverrideType implements org.omg.CORBA.portable.IDLEntity {
 
     /**
      * Constructs a <code>SetOverrideType</code> instance from an <code>int</code>.
-     * 
+     *
      * @param _value must be either <code>SET_OVERRIDE</code> or <code>ADD_OVERRIDE</code>
      */
     protected SetOverrideType(int _value) {

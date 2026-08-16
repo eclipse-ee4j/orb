@@ -68,13 +68,14 @@ public class SelectorImpl extends Thread implements com.sun.corba.ee.spi.transpo
     private final Map<EventHandler, ReaderThread> readerThreads;
     private boolean selectorStarted;
     private volatile boolean closed;
-    private Map<EventHandler, Long> lastActivityTimers = new HashMap<EventHandler, Long>();
+    private Map<EventHandler, Long> lastActivityTimers = new HashMap<>();
 
     interface Timer {
         long getCurrentTime();
     }
 
     private static final Timer SYSTEM_TIMER = new Timer() {
+        @Override
         public long getCurrentTime() {
             return System.currentTimeMillis();
         }
@@ -90,17 +91,19 @@ public class SelectorImpl extends Thread implements com.sun.corba.ee.spi.transpo
         selector = null;
         selectorStarted = false;
         timeout = 60000;
-        deferredRegistrations = new ArrayList<EventHandler>();
-        interestOpsList = new ArrayList<SelectionKeyAndOp>();
-        listenerThreads = new HashMap<EventHandler, ListenerThread>();
-        readerThreads = new HashMap<EventHandler, ReaderThread>();
+        deferredRegistrations = new ArrayList<>();
+        interestOpsList = new ArrayList<>();
+        listenerThreads = new HashMap<>();
+        readerThreads = new HashMap<>();
         closed = false;
     }
 
+    @Override
     public void setTimeout(long timeout) {
         this.timeout = timeout;
     }
 
+    @Override
     @ManagedAttribute
     @Description("The selector timeout")
     public long getTimeout() {
@@ -119,6 +122,7 @@ public class SelectorImpl extends Thread implements com.sun.corba.ee.spi.transpo
     private void defaultCaseForEventHandler() {
     }
 
+    @Override
     @Transport
     public void registerInterestOps(EventHandler eventHandler) {
         SelectionKey selectionKey = eventHandler.getSelectionKey();
@@ -136,6 +140,7 @@ public class SelectorImpl extends Thread implements com.sun.corba.ee.spi.transpo
         }
     }
 
+    @Override
     @Transport
     public void registerForEvent(EventHandler eventHandler) {
         if (isClosed()) {
@@ -165,6 +170,7 @@ public class SelectorImpl extends Thread implements com.sun.corba.ee.spi.transpo
         }
     }
 
+    @Override
     @Transport
     public void unregisterForEvent(EventHandler eventHandler) {
         if (isClosed()) {
@@ -195,6 +201,7 @@ public class SelectorImpl extends Thread implements com.sun.corba.ee.spi.transpo
         }
     }
 
+    @Override
     @Transport
     public void close() {
         if (isClosed()) {
@@ -306,8 +313,9 @@ public class SelectorImpl extends Thread implements com.sun.corba.ee.spi.transpo
                 EventHandler eventHandler = (EventHandler) selectionKey.attachment();
                 try {
                     eventHandler.handleEvent();
-                    if (lastActivityTimers.containsKey(eventHandler))
+                    if (lastActivityTimers.containsKey(eventHandler)) {
                         lastActivityTimers.put(eventHandler, timer.getCurrentTime());
+                    }
                 } catch (Throwable t) {
                     wrapper.exceptionInSelector(t, eventHandler);
                 }
@@ -381,8 +389,9 @@ public class SelectorImpl extends Thread implements com.sun.corba.ee.spi.transpo
                     display("Exception", e);
                 }
                 eventHandler.setSelectionKey(selectionKey);
-                if (eventHandler instanceof Timeoutable)
+                if (eventHandler instanceof Timeoutable) {
                     lastActivityTimers.put(eventHandler, timer.getCurrentTime());
+                }
             }
             deferredRegistrations.clear();
         }

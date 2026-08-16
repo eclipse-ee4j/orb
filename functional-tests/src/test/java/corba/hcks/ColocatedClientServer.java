@@ -70,7 +70,7 @@ public class ColocatedClientServer {
                 try {
                     signal.wait();
                 } catch (InterruptedException e) {
-                    ;
+                    
                 }
             }
             Client.main(args);
@@ -87,6 +87,7 @@ class ServerThread extends Thread {
         this.args = args;
     }
 
+    @Override
     public void run() {
         Server.main(args);
     }

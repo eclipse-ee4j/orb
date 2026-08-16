@@ -46,19 +46,19 @@ import org.glassfish.jndi.toolkit.corba.CorbaUtils;
  *
  * The default port is 9999. The default version is "1.0" US-ASCII alphanumeric characters are not escaped. Any
  * characters outside of this range are escaped except for the following:
- * 
+ *
  * <pre>{@code
  * ; / : ? : @ & = + $ , - _ . ! ~ *  ' ( )
  * }</pre>
- * 
+ *
  * Escaped characters is escaped by using a % followed by its 2 hexadecimal numbers representing the octet.
  *
  * For backward compatibility, the "iiop" URL as defined in INS 97-6-6 is also supported:
- * 
+ *
  * <pre>{@code
  * iiop url     = "iiop://" [host [":" port]] ["/" string_name]
  * }</pre>
- * 
+ *
  * The default port is 900.
  *
  */
@@ -193,7 +193,7 @@ public final class IiopUrl {
     /*
      * public static void main(String[] args) { try { IiopUrl url = new IiopUrl(args[0]); Vector addrs = url.getAddresses();
      * String name = url.getStringName();
-     * 
+     *
      * for (int i = 0; i < addrs.size(); i++) { Address addr = (Address)addrs.elementAt(i); System.out.println("host: " +
      * addr.host); System.out.println("port: " + addr.port); System.out.println("version: " + addr.major + " " +
      * addr.minor); } System.out.println("name: " + name); } catch (MalformedURLException e) { e.printStackTrace(); } }

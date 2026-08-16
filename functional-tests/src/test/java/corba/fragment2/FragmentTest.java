@@ -25,6 +25,7 @@ import java.util.*;
 import com.sun.corba.ee.spi.misc.ORBConstants;
 
 public class FragmentTest extends CORBATest {
+    @Override
     protected void doTest() throws Throwable {
         Properties clientProps = Options.getClientProperties();
 

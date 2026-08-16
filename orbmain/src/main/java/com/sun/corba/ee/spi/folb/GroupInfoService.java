@@ -63,7 +63,7 @@ public interface GroupInfoService {
      * adapter.
      *
      * The adapter identification is used in testing.
-     * 
+     *
      * @param adapterName adapter to use
      * @param endpoints endpoints of cluster
      * @return info on cluster
@@ -72,7 +72,7 @@ public interface GroupInfoService {
 
     /**
      * This method only used during testing.
-     * 
+     *
      * @param adapterName name to add
      * @return if addresses should be added
      */
@@ -80,7 +80,7 @@ public interface GroupInfoService {
 
     /**
      * This method only used during testing.
-     * 
+     *
      * @param adapterName name to add
      * @return if label should be added
      */

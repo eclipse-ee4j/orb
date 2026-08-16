@@ -41,26 +41,33 @@ public class SampleClientRequestInterceptor extends org.omg.CORBA.LocalObject im
         this.name = name;
     }
 
+    @Override
     public String name() {
         return name;
     }
 
+    @Override
     public void destroy() {
         destroyCount++;
     }
 
+    @Override
     public void send_request(ClientRequestInfo ri) throws ForwardRequest {
     }
 
+    @Override
     public void send_poll(ClientRequestInfo ri) {
     }
 
+    @Override
     public void receive_reply(ClientRequestInfo ri) {
     }
 
+    @Override
     public void receive_exception(ClientRequestInfo ri) throws ForwardRequest {
     }
 
+    @Override
     public void receive_other(ClientRequestInfo ri) throws ForwardRequest {
     }
 

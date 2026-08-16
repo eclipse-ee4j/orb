@@ -48,7 +48,7 @@ public class SlotTableStack {
         this.orb = orb;
 
         currentIndex = 0;
-        tableContainer = new java.util.ArrayList<SlotTable>();
+        tableContainer = new java.util.ArrayList<>();
         pushSlotTable();
     }
 

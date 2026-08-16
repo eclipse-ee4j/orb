@@ -62,6 +62,7 @@ public class MarshalTester implements Serializable {
 
     public Remote remoteField;
 
+    @Override
     public boolean equals(Object obj) {
         MarshalTester other = (MarshalTester) obj;
 
@@ -86,9 +87,9 @@ public class MarshalTester implements Serializable {
         booleanField = true;
         shortField = (short) 5912;
         intField = 9035;
-        longField = (long) 949241;
+        longField = 949241;
         floatField = (float) 35.2;
-        doubleField = (double) 3590.421;
+        doubleField = 3590.421;
 
         charField = '\u6D77';
         stringField = "\u6D77\u6D77\u6D77";
@@ -101,11 +102,11 @@ public class MarshalTester implements Serializable {
 
         intArrayField = new int[] { 35123, 943, -203012, 0, 2312 };
 
-        longArrayField = new long[] { (long) 2412, (long) -203, (long) 0, (long) 241 };
+        longArrayField = new long[] { 2412, -203, 0, 241 };
 
         floatArrayField = new float[] { (float) 32.3, (float) 912.231, (float) 0.0, (float) 234.11 };
 
-        doubleArrayField = new double[] { (double) 3412.21, (double) 243.22, (double) 0.0, (double) 23.1 };
+        doubleArrayField = new double[] { 3412.21, 243.22, 0.0, 23.1 };
 
         charArrayField = new char[] { 'A', '\u6D77', 'x' };
 

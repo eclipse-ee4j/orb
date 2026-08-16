@@ -48,10 +48,12 @@ public class ListenerThreadImpl implements ListenerThread, Work {
     // ListenerThread methods.
     //
 
+    @Override
     public Acceptor getAcceptor() {
         return acceptor;
     }
 
+    @Override
     @Transport
     public synchronized void close() {
         keepRunning = false;
@@ -76,6 +78,7 @@ public class ListenerThreadImpl implements ListenerThread, Work {
     private void display(String msg, Object value) {
     }
 
+    @Override
     @Transport
     public void doWork() {
         while (isRunning()) {
@@ -101,14 +104,17 @@ public class ListenerThreadImpl implements ListenerThread, Work {
         }
     }
 
+    @Override
     public void setEnqueueTime(long timeInMillis) {
         enqueueTime = timeInMillis;
     }
 
+    @Override
     public long getEnqueueTime() {
         return enqueueTime;
     }
 
+    @Override
     public String getName() {
         return "ListenerThread";
     }

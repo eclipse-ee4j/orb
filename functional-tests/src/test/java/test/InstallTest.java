@@ -31,13 +31,16 @@ public class InstallTest extends HelloTest {
     private static boolean TIME_IT = true;
     long startTime;
 
+    @Override
     public String getName() {
-        if (TIME_IT)
+        if (TIME_IT) {
             startTime = System.currentTimeMillis();
+        }
         return Version.asString() + "\n    Running on JDK " + System.getProperty("java.version") + "\n"
                 + "\n    Verifying installation (requires < 2 minutes to complete)";
     }
 
+    @Override
     public String getPassed() {
         if (TIME_IT) {
             long duration = System.currentTimeMillis() - startTime;
@@ -47,6 +50,7 @@ public class InstallTest extends HelloTest {
         }
     }
 
+    @Override
     public String getFailed(Error e) {
         return "failed, caught " + e;
     }

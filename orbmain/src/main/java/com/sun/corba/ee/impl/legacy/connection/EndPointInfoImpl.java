@@ -38,38 +38,47 @@ public class EndPointInfoImpl implements SocketInfo, LegacyServerSocketEndPointI
         this.name = LegacyServerSocketEndPointInfo.NO_NAME;
     }
 
+    @Override
     public String getType() {
         return type;
     }
 
+    @Override
     public String getHost() {
         return hostname;
     }
 
+    @Override
     public String getHostName() {
         return hostname;
     }
 
+    @Override
     public int getPort() {
         return port;
     }
 
+    @Override
     public int getLocatorPort() {
         return locatorPort;
     }
 
+    @Override
     public void setLocatorPort(int port) {
         locatorPort = port;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public int hashCode() {
         return type.hashCode() ^ hostname.hashCode() ^ port;
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof EndPointInfoImpl)) {
             return false;
@@ -82,15 +91,13 @@ public class EndPointInfoImpl implements SocketInfo, LegacyServerSocketEndPointI
         } else if (!type.equals(other.type)) {
             return false;
         }
-        if (port != other.port) {
-            return false;
-        }
-        if (!hostname.equals(other.hostname)) {
+        if ((port != other.port) || !hostname.equals(other.hostname)) {
             return false;
         }
         return true;
     }
 
+    @Override
     public String toString() {
         return type + " " + name + " " + hostname + " " + port;
     }

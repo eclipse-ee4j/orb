@@ -39,6 +39,7 @@ class AssignMultiplyExpression extends AssignOpExpression {
     /**
      * Code
      */
+    @Override
     void codeOperation(Environment env, Context ctx, Assembler asm) {
         asm.add(where, opc_imul + itype.getTypeCodeOffset());
     }

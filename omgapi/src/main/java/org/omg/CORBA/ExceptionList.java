@@ -24,12 +24,12 @@ package org.omg.CORBA;
  * maintains a modifiable list of <code>TypeCode</code>s of the exceptions.
  * <P>
  * The following code fragment demonstrates creating an <code>ExceptionList</code> object:
- * 
+ *
  * <PRE>
  * ORB orb = ORB.init(args, null);
  * org.omg.CORBA.ExceptionList excList = orb.create_exception_list();
  * </PRE>
- * 
+ *
  * The variable <code>excList</code> represents an <code>ExceptionList</code> object with no <code>TypeCode</code>
  * objects in it.
  * <P>

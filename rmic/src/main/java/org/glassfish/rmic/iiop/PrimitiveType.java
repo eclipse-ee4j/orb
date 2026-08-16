@@ -47,7 +47,9 @@ public class PrimitiveType extends Type {
     public static PrimitiveType forPrimitive(org.glassfish.rmic.tools.java.Type type,
                                              ContextStack stack) {
 
-        if (stack.anyErrors()) return null;
+        if (stack.anyErrors()) {
+            return null;
+        }
 
         // Do we already have it?
 
@@ -55,7 +57,9 @@ public class PrimitiveType extends Type {
 
         if (existing != null) {
 
-            if (!(existing instanceof PrimitiveType)) return null; // False hit.
+            if (!(existing instanceof PrimitiveType)) {
+                return null; // False hit.
+            }
 
             // Yep, so return it...
 
@@ -95,6 +99,7 @@ public class PrimitiveType extends Type {
      * Return signature for this type  (e.g. com.acme.Dynamite
      * would return "com.acme.Dynamite", byte = "B")
      */
+    @Override
     public String getSignature() {
         switch (getTypeCode()) {
         case TYPE_VOID:         return SIG_VOID;
@@ -113,6 +118,7 @@ public class PrimitiveType extends Type {
     /**
      * Return a string describing this type.
      */
+    @Override
     public String getTypeDescription () {
         return "Primitive";
     }
@@ -123,6 +129,7 @@ public class PrimitiveType extends Type {
      * return "com::acme::Dynamite").
      * @param global If true, prepends "::".
      */
+    @Override
     public String getQualifiedIDLName(boolean global) {
         return super.getQualifiedIDLName(false);
     }
@@ -134,6 +141,7 @@ public class PrimitiveType extends Type {
     /*
      * Load a Class instance. Return null if fail.
      */
+    @Override
     protected Class loadClass() {
         switch (getTypeCode()) {
         case TYPE_VOID:         return Null.class;

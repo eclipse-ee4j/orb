@@ -46,16 +46,19 @@ public class TestObject extends TestObjectSuper implements Testable {
         optData1 = new BigInteger("892748282821123", 10);
     }
 
+    @Override
     public String toString() {
         return super.toString() + " [TestObject desc=" + desc + ", data0=" + data0 + ", data1=" + data1 + ", data2= " + data2
                 + ", optData0=" + optData0 + ", optData1=" + optData1 + "]";
     }
 
+    @Override
     public boolean equals(Object obj) {
         try {
             TestObject other = (TestObject) obj;
-            if (other == null)
+            if (other == null) {
                 return false;
+            }
 
             return data0.equals(other.data0) && data1 == other.data1 && data2.equals(other.data2) && optData0.equals(optData0)
                     && optData1.equals(optData1) && super.equals(other);
@@ -72,20 +75,24 @@ public class TestObject extends TestObjectSuper implements Testable {
         System.out.println("Read default fields");
 
         data0 = (Integer) fields.get("data0", null);
-        if (data0 == null)
+        if (data0 == null) {
             throw new IOException("Missing data0 field");
+        }
 
         data1 = fields.get("data1", 0L);
-        if (data1 == 0L)
+        if (data1 == 0L) {
             throw new IOException("Missing data1 field");
+        }
 
         data2 = (String) fields.get("data2", null);
-        if (data2 == null)
+        if (data2 == null) {
             throw new IOException("Missing data2 field");
+        }
 
         desc = (String) fields.get("desc", null);
-        if (desc == null)
+        if (desc == null) {
             throw new IOException("Missing desc field");
+        }
 
         try {
             optData0 = (Long) is.readObject();
@@ -113,6 +120,7 @@ public class TestObject extends TestObjectSuper implements Testable {
         out.writeObject(optData1);
     }
 
+    @Override
     public String getDescription() {
         return desc;
     }

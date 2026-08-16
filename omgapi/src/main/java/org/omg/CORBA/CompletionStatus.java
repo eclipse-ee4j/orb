@@ -35,7 +35,7 @@ package org.omg.CORBA;
  * <LI><code>public static CompletionStatus
  * <b>from_int</b>(int i)</code> -- for creating an instance from one of the <code>int</code> members
  * </UL>
- * 
+ *
  * @version %I, %G
  * @see org.omg.CORBA.SystemException
  * @since JDK1.2

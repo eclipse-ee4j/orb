@@ -46,10 +46,10 @@ public class OutboundCacheEntry<C extends Connection> {
         waitForPendingConnections = lock.newCondition();
     }
 
-    final Queue<C> idleConnections = new LinkedBlockingQueue<C>();
+    final Queue<C> idleConnections = new LinkedBlockingQueue<>();
     final Collection<C> idleConnectionsView = Collections.unmodifiableCollection(idleConnections);
 
-    final Queue<C> busyConnections = new LinkedBlockingQueue<C>();
+    final Queue<C> busyConnections = new LinkedBlockingQueue<>();
     final Collection<C> busyConnectionsView = Collections.unmodifiableCollection(busyConnections);
 
     private int pendingConnections = 0;
@@ -70,7 +70,7 @@ public class OutboundCacheEntry<C extends Connection> {
     private Collection<C> idleConnections() {
         lock.lock();
         try {
-            return new ArrayList<C>(idleConnections);
+            return new ArrayList<>(idleConnections);
         } finally {
             lock.unlock();
         }
@@ -81,7 +81,7 @@ public class OutboundCacheEntry<C extends Connection> {
     private Collection<C> busyConnections() {
         lock.lock();
         try {
-            return new ArrayList<C>(busyConnections);
+            return new ArrayList<>(busyConnections);
         } finally {
             lock.unlock();
         }

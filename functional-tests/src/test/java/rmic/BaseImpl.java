@@ -25,6 +25,7 @@ public class BaseImpl extends javax.rmi.PortableRemoteObject implements Base {
         super();
     }
 
+    @Override
     public void method() throws java.rmi.RemoteException, TestException {
     }
 }

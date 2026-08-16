@@ -35,6 +35,7 @@ public class rmiiIServantPOA extends PortableRemoteObject implements rmiiI {
         // DO NOT CALL SUPER - that would connect the object.
     }
 
+    @Override
     public String m(String x) {
         Server.checkThread(baseMsg);
         String result = Server.filter(x, baseMsg);

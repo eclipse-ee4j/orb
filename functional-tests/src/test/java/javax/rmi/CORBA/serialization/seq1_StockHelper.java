@@ -76,13 +76,15 @@ public final class seq1_StockHelper implements org.omg.CORBA.portable.BoxedValue
         return (Stock[]) ((org.omg.CORBA_2_3.portable.InputStream) istream).read_value(_instance);
     }
 
+    @Override
     public java.io.Serializable read_value(org.omg.CORBA.portable.InputStream istream) {
         Stock[] tmp;
         int _len0 = istream.read_long();
         tmp = new Stock[_len0];
-        for (int _o1 = 0; _o1 < tmp.length; ++_o1)
+        for (int _o1 = 0; _o1 < tmp.length; ++_o1) {
             tmp[_o1] = StockHelper.read(istream);
-        return (java.io.Serializable) tmp;
+        }
+        return tmp;
     }
 
     public static void write(org.omg.CORBA.portable.OutputStream ostream, Stock[] value) {
@@ -92,16 +94,19 @@ public final class seq1_StockHelper implements org.omg.CORBA.portable.BoxedValue
         ((org.omg.CORBA_2_3.portable.OutputStream) ostream).write_value(value, _instance);
     }
 
+    @Override
     public void write_value(org.omg.CORBA.portable.OutputStream ostream, java.io.Serializable value) {
         if (!(value instanceof Stock[])) {
             throw new org.omg.CORBA.MARSHAL();
         }
         Stock[] valueType = (Stock[]) value;
         ostream.write_long(valueType.length);
-        for (int _i0 = 0; _i0 < valueType.length; ++_i0)
-            StockHelper.write(ostream, valueType[_i0]);
+        for (Stock element : valueType) {
+            StockHelper.write(ostream, element);
+        }
     }
 
+    @Override
     public String get_id() {
         return _id;
     }

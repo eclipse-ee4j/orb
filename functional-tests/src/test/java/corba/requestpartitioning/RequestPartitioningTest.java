@@ -39,6 +39,7 @@ public class RequestPartitioningTest extends CORBATest {
 
     private final static int CLIENT_TIMEOUT = 90000;
 
+    @Override
     protected void doTest() throws Throwable {
         // Run test with DirectByteBuffers
         Controller orbd = createORBD();

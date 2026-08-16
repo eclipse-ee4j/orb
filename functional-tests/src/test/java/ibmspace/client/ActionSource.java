@@ -31,8 +31,9 @@ public class ActionSource {
     }
 
     public void addActionListener(ActionListener listener) {
-        if (!fActionListeners.contains(listener))
+        if (!fActionListeners.contains(listener)) {
             fActionListeners.addElement(listener);
+        }
     }
 
     public void removeActionListener(ActionListener listener) {

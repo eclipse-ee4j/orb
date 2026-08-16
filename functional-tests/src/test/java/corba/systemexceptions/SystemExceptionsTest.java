@@ -34,6 +34,7 @@ import corba.framework.*;
 public class SystemExceptionsTest extends CORBATest {
     public static final String thisPackage = SystemExceptionsTest.class.getPackage().getName();
 
+    @Override
     protected void doTest() throws Throwable {
         Controller orbd = createORBD();
         orbd.start();

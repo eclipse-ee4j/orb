@@ -42,34 +42,42 @@ public class ORBVersionImpl implements ORBVersion {
 
     public static final ORBVersion PEORB = new ORBVersionImpl(ORBVersion.PEORB);
 
+    @Override
     public byte getORBType() {
         return orbType;
     }
 
+    @Override
     public void write(OutputStream os) {
-        os.write_octet((byte) orbType);
+        os.write_octet(orbType);
     }
 
+    @Override
     public String toString() {
         return "ORBVersionImpl[" + Byte.toString(orbType) + "]";
     }
 
+    @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof ORBVersion))
+        if (!(obj instanceof ORBVersion)) {
             return false;
+        }
 
         ORBVersion version = (ORBVersion) obj;
         return version.getORBType() == orbType;
     }
 
+    @Override
     public int hashCode() {
         return orbType;
     }
 
+    @Override
     public boolean lessThan(ORBVersion version) {
         return orbType < version.getORBType();
     }
 
+    @Override
     public int compareTo(ORBVersion obj) {
         // The Comparable interface says that this
         // method throws a ClassCastException if the

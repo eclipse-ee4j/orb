@@ -22,14 +22,17 @@ package javax.rmi.fvd;
 
 public class ServantImpl implements Servant {
 
+    @Override
     public String ping(String s) throws java.rmi.RemoteException {
         return "ServantImpl:" + s;
     }
 
+    @Override
     public long send(ParentClass value) throws java.rmi.RemoteException {
         return value.getTotal();
     }
 
+    @Override
     public ParentClass receiveMismatch(ParentClass value) throws java.rmi.RemoteException {
         try {
             return (ParentClass) Class.forName("javax.rmi.download.values.ClientA").newInstance();
@@ -38,6 +41,7 @@ public class ServantImpl implements Servant {
         }
     }
 
+    @Override
     public ParentClass receiveABC(ParentClass value) throws java.rmi.RemoteException {
         try {
             return (ParentClass) Class.forName("javax.rmi.download.values.ClassC").newInstance();
@@ -46,6 +50,7 @@ public class ServantImpl implements Servant {
         }
     }
 
+    @Override
     public ParentClass receiveAE(ParentClass value) throws java.rmi.RemoteException {
         try {
             return (ParentClass) Class.forName("javax.rmi.download.values.ClassE").newInstance();

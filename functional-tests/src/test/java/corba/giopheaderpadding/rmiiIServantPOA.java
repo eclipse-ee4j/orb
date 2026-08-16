@@ -34,11 +34,13 @@ public class rmiiIServantPOA extends PortableRemoteObject implements rmiiI {
         // DO NOT CALL SUPER - that would connect the object.
     }
 
+    @Override
     public byte fooA(byte x) {
         U.sop(x + "");
         return x;
     }
 
+    @Override
     public void fooB() {
     }
 }

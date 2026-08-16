@@ -56,6 +56,7 @@ class VarDeclarationStatement extends Statement {
     /**
      * Check statement
      */
+    @Override
     Vset checkDeclaration(Environment env, Context ctx, Vset vset, int mod, Type t, Hashtable<Object, Object> exp) {
         if (labels != null) {
             env.error(where, "declaration.with.label", labels[0]);
@@ -140,6 +141,7 @@ class VarDeclarationStatement extends Statement {
     /**
      * Inline
      */
+    @Override
     public Statement inline(Environment env, Context ctx) {
         if (field.isInnerClass()) {
             ClassDefinition body = field.getInnerClass();
@@ -207,6 +209,7 @@ class VarDeclarationStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         VarDeclarationStatement s = (VarDeclarationStatement)clone();
         if (expr != null) {
@@ -218,6 +221,7 @@ class VarDeclarationStatement extends Statement {
     /**
      * The cost of inlining this statement
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx) {
         if (field != null && field.isInnerClass()) {
             return thresh;      // don't copy classes...
@@ -228,6 +232,7 @@ class VarDeclarationStatement extends Statement {
     /**
      * Code
      */
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         if (expr != null && !expr.type.isType(TC_VOID)) {
             // The two lines of code directly following this comment used
@@ -260,6 +265,7 @@ class VarDeclarationStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         out.print("local ");
         if (field != null) {

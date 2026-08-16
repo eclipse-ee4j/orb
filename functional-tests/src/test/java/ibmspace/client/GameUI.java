@@ -82,7 +82,6 @@ public class GameUI implements ActionListener {
             wait(1000);
         } catch (Exception e) {
         }
-        ;
         fGame.takeTurn();
 
         Vector messages = fGame.getMessages();
@@ -264,6 +263,7 @@ public class GameUI implements ActionListener {
         return ui;
     }
 
+    @Override
     public void actionPerformed(ActionEvent event) {
         if (event.getActionCommand() == "Selection Changed") {
             handleSelectionChanged((PlanetView) event.getSource());
@@ -524,6 +524,7 @@ public class GameUI implements ActionListener {
             fType = type;
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("Create ship");
             ShipDesign design = new ShipDesign("", fType, fGame.getTechProfile());
@@ -568,6 +569,7 @@ public class GameUI implements ActionListener {
         AbandonPlanet() {
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             fGame.abandonPlanet(fSelection);
             updateMainBudgetUI();
@@ -578,6 +580,7 @@ public class GameUI implements ActionListener {
         Surrender() {
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             fGame.surrender();
             fGame.updateJourneys();
@@ -593,6 +596,7 @@ public class GameUI implements ActionListener {
         ScrapFleet() {
         }
 
+        @Override
         public void actionPerformed(ActionEvent e) {
             fGame.scrapFleet(getSelectedFleet());
             updateShipListView();

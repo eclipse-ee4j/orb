@@ -60,15 +60,17 @@ abstract public class PolicyListHelper {
         org.omg.CORBA.Policy value[] = null;
         int _len0 = istream.read_long();
         value = new org.omg.CORBA.Policy[_len0];
-        for (int _o1 = 0; _o1 < value.length; ++_o1)
+        for (int _o1 = 0; _o1 < value.length; ++_o1) {
             value[_o1] = org.omg.CORBA.PolicyHelper.read(istream);
+        }
         return value;
     }
 
     public static void write(org.omg.CORBA.portable.OutputStream ostream, org.omg.CORBA.Policy[] value) {
         ostream.write_long(value.length);
-        for (int _i0 = 0; _i0 < value.length; ++_i0)
-            org.omg.CORBA.PolicyHelper.write(ostream, value[_i0]);
+        for (Policy element : value) {
+            org.omg.CORBA.PolicyHelper.write(ostream, element);
+        }
     }
 
 }

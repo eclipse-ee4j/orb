@@ -72,8 +72,8 @@ public class StressParseIIOP {
 
         // Parse them...
 
-        for (int i = 0; i < classes.length; i++) {
-            int exitValue = parse(classes[i]);
+        for (Vector class1 : classes) {
+            int exitValue = parse(class1);
             if (exitValue != 0) {
                 result = exitValue;
             }
@@ -88,8 +88,9 @@ public class StressParseIIOP {
         if (count > maxSize) {
             float temp = ((float) count) / ((float) maxSize);
             chunks = (int) temp;
-            if (temp > chunks)
+            if (temp > chunks) {
                 chunks++;
+            }
         }
 
         Vector[] result = new Vector[chunks];
@@ -170,14 +171,15 @@ public class StressParseIIOP {
 
                 String arg = args[i].toLowerCase();
 
-                if (arg.equals(kPathArg))
+                if (arg.equals(kPathArg)) {
                     classPath = args[++i];
-                else if (arg.equals(kBatchSizeArg))
+                } else if (arg.equals(kBatchSizeArg)) {
                     batchSize = Integer.parseInt(args[++i]);
-                else if (arg.equals(kSoloArg))
+                } else if (arg.equals(kSoloArg)) {
                     solo = true;
-                else
+                } else {
                     usage();
+                }
             }
         }
 
@@ -229,7 +231,7 @@ public class StressParseIIOP {
 
     /**
      * execAndWaitFor will create a new Process and wait for the process to complete before returning
-     * 
+     *
      * @param command command line arguments to pass to exec.
      * @return int the result of Process.exitValue() or -1;
      * @throws Error if an unexpected exception occurs an Error is thrown with the message string from the original
@@ -286,7 +288,7 @@ class ProcessMonitor extends Thread {
 
     /**
      * Constructor.
-     * 
+     *
      * @param theProcess The process to monitor.
      * @param out The stream to which to copy Process.getInputStream() data.
      * @param err The stream to which to copy Process.getErrorStream() data.
@@ -302,7 +304,7 @@ class ProcessMonitor extends Thread {
 
     /**
      * Constructor.
-     * 
+     *
      * @param theProcess The process to monitor.
      * @param out The stream to which to copy Process.getInputStream() data.
      * @param err The stream to which to copy Process.getErrorStream() data.
@@ -318,6 +320,7 @@ class ProcessMonitor extends Thread {
         this.prefix = prefix;
     }
 
+    @Override
     public void run() {
 
         BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));

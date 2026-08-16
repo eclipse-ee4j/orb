@@ -119,19 +119,21 @@ class ARectangle implements java.io.Serializable {
         }
 
         // read the alternate persistent fields
-        int x1 = (int) fields.get("x1", 0);
-        int y1 = (int) fields.get("y1", 0);
-        int x2 = (int) fields.get("x2", 0);
-        int y2 = (int) fields.get("y2", 0);
+        int x1 = fields.get("x1", 0);
+        int y1 = fields.get("y1", 0);
+        int x2 = fields.get("x2", 0);
+        int y2 = fields.get("y2", 0);
 
         // save them back as Points.
         point1 = new Point(x1, y1);
         point2 = new Point(x2, y2);
     }
 
+    @Override
     public boolean equals(Object o) {
-        if (!(o instanceof ARectangle))
+        if (!(o instanceof ARectangle)) {
             return false;
+        }
 
         ARectangle other = (ARectangle) o;
 
@@ -139,6 +141,7 @@ class ARectangle implements java.io.Serializable {
                 && (point2.y == other.point2.y));
     }
 
+    @Override
     public String toString() {
         return ("point1.x: " + point1.x + "\npoint1.y: " + point1.y + "\npoint2.x: " + point2.x + "\npoint2.y: " + point2.y);
     }

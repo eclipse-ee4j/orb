@@ -22,5 +22,5 @@ package rmic;
 
 public class ValueWithInvalidNC implements java.io.Serializable {
     void foo(InvalidNC it) {
-    };
+    }
 }

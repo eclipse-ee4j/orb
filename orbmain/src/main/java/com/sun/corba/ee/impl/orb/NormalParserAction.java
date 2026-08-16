@@ -32,11 +32,13 @@ public class NormalParserAction extends ParserActionBase {
      * Create a String[] of all suffixes of property names that match the propertyName prefix, pass this to op, and return
      * the result.
      */
+    @Override
     public Object apply(Properties props) {
         Object value = props.getProperty(getPropertyName());
-        if (value != null)
+        if (value != null) {
             return getOperation().operate(value);
-        else
+        } else {
             return null;
+        }
     }
 }

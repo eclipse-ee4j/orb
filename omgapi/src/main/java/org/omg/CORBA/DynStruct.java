@@ -21,11 +21,12 @@ package org.omg.CORBA;
 
 /**
  * The representation of a <code>DynAny</code> object that is associated with an IDL struct.
- * 
+ *
  * @deprecated Use the new <a href="../DynamicAny/DynStruct.html">DynStruct</a> instead
  */
 
 // @Deprecated
+@Deprecated
 public interface DynStruct extends org.omg.CORBA.Object, org.omg.CORBA.DynAny {
     /**
      * During a traversal, returns the name of the current member.

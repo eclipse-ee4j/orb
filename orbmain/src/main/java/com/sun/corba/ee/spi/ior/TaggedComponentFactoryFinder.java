@@ -23,7 +23,7 @@ public interface TaggedComponentFactoryFinder extends IdentifiableFactoryFinder<
     /**
      * Create a tagged component from a GIOP marshalled representation of a tagged component. This is needed for portable
      * interceptors.
-     * 
+     *
      * @param orb ORB to use
      * @param comp representation of a component to create from
      * @return created tagged component

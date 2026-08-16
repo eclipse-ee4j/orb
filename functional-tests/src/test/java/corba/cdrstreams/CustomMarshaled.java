@@ -33,6 +33,7 @@ public class CustomMarshaled implements Serializable {
         this.good = good;
     }
 
+    @Override
     public boolean equals(Object obj) {
         CustomMarshaled gcm = (CustomMarshaled) obj;
 
@@ -43,8 +44,9 @@ public class CustomMarshaled implements Serializable {
         out.defaultWriteObject();
 
         byte[] buffer = new byte[1024];
-        for (int i = 0; i < buffer.length; i++)
+        for (int i = 0; i < buffer.length; i++) {
             buffer[i] = (byte) (i % 255);
+        }
 
         out.write(buffer);
 
@@ -59,12 +61,15 @@ public class CustomMarshaled implements Serializable {
             byte[] buffer = new byte[1024];
             in.readFully(buffer);
 
-            for (int i = 0; i < buffer.length; i++)
-                if (buffer[i] != (byte) (i % 255))
+            for (int i = 0; i < buffer.length; i++) {
+                if (buffer[i] != (byte) (i % 255)) {
                     throw new IOException("Data buffer corrupted");
+                }
+            }
 
-            if (!((String) (in.readObject())).equals("CustomMarshaled 1.0"))
+            if (!((String) (in.readObject())).equals("CustomMarshaled 1.0")) {
                 throw new IOException("Strings didn't match properly");
+            }
         }
 
         // If it's a bad (has a bug) custom marshaler, it leaves the

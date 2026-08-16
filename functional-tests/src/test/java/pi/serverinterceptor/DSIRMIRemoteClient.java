@@ -48,6 +48,7 @@ public class DSIRMIRemoteClient extends DSIRMIClient {
         }
     }
 
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         out.println("================================================");
         out.println("Instantiating Client ORB for DSI RMI Remote test");

@@ -97,15 +97,17 @@ public class Client {
         try {
             Method m = helperClass.getDeclaredMethod(methodName, params);
             System.out.println("Success: Verified the method name and parameter types !!");
-            if (m.getReturnType() != returnType)
+            if (m.getReturnType() != returnType) {
                 throw new Exception("Incorrect return type");
-            else
+            } else {
                 System.out.println("Success: Verified the return type " + m.getReturnType());
+            }
             int modifier = m.getModifiers();
-            if (Modifier.isPublic(modifier) && Modifier.isStatic(modifier))
+            if (Modifier.isPublic(modifier) && Modifier.isStatic(modifier)) {
                 System.out.println("Success: Verified the method modifiers !!");
-            else
+            } else {
                 throw new Exception("Method modifiers incorrect");
+            }
         } catch (Exception e) {
             System.out.println("ERROR : " + e);
             e.printStackTrace(System.out);
@@ -117,8 +119,8 @@ public class Client {
         try {
             Method[] allMethods = helperClass.getDeclaredMethods();
             int total = 0;
-            for (int i = 0; i < allMethods.length; i++) {
-                if (allMethods[i].getName().equals(methodName)) {
+            for (Method method : allMethods) {
+                if (method.getName().equals(methodName)) {
                     total++;
                     if (total > numberOfMethods) {
                         throw new Exception("Too many " + methodName + "  methods found !!");

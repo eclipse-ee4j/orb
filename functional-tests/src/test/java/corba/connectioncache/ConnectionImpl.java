@@ -45,14 +45,17 @@ public class ConnectionImpl implements Connection {
     // Simulate access (read/write) to a connection to make sure
     // we do not access a closed connection.
     public void access() {
-        if (isClosed.get())
+        if (isClosed.get()) {
             throw new RuntimeException("Illegal access: connection " + name + " is closed.");
+        }
     }
 
+    @Override
     public void close() {
         boolean wasClosed = isClosed.getAndSet(true);
-        if (wasClosed)
+        if (wasClosed) {
             throw new RuntimeException("Attempting to close connection ");
+        }
     }
 
     @Override

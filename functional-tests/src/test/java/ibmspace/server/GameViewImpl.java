@@ -64,6 +64,7 @@ public class GameViewImpl implements GameView, java.io.Serializable {
         }
     }
 
+    @Override
     public void test() throws RemoteException {
     }
 
@@ -71,18 +72,21 @@ public class GameViewImpl implements GameView, java.io.Serializable {
     // Working with budgets
     //
 
+    @Override
     public BudgetSummary getMainBudget() throws RemoteException {
         System.out.println("getMainBudget");
         fGame.logCall();
         return fPlayer.getBudget().createSummary();
     }
 
+    @Override
     public BudgetSummary getTechBudget() throws RemoteException {
         System.out.println("getTechBudget");
         fGame.logCall();
         return fPlayer.getTechBudget().createSummary();
     }
 
+    @Override
     public BudgetSummary getPlanetBudget(ID planetID) throws RemoteException {
         // System.out.println ("getPlanetBudget");
         fGame.logCall();
@@ -96,6 +100,7 @@ public class GameViewImpl implements GameView, java.io.Serializable {
         }
     }
 
+    @Override
     public void setMainBudget(BudgetSummary bs) throws RemoteException {
         System.out.println("setMainBudget");
         fGame.logCall();
@@ -103,12 +108,14 @@ public class GameViewImpl implements GameView, java.io.Serializable {
         b.update(bs);
     }
 
+    @Override
     public void setTechBudget(BudgetSummary bs) throws RemoteException {
         System.out.println("setTechBudget");
         fGame.logCall();
         fPlayer.getTechBudget().update(bs);
     }
 
+    @Override
     public void setPlanetBudget(ID planetID, BudgetSummary bs) throws RemoteException {
         System.out.println("setPlanetBudget");
         fGame.logCall();
@@ -125,24 +132,28 @@ public class GameViewImpl implements GameView, java.io.Serializable {
     // Working with assets
     //
 
+    @Override
     public long getShipSavings() throws RemoteException {
         System.out.println("getShipSavings");
         fGame.logCall();
         return fPlayer.getShipSavings().getSavings();
     }
 
+    @Override
     public long getIncome() throws RemoteException {
         System.out.println("getIncome");
         fGame.logCall();
         return fGame.getIncomeFor(fPlayer);
     }
 
+    @Override
     public long getShipMetal() throws RemoteException {
         System.out.println("getShipMetal");
         fGame.logCall();
         return fPlayer.getShipMetal();
     }
 
+    @Override
     public TechProfile getTechProfile() throws RemoteException {
         System.out.println("getTechProfile");
         fGame.logCall();
@@ -153,6 +164,7 @@ public class GameViewImpl implements GameView, java.io.Serializable {
     // Working with ships
     //
 
+    @Override
     public ShipDesign designShip(String name, int type, TechProfile tech) throws RemoteException {
         System.out.println("designShip");
         fGame.logCall();
@@ -170,6 +182,7 @@ public class GameViewImpl implements GameView, java.io.Serializable {
         }
     }
 
+    @Override
     public ID /* fleet */
             buildFleet(ShipDesign design, int num, ID stationID) throws RemoteException {
         System.out.println("buildFleet - " + num + " " + design.getName());
@@ -198,6 +211,7 @@ public class GameViewImpl implements GameView, java.io.Serializable {
         return null;
     }
 
+    @Override
     public void scrapFleet(ID fleetID) throws RemoteException {
         System.out.println("scrapFleet");
         fGame.logCall();
@@ -207,6 +221,7 @@ public class GameViewImpl implements GameView, java.io.Serializable {
         }
     }
 
+    @Override
     public ID /* journey */
             sendFleet(ID fleetID, ID toPlanetID) throws RemoteException {
         System.out.println("sendFleet");
@@ -223,12 +238,14 @@ public class GameViewImpl implements GameView, java.io.Serializable {
         }
     }
 
+    @Override
     public Fleet getFleet(ID fleetID) throws RemoteException {
         System.out.println("getFleet");
         fGame.logCall();
         return fGame.getFleet(fleetID);
     }
 
+    @Override
     public ID[] getFleetsAt(ID planetID) throws RemoteException {
         System.out.println("getFleetsAt");
         fGame.logCall();
@@ -246,12 +263,14 @@ public class GameViewImpl implements GameView, java.io.Serializable {
         return null;
     }
 
+    @Override
     public Journey getJourney(ID journeyOrFleetID) throws RemoteException {
         System.out.println("getJourney");
         fGame.logCall();
         return fGame.getJourney(journeyOrFleetID);
     }
 
+    @Override
     public ID[] getAllJournies() throws RemoteException {
         System.out.println("getAllJournies");
         fGame.logCall();
@@ -262,14 +281,17 @@ public class GameViewImpl implements GameView, java.io.Serializable {
     // Working with planets
     //
 
+    @Override
     public ID getHome() throws RemoteException {
         System.out.println("getHome");
         fGame.logCall();
-        if (fPlayer == null)
+        if (fPlayer == null) {
             System.out.println("fPlayer is null!!");
+        }
         return fPlayer.getHome().getID();
     }
 
+    @Override
     public PlanetView getPlanet(ID planetID) throws RemoteException {
         // System.out.println ("getPlanet");
         fGame.logCall();
@@ -281,6 +303,7 @@ public class GameViewImpl implements GameView, java.io.Serializable {
         }
     }
 
+    @Override
     public void abandonPlanet(ID planetID) throws RemoteException {
         System.out.println("abandonPlanet");
         fGame.logCall();
@@ -290,6 +313,7 @@ public class GameViewImpl implements GameView, java.io.Serializable {
         }
     }
 
+    @Override
     public void quit() throws RemoteException {
         System.out.println("quit");
         fGame.eliminatePlayer(fPlayer);
@@ -300,9 +324,10 @@ public class GameViewImpl implements GameView, java.io.Serializable {
     // Turn taking
     //
 
+    @Override
     public Vector takeTurn() throws RemoteException {
         System.out.println("takeTurn");
-        if (fQuit == false) {
+        if (!fQuit) {
             fGame.logCall();
             fGame.takeTurn(fPlayer);
             return fPlayer.getMessages();
@@ -313,6 +338,7 @@ public class GameViewImpl implements GameView, java.io.Serializable {
         }
     }
 
+    @Override
     public long getCalls() throws RemoteException {
         System.out.println("getCalls");
         return fGame.getCalls();

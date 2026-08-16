@@ -55,8 +55,9 @@ public class ByteBuffer {
      */
     public ByteBuffer(int initialCapacity, int capacityIncrement) {
         super();
-        if (initialCapacity < 0)
+        if (initialCapacity < 0) {
             throw new IllegalArgumentException("Illegal Capacity: " + initialCapacity);
+        }
         this.elementData = new byte[initialCapacity];
         this.capacityIncrement = capacityIncrement;
     }
@@ -171,11 +172,11 @@ public class ByteBuffer {
 
     /**
      * Returns an array containing all of the elements in this ByteBuffer in the correct order.
-     * 
+     *
      * @return Array of elements in the buffer
      * @since 1.2
      */
     public byte[] toArray() {
-        return (byte[]) elementData.clone();
+        return elementData.clone();
     }
 }

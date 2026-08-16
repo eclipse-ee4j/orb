@@ -28,6 +28,7 @@ public interface Cat extends Remote {
     String cat(String one, String two, String three, Object it) throws RemoteException;
 
     public class Servant implements Cat {
+        @Override
         public String cat(String one, String two, String three, Object it) {
             return one + two + three + it.toString();
         }

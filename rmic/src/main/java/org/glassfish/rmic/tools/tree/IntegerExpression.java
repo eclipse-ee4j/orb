@@ -43,6 +43,7 @@ class IntegerExpression extends ConstantExpression {
     /**
      * See if this number fits in the given type.
      */
+    @Override
     public boolean fitsType(Environment env, Context ctx, Type t) {
         if (this.type.isType(TC_CHAR)) {
             // A char constant is not really an int constant,
@@ -64,6 +65,7 @@ class IntegerExpression extends ConstantExpression {
     /**
      * Get the value
      */
+    @Override
     public Object getValue() {
         return value;
     }
@@ -71,6 +73,7 @@ class IntegerExpression extends ConstantExpression {
     /**
      * Check if the expression is equal to a value
      */
+    @Override
     public boolean equals(int i) {
         return value == i;
     }
@@ -78,6 +81,7 @@ class IntegerExpression extends ConstantExpression {
     /**
      * Check if the expression is equal to its default static value
      */
+    @Override
     public boolean equalsDefault() {
         return value == 0;
     }
@@ -85,6 +89,7 @@ class IntegerExpression extends ConstantExpression {
     /**
      * Code
      */
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         asm.add(where, opc_ldc, value);
     }

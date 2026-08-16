@@ -30,6 +30,7 @@ public class RequestId1Strategy extends InterceptorStrategy {
     // The id received in receive_request_service_contexts:
     private int requestId;
 
+    @Override
     public void receive_request_service_contexts(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) throws ForwardRequest {
         super.receive_request_service_contexts(interceptor, ri);
 
@@ -41,6 +42,7 @@ public class RequestId1Strategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void receive_request(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) {
         super.receive_request(interceptor, ri);
         try {
@@ -50,6 +52,7 @@ public class RequestId1Strategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void send_reply(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) {
         super.send_reply(interceptor, ri);
         try {
@@ -59,6 +62,7 @@ public class RequestId1Strategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void send_exception(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) throws ForwardRequest {
         super.send_exception(interceptor, ri);
         try {
@@ -68,6 +72,7 @@ public class RequestId1Strategy extends InterceptorStrategy {
         }
     }
 
+    @Override
     public void send_other(SampleServerRequestInterceptor interceptor, ServerRequestInfo ri) throws ForwardRequest {
         super.send_other(interceptor, ri);
 

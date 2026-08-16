@@ -39,6 +39,7 @@ public class InvokeVisitAll extends InvokeStrategy {
         this("");
     }
 
+    @Override
     public void invoke() throws Exception {
         super.invoke();
 

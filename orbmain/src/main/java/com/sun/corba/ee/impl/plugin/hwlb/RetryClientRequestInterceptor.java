@@ -64,6 +64,7 @@ public class RetryClientRequestInterceptor extends org.omg.CORBA.LocalObject imp
 
     // NOTE: Cannot use slots since they are reset on retry.
     private ThreadLocal backoffAndStartTime = new ThreadLocal() {
+        @Override
         protected Object initialValue() {
             return new BackoffAndStartTime();
         }
@@ -119,10 +120,12 @@ public class RetryClientRequestInterceptor extends org.omg.CORBA.LocalObject imp
     // Interceptor operations
     //
 
+    @Override
     public String name() {
         return baseMsg;
     }
 
+    @Override
     public void destroy() {
     }
 
@@ -131,16 +134,20 @@ public class RetryClientRequestInterceptor extends org.omg.CORBA.LocalObject imp
     // ClientRequestInterceptor
     //
 
+    @Override
     public void send_request(ClientRequestInfo ri) {
     }
 
+    @Override
     public void send_poll(ClientRequestInfo ri) {
     }
 
+    @Override
     public void receive_reply(ClientRequestInfo ri) {
         setBackoff(initialBackoff);
     }
 
+    @Override
     public void receive_exception(ClientRequestInfo ri) throws ForwardRequest {
         if (!(isTransientException(ri) || isBadServerIdException(ri))) {
             setBackoff(initialBackoff);
@@ -190,6 +197,7 @@ public class RetryClientRequestInterceptor extends org.omg.CORBA.LocalObject imp
         }
     }
 
+    @Override
     public void receive_other(ClientRequestInfo ri) {
         setBackoff(initialBackoff);
     }
@@ -199,9 +207,11 @@ public class RetryClientRequestInterceptor extends org.omg.CORBA.LocalObject imp
     // ORBInitializer
     //
 
+    @Override
     public void pre_init(ORBInitInfo info) {
     }
 
+    @Override
     public void post_init(ORBInitInfo info) {
         try {
             if (debug) {

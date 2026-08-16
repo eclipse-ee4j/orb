@@ -31,6 +31,7 @@ public class TimedTest extends RepeatedTest {
         super(test, reps);
     }
 
+    @Override
     public void run(TestResult result) {
         long startTime = System.nanoTime();
         long stopTime = 0;

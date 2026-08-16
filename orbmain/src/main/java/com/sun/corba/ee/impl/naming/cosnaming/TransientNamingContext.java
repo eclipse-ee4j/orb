@@ -63,7 +63,7 @@ public class TransientNamingContext extends NamingContextImpl implements NamingC
 
     /**
      * Constructs a new TransientNamingContext object.
-     * 
+     *
      * @param orb an orb object.
      * @param initial the initial naming context.
      * @param nsPOA the POA
@@ -77,12 +77,13 @@ public class TransientNamingContext extends NamingContextImpl implements NamingC
     /**
      * Binds the object to the name component as the specified binding type. It creates a InternalBindingKey object and a
      * InternalBindingValue object and inserts them in the hash table.
-     * 
+     *
      * @param n A single org.omg.CosNaming::NameComponent under which the object will be bound.
      * @param obj An object reference to be bound under the supplied name.
      * @param bt The type of the binding (i.e., as object or as context).
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA system exceptions.
      */
+    @Override
     @Naming
     public final void bindImpl(NameComponent n, org.omg.CORBA.Object obj, BindingType bt) throws org.omg.CORBA.SystemException {
         InternalBindingKey key = new InternalBindingKey(n);
@@ -102,12 +103,13 @@ public class TransientNamingContext extends NamingContextImpl implements NamingC
      * Resolves the supplied name to an object reference and returns the type of the resolved binding. It creates a
      * InternalBindingKey and uses the key for looking up in the hash table. If nothing is found an exception is thrown,
      * otherwise the object reference is returned and the binding type set.
-     * 
+     *
      * @param n a NameComponent which is the name to be resolved.
      * @param bth the BindingType as an out parameter.
      * @return the object reference bound under the supplied name, null if not found.
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA system exceptions.
      */
+    @Override
     @Naming
     public final org.omg.CORBA.Object resolveImpl(NameComponent n, BindingTypeHolder bth) throws org.omg.CORBA.SystemException {
         if ((n.id.length() == 0) && (n.kind.length() == 0)) {
@@ -131,11 +133,12 @@ public class TransientNamingContext extends NamingContextImpl implements NamingC
      * Deletes the binding with the supplied name. It creates a InternalBindingKey and uses it to remove the value
      * associated with the key. If nothing is found an exception is thrown, otherwise the element is removed from the hash
      * table.
-     * 
+     *
      * @param n a NameComponent which is the name to unbind
      * @return the object reference bound to the name, or null if not found.
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA system exceptions.
      */
+    @Override
     @Naming
     public final org.omg.CORBA.Object unbindImpl(NameComponent n) throws org.omg.CORBA.SystemException {
         // Create a key and remove it from the hashtable
@@ -153,12 +156,13 @@ public class TransientNamingContext extends NamingContextImpl implements NamingC
     /**
      * List the contents of this NamingContext. It creates a new TransientBindingIterator object and passes it a clone of
      * the hash table and an orb object. It then uses the newly created object to return the required number of bindings.
-     * 
+     *
      * @param how_many The number of requested bindings in the BindingList.
      * @param bl The BindingList as an out parameter.
      * @param bi The BindingIterator as an out parameter.
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA system exceptions.
      */
+    @Override
     @Naming
     public final void listImpl(int how_many, BindingListHolder bl, BindingIteratorHolder bi) throws org.omg.CORBA.SystemException {
         try {
@@ -166,7 +170,7 @@ public class TransientNamingContext extends NamingContextImpl implements NamingC
             // hashtable. nsPOA is passed to the object so that it can
             // de-activate itself from the Active Object Map when
             // Binding Iterator.destroy is called.
-            Map<InternalBindingKey, InternalBindingValue> copy = new HashMap<InternalBindingKey, InternalBindingValue>(bindingMap);
+            Map<InternalBindingKey, InternalBindingValue> copy = new HashMap<>(bindingMap);
             TransientBindingIterator bindingIterator = new TransientBindingIterator(this.orb, copy, nsPOA);
 
             // Have it set the binding list
@@ -189,15 +193,16 @@ public class TransientNamingContext extends NamingContextImpl implements NamingC
 
     /**
      * Create a new NamingContext. It creates a new TransientNamingContext object, passing it the orb object.
-     * 
+     *
      * @return an object reference for a new NamingContext object implemented by this Name Server.
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA system exceptions.
      */
+    @Override
     @Naming
     public final org.omg.CosNaming.NamingContext newContextImpl() throws org.omg.CORBA.SystemException {
         try {
             // Create a new servant
-            TransientNamingContext transContext = new TransientNamingContext((com.sun.corba.ee.spi.orb.ORB) orb, localRoot, nsPOA);
+            TransientNamingContext transContext = new TransientNamingContext(orb, localRoot, nsPOA);
 
             byte[] objectId = nsPOA.activate_object(transContext);
             org.omg.CORBA.Object obj = nsPOA.id_to_reference(objectId);
@@ -209,9 +214,10 @@ public class TransientNamingContext extends NamingContextImpl implements NamingC
 
     /**
      * Destroys this NamingContext by disconnecting from the ORB.
-     * 
+     *
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA system exceptions.
      */
+    @Override
     @Naming
     public final void destroyImpl() throws org.omg.CORBA.SystemException {
         // Destroy the object reference by disconnecting from the ORB
@@ -234,15 +240,16 @@ public class TransientNamingContext extends NamingContextImpl implements NamingC
 
     /**
      * Return whether this NamingContext contains any bindings. It forwards this request to the hash table.
-     * 
+     *
      * @return true if this NamingContext contains no bindings.
      */
+    @Override
     public final boolean isEmptyImpl() {
         return bindingMap.isEmpty();
     }
 
     // A hashtable to store the bindings
-    private final Map<InternalBindingKey, InternalBindingValue> bindingMap = new HashMap<InternalBindingKey, InternalBindingValue>();
+    private final Map<InternalBindingKey, InternalBindingValue> bindingMap = new HashMap<>();
 
     /**
      * The local root naming context.

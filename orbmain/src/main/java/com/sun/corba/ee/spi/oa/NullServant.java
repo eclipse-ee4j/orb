@@ -30,7 +30,7 @@ import org.omg.CORBA.SystemException;
 public interface NullServant {
     /**
      * Obtain the exception that is associated with this NullServant instance.
-     * 
+     *
      * @return the associated exception
      */
     SystemException getException();

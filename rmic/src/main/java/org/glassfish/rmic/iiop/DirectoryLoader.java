@@ -70,7 +70,7 @@ public class DirectoryLoader extends ClassLoader {
 
         // Do we already have it in the cache?
 
-        result = (Class) cache.get(className);
+        result = cache.get(className);
 
         if (result == null) {
 
@@ -100,7 +100,9 @@ public class DirectoryLoader extends ClassLoader {
 
                 // Resolve it...
 
-                if (resolve) resolveClass(result);
+                if (resolve) {
+                    resolveClass(result);
+                }
 
                 // Add to cache...
 

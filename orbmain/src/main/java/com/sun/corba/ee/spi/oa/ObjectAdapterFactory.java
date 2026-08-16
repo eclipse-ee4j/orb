@@ -26,14 +26,14 @@ public interface ObjectAdapterFactory {
 
     /**
      * Initialize this object adapter factory instance.
-     * 
+     *
      * @param orb to use for initalisation
      */
     void init(ORB orb);
 
     /**
      * Shutdown all object adapters and other state associated with this factory.
-     * 
+     *
      * @param waitForCompletion if true then wait for all ongoing requests to finish before shutting down, if false then
      * shutdown immediatly.
      */
@@ -41,7 +41,7 @@ public interface ObjectAdapterFactory {
 
     /**
      * Find the ObjectAdapter instance that corresponds to the given ObjectAdapterId.
-     * 
+     *
      * @param oaid id to look up
      * @return found ObjectAdapter
      */

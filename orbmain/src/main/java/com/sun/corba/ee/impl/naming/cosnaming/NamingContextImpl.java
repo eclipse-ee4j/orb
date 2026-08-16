@@ -72,7 +72,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
 
     /**
      * Create a naming context servant. Runs the super constructor.
-     * 
+     *
      * @param orb an ORB object.
      * @param poa the POA.
      * @exception java.lang.Exception a Java exception.
@@ -84,6 +84,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
         this.nsPOA = poa;
     }
 
+    @Override
     public POA getNSPOA() {
         return nsPOA;
     }
@@ -93,7 +94,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
      * in this NamingContext and the object bound in resulting NamingContext. An exception is thrown if a binding with the
      * supplied name already exists. If the object to be bound is a NamingContext it will not participate in a recursive
      * resolve.
-     * 
+     *
      * @param n a sequence of NameComponents which is the name under which the object will be bound.
      * @param obj the object reference to be bound.
      * @exception org.omg.CosNaming.NamingContextPackage.NotFound A name with multiple components was supplied, but the
@@ -106,6 +107,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA system exceptions.
      * @see #doBind
      */
+    @Override
     @Naming
     public void bind(NameComponent[] n, org.omg.CORBA.Object obj)
             throws org.omg.CosNaming.NamingContextPackage.NotFound, org.omg.CosNaming.NamingContextPackage.CannotProceed,
@@ -122,7 +124,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
      * Bind a NamingContext under a name in this NamingContext. If the name contains multiple (n) components, n-1 will be
      * resolved in this NamingContext and the object bound in resulting NamingContext. An exception is thrown if a binding
      * with the supplied name already exists. The NamingContext will participate in recursive resolving.
-     * 
+     *
      * @param n a sequence of NameComponents which is the name under which the object will be bound.
      * @param nc the NamingContect object reference to be bound.
      * @exception org.omg.CosNaming.NamingContextPackage.NotFound A name with multiple components was supplied, but the
@@ -135,6 +137,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA system exceptions.
      * @see #doBind
      */
+    @Override
     @Naming
     public void bind_context(NameComponent[] n, NamingContext nc)
             throws org.omg.CosNaming.NamingContextPackage.NotFound, org.omg.CosNaming.NamingContextPackage.CannotProceed,
@@ -152,7 +155,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
      * in this NamingContext and the object bound in resulting NamingContext. If a binding under the supplied name already
      * exists it will be unbound first. If the object to be bound is a NamingContext it will not participate in a recursive
      * resolve.
-     * 
+     *
      * @param n a sequence of NameComponents which is the name under which the object will be bound.
      * @param obj the object reference to be bound.
      * @exception org.omg.CosNaming.NamingContextPackage.NotFound A name with multiple components was supplied, but the
@@ -164,6 +167,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA system exceptions.
      * @see #doBind
      */
+    @Override
     @Naming
     public void rebind(NameComponent[] n, org.omg.CORBA.Object obj) throws org.omg.CosNaming.NamingContextPackage.NotFound,
             org.omg.CosNaming.NamingContextPackage.CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName {
@@ -184,7 +188,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
      * Bind a NamingContext under a name in this NamingContext. If the name contains multiple (n) components, the first n-1
      * components will be resolved in this NamingContext and the object bound in resulting NamingContext. If a binding under
      * the supplied name already exists it will be unbound first. The NamingContext will participate in recursive resolving.
-     * 
+     *
      * @param n a sequence of NameComponents which is the name under which the object will be bound.
      * @param nc the object reference to be bound.
      * @exception org.omg.CosNaming.NamingContextPackage.NotFound A name with multiple components was supplied, but the
@@ -196,6 +200,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA system exceptions.
      * @see #doBind
      */
+    @Override
     @Naming
     public void rebind_context(NameComponent[] n, NamingContext nc) throws org.omg.CosNaming.NamingContextPackage.NotFound,
             org.omg.CosNaming.NamingContextPackage.CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName {
@@ -217,7 +222,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
      * (n) components, the first component will be resolved in this NamingContext and the remaining components resolved in
      * the resulting NamingContext, provided that the NamingContext bound to the first component of the name was bound with
      * bind_context().
-     * 
+     *
      * @param n a sequence of NameComponents which is the name to be resolved.
      * @return the object reference bound under the supplied name.
      * @exception org.omg.CosNaming.NamingContextPackage.NotFound A name with multiple components was supplied, but the
@@ -229,6 +234,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA system exceptions.
      * @see #doResolve
      */
+    @Override
     @Naming
     public org.omg.CORBA.Object resolve(NameComponent[] n) throws org.omg.CosNaming.NamingContextPackage.NotFound,
             org.omg.CosNaming.NamingContextPackage.CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName {
@@ -240,7 +246,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
     /**
      * Remove a binding from this NamingContext. If the name contains multiple (n) components, the first n-1 components will
      * be resolved from this NamingContext and the final component unbound in the resulting NamingContext.
-     * 
+     *
      * @param n a sequence of NameComponents which is the name to be unbound.
      * @exception org.omg.CosNaming.NamingContextPackage.NotFound A name with multiple components was supplied, but the
      * first component could not be resolved.
@@ -251,6 +257,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA system exceptions.
      * @see #doUnbind
      */
+    @Override
     @Naming
     public void unbind(NameComponent[] n) throws org.omg.CosNaming.NamingContextPackage.NotFound,
             org.omg.CosNaming.NamingContextPackage.CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName {
@@ -263,7 +270,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
      * List the contents of this NamingContest. A sequence of bindings is returned (a BindingList) containing up to the
      * number of requested bindings, and a BindingIterator object reference is returned for iterating over the remaining
      * bindings.
-     * 
+     *
      * @param how_many The number of requested bindings in the BindingList.
      * @param bl The BindingList as an out parameter.
      * @param bi The BindingIterator as an out parameter.
@@ -271,6 +278,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
      * @see BindingListHolder
      * @see BindingIteratorImpl
      */
+    @Override
     @Naming
     public void list(int how_many, BindingListHolder bl, BindingIteratorHolder bi) {
         // List actually generates the list
@@ -282,10 +290,11 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
 
     /**
      * Create a NamingContext object and return its object reference.
-     * 
+     *
      * @return an object reference for a new NamingContext object implemented by this Name Server.
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA system exceptions.
      */
+    @Override
     @Naming
     public synchronized NamingContext new_context() {
         NamingContextDataStore impl = this;
@@ -298,7 +307,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
      * Create a new NamingContext, bind it in this Naming Context and return its object reference. This is equivalent to
      * using new_context() followed by bind_context() with the supplied name and the object reference for the newly created
      * NamingContext.
-     * 
+     *
      * @param n a sequence of NameComponents which is the name to be unbound.
      * @return an object reference for a new NamingContext object implemented by this Name Server, bound to the supplied
      * name.
@@ -313,6 +322,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
      * @see #new_context
      * @see #bind_context
      */
+    @Override
     @Naming
     public NamingContext bind_new_context(NameComponent[] n)
             throws org.omg.CosNaming.NamingContextPackage.NotFound, org.omg.CosNaming.NamingContextPackage.AlreadyBound,
@@ -339,10 +349,11 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
 
     /**
      * Destroy this NamingContext object. If this NamingContext contains no bindings, the NamingContext is deleted.
-     * 
+     *
      * @exception org.omg.CosNaming.NamingContextPackage.NotEmpty This NamingContext is not empty (i.e., contains bindings).
      * @exception org.omg.CORBA.SystemException One of a fixed set of CORBA system exceptions.
      */
+    @Override
     @Naming
     public void destroy() throws org.omg.CosNaming.NamingContextPackage.NotEmpty {
         NamingContextDataStore impl = this;
@@ -362,7 +373,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
      * Bind() is called with the name and the object to bind. Otherwise, the first component of the name is resolved in this
      * NamingContext and the appropriate form of bind passed to the resulting NamingContext. This method is static for
      * maximal reuse - even for extended naming context implementations where the recursive semantics still apply.
-     * 
+     *
      * @param impl an implementation of NamingContextDataStore
      * @param n a sequence of NameComponents which is the name under which the object will be bound.
      * @param obj the object reference to be bound.
@@ -465,7 +476,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
      * NamingContext. If this is the case, the remaining components of the name is resolved in the resulting NamingContext.
      * This method is static for maximal reuse - even for extended naming context implementations where the recursive
      * semantics still apply.
-     * 
+     *
      * @param impl an implementation of NamingContextDataStore
      * @param n a sequence of NameComponents which is the name to be resolved.
      * @return the object reference bound under the supplied name.
@@ -522,7 +533,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
      * in this NamingContext using Unbind(). Otherwise, the first component of the name is resolved in this NamingContext
      * and unbind passed to the resulting NamingContext. This method is static for maximal reuse - even for extended naming
      * context implementations where the recursive semantics still apply.
-     * 
+     *
      * @param impl an implementation of NamingContextDataStore
      * @param n a sequence of NameComponents which is the name to be unbound.
      * @exception org.omg.CosNaming.NamingContextPackage.NotFound A name with multiple components was supplied, but the
@@ -566,7 +577,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
     /**
      * Implements resolving a NameComponent in this context and narrowing it to CosNaming::NamingContext. It will throw
      * appropriate exceptions if not found or not narrowable.
-     * 
+     *
      * @param impl an implementation of NamingContextDataStore
      * @param n a NameComponents which is the name to be found.
      * @exception org.omg.CosNaming.NamingContextPackage.NotFound The first component could not be resolved.
@@ -604,12 +615,13 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
 
     /**
      * This operation creates a stringified name from the array of Name components.
-     * 
+     *
      * @param n Name of the object
      * @return the object name as a single string
      * @throws org.omg.CosNaming.NamingContextPackage.InvalidName Indicates the name does not identify a binding.
      *
      */
+    @Override
     @Naming
     public String to_string(org.omg.CosNaming.NameComponent[] n) throws org.omg.CosNaming.NamingContextPackage.InvalidName {
         if ((n == null) || (n.length == 0)) {
@@ -627,7 +639,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
 
     /**
      * This operation converts a Stringified Name into an equivalent array of Name Components.
-     * 
+     *
      * @param sn Stringified Name of the object
      * <p>
      * @return an array of name components
@@ -658,7 +670,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
 
     /**
      * This operation creates a URL based "iiopname://" format name from the Stringified Name of the object.
-     * 
+     *
      * @param addr internet based address of the host machine where Name Service is running
      * <p>
      * @param sn Stringified Name of the object
@@ -668,6 +680,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
      * @throws org.omg.CosNaming.NamingContextPackage.InvalidName if the provided Name is invalid
      *
      */
+    @Override
     @Naming
     public String to_url(String addr, String sn)
             throws org.omg.CosNaming.NamingContextExtPackage.InvalidAddress, org.omg.CosNaming.NamingContextPackage.InvalidName {
@@ -693,7 +706,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
 
     /**
      * This operation resolves the Stringified name into the object reference.
-     * 
+     *
      * @param sn Stringified Name of the object
      * @return an object
      * @exception org.omg.CosNaming.NamingContextPackage.NotFound Indicates there is no object reference for the given name.
@@ -701,6 +714,7 @@ public abstract class NamingContextImpl extends NamingContextExtPOA implements N
      * @throws org.omg.CosNaming.NamingContextPackage.InvalidName if the provided Name was invalid
      *
      */
+    @Override
     @Naming
     public org.omg.CORBA.Object resolve_str(String sn) throws org.omg.CosNaming.NamingContextPackage.NotFound,
             org.omg.CosNaming.NamingContextPackage.CannotProceed, org.omg.CosNaming.NamingContextPackage.InvalidName {

@@ -30,6 +30,7 @@ import java.util.*;
 public class RINameServiceTest extends CORBATest {
     public static String[] javaFiles = { "NameServer.java", "NameServiceClient.java" };
 
+    @Override
     protected void doTest() throws Throwable {
         Options.setJavaFiles(javaFiles);
 

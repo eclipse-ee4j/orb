@@ -102,7 +102,7 @@ public class ServerManagerImpl extends _ServerManagerImplBase implements BadServ
                 .legacyGetEndpoint(LegacyServerSocketEndPointInfo.BOOT_NAMING);
 
         initialPort = ((Acceptor) endpoint).getServerSocket().getLocalPort();
-        serverTable = new HashMap<Integer, ServerTableEntry>();
+        serverTable = new HashMap<>();
 
         // The ServerStartupDelay is the delay added after the Server registers
         // end point information. This is to allow the server to completely
@@ -128,6 +128,7 @@ public class ServerManagerImpl extends _ServerManagerImplBase implements BadServ
         ProcessMonitorThread.start(serverTable);
     }
 
+    @Override
     public void activate(int serverId) throws ServerAlreadyActive, ServerNotRegistered, ServerHeldDown {
 
         ServerLocation location;
@@ -138,9 +139,10 @@ public class ServerManagerImpl extends _ServerManagerImplBase implements BadServ
         }
 
         if (entry != null && entry.isActive()) {
-            if (debug)
+            if (debug) {
                 System.out.println("ServerManagerImpl: activate for server Id " + serverId + " failed because server is already active. "
                         + "entry = " + entry);
+            }
 
             throw new ServerAlreadyActive(serverId);
         }
@@ -153,40 +155,47 @@ public class ServerManagerImpl extends _ServerManagerImplBase implements BadServ
 
             entry = getEntry(serverId);
 
-            if (debug)
+            if (debug) {
                 System.out.println("ServerManagerImpl: locateServer called with " + " serverId=" + serverId + " endpointType="
                         + IIOP_CLEAR_TEXT.value + " block=false");
+            }
 
             location = locateServer(entry, IIOP_CLEAR_TEXT.value, false);
 
-            if (debug)
+            if (debug) {
                 System.out.println("ServerManagerImpl: activate for server Id " + serverId + " found location " + location.hostname
                         + " and activated it");
+            }
         } catch (NoSuchEndPoint ex) {
-            if (debug)
+            if (debug) {
                 System.out.println("ServerManagerImpl: activate for server Id " + " threw NoSuchEndpoint exception, which was ignored");
+            }
         }
     }
 
+    @Override
     public void active(int serverId, Server server) throws ServerNotRegistered {
         synchronized (serverTable) {
             ServerTableEntry entry = serverTable.get(serverId);
 
             if (entry == null) {
-                if (debug)
+                if (debug) {
                     System.out
                             .println("ServerManagerImpl: active for server Id " + serverId + " called, but no such server is registered.");
+                }
 
                 throw wrapper.serverNotExpectedToRegister();
             } else {
-                if (debug)
+                if (debug) {
                     System.out.println("ServerManagerImpl: active for server Id " + serverId + " called.  This server is now active.");
+                }
 
                 entry.register(server);
             }
         }
     }
 
+    @Override
     public void registerEndpoints(int serverId, String orbId, EndPointInfo[] endpointList)
             throws NoSuchEndPoint, ServerNotRegistered, ORBAlreadyRegistered {
         // orbId is ignored for now
@@ -194,15 +203,17 @@ public class ServerManagerImpl extends _ServerManagerImplBase implements BadServ
             ServerTableEntry entry = serverTable.get(serverId);
 
             if (entry == null) {
-                if (debug)
+                if (debug) {
                     System.out.println(
                             "ServerManagerImpl: registerEndpoint for server Id " + serverId + " called, but no such server is registered.");
+                }
 
                 throw wrapper.serverNotExpectedToRegister();
             } else {
-                if (debug)
+                if (debug) {
                     System.out.println(
                             "ServerManagerImpl: registerEndpoints for server Id " + serverId + " called.  This server is now active.");
+                }
 
                 entry.registerPorts(orbId, endpointList);
 
@@ -210,17 +221,19 @@ public class ServerManagerImpl extends _ServerManagerImplBase implements BadServ
         }
     }
 
+    @Override
     public int[] getActiveServers() {
         int[] list = null;
 
         synchronized (serverTable) {
-            List<ServerTableEntry> servers = new ArrayList<ServerTableEntry>();
+            List<ServerTableEntry> servers = new ArrayList<>();
 
             try {
                 for (Map.Entry<Integer, ServerTableEntry> entry : serverTable.entrySet()) {
                     ServerTableEntry def = entry.getValue();
-                    if (def.isValid() && def.isActive())
+                    if (def.isValid() && def.isActive()) {
                         servers.add(def);
+                    }
                 }
             } catch (NoSuchElementException e) {
                 // all done
@@ -229,15 +242,16 @@ public class ServerManagerImpl extends _ServerManagerImplBase implements BadServ
             // collect the active entries
             list = new int[servers.size()];
             int i = 0;
-            for (ServerTableEntry entry : servers)
+            for (ServerTableEntry entry : servers) {
                 list[i++] = entry.getServerId();
+            }
         }
 
         if (debug) {
             StringBuilder sb = new StringBuilder();
-            for (int ctr = 0; ctr < list.length; ctr++) {
+            for (int element : list) {
                 sb.append(' ');
-                sb.append(list[ctr]);
+                sb.append(element);
             }
 
             System.out.println("ServerManagerImpl: getActiveServers returns" + sb.toString());
@@ -246,13 +260,15 @@ public class ServerManagerImpl extends _ServerManagerImplBase implements BadServ
         return list;
     }
 
+    @Override
     public void shutdown(int serverId) throws ServerNotActive {
         synchronized (serverTable) {
             ServerTableEntry entry = serverTable.remove(serverId);
 
             if (entry == null) {
-                if (debug)
+                if (debug) {
                     System.out.println("ServerManagerImpl: shutdown for server Id " + serverId + " throws ServerNotActive.");
+                }
 
                 throw new ServerNotActive(serverId);
             }
@@ -260,11 +276,13 @@ public class ServerManagerImpl extends _ServerManagerImplBase implements BadServ
             try {
                 entry.destroy();
 
-                if (debug)
+                if (debug) {
                     System.out.println("ServerManagerImpl: shutdown for server Id " + serverId + " completed.");
+                }
             } catch (Exception e) {
-                if (debug)
+                if (debug) {
                     System.out.println("ServerManagerImpl: shutdown for server Id " + serverId + " threw exception " + e);
+                }
             }
         }
     }
@@ -310,8 +328,9 @@ public class ServerManagerImpl extends _ServerManagerImplBase implements BadServ
             try {
                 serverORBAndPortList = entry.lookup(endpointType);
             } catch (Exception ex) {
-                if (debug)
+                if (debug) {
                     System.out.println("ServerManagerImpl: locateServer: " + "server held down");
+                }
 
                 throw new ServerHeldDown(entry.getServerId());
             }
@@ -329,9 +348,10 @@ public class ServerManagerImpl extends _ServerManagerImplBase implements BadServ
             for (int i = 0; i < listLength; i++) {
                 location.ports[i] = new ORBPortInfo(serverORBAndPortList[i].orbId, serverORBAndPortList[i].port);
 
-                if (debug)
+                if (debug) {
                     System.out.println("ServerManagerImpl: locateServer: " + "server located at location " + location.hostname + " ORBid  "
                             + serverORBAndPortList[i].orbId + " Port " + serverORBAndPortList[i].port);
+                }
             }
         }
 
@@ -352,8 +372,9 @@ public class ServerManagerImpl extends _ServerManagerImplBase implements BadServ
             } catch (InvalidORBid ex) {
                 throw ex;
             } catch (Exception ex) {
-                if (debug)
+                if (debug) {
                     System.out.println("ServerManagerImpl: locateServerForORB: " + "server held down");
+                }
 
                 throw new ServerHeldDown(entry.getServerId());
             }
@@ -371,15 +392,17 @@ public class ServerManagerImpl extends _ServerManagerImplBase implements BadServ
             for (int i = 0; i < listLength; i++) {
                 location.ports[i] = new EndPointInfo(endpointInfoList[i].endpointType, endpointInfoList[i].port);
 
-                if (debug)
+                if (debug) {
                     System.out.println("ServerManagerImpl: locateServer: " + "server located at location " + location.hostname
                             + " endpointType  " + endpointInfoList[i].endpointType + " Port " + endpointInfoList[i].port);
+                }
             }
         }
 
         return location;
     }
 
+    @Override
     public String[] getORBNames(int serverId) throws ServerNotRegistered {
         try {
             ServerTableEntry entry = getEntry(serverId);
@@ -402,6 +425,7 @@ public class ServerManagerImpl extends _ServerManagerImplBase implements BadServ
 
     }
 
+    @Override
     public void install(int serverId) throws ServerNotRegistered, ServerHeldDown, ServerAlreadyInstalled {
         ServerTableEntry entry = getRunningEntry(serverId);
         if (entry != null) {
@@ -410,14 +434,16 @@ public class ServerManagerImpl extends _ServerManagerImplBase implements BadServ
         }
     }
 
+    @Override
     public void uninstall(int serverId) throws ServerNotRegistered, ServerHeldDown, ServerAlreadyUninstalled {
         ServerTableEntry entry = serverTable.get(serverId);
         if (entry != null) {
             entry = serverTable.remove(serverId);
 
             if (entry == null) {
-                if (debug)
+                if (debug) {
                     System.out.println("ServerManagerImpl: shutdown for server Id " + serverId + " throws ServerNotActive.");
+                }
 
                 throw new ServerHeldDown(serverId);
             }
@@ -426,11 +452,13 @@ public class ServerManagerImpl extends _ServerManagerImplBase implements BadServ
         }
     }
 
+    @Override
     public ServerLocation locateServer(int serverId, String endpointType) throws NoSuchEndPoint, ServerNotRegistered, ServerHeldDown {
         ServerTableEntry entry = getEntry(serverId);
-        if (debug)
+        if (debug) {
             System.out.println("ServerManagerImpl: locateServer called with " + " serverId=" + serverId + " endpointType=" + endpointType
                     + " block=true");
+        }
 
         // passing in entry to eliminate multiple lookups for
         // the same entry in some cases
@@ -442,18 +470,21 @@ public class ServerManagerImpl extends _ServerManagerImplBase implements BadServ
      * This method is used to obtain the registered ports for an ORB. This is useful for custom Bad server ID handlers in
      * ORBD.
      */
+    @Override
     public ServerLocationPerORB locateServerForORB(int serverId, String orbId) throws InvalidORBid, ServerNotRegistered, ServerHeldDown {
         ServerTableEntry entry = getEntry(serverId);
 
         // passing in entry to eliminate multiple lookups for
         // the same entry in some cases
 
-        if (debug)
+        if (debug) {
             System.out.println(
                     "ServerManagerImpl: locateServerForORB called with " + " serverId=" + serverId + " orbId=" + orbId + " block=true");
+        }
         return locateServerForORB(entry, orbId, true);
     }
 
+    @Override
     public void handle(ObjectKey okey) {
         IOR newIOR = null;
         ServerLocationPerORB location;
@@ -469,8 +500,9 @@ public class ServerManagerImpl extends _ServerManagerImplBase implements BadServ
             ServerTableEntry entry = getEntry(serverId);
             location = locateServerForORB(entry, orbId, true);
 
-            if (debug)
+            if (debug) {
                 System.out.println("ServerManagerImpl: handle called for server id" + serverId + "  orbid  " + orbId);
+            }
 
             // we received a list of ports corresponding to an ORB in a
             // particular server, now retrieve the one corresponding
@@ -479,9 +511,9 @@ public class ServerManagerImpl extends _ServerManagerImplBase implements BadServ
 
             int clearPort = 0;
             EndPointInfo[] listenerPorts = location.ports;
-            for (int i = 0; i < listenerPorts.length; i++) {
-                if ((listenerPorts[i].endpointType).equals(IIOP_CLEAR_TEXT.value)) {
-                    clearPort = listenerPorts[i].port;
+            for (EndPointInfo listenerPort : listenerPorts) {
+                if ((listenerPort.endpointType).equals(IIOP_CLEAR_TEXT.value)) {
+                    clearPort = listenerPort.port;
                     break;
                 }
             }
@@ -491,7 +523,7 @@ public class ServerManagerImpl extends _ServerManagerImplBase implements BadServ
             IIOPAddress addr = IIOPFactories.makeIIOPAddress(location.hostname, clearPort);
             IIOPProfileTemplate iptemp = IIOPFactories.makeIIOPProfileTemplate(orb, GIOPVersion.V1_2, addr);
             if (GIOPVersion.V1_2.supportsIORIIOPProfileComponents()) {
-                iptemp.add((TaggedComponent) IIOPFactories.makeCodeSetsComponent(orb));
+                iptemp.add(IIOPFactories.makeCodeSetsComponent(orb));
                 iptemp.add(IIOPFactories.makeMaxStreamFormatVersionComponent());
             }
             IORTemplate iortemp = IORFactories.makeIORTemplate(oktemp);
@@ -502,8 +534,9 @@ public class ServerManagerImpl extends _ServerManagerImplBase implements BadServ
             throw wrapper.errorInBadServerIdHandler(e);
         }
 
-        if (debug)
+        if (debug) {
             System.out.println("ServerManagerImpl: handle " + "throws ForwardException");
+        }
 
         try {
             // This delay is required in case of Server is activated or
@@ -519,15 +552,17 @@ public class ServerManagerImpl extends _ServerManagerImplBase implements BadServ
         throw new ForwardException(orb, newIOR);
     }
 
+    @Override
     public int getEndpoint(String endpointType) throws NoSuchEndPoint {
         return orb.getLegacyServerSocketManager().legacyGetTransientServerPort(endpointType);
     }
 
+    @Override
     public int getServerPortForType(ServerLocationPerORB location, String endPointType) throws NoSuchEndPoint {
         EndPointInfo[] listenerPorts = location.ports;
-        for (int i = 0; i < listenerPorts.length; i++) {
-            if ((listenerPorts[i].endpointType).equals(endPointType)) {
-                return listenerPorts[i].port;
+        for (EndPointInfo listenerPort : listenerPorts) {
+            if ((listenerPort.endpointType).equals(endPointType)) {
+                return listenerPort.port;
             }
         }
         throw new NoSuchEndPoint();

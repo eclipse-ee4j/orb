@@ -398,7 +398,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
         this.state = initialState;
         this.poaName = name;
         this.parent = parent;
-        children = new HashMap<String, POAImpl>();
+        children = new HashMap<>();
         activator = null;
 
         // This was done in initialize, but I moved it here
@@ -435,7 +435,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
         invokeCV = makeCondition();
         beingDestroyedCV = makeCondition();
 
-        isDestroying = new ThreadLocal<Boolean>() {
+        isDestroying = new ThreadLocal<>() {
             @Override
             protected Boolean initialValue() {
                 return Boolean.FALSE;
@@ -616,7 +616,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
                 try {
                     setDaemon(true);
                 } catch (Exception e) {
-                    thePoa.wrapper.couldNotSetDaemon(e);
+                    POAImpl.wrapper.couldNotSetDaemon(e);
                 }
 
                 start();
@@ -626,7 +626,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
         @Poa
         @Override
         public void run() {
-            final Set<ObjectReferenceTemplate> destroyedPOATemplates = new HashSet<ObjectReferenceTemplate>();
+            final Set<ObjectReferenceTemplate> destroyedPOATemplates = new HashSet<>();
 
             performDestroy(thePoa, destroyedPOATemplates);
 
@@ -694,8 +694,8 @@ public class POAImpl extends ObjectAdapterBase implements POA {
             // while destroying the POA's children, since this may involve
             // upcalls to etherealize methods.
 
-            for (int ctr = 0; ctr < childPoas.length; ctr++) {
-                performDestroy(childPoas[ctr], destroyedPOATemplates);
+            for (POAImpl element : childPoas) {
+                performDestroy(element, destroyedPOATemplates);
             }
 
             return true;
@@ -835,6 +835,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>create_POA</code> <b>Section 3.3.8.2</b>
      */
+    @Override
     @Poa
     public POA create_POA(String name, POAManager theManager, Policy[] policies) throws AdapterAlreadyExists, InvalidPolicy {
         lock();
@@ -906,6 +907,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>find_POA</code> <b>Section 3.3.8.3</b>
      */
+    @Override
     @Poa
     public POA find_POA(String name, boolean activate) throws AdapterNonExistent {
         AdapterActivator act = null;
@@ -1082,6 +1084,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>destroy</code> <b>Section 3.3.8.4</b>
      */
+    @Override
     public void destroy(boolean etherealize, boolean wait_for_completion) {
         // This is to avoid deadlock
         if (wait_for_completion && getORB().isDuringDispatch()) {
@@ -1095,6 +1098,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>create_thread_policy</code> <b>Section 3.3.8.5</b>
      */
+    @Override
     public ThreadPolicy create_thread_policy(ThreadPolicyValue value) {
         return new ThreadPolicyImpl(value);
     }
@@ -1102,6 +1106,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>create_lifespan_policy</code> <b>Section 3.3.8.5</b>
      */
+    @Override
     public LifespanPolicy create_lifespan_policy(LifespanPolicyValue value) {
         return new LifespanPolicyImpl(value);
     }
@@ -1109,6 +1114,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>create_id_uniqueness_policy</code> <b>Section 3.3.8.5</b>
      */
+    @Override
     public IdUniquenessPolicy create_id_uniqueness_policy(IdUniquenessPolicyValue value) {
         return new IdUniquenessPolicyImpl(value);
     }
@@ -1116,6 +1122,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>create_id_assignment_policy</code> <b>Section 3.3.8.5</b>
      */
+    @Override
     public IdAssignmentPolicy create_id_assignment_policy(IdAssignmentPolicyValue value) {
         return new IdAssignmentPolicyImpl(value);
     }
@@ -1123,6 +1130,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>create_implicit_activation_policy</code> <b>Section 3.3.8.5</b>
      */
+    @Override
     public ImplicitActivationPolicy create_implicit_activation_policy(ImplicitActivationPolicyValue value) {
         return new ImplicitActivationPolicyImpl(value);
     }
@@ -1130,6 +1138,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>create_servant_retention_policy</code> <b>Section 3.3.8.5</b>
      */
+    @Override
     public ServantRetentionPolicy create_servant_retention_policy(ServantRetentionPolicyValue value) {
         return new ServantRetentionPolicyImpl(value);
     }
@@ -1137,6 +1146,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>create_request_processing_policy</code> <b>Section 3.3.8.5</b>
      */
+    @Override
     public RequestProcessingPolicy create_request_processing_policy(RequestProcessingPolicyValue value) {
         return new RequestProcessingPolicyImpl(value);
     }
@@ -1144,6 +1154,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>the_name</code> <b>Section 3.3.8.6</b>
      */
+    @Override
     @ManagedAttribute(id = "POAName")
     @Description("The name of this POA")
     public String the_name() {
@@ -1159,6 +1170,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>the_parent</code> <b>Section 3.3.8.7</b>
      */
+    @Override
     @ManagedAttribute(id = "POAParent")
     @Description("The parent of this POA")
     public POA the_parent() {
@@ -1179,12 +1191,13 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     private List<POAImpl> children() {
         try {
             lock();
-            return new ArrayList<POAImpl>(children.values());
+            return new ArrayList<>(children.values());
         } finally {
             unlock();
         }
     }
 
+    @Override
     public org.omg.PortableServer.POA[] the_children() {
         try {
             lock();
@@ -1193,9 +1206,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
             int size = coll.size();
             POA[] result = new POA[size];
             int index = 0;
-            Iterator<POAImpl> iter = coll.iterator();
-            while (iter.hasNext()) {
-                POA poa = iter.next();
+            for (POA poa : coll) {
                 result[index] = poa;
                 index++;
             }
@@ -1223,6 +1234,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>the_POAManager</code> <b>Section 3.3.8.8</b>
      */
+    @Override
     public POAManager the_POAManager() {
         try {
             lock();
@@ -1236,6 +1248,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>the_activator</code> <b>Section 3.3.8.9</b>
      */
+    @Override
     @ManagedAttribute(id = "Activator")
     @Description("The AdapterActivator of this POA")
     public AdapterActivator the_activator() {
@@ -1251,6 +1264,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>the_activator</code> <b>Section 3.3.8.9</b>
      */
+    @Override
     @Poa
     public void the_activator(AdapterActivator activator) {
         try {
@@ -1265,6 +1279,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>get_servant_manager</code> <b>Section 3.3.8.10</b>
      */
+    @Override
     public ServantManager get_servant_manager() throws WrongPolicy {
         try {
             lock();
@@ -1288,6 +1303,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>set_servant_manager</code> <b>Section 3.3.8.10</b>
      */
+    @Override
     @Poa
     public void set_servant_manager(ServantManager servantManager) throws WrongPolicy {
         try {
@@ -1302,6 +1318,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>get_servant</code> <b>Section 3.3.8.12</b>
      */
+    @Override
     public Servant get_servant() throws NoServant, WrongPolicy {
         try {
             lock();
@@ -1327,6 +1344,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>set_servant</code> <b>Section 3.3.8.13</b>
      */
+    @Override
     @Poa
     public void set_servant(Servant defaultServant) throws WrongPolicy {
         try {
@@ -1341,6 +1359,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>activate_object</code> <b>Section 3.3.8.14</b>
      */
+    @Override
     @Poa
     public byte[] activate_object(Servant servant) throws ServantAlreadyActive, WrongPolicy {
         try {
@@ -1368,6 +1387,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>activate_object_with_id</code> <b>Section 3.3.8.15</b>
      */
+    @Override
     @Poa
     public void activate_object_with_id(byte[] id, Servant servant) throws ObjectAlreadyActive, ServantAlreadyActive, WrongPolicy {
         try {
@@ -1386,6 +1406,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>deactivate_object</code> <b>3.3.8.16</b>
      */
+    @Override
     @Poa
     public void deactivate_object(byte[] id) throws ObjectNotActive, WrongPolicy {
         try {
@@ -1400,6 +1421,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>create_reference</code> <b>3.3.8.17</b>
      */
+    @Override
     @Poa
     public org.omg.CORBA.Object create_reference(String repId) throws WrongPolicy {
         try {
@@ -1414,6 +1436,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>create_reference_with_id</code> <b>3.3.8.18</b>
      */
+    @Override
     @Poa
     public org.omg.CORBA.Object create_reference_with_id(byte[] oid, String repId) {
         try {
@@ -1432,6 +1455,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>servant_to_id</code> <b>3.3.8.19</b>
      */
+    @Override
     @Poa
     public byte[] servant_to_id(Servant servant) throws ServantNotActive, WrongPolicy {
         try {
@@ -1446,6 +1470,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>servant_to_reference</code> <b>3.3.8.20</b>
      */
+    @Override
     @Poa
     public org.omg.CORBA.Object servant_to_reference(Servant servant) throws ServantNotActive, WrongPolicy {
         try {
@@ -1462,6 +1487,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>reference_to_servant</code> <b>3.3.8.21</b>
      */
+    @Override
     @Poa
     public Servant reference_to_servant(org.omg.CORBA.Object reference) throws ObjectNotActive, WrongPolicy, WrongAdapter {
         try {
@@ -1484,6 +1510,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>reference_to_id</code> <b>3.3.8.22</b>
      */
+    @Override
     @Poa
     public byte[] reference_to_id(org.omg.CORBA.Object reference) throws WrongAdapter, WrongPolicy {
         try {
@@ -1502,6 +1529,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>id_to_servant</code> <b>3.3.8.23</b>
      */
+    @Override
     @Poa
     public Servant id_to_servant(byte[] id) throws ObjectNotActive, WrongPolicy {
         try {
@@ -1519,6 +1547,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>id_to_reference</code> <b>3.3.8.24</b>
      */
+    @Override
     @Poa
     public org.omg.CORBA.Object id_to_reference(byte[] id) throws ObjectNotActive, WrongPolicy
 
@@ -1541,6 +1570,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     /**
      * <code>id</code> <b>11.3.8.26 in ptc/00-08-06</b>
      */
+    @Override
     public byte[] id() {
         try {
             lock();
@@ -1555,29 +1585,35 @@ public class POAImpl extends ObjectAdapterBase implements POA {
     // Implementation of ObjectAdapter interface
     // ***************************************************************
 
+    @Override
     public Policy getEffectivePolicy(int type) {
         return mediator.getPolicies().get_effective_policy(type);
     }
 
+    @Override
     public int getManagerId() {
         return manager.getManagerId();
     }
 
+    @Override
     public short getState() {
         return manager.getORTState();
     }
 
+    @Override
     public String[] getInterfaces(java.lang.Object servant, byte[] objectId) {
         Servant serv = (Servant) servant;
         return serv._all_interfaces(this, objectId);
     }
 
+    @Override
     protected ObjectCopierFactory getObjectCopierFactory() {
         int copierId = mediator.getPolicies().getCopierId();
         CopierManager cm = getORB().getCopierManager();
         return cm.getObjectCopierFactory(copierId);
     }
 
+    @Override
     @Poa
     public void enter() throws OADestroyed {
         manager.enter();
@@ -1622,6 +1658,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
         }
     }
 
+    @Override
     @Poa
     public void exit() {
         try {
@@ -1663,6 +1700,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
         }
     }
 
+    @Override
     @Poa
     public void getInvocationServant(OAInvocationInfo info) {
         // 6878245
@@ -1681,6 +1719,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
         info.setServant(servant);
     }
 
+    @Override
     public org.omg.CORBA.Object getLocalServant(byte[] objectId) {
         return null;
     }
@@ -1689,6 +1728,7 @@ public class POAImpl extends ObjectAdapterBase implements POA {
      * Called from the subcontract to let this POA cleanup after an invocation. Note: If getServant was called, then
      * returnServant MUST be called, even in the case of exceptions. This may be called multiple times for a single request.
      */
+    @Override
     @Poa
     public void returnServant() {
         try {

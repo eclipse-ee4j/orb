@@ -34,15 +34,17 @@ public abstract class PresentationDefaults {
     }
 
     synchronized static PresentationManager.StubFactoryFactory getDynamicStubFactoryFactory() {
-        if (dynamicImpl == null)
+        if (dynamicImpl == null) {
             dynamicImpl = new StubFactoryFactoryCodegenImpl();
+        }
 
         return dynamicImpl;
     }
 
     public synchronized static PresentationManager.StubFactoryFactory getStaticStubFactoryFactory() {
-        if (staticImpl == null)
+        if (staticImpl == null) {
             staticImpl = new StubFactoryFactoryStaticImpl();
+        }
 
         return staticImpl;
     }
@@ -52,9 +54,11 @@ public abstract class PresentationDefaults {
     }
 
     private static InvocationInterceptor nullInvocationInterceptor = new InvocationInterceptor() {
+        @Override
         public void preInvoke() {
         }
 
+        @Override
         public void postInvoke() {
         }
     };

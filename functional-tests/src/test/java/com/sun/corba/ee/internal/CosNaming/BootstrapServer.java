@@ -42,7 +42,7 @@ public class BootstrapServer {
      * Main startup routine for the bootstrap server. It first determines the port on which to listen, checks that the
      * specified file is available, and then creates the resolver that will be used to service the requests in the
      * BootstrapServerRequestDispatcher.
-     * 
+     *
      * @param args the command-line arguments to the main program.
      */
     public static final void main(String[] args) {
@@ -75,7 +75,7 @@ public class BootstrapServer {
         File file = new File(propertiesFilename);
 
         // Verify that if it exists, it is readable
-        if (file.exists() == true && file.canRead() == false) {
+        if (file.exists() && !file.canRead()) {
             System.err.println("File " + file.getAbsolutePath() + " is not readable");
             return;
         }

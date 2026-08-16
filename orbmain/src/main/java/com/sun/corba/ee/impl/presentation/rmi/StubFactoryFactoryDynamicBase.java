@@ -33,6 +33,7 @@ public abstract class StubFactoryFactoryDynamicBase extends StubFactoryFactoryBa
     public StubFactoryFactoryDynamicBase() {
     }
 
+    @Override
     public PresentationManager.StubFactory createStubFactory(String className, boolean isIDLStub, String remoteCodeBase,
             Class expectedClass, ClassLoader classLoader) {
         Class cls = null;
@@ -59,11 +60,13 @@ public abstract class StubFactoryFactoryDynamicBase extends StubFactoryFactoryBa
     public abstract PresentationManager.StubFactory makeDynamicStubFactory(PresentationManager pm, PresentationManager.ClassData classData,
             ClassLoader classLoader);
 
+    @Override
     public Tie getTie(Class cls) {
         PresentationManager pm = ORB.getPresentationManager();
         return new ReflectiveTie(pm);
     }
 
+    @Override
     public boolean createsDynamicStubs() {
         return true;
     }

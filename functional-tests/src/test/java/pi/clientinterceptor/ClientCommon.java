@@ -199,7 +199,7 @@ abstract public class ClientCommon {
     /**
      * Tests a standard invocation by resolving a reference to helloServer and making an invcation, recording the
      * interceptor invocation ordering.
-     * 
+     *
      * @param mode - See SampleClientRequestIntreceptor.testMode for more details of mode parameter.
      * @param correctOrder - See SampleClientRequestInterceptor. invocationOrder for more details on correctOrder.
      * @param methodName is either "sayHello", "sayException", or "sayOther"

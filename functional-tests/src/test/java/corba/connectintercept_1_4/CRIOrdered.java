@@ -37,6 +37,7 @@ public class CRIOrdered extends org.omg.CORBA.LocalObject implements org.omg.Por
         this.order = order;
     }
 
+    @Override
     public int compareTo(Object o) {
         int otherOrder = ((CRIOrdered) o).order;
         if (order < otherOrder) {
@@ -47,10 +48,12 @@ public class CRIOrdered extends org.omg.CORBA.LocalObject implements org.omg.Por
         return 1;
     }
 
+    @Override
     public String name() {
         return name;
     }
 
+    @Override
     public void destroy() {
         try {
             Common.up(order);
@@ -62,22 +65,27 @@ public class CRIOrdered extends org.omg.CORBA.LocalObject implements org.omg.Por
         }
     }
 
+    @Override
     public void send_request(ClientRequestInfo cri) {
         Common.up(order);
     }
 
+    @Override
     public void send_poll(ClientRequestInfo cri) {
         Common.up(order);
     }
 
+    @Override
     public void receive_reply(ClientRequestInfo cri) {
         Common.down(order);
     }
 
+    @Override
     public void receive_exception(ClientRequestInfo cri) {
         Common.down(order);
     }
 
+    @Override
     public void receive_other(ClientRequestInfo cri) {
         Common.down(order);
     }

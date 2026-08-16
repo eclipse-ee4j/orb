@@ -47,7 +47,7 @@ public class OldRMILocalServer implements Observer {
     public void run(com.sun.corba.ee.spi.orb.ORB orb, java.lang.Object syncObject, Properties environment, String args[], PrintStream out,
             PrintStream err, Hashtable extra) throws Exception {
         this.out = out;
-        this.orb = (com.sun.corba.ee.spi.orb.ORB) orb;
+        this.orb = orb;
 
         // Inform the JNDI provider of the ORB to use and create intial
         // naming context:
@@ -94,6 +94,7 @@ public class OldRMILocalServer implements Observer {
         delegate.addObserver(this);
     }
 
+    @Override
     public void update(Observable o, java.lang.Object arg) {
         try {
             rebindObjects();

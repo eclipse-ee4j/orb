@@ -43,7 +43,7 @@ public final class INITIALIZE extends SystemException {
     /**
      * Constructs an <code>INITIALIZE</code> exception with the specified detail message, a minor code of 0, and a
      * completion state of <code>CompletionStatus.COMPLETED_NO</code>.
-     * 
+     *
      * @param s the String containing a detail message
      */
     public INITIALIZE(String s) {
@@ -52,7 +52,7 @@ public final class INITIALIZE extends SystemException {
 
     /**
      * Constructs an <code>INITIALIZE</code> exception with the specified minor code and completion status.
-     * 
+     *
      * @param minor the minor code
      * @param completed an instance of <code>CompletionStatus</code> indicating the completion status of the method that
      * threw this exception
@@ -64,7 +64,7 @@ public final class INITIALIZE extends SystemException {
     /**
      * Constructs an <code>INITIALIZE</code> exception with the specified detail message, minor code, and completion status.
      * A detail message is a String that describes this particular exception.
-     * 
+     *
      * @param s the String containing a detail message
      * @param minor the minor code
      * @param completed an instance of <code>CompletionStatus</code> indicating the completion status of the method that

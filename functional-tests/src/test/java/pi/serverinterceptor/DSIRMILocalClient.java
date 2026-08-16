@@ -43,6 +43,7 @@ public class DSIRMILocalClient extends DSIRMIClient {
         this.orb = orb;
     }
 
+    @Override
     public void run(Properties environment, String args[], PrintStream out, PrintStream err, Hashtable extra) throws Exception {
         out.println("===============================================");
         out.println("Instantiating Client ORB for DSI RMI Local test");

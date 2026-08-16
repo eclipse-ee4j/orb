@@ -44,10 +44,12 @@ public class AServiceIORInterceptor extends org.omg.CORBA.LocalObject implements
     // Interceptor operations
     //
 
+    @Override
     public String name() {
         return "AServiceInterceptor";
     }
 
+    @Override
     public void destroy() {
     }
 
@@ -55,6 +57,7 @@ public class AServiceIORInterceptor extends org.omg.CORBA.LocalObject implements
     // IOR Interceptor operations
     //
 
+    @Override
     public void establish_components(IORInfo info) {
         //
         // Note: typically, rather than just inserting a tagged component

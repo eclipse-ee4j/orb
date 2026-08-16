@@ -28,9 +28,11 @@ public class TestClass implements Serializable {
         instance = new NestedInnerClass();
     }
 
+    @Override
     public boolean equals(Object obj) {
-        if (obj == null)
+        if (obj == null) {
             return false;
+        }
 
         try {
             return instance.equals(((TestClass) obj).instance);
@@ -47,19 +49,23 @@ public class TestClass implements Serializable {
 
         private long data;
 
+        @Override
         public void readExternal(ObjectInput decoder) throws IOException, ClassNotFoundException {
 
             data = decoder.readLong();
         }
 
+        @Override
         public void writeExternal(ObjectOutput encoder) throws IOException {
 
             encoder.writeLong(data);
         }
 
+        @Override
         public boolean equals(Object obj) {
-            if (obj == null)
+            if (obj == null) {
                 return false;
+            }
 
             try {
                 return data == ((NestedInnerClass) obj).data;

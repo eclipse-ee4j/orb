@@ -63,10 +63,11 @@ public abstract class Test implements java.lang.Runnable {
     public static String display(String[] args) {
         String result = null;
         for (String str : args) {
-            if (result == null)
+            if (result == null) {
                 result = "[" + str;
-            else
+            } else {
                 result += ", " + str;
+            }
         }
         result += "]";
         return result;
@@ -77,17 +78,20 @@ public abstract class Test implements java.lang.Runnable {
             RuntimeMXBean bean = ManagementFactory.getRuntimeMXBean();
 
             System.out.println("Boot classpath = ");
-            for (String str : bean.getBootClassPath().split(":"))
+            for (String str : bean.getBootClassPath().split(":")) {
                 System.out.println("\t" + str);
+            }
 
             System.out.println("System classpath = ");
-            for (String str : bean.getClassPath().split(":"))
+            for (String str : bean.getClassPath().split(":")) {
                 System.out.println("\t" + str);
+            }
 
             List<String> args = bean.getInputArguments();
             System.out.println("VM arguments:");
-            for (String str : args)
+            for (String str : args) {
                 System.out.println("\t" + str);
+            }
         }
     }
 
@@ -132,8 +136,9 @@ public abstract class Test implements java.lang.Runnable {
     public static int ATTACH = 2;
 
     public static void dprint(String msg) {
-        if (debug)
+        if (debug) {
             System.out.println("TEST: " + msg);
+        }
     }
 
     public static void usage() {
@@ -175,33 +180,36 @@ public abstract class Test implements java.lang.Runnable {
      **/
     public static Hashtable<String, String> createFromConsolePairs(String args[]) {
         int i = 0;
-        Hashtable<String, String> table = new Hashtable<String, String>();
+        Hashtable<String, String> table = new Hashtable<>();
         String key, value;
 
         while (i < args.length) {
             key = args[i].toLowerCase();
 
-            if (key.charAt(0) != '-')
+            if (key.charAt(0) != '-') {
                 throw new Error(key + " is not a key");
+            }
 
             i++;
-            if (i == args.length)
+            if (i == args.length) {
                 value = "";
-            else {
+            } else {
                 value = args[i];
 
                 if (value.charAt(0) == '-') {
                     value = "";
-                } else
+                } else {
                     i++;
+                }
             }
 
             table.put(key, value);
 
         }
 
-        if (table.containsKey(DEBUG_FLAG))
+        if (table.containsKey(DEBUG_FLAG)) {
             dprint("Contents of argument table: " + table);
+        }
 
         return table;
     }
@@ -249,7 +257,7 @@ public abstract class Test implements java.lang.Runnable {
 
     /**
      * Gets the main argument list as the original String array.
-     * 
+     *
      * @return String args[]
      **/
     public String[] getArgsAsArgs() {
@@ -299,8 +307,9 @@ public abstract class Test implements java.lang.Runnable {
     public static void main(String args[]) {
         // checkSunTools() ;
 
-        if (System.getProperty("jcov") != null)
+        if (System.getProperty("jcov") != null) {
             Runtime.getRuntime().addShutdownHook(new ShutdownHook());
+        }
 
         try {
             initRuntimeProperties();
@@ -309,8 +318,9 @@ public abstract class Test implements java.lang.Runnable {
 
             if (run(args)) {
                 System.out.println("\nTests Completed\n ---- Press CTRL-C to Finish ----");
-                while (true)
-                    ;
+                while (true) {
+                    
+                }
             }
         } catch (Throwable thr) {
             System.out.println("Unexpected throwable: " + thr);
@@ -327,7 +337,7 @@ public abstract class Test implements java.lang.Runnable {
 
     /**
      * Get a resource as stream given a fully qualified class name.
-     * 
+     *
      * @param className The fully qualified class name.
      * @param extensionName The resource extension name (e.g. ".class", ".properties", etc).
      **/
@@ -364,7 +374,7 @@ public abstract class Test implements java.lang.Runnable {
     /**
      * Return the specified resource as an array of strings. Whitespace is trimmed from both ends of all strings. Blank
      * lines are ignored.
-     * 
+     *
      * @param className The fully qualified class name.
      * @param extensionName The resource extension name (e.g. ".classlist", ".array", etc).
      * @param ignoreLinesStartingWith Any lines which begin with this string (after whitespace has been trimmed) will be
@@ -381,7 +391,7 @@ public abstract class Test implements java.lang.Runnable {
         }
 
         try {
-            Vector<String> list = new Vector<String>();
+            Vector<String> list = new Vector<>();
             BufferedReader in = new BufferedReader(inStream);
 
             while (true) {
@@ -410,7 +420,7 @@ public abstract class Test implements java.lang.Runnable {
 
     /**
      * Compare two resources for the given class, ignoring whitespace.
-     * 
+     *
      * @param className The fully qualified class name.
      * @param sourceExtension The 'file' extension for the source (e.g. ".properties").
      * @param targetExtension The 'file' extension for the target (e.g. ".reference").
@@ -531,7 +541,7 @@ public abstract class Test implements java.lang.Runnable {
 
     /**
      * Compare two resources for the given class, ignoring whitespace.
-     * 
+     *
      * @param className The fully qualified class name.
      * @param sourceExtension The 'file' extension for the source (e.g. ".properties").
      * @param targetExtension The 'file' extension for the target (e.g. ".reference").
@@ -600,10 +610,12 @@ public abstract class Test implements java.lang.Runnable {
                 }
             }
         } finally {
-            if (inStream != null)
+            if (inStream != null) {
                 inStream.close();
-            if (refStream != null)
+            }
+            if (refStream != null) {
                 refStream.close();
+            }
         }
     }
 
@@ -664,10 +676,12 @@ public abstract class Test implements java.lang.Runnable {
 
             if (pathDir.exists() && pathDir.isDirectory()) {
                 return pathDir.getPath();
-            } else
+            } else {
                 return null;
-        } else
+            }
+        } else {
             return null;
+        }
     }
 
     private static void setDefaultOutputDir(Hashtable<String, String> flags) {
@@ -864,11 +878,12 @@ public abstract class Test implements java.lang.Runnable {
     }
 
     public static void runTestFile(String testFile, String[] args) {
-        if (testFile == null)
+        if (testFile == null) {
             UsageAndExit();
+        }
 
         // Open up the file...
-        Vector<String> lines = new Vector<String>();
+        Vector<String> lines = new Vector<>();
         DataInputStream stream = null;
 
         try {
@@ -919,8 +934,9 @@ public abstract class Test implements java.lang.Runnable {
             }
         } catch (IOException e1) {
             try {
-                if (stream != null)
+                if (stream != null) {
                     stream.close();
+                }
             } catch (IOException e2) {
                 // ignore exception
             }
@@ -1013,7 +1029,7 @@ public abstract class Test implements java.lang.Runnable {
 
         // Now run it...
         if (ownProcess) {
-            Vector<String> command = new Vector<String>();
+            Vector<String> command = new Vector<>();
             command.addElement(System.getProperty("java.home") + "/bin/java");
             command.addElement("-classpath");
             command.addElement(System.getProperty("java.class.path"));
@@ -1043,8 +1059,9 @@ public abstract class Test implements java.lang.Runnable {
 
             if (forkDebugLevel >= DISPLAY) {
                 System.out.println("Forking Test:");
-                for (String str : theCommand)
+                for (String str : theCommand) {
                     System.out.println("\t" + str);
+                }
             }
 
             int result = Util.execAndWaitFor(theCommand, System.out, System.err);
@@ -1059,8 +1076,9 @@ public abstract class Test implements java.lang.Runnable {
 
     private static int getInt(String str) {
         dprint("getInt called with " + str);
-        if (str == null)
+        if (str == null) {
             return 0;
+        }
 
         try {
             return Integer.parseInt(str);
@@ -1074,8 +1092,9 @@ public abstract class Test implements java.lang.Runnable {
 
         // These throw rather than exit: a bad entry must fail its own case, not terminate the JVM and with it every
         // remaining entry in the suite. See UsageAndExit.
-        if (testClassName == null)
+        if (testClassName == null) {
             throw new IllegalArgumentException("no test class name given (-test)");
+        }
 
         Test testObj = null;
 
@@ -1104,22 +1123,24 @@ public abstract class Test implements java.lang.Runnable {
         testObj.setArgs(flags);
 
         debug = flags.containsKey(DEBUG_FLAG);
-        forkDebugLevel = getInt((String) flags.get(FORK_DEBUG_LEVEL));
+        forkDebugLevel = getInt(flags.get(FORK_DEBUG_LEVEL));
         dprint("forkDebugLevel = " + forkDebugLevel);
 
         int iterations = 1;
         long sum = 0;
         boolean noIterate = flags.containsKey(NO_ITERATE_FLAG);
-        if (!noIterate && flags.containsKey(NUMBER_OF_ITERATIONS_FLAG))
+        if (!noIterate && flags.containsKey(NUMBER_OF_ITERATIONS_FLAG)) {
             iterations = Integer.parseInt(flags.get(NUMBER_OF_ITERATIONS_FLAG));
+        }
         testObj.createResultsTable(iterations);
 
         try {
             boolean verbose = flags.containsKey(VERBOSE_FLAG);
             boolean demure = flags.containsKey(DEMURE_FLAG);
             String info = "";
-            if (flags.containsKey(FVD_FLAG))
+            if (flags.containsKey(FVD_FLAG)) {
                 info = " (Using FVD) ";
+            }
 
             if (verbose) {
                 System.out.print("    " + testClassName + info + ": ");
@@ -1154,7 +1175,7 @@ public abstract class Test implements java.lang.Runnable {
                 sum = sum + duration;
                 dprint("finishAnIteration called");
                 Error status = testObj.finishAnIteration();
-                testObj.results[i] = new Hashtable<String, Object>();
+                testObj.results[i] = new Hashtable<>();
                 testObj.results[i].put(DURATION, duration);
                 if (status != null) {
                     testObj.results[i].put(STATUS, status);
@@ -1163,9 +1184,9 @@ public abstract class Test implements java.lang.Runnable {
 
                 if (verbose) {
                     System.out.print("[" + duration + "ms] ");
-                    if (status == null)
+                    if (status == null) {
                         System.out.println("PASSED");
-                    else {
+                    } else {
                         System.out.println("FAILED");
                         System.out.println(status.getMessage());
                     }
@@ -1215,6 +1236,7 @@ public abstract class Test implements java.lang.Runnable {
      * Your test method. Set the Test.status Error code to a java.lang.Error instance if the test did not pass. Otherwise,
      * leave the status field as null.
      **/
+    @Override
     public abstract void run();
 
     /**
@@ -1266,14 +1288,16 @@ public abstract class Test implements java.lang.Runnable {
                 /*
                  * find the first element that is greater than or equal to the partition element starting from the left Index.
                  */
-                while ((lo < hi0) && (a[lo].compareTo(mid) < 0))
+                while ((lo < hi0) && (a[lo].compareTo(mid) < 0)) {
                     ++lo;
+                }
 
                 /*
                  * find an element that is smaller than or equal to the partition element starting from the right Index.
                  */
-                while ((hi > lo0) && (a[hi].compareTo(mid) > 0))
+                while ((hi > lo0) && (a[hi].compareTo(mid) > 0)) {
                     --hi;
+                }
 
                 // if the indexes have not crossed, swap
                 if (lo <= hi) {
@@ -1286,14 +1310,16 @@ public abstract class Test implements java.lang.Runnable {
             /*
              * If the right index has not reached the left side of array must now sort the left partition.
              */
-            if (lo0 < hi)
+            if (lo0 < hi) {
                 quickSort(a, lo0, hi);
+            }
 
             /*
              * If the left index has not reached the right side of array must now sort the right partition.
              */
-            if (lo < hi0)
+            if (lo < hi0) {
                 quickSort(a, lo, hi0);
+            }
         }
     }
 

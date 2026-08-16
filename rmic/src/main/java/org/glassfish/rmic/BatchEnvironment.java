@@ -161,6 +161,7 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
     /**
      * Release resources, if any.
      */
+    @Override
     public void shutdown() {
         generatedFiles = null;
         super.shutdown();
@@ -172,6 +173,7 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
      * being with "rmic.", look up the error message in rmic's resource
      * bundle; otherwise, defer to java's superclass method.
      */
+    @Override
     public String errorString(String err,
                               Object arg0, Object arg1, Object arg2)
     {
@@ -213,23 +215,29 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
                 this.emptyPathDefault = emptyPathDefault;
             }
             public PathIterator(String path) { this(path, null); }
+            @Override
             public Iterator<String> iterator() {
-                return new Iterator<String>() {
+                return new Iterator<>() {
+                    @Override
                     public boolean hasNext() {
                         return pos <= path.length();
                     }
+                    @Override
                     public String next() {
                         int beg = pos;
                         int end = path.indexOf(File.pathSeparator, beg);
-                        if (end == -1)
+                        if (end == -1) {
                             end = path.length();
+                        }
                         pos = end + 1;
 
-                        if (beg == end && emptyPathDefault != null)
+                        if (beg == end && emptyPathDefault != null) {
                             return emptyPathDefault;
-                        else
+                        } else {
                             return path.substring(beg, end);
+                        }
                     }
+                    @Override
                     public void remove() {
                         throw new UnsupportedOperationException();
                     }
@@ -237,45 +245,59 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
             }
 
             // required for Collection.
+            @Override
             public int size() {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public boolean isEmpty() {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public boolean contains(Object o) {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public Object[] toArray() {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public <T> T[] toArray(T[] a) {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public boolean add(String o) {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public boolean remove(Object o) {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public boolean containsAll(Collection<?> c) {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public boolean addAll(Collection<? extends String> c) {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public boolean removeAll(Collection<?> c) {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public boolean retainAll(Collection<?> c) {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public void clear() {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public boolean equals(Object o) {
                 throw new UnsupportedOperationException();
             }
+            @Override
             public int hashCode() {
                 throw new UnsupportedOperationException();
             }
@@ -304,9 +326,11 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
         public Path() { super(); }
 
         public Path addDirectories(String dirs, boolean warn) {
-            if (dirs != null)
-                for (String dir : new PathIterator(dirs))
+            if (dirs != null) {
+                for (String dir : new PathIterator(dirs)) {
                     addDirectory(dir, warn);
+                }
+            }
             return this;
         }
 
@@ -325,15 +349,18 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
             for (String direntry : new File(dir).list()) {
                 String canonicalized = direntry.toLowerCase();
                 if (canonicalized.endsWith(".jar") ||
-                    canonicalized.endsWith(".zip"))
+                    canonicalized.endsWith(".zip")) {
                     addFile(dir + File.separator + direntry, warn);
+                }
             }
         }
 
         public Path addFiles(String files, boolean warn) {
-            if (files != null)
-                for (String file : new PathIterator(files, emptyPathDefault))
+            if (files != null) {
+                for (String file : new PathIterator(files, emptyPathDefault)) {
                     addFile(file, warn);
+                }
+            }
             return this;
         }
 
@@ -350,10 +377,11 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
             File ele = new File(file);
             if (! ele.exists()) {
                 /* No such file or directory exist */
-                if (warn)
-//                      log.warning(Position.NOPOS,
+                if (warn) {
+                    //                      log.warning(Position.NOPOS,
 //                          "path.element.not.found", file);
                     return;
+                }
             }
 
             if (ele.isFile()) {
@@ -373,8 +401,9 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
                confirming to archive naming convention */
 
             super.add(file);
-            if (expandJarClassPaths && isZip(file))
+            if (expandJarClassPaths && isZip(file)) {
                 addJarClassPath(file, warn);
+            }
         }
 
         // Adds referenced classpath elements from a jar's Class-Path
@@ -388,19 +417,26 @@ public class BatchEnvironment extends org.glassfish.rmic.tools.javac.BatchEnviro
 
                 try {
                     Manifest man = jar.getManifest();
-                    if (man == null) return;
+                    if (man == null) {
+                        return;
+                    }
 
                     Attributes attr = man.getMainAttributes();
-                    if (attr == null) return;
+                    if (attr == null) {
+                        return;
+                    }
 
                     String path = attr.getValue(Attributes.Name.CLASS_PATH);
-                    if (path == null) return;
+                    if (path == null) {
+                        return;
+                    }
 
                     for (StringTokenizer st = new StringTokenizer(path);
                         st.hasMoreTokens();) {
                         String elt = st.nextToken();
-                        if (jarParent != null)
+                        if (jarParent != null) {
                             elt = new File(jarParent, elt).getCanonicalPath();
+                        }
                         addFile(elt, warn);
                     }
                 } finally {

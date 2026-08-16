@@ -48,10 +48,12 @@ class ClassType extends Type {
         this.className = className;
     }
 
+    @Override
     public Identifier getClassName() {
         return className;
     }
 
+    @Override
     public String typeString(String id, boolean abbrev, boolean ret) {
         String s = (abbrev ? getClassName().getFlatName() :
                                 Identifier.lookup(getClassName().getQualifier(),

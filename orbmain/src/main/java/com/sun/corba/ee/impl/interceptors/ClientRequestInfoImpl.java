@@ -225,7 +225,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
     /**
      * Creates a new ClientRequestInfo implementation. The constructor is package scope since no other package need create
      * an instance of this class.
-     * 
+     *
      * @param myORB ORB to use
      */
     protected ClientRequestInfoImpl(ORB myORB) {
@@ -237,12 +237,13 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
     /**
      * The object which the client called to perform the operation.
      */
+    @Override
     @TraceInterceptor
     public org.omg.CORBA.Object target() {
         // access is currently valid for all states:
         // checkAccess( MID_TARGET );
         if (messageMediator != null && cachedTargetObject == null) {
-            ContactInfo corbaContactInfo = (ContactInfo) messageMediator.getContactInfo();
+            ContactInfo corbaContactInfo = messageMediator.getContactInfo();
             cachedTargetObject = iorToObject(corbaContactInfo.getTargetIOR());
         }
         return cachedTargetObject;
@@ -252,6 +253,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
      * The actual object on which the operation will be invoked. If the reply_status is LOCATION_FORWARD, then on subsequent
      * requests, effective_target will contain the forwarded IOR while target will remain unchanged.
      */
+    @Override
     @TraceInterceptor
     public org.omg.CORBA.Object effective_target() {
         // access is currently valid for all states:
@@ -273,6 +275,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
      * The profile that will be used to send the request. If a location forward has occurred for this operation's object and
      * that object's profile change accordingly, then this profile will be that located profile.
      */
+    @Override
     @TraceInterceptor
     public TaggedProfile effective_profile() {
         // access is currently valid for all states:
@@ -293,6 +296,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
     /**
      * Contains the exception to be returned to the client.
      */
+    @Override
     @TraceInterceptor
     public Any received_exception() {
         checkAccess(MID_RECEIVED_EXCEPTION);
@@ -311,6 +315,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
     /**
      * The CORBA::RepositoryId of the exception to be returned to the client.
      */
+    @Override
     @TraceInterceptor
     public String received_exception_id() {
         checkAccess(MID_RECEIVED_EXCEPTION_ID);
@@ -344,6 +349,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
      * one component for a given component ID, it is undefined which component this operation returns
      * (get_effective_component should be called instead).
      */
+    @Override
     @TraceInterceptor
     public TaggedComponent get_effective_component(int id) {
         checkAccess(MID_GET_EFFECTIVE_COMPONENT);
@@ -359,6 +365,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
     /**
      * Returns all the tagged components with the given ID from the profile selected for this request.
      */
+    @Override
     @TraceInterceptor
     public TaggedComponent[] get_effective_components(int id) {
         checkAccess(MID_GET_EFFECTIVE_COMPONENTS);
@@ -366,7 +373,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
         boolean justCreatedCache = false;
 
         if (cachedEffectiveComponents == null) {
-            cachedEffectiveComponents = new HashMap<Integer, TaggedComponent[]>();
+            cachedEffectiveComponents = new HashMap<>();
             justCreatedCache = true;
         } else {
             // Look in cache:
@@ -406,6 +413,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
     /**
      * Returns the given policy in effect for this operation.
      */
+    @Override
     @TraceInterceptor
     public Policy get_request_policy(int type) {
         checkAccess(MID_GET_REQUEST_POLICY);
@@ -418,13 +426,14 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
      * <p>
      * There is no declaration of the order of the service contexts. They may or may not appear in the order they are added.
      */
+    @Override
     @TraceInterceptor
     public void add_request_service_context(ServiceContext service_context, boolean replace) {
 
         checkAccess(MID_ADD_REQUEST_SERVICE_CONTEXT);
 
         if (cachedRequestServiceContexts == null) {
-            cachedRequestServiceContexts = new HashMap<Integer, org.omg.IOP.ServiceContext>();
+            cachedRequestServiceContexts = new HashMap<>();
         }
 
         addServiceContext(cachedRequestServiceContexts, messageMediator.getRequestServiceContexts(), service_context, replace);
@@ -446,6 +455,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
     /**
      * See RequestInfoImpl for javadoc.
      */
+    @Override
     public int request_id() {
         // access is currently valid for all states:
         // checkAccess( MID_REQUEST_ID );
@@ -459,6 +469,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
     /**
      * See RequestInfoImpl for javadoc.
      */
+    @Override
     public String operation() {
         // access is currently valid for all states:
         // checkAccess( MID_OPERATION );
@@ -477,6 +488,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
     /**
      * See RequestInfoImpl for javadoc.
      */
+    @Override
     @TraceInterceptor
     public Parameter[] arguments() {
         checkAccess(MID_ARGUMENTS);
@@ -502,6 +514,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
     /**
      * See RequestInfoImpl for javadoc.
      */
+    @Override
     @TraceInterceptor
     public TypeCode[] exceptions() {
         checkAccess(MID_EXCEPTIONS);
@@ -538,6 +551,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
     /**
      * See RequestInfoImpl for javadoc.
      */
+    @Override
     @TraceInterceptor
     public String[] contexts() {
         checkAccess(MID_CONTEXTS);
@@ -573,6 +587,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
     /**
      * See RequestInfoImpl for javadoc.
      */
+    @Override
     @TraceInterceptor
     public String[] operation_context() {
         checkAccess(MID_OPERATION_CONTEXT);
@@ -602,7 +617,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
                     try {
                         nv = nvList.item(i);
                     } catch (Exception e) {
-                        return (String[]) null;
+                        return null;
                     }
                     context[index] = nv.name();
                     index++;
@@ -624,6 +639,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
     /**
      * See RequestInfoImpl for javadoc.
      */
+    @Override
     @TraceInterceptor
     public Any result() {
         checkAccess(MID_RESULT);
@@ -652,6 +668,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
     /**
      * See RequestInfoImpl for javadoc.
      */
+    @Override
     public boolean response_expected() {
         // access is currently valid for all states:
         // checkAccess( MID_RESPONSE_EXPECTED );
@@ -661,6 +678,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
     /**
      * See RequestInfoImpl for javadoc.
      */
+    @Override
     @TraceInterceptor
     public Object forward_reference() {
         checkAccess(MID_FORWARD_REFERENCE);
@@ -702,12 +720,13 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
     /**
      * See RequestInfoImpl for javadoc.
      */
+    @Override
     @TraceInterceptor
     public org.omg.IOP.ServiceContext get_request_service_context(int id) {
         checkAccess(MID_GET_REQUEST_SERVICE_CONTEXT);
 
         if (cachedRequestServiceContexts == null) {
-            cachedRequestServiceContexts = new HashMap<Integer, org.omg.IOP.ServiceContext>();
+            cachedRequestServiceContexts = new HashMap<>();
         }
 
         return getServiceContext(cachedRequestServiceContexts, messageMediator.getRequestServiceContexts(), id);
@@ -716,12 +735,13 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
     /**
      * does not contain an etry for that ID, BAD_PARAM with a minor code of TBD_BP is raised.
      */
+    @Override
     @TraceInterceptor
     public org.omg.IOP.ServiceContext get_reply_service_context(int id) {
         checkAccess(MID_GET_REPLY_SERVICE_CONTEXT);
 
         if (cachedReplyServiceContexts == null) {
-            cachedReplyServiceContexts = new HashMap<Integer, org.omg.IOP.ServiceContext>();
+            cachedReplyServiceContexts = new HashMap<>();
         }
 
         // In the event this is called from a oneway, we will have no
@@ -753,7 +773,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
 
     @Override
     public com.sun.corba.ee.spi.legacy.connection.Connection connection() {
-        return (com.sun.corba.ee.spi.legacy.connection.Connection) messageMediator.getConnection();
+        return messageMediator.getConnection();
     }
 
     /*
@@ -844,7 +864,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
 
     /**
      * Sets DII request object in the RequestInfoObject.
-     * 
+     *
      * @param req The DII request object
      */
     protected void setDIIRequest(org.omg.CORBA.Request req) {
@@ -854,7 +874,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
     /**
      * Keeps track of whether initiate was called for a DII request. The ORB needs to know this so it knows whether to
      * ignore a second call to initiateClientPIRequest or not.
-     * 
+     *
      * @param diiInitiate If initiate was called
      */
     protected void setDIIInitiate(boolean diiInitiate) {
@@ -873,7 +893,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
      * The PICurrent stack should only be popped if it was pushed. This is generally the case. But exceptions which occur
      * after the stub's entry to _request but before the push end up in _releaseReply which will try to pop unless told not
      * to.
-     * 
+     *
      * @param piCurrentPushed If the stack should be pushed
      */
     protected void setPICurrentPushed(boolean piCurrentPushed) {
@@ -903,6 +923,7 @@ public final class ClientRequestInfoImpl extends RequestInfoImpl implements Clie
     /**
      * See description for RequestInfoImpl.checkAccess
      */
+    @Override
     protected void checkAccess(int methodID) throws BAD_INV_ORDER {
         // Make sure currentPoint matches the appropriate index in the
         // validCall table:

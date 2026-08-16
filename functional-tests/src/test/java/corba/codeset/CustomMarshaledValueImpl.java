@@ -39,14 +39,16 @@ public class CustomMarshaledValueImpl extends CustomMarshaledValue {
     public CustomMarshaledValueImpl(char ch, char wch, String str, String wstr, char[] chSeq, char[] wchSeq) {
         this.ch = ch;
         this.wch = wch;
-        if (str == null)
+        if (str == null) {
             this.str = "";
-        else
+        } else {
             this.str = new String(str);
-        if (wstr == null)
+        }
+        if (wstr == null) {
             this.wstr = "";
-        else
+        } else {
             this.wstr = new String(wstr);
+        }
         this.chSeq = chSeq;
         this.wchSeq = wchSeq;
     }
@@ -60,20 +62,22 @@ public class CustomMarshaledValueImpl extends CustomMarshaledValue {
         sbuf.append(" wch: ");
         sbuf.append((int) wch);
         sbuf.append(" str: ");
-        if (str == null)
+        if (str == null) {
             sbuf.append("null");
-        else
+        } else {
             sbuf.append(str.length());
+        }
         sbuf.append(" wstr: ");
-        if (wstr == null)
+        if (wstr == null) {
             sbuf.append("null");
-        else
+        } else {
             sbuf.append(wstr.length());
+        }
 
         sbuf.append(" chSeq: ");
-        if (chSeq == null)
+        if (chSeq == null) {
             sbuf.append("null");
-        else {
+        } else {
             for (int i = 0; i < chSeq.length; i++) {
                 sbuf.append((int) chSeq[i]);
                 sbuf.append(' ');
@@ -81,9 +85,9 @@ public class CustomMarshaledValueImpl extends CustomMarshaledValue {
         }
 
         sbuf.append(" wchSeq: ");
-        if (wchSeq == null)
+        if (wchSeq == null) {
             sbuf.append("null");
-        else {
+        } else {
             for (int i = 0; i < wchSeq.length; i++) {
                 sbuf.append((int) wchSeq[i]);
                 sbuf.append(' ');
@@ -126,15 +130,17 @@ public class CustomMarshaledValueImpl extends CustomMarshaledValue {
         os.write_string(str);
         os.write_wstring(wstr);
 
-        if (chSeq == null)
+        if (chSeq == null) {
             os.write_long(0);
-        else
+        } else {
             CharSeqHelper.write((OutputStream) os, chSeq);
+        }
 
-        if (wchSeq == null)
+        if (wchSeq == null) {
             os.write_long(0);
-        else
+        } else {
             WCharSeqHelper.write((OutputStream) os, wchSeq);
+        }
 
         System.out.println("Done");
     }

@@ -32,6 +32,7 @@ class Waiter extends Thread {
         this.p = p;
     }
 
+    @Override
     public void run() {
         try {
             synchronized (f.doneCV) {
@@ -49,8 +50,9 @@ public class HelloServer {
     public static void main(String[] args) {
         try {
             String debugp = System.getProperty("DebugPOA");
-            if (debugp != null)
+            if (debugp != null) {
                 debug = true;
+            }
 
             POAFactory f = null;
             String factory = System.getProperty("POAFactory");
@@ -58,23 +60,26 @@ public class HelloServer {
 
             System.out.println("Class path: " + System.getProperty("java.class.path"));
 
-            if (factory != null && !factory.equals(""))
+            if (factory != null && !factory.equals("")) {
                 f = (POAFactory) Class.forName(factory).newInstance();
+            }
 
             Utility u = new Utility(args);
 
             POA poa = (POA) u.getORB().resolve_initial_references("RootPOA");
 
-            if (poa == null)
+            if (poa == null) {
                 System.out.println("POA is null :(");
+            }
 
             POA thePOA = f == null ? poa : f.createPOA(poa);
 
             BasicObjectFactoryImpl theFactory;
-            if (f == null)
+            if (f == null) {
                 theFactory = new BasicObjectFactoryImpl();
-            else
+            } else {
                 theFactory = (BasicObjectFactoryImpl) Class.forName(f.getObjectFactoryName()).newInstance();
+            }
 
             System.out.println("Got the basic object factory");
 

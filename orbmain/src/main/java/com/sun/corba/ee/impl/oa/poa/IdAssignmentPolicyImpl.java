@@ -29,24 +29,29 @@ final class IdAssignmentPolicyImpl extends org.omg.CORBA.LocalObject implements 
         this.value = value;
     }
 
+    @Override
     public IdAssignmentPolicyValue value() {
         return value;
     }
 
+    @Override
     public int policy_type() {
         return ID_ASSIGNMENT_POLICY_ID.value;
     }
 
+    @Override
     public Policy copy() {
         return new IdAssignmentPolicyImpl(value);
     }
 
+    @Override
     public void destroy() {
         value = null;
     }
 
     private IdAssignmentPolicyValue value;
 
+    @Override
     public String toString() {
         return "IdAssignmentPolicy[" + ((value.value() == IdAssignmentPolicyValue._USER_ID) ? "USER_ID" : "SYSTEM_ID" + "]");
     }

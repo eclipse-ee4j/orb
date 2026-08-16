@@ -36,6 +36,7 @@ public final class FactoryImpl extends GenericFactoryPOA {
         this.poa = poa;
     }
 
+    @Override
     public org.omg.CORBA.Object create(String intfName, String implName, CreationMethods how) {
         try {
             // create Servant first.
@@ -46,19 +47,21 @@ public final class FactoryImpl extends GenericFactoryPOA {
             switch (how.value()) {
                 case Util.CreationMethods._EXPLICIT_ACTIVATION_WITH_POA_ASSIGNED_OIDS: {
                     byte[] id = poa.activate_object(s);
-                    if (useServantToReference)
+                    if (useServantToReference) {
                         ref = poa.servant_to_reference(s);
-                    else
+                    } else {
                         ref = poa.id_to_reference(id);
+                    }
                 }
                     break;
                 case Util.CreationMethods._EXPLICIT_ACTIVATION_WITH_USER_ASSIGNED_OIDS: {
                     byte[] id = idString.getBytes();
                     poa.activate_object_with_id(id, s);
-                    if (useServantToReference)
+                    if (useServantToReference) {
                         ref = poa.servant_to_reference(s);
-                    else
+                    } else {
                         ref = poa.id_to_reference(id);
+                    }
                 }
                     break;
                 case Util.CreationMethods._CREATE_REFERENCE_BEFORE_ACTIVATION_WITH_POA_ASSIGNED_OIDS: {
@@ -83,10 +86,12 @@ public final class FactoryImpl extends GenericFactoryPOA {
         return null;
     }
 
+    @Override
     public void activate() throws AdapterInactive {
         poa.the_POAManager().activate();
     }
 
+    @Override
     public void holdRequests() {
         try {
             poa.the_POAManager().hold_requests(true);
@@ -94,6 +99,7 @@ public final class FactoryImpl extends GenericFactoryPOA {
         }
     }
 
+    @Override
     public void discardRequests() {
         try {
             poa.the_POAManager().discard_requests(true);
@@ -101,6 +107,7 @@ public final class FactoryImpl extends GenericFactoryPOA {
         }
     }
 
+    @Override
     public void deactivate() {
         try {
             poa.the_POAManager().deactivate(true, true);

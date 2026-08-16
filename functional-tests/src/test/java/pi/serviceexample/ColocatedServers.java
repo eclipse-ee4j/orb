@@ -67,6 +67,7 @@ class ServerThread extends Thread {
         this.av = av;
     }
 
+    @Override
     public void run() {
         LoggingServiceImpl.main(av);
     }

@@ -41,7 +41,7 @@ public interface StubDelegate {
 
     /**
      * Delegation call for {@link Stub#hashCode}.
-     * 
+     *
      * @param self stub to call on
      * @return int hashcode of the stub
      */
@@ -49,7 +49,7 @@ public interface StubDelegate {
 
     /**
      * Delegation call for {@link Stub#equals}.
-     * 
+     *
      * @param self stub to call on
      * @param obj other object to compare
      * @return true if the two objects are equal
@@ -58,7 +58,7 @@ public interface StubDelegate {
 
     /**
      * Delegation call for {@link Stub#toString}.
-     * 
+     *
      * @param self to call toString on
      * @return String representation of the Stub
      */
@@ -66,7 +66,7 @@ public interface StubDelegate {
 
     /**
      * Delegation call for {@link Stub#connect}.
-     * 
+     *
      * @param self stub to call on
      * @param orb the ORB to connect to
      * @throws RemoteException if there was an error connecting
@@ -77,7 +77,7 @@ public interface StubDelegate {
     /**
      * Delegation call for <a href="
      * {@docRoot}/serialized-form.html#javax.rmi.CORBA.Stub"><code>Stub.readObject(java.io.ObjectInputStream)</code></a>.
-     * 
+     *
      * @param self stub to read
      * @param s stream to read from
      * @throws IOException if there was an error reading from the stream
@@ -89,7 +89,7 @@ public interface StubDelegate {
     /**
      * Delegation call for <a href="
      * {@docRoot}/serialized-form.html#javax.rmi.CORBA.Stub"><code>Stub.writeObject(java.io.ObjectOutputStream)</code></a>.
-     * 
+     *
      * @param self stub to write
      * @param s stream to write to
      * @throws IOException if there was an error writing to stream

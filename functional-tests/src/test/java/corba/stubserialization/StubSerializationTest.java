@@ -24,6 +24,7 @@ import corba.framework.*;
 import java.util.Properties;
 
 public class StubSerializationTest extends CORBATest {
+    @Override
     protected void doTest() throws Throwable {
         Options.addServerArg("-debug");
         Controller orbd = createORBD();

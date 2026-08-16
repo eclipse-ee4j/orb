@@ -49,7 +49,7 @@ final public class CNNameParser implements NameParser {
         mySyntax.put("jndi.syntax.direction", "left_to_right");
         mySyntax.put("jndi.syntax.separator", "" + compSeparator);
         mySyntax.put("jndi.syntax.escape", "" + escapeChar);
-    };
+    }
 
     /**
      * Constructs a new name parser for parsing names in INS syntax.
@@ -59,10 +59,11 @@ final public class CNNameParser implements NameParser {
 
     /**
      * Returns a CompoundName given a string in INS syntax.
-     * 
+     *
      * @param name The non-null string representation of the name.
      * @return a non-null CompoundName
      */
+    @Override
     public Name parse(String name) throws NamingException {
         Vector<String> comps = insStringToStringifiedComps(name);
         return new CNCompoundName(comps.elements());
@@ -70,7 +71,7 @@ final public class CNNameParser implements NameParser {
 
     /**
      * Creates a NameComponent[] from a Name structure. Used by CNCtx to convert the input Name arg into a NameComponent[].
-     * 
+     *
      * @param a CompoundName or a CompositeName; each component must be the stringified form of a NameComponent.
      */
     static NameComponent[] nameToCosName(Name name) throws InvalidNameException {
@@ -288,20 +289,24 @@ final public class CNNameParser implements NameParser {
             super(enum_, CNNameParser.mySyntax);
         }
 
+        @Override
         public Object clone() {
             return new CNCompoundName(getAll());
         }
 
+        @Override
         public Name getPrefix(int posn) {
             Enumeration<String> comps = super.getPrefix(posn).getAll();
             return new CNCompoundName(comps);
         }
 
+        @Override
         public Name getSuffix(int posn) {
             Enumeration<String> comps = super.getSuffix(posn).getAll();
             return new CNCompoundName(comps);
         }
 
+        @Override
         public String toString() {
             try {
                 // Convert Name to NameComponent[] then stringify
@@ -317,55 +322,55 @@ final public class CNNameParser implements NameParser {
 // for testing only
     /*
      * private static void print(String input) { try { System.out.println("\n >>>>>> input: " + input);
-     * 
+     *
      * System.out.println("--Compound Name: "); NameParser parser = new CNNameParser(); Name name = parser.parse(input); for
      * (int i = 0; i < name.size(); i++) { System.out.println("\t" + i + ": " + name.get(i)); NameComponent cp =
      * parseComponent(name.get(i)); System.out.println("\t\t" + "id: " + cp.id + ";kind: " + cp.kind); }
      * System.out.println("\t" + name.toString());
-     * 
+     *
      * System.out.println("--Composite Name: "); Name composite = new CompositeName(input); for (int i = 0; i <
      * composite.size(); i++) { System.out.println("\t" + i+": " + composite.get(i)); } System.out.println("\t" +
      * composite.toString());
-     * 
+     *
      * System.out.println("--Composite To NameComponent"); NameComponent[] names = nameToCosName(composite); for (int i = 0;
      * i < composite.size(); i++) { System.out.println("\t" + i+": id: " + names[i].id + "; kind: " + names[i].kind); }
      * System.out.println("\t" + cosNameToInsString(names)); } catch (NamingException e) { System.out.println(e); } }
-     * 
+     *
      * private static void checkName(Name name, String[] comps) throws Exception { if (name.size() != comps.length) { throw
      * new Exception( "test failed; incorrect component count in " + name + "; " + "expecting " + comps.length + " got " +
      * name.size()); } for (int i = 0; i < name.size(); i++) { if (!comps[i].equals(name.get(i))) { throw new Exception (
      * "test failed; invalid component in " + name + "; " + "expecting '" + comps[i] + "' got '" + name.get(i) + "'"); } } }
-     * 
+     *
      * private static void checkCompound(NameParser parser, String input, String[] comps) throws Exception {
      * checkName(parser.parse(input), comps); }
-     * 
+     *
      * private static void checkComposite(String input, String[] comps) throws Exception { checkName(new
      * CompositeName(input), comps); }
-     * 
+     *
      * private static String[] compounds = { "a/b/c", "a.b/c.d", "a", ".", "a.", "c.d", ".e", "a/x\\/y\\/z/b",
      * "a\\.b.c\\.d/e.f", "a/b\\\\/c", "x\\\\.y", "x\\.y", "x.\\\\y", "x.y\\\\", "\\\\x.y", "a.b\\.c/d" }; private static
      * String[][] compoundComps = { {"a", "b", "c"}, {"a.b", "c.d"}, {"a"}, {"."}, {"a"}, {"c.d"}, {".e"}, {"a",
      * "x\\/y\\/z", "b"}, {"a\\.b.c\\.d", "e.f"}, {"a", "b\\\\", "c"}, {"x\\\\.y"}, {"x\\.y"}, {"x.\\\\y"}, {"x.y\\\\"},
      * {"\\\\x.y"}, {"a.b\\.c", "d"}, };
-     * 
+     *
      * private static String[] composites = { "a/b/c", "a.b/c.d", "a", ".", "a.", "c.d", ".e", "a/x\\\\\\/y\\\\\\/z/b",
      * "a\\\\.b.c\\\\.d/e.f", "a/b\\\\\\\\/c", "x\\\\\\.y", "x\\\\.y", "x.\\\\\\\\y", "x.y\\\\\\\\", "\\\\\\\\x.y" };
-     * 
+     *
      * private static String[][] compositeComps = { {"a", "b", "c"}, {"a.b", "c.d"}, {"a"}, {"."}, {"a."}, // unlike
      * compound, kind sep is not consumed {"c.d"}, {".e"}, {"a", "x\\/y\\/z", "b"}, {"a\\.b.c\\.d", "e.f"}, {"a",
      * "b\\\\", "c"}, {"x\\\\.y"}, {"x\\.y"}, {"x.\\\\y"}, {"x.y\\\\"}, {"\\\\x.y"} };
-     * 
+     *
      * public static void main(String[] args) throws Exception { if (args.length > 0) { for (int i = 0; i < args.length;
      * i++) { print(args[0]); } } else { print("x\\\\.y"); print("x\\.y"); print("x.\\\\y"); print("x.y\\\\");
      * print("\\\\x.y"); }
-     * 
+     *
      * NameParser parser = new com.sun.jndi.cosnaming.CNNameParser(); for (int i = 0; i < compounds.length; i++) {
      * checkCompound(parser, compounds[i], compoundComps[i]); } for (int i = 0; i < composites.length; i++) {
      * checkComposite(composites[i], compositeComps[i]); }
-     * 
+     *
      * System.out.println("hardwire"); NameComponent[] foo = new NameComponent[1]; foo[0] = new
      * NameComponent("foo\\", "bar");
-     * 
+     *
      * System.out.println(cosNameToInsString(foo)); System.out.println(cosNameToName(foo)); }
      */
 }

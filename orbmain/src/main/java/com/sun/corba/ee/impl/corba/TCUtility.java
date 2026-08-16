@@ -74,10 +74,11 @@ public final class TCUtility {
                 break;
 
             case TCKind._tk_boolean:
-                if (l == 0)
+                if (l == 0) {
                     s.write_boolean(false);
-                else
+                } else {
                     s.write_boolean(true);
+                }
                 break;
 
             case TCKind._tk_char:
@@ -208,10 +209,11 @@ public final class TCUtility {
                 break;
 
             case TCKind._tk_boolean:
-                if (s.read_boolean())
+                if (s.read_boolean()) {
                     l = 1;
-                else
+                } else {
                     l = 0;
+                }
                 break;
 
             case TCKind._tk_any:
@@ -227,10 +229,11 @@ public final class TCUtility {
                 break;
 
             case TCKind._tk_objref:
-                if (o instanceof Streamable)
+                if (o instanceof Streamable) {
                     ((Streamable) o)._read(s);
-                else
+                } else {
                     o = s.read_Object();
+                }
                 break;
 
             case TCKind._tk_longlong:
@@ -266,7 +269,7 @@ public final class TCUtility {
                         o = ((CDRInputObject) s).read_fixed(typeCode.fixed_digits(), typeCode.fixed_scale());
                     } else {
                         BigDecimal bigDecimal = s.read_fixed();
-                        o = bigDecimal.movePointLeft((int) typeCode.fixed_scale());
+                        o = bigDecimal.movePointLeft(typeCode.fixed_scale());
                     }
                 } catch (BadKind badKind) { // impossible
                 }

@@ -161,8 +161,9 @@ public class AdapterActivatorServer {
             System.out.println("Getting Root POA from ORB");
             poa = (POA) orb.resolve_initial_references("RootPOA");
 
-            if (poa == null)
+            if (poa == null) {
                 System.out.println("POA is null");
+            }
         } catch (org.omg.CORBA.ORBPackage.InvalidName i) {
             System.out.println("Unexpected exception in obtaining RootPoa" + i.toString());
         } catch (Exception e) {
@@ -183,6 +184,7 @@ public class AdapterActivatorServer {
 
         // Unknown adapter creates Poa if Poa name is Poa1 otherwise it return false
 
+        @Override
         public boolean unknown_adapter(POA parent, String name) {
             try {
                 if (name.equals("Poa1")) {

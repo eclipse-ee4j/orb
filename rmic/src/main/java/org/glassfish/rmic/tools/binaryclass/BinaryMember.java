@@ -84,6 +84,7 @@ class BinaryMember extends MemberDefinition {
     /**
      * Inline allowed (currently only allowed for the constructor of Object).
      */
+    @Override
     public boolean isInlineable(Environment env, boolean fromFinal) {
         // It is possible for 'getSuperClass()' to return null due to error
         // recovery from cyclic inheritace.  Can this cause a problem here?
@@ -93,6 +94,7 @@ class BinaryMember extends MemberDefinition {
     /**
      * Get arguments
      */
+    @Override
     public Vector<MemberDefinition> getArguments() {
         if (isConstructor() && (getClassDefinition().getSuperClass() == null)) {
             Vector<MemberDefinition> v = new Vector<>();
@@ -106,6 +108,7 @@ class BinaryMember extends MemberDefinition {
     /**
      * Get exceptions
      */
+    @Override
     public ClassDeclaration[] getExceptions(Environment env) {
         if ((!isMethod()) || (exp != null)) {
             return exp;
@@ -134,6 +137,7 @@ class BinaryMember extends MemberDefinition {
     /**
      * Get documentation
      */
+    @Override
     public String getDocumentation() {
         if (documentation != null) {
             return documentation;
@@ -156,6 +160,7 @@ class BinaryMember extends MemberDefinition {
      */
     private boolean isConstantCache = false;
     private boolean isConstantCached = false;
+    @Override
     public boolean isConstant() {
         if (!isConstantCached) {
             isConstantCache = isFinal()
@@ -196,15 +201,13 @@ class BinaryMember extends MemberDefinition {
     /**
      * Get the value
      */
+    @Override
     public Node getValue(Environment env) {
-        if (isMethod()) {
-            return null;
-        }
-        if (!isFinal()) {
+        if (isMethod() || !isFinal()) {
             return null;
         }
         if (getValue() != null) {
-            return (Expression)getValue();
+            return getValue();
         }
         byte data[] = getAttribute(idConstantValue);
         if (data == null) {
@@ -238,7 +241,7 @@ class BinaryMember extends MemberDefinition {
                 setValue(new StringExpression(0, (String)cpool.getValue(((Number)obj).intValue())));
                 break;
             }
-            return (Expression)getValue();
+            return getValue();
         } catch (IOException e) {
             throw new CompilerError(e);
         }

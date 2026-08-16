@@ -35,6 +35,7 @@ public class Server extends PortableRemoteObject implements Tester {
     public Server() throws java.rmi.RemoteException {
     }
 
+    @Override
     public MarshalTester verify(byte[] predata, MarshalTester input, byte[] postdata) throws DataCorruptedException {
         if (predata == null) {
             System.out.println("predata is null");
@@ -52,46 +53,57 @@ public class Server extends PortableRemoteObject implements Tester {
         return input;
     }
 
+    @Override
     public java.lang.Object verify(java.lang.Object obj) {
         return obj;
     }
 
+    @Override
     public Map verify(Map map) {
         return map;
     }
 
+    @Override
     public List verify(List list) {
         return list;
     }
 
+    @Override
     public java.sql.Date verify(java.sql.Date date) {
         return date;
     }
 
+    @Override
     public Properties verify(Properties props) {
         return props;
     }
 
+    @Override
     public Hashtable verify(Hashtable table) {
         return table;
     }
 
+    @Override
     public void throwCheckedException() throws CheckedException {
         throw new CheckedException("CheckedException");
     }
 
+    @Override
     public void throwRuntimeException() {
         throw new UncheckedException("Runtime Exception");
     }
 
+    @Override
     public void throwRemoteException() throws RemoteException {
         throw new RemoteException("This is a remote exception");
     }
 
+    @Override
     public AbsTester getAbsTester() {
         return this;
     }
 
+    @Override
     public void ping() {
     }
 

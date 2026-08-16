@@ -32,6 +32,7 @@ class idlIServantConnect extends _idlIImplBase {
     public idlIServantConnect() {
     }
 
+    @Override
     public String o(String arg1) {
         // REVISIT : IDL stubs do NOT have colocated branch yet.
         // Server.checkThread(baseMsg);

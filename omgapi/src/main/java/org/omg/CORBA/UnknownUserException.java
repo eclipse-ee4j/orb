@@ -33,7 +33,7 @@ public final class UnknownUserException extends UserException {
 
     /**
      * The <code>Any</code> instance that contains the actual user exception thrown by the server.
-     * 
+     *
      * @serial
      */
     public Any except;

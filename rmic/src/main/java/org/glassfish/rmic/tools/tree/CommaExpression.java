@@ -42,6 +42,7 @@ class CommaExpression extends BinaryExpression {
     /**
      * Check void expression
      */
+    @Override
     public Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         vset = left.check(env, ctx, vset, exp);
         vset = right.check(env, ctx, vset, exp);
@@ -51,6 +52,7 @@ class CommaExpression extends BinaryExpression {
     /**
      * Select the type
      */
+    @Override
     void selectType(Environment env, Context ctx, int tm) {
         type = right.type;
     }
@@ -58,6 +60,7 @@ class CommaExpression extends BinaryExpression {
     /**
      * Simplify
      */
+    @Override
     Expression simplify() {
         if (left == null) {
             return right;
@@ -71,6 +74,7 @@ class CommaExpression extends BinaryExpression {
     /**
      * Inline
      */
+    @Override
     public Expression inline(Environment env, Context ctx) {
         if (left != null) {
             left = left.inline(env, ctx);
@@ -80,6 +84,7 @@ class CommaExpression extends BinaryExpression {
         }
         return simplify();
     }
+    @Override
     public Expression inlineValue(Environment env, Context ctx) {
         if (left != null) {
             left = left.inline(env, ctx);
@@ -93,6 +98,7 @@ class CommaExpression extends BinaryExpression {
     /**
      * Code
      */
+    @Override
     int codeLValue(Environment env, Context ctx, Assembler asm) {
         if (right == null) {
             // throw an appropriate error
@@ -108,6 +114,7 @@ class CommaExpression extends BinaryExpression {
         }
     }
 
+    @Override
     void codeLoad(Environment env, Context ctx, Assembler asm) {
         // The left-hand part has already been handled by codeLValue.
 
@@ -119,6 +126,7 @@ class CommaExpression extends BinaryExpression {
         }
     }
 
+    @Override
     void codeStore(Environment env, Context ctx, Assembler asm) {
         // The left-hand part has already been handled by codeLValue.
         if (right == null) {
@@ -129,12 +137,14 @@ class CommaExpression extends BinaryExpression {
         }
     }
 
+    @Override
     public void codeValue(Environment env, Context ctx, Assembler asm) {
         if (left != null) {
             left.code(env, ctx, asm);
         }
         right.codeValue(env, ctx, asm);
     }
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         if (left != null) {
             left.code(env, ctx, asm);

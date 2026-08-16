@@ -65,6 +65,7 @@ class FinallyStatement extends Statement {
     /**
      * Check statement
      */
+    @Override
     Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         vset = reach(env, vset);
         Hashtable<Object, Object> newexp = new Hashtable<>();
@@ -190,6 +191,7 @@ class FinallyStatement extends Statement {
     /**
      * Inline
      */
+    @Override
     public Statement inline(Environment env, Context ctx) {
         if (tryTemp != null) {
             ctx = new Context(ctx, this);
@@ -216,6 +218,7 @@ class FinallyStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         FinallyStatement s = (FinallyStatement)clone();
         if (tryTemp != null) {
@@ -236,15 +239,20 @@ class FinallyStatement extends Statement {
     /**
      * Compute cost of inlining this statement
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx){
         int cost = 4;
         if (init != null) {
             cost += init.costInline(thresh, env,ctx);
-            if (cost >= thresh) return cost;
+            if (cost >= thresh) {
+                return cost;
+            }
         }
         if (body != null) {
             cost += body.costInline(thresh, env,ctx);
-            if (cost >= thresh) return cost;
+            if (cost >= thresh) {
+                return cost;
+            }
         }
         if (finalbody != null) {
             cost += finalbody.costInline(thresh, env,ctx);
@@ -255,6 +263,7 @@ class FinallyStatement extends Statement {
     /**
      * Code
      */
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         ctx = new Context(ctx);
         Integer num1 = null, num2 = null;
@@ -339,6 +348,7 @@ class FinallyStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("try ");

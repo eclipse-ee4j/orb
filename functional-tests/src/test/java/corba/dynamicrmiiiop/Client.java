@@ -95,15 +95,16 @@ public class Client extends TestCase {
 
     public static void main(String[] args) {
         Client root = new Client();
-        TestResult result = junit.textui.TestRunner.run(root.suite());
+        TestResult result = junit.textui.TestRunner.run(Client.suite());
 
         // reportTiming( System.out, root.timedTests ) ;
 
         if (result.errorCount() + result.failureCount() > 0) {
             System.out.println("Error: failures or errrors in JUnit test");
             System.exit(1);
-        } else
+        } else {
             System.exit(0);
+        }
     }
 
     public Client() {
@@ -120,14 +121,14 @@ public class Client extends TestCase {
         System.out.println("==============================================================\n" + "Testing Dynamic RMI-IIOP\n"
                 + "==============================================================\n");
 
-        TestSuite ts = (TestSuite) TestCaseTools.makeTestSuite(Client.class);
+        TestSuite ts = TestCaseTools.makeTestSuite(Client.class);
 
         // Add the Codegen ProxyCreator test suite if it is available.
         // It is part of the optional ORB build.
         String testName = "corba.dynamicrmiiiop.TestCodegenProxyCreator";
         try {
             Class cls = LibraryClassLoader.loadClass(testName);
-            ts.addTest((TestSuite) TestCaseTools.makeTestSuite(cls));
+            ts.addTest(TestCaseTools.makeTestSuite(cls));
         } catch (ClassNotFoundException exc) {
             // Test not available: no op
             System.out.println(testName + " test is not available.");
@@ -152,18 +153,20 @@ public class Client extends TestCase {
     }
 
     public static boolean equalOrNull(Object obj1, Object obj2) {
-        if (obj1 == null)
+        if (obj1 == null) {
             return obj2 == null;
-        else
+        } else {
             return obj1.equals(obj2);
+        }
     }
 
     public static void sameException(Object obj1, Object obj2) {
         if ((obj1 == null) || (obj2 == null)) {
-            if (obj1 == obj2)
+            if (obj1 == obj2) {
                 return;
-            else
+            } else {
                 fail("Objects not the same: obj1 = " + obj1 + " obj2 = " + obj2);
+            }
         }
 
         if (!obj1.getClass().equals(obj2.getClass())) {
@@ -201,14 +204,16 @@ public class Client extends TestCase {
             SystemException sys1 = (SystemException) thr1;
             SystemException sys2 = (SystemException) thr2;
 
-            if (sys1.minor != sys2.minor)
+            if (sys1.minor != sys2.minor) {
                 fail("sys1 and sys2 do not have the same minor code: sys1 mc = " + sys1.minor + " sys2 mc = " + sys2.minor);
+            }
 
             int cs1 = sys1.completed.value();
             int cs2 = sys2.completed.value();
 
-            if (cs1 != cs2)
+            if (cs1 != cs2) {
                 fail("sys1 and sys2 do not have the same completion status: cs1 = " + cs1 + " cs2 = " + cs2);
+            }
         }
     }
 
@@ -226,6 +231,7 @@ public class Client extends TestCase {
                 this.expected = expected;
             }
 
+            @Override
             abstract public void run();
 
             protected void setActual(Object actual) {
@@ -266,6 +272,7 @@ public class Client extends TestCase {
                 super("StubFactoryFactory", Boolean.valueOf(expected));
             }
 
+            @Override
             public void run() {
                 setActual(Boolean.valueOf(ORB.getStubFactoryFactory().createsDynamicStubs()));
             }
@@ -288,7 +295,7 @@ public class Client extends TestCase {
             Properties props = new Properties();
             String[] args = null;
             props.setProperty(ORBConstants.USE_DYNAMIC_STUB_PROPERTY, Boolean.toString(useDynamic));
-            return (ORB) ORB.init(args, props);
+            return (ORB) org.omg.CORBA.ORB.init(args, props);
         }
 
         public void testNull() {
@@ -298,10 +305,10 @@ public class Client extends TestCase {
         /*
          * Unfortunately these test do not work, because we cannot control the ORB type exactly here, and setting the global
          * presentation manager can only happen once. We'll omit these for now.
-         * 
+         *
          * public void testDynamicORB() { ORB orb = makeORB( true ) ; ThreadableTest tt2 = new TestStubFactoryFactoryType( true
          * ) ; tt2.testSameThread() ; tt2.testDifferentThread() ; }
-         * 
+         *
          * public void testSingletonORB() { ORB orb = makeORB( true ) ; ORB sorb = (ORB)ORB.init() ; ThreadableTest tt2 = new
          * TestStubFactoryFactoryType( true ) ; tt2.testSameThread() ; tt2.testDifferentThread() ; }
          */
@@ -328,11 +335,13 @@ public class Client extends TestCase {
 
             @Override
             public boolean equals(Object obj) {
-                if (this == obj)
+                if (this == obj) {
                     return true;
+                }
 
-                if (!(obj instanceof NodeTestImpl))
+                if (!(obj instanceof NodeTestImpl)) {
                     return false;
+                }
 
                 NodeTestImpl other = (NodeTestImpl) obj;
 
@@ -344,6 +353,7 @@ public class Client extends TestCase {
                 return name.hashCode();
             }
 
+            @Override
             public Set getChildren() {
                 return children;
             }
@@ -603,8 +613,9 @@ public class Client extends TestCase {
 
         private Set makeSet(String[] strings, int startIndex) {
             Set result = new HashSet();
-            for (int ctr = startIndex; ctr < strings.length; ctr++)
+            for (int ctr = startIndex; ctr < strings.length; ctr++) {
                 result.add(strings[ctr]);
+            }
             return result;
         }
 
@@ -875,9 +886,9 @@ public class Client extends TestCase {
     public static Method getMethodByName(String mname) {
         Method[] methods = TieTest.class.getDeclaredMethods();
         Method method = null;
-        for (int ctr = 0; ctr < methods.length; ctr++) {
-            if (mname.equals(methods[ctr].getName())) {
-                method = methods[ctr];
+        for (Method method2 : methods) {
+            if (mname.equals(method2.getName())) {
+                method = method2;
                 break;
             }
         }
@@ -892,10 +903,12 @@ public class Client extends TestCase {
             this.transport = transport;
         }
 
+        @Override
         public org.omg.CORBA.portable.OutputStream createReply() {
             return transport.makeNormalReply();
         }
 
+        @Override
         public org.omg.CORBA.portable.OutputStream createExceptionReply() {
             return transport.makeExceptionReply();
         }
@@ -956,18 +969,20 @@ public class Client extends TestCase {
             IDLNameTranslator nt = cdata.getIDLNameTranslator();
             Method method = getMethodByName(mname);
             DynamicMethodMarshaller dmm = pm.getDynamicMethodMarshaller(method);
-            Object[] args = impl.getExpectedArguments(mname);
+            Object[] args = TieTestImpl.getExpectedArguments(mname);
 
             // The bad method name test has a null wireMname,
             // but the request requires some name, so we just
             // use the java name.
             String wireMname = nt.getIDLName(method);
-            if (wireMname == null)
+            if (wireMname == null) {
                 wireMname = mname;
+            }
 
             OutputStream os = transport.makeRequest(wireMname);
-            if ((args != null) && (dmm != null))
+            if ((args != null) && (dmm != null)) {
                 dmm.writeArguments(os, args);
+            }
             InputStream is = transport.getInputStream(os);
             transport.readRequestHeader(is);
             return is;
@@ -995,12 +1010,13 @@ public class Client extends TestCase {
 
         private void checkLastError() {
             String err = impl.getLastError();
-            if (err != null)
+            if (err != null) {
                 fail(err);
+            }
         }
 
         public void doTest(String mname) {
-            Object expectedResult = impl.getExpectedTieResult(mname);
+            Object expectedResult = TieTestImpl.getExpectedTieResult(mname);
             InputStream is = makeInputStream(mname);
             Method method = getMethodByName(mname);
             String methodWireName = cdata.getIDLNameTranslator().getIDLName(method);
@@ -1122,9 +1138,9 @@ public class Client extends TestCase {
         }
 
         public void doTest(String mname) {
-            Object expectedResult = impl.getExpectedStubResult(mname);
+            Object expectedResult = TieTestImpl.getExpectedStubResult(mname);
             Method method = getMethodByName(mname);
-            Object[] expectedArgs = impl.getExpectedArguments(mname);
+            Object[] expectedArgs = TieTestImpl.getExpectedArguments(mname);
 
             try {
                 Object result = method.invoke(stub, expectedArgs);
@@ -1151,8 +1167,9 @@ public class Client extends TestCase {
 
         private void checkLastError() {
             String err = impl.getLastError();
-            if (err != null)
+            if (err != null) {
                 fail(err);
+            }
             delegate.checkForError();
         }
 

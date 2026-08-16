@@ -30,7 +30,7 @@ package org.omg.CORBA.portable;
 public interface ValueBase extends IDLEntity {
     /**
      * Provides truncatable repository ids.
-     * 
+     *
      * @return a String array--list of truncatable repository ids.
      */
     String[] _truncatable_ids();

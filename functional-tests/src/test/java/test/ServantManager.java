@@ -26,7 +26,7 @@ public interface ServantManager extends Remote {
 
     /**
      * Start a servant in the remote process.
-     * 
+     *
      * @param servantClass The class of the servant object. Must have a default constructor.
      * @param servantName The name by which this servant should be known.
      * @param publishName True if the name should be published in the name server.

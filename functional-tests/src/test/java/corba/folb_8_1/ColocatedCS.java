@@ -62,7 +62,7 @@ public class ColocatedCS {
                 try {
                     signal.wait();
                 } catch (InterruptedException e) {
-                    ;
+                    
                 }
             }
             if (clientTwoRefs) {
@@ -90,6 +90,7 @@ class ServerThread extends Thread {
         this.args = args;
     }
 
+    @Override
     public void run() {
         Server.main(args);
     }

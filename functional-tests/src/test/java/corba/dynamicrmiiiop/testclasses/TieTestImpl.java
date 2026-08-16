@@ -90,8 +90,7 @@ public class TieTestImpl implements TieTest {
     private static String lastError;
 
     static {
-        for (int ctr = 0; ctr < data.length; ctr++) {
-            Object[] elem = data[ctr];
+        for (Object[] elem : data) {
             String key = (String) elem[0];
             Object tieResult = elem[2];
             Object stubResult = elem[3];
@@ -113,8 +112,9 @@ public class TieTestImpl implements TieTest {
 
     private void checkArgs(String mname, Object[] args) {
         Object[] expected = getExpectedArguments(mname);
-        if (expected.length != args.length)
+        if (expected.length != args.length) {
             lastError = "Expected and actual lengths do not match";
+        }
 
         for (int ctr = 0; ctr < expected.length; ctr++) {
             if (!ObjectUtility.equals(expected[ctr], args[ctr])) {
@@ -140,51 +140,62 @@ public class TieTestImpl implements TieTest {
         return (Class[]) mnameToArgumentTypes.get(mname);
     }
 
+    @Override
     public int throwsException(int arg) throws Exception, RemoteException {
         checkArgs("throwsException", new Object[] { new Integer(arg) });
         throw (Exception) getExpectedTieResult("throwsException");
     }
 
+    @Override
     public int throwsDeclaredException(int arg) throws MyApplicationExceptionBase, RemoteException {
         checkArgs("throwsDeclaredException", new Object[] { new Integer(arg) });
         throw (MyApplicationException) getExpectedTieResult("throwsDeclaredException");
     }
 
+    @Override
     public int throwsSystemException(int arg) throws RemoteException {
         checkArgs("throwsSystemException", new Object[] { new Integer(arg) });
         throw (SystemException) getExpectedTieResult("throwsSystemException");
     }
 
+    @Override
     public int throwsJavaException(int arg) throws RemoteException {
         checkArgs("throwsJavaException", new Object[] { new Integer(arg) });
         throw (RuntimeException) getExpectedTieResult("throwsJavaException");
     }
 
+    @Override
     public String m0() throws RemoteException {
         return (String) getExpectedTieResult("m0");
     }
 
+    @Override
     public String m1(String another) throws RemoteException {
         checkArgs("m1", new Object[] { another });
         return (String) getExpectedTieResult("m1");
     }
 
+    @Override
     public String m2(Map map, String key) throws RemoteException {
         checkArgs("m2", new Object[] { map, key });
         return (String) getExpectedTieResult("m2");
     }
 
+    @Override
     public void vm0() throws RemoteException {
     }
 
+    @Override
     public void vm1(String another) throws RemoteException {
         checkArgs("vm1", new Object[] { another });
     }
 
+    @Override
     public void hasAByteArray(byte[] arg) throws RemoteException {
         checkArgs("hasAByteArray", new Object[] { arg });
     }
 
+    @Override
     public void vm2(Map map, String key) throws RemoteException {
         checkArgs("vm2", new Object[] { map, key });
     }

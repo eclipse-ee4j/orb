@@ -95,8 +95,8 @@ public class naming_client {
             if (list != null) {
                 message("orb.list_initial_services() returned:");
                 String s = new String();
-                for (int i = 0; i < list.length; i++) {
-                    s = s + list[i] + ", ";
+                for (String element : list) {
+                    s = s + element + ", ";
                 }
                 message(s);
             } else {
@@ -105,23 +105,24 @@ public class naming_client {
             }
 
             // Resolve each entry in the list
-            for (int i = 0; i < list.length; i++) {
+            for (String element : list) {
                 try {
-                    if (list[i].equals("NamingService"))
+                    if (element.equals("NamingService")) {
                         continue;
+                    }
 
-                    org.omg.CORBA.Object obj = orb.resolve_initial_references(list[i]);
+                    org.omg.CORBA.Object obj = orb.resolve_initial_references(element);
                     if (obj != null) {
-                        message("resolve(" + list[i] + ") returns non-null");
+                        message("resolve(" + element + ") returns non-null");
                     } else {
-                        error_message("resolve(" + list[i] + ") returns nothing!");
+                        error_message("resolve(" + element + ") returns nothing!");
                         totalErrors++;
                     }
                 } catch (org.omg.CORBA.ORBPackage.InvalidName e) {
-                    error_message("resolve(" + list[i] + ") throws: " + e);
+                    error_message("resolve(" + element + ") throws: " + e);
                     throw e;
                 } catch (org.omg.CORBA.SystemException e) {
-                    error_message("resolve(" + list[i] + ") throws: " + e);
+                    error_message("resolve(" + element + ") throws: " + e);
                     throw e;
                 }
             }
@@ -189,8 +190,9 @@ public class naming_client {
                 }
                 // Start them
                 message("starting " + numberOfClients + " test-threads");
-                for (int i = 0; i < numberOfClients; i++)
+                for (int i = 0; i < numberOfClients; i++) {
                     test_threads[i].start();
+                }
                 // Wait for them to finish
                 message("joining " + numberOfClients + " test-threads");
                 for (int i = 0; i < numberOfClients; i++) {
@@ -203,14 +205,16 @@ public class naming_client {
                 }
 
                 // Collect errors
-                for (int i = 0; i < numberOfClients; i++)
+                for (int i = 0; i < numberOfClients; i++) {
                     totalErrors += tests[i].getErrors();
+                }
             }
 
             message("total errors = " + totalErrors);
 
-            if (totalErrors > 0)
+            if (totalErrors > 0) {
                 System.exit(1);
+            }
 
         } catch (Throwable ex) {
             System.err.println("Caught exception: " + ex);
@@ -244,6 +248,7 @@ final class NamingTester implements Runnable {
         theRoot = initNC;
     }
 
+    @Override
     public void run() {
         Random random = new Random();
 
@@ -397,8 +402,9 @@ final class NamingTester implements Runnable {
                 for (int i = 0; i < numberOfObjects * 5; i++) {
                     index = random.nextInt();
                     index %= numberOfObjects;
-                    if (index < 0)
+                    if (index < 0) {
                         index += numberOfObjects;
+                    }
                     try {
                         // Try resolve
                         obj = playground.resolve(names[index]);
@@ -446,17 +452,18 @@ final class NamingTester implements Runnable {
                 BindingIteratorHolder bih = new BindingIteratorHolder();
                 playground.list(askFor, blh, bih);
                 do {
-                    for (int i = 0; i < blh.value.length; i++) {
+                    for (Binding element : blh.value) {
                         totalSeen++;
                         // name id format: { int:int } (second int is our index)
-                        String s = blh.value[i].binding_name[0].id;
+                        String s = element.binding_name[0].id;
                         idx1 = s.lastIndexOf(':') + 1;
                         idx2 = s.lastIndexOf(')');
                         index = java.lang.Integer.parseInt(s.substring(idx1, idx2));
                         seen[index] = true;
                     }
-                    if (bih.value != null)
+                    if (bih.value != null) {
                         more = bih.value.next_n(askFor, blh);
+                    }
                 } while (more);
                 // Verify that all were seen
                 if (totalSeen < numberOfObjects) {
@@ -470,8 +477,9 @@ final class NamingTester implements Runnable {
                     }
                 }
                 // Remove iterator
-                if (bih.value != null)
+                if (bih.value != null) {
                     bih.value.destroy();
+                }
 
                 // Unbind all names
                 message("unbind() " + numberOfObjects + " objects");
@@ -522,8 +530,9 @@ final class NamingTester implements Runnable {
         String s = new String("{");
         if (name != null || name.length > 0) {
             for (int i = 0; i < name.length; i++) {
-                if (i > 0)
+                if (i > 0) {
                     s = s + ",";
+                }
                 s = s + "[" + name[i].id + "," + name[i].kind + "]";
             }
         }

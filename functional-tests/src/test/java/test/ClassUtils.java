@@ -30,7 +30,7 @@ import java.util.StringTokenizer;
 
 /**
  * ClassUtils provides miscellaneous static utility methods related to classes and their packages.
- * 
+ *
  * @author Bryan Atsatt
  */
 
@@ -38,7 +38,7 @@ public class ClassUtils {
 
     /**
      * Return the directory which contains a given class (either .java or .class). Uses the current system classpath.
-     * 
+     *
      * @param className Fully qualified class name.
      * @param requireFile True if .class or .java file must be found. False if ok to return a directory which does not
      * contain file.
@@ -57,7 +57,7 @@ public class ClassUtils {
 
     /**
      * Return the directory which contains a given class (either .java or .class).
-     * 
+     *
      * @param className Fully qualified class name.
      * @param path the class path.
      * @param requireFile True if .class or .java file must be found. False if ok to return a directory which does not

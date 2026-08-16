@@ -81,9 +81,11 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
     private void recalculateUnitsInUse() {
         /* Traverse the bitset until a used unit is found */
         int i;
-        for (i = unitsInUse - 1; i >= 0; i--)
-            if (bits[i] != 0)
+        for (i = unitsInUse - 1; i >= 0; i--) {
+            if (bits[i] != 0) {
                 break; // this unit is in use!
+            }
+        }
 
         unitsInUse = i + 1; // the new logical size
     }
@@ -104,15 +106,16 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
      */
     public BitSet(int nbits) {
         /* nbits can't be negative; size 0 is OK */
-        if (nbits < 0)
+        if (nbits < 0) {
             throw new NegativeArraySizeException(Integer.toString(nbits));
+        }
 
         bits = new long[(unitIndex(nbits - 1) + 1)];
     }
 
     /**
      * Ensures that the BitSet can hold enough units.
-     * 
+     *
      * @param unitsRequired the minimum acceptable number of units.
      */
     private void ensureCapacity(int unitsRequired) {
@@ -133,8 +136,9 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
      * @since JDK1.2
      */
     public int length() {
-        if (unitsInUse == 0)
+        if (unitsInUse == 0) {
             return 0;
+        }
 
         int highestBit = (unitsInUse - 1) * 64;
         long highestUnit = bits[unitsInUse - 1];
@@ -153,8 +157,9 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
      * @since JDK1.0
      */
     public void set(int bitIndex) {
-        if (bitIndex < 0)
+        if (bitIndex < 0) {
             throw new IndexOutOfBoundsException(Integer.toString(bitIndex));
+        }
 
         int unitIndex = unitIndex(bitIndex);
         int unitsRequired = unitIndex + 1;
@@ -176,15 +181,18 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
      * @since JDK1.0
      */
     public void clear(int bitIndex) {
-        if (bitIndex < 0)
+        if (bitIndex < 0) {
             throw new IndexOutOfBoundsException(Integer.toString(bitIndex));
+        }
         int unitIndex = unitIndex(bitIndex);
-        if (unitIndex >= unitsInUse)
+        if (unitIndex >= unitsInUse) {
             return;
+        }
 
         bits[unitIndex] &= ~bit(bitIndex);
-        if (unitIndex == unitsInUse - 1)
+        if (unitIndex == unitsInUse - 1) {
             recalculateUnitsInUse();
+        }
     }
 
     /**
@@ -214,13 +222,15 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
      * @exception IndexOutOfBoundsException if the specified index is negative.
      */
     public boolean get(int bitIndex) {
-        if (bitIndex < 0)
+        if (bitIndex < 0) {
             throw new IndexOutOfBoundsException(Integer.toString(bitIndex));
+        }
 
         boolean result = false;
         int unitIndex = unitIndex(bitIndex);
-        if (unitIndex < unitsInUse)
+        if (unitIndex < unitsInUse) {
             result = ((bits[unitIndex] & bit(bitIndex)) != 0);
+        }
 
         return result;
     }
@@ -233,19 +243,22 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
      * @param set a bit set.
      */
     public void and(BitSet set) {
-        if (this == set)
+        if (this == set) {
             return;
+        }
 
         // perform logical AND on bits in common
         int oldUnitsInUse = unitsInUse;
         int i;
         unitsInUse = Math.min(unitsInUse, set.unitsInUse);
-        for (i = 0; i < unitsInUse; i++)
+        for (i = 0; i < unitsInUse; i++) {
             bits[i] &= set.bits[i];
+        }
 
         // clear out units no longer used
-        for (; i < oldUnitsInUse; i++)
+        for (; i < oldUnitsInUse; i++) {
             bits[i] = 0;
+        }
     }
 
     /**
@@ -256,23 +269,27 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
      * @param set a bit set.
      */
     public void or(BitSet set) {
-        if (this == set)
+        if (this == set) {
             return;
+        }
 
         ensureCapacity(set.unitsInUse);
 
         // perform logical OR on bits in common
         int unitsInCommon = Math.min(unitsInUse, set.unitsInUse);
         int i;
-        for (i = 0; i < unitsInCommon; i++)
+        for (i = 0; i < unitsInCommon; i++) {
             bits[i] |= set.bits[i];
+        }
 
         // copy any remaining bits
-        for (; i < set.unitsInUse; i++)
+        for (; i < set.unitsInUse; i++) {
             bits[i] = set.bits[i];
+        }
 
-        if (unitsInUse < set.unitsInUse)
+        if (unitsInUse < set.unitsInUse) {
             unitsInUse = set.unitsInUse;
+        }
     }
 
     /**
@@ -302,12 +319,14 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
 
         // perform logical XOR on bits in common
         int i;
-        for (i = 0; i < unitsInCommon; i++)
+        for (i = 0; i < unitsInCommon; i++) {
             bits[i] ^= set.bits[i];
+        }
 
         // copy any remaining bits
-        for (; i < set.unitsInUse; i++)
+        for (; i < set.unitsInUse; i++) {
             bits[i] = set.bits[i];
+        }
 
         recalculateUnitsInUse();
     }
@@ -319,14 +338,14 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
      * Suppose the bits in the <code>BitSet</code> were to be stored in an array of <code>long</code> integers called, say,
      * <code>bits</code>, in such a manner that bit <code>k</code> is set in the <code>BitSet</code> (for nonnegative values
      * of <code>k</code>) if and only if the expression
-     * 
+     *
      * <pre>
      * ((k &gt;&gt; 6) &lt; bits.length) && ((bits[k &gt;&gt; 6] & (1L &lt;&lt; (bit & 0x3F))) != 0)
      * </pre>
-     * 
+     *
      * is true. Then the following definition of the <code>hashCode</code> method would be a correct implementation of the
      * actual algorithm:
-     * 
+     *
      * <pre>
      * public synchronized int hashCode() {
      *     long h = 1234;
@@ -336,17 +355,19 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
      *     return (int) ((h &gt;&gt; 32) ^ h);
      * }
      * </pre>
-     * 
+     *
      * Note that the hash code values change if the set of bits is altered.
      * <p>
      * Overrides the <code>hashCode</code> method of <code>Object</code>.
      *
      * @return a hash code value for this bit set.
      */
+    @Override
     public int hashCode() {
         long h = 1234;
-        for (int i = bits.length; --i >= 0;)
+        for (int i = bits.length; --i >= 0;) {
             h ^= bits[i] * (i + 1);
+        }
 
         return (int) ((h >> 32) ^ h);
     }
@@ -365,11 +386,11 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
      * Compares this object against the specified object. The result is <code>true</code> if and only if the argument is not
      * <code>null</code> and is a <code>Bitset</code> object that has exactly the same set of bits set to <code>true</code>
      * as this bit set. That is, for every nonnegative <code>int</code> index <code>k</code>,
-     * 
+     *
      * <pre>
      * ((BitSet) obj).get(k) == this.get(k)
      * </pre>
-     * 
+     *
      * must be true. The current sizes of the two bit sets are not compared.
      * <p>
      * Overrides the <code>equals</code> method of <code>Object</code>.
@@ -378,29 +399,38 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
      * @return <code>true</code> if the objects are the same; <code>false</code> otherwise.
      * @see java.util.BitSet#size()
      */
+    @Override
     public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof BitSet))
+        if (obj == null || !(obj instanceof BitSet)) {
             return false;
-        if (this == obj)
+        }
+        if (this == obj) {
             return true;
+        }
 
         BitSet set = (BitSet) obj;
         int minUnitsInUse = Math.min(unitsInUse, set.unitsInUse);
 
         // Check units in use by both BitSets
-        for (int i = 0; i < minUnitsInUse; i++)
-            if (bits[i] != set.bits[i])
+        for (int i = 0; i < minUnitsInUse; i++) {
+            if (bits[i] != set.bits[i]) {
                 return false;
+            }
+        }
 
         // Check any units in use by only one BitSet (must be 0 in other)
         if (unitsInUse > minUnitsInUse) {
-            for (int i = minUnitsInUse; i < unitsInUse; i++)
-                if (bits[i] != 0)
+            for (int i = minUnitsInUse; i < unitsInUse; i++) {
+                if (bits[i] != 0) {
                     return false;
+                }
+            }
         } else {
-            for (int i = minUnitsInUse; i < set.unitsInUse; i++)
-                if (set.bits[i] != 0)
+            for (int i = minUnitsInUse; i < set.unitsInUse; i++) {
+                if (set.bits[i] != 0) {
                     return false;
+                }
+            }
         }
         return true;
     }
@@ -414,6 +444,7 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
      * @return a clone of this bit set.
      * @see java.util.BitSet#size()
      */
+    @Override
     public Object clone() {
         BitSet result = null;
         try {
@@ -453,30 +484,31 @@ public class BitSet implements java.lang.Cloneable, java.io.Serializable {
      * Overrides the <code>toString</code> method of <code>Object</code>.
      * <p>
      * Example:
-     * 
+     *
      * <pre>
      * BitSet drPepper = new BitSet();
      * </pre>
-     * 
+     *
      * Now <code>drPepper.toString()</code> returns "<code>{}</code>".
      * <p>
-     * 
+     *
      * <pre>
      * drPepper.set(2);
      * </pre>
-     * 
+     *
      * Now <code>drPepper.toString()</code> returns "<code>{2}</code>".
      * <p>
-     * 
+     *
      * <pre>
      * drPepper.set(4);
      * drPepper.set(10);
      * </pre>
-     * 
+     *
      * Now <code>drPepper.toString()</code> returns "<code>{2, 4, 10}</code>".
      *
      * @return a string representation of this bit set.
      */
+    @Override
     public String toString() {
         int numBits = unitsInUse << ADDRESS_BITS_PER_UNIT;
         StringBuffer buffer = new StringBuffer(8 * numBits + 2);

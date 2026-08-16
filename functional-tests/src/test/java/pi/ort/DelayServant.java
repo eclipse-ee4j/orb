@@ -26,6 +26,7 @@ import IORInterceptorTest.*; // for IDL
  * for the given time and notifies ORTStateChangeEvaluator after completion with the notificationToken.
  */
 public class DelayServant extends delayPOA {
+    @Override
     public void forInMillis(int timeInMillis, String notificationToken) {
         try {
             System.out.println("DelayServant.forInMillis() called with " + timeInMillis);

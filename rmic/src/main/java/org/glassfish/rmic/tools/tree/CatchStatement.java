@@ -66,6 +66,7 @@ class CatchStatement extends Statement {
     /**
      * Check statement
      */
+    @Override
     Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
         vset = reach(env, vset);
         ctx = new Context(ctx, this);
@@ -102,6 +103,7 @@ class CatchStatement extends Statement {
     /**
      * Inline
      */
+    @Override
     public Statement inline(Environment env, Context ctx) {
         ctx = new Context(ctx, this);
         if (field.isUsed()) {
@@ -116,6 +118,7 @@ class CatchStatement extends Statement {
     /**
      * Create a copy of the statement for method inlining
      */
+    @Override
     public Statement copyInline(Context ctx, boolean valNeeded) {
         CatchStatement s = (CatchStatement)clone();
         if (body != null) {
@@ -130,6 +133,7 @@ class CatchStatement extends Statement {
     /**
      * Compute cost of inlining this statement
      */
+    @Override
     public int costInline(int thresh, Environment env, Context ctx){
         int cost = 1;
         if (body != null) {
@@ -141,6 +145,7 @@ class CatchStatement extends Statement {
     /**
      * Code
      */
+    @Override
     public void code(Environment env, Context ctx, Assembler asm) {
         CodeContext newctx = new CodeContext(ctx, this);
         if (field.isUsed()) {
@@ -158,6 +163,7 @@ class CatchStatement extends Statement {
     /**
      * Print
      */
+    @Override
     public void print(PrintStream out, int indent) {
         super.print(out, indent);
         out.print("catch (");

@@ -69,23 +69,21 @@ public final class IDLTypeHelper {
     // _CHANGED_
     // public static void write (org.omg.CORBA.portable.OutputStream ostream, com.sun.org.omg.CORBA.IDLType value)
     public static void write(org.omg.CORBA.portable.OutputStream ostream, org.omg.CORBA.IDLType value) {
-        ostream.write_Object((org.omg.CORBA.Object) value);
+        ostream.write_Object(value);
     }
 
     // _CHANGED_
     // public static com.sun.org.omg.CORBA.IDLType narrow (org.omg.CORBA.Object obj)
     public static org.omg.CORBA.IDLType narrow(org.omg.CORBA.Object obj) {
-        if (obj == null)
+        if (obj == null) {
             return null;
-        // _CHANGED_
-        // else if (obj instanceof com.sun.org.omg.CORBA.IDLType)
-        else if (obj instanceof org.omg.CORBA.IDLType)
+        } else if (obj instanceof org.omg.CORBA.IDLType) {
             // _CHANGED_
             // return (com.sun.org.omg.CORBA.IDLType)obj;
             return (org.omg.CORBA.IDLType) obj;
-        else if (!obj._is_a(id()))
+        } else if (!obj._is_a(id())) {
             throw new org.omg.CORBA.BAD_PARAM();
-        else {
+        } else {
             org.omg.CORBA.portable.Delegate delegate = ((org.omg.CORBA.portable.ObjectImpl) obj)._get_delegate();
             return new org.glassfish.corba.org.omg.CORBA._IDLTypeStub(delegate);
         }

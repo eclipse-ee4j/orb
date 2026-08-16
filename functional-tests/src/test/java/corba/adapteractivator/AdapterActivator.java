@@ -25,6 +25,7 @@ import java.util.*;
 import org.omg.CORBA.*;
 
 public class AdapterActivator extends CORBATest {
+    @Override
     protected void doTest() throws Throwable {
         Options.addServerArgs("-ORBServerId 123 -ORBPersistentServerPort 15000");
 
