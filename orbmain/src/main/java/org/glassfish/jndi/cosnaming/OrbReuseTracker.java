@@ -21,10 +21,8 @@ package org.glassfish.jndi.cosnaming;
 import org.omg.CORBA.ORB;
 
 /**
- * This class keeps track of references to the shared ORB object
- * and destroys it when no more references are made to the ORB
- * object. This object is created for each ORB object that CNCtx
- * creates.
+ * This class keeps track of references to the shared ORB object and destroys it when no more references are made to the
+ * ORB object. This object is created for each ORB object that CNCtx creates.
  */
 class OrbReuseTracker {
 
@@ -37,21 +35,21 @@ class OrbReuseTracker {
         this.orb = orb;
         referenceCnt++;
         if (debug) {
-             System.out.println("New OrbReuseTracker created");
+            System.out.println("New OrbReuseTracker created");
         }
     }
 
     synchronized void incRefCount() {
         referenceCnt++;
         if (debug) {
-             System.out.println("Increment orb ref count to:" + referenceCnt);
+            System.out.println("Increment orb ref count to:" + referenceCnt);
         }
     }
 
     synchronized void decRefCount() {
         referenceCnt--;
         if (debug) {
-             System.out.println("Decrement orb ref count to:" + referenceCnt);
+            System.out.println("Decrement orb ref count to:" + referenceCnt);
         }
         if ((referenceCnt == 0)) {
             if (debug) {

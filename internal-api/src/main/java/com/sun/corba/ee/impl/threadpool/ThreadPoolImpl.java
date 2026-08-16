@@ -354,8 +354,7 @@ public class ThreadPoolImpl implements ThreadPool {
         }
 
         private void setClassLoader() {
-            Thread.currentThread()
-                  .setContextClassLoader(workerThreadClassLoader);
+            Thread.currentThread().setContextClassLoader(workerThreadClassLoader);
         }
 
         @Override

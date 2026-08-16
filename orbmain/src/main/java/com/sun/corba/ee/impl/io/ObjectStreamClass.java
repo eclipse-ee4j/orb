@@ -437,16 +437,16 @@ public class ObjectStreamClass implements java.io.Serializable {
                  * Ask for permission to override field access checks.
                  */
                 /*
-                 * Fill in the list of persistent fields. If it is declared, use the declared serialPersistentFields. Otherwise,
-                 * extract the fields from the class itself.
+                 * Fill in the list of persistent fields. If it is declared, use the declared serialPersistentFields. Otherwise, extract
+                 * the fields from the class itself.
                  */
                 fields = persistentFieldsValue.get(cl);
 
                 if (fields == null) {
                     /*
-                     * Get all of the declared fields for this Class. setAccessible on all fields so they can be accessed later.
-                     * Create a temporary ObjectStreamField array to hold each non-static, non-transient field. Then copy the
-                     * temporary array into an array of the correct size once the number of fields is known.
+                     * Get all of the declared fields for this Class. setAccessible on all fields so they can be accessed later. Create a
+                     * temporary ObjectStreamField array to hold each non-static, non-transient field. Then copy the temporary array into an
+                     * array of the correct size once the number of fields is known.
                      */
                     Field[] actualfields = cl.getDeclaredFields();
 
@@ -481,7 +481,6 @@ public class ObjectStreamClass implements java.io.Serializable {
                         }
                     }
                 }
-
 
                 if (fields.length > 1)
                     Arrays.sort(fields);

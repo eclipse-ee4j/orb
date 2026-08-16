@@ -17,12 +17,13 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.spi.protocol ;
+package com.sun.corba.ee.spi.protocol;
 
-import com.sun.corba.ee.spi.transport.ContactInfoList ;
+import com.sun.corba.ee.spi.transport.ContactInfoList;
 
-/** Interface used to create a ClientDelegate from a ContactInfoList.
+/**
+ * Interface used to create a ClientDelegate from a ContactInfoList.
  */
 public interface ClientDelegateFactory {
-    ClientDelegate create( ContactInfoList list ) ;
+    ClientDelegate create(ContactInfoList list);
 }

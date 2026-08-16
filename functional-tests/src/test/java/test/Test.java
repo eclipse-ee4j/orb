@@ -149,11 +149,11 @@ public abstract class Test implements java.lang.Runnable {
     /**
      * Print usage and terminate the JVM.
      *
-     * Only correct for command-line argument errors, where this process exists solely to run what the arguments name.
-     * It must NOT be used for a problem with an individual test entry: under Surefire that kills the whole fork, taking
-     * every remaining case in the suite with it and surfacing as "The forked VM terminated without properly saying
-     * goodbye" rather than as a failure anyone can attribute. That is exactly how corba.evolve.EvolveTest hid the four
-     * entries that followed it. Per-entry problems throw instead -- see {@link #runTestClass}.
+     * Only correct for command-line argument errors, where this process exists solely to run what the arguments name. It
+     * must NOT be used for a problem with an individual test entry: under Surefire that kills the whole fork, taking every
+     * remaining case in the suite with it and surfacing as "The forked VM terminated without properly saying goodbye"
+     * rather than as a failure anyone can attribute. That is exactly how corba.evolve.EvolveTest hid the four entries that
+     * followed it. Per-entry problems throw instead -- see {@link #runTestClass}.
      */
     public static void UsageAndExit() {
         usage();
@@ -967,9 +967,9 @@ public abstract class Test implements java.lang.Runnable {
      *
      * This has to happen here, before the {@code -separateprocess} decision, rather than where the class is actually
      * loaded. That branch forks another test.Test JVM and observes only an exit code, and the child's main() turns any
-     * escaping Throwable into exit status 1 -- so a skip raised inside the child would reach the parent as a failure.
-     * The child is launched with this process's literal java.class.path, so resolving the name here answers exactly the
-     * same question. Resolution is deliberately without initialisation: presence is the question, and running a static
+     * escaping Throwable into exit status 1 -- so a skip raised inside the child would reach the parent as a failure. The
+     * child is launched with this process's literal java.class.path, so resolving the name here answers exactly the same
+     * question. Resolution is deliberately without initialisation: presence is the question, and running a static
      * initialiser would be a side effect of merely asking.
      */
     private static void checkPresenceForOptionalTest(String[] testArgs) {

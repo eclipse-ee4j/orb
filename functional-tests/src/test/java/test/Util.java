@@ -322,9 +322,8 @@ public class Util {
     }
 
     /**
-     * How long to wait for a spawned process to announce itself, in milliseconds. Defaults to two minutes, which is
-     * what both wait sites hardcoded before; raise it on a slow or loaded machine with
-     * {@code -Dcorba.test.timeout=...}.
+     * How long to wait for a spawned process to announce itself, in milliseconds. Defaults to two minutes, which is what
+     * both wait sites hardcoded before; raise it on a slow or loaded machine with {@code -Dcorba.test.timeout=...}.
      */
     public static final String HANDSHAKE_TIMEOUT_PROPERTY = "corba.test.timeout";
 
@@ -342,8 +341,7 @@ public class Util {
         try {
             return Long.parseLong(value.trim());
         } catch (NumberFormatException exc) {
-            throw new IllegalArgumentException(
-                    HANDSHAKE_TIMEOUT_PROPERTY + " must be a number of milliseconds, got: " + value, exc);
+            throw new IllegalArgumentException(HANDSHAKE_TIMEOUT_PROPERTY + " must be a number of milliseconds, got: " + value, exc);
         }
     }
 
@@ -381,9 +379,8 @@ public class Util {
             corba.framework.Options.TEST_SRCDIR_PROPERTY,
             // How long to wait for a spawned process's handshake. Inherited for the same reason: a nested
             // test.Test would otherwise silently fall back to the default while its parent used the override.
-            HANDSHAKE_TIMEOUT_PROPERTY, "corba.test.controller.name", "http.server.port", "name.server.port",
-            "java.rmi.server.codebase", "java.compiler", "java.rmi.server.codebase", "http.server.root.directory",
-            "com.sun.corba.ee.JavaIDLHome",
+            HANDSHAKE_TIMEOUT_PROPERTY, "corba.test.controller.name", "http.server.port", "name.server.port", "java.rmi.server.codebase",
+            "java.compiler", "java.rmi.server.codebase", "http.server.root.directory", "com.sun.corba.ee.JavaIDLHome",
 
             // For testing tools
             "emma.coverage.out.file", "emma.coverage.out.merge", "emma.rt.control", "junit.report.dir",

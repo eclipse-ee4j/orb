@@ -27,13 +27,10 @@ package com.sun.corba.ee.spi.folb;
 /**
  * @author Harold Carr
  */
-public interface GroupInfoServiceObserver
-{
+public interface GroupInfoServiceObserver {
     /**
-     * Called when the GroupInfoService that you register with
-     * has a change.  You should call the GroupInfoService
-     * <code>getClusterInstanceInfo</code> method to get
-     * updated info.
+     * Called when the GroupInfoService that you register with has a change. You should call the GroupInfoService
+     * <code>getClusterInstanceInfo</code> method to get updated info.
      */
     public void membershipChange();
 }

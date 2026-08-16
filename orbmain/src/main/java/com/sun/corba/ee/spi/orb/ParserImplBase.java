@@ -18,87 +18,81 @@
  * Classpath-exception-2.0
  */
 
-package com.sun.corba.ee.spi.orb ;
+package com.sun.corba.ee.spi.orb;
 
-import com.sun.corba.ee.spi.logging.ORBUtilSystemException ;
+import com.sun.corba.ee.spi.logging.ORBUtilSystemException;
 
-import java.lang.reflect.Field ;
-import java.util.Iterator ;
-import java.util.Map ;
-import java.util.Properties ;
-import java.util.Set ;
+import java.lang.reflect.Field;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 public abstract class ParserImplBase {
-    private static final ORBUtilSystemException wrapper =
-        ORBUtilSystemException.self ;
+    private static final ORBUtilSystemException wrapper = ORBUtilSystemException.self;
 
-    protected abstract PropertyParser makeParser() ;
+    protected abstract PropertyParser makeParser();
 
-    /** Override this method if there is some needed initialization
-    * that takes place after argument parsing.
-    */
-    protected void complete()
-    {
+    /**
+     * Override this method if there is some needed initialization that takes place after argument parsing.
+     */
+    protected void complete() {
     }
 
-    public ParserImplBase()
-    {
+    public ParserImplBase() {
     }
 
-    public void init( DataCollector coll )
-    {
-        PropertyParser parser = makeParser() ;
-        coll.setParser( parser ) ;
-        Properties props = coll.getProperties() ;
-        Map map = parser.parse( props ) ;
-        setFields( map ) ;
+    public void init(DataCollector coll) {
+        PropertyParser parser = makeParser();
+        coll.setParser(parser);
+        Properties props = coll.getProperties();
+        Map map = parser.parse(props);
+        setFields(map);
 
         // Make sure that any extra initialization takes place after all the
         // fields are set from the map.
-        complete() ;
+        complete();
     }
 
-    private Field getAnyField( String name )
-    {
-        Field result = null ;
+    private Field getAnyField(String name) {
+        Field result = null;
 
         try {
-            Class cls = this.getClass() ;
-            result = cls.getDeclaredField( name ) ;
+            Class cls = this.getClass();
+            result = cls.getDeclaredField(name);
             while (result == null) {
-                cls = cls.getSuperclass() ;
+                cls = cls.getSuperclass();
                 if (cls == null) {
                     break;
                 }
 
-                result = cls.getDeclaredField( name ) ;
+                result = cls.getDeclaredField(name);
             }
         } catch (Exception exc) {
-            throw wrapper.fieldNotFound( exc, name ) ;
+            throw wrapper.fieldNotFound(exc, name);
         }
 
         if (result == null) {
             throw wrapper.fieldNotFound(name);
         }
 
-        return result ;
+        return result;
     }
 
-    protected void setFields( Map map )
-    {
-        Set entries = map.entrySet() ;
-        Iterator iter = entries.iterator() ;
+    protected void setFields(Map map) {
+        Set entries = map.entrySet();
+        Iterator iter = entries.iterator();
         while (iter.hasNext()) {
-            java.util.Map.Entry entry = (java.util.Map.Entry)(iter.next()) ;
-            final String name = (String)(entry.getKey()) ;
-            final Object value = entry.getValue() ;
+            java.util.Map.Entry entry = (java.util.Map.Entry) (iter.next());
+            final String name = (String) (entry.getKey());
+            final Object value = entry.getValue();
 
             try {
-                Field field = getAnyField( name ) ;
-                field.setAccessible( true ) ;
-                field.set( ParserImplBase.this, value ) ;
+                Field field = getAnyField(name);
+                field.setAccessible(true);
+                field.set(ParserImplBase.this, value);
             } catch (IllegalAccessException | IllegalArgumentException exc) {
-                throw wrapper.errorSettingField( exc, name, value ) ;
+                throw wrapper.errorSettingField(exc, name, value);
             }
         }
     }

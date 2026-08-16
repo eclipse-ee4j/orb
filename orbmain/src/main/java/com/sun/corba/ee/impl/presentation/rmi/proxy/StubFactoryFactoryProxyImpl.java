@@ -24,7 +24,6 @@ import com.sun.corba.ee.impl.presentation.rmi.StubFactoryFactoryDynamicBase;
 import com.sun.corba.ee.spi.presentation.rmi.PresentationManager;
 import com.sun.corba.ee.spi.presentation.rmi.PresentationManager.StubFactory;
 
-
 public class StubFactoryFactoryProxyImpl extends StubFactoryFactoryDynamicBase {
     public PresentationManager.StubFactory makeDynamicStubFactory(PresentationManager pm, final PresentationManager.ClassData classData,
             final ClassLoader classLoader) {

@@ -1403,8 +1403,7 @@ public class CDROutputStream_1_0 extends CDROutputStreamBase {
             // getDeclaredMethod requires RuntimePermission accessDeclaredMembers
             // if a different class loader is used (even though the javadoc says otherwise)
             // NoSuchMethodException gets caught below
-            Method writeMethod = helperClass.getDeclaredMethod(kWriteMethod, org.omg.CORBA.portable.OutputStream.class,
-                    clazz);
+            Method writeMethod = helperClass.getDeclaredMethod(kWriteMethod, org.omg.CORBA.portable.OutputStream.class, clazz);
             writeMethod.invoke(null, parent, object);
         } catch (Exception exc) {
             throw wrapper.errorInvokingHelperWrite(exc);

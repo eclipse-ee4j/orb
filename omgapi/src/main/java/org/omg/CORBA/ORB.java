@@ -268,10 +268,7 @@ abstract public class ORB {
 
         try {
             Class<org.omg.CORBA.ORB> orbBaseClass = org.omg.CORBA.ORB.class;
-            return Class.forName(className, true, cl)
-                 .asSubclass(orbBaseClass)
-                 .getDeclaredConstructor()
-                 .newInstance();
+            return Class.forName(className, true, cl).asSubclass(orbBaseClass).getDeclaredConstructor().newInstance();
         } catch (Throwable ex) {
             SystemException systemException = new INITIALIZE("can't instantiate default ORB implementation " + className);
             systemException.initCause(ex);

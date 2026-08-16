@@ -21,9 +21,8 @@
 package com.sun.corba.ee.org.omg.CORBA;
 
 /**
- * A convenience class for retrieving the string value of a system property. This class is
- * directly copied from sun.security.action.GetPropertyAction in order to avoid depending on the sun.security.action
- * package.
+ * A convenience class for retrieving the string value of a system property. This class is directly copied from
+ * sun.security.action.GetPropertyAction in order to avoid depending on the sun.security.action package.
  *
  * <p>
  * The following code retrieves the value of the system property named <code>"prop"</code> as a privileged action:

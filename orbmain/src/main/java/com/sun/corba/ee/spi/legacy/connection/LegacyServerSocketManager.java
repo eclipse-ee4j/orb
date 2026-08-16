@@ -22,10 +22,11 @@ package com.sun.corba.ee.spi.legacy.connection;
 /**
  * @author Harold Carr
  */
-public interface LegacyServerSocketManager
-{
+public interface LegacyServerSocketManager {
     public int legacyGetTransientServerPort(String type);
+
     public int legacyGetPersistentServerPort(String socketType);
+
     public int legacyGetTransientOrPersistentServerPort(String socketType);
 
     public LegacyServerSocketEndPointInfo legacyGetEndpoint(String name);
