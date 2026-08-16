@@ -37,7 +37,13 @@ class helloServant extends _helloImplBase {
         helloServer.output.println("Servant: In helloServant.sayHello()");
     }
 
-    @Override
+    // No @Override here, however much the IDE wants to add one. This file is in the pom's
+    // <testExcludes>: the harness compiles it at run time against the HelloApp generated from this
+    // directory's hello.idl, which declares sayHello() and nothing else. The IDE instead resolves
+    // HelloApp._helloImplBase to the copy under target/generated-test-sources/idl, generated from
+    // corba/example/hello.idl, which does declare shutdown() - so an @Override looks right in the
+    // editor and then fails the run with "method does not override or implement a method from a
+    // supertype". sayHello() above is a genuine override and keeps its annotation.
     public void shutdown() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
